@@ -1,25 +1,31 @@
 <template>
   <div class="home">
     <div class="hero">
-      <div class="flavor-lines">
-        <p v-for="line in intro.flavorText" :key="line" class="flavor-line">{{ line }}</p>
-      </div>
       <h1 class="hero-title">Warhammer 40,000</h1>
       <div class="hero-subtitle">Core Rules — 11th Edition</div>
     </div>
 
-    <div class="lore-box">
-      <p>{{ intro.lore }}</p>
+    <div class="intro-quote">
+      <p class="flavor-line">{{ intro.lore }}</p>
+      <p v-for="line in intro.flavorText" :key="line" class="flavor-line">{{ line }}</p>
     </div>
 
     <section class="intro-section">
       <h2>Introduction</h2>
       <div v-for="para in introParagraphs" :key="para" class="para">{{ para }}</div>
+      <div v-for="para in missionParagraphs" :key="para" class="para">{{ para }}</div>
     </section>
 
     <section class="intro-section">
       <h2>The Warhammer 40,000 App</h2>
-      <p>{{ intro.app }}</p>
+      <div class="app-body">
+        <div class="app-qr">
+          <a href="https://warhammer40000.com/" target="_blank" rel="noopener">
+            <img src="/images/wh40k-app-qr.png" alt="QR code — Warhammer 40,000 App" class="qr-img" />
+          </a>
+        </div>
+        <p>{{ intro.app }}</p>
+      </div>
     </section>
 
     <section class="toc-section">
@@ -51,23 +57,37 @@ import { intro } from '../data/intro.js'
 const introParagraphs = computed(() =>
   intro.intro.split('\n\n').filter(p => p.trim())
 )
+
+const missionParagraphs = computed(() =>
+  intro.missions.split('\n\n').filter(p => p.trim())
+)
 </script>
 
 <style scoped>
 .home {
-  padding-top: 2rem;
+  padding-top: 0.5rem;
 }
 
-.hero {
+.intro-quote {
   text-align: center;
-  padding: 2.5rem 0 2rem;
+  padding: 1rem 0 1.5rem;
   border-bottom: 2px solid var(--accent);
   margin-bottom: 2rem;
 }
 
-.flavor-lines {
-  margin-bottom: 1.5rem;
+.intro-quote .flavor-line:first-child {
+  max-width: 90ch;
+  margin-left: auto;
+  margin-right: auto;
 }
+
+.hero {
+  text-align: center;
+  padding: 2rem 0 1rem;
+  border-bottom: 2px solid var(--accent);
+  margin-bottom: 0;
+}
+
 
 .flavor-line {
   color: var(--text-muted);
@@ -95,18 +115,6 @@ const introParagraphs = computed(() =>
   font-family: var(--font-sans);
 }
 
-.lore-box {
-  background: var(--bg-secondary);
-  border-left: 3px solid var(--accent);
-  border-radius: 0 6px 6px 0;
-  padding: 1.1rem 1.5rem;
-  margin-bottom: 2rem;
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 1.05rem;
-  color: var(--text-muted);
-  line-height: 1.75;
-}
 
 .intro-section {
   margin-bottom: 2rem;
@@ -200,6 +208,30 @@ const introParagraphs = computed(() =>
   color: var(--text-muted);
   line-height: 1.5;
   margin: 0;
+}
+
+.app-body {
+  overflow: hidden;
+}
+
+.app-body > p {
+  margin: 0;
+  color: var(--text-primary);
+  line-height: 1.75;
+  font-size: 0.97rem;
+}
+
+.app-qr {
+  float: right;
+  margin: 0 0 0.75rem 1.5rem;
+  width: 140px;
+}
+
+.qr-img {
+  width: 140px;
+  height: auto;
+  display: block;
+  border-radius: 4px;
 }
 
 @media (max-width: 600px) {
