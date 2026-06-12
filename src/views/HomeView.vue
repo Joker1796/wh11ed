@@ -6,35 +6,35 @@
     </div>
 
     <div class="intro-quote">
-      <p class="flavor-line">{{ intro.lore }}</p>
-      <p v-for="line in intro.flavorText" :key="line" class="flavor-line">{{ line }}</p>
+      <p class="flavor-line">{{ t.lore }}</p>
+      <p v-for="line in t.flavorText" :key="line" class="flavor-line">{{ line }}</p>
     </div>
 
     <section class="intro-section">
-      <h2>Introduction</h2>
+      <h2>{{ labels.introHeading }}</h2>
       <div v-for="para in introParagraphs" :key="para" class="para">{{ para }}</div>
       <div v-for="para in missionParagraphs" :key="para" class="para">{{ para }}</div>
     </section>
 
     <section class="intro-section">
-      <h2>The Warhammer 40,000 App</h2>
+      <h2>{{ labels.appHeading }}</h2>
       <div class="app-body">
         <div class="app-qr">
           <a href="https://warhammer40000.com/" target="_blank" rel="noopener">
             <img src="/images/wh40k-app-qr.png" alt="QR code — Warhammer 40,000 App" class="qr-img" />
           </a>
         </div>
-        <p>{{ intro.app }}</p>
+        <p>{{ t.app }}</p>
       </div>
     </section>
 
     <section class="toc-section">
-      <h2>Contents</h2>
-      <p class="toc-note">Each section is marked with a reference number used for internal referencing.</p>
+      <h2>{{ labels.contentsHeading }}</h2>
+      <p class="toc-note">{{ labels.tocNote }}</p>
 
       <div class="toc-grid">
         <RouterLink
-          v-for="item in intro.toc"
+          v-for="item in tocItems"
           :key="item.path"
           :to="item.path"
           class="toc-card"
@@ -53,13 +53,27 @@
 <script setup>
 import { computed } from 'vue'
 import { intro } from '../data/intro.js'
+import { ui } from '../i18n/ui.js'
+import { useLocale } from '../composables/useLocale.js'
+
+const { locale } = useLocale()
+
+const t = computed(() => intro[locale.value])
+const labels = computed(() => ui[locale.value])
 
 const introParagraphs = computed(() =>
-  intro.intro.split('\n\n').filter(p => p.trim())
+  t.value.intro.split('\n\n').filter(p => p.trim())
 )
 
 const missionParagraphs = computed(() =>
-  intro.missions.split('\n\n').filter(p => p.trim())
+  t.value.missions.split('\n\n').filter(p => p.trim())
+)
+
+const tocItems = computed(() =>
+  intro.en.toc.map((item, i) => ({
+    ...item,
+    desc: locale.value === 'ru' ? intro.ru.toc[i].desc : item.desc,
+  }))
 )
 </script>
 
