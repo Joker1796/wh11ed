@@ -18,6 +18,9 @@
         </nav>
 
         <div class="navbar-actions">
+          <button class="lang-btn" @click="toggleLocale" :title="locale === 'en' ? 'Switch to Russian' : 'Switch to English'">
+            {{ locale === 'en' ? 'RU' : 'EN' }}
+          </button>
           <button class="search-btn" @click="searchOpen = true" title="Search (Ctrl+K)">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
@@ -59,10 +62,12 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import SearchModal from './components/SearchModal.vue'
+import { useLocale } from './composables/useLocale.js'
 
 const route = useRoute()
 const mobileNavOpen = ref(false)
 const searchOpen = ref(false)
+const { locale, toggleLocale } = useLocale()
 
 const coreRoutes = ['/', '/basic-rules', '/battle-round', '/battlefields', '/advanced-rules', '/reference', '/files']
 const isCoreRoute = computed(() => coreRoutes.includes(route.path))
@@ -176,6 +181,25 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown))
   align-items: center;
   gap: 0.5rem;
   margin-left: auto;
+}
+
+.lang-btn {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.65);
+  border-radius: 4px;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  letter-spacing: 0.5px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.lang-btn:hover {
+  background: rgba(255,255,255,0.13);
+  color: #fff;
 }
 
 .search-btn {
