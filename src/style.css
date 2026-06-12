@@ -1,0 +1,251 @@
+:root {
+  --bg-primary: #ebede4;
+  --bg-secondary: #dfe1d8;
+  --bg-card: #f5f5f0;
+  --bg-insert: #040303;
+  --accent: #6e0008;
+  --accent-hover: #4a0005;
+  --text-primary: #040303;
+  --text-muted: #686957;
+  --text-dim: #8a8b78;
+  --text-on-dark: #f0ede8;
+  --border: #c8cac0;
+  --border-light: #d8dbd2;
+  --font-serif: 'EB Garamond', Georgia, serif;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Courier New', Courier, monospace;
+  --navbar-height: 56px;
+  --subnav-height: 40px;
+  --header-total: 96px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.65;
+  font-size: 16px;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--text-primary);
+}
+
+h1 { font-size: 2.2rem; }
+h2 { font-size: 1.7rem; }
+h3 { font-size: 1.25rem; }
+h4 { font-size: 1.05rem; }
+
+p {
+  margin-bottom: 0.8rem;
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+ul, ol {
+  padding-left: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+li {
+  margin-bottom: 0.3rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.9rem;
+}
+
+th {
+  background: var(--bg-insert);
+  color: var(--text-on-dark);
+  padding: 0.55rem 0.9rem;
+  text-align: left;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--accent);
+}
+
+td {
+  padding: 0.5rem 0.9rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  color: var(--text-primary);
+}
+
+tr:nth-child(even) td {
+  background: rgba(104, 105, 87, 0.06);
+}
+
+tr:hover td {
+  background: rgba(110, 0, 8, 0.04);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* Keyword tags — ability keywords like [BLAST] */
+.keyword {
+  display: inline-block;
+  background: rgba(110, 0, 8, 0.08);
+  color: var(--accent);
+  border: 1px solid rgba(110, 0, 8, 0.3);
+  border-radius: 2px;
+  padding: 0 5px;
+  font-size: 0.78em;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+/* Section number badge */
+.section-num {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 2px;
+  padding: 1px 7px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  margin-right: 0.5rem;
+  vertical-align: middle;
+  letter-spacing: 0.5px;
+}
+
+/* Note / callout boxes — dark insert */
+.note-box {
+  background: var(--bg-insert);
+  color: var(--text-on-dark);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 4px 4px 0;
+  padding: 0.85rem 1.1rem;
+  margin: 0.9rem 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.note-box strong {
+  color: #fff;
+}
+
+/* Example blocks — like Wahapedia */
+.example-block {
+  background: var(--bg-secondary);
+  border-left: 3px solid var(--text-muted);
+  border-radius: 0 4px 4px 0;
+  padding: 0.85rem 1.1rem;
+  margin: 0.9rem 0;
+  font-size: 0.92rem;
+  font-style: italic;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.example-block::before {
+  content: 'Example:';
+  display: block;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-dim);
+  margin-bottom: 0.35rem;
+}
+
+/* Flavor text / lore quotes */
+.flavor-quote {
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--text-muted);
+  border-left: 2px solid var(--border);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  font-size: 1.05rem;
+}
+
+/* Step indicators */
+.steps-list {
+  list-style: none;
+  padding: 0;
+  counter-reset: steps;
+}
+
+.steps-list li {
+  counter-increment: steps;
+  padding: 0.5rem 0 0.5rem 2.5rem;
+  position: relative;
+  border-bottom: 1px solid var(--border);
+}
+
+.steps-list li:last-child {
+  border-bottom: none;
+}
+
+.steps-list li::before {
+  content: counter(steps);
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  width: 1.6rem;
+  height: 1.6rem;
+  background: var(--accent);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  h1 { font-size: 1.7rem; }
+  h2 { font-size: 1.4rem; }
+  body { font-size: 15px; }
+}
