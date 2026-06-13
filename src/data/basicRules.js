@@ -23,6 +23,7 @@ Rules sometimes affect 'friendly' or 'enemy' models or units, which are defined 
 ▪ Enemy units and models are those in your opponent's army.
 
 If a rule affects units or models without specifying that they are friendly or enemy, that rule affects any unit or model, regardless of whose army they are in. When an effect or ability applies to a unit, it applies to every model in that unit.`,
+        seeAlso: ['Frame 17.02'],
       },
       {
         id: 'section-01-03',
