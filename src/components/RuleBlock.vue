@@ -6,26 +6,14 @@
     </div>
 
     <div class="rule-body-wrap">
-      <div v-if="seeAlso && seeAlso.length" class="see-also">
-        <div class="see-also-title">See Also</div>
-        <ul>
-          <li v-for="ref in seeAlso" :key="ref">
-            <RouterLink
-              v-if="resolveRef(ref).route"
-              :to="{ path: resolveRef(ref).route, hash: '#' + resolveRef(ref).anchor }"
-              class="see-also-link"
-              @click.prevent="navigateTo(resolveRef(ref))"
-            >{{ resolveRef(ref).label }}</RouterLink>
-            <span v-else>{{ ref }}</span>
-          </li>
-        </ul>
-      </div>
+      <SeeAlsoBlock v-if="seeAlso && seeAlso.length" :refs="seeAlso" />
 
       <div class="rule-body">
         <template v-for="(block, i) in blocks" :key="i">
           <ul v-if="block.type === 'ul'" class="rule-list">
             <li v-for="(item, j) in block.items" :key="j" v-html="renderInline(item)"></li>
           </ul>
+          <h4 v-else-if="block.type === 'h4'" class="rule-subheading">{{ block.text }}</h4>
           <p v-else v-html="renderInline(block.text)"></p>
         </template>
 
@@ -41,51 +29,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-
-const ROUTE_MAP = {
-  '01': '/basic-rules', '02': '/basic-rules', '03': '/basic-rules',
-  '04': '/basic-rules', '05': '/basic-rules', '06': '/basic-rules',
-  '07': '/battle-round', '08': '/battle-round', '09': '/battle-round',
-  '10': '/battle-round', '11': '/battle-round', '12': '/battle-round',
-  '13': '/battlefields', '14': '/battlefields', '15': '/battlefields',
-  '16': '/battlefields',
-  '17': '/advanced-rules', '18': '/advanced-rules', '19': '/advanced-rules',
-  '20': '/advanced-rules', '21': '/advanced-rules', '22': '/advanced-rules',
-  '23': '/advanced-rules',
-  '24': '/reference',
-}
-
-function resolveRef(text) {
-  const match = text.match(/\b(\d{2})\.(\d{2})$/)
-  if (!match) return { label: text, route: null, anchor: null }
-  const major = match[1]
-  const minor = match[2]
-  const label = text.replace(/\s*\d{2}\.\d{2}$/, '').trim()
-  const route = ROUTE_MAP[major]
-  if (!route) return { label, route: null, anchor: null }
-  let anchor
-  if (minor === '00') {
-    anchor = 'section-' + major
-  } else if (major === '24') {
-    anchor = 'ability-' + major + '_' + minor
-  } else {
-    anchor = 'section-' + major + '-' + minor
-  }
-  return { label, route, anchor }
-}
-
-async function navigateTo({ route, anchor }) {
-  await router.push({ path: route, hash: '#' + anchor })
-  await new Promise(r => setTimeout(r, 80))
-  const el = document.getElementById(anchor)
-  if (el) {
-    const top = el.getBoundingClientRect().top + window.scrollY - 100
-    window.scrollTo({ top, behavior: 'smooth' })
-  }
-}
+import SeeAlsoBlock from './SeeAlsoBlock.vue'
 
 const props = defineProps({
   id: String,
@@ -123,7 +67,11 @@ const blocks = computed(() => {
       continue
     }
     const isBullet = /^[▪•▫]/.test(line)
-    if (isBullet) {
+    const isSubheading = line.startsWith('### ')
+    if (isSubheading) {
+      flush()
+      result.push({ type: 'h4', text: line.slice(4) })
+    } else if (isBullet) {
       if (mode !== 'ul') { flush(); mode = 'ul' }
       buf.push(line)
     } else {
@@ -183,6 +131,14 @@ function renderInline(text) {
   margin-bottom: 0.7rem;
 }
 
+.rule-subheading {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0.75rem 0 0.25rem;
+}
+
 .rule-list {
   padding-left: 1.3rem;
   margin-bottom: 0.6rem;
@@ -193,57 +149,8 @@ function renderInline(text) {
   line-height: 1.6;
 }
 
-.see-also {
-  float: right;
-  width: 160px;
-  margin-left: 1.5rem;
-  margin-bottom: 0.5rem;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 0.6rem 0.8rem;
-  font-size: 0.78rem;
-}
-
-.see-also-title {
-  font-weight: 600;
-  text-transform: uppercase;
-  font-size: 0.68rem;
-  letter-spacing: 1px;
-  color: var(--accent);
-  margin-bottom: 0.4rem;
-}
-
-.see-also ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.see-also ul li {
-  padding: 0.05rem 0;
-  color: var(--text-muted);
-  border-bottom: 1px solid var(--border-light);
-  font-size: 0.8rem;
-  line-height: 1.35;
-}
-
-.see-also ul li:last-child {
-  border-bottom: none;
-}
-
-.see-also-link {
-  color: var(--accent);
-  text-decoration: none;
-  font-size: 0.8rem;
-}
-
-.see-also-link:hover {
-  text-decoration: underline;
-}
-
 @media (max-width: 700px) {
-  .see-also {
+  :deep(.see-also) {
     float: none;
     width: 100%;
     margin-left: 0;

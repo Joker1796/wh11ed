@@ -173,21 +173,20 @@ Each time you move a model, unless otherwise stated:
 ▪ Its base cannot cross the edge of the battlefield.
 ▪ All stated 'While Moving' conditions must be met.
 
-Moving a Model in a Straight Line: Each time you move a model in a straight line, move it horizontally across the battlefield. Measure from the same point on its base at the start and end of that move, and add that distance to any other distance it has moved since its unit began that move. The distance moved cannot be greater than the maximum distance of that move type.
+### Moving a Model in a Straight Line
+Each time you move a model in a straight line, move it horizontally across the battlefield. Measure from the same point on its base at the start and end of that move, and add that distance to any other distance it has moved since its unit began that move. The distance moved cannot be greater than the maximum distance of that move type.
 
-Rotating a Model: Each time you rotate a model, turn it any amount around the centre of its base, while keeping it upright. Note that rotating a model does not count towards the distance it has moved.`,
-          seeAlso: ['Monsters and Vehicles 17.00', 'Moving Vertically 13.06', 'Strategic Reserves 20.00', 'Terrain 13.00', 'Transports 18.00'],
-        },
-        {
-          id: 'section-03-01b',
-          sectionNum: '03.01',
-          title: 'Ending a Move',
-          body: `After you have finished setting up all of the models in a unit and/or moving all of the models in a unit that you want to move, check that all of the following apply:
+### Rotating a Model
+Each time you rotate a model, turn it any amount around the centre of its base, while keeping it upright. Note that rotating a model does not count towards the distance it has moved.
+
+### Ending a Move
+After you have finished setting up all of the models in a unit and/or moving all of the models in a unit that you want to move, check that all of the following apply:
 ▪ If that unit is on the battlefield, it is in coherency (03.03).
 ▪ No models in that unit are on another model or partway through a surface of a terrain feature (e.g. a wall or ceiling).
 ▪ All stated 'After Moving' conditions are met.
 
 If one or more of the above conditions are not met, that unit cannot make that move and its models are returned to their positions at the start of that move. Otherwise, after resolving any additional rules stated in the 'After Moving' section of that move type, that move ends.`,
+          seeAlso: ['Monsters and Vehicles 17.00', 'Moving Vertically 13.06', 'Strategic Reserves 20.00', 'Terrain 13.00', 'Transports 18.00'],
         },
         {
           id: 'section-03-02',
@@ -559,13 +558,14 @@ Mortal Wounds and Normal Damage: When resolving attack dice, if those attacks in
 ▪ Её подставка не может пересекать край поля битвы.
 ▪ Должны быть соблюдены все условия «While Moving».
 
-Движение по прямой: перемещайте модель горизонтально, измеряя от одной и той же точки подставки в начале и конце. Прибавляйте это расстояние к уже пройденному с начала хода юнита. Пройденное не может превышать максимальное расстояние для данного типа движения.
+### Движение по прямой
+Перемещайте модель горизонтально, измеряя от одной и той же точки подставки в начале и конце. Прибавляйте это расстояние к уже пройденному с начала хода юнита. Пройденное не может превышать максимальное расстояние для данного типа движения.
 
-Разворот: поворачивайте модель на любой угол вокруг центра подставки, сохраняя вертикальное положение. Разворот не учитывается в пройденном расстоянии.`,
-        },
-        {
-          title: 'Завершение движения',
-          body: `После того как вы закончили расставлять и/или перемещать все модели юнита, проверьте выполнение следующих условий:
+### Разворот
+Поворачивайте модель на любой угол вокруг центра подставки, сохраняя вертикальное положение. Разворот не учитывается в пройденном расстоянии.
+
+### Завершение движения
+После того как вы закончили расставлять и/или перемещать все модели юнита, проверьте выполнение следующих условий:
 ▪ Если юнит на поле — он находится в когеренции (03.03).
 ▪ Ни одна модель не стоит на другой модели или не проходит сквозь поверхность рельефа (например, стену или потолок).
 ▪ Все условия «After Moving» выполнены.
