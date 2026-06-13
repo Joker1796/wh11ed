@@ -247,9 +247,11 @@ In the End of Turn step of each player's turn, if one or more units on the battl
           title: 'Select Weapons',
           body: `For each model in the attacking unit, select which weapons that model will make attacks with. Models make ranged attacks with ranged weapons, and make melee attacks with melee weapons.
 
-While Shooting: You can select one or more ranged weapons that model has.
+### While Shooting
+You can select one or more ranged weapons that model has.
 
-While Fighting: You must select one melee weapon that model has.`,
+### While Fighting
+You must select one melee weapon that model has.`,
           note: 'Models Without Ranged/Melee Weapons: A model that does not have any ranged weapons cannot make ranged attacks, and a model that does not have any melee weapons cannot make melee attacks.',
           seeAlso: ['[CLOSE-QUARTERS] 24.07', '[EXTRA ATTACKS] 24.11'],
         },
@@ -259,12 +261,14 @@ While Fighting: You must select one melee weapon that model has.`,
           title: 'Select Targets',
           body: `For each weapon selected:
 
-While Shooting: Select one enemy unit to be the target of that weapon. Unless otherwise stated, each target must be:
+### While Shooting
+Select one enemy unit to be the target of that weapon. Unless otherwise stated, each target must be:
 ▪ Visible to the model that has that weapon (06.01).
 ▪ Within range of that weapon.
 ▪ Unengaged.
 
-While Fighting: Select one or more enemy units to be the targets of that weapon:
+### While Fighting
+Select one or more enemy units to be the targets of that weapon:
 ▪ Each target must be engaged with the model that has that weapon.
 ▪ You cannot select more targets than that weapon's A characteristic.`,
           note: 'Selecting Targets: When shooting or fighting, you can select different targets for each weapon. If you cannot select a target for a weapon, or if you choose not to select a target for a ranged weapon, the model with that weapon will not make attacks with it.',
@@ -613,34 +617,38 @@ Mortal Wounds and Normal Damage: When resolving attack dice, if those attacks in
           body: `Каждый раз, когда юнит стреляет или вступает в ближний бой, активный игрок выполняет следующие шаги:
 ▪ 1. Выбор оружия (Select Weapons)
 ▪ 2. Выбор таргетов (Select Targets)
-▪ 3. Разрешение атак (Resolve Attacks)`,
+▪ 3. Распределение атак (Resolve Attacks)`,
         },
         {
           title: 'Выбор оружия',
           body: `Для каждой модели в атакующем юните выберите оружие. Модели делают дальние атаки дальнобойным оружием, а ближние — оружием ближнего боя.
 
-При стрельбе (While Shooting): можно выбрать одно или несколько единиц дальнобойного оружия.
+### При стрельбе (While Shooting)
+Можно выбрать одно или несколько единиц дальнобойного оружия.
 
-При ближнем бою (While Fighting): необходимо выбрать одну единицу оружия ближнего боя.`,
+### При ближнем бою (While Fighting)
+Необходимо выбрать одну единицу оружия ближнего боя.`,
           note: `Модели без дальнобойного/ближнего оружия: модель без дальнобойного оружия не может делать дальние атаки, а модель без оружия ближнего боя — атаки в ближнем бою.`,
         },
         {
           title: 'Выбор таргетов',
           body: `Для каждого выбранного оружия:
 
-При стрельбе (While Shooting): выберите один вражеский юнит в качестве таргета. Если не указано иное, каждый таргет должен:
+### При стрельбе (While Shooting)
+Выберите один вражеский юнит в качестве таргета. Если не указано иное, каждый таргет должен:
 ▪ Быть видимым для модели с данным оружием (06.01).
 ▪ Находиться в дальности этого оружия.
 ▪ Не находиться в энгейдже (unengaged).
 
-При ближнем бою (While Fighting): выберите один или несколько вражеских юнитов:
+### При ближнем бою (While Fighting)
+Выберите один или несколько вражеских юнитов:
 ▪ Каждый таргет должен быть в энгейдже с моделью, имеющей данное оружие.
 ▪ Нельзя выбирать больше таргетов, чем значение характеристики A оружия.`,
           note: `Выбор таргетов: при стрельбе или ближнем бою для каждого оружия можно выбирать разные таргеты. Если для оружия нельзя выбрать таргет или вы не хотите выбирать таргет для дальнобойного оружия, модель с этим оружием не делает атак.`,
         },
         {
-          title: 'Разрешение атак',
-          body: `Разрешайте атаки в следующей последовательности:
+          title: 'Распределение атак',
+          body: `Распределяйте атаки в следующей последовательности:
 
 1. Выбор вражеского юнита: выберите один из вражеских юнитов, на которые нацелено одно или несколько орудий.
 2. Сбор кубиков атаки: выберите одно оружие, нацеленное на этот юнит, ещё не использованное против него, и возьмите количество D6, равное характеристике A. Это кубики атаки (attack dice) — каждый представляет одну атаку.
