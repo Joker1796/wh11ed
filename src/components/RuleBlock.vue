@@ -6,21 +6,6 @@
     </div>
 
     <div class="rule-body-wrap">
-      <div class="rule-body">
-        <template v-for="(block, i) in blocks" :key="i">
-          <ul v-if="block.type === 'ul'" class="rule-list">
-            <li v-for="(item, j) in block.items" :key="j" v-html="renderInline(item)"></li>
-          </ul>
-          <p v-else v-html="renderInline(block.text)"></p>
-        </template>
-
-        <div v-if="note" class="note-box" v-html="renderInline(note)"></div>
-
-        <div v-if="example" class="example-block" v-html="renderInline(example)"></div>
-
-        <slot></slot>
-      </div>
-
       <div v-if="seeAlso && seeAlso.length" class="see-also">
         <div class="see-also-title">See Also</div>
         <ul>
@@ -34,6 +19,21 @@
             <span v-else>{{ ref }}</span>
           </li>
         </ul>
+      </div>
+
+      <div class="rule-body">
+        <template v-for="(block, i) in blocks" :key="i">
+          <ul v-if="block.type === 'ul'" class="rule-list">
+            <li v-for="(item, j) in block.items" :key="j" v-html="renderInline(item)"></li>
+          </ul>
+          <p v-else v-html="renderInline(block.text)"></p>
+        </template>
+
+        <div v-if="note" class="note-box" v-html="renderInline(note)"></div>
+
+        <div v-if="example" class="example-block" v-html="renderInline(example)"></div>
+
+        <slot></slot>
       </div>
     </div>
   </div>
@@ -153,6 +153,10 @@ function renderInline(text) {
   border-bottom: none;
 }
 
+.rule-body-wrap {
+  overflow: hidden;
+}
+
 .rule-header {
   display: flex;
   align-items: baseline;
@@ -169,14 +173,7 @@ function renderInline(text) {
   letter-spacing: 0.2px;
 }
 
-.rule-body-wrap {
-  display: flex;
-  gap: 2rem;
-}
-
 .rule-body {
-  flex: 1;
-  min-width: 0;
   font-size: 0.95rem;
   line-height: 1.7;
   color: var(--text-primary);
@@ -197,14 +194,15 @@ function renderInline(text) {
 }
 
 .see-also {
-  flex-shrink: 0;
+  float: right;
   width: 160px;
+  margin-left: 1.5rem;
+  margin-bottom: 0.5rem;
   background: var(--bg-secondary);
   border: 1px solid var(--border);
   border-radius: 4px;
   padding: 0.6rem 0.8rem;
   font-size: 0.78rem;
-  align-self: flex-start;
 }
 
 .see-also-title {
@@ -223,10 +221,11 @@ function renderInline(text) {
 }
 
 .see-also ul li {
-  padding: 0.15rem 0;
+  padding: 0.05rem 0;
   color: var(--text-muted);
   border-bottom: 1px solid var(--border-light);
   font-size: 0.8rem;
+  line-height: 1.35;
 }
 
 .see-also ul li:last-child {
@@ -244,11 +243,11 @@ function renderInline(text) {
 }
 
 @media (max-width: 700px) {
-  .rule-body-wrap {
-    flex-direction: column;
-  }
   .see-also {
+    float: none;
     width: 100%;
+    margin-left: 0;
+    margin-bottom: 1rem;
   }
 }
 </style>

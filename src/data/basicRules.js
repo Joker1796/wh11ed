@@ -77,7 +77,7 @@ While a unit is battle-shocked:
 ▪ Its controlling player cannot target that unit with stratagems.
 ▪ It is not eligible to start an action, and any action it has started cannot be completed.`,
           example: `A Guardsman squad with Ld 7+ has taken heavy casualties and must make a battle-shock roll. The player rolls 2D6 and gets a 9 — since 9 is not less than 7, the roll succeeds and the squad holds its nerve. If the roll had been 6 or less, the entire unit would become battle-shocked, losing their ability to control objectives.`,
-          note: 'Battlefield Morale: The morale and organisation of troops can waver and break during battle. This is checked using battle-shock rolls, most commonly in the Command phase. Failing such a roll represents the unit\'s courage faltering due to taking casualties or through other disruption, reducing its battlefield effectiveness.',
+          note: 'Battlefield Morale: The morale and organisation of troops can waver and break during battle. This is checked using battle-shock rolls, most commonly in the Command phase. Failing such a roll represents the unit\'s courage faltering due to taking casualties or through other disruption, reducing its battlefield effectiveness. Similarly, some rules will require you to check a unit\'s readiness by making a leadership roll.',
           seeAlso: ['Command Phase 08.00'],
         },
       ],
@@ -114,6 +114,7 @@ While a unit is battle-shocked:
           sectionNum: '02.03',
           title: 'Abilities',
           body: `Many units have abilities that may apply during the game. These will be described here.`,
+          seeAlso: ['Aura Abilities 22.01', 'Faction Abilities 22.02', 'Psychic Abilities 22.03', 'Wargear Abilities 22.04'],
         },
         {
           id: 'section-02-04',
@@ -486,7 +487,7 @@ Mortal Wounds and Normal Damage: When resolving attack dice, if those attacks in
 ▪ Контролирующий игрок не может нацеливать стратагемы на этот юнит.
 ▪ Юнит не может начинать действие (action), а любое начатое действие не может быть завершено.`,
           example: `Отряд гвардейцев с Ld 7+ понёс тяжёлые потери и должен сделать Battle-Shock Roll. Игрок бросает 2D6 и получает 9 — поскольку 9 не меньше 7, бросок успешен, и отряд держится. Если бы результат был 6 или меньше, весь юнит стал бы battle-shocked, утратив способность контролировать objectives.`,
-          note: `Боевой дух: Боевой дух и организация войск могут поколебаться в ходе сражения. Это проверяется с помощью Battle-Shock Rolls, чаще всего в фазе командования. Провал означает, что мужество юнита пошатнулось из-за потерь или других нарушений, снижая боеспособность.`,
+          note: `Боевой дух: Боевой дух и организация войск могут поколебаться в ходе сражения. Это проверяется с помощью Battle-Shock Rolls, чаще всего в фазе командования. Провал означает, что мужество юнита пошатнулось из-за потерь или других нарушений, снижая боеспособность. Аналогично, некоторые правила потребуют проверить боеготовность юнита с помощью Leadership Roll.`,
         },
       ],
     },
@@ -526,10 +527,10 @@ Mortal Wounds and Normal Damage: When resolving attack dice, if those attacks in
 ▪ Damage (D): количество урона, наносимого атакой.`,
         },
         {
-          title: 'Keywords',
-          body: `Карточки данных (datasheets) содержат список Keywords, разделённых на Keywords фракции и прочие Keywords. Первые используются при формировании армии, но в остальном оба типа функционируют одинаково. Keywords пишутся заглавными буквами жирным шрифтом.
+          title: 'Ключевые слова (Keywords)',
+          body: `Карточки данных (datasheets) содержат список ключевых слов (keywords), разделённых на ключевые слова фракции и прочие ключевые слова. Первые используются при формировании армии, но в остальном оба типа функционируют одинаково. Ключевые слова пишутся заглавными буквами жирным шрифтом.
 
-Некоторые правила связаны с одним или несколькими Keywords. Например, правило может гласить, что оно применяется к юнитам INFANTRY — значит, только к тем, кто имеет Keyword INFANTRY. Единственное и множественное число одного Keywords работают одинаково.`,
+Некоторые правила связаны с одним или несколькими ключевыми словами. Например, правило может гласить, что оно применяется к юнитам INFANTRY — значит, только к тем, кто имеет ключевое слово INFANTRY. Единственное и множественное число одного ключевого слова работают одинаково.`,
         },
         {
           title: 'Состав юнита и другие правила',
