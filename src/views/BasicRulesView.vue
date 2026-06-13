@@ -24,7 +24,14 @@
       />
 
       <template v-for="(sub, subIndex) in section.subsections" :key="sub.id">
+        <SectionTocBlock
+          v-if="sub.id === 'section-04-intro'"
+          :items="section.subsections.filter(s => s.sectionNum)"
+          :description="sub.body.split('\n').find(l => l.trim() && !/^[▪•▫]/.test(l.trim()))"
+          route="/basic-rules"
+        />
         <RuleBlock
+          v-else
           :id="sub.id"
           :section-num="sub.sectionNum"
           :title="sub.title"
@@ -88,6 +95,7 @@ import { computed } from 'vue'
 import SectionHeader from '../components/SectionHeader.vue'
 import RuleBlock from '../components/RuleBlock.vue'
 import SeeAlsoBlock from '../components/SeeAlsoBlock.vue'
+import SectionTocBlock from '../components/SectionTocBlock.vue'
 import DataTable from '../components/DataTable.vue'
 import TableOfContents from '../components/TableOfContents.vue'
 import { basicRules } from '../data/basicRules.js'
