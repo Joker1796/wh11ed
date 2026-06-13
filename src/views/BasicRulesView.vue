@@ -1,13 +1,13 @@
 <template>
   <div class="view">
     <div class="view-hero">
-      <h1>Basic Rules</h1>
-      <p class="view-hero-desc">The essential rules concepts of Warhammer 40,000</p>
+      <h1>{{ labels.basicRulesHeading }}</h1>
+      <p class="view-hero-desc">{{ labels.basicRulesDesc }}</p>
     </div>
 
     <TableOfContents :sections="tocSections" />
 
-    <template v-for="section in basicRules" :key="section.id">
+    <template v-for="section in sections" :key="section.id">
       <SectionHeader
         :id="'section-' + section.id.padStart(2,'0')"
         :num="section.num"
@@ -31,7 +31,7 @@
       <template v-if="section.id === '05' && section.woundTable">
         <div class="table-section">
           <DataTable
-            title="Wound Roll — Strength vs Toughness"
+            :title="labels.woundTableTitle"
             :headers="section.woundTable.headers"
             :rows="section.woundTable.rows"
           />
@@ -48,9 +48,30 @@ import RuleBlock from '../components/RuleBlock.vue'
 import DataTable from '../components/DataTable.vue'
 import TableOfContents from '../components/TableOfContents.vue'
 import { basicRules } from '../data/basicRules.js'
+import { ui } from '../i18n/ui.js'
+import { useLocale } from '../composables/useLocale.js'
+
+const { locale } = useLocale()
+const labels = computed(() => ui[locale.value])
+
+const sections = computed(() => {
+  if (locale.value === 'en') return basicRules.en
+  return basicRules.en.map((section, i) => ({
+    ...section,
+    title: basicRules.ru[i].title,
+    description: basicRules.ru[i].description,
+    subsections: section.subsections.map((sub, j) => ({
+      ...sub,
+      ...basicRules.ru[i].subsections[j],
+    })),
+    woundTable: section.woundTable
+      ? { ...section.woundTable, ...basicRules.ru[i].woundTable }
+      : undefined,
+  }))
+})
 
 const tocSections = computed(() =>
-  basicRules.map(s => ({
+  sections.value.map(s => ({
     id: 'section-' + s.id.padStart(2, '0'),
     num: s.num,
     label: s.title,
