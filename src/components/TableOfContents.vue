@@ -35,18 +35,18 @@ function scrollTo(id) {
   border-top: 3px solid var(--accent);
   border-radius: 0 0 6px 6px;
   background: var(--bg-card);
-  padding: 1rem 1.25rem 1.1rem;
-  margin-bottom: 2.5rem;
+  padding: 0.55rem 1rem 0.6rem;
+  margin-bottom: 1.75rem;
 }
 
 .toc-header {
   font-family: var(--font-sans);
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1.2px;
   color: var(--text-muted);
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.4rem;
 }
 
 .toc-list {
@@ -55,16 +55,16 @@ function scrollTo(id) {
   margin: 0;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 0.2rem 1.5rem;
+  gap: 0 1.2rem;
 }
 
 .toc-link {
   display: flex;
   align-items: baseline;
-  gap: 0.45rem;
-  font-size: 0.88rem;
+  gap: 0.4rem;
+  font-size: 0.82rem;
   color: var(--text-muted);
-  padding: 0.2rem 0;
+  padding: 0.12rem 0;
   transition: color 0.15s;
   text-decoration: none;
 }
