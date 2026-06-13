@@ -210,7 +210,8 @@ If you cannot set up all of the models in a unit, remove that unit from the batt
 ▪ Within 2" horizontally and 5" vertically of at least one other model in that unit.
 ▪ Within 9" horizontally and 5" vertically of every other model in that unit.
 
-Regaining Coherency: In the End of Turn step of each player's turn, if one or more units on the battlefield are not in coherency, those units' controlling players must remove models from them, one at a time, until they are in coherency again. Models removed in this way are destroyed, but they do not trigger rules that apply when a model is destroyed.`,
+### Regaining Coherency
+In the End of Turn step of each player's turn, if one or more units on the battlefield are not in coherency, those units' controlling players must remove models from them, one at a time, until they are in coherency again. Models removed in this way are destroyed, but they do not trigger rules that apply when a model is destroyed.`,
           note: 'What is Coherency? Coherency prevents models in the same unit from becoming too separated from each other while on the battlefield, ensuring they are set up and end every kind of move as a single group.',
         },
         {
@@ -590,7 +591,8 @@ Mortal Wounds and Normal Damage: When resolving attack dice, if those attacks in
 ▪ Не более 2" по горизонтали и 5" по вертикали от хотя бы одной другой модели в юните.
 ▪ Не более 9" по горизонтали и 5" по вертикали от каждой другой модели в юните.
 
-Восстановление когеренции: в шаге «End of Turn» каждого хода, если юниты на поле не в когеренции, их контролирующие игроки убирают модели по одной, пока когеренция не восстановлена. Убранные модели уничтожаются, но не активируют правила при уничтожении модели.`,
+### Восстановление когеренции
+В шаге «End of Turn» каждого хода, если юниты на поле не в когеренции, их контролирующие игроки убирают модели по одной, пока когеренция не восстановлена. Убранные модели уничтожаются, но не активируют правила при уничтожении модели.`,
           note: `Что такое когеренция? Когеренция не позволяет моделям одного юнита слишком сильно разойтись на поле, гарантируя, что они расставляются и завершают каждое движение как единая группа.`,
         },
         {
