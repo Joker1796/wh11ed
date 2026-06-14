@@ -42,7 +42,7 @@
           <p v-else v-html="renderInline(block.text)"></p>
         </template>
 
-        <div v-if="note" class="note-box" v-html="renderInline(note)"></div>
+        <div v-if="note" class="note-box" v-html="renderParagraphs(note)"></div>
 
         <div v-if="example" class="example-block" v-html="renderInline(example)"></div>
 
@@ -145,6 +145,10 @@ const blocks = computed(() => {
 })
 
 const { renderInline } = useRenderInline()
+
+function renderParagraphs(text) {
+  return text.split('\n\n').map(p => `<p>${renderInline(p.trim().replace(/\n/g, ' '))}</p>`).join('')
+}
 
 function handleDefClick(e) {
   const target = e.target.closest('[data-def]')
