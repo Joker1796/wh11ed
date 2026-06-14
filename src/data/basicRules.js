@@ -354,20 +354,20 @@ If one or more other weapons targeting that unit make [def:identical-attacks:ide
           sectionNum: '05.01',
           title: 'Hit Rolls',
           body: `Make one hit roll for each attack dice by rolling one D6. For each result, check if it fails or is a hit by matching the first condition below that applies:
-▪ Unmodified 1 → FAILS
-▪ Unmodified 6 → CRITICAL HIT
-▪ Equal to or greater than that attack's BS/WS characteristic → HIT
-▪ Any other result → FAILS`,
+◆ Unmodified 1 → FAILS
+◆ Unmodified 6 → CRITICAL HIT
+◆ Equal to or greater than that attack's BS/WS characteristic → HIT
+◆ Any other result → FAILS`,
         },
         {
           id: 'section-05-02',
           sectionNum: '05.02',
           title: 'Wound Rolls',
           body: `Make one wound roll for each hit by rolling one D6. For each result, check if it fails or is a wound by matching the first condition below that applies:
-▪ Unmodified 1 → FAILS
-▪ Unmodified 6 → CRITICAL WOUND
-▪ Equal to or greater than the required result (see table below) → WOUND
-▪ Any other result → FAILS`,
+◆ Unmodified 1 → FAILS
+◆ Unmodified 6 → CRITICAL WOUND
+◆ Equal to or greater than the required result (see table below) → WOUND
+◆ Any other result → FAILS`,
         },
         {
           id: 'section-05-03',
@@ -395,10 +395,10 @@ If one or more other weapons targeting that unit make [def:identical-attacks:ide
 
 1. Select Model: Select one model in the current allocation group; this must be a model that has lost one or more wounds if possible.
 2. Check Save Roll: For each result, check if that attack inflicts damage or fails by matching the first condition below that applies:
-▪ Unmodified 1 → INFLICTS DAMAGE
-▪ Invulnerable Save: The models in the current allocation group have an InSv characteristic, and the result is equal to or greater than that characteristic → FAILS (no damage)
-▪ Save and AP: After modifying the result by the attacking weapon's AP characteristic, it is equal to or greater than the Sv characteristic of models in the current allocation group → FAILS (no damage)
-▪ Any other result → INFLICTS DAMAGE
+◆ Unmodified 1 → INFLICTS DAMAGE
+◆ Invulnerable Save: The models in the current allocation group have an InSv characteristic, and the result is equal to or greater than that characteristic → FAILS (no damage)
+◆ Save and AP: After modifying the result by the attacking weapon's AP characteristic, it is equal to or greater than the Sv characteristic of models in the current allocation group → FAILS (no damage)
+◆ Any other result → INFLICTS DAMAGE
 
 3. Resolve Damage: If that attack inflicts damage, the selected model loses a number of wounds equal to that attack's D characteristic. If this reduces that model's remaining wounds to 0 or fewer, it is destroyed.
 
@@ -727,18 +727,18 @@ Mortal Wounds and Normal Damage: When resolving attack dice, if those attacks in
         {
           title: 'Hit Rolls',
           body: `Сделайте один Hit Roll для каждого кубика атаки, бросив один D6. Для каждого результата проверьте по первому подходящему условию:
-▪ Без модификаций 1 → ПРОВАЛ (FAILS)
-▪ Без модификаций 6 → CRITICAL HIT
-▪ Равно или больше характеристики BS/WS данной атаки → HIT (попадание)
-▪ Любой другой результат → ПРОВАЛ (FAILS)`,
+◆ Немодифицированный 1 → ПРОВАЛ (FAILS)
+◆ Немодифицированный 6 → CRITICAL HIT
+◆ Равно или больше характеристики BS/WS данной атаки → HIT (попадание)
+◆ Любой другой результат → ПРОВАЛ (FAILS)`,
         },
         {
           title: 'Wound Rolls',
           body: `Сделайте один Wound Roll для каждого попадания, бросив один D6. Для каждого результата проверьте по первому подходящему условию:
-▪ Без модификаций 1 → ПРОВАЛ (FAILS)
-▪ Без модификаций 6 → CRITICAL WOUND
-▪ Равно или больше требуемого результата (см. таблицу ниже) → WOUND (ранение)
-▪ Любой другой результат → ПРОВАЛ (FAILS)`,
+◆ Немодифицированный 1 → ПРОВАЛ (FAILS)
+◆ Немодифицированный 6 → CRITICAL WOUND
+◆ Равно или больше требуемого результата (см. таблицу ниже) → WOUND (ранение)
+◆ Любой другой результат → ПРОВАЛ (FAILS)`,
         },
         {
           title: 'Save Rolls',
@@ -761,10 +761,10 @@ Mortal Wounds and Normal Damage: When resolving attack dice, if those attacks in
 
 1. Выбор модели: выберите одну модель в текущей группе распределения; при возможности — ту, что потеряла одну или несколько ран.
 2. Проверка Save Roll: по первому подходящему условию:
-▪ Без модификаций 1 → НАНОСИТ УРОН (INFLICTS DAMAGE)
-▪ Invulnerable Save: модели в текущей группе имеют InSv, и результат равен или больше InSv → НЕ УДАЁТСЯ (без урона)
-▪ Save и AP: после применения AP результат равен или больше Sv моделей в текущей группе → НЕ УДАЁТСЯ (без урона)
-▪ Любой другой результат → НАНОСИТ УРОН (INFLICTS DAMAGE)
+◆ Немодифицированный 1 → НАНОСИТ УРОН (INFLICTS DAMAGE)
+◆ Invulnerable Save: модели в текущей группе имеют InSv, и результат равен или больше InSv → НЕ УДАЁТСЯ (без урона)
+◆ Save и AP: после применения AP результат равен или больше Sv моделей в текущей группе → НЕ УДАЁТСЯ (без урона)
+◆ Любой другой результат → НАНОСИТ УРОН (INFLICTS DAMAGE)
 
 3. Применение урона: выбранная модель теряет количество ран, равное D атаки. Если раны снижаются до 0 или меньше — модель уничтожена.
 
