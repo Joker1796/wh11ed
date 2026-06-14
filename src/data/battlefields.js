@@ -191,6 +191,13 @@ Each time you use a **stratagem**, resolve the following sequence:
 3. Resolve the effects of that **stratagem**.`,
       },
       {
+        id: 'section-15-core-label',
+        sectionNum: '',
+        isGroupLabel: true,
+        title: 'CORE STRATAGEMS',
+        body: 'All players can use **core stratagems** (see overleaf). Additional stratagems can be found in Codexes and other publications.',
+      },
+      {
         id: 'section-15-09',
         sectionNum: '15.09',
         title: 'Snap Shooting',

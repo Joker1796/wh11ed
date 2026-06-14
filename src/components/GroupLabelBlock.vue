@@ -1,15 +1,22 @@
 <template>
   <div class="group-label-block">
     <div class="group-label-title">{{ title }}</div>
-    <p class="group-label-body">{{ body }}</p>
+    <p class="group-label-body" v-html="renderedBody"></p>
   </div>
 </template>
 
 <script setup>
-defineProps({
+import { computed } from 'vue'
+import { useRenderInline } from '../composables/useRenderInline.js'
+
+const { renderInline } = useRenderInline()
+
+const props = defineProps({
   title: String,
   body: String,
 })
+
+const renderedBody = computed(() => props.body ? renderInline(props.body) : '')
 </script>
 
 <style scoped>
