@@ -1,6 +1,10 @@
 export function useRenderInline() {
   function renderInline(text) {
     return text
+      .replace(
+        /(Unmodified|Немодифицированный)(\s+)([1-6])\b/g,
+        (_, word, sp, n) => `${word}${sp}<i class="bi bi-dice-${n}-fill dice-icon"></i>`
+      )
       .replace(/\[def:([^\]:]+):([^\]]+)\]/g, '<span class="def-link" data-def="$1">$2</span>')
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
       .replace(/\[([A-Z][A-Z\s\-–:0-9+]*)\]/g, '<span class="keyword">[$1]</span>')

@@ -246,6 +246,7 @@ function handleDefClick(e) {
   color: var(--text-dim);
   flex-shrink: 0;
   padding: 0.35rem 0.4rem 0.35rem 0.75rem;
+  align-self: center;
 }
 
 .result-condition {
