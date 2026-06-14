@@ -12,7 +12,12 @@
         <img v-if="sideImage" class="side-image" :src="sideImage.src" :alt="sideImage.alt" :style="sideImage.width ? { maxWidth: sideImage.width } : undefined" />
         <template v-for="(block, i) in blocks" :key="i">
           <ul v-if="block.type === 'ul'" class="rule-list">
-            <li v-for="(item, j) in block.items" :key="j" v-html="renderInline(item)"></li>
+            <li v-for="(item, j) in block.items" :key="j">
+              <span v-html="renderInline(item.text)"></span>
+              <ul v-if="item.sub?.length" class="rule-list rule-list--sub">
+                <li v-for="(s, k) in item.sub" :key="k" v-html="renderInline(s)"></li>
+              </ul>
+            </li>
           </ul>
           <ol v-else-if="block.type === 'ol'" class="rule-ol">
             <li v-for="(item, j) in block.items" :key="j" v-html="renderInline(item)"></li>
@@ -96,7 +101,18 @@ const blocks = computed(() => {
     }
     if (!buf.length) return
     if (mode === 'ul') {
-      result.push({ type: 'ul', items: buf.map(l => l.replace(/^[▪•▫]\s*/, '').trim()).filter(Boolean) })
+      const items = []
+      for (const l of buf) {
+        if (/^▫/.test(l)) {
+          if (items.length) {
+            if (!items[items.length - 1].sub) items[items.length - 1].sub = []
+            items[items.length - 1].sub.push(l.replace(/^▫\s*/, '').trim())
+          }
+        } else {
+          items.push({ text: l.replace(/^[▪•]\s*/, '').trim() })
+        }
+      }
+      result.push({ type: 'ul', items })
     } else if (mode === 'ol') {
       result.push({ type: 'ol', items: buf.map(l => l.replace(/^\d+\.\s*/, '').trim()).filter(Boolean) })
     } else if (mode === 'flow') {
@@ -371,6 +387,12 @@ function handleDefClick(e) {
 
 .info-content {
   padding: 0.45rem 0.7rem;
+}
+
+.rule-list--sub {
+  list-style: disc;
+  padding-left: 1.2rem;
+  margin: 0.2rem 0 0.1rem;
 }
 
 .info-items {
