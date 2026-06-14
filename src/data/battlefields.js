@@ -25,7 +25,9 @@ In each case, the area of the battlefield occupied by that boundary or **terrain
         id: 'section-13-02',
         sectionNum: '13.02',
         title: 'Terrain Categories',
-        body: `Each **terrain feature** belongs to a **terrain category**, which can affect the movement and visibility of models. Below are some examples of which types of **terrain features** fall under each category.`,
+        body: `Each **terrain feature** belongs to a **terrain category**, which can affect the movement and visibility of models. Below are some examples of which types of **terrain features** fall under each category.
+
+A mission's deployment map may define which **terrain categories** should be present within each **terrain area**. Meeting these requirements will create the best gaming experience.`,
         note: 'Note that **terrain features** sharing the same **terrain area** can belong to different **terrain categories**.',
       },
       {
@@ -88,29 +90,29 @@ Models can be set up or end a move on the ground level of **terrain features**. 
         id: 'section-13-08',
         sectionNum: '13.08',
         title: 'Benefit of Cover',
-        body: `◈ ELIGIBLE IF | Each time a ranged attack targets a unit, if **every** model in that unit meets one or more of the following conditions, that unit has the **benefit of cover** against that attack:
+        sideImage: { src: '/images/terrain/benefit-of-cover.png', alt: 'Benefit of Cover diagram', width: '50%' },
+        body: `Each time a ranged attack targets a unit, if **every** model in that unit meets one or more of the following conditions, that unit has the **benefit of cover** against that attack:
 ▪ That model has the INFANTRY/BEASTS/SWARM keyword and is within a **terrain area**.
 ▪ That model is not **fully visible** to the attacking model due to one or more intervening **terrain features** and/or one or more intervening **obscuring terrain areas** (see 13.10).
-◈ EFFECT | Each time a ranged attack targets a unit that has the **benefit of cover** against it, worsen the **BS** characteristic of that attack by 1.
 
-[img:/images/terrain/benefit-of-cover.png]`,
+Each time a ranged attack targets a unit that has the **benefit of cover** against it, worsen the **BS** characteristic of that attack by 1.`,
       },
       {
         id: 'section-13-09',
         sectionNum: '13.09',
         title: 'Hidden',
-        body: `◈ CONDITIONS | A model is **hidden** while **all** of the following apply to it:
+        body: `A model is **hidden** while **all** of the following apply to it:
 ▪ That model has the INFANTRY/BEASTS/SWARM keyword and is within a **terrain area** that contains one or more **dense terrain features**.
 ▪ That model's unit did not make one or more ranged attacks during this turn or during the previous turn.
-◈ EFFECT | While a model is **hidden**, it can only be **visible** to enemy models that are within its **detection range**. Unless otherwise stated, a model's **detection range** is 15".`,
+
+While a model is **hidden**, it can only be **visible** to enemy models that are within its **detection range**. Unless otherwise stated, a model's **detection range** is 15".`,
       },
       {
         id: 'section-13-10',
         sectionNum: '13.10',
         title: 'Obscuring',
-        body: `**Terrain areas** containing one or more **light** or **dense terrain features** are **obscuring terrain areas**. If every **line of sight** drawn between two models crosses one or more **obscuring terrain areas** (excluding **obscuring terrain areas** that one or both of those models are within), those two models are not **visible** to each other.
-
-[img:/images/terrain/hidden-and-obscuring.png]`,
+        sideImage: { src: '/images/terrain/hidden-and-obscuring.png', alt: 'Hidden and Obscuring diagram', width: '50%' },
+        body: `**Terrain areas** containing one or more **light** or **dense terrain features** are **obscuring terrain areas**. If every **line of sight** drawn between two models crosses one or more **obscuring terrain areas** (excluding **obscuring terrain areas** that one or both of those models are within), those two models are not **visible** to each other.`,
       },
       {
         id: 'section-13-11',
