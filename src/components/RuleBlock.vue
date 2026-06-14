@@ -13,6 +13,12 @@
           <ul v-if="block.type === 'ul'" class="rule-list">
             <li v-for="(item, j) in block.items" :key="j" v-html="renderInline(item)"></li>
           </ul>
+          <div v-else-if="block.type === 'flow'" class="flow-list">
+            <div v-for="(item, j) in block.items" :key="j" class="flow-item">
+              <span class="flow-arrow">→</span>
+              <span v-html="renderInline(item)"></span>
+            </div>
+          </div>
           <h4 v-else-if="block.type === 'h4'" class="rule-subheading">{{ block.text }}</h4>
           <p v-else v-html="renderInline(block.text)"></p>
         </template>
@@ -52,6 +58,8 @@ const blocks = computed(() => {
     if (!buf.length) return
     if (mode === 'ul') {
       result.push({ type: 'ul', items: buf.map(l => l.replace(/^[▪•▫]\s*/, '').trim()).filter(Boolean) })
+    } else if (mode === 'flow') {
+      result.push({ type: 'flow', items: buf.map(l => l.replace(/^→\s*/, '').trim()).filter(Boolean) })
     } else {
       const text = buf.join(' ').trim()
       if (text) result.push({ type: 'p', text })
@@ -67,12 +75,16 @@ const blocks = computed(() => {
       continue
     }
     const isBullet = /^[▪•▫]/.test(line)
+    const isFlow = line.startsWith('→ ')
     const isSubheading = line.startsWith('### ')
     if (isSubheading) {
       flush()
       result.push({ type: 'h4', text: line.slice(4) })
     } else if (isBullet) {
       if (mode !== 'ul') { flush(); mode = 'ul' }
+      buf.push(line)
+    } else if (isFlow) {
+      if (mode !== 'flow') { flush(); mode = 'flow' }
       buf.push(line)
     } else {
       if (mode !== 'p') { flush(); mode = 'p' }
@@ -85,6 +97,7 @@ const blocks = computed(() => {
 
 function renderInline(text) {
   return text
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
     .replace(/\[([A-Z][A-Z\s\-–:0-9+]*)\]/g, '<span class="keyword">[$1]</span>')
     .replace(/\b(INFANTRY|VEHICLE|MONSTER|AIRCRAFT|CHARACTER|TITANIC|TRANSPORT|FORTIFICATION|BEAST|SWARM|WALKER|PSYKER|FLY|MOBILE|HOVER|FRAME|FLYING|EXPLOSIVES|GRENADES|SMOKE|DEDICATED)\b/g, '<strong>$1</strong>')
 }
@@ -147,6 +160,34 @@ function renderInline(text) {
 .rule-list li {
   margin-bottom: 0.3rem;
   line-height: 1.6;
+}
+
+.flow-list {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  margin: 0.5rem auto 0.7rem;
+  overflow: hidden;
+  max-width: 70%;
+}
+
+.flow-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.45rem 0.8rem;
+  border-bottom: 1px solid var(--border-light);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.flow-item:last-child {
+  border-bottom: none;
+}
+
+.flow-arrow {
+  color: var(--accent);
+  flex-shrink: 0;
+  font-weight: 600;
 }
 
 @media (max-width: 700px) {
