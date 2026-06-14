@@ -166,6 +166,7 @@ tr:hover td {
   font-weight: 600;
   font-family: var(--font-mono);
   white-space: nowrap;
+  cursor: pointer;
 }
 
 /* Section number badge */
@@ -197,6 +198,12 @@ tr:hover td {
 
 .note-box strong {
   color: #fff;
+}
+
+.note-box .keyword {
+  color: #e8c96a;
+  background: rgba(232, 201, 106, 0.12);
+  border-color: rgba(232, 201, 106, 0.4);
 }
 
 /* Example blocks — like Wahapedia */

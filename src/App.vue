@@ -55,6 +55,7 @@
     </main>
 
     <SearchModal v-if="searchOpen" @close="searchOpen = false" />
+    <KeywordPopover />
   </div>
 </template>
 
@@ -62,12 +63,15 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import SearchModal from './components/SearchModal.vue'
+import KeywordPopover from './components/KeywordPopover.vue'
 import { useLocale } from './composables/useLocale.js'
+import { useKeywordPopover } from './composables/useKeywordPopover.js'
 
 const route = useRoute()
 const mobileNavOpen = ref(false)
 const searchOpen = ref(false)
 const { locale, toggleLocale } = useLocale()
+const { open: openKeyword, close: closeKeyword } = useKeywordPopover()
 
 const coreRoutes = ['/', '/basic-rules', '/battle-round', '/battlefields', '/advanced-rules', '/reference', '/files']
 const isCoreRoute = computed(() => coreRoutes.includes(route.path))
@@ -90,11 +94,28 @@ function onKeydown(e) {
   if (e.key === 'Escape') {
     searchOpen.value = false
     mobileNavOpen.value = false
+    closeKeyword()
   }
 }
 
-onMounted(() => window.addEventListener('keydown', onKeydown))
-onUnmounted(() => window.removeEventListener('keydown', onKeydown))
+function onGlobalClick(e) {
+  const kwEl = e.target.closest('.keyword')
+  if (kwEl) {
+    const text = kwEl.textContent.replace(/^\[|\]$/g, '').trim()
+    openKeyword(text, kwEl.getBoundingClientRect())
+  } else {
+    closeKeyword()
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('keydown', onKeydown)
+  document.addEventListener('click', onGlobalClick)
+})
+onUnmounted(() => {
+  window.removeEventListener('keydown', onKeydown)
+  document.removeEventListener('click', onGlobalClick)
+})
 </script>
 
 <style scoped>
