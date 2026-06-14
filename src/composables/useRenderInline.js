@@ -1,6 +1,7 @@
 export function useRenderInline() {
   function renderInline(text) {
     return text
+      .replace(/\((\d{2}\.\d{2})\)/g, '<span class="cross-ref" data-ref="$1">($1)</span>')
       .replace(
         /(Unmodified|Немодифицированный)(\s+)([1-6])\b/g,
         (_, word, sp, n) => `${word}${sp}<i class="bi bi-dice-${n}-fill dice-icon"></i>`

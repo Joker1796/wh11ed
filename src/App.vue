@@ -66,12 +66,14 @@ import SearchModal from './components/SearchModal.vue'
 import KeywordPopover from './components/KeywordPopover.vue'
 import { useLocale } from './composables/useLocale.js'
 import { useKeywordPopover } from './composables/useKeywordPopover.js'
+import { resolveRef, useRefNavigation } from './composables/useRefNavigation.js'
 
 const route = useRoute()
 const mobileNavOpen = ref(false)
 const searchOpen = ref(false)
 const { locale, toggleLocale } = useLocale()
 const { open: openKeyword, close: closeKeyword } = useKeywordPopover()
+const { navigateTo } = useRefNavigation()
 
 const coreRoutes = ['/', '/basic-rules', '/battle-round', '/battlefields', '/advanced-rules', '/reference', '/files']
 const isCoreRoute = computed(() => coreRoutes.includes(route.path))
@@ -99,6 +101,12 @@ function onKeydown(e) {
 }
 
 function onGlobalClick(e) {
+  const refEl = e.target.closest('.cross-ref')
+  if (refEl) {
+    const { route, anchor } = resolveRef(refEl.dataset.ref)
+    if (route && anchor) navigateTo({ route, anchor })
+    return
+  }
   const kwEl = e.target.closest('.keyword')
   if (kwEl) {
     const text = kwEl.textContent.replace(/^\[|\]$/g, '').trim()
