@@ -523,13 +523,13 @@ The attacks are resolved one at a time, from lowest save rolls to highest:
           title: 'Visibility',
           body: `Line of sight is used to determine visibility between models. For an observing model to have line of sight, it must be possible to draw an imaginary straight line, 1 mm wide, from any part of that model to any part of the model being observed. This line is the line of sight. While doing so, other models in the observing model's unit and in the observed model's unit are ignored.
 
-Model Visible: If any part of another model is visible to the observing model, that model is visible.
+[img:/images/model-visible.png]
 
-Model Fully Visible: If every part of another model that is facing the observing model is visible to the observing model (so the only thing blocking visibility to any part of that other model is that model itself), that model is fully visible.
+[img:/images/model-fully-visible.png]
 
-Unit Visible: If one or more models in a unit are visible to the observing model, that unit is visible.
+[img:/images/unit-visible.png]
 
-Unit Fully Visible: If every model in a unit is fully visible to the observing model, that unit is fully visible. When determining this, the observing model can see through other models in that unit.`,
+[img:/images/unit-fully-visible.png]`,
           note: 'Terrain applies additional rules to visibility (13.07).',
         },
         {
@@ -885,13 +885,13 @@ When resolving attack dice, if those attacks inflict a mixture of both mortal wo
           title: 'Видимость',
           body: `Линия обзора (Line of Sight) определяет видимость между моделями. Для наблюдающей модели нужно иметь линию обзора: воображаемую прямую линию шириной 1 мм, проведённую от любой части этой модели до любой части наблюдаемой. При этом другие модели в обоих юнитах игнорируются.
 
-Модель видима: если наблюдающая модель видит хоть какую-то часть другой, она считается видимой.
+[img:/images/model-visible.png]
 
-Модель полностью видима: если наблюдающая видит каждую часть другой модели, обращённую к ней (единственное, что закрывает обзор — сама эта модель), она считается полностью видимой.
+[img:/images/model-fully-visible.png]
 
-Юнит видим: если одна или несколько моделей в юните видимы для наблюдающей модели.
+[img:/images/unit-visible.png]
 
-Юнит полностью видим: если наблюдающая модель полностью видит каждую модель в юните. При этом она может видеть сквозь других моделей в этом юните.`,
+[img:/images/unit-fully-visible.png]`,
           note: `Рельеф (Terrain) добавляет дополнительные правила видимости (13.07).`,
         },
         {
