@@ -9,7 +9,7 @@
       <SeeAlsoBlock v-if="seeAlso && seeAlso.length" :refs="seeAlso" />
 
       <div class="rule-body" @click="handleDefClick">
-        <img v-if="sideImage" class="side-image" :src="sideImage.src" :alt="sideImage.alt" />
+        <img v-if="sideImage" class="side-image" :src="sideImage.src" :alt="sideImage.alt" :style="sideImage.width ? { maxWidth: sideImage.width } : undefined" />
         <template v-for="(block, i) in blocks" :key="i">
           <ul v-if="block.type === 'ul'" class="rule-list">
             <li v-for="(item, j) in block.items" :key="j" v-html="renderInline(item)"></li>
@@ -274,7 +274,7 @@ function handleDefClick(e) {
 
 .side-image {
   float: left;
-  max-width: 45%;
+  max-width: 40%;
   margin: 0 1.5rem 1rem 0;
   border-radius: 4px;
 }
