@@ -38,7 +38,6 @@
       <!-- Stratagems grid for section 15 -->
       <template v-if="section.id === '15' && section.stratagems">
         <div class="stratagems-section" id="section-15-list">
-          <h3 class="strat-list-title">Core Stratagems</h3>
           <div class="strat-grid">
             <div v-for="strat in section.stratagems" :key="strat.num" class="strat-card">
               <div class="strat-header">
