@@ -55,16 +55,15 @@
           />
           <DefinitionBlock v-if="sub.definitions" :definitions="sub.definitions" />
         </RuleBlock>
-      </template>
-
-      <template v-if="section.id === '05' && section.woundTable">
-        <div class="table-section">
-          <DataTable
-            :title="labels.woundTableTitle"
-            :headers="section.woundTable.headers"
-            :rows="section.woundTable.rows"
-          />
-        </div>
+        <template v-if="sub.id === 'section-05-02' && section.woundTable">
+          <div class="table-section">
+            <DataTable
+              :title="labels.woundTableTitle"
+              :headers="section.woundTable.headers"
+              :rows="section.woundTable.rows"
+            />
+          </div>
+        </template>
       </template>
     </template>
   </div>
