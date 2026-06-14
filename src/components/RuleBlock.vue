@@ -14,6 +14,9 @@
           <ul v-if="block.type === 'ul'" class="rule-list">
             <li v-for="(item, j) in block.items" :key="j" v-html="renderInline(item)"></li>
           </ul>
+          <ol v-else-if="block.type === 'ol'" class="rule-ol">
+            <li v-for="(item, j) in block.items" :key="j" v-html="renderInline(item)"></li>
+          </ol>
           <div v-else-if="block.type === 'flow'" class="flow-list">
             <div v-for="(item, j) in block.items" :key="j" class="flow-item">
               <span class="flow-arrow">→</span>
@@ -76,6 +79,8 @@ const blocks = computed(() => {
     if (!buf.length) return
     if (mode === 'ul') {
       result.push({ type: 'ul', items: buf.map(l => l.replace(/^[▪•▫]\s*/, '').trim()).filter(Boolean) })
+    } else if (mode === 'ol') {
+      result.push({ type: 'ol', items: buf.map(l => l.replace(/^\d+\.\s*/, '').trim()).filter(Boolean) })
     } else if (mode === 'flow') {
       result.push({ type: 'flow', items: buf.map(l => l.replace(/^→\s*/, '').trim()).filter(Boolean) })
     } else if (mode === 'result-table') {
@@ -107,6 +112,7 @@ const blocks = computed(() => {
       continue
     }
     const isBullet = /^[▪•▫]/.test(line)
+    const isOrdered = /^\d+\.\s/.test(line)
     const isFlow = line.startsWith('→ ')
     const isResultRow = line.startsWith('◆ ')
     const isSubheading = line.startsWith('### ')
@@ -119,6 +125,9 @@ const blocks = computed(() => {
       result.push({ type: 'h4', text: line.slice(4) })
     } else if (isBullet) {
       if (mode !== 'ul') { flush(); mode = 'ul' }
+      buf.push(line)
+    } else if (isOrdered) {
+      if (mode !== 'ol') { flush(); mode = 'ol' }
       buf.push(line)
     } else if (isFlow) {
       if (mode !== 'flow') { flush(); mode = 'flow' }
@@ -203,6 +212,17 @@ function handleDefClick(e) {
 }
 
 .rule-list li {
+  margin-bottom: 0.3rem;
+  line-height: 1.6;
+}
+
+.rule-ol {
+  padding-left: 1.3rem;
+  margin-bottom: 0.6rem;
+  list-style: decimal;
+}
+
+.rule-ol li {
   margin-bottom: 0.3rem;
   line-height: 1.6;
 }
