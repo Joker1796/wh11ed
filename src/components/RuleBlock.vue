@@ -19,6 +19,17 @@
               <span v-html="renderInline(item)"></span>
             </div>
           </div>
+          <div v-else-if="block.type === 'result-table'" class="result-table">
+            <div v-for="(row, j) in block.items" :key="j" class="result-row">
+              <span class="result-arrow">→</span>
+              <span class="result-condition" v-html="renderInline(row.condition)"></span>
+              <span
+                class="result-outcome"
+                :class="row.isFail ? 'result-fail' : 'result-success'"
+                v-html="renderInline(row.outcome)"
+              ></span>
+            </div>
+          </div>
           <h4 v-else-if="block.type === 'h4'" class="rule-subheading">{{ block.text }}</h4>
           <p v-else v-html="renderInline(block.text)"></p>
         </template>
@@ -61,6 +72,17 @@ const blocks = computed(() => {
       result.push({ type: 'ul', items: buf.map(l => l.replace(/^[▪•▫]\s*/, '').trim()).filter(Boolean) })
     } else if (mode === 'flow') {
       result.push({ type: 'flow', items: buf.map(l => l.replace(/^→\s*/, '').trim()).filter(Boolean) })
+    } else if (mode === 'result-table') {
+      result.push({
+        type: 'result-table',
+        items: buf.map(l => {
+          const parts = l.replace(/^◆\s*/, '').split(' → ')
+          const condition = parts[0]?.trim() || ''
+          const outcome = parts.slice(1).join(' → ').trim()
+          const isFail = /FAIL|ПРОВАЛ|НЕ УДАЁТСЯ/i.test(outcome)
+          return { condition, outcome, isFail }
+        }).filter(r => r.condition),
+      })
     } else {
       const text = buf.join(' ').trim()
       if (text) result.push({ type: 'p', text })
@@ -77,6 +99,7 @@ const blocks = computed(() => {
     }
     const isBullet = /^[▪•▫]/.test(line)
     const isFlow = line.startsWith('→ ')
+    const isResultRow = line.startsWith('◆ ')
     const isSubheading = line.startsWith('### ')
     if (isSubheading) {
       flush()
@@ -86,6 +109,9 @@ const blocks = computed(() => {
       buf.push(line)
     } else if (isFlow) {
       if (mode !== 'flow') { flush(); mode = 'flow' }
+      buf.push(line)
+    } else if (isResultRow) {
+      if (mode !== 'result-table') { flush(); mode = 'result-table' }
       buf.push(line)
     } else {
       if (mode !== 'p') { flush(); mode = 'p' }
@@ -195,6 +221,53 @@ function handleDefClick(e) {
   flex-shrink: 0;
   font-weight: 600;
 }
+
+.result-table {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 0.5rem auto 0.7rem;
+}
+
+.result-row {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  border-bottom: 1px solid var(--border-light);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.result-row:last-child {
+  border-bottom: none;
+}
+
+.result-arrow {
+  color: var(--text-dim);
+  flex-shrink: 0;
+  padding: 0.35rem 0.4rem 0.35rem 0.75rem;
+}
+
+.result-condition {
+  flex: 1;
+  padding: 0.35rem 0.6rem 0.35rem 0;
+  align-self: center;
+}
+
+.result-outcome {
+  font-weight: 700;
+  flex: 0 0 10rem;
+  white-space: nowrap;
+  padding: 0.35rem 0.75rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.result-fail    { background: #9d060d; }
+.result-success { background: #027360; }
 
 @media (max-width: 700px) {
   :deep(.see-also) {
