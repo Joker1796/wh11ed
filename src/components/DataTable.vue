@@ -9,7 +9,7 @@
       </thead>
       <tbody>
         <tr v-for="(row, i) in rows" :key="i">
-          <td v-for="(cell, j) in row" :key="j" v-html="cell"></td>
+          <td v-for="(cell, j) in row" :key="j" v-html="renderInline(cell)"></td>
         </tr>
       </tbody>
     </table>
@@ -17,6 +17,10 @@
 </template>
 
 <script setup>
+import { useRenderInline } from '../composables/useRenderInline.js'
+
+const { renderInline } = useRenderInline()
+
 defineProps({
   title: String,
   headers: Array,
@@ -31,6 +35,11 @@ defineProps({
   border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
+}
+
+td:last-child,
+th:last-child {
+  text-align: center;
 }
 
 .table-title {
