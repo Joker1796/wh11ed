@@ -32,6 +32,9 @@
             </div>
           </div>
           <img v-else-if="block.type === 'img'" :src="block.src" alt="" class="body-image" />
+          <div v-else-if="block.type === 'img-group'" class="img-group">
+            <img v-for="(src, k) in block.srcs" :key="k" :src="src" alt="" />
+          </div>
           <h4 v-else-if="block.type === 'h4'" class="rule-subheading">{{ block.text }}</h4>
           <p v-else v-html="renderInline(block.text)"></p>
         </template>
@@ -86,6 +89,9 @@ const blocks = computed(() => {
           return { condition, outcome, isFail }
         }).filter(r => r.condition),
       })
+    } else if (mode === 'img-group') {
+      if (buf.length === 1) result.push({ type: 'img', src: buf[0] })
+      else result.push({ type: 'img-group', srcs: [...buf] })
     } else {
       const text = buf.join('<br>').trim()
       if (text) result.push({ type: 'p', text })
@@ -106,9 +112,8 @@ const blocks = computed(() => {
     const isSubheading = line.startsWith('### ')
     const isImg = /^\[img:[^\]]+\]$/.test(line)
     if (isImg) {
-      flush()
-      result.push({ type: 'img', src: line.slice(5, -1) })
-      mode = null
+      if (mode !== 'img-group') { flush(); mode = 'img-group' }
+      buf.push(line.slice(5, -1))
     } else if (isSubheading) {
       flush()
       result.push({ type: 'h4', text: line.slice(4) })
@@ -283,6 +288,21 @@ function handleDefClick(e) {
   max-width: 100%;
   margin: 0.5rem 0;
   border-radius: 4px;
+}
+
+.img-group {
+  margin: 0.5rem 0;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.img-group img {
+  display: block;
+  width: 100%;
+}
+
+.img-group img + img {
+  margin-top: 6px;
 }
 
 .side-image {
