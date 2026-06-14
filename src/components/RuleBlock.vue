@@ -35,6 +35,17 @@
             </div>
           </div>
           <img v-else-if="block.type === 'img'" :src="block.src" alt="" class="body-image" />
+          <div v-else-if="block.type === 'info-card'" class="info-card">
+            <div v-for="(row, k) in block.rows" :key="k" class="info-row">
+              <div class="info-label">{{ row.label }}</div>
+              <div class="info-content">
+                <span v-if="row.content" v-html="renderInline(row.content)"></span>
+                <ul v-if="row.items.length" class="info-items">
+                  <li v-for="(item, m) in row.items" :key="m" v-html="renderInline(item)"></li>
+                </ul>
+              </div>
+            </div>
+          </div>
           <div v-else-if="block.type === 'img-group'" class="img-group">
             <img v-for="(src, k) in block.srcs" :key="k" :src="src" alt="" />
           </div>
@@ -74,8 +85,15 @@ const blocks = computed(() => {
   const result = []
   let buf = []
   let mode = null
+  let cardRows = []
 
   const flush = () => {
+    if (mode === 'info-card') {
+      if (cardRows.length) result.push({ type: 'info-card', rows: [...cardRows] })
+      cardRows = []
+      buf = []
+      return
+    }
     if (!buf.length) return
     if (mode === 'ul') {
       result.push({ type: 'ul', items: buf.map(l => l.replace(/^[▪•▫]\s*/, '').trim()).filter(Boolean) })
@@ -115,11 +133,20 @@ const blocks = computed(() => {
     const isOrdered = /^\d+\.\s/.test(line)
     const isFlow = line.startsWith('→ ')
     const isResultRow = line.startsWith('◆ ')
+    const isInfoRow = line.startsWith('◈ ')
     const isSubheading = line.startsWith('### ')
     const isImg = /^\[img:[^\]]+\]$/.test(line)
     if (isImg) {
       if (mode !== 'img-group') { flush(); mode = 'img-group' }
       buf.push(line.slice(5, -1))
+    } else if (isInfoRow) {
+      if (mode !== 'info-card') { flush(); mode = 'info-card' }
+      const sep = line.indexOf(' | ')
+      const label = line.slice(2, sep < 0 ? undefined : sep).trim()
+      const content = sep >= 0 ? line.slice(sep + 3).trim() : ''
+      cardRows.push({ label, content, items: [] })
+    } else if (isBullet && mode === 'info-card') {
+      if (cardRows.length) cardRows[cardRows.length - 1].items.push(line.replace(/^[▪•▫]\s*/, '').trim())
     } else if (isSubheading) {
       flush()
       result.push({ type: 'h4', text: line.slice(4) })
@@ -313,6 +340,46 @@ function handleDefClick(e) {
   margin: 0.5rem 0;
   border-radius: 4px;
 }
+
+.info-card {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 0.5rem 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.info-row {
+  display: grid;
+  grid-template-columns: 9rem 1fr;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.info-row:last-child { border-bottom: none; }
+
+.info-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  padding: 0.45rem 0.6rem;
+  background: var(--bg-card);
+  color: var(--text-muted);
+  border-right: 1px solid var(--border-light);
+}
+
+.info-content {
+  padding: 0.45rem 0.7rem;
+}
+
+.info-items {
+  list-style: disc;
+  padding-left: 1.1rem;
+  margin: 0.2rem 0 0;
+}
+
+.info-items li { margin-bottom: 0.15rem; }
 
 .img-group {
   margin: 0.5rem 0;

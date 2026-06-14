@@ -237,25 +237,47 @@ A unit is eligible to shoot if it is on the battlefield and has not already been
         id: 'section-10-04',
         sectionNum: '10.04',
         title: 'Normal Shooting',
-        body: `[img:/images/shoot/normal-shooting.png]`,
+        body: `◈ ELIGIBLE IF | Your unit is **unengaged** and did not make an **advance move** this turn.
+◈ EFFECT | Your unit shoots as described in Making Attacks (04).
+◈ AFTER SHOOTING | Until the end of the phase, your unit is not **eligible to start an action**.`,
       },
       {
         id: 'section-10-05',
         sectionNum: '10.05',
         title: 'Assault Shooting',
-        body: `[img:/images/shoot/assault-shooting.png]`,
+        body: `◈ ELIGIBLE IF | All of the following apply to your unit:
+▪ **Unengaged** and made an **advance move** this turn.
+▪ Has one or more [ASSAULT] weapons.
+◈ EFFECT | Your unit shoots as described in Making Attacks (04).
+◈ WHILE SHOOTING | You can only select [ASSAULT] weapons to make attacks with.
+◈ AFTER SHOOTING | Until the end of the phase, your unit is not **eligible to start an action**.`,
       },
       {
         id: 'section-10-06',
         sectionNum: '10.06',
         title: 'Close-Quarters Shooting',
-        body: `[img:/images/shoot/close-quarters-shooting.png]`,
+        body: `◈ ELIGIBLE IF | All of the following apply to your unit:
+▪ **Engaged** and did not make an **advance move** this turn.
+▪ Has one or more [CLOSE-QUARTERS] weapons or is a MONSTER/VEHICLE unit.
+◈ EFFECT | Your unit shoots as described in Making Attacks (04).
+◈ WHILE SHOOTING | Models in your unit can target enemy units your unit is **engaged** with.
+▪ **MONSTER/VEHICLE Models:** Each time a MONSTER/VEHICLE model makes an attack — unless with a [CLOSE-QUARTERS] weapon targeting an engaged unit, subtract 1 from the hit roll. [BLAST] weapons still cannot target engaged units.
+▪ **Non-MONSTER/VEHICLE Models:** You can only select [CLOSE-QUARTERS] weapons and only target units **engaged** with your unit.
+◈ AFTER SHOOTING | Until the end of the phase, your unit is not **eligible to start an action**.`,
       },
       {
         id: 'section-10-07',
         sectionNum: '10.07',
         title: 'Indirect Shooting',
-        body: `[img:/images/shoot/indirect-shooting.png]`,
+        body: `◈ ELIGIBLE IF | All of the following apply to your unit:
+▪ **Unengaged** and did not make an **advance move** this turn.
+▪ Has one or more [INDIRECT FIRE] weapons.
+◈ EFFECT | Your unit shoots as described in Making Attacks (04).
+◈ WHILE SHOOTING | [INDIRECT FIRE] weapons can target units **not visible** to the attacking model. Each time an [INDIRECT FIRE] weapon makes an attack:
+▪ The target has the **benefit of cover** against that attack (13.08).
+▪ You cannot re-roll **hit rolls**.
+▪ An **unmodified hit roll of 1–5** fails, unless your unit remained stationary this turn and the target is visible to a friendly unit — in which case **unmodified 1–3** fails instead.
+◈ AFTER SHOOTING | Until the end of the phase, your unit is not **eligible to start an action**.`,
         note: '**INDIRECT FIRE**\nWhen you select indirect shooting for a unit, its [INDIRECT FIRE] weapons can launch punishing barrages on targets that are not visible, but don\'t forget that its other weapons can still target other visible targets.',
       },
     ],
