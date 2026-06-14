@@ -17,17 +17,24 @@
         :phase="section.phase"
       />
 
-      <RuleBlock
-        v-for="sub in section.subsections"
-        :key="sub.id"
-        :id="sub.id"
-        :section-num="sub.sectionNum"
-        :title="sub.title"
-        :body="sub.body"
-        :note="sub.note"
-        :example="sub.example"
-        :see-also="sub.seeAlso"
-      />
+      <template v-for="sub in section.subsections" :key="sub.id">
+        <SectionTocBlock
+          v-if="!sub.sectionNum"
+          :items="section.subsections.filter(s => s.sectionNum)"
+          :description="sub.body.split('\n').find(l => l.trim() && !/^[▪•▫]/.test(l.trim()))"
+          route="/battle-round"
+        />
+        <RuleBlock
+          v-else
+          :id="sub.id"
+          :section-num="sub.sectionNum"
+          :title="sub.title"
+          :body="sub.body"
+          :note="sub.note"
+          :example="sub.example"
+          :see-also="sub.seeAlso"
+        />
+      </template>
     </template>
   </div>
 </template>
@@ -36,6 +43,7 @@
 import { computed } from 'vue'
 import SectionHeader from '../components/SectionHeader.vue'
 import RuleBlock from '../components/RuleBlock.vue'
+import SectionTocBlock from '../components/SectionTocBlock.vue'
 import TableOfContents from '../components/TableOfContents.vue'
 import { battleRound } from '../data/battleRound.js'
 
