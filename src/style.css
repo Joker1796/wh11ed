@@ -74,6 +74,19 @@ a:hover {
   text-decoration: underline;
 }
 
+.cross-ref {
+  color: var(--accent);
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+  cursor: pointer;
+  font-size: 0.85em;
+}
+
+.cross-ref:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+
 h1, h2, h3, h4 {
   font-family: var(--font-serif);
   font-weight: 700;

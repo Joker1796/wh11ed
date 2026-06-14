@@ -9,10 +9,10 @@
       >
         <div class="kw-popover-header">
           <span class="keyword kw-name">{{ activeKeyword.name }}</span>
-          <span class="kw-num">{{ activeKeyword.num }}</span>
+          <span class="kw-num" @click="navigateNum">{{ activeKeyword.num }}</span>
           <button class="kw-close" @click="close" aria-label="Close">✕</button>
         </div>
-        <div class="kw-popover-body" v-html="renderInline(activeKeyword.fullText)"></div>
+        <div class="kw-popover-body" v-html="renderInline(activeKeyword.fullText)" @click="handleBodyClick"></div>
       </div>
     </Transition>
   </Teleport>
@@ -22,9 +22,24 @@
 import { computed } from 'vue'
 import { useKeywordPopover } from '../composables/useKeywordPopover.js'
 import { useRenderInline } from '../composables/useRenderInline.js'
+import { resolveRef, useRefNavigation } from '../composables/useRefNavigation.js'
 
 const { visible, activeKeyword, anchor, close } = useKeywordPopover()
 const { renderInline } = useRenderInline()
+const { navigateTo } = useRefNavigation()
+
+function navigateNum() {
+  const { route, anchor: a } = resolveRef(activeKeyword.value.num)
+  if (route && a) { close(); navigateTo({ route, anchor: a }) }
+}
+
+function handleBodyClick(e) {
+  const refEl = e.target.closest('.cross-ref')
+  if (refEl) {
+    const { route, anchor: a } = resolveRef(refEl.dataset.ref)
+    if (route && a) { close(); navigateTo({ route, anchor: a }) }
+  }
+}
 
 const positionStyle = computed(() => {
   if (!anchor.value) return {}
@@ -82,6 +97,13 @@ const positionStyle = computed(() => {
   font-family: var(--font-mono);
   color: rgba(255, 255, 255, 0.35);
   margin-left: auto;
+  cursor: pointer;
+}
+
+.kw-num:hover {
+  color: var(--accent);
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
 }
 
 .kw-close {
