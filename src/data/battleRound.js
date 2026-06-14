@@ -166,25 +166,47 @@ If a unit was battle-shocked at the start of this step and its battle-shock roll
         id: 'section-09-04',
         sectionNum: '09.04',
         title: 'Remain Stationary',
-        body: `[img:/images/move/remain-stationary.png]`,
+        body: `◈ MAXIMUM DISTANCE | –
+◈ ELIGIBLE IF | Any unit.
+◈ EFFECT | No models are moved (either in straight lines or rotated). Units that **remain stationary** do not trigger any rules that are triggered when a unit starts or ends a move.`,
       },
       {
         id: 'section-09-05',
         sectionNum: '09.05',
         title: 'Normal Move',
-        body: `[img:/images/move/normal-move.png]`,
+        body: `◈ MAXIMUM DISTANCE | Your unit's **M** characteristic.
+◈ ELIGIBLE IF | Your unit is on the battlefield and **unengaged**.
+◈ EFFECT | Your unit moves as described in Moving (03).
+◈ AFTER MOVING | Your unit must be **unengaged**.`,
       },
       {
         id: 'section-09-06',
         sectionNum: '09.06',
         title: 'Advance Move',
-        body: `[img:/images/move/advance-move.png]`,
+        body: `◈ MAXIMUM DISTANCE | Advance roll + your unit's **M** characteristic.
+◈ ELIGIBLE IF | Your unit is on the battlefield and **unengaged**.
+◈ EFFECT | Your unit moves as described in Moving (03).
+◈ BEFORE MOVING | Make an **advance roll** by rolling one D6.
+◈ AFTER MOVING
+▪ Your unit must be **unengaged**.
+▪ Until the end of the turn, unless otherwise stated, your unit is not **eligible to declare a charge** or **start an action**.`,
       },
       {
         id: 'section-09-07',
         sectionNum: '09.07',
         title: 'Fall-back Move',
-        body: `[img:/images/move/fall-back-move.png]`,
+        body: `◈ MAXIMUM DISTANCE | Your unit's **M** characteristic.
+◈ ELIGIBLE IF | Your unit is **engaged**.
+◈ EFFECT | Your unit moves as described in Moving (03).
+◈ BEFORE MOVING | Select fall-back mode:
+▪ **Ordered Retreat:** If your unit is not **battle-shocked**, you can select this mode.
+▪ **Desperate Escape:** Otherwise, you must select this mode. Make a **hazard roll** for each model in your unit (06.03).
+◈ WHILE MOVING
+▪ **Desperate Escape:** Each model that is moved can be moved through enemy models.
+◈ AFTER MOVING
+▪ Your unit must be **unengaged**.
+▪ Until the end of the turn, unless otherwise stated, your unit is not **eligible to declare a charge** or **start an action**.
+▪ **Desperate Escape:** If your unit is not **battle-shocked**, you must make a **battle-shock roll** for your unit (01.07).`,
         note: '**SELECTING MODES**\nSome rules instruct you to select a mode, such as **fall-back moves** (09.07). Modes are mutually exclusive, and you must assess each one in the order presented. When making a move, if your unit does not meet the conditions of any of the modes, it cannot make that move.\n\nSometimes a mode will be mandatory if applicable (e.g. **consolidation modes** (12.08)), but in the case of **fall-back moves**, **ordered retreat** is not mandatory, so you could select **desperate escape** instead.\n\nMany **move types** state conditions you must meet while/after moving. Those that are labelled with a mode name only apply if you selected that mode; those not labelled with a mode name always apply.',
       },
     ],
@@ -330,23 +352,20 @@ A unit is eligible to shoot if it is on the battlefield and has not already been
         id: 'section-11-04',
         sectionNum: '11.04',
         title: 'Charge Move',
-        body: `Maximum Distance: Charge roll.
-Eligible If: Your unit declared a charge this phase.
-Effect: Your unit moves as described in Moving (03).
+        body: `◈ MAXIMUM DISTANCE | Charge roll.
+◈ ELIGIBLE IF | Your unit **declared a charge** this phase.
+◈ EFFECT | Your unit moves as described in Moving (03).
+◈ BEFORE MOVING | Select one or more enemy units that are within 12" of your unit and within the **maximum distance** of your unit; until the end of this move, each of those enemy units is a **charge target**.
+◈ WHILE MOVING
+▪ Each model must end its move closer to one or more **charge targets**.
+▪ Each model that can end its move within 1" of one or more **charge targets** must do so.
+▪ Each model that can end its move **engaged** with one or more **charge targets** must do so.
+◈ AFTER MOVING
+▪ Your unit must be **engaged** with all of the **charge targets**.
+▪ Your unit cannot be **engaged** with one or more enemy units that are not **charge targets**.
+▪ Until the end of the turn, each model in your unit has the **Fights First** ability (24.13).
 
-Before Moving: Select one or more enemy units that are within 12" of your unit and within the maximum distance of your unit; until the end of this move, each of those enemy units is a charge target.
-
-While Moving:
-▪ Each model must end its move closer to one or more charge targets.
-▪ Each model that can end its move within 1" of one or more charge targets must do so.
-▪ Each model that can end its move engaged with one or more charge targets must do so.
-
-After Moving:
-▪ Your unit must be engaged with all of the charge targets.
-▪ Your unit cannot be engaged with one or more enemy units that are not charge targets.
-▪ Until the end of the turn, each model in your unit has the Fights First ability (24.13).
-
-[img:/images/charge-move.png]`,
+[img:/images/move/making-a-charge-move.png]`,
       },
     ],
   },
@@ -373,7 +392,9 @@ After Moving:
         id: 'section-12-01',
         sectionNum: '12.01',
         title: 'Start of Fight Phase',
-        body: `Rules that are triggered at the start of the Fight phase are resolved now.`,
+        body: `Rules that are triggered at the start of the Fight phase are resolved now.
+
+[img:/images/move/start-of-fight-phase.png]`,
       },
       {
         id: 'section-12-02',
@@ -389,24 +410,23 @@ After Moving:
         id: 'section-12-03',
         sectionNum: '12.03',
         title: 'Pile-In Move',
-        body: `Maximum Distance: 3"
-Eligible If: It is the Fight phase and one or more of the following apply to your unit:
-▪ It is engaged.
-▪ It made a charge move this turn.
-▪ It was selected to make an overrun fight this phase.
-
-Effect: Your unit moves as described in Moving (03).
-Before Moving: Select pile-in targets:
-→ If your unit is **engaged**, select every enemy unit it is **engaged** with as your pile-in targets.
-→ Otherwise, select one or more enemy units within 5" of your unit as your pile-in targets.
-
-While Moving:
+        body: `◈ MAXIMUM DISTANCE | 3"
+◈ ELIGIBLE IF | It is the Fight phase and one or more of the following apply to your unit:
+▪ It is **engaged**.
+▪ It made a **charge move** this turn.
+▪ It was selected to make an **overrun fight** this phase (12.06).
+◈ EFFECT | Your unit moves as described in Moving (03).
+◈ BEFORE MOVING | Select pile-in targets:
+▪ If your unit is **engaged**, select every enemy unit it is **engaged** with as your pile-in targets.
+▪ Otherwise, select one or more enemy units within 5" of your unit as your pile-in targets.
+◈ WHILE MOVING
 ▪ Models in base-contact with one or more enemy models cannot be moved.
-▪ Each model that is moved must end its move closer to the closest pile-in target, and engaged with it if possible.
+▪ Each model that is moved must end its move closer to the closest **pile-in target**, and **engaged** with it if possible.
+◈ AFTER MOVING
+▪ Your unit must be **engaged**.
+▪ Each model that started this move **engaged** with an enemy unit must still be **engaged** with that enemy unit.
 
-After Moving:
-▪ Your unit must be engaged.
-▪ Each model that started this move engaged with an enemy unit must still be engaged with that enemy unit.`,
+[img:/images/move/pile-in-moves.png]`,
       },
       {
         id: 'section-12-04',
@@ -429,22 +449,29 @@ Players resolve the following sequence until all eligible units have been select
 After resolving a fight in the Resolve Remaining Combats step, if there are one or more Fights First units that are now eligible to fight, return to the Resolve Fights First Combats step.`,
       },
       {
+        id: 'section-12-fight-types',
+        sectionNum: '',
+        isGroupLabel: true,
+        title: 'WHEN A UNIT IS SELECTED TO FIGHT',
+        body: 'Each time a unit is selected to fight, select one fight type that unit is eligible to make, and resolve it with that unit. This can be one listed below, or one presented elsewhere:',
+      },
+      {
         id: 'section-12-05',
         sectionNum: '12.05',
         title: 'Normal Fight',
-        body: `Eligible If: Your unit is **engaged**.
-Effect: Your unit fights as described in Making Attacks (04).
+        body: `◈ ELIGIBLE IF | Your unit is **engaged**.
+◈ EFFECT | Your unit fights as described in Making Attacks (04).
 
-[img:/images/normal-fight.png]`,
+[img:/images/fight/normal-fight.png]`,
       },
       {
         id: 'section-12-06',
         sectionNum: '12.06',
         title: 'Overrun Fight',
-        body: `Eligible If: Your unit is **unengaged**, or was **unengaged** at the start of the Fight step but became **engaged** during the Fight phase.
-Effect: Your unit can make one additional pile-in move, then fights as described in Making Attacks (04).
+        body: `◈ ELIGIBLE IF | Your unit is **unengaged**, or was **unengaged** at the start of the Fight step but became **engaged** during the Fight phase.
+◈ EFFECT | Your unit can make one additional pile-in move, then fights as described in Making Attacks (04).
 
-[img:/images/overrun-fight.png]`,
+[img:/images/fight/overrun-fight.png]`,
         note: 'When a unit makes an overrun fight, its models can be moved such that enemy units that were unengaged become engaged. Such enemy units become eligible to fight this phase (and may even be able to fight next if they are Fights First units).',
       },
       {
@@ -457,28 +484,26 @@ Effect: Your unit can make one additional pile-in move, then fights as described
         id: 'section-12-08',
         sectionNum: '12.08',
         title: 'Consolidation Move',
-        body: `Maximum Distance: 3"
-Eligible If: It is the Fight phase and your unit was **eligible to fight** this phase.
-Effect: Your unit moves as described in Moving (03).
-
-Before Moving: Select a consolidation mode:
-→ **Ongoing Consolidation:** If your unit is **engaged**, you must select this mode and select every enemy unit it is **engaged** with.
-→ **Engaging Consolidation:** Otherwise, if your unit is within 3" of one or more enemy units, you must select this mode and select one or more of those enemy units.
-→ **Objective Consolidation:** Otherwise, if your unit is within 3" of one or more objectives, you must select this mode and select one of those objectives.
-
-While Moving:
+        body: `◈ MAXIMUM DISTANCE | 3"
+◈ ELIGIBLE IF | It is the Fight phase and your unit was **eligible to fight** this phase.
+◈ EFFECT | Your unit moves as described in Moving (03).
+◈ BEFORE MOVING | Select a consolidation mode:
+▪ **Ongoing Consolidation:** If your unit is **engaged**, you must select this mode and select every enemy unit it is **engaged** with.
+▪ **Engaging Consolidation:** Otherwise, if your unit is within 3" of one or more enemy units, you must select this mode and select one or more of those enemy units.
+▪ **Objective Consolidation:** Otherwise, if your unit is within 3" of one or more objectives, you must select this mode and select one of those objectives.
+◈ WHILE MOVING
 ▪ **Ongoing Consolidation:** Models in base-contact with one or more enemy models cannot be moved. Each model that is moved must end its move closer to the closest selected enemy unit, and **engaged** with it if possible.
 ▪ **Engaging Consolidation:** Each model that is moved must end its move closer to the closest selected enemy unit, and **engaged** with it if possible.
 ▪ **Objective Consolidation:** Each model that is moved must end its move within range of the selected objective if possible, or closer to it if not.
-
-After Moving:
+◈ AFTER MOVING
 ▪ **Ongoing Consolidation:** Each model that started this move **engaged** with an enemy unit must still be **engaged** with that enemy unit.
 ▪ **Engaging Consolidation:** Your unit must be **engaged** with all of the selected enemy units. If one or more enemy units **engaged** with your unit have not been **selected to fight** this phase, your opponent must select each of those units, one at a time; when each is selected, it becomes **eligible to fight** and is **selected to fight** (12.04).
 ▪ **Objective Consolidation:** Your unit must be within range of the selected objective.
 
-[img:/images/ongoing-consolidation.png]
+[img:/images/fight/ongoing-consolidation.png]
 
-[img:/images/objective-consolidation.png]`,
+[img:/images/fight/objective-consolidation.png]`,
+        note: '**NEW FOES TO FACE**\nWhile using the **engaging consolidation** mode, your unit can end its consolidation move **engaged** with enemy units that have not yet fought this phase. If so, each of those enemy units will have an opportunity to fight your unit, so think carefully about how aggressively you want to move your unit using this mode.',
       },
       {
         id: 'section-12-09',

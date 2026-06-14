@@ -18,8 +18,13 @@
       />
 
       <template v-for="sub in section.subsections" :key="sub.id">
+        <GroupLabelBlock
+          v-if="sub.isGroupLabel"
+          :title="sub.title"
+          :body="sub.body"
+        />
         <SectionTocBlock
-          v-if="!sub.sectionNum"
+          v-else-if="!sub.sectionNum"
           :items="section.subsections.filter(s => s.sectionNum)"
           :description="sub.body.split('\n').find(l => l.trim() && !/^[▪•▫]/.test(l.trim()))"
           route="/battle-round"
@@ -44,6 +49,7 @@ import { computed } from 'vue'
 import SectionHeader from '../components/SectionHeader.vue'
 import RuleBlock from '../components/RuleBlock.vue'
 import SectionTocBlock from '../components/SectionTocBlock.vue'
+import GroupLabelBlock from '../components/GroupLabelBlock.vue'
 import TableOfContents from '../components/TableOfContents.vue'
 import { battleRound } from '../data/battleRound.js'
 
