@@ -539,14 +539,15 @@ Unit Fully Visible: If every model in a unit is fully visible to the observing m
           body: `Some attacks or rules inflict mortal wounds on units. Each time a unit suffers one or more mortal wounds, its controlling player must resolve the following sequence for each of those mortal wounds, until either all of them have been inflicted or that unit is destroyed:
 
 1. Select Model: Select one model in that unit by following the first instruction below that applies:
-▪ If a non-CHARACTER model in that unit has lost one or more wounds, you must select that model.
-▪ Otherwise, if that unit contains one or more non-CHARACTER models, you must select one of those models.
-▪ Otherwise, if one or more CHARACTER models in that unit have lost one or more wounds, you must select one of those models.
-▪ Otherwise, you must select one CHARACTER model in that unit.
+→ If a non-CHARACTER model in that unit has lost one or more wounds, you must select that model.
+→ Otherwise, if that unit contains one or more non-CHARACTER models, you must select one of those models.
+→ Otherwise, if one or more CHARACTER models in that unit have lost one or more wounds, you must select one of those models.
+→ Otherwise, you must select one CHARACTER model in that unit.
 
 2. Resolve Damage: The selected model loses 1 wound. If this reduces that model's remaining wounds to 0, it is destroyed.
 
-Mortal Wounds and Normal Damage: When resolving attack dice, if those attacks inflict a mixture of both mortal wounds and normal damage, resolve all of the normal damage first, then resolve all of the mortal wounds.`,
+### Mortal Wounds and Normal Damage
+When resolving attack dice, if those attacks inflict a mixture of both mortal wounds and normal damage, resolve all of the normal damage first, then resolve all of the mortal wounds.`,
         },
         {
           id: 'section-06-03',
@@ -898,14 +899,15 @@ Mortal Wounds and Normal Damage: When resolving attack dice, if those attacks in
           body: `Некоторые атаки или правила наносят морталки (mortal wounds) юнитам. Каждый раз, когда юнит получает одну или несколько морталок, контролирующий игрок выполняет следующую последовательность для каждой — пока все не нанесены или юнит не уничтожен:
 
 1. Выбор модели по первому применимому указанию:
-▪ Если не-CHARACTER модель в юните потеряла раны — выбрать её.
-▪ Иначе, если есть не-CHARACTER модели — выбрать одну из них.
-▪ Иначе, если CHARACTER модель потеряла раны — выбрать одну из них.
-▪ Иначе — выбрать одну CHARACTER модель.
+→ Если не-CHARACTER модель в юните потеряла раны — выбрать её.
+→ Иначе, если есть не-CHARACTER модели — выбрать одну из них.
+→ Иначе, если CHARACTER модель потеряла раны — выбрать одну из них.
+→ Иначе — выбрать одну CHARACTER модель.
 
 2. Применение урона: выбранная модель теряет 1 рану. Если раны снижаются до 0 — уничтожена.
 
-Морталки и обычный урон: если атаки наносят и морталки, и обычный урон — сначала весь обычный урон, затем все морталки.`,
+### Морталки и обычный урон
+Если атаки наносят и морталки, и обычный урон — сначала весь обычный урон, затем все морталки.`,
         },
         {
           title: 'Hazard Rolls',
