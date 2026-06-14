@@ -84,7 +84,7 @@ const blocks = computed(() => {
         }).filter(r => r.condition),
       })
     } else {
-      const text = buf.join(' ').trim()
+      const text = buf.join('<br>').trim()
       if (text) result.push({ type: 'p', text })
     }
     buf = []
@@ -168,7 +168,7 @@ function handleDefClick(e) {
 
 .rule-body {
   font-size: 0.95rem;
-  line-height: 1.7;
+  line-height: 1.5;
   color: var(--text-primary);
 }
 
