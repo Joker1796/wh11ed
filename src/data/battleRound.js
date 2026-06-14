@@ -94,11 +94,11 @@ The battle round then ends and, unless the battle ends, the next battle round st
 
 If a unit was battle-shocked at the start of this step and its battle-shock roll during this step succeeds, it is no longer battle-shocked.
 
-### Battle-Shock Examples
-▪ A unit with a starting strength of 3 that is currently **battle-shocked**: not at half-strength, but is battle-shocked — a roll must be made. If that roll succeeds, the unit will no longer be battle-shocked.
-▪ A unit with a starting strength of 10 that has five models remaining: at half-strength — a roll must be made.
-▪ A unit with a starting strength of 5 that has two models remaining: below half-strength — a roll must be made.
-▪ A VEHICLE with a starting strength of 1 and a W characteristic of 11 that has 3 wounds remaining: below half-strength — a roll must be made.`,
+[img:/images/battle-shock-examples.png]
+[img:/images/battle-shock-examples-2.png]
+[img:/images/battle-shock-examples-3.png]
+[img:/images/battle-shock-examples-4.png]
+`,
         seeAlso: ['Battle-Shock Rolls 01.07', 'Half-strength 24.00', 'Multiple Battle-Shock Rolls 24.00'],
       },
       {
