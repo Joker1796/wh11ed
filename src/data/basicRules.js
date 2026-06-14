@@ -87,6 +87,7 @@ While a unit is battle-shocked:
       num: '02',
       title: 'Datasheets',
       page: 10,
+      image: { src: '/images/datasheet.png', alt: 'Datasheet example' },
       description: 'Each unit has a datasheet that explains how it functions in battle. Here you will learn how to use datasheets when preparing your army and playing games.',
       subsections: [
         {
@@ -187,6 +188,27 @@ After you have finished setting up all of the models in a unit and/or moving all
 
 If one or more of the above conditions are not met, that unit cannot make that move and its models are returned to their positions at the start of that move. Otherwise, after resolving any additional rules stated in the 'After Moving' section of that move type, that move ends.`,
           seeAlso: ['Monsters and Vehicles 17.00', 'Moving Vertically 13.06', 'Strategic Reserves 20.00', 'Terrain 13.00', 'Transports 18.00'],
+          illustration: {
+            src: '/images/moving-straight-line.png',
+            alt: 'Moving in a straight line',
+            seeAlso: {
+              title: 'Move Types',
+              refs: [
+                'Advance Move 09.06',
+                'Charge Move 11.04',
+                'Consolidation Move 12.08',
+                'Disembark Move 18.04',
+                'Emergency Disembark Move 18.05',
+                'Fall-back Move 09.07',
+                'Ingress Move 20.04',
+                'Normal Move 09.05',
+                'Pile-in Move 12.03',
+                'Scout Move 24.32',
+                'Surge Move 21.02',
+              ],
+            },
+          },
+          image: { src: '/images/rotating.png', alt: 'Rotating a model' },
         },
         {
           id: 'section-03-02',
@@ -213,6 +235,7 @@ If you cannot set up all of the models in a unit, remove that unit from the batt
 ### Regaining Coherency
 In the End of Turn step of each player's turn, if one or more units on the battlefield are not in coherency, those units' controlling players must remove models from them, one at a time, until they are in coherency again. Models removed in this way are destroyed, but they do not trigger rules that apply when a model is destroyed.`,
           note: 'What is Coherency? Coherency prevents models in the same unit from becoming too separated from each other while on the battlefield, ensuring they are set up and end every kind of move as a single group.',
+          image: { src: '/images/coherency.png', alt: 'Coherency' },
         },
         {
           id: 'section-03-04',
@@ -222,6 +245,7 @@ In the End of Turn step of each player's turn, if one or more units on the battl
 ▪ While a friendly model is within engagement range of one or more enemy models, those models – and the units they belong to – are engaged with each other.
 ▪ While a unit contains no engaged models, that unit is unengaged.`,
           note: 'What is Engagement? While opposing models are within each other\'s engagement range, they are able to fight in vicious melee, so unless they are seeking to make melee attacks, models should keep out of their foes\' reach.',
+          image: { src: '/images/engagement.png', alt: 'Engagement' },
         },
       ],
     },
