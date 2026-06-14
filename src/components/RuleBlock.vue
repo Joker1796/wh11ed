@@ -8,7 +8,7 @@
     <div class="rule-body-wrap">
       <SeeAlsoBlock v-if="seeAlso && seeAlso.length" :refs="seeAlso" />
 
-      <div class="rule-body">
+      <div class="rule-body" @click="handleDefClick">
         <template v-for="(block, i) in blocks" :key="i">
           <ul v-if="block.type === 'ul'" class="rule-list">
             <li v-for="(item, j) in block.items" :key="j" v-html="renderInline(item)"></li>
@@ -36,6 +36,7 @@
 <script setup>
 import { computed } from 'vue'
 import SeeAlsoBlock from './SeeAlsoBlock.vue'
+import { useRenderInline } from '../composables/useRenderInline.js'
 
 const props = defineProps({
   id: String,
@@ -95,11 +96,16 @@ const blocks = computed(() => {
   return result
 })
 
-function renderInline(text) {
-  return text
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\[([A-Z][A-Z\s\-–:0-9+]*)\]/g, '<span class="keyword">[$1]</span>')
-    .replace(/\b(INFANTRY|VEHICLE|MONSTER|AIRCRAFT|CHARACTER|TITANIC|TRANSPORT|FORTIFICATION|BEAST|SWARM|WALKER|PSYKER|FLY|MOBILE|HOVER|FRAME|FLYING|EXPLOSIVES|GRENADES|SMOKE|DEDICATED)\b/g, '<strong>$1</strong>')
+const { renderInline } = useRenderInline()
+
+function handleDefClick(e) {
+  const target = e.target.closest('[data-def]')
+  if (!target) return
+  const el = document.getElementById('def-' + target.dataset.def)
+  if (el) {
+    const top = el.getBoundingClientRect().top + window.scrollY - 100
+    window.scrollTo({ top, behavior: 'smooth' })
+  }
 }
 </script>
 

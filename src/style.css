@@ -47,6 +47,18 @@ a:hover {
   text-decoration: underline;
 }
 
+.def-link {
+  color: var(--accent);
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.def-link:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+
 h1, h2, h3, h4 {
   font-family: var(--font-serif);
   font-weight: 700;
