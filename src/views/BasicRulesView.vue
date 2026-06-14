@@ -39,6 +39,7 @@
           :note="sub.note"
           :example="sub.example"
           :see-also="sub.seeAlso"
+          :side-image="sub.sideImage"
         >
           <div v-if="sub.illustration" class="section-illustration">
             <img :src="sub.illustration.src" :alt="sub.illustration.alt" />

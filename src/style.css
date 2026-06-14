@@ -47,6 +47,10 @@ a:hover {
   text-decoration: underline;
 }
 
+.color-red   { color: #c0392b; }
+.color-blue  { color: #2471a3; }
+.color-green { color: #1e8449; }
+
 .dice-icon {
   font-size: 1.6em;
   vertical-align: middle;
