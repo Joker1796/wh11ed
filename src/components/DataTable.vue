@@ -9,7 +9,7 @@
       </thead>
       <tbody>
         <tr v-for="(row, i) in rows" :key="i">
-          <td v-for="(cell, j) in row" :key="j" v-html="renderInline(cell)"></td>
+          <td v-for="(cell, j) in row" :key="j" v-html="renderCell(cell)"></td>
         </tr>
       </tbody>
     </table>
@@ -20,6 +20,12 @@
 import { useRenderInline } from '../composables/useRenderInline.js'
 
 const { renderInline } = useRenderInline()
+
+function renderCell(cell) {
+  const withDice = cell.replace(/\b([2-6])\+/g,
+    (_, n) => `<i class="bi bi-dice-${n}-fill dice-icon"></i><span class="dice-plus">+</span>`)
+  return renderInline(withDice)
+}
 
 defineProps({
   title: String,

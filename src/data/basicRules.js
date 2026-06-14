@@ -405,6 +405,25 @@ If one or more other weapons targeting that unit make [def:identical-attacks:ide
 Example: An AP characteristic of -1 would modify a save roll of 3 to a 2. For models with a Sv characteristic of 2+ or better, that attack would fail.`,
           note: 'Current Allocation Group: The first group in the allocation order begins as the current group. Once all models in an allocation group are destroyed, the next group in the allocation order becomes the current one.',
         },
+        {
+          id: 'section-05-ex',
+          sectionNum: 'EX',
+          title: 'Attack Sequence Example',
+          sideImage: { src: '/images/making-attacks.png', alt: 'Attack Sequence Example diagram' },
+          body: `### 1. SELECT WEAPONS
+The {red:RED} unit is attacking. The following weapons are selected to make attacks with:
+▪ 2 boltguns (B)
+▪ 2 bolt pistols (BP)
+▪ 1 heavy bolter (HB)
+
+### 2. SELECT TARGETS
+The {blue:BLUE} unit is selected as the target. The unit is **visible** to all models in the attacking unit. All of the selected weapons are in range, with the exception of one bolt pistol. As a result, that weapon will not make any attacks.
+
+### 3. RESOLVE ATTACKS
+There is only one enemy unit being targeted, so the controlling player now gathers **attack dice**:
+▪ Five **attack dice** are gathered for the boltguns and bolt pistol, which have **A** characteristics of 2 and 1 respectively and all make **identical attacks**.
+▪ Three **attack dice** are gathered for the heavy bolter, which has an **A** characteristic of 3 but does not make **identical attacks**.`,
+        },
       ],
       woundTable: {
         headers: ['Strength vs Toughness', 'Required Roll'],

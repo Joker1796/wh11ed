@@ -9,6 +9,7 @@
       <SeeAlsoBlock v-if="seeAlso && seeAlso.length" :refs="seeAlso" />
 
       <div class="rule-body" @click="handleDefClick">
+        <img v-if="sideImage" class="side-image" :src="sideImage.src" :alt="sideImage.alt" />
         <template v-for="(block, i) in blocks" :key="i">
           <ul v-if="block.type === 'ul'" class="rule-list">
             <li v-for="(item, j) in block.items" :key="j" v-html="renderInline(item)"></li>
@@ -57,6 +58,7 @@ const props = defineProps({
   note: String,
   example: String,
   seeAlso: Array,
+  sideImage: Object,
 })
 
 const blocks = computed(() => {
@@ -269,6 +271,13 @@ function handleDefClick(e) {
 
 .result-fail    { background: #9d060d; }
 .result-success { background: #027360; }
+
+.side-image {
+  float: left;
+  max-width: 45%;
+  margin: 0 1.5rem 1rem 0;
+  border-radius: 4px;
+}
 
 @media (max-width: 700px) {
   :deep(.see-also) {
