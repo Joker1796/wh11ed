@@ -29,14 +29,14 @@ export const battleRound = [
 
 Each turn consists of seven parts: first the Start of Turn step, then a series of five phases resolved in the order shown below, then the End of Turn step.
 
-Turn Structure:
-▪ Start of Turn Step: Rules that are triggered at the start of a turn are resolved now.
-▪ Command Phase: You marshal strategic resources and check your units' morale.
-▪ Movement Phase: Your units move across the battlefield and strategic reserves arrive.
-▪ Shooting Phase: Your units make attacks with their ranged weapons.
-▪ Charge Phase: Your units make charge moves to engage the enemy.
-▪ Fight Phase: Both players' units make attacks with their melee weapons.
-▪ End of Turn Step: Rules that are triggered at the end of a turn are resolved now, in the following order: (1) First resolve rules triggered at this point other than mission rules. (2) Both players then consult their mission; if one or both players have achieved any aspects of their mission that are triggered at this point, resolve them now.
+### Turn Structure
+[img:/images/turn/START-OF-TURN-STEP.png]
+[img:/images/turn/COMMAND-PHASE.png]
+[img:/images/turn/MOVEMENT-PHASE.png]
+[img:/images/turn/SHOOTING-PHASE.png]
+[img:/images/turn/CHARGE-PHASE.png]
+[img:/images/turn/FIGHT-PHASE.png]
+[img:/images/turn/END-OF-TURN-STEP.png]
 
 [img:/images/turn-structure.png]`,
         example: `Player A won the roll-off and chose to take the first turn. In Battle Round 1, Player A completes their entire turn (Command → Movement → Shooting → Charge → Fight), then Player B takes theirs. In Battle Round 2, Player A again goes first — the order never changes mid-game.`,
