@@ -87,7 +87,7 @@ While a unit is battle-shocked:
       num: '02',
       title: 'Datasheets',
       page: 10,
-      image: { src: '/images/datasheet.png', alt: 'Datasheet example' },
+      image: { src: '/images/basics/datasheet.png', alt: 'Datasheet example' },
       description: 'Each unit has a datasheet that explains how it functions in battle. Here you will learn how to use datasheets when preparing your army and playing games.',
       subsections: [
         {
@@ -189,7 +189,7 @@ After you have finished setting up all of the models in a unit and/or moving all
 If one or more of the above conditions are not met, that unit cannot make that move and its models are returned to their positions at the start of that move. Otherwise, after resolving any additional rules stated in the 'After Moving' section of that move type, that move ends.`,
           seeAlso: ['Monsters and Vehicles 17.00', 'Moving Vertically 13.06', 'Strategic Reserves 20.00', 'Terrain 13.00', 'Transports 18.00'],
           illustration: {
-            src: '/images/moving-straight-line.png',
+            src: '/images/basics/moving-straight-line.png',
             alt: 'Moving in a straight line',
             seeAlso: {
               title: 'Move Types',
@@ -208,7 +208,7 @@ If one or more of the above conditions are not met, that unit cannot make that m
               ],
             },
           },
-          image: { src: '/images/rotating.png', alt: 'Rotating a model' },
+          image: { src: '/images/basics/rotating.png', alt: 'Rotating a model' },
         },
         {
           id: 'section-03-02',
@@ -235,7 +235,7 @@ If you cannot set up all of the models in a unit, remove that unit from the batt
 ### Regaining Coherency
 In the End of Turn step of each player's turn, if one or more units on the battlefield are not in coherency, those units' controlling players must remove models from them, one at a time, until they are in coherency again. Models removed in this way are destroyed, but they do not trigger rules that apply when a model is destroyed.`,
           note: 'What is Coherency? Coherency prevents models in the same unit from becoming too separated from each other while on the battlefield, ensuring they are set up and end every kind of move as a single group.',
-          image: { src: '/images/coherency.png', alt: 'Coherency' },
+          image: { src: '/images/basics/coherency.png', alt: 'Coherency' },
         },
         {
           id: 'section-03-04',
@@ -245,7 +245,7 @@ In the End of Turn step of each player's turn, if one or more units on the battl
 ▪ While a friendly model is within engagement range of one or more enemy models, those models – and the units they belong to – are engaged with each other.
 ▪ While a unit contains no engaged models, that unit is unengaged.`,
           note: 'What is Engagement? While opposing models are within each other\'s engagement range, they are able to fight in vicious melee, so unless they are seeking to make melee attacks, models should keep out of their foes\' reach.',
-          image: { src: '/images/engagement.png', alt: 'Engagement' },
+          image: { src: '/images/basics/engagement.png', alt: 'Engagement' },
         },
       ],
     },
@@ -409,7 +409,7 @@ Example: An AP characteristic of -1 would modify a save roll of 3 to a 2. For mo
           id: 'section-05-ex',
           sectionNum: 'EX',
           title: 'Attack Sequence Example — MAKING ATTACKS',
-          sideImage: { src: '/images/making-attacks.png', alt: 'Attack Sequence Example diagram' },
+          sideImage: { src: '/images/attack/making-attacks.png', alt: 'Attack Sequence Example diagram' },
           body: `### 1. SELECT WEAPONS
 The {red:RED} unit is attacking. The following weapons are selected to make attacks with:
 ▪ 2 boltguns (B)
@@ -428,7 +428,7 @@ There is only one enemy unit being targeted, so the controlling player now gathe
           id: 'section-05-ex2',
           sectionNum: 'EX',
           title: 'Attack Sequence Example — RESOLVING ATTACK DICE',
-          sideImage: { src: '/images/resolve-attack-dice.png', alt: 'Resolve attack dice example' },
+          sideImage: { src: '/images/attack/resolve-attack-dice.png', alt: 'Resolve attack dice example' },
           body: `### 1. HIT ROLLS
 The controlling player chooses to make the five hit rolls for the boltguns and bolt pistol first. The **BS** characteristic of the weapons is 3+. Four of the attacks hit the target.
 
@@ -447,7 +447,7 @@ The target unit's controlling player makes three save rolls.
           id: 'section-05-ex3',
           sectionNum: 'EX',
           title: 'Attack Sequence Example — RESOLVING OTHER ATTACKS',
-          sideImage: { src: '/images/resolve-other-attacks.png', alt: 'Resolving other attacks example' },
+          sideImage: { src: '/images/attack/resolve-other-attacks.png', alt: 'Resolving other attacks example' },
           body: `### 1. HIT ROLLS
 The controlling player then makes three hit rolls for the heavy bolter. The **BS** characteristic of the weapon is 4+. Two of the attacks hit the target.
 
@@ -465,7 +465,7 @@ The target unit's controlling player makes two save rolls.
           id: 'section-05-ex4',
           sectionNum: 'EX',
           title: 'Attack Sequence Example — ATTACKING ATTACHED UNITS',
-          sideImage: { src: '/images/attacking-attached-units.png', alt: 'Attacking attached units example', width: '60%' },
+          sideImage: { src: '/images/attack/attacking-attached-units.png', alt: 'Attacking attached units example', width: '60%' },
           body: `### 1. SELECT WEAPONS
 The {red:RED} unit is attacking. The following weapons are selected to make attacks with:
 ▪ 7 boltguns (B)
@@ -485,7 +485,7 @@ The **attack dice** for the remaining weapons will be gathered once the heavy bo
           id: 'section-05-ex5',
           sectionNum: 'EX',
           title: 'Attack Sequence Example — ALLOCATION GROUPS',
-          sideImage: { src: '/images/allocation-groups.png', alt: 'Allocation groups example', width: '60%' },
+          sideImage: { src: '/images/attack/allocation-groups.png', alt: 'Allocation groups example', width: '60%' },
           body: `### 1. CREATE GROUPS AND DECLARE ORDER
 The target unit's controlling player divides it into groups: one containing Saint Celestine, one containing the Geminae Superia, and one containing the Seraphim. They then declare the allocation order, choosing the Geminae Superia first (1), hoping their better **Sv** and **InSv** characteristics will weather the attacks. The Seraphim must be chosen second (2), as Saint Celestine is a CHARACTER model so must be last in the order (3).
 
@@ -523,13 +523,13 @@ The attacks are resolved one at a time, from lowest save rolls to highest:
           title: 'Visibility',
           body: `Line of sight is used to determine visibility between models. For an observing model to have line of sight, it must be possible to draw an imaginary straight line, 1 mm wide, from any part of that model to any part of the model being observed. This line is the line of sight. While doing so, other models in the observing model's unit and in the observed model's unit are ignored.
 
-[img:/images/model-visible.png]
+[img:/images/visibility/model-visible.png]
 
-[img:/images/model-fully-visible.png]
+[img:/images/visibility/model-fully-visible.png]
 
-[img:/images/unit-visible.png]
+[img:/images/visibility/unit-visible.png]
 
-[img:/images/unit-fully-visible.png]`,
+[img:/images/visibility/unit-fully-visible.png]`,
           note: 'Terrain applies additional rules to visibility (13.07).',
         },
         {
@@ -885,13 +885,13 @@ When resolving attack dice, if those attacks inflict a mixture of both mortal wo
           title: 'Видимость',
           body: `Линия обзора (Line of Sight) определяет видимость между моделями. Для наблюдающей модели нужно иметь линию обзора: воображаемую прямую линию шириной 1 мм, проведённую от любой части этой модели до любой части наблюдаемой. При этом другие модели в обоих юнитах игнорируются.
 
-[img:/images/model-visible.png]
+[img:/images/visibility/model-visible.png]
 
-[img:/images/model-fully-visible.png]
+[img:/images/visibility/model-fully-visible.png]
 
-[img:/images/unit-visible.png]
+[img:/images/visibility/unit-visible.png]
 
-[img:/images/unit-fully-visible.png]`,
+[img:/images/visibility/unit-fully-visible.png]`,
           note: `Рельеф (Terrain) добавляет дополнительные правила видимости (13.07).`,
         },
         {

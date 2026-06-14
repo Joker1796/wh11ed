@@ -94,10 +94,10 @@ The battle round then ends and, unless the battle ends, the next battle round st
 
 If a unit was battle-shocked at the start of this step and its battle-shock roll during this step succeeds, it is no longer battle-shocked.
 
-[img:/images/battle-shock-examples.png]
-[img:/images/battle-shock-examples-2.png]
-[img:/images/battle-shock-examples-3.png]
-[img:/images/battle-shock-examples-4.png]
+[img:/images/command/battle-shock-examples.png]
+[img:/images/command/battle-shock-examples-2.png]
+[img:/images/command/battle-shock-examples-3.png]
+[img:/images/command/battle-shock-examples-4.png]
 `,
         seeAlso: ['Battle-Shock Rolls 01.07', 'Half-strength 24.00', 'Multiple Battle-Shock Rolls 24.00'],
       },
@@ -394,7 +394,7 @@ A unit is eligible to shoot if it is on the battlefield and has not already been
         title: 'Start of Fight Phase',
         body: `Rules that are triggered at the start of the Fight phase are resolved now.
 
-[img:/images/move/start-of-fight-phase.png]`,
+[img:/images/fight/start-of-fight-phase.png]`,
       },
       {
         id: 'section-12-02',
@@ -402,9 +402,7 @@ A unit is eligible to shoot if it is on the battlefield and has not already been
         title: 'Pile In',
         body: `Both players make pile-in moves with all of their eligible units they choose to move. The player whose turn it is resolves all of their moves first, followed by their opponent. Each unit cannot make more than one pile-in move during this step.
 
-[img:/images/fight-start.png]
-
-[img:/images/pile-in-moves.png]`,
+[img:/images/move/pile-in-moves.png]`,
       },
       {
         id: 'section-12-03',
