@@ -56,7 +56,7 @@ async function go(item) {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0;
 }
 
 .section-toc-link {
