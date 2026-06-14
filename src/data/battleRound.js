@@ -36,7 +36,9 @@ Turn Structure:
 ▪ Shooting Phase: Your units make attacks with their ranged weapons.
 ▪ Charge Phase: Your units make charge moves to engage the enemy.
 ▪ Fight Phase: Both players' units make attacks with their melee weapons.
-▪ End of Turn Step: Rules that are triggered at the end of a turn are resolved now, in the following order: (1) First resolve rules triggered at this point other than mission rules. (2) Both players then consult their mission; if one or both players have achieved any aspects of their mission that are triggered at this point, resolve them now.`,
+▪ End of Turn Step: Rules that are triggered at the end of a turn are resolved now, in the following order: (1) First resolve rules triggered at this point other than mission rules. (2) Both players then consult their mission; if one or both players have achieved any aspects of their mission that are triggered at this point, resolve them now.
+
+[img:/images/turn-structure.png]`,
         example: `Player A won the roll-off and chose to take the first turn. In Battle Round 1, Player A completes their entire turn (Command → Movement → Shooting → Charge → Fight), then Player B takes theirs. In Battle Round 2, Player A again goes first — the order never changes mid-game.`,
       },
       {
@@ -92,12 +94,12 @@ The battle round then ends and, unless the battle ends, the next battle round st
 
 If a unit was battle-shocked at the start of this step and its battle-shock roll during this step succeeds, it is no longer battle-shocked.
 
-Battle-Shock Examples:
-▪ A unit with a starting strength of 3 that is currently battle-shocked: not at half-strength, but is battle-shocked — a roll must be made. If that roll succeeds, the unit will no longer be battle-shocked.
+### Battle-Shock Examples
+▪ A unit with a starting strength of 3 that is currently **battle-shocked**: not at half-strength, but is battle-shocked — a roll must be made. If that roll succeeds, the unit will no longer be battle-shocked.
 ▪ A unit with a starting strength of 10 that has five models remaining: at half-strength — a roll must be made.
 ▪ A unit with a starting strength of 5 that has two models remaining: below half-strength — a roll must be made.
 ▪ A VEHICLE with a starting strength of 1 and a W characteristic of 11 that has 3 wounds remaining: below half-strength — a roll must be made.`,
-        seeAlso: ['Battle-shock Rolls 01.07', 'Starting Strength and Half-strength (Appendix)'],
+        seeAlso: ['Battle-Shock Rolls 01.07', 'Half-strength 24.00', 'Multiple Battle-Shock Rolls 24.00'],
       },
       {
         id: 'section-08-04',
@@ -327,6 +329,7 @@ After Shooting: Until the end of the phase, your unit is not eligible to start a
         id: 'section-11-02',
         sectionNum: '11.02',
         title: 'Charge',
+        seeAlso: ['Target No Longer Eligible or Viable 24.00'],
         body: `The active player resolves charges with their eligible units one at a time, using the sequence below, until all of their units they choose to charge with have declared a charge and those charges have been resolved.
 
 1. Declare Charge: Select one friendly unit that has not declared a charge this phase and is eligible to declare a charge. That unit declares a charge. A unit is eligible to declare a charge if it is on the battlefield, unless otherwise stated. Some rules that prevent a unit from being eligible to declare a charge:
@@ -361,7 +364,9 @@ While Moving:
 After Moving:
 ▪ Your unit must be engaged with all of the charge targets.
 ▪ Your unit cannot be engaged with one or more enemy units that are not charge targets.
-▪ Until the end of the turn, each model in your unit has the Fights First ability (24.13).`,
+▪ Until the end of the turn, each model in your unit has the Fights First ability (24.13).
+
+[img:/images/charge-move.png]`,
       },
     ],
   },
@@ -394,7 +399,11 @@ After Moving:
         id: 'section-12-02',
         sectionNum: '12.02',
         title: 'Pile In',
-        body: `Both players make pile-in moves with all of their eligible units they choose to move. The player whose turn it is resolves all of their moves first, followed by their opponent. Each unit cannot make more than one pile-in move during this step.`,
+        body: `Both players make pile-in moves with all of their eligible units they choose to move. The player whose turn it is resolves all of their moves first, followed by their opponent. Each unit cannot make more than one pile-in move during this step.
+
+[img:/images/fight-start.png]
+
+[img:/images/pile-in-moves.png]`,
       },
       {
         id: 'section-12-03',
@@ -408,8 +417,8 @@ Eligible If: It is the Fight phase and one or more of the following apply to you
 
 Effect: Your unit moves as described in Moving (03).
 Before Moving: Select pile-in targets:
-▪ If your unit is engaged, select every enemy unit it is engaged with.
-▪ Otherwise, select one or more enemy units within 5" of your unit.
+→ If your unit is **engaged**, select every enemy unit it is **engaged** with as your pile-in targets.
+→ Otherwise, select one or more enemy units within 5" of your unit as your pile-in targets.
 
 While Moving:
 ▪ Models in base-contact with one or more enemy models cannot be moved.
@@ -429,13 +438,13 @@ After Moving:
 
 Players resolve the following sequence until all eligible units have been selected to fight and their attacks have been resolved:
 
-1. Resolve Fights First Combats: Starting with the player whose turn it is, players alternate selecting one friendly Fights First unit that is eligible to fight; that unit is selected to fight. If this is not possible:
-▪ If there are no Fights First units that are eligible to fight, move to the Resolve Remaining Combats step where this player will select their next unit.
-▪ Otherwise, the other player selects their next unit.
+1. Resolve Fights First Combats: Starting with the player whose turn it is, players alternate selecting one friendly **Fights First** unit that is **eligible to fight**; that unit is **selected to fight**. If this is not possible:
+→ If there are no **Fights First** units that are **eligible to fight**, move to the Resolve Remaining Combats step where this player will select their next unit.
+→ Otherwise, the other player selects their next unit.
 
-2. Resolve Remaining Combats: Starting with the player who just moved this sequence onto this step, players alternate selecting one friendly unit that is eligible to fight; that unit is selected to fight. If this is not possible:
-▪ If there are no units that are eligible to fight, the Fight step ends.
-▪ Otherwise, the other player selects their next unit.
+2. Resolve Remaining Combats: Starting with the player who just moved this sequence onto this step, players alternate selecting one friendly unit that is **eligible to fight**; that unit is **selected to fight**. If this is not possible:
+→ If there are no units that are **eligible to fight**, the Fight step ends.
+→ Otherwise, the other player selects their next unit.
 
 After resolving a fight in the Resolve Remaining Combats step, if there are one or more Fights First units that are now eligible to fight, return to the Resolve Fights First Combats step.`,
       },
@@ -443,15 +452,19 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
         id: 'section-12-05',
         sectionNum: '12.05',
         title: 'Normal Fight',
-        body: `Eligible If: Your unit is engaged.
-Effect: Your unit fights as described in Making Attacks (04).`,
+        body: `Eligible If: Your unit is **engaged**.
+Effect: Your unit fights as described in Making Attacks (04).
+
+[img:/images/normal-fight.png]`,
       },
       {
         id: 'section-12-06',
         sectionNum: '12.06',
         title: 'Overrun Fight',
-        body: `Eligible If: Your unit is unengaged, or was unengaged at the start of the Fight step but became engaged during the Fight phase.
-Effect: Your unit can make one additional pile-in move, then fights as described in Making Attacks (04).`,
+        body: `Eligible If: Your unit is **unengaged**, or was **unengaged** at the start of the Fight step but became **engaged** during the Fight phase.
+Effect: Your unit can make one additional pile-in move, then fights as described in Making Attacks (04).
+
+[img:/images/overrun-fight.png]`,
         note: 'When a unit makes an overrun fight, its models can be moved such that enemy units that were unengaged become engaged. Such enemy units become eligible to fight this phase (and may even be able to fight next if they are Fights First units).',
       },
       {
@@ -465,18 +478,27 @@ Effect: Your unit can make one additional pile-in move, then fights as described
         sectionNum: '12.08',
         title: 'Consolidation Move',
         body: `Maximum Distance: 3"
-Eligible If: It is the Fight phase and your unit was eligible to fight.
+Eligible If: It is the Fight phase and your unit was **eligible to fight** this phase.
 Effect: Your unit moves as described in Moving (03).
 
-Before Moving: Select consolidation mode in the following order:
-▪ Ongoing Consolidation: Your unit is engaged → must select all engaged enemy units.
-▪ Engaging Consolidation: Your unit is within 3" of one or more enemy units → must select one or more of those enemy units.
-▪ Objective Consolidation: Your unit is within 3" of one or more objectives → must select one objective.
+Before Moving: Select a consolidation mode:
+→ **Ongoing Consolidation:** If your unit is **engaged**, you must select this mode and select every enemy unit it is **engaged** with.
+→ **Engaging Consolidation:** Otherwise, if your unit is within 3" of one or more enemy units, you must select this mode and select one or more of those enemy units.
+→ **Objective Consolidation:** Otherwise, if your unit is within 3" of one or more objectives, you must select this mode and select one of those objectives.
 
 While Moving:
-▪ Ongoing Consolidation: Base-contact models cannot move; moved models must end closer to and engaged with targets. Models that started engaged must remain engaged.
-▪ Engaging Consolidation: Models must end closer to and engaged with targets. If any enemy units engaged haven't fought this phase, opponent must select each to fight.
-▪ Objective Consolidation: Models must end within range of the objective if possible, else as close as possible.`,
+▪ **Ongoing Consolidation:** Models in base-contact with one or more enemy models cannot be moved. Each model that is moved must end its move closer to the closest selected enemy unit, and **engaged** with it if possible.
+▪ **Engaging Consolidation:** Each model that is moved must end its move closer to the closest selected enemy unit, and **engaged** with it if possible.
+▪ **Objective Consolidation:** Each model that is moved must end its move within range of the selected objective if possible, or closer to it if not.
+
+After Moving:
+▪ **Ongoing Consolidation:** Each model that started this move **engaged** with an enemy unit must still be **engaged** with that enemy unit.
+▪ **Engaging Consolidation:** Your unit must be **engaged** with all of the selected enemy units. If one or more enemy units **engaged** with your unit have not been **selected to fight** this phase, your opponent must select each of those units, one at a time; when each is selected, it becomes **eligible to fight** and is **selected to fight** (12.04).
+▪ **Objective Consolidation:** Your unit must be within range of the selected objective.
+
+[img:/images/ongoing-consolidation.png]
+
+[img:/images/objective-consolidation.png]`,
       },
       {
         id: 'section-12-09',
