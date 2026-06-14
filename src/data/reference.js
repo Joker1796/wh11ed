@@ -227,8 +227,8 @@ export const coreAbilities = [
     num: '24.35',
     name: 'Super-heavy Walker',
     type: 'unit',
-    summary: 'During normal/advance/fall-back moves: models can move through models (not TITANIC) and horizontally through terrain sections ≤4" tall. Optional MOBILE declaration with possible battle-shock risk.',
-    fullText: 'During normal, advance, or fall-back moves, models in this unit can move through any model that is not a TITANIC model, and can move horizontally through sections of terrain features that are ≤4" tall. Optionally, at the start of such a move, you can declare this unit has the MOBILE keyword for the duration of the move; if you do, at the end of the move roll one D6: on a 1, this unit is battle-shocked.',
+    summary: 'During normal/advance/**fall-back moves**: models can move through models (not TITANIC) and horizontally through terrain sections ≤4" tall. Optional MOBILE declaration with possible battle-shock risk.',
+    fullText: 'During normal, advance, or **fall-back moves**, models in this unit can move through any model that is not a TITANIC model, and can move horizontally through sections of terrain features that are ≤4" tall. Optionally, at the start of such a move, you can declare this unit has the MOBILE keyword for the duration of the move; if you do, at the end of the move roll one D6: on a 1, this unit is battle-shocked.',
   },
   {
     num: '24.36',

@@ -166,50 +166,26 @@ If a unit was battle-shocked at the start of this step and its battle-shock roll
         id: 'section-09-04',
         sectionNum: '09.04',
         title: 'Remain Stationary',
-        body: `Maximum Distance: '–'
-Eligible If: Any unit.
-Effect: No models are moved (either in straight lines or rotated). Units that remain stationary do not trigger any rules that are triggered when a unit starts or ends a move.`,
+        body: `[img:/images/move/remain-stationary.png]`,
       },
       {
         id: 'section-09-05',
         sectionNum: '09.05',
         title: 'Normal Move',
-        body: `Maximum Distance: Your unit's M characteristic.
-Eligible If: Your unit is on the battlefield and unengaged.
-Effect: Your unit moves as described in Moving (03).
-After Moving: Your unit must be unengaged.`,
+        body: `[img:/images/move/normal-move.png]`,
       },
       {
         id: 'section-09-06',
         sectionNum: '09.06',
         title: 'Advance Move',
-        body: `Maximum Distance: Advance roll + your unit's M characteristic.
-Eligible If: Your unit is on the battlefield and unengaged.
-Effect: Your unit moves as described in Moving (03).
-Before Moving: Make an advance roll by rolling one D6.
-After Moving:
-▪ Your unit must be unengaged.
-▪ Until the end of the turn, unless otherwise stated, your unit is not eligible to declare a charge or start an action.`,
+        body: `[img:/images/move/advance-move.png]`,
       },
       {
         id: 'section-09-07',
         sectionNum: '09.07',
         title: 'Fall-back Move',
-        body: `Maximum Distance: Your unit's M characteristic.
-Eligible If: Your unit is engaged.
-Effect: Your unit moves as described in Moving (03).
-Before Moving: Select fall-back mode:
-▪ Ordered Retreat: If your unit is not battle-shocked, you can select this mode.
-▪ Desperate Escape: Otherwise, you must select this mode. Make a hazard roll for each model in your unit (06.03).
-
-While Moving:
-▪ Desperate Escape: Each model that is moved can be moved through enemy models.
-
-After Moving:
-▪ Your unit must be unengaged.
-▪ Until the end of the turn, unless otherwise stated, your unit is not eligible to shoot, declare a charge or start an action.
-▪ Desperate Escape: If your unit is not battle-shocked, you must make a battle-shock roll for your unit (01.07).`,
-        note: 'Selecting Modes: Modes are mutually exclusive, and you must assess each one in the order presented. When making a move, if your unit does not meet the conditions of any of the modes, it cannot make that move. In the case of fall-back moves, ordered retreat is not mandatory, so you could select desperate escape instead.',
+        body: `[img:/images/move/fall-back-move.png]`,
+        note: '**SELECTING MODES**\nSome rules instruct you to select a mode, such as **fall-back moves** (09.07). Modes are mutually exclusive, and you must assess each one in the order presented. When making a move, if your unit does not meet the conditions of any of the modes, it cannot make that move.\n\nSometimes a mode will be mandatory if applicable (e.g. **consolidation modes** (12.08)), but in the case of **fall-back moves**, **ordered retreat** is not mandatory, so you could select **desperate escape** instead.\n\nMany **move types** state conditions you must meet while/after moving. Those that are labelled with a mode name only apply if you selected that mode; those not labelled with a mode name always apply.',
       },
     ],
   },
