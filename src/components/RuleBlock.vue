@@ -31,6 +31,7 @@
               ></span>
             </div>
           </div>
+          <img v-else-if="block.type === 'img'" :src="block.src" alt="" class="body-image" />
           <h4 v-else-if="block.type === 'h4'" class="rule-subheading">{{ block.text }}</h4>
           <p v-else v-html="renderInline(block.text)"></p>
         </template>
@@ -103,7 +104,12 @@ const blocks = computed(() => {
     const isFlow = line.startsWith('→ ')
     const isResultRow = line.startsWith('◆ ')
     const isSubheading = line.startsWith('### ')
-    if (isSubheading) {
+    const isImg = /^\[img:[^\]]+\]$/.test(line)
+    if (isImg) {
+      flush()
+      result.push({ type: 'img', src: line.slice(5, -1) })
+      mode = null
+    } else if (isSubheading) {
       flush()
       result.push({ type: 'h4', text: line.slice(4) })
     } else if (isBullet) {
@@ -271,6 +277,13 @@ function handleDefClick(e) {
 
 .result-fail    { background: #9d060d; }
 .result-success { background: #027360; }
+
+.body-image {
+  display: block;
+  max-width: 100%;
+  margin: 0.5rem 0;
+  border-radius: 4px;
+}
 
 .side-image {
   float: left;
