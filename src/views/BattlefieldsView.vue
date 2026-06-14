@@ -16,19 +16,25 @@
         :page="section.page"
       />
 
-      <RuleBlock
-        v-for="sub in section.subsections"
-        :key="sub.id"
-        :id="sub.id"
-        :section-num="sub.sectionNum"
-        :title="sub.title"
-        :body="sub.body"
-        :note="sub.note"
-        :example="sub.example"
-        :see-also="sub.seeAlso"
-      />
+      <template v-for="sub in section.subsections.filter(s => !s.renderAfterStratagems)" :key="sub.id">
+        <GroupLabelBlock
+          v-if="sub.isGroupLabel"
+          :title="sub.title"
+          :body="sub.body"
+        />
+        <RuleBlock
+          v-else
+          :id="sub.id"
+          :section-num="sub.sectionNum"
+          :title="sub.title"
+          :body="sub.body"
+          :note="sub.note"
+          :example="sub.example"
+          :see-also="sub.seeAlso"
+        />
+      </template>
 
-      <!-- Stratagems table for section 15 -->
+      <!-- Stratagems grid for section 15 -->
       <template v-if="section.id === '15' && section.stratagems">
         <div class="stratagems-section" id="section-15-list">
           <h3 class="strat-list-title">Core Stratagems</h3>
@@ -40,14 +46,27 @@
                 <span class="strat-cp">{{ strat.cp }}</span>
               </div>
               <div class="strat-body">
-                <div class="strat-row"><span class="strat-label">WHEN</span><span>{{ strat.when }}</span></div>
-                <div v-if="strat.target" class="strat-row"><span class="strat-label">TARGET</span><span>{{ strat.target }}</span></div>
-                <div class="strat-row"><span class="strat-label">EFFECT</span><span>{{ strat.effect }}</span></div>
-                <div v-if="strat.restrictions" class="strat-row strat-restrict"><span class="strat-label">RESTRICTIONS</span><span>{{ strat.restrictions }}</span></div>
+                <div class="strat-row"><span class="strat-label">WHEN</span><span v-html="renderStratField(strat.when)"></span></div>
+                <div v-if="strat.target" class="strat-row"><span class="strat-label">TARGET</span><span v-html="renderStratField(strat.target)"></span></div>
+                <div class="strat-row"><span class="strat-label">EFFECT</span><span v-html="renderStratField(strat.effect)"></span></div>
+                <div v-if="strat.restrictions" class="strat-row strat-restrict"><span class="strat-label">RESTRICTIONS</span><span v-html="renderStratField(strat.restrictions)"></span></div>
               </div>
             </div>
           </div>
         </div>
+      </template>
+
+      <!-- Subsections rendered after stratagem grid (e.g. Snap Shooting) -->
+      <template v-for="sub in section.subsections.filter(s => s.renderAfterStratagems)" :key="sub.id + '-after'">
+        <RuleBlock
+          :id="sub.id"
+          :section-num="sub.sectionNum"
+          :title="sub.title"
+          :body="sub.body"
+          :note="sub.note"
+          :example="sub.example"
+          :see-also="sub.seeAlso"
+        />
       </template>
     </template>
   </div>
@@ -57,8 +76,12 @@
 import { computed } from 'vue'
 import SectionHeader from '../components/SectionHeader.vue'
 import RuleBlock from '../components/RuleBlock.vue'
+import GroupLabelBlock from '../components/GroupLabelBlock.vue'
 import TableOfContents from '../components/TableOfContents.vue'
 import { battlefields } from '../data/battlefields.js'
+import { useRenderInline } from '../composables/useRenderInline.js'
+
+const { renderInline } = useRenderInline()
 
 const tocSections = computed(() =>
   battlefields.map(s => ({
@@ -67,6 +90,15 @@ const tocSections = computed(() =>
     label: s.title,
   }))
 )
+
+function renderStratField(text) {
+  if (!text) return ''
+  return text.split('\n').map((line, i) => {
+    const trimmed = line.trim()
+    const prefix = i > 0 ? '<br>' : ''
+    return prefix + renderInline(trimmed)
+  }).join('')
+}
 </script>
 
 <style scoped>
