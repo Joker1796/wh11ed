@@ -25,7 +25,7 @@
 
       <template v-for="sub in section.subsections" :key="sub.id">
         <SectionTocBlock
-          v-if="sub.id === 'section-04-intro'"
+          v-if="!sub.sectionNum"
           :items="section.subsections.filter(s => s.sectionNum)"
           :description="sub.body.split('\n').find(l => l.trim() && !/^[▪•▫]/.test(l.trim()))"
           route="/basic-rules"
@@ -53,6 +53,7 @@
             :alt="sub.image.alt"
             class="section-img"
           />
+          <DefinitionBlock v-if="sub.definitions" :definitions="sub.definitions" />
         </RuleBlock>
       </template>
 
@@ -77,6 +78,7 @@ import SeeAlsoBlock from '../components/SeeAlsoBlock.vue'
 import SectionTocBlock from '../components/SectionTocBlock.vue'
 import DataTable from '../components/DataTable.vue'
 import TableOfContents from '../components/TableOfContents.vue'
+import DefinitionBlock from '../components/DefinitionBlock.vue'
 import { basicRules } from '../data/basicRules.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'

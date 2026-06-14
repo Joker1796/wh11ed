@@ -308,22 +308,26 @@ Select one or more enemy units to be the targets of that weapon:
 
 2. **Gather Attack Dice:** Select one weapon targeting that unit that has not yet been used to make attacks against it, and gather a number of D6 equal to that weapon's **A** characteristic. These are **attack dice** – each one represents one attack being made by an attacking model with that weapon.
 
-If one or more other weapons targeting that unit make **identical attacks** to the selected weapon (see below) and those weapons have not yet been used to make attacks against that target, they do so now and you gather those weapons’ **attack dice** as well (e.g. for three weapons making **identical attacks**, each with an **A** characteristic of 2, gather a total of six D6)
+If one or more other weapons targeting that unit make [def:identical-attacks:identical attacks] to the selected weapon and those weapons have not yet been used to make attacks against that target, they do so now and you gather those weapons’ **attack dice** as well (e.g. for three weapons making [def:identical-attacks:identical attacks], each with an **A** characteristic of 2, gather a total of six D6)
 
 3. **Resolve Attack Dice:** Resolve the attack sequence (05) for all of the attack dice you just gathered.
 
 4. **Other Attacks:** Follow the first of the instructions below that applies:
 → If there are any weapons targeting the same unit that have not yet been used to make attacks, return to the **Gather Attack Dice** step.
 → Otherwise, if there are any weapons with unresolved attacks targeting a different unit, return to the **Select Enemy Unit** step.
-→ Otherwise, if all weapons have been used to make all of their attacks, this sequence ends.
-
-### Identical Attacks
-Identical attacks are those that have the same BS/WS, S, AP and D characteristics, and which are affected by the same applicable abilities and rules.
-
-### Splitting Melee Attacks
-While selecting targets, if you select more than one unit as the target of a melee weapon, you must split that weapon's attacks between those target units. To do so, declare how many of that weapon's attacks will be made against each unit (you must declare at least one attack per unit targeted).
-
-In the Gather Attack Dice step, for each weapon that is splitting its attacks, only gather a number of **attack dice** for that weapon equal to the number of attacks you declared would be made against that target with that weapon.`,
+→ Otherwise, if all weapons have been used to make all of their attacks, this sequence ends.`,
+          definitions: [
+            {
+              id: 'identical-attacks',
+              term: 'Identical Attacks',
+              text: 'Identical attacks are those that have the same BS/WS, S, AP and D characteristics, and which are affected by the same applicable abilities and rules.',
+            },
+            {
+              id: 'splitting-melee',
+              term: 'Splitting Melee Attacks',
+              text: 'While selecting targets, if you select more than one unit as the target of a melee weapon, you must split that weapon\'s attacks between those target units. To do so, declare how many of that weapon\'s attacks will be made against each unit (you must declare at least one attack per unit targeted).\n\nIn the **Gather Attack Dice** step, for each weapon that is splitting its attacks, only gather a number of **attack dice** for that weapon equal to the number of attacks you declared would be made against that target with that weapon.',
+            },
+          ],
         },
       ],
     },
@@ -684,18 +688,26 @@ Mortal Wounds and Normal Damage: When resolving attack dice, if those attacks in
 
 2. **Сбор кубиков атаки:** выберите одно оружие, нацеленное на этот юнит, ещё не использованное против него, и возьмите количество D6, равное характеристике **A**. Это кубики атаки (attack dice) — каждый представляет одну атаку.
 
-Если одно или несколько других оружий, нацеленных на этот юнит, совершают **идентичные атаки**(identical attacks) (см. ниже) и это оружие еще не использовалось для совершения атак по этой цели, они могут объединять кубики в один бросок (например, для трех оружий, совершающих **идентичные атаки**, каждое с характеристикой **A** 2, соберите в общей сложности шесть D6).
+Если одно или несколько других оружий, нацеленных на этот юнит, совершают [def:identical-attacks:идентичные атаки] и это оружие еще не использовалось для совершения атак по этой цели, они могут объединять кубики в один бросок (например, для трех оружий, совершающих [def:identical-attacks:идентичные атаки], каждое с характеристикой **A** 2, соберите в общей сложности шесть D6).
 
 3. **Результаты кубиков атаки:** Выполните последовательность атаки (05) для всех кубиков атаки (attack dice), которые вы только что собрали.
 
 4. **Остальные атаки:**
 → Если есть орудия, нацеленные на тот же юнит, ещё не использованные — вернитесь к шагу **Сбор кубиков атаки**.
 → Иначе, если есть орудия с неразрешёнными атаками против другого юнита — вернитесь к шагу **Выбор вражеского юнита**.
-→ Иначе — последовательность завершается.
-
-**Идентичные атаки:** атаки с одинаковыми BS/WS, S, AP и D, на которые действуют одни и те же способности и правила.
-
-**Разделение атак в ближнем бою:** если вы выбираете более одного юнита как таргет оружия ближнего боя, объявите, сколько атак направлено против каждого (не менее одной атаки на каждый таргет).`,
+→ Иначе — последовательность завершается.`,
+          definitions: [
+            {
+              id: 'identical-attacks',
+              term: 'Идентичные атаки',
+              text: 'атаки с одинаковыми BS/WS, S, AP и D, на которые действуют одни и те же способности и правила.',
+            },
+            {
+              id: 'splitting-melee',
+              term: 'Разделение атак в ближнем бою',
+              text: 'если вы выбираете более одного юнита как таргет оружия ближнего боя, объявите, сколько атак направлено против каждого (не менее одной атаки на каждый таргет).\n\nНа шаге **Сбор кубиков атаки** для каждого оружия, которое делит атаки, собирайте количество кубиков атаки, равное числу атак, которые вы объявили против данного таргета.',
+            },
+          ],
         },
       ],
     },
