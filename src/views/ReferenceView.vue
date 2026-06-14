@@ -64,6 +64,11 @@
       description="Additional rules clarifications and edge cases."
     />
 
+    <div class="digital-support">
+      <h2 class="digital-support-title">Digital Support</h2>
+      <p>The Warhammer 40,000 app contains an expanded range of definitions, rare rules interactions and frequently asked questions (FAQs). These digital resources are designed to clarify any uncertainty and keep your battles as streamlined as possible. As such, they are reviewed and updated regularly in response to player feedback. The following pages present a selection of these supporting materials.</p>
+    </div>
+
     <div v-for="entry in appendix" :key="entry.id" :id="entry.id" class="appendix-block">
       <h3 class="appendix-title">{{ entry.title }}</h3>
       <div v-for="para in entry.body.split('\n\n').filter(p => p.trim())" :key="para">
@@ -143,6 +148,31 @@ const filteredAbilities = computed(() => {
   color: var(--text-muted);
   font-size: 0.9rem;
   font-style: italic;
+}
+
+.digital-support {
+  margin-bottom: 2rem;
+  padding: 1.25rem 1.5rem;
+  border-left: 3px solid var(--accent);
+  background: var(--bg-secondary);
+  border-radius: 0 6px 6px 0;
+}
+
+.digital-support-title {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+.digital-support p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0;
 }
 
 .ability-notes {
