@@ -47,6 +47,11 @@ a:hover {
   text-decoration: underline;
 }
 
+.dice-icon {
+  font-size: 1.6em;
+  vertical-align: middle;
+}
+
 .def-link {
   color: var(--accent);
   text-decoration: underline dotted;
