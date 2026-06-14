@@ -408,7 +408,7 @@ Example: An AP characteristic of -1 would modify a save roll of 3 to a 2. For mo
         {
           id: 'section-05-ex',
           sectionNum: 'EX',
-          title: 'Attack Sequence Example',
+          title: 'Attack Sequence Example — MAKING ATTACKS',
           sideImage: { src: '/images/making-attacks.png', alt: 'Attack Sequence Example diagram' },
           body: `### 1. SELECT WEAPONS
 The {red:RED} unit is attacking. The following weapons are selected to make attacks with:
@@ -423,6 +423,80 @@ The {blue:BLUE} unit is selected as the target. The unit is **visible** to all m
 There is only one enemy unit being targeted, so the controlling player now gathers **attack dice**:
 ▪ Five **attack dice** are gathered for the boltguns and bolt pistol, which have **A** characteristics of 2 and 1 respectively and all make **identical attacks**.
 ▪ Three **attack dice** are gathered for the heavy bolter, which has an **A** characteristic of 3 but does not make **identical attacks**.`,
+        },
+        {
+          id: 'section-05-ex2',
+          sectionNum: 'EX',
+          title: 'Attack Sequence Example — RESOLVING ATTACK DICE',
+          sideImage: { src: '/images/resolve-attack-dice.png', alt: 'Resolve attack dice example' },
+          body: `### 1. HIT ROLLS
+The controlling player chooses to make the five hit rolls for the boltguns and bolt pistol first. The **BS** characteristic of the weapons is 3+. Four of the attacks hit the target.
+
+### 2. WOUND ROLLS
+The controlling player makes four wound rolls. The weapons have an **S** characteristic of 4 and the target unit has a **T** characteristic of 3, so rolls of 3+ are required to wound. Three of the attacks wound the target.
+
+### 3. SAVE ROLLS
+The target unit's controlling player makes three save rolls.
+
+### 4. INFLICT DAMAGE
+▪ The lowest result is less than both the **InSv** and **Sv** characteristics of the target, so that attack inflicts damage. This reduces the model to which that attack was allocated to 0 wounds, which destroys it.
+▪ The next lowest result is less than the target's **InSv** characteristic, but greater than its **Sv** characteristic of 3+; that attack fails.
+▪ The other result is greater than the target's **InSv** characteristic of 5+; that attack also fails.`,
+        },
+        {
+          id: 'section-05-ex3',
+          sectionNum: 'EX',
+          title: 'Attack Sequence Example — RESOLVING OTHER ATTACKS',
+          sideImage: { src: '/images/resolve-other-attacks.png', alt: 'Resolving other attacks example' },
+          body: `### 1. HIT ROLLS
+The controlling player then makes three hit rolls for the heavy bolter. The **BS** characteristic of the weapon is 4+. Two of the attacks hit the target.
+
+### 2. WOUND ROLLS
+The controlling player makes two wound rolls. The weapon has an **S** characteristic of 5, so rolls of 3+ are required to wound. Both attacks wound the target.
+
+### 3. SAVE ROLLS
+The target unit's controlling player makes two save rolls.
+
+### 4. INFLICT DAMAGE
+▪ The lowest result, __when modified by the attacking weapon's **AP** characteristic of -1__, is less than the target's **Sv** characteristic of 3+, so that attack inflicts damage. This reduces the model to which that attack was allocated to 0 wounds, which destroys it.
+▪ The other result is equal to the target's **InSv** characteristic of 5+; that attack fails.`,
+        },
+        {
+          id: 'section-05-ex4',
+          sectionNum: 'EX',
+          title: 'Attack Sequence Example — ATTACKING ATTACHED UNITS',
+          sideImage: { src: '/images/attacking-attached-units.png', alt: 'Attacking attached units example', width: '60%' },
+          body: `### 1. SELECT WEAPONS
+The {red:RED} unit is attacking. The following weapons are selected to make attacks with:
+▪ 7 boltguns (B)
+▪ 1 plasma pistol (PP)
+▪ 2 heavy bolters (HB)
+
+### 2. SELECT TARGETS
+The {blue:BLUE} unit is selected as the target. It is an attached unit (19) formed from a Seraphim unit and Saint Celestine (with her two Geminae Superia). The unit is **visible** to all models in the attacking unit, and all of the selected weapons are in range.
+
+### 3. RESOLVE ATTACKS
+There is only one enemy unit being targeted, so the controlling player now gathers **attack dice**. They decide to resolve the heavy bolter attacks first, which each have an **A** characteristic of 3, so six **attack dice** are gathered.
+The **attack dice** for the remaining weapons will be gathered once the heavy bolter attacks are resolved (see opposite), as follows:
+▪ 14 **attack dice** for the boltguns, which each have an **A** characteristic of 2.
+▪ One **attack dice** for the plasma pistol, which has an **A** characteristic of 1.`,
+        },
+        {
+          id: 'section-05-ex5',
+          sectionNum: 'EX',
+          title: 'Attack Sequence Example — ALLOCATION GROUPS',
+          sideImage: { src: '/images/allocation-groups.png', alt: 'Allocation groups example', width: '60%' },
+          body: `### 1. CREATE GROUPS AND DECLARE ORDER
+The target unit's controlling player divides it into groups: one containing Saint Celestine, one containing the Geminae Superia, and one containing the Seraphim. They then declare the allocation order, choosing the Geminae Superia first (1), hoping their better **Sv** and **InSv** characteristics will weather the attacks. The Seraphim must be chosen second (2), as Saint Celestine is a CHARACTER model so must be last in the order (3).
+
+### 2. RESOLVE ATTACK DICE
+The heavy bolters' attacks wound the target five times, so the target unit's controlling player makes five save rolls.
+The attacks are resolved one at a time, from lowest save rolls to highest:
+▪ The two results of 1 are allocated first, to the current allocation group (the Geminae Superia). They both inflict damage, and both Geminae Superia are destroyed.
+▪ The result of 3 is now allocated to the Seraphim, who have become the current allocation group. __When modified by the attacking weapon's **AP** characteristic of -1__, this also inflicts damage, destroying one Seraphim model.
+▪ The remaining attacks fail, so no further damage is inflicted.
+
+### 3. SELECT NEXT GROUP OF ATTACK DICE AND REPEAT`,
         },
       ],
       woundTable: {
