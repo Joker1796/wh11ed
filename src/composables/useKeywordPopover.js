@@ -1,22 +1,29 @@
 import { ref } from 'vue'
 import { coreAbilities } from '../data/reference.js'
+import { useLocale } from './useLocale.js'
 
 const visible = ref(false)
 const activeKeyword = ref(null)
 const anchor = ref(null)
 
+const { locale } = useLocale()
+
 function lookup(rawText) {
   const text = rawText.toUpperCase().trim()
-  let found = coreAbilities.find(a =>
+  const base = coreAbilities.en
+  let idx = base.findIndex(a =>
     a.name.replace(/^\[|\]$/g, '').toUpperCase() === text
   )
-  if (!found) {
-    found = coreAbilities.find(a => {
-      const base = a.name.replace(/^\[|\]$/g, '').toUpperCase()
-      return text.startsWith(base)
+  if (idx === -1) {
+    idx = base.findIndex(a => {
+      const base2 = a.name.replace(/^\[|\]$/g, '').toUpperCase()
+      return text.startsWith(base2)
     })
   }
-  return found ?? null
+  if (idx === -1) return null
+  return locale.value === 'ru'
+    ? { ...base[idx], ...coreAbilities.ru[idx] }
+    : base[idx]
 }
 
 export function useKeywordPopover() {

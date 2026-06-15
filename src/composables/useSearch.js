@@ -36,7 +36,7 @@ function buildIndex() {
       }
     }
   }
-  for (const ability of coreAbilities) {
+  for (const ability of coreAbilities.en) {
     items.push({
       id: 'ability-' + ability.num.replace('.', '_'),
       sectionNum: ability.num,
