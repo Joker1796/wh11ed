@@ -201,7 +201,8 @@ function renderField(text) {
 
 .strat-label {
   flex-shrink: 0;
-  width: 82px;
+  min-width: 64px;
+  width: auto;
   font-size: 0.62rem;
   font-weight: 700;
   text-transform: uppercase;

@@ -343,7 +343,7 @@ function handleDefClick(e) {
 .result-outcome {
   font-weight: 700;
   flex: 0 0 10rem;
-  white-space: nowrap;
+  white-space: normal;
   padding: 0.35rem 0.75rem;
   color: #fff;
   display: flex;
@@ -436,6 +436,43 @@ function handleDefClick(e) {
     width: 100%;
     margin-left: 0;
     margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .flow-list {
+    max-width: 100%;
+  }
+
+  .result-table {
+    width: 100%;
+  }
+
+  .result-row {
+    font-size: 0.85rem;
+  }
+
+  .result-arrow {
+    display: none;
+  }
+
+  .result-condition {
+    padding-left: 0.6rem;
+  }
+
+  .result-outcome {
+    flex: 0 0 6.5rem;
+    white-space: normal;
+  }
+
+  .info-row {
+    grid-template-columns: 7rem 1fr;
+  }
+
+  .side-image {
+    float: none;
+    max-width: 100%;
+    margin: 0 0 1rem;
   }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="app-layout">
-    <!-- Top navbar: brand + top-level sections -->
+    <!-- Top navbar: brand + action buttons -->
     <header class="navbar">
       <div class="navbar-inner">
         <RouterLink to="/" class="navbar-logo">
@@ -8,12 +8,11 @@
           <span class="logo-sub">11th Edition</span>
         </RouterLink>
 
-        <nav class="navbar-links" :class="{ open: mobileNavOpen }">
+        <nav class="navbar-links">
           <RouterLink
             to="/"
             class="nav-link"
             :class="{ active: isCoreRoute }"
-            @click="mobileNavOpen = false"
           >{{ labels.navCoreRules }}</RouterLink>
         </nav>
 
@@ -27,15 +26,24 @@
             </svg>
             <span class="search-hint">Ctrl K</span>
           </button>
-          <button class="hamburger" @click="mobileNavOpen = !mobileNavOpen" :aria-expanded="mobileNavOpen" aria-label="Toggle menu">
+          <button
+            class="hamburger"
+            :class="{ open: mobileNavOpen }"
+            @click="mobileNavOpen = !mobileNavOpen"
+            :aria-expanded="mobileNavOpen"
+            aria-label="Toggle menu"
+          >
             <span></span><span></span><span></span>
           </button>
         </div>
       </div>
     </header>
 
-    <!-- Subnav: section-level links, sticky below navbar -->
-    <nav class="subnav" :class="{ open: mobileNavOpen }">
+    <!-- Mobile drawer (visible only on mobile via NavSidebar internal CSS) -->
+    <NavSidebar :mobileOpen="mobileNavOpen" @close="mobileNavOpen = false" />
+
+    <!-- Subnav: section-level links, always visible as horizontal scroll -->
+    <nav class="subnav">
       <div class="subnav-inner">
         <RouterLink
           v-for="item in subNavItems"
@@ -43,11 +51,11 @@
           :to="item.path"
           class="subnav-link"
           :class="{ active: $route.path === item.path }"
-          @click="mobileNavOpen = false"
         >{{ item.label }}</RouterLink>
       </div>
     </nav>
 
+    <!-- Overlay backdrop for drawer -->
     <div v-if="mobileNavOpen" class="nav-overlay" @click="mobileNavOpen = false"></div>
 
     <main class="main-content">
@@ -64,6 +72,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import SearchModal from './components/SearchModal.vue'
 import KeywordPopover from './components/KeywordPopover.vue'
+import NavSidebar from './components/NavSidebar.vue'
 import { useLocale } from './composables/useLocale.js'
 import { useKeywordPopover } from './composables/useKeywordPopover.js'
 import { resolveRef, useRefNavigation } from './composables/useRefNavigation.js'
@@ -265,11 +274,15 @@ onUnmounted(() => {
 .hamburger {
   display: none;
   flex-direction: column;
-  gap: 4px;
+  justify-content: center;
+  gap: 5px;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 6px;
+  padding: 0;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
 }
 
 .hamburger span {
@@ -278,6 +291,20 @@ onUnmounted(() => {
   height: 2px;
   background: rgba(255,255,255,0.75);
   border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+  transform-origin: center;
+}
+
+/* Animate hamburger → ✕ */
+.hamburger.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.hamburger.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
 }
 
 /* ── Subnav ── */
@@ -335,8 +362,8 @@ onUnmounted(() => {
 .nav-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.4);
-  z-index: 198;
+  background: rgba(0,0,0,0.45);
+  z-index: 299;
 }
 
 /* ── Main content ── */
@@ -348,43 +375,13 @@ onUnmounted(() => {
 
 /* ── Mobile ── */
 @media (max-width: 900px) {
+  .navbar-inner {
+    padding: 0 1rem;
+    gap: 0.75rem;
+  }
+
   .navbar-links {
     display: none;
-  }
-
-  .subnav {
-    position: sticky;
-    top: var(--navbar-height);
-    height: auto;
-  }
-
-  .subnav-inner {
-    padding: 0 1rem;
-  }
-
-  .subnav-link {
-    padding: 0.6rem 0.75rem;
-  }
-
-  /* On mobile, show subnav as dropdown when hamburger is open */
-  .subnav.open .subnav-inner {
-    flex-direction: column;
-    height: auto;
-    overflow-x: visible;
-    padding: 0.5rem 1rem 0.75rem;
-    gap: 0;
-  }
-
-  .subnav.open .subnav-link {
-    border-bottom: none;
-    border-left: 2px solid transparent;
-    padding: 0.5rem 0.75rem;
-    margin-bottom: 0;
-  }
-
-  .subnav.open .subnav-link.active {
-    border-bottom: none;
-    border-left-color: var(--accent);
   }
 
   .hamburger {
@@ -393,6 +390,33 @@ onUnmounted(() => {
 
   .search-hint {
     display: none;
+  }
+
+  .subnav {
+    display: none;
+  }
+
+  /* Increase tap targets for action buttons */
+  .lang-btn {
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .search-btn {
+    min-height: 44px;
+    padding: 0 0.75rem;
+  }
+
+  .subnav-inner {
+    padding: 0 0.75rem;
+  }
+
+  .subnav-link {
+    padding: 0 0.7rem;
+    font-size: 0.78rem;
   }
 
   .main-content {
