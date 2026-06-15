@@ -41,7 +41,7 @@ function buildIndex() {
       id: 'ability-' + ability.num.replace('.', '_'),
       sectionNum: ability.num,
       title: ability.name,
-      body: ability.fullText + ' ' + ability.summary,
+      body: ability.fullText + ' ' + (ability.flavor || ''),
       route: '/reference',
       sectionTitle: 'Core Abilities',
     })

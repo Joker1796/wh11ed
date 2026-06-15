@@ -15,14 +15,16 @@
       description="Abilities that are universal to many units and weapons in Warhammer 40,000."
     />
 
-    <div class="ability-notes">
-      <div class="note-box">
-        <strong>Ability Types:</strong> Weapon abilities appear in square brackets bold (e.g. <span class="keyword">[BLAST]</span>). If a weapon ability includes keywords, it only applies if the target has those keywords (e.g. <span class="keyword">[LETHAL HITS: VEHICLE]</span>).
-      </div>
-      <div class="note-box">
-        <strong>Duplicated Abilities:</strong> Multiple instances of the same ability are not cumulative; the controlling player selects which applies. For Scouts with different values, must select the lowest value not shared by every model. For <span class="keyword">[SUSTAINED HITS]</span> with different numbers or <span class="keyword">[ANTI]</span> with different keywords, must choose between instances.
-      </div>
-    </div>
+    <!-- 24.01 ABILITIES и 24.02 DUPLICATED ABILITIES -->
+    <RuleBlock
+      v-for="sub in abilityIntro"
+      :key="sub.id"
+      :id="sub.id"
+      :sectionNum="sub.sectionNum"
+      :title="sub.title"
+      :body="sub.body"
+      :example="sub.example"
+    />
 
     <!-- Filter buttons -->
     <div class="ability-filters">
@@ -47,12 +49,32 @@
         <div class="ability-header">
           <span class="ability-num">{{ ability.num }}</span>
           <span class="ability-name" :class="ability.type">{{ ability.name }}</span>
-          <span class="ability-type-badge" :class="ability.type">{{ ability.type }}</span>
+          <span class="ability-type-badge" :class="ability.type">{{ ability.type === 'weapon' ? 'Weapon' : 'Unit' }}</span>
         </div>
-        <div class="ability-body">
-          <p class="ability-summary">{{ ability.summary }}</p>
-          <p class="ability-full">{{ ability.fullText }}</p>
+
+        <div class="ability-body" @click="handleDefClick">
+          <p v-if="ability.flavor" class="ability-flavor" v-html="renderInline(ability.flavor)" />
+
+          <template v-for="(block, bi) in parseBody(ability.fullText)" :key="bi">
+            <ul v-if="block.type === 'ul'" class="ability-list">
+              <li v-for="(item, li) in block.items" :key="li" v-html="renderInline(item)" />
+            </ul>
+            <ol v-else-if="block.type === 'ol'" class="ability-ol">
+              <li v-for="(item, li) in block.items" :key="li" v-html="renderInline(item)" />
+            </ol>
+            <div v-else-if="block.type === 'info-card'" class="info-card">
+              <div v-for="(row, ri) in block.rows" :key="ri" class="info-row">
+                <div class="info-label">{{ row.label }}</div>
+                <div class="info-content" v-html="renderInline(row.content)" />
+              </div>
+            </div>
+            <p v-else v-html="renderInline(block.text)" />
+          </template>
         </div>
+
+        <div v-if="ability.example" class="example-block" v-html="renderInline(ability.example)" />
+
+        <div v-if="ability.note" class="note-box ability-note-box" v-html="renderNoteHtml(ability.note)" />
       </div>
     </div>
 
@@ -71,17 +93,24 @@
 
     <div v-for="entry in appendix" :key="entry.id" :id="entry.id" class="appendix-block">
       <h3 class="appendix-title">{{ entry.title }}</h3>
-      <div v-for="para in entry.body.split('\n\n').filter(p => p.trim())" :key="para">
-        <ul v-if="para.trim().startsWith('▪')" class="appendix-list">
-          <li v-for="item in para.split('\n').map(l => l.replace(/^▪\s*/,'')).filter(Boolean)" :key="item">{{ item }}</li>
-        </ul>
-        <p v-else>{{ para }}</p>
+
+      <div @click="handleDefClick">
+        <template v-for="(block, bi) in parseBody(entry.body)" :key="bi">
+          <ul v-if="block.type === 'ul'" class="appendix-list">
+            <li v-for="(item, li) in block.items" :key="li" v-html="renderInline(item)" />
+          </ul>
+          <p v-else v-html="renderInline(block.text)" />
+        </template>
       </div>
+
       <DataTable
         v-if="entry.table"
         :headers="entry.table.headers"
         :rows="entry.table.rows"
       />
+
+      <div v-if="entry.example" class="example-block" v-html="renderInline(entry.example)" />
+      <div v-if="entry.note" class="note-box" v-html="renderNoteHtml(entry.note)" />
     </div>
 
     <!-- FAQs -->
@@ -96,11 +125,11 @@
       <div v-for="(faq, i) in faqs" :key="i" class="faq-item">
         <div class="faq-q">
           <span class="faq-badge">Q</span>
-          <span>{{ faq.q }}</span>
+          <span v-html="renderInline(faq.q)" />
         </div>
         <div class="faq-a">
           <span class="faq-badge ans">A</span>
-          <span>{{ faq.a }}</span>
+          <span v-html="renderInline(faq.a)" />
         </div>
       </div>
     </div>
@@ -112,7 +141,11 @@ import { ref, computed } from 'vue'
 import SectionHeader from '../components/SectionHeader.vue'
 import DataTable from '../components/DataTable.vue'
 import TableOfContents from '../components/TableOfContents.vue'
-import { coreAbilities, appendix, faqs } from '../data/reference.js'
+import RuleBlock from '../components/RuleBlock.vue'
+import { useRenderInline } from '../composables/useRenderInline.js'
+import { abilityIntro, coreAbilities, appendix, faqs } from '../data/reference.js'
+
+const { renderInline } = useRenderInline()
 
 const tocSections = [
   { id: 'section-24', num: '24', label: 'Core Abilities' },
@@ -131,6 +164,74 @@ const filteredAbilities = computed(() => {
   if (activeFilter.value === 'all') return coreAbilities
   return coreAbilities.filter(a => a.type === activeFilter.value)
 })
+
+function parseBody(text) {
+  if (!text) return []
+  const lines = text.split('\n')
+  const result = []
+  let buf = []
+  let mode = null
+  let cardRows = []
+
+  const flush = () => {
+    if (mode === 'info-card') {
+      if (cardRows.length) result.push({ type: 'info-card', rows: [...cardRows] })
+      cardRows = []
+    } else if (mode === 'ul' && buf.length) {
+      result.push({ type: 'ul', items: buf.map(l => l.replace(/^[▪•]\s*/, '').trim()) })
+    } else if (mode === 'ol' && buf.length) {
+      result.push({ type: 'ol', items: buf.map(l => l.replace(/^\d+\.\s*/, '').trim()) })
+    } else if (buf.length) {
+      const text = buf.join('<br>').trim()
+      if (text) result.push({ type: 'p', text })
+    }
+    buf = []
+  }
+
+  for (const raw of lines) {
+    const line = raw.trim()
+    if (line === '') {
+      flush()
+      mode = null
+      continue
+    }
+    if (line.startsWith('◈ ')) {
+      if (mode !== 'info-card') { flush(); mode = 'info-card' }
+      const sep = line.indexOf(' | ')
+      cardRows.push({
+        label: line.slice(2, sep < 0 ? undefined : sep).trim(),
+        content: sep >= 0 ? line.slice(sep + 3).trim() : '',
+      })
+    } else if (/^[▪•]/.test(line)) {
+      if (mode !== 'ul') { flush(); mode = 'ul' }
+      buf.push(line)
+    } else if (/^\d+\.\s/.test(line)) {
+      if (mode !== 'ol') { flush(); mode = 'ol' }
+      buf.push(line)
+    } else {
+      if (mode !== 'p') { flush(); mode = 'p' }
+      buf.push(line)
+    }
+  }
+  flush()
+  return result
+}
+
+function renderNoteHtml(text) {
+  return text.split('\n\n')
+    .map(p => `<p>${renderInline(p.trim().replace(/\n/g, ' '))}</p>`)
+    .join('')
+}
+
+function handleDefClick(e) {
+  const target = e.target.closest('[data-def]')
+  if (!target) return
+  const el = document.getElementById('def-' + target.dataset.def)
+  if (el) {
+    const top = el.getBoundingClientRect().top + window.scrollY - 100
+    window.scrollTo({ top, behavior: 'smooth' })
+  }
+}
 </script>
 
 <style scoped>
@@ -150,42 +251,11 @@ const filteredAbilities = computed(() => {
   font-style: italic;
 }
 
-.digital-support {
-  margin-bottom: 2rem;
-  padding: 1.25rem 1.5rem;
-  border-left: 3px solid var(--accent);
-  background: var(--bg-secondary);
-  border-radius: 0 6px 6px 0;
-}
-
-.digital-support-title {
-  font-family: var(--font-serif);
-  font-size: 1rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--accent);
-  margin-bottom: 0.5rem;
-}
-
-.digital-support p {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  line-height: 1.6;
-  margin: 0;
-}
-
-.ability-notes {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  margin-bottom: 1.25rem;
-}
-
+/* Filter */
 .ability-filters {
   display: flex;
   gap: 0.5rem;
-  margin-bottom: 1.25rem;
+  margin: 1.25rem 0;
   flex-wrap: wrap;
 }
 
@@ -212,6 +282,7 @@ const filteredAbilities = computed(() => {
   color: white;
 }
 
+/* Ability list */
 .abilities-list {
   display: grid;
   gap: 0.6rem;
@@ -280,25 +351,129 @@ const filteredAbilities = computed(() => {
   border: 1px solid rgba(0, 74, 110, 0.25);
 }
 
+/* Ability body */
 .ability-body {
-  padding: 0.75rem 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.ability-summary {
-  font-size: 0.88rem;
-  font-weight: 600;
+  padding: 0.75rem 1rem 0.5rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
   color: var(--text-primary);
-  margin: 0;
 }
 
-.ability-full {
-  font-size: 0.85rem;
+.ability-flavor {
+  font-style: italic;
   color: var(--text-muted);
-  border-top: 1px dashed var(--border);
-  padding-top: 0.4rem;
+  font-size: 0.875rem;
+  margin: 0 0 0.6rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px dashed var(--border-light);
+}
+
+.ability-body p {
+  margin-bottom: 0.5rem;
+}
+
+.ability-body p:last-child {
+  margin-bottom: 0;
+}
+
+.ability-list {
+  padding-left: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.ability-list li {
+  margin-bottom: 0.25rem;
+  line-height: 1.55;
+}
+
+.ability-ol {
+  padding-left: 1.3rem;
+  list-style: decimal;
+  margin-bottom: 0.5rem;
+}
+
+.ability-ol li {
+  margin-bottom: 0.3rem;
+  line-height: 1.55;
+}
+
+/* Info card inside ability (Scout Move) */
+.ability-body .info-card {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 0.25rem 0 0.5rem;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.ability-body .info-row {
+  display: grid;
+  grid-template-columns: 10rem 1fr;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.ability-body .info-row:last-child { border-bottom: none; }
+
+.ability-body .info-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  padding: 0.45rem 0.6rem;
+  background: var(--bg-card);
+  color: var(--text-muted);
+  border-right: 1px solid var(--border-light);
+}
+
+.ability-body .info-content {
+  padding: 0.45rem 0.7rem;
+}
+
+/* Note box label override */
+.ability-note-box::before {
+  content: 'Designer\'s Note';
+  display: block;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  color: var(--accent-light, #e8c96a);
+  margin-bottom: 0.35rem;
+}
+
+/* Example and note boxes inside ability cards — flush to card edges */
+.ability-card .example-block,
+.ability-card .note-box {
+  margin: 0;
+  border-radius: 0;
+  border-top: 1px solid var(--border-light);
+}
+
+/* Digital Support */
+.digital-support {
+  margin-bottom: 2rem;
+  padding: 1.25rem 1.5rem;
+  border-left: 3px solid var(--accent);
+  background: var(--bg-secondary);
+  border-radius: 0 6px 6px 0;
+}
+
+.digital-support-title {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+.digital-support p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.6;
   margin: 0;
 }
 
@@ -319,14 +494,22 @@ const filteredAbilities = computed(() => {
   border-bottom: 1px solid var(--border-light);
 }
 
+.appendix-block p {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+  margin-bottom: 0.6rem;
+}
+
 .appendix-list {
   padding-left: 1.25rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
 }
 
 .appendix-list li {
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.3rem;
   font-size: 0.9rem;
+  line-height: 1.6;
 }
 
 /* FAQs */
