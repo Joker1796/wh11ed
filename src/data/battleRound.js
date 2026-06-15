@@ -31,15 +31,15 @@ export const battleRound = {
 Each turn consists of seven parts: first the Start of Turn step, then a series of five phases resolved in the order shown below, then the End of Turn step.
 
 ### Turn Structure
-[img:/images/turn/START-OF-TURN-STEP.png]
-[img:/images/turn/COMMAND-PHASE.png]
-[img:/images/turn/MOVEMENT-PHASE.png]
-[img:/images/turn/SHOOTING-PHASE.png]
-[img:/images/turn/CHARGE-PHASE.png]
-[img:/images/turn/FIGHT-PHASE.png]
-[img:/images/turn/END-OF-TURN-STEP.png]
+[img:/images/turn/START-OF-TURN-STEP.png|Phase icon: Start of Turn Step]
+[img:/images/turn/COMMAND-PHASE.png|Phase icon: Command Phase]
+[img:/images/turn/MOVEMENT-PHASE.png|Phase icon: Movement Phase]
+[img:/images/turn/SHOOTING-PHASE.png|Phase icon: Shooting Phase]
+[img:/images/turn/CHARGE-PHASE.png|Phase icon: Charge Phase]
+[img:/images/turn/FIGHT-PHASE.png|Phase icon: Fight Phase]
+[img:/images/turn/END-OF-TURN-STEP.png|Phase icon: End of Turn Step]
 
-[img:/images/turn-structure.png]`,
+[img:/images/turn-structure.png|Battle round turn structure overview]`,
         example: `Player A won the roll-off and chose to take the first turn. In Battle Round 1, Player A completes their entire turn (Command → Movement → Shooting → Charge → Fight), then Player B takes theirs. In Battle Round 2, Player A again goes first — the order never changes mid-game.`,
       },
       {
@@ -95,10 +95,10 @@ The battle round then ends and, unless the battle ends, the next battle round st
 
 If a unit was battle-shocked at the start of this step and its battle-shock roll during this step succeeds, it is no longer battle-shocked.
 
-[img:/images/command/battle-shock-examples.png]
-[img:/images/command/battle-shock-examples-2.png]
-[img:/images/command/battle-shock-examples-3.png]
-[img:/images/command/battle-shock-examples-4.png]
+[img:/images/command/battle-shock-examples.png|Battle shock example 1 — failed Battle Shock roll]
+[img:/images/command/battle-shock-examples-2.png|Battle shock example 2 — unit with Starting Strength]
+[img:/images/command/battle-shock-examples-3.png|Battle shock example 3 — multiple units in range]
+[img:/images/command/battle-shock-examples-4.png|Battle shock example 4 — OC reduction]
 `,
         seeAlso: ['Battle-Shock Rolls 01.07', 'Half-strength 24.00', 'Multiple Battle-Shock Rolls 24.00'],
       },
@@ -368,7 +368,7 @@ A unit is eligible to shoot if it is on the battlefield and has not already been
 ▪ Your unit cannot be **engaged** with one or more enemy units that are not **charge targets**.
 ▪ Until the end of the turn, each model in your unit has the **Fights First** ability (24.13).
 
-[img:/images/charge/making-a-charge-move.png]`,
+[img:/images/charge/making-a-charge-move.png|Making a charge move — valid and invalid examples]`,
       },
     ],
   },
@@ -397,7 +397,7 @@ A unit is eligible to shoot if it is on the battlefield and has not already been
         title: 'Start of Fight Phase',
         body: `Rules that are triggered at the start of the Fight phase are resolved now.
 
-[img:/images/fight/start-of-fight-phase.png]`,
+[img:/images/fight/start-of-fight-phase.png|Fight phase order — fights first and fights last]`,
       },
       {
         id: 'section-12-02',
@@ -425,7 +425,7 @@ A unit is eligible to shoot if it is on the battlefield and has not already been
 ▪ Your unit must be **engaged**.
 ▪ Each model that started this move **engaged** with an enemy unit must still be **engaged** with that enemy unit.
 
-[img:/images/fight/pile-in-moves.png]`,
+[img:/images/fight/pile-in-moves.png|Pile-in moves — engaging with enemy units]`,
       },
       {
         id: 'section-12-04',
@@ -461,7 +461,7 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
         body: `◈ ELIGIBLE IF | Your unit is **engaged**.
 ◈ EFFECT | Your unit fights as described in Making Attacks (04).
 
-[img:/images/fight/normal-fight.png]`,
+[img:/images/fight/normal-fight.png|Normal fight — eligible conditions]`,
       },
       {
         id: 'section-12-06',
@@ -470,7 +470,7 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
         body: `◈ ELIGIBLE IF | Your unit is **unengaged**, or was **unengaged** at the start of the Fight step but became **engaged** during the Fight phase.
 ◈ EFFECT | Your unit can make one additional pile-in move, then fights as described in Making Attacks (04).
 
-[img:/images/fight/overrun-fight.png]`,
+[img:/images/fight/overrun-fight.png|Overrun fight — eligible conditions]`,
         note: 'When a unit makes an overrun fight, its models can be moved such that enemy units that were unengaged become engaged. Such enemy units become eligible to fight this phase (and may even be able to fight next if they are Fights First units).',
       },
       {
@@ -499,9 +499,9 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 ▪ **Engaging Consolidation:** Your unit must be **engaged** with all of the selected enemy units. If one or more enemy units **engaged** with your unit have not been **selected to fight** this phase, your opponent must select each of those units, one at a time; when each is selected, it becomes **eligible to fight** and is **selected to fight** (12.04).
 ▪ **Objective Consolidation:** Your unit must be within range of the selected objective.
 
-[img:/images/fight/ongoing-consolidation.png]
+[img:/images/fight/ongoing-consolidation.png|Engaging consolidation move diagram]
 
-[img:/images/fight/objective-consolidation.png]`,
+[img:/images/fight/objective-consolidation.png|Objective consolidation move diagram]`,
         note: '**NEW FOES TO FACE**\nWhile using the **engaging consolidation** mode, your unit can end its consolidation move **engaged** with enemy units that have not yet fought this phase. If so, each of those enemy units will have an opportunity to fight your unit, so think carefully about how aggressively you want to move your unit using this mode.',
       },
       {
@@ -537,15 +537,15 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 Каждый ход состоит из семи частей: сначала шаг «Начало хода»; затем серия из пяти фаз, совершаемых в порядке, показанном ниже, затем шаг «Конец хода».
 
 ### Структура хода
-[img:/images/turn/START-OF-TURN-STEP-RU.png]
-[img:/images/turn/COMMAND-PHASE-RU.png]
-[img:/images/turn/MOVEMENT-PHASE-RU.png]
-[img:/images/turn/SHOOTING-PHASE-RU.png]
-[img:/images/turn/CHARGE-PHASE-RU.png]
-[img:/images/turn/FIGHT-PHASE-RU.png]
-[img:/images/turn/END-OF-TURN-STEP-RU.png]
+[img:/images/turn/START-OF-TURN-STEP-RU.png|Иконка фазы: Начало хода]
+[img:/images/turn/COMMAND-PHASE-RU.png|Иконка фазы: Фаза командования]
+[img:/images/turn/MOVEMENT-PHASE-RU.png|Иконка фазы: Фаза движения]
+[img:/images/turn/SHOOTING-PHASE-RU.png|Иконка фазы: Фаза стрельбы]
+[img:/images/turn/CHARGE-PHASE-RU.png|Иконка фазы: Фаза атаки]
+[img:/images/turn/FIGHT-PHASE-RU.png|Иконка фазы: Фаза боя]
+[img:/images/turn/END-OF-TURN-STEP-RU.png|Иконка фазы: Конец хода]
 
-[img:/images/turn-structure.png]`,
+[img:/images/turn-structure.png|Структура боевого раунда]`,
         example: `Игрок А выиграл бросок и выбрал первый ход. В Боевом Раунде 1 Игрок А завершает свой полный ход (Командование → Передвижение → Стрельба → Рывок → Ближний бой), затем Игрок Б делает свой ход. В Боевом Раунде 2 Игрок А снова ходит первым — порядок не меняется на протяжении всей игры.`,
       },
       {
@@ -589,10 +589,10 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 
 Если юнит был подвержен **боевому шоку (battle-shocked)** в начале этого шага и его проверка **боевого шока (battle-shock roll)** во время этого шага успешна, он больше не подвержен **боевому шоку (battle-shocked)**.
 
-[img:/images/command/battle-shock-examples-ru.png]
-[img:/images/command/battle-shock-examples-2-ru.png]
-[img:/images/command/battle-shock-examples-3-ru.png]
-[img:/images/command/battle-shock-examples-4-ru.png]
+[img:/images/command/battle-shock-examples-ru.png|Тест боевого шока, пример 1 — провал броска]
+[img:/images/command/battle-shock-examples-2-ru.png|Тест боевого шока, пример 2 — юнит с Starting Strength]
+[img:/images/command/battle-shock-examples-3-ru.png|Тест боевого шока, пример 3 — несколько юнитов]
+[img:/images/command/battle-shock-examples-4-ru.png|Тест боевого шока, пример 4 — снижение OC]
 `,
       },
       {
@@ -806,7 +806,7 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 ▪ Ваш юнит **не может** быть **в бою (engaged)** с вражескими юнитами, которые **не являются целями рывка (charge targets)**.
 ▪ До конца хода каждая модель в вашем юните обладает способностью **«Первый удар» (Fights First)** (24.13).
 
-[img:/images/charge/making-a-charge-move-ru.png]`,
+[img:/images/charge/making-a-charge-move-ru.png|Ход атаки — допустимые и недопустимые примеры]`,
       },
     ],
   },
@@ -829,7 +829,7 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
         title: 'Начало фазы ближнего боя',
         body: `Правила, срабатывающие в начале фазы ближнего боя, выполняются сейчас.
 
-[img:/images/fight/start-of-fight-phase-ru.png]`,
+[img:/images/fight/start-of-fight-phase-ru.png|Порядок фазы боя — бьёт первым и бьёт последним]`,
       },
       {
         title: 'Сближение (Pile In)',
@@ -853,7 +853,7 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 ▪ Ваш юнит должен быть **связан боем (engaged)**.
 ▪ Каждая модель, которая начала это перемещение **связанной боем (engaged)** с вражеским юнитом, должна всё ещё быть **связана боем (engaged)** с этим вражеским юнитом.
 
-[img:/images/fight/pile-in-moves-ru.png]`,
+[img:/images/fight/pile-in-moves-ru.png|Перемещение в контакт — вступление в бой с врагом]`,
       },
       {
         title: 'Бой',
@@ -882,14 +882,14 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
         body: `◈ ПРАВО НА ВЫБОР | Ваш юнит **связан боем (engaged)**.
 ◈ ЭФФЕКТ | Ваш юнит сражается, как описано в разделе «Совершение атак» (04).
 
-[img:/images/fight/normal-fight-ru.png]`,
+[img:/images/fight/normal-fight-ru.png|Обычный бой — условия доступности]`,
       },
       {
         title: 'Рывок к врагу',
         body: `◈ ПРАВО НА ВЫБОР | Ваш юнит **не связан боем (unengaged)**, или был **не связан боем (unengaged)** в начале шага «Бой», но стал **связанным боем (engaged)** во время фазы ближнего боя.
 ◈ ЭФФЕКТ | Ваш юнит может совершить одно дополнительное **перемещение сближения (pile-in move)**, затем сражается, как описано в разделе «Совершение атак» (04).
 
-[img:/images/fight/overrun-fight-ru.png]`,
+[img:/images/fight/overrun-fight-ru.png|Бой с преследованием — условия доступности]`,
         note: 'Когда юнит совершает рывок к врагу (overrun fight), его модели могут быть перемещены так, что вражеские юниты, которые были не связаны боем, становятся связанными боем. Такие вражеские юниты получают право сражаться в этой фазе (и даже могут сражаться следующими, если они являются юнитами с «Первым ударом» (Fights First)).',
       },
       {
@@ -914,9 +914,9 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 ▪ **Боевое закрепление:** Ваш юнит должен быть **связан боем (engaged)** со всеми выбранными вражескими юнитами. Если один или несколько вражеских юнитов, **связанных боем (engaged)** с вашим юнитом, ещё не были **выбраны для боя (selected to fight)** в этой фазе, ваш оппонент должен выбрать каждый из таких юнитов поочерёдно; когда каждый выбран, он **получает право сражаться (eligible to fight)** и **выбирается для боя (selected to fight)** (12.04).
 ▪ **Закрепление на цели:** Ваш юнит должен находиться в пределах досягаемости выбранной цели (objective).
 
-[img:/images/fight/ongoing-consolidation-ru.png]
+[img:/images/fight/ongoing-consolidation-ru.png|Диаграмма консолидации с вступлением в контакт]
 
-[img:/images/fight/objective-consolidation-ru.png]`,
+[img:/images/fight/objective-consolidation-ru.png|Диаграмма консолидации к цели]`,
         note: '**НОВЫЕ ВРАГИ ДЛЯ СТОЛКНОВЕНИЯ**\nПри использовании режима **боевого закрепления (engaging consolidation)** ваш юнит может завершить своё перемещение закрепления **связанным боем (engaged)** с вражескими юнитами, которые ещё не сражались в этой фазе. В таком случае каждый из этих вражеских юнитов получит возможность атаковать ваш юнит, поэтому продумайте, насколько агрессивно вы хотите перемещать свой юнит, используя этот режим.',
       },
       {

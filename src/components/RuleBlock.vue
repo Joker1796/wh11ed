@@ -39,7 +39,7 @@
               ></span>
             </div>
           </div>
-          <img v-else-if="block.type === 'img'" :src="block.src" alt="" class="body-image" />
+          <img v-else-if="block.type === 'img'" :src="block.src" :alt="block.alt" class="body-image" />
           <div v-else-if="block.type === 'info-card'" class="info-card">
             <div v-for="(row, k) in block.rows" :key="k" class="info-row">
               <div class="info-label">{{ row.label }}</div>
@@ -52,7 +52,7 @@
             </div>
           </div>
           <div v-else-if="block.type === 'img-group'" class="img-group">
-            <img v-for="(src, k) in block.srcs" :key="k" :src="src" alt="" />
+            <img v-for="(item, k) in block.srcs" :key="k" :src="item.src" :alt="item.alt" />
           </div>
           <h4 v-else-if="block.type === 'h4'" class="rule-subheading">{{ block.text }}</h4>
           <p v-else v-html="renderInline(block.text)"></p>
@@ -129,7 +129,7 @@ const blocks = computed(() => {
         }).filter(r => r.condition),
       })
     } else if (mode === 'img-group') {
-      if (buf.length === 1) result.push({ type: 'img', src: buf[0] })
+      if (buf.length === 1) result.push({ type: 'img', src: buf[0].src, alt: buf[0].alt })
       else result.push({ type: 'img-group', srcs: [...buf] })
     } else {
       const text = buf.join('<br>').trim()
@@ -154,7 +154,12 @@ const blocks = computed(() => {
     const isImg = /^\[img:[^\]]+\]$/.test(line)
     if (isImg) {
       if (mode !== 'img-group') { flush(); mode = 'img-group' }
-      buf.push(line.slice(5, -1))
+      const imgContent = line.slice(5, -1)
+      const pipeIdx = imgContent.indexOf('|')
+      buf.push({
+        src: pipeIdx >= 0 ? imgContent.slice(0, pipeIdx).trim() : imgContent,
+        alt: pipeIdx >= 0 ? imgContent.slice(pipeIdx + 1).trim() : '',
+      })
     } else if (isInfoRow) {
       if (mode !== 'info-card') { flush(); mode = 'info-card' }
       const sep = line.indexOf(' | ')

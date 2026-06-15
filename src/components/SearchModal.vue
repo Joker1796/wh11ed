@@ -9,7 +9,7 @@
           ref="inputEl"
           v-model="query"
           type="text"
-          placeholder="Search rules, keywords, sections…"
+          :placeholder="labels.searchPlaceholder"
           class="search-input"
           @keydown.escape="$emit('close')"
           @keydown.down.prevent="moveSelection(1)"
@@ -21,7 +21,7 @@
 
       <div class="search-results" v-if="query.trim().length >= 2">
         <div v-if="results.length === 0" class="search-empty">
-          No results for "<strong>{{ query }}</strong>"
+          {{ labels.searchNoResults }} "<strong>{{ query }}</strong>"
         </div>
         <ul v-else class="results-list">
           <li
@@ -43,7 +43,7 @@
       </div>
 
       <div v-else class="search-hint-text">
-        Type at least 2 characters to search across all rules
+        {{ labels.searchHint }}
       </div>
     </div>
   </div>
@@ -53,14 +53,18 @@
 import { ref, computed, watch, nextTick, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { search, highlightMatch } from '../composables/useSearch.js'
+import { useLocale } from '../composables/useLocale.js'
+import { ui } from '../i18n/ui.js'
 
 const emit = defineEmits(['close'])
 const router = useRouter()
+const { locale } = useLocale()
+const labels = computed(() => ui[locale.value])
 const inputEl = ref(null)
 const query = ref('')
 const selectedIndex = ref(0)
 
-const results = computed(() => search(query.value))
+const results = computed(() => search(query.value, locale.value))
 
 watch(query, () => { selectedIndex.value = 0 })
 

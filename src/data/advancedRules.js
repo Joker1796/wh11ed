@@ -29,7 +29,7 @@ When rotating a FRAME model as part of a move, if that model does not have a bas
 
 Each time a model makes a ranged attack that targets such a unit, subtract 1 from the **hit roll** (excluding attacks made with [CLOSE-QUARTERS] weapons by models in a unit **engaged** with the target).
 
-[img:/images/monsters/engaged-monsters_vehicles-shooting.png]`,
+[img:/images/monsters/engaged-monsters_vehicles-shooting.png|Engaged monsters and vehicles — shooting hit roll penalty]`,
           note: `A unit that is **engaged** with an enemy MONSTER/VEHICLE unit is still not **eligible to shoot**, and so cannot make ranged attacks against that MONSTER/VEHICLE unit, unless that unit is **eligible to shoot** while **engaged** (e.g. because it is using **close-quarters shooting**).`,
         },
       ],
@@ -246,7 +246,7 @@ At the end of the third battle round, unless otherwise stated, all **strategic r
 ▪ Your unit cannot be **engaged** with one or more enemy units that were not the **surge target**.
 ▪ Your unit cannot move again this phase.
 
-[img:/images/surge/making-a-surge-move.png]`,
+[img:/images/surge/making-a-surge-move.png|Making a surge move — valid target and move diagram]`,
         },
         {
           id: 'section-21-03',
@@ -259,7 +259,7 @@ At the end of the third battle round, unless otherwise stated, all **strategic r
 ▫ It can move through all types of model (including enemy models and MONSTER/VEHICLE models).
 ▫ It can move horizontally and vertically through all categories of **terrain feature**.
 
-[img:/images/surge/taking-to-the-skies.png]`,
+[img:/images/surge/taking-to-the-skies.png|Taking to the skies — FLY movement through terrain and models]`,
           seeAlso: ['Surge Moves 21.01'],
         },
       ],
@@ -311,7 +311,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
 ▪ The attacking model is on a section of a **terrain feature** that is 3" or more in height.
 ▪ The attacking model has the TOWERING keyword and the target unit is within 12".
 
-[img:/images/fire/plunging-fire.png]`,
+[img:/images/fire/plunging-fire.png|Plunging fire — elevation and range requirements]`,
           seeAlso: ['Aircraft 23.03'],
         },
       ],
@@ -388,7 +388,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
 
 Каждый раз, когда модель совершает дальнюю атаку, нацеленную на такой отряд, вычтите 1 из **броска на попадание** (кроме атак оружием [БЛИЖНЯЯ СТРЕЛЬБА], совершаемых моделями из отряда, **находящегося в ближнем бою** с целью).
 
-[img:/images/monsters/engaged-monsters_vehicles-shooting-ru.png]`,
+[img:/images/monsters/engaged-monsters_vehicles-shooting-ru.png|Монстры и техника в контакте — штраф к броску попадания]`,
           note: `Отряд, **находящийся в ближнем бою** с вражеским отрядом МОНСТР/ТЕХНИКА, всё равно **не может стрелять**, а значит, не может совершать дальние атаки против отряда МОНСТР/ТЕХНИКА, если только он **не может стрелять** будучи **в ближнем бою** (например, потому что использует **ближнюю стрельбу**).`,
         },
       ],
@@ -598,7 +598,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
 ▪ Ваш отряд не может находиться **в ближнем бою** с одним или несколькими вражескими отрядами, не являвшимися **целью стремительного движения**.
 ▪ Ваш отряд не может двигаться снова в эту фазу.
 
-[img:/images/surge/making-a-surge-move-ru.png]`,
+[img:/images/surge/making-a-surge-move-ru.png|Выполнение хода рывка — допустимые цели и движение]`,
         },
         {
           id: 'section-21-03',
@@ -611,7 +611,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
 ▫ Она может проходить сквозь все типы моделей (включая вражеские модели и модели МОНСТР/ТЕХНИКА).
 ▫ Она может двигаться горизонтально и вертикально через все категории **элементов ландшафта**.
 
-[img:/images/surge/taking-to-the-skies-ru.png]`,
+[img:/images/surge/taking-to-the-skies-ru.png|Взмыть в небо — движение через укрытия и модели]`,
         },
       ],
     },
@@ -662,7 +662,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
 ▪ Атакующая модель находится на участке **элемента ландшафта** высотой 3" или более.
 ▪ Атакующая модель имеет ключевое слово ИСПОЛИНСКИЙ, и целевой отряд находится в пределах 12".
 
-[img:/images/fire/plunging-fire-ru.png]`,
+[img:/images/fire/plunging-fire-ru.png|Навесной огонь — требования по высоте и дальности]`,
         },
       ],
     },

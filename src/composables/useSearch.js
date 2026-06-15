@@ -12,48 +12,94 @@ const routeMap = {
   reference: '/reference',
 }
 
-function buildIndex() {
+const sectionTitles = {
+  en: { reference: 'Core Abilities' },
+  ru: { reference: 'Базовые способности' },
+}
+
+function stripMarkup(text) {
+  if (!text) return ''
+  return text
+    .split('\n')
+    .map(line => {
+      const l = line.trim()
+      if (l.startsWith('[img:')) {
+        const pipeIdx = l.indexOf('|')
+        return pipeIdx >= 0 ? l.slice(pipeIdx + 1, -1).trim() : ''
+      }
+      if (l.startsWith('◈ ')) return l.slice(2).replace(/^[^|]*\|\s*/, '')
+      if (l.startsWith('▪ ')) return l.slice(2)
+      if (l.startsWith('▫ ')) return l.slice(2)
+      if (l.startsWith('→ ')) return l.slice(2)
+      if (l.startsWith('◆ ')) return l.slice(2)
+      if (l.startsWith('### ')) return l.slice(4)
+      return l
+    })
+    .filter(Boolean)
+    .join(' ')
+    .replace(/\*\*(.+?)\*\*/g, '$1')
+    .replace(/__(.+?)__/g, '$1')
+    .replace(/\{[a-z]+:(.+?)}/g, '$1')
+    .replace(/\[def:[^:]+:([^\]]+)]/g, '$1')
+    .replace(/\((\d{2}\.\d{2})\)/g, '($1)')
+    .trim()
+}
+
+function buildIndex(locale) {
+  const isRu = locale === 'ru'
   const items = []
   const sources = [
-    { key: 'basicRules', data: basicRules.en },
-    { key: 'battleRound', data: battleRound.en },
-    { key: 'battlefields', data: battlefields.en },
-    { key: 'advancedRules', data: advancedRules.en },
+    { key: 'basicRules', enData: basicRules.en, ruData: basicRules.ru },
+    { key: 'battleRound', enData: battleRound.en, ruData: battleRound.ru },
+    { key: 'battlefields', enData: battlefields.en, ruData: battlefields.ru },
+    { key: 'advancedRules', enData: advancedRules.en, ruData: advancedRules.ru },
   ]
-  for (const { key, data } of sources) {
+  for (const { key, enData, ruData } of sources) {
     const route = routeMap[key]
-    for (const section of data) {
-      if (!section.subsections) continue
-      for (const sub of section.subsections) {
-        if (!sub.sectionNum) continue
+    for (let si = 0; si < enData.length; si++) {
+      const enSection = enData[si]
+      const ruSection = isRu && ruData ? (ruData[si] || {}) : {}
+      if (!enSection.subsections) continue
+      const sectionTitle = (isRu && ruSection.title) ? ruSection.title : (enSection.title || '')
+      const ruSubs = (isRu && ruSection.subsections) ? ruSection.subsections : []
+      for (let i = 0; i < enSection.subsections.length; i++) {
+        const enSub = enSection.subsections[i]
+        if (!enSub.sectionNum) continue
+        const ruSub = ruSubs[i] || {}
+        const merged = isRu ? { ...enSub, ...ruSub } : enSub
         items.push({
-          id: sub.id,
-          sectionNum: sub.sectionNum || '',
-          title: sub.title || '',
-          body: sub.body || '',
+          id: enSub.id,
+          sectionNum: enSub.sectionNum,
+          title: merged.title || '',
+          body: stripMarkup((merged.body || '') + (merged.note ? ' ' + merged.note : '')),
           route,
-          sectionTitle: section.title || '',
+          sectionTitle,
         })
       }
     }
   }
-  for (const ability of coreAbilities.en) {
+  for (let i = 0; i < coreAbilities.en.length; i++) {
+    const en = coreAbilities.en[i]
+    const ru = isRu && coreAbilities.ru ? (coreAbilities.ru[i] || {}) : {}
+    const merged = isRu ? { ...en, ...ru } : en
     items.push({
-      id: 'ability-' + ability.num.replace('.', '_'),
-      sectionNum: ability.num,
-      title: ability.name,
-      body: ability.fullText + ' ' + (ability.flavor || ''),
+      id: 'ability-' + en.num.replace('.', '_'),
+      sectionNum: en.num,
+      title: en.name,
+      body: stripMarkup((merged.fullText || '') + ' ' + (merged.flavor || '')),
       route: '/reference',
-      sectionTitle: 'Core Abilities',
+      sectionTitle: sectionTitles[locale].reference,
     })
   }
   return items
 }
 
-const index = buildIndex()
+const indexEn = buildIndex('en')
+const indexRu = buildIndex('ru')
 
-export function search(query) {
+export function search(query, locale = 'en') {
   if (!query || query.trim().length < 2) return []
+  const index = locale === 'ru' ? indexRu : indexEn
   const q = query.trim().toLowerCase()
   const results = []
   for (const item of index) {
