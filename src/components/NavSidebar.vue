@@ -8,7 +8,7 @@
 
     <div class="nav-groups">
       <div
-        v-for="group in navGroups"
+        v-for="group in localizedGroups"
         :key="group.path"
         class="nav-group"
         :class="{ active: isActive(group.path) }"
@@ -36,14 +36,18 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { navGroups } from '../router/index.js'
+import { navGroups, navGroupsRu } from '../router/index.js'
+import { useLocale } from '../composables/useLocale.js'
 
 defineProps({ mobileOpen: Boolean })
 defineEmits(['close'])
 
 const route = useRoute()
 const router = useRouter()
+const { locale } = useLocale()
+const localizedGroups = computed(() => locale.value === 'ru' ? navGroupsRu : navGroups)
 
 function isActive(path) {
   return route.path === path

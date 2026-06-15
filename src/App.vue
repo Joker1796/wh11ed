@@ -14,7 +14,7 @@
             class="nav-link"
             :class="{ active: isCoreRoute }"
             @click="mobileNavOpen = false"
-          >Core Rules</RouterLink>
+          >{{ labels.navCoreRules }}</RouterLink>
         </nav>
 
         <div class="navbar-actions">
@@ -67,6 +67,7 @@ import KeywordPopover from './components/KeywordPopover.vue'
 import { useLocale } from './composables/useLocale.js'
 import { useKeywordPopover } from './composables/useKeywordPopover.js'
 import { resolveRef, useRefNavigation } from './composables/useRefNavigation.js'
+import { ui } from './i18n/ui.js'
 
 const route = useRoute()
 const mobileNavOpen = ref(false)
@@ -75,18 +76,23 @@ const { locale, toggleLocale } = useLocale()
 const { open: openKeyword, close: closeKeyword } = useKeywordPopover()
 const { navigateTo } = useRefNavigation()
 
+const labels = computed(() => ui[locale.value])
+
 const coreRoutes = ['/', '/basic-rules', '/battle-round', '/battlefields', '/advanced-rules', '/reference', '/files']
 const isCoreRoute = computed(() => coreRoutes.includes(route.path))
 
-const subNavItems = [
-  { path: '/', label: 'Introduction' },
-  { path: '/basic-rules', label: 'Basic Rules' },
-  { path: '/battle-round', label: 'Battle Round' },
-  { path: '/battlefields', label: 'Battlefields' },
-  { path: '/advanced-rules', label: 'Advanced' },
-  { path: '/reference', label: 'Reference' },
-  { path: '/files', label: 'Files' },
-]
+const subNavItems = computed(() => {
+  const l = labels.value
+  return [
+    { path: '/', label: l.subNavIntro },
+    { path: '/basic-rules', label: l.subNavBasicRules },
+    { path: '/battle-round', label: l.subNavBattleRound },
+    { path: '/battlefields', label: l.subNavBattlefields },
+    { path: '/advanced-rules', label: l.subNavAdvanced },
+    { path: '/reference', label: l.subNavReference },
+    { path: '/files', label: l.subNavFiles },
+  ]
+})
 
 function onKeydown(e) {
   if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
