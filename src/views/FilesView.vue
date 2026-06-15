@@ -1,8 +1,8 @@
 <template>
   <div class="view">
     <div class="view-hero">
-      <h1>Source Files</h1>
-      <p class="view-hero-desc">Original rulebook documents used as data sources for this reference</p>
+      <h1>{{ labels.filesHeading }}</h1>
+      <p class="view-hero-desc">{{ labels.filesDesc }}</p>
     </div>
 
     <div class="files-list">
@@ -37,7 +37,7 @@
             <polyline points="15 3 21 3 21 9"/>
             <line x1="10" y1="14" x2="21" y2="3"/>
           </svg>
-          Open
+          {{ labels.filesOpen }}
         </div>
       </a>
     </div>
@@ -45,20 +45,25 @@
 </template>
 
 <script setup>
-const files = [
+import { computed } from 'vue'
+import { useLocale } from '../composables/useLocale.js'
+import { ui } from '../i18n/ui.js'
+
+const { locale } = useLocale()
+const labels = computed(() => ui[locale.value])
+
+const files = computed(() => [
   {
-    name: 'WH40k_11ed.pdf',
-    desc: 'Warhammer 40,000 Core Rules — 11th Edition (official rulebook)',
+    desc: labels.value.fileDescEN,
     path: './sources/WH40k_11ed.pdf',
     type: 'pdf',
   },
   {
-    name: 'RUS_01-06_warhammer40k_new40k_core_rules-was6fbu1ix-hfewhmxyiy.pdf',
-    desc: 'Warhammer 40,000 Core Rules — 11th Edition (Russian rulebook)',
+    desc: labels.value.fileDescRU,
     path: './sources/RUS_01-06_warhammer40k_new40k_core_rules-was6fbu1ix-hfewhmxyiy.pdf',
     type: 'pdf',
   },
-]
+])
 </script>
 
 <style scoped>
