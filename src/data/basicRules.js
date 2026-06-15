@@ -967,13 +967,13 @@ When resolving attack dice, if those attacks inflict a mixture of both mortal wo
 
 Другие модели и юниты могут быть либо видимыми(visible), либо полностью видимыми(fully visible) для наблюдающей модели, как показано ниже.
 
-[img:/images/visibility/model-visible.png]
+[img:/images/visibility/model-visible-ru.png]
 
-[img:/images/visibility/model-fully-visible.png]
+[img:/images/visibility/model-fully-visible-ru.png]
 
-[img:/images/visibility/unit-visible.png]
+[img:/images/visibility/unit-visible-ru.png]
 
-[img:/images/visibility/unit-fully-visible.png]`,
+[img:/images/visibility/unit-fully-visible-ru.png]`,
           note: `Рельеф применяет дополнительные правила к видимости (13.07).`,
         },
         {

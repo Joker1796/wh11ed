@@ -92,10 +92,16 @@ const sections = computed(() => {
     ...section,
     title: basicRules.ru[i].title,
     description: basicRules.ru[i].description,
-    subsections: section.subsections.map((sub, j) => ({
-      ...sub,
-      ...basicRules.ru[i].subsections[j],
-    })),
+    subsections: section.subsections.map((sub, j) => {
+      const merged = { ...sub, ...basicRules.ru[i].subsections[j] }
+      if (merged.image?.src)
+        merged.image = { ...merged.image, src: merged.image.src.replace('.png', '-ru.png') }
+      if (merged.sideImage?.src)
+        merged.sideImage = { ...merged.sideImage, src: merged.sideImage.src.replace('.png', '-ru.png') }
+      if (merged.illustration?.src)
+        merged.illustration = { ...merged.illustration, src: merged.illustration.src.replace('.png', '-ru.png') }
+      return merged
+    }),
     woundTable: section.woundTable
       ? { ...section.woundTable, ...basicRules.ru[i].woundTable }
       : undefined,
