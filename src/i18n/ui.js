@@ -46,6 +46,9 @@ export const ui = {
     subNavAdvanced: 'Advanced',
     subNavReference: 'Reference',
     subNavFiles: 'Files',
+    searchPlaceholder: 'Search rules, keywords, sections…',
+    searchHint: 'Type at least 2 characters to search across all rules',
+    searchNoResults: 'No results for',
   },
   ru: {
     introHeading: 'Введение',
@@ -94,5 +97,8 @@ export const ui = {
     subNavAdvanced: 'Продвинутые',
     subNavReference: 'Справочник',
     subNavFiles: 'Файлы',
+    searchPlaceholder: 'Поиск правил, ключевых слов, разделов…',
+    searchHint: 'Введите не менее 2 символов для поиска по всем правилам',
+    searchNoResults: 'Нет результатов для',
   },
 }

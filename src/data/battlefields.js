@@ -18,9 +18,9 @@ export const battlefields = {
 
 In each case, the area of the battlefield occupied by that boundary or **terrain feature** is known as a **terrain area**. A mission's deployment map may define the location and dimensions of each **terrain area**. Otherwise, players must agree on this before the battle.
 
-[img:/images/terrain/terrain-placed-on-a-mat.png]
+[img:/images/terrain/terrain-placed-on-a-mat.png|Terrain on a mat — terrain area boundary example]
 
-[img:/images/terrain/terrain-placed-on-the-battlefield.png]`,
+[img:/images/terrain/terrain-placed-on-the-battlefield.png|Terrain on the battlefield — terrain area boundary example]`,
         },
         {
           id: 'section-13-02',
@@ -76,9 +76,9 @@ Models can be set up or end a move on the ground level of **terrain features**. 
 ▪ That model has one or more of the following keywords: INFANTRY/BEASTS/SWARM/FLY/MONSTER.
 ▪ After ending that move, that model is stable and no part of its base overhangs the outer edge of that surface.
 
-[img:/images/terrain/terrain-and-movement.png]
+[img:/images/terrain/terrain-and-movement.png|Terrain and movement — models moving across terrain features]
 
-[img:/images/terrain/terrain-and-movement-2.png]`,
+[img:/images/terrain/terrain-and-movement-2.png|Terrain and movement example 2 — base overhang rules]`,
           note: 'Solid Terrain: If a **terrain feature** has the Solid rule (13.11), a model cannot end a move such that any part of it is through any enclosed part of that **terrain feature** that is 3" or less from ground level — not even through small openings such as doors and windows.',
         },
         {
@@ -121,7 +121,7 @@ While a model is **hidden**, it can only be **visible** to enemy models that are
           title: 'Solid',
           body: `Dense terrain features have the **Solid** rule. **Line of sight** cannot be drawn across any enclosed gap in the surface of such a **terrain feature** that is 3" or less from ground level.
 
-[img:/images/terrain/solid.png]`,
+[img:/images/terrain/solid.png|Solid terrain — line of sight blocking diagram]`,
           note: "Designer's Note: This rule ensures that models are not **visible** while sheltering in ground-level terrain, irrespective of small openings such as doors, windows or bullet holes, or because of small gaps between adjacent **terrain features**. 3\" is the height of the first floor of many **terrain features**, but some missions may adjust the height at which this rule takes effect.",
         },
       ],
@@ -153,7 +153,7 @@ At the end of each phase and turn, to determine a player's **level of control** 
 
 While one or more units from a player's army are within range of an **objective** that player controls, for each of those units that contains one or more models with an **OC** characteristic of 1 or more, that unit is said to be **controlling** that **objective**.
 
-[img:/images/terrain/controlling-a-terrain-objective.png]`,
+[img:/images/terrain/controlling-a-terrain-objective.png|Controlling a terrain objective — OC and control range]`,
           note: 'Hold at All Costs: Some units have abilities that are triggered when they control an **objective**, or when they **secure** an **objective** for your army.',
         },
         {
@@ -410,9 +410,9 @@ If a unit performing an **action** makes a move (excluding **pile-in** and **con
 
 В каждом случае область поля боя, занимаемая этой границей или **элементом укрытия**, известна как **область укрытия**. Карта развёртывания миссии может определять местоположение и размеры каждой **области укрытия**. В противном случае игроки должны договориться об этом до начала битвы.
 
-[img:/images/terrain/terrain-placed-on-a-mat-ru.png]
+[img:/images/terrain/terrain-placed-on-a-mat-ru.png|Укрытие на мате — пример границы территории]
 
-[img:/images/terrain/terrain-placed-on-the-battlefield-ru.png]`,
+[img:/images/terrain/terrain-placed-on-the-battlefield-ru.png|Укрытие на поле боя — пример границы территории]`,
         },
         {
           id: 'section-13-02',
@@ -468,9 +468,9 @@ If a unit performing an **action** makes a move (excluding **pile-in** and **con
 ▪ Эта модель имеет одно или несколько из следующих ключевых слов: INFANTRY/BEASTS/SWARM/FLY/MONSTER (ПЕХОТА/ЗВЕРИ/РОЙ/ЛЕТАЮЩИЙ/МОНСТР).
 ▪ После завершения этого перемещения эта модель устойчива, и ни одна часть её основания не свешивается за внешний край этой поверхности.
 
-[img:/images/terrain/terrain-and-movement-ru.png]
+[img:/images/terrain/terrain-and-movement-ru.png|Укрытие и движение — перемещение моделей через укрытие]
 
-[img:/images/terrain/terrain-and-movement-2-ru.png]`,
+[img:/images/terrain/terrain-and-movement-2-ru.png|Укрытие и движение, пример 2 — правила выноса основания]`,
           note: 'Сплошное укрытие: Если **элемент укрытия** обладает правилом Сплошное (13.11), модель не может завершить перемещение так, чтобы любая её часть оказалась по ту сторону любой закрытой части этого **элемента укрытия**, находящейся на высоте 3" или менее от уровня земли — даже через небольшие проёмы, такие как двери и окна.',
         },
         {
@@ -513,7 +513,7 @@ If a unit performing an **action** makes a move (excluding **pile-in** and **con
           title: 'Сплошное укрытие',
           body: `**Надёжные укрытия** обладают правилом **Сплошное укрытие**. **Линию обзора** нельзя провести через любой закрытый проём в поверхности такого **элемента укрытия**, который находится на высоте 3" или менее от уровня земли.
 
-[img:/images/terrain/solid-ru.png]`,
+[img:/images/terrain/solid-ru.png|Монолитное укрытие — диаграмма блокировки линии обзора]`,
           note: 'Примечание дизайнера: Это правило гарантирует, что модели **не видны**, пока укрываются в укрытиях на уровне земли, независимо от небольших отверстий, таких как двери, окна или нулевые отверстия, или из-за небольших зазоров между соседними **элементами укрытий**. 3" — это высота первого этажа многих **элементов укрытий**, но некоторые миссии могут корректировать высоту, на которой это правило вступает в силу.',
         },
       ],
@@ -545,7 +545,7 @@ If a unit performing an **action** makes a move (excluding **pile-in** and **con
 
 Пока одна или несколько **единиц** из армии игрока находятся в пределах досягаемости до **цели**, которую этот игрок контролирует, для каждой из этих единиц, которая содержит одну или несколько моделей с характеристикой OC 1 или более, считается, что эта единица контролирует данную **цель**.
 
-[img:/images/terrain/controlling-a-terrain-objective-ru.png]`,
+[img:/images/terrain/controlling-a-terrain-objective-ru.png|Захват цели у укрытия — диаграмма контроля]`,
           note: 'Удержать любой ценой: Некоторые юниты имеют способности, которые срабатывают, когда они контролируют **цель**, или когда они **закрепляют** **цель** для вашей армии.',
         },
         {

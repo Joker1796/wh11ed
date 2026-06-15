@@ -525,13 +525,13 @@ The attacks are resolved one at a time, from lowest save rolls to highest:
 
 Other models and units can be either **visible** or **fully visible** to the observing model, as shown below.
 
-[img:/images/visibility/model-visible.png]
+[img:/images/visibility/model-visible.png|Model visibility — model partially visible]
 
-[img:/images/visibility/model-fully-visible.png]
+[img:/images/visibility/model-fully-visible.png|Model visibility — model fully visible]
 
-[img:/images/visibility/unit-visible.png]
+[img:/images/visibility/unit-visible.png|Unit visibility — unit visible to observer]
 
-[img:/images/visibility/unit-fully-visible.png]`,
+[img:/images/visibility/unit-fully-visible.png|Unit visibility — unit fully visible to observer]`,
           note: 'Terrain applies additional rules to visibility (13.07).',
         },
         {
@@ -967,13 +967,13 @@ When resolving attack dice, if those attacks inflict a mixture of both mortal wo
 
 Другие модели и юниты могут быть либо видимыми(visible), либо полностью видимыми(fully visible) для наблюдающей модели, как показано ниже.
 
-[img:/images/visibility/model-visible-ru.png]
+[img:/images/visibility/model-visible-ru.png|Диаграмма видимости — модель частично видима]
 
-[img:/images/visibility/model-fully-visible-ru.png]
+[img:/images/visibility/model-fully-visible-ru.png|Диаграмма видимости — модель полностью видима]
 
-[img:/images/visibility/unit-visible-ru.png]
+[img:/images/visibility/unit-visible-ru.png|Диаграмма видимости — юнит видим для наблюдателя]
 
-[img:/images/visibility/unit-fully-visible-ru.png]`,
+[img:/images/visibility/unit-fully-visible-ru.png|Диаграмма видимости — юнит полностью видим для наблюдателя]`,
           note: `Рельеф применяет дополнительные правила к видимости (13.07).`,
         },
         {
