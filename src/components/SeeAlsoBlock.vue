@@ -1,6 +1,6 @@
 <template>
   <div class="see-also">
-    <div class="see-also-label">See also</div>
+    <div class="see-also-label">{{ locale === 'ru' ? 'Смотрите также' : 'See also' }}</div>
     <div v-if="title" class="see-also-title">{{ title }}</div>
     <ul>
       <li v-for="ref in refs" :key="ref">
@@ -18,6 +18,7 @@
 
 <script setup>
 import { useRefNavigation } from '../composables/useRefNavigation.js'
+import { useLocale } from '../composables/useLocale.js'
 
 defineProps({
   title: { type: String, default: '' },
@@ -25,6 +26,7 @@ defineProps({
 })
 
 const { resolveRef, navigateTo } = useRefNavigation()
+const { locale } = useLocale()
 </script>
 
 <style scoped>
