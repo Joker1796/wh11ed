@@ -17,7 +17,7 @@ function buildIndex() {
   const sources = [
     { key: 'basicRules', data: basicRules.en },
     { key: 'battleRound', data: battleRound.en },
-    { key: 'battlefields', data: battlefields },
+    { key: 'battlefields', data: battlefields.en },
     { key: 'advancedRules', data: advancedRules },
   ]
   for (const { key, data } of sources) {

@@ -1,16 +1,17 @@
-export const battlefields = [
-  {
-    id: '13',
-    num: '13',
-    title: 'Terrain',
-    page: 46,
-    description: 'This section provides rules for using terrain to transform your gaming table into an interactive, thematic battlefield. These rules help to bring your battlefield to life and introduce a vital tactical dimension to your games.',
-    subsections: [
-      {
-        id: 'section-13-01',
-        sectionNum: '13.01',
-        title: 'Placing Terrain',
-        body: `Before the battle, place a selection of **terrain features** on the battlefield using one or more of the following methods:
+export const battlefields = {
+  en: [
+    {
+      id: '13',
+      num: '13',
+      title: 'Terrain',
+      page: 46,
+      description: 'This section provides rules for using terrain to transform your gaming table into an interactive, thematic battlefield. These rules help to bring your battlefield to life and introduce a vital tactical dimension to your games.',
+      subsections: [
+        {
+          id: 'section-13-01',
+          sectionNum: '13.01',
+          title: 'Placing Terrain',
+          body: `Before the battle, place a selection of **terrain features** on the battlefield using one or more of the following methods:
 ▪ Place a well-defined boundary (such as a base or mat) in each location you want to furnish with terrain, then place one or more **terrain features** wholly within that boundary.
 ▪ Place one **terrain feature** directly on the battlefield.
 ▪ Place two or more **terrain features** directly on the battlefield in such a way that together they define the boundary of an area.
@@ -20,45 +21,45 @@ In each case, the area of the battlefield occupied by that boundary or **terrain
 [img:/images/terrain/terrain-placed-on-a-mat.png]
 
 [img:/images/terrain/terrain-placed-on-the-battlefield.png]`,
-      },
-      {
-        id: 'section-13-02',
-        sectionNum: '13.02',
-        title: 'Terrain Categories',
-        body: `Each **terrain feature** belongs to a **terrain category**, which can affect the movement and visibility of models. Below are some examples of which types of **terrain features** fall under each category.
+        },
+        {
+          id: 'section-13-02',
+          sectionNum: '13.02',
+          title: 'Terrain Categories',
+          body: `Each **terrain feature** belongs to a **terrain category**, which can affect the movement and visibility of models. Below are some examples of which types of **terrain features** fall under each category.
 
 A mission's deployment map may define which **terrain categories** should be present within each **terrain area**. Meeting these requirements will create the best gaming experience.`,
-        note: 'Note that **terrain features** sharing the same **terrain area** can belong to different **terrain categories**.',
-      },
-      {
-        id: 'section-13-03',
-        sectionNum: '13.03',
-        title: 'Exposed',
-        body: `Exposed terrain offers only scant protection to the most desperate troops, and can be traversed without hindrance.
+          note: 'Note that **terrain features** sharing the same **terrain area** can belong to different **terrain categories**.',
+        },
+        {
+          id: 'section-13-03',
+          sectionNum: '13.03',
+          title: 'Exposed',
+          body: `Exposed terrain offers only scant protection to the most desperate troops, and can be traversed without hindrance.
 
 **Examples:** Craters, razorwire, scattered debris.`,
-      },
-      {
-        id: 'section-13-04',
-        sectionNum: '13.04',
-        title: 'Light',
-        body: `Light terrain can provide cover from incoming attacks, but will not slow an enemy's advance or offer lasting defence.
+        },
+        {
+          id: 'section-13-04',
+          sectionNum: '13.04',
+          title: 'Light',
+          body: `Light terrain can provide cover from incoming attacks, but will not slow an enemy's advance or offer lasting defence.
 
 **Examples:** Barricades, low walls, statuary.`,
-      },
-      {
-        id: 'section-13-05',
-        sectionNum: '13.05',
-        title: 'Dense',
-        body: `Dense terrain is an obstacle to even the largest war machines, and can shelter entire squads from enemy sight.
+        },
+        {
+          id: 'section-13-05',
+          sectionNum: '13.05',
+          title: 'Dense',
+          body: `Dense terrain is an obstacle to even the largest war machines, and can shelter entire squads from enemy sight.
 
 **Examples:** Buildings, ruins, armoured containers, woods.`,
-      },
-      {
-        id: 'section-13-06',
-        sectionNum: '13.06',
-        title: 'Terrain and Movement',
-        body: `Models can move through different categories of **terrain feature** as follows:
+        },
+        {
+          id: 'section-13-06',
+          sectionNum: '13.06',
+          title: 'Terrain and Movement',
+          body: `Models can move through different categories of **terrain feature** as follows:
 ▪ **Exposed/Light:** All models can move horizontally and vertically through **exposed** and **light terrain features**.
 ▪ **Dense:**
 ▫ INFANTRY/BEASTS/SWARM/MOBILE models can move horizontally through **dense terrain features**.
@@ -78,73 +79,73 @@ Models can be set up or end a move on the ground level of **terrain features**. 
 [img:/images/terrain/terrain-and-movement.png]
 
 [img:/images/terrain/terrain-and-movement-2.png]`,
-        note: 'Solid Terrain: If a **terrain feature** has the Solid rule (13.11), a model cannot end a move such that any part of it is through any enclosed part of that **terrain feature** that is 3" or less from ground level — not even through small openings such as doors and windows.',
-      },
-      {
-        id: 'section-13-07',
-        sectionNum: '13.07',
-        title: 'Terrain and Visibility',
-        body: `Terrain can affect visibility, depending on whether the **Benefit of Cover**, **Hidden**, **Obscuring** or **Solid** rules apply.`,
-      },
-      {
-        id: 'section-13-08',
-        sectionNum: '13.08',
-        title: 'Benefit of Cover',
-        sideImage: { src: '/images/terrain/benefit-of-cover.png', alt: 'Benefit of Cover diagram', width: '50%' },
-        body: `Each time a ranged attack targets a unit, if **every** model in that unit meets one or more of the following conditions, that unit has the **benefit of cover** against that attack:
+          note: 'Solid Terrain: If a **terrain feature** has the Solid rule (13.11), a model cannot end a move such that any part of it is through any enclosed part of that **terrain feature** that is 3" or less from ground level — not even through small openings such as doors and windows.',
+        },
+        {
+          id: 'section-13-07',
+          sectionNum: '13.07',
+          title: 'Terrain and Visibility',
+          body: `Terrain can affect visibility, depending on whether the **Benefit of Cover**, **Hidden**, **Obscuring** or **Solid** rules apply.`,
+        },
+        {
+          id: 'section-13-08',
+          sectionNum: '13.08',
+          title: 'Benefit of Cover',
+          sideImage: { src: '/images/terrain/benefit-of-cover.png', alt: 'Benefit of Cover diagram', width: '50%' },
+          body: `Each time a ranged attack targets a unit, if **every** model in that unit meets one or more of the following conditions, that unit has the **benefit of cover** against that attack:
 ▪ That model has the INFANTRY/BEASTS/SWARM keyword and is within a **terrain area**.
 ▪ That model is not **fully visible** to the attacking model due to one or more intervening **terrain features** and/or one or more intervening **obscuring terrain areas** (see 13.10).
 
 Each time a ranged attack targets a unit that has the **benefit of cover** against it, worsen the **BS** characteristic of that attack by 1.`,
-      },
-      {
-        id: 'section-13-09',
-        sectionNum: '13.09',
-        title: 'Hidden',
-        body: `A model is **hidden** while **all** of the following apply to it:
+        },
+        {
+          id: 'section-13-09',
+          sectionNum: '13.09',
+          title: 'Hidden',
+          body: `A model is **hidden** while **all** of the following apply to it:
 ▪ That model has the INFANTRY/BEASTS/SWARM keyword and is within a **terrain area** that contains one or more **dense terrain features**.
 ▪ That model's unit did not make one or more ranged attacks during this turn or during the previous turn.
 
 While a model is **hidden**, it can only be **visible** to enemy models that are within its **detection range**. Unless otherwise stated, a model's **detection range** is 15".`,
-      },
-      {
-        id: 'section-13-10',
-        sectionNum: '13.10',
-        title: 'Obscuring',
-        sideImage: { src: '/images/terrain/hidden-and-obscuring.png', alt: 'Hidden and Obscuring diagram', width: '50%' },
-        body: `**Terrain areas** containing one or more **light** or **dense terrain features** are **obscuring terrain areas**. If every **line of sight** drawn between two models crosses one or more **obscuring terrain areas** (excluding **obscuring terrain areas** that one or both of those models are within), those two models are not **visible** to each other.`,
-      },
-      {
-        id: 'section-13-11',
-        sectionNum: '13.11',
-        title: 'Solid',
-        body: `Dense terrain features have the **Solid** rule. **Line of sight** cannot be drawn across any enclosed gap in the surface of such a **terrain feature** that is 3" or less from ground level.
+        },
+        {
+          id: 'section-13-10',
+          sectionNum: '13.10',
+          title: 'Obscuring',
+          sideImage: { src: '/images/terrain/hidden-and-obscuring.png', alt: 'Hidden and Obscuring diagram', width: '50%' },
+          body: `**Terrain areas** containing one or more **light** or **dense terrain features** are **obscuring terrain areas**. If every **line of sight** drawn between two models crosses one or more **obscuring terrain areas** (excluding **obscuring terrain areas** that one or both of those models are within), those two models are not **visible** to each other.`,
+        },
+        {
+          id: 'section-13-11',
+          sectionNum: '13.11',
+          title: 'Solid',
+          body: `Dense terrain features have the **Solid** rule. **Line of sight** cannot be drawn across any enclosed gap in the surface of such a **terrain feature** that is 3" or less from ground level.
 
 [img:/images/terrain/solid.png]`,
-        note: "Designer's Note: This rule ensures that models are not **visible** while sheltering in ground-level terrain, irrespective of small openings such as doors, windows or bullet holes, or because of small gaps between adjacent **terrain features**. 3\" is the height of the first floor of many **terrain features**, but some missions may adjust the height at which this rule takes effect.",
-      },
-    ],
-  },
-  {
-    id: '14',
-    num: '14',
-    title: 'Objectives',
-    page: 52,
-    description: 'Objectives represent critical locations that both sides are attempting to secure, and many missions require your forces to take control of them to achieve victory. This section describes how to do so with your models.',
-    subsections: [
-      {
-        id: 'section-14-01',
-        sectionNum: '14.01',
-        title: 'Terrain Objectives',
-        body: `If a mission uses **objectives**, it will state where they are located on the battlefield. Typically, your mission will have a deployment map showing several points where **objectives** should be placed. The location of each point should coincide with a **terrain area** (13.01); that **terrain area** is the **objective**, and is called a **terrain objective**.
+          note: "Designer's Note: This rule ensures that models are not **visible** while sheltering in ground-level terrain, irrespective of small openings such as doors, windows or bullet holes, or because of small gaps between adjacent **terrain features**. 3\" is the height of the first floor of many **terrain features**, but some missions may adjust the height at which this rule takes effect.",
+        },
+      ],
+    },
+    {
+      id: '14',
+      num: '14',
+      title: 'Objectives',
+      page: 52,
+      description: 'Objectives represent critical locations that both sides are attempting to secure, and many missions require your forces to take control of them to achieve victory. This section describes how to do so with your models.',
+      subsections: [
+        {
+          id: 'section-14-01',
+          sectionNum: '14.01',
+          title: 'Terrain Objectives',
+          body: `If a mission uses **objectives**, it will state where they are located on the battlefield. Typically, your mission will have a deployment map showing several points where **objectives** should be placed. The location of each point should coincide with a **terrain area** (13.01); that **terrain area** is the **objective**, and is called a **terrain objective**.
 
 When measuring distances to and from an **objective**, measure to and from the closest part of it.`,
-      },
-      {
-        id: 'section-14-02',
-        sectionNum: '14.02',
-        title: 'Level of Control',
-        body: `At the start of the battle, no **objective** on the battlefield is controlled by either player. To gain control of an **objective**, a player will need one or more models with an **OC** characteristic of 1 or more within range of it. A model is within range of a **terrain objective** while it is within that **terrain area**.
+        },
+        {
+          id: 'section-14-02',
+          sectionNum: '14.02',
+          title: 'Level of Control',
+          body: `At the start of the battle, no **objective** on the battlefield is controlled by either player. To gain control of an **objective**, a player will need one or more models with an **OC** characteristic of 1 or more within range of it. A model is within range of a **terrain objective** while it is within that **terrain area**.
 
 At the end of each phase and turn, to determine a player's **level of control** over an **objective**, add together the **OC** characteristics of all the models in that player's army that are within range of that **objective**:
 ▪ The player who has the highest **level of control** over that **objective** controls that **objective**.
@@ -153,28 +154,28 @@ At the end of each phase and turn, to determine a player's **level of control** 
 While one or more units from a player's army are within range of an **objective** that player controls, for each of those units that contains one or more models with an **OC** characteristic of 1 or more, that unit is said to be **controlling** that **objective**.
 
 [img:/images/terrain/controlling-a-terrain-objective.png]`,
-        note: 'Hold at All Costs: Some units have abilities that are triggered when they control an **objective**, or when they **secure** an **objective** for your army.',
-      },
-      {
-        id: 'section-14-03',
-        sectionNum: '14.03',
-        title: 'Secured Objectives',
-        body: `Some rules allow an **objective** to be **secured** by a player's army. When an **objective** is **secured** by a player's army, that **objective** remains under their control — even once they no longer have any units within range of it — until their opponent's **level of control** over that **objective** is greater than theirs at the end of a phase.`,
-      },
-    ],
-  },
-  {
-    id: '15',
-    num: '15',
-    title: 'Stratagems',
-    page: 54,
-    description: 'Stratagems can be used by spending Command Points, to create epic moments of tactical brilliance or peerless martial might. They are used when a player deems that a critical point in the battle is reached, where extra combat prowess or fleeting but powerful effects are required to tip the balance in their favour.',
-    subsections: [
-      {
-        id: 'section-15-01',
-        sectionNum: '15.01',
-        title: 'Using Stratagems',
-        body: `During the battle, both players can use **stratagems**. Each **stratagem** states:
+          note: 'Hold at All Costs: Some units have abilities that are triggered when they control an **objective**, or when they **secure** an **objective** for your army.',
+        },
+        {
+          id: 'section-14-03',
+          sectionNum: '14.03',
+          title: 'Secured Objectives',
+          body: `Some rules allow an **objective** to be **secured** by a player's army. When an **objective** is **secured** by a player's army, that **objective** remains under their control — even once they no longer have any units within range of it — until their opponent's **level of control** over that **objective** is greater than theirs at the end of a phase.`,
+        },
+      ],
+    },
+    {
+      id: '15',
+      num: '15',
+      title: 'Stratagems',
+      page: 54,
+      description: 'Stratagems can be used by spending Command Points, to create epic moments of tactical brilliance or peerless martial might. They are used when a player deems that a critical point in the battle is reached, where extra combat prowess or fleeting but powerful effects are required to tip the balance in their favour.',
+      subsections: [
+        {
+          id: 'section-15-01',
+          sectionNum: '15.01',
+          title: 'Using Stratagems',
+          body: `During the battle, both players can use **stratagems**. Each **stratagem** states:
 ▪ How many CP it costs to use.
 ▪ **WHEN:** When it can be used.
 ▪ **TARGET:** Which units it can target.
@@ -189,179 +190,179 @@ Each time you use a **stratagem**, resolve the following sequence:
 1. Select targets as described in that **stratagem**.
 2. Reduce your CP total by the CP cost listed in that **stratagem**. If that **stratagem** contains a section that carries an additional CP cost (e.g. +1CP), you can only use that additional section if you increase the CP cost of that **stratagem** by the amount shown. If you do not have enough CP remaining, you cannot use that **stratagem**.
 3. Resolve the effects of that **stratagem**.`,
-      },
-      {
-        id: 'section-15-core-label',
-        sectionNum: '',
-        isGroupLabel: true,
-        title: 'CORE STRATAGEMS',
-        body: 'All players can use **core stratagems** (see overleaf). Additional stratagems can be found in Codexes and other publications.',
-      },
-      {
-        id: 'section-15-09',
-        sectionNum: '15.09',
-        title: 'Snap Shooting',
-        inline: true,
-        body: `◈ ELIGIBLE IF | As stated in the rule allowing this shooting type.
+        },
+        {
+          id: 'section-15-core-label',
+          sectionNum: '',
+          isGroupLabel: true,
+          title: 'CORE STRATAGEMS',
+          body: 'All players can use **core stratagems** (see overleaf). Additional stratagems can be found in Codexes and other publications.',
+        },
+        {
+          id: 'section-15-09',
+          sectionNum: '15.09',
+          title: 'Snap Shooting',
+          inline: true,
+          body: `◈ ELIGIBLE IF | As stated in the rule allowing this shooting type.
 ◈ EFFECT | Your unit shoots as described in Making Attacks (04).
 ◈ WHILE SHOOTING
 ▪ You can only target one **visible** enemy unit within 24" of your unit (and only if it is an eligible target).
 ▪ Each attack only hits on an unmodified **hit roll** of 6 (irrespective of the attacking weapon's **BS** characteristic or any modifiers).
 ▪ You cannot re-roll **hit rolls**.
 ◈ AFTER SHOOTING | Until the end of the phase, your unit is not **eligible to start an action**.`,
-      },
-    ],
-    stratagems: [
-      {
-        num: '15.02',
-        name: 'Command Re-roll',
-        cp: '1CP',
-        turn: 'either',
-        flavor: 'A great commander can bend even the vagaries of fate and fortune to their will, the better to ensure victory.',
-        when: 'Any phase, just after you make one of the following rolls for a friendly unit or model:\n▪ Advance roll\n▪ Charge roll\n▪ Damage roll\n▪ Hazard roll\n▪ Hit roll\n▪ Save roll\n▪ Wound roll\n▪ A roll to determine the number of attacks generated with a weapon',
-        target: 'That unit or model',
-        effect: 'You re-roll that roll. If you are rolling more than one dice together, select one of those dice to re-roll (excluding **charge rolls**, which you must re-roll in full).',
-        restrictions: '',
-        extraCost: [],
-      },
-      {
-        num: '15.03',
-        name: 'Epic Challenge',
-        cp: '1CP',
-        turn: 'your',
-        flavor: 'The legends of the 41st millennium are replete with deadly duels between mighty champions.',
-        when: 'Fight phase, just after a friendly CHARACTER unit is selected to fight',
-        target: 'That CHARACTER unit',
-        effect: 'Select one CHARACTER model in your unit. Until the end of the phase, that model\'s melee weapons have the [PRECISION] ability.',
-        restrictions: '',
-        extraCost: [],
-      },
-      {
-        num: '15.04',
-        name: 'Insane Bravery',
-        cp: '1CP',
-        turn: 'your',
-        flavor: 'Indifferent to their own survival, these warriors hold their ground against seemingly impossible odds.',
-        when: 'Battle-shock step of your Command phase, just before you make a **battle-shock roll** for a friendly unit',
-        target: 'That unit',
-        effect: 'That **battle-shock roll** is automatically successful.',
-        restrictions: 'You cannot use this stratagem more than once per battle.',
-        extraCost: [],
-      },
-      {
-        num: '15.05',
-        name: 'Explosives',
-        cp: '1CP',
-        turn: 'your',
-        flavor: 'Priming grenades or other explosives, these warriors draw back and hurl death into the enemy\'s midst.',
-        when: 'Your Shooting phase',
-        target: 'One friendly **unengaged** EXPLOSIVES/GRENADES unit that is **eligible to shoot** and did not make an **advance move** this turn',
-        effect: 'Resolve the following sequence:\n1. Select one EXPLOSIVES/GRENADES model in your unit.\n2. Select one **unengaged** enemy unit within 8" of and **visible** to that model.\n3. Roll six D6: for each result of 4+, that enemy unit suffers 1 **mortal wound**.',
-        restrictions: '',
-        extraCost: [],
-      },
-      {
-        num: '15.06',
-        name: 'Crushing Impact',
-        cp: '1CP',
-        turn: 'your',
-        flavor: 'In extremis, armoured vehicles and rampaging monsters can use their sheer size as a weapon, ramming and crushing enemies beneath their colossal bulk, though doing so risks sustaining damage in return.',
-        when: 'Your Charge phase, just after a friendly MONSTER or VEHICLE unit ends a **charge move**',
-        target: 'That MONSTER or VEHICLE unit',
-        effect: 'Resolve the following sequence:\n1. Select one enemy model **engaged** with your unit.\n2. Select one model in your unit that is **engaged** with that enemy model.\n3. Roll a number of D6 equal to the **T** characteristic of that enemy model: for each result of 1, your unit suffers 1 **mortal wound**; for each result of 5+, that enemy model\'s unit suffers 1 **mortal wound** (to a maximum of 6 **mortal wounds** per unit).',
-        restrictions: '',
-        extraCost: [],
-      },
-      {
-        num: '15.07',
-        name: 'Rapid Ingress',
-        cp: '1CP',
-        turn: 'opponent',
-        flavor: 'Be it cunning strategy, potent technology or supernatural ritual, there are many means by which a commander may hasten their warriors\' onset.',
-        when: 'End of your opponent\'s Movement phase',
-        target: 'One friendly unit that is in **strategic reserves** (not an AIRCRAFT unit)',
-        effect: 'That unit makes an **ingress move** (20.04).',
-        restrictions: 'You cannot use this stratagem during the first battle round.',
-        extraCost: [],
-      },
-      {
-        num: '15.08',
-        name: 'Fire Overwatch',
-        cp: '1CP',
-        turn: 'opponent',
-        flavor: 'A hail of fire can drive back advancing foes.',
-        when: 'End of your opponent\'s Movement phase',
-        target: 'One friendly **unengaged** unit (not a TITANIC unit)',
-        effect: 'That unit shoots using **snap shooting** (15.09).',
-        restrictions: '',
-        extraCost: [],
-        subRule: {
-          sectionNum: '15.09',
-          title: 'Snap Shooting',
-          fields: [
-            { label: 'ELIGIBLE IF', text: 'As stated in the rule allowing this shooting type.' },
-            { label: 'EFFECT', text: 'Your unit shoots as described in Making Attacks (04).' },
-            { label: 'WHILE SHOOTING', text: '▪ You can only target one **visible** enemy unit within 24" of your unit (and only if it is an eligible target).\n▪ Each attack only hits on an unmodified **hit roll** of 6 (irrespective of the attacking weapon\'s **BS** characteristic or any modifiers).\n▪ You cannot re-roll **hit rolls**.' },
-            { label: 'AFTER SHOOTING', text: 'Until the end of the phase, your unit is not **eligible to start an action**.' },
+        },
+      ],
+      stratagems: [
+        {
+          num: '15.02',
+          name: 'Command Re-roll',
+          cp: '1CP',
+          turn: 'either',
+          flavor: 'A great commander can bend even the vagaries of fate and fortune to their will, the better to ensure victory.',
+          when: 'Any phase, just after you make one of the following rolls for a friendly unit or model:\n▪ Advance roll\n▪ Charge roll\n▪ Damage roll\n▪ Hazard roll\n▪ Hit roll\n▪ Save roll\n▪ Wound roll\n▪ A roll to determine the number of attacks generated with a weapon',
+          target: 'That unit or model',
+          effect: 'You re-roll that roll. If you are rolling more than one dice together, select one of those dice to re-roll (excluding **charge rolls**, which you must re-roll in full).',
+          restrictions: '',
+          extraCost: [],
+        },
+        {
+          num: '15.03',
+          name: 'Epic Challenge',
+          cp: '1CP',
+          turn: 'your',
+          flavor: 'The legends of the 41st millennium are replete with deadly duels between mighty champions.',
+          when: 'Fight phase, just after a friendly CHARACTER unit is selected to fight',
+          target: 'That CHARACTER unit',
+          effect: 'Select one CHARACTER model in your unit. Until the end of the phase, that model\'s melee weapons have the [PRECISION] ability.',
+          restrictions: '',
+          extraCost: [],
+        },
+        {
+          num: '15.04',
+          name: 'Insane Bravery',
+          cp: '1CP',
+          turn: 'your',
+          flavor: 'Indifferent to their own survival, these warriors hold their ground against seemingly impossible odds.',
+          when: 'Battle-shock step of your Command phase, just before you make a **battle-shock roll** for a friendly unit',
+          target: 'That unit',
+          effect: 'That **battle-shock roll** is automatically successful.',
+          restrictions: 'You cannot use this stratagem more than once per battle.',
+          extraCost: [],
+        },
+        {
+          num: '15.05',
+          name: 'Explosives',
+          cp: '1CP',
+          turn: 'your',
+          flavor: 'Priming grenades or other explosives, these warriors draw back and hurl death into the enemy\'s midst.',
+          when: 'Your Shooting phase',
+          target: 'One friendly **unengaged** EXPLOSIVES/GRENADES unit that is **eligible to shoot** and did not make an **advance move** this turn',
+          effect: 'Resolve the following sequence:\n1. Select one EXPLOSIVES/GRENADES model in your unit.\n2. Select one **unengaged** enemy unit within 8" of and **visible** to that model.\n3. Roll six D6: for each result of 4+, that enemy unit suffers 1 **mortal wound**.',
+          restrictions: '',
+          extraCost: [],
+        },
+        {
+          num: '15.06',
+          name: 'Crushing Impact',
+          cp: '1CP',
+          turn: 'your',
+          flavor: 'In extremis, armoured vehicles and rampaging monsters can use their sheer size as a weapon, ramming and crushing enemies beneath their colossal bulk, though doing so risks sustaining damage in return.',
+          when: 'Your Charge phase, just after a friendly MONSTER or VEHICLE unit ends a **charge move**',
+          target: 'That MONSTER or VEHICLE unit',
+          effect: 'Resolve the following sequence:\n1. Select one enemy model **engaged** with your unit.\n2. Select one model in your unit that is **engaged** with that enemy model.\n3. Roll a number of D6 equal to the **T** characteristic of that enemy model: for each result of 1, your unit suffers 1 **mortal wound**; for each result of 5+, that enemy model\'s unit suffers 1 **mortal wound** (to a maximum of 6 **mortal wounds** per unit).',
+          restrictions: '',
+          extraCost: [],
+        },
+        {
+          num: '15.07',
+          name: 'Rapid Ingress',
+          cp: '1CP',
+          turn: 'opponent',
+          flavor: 'Be it cunning strategy, potent technology or supernatural ritual, there are many means by which a commander may hasten their warriors\' onset.',
+          when: 'End of your opponent\'s Movement phase',
+          target: 'One friendly unit that is in **strategic reserves** (not an AIRCRAFT unit)',
+          effect: 'That unit makes an **ingress move** (20.04).',
+          restrictions: 'You cannot use this stratagem during the first battle round.',
+          extraCost: [],
+        },
+        {
+          num: '15.08',
+          name: 'Fire Overwatch',
+          cp: '1CP',
+          turn: 'opponent',
+          flavor: 'A hail of fire can drive back advancing foes.',
+          when: 'End of your opponent\'s Movement phase',
+          target: 'One friendly **unengaged** unit (not a TITANIC unit)',
+          effect: 'That unit shoots using **snap shooting** (15.09).',
+          restrictions: '',
+          extraCost: [],
+          subRule: {
+            sectionNum: '15.09',
+            title: 'Snap Shooting',
+            fields: [
+              { label: 'ELIGIBLE IF', text: 'As stated in the rule allowing this shooting type.' },
+              { label: 'EFFECT', text: 'Your unit shoots as described in Making Attacks (04).' },
+              { label: 'WHILE SHOOTING', text: '▪ You can only target one **visible** enemy unit within 24" of your unit (and only if it is an eligible target).\n▪ Each attack only hits on an unmodified **hit roll** of 6 (irrespective of the attacking weapon\'s **BS** characteristic or any modifiers).\n▪ You cannot re-roll **hit rolls**.' },
+              { label: 'AFTER SHOOTING', text: 'Until the end of the phase, your unit is not **eligible to start an action**.' },
+            ],
+          },
+        },
+        {
+          num: '15.10',
+          name: 'Smokescreen',
+          cp: '1CP',
+          turn: 'opponent',
+          flavor: 'Even the most skilled marksmen struggle to hit targets veiled by billowing screens of smoke.',
+          when: 'Start of your opponent\'s Shooting phase',
+          target: 'One friendly SMOKE unit',
+          effect: 'Until the end of the phase, each time an attack targets your SMOKE unit, or targets a unit that is not **fully visible** to the attacking model because of one or more models in your SMOKE unit, the target has the **benefit of cover** against that attack (13.08).',
+          restrictions: '',
+          extraCost: [],
+        },
+        {
+          num: '15.11',
+          name: 'Heroic Intervention',
+          cp: '1CP',
+          turn: 'opponent',
+          flavor: 'Voices raised in furious war cries, your warriors surge forth to meet the enemy\'s onslaught head-on.',
+          when: 'End of your opponent\'s Charge phase',
+          target: 'One friendly **unengaged** unit within 12" of one or more enemy units. You can only select a VEHICLE unit if it is a CHARACTER/WALKER unit.',
+          effect: 'Resolve a **charge** with your unit (11.02). While doing so, before making the **charge roll**, you must select one of the following modes:\n▪ **Leap to Defend:** When selecting **charge targets**, you can only select enemy units that made a **charge move** this phase and are within the **maximum distance**.',
+          restrictions: '',
+          extraCost: [
+            {
+              cp: '+1CP',
+              title: 'Into the Fray',
+              body: 'When making the **charge roll**, if the result is greater than 6 (after modifiers), change it to 6. When selecting **charge targets**, you can select any enemy units that are within 6" of your unit and within the **maximum distance**.',
+            },
           ],
         },
-      },
-      {
-        num: '15.10',
-        name: 'Smokescreen',
-        cp: '1CP',
-        turn: 'opponent',
-        flavor: 'Even the most skilled marksmen struggle to hit targets veiled by billowing screens of smoke.',
-        when: 'Start of your opponent\'s Shooting phase',
-        target: 'One friendly SMOKE unit',
-        effect: 'Until the end of the phase, each time an attack targets your SMOKE unit, or targets a unit that is not **fully visible** to the attacking model because of one or more models in your SMOKE unit, the target has the **benefit of cover** against that attack (13.08).',
-        restrictions: '',
-        extraCost: [],
-      },
-      {
-        num: '15.11',
-        name: 'Heroic Intervention',
-        cp: '1CP',
-        turn: 'opponent',
-        flavor: 'Voices raised in furious war cries, your warriors surge forth to meet the enemy\'s onslaught head-on.',
-        when: 'End of your opponent\'s Charge phase',
-        target: 'One friendly **unengaged** unit within 12" of one or more enemy units. You can only select a VEHICLE unit if it is a CHARACTER/WALKER unit.',
-        effect: 'Resolve a **charge** with your unit (11.02). While doing so, before making the **charge roll**, you must select one of the following modes:\n▪ **Leap to Defend:** When selecting **charge targets**, you can only select enemy units that made a **charge move** this phase and are within the **maximum distance**.',
-        restrictions: '',
-        extraCost: [
-          {
-            cp: '+1CP',
-            title: 'Into the Fray',
-            body: 'When making the **charge roll**, if the result is greater than 6 (after modifiers), change it to 6. When selecting **charge targets**, you can select any enemy units that are within 6" of your unit and within the **maximum distance**.',
-          },
-        ],
-      },
-      {
-        num: '15.12',
-        name: 'Counteroffensive',
-        cp: '2CP',
-        turn: 'opponent',
-        flavor: 'In close-quarters combat, the slightest hesitation can leave an opening for a swift foe to exploit.',
-        when: 'Fight step of your opponent\'s Fight phase, just after an enemy unit resolves its attacks',
-        target: 'One friendly unit that is **eligible to fight**',
-        effect: 'Until the end of the phase, your unit has the **Fights First** ability and it must be the next unit you **select to fight** (12.04).',
-        restrictions: '',
-        extraCost: [],
-      },
-    ],
-  },
-  {
-    id: '16',
-    num: '16',
-    title: 'Actions',
-    page: 58,
-    description: 'Actions represent vital battlefield tasks your forces must carry out, from searching for missing archeotech to completing a blasphemous ritual.',
-    subsections: [
-      {
-        id: 'section-16-01',
-        sectionNum: '16.01',
-        title: 'Performing Actions',
-        body: `Some rules allow units to perform **actions**. Each **action** states:
+        {
+          num: '15.12',
+          name: 'Counteroffensive',
+          cp: '2CP',
+          turn: 'opponent',
+          flavor: 'In close-quarters combat, the slightest hesitation can leave an opening for a swift foe to exploit.',
+          when: 'Fight step of your opponent\'s Fight phase, just after an enemy unit resolves its attacks',
+          target: 'One friendly unit that is **eligible to fight**',
+          effect: 'Until the end of the phase, your unit has the **Fights First** ability and it must be the next unit you **select to fight** (12.04).',
+          restrictions: '',
+          extraCost: [],
+        },
+      ],
+    },
+    {
+      id: '16',
+      num: '16',
+      title: 'Actions',
+      page: 58,
+      description: 'Actions represent vital battlefield tasks your forces must carry out, from searching for missing archeotech to completing a blasphemous ritual.',
+      subsections: [
+        {
+          id: 'section-16-01',
+          sectionNum: '16.01',
+          title: 'Performing Actions',
+          body: `Some rules allow units to perform **actions**. Each **action** states:
 ▪ **STARTS:** When it is started.
 ▪ **UNITS:** Which friendly units can perform it.
 ▪ **USE LIMIT:** How many times friendly units can start it.
@@ -384,8 +385,361 @@ If a unit starts an **action**, until the end of the turn:
 
 ### Completing an Action
 If a unit performing an **action** makes a move (excluding **pile-in** and **consolidation moves**) or leaves the battlefield, that unit does not complete that **action**. Otherwise, when an **action** is completed, its Effect is triggered.`,
-        note: 'WHERE TO FIND ACTIONS\nThe **actions** players can use can be found in other publications such as mission packs. All players can use **core actions**, while other **actions** may have restrictions such as army faction.',
-      },
-    ],
-  },
-]
+          note: 'WHERE TO FIND ACTIONS\nThe **actions** players can use can be found in other publications such as mission packs. All players can use **core actions**, while other **actions** may have restrictions such as army faction.',
+        },
+      ],
+    },
+  ],
+
+  ru: [
+    {
+      id: '13',
+      num: '13',
+      title: 'Укрытия',
+      page: 46,
+      description: 'В этом разделе представлены правила использования укрытий для превращения вашего игрового стола в интерактивное, тематическое поле боя. Эти правила помогают оживить ваше поле боя и вносят жизненно важный тактический аспект в ваши игры.',
+      subsections: [
+        {
+          id: 'section-13-01',
+          sectionNum: '13.01',
+          title: 'Размещение укрытий',
+          body: `Перед битвой разместите набор **элементов укрытий** на поле боя, используя один или несколько из следующих методов:
+▪ Поместите чётко определённую границу (например, основание или коврик) в каждое место, которые вы хотите оборудовать укрытием, затем поместите один или несколько **элементов укрытий** полностью в пределах этой границы.
+▪ Поместите один **элемент укрытия** непосредственно на поле боя.
+▪ Поместите два или более **элементов укрытий** непосредственно на поле боя таким образом, чтобы вместе они определяли границу области.
+
+В каждом случае область поля боя, занимаемая этой границей или **элементом укрытия**, известна как **область укрытия**. Карта развёртывания миссии может определять местоположение и размеры каждой **области укрытия**. В противном случае игроки должны договориться об этом до начала битвы.
+
+[img:/images/terrain/terrain-placed-on-a-mat-ru.png]
+
+[img:/images/terrain/terrain-placed-on-the-battlefield-ru.png]`,
+        },
+        {
+          id: 'section-13-02',
+          sectionNum: '13.02',
+          title: 'Категории укрытий',
+          body: `Каждый **элемент укрытия** принадлежит к **категории укрытий**, которая может влиять на перемещение и видимость моделей. Ниже приведены примеры того, какие типы **элементов укрытий** попадают под каждую категорию.
+
+Карта развёртывания миссии может определять, какие **категории укрытий** должны присутствовать в каждой **области укрытия**. Соблюдение этих требований создаст наилучший игровой опыт.`,
+          note: 'Обратите внимание, что **элементы укрытий**, находящиеся в одной и той же **области укрытия**, могут принадлежать к разным **категориям укрытий**.',
+        },
+        {
+          id: 'section-13-03',
+          sectionNum: '13.03',
+          title: 'Открытые',
+          body: `Открытые укрытия предлагают лишь скудную защиту самым отчаянным войскам и могут быть пересечены без помех.
+
+**Примеры:** Кратеры, колючая проволока, разбросанные обломки.`,
+        },
+        {
+          id: 'section-13-04',
+          sectionNum: '13.04',
+          title: 'Лёгкие',
+          body: `Лёгкие укрытия могут обеспечить укрытие от направленных атак, но не замедляют продвижение врага и не предлагают долговременной защиты.
+
+**Примеры:** Баррикады, невысокие стены, статуи.`,
+        },
+        {
+          id: 'section-13-05',
+          sectionNum: '13.05',
+          title: 'Надёжные',
+          body: `Надёжные укрытия являются препятствием даже для самых крупных боевых машин и могут укрыть целые отделения от взгляда противника.
+
+**Примеры:** Здания, руины, бронированные контейнеры, леса.`,
+        },
+        {
+          id: 'section-13-06',
+          sectionNum: '13.06',
+          title: 'Укрытия и перемещение',
+          body: `Модели могут перемещаться через различные категории **элементов укрытий** следующим образом:
+▪ **Открытые/Лёгкие:** Все модели могут перемещаться горизонтально и вертикально через **открытые** и **лёгкие элементы укрытий**.
+▪ **Надёжные:**
+▫ INFANTRY/BEASTS/SWARM/MOBILE (ПЕХОТА/ЗВЕРИ/РОЙ/МОБИЛЬНЫЙ) могут перемещаться горизонтально через **надёжные элементы укрытий**.
+▫ INFANTRY/BEASTS/SWARM (ПЕХОТА/ЗВЕРИ/РОЙ) могут также перемещаться вертикально через **надёжные элементы укрытий**.
+▫ Другие модели могут перемещаться горизонтально через **надёжные элементы укрытий** при условии, что все секции этого **элемента укрытия**, через которые бы проходило основание перемещающейся модели, имеют высоту 2" или менее. В противном случае модель должна перемещаться вертикально, чтобы подняться или спуститься по таким секциям. Они не могут перемещаться через потолки и полы, делая это, и не могут закончить это перемещение на какой-либо поверхности этого **элемента укрытия**, которая не находится на уровне земли.
+
+### Вертикальное перемещение
+Модели могут перемещаться вертикально, чтобы подниматься или спускаться по **элементам укрытий**. При этом:
+▪ Эта модель должна оставаться в пределах ½" по горизонтали от этого **элемента укрытия**.
+▪ Прибавьте расстояние, пройденное вертикально вверх, и расстояние, пройденное вертикально вниз, к любому другому расстоянию, которое эта модель преодолела с момента начала перемещения её юнитом.
+
+### Постановка моделей или завершение перемещения
+Модели могут быть установлены или завершать перемещение на уровне земли **элементов укрытий**. Модели также могут быть установлены или завершать перемещение на любой поверхности **элемента укрытия**, которая не находится на уровне земли, если применяются **все** следующие условия:
+▪ Эта модель имеет одно или несколько из следующих ключевых слов: INFANTRY/BEASTS/SWARM/FLY/MONSTER (ПЕХОТА/ЗВЕРИ/РОЙ/ЛЕТАЮЩИЙ/МОНСТР).
+▪ После завершения этого перемещения эта модель устойчива, и ни одна часть её основания не свешивается за внешний край этой поверхности.
+
+[img:/images/terrain/terrain-and-movement-ru.png]
+
+[img:/images/terrain/terrain-and-movement-2-ru.png]`,
+          note: 'Сплошное укрытие: Если **элемент укрытия** обладает правилом Сплошное (13.11), модель не может завершить перемещение так, чтобы любая её часть оказалась по ту сторону любой закрытой части этого **элемента укрытия**, находящейся на высоте 3" или менее от уровня земли — даже через небольшие проёмы, такие как двери и окна.',
+        },
+        {
+          id: 'section-13-07',
+          sectionNum: '13.07',
+          title: 'Укрытия и видимость',
+          body: `Укрытия могут влиять на видимость в зависимости от того, применяются ли правила **Преимущества от укрытия**, **Скрытности**, **Загораживания** или **Сплошного укрытия**.`,
+        },
+        {
+          id: 'section-13-08',
+          sectionNum: '13.08',
+          title: 'Преимущество от укрытия',
+          sideImage: { src: '/images/terrain/benefit-of-cover.png', alt: 'Benefit of Cover diagram', width: '50%' },
+          body: `Каждый раз, когда дистанционная атака нацелена на юнит, если **каждая** модель в этом юните соответствует одному или нескольким из следующих условий, этот юнит получает **преимущество от укрытия** от этой атаки:
+▪ Эта модель имеет ключевое слово INFANTRY/BEASTS/SWARM (ПЕХОТА/ЗВЕРИ/РОЙ) и находится в пределах **области укрытия**.
+▪ Эта модель **не полностью видна** атакующей модели из-за одного или нескольких промежуточных **элементов укрытий** и/или одной или нескольких промежуточных **загораживающих областей укрытий** (см. 13.10).
+
+Каждый раз, когда дистанционная атака нацелена на юнит, который имеет **преимущество от укрытия** от этой атаки, ухудшите характеристику **BS** этой атаки на 1.`,
+        },
+        {
+          id: 'section-13-09',
+          sectionNum: '13.09',
+          title: 'Скрытность',
+          body: `Модель находится в **скрытности**, пока к ней применяются **все** следующие условия:
+▪ Эта модель имеет ключевое слово INFANTRY/BEASTS/SWARM (ПЕХОТА/ЗВЕРИ/РОЙ) и находится в пределах **области укрытия**, которая содержит один или несколько **надёжных элементов укрытий**.
+▪ Юнит этой модели **не совершал** одну или несколько дистанционных атак в течение этого хода или в течение предыдущего хода.
+
+Пока модель находится в **скрытности**, она может быть **видна** только вражеским моделям, которые находятся в пределах её **радиуса обнаружения**. Если не указано иное, **радиус обнаружения** модели составляет 15".`,
+        },
+        {
+          id: 'section-13-10',
+          sectionNum: '13.10',
+          title: 'Загораживание',
+          sideImage: { src: '/images/terrain/hidden-and-obscuring.png', alt: 'Hidden and Obscuring diagram', width: '50%' },
+          body: `**Области укрытий**, содержащие один или несколько **лёгких** или **надёжных элементов укрытий**, являются **загораживающими областями укрытий**. Если каждая **линия обзора**, проведённая между двумя моделями, пересекает одну или несколько **загораживающих областей укрытий** (за исключением **загораживающих областей укрытий**, внутри которых находится одна или обе эти модели), эти две модели **не видят** друг друга.`,
+        },
+        {
+          id: 'section-13-11',
+          sectionNum: '13.11',
+          title: 'Сплошное укрытие',
+          body: `**Надёжные укрытия** обладают правилом **Сплошное укрытие**. **Линию обзора** нельзя провести через любой закрытый проём в поверхности такого **элемента укрытия**, который находится на высоте 3" или менее от уровня земли.
+
+[img:/images/terrain/solid-ru.png]`,
+          note: 'Примечание дизайнера: Это правило гарантирует, что модели **не видны**, пока укрываются в укрытиях на уровне земли, независимо от небольших отверстий, таких как двери, окна или нулевые отверстия, или из-за небольших зазоров между соседними **элементами укрытий**. 3" — это высота первого этажа многих **элементов укрытий**, но некоторые миссии могут корректировать высоту, на которой это правило вступает в силу.',
+        },
+      ],
+    },
+    {
+      id: '14',
+      num: '14',
+      title: 'Цели',
+      page: 52,
+      description: 'Цели представляют собой критические места, которые обе стороны пытаются захватить, и многие миссии требуют, чтобы ваши силы взяли их под контроль для достижения победы. В этом разделе описывается, как это сделать с помощью ваших моделей.',
+      subsections: [
+        {
+          id: 'section-14-01',
+          sectionNum: '14.01',
+          title: 'Целевые объекты местности',
+          body: `Если в миссии используются **цели**, в ней указывается, где они находятся на поле боя. Как правило, в вашей миссии будет карта развёртывания, показывающая несколько точек, в которых должны быть размещены **цели**. Расположение каждой точки должно совпадать с **областью укрытия** (13.01); этот **элемент укрытия** является **целью** и называется **целевым объектом местности**.
+
+При измерении расстояний до **цели** и от неё измеряйте расстояние до ближайшей её части.`,
+        },
+        {
+          id: 'section-14-02',
+          sectionNum: '14.02',
+          title: 'Уровень контроля',
+          body: `В начале битвы ни одна **цель** на поле боя не находится под контролем кого-либо из игроков. Чтобы получить контроль над **целью**, игроку потребуется одна или несколько моделей с характеристикой **OC** 1 или более в пределах досягаемости до неё. Модель находится в пределах досягаемости до **целевого объекта местности**, пока она находится в пределах этой **области укрытия**.
+
+В конце каждой фазы и хода, чтобы определить **уровень контроля** игрока над **целью**, сложите вместе значения характеристик **OC** всех моделей в армии этого игрока, которые находятся в пределах досягаемости этой **цели**:
+▪ Игрок, у которого самый высокий **уровень контроля** над этой **целью**, контролирует эту **цель**.
+▪ Если оба игрока имеют **одинаковый уровень контроля** над этой **целью**, то, если только эта **цель** не является **закреплённой** (см. ниже), эта **цель** не контролируется ни одним из игроков.
+
+Пока одна или несколько **единиц** из армии игрока находятся в пределах досягаемости до **цели**, которую этот игрок контролирует, для каждой из этих единиц, которая содержит одну или несколько моделей с характеристикой OC 1 или более, считается, что эта единица контролирует данную **цель**.
+
+[img:/images/terrain/controlling-a-terrain-objective-ru.png]`,
+          note: 'Удержать любой ценой: Некоторые юниты имеют способности, которые срабатывают, когда они контролируют **цель**, или когда они **закрепляют** **цель** для вашей армии.',
+        },
+        {
+          id: 'section-14-03',
+          sectionNum: '14.03',
+          title: 'Закреплённые цели',
+          body: `Некоторые правила позволяют **закрепить** **цель** за армией игрока. Когда **цель закреплена** за армией игрока, она остаётся под их контролем — даже если у него больше нет ни одного юнита в пределах досягаемости этой **цели**, — до тех пор, пока **уровень контроля** противника над этой **целью** не станет выше его собственного в конце фазы.`,
+        },
+      ],
+    },
+    {
+      id: '15',
+      num: '15',
+      title: 'Стратегемы',
+      page: 54,
+      description: 'Стратегемы можно использовать, тратя командные очки, чтобы создавать эпические моменты тактического гения или непревзойдённой боевой мощи. Они применяются, когда игрок считает, что наступил переломный момент битвы, требующий дополнительного боевого мастерства или мимолётных, но мощных эффектов, чтобы склонить чашу весов на свою сторону.',
+      subsections: [
+        {
+          id: 'section-15-01',
+          sectionNum: '15.01',
+          title: 'Использование стратегем',
+          body: `В ходе битвы оба игрока могут использовать **стратегемы**. Каждая **стратегема** указывает:
+▪ **СТОИМОСТЬ:** Сколько CP (командных очков) требуется для использования.
+▪ **КОГДА:** Когда её можно использовать.
+▪ **ЦЕЛЬ:** Какие юниты она может выбирать целью.
+▪ **ЭФФЕКТ:** Каковы эффекты от использования этой **стратегемы**.
+▪ **ОГРАНИЧЕНИЯ:** Любые дополнительные ограничения, которые применяются.
+
+Каждый игрок может использовать **одну и ту же стратегему** несколько раз в ходе битвы, но при этом действуют следующие ограничения:
+▪ Каждый игрок не может использовать одну и ту же **стратегему** более одного раза в одной и той же фазе.
+▪ Если не указано иное, каждый игрок не может назначить целью один и тот же юнит более чем для одной **стратегемы** в одной и той же фазе.
+
+Каждый раз, когда вы используете **стратегему**, выполните следующую последовательность действий:
+1. Выберите цели, как описано в данной **стратегеме**.
+2. Уменьшите ваш запас CP (командных очков) на стоимость в CP, указанную в данной **стратегеме**. Если в **стратегеме** содержится раздел с дополнительной стоимостью в CP (например, +1 CP), вы можете использовать этот дополнительный раздел, только если вы увеличите стоимость **стратегемы** на указанную величину. Если у вас не осталось достаточного количества CP, вы не можете использовать эту **стратегему**.
+3. Примените эффекты данной **стратегемы**.`,
+        },
+        {
+          id: 'section-15-core-label',
+          sectionNum: '',
+          isGroupLabel: true,
+          title: 'БАЗОВЫЕ СТРАТЕГЕМЫ',
+          body: 'Все игроки могут использовать **базовые стратегемы** (см. далее). Дополнительные **стратегемы** можно найти в кодексах и других публикациях.',
+        },
+        {
+          id: 'section-15-09',
+          sectionNum: '15.09',
+          title: 'Стрельба на упреждение',
+          inline: true,
+          body: `◈ ДОПУСТИМО ЕСЛИ | Как указано в правиле, разрешающем этот тип стрельбы.
+◈ ЭФФЕКТ | Ваш юнит стреляет, как описано в разделе «Совершение атак» (04).
+◈ ВО ВРЕМЯ СТРЕЛЬБЫ
+▪ Вы можете выбирать целью только одного **видимого** вражеского юнита в пределах 24" от вашего юнита (и только если он является допустимой целью).
+▪ Каждая атака попадает только на немодифицированном броске на попадание 6+ (независимо от характеристики **BS** атакующего оружия или любых модификаторов).
+▪ Вы не можете перебрасывать броски попадания.
+◈ ПОСЛЕ СТРЕЛЬБЫ | До конца фазы ваш юнит не может **начать задание**.`,
+        },
+      ],
+      stratagems: [
+        {
+          flavor: 'Великий командующий способен подчинить своей воле даже превратности судьбы и удачи, чтобы обеспечить победу.',
+          when: 'Любая фаза, сразу после того, как вы совершили один из следующих бросков за дружественный юнит или модель:\n▪ Бросок на ускор. передвижение\n▪ Бросок на рывок\n▪ Бросок на урон\n▪ Бросок на опасность\n▪ Бросок на попадание\n▪ Спас-бросок\n▪ Бросок на ранение\n▪ Бросок для определения количества атак, совершаемых оружием',
+          target: 'Этот юнит или модель.',
+          effect: 'Вы перебрасываете этот бросок. Если вы бросаете несколько костей одновременно, выберите одну из этих костей для переброса (за исключением **бросков на рывок**, которые должны перебрасываться полностью).',
+          restrictions: '',
+          extraCost: [],
+        },
+        {
+          flavor: 'Легенды 41-го тысячелетия изобилуют рассказами о смертельных поединках между могущественными героями.',
+          when: 'Фаза ближнего боя, сразу после того, как дружественный юнит ПЕРСОНАЖА (CHARACTER) выбран для совершения атак.',
+          target: 'Этот юнит ПЕРСОНАЖА.',
+          effect: 'Выберите одну модель ПЕРСОНАЖА в вашем юните. До конца фазы оружие ближнего боя этой модели получает способность [PRECISION].',
+          restrictions: '',
+          extraCost: [],
+        },
+        {
+          flavor: 'Безразличные к собственному выживанию, эти воины держат позицию даже против, казалось бы, неодолимых сил.',
+          when: 'Шаг боевого шока вашей фазы командования, сразу перед тем, как вы совершаете **бросок на боевой шок** за дружественный юнит.',
+          target: 'Этот юнит.',
+          effect: 'Этот **бросок на боевой шок** автоматически считается успешным.',
+          restrictions: 'Вы не можете использовать эту стратегему более одного раза за игру.',
+          extraCost: [],
+        },
+        {
+          flavor: 'Активируя детонаторы гранат и другой взрывчатки, эти воины заносят руку и швыряют саму смерть в самую гущу неприятеля.',
+          when: 'Ваша фаза стрельбы.',
+          target: 'Один дружественный **не вовлечённый в ближний бой** юнит EXPLOSIVES/GRENADES (ВЗРЫВЧАТКА/ГРАНАТЫ), который является допустимой целью для стрельбы и не совершал **ускор. передвижение** в этом ходу.',
+          effect: 'Выполните следующую последовательность действий:\n1. Выберите одну модель EXPLOSIVES/GRENADES в вашем юните.\n2. Выберите один **не вовлечённый в ближний бой** вражеский юнит в пределах 8" от этой модели и в зоне её видимости.\n3. Бросьте шесть D6: за каждый результат 4+ этот вражеский юнит получает 1 **неотвратимую рану**.',
+          restrictions: '',
+          extraCost: [],
+        },
+        {
+          flavor: 'В крайнем случае, бронированные машины и буйствующие чудовища могут пустить в ход свои исполинские габариты как оружие — давя и круша врагов под своей колоссальной тушей, пусть подобное и чревато ответными повреждениями.',
+          when: 'Ваша фаза рывка, сразу после того, как дружественный юнит MONSTER/VEHICLE (МОНСТРА/ТРАНСПОРТА) завершает **перемещение рывком**.',
+          target: 'Этот юнит MONSTER/VEHICLE.',
+          effect: 'Выполните следующую последовательность действий:\n1. Выберите один вражеский юнит, **связанный ближним боем** с вашим юнитом.\n2. Выберите одну модель в вашем юните, **связанную ближним боем** с этим вражеским юнитом.\n3. Бросьте количество D6, равное характеристике **T** этой модели: за каждый результат 1 ваш юнит получает 1 **неотвратимую рану**; за каждый результат 5+ этот вражеский юнит получает 1 **неотвратимую рану** (максимум 6 **неотвратимых ран** за юнит).',
+          restrictions: '',
+          extraCost: [],
+        },
+        {
+          flavor: 'Будь то коварная стратегия, могущественные технологии или оккультный ритуал — есть множество путей, коими полководец может ускорить выдвижение своих войск.',
+          when: 'Конец фазы перемещения вашего противника.',
+          target: 'Один дружественный юнит, находящийся в **стратегическом резерве** (не юнит AIRCRAFT).',
+          effect: 'Этот юнит совершает **перемещение вторжения** (20.04).',
+          restrictions: 'Вы не можете использовать эту стратегему во время первого боевого раунда.',
+          extraCost: [],
+        },
+        {
+          flavor: 'Шквальный огонь обратит вспять любую атаку.',
+          when: 'Конец фазы перемещения вашего противника.',
+          target: 'Один дружественный **не вовлечённый в ближний бой** юнит (не юнит TITANIC).',
+          effect: 'Этот юнит использует **стрельбу на упреждение** (15.09).',
+          restrictions: '',
+          extraCost: [],
+          subRule: {
+            sectionNum: '15.09',
+            title: 'Стрельба на упреждение',
+            fields: [
+              { label: 'ДОПУСТИМО ЕСЛИ', text: 'Как указано в правиле, разрешающем этот тип стрельбы.' },
+              { label: 'ЭФФЕКТ', text: 'Ваш юнит стреляет, как описано в разделе «Совершение атак» (04).' },
+              { label: 'ВО ВРЕМЯ СТРЕЛЬБЫ', text: '▪ Вы можете выбирать целью только одного **видимого** вражеского юнита в пределах 24" от вашего юнита (и только если он является допустимой целью).\n▪ Каждая атака попадает только на немодифицированном броске на попадание 6+ (независимо от характеристики **BS** атакующего оружия или любых модификаторов).\n▪ Вы не можете перебрасывать броски попадания.' },
+              { label: 'ПОСЛЕ СТРЕЛЬБЫ', text: 'До конца фазы ваш юнит не может **начать задание**.' },
+            ],
+          },
+        },
+        {
+          flavor: 'Даже самым искусным стрелкам трудно попасть в цель, укрытую клубящимися дымовыми завесами.',
+          when: 'Начало фазы стрельбы вашего противника.',
+          target: 'Один дружественный юнит SMOKE (ДЫМОВОЙ ЗАВЕСЫ).',
+          effect: 'До конца фазы, каждый раз, когда атака нацелена на ваш юнит SMOKE или на юнит, который **не полностью видим** атакующей модели из-за одной или нескольких моделей в вашем юните SMOKE, цель получает **преимущество от укрытия** от этой атаки (13.08).',
+          restrictions: '',
+          extraCost: [],
+        },
+        {
+          flavor: 'Возвышая голоса в яростных боевых кличах, ваши воины устремляются вперёд, чтобы встретить вражеский натиск лицом к лицу.',
+          when: 'Конец фазы рывка вашего противника.',
+          target: 'Один дружественный **не вовлечённый в ближний бой** юнит в пределах 12" от одного или нескольких вражеских юнитов. Вы можете выбрать юнит VEHICLE, только если это юнит CHARACTER/WALKER.',
+          effect: 'Совершите **рывок** вашим юнитом (11.02). При этом перед совершением **броска на рывок** вы должны выбрать один из следующих режимов:\n▪ **Прыжок для защиты:** При выборе целей для рывка вы можете выбирать только те вражеские юниты, которые совершили **перемещение рывком** в этой фазе и находятся в пределах **максимальной дистанции**.',
+          restrictions: '',
+          extraCost: [
+            {
+              cp: '+1CP',
+              title: 'В гущу схватки',
+              body: 'При совершении **броска на рывок**, если его результат (после модификаторов) больше 6, измените его на 6. При выборе целей для рывка вы можете выбирать любые вражеские юниты, которые находятся в пределах 6" от вашего юнита и в пределах **максимальной дистанции**.',
+            },
+          ],
+        },
+        {
+          flavor: 'В рукопашной схватке даже миг промедления даёт быстрому противнику шанс, которым он непременно воспользуется.',
+          when: 'Шаг ближнего боя фазы ближнего боя вашего противника, сразу после того, как вражеский юнит завершил свои атаки.',
+          target: 'Один дружественный юнит, который может **совершать атаки в ближнем бою**.',
+          effect: 'До конца фазы ваш юнит получает способность **«Атакует первым»** и он должен быть следующим юнитом, которого вы выбираете для совершения атак (12.04).',
+          restrictions: '',
+          extraCost: [],
+        },
+      ],
+    },
+    {
+      id: '16',
+      num: '16',
+      title: 'Задания',
+      page: 58,
+      description: 'Задания представляют собой жизненно важные боевые задачи, которые должны выполнить ваши войска: от поиска утерянного археотеха до завершения кощунственного ритуала.',
+      subsections: [
+        {
+          id: 'section-16-01',
+          sectionNum: '16.01',
+          title: 'Выполнение заданий',
+          body: `Некоторые правила позволяют юнитам выполнять **задания**. Каждое **задание** указывает:
+▪ **НАЧАЛО:** Когда оно начинается.
+▪ **ЮНИТЫ:** Какие дружественные юниты могут его выполнять.
+▪ **ЛИМИТ ИСПОЛЬЗОВАНИЯ:** Сколько раз дружественные юниты могут его начать.
+▪ **ЗАВЕРШЕНИЕ:** Когда оно завершается.
+▪ **ЭФФЕКТ:** Каковы эффекты от его завершения.
+
+### Начало задания
+Юнит **может начать задание**, если к нему **не** применяются одно или несколько из следующих условий:
+▪ Он не находится на поле боя.
+▪ Это юнит AIRCRAFT/FORTIFICATION (ЛЕТАТЕЛЬНОГО АППАРАТА/УКРЕПЛЕНИЯ).
+▪ Он находится в состоянии **боевого шока**.
+▪ Он имеет характеристику OC 0 или «-».
+▪ Он **связан ближним боем** (если только это не TITANIC юнит).
+▪ Он совершил **ускор. передвижение** или **отступление** в этом ходу.
+▪ Он начал другое **задание** в этом ходу.
+
+Если юнит начинает **задание**, то до конца хода:
+▪ Он **не может стрелять** (за исключением TITANIC юнитов).
+▪ Он **не может объявлять рывок**.
+
+### Завершение задания
+Если юнит, выполняющий **задание**, совершает перемещение (за исключением **сближения** и **закрепления**) или покидает поле боя, этот юнит не завершает это **задание**. В противном случае, когда **задание** завершается, срабатывает его раздел «Эффект».`,
+          note: 'ГДЕ НАЙТИ ЗАДАНИЯ\n**Задания**, которые могут использовать игроки, можно найти в других публикациях, таких как пакеты миссий. Все игроки могут использовать **базовые задания**, тогда как другие **задания** могут иметь ограничения, например по фракции армии.',
+        },
+      ],
+    },
+  ],
+}

@@ -8,21 +8,21 @@
       <span class="strat-cp">{{ strat.cp }}</span>
     </div>
 
-    <div class="strat-sublabel">CORE STRATAGEM</div>
+    <div class="strat-sublabel">{{ labels.stratCoreLabel }}</div>
 
     <div class="strat-body">
       <p v-if="strat.flavor" class="strat-flavor">{{ strat.flavor }}</p>
 
       <div class="strat-row">
-        <span class="strat-label">WHEN</span>
+        <span class="strat-label">{{ labels.stratWhen }}</span>
         <div class="strat-content" v-html="renderField(strat.when)"></div>
       </div>
       <div v-if="strat.target" class="strat-row">
-        <span class="strat-label">TARGET</span>
+        <span class="strat-label">{{ labels.stratTarget }}</span>
         <div class="strat-content" v-html="renderField(strat.target)"></div>
       </div>
       <div class="strat-row">
-        <span class="strat-label">EFFECT</span>
+        <span class="strat-label">{{ labels.stratEffect }}</span>
         <div class="strat-content" v-html="renderField(strat.effect)"></div>
       </div>
 
@@ -37,7 +37,7 @@
       </template>
 
       <div v-if="strat.restrictions" class="strat-row strat-restrict">
-        <span class="strat-label">RESTRICTIONS</span>
+        <span class="strat-label">{{ labels.stratRestrictions }}</span>
         <div class="strat-content" v-html="renderInline(strat.restrictions)"></div>
       </div>
     </div>
@@ -58,9 +58,14 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { useRenderInline } from '../composables/useRenderInline.js'
+import { ui } from '../i18n/ui.js'
+import { useLocale } from '../composables/useLocale.js'
 
 const { renderInline } = useRenderInline()
+const { locale } = useLocale()
+const labels = computed(() => ui[locale.value])
 
 defineProps({
   strat: { type: Object, required: true },
