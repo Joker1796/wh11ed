@@ -72,25 +72,20 @@ If a TRANSPORT model is **destroyed**, before removing it from the battlefield, 
         id: 'section-18-04',
         sectionNum: '18.04',
         title: 'Disembark Move',
-        body: `**Set-up distance:** 3" (Rapid/Tactical Disembark), 6" (Combat Disembark).
-
-**Eligible if** all of the following apply to your unit:
+        body: `◈ SET-UP DISTANCE | Rapid/Tactical Disembark: 3"; Combat Disembark: 6"
+◈ ELIGIBLE IF | All of the following apply to your unit:
 ▪ Embarked within a TRANSPORT model that is on the battlefield.
 ▪ Did not embark within that TRANSPORT this phase.
 ▪ That TRANSPORT has not made an **advance** or **fall-back** move this phase.
-
-**Effect:** Your unit is set up as described in Set Up (03.02).
-
-**Before moving:** Select disembark mode in the following order:
-◈ RAPID DISEMBARK | If that TRANSPORT made a **normal** or **ingress move** this phase, you must select this mode.
-◈ TACTICAL DISEMBARK | Otherwise, if that TRANSPORT **remained stationary** or has not yet been **selected to move** this phase, and you can set up your unit as described below, you must select this mode.
-◈ COMBAT DISEMBARK | Otherwise, you must select this mode. Make a **hazard roll** (06.03) for each model in your unit.
-
-**While moving:** Set up each model in your unit wholly within the set-up distance of that TRANSPORT.
-▪ **Rapid Disembark + ingress move:** each model must follow the same rules and restrictions that TRANSPORT had to follow while resolving that ingress move.
+◈ EFFECT | Your unit is set up as described in Set Up (03.02).
+◈ BEFORE MOVING | Select **disembark mode** in the following order:
+▪ **Rapid Disembark:** If that TRANSPORT made a **normal** or **ingress move** this phase, you must select this mode.
+▪ **Tactical Disembark:** Otherwise, if that TRANSPORT **remained stationary** or has not yet been **selected to move** this phase, and you can set up your unit as described below, you must select this mode.
+▪ **Combat Disembark:** Otherwise, you must select this mode. Make a **hazard roll** (06.03) for each model in your unit.
+◈ WHILE MOVING | Set up each model in your unit wholly within the **set-up distance** of that TRANSPORT.
+▪ **Rapid Disembark** (after **ingress move**): each model must follow the same rules and restrictions that TRANSPORT had to follow while resolving that ingress move.
 ▪ **Combat Disembark:** each model can be set up **engaged** with one or more enemy units that TRANSPORT is **engaged** with.
-
-**After moving:**
+◈ AFTER MOVING
 ▪ **Rapid Disembark:** until the end of the turn, your unit is not eligible to declare a charge.
 ▪ **Tactical Disembark:** select your unit to make a **normal** or **advance move**.
 ▪ **Combat Disembark:** your unit is **battle-shocked** and, until the end of the turn, is not eligible to declare a charge.`,
@@ -241,8 +236,12 @@ At the end of the third battle round, unless otherwise stated, all **strategic r
 ▪ Your unit has not moved this phase.
 ◈ EFFECT | Your unit moves as described in Moving (03).
 ◈ BEFORE MOVING | Select the closest enemy unit to be the **surge target**.
-◈ WHILE MOVING | Each model must end its move **engaged** with the **surge target** if possible; if a model cannot end its move **engaged** with the **surge target**, it must end its move as close as possible to the **surge target**.
-◈ AFTER MOVING | Your unit cannot be **engaged** with one or more enemy units that were not the **surge target**; your unit cannot move again this phase.
+◈ WHILE MOVING
+▪ Each model must end its move **engaged** with the **surge target** if possible.
+▪ Each model that cannot end its move **engaged** with the **surge target** must end its move as close as possible to the **surge target**.
+◈ AFTER MOVING
+▪ Your unit cannot be **engaged** with one or more enemy units that were not the **surge target**.
+▪ Your unit cannot move again this phase.
 
 [img:/images/Advanced-rules/making-a-surge-move.png]`,
       },
