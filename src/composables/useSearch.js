@@ -18,7 +18,7 @@ function buildIndex() {
     { key: 'basicRules', data: basicRules.en },
     { key: 'battleRound', data: battleRound.en },
     { key: 'battlefields', data: battlefields.en },
-    { key: 'advancedRules', data: advancedRules },
+    { key: 'advancedRules', data: advancedRules.en },
   ]
   for (const { key, data } of sources) {
     const route = routeMap[key]

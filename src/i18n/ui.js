@@ -16,6 +16,8 @@ export const ui = {
     stratTarget: 'TARGET',
     stratEffect: 'EFFECT',
     stratRestrictions: 'RESTRICTIONS',
+    advancedRulesHeading: 'Advanced Rules',
+    advancedRulesDesc: 'Monsters, Vehicles, Transports, Reserves and more',
   },
   ru: {
     introHeading: 'Введение',
@@ -34,5 +36,7 @@ export const ui = {
     stratTarget: 'ЦЕЛЬ',
     stratEffect: 'ЭФФЕКТ',
     stratRestrictions: 'ОГРАНИЧЕНИЯ',
+    advancedRulesHeading: 'Продвинутые правила',
+    advancedRulesDesc: 'Монстры, техника, транспорты, резервы и многое другое',
   },
 }

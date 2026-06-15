@@ -1,13 +1,13 @@
 <template>
   <div class="view">
     <div class="view-hero">
-      <h1>Advanced Rules</h1>
-      <p class="view-hero-desc">Monsters, Vehicles, Transports, Reserves and more</p>
+      <h1>{{ labels.advancedRulesHeading }}</h1>
+      <p class="view-hero-desc">{{ labels.advancedRulesDesc }}</p>
     </div>
 
     <TableOfContents :sections="tocSections" />
 
-    <template v-for="section in advancedRules" :key="section.id">
+    <template v-for="section in sections" :key="section.id">
       <SectionHeader
         :id="'section-' + section.id.padStart(2,'0')"
         :num="section.num"
@@ -33,11 +33,11 @@
       <template v-if="section.id === '19' && section.abilitiesTable">
         <div class="table-block">
           <DataTable
-            title="Abilities in Attached Units"
+            :title="section.abilitiesTable.title"
             :headers="section.abilitiesTable.headers"
             :rows="section.abilitiesTable.rows"
           />
-          <p class="table-note">* Leader/support units continue to benefit from their own "while this model is leading a unit" abilities even after the bodyguard unit is destroyed.</p>
+          <p class="table-note">{{ section.abilitiesTable.note }}</p>
         </div>
       </template>
     </template>
@@ -51,9 +51,31 @@ import RuleBlock from '../components/RuleBlock.vue'
 import DataTable from '../components/DataTable.vue'
 import TableOfContents from '../components/TableOfContents.vue'
 import { advancedRules } from '../data/advancedRules.js'
+import { useLocale } from '../composables/useLocale.js'
+import { ui } from '../i18n/ui.js'
+
+const { locale } = useLocale()
+const labels = computed(() => ui[locale.value])
+
+const sections = computed(() => {
+  if (locale.value === 'en') return advancedRules.en
+  return advancedRules.en.map((section, i) => {
+    const ruSection = advancedRules.ru[i]
+    const subsections = section.subsections.map((sub, j) => {
+      const merged = { ...sub, ...ruSection.subsections[j] }
+      if (merged.sideImage?.src)
+        merged.sideImage = { ...merged.sideImage, src: merged.sideImage.src.replace('.png', '-ru.png') }
+      return merged
+    })
+    const result = { ...section, title: ruSection.title, description: ruSection.description, subsections }
+    if (section.abilitiesTable && ruSection.abilitiesTable)
+      result.abilitiesTable = { ...section.abilitiesTable, ...ruSection.abilitiesTable }
+    return result
+  })
+})
 
 const tocSections = computed(() =>
-  advancedRules.map(s => ({
+  sections.value.map(s => ({
     id: 'section-' + s.id.padStart(2, '0'),
     num: s.num,
     label: s.title,
