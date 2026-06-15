@@ -52,6 +52,12 @@ const files = [
     path: './sources/WH40k_11ed.pdf',
     type: 'pdf',
   },
+  {
+    name: 'RUS_01-06_warhammer40k_new40k_core_rules-was6fbu1ix-hfewhmxyiy.pdf',
+    desc: 'Warhammer 40,000 Core Rules — 11th Edition (Russian rulebook)',
+    path: './sources/RUS_01-06_warhammer40k_new40k_core_rules-was6fbu1ix-hfewhmxyiy.pdf',
+    type: 'pdf',
+  },
 ]
 </script>
 
