@@ -33,6 +33,11 @@ export const ui = {
     filterWeapon: 'Weapon Abilities',
     badgeWeapon: 'Weapon',
     badgeUnit: 'Unit',
+    filesHeading: 'Source Files',
+    filesDesc: 'Original rulebook documents used as data sources for this reference',
+    filesOpen: 'Open',
+    fileDescEN: 'Warhammer 40,000 Core Rules — 11th Edition (official rulebook)',
+    fileDescRU: 'Warhammer 40,000 Core Rules — 11th Edition (Russian rulebook)',
   },
   ru: {
     introHeading: 'Введение',
@@ -68,5 +73,10 @@ export const ui = {
     filterWeapon: 'Способности оружия',
     badgeWeapon: 'Оружие',
     badgeUnit: 'Юнит',
+    filesHeading: 'Исходные файлы',
+    filesDesc: 'Оригинальные документы правил, используемые в качестве источников данных',
+    filesOpen: 'Открыть',
+    fileDescEN: 'Warhammer 40,000 Основные правила — 11-е издание (официальный сборник правил, англ.)',
+    fileDescRU: 'Warhammer 40,000 Основные правила — 11-е издание (официальный сборник правил, рус.)',
   },
 }
