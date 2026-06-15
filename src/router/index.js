@@ -71,6 +71,70 @@ export const navGroups = [
   },
 ]
 
+export const navGroupsRu = [
+  {
+    label: 'Введение',
+    path: '/',
+    sections: [],
+  },
+  {
+    label: 'Основные правила',
+    path: '/basic-rules',
+    sections: [
+      { id: 'section-01', label: '01 Основные концепции' },
+      { id: 'section-02', label: '02 Листы данных' },
+      { id: 'section-03', label: '03 Перемещение' },
+      { id: 'section-04', label: '04 Совершение атак' },
+      { id: 'section-05', label: '05 Последовательность атаки' },
+      { id: 'section-06', label: '06 Другие концепции' },
+    ],
+  },
+  {
+    label: 'Боевой раунд',
+    path: '/battle-round',
+    sections: [
+      { id: 'section-07', label: '07 Боевой раунд' },
+      { id: 'section-08', label: '08 Командная фаза' },
+      { id: 'section-09', label: '09 Фаза движения' },
+      { id: 'section-10', label: '10 Фаза стрельбы' },
+      { id: 'section-11', label: '11 Фаза атаки' },
+      { id: 'section-12', label: '12 Фаза ближнего боя' },
+    ],
+  },
+  {
+    label: 'Поля сражений и тактика',
+    path: '/battlefields',
+    sections: [
+      { id: 'section-13', label: '13 Укрытия' },
+      { id: 'section-14', label: '14 Цели' },
+      { id: 'section-15', label: '15 Стратегемы' },
+      { id: 'section-16', label: '16 Задания' },
+    ],
+  },
+  {
+    label: 'Продвинутые правила',
+    path: '/advanced-rules',
+    sections: [
+      { id: 'section-17', label: '17 Монстры и техника' },
+      { id: 'section-18', label: '18 Транспорты' },
+      { id: 'section-19', label: '19 Составные юниты' },
+      { id: 'section-20', label: '20 Стратегические резервы' },
+      { id: 'section-21', label: '21 Полёт и рывок' },
+      { id: 'section-22', label: '22 Другие правила' },
+      { id: 'section-23', label: '23 Авиация' },
+    ],
+  },
+  {
+    label: 'Справочный раздел',
+    path: '/reference',
+    sections: [
+      { id: 'section-24', label: '24 Базовые способности' },
+      { id: 'section-appendix', label: 'Приложение к правилам' },
+      { id: 'section-faq', label: 'Частые вопросы' },
+    ],
+  },
+]
+
 export const router = createRouter({
   history: createWebHashHistory(),
   routes: [
