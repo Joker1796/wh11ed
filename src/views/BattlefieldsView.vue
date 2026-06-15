@@ -1,13 +1,13 @@
 <template>
   <div class="view">
     <div class="view-hero">
-      <h1>Battlefields &amp; Tactics</h1>
-      <p class="view-hero-desc">Terrain, objectives, stratagems and actions</p>
+      <h1>{{ labels.battlefieldsHeading }}</h1>
+      <p class="view-hero-desc">{{ labels.battlefieldsDesc }}</p>
     </div>
 
     <TableOfContents :sections="tocSections" />
 
-    <template v-for="section in battlefields" :key="section.id">
+    <template v-for="section in sections" :key="section.id">
       <SectionHeader
         :id="'section-' + section.id.padStart(2,'0')"
         :num="section.num"
@@ -69,9 +69,35 @@ import GroupLabelBlock from '../components/GroupLabelBlock.vue'
 import StratCard from '../components/StratCard.vue'
 import TableOfContents from '../components/TableOfContents.vue'
 import { battlefields } from '../data/battlefields.js'
+import { ui } from '../i18n/ui.js'
+import { useLocale } from '../composables/useLocale.js'
+
+const { locale } = useLocale()
+const labels = computed(() => ui[locale.value])
+
+const sections = computed(() => {
+  if (locale.value === 'en') return battlefields.en
+  return battlefields.en.map((section, i) => ({
+    ...section,
+    title: battlefields.ru[i].title,
+    description: battlefields.ru[i].description,
+    subsections: section.subsections.map((sub, j) => {
+      const merged = { ...sub, ...battlefields.ru[i].subsections[j] }
+      if (merged.sideImage?.src)
+        merged.sideImage = { ...merged.sideImage, src: merged.sideImage.src.replace('.png', '-ru.png') }
+      return merged
+    }),
+    ...(section.stratagems && battlefields.ru[i].stratagems ? {
+      stratagems: section.stratagems.map((strat, k) => ({
+        ...strat,
+        ...battlefields.ru[i].stratagems[k],
+      }))
+    } : {}),
+  }))
+})
 
 const tocSections = computed(() =>
-  battlefields.map(s => ({
+  sections.value.map(s => ({
     id: 'section-' + s.id.padStart(2, '0'),
     num: s.num,
     label: s.title,
