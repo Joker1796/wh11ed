@@ -1,8 +1,8 @@
 <template>
   <div class="view">
     <div class="view-hero">
-      <h1>Reference</h1>
-      <p class="view-hero-desc">Core Abilities, Rules Appendix and FAQs</p>
+      <h1>{{ labels.referenceHeading }}</h1>
+      <p class="view-hero-desc">{{ labels.referenceDesc }}</p>
     </div>
 
     <TableOfContents :sections="tocSections" />
@@ -11,13 +11,13 @@
     <SectionHeader
       id="section-24"
       num="24"
-      title="Core Abilities"
-      description="Abilities that are universal to many units and weapons in Warhammer 40,000."
+      :title="labels.coreAbilitiesTitle"
+      :description="labels.coreAbilitiesDesc"
     />
 
-    <!-- 24.01 ABILITIES и 24.02 DUPLICATED ABILITIES -->
+    <!-- 24.01 и 24.02 -->
     <RuleBlock
-      v-for="sub in abilityIntro"
+      v-for="sub in abilityIntroData"
       :key="sub.id"
       :id="sub.id"
       :sectionNum="sub.sectionNum"
@@ -49,7 +49,7 @@
         <div class="ability-header">
           <span class="ability-num">{{ ability.num }}</span>
           <span class="ability-name" :class="ability.type">{{ ability.name }}</span>
-          <span class="ability-type-badge" :class="ability.type">{{ ability.type === 'weapon' ? 'Weapon' : 'Unit' }}</span>
+          <span class="ability-type-badge" :class="ability.type">{{ ability.type === 'weapon' ? labels.badgeWeapon : labels.badgeUnit }}</span>
         </div>
 
         <div class="ability-body" @click="handleDefClick">
@@ -82,16 +82,16 @@
     <SectionHeader
       id="section-appendix"
       num="—"
-      title="Rules Appendix"
-      description="Additional rules clarifications and edge cases."
+      :title="labels.rulesAppendixTitle"
+      :description="labels.rulesAppendixDesc"
     />
 
     <div class="digital-support">
-      <h2 class="digital-support-title">Digital Support</h2>
-      <p>The Warhammer 40,000 app contains an expanded range of definitions, rare rules interactions and frequently asked questions (FAQs). These digital resources are designed to clarify any uncertainty and keep your battles as streamlined as possible. As such, they are reviewed and updated regularly in response to player feedback. The following pages present a selection of these supporting materials.</p>
+      <h2 class="digital-support-title">{{ labels.digitalSupportTitle }}</h2>
+      <p>{{ labels.digitalSupportText }}</p>
     </div>
 
-    <div v-for="entry in appendix" :key="entry.id" :id="entry.id" class="appendix-block">
+    <div v-for="entry in appendixData" :key="entry.id" :id="entry.id" class="appendix-block">
       <h3 class="appendix-title">{{ entry.title }}</h3>
 
       <div @click="handleDefClick">
@@ -117,12 +117,12 @@
     <SectionHeader
       id="section-faq"
       num="—"
-      title="FAQs"
-      description="Frequently asked questions and official clarifications."
+      :title="labels.faqsTitle"
+      :description="labels.faqsDesc"
     />
 
     <div class="faq-list">
-      <div v-for="(faq, i) in faqs" :key="i" class="faq-item">
+      <div v-for="(faq, i) in faqsData" :key="i" class="faq-item">
         <div class="faq-q">
           <span class="faq-badge">Q</span>
           <span v-html="renderInline(faq.q)" />
@@ -143,26 +143,54 @@ import DataTable from '../components/DataTable.vue'
 import TableOfContents from '../components/TableOfContents.vue'
 import RuleBlock from '../components/RuleBlock.vue'
 import { useRenderInline } from '../composables/useRenderInline.js'
+import { useLocale } from '../composables/useLocale.js'
+import { ui } from '../i18n/ui.js'
 import { abilityIntro, coreAbilities, appendix, faqs } from '../data/reference.js'
 
 const { renderInline } = useRenderInline()
+const { locale } = useLocale()
 
-const tocSections = [
-  { id: 'section-24', num: '24', label: 'Core Abilities' },
-  { id: 'section-appendix', num: '—', label: 'Rules Appendix' },
-  { id: 'section-faq', num: '—', label: 'FAQs' },
-]
+const labels = computed(() => ui[locale.value])
 
-const filters = [
-  { label: 'All', value: 'all' },
-  { label: 'Unit Abilities', value: 'unit' },
-  { label: 'Weapon Abilities', value: 'weapon' },
-]
+const abilityIntroData = computed(() =>
+  locale.value === 'ru'
+    ? abilityIntro.en.map((e, i) => ({ ...e, ...abilityIntro.ru[i] }))
+    : abilityIntro.en
+)
+
+const coreAbilitiesData = computed(() =>
+  locale.value === 'ru'
+    ? coreAbilities.en.map((e, i) => ({ ...e, ...coreAbilities.ru[i] }))
+    : coreAbilities.en
+)
+
+const appendixData = computed(() =>
+  locale.value === 'ru'
+    ? appendix.en.map((e, i) => ({ ...e, ...appendix.ru[i] }))
+    : appendix.en
+)
+
+const faqsData = computed(() =>
+  locale.value === 'ru' ? faqs.ru : faqs.en
+)
+
+const tocSections = computed(() => [
+  { id: 'section-24', num: '24', label: labels.value.coreAbilitiesTitle },
+  { id: 'section-appendix', num: '—', label: labels.value.rulesAppendixTitle },
+  { id: 'section-faq', num: '—', label: labels.value.faqsTitle },
+])
+
+const filters = computed(() => [
+  { label: labels.value.filterAll, value: 'all' },
+  { label: labels.value.filterUnit, value: 'unit' },
+  { label: labels.value.filterWeapon, value: 'weapon' },
+])
+
 const activeFilter = ref('all')
 
 const filteredAbilities = computed(() => {
-  if (activeFilter.value === 'all') return coreAbilities
-  return coreAbilities.filter(a => a.type === activeFilter.value)
+  if (activeFilter.value === 'all') return coreAbilitiesData.value
+  return coreAbilitiesData.value.filter(a => a.type === activeFilter.value)
 })
 
 function parseBody(text) {
