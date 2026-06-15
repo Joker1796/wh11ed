@@ -7,6 +7,8 @@ export const ui = {
     basicRulesHeading: 'Basic Rules',
     basicRulesDesc: 'The essential rules concepts of Warhammer 40,000',
     woundTableTitle: 'Wound Roll — Strength vs Toughness',
+    battleRoundHeading: 'The Battle Round',
+    battleRoundDesc: 'Warhammer 40,000 is played in a series of battle rounds',
   },
   ru: {
     introHeading: 'Введение',
@@ -16,5 +18,7 @@ export const ui = {
     basicRulesHeading: 'Основные правила',
     basicRulesDesc: 'Основные концепции правил Warhammer 40,000',
     woundTableTitle: 'Wound Roll — Сила vs Живучесть',
+    battleRoundHeading: 'Боевой раунд',
+    battleRoundDesc: 'Warhammer 40,000 играется серией игровых раундов',
   },
 }

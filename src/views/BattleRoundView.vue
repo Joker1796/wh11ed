@@ -1,13 +1,13 @@
 <template>
   <div class="view">
     <div class="view-hero">
-      <h1>The Battle Round</h1>
-      <p class="view-hero-desc">Warhammer 40,000 is played in a series of battle rounds</p>
+      <h1>{{ labels.battleRoundHeading }}</h1>
+      <p class="view-hero-desc">{{ labels.battleRoundDesc }}</p>
     </div>
 
     <TableOfContents :sections="tocSections" />
 
-    <template v-for="section in battleRound" :key="section.id">
+    <template v-for="section in sections" :key="section.id">
       <SectionHeader
         :id="'section-' + section.id.padStart(2,'0')"
         :num="section.num"
@@ -52,9 +52,27 @@ import SectionTocBlock from '../components/SectionTocBlock.vue'
 import GroupLabelBlock from '../components/GroupLabelBlock.vue'
 import TableOfContents from '../components/TableOfContents.vue'
 import { battleRound } from '../data/battleRound.js'
+import { ui } from '../i18n/ui.js'
+import { useLocale } from '../composables/useLocale.js'
+
+const { locale } = useLocale()
+const labels = computed(() => ui[locale.value])
+
+const sections = computed(() => {
+  if (locale.value === 'en') return battleRound.en
+  return battleRound.en.map((section, i) => ({
+    ...section,
+    title: battleRound.ru[i].title,
+    description: battleRound.ru[i].description,
+    subsections: section.subsections.map((sub, j) => ({
+      ...sub,
+      ...battleRound.ru[i].subsections[j],
+    })),
+  }))
+})
 
 const tocSections = computed(() =>
-  battleRound.map(s => ({
+  sections.value.map(s => ({
     id: 'section-' + s.id.padStart(2, '0'),
     num: s.num,
     label: s.title,
