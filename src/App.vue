@@ -285,7 +285,7 @@ onUnmounted(() => {
 }
 
 .subnav-inner {
-  max-width: 1100px;
+  max-width: 860px;
   margin: 0 auto;
   padding: 0 2rem;
   height: 100%;
