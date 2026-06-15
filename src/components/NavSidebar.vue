@@ -37,15 +37,14 @@
 
 <script setup>
 import { computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { navGroups, navGroupsRu } from '../router/index.js'
 import { useLocale } from '../composables/useLocale.js'
 
 defineProps({ mobileOpen: Boolean })
-defineEmits(['close'])
+const emit = defineEmits(['close'])
 
 const route = useRoute()
-const router = useRouter()
 const { locale } = useLocale()
 const localizedGroups = computed(() => locale.value === 'ru' ? navGroupsRu : navGroups)
 
@@ -54,7 +53,7 @@ function isActive(path) {
 }
 
 function handleNavClick() {
-  // emit close for mobile
+  emit('close')
 }
 
 function handleAnchorClick(id) {

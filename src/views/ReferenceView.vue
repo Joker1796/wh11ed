@@ -137,18 +137,20 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import SectionHeader from '../components/SectionHeader.vue'
 import DataTable from '../components/DataTable.vue'
 import TableOfContents from '../components/TableOfContents.vue'
 import RuleBlock from '../components/RuleBlock.vue'
 import { useRenderInline } from '../composables/useRenderInline.js'
 import { useLocale } from '../composables/useLocale.js'
+import { useRoute } from 'vue-router'
 import { ui } from '../i18n/ui.js'
 import { abilityIntro, coreAbilities, appendix, faqs } from '../data/reference.js'
 
 const { renderInline } = useRenderInline()
 const { locale } = useLocale()
+const route = useRoute()
 
 const labels = computed(() => ui[locale.value])
 
@@ -187,6 +189,12 @@ const filters = computed(() => [
 ])
 
 const activeFilter = ref('all')
+
+watch(() => route.hash, (hash) => {
+  if (hash && hash.startsWith('#ability-')) {
+    activeFilter.value = 'all'
+  }
+})
 
 const filteredAbilities = computed(() => {
   if (activeFilter.value === 'all') return coreAbilitiesData.value

@@ -25,6 +25,7 @@ function buildIndex() {
     for (const section of data) {
       if (!section.subsections) continue
       for (const sub of section.subsections) {
+        if (!sub.sectionNum) continue
         items.push({
           id: sub.id,
           sectionNum: sub.sectionNum || '',

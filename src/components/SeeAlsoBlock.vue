@@ -3,13 +3,13 @@
     <div class="see-also-label">{{ locale === 'ru' ? 'Смотрите также' : 'See also' }}</div>
     <div v-if="title" class="see-also-title">{{ title }}</div>
     <ul>
-      <li v-for="ref in refs" :key="ref">
+      <li v-for="{ ref, r } in resolvedRefs" :key="ref">
         <RouterLink
-          v-if="resolveRef(ref).route"
-          :to="{ path: resolveRef(ref).route, hash: '#' + resolveRef(ref).anchor }"
+          v-if="r.route"
+          :to="{ path: r.route, hash: '#' + r.anchor }"
           class="see-also-link"
-          @click.prevent="navigateTo(resolveRef(ref))"
-        >{{ resolveRef(ref).label }}</RouterLink>
+          @click.prevent="navigateTo(r)"
+        >{{ r.label }}</RouterLink>
         <span v-else>{{ ref }}</span>
       </li>
     </ul>
@@ -17,16 +17,19 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { useRefNavigation } from '../composables/useRefNavigation.js'
 import { useLocale } from '../composables/useLocale.js'
 
-defineProps({
+const props = defineProps({
   title: { type: String, default: '' },
   refs: { type: Array, required: true },
 })
 
 const { resolveRef, navigateTo } = useRefNavigation()
 const { locale } = useLocale()
+
+const resolvedRefs = computed(() => props.refs.map(ref => ({ ref, r: resolveRef(ref) })))
 </script>
 
 <style scoped>
