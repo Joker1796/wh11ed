@@ -87,5 +87,14 @@ defineProps({
   font-style: italic;
 }
 
+@media (max-width: 900px) {
+  .section-num-large {
+    font-size: 2rem;
+    min-width: 2.5rem;
+  }
 
+  .section-info h2 {
+    font-size: 1.3rem;
+  }
+}
 </style>

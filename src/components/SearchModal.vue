@@ -239,4 +239,46 @@ async function navigate(item) {
   border-radius: 2px;
   padding: 0 1px;
 }
+
+@media (max-width: 600px) {
+  .search-overlay {
+    align-items: flex-end;
+    padding-top: 0;
+  }
+
+  .search-box {
+    border-radius: 12px 12px 0 0;
+    max-height: 85dvh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .search-input {
+    font-size: 1rem;
+  }
+
+  .search-close {
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    padding: 0 0.6rem;
+  }
+
+  .search-results {
+    flex: 1;
+    max-height: none;
+    overflow-y: auto;
+  }
+
+  .result-item {
+    padding: 1rem 1.25rem;
+  }
+
+  .search-hint-text {
+    padding: 2rem 1.25rem;
+  }
+}
 </style>
