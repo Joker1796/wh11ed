@@ -323,11 +323,6 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
 
 export const appendix = [
   {
-    id: 'app-new-unit',
-    title: 'Adding a New Unit to Your Army',
-    body: `Some rules add a new unit to your army during a battle. That unit's **starting strength** is determined when it is added to your army, but is otherwise determined in the same way as for other units.`,
-  },
-  {
     id: 'app-half-strength',
     title: 'Starting Strength and Half-Strength',
     body: `The number of models a unit contains at the start of the first battle round is its **starting strength**. The **starting strength** of an **attached** unit is the number of models that unit contains at the start of the first battle round.
@@ -346,12 +341,16 @@ Units or models whose **W** characteristic or **starting strength** cannot be ev
     example: 'A Captain (1 model) is attached to a unit of Intercessors (5 models). This **attached** unit has a **starting strength** of 6. If three Intercessors were **destroyed**, the unit would be **at half-strength**. If four Intercessors were **destroyed**, the unit would be **below half-strength**. If all of the Intercessors were **destroyed**, the remaining Captain would be **below half-strength**, despite having his full wounds remaining.',
   },
   {
+    id: 'app-new-unit',
+    title: 'Adding a New Unit to Your Army',
+    body: `Some rules add a new unit to your army during a battle. That unit's **starting strength** is determined when it is added to your army, but is otherwise determined in the same way as for other units.`,
+  },
+  {
     id: 'app-destroyed',
     title: 'Destroyed',
     body: `Throughout a battle, models will suffer damage, lose wounds and be **destroyed**. When every model in a unit has been **destroyed**, that unit is **destroyed**.
 
 When a model is **destroyed**, first resolve any rules that are triggered when it is **destroyed**, then it is removed from the battlefield. If any such rules apply, and if the model was **destroyed** as the result of an attack, those rules are only resolved after the attacking unit's attacks have been resolved and that model is only removed after the attacking unit's attacks have been resolved. Unless otherwise stated, **destroyed** models and units cannot use abilities or be selected or targeted by rules.`,
-    note: 'Occasionally, all of a unit\'s targets will be **destroyed** before they have a chance to fight, with no other targets close enough to **engage** with a **pile-in** move. In such cases, a player can choose to pass and wait to see if another enemy unit ends a **pile-in** move close enough to be attacked later in the phase.',
   },
   {
     id: 'app-different-m',
@@ -362,6 +361,7 @@ When a model is **destroyed**, first resolve any rules that are triggered when i
     id: 'app-eligible-unable',
     title: 'Eligible to Fight, But Unable to Fight',
     body: `During the Fight sequence, when the sequence returns to a player to select a unit to fight, if all of that player's units that are **eligible to fight** are more than 5" from all enemy units, that player can instead choose to pass and return the sequence to their opponent to select a unit. If both players pass in succession, or if one player passes when their opponent has no remaining units that are **eligible to fight**, the Fight step ends.`,
+    note: 'Occasionally, all of a unit\'s targets will be **destroyed** before they have a chance to fight, with no other targets close enough to **engage** with a **pile-in** move. In such cases, a player can choose to pass and wait to see if another enemy unit ends a **pile-in** move close enough to be attacked later in the phase.',
   },
   {
     id: 'app-mixed-keywords',

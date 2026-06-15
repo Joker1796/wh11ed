@@ -61,9 +61,9 @@ A mission's deployment map may define which **terrain categories** should be pre
         body: `Models can move through different categories of **terrain feature** as follows:
 ▪ **Exposed/Light:** All models can move horizontally and vertically through **exposed** and **light terrain features**.
 ▪ **Dense:**
-▪ INFANTRY/BEASTS/SWARM/MOBILE models can move horizontally through **dense terrain features**.
-▪ INFANTRY/BEASTS/SWARM models can also move vertically through **dense terrain features**.
-▪ Other models can move horizontally through **dense terrain features** provided that all sections of that **terrain feature** that the moving model's base would move through are 2" or less in height. Otherwise, the moving model must move vertically to ascend or descend such sections. They cannot move through ceilings and floors while doing so, and they cannot end that move on any surface of that **terrain feature** that is not on ground level.
+▫ INFANTRY/BEASTS/SWARM/MOBILE models can move horizontally through **dense terrain features**.
+▫ INFANTRY/BEASTS/SWARM models can also move vertically through **dense terrain features**.
+▫ Other models can move horizontally through **dense terrain features** provided that all sections of that **terrain feature** that the moving model's base would move through are 2" or less in height. Otherwise, the moving model must move vertically to ascend or descend such sections. They cannot move through ceilings and floors while doing so, and they cannot end that move on any surface of that **terrain feature** that is not on ground level.
 
 ### Moving Vertically
 Models can move vertically to ascend or descend **terrain features**. While doing so:

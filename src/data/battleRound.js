@@ -283,7 +283,9 @@ A unit is eligible to shoot if it is on the battlefield and has not already been
 ▪ Has one or more [CLOSE-QUARTERS] weapons or is a MONSTER/VEHICLE unit.
 ◈ EFFECT | Your unit shoots as described in Making Attacks (04).
 ◈ WHILE SHOOTING | Models in your unit can target enemy units your unit is **engaged** with.
-▪ **MONSTER/VEHICLE Models:** Each time a MONSTER/VEHICLE model makes an attack — unless with a [CLOSE-QUARTERS] weapon targeting an engaged unit, subtract 1 from the hit roll. [BLAST] weapons still cannot target engaged units.
+▪ **MONSTER/VEHICLE Models:** Each time a MONSTER/VEHICLE model in your unit makes an attack:
+▫ Unless that attack is made with a [CLOSE-QUARTERS] weapon and targets a unit your unit is **engaged** with, subtract 1 from the **hit roll**.
+▫ If that attack is made with a [BLAST] weapon, it still cannot target a unit your unit is **engaged** with.
 ▪ **Non-MONSTER/VEHICLE Models:** You can only select [CLOSE-QUARTERS] weapons and only target units **engaged** with your unit.
 ◈ AFTER SHOOTING | Until the end of the phase, your unit is not **eligible to start an action**.`,
       },
@@ -400,9 +402,7 @@ A unit is eligible to shoot if it is on the battlefield and has not already been
         id: 'section-12-02',
         sectionNum: '12.02',
         title: 'Pile In',
-        body: `Both players make pile-in moves with all of their eligible units they choose to move. The player whose turn it is resolves all of their moves first, followed by their opponent. Each unit cannot make more than one pile-in move during this step.
-
-[img:/images/move/pile-in-moves.png]`,
+        body: `Both players make pile-in moves with all of their eligible units they choose to move. The player whose turn it is resolves all of their moves first, followed by their opponent. Each unit cannot make more than one pile-in move during this step.`,
       },
       {
         id: 'section-12-03',

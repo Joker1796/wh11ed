@@ -523,6 +523,8 @@ The attacks are resolved one at a time, from lowest save rolls to highest:
           title: 'Visibility',
           body: `Line of sight is used to determine visibility between models. For an observing model to have line of sight, it must be possible to draw an imaginary straight line, 1 mm wide, from any part of that model to any part of the model being observed. This line is the line of sight. While doing so, other models in the observing model's unit and in the observed model's unit are ignored.
 
+Other models and units can be either **visible** or **fully visible** to the observing model, as shown below.
+
 [img:/images/visibility/model-visible.png]
 
 [img:/images/visibility/model-fully-visible.png]
