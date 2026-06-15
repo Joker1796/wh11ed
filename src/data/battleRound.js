@@ -368,7 +368,7 @@ A unit is eligible to shoot if it is on the battlefield and has not already been
 ▪ Your unit cannot be **engaged** with one or more enemy units that are not **charge targets**.
 ▪ Until the end of the turn, each model in your unit has the **Fights First** ability (24.13).
 
-[img:/images/move/making-a-charge-move.png]`,
+[img:/images/charge/making-a-charge-move.png]`,
       },
     ],
   },
@@ -425,7 +425,7 @@ A unit is eligible to shoot if it is on the battlefield and has not already been
 ▪ Your unit must be **engaged**.
 ▪ Each model that started this move **engaged** with an enemy unit must still be **engaged** with that enemy unit.
 
-[img:/images/move/pile-in-moves.png]`,
+[img:/images/fight/pile-in-moves.png]`,
       },
       {
         id: 'section-12-04',
@@ -806,7 +806,7 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 ▪ Ваш юнит **не может** быть **в бою (engaged)** с вражескими юнитами, которые **не являются целями рывка (charge targets)**.
 ▪ До конца хода каждая модель в вашем юните обладает способностью **«Первый удар» (Fights First)** (24.13).
 
-[img:/images/move/making-a-charge-move-ru.png]`,
+[img:/images/charge/making-a-charge-move-ru.png]`,
       },
     ],
   },
@@ -853,7 +853,7 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 ▪ Ваш юнит должен быть **связан боем (engaged)**.
 ▪ Каждая модель, которая начала это перемещение **связанной боем (engaged)** с вражеским юнитом, должна всё ещё быть **связана боем (engaged)** с этим вражеским юнитом.
 
-[img:/images/move/pile-in-moves-ru.png]`,
+[img:/images/fight/pile-in-moves-ru.png]`,
       },
       {
         title: 'Бой',
