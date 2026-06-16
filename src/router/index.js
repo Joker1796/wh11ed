@@ -14,6 +14,10 @@ import NecronsLayout from '../views/factions/NecronsLayout.vue'
 import NecronsRulesView from '../views/factions/NecronsRulesView.vue'
 import NecronsFaqView from '../views/factions/NecronsFaqView.vue'
 import NecronsFactionFilesView from '../views/factions/NecronsFactionFilesView.vue'
+import SpaceMarinesLayout from '../views/factions/SpaceMarinesLayout.vue'
+import SpaceMarinesRulesView from '../views/factions/SpaceMarinesRulesView.vue'
+import SpaceMarinesFaqView from '../views/factions/SpaceMarinesFaqView.vue'
+import SpaceMarinesFactionFilesView from '../views/factions/SpaceMarinesFactionFilesView.vue'
 import FactionStubView from '../views/factions/FactionStubView.vue'
 
 const imperiumFactions = [
@@ -53,9 +57,10 @@ const factionGroupsEn = [
   { label: 'Xenos',      factions: xenosFactions },
 ]
 
+const imperiumFactionsRu = imperiumFactions.map(f => f.path === '/factions/space-marines' ? { ...f, label: 'Космодесант' } : f)
 const xenosFactionsRu = xenosFactions.map(f => f.path === '/factions/orks' ? { ...f, label: 'Орки' } : f)
 const factionGroupsRu = [
-  { label: 'Imperium',   factions: imperiumFactions },
+  { label: 'Imperium',   factions: imperiumFactionsRu },
   { label: 'Chaos',      factions: chaosFactions },
   { label: 'Xenos',      factions: xenosFactionsRu },
 ]
@@ -210,6 +215,17 @@ export const router = createRouter({
         { path: 'rules', component: NecronsRulesView },
         { path: 'files', component: NecronsFactionFilesView },
         { path: 'faq',   component: NecronsFaqView },
+      ],
+    },
+    // Space Marines — nested routes
+    {
+      path: '/factions/space-marines',
+      component: SpaceMarinesLayout,
+      redirect: '/factions/space-marines/rules',
+      children: [
+        { path: 'rules', component: SpaceMarinesRulesView },
+        { path: 'files', component: SpaceMarinesFactionFilesView },
+        { path: 'faq',   component: SpaceMarinesFaqView },
       ],
     },
     // Stubs — catch-all dynamic routes
