@@ -8,47 +8,24 @@
       </span>
     </div>
     <div v-if="description" class="detachment-description">{{ description }}</div>
-    <div class="detachment-body" v-html="renderedText"></div>
+    <div class="detachment-body"><RuleBody :body="rule.text" /></div>
   </div>
 </template>
 
 <script setup>
 import { computed } from 'vue'
-import { useRenderInline } from '../composables/useRenderInline.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
+import RuleBody from './RuleBody.vue'
 
-const props = defineProps({
+defineProps({
   rule: { type: Object, required: true },
   description: { type: String, default: '' },
   unique: { type: String, default: '' },
 })
 
-const { renderInline } = useRenderInline()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-
-const renderedText = computed(() => {
-  const lines = (props.rule.text || '').split('\n')
-  let html = ''
-  let inUl = false
-
-  for (const line of lines) {
-    const trimmed = line.trim()
-    if (trimmed.startsWith('▪ ')) {
-      if (!inUl) { html += '<ul>'; inUl = true }
-      html += `<li>${renderInline(trimmed.slice(2))}</li>`
-    } else {
-      if (inUl) { html += '</ul>'; inUl = false }
-      if (trimmed) {
-        if (html) html += '<br>'
-        html += renderInline(trimmed)
-      }
-    }
-  }
-  if (inUl) html += '</ul>'
-  return html
-})
 </script>
 
 <style scoped>
@@ -123,14 +100,5 @@ const renderedText = computed(() => {
   font-size: 0.87rem;
   line-height: 1.55;
   color: var(--text-primary);
-}
-
-.detachment-body :deep(ul) {
-  margin: 0.4rem 0 0;
-  padding-left: 1.25rem;
-}
-
-.detachment-body :deep(li) {
-  margin-bottom: 0.25rem;
 }
 </style>
