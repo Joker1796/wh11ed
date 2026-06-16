@@ -194,7 +194,7 @@ export const space_marines = {
 
   armyRule: {
     name: 'Oath of Moment',
-    text: "If your Army Faction is [ADEPTUS ASTARTES], at the start of your Command phase, select one unit from your opponent's army. Until the start of your next Command phase, that enemy unit is your Oath of Moment target.\nEach time a model with this ability makes an attack that targets your Oath of Moment target:\n▪ You can re-roll the Hit roll.\n▪ If you are using a Codex: Space Marines Detachment and your army does not include one or more units with the [BLOOD ANGELS], [DARK ANGELS], [DEATHWATCH] or [SPACE WOLVES] keywords, add 1 to the Wound roll as well.\n\n### Space Marine Chapters\n▪ If your army includes one or more [BLACK TEMPLARS] units, it cannot include any [ADEPTUS ASTARTES] PSYKER models, and cannot include any of the following models that do not have the [BLACK TEMPLARS] keyword: Gladiator Lancer; Gladiator Reaper; Gladiator Valiant; Impulsor; Repulsor; Repulsor Executioner.\n▪ If your army includes one or more [SPACE WOLVES] units, it cannot include any of the following units: Apothecary; Devastator Squad; Tactical Squad.\n\n### Deathwatch\n▪ Your army can include [ADEPTUS ASTARTES] DEATHWATCH units, but it cannot include any [ADEPTUS ASTARTES] units drawn from any other Chapter.\n▪ With the exception of Kill Team Cassius (see Legends: Agents of the Imperium), your army cannot include any [AGENTS OF THE IMPERIUM] DEATHWATCH units.\n▪ Your army cannot include any of the following units: Assault Squad; Assault Squad with Jump Packs; Attack Bike Squad; Devastator Squad; Land Speeder Storm; Relic Terminator Squad; Scout Bike Squad; Scout Squad; Scout Sniper Squad; Tactical Squad; Terminator Assault Squad; Terminator Squad.",
+    text: "If your Army Faction is [ADEPTUS ASTARTES], at the start of your Command phase, select one unit from your opponent's army. Until the start of your next Command phase, that enemy unit is your Oath of Moment target.\nEach time a model with this ability makes an attack that targets your Oath of Moment target:\n▪ You can re-roll the Hit roll.\n▪ If you are using a Codex: Space Marines Detachment and your army does not include one or more units with the [BLOOD ANGELS], [DARK ANGELS], [DEATHWATCH] or [SPACE WOLVES] keywords, add 1 to the Wound roll as well.\n\n### Space Marine Chapters\n▪ If your army includes one or more [BLACK TEMPLARS] units, it cannot include any [ADEPTUS ASTARTES PSYKER] models, and cannot include any of the following models that do not have the [BLACK TEMPLARS] keyword: Gladiator Lancer; Gladiator Reaper; Gladiator Valiant; Impulsor; Repulsor; Repulsor Executioner.\n▪ If your army includes one or more [SPACE WOLVES] units, it cannot include any of the following units: Apothecary; Devastator Squad; Tactical Squad.\n\n### Deathwatch\n▪ Your army can include [ADEPTUS ASTARTES DEATHWATCH] units, but it cannot include any [ADEPTUS ASTARTES] units drawn from any other Chapter.\n▪ With the exception of Kill Team Cassius (see Legends: Agents of the Imperium), your army cannot include any [AGENTS OF THE IMPERIUM DEATHWATCH] units.\n▪ Your army cannot include any of the following units: Assault Squad; Assault Squad with Jump Packs; Attack Bike Squad; Devastator Squad; Land Speeder Storm; Relic Terminator Squad; Scout Bike Squad; Scout Squad; Scout Sniper Squad; Tactical Squad; Terminator Assault Squad; Terminator Squad.",
   },
 
   detachments: [
@@ -366,7 +366,7 @@ export const space_marines = {
       source: '10ed',
       rule: {
         name: 'Armoured Wrath',
-        text: 'Each time an attack is made with a ranged weapon equipped by a model in an [ADEPTUS ASTARTES] VEHICLE unit from your army, add 1 to the Wound roll.',
+        text: 'Each time an attack is made with a ranged weapon equipped by a model in an [ADEPTUS ASTARTES VEHICLE] unit from your army, add 1 to the Wound roll.',
       },
       enhancements: [
         {
@@ -385,7 +385,7 @@ export const space_marines = {
           name: 'Tank Commander',
           pts: 20,
           restriction: 'VEHICLE CHARACTER model only',
-          text: 'While the bearer is on the battlefield, each time a model in an [ADEPTUS ASTARTES] VEHICLE unit from your army within 6" of the bearer makes an attack, add 1 to the Hit roll.',
+          text: 'While the bearer is on the battlefield, each time a model in an [ADEPTUS ASTARTES VEHICLE] unit from your army within 6" of the bearer makes an attack, add 1 to the Hit roll.',
         },
       ],
       stratagems: [
@@ -404,7 +404,7 @@ export const space_marines = {
           type: 'Battle Tactic',
           turn: 'your',
           when: 'Your Movement phase.',
-          target: 'One [ADEPTUS ASTARTES] VEHICLE unit from your army.',
+          target: 'One [ADEPTUS ASTARTES VEHICLE] unit from your army.',
           effect: 'Until the end of the turn, each time a model in your unit makes a melee attack, add 1 to the Wound roll.',
         },
         {
@@ -413,7 +413,7 @@ export const space_marines = {
           type: 'Strategic Ploy',
           turn: 'your',
           when: 'Your Shooting phase.',
-          target: 'One [ADEPTUS ASTARTES] VEHICLE unit from your army that has not been selected to shoot.',
+          target: 'One [ADEPTUS ASTARTES VEHICLE] unit from your army that has not been selected to shoot.',
           effect: 'Your unit can shoot again. When doing so, ranged weapons equipped by models in your unit can only target units within 12".',
         },
       ],
@@ -426,7 +426,7 @@ export const space_marines = {
       source: '10ed',
       rule: {
         name: 'Lightning Assault',
-        text: 'Each time an [ADEPTUS ASTARTES] MOUNTED or [ADEPTUS ASTARTES] model with a JUMP PACK from your army makes a Charge move, you can re-roll the Charge roll.',
+        text: 'Each time an [ADEPTUS ASTARTES MOUNTED] or [ADEPTUS ASTARTES] model with a JUMP PACK from your army makes a Charge move, you can re-roll the Charge roll.',
       },
       enhancements: [
         {
@@ -457,7 +457,7 @@ export const space_marines = {
           cp: '1CP',
           type: 'Battle Tactic',
           turn: 'your',
-          when: 'Your Charge phase, just after an [ADEPTUS ASTARTES] MOUNTED or JUMP PACK unit from your army ends a charge move.',
+          when: 'Your Charge phase, just after an [ADEPTUS ASTARTES MOUNTED] or JUMP PACK unit from your army ends a charge move.',
           target: 'That [ADEPTUS ASTARTES] unit.',
           effect: 'Until the end of the turn, each time a model in your unit makes a melee attack, add 1 to the Wound roll.',
         },
@@ -467,7 +467,7 @@ export const space_marines = {
           type: 'Epic Deed',
           turn: 'either',
           when: 'Fight phase, just after an enemy unit has selected its targets.',
-          target: 'One [ADEPTUS ASTARTES] MOUNTED or JUMP PACK unit from your army selected as a target.',
+          target: 'One [ADEPTUS ASTARTES MOUNTED] or JUMP PACK unit from your army selected as a target.',
           effect: 'Your unit fights next. Each time a model in your unit makes a melee attack this phase, add 1 to the Wound roll.',
         },
       ],
@@ -536,7 +536,7 @@ export const space_marines = {
       description: 'Warrior-mystics of the Chapter unleash supernatural warp-fuelled powers.',
       rule: {
         name: 'Psychic Disciplines',
-        text: 'At the start of the battle round, select one of the following Psychic Disciplines abilities. Friendly [ADEPTUS ASTARTES] PSYKER units have that ability until the end of the battle round.\n▪ Biomancy Discipline: This unit has +2" M.\n▪ Divination Discipline: This unit\'s attacks can re-roll hit rolls of 1 and wound rolls of 1.\n▪ Pyromancy Discipline: This unit\'s ranged attacks that target an enemy unit within 12" have +1 AP.\n▪ Telekinesis Discipline: Ranged attacks that target this unit have -1 S.\n▪ Telepathy Discipline: This unit\'s attacks can ignore modifiers to BS, WS and hit rolls.',
+        text: 'At the start of the battle round, select one of the following Psychic Disciplines abilities. Friendly [ADEPTUS ASTARTES PSYKER] units have that ability until the end of the battle round.\n▪ Biomancy Discipline: This unit has +2" M.\n▪ Divination Discipline: This unit\'s attacks can re-roll hit rolls of 1 and wound rolls of 1.\n▪ Pyromancy Discipline: This unit\'s ranged attacks that target an enemy unit within 12" have +1 AP.\n▪ Telekinesis Discipline: Ranged attacks that target this unit have -1 S.\n▪ Telepathy Discipline: This unit\'s attacks can ignore modifiers to BS, WS and hit rolls.',
       },
       enhancements: [
         {
@@ -566,7 +566,7 @@ export const space_marines = {
           type: 'Librarius Conclave Stratagem',
           turn: 'opponent',
           when: 'At the end of your opponent\'s Fight phase.',
-          target: 'One friendly [ADEPTUS ASTARTES] PSYKER unit.',
+          target: 'One friendly [ADEPTUS ASTARTES PSYKER] unit.',
           effect: 'You can place this unit into strategic reserves. If this unit has the Telekinesis Discipline ability, this unit has Deep Strike.',
         },
         {
@@ -575,7 +575,7 @@ export const space_marines = {
           type: 'Librarius Conclave Stratagem',
           turn: 'your',
           when: 'Your Shooting phase.',
-          target: 'One friendly [ADEPTUS ASTARTES] PSYKER unit.',
+          target: 'One friendly [ADEPTUS ASTARTES PSYKER] unit.',
           effect: 'This unit\'s ranged attacks have [ANTI-MONSTER/VEHICLE 5+]. If this unit has the Pyromancy Discipline ability, those weapons also have [SUSTAINED HITS 1].',
         },
       ],
@@ -642,7 +642,7 @@ export const space_marines = {
       description: 'Land Raiders slam through walls, Repulsors obliterate bunker lines, and Stormraven Gunships descend from the heavens — combined arms warfare leaving only ruin in their wake.',
       rule: {
         name: 'Rapid Deployment',
-        text: 'Each time an [ADEPTUS ASTARTES] unit from your army disembarks from a Transport (excluding Fly) that made a Normal or Advance move this phase (excluding those that arrived from Strategic Reserves), that disembarked unit can make a Normal move of up to D6", or a Normal move of up to D3+3" instead if that Transport is a Heavy Transport.\n▪ KEYWORDS: [ADEPTUS ASTARTES] Transport units from your army (excluding Fly) that have a Wounds characteristic of 14+ have the Heavy Transport keyword.',
+        text: 'Each time an [ADEPTUS ASTARTES] unit from your army disembarks from a Transport (excluding Fly) that made a Normal or Advance move this phase (excluding those that arrived from Strategic Reserves), that disembarked unit can make a Normal move of up to D6", or a Normal move of up to D3+3" instead if that Transport is a Heavy Transport.\n▪ KEYWORDS: [ADEPTUS ASTARTES TRANSPORT] units from your army (excluding Fly) that have a Wounds characteristic of 14+ have the Heavy Transport keyword.',
       },
       enhancements: [
         {
@@ -663,7 +663,7 @@ export const space_marines = {
         {
           name: 'Armoured Commander',
           restriction: 'ADEPTUS ASTARTES model only',
-          text: 'Once per turn, in your Movement phase, the bearer can use this Enhancement. If it does, select one friendly [ADEPTUS ASTARTES] Transport that is in Strategic Reserves. Until the end of the phase, for the purposes of setting up that Transport on the battlefield, treat the current battle round number as being one higher than it actually is.',
+          text: 'Once per turn, in your Movement phase, the bearer can use this Enhancement. If it does, select one friendly [ADEPTUS ASTARTES TRANSPORT] that is in Strategic Reserves. Until the end of the phase, for the purposes of setting up that Transport on the battlefield, treat the current battle round number as being one higher than it actually is.',
         },
       ],
       stratagems: [
@@ -691,8 +691,8 @@ export const space_marines = {
           type: 'Armoured Speartip — Wargear',
           turn: 'either',
           when: 'End of the Fight phase.',
-          target: 'One [ADEPTUS ASTARTES] Infantry unit from your army not within Engagement Range of any enemy units, and one friendly Heavy Transport it is able to embark within.',
-          effect: 'If your [ADEPTUS ASTARTES] Infantry unit is wholly within 6" of that Heavy Transport, it can embark within it.',
+          target: 'One [ADEPTUS ASTARTES INFANTRY] unit from your army not within Engagement Range of any enemy units, and one friendly Heavy Transport it is able to embark within.',
+          effect: 'If your [ADEPTUS ASTARTES INFANTRY] unit is wholly within 6" of that Heavy Transport, it can embark within it.',
         },
         {
           name: 'Ceramite Sledgehammer',
@@ -700,7 +700,7 @@ export const space_marines = {
           type: 'Armoured Speartip — Strategic Ploy',
           turn: 'your',
           when: 'Your Movement phase.',
-          target: 'One [ADEPTUS ASTARTES] Transport unit from your army that has not been selected to move this phase.',
+          target: 'One [ADEPTUS ASTARTES TRANSPORT] unit from your army that has not been selected to move this phase.',
           effect: 'Until the end of the phase, each time your unit makes a Normal or Advance move, it can move horizontally through terrain features. If your unit is a Heavy Transport, when making this move, it can move through enemy models (excluding Monsters and Vehicles) but cannot end the move within Engagement Range of them.',
         },
         {
@@ -709,7 +709,7 @@ export const space_marines = {
           type: 'Armoured Speartip — Strategic Ploy',
           turn: 'your',
           when: 'Your Movement phase.',
-          target: 'One [ADEPTUS ASTARTES] Transport unit from your army that has not been selected to move this phase.',
+          target: 'One [ADEPTUS ASTARTES TRANSPORT] unit from your army that has not been selected to move this phase.',
           effect: 'Until the end of the phase, units can disembark from your Transport after it has Advanced. Units that do so count as having made a Normal move this phase, and cannot declare a charge in the same turn (unless your Transport has the Assault Ramp ability), but can otherwise act normally.',
         },
         {
@@ -732,7 +732,7 @@ export const space_marines = {
       description: 'Veteran tank crews pilot vehicles like extensions of their bodies — an elite armoured formation for the most complex high-risk operations.',
       rule: {
         name: 'Target Sighted',
-        text: 'Each time a Tank Ace unit from your army Advances, do not make an Advance roll; instead, until the end of the phase, add 6" to the Move characteristic of models in that unit. Each time a Tank Ace unit from your army shoots in your Shooting phase, if that unit did not Advance this turn, you can re-roll the Damage roll.\n▪ KEYWORDS: [ADEPTUS ASTARTES] Vehicle units from your army (excluding Fortifications, Drop Pods, Walkers and units that can Fly) have the Tank Ace keyword.\n▪ In the Muster Armies step, you can select up to three Tank Ace units from your army to gain the Character keyword.',
+        text: 'Each time a Tank Ace unit from your army Advances, do not make an Advance roll; instead, until the end of the phase, add 6" to the Move characteristic of models in that unit. Each time a Tank Ace unit from your army shoots in your Shooting phase, if that unit did not Advance this turn, you can re-roll the Damage roll.\n▪ KEYWORDS: [ADEPTUS ASTARTES VEHICLE] units from your army (excluding Fortifications, Drop Pods, Walkers and units that can Fly) have the Tank Ace keyword.\n▪ In the Muster Armies step, you can select up to three Tank Ace units from your army to gain the Character keyword.',
       },
       enhancements: [
         {
@@ -753,7 +753,7 @@ export const space_marines = {
         {
           name: 'Astartes Tank Ace (Aura)',
           restriction: 'ADEPTUS ASTARTES Vehicle model only',
-          text: 'In your Shooting phase, while a friendly [ADEPTUS ASTARTES] Vehicle unit is within 6" of the bearer, ranged weapons equipped by models in that unit have the [ASSAULT] ability.',
+          text: 'In your Shooting phase, while a friendly [ADEPTUS ASTARTES VEHICLE] unit is within 6" of the bearer, ranged weapons equipped by models in that unit have the [ASSAULT] ability.',
         },
       ],
       stratagems: [
@@ -864,7 +864,7 @@ export const space_marines = {
           type: 'Ceramite Sentinels — Battle Tactic',
           turn: 'your',
           when: 'Your Shooting phase or the Fight phase.',
-          target: 'One [ADEPTUS ASTARTES] Infantry or Mounted unit from your army that has not been selected to shoot or fight.',
+          target: 'One [ADEPTUS ASTARTES INFANTRY] or [ADEPTUS ASTARTES MOUNTED] unit from your army that has not been selected to shoot or fight.',
           effect: 'Until the end of the phase, each time a model in your unit makes an attack that targets a Character, Monster or Vehicle unit, you can re-roll the Wound roll.',
         },
         {
@@ -900,7 +900,7 @@ export const space_marines = {
           type: 'Ceramite Sentinels — Strategic Ploy',
           turn: 'opponent',
           when: 'Your opponent\'s Shooting phase, just after an enemy unit has shot.',
-          target: 'One [ADEPTUS ASTARTES] Infantry or Mounted unit from your army selected as a target.',
+          target: 'One [ADEPTUS ASTARTES INFANTRY] or [ADEPTUS ASTARTES MOUNTED] unit from your army selected as a target.',
           effect: 'Your unit can make a Normal move of up to D6". If your unit is Entrenched, you can re-roll the D6 to determine how far your unit can move.',
         },
       ],
@@ -991,7 +991,7 @@ export const space_marines = {
           type: 'Blade of Ultramar — Strategic Ploy',
           turn: 'opponent',
           when: 'Your opponent\'s Movement phase, just after an enemy unit ends a Normal, Advance or Fall Back move.',
-          target: 'One [ADEPTUS ASTARTES] Infantry or Mounted unit from your army not within Engagement Range of any enemy units and within 8" of that enemy unit.',
+          target: 'One [ADEPTUS ASTARTES INFANTRY] or [ADEPTUS ASTARTES MOUNTED] unit from your army not within Engagement Range of any enemy units and within 8" of that enemy unit.',
           effect: 'Your unit can make a Normal move of up to D6", or up to 6" if it is under the effects of the Tactical Doctrine.',
         },
       ],
@@ -1046,7 +1046,7 @@ export const space_marines = {
           type: 'Hammer of Avernii — Battle Tactic',
           turn: 'your',
           when: 'Your Shooting phase or the Fight phase.',
-          target: 'One [ADEPTUS ASTARTES] Dreadnought, Terminator, Bladeguard Veteran Squad, Sternguard Veteran Squad or Vanguard Veteran Squad unit from your army that has not been selected to shoot or fight.',
+          target: 'One [ADEPTUS ASTARTES] [DREADNOUGHT], [TERMINATOR], [BLADEGUARD VETERAN SQUAD], [STERNGUARD VETERAN SQUAD] or [VANGUARD VETERAN SQUAD] unit from your army that has not been selected to shoot or fight.',
           effect: 'Until the end of the phase, each time a model in your unit makes an attack that targets your Oath of Moment target, improve the Armour Penetration of that attack by 1.',
         },
       ],
@@ -1060,7 +1060,7 @@ export const space_marines = {
       description: 'Battleline Marines combine combined arms tactics with auspex data to weather enemy pressure and pin foes for elimination.',
       rule: {
         name: 'Interlocking Tactics',
-        text: '[ADEPTUS ASTARTES] Battleline units from your army:\n▪ Are eligible to shoot and declare a charge in a turn in which they Advanced or Fell Back.\n▪ Are eligible to start to perform an Action in a turn in which they Advanced or Fell Back.\nEach time an [ADEPTUS ASTARTES] Battleline unit from your army is selected to attack, after resolving those attacks, select one enemy unit hit by one or more of those attacks. Until the end of the turn, that enemy unit is auspex scanned. Each time an [ADEPTUS ASTARTES] model from your army makes an attack that targets an auspex scanned unit, re-roll a Hit roll of 1.',
+        text: '[ADEPTUS ASTARTES BATTLELINE] units from your army:\n▪ Are eligible to shoot and declare a charge in a turn in which they Advanced or Fell Back.\n▪ Are eligible to start to perform an Action in a turn in which they Advanced or Fell Back.\nEach time an [ADEPTUS ASTARTES BATTLELINE] unit from your army is selected to attack, after resolving those attacks, select one enemy unit hit by one or more of those attacks. Until the end of the turn, that enemy unit is auspex scanned. Each time an [ADEPTUS ASTARTES] model from your army makes an attack that targets an auspex scanned unit, re-roll a Hit roll of 1.',
       },
       enhancements: [
         {
@@ -1099,7 +1099,7 @@ export const space_marines = {
           cp: '1CP',
           type: 'Bastion Task Force — Strategic Ploy',
           turn: 'your',
-          when: 'Your Shooting phase or the Fight phase, just after an [ADEPTUS ASTARTES] Battleline unit from your army has finished making its attacks.',
+          when: 'Your Shooting phase or the Fight phase, just after an [ADEPTUS ASTARTES BATTLELINE] unit from your army has finished making its attacks.',
           target: 'That Battleline unit.',
           effect: 'When an enemy unit is auspex scanned as a result of those attacks this turn, if that enemy unit does not have the Monster or Vehicle keywords, until the start of your next turn it is pinned. While a unit is pinned, subtract 2 from its Move characteristic and subtract 2 from Charge rolls made for that unit.',
         },
@@ -1117,7 +1117,7 @@ export const space_marines = {
           cp: '1CP',
           type: 'Bastion Task Force — Strategic Ploy',
           turn: 'your',
-          when: 'Your Shooting phase or the Fight phase, just after an [ADEPTUS ASTARTES] Battleline unit from your army finished making its attacks.',
+          when: 'Your Shooting phase or the Fight phase, just after an [ADEPTUS ASTARTES BATTLELINE] unit from your army finished making its attacks.',
           target: 'That Battleline unit.',
           effect: 'When an enemy unit is auspex scanned as a result of those attacks this turn, until the start of your next turn, it is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll.',
         },
@@ -1127,7 +1127,7 @@ export const space_marines = {
           type: 'Bastion Task Force — Battle Tactic',
           turn: 'either',
           when: 'Your opponent\'s Shooting phase or the Fight phase, just after an enemy unit has selected its targets.',
-          target: 'One [ADEPTUS ASTARTES] Battleline unit from your army selected as a target.',
+          target: 'One [ADEPTUS ASTARTES BATTLELINE] unit from your army selected as a target.',
           effect: 'Until the end of the phase, each time an attack targets your unit, if the Strength of that attack is greater than the Toughness of your unit, subtract 1 from the Wound roll.',
         },
         {
@@ -1218,7 +1218,7 @@ export const space_marines = {
           type: 'Orbital Assault Force — Strategic Ploy',
           turn: 'opponent',
           when: 'Your opponent\'s Shooting phase, just after an enemy unit has selected its targets.',
-          target: 'One [ADEPTUS ASTARTES] unit (excluding Titanic units) from your army selected as a target, and one friendly [ADEPTUS ASTARTES] Smoke Vehicle or Drop Pod unit within 9" of it.',
+          target: 'One [ADEPTUS ASTARTES] unit (excluding Titanic units) from your army selected as a target, and one friendly [ADEPTUS ASTARTES SMOKE VEHICLE] or Drop Pod unit within 9" of it.',
           effect: 'Until the end of the phase, models in your units have the Stealth ability and each time a ranged attack targets one of your units, models in that unit have the Benefit of Cover against that attack.',
         },
         {
@@ -1227,7 +1227,7 @@ export const space_marines = {
           type: 'Orbital Assault Force — Strategic Ploy',
           turn: 'opponent',
           when: 'End of your opponent\'s Fight phase.',
-          target: 'One [ADEPTUS ASTARTES] Infantry unit from your army that was not set up on the battlefield this turn, and one friendly Transport it is able to embark within.',
+          target: 'One [ADEPTUS ASTARTES INFANTRY] unit from your army that was not set up on the battlefield this turn, and one friendly Transport it is able to embark within.',
           effect: 'If your [ADEPTUS ASTARTES] unit is wholly within 6" of that Transport, it can embark within it.',
         },
       ],
@@ -1392,7 +1392,7 @@ export const space_marines = {
           type: 'Spearpoint Task Force — Strategic Ploy',
           turn: 'opponent',
           when: 'Your opponent\'s Movement phase, just after an enemy unit ends a Normal, Advance or Fall Back move.',
-          target: 'One [ADEPTUS ASTARTES] Infantry or Mounted unit from your army within 8" of that enemy unit (not within Engagement Range).',
+          target: 'One [ADEPTUS ASTARTES INFANTRY] or [ADEPTUS ASTARTES MOUNTED] unit from your army within 8" of that enemy unit (not within Engagement Range).',
           effect: 'Your unit can make a Normal move of up to 6".',
         },
         {
@@ -1401,7 +1401,7 @@ export const space_marines = {
           type: 'Spearpoint Task Force — Battle Tactic',
           turn: 'opponent',
           when: 'Your opponent\'s Shooting phase, just after an enemy unit has selected its targets.',
-          target: 'One [ADEPTUS ASTARTES] Mounted or Fly Vehicle unit from your army selected as a target.',
+          target: 'One [ADEPTUS ASTARTES MOUNTED] or [ADEPTUS ASTARTES FLY VEHICLE] unit from your army selected as a target.',
           effect: 'Until the end of the phase, each time an attack targets your unit, subtract 1 from the Hit roll AND subtract 1 from the Wound roll.',
         },
         {
@@ -1410,7 +1410,7 @@ export const space_marines = {
           type: 'Spearpoint Task Force — Strategic Ploy',
           turn: 'opponent',
           when: 'End of your opponent\'s Fight phase.',
-          target: 'One [ADEPTUS ASTARTES] Mounted or Fly Vehicle unit from your army not within Engagement Range of any enemy units.',
+          target: 'One [ADEPTUS ASTARTES MOUNTED] or [ADEPTUS ASTARTES FLY VEHICLE] unit from your army not within Engagement Range of any enemy units.',
           effect: 'Remove your unit from the battlefield and place it into Strategic Reserves.',
         },
       ],
@@ -1465,7 +1465,7 @@ export const space_marines = {
           type: "Forgefather's Seekers — Battle Tactic",
           turn: 'your',
           when: 'Your Shooting phase or the Fight phase.',
-          target: 'One [ADEPTUS ASTARTES] Infantry unit from your army that has not been selected to shoot or fight.',
+          target: 'One [ADEPTUS ASTARTES INFANTRY] unit from your army that has not been selected to shoot or fight.',
           effect: 'Until the end of the phase, each time a model in your unit makes an attack that targets the closest eligible target within 6", add 1 to the Wound roll.',
         },
         {
@@ -1473,7 +1473,7 @@ export const space_marines = {
           cp: '1CP',
           type: "Forgefather's Seekers — Strategic Ploy",
           turn: 'your',
-          when: 'Your Movement phase, just after an [ADEPTUS ASTARTES] Infantry unit from your army Falls Back.',
+          when: 'Your Movement phase, just after an [ADEPTUS ASTARTES INFANTRY] unit from your army Falls Back.',
           target: 'That unit.',
           effect: 'Until the end of the turn, your unit is eligible to shoot in a turn in which it Fell Back.',
         },
@@ -1492,7 +1492,7 @@ export const space_marines = {
           type: "Forgefather's Seekers — Battle Tactic",
           turn: 'opponent',
           when: 'Your opponent\'s Shooting phase, just after an enemy unit has shot.',
-          target: 'One [ADEPTUS ASTARTES] Transport unit from your army selected as a target.',
+          target: 'One [ADEPTUS ASTARTES TRANSPORT] unit from your army selected as a target.',
           effect: 'One unit embarked within that Transport can disembark as if it were your Movement phase, and can then shoot as if it were your Shooting phase, but must target only that enemy unit when doing so.',
         },
         {
@@ -1556,7 +1556,7 @@ export const space_marines = {
           type: "Emperor's Shield — Battle Tactic",
           turn: 'your',
           when: 'Your Shooting phase or the Fight phase.',
-          target: 'One [ADEPTUS ASTARTES] Terminator, Bladeguard Veteran, Sternguard Veteran or Vanguard Veteran unit from your army that has not been selected to shoot or fight.',
+          target: 'One [ADEPTUS ASTARTES] [TERMINATOR], [BLADEGUARD VETERAN SQUAD], [STERNGUARD VETERAN SQUAD] or [VANGUARD VETERAN SQUAD] unit from your army that has not been selected to shoot or fight.',
           effect: 'Until the end of the phase, each time a model in your unit makes an attack, add 1 to the Hit roll. If your unit is below its Starting Strength, add 1 to the Wound roll as well.',
         },
         {
@@ -1565,7 +1565,7 @@ export const space_marines = {
           type: "Emperor's Shield — Battle Tactic",
           turn: 'either',
           when: 'Fight phase, just after an enemy unit has selected its targets.',
-          target: 'One [ADEPTUS ASTARTES] Terminator/Bladeguard/Sternguard/Vanguard Veteran unit from your army selected as a target.',
+          target: 'One [ADEPTUS ASTARTES] [TERMINATOR], [BLADEGUARD VETERAN SQUAD], [STERNGUARD VETERAN SQUAD] or [VANGUARD VETERAN SQUAD] unit from your army selected as a target.',
           effect: 'Until the end of the phase, each time a model in your unit is destroyed, if that model has not fought, roll one D6: on a 3+, do not remove it from play. The destroyed model can fight after the attacking unit has finished, then is removed.',
         },
         {
@@ -1592,7 +1592,7 @@ export const space_marines = {
           type: "Emperor's Shield — Battle Tactic",
           turn: 'opponent',
           when: 'End of your opponent\'s Fight phase.',
-          target: 'One [ADEPTUS ASTARTES] Terminator unit from your army not within Engagement Range of any enemy units.',
+          target: 'One [ADEPTUS ASTARTES TERMINATOR] unit from your army not within Engagement Range of any enemy units.',
           effect: 'Remove your unit from the battlefield and place it into Strategic Reserves.',
         },
       ],
@@ -1647,7 +1647,7 @@ export const space_marines = {
           type: 'Shadowmark Talon — Battle Tactic',
           turn: 'your',
           when: 'Fight phase.',
-          target: 'One [ADEPTUS ASTARTES] Infantry unit from your army that has not been selected to fight.',
+          target: 'One [ADEPTUS ASTARTES INFANTRY] unit from your army that has not been selected to fight.',
           effect: 'Until the end of the phase, melee weapons equipped by models in your unit have the [PRECISION] ability.',
         },
         {
@@ -1665,7 +1665,7 @@ export const space_marines = {
           type: 'Shadowmark Talon — Battle Tactic',
           turn: 'your',
           when: 'Your Shooting phase.',
-          target: 'One [ADEPTUS ASTARTES] Infantry unit from your army that has not been selected to shoot.',
+          target: 'One [ADEPTUS ASTARTES INFANTRY] unit from your army that has not been selected to shoot.',
           effect: 'Until the end of the phase, each time a model in your unit makes a ranged attack that targets an enemy unit more than 12" away, improve the Ballistic Skill and Armour Penetration of that attack by 1. If models are destroyed, select one; that destroyed model\'s unit must take a Battle-shock test.',
         },
         {
@@ -1674,7 +1674,7 @@ export const space_marines = {
           type: 'Shadowmark Talon — Battle Tactic',
           turn: 'opponent',
           when: 'Your opponent\'s Movement phase, just after an enemy unit ends a Normal, Advance or Fall Back move.',
-          target: 'One [ADEPTUS ASTARTES] Infantry or Mounted unit from your army within 9" of that enemy unit (not within Engagement Range).',
+          target: 'One [ADEPTUS ASTARTES INFANTRY] or [ADEPTUS ASTARTES MOUNTED] unit from your army within 9" of that enemy unit (not within Engagement Range).',
           effect: 'Your unit can make a Normal move of up to D6", or up to 6" if it is a Phobos or Scout Squad unit.',
         },
         {
@@ -1683,7 +1683,7 @@ export const space_marines = {
           type: 'Shadowmark Talon — Strategic Ploy',
           turn: 'opponent',
           when: 'End of your opponent\'s Fight phase.',
-          target: 'Up to two Phobos and/or Scout Squad units from your army, or one other [ADEPTUS ASTARTES] Infantry unit (not within Engagement Range).',
+          target: 'Up to two Phobos and/or Scout Squad units from your army, or one other [ADEPTUS ASTARTES INFANTRY] unit (not within Engagement Range).',
           effect: 'Remove those units from the battlefield and place them into Strategic Reserves.',
         },
       ],
@@ -1708,8 +1708,8 @@ export const space_marines = {
           cp: '1CP',
           type: 'Legacy of Grace Stratagem',
           turn: 'either',
-          when: 'Your Shooting phase or the Fight phase, when a friendly [ADEPTUS ASTARTES] CHARACTER unit is selected to attack.',
-          target: 'That [ADEPTUS ASTARTES] CHARACTER unit.',
+          when: 'Your Shooting phase or the Fight phase, when a friendly [ADEPTUS ASTARTES CHARACTER] unit is selected to attack.',
+          target: 'That [ADEPTUS ASTARTES CHARACTER] unit.',
           effect: 'Your unit\'s attacks have:\n▪ [LETHAL HITS].\n▪ OR: [SUSTAINED HITS 1].',
         },
         {
@@ -1726,7 +1726,7 @@ export const space_marines = {
           cp: '1CP',
           type: 'Legacy of Grace Stratagem',
           turn: 'opponent',
-          when: 'Your opponent\'s Shooting phase, when an enemy unit targets a friendly [ADEPTUS ASTARTES] CHARACTER unit.',
+          when: 'Your opponent\'s Shooting phase, when an enemy unit targets a friendly [ADEPTUS ASTARTES CHARACTER] unit.',
           target: 'That CHARACTER unit.',
           effect: 'Your unit has 5+ InSv.',
         },
@@ -1847,7 +1847,7 @@ export const space_marines = {
       description: 'When despair grips the battlefield, the warrior angels of Baal strike with unerring and unstoppable wrath to snatch victory from defeat.',
       rule: {
         name: 'Legacy of the Angel',
-        text: 'At the start of the first battle round, select two of the Angelic Legacy abilities listed below. Until the end of the battle, those abilities are active and their effects apply to all [ADEPTUS ASTARTES] Character units from your army.\n▪ Sanguinary Grace: This unit is eligible to shoot and declare a charge in a turn in which it Fell Back.\n▪ Carmine Wrath: Each time a model in this unit makes an attack, re-roll a Hit roll of 1 and re-roll a Wound roll of 1.\n▪ Their Appointed Hour: You can re-roll Advance and Charge rolls made for this unit.\nRESTRICTIONS: Your army can include Blood Angels units, but it cannot include [ADEPTUS ASTARTES] units drawn from any other Chapter.',
+        text: 'At the start of the first battle round, select two of the Angelic Legacy abilities listed below. Until the end of the battle, those abilities are active and their effects apply to all [ADEPTUS ASTARTES CHARACTER] units from your army.\n▪ Sanguinary Grace: This unit is eligible to shoot and declare a charge in a turn in which it Fell Back.\n▪ Carmine Wrath: Each time a model in this unit makes an attack, re-roll a Hit roll of 1 and re-roll a Wound roll of 1.\n▪ Their Appointed Hour: You can re-roll Advance and Charge rolls made for this unit.\nRESTRICTIONS: Your army can include Blood Angels units, but it cannot include [ADEPTUS ASTARTES] units drawn from any other Chapter.',
       },
       enhancements: [
         {
@@ -1896,7 +1896,7 @@ export const space_marines = {
           type: 'Angelic Inheritors — Epic Deed',
           turn: 'your',
           when: 'Your Command phase.',
-          target: 'One [ADEPTUS ASTARTES] Infantry unit from your army.',
+          target: 'One [ADEPTUS ASTARTES INFANTRY] unit from your army.',
           effect: 'Select one non-Character model in your unit. Until the start of your next Command phase, your model has the Character keyword.',
         },
         {
@@ -1914,7 +1914,7 @@ export const space_marines = {
           type: 'Angelic Inheritors — Battle Tactic',
           turn: 'opponent',
           when: 'Your opponent\'s Shooting phase, just after an enemy unit has selected its targets.',
-          target: 'One [ADEPTUS ASTARTES] Character unit from your army selected as a target.',
+          target: 'One [ADEPTUS ASTARTES CHARACTER] unit from your army selected as a target.',
           effect: 'Until the end of the phase, your unit can only be selected as the target of a ranged attack if the attacking model is within 18".',
         },
         {
@@ -1923,7 +1923,7 @@ export const space_marines = {
           type: 'Angelic Inheritors — Strategic Ploy',
           turn: 'opponent',
           when: 'End of your opponent\'s Fight phase.',
-          target: 'One [ADEPTUS ASTARTES] Jump Pack unit from your army not within Engagement Range of any enemy units (unless it is The Sanguinor).',
+          target: 'One [ADEPTUS ASTARTES JUMP PACK] unit from your army not within Engagement Range of any enemy units (unless it is The Sanguinor).',
           effect: 'Remove your unit from the battlefield and place it into Strategic Reserves.',
         },
       ],
@@ -2258,7 +2258,7 @@ export const space_marines = {
       description: 'Battle company veterans, Ravenwing speedsters and Deathwing terminators form lethal strike forces capable of countering any threat.',
       rule: {
         name: 'Dutiful Tenacity',
-        text: 'Each time an attack targets an [ADEPTUS ASTARTES] Infantry or Mounted unit from your army, if the Strength of that attack is greater than the Toughness of that unit, subtract 1 from the Wound roll.',
+        text: 'Each time an attack targets an [ADEPTUS ASTARTES INFANTRY] or [ADEPTUS ASTARTES MOUNTED] unit from your army, if the Strength of that attack is greater than the Toughness of that unit, subtract 1 from the Wound roll.',
       },
       enhancements: [
         {
@@ -2289,7 +2289,7 @@ export const space_marines = {
           type: 'Wrath of the Rock — Battle Tactic',
           turn: 'either',
           when: 'Any phase, just after your Oath of Moment target is destroyed.',
-          target: 'One [ADEPTUS ASTARTES] Character unit on the battlefield.',
+          target: 'One [ADEPTUS ASTARTES CHARACTER] unit on the battlefield.',
           effect: 'Select one enemy unit within 12" and visible to your unit. That enemy unit becomes your Oath of Moment target until the start of your next Command phase.',
         },
         {
@@ -2325,7 +2325,7 @@ export const space_marines = {
           type: 'Wrath of the Rock — Strategic Ploy',
           turn: 'your',
           when: 'Your Shooting phase.',
-          target: 'One [ADEPTUS ASTARTES] Infantry or Mounted unit from your army that has not been selected to shoot.',
+          target: 'One [ADEPTUS ASTARTES INFANTRY] or [ADEPTUS ASTARTES MOUNTED] unit from your army that has not been selected to shoot.',
           effect: 'Until the end of the phase, add 2 to the Strength characteristic of ranged weapons equipped by models in your unit.',
         },
         {
@@ -2351,7 +2351,7 @@ export const space_marines = {
       description: 'The hand-picked champions of the Space Wolves chapter stride out to lay their enemies low.',
       rule: {
         name: 'The Great Wolf Watches',
-        text: 'The battle-brothers of this Great Company know what their lord expects of them and stand ready to pounce the moment the foe are fool enough to stray within range.\nFriendly [ADEPTUS ASTARTES] INFANTRY CHARACTER units have the following ability:\n▪ Countercharge: (Once per battle round, per unit) You can target this unit with the Heroic Intervention stratagem, regardless of any other uses of that stratagem this phase. That use does not prevent any uses of that stratagem on other units this phase.\nRESTRICTIONS: Your army can include SPACE WOLVES units, but it cannot include any [ADEPTUS ASTARTES] units drawn from any other Chapter.',
+        text: 'The battle-brothers of this Great Company know what their lord expects of them and stand ready to pounce the moment the foe are fool enough to stray within range.\nFriendly [ADEPTUS ASTARTES INFANTRY CHARACTER] units have the following ability:\n▪ Countercharge: (Once per battle round, per unit) You can target this unit with the Heroic Intervention stratagem, regardless of any other uses of that stratagem this phase. That use does not prevent any uses of that stratagem on other units this phase.\nRESTRICTIONS: Your army can include SPACE WOLVES units, but it cannot include any [ADEPTUS ASTARTES] units drawn from any other Chapter.',
       },
       enhancements: [
         {
@@ -2371,8 +2371,8 @@ export const space_marines = {
           cp: '1CP',
           type: 'Champions of Fenris Stratagem',
           turn: 'either',
-          when: 'Any phase, when a friendly [ADEPTUS ASTARTES] INFANTRY CHARACTER unit suffers a mortal wound.',
-          target: 'That [ADEPTUS ASTARTES] INFANTRY CHARACTER unit.',
+          when: 'Any phase, when a friendly [ADEPTUS ASTARTES INFANTRY CHARACTER] unit suffers a mortal wound.',
+          target: 'That [ADEPTUS ASTARTES INFANTRY CHARACTER] unit.',
           effect: 'Your unit has Feel No Pain 5+ against mortal wounds.',
         },
         {
@@ -2381,7 +2381,7 @@ export const space_marines = {
           type: 'Champions of Fenris Stratagem',
           turn: 'your',
           when: 'End of your Movement phase.',
-          target: 'One friendly [ADEPTUS ASTARTES] INFANTRY CHARACTER unit.',
+          target: 'One friendly [ADEPTUS ASTARTES INFANTRY CHARACTER] unit.',
           effect: 'Select one objective your unit is controlling. That objective is secured.',
         },
         {
@@ -2389,8 +2389,8 @@ export const space_marines = {
           cp: '1CP',
           type: 'Champions of Fenris Stratagem',
           turn: 'opponent',
-          when: 'Your opponent\'s Shooting phase, when an enemy unit targets a friendly [ADEPTUS ASTARTES] INFANTRY CHARACTER unit.',
-          target: 'That [ADEPTUS ASTARTES] INFANTRY CHARACTER unit.',
+          when: 'Your opponent\'s Shooting phase, when an enemy unit targets a friendly [ADEPTUS ASTARTES INFANTRY CHARACTER] unit.',
+          target: 'That [ADEPTUS ASTARTES INFANTRY CHARACTER] unit.',
           effect: 'Your unit has Stealth.',
         },
       ],
@@ -2404,7 +2404,7 @@ export const space_marines = {
       description: 'Led by Wolf Guard elites, the Space Wolves battle seemingly impossible odds and prevail.',
       rule: {
         name: 'Loping Charge',
-        text: 'Despite the massive bulk of their armour, these elite warriors close with their enemies in a ground-eating lope that catches the enemy unprepared.\nFriendly [ADEPTUS ASTARTES] TERMINATOR units have +1 to charge rolls.\nRESTRICTIONS: Your army can include SPACE WOLVES units, but it cannot include any [ADEPTUS ASTARTES] units drawn from any other Chapter.',
+        text: 'Despite the massive bulk of their armour, these elite warriors close with their enemies in a ground-eating lope that catches the enemy unprepared.\nFriendly [ADEPTUS ASTARTES TERMINATOR] units have +1 to charge rolls.\nRESTRICTIONS: Your army can include SPACE WOLVES units, but it cannot include any [ADEPTUS ASTARTES] units drawn from any other Chapter.',
       },
       enhancements: [
         {
@@ -2424,8 +2424,8 @@ export const space_marines = {
           cp: '1CP',
           type: 'Legends of Saga and Song Stratagem',
           turn: 'your',
-          when: 'Fight phase, when a friendly [ADEPTUS ASTARTES] TERMINATOR unit is selected to fight.',
-          target: 'That [ADEPTUS ASTARTES] TERMINATOR unit.',
+          when: 'Fight phase, when a friendly [ADEPTUS ASTARTES TERMINATOR] unit is selected to fight.',
+          target: 'That [ADEPTUS ASTARTES TERMINATOR] unit.',
           effect: 'Your unit\'s melee attacks have [PRECISION].',
         },
         {
@@ -2443,7 +2443,7 @@ export const space_marines = {
           type: 'Legends of Saga and Song Stratagem',
           turn: 'opponent',
           when: 'End of your opponent\'s Fight phase.',
-          target: 'One friendly unengaged [ADEPTUS ASTARTES] TERMINATOR unit.',
+          target: 'One friendly unengaged [ADEPTUS ASTARTES TERMINATOR] unit.',
           effect: 'Place your unit in strategic reserves.',
         },
       ],
@@ -2559,7 +2559,7 @@ export const space_marines = {
           type: 'Saga of the Great Wolf Stratagem',
           turn: 'your',
           when: 'Your Movement phase or your Charge phase.',
-          target: 'One [ADEPTUS ASTARTES] Mounted or Walker unit from your army that has not been selected to move or charge.',
+          target: 'One [ADEPTUS ASTARTES MOUNTED] or [ADEPTUS ASTARTES WALKER] unit from your army that has not been selected to move or charge.',
           effect: 'Until the end of the phase, each time a model in your unit makes a Normal, Advance, Fall Back or Charge move, it can move horizontally through models (excluding Titanic) and terrain features.',
         },
         {
@@ -2730,7 +2730,7 @@ export const space_marines = {
       description: 'From their hidden watch fortresses, the Deathwatch dispatch carefully selected Kill Teams to hunt down and exterminate alien presences. Each post-human warrior is a veteran of countless battles tithed from their original Chapter to undertake the Long Vigil.',
       rule: {
         name: 'Mission Tactics',
-        text: 'At the start of your Command phase, you can select one of the Mission Tactics listed below. Until the start of your next Command phase, that Mission Tactic is active and applies to all units from your army. Each Mission Tactic can only be selected once per battle.\n▪ Furor Tactics: Weapons equipped by [ADEPTUS ASTARTES] units from your army have the [SUSTAINED HITS 1] ability.\n▪ Malleus Tactics: Weapons equipped by [ADEPTUS ASTARTES] units from your army have the [LETHAL HITS] ability.\n▪ Purgatus Tactics: Each time an [ADEPTUS ASTARTES] unit from your army makes an attack, if a Critical Hit is scored, that attack has the [PRECISION] ability.\nKill Teams: Each time an attack targets a Kill Team unit from your army that contains models with different Toughness characteristics, use the Toughness of the majority of the models in that unit when determining what is required to wound. If two or more Toughness characteristics are tied for majority, use the highest.\nRESTRICTIONS: Your army can include [ADEPTUS ASTARTES] Deathwatch units, but it cannot include any [ADEPTUS ASTARTES] units drawn from any other Chapter. Your army cannot include: Assault Squad, Assault Squad with Jump Packs, Attack Bike Squad, Devastator Squad, Land Speeder Storm, Relic Terminator Squad, Scout Bike Squad, Scout Squad, Scout Sniper Squad, Tactical Squad, Terminator Assault Squad, Terminator Squad.',
+        text: 'At the start of your Command phase, you can select one of the Mission Tactics listed below. Until the start of your next Command phase, that Mission Tactic is active and applies to all units from your army. Each Mission Tactic can only be selected once per battle.\n▪ Furor Tactics: Weapons equipped by [ADEPTUS ASTARTES] units from your army have the [SUSTAINED HITS 1] ability.\n▪ Malleus Tactics: Weapons equipped by [ADEPTUS ASTARTES] units from your army have the [LETHAL HITS] ability.\n▪ Purgatus Tactics: Each time an [ADEPTUS ASTARTES] unit from your army makes an attack, if a Critical Hit is scored, that attack has the [PRECISION] ability.\nKill Teams: Each time an attack targets a Kill Team unit from your army that contains models with different Toughness characteristics, use the Toughness of the majority of the models in that unit when determining what is required to wound. If two or more Toughness characteristics are tied for majority, use the highest.\nRESTRICTIONS: Your army can include [ADEPTUS ASTARTES DEATHWATCH] units, but it cannot include any [ADEPTUS ASTARTES] units drawn from any other Chapter. Your army cannot include: Assault Squad, Assault Squad with Jump Packs, Attack Bike Squad, Devastator Squad, Land Speeder Storm, Relic Terminator Squad, Scout Bike Squad, Scout Squad, Scout Sniper Squad, Tactical Squad, Terminator Assault Squad, Terminator Squad.',
       },
       enhancements: [
         {
@@ -2809,7 +2809,7 @@ export const space_marines = {
           type: 'Black Spear Task Force — Strategic Ploy',
           turn: 'opponent',
           when: 'End of your opponent\'s Fight phase.',
-          target: 'Up to two Kill Team units from your army, or one other [ADEPTUS ASTARTES] Infantry unit (not within Engagement Range of enemies).',
+          target: 'Up to two Kill Team units from your army, or one other [ADEPTUS ASTARTES INFANTRY] unit (not within Engagement Range of enemies).',
           effect: 'Remove those units from the battlefield and place them into Strategic Reserves. Until the end of your next Movement phase, models in those units that do not have the Deep Strike ability have it.',
         },
       ],
