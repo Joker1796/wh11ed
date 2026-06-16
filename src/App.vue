@@ -62,11 +62,11 @@
     <!-- Mobile drawer (visible only on mobile via NavSidebar internal CSS) -->
     <NavSidebar :mobileOpen="mobileNavOpen" @close="mobileNavOpen = false" />
 
-    <!-- Subnav: core rules section links (hidden on faction pages) -->
-    <nav class="subnav" v-show="!isFactionsRoute">
+    <!-- Subnav: core rules links OR faction section links -->
+    <nav class="subnav">
       <div class="subnav-inner">
         <RouterLink
-          v-for="item in coreSubNavItems"
+          v-for="item in isFactionsRoute ? factionSubNavItems : coreSubNavItems"
           :key="item.path"
           :to="item.path"
           class="subnav-link"
@@ -112,6 +112,21 @@ const labels = computed(() => ui[locale.value])
 const coreRoutes = ['/', '/basic-rules', '/battle-round', '/battlefields', '/advanced-rules', '/reference', '/files']
 const isCoreRoute = computed(() => coreRoutes.includes(route.path))
 const isFactionsRoute = computed(() => route.path.startsWith('/factions/'))
+
+const factionBasePath = computed(() => {
+  const m = route.path.match(/^(\/factions\/[^/]+)/)
+  return m ? m[1] : ''
+})
+
+const factionSubNavItems = computed(() => {
+  const base = factionBasePath.value
+  const l = labels.value
+  return [
+    { path: `${base}/rules`, label: l.tabRules },
+    { path: `${base}/files`, label: l.tabFiles },
+    { path: `${base}/faq`,   label: l.tabFaq },
+  ]
+})
 
 const coreSubNavItems = computed(() => {
   const l = labels.value
