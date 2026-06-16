@@ -15,6 +15,7 @@
             :class="{ active: isCoreRoute }"
           >{{ labels.navCoreRules }}</RouterLink>
           <div
+            v-if="factionsEnabled"
             class="nav-factions-wrap"
             @mouseenter="factionsHoverOpen = true"
             @mouseleave="factionsHoverOpen = false"
@@ -97,7 +98,7 @@ import { useLocale } from './composables/useLocale.js'
 import { useKeywordPopover } from './composables/useKeywordPopover.js'
 import { resolveRef, useRefNavigation } from './composables/useRefNavigation.js'
 import { ui } from './i18n/ui.js'
-import { navGroups, navGroupsRu } from './router/index.js'
+import { navGroups, navGroupsRu, factionsEnabled } from './router/index.js'
 
 const route = useRoute()
 const mobileNavOpen = ref(false)

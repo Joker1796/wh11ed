@@ -51,6 +51,8 @@ const xenosFactions = [
   { label: 'Tyranids',           path: '/factions/tyranids' },
 ]
 
+export const factionsEnabled = false
+
 const factionGroupsEn = [
   { label: 'Imperium',   factions: imperiumFactions },
   { label: 'Chaos',      factions: chaosFactions },
@@ -118,11 +120,11 @@ export const navGroups = [
       { id: 'section-faq', label: 'FAQs' },
     ],
   },
-  {
+  ...(factionsEnabled ? [{
     label: 'Factions', path: '/factions',
     factionGroups: factionGroupsEn,
     sections: [],
-  },
+  }] : []),
 ]
 
 export const navGroupsRu = [
@@ -178,11 +180,11 @@ export const navGroupsRu = [
       { id: 'section-faq', label: 'Частые вопросы' },
     ],
   },
-  {
+  ...(factionsEnabled ? [{
     label: 'Фракции', path: '/factions',
     factionGroups: factionGroupsRu,
     sections: [],
-  },
+  }] : []),
 ]
 
 export const router = createRouter({
