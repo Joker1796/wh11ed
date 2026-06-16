@@ -14,27 +14,6 @@
             class="nav-link"
             :class="{ active: isCoreRoute }"
           >{{ labels.navCoreRules }}</RouterLink>
-          <div
-            v-if="factionsEnabled"
-            class="nav-factions-wrap"
-            @mouseenter="factionsHoverOpen = true"
-            @mouseleave="factionsHoverOpen = false"
-          >
-            <span class="nav-link" :class="{ active: isFactionsRoute }">{{ labels.navFactions }}</span>
-            <div class="factions-mega" v-if="factionsHoverOpen">
-              <div class="factions-mega-col" v-for="cat in factionSubNavGroups" :key="cat.label">
-                <div class="factions-mega-cat-label">{{ cat.label }}</div>
-                <RouterLink
-                  v-for="f in cat.factions"
-                  :key="f.path"
-                  :to="f.path"
-                  class="factions-mega-item"
-                  :class="{ active: $route.path === f.path }"
-                  @click="factionsHoverOpen = false"
-                >{{ f.label }}</RouterLink>
-              </div>
-            </div>
-          </div>
         </nav>
 
         <div class="navbar-actions">
@@ -63,11 +42,11 @@
     <!-- Mobile drawer (visible only on mobile via NavSidebar internal CSS) -->
     <NavSidebar :mobileOpen="mobileNavOpen" @close="mobileNavOpen = false" />
 
-    <!-- Subnav: core rules links OR faction section links -->
+    <!-- Subnav: core rules links -->
     <nav class="subnav">
       <div class="subnav-inner">
         <RouterLink
-          v-for="item in isFactionsRoute ? factionSubNavItems : coreSubNavItems"
+          v-for="item in coreSubNavItems"
           :key="item.path"
           :to="item.path"
           class="subnav-link"
@@ -98,36 +77,18 @@ import { useLocale } from './composables/useLocale.js'
 import { useKeywordPopover } from './composables/useKeywordPopover.js'
 import { resolveRef, useRefNavigation } from './composables/useRefNavigation.js'
 import { ui } from './i18n/ui.js'
-import { navGroups, navGroupsRu, factionsEnabled } from './router/index.js'
 
 const route = useRoute()
 const mobileNavOpen = ref(false)
 const searchOpen = ref(false)
-const factionsHoverOpen = ref(false)
 const { locale, toggleLocale } = useLocale()
 const { open: openKeyword, close: closeKeyword } = useKeywordPopover()
 const { navigateTo } = useRefNavigation()
 
 const labels = computed(() => ui[locale.value])
 
-const coreRoutes = ['/', '/basic-rules', '/battle-round', '/battlefields', '/advanced-rules', '/reference', '/files']
+const coreRoutes = ['/', '/basic-rules', '/battle-round', '/battlefields', '/advanced-rules', '/reference']
 const isCoreRoute = computed(() => coreRoutes.includes(route.path))
-const isFactionsRoute = computed(() => route.path.startsWith('/factions/'))
-
-const factionBasePath = computed(() => {
-  const m = route.path.match(/^(\/factions\/[^/]+)/)
-  return m ? m[1] : ''
-})
-
-const factionSubNavItems = computed(() => {
-  const base = factionBasePath.value
-  const l = labels.value
-  return [
-    { path: `${base}/rules`, label: l.tabRules },
-    { path: `${base}/files`, label: l.tabFiles },
-    { path: `${base}/faq`,   label: l.tabFaq },
-  ]
-})
 
 const coreSubNavItems = computed(() => {
   const l = labels.value
@@ -138,14 +99,7 @@ const coreSubNavItems = computed(() => {
     { path: '/battlefields', label: l.subNavBattlefields },
     { path: '/advanced-rules', label: l.subNavAdvanced },
     { path: '/reference', label: l.subNavReference },
-    { path: '/files', label: l.subNavFiles },
   ]
-})
-
-const factionSubNavGroups = computed(() => {
-  const groups = locale.value === 'ru' ? navGroupsRu : navGroups
-  const fg = groups.find(g => g.path === '/factions')
-  return fg?.factionGroups ?? []
 })
 
 function onKeydown(e) {
@@ -400,73 +354,6 @@ onUnmounted(() => {
 .subnav-link.active {
   color: var(--accent);
   border-bottom-color: var(--accent);
-  font-weight: 600;
-}
-
-/* ── Factions hover mega-dropdown ── */
-.nav-factions-wrap {
-  position: relative;
-  display: flex;
-  align-items: center;
-  height: 100%;
-}
-
-.nav-factions-wrap > .nav-link {
-  cursor: default;
-  user-select: none;
-}
-
-.factions-mega {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 300;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-  padding: 1rem 1.25rem;
-  display: flex;
-  gap: 1.5rem;
-}
-
-.factions-mega-col {
-  display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
-  min-width: 145px;
-}
-
-.factions-mega-cat-label {
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: var(--text-dim);
-  padding: 0 0.5rem 0.4rem;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 0.25rem;
-}
-
-.factions-mega-item {
-  display: block;
-  padding: 0.35rem 0.5rem;
-  font-size: 0.83rem;
-  color: var(--text-muted);
-  border-radius: 3px;
-  text-decoration: none;
-  transition: background 0.12s, color 0.12s;
-  white-space: nowrap;
-}
-
-.factions-mega-item:hover {
-  background: rgba(110,0,8,0.1);
-  color: var(--text-primary);
-  text-decoration: none;
-}
-
-.factions-mega-item.active {
-  color: var(--accent);
   font-weight: 600;
 }
 
