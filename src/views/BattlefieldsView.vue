@@ -107,9 +107,9 @@ const tocSections = computed(() =>
 
 <style scoped>
 .view-hero {
-  padding: 2rem 0 1.5rem;
+  padding: 1.25rem 0 0.9rem;
   border-bottom: 1px solid var(--border);
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
 }
 .view-hero h1 {
   font-family: var(--font-serif);

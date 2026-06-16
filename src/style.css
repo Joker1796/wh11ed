@@ -9,8 +9,15 @@
   --text-muted: #686957;
   --text-dim: #8a8b78;
   --text-on-dark: #f0ede8;
+  --text-on-accent: #fff;
   --border: #c8cac0;
   --border-light: #d8dbd2;
+  --bg-row-alt: rgba(104, 105, 87, 0.06);
+  --bg-row-hover: rgba(110, 0, 8, 0.04);
+  --ability-weapon: #7a5a00;
+  --ability-unit: #004a6e;
+  --bg-definition: #cfd0c3;
+  --bg-definition-border: #b8b9ac;
   --font-serif: 'EB Garamond', Georgia, serif;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'Courier New', Courier, monospace;
@@ -18,6 +25,28 @@
   --subnav-height: 40px;
   --header-total: 96px;
   --sidebar-width: 280px;
+}
+
+:root[data-theme='dark'] {
+  --bg-primary: #242428;
+  --bg-secondary: #2c2c30;
+  --bg-card: #303035;
+  --bg-insert: #38383d;
+  --accent: #c8585e;
+  --accent-hover: #e07078;
+  --text-primary: #e8e8e3;
+  --text-muted: #a8a89a;
+  --text-dim: #7e7e72;
+  --text-on-dark: #f0ede8;
+  --text-on-accent: #fff;
+  --border: #3a3a40;
+  --border-light: #2c2c30;
+  --bg-row-alt: rgba(255, 255, 255, 0.03);
+  --bg-row-hover: rgba(200, 88, 94, 0.10);
+  --ability-weapon: #e0b850;
+  --ability-unit: #5fb2dc;
+  --bg-definition: #2a2d2c;
+  --bg-definition-border: #3a3d3c;
 }
 
 * {
@@ -51,6 +80,10 @@ a:hover {
 .color-red   { color: #c0392b; }
 .color-blue  { color: #2471a3; }
 .color-green { color: #1e8449; }
+
+[data-theme='dark'] .color-red   { color: #ef6e60; }
+[data-theme='dark'] .color-blue  { color: #6aa9d6; }
+[data-theme='dark'] .color-green { color: #5cbf83; }
 
 .dice-icon {
   font-size: 1.6em;
@@ -145,11 +178,11 @@ td {
 }
 
 tr:nth-child(even) td {
-  background: rgba(104, 105, 87, 0.06);
+  background: var(--bg-row-alt);
 }
 
 tr:hover td {
-  background: rgba(110, 0, 8, 0.04);
+  background: var(--bg-row-hover);
 }
 
 /* Scrollbar */
@@ -171,9 +204,9 @@ tr:hover td {
 /* Keyword tags — ability keywords like [BLAST] */
 .keyword {
   display: inline-block;
-  background: rgba(110, 0, 8, 0.08);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
   color: var(--accent);
-  border: 1px solid rgba(110, 0, 8, 0.3);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
   border-radius: 2px;
   padding: 0 5px;
   font-size: 0.78em;
@@ -187,7 +220,7 @@ tr:hover td {
 .section-num {
   display: inline-block;
   background: var(--accent);
-  color: #fff;
+  color: var(--text-on-accent);
   border-radius: 2px;
   padding: 1px 7px;
   font-size: 0.72rem;
@@ -211,7 +244,7 @@ tr:hover td {
 }
 
 .note-box strong {
-  color: #fff;
+  color: var(--text-on-dark);
 }
 
 .note-box .keyword {
@@ -282,7 +315,7 @@ tr:hover td {
   width: 1.6rem;
   height: 1.6rem;
   background: var(--accent);
-  color: white;
+  color: var(--text-on-accent);
   border-radius: 50%;
   display: flex;
   align-items: center;

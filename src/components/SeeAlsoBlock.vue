@@ -49,7 +49,7 @@ const resolvedRefs = computed(() => props.refs.map(ref => ({ ref, r: resolveRef(
 .see-also-label {
   font-weight: 700;
   font-size: 0.75rem;
-  color: rgba(0, 0, 0, 0.45);
+  color: var(--text-dim);
   margin-bottom: 0.1rem;
 }
 

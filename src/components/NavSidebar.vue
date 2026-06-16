@@ -166,7 +166,7 @@ async function handleAnchorClick(path, id) {
 }
 
 .mobile-close:hover {
-  background: rgba(0, 0, 0, 0.06);
+  background: color-mix(in srgb, var(--text-primary) 7%, transparent);
   color: var(--text-primary);
 }
 
@@ -198,12 +198,12 @@ async function handleAnchorClick(path, id) {
 
 .nav-group-label:hover {
   color: var(--text-primary);
-  background: rgba(110, 0, 8, 0.05);
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
 }
 
 .nav-group.active .nav-group-label {
   color: var(--accent);
-  background: rgba(110, 0, 8, 0.08);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
 }
 
 .chevron {
@@ -237,7 +237,7 @@ async function handleAnchorClick(path, id) {
 
 .nav-sub-link:hover {
   color: var(--text-primary);
-  background: rgba(110, 0, 8, 0.04);
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
 }
 
 .expand-enter-active, .expand-leave-active {

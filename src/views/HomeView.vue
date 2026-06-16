@@ -84,9 +84,9 @@ const tocItems = computed(() =>
 
 .intro-quote {
   text-align: center;
-  padding: 1rem 0 1.5rem;
+  padding: 0.75rem 0 1rem;
   border-bottom: 2px solid var(--accent);
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
 }
 
 .intro-quote .flavor-line:first-child {
@@ -97,7 +97,7 @@ const tocItems = computed(() =>
 
 .hero {
   text-align: center;
-  padding: 2rem 0 1rem;
+  padding: 1.25rem 0 0.6rem;
   border-bottom: 2px solid var(--accent);
   margin-bottom: 0;
 }
@@ -107,8 +107,9 @@ const tocItems = computed(() =>
   color: var(--text-muted);
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: 1.1rem;
-  margin-bottom: 0.1rem;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  margin-bottom: 0.15rem;
 }
 
 .hero-title {
@@ -131,15 +132,15 @@ const tocItems = computed(() =>
 
 
 .intro-section {
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
 }
 
 .intro-section h2 {
   font-family: var(--font-serif);
   font-size: 1.5rem;
   font-weight: 700;
-  margin-bottom: 1rem;
-  padding-bottom: 0.4rem;
+  margin-bottom: 0.6rem;
+  padding-bottom: 0.3rem;
   border-bottom: 2px solid var(--accent);
   color: var(--text-primary);
 }
@@ -155,8 +156,8 @@ const tocItems = computed(() =>
   font-family: var(--font-serif);
   font-size: 1.5rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
-  padding-bottom: 0.4rem;
+  margin-bottom: 0.4rem;
+  padding-bottom: 0.3rem;
   border-bottom: 2px solid var(--accent);
   color: var(--text-primary);
 }
@@ -164,7 +165,7 @@ const tocItems = computed(() =>
 .toc-note {
   color: var(--text-muted);
   font-size: 0.88rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.9rem;
   font-style: italic;
 }
 
@@ -176,7 +177,7 @@ const tocItems = computed(() =>
 
 .toc-card {
   display: block;
-  background: #fff;
+  background: var(--bg-card);
   border: 1px solid var(--border);
   border-top: 3px solid var(--border);
   border-radius: 0 0 6px 6px;
@@ -187,7 +188,7 @@ const tocItems = computed(() =>
 
 .toc-card:hover {
   border-top-color: var(--accent);
-  box-shadow: 0 2px 12px rgba(110, 0, 8, 0.08);
+  box-shadow: 0 2px 12px color-mix(in srgb, var(--accent) 18%, transparent);
   text-decoration: none;
 }
 
@@ -203,7 +204,7 @@ const tocItems = computed(() =>
   font-weight: 700;
   color: var(--accent);
   font-family: var(--font-mono);
-  background: rgba(110, 0, 8, 0.07);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
   padding: 2px 7px;
   border-radius: 2px;
 }

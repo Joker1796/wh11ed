@@ -29,7 +29,7 @@ function renderLines(text) {
 
 <style scoped>
 .definition-block {
-  background: #cfd0c3;
+  background: var(--bg-definition);
   border-radius: 4px;
   margin-top: 1rem;
   overflow: hidden;
@@ -43,7 +43,7 @@ function renderLines(text) {
 }
 
 .definition-item + .definition-item {
-  border-top: 1px solid #b8b9ac;
+  border-top: 1px solid var(--bg-definition-border);
 }
 
 .definition-term {

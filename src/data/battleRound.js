@@ -543,9 +543,7 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 [img:/images/turn/SHOOTING-PHASE-RU.png|Иконка фазы: Фаза стрельбы]
 [img:/images/turn/CHARGE-PHASE-RU.png|Иконка фазы: Фаза атаки]
 [img:/images/turn/FIGHT-PHASE-RU.png|Иконка фазы: Фаза боя]
-[img:/images/turn/END-OF-TURN-STEP-RU.png|Иконка фазы: Конец хода]
-
-[img:/images/turn-structure.png|Структура боевого раунда]`,
+[img:/images/turn/END-OF-TURN-STEP-RU.png|Иконка фазы: Конец хода]`,
         example: `Игрок А выиграл бросок и выбрал первый ход. В Боевом Раунде 1 Игрок А завершает свой полный ход (Командование → Передвижение → Стрельба → Рывок → Ближний бой), затем Игрок Б делает свой ход. В Боевом Раунде 2 Игрок А снова ходит первым — порядок не меняется на протяжении всей игры.`,
       },
       {

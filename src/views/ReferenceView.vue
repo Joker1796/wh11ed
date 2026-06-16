@@ -88,7 +88,14 @@
 
     <div class="digital-support">
       <h2 class="digital-support-title">{{ labels.digitalSupportTitle }}</h2>
-      <p>{{ labels.digitalSupportText }}</p>
+      <div class="digital-support-body">
+        <div class="digital-support-qr">
+          <a href="https://warhammer40000.com/" target="_blank" rel="noopener">
+            <img src="/images/wh40k-app-qr.png" alt="QR code — Warhammer 40,000 App" class="qr-img" />
+          </a>
+        </div>
+        <p>{{ labels.digitalSupportText }}</p>
+      </div>
     </div>
 
     <div v-for="entry in appendixData" :key="entry.id" :id="entry.id" class="appendix-block">
@@ -272,9 +279,9 @@ function handleDefClick(e) {
 
 <style scoped>
 .view-hero {
-  padding: 2rem 0 1.5rem;
+  padding: 1.25rem 0 0.9rem;
   border-bottom: 1px solid var(--border);
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
 }
 .view-hero h1 {
   font-family: var(--font-serif);
@@ -315,18 +322,18 @@ function handleDefClick(e) {
 .filter-btn.active {
   background: var(--accent);
   border-color: var(--accent);
-  color: white;
+  color: var(--text-on-accent);
 }
 
 /* Ability list */
 .abilities-list {
   display: grid;
   gap: 0.6rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
 }
 
 .ability-card {
-  background: #fff;
+  background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
@@ -359,12 +366,12 @@ function handleDefClick(e) {
 }
 
 .ability-name.weapon {
-  color: #7a5a00;
+  color: var(--ability-weapon, #7a5a00);
   font-family: var(--font-mono);
 }
 
 .ability-name.unit {
-  color: #004a6e;
+  color: var(--ability-unit, #004a6e);
 }
 
 .ability-type-badge {
@@ -376,15 +383,15 @@ function handleDefClick(e) {
 }
 
 .ability-type-badge.weapon {
-  background: rgba(122, 90, 0, 0.1);
-  color: #7a5a00;
-  border: 1px solid rgba(122, 90, 0, 0.25);
+  background: color-mix(in srgb, var(--ability-weapon, #7a5a00) 12%, transparent);
+  color: var(--ability-weapon, #7a5a00);
+  border: 1px solid color-mix(in srgb, var(--ability-weapon, #7a5a00) 30%, transparent);
 }
 
 .ability-type-badge.unit {
-  background: rgba(0, 74, 110, 0.1);
-  color: #004a6e;
-  border: 1px solid rgba(0, 74, 110, 0.25);
+  background: color-mix(in srgb, var(--ability-unit, #004a6e) 12%, transparent);
+  color: var(--ability-unit, #004a6e);
+  border: 1px solid color-mix(in srgb, var(--ability-unit, #004a6e) 30%, transparent);
 }
 
 /* Ability body */
@@ -489,7 +496,7 @@ function handleDefClick(e) {
 
 /* Digital Support */
 .digital-support {
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
   padding: 1.25rem 1.5rem;
   border-left: 3px solid var(--accent);
   background: var(--bg-secondary);
@@ -506,11 +513,35 @@ function handleDefClick(e) {
   margin-bottom: 0.5rem;
 }
 
+.digital-support-body {
+  overflow: hidden;
+}
+
+.digital-support-qr {
+  float: right;
+  margin: 0 0 0.75rem 1.25rem;
+  width: 120px;
+}
+
+.digital-support-qr .qr-img {
+  width: 120px;
+  height: auto;
+  display: block;
+  border-radius: 4px;
+}
+
 .digital-support p {
   font-size: 0.9rem;
   color: var(--text-muted);
   line-height: 1.6;
   margin: 0;
+}
+
+@media (max-width: 500px) {
+  .digital-support-qr {
+    float: none;
+    margin: 0 auto 0.75rem;
+  }
 }
 
 /* Appendix */
@@ -553,11 +584,11 @@ function handleDefClick(e) {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
 }
 
 .faq-item {
-  background: #fff;
+  background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 6px;
   overflow: hidden;
@@ -591,7 +622,7 @@ function handleDefClick(e) {
   border-radius: 3px;
   font-weight: 700;
   font-size: 0.75rem;
-  color: #fff;
+  color: var(--text-on-accent);
   flex-shrink: 0;
 }
 
