@@ -36,7 +36,7 @@ export const orks = {
 
   armyRule: {
     name: "Waaagh!",
-    text: "Once per battle, at the start of your Command phase, you can call a Waaagh! If you do, until the start of your next Command phase, the Waaagh! is active for your army. The specific effects of an active Waaagh! are determined by your chosen Detachment.",
+    text: "If your Army Faction is ORKS, once per battle, at the start of your Command phase, you can call a Waaagh!. If you do, until the start of your next Command phase, the Waaagh! is active for your army. The specific effects of an active Waaagh! are determined by your chosen Detachment.",
   },
 
   detachments: [
@@ -140,7 +140,7 @@ export const orks = {
       source: '10ed',
       rule: {
         name: 'Mob Mentality',
-        text: 'BOYZ units gain a 6+ invulnerable save against attacks. Units with 10 or more models gain a 5+ invulnerable save instead.',
+        text: 'Each time an attack targets a [BOYZ] unit from your army, models in that unit have a 6+ invulnerable save against that attack. Each time an attack targets a [BOYZ] unit from your army that contains 10 or more models, models in that unit have a 5+ invulnerable save against that attack.',
       },
       enhancements: [
         {
@@ -212,7 +212,7 @@ export const orks = {
           turn: "your",
           when: "Your Charge phase, when a friendly BOYZ unit is selected to make a charge move.",
           target: "That BOYZ unit.",
-          effect: "Add 1 to the Charge roll. If your unit has 10 or more models, you can re-roll the Charge roll instead.",
+          effect: "Until the end of the phase, each time your unit declares a charge, add 1 to the Charge roll and, if your unit contains 10 or more models, you can re-roll the Charge roll.",
         },
         {
           name: "GO GET 'EM!",
@@ -221,7 +221,7 @@ export const orks = {
           turn: "opponent",
           when: "Your opponent's Movement phase, just after an enemy unit ends a Fall Back move.",
           target: "One friendly BOYZ unit that was in Engagement Range of that enemy unit at the start of the phase.",
-          effect: "Roll one D6: your unit can make a Normal move of up to that distance. If your unit has 10 or more models, re-roll that D6 first.",
+          effect: "Your unit can make a surge move of up to D6\".",
         },
       ],
     },
@@ -232,7 +232,7 @@ export const orks = {
       source: '10ed',
       rule: {
         name: 'Adrenaline Junkies',
-        text: '[SPEED FREEKS] units remain eligible to shoot and declare charges even after Advancing or Falling Back.',
+        text: '[SPEED FREEKS] units from your army are eligible to shoot and declare a charge in a turn in which they Advanced or Fell Back.',
       },
       enhancements: [
         {
@@ -313,7 +313,7 @@ export const orks = {
           turn: "opponent",
           when: "Your opponent's Movement phase, just after an enemy unit ends a move.",
           target: "One friendly SPEED FREEKS unit that is not within Engagement Range of any enemy units.",
-          effect: "If that enemy unit is within 9\" of your unit, your unit can make a Normal move of up to 6\".",
+          effect: "If that enemy unit is within 8\" of your unit, your unit can make a Normal move of up to 6\".",
         },
       ],
     },
@@ -324,7 +324,7 @@ export const orks = {
       source: '10ed',
       rule: {
         name: "Da Boss Is Watchin'",
-        text: "At the start of your Command phase, if a friendly [WARBOSS] model is on the battlefield and you have not already called a Waaagh! this turn, you can call a second Waaagh! If you do, until the start of your next Command phase, that Waaagh! is active only for friendly [WARBOSS], [NOBZ] and [MEGANOBZ] units.",
+        text: "At the start of your Command phase, in a turn in which you have not called a Waaagh!, if you have one or more [WARBOSS] models on the battlefield (or embarked within a [TRANSPORT] that is on the battlefield), you can call a Waaagh! for a second time this battle. When doing so, that second Waaagh! only counts as having been called for [WARBOSS], [NOBZ] and [MEGANOBZ] units from your army.",
       },
       enhancements: [
         {
@@ -405,7 +405,7 @@ export const orks = {
           turn: "opponent",
           when: "Your opponent's Shooting or Fight phase, just after an enemy unit has selected its targets.",
           target: "One friendly NOBZ or MEGANOBZ unit that was selected as the target of one or more of the attacking unit's attacks.",
-          effect: "Until the end of the phase, each time an attack targets your unit, worsen the Armour Penetration characteristic of that attack by 1.",
+          effect: "Until the attacking unit has finished making its attacks, each time an attack targets your unit, worsen the Armour Penetration characteristic of that attack by 1.",
         },
       ],
     },
@@ -416,7 +416,7 @@ export const orks = {
       source: '10ed',
       rule: {
         name: "Da Hunt Is On",
-        text: "At the start of each of your Command phases, select one enemy [MONSTER], [VEHICLE] or [CHARACTER] unit to be your Prey.\n▪ [BEAST SNAGGA] units can re-roll Charge rolls when making charge moves that include your Prey as a target.\n▪ Each time a [BEAST SNAGGA] model makes an attack against your Prey, improve the Armour Penetration characteristic of that attack by 1.",
+        text: "At the start of your Command phase, select one [MONSTER], [VEHICLE] or [CHARACTER] unit from your opponent's army. Until the start of your next Command phase, that enemy unit is your Prey.\n▪ When a friendly [BEAST SNAGGA] unit declares a charge, if your Prey is within 12\" of that unit, you can use this part of this ability. If you do:\n  ▫ That [BEAST SNAGGA] unit can re-roll that charge roll.\n  ▫ That [BEAST SNAGGA] unit must end that charge move engaged with your Prey.\n▪ Each time a [BEAST SNAGGA] model makes an attack against your Prey, improve the Armour Penetration characteristic of that attack by 1.",
       },
       enhancements: [
         {
@@ -470,7 +470,7 @@ export const orks = {
           turn: "your",
           when: "Your Movement phase or Charge phase, when a friendly BEAST SNAGGA unit is selected to Advance or declare a charge.",
           target: "That BEAST SNAGGA unit.",
-          effect: "Your unit is eligible to charge this turn even if it Advanced this turn. If declaring a charge, your unit can re-roll its Charge roll if the declared targets include your Prey.",
+          effect: "Until the end of the phase, your unit is eligible to charge in a turn in which it Advanced or Fell Back. In addition, you can re-roll charge rolls made for your unit. If you do, your unit must end that charge move engaged with your Prey.",
         },
         {
           name: "WHERE D'YA FINK YOU'RE GOING?",
@@ -508,7 +508,7 @@ export const orks = {
       source: '10ed',
       rule: {
         name: "Try Dat Button!",
-        text: "Each time a [MEK], [ORKS WALKER] or [GROTS VEHICLE] unit from your army is selected to shoot or fight, roll one D6 and apply the corresponding Button Effect to that unit until the end of the phase:\n▪ 1-2: [SUSTAINED HITS 1]\n▪ 3-4: [LETHAL HITS]\n▪ 5-6: Critical Wounds improve the Armour Penetration by 2\n\nAlternatively, you can select one of those Button Effects instead of rolling; if you do, that unit also gains [HAZARDOUS] until the end of the phase. [GRETCHIN] units gain the [BATTLELINE] keyword.",
+        text: "Each time a [MEK], [ORKS WALKER] or [GROTS VEHICLE] unit from your army is selected to shoot or fight, roll one D6 and apply the corresponding Button Effect to that unit until the end of the phase:\n▪ 1-2: [SUSTAINED HITS 1]\n▪ 3-4: [LETHAL HITS]\n▪ 5-6: Critical Wounds improve the Armour Penetration by 2\n\nAlternatively, you can select one of those Button Effects instead of rolling; if you do, that unit also gains [HAZARDOUS] until the end of the phase. [GRETCHIN] units gain the [BATTLELINE] keyword.\n\nIf a weapon equipped by a model from your army has the [HAZARDOUS] ability from multiple sources, each time you take a Hazardous test for that weapon, it is failed on a roll of 1-3.",
       },
       enhancements: [
         {
@@ -944,10 +944,11 @@ export const orks = {
       id: 'rollin-deff',
       name: "Rollin' Deff",
       source: '11ed',
+      unique: 'WAGONS',
       description: 'Like an avalanche of riveted metal, heavily armed tanks and rigs plough towards the foe',
       rule: {
         name: "Thundering Wagons",
-        text: "Like mobile armoured fortresses, little can stop the crushing impetus of the Orks hauling their most outlandish weapons to bear.\n▪ Friendly [BATTLEWAGON], [HUNTAS RIG] and [KILL RIG] units have the [WAGON] keyword.\n▪ Friendly [WAGON] units can re-roll Charge rolls.\n▪ When a friendly [WAGON] unit is selected to make an Advance move, it can Advance and still be eligible to shoot and declare charges. In addition, when making Advance rolls for that unit, it can roll an extra dice and discard one of the results.",
+        text: "Like mobile armoured fortresses, little can stop the crushing impetus of the Orks hauling their most outlandish weapons to bear.\n▪ Friendly [BATTLEWAGON], [HUNTAS RIG] and [KILL RIG] units have the [WAGON] keyword.\n▪ Friendly [WAGON] units can re-roll Charge rolls.\n▪ When a friendly [WAGON] unit is selected to make an Advance move, it can Advance and still be eligible to shoot and declare charges. In addition, when making Advance rolls for that unit, it can roll an extra dice and discard one of the results.\n\nThis detachment has the WAGONS tag and cannot be taken with another WAGONS detachment.",
       },
       enhancements: [
         {
