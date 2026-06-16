@@ -4,6 +4,7 @@
       <span class="detachment-rule-badge">{{ labels.detachmentRuleLabel }}</span>
       <span class="detachment-rule-name">{{ rule.name }}</span>
     </div>
+    <div v-if="description" class="detachment-description">{{ description }}</div>
     <div class="detachment-body" v-html="renderedText"></div>
   </div>
 </template>
@@ -16,6 +17,7 @@ import { useLocale } from '../composables/useLocale.js'
 
 const props = defineProps({
   rule: { type: Object, required: true },
+  description: { type: String, default: '' },
 })
 
 const { renderInline } = useRenderInline()
@@ -81,6 +83,14 @@ const renderedText = computed(() => {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.4px;
+}
+
+.detachment-description {
+  padding: 0.65rem 0.9rem 0;
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--text-secondary);
+  line-height: 1.5;
 }
 
 .detachment-body {

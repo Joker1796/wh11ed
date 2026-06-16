@@ -569,6 +569,7 @@ export const orks = {
       id: 'more-dakka',
       name: 'More Dakka!',
       source: '11ed',
+      description: 'A horde of gun-crazed Orks unleash a devastating storm of dakka into the enemy',
       rule: {
         name: "Dakka! Dakka! Dakka!",
         text: "Orks have no real concept of ammunition preservation. Instead they hold the trigger down until their ammunition runs dry or their weapon falls apart in their hands.\n▪ Friendly [ORKS INFANTRY] units' ranged attacks have the [ASSAULT] ability.\n▪ In your Shooting phase, if the Waaagh! is active for your army, friendly [ORKS INFANTRY] units' ranged attacks have the [SUSTAINED HITS 1] ability.",
@@ -620,6 +621,7 @@ export const orks = {
       id: 'taktikal-brigade',
       name: 'Taktikal Brigade',
       source: '11ed',
+      description: 'Employing their kunnin to fashion a battle plan, the Blood Axes surprise their foes',
       rule: {
         name: "Lissen 'Ere",
         text: "Blood Axe leaders bellow actual orders to the lads under their command, coordinating assaults and even fighting retreats in a most un-Orky and alarmingly organised fashion.\n▪ Friendly [STORMBOYZ] units have the [BATTLELINE] keyword.\n▪ When a friendly [BOYZ], [KOMMANDOS] or [STORMBOYZ] unit is selected to make an Advance or Fall Back move, that move does not prevent that unit from being eligible to start an action.",
@@ -671,6 +673,7 @@ export const orks = {
       id: 'speedwaaagh',
       name: 'Speedwaaagh!',
       source: '11ed',
+      description: 'When a Speedwaaagh! is unleashed, entire planets become Ork speedways. The aliens tear across battlefields and weave through no man\'s land at breakneck pace, blazing away at anything in their path. So fast-moving are these Orkoid formations that they often punch clean through the enemy lines before their foes truly realise they are in battle. The Orks then haul their jostling vehicles and turbo-boosted Trukks around, charging back for another pass and then another. As they roar, they fill the air with deafening hails of firepower and choking clouds of dust and fume. Half-blinded, deafened by engines and bellowing, the enemy reels as swarms of light vehicles hit them from every direction. Ordered battle descends into high-octane anarchy as the Orks compete in contests of speed and violence in which their enemies are an unwilling audience and participants. Soon enough, the once-proud ranks of the foe are reduced to mangled ruin and the Orks race onward towards the next battle.',
       rule: {
         name: "Turbo Boostas",
         text: "No self-respecting Speed Freak goes to war without highly tuned, well-approved turbo boostas to power them to battle. Each time a [SPEED FREEKS] or [TRUKK] unit (excluding [AIRCRAFT]) from your army Advances, it can use its turbo. If it does, do not make an Advance roll; instead, until the end of the phase, models in that unit have a Move characteristic of 24\" but can only move in one straight line, and until the end of the turn, ranged weapons equipped by those models have the [ASSAULT] ability and that unit cannot declare a charge.\n\nDesigner's Note: When a unit uses its turbo, the models in that unit cannot pivot, and they cannot make a move of two or more straight lines (e.g. to navigate around obstacles). That unit also cannot declare a charge in a turn in which it Fell Back or Advanced (unless it used this turbo that turn).",
@@ -732,6 +735,7 @@ export const orks = {
       id: 'blitz-brigade',
       name: 'Blitz Brigade',
       source: '11ed',
+      description: 'Blitz Brigades consist of as many Battlewagons, Trukks and other wheeled and tracked monstrosities as a Tankboss can cobble together. Hulking constructions festooned with barbaric trophies and vomiting acrid clouds of choking exhaust fumes, these ramshackle vehicles bristle with rokkit batteries, pintle-mounted shootas and massive cannons as crude as they are destructive. Varying widely in size and shape, all drive to war laden with battle-hungry Orks. Thundering forward in a roaring avalanche of jagged scrap metal and burning rubber, Blitz Brigades plough directly into the enemy, tracks, wheels and pulverising rollers throwing up clots of mud and gore. Crude speakers spit out discordant Goffik roars and booming war cries that are in turn drowned out by the thunderous reports of oversized cannons and the jubilant bellows of Boyz as they leap from their transports and hurl themselves into the thick of the fight.',
       rule: {
         name: "Eager For The Fight",
         text: "Blitz Brigades thunder into battle laden with eager, belligerent Orks, all desperate to get stuck into the enemy. Each time an Orks unit from your army disembarks from a [TRANSPORT], until the end of the turn, you can re-roll Advance and Charge rolls made for that Orks unit.",
@@ -820,6 +824,7 @@ export const orks = {
       id: 'freebooter-krew',
       name: 'Freebooter Krew',
       source: '11ed',
+      description: 'Ork Freebooterz are the most selfish, acquisitive and merciless of their kind. Kicked out of their tribes for failing to respect even the brutal structures of Orkoid society, they find their way into the company of equally shifty gits and form Freebooter krewz. Freebooterz typically sail the void aboard kroozers bristling with guns and boarding craft, and take every opportunity to pillage and destroy everything in their path. When Freebooter Krewz gather under the banner of an especially ambitious and cunning Kaptin, they form pirate fleets that can endanger even fortified worlds and full-fledged battle stations. Any manner of Ork can become a Freebooter – though the most iconic of their kind are the gunned-up show-offs known as Flash Gitz – and so their krewz may include mobs of Boyz and Grots, hurtling packs of bad Ork Bikerboyz, piratical Beast Snaggas, fleets of trophy-festooned Battlewagons and more besides. The only unifying features are the Freebooterz\' greed for loot of every kind, and their willingness to do just about anything to get their talons on it.',
       rule: {
         name: "Here Be Loot",
         text: "Grabbing loot is a Freebooter's favourite pastime, followed closely by bludgeoning senseless anyone stupid enough to try to stop them — or, even worse, seeking to take the loot for themselves.\n▪ At the start of your Command phase, select one objective marker. Until the start of your next Command phase, that objective marker is your loot objective.\n▪ Each time a model in an [ORKS INFANTRY], [ORKS MONSTER] or [ORKS WALKER] unit from your army makes an attack, that attack has the [SUSTAINED HITS 1] ability if either or both of the following are true:\n  — That model's unit is within range of your loot objective.\n  — That attack targets a unit within range of your loot objective.",
@@ -908,6 +913,7 @@ export const orks = {
       id: 'rollin-deff',
       name: "Rollin' Deff",
       source: '11ed',
+      description: 'Like an avalanche of riveted metal, heavily armed tanks and rigs plough towards the foe',
       rule: {
         name: "Thundering Wagons",
         text: "Like mobile armoured fortresses, little can stop the crushing impetus of the Orks hauling their most outlandish weapons to bear.\n▪ Friendly [BATTLEWAGON], [HUNTAS RIG] and [KILL RIG] units have the [WAGON] keyword.\n▪ Friendly [WAGON] units can re-roll Charge rolls.\n▪ When a friendly [WAGON] unit is selected to make an Advance move, it can Advance and still be eligible to shoot and declare charges. In addition, when making Advance rolls for that unit, it can roll an extra dice and discard one of the results.",
