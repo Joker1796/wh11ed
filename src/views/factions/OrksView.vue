@@ -19,12 +19,28 @@
       <div class="army-rule-body">{{ orks.armyRule.text }}</div>
     </div>
 
+    <!-- Detachment filter -->
+    <div class="det-filter-bar">
+      <button
+        class="det-filter-chip"
+        :class="{ active: selectedDet === null }"
+        @click="selectedDet = null"
+      >All</button>
+      <button
+        v-for="det in orks.detachments"
+        :key="det.id"
+        class="det-filter-chip"
+        :class="{ active: selectedDet === det.id }"
+        @click="selectedDet = det.id"
+      >{{ det.name }}</button>
+    </div>
+
     <!-- Table of Contents -->
     <div class="faction-toc">
       <h2 class="faction-toc-title">Detachments</h2>
       <div class="faction-toc-grid">
         <a
-          v-for="det in orks.detachments"
+          v-for="det in filteredDetachments"
           :key="det.id"
           :href="`#detachment-${det.id}`"
           class="faction-toc-item"
@@ -37,7 +53,7 @@
     </div>
 
     <!-- Detachments -->
-    <template v-for="det in orks.detachments" :key="det.id">
+    <template v-for="det in filteredDetachments" :key="det.id">
       <div :id="`detachment-${det.id}`" class="detachment-section">
         <div class="detachment-title-row">
           <h2 class="detachment-title">{{ det.name }}</h2>
@@ -76,7 +92,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { orks } from '../../data/factions/orks.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -86,6 +102,13 @@ import StratCard from '../../components/StratCard.vue'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+
+const selectedDet = ref(null)
+const filteredDetachments = computed(() =>
+  selectedDet.value
+    ? orks.detachments.filter(d => d.id === selectedDet.value)
+    : orks.detachments
+)
 
 function scrollToDetachment(id) {
   const el = document.getElementById(`detachment-${id}`)
@@ -172,6 +195,52 @@ function scrollToDetachment(id) {
   font-size: 0.88rem;
   line-height: 1.6;
   color: var(--text-primary);
+}
+
+/* ── Detachment filter bar ── */
+.det-filter-bar {
+  position: sticky;
+  top: var(--navbar-height);
+  z-index: 100;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 2rem;
+  margin: 0 -2rem 1.75rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.det-filter-bar::-webkit-scrollbar { display: none; }
+
+.det-filter-chip {
+  flex-shrink: 0;
+  padding: 0.3rem 0.75rem;
+  min-height: 34px;
+  border-radius: 99px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+
+.det-filter-chip:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
+}
+
+.det-filter-chip.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
 }
 
 /* ── TOC ── */
@@ -322,6 +391,19 @@ function scrollToDetachment(id) {
 }
 
 /* ── Mobile ── */
+@media (max-width: 900px) {
+  .det-filter-bar {
+    padding: 0.5rem 1rem;
+    margin: 0 -1rem 1.5rem;
+  }
+
+  .det-filter-chip {
+    min-height: 40px;
+    padding: 0.4rem 0.85rem;
+    font-size: 0.82rem;
+  }
+}
+
 @media (max-width: 600px) {
   .enhancements-grid,
   .strat-grid {
