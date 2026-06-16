@@ -35,6 +35,12 @@ function parse(body, renderInline) {
       continue
     }
 
+    if (line.startsWith('### ')) {
+      closeUl()
+      parts.push(`<h4>${renderInline(line.slice(4).trim())}</h4>`)
+      continue
+    }
+
     if (line.startsWith('▪')) {
       if (!inUl) {
         parts.push('<ul>')
@@ -106,5 +112,21 @@ function parse(body, renderInline) {
 
 .rule-body :deep(li) {
   margin: 0.2rem 0;
+}
+
+.rule-body :deep(h4) {
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-primary);
+  margin: 0.9rem 0 0.4rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.rule-body :deep(h4:first-child) {
+  margin-top: 0;
 }
 </style>
