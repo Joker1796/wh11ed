@@ -3,6 +3,37 @@ export const orks = {
   subfaction: 'Xenos',
   lore: 'Savage, warlike and brutally cunning, the Orks are a fungoid race of alien warriors who have spread across the galaxy like an unstoppable green tide. They live only to fight, driven by an irrepressible enthusiasm for violence that manifests in continent-spanning invasions known as Waaaghs!',
 
+  files: [
+    {
+      desc: 'Orks Faction Pack — Version 1.0 (EN)',
+      path: './sources/faction-packs/xenos/eng_09-06_warhammer40000_faction_pack_orks-agh9kwrtno-0xarrl5fjj.pdf',
+      type: 'pdf',
+    },
+  ],
+
+  faqs: [
+    {
+      q: "If a model has an ability that triggers when you call a Waaagh! and that model is embarked within a TRANSPORT when this happens (e.g. a Warboss 'Da Biggest and da Best' ability), does that ability take effect?",
+      a: "Yes.",
+    },
+    {
+      q: "When using the Conniving Runts Stratagem, to be able to make the Normal move as part of the Stratagem, do I need to roll a 4+ and have inflicted any mortal wounds?",
+      a: "No.",
+    },
+    {
+      q: "In the Effect section of the Go Get 'Em! Stratagem there is an additional effect if my unit contains 10 or more models. When do I check if my unit has 10 or more models?",
+      a: "This is checked after the attacking unit has shot.",
+    },
+    {
+      q: "Can a unit equipped with multiple Bomb Squigs use its Bomb Squig ability more than once each phase?",
+      a: "No.",
+    },
+    {
+      q: "If a unit has an ability that checks if the Waaagh! is active for your army in order for that ability to take effect (e.g. the Meganobz' Krumpin' Time ability), does that ability take effect if another rule makes the Waaagh! active for that unit (e.g. the Bully Boyz Detachment rule)?",
+      a: "Yes.",
+    },
+  ],
+
   armyRule: {
     name: "Waaagh!",
     text: "Once per battle, at the start of your Command phase, you can call a Waaagh! If you do, until the start of your next Command phase, the Waaagh! is active for your army. The specific effects of an active Waaagh! are determined by your chosen Detachment.",

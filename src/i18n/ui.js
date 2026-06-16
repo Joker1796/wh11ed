@@ -59,6 +59,9 @@ export const ui = {
     strategemsLabel: 'Stratagems',
     armyRuleLabel: 'ARMY RULE',
     restrictionLabel: 'RESTRICTION',
+    tabRules: 'Rules',
+    tabFiles: 'Files',
+    tabFaq: 'FAQ',
   },
   ru: {
     introHeading: 'Введение',
@@ -120,5 +123,8 @@ export const ui = {
     strategemsLabel: 'Стратегемы',
     armyRuleLabel: 'ПРАВИЛО АРМИИ',
     restrictionLabel: 'ОГРАНИЧЕНИЕ',
+    tabRules: 'Правила',
+    tabFiles: 'Файлы',
+    tabFaq: 'FAQ',
   },
 }

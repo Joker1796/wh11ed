@@ -6,7 +6,10 @@ import BattlefieldsView from '../views/BattlefieldsView.vue'
 import AdvancedRulesView from '../views/AdvancedRulesView.vue'
 import ReferenceView from '../views/ReferenceView.vue'
 import FilesView from '../views/FilesView.vue'
-import OrksView from '../views/factions/OrksView.vue'
+import OrksLayout from '../views/factions/OrksLayout.vue'
+import OrksRulesView from '../views/factions/OrksRulesView.vue'
+import OrksFaqView from '../views/factions/OrksFaqView.vue'
+import OrksFactionFilesView from '../views/factions/OrksFactionFilesView.vue'
 import FactionStubView from '../views/factions/FactionStubView.vue'
 
 const imperiumFactions = [
@@ -173,8 +176,6 @@ export const navGroupsRu = [
   },
 ]
 
-const stubMeta = (name, category) => ({ name, category })
-
 export const router = createRouter({
   history: createWebHashHistory(),
   routes: [
@@ -185,32 +186,20 @@ export const router = createRouter({
     { path: '/advanced-rules', component: AdvancedRulesView },
     { path: '/reference',      component: ReferenceView },
     { path: '/files',          component: FilesView },
-    // Factions — full pages
-    { path: '/factions/orks',  component: OrksView },
-    // Factions — Imperium stubs
-    { path: '/factions/adepta-sororitas',   component: FactionStubView, meta: stubMeta('Adepta Sororitas',   'Imperium') },
-    { path: '/factions/adeptus-custodes',   component: FactionStubView, meta: stubMeta('Adeptus Custodes',   'Imperium') },
-    { path: '/factions/adeptus-mechanicus', component: FactionStubView, meta: stubMeta('Adeptus Mechanicus', 'Imperium') },
-    { path: '/factions/astra-militarum',    component: FactionStubView, meta: stubMeta('Astra Militarum',    'Imperium') },
-    { path: '/factions/grey-knights',       component: FactionStubView, meta: stubMeta('Grey Knights',       'Imperium') },
-    { path: '/factions/imperial-agents',    component: FactionStubView, meta: stubMeta('Imperial Agents',    'Imperium') },
-    { path: '/factions/imperial-knights',   component: FactionStubView, meta: stubMeta('Imperial Knights',   'Imperium') },
-    { path: '/factions/space-marines',      component: FactionStubView, meta: stubMeta('Space Marines',      'Imperium') },
-    // Factions — Chaos stubs
-    { path: '/factions/chaos-daemons',       component: FactionStubView, meta: stubMeta('Chaos Daemons',       'Chaos') },
-    { path: '/factions/chaos-knights',       component: FactionStubView, meta: stubMeta('Chaos Knights',       'Chaos') },
-    { path: '/factions/chaos-space-marines', component: FactionStubView, meta: stubMeta('Chaos Space Marines', 'Chaos') },
-    { path: '/factions/death-guard',         component: FactionStubView, meta: stubMeta('Death Guard',         'Chaos') },
-    { path: '/factions/emperors-children',   component: FactionStubView, meta: stubMeta("Emperor's Children",  'Chaos') },
-    { path: '/factions/thousand-sons',       component: FactionStubView, meta: stubMeta('Thousand Sons',       'Chaos') },
-    // Factions — Xenos stubs
-    { path: '/factions/aeldari',           component: FactionStubView, meta: stubMeta('Aeldari',            'Xenos') },
-    { path: '/factions/drukhari',          component: FactionStubView, meta: stubMeta('Drukhari',           'Xenos') },
-    { path: '/factions/genestealer-cults', component: FactionStubView, meta: stubMeta('Genestealer Cults',  'Xenos') },
-    { path: '/factions/leagues-of-votann', component: FactionStubView, meta: stubMeta('Leagues of Votann',  'Xenos') },
-    { path: '/factions/necrons',           component: FactionStubView, meta: stubMeta('Necrons',            'Xenos') },
-    { path: '/factions/tau-empire',        component: FactionStubView, meta: stubMeta("T'au Empire",        'Xenos') },
-    { path: '/factions/tyranids',          component: FactionStubView, meta: stubMeta('Tyranids',           'Xenos') },
+    // Orks — nested routes
+    {
+      path: '/factions/orks',
+      component: OrksLayout,
+      redirect: '/factions/orks/rules',
+      children: [
+        { path: 'rules', component: OrksRulesView },
+        { path: 'files', component: OrksFactionFilesView },
+        { path: 'faq',   component: OrksFaqView },
+      ],
+    },
+    // Stubs — catch-all dynamic routes
+    { path: '/factions/:slug', redirect: to => `/factions/${to.params.slug}/rules` },
+    { path: '/factions/:slug/:section', component: FactionStubView },
   ],
   scrollBehavior(to, from, savedPosition) {
     if (to.hash) {
