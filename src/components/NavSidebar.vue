@@ -21,25 +21,13 @@
           @click="toggleGroup(group)"
         >
           {{ group.label }}
-          <svg v-if="group.sections.length || group.factionGroups" class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <svg v-if="group.sections.length" class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
             <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
 
         <transition name="expand">
-          <div v-if="expandedPath === group.path && group.factionGroups" class="nav-sub nav-factions">
-            <div v-for="cat in group.factionGroups" :key="cat.label" class="nav-faction-group">
-              <span class="nav-faction-category">{{ cat.label }}</span>
-              <RouterLink
-                v-for="f in cat.factions"
-                :key="f.path"
-                :to="f.path"
-                class="nav-sub-link nav-faction-link"
-                @click="$emit('close')"
-              >{{ f.label }}</RouterLink>
-            </div>
-          </div>
-          <ul v-else-if="expandedPath === group.path && group.sections.length" class="nav-sub">
+          <ul v-if="expandedPath === group.path && group.sections.length" class="nav-sub">
             <li v-for="sec in group.sections" :key="sec.id">
               <a href="#" class="nav-sub-link" @click.prevent="handleAnchorClick(group.path, sec.id)">
                 {{ sec.label }}
@@ -71,7 +59,6 @@ const expandedPath = ref(route.path)
 watch(() => route.path, (p) => { expandedPath.value = p })
 
 function isActive(group) {
-  if (group.factionGroups) return route.path.startsWith('/factions/')
   return route.path === group.path
 }
 
@@ -80,7 +67,7 @@ function toggleGroup(group) {
     expandedPath.value = null
   } else {
     expandedPath.value = group.path
-    if (!group.sections.length && !group.factionGroups) {
+    if (!group.sections.length) {
       router.push(group.path)
       emit('close')
     }
@@ -251,29 +238,6 @@ async function handleAnchorClick(path, id) {
 .nav-sub-link:hover {
   color: var(--text-primary);
   background: rgba(110, 0, 8, 0.04);
-}
-
-.nav-factions {
-  padding: 0.25rem 0 0.5rem;
-}
-
-.nav-faction-group {
-  margin-bottom: 0.15rem;
-}
-
-.nav-faction-category {
-  display: block;
-  padding: 0.3rem 1rem 0.15rem;
-  font-size: 0.68rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--text-dim);
-  opacity: 0.55;
-}
-
-.nav-faction-link {
-  padding-left: 2rem;
 }
 
 .expand-enter-active, .expand-leave-active {

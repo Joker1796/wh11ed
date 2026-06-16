@@ -18,8 +18,8 @@ Vue 3 SPA using hash-based routing (`createWebHashHistory`). No backend. All con
 
 **Navigation model:** Two levels.
 
-- **Top navbar** (`App.vue`) — "Core Rules" link + "Factions" hover mega-dropdown. The mega-dropdown shows all 22 factions grouped into three columns (Imperium / Chaos / Xenos); data comes from `factionGroupsEn/Ru` exported by `src/router/index.js`.
-- **Subnav** (sticky bar below navbar) — always visible. On core rules routes shows anchor links to `#section-NN`. On faction routes (`/factions/*`) shows three section links: Rules / Files / FAQ.
+- **Top navbar** (`App.vue`) — single "Core Rules" link.
+- **Subnav** (sticky bar below navbar) — anchor links to the core rules sections (Introduction / Basic Rules / Battle Round / Battlefields / Advanced / Reference). Always visible.
 
 **Data → View pipeline:**
 
@@ -66,51 +66,11 @@ A `Section` has `{ id, num, title, page, description, subsections[] }`. A subsec
 
 **Keyword popover** — `useKeywordPopover.js` is a singleton; any click on `.keyword` span opens `KeywordPopover.vue` with the ability text looked up from `reference.js` (`coreAbilities`).
 
-## Factions
-
-Faction pages live in `src/views/factions/` and their data in `src/data/factions/`.
-
-**Orks** is the only fully implemented faction. All others render `FactionStubView.vue` (stub for all three sections).
-
-**Faction routing:** nested routes under `/factions/orks/` with `OrksLayout.vue` as the parent (hero section + `<RouterView />`). Children: `rules` → `OrksRulesView.vue`, `files` → `OrksFactionFilesView.vue`, `faq` → `OrksFaqView.vue`. Stub factions use a single dynamic catch-all: `/factions/:slug/:section` → `FactionStubView.vue`; name/category looked up from `src/data/factions/factionsConfig.js`.
-
-**Faction data shape** (`src/data/factions/orks.js`):
-
-```js
-{
-  name, subfaction, lore,
-  files: [{ desc, path, type }],
-  faqs:  [{ q, a }],
-  armyRule: { name, text },
-  detachments: [
-    {
-      id,           // kebab-case, used for anchor IDs and filter state
-      name,
-      source,       // '10ed' | '11ed'
-      description,  // optional flavor text from Faction Pack (11ed only)
-      rule: { name, text },
-      enhancements: [{ name, pts?, restriction, text }],
-      stratagems:   [{ name, cp, type, turn, when, target, effect }]
-    }
-  ]
-}
-```
-
-**Rules view pattern** (`OrksRulesView.vue`):
-- Army rule block at the top.
-- Sticky detachment filter bar (`top: calc(var(--navbar-height) + var(--subnav-height))`).
-- Table of Contents grid of detachment links.
-- Loop over `filteredDetachments`, rendering `DetachmentBlock` + `EnhancementCard` grid + `StratCard` grid per detachment.
-
-**Faction-specific components:** `DetachmentBlock.vue`, `EnhancementCard.vue`, `StratCard.vue`.
+**Stratagem cards** — `StratCard.vue` renders core rulebook stratagems in `BattlefieldsView` (section 15).
 
 ## Adding content
 
-**New core-rules section:** Add data to the appropriate file in `src/data/` following the `Section` shape. The search index updates automatically. If it's a new top-level nav group: add to `navGroups` in `src/router/index.js`, add a route, create a view.
-
-**New faction (fully implemented):** Create `src/data/factions/<faction>.js` with the shape above (including `files` and `faqs`). Create `<Faction>Layout.vue` (hero), `<Faction>RulesView.vue`, `<Faction>FilesView.vue`, `<Faction>FaqView.vue` following the Orks pattern. Add nested routes in `router/index.js` and add the slug → `{ name, category }` entry to `factionsConfig.js`. Add the faction to the appropriate array (`imperiumFactions`, `chaosFactions`, or `xenosFactions`) — it will appear in the navbar mega-dropdown automatically.
-
-**New faction (stub):** Add the faction to the array in `router/index.js` and add the slug to `factionsConfig.js` — the catch-all route handles it automatically, no view file needed.
+**New core-rules section:** Add data to the appropriate file in `src/data/` following the `Section` shape. The search index updates automatically. If it's a new top-level nav group: add to `navGroups`/`navGroupsRu` in `src/router/index.js`, add a route, create a view.
 
 ## Image organization
 
@@ -126,7 +86,3 @@ public/images/
   turn/        — phase icon images
   terrain/     — terrain rule diagrams
 ```
-
-## PDF source
-
-`public/sources/WH40k_11ed.pdf` — the authoritative source. Always verify rule text against it when editing data files.
