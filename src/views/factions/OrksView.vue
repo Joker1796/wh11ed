@@ -21,18 +21,29 @@
 
     <!-- Detachment filter -->
     <div class="det-filter-bar">
-      <button
-        class="det-filter-chip"
-        :class="{ active: selectedDet === null }"
-        @click="selectedDet = null"
-      >All</button>
-      <button
-        v-for="det in orks.detachments"
-        :key="det.id"
-        class="det-filter-chip"
-        :class="{ active: selectedDet === det.id }"
-        @click="selectedDet = det.id"
-      >{{ det.name }}</button>
+      <div class="det-select-wrap" :class="{ open: filterOpen }" @click.stop>
+        <button class="det-select-btn" @click="filterOpen = !filterOpen">
+          <span>{{ selectedDetLabel }}</span>
+          <svg class="det-chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2.5 4.5l3.5 3.5 3.5-3.5" stroke="currentColor" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="det-dropdown" v-if="filterOpen">
+          <button
+            class="det-dropdown-item"
+            :class="{ active: selectedDet === null }"
+            @click="selectDet(null)"
+          >All</button>
+          <button
+            v-for="det in orks.detachments"
+            :key="det.id"
+            class="det-dropdown-item"
+            :class="{ active: selectedDet === det.id }"
+            @click="selectDet(det.id)"
+          >{{ det.name }}</button>
+        </div>
+      </div>
     </div>
 
     <!-- Table of Contents -->
@@ -92,7 +103,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { orks } from '../../data/factions/orks.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -104,11 +115,31 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
 const selectedDet = ref(null)
+const filterOpen = ref(false)
+
 const filteredDetachments = computed(() =>
   selectedDet.value
     ? orks.detachments.filter(d => d.id === selectedDet.value)
     : orks.detachments
 )
+
+const selectedDetLabel = computed(() =>
+  selectedDet.value
+    ? orks.detachments.find(d => d.id === selectedDet.value)?.name
+    : 'All Detachments'
+)
+
+function selectDet(id) {
+  selectedDet.value = id
+  filterOpen.value = false
+}
+
+function onDocClick() {
+  filterOpen.value = false
+}
+
+onMounted(() => document.addEventListener('click', onDocClick))
+onUnmounted(() => document.removeEventListener('click', onDocClick))
 
 function scrollToDetachment(id) {
   const el = document.getElementById(`detachment-${id}`)
@@ -204,42 +235,83 @@ function scrollToDetachment(id) {
   z-index: 100;
   background: var(--bg-primary);
   border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
   padding: 0.5rem 2rem;
   margin: 0 -2rem 1.75rem;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
 }
 
-.det-filter-bar::-webkit-scrollbar { display: none; }
+.det-select-wrap {
+  position: relative;
+  display: inline-block;
+}
 
-.det-filter-chip {
-  flex-shrink: 0;
-  padding: 0.3rem 0.75rem;
+.det-select-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.75rem;
   min-height: 34px;
-  border-radius: 99px;
+  border-radius: 5px;
   border: 1px solid var(--border);
-  background: transparent;
-  color: var(--text-muted);
-  font-size: 0.8rem;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 0.83rem;
   font-family: var(--font-sans);
   cursor: pointer;
-  white-space: nowrap;
-  transition: background 0.12s, color 0.12s, border-color 0.12s;
+  transition: border-color 0.12s;
 }
 
-.det-filter-chip:hover {
+.det-select-btn:hover,
+.det-select-wrap.open .det-select-btn {
   border-color: var(--accent);
+}
+
+.det-chevron {
+  flex-shrink: 0;
+  color: var(--text-dim);
+  transition: transform 0.18s ease;
+}
+
+.det-select-wrap.open .det-chevron {
+  transform: rotate(180deg);
+}
+
+.det-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 200;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  min-width: 200px;
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: 0.3rem 0;
+}
+
+.det-dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 0.45rem 1rem;
+  font-size: 0.83rem;
+  font-family: var(--font-sans);
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+  white-space: nowrap;
+}
+
+.det-dropdown-item:hover {
+  background: rgba(110,0,8,0.07);
   color: var(--text-primary);
 }
 
-.det-filter-chip.active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
+.det-dropdown-item.active {
+  color: var(--accent);
   font-weight: 600;
 }
 
@@ -397,10 +469,9 @@ function scrollToDetachment(id) {
     margin: 0 -1rem 1.5rem;
   }
 
-  .det-filter-chip {
+  .det-select-btn {
     min-height: 40px;
-    padding: 0.4rem 0.85rem;
-    font-size: 0.82rem;
+    font-size: 0.85rem;
   }
 }
 
