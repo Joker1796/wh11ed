@@ -6,7 +6,7 @@
         <span class="army-rule-badge">{{ labels.armyRuleLabel }}</span>
         <span class="army-rule-name">{{ space_marines.armyRule.name }}</span>
       </div>
-      <div class="army-rule-body">{{ space_marines.armyRule.text }}</div>
+      <div class="army-rule-body"><RuleBody :body="space_marines.armyRule.text" /></div>
     </div>
 
     <!-- Filters -->
@@ -158,6 +158,7 @@ import { useLocale } from '../../composables/useLocale.js'
 import DetachmentBlock from '../../components/DetachmentBlock.vue'
 import EnhancementCard from '../../components/EnhancementCard.vue'
 import StratCard from '../../components/StratCard.vue'
+import RuleBody from '../../components/RuleBody.vue'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
