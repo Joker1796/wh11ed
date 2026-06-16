@@ -1,10 +1,11 @@
 export const space_marines_subfactions = [
-  { id: 'codex',          name: 'Codex Chapters' },
-  { id: 'black-templars', name: 'Black Templars' },
-  { id: 'blood-angels',   name: 'Blood Angels' },
-  { id: 'dark-angels',    name: 'Dark Angels' },
-  { id: 'space-wolves',   name: 'Space Wolves' },
-  { id: 'deathwatch',     name: 'Deathwatch' },
+  { id: 'no-chapter',     name: 'No Chapter Lock', shortName: 'Generic' },
+  { id: 'codex',          name: 'Codex Chapters',  shortName: 'Codex' },
+  { id: 'black-templars', name: 'Black Templars',  shortName: 'B.T.' },
+  { id: 'blood-angels',   name: 'Blood Angels',    shortName: 'B.A.' },
+  { id: 'dark-angels',    name: 'Dark Angels',     shortName: 'D.A.' },
+  { id: 'space-wolves',   name: 'Space Wolves',    shortName: 'S.W.' },
+  { id: 'deathwatch',     name: 'Deathwatch',      shortName: 'D.W.' },
 ]
 
 export const space_marines = {
@@ -908,6 +909,7 @@ export const space_marines = {
     {
       id: 'codex-blade-of-ultramar',
       subfaction: 'codex',
+      chapterLock: 'Ultramarines',
       name: 'Blade of Ultramar',
       source: '11ed',
       description: 'Under the command of Marneus Calgar, squads of Ultramarines fight as a relentless machine of destruction, the very embodiment of the Codex Astartes.',
@@ -998,6 +1000,7 @@ export const space_marines = {
     {
       id: 'codex-hammer-of-avernii',
       subfaction: 'codex',
+      chapterLock: 'Iron Hands',
       name: 'Hammer of Avernii',
       source: '11ed',
       description: 'The veteran warriors of the Iron Hands\' Clan Company Avernii — merciless, unstoppable, and led by Caanok Var himself.',
@@ -1233,6 +1236,7 @@ export const space_marines = {
     {
       id: 'codex-reclamation-force',
       subfaction: 'codex',
+      chapterLock: 'Ultramarines',
       name: 'Reclamation Force',
       source: '11ed',
       description: 'The Ultramarines and brother Shield Chapters drive ever outward to conquer new territories for the Five Hundred Worlds.',
@@ -1324,6 +1328,7 @@ export const space_marines = {
     {
       id: 'codex-spearpoint-task-force',
       subfaction: 'codex',
+      chapterLock: 'White Scars',
       name: 'Spearpoint Task Force',
       source: '11ed',
       description: 'When Suboden Khan rides to war, he is accompanied by the cream of the White Scars — Raider-pattern bikes form the lance tip by which the enemy line is broken.',
@@ -1414,6 +1419,7 @@ export const space_marines = {
     {
       id: 'codex-forgefathers-seekers',
       subfaction: 'codex',
+      chapterLock: 'Salamanders',
       name: "Forgefather's Seekers",
       source: '11ed',
       description: "The Salamanders' Forgefathers quest for their Primarch's scattered relics — masters of short-ranged firefights who immolate their foes in tempests of flame.",
@@ -1504,6 +1510,7 @@ export const space_marines = {
     {
       id: 'codex-emperors-shield',
       subfaction: 'codex',
+      chapterLock: 'Imperial Fists',
       name: "Emperor's Shield",
       source: '11ed',
       description: "The Imperial Fists 1st Company — led by First Captain Lysander, the battle-brothers of the Emperor's Shield strike where the enemy is strongest.",
@@ -1594,6 +1601,7 @@ export const space_marines = {
     {
       id: 'codex-shadowmark-talon',
       subfaction: 'codex',
+      chapterLock: 'Raven Guard',
       name: 'Shadowmark Talon',
       source: '11ed',
       description: 'Aethon Shaan, Chapter Master of the Raven Guard, deploys the Trifold Path — ambush, stealth and vigilance — with surgical precision.',

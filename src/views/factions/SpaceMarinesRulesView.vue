@@ -33,7 +33,7 @@
             class="det-dropdown-item"
             :class="{ active: selectedSubfaction === sf.id }"
             @click="selectSubfaction(sf.id)"
-          >{{ sf.name }}</button>
+          >{{ subfactionLabel(sf) }}</button>
         </div>
       </div>
 
@@ -87,7 +87,12 @@
           <span class="faction-toc-name">{{ det.name }}</span>
           <span class="faction-toc-meta">
             <span
-              v-if="det.subfaction"
+              v-if="det.chapterLock"
+              class="faction-toc-chapterlock"
+              :title="`${det.chapterLock} only`"
+            >{{ det.chapterLock }}</span>
+            <span
+              v-else-if="det.subfaction"
               class="faction-toc-subfaction"
               :class="`sf-${det.subfaction}`"
             >{{ subfactionShortName(det.subfaction) }}</span>
@@ -107,6 +112,10 @@
             class="detachment-subfaction-badge"
             :class="`sf-${det.subfaction}`"
           >{{ subfactionFullName(det.subfaction) }}</span>
+          <span
+            v-if="det.chapterLock"
+            class="detachment-chapterlock-badge"
+          >{{ det.chapterLock }} only</span>
           <span class="detachment-source-badge" :class="`src-${det.source}`">{{ det.source }}</span>
         </div>
 
@@ -158,11 +167,13 @@ const selectedDet = ref(null)
 const subfactionFilterOpen = ref(false)
 const detFilterOpen = ref(false)
 
-const subfactionFiltered = computed(() =>
-  selectedSubfaction.value
-    ? space_marines.detachments.filter(d => d.subfaction === selectedSubfaction.value)
-    : space_marines.detachments
-)
+const subfactionFiltered = computed(() => {
+  if (!selectedSubfaction.value) return space_marines.detachments
+  if (selectedSubfaction.value === 'no-chapter') {
+    return space_marines.detachments.filter(d => d.subfaction === 'codex' && !d.chapterLock)
+  }
+  return space_marines.detachments.filter(d => d.subfaction === selectedSubfaction.value)
+})
 
 const filteredDetachments = computed(() =>
   selectedDet.value
@@ -170,9 +181,15 @@ const filteredDetachments = computed(() =>
     : subfactionFiltered.value
 )
 
+function subfactionLabel(sf) {
+  if (sf.id === 'no-chapter') return labels.value.subfactionNoChapter
+  return sf.name
+}
+
 const selectedSubfactionLabel = computed(() => {
   if (!selectedSubfaction.value) return labels.value.subfactionFilterAll
-  return space_marines_subfactions.find(s => s.id === selectedSubfaction.value)?.name
+  const sf = space_marines_subfactions.find(s => s.id === selectedSubfaction.value)
+  return sf ? subfactionLabel(sf) : ''
 })
 
 const selectedDetLabel = computed(() => {
@@ -535,6 +552,33 @@ function scrollToDetachment(id) {
   background: rgba(40, 80, 140, 0.12);
   color: #5a8fd0;
   border: 1px solid rgba(40, 80, 140, 0.25);
+}
+
+/* ── Chapter-lock badge ── */
+.faction-toc-chapterlock {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  padding: 0.1rem 0.35rem;
+  border-radius: 2px;
+  flex-shrink: 0;
+  background: rgba(180, 130, 30, 0.18);
+  color: #d8a850;
+  border: 1px solid rgba(180, 130, 30, 0.35);
+  white-space: nowrap;
+}
+
+.detachment-chapterlock-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+  background: rgba(180, 130, 30, 0.18);
+  color: #d8a850;
+  border: 1px solid rgba(180, 130, 30, 0.35);
 }
 
 /* ── Subfaction colors ── */
