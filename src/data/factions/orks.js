@@ -703,7 +703,7 @@ export const orks = {
     {
       id: 'speedwaaagh',
       name: 'Speedwaaagh!',
-      source: '11ed',
+      source: '10ed',
       description: 'When a Speedwaaagh! is unleashed, entire planets become Ork speedways. The aliens tear across battlefields and weave through no man\'s land at breakneck pace, blazing away at anything in their path. So fast-moving are these Orkoid formations that they often punch clean through the enemy lines before their foes truly realise they are in battle. The Orks then haul their jostling vehicles and turbo-boosted Trukks around, charging back for another pass and then another. As they roar, they fill the air with deafening hails of firepower and choking clouds of dust and fume. Half-blinded, deafened by engines and bellowing, the enemy reels as swarms of light vehicles hit them from every direction. Ordered battle descends into high-octane anarchy as the Orks compete in contests of speed and violence in which their enemies are an unwilling audience and participants. Soon enough, the once-proud ranks of the foe are reduced to mangled ruin and the Orks race onward towards the next battle.',
       rule: {
         name: "Turbo Boostas",
@@ -765,7 +765,7 @@ export const orks = {
     {
       id: 'blitz-brigade',
       name: 'Blitz Brigade',
-      source: '11ed',
+      source: '10ed',
       description: 'Blitz Brigades consist of as many Battlewagons, Trukks and other wheeled and tracked monstrosities as a Tankboss can cobble together. Hulking constructions festooned with barbaric trophies and vomiting acrid clouds of choking exhaust fumes, these ramshackle vehicles bristle with rokkit batteries, pintle-mounted shootas and massive cannons as crude as they are destructive. Varying widely in size and shape, all drive to war laden with battle-hungry Orks. Thundering forward in a roaring avalanche of jagged scrap metal and burning rubber, Blitz Brigades plough directly into the enemy, tracks, wheels and pulverising rollers throwing up clots of mud and gore. Crude speakers spit out discordant Goffik roars and booming war cries that are in turn drowned out by the thunderous reports of oversized cannons and the jubilant bellows of Boyz as they leap from their transports and hurl themselves into the thick of the fight.',
       rule: {
         name: "Eager For The Fight",
@@ -854,7 +854,7 @@ export const orks = {
     {
       id: 'freebooter-krew',
       name: 'Freebooter Krew',
-      source: '11ed',
+      source: '10ed',
       description: 'Ork Freebooterz are the most selfish, acquisitive and merciless of their kind. Kicked out of their tribes for failing to respect even the brutal structures of Orkoid society, they find their way into the company of equally shifty gits and form Freebooter krewz. Freebooterz typically sail the void aboard kroozers bristling with guns and boarding craft, and take every opportunity to pillage and destroy everything in their path. When Freebooter Krewz gather under the banner of an especially ambitious and cunning Kaptin, they form pirate fleets that can endanger even fortified worlds and full-fledged battle stations. Any manner of Ork can become a Freebooter – though the most iconic of their kind are the gunned-up show-offs known as Flash Gitz – and so their krewz may include mobs of Boyz and Grots, hurtling packs of bad Ork Bikerboyz, piratical Beast Snaggas, fleets of trophy-festooned Battlewagons and more besides. The only unifying features are the Freebooterz\' greed for loot of every kind, and their willingness to do just about anything to get their talons on it.',
       rule: {
         name: "Here Be Loot",
