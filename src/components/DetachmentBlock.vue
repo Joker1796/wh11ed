@@ -3,6 +3,9 @@
     <div class="detachment-header">
       <span class="detachment-rule-badge">{{ labels.detachmentRuleLabel }}</span>
       <span class="detachment-rule-name">{{ rule.name }}</span>
+      <span v-if="unique" class="detachment-unique-badge">
+        {{ labels.uniqueLabel }}: {{ unique }}
+      </span>
     </div>
     <div v-if="description" class="detachment-description">{{ description }}</div>
     <div class="detachment-body" v-html="renderedText"></div>
@@ -18,6 +21,7 @@ import { useLocale } from '../composables/useLocale.js'
 const props = defineProps({
   rule: { type: Object, required: true },
   description: { type: String, default: '' },
+  unique: { type: String, default: '' },
 })
 
 const { renderInline } = useRenderInline()
@@ -59,6 +63,7 @@ const renderedText = computed(() => {
 .detachment-header {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 0.75rem;
   padding: 0.6rem 0.9rem;
   background: #1c1c1e;
@@ -83,6 +88,26 @@ const renderedText = computed(() => {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.4px;
+}
+
+.detachment-unique-badge {
+  margin-left: auto;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #ff8a92;
+  flex-shrink: 0;
+  background: rgba(110, 0, 8, 0.35);
+  border: 1px solid rgba(255, 138, 146, 0.4);
+  padding: 0.2rem 0.45rem;
+  border-radius: 2px;
+}
+
+@media (max-width: 480px) {
+  .detachment-unique-badge {
+    margin-left: 0;
+  }
 }
 
 .detachment-description {

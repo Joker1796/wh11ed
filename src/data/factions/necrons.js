@@ -543,6 +543,7 @@ export const necrons = {
       id: 'hand-of-the-dynasty',
       name: 'Hand of the Dynasty',
       source: '11ed',
+      unique: 'DYNASTY',
       description: 'Command protocols and neural impulses flood the mechanical bodies of these android warriors, lending them greater speed of thought and movement.',
       rule: {
         name: 'Hypermotility Protocols',
@@ -653,6 +654,7 @@ export const necrons = {
       id: 'the-phaerons-armoury',
       name: "The Phaeron's Armoury",
       source: '11ed',
+      unique: 'HYPERCRYPT',
       description: 'When a Necron ruler unleashes the mightiest war engines from amongst their armoury, they may charge their finest Crypteks to enhance them first.',
       rule: {
         name: 'Empowered Engines',
