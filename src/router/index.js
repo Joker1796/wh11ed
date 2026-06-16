@@ -10,6 +10,10 @@ import OrksLayout from '../views/factions/OrksLayout.vue'
 import OrksRulesView from '../views/factions/OrksRulesView.vue'
 import OrksFaqView from '../views/factions/OrksFaqView.vue'
 import OrksFactionFilesView from '../views/factions/OrksFactionFilesView.vue'
+import NecronsLayout from '../views/factions/NecronsLayout.vue'
+import NecronsRulesView from '../views/factions/NecronsRulesView.vue'
+import NecronsFaqView from '../views/factions/NecronsFaqView.vue'
+import NecronsFactionFilesView from '../views/factions/NecronsFactionFilesView.vue'
 import FactionStubView from '../views/factions/FactionStubView.vue'
 
 const imperiumFactions = [
@@ -195,6 +199,17 @@ export const router = createRouter({
         { path: 'rules', component: OrksRulesView },
         { path: 'files', component: OrksFactionFilesView },
         { path: 'faq',   component: OrksFaqView },
+      ],
+    },
+    // Necrons — nested routes
+    {
+      path: '/factions/necrons',
+      component: NecronsLayout,
+      redirect: '/factions/necrons/rules',
+      children: [
+        { path: 'rules', component: NecronsRulesView },
+        { path: 'files', component: NecronsFactionFilesView },
+        { path: 'faq',   component: NecronsFaqView },
       ],
     },
     // Stubs — catch-all dynamic routes
