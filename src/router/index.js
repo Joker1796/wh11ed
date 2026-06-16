@@ -40,15 +40,10 @@ const xenosFactions = [
   { label: 'Tyranids',           path: '/factions/tyranids' },
 ]
 
-const unalignedFactions = [
-  { label: 'Unaligned Forces', path: '/factions/unaligned-forces' },
-]
-
 const factionGroupsEn = [
   { label: 'Imperium',   factions: imperiumFactions },
   { label: 'Chaos',      factions: chaosFactions },
   { label: 'Xenos',      factions: xenosFactions },
-  { label: 'Unaligned',  factions: unalignedFactions },
 ]
 
 const xenosFactionsRu = xenosFactions.map(f => f.path === '/factions/orks' ? { ...f, label: 'Орки' } : f)
@@ -56,7 +51,6 @@ const factionGroupsRu = [
   { label: 'Imperium',   factions: imperiumFactions },
   { label: 'Chaos',      factions: chaosFactions },
   { label: 'Xenos',      factions: xenosFactionsRu },
-  { label: 'Unaligned',  factions: unalignedFactions },
 ]
 
 export const navGroups = [
@@ -217,8 +211,6 @@ export const router = createRouter({
     { path: '/factions/necrons',           component: FactionStubView, meta: stubMeta('Necrons',            'Xenos') },
     { path: '/factions/tau-empire',        component: FactionStubView, meta: stubMeta("T'au Empire",        'Xenos') },
     { path: '/factions/tyranids',          component: FactionStubView, meta: stubMeta('Tyranids',           'Xenos') },
-    // Factions — Unaligned stubs
-    { path: '/factions/unaligned-forces',  component: FactionStubView, meta: stubMeta('Unaligned Forces', 'Unaligned') },
   ],
   scrollBehavior(to, from, savedPosition) {
     if (to.hash) {
