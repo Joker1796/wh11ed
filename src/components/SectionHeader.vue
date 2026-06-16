@@ -24,7 +24,7 @@ defineProps({
 
 <style scoped>
 .section-header {
-  margin: 2.5rem 0 0;
+  margin: 1.5rem 0 0;
   scroll-margin-top: var(--header-total);
 }
 
@@ -46,7 +46,7 @@ defineProps({
   display: flex;
   align-items: flex-start;
   gap: 1rem;
-  padding: 1rem 0 0.9rem;
+  padding: 0.7rem 0 0.6rem;
   border-top: 3px solid var(--accent);
   border-bottom: 1px solid var(--border);
   margin-bottom: 0;

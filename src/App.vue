@@ -17,14 +17,22 @@
         </nav>
 
         <div class="navbar-actions">
-          <button class="lang-btn" @click="toggleLocale" :title="locale === 'en' ? 'Switch to Russian' : 'Switch to English'">
-            {{ locale === 'en' ? 'RU' : 'EN' }}
-          </button>
           <button class="search-btn" @click="searchOpen = true" title="Search (Ctrl+K)">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
             </svg>
             <span class="search-hint">Ctrl K</span>
+          </button>
+          <button class="lang-btn" @click="toggleLocale" :title="locale === 'en' ? 'Switch to Russian' : 'Switch to English'">
+            {{ locale === 'en' ? 'RU' : 'EN' }}
+          </button>
+          <button
+            class="theme-btn"
+            @click="toggleTheme"
+            :title="theme === 'dark' ? labels.themeToLight : labels.themeToDark"
+            :aria-label="theme === 'dark' ? labels.themeToLight : labels.themeToDark"
+          >
+            <i :class="theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill'"></i>
           </button>
           <button
             class="hamburger"
@@ -74,6 +82,7 @@ import SearchModal from './components/SearchModal.vue'
 import KeywordPopover from './components/KeywordPopover.vue'
 import NavSidebar from './components/NavSidebar.vue'
 import { useLocale } from './composables/useLocale.js'
+import { useTheme } from './composables/useTheme.js'
 import { useKeywordPopover } from './composables/useKeywordPopover.js'
 import { resolveRef, useRefNavigation } from './composables/useRefNavigation.js'
 import { ui } from './i18n/ui.js'
@@ -82,6 +91,7 @@ const route = useRoute()
 const mobileNavOpen = ref(false)
 const searchOpen = ref(false)
 const { locale, toggleLocale } = useLocale()
+const { theme, toggleTheme } = useTheme()
 const { open: openKeyword, close: closeKeyword } = useKeywordPopover()
 const { navigateTo } = useRefNavigation()
 
@@ -178,7 +188,7 @@ onUnmounted(() => {
   font-family: var(--font-serif);
   font-size: 1.15rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--text-on-dark);
   letter-spacing: 1px;
   line-height: 1;
 }
@@ -245,17 +255,37 @@ onUnmounted(() => {
   color: #fff;
 }
 
-.search-btn {
-  display: flex;
+.theme-btn {
+  display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
+  justify-content: center;
   background: rgba(255,255,255,0.07);
   border: 1px solid rgba(255,255,255,0.14);
   color: rgba(255,255,255,0.65);
   border-radius: 4px;
-  padding: 0.3rem 0.7rem;
+  padding: 0.3rem 0.55rem;
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
+  line-height: 1;
+  transition: background 0.15s, color 0.15s;
+}
+
+.theme-btn:hover {
+  background: rgba(255,255,255,0.13);
+  color: #fff;
+}
+
+.search-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.7);
+  border-radius: 4px;
+  padding: 0.42rem 0.85rem;
+  cursor: pointer;
+  font-size: 0.88rem;
   transition: background 0.15s, color 0.15s;
 }
 
@@ -396,7 +426,8 @@ onUnmounted(() => {
   }
 
   /* Increase tap targets for action buttons */
-  .lang-btn {
+  .lang-btn,
+  .theme-btn {
     min-height: 44px;
     min-width: 44px;
     display: flex;

@@ -108,9 +108,9 @@ async function navigate(item) {
 }
 
 .search-box {
-  background: #fff;
+  background: var(--bg-card);
   border-radius: 8px;
-  box-shadow: 0 20px 60px rgba(4, 3, 3, 0.25);
+  box-shadow: 0 20px 60px rgba(4, 3, 3, 0.45);
   width: 100%;
   max-width: 600px;
   overflow: hidden;
@@ -186,7 +186,7 @@ async function navigate(item) {
 
 .result-item.selected,
 .result-item:hover {
-  background: rgba(110, 0, 8, 0.05);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
 }
 
 .result-meta {
@@ -234,7 +234,7 @@ async function navigate(item) {
 }
 
 :deep(mark) {
-  background: rgba(110, 0, 8, 0.12);
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
   color: var(--accent);
   border-radius: 2px;
   padding: 0 1px;

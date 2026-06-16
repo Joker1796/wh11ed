@@ -212,7 +212,7 @@ function handleDefClick(e) {
 <style scoped>
 .rule-block {
   border-bottom: 1px solid var(--border-light);
-  padding: 1.4rem 0;
+  padding: 0.85rem 0;
   scroll-margin-top: var(--header-total);
 }
 
@@ -282,9 +282,8 @@ function handleDefClick(e) {
 .flow-list {
   border: 1px solid var(--border);
   border-radius: 4px;
-  margin: 0.5rem auto 0.7rem;
+  margin: 0.5rem 0 0.7rem;
   overflow: hidden;
-  max-width: 70%;
 }
 
 .flow-item {
@@ -440,10 +439,6 @@ function handleDefClick(e) {
 }
 
 @media (max-width: 600px) {
-  .flow-list {
-    max-width: 100%;
-  }
-
   .result-table {
     width: 100%;
   }
