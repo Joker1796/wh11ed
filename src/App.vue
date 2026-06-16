@@ -14,11 +14,26 @@
             class="nav-link"
             :class="{ active: isCoreRoute }"
           >{{ labels.navCoreRules }}</RouterLink>
-          <RouterLink
-            to="/factions/orks"
-            class="nav-link"
-            :class="{ active: isFactionsRoute }"
-          >{{ labels.navFactions }}</RouterLink>
+          <div
+            class="nav-factions-wrap"
+            @mouseenter="factionsHoverOpen = true"
+            @mouseleave="factionsHoverOpen = false"
+          >
+            <span class="nav-link" :class="{ active: isFactionsRoute }">{{ labels.navFactions }}</span>
+            <div class="factions-mega" v-if="factionsHoverOpen">
+              <div class="factions-mega-col" v-for="cat in factionSubNavGroups" :key="cat.label">
+                <div class="factions-mega-cat-label">{{ cat.label }}</div>
+                <RouterLink
+                  v-for="f in cat.factions"
+                  :key="f.path"
+                  :to="f.path"
+                  class="factions-mega-item"
+                  :class="{ active: $route.path === f.path }"
+                  @click="factionsHoverOpen = false"
+                >{{ f.label }}</RouterLink>
+              </div>
+            </div>
+          </div>
         </nav>
 
         <div class="navbar-actions">
@@ -47,50 +62,16 @@
     <!-- Mobile drawer (visible only on mobile via NavSidebar internal CSS) -->
     <NavSidebar :mobileOpen="mobileNavOpen" @close="mobileNavOpen = false" />
 
-    <!-- Subnav: changes based on active top-level section -->
-    <nav class="subnav" @click.self="openCat = null">
-      <div class="subnav-inner" :class="{ 'factions-mode': isFactionsRoute }">
-        <!-- Core Rules mode: route links -->
-        <template v-if="!isFactionsRoute">
-          <RouterLink
-            v-for="item in coreSubNavItems"
-            :key="item.path"
-            :to="item.path"
-            class="subnav-link"
-            :class="{ active: $route.path === item.path }"
-          >{{ item.label }}</RouterLink>
-        </template>
-
-        <!-- Factions mode: category dropdowns -->
-        <template v-else>
-          <div
-            v-for="cat in factionSubNavGroups"
-            :key="cat.label"
-            class="subnav-faction-cat"
-            :class="{ open: openCat === cat.label }"
-          >
-            <button
-              class="subnav-link subnav-cat-btn"
-              :class="{ active: isCatActive(cat) }"
-              @click.stop="openCat = openCat === cat.label ? null : cat.label"
-            >
-              {{ cat.label }}
-              <svg class="chevron-tiny" width="10" height="10" viewBox="0 0 10 10" fill="none">
-                <path d="M2 3.5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
-            <div class="faction-dropdown" v-if="cat.factions.length" @click.stop>
-              <RouterLink
-                v-for="f in cat.factions"
-                :key="f.path"
-                :to="f.path"
-                class="faction-dropdown-item"
-                :class="{ active: $route.path === f.path }"
-                @click="openCat = null"
-              >{{ f.label }}</RouterLink>
-            </div>
-          </div>
-        </template>
+    <!-- Subnav: core rules section links (hidden on faction pages) -->
+    <nav class="subnav" v-show="!isFactionsRoute">
+      <div class="subnav-inner">
+        <RouterLink
+          v-for="item in coreSubNavItems"
+          :key="item.path"
+          :to="item.path"
+          class="subnav-link"
+          :class="{ active: $route.path === item.path }"
+        >{{ item.label }}</RouterLink>
       </div>
     </nav>
 
@@ -121,7 +102,7 @@ import { navGroups, navGroupsRu } from './router/index.js'
 const route = useRoute()
 const mobileNavOpen = ref(false)
 const searchOpen = ref(false)
-const openCat = ref(null)
+const factionsHoverOpen = ref(false)
 const { locale, toggleLocale } = useLocale()
 const { open: openKeyword, close: closeKeyword } = useKeywordPopover()
 const { navigateTo } = useRefNavigation()
@@ -151,10 +132,6 @@ const factionSubNavGroups = computed(() => {
   return fg?.factionGroups ?? []
 })
 
-function isCatActive(cat) {
-  return cat.factions.some(f => f.path === route.path)
-}
-
 function onKeydown(e) {
   if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
     e.preventDefault()
@@ -183,19 +160,13 @@ function onGlobalClick(e) {
   }
 }
 
-function onDocClick() {
-  openCat.value = null
-}
-
 onMounted(() => {
   window.addEventListener('keydown', onKeydown)
   document.addEventListener('click', onGlobalClick)
-  document.addEventListener('click', onDocClick)
 })
 onUnmounted(() => {
   window.removeEventListener('keydown', onKeydown)
   document.removeEventListener('click', onGlobalClick)
-  document.removeEventListener('click', onDocClick)
 })
 </script>
 
@@ -416,73 +387,69 @@ onUnmounted(() => {
   font-weight: 600;
 }
 
-/* ── Faction mode: allow overflow so dropdown isn't clipped ── */
-.subnav-inner.factions-mode {
-  overflow: visible;
-}
-
-/* ── Faction category dropdown ── */
-.subnav-faction-cat {
+/* ── Factions hover mega-dropdown ── */
+.nav-factions-wrap {
   position: relative;
   display: flex;
-  align-items: stretch;
-}
-
-.subnav-cat-btn {
-  display: flex;
   align-items: center;
-  gap: 0.3rem;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-family: var(--font-sans);
+  height: 100%;
 }
 
-.chevron-tiny {
-  flex-shrink: 0;
-  color: var(--text-dim);
-  transition: transform 0.18s ease;
+.nav-factions-wrap > .nav-link {
+  cursor: default;
+  user-select: none;
 }
 
-.subnav-faction-cat.open .chevron-tiny {
-  transform: rotate(180deg);
-}
-
-.faction-dropdown {
-  display: none;
+.factions-mega {
   position: absolute;
-  top: calc(100% + 2px);
+  top: 100%;
   left: 0;
-  z-index: 400;
-  background: var(--bg-insert);
+  z-index: 300;
+  background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 5px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-  min-width: 190px;
-  padding: 0.35rem 0;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  padding: 1rem 1.25rem;
+  display: flex;
+  gap: 1.5rem;
 }
 
-.subnav-faction-cat.open .faction-dropdown {
-  display: block;
+.factions-mega-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 145px;
 }
 
-.faction-dropdown-item {
+.factions-mega-cat-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-dim);
+  padding: 0 0.5rem 0.4rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0.25rem;
+}
+
+.factions-mega-item {
   display: block;
-  padding: 0.45rem 1rem;
+  padding: 0.35rem 0.5rem;
   font-size: 0.83rem;
   color: var(--text-muted);
+  border-radius: 3px;
   text-decoration: none;
   transition: background 0.12s, color 0.12s;
   white-space: nowrap;
 }
 
-.faction-dropdown-item:hover {
-  background: rgba(110,0,8,0.08);
+.factions-mega-item:hover {
+  background: rgba(110,0,8,0.1);
   color: var(--text-primary);
   text-decoration: none;
 }
 
-.faction-dropdown-item.active {
+.factions-mega-item.active {
   color: var(--accent);
   font-weight: 600;
 }
