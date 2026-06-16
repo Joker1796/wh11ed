@@ -14,6 +14,11 @@
             class="nav-link"
             :class="{ active: isCoreRoute }"
           >{{ labels.navCoreRules }}</RouterLink>
+          <RouterLink
+            to="/factions/orks"
+            class="nav-link"
+            :class="{ active: isFactionsRoute }"
+          >{{ labels.navFactions }}</RouterLink>
         </nav>
 
         <div class="navbar-actions">
@@ -42,16 +47,50 @@
     <!-- Mobile drawer (visible only on mobile via NavSidebar internal CSS) -->
     <NavSidebar :mobileOpen="mobileNavOpen" @close="mobileNavOpen = false" />
 
-    <!-- Subnav: section-level links, always visible as horizontal scroll -->
-    <nav class="subnav">
-      <div class="subnav-inner">
-        <RouterLink
-          v-for="item in subNavItems"
-          :key="item.path"
-          :to="item.path"
-          class="subnav-link"
-          :class="{ active: $route.path === item.path }"
-        >{{ item.label }}</RouterLink>
+    <!-- Subnav: changes based on active top-level section -->
+    <nav class="subnav" @click.self="openCat = null">
+      <div class="subnav-inner" :class="{ 'factions-mode': isFactionsRoute }">
+        <!-- Core Rules mode: route links -->
+        <template v-if="!isFactionsRoute">
+          <RouterLink
+            v-for="item in coreSubNavItems"
+            :key="item.path"
+            :to="item.path"
+            class="subnav-link"
+            :class="{ active: $route.path === item.path }"
+          >{{ item.label }}</RouterLink>
+        </template>
+
+        <!-- Factions mode: category dropdowns -->
+        <template v-else>
+          <div
+            v-for="cat in factionSubNavGroups"
+            :key="cat.label"
+            class="subnav-faction-cat"
+            :class="{ open: openCat === cat.label }"
+          >
+            <button
+              class="subnav-link subnav-cat-btn"
+              :class="{ active: isCatActive(cat) }"
+              @click.stop="openCat = openCat === cat.label ? null : cat.label"
+            >
+              {{ cat.label }}
+              <svg class="chevron-tiny" width="10" height="10" viewBox="0 0 10 10" fill="none">
+                <path d="M2 3.5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="faction-dropdown" v-if="cat.factions.length" @click.stop>
+              <RouterLink
+                v-for="f in cat.factions"
+                :key="f.path"
+                :to="f.path"
+                class="faction-dropdown-item"
+                :class="{ active: $route.path === f.path }"
+                @click="openCat = null"
+              >{{ f.label }}</RouterLink>
+            </div>
+          </div>
+        </template>
       </div>
     </nav>
 
@@ -77,10 +116,12 @@ import { useLocale } from './composables/useLocale.js'
 import { useKeywordPopover } from './composables/useKeywordPopover.js'
 import { resolveRef, useRefNavigation } from './composables/useRefNavigation.js'
 import { ui } from './i18n/ui.js'
+import { navGroups, navGroupsRu } from './router/index.js'
 
 const route = useRoute()
 const mobileNavOpen = ref(false)
 const searchOpen = ref(false)
+const openCat = ref(null)
 const { locale, toggleLocale } = useLocale()
 const { open: openKeyword, close: closeKeyword } = useKeywordPopover()
 const { navigateTo } = useRefNavigation()
@@ -89,8 +130,9 @@ const labels = computed(() => ui[locale.value])
 
 const coreRoutes = ['/', '/basic-rules', '/battle-round', '/battlefields', '/advanced-rules', '/reference', '/files']
 const isCoreRoute = computed(() => coreRoutes.includes(route.path))
+const isFactionsRoute = computed(() => route.path.startsWith('/factions/'))
 
-const subNavItems = computed(() => {
+const coreSubNavItems = computed(() => {
   const l = labels.value
   return [
     { path: '/', label: l.subNavIntro },
@@ -102,6 +144,16 @@ const subNavItems = computed(() => {
     { path: '/files', label: l.subNavFiles },
   ]
 })
+
+const factionSubNavGroups = computed(() => {
+  const groups = locale.value === 'ru' ? navGroupsRu : navGroups
+  const fg = groups.find(g => g.path === '/factions')
+  return fg?.factionGroups ?? []
+})
+
+function isCatActive(cat) {
+  return cat.factions.some(f => f.path === route.path)
+}
 
 function onKeydown(e) {
   if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
@@ -131,13 +183,19 @@ function onGlobalClick(e) {
   }
 }
 
+function onDocClick() {
+  openCat.value = null
+}
+
 onMounted(() => {
   window.addEventListener('keydown', onKeydown)
   document.addEventListener('click', onGlobalClick)
+  document.addEventListener('click', onDocClick)
 })
 onUnmounted(() => {
   window.removeEventListener('keydown', onKeydown)
   document.removeEventListener('click', onGlobalClick)
+  document.removeEventListener('click', onDocClick)
 })
 </script>
 
@@ -355,6 +413,77 @@ onUnmounted(() => {
 .subnav-link.active {
   color: var(--accent);
   border-bottom-color: var(--accent);
+  font-weight: 600;
+}
+
+/* ── Faction mode: allow overflow so dropdown isn't clipped ── */
+.subnav-inner.factions-mode {
+  overflow: visible;
+}
+
+/* ── Faction category dropdown ── */
+.subnav-faction-cat {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+}
+
+.subnav-cat-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-sans);
+}
+
+.chevron-tiny {
+  flex-shrink: 0;
+  color: var(--text-dim);
+  transition: transform 0.18s ease;
+}
+
+.subnav-faction-cat.open .chevron-tiny {
+  transform: rotate(180deg);
+}
+
+.faction-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 2px);
+  left: 0;
+  z-index: 400;
+  background: var(--bg-insert);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  min-width: 190px;
+  padding: 0.35rem 0;
+}
+
+.subnav-faction-cat.open .faction-dropdown {
+  display: block;
+}
+
+.faction-dropdown-item {
+  display: block;
+  padding: 0.45rem 1rem;
+  font-size: 0.83rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: background 0.12s, color 0.12s;
+  white-space: nowrap;
+}
+
+.faction-dropdown-item:hover {
+  background: rgba(110,0,8,0.08);
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.faction-dropdown-item.active {
+  color: var(--accent);
   font-weight: 600;
 }
 

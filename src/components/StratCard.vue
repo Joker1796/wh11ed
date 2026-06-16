@@ -8,7 +8,7 @@
       <span class="strat-cp">{{ strat.cp }}</span>
     </div>
 
-    <div class="strat-sublabel">{{ labels.stratCoreLabel }}</div>
+    <div class="strat-sublabel">{{ sublabel || labels.stratCoreLabel }}</div>
 
     <div class="strat-body">
       <p v-if="strat.flavor" class="strat-flavor">{{ strat.flavor }}</p>
@@ -69,6 +69,7 @@ const labels = computed(() => ui[locale.value])
 
 defineProps({
   strat: { type: Object, required: true },
+  sublabel: { type: String, default: null },
 })
 
 function renderField(text) {
