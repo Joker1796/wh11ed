@@ -71,7 +71,7 @@
           <span class="detachment-source-badge" :class="`src-${det.source}`">{{ det.source }}</span>
         </div>
 
-        <DetachmentBlock :rule="det.rule" />
+        <DetachmentBlock :rule="det.rule" :description="det.description" />
 
         <!-- Enhancements -->
         <div class="subsection-header">
