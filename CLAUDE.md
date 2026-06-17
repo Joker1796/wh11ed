@@ -8,6 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 npm run dev      # dev server at http://localhost:5173
 npm run build    # production build → dist/
 npm run preview  # preview the production build
+npm run deploy   # build + upload to the Yandex Object Storage bucket (see Deployment)
 ```
 
 No test suite or linter configured.
@@ -88,3 +89,13 @@ The source rulebook PDF lives in `sources/` (gitignored). Extract text with `pdf
 ## Image organization
 
 `public/images/` has one folder per rules chapter (`intro`, `moving`, `coherency`, `visibility`, `command`, `turn`, `attack`, `charge`, `fight`, `terrain`, `monsters`, `attached`, `surge`, `fire`, `shoot`). Image markup references them as `[img:/images/<folder>/<name>.png|alt]`. RU variants use a `-ru` suffix on the filename (e.g. `making-a-charge-move-ru.png`).
+
+## Deployment
+
+Hosted at **wh11ed.ru** on a **Yandex Object Storage** bucket (`wh11ed.ru`) behind **Yandex CDN**. Deploy with `npm run deploy` (runs `deploy.sh`), which builds and `aws s3 sync`s `dist/` with tiered `Cache-Control`:
+
+- `assets/*` (content-hashed) → `public, max-age=31536000, immutable`
+- images / favicon (stable names) → `public, max-age=31536000`
+- `index.html` → `public, max-age=86400` (1 day)
+
+Uploads via the S3-compatible API (endpoint `storage.yandexcloud.net`, AWS CLI profile `yc`). Set `CDN_RESOURCE_ID` to auto-purge the CDN; otherwise purge manually after deploy. The CDN resource must cache **according to origin headers** (honor-origin) or it overrides per-file `Cache-Control` with a single TTL. Because images are cached a year under stable names, **rename a file when you change an image** (or the browser keeps the old one). Full runbook: `DEPLOY.md`.
