@@ -80,7 +80,7 @@ export const navGroupsRu = [
     label: 'Боевой раунд', path: '/battle-round',
     sections: [
       { id: 'section-07', label: '07 Боевой раунд' },
-      { id: 'section-08', label: '08 Командная фаза' },
+      { id: 'section-08', label: '08 Фаза командования' },
       { id: 'section-09', label: '09 Фаза движения' },
       { id: 'section-10', label: '10 Фаза стрельбы' },
       { id: 'section-11', label: '11 Фаза атаки' },
