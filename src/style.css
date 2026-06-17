@@ -263,6 +263,17 @@ strong {
   border-color: rgba(232, 201, 106, 0.4);
 }
 
+/* Cross-refs / def-links on the dark note-box bg — gold like keywords */
+.note-box .cross-ref,
+.note-box .def-link {
+  color: #e8c96a;
+}
+
+.note-box .cross-ref:hover,
+.note-box .def-link:hover {
+  color: #f0d98a;
+}
+
 /* Example blocks — like Wahapedia */
 .example-block {
   background: var(--bg-secondary);
