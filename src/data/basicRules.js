@@ -35,8 +35,8 @@ If a rule affects units or models without specifying that they are friendly or e
 While it is neither player's turn (e.g. at the start or end of the battle round), the player who takes the first turn in each battle round is the active player.
 
 While it is a player's turn, that player is the active player, with the following exceptions:
-▪ Each time a unit is selected to move, that unit's controlling player is the active player until that move ends.
-▪ Each time a unit is selected to shoot or selected to fight, that unit's controlling player is the active player until those attacks are resolved.`,
+▪ Each time a unit is **selected to move**, that unit's controlling player is the active player until that move ends.
+▪ Each time a unit is **selected to shoot** or **selected to fight**, that unit's controlling player is the active player until those attacks are resolved.`,
         },
         {
           id: 'section-01-04',
@@ -62,22 +62,22 @@ When a rule refers to a model's position in relation to anything else on the bat
           id: 'section-01-06',
           sectionNum: '01.06',
           title: 'Leadership Rolls',
-          body: `To make a leadership roll for a unit, its controlling player rolls 2D6: if the result is equal to or greater than one or more of the Ld characteristics in that unit, that roll succeeds. Otherwise, that roll fails. The rule that instructed you to make that leadership roll will describe the effects of that roll succeeding or failing.`,
+          body: `To make a **leadership roll** for a unit, its controlling player rolls 2D6: if the result is equal to or greater than one or more of the Ld characteristics in that unit, that roll succeeds. Otherwise, that roll fails. The rule that instructed you to make that **leadership roll** will describe the effects of that roll succeeding or failing.`,
         },
         {
           id: 'section-01-07',
           sectionNum: '01.07',
           title: 'Battle-Shock Rolls',
-          body: `To make a battle-shock roll for a unit, its controlling player makes a leadership roll for it (see above).
+          body: `To make a **battle-shock roll** for a unit, its controlling player makes a **leadership roll** for it (see above).
 ▪ If that roll succeeds, that unit does not become battle-shocked.
 ▪ If that roll fails, that unit, and each model in it, is battle-shocked.
 
 While a unit is battle-shocked:
 ▪ The Objective Control (OC) characteristic of all of its models is modified to '-'.
 ▪ Its controlling player cannot target that unit with stratagems.
-▪ It is not eligible to start an action, and any action it has started cannot be completed.`,
-          example: `A Guardsman squad with Ld 7+ has taken heavy casualties and must make a battle-shock roll. The player rolls 2D6 and gets a 9 — since 9 is not less than 7, the roll succeeds and the squad holds its nerve. If the roll had been 6 or less, the entire unit would become battle-shocked, losing their ability to control objectives.`,
-          note: 'Battlefield Morale: The morale and organisation of troops can waver and break during battle. This is checked using battle-shock rolls, most commonly in the Command phase. Failing such a roll represents the unit\'s courage faltering due to taking casualties or through other disruption, reducing its battlefield effectiveness. Similarly, some rules will require you to check a unit\'s readiness by making a leadership roll.',
+▪ It is not **eligible to start an action**, and any action it has started cannot be completed.`,
+          example: `A Guardsman squad with Ld 7+ has taken heavy casualties and must make a **battle-shock roll**. The player rolls 2D6 and gets a 9 — since 9 is not less than 7, the roll succeeds and the squad holds its nerve. If the roll had been 6 or less, the entire unit would become battle-shocked, losing their ability to control objectives.`,
+          note: 'Battlefield Morale: The morale and organisation of troops can waver and break during battle. This is checked using **battle-shock rolls**, most commonly in the Command phase. Failing such a roll represents the unit\'s courage faltering due to taking casualties or through other disruption, reducing its battlefield effectiveness. Similarly, some rules will require you to check a unit\'s readiness by making a **leadership roll**.',
           seeAlso: ['Command Phase 08.00'],
         },
       ],
@@ -123,7 +123,7 @@ While a unit is battle-shocked:
           title: 'Weapons',
           body: `Weapons have the following characteristics:
 ▪ Range (R): How far ranged weapons can shoot. Weapons with an R characteristic of 'Melee' are melee weapons.
-▪ Attacks (A): How many attack dice are used each time that weapon is used.
+▪ Attacks (A): How many **attack dice** are used each time that weapon is used.
 ▪ Ballistic Skill (BS): Presented as a dice result (e.g. 4+), this shows how accurate the bearer is when shooting with the relevant ranged weapon.
 ▪ Weapon Skill (WS): Presented as a dice result (e.g. 4+), this reflects the bearer's skill in wielding the relevant melee weapon.
 ▪ Strength (S): The higher a weapon's S characteristic, the more likely it is to wound a foe.
@@ -163,7 +163,7 @@ Some rules are linked to one or more keywords. For example, a rule might say tha
           id: 'section-03-01',
           sectionNum: '03.01',
           title: 'Moving Units',
-          body: `There are several types of move a unit can make. Each one defines which units are eligible to make it, what its maximum distance or set-up distance is, and any conditions that must be met.
+          body: `There are several types of move a unit can make. Each one defines which units are eligible to make it, what its **maximum distance** or set-up distance is, and any conditions that must be met.
 
 Each time you move a unit, you can move one or more of its models, one at a time, by moving it in a straight line and/or rotating it, as many times as you want to.
 
@@ -175,18 +175,18 @@ Each time you move a model, unless otherwise stated:
 ▪ All stated 'While Moving' conditions must be met.
 
 ### Moving a Model in a Straight Line
-Each time you move a model in a straight line, move it horizontally across the battlefield. Measure from the same point on its base at the start and end of that move, and add that distance to any other distance it has moved since its unit began that move. The distance moved cannot be greater than the maximum distance of that move type.
+Each time you move a model in a straight line, move it horizontally across the battlefield. Measure from the same point on its base at the start and end of that move, and add that distance to any other distance it has moved since its unit began that move. The distance moved cannot be greater than the **maximum distance** of that **move type**.
 
 ### Rotating a Model
 Each time you rotate a model, turn it any amount around the centre of its base, while keeping it upright. Note that rotating a model does not count towards the distance it has moved.
 
 ### Ending a Move
 After you have finished setting up all of the models in a unit and/or moving all of the models in a unit that you want to move, check that all of the following apply:
-▪ If that unit is on the battlefield, it is in coherency (03.03).
-▪ No models in that unit are on another model or partway through a surface of a terrain feature (e.g. a wall or ceiling).
+▪ If that unit is on the battlefield, it is in **coherency** (03.03).
+▪ No models in that unit are on another model or partway through a surface of a **terrain feature** (e.g. a wall or ceiling).
 ▪ All stated 'After Moving' conditions are met.
 
-If one or more of the above conditions are not met, that unit cannot make that move and its models are returned to their positions at the start of that move. Otherwise, after resolving any additional rules stated in the 'After Moving' section of that move type, that move ends.`,
+If one or more of the above conditions are not met, that unit cannot make that move and its models are returned to their positions at the start of that move. Otherwise, after resolving any additional rules stated in the 'After Moving' section of that **move type**, that move ends.`,
           seeAlso: ['Monsters and Vehicles 17.00', 'Moving Vertically 13.06', 'Strategic Reserves 20.00', 'Terrain 13.00', 'Transports 18.00'],
           illustration: {
             src: '/images/moving/moving-straight-line.png',
@@ -217,34 +217,34 @@ If one or more of the above conditions are not met, that unit cannot make that m
           body: `Before your units can move and make attacks, they will first need to be set up on the battlefield. This most commonly happens when deploying your army for battle, but can happen for other reasons as well.
 
 Whenever a rule instructs you to set up a unit, place its models on the battlefield so that:
-▪ That unit is in coherency (see below).
+▪ That unit is in **coherency** (see below).
 ▪ That unit is unengaged (see below).
 ▪ All other requirements and restrictions are met.
 
-If you cannot set up all of the models in a unit, remove that unit from the battlefield and return it to its original position (e.g. in strategic reserves or embarked within a TRANSPORT).`,
-          note: 'If You Cannot Set Up a Unit: While doing so as the result of a move type, if you have to return a unit\'s models to their previous positions because it is not possible to set them all up, that unit has not been selected to make that move. This means it can be selected to make a move later, so could either attempt another set up or remain stationary.',
+If you cannot set up all of the models in a unit, remove that unit from the battlefield and return it to its original position (e.g. in **strategic reserves** or embarked within a TRANSPORT).`,
+          note: 'If You Cannot Set Up a Unit: While doing so as the result of a **move type**, if you have to return a unit\'s models to their previous positions because it is not possible to set them all up, that unit has not been selected to make that move. This means it can be selected to make a move later, so could either attempt another set up or remain stationary.',
         },
         {
           id: 'section-03-03',
           sectionNum: '03.03',
           title: 'Coherency',
-          body: `A unit that contains more than one model must be set up and end any kind of move in coherency. A unit is in coherency while both of the following apply to every model in that unit:
+          body: `A unit that contains more than one model must be set up and end any kind of move in **coherency**. A unit is in **coherency** while both of the following apply to every model in that unit:
 ▪ Within 2" horizontally and 5" vertically of at least one other model in that unit.
 ▪ Within 9" horizontally and 5" vertically of every other model in that unit.
 
 ### Regaining Coherency
-In the End of Turn step of each player's turn, if one or more units on the battlefield are not in coherency, those units' controlling players must remove models from them, one at a time, until they are in coherency again. Models removed in this way are destroyed, but they do not trigger rules that apply when a model is destroyed.`,
-          note: 'What is Coherency? Coherency prevents models in the same unit from becoming too separated from each other while on the battlefield, ensuring they are set up and end every kind of move as a single group.',
+In the End of Turn step of each player's turn, if one or more units on the battlefield are not in **coherency**, those units' controlling players must remove models from them, one at a time, until they are in **coherency** again. Models removed in this way are destroyed, but they do not trigger rules that apply when a model is destroyed.`,
+          note: 'What is **Coherency**? **Coherency** prevents models in the same unit from becoming too separated from each other while on the battlefield, ensuring they are set up and end every kind of move as a single group.',
           image: { src: '/images/coherency/coherency.png', alt: 'Coherency' },
         },
         {
           id: 'section-03-04',
           sectionNum: '03.04',
           title: 'Engagement',
-          body: `A model's engagement range is the area of the battlefield within 2" horizontally and 5" vertically of it.
-▪ While a friendly model is within engagement range of one or more enemy models, those models – and the units they belong to – are engaged with each other.
+          body: `A model's **engagement range** is the area of the battlefield within 2" horizontally and 5" vertically of it.
+▪ While a friendly model is within **engagement range** of one or more enemy models, those models – and the units they belong to – are engaged with each other.
 ▪ While a unit contains no engaged models, that unit is unengaged.`,
-          note: 'What is Engagement? While opposing models are within each other\'s engagement range, they are able to fight in vicious melee, so unless they are seeking to make melee attacks, models should keep out of their foes\' reach.',
+          note: 'What is Engagement? While opposing models are within each other\'s **engagement range**, they are able to fight in vicious melee, so unless they are seeking to make melee attacks, models should keep out of their foes\' reach.',
           image: { src: '/images/visibility/engagement.png', alt: 'Engagement' },
         },
       ],
@@ -310,7 +310,7 @@ Select one or more enemy units to be the targets of that weapon:
 
 If one or more other weapons targeting that unit make [def:identical-attacks:identical attacks] to the selected weapon and those weapons have not yet been used to make attacks against that target, they do so now and you gather those weapons’ **attack dice** as well (e.g. for three weapons making [def:identical-attacks:identical attacks], each with an **A** characteristic of 2, gather a total of six D6)
 
-3. **Resolve Attack Dice:** Resolve the attack sequence (05) for all of the attack dice you just gathered.
+3. **Resolve Attack Dice:** Resolve the attack sequence (05) for all of the **attack dice** you just gathered.
 
 4. **Other Attacks:** Follow the first of the instructions below that applies:
 → If there are any weapons targeting the same unit that have not yet been used to make attacks, return to the **Gather Attack Dice** step.
@@ -343,19 +343,19 @@ If one or more other weapons targeting that unit make [def:identical-attacks:ide
           sectionNum: '',
           title: 'Sequence Overview',
           body: `Each time the active player is instructed to resolve the attack sequence, they follow the steps below. In each step, if there is more than one dice to roll, make all of those rolls simultaneously.
-▪ 1. Hit Rolls
-▪ 2. Wound Rolls
-▪ 3. Save Rolls
+▪ 1. **Hit Rolls**
+▪ 2. **Wound Rolls**
+▪ 3. **Save Rolls**
 ▪ 4. Inflict Damage`,
-          note: 'Critical Hits and Critical Wounds: Critical hits are still hits, and critical wounds are still wounds. In addition, other rules can be triggered by a critical hit or a critical wound, such as [LETHAL HITS] and [DEVASTATING WOUNDS].',
+          note: '**Critical Hits** and **Critical Wounds**: **Critical hits** are still hits, and **critical wounds** are still wounds. In addition, other rules can be triggered by a **critical hit** or a **critical wound**, such as [LETHAL HITS] and [DEVASTATING WOUNDS].',
         },
         {
           id: 'section-05-01',
           sectionNum: '05.01',
           title: 'Hit Rolls',
-          body: `Make one hit roll for each attack dice by rolling one D6. For each result, check if it fails or is a hit by matching the first condition below that applies:
+          body: `Make one **hit roll** for each **attack dice** by rolling one D6. For each result, check if it fails or is a hit by matching the first condition below that applies:
 ◆ Unmodified 1 → FAILS
-◆ Unmodified 6 → CRITICAL HIT
+◆ Unmodified 6 → **CRITICAL HIT**
 ◆ Equal to or greater than that attack's BS/WS characteristic → HIT
 ◆ Any other result → FAILS`,
         },
@@ -363,9 +363,9 @@ If one or more other weapons targeting that unit make [def:identical-attacks:ide
           id: 'section-05-02',
           sectionNum: '05.02',
           title: 'Wound Rolls',
-          body: `Make one wound roll for each hit by rolling one D6. For each result, check if it fails or is a wound by matching the first condition below that applies:
+          body: `Make one **wound roll** for each hit by rolling one D6. For each result, check if it fails or is a wound by matching the first condition below that applies:
 ◆ Unmodified 1 → FAILS
-◆ Unmodified 6 → CRITICAL WOUND
+◆ Unmodified 6 → **CRITICAL WOUND**
 ◆ Equal to or greater than the required result (see table below) → WOUND
 ◆ Any other result → FAILS`,
         },
@@ -384,17 +384,17 @@ If one or more other weapons targeting that unit make [def:identical-attacks:ide
 ▪ No CHARACTER group can be earlier in the allocation order than a non-CHARACTER group.
 ▪ CHARACTER groups containing a model that has lost one or more wounds must be earlier in the allocation order than CHARACTER groups containing no wounded models.
 
-3. Make Save Rolls: The opposing player makes one save roll for each attack that wounded the target by rolling one D6.`,
+3. Make **Save Rolls**: The opposing player makes one **save roll** for each attack that wounded the target by rolling one D6.`,
           seeAlso: ['Modifying Damage', 'Modifying Dice Rolls', 'Random Characteristics'],
         },
         {
           id: 'section-05-04',
           sectionNum: '05.04',
           title: 'Inflict Damage',
-          body: `The opposing player resolves the following sequence for each save roll, working from lowest result(s) to highest result(s), until all attacks are resolved or all models in the target unit are destroyed – in the latter case, any excess attacks are lost.
+          body: `The opposing player resolves the following sequence for each **save roll**, working from lowest result(s) to highest result(s), until all attacks are resolved or all models in the target unit are destroyed – in the latter case, any excess attacks are lost.
 
 1. Select Model: Select one model in the current allocation group; this must be a model that has lost one or more wounds if possible.
-2. Check Save Roll: For each result, check if that attack inflicts damage or fails by matching the first condition below that applies:
+2. Check **Save Roll**: For each result, check if that attack inflicts damage or fails by matching the first condition below that applies:
 ◆ Unmodified 1 → INFLICTS DAMAGE
 ◆ Invulnerable Save: The models in the current allocation group have an InSv characteristic, and the result is equal to or greater than that characteristic → FAILS (no damage)
 ◆ Save and AP: After modifying the result by the attacking weapon's AP characteristic, it is equal to or greater than the Sv characteristic of models in the current allocation group → FAILS (no damage)
@@ -402,7 +402,7 @@ If one or more other weapons targeting that unit make [def:identical-attacks:ide
 
 3. Resolve Damage: If that attack inflicts damage, the selected model loses a number of wounds equal to that attack's D characteristic. If this reduces that model's remaining wounds to 0 or fewer, it is destroyed.
 
-Example: An AP characteristic of -1 would modify a save roll of 3 to a 2. For models with a Sv characteristic of 2+ or better, that attack would fail.`,
+Example: An AP characteristic of -1 would modify a **save roll** of 3 to a 2. For models with a Sv characteristic of 2+ or better, that attack would fail.`,
           note: 'Current Allocation Group: The first group in the allocation order begins as the current group. Once all models in an allocation group are destroyed, the next group in the allocation order becomes the current one.',
         },
         {
@@ -429,14 +429,14 @@ There is only one enemy unit being targeted, so the controlling player now gathe
           sectionNum: 'EX',
           title: 'Attack Sequence Example — RESOLVING ATTACK DICE',
           sideImage: { src: '/images/attack/resolve-attack-dice.png', alt: 'Resolve attack dice example' },
-          body: `### 1. HIT ROLLS
-The controlling player chooses to make the five hit rolls for the boltguns and bolt pistol first. The **BS** characteristic of the weapons is 3+. Four of the attacks hit the target.
+          body: `### 1. **HIT ROLLS**
+The controlling player chooses to make the five **hit rolls** for the boltguns and bolt pistol first. The **BS** characteristic of the weapons is 3+. Four of the attacks hit the target.
 
 ### 2. WOUND ROLLS
-The controlling player makes four wound rolls. The weapons have an **S** characteristic of 4 and the target unit has a **T** characteristic of 3, so rolls of 3+ are required to wound. Three of the attacks wound the target.
+The controlling player makes four **wound rolls**. The weapons have an **S** characteristic of 4 and the target unit has a **T** characteristic of 3, so rolls of 3+ are required to wound. Three of the attacks wound the target.
 
 ### 3. SAVE ROLLS
-The target unit's controlling player makes three save rolls.
+The target unit's controlling player makes three **save rolls**.
 
 ### 4. INFLICT DAMAGE
 ▪ The lowest result is less than both the **InSv** and **Sv** characteristics of the target, so that attack inflicts damage. This reduces the model to which that attack was allocated to 0 wounds, which destroys it.
@@ -448,14 +448,14 @@ The target unit's controlling player makes three save rolls.
           sectionNum: 'EX',
           title: 'Attack Sequence Example — RESOLVING OTHER ATTACKS',
           sideImage: { src: '/images/attack/resolve-other-attacks.png', alt: 'Resolving other attacks example' },
-          body: `### 1. HIT ROLLS
-The controlling player then makes three hit rolls for the heavy bolter. The **BS** characteristic of the weapon is 4+. Two of the attacks hit the target.
+          body: `### 1. **HIT ROLLS**
+The controlling player then makes three **hit rolls** for the heavy bolter. The **BS** characteristic of the weapon is 4+. Two of the attacks hit the target.
 
 ### 2. WOUND ROLLS
-The controlling player makes two wound rolls. The weapon has an **S** characteristic of 5, so rolls of 3+ are required to wound. Both attacks wound the target.
+The controlling player makes two **wound rolls**. The weapon has an **S** characteristic of 5, so rolls of 3+ are required to wound. Both attacks wound the target.
 
 ### 3. SAVE ROLLS
-The target unit's controlling player makes two save rolls.
+The target unit's controlling player makes two **save rolls**.
 
 ### 4. INFLICT DAMAGE
 ▪ The lowest result, __when modified by the attacking weapon's **AP** characteristic of -1__, is less than the target's **Sv** characteristic of 3+, so that attack inflicts damage. This reduces the model to which that attack was allocated to 0 wounds, which destroys it.
@@ -490,8 +490,8 @@ The **attack dice** for the remaining weapons will be gathered once the heavy bo
 The target unit's controlling player divides it into groups: one containing Saint Celestine, one containing the Geminae Superia, and one containing the Seraphim. They then declare the allocation order, choosing the Geminae Superia first (1), hoping their better **Sv** and **InSv** characteristics will weather the attacks. The Seraphim must be chosen second (2), as Saint Celestine is a CHARACTER model so must be last in the order (3).
 
 ### 2. RESOLVE ATTACK DICE
-The heavy bolters' attacks wound the target five times, so the target unit's controlling player makes five save rolls.
-The attacks are resolved one at a time, from lowest save rolls to highest:
+The heavy bolters' attacks wound the target five times, so the target unit's controlling player makes five **save rolls**.
+The attacks are resolved one at a time, from lowest **save rolls** to highest:
 ▪ The two results of 1 are allocated first, to the current allocation group (the Geminae Superia). They both inflict damage, and both Geminae Superia are destroyed.
 ▪ The result of 3 is now allocated to the Seraphim, who have become the current allocation group. __When modified by the attacking weapon's **AP** characteristic of -1__, this also inflicts damage, destroying one Seraphim model.
 ▪ The remaining attacks fail, so no further damage is inflicted.
@@ -521,7 +521,7 @@ The attacks are resolved one at a time, from lowest save rolls to highest:
           id: 'section-06-01',
           sectionNum: '06.01',
           title: 'Visibility',
-          body: `Line of sight is used to determine visibility between models. For an observing model to have line of sight, it must be possible to draw an imaginary straight line, 1 mm wide, from any part of that model to any part of the model being observed. This line is the line of sight. While doing so, other models in the observing model's unit and in the observed model's unit are ignored.
+          body: `**Line of sight** is used to determine visibility between models. For an observing model to have **line of sight**, it must be possible to draw an imaginary straight line, 1 mm wide, from any part of that model to any part of the model being observed. This line is the **line of sight**. While doing so, other models in the observing model's unit and in the observed model's unit are ignored.
 
 Other models and units can be either **visible** or **fully visible** to the observing model, as shown below.
 
@@ -538,7 +538,7 @@ Other models and units can be either **visible** or **fully visible** to the obs
           id: 'section-06-02',
           sectionNum: '06.02',
           title: 'Mortal Wounds',
-          body: `Some attacks or rules inflict mortal wounds on units. Each time a unit suffers one or more mortal wounds, its controlling player must resolve the following sequence for each of those mortal wounds, until either all of them have been inflicted or that unit is destroyed:
+          body: `Some attacks or rules inflict **mortal wounds** on units. Each time a unit suffers one or more **mortal wounds**, its controlling player must resolve the following sequence for each of those **mortal wounds**, until either all of them have been inflicted or that unit is destroyed:
 
 1. Select Model: Select one model in that unit by following the first instruction below that applies:
 → If a non-CHARACTER model in that unit has lost one or more wounds, you must select that model.
@@ -549,13 +549,13 @@ Other models and units can be either **visible** or **fully visible** to the obs
 2. Resolve Damage: The selected model loses 1 wound. If this reduces that model's remaining wounds to 0, it is destroyed.
 
 ### Mortal Wounds and Normal Damage
-When resolving attack dice, if those attacks inflict a mixture of both mortal wounds and normal damage, resolve all of the normal damage first, then resolve all of the mortal wounds.`,
+When resolving **attack dice**, if those attacks inflict a mixture of both **mortal wounds** and normal damage, resolve all of the normal damage first, then resolve all of the **mortal wounds**.`,
         },
         {
           id: 'section-06-03',
           sectionNum: '06.03',
           title: 'Hazard Rolls',
-          body: `To make a hazard roll for a unit, roll one D6: on a 1-2, that roll fails and that unit suffers 1 mortal wound, or 3 mortal wounds instead if each model in that unit is a MONSTER/VEHICLE model. If more than one hazard roll is required for a unit, make all of those rolls simultaneously.`,
+          body: `To make a **hazard roll** for a unit, roll one D6: on a 1-2, that roll fails and that unit suffers 1 **mortal wound**, or 3 **mortal wounds** instead if each model in that unit is a MONSTER/VEHICLE model. If more than one **hazard roll** is required for a unit, make all of those rolls simultaneously.`,
         },
       ],
     },
@@ -608,11 +608,11 @@ When resolving attack dice, if those attacks inflict a mixture of both mortal wo
         },
         {
           title: 'Проверка лидерства',
-          body: `Чтобы выполнить проверку лидерства(leadership roll) для юнита, его контролирующий игрок бросает 2D6: если результат равен или превышает одну или несколько характеристик Ld в этом юните, проверка успешна. В противном случае проверка провалена. Правило, которое предписало вам выполнить эту проверку лидерства(leadership roll), опишет последствия успеха или провала этой проверки.`,
+          body: `Чтобы выполнить **проверку лидерства**(leadership roll) для юнита, его контролирующий игрок бросает 2D6: если результат равен или превышает одну или несколько характеристик Ld в этом юните, проверка успешна. В противном случае проверка провалена. Правило, которое предписало вам выполнить эту **проверку лидерства**(leadership roll), опишет последствия успеха или провала этой проверки.`,
         },
         {
           title: 'Проверка на боевой шок',
-          body: `Чтобы выполнить проверку боевого шока(battle-shock roll) для юнита, его контролирующий игрок выполняет для него проверку лидерства (leadership roll) (см. выше).
+          body: `Чтобы выполнить **проверку боевого шока**(battle-shock roll) для юнита, его контролирующий игрок выполняет для него **проверку лидерства** (leadership roll) (см. выше).
 ▪ Если проверка успешна, юнит не становится подверженным боевому шоку(battle-shocked).
 ▪ Если проверка провалена, этот юнит и каждая модель в нём становится подверженной боевому шоку(battle-shocked).
 
@@ -620,8 +620,8 @@ When resolving attack dice, if those attacks inflict a mixture of both mortal wo
 ▪ Характеристика Objective Control (OC) всех его моделей изменяется на '-'.
 ▪ Его контролирующий игрок не может нацеливать на этот юнит стратагемы(stratagems).
 ▪ Он не имеет права начинать задачи(actions), и любая начатая задача(action) не может быть завершена.`,
-          example: `Отряд гвардейцев с Ld 7+ понёс тяжёлые потери и должен выполнить проверку боевого шока(battle-shock roll). Игрок бросает 2D6 и получает 9 — поскольку 9 не меньше 7, проверка успешна, и отряд держится. Если бы результат был 6 или меньше, весь юнит стал бы подвержен боевому шоку(battle-shocked), утратив способность контролировать цели(objectives).`,
-          note: `Battlefield Morale: Моральный дух и организация войск могут колебаться и рушиться во время битвы. Это проверяется с помощью проверок боевого шока(battle-shock rolls), чаще всего в Фазе командования. Провал такой проверки означает, что мужество юнита падает из-за потерь или других помех, снижая его боевую эффективность. Аналогично, некоторые правила потребуют от вас проверить готовность юнита с помощью проверки лидерства(leadership roll).`,
+          example: `Отряд гвардейцев с Ld 7+ понёс тяжёлые потери и должен выполнить **проверку боевого шока**(battle-shock roll). Игрок бросает 2D6 и получает 9 — поскольку 9 не меньше 7, проверка успешна, и отряд держится. Если бы результат был 6 или меньше, весь юнит стал бы подвержен боевому шоку(battle-shocked), утратив способность контролировать цели(objectives).`,
+          note: `Battlefield Morale: Моральный дух и организация войск могут колебаться и рушиться во время битвы. Это проверяется с помощью проверок боевого шока(battle-shock rolls), чаще всего в Фазе командования. Провал такой проверки означает, что мужество юнита падает из-за потерь или других помех, снижая его боевую эффективность. Аналогично, некоторые правила потребуют от вас проверить готовность юнита с помощью **проверки лидерства**(leadership roll).`,
         },
       ],
     },
@@ -682,7 +682,7 @@ When resolving attack dice, if those attacks inflict a mixture of both mortal wo
       subsections: [
         {
           title: 'Перемещение юнитов',
-          body: `Существует несколько типов перемещений, которые может совершить юнит. Каждый из них определяет, какие юниты имеют право на его совершение, каково его максимальное расстояние(maximum distance) или расстояние установки(set-up distance), а также любые условия, которые должны быть соблюдены.
+          body: `Существует несколько типов перемещений, которые может совершить юнит. Каждый из них определяет, какие юниты имеют право на его совершение, каково его **максимальное расстояние**(maximum distance) или расстояние установки(set-up distance), а также любые условия, которые должны быть соблюдены.
 
 Каждый раз при перемещении юнита вы можете переместить одну или несколько его моделей поочерёдно, перемещая каждую по прямой линии и/или поворачивая её столько раз, сколько хотите.
 
@@ -694,25 +694,25 @@ When resolving attack dice, if those attacks inflict a mixture of both mortal wo
 ▪ Все условия «Во время перемещения»(While Moving) должны быть соблюдены.
 
 ### Перемещение модели по прямой линии
-Каждый раз, когда вы перемещаете модель по прямой линии, перемещайте её горизонтально по полю боя. Измеряйте расстояние от одной и той же точки на её основании в начале и в конце этого перемещения и прибавляйте это расстояние к любому другому расстоянию, которое она преодолела с момента начала перемещения её юнита. Пройденное расстояние не может превышать максимальное расстояние(maximum distance) для данного типа перемещения(move type).
+Каждый раз, когда вы перемещаете модель по прямой линии, перемещайте её горизонтально по полю боя. Измеряйте расстояние от одной и той же точки на её основании в начале и в конце этого перемещения и прибавляйте это расстояние к любому другому расстоянию, которое она преодолела с момента начала перемещения её юнита. Пройденное расстояние не может превышать **максимальное расстояние**(maximum distance) для данного **типа перемещения**(move type).
 
 ### Поворот модели
 Каждый раз, когда вы поворачиваете модель, поверните её на любое количество градусов вокруг центра её основания, удерживая её вертикально. Обратите внимание, что поворот модели не учитывается в пройденном ею расстоянии.
 
 ### Завершение перемещения
 После того как вы закончили устанавливать все модели в юните и/или перемещать все модели в юните, которые вы хотите переместить, проверьте, выполняются ли все следующие условия:
-▪ Если этот юнит находится на поле боя, он находится в когерентности(coherency) (03.03).
-▪ Ни одна модель в этом юните не находится на другой модели или частично внутри поверхности элемента укрытия(terrain feature) (например, стены или потолка).
+▪ Если этот юнит находится на поле боя, он находится в **когерентности**(coherency) (03.03).
+▪ Ни одна модель в этом юните не находится на другой модели или частично внутри поверхности **элемента укрытия**(terrain feature) (например, стены или потолка).
 ▪ Все условия «После перемещения»(After Moving) соблюдены.
 
-Если одно или несколько из вышеуказанных условий не соблюдены, этот юнит не может совершить это перемещение, и его модели возвращаются на свои изначальные позиции. В противном случае, после разрешения любых дополнительных правил, указанных в разделе «После перемещения»(After Moving) для этого типа перемещения(move type), это перемещение заканчивается.`,
+Если одно или несколько из вышеуказанных условий не соблюдены, этот юнит не может совершить это перемещение, и его модели возвращаются на свои изначальные позиции. В противном случае, после разрешения любых дополнительных правил, указанных в разделе «После перемещения»(After Moving) для этого **типа перемещения**(move type), это перемещение заканчивается.`,
         },
         {
           title: 'Расстановка (Set Up)',
           body: `Прежде чем ваши юниты смогут двигаться и совершать атаки, их сначала нужно будет установить на поле боя. Это чаще всего происходит при Развёртывании вашей армии для битвы, но может происходить и по другим причинам.
 
 Когда правило предписывает вам установить юнит, поместите его модели на поле боя так, чтобы:
-▪ Этот юнит находился в когерентности (см. ниже).
+▪ Этот юнит находился в **когерентности** (см. ниже).
 ▪ Этот юнит не был связан боем(unengaged) (см. ниже).
 ▪ Были соблюдены все остальные требования и ограничения.
 
@@ -721,13 +721,13 @@ When resolving attack dice, if those attacks inflict a mixture of both mortal wo
         },
         {
           title: 'Когерентность',
-          body: `Юнит, содержащий более одной модели, должен быть установлен и завершать любой вид перемещения в когерентности. Юнит находится в когерентности, если для каждой модели в этом юните выполняются оба следующих условия:
+          body: `Юнит, содержащий более одной модели, должен быть установлен и завершать любой вид перемещения в **когерентности**. Юнит находится в **когерентности**, если для каждой модели в этом юните выполняются оба следующих условия:
 ▪ Находится в пределах 2" по горизонтали и 5" по вертикали от по крайней мере одной другой модели в этом юните.
 ▪ Находится в пределах 9" по горизонтали и 5" по вертикали от каждой другой модели в этом юните.
 
 ### Восстановление когерентности
-На этапе «Конец хода»(End of Turn) каждого хода игрока, если один или несколько юнитов на поле боя не находятся в когерентности, контролирующие игроки этих юнитов должны удалять модели из них, по одной, пока она снова не станет когерентной. Модели, удалённые таким образом, уничтожаются, но они не активируют правила, которые срабатывают тогда, когда модель уничтожена.`,
-          note: `Что такое когерентность? Когерентность(Coherency) не позволяет моделям в одном юните слишком сильно отдаляться друг от друга на поле боя, гарантируя, что они устанавливаются и завершают любой вид перемещения как единая группа.`,
+На этапе «Конец хода»(End of Turn) каждого хода игрока, если один или несколько юнитов на поле боя не находятся в **когерентности**, контролирующие игроки этих юнитов должны удалять модели из них, по одной, пока она снова не станет **когерентной**. Модели, удалённые таким образом, уничтожаются, но они не активируют правила, которые срабатывают тогда, когда модель уничтожена.`,
+          note: `Что такое **когерентность**? **Когерентность**(Coherency) не позволяет моделям в одном юните слишком сильно отдаляться друг от друга на поле боя, гарантируя, что они устанавливаются и завершают любой вид перемещения как единая группа.`,
         },
         {
           title: 'Связывание (Engagement)',
@@ -814,9 +814,9 @@ When resolving attack dice, if those attacks inflict a mixture of both mortal wo
         {
           title: 'Обзор последовательности',
           body: `Каждый раз, когда активному игроку даётся указание совершить атаку, он выполняет шаги, описанные ниже. На каждом шаге, если необходимо бросить более одного кубика, все эти броски совершаются одновременно.
-▪ 1. Hit Rolls (броски на попадание)
-▪ 2. Wound Rolls (броски на ранение)
-▪ 3. Save Rolls (спас-броски)
+▪ 1. Hit Rolls (**броски на попадание**)
+▪ 2. Wound Rolls (**броски на ранение**)
+▪ 3. Save Rolls (**спас-броски**)
 ▪ 4. Inflict Damage (нанесение урона)`,
           note: `Критические попадания(Critical Hits) и критические ранения(Critical Wounds): критические попадания(Critical Hits) по-прежнему являются попаданиями, а критические ранения(Critical Wounds) — ранениями. Кроме того, другие правила могут быть активированы критическим попаданием или критическим ранением, например, Смертельные попадания (Lethal Hits) и Опустошительные раны (Devastating Wounds).`,
         },
@@ -849,11 +849,11 @@ When resolving attack dice, if those attacks inflict a mixture of both mortal wo
 ▪ Ни одна группа ПЕРСОНАЖА(CHARACTER) не может быть раньше в порядке распределения, чем группа не-ПЕРСОНАЖА(non-CHARACTER).
 ▪ Группы ПЕРСОНАЖА, содержащие модель, которая потеряла одну или несколько ран, должны быть раньше в порядке распределения, чем группы ПЕРСОНАЖА, не содержащие раненых моделей.
 
-3. Сделайте спас-броски(Save Rolls): противостоящий игрок делает один спас-бросок(save roll) для каждой атаки, которая ранила цель, бросив один D6.`,
+3. Сделайте **спас-броски**(Save Rolls): противостоящий игрок делает один спас-бросок(save roll) для каждой атаки, которая ранила цель, бросив один D6.`,
         },
         {
           title: 'Нанесение урона',
-          body: `Противостоящий игрок выполняет следующую последовательность для каждого спас-броска, работая от самого низкого результата(ов) к самому высокому результату(ам), пока все атаки не будут разрешены или все модели в целевом юните не будут уничтожены(destroyed) — в последнем случае любые избыточные атаки теряются.
+          body: `Противостоящий игрок выполняет следующую последовательность для каждого **спас-броска**, работая от самого низкого результата(ов) к самому высокому результату(ам), пока все атаки не будут разрешены или все модели в целевом юните не будут уничтожены(destroyed) — в последнем случае любые избыточные атаки теряются.
 
 1. Выберите модель: выберите одну модель в текущей группе распределения (см. справа); это должна быть модель, которая потеряла одну или несколько ран, если возможно.
 2. Проверьте спас-бросок(save rolls): для каждого результата проверьте, наносит ли эта атака урон или проваливается, сопоставив первое условие ниже, которое применяется:
@@ -885,14 +885,14 @@ When resolving attack dice, if those attacks inflict a mixture of both mortal wo
         },
         {
           title: 'Пример: результаты кубиков атаки',
-          body: `### 1. HIT ROLLS (БРОСКИ НА ПОПАДАНИЕ)
-Контролирующий игрок решает сначала сделать пять бросков на попадание для болтганов и болт-пистолета. Характеристика **BS** оружия 3+. Четыре атаки попадают в цель.
+          body: `### 1. HIT ROLLS (**БРОСКИ НА ПОПАДАНИЕ**)
+Контролирующий игрок решает сначала сделать пять **бросков на попадание** для болтганов и болт-пистолета. Характеристика **BS** оружия 3+. Четыре атаки попадают в цель.
 
 ### 2. WOUND ROLLS (БРОСКИ НА РАНЕНИЕ)
-Контролирующий игрок делает четыре броска на ранение. Оружие имеет характеристику **S** 4, а целевой юнит — характеристику **T** 3, поэтому для ранения требуются результаты 3+. Три атаки ранят цель.
+Контролирующий игрок делает четыре **броска на ранение**. Оружие имеет характеристику **S** 4, а целевой юнит — характеристику **T** 3, поэтому для ранения требуются результаты 3+. Три атаки ранят цель.
 
 ### 3. SAVE ROLLS (СПАС-БРОСКИ)
-Контролирующий игрок целевого юнита делает три спас-броска.
+Контролирующий игрок целевого юнита делает три **спас-броска**.
 
 ### 4. INFLICT DAMAGE (НАНЕСЕНИЕ УРОНА)
 ▪ Самый низкий результат меньше как характеристики **InSv**, так и **Sv** цели, поэтому эта атака наносит урон. Это снижает модель, которой была назначена эта атака, до 0 ран, что уничтожает её.
@@ -901,14 +901,14 @@ When resolving attack dice, if those attacks inflict a mixture of both mortal wo
         },
         {
           title: 'Пример: другие атаки',
-          body: `### 1. HIT ROLLS (БРОСКИ НА ПОПАДАНИЕ)
-Затем контролирующий игрок делает три броска на попадание для тяжёлого болтера. Характеристика **BS** оружия 4+. Две атаки попадают в цель.
+          body: `### 1. HIT ROLLS (**БРОСКИ НА ПОПАДАНИЕ**)
+Затем контролирующий игрок делает три **броска на попадание** для тяжёлого болтера. Характеристика **BS** оружия 4+. Две атаки попадают в цель.
 
 ### 2. WOUND ROLLS (БРОСКИ НА РАНЕНИЕ)
-Контролирующий игрок делает два броска на ранение. Оружие имеет характеристику **S** 5, поэтому для ранения требуются результаты 3+. Обе атаки ранят цель.
+Контролирующий игрок делает два **броска на ранение**. Оружие имеет характеристику **S** 5, поэтому для ранения требуются результаты 3+. Обе атаки ранят цель.
 
 ### 3. SAVE ROLLS (СПАС-БРОСКИ)
-Контролирующий игрок целевого юнита делает два спас-броска.
+Контролирующий игрок целевого юнита делает два **спас-броска**.
 
 ### 4. INFLICT DAMAGE (НАНЕСЕНИЕ УРОНА)
 ▪ Самый низкий результат, __после модификации характеристикой **AP** атакующего оружия -1__, становится меньше характеристики **Sv** цели 3+, поэтому эта атака наносит урон. Это снижает модель, которой была назначена эта атака, до 0 ран, что уничтожает её.
@@ -937,8 +937,8 @@ When resolving attack dice, if those attacks inflict a mixture of both mortal wo
 Контролирующий игрок целевого юнита делит его на группы: одну, содержащую Святую Селестину, одну, содержащую Гемин Суперии, и одну, содержащую Серафим. Затем он объявляет порядок распределения, выбирая сначала Гемин Суперию (1), надеясь, что их лучшие характеристики **Sv** и **InSv** выдержат атаки. Серафим должны быть выбраны вторыми (2), так как Святая Селестина является моделью ПЕРСОНАЖА, поэтому должна быть последней в порядке (3).
 
 ### 2. ВЫБОР КУБИКОВ АТАКИ
-Атаки тяжёлых болтеров ранили цель пять раз, поэтому контролирующий игрок целевого юнита делает пять спас-бросков(save rolls).
-Атаки разрешаются по одной, от самых низких спас-бросков к самым высоким:
+Атаки тяжёлых болтеров ранили цель пять раз, поэтому контролирующий игрок целевого юнита делает пять **спас-бросков**(save rolls).
+Атаки разрешаются по одной, от самых низких **спас-бросков** к самым высоким:
 ▪ Два результата 1 назначаются первыми текущей группе распределения (Гемины Суперии). Оба наносят урон, и обе Гемины Суперии уничтожены.
 ▪ Результат 3 теперь назначается Серафим, которые стали текущей группой распределения. __После модификации характеристикой **AP** атакующего оружия -1__ он также наносит урон, уничтожая одну модель Серафим.
 ▪ Оставшиеся атаки проваливаются, поэтому дальнейшего урона не наносится.
@@ -963,7 +963,7 @@ When resolving attack dice, if those attacks inflict a mixture of both mortal wo
       subsections: [
         {
           title: 'Видимость',
-          body: `Линия обзора(line of sight) используется для определения видимости между моделями. Чтобы наблюдающая модель имела линию обзора(line of sight), необходимо провести воображаемую прямую линию шириной 1 мм от любой части этой модели до любой части наблюдаемой модели. Эта линия является линией обзора(line of sight). При этом другие модели в юните наблюдающей модели и в юните наблюдаемой модели игнорируются.
+          body: `**Линия обзора**(line of sight) используется для определения видимости между моделями. Чтобы наблюдающая модель имела **линию обзора**(line of sight), необходимо провести воображаемую прямую линию шириной 1 мм от любой части этой модели до любой части наблюдаемой модели. Эта линия является **линией обзора**(line of sight). При этом другие модели в юните наблюдающей модели и в юните наблюдаемой модели игнорируются.
 
 Другие модели и юниты могут быть либо **видимыми(visible)**, либо **полностью видимыми(fully visible)** для наблюдающей модели, как показано ниже.
 
@@ -978,7 +978,7 @@ When resolving attack dice, if those attacks inflict a mixture of both mortal wo
         },
         {
           title: 'Неотвратимые раны (Mortal Wounds)',
-          body: `Некоторые атаки или правила наносят неотвратимые раны(mortal wounds) юнитам. Каждый раз, когда юнит получает одну или несколько неотвратимых ран(mortal wounds), его контролирующий игрок должен выполнить следующую последовательность действий для каждой из этих неотвратимых ран(mortal wounds), пока либо все они не будут нанесены или этот юнит не будет уничтожен:
+          body: `Некоторые атаки или правила наносят **неотвратимые раны**(mortal wounds) юнитам. Каждый раз, когда юнит получает одну или несколько неотвратимых ран(mortal wounds), его контролирующий игрок должен выполнить следующую последовательность действий для каждой из этих неотвратимых ран(mortal wounds), пока либо все они не будут нанесены или этот юнит не будет уничтожен:
 
 1. Выберите модель: выберите одну модель в этом юните, следуя первой инструкции ниже, которая будет применима:
 → Если не-ПЕРСОНАЖ(non-CHARACTER) модель в этом юните потеряла одну или несколько ран, вы должны выбрать эту модель.
@@ -989,11 +989,11 @@ When resolving attack dice, if those attacks inflict a mixture of both mortal wo
 2. Нанесите урон: выбранная модель теряет 1 рану. Если это снижает оставшиеся раны модели до 0, она уничтожена.
 
 ### Неотвратимые раны и обычный урон
-При броске кубиков атаки(attack dice), если эти атаки наносят смесь как неотвратимых ран(mortal wounds), так и обычного урона, сначала нанесите весь обычный урон, затем нанесите все неотвратимые раны(mortal wounds).`,
+При броске кубиков атаки(attack dice), если эти атаки наносят смесь как неотвратимых ран(mortal wounds), так и обычного урона, сначала нанесите весь обычный урон, затем нанесите все **неотвратимые раны**(mortal wounds).`,
         },
         {
           title: 'Hazard Rolls (проверка опасности)',
-          body: `Чтобы выполнить проверку опасности(hazard roll) для юнита, бросьте один D6: на 1-2 проверка провалена, и этот юнит страдает от 1 неотвратимой раны(mortal wound) или 3 неотвратимых ран(mortal wounds) вместо этого, если каждая модель в этом юните является МОНСТРОМ/ТЕХНИКОЙ(MONSTER/VEHICLE). Если для юнита требуется более одной проверки опасности(hazard roll), сделайте все эти броски одновременно.`,
+          body: `Чтобы выполнить проверку опасности(hazard roll) для юнита, бросьте один D6: на 1-2 проверка провалена, и этот юнит страдает от 1 **неотвратимой раны**(mortal wound) или 3 неотвратимых ран(mortal wounds) вместо этого, если каждая модель в этом юните является МОНСТРОМ/ТЕХНИКОЙ(MONSTER/VEHICLE). Если для юнита требуется более одной проверки опасности(hazard roll), сделайте все эти броски одновременно.`,
         },
       ],
     },

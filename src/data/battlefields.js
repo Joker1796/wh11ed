@@ -119,7 +119,7 @@ While a model is **hidden**, it can only be **visible** to enemy models that are
           id: 'section-13-11',
           sectionNum: '13.11',
           title: 'Solid',
-          body: `Dense terrain features have the **Solid** rule. **Line of sight** cannot be drawn across any enclosed gap in the surface of such a **terrain feature** that is 3" or less from ground level.
+          body: `**Dense terrain features** have the **Solid** rule. **Line of sight** cannot be drawn across any enclosed gap in the surface of such a **terrain feature** that is 3" or less from ground level.
 
 [img:/images/terrain/solid.png|Solid terrain — line of sight blocking diagram]`,
           note: "Designer's Note: This rule ensures that models are not **visible** while sheltering in ground-level terrain, irrespective of small openings such as doors, windows or bullet holes, or because of small gaps between adjacent **terrain features**. 3\" is the height of the first floor of many **terrain features**, but some missions may adjust the height at which this rule takes effect.",
@@ -203,7 +203,7 @@ Each time you use a **stratagem**, resolve the following sequence:
           sectionNum: '15.09',
           title: 'Snap Shooting',
           inline: true,
-          body: `◈ ELIGIBLE IF | As stated in the rule allowing this shooting type.
+          body: `◈ ELIGIBLE IF | As stated in the rule allowing this **shooting type**.
 ◈ EFFECT | Your unit shoots as described in Making Attacks (04).
 ◈ WHILE SHOOTING
 ▪ You can only target one **visible** enemy unit within 24" of your unit (and only if it is an eligible target).
@@ -219,7 +219,7 @@ Each time you use a **stratagem**, resolve the following sequence:
           cp: '1CP',
           turn: 'either',
           flavor: 'A great commander can bend even the vagaries of fate and fortune to their will, the better to ensure victory.',
-          when: 'Any phase, just after you make one of the following rolls for a friendly unit or model:\n▪ Advance roll\n▪ Charge roll\n▪ Damage roll\n▪ Hazard roll\n▪ Hit roll\n▪ Save roll\n▪ Wound roll\n▪ A roll to determine the number of attacks generated with a weapon',
+          when: 'Any phase, just after you make one of the following rolls for a friendly unit or model:\n▪ **Advance roll**\n▪ **Charge roll**\n▪ Damage roll\n▪ **Hazard roll**\n▪ **Hit roll**\n▪ **Save roll**\n▪ **Wound roll**\n▪ A roll to determine the number of attacks generated with a weapon',
           target: 'That unit or model',
           effect: 'You re-roll that roll. If you are rolling more than one dice together, select one of those dice to re-roll (excluding **charge rolls**, which you must re-roll in full).',
           restrictions: '',
@@ -231,7 +231,7 @@ Each time you use a **stratagem**, resolve the following sequence:
           cp: '1CP',
           turn: 'your',
           flavor: 'The legends of the 41st millennium are replete with deadly duels between mighty champions.',
-          when: 'Fight phase, just after a friendly CHARACTER unit is selected to fight',
+          when: 'Fight phase, just after a friendly CHARACTER unit is **selected to fight**',
           target: 'That CHARACTER unit',
           effect: 'Select one CHARACTER model in your unit. Until the end of the phase, that model\'s melee weapons have the [PRECISION] ability.',
           restrictions: '',
@@ -300,7 +300,7 @@ Each time you use a **stratagem**, resolve the following sequence:
             sectionNum: '15.09',
             title: 'Snap Shooting',
             fields: [
-              { label: 'ELIGIBLE IF', text: 'As stated in the rule allowing this shooting type.' },
+              { label: 'ELIGIBLE IF', text: 'As stated in the rule allowing this **shooting type**.' },
               { label: 'EFFECT', text: 'Your unit shoots as described in Making Attacks (04).' },
               { label: 'WHILE SHOOTING', text: '▪ You can only target one **visible** enemy unit within 24" of your unit (and only if it is an eligible target).\n▪ Each attack only hits on an unmodified **hit roll** of 6 (irrespective of the attacking weapon\'s **BS** characteristic or any modifiers).\n▪ You cannot re-roll **hit rolls**.' },
               { label: 'AFTER SHOOTING', text: 'Until the end of the phase, your unit is not **eligible to start an action**.' },
@@ -595,11 +595,11 @@ If a unit performing an **action** makes a move (excluding **pile-in** and **con
           sectionNum: '15.09',
           title: 'Стрельба на упреждение',
           inline: true,
-          body: `◈ ДОПУСТИМО ЕСЛИ | Как указано в правиле, разрешающем этот тип стрельбы.
+          body: `◈ ДОПУСТИМО ЕСЛИ | Как указано в правиле, разрешающем этот **тип стрельбы**.
 ◈ ЭФФЕКТ | Ваш юнит стреляет, как описано в разделе «Совершение атак» (04).
 ◈ ВО ВРЕМЯ СТРЕЛЬБЫ
 ▪ Вы можете выбирать целью только одного **видимого** (visible) вражеского юнита в пределах 24" от вашего юнита (и только если он является допустимой целью).
-▪ Каждая атака попадает только на немодифицированном броске на попадание (hit roll) 6+ (независимо от характеристики **BS** атакующего оружия или любых модификаторов).
+▪ Каждая атака попадает только на немодифицированном **броске на попадание** (hit roll) 6+ (независимо от характеристики **BS** атакующего оружия или любых модификаторов).
 ▪ Вы не можете перебрасывать броски попадания.
 ◈ ПОСЛЕ СТРЕЛЬБЫ | До конца фазы ваш юнит не может **начать задание** (start an action).`,
         },
@@ -664,9 +664,9 @@ If a unit performing an **action** makes a move (excluding **pile-in** and **con
             sectionNum: '15.09',
             title: 'Стрельба на упреждение',
             fields: [
-              { label: 'ДОПУСТИМО ЕСЛИ', text: 'Как указано в правиле, разрешающем этот тип стрельбы.' },
+              { label: 'ДОПУСТИМО ЕСЛИ', text: 'Как указано в правиле, разрешающем этот **тип стрельбы**.' },
               { label: 'ЭФФЕКТ', text: 'Ваш юнит стреляет, как описано в разделе «Совершение атак» (04).' },
-              { label: 'ВО ВРЕМЯ СТРЕЛЬБЫ', text: '▪ Вы можете выбирать целью только одного **видимого** (visible) вражеского юнита в пределах 24" от вашего юнита (и только если он является допустимой целью).\n▪ Каждая атака попадает только на немодифицированном броске на попадание (hit roll) 6+ (независимо от характеристики **BS** атакующего оружия или любых модификаторов).\n▪ Вы не можете перебрасывать броски попадания.' },
+              { label: 'ВО ВРЕМЯ СТРЕЛЬБЫ', text: '▪ Вы можете выбирать целью только одного **видимого** (visible) вражеского юнита в пределах 24" от вашего юнита (и только если он является допустимой целью).\n▪ Каждая атака попадает только на немодифицированном **броске на попадание** (hit roll) 6+ (независимо от характеристики **BS** атакующего оружия или любых модификаторов).\n▪ Вы не можете перебрасывать броски попадания.' },
               { label: 'ПОСЛЕ СТРЕЛЬБЫ', text: 'До конца фазы ваш юнит не может **начать задание** (start an action).' },
             ],
           },
