@@ -55,6 +55,8 @@ export const navGroups = [
     label: 'Reference', path: '/reference',
     sections: [
       { id: 'section-24', label: '24 Core Abilities' },
+      { id: 'abilities-list', label: 'Unit Abilities',   filter: 'unit' },
+      { id: 'abilities-list', label: 'Weapon Abilities', filter: 'weapon' },
       { id: 'section-appendix', label: 'Rules Appendix' },
       { id: 'section-faq', label: 'FAQs' },
     ],
@@ -110,6 +112,8 @@ export const navGroupsRu = [
     label: 'Справочный раздел', path: '/reference',
     sections: [
       { id: 'section-24', label: '24 Базовые способности' },
+      { id: 'abilities-list', label: 'Способности юнита',  filter: 'unit' },
+      { id: 'abilities-list', label: 'Способности оружия', filter: 'weapon' },
       { id: 'section-appendix', label: 'Приложение к правилам' },
       { id: 'section-faq', label: 'Частые вопросы' },
     ],
