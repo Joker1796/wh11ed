@@ -67,6 +67,8 @@
         </template>
       </template>
     </template>
+
+    <PageNav />
   </div>
 </template>
 
@@ -79,6 +81,7 @@ import SectionTocBlock from '../components/SectionTocBlock.vue'
 import DataTable from '../components/DataTable.vue'
 import TableOfContents from '../components/TableOfContents.vue'
 import DefinitionBlock from '../components/DefinitionBlock.vue'
+import PageNav from '../components/PageNav.vue'
 import { basicRules } from '../data/basicRules.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'

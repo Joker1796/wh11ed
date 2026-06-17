@@ -58,6 +58,8 @@
         />
       </template>
     </template>
+
+    <PageNav />
   </div>
 </template>
 
@@ -68,6 +70,7 @@ import RuleBlock from '../components/RuleBlock.vue'
 import GroupLabelBlock from '../components/GroupLabelBlock.vue'
 import StratCard from '../components/StratCard.vue'
 import TableOfContents from '../components/TableOfContents.vue'
+import PageNav from '../components/PageNav.vue'
 import { battlefields } from '../data/battlefields.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
