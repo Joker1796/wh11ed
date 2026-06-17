@@ -48,6 +48,8 @@ export const ui = {
     themeToLight: 'Switch to light theme',
     loreHide: 'Hide lore text',
     loreShow: 'Show lore text',
+    pagerPrev: 'Previous',
+    pagerNext: 'Next',
   },
   ru: {
     introHeading: 'Введение',
@@ -98,5 +100,7 @@ export const ui = {
     themeToLight: 'Светлая тема',
     loreHide: 'Скрыть лор',
     loreShow: 'Показать лор',
+    pagerPrev: 'Назад',
+    pagerNext: 'Далее',
   },
 }

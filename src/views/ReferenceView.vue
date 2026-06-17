@@ -140,6 +140,8 @@
         </div>
       </div>
     </div>
+
+    <PageNav />
   </div>
 </template>
 
@@ -149,6 +151,7 @@ import SectionHeader from '../components/SectionHeader.vue'
 import DataTable from '../components/DataTable.vue'
 import TableOfContents from '../components/TableOfContents.vue'
 import RuleBlock from '../components/RuleBlock.vue'
+import PageNav from '../components/PageNav.vue'
 import { useRenderInline } from '../composables/useRenderInline.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useAbilityFilter } from '../composables/useAbilityFilter.js'

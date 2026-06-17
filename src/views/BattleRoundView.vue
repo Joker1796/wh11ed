@@ -41,6 +41,8 @@
         />
       </template>
     </template>
+
+    <PageNav />
   </div>
 </template>
 
@@ -51,6 +53,7 @@ import RuleBlock from '../components/RuleBlock.vue'
 import SectionTocBlock from '../components/SectionTocBlock.vue'
 import GroupLabelBlock from '../components/GroupLabelBlock.vue'
 import TableOfContents from '../components/TableOfContents.vue'
+import PageNav from '../components/PageNav.vue'
 import { battleRound } from '../data/battleRound.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'

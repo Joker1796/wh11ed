@@ -41,6 +41,8 @@
         </div>
       </template>
     </template>
+
+    <PageNav />
   </div>
 </template>
 
@@ -50,6 +52,7 @@ import SectionHeader from '../components/SectionHeader.vue'
 import RuleBlock from '../components/RuleBlock.vue'
 import DataTable from '../components/DataTable.vue'
 import TableOfContents from '../components/TableOfContents.vue'
+import PageNav from '../components/PageNav.vue'
 import { advancedRules } from '../data/advancedRules.js'
 import { useLocale } from '../composables/useLocale.js'
 import { ui } from '../i18n/ui.js'
