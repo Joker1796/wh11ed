@@ -3,3 +3,7 @@ dist/
 .DS_Store
 *.local
 .idea/
+
+# Local source/reference material (not for the repo)
+sources/
+*.pdf
