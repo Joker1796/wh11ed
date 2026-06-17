@@ -73,7 +73,7 @@ If a TRANSPORT model is **destroyed**, before removing it from the battlefield, 
           id: 'section-18-04',
           sectionNum: '18.04',
           title: 'Disembark Move',
-          body: `◈ SET-UP DISTANCE | Rapid/Tactical Disembark: 3"; Combat Disembark: 6"
+          body: `◈ SET-UP DISTANCE | Rapid/**Tactical Disembark**: 3"; **Combat Disembark**: 6"
 ◈ ELIGIBLE IF | All of the following apply to your unit:
 ▪ Embarked within a TRANSPORT model that is on the battlefield.
 ▪ Did not embark within that TRANSPORT this phase.
@@ -84,12 +84,12 @@ If a TRANSPORT model is **destroyed**, before removing it from the battlefield, 
 ▪ **Tactical Disembark:** Otherwise, if that TRANSPORT **remained stationary** or has not yet been **selected to move** this phase, and you can set up your unit as described below, you must select this mode.
 ▪ **Combat Disembark:** Otherwise, you must select this mode. Make a **hazard roll** (06.03) for each model in your unit.
 ◈ WHILE MOVING | Set up each model in your unit wholly within the **set-up distance** of that TRANSPORT.
-▪ **Rapid Disembark** (after **ingress move**): each model must follow the same rules and restrictions that TRANSPORT had to follow while resolving that ingress move.
+▪ **Rapid Disembark** (after **ingress move**): each model must follow the same rules and restrictions that TRANSPORT had to follow while resolving that **ingress move**.
 ▪ **Combat Disembark:** each model can be set up **engaged** with one or more enemy units that TRANSPORT is **engaged** with.
 ◈ AFTER MOVING
-▪ **Rapid Disembark:** until the end of the turn, your unit is not eligible to declare a charge.
+▪ **Rapid Disembark:** until the end of the turn, your unit is not **eligible to declare a charge**.
 ▪ **Tactical Disembark:** select your unit to make a **normal** or **advance move**.
-▪ **Combat Disembark:** your unit is **battle-shocked** and, until the end of the turn, is not eligible to declare a charge.`,
+▪ **Combat Disembark:** your unit is **battle-shocked** and, until the end of the turn, is not **eligible to declare a charge**.`,
           seeAlso: ['Hazard Rolls 06.03'],
         },
         {
@@ -101,7 +101,7 @@ If a TRANSPORT model is **destroyed**, before removing it from the battlefield, 
 ◈ EFFECT | Your unit is set up as described in Set Up (03.02).
 ◈ BEFORE MOVING | Make a **hazard roll** (06.03) for each model in your unit.
 ◈ WHILE MOVING | Set up each model in your unit wholly within the **set-up distance** of that TRANSPORT, and as close as possible to that TRANSPORT. Each model that cannot be set up in this way is **destroyed**.
-◈ AFTER MOVING | Your unit is **battle-shocked** and, until the end of the turn, it is not eligible to declare a charge.`,
+◈ AFTER MOVING | Your unit is **battle-shocked** and, until the end of the turn, it is not **eligible to declare a charge**.`,
         },
       ],
     },
@@ -141,7 +141,7 @@ Rules that are triggered when a unit is **destroyed** are only triggered when th
           sectionNum: '19.03',
           title: 'Keywords in Attached Units',
           body: `An **attached** unit has all of the keywords of all of its component units. As such, an **attached** unit is affected by any rule that applies to units with any of those keywords. Note that models in an **attached** unit do not gain the keywords of other models in that unit that they do not already have. Remember that attacks target units, not models.`,
-          example: `An **attached** unit contains a **leader** model with the PSYKER keyword. While that model is part of that unit, that unit has the PSYKER keyword, even if the **bodyguard** models do not have that keyword. If that unit is attacked by a weapon with the [ANTI-PSYKER 4+] ability, any unmodified wound roll of 4+ made against that unit is a **critical wound**, even if the attack itself is not allocated to that **leader** model.`,
+          example: `An **attached** unit contains a **leader** model with the PSYKER keyword. While that model is part of that unit, that unit has the PSYKER keyword, even if the **bodyguard** models do not have that keyword. If that unit is attacked by a weapon with the [ANTI-PSYKER 4+] ability, any unmodified **wound roll** of 4+ made against that unit is a **critical wound**, even if the attack itself is not allocated to that **leader** model.`,
         },
         {
           id: 'section-19-04',
@@ -231,9 +231,9 @@ At the end of the third battle round, unless otherwise stated, all **strategic r
           id: 'section-21-02',
           sectionNum: '21.02',
           title: 'Surge Move',
-          body: `◈ MAXIMUM DISTANCE | As stated in the rule allowing this move type.
+          body: `◈ MAXIMUM DISTANCE | As stated in the rule allowing this **move type**.
 ◈ ELIGIBLE IF | All of the following apply.
-▪ The rule allowing this move type has been triggered.
+▪ The rule allowing this **move type** has been triggered.
 ▪ Your unit is not **battle-shocked**.
 ▪ Your unit is **unengaged**.
 ▪ Your unit has not moved this phase.
@@ -285,7 +285,7 @@ A unit can be affected by more than one **aura ability** at a time, but if a uni
           id: 'section-22-02',
           sectionNum: '22.02',
           title: 'Faction Abilities',
-          body: `Some abilities are common to each unit that belongs to a particular faction — these are **faction abilities** (also known as **army rules**), and are listed in the Faction Abilities section of a datasheet.
+          body: `Some abilities are common to each unit that belongs to a particular faction — these are **faction abilities** (also known as **army rules**), and are listed in the **Faction Abilities** section of a datasheet.
 
 Unless otherwise stated, a unit's **faction abilities** only apply if the **army faction** you selected while mustering your army matches a faction keyword listed on that unit's datasheet.`,
         },
@@ -299,7 +299,7 @@ Unless otherwise stated, a unit's **faction abilities** only apply if the **army
           id: 'section-22-04',
           sectionNum: '22.04',
           title: 'Wargear Abilities',
-          body: `Abilities that are gained when a unit (or one of its models) has a particular item of wargear are **wargear abilities**, and are listed in the Wargear Abilities section of a datasheet.
+          body: `Abilities that are gained when a unit (or one of its models) has a particular item of wargear are **wargear abilities**, and are listed in the **Wargear Abilities** section of a datasheet.
 
 If a unit has an item of wargear that has a **wargear ability**, that ability applies to the unit. If a model within a unit has an item of wargear that has a **wargear ability**, that model is the 'bearer' of that item of wargear and that ability applies until that model is **destroyed**.`,
         },
@@ -344,14 +344,14 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
           id: 'section-23-03',
           sectionNum: '23.03',
           title: 'Shooting',
-          body: `The Plunging Fire rule (22.05) has no effect on attacks made by, or targeting, AIRCRAFT units.`,
+          body: `The **Plunging Fire** rule (22.05) has no effect on attacks made by, or targeting, AIRCRAFT units.`,
           seeAlso: ['Plunging Fire 22.05'],
         },
         {
           id: 'section-23-04',
           sectionNum: '23.04',
           title: 'Charging and Fighting',
-          body: `▪ AIRCRAFT units are **not** eligible to declare a charge, and can only make melee attacks that target FLYING units.
+          body: `▪ AIRCRAFT units are **not** **eligible to declare a charge**, and can only make melee attacks that target FLYING units.
 ▪ Only FLYING units can select AIRCRAFT units as a **charge target**, and only FLYING models can make melee attacks that target AIRCRAFT units.`,
         },
       ],

@@ -675,7 +675,7 @@ If a **leader** or **support** model in an **attached** unit is **destroyed** an
     {
       id: 'app-different-m',
       title: 'Различные характеристики перемещения',
-      body: `При совершении **обычного перемещения** (normal move) или **ускоренного передвижения** (advance move), если разные модели в перемещающемся юните имеют разные характеристики **M** (перемещение), **максимальная дистанция** для этого перемещения будет разной для этих моделей. Например, если юнит совершает **обычное перемещение** и все модели в этом юните имеют характеристику **M** 6", кроме одной модели с характеристикой **M** 9", то максимальная дистанция для этой модели составит 9", тогда как для остальных моделей **максимальная дистанция** составит 6". Пока этот юнит совершает это перемещение, должны соблюдаться все остальные ограничения.`,
+      body: `При совершении **обычного перемещения** (normal move) или **ускоренного передвижения** (advance move), если разные модели в перемещающемся юните имеют разные характеристики **M** (перемещение), **максимальная дистанция** для этого перемещения будет разной для этих моделей. Например, если юнит совершает **обычное перемещение** и все модели в этом юните имеют характеристику **M** 6", кроме одной модели с характеристикой **M** 9", то **максимальная дистанция** для этой модели составит 9", тогда как для остальных моделей **максимальная дистанция** составит 6". Пока этот юнит совершает это перемещение, должны соблюдаться все остальные ограничения.`,
     },
     {
       id: 'app-eligible-unable',
@@ -712,11 +712,11 @@ If a **leader** or **support** model in an **attached** unit is **destroyed** an
 export const faqs = {
   en: [
     {
-      q: 'Is a unit with no ranged weapons eligible to shoot in its controlling player\'s Shooting phase?',
+      q: 'Is a unit with no ranged weapons **eligible to shoot** in its controlling player\'s Shooting phase?',
       a: 'Yes. Even though the unit cannot make ranged attacks, it is still **eligible to shoot**, which can affect its eligibility for other rules, e.g. starting an **action**.',
     },
     {
-      q: 'When my unit shoots using close-quarters shooting, can MONSTER/VEHICLE models in my unit target an engaged unit with **[BLAST]** weapons?',
+      q: 'When my unit shoots using **close-quarters shooting**, can MONSTER/VEHICLE models in my unit target an engaged unit with **[BLAST]** weapons?',
       a: 'No.',
     },
     {
@@ -724,11 +724,11 @@ export const faqs = {
       a: 'No.',
     },
     {
-      q: 'Can a unit that is eligible to make an overrun fight be selected to do so if it is not also eligible to fight?',
+      q: 'Can a unit that is eligible to make an **overrun fight** be selected to do so if it is not also **eligible to fight**?',
       a: 'No. Sometimes a unit can become **engaged** after the start of the Fight step, but then become **unengaged** later in that step. If this happens, and it is no longer **eligible to fight**, it cannot make an **overrun fight**.',
     },
     {
-      q: 'Can a unit embark within a TRANSPORT after making a scout move?',
+      q: 'Can a unit embark within a TRANSPORT after making a **scout move**?',
       a: 'No. Scout moves happen in the Resolve Pre-battle Abilities step, which comes after the Declare Battle Formations step and before the Begin the Battle step.',
     },
   ],

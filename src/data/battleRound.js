@@ -87,11 +87,11 @@ The battle round then ends and, unless the battle ends, the next battle round st
         id: 'section-08-03',
         sectionNum: '08.03',
         title: 'Battle-Shock',
-        body: `The active player must now make one battle-shock roll (01.07) for each unit in their army that fulfils one or both of the following conditions:
+        body: `The active player must now make one **battle-shock roll** (01.07) for each unit in their army that fulfils one or both of the following conditions:
 ▪ That unit is currently battle-shocked.
-▪ That unit is at, or below, half-strength.
+▪ That unit is at, or below, **half-strength**.
 
-If a unit was battle-shocked at the start of this step and its battle-shock roll during this step succeeds, it is no longer battle-shocked.
+If a unit was battle-shocked at the start of this step and its **battle-shock roll** during this step succeeds, it is no longer battle-shocked.
 
 [img:/images/command/battle-shock-examples.png|Battle shock example 1 — failed Battle Shock roll]
 [img:/images/command/battle-shock-examples-2.png|Battle shock example 2 — unit with Starting Strength]
@@ -104,7 +104,7 @@ If a unit was battle-shocked at the start of this step and its battle-shock roll
         id: 'section-08-04',
         sectionNum: '08.04',
         title: 'Command Abilities',
-        body: `Rules that are triggered in the Command phase (excluding those that are triggered at the start or end of this phase, when gaining Core CP, or by battle-shock rolls) are resolved now.`,
+        body: `Rules that are triggered in the Command phase (excluding those that are triggered at the start or end of this phase, when gaining Core CP, or by **battle-shock rolls**) are resolved now.`,
       },
       {
         id: 'section-08-05',
@@ -131,7 +131,7 @@ If a unit was battle-shocked at the start of this step and its battle-shock roll
 ▪ 1. Start of Movement Phase
 ▪ 2. Move Units
 ▪ 3. End of Movement Phase`,
-        note: 'Selecting Units to Move: When the Move Units step ends, the active player must have selected all of their units to make a move with, including those in strategic reserves. This means that before the phase ends, every unit in their army will have been selected to make a move, even if it is to remain stationary.',
+        note: 'Selecting Units to Move: When the Move Units step ends, the active player must have selected all of their units to make a move with, including those in **strategic reserves**. This means that before the phase ends, every unit in their army will have been selected to make a move, even if it is to remain stationary.',
       },
       {
         id: 'section-09-01',
@@ -143,16 +143,16 @@ If a unit was battle-shocked at the start of this step and its battle-shock roll
         id: 'section-09-02',
         sectionNum: '09.02',
         title: 'Move Units',
-        body: `The active player moves their units one at a time, using the sequence below, until all of their units have been selected to move and those moves have ended.
+        body: `The active player moves their units one at a time, using the sequence below, until all of their units have been **selected to move** and those moves have ended.
 
-1. Select Unit: Select one friendly unit that has not been selected to move this phase. You can select a unit on the battlefield, in strategic reserves, or embarked within a TRANSPORT. That unit is selected to move.
-2. Select Move Type: Select one move type that unit is eligible to make, and resolve it with that unit. This can be one listed below, or one presented elsewhere:
+1. Select Unit: Select one friendly unit that has not been **selected to move** this phase. You can select a unit on the battlefield, in **strategic reserves**, or embarked within a TRANSPORT. That unit is **selected to move**.
+2. Select **Move Type**: Select one **move type** that unit is eligible to make, and resolve it with that unit. This can be one listed below, or one presented elsewhere:
 ▪ Remain stationary
-▪ Normal move
-▪ Advance move
-▪ Fall-back move
-▪ Disembark move (18.04)
-▪ Ingress move (20.04)`,
+▪ **Normal move**
+▪ **Advance move**
+▪ **Fall-back move**
+▪ **Disembark move** (18.04)
+▪ **Ingress move** (20.04)`,
         seeAlso: ['Actions 16.00', 'Aircraft 23.00', 'Flying Models 21.03', 'Monsters and Vehicles 17.00', 'Strategic Reserves 20.00', 'Transports 18.00'],
       },
       {
@@ -182,7 +182,7 @@ If a unit was battle-shocked at the start of this step and its battle-shock roll
         id: 'section-09-06',
         sectionNum: '09.06',
         title: 'Advance Move',
-        body: `◈ MAXIMUM DISTANCE | Advance roll + your unit's **M** characteristic.
+        body: `◈ MAXIMUM DISTANCE | **Advance roll** + your unit's **M** characteristic.
 ◈ ELIGIBLE IF | Your unit is on the battlefield and **unengaged**.
 ◈ EFFECT | Your unit moves as described in Moving (03).
 ◈ BEFORE MOVING | Make an **advance roll** by rolling one D6.
@@ -236,16 +236,16 @@ If a unit was battle-shocked at the start of this step and its battle-shock roll
         id: 'section-10-02',
         sectionNum: '10.02',
         title: 'Shoot',
-        body: `The active player shoots with their eligible units one at a time, using the sequence below, until all the units they choose to shoot with have been selected to shoot and their attacks have been resolved.
+        body: `The active player shoots with their eligible units one at a time, using the sequence below, until all the units they choose to shoot with have been **selected to shoot** and their attacks have been resolved.
 
-A unit is eligible to shoot if it is on the battlefield and has not already been selected to shoot this phase.
+A unit is **eligible to shoot** if it is on the battlefield and has not already been **selected to shoot** this phase.
 
-1. Select Unit: Select one friendly unit that is eligible to shoot; that unit is selected to shoot.
-2. Select Shooting Type: Select one shooting type that unit is eligible to make, and resolve it with that unit. This can be one listed below, or one presented elsewhere:
-▪ Normal shooting (10.04)
-▪ Assault shooting (10.05)
-▪ Close-quarters shooting (10.06)
-▪ Indirect shooting (10.07)`,
+1. Select Unit: Select one friendly unit that is **eligible to shoot**; that unit is **selected to shoot**.
+2. Select **Shooting Type**: Select one **shooting type** that unit is eligible to make, and resolve it with that unit. This can be one listed below, or one presented elsewhere:
+▪ **Normal shooting** (10.04)
+▪ **Assault shooting** (10.05)
+▪ **Close-quarters shooting** (10.06)
+▪ **Indirect shooting** (10.07)`,
         seeAlso: ['Actions 16.00', 'Shooting at Engaged Monsters and Vehicles 17.03', 'Terrain and Visibility 13.07'],
       },
       {
@@ -301,7 +301,7 @@ A unit is eligible to shoot if it is on the battlefield and has not already been
 ▪ You cannot re-roll **hit rolls**.
 ▪ An **unmodified hit roll of 1–5** fails, unless your unit remained stationary this turn and the target is visible to a friendly unit — in which case **unmodified 1–3** fails instead.
 ◈ AFTER SHOOTING | Until the end of the phase, your unit is not **eligible to start an action**.`,
-        note: '**INDIRECT FIRE**\nWhen you select indirect shooting for a unit, its [INDIRECT FIRE] weapons can launch punishing barrages on targets that are not visible, but don\'t forget that its other weapons can still target other visible targets.',
+        note: '**INDIRECT FIRE**\nWhen you select **indirect shooting** for a unit, its [INDIRECT FIRE] weapons can launch punishing barrages on targets that are not visible, but don\'t forget that its other weapons can still target other visible targets.',
       },
     ],
   },
@@ -326,7 +326,7 @@ A unit is eligible to shoot if it is on the battlefield and has not already been
         sectionNum: '11.01',
         title: 'Start of Charge Phase',
         body: `Rules that are triggered at the start of the Charge phase are resolved now.`,
-        note: 'Failed Charges: Note that, in the absence of modifiers to the charge roll, a result of 2 (a double 1) is never sufficient for a unit to complete a charge move, as a unit cannot be within engagement range (2") when it attempts a charge. Such a roll would therefore result in a failed charge, and the unit would not move.',
+        note: 'Failed Charges: Note that, in the absence of modifiers to the **charge roll**, a result of 2 (a double 1) is never sufficient for a unit to complete a **charge move**, as a unit cannot be within **engagement range** (2") when it attempts a charge. Such a roll would therefore result in a failed charge, and the unit would not move.',
       },
       {
         id: 'section-11-02',
@@ -335,13 +335,13 @@ A unit is eligible to shoot if it is on the battlefield and has not already been
         seeAlso: ['Target No Longer Eligible or Viable 24.00'],
         body: `The active player resolves charges with their eligible units one at a time, using the sequence below, until all of their units they choose to charge with have declared a charge and those charges have been resolved.
 
-1. Declare Charge: Select one friendly unit that has not declared a charge this phase and is eligible to declare a charge. That unit declares a charge. A unit is eligible to declare a charge if it is on the battlefield, unless otherwise stated. Some rules that prevent a unit from being eligible to declare a charge:
+1. Declare Charge: Select one friendly unit that has not declared a charge this phase and is **eligible to declare a charge**. That unit declares a charge. A unit is **eligible to declare a charge** if it is on the battlefield, unless otherwise stated. Some rules that prevent a unit from being **eligible to declare a charge**:
 ▪ It is not within 12" of one or more enemy units.
 ▪ It is engaged.
-▪ It made an advance or fall-back move this turn.
+▪ It made an advance or **fall-back move** this turn.
 
-2. Make Charge Roll: Make a charge roll by rolling 2D6: the result is the maximum distance for the charge move.
-3. Attempt Charge: If it is possible to make a charge move, and if you still want to, make a charge move with that unit. Otherwise, your unit does not make a charge move. In either case, the charge is then resolved.`,
+2. Make **Charge Roll**: Make a **charge roll** by rolling 2D6: the result is the **maximum distance** for the **charge move**.
+3. Attempt Charge: If it is possible to make a **charge move**, and if you still want to, make a **charge move** with that unit. Otherwise, your unit does not make a **charge move**. In either case, the charge is then resolved.`,
       },
       {
         id: 'section-11-03',
@@ -353,7 +353,7 @@ A unit is eligible to shoot if it is on the battlefield and has not already been
         id: 'section-11-04',
         sectionNum: '11.04',
         title: 'Charge Move',
-        body: `◈ MAXIMUM DISTANCE | Charge roll.
+        body: `◈ MAXIMUM DISTANCE | **Charge roll**.
 ◈ ELIGIBLE IF | Your unit **declared a charge** this phase.
 ◈ EFFECT | Your unit moves as described in Moving (03).
 ◈ BEFORE MOVING | Select one or more enemy units that are within 12" of your unit and within the **maximum distance** of your unit; until the end of this move, each of those enemy units is a **charge target**.
@@ -401,7 +401,7 @@ A unit is eligible to shoot if it is on the battlefield and has not already been
         id: 'section-12-02',
         sectionNum: '12.02',
         title: 'Pile In',
-        body: `Both players make pile-in moves with all of their eligible units they choose to move. The player whose turn it is resolves all of their moves first, followed by their opponent. Each unit cannot make more than one pile-in move during this step.`,
+        body: `Both players make **pile-in moves** with all of their eligible units they choose to move. The player whose turn it is resolves all of their moves first, followed by their opponent. Each unit cannot make more than one **pile-in move** during this step.`,
       },
       {
         id: 'section-12-03',
@@ -413,9 +413,9 @@ A unit is eligible to shoot if it is on the battlefield and has not already been
 ▪ It made a **charge move** this turn.
 ▪ It was selected to make an **overrun fight** this phase (12.06).
 ◈ EFFECT | Your unit moves as described in Moving (03).
-◈ BEFORE MOVING | Select pile-in targets:
-▪ If your unit is **engaged**, select every enemy unit it is **engaged** with as your pile-in targets.
-▪ Otherwise, select one or more enemy units within 5" of your unit as your pile-in targets.
+◈ BEFORE MOVING | Select **pile-in targets**:
+▪ If your unit is **engaged**, select every enemy unit it is **engaged** with as your **pile-in targets**.
+▪ Otherwise, select one or more enemy units within 5" of your unit as your **pile-in targets**.
 ◈ WHILE MOVING
 ▪ Models in base-contact with one or more enemy models cannot be moved.
 ▪ Each model that is moved must end its move closer to the closest **pile-in target**, and **engaged** with it if possible.
@@ -429,11 +429,11 @@ A unit is eligible to shoot if it is on the battlefield and has not already been
         id: 'section-12-04',
         sectionNum: '12.04',
         title: 'Fight Step',
-        body: `A unit is eligible to fight if it has not already been selected to fight this phase and one or more of the following apply to it:
+        body: `A unit is **eligible to fight** if it has not already been **selected to fight** this phase and one or more of the following apply to it:
 ▪ It is engaged, or it was engaged at the start of this step.
-▪ It made a charge move this turn.
+▪ It made a **charge move** this turn.
 
-Players resolve the following sequence until all eligible units have been selected to fight and their attacks have been resolved:
+Players resolve the following sequence until all eligible units have been **selected to fight** and their attacks have been resolved:
 
 1. Resolve Fights First Combats: Starting with the player whose turn it is, players alternate selecting one friendly **Fights First** unit that is **eligible to fight**; that unit is **selected to fight**. If this is not possible:
 → If there are no **Fights First** units that are **eligible to fight**, move to the Resolve Remaining Combats step where this player will select their next unit.
@@ -443,14 +443,14 @@ Players resolve the following sequence until all eligible units have been select
 → If there are no units that are **eligible to fight**, the Fight step ends.
 → Otherwise, the other player selects their next unit.
 
-After resolving a fight in the Resolve Remaining Combats step, if there are one or more Fights First units that are now eligible to fight, return to the Resolve Fights First Combats step.`,
+After resolving a fight in the Resolve Remaining Combats step, if there are one or more Fights First units that are now **eligible to fight**, return to the Resolve Fights First Combats step.`,
       },
       {
         id: 'section-12-fight-types',
         sectionNum: '',
         isGroupLabel: true,
         title: 'WHEN A UNIT IS SELECTED TO FIGHT',
-        body: 'Each time a unit is selected to fight, select one fight type that unit is eligible to make, and resolve it with that unit. This can be one listed below, or one presented elsewhere:',
+        body: 'Each time a unit is **selected to fight**, select one **fight type** that unit is eligible to make, and resolve it with that unit. This can be one listed below, or one presented elsewhere:',
       },
       {
         id: 'section-12-05',
@@ -466,16 +466,16 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
         sectionNum: '12.06',
         title: 'Overrun Fight',
         body: `◈ ELIGIBLE IF | Your unit is **unengaged**, or was **unengaged** at the start of the Fight step but became **engaged** during the Fight phase.
-◈ EFFECT | Your unit can make one additional pile-in move, then fights as described in Making Attacks (04).
+◈ EFFECT | Your unit can make one additional **pile-in move**, then fights as described in Making Attacks (04).
 
 [img:/images/fight/overrun-fight.png|Overrun fight — eligible conditions]`,
-        note: 'When a unit makes an overrun fight, its models can be moved such that enemy units that were unengaged become engaged. Such enemy units become eligible to fight this phase (and may even be able to fight next if they are Fights First units).',
+        note: 'When a unit makes an **overrun fight**, its models can be moved such that enemy units that were unengaged become engaged. Such enemy units become **eligible to fight** this phase (and may even be able to fight next if they are Fights First units).',
       },
       {
         id: 'section-12-07',
         sectionNum: '12.07',
         title: 'Consolidate',
-        body: `Both players make consolidation moves with all of their eligible units they choose to move. The player whose turn it is resolves all of their moves first, followed by their opponent. Each unit cannot make more than one consolidation move during this step.`,
+        body: `Both players make **consolidation moves** with all of their eligible units they choose to move. The player whose turn it is resolves all of their moves first, followed by their opponent. Each unit cannot make more than one **consolidation move** during this step.`,
       },
       {
         id: 'section-12-08',
@@ -484,7 +484,7 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
         body: `◈ MAXIMUM DISTANCE | 3"
 ◈ ELIGIBLE IF | It is the Fight phase and your unit was **eligible to fight** this phase.
 ◈ EFFECT | Your unit moves as described in Moving (03).
-◈ BEFORE MOVING | Select a consolidation mode:
+◈ BEFORE MOVING | Select a **consolidation mode**:
 ▪ **Ongoing Consolidation:** If your unit is **engaged**, you must select this mode and select every enemy unit it is **engaged** with.
 ▪ **Engaging Consolidation:** Otherwise, if your unit is within 3" of one or more enemy units, you must select this mode and select one or more of those enemy units.
 ▪ **Objective Consolidation:** Otherwise, if your unit is within 3" of one or more objectives, you must select this mode and select one of those objectives.
@@ -500,7 +500,7 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 [img:/images/fight/ongoing-consolidation.png|Engaging consolidation move diagram]
 
 [img:/images/fight/objective-consolidation.png|Objective consolidation move diagram]`,
-        note: '**NEW FOES TO FACE**\nWhile using the **engaging consolidation** mode, your unit can end its consolidation move **engaged** with enemy units that have not yet fought this phase. If so, each of those enemy units will have an opportunity to fight your unit, so think carefully about how aggressively you want to move your unit using this mode.',
+        note: '**NEW FOES TO FACE**\nWhile using the **engaging consolidation** mode, your unit can end its **consolidation move** **engaged** with enemy units that have not yet fought this phase. If so, each of those enemy units will have an opportunity to fight your unit, so think carefully about how aggressively you want to move your unit using this mode.',
       },
       {
         id: 'section-12-09',
@@ -593,7 +593,7 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
       },
       {
         title: 'Командные способности',
-        body: `Правила, срабатывающие в фазе командования (за исключением тех, которые срабатывают в начале или конце этой фазы, при получении Основных СР (Core CP) или при проверках боевого шока (battle-shock rolls)), выполняются сейчас.`,
+        body: `Правила, срабатывающие в фазе командования (за исключением тех, которые срабатывают в начале или конце этой фазы, при получении Основных СР (Core CP) или при **проверках боевого шока** (battle-shock rolls)), выполняются сейчас.`,
       },
       {
         title: 'Конец фазы командования',
@@ -625,7 +625,7 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
         body: `Активный игрок перемещает свои юниты по одному, используя последовательность ниже, пока все его юниты не будут **выбраны для перемещения (selected to move)** и эти перемещения не закончатся.
 
 1. Выбор юнита: Выберите один союзный юнит, который ещё не был выбран для перемещения (selected to move) в этой фазе. Вы можете выбрать юнит на поле боя, в стратегических резервах (strategic reserves) или внутри ТРАНСПОРТА (TRANSPORT). Этот юнит выбран для перемещения (selected to move).
-2. Выбор типа перемещения: Выберите один тип перемещения (move type), который этот юнит имеет право совершить, и выполните его с этим юнитом. Это может быть один из перечисленных ниже или представленный в другом месте:
+2. Выбор **типа перемещения**: Выберите один **тип перемещения** (move type), который этот юнит имеет право совершить, и выполните его с этим юнитом. Это может быть один из перечисленных ниже или представленный в другом месте:
 ▪ Remain stationary (Оставаться неподвижным) (см.далее)
 ▪ Normal move (Обычное перемещение) (см.далее)
 ▪ Advance move (Ускоренное передвижение) (см.далее)
@@ -700,7 +700,7 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 
 Юнит **имеет право стрелять (eligible to shoot)**, если он находится на поле боя и ещё не был выбран для стрельбы в этой фазе (selected to shoot).
 1. Выберите юнит: Выберите один союзный юнит, который **имеет право стрелять (eligible to shoot)**; этот юнит **выбран для стрельбы (selected to shoot)**.
-2. Выберите тип стрельбы: Выберите один **тип стрельбы (shooting type)**, который этот юнит имеет право совершить, и выполните его с этим юнитом. Это может быть один из перечисленных ниже или представленный в другом месте:
+2. Выберите **тип стрельбы**: Выберите один **тип стрельбы (shooting type)**, который этот юнит имеет право совершить, и выполните его с этим юнитом. Это может быть один из перечисленных ниже или представленный в другом месте:
 ▪ Normal shooting (Обычная стрельба) (10.04)
 ▪ Assault shooting (Штурмовая стрельба) (10.05)
 ▪ Close-quarters shooting (Стрельба в ближнем бою) (10.06)
@@ -780,7 +780,7 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 ▪ Он **связан боем (engaged)**.
 ▪ Он совершил **ускоренное передвижение (advance)** или **отход (fall-back move)** в этом ходу.
 
-2. Сделайте бросок на рывок (Make Charge Roll): Сделайте бросок на рывок, бросив 2D6: результат является максимальным расстоянием для перемещения рывком (charge move).
+2. Сделайте бросок на рывок (Make Charge Roll): Сделайте бросок на рывок, бросив 2D6: результат является **максимальным расстоянием** для перемещения рывком (charge move).
 3. Попытка рывка (Attempt Charge): Если возможно совершить перемещение рывком (charge move) и если вы всё ещё хотите этого, совершите перемещение рывком этим юнитом. В противном случае ваш юнит не совершает перемещение рывком. В любом случае рывок затем завершается.`,
       },
       {
@@ -792,7 +792,7 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
         body: `◈ МАКСИМАЛЬНОЕ РАССТОЯНИЕ | Бросок на рывок (Charge roll).
 ◈ ПРАВО НА ВЫБОР | Ваш юнит **объявил рывок (declared a charge)** в этой фазе.
 ◈ ЭФФЕКТ | Ваш юнит перемещается, как описано в разделе «Перемещение» (03).
-◈ ПЕРЕД ПЕРЕМЕЩЕНИЕМ | Выберите одного или нескольких вражеских юнитов, которые находятся в пределах 12" от вашего юнита и в пределах максимального расстояния от вашего юнита; до конца этого перемещения каждый из этих вражеских юнитов является **целью рывка (charge target)**.
+◈ ПЕРЕД ПЕРЕМЕЩЕНИЕМ | Выберите одного или нескольких вражеских юнитов, которые находятся в пределах 12" от вашего юнита и в пределах **максимального расстояния** от вашего юнита; до конца этого перемещения каждый из этих вражеских юнитов является **целью рывка (charge target)**.
 ◈ ВО ВРЕМЯ ПЕРЕМЕЩЕНИЯ
 ▪ Каждая модель должна завершить своё перемещение ближе к одной или нескольким **целям рывка (charge targets)**.
 ▪ Каждая модель, которая может завершить своё перемещение в пределах 1" от одной или нескольких **целей рывка (charge targets)**, должна сделать это.
