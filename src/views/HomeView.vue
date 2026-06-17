@@ -92,6 +92,7 @@ const missionParagraphs = computed(() =>
 const tocItems = computed(() =>
   intro.en.toc.map((item, i) => ({
     ...item,
+    label: locale.value === 'ru' ? intro.ru.toc[i].label : item.label,
     desc: locale.value === 'ru' ? intro.ru.toc[i].desc : item.desc,
   }))
 )
