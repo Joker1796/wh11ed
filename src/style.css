@@ -243,6 +243,16 @@ tr:hover td {
   line-height: 1.6;
 }
 
+strong {
+  font-weight: 700;
+  color: color-mix(in srgb, var(--text-primary) 80%, var(--accent));
+}
+
+[data-theme='dark'] strong {
+  color: #fbfaf7;
+  font-weight: 800;
+}
+
 .note-box strong {
   color: var(--text-on-dark);
 }
