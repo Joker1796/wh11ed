@@ -340,3 +340,11 @@ strong {
   h2 { font-size: 1.4rem; }
   body { font-size: 15px; }
 }
+
+/* "Hide lore" mode — hides non-rules flavour text */
+[data-hide-lore="true"] .intro-quote,
+[data-hide-lore="true"] .ability-flavor,
+[data-hide-lore="true"] .strat-flavor,
+[data-hide-lore="true"] .section-desc {
+  display: none !important;
+}
