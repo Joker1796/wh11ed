@@ -27,6 +27,16 @@
             {{ locale === 'en' ? 'RU' : 'EN' }}
           </button>
           <button
+            class="lore-btn"
+            :class="{ active: hideLore }"
+            @click="toggleLore"
+            :title="hideLore ? labels.loreShow : labels.loreHide"
+            :aria-label="hideLore ? labels.loreShow : labels.loreHide"
+            :aria-pressed="hideLore"
+          >
+            <i :class="hideLore ? 'bi bi-book' : 'bi bi-book-fill'"></i>
+          </button>
+          <button
             class="theme-btn"
             @click="toggleTheme"
             :title="theme === 'dark' ? labels.themeToLight : labels.themeToDark"
@@ -83,6 +93,7 @@ import KeywordPopover from './components/KeywordPopover.vue'
 import NavSidebar from './components/NavSidebar.vue'
 import { useLocale } from './composables/useLocale.js'
 import { useTheme } from './composables/useTheme.js'
+import { useLoreVisibility } from './composables/useLoreVisibility.js'
 import { useKeywordPopover } from './composables/useKeywordPopover.js'
 import { resolveRef, useRefNavigation } from './composables/useRefNavigation.js'
 import { ui } from './i18n/ui.js'
@@ -92,6 +103,7 @@ const mobileNavOpen = ref(false)
 const searchOpen = ref(false)
 const { locale, toggleLocale } = useLocale()
 const { theme, toggleTheme } = useTheme()
+const { hideLore, toggleLore } = useLoreVisibility()
 const { open: openKeyword, close: closeKeyword } = useKeywordPopover()
 const { navigateTo } = useRefNavigation()
 
@@ -272,6 +284,32 @@ onUnmounted(() => {
 
 .theme-btn:hover {
   background: rgba(255,255,255,0.13);
+  color: #fff;
+}
+
+.lore-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.65);
+  border-radius: 4px;
+  padding: 0.3rem 0.55rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1;
+  transition: background 0.15s, color 0.15s;
+}
+
+.lore-btn:hover {
+  background: rgba(255,255,255,0.13);
+  color: #fff;
+}
+
+.lore-btn.active {
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+  border-color: var(--accent);
   color: #fff;
 }
 
