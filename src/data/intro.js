@@ -29,6 +29,14 @@ The following sections contain the Core Rules that every Warhammer 40,000 player
       { label: 'Advanced Rules', path: '/advanced-rules', desc: 'This section explains how to use more specialised types of units, as well as how to reinforce your army with units that are not yet on the battlefield.', sections: '17–23', pages: 'pg 60–75' },
       { label: 'Reference', path: '/reference', desc: 'Abilities that are universal to many units and weapons in Warhammer 40,000 are presented here, along with an introduction to the reference materials found in the app.', sections: '24 + Appendix', pages: 'pg 76–89' },
     ],
+    credits: {
+      tagline: 'For the glory of the Emperor and the convenience of players — an unofficial Warhammer 40,000 rules reference.',
+      translationLabel: 'Translation:',
+      translator: 'Nikita Lukin',
+      sourceLabel: 'Original:',
+      sourceLink: 'Warhammer 40,000 Core Rules',
+      contactLabel: 'Contact the author:',
+    },
   },
 
   ru: {
@@ -61,5 +69,13 @@ Warhammer 40,000 — это настольная игра-сражение, в �
       { desc: 'В этом разделе объясняется, как использовать более специализированные типы юнитов, а также как усилить вашу армию юнитами, которые ещё не находятся на поле боя.' },
       { desc: 'Здесь представлены способности, универсальные для многих юнитов и видов оружия в Warhammer 40,000, а также ознакомительные материалы, которые можно найти в приложении Warhammer 40,000.' },
     ],
+    credits: {
+      tagline: 'Во славу Императора и удобства игроков — неофициальный справочник по правилам Warhammer 40,000 на русском языке.',
+      translationLabel: 'Перевод:',
+      translator: 'Никита Лукин',
+      sourceLabel: 'Оригинал:',
+      sourceLink: 'Warhammer 40,000 Core Rules',
+      contactLabel: 'Связаться с автором:',
+    },
   },
 }
