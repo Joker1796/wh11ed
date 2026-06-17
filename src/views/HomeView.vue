@@ -47,6 +47,21 @@
         </RouterLink>
       </div>
     </section>
+
+    <section class="credits-section">
+      <h2>{{ labels.creditsHeading }}</h2>
+      <p class="credits-tagline">{{ t.credits.tagline }}</p>
+      <p class="credits-meta">
+        {{ t.credits.translationLabel }} {{ t.credits.translator }}
+        <span class="credits-sep">·</span>
+        {{ t.credits.sourceLabel }}
+        <a :href="sourceUrl" target="_blank" rel="noopener">{{ t.credits.sourceLink }}</a>
+      </p>
+      <p class="credits-contact">
+        {{ t.credits.contactLabel }}
+        <a :href="'mailto:' + contactEmail">{{ contactEmail }}</a>
+      </p>
+    </section>
   </div>
 </template>
 
@@ -62,6 +77,9 @@ const { renderInline } = useRenderInline()
 
 const t = computed(() => intro[locale.value])
 const labels = computed(() => ui[locale.value])
+
+const sourceUrl = 'https://assets.warhammer-community.com/eng_01-06_warhammer40k_new40k_core_rules-was6fbu1ix-hfewhmxyiy.pdf'
+const contactEmail = 'yas-shaman@yandex.ru'
 
 const introParagraphs = computed(() =>
   t.value.intro.split('\n\n').filter(p => p.trim())
@@ -225,6 +243,58 @@ const tocItems = computed(() =>
   color: var(--text-muted);
   line-height: 1.5;
   margin: 0;
+}
+
+.credits-section {
+  margin-top: 1.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.credits-section h2 {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 2px solid var(--accent);
+  color: var(--text-primary);
+}
+
+.credits-tagline {
+  color: var(--text-primary);
+  line-height: 1.6;
+  font-size: 0.97rem;
+  margin: 0 0 0.6rem;
+}
+
+.credits-meta {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  margin: 0 0 0.4rem;
+}
+
+.credits-sep {
+  margin: 0 0.4rem;
+  color: var(--text-dim);
+}
+
+.credits-contact {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  margin: 0;
+}
+
+.credits-meta a,
+.credits-contact a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.credits-meta a:hover,
+.credits-contact a:hover {
+  color: var(--accent-hover);
 }
 
 .app-body {
