@@ -30,7 +30,7 @@
           <ul v-if="expandedPath === group.path && group.sections.length" class="nav-sub">
             <li v-for="sec in group.sections" :key="sec.label">
               <a href="#" class="nav-sub-link" @click.prevent="handleAnchorClick(group.path, sec.id, sec.filter)">
-                {{ sec.label }}
+                {{ sec.label.replace(/^\d+\s+/, '') }}
               </a>
             </li>
           </ul>
