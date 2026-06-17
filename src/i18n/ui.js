@@ -82,7 +82,7 @@ export const ui = {
     badgeUnit: 'Юнит',
     navCoreRules: 'Основные правила',
     subNavIntro: 'Введение',
-    subNavBasicRules: 'Осн. правила',
+    subNavBasicRules: 'Основные правила',
     subNavBattleRound: 'Боевой раунд',
     subNavBattlefields: 'Поля сражений',
     subNavAdvanced: 'Продвинутые',
