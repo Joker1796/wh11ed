@@ -12,8 +12,8 @@
 
     <section class="intro-section">
       <h2>{{ labels.introHeading }}</h2>
-      <div v-for="para in introParagraphs" :key="para" class="para">{{ para }}</div>
-      <div v-for="para in missionParagraphs" :key="para" class="para">{{ para }}</div>
+      <div v-for="para in introParagraphs" :key="para" class="para" v-html="renderInline(para)"></div>
+      <div v-for="para in missionParagraphs" :key="para" class="para" v-html="renderInline(para)"></div>
     </section>
 
     <section class="intro-section">
@@ -24,7 +24,7 @@
             <img src="/images/wh40k-app-qr.png" alt="QR code — Warhammer 40,000 App" class="qr-img" />
           </a>
         </div>
-        <p>{{ t.app }}</p>
+        <p v-html="renderInline(t.app)"></p>
       </div>
     </section>
 
@@ -55,8 +55,10 @@ import { computed } from 'vue'
 import { intro } from '../data/intro.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
+import { useRenderInline } from '../composables/useRenderInline.js'
 
 const { locale } = useLocale()
+const { renderInline } = useRenderInline()
 
 const t = computed(() => intro[locale.value])
 const labels = computed(() => ui[locale.value])
