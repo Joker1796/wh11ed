@@ -34,6 +34,9 @@ Each view imports its data file, iterates sections/subsections, and renders them
 - `basicRules.js` — EN and RU arrays merged by index at runtime in `BasicRulesView`.
 - `battleRound.js`, `battlefields.js`, `advancedRules.js` — same bilingual shape; views merge EN/RU the same way.
 - `reference.js` — exports `abilityIntro`, `coreAbilities`, `appendix`, `faqs`; each is `{ en: [...], ru: [...] }`. `coreAbilities` is the lookup table for `KeywordPopover`.
+- `intro.js` — the welcome/intro page; shape is `{ en: {...}, ru: {...} }` (a single object, **not** an array). Rendered by `HomeView.vue`.
+
+Locale is a singleton (`useLocale.js`, `'en' | 'ru'`, persisted to localStorage); views pick `ru[i]` over `en[i]` via the merge pattern and inherit non-translated fields (`id`, `image`, `illustration`, `definitions`) from EN.
 
 A `Section` has `{ id, num, title, page, description, subsections[] }`. A subsection has `{ id, sectionNum, title, body, note?, example?, seeAlso?, sideImage?, illustration?, image?, definitions?, isGroupLabel?, renderAfterStratagems? }`.
 
@@ -68,21 +71,20 @@ A `Section` has `{ id, num, title, page, description, subsections[] }`. A subsec
 
 **Stratagem cards** — `StratCard.vue` renders core rulebook stratagems in `BattlefieldsView` (section 15).
 
+## Bilingual content conventions
+
+The data is the bulk of the repo and the EN/RU arrays are edited in lockstep. When touching `body`/`note`/`example` text:
+
+- **Glosses:** RU game terms carry the English original in parens — `РУС (ENG)`, e.g. `критическому ранению (critical wound)`, `ТЕХНИКИ (VEHICLE)`. ALL-CAPS keywords stay unbolded (the renderer bolds them); other terms use `**рус** (eng)`. `[BRACKET]` ability names stay English (KeywordPopover lookup). The paired EN subsection (same `id`/`sectionNum`) is the source of truth for the English term.
+- **Bold (`**…**`):** game terms are emphasized wherever the official PDF emphasizes them, in **both** languages. Do not bold things the renderer already bolds (ALL-CAPS keywords, `◈ LABEL |` info-card labels, `### h4` headings) or anything inside `seeAlso` refs / image paths.
+- **EN↔RU structural parity:** the per-section counts of block markers (`▪ ◈ → ### ◆ [img:]`) must match between `en` and `ru`. After bulk edits, verify: `**` is balanced (even, no `****`), parity holds, and `npm run build` passes.
+
+The source rulebook PDF lives in `sources/` (gitignored). Extract text with `pdftotext -layout`, and bold runs with `pdftohtml -s -i -noframes -hidden <pdf> out.html` (yields `<b>` tags).
+
 ## Adding content
 
 **New core-rules section:** Add data to the appropriate file in `src/data/` following the `Section` shape. The search index updates automatically. If it's a new top-level nav group: add to `navGroups`/`navGroupsRu` in `src/router/index.js`, add a route, create a view.
 
 ## Image organization
 
-```
-public/images/
-  basics/      — datasheets, moving, coherency, engagement
-  attack/      — attack sequence example diagrams
-  command/     — battle-shock examples
-  visibility/  — visibility rule diagrams
-  move/        — move type cards + charge/pile-in diagrams
-  shoot/       — shooting type cards
-  fight/       — fight phase diagrams + consolidation
-  turn/        — phase icon images
-  terrain/     — terrain rule diagrams
-```
+`public/images/` has one folder per rules chapter (`intro`, `moving`, `coherency`, `visibility`, `command`, `turn`, `attack`, `charge`, `fight`, `terrain`, `monsters`, `attached`, `surge`, `fire`, `shoot`). Image markup references them as `[img:/images/<folder>/<name>.png|alt]`. RU variants use a `-ru` suffix on the filename (e.g. `making-a-charge-move-ru.png`).
