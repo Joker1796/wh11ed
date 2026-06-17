@@ -64,7 +64,7 @@ export const navGroups = [
 export const navGroupsRu = [
   { label: 'Введение',                  path: '/',               sections: [] },
   {
-    label: 'Основные правила', path: '/basic-rules',
+    label: 'Базовые правила', path: '/basic-rules',
     sections: [
       { id: 'section-01', label: '01 Основные концепции' },
       { id: 'section-02', label: '02 Листы данных' },
