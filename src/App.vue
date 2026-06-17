@@ -44,10 +44,32 @@
           >
             <i :class="theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill'"></i>
           </button>
+          <div class="settings-wrap">
+            <button
+              class="settings-btn"
+              :class="{ active: settingsOpen }"
+              @click="toggleSettings"
+              :aria-expanded="settingsOpen"
+              aria-label="Settings"
+            >
+              <i class="bi bi-gear-fill"></i>
+            </button>
+            <div v-if="settingsOpen" class="settings-backdrop" @click="settingsOpen = false"></div>
+            <div v-if="settingsOpen" class="settings-menu">
+              <button class="settings-item" @click="toggleTheme">
+                <i :class="theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill'"></i>
+                <span>{{ theme === 'dark' ? labels.themeToLight : labels.themeToDark }}</span>
+              </button>
+              <button class="settings-item" :class="{ active: hideLore }" @click="toggleLore">
+                <i :class="hideLore ? 'bi bi-book' : 'bi bi-book-fill'"></i>
+                <span>{{ hideLore ? labels.loreShow : labels.loreHide }}</span>
+              </button>
+            </div>
+          </div>
           <button
             class="hamburger"
             :class="{ open: mobileNavOpen }"
-            @click="mobileNavOpen = !mobileNavOpen"
+            @click="toggleMobileNav"
             :aria-expanded="mobileNavOpen"
             aria-label="Toggle menu"
           >
@@ -101,6 +123,17 @@ import { ui } from './i18n/ui.js'
 const route = useRoute()
 const mobileNavOpen = ref(false)
 const searchOpen = ref(false)
+const settingsOpen = ref(false)
+
+function toggleSettings() {
+  settingsOpen.value = !settingsOpen.value
+  if (settingsOpen.value) mobileNavOpen.value = false
+}
+
+function toggleMobileNav() {
+  mobileNavOpen.value = !mobileNavOpen.value
+  if (mobileNavOpen.value) settingsOpen.value = false
+}
 const { locale, toggleLocale } = useLocale()
 const { theme, toggleTheme } = useTheme()
 const { hideLore, toggleLore } = useLoreVisibility()
@@ -132,6 +165,7 @@ function onKeydown(e) {
   if (e.key === 'Escape') {
     searchOpen.value = false
     mobileNavOpen.value = false
+    settingsOpen.value = false
     closeKeyword()
   }
 }
@@ -313,6 +347,90 @@ onUnmounted(() => {
   color: #fff;
 }
 
+/* ── Settings dropdown (mobile only) ── */
+.settings-wrap {
+  position: relative;
+  display: none;
+}
+
+.settings-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: rgba(255,255,255,0.65);
+  border-radius: 4px;
+  padding: 0.3rem 0.55rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1;
+  transition: background 0.15s, color 0.15s;
+}
+
+.settings-btn:hover {
+  background: rgba(255,255,255,0.13);
+  color: #fff;
+}
+
+.settings-btn.active {
+  background: color-mix(in srgb, var(--accent) 30%, transparent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.settings-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 205;
+}
+
+.settings-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 210;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  padding: 0.3rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+}
+
+.settings-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.6rem 0.7rem;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: left;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  transition: background 0.15s, color 0.15s;
+}
+
+.settings-item i {
+  font-size: 1rem;
+  width: 1.2rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.settings-item:hover {
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.settings-item.active {
+  color: var(--accent);
+}
+
 .search-btn {
   display: flex;
   align-items: center;
@@ -463,9 +581,19 @@ onUnmounted(() => {
     display: none;
   }
 
+  /* Collapse lore + theme into the settings (gear) menu on mobile */
+  .lore-btn,
+  .theme-btn {
+    display: none;
+  }
+
+  .settings-wrap {
+    display: block;
+  }
+
   /* Increase tap targets for action buttons */
   .lang-btn,
-  .theme-btn {
+  .settings-btn {
     min-height: 44px;
     min-width: 44px;
     display: flex;
