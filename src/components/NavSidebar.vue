@@ -99,23 +99,23 @@ async function handleAnchorClick(path, id) {
     display: flex;
     flex-direction: column;
     position: fixed;
-    left: 0;
+    right: 0;
     top: 0;
     width: var(--sidebar-width);
     max-width: 85vw;
     height: 100dvh;
     background: var(--bg-secondary);
-    border-right: 1px solid var(--border);
+    border-left: 1px solid var(--border);
     z-index: 300;
     overflow-y: auto;
-    transform: translateX(-100%);
+    transform: translateX(100%);
     transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: none;
   }
 
   .sidebar.open {
     transform: translateX(0);
-    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.18);
+    box-shadow: -4px 0 24px rgba(0, 0, 0, 0.18);
   }
 }
 
