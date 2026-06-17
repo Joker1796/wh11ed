@@ -27,7 +27,7 @@
     />
 
     <!-- Filter buttons -->
-    <div class="ability-filters">
+    <div id="abilities-list" class="ability-filters">
       <button
         v-for="f in filters"
         :key="f.value"
@@ -151,6 +151,7 @@ import TableOfContents from '../components/TableOfContents.vue'
 import RuleBlock from '../components/RuleBlock.vue'
 import { useRenderInline } from '../composables/useRenderInline.js'
 import { useLocale } from '../composables/useLocale.js'
+import { useAbilityFilter } from '../composables/useAbilityFilter.js'
 import { useRoute } from 'vue-router'
 import { ui } from '../i18n/ui.js'
 import { abilityIntro, coreAbilities, appendix, faqs } from '../data/reference.js'
@@ -195,7 +196,7 @@ const filters = computed(() => [
   { label: labels.value.filterWeapon, value: 'weapon' },
 ])
 
-const activeFilter = ref('all')
+const { activeFilter } = useAbilityFilter()
 
 watch(() => route.hash, (hash) => {
   if (hash && hash.startsWith('#ability-')) {

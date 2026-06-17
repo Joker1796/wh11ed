@@ -28,8 +28,8 @@
 
         <transition name="expand">
           <ul v-if="expandedPath === group.path && group.sections.length" class="nav-sub">
-            <li v-for="sec in group.sections" :key="sec.id">
-              <a href="#" class="nav-sub-link" @click.prevent="handleAnchorClick(group.path, sec.id)">
+            <li v-for="sec in group.sections" :key="sec.label">
+              <a href="#" class="nav-sub-link" @click.prevent="handleAnchorClick(group.path, sec.id, sec.filter)">
                 {{ sec.label }}
               </a>
             </li>
@@ -45,6 +45,7 @@ import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { navGroups, navGroupsRu } from '../router/index.js'
 import { useLocale } from '../composables/useLocale.js'
+import { useAbilityFilter } from '../composables/useAbilityFilter.js'
 
 defineProps({ mobileOpen: Boolean })
 const emit = defineEmits(['close'])
@@ -52,6 +53,7 @@ const emit = defineEmits(['close'])
 const route = useRoute()
 const router = useRouter()
 const { locale } = useLocale()
+const { activeFilter } = useAbilityFilter()
 const localizedGroups = computed(() => locale.value === 'ru' ? navGroupsRu : navGroups)
 
 const expandedPath = ref(route.path)
@@ -74,8 +76,9 @@ function toggleGroup(group) {
   }
 }
 
-async function handleAnchorClick(path, id) {
+async function handleAnchorClick(path, id, filter) {
   emit('close')
+  if (filter) activeFilter.value = filter
   if (route.path !== path) {
     await router.push(path)
   }
