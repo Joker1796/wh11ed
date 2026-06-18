@@ -138,7 +138,7 @@ export const eventGroups = [
 export const eventGroupsRu = [
   { label: 'Введение',                  path: '/event-companion',          sections: [] },
   { label: 'Последовательность миссии', path: '/event-companion/sequence', sections: [] },
-  { label: 'Расстановки укрытий',       path: '/event-companion/layouts',  sections: [] },
+  { label: 'Расстановки тиррейна',      path: '/event-companion/layouts',  sections: [] },
   { label: 'Пары и ранжирование',       path: '/event-companion/pairings', sections: [] },
   { label: 'Эррата и FAQ',              path: '/event-companion/faq',      sections: [] },
 ]
