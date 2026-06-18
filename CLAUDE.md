@@ -20,7 +20,7 @@ Vue 3 SPA using hash-based routing (`createWebHashHistory`). No backend. All con
 **Navigation model:** Two levels.
 
 - **Top navbar** (`App.vue`) — two sections: "Core Rules" and "Event Companion". `isEventRoute` (path starts with `/event-companion`) switches which subnav renders.
-- **Subnav** (sticky bar below navbar) — for Core Rules: route links (Introduction / Basic Rules / Battle Round / Battlefields / Advanced / Reference). For Event Companion: Introduction / Sequence / Layouts / Pairings / FAQs.
+- **Subnav** (sticky bar below navbar) — for Core Rules: route links (Introduction / Basic Rules / Battle Round / Battlefields / Advanced / Reference). For Event Companion: Introduction / Sequence / Layouts / Mission Matrix / Pairings / FAQs.
 - `router/index.js` exports `navGroups`/`navGroupsRu` (Core) **and** `eventGroups`/`eventGroupsRu` (Event); `NavSidebar.vue` renders both as labelled mobile sections.
 
 **Data → View pipeline:**
@@ -37,7 +37,10 @@ Each view imports its data file, iterates sections/subsections, and renders them
 - `battleRound.js`, `battlefields.js`, `advancedRules.js` — same bilingual shape; views merge EN/RU the same way.
 - `reference.js` — exports `abilityIntro`, `coreAbilities`, `appendix`, `faqs`; each is `{ en: [...], ru: [...] }`. `coreAbilities` is the lookup table for `KeywordPopover`.
 - `intro.js` — the welcome/intro page; shape is `{ en: {...}, ru: {...} }` (a single object, **not** an array). Rendered by `HomeView.vue`.
-- `eventCompanion.js` — the Event Companion section (`{ en, ru }`, single objects). Exports `getEventContent(locale)` which deep-merges `ru` over `en` by index/key (RU carries only translated fields; ids/images and mission-deck card names inherit from EN). Prose pages render via `RuleBlock`; `src/views/event/` holds the views, including the interactive 5×5 `MissionMatrix.vue` on the Layouts page. The `glossary[]` feeds `KeywordPopover` for event terms; within-section links use `EC:<key>` tokens resolved by `useRefNavigation.js`.
+- `eventCompanion.js` — the Event Companion section (`{ en, ru }`, single objects). Exports `getEventContent(locale)` which deep-merges `ru` over `en` by index/key (RU carries only translated fields; ids/images, mission-deck card names, and disposition/legend `icon` paths inherit from EN). Prose pages render via `RuleBlock`; `src/views/event/` holds the views. The `glossary[]` feeds `KeywordPopover` for event terms; within-section links use `EC:<key>` tokens resolved by `useRefNavigation.js`.
+  - **Layouts vs Mission Matrix (two pages):** `EventLayoutsView.vue` (`/event-companion/layouts`) is terrain prose + the footprints `DataTable` only. The interactive 5×5 `MissionMatrix.vue` + matchup viewer (`LayoutCard.vue`) moved to `EventMatrixView.vue` (`/event-companion/matrix`), which also hosts the collapsible **LAYOUTS KEY** legend (show/hide persisted to `localStorage` key `wh11ed-event-key-hidden`).
+  - **Data shapes:** `dispositions[]` = the 5 Force Dispositions (`{ id, name, icon }`); `matchups[]` (15, generated) each carry `layouts:[{id:'A'|'B'|'C', image}]` resolved from the `layoutImages` lookup keyed by `${a}|${b}`; `terrain.legend[]` = the LAYOUTS KEY entries (`{ id, label, desc, icon }`, grouped in the view by id into terrain / zones / edges / objectives).
+  - **Assets** (`public/images/event/`) are all extracted from the source PDF: 45 layout diagrams `layout-<a>-<b>-<letter>.jpg`, the `marker-attacker.png`/`marker-defender.png` edge bars, `legend-*.png` key icons, and `dispo-*.png` disposition emblems. The matrix is text-only on desktop and icon-only on mobile (fits without horizontal scroll).
 
 Locale is a singleton (`useLocale.js`, `'en' | 'ru'`, persisted to localStorage); views pick `ru[i]` over `en[i]` via the merge pattern and inherit non-translated fields (`id`, `image`, `illustration`, `definitions`) from EN.
 
@@ -83,6 +86,8 @@ The data is the bulk of the repo and the EN/RU arrays are edited in lockstep. Wh
 - **EN↔RU structural parity:** the per-section counts of block markers (`▪ ◈ → ### ◆ [img:]`) must match between `en` and `ru`. After bulk edits, verify: `**` is balanced (even, no `****`), parity holds, and `npm run build` passes.
 
 The source rulebook PDF lives in `sources/` (gitignored). Extract text with `pdftotext -layout`, and bold runs with `pdftohtml -s -i -noframes -hidden <pdf> out.html` (yields `<b>` tags).
+
+**Image/vector extraction (Event Companion assets)** uses **pymupdf** (`pip install pymupdf`) against `sources/eng_12-06_warhammer40000_event_companion-*.pdf`. Layout pages are printed pp. 9–53 = page indices 8–52. Techniques used: layout diagrams cropped to the battlefield-frame rect `fitz.Rect(128, 277.8, 468.1, 740.2)`; transparent vector elements (edge-marker bars, objective/legend icons) via `page.add_redact_annot(bbox)` + `apply_redactions(images=PDF_REDACT_IMAGE_REMOVE, graphics=PDF_REDACT_LINE_ART_NONE)` then `get_pixmap(..., alpha=True)` (strips the raster parchment background, keeps the vector); disposition emblems are raster XObjects with soft masks, extracted by combining `fitz.Pixmap(doc, xref)` (CMYK→RGB) with `fitz.Pixmap(doc, smask)` for transparency.
 
 ## Adding content
 
