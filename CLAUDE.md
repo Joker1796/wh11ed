@@ -19,8 +19,9 @@ Vue 3 SPA using hash-based routing (`createWebHashHistory`). No backend. All con
 
 **Navigation model:** Two levels.
 
-- **Top navbar** (`App.vue`) — single "Core Rules" link.
-- **Subnav** (sticky bar below navbar) — anchor links to the core rules sections (Introduction / Basic Rules / Battle Round / Battlefields / Advanced / Reference). Always visible.
+- **Top navbar** (`App.vue`) — two sections: "Core Rules" and "Event Companion". `isEventRoute` (path starts with `/event-companion`) switches which subnav renders.
+- **Subnav** (sticky bar below navbar) — for Core Rules: route links (Introduction / Basic Rules / Battle Round / Battlefields / Advanced / Reference). For Event Companion: Introduction / Sequence / Layouts / Pairings / FAQs.
+- `router/index.js` exports `navGroups`/`navGroupsRu` (Core) **and** `eventGroups`/`eventGroupsRu` (Event); `NavSidebar.vue` renders both as labelled mobile sections.
 
 **Data → View pipeline:**
 
@@ -36,6 +37,7 @@ Each view imports its data file, iterates sections/subsections, and renders them
 - `battleRound.js`, `battlefields.js`, `advancedRules.js` — same bilingual shape; views merge EN/RU the same way.
 - `reference.js` — exports `abilityIntro`, `coreAbilities`, `appendix`, `faqs`; each is `{ en: [...], ru: [...] }`. `coreAbilities` is the lookup table for `KeywordPopover`.
 - `intro.js` — the welcome/intro page; shape is `{ en: {...}, ru: {...} }` (a single object, **not** an array). Rendered by `HomeView.vue`.
+- `eventCompanion.js` — the Event Companion section (`{ en, ru }`, single objects). Exports `getEventContent(locale)` which deep-merges `ru` over `en` by index/key (RU carries only translated fields; ids/images and mission-deck card names inherit from EN). Prose pages render via `RuleBlock`; `src/views/event/` holds the views, including the interactive 5×5 `MissionMatrix.vue` on the Layouts page. The `glossary[]` feeds `KeywordPopover` for event terms; within-section links use `EC:<key>` tokens resolved by `useRefNavigation.js`.
 
 Locale is a singleton (`useLocale.js`, `'en' | 'ru'`, persisted to localStorage); views pick `ru[i]` over `en[i]` via the merge pattern and inherit non-translated fields (`id`, `image`, `illustration`, `definitions`) from EN.
 
