@@ -136,7 +136,7 @@ export const ui = {
     eventIntroDesc: 'Что такое Warhammer Event Companion и как им пользоваться',
     eventSequenceHeading: 'Последовательность миссии',
     eventSequenceDesc: 'Как пошагово подготовить и выиграть битву на турнире',
-    eventLayoutsHeading: 'Расстановки укрытий',
+    eventLayoutsHeading: 'Расстановки тиррейна',
     eventLayoutsDesc: 'Выберите обе диспозиции, чтобы увидеть матчап и три расстановки',
     eventPairingsHeading: 'Пары и ранжирование',
     eventPairingsDesc: 'Рекомендации по честному составлению пар и определению ранга',
