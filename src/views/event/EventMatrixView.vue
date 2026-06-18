@@ -97,7 +97,7 @@
           class="tab"
           :class="{ active: activeLayout === l.id }"
           @click="activeLayout = l.id"
-        ><span class="tab-word">{{ labels.eventLayout }} </span>{{ l.id }}</button>
+        ><span class="tab-word">{{ labels.eventLayout }}</span> {{ l.id }}</button>
       </div>
 
       <LayoutCard v-if="currentLayout" :layout="currentLayout" />
