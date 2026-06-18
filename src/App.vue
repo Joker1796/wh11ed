@@ -14,6 +14,11 @@
             class="nav-link"
             :class="{ active: isCoreRoute }"
           >{{ labels.navCoreRules }}</RouterLink>
+          <RouterLink
+            to="/event-companion"
+            class="nav-link"
+            :class="{ active: isEventRoute }"
+          >{{ labels.navEventCompanion }}</RouterLink>
         </nav>
 
         <div class="navbar-actions">
@@ -86,7 +91,7 @@
     <nav class="subnav">
       <div class="subnav-inner">
         <RouterLink
-          v-for="item in coreSubNavItems"
+          v-for="item in subNavItems"
           :key="item.path"
           :to="item.path"
           class="subnav-link"
@@ -143,7 +148,8 @@ const { navigateTo } = useRefNavigation()
 const labels = computed(() => ui[locale.value])
 
 const coreRoutes = ['/', '/basic-rules', '/battle-round', '/battlefields', '/advanced-rules', '/reference']
-const isCoreRoute = computed(() => coreRoutes.includes(route.path))
+const isEventRoute = computed(() => route.path.startsWith('/event-companion'))
+const isCoreRoute = computed(() => !isEventRoute.value && coreRoutes.includes(route.path))
 
 const coreSubNavItems = computed(() => {
   const l = labels.value
@@ -156,6 +162,19 @@ const coreSubNavItems = computed(() => {
     { path: '/reference', label: l.subNavReference },
   ]
 })
+
+const eventSubNavItems = computed(() => {
+  const l = labels.value
+  return [
+    { path: '/event-companion', label: l.subNavEventIntro },
+    { path: '/event-companion/sequence', label: l.subNavEventSequence },
+    { path: '/event-companion/layouts', label: l.subNavEventLayouts },
+    { path: '/event-companion/pairings', label: l.subNavEventPairings },
+    { path: '/event-companion/faq', label: l.subNavEventFaq },
+  ]
+})
+
+const subNavItems = computed(() => isEventRoute.value ? eventSubNavItems.value : coreSubNavItems.value)
 
 function onKeydown(e) {
   if ((e.ctrlKey || e.metaKey) && e.key === 'k') {

@@ -5,6 +5,11 @@ import BattleRoundView from '../views/BattleRoundView.vue'
 import BattlefieldsView from '../views/BattlefieldsView.vue'
 import AdvancedRulesView from '../views/AdvancedRulesView.vue'
 import ReferenceView from '../views/ReferenceView.vue'
+import EventIntroView from '../views/event/EventIntroView.vue'
+import EventSequenceView from '../views/event/EventSequenceView.vue'
+import EventLayoutsView from '../views/event/EventLayoutsView.vue'
+import EventPairingsView from '../views/event/EventPairingsView.vue'
+import EventFaqView from '../views/event/EventFaqView.vue'
 
 export const navGroups = [
   { label: 'Introduction',        path: '/',               sections: [] },
@@ -120,6 +125,24 @@ export const navGroupsRu = [
   },
 ]
 
+// Event Companion — second top-level section. Each entry is its own route
+// (no in-page anchors), so `sections` is empty and the sidebar navigates on click.
+export const eventGroups = [
+  { label: 'Introduction',     path: '/event-companion',          sections: [] },
+  { label: 'Mission Sequence', path: '/event-companion/sequence', sections: [] },
+  { label: 'Terrain Layouts',  path: '/event-companion/layouts',  sections: [] },
+  { label: 'Pairings & Rankings', path: '/event-companion/pairings', sections: [] },
+  { label: 'Errata & FAQs',    path: '/event-companion/faq',      sections: [] },
+]
+
+export const eventGroupsRu = [
+  { label: 'Введение',                  path: '/event-companion',          sections: [] },
+  { label: 'Последовательность миссии', path: '/event-companion/sequence', sections: [] },
+  { label: 'Расстановки укрытий',       path: '/event-companion/layouts',  sections: [] },
+  { label: 'Пары и ранжирование',       path: '/event-companion/pairings', sections: [] },
+  { label: 'Эррата и FAQ',              path: '/event-companion/faq',      sections: [] },
+]
+
 export const router = createRouter({
   history: createWebHashHistory(),
   routes: [
@@ -129,6 +152,11 @@ export const router = createRouter({
     { path: '/battlefields',   component: BattlefieldsView },
     { path: '/advanced-rules', component: AdvancedRulesView },
     { path: '/reference',      component: ReferenceView },
+    { path: '/event-companion',          component: EventIntroView },
+    { path: '/event-companion/sequence', component: EventSequenceView },
+    { path: '/event-companion/layouts',  component: EventLayoutsView },
+    { path: '/event-companion/pairings', component: EventPairingsView },
+    { path: '/event-companion/faq',      component: EventFaqView },
   ],
   scrollBehavior(to, from, savedPosition) {
     if (to.hash) {

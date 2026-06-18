@@ -12,6 +12,11 @@
           <td v-for="(cell, j) in row" :key="j" v-html="renderCell(cell)"></td>
         </tr>
       </tbody>
+      <tfoot v-if="footnote">
+        <tr>
+          <td :colspan="headers.length" class="table-footnote" v-html="renderCell(footnote)"></td>
+        </tr>
+      </tfoot>
     </table>
   </div>
 </template>
@@ -31,6 +36,7 @@ defineProps({
   title: String,
   headers: Array,
   rows: Array,
+  footnote: String,
 })
 </script>
 
@@ -58,5 +64,14 @@ th:last-child {
   padding: 0.65rem 1rem 0;
   background: var(--bg-card);
   margin: 0;
+}
+
+.table-footnote {
+  text-align: left;
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--accent);
+  background: var(--bg-row-hover);
+  padding: 0.55rem 1rem;
 }
 </style>
