@@ -19,7 +19,7 @@
 
 <script setup>
 import { computed } from 'vue'
-import { eventCompanion } from '../../data/eventCompanion.js'
+import { getEventContent } from '../../data/eventCompanion.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
@@ -27,7 +27,7 @@ import { useRenderInline } from '../../composables/useRenderInline.js'
 const { locale } = useLocale()
 const { renderInline } = useRenderInline()
 const labels = computed(() => ui[locale.value])
-const ec = computed(() => ({ ...eventCompanion.en, ...eventCompanion.ru }))
+const ec = computed(() => getEventContent(locale.value))
 const faq = computed(() => ec.value.faq)
 </script>
 
