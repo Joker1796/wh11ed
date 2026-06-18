@@ -396,7 +396,7 @@ const currentLayout = computed(() =>
 .side-mission {
   font-family: var(--font-serif);
   font-size: 1.2rem;
-  color: var(--accent);
+  color: var(--link-accent);
   line-height: 1.2;
 }
 .side-vs {
