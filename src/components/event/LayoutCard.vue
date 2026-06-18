@@ -2,14 +2,12 @@
   <figure class="layout-card">
     <div class="layout-stack">
       <img
-        v-if="!isPlaceholder"
         class="edge-marker"
         src="/images/event/marker-attacker.png"
         alt="Attacker's battlefield edge"
       />
       <img :src="layout.image" :alt="`Layout ${layout.id}`" class="layout-img" />
       <img
-        v-if="!isPlaceholder"
         class="edge-marker"
         src="/images/event/marker-defender.png"
         alt="Defender's battlefield edge"
@@ -17,7 +15,6 @@
     </div>
     <figcaption class="layout-caption">
       <span class="layout-badge">{{ labels.eventLayout }} {{ layout.id }}</span>
-      <span v-if="isPlaceholder" class="layout-placeholder-note">{{ labels.eventLayoutPlaceholder }}</span>
     </figcaption>
   </figure>
 </template>
@@ -27,11 +24,10 @@ import { computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 
-const props = defineProps({ layout: { type: Object, required: true } })
+defineProps({ layout: { type: Object, required: true } })
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const isPlaceholder = computed(() => props.layout.image.includes('plug'))
 </script>
 
 <style scoped>
@@ -75,11 +71,5 @@ const isPlaceholder = computed(() => props.layout.image.includes('plug'))
   font-family: var(--font-serif);
   font-size: 1.05rem;
   color: var(--accent);
-}
-
-.layout-placeholder-note {
-  font-size: 0.75rem;
-  color: var(--text-dim);
-  font-style: italic;
 }
 </style>

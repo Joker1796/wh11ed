@@ -4,14 +4,10 @@
 // Prose pages are block lists rendered via RuleBlock (+ DataTable when `table`).
 // The Layouts page is data-driven: 5 Force Dispositions form a 5×5 matrix; each
 // unordered pairing is a `matchup` giving each side's Primary Mission + 3 layouts.
-// Layout diagrams default to a placeholder (plug.png); real ones extracted from the
-// source PDF are wired in per matchup/layout via `layoutImages` below.
 
-const PLUG = '/images/event/plug.png'
-
-// Real layout diagrams (extracted from the source PDF), keyed by `${a}|${b}` then
-// layout id. Anything not listed falls back to the PLUG placeholder. The `a|b` key
-// uses the same ordering as the `matchups` array literal below (that order is fixed).
+// Layout diagrams (extracted from the source PDF), keyed by `${a}|${b}` then layout
+// id. The `a|b` key uses the same ordering as the `matchups` array literal below
+// (that order is fixed).
 const layoutImages = {
   'take-and-hold|take-and-hold': { A: '/images/event/layout-take-and-hold-take-and-hold-a.jpg', B: '/images/event/layout-take-and-hold-take-and-hold-b.jpg', C: '/images/event/layout-take-and-hold-take-and-hold-c.jpg' },
   'take-and-hold|purge-the-foe': { A: '/images/event/layout-take-and-hold-purge-the-foe-a.jpg', B: '/images/event/layout-take-and-hold-purge-the-foe-b.jpg', C: '/images/event/layout-take-and-hold-purge-the-foe-c.jpg' },
@@ -305,24 +301,31 @@ const en = {
       'layouts with your own terrain close to the same size as the various features, ' +
       'denoting for all players whether each is a dense or light terrain feature.',
     legend: [
-      { id: 'dense', label: 'Dense Terrain', desc: 'Coloured green on the layouts.' },
-      { id: 'light', label: 'Light Terrain', desc: 'Coloured yellow on the layouts.' },
-      { id: 'atk-dz', label: "Attacker's Deployment Zone", desc: 'The Attacker sets up their units wholly within this area.' },
-      { id: 'def-dz', label: "Defender's Deployment Zone", desc: 'The Defender sets up their units wholly within this area.' },
-      { id: 'nml', label: "No Man's Land", desc: "The region not within either player's deployment zone." },
-      { id: 'home-obj', label: 'Home Objective', desc: 'An objective marker in a player\'s own territory.' },
-      { id: 'central-obj', label: 'Central Objective', desc: 'An objective marker in the centre of the battlefield.' },
-      { id: 'expansion-obj', label: 'Expansion Objective', desc: 'An objective marker contested in No Man\'s Land.' },
+      { id: 'dense', label: 'Dense Terrain', desc: 'Coloured green on the layouts.', icon: '/images/event/legend-dense.png' },
+      { id: 'light', label: 'Light Terrain', desc: 'Coloured yellow on the layouts.', icon: '/images/event/legend-light.png' },
+      { id: 'separate', label: 'Separate Terrain Areas', desc: 'Marked on layouts where neighbouring terrain features are treated as separate terrain areas.', icon: '/images/event/legend-separate.png' },
+      { id: 'single', label: 'Single Terrain Area', desc: 'Marked on layouts where neighbouring terrain features are treated as one single terrain area.', icon: '/images/event/legend-single.png' },
+      { id: 'letters', label: 'Terrain Feature Letters', desc: 'The letters marking each terrain feature correspond with the component markings on the Battlefields: Armageddon terrain set.', icon: '/images/event/legend-letters.png' },
+      { id: 'atk-dz', label: "Attacker's Deployment Zone", desc: 'The Attacker sets up their units wholly within this area.', icon: '/images/event/legend-atk-dz.png' },
+      { id: 'def-dz', label: "Defender's Deployment Zone", desc: 'The Defender sets up their units wholly within this area.', icon: '/images/event/legend-def-dz.png' },
+      { id: 'nml', label: "No Man's Land", desc: "The region not within either player's deployment zone.", icon: '/images/event/legend-nml.png' },
+      { id: 'atk-territory', label: "Attacker's Territory", desc: "The half of the battlefield that includes the Attacker's deployment zone.", icon: '/images/event/legend-atk-territory.png' },
+      { id: 'def-territory', label: "Defender's Territory", desc: "The half of the battlefield that includes the Defender's deployment zone.", icon: '/images/event/legend-def-territory.png' },
+      { id: 'atk-edge', label: "Attacker's Battlefield Edge", desc: '', icon: '/images/event/marker-attacker.png' },
+      { id: 'def-edge', label: "Defender's Battlefield Edge", desc: '', icon: '/images/event/marker-defender.png' },
+      { id: 'home-obj', label: 'Home Objective', desc: 'An objective marker in a player\'s own territory.', icon: '/images/event/legend-home-obj.png' },
+      { id: 'central-obj', label: 'Central Objective', desc: 'An objective marker in the centre of the battlefield.', icon: '/images/event/legend-central-obj.png' },
+      { id: 'expansion-obj', label: 'Expansion Objective', desc: 'An objective marker contested in No Man\'s Land.', icon: '/images/event/legend-expansion-obj.png' },
     ],
   },
 
   // 5 Force Dispositions — the axes of the matrix.
   dispositions: [
-    { id: 'take-and-hold', name: 'Take and Hold', symbol: PLUG },
-    { id: 'purge-the-foe', name: 'Purge the Foe', symbol: PLUG },
-    { id: 'disruption', name: 'Disruption', symbol: PLUG },
-    { id: 'reconnaissance', name: 'Reconnaissance', symbol: PLUG },
-    { id: 'priority-assets', name: 'Priority Assets', symbol: PLUG },
+    { id: 'take-and-hold', name: 'Take and Hold' },
+    { id: 'purge-the-foe', name: 'Purge the Foe' },
+    { id: 'disruption', name: 'Disruption' },
+    { id: 'reconnaissance', name: 'Reconnaissance' },
+    { id: 'priority-assets', name: 'Priority Assets' },
   ],
 
   // 15 unordered matchups. missionA/missionB = each side's Primary Mission.
@@ -346,7 +349,7 @@ const en = {
     ...m,
     layouts: ['A', 'B', 'C'].map(id => ({
       id,
-      image: layoutImages[`${m.a}|${m.b}`]?.[id] ?? PLUG,
+      image: layoutImages[`${m.a}|${m.b}`]?.[id],
     })),
   })),
 
@@ -776,9 +779,16 @@ const ru = {
     legend: [
       { label: 'Плотные укрытия (Dense Terrain)', desc: 'Окрашены зелёным на расстановках.' },
       { label: 'Лёгкие укрытия (Light Terrain)', desc: 'Окрашены жёлтым на расстановках.' },
+      { label: 'Раздельные участки ландшафта (Separate Terrain Areas)', desc: 'Отмечается на расстановках, где соседние элементы ландшафта считаются отдельными участками.' },
+      { label: 'Единый участок ландшафта (Single Terrain Area)', desc: 'Отмечается на расстановках, где соседние элементы ландшафта считаются одним участком.' },
+      { label: 'Буквы на элементах ландшафта (Terrain Feature Letters)', desc: 'Буквы, обозначающие каждый элемент ландшафта, соответствуют маркировке компонентов набора Battlefields: Armageddon.' },
       { label: 'Зона развёртывания Атакующего', desc: 'Атакующий выставляет свои юниты полностью в пределах этой области.' },
       { label: 'Зона развёртывания Защищающегося', desc: 'Защищающийся выставляет свои юниты полностью в пределах этой области.' },
       { label: 'Ничейная земля (No Man’s Land)', desc: 'Область, не входящая в зону развёртывания ни одного из игроков.' },
+      { label: 'Территория Атакующего (Attacker’s Territory)', desc: 'Половина поля боя, включающая зону развёртывания Атакующего.' },
+      { label: 'Территория Защищающегося (Defender’s Territory)', desc: 'Половина поля боя, включающая зону развёртывания Защищающегося.' },
+      { label: 'Край стола Атакующего (Attacker’s Battlefield Edge)', desc: '' },
+      { label: 'Край стола Защищающегося (Defender’s Battlefield Edge)', desc: '' },
       { label: 'Домашняя цель (Home Objective)', desc: 'Маркер цели на собственной территории игрока.' },
       { label: 'Центральная цель (Central Objective)', desc: 'Маркер цели в центре поля боя.' },
       { label: 'Цель экспансии (Expansion Objective)', desc: 'Маркер цели, оспариваемый на ничейной земле.' },
