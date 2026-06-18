@@ -7,15 +7,25 @@
 
     <p class="lead">{{ pairings.intro }}</p>
 
-    <RuleBlock
-      v-for="block in pairings.blocks"
-      :key="block.id"
-      :id="block.id"
-      :title="block.title"
-      :body="block.body"
-      :note="block.note"
-      :see-also="block.seeAlso"
-    />
+    <template v-for="block in pairings.blocks" :key="block.id">
+      <div v-if="block.flavor" class="event-flavor">
+        <RuleBlock
+          :id="block.id"
+          :title="block.title"
+          :body="block.body"
+          :note="block.note"
+          :see-also="block.seeAlso"
+        />
+      </div>
+      <RuleBlock
+        v-else
+        :id="block.id"
+        :title="block.title"
+        :body="block.body"
+        :note="block.note"
+        :see-also="block.seeAlso"
+      />
+    </template>
   </div>
 </template>
 
