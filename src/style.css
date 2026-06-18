@@ -356,6 +356,7 @@ strong {
 [data-hide-lore="true"] .intro-quote,
 [data-hide-lore="true"] .ability-flavor,
 [data-hide-lore="true"] .strat-flavor,
+[data-hide-lore="true"] .event-flavor,
 [data-hide-lore="true"] .section-desc {
   display: none !important;
 }

@@ -69,8 +69,9 @@ const en = {
         title: '3 · Determine a Layout',
         body:
           'Each combination of Primary Missions has three recommended [LAYOUT]s, labelled ' +
-          '**A**, **B** and **C**. As directed by the organiser, the players either use ' +
-          'the layout specified or randomly determine which to use.',
+          '**A**, **B** and **C**, which can be found in the **Terrain Layouts** section of ' +
+          'this reference. As directed by the organiser, the players either use the layout ' +
+          'specified or randomly determine which to use.',
         seeAlso: ['Terrain Layouts EC:layouts'],
       },
       {
@@ -273,9 +274,13 @@ const en = {
       'Each layout uses the terrain features from the Battlefields: Armageddon box in the ' +
       "'Warhammer recommended' build, each denoted as a **dense** (green) or **light** " +
       '(yellow) terrain feature. Letters (AB, CD, EF, GH) mark which terrain feature ' +
-      'corresponds with the component markings on that terrain set. Space is purposely ' +
-      'left between a terrain feature and the edge of its terrain area so a line of models ' +
-      'can stand on the terrain area from the outside.',
+      'corresponds with the component markings on that terrain set. The configurations are ' +
+      'designed to create the best experience with the Hidden rule and movement rules for ' +
+      'various units, and space is purposely left between a terrain feature and the edge of ' +
+      'its terrain area so a line of models can stand on the terrain area from the outside.' +
+      '\n\nIf you do not have the Battlefields: Armageddon terrain, you can recreate these ' +
+      'layouts with your own terrain close to the same size as the various features, ' +
+      'denoting for all players whether each is a dense or light terrain feature.',
     legend: [
       { id: 'dense', label: 'Dense Terrain', desc: 'Coloured green on the layouts.' },
       { id: 'light', label: 'Light Terrain', desc: 'Coloured yellow on the layouts.' },
@@ -420,17 +425,44 @@ const en = {
           'about how close it actually was. Opponent win record is an ideal tie-breaker.',
       },
       {
+        id: 'rules-appendix',
+        title: 'The Rules Appendix, Errata and FAQs',
+        body:
+          'There are myriad ways to enjoy the Warhammer hobby, and they all manifest at a ' +
+          'tournament — from gifted painters and competitors aiming for Best General to ' +
+          'casual players making new friends. Such hobbyists sometimes find unusual rules ' +
+          'interactions at the fringes of Warhammer 40,000 that can challenge organisers ' +
+          'looking to give clear answers.\n\n' +
+          'To address any such uncertainties, the Warhammer 40,000 app contains a ' +
+          'comprehensive Rules Appendix, along with faction-specific errata and FAQ entries. ' +
+          'Should an odd rules interaction come up during your event and the Core Rules do ' +
+          'not provide a clear answer, we recommend consulting these resources.',
+        seeAlso: ['Core Abilities 24.00', 'Errata & FAQs EC:faq'],
+      },
+      {
         id: 'afterword',
         title: 'Afterword — What is the Point of a Warhammer Event?',
+        flavor: true,
         body:
-          "First and foremost, a tournament is not about celebrating the ultimate victor — " +
-          'it is the experience of every single attendee that matters, and the recognition ' +
-          'that, for most people, community and friendship are both the purpose and the ' +
-          'outcome.\n\nBefore you roll a single dice, remember two things:\n' +
-          '1. The person across the table shares your love of Warhammer.\n' +
-          '2. By the time the dust settles, almost everyone will have lost a game.\n' +
-          'Focus on this, and while most of you will have lost a game or two, you will all ' +
-          'share victory in your experience of what it is to attend a Warhammer Event.',
+          'Warhammer is more popular than ever, and this popularity has extended to the ' +
+          'tournament scene. With so many hobbyists participating within growing ' +
+          'communities, it is important to ruminate on the point of a tournament. First and ' +
+          'foremost, it is not about celebrating the ultimate victor; someone who goes ' +
+          'undefeated and wins Best General needs very little acclaim beyond the outcome ' +
+          'itself (after all, they won!). Instead, it is the experience of every single ' +
+          'attendee that truly matters, and the recognition that, for most people who ' +
+          'attend a tournament, community and friendship are both the purpose and the ' +
+          'outcome.\n\nBefore you roll a single dice against an opponent to start your ' +
+          'tournament experience, remember two things:\n' +
+          '1. The person across the table from you shares your love of Warhammer.\n' +
+          '2. By the time the dust settles on the event, almost everyone will have lost a ' +
+          'game (typically, at most, only one or two people will leave without a loss).\n' +
+          'While any game yields winners and losers on the tabletop, the magic of Warhammer ' +
+          'in an event setting is the opportunity it provides every participant to become a ' +
+          'bigger part of the community and to build friendships that can last a lifetime. ' +
+          'Focus on this inalienable truth, and while most of you will have lost a game or ' +
+          'two, you will all share victory in your experience of what it is to attend a ' +
+          'Warhammer Event.\n\n— The Warhammer Design Studio and the Warhammer Events Team',
       },
     ],
   },
