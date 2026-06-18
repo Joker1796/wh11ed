@@ -80,12 +80,13 @@ const resolvedRefs = computed(() => props.refs.map(ref => ({ ref, r: resolveRef(
 }
 
 .see-also-link {
-  color: var(--accent);
+  color: var(--link-accent);
   text-decoration: none;
   font-size: 0.8rem;
 }
 
 .see-also-link:hover {
+  color: var(--link-accent-hover);
   text-decoration: underline;
 }
 
