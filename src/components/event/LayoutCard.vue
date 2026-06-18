@@ -70,6 +70,6 @@ const labels = computed(() => ui[locale.value])
 .layout-badge {
   font-family: var(--font-serif);
   font-size: 1.05rem;
-  color: var(--accent);
+  color: var(--link-accent);
 }
 </style>
