@@ -9,6 +9,7 @@
     </div>
 
     <div class="nav-groups">
+      <p class="nav-section-label">{{ labels.navCoreRules }}</p>
       <div
         v-for="group in localizedGroups"
         :key="group.path"
@@ -36,6 +37,18 @@
           </ul>
         </transition>
       </div>
+
+      <p class="nav-section-label">{{ labels.navEventCompanion }}</p>
+      <div
+        v-for="group in localizedEventGroups"
+        :key="group.path"
+        class="nav-group"
+        :class="{ active: isActive(group) }"
+      >
+        <button class="nav-group-label" @click="toggleGroup(group)">
+          {{ group.label }}
+        </button>
+      </div>
     </div>
   </nav>
 </template>
@@ -43,7 +56,8 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { navGroups, navGroupsRu } from '../router/index.js'
+import { navGroups, navGroupsRu, eventGroups, eventGroupsRu } from '../router/index.js'
+import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useAbilityFilter } from '../composables/useAbilityFilter.js'
 
@@ -54,7 +68,9 @@ const route = useRoute()
 const router = useRouter()
 const { locale } = useLocale()
 const { activeFilter } = useAbilityFilter()
+const labels = computed(() => ui[locale.value])
 const localizedGroups = computed(() => locale.value === 'ru' ? navGroupsRu : navGroups)
+const localizedEventGroups = computed(() => locale.value === 'ru' ? eventGroupsRu : eventGroups)
 
 const expandedPath = ref(route.path)
 
@@ -176,6 +192,16 @@ async function handleAnchorClick(path, id, filter) {
 .nav-groups {
   padding: 0.5rem 0;
   overflow-y: auto;
+}
+
+.nav-section-label {
+  margin: 0;
+  padding: 0.6rem 1rem 0.3rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
 }
 
 .nav-group {
