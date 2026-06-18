@@ -5,6 +5,8 @@
   --bg-insert: #2a2828;
   --accent: #6e0008;
   --accent-hover: #4a0005;
+  --link-accent: var(--accent);
+  --link-accent-hover: var(--accent-hover);
   --text-primary: #2a2828;
   --text-muted: #686957;
   --text-dim: #8a8b78;
@@ -34,6 +36,8 @@
   --bg-insert: #38383d;
   --accent: #c8585e;
   --accent-hover: #e07078;
+  --link-accent: #e8c96a;
+  --link-accent-hover: #f0d98a;
   --text-primary: #e8e8e3;
   --text-muted: #a8a89a;
   --text-dim: #7e7e72;
@@ -97,19 +101,19 @@ a:hover {
 }
 
 .def-link {
-  color: var(--accent);
+  color: var(--link-accent);
   text-decoration: underline dotted;
   text-underline-offset: 2px;
   cursor: pointer;
 }
 
 .def-link:hover {
-  color: var(--accent-hover);
+  color: var(--link-accent-hover);
   text-decoration: underline;
 }
 
 .cross-ref {
-  color: var(--accent);
+  color: var(--link-accent);
   text-decoration: underline dotted;
   text-underline-offset: 2px;
   cursor: pointer;
@@ -117,7 +121,7 @@ a:hover {
 }
 
 .cross-ref:hover {
-  color: var(--accent-hover);
+  color: var(--link-accent-hover);
   text-decoration: underline;
 }
 
@@ -204,9 +208,9 @@ tr:hover td {
 /* Keyword tags — ability keywords like [BLAST] */
 .keyword {
   display: inline-block;
-  background: color-mix(in srgb, var(--accent) 12%, transparent);
-  color: var(--accent);
-  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  background: color-mix(in srgb, var(--link-accent) 12%, transparent);
+  color: var(--link-accent);
+  border: 1px solid color-mix(in srgb, var(--link-accent) 35%, transparent);
   border-radius: 2px;
   padding: 0 5px;
   font-size: 0.78em;
