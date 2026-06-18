@@ -126,7 +126,7 @@ export const ui = {
     loreShow: 'Показать лор',
     pagerPrev: 'Назад',
     pagerNext: 'Далее',
-    navEventCompanion: 'Компаньон событий',
+    navEventCompanion: 'Путеводитель по ивентам',
     subNavEventIntro: 'Введение',
     subNavEventSequence: 'Последовательность',
     subNavEventLayouts: 'Расстановки',
