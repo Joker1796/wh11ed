@@ -8,6 +8,7 @@ import ReferenceView from '../views/ReferenceView.vue'
 import EventIntroView from '../views/event/EventIntroView.vue'
 import EventSequenceView from '../views/event/EventSequenceView.vue'
 import EventLayoutsView from '../views/event/EventLayoutsView.vue'
+import EventMatrixView from '../views/event/EventMatrixView.vue'
 import EventPairingsView from '../views/event/EventPairingsView.vue'
 import EventFaqView from '../views/event/EventFaqView.vue'
 
@@ -131,6 +132,7 @@ export const eventGroups = [
   { label: 'Introduction',     path: '/event-companion',          sections: [] },
   { label: 'Mission Sequence', path: '/event-companion/sequence', sections: [] },
   { label: 'Terrain Layouts',  path: '/event-companion/layouts',  sections: [] },
+  { label: 'Mission Matrix',   path: '/event-companion/matrix',   sections: [] },
   { label: 'Pairings & Rankings', path: '/event-companion/pairings', sections: [] },
   { label: 'Errata & FAQs',    path: '/event-companion/faq',      sections: [] },
 ]
@@ -139,7 +141,8 @@ export const eventGroupsRu = [
   { label: 'Введение',                  path: '/event-companion',          sections: [] },
   { label: 'Последовательность миссии', path: '/event-companion/sequence', sections: [] },
   { label: 'Расстановки тиррейна',      path: '/event-companion/layouts',  sections: [] },
-  { label: 'Пары и ранжирование',       path: '/event-companion/pairings', sections: [] },
+  { label: 'Матрица миссий',            path: '/event-companion/matrix',   sections: [] },
+  { label: 'Паринги и ранжирование',    path: '/event-companion/pairings', sections: [] },
   { label: 'Эррата и FAQ',              path: '/event-companion/faq',      sections: [] },
 ]
 
@@ -155,6 +158,7 @@ export const router = createRouter({
     { path: '/event-companion',          component: EventIntroView },
     { path: '/event-companion/sequence', component: EventSequenceView },
     { path: '/event-companion/layouts',  component: EventLayoutsView },
+    { path: '/event-companion/matrix',   component: EventMatrixView },
     { path: '/event-companion/pairings', component: EventPairingsView },
     { path: '/event-companion/faq',      component: EventFaqView },
   ],

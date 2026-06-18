@@ -169,6 +169,7 @@ const eventSubNavItems = computed(() => {
     { path: '/event-companion', label: l.subNavEventIntro },
     { path: '/event-companion/sequence', label: l.subNavEventSequence },
     { path: '/event-companion/layouts', label: l.subNavEventLayouts },
+    { path: '/event-companion/matrix', label: l.subNavEventMatrix },
     { path: '/event-companion/pairings', label: l.subNavEventPairings },
     { path: '/event-companion/faq', label: l.subNavEventFaq },
   ]
