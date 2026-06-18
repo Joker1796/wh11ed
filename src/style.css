@@ -350,6 +350,9 @@ strong {
   h1 { font-size: 1.7rem; }
   h2 { font-size: 1.4rem; }
   body { font-size: 15px; }
+  /* Event/view heroes set their own h1 size via scoped styles (higher specificity),
+     so override them here for small screens. */
+  .view-hero h1 { font-size: 1.6rem !important; }
 }
 
 /* "Hide lore" mode — hides non-rules flavour text */
