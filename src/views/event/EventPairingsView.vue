@@ -32,13 +32,13 @@
 <script setup>
 import { computed } from 'vue'
 import RuleBlock from '../../components/RuleBlock.vue'
-import { eventCompanion } from '../../data/eventCompanion.js'
+import { getEventContent } from '../../data/eventCompanion.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const ec = computed(() => ({ ...eventCompanion.en, ...eventCompanion.ru }))
+const ec = computed(() => getEventContent(locale.value))
 const pairings = computed(() => ec.value.pairings)
 </script>
 

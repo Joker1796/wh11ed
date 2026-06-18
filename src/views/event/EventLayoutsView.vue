@@ -73,7 +73,7 @@ import { ref, computed } from 'vue'
 import DataTable from '../../components/DataTable.vue'
 import MissionMatrix from '../../components/event/MissionMatrix.vue'
 import LayoutCard from '../../components/event/LayoutCard.vue'
-import { eventCompanion } from '../../data/eventCompanion.js'
+import { getEventContent } from '../../data/eventCompanion.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
@@ -82,8 +82,7 @@ const { locale } = useLocale()
 const { renderInline } = useRenderInline()
 const labels = computed(() => ui[locale.value])
 
-// EN/RU merge — RU fields override EN when present (RU pass pending).
-const ec = computed(() => ({ ...eventCompanion.en, ...eventCompanion.ru }))
+const ec = computed(() => getEventContent(locale.value))
 
 const introParagraphs = computed(() => ec.value.terrain.intro.split('\n\n').filter(p => p.trim()))
 

@@ -22,11 +22,14 @@ function lookup(rawText) {
       : base[idx]
   }
 
-  // Event Companion glossary (EN fallback; RU pass pending).
+  // Event Companion glossary (name stays EN; RU overrides fullText, like coreAbilities).
   const glossary = eventCompanion.en.glossary || []
-  return glossary.find(g => bare(g.name) === text)
-    || glossary.find(g => text.startsWith(bare(g.name)))
-    || null
+  const gi = glossary.findIndex(g => bare(g.name) === text)
+  const gj = gi !== -1 ? gi : glossary.findIndex(g => text.startsWith(bare(g.name)))
+  if (gj === -1) return null
+  return locale.value === 'ru'
+    ? { ...glossary[gj], ...(eventCompanion.ru.glossary?.[gj] || {}) }
+    : glossary[gj]
 }
 
 export function useKeywordPopover() {
