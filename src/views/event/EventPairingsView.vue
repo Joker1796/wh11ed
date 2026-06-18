@@ -14,6 +14,7 @@
       :title="block.title"
       :body="block.body"
       :note="block.note"
+      :see-also="block.seeAlso"
     />
   </div>
 </template>

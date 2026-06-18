@@ -5,7 +5,12 @@
       <p class="view-hero-desc">{{ labels.eventLayoutsDesc }}</p>
     </div>
 
-    <p class="lead">{{ ec.terrain.intro }}</p>
+    <p
+      v-for="(para, i) in introParagraphs"
+      :key="i"
+      class="lead"
+      v-html="renderInline(para)"
+    ></p>
 
     <DataTable
       :title="ec.terrain.footprints.title"
@@ -79,6 +84,8 @@ const labels = computed(() => ui[locale.value])
 
 // EN/RU merge — RU fields override EN when present (RU pass pending).
 const ec = computed(() => ({ ...eventCompanion.en, ...eventCompanion.ru }))
+
+const introParagraphs = computed(() => ec.value.terrain.intro.split('\n\n').filter(p => p.trim()))
 
 const selected = ref({ you: ec.value.dispositions[0].id, opp: ec.value.dispositions[0].id })
 const activeLayout = ref('A')

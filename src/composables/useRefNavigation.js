@@ -13,7 +13,23 @@ const ROUTE_MAP = {
   '24': '/reference',
 }
 
+// Within the Event Companion: refs of the form "Label EC:key" or "Label EC:key#anchor".
+const EVENT_MAP = {
+  intro: '/event-companion',
+  sequence: '/event-companion/sequence',
+  layouts: '/event-companion/layouts',
+  pairings: '/event-companion/pairings',
+  faq: '/event-companion/faq',
+}
+
 export function resolveRef(text) {
+  const ev = text.match(/EC:([a-z-]+)(?:#([\w-]+))?$/)
+  if (ev) {
+    const route = EVENT_MAP[ev[1]] || null
+    const label = text.replace(/\s*EC:[a-z-]+(?:#[\w-]+)?$/, '').trim()
+    return { label, route, anchor: route ? (ev[2] || null) : null }
+  }
+
   const match = text.match(/\b(\d{2})\.(\d{2})$/)
   if (!match) return { label: text, route: null, anchor: null }
   const major = match[1]
@@ -36,7 +52,8 @@ export function useRefNavigation() {
   const router = useRouter()
 
   async function navigateTo({ route, anchor }) {
-    await router.push({ path: route, hash: '#' + anchor })
+    await router.push(anchor ? { path: route, hash: '#' + anchor } : { path: route })
+    if (!anchor) return
     await new Promise(r => setTimeout(r, 80))
     const el = document.getElementById(anchor)
     if (el) {

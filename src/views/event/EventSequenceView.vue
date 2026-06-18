@@ -8,7 +8,7 @@
     <p class="lead">{{ seq.intro }}</p>
 
     <template v-for="block in seq.blocks" :key="block.id">
-      <RuleBlock :id="block.id" :title="block.title" :body="block.body" :note="block.note" />
+      <RuleBlock :id="block.id" :title="block.title" :body="block.body" :note="block.note" :see-also="block.seeAlso" />
       <div v-if="block.table" class="table-section">
         <DataTable
           :title="block.table.title"
@@ -26,6 +26,7 @@
       :id="block.id"
       :title="block.title"
       :body="block.body"
+      :see-also="block.seeAlso"
     />
 
     <h2 class="group-heading">{{ labels.eventDesignerHeading }}</h2>
@@ -35,6 +36,7 @@
       :id="block.id"
       :title="block.title"
       :body="block.body"
+      :see-also="block.seeAlso"
     />
   </div>
 </template>
