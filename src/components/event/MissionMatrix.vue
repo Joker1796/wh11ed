@@ -157,7 +157,7 @@ function isActive(rowId, colId) {
     padding: 0.35rem 0.15rem;
   }
   .row-head .dispo-icon {
-    margin: 0 0 0 auto;
+    margin: 0 auto;
   }
   .cell {
     height: 40px;
