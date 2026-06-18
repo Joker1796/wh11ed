@@ -4,9 +4,31 @@
 // Prose pages are block lists rendered via RuleBlock (+ DataTable when `table`).
 // The Layouts page is data-driven: 5 Force Dispositions form a 5×5 matrix; each
 // unordered pairing is a `matchup` giving each side's Primary Mission + 3 layouts.
-// Illustrations are placeholders (plug.png) until the real diagrams are added.
+// Layout diagrams default to a placeholder (plug.png); real ones extracted from the
+// source PDF are wired in per matchup/layout via `layoutImages` below.
 
 const PLUG = '/images/event/plug.png'
+
+// Real layout diagrams (extracted from the source PDF), keyed by `${a}|${b}` then
+// layout id. Anything not listed falls back to the PLUG placeholder. The `a|b` key
+// uses the same ordering as the `matchups` array literal below (that order is fixed).
+const layoutImages = {
+  'take-and-hold|take-and-hold': { A: '/images/event/layout-take-and-hold-take-and-hold-a.jpg', B: '/images/event/layout-take-and-hold-take-and-hold-b.jpg', C: '/images/event/layout-take-and-hold-take-and-hold-c.jpg' },
+  'take-and-hold|purge-the-foe': { A: '/images/event/layout-take-and-hold-purge-the-foe-a.jpg', B: '/images/event/layout-take-and-hold-purge-the-foe-b.jpg', C: '/images/event/layout-take-and-hold-purge-the-foe-c.jpg' },
+  'take-and-hold|disruption': { A: '/images/event/layout-take-and-hold-disruption-a.jpg', B: '/images/event/layout-take-and-hold-disruption-b.jpg', C: '/images/event/layout-take-and-hold-disruption-c.jpg' },
+  'take-and-hold|reconnaissance': { A: '/images/event/layout-take-and-hold-reconnaissance-a.jpg', B: '/images/event/layout-take-and-hold-reconnaissance-b.jpg', C: '/images/event/layout-take-and-hold-reconnaissance-c.jpg' },
+  'take-and-hold|priority-assets': { A: '/images/event/layout-take-and-hold-priority-assets-a.jpg', B: '/images/event/layout-take-and-hold-priority-assets-b.jpg', C: '/images/event/layout-take-and-hold-priority-assets-c.jpg' },
+  'purge-the-foe|purge-the-foe': { A: '/images/event/layout-purge-the-foe-purge-the-foe-a.jpg', B: '/images/event/layout-purge-the-foe-purge-the-foe-b.jpg', C: '/images/event/layout-purge-the-foe-purge-the-foe-c.jpg' },
+  'purge-the-foe|disruption': { A: '/images/event/layout-purge-the-foe-disruption-a.jpg', B: '/images/event/layout-purge-the-foe-disruption-b.jpg', C: '/images/event/layout-purge-the-foe-disruption-c.jpg' },
+  'purge-the-foe|reconnaissance': { A: '/images/event/layout-purge-the-foe-reconnaissance-a.jpg', B: '/images/event/layout-purge-the-foe-reconnaissance-b.jpg', C: '/images/event/layout-purge-the-foe-reconnaissance-c.jpg' },
+  'purge-the-foe|priority-assets': { A: '/images/event/layout-purge-the-foe-priority-assets-a.jpg', B: '/images/event/layout-purge-the-foe-priority-assets-b.jpg', C: '/images/event/layout-purge-the-foe-priority-assets-c.jpg' },
+  'disruption|disruption': { A: '/images/event/layout-disruption-disruption-a.jpg', B: '/images/event/layout-disruption-disruption-b.jpg', C: '/images/event/layout-disruption-disruption-c.jpg' },
+  'disruption|reconnaissance': { A: '/images/event/layout-disruption-reconnaissance-a.jpg', B: '/images/event/layout-disruption-reconnaissance-b.jpg', C: '/images/event/layout-disruption-reconnaissance-c.jpg' },
+  'disruption|priority-assets': { A: '/images/event/layout-disruption-priority-assets-a.jpg', B: '/images/event/layout-disruption-priority-assets-b.jpg', C: '/images/event/layout-disruption-priority-assets-c.jpg' },
+  'reconnaissance|reconnaissance': { A: '/images/event/layout-reconnaissance-reconnaissance-a.jpg', B: '/images/event/layout-reconnaissance-reconnaissance-b.jpg', C: '/images/event/layout-reconnaissance-reconnaissance-c.jpg' },
+  'reconnaissance|priority-assets': { A: '/images/event/layout-reconnaissance-priority-assets-a.jpg', B: '/images/event/layout-reconnaissance-priority-assets-b.jpg', C: '/images/event/layout-reconnaissance-priority-assets-c.jpg' },
+  'priority-assets|priority-assets': { A: '/images/event/layout-priority-assets-priority-assets-a.jpg', B: '/images/event/layout-priority-assets-priority-assets-b.jpg', C: '/images/event/layout-priority-assets-priority-assets-c.jpg' },
+}
 
 const en = {
   // ── Page 1: Mission Sequence ───────────────────────────────────────────────
@@ -322,7 +344,10 @@ const en = {
     { a: 'priority-assets', b: 'priority-assets', missionA: 'Sabotage', missionB: 'Sabotage' },
   ].map(m => ({
     ...m,
-    layouts: ['A', 'B', 'C'].map(id => ({ id, image: PLUG })),
+    layouts: ['A', 'B', 'C'].map(id => ({
+      id,
+      image: layoutImages[`${m.a}|${m.b}`]?.[id] ?? PLUG,
+    })),
   })),
 
   // Keyword-popover glossary for Event Companion terms (reuses KeywordPopover).
