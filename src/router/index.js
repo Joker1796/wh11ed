@@ -1,16 +1,19 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import BasicRulesView from '../views/BasicRulesView.vue'
-import BattleRoundView from '../views/BattleRoundView.vue'
-import BattlefieldsView from '../views/BattlefieldsView.vue'
-import AdvancedRulesView from '../views/AdvancedRulesView.vue'
-import ReferenceView from '../views/ReferenceView.vue'
-import EventIntroView from '../views/event/EventIntroView.vue'
-import EventSequenceView from '../views/event/EventSequenceView.vue'
-import EventLayoutsView from '../views/event/EventLayoutsView.vue'
-import EventMatrixView from '../views/event/EventMatrixView.vue'
-import EventPairingsView from '../views/event/EventPairingsView.vue'
-import EventFaqView from '../views/event/EventFaqView.vue'
+
+// Route views are lazy-loaded so each page (and its data file) ships in its own
+// chunk, keeping the initial bundle small. HomeView stays eager — it's the landing page.
+const BasicRulesView    = () => import('../views/BasicRulesView.vue')
+const BattleRoundView   = () => import('../views/BattleRoundView.vue')
+const BattlefieldsView  = () => import('../views/BattlefieldsView.vue')
+const AdvancedRulesView = () => import('../views/AdvancedRulesView.vue')
+const ReferenceView     = () => import('../views/ReferenceView.vue')
+const EventIntroView    = () => import('../views/event/EventIntroView.vue')
+const EventSequenceView = () => import('../views/event/EventSequenceView.vue')
+const EventLayoutsView  = () => import('../views/event/EventLayoutsView.vue')
+const EventMatrixView   = () => import('../views/event/EventMatrixView.vue')
+const EventPairingsView = () => import('../views/event/EventPairingsView.vue')
+const EventFaqView      = () => import('../views/event/EventFaqView.vue')
 
 export const navGroups = [
   { label: 'Introduction',        path: '/',               sections: [] },

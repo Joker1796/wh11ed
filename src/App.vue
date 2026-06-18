@@ -113,9 +113,11 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, defineAsyncComponent } from 'vue'
 import { useRoute } from 'vue-router'
-import SearchModal from './components/SearchModal.vue'
+// Lazy: SearchModal pulls in useSearch.js, which imports every data file to build
+// its index. Async-loading it keeps those data files out of the initial bundle.
+const SearchModal = defineAsyncComponent(() => import('./components/SearchModal.vue'))
 import KeywordPopover from './components/KeywordPopover.vue'
 import NavSidebar from './components/NavSidebar.vue'
 import { useLocale } from './composables/useLocale.js'
