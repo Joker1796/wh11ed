@@ -41,6 +41,7 @@ const en = {
         'cards, which are left for pick-up-and-play games.\n\n' +
         'This companion does not include rules and recommendations for doubles, teams or ' +
         'Dominatus Warhammer Events. These can be found on warhammer-community.com.',
+      seeAlso: ['Mission Sequence EC:sequence', 'Terrain Layouts EC:layouts'],
     },
     intro:
       'Before attending a Warhammer Event, each player musters their army; a Warhammer ' +
@@ -51,24 +52,26 @@ const en = {
         title: '1 · Muster Armies',
         body:
           'Muster armies as described in the Warhammer 40,000 app, with the following ' +
-          'exception: once they have mustered their army, a player selects **one Force ' +
-          'Disposition card** available to them and records that on their roster.',
+          'exception: once they have mustered their army, a player selects one ' +
+          '[FORCE DISPOSITION] card available to them and records that on their roster.',
+        seeAlso: ['Terrain Layouts EC:layouts'],
       },
       {
         id: 'step-2',
         title: '2 · Determine Mission',
         body:
           "Each player finds their opponent's Force Disposition symbol on their Force " +
-          "Disposition card. The **Primary Mission** listed below that symbol is that " +
+          "Disposition card. The [PRIMARY MISSION] listed below that symbol is that " +
           "player's Primary Mission, which describes how to score VP.",
       },
       {
         id: 'step-3',
         title: '3 · Determine a Layout',
         body:
-          'Each combination of Primary Missions has three recommended layouts, labelled ' +
+          'Each combination of Primary Missions has three recommended [LAYOUT]s, labelled ' +
           '**A**, **B** and **C**. As directed by the organiser, the players either use ' +
           'the layout specified or randomly determine which to use.',
+        seeAlso: ['Terrain Layouts EC:layouts'],
       },
       {
         id: 'step-4',
@@ -76,14 +79,15 @@ const en = {
         body:
           'Missions are played on rectangular battlefields **44" by 60"** in size. ' +
           'Players set up the terrain areas as shown in the selected layout, then set up ' +
-          'terrain features on those terrain areas as shown in the selected layout.',
+          'terrain features (13) on those terrain areas as shown in the selected layout.',
+        seeAlso: ['Terrain 13.00'],
       },
       {
         id: 'step-5',
         title: '5 · Determine Attacker and Defender',
         body:
           "Players look at the selected layout and agree which edges of the battlefield " +
-          "correspond with the Attacker's and Defender's battlefield edges labelled on " +
+          "correspond with the [ATTACKER]'s and [DEFENDER]'s battlefield edges labelled on " +
           "the card.\n\n→ Roll off: the winner decides who will be the Attacker and who " +
           "will be the Defender.",
       },
@@ -91,8 +95,8 @@ const en = {
         id: 'step-6',
         title: '6 · Select Secondary Missions',
         body:
-          'Secondary Mission cards detail additional ways to score VP. Players secretly ' +
-          'note whether they will use **Tactical** or **Fixed** Secondary Missions. If ' +
+          '[SECONDARY MISSION] cards detail additional ways to score VP. Players secretly ' +
+          'note whether they will use [TACTICAL MISSION]s or [FIXED MISSION]s. If ' +
           'using Fixed Missions, they also note which two Fixed Missions they will use. ' +
           'Players then reveal these decisions.',
       },
@@ -101,9 +105,10 @@ const en = {
         title: '7 · Declare Battle Formations',
         body:
           'Players secretly note down, in order:\n' +
-          '▪ Which of their units will start the battle embarked within which [TRANSPORT].\n' +
-          '▪ Which of their units will start the battle in strategic reserves.\n' +
+          '▪ Which of their units will start the battle embarked within which TRANSPORTS (18).\n' +
+          '▪ Which of their units will start the battle in strategic reserves (20).\n' +
           'Players then reveal these decisions.',
+        seeAlso: ['Transports 18.00', 'Strategic Reserves 20.00'],
       },
       {
         id: 'step-8',
@@ -111,7 +116,7 @@ const en = {
         body:
           'Players take it in turns to set up their units (excluding those in strategic ' +
           'reserves) one at a time, wholly within their deployment zone, starting with ' +
-          'the **Defender**. If you set up a [TITANIC] unit when it is your turn, skip ' +
+          'the **Defender**. If you set up a TITANIC unit when it is your turn, skip ' +
           'your next turn to set up a unit. Once you have finished, if your opponent has ' +
           'units not yet set up, they set up those units.',
       },
@@ -121,8 +126,8 @@ const en = {
         body:
           'Some rules let you redeploy certain units after both armies are deployed. ' +
           'Unless otherwise stated, resolve those rules in this step. Players alternate, ' +
-          'starting with the Attacker. Units placed in strategic reserves in this step do ' +
-          'not count towards the combined points value of your strategic reserves units.',
+          'starting with the Attacker. Units placed in strategic reserves (20) in this step ' +
+          'do not count towards the combined points value of your strategic reserves units.',
       },
       {
         id: 'step-10',
@@ -145,15 +150,15 @@ const en = {
         id: 'step-13',
         title: '13 · End the Battle',
         body:
-          'The battle ends after five battle rounds have been completed. Even if you have ' +
-          'no models remaining at the start of your turn, players continue to play out ' +
+          'The battle ends after five battle rounds (07) have been completed. Even if you ' +
+          'have no models remaining at the start of your turn, players continue to play out ' +
           'their turns until the battle ends.',
       },
       {
         id: 'step-14',
         title: '14 · Determine Victor',
         body:
-          'Each player scores **10VP** if their army is painted to a Battle Ready ' +
+          'Each player scores **10VP** if their army is painted to a [BATTLE READY] ' +
           'standard. At the end of the battle, the player with the most VP is the victor; ' +
           'if tied, the battle is a draw. The maximum VP from each source is listed ' +
           'below — any VP scored in excess of these maximums are ignored.',
@@ -184,8 +189,8 @@ const en = {
         body:
           'If you are using Tactical Missions, shuffle your Secondary Mission deck ' +
           'face-down.\n' +
-          '▪ At the start of your Command phase, draw two Secondary Missions face-up from ' +
-          'your Secondary Missions deck; these are active for you.\n' +
+          '▪ At the start of your Command phase (08), draw two Secondary Missions face-up ' +
+          'from your Secondary Missions deck; these are active for you.\n' +
           '▪ (Once per battle) At the end of your Command phase, you can spend 1CP to ' +
           'discard one of your active Secondary Mission cards and draw one new card.',
       },
@@ -218,8 +223,8 @@ const en = {
         title: 'Leaves the Battlefield',
         body:
           'Some cards refer to a unit or units leaving the battlefield. A unit leaves the ' +
-          'battlefield if it is destroyed, if it embarks on a [TRANSPORT], or if a rule ' +
-          'removes that unit from the battlefield (e.g. to place it in strategic reserves).',
+          'battlefield if it is destroyed, if it embarks on a TRANSPORT (18), or if a rule ' +
+          'removes that unit from the battlefield (e.g. to place it in strategic reserves (20)).',
       },
       {
         id: 'one',
@@ -247,11 +252,12 @@ const en = {
   terrain: {
     intro:
       'These are the layouts used at Games Workshop events, designed by the Warhammer ' +
-      'Studio to create risk-and-reward decisions with each player\'s objectives in mind. ' +
-      'Each combination of Primary Missions has three recommended layouts (A, B and C). ' +
-      'As directed by the organiser, players either use the layout specified or randomly ' +
-      'determine which to use.\n\nSelect your Force Disposition and your opponent\'s below ' +
-      'to view the matchup\'s Primary Missions and its three terrain layouts.',
+      'Studio to create risk-and-reward decisions with each player\'s objectives (14) in ' +
+      'mind. Each combination of [PRIMARY MISSION]s has three recommended [LAYOUT]s ' +
+      '(A, B and C). As directed by the organiser, players either use the layout ' +
+      'specified or randomly determine which to use.\n\nSelect your [FORCE DISPOSITION] ' +
+      'and your opponent\'s below to view the matchup\'s Primary Missions and its three ' +
+      'terrain layouts.',
     footprints: {
       title: 'Recommended Terrain Area Footprints',
       headers: ['Terrain Area Footprint Size', 'Quantity'],
@@ -312,6 +318,70 @@ const en = {
     ...m,
     layouts: ['A', 'B', 'C'].map(id => ({ id, image: PLUG })),
   })),
+
+  // Keyword-popover glossary for Event Companion terms (reuses KeywordPopover).
+  glossary: [
+    {
+      name: '[FORCE DISPOSITION]', num: '',
+      fullText:
+        "The card a player selects after mustering their army. Your opponent's Force " +
+        'Disposition symbol on your card tells you your **Primary Mission** for the battle.',
+    },
+    {
+      name: '[PRIMARY MISSION]', num: '',
+      fullText:
+        "Your main source of VP (up to 45VP, max 15 per battle round), determined by the " +
+        "combination of both players' Force Dispositions.",
+    },
+    {
+      name: '[SECONDARY MISSION]', num: '',
+      fullText:
+        'Additional ways to score VP (up to 45VP). Each player secretly chooses **Fixed** ' +
+        'or **Tactical** Secondary Missions before the battle.',
+    },
+    {
+      name: '[FIXED MISSION]', num: '',
+      fullText:
+        'Secondary Missions displayed face-up from the start. They cannot be discarded and ' +
+        'stay active all battle (max 20VP per Fixed card).',
+    },
+    {
+      name: '[TACTICAL MISSION]', num: '',
+      fullText:
+        'Secondary Missions drawn from a shuffled deck: draw two at the start of your ' +
+        'Command phase (08); once per battle you may spend 1CP to discard one and redraw.',
+    },
+    {
+      name: '[OPERATION MARKER]', num: '',
+      fullText:
+        'Markers that some Primary Missions let you place on the battlefield. You can only ' +
+        'remove them if the Primary Mission card states how and when.',
+    },
+    {
+      name: '[BATTLE READY]', num: '',
+      fullText:
+        'A painting standard. Each player scores 10VP if their army is painted to a Battle ' +
+        'Ready standard.',
+    },
+    {
+      name: '[ATTACKER]', num: '',
+      fullText:
+        "One of the two battle roles. The selected layout labels the Attacker's battlefield " +
+        'edges; the roles are decided by a roll-off when determining Attacker and Defender.',
+    },
+    {
+      name: '[DEFENDER]', num: '',
+      fullText:
+        "One of the two battle roles. The Defender deploys first, and the layout labels the " +
+        "Defender's battlefield edge.",
+    },
+    {
+      name: '[LAYOUT]', num: '',
+      fullText:
+        'One of three recommended terrain setups (A, B and C) for a given Primary Mission ' +
+        'matchup, specifying terrain areas, features and objective positions.',
+    },
+  ],
 
   // ── Page 5–6: Pairings & Rankings ──────────────────────────────────────────
   pairings: {
@@ -374,7 +444,7 @@ const en = {
     errata: 'Chapter Approved Mission Deck errata: **None.**',
     items: [
       {
-        q: 'Some Primary Mission cards let a player place operation markers on the battlefield. Can I remove these?',
+        q: 'Some [PRIMARY MISSION] cards let a player place [OPERATION MARKER]s on the battlefield. Can I remove these?',
         a: 'Your Primary Mission card will specify how and when you can remove operation markers from the battlefield. If it doesn\'t, you cannot remove operation markers.',
       },
       {

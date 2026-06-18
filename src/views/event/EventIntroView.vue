@@ -9,6 +9,7 @@
       :id="intro.id"
       :body="intro.body"
       :note="intro.note"
+      :see-also="intro.seeAlso"
     />
   </div>
 </template>
