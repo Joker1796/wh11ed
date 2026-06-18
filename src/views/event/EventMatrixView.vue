@@ -85,7 +85,7 @@
           class="tab"
           :class="{ active: activeLayout === l.id }"
           @click="activeLayout = l.id"
-        >{{ labels.eventLayout }} {{ l.id }}</button>
+        ><span class="tab-word">{{ labels.eventLayout }} </span>{{ l.id }}</button>
       </div>
 
       <LayoutCard v-if="currentLayout" :layout="currentLayout" />
@@ -191,7 +191,8 @@ const currentLayout = computed(() =>
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
 }
 .key-body {
   margin-top: 1.5rem;
@@ -205,6 +206,7 @@ const currentLayout = computed(() =>
   text-transform: uppercase;
   letter-spacing: 0.04em;
   margin: 0;
+  min-width: 0;
 }
 .key-toggle {
   display: inline-flex;
@@ -230,7 +232,7 @@ const currentLayout = computed(() =>
   padding: 0;
   margin: 0 0 2rem;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
   gap: 0.75rem 1.25rem;
 }
 .legend li {
@@ -248,7 +250,7 @@ const currentLayout = computed(() =>
 
 /* Terrain key — set apart with a divider and larger, more readable icons. */
 .legend-terrain {
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
   margin-bottom: 1.5rem;
   padding-bottom: 1.5rem;
   border-bottom: 1px solid var(--border);
@@ -396,5 +398,20 @@ const currentLayout = computed(() =>
 @media (max-width: 600px) {
   .matchup-sides { gap: 0.75rem; }
   .side-mission { font-size: 1rem; }
+  .layouts-key { padding: 1rem; }
+  .legend-heading { font-size: 1.25rem; }
+  .key-toggle { min-height: 40px; }
+  .legend-objectives { gap: 1.25rem 1.5rem; }
+
+  /* Layout tabs: drop the word, leave square A/B/C buttons. */
+  .tab-word { display: none; }
+  .tabs { gap: 0.85rem; }
+  .tab {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0.4rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+  }
 }
 </style>

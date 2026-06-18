@@ -277,6 +277,14 @@ async function navigate(item) {
     padding: 1rem 1.25rem;
   }
 
+  /* Let snippets wrap to two lines instead of a single ellipsised line. */
+  .result-snippet {
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
   .search-hint-text {
     padding: 2rem 1.25rem;
   }
