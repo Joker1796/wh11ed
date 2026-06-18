@@ -14,6 +14,7 @@ const en = {
     introduction: {
       id: 'introduction',
       title: 'Introduction',
+      authorNote: '',
       body:
         'Welcome to the Warhammer Event Companion! This document is designed to help you ' +
         'run and play in organised events, from local leagues to the world championships. ' +
@@ -501,6 +502,10 @@ const ru = {
   sequence: {
     introduction: {
       title: 'Введение',
+      authorNote:
+        'От автора проекта wh11ed.ru. Текст этого раздела переведён на русский с помощью ' +
+        'искусственного интеллекта, поэтому в нём возможны ошибки и неточности. Если вы их ' +
+        'заметите — пожалуйста, напишите мне, и я внесу правки.',
       body:
         'Добро пожаловать в Warhammer Event Companion! Этот документ создан, чтобы помочь ' +
         'вам проводить организованные мероприятия и играть в них — от локальных лиг до ' +
