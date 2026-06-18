@@ -133,19 +133,53 @@ export const navGroupsRu = [
 // (no in-page anchors), so `sections` is empty and the sidebar navigates on click.
 export const eventGroups = [
   { label: 'Introduction',     path: '/event-companion',          sections: [] },
-  { label: 'Mission Sequence', path: '/event-companion/sequence', sections: [] },
+  {
+    label: 'Mission Sequence', path: '/event-companion/sequence',
+    sections: [
+      { id: 'step-1',  label: 'Muster Armies' },
+      { id: 'step-2',  label: 'Determine Mission' },
+      { id: 'step-4',  label: 'Create the Battlefield' },
+      { id: 'step-8',  label: 'Deploy Armies' },
+      { id: 'step-12', label: 'Begin the Battle' },
+      { id: 'step-14', label: 'Determine Victor' },
+    ],
+  },
   { label: 'Terrain Layouts',  path: '/event-companion/layouts',  sections: [] },
   { label: 'Mission Matrix',   path: '/event-companion/matrix',   sections: [] },
-  { label: 'Pairings & Rankings', path: '/event-companion/pairings', sections: [] },
+  {
+    label: 'Pairings & Rankings', path: '/event-companion/pairings',
+    sections: [
+      { id: 'pairing-players', label: 'Pairing Players' },
+      { id: 'ranking-players', label: 'Ranking Players' },
+      { id: 'rules-appendix',  label: 'Rules Appendix, Errata & FAQs' },
+    ],
+  },
   { label: 'Errata & FAQs',    path: '/event-companion/faq',      sections: [] },
 ]
 
 export const eventGroupsRu = [
   { label: 'Введение',                  path: '/event-companion',          sections: [] },
-  { label: 'Последовательность миссии', path: '/event-companion/sequence', sections: [] },
+  {
+    label: 'Последовательность миссии', path: '/event-companion/sequence',
+    sections: [
+      { id: 'step-1',  label: 'Сбор армий' },
+      { id: 'step-2',  label: 'Определение миссии' },
+      { id: 'step-4',  label: 'Создание поля боя' },
+      { id: 'step-8',  label: 'Развёртывание армий' },
+      { id: 'step-12', label: 'Начало битвы' },
+      { id: 'step-14', label: 'Определение победителя' },
+    ],
+  },
   { label: 'Расстановки тиррейна',      path: '/event-companion/layouts',  sections: [] },
   { label: 'Матрица миссий',            path: '/event-companion/matrix',   sections: [] },
-  { label: 'Паринги и ранжирование',    path: '/event-companion/pairings', sections: [] },
+  {
+    label: 'Паринги и ранжирование',    path: '/event-companion/pairings',
+    sections: [
+      { id: 'pairing-players', label: 'Составление пар' },
+      { id: 'ranking-players', label: 'Ранжирование игроков' },
+      { id: 'rules-appendix',  label: 'Rules Appendix, эррата и FAQ' },
+    ],
+  },
   { label: 'Эррата и FAQ',              path: '/event-companion/faq',      sections: [] },
 ]
 

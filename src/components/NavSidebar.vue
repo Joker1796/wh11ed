@@ -9,46 +9,36 @@
     </div>
 
     <div class="nav-groups">
-      <p class="nav-section-label">{{ labels.navCoreRules }}</p>
-      <div
-        v-for="group in localizedGroups"
-        :key="group.path"
-        class="nav-group"
-        :class="{ active: isActive(group) }"
-      >
-        <button
-          class="nav-group-label"
-          :class="{ expanded: expandedPath === group.path }"
-          @click="toggleGroup(group)"
+      <template v-for="section in navSections" :key="section.label">
+        <p class="nav-section-label">{{ section.label }}</p>
+        <div
+          v-for="group in section.groups"
+          :key="group.path"
+          class="nav-group"
+          :class="{ active: isActive(group) }"
         >
-          {{ group.label }}
-          <svg v-if="group.sections.length" class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
-            <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
+          <button
+            class="nav-group-label"
+            :class="{ expanded: expandedPath === group.path }"
+            @click="toggleGroup(group)"
+          >
+            {{ group.label }}
+            <svg v-if="group.sections.length" class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
 
-        <transition name="expand">
-          <ul v-if="expandedPath === group.path && group.sections.length" class="nav-sub">
-            <li v-for="sec in group.sections" :key="sec.label">
-              <a href="#" class="nav-sub-link" @click.prevent="handleAnchorClick(group.path, sec.id, sec.filter)">
-                {{ sec.label.replace(/^\d+\s+/, '') }}
-              </a>
-            </li>
-          </ul>
-        </transition>
-      </div>
-
-      <p class="nav-section-label">{{ labels.navEventCompanion }}</p>
-      <div
-        v-for="group in localizedEventGroups"
-        :key="group.path"
-        class="nav-group"
-        :class="{ active: isActive(group) }"
-      >
-        <button class="nav-group-label" @click="toggleGroup(group)">
-          {{ group.label }}
-        </button>
-      </div>
+          <transition name="expand">
+            <ul v-if="expandedPath === group.path && group.sections.length" class="nav-sub">
+              <li v-for="sec in group.sections" :key="sec.label">
+                <a href="#" class="nav-sub-link" @click.prevent="handleAnchorClick(group.path, sec.id, sec.filter)">
+                  {{ sec.label.replace(/^\d+\s+/, '') }}
+                </a>
+              </li>
+            </ul>
+          </transition>
+        </div>
+      </template>
     </div>
   </nav>
 </template>
@@ -71,6 +61,11 @@ const { activeFilter } = useAbilityFilter()
 const labels = computed(() => ui[locale.value])
 const localizedGroups = computed(() => locale.value === 'ru' ? navGroupsRu : navGroups)
 const localizedEventGroups = computed(() => locale.value === 'ru' ? eventGroupsRu : eventGroups)
+
+const navSections = computed(() => [
+  { label: labels.value.navCoreRules,      groups: localizedGroups.value },
+  { label: labels.value.navEventCompanion, groups: localizedEventGroups.value },
+])
 
 const expandedPath = ref(route.path)
 
@@ -272,7 +267,7 @@ async function handleAnchorClick(path, id, filter) {
 .expand-enter-active, .expand-leave-active {
   transition: max-height 0.25s ease;
   overflow: hidden;
-  max-height: 600px;
+  max-height: 800px;
 }
 .expand-enter-from, .expand-leave-to {
   max-height: 0;
