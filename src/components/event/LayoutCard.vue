@@ -3,7 +3,7 @@
     <img :src="layout.image" :alt="`Layout ${layout.id}`" class="layout-img" />
     <figcaption class="layout-caption">
       <span class="layout-badge">{{ labels.eventLayout }} {{ layout.id }}</span>
-      <span class="layout-placeholder-note">{{ labels.eventLayoutPlaceholder }}</span>
+      <span v-if="isPlaceholder" class="layout-placeholder-note">{{ labels.eventLayoutPlaceholder }}</span>
     </figcaption>
   </figure>
 </template>
@@ -13,10 +13,11 @@ import { computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 
-defineProps({ layout: { type: Object, required: true } })
+const props = defineProps({ layout: { type: Object, required: true } })
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+const isPlaceholder = computed(() => props.layout.image.includes('plug'))
 </script>
 
 <style scoped>
