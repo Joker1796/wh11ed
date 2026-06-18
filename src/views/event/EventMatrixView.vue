@@ -19,6 +19,16 @@
       </div>
 
       <div v-show="showKey" class="key-body">
+        <h3 class="legend-subheading">{{ labels.legendMissions }}</h3>
+        <ul class="legend legend-dispositions">
+          <li v-for="d in ec.dispositions" :key="d.id">
+            <img v-if="d.icon" :src="d.icon" :alt="d.name" class="legend-icon" />
+            <div class="legend-text">
+              <span class="legend-label">{{ d.name }}</span>
+            </div>
+          </li>
+        </ul>
+
         <ul class="legend legend-terrain">
           <li v-for="item in terrainLegend" :key="item.id">
             <img v-if="item.icon" :src="item.icon" :alt="item.label" class="legend-icon" />
@@ -67,12 +77,14 @@
       <div class="matchup-sides">
         <div class="side side-you">
           <span class="side-label">{{ labels.eventMatrixYou }}</span>
+          <img v-if="dispoIcon(selected.you)" :src="dispoIcon(selected.you)" :alt="dispoName(selected.you)" class="side-icon" />
           <span class="side-dispo">{{ dispoName(selected.you) }}</span>
           <span class="side-mission">{{ youMission }}</span>
         </div>
         <span class="side-vs">VS</span>
         <div class="side side-opp">
           <span class="side-label">{{ labels.eventMatrixOpponent }}</span>
+          <img v-if="dispoIcon(selected.opp)" :src="dispoIcon(selected.opp)" :alt="dispoName(selected.opp)" class="side-icon" />
           <span class="side-dispo">{{ dispoName(selected.opp) }}</span>
           <span class="side-mission">{{ oppMission }}</span>
         </div>
@@ -140,6 +152,10 @@ function selectCell({ you, opp }) {
 
 function dispoName(id) {
   return ec.value.dispositions.find(d => d.id === id)?.name ?? id
+}
+
+function dispoIcon(id) {
+  return ec.value.dispositions.find(d => d.id === id)?.icon
 }
 
 const matchup = computed(() => {
@@ -248,6 +264,20 @@ const currentLayout = computed(() =>
   border-radius: 4px;
 }
 
+.legend-subheading {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  margin: 0 0 0.6rem;
+}
+
+/* Force Disposition icons + names — the key for the (icon-only on mobile) matrix. */
+.legend-dispositions {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
 /* Terrain key — set apart with a divider and larger, more readable icons. */
 .legend-terrain {
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
@@ -353,6 +383,12 @@ const currentLayout = computed(() =>
   letter-spacing: 0.05em;
   color: var(--text-muted);
 }
+.side-icon {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  margin: 0.1rem 0;
+}
 .side-dispo {
   font-size: 0.85rem;
   color: var(--text-muted);
@@ -400,7 +436,17 @@ const currentLayout = computed(() =>
   .side-mission { font-size: 1rem; }
   .layouts-key { padding: 1rem; }
   .legend-heading { font-size: 1.25rem; }
-  .key-toggle { min-height: 40px; }
+  .key-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.6rem;
+  }
+  .key-toggle {
+    min-height: 40px;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+  }
   .legend-objectives { gap: 1.25rem 1.5rem; }
 
   /* Layout tabs: drop the word, leave square A/B/C buttons. */

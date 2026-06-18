@@ -8,13 +8,17 @@
             <span class="corner-opp">{{ labels.eventMatrixOpponent }} →</span>
           </th>
           <th v-for="d in dispositions" :key="'col-' + d.id" class="col-head">
-            {{ d.name }}
+            <img v-if="d.icon" :src="d.icon" :alt="d.name" class="dispo-icon" />
+            <span class="dispo-name">{{ d.name }}</span>
           </th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="row in dispositions" :key="'row-' + row.id">
-          <th class="row-head">{{ row.name }}</th>
+          <th class="row-head">
+            <img v-if="row.icon" :src="row.icon" :alt="row.name" class="dispo-icon" />
+            <span class="dispo-name">{{ row.name }}</span>
+          </th>
           <td
             v-for="col in dispositions"
             :key="row.id + '-' + col.id"
@@ -82,6 +86,11 @@ function isActive(rowId, colId) {
   white-space: nowrap;
 }
 
+/* Disposition emblem icons — shown only on mobile (desktop matrix stays textual). */
+.dispo-icon {
+  display: none;
+}
+
 .corner {
   background: var(--bg-secondary);
   padding: 0.4rem 0.6rem;
@@ -124,5 +133,44 @@ function isActive(rowId, colId) {
 
 .cell.active .cell-dot {
   background: var(--text-on-accent);
+}
+
+/* Mobile: drop the names, show only emblem icons, and fit the table to the
+   viewport (no horizontal scroll on typical phones). */
+@media (max-width: 600px) {
+  .matrix {
+    min-width: 0;
+    table-layout: fixed;
+  }
+  .dispo-name {
+    display: none;
+  }
+  .dispo-icon {
+    display: block;
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+    margin: 0 auto;
+  }
+  .col-head,
+  .row-head {
+    padding: 0.35rem 0.15rem;
+  }
+  .row-head .dispo-icon {
+    margin: 0 0 0 auto;
+  }
+  .cell {
+    height: 40px;
+  }
+  /* Narrow corner: hide the words, keep just the direction arrows. */
+  .corner {
+    padding: 0.3rem 0.15rem;
+  }
+  .corner-you,
+  .corner-opp {
+    font-size: 0.6rem;
+    white-space: normal;
+    line-height: 1.2;
+  }
 }
 </style>

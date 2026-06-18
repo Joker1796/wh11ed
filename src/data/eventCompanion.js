@@ -321,11 +321,11 @@ const en = {
 
   // 5 Force Dispositions — the axes of the matrix.
   dispositions: [
-    { id: 'take-and-hold', name: 'Take and Hold' },
-    { id: 'purge-the-foe', name: 'Purge the Foe' },
-    { id: 'disruption', name: 'Disruption' },
-    { id: 'reconnaissance', name: 'Reconnaissance' },
-    { id: 'priority-assets', name: 'Priority Assets' },
+    { id: 'take-and-hold', name: 'Take and Hold', icon: '/images/event/dispo-take-and-hold.png' },
+    { id: 'purge-the-foe', name: 'Purge the Foe', icon: '/images/event/dispo-purge-the-foe.png' },
+    { id: 'disruption', name: 'Disruption', icon: '/images/event/dispo-disruption.png' },
+    { id: 'reconnaissance', name: 'Reconnaissance', icon: '/images/event/dispo-reconnaissance.png' },
+    { id: 'priority-assets', name: 'Priority Assets', icon: '/images/event/dispo-priority-assets.png' },
   ],
 
   // 15 unordered matchups. missionA/missionB = each side's Primary Mission.
