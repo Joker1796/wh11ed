@@ -7,3 +7,4 @@ dist/
 # Local source/reference material (not for the repo)
 sources/
 *.pdf
+.backup/
