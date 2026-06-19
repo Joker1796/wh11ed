@@ -16,7 +16,7 @@
         :page="section.page"
       />
 
-      <img
+      <AppImage
         v-if="section.image"
         :src="section.image.src"
         :alt="section.image.alt"
@@ -42,13 +42,13 @@
           :side-image="sub.sideImage"
         >
           <div v-if="sub.illustration" class="section-illustration">
-            <img :src="sub.illustration.src" :alt="sub.illustration.alt" />
+            <AppImage :src="sub.illustration.src" :alt="sub.illustration.alt" />
             <SeeAlsoBlock
               :title="sub.illustration.seeAlso.title"
               :refs="sub.illustration.seeAlso.refs"
             />
           </div>
-          <img
+          <AppImage
             v-if="sub.image"
             :src="sub.image.src"
             :alt="sub.image.alt"
@@ -76,6 +76,7 @@
 import { computed } from 'vue'
 import SectionHeader from '../components/SectionHeader.vue'
 import RuleBlock from '../components/RuleBlock.vue'
+import AppImage from '../components/AppImage.vue'
 import SeeAlsoBlock from '../components/SeeAlsoBlock.vue'
 import SectionTocBlock from '../components/SectionTocBlock.vue'
 import DataTable from '../components/DataTable.vue'
@@ -144,14 +145,16 @@ const tocSections = computed(() =>
   margin: 1rem 0;
 }
 
-.section-img {
+:deep(.section-img) {
   display: block;
   max-width: 100%;
   margin: 1rem 0 1.5rem;
   border-radius: 4px;
 }
 
-.view > .section-img {
+/* AppImage wraps the <img> in a (display:contents) <picture>, so the section-level
+   image is `.view > picture > .section-img` — picture carries this component's scope. */
+.view > picture > :deep(.section-img) {
   border-bottom: 1px solid var(--border-light);
   padding-bottom: 1.5rem;
   margin-bottom: 0;
@@ -164,7 +167,7 @@ const tocSections = computed(() =>
   margin: 1rem 0 1.5rem;
 }
 
-.section-illustration img {
+.section-illustration :deep(img) {
   border-radius: 4px;
   max-width: 100%;
   height: auto;
