@@ -10,6 +10,7 @@ npm run build    # production build → dist/
 npm run preview  # preview the production build
 npm run deploy   # build + upload to the Yandex Object Storage bucket (see Deployment)
 npm run images:webp  # convert new illustration jpg/png in public/images/ to WebP (see Image organization)
+npm run icons        # regenerate PWA / home-screen icons from the "W" mark (see PWA)
 ```
 
 No test suite or linter configured.
@@ -109,12 +110,22 @@ The script is idempotent and re-runnable — add a new image as `.jpg/.png`, run
 
 **Left as-is:** `wh40k-app-qr.png` — a 288px 1-bit (2-colour) indexed PNG (~640 B), pre-sized to ~2× its display; kept out of the WebP pipeline on purpose (WebP can't store a 1-bit palette, so it'd be larger and softer). And `favicon.svg`.
 
+## PWA
+
+The site is an installable PWA via **`vite-plugin-pwa`** (Workbox `generateSW`), configured in `vite.config.js`. `base` is `'/'` (root-hosted) so the service worker controls scope `/`.
+
+- **Manifest** is defined inline in the `VitePWA({ manifest })` config; the plugin emits `dist/manifest.webmanifest` and injects the `<link>` + SW registration into `index.html`. iOS-only tags (`apple-touch-icon`, `apple-mobile-web-app-*`, `theme-color`) are hand-written in `index.html`.
+- **Icons** (`public/pwa-192.png`, `pwa-512.png`, `maskable-512.png`, `apple-touch-icon.png`) are generated from the "W" mark by `scripts/gen-pwa-icons.mjs` (`npm run icons`, uses `sharp`). `favicon.svg` stays for the browser tab.
+- **Full offline:** `workbox.globPatterns` precaches the app shell **and** every image (`.webp`) — ~28 MB, so install downloads everything and the app works fully offline. Google Fonts + bootstrap-icons (external CDNs) are `runtimeCaching`d (cached on first online load; text falls back to system fonts if absent).
+- **Updates:** `registerType: 'autoUpdate'` + `cleanupOutdatedCaches` — a new deploy activates on next load and purges stale precache. This only works if the SW itself isn't long-cached — see Deployment.
+
 ## Deployment
 
 Hosted at **wh11ed.ru** on a **Yandex Object Storage** bucket (`wh11ed.ru`) behind **Yandex CDN**. Deploy with `npm run deploy` (runs `deploy.sh`), which builds and `aws s3 sync`s `dist/` with tiered `Cache-Control`:
 
-- `assets/*` (content-hashed) → `public, max-age=31536000, immutable`
-- images / favicon (stable names) → `public, max-age=31536000`
+- `assets/*` (content-hashed, incl. `workbox-*.js`) → `public, max-age=31536000, immutable`
+- images / favicon / PWA icons (stable names) → `public, max-age=31536000`
+- `sw.js` / `registerSW.js` / `manifest.webmanifest` → `no-cache` (**must** revalidate, or PWA updates never reach clients)
 - `index.html` → `public, max-age=86400` (1 day)
 
 Uploads via the S3-compatible API (endpoint `storage.yandexcloud.net`, AWS CLI profile `yc`). Set `CDN_RESOURCE_ID` to auto-purge the CDN; otherwise purge manually after deploy. The CDN resource must cache **according to origin headers** (honor-origin) or it overrides per-file `Cache-Control` with a single TTL. Because images are cached a year under stable names, **rename a file when you change an image** (or the browser keeps the old one). Full runbook: `DEPLOY.md`.
