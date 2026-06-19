@@ -97,12 +97,13 @@ const sections = computed(() => {
     description: basicRules.ru[i].description,
     subsections: section.subsections.map((sub, j) => {
       const merged = { ...sub, ...basicRules.ru[i].subsections[j] }
+      const ruSrc = src => src.replace(/\.(png|jpg)$/, '-ru.$1')
       if (merged.image?.src)
-        merged.image = { ...merged.image, src: merged.image.src.replace('.png', '-ru.png') }
+        merged.image = { ...merged.image, src: ruSrc(merged.image.src) }
       if (merged.sideImage?.src)
-        merged.sideImage = { ...merged.sideImage, src: merged.sideImage.src.replace('.png', '-ru.png') }
+        merged.sideImage = { ...merged.sideImage, src: ruSrc(merged.sideImage.src) }
       if (merged.illustration?.src)
-        merged.illustration = { ...merged.illustration, src: merged.illustration.src.replace('.png', '-ru.png') }
+        merged.illustration = { ...merged.illustration, src: ruSrc(merged.illustration.src) }
       return merged
     }),
     woundTable: section.woundTable
