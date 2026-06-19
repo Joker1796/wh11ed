@@ -101,6 +101,8 @@ The source rulebook PDF lives in `sources/` (gitignored). Extract text with `pdf
 
 **Illustrations are stored as WebP** (for the app-like build). The data files and components still reference the original `.jpg`/`.png` paths — the `AppImage` component (`src/components/AppImage.vue`) maps the extension to WebP at render time, serving `<name>.webp` on desktop and an 800px `<name>-sm.webp` via `<picture>` at `≤640px`. So **keep writing `.jpg`/`.png` paths in data** (including the runtime `-ru` suffix); do not rewrite them to `.webp`.
 
+**Rendering path:** every illustration `<img>` goes through `AppImage` — in `RuleBlock.vue` (`sideImage`, inline `[img:]` body images, `img-group`), `BasicRulesView.vue` (section `image`, `illustration`), and `LayoutCard.vue` (`layout.image`). Icons stay as plain `<img>` (markers, `icon:` dispo/legend, the QR). `AppImage` uses `inheritAttrs:false` + `v-bind="$attrs"` to forward `class`/`style` onto the inner `<img>`, and its `<picture>` is `display:contents` so the img stays the float/flex child of the parent. Consequence: **parent scoped CSS that targets the img must use `:deep()`** (e.g. `:deep(.side-image)`, `.section-illustration :deep(img)`), since the img now lives inside the child component.
+
 `scripts/gen-webp.mjs` (`npm run images:webp`, needs the `sharp` devDep) does the conversion. It handles two cases and **deletes the original** in both:
 
 - **Illustrations** → `<name>.webp` + `<name>-sm.webp` (800px mobile copy). `isIllustration()`: all `*.jpg/*.jpeg` **except** `event/legend-*.jpg`, plus `intro/datasheet.png` and `turn/*.png`. JPEG sources → lossy WebP; PNG sources → lossless WebP (preserves alpha).
