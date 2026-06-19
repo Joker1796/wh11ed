@@ -9,7 +9,7 @@
       <SeeAlsoBlock v-if="seeAlso && seeAlso.length" :refs="seeAlso" />
 
       <div class="rule-body" @click="handleDefClick">
-        <img v-if="sideImage" class="side-image" :src="sideImage.src" :alt="sideImage.alt" :style="sideImage.width ? { maxWidth: sideImage.width } : undefined" />
+        <AppImage v-if="sideImage" class="side-image" :src="sideImage.src" :alt="sideImage.alt" :style="sideImage.width ? { maxWidth: sideImage.width } : undefined" />
         <template v-for="(block, i) in blocks" :key="i">
           <ul v-if="block.type === 'ul'" class="rule-list">
             <li v-for="(item, j) in block.items" :key="j">
@@ -39,7 +39,7 @@
               ></span>
             </div>
           </div>
-          <img v-else-if="block.type === 'img'" :src="block.src" :alt="block.alt" class="body-image" />
+          <AppImage v-else-if="block.type === 'img'" :src="block.src" :alt="block.alt" class="body-image" />
           <div v-else-if="block.type === 'info-card'" class="info-card">
             <div v-for="(row, k) in block.rows" :key="k" class="info-row">
               <div class="info-label">{{ row.label }}</div>
@@ -52,7 +52,7 @@
             </div>
           </div>
           <div v-else-if="block.type === 'img-group'" class="img-group">
-            <img v-for="(item, k) in block.srcs" :key="k" :src="item.src" :alt="item.alt" />
+            <AppImage v-for="(item, k) in block.srcs" :key="k" :src="item.src" :alt="item.alt" />
           </div>
           <h4 v-else-if="block.type === 'h4'" class="rule-subheading">{{ block.text }}</h4>
           <p v-else v-html="renderInline(block.text)"></p>
@@ -71,6 +71,7 @@
 <script setup>
 import { computed } from 'vue'
 import SeeAlsoBlock from './SeeAlsoBlock.vue'
+import AppImage from './AppImage.vue'
 import { useRenderInline } from '../composables/useRenderInline.js'
 
 const props = defineProps({
@@ -354,7 +355,7 @@ function handleDefClick(e) {
 .result-fail    { background: #9d060d; }
 .result-success { background: #027360; }
 
-.body-image {
+:deep(.body-image) {
   display: block;
   max-width: 100%;
   margin: 0.5rem 0;
@@ -413,16 +414,16 @@ function handleDefClick(e) {
   border-radius: 4px;
 }
 
-.img-group img {
+.img-group :deep(img) {
   display: block;
   width: 100%;
 }
 
-.img-group img + img {
+.img-group :deep(img + img) {
   margin-top: 6px;
 }
 
-.side-image {
+:deep(.side-image) {
   float: left;
   max-width: 40%;
   margin: 0 1.5rem 1rem 0;
@@ -464,7 +465,7 @@ function handleDefClick(e) {
     grid-template-columns: 7rem 1fr;
   }
 
-  .side-image {
+  :deep(.side-image) {
     float: none;
     max-width: 100%;
     margin: 0 0 1rem;

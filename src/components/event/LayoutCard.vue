@@ -3,13 +3,13 @@
     <div class="layout-stack">
       <img
         class="edge-marker"
-        src="/images/event/marker-attacker.png"
+        src="/images/event/marker-attacker.webp"
         alt="Attacker's battlefield edge"
       />
-      <img :src="layout.image" :alt="`Layout ${layout.id}`" class="layout-img" />
+      <AppImage :src="layout.image" :alt="`Layout ${layout.id}`" class="layout-img" />
       <img
         class="edge-marker"
-        src="/images/event/marker-defender.png"
+        src="/images/event/marker-defender.webp"
         alt="Defender's battlefield edge"
       />
     </div>
@@ -21,6 +21,7 @@
 
 <script setup>
 import { computed } from 'vue'
+import AppImage from '../AppImage.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 
@@ -51,7 +52,7 @@ const labels = computed(() => ui[locale.value])
   padding: 0.9rem 0.9rem 1rem;
 }
 
-.layout-img,
+:deep(.layout-img),
 .edge-marker {
   display: block;
   width: 100%;

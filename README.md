@@ -1,22 +1,24 @@
 # Warhammer 40,000 — Core Rules 11th Edition
 
-Interactive digital reference for the Warhammer 40,000 11th Edition Core Rules. Built as a fast, searchable alternative to flipping through the PDF.
+Interactive, **bilingual (EN/RU)** digital reference for the Warhammer 40,000 11th Edition Core Rules and **Event Companion**. Built as a fast, searchable alternative to flipping through the PDF, and being prepared to run as an installable app. Hosted at [wh11ed.ru](https://wh11ed.ru).
 
 ## Features
 
-- **Full rules content** — all 24 sections of the core rulebook, structured and cross-referenced
+- **Full rules content** — all core-rulebook sections plus the Event Companion (terrain layouts, the 5×5 mission matrix, pairings, FAQs), structured and cross-referenced
+- **Bilingual** — every rule and UI string ships in English and Russian, switchable at runtime
 - **Instant search** — `Ctrl+K` to search across every rule, ability, and keyword
 - **Table of contents** — quick-jump anchors at the top of every section
-- **Example blocks** — inline examples that clarify abstract rules
+- **Example blocks** — inline examples and diagrams that clarify abstract rules
 - **See Also links** — clickable cross-references between related rules
-- **Source files** — original PDF accessible under the Files tab
+- **Optimized images** — illustrations served as responsive WebP (full-size on desktop, an 800px copy on phones); icons downscaled to WebP
 
 ## Stack
 
 - [Vue 3](https://vuejs.org/) + [Vite](https://vitejs.dev/)
 - [Vue Router](https://router.vuejs.org/) (hash history)
+- [sharp](https://sharp.pixelplumbing.com/) (dev only) — WebP image generation
 - Google Fonts: EB Garamond + Inter
-- No backend, no dependencies beyond Vue
+- No backend
 
 ## Getting Started
 
@@ -28,21 +30,29 @@ npm run dev
 Open [http://localhost:5173](http://localhost:5173).
 
 ```bash
-npm run build   # production build → dist/
+npm run build        # production build → dist/
+npm run images:webp  # convert new illustration/icon jpg/png in public/images/ to WebP
+npm run deploy       # build + upload to the Yandex Object Storage bucket
 ```
 
 ## Project Structure
 
 ```
 src/
-  components/       # RuleBlock, SectionHeader, TableOfContents, SearchModal, DataTable
-  composables/      # useSearch.js — full-text search index
-  data/             # rules content as JS modules (basicRules, battleRound, …)
-  views/            # one view per nav section
+  components/       # RuleBlock, AppImage (responsive WebP), SearchModal, DataTable, event/*
+  composables/      # useSearch.js (search index), useLocale.js, …
+  data/             # bilingual { en, ru } rules content (basicRules, battleRound, eventCompanion, …)
+  i18n/             # ui.js — UI string maps per locale
+  views/            # one view per nav section (+ views/event/* for the Event Companion)
   router/           # Vue Router config
+scripts/
+  gen-webp.mjs      # WebP image pipeline (illustrations + icons)
 public/
-  sources/          # original source files (PDF)
+  images/           # illustrations (WebP) + icons, one folder per chapter
+  sources/          # original source PDFs (gitignored)
 ```
+
+Detailed engineering docs (data shapes, `body` markup, image pipeline, bilingual conventions, deployment) live in [`CLAUDE.md`](./CLAUDE.md).
 
 ## Content Structure
 
