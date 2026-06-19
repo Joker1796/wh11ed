@@ -3,6 +3,8 @@ import { battleRound } from '../data/battleRound.js'
 import { battlefields } from '../data/battlefields.js'
 import { advancedRules } from '../data/advancedRules.js'
 import { coreAbilities } from '../data/reference.js'
+import { getEventContent } from '../data/eventCompanion.js'
+import { ui } from '../i18n/ui.js'
 
 const routeMap = {
   basicRules: '/basic-rules',
@@ -91,7 +93,70 @@ function buildIndex(locale) {
       sectionTitle: sectionTitles[locale].reference,
     })
   }
+  indexEventCompanion(items, locale)
   return items
+}
+
+// Event Companion lives in a different data shape ({ en, ru } objects rather than
+// Section[] arrays), so it gets its own walker. Blocks with a real DOM id (sequence
+// steps, pairings) deep-link and scroll; synthetic `ec-*` ids land on the page top.
+function indexEventCompanion(items, locale) {
+  const ec = getEventContent(locale)
+  const L = ui[locale]
+  const add = (id, title, parts, route, sectionTitle) => {
+    const body = stripMarkup(parts.filter(Boolean).join('\n'))
+    if (!title && !body) return
+    items.push({ id, sectionNum: '', title: title || '', body, route, sectionTitle })
+  }
+  const rowsText = tbl => (tbl && tbl.rows ? tbl.rows.map(r => r.join(' ')).join('\n') : '')
+  const t = ec.terrain
+  const legendText = (t.legend || []).map(l => `${l.label} ${l.desc || ''}`)
+  const dispoText = (ec.dispositions || []).map(d => d.name)
+
+  // Landing entry per page, titled with the page heading so the heading itself is
+  // searchable (e.g. "Mission Matrix" / "Матрица миссий"). The intro page reuses its
+  // real DOM id ('introduction') so it scrolls; the rest land on the page top.
+  const intro = ec.sequence.introduction
+  add(intro.id, L.eventIntroHeading, [L.eventIntroDesc, intro.body, intro.note],
+    '/event-companion', L.eventIntroHeading)
+  add('ec-page-sequence', L.eventSequenceHeading, [L.eventSequenceDesc, ec.sequence.intro],
+    '/event-companion/sequence', L.eventSequenceHeading)
+  add('ec-page-layouts', L.eventLayoutsHeading, [L.eventLayoutsDesc, t.intro, t.keyNote],
+    '/event-companion/layouts', L.eventLayoutsHeading)
+  add('ec-page-matrix', L.eventMatrixHeading, [L.eventMatrixHint, ...dispoText, ...legendText],
+    '/event-companion/matrix', L.eventMatrixHeading)
+  add('ec-page-pairings', L.eventPairingsHeading, [L.eventPairingsDesc, ec.pairings.intro],
+    '/event-companion/pairings', L.eventPairingsHeading)
+  add('ec-page-faq', L.eventFaqHeading, [L.eventFaqDesc, ec.faq.intro, ec.faq.errata],
+    '/event-companion/faq', L.eventFaqHeading)
+
+  // Mission Sequence page — main steps, secondary rules, designer notes
+  const seqRoute = '/event-companion/sequence'
+  const seqBlocks = [
+    ...(ec.sequence.blocks || []),
+    ...(ec.sequence.secondary || []),
+    ...(ec.sequence.designerNotes || []),
+  ]
+  for (const b of seqBlocks) {
+    const table = b.table ? [b.table.title, rowsText(b.table)] : []
+    add(b.id, b.title, [b.body, b.note, ...table, b.tableNote], seqRoute, L.eventSequenceHeading)
+  }
+
+  // Terrain Layouts page — footprints table (lands on page top)
+  if (t.footprints) {
+    add('ec-footprints', t.footprints.title, [rowsText(t.footprints), t.footprints.footnote],
+      '/event-companion/layouts', L.eventLayoutsHeading)
+  }
+
+  // Pairings & Rankings page
+  for (const b of ec.pairings.blocks || []) {
+    add(b.id, b.title, [b.body, b.note], '/event-companion/pairings', L.eventPairingsHeading)
+  }
+
+  // Errata & FAQs page (no per-item DOM ids → synthetic)
+  ;(ec.faq.items || []).forEach((item, i) => {
+    add('ec-faq-' + i, item.q, [item.a], '/event-companion/faq', L.eventFaqHeading)
+  })
 }
 
 const indexEn = buildIndex('en')
