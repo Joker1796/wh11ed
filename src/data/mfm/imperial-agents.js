@@ -7,11 +7,11 @@ export default {
   slug: 'imperial-agents',
   sourceUrl: 'https://mfm.warhammer-community.com/en/imperial-agents',
   detachments: [
-    { name: 'Imperialis Fleet', enhancements: [{ name: 'Clandestine Operation', points: 15 }, { name: 'Combat Landers', points: 10 }, { name: 'Digital Weapons', points: 10 }, { name: 'Fleetmaster', points: 20 }] },
-    { name: 'Ordo Hereticus, Purgation Force', enhancements: [{ name: 'Ignis Judicium', points: 10 }, { name: 'Liber Heresius', points: 10 }, { name: 'No Escape', points: 25 }, { name: 'Witch Hunter', points: 15 }] },
-    { name: 'Ordo Malleus, Daemon Hunters', enhancements: [{ name: 'Daemon Slayer', points: 10 }, { name: 'Formidable Resolve', points: 5 }, { name: 'Gift of the Prescient', points: 20 }, { name: 'Grimoire of True Names', points: 10 }] },
-    { name: 'Ordo Xenos, Alien Hunters', enhancements: [{ name: 'Amulet of Auto-chastisement', points: 25 }, { name: 'Beacon Angelis', points: 30 }, { name: 'Blackweave Shroud', points: 15 }, { name: 'Universal Anathema', points: 10 }] },
-    { name: 'Veiled Blade Elimination Force', enhancements: [{ name: 'Decoy Targets', points: 40 }, { name: 'Esoteric Explosives', points: 40 }, { name: 'Introneural Biotech', points: 35 }, { name: 'Micromelta Rounds', points: 45 }] },
+    { name: 'Imperialis Fleet', dp: 3, forceDisposition: 'Disruption', enhancements: [{ name: 'Clandestine Operation', points: 15 }, { name: 'Combat Landers', points: 10 }, { name: 'Digital Weapons', points: 10 }, { name: 'Fleetmaster', points: 20 }] },
+    { name: 'Ordo Hereticus, Purgation Force', dp: 3, forceDisposition: 'Purge the Foe', enhancements: [{ name: 'Ignis Judicium', points: 10 }, { name: 'Liber Heresius', points: 10 }, { name: 'No Escape', points: 25 }, { name: 'Witch Hunter', points: 15 }] },
+    { name: 'Ordo Malleus, Daemon Hunters', dp: 3, forceDisposition: 'Priority Assets', enhancements: [{ name: 'Daemon Slayer', points: 10 }, { name: 'Formidable Resolve', points: 5 }, { name: 'Gift of the Prescient', points: 20 }, { name: 'Grimoire of True Names', points: 10 }] },
+    { name: 'Ordo Xenos, Alien Hunters', dp: 3, forceDisposition: 'Purge the Foe', enhancements: [{ name: 'Amulet of Auto-chastisement', points: 25 }, { name: 'Beacon Angelis', points: 30 }, { name: 'Blackweave Shroud', points: 15 }, { name: 'Universal Anathema', points: 10 }] },
+    { name: 'Veiled Blade Elimination Force', dp: 3, forceDisposition: 'Reconnaissance', enhancements: [{ name: 'Decoy Targets', points: 40 }, { name: 'Esoteric Explosives', points: 40 }, { name: 'Introneural Biotech', points: 35 }, { name: 'Micromelta Rounds', points: 45 }] },
   ],
   units: [
     { name: 'Aquila Kill Team', options: [{ models: 5, points: 100 }, { models: 10, points: 200 }] },

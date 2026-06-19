@@ -7,7 +7,7 @@
 // the same array (swap in a translated array later if needed).
 //
 // Shape per faction: { id, name, slug, sourceUrl, detachments[], units[], subfactions[] }.
-//   detachment = { name, enhancements: [{ name, points }] }
+//   detachment = { name, dp, forceDisposition, unique?, enhancements: [{ name, points }] }
 //   unit       = { name, options: [{ models?, points, note? }] }
 //     `models` omitted for single-model units; `note` carries rank/variant pricing
 //     labels ('1st-2nd', '3rd+', …) or special unit compositions.

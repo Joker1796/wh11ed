@@ -113,9 +113,19 @@ def parse_detachments(region):
     for chunk in re.split(r'class="text-xl break-all">', region)[1:]:
         nm = re.match(r'([^<]+)<', chunk)
         if not nm: continue
-        enh = [{"name": H.unescape(e.group(1)).strip(), "points": int(e.group(2))}
-               for e in re.finditer(r'<span>([^<]+?)</span><span>(\d+)\s*pts</span>', chunk)]
-        dets.append({"name": titlecase(nm.group(1)), "enhancements": enh})
+        det = {"name": titlecase(nm.group(1))}
+        # DP cost (every detachment has one): <span class="text-sm self-end pl-2">2DP</span>
+        dp = re.search(r'<span class="text-sm self-end pl-2">(\d+)DP</span>', chunk)
+        if dp: det["dp"] = int(dp.group(1))
+        # Force Disposition — the first colored banner div after the name.
+        fd = re.search(r'style="background-color:#[0-9A-Fa-f]+">([^<]+)</div>', chunk)
+        if fd: det["forceDisposition"] = titlecase(fd.group(1))
+        # UNIQUE keyword lock (optional), kept uppercase like a game keyword.
+        uq = re.search(r'>UNIQUE:\s*([^<]+)</span>', chunk)
+        if uq: det["unique"] = H.unescape(uq.group(1)).strip()
+        det["enhancements"] = [{"name": H.unescape(e.group(1)).strip(), "points": int(e.group(2))}
+                               for e in re.finditer(r'<span>([^<]+?)</span><span>(\d+)\s*pts</span>', chunk)]
+        dets.append(det)
     return dets
 
 def parse_units(region):
@@ -196,7 +206,11 @@ def emit_faction(f):
         L.append("  detachments: [")
         for d in f['detachments']:
             eh = ', '.join(f"{{ name: {q(e['name'])}, points: {e['points']} }}" for e in d['enhancements'])
-            L.append(f"    {{ name: {q(d['name'])}, enhancements: [{eh}] }},")
+            head = f"name: {q(d['name'])}"
+            if 'dp' in d: head += f", dp: {d['dp']}"
+            if 'forceDisposition' in d: head += f", forceDisposition: {q(d['forceDisposition'])}"
+            if 'unique' in d: head += f", unique: {q(d['unique'])}"
+            L.append(f"    {{ {head}, enhancements: [{eh}] }},")
         L.append("  ],")
     else: L.append("  detachments: [],")
     if f['units']:
@@ -226,7 +240,7 @@ def emit_barrel(factions):
          "// the same array (swap in a translated array later if needed).",
          "//",
          "// Shape per faction: { id, name, slug, sourceUrl, detachments[], units[], subfactions[] }.",
-         "//   detachment = { name, enhancements: [{ name, points }] }",
+         "//   detachment = { name, dp, forceDisposition, unique?, enhancements: [{ name, points }] }",
          "//   unit       = { name, options: [{ models?, points, note? }] }",
          "//     `models` omitted for single-model units; `note` carries rank/variant pricing",
          "//     labels ('1st-2nd', '3rd+', …) or special unit compositions.",
