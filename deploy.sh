@@ -34,11 +34,12 @@ aws s3 sync dist/assets "$BUCKET/assets" \
 echo "▶ images/favicon/icons  →  1 year"
 aws s3 sync dist "$BUCKET" \
   --exclude "*.html" --exclude "assets/*" --exclude "*.DS_Store" \
+  --exclude "sw.js" --exclude "registerSW.js" --exclude "manifest.webmanifest" \
   --cache-control "public, max-age=31536000" \
   --delete
 
 # 2b) PWA service worker + manifest — MUST revalidate so updates reach clients.
-#     (sync above already uploaded them with a 1-year TTL; re-set the header here.)
+#     Excluded from step 2 to prevent CDN from caching them with a 1-year TTL.
 echo "▶ sw.js / registerSW.js / manifest  →  no-cache"
 set_nocache() { # <file> <content-type>
   [ -f "dist/$1" ] && aws s3 cp "dist/$1" "$BUCKET/$1" \
