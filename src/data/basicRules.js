@@ -189,7 +189,7 @@ After you have finished setting up all of the models in a unit and/or moving all
 If one or more of the above conditions are not met, that unit cannot make that move and its models are returned to their positions at the start of that move. Otherwise, after resolving any additional rules stated in the 'After Moving' section of that **move type**, that move ends.`,
           seeAlso: ['Monsters and Vehicles 17.00', 'Moving Vertically 13.06', 'Strategic Reserves 20.00', 'Terrain 13.00', 'Transports 18.00'],
           illustration: {
-            src: '/images/moving/moving-straight-line.png',
+            src: '/images/moving/moving-straight-line.jpg',
             alt: 'Moving in a straight line',
             seeAlso: {
               title: 'Move Types',
@@ -208,7 +208,7 @@ If one or more of the above conditions are not met, that unit cannot make that m
               ],
             },
           },
-          image: { src: '/images/moving/rotating.png', alt: 'Rotating a model' },
+          image: { src: '/images/moving/rotating.jpg', alt: 'Rotating a model' },
         },
         {
           id: 'section-03-02',
@@ -235,7 +235,7 @@ If you cannot set up all of the models in a unit, remove that unit from the batt
 ### Regaining Coherency
 In the End of Turn step of each player's turn, if one or more units on the battlefield are not in **coherency**, those units' controlling players must remove models from them, one at a time, until they are in **coherency** again. Models removed in this way are destroyed, but they do not trigger rules that apply when a model is destroyed.`,
           note: 'What is **Coherency**? **Coherency** prevents models in the same unit from becoming too separated from each other while on the battlefield, ensuring they are set up and end every kind of move as a single group.',
-          image: { src: '/images/coherency/coherency.png', alt: 'Coherency' },
+          image: { src: '/images/coherency/coherency.jpg', alt: 'Coherency' },
         },
         {
           id: 'section-03-04',
@@ -245,7 +245,7 @@ In the End of Turn step of each player's turn, if one or more units on the battl
 ▪ While a friendly model is within **engagement range** of one or more enemy models, those models – and the units they belong to – are engaged with each other.
 ▪ While a unit contains no engaged models, that unit is unengaged.`,
           note: 'What is Engagement? While opposing models are within each other\'s **engagement range**, they are able to fight in vicious melee, so unless they are seeking to make melee attacks, models should keep out of their foes\' reach.',
-          image: { src: '/images/visibility/engagement.png', alt: 'Engagement' },
+          image: { src: '/images/visibility/engagement.jpg', alt: 'Engagement' },
         },
       ],
     },
@@ -409,7 +409,7 @@ Example: An AP characteristic of -1 would modify a **save roll** of 3 to a 2. Fo
           id: 'section-05-ex',
           sectionNum: 'EX',
           title: 'Attack Sequence Example — MAKING ATTACKS',
-          sideImage: { src: '/images/attack/making-attacks.png', alt: 'Attack Sequence Example diagram' },
+          sideImage: { src: '/images/attack/making-attacks.jpg', alt: 'Attack Sequence Example diagram' },
           body: `### 1. SELECT WEAPONS
 The {red:RED} unit is attacking. The following weapons are selected to make attacks with:
 ▪ 2 boltguns (B)
@@ -428,7 +428,7 @@ There is only one enemy unit being targeted, so the controlling player now gathe
           id: 'section-05-ex2',
           sectionNum: 'EX',
           title: 'Attack Sequence Example — RESOLVING ATTACK DICE',
-          sideImage: { src: '/images/attack/resolve-attack-dice.png', alt: 'Resolve attack dice example' },
+          sideImage: { src: '/images/attack/resolve-attack-dice.jpg', alt: 'Resolve attack dice example' },
           body: `### 1. **HIT ROLLS**
 The controlling player chooses to make the five **hit rolls** for the boltguns and bolt pistol first. The **BS** characteristic of the weapons is 3+. Four of the attacks hit the target.
 
@@ -447,7 +447,7 @@ The target unit's controlling player makes three **save rolls**.
           id: 'section-05-ex3',
           sectionNum: 'EX',
           title: 'Attack Sequence Example — RESOLVING OTHER ATTACKS',
-          sideImage: { src: '/images/attack/resolve-other-attacks.png', alt: 'Resolving other attacks example' },
+          sideImage: { src: '/images/attack/resolve-other-attacks.jpg', alt: 'Resolving other attacks example' },
           body: `### 1. **HIT ROLLS**
 The controlling player then makes three **hit rolls** for the heavy bolter. The **BS** characteristic of the weapon is 4+. Two of the attacks hit the target.
 
@@ -465,7 +465,7 @@ The target unit's controlling player makes two **save rolls**.
           id: 'section-05-ex4',
           sectionNum: 'EX',
           title: 'Attack Sequence Example — ATTACKING ATTACHED UNITS',
-          sideImage: { src: '/images/attached/attacking-attached-units.png', alt: 'Attacking attached units example', width: '60%' },
+          sideImage: { src: '/images/attached/attacking-attached-units.jpg', alt: 'Attacking attached units example', width: '60%' },
           body: `### 1. SELECT WEAPONS
 The {red:RED} unit is attacking. The following weapons are selected to make attacks with:
 ▪ 7 boltguns (B)
@@ -485,7 +485,7 @@ The **attack dice** for the remaining weapons will be gathered once the heavy bo
           id: 'section-05-ex5',
           sectionNum: 'EX',
           title: 'Attack Sequence Example — ALLOCATION GROUPS',
-          sideImage: { src: '/images/attack/allocation-groups.png', alt: 'Allocation groups example', width: '60%' },
+          sideImage: { src: '/images/attack/allocation-groups.jpg', alt: 'Allocation groups example', width: '60%' },
           body: `### 1. CREATE GROUPS AND DECLARE ORDER
 The target unit's controlling player divides it into groups: one containing Saint Celestine, one containing the Geminae Superia, and one containing the Seraphim. They then declare the allocation order, choosing the Geminae Superia first (1), hoping their better **Sv** and **InSv** characteristics will weather the attacks. The Seraphim must be chosen second (2), as Saint Celestine is a CHARACTER model so must be last in the order (3).
 
@@ -525,13 +525,13 @@ The attacks are resolved one at a time, from lowest **save rolls** to highest:
 
 Other models and units can be either **visible** or **fully visible** to the observing model, as shown below.
 
-[img:/images/visibility/model-visible.png|Model visibility — model partially visible]
+[img:/images/visibility/model-visible.jpg|Model visibility — model partially visible]
 
-[img:/images/visibility/model-fully-visible.png|Model visibility — model fully visible]
+[img:/images/visibility/model-fully-visible.jpg|Model visibility — model fully visible]
 
-[img:/images/visibility/unit-visible.png|Unit visibility — unit visible to observer]
+[img:/images/visibility/unit-visible.jpg|Unit visibility — unit visible to observer]
 
-[img:/images/visibility/unit-fully-visible.png|Unit visibility — unit fully visible to observer]`,
+[img:/images/visibility/unit-fully-visible.jpg|Unit visibility — unit fully visible to observer]`,
           note: 'Terrain applies additional rules to visibility (13.07).',
         },
         {
@@ -967,13 +967,13 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 
 Другие модели и юниты могут быть либо **видимыми(visible)**, либо **полностью видимыми(fully visible)** для наблюдающей модели, как показано ниже.
 
-[img:/images/visibility/model-visible-ru.png|Диаграмма видимости — модель частично видима]
+[img:/images/visibility/model-visible-ru.jpg|Диаграмма видимости — модель частично видима]
 
-[img:/images/visibility/model-fully-visible-ru.png|Диаграмма видимости — модель полностью видима]
+[img:/images/visibility/model-fully-visible-ru.jpg|Диаграмма видимости — модель полностью видима]
 
-[img:/images/visibility/unit-visible-ru.png|Диаграмма видимости — юнит видим для наблюдателя]
+[img:/images/visibility/unit-visible-ru.jpg|Диаграмма видимости — юнит видим для наблюдателя]
 
-[img:/images/visibility/unit-fully-visible-ru.png|Диаграмма видимости — юнит полностью видим для наблюдателя]`,
+[img:/images/visibility/unit-fully-visible-ru.jpg|Диаграмма видимости — юнит полностью видим для наблюдателя]`,
           note: `Рельеф применяет дополнительные правила к видимости (13.07).`,
         },
         {
