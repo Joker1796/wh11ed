@@ -107,7 +107,7 @@ The source rulebook PDF lives in `sources/` (gitignored). Extract text with `pdf
 
 The script is idempotent and re-runnable — add a new image as `.jpg/.png`, run it, and it converts + deletes the original (back-filling a missing `-sm.webp` next to an existing illustration `.webp`; icons are skipped in back-fill).
 
-**Left as-is:** `wh40k-app-qr.png` (already a tiny crisp b/w PNG — downscaling/webp made it larger and softer) and `favicon.svg`.
+**Left as-is:** `wh40k-app-qr.png` — a 288px 1-bit (2-colour) indexed PNG (~640 B), pre-sized to ~2× its display; kept out of the WebP pipeline on purpose (WebP can't store a 1-bit palette, so it'd be larger and softer). And `favicon.svg`.
 
 ## Deployment
 
