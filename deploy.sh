@@ -27,15 +27,28 @@ aws s3 sync dist/assets "$BUCKET/assets" \
   --cache-control "public, max-age=31536000, immutable" \
   --delete
 
-# 2) Everything else except HTML (favicon, /images/, fonts) — 1 year, but NOT
-#    immutable: names are stable, so re-uploading the same name needs a CDN purge
+# 2) Everything else except HTML (favicon, /images/, fonts, PWA icons) — 1 year, but
+#    NOT immutable: names are stable, so re-uploading the same name needs a CDN purge
 #    to refresh the edge (browser copies still live up to a year — rename the file
-#    when you change an image).
-echo "▶ images/favicon  →  1 year"
+#    when you change an image). The PWA service worker + manifest are re-set in step 3.
+echo "▶ images/favicon/icons  →  1 year"
 aws s3 sync dist "$BUCKET" \
   --exclude "*.html" --exclude "assets/*" --exclude "*.DS_Store" \
   --cache-control "public, max-age=31536000" \
   --delete
+
+# 2b) PWA service worker + manifest — MUST revalidate so updates reach clients.
+#     (sync above already uploaded them with a 1-year TTL; re-set the header here.)
+echo "▶ sw.js / registerSW.js / manifest  →  no-cache"
+set_nocache() { # <file> <content-type>
+  [ -f "dist/$1" ] && aws s3 cp "dist/$1" "$BUCKET/$1" \
+    --cache-control "no-cache" \
+    --content-type "$2" \
+    --metadata-directive REPLACE
+}
+set_nocache sw.js "application/javascript; charset=utf-8"
+set_nocache registerSW.js "application/javascript; charset=utf-8"
+set_nocache manifest.webmanifest "application/manifest+json; charset=utf-8"
 
 # 3) index.html — entry point. Short TTL so rare deploys appear within a day.
 echo "▶ index.html  →  1 day"

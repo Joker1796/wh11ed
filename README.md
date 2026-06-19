@@ -11,12 +11,14 @@ Interactive, **bilingual (EN/RU)** digital reference for the Warhammer 40,000 11
 - **Example blocks** — inline examples and diagrams that clarify abstract rules
 - **See Also links** — clickable cross-references between related rules
 - **Optimized images** — illustrations served as responsive WebP (full-size on desktop, an 800px copy on phones); icons downscaled to WebP
+- **Installable PWA** — add to home screen / install as an app, with a full offline cache (rules + images work without a connection)
 
 ## Stack
 
 - [Vue 3](https://vuejs.org/) + [Vite](https://vitejs.dev/)
 - [Vue Router](https://router.vuejs.org/) (hash history)
-- [sharp](https://sharp.pixelplumbing.com/) (dev only) — WebP image generation
+- [vite-plugin-pwa](https://vite-pwa-org.netlify.app/) — manifest + offline service worker (Workbox)
+- [sharp](https://sharp.pixelplumbing.com/) (dev only) — WebP image & app-icon generation
 - Google Fonts: EB Garamond + Inter
 - No backend
 
@@ -32,6 +34,7 @@ Open [http://localhost:5173](http://localhost:5173).
 ```bash
 npm run build        # production build → dist/
 npm run images:webp  # convert new illustration/icon jpg/png in public/images/ to WebP
+npm run icons        # regenerate the PWA / home-screen icons from the "W" mark
 npm run deploy       # build + upload to the Yandex Object Storage bucket
 ```
 
