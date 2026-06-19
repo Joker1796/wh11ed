@@ -14,7 +14,6 @@ const EventLayoutsView  = () => import('../views/event/EventLayoutsView.vue')
 const EventMatrixView   = () => import('../views/event/EventMatrixView.vue')
 const EventPairingsView = () => import('../views/event/EventPairingsView.vue')
 const EventFaqView      = () => import('../views/event/EventFaqView.vue')
-const EventTournamentView = () => import('../views/event/EventTournamentView.vue')
 
 export const navGroups = [
   { label: 'Introduction',        path: '/',               sections: [] },
@@ -156,7 +155,6 @@ export const eventGroups = [
     ],
   },
   { label: 'Errata & FAQs',    path: '/event-companion/faq',      sections: [] },
-  { label: 'Tournament Manager', path: '/event-companion/tournament', sections: [] },
 ]
 
 export const eventGroupsRu = [
@@ -183,7 +181,6 @@ export const eventGroupsRu = [
     ],
   },
   { label: 'Эррата и FAQ',              path: '/event-companion/faq',      sections: [] },
-  { label: 'Менеджер турниров',         path: '/event-companion/tournament', sections: [] },
 ]
 
 export const router = createRouter({
@@ -201,7 +198,6 @@ export const router = createRouter({
     { path: '/event-companion/matrix',   component: EventMatrixView },
     { path: '/event-companion/pairings', component: EventPairingsView },
     { path: '/event-companion/faq',      component: EventFaqView },
-    { path: '/event-companion/tournament', component: EventTournamentView },
   ],
   scrollBehavior(to, from, savedPosition) {
     if (to.hash) {
