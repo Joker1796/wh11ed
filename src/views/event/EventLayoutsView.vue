@@ -18,6 +18,11 @@
       :rows="ec.terrain.footprints.rows"
     />
 
+    <p
+      class="footprint-source"
+      v-html="renderInline(ec.terrain.footprints.footnote)"
+    ></p>
+
     <p class="key-note" v-html="renderInline(ec.terrain.keyNote)"></p>
   </div>
 </template>
@@ -66,5 +71,21 @@ const introParagraphs = computed(() => ec.value.terrain.intro.split('\n\n').filt
   line-height: 1.6;
   color: var(--text-muted);
   font-size: 0.92rem;
+}
+
+.footprint-source {
+  margin: 1.25rem 0;
+  padding: 0.8rem 1rem;
+  border: 1px solid var(--accent);
+  border-left-width: 3px;
+  border-radius: 6px;
+  background: var(--bg-row-hover);
+  line-height: 1.5;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.footprint-source :deep(.ext-link) {
+  color: var(--accent);
+  text-decoration: underline;
 }
 </style>

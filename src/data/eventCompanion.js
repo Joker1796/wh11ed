@@ -288,6 +288,9 @@ const en = {
         ['7" × 11.5"', '4'],
         ['8" × 11.5" Polygon', '2'],
       ],
+      footnote:
+        'Official printable templates: ' +
+        '[Terrain Area Footprints (PDF)](https://assets.warhammer-community.com/eng_12-06_warhammer40000_terrainareafootprints-biavo5zf9f-gxdahkydbj.pdf)',
     },
     keyNote:
       'Each layout uses the terrain features from the Battlefields: Armageddon box in the ' +
@@ -764,6 +767,9 @@ const ru = {
     footprints: {
       title: 'Рекомендованные размеры участков укрытий',
       headers: ['Размер участка укрытия', 'Количество'],
+      footnote:
+        'Официальные футпринты для печати: ' +
+        '[Terrain Area Footprints (PDF)](https://assets.warhammer-community.com/eng_12-06_warhammer40000_terrainareafootprints-biavo5zf9f-gxdahkydbj.pdf)',
     },
     keyNote:
       'В каждой расстановке используются элементы ландшафта (terrain features) из набора ' +
