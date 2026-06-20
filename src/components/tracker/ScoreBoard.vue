@@ -100,4 +100,17 @@ const leaderIdx = computed(() => leader())
   padding: 1px 8px;
   color: var(--text-dim);
 }
+
+/* Keep the two score boxes side-by-side on phones, but shrink so they fit. */
+@media (max-width: 560px) {
+  .board { gap: 0.4rem; }
+  .col { padding: 0.55rem 0.35rem; }
+  .col-head { flex-direction: column; gap: 0.15rem; }
+  .pname { font-size: 0.8rem; word-break: break-word; }
+  .grand { font-size: 1.7rem; }
+  .grand-unit { font-size: 0.7rem; }
+  .breakdown { gap: 0.5rem; }
+  .breakdown dt { font-size: 0.58rem; }
+  .breakdown dd { font-size: 0.82rem; }
+}
 </style>
