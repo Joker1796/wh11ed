@@ -27,25 +27,9 @@
       </div>
     </section>
 
-    <!-- Secondary missions — toggle between the Attacker and Defender pools -->
+    <!-- Secondary missions — one shared pool (identical for Attacker and Defender) -->
     <section id="missions-secondary" class="m-section">
-      <div class="sec-head">
-        <h2 class="section-heading">{{ labels.missionsSecondaryHeading }}</h2>
-        <div class="role-toggle">
-          <button
-            type="button"
-            class="role-btn"
-            :class="{ active: role === 'attacker' }"
-            @click="role = 'attacker'"
-          >{{ labels.trackerAttacker }}</button>
-          <button
-            type="button"
-            class="role-btn"
-            :class="{ active: role === 'defender' }"
-            @click="role = 'defender'"
-          >{{ labels.trackerDefender }}</button>
-        </div>
-      </div>
+      <h2 class="section-heading">{{ labels.missionsSecondaryHeading }}</h2>
       <div class="mcards">
         <MissionCard
           v-for="m in secondaryList"
@@ -59,7 +43,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import MissionCard from '../../components/event/MissionCard.vue'
 import SeeAlsoBlock from '../../components/SeeAlsoBlock.vue'
 import { getMissions } from '../../data/missions.js'
@@ -92,8 +76,8 @@ const primaryGroups = computed(() =>
   }))
 )
 
-const role = ref('attacker')
-const secondaryList = computed(() => data.value.secondary.filter(m => m.role === role.value))
+// Attacker and Defender share an identical Secondary pool — list the 18 once.
+const secondaryList = computed(() => data.value.secondary.filter(m => m.role === 'attacker'))
 </script>
 
 <style scoped>
@@ -147,38 +131,4 @@ const secondaryList = computed(() => data.value.secondary.filter(m => m.role ===
   gap: 1rem;
 }
 
-.sec-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-}
-.sec-head .section-heading { margin: 0; }
-.role-toggle {
-  display: inline-flex;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  overflow: hidden;
-}
-.role-btn {
-  padding: 0.4rem 1rem;
-  background: transparent;
-  border: none;
-  color: var(--text-muted);
-  cursor: pointer;
-  font-size: 0.85rem;
-  font-weight: 600;
-  transition: background 0.12s, color 0.12s;
-}
-.role-btn.active {
-  background: var(--accent);
-  color: var(--text-on-accent);
-}
-.role-btn:not(.active):hover { color: var(--text-primary); }
-
-@media (max-width: 600px) {
-  .role-btn { min-height: 40px; }
-}
 </style>
