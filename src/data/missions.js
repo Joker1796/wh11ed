@@ -11,6 +11,8 @@
 //   block = { kind?:'fixed'|'tactical', heading, when?, rows:[{ text, vp, modifier? }] }
 //   vp is a number, or a '+N' string for cumulative bonuses; modifier ∈ 'or'|'cumulative'.
 
+import { missionsRu } from './missionsRu.js'
+
 const primary = [
   {
     type: 'primary', deck: 'take-and-hold', slug: 'battlefield-dominance', name: 'Battlefield Dominance', opponent: 'Take and Hold', mirror: true,
@@ -1150,3 +1152,33 @@ const secondary = [
 const en = { primary, secondary }
 
 export const missions = { en, ru: en }
+
+// Overlay the RU block text (heading / when / rows.text) onto a single English mission.
+// Mirrors the `localize` helper in useTracker.js — name and all logic fields stay English.
+function localizeMission(m, role) {
+  const tr = role ? missionsRu.secondary[`${m.slug}|${role}`] : missionsRu.primary[m.slug]
+  if (!tr) return m
+  return {
+    ...m,
+    blocks: m.blocks.map((b, bi) => {
+      const tb = tr.blocks[bi]
+      if (!tb) return b
+      return {
+        ...b,
+        heading: tb.heading ?? b.heading,
+        when: b.when != null ? (tb.when ?? b.when) : b.when,
+        rows: b.rows.map((r, ri) => ({ ...r, text: (tb.rows && tb.rows[ri]) || r.text })),
+      }
+    }),
+  }
+}
+
+// Localized mission catalogue for the Missions reference page ({ primary, secondary }).
+// Mirrors the getEventContent(locale) pattern: EN is returned as-is; RU overlays missionsRu.
+export function getMissions(locale) {
+  if (locale !== 'ru') return en
+  return {
+    primary: en.primary.map(m => localizeMission(m, null)),
+    secondary: en.secondary.map(m => localizeMission(m, m.role)),
+  }
+}

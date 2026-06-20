@@ -10,8 +10,8 @@ const AdvancedRulesView = () => import('../views/AdvancedRulesView.vue')
 const ReferenceView     = () => import('../views/ReferenceView.vue')
 const EventIntroView    = () => import('../views/event/EventIntroView.vue')
 const EventSequenceView = () => import('../views/event/EventSequenceView.vue')
+const EventMissionsView = () => import('../views/event/EventMissionsView.vue')
 const EventLayoutsView  = () => import('../views/event/EventLayoutsView.vue')
-const EventMatrixView   = () => import('../views/event/EventMatrixView.vue')
 const EventPairingsView = () => import('../views/event/EventPairingsView.vue')
 const EventFaqView      = () => import('../views/event/EventFaqView.vue')
 const TrackerHomeView   = () => import('../views/tracker/TrackerHomeView.vue')
@@ -146,8 +146,14 @@ export const eventGroups = [
       { id: 'step-14', label: 'Determine Victor' },
     ],
   },
-  { label: 'Terrain Layouts',  path: '/event-companion/layouts',  sections: [] },
-  { label: 'Mission Matrix',   path: '/event-companion/matrix',   sections: [] },
+  {
+    label: 'Missions', path: '/event-companion/missions',
+    sections: [
+      { id: 'missions-primary',   label: 'Primary Missions' },
+      { id: 'missions-secondary', label: 'Secondary Missions' },
+    ],
+  },
+  { label: 'Terrain & Layouts', path: '/event-companion/layouts', sections: [] },
   {
     label: 'Pairings & Rankings', path: '/event-companion/pairings',
     sections: [
@@ -172,8 +178,14 @@ export const eventGroupsRu = [
       { id: 'step-14', label: 'Определение победителя' },
     ],
   },
-  { label: 'Расстановки тиррейна',      path: '/event-companion/layouts',  sections: [] },
-  { label: 'Матрица миссий',            path: '/event-companion/matrix',   sections: [] },
+  {
+    label: 'Миссии', path: '/event-companion/missions',
+    sections: [
+      { id: 'missions-primary',   label: 'Основные миссии' },
+      { id: 'missions-secondary', label: 'Вторичные миссии' },
+    ],
+  },
+  { label: 'Террейн и раскладки',       path: '/event-companion/layouts',  sections: [] },
   {
     label: 'Паринги и ранжирование',    path: '/event-companion/pairings',
     sections: [
@@ -207,8 +219,8 @@ export const router = createRouter({
     { path: '/reference',      component: ReferenceView },
     { path: '/event-companion',          component: EventIntroView },
     { path: '/event-companion/sequence', component: EventSequenceView },
+    { path: '/event-companion/missions', component: EventMissionsView },
     { path: '/event-companion/layouts',  component: EventLayoutsView },
-    { path: '/event-companion/matrix',   component: EventMatrixView },
     { path: '/event-companion/pairings', component: EventPairingsView },
     { path: '/event-companion/faq',      component: EventFaqView },
     { path: '/tracker',      component: TrackerHomeView },

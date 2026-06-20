@@ -192,8 +192,8 @@ const eventSubNavItems = computed(() => {
   return [
     { path: '/event-companion', label: l.subNavEventIntro },
     { path: '/event-companion/sequence', label: l.subNavEventSequence },
+    { path: '/event-companion/missions', label: l.subNavEventMissions },
     { path: '/event-companion/layouts', label: l.subNavEventLayouts },
-    { path: '/event-companion/matrix', label: l.subNavEventMatrix },
     { path: '/event-companion/pairings', label: l.subNavEventPairings },
     { path: '/event-companion/faq', label: l.subNavEventFaq },
   ]
