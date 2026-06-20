@@ -77,7 +77,7 @@
           <span>{{ labels.trackerChooseFixed }} <em class="dp-count">{{ p.fixedSecondaries.length }} / {{ MAX_FIXED }}</em></span>
           <div class="chips">
             <button
-              v-for="m in secondaryPool(p.role)"
+              v-for="m in fixedPool(p.role)"
               :key="m.slug"
               class="chip"
               :class="{ on: p.fixedSecondaries.includes(m.slug) }"
@@ -119,7 +119,7 @@
 import { reactive, computed, watch } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { FACTIONS, DISPOSITIONS, MAX_DP, detachmentsFor, detachmentInfo, secondaryPool, primaryFor, dispositionName } from '../../composables/useTracker.js'
+import { FACTIONS, DISPOSITIONS, MAX_DP, detachmentsFor, detachmentInfo, fixedPool, primaryFor, dispositionName } from '../../composables/useTracker.js'
 
 const emit = defineEmits(['start', 'cancel'])
 const { locale } = useLocale()
