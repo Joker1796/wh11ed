@@ -219,7 +219,25 @@ export function useTracker() {
   }
 
   function goToRound(n) {
-    current.value.currentRound = Math.max(1, Math.min(ROUND_COUNT, n))
+    const target = Math.max(1, Math.min(ROUND_COUNT, n))
+    // Advancing: a tactical secondary that scored in an earlier round is set aside
+    // automatically (keeps its VP, won't be redrawn) — the player draws a fresh one.
+    if (target > current.value.currentRound) {
+      for (const pl of current.value.players) {
+        if (pl.secondaryMode !== 'tactical') continue
+        const s = pl.secondary
+        const scoredEarlier = new Set(
+          s.scored.filter(e => (e.vp || 0) > 0 && e.round < target).map(e => e.slug)
+        )
+        for (const slug of [...s.hand]) {
+          if (scoredEarlier.has(slug)) {
+            s.hand = s.hand.filter(x => x !== slug)
+            if (!s.discarded.includes(slug)) s.discarded.push(slug)
+          }
+        }
+      }
+    }
+    current.value.currentRound = target
   }
 
   function finishGame() {
