@@ -1,5 +1,6 @@
 <template>
   <div class="tracker-home">
+    <AlphaBanner />
     <div class="hero">
       <h1>{{ labels.trackerIntroHeading }}</h1>
       <p class="hero-desc">{{ labels.trackerIntroDesc }}</p>
@@ -36,6 +37,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
+import AlphaBanner from '../../components/tracker/AlphaBanner.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker } from '../../composables/useTracker.js'
