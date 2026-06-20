@@ -60,8 +60,8 @@
         <label class="field">
           <span>{{ labels.trackerRole }}</span>
           <div class="seg">
-            <button :class="{ on: p.role === 'attacker' }" @click="p.role = 'attacker'">{{ labels.trackerAttacker }}</button>
-            <button :class="{ on: p.role === 'defender' }" @click="p.role = 'defender'">{{ labels.trackerDefender }}</button>
+            <button :class="{ on: p.role === 'attacker' }" @click="setRole(i, 'attacker')">{{ labels.trackerAttacker }}</button>
+            <button :class="{ on: p.role === 'defender' }" @click="setRole(i, 'defender')">{{ labels.trackerDefender }}</button>
           </div>
         </label>
 
@@ -130,6 +130,11 @@ function candidateDispositions(p) {
     .map(name => DISPOSITIONS.find(d => d.name === name)?.id)
     .filter(Boolean)
   return [...new Set(ids)]
+}
+function setRole(idx, role) {
+  // Roles are linked: the two players are always opposite (one attacker, one defender).
+  players[idx].role = role
+  players[idx === 0 ? 1 : 0].role = role === 'attacker' ? 'defender' : 'attacker'
 }
 function toggleDetachment(p, d) {
   const i = p.detachments.indexOf(d.name)
