@@ -22,9 +22,23 @@
         <h3 class="ptitle">{{ pl.name || `${labels.trackerPlayer} ${i + 1}` }}</h3>
         <p class="pmeta">
           {{ dispositionName(pl.disposition) }}
-          <span v-if="primaryName(i)"> · {{ primaryName(i) }}</span>
+          <button v-if="primaryMission(i)" class="primary-toggle" @click="openPrimary = openPrimary === i ? -1 : i">
+            {{ primaryName(i) }}
+            <i class="bi" :class="openPrimary === i ? 'bi-chevron-up' : 'bi-info-circle'"></i>
+          </button>
+          <span v-else-if="primaryName(i)"> · {{ primaryName(i) }}</span>
         </p>
         <p v-if="pl.detachments && pl.detachments.length" class="pdet">{{ pl.detachments.join(' · ') }}</p>
+
+        <div v-if="openPrimary === i && primaryMission(i)" class="primary-rules">
+          <div v-for="(b, bi) in primaryMission(i).blocks" :key="bi" class="rule-block">
+            <div class="rb-head">{{ b.heading }}<span v-if="b.when" class="rb-when"> · {{ b.when }}</span></div>
+            <div v-for="(r, ri) in b.rows" :key="ri" class="rule-row">
+              <span v-if="r.modifier" class="mod">{{ r.modifier === 'or' ? labels.trackerOr : '+' }}</span>
+              {{ r.text }} <strong>{{ r.vp }} VP</strong>
+            </div>
+          </div>
+        </div>
 
         <div class="score-row">
           <span class="sr-label">{{ labels.trackerPrimary }}</span>
@@ -58,21 +72,25 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import NumberStepper from './NumberStepper.vue'
 import SecondaryDeck from './SecondaryDeck.vue'
 import ScoreBoard from './ScoreBoard.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker, ROUND_COUNT, dispositionName, primaryFor } from '../../composables/useTracker.js'
+import { useTracker, ROUND_COUNT, dispositionName, primaryFor, missionBySlug } from '../../composables/useTracker.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { current, setRoundPrimary, setCp, roundPrimaryMax, goToRound, finishGame } = useTracker()
 
+const openPrimary = ref(-1)   // index of the player whose primary rules are expanded
+
+function primaryMission(i) {
+  return missionBySlug(current.value.players[i].primarySlug)
+}
 function primaryName(i) {
-  const me = current.value.players[i], opp = current.value.players[i === 0 ? 1 : 0]
-  const m = primaryFor(me.disposition, opp.disposition)
+  const m = primaryMission(i)
   return m ? m.name : ''
 }
 function confirmFinish() {
@@ -127,8 +145,45 @@ function confirmFinish() {
   padding: 0.8rem;
 }
 .ptitle { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 700; color: var(--text-primary); margin: 0; }
-.pmeta { font-size: 0.78rem; color: var(--text-muted); margin: 0.1rem 0 0.1rem; }
+.pmeta { font-size: 0.78rem; color: var(--text-muted); margin: 0.1rem 0 0.1rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; }
 .pdet { font-size: 0.72rem; color: var(--text-dim); margin: 0 0 0.7rem; font-family: var(--font-mono); }
+.primary-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+.primary-toggle::before { content: '·'; color: var(--text-muted); margin-right: 0.25rem; }
+.primary-toggle i { font-size: 0.85rem; }
+.primary-rules {
+  margin: 0 0 0.7rem;
+  padding: 0.55rem 0.65rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+.rb-head {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-dim);
+  margin-top: 0.35rem;
+}
+.rb-head:first-child { margin-top: 0; }
+.rb-when { font-weight: 400; text-transform: none; letter-spacing: 0; }
+.rule-row { margin-top: 0.15rem; }
+.rule-row strong { color: var(--text-primary); }
+.mod { font-weight: 700; color: var(--text-dim); text-transform: uppercase; font-size: 0.66rem; margin-right: 0.2rem; }
 .score-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.55rem; }
 .sr-label {
   min-width: 4.5rem;
