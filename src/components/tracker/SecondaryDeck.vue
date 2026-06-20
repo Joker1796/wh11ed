@@ -17,7 +17,7 @@
           <span class="card-name">{{ m.name }}</span>
           <span class="card-vp">{{ secondaryCardVp(pi, m.slug) }} VP</span>
         </button>
-        <button v-if="mode === 'tactical'" class="discard" :title="labels.trackerSetAside" @click="discardFromHand(pi, m.slug)">✕</button>
+        <button v-if="mode === 'tactical' && inHand(m.slug)" class="discard" :title="labels.trackerSetAside" @click="discardFromHand(pi, m.slug)">✕</button>
       </li>
     </ul>
 
@@ -61,25 +61,35 @@ const { current, drawSecondary, discardFromHand, scoreSecondaryRow, secondaryRow
 
 const player = computed(() => current.value.players[props.pi])
 const mode = computed(() => player.value.secondaryMode)
-// Cards in hand are shown only from the round they were drawn onward.
+function inHand(slug) { return player.value.secondary.hand.includes(slug) }
+function discardRound(slug) {
+  const d = (player.value.secondary.discarded || []).find(x => (x.slug ?? x) === slug)
+  return d ? (d.round ?? current.value.currentRound) : null
+}
+
+// "In play" for the viewed round: cards held in hand that round — either still in
+// hand, or discarded in a LATER round (so a scored card shows as active in the round
+// it scored, not as set aside). Drawn-round bounds the lower edge.
 const handMissions = computed(() => {
-  const round = current.value.currentRound
-  const drawn = player.value.secondary.drawn || {}
-  return player.value.secondary.hand
-    .filter(slug => (drawn[slug] || 1) <= round)
-    .map(slug => missionBySlug(slug, player.value.role)).filter(Boolean)
-})
-// A set-aside card stays visible in every round it was active: from when it was
-// drawn through the round it was discarded (so kept-but-unscored rounds show too).
-const asideMissions = computed(() => {
-  const round = current.value.currentRound
+  const R = current.value.currentRound
   const s = player.value.secondary
   const drawn = s.drawn || {}
-  const out = []
+  const slugs = []
+  for (const slug of s.hand) if ((drawn[slug] || 1) <= R) slugs.push(slug)
   for (const d of (s.discarded || [])) {
-    const slug = typeof d === 'string' ? d : d.slug
-    const dround = typeof d === 'string' ? round : d.round
-    if ((drawn[slug] || 1) <= round && round <= dround) {
+    const slug = d.slug ?? d
+    const dr = d.round ?? R
+    if ((drawn[slug] || 1) <= R && R < dr) slugs.push(slug)
+  }
+  return slugs.map(slug => missionBySlug(slug, player.value.role)).filter(Boolean)
+})
+// Set aside only in the round the card was actually discarded.
+const asideMissions = computed(() => {
+  const R = current.value.currentRound
+  const out = []
+  for (const d of (player.value.secondary.discarded || [])) {
+    const slug = d.slug ?? d
+    if ((d.round ?? R) === R) {
       const m = missionBySlug(slug, player.value.role)
       if (m && !out.some(x => x.slug === slug)) out.push(m)
     }
