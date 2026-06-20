@@ -1,5 +1,6 @@
 import { ref, watch } from 'vue'
 import { missions } from '../data/missions.js'
+import { missionsRu } from '../data/missionsRu.js'
 import { mfmFactions } from '../data/mfmFactions.js'
 import { eventCompanion } from '../data/eventCompanion.js'
 
@@ -38,9 +39,32 @@ export function detachmentsFor(slug) {
 export function detachmentInfo(slug, name) {
   return detachmentsFor(slug).find(d => d.name === name) || null
 }
-export function missionBySlug(slug, role) {
-  if (role) return missions.en.secondary.find(m => m.slug === slug && m.role === role) || null
-  return missions.en.primary.find(m => m.slug === slug) || null
+// Overlay the RU block text (heading/when/rows.text) onto the EN mission. Name and all
+// logic fields (slug/vp/modifier/kind/…) stay English; mission names are intentionally EN.
+function localize(m, role) {
+  if (!m) return null
+  const tr = role ? missionsRu.secondary[`${m.slug}|${role}`] : missionsRu.primary[m.slug]
+  if (!tr) return m
+  return {
+    ...m,
+    blocks: m.blocks.map((b, bi) => {
+      const tb = tr.blocks[bi]
+      if (!tb) return b
+      return {
+        ...b,
+        heading: tb.heading ?? b.heading,
+        when: b.when != null ? (tb.when ?? b.when) : b.when,
+        rows: b.rows.map((r, ri) => ({ ...r, text: (tb.rows && tb.rows[ri]) || r.text })),
+      }
+    }),
+  }
+}
+
+export function missionBySlug(slug, role, locale = 'en') {
+  const m = role
+    ? missions.en.secondary.find(x => x.slug === slug && x.role === role) || null
+    : missions.en.primary.find(x => x.slug === slug) || null
+  return locale === 'ru' ? localize(m, role) : m
 }
 export function secondaryPool(role) {
   // 18 distinct secondary missions for the given role.

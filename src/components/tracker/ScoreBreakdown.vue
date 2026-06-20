@@ -80,7 +80,7 @@ function secondaries(pi) {
 
   const lastRound = current.value.currentRound
   return slugs.map(slug => {
-    const m = missionBySlug(slug, pl.role)
+    const m = missionBySlug(slug, pl.role, locale.value)
     const disc = (s.discarded || []).find(d => (d.slug ?? d) === slug)
     const from = drawn[slug] || 1
     const to = disc ? (disc.round ?? lastRound) : lastRound

@@ -87,7 +87,7 @@ const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, goToRou
 const openPrimary = ref(-1)   // index of the player whose primary scoring modal is open
 
 function primaryMission(i) {
-  return missionBySlug(current.value.players[i].primarySlug)
+  return missionBySlug(current.value.players[i].primarySlug, null, locale.value)
 }
 function primaryName(i) {
   const m = primaryMission(i)
