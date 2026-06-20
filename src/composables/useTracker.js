@@ -249,15 +249,23 @@ export function useTracker() {
     current.value.currentRound = target
   }
 
+  // Finish = show the final summary; the game stays current so it can be resumed.
   function finishGame() {
     if (!current.value) return
     const g = current.value
     g.phase = 'finished'
     g.finishedAt = new Date().toISOString()
-    g.result = {
-      totals: g.players.map((_, i) => grandTotal(i)),
-    }
-    history.value = [{ ...JSON.parse(JSON.stringify(g)) }, ...history.value]
+    g.result = { totals: g.players.map((_, i) => grandTotal(i)) }
+  }
+
+  function resumeGame() {
+    if (current.value) current.value.phase = 'playing'
+  }
+
+  // Save the finished game to history and clear the current slot.
+  function archiveGame() {
+    if (!current.value) return
+    history.value = [JSON.parse(JSON.stringify(current.value)), ...history.value]
     current.value = null
   }
 
@@ -309,7 +317,7 @@ export function useTracker() {
     setPrimaryRow, primaryRowCount,
     drawSecondary, discardFromHand,
     scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
-    goToRound, finishGame, discardGame, deleteHistory,
+    goToRound, finishGame, resumeGame, archiveGame, discardGame, deleteHistory,
     primaryTotal, roundPrimaryMax, secondaryTotal, grandTotal, leader,
   }
 }
