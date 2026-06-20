@@ -99,9 +99,9 @@ function makePlayer(p, opponent) {
     cp: 0,
     rounds: Array.from({ length: ROUND_COUNT }, () => ({ primary: 0 })),
     secondary: {
-      // tactical: draw from a shuffled deck each round; fixed: lock a chosen set up front.
+      // tactical: draw from a shuffled deck each round; fixed: the set chosen at setup is locked in.
       deck: secondaryMode === 'tactical' ? shuffle(poolSlugs) : [],
-      hand: [],                 // currently in play (drawn or locked)
+      hand: secondaryMode === 'fixed' ? [...(p.fixedSecondaries || [])] : [],
       scored: [],               // [{ slug, vp, round }]
     },
   }

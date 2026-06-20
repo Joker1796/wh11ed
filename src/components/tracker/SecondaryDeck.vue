@@ -10,21 +10,7 @@
       >{{ player.secondary.deck.length ? labels.trackerDraw : labels.trackerNoMoreCards }}</button>
     </div>
 
-    <!-- Fixed mode: pick the locked set -->
-    <div v-if="mode === 'fixed'" class="fixed-pick">
-      <p class="hint">{{ labels.trackerChooseFixed }}</p>
-      <div class="chips">
-        <button
-          v-for="m in pool"
-          :key="m.slug"
-          class="chip"
-          :class="{ on: inHand(m.slug) }"
-          @click="toggleFixed(m.slug)"
-        >{{ m.name }}</button>
-      </div>
-    </div>
-
-    <!-- Active cards (drawn or locked) -->
+    <!-- Active cards (drawn for tactical, or the fixed set locked at setup) -->
     <ul class="cards">
       <li v-for="m in handMissions" :key="m.slug" class="card">
         <div class="card-top">
@@ -58,27 +44,20 @@ import { computed } from 'vue'
 import NumberStepper from './NumberStepper.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker, secondaryPool, missionBySlug } from '../../composables/useTracker.js'
+import { useTracker, missionBySlug } from '../../composables/useTracker.js'
 
 const props = defineProps({ pi: { type: Number, required: true } })
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
-const { current, drawSecondary, scoreSecondary, lockFixed, discardFromHand } = useTracker()
+const { current, drawSecondary, scoreSecondary, discardFromHand } = useTracker()
 
 const player = computed(() => current.value.players[props.pi])
 const mode = computed(() => player.value.secondaryMode)
-const pool = computed(() => secondaryPool(player.value.role))
 const handMissions = computed(() =>
   player.value.secondary.hand.map(slug => missionBySlug(slug, player.value.role)).filter(Boolean)
 )
 
-function inHand(slug) { return player.value.secondary.hand.includes(slug) }
-function toggleFixed(slug) {
-  const set = new Set(player.value.secondary.hand)
-  if (set.has(slug)) set.delete(slug); else set.add(slug)
-  lockFixed(props.pi, [...set])
-}
 function onDraw() { drawSecondary(props.pi) }
 
 function scoredVp(slug) {
