@@ -19,6 +19,11 @@
             class="nav-link"
             :class="{ active: isEventRoute }"
           >{{ labels.navEventCompanion }}</RouterLink>
+          <RouterLink
+            to="/tracker"
+            class="nav-link"
+            :class="{ active: isTrackerRoute }"
+          >{{ labels.navTracker }}</RouterLink>
         </nav>
 
         <div class="navbar-actions">
@@ -151,7 +156,8 @@ const labels = computed(() => ui[locale.value])
 
 const coreRoutes = ['/', '/basic-rules', '/battle-round', '/battlefields', '/advanced-rules', '/reference']
 const isEventRoute = computed(() => route.path.startsWith('/event-companion'))
-const isCoreRoute = computed(() => !isEventRoute.value && coreRoutes.includes(route.path))
+const isTrackerRoute = computed(() => route.path.startsWith('/tracker'))
+const isCoreRoute = computed(() => !isEventRoute.value && !isTrackerRoute.value && coreRoutes.includes(route.path))
 
 const coreSubNavItems = computed(() => {
   const l = labels.value
@@ -177,7 +183,19 @@ const eventSubNavItems = computed(() => {
   ]
 })
 
-const subNavItems = computed(() => isEventRoute.value ? eventSubNavItems.value : coreSubNavItems.value)
+const trackerSubNavItems = computed(() => {
+  const l = labels.value
+  return [
+    { path: '/tracker', label: l.subNavTrackerHome },
+    { path: '/tracker/game', label: l.subNavTrackerGame },
+  ]
+})
+
+const subNavItems = computed(() => {
+  if (isTrackerRoute.value) return trackerSubNavItems.value
+  if (isEventRoute.value) return eventSubNavItems.value
+  return coreSubNavItems.value
+})
 
 function onKeydown(e) {
   if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
