@@ -66,6 +66,45 @@ export function missionBySlug(slug, role, locale = 'en') {
     : missions.en.primary.find(x => x.slug === slug) || null
   return locale === 'ru' ? localize(m, role) : m
 }
+// Which battle rounds a block can score in, by its (English) heading.
+const BLOCK_ROUNDS = {
+  'Any Battle Round': [1, 2, 3, 4, 5],
+  'First Battle Round': [1],
+  'First & Second Battle Round': [1, 2],
+  'Second Battle Round Onwards': [2, 3, 4, 5],
+  'Second & Third Battle Round': [2, 3],
+  'Second to Fourth Battle Round': [2, 3, 4],
+  'Fourth Battle Round Onwards': [4, 5],
+  'Fifth Battle Round': [5],
+  'End of Battle': [5],
+}
+function blockRounds(headingEn) {
+  return BLOCK_ROUNDS[headingEn] || [1, 2, 3, 4, 5]
+}
+
+// Blocks of a mission that can be scored in `round`, annotated for the scoring UI.
+// Round-gating and the per-each flag are derived from the ENGLISH mission (heading/text);
+// display heading/when/text come from the localized mission. Keeps picks keyed by bi:ri.
+export function scorableBlocks(slug, role, round, locale = 'en') {
+  const enM = missionBySlug(slug, role)
+  if (!enM) return []
+  const locM = missionBySlug(slug, role, locale)
+  const out = []
+  enM.blocks.forEach((b, bi) => {
+    if (!blockRounds(b.heading).includes(round)) return
+    const lb = (locM && locM.blocks[bi]) || b
+    out.push({
+      bi, kind: b.kind, heading: lb.heading, when: lb.when,
+      rows: b.rows.map((er, ri) => ({
+        ri, vp: er.vp, modifier: er.modifier,
+        text: lb.rows && lb.rows[ri] ? lb.rows[ri].text : er.text,
+        perEach: /^(For each|Each time)/i.test(er.text),
+      })),
+    })
+  })
+  return out
+}
+
 export function secondaryPool(role) {
   // 18 distinct secondary missions for the given role.
   return missions.en.secondary.filter(m => m.role === role)

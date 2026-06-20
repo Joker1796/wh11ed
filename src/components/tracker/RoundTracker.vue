@@ -78,7 +78,7 @@ import ScoreBoard from './ScoreBoard.vue'
 import ScoringModal from './ScoringModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug } from '../../composables/useTracker.js'
+import { useTracker, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -93,18 +93,9 @@ function primaryName(i) {
   const m = primaryMission(i)
   return m ? m.name : ''
 }
-// Scorable blocks of a player's primary this round: all except End-of-Battle,
-// plus End-of-Battle blocks only in the final round.
+// Scorable primary blocks for the current round (round-gated by block heading).
 function primaryBlocks(i) {
-  const m = primaryMission(i)
-  if (!m) return []
-  return m.blocks
-    .map((b, bi) => ({ b, bi }))
-    .filter(({ b }) => !/end of battle/i.test(b.heading) || current.value.currentRound === ROUND_COUNT)
-    .map(({ b, bi }) => ({
-      bi, heading: b.heading, when: b.when,
-      rows: b.rows.map((r, ri) => ({ ...r, ri, perEach: /^For each/i.test(r.text) })),
-    }))
+  return scorableBlocks(current.value.players[i].primarySlug, null, current.value.currentRound, locale.value)
 }
 function confirmFinish() {
   if (window.confirm(labels.value.trackerFinishConfirm)) finishGame()
