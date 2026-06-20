@@ -7,6 +7,7 @@
     <div v-else-if="current.phase === 'finished'" class="finished">
       <h2 class="finished-title">{{ labels.trackerGameOver }}</h2>
       <ScoreBoard :finished="true" />
+      <ScoreBreakdown />
       <div class="finished-actions">
         <button class="btn-ghost" @click="resume">{{ labels.trackerResume }}</button>
         <button class="btn-primary" @click="backToTracker">{{ labels.trackerBackToTracker }}</button>
@@ -21,6 +22,7 @@ import { useRouter } from 'vue-router'
 import GameSetup from '../../components/tracker/GameSetup.vue'
 import RoundTracker from '../../components/tracker/RoundTracker.vue'
 import ScoreBoard from '../../components/tracker/ScoreBoard.vue'
+import ScoreBreakdown from '../../components/tracker/ScoreBreakdown.vue'
 import AlphaBanner from '../../components/tracker/AlphaBanner.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
