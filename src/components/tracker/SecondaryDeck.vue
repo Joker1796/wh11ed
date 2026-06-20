@@ -21,18 +21,6 @@
       </li>
     </ul>
 
-    <div v-if="asideMissions.length" class="aside">
-      <span class="aside-label">{{ labels.trackerSetAside }}</span>
-      <ul class="cards">
-        <li v-for="m in asideMissions" :key="m.slug" class="card">
-          <button class="card-open aside-card" @click="openSlug = m.slug">
-            <span class="card-name">{{ m.name }}</span>
-            <span class="card-vp">{{ secondaryCardVp(pi, m.slug) }} VP</span>
-          </button>
-        </li>
-      </ul>
-    </div>
-
     <ScoringModal
       v-if="openMission"
       :title="openMission.name"
@@ -78,23 +66,10 @@ const handMissions = computed(() => {
   for (const slug of s.hand) if ((drawn[slug] || 1) <= R) slugs.push(slug)
   for (const d of (s.discarded || [])) {
     const slug = d.slug ?? d
-    const dr = d.round ?? R
-    if ((drawn[slug] || 1) <= R && R < dr) slugs.push(slug)
+    const dr = d.round ?? R           // last round the card was active
+    if ((drawn[slug] || 1) <= R && R <= dr) slugs.push(slug)
   }
   return slugs.map(slug => missionBySlug(slug, player.value.role)).filter(Boolean)
-})
-// Set aside only in the round the card was actually discarded.
-const asideMissions = computed(() => {
-  const R = current.value.currentRound
-  const out = []
-  for (const d of (player.value.secondary.discarded || [])) {
-    const slug = d.slug ?? d
-    if ((d.round ?? R) === R) {
-      const m = missionBySlug(slug, player.value.role)
-      if (m && !out.some(x => x.slug === slug)) out.push(m)
-    }
-  }
-  return out
 })
 
 const openSlug = ref(null)
@@ -146,10 +121,4 @@ function onDraw() { drawSecondary(props.pi) }
   cursor: pointer; font-size: 0.85rem; padding: 0 0.5rem; flex-shrink: 0;
 }
 .discard:hover { color: var(--accent); border-color: var(--accent); }
-.aside {
-  margin-top: 0.55rem; padding-top: 0.45rem; border-top: 1px dashed var(--border);
-}
-.aside-label { display: block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-dim); margin-bottom: 0.35rem; }
-.aside-card { opacity: 0.75; }
-.aside-card:hover { opacity: 1; }
 </style>
