@@ -44,6 +44,12 @@ export function secondaryPool(role) {
   // 18 distinct secondary missions for the given role.
   return missions.en.secondary.filter(m => m.role === role)
 }
+export function numericVp(v) {
+  // vp is a number, or a '+N' string for cumulative bonuses.
+  if (typeof v === 'number') return v
+  const n = parseInt(String(v).replace('+', ''), 10)
+  return Number.isFinite(n) ? n : 0
+}
 export function fixedPool(role) {
   // Only missions that actually have a Fixed scoring option can be taken as Fixed
   // (A Grievous Blow, Assassination, Bring it Down, Engage on All Fronts).
@@ -107,7 +113,8 @@ function makePlayer(p, opponent) {
       // tactical: draw from a shuffled deck each round; fixed: the set chosen at setup is locked in.
       deck: secondaryMode === 'tactical' ? shuffle(poolSlugs) : [],
       hand: secondaryMode === 'fixed' ? [...(p.fixedSecondaries || [])] : [],
-      scored: [],               // [{ slug, vp, round }]
+      discarded: [],            // tactical cards set aside (kept their points, won't be redrawn)
+      scored: [],               // [{ slug, round, picks: {'bi:ri': count}, vp }]
     },
   }
 }
@@ -146,24 +153,47 @@ export function useTracker() {
     s.hand.push(s.deck.shift())
   }
 
-  function lockFixed(pi, slugs) {
-    // fixed mode: the chosen set is locked into the hand for the whole game.
-    current.value.players[pi].secondary.hand = [...slugs]
-  }
-
   function discardFromHand(pi, slug) {
+    // Set the card aside: it leaves the hand but KEEPS any points already scored,
+    // and (being off the deck already) cannot be drawn again.
     const s = current.value.players[pi].secondary
     s.hand = s.hand.filter(x => x !== slug)
-    // also drop any scoring recorded for it (so totals stay consistent)
-    s.scored = s.scored.filter(e => e.slug !== slug)
+    if (!s.discarded.includes(slug)) s.discarded.push(slug)
   }
 
-  function scoreSecondary(pi, slug, vp) {
+  function entryVp(pi, entry) {
+    const m = missionBySlug(entry.slug, current.value.players[pi].role)
+    if (!m || !entry.picks) return entry.vp || 0
+    let total = 0
+    for (const [key, count] of Object.entries(entry.picks)) {
+      const [bi, ri] = key.split(':').map(Number)
+      const row = m.blocks[bi] && m.blocks[bi].rows[ri]
+      if (row) total += count * numericVp(row.vp)
+    }
+    return total
+  }
+
+  // Record how many times a given scoring row was achieved this round.
+  function scoreSecondaryRow(pi, slug, blockIdx, rowIdx, count) {
     const s = current.value.players[pi].secondary
     const round = current.value.currentRound
-    const existing = s.scored.find(e => e.slug === slug && e.round === round)
-    if (existing) existing.vp = Math.max(0, vp)
-    else s.scored.push({ slug, vp: Math.max(0, vp), round })
+    let entry = s.scored.find(e => e.slug === slug && e.round === round)
+    if (!entry) { entry = { slug, round, picks: {}, vp: 0 }; s.scored.push(entry) }
+    if (!entry.picks) entry.picks = {}
+    entry.picks[`${blockIdx}:${rowIdx}`] = Math.max(0, count)
+    entry.vp = entryVp(pi, entry)
+  }
+
+  function secondaryRowCount(pi, slug, blockIdx, rowIdx) {
+    const round = current.value.currentRound
+    const entry = current.value.players[pi].secondary.scored.find(e => e.slug === slug && e.round === round)
+    return entry && entry.picks ? (entry.picks[`${blockIdx}:${rowIdx}`] || 0) : 0
+  }
+
+  // Total VP a card has scored this round (sum across its rows).
+  function secondaryCardVp(pi, slug, round = current.value.currentRound) {
+    const entry = current.value.players[pi].secondary.scored.find(e => e.slug === slug && e.round === round)
+    return entry ? entry.vp || 0 : 0
   }
 
   function goToRound(n) {
@@ -227,7 +257,8 @@ export function useTracker() {
   return {
     current, history,
     newGame, setRoundPrimary, setCp,
-    drawSecondary, lockFixed, discardFromHand, scoreSecondary,
+    drawSecondary, discardFromHand,
+    scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
     goToRound, finishGame, discardGame, deleteHistory,
     primaryTotal, roundPrimaryMax, secondaryTotal, grandTotal, leader,
   }
