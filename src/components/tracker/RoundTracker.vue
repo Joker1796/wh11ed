@@ -15,7 +15,10 @@
       </div>
       <button class="rb-nav" :disabled="current.currentRound >= ROUND_COUNT" @click="goToRound(current.currentRound + 1)">›</button>
     </div>
-    <p class="round-label">{{ labels.trackerRound }} {{ current.currentRound }}</p>
+    <p class="round-label">
+      {{ labels.trackerRound }} {{ current.currentRound }}
+      <span v-if="current.settings.layout" class="round-layout">· {{ labels.eventLayout }} {{ current.settings.layout }}</span>
+    </p>
 
     <div class="players">
       <div v-for="(pl, i) in current.players" :key="i" class="player">
@@ -140,6 +143,12 @@ function confirmFinish() {
   font-weight: 700;
   color: var(--text-primary);
   margin: 0 0 1rem;
+}
+.round-layout {
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
 }
 .players { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
 .player {
