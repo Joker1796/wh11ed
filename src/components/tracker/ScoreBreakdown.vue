@@ -103,23 +103,24 @@ function shorten(text) {
 </script>
 
 <style scoped>
-.breakdown { margin-top: 1.25rem; }
+.breakdown { margin-top: 0.75rem; }
 .bd-toggle {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.4rem;
-  margin: 0 auto;
-  padding: 0.5rem 1rem;
+  width: 100%;
+  padding: 0.6rem 1rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 5px;
+  border-radius: 6px;
   color: var(--text-primary);
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
 }
 .bd-toggle:hover { border-color: var(--accent); }
-.bd-body { margin-top: 1rem; display: flex; flex-direction: column; gap: 1.25rem; }
+.bd-body { margin-top: 0.75rem; display: flex; flex-direction: column; gap: 0.75rem; }
 .bd-player {
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -157,4 +158,10 @@ function shorten(text) {
 .sub, .sub2 { display: block; font-size: 0.72rem; color: var(--text-dim); line-height: 1.35; }
 .sub { margin-top: 0.15rem; }
 .dash { color: var(--text-dim); }
+
+/* Match the tighter gap the score boxes use on phones. */
+@media (max-width: 560px) {
+  .breakdown { margin-top: 0.4rem; }
+  .bd-body { margin-top: 0.4rem; gap: 0.4rem; }
+}
 </style>
