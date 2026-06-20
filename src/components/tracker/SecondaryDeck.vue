@@ -61,19 +61,25 @@ const { current, drawSecondary, discardFromHand, scoreSecondaryRow, secondaryRow
 
 const player = computed(() => current.value.players[props.pi])
 const mode = computed(() => player.value.secondaryMode)
-const handMissions = computed(() =>
-  player.value.secondary.hand.map(slug => missionBySlug(slug, player.value.role)).filter(Boolean)
-)
-// A discarded card is shown only in the round where it scored points or was set aside.
+// Cards in hand are shown only from the round they were drawn onward.
+const handMissions = computed(() => {
+  const round = current.value.currentRound
+  const drawn = player.value.secondary.drawn || {}
+  return player.value.secondary.hand
+    .filter(slug => (drawn[slug] || 1) <= round)
+    .map(slug => missionBySlug(slug, player.value.role)).filter(Boolean)
+})
+// A set-aside card stays visible in every round it was active: from when it was
+// drawn through the round it was discarded (so kept-but-unscored rounds show too).
 const asideMissions = computed(() => {
   const round = current.value.currentRound
   const s = player.value.secondary
+  const drawn = s.drawn || {}
   const out = []
   for (const d of (s.discarded || [])) {
     const slug = typeof d === 'string' ? d : d.slug
-    const dround = typeof d === 'string' ? null : d.round
-    const scoredThisRound = s.scored.some(e => e.slug === slug && e.round === round && (e.vp || 0) > 0)
-    if (dround === round || scoredThisRound) {
+    const dround = typeof d === 'string' ? round : d.round
+    if ((drawn[slug] || 1) <= round && round <= dround) {
       const m = missionBySlug(slug, player.value.role)
       if (m && !out.some(x => x.slug === slug)) out.push(m)
     }
