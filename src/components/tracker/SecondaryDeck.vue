@@ -69,11 +69,11 @@ const handMissions = computed(() => {
     const dr = d.round ?? R           // last round the card was active
     if ((drawn[slug] || 1) <= R && R <= dr) slugs.push(slug)
   }
-  return slugs.map(slug => missionBySlug(slug, player.value.role)).filter(Boolean)
+  return slugs.map(slug => missionBySlug(slug, player.value.role, locale.value)).filter(Boolean)
 })
 
 const openSlug = ref(null)
-const openMission = computed(() => openSlug.value ? missionBySlug(openSlug.value, player.value.role) : null)
+const openMission = computed(() => openSlug.value ? missionBySlug(openSlug.value, player.value.role, locale.value) : null)
 
 // Only the block(s) matching the player's mode are scorable; annotate for the modal.
 function relevantBlocks(m) {
