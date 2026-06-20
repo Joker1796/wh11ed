@@ -113,7 +113,11 @@ function makePlayer(p, opponent) {
       // tactical: draw from a shuffled deck each round; fixed: the set chosen at setup is locked in.
       deck: secondaryMode === 'tactical' ? shuffle(poolSlugs) : [],
       hand: secondaryMode === 'fixed' ? [...(p.fixedSecondaries || [])] : [],
-      discarded: [],            // tactical cards set aside (kept their points, won't be redrawn)
+      // round each card became active (fixed cards are active from round 1).
+      drawn: secondaryMode === 'fixed'
+        ? Object.fromEntries((p.fixedSecondaries || []).map(s => [s, 1]))
+        : {},
+      discarded: [],            // [{ slug, round }] — set aside (kept their points, won't be redrawn)
       scored: [],               // [{ slug, round, picks: {'bi:ri': count}, vp }]
     },
   }
@@ -172,7 +176,10 @@ export function useTracker() {
   function drawSecondary(pi) {
     const s = current.value.players[pi].secondary
     if (!s.deck.length) return
-    s.hand.push(s.deck.shift())
+    const slug = s.deck.shift()
+    s.hand.push(slug)
+    if (!s.drawn) s.drawn = {}
+    s.drawn[slug] = current.value.currentRound
   }
 
   function discardFromHand(pi, slug) {
