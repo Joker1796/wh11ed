@@ -1,131 +1,177 @@
 <template>
   <div class="setup">
-    <h2 class="setup-title">{{ labels.trackerSetupTitle }}</h2>
-
-    <div class="players">
-      <div v-for="(p, i) in players" :key="i" class="player-card">
-        <h3 class="player-head">{{ labels.trackerPlayer }} {{ i + 1 }}</h3>
-
-        <label class="field">
-          <span>{{ labels.trackerName }}</span>
-          <input v-model="p.name" type="text" :placeholder="`${labels.trackerPlayer} ${i + 1}`" />
-        </label>
-
-        <label class="field">
-          <span>{{ labels.trackerFaction }}</span>
-          <select v-model="p.factionSlug">
-            <option :value="null" disabled>{{ labels.trackerSelectFaction }}</option>
-            <option v-for="f in factions" :key="f.slug" :value="f.slug">{{ f.name }}</option>
-          </select>
-        </label>
-
-        <div class="field">
-          <span>{{ labels.trackerDpBudget }} <em class="dp-count">{{ dpSpent(p) }} / {{ MAX_DP }} DP</em></span>
-          <div v-if="p.factionSlug && detachmentsFor(p.factionSlug).length" class="det-list">
-            <button
-              v-for="d in detachmentsFor(p.factionSlug)"
-              :key="d.name"
-              class="det"
-              :class="{ on: p.detachments.includes(d.name) }"
-              :disabled="!p.detachments.includes(d.name) && dpSpent(p) + d.dp > MAX_DP"
-              @click="toggleDetachment(p, d)"
-            >
-              <span class="det-name">{{ d.name }}</span>
-              <span class="det-meta">{{ d.dp }}DP · {{ d.forceDisposition }}</span>
-            </button>
-          </div>
-          <p v-else class="det-empty">{{ p.factionSlug ? labels.trackerNoDetachments : labels.trackerSelectFaction }}</p>
-        </div>
-
-        <label class="field">
-          <span>{{ candidateDispositions(p).length > 1 ? labels.trackerActiveDisposition : labels.trackerDisposition }}</span>
-          <!-- faction has no detachments at all → manual choice (only way to set it) -->
-          <select v-if="p.factionSlug && !detachmentsFor(p.factionSlug).length" v-model="p.disposition">
-            <option :value="null" disabled>{{ labels.trackerDispositionManual }}</option>
-            <option v-for="d in dispositions" :key="d.id" :value="d.id">{{ d.name }}</option>
-          </select>
-          <!-- ≥2 distinct dispositions from chosen detachments → pick the active one -->
-          <div v-else-if="candidateDispositions(p).length > 1" class="seg seg-wrap">
-            <button
-              v-for="id in candidateDispositions(p)"
-              :key="id"
-              :class="{ on: p.disposition === id }"
-              @click="p.disposition = id"
-            >{{ dispositionName(id) }}</button>
-          </div>
-          <!-- exactly 1 → auto, read-only -->
-          <input v-else-if="candidateDispositions(p).length === 1" type="text" :value="dispositionName(p.disposition)" readonly class="ro" />
-          <!-- nothing chosen yet → gated behind picking a detachment -->
-          <p v-else class="det-empty">{{ labels.trackerPickDetachmentFirst }}</p>
-        </label>
-
-        <label class="field">
-          <span>{{ labels.trackerRole }}</span>
-          <div class="seg">
-            <button :class="{ on: p.role === 'attacker' }" @click="setRole(i, 'attacker')">{{ labels.trackerAttacker }}</button>
-            <button :class="{ on: p.role === 'defender' }" @click="setRole(i, 'defender')">{{ labels.trackerDefender }}</button>
-          </div>
-        </label>
-
-        <label class="field">
-          <span>{{ labels.trackerSecondaryMode }}</span>
-          <div class="seg">
-            <button :class="{ on: p.secondaryMode === 'tactical' }" @click="p.secondaryMode = 'tactical'">{{ labels.trackerTactical }}</button>
-            <button :class="{ on: p.secondaryMode === 'fixed' }" @click="p.secondaryMode = 'fixed'">{{ labels.trackerFixed }}</button>
-          </div>
-        </label>
-
-        <div v-if="p.secondaryMode === 'fixed'" class="field">
-          <span>{{ labels.trackerChooseFixed }} <em class="dp-count">{{ p.fixedSecondaries.length }} / {{ MAX_FIXED }}</em></span>
-          <div class="chips">
-            <button
-              v-for="m in fixedPool(p.role)"
-              :key="m.slug"
-              class="chip"
-              :class="{ on: p.fixedSecondaries.includes(m.slug) }"
-              :disabled="!p.fixedSecondaries.includes(m.slug) && p.fixedSecondaries.length >= MAX_FIXED"
-              @click="toggleFixed(p, m.slug)"
-            >{{ m.name }}</button>
-          </div>
-        </div>
-
-        <label class="check br-check">
-          <input type="checkbox" v-model="p.battleReady" />
-          <span>{{ labels.trackerBattleReady }} (+10 VP)</span>
-        </label>
-
-        <p class="primary-preview" v-if="primaryName(i)">
-          <span class="pp-label">{{ labels.trackerPrimaryPreview }}:</span> {{ primaryName(i) }}
-        </p>
+    <div class="setup-head">
+      <h2 class="setup-title">{{ labels.trackerSetupTitle }}</h2>
+      <div class="steps">
+        <span class="step" :class="{ on: step === 1, done: step > 1 }">1 · {{ labels.trackerStepArmies }}</span>
+        <span class="step-sep">→</span>
+        <span class="step" :class="{ on: step === 2 }">2 · {{ labels.trackerStepBattlefield }}</span>
       </div>
     </div>
 
-    <div class="settings">
-      <label class="field">
-        <span>{{ labels.trackerFirstTurn }}</span>
-        <div class="seg">
-          <button :class="{ on: settings.firstTurn === 1 }" @click="settings.firstTurn = 1">{{ labels.trackerPlayer }} 1</button>
-          <button :class="{ on: settings.firstTurn === 2 }" @click="settings.firstTurn = 2">{{ labels.trackerPlayer }} 2</button>
-        </div>
-      </label>
+    <!-- ───────── Step 1 — Armies ───────── -->
+    <div v-show="step === 1">
+      <div class="players">
+        <div v-for="(p, i) in players" :key="i" class="player-card">
+          <h3 class="player-head">{{ labels.trackerPlayer }} {{ i + 1 }}</h3>
 
-      <label class="check">
-        <input type="checkbox" v-model="settings.trackCP" />
-        <span>{{ labels.trackerTrackCp }}</span>
-      </label>
+          <label class="field">
+            <span>{{ labels.trackerName }}</span>
+            <input v-model="p.name" type="text" :placeholder="`${labels.trackerPlayer} ${i + 1}`" />
+          </label>
+
+          <label class="field">
+            <span>{{ labels.trackerFaction }}</span>
+            <select v-model="p.factionSlug">
+              <option :value="null" disabled>{{ labels.trackerSelectFaction }}</option>
+              <option v-for="f in factions" :key="f.slug" :value="f.slug">{{ f.name }}</option>
+            </select>
+          </label>
+
+          <div class="field">
+            <span>{{ labels.trackerDpBudget }} <em class="dp-count">{{ dpSpent(p) }} / {{ MAX_DP }} DP</em></span>
+            <div v-if="p.factionSlug && detachmentsFor(p.factionSlug).length" class="det-list">
+              <button
+                v-for="d in detachmentsFor(p.factionSlug)"
+                :key="d.name"
+                class="det"
+                :class="{ on: p.detachments.includes(d.name) }"
+                :disabled="!p.detachments.includes(d.name) && dpSpent(p) + d.dp > MAX_DP"
+                @click="toggleDetachment(p, d)"
+              >
+                <span class="det-name">{{ d.name }}</span>
+                <span class="det-meta">{{ d.dp }}DP · {{ d.forceDisposition }}</span>
+              </button>
+            </div>
+            <p v-else class="det-empty">{{ p.factionSlug ? labels.trackerNoDetachments : labels.trackerSelectFaction }}</p>
+          </div>
+
+          <label class="field">
+            <span>{{ labels.trackerSecondaryMode }}</span>
+            <div class="seg">
+              <button :class="{ on: p.secondaryMode === 'tactical' }" @click="p.secondaryMode = 'tactical'">{{ labels.trackerTactical }}</button>
+              <button :class="{ on: p.secondaryMode === 'fixed' }" @click="p.secondaryMode = 'fixed'">{{ labels.trackerFixed }}</button>
+            </div>
+          </label>
+
+          <div v-if="p.secondaryMode === 'fixed'" class="field">
+            <span>{{ labels.trackerChooseFixed }} <em class="dp-count">{{ p.fixedSecondaries.length }} / {{ MAX_FIXED }}</em></span>
+            <div class="chips">
+              <button
+                v-for="m in fixedPool(p.role)"
+                :key="m.slug"
+                class="chip"
+                :class="{ on: p.fixedSecondaries.includes(m.slug) }"
+                :disabled="!p.fixedSecondaries.includes(m.slug) && p.fixedSecondaries.length >= MAX_FIXED"
+                @click="toggleFixed(p, m.slug)"
+              >{{ m.name }}</button>
+            </div>
+          </div>
+
+          <label class="check br-check">
+            <input type="checkbox" v-model="p.battleReady" />
+            <span>{{ labels.trackerBattleReady }} (+10 VP)</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-ghost" @click="$emit('cancel')">{{ labels.trackerCancel }}</button>
+        <button class="btn-primary" :disabled="!canNext" @click="step = 2">{{ labels.trackerNextStep }} →</button>
+      </div>
     </div>
 
-    <div class="actions">
-      <button class="btn-ghost" @click="$emit('cancel')">{{ labels.trackerCancel }}</button>
-      <button class="btn-primary" :disabled="!canStart" @click="start">{{ labels.trackerStart }}</button>
+    <!-- ───────── Step 2 — Battlefield ───────── -->
+    <div v-show="step === 2">
+      <div class="players">
+        <div v-for="(p, i) in players" :key="i" class="player-card">
+          <h3 class="player-head">{{ labels.trackerPlayer }} {{ i + 1 }}</h3>
+          <p class="army-summary">{{ p.name || `${labels.trackerPlayer} ${i + 1}` }} — {{ factionName(p.factionSlug) }}</p>
+
+          <label class="field">
+            <span>{{ candidateDispositions(p).length > 1 ? labels.trackerActiveDisposition : labels.trackerDisposition }}</span>
+            <!-- faction has no detachments at all → manual choice (only way to set it) -->
+            <select v-if="p.factionSlug && !detachmentsFor(p.factionSlug).length" v-model="p.disposition">
+              <option :value="null" disabled>{{ labels.trackerDispositionManual }}</option>
+              <option v-for="d in dispositions" :key="d.id" :value="d.id">{{ d.name }}</option>
+            </select>
+            <!-- ≥2 distinct dispositions from chosen detachments → pick the active one -->
+            <div v-else-if="candidateDispositions(p).length > 1" class="seg seg-wrap">
+              <button
+                v-for="id in candidateDispositions(p)"
+                :key="id"
+                :class="{ on: p.disposition === id }"
+                @click="p.disposition = id"
+              >{{ dispositionName(id) }}</button>
+            </div>
+            <!-- exactly 1 → auto, read-only -->
+            <input v-else-if="candidateDispositions(p).length === 1" type="text" :value="dispositionName(p.disposition)" readonly class="ro" />
+            <!-- nothing chosen yet → gated behind picking a detachment -->
+            <p v-else class="det-empty">{{ labels.trackerPickDetachmentFirst }}</p>
+          </label>
+
+          <label class="field">
+            <span>{{ labels.trackerRole }}</span>
+            <div class="seg">
+              <button :class="{ on: p.role === 'attacker' }" @click="setRole(i, 'attacker')">{{ labels.trackerAttacker }}</button>
+              <button :class="{ on: p.role === 'defender' }" @click="setRole(i, 'defender')">{{ labels.trackerDefender }}</button>
+            </div>
+          </label>
+
+          <p class="primary-preview" v-if="primaryName(i)">
+            <span class="pp-label">{{ labels.trackerPrimaryPreview }}:</span> {{ primaryName(i) }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Battlefield layout: players pick A/B/C and set up the table themselves -->
+      <div class="settings layout-block">
+        <h3 class="block-head">{{ labels.trackerLayoutHeading }}</h3>
+        <p class="layout-note">{{ labels.trackerLayoutNote }}</p>
+        <template v-if="layouts.length">
+          <div class="tabs">
+            <button
+              v-for="l in layouts"
+              :key="l.id"
+              class="tab"
+              :class="{ active: settings.layout === l.id }"
+              @click="settings.layout = l.id"
+            ><span class="tab-word">{{ labels.eventLayout }}</span> {{ l.id }}</button>
+          </div>
+          <LayoutCard v-if="currentLayout" :layout="currentLayout" />
+        </template>
+        <p v-else class="det-empty">{{ labels.trackerLayoutPending }}</p>
+      </div>
+
+      <div class="settings">
+        <label class="field">
+          <span>{{ labels.trackerFirstTurn }}</span>
+          <div class="seg">
+            <button :class="{ on: settings.firstTurn === 1 }" @click="settings.firstTurn = 1">{{ labels.trackerPlayer }} 1</button>
+            <button :class="{ on: settings.firstTurn === 2 }" @click="settings.firstTurn = 2">{{ labels.trackerPlayer }} 2</button>
+          </div>
+        </label>
+
+        <label class="check">
+          <input type="checkbox" v-model="settings.trackCP" />
+          <span>{{ labels.trackerTrackCp }}</span>
+        </label>
+      </div>
+
+      <div class="actions">
+        <button class="btn-ghost" @click="step = 1">← {{ labels.trackerBack }}</button>
+        <button class="btn-primary" :disabled="!canStart" @click="start">{{ labels.trackerStart }}</button>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { reactive, computed, watch } from 'vue'
+import { reactive, ref, computed, watch } from 'vue'
+import LayoutCard from '../event/LayoutCard.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { eventCompanion } from '../../data/eventCompanion.js'
 import { FACTIONS, DISPOSITIONS, MAX_DP, detachmentsFor, detachmentInfo, fixedPool, primaryFor, dispositionName } from '../../composables/useTracker.js'
 
 const emit = defineEmits(['start', 'cancel'])
@@ -134,13 +180,20 @@ const labels = computed(() => ui[locale.value])
 
 const factions = FACTIONS
 const dispositions = DISPOSITIONS
+const matchups = eventCompanion.en.matchups   // layout image paths are language-agnostic
 const MAX_FIXED = 2   // Fixed secondaries: choose 2, kept for the whole game.
+
+const step = ref(1)
 
 const players = reactive([
   { name: '', factionSlug: null, detachments: [], disposition: null, role: 'attacker', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false },
   { name: '', factionSlug: null, detachments: [], disposition: null, role: 'defender', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false },
 ])
-const settings = reactive({ trackCP: true, firstTurn: 1 })
+const settings = reactive({ trackCP: true, firstTurn: 1, layout: 'A' })
+
+function factionName(slug) {
+  return FACTIONS.find(f => f.slug === slug)?.name || ''
+}
 
 function toggleFixed(p, slug) {
   const i = p.fixedSecondaries.indexOf(slug)
@@ -196,6 +249,27 @@ function primaryName(i) {
 // Switching back to tactical drops any chosen fixed missions.
 players.forEach(p => watch(() => p.secondaryMode, (m) => { if (m !== 'fixed') p.fixedSecondaries = [] }))
 
+// The recommended layouts for the current Force Disposition matchup (15 matchups
+// cover all pairs, including mirrors). Reset the choice to A whenever it changes.
+const matchup = computed(() => {
+  const you = players[0].disposition, opp = players[1].disposition
+  if (!you || !opp) return null
+  return matchups.find(m => (m.a === you && m.b === opp) || (m.a === opp && m.b === you)) || null
+})
+const layouts = computed(() => matchup.value?.layouts ?? [])
+const currentLayout = computed(() => layouts.value.find(l => l.id === settings.layout) || layouts.value[0] || null)
+watch(matchup, () => { settings.layout = 'A' })
+
+// Step 1 is complete once both players have a valid army (faction + a detachment
+// where the faction has them + fixed picks when in fixed mode).
+const canNext = computed(() =>
+  players.every(p =>
+    p.factionSlug &&
+    (detachmentsFor(p.factionSlug).length === 0 || p.detachments.length > 0) &&
+    (p.secondaryMode !== 'fixed' || p.fixedSecondaries.length > 0)
+  )
+)
+
 const canStart = computed(() =>
   players.every(p => p.disposition && p.role && (p.secondaryMode !== 'fixed' || p.fixedSecondaries.length > 0)) &&
   !!primaryName(0) && !!primaryName(1)
@@ -210,15 +284,48 @@ function start() {
 </script>
 
 <style scoped>
+.setup-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 2px solid var(--accent);
+}
 .setup-title {
   font-family: var(--font-serif);
   font-size: 1.5rem;
   font-weight: 700;
-  margin-bottom: 1rem;
-  padding-bottom: 0.3rem;
-  border-bottom: 2px solid var(--accent);
   color: var(--text-primary);
+  margin: 0;
 }
+.steps {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.step {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}
+.step.on {
+  color: #fff;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.step.done {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.step-sep { color: var(--text-dim); }
 .players {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -237,6 +344,27 @@ function start() {
   flex-wrap: wrap;
   gap: 1.25rem;
   align-items: flex-end;
+}
+.layout-block {
+  display: block;
+}
+.block-head {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 0 0 0.3rem;
+}
+.layout-note {
+  margin: 0 0 0.75rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+.army-summary {
+  margin: -0.3rem 0 0.75rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
 }
 .player-head {
   font-family: var(--font-serif);
@@ -369,6 +497,31 @@ function start() {
   font-size: 0.7rem;
   letter-spacing: 0.04em;
 }
+
+/* Layout A/B/C tabs (mirror the Event Companion layout viewer). */
+.tabs {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+.tab {
+  padding: 0.4rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-primary);
+  cursor: pointer;
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  transition: background 0.12s, border-color 0.12s;
+}
+.tab:hover { border-color: var(--accent); }
+.tab.active {
+  background: var(--accent);
+  color: var(--text-on-accent);
+  border-color: var(--accent);
+}
+
 .actions {
   display: flex;
   justify-content: flex-end;
@@ -400,5 +553,7 @@ function start() {
 }
 @media (max-width: 700px) {
   .players { grid-template-columns: 1fr; }
+  .tab-word { display: none; }
+  .tab { min-width: 44px; min-height: 44px; }
 }
 </style>
