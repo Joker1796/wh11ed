@@ -112,6 +112,22 @@
       <RouterView />
     </main>
 
+    <!-- Mobile bottom nav — quick switch between the global sections -->
+    <nav class="bottom-nav">
+      <RouterLink to="/" class="bn-item" :class="{ active: isCoreRoute }">
+        <i class="bi bi-book-half"></i>
+        <span>{{ labels.navCoreRules }}</span>
+      </RouterLink>
+      <RouterLink to="/event-companion" class="bn-item" :class="{ active: isEventRoute }">
+        <i class="bi bi-calendar-event"></i>
+        <span>{{ labels.navEventCompanion }}</span>
+      </RouterLink>
+      <RouterLink to="/tracker" class="bn-item" :class="{ active: isTrackerRoute }">
+        <i class="bi bi-clipboard-data"></i>
+        <span>{{ labels.navTracker }}</span>
+      </RouterLink>
+    </nav>
+
     <SearchModal v-if="searchOpen" @close="searchOpen = false" />
     <KeywordPopover />
   </div>
@@ -583,6 +599,11 @@ onUnmounted(() => {
   font-weight: 600;
 }
 
+/* ── Mobile bottom nav (shown only on mobile, see media query) ── */
+.bottom-nav {
+  display: none;
+}
+
 /* ── Overlay ── */
 .nav-overlay {
   position: fixed;
@@ -656,7 +677,44 @@ onUnmounted(() => {
   }
 
   .main-content {
-    padding: 0 1rem 3rem;
+    padding: 0 1rem calc(4.5rem + env(safe-area-inset-bottom));
+  }
+
+  .bottom-nav {
+    display: flex;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 200;
+    background: var(--bg-insert);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .bn-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    min-height: 52px;
+    padding: 0.4rem 0;
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    font-size: 0.64rem;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .bn-item i {
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+
+  .bn-item.active {
+    color: var(--accent);
   }
 }
 </style>

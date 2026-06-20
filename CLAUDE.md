@@ -21,9 +21,9 @@ Vue 3 SPA using hash-based routing (`createWebHashHistory`). No backend. All con
 
 **Navigation model:** Two levels.
 
-- **Top navbar** (`App.vue`) — two sections: "Core Rules" and "Event Companion". `isEventRoute` (path starts with `/event-companion`) switches which subnav renders.
-- **Subnav** (sticky bar below navbar) — for Core Rules: route links (Introduction / Basic Rules / Battle Round / Battlefields / Advanced / Reference). For Event Companion: Introduction / Sequence / Layouts / Mission Matrix / Pairings / FAQs.
-- `router/index.js` exports `navGroups`/`navGroupsRu` (Core) **and** `eventGroups`/`eventGroupsRu` (Event); `NavSidebar.vue` renders both as labelled mobile sections.
+- **Top navbar** (`App.vue`) — three sections: "Core Rules", "Event Companion", and "Tracker". `isEventRoute` (path starts with `/event-companion`) and `isTrackerRoute` (starts with `/tracker`) switch which subnav renders.
+- **Subnav** (sticky bar below navbar) — for Core Rules: route links (Introduction / Basic Rules / Battle Round / Battlefields / Advanced / Reference). For Event Companion: Introduction / Sequence / Layouts / Mission Matrix / Pairings / FAQs. For Tracker: Game Tracker / Current Game.
+- `router/index.js` exports `navGroups`/`navGroupsRu` (Core), `eventGroups`/`eventGroupsRu` (Event), **and** `trackerGroups`/`trackerGroupsRu` (Tracker); `NavSidebar.vue` renders all three as labelled mobile sections.
 
 **Data → View pipeline:**
 
@@ -90,6 +90,18 @@ The data is the bulk of the repo and the EN/RU arrays are edited in lockstep. Wh
 The source rulebook PDF lives in `sources/` (gitignored). Extract text with `pdftotext -layout`, and bold runs with `pdftohtml -s -i -noframes -hidden <pdf> out.html` (yields `<b>` tags).
 
 **Image/vector extraction (Event Companion assets)** uses **pymupdf** (`pip install pymupdf`) against `sources/eng_12-06_warhammer40000_event_companion-*.pdf`. Layout pages are printed pp. 9–53 = page indices 8–52. Techniques used: layout diagrams cropped to the battlefield-frame rect `fitz.Rect(128, 277.8, 468.1, 740.2)`; transparent vector elements (edge-marker bars, objective/legend icons) via `page.add_redact_annot(bbox)` + `apply_redactions(images=PDF_REDACT_IMAGE_REMOVE, graphics=PDF_REDACT_LINE_ART_NONE)` then `get_pixmap(..., alpha=True)` (strips the raster parchment background, keeps the vector); disposition emblems are raster XObjects with soft masks, extracted by combining `fitz.Pixmap(doc, xref)` (CMYK→RGB) with `fitz.Pixmap(doc, smask)` for transparency.
+
+## Game Tracker
+
+Third top-level section (`/tracker`) — a client-side, offline 2-player VP tracker for a game of 40k 11th ed. **Not part of the rules-reference data pipeline above.** Alpha (red banner via `AlphaBanner.vue`).
+
+**State:** `src/composables/useTracker.js` — a module-singleton store (same pattern as `useLocale`) persisted to localStorage under `wh11ed-tracker-current` (active game) and `wh11ed-tracker-history` (finished games), via deep `watch`. A game = `{ id, phase: 'setup'|'playing'|'finished', currentRound, settings:{trackCP,firstTurn}, players:[P,P] }`. Player = `{ name, factionSlug, detachments[], disposition, role, secondaryMode:'tactical'|'fixed', battleReady, primarySlug, cp, rounds:[{primary, picks{'bi:ri':count}}×5], secondary:{deck,hand,drawn{slug→round},discarded:[{slug,round}],scored:[{slug,round,picks,vp}]} }`.
+
+**Scoring** is by *condition*, not free entry: each mission block row is scored via `ScoringModal.vue` (a count stepper for "For each…" rows, a checkbox otherwise); `picks` store per-row counts keyed `blockIdx:rowIdx`, and VP = Σ count·rowVP. Caps: primary **15/round**, **50/game**; fixed secondary **20** each; secondary **40** total; Battle Ready **+10**. `scorableBlocks(slug, role, round, locale)` round-gates blocks by their English heading (`BLOCK_ROUNDS`) — e.g. "Second Battle Round Onwards"/"End of Battle" aren't scorable in round 1 — and derives the per-each flag from the **English** text (display text is localized). Lookup/logic always read `missions.en` (slug/VP/structure are language-agnostic); `missionBySlug(slug, role, locale)` overlays `missionsRu.js` text for display only.
+
+**Data:** `src/data/missions.js` (`{ en, ru:en }`, 25 primary + 36 secondary; primary auto-selected by the two players' dispositions via `primaryFor`); `src/data/missionsRu.js` (RU overlay of block text — **mission names & dispositions stay English**); detachments/factions from `src/data/mfmFactions.js`. The mission rules themselves are published only as card images, so `missions.js` was vision-transcribed (see `scripts/fetch-mission-cards.py`); MFM points data is scraped by `scripts/scrape-mfm.py`.
+
+**Files:** views `src/views/tracker/{TrackerHomeView,TrackerGameView}.vue`; components `src/components/tracker/{GameSetup,RoundTracker,SecondaryDeck,ScoringModal,ScoreBoard,ScoreBreakdown,NumberStepper,AlphaBanner}.vue`. The finished screen shows score boxes + a collapsible GDM-style per-round breakdown grid (`ScoreBreakdown.vue`). Out of scope: Twists, Deployment Zones.
 
 ## Adding content
 
