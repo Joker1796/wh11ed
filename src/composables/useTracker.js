@@ -44,6 +44,11 @@ export function secondaryPool(role) {
   // 18 distinct secondary missions for the given role.
   return missions.en.secondary.filter(m => m.role === role)
 }
+export function fixedPool(role) {
+  // Only missions that actually have a Fixed scoring option can be taken as Fixed
+  // (A Grievous Blow, Assassination, Bring it Down, Engage on All Fronts).
+  return secondaryPool(role).filter(m => m.blocks.some(b => b.kind === 'fixed'))
+}
 
 // Primary mission a player scores = the card for (their disposition vs opponent's).
 export function primaryFor(myDisposition, opponentDisposition) {
