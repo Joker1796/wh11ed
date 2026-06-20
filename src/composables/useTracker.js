@@ -127,6 +127,32 @@ export function primaryFor(myDisposition, opponentDisposition) {
   return missions.en.primary.find(m => m.deck === myDisposition && m.opponent === oppName) || null
 }
 
+// "or"-linked rows in a block are mutually-exclusive BRACKETS (e.g. control 1 / 2 / 3+
+// objectives) — only one may be scored. Given a row, returns the pick keys of its
+// sibling rows that selecting it should clear. Per-tally rows ("For each…/Each time…")
+// are independent alternatives (a model is one bracket or the other, but both tally
+// over the game), so they're never excluded and never exclude others.
+function isPerEachText(text) {
+  return /^(For each|Each time)/i.test(text || '')
+}
+function orSiblingKeys(mission, blockIdx, rowIdx) {
+  const block = mission && mission.blocks && mission.blocks[blockIdx]
+  if (!block) return []
+  const rows = block.rows
+  const row = rows[rowIdx]
+  if (!row || isPerEachText(row.text)) return []
+  let start = rowIdx
+  while (start > 0 && rows[start].modifier === 'or') start--
+  let end = start
+  while (end + 1 < rows.length && rows[end + 1].modifier === 'or') end++
+  const keys = []
+  for (let r = start; r <= end; r++) {
+    if (r === rowIdx || isPerEachText(rows[r].text)) continue
+    keys.push(`${blockIdx}:${r}`)
+  }
+  return keys
+}
+
 function load(key, fallback) {
   try {
     const raw = localStorage.getItem(key)
@@ -219,6 +245,8 @@ export function useTracker() {
     if (!round.picks) round.picks = {}
     round.picks[`${blockIdx}:${rowIdx}`] = Math.max(0, count)
     const m = missionBySlug(pl.primarySlug)
+    // Selecting one "or" bracket clears the competing brackets in the same group.
+    if (count > 0) for (const k of orSiblingKeys(m, blockIdx, rowIdx)) delete round.picks[k]
     let raw = 0
     if (m) {
       for (const [key, c] of Object.entries(round.picks)) {
@@ -246,6 +274,28 @@ export function useTracker() {
     s.hand.push(slug)
     if (!s.drawn) s.drawn = {}
     s.drawn[slug] = current.value.currentRound
+  }
+
+  // Pick a specific card from the deck instead of drawing at random.
+  function drawSpecificSecondary(pi, slug) {
+    const s = current.value.players[pi].secondary
+    const i = s.deck.indexOf(slug)
+    if (i < 0) return
+    s.deck.splice(i, 1)
+    s.hand.push(slug)
+    if (!s.drawn) s.drawn = {}
+    s.drawn[slug] = current.value.currentRound
+  }
+
+  // Return a card to the deck — a full undo: drop it from hand/discarded, wipe any VP
+  // it scored, forget its drawn round, and make it available to draw/pick again.
+  function returnSecondaryToDeck(pi, slug) {
+    const s = current.value.players[pi].secondary
+    s.hand = s.hand.filter(x => x !== slug)
+    s.discarded = (s.discarded || []).filter(d => (d.slug ?? d) !== slug)
+    s.scored = s.scored.filter(e => e.slug !== slug)
+    if (s.drawn) delete s.drawn[slug]
+    if (!s.deck.includes(slug)) s.deck.push(slug)
   }
 
   function discardFromHand(pi, slug) {
@@ -278,6 +328,11 @@ export function useTracker() {
     if (!entry) { entry = { slug, round, picks: {}, vp: 0 }; s.scored.push(entry) }
     if (!entry.picks) entry.picks = {}
     entry.picks[`${blockIdx}:${rowIdx}`] = Math.max(0, count)
+    // Selecting one "or" bracket clears the competing brackets in the same group.
+    if (count > 0) {
+      const m = missionBySlug(slug, current.value.players[pi].role)
+      for (const k of orSiblingKeys(m, blockIdx, rowIdx)) delete entry.picks[k]
+    }
     entry.vp = entryVp(pi, entry)
   }
 
@@ -388,7 +443,7 @@ export function useTracker() {
     current, history,
     newGame, setRoundPrimary, setCp,
     setPrimaryRow, primaryRowCount,
-    drawSecondary, discardFromHand,
+    drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,
     scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
     goToRound, finishGame, resumeGame, archiveGame, discardGame, deleteHistory,
     primaryTotal, roundPrimaryMax, secondaryTotal, grandTotal, leader,

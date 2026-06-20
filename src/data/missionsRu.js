@@ -132,12 +132,12 @@ export const missionsRu = {
   },
   secondary: {
     'a-grievous-blow|attacker': { blocks: [
-      { heading: 'Любой боевой раунд', when: 'Конец хода', rows: ['За каждый вражеский юнит со Starting Strength 13 или более, уничтоженный (destroyed) в этом ходу.'] },
-      { heading: 'Любой боевой раунд', when: 'Конец хода', rows: ['Один или несколько вражеских юнитов со Starting Strength 13 или более уничтожены (destroyed) в этом ходу.'] },
+      { heading: 'Любой боевой раунд', when: 'Конец хода', rows: ['За каждый вражеский юнит со стартовой численностью (Starting Strength) 13 или более, уничтоженный (destroyed) в этом ходу.'] },
+      { heading: 'Любой боевой раунд', when: 'Конец хода', rows: ['Один или несколько вражеских юнитов со стартовой численностью (Starting Strength) 13 или более уничтожены (destroyed) в этом ходу.'] },
     ] },
     'a-grievous-blow|defender': { blocks: [
-      { heading: 'Любой боевой раунд', when: 'Конец хода', rows: ['За каждый вражеский юнит со Starting Strength 13 или более, уничтоженный (destroyed) в этом ходу.'] },
-      { heading: 'Любой боевой раунд', when: 'Конец хода', rows: ['Один или несколько вражеских юнитов со Starting Strength 13 или более уничтожены (destroyed) в этом ходу.'] },
+      { heading: 'Любой боевой раунд', when: 'Конец хода', rows: ['За каждый вражеский юнит со стартовой численностью (Starting Strength) 13 или более, уничтоженный (destroyed) в этом ходу.'] },
+      { heading: 'Любой боевой раунд', when: 'Конец хода', rows: ['Один или несколько вражеских юнитов со стартовой численностью (Starting Strength) 13 или более уничтожены (destroyed) в этом ходу.'] },
     ] },
     'a-tempting-target|attacker': { blocks: [
       { heading: 'Любой боевой раунд', when: 'Конец вашего хода', rows: ['Вы контролируете свою заманчивую цель (tempting target).'] },

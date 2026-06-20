@@ -34,7 +34,7 @@
               @change="e => $emit('set', b.bi, r.ri, e.target.checked ? 1 : 0)"
             />
             <span class="m-text">
-              <em v-if="r.modifier === 'or'" class="or">{{ labels.trackerOr }}</em>
+              <em v-if="r.modifier === 'or' && !r.perEach" class="or">{{ labels.trackerOr }}</em>
               {{ r.text }}
               <strong>{{ r.vp }} VP{{ r.perEach ? ' ' + labels.trackerEach : '' }}</strong>
             </span>

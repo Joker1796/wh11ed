@@ -68,7 +68,7 @@
             </div>
           </div>
 
-          <label class="check br-check">
+          <label class="check br-check" :class="{ on: p.battleReady }">
             <input type="checkbox" v-model="p.battleReady" />
             <span>{{ labels.trackerBattleReady }} (+10 VP)</span>
           </label>
@@ -152,7 +152,7 @@
           </div>
         </label>
 
-        <label class="check">
+        <label class="check" :class="{ on: settings.trackCP }">
           <input type="checkbox" v-model="settings.trackCP" />
           <span>{{ labels.trackerTrackCp }}</span>
         </label>
@@ -345,6 +345,9 @@ function start() {
   gap: 1.25rem;
   align-items: flex-end;
 }
+/* Drop the field's bottom margin here so the First Turn control and the Track CP
+   checkbox card sit on the same baseline (no vertical offset). */
+.settings .field { margin-bottom: 0; }
 .layout-block {
   display: block;
 }
@@ -475,12 +478,31 @@ function start() {
   background: var(--accent);
   color: #fff;
 }
+/* Checkbox rows styled like the mission scoring conditions (ScoringModal .m-cond). */
 .check {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.88rem;
-  color: var(--text-primary);
+  gap: 0.55rem;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--bg-secondary);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.check:hover { border-color: var(--accent); }
+.check.on {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+.check.on span { color: var(--text-primary); }
+.check input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  accent-color: var(--accent);
   cursor: pointer;
 }
 .br-check { margin-top: 0.2rem; }
