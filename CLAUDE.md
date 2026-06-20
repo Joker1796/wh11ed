@@ -24,6 +24,7 @@ Vue 3 SPA using hash-based routing (`createWebHashHistory`). No backend. All con
 - **Top navbar** (`App.vue`) — three sections: "Core Rules", "Event Companion", and "Tracker". `isEventRoute` (path starts with `/event-companion`) and `isTrackerRoute` (starts with `/tracker`) switch which subnav renders.
 - **Subnav** (sticky bar below navbar) — for Core Rules: route links (Introduction / Basic Rules / Battle Round / Battlefields / Advanced / Reference). For Event Companion: Introduction / Sequence / Layouts / Mission Matrix / Pairings / FAQs. For Tracker: Game Tracker / Current Game.
 - `router/index.js` exports `navGroups`/`navGroupsRu` (Core), `eventGroups`/`eventGroupsRu` (Event), **and** `trackerGroups`/`trackerGroupsRu` (Tracker); `NavSidebar.vue` renders all three as labelled mobile sections.
+- **Mobile** (≤900px): the navbar links + subnav are hidden; a hamburger opens `NavSidebar.vue` (the drawer, for in-section navigation) and a fixed **bottom nav** in `App.vue` switches between the three global sections (Core Rules / Event Companion / Tracker) with icons.
 
 **Data → View pipeline:**
 
