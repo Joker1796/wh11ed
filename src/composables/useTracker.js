@@ -229,9 +229,12 @@ export function useTracker() {
 
   function goToRound(n) {
     const target = Math.max(1, Math.min(ROUND_COUNT, n))
+    const leaving = current.value.currentRound
     // Advancing: a tactical secondary that scored in an earlier round is set aside
     // automatically (keeps its VP, won't be redrawn) — the player draws a fresh one.
-    if (target > current.value.currentRound) {
+    // It is recorded against the round being LEFT (its last active round), so it shows
+    // there but not in the new round.
+    if (target > leaving) {
       for (const pl of current.value.players) {
         if (pl.secondaryMode !== 'tactical') continue
         const s = pl.secondary
@@ -241,7 +244,7 @@ export function useTracker() {
         for (const slug of [...s.hand]) {
           if (scoredEarlier.has(slug)) {
             s.hand = s.hand.filter(x => x !== slug)
-            if (!s.discarded.some(d => d.slug === slug)) s.discarded.push({ slug, round: target })
+            if (!s.discarded.some(d => d.slug === slug)) s.discarded.push({ slug, round: leaving })
           }
         }
       }
