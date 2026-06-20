@@ -14,6 +14,8 @@ const EventLayoutsView  = () => import('../views/event/EventLayoutsView.vue')
 const EventMatrixView   = () => import('../views/event/EventMatrixView.vue')
 const EventPairingsView = () => import('../views/event/EventPairingsView.vue')
 const EventFaqView      = () => import('../views/event/EventFaqView.vue')
+const TrackerHomeView   = () => import('../views/tracker/TrackerHomeView.vue')
+const TrackerGameView   = () => import('../views/tracker/TrackerGameView.vue')
 
 export const navGroups = [
   { label: 'Introduction',        path: '/',               sections: [] },
@@ -183,6 +185,17 @@ export const eventGroupsRu = [
   { label: 'Эррата и FAQ',              path: '/event-companion/faq',      sections: [] },
 ]
 
+// Game Tracker — third top-level section. Two routes (home + active game), no anchors.
+export const trackerGroups = [
+  { label: 'Game Tracker', path: '/tracker',      sections: [] },
+  { label: 'Current Game', path: '/tracker/game', sections: [] },
+]
+
+export const trackerGroupsRu = [
+  { label: 'Трекер игры',   path: '/tracker',      sections: [] },
+  { label: 'Текущая игра',  path: '/tracker/game', sections: [] },
+]
+
 export const router = createRouter({
   history: createWebHashHistory(),
   routes: [
@@ -198,6 +211,8 @@ export const router = createRouter({
     { path: '/event-companion/matrix',   component: EventMatrixView },
     { path: '/event-companion/pairings', component: EventPairingsView },
     { path: '/event-companion/faq',      component: EventFaqView },
+    { path: '/tracker',      component: TrackerHomeView },
+    { path: '/tracker/game', component: TrackerGameView },
   ],
   scrollBehavior(to, from, savedPosition) {
     if (to.hash) {
