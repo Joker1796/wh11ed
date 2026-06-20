@@ -20,38 +20,25 @@
     <div class="players">
       <div v-for="(pl, i) in current.players" :key="i" class="player">
         <h3 class="ptitle">{{ pl.name || `${labels.trackerPlayer} ${i + 1}` }}</h3>
-        <p class="pmeta">
-          {{ dispositionName(pl.disposition) }}
-          <button v-if="primaryMission(i)" class="primary-toggle" @click="openPrimary = openPrimary === i ? -1 : i">
-            {{ primaryName(i) }}
-            <i class="bi" :class="openPrimary === i ? 'bi-chevron-up' : 'bi-info-circle'"></i>
-          </button>
-          <span v-else-if="primaryName(i)"> · {{ primaryName(i) }}</span>
-        </p>
+        <p class="pmeta">{{ dispositionName(pl.disposition) }}</p>
         <p v-if="pl.detachments && pl.detachments.length" class="pdet">{{ pl.detachments.join(' · ') }}</p>
 
-        <div v-if="openPrimary === i && primaryMission(i)" class="primary-rules">
-          <div v-for="(b, bi) in primaryMission(i).blocks" :key="bi" class="rule-block">
-            <div class="rb-head">{{ b.heading }}<span v-if="b.when" class="rb-when"> · {{ b.when }}</span></div>
-            <div v-for="(r, ri) in b.rows" :key="ri" class="rule-row">
-              <span v-if="r.modifier" class="mod">{{ r.modifier === 'or' ? labels.trackerOr : '+' }}</span>
-              {{ r.text }} <strong>{{ r.vp }} VP</strong>
-            </div>
-          </div>
-        </div>
-
-        <div class="score-row">
-          <span class="sr-label">{{ labels.trackerPrimary }}</span>
+        <!-- Primary mission — tap to open the scoring modal -->
+        <div class="sec-title-row">{{ labels.trackerPrimary }}</div>
+        <button v-if="primaryMission(i)" class="card-open" @click="openPrimary = i">
+          <span class="card-name">{{ primaryName(i) }}</span>
+          <span class="card-vp">{{ pl.rounds[current.currentRound - 1].primary }} / {{ PRIMARY_ROUND_CAP }} VP</span>
+        </button>
+        <div v-else class="score-row">
           <NumberStepper
             :modelValue="pl.rounds[current.currentRound - 1].primary"
-            :min="0"
-            :max="roundPrimaryMax(i, current.currentRound - 1)"
+            :min="0" :max="PRIMARY_ROUND_CAP"
             @update:modelValue="v => setRoundPrimary(i, current.currentRound - 1, v)"
           />
-          <span class="sr-sub">/ {{ roundPrimaryMax(i, current.currentRound - 1) }} {{ labels.trackerThisRound }}</span>
+          <span class="sr-sub">/ {{ PRIMARY_ROUND_CAP }} {{ labels.trackerThisRound }}</span>
         </div>
 
-        <div v-if="current.settings.trackCP" class="score-row">
+        <div v-if="current.settings.trackCP" class="score-row cp-row">
           <span class="sr-label">{{ labels.trackerCp }}</span>
           <NumberStepper :modelValue="pl.cp" :min="0" @update:modelValue="v => setCp(i, v)" />
         </div>
@@ -59,6 +46,18 @@
         <SecondaryDeck :pi="i" />
       </div>
     </div>
+
+    <ScoringModal
+      v-if="openPrimary >= 0 && primaryMission(openPrimary)"
+      :title="primaryName(openPrimary)"
+      :subtitle="`${labels.trackerPrimary} · ${dispositionName(current.players[openPrimary].disposition)}`"
+      :vp="current.players[openPrimary].rounds[current.currentRound - 1].primary"
+      :blocks="primaryBlocks(openPrimary)"
+      :count="(bi, ri) => primaryRowCount(openPrimary, current.currentRound - 1, bi, ri)"
+      :note="`${labels.trackerPrimary}: ${labels.trackerThisRound} ≤ ${PRIMARY_ROUND_CAP} · ${PRIMARY_GAME_CAP}/${labels.trackerTotal}`"
+      @set="(bi, ri, c) => setPrimaryRow(openPrimary, current.currentRound - 1, bi, ri, c)"
+      @close="openPrimary = -1"
+    />
 
     <div class="actions">
       <button class="btn-ghost" @click="confirmFinish">{{ labels.trackerFinish }}</button>
@@ -76,15 +75,16 @@ import { ref, computed } from 'vue'
 import NumberStepper from './NumberStepper.vue'
 import SecondaryDeck from './SecondaryDeck.vue'
 import ScoreBoard from './ScoreBoard.vue'
+import ScoringModal from './ScoringModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker, ROUND_COUNT, dispositionName, primaryFor, missionBySlug } from '../../composables/useTracker.js'
+import { useTracker, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug } from '../../composables/useTracker.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { current, setRoundPrimary, setCp, roundPrimaryMax, goToRound, finishGame } = useTracker()
+const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, goToRound, finishGame } = useTracker()
 
-const openPrimary = ref(-1)   // index of the player whose primary rules are expanded
+const openPrimary = ref(-1)   // index of the player whose primary scoring modal is open
 
 function primaryMission(i) {
   return missionBySlug(current.value.players[i].primarySlug)
@@ -92,6 +92,19 @@ function primaryMission(i) {
 function primaryName(i) {
   const m = primaryMission(i)
   return m ? m.name : ''
+}
+// Scorable blocks of a player's primary this round: all except End-of-Battle,
+// plus End-of-Battle blocks only in the final round.
+function primaryBlocks(i) {
+  const m = primaryMission(i)
+  if (!m) return []
+  return m.blocks
+    .map((b, bi) => ({ b, bi }))
+    .filter(({ b }) => !/end of battle/i.test(b.heading) || current.value.currentRound === ROUND_COUNT)
+    .map(({ b, bi }) => ({
+      bi, heading: b.heading, when: b.when,
+      rows: b.rows.map((r, ri) => ({ ...r, ri, perEach: /^For each/i.test(r.text) })),
+    }))
 }
 function confirmFinish() {
   if (window.confirm(labels.value.trackerFinishConfirm)) finishGame()
@@ -147,43 +160,31 @@ function confirmFinish() {
 .ptitle { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 700; color: var(--text-primary); margin: 0; }
 .pmeta { font-size: 0.78rem; color: var(--text-muted); margin: 0.1rem 0 0.1rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; }
 .pdet { font-size: 0.72rem; color: var(--text-dim); margin: 0 0 0.7rem; font-family: var(--font-mono); }
-.primary-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  color: var(--accent);
-  font-size: 0.78rem;
-  font-weight: 600;
-}
-.primary-toggle::before { content: '·'; color: var(--text-muted); margin-right: 0.25rem; }
-.primary-toggle i { font-size: 0.85rem; }
-.primary-rules {
-  margin: 0 0 0.7rem;
-  padding: 0.55rem 0.65rem;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 5px;
-  font-size: 0.78rem;
-  color: var(--text-muted);
-  line-height: 1.5;
-}
-.rb-head {
-  font-size: 0.68rem;
+.sec-title-row {
+  font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.05em;
   color: var(--text-dim);
-  margin-top: 0.35rem;
+  margin-bottom: 0.3rem;
 }
-.rb-head:first-child { margin-top: 0; }
-.rb-when { font-weight: 400; text-transform: none; letter-spacing: 0; }
-.rule-row { margin-top: 0.15rem; }
-.rule-row strong { color: var(--text-primary); }
-.mod { font-weight: 700; color: var(--text-dim); text-transform: uppercase; font-size: 0.66rem; margin-right: 0.2rem; }
+.card-open {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--bg-secondary);
+  cursor: pointer;
+  text-align: left;
+  margin-bottom: 0.55rem;
+}
+.card-open:hover { border-color: var(--accent); }
+.card-name { font-weight: 700; font-size: 0.88rem; color: var(--text-primary); }
+.card-vp { font-family: var(--font-mono); font-weight: 700; font-size: 0.82rem; color: var(--accent); flex-shrink: 0; }
 .score-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.55rem; }
 .sr-label {
   min-width: 4.5rem;
