@@ -233,7 +233,7 @@ export const ui = {
     trackerRound: 'Боевой раунд',
     trackerPrimary: 'Первичка',
     trackerSecondary: 'Вторичка',
-    trackerCp: 'КО',
+    trackerCp: 'CP',
     trackerThisRound: 'в этом раунде',
     trackerNext: 'Следующий раунд',
     trackerFinish: 'Завершить игру',
