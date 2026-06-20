@@ -26,6 +26,29 @@ const layoutImages = {
   'priority-assets|priority-assets': { A: '/images/event/layout-priority-assets-priority-assets-a.jpg', B: '/images/event/layout-priority-assets-priority-assets-b.jpg', C: '/images/event/layout-priority-assets-priority-assets-c.jpg' },
 }
 
+// Battlefield-edge orientation per layout, read from the source PDF's marker lines
+// (one red = attacker edge, one blue = defender edge). 'h' = attacker top / defender
+// bottom; 'v' = attacker left / defender right. Used by LayoutCard to place the
+// attacker/defender edge bars on the correct sides (some layouts use the side edges,
+// which the territory tint alone can't tell — e.g. diagonal deployments).
+const layoutEdges = {
+  'take-and-hold|take-and-hold':    { A: 'h', B: 'v', C: 'v' },
+  'take-and-hold|purge-the-foe':    { A: 'v', B: 'v', C: 'h' },
+  'take-and-hold|disruption':       { A: 'v', B: 'h', C: 'h' },
+  'take-and-hold|reconnaissance':   { A: 'h', B: 'v', C: 'v' },
+  'take-and-hold|priority-assets':  { A: 'h', B: 'h', C: 'v' },
+  'purge-the-foe|purge-the-foe':    { A: 'v', B: 'h', C: 'v' },
+  'purge-the-foe|disruption':       { A: 'v', B: 'h', C: 'v' },
+  'purge-the-foe|reconnaissance':   { A: 'h', B: 'v', C: 'h' },
+  'purge-the-foe|priority-assets':  { A: 'v', B: 'v', C: 'h' },
+  'disruption|disruption':          { A: 'h', B: 'h', C: 'v' },
+  'disruption|reconnaissance':      { A: 'h', B: 'v', C: 'v' },
+  'disruption|priority-assets':     { A: 'v', B: 'h', C: 'v' },
+  'reconnaissance|reconnaissance':  { A: 'v', B: 'h', C: 'h' },
+  'reconnaissance|priority-assets': { A: 'h', B: 'h', C: 'v' },
+  'priority-assets|priority-assets':{ A: 'v', B: 'h', C: 'h' },
+}
+
 const en = {
   // ── Page 1: Mission Sequence ───────────────────────────────────────────────
   sequence: {
@@ -356,6 +379,7 @@ const en = {
     layouts: ['A', 'B', 'C'].map(id => ({
       id,
       image: layoutImages[`${m.a}|${m.b}`]?.[id],
+      edge: layoutEdges[`${m.a}|${m.b}`]?.[id] || 'h',
     })),
   })),
 
