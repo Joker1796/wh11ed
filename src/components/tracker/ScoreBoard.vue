@@ -11,7 +11,7 @@
         <span v-if="leaderIdx === i" class="lead-tag">{{ finished ? labels.trackerWinner : labels.trackerLeader }}</span>
       </div>
       <div class="grand">{{ grandTotal(i) }}<span class="grand-unit">VP</span></div>
-      <dl class="breakdown">
+      <dl v-if="!finished" class="breakdown">
         <div><dt>{{ labels.trackerPrimary }}</dt><dd>{{ primaryTotal(i) }}</dd></div>
         <div><dt>{{ labels.trackerSecondary }}</dt><dd>{{ secondaryTotal(i) }}</dd></div>
         <div v-if="current.settings.trackCP"><dt>{{ labels.trackerCp }}</dt><dd>{{ pl.cp }}</dd></div>
