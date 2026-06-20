@@ -17,6 +17,7 @@ const ROUTE_MAP = {
 const EVENT_MAP = {
   intro: '/event-companion',
   sequence: '/event-companion/sequence',
+  missions: '/event-companion/missions',
   layouts: '/event-companion/layouts',
   pairings: '/event-companion/pairings',
   faq: '/event-companion/faq',

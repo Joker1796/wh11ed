@@ -82,6 +82,7 @@ const en = {
           "Each player finds their opponent's Force Disposition symbol on their Force " +
           "Disposition card. The [PRIMARY MISSION] listed below that symbol is that " +
           "player's Primary Mission, which describes how to score VP.",
+        seeAlso: ['Missions EC:missions'],
       },
       {
         id: 'step-3',
@@ -202,6 +203,7 @@ const en = {
           'Fixed Missions are those marked with the Fixed symbol. If you are using Fixed ' +
           'Missions, display your selected Fixed Mission cards face-up. Fixed Missions ' +
           'cannot be discarded and are active for you throughout the battle.',
+        seeAlso: ['Missions EC:missions'],
       },
       {
         id: 'tactical-missions',
@@ -213,6 +215,7 @@ const en = {
           'from your Secondary Missions deck; these are active for you.\n' +
           '▪ (Once per battle) At the end of your Command phase, you can spend 1CP to ' +
           'discard one of your active Secondary Mission cards and draw one new card.',
+        seeAlso: ['Missions EC:missions'],
       },
       {
         id: 'achieving-secondary',
@@ -584,6 +587,7 @@ const ru = {
           'Каждый игрок находит символ Force Disposition своего соперника на своей карте ' +
           'Force Disposition. Указанная под этим символом [PRIMARY MISSION] — это основная ' +
           'миссия данного игрока, которая описывает, как набирать очки победы (VP).',
+        seeAlso: ['Миссии EC:missions'],
       },
       {
         title: '3 · Определение расстановки',
@@ -693,6 +697,7 @@ const ru = {
           'фиксированные миссии, выложите выбранные карты фиксированных миссий лицом вверх. ' +
           'Фиксированные миссии нельзя сбрасывать, и они активны для вас на протяжении всей ' +
           'битвы.',
+        seeAlso: ['Миссии EC:missions'],
       },
       {
         title: 'Тактические миссии (Tactical Missions)',
@@ -703,6 +708,7 @@ const ru = {
           'миссии лицом вверх из колоды вторичных миссий; они активны для вас.\n' +
           '▪ (Один раз за битву) В конце вашей фазы командования вы можете потратить 1CP, ' +
           'чтобы сбросить одну из активных карт вторичных миссий и взять одну новую карту.',
+        seeAlso: ['Миссии EC:missions'],
       },
       {
         title: 'Выполнение вторичных миссий',
