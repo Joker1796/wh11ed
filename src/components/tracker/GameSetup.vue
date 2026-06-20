@@ -89,6 +89,11 @@
           </div>
         </div>
 
+        <label class="check br-check">
+          <input type="checkbox" v-model="p.battleReady" />
+          <span>{{ labels.trackerBattleReady }} (+10 VP)</span>
+        </label>
+
         <p class="primary-preview" v-if="primaryName(i)">
           <span class="pp-label">{{ labels.trackerPrimaryPreview }}:</span> {{ primaryName(i) }}
         </p>
@@ -132,8 +137,8 @@ const dispositions = DISPOSITIONS
 const MAX_FIXED = 2   // Fixed secondaries: choose 2, kept for the whole game.
 
 const players = reactive([
-  { name: '', factionSlug: null, detachments: [], disposition: null, role: 'attacker', secondaryMode: 'tactical', fixedSecondaries: [] },
-  { name: '', factionSlug: null, detachments: [], disposition: null, role: 'defender', secondaryMode: 'tactical', fixedSecondaries: [] },
+  { name: '', factionSlug: null, detachments: [], disposition: null, role: 'attacker', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false },
+  { name: '', factionSlug: null, detachments: [], disposition: null, role: 'defender', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false },
 ])
 const settings = reactive({ trackCP: true, firstTurn: 1 })
 
@@ -350,6 +355,7 @@ function start() {
   color: var(--text-primary);
   cursor: pointer;
 }
+.br-check { margin-top: 0.2rem; }
 .primary-preview {
   margin: 0.4rem 0 0;
   font-size: 0.82rem;

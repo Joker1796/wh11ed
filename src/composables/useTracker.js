@@ -17,6 +17,8 @@ export const MAX_DP = 3
 export const PRIMARY_ROUND_CAP = 15
 export const PRIMARY_GAME_CAP = 50
 export const FIXED_SECONDARY_CAP = 20
+export const SECONDARY_GAME_CAP = 40
+export const BATTLE_READY_VP = 10
 
 // The 5 Force Dispositions (canonical id + English name), reused from the Event Companion.
 export const DISPOSITIONS = eventCompanion.en.dispositions.map(d => ({ id: d.id, name: d.name }))
@@ -106,6 +108,7 @@ function makePlayer(p, opponent) {
     disposition: p.disposition,                // the active disposition (drives the primary mission)
     role: p.role,
     secondaryMode,                             // tactical | fixed — chosen per player
+    battleReady: !!p.battleReady,              // +10 VP if the army is battle-ready
     primarySlug: primary ? primary.slug : null,
     cp: 0,
     rounds: Array.from({ length: ROUND_COUNT }, () => ({ primary: 0, picks: {} })),
@@ -294,17 +297,21 @@ export function useTracker() {
 
   function secondaryTotal(pi) {
     const pl = current.value.players[pi]
+    let total
     if (pl.secondaryMode === 'fixed') {
       // cap each fixed secondary at 20 over the game
       const bySlug = {}
       for (const e of pl.secondary.scored) bySlug[e.slug] = (bySlug[e.slug] || 0) + e.vp
-      return Object.values(bySlug).reduce((s, v) => s + Math.min(v, FIXED_SECONDARY_CAP), 0)
+      total = Object.values(bySlug).reduce((s, v) => s + Math.min(v, FIXED_SECONDARY_CAP), 0)
+    } else {
+      total = pl.secondary.scored.reduce((s, e) => s + e.vp, 0)
     }
-    return pl.secondary.scored.reduce((s, e) => s + e.vp, 0)
+    return Math.min(total, SECONDARY_GAME_CAP)
   }
 
   function grandTotal(pi) {
-    return primaryTotal(pi) + secondaryTotal(pi)
+    const bonus = current.value.players[pi].battleReady ? BATTLE_READY_VP : 0
+    return primaryTotal(pi) + secondaryTotal(pi) + bonus
   }
 
   function leader() {
