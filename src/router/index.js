@@ -94,7 +94,7 @@ export const navGroupsRu = [
       { id: 'section-08', label: '08 Фаза командования' },
       { id: 'section-09', label: '09 Фаза движения' },
       { id: 'section-10', label: '10 Фаза стрельбы' },
-      { id: 'section-11', label: '11 Фаза атаки' },
+      { id: 'section-11', label: '11 Фаза нападения' },
       { id: 'section-12', label: '12 Фаза ближнего боя' },
     ],
   },
