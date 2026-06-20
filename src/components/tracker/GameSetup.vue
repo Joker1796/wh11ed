@@ -65,6 +65,14 @@
           </div>
         </label>
 
+        <label class="field">
+          <span>{{ labels.trackerSecondaryMode }}</span>
+          <div class="seg">
+            <button :class="{ on: p.secondaryMode === 'tactical' }" @click="p.secondaryMode = 'tactical'">{{ labels.trackerTactical }}</button>
+            <button :class="{ on: p.secondaryMode === 'fixed' }" @click="p.secondaryMode = 'fixed'">{{ labels.trackerFixed }}</button>
+          </div>
+        </label>
+
         <p class="primary-preview" v-if="primaryName(i)">
           <span class="pp-label">{{ labels.trackerPrimaryPreview }}:</span> {{ primaryName(i) }}
         </p>
@@ -72,14 +80,6 @@
     </div>
 
     <div class="settings">
-      <label class="field">
-        <span>{{ labels.trackerSecondaryMode }}</span>
-        <div class="seg">
-          <button :class="{ on: settings.secondaryMode === 'tactical' }" @click="settings.secondaryMode = 'tactical'">{{ labels.trackerTactical }}</button>
-          <button :class="{ on: settings.secondaryMode === 'fixed' }" @click="settings.secondaryMode = 'fixed'">{{ labels.trackerFixed }}</button>
-        </div>
-      </label>
-
       <label class="field">
         <span>{{ labels.trackerFirstTurn }}</span>
         <div class="seg">
@@ -115,10 +115,10 @@ const factions = FACTIONS
 const dispositions = DISPOSITIONS
 
 const players = reactive([
-  { name: '', factionSlug: null, detachments: [], disposition: null, role: 'attacker' },
-  { name: '', factionSlug: null, detachments: [], disposition: null, role: 'defender' },
+  { name: '', factionSlug: null, detachments: [], disposition: null, role: 'attacker', secondaryMode: 'tactical' },
+  { name: '', factionSlug: null, detachments: [], disposition: null, role: 'defender', secondaryMode: 'tactical' },
 ])
-const settings = reactive({ secondaryMode: 'tactical', trackCP: true, firstTurn: 1 })
+const settings = reactive({ trackCP: true, firstTurn: 1 })
 
 function dpSpent(p) {
   return p.detachments.reduce((s, name) => s + (detachmentInfo(p.factionSlug, name)?.dp || 0), 0)

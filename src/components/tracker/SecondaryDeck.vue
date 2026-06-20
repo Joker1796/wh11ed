@@ -66,8 +66,8 @@ const labels = computed(() => ui[locale.value])
 
 const { current, drawSecondary, scoreSecondary, lockFixed, discardFromHand } = useTracker()
 
-const mode = computed(() => current.value.settings.secondaryMode)
 const player = computed(() => current.value.players[props.pi])
+const mode = computed(() => player.value.secondaryMode)
 const pool = computed(() => secondaryPool(player.value.role))
 const handMissions = computed(() =>
   player.value.secondary.hand.map(slug => missionBySlug(slug, player.value.role)).filter(Boolean)
