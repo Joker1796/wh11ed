@@ -535,13 +535,13 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 Каждый ход состоит из семи частей: сначала шаг «Начало хода»; затем серия из пяти фаз, совершаемых в порядке, показанном ниже, затем шаг «Конец хода».
 
 ### Структура хода
-[img:/images/turn/START-OF-TURN-STEP-RU.png|Иконка фазы: Начало хода]
-[img:/images/turn/COMMAND-PHASE-RU.png|Иконка фазы: Фаза командования]
-[img:/images/turn/MOVEMENT-PHASE-RU.png|Иконка фазы: Фаза движения]
-[img:/images/turn/SHOOTING-PHASE-RU.png|Иконка фазы: Фаза стрельбы]
-[img:/images/turn/CHARGE-PHASE-RU.png|Иконка фазы: Фаза нападения]
-[img:/images/turn/FIGHT-PHASE-RU.png|Иконка фазы: Фаза боя]
-[img:/images/turn/END-OF-TURN-STEP-RU.png|Иконка фазы: Конец хода]`,
+[img:/images/turn/start-of-turn-step-banner-ru.png|Шаг начала хода]
+[img:/images/turn/command-phase-banner-ru.png|Фаза командования]
+[img:/images/turn/movement-phase-banner-ru.png|Фаза передвижения]
+[img:/images/turn/shooting-phase-banner-ru.png|Фаза стрельбы]
+[img:/images/turn/charge-phase-banner-ru.png|Фаза нападения]
+[img:/images/turn/fight-phase-banner-ru.png|Фаза ближнего боя]
+[img:/images/turn/end-of-turn-step-banner-ru.png|Шаг конца хода]`,
         example: `Игрок А выиграл бросок и выбрал первый ход. В Боевом Раунде 1 Игрок А завершает свой полный ход (Командование → Передвижение → Стрельба → Нападение → Ближний бой), затем Игрок Б делает свой ход. В Боевом Раунде 2 Игрок А снова ходит первым — порядок не меняется на протяжении всей игры.`,
       },
       {

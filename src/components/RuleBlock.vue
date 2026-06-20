@@ -410,17 +410,16 @@ function handleDefClick(e) {
 
 .img-group {
   margin: 0.5rem 0;
-  overflow: hidden;
-  border-radius: 4px;
+  /* AppImage wraps each <img> in a display:contents <picture>, so the <img>s are the
+     flex items here — use gap (an `img + img` selector won't match across pictures). */
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .img-group :deep(img) {
   display: block;
   width: 100%;
-}
-
-.img-group :deep(img + img) {
-  margin-top: 6px;
 }
 
 :deep(.side-image) {
