@@ -180,7 +180,9 @@ export function useTracker() {
     // and (being off the deck already) cannot be drawn again.
     const s = current.value.players[pi].secondary
     s.hand = s.hand.filter(x => x !== slug)
-    if (!s.discarded.includes(slug)) s.discarded.push(slug)
+    if (!s.discarded.some(d => d.slug === slug)) {
+      s.discarded.push({ slug, round: current.value.currentRound })
+    }
   }
 
   function entryVp(pi, entry) {
@@ -232,7 +234,7 @@ export function useTracker() {
         for (const slug of [...s.hand]) {
           if (scoredEarlier.has(slug)) {
             s.hand = s.hand.filter(x => x !== slug)
-            if (!s.discarded.includes(slug)) s.discarded.push(slug)
+            if (!s.discarded.some(d => d.slug === slug)) s.discarded.push({ slug, round: target })
           }
         }
       }
