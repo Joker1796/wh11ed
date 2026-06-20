@@ -46,7 +46,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { navGroups, navGroupsRu, eventGroups, eventGroupsRu } from '../router/index.js'
+import { navGroups, navGroupsRu, eventGroups, eventGroupsRu, trackerGroups, trackerGroupsRu } from '../router/index.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useAbilityFilter } from '../composables/useAbilityFilter.js'
@@ -61,10 +61,12 @@ const { activeFilter } = useAbilityFilter()
 const labels = computed(() => ui[locale.value])
 const localizedGroups = computed(() => locale.value === 'ru' ? navGroupsRu : navGroups)
 const localizedEventGroups = computed(() => locale.value === 'ru' ? eventGroupsRu : eventGroups)
+const localizedTrackerGroups = computed(() => locale.value === 'ru' ? trackerGroupsRu : trackerGroups)
 
 const navSections = computed(() => [
   { label: labels.value.navCoreRules,      groups: localizedGroups.value },
   { label: labels.value.navEventCompanion, groups: localizedEventGroups.value },
+  { label: labels.value.navTracker,        groups: localizedTrackerGroups.value },
 ])
 
 const expandedPath = ref(route.path)
