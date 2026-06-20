@@ -39,7 +39,7 @@ import { ref, computed } from 'vue'
 import ScoringModal from './ScoringModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker, missionBySlug } from '../../composables/useTracker.js'
+import { useTracker, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
 
 const props = defineProps({ pi: { type: Number, required: true } })
 const { locale } = useLocale()
@@ -75,15 +75,10 @@ const handMissions = computed(() => {
 const openSlug = ref(null)
 const openMission = computed(() => openSlug.value ? missionBySlug(openSlug.value, player.value.role, locale.value) : null)
 
-// Only the block(s) matching the player's mode are scorable; annotate for the modal.
+// Blocks scorable this round (round-gated) and matching the player's mode.
 function relevantBlocks(m) {
-  return m.blocks
-    .map((b, bi) => ({ b, bi }))
-    .filter(({ b }) => b.kind === mode.value)
-    .map(({ b, bi }) => ({
-      bi, kind: b.kind, heading: b.heading, when: b.when,
-      rows: b.rows.map((r, ri) => ({ ...r, ri, perEach: /^(For each|Each time)/i.test(r.text) })),
-    }))
+  return scorableBlocks(m.slug, player.value.role, current.value.currentRound, locale.value)
+    .filter(b => b.kind === mode.value)
 }
 
 function onDraw() { drawSecondary(props.pi) }
