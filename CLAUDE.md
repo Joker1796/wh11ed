@@ -24,7 +24,7 @@ Vue 3 SPA using hash-based routing (`createWebHashHistory`). No backend. All con
 - **Top navbar** (`App.vue`) — three sections: "Core Rules", "Event Companion", and "Tracker". `isEventRoute` (path starts with `/event-companion`) and `isTrackerRoute` (starts with `/tracker`) switch which subnav renders.
 - **Subnav** (sticky bar below navbar) — for Core Rules: route links (Introduction / Basic Rules / Battle Round / Battlefields / Advanced / Reference). For Event Companion: Introduction / Sequence / Missions / Terrain & Layouts / Pairings / FAQs. For Tracker: Game Tracker / Current Game.
 - `router/index.js` exports `navGroups`/`navGroupsRu` (Core), `eventGroups`/`eventGroupsRu` (Event), **and** `trackerGroups`/`trackerGroupsRu` (Tracker); `NavSidebar.vue` renders all three as labelled mobile sections.
-- **Mobile** (≤900px): the navbar links + subnav are hidden; a hamburger opens `NavSidebar.vue` (the drawer, for in-section navigation) and a fixed **bottom nav** in `App.vue` switches between the three global sections (Core Rules / Event Companion / Tracker) with icons.
+- **Mobile** (≤900px): the navbar links + subnav are hidden; a hamburger opens `NavSidebar.vue` (the drawer, for in-section navigation) and a fixed **bottom nav** in `App.vue` with icons: Core Rules / Event Companion / **Missions** (`/event-companion/missions`) / Tracker. The bottom nav uses its own short RU labels (`navCoreRulesShort` «Правила», `navEventShort` «Путеводитель`) so they fit; the top navbar keeps the full names. `isMissionsRoute` highlights the Missions item (Event Companion stays active for the other `/event-companion/*` routes).
 
 **Data → View pipeline:**
 
@@ -119,6 +119,10 @@ Third top-level section (`/tracker`) — a client-side, offline 2-player VP trac
 ## Image organization
 
 `public/images/` has one folder per rules chapter (`intro`, `moving`, `coherency`, `visibility`, `command`, `turn`, `attack`, `charge`, `fight`, `terrain`, `monsters`, `attached`, `surge`, `fire`, `shoot`). Image markup references them as `[img:/images/<folder>/<name>.png|alt]`. RU variants use a `-ru` suffix on the filename (e.g. `making-a-charge-move-ru.png`).
+
+**The `-ru` suffix is applied at RUNTIME** for section `image`/`sideImage`/`illustration` — `BasicRulesView`/`AdvancedRulesView`/`BattlefieldsView` rewrite the src in the RU locale (`ruSrc`/`.replace('.png','-ru.png')`). So the data holds the BASE path and the `-ru.webp` files won't show up in a static grep — **don't "clean up" `-ru` images as unused.** (Body `[img:]` images instead carry explicit `-ru` paths in the RU data.)
+
+**Battle-round phase banners (`turn/<slug>-banner-ru.webp`):** full-width RU phase plates (number + icon + title + description) shown stacked in the Battle Round «Turn Structure» block (07.02, RU only). Extracted from the core-rules PDF page 29 (blank plates in `sources/*-banner-blank.png`), translated with **Saar SP Demo** (`sources/fonts/`, narrow display font — has Cyrillic, no digits) via pymupdf+sharp; the cut bottom-right corner is made transparent. `RuleBlock`'s `.img-group` is a flex column with `gap` (the `<img>`s are flex items because `AppImage`'s `<picture>` is `display:contents`; an `img + img` margin would NOT work). EN keeps the small phase icons.
 
 **Illustrations are stored as WebP** (for the app-like build). The data files and components still reference the original `.jpg`/`.png` paths — the `AppImage` component (`src/components/AppImage.vue`) maps the extension to WebP at render time, serving `<name>.webp` on desktop and an 800px `<name>-sm.webp` via `<picture>` at `≤640px`. So **keep writing `.jpg`/`.png` paths in data** (including the runtime `-ru` suffix); do not rewrite them to `.webp`.
 

@@ -116,11 +116,15 @@
     <nav class="bottom-nav">
       <RouterLink to="/" class="bn-item" :class="{ active: isCoreRoute }">
         <i class="bi bi-book-half"></i>
-        <span>{{ labels.navCoreRules }}</span>
+        <span>{{ labels.navCoreRulesShort }}</span>
       </RouterLink>
-      <RouterLink to="/event-companion" class="bn-item" :class="{ active: isEventRoute }">
+      <RouterLink to="/event-companion" class="bn-item" :class="{ active: isEventRoute && !isMissionsRoute }">
         <i class="bi bi-calendar-event"></i>
-        <span>{{ labels.navEventCompanion }}</span>
+        <span>{{ labels.navEventShort }}</span>
+      </RouterLink>
+      <RouterLink to="/event-companion/missions" class="bn-item" :class="{ active: isMissionsRoute }">
+        <i class="bi bi-card-checklist"></i>
+        <span>{{ labels.subNavEventMissions }}</span>
       </RouterLink>
       <RouterLink to="/tracker" class="bn-item" :class="{ active: isTrackerRoute }">
         <i class="bi bi-clipboard-data"></i>
@@ -172,6 +176,7 @@ const labels = computed(() => ui[locale.value])
 
 const coreRoutes = ['/', '/basic-rules', '/battle-round', '/battlefields', '/advanced-rules', '/reference']
 const isEventRoute = computed(() => route.path.startsWith('/event-companion'))
+const isMissionsRoute = computed(() => route.path === '/event-companion/missions')
 const isTrackerRoute = computed(() => route.path.startsWith('/tracker'))
 const isCoreRoute = computed(() => !isEventRoute.value && !isTrackerRoute.value && coreRoutes.includes(route.path))
 
