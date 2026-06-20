@@ -13,25 +13,46 @@
 
         <label class="field">
           <span>{{ labels.trackerFaction }}</span>
-          <select v-model="p.factionSlug" @change="p.detachmentName = null">
+          <select v-model="p.factionSlug">
             <option :value="null" disabled>{{ labels.trackerSelectFaction }}</option>
             <option v-for="f in factions" :key="f.slug" :value="f.slug">{{ f.name }}</option>
           </select>
         </label>
 
-        <label class="field">
-          <span>{{ labels.trackerDetachment }}</span>
-          <select v-model="p.detachmentName" :disabled="!p.factionSlug">
-            <option :value="null" disabled>{{ labels.trackerSelectDetachment }}</option>
-            <option v-for="d in detachmentsFor(p.factionSlug)" :key="d.name" :value="d.name">
-              {{ d.name }} ({{ d.dp }}DP)
-            </option>
-          </select>
-        </label>
+        <div class="field">
+          <span>{{ labels.trackerDpBudget }} <em class="dp-count">{{ dpSpent(p) }} / {{ MAX_DP }} DP</em></span>
+          <div v-if="p.factionSlug && detachmentsFor(p.factionSlug).length" class="det-list">
+            <button
+              v-for="d in detachmentsFor(p.factionSlug)"
+              :key="d.name"
+              class="det"
+              :class="{ on: p.detachments.includes(d.name) }"
+              :disabled="!p.detachments.includes(d.name) && dpSpent(p) + d.dp > MAX_DP"
+              @click="toggleDetachment(p, d)"
+            >
+              <span class="det-name">{{ d.name }}</span>
+              <span class="det-meta">{{ d.dp }}DP · {{ d.forceDisposition }}</span>
+            </button>
+          </div>
+          <p v-else class="det-empty">{{ p.factionSlug ? labels.trackerNoDetachments : labels.trackerSelectFaction }}</p>
+        </div>
 
         <label class="field">
-          <span>{{ labels.trackerDisposition }}</span>
-          <select v-model="p.disposition">
+          <span>{{ candidateDispositions(p).length > 1 ? labels.trackerActiveDisposition : labels.trackerDisposition }}</span>
+          <!-- ≥2 distinct dispositions from detachments → pick the active one -->
+          <div v-if="candidateDispositions(p).length > 1" class="seg seg-wrap">
+            <button
+              v-for="id in candidateDispositions(p)"
+              :key="id"
+              :class="{ on: p.disposition === id }"
+              @click="p.disposition = id"
+            >{{ dispositionName(id) }}</button>
+          </div>
+          <!-- exactly 1 → auto, read-only -->
+          <input v-else-if="candidateDispositions(p).length === 1" type="text" :value="dispositionName(p.disposition)" readonly class="ro" />
+          <!-- none chosen / faction has no detachments → manual choice -->
+          <select v-else v-model="p.disposition">
+            <option :value="null" disabled>{{ labels.trackerDispositionManual }}</option>
             <option v-for="d in dispositions" :key="d.id" :value="d.id">{{ d.name }}</option>
           </select>
         </label>
@@ -81,10 +102,10 @@
 </template>
 
 <script setup>
-import { reactive, computed } from 'vue'
+import { reactive, computed, watch } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { FACTIONS, DISPOSITIONS, detachmentsFor, primaryFor, dispositionName } from '../../composables/useTracker.js'
+import { FACTIONS, DISPOSITIONS, MAX_DP, detachmentsFor, detachmentInfo, primaryFor, dispositionName } from '../../composables/useTracker.js'
 
 const emit = defineEmits(['start', 'cancel'])
 const { locale } = useLocale()
@@ -94,13 +115,40 @@ const factions = FACTIONS
 const dispositions = DISPOSITIONS
 
 const players = reactive([
-  { name: '', factionSlug: null, detachmentName: null, disposition: 'take-and-hold', role: 'attacker' },
-  { name: '', factionSlug: null, detachmentName: null, disposition: 'purge-the-foe', role: 'defender' },
+  { name: '', factionSlug: null, detachments: [], disposition: null, role: 'attacker' },
+  { name: '', factionSlug: null, detachments: [], disposition: null, role: 'defender' },
 ])
 const settings = reactive({ secondaryMode: 'tactical', trackCP: true, firstTurn: 1 })
 
+function dpSpent(p) {
+  return p.detachments.reduce((s, name) => s + (detachmentInfo(p.factionSlug, name)?.dp || 0), 0)
+}
+function candidateDispositions(p) {
+  const ids = p.detachments
+    .map(name => detachmentInfo(p.factionSlug, name)?.forceDisposition)
+    .filter(Boolean)
+    .map(name => DISPOSITIONS.find(d => d.name === name)?.id)
+    .filter(Boolean)
+  return [...new Set(ids)]
+}
+function toggleDetachment(p, d) {
+  const i = p.detachments.indexOf(d.name)
+  if (i >= 0) p.detachments.splice(i, 1)
+  else if (dpSpent(p) + d.dp <= MAX_DP) p.detachments.push(d.name)
+}
+
+// Changing faction resets its detachment/disposition choices.
+players.forEach(p => watch(() => p.factionSlug, () => { p.detachments = []; p.disposition = null }))
+
+// Keep the active disposition consistent with the chosen detachments.
+players.forEach(p => watch(() => candidateDispositions(p), (ids) => {
+  if (ids.length === 0) return                       // manual select keeps its value
+  if (!ids.includes(p.disposition)) p.disposition = ids[0]
+}, { deep: true }))
+
 function primaryName(i) {
   const me = players[i], opp = players[i === 0 ? 1 : 0]
+  if (!me.disposition || !opp.disposition) return ''
   const m = primaryFor(me.disposition, opp.disposition)
   return m ? m.name : ''
 }
@@ -176,6 +224,49 @@ function start() {
   font-size: 0.9rem;
   font-family: var(--font-sans);
 }
+.dp-count {
+  font-style: normal;
+  font-family: var(--font-mono);
+  color: var(--accent);
+  font-weight: 700;
+  margin-left: 0.3rem;
+}
+.det-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+.det {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  text-align: left;
+  padding: 0.4rem 0.55rem;
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.det:hover:not(:disabled) { border-color: var(--accent); }
+.det.on { background: color-mix(in srgb, var(--accent) 16%, transparent); border-color: var(--accent); }
+.det:disabled { opacity: 0.4; cursor: not-allowed; }
+.det-name { font-size: 0.85rem; font-weight: 600; color: var(--text-primary); }
+.det-meta { font-size: 0.7rem; color: var(--text-dim); font-family: var(--font-mono); }
+.det-empty { font-size: 0.82rem; color: var(--text-dim); font-style: italic; margin: 0; }
+.ro {
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+.seg-wrap { flex-wrap: wrap; }
 .seg {
   display: flex;
   gap: 0;

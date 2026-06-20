@@ -24,6 +24,7 @@
           {{ dispositionName(pl.disposition) }}
           <span v-if="primaryName(i)"> · {{ primaryName(i) }}</span>
         </p>
+        <p v-if="pl.detachments && pl.detachments.length" class="pdet">{{ pl.detachments.join(' · ') }}</p>
 
         <div class="score-row">
           <span class="sr-label">{{ labels.trackerPrimary }}</span>
@@ -126,7 +127,8 @@ function confirmFinish() {
   padding: 0.8rem;
 }
 .ptitle { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 700; color: var(--text-primary); margin: 0; }
-.pmeta { font-size: 0.78rem; color: var(--text-muted); margin: 0.1rem 0 0.7rem; }
+.pmeta { font-size: 0.78rem; color: var(--text-muted); margin: 0.1rem 0 0.1rem; }
+.pdet { font-size: 0.72rem; color: var(--text-dim); margin: 0 0 0.7rem; font-family: var(--font-mono); }
 .score-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.55rem; }
 .sr-label {
   min-width: 4.5rem;
