@@ -21,11 +21,16 @@
       </li>
     </ul>
 
-    <div v-if="discardedMissions.length" class="aside">
+    <div v-if="asideMissions.length" class="aside">
       <span class="aside-label">{{ labels.trackerSetAside }}</span>
-      <span v-for="m in discardedMissions" :key="m.slug" class="aside-item">
-        {{ m.name }} <strong>{{ totalCardVp(m.slug) }} VP</strong>
-      </span>
+      <ul class="cards">
+        <li v-for="m in asideMissions" :key="m.slug" class="card">
+          <button class="card-open aside-card" @click="openSlug = m.slug">
+            <span class="card-name">{{ m.name }}</span>
+            <span class="card-vp">{{ secondaryCardVp(pi, m.slug) }} VP</span>
+          </button>
+        </li>
+      </ul>
     </div>
 
     <ScoringModal
@@ -59,9 +64,22 @@ const mode = computed(() => player.value.secondaryMode)
 const handMissions = computed(() =>
   player.value.secondary.hand.map(slug => missionBySlug(slug, player.value.role)).filter(Boolean)
 )
-const discardedMissions = computed(() =>
-  (player.value.secondary.discarded || []).map(slug => missionBySlug(slug, player.value.role)).filter(Boolean)
-)
+// A discarded card is shown only in the round where it scored points or was set aside.
+const asideMissions = computed(() => {
+  const round = current.value.currentRound
+  const s = player.value.secondary
+  const out = []
+  for (const d of (s.discarded || [])) {
+    const slug = typeof d === 'string' ? d : d.slug
+    const dround = typeof d === 'string' ? null : d.round
+    const scoredThisRound = s.scored.some(e => e.slug === slug && e.round === round && (e.vp || 0) > 0)
+    if (dround === round || scoredThisRound) {
+      const m = missionBySlug(slug, player.value.role)
+      if (m && !out.some(x => x.slug === slug)) out.push(m)
+    }
+  }
+  return out
+})
 
 const openSlug = ref(null)
 const openMission = computed(() => openSlug.value ? missionBySlug(openSlug.value, player.value.role) : null)
@@ -78,9 +96,6 @@ function relevantBlocks(m) {
 }
 
 function onDraw() { drawSecondary(props.pi) }
-function totalCardVp(slug) {
-  return player.value.secondary.scored.filter(e => e.slug === slug).reduce((s, e) => s + (e.vp || 0), 0)
-}
 </script>
 
 <style scoped>
@@ -117,8 +132,8 @@ function totalCardVp(slug) {
 .discard:hover { color: var(--accent); border-color: var(--accent); }
 .aside {
   margin-top: 0.55rem; padding-top: 0.45rem; border-top: 1px dashed var(--border);
-  display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; font-size: 0.72rem; color: var(--text-dim);
 }
-.aside-label { font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
-.aside-item strong { color: var(--text-muted); font-family: var(--font-mono); }
+.aside-label { display: block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-dim); margin-bottom: 0.35rem; }
+.aside-card { opacity: 0.75; }
+.aside-card:hover { opacity: 1; }
 </style>
