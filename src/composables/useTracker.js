@@ -84,15 +84,17 @@ function shuffle(arr) {
   return a
 }
 
-function makePlayer(p, opponent, secondaryMode) {
+function makePlayer(p, opponent) {
   const primary = primaryFor(p.disposition, opponent.disposition)
   const poolSlugs = secondaryPool(p.role).map(m => m.slug)
+  const secondaryMode = p.secondaryMode || 'tactical'
   return {
     name: p.name || '',
     factionSlug: p.factionSlug || null,
     detachments: [...(p.detachments || [])],   // up to 3 DP worth; each grants a disposition
     disposition: p.disposition,                // the active disposition (drives the primary mission)
     role: p.role,
+    secondaryMode,                             // tactical | fixed — chosen per player
     primarySlug: primary ? primary.slug : null,
     cp: 0,
     rounds: Array.from({ length: ROUND_COUNT }, () => ({ primary: 0 })),
@@ -109,8 +111,8 @@ function makePlayer(p, opponent, secondaryMode) {
 export function useTracker() {
 
   function newGame(setup) {
-    // setup = { settings, players: [p1, p2] } where p = { name, factionSlug, detachments, disposition, role }
-    const mode = setup.settings.secondaryMode
+    // setup = { settings, players: [p1, p2] }
+    // p = { name, factionSlug, detachments, disposition, role, secondaryMode }
     const [a, b] = setup.players
     current.value = {
       id: 'g' + Date.now(),
@@ -118,7 +120,7 @@ export function useTracker() {
       phase: 'playing',
       currentRound: 1,
       settings: { ...setup.settings },
-      players: [makePlayer(a, b, mode), makePlayer(b, a, mode)],
+      players: [makePlayer(a, b), makePlayer(b, a)],
     }
   }
 
@@ -197,7 +199,7 @@ export function useTracker() {
 
   function secondaryTotal(pi) {
     const pl = current.value.players[pi]
-    if (current.value.settings.secondaryMode === 'fixed') {
+    if (pl.secondaryMode === 'fixed') {
       // cap each fixed secondary at 20 over the game
       const bySlug = {}
       for (const e of pl.secondary.scored) bySlug[e.slug] = (bySlug[e.slug] || 0) + e.vp
