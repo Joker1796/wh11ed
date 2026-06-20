@@ -39,8 +39,13 @@
 
         <label class="field">
           <span>{{ candidateDispositions(p).length > 1 ? labels.trackerActiveDisposition : labels.trackerDisposition }}</span>
-          <!-- ≥2 distinct dispositions from detachments → pick the active one -->
-          <div v-if="candidateDispositions(p).length > 1" class="seg seg-wrap">
+          <!-- faction has no detachments at all → manual choice (only way to set it) -->
+          <select v-if="p.factionSlug && !detachmentsFor(p.factionSlug).length" v-model="p.disposition">
+            <option :value="null" disabled>{{ labels.trackerDispositionManual }}</option>
+            <option v-for="d in dispositions" :key="d.id" :value="d.id">{{ d.name }}</option>
+          </select>
+          <!-- ≥2 distinct dispositions from chosen detachments → pick the active one -->
+          <div v-else-if="candidateDispositions(p).length > 1" class="seg seg-wrap">
             <button
               v-for="id in candidateDispositions(p)"
               :key="id"
@@ -50,11 +55,8 @@
           </div>
           <!-- exactly 1 → auto, read-only -->
           <input v-else-if="candidateDispositions(p).length === 1" type="text" :value="dispositionName(p.disposition)" readonly class="ro" />
-          <!-- none chosen / faction has no detachments → manual choice -->
-          <select v-else v-model="p.disposition">
-            <option :value="null" disabled>{{ labels.trackerDispositionManual }}</option>
-            <option v-for="d in dispositions" :key="d.id" :value="d.id">{{ d.name }}</option>
-          </select>
+          <!-- nothing chosen yet → gated behind picking a detachment -->
+          <p v-else class="det-empty">{{ labels.trackerPickDetachmentFirst }}</p>
         </label>
 
         <label class="field">
@@ -166,9 +168,16 @@ function toggleDetachment(p, d) {
 // Changing faction resets its detachment/disposition choices.
 players.forEach(p => watch(() => p.factionSlug, () => { p.detachments = []; p.disposition = null }))
 
-// Keep the active disposition consistent with the chosen detachments.
+function factionHasDetachments(p) {
+  return !!p.factionSlug && detachmentsFor(p.factionSlug).length > 0
+}
+
+// Disposition is derived from the chosen detachment(s); it's gated until one is picked.
 players.forEach(p => watch(() => candidateDispositions(p), (ids) => {
-  if (ids.length === 0) return                       // manual select keeps its value
+  if (ids.length === 0) {
+    if (factionHasDetachments(p)) p.disposition = null   // no detachment chosen → no disposition yet
+    return                                               // detachment-less faction keeps its manual value
+  }
   if (!ids.includes(p.disposition)) p.disposition = ids[0]
 }, { deep: true }))
 
