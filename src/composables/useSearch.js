@@ -4,6 +4,7 @@ import { battlefields } from '../data/battlefields.js'
 import { advancedRules } from '../data/advancedRules.js'
 import { coreAbilities } from '../data/reference.js'
 import { getEventContent } from '../data/eventCompanion.js'
+import { missions } from '../data/missions.js'
 import { ui } from '../i18n/ui.js'
 
 const routeMap = {
@@ -121,10 +122,13 @@ function indexEventCompanion(items, locale) {
     '/event-companion', L.eventIntroHeading)
   add('ec-page-sequence', L.eventSequenceHeading, [L.eventSequenceDesc, ec.sequence.intro],
     '/event-companion/sequence', L.eventSequenceHeading)
-  add('ec-page-layouts', L.eventLayoutsHeading, [L.eventLayoutsDesc, t.intro, t.keyNote],
+  add('ec-page-missions', L.eventMissionsHeading, [L.eventMissionsDesc, L.missionsIntro],
+    '/event-companion/missions', L.eventMissionsHeading)
+  // Terrain & Layouts now also hosts the interactive matrix + legend (merged from the
+  // former Mission Matrix page), so its dispo/legend text is indexed here.
+  add('ec-page-layouts', L.eventLayoutsHeading,
+    [L.eventLayoutsDesc, t.intro, t.keyNote, L.eventMatrixHint, ...dispoText, ...legendText],
     '/event-companion/layouts', L.eventLayoutsHeading)
-  add('ec-page-matrix', L.eventMatrixHeading, [L.eventMatrixHint, ...dispoText, ...legendText],
-    '/event-companion/matrix', L.eventMatrixHeading)
   add('ec-page-pairings', L.eventPairingsHeading, [L.eventPairingsDesc, ec.pairings.intro],
     '/event-companion/pairings', L.eventPairingsHeading)
   add('ec-page-faq', L.eventFaqHeading, [L.eventFaqDesc, ec.faq.intro, ec.faq.errata],
@@ -157,6 +161,19 @@ function indexEventCompanion(items, locale) {
   ;(ec.faq.items || []).forEach((item, i) => {
     add('ec-faq-' + i, item.q, [item.a], '/event-companion/faq', L.eventFaqHeading)
   })
+
+  // Missions page — index each mission by name. Names are language-agnostic (kept EN),
+  // so the same set is indexed for both locales. Secondaries share a slug across the two
+  // roles; index once (the card id `mission-<slug>` exists for the default-shown role).
+  for (const m of missions.en.primary) {
+    add('mission-' + m.slug, m.name, [m.opponent], '/event-companion/missions', L.eventMissionsHeading)
+  }
+  const seenSecondary = new Set()
+  for (const m of missions.en.secondary) {
+    if (seenSecondary.has(m.slug)) continue
+    seenSecondary.add(m.slug)
+    add('mission-' + m.slug, m.name, [m.category], '/event-companion/missions', L.eventMissionsHeading)
+  }
 }
 
 const indexEn = buildIndex('en')
