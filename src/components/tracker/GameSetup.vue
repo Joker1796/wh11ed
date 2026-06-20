@@ -73,6 +73,20 @@
           </div>
         </label>
 
+        <div v-if="p.secondaryMode === 'fixed'" class="field">
+          <span>{{ labels.trackerChooseFixed }} <em class="dp-count">{{ p.fixedSecondaries.length }} / {{ MAX_FIXED }}</em></span>
+          <div class="chips">
+            <button
+              v-for="m in secondaryPool(p.role)"
+              :key="m.slug"
+              class="chip"
+              :class="{ on: p.fixedSecondaries.includes(m.slug) }"
+              :disabled="!p.fixedSecondaries.includes(m.slug) && p.fixedSecondaries.length >= MAX_FIXED"
+              @click="toggleFixed(p, m.slug)"
+            >{{ m.name }}</button>
+          </div>
+        </div>
+
         <p class="primary-preview" v-if="primaryName(i)">
           <span class="pp-label">{{ labels.trackerPrimaryPreview }}:</span> {{ primaryName(i) }}
         </p>
@@ -105,7 +119,7 @@
 import { reactive, computed, watch } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { FACTIONS, DISPOSITIONS, MAX_DP, detachmentsFor, detachmentInfo, primaryFor, dispositionName } from '../../composables/useTracker.js'
+import { FACTIONS, DISPOSITIONS, MAX_DP, detachmentsFor, detachmentInfo, secondaryPool, primaryFor, dispositionName } from '../../composables/useTracker.js'
 
 const emit = defineEmits(['start', 'cancel'])
 const { locale } = useLocale()
@@ -113,12 +127,19 @@ const labels = computed(() => ui[locale.value])
 
 const factions = FACTIONS
 const dispositions = DISPOSITIONS
+const MAX_FIXED = 2   // Fixed secondaries: choose 2, kept for the whole game.
 
 const players = reactive([
-  { name: '', factionSlug: null, detachments: [], disposition: null, role: 'attacker', secondaryMode: 'tactical' },
-  { name: '', factionSlug: null, detachments: [], disposition: null, role: 'defender', secondaryMode: 'tactical' },
+  { name: '', factionSlug: null, detachments: [], disposition: null, role: 'attacker', secondaryMode: 'tactical', fixedSecondaries: [] },
+  { name: '', factionSlug: null, detachments: [], disposition: null, role: 'defender', secondaryMode: 'tactical', fixedSecondaries: [] },
 ])
 const settings = reactive({ trackCP: true, firstTurn: 1 })
+
+function toggleFixed(p, slug) {
+  const i = p.fixedSecondaries.indexOf(slug)
+  if (i >= 0) p.fixedSecondaries.splice(i, 1)
+  else if (p.fixedSecondaries.length < MAX_FIXED) p.fixedSecondaries.push(slug)
+}
 
 function dpSpent(p) {
   return p.detachments.reduce((s, name) => s + (detachmentInfo(p.factionSlug, name)?.dp || 0), 0)
@@ -158,8 +179,12 @@ function primaryName(i) {
   return m ? m.name : ''
 }
 
+// Switching back to tactical drops any chosen fixed missions.
+players.forEach(p => watch(() => p.secondaryMode, (m) => { if (m !== 'fixed') p.fixedSecondaries = [] }))
+
 const canStart = computed(() =>
-  players.every(p => p.disposition && p.role) && !!primaryName(0) && !!primaryName(1)
+  players.every(p => p.disposition && p.role && (p.secondaryMode !== 'fixed' || p.fixedSecondaries.length > 0)) &&
+  !!primaryName(0) && !!primaryName(1)
 )
 
 function start() {
@@ -263,6 +288,18 @@ function start() {
 .det-name { font-size: 0.85rem; font-weight: 600; color: var(--text-primary); }
 .det-meta { font-size: 0.7rem; color: var(--text-dim); font-family: var(--font-mono); }
 .det-empty { font-size: 0.82rem; color: var(--text-dim); font-style: italic; margin: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.chip {
+  padding: 0.3rem 0.55rem;
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  border-radius: 999px;
+  font-size: 0.74rem;
+  cursor: pointer;
+}
+.chip.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+.chip:disabled { opacity: 0.4; cursor: not-allowed; }
 .ro {
   padding: 0.5rem 0.6rem;
   border: 1px solid var(--border);
