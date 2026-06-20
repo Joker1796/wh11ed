@@ -13,6 +13,7 @@ const CUR_KEY = 'wh11ed-tracker-current'
 const HIST_KEY = 'wh11ed-tracker-history'
 
 export const ROUND_COUNT = 5
+export const MAX_DP = 3
 export const PRIMARY_ROUND_CAP = 15
 export const PRIMARY_GAME_CAP = 50
 export const FIXED_SECONDARY_CAP = 20
@@ -31,6 +32,9 @@ export function factionBySlug(slug) {
 export function detachmentsFor(slug) {
   const f = factionBySlug(slug)
   return f ? f.detachments : []
+}
+export function detachmentInfo(slug, name) {
+  return detachmentsFor(slug).find(d => d.name === name) || null
 }
 export function missionBySlug(slug, role) {
   if (role) return missions.en.secondary.find(m => m.slug === slug && m.role === role) || null
@@ -86,8 +90,8 @@ function makePlayer(p, opponent, secondaryMode) {
   return {
     name: p.name || '',
     factionSlug: p.factionSlug || null,
-    detachmentName: p.detachmentName || null,
-    disposition: p.disposition,
+    detachments: [...(p.detachments || [])],   // up to 3 DP worth; each grants a disposition
+    disposition: p.disposition,                // the active disposition (drives the primary mission)
     role: p.role,
     primarySlug: primary ? primary.slug : null,
     cp: 0,
@@ -105,7 +109,7 @@ function makePlayer(p, opponent, secondaryMode) {
 export function useTracker() {
 
   function newGame(setup) {
-    // setup = { settings, players: [p1, p2] } where p = { name, factionSlug, detachmentName, disposition, role }
+    // setup = { settings, players: [p1, p2] } where p = { name, factionSlug, detachments, disposition, role }
     const mode = setup.settings.secondaryMode
     const [a, b] = setup.players
     current.value = {
