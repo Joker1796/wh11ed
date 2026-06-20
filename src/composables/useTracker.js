@@ -108,7 +108,7 @@ function makePlayer(p, opponent) {
     secondaryMode,                             // tactical | fixed — chosen per player
     primarySlug: primary ? primary.slug : null,
     cp: 0,
-    rounds: Array.from({ length: ROUND_COUNT }, () => ({ primary: 0 })),
+    rounds: Array.from({ length: ROUND_COUNT }, () => ({ primary: 0, picks: {} })),
     secondary: {
       // tactical: draw from a shuffled deck each round; fixed: the set chosen at setup is locked in.
       deck: secondaryMode === 'tactical' ? shuffle(poolSlugs) : [],
@@ -136,11 +136,33 @@ export function useTracker() {
     }
   }
 
+  // Fallback (no primary card): set the round primary directly, clamped to the round cap.
   function setRoundPrimary(pi, roundIdx, value) {
+    current.value.players[pi].rounds[roundIdx].primary = Math.max(0, Math.min(value, PRIMARY_ROUND_CAP))
+  }
+
+  // Record how many times a primary scoring row was achieved this round; the round's
+  // primary = min(sum of row contributions, 15). The game cap (50) is applied in primaryTotal.
+  function setPrimaryRow(pi, roundIdx, blockIdx, rowIdx, count) {
     const pl = current.value.players[pi]
-    const others = pl.rounds.reduce((s, r, i) => i === roundIdx ? s : s + (r.primary || 0), 0)
-    const max = Math.max(0, Math.min(PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP - others))
-    pl.rounds[roundIdx].primary = Math.max(0, Math.min(value, max))
+    const round = pl.rounds[roundIdx]
+    if (!round.picks) round.picks = {}
+    round.picks[`${blockIdx}:${rowIdx}`] = Math.max(0, count)
+    const m = missionBySlug(pl.primarySlug)
+    let raw = 0
+    if (m) {
+      for (const [key, c] of Object.entries(round.picks)) {
+        const [bi, ri] = key.split(':').map(Number)
+        const row = m.blocks[bi] && m.blocks[bi].rows[ri]
+        if (row) raw += c * numericVp(row.vp)
+      }
+    }
+    round.primary = Math.min(raw, PRIMARY_ROUND_CAP)
+  }
+
+  function primaryRowCount(pi, roundIdx, blockIdx, rowIdx) {
+    const picks = current.value.players[pi].rounds[roundIdx].picks
+    return picks ? (picks[`${blockIdx}:${rowIdx}`] || 0) : 0
   }
 
   function setCp(pi, value) {
@@ -257,6 +279,7 @@ export function useTracker() {
   return {
     current, history,
     newGame, setRoundPrimary, setCp,
+    setPrimaryRow, primaryRowCount,
     drawSecondary, discardFromHand,
     scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
     goToRound, finishGame, discardGame, deleteHistory,
