@@ -18,7 +18,15 @@
       </div>
       <p v-if="!history.length" class="empty">{{ labels.trackerNoGames }}</p>
       <ul v-else class="games">
-        <li v-for="g in visibleGames" :key="g.id" class="game">
+        <li
+          v-for="g in visibleGames"
+          :key="g.id"
+          class="game"
+          role="button"
+          tabindex="0"
+          @click="openGame(g.id)"
+          @keydown.enter="openGame(g.id)"
+        >
           <div class="game-main">
             <div class="game-players">
               <span class="gp" :class="{ win: winnerIdx(g) === 0 }">{{ pname(g, 0) }}</span>
@@ -28,8 +36,15 @@
             <div class="game-score">{{ g.result.totals[0] }} – {{ g.result.totals[1] }}</div>
           </div>
           <div class="game-meta">
-            <span>{{ formatDate(g.finishedAt || g.createdAt) }}</span>
-            <button class="del" @click="deleteHistory(g.id)">{{ labels.trackerDelete }}</button>
+            <span class="meta-left">
+              <i
+                v-if="status === 'authed' && isBackedUp(g.id)"
+                class="bi bi-cloud-check-fill cloud-flag"
+                :title="labels.cloudBackedUp"
+              ></i>
+              {{ formatDate(g.finishedAt || g.createdAt) }}
+            </span>
+            <button class="del" @click.stop="deleteHistory(g.id)">{{ labels.trackerDelete }}</button>
           </div>
         </li>
       </ul>
@@ -56,7 +71,7 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { current, history, discardGame, deleteHistory } = useTracker()
 const { status, ensureSession } = useAuth()
-const { init: initCloudSync, syncNow } = useCloudSync()
+const { init: initCloudSync, syncNow, refreshCloudList, isBackedUp } = useCloudSync()
 
 const SYNC_AFTER_LOGIN = 'wh11ed-sync-after-login'
 
@@ -66,6 +81,9 @@ const visibleCount = ref(PAGE)
 const visibleGames = computed(() => history.value.slice(0, visibleCount.value))
 function showMore() {
   visibleCount.value += PAGE
+}
+function openGame(id) {
+  router.push('/tracker/history/' + id)
 }
 
 // Auth is restored silently ONLY here (the tracker section), on demand. If a session cookie is
@@ -82,7 +100,11 @@ onMounted(async () => {
   } catch {
     /* ignore */
   }
-  if (pending && status.value === 'authed') syncNow()
+  if (status.value !== 'authed') return
+  // Pending "sync after login" → full sync (uploads + refreshes cloud state). Otherwise just a
+  // read-only cloud check to drive the "backed up" icons and the in-sync status.
+  if (pending) syncNow()
+  else refreshCloudList()
 })
 
 function startNew() {
@@ -166,7 +188,10 @@ function formatDate(iso) {
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 0.7rem 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.15s;
 }
+.game:hover { border-color: var(--accent); }
 .game-main { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
 .game-players { display: flex; align-items: center; gap: 0.5rem; }
 .gp { font-weight: 600; color: var(--text-primary); font-size: 0.92rem; }
@@ -181,6 +206,8 @@ function formatDate(iso) {
   font-size: 0.76rem;
   color: var(--text-dim);
 }
+.meta-left { display: inline-flex; align-items: center; gap: 0.35rem; }
+.cloud-flag { color: var(--accent); font-size: 0.82rem; }
 .del { background: none; border: none; color: var(--text-dim); cursor: pointer; font-size: 0.76rem; }
 .del:hover { color: var(--accent); }
 .show-more {

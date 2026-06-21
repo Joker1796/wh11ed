@@ -3,6 +3,13 @@ import { missions } from '../data/missions.js'
 import { missionsRu } from '../data/missionsRu.js'
 import { mfmFactions } from '../data/mfmFactions.js'
 import { eventCompanion } from '../data/eventCompanion.js'
+import {
+  PRIMARY_GAME_CAP,
+  primaryTotal as primaryTotalOf,
+  secondaryTotal as secondaryTotalOf,
+  grandTotal as grandTotalOf,
+  leader as leaderOf,
+} from './gameScoring.js'
 
 // Game Tracker store — a module singleton persisted to localStorage, mirroring the
 // pattern in useLocale.js / useLoreVisibility.js. Models a 2-player game of 40k 11th:
@@ -16,10 +23,14 @@ const HIST_KEY = 'wh11ed-tracker-history'
 export const ROUND_COUNT = 5
 export const MAX_DP = 3
 export const PRIMARY_ROUND_CAP = 15
-export const PRIMARY_GAME_CAP = 50
-export const FIXED_SECONDARY_CAP = 20
-export const SECONDARY_GAME_CAP = 40
-export const BATTLE_READY_VP = 10
+// Game-level caps live in gameScoring.js (single source of truth); re-export for existing
+// importers (RoundTracker, ScoreBreakdown).
+export {
+  PRIMARY_GAME_CAP,
+  FIXED_SECONDARY_CAP,
+  SECONDARY_GAME_CAP,
+  BATTLE_READY_VP,
+} from './gameScoring.js'
 
 // The 5 Force Dispositions (canonical id + English name), reused from the Event Companion.
 export const DISPOSITIONS = eventCompanion.en.dispositions.map(d => ({ id: d.id, name: d.name }))
@@ -401,42 +412,16 @@ export function useTracker() {
     history.value = history.value.filter(g => g.id !== id)
   }
 
-  // ---- scoring (read against current game) ----
-  function primaryTotal(pi) {
-    const pl = current.value.players[pi]
-    return Math.min(pl.rounds.reduce((s, r) => s + (r.primary || 0), 0), PRIMARY_GAME_CAP)
-  }
+  // ---- scoring (thin wrappers over gameScoring.js bound to the active game) ----
+  const primaryTotal = (pi) => primaryTotalOf(current.value, pi)
+  const secondaryTotal = (pi) => secondaryTotalOf(current.value, pi)
+  const grandTotal = (pi) => grandTotalOf(current.value, pi)
+  const leader = () => leaderOf(current.value)
 
   function roundPrimaryMax(pi, roundIdx) {
     const pl = current.value.players[pi]
     const others = pl.rounds.reduce((s, r, i) => i === roundIdx ? s : s + (r.primary || 0), 0)
     return Math.max(0, Math.min(PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP - others))
-  }
-
-  function secondaryTotal(pi) {
-    const pl = current.value.players[pi]
-    let total
-    if (pl.secondaryMode === 'fixed') {
-      // cap each fixed secondary at 20 over the game
-      const bySlug = {}
-      for (const e of pl.secondary.scored) bySlug[e.slug] = (bySlug[e.slug] || 0) + e.vp
-      total = Object.values(bySlug).reduce((s, v) => s + Math.min(v, FIXED_SECONDARY_CAP), 0)
-    } else {
-      total = pl.secondary.scored.reduce((s, e) => s + e.vp, 0)
-    }
-    return Math.min(total, SECONDARY_GAME_CAP)
-  }
-
-  function grandTotal(pi) {
-    const bonus = current.value.players[pi].battleReady ? BATTLE_READY_VP : 0
-    return primaryTotal(pi) + secondaryTotal(pi) + bonus
-  }
-
-  function leader() {
-    if (!current.value) return -1
-    const a = grandTotal(0), b = grandTotal(1)
-    if (a === b) return -1
-    return a > b ? 0 : 1
   }
 
   return {

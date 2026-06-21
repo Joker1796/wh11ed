@@ -1,20 +1,20 @@
 <template>
   <div class="board">
     <div
-      v-for="(pl, i) in current.players"
+      v-for="(pl, i) in game.players"
       :key="i"
       class="col"
       :class="{ lead: leaderIdx === i }"
     >
       <div class="col-head">
         <span class="pname">{{ pl.name || `${labels.trackerPlayer} ${i + 1}` }}</span>
-        <span v-if="leaderIdx === i" class="lead-tag" :class="{ winner: finished }">{{ finished ? labels.trackerWinner : labels.trackerLeader }}</span>
+        <span v-if="leaderIdx === i" class="lead-tag">{{ finished ? labels.trackerWinner : labels.trackerLeader }}</span>
       </div>
       <div class="grand">{{ grandTotal(i) }}<span class="grand-unit">VP</span></div>
       <dl v-if="!finished" class="breakdown">
         <div><dt>{{ labels.trackerPrimary }}</dt><dd>{{ primaryTotal(i) }}</dd></div>
         <div><dt>{{ labels.trackerSecondary }}</dt><dd>{{ secondaryTotal(i) }}</dd></div>
-        <div v-if="current.settings.trackCP"><dt>{{ labels.trackerCp }}</dt><dd>{{ pl.cp }}</dd></div>
+        <div v-if="game.settings.trackCP"><dt>{{ labels.trackerCp }}</dt><dd>{{ pl.cp }}</dd></div>
       </dl>
     </div>
     <div v-if="leaderIdx === -1" class="tie">{{ labels.trackerTie }}</div>
@@ -26,12 +26,22 @@ import { computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker } from '../../composables/useTracker.js'
+import { primaryTotal as primaryTotalOf, secondaryTotal as secondaryTotalOf, grandTotal as grandTotalOf, leader as leaderOf } from '../../composables/gameScoring.js'
 
-defineProps({ finished: { type: Boolean, default: false } })
+// `game` prop drives a finished/history game; defaults to the active game from the store.
+const props = defineProps({
+  finished: { type: Boolean, default: false },
+  game: { type: Object, default: null },
+})
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { current, primaryTotal, secondaryTotal, grandTotal, leader } = useTracker()
-const leaderIdx = computed(() => leader())
+const { current } = useTracker()
+const game = computed(() => props.game || current.value)
+
+const primaryTotal = (i) => primaryTotalOf(game.value, i)
+const secondaryTotal = (i) => secondaryTotalOf(game.value, i)
+const grandTotal = (i) => grandTotalOf(game.value, i)
+const leaderIdx = computed(() => leaderOf(game.value))
 </script>
 
 <style scoped>
@@ -106,9 +116,9 @@ const leaderIdx = computed(() => leader())
   .board { gap: 0.4rem; }
   .col { padding: 0.55rem 0.35rem; }
   .col-head { flex-direction: column; gap: 0.15rem; }
-  /* Hide the in-play "Leading" tag on phones (the accent top-border already marks the leader);
-     the "Winner" tag on the finished screen stays. */
-  .lead-tag:not(.winner) { display: none; }
+  /* Hide the leader tag ("Leading"/"Winner") on phones so both score columns stay aligned;
+     the accent top-border already marks the leader. Desktop keeps the tag. */
+  .lead-tag { display: none; }
   .pname { font-size: 0.8rem; word-break: break-word; }
   .grand { font-size: 1.7rem; }
   .grand-unit { font-size: 0.7rem; }
