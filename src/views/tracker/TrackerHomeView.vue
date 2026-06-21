@@ -36,7 +36,14 @@
             <div class="game-score">{{ g.result.totals[0] }} – {{ g.result.totals[1] }}</div>
           </div>
           <div class="game-meta">
-            <span>{{ formatDate(g.finishedAt || g.createdAt) }}</span>
+            <span class="meta-left">
+              <i
+                v-if="status === 'authed' && isBackedUp(g.id)"
+                class="bi bi-cloud-check-fill cloud-flag"
+                :title="labels.cloudBackedUp"
+              ></i>
+              {{ formatDate(g.finishedAt || g.createdAt) }}
+            </span>
             <button class="del" @click.stop="deleteHistory(g.id)">{{ labels.trackerDelete }}</button>
           </div>
         </li>
@@ -64,7 +71,7 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { current, history, discardGame, deleteHistory } = useTracker()
 const { status, ensureSession } = useAuth()
-const { init: initCloudSync, syncNow } = useCloudSync()
+const { init: initCloudSync, syncNow, refreshCloudList, isBackedUp } = useCloudSync()
 
 const SYNC_AFTER_LOGIN = 'wh11ed-sync-after-login'
 
@@ -93,7 +100,11 @@ onMounted(async () => {
   } catch {
     /* ignore */
   }
-  if (pending && status.value === 'authed') syncNow()
+  if (status.value !== 'authed') return
+  // Pending "sync after login" → full sync (uploads + refreshes cloud state). Otherwise just a
+  // read-only cloud check to drive the "backed up" icons and the in-sync status.
+  if (pending) syncNow()
+  else refreshCloudList()
 })
 
 function startNew() {
@@ -195,6 +206,8 @@ function formatDate(iso) {
   font-size: 0.76rem;
   color: var(--text-dim);
 }
+.meta-left { display: inline-flex; align-items: center; gap: 0.35rem; }
+.cloud-flag { color: var(--accent); font-size: 0.82rem; }
 .del { background: none; border: none; color: var(--text-dim); cursor: pointer; font-size: 0.76rem; }
 .del:hover { color: var(--accent); }
 .show-more {

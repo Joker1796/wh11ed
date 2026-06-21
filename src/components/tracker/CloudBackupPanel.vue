@@ -1,15 +1,16 @@
 <template>
   <!-- Only shown once there's at least one finished game to back up. -->
   <section v-if="history.length" class="cloud-panel">
-    <button class="cloud-save" :disabled="syncing" @click="onSave">
-      <i class="bi" :class="saved ? 'bi-cloud-check-fill' : 'bi-cloud-arrow-up-fill'"></i>
-      {{ buttonLabel }}
+    <button class="cloud-save" :disabled="syncing" @click="onSync">
+      <i class="bi" :class="syncing ? 'bi-arrow-repeat' : 'bi-cloud-arrow-up-fill'"></i>
+      {{ syncing ? labels.cloudSyncing : labels.cloudSync }}
     </button>
     <div v-if="status === 'authed'" class="cloud-meta">
       <span class="cloud-email">{{ user?.email || user?.displayName || labels.cloudSignedIn }}</span>
       <button class="cloud-link" @click="logout">{{ labels.cloudSignOut }}</button>
     </div>
     <p v-if="lastError" class="cloud-err">{{ labels.cloudError }}</p>
+    <p v-else-if="inSync" class="cloud-ok"><i class="bi bi-cloud-check-fill"></i> {{ labels.cloudInSync }}</p>
 
     <!-- Provider picker (only when signed out) -->
     <div v-if="showModal" class="modal-overlay" @click.self="showModal = false">
@@ -45,25 +46,16 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { history } = useTracker()
 const { status, user, login, logout } = useAuth()
-const { syncing, lastError, syncNow } = useCloudSync()
+const { syncing, lastError, inSync, syncNow } = useCloudSync()
 
 const showModal = ref(false)
-const saved = ref(false)
 
-const buttonLabel = computed(() => {
-  if (syncing.value) return labels.value.cloudSaving
-  if (saved.value) return labels.value.cloudSaved
-  return labels.value.cloudSave
-})
-
-async function onSave() {
-  saved.value = false
+async function onSync() {
   if (status.value !== 'authed') {
     showModal.value = true
     return
   }
   await syncNow()
-  if (!lastError.value) saved.value = true
 }
 
 function startLogin(provider) {
@@ -135,6 +127,15 @@ function startLogin(provider) {
   font-size: 0.8rem;
   margin: 0;
 }
+.cloud-ok {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  margin: 0;
+}
+.cloud-ok .bi { color: var(--accent); }
 
 /* Modal (matches ScoringModal pattern) */
 .modal-overlay {
