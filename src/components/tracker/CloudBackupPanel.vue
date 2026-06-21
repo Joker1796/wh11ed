@@ -1,120 +1,208 @@
 <template>
-  <section class="cloud-panel">
-    <!-- Signed out -->
-    <template v-if="status !== 'authed'">
-      <p class="cloud-note">{{ labels.cloudNote }}</p>
-      <div class="cloud-actions">
-        <button class="cloud-btn" @click="login('google')">
-          <i class="bi bi-google"></i> {{ labels.cloudSignInGoogle }}
-        </button>
-        <button class="cloud-btn" @click="login('yandex')">
-          <span class="ya">Я</span> {{ labels.cloudSignInYandex }}
-        </button>
-      </div>
-    </template>
+  <!-- Only shown once there's at least one finished game to back up. -->
+  <section v-if="history.length" class="cloud-panel">
+    <button class="cloud-save" :disabled="syncing" @click="onSave">
+      <i class="bi" :class="saved ? 'bi-cloud-check-fill' : 'bi-cloud-arrow-up-fill'"></i>
+      {{ buttonLabel }}
+    </button>
+    <div v-if="status === 'authed'" class="cloud-meta">
+      <span class="cloud-email">{{ user?.email || user?.displayName || labels.cloudSignedIn }}</span>
+      <button class="cloud-link" @click="logout">{{ labels.cloudSignOut }}</button>
+    </div>
+    <p v-if="lastError" class="cloud-err">{{ labels.cloudError }}</p>
 
-    <!-- Signed in -->
-    <template v-else>
-      <div class="cloud-user">
-        <i class="bi bi-cloud-check-fill"></i>
-        <span class="cloud-email">{{ user?.email || user?.displayName || labels.cloudSignedIn }}</span>
+    <!-- Provider picker (only when signed out) -->
+    <div v-if="showModal" class="modal-overlay" @click.self="showModal = false">
+      <div class="modal" role="dialog" aria-modal="true">
+        <header class="modal-head">
+          <h3 class="mh-title">{{ labels.cloudSignInTitle }}</h3>
+          <button class="mh-close" @click="showModal = false" aria-label="Close">✕</button>
+        </header>
+        <div class="modal-body">
+          <button class="prov-btn" @click="startLogin('google')">
+            <i class="bi bi-google"></i> {{ labels.cloudSignInGoogle }}
+          </button>
+          <button class="prov-btn" @click="startLogin('yandex')">
+            <span class="ya">Я</span> {{ labels.cloudSignInYandex }}
+          </button>
+        </div>
       </div>
-      <div class="cloud-actions">
-        <button class="cloud-btn primary" :disabled="syncing" @click="syncNow">
-          {{ syncing ? labels.cloudSyncing : labels.cloudSync }}
-        </button>
-        <button class="cloud-btn ghost" @click="logout">{{ labels.cloudSignOut }}</button>
-      </div>
-      <p v-if="lastError" class="cloud-err">{{ labels.cloudError }}</p>
-    </template>
+    </div>
   </section>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { useTracker } from '../../composables/useTracker.js'
 import { useAuth } from '../../composables/useAuth.js'
 import { useCloudSync } from '../../composables/useCloudSync.js'
 
+const SYNC_AFTER_LOGIN = 'wh11ed-sync-after-login'
+
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+const { history } = useTracker()
 const { status, user, login, logout } = useAuth()
 const { syncing, lastError, syncNow } = useCloudSync()
+
+const showModal = ref(false)
+const saved = ref(false)
+
+const buttonLabel = computed(() => {
+  if (syncing.value) return labels.value.cloudSaving
+  if (saved.value) return labels.value.cloudSaved
+  return labels.value.cloudSave
+})
+
+async function onSave() {
+  saved.value = false
+  if (status.value !== 'authed') {
+    showModal.value = true
+    return
+  }
+  await syncNow()
+  if (!lastError.value) saved.value = true
+}
+
+function startLogin(provider) {
+  // Remember intent so the tracker auto-syncs once we return authenticated.
+  try {
+    sessionStorage.setItem(SYNC_AFTER_LOGIN, '1')
+  } catch {
+    /* ignore */
+  }
+  login(provider)
+}
 </script>
 
 <style scoped>
 .cloud-panel {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 0.8rem 0.9rem;
-  margin-bottom: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  align-items: flex-end;
+  gap: 0.25rem;
 }
-.cloud-note {
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  margin: 0;
-}
-.cloud-user {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--text-primary);
-  font-size: 0.9rem;
-}
-.cloud-user .bi {
-  color: var(--accent);
-}
-.cloud-email {
-  font-weight: 600;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.cloud-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-.cloud-btn {
+.cloud-save {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.5rem 0.9rem;
+  gap: 0.45rem;
+  padding: 0.45rem 0.9rem;
   background: none;
-  color: var(--text-primary);
-  border: 1px solid var(--border);
+  color: var(--accent);
+  border: 1px solid var(--accent);
   border-radius: 5px;
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
+  transition: background 0.15s, color 0.15s;
 }
-.cloud-btn:hover {
-  border-color: var(--accent);
-}
-.cloud-btn.primary {
+.cloud-save:hover:not(:disabled) {
   background: var(--accent);
   color: #fff;
-  border-color: var(--accent);
 }
-.cloud-btn.primary:disabled {
+.cloud-save:disabled {
   opacity: 0.6;
   cursor: default;
 }
-.cloud-btn.ghost {
-  color: var(--text-muted);
+.cloud-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.78rem;
+  color: var(--text-dim);
 }
-.cloud-btn .ya {
-  font-weight: 800;
-  color: #fc3f1d;
+.cloud-email {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 60vw;
+}
+.cloud-link {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 0.78rem;
+  text-decoration: underline;
+}
+.cloud-link:hover {
+  color: var(--accent);
 }
 .cloud-err {
   color: #d9534f;
   font-size: 0.8rem;
   margin: 0;
+}
+
+/* Modal (matches ScoringModal pattern) */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.modal {
+  width: 100%;
+  max-width: 360px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+.mh-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.mh-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  cursor: pointer;
+  min-width: 32px;
+  min-height: 32px;
+}
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1rem;
+}
+.prov-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 0.9rem;
+  background: none;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.prov-btn:hover {
+  border-color: var(--accent);
+}
+.prov-btn .ya {
+  font-weight: 800;
+  color: #fc3f1d;
 }
 </style>

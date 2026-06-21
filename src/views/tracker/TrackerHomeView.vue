@@ -11,13 +11,14 @@
       <button class="btn-primary" :class="{ ghost: current }" @click="startNew">{{ labels.trackerNewGame }}</button>
     </div>
 
-    <CloudBackupPanel />
-
     <section class="history">
-      <h2>{{ labels.trackerHistory }}</h2>
+      <div class="history-head">
+        <h2>{{ labels.trackerHistory }}</h2>
+        <CloudBackupPanel />
+      </div>
       <p v-if="!history.length" class="empty">{{ labels.trackerNoGames }}</p>
       <ul v-else class="games">
-        <li v-for="g in history" :key="g.id" class="game">
+        <li v-for="g in visibleGames" :key="g.id" class="game">
           <div class="game-main">
             <div class="game-players">
               <span class="gp" :class="{ win: winnerIdx(g) === 0 }">{{ pname(g, 0) }}</span>
@@ -32,12 +33,15 @@
           </div>
         </li>
       </ul>
+      <button v-if="history.length > visibleCount" class="show-more" @click="showMore">
+        {{ labels.trackerShowMore }}
+      </button>
     </section>
   </div>
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import AlphaBanner from '../../components/tracker/AlphaBanner.vue'
 import CloudBackupPanel from '../../components/tracker/CloudBackupPanel.vue'
@@ -51,14 +55,34 @@ const router = useRouter()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { current, history, discardGame, deleteHistory } = useTracker()
-const { ensureSession } = useAuth()
-const { init: initCloudSync } = useCloudSync()
+const { status, ensureSession } = useAuth()
+const { init: initCloudSync, syncNow } = useCloudSync()
+
+const SYNC_AFTER_LOGIN = 'wh11ed-sync-after-login'
+
+// History pagination — show 10 at a time via "show more".
+const PAGE = 10
+const visibleCount = ref(PAGE)
+const visibleGames = computed(() => history.value.slice(0, visibleCount.value))
+function showMore() {
+  visibleCount.value += PAGE
+}
 
 // Auth is restored silently ONLY here (the tracker section), on demand. If a session cookie is
-// still valid the user is reconnected; otherwise the panel shows the sign-in buttons.
-onMounted(() => {
+// still valid the user is reconnected; otherwise the panel shows the sign-in button.
+onMounted(async () => {
   initCloudSync()
-  ensureSession()
+  await ensureSession()
+  // Finish a "Save to cloud" that triggered an OAuth redirect: once back and authenticated,
+  // push the data the user intended to save.
+  let pending = false
+  try {
+    pending = sessionStorage.getItem(SYNC_AFTER_LOGIN) === '1'
+    if (pending) sessionStorage.removeItem(SYNC_AFTER_LOGIN)
+  } catch {
+    /* ignore */
+  }
+  if (pending && status.value === 'authed') syncNow()
 })
 
 function startNew() {
@@ -118,14 +142,22 @@ function formatDate(iso) {
   color: var(--text-muted);
   border: 1px solid var(--border);
 }
-.history h2 {
+.history-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding-bottom: 0.3rem;
+  border-bottom: 2px solid var(--accent);
+  margin-bottom: 0.8rem;
+}
+.history-head h2 {
   font-family: var(--font-serif);
   font-size: 1.4rem;
   font-weight: 700;
-  padding-bottom: 0.3rem;
-  border-bottom: 2px solid var(--accent);
   color: var(--text-primary);
-  margin-bottom: 0.8rem;
+  margin: 0;
 }
 .empty { color: var(--text-muted); font-style: italic; }
 .games { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.6rem; }
@@ -151,4 +183,17 @@ function formatDate(iso) {
 }
 .del { background: none; border: none; color: var(--text-dim); cursor: pointer; font-size: 0.76rem; }
 .del:hover { color: var(--accent); }
+.show-more {
+  display: block;
+  margin: 0.8rem auto 0;
+  padding: 0.5rem 1.2rem;
+  background: none;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.show-more:hover { border-color: var(--accent); color: var(--accent); }
 </style>
