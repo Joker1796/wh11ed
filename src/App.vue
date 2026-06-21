@@ -74,6 +74,14 @@
                 <i :class="hideLore ? 'bi bi-book' : 'bi bi-book-fill'"></i>
                 <span>{{ hideLore ? labels.loreShow : labels.loreHide }}</span>
               </button>
+              <button
+                v-if="canInstall && !isStandalone"
+                class="settings-item"
+                @click="promptInstall"
+              >
+                <i class="bi bi-download"></i>
+                <span>{{ labels.installApp }}</span>
+              </button>
             </div>
           </div>
           <button
@@ -148,6 +156,7 @@ import NavSidebar from './components/NavSidebar.vue'
 import { useLocale } from './composables/useLocale.js'
 import { useTheme } from './composables/useTheme.js'
 import { useLoreVisibility } from './composables/useLoreVisibility.js'
+import { useInstallPrompt } from './composables/useInstallPrompt.js'
 import { useKeywordPopover } from './composables/useKeywordPopover.js'
 import { resolveRef, useRefNavigation } from './composables/useRefNavigation.js'
 import { ui } from './i18n/ui.js'
@@ -169,6 +178,7 @@ function toggleMobileNav() {
 const { locale, toggleLocale } = useLocale()
 const { theme, toggleTheme } = useTheme()
 const { hideLore, toggleLore } = useLoreVisibility()
+const { canInstall, isStandalone, promptInstall } = useInstallPrompt()
 const { open: openKeyword, close: closeKeyword } = useKeywordPopover()
 const { navigateTo } = useRefNavigation()
 
