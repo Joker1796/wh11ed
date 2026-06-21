@@ -6,14 +6,14 @@
     </button>
 
     <div v-if="open" class="bd-body">
-      <div v-for="(pl, i) in current.players" :key="i" class="bd-player">
+      <div v-for="(pl, i) in game.players" :key="i" class="bd-player">
         <div class="bd-name" :class="{ win: leaderIdx === i }">{{ pl.name || `${labels.trackerPlayer} ${i + 1}` }}</div>
 
         <div class="grid">
           <!-- Went first -->
           <div class="g-label">{{ labels.trackerWentFirst }}</div>
           <div v-for="r in ROUND_COUNT" :key="'wf'+r" class="g-cell">
-            <span v-if="r === 1 && current.settings.firstTurn === i + 1" class="tick">✓</span>
+            <span v-if="r === 1 && game.settings.firstTurn === i + 1" class="tick">✓</span>
           </div>
           <div class="g-total"></div>
 
@@ -39,7 +39,7 @@
           <div class="g-total">{{ pl.battleReady ? BATTLE_READY_VP : 0 }}/{{ BATTLE_READY_VP }}</div>
 
           <!-- CP -->
-          <template v-if="current.settings.trackCP">
+          <template v-if="game.settings.trackCP">
             <div class="g-label">{{ labels.trackerCp }}</div>
             <div class="g-cell g-span5"></div>
             <div class="g-total">{{ pl.cp }}</div>
@@ -58,17 +58,23 @@ import {
   useTracker, ROUND_COUNT, PRIMARY_GAME_CAP, SECONDARY_GAME_CAP, BATTLE_READY_VP,
   missionBySlug, dispositionName,
 } from '../../composables/useTracker.js'
+import { primaryTotal as primaryTotalOf, secondaryTotal as secondaryTotalOf, leader as leaderOf } from '../../composables/gameScoring.js'
 
+// `game` prop drives a finished/history game; defaults to the active game from the store.
+const props = defineProps({ game: { type: Object, default: null } })
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { current, primaryTotal, secondaryTotal, grandTotal, leader } = useTracker()
+const { current } = useTracker()
+const game = computed(() => props.game || current.value)
 
+const primaryTotal = (i) => primaryTotalOf(game.value, i)
+const secondaryTotal = (i) => secondaryTotalOf(game.value, i)
 const open = ref(false)
-const leaderIdx = computed(() => leader())
+const leaderIdx = computed(() => leaderOf(game.value))
 
 // Every secondary that was ever in play for this player, with its active range and per-round VP.
 function secondaries(pi) {
-  const pl = current.value.players[pi]
+  const pl = game.value.players[pi]
   const s = pl.secondary
   const drawn = s.drawn || {}
   const slugs = []
@@ -78,7 +84,7 @@ function secondaries(pi) {
   for (const d of (s.discarded || [])) add(d.slug ?? d)
   for (const slug of s.hand) add(slug)
 
-  const lastRound = current.value.currentRound
+  const lastRound = game.value.currentRound
   return slugs.map(slug => {
     const m = missionBySlug(slug, pl.role, locale.value)
     const disc = (s.discarded || []).find(d => (d.slug ?? d) === slug)

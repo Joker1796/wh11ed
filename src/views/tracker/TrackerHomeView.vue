@@ -18,7 +18,15 @@
       </div>
       <p v-if="!history.length" class="empty">{{ labels.trackerNoGames }}</p>
       <ul v-else class="games">
-        <li v-for="g in visibleGames" :key="g.id" class="game">
+        <li
+          v-for="g in visibleGames"
+          :key="g.id"
+          class="game"
+          role="button"
+          tabindex="0"
+          @click="openGame(g.id)"
+          @keydown.enter="openGame(g.id)"
+        >
           <div class="game-main">
             <div class="game-players">
               <span class="gp" :class="{ win: winnerIdx(g) === 0 }">{{ pname(g, 0) }}</span>
@@ -29,7 +37,7 @@
           </div>
           <div class="game-meta">
             <span>{{ formatDate(g.finishedAt || g.createdAt) }}</span>
-            <button class="del" @click="deleteHistory(g.id)">{{ labels.trackerDelete }}</button>
+            <button class="del" @click.stop="deleteHistory(g.id)">{{ labels.trackerDelete }}</button>
           </div>
         </li>
       </ul>
@@ -66,6 +74,9 @@ const visibleCount = ref(PAGE)
 const visibleGames = computed(() => history.value.slice(0, visibleCount.value))
 function showMore() {
   visibleCount.value += PAGE
+}
+function openGame(id) {
+  router.push('/tracker/history/' + id)
 }
 
 // Auth is restored silently ONLY here (the tracker section), on demand. If a session cookie is
@@ -166,7 +177,10 @@ function formatDate(iso) {
   border: 1px solid var(--border);
   border-radius: 6px;
   padding: 0.7rem 0.9rem;
+  cursor: pointer;
+  transition: border-color 0.15s;
 }
+.game:hover { border-color: var(--accent); }
 .game-main { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
 .game-players { display: flex; align-items: center; gap: 0.5rem; }
 .gp { font-weight: 600; color: var(--text-primary); font-size: 0.92rem; }
