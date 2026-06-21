@@ -18,6 +18,14 @@ CDN_RESOURCE_ID="${CDN_RESOURCE_ID:-}"
 
 aws() { command aws --endpoint-url="$ENDPOINT" --profile "$AWS_PROFILE" "$@"; }
 
+# 0) Bump the patch version (package.json) before building, so each deploy ships a
+#    new version number. Override the segment with BUMP=minor|major ./deploy.sh.
+#    --no-git-tag-version: this dir isn't a git repo, so don't commit/tag.
+BUMP="${BUMP:-patch}"
+echo "▶ Bumping version ($BUMP)…"
+NEW_VERSION="$(npm version "$BUMP" --no-git-tag-version)"
+echo "  → $NEW_VERSION"
+
 echo "▶ Building…"
 npm run build
 
