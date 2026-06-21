@@ -16,6 +16,7 @@ const EventPairingsView = () => import('../views/event/EventPairingsView.vue')
 const EventFaqView      = () => import('../views/event/EventFaqView.vue')
 const TrackerHomeView   = () => import('../views/tracker/TrackerHomeView.vue')
 const TrackerGameView   = () => import('../views/tracker/TrackerGameView.vue')
+const AuthCallbackView  = () => import('../views/tracker/AuthCallbackView.vue')
 
 export const navGroups = [
   { label: 'Introduction',        path: '/',               sections: [] },
@@ -225,6 +226,7 @@ export const router = createRouter({
     { path: '/event-companion/faq',      component: EventFaqView },
     { path: '/tracker',      component: TrackerHomeView },
     { path: '/tracker/game', component: TrackerGameView },
+    { path: '/tracker/auth-callback', component: AuthCallbackView },
   ],
   scrollBehavior(to, from, savedPosition) {
     if (to.hash) {
