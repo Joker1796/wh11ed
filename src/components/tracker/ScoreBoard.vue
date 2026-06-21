@@ -8,7 +8,7 @@
     >
       <div class="col-head">
         <span class="pname">{{ pl.name || `${labels.trackerPlayer} ${i + 1}` }}</span>
-        <span v-if="leaderIdx === i" class="lead-tag">{{ finished ? labels.trackerWinner : labels.trackerLeader }}</span>
+        <span v-if="leaderIdx === i" class="lead-tag" :class="{ winner: finished }">{{ finished ? labels.trackerWinner : labels.trackerLeader }}</span>
       </div>
       <div class="grand">{{ grandTotal(i) }}<span class="grand-unit">VP</span></div>
       <dl v-if="!finished" class="breakdown">
@@ -106,6 +106,9 @@ const leaderIdx = computed(() => leader())
   .board { gap: 0.4rem; }
   .col { padding: 0.55rem 0.35rem; }
   .col-head { flex-direction: column; gap: 0.15rem; }
+  /* Hide the in-play "Leading" tag on phones (the accent top-border already marks the leader);
+     the "Winner" tag on the finished screen stays. */
+  .lead-tag:not(.winner) { display: none; }
   .pname { font-size: 0.8rem; word-break: break-word; }
   .grand { font-size: 1.7rem; }
   .grand-unit { font-size: 0.7rem; }

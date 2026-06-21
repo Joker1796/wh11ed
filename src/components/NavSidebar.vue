@@ -239,8 +239,8 @@ async function handleAnchorClick(path, id, filter) {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--text-dim);
-  background: none;
+  color: var(--text-on-dark);
+  background: var(--bg-insert);
   border: none;
   cursor: pointer;
   text-align: left;
@@ -248,12 +248,11 @@ async function handleAnchorClick(path, id, filter) {
 }
 
 .nav-section-header:hover {
-  color: var(--text-muted);
-  background: color-mix(in srgb, var(--accent) 6%, transparent);
+  background: color-mix(in srgb, var(--bg-insert) 85%, #fff);
 }
 
 .nav-section.open .nav-section-header {
-  color: var(--text-primary);
+  background: color-mix(in srgb, var(--bg-insert) 85%, #fff);
 }
 
 .nav-section.open .nav-section-header .chevron {
