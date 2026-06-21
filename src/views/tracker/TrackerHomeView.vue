@@ -11,6 +11,8 @@
       <button class="btn-primary" :class="{ ghost: current }" @click="startNew">{{ labels.trackerNewGame }}</button>
     </div>
 
+    <CloudBackupPanel />
+
     <section class="history">
       <h2>{{ labels.trackerHistory }}</h2>
       <p v-if="!history.length" class="empty">{{ labels.trackerNoGames }}</p>
@@ -35,17 +37,29 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import AlphaBanner from '../../components/tracker/AlphaBanner.vue'
+import CloudBackupPanel from '../../components/tracker/CloudBackupPanel.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker } from '../../composables/useTracker.js'
+import { useAuth } from '../../composables/useAuth.js'
+import { useCloudSync } from '../../composables/useCloudSync.js'
 
 const router = useRouter()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { current, history, discardGame, deleteHistory } = useTracker()
+const { ensureSession } = useAuth()
+const { init: initCloudSync } = useCloudSync()
+
+// Auth is restored silently ONLY here (the tracker section), on demand. If a session cookie is
+// still valid the user is reconnected; otherwise the panel shows the sign-in buttons.
+onMounted(() => {
+  initCloudSync()
+  ensureSession()
+})
 
 function startNew() {
   if (current.value && !window.confirm(labels.value.trackerOverwriteConfirm)) return

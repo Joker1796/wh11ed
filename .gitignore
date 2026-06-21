@@ -4,6 +4,11 @@ dist/
 *.local
 .idea/
 
+# Local env (Vite). Keep .env.example committed.
+.env
+.env.*
+!.env.example
+
 # Local source/reference material (not for the repo)
 sources/
 *.pdf
