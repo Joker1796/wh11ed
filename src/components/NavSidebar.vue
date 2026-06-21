@@ -9,36 +9,51 @@
     </div>
 
     <div class="nav-groups">
-      <template v-for="section in navSections" :key="section.label">
-        <p class="nav-section-label">{{ section.label }}</p>
-        <div
-          v-for="group in section.groups"
-          :key="group.path"
-          class="nav-group"
-          :class="{ active: isActive(group) }"
-        >
-          <button
-            class="nav-group-label"
-            :class="{ expanded: expandedPath === group.path }"
-            @click="toggleGroup(group)"
-          >
-            {{ group.label }}
-            <svg v-if="group.sections.length" class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
+      <div
+        v-for="section in navSections"
+        :key="section.key"
+        class="nav-section"
+        :class="{ open: openSection === section.key }"
+      >
+        <button class="nav-section-header" @click="toggleSection(section.key)">
+          {{ section.label }}
+          <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
 
-          <transition name="expand">
-            <ul v-if="expandedPath === group.path && group.sections.length" class="nav-sub">
-              <li v-for="sec in group.sections" :key="sec.label">
-                <a href="#" class="nav-sub-link" @click.prevent="handleAnchorClick(group.path, sec.id, sec.filter)">
-                  {{ sec.label.replace(/^\d+\s+/, '') }}
-                </a>
-              </li>
-            </ul>
-          </transition>
-        </div>
-      </template>
+        <transition name="expand-section">
+          <div v-if="openSection === section.key" class="nav-section-body">
+            <div
+              v-for="group in section.groups"
+              :key="group.path"
+              class="nav-group"
+              :class="{ active: isActive(group) }"
+            >
+              <button
+                class="nav-group-label"
+                :class="{ expanded: expandedPath === group.path }"
+                @click="toggleGroup(group)"
+              >
+                {{ group.label }}
+                <svg v-if="group.sections.length" class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+
+              <transition name="expand">
+                <ul v-if="expandedPath === group.path && group.sections.length" class="nav-sub">
+                  <li v-for="sec in group.sections" :key="sec.label">
+                    <a href="#" class="nav-sub-link" @click.prevent="handleAnchorClick(group.path, sec.id, sec.filter)">
+                      {{ sec.label.replace(/^\d+\s+/, '') }}
+                    </a>
+                  </li>
+                </ul>
+              </transition>
+            </div>
+          </div>
+        </transition>
+      </div>
     </div>
   </nav>
 </template>
@@ -64,17 +79,34 @@ const localizedEventGroups = computed(() => locale.value === 'ru' ? eventGroupsR
 const localizedTrackerGroups = computed(() => locale.value === 'ru' ? trackerGroupsRu : trackerGroups)
 
 const navSections = computed(() => [
-  { label: labels.value.navCoreRules,      groups: localizedGroups.value },
-  { label: labels.value.navEventCompanion, groups: localizedEventGroups.value },
-  { label: labels.value.navTracker,        groups: localizedTrackerGroups.value },
+  { key: 'core',    label: labels.value.navCoreRules,      groups: localizedGroups.value },
+  { key: 'event',   label: labels.value.navEventCompanion, groups: localizedEventGroups.value },
+  { key: 'tracker', label: labels.value.navTracker,        groups: localizedTrackerGroups.value },
 ])
 
-const expandedPath = ref(route.path)
+const currentSection = computed(() => {
+  const p = route.path
+  if (p.startsWith('/tracker')) return 'tracker'
+  if (p.startsWith('/event-companion')) return 'event'
+  return 'core'
+})
 
-watch(() => route.path, (p) => { expandedPath.value = p })
+// Which group's subsections are open (one at a time), and which top-level
+// section accordion is expanded (also one at a time). Both follow the route.
+const expandedPath = ref(route.path)
+const openSection = ref(currentSection.value)
+
+watch(() => route.path, (p) => {
+  expandedPath.value = p
+  openSection.value = currentSection.value
+})
 
 function isActive(group) {
   return route.path === group.path
+}
+
+function toggleSection(key) {
+  openSection.value = openSection.value === key ? null : key
 }
 
 function toggleGroup(group) {
@@ -191,18 +223,49 @@ async function handleAnchorClick(path, id, filter) {
   overflow-y: auto;
 }
 
-.nav-section-label {
-  margin: 0;
-  padding: 0.6rem 1rem 0.3rem;
+.nav-section {
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 44px;
+  padding: 0.5rem 1rem;
+  font-family: var(--font-sans);
   font-size: 0.7rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--text-dim);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: color 0.15s, background 0.15s;
+}
+
+.nav-section-header:hover {
+  color: var(--text-muted);
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+}
+
+.nav-section.open .nav-section-header {
+  color: var(--text-primary);
+}
+
+.nav-section.open .nav-section-header .chevron {
+  transform: rotate(180deg);
+}
+
+.nav-section-body {
+  overflow: hidden;
 }
 
 .nav-group {
-  border-bottom: 1px solid var(--border);
+  border-top: 1px solid var(--border);
 }
 
 .nav-group-label {
@@ -272,6 +335,17 @@ async function handleAnchorClick(path, id, filter) {
   max-height: 800px;
 }
 .expand-enter-from, .expand-leave-to {
+  max-height: 0;
+}
+
+/* Section-level accordion — larger cap so a section body containing an
+   expanded group never clips mid-animation. */
+.expand-section-enter-active, .expand-section-leave-active {
+  transition: max-height 0.28s ease;
+  overflow: hidden;
+  max-height: 2000px;
+}
+.expand-section-enter-from, .expand-section-leave-to {
   max-height: 0;
 }
 </style>
