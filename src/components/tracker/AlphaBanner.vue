@@ -1,7 +1,7 @@
 <template>
   <div class="alpha-banner">
-    <i class="bi bi-exclamation-triangle-fill"></i>
-    <span>{{ labels.trackerAlpha }}</span>
+    <i class="bi bi-info-circle-fill"></i>
+    <span>{{ labels.trackerAlpha }} <a :href="'mailto:' + email">{{ email }}</a></span>
   </div>
 </template>
 
@@ -12,6 +12,7 @@ import { useLocale } from '../../composables/useLocale.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+const email = 'yas-shaman@yandex.ru'
 </script>
 
 <style scoped>
@@ -22,12 +23,13 @@ const labels = computed(() => ui[locale.value])
   gap: 0.5rem;
   margin-bottom: 1rem;
   padding: 0.55rem 0.9rem;
-  background: #b3201b;
-  color: #fff;
+  background: #c9a227;
+  color: #2a2014;
   border-radius: 5px;
   font-size: 0.82rem;
   font-weight: 600;
   text-align: center;
 }
 .alpha-banner i { font-size: 0.95rem; }
+.alpha-banner a { color: #2a2014; text-decoration: underline; font-weight: 700; }
 </style>
