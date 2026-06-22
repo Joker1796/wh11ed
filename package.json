@@ -15,7 +15,10 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@fontsource/eb-garamond": "^5.2.7",
+    "@fontsource/inter": "^5.2.8",
     "@vitejs/plugin-vue": "^5.2.4",
+    "bootstrap-icons": "^1.13.1",
     "vite": "^6.4.3",
     "vue": "^3.5.38",
     "vue-router": "^4.6.4"
