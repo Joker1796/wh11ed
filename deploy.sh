@@ -26,7 +26,10 @@ echo "▶ Bumping version ($BUMP)…"
 NEW_VERSION="$(npm version "$BUMP" --no-git-tag-version)"
 echo "  → $NEW_VERSION"
 
-echo "▶ Building…"
+# Point the SPA at the production API. Vite inlines VITE_API_BASE_URL at build time;
+# without it config.js falls back to http://localhost:8787 and the deployed app can't reach the API.
+echo "▶ Building… (API: ${VITE_API_BASE_URL:=https://api.wh11ed.ru})"
+export VITE_API_BASE_URL
 npm run build
 
 # 1) Hashed build assets — content-hashed names, safe to cache forever.
