@@ -1,7 +1,7 @@
 import { ref } from 'vue'
+import { getItem, setItem } from './safeStorage.js'
 
-const saved = localStorage.getItem('hideLore')
-const hideLore = ref(saved === 'true')
+const hideLore = ref(getItem('hideLore') === 'true')
 
 // Apply persisted state to <html> at module load
 if (hideLore.value) document.documentElement.setAttribute('data-hide-lore', 'true')
@@ -9,7 +9,7 @@ if (hideLore.value) document.documentElement.setAttribute('data-hide-lore', 'tru
 export function useLoreVisibility() {
   function toggleLore() {
     hideLore.value = !hideLore.value
-    localStorage.setItem('hideLore', String(hideLore.value))
+    setItem('hideLore', String(hideLore.value))
     if (hideLore.value) {
       document.documentElement.setAttribute('data-hide-lore', 'true')
     } else {

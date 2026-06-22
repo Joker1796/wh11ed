@@ -3,8 +3,13 @@
     <Transition name="kw-pop">
       <div
         v-if="visible && activeKeyword"
+        ref="popoverEl"
         class="kw-popover"
         :style="positionStyle"
+        role="dialog"
+        aria-modal="false"
+        :aria-label="activeKeyword.name"
+        tabindex="-1"
         @click.stop
       >
         <div class="kw-popover-header">
@@ -19,12 +24,22 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, watch, nextTick } from 'vue'
 import { useKeywordPopover } from '../composables/useKeywordPopover.js'
 import { useRenderInline } from '../composables/useRenderInline.js'
 import { resolveRef, useRefNavigation } from '../composables/useRefNavigation.js'
 
 const { visible, activeKeyword, anchor, close } = useKeywordPopover()
+
+// Move focus into the popover when it opens so screen-reader / keyboard users land
+// on the dialog (and Escape — handled globally in App.vue — closes it).
+const popoverEl = ref(null)
+watch(visible, async open => {
+  if (open) {
+    await nextTick()
+    popoverEl.value?.focus()
+  }
+})
 const { renderInline } = useRenderInline()
 const { navigateTo } = useRefNavigation()
 

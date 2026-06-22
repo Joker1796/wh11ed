@@ -48,7 +48,7 @@
       >
         <div class="ability-header">
           <span class="ability-num">{{ ability.num }}</span>
-          <span class="ability-name" :class="ability.type">{{ ability.name }}</span>
+          <h3 class="ability-name" :class="ability.type">{{ ability.name }}</h3>
           <span class="ability-type-badge" :class="ability.type">{{ ability.type === 'weapon' ? labels.badgeWeapon : labels.badgeUnit }}</span>
         </div>
 
@@ -363,8 +363,10 @@ function handleDefClick(e) {
 }
 
 .ability-name {
+  margin: 0;
   font-weight: 700;
   font-size: 0.9rem;
+  line-height: 1.3;
   flex: 1;
   color: var(--text-primary);
 }
