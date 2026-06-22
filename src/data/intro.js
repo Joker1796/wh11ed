@@ -71,8 +71,8 @@ Warhammer 40,000 — это настольная игра-сражение, в �
     ],
     credits: {
       tagline: 'Справочник по правилам 11 редакции Warhammer 40,000.',
-      translationLabel: 'Перевод:',
-      translator: 'Никита Лукин',
+      translationLabel: 'За основу взят перевод',
+      translator: 'Никиты Лукина',
       sourceLabel: 'Оригинал:',
       sourceLink: 'Warhammer 40,000 Core Rules',
       contactLabel: 'Связаться с автором:',
