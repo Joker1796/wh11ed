@@ -2,11 +2,11 @@
   <figure class="layout-card">
     <div class="layout-stack" :class="orient === 'v' ? 'is-vertical' : 'is-horizontal'">
       <span class="edge-marker em-attacker">
-        <img :src="attackerSrc" alt="Attacker's battlefield edge" />
+        <img :src="attackerSrc" alt="Attacker's battlefield edge" loading="lazy" decoding="async" />
       </span>
       <AppImage :src="layout.image" :alt="`Layout ${layout.id}`" class="layout-img" />
       <span class="edge-marker em-defender">
-        <img :src="defenderSrc" alt="Defender's battlefield edge" />
+        <img :src="defenderSrc" alt="Defender's battlefield edge" loading="lazy" decoding="async" />
       </span>
     </div>
     <figcaption class="layout-caption">

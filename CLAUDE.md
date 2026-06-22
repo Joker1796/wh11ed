@@ -141,18 +141,21 @@ The script is idempotent and re-runnable — add a new image as `.jpg/.png`, run
 
 The site is an installable PWA via **`vite-plugin-pwa`** (Workbox `generateSW`), configured in `vite.config.js`. `base` is `'/'` (root-hosted) so the service worker controls scope `/`.
 
-- **Manifest** is defined inline in the `VitePWA({ manifest })` config; the plugin emits `dist/manifest.webmanifest` and injects the `<link>` + SW registration into `index.html`. iOS-only tags (`apple-touch-icon`, `apple-mobile-web-app-*`, `theme-color`) are hand-written in `index.html`.
+> **🔒 Product requirement — full offline immediately after install.** The app MUST work fully offline (every rule, image, font, icon) right after install, with no online "warm-up" visit. So the SW **precaches everything** (`workbox.globPatterns` = all assets). Do **not** move content (esp. `images/event/**`) to `runtimeCaching` — that defers loading to the first online visit and breaks the requirement. The ~27 MB precache is intentional; only optimizations that *reduce its weight* (compression, breakpoints) are allowed, never deferral.
+
+- **Manifest** is defined inline in the `VitePWA({ manifest })` config; the plugin emits `dist/manifest.webmanifest` and injects the `<link>` into `index.html`. iOS-only tags (`apple-touch-icon`, `apple-mobile-web-app-*`, `theme-color`) are hand-written in `index.html`.
 - **Icons** (`public/pwa-192.png`, `pwa-512.png`, `maskable-512.png`, `apple-touch-icon.png`) are generated from the "W" mark by `scripts/gen-pwa-icons.mjs` (`npm run icons`, uses `sharp`). `favicon.svg` stays for the browser tab.
-- **Full offline:** `workbox.globPatterns` precaches the app shell **and** every image (`.webp`) — ~28 MB, so install downloads everything and the app works fully offline. Google Fonts + bootstrap-icons (external CDNs) are `runtimeCaching`d (cached on first online load; text falls back to system fonts if absent).
-- **Updates:** `registerType: 'autoUpdate'` + `cleanupOutdatedCaches` — a new deploy activates on next load and purges stale precache. This only works if the SW itself isn't long-cached — see Deployment.
+- **Full offline:** `workbox.globPatterns` precaches the app shell **and** every image (`.webp`) — ~27 MB, so install downloads everything and the app works fully offline. (Fonts/icons: Google Fonts + bootstrap-icons are still external CDNs `runtimeCaching`d — cached on first online load; self-hosting + precaching them is planned so they're covered offline too.)
+- **Updates (prompt + toast):** `registerType: 'prompt'` (NOT `autoUpdate`). A new deploy is downloaded in the background; `UpdateToast.vue` watches `needRefresh` from `useRegisterSW()` (`virtual:pwa-register/vue`) and shows an "Update available → Update" toast. The SW activates (and the page reloads) only when the user clicks Update — so we never auto-reload mid-game in the tracker. `cleanupOutdatedCaches` purges stale precache on activation. Works only if the SW itself isn't long-cached — see Deployment. (Under prompt mode the registration is bundled via `workbox-window`; no separate `registerSW.js` is emitted.)
 
 ## Deployment
 
 Hosted at **wh11ed.ru** on a **Yandex Object Storage** bucket (`wh11ed.ru`) behind **Yandex CDN**. Deploy with `npm run deploy` (runs `deploy.sh`), which builds and `aws s3 sync`s `dist/` with tiered `Cache-Control`:
 
 - `assets/*` (content-hashed, incl. `workbox-*.js`) → `public, max-age=31536000, immutable`
-- images / favicon / PWA icons (stable names) → `public, max-age=31536000`
+- images / favicon / PWA icons / `og-image.png` (stable names) → `public, max-age=31536000`
 - `sw.js` / `registerSW.js` / `manifest.webmanifest` → `no-cache` (**must** revalidate, or PWA updates never reach clients)
+- `robots.txt` / `sitemap.xml` → `public, max-age=3600` (1 h — excluded from the 1-year tier so crawlers pick up changes; a stale sitemap would otherwise be served for a year)
 - `index.html` → `public, max-age=86400` (1 day)
 
 Uploads via the S3-compatible API (endpoint `storage.yandexcloud.net`, AWS CLI profile `yc`). Set `CDN_RESOURCE_ID` to auto-purge the CDN; otherwise purge manually after deploy. The CDN resource must cache **according to origin headers** (honor-origin) or it overrides per-file `Cache-Control` with a single TTL. Because images are cached a year under stable names, **rename a file when you change an image** (or the browser keeps the old one). Full runbook: `DEPLOY.md`.
