@@ -1,12 +1,12 @@
 import { ref, watch } from 'vue'
+import { getItem, setItem } from './safeStorage.js'
 
 // Locale resolution order: ?lang= URL param (so EN/RU are crawlable as distinct
 // URLs for hreflang) → saved preference → default 'en'.
 function readInitialLocale() {
   const fromUrl = new URLSearchParams(window.location.search).get('lang')
   if (fromUrl === 'ru' || fromUrl === 'en') return fromUrl
-  const saved = localStorage.getItem('locale')
-  return saved === 'ru' ? 'ru' : 'en'
+  return getItem('locale') === 'ru' ? 'ru' : 'en'
 }
 
 const locale = ref(readInitialLocale())
@@ -28,7 +28,7 @@ watch(locale, syncDocument)
 export function useLocale() {
   function toggleLocale() {
     locale.value = locale.value === 'en' ? 'ru' : 'en'
-    localStorage.setItem('locale', locale.value)
+    setItem('locale', locale.value)
   }
   return { locale, toggleLocale }
 }

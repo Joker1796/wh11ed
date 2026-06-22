@@ -74,30 +74,16 @@ import PageNav from '../components/PageNav.vue'
 import { battlefields } from '../data/battlefields.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
+import { useBilingualSections } from '../composables/useBilingualMerge.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
-const sections = computed(() => {
-  if (locale.value === 'en') return battlefields.en
-  return battlefields.en.map((section, i) => ({
-    ...section,
-    title: battlefields.ru[i].title,
-    description: battlefields.ru[i].description,
-    subsections: section.subsections.map((sub, j) => {
-      const merged = { ...sub, ...battlefields.ru[i].subsections[j] }
-      if (merged.sideImage?.src)
-        merged.sideImage = { ...merged.sideImage, src: merged.sideImage.src.replace('.png', '-ru.png') }
-      return merged
-    }),
-    ...(section.stratagems && battlefields.ru[i].stratagems ? {
-      stratagems: section.stratagems.map((strat, k) => ({
-        ...strat,
-        ...battlefields.ru[i].stratagems[k],
-      }))
-    } : {}),
-  }))
-})
+const sections = useBilingualSections(battlefields, (section, ruSection) =>
+  section.stratagems && ruSection.stratagems
+    ? { stratagems: section.stratagems.map((strat, k) => ({ ...strat, ...ruSection.stratagems[k] })) }
+    : {}
+)
 
 const tocSections = computed(() =>
   sections.value.map(s => ({

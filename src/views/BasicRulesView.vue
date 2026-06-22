@@ -86,32 +86,16 @@ import PageNav from '../components/PageNav.vue'
 import { basicRules } from '../data/basicRules.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
+import { useBilingualSections } from '../composables/useBilingualMerge.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
-const sections = computed(() => {
-  if (locale.value === 'en') return basicRules.en
-  return basicRules.en.map((section, i) => ({
-    ...section,
-    title: basicRules.ru[i].title,
-    description: basicRules.ru[i].description,
-    subsections: section.subsections.map((sub, j) => {
-      const merged = { ...sub, ...basicRules.ru[i].subsections[j] }
-      const ruSrc = src => src.replace(/\.(png|jpg)$/, '-ru.$1')
-      if (merged.image?.src)
-        merged.image = { ...merged.image, src: ruSrc(merged.image.src) }
-      if (merged.sideImage?.src)
-        merged.sideImage = { ...merged.sideImage, src: ruSrc(merged.sideImage.src) }
-      if (merged.illustration?.src)
-        merged.illustration = { ...merged.illustration, src: ruSrc(merged.illustration.src) }
-      return merged
-    }),
-    woundTable: section.woundTable
-      ? { ...section.woundTable, ...basicRules.ru[i].woundTable }
-      : undefined,
-  }))
-})
+const sections = useBilingualSections(basicRules, (section, ruSection) =>
+  section.woundTable
+    ? { woundTable: { ...section.woundTable, ...ruSection.woundTable } }
+    : {}
+)
 
 const tocSections = computed(() =>
   sections.value.map(s => ({
