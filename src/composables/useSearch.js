@@ -176,12 +176,18 @@ function indexEventCompanion(items, locale) {
   }
 }
 
-const indexEn = buildIndex('en')
-const indexRu = buildIndex('ru')
+// Built lazily on first search (per locale) so importing this module — and the
+// large data files it pulls in — never triggers a synchronous index build at
+// load time. Most users only ever search one locale, so we never build the other.
+const indexCache = { en: null, ru: null }
+function getIndex(locale) {
+  const key = locale === 'ru' ? 'ru' : 'en'
+  return (indexCache[key] ??= buildIndex(key))
+}
 
 export function search(query, locale = 'en') {
   if (!query || query.trim().length < 2) return []
-  const index = locale === 'ru' ? indexRu : indexEn
+  const index = getIndex(locale)
   const q = query.trim().toLowerCase()
   const results = []
   for (const item of index) {
