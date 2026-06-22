@@ -21,10 +21,15 @@ aws() { command aws --endpoint-url="$ENDPOINT" --profile "$AWS_PROFILE" "$@"; }
 # 0) Bump the patch version (package.json) before building, so each deploy ships a
 #    new version number. Override the segment with BUMP=minor|major ./deploy.sh.
 #    --no-git-tag-version: this dir isn't a git repo, so don't commit/tag.
+#    Use BUMP=none to deploy the current version as-is (e.g. when it was set in the commit).
 BUMP="${BUMP:-patch}"
-echo "▶ Bumping version ($BUMP)…"
-NEW_VERSION="$(npm version "$BUMP" --no-git-tag-version)"
-echo "  → $NEW_VERSION"
+if [ "$BUMP" = "none" ]; then
+  echo "▶ Skipping version bump (BUMP=none); shipping v$(node -p "require('./package.json').version")"
+else
+  echo "▶ Bumping version ($BUMP)…"
+  NEW_VERSION="$(npm version "$BUMP" --no-git-tag-version)"
+  echo "  → $NEW_VERSION"
+fi
 
 # Point the SPA at the production API. Vite inlines VITE_API_BASE_URL at build time;
 # without it config.js falls back to http://localhost:8787 and the deployed app can't reach the API.
