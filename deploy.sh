@@ -51,6 +51,7 @@ echo "▶ images/favicon/icons  →  1 year"
 aws s3 sync dist "$BUCKET" \
   --exclude "*.html" --exclude "assets/*" --exclude "*.DS_Store" \
   --exclude "sw.js" --exclude "registerSW.js" --exclude "manifest.webmanifest" \
+  --exclude "robots.txt" --exclude "sitemap.xml" \
   --cache-control "public, max-age=31536000" \
   --delete
 
@@ -66,6 +67,18 @@ set_nocache() { # <file> <content-type>
 set_nocache sw.js "application/javascript; charset=utf-8"
 set_nocache registerSW.js "application/javascript; charset=utf-8"
 set_nocache manifest.webmanifest "application/manifest+json; charset=utf-8"
+
+# 2c) SEO files — short TTL so crawlers pick up changes quickly. Excluded from the
+#     1-year tier (step 2): a stale robots/sitemap can otherwise be served for a year.
+echo "▶ robots.txt / sitemap.xml  →  1 hour"
+set_shortcache() { # <file> <content-type>
+  [ -f "dist/$1" ] && aws s3 cp "dist/$1" "$BUCKET/$1" \
+    --cache-control "public, max-age=3600" \
+    --content-type "$2" \
+    --metadata-directive REPLACE
+}
+set_shortcache robots.txt "text/plain; charset=utf-8"
+set_shortcache sitemap.xml "application/xml; charset=utf-8"
 
 # 3) index.html — entry point. Short TTL so rare deploys appear within a day.
 echo "▶ index.html  →  1 day"

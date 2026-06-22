@@ -142,6 +142,7 @@
 
     <SearchModal v-if="searchOpen" @close="searchOpen = false" />
     <KeywordPopover />
+    <UpdateToast />
   </div>
 </template>
 
@@ -153,6 +154,7 @@ import { useRoute } from 'vue-router'
 const SearchModal = defineAsyncComponent(() => import('./components/SearchModal.vue'))
 import KeywordPopover from './components/KeywordPopover.vue'
 import NavSidebar from './components/NavSidebar.vue'
+import UpdateToast from './components/UpdateToast.vue'
 import { useLocale } from './composables/useLocale.js'
 import { useTheme } from './composables/useTheme.js'
 import { useLoreVisibility } from './composables/useLoreVisibility.js'
