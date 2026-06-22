@@ -135,6 +135,7 @@ import { getEventContent } from '../../data/eventCompanion.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
+import { getItem, setItem } from '../../composables/safeStorage.js'
 
 const { locale } = useLocale()
 const { renderInline } = useRenderInline()
@@ -146,10 +147,10 @@ const introParagraphs = computed(() => ec.value.terrain.intro.split('\n\n').filt
 
 // Layouts Key — collapsible; preference persisted (stored value is the "hidden" flag).
 const KEY_STORAGE = 'wh11ed-event-key-hidden'
-const showKey = ref(localStorage.getItem(KEY_STORAGE) !== 'true')
+const showKey = ref(getItem(KEY_STORAGE) !== 'true')
 function toggleKey() {
   showKey.value = !showKey.value
-  localStorage.setItem(KEY_STORAGE, String(!showKey.value))
+  setItem(KEY_STORAGE, String(!showKey.value))
 }
 
 // The legend is split into groups, mirroring the source key page:

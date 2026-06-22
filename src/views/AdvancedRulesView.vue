@@ -56,26 +56,16 @@ import PageNav from '../components/PageNav.vue'
 import { advancedRules } from '../data/advancedRules.js'
 import { useLocale } from '../composables/useLocale.js'
 import { ui } from '../i18n/ui.js'
+import { useBilingualSections } from '../composables/useBilingualMerge.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
-const sections = computed(() => {
-  if (locale.value === 'en') return advancedRules.en
-  return advancedRules.en.map((section, i) => {
-    const ruSection = advancedRules.ru[i]
-    const subsections = section.subsections.map((sub, j) => {
-      const merged = { ...sub, ...ruSection.subsections[j] }
-      if (merged.sideImage?.src)
-        merged.sideImage = { ...merged.sideImage, src: merged.sideImage.src.replace('.png', '-ru.png') }
-      return merged
-    })
-    const result = { ...section, title: ruSection.title, description: ruSection.description, subsections }
-    if (section.abilitiesTable && ruSection.abilitiesTable)
-      result.abilitiesTable = { ...section.abilitiesTable, ...ruSection.abilitiesTable }
-    return result
-  })
-})
+const sections = useBilingualSections(advancedRules, (section, ruSection) =>
+  section.abilitiesTable && ruSection.abilitiesTable
+    ? { abilitiesTable: { ...section.abilitiesTable, ...ruSection.abilitiesTable } }
+    : {}
+)
 
 const tocSections = computed(() =>
   sections.value.map(s => ({

@@ -57,22 +57,12 @@ import PageNav from '../components/PageNav.vue'
 import { battleRound } from '../data/battleRound.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
+import { useBilingualSections } from '../composables/useBilingualMerge.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
-const sections = computed(() => {
-  if (locale.value === 'en') return battleRound.en
-  return battleRound.en.map((section, i) => ({
-    ...section,
-    title: battleRound.ru[i].title,
-    description: battleRound.ru[i].description,
-    subsections: section.subsections.map((sub, j) => ({
-      ...sub,
-      ...battleRound.ru[i].subsections[j],
-    })),
-  }))
-})
+const sections = useBilingualSections(battleRound)
 
 const tocSections = computed(() =>
   sections.value.map(s => ({

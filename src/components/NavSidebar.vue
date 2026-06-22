@@ -1,5 +1,5 @@
 <template>
-  <nav class="sidebar" :class="{ open: mobileOpen }">
+  <nav class="sidebar" :class="{ open: mobileOpen }" aria-label="Navigation">
     <div class="sidebar-header">
       <div class="sidebar-brand">
         <span class="sidebar-logo">WH40K</span>
