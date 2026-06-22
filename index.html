@@ -63,10 +63,9 @@
         document.documentElement.setAttribute('data-theme', theme);
       })();
     </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Fonts (Inter, EB Garamond) and bootstrap-icons are self-hosted via @fontsource /
+         the bootstrap-icons package and imported in src/fonts.js, so they precache for full
+         offline (no external CDN). -->
   </head>
   <body>
     <div id="app"></div>
