@@ -1,5 +1,18 @@
+// Module-level memo cache: rule text comes from static data files, so the same
+// string is rendered repeatedly across re-renders and components. Caching the
+// 10-regex transform by input string turns those repeats into a Map hit.
+const cache = new Map()
+
 export function useRenderInline() {
   function renderInline(text) {
+    if (text == null) return text
+    const hit = cache.get(text)
+    if (hit !== undefined) return hit
+    const out = transform(text)
+    cache.set(text, out)
+    return out
+  }
+  function transform(text) {
     return text
       .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
         '<a href="$2" target="_blank" rel="noopener noreferrer" class="ext-link">$1</a>')

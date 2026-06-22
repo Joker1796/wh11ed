@@ -176,17 +176,46 @@ function load(key, fallback) {
 const current = ref(load(CUR_KEY, null))
 const history = ref(load(HIST_KEY, []))
 
-// Auto-save on every mutation — "saved automatically as you play".
-watch(current, v => {
-  try {
-    if (v) localStorage.setItem(CUR_KEY, JSON.stringify(v))
-    else localStorage.removeItem(CUR_KEY)
-  } catch { /* quota / private mode — ignore */ }
-}, { deep: true })
+// Auto-save on every mutation — "saved automatically as you play". Debounced so a
+// burst of changes (e.g. typing in a name field, stepping a score counter) doesn't
+// deep-serialize the whole game tree on every keystroke; we flush before the page
+// goes away so the last change is never lost.
+const SAVE_DELAY = 500
+let saveTimer = null
+let pendingCurrent = false
+let pendingHistory = false
 
-watch(history, v => {
-  try { localStorage.setItem(HIST_KEY, JSON.stringify(v)) } catch { /* ignore */ }
-}, { deep: true })
+function flushSave() {
+  if (saveTimer) { clearTimeout(saveTimer); saveTimer = null }
+  if (pendingCurrent) {
+    pendingCurrent = false
+    try {
+      if (current.value) localStorage.setItem(CUR_KEY, JSON.stringify(current.value))
+      else localStorage.removeItem(CUR_KEY)
+    } catch { /* quota / private mode — ignore */ }
+  }
+  if (pendingHistory) {
+    pendingHistory = false
+    try { localStorage.setItem(HIST_KEY, JSON.stringify(history.value)) } catch { /* ignore */ }
+  }
+}
+
+function scheduleSave() {
+  if (!saveTimer) saveTimer = setTimeout(() => { saveTimer = null; flushSave() }, SAVE_DELAY)
+}
+
+watch(current, () => { pendingCurrent = true; scheduleSave() }, { deep: true })
+watch(history, () => { pendingHistory = true; scheduleSave() }, { deep: true })
+
+// The debounce window could drop the final mutation if the tab closes / refreshes /
+// is backgrounded (mobile/PWA) before the timer fires — flush synchronously on those.
+if (typeof window !== 'undefined') {
+  window.addEventListener('pagehide', flushSave)
+  window.addEventListener('beforeunload', flushSave)
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') flushSave()
+  })
+}
 
 function shuffle(arr) {
   const a = [...arr]
