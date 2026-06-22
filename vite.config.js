@@ -7,7 +7,10 @@ export default defineConfig({
   plugins: [
     vue(),
     VitePWA({
-      registerType: 'autoUpdate',
+      // 'prompt' (not 'autoUpdate'): a new version is downloaded in the background
+      // but only applied when the user clicks "Update" in UpdateToast.vue — so we
+      // never auto-reload mid-game in the tracker. Offline precache is unaffected.
+      registerType: 'prompt',
       includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
       manifest: {
         name: 'Warhammer 40,000 — Core Rules 11th Edition',
