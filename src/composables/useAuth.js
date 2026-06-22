@@ -16,6 +16,101 @@ function api(path) {
   return `${API_BASE_URL}${path}`
 }
 
+// ─── DEV-only mock ────────────────────────────────────────────────────────────────────────────
+// Lets you exercise the signed-in UI locally without real OAuth (which redirects to the prod site).
+// Everything here is behind `import.meta.env.DEV`, so Vite strips it from production builds.
+const DEV = import.meta.env.DEV
+const MOCK_FLAG = 'wh11ed-dev-mock-auth'
+const MOCK_USER = { id: 'mock', email: 'test@local', displayName: 'Tester' }
+let mockActive = false
+const mockCloud = new Map() // gameId → full game blob (a fake backend store)
+
+function mockEnabled() {
+  return DEV && mockActive
+}
+
+function mockJson(body, statusCode = 200) {
+  return new Response(JSON.stringify(body), {
+    status: statusCode,
+    headers: { 'Content-Type': 'application/json' },
+  })
+}
+
+function mockMeta(g) {
+  return {
+    gameId: g.id,
+    createdAt: g.createdAt,
+    finishedAt: g.finishedAt,
+    resultSummary: g.result?.totals ? g.result.totals.join('–') : '',
+    players: g.players?.map((p) => p.name) ?? [],
+  }
+}
+
+// Stand-in for the API: same shapes useCloudSync expects, no network.
+function mockFetch(path, opts = {}) {
+  const method = (opts.method || 'GET').toUpperCase()
+  if (path === '/me') return mockJson(MOCK_USER)
+  if (path === '/games' && method === 'GET') {
+    return mockJson({ games: [...mockCloud.values()].map(mockMeta) })
+  }
+  const m = path.match(/^\/games\/(.+)$/)
+  if (m) {
+    const id = decodeURIComponent(m[1])
+    if (method === 'PUT') {
+      mockCloud.set(id, JSON.parse(opts.body))
+      return mockJson({ ok: true })
+    }
+    if (method === 'GET') {
+      const g = mockCloud.get(id)
+      return g ? mockJson(g) : mockJson({ error: 'not_found' }, 404)
+    }
+    if (method === 'DELETE') {
+      mockCloud.delete(id)
+      return mockJson({ ok: true })
+    }
+  }
+  return mockJson({ error: 'mock_unhandled' }, 404)
+}
+
+function setMockAuthed() {
+  mockActive = true
+  accessToken = 'mock'
+  user.value = MOCK_USER
+  status.value = 'authed'
+}
+
+function mockSignIn() {
+  if (!DEV) return
+  setMockAuthed()
+  try {
+    localStorage.setItem(MOCK_FLAG, '1')
+  } catch {
+    /* ignore */
+  }
+}
+
+function mockSignOut() {
+  mockActive = false
+  mockCloud.clear()
+  accessToken = null
+  user.value = null
+  status.value = 'anon'
+  try {
+    localStorage.removeItem(MOCK_FLAG)
+  } catch {
+    /* ignore */
+  }
+}
+
+// Restore a mock session across dev-server reloads.
+if (DEV) {
+  try {
+    if (localStorage.getItem(MOCK_FLAG) === '1') setMockAuthed()
+  } catch {
+    /* ignore */
+  }
+}
+
 async function loadUser() {
   const res = await fetch(api('/me'), {
     headers: { Authorization: `Bearer ${accessToken}` },
@@ -26,6 +121,10 @@ async function loadUser() {
 // POST /auth/refresh (sends the HttpOnly cookie). Sets the access token + user, or marks anon.
 // Returns true on success. Network errors (no backend / offline) resolve to false, never throw.
 async function refresh() {
+  if (mockEnabled()) {
+    setMockAuthed()
+    return true
+  }
   if (refreshing) return refreshing
   refreshing = (async () => {
     try {
@@ -60,6 +159,7 @@ async function ensureSession() {
 
 // Bearer fetch against the API with a single transparent refresh+retry on 401.
 async function authedFetch(path, opts = {}) {
+  if (mockEnabled()) return mockFetch(path, opts)
   const doFetch = () =>
     fetch(api(path), {
       ...opts,
@@ -91,5 +191,17 @@ async function logout() {
 }
 
 export function useAuth() {
-  return { status, user, login, logout, refresh, ensureSession, authedFetch }
+  return {
+    status,
+    user,
+    login,
+    logout,
+    refresh,
+    ensureSession,
+    authedFetch,
+    // DEV-only test helpers (no-ops / stripped in production):
+    dev: DEV,
+    mockSignIn,
+    mockSignOut,
+  }
 }
