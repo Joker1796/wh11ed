@@ -650,7 +650,7 @@ If a unit performing an **action** makes a move (excluding **pile-in** and **con
           when: 'Конец фазы перемещения (Movement phase) вашего противника.',
           target: 'Один дружественный юнит, находящийся в **стратегическом резерве** (strategic reserves) (не юнит AIRCRAFT).',
           effect: 'Этот юнит совершает **перемещение вторжения** (ingress move) (20.04).',
-          restrictions: 'Вы не можете использовать эту стратегему во время первого боевого раунда (battle round).',
+          restrictions: 'Вы не можете использовать эту стратегему во время первого раунда боя (battle round).',
           extraCost: [],
         },
         {
