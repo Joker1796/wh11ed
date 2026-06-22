@@ -1,16 +1,24 @@
 <template>
-  <!-- Only shown once there's at least one finished game to back up. -->
-  <section v-if="history.length" class="cloud-panel">
-    <button class="cloud-save" :disabled="syncing" @click="onSync">
-      <i class="bi" :class="syncing ? 'bi-arrow-repeat' : 'bi-cloud-arrow-up-fill'"></i>
-      {{ syncing ? labels.cloudSyncing : labels.cloudSync }}
+  <section class="cloud-panel">
+    <!-- Signed out: a single sign-in entry. Shown even with no game history, so a fresh device can
+         sign in and restore. On return the tracker auto-syncs (see TrackerHomeView + SYNC_AFTER_LOGIN). -->
+    <button v-if="status !== 'authed'" class="cloud-save" @click="onSignIn">
+      <i class="bi bi-box-arrow-in-right"></i> {{ labels.cloudSignIn }}
     </button>
-    <div v-if="status === 'authed'" class="cloud-meta">
-      <span class="cloud-email">{{ user?.email || user?.displayName || labels.cloudSignedIn }}</span>
-      <button class="cloud-link" @click="logout">{{ labels.cloudSignOut }}</button>
-    </div>
-    <p v-if="lastError" class="cloud-err">{{ labels.cloudError }}</p>
-    <p v-else-if="inSync" class="cloud-ok"><i class="bi bi-cloud-check-fill"></i> {{ labels.cloudInSync }}</p>
+
+    <!-- Signed in: manual re-sync + account + status. -->
+    <template v-else>
+      <button class="cloud-save" :disabled="syncing" @click="syncNow">
+        <i class="bi" :class="syncing ? 'bi-arrow-repeat' : 'bi-cloud-arrow-up-fill'"></i>
+        {{ syncing ? labels.cloudSyncing : labels.cloudSync }}
+      </button>
+      <div class="cloud-meta">
+        <span class="cloud-email">{{ user?.email || user?.displayName || labels.cloudSignedIn }}</span>
+        <button class="cloud-link" @click="logout">{{ labels.cloudSignOut }}</button>
+      </div>
+      <p v-if="lastError" class="cloud-err">{{ labels.cloudError }}</p>
+      <p v-else-if="inSync" class="cloud-ok"><i class="bi bi-cloud-check-fill"></i> {{ labels.cloudInSync }}</p>
+    </template>
   </section>
 </template>
 
@@ -18,7 +26,6 @@
 import { computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useTracker } from '../../composables/useTracker.js'
 import { useAuth } from '../../composables/useAuth.js'
 import { useCloudSync } from '../../composables/useCloudSync.js'
 
@@ -26,23 +33,17 @@ const SYNC_AFTER_LOGIN = 'wh11ed-sync-after-login'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { history } = useTracker()
 const { status, user, login, logout } = useAuth()
 const { syncing, lastError, inSync, syncNow } = useCloudSync()
 
-async function onSync() {
-  if (status.value !== 'authed') {
-    // Single provider (Yandex): go straight to login. Remember intent so the tracker
-    // auto-syncs once we return authenticated.
-    try {
-      sessionStorage.setItem(SYNC_AFTER_LOGIN, '1')
-    } catch {
-      /* ignore */
-    }
-    login('yandex')
-    return
+function onSignIn() {
+  // Remember intent so the tracker auto-syncs (upload local + restore cloud) once we return authed.
+  try {
+    sessionStorage.setItem(SYNC_AFTER_LOGIN, '1')
+  } catch {
+    /* ignore */
   }
-  await syncNow()
+  login('yandex')
 }
 </script>
 
