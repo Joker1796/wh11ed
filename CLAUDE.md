@@ -137,6 +137,14 @@ The script is idempotent and re-runnable — add a new image as `.jpg/.png`, run
 
 **Left as-is:** `wh40k-app-qr.png` — a 288px 1-bit (2-colour) indexed PNG (~640 B), pre-sized to ~2× its display; kept out of the WebP pipeline on purpose (WebP can't store a 1-bit palette, so it'd be larger and softer). And `favicon.svg`.
 
+**Re-cutting illustrations from the core-rules PDF** (used for the EN phase placards `turn/*PHASE*`/`*TURN-STEP*` and the `command/battle-shock-examples*` panels — straight, consistent crops that replace crooked hand-cut ones). General recipe, with Python+PIL (or pymupdf) + `cwebp`:
+
+1. **Render** the page at 600 dpi: `pdftoppm -f N -l N -r 600 -png sources/WH40k_11ed_CORE-Rules_*.pdf /tmp/p` → a 3780×5434 PNG (page index = printed page no.).
+2. **Crop axis-aligned bboxes.** The source elements are straight, so a rectangular bbox auto-fixes human crookedness. Detect bands by brightness/colour (page bg is dark on p.29, cream ~RGB 245 on p.31); **stacked elements share one left/right `x` range** — derive it from the cleanest element and reuse, varying only the per-element `y`. Downscale (LANCZOS) to the existing file's width (placards 1100, battle-shock 1190).
+3. **Phase placards (p.29):** `x[354:3543]`, 7 y-bands. The banners have a **45° chamfered bottom-right corner**; a rectangular crop fills it with dark page bg → a black triangle (obvious on the light plates). Fix: add an alpha channel and make that corner transparent — `alpha=0` where `(W-1-x)+(H-1-y) < ~75` source px (≈25px at output). Build the mask at source res so the downscale anti-aliases the diagonal.
+4. **Battle-shock panels (p.31):** `x[355:2221]`, 4 y-bands (~1865×1075). Crops can land on the cream page edge → thin **white/light border lines**; trim outer rows/cols whose mean brightness `>140` before resizing.
+5. **Encode directly with `cwebp`, not `npm run images:webp`** — `gen-webp.mjs` forces *lossless* for `.png` and ignores `command/*.png` (not an illustration there), and a `.jpg` intermediate would double-compress. Use lossy: placards `cwebp -q 82 -alpha_q 100` (full) / `-q 78 -alpha_q 100` (`-sm`); battle-shock `cwebp -q 74` / `-q 70` with `-resize 800 0` for the `-sm`. Overwrite the existing `.webp` + `-sm.webp` **keeping the same filenames** (EN only — the `-ru` variants carry translated text not on the English page, leave them). Then `npm run build`. Note: these are photographic, so lossy ≈ the old quality in bytes; lower `q` is what makes them lighter. (History: PRs #26/#28/#29.)
+
 ## PWA
 
 The site is an installable PWA via **`vite-plugin-pwa`** (Workbox `generateSW`), configured in `vite.config.js`. `base` is `'/'` (root-hosted) so the service worker controls scope `/`.
