@@ -37,32 +37,8 @@ export default defineConfig({
         maximumFileSizeToCacheInBytes: 3 * 1024 * 1024, // largest webp ~0.5 MB
         cleanupOutdatedCaches: true,
         navigateFallback: '/index.html',
-        runtimeCaching: [
-          // External CDNs (Google Fonts + bootstrap-icons) — cached on first online visit.
-          {
-            urlPattern: /^https:\/\/fonts\.googleapis\.com\//,
-            handler: 'StaleWhileRevalidate',
-            options: { cacheName: 'google-fonts-css' },
-          },
-          {
-            urlPattern: /^https:\/\/fonts\.gstatic\.com\//,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'google-fonts-files',
-              expiration: { maxEntries: 30, maxAgeSeconds: 31536000 },
-              cacheableResponse: { statuses: [0, 200] },
-            },
-          },
-          {
-            urlPattern: /^https:\/\/cdn\.jsdelivr\.net\//,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'jsdelivr',
-              expiration: { maxEntries: 30, maxAgeSeconds: 31536000 },
-              cacheableResponse: { statuses: [0, 200] },
-            },
-          },
-        ],
+        // Fonts (Inter, EB Garamond) and bootstrap-icons are now self-hosted (src/fonts.js)
+        // and precached via globPatterns (woff2), so no external-CDN runtimeCaching is needed.
       },
     }),
   ],
