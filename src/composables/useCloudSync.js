@@ -52,6 +52,8 @@ export function useCloudSync() {
   const inSync = computed(
     () => checked.value && pendingUploadCount.value === 0 && pendingDownloadCount.value === 0,
   )
+  // After a cloud check, distinguishes "all backed up" from "the cloud simply has nothing".
+  const cloudEmpty = computed(() => cloudMetas.value.length === 0)
 
   function isBackedUp(id) {
     return cloudIds.value.has(id)
@@ -145,6 +147,7 @@ export function useCloudSync() {
     lastError,
     checked,
     inSync,
+    cloudEmpty,
     pendingUploadCount,
     pendingDownloadCount,
     isBackedUp,
