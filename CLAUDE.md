@@ -166,6 +166,8 @@ Hosted at **wh11ed.ru** on a **Yandex Object Storage** bucket (`wh11ed.ru`) behi
 - images / favicon / PWA icons / `og-image.png` (stable names) → `public, max-age=31536000`
 - `sw.js` / `registerSW.js` / `manifest.webmanifest` → `no-cache` (**must** revalidate, or PWA updates never reach clients)
 - `robots.txt` / `sitemap.xml` → `public, max-age=3600` (1 h — excluded from the 1-year tier so crawlers pick up changes; a stale sitemap would otherwise be served for a year)
-- `index.html` → `public, max-age=86400` (1 day)
+- `index.html` → `public, max-age=86400` (1 day) — uploaded via `aws s3 cp`, **not** `sync` (sync silently skips it: stable name + constant size defeats its size/mtime check, leaving a stale entry point that points at `--delete`d assets → broken site after purge). Don't change it back to `sync`.
 
-Uploads via the S3-compatible API (endpoint `storage.yandexcloud.net`, AWS CLI profile `yc`). Set `CDN_RESOURCE_ID` to auto-purge the CDN; otherwise purge manually after deploy. The CDN resource must cache **according to origin headers** (honor-origin) or it overrides per-file `Cache-Control` with a single TTL. Because images are cached a year under stable names, **rename a file when you change an image** (or the browser keeps the old one). Full runbook: `DEPLOY.md`.
+`deploy.sh` **auto-bumps `package.json` (`BUMP=patch` by default)** before building — use `BUMP=none npm run deploy` to ship the current version as-is, or `BUMP=minor`/`major`.
+
+Uploads via the S3-compatible API (endpoint `storage.yandexcloud.net`, AWS CLI profile `yc`). Set `CDN_RESOURCE_ID` to auto-purge the CDN; otherwise (the default — it's unset locally) purge manually after **every** deploy or the new build never reaches users: `yc cdn cache purge --resource-id bc8raqgpcdeagfb6ygn6 --path '/*'` (prod CDN resource id; `yc` at `~/yandex-cloud/bin`). The CDN resource must cache **according to origin headers** (honor-origin) or it overrides per-file `Cache-Control` with a single TTL. Because images are cached a year under stable names, **rename a file when you change an image** (or the browser keeps the old one). Full runbook: `DEPLOY.md`.
