@@ -54,7 +54,7 @@
           <div v-else-if="block.type === 'img-group'" class="img-group">
             <AppImage v-for="(item, k) in block.srcs" :key="k" :src="item.src" :alt="item.alt" />
           </div>
-          <h4 v-else-if="block.type === 'h4'" class="rule-subheading">{{ block.text }}</h4>
+          <h4 v-else-if="block.type === 'h4'" class="rule-subheading" v-html="renderInline(block.text)"></h4>
           <p v-else v-html="renderInline(block.text)"></p>
         </template>
 
