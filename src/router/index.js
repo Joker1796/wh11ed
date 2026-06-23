@@ -83,7 +83,7 @@ export const navGroupsRu = [
     sections: [
       { id: 'section-01', label: '01 Основные концепции' },
       { id: 'section-02', label: '02 Листы данных' },
-      { id: 'section-03', label: '03 Перемещение' },
+      { id: 'section-03', label: '03 Движение' },
       { id: 'section-04', label: '04 Совершение атак' },
       { id: 'section-05', label: '05 Последовательность атаки' },
       { id: 'section-06', label: '06 Другие концепции' },
