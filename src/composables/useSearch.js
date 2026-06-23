@@ -347,10 +347,42 @@ function getIndex(locale) {
   return (indexCache[key] ??= buildIndex(key))
 }
 
+// A query that is purely a section number (1–3 groups of 1–2 digits, optional
+// trailing dot): "7", "07", "7.2", "07.02", "24.05", "07.". Returns the canonical
+// zero-padded form ("7.2" → "07.02") or null if the query isn't a number.
+function normalizeSectionNum(q) {
+  if (!/^\d{1,2}(\.\d{1,2}){0,2}\.?$/.test(q)) return null
+  return q.replace(/\.$/, '').split('.').map(p => p.padStart(2, '0')).join('.')
+}
+
+// Section-number search: match against `sectionNum` only (ignoring title/body so
+// numbers in rule text don't add noise). Exact match ranks above prefix matches,
+// then ordered by sectionNum so the section heading leads its subsections.
+function searchBySectionNum(index, q) {
+  const results = []
+  for (const item of index) {
+    if (!item.sectionNum) continue
+    const num = normalizeSectionNum(item.sectionNum.toLowerCase())
+    if (!num) continue
+    let score = 0
+    if (num === q) score = 3
+    else if (num.startsWith(q + '.')) score = 2
+    if (score) results.push({ ...item, snippet: '', score })
+  }
+  return results
+    .sort((a, b) => b.score - a.score || a.sectionNum.localeCompare(b.sectionNum))
+    .slice(0, 25)
+}
+
 export function search(query, locale = 'en') {
-  if (!query || query.trim().length < 2) return []
+  if (!query) return []
+  const trimmed = query.trim().toLowerCase()
+  const numQuery = normalizeSectionNum(trimmed)
+  // Number queries bypass the 2-char minimum so a bare "7" works (→ "07").
+  if (numQuery) return searchBySectionNum(getIndex(locale), numQuery)
+  if (trimmed.length < 2) return []
   const index = getIndex(locale)
-  const q = query.trim().toLowerCase()
+  const q = trimmed
   const results = []
   for (const item of index) {
     const titleMatch = item.title.toLowerCase().includes(q)
