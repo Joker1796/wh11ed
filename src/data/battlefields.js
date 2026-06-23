@@ -121,7 +121,7 @@ Each time a ranged attack targets a unit that has the **benefit of cover** again
           sectionNum: '13.09',
           title: 'Hidden',
           body: `A model is **hidden** while **all** of the following apply to it:
-▪ That model has the INFANTRY/BEASTS/SWARM keyword and is within a **terrain area** that contains one or more **dense terrain features**.
+▪ That model has the INFANTRY/BEASTS/SWARM keyword and is within a **terrain area** that contains one or more **light/dense terrain features**.
 ▪ That model's unit did not make one or more ranged attacks during this turn or during the previous turn.
 
 While a model is **hidden**, it can only be **visible** to enemy models that are within its **detection range**. Unless otherwise stated, a model's **detection range** is 15".`,
@@ -588,7 +588,7 @@ If a unit performing an **action** makes a move (excluding **pile-in** and **con
           sectionNum: '13.09',
           title: 'Скрытность',
           body: `Модель находится в **скрытности** (hidden), пока к ней применяются **все** следующие условия:
-▪ Эта модель имеет ключевое слово INFANTRY/BEASTS/SWARM (ПЕХОТА/ЗВЕРИ/РОЙ) и находится в пределах **области укрытия** (terrain area), которая содержит один или несколько **надёжных элементов укрытий** (dense terrain features).
+▪ Эта модель имеет ключевое слово INFANTRY/BEASTS/SWARM (ПЕХОТА/ЗВЕРИ/РОЙ) и находится в пределах **области укрытия** (terrain area), которая содержит один или несколько **лёгких/надёжных элементов укрытий** (light/dense terrain features).
 ▪ Юнит этой модели **не совершал** одну или несколько дистанционных атак в течение этого хода или в течение предыдущего хода.
 
 Пока модель находится в **скрытности**, она может быть **видна** (visible) только вражеским моделям, которые находятся в пределах её **радиуса обнаружения** (detection range). Если не указано иное, **радиус обнаружения** модели составляет 15".`,

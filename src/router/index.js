@@ -8,6 +8,7 @@ const BattleRoundView   = () => import('../views/BattleRoundView.vue')
 const BattlefieldsView  = () => import('../views/BattlefieldsView.vue')
 const AdvancedRulesView = () => import('../views/AdvancedRulesView.vue')
 const ReferenceView     = () => import('../views/ReferenceView.vue')
+const MusterView        = () => import('../views/MusterView.vue')
 const EventIntroView    = () => import('../views/event/EventIntroView.vue')
 const EventSequenceView = () => import('../views/event/EventSequenceView.vue')
 const EventMissionsView = () => import('../views/event/EventMissionsView.vue')
@@ -74,6 +75,12 @@ export const navGroups = [
       { id: 'section-faq', label: 'FAQs' },
     ],
   },
+  {
+    label: 'Muster Your Army', path: '/muster',
+    sections: [
+      { id: 'section-25', label: '25 Muster Your Army' },
+    ],
+  },
 ]
 
 export const navGroupsRu = [
@@ -129,6 +136,12 @@ export const navGroupsRu = [
       { id: 'abilities-list', label: 'Способности оружия', filter: 'weapon' },
       { id: 'section-appendix', label: 'Приложение к правилам' },
       { id: 'section-faq', label: 'Частые вопросы' },
+    ],
+  },
+  {
+    label: 'Сбор армии', path: '/muster',
+    sections: [
+      { id: 'section-25', label: '25 Сбор армии' },
     ],
   },
 ]
@@ -219,6 +232,7 @@ export const router = createRouter({
     { path: '/battlefields',   component: BattlefieldsView },
     { path: '/advanced-rules', component: AdvancedRulesView },
     { path: '/reference',      component: ReferenceView },
+    { path: '/muster',         component: MusterView },
     { path: '/event-companion',          component: EventIntroView },
     { path: '/event-companion/sequence', component: EventSequenceView },
     { path: '/event-companion/missions', component: EventMissionsView },
