@@ -31,6 +31,16 @@ export function resolveRef(text) {
     return { label, route, anchor: route ? (ev[2] || null) : null }
   }
 
+  // Three-level refs (x.x.x → SubRuleBlock anchor section-NN-NN-NN). Checked first so
+  // the two-level matcher below doesn't capture only the leading x.x.
+  const deep = text.match(/\b(\d{2})\.(\d{2})\.(\d{2})$/)
+  if (deep) {
+    const label = text.replace(/\s*\d{2}\.\d{2}\.\d{2}$/, '').trim()
+    const route = ROUTE_MAP[deep[1]]
+    if (!route) return { label, route: null, anchor: null }
+    return { label, route, anchor: `section-${deep[1]}-${deep[2]}-${deep[3]}` }
+  }
+
   const match = text.match(/\b(\d{2})\.(\d{2})$/)
   if (!match) return { label: text, route: null, anchor: null }
   const major = match[1]

@@ -38,9 +38,17 @@ export function mergeSections(en, ru, extraSectionFields) {
       ...section,
       title: ruSection.title,
       description: ruSection.description,
-      subsections: section.subsections.map((sub, j) =>
-        localizeSubImages({ ...sub, ...ruSection.subsections[j] })
-      ),
+      subsections: section.subsections.map((sub, j) => {
+        const mergedSub = localizeSubImages({ ...sub, ...ruSection.subsections[j] })
+        // x.x.x children (SubRuleBlock) merge the same way, indexed within the subsection.
+        if (sub.children) {
+          const ruChildren = ruSection.subsections[j]?.children || []
+          mergedSub.children = sub.children.map((c, k) =>
+            localizeSubImages({ ...c, ...ruChildren[k] })
+          )
+        }
+        return mergedSub
+      }),
     }
     if (extraSectionFields) Object.assign(merged, extraSectionFields(section, ruSection))
     return merged

@@ -37,6 +37,42 @@ While it is neither player's turn (e.g. at the start or end of the battle round)
 While it is a player's turn, that player is the active player, with the following exceptions:
 ▪ Each time a unit is **selected to move**, that unit's controlling player is the active player until that move ends.
 ▪ Each time a unit is **selected to shoot** or **selected to fight**, that unit's controlling player is the active player until those attacks are resolved.`,
+          children: [
+            {
+              id: 'section-01-03-01',
+              sectionNum: '01.03.01',
+              title: "Player's Rules",
+              fromApp: true,
+              body: `During the game, players will sometimes need to know which rules are theirs, as opposed to their opponent's. The following are considered a player's rules:
+
+▪ Any **army rules** they have.
+▪ Any **detachments** in their army.
+▪ Any **stratagems** they use.
+▪ Any **enhancements** that units or models in their army have.
+▪ Any abilities or rules found on their units' datasheets.
+▪ Rules that have restrictions (e.g. 'Once per battle/turn/phase') only apply to the player whose rule it is.
+
+Some missions may introduce additional rules that take effect in the battle. Where this is the case:
+
+▪ If the rule is used by a player, it is treated as one of that player's rules.
+▪ If it is not used by a player, and always takes effect, such a rule is resolved before any of the active player's rules, in an order of their choosing.`,
+            },
+            {
+              id: 'section-01-03-02',
+              sectionNum: '01.03.02',
+              title: 'Rules Sequencing',
+              fromApp: true,
+              body: `At any point in the game, the players will have rules that they can or must use, which may occur at the same time another player can or must use a rule. Unless otherwise stated, these are activated in the following order:
+
+1. All of the active player's rules that must be used, in an order of their choosing.
+2. All of the active player's rules that they can optionally use and wish to use, in an order of their choosing.
+3. All of the opposing player's rules that must be used, in an order of their choosing.
+4. All of the opposing player's rules that they can optionally use and wish to use, in an order of their choosing.
+
+If another rule could be used after a rule has resolved during this sequence but before other rules in that same timing have resolved, those new rules do not trigger until all the remaining rules to be resolved in that same timing have been resolved.`,
+              example: `The active player's unit has an ability enabling it to make a **normal move** after it has shot. An enemy unit targeted by that unit has an ability enabling it to shoot back at a unit that shot at it. The active player's rule is resolved first, followed by the opposing player's rule.`,
+            },
+          ],
         },
         {
           id: 'section-01-04',
@@ -46,6 +82,51 @@ While it is a player's turn, that player is the active player, with the followin
 
 When a rule refers to a model's position in relation to anything else on the battlefield, unless otherwise stated, measure to or from the closest part of that model's base.`,
           example: `A Space Marine Intercessor (base: 32mm) is 4" from an enemy Ork Boy (base: 25mm). You measure from the closest edge of the Space Marine's base to the closest edge of the Ork Boy's base — not from their centres. If a rule requires them to be within 1", they are not yet within range.`,
+          children: [
+            {
+              id: 'section-01-04-01',
+              sectionNum: '01.04.01',
+              title: 'Within / Wholly Within',
+              fromApp: true,
+              body: `Rules in Warhammer 40,000 will often apply to models or units that are within or wholly within a certain distance. The following definitions explain what these terms mean:
+
+▪ **Within:** If a rule says it applies 'within' a specified distance, it applies at any distance that is not more than that distance. For example, within 1" means any distance that is not more than 1" away
+▪ **Model/Unit Within:** A model is within a specified distance if any part of its base is within that distance. A unit is within a specified distance if one or more of its models are within that distance.
+▪ **Model/Unit Wholly Within:** A model is wholly within a specified distance if every part of its base is within that distance. A unit is wholly within if every model in that unit is wholly within the specified distance. A model with the FRAME keyword is wholly within a specified distance if all parts of that model are within the specified distance.`,
+              example: `A model is wholly within a **terrain area** if no part of its base extends beyond the footprint of that **terrain area**. A unit is wholly within a specified distance if every model in that unit is wholly within that distance.`,
+            },
+            {
+              id: 'section-01-04-02',
+              sectionNum: '01.04.02',
+              title: 'Closest Or Nearest Model/Unit',
+              fromApp: true,
+              body: `When a rule refers to the closest or nearest model or unit, this is the closest model or unit to the model or unit using that rule.
+
+If two or more are equally close, the controlling player of the model or unit using that rule selects which is the closest for the purposes of that rule.`,
+            },
+            {
+              id: 'section-01-04-03',
+              sectionNum: '01.04.03',
+              title: 'As Close As Possible',
+              fromApp: true,
+              body: `If a rule instructs you to move a model as close as possible to a unit or model you must end that model's move in base contact with that unit or model if its move is sufficient to do so without breaking any other restrictions (such as **coherency**), or as close as you can achieve if its move is not sufficient.
+▪ If a model is already as close as possible to a unit or model when it is instructed to make a move as close as possible towards a unit or model, that model cannot be moved, but still counts as having made the move in question.
+If a rule instructs you to move a model as close as possible to an **objective** you must end that model's move within range of an **objective** if its move is sufficient to do so without breaking any other restrictions (such as **coherency**), or as close as you can achieve if its move is not sufficient.
+▪ If that model is already within range of an **objective** it can move up to the **maximum distance** of that move but must end its move still within range of that **objective**.`,
+            },
+            {
+              id: 'section-01-04-04',
+              sectionNum: '01.04.04',
+              title: 'Base Contact or Base to Base Contact',
+              fromApp: true,
+              body: `When two models' bases are touching, they are in base contact – also known as base-to-base contact – and are as close as possible (01.04.03).
+
+When moving a model from your army into base contact with an enemy model during a move, if that enemy model overhangs its base such that it is not physically possible to be in base contact with that model, until the end of the turn, those models are considered to be in base contact with each other while all of the following are true:
+▪ The distance your model could move was sufficient to move it into base contact with the enemy model if there was no overhang.
+▪ The models are as close as possible together.
+▪ Any part of one model is within 1" of any part of the other model.`,
+            },
+          ],
         },
         {
           id: 'section-01-05',
@@ -57,12 +138,93 @@ When a rule refers to a model's position in relation to anything else on the bat
 ▪ 2D6, 3D6, and so on: Roll the stated number of D6 and add the individual values together (e.g. to roll 2D6, roll two D6 and add the values together).
 ▪ D3: Roll one D6 and halve the result (rounding up).
 ▪ D6+1, 2D6+3, and so on: Roll the stated number of dice and add the stated value to the result.`,
+          children: [
+            {
+              id: 'section-01-05-01',
+              sectionNum: '01.05.01',
+              title: 'Automatically Successful/Passes/Hits/Wounds',
+              fromApp: true,
+              body: `When a dice roll or test is automatically successful or automatically passes/hits/wounds, do not roll the dice and instead move to the next step of the sequence for that roll as if the required result had been rolled. Any rules that take effect on a particular dice result or roll result do not take effect.
+
+**Example:** If a **hit roll** is automatically successful, move straight to the Wound Rolls step for that attack. Such a **hit roll** is not a **critical hit**.
+
+**Example:** If a **wound roll** is automatically successful, move straight to the Save Rolls step for that attack. Such a **wound roll** is not a **critical wound**.`,
+            },
+            {
+              id: 'section-01-05-02',
+              sectionNum: '01.05.02',
+              title: 'Re-rolls',
+              fromApp: true,
+              body: `Some rules allow you to re-roll a dice roll, which means you get to roll some or all of the dice again. When a rule lets you re-roll one or more dice, the following points apply:
+
+▪ If a rule allows you to re-roll a dice roll that was made by adding several dice together (e.g. 2D6, 3D6, etc.) then you must re-roll all of those dice again.
+▪ You can never re-roll a dice more than once, and re-rolls happen before modifiers (if any) are applied.
+▪ A re-rolled dice is still considered to be a dice roll and, as such, any rules that can be triggered by a dice roll can also be triggered by a re-rolled dice.`,
+            },
+            {
+              id: 'section-01-05-03',
+              sectionNum: '01.05.03',
+              title: 'Modifying Dice Rolls',
+              fromApp: true,
+              body: `See Modifiers (02.02.01).`,
+            },
+            {
+              id: 'section-01-05-04',
+              sectionNum: '01.05.04',
+              title: 'Ignoring Roll Modifiers',
+              fromApp: true,
+              body: `See Ignore Modifiers (02.02.02)`,
+            },
+            {
+              id: 'section-01-05-05',
+              sectionNum: '01.05.05',
+              title: 'Roll Off',
+              fromApp: true,
+              body: `Some rules instruct players to roll off.
+▪ To do so, both players roll one D6, and whoever rolls highest wins the roll-off.
+▪ If there is a tie for the highest roll, roll off again.`,
+            },
+            {
+              id: 'section-01-05-06',
+              sectionNum: '01.05.06',
+              title: 'Doubles Or Triples',
+              fromApp: true,
+              body: `When making a dice roll, a double is a roll that includes any two dice of the same result, and a triple is a roll that includes any three dice of the same result.`,
+            },
+            {
+              id: 'section-01-05-07',
+              sectionNum: '01.05.07',
+              title: 'Highest or Lowest Dice Result',
+              fromApp: true,
+              body: `If a rule refers to the highest dice result and a dice roll involves multiple dice, if more than one of those dice have the same value, and that value is the highest, the active player must select one of those dice to be the highest dice result.
+
+If a rule refers to the lowest dice result and a dice roll involves multiple dice, if more than one of those dice have the same value, and that value is the lowest, the active player must select one of those dice to be the lowest dice result.`,
+            },
+            {
+              id: 'section-01-05-08',
+              sectionNum: '01.05.08',
+              title: 'Treated As, Set To (Dice Roll)',
+              fromApp: true,
+              body: `When a dice result is 'treated as' or 'set' to another value, any rules that would take effect if that value had been rolled take effect.
+
+This may result in a value that is greater than a value that could be rolled on a D6 dice.`,
+            },
+          ],
         },
         {
           id: 'section-01-06',
           sectionNum: '01.06',
           title: 'Leadership Rolls',
           body: `To make a **leadership roll** for a unit, its controlling player rolls 2D6: if the result is equal to or greater than one or more of the Ld characteristics in that unit, that roll succeeds. Otherwise, that roll fails. The rule that instructed you to make that **leadership roll** will describe the effects of that roll succeeding or failing.`,
+          children: [
+            {
+              id: 'section-01-06-01',
+              sectionNum: '01.06.01',
+              title: 'Leadership Test',
+              fromApp: true,
+              body: `Some rules may use the term Leadership test, this is the same as **leadership roll**.`,
+            },
+          ],
         },
         {
           id: 'section-01-07',
@@ -79,6 +241,22 @@ While a unit is battle-shocked:
           example: `A Guardsman squad with Ld 7+ has taken heavy casualties and must make a **battle-shock roll**. The player rolls 2D6 and gets a 9 — since 9 is not less than 7, the roll succeeds and the squad holds its nerve. If the roll had been 6 or less, the entire unit would become battle-shocked, losing their ability to control objectives.`,
           note: 'Battlefield Morale: The morale and organisation of troops can waver and break during battle. This is checked using **battle-shock rolls**, most commonly in the Command phase. Failing such a roll represents the unit\'s courage faltering due to taking casualties or through other disruption, reducing its battlefield effectiveness. Similarly, some rules will require you to check a unit\'s readiness by making a **leadership roll**.',
           seeAlso: ['Command Phase 08.00'],
+          children: [
+            {
+              id: 'section-01-07-01',
+              sectionNum: '01.07.01',
+              title: 'Battlefield Morale',
+              fromApp: true,
+              body: `The morale and organisation of troops can waver and break during battle. This is checked using **battle-shock rolls**, most commonly in the Command phase. Failing such a roll represents the unit's courage faltering due to taking casualties or through other disruption, reducing its battlefield effectiveness. Similarly, some rules will require you to check a unit's readiness by making a **leadership roll**.`,
+            },
+            {
+              id: 'section-01-07-02',
+              sectionNum: '01.07.02',
+              title: 'Battle-shock Test',
+              fromApp: true,
+              body: `The term Battle-shock test is the same as **battle-shock roll**.`,
+            },
+          ],
         },
       ],
     },
@@ -589,6 +767,36 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 Когда идёт ход игрока, этот игрок является активным игроком, за следующими исключениями:
 ▪ Каждый раз, когда юнит выбирается для манёвра(selected to move), контролирующий этот юнит игрок является активным игроком до окончания этого манёвра.
 ▪ Каждый раз, когда юнит выбирается для стрельбы(selected to shoot) или выбирается для ближнего боя(selected to fight), контролирующий этот юнит игрок является активным игроком до тех пор, пока эти атаки не будут завершены.`,
+          children: [
+            {
+              title: 'Правила игрока (Player\'s Rules)',
+              body: `Во время игры игрокам иногда нужно знать, какие правила принадлежат им, в отличие от правил оппонента. Правилами игрока считаются следующие:
+
+▪ Любые **армейские правила** (army rules), которые у него есть.
+▪ Любые **детачменты** (detachments) в его армии.
+▪ Любые **стратагемы** (stratagems), которые он использует.
+▪ Любые **улучшения** (enhancements), которые есть у юнитов или моделей в его армии.
+▪ Любые способности или правила, указанные в листах данных (datasheets) его юнитов.
+▪ Правила с ограничениями (например, «Один раз за битву/ход/фазу») применяются только к тому игроку, чьим правилом они являются.
+
+Некоторые миссии могут вводить дополнительные правила, действующие в битве. В таком случае:
+
+▪ Если правило используется игроком, оно считается одним из правил этого игрока.
+▪ Если оно не используется игроком и действует всегда, такое правило разрешается до любых правил активного игрока, в порядке по его выбору.`,
+            },
+            {
+              title: 'Последовательность правил (Rules Sequencing)',
+              body: `В любой момент игры у игроков будут правила, которые они могут или должны использовать, и это может совпасть по времени с тем, что другой игрок может или должен использовать своё правило. Если не указано иное, они активируются в следующем порядке:
+
+1. Все правила активного игрока, которые должны быть использованы, в порядке по его выбору.
+2. Все правила активного игрока, которые он может использовать по желанию и хочет использовать, в порядке по его выбору.
+3. Все правила противостоящего игрока, которые должны быть использованы, в порядке по его выбору.
+4. Все правила противостоящего игрока, которые он может использовать по желанию и хочет использовать, в порядке по его выбору.
+
+Если какое-либо правило может быть использовано после того, как правило разрешилось в этой последовательности, но до того, как разрешились другие правила с тем же таймингом, эти новые правила не срабатывают, пока не будут разрешены все оставшиеся правила с тем же таймингом.`,
+              example: `У юнита активного игрока есть способность, позволяющая ему совершить **обычный манёвр** (normal move) после стрельбы. У вражеского юнита, выбранного целью этим юнитом, есть способность, позволяющая ему выстрелить в ответ по юниту, который по нему стрелял. Сначала разрешается правило активного игрока, затем — правило противостоящего игрока.`,
+            },
+          ],
         },
         {
           title: 'Измерение расстояний',
@@ -596,6 +804,39 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 
 Когда правило ссылается на положение модели по отношению к чему-либо на поле боя, если не указано иное, измеряйте расстояние до ближайшей части базы этой модели.`,
           example: `Космодесантник Intercessor (база: 32 мм) находится в 4" от вражеского Ork Boy (база: 25 мм). Измеряется от ближайшего края базы Космодесантника до ближайшего края базы Ork Boy — не от центров. Если правило требует нахождения в пределах 1", они ещё не попадают в диапазон.`,
+          children: [
+            {
+              title: 'В пределах / полностью в пределах (Within / Wholly Within)',
+              body: `Правила в Warhammer 40,000 часто применяются к моделям или юнитам, которые находятся в пределах(within) или полностью в пределах(wholly within) определённого расстояния. Следующие определения объясняют, что означают эти термины:
+
+▪ **В пределах (Within):** Если правило говорит, что оно применяется «в пределах» указанного расстояния, оно применяется на любом расстоянии, не превышающем указанное. Например, в пределах 1" означает любое расстояние, не превышающее 1".
+▪ **Модель/юнит в пределах (Model/Unit Within):** Модель находится в пределах указанного расстояния, если любая часть её базы(base) находится в пределах этого расстояния. Юнит находится в пределах указанного расстояния, если одна или несколько его моделей находятся в пределах этого расстояния.
+▪ **Модель/юнит полностью в пределах (Model/Unit Wholly Within):** Модель полностью в пределах указанного расстояния, если каждая часть её базы(base) находится в пределах этого расстояния. Юнит полностью в пределах, если каждая модель в этом юните полностью в пределах указанного расстояния. Модель с ключевым словом FRAME полностью в пределах указанного расстояния, если все части этой модели находятся в пределах указанного расстояния.`,
+              example: `Модель полностью в пределах **участка укрытия** (terrain area), если ни одна часть её базы(base) не выходит за след(footprint) этого **участка укрытия** (terrain area). Юнит полностью в пределах указанного расстояния, если каждая модель в этом юните полностью в пределах этого расстояния.`,
+            },
+            {
+              title: 'Ближайшая модель/юнит (Closest Or Nearest Model/Unit)',
+              body: `Когда правило ссылается на ближайшую модель или юнит, это ближайшая модель или юнит к модели или юниту, использующему это правило.
+
+Если две или более равноудалены, контролирующий игрок модели или юнита, использующего это правило, выбирает, какая из них является ближайшей для целей этого правила.`,
+            },
+            {
+              title: 'Как можно ближе (As Close As Possible)',
+              body: `Если правило предписывает вам переместить модель как можно ближе к юниту или модели, вы должны завершить манёвр этой модели в контакте баз(base contact) с этим юнитом или моделью, если её манёвра достаточно для этого без нарушения других ограничений (таких как **слаженность** (coherency)), или как можно ближе, если её манёвра недостаточно.
+▪ Если модель уже находится как можно ближе к юниту или модели, когда ей предписано совершить манёвр как можно ближе к юниту или модели, эту модель нельзя перемещать, но она всё равно считается совершившей данный манёвр.
+Если правило предписывает вам переместить модель как можно ближе к **цели** (objective), вы должны завершить манёвр этой модели в пределах дальности **цели** (objective), если её манёвра достаточно для этого без нарушения других ограничений (таких как **слаженность** (coherency)), или как можно ближе, если её манёвра недостаточно.
+▪ Если эта модель уже находится в пределах дальности **цели** (objective), она может переместиться на **максимальную дистанцию** (maximum distance) этого манёвра, но должна завершить манёвр всё ещё в пределах дальности этой **цели** (objective).`,
+            },
+            {
+              title: 'Контакт баз или контакт база к базе (Base Contact or Base to Base Contact)',
+              body: `Когда базы(base) двух моделей соприкасаются, они находятся в контакте баз(base contact) — также известном как контакт база к базе(base-to-base contact) — и находятся как можно ближе (01.04.03).
+
+Когда вы перемещаете модель из своей армии в контакт баз с вражеской моделью во время манёвра, если эта вражеская модель нависает над своей базой так, что физически невозможно вступить с ней в контакт баз, до конца хода эти модели считаются находящимися в контакте баз друг с другом, пока истинно всё следующее:
+▪ Дистанции, на которую ваша модель могла переместиться, было достаточно, чтобы привести её в контакт баз с вражеской моделью, если бы не было нависания.
+▪ Модели находятся как можно ближе друг к другу.
+▪ Любая часть одной модели находится в пределах 1" от любой части другой модели.`,
+            },
+          ],
         },
         {
           title: 'Кубики',
@@ -605,10 +846,64 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ▪ 2D6, 3D6 и так далее: бросьте указанное количество D6 и сложите значения вместе (например, чтобы бросить 2D6, бросьте два D6 и сложите значения).
 ▪ D3: бросьте один D6 и разделите результат пополам (округляя в большую сторону).
 ▪ D6+1, 2D6+3 и так далее: бросьте указанное количество кубиков и прибавьте указанное значение к результату.`,
+          children: [
+            {
+              title: 'Автоматический успех/прохождение/попадание/ранение (Automatically Successful/Passes/Hits/Wounds)',
+              body: `Когда бросок кубика или проверка автоматически успешны или автоматически проходят/попадают/ранят, не бросайте кубик, а вместо этого переходите к следующему шагу последовательности для этого броска, как если бы был выброшен требуемый результат. Любые правила, действующие при определённом результате кубика или броска, не действуют.
+
+**Пример:** Если **бросок попадания** (hit roll) автоматически успешен, переходите сразу к шагу бросков на ранение для этой атаки. Такой **бросок попадания** (hit roll) не является **критическим попаданием** (critical hit).
+
+**Пример:** Если **бросок ранения** (wound roll) автоматически успешен, переходите сразу к шагу спасбросков для этой атаки. Такой **бросок ранения** (wound roll) не является **критическим ранением** (critical wound).`,
+            },
+            {
+              title: 'Перебросы (Re-rolls)',
+              body: `Некоторые правила позволяют вам перебросить(re-roll) бросок кубика, что означает, что вы можете бросить часть или все кубики заново. Когда правило позволяет вам перебросить один или несколько кубиков, применяются следующие положения:
+
+▪ Если правило позволяет вам перебросить бросок кубика, сделанный сложением нескольких кубиков (например, 2D6, 3D6 и т.д.), то вы должны перебросить все эти кубики заново.
+▪ Вы никогда не можете перебросить кубик более одного раза, и перебросы происходят до применения модификаторов (если они есть).
+▪ Переброшенный кубик всё равно считается броском кубика, и поэтому любые правила, которые могут быть вызваны броском кубика, также могут быть вызваны переброшенным кубиком.`,
+            },
+            {
+              title: 'Изменение бросков кубиков (Modifying Dice Rolls)',
+              body: `См. Модификаторы (02.02.01).`,
+            },
+            {
+              title: 'Игнорирование модификаторов броска (Ignoring Roll Modifiers)',
+              body: `См. Игнорирование модификаторов (02.02.02)`,
+            },
+            {
+              title: 'Состязание бросков (Roll Off)',
+              body: `Некоторые правила предписывают игрокам сделать состязание бросков(roll off).
+▪ Для этого оба игрока бросают по одному D6, и тот, у кого выпадет больше, выигрывает состязание бросков.
+▪ Если есть ничья за наивысший бросок, проведите состязание бросков заново.`,
+            },
+            {
+              title: 'Дубли или тройки (Doubles Or Triples)',
+              body: `При совершении броска кубиков дубль — это бросок, включающий любые два кубика с одинаковым результатом, а тройка — бросок, включающий любые три кубика с одинаковым результатом.`,
+            },
+            {
+              title: 'Наивысший или наименьший результат кубика (Highest or Lowest Dice Result)',
+              body: `Если правило ссылается на наивысший результат кубика, а бросок кубиков включает несколько кубиков, и если более одного из этих кубиков имеют одинаковое значение, и это значение наивысшее, активный игрок должен выбрать один из этих кубиков в качестве наивысшего результата кубика.
+
+Если правило ссылается на наименьший результат кубика, а бросок кубиков включает несколько кубиков, и если более одного из этих кубиков имеют одинаковое значение, и это значение наименьшее, активный игрок должен выбрать один из этих кубиков в качестве наименьшего результата кубика.`,
+            },
+            {
+              title: 'Считается как, устанавливается в (бросок кубика) (Treated As, Set To)',
+              body: `Когда результат кубика «считается как» или «устанавливается» в другое значение, любые правила, которые вступили бы в силу, если бы это значение было выброшено, вступают в силу.
+
+Это может привести к значению, превышающему то, которое можно выбросить на кубике D6.`,
+            },
+          ],
         },
         {
           title: 'Проверка лидерства',
           body: `Чтобы выполнить **проверку лидерства**(leadership roll) для юнита, его контролирующий игрок бросает 2D6: если результат равен или превышает одну или несколько характеристик Ld в этом юните, проверка успешна. В противном случае проверка провалена. Правило, которое предписало вам выполнить эту **проверку лидерства**(leadership roll), опишет последствия успеха или провала этой проверки.`,
+          children: [
+            {
+              title: 'Проверка лидерства (Leadership Test)',
+              body: `Некоторые правила могут использовать термин Leadership test — это то же самое, что **проверка лидерства** (leadership roll).`,
+            },
+          ],
         },
         {
           title: 'Проверка на боевой шок',
@@ -622,6 +917,16 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ▪ Он не имеет права начинать действия(actions), и любое начатое действие(action) не может быть завершено.`,
           example: `Отряд гвардейцев с Ld 7+ понёс тяжёлые потери и должен выполнить **проверку боевого шока**(battle-shock roll). Игрок бросает 2D6 и получает 9 — поскольку 9 не меньше 7, проверка успешна, и отряд держится. Если бы результат был 6 или меньше, весь юнит стал бы подвержен боевому шоку(battle-shocked), утратив способность контролировать цели(objectives).`,
           note: `Battlefield Morale: Моральный дух и организация войск могут колебаться и рушиться во время битвы. Это проверяется с помощью проверок боевого шока(battle-shock rolls), чаще всего в Фазе командования. Провал такой проверки означает, что мужество юнита падает из-за потерь или других помех, снижая его боевую эффективность. Аналогично, некоторые правила потребуют от вас проверить готовность юнита с помощью **проверки лидерства**(leadership roll).`,
+          children: [
+            {
+              title: 'Боевой дух на поле боя (Battlefield Morale)',
+              body: `Боевой дух и организация войск могут колебаться и рушиться во время битвы. Это проверяется с помощью **проверок боевого шока** (battle-shock rolls), чаще всего в Фазе командования. Провал такой проверки означает, что мужество юнита падает из-за потерь или других помех, снижая его боевую эффективность. Аналогично, некоторые правила потребуют от вас проверить готовность юнита с помощью **проверки лидерства** (leadership roll).`,
+            },
+            {
+              title: 'Проверка на боевой шок (Battle-shock Test)',
+              body: `Термин «проверка на боевой шок» (Battle-shock test) — это то же самое, что **проверка боевого шока** (battle-shock roll).`,
+            },
+          ],
         },
       ],
     },
