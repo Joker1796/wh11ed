@@ -152,6 +152,18 @@ function buildIndex(locale) {
       route: '/reference',
       sectionTitle: sectionTitles[locale].reference,
     })
+    const ruChildren = (ru.children) || []
+    ;(en.children || []).forEach((enChild, ci) => {
+      const mc = isRu ? { ...enChild, ...(ruChildren[ci] || {}) } : enChild
+      items.push({
+        id: enChild.id,
+        sectionNum: enChild.sectionNum,
+        title: mc.title || '',
+        body: stripMarkup((mc.body || '') + (mc.note ? ' ' + mc.note : '')),
+        route: '/reference',
+        sectionTitle: sectionTitles[locale].reference,
+      })
+    })
   }
   indexReferenceExtras(items, locale)
   indexIntro(items, locale)
@@ -180,6 +192,18 @@ function indexReferenceExtras(items, locale) {
     })
     extractH4(merged.body).forEach((heading, hi) => {
       items.push({ id: h4AnchorId(en.id, hi + 1), sectionNum: en.sectionNum || '', title: heading, body: '', route: '/reference', sectionTitle: refTitle })
+    })
+    const ruChildren = (isRu && abilityIntro.ru?.[i]?.children) || []
+    ;(en.children || []).forEach((enChild, ci) => {
+      const mc = isRu ? { ...enChild, ...(ruChildren[ci] || {}) } : enChild
+      items.push({
+        id: enChild.id,
+        sectionNum: enChild.sectionNum,
+        title: mc.title || '',
+        body: stripMarkup((mc.body || '') + (mc.note ? ' ' + mc.note : '')),
+        route: '/reference',
+        sectionTitle: refTitle,
+      })
     })
   }
 
