@@ -640,6 +640,39 @@ If one or more of the above conditions are not met, that unit cannot make that m
             },
           },
           image: { src: '/images/moving/rotating.jpg', alt: 'Rotating a model' },
+          children: [
+            {
+              id: 'section-03-01-01',
+              sectionNum: '03.01.01',
+              title: 'Different Move Characteristics',
+              fromApp: true,
+              body: `When making a **move type** whose **maximum distance** uses the unit's **M** characteristic, if different models in the moving unit have different **M** characteristics, the **maximum distance** for that move will be different for those models.`,
+              example: `If a unit makes a **normal move** and all models in that unit have an **M** characteristic of 6" except for one model with an **M** characteristic of 9", that model's **maximum distance** for that move is 9", while the other models' **maximum distance** is 6". While that unit is making that move, all other restrictions must be met.`,
+            },
+            {
+              id: 'section-03-01-02',
+              sectionNum: '03.01.02',
+              title: 'Moving Over Or Through Models',
+              fromApp: true,
+              body: `Some models have a rule that enables them to 'move over models', 'move through models' or 'move over models as if they were not there' when making a move. When moving a model with such a rule, it can make its move through enemy models, but must follow all other restrictions of the move they are making.`,
+            },
+            {
+              id: 'section-03-01-03',
+              sectionNum: '03.01.03',
+              title: 'Random Movement',
+              fromApp: true,
+              body: `See Random Characteristics (02.02.03)
+
+Both models shown here can move a **maximum distance** of 6". They both move 3" in a straight line, then 3" in another straight line, for a total movement of 6".`,
+            },
+            {
+              id: 'section-03-01-04',
+              sectionNum: '03.01.04',
+              title: 'When Moving Up To',
+              fromApp: true,
+              body: `Some rules allow a unit to make a move of up to X". That stated distance is the **maximum distance** for that move.`,
+            },
+          ],
         },
         {
           id: 'section-03-02',
@@ -654,6 +687,41 @@ Whenever a rule instructs you to set up a unit, place its models on the battlefi
 
 If you cannot set up all of the models in a unit, remove that unit from the battlefield and return it to its original position (e.g. in **strategic reserves** or embarked within a TRANSPORT).`,
           note: 'If You Cannot Set Up a Unit: While doing so as the result of a **move type**, if you have to return a unit\'s models to their previous positions because it is not possible to set them all up, that unit has not been selected to make that move. This means it can be selected to make a move later, so could either attempt another set up or remain stationary.',
+          children: [
+            {
+              id: 'section-03-02-01',
+              sectionNum: '03.02.01',
+              title: 'If You Cannot Set Up a Unit',
+              fromApp: true,
+              body: `While having to set up a unit as the result of a **move type**, if you have to return a unit's models to their previous positions because it is not possible to set them all up, that unit has not been **selected to move**. This means it can be **selected to move** later, so could either attempt another set up or **remain stationary** (09.04).`,
+            },
+            {
+              id: 'section-03-02-02',
+              sectionNum: '03.02.02',
+              title: 'Setting Up Large Models',
+              fromApp: true,
+              body: `If a model cannot meet all of its set up restrictions because it is too large, consult the relevant section below:
+
+**During Deployment:** If a model is so large that its base cannot physically be set up wholly within your deployment zone, it must be set up so that it is touching your battlefield edge. During a turn in which such a large model is set up on the battlefield, that model's unit cannot do any of the following:
+▪ Make a **normal/advance/fall-back/charge move**.
+▪ Make any attacks with ranged weapons.
+Some large models, typically AIRCRAFT, have wings and other parts that extend significantly beyond their base. Such models can overhang a deployment zone if it is not possible to set them up otherwise, but when setting them up, their base must still be wholly within that deployment zone.
+
+**From Strategic Reserves:** If a model is so large that its base cannot physically be set up wholly within the distance required of the battlefield edge, it must be set up so that it is touching a battlefield edge. During a turn in which such a large model is set up on the battlefield, that model's unit cannot do any of the following:
+▪ **normal/advance/fall-back/charge move**.
+▪ Make any attacks with ranged weapons.
+Some large models, typically AIRCRAFT, have wings and other parts that extend significantly beyond their base. Such models can overhang a battlefield edge if it is not possible to set them up otherwise, but when setting them up, they must still be more than 8" away from all enemy units.
+
+**Disembarking from a Transport:** When a unit disembarks from a TRANSPORT, it must be set up wholly within 3" of that model. If a disembarking model is so large that it is not possible to set it up wholly within 3" (typically because it is itself larger than 3" in all directions), set that model up with its base within 1" of that TRANSPORT's base (or hull), and not **engaged** with any enemy units.`,
+            },
+            {
+              id: 'section-03-02-03',
+              sectionNum: '03.02.03',
+              title: 'Redeployments',
+              fromApp: true,
+              body: `When a player uses a rule that lets them redeploy their unit, they remove that unit from the battlefield, then deploy it again using all the normal rules (e.g. if all the models in the redeploying unit have the Infiltrators ability, that unit can be set up using that ability).`,
+            },
+          ],
         },
         {
           id: 'section-03-03',
@@ -667,6 +735,15 @@ If you cannot set up all of the models in a unit, remove that unit from the batt
 In the End of Turn step of each player's turn, if one or more units on the battlefield are not in **coherency**, those units' controlling players must remove models from them, one at a time, until they are in **coherency** again. Models removed in this way are destroyed, but they do not trigger rules that apply when a model is destroyed.`,
           note: 'What is **Coherency**? **Coherency** prevents models in the same unit from becoming too separated from each other while on the battlefield, ensuring they are set up and end every kind of move as a single group.',
           image: { src: '/images/coherency/coherency.jpg', alt: 'Coherency' },
+          children: [
+            {
+              id: 'section-03-03-01',
+              sectionNum: '03.03.01',
+              title: 'What Is Coherency',
+              fromApp: true,
+              body: `**Coherency** prevents models in the same unit from becoming too separated from each other while on the battlefield, ensuring they are set up and end every kind of move as a single group.`,
+            },
+          ],
         },
         {
           id: 'section-03-04',
@@ -677,6 +754,15 @@ In the End of Turn step of each player's turn, if one or more units on the battl
 ▪ While a unit contains no engaged models, that unit is unengaged.`,
           note: 'What is Engagement? While opposing models are within each other\'s **engagement range**, they are able to fight in vicious melee, so unless they are seeking to make melee attacks, models should keep out of their foes\' reach.',
           image: { src: '/images/visibility/engagement.jpg', alt: 'Engagement' },
+          children: [
+            {
+              id: 'section-03-04-01',
+              sectionNum: '03.04.01',
+              title: 'What Is Engagement',
+              fromApp: true,
+              body: `While opposing models are within each other's **engagement range**, they are able to fight in vicious melee, so unless they are seeking to make melee attacks, models should keep out of their foes' reach.`,
+            },
+          ],
         },
       ],
     },
@@ -709,6 +795,22 @@ You can select one or more ranged weapons that model has.
 You must select one melee weapon that model has.`,
           note: 'Models Without Ranged/Melee Weapons: A model that does not have any ranged weapons cannot make ranged attacks, and a model that does not have any melee weapons cannot make melee attacks.',
           seeAlso: ['[CLOSE-QUARTERS] 24.07', '[EXTRA ATTACKS] 24.11'],
+          children: [
+            {
+              id: 'section-04-01-01',
+              sectionNum: '04.01.01',
+              title: 'Models Without Ranged/Melee Weapons',
+              fromApp: true,
+              body: `A model that does not have any ranged weapons cannot make ranged attacks, and a model that does not have any melee weapons cannot make melee attacks.`,
+            },
+            {
+              id: 'section-04-01-02',
+              sectionNum: '04.01.02',
+              title: 'Sidearms',
+              fromApp: true,
+              body: `Some models are equipped with [CLOSE-QUARTERS] weapons in addition to other firearms. Such models can be an exception to the rules in this section, as you may not be able to select all of their weapons to make attacks with.`,
+            },
+          ],
         },
         {
           id: 'section-04-02',
@@ -1454,6 +1556,27 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ▪ Все условия «После манёвра»(After Moving) соблюдены.
 
 Если одно или несколько из вышеуказанных условий не соблюдены, этот юнит не может совершить этот манёвр, и его модели возвращаются на свои изначальные позиции. В противном случае, после разрешения любых дополнительных правил, указанных в разделе «После манёвра»(After Moving) для этого **типа манёвра**(move type), этот манёвр заканчивается.`,
+          children: [
+            {
+              title: 'Различные характеристики движения (Different Move Characteristics)',
+              body: `При совершении **типа манёвра** (move type), чьё **максимальное расстояние** (maximum distance) использует характеристику **M** юнита, если разные модели в перемещающемся юните имеют разные характеристики **M**, **максимальное расстояние** для этого манёвра будет разным для этих моделей.`,
+              example: `Если юнит совершает **обычный манёвр** (normal move) и все модели в этом юните имеют характеристику **M** 6", кроме одной модели с характеристикой **M** 9", то **максимальное расстояние** для этой модели составляет 9", тогда как для остальных моделей **максимальное расстояние** — 6". Пока этот юнит совершает этот манёвр, должны соблюдаться все остальные ограничения.`,
+            },
+            {
+              title: 'Движение над или сквозь модели (Moving Over Or Through Models)',
+              body: `У некоторых моделей есть правило, позволяющее им «двигаться над моделями», «двигаться сквозь модели» или «двигаться над моделями, как будто их там нет» при совершении манёвра. При перемещении модели с таким правилом она может совершать свой манёвр сквозь вражеские модели, но должна соблюдать все остальные ограничения совершаемого манёвра.`,
+            },
+            {
+              title: 'Случайное движение (Random Movement)',
+              body: `См. Случайные характеристики (02.02.03)
+
+Обе показанные здесь модели могут переместиться на **максимальное расстояние** (maximum distance) 6". Обе перемещаются на 3" по прямой линии, затем на 3" по другой прямой линии, что в сумме даёт перемещение на 6".`,
+            },
+            {
+              title: 'При перемещении на величину до (When Moving Up To)',
+              body: `Некоторые правила позволяют юниту совершить манёвр на величину до X". Это указанное расстояние является **максимальным расстоянием** (maximum distance) для этого манёвра.`,
+            },
+          ],
         },
         {
           title: 'Расстановка (Set Up)',
@@ -1466,6 +1589,32 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 
 Если вы не можете установить все модели в юните, удалите этот юнит с поля боя и верните его на исходную позицию (например, в стратегические резервы(strategic reserves) или внутри ТРАНСПОРТА(TRANSPORT)).`,
           note: `Если вы не можете установить юнит: если в результате манёвра вам пришлось вернуть модели юнита на прежние позиции, потому что невозможно установить их всех, можно сказать что этот юнит не был выбран для совершения этого манёвра. Поэтому он может либо повторить попытку установки, либо остаться недвижимым(remain stationary) (09.04).`,
+          children: [
+            {
+              title: 'Если вы не можете установить юнит (If You Cannot Set Up a Unit)',
+              body: `Когда вам приходится устанавливать юнит в результате **типа манёвра** (move type), если вам пришлось вернуть модели юнита на их прежние позиции, потому что невозможно установить их все, этот юнит не был **выбран для манёвра** (selected to move). Это означает, что он может быть **выбран для манёвра** позже, поэтому может либо повторить попытку установки, либо **остаться недвижимым** (remain stationary) (09.04).`,
+            },
+            {
+              title: 'Установка крупных моделей (Setting Up Large Models)',
+              body: `Если модель не может соблюсти все ограничения установки, потому что она слишком большая, обратитесь к соответствующему разделу ниже:
+
+**Во время развёртывания (During Deployment):** Если модель настолько большая, что её база не может физически быть установлена полностью в пределах вашей зоны развёртывания, она должна быть установлена так, чтобы касаться вашего края поля боя. В течение хода, в котором такая крупная модель устанавливается на поле боя, юнит этой модели не может выполнять ничего из следующего:
+▪ Совершать **обычный/продвигающий/отступающий/нападающий манёвр** (normal/advance/fall-back/charge move).
+▪ Совершать какие-либо атаки дистанционным оружием.
+Некоторые крупные модели, обычно AIRCRAFT, имеют крылья и другие части, значительно выходящие за пределы их базы. Такие модели могут нависать над зоной развёртывания, если иначе их невозможно установить, но при установке их база всё равно должна быть полностью в пределах этой зоны развёртывания.
+
+**Из стратегических резервов (From Strategic Reserves):** Если модель настолько большая, что её база не может физически быть установлена полностью в пределах расстояния, требуемого от края поля боя, она должна быть установлена так, чтобы касаться края поля боя. В течение хода, в котором такая крупная модель устанавливается на поле боя, юнит этой модели не может выполнять ничего из следующего:
+▪ **обычный/продвигающий/отступающий/нападающий манёвр** (normal/advance/fall-back/charge move).
+▪ Совершать какие-либо атаки дистанционным оружием.
+Некоторые крупные модели, обычно AIRCRAFT, имеют крылья и другие части, значительно выходящие за пределы их базы. Такие модели могут нависать над краем поля боя, если иначе их невозможно установить, но при установке они всё равно должны находиться более чем в 8" от всех вражеских юнитов.
+
+**Высадка из транспорта (Disembarking from a Transport):** Когда юнит высаживается из TRANSPORT, он должен быть установлен полностью в пределах 3" от этой модели. Если высаживающаяся модель настолько большая, что её невозможно установить полностью в пределах 3" (обычно потому, что она сама больше 3" во всех направлениях), установите эту модель так, чтобы её база была в пределах 1" от базы (или корпуса) этого TRANSPORT, и не **в сцеплении** (engaged) с вражескими юнитами.`,
+            },
+            {
+              title: 'Передислокация (Redeployments)',
+              body: `Когда игрок использует правило, позволяющее ему передислоцировать свой юнит, он убирает этот юнит с поля боя, а затем развёртывает его снова, используя все обычные правила (например, если все модели в передислоцируемом юните имеют способность Infiltrators, этот юнит может быть установлен с помощью этой способности).`,
+            },
+          ],
         },
         {
           title: 'Когерентность',
@@ -1476,6 +1625,12 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ### Восстановление когерентности
 На этапе «Конец хода»(End of Turn) каждого хода игрока, если один или несколько юнитов на поле боя не находятся в **когерентности**, контролирующие игроки этих юнитов должны удалять модели из них, по одной, пока она снова не станет **когерентной**. Модели, удалённые таким образом, уничтожаются, но они не активируют правила, которые срабатывают тогда, когда модель уничтожена.`,
           note: `Что такое **когерентность**? **Когерентность**(Coherency) не позволяет моделям в одном юните слишком сильно отдаляться друг от друга на поле боя, гарантируя, что они устанавливаются и завершают любой вид манёвра как единая группа.`,
+          children: [
+            {
+              title: 'Что такое когерентность (What Is Coherency)',
+              body: `**Когерентность** (coherency) не позволяет моделям в одном юните слишком сильно отдаляться друг от друга на поле боя, гарантируя, что они устанавливаются и завершают любой вид манёвра как единая группа.`,
+            },
+          ],
         },
         {
           title: 'Связывание (Engagement)',
@@ -1483,6 +1638,12 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ▪ Пока союзная модель находится в радиусе связывания(engagement range) с одной или несколькими вражескими моделями, эти модели — и юниты, к которым они принадлежат, — находятся в сцеплении(engaged) друг с другом.
 ▪ Пока юнит не содержит ни одной связанной модели, этот юнит считается не связанным(unengaged).`,
           note: `Что такое связывание(ENGAGEMENT)? Когда вражеские модели находятся в радиусе связывания(engagement range) друг друга, они могут сражаться в жестокой рукопашной, поэтому, если только они не стремятся сражаться в ближнем бою, модели должны держаться вне досягаемости своих врагов.`,
+          children: [
+            {
+              title: 'Что такое связывание (What Is Engagement)',
+              body: `Когда вражеские модели находятся в **радиусе связывания** (engagement range) друг друга, они могут сражаться в жестокой рукопашной, поэтому, если только они не стремятся сражаться в ближнем бою, модели должны держаться вне досягаемости своих врагов.`,
+            },
+          ],
         },
       ],
     },
@@ -1507,6 +1668,16 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ### При ближнем бое
 Вы должны выбрать одно оружие ближнего боя, которое есть у этой модели.`,
           note: `Модели без дистанционного/ближнего оружия: модель, у которой нет дистанционного оружия, не может совершать дистанционные атаки, а модель, у которой нет оружия ближнего боя, не может совершать атаки ближнего боя.`,
+          children: [
+            {
+              title: 'Модели без дистанционного/ближнего оружия (Models Without Ranged/Melee Weapons)',
+              body: `Модель, не имеющая дистанционного оружия, не может совершать дистанционные атаки, а модель, не имеющая оружия ближнего боя, не может совершать атаки ближнего боя.`,
+            },
+            {
+              title: 'Дополнительное оружие (Sidearms)',
+              body: `Некоторые модели оснащены оружием [CLOSE-QUARTERS] в дополнение к другому огнестрельному оружию. Такие модели могут быть исключением из правил этого раздела, поскольку вы можете быть не в состоянии выбрать всё их оружие для совершения атак.`,
+            },
+          ],
         },
         {
           title: 'Выбор целей',
