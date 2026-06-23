@@ -30,6 +30,15 @@ In each case, the area of the battlefield occupied by that boundary or **terrain
 
 A mission's deployment map may define which **terrain categories** should be present within each **terrain area**. Meeting these requirements will create the best gaming experience.`,
           note: 'Note that **terrain features** sharing the same **terrain area** can belong to different **terrain categories**.',
+          children: [
+            {
+              id: 'section-13-02-01',
+              sectionNum: '13.02.01',
+              title: 'Creating Your Own Battlefield',
+              fromApp: true,
+              body: `Don't worry if your battlefield doesn't match a mission's **terrain category** requirements; just do the best with the **terrain features** you have. If a mission does not provide you with guidance, it will be up to the players to decide how to create their battlefield. When doing so, keep in mind that **dense terrain features** have the greatest impact on visibility and movement. Battlefields with too few **dense terrain features** can advantage armies that rely on shooting, or disadvantage armies that rely on melee. Also remember to leave sufficient room around **dense terrain features** for larger models such as MONSTERS/VEHICLES to manoeuvre, especially near the edges of the battlefield.`,
+            },
+          ],
         },
         {
           id: 'section-13-03',
@@ -80,6 +89,15 @@ Models can be set up or end a move on the ground level of **terrain features**. 
 
 [img:/images/terrain/terrain-and-movement-2.jpg|Terrain and movement example 2 — base overhang rules]`,
           note: 'Solid Terrain: If a **terrain feature** has the Solid rule (13.11), a model cannot end a move such that any part of it is through any enclosed part of that **terrain feature** that is 3" or less from ground level — not even through small openings such as doors and windows.',
+          children: [
+            {
+              id: 'section-13-06-01',
+              sectionNum: '13.06.01',
+              title: 'Solid Terrain and Movement',
+              fromApp: true,
+              body: `If a **terrain feature** has the **Solid** rule (13.11), as **dense terrain features** do, a model cannot end a move such that any part of it is through any enclosed part of that **terrain feature** that is 3" or less from ground level – not even through small openings such as doors and windows. This ensures that protruding elements of models cannot be used to circumvent the visibility restrictions of the Solid rule.`,
+            },
+          ],
         },
         {
           id: 'section-13-07',
@@ -103,10 +121,19 @@ Each time a ranged attack targets a unit that has the **benefit of cover** again
           sectionNum: '13.09',
           title: 'Hidden',
           body: `A model is **hidden** while **all** of the following apply to it:
-▪ That model has the INFANTRY/BEASTS/SWARM keyword and is within a **terrain area** that contains one or more **dense terrain features**.
+▪ That model has the INFANTRY/BEASTS/SWARM keyword and is within a **terrain area** that contains one or more **light/dense terrain features**.
 ▪ That model's unit did not make one or more ranged attacks during this turn or during the previous turn.
 
 While a model is **hidden**, it can only be **visible** to enemy models that are within its **detection range**. Unless otherwise stated, a model's **detection range** is 15".`,
+          children: [
+            {
+              id: 'section-13-09-01',
+              sectionNum: '13.09.01',
+              title: 'Hidden and the First Turn',
+              fromApp: true,
+              body: `During the first turn, conditions that require something not to have happened during the previous turn are true. For the **Hidden** rule, this means that during the first turn a unit has not made ranged attacks during the previous turn.`,
+            },
+          ],
         },
         {
           id: 'section-13-10',
@@ -123,6 +150,22 @@ While a model is **hidden**, it can only be **visible** to enemy models that are
 
 [img:/images/terrain/solid.jpg|Solid terrain — line of sight blocking diagram]`,
           note: "Designer's Note: This rule ensures that models are not **visible** while sheltering in ground-level terrain, irrespective of small openings such as doors, windows or bullet holes, or because of small gaps between adjacent **terrain features**. 3\" is the height of the first floor of many **terrain features**, but some missions may adjust the height at which this rule takes effect.",
+          children: [
+            {
+              id: 'section-13-11-01',
+              sectionNum: '13.11.01',
+              title: 'Gone to Ground',
+              fromApp: true,
+              body: `**Hidden** models that are within **Solid terrain features** gain an extra benefit while they have **gone to ground**.
+
+A model has **gone to ground** while all of the following apply:
+▪ That model is **hidden**.
+▪ That model is not **fully visible** to the attacking model due to one or more intervening **Solid terrain features**.
+▪ That model's unit did not make one or more ranged attacks during this turn or during the previous turn.
+While a model has **gone to ground**, subtract 3" from that model's **detection range**.`,
+              note: `Designer's Note: Units that made ranged attacks in the current or previous turn cannot **go to ground**, regardless of any abilities that allow them to shoot and remain **hidden**.`,
+            },
+          ],
         },
       ],
     },
@@ -140,6 +183,17 @@ While a model is **hidden**, it can only be **visible** to enemy models that are
           body: `If a mission uses **objectives**, it will state where they are located on the battlefield. Typically, your mission will have a deployment map showing several points where **objectives** should be placed. The location of each point should coincide with a **terrain area** (13.01); that **terrain area** is the **objective**, and is called a **terrain objective**.
 
 When measuring distances to and from an **objective**, measure to and from the closest part of it.`,
+          children: [
+            {
+              id: 'section-14-01-01',
+              sectionNum: '14.01.01',
+              title: 'Objectives Not Within A Terrain Area',
+              fromApp: true,
+              body: `If the location point of an **objective** does not coincide with a **terrain area**, you must denote the location of that **objective** with a flat, circular marker, 40 mm in diameter, centred on that point – this is called an **objective marker**. Models can move through **objective markers** and they can end a move on top of **objective markers**.
+
+A model is within range of an **objective marker** while it is within 3" horizontally and 5" vertically of that **objective marker**. When measuring distances to and from an **objective marker**, measure to and from the closest part of it.`,
+            },
+          ],
         },
         {
           id: 'section-14-02',
@@ -190,6 +244,33 @@ Each time you use a **stratagem**, resolve the following sequence:
 1. Select targets as described in that **stratagem**.
 2. Reduce your CP total by the CP cost listed in that **stratagem**. If that **stratagem** contains a section that carries an additional CP cost (e.g. +1CP), you can only use that additional section if you increase the CP cost of that **stratagem** by the amount shown. If you do not have enough CP remaining, you cannot use that **stratagem**.
 3. Resolve the effects of that **stratagem**.`,
+          children: [
+            {
+              id: 'section-15-01-01',
+              sectionNum: '15.01.01',
+              title: 'Modifying CP Cost',
+              fromApp: true,
+              body: `Some rules modify the cost of using certain **stratagems**. In such cases, the following points apply:
+▪ The CP cost of a **stratagem** use can never be modified below 0CP.
+▪ If a rule modifies the CP cost of a **stratagem** when you use it, but does not specify a duration for that modifier, that modifier only applies to that usage of that **stratagem**.`,
+            },
+            {
+              id: 'section-15-01-02',
+              sectionNum: '15.01.02',
+              title: 'Affected By A Stratagem',
+              fromApp: true,
+              body: `If a unit is selected as the target of a **stratagem**, it is said to be affected by that **stratagem**.`,
+            },
+            {
+              id: 'section-15-01-03',
+              sectionNum: '15.01.03',
+              title: 'Stratagem Definitions',
+              fromApp: true,
+              body: `▪ **Your Opponent's Stratagems:** **stratagems** that your opponent uses are sometimes referred to as your opponent's **stratagems**.
+▪ **Your Stratagems:** **stratagems** that you use are sometimes referred to as your **stratagems**.
+▪ **Your Unit (in Stratagems):** The term 'your unit(s)' in the Effect section of **stratagems** always relates to the unit(s) selected in the Target section of that **stratagem**, and never refers to any other units from your army.`,
+            },
+          ],
         },
         {
           id: 'section-15-core-label',
@@ -422,6 +503,12 @@ If a unit performing an **action** makes a move (excluding **pile-in** and **con
 
 Карта развёртывания миссии может определять, какие **категории укрытий** должны присутствовать в каждой **области укрытия** (terrain area). Соблюдение этих требований создаст наилучший игровой опыт.`,
           note: 'Обратите внимание, что **элементы укрытий** (terrain features), находящиеся в одной и той же **области укрытия** (terrain area), могут принадлежать к разным **категориям укрытий** (terrain categories).',
+          children: [
+            {
+              title: 'Создание собственного поля боя (Creating Your Own Battlefield)',
+              body: `Не переживайте, если ваше поле боя не соответствует требованиям миссии к **категориям укрытий** (terrain category); просто используйте имеющиеся **элементы укрытий** (terrain features) как можно лучше. Если миссия не даёт вам указаний, игроки сами решают, как создать своё поле боя. При этом помните, что **надёжные элементы укрытий** (dense terrain features) сильнее всего влияют на видимость и движение. Поля боя со слишком малым числом **надёжных элементов укрытий** могут давать преимущество армиям, полагающимся на стрельбу, или ставить в невыгодное положение армии, полагающиеся на ближний бой. Также не забудьте оставить достаточно места вокруг **надёжных элементов укрытий** для манёвра крупных моделей, таких как MONSTERS/VEHICLES, особенно у краёв поля боя.`,
+            },
+          ],
         },
         {
           id: 'section-13-03',
@@ -472,6 +559,12 @@ If a unit performing an **action** makes a move (excluding **pile-in** and **con
 
 [img:/images/terrain/terrain-and-movement-2-ru.jpg|Укрытие и движение, пример 2 — правила выноса базы]`,
           note: 'Сплошное укрытие: Если **элемент укрытия** (terrain feature) обладает правилом Сплошное (Solid) (13.11), модель не может завершить манёвр так, чтобы любая её часть оказалась по ту сторону любой закрытой части этого **элемента укрытия**, находящейся на высоте 3" или менее от уровня земли — даже через небольшие проёмы, такие как двери и окна.',
+          children: [
+            {
+              title: 'Сплошное укрытие и движение (Solid Terrain and Movement)',
+              body: `Если **элемент укрытия** (terrain feature) обладает правилом **Сплошное** (Solid) (13.11), как **надёжные элементы укрытий** (dense terrain features), модель не может завершить манёвр так, чтобы любая её часть оказалась по ту сторону любой закрытой части этого **элемента укрытия**, находящейся на высоте 3" или менее от уровня земли — даже через небольшие проёмы, такие как двери и окна. Это гарантирует, что выступающие элементы моделей нельзя использовать, чтобы обойти ограничения видимости правила Сплошное.`,
+            },
+          ],
         },
         {
           id: 'section-13-07',
@@ -495,10 +588,16 @@ If a unit performing an **action** makes a move (excluding **pile-in** and **con
           sectionNum: '13.09',
           title: 'Скрытность',
           body: `Модель находится в **скрытности** (hidden), пока к ней применяются **все** следующие условия:
-▪ Эта модель имеет ключевое слово INFANTRY/BEASTS/SWARM (ПЕХОТА/ЗВЕРИ/РОЙ) и находится в пределах **области укрытия** (terrain area), которая содержит один или несколько **надёжных элементов укрытий** (dense terrain features).
+▪ Эта модель имеет ключевое слово INFANTRY/BEASTS/SWARM (ПЕХОТА/ЗВЕРИ/РОЙ) и находится в пределах **области укрытия** (terrain area), которая содержит один или несколько **лёгких/надёжных элементов укрытий** (light/dense terrain features).
 ▪ Юнит этой модели **не совершал** одну или несколько дистанционных атак в течение этого хода или в течение предыдущего хода.
 
 Пока модель находится в **скрытности**, она может быть **видна** (visible) только вражеским моделям, которые находятся в пределах её **радиуса обнаружения** (detection range). Если не указано иное, **радиус обнаружения** модели составляет 15".`,
+          children: [
+            {
+              title: 'Скрытность и первый ход (Hidden and the First Turn)',
+              body: `В течение первого хода условия, требующие, чтобы что-то не произошло в течение предыдущего хода, истинны. Для правила **Скрытность** (Hidden) это означает, что в течение первого хода юнит не совершал дистанционных атак в течение предыдущего хода.`,
+            },
+          ],
         },
         {
           id: 'section-13-10',
@@ -515,6 +614,19 @@ If a unit performing an **action** makes a move (excluding **pile-in** and **con
 
 [img:/images/terrain/solid-ru.jpg|Монолитное укрытие — диаграмма блокировки линии обзора]`,
           note: 'Примечание дизайнера: Это правило гарантирует, что модели **не видны** (not visible), пока укрываются в укрытиях на уровне земли, независимо от небольших отверстий, таких как двери, окна или нулевые отверстия, или из-за небольших зазоров между соседними **элементами укрытий**. 3" — это высота первого этажа многих **элементов укрытий**, но некоторые миссии могут корректировать высоту, на которой это правило вступает в силу.',
+          children: [
+            {
+              title: 'Залегание (Gone to Ground)',
+              body: `**Скрытные** (Hidden) модели, находящиеся внутри **сплошных элементов укрытий** (Solid terrain features), получают дополнительное преимущество, пока они **залегли** (gone to ground).
+
+Модель **залегла** (gone to ground), пока выполняются все следующие условия:
+▪ Эта модель **скрытна** (hidden).
+▪ Эта модель **не полностью видна** (not fully visible) атакующей модели из-за одного или нескольких промежуточных **сплошных элементов укрытий** (Solid terrain features).
+▪ Юнит этой модели не совершал одну или несколько дистанционных атак в течение этого хода или в течение предыдущего хода.
+Пока модель **залегла**, вычтите 3" из её **радиуса обнаружения** (detection range).`,
+              note: `Примечание дизайнера: Юниты, совершавшие дистанционные атаки в текущем или предыдущем ходу, не могут **залечь** (go to ground), независимо от любых способностей, позволяющих им стрелять и оставаться **скрытными** (hidden).`,
+            },
+          ],
         },
       ],
     },
@@ -532,6 +644,14 @@ If a unit performing an **action** makes a move (excluding **pile-in** and **con
           body: `Если в миссии используются **цели** (objectives), в ней указывается, где они находятся на поле боя. Как правило, в вашей миссии будет карта развёртывания, показывающая несколько точек, в которых должны быть размещены **цели**. Расположение каждой точки должно совпадать с **областью укрытия** (terrain area) (13.01); этот **элемент укрытия** (terrain feature) является **целью** и называется **целевым объектом местности** (terrain objective).
 
 При измерении расстояний до **цели** и от неё измеряйте расстояние до ближайшей её части.`,
+          children: [
+            {
+              title: 'Цели, не находящиеся внутри области укрытия (Objectives Not Within A Terrain Area)',
+              body: `Если точка расположения **цели** (objective) не совпадает с **областью укрытия** (terrain area), вы должны обозначить местоположение этой **цели** плоским круглым маркером диаметром 40 мм, отцентрованным на этой точке — это называется **маркером цели** (objective marker). Модели могут проходить сквозь **маркеры цели** и могут завершить манёвр на **маркерах цели**.
+
+Модель находится в пределах досягаемости **маркера цели**, пока она находится в пределах 3" по горизонтали и 5" по вертикали от этого **маркера цели**. При измерении расстояний до **маркера цели** и от него измеряйте до ближайшей его части.`,
+            },
+          ],
         },
         {
           id: 'section-14-02',
@@ -582,6 +702,24 @@ If a unit performing an **action** makes a move (excluding **pile-in** and **con
 1. Выберите цели, как описано в данной **стратегеме**.
 2. Уменьшите ваш запас командных очков (CP) на стоимость в CP, указанную в данной **стратегеме**. Если в **стратегеме** содержится раздел с дополнительной стоимостью в CP (например, +1 CP), вы можете использовать этот дополнительный раздел, только если вы увеличите стоимость **стратегемы** на указанную величину. Если у вас не осталось достаточного количества CP, вы не можете использовать эту **стратегему**.
 3. Примените эффекты данной **стратегемы**.`,
+          children: [
+            {
+              title: 'Изменение стоимости в CP (Modifying CP Cost)',
+              body: `Некоторые правила изменяют стоимость использования определённых **стратегем** (stratagems). В таких случаях применяются следующие положения:
+▪ Стоимость использования **стратегемы** в CP никогда не может быть изменена ниже 0 CP.
+▪ Если правило изменяет стоимость **стратегемы** в CP, когда вы её используете, но не указывает продолжительность этого модификатора, этот модификатор применяется только к этому использованию этой **стратегемы**.`,
+            },
+            {
+              title: 'Подвержен стратегеме (Affected By A Stratagem)',
+              body: `Если отряд выбран целью **стратегемы** (stratagem), говорят, что он подвержен этой **стратегеме**.`,
+            },
+            {
+              title: 'Определения стратегем (Stratagem Definitions)',
+              body: `▪ **Стратегемы вашего оппонента (Your Opponent's Stratagems):** **стратегемы** (stratagems), которые использует ваш оппонент, иногда называются стратегемами вашего оппонента.
+▪ **Ваши стратегемы (Your Stratagems):** **стратегемы**, которые используете вы, иногда называются вашими **стратегемами**.
+▪ **Ваш отряд (в стратегемах) (Your Unit (in Stratagems)):** Термин «ваш отряд(ы)» в разделе «Эффект» (Effect) **стратегем** всегда относится к отряду(ам), выбранному в разделе «Цель» (Target) этой **стратегемы**, и никогда не относится к каким-либо другим отрядам из вашей армии.`,
+            },
+          ],
         },
         {
           id: 'section-15-core-label',

@@ -186,7 +186,7 @@ const { navigateTo } = useRefNavigation()
 
 const labels = computed(() => ui[locale.value])
 
-const coreRoutes = ['/', '/basic-rules', '/battle-round', '/battlefields', '/advanced-rules', '/reference']
+const coreRoutes = ['/', '/basic-rules', '/battle-round', '/battlefields', '/advanced-rules', '/reference', '/muster']
 const isEventRoute = computed(() => route.path.startsWith('/event-companion'))
 const isMissionsRoute = computed(() => route.path === '/event-companion/missions')
 const isTrackerRoute = computed(() => route.path.startsWith('/tracker'))
@@ -201,6 +201,7 @@ const coreSubNavItems = computed(() => {
     { path: '/battlefields', label: l.subNavBattlefields },
     { path: '/advanced-rules', label: l.subNavAdvanced },
     { path: '/reference', label: l.subNavReference },
+    { path: '/muster', label: l.subNavMuster },
   ]
 })
 

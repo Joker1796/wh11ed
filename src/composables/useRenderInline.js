@@ -16,6 +16,7 @@ export function useRenderInline() {
     return text
       .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
         '<a href="$2" target="_blank" rel="noopener noreferrer" class="ext-link">$1</a>')
+      .replace(/\((\d{2}\.\d{2}\.\d{2})\)/g, '<span class="cross-ref" data-ref="$1">($1)</span>')
       .replace(/\((\d{2}\.\d{2})\)/g, '<span class="cross-ref" data-ref="$1">($1)</span>')
       .replace(/\((\d{2})\)/g, '<span class="cross-ref" data-ref="$1.00">($1)</span>')
       .replace(
