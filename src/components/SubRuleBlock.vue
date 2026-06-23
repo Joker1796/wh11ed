@@ -15,6 +15,8 @@
       <div class="rule-body" @click="handleDefClick">
         <RuleBody :id="id" :body="body" />
 
+        <DataTable v-if="table" :headers="table.headers" :rows="table.rows" :footnote="table.footnote" />
+
         <div v-if="note" class="note-box" v-html="renderParagraphs(note)"></div>
 
         <div v-if="example" class="example-block" v-html="renderInline(example)"></div>
@@ -27,6 +29,7 @@
 import { ref } from 'vue'
 import SeeAlsoBlock from './SeeAlsoBlock.vue'
 import RuleBody from './RuleBody.vue'
+import DataTable from './DataTable.vue'
 import { useRenderInline } from '../composables/useRenderInline.js'
 
 // A third-level rule block (x.x.x), nested inside a subsection (x.x) and rendered as a
@@ -41,6 +44,7 @@ defineProps({
   note: String,
   example: String,
   seeAlso: Array,
+  table: Object,
   fromApp: Boolean,
 })
 
