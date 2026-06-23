@@ -81,11 +81,15 @@ set_shortcache robots.txt "text/plain; charset=utf-8"
 set_shortcache sitemap.xml "application/xml; charset=utf-8"
 
 # 3) index.html — entry point. Short TTL so rare deploys appear within a day.
+#    Use `cp`, NOT `sync`: index.html keeps a stable name and near-constant size, so
+#    `s3 sync` silently skips re-uploading it (its size/mtime heuristic sees "no
+#    change") — leaving a stale entry point pointing at hashed assets that step 1's
+#    `--delete` already removed. `cp` always uploads. (Same reason sw.js uses cp.)
 echo "▶ index.html  →  1 day"
-aws s3 sync dist "$BUCKET" \
-  --exclude "*" --include "*.html" \
+[ -f "dist/index.html" ] && aws s3 cp dist/index.html "$BUCKET/index.html" \
   --cache-control "public, max-age=86400" \
-  --content-type "text/html; charset=utf-8"
+  --content-type "text/html; charset=utf-8" \
+  --metadata-directive REPLACE
 
 # 4) Drop the CDN edge copy of the entry point (and anything stale).
 if [ -n "$CDN_RESOURCE_ID" ]; then
