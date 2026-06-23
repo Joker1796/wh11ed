@@ -389,6 +389,15 @@ While a unit is battle-shocked:
           sectionNum: '02.01',
           title: 'Datasheet Name',
           body: `Here you will find the name of the unit.`,
+          children: [
+            {
+              id: 'section-02-01-01',
+              sectionNum: '02.01.01',
+              title: 'Datasheet Name and Keywords',
+              fromApp: true,
+              body: `As well as the keywords listed in each datasheet's Keywords section, each datasheet name acts as an additional keyword for that unit.`,
+            },
+          ],
         },
         {
           id: 'section-02-02',
@@ -403,6 +412,66 @@ While a unit is battle-shocked:
 ▪ Wounds (W): Wounds represent how much damage a model can sustain before it is destroyed. If a model's wounds are reduced to 0 or fewer, that model is destroyed.
 ▪ Leadership (Ld): Presented as a dice result (e.g. 7+), this reveals how courageous, determined or self-controlled a model is.
 ▪ Objective Control (OC): How effectively a model can control an objective on the battlefield. If a model has an OC characteristic of '-' it is unable to control objectives at all.`,
+          children: [
+            {
+              id: 'section-02-02-02',
+              sectionNum: '02.02.02',
+              title: 'Ignore Modifiers',
+              fromApp: true,
+              body: `Some rules enable a player, weapon, model or unit to ignore modifiers. When using such rules, the following points apply:
+
+Unless otherwise stated, that rule allows you to ignore modifiers to the unit's rolls and the unit's profile and weapon characteristics.
+
+When a rule states you can ignore modifiers to a stated roll or characteristic, you can choose to ignore all of those modifiers, or only some of them. For example, you can still choose to apply positive/beneficial modifiers while ignoring negative/detrimental modifiers.
+
+**Example:** Your unit can ignore characteristic modifiers and is under the effect of +2" **M** and -2" **M**. You can choose to ignore the -2" **M**, meaning that unit's **M** characteristic will only be modified by the +2" **M**.
+
+**Example:** Your unit's ranged attacks can ignore roll modifiers and are under the effect of +1 to **hit rolls** and -1 to **hit rolls**. You can choose to ignore the -1 to **hit rolls**, meaning those attacks will only be affected by the +1 to **hit rolls**.`,
+            },
+            {
+              id: 'section-02-02-03',
+              sectionNum: '02.02.03',
+              title: 'Random Characteristics',
+              fromApp: true,
+              body: `**Random Movement:** When a unit with a random **M** characteristic is **selected to move**, determine the entire unit's move distance by rolling the indicated number of dice.
+
+**Random Attacks:** If a weapon has a random **A** characteristic, that characteristic is determined when generating attacks for that weapon at the Resolve Attacks step (04.03). If several weapons with random **A** characteristics are making **identical attacks**, generate the attacks for each of those weapons individually, and group them all together.
+
+**Random Damage:** If a weapon has a random **D** characteristic, then each time an attack made with it inflicts damage, the controlling player determines that weapon's characteristic when the opposing player has selected a model in the target unit to allocate that attack to.
+
+When determining a random **D** characteristic, the dice roll made is called a **damage roll**.
+
+Where a **D** characteristic includes an operator (e.g. a '+', as in D6+1), the value after the operator is part of that **D** characteristic – it is not a modifier.
+
+**Other Random Characteristics:** For all other characteristics, roll to determine the value on an individual, per-model or per-weapon basis each time that characteristic is required.`,
+            },
+            {
+              id: 'section-02-02-04',
+              sectionNum: '02.02.04',
+              title: 'Healing Or Regaining Lost Wounds',
+              fromApp: true,
+              body: `When a unit **heals** or regains a number of wounds, it regains up to that number of lost wounds. For each wound healed or regained, consult the following:
+▪ If that unit has one or more models that does not have its full wounds remaining, select one of those models; that model regains one lost wound.
+▪ If all models in that unit have their starting number of wounds, but one or more models from that unit are currently **destroyed**, **revive** one of those **destroyed** models, with one wound remaining.
+This cannot cause a model to have more wounds remaining than it started the battle with.
+
+If a rule states that a model **heals** or regains a number of wounds, only that model can regain wounds up to its starting number of wounds. Any excess regained wounds are lost and do not cause a **destroyed** model from that unit to **revive**.`,
+            },
+            {
+              id: 'section-02-02-05',
+              sectionNum: '02.02.05',
+              title: 'Full Wounds Remaining',
+              fromApp: true,
+              body: `A model has its full wounds remaining if it has the same number of wounds remaining as its **W** characteristic.`,
+            },
+            {
+              id: 'section-02-02-06',
+              sectionNum: '02.02.06',
+              title: 'Characteristic Modifiers & Modified Characteristics',
+              fromApp: true,
+              body: `See Modifiers (02.02.01).`,
+            },
+          ],
         },
         {
           id: 'section-02-03',
@@ -410,6 +479,20 @@ While a unit is battle-shocked:
           title: 'Abilities',
           body: `Many units have abilities that may apply during the game. These will be described here.`,
           seeAlso: ['Aura Abilities 22.01', 'Faction Abilities 22.02', 'Psychic Abilities 22.03', 'Wargear Abilities 22.04'],
+          children: [
+            {
+              id: 'section-02-03-01',
+              sectionNum: '02.03.01',
+              title: 'Rules With Multiple Conditions And Effects',
+              fromApp: true,
+              body: `Some rules have multiple conditions, with the second, more specific condition conferring an improved rule, either instead of the first condition's rule or as well as it. Such rules require both the first condition and the second condition to be satisfied for the improved rule to apply.
+
+For example, an ability reads: 'This unit's ranged attacks that target the closest eligible target can:
+▪ Re-roll **hit rolls** of 1.
+▪ __Or:__ If that target is within range of an **objective** your opponent controls, re-roll **hit rolls**.'
+In order for those attacks to re-roll **hit rolls**, that target must be both the closest eligible target and within range of an **objective** your opponent controls.`,
+            },
+          ],
         },
         {
           id: 'section-02-04',
@@ -423,6 +506,20 @@ While a unit is battle-shocked:
 ▪ Strength (S): The higher a weapon's S characteristic, the more likely it is to wound a foe.
 ▪ Armour Penetration (AP): Presented as a modifier to a dice roll (e.g. -1). The larger the modifier, the better the weapon is at cutting through the target's defences.
 ▪ Damage (D): The amount of damage inflicted by an attack.`,
+          children: [
+            {
+              id: 'section-02-04-01',
+              sectionNum: '02.04.01',
+              title: 'Weapons With No Strength',
+              fromApp: true,
+              body: `If a weapon has no **S** characteristic (because it is '-', or for any other reason) and a rule interacts with that weapon's **S**, that weapon has **S** 1 for that interaction.
+
+### FAQs
+**Q:** My rule says that "this units ranged attacks have +1 **A**", do each of my attacks get an extra attack dice?
+
+**A:** No, it increases the **A** characteristics of the unit's ranged weapons by 1.`,
+            },
+          ],
         },
         {
           id: 'section-02-05',
@@ -431,12 +528,52 @@ While a unit is battle-shocked:
           body: `Datasheets have a list of keywords, separated into faction keywords and other keywords. The former are used when deciding which models to include in your army, but otherwise both are functionally the same. Keywords appear in full capitals, in KEYWORD BOLD.
 
 Some rules are linked to one or more keywords. For example, a rule might say that it applies to INFANTRY units. This means it only applies to units that have the INFANTRY keyword. Singular and plural instances of the same keyword function in the same way.`,
+          children: [
+            {
+              id: 'section-02-05-01',
+              sectionNum: '02.05.01',
+              title: 'Using Keywords & Mixed Keywords in Units',
+              fromApp: true,
+              body: `When using keywords, the following points apply:
+▪ A unit has all the keywords of all models in that unit. A model only has its own keywords.
+▪ If a rule specifies that it applies to a unit with a keyword, it applies to a unit which includes one or more models with that keyword.
+▪ If a rule specifies that it applies to a model with a keyword, it only applies to a model with that keyword.
+▪ If a rule specifies that it applies to 'non-KEYWORD' models/units, it only applies to models/units that do not have that keyword. For example, if a rule applies to non-VEHICLE units, it only applies to units that do not have the VEHICLE keyword.
+▪ Some units can contain models that have different keywords. While this is the case, such a unit is considered to have all of the keywords of all of its models, and so is affected by any rule that applies to units with any of those keywords. Remember that attacks are made against units, not models.
+▪ If a rule only applies to models with a specific keyword, then it instead only applies to models in such a unit that have the correct keyword.
+▪ A rule with a comma-separated list of keywords, or a series of keywords separated by slashes ('/'), or two keywords separated by the word 'or' (e.g. 'an IMMORTALS, DEATHMARKS or LYCHGUARD unit') refers to a model/unit that has any one of those keywords.
+▪ A rule with multiple adjacent keywords (e.g. 'an AELDARI GUARDIANS unit') only refers to a model/unit that has all of those keywords.
+▪ Some older rules use keywords without specifying model or unit: for example, MONSTER/VEHICLE or TRANSPORT. These rules refer to units with those keywords.
+▪ Singular and plural instances of the same keyword function in the same way.`,
+            },
+          ],
         },
         {
           id: 'section-02-06',
           sectionNum: '02.06',
           title: 'Unit Composition and Other Rules',
           body: `This section details the number and types of models in the unit. Each of those models will have one set of default wargear, which will be listed here. It may also list other rules, such as which units a leader unit can join or which units can embark within a TRANSPORT.`,
+          children: [
+            {
+              id: 'section-02-06-01',
+              sectionNum: '02.06.01',
+              title: 'Bearer',
+              fromApp: true,
+              body: `The bearer of a weapon, enhancement or item of wargear is the model equipped with it.`,
+            },
+            {
+              id: 'section-02-06-02',
+              sectionNum: '02.06.02',
+              title: "Unit's Equipment",
+              fromApp: true,
+              body: `When a rule refers to a unit's equipment, it refers to all of the wargear equipped by models in that unit.
+
+### FAQs
+**Q:** The Munitorium Field Manual shows my unit can attach to different units then are on it's datasheet, which do I use?
+
+**A:** Use the Munitorium Field Manual.`,
+            },
+          ],
         },
         {
           id: 'section-02-07',
@@ -1139,6 +1276,12 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
         {
           title: 'Название листа данных',
           body: `Здесь вы найдёте название юнита.`,
+          children: [
+            {
+              title: 'Название листа данных и ключевые слова (Datasheet Name and Keywords)',
+              body: `Помимо ключевых слов, перечисленных в разделе «Ключевые слова» (Keywords) каждого листа данных, название листа данных также действует как дополнительное ключевое слово для этого юнита.`,
+            },
+          ],
         },
         {
           title: 'Характеристики (Profiles)',
@@ -1151,10 +1294,66 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ▪ Wounds (раны) (W): раны представляют, сколько урона может выдержать модель, прежде чем она будет уничтожена. Если раны модели снижаются до 0 или ниже, модель уничтожена.
 ▪ Leadership (лидерство) (Ld): представленное как результат броска кубика (например, 7+), показывает, насколько модель храбра, решительна или самоконтролируема.
 ▪ Objective Control (контроль цели) (OC): насколько эффективно модель может контролировать цель(objective) на поле боя. Если модель имеет характеристику OC '-', она вообще не может контролировать цели(objectives).`,
+          children: [
+            {
+              title: 'Игнорирование модификаторов (Ignore Modifiers)',
+              body: `Некоторые правила позволяют игроку, оружию, модели или юниту игнорировать модификаторы. При использовании таких правил применяются следующие положения:
+
+Если не указано иное, это правило позволяет вам игнорировать модификаторы к броскам юнита, а также к характеристикам профиля юнита и оружия.
+
+Когда правило указывает, что вы можете игнорировать модификаторы к определённому броску или характеристике, вы можете выбрать игнорировать все эти модификаторы или только некоторые из них. Например, вы всё ещё можете применять положительные/полезные модификаторы, игнорируя отрицательные/вредные.
+
+**Пример:** Ваш юнит может игнорировать модификаторы характеристик и находится под эффектом +2" к **M** и -2" к **M**. Вы можете выбрать игнорировать -2" к **M**, что означает, что характеристика **M** этого юнита будет изменена только на +2".
+
+**Пример:** Дистанционные атаки вашего юнита могут игнорировать модификаторы бросков и находятся под эффектом +1 к **броскам попадания** (hit rolls) и -1 к **броскам попадания**. Вы можете выбрать игнорировать -1 к **броскам попадания**, что означает, что эти атаки будут затронуты только +1 к **броскам попадания**.`,
+            },
+            {
+              title: 'Случайные характеристики (Random Characteristics)',
+              body: `**Случайное движение (Random Movement):** Когда юнит со случайной характеристикой **M** **выбирается для манёвра** (selected to move), определите дистанцию манёвра всего юнита, бросив указанное количество кубиков.
+
+**Случайные атаки (Random Attacks):** Если оружие имеет случайную характеристику **A**, эта характеристика определяется при генерации атак для этого оружия на шаге «Разрешение атак» (Resolve Attacks step) (04.03). Если несколько единиц оружия со случайными характеристиками **A** совершают **идентичные атаки** (identical attacks), сгенерируйте атаки для каждого из этих видов оружия по отдельности, а затем сгруппируйте их все вместе.
+
+**Случайный урон (Random Damage):** Если оружие имеет случайную характеристику **D**, то каждый раз, когда атака им наносит урон, контролирующий игрок определяет эту характеристику оружия после того, как противостоящий игрок выбрал модель в целевом юните для распределения этой атаки.
+
+При определении случайной характеристики **D** совершаемый бросок кубика называется **броском урона** (damage roll).
+
+Если характеристика **D** включает оператор (например, «+», как в D6+1), значение после оператора является частью этой характеристики **D** — это не модификатор.
+
+**Другие случайные характеристики (Other Random Characteristics):** Для всех остальных характеристик бросайте, чтобы определить значение индивидуально, для каждой модели или для каждого оружия, каждый раз, когда требуется эта характеристика.`,
+            },
+            {
+              title: 'Исцеление или восстановление потерянных ран (Healing Or Regaining Lost Wounds)',
+              body: `Когда юнит **исцеляет** (heals) или восстанавливает некоторое количество ран, он восстанавливает до этого количества потерянных ран. За каждую исцелённую или восстановленную рану действуйте следующим образом:
+▪ Если в этом юните есть одна или несколько моделей, у которых не полное количество оставшихся ран, выберите одну из этих моделей; эта модель восстанавливает одну потерянную рану.
+▪ Если все модели в этом юните имеют своё начальное количество ран, но одна или несколько моделей из этого юнита в данный момент **уничтожены** (destroyed), **возродите** (revive) одну из этих **уничтоженных** моделей с одной оставшейся раной.
+Это не может привести к тому, что у модели останется больше ран, чем было в начале битвы.
+
+Если правило указывает, что модель **исцеляет** (heals) или восстанавливает некоторое количество ран, только эта модель может восстанавливать раны до своего начального количества. Любые избыточные восстановленные раны теряются и не приводят к **возрождению** **уничтоженной** модели из этого юнита.`,
+            },
+            {
+              title: 'Полное количество оставшихся ран (Full Wounds Remaining)',
+              body: `Модель имеет полное количество оставшихся ран, если у неё столько же оставшихся ран, сколько указано в её характеристике **W** (раны).`,
+            },
+            {
+              title: 'Модификаторы характеристик и изменённые характеристики (Characteristic Modifiers & Modified Characteristics)',
+              body: `См. Модификаторы (02.02.01).`,
+            },
+          ],
         },
         {
           title: 'Способности (Abilities)',
           body: `У многих юнитов есть способности(abilities), которые могут применяться во время игры. Они будут описаны здесь.`,
+          children: [
+            {
+              title: 'Правила с несколькими условиями и эффектами (Rules With Multiple Conditions And Effects)',
+              body: `Некоторые правила имеют несколько условий, при этом второе, более конкретное условие даёт улучшенное правило — либо вместо правила первого условия, либо в дополнение к нему. Такие правила требуют выполнения и первого, и второго условия, чтобы применялось улучшенное правило.
+
+Например, способность гласит: «Дистанционные атаки этого юнита, нацеленные на ближайшую доступную цель, могут:
+▪ Перебрасывать **броски попадания** (hit rolls), равные 1.
+▪ __Или:__ Если эта цель находится в пределах дальности **цели** (objective), которую контролирует ваш оппонент, перебрасывать **броски попадания**.»
+Чтобы эти атаки перебрасывали **броски попадания**, цель должна быть одновременно ближайшей доступной целью и находиться в пределах дальности **цели**, которую контролирует ваш оппонент.`,
+            },
+          ],
         },
         {
           title: 'Оружие',
@@ -1166,16 +1365,58 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ▪ Strength (сила) (S): чем выше характеристика S оружия, тем больше вероятность нанести рану врагу.
 ▪ Armour Penetration (бронепробитие) (AP): представленный как модификатор броска кубика (например, -1). Чем больше модификатор, тем лучше оружие пробивает-прорезает защиту цели.
 ▪ Damage (урон) (D): количество урона, наносимого атакой.`,
+          children: [
+            {
+              title: 'Оружие без силы (Weapons With No Strength)',
+              body: `Если оружие не имеет характеристики **S** (потому что она «-» или по любой другой причине) и правило взаимодействует с характеристикой **S** этого оружия, это оружие имеет **S** 1 для этого взаимодействия.
+
+### Часто задаваемые вопросы (FAQs)
+**В:** Моё правило гласит, что «дистанционные атаки этого юнита имеют +1 к **A**» — получает ли каждая моя атака дополнительный кубик атаки?
+
+**О:** Нет, оно увеличивает характеристику **A** дистанционного оружия юнита на 1.`,
+            },
+          ],
         },
         {
           title: 'Ключевые слова (Keywords)',
           body: `Листы данных имеют список ключевых слов, разделённых на ключевые слова фракции и другие ключевые слова. Первые используются при решении, какие модели включать в вашу армию, но в остальном оба функционально одинаковы. Ключевые слова пишутся заглавными буквами, полужирным шрифтом.
 
 Некоторые правила связаны с одним или несколькими ключевыми словами. Например, правило может говорить, что оно применяется к юнитам ПЕХОТЫ (INFANTRY). Это означает, что оно применяется только к юнитам, имеющим ключевое слово INFANTRY. Единственное и множественное число одного и того же ключевого слова функционируют одинаково.`,
+          children: [
+            {
+              title: 'Использование ключевых слов и смешанные ключевые слова в юнитах (Using Keywords & Mixed Keywords in Units)',
+              body: `При использовании ключевых слов применяются следующие положения:
+▪ Юнит имеет все ключевые слова всех моделей в этом юните. Модель имеет только свои собственные ключевые слова.
+▪ Если правило указывает, что оно применяется к юниту с ключевым словом, оно применяется к юниту, который включает одну или несколько моделей с этим ключевым словом.
+▪ Если правило указывает, что оно применяется к модели с ключевым словом, оно применяется только к модели с этим ключевым словом.
+▪ Если правило указывает, что оно применяется к моделям/юнитам «не-KEYWORD», оно применяется только к моделям/юнитам, не имеющим этого ключевого слова. Например, если правило применяется к юнитам не-VEHICLE, оно применяется только к юнитам, не имеющим ключевого слова VEHICLE.
+▪ Некоторые юниты могут содержать модели с разными ключевыми словами. Пока это так, такой юнит считается имеющим все ключевые слова всех своих моделей и поэтому подвержен любому правилу, применяющемуся к юнитам с любым из этих ключевых слов. Помните, что атаки совершаются против юнитов, а не моделей.
+▪ Если правило применяется только к моделям с определённым ключевым словом, тогда оно применяется только к моделям в таком юните, имеющим правильное ключевое слово.
+▪ Правило со списком ключевых слов через запятую, или с серией ключевых слов, разделённых слэшами («/»), или с двумя ключевыми словами, разделёнными словом «или» (например, «юнит IMMORTALS, DEATHMARKS или LYCHGUARD»), относится к модели/юниту, имеющему любое одно из этих ключевых слов.
+▪ Правило с несколькими смежными ключевыми словами (например, «юнит AELDARI GUARDIANS») относится только к модели/юниту, имеющему все эти ключевые слова.
+▪ Некоторые более старые правила используют ключевые слова без указания модели или юнита: например, MONSTER/VEHICLE или TRANSPORT. Эти правила относятся к юнитам с этими ключевыми словами.
+▪ Единственное и множественное число одного и того же ключевого слова функционируют одинаково.`,
+            },
+          ],
         },
         {
           title: 'Состав юнита и другие правила',
           body: `В этом разделе подробно описано количество и типы моделей в юните. Каждая из этих моделей будет иметь один набор стандартного снаряжения, который будет перечислен здесь. Здесь также могут быть перечислены другие правила, например, к каким юнитам может присоединиться юнит-лидер(leader) или какие юниты могут сесть в ТРАНСПОРТ(TRANSPORT).`,
+          children: [
+            {
+              title: 'Носитель (Bearer)',
+              body: `Носитель оружия, усиления(enhancement) или предмета снаряжения(wargear) — это модель, экипированная им.`,
+            },
+            {
+              title: 'Снаряжение юнита (Unit\'s Equipment)',
+              body: `Когда правило ссылается на снаряжение юнита, оно относится ко всему снаряжению(wargear), которым экипированы модели в этом юните.
+
+### Часто задаваемые вопросы (FAQs)
+**В:** Munitorium Field Manual показывает, что мой юнит может присоединяться к юнитам, отличным от указанных в его листе данных — какой использовать?
+
+**О:** Используйте Munitorium Field Manual.`,
+            },
+          ],
         },
         {
           title: 'Опции снаряжения (Wargear Options)',
