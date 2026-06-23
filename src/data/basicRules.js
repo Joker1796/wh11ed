@@ -12,6 +12,15 @@ export const basicRules = {
           sectionNum: '01.01',
           title: 'Armies',
           body: `Each player in a game of Warhammer 40,000 commands an army made up of units of models. You control all of the models in your army. If a rule refers to the 'controlling player', it is referring to the player who controls the models being affected by that rule.`,
+          children: [
+            {
+              id: 'section-01-01-01',
+              sectionNum: '01.01.01',
+              title: 'You',
+              fromApp: true,
+              body: `If a rule refers to 'you', it is referring to you the person, as the controlling player.`,
+            },
+          ],
         },
         {
           id: 'section-01-02',
@@ -25,6 +34,113 @@ Rules sometimes affect 'friendly' or 'enemy' models or units, which are defined 
 
 If a rule affects units or models without specifying that they are friendly or enemy, that rule affects any unit or model, regardless of whose army they are in. When an effect or ability applies to a unit, it applies to every model in that unit.`,
           seeAlso: ['Frame 17.02'],
+          children: [
+            {
+              id: 'section-01-02-01',
+              sectionNum: '01.02.01',
+              title: 'Starting Strength and Half-Strength',
+              fromApp: true,
+              body: `The number of models a unit contains at the start of the first battle round is its **starting strength**. The **starting strength** of an **attached** unit is the number of models that unit contains at the start of the first battle round.
+
+Some rules refer to units being **below starting strength**, or at — or below — **half-strength**. The meaning of these terms varies depending on a unit's **starting strength**, as shown below.
+
+Units or models whose **W** characteristic or **starting strength** cannot be evenly divided in half cannot be **at half-strength** (but can be **below half-strength**).`,
+              table: {
+                headers: ['Condition', 'Starting Strength of 1 (tracks wounds)', 'Starting Strength of 2 or more'],
+                rows: [
+                  ['**Below Starting Strength**', "Model's remaining wounds are less than its **W** characteristic.", 'Number of remaining models in the unit is less than its **starting strength**.'],
+                  ['**At Half-Strength**', "Model's remaining wounds are half of its **W** characteristic.", 'Number of remaining models in the unit is half of its **starting strength**.'],
+                  ['**Below Half-Strength**', "Model's remaining wounds are less than half of its **W** characteristic.", 'Number of remaining models in the unit is less than half of its **starting strength**.'],
+                ],
+              },
+              example: 'A Captain (1 model) is attached to a unit of Intercessors (5 models). This **attached** unit has a **starting strength** of 6. If three Intercessors were **destroyed**, the unit would be **at half-strength**. If four Intercessors were **destroyed**, the unit would be **below half-strength**. If all of the Intercessors were **destroyed**, the remaining Captain would be **below half-strength**, despite having his full wounds remaining.',
+            },
+            {
+              id: 'section-01-02-02',
+              sectionNum: '01.02.02',
+              title: 'Persisting Rules Effects',
+              fromApp: true,
+              body: `Some rules apply an effect that lasts until a certain duration has passed (e.g. until the start of your next turn). Such effects are known as persisting effects.
+
+If a persisting effect applies to a unit when you place it in **strategic reserves** or when it embarks within a TRANSPORT, make a note of that effect and its duration; if that unit is set up on the battlefield again, any persisting effects continue to apply to that unit for their full duration.
+
+If you have a rule that specifies when it is triggered (e.g. 'In the Shooting phase') and it does not specify how long it is active for, it is only active for the duration of that specified period (e.g. until the end of that Shooting phase). After that period, that effect is no longer applicable/active.
+
+If a rule or effect is given to a unit and it does not specify how long it is active for, it is only active for the phase in which it was given.`,
+            },
+            {
+              id: 'section-01-02-03',
+              sectionNum: '01.02.03',
+              title: 'Revived and Adding Models to a Unit',
+              fromApp: true,
+              body: `When a rule **revives**, resurrects, returns or adds models to a unit, the specified number of models are added to the unit.
+▪ If a rule **revives**, resurrects or returns models to a unit, it does so through **destroyed** models from that unit.
+▪ This cannot expand a unit beyond its **starting strength**.
+▪ Unless otherwise stated, such models are added with all wargear and enhancements they started the battle with, and with their full **W** remaining.
+Models returned to a unit on the battlefield must be set up as follows:
+
+▪ They must be set up in **coherency** with models in that unit that started that phase on the battlefield.
+▪ They can be set up **engaged** with one or more enemy units, but only if those enemy units were already **engaged** with the unit that model is being returned to.
+If a **leader** or **support** model in an **attached** unit is **destroyed** and subsequently revived, they are still part of that **attached** unit and they must be returned to it if possible.`,
+            },
+            {
+              id: 'section-01-02-04',
+              sectionNum: '01.02.04',
+              title: 'Not On The Battlefield',
+              fromApp: true,
+              body: `A unit that is embarked within a TRANSPORT or that is in **strategic reserves** is not on the battlefield. The following applies to such units:
+▪ That unit is __not__ **visible** to any __other__ units (units are **visible** to themselves).
+▪ Any other unit is __not__ **visible** to that unit.
+▪ Players cannot measure distances to or from that unit (units are within range of their own abilities).
+This means units not on the battlefield cannot be selected or targeted by any attack or rule that requires a unit to be **visible** or within a certain distance (other than their own abilities).
+
+Such units can still use their other rules, and are still units in the controlling player's army and so can be affected by rules that require a player to select a unit from an army, as well as rules that affect all units in an army.
+
+The controlling player must make **battle-shock rolls** for units that are not on the battlefield in their Command phase if they are **battle-shocked**, or if they are at or below **half-strength**.`,
+            },
+            {
+              id: 'section-01-02-05',
+              sectionNum: '01.02.05',
+              title: 'Other Model / Unit',
+              fromApp: true,
+              body: `When a rule refers to models or units 'other' than the one with that rule (or one already mentioned by that rule), it means a different model or unit to that original one.
+
+Different instances of the same datasheet are still considered to be 'other' units.`,
+            },
+            {
+              id: 'section-01-02-06',
+              sectionNum: '01.02.06',
+              title: 'Splitting Units',
+              fromApp: true,
+              body: `Some rules allow you to split units into smaller units (e.g. the Transport ability of Drukhari Venoms). When using such rules:
+▪ The same models can only be subdivided in this way once (e.g. those smaller units cannot themselves be split further).
+▪ If a rule is used to split a unit into multiple units before the battle, the **starting strength** of each individual unit is changed to be equal to the number of models in that unit.`,
+            },
+            {
+              id: 'section-01-02-07',
+              sectionNum: '01.02.07',
+              title: 'Describing Units',
+              fromApp: true,
+              body: `When a rule mentions a unit, it may have a descriptor for the unit (e.g. TERMINATOR unit, **hidden** unit, **battle-shocked** unit, **visible** unit, controlling unit). For such descriptors to apply to a unit, that unit must have at least one model in that unit that meets that descriptor.
+
+This does not give that rule to every model in the unit, unless that rule specifically states that it gives that rule to the unit, in which case every model in that unit gains that rule, as described in Units and Models (01.02).`,
+              example: `A **hidden** unit would be a unit that has a model in it that is **hidden**.`,
+            },
+            {
+              id: 'section-01-02-10',
+              sectionNum: '01.02.10',
+              title: 'Adding a new unit to your army',
+              fromApp: true,
+              body: `Some rules add a new unit to your army during a battle. That unit's **starting strength** is determined when it is added to your army, but is otherwise determined in the same way as for other units.`,
+            },
+            {
+              id: 'section-01-02-11',
+              sectionNum: '01.02.11',
+              title: 'All Types of Model',
+              fromApp: true,
+              body: `When a rule mentions 'all types of model', this is inclusive of friendly and enemy models and all keywords, e.g. MONSTER/VEHICLE models.`,
+            },
+          ],
         },
         {
           id: 'section-01-03',
@@ -747,6 +863,12 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
         {
           title: 'Армии',
           body: `Каждый игрок в игре Warhammer 40,000 командует армией, состоящей из юнитов моделей. Вы контролируете все модели в своей армии. Если правило ссылается на «контролирующего игрока»('controlling player'), оно относится к игроку, который контролирует модели, на которые распространяется это правило.`,
+          children: [
+            {
+              title: 'Вы (You)',
+              body: `Если правило ссылается на «вас» ('you'), оно относится к вам как к человеку, контролирующему игроку.`,
+            },
+          ],
         },
         {
           title: 'Юниты и модели',
@@ -757,6 +879,86 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ▪ Вражеские(enemy) юниты и модели — это те, что в армии вашего оппонента.
 
 Если правило влияет на юниты или модели, не уточняя, являются ли они союзными или вражескими, это правило влияет на любой юнит или модель, независимо от того, в чьей они армии. Когда эффект или способность применяется к юниту, она применяется к каждой модели в этом юните.`,
+          children: [
+            {
+              title: 'Начальная численность и половинная численность (Starting Strength and Half-Strength)',
+              body: `Количество моделей, которое юнит содержит в начале первого **раунда боя** (battle round), является его **начальной численностью** (starting strength). **Начальная численность** **составного юнита** (attached unit) — это количество моделей, которое этот юнит содержит в начале первого раунда боя.
+
+Некоторые правила ссылаются на юниты, находящиеся **ниже начальной численности** (below starting strength), или **на — или ниже — половинной численности** (at – or below – half-strength). Значение этих терминов варьируется в зависимости от **начальной численности** юнита, как показано ниже.
+
+Юниты или модели, чья характеристика **W** (раны) или **начальная численность** не может быть равномерно разделена пополам, не могут находиться **на половинной численности** (half-strength) (но могут быть **ниже половинной численности**).`,
+              table: {
+                headers: ['Условие', 'Начальная численность 1 (отслеживает раны)', 'Начальная численность 2 или более'],
+                rows: [
+                  ['**Ниже начальной численности**', 'Оставшиеся раны модели **меньше** её характеристики **W** (ран).', 'Количество оставшихся моделей в юните **меньше** его начальной численности.'],
+                  ['**На половинной численности**', 'Оставшиеся раны модели составляют **половину** её характеристики **W** (ран).', 'Количество оставшихся моделей в юните составляет **половину** его начальной численности.'],
+                  ['**Ниже половинной численности**', 'Оставшиеся раны модели составляют **менее половины** её характеристики **W** (ран).', 'Количество оставшихся моделей в юните составляет **менее половины** его начальной численности.'],
+                ],
+              },
+              example: 'Капитан (1 модель) приписан к отряду Интерцессоров (5 моделей). Этот **составной юнит** (attached unit) имеет **начальную численность** (starting strength) 6. Если три Интерцессора **уничтожены**, юнит находится **на половинной численности** (half-strength). Если четыре Интерцессора **уничтожены**, юнит находится **ниже половинной численности** (below half-strength). Если все Интерцессоры **уничтожены**, оставшийся Капитан находится **ниже половинной численности**, несмотря на то, что у него осталось полное количество ран (wounds).',
+            },
+            {
+              title: 'Сохраняющиеся эффекты правил (Persisting Rules Effects)',
+              body: `Некоторые правила применяют эффект, который длится, пока не пройдёт определённая продолжительность (например, до начала вашего следующего хода). Такие эффекты называются сохраняющимися эффектами(persisting effects).
+
+Если сохраняющийся эффект применяется к юниту, когда вы помещаете его в **стратегический резерв** (strategic reserves) или когда он садится в TRANSPORT, запишите этот эффект и его продолжительность; если этот юнит снова выставляется на поле боя, любые сохраняющиеся эффекты продолжают применяться к нему на всю их продолжительность.
+
+Если у вас есть правило, которое указывает, когда оно срабатывает (например, «В фазе стрельбы»), но не указывает, как долго оно активно, оно активно только на протяжении указанного периода (например, до конца этой фазы стрельбы). После этого периода этот эффект больше не применим/не активен.
+
+Если правило или эффект даётся юниту и не указывает, как долго оно активно, оно активно только в течение фазы, в которой было дано.`,
+            },
+            {
+              title: 'Восстановление и добавление моделей в юнит (Revived and Adding Models to a Unit)',
+              body: `Когда правило **возрождает** (revives), воскрешает, возвращает или добавляет модели в юнит, указанное количество моделей добавляется в юнит.
+▪ Если правило **возрождает** (revives), воскрешает или возвращает модели в юнит, оно делает это через **уничтоженные** (destroyed) модели из этого юнита.
+▪ Это не может расширить юнит сверх его **начальной численности** (starting strength).
+▪ Если не указано иное, такие модели добавляются со всем снаряжением(wargear) и усилениями(enhancements), с которыми они начинали битву, и с полным запасом **W** (ран).
+Модели, возвращённые в юнит на поле боя, должны быть размещены следующим образом:
+
+▪ Они должны быть размещены в **слаженности** (coherency) с моделями этого юнита, которые начали эту фазу на поле боя.
+▪ Они могут быть размещены **в ближнем бою** (engaged) с одним или несколькими вражескими юнитами, но только если эти вражеские юниты уже были **в ближнем бою** (engaged) с юнитом, в который возвращается модель.
+Если модель **лидера** (leader) или **поддержки** (support) в **составном юните** (attached unit) **уничтожена** (destroyed) и впоследствии возрождена, она всё ещё является частью этого **составного юнита** и должна быть возвращена в него, если возможно.`,
+            },
+            {
+              title: 'Не на поле боя (Not On The Battlefield)',
+              body: `Юнит, находящийся внутри TRANSPORT или в **стратегическом резерве** (strategic reserves), не находится на поле боя. К таким юнитам применяется следующее:
+▪ Этот юнит __не__ **виден** (visible) никаким __другим__ юнитам (юниты **видят** себя сами).
+▪ Любой другой юнит __не__ **виден** этому юниту.
+▪ Игроки не могут измерять расстояния до или от этого юнита (юниты находятся в пределах дальности своих собственных способностей).
+Это означает, что юниты не на поле боя не могут быть выбраны или стать целью какой-либо атаки или правила, требующего, чтобы юнит был **виден** или находился в пределах определённого расстояния (кроме их собственных способностей).
+
+Такие юниты всё ещё могут использовать свои другие правила и остаются юнитами в армии контролирующего игрока, поэтому на них могут влиять правила, требующие от игрока выбрать юнит из армии, а также правила, влияющие на все юниты в армии.
+
+Контролирующий игрок должен выполнять **проверки боевого шока** (battle-shock rolls) для юнитов, не находящихся на поле боя, в свою Фазу командования, если они **подвержены боевому шоку** (battle-shocked) или находятся на — или ниже — **половинной численности** (half-strength).`,
+            },
+            {
+              title: 'Другая модель / юнит (Other Model / Unit)',
+              body: `Когда правило ссылается на модели или юниты, «отличные» (other) от того, у которого есть это правило (или от уже упомянутого этим правилом), это означает модель или юнит, отличный от исходного.
+
+Разные экземпляры одного и того же листа данных(datasheet) всё ещё считаются «другими» (other) юнитами.`,
+            },
+            {
+              title: 'Разделение юнитов (Splitting Units)',
+              body: `Некоторые правила позволяют вам разделять юниты на меньшие юниты (например, способность Transport у Drukhari Venoms). При использовании таких правил:
+▪ Одни и те же модели могут быть разделены таким образом только один раз (например, эти меньшие юниты сами не могут быть разделены далее).
+▪ Если правило используется для разделения юнита на несколько юнитов до битвы, **начальная численность** (starting strength) каждого отдельного юнита изменяется так, чтобы равняться количеству моделей в этом юните.`,
+            },
+            {
+              title: 'Описание юнитов (Describing Units)',
+              body: `Когда правило упоминает юнит, у него может быть дескриптор для юнита (например, юнит TERMINATOR, **скрытый** (hidden) юнит, **подверженный боевому шоку** (battle-shocked) юнит, **видимый** (visible) юнит, контролирующий юнит). Чтобы такие дескрипторы применялись к юниту, в этом юните должна быть хотя бы одна модель, соответствующая этому дескриптору.
+
+Это не даёт это правило каждой модели в юните, если только это правило прямо не указывает, что оно даёт это правило юниту — в этом случае каждая модель в этом юните получает это правило, как описано в разделе «Юниты и модели» (01.02).`,
+              example: `**Скрытый** (hidden) юнит — это юнит, в котором есть модель, которая является **скрытой** (hidden).`,
+            },
+            {
+              title: 'Добавление нового юнита в вашу армию (Adding a new unit to your army)',
+              body: `Некоторые правила добавляют новый юнит в вашу армию во время битвы. **Начальная численность** (starting strength) этого юнита определяется в момент его добавления в вашу армию, но в остальном определяется так же, как и для других юнитов.`,
+            },
+            {
+              title: 'Все типы моделей (All Types of Model)',
+              body: `Когда правило упоминает «все типы моделей», это включает союзные и вражеские модели и все ключевые слова, например, модели MONSTER/VEHICLE.`,
+            },
+          ],
         },
         {
           title: 'Активный игрок и противостоящий игрок',

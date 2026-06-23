@@ -28,6 +28,7 @@
           :note="child.note"
           :example="child.example"
           :see-also="child.seeAlso"
+          :table="child.table"
           :from-app="child.fromApp"
         />
       </div>
