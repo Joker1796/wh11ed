@@ -31,6 +31,15 @@ Each time a model makes a ranged attack that targets such a unit, subtract 1 fro
 
 [img:/images/monsters/engaged-monsters_vehicles-shooting.jpg|Engaged monsters and vehicles — shooting hit roll penalty]`,
           note: `A unit that is **engaged** with an enemy MONSTER/VEHICLE unit is still not **eligible to shoot**, and so cannot make ranged attacks against that MONSTER/VEHICLE unit, unless that unit is **eligible to shoot** while **engaged** (e.g. because it is using **close-quarters shooting**).`,
+          children: [
+            {
+              id: 'section-17-03-01',
+              sectionNum: '17.03.01',
+              title: 'Shooting While Engaged With Monsters/Vehicles',
+              fromApp: true,
+              body: `A unit that is **engaged** with an enemy MONSTER/VEHICLE unit is still __not__ **eligible to shoot**, and so cannot make ranged attacks against that MONSTER/VEHICLE unit, unless that unit is **eligible to shoot** while **engaged** (e.g. because it is using **close-quarters shooting**).`,
+            },
+          ],
         },
       ],
     },
@@ -60,6 +69,20 @@ Before the battle, in the Declare Battle Formations step, your units can start e
 ▪ That TRANSPORT has sufficient remaining **transport capacity** for each model in that unit.
 
 When a unit embarks, the active player removes that unit from the battlefield — it is now embarked within that TRANSPORT and is not on the battlefield.`,
+          children: [
+            {
+              id: 'section-18-02-01',
+              sectionNum: '18.02.01',
+              title: 'Able To Embark',
+              fromApp: true,
+              body: `A unit is able to embark if it meets all of the conditions in Embarking (18.02). Note that one or more of these conditions may be modified by other rules, in which case a unit must satisfy those modified conditions in addition to any unmodified conditions to be able to embark.
+
+### FAQs
+**Q:** If a rule says a unit can embark into a TRANSPORT in a turn that unit disembarked, does this ignore the core rules restriction on embarking in a turn that unit made a set up move (see 18.02)?
+
+**A:** Yes`,
+            },
+          ],
         },
         {
           id: 'section-18-03',
@@ -122,6 +145,17 @@ Before the battle, in the Muster Armies step, for each **leader** and **support*
 
 Unless otherwise stated, each **bodyguard** unit can only have one **leader** unit and one **support** unit attached to it.`,
           seeAlso: ['Leader 24.22', 'Support 24.34'],
+          children: [
+            {
+              id: 'section-19-01-01',
+              sectionNum: '19.01.01',
+              title: 'Attached Units After Their Bodyguard Unit is Destroyed',
+              fromApp: true,
+              body: `Some units have rules stating that when the unit in an **attached** unit is **destroyed**, **leader/support** units that were attached to them become separate units with their original **starting strengths**.
+
+When the **bodyguard** unit in an **attached** unit affected by such a rule is **destroyed**, all of those **leader/support** units remain a single unit for all rules purposes.`,
+            },
+          ],
         },
         {
           id: 'section-19-02',
@@ -153,6 +187,15 @@ Otherwise, abilities/rules that affect a unit (or models in it) apply to every m
 
 In all of the above cases, if that last model was **destroyed** as the result of an attack, the ability it was conferring upon the **attached** unit applies until the attacking unit has resolved all of its attacks.`,
           note: `* This means **leader/support** units continue to benefit from their own "while this model is leading a unit" abilities even after their **bodyguard** unit is **destroyed**, provided they started the battle in an **attached** unit. Should those models later be **revived**, those abilities will once more apply to their **attached** unit.`,
+          children: [
+            {
+              id: 'section-19-04-01',
+              sectionNum: '19.04.01',
+              title: 'Only In Death Does Duty End',
+              fromApp: true,
+              body: `**Leader** and **support** units often have abilities that make the models they are leading more powerful. In the same way, some **bodyguard** units' abilities can enhance the power of those leading them. Abilities in Attached Units (19.04) means that once the models conferring such effects are **destroyed**, that **attached** unit does not continue to benefit from them. Should those models later be **revived**, however, those abilities will once more apply to their **attached** unit.`,
+            },
+          ],
         },
       ],
       abilitiesTable: {
@@ -180,6 +223,15 @@ In all of the above cases, if that last model was **destroyed** as the result of
           body: `Before the battle, in the Declare Battle Formations step, you can select one or more friendly units (excluding FORTIFICATIONS) to place in **strategic reserves**. Instead of setting up these units on the battlefield during deployment, place them to one side; they are **strategic reserves** units, and will arrive later in the battle.
 
 Unless otherwise stated, the combined points value of all of your **strategic reserves** units (including those embarked within TRANSPORTS that are themselves placed in **strategic reserves**) cannot exceed 50% of your points limit for your battle size.`,
+          children: [
+            {
+              id: 'section-20-01-01',
+              sectionNum: '20.01.01',
+              title: 'Reserves',
+              fromApp: true,
+              body: `The term 'Reserves' is the same as **strategic reserves**.`,
+            },
+          ],
         },
         {
           id: 'section-20-02',
@@ -200,6 +252,15 @@ Unless otherwise stated, the combined points value of all of your **strategic re
 At the end of the third battle round, unless otherwise stated, all **strategic reserves** units that have not made one or more **ingress moves** are **destroyed**, with the following exceptions:
 ▪ Units embarked within TRANSPORTS that have made an **ingress move** during the battle.
 ▪ **Repositioned** units.`,
+          children: [
+            {
+              id: 'section-20-03-01',
+              sectionNum: '20.03.01',
+              title: 'Set Up As Reinforcements',
+              fromApp: true,
+              body: `If a rule mentions a unit being set up on the battlefield as Reinforcements, it means a unit that made an **ingress move**.`,
+            },
+          ],
         },
         {
           id: 'section-20-04',
@@ -390,6 +451,12 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
 
 [img:/images/monsters/engaged-monsters_vehicles-shooting-ru.jpg|Монстры и техника в контакте — штраф к броску попадания]`,
           note: `Отряд, **находящийся в ближнем бою** (engaged) с вражеским отрядом МОНСТР/ТЕХНИКА (MONSTER/VEHICLE), всё равно **не может стрелять** (not eligible to shoot), а значит, не может совершать дальние атаки против отряда МОНСТР/ТЕХНИКА, если только он **может стрелять** (eligible to shoot) будучи **в ближнем бою** (engaged) (например, потому что использует **ближнюю стрельбу** (close-quarters shooting)).`,
+          children: [
+            {
+              title: 'Стрельба в ближнем бою с монстрами/техникой (Shooting While Engaged With Monsters/Vehicles)',
+              body: `Отряд, **находящийся в ближнем бою** (engaged) с вражеским отрядом МОНСТР/ТЕХНИКА (MONSTER/VEHICLE), всё равно __не__ **может стрелять** (eligible to shoot), а значит, не может совершать дальние атаки против отряда МОНСТР/ТЕХНИКА, если только он **может стрелять** будучи **в ближнем бою** (engaged) (например, потому что использует **ближнюю стрельбу** (close-quarters shooting)).`,
+            },
+          ],
         },
       ],
     },
@@ -419,6 +486,17 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
 ▪ В этом ТРАНСПОРТЕ достаточно оставшейся **вместимости транспорта** (transport capacity) для каждой модели этого отряда.
 
 Когда отряд грузится, активный игрок убирает его с поля боя — теперь он погружён в этот ТРАНСПОРТ и не находится на поле боя.`,
+          children: [
+            {
+              title: 'Может погрузиться (Able To Embark)',
+              body: `Отряд может погрузиться, если он соответствует всем условиям из раздела «Погрузка» (Embarking) (18.02). Обратите внимание, что одно или несколько из этих условий могут быть изменены другими правилами — в таком случае отряд должен удовлетворять этим изменённым условиям в дополнение к любым неизменённым условиям, чтобы иметь возможность погрузиться.
+
+### Часто задаваемые вопросы (FAQs)
+**В:** Если правило говорит, что отряд может погрузиться в TRANSPORT в тот ход, когда он высадился, обходит ли это ограничение основных правил на погрузку в тот ход, когда отряд совершил манёвр расстановки (см. 18.02)?
+
+**О:** Да`,
+            },
+          ],
         },
         {
           id: 'section-18-03',
@@ -479,6 +557,14 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
 До битвы, на шаге «Формирование армий» (Muster Armies step), для каждого отряда **лидера** и **поддержки** в вашей армии вы можете выбрать один дружественный отряд **телохранителей**, которым он может **командовать**. Этот отряд будет **вести** этот отряд **телохранителей** в битве и создаст с ним **объединённый** отряд.
 
 Если не указано иное, каждый отряд **телохранителей** может иметь только один присоединённый отряд **лидера** и один отряд **поддержки**.`,
+          children: [
+            {
+              title: 'Объединённые отряды после уничтожения отряда телохранителей (Attached Units After Their Bodyguard Unit is Destroyed)',
+              body: `Некоторые отряды имеют правила, гласящие, что когда отряд в **объединённом** (attached) отряде **уничтожен** (destroyed), отряды **лидера/поддержки** (leader/support), присоединённые к ним, становятся отдельными отрядами со своей изначальной **начальной численностью** (starting strengths).
+
+Когда отряд **телохранителей** (bodyguard) в **объединённом** отряде, на который влияет такое правило, **уничтожен**, все эти отряды **лидера/поддержки** остаются единым отрядом для всех игровых целей.`,
+            },
+          ],
         },
         {
           id: 'section-19-02',
@@ -505,6 +591,12 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
 
 Во всех вышеперечисленных случаях, если эта последняя модель была **уничтожена** в результате атаки, способность, которую она предоставляла **объединённому** отряду, действует до тех пор, пока атакующий отряд не разрешит все свои атаки.`,
           note: `* Это означает, что отряды **лидеров/поддержки** (leader/support) продолжают пользоваться своими собственными способностями «пока эта модель ведёт отряд» даже после **уничтожения** (destroyed) их отряда **телохранителей** (bodyguard), при условии, что они начали битву в составе **объединённого** (attached) отряда. Если эти модели впоследствии будут **воскрешены** (revived), эти способности снова будут применяться к их **объединённому** отряду.`,
+          children: [
+            {
+              title: 'Только смерть прекращает службу (Only In Death Does Duty End)',
+              body: `Отряды **лидеров** (Leader) и **поддержки** (support) часто имеют способности, делающие ведомые ими модели сильнее. Точно так же способности некоторых отрядов **телохранителей** (bodyguard) могут усиливать ведущих их. Раздел «Способности в объединённых отрядах» (Abilities in Attached Units, 19.04) означает, что как только модели, предоставляющие такие эффекты, **уничтожены** (destroyed), этот **объединённый** (attached) отряд перестаёт получать от них пользу. Однако если эти модели позже будут **воскрешены** (revived), эти способности снова будут применяться к их **объединённому** отряду.`,
+            },
+          ],
         },
       ],
       abilitiesTable: {
@@ -532,6 +624,12 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
           body: `До битвы, на шаге «Объявление боевых построений» (Declare Battle Formations step), вы можете выбрать один или несколько дружественных отрядов (кроме УКРЕПЛЕНИЙ (FORTIFICATIONS)), чтобы поместить их в **стратегический резерв** (strategic reserves). Вместо того чтобы расставлять эти отряды на поле боя во время развёртывания, отложите их в сторону — они являются отрядами **стратегического резерва** и прибудут позже в ходе битвы.
 
 Если не указано иное, суммарная стоимость в очках всех ваших отрядов **стратегического резерва** (включая те, что погружены в ТРАНСПОРТЫ (TRANSPORTS), сами помещённые в **стратегический резерв**) не может превышать 50% от вашего лимита очков для вашего размера битвы.`,
+          children: [
+            {
+              title: 'Резервы (Reserves)',
+              body: `Термин «Резервы» (Reserves) — это то же самое, что **стратегические резервы** (strategic reserves).`,
+            },
+          ],
         },
         {
           id: 'section-20-02',
@@ -552,6 +650,12 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
 В конце третьего раунда боя, если не указано иное, все отряды **стратегического резерва**, не совершившие одно или несколько **движений прибытия**, **уничтожаются** (destroyed) со следующими исключениями:
 ▪ Отряды, погружённые в ТРАНСПОРТЫ (TRANSPORTS), которые совершили **манёвр прибытия** во время битвы.
 ▪ **Переброшенные** (repositioned) отряды.`,
+          children: [
+            {
+              title: 'Расстановка как подкрепление (Set Up As Reinforcements)',
+              body: `Если правило упоминает отряд, расставляемый на поле боя как Подкрепление (Reinforcements), это означает отряд, совершивший **манёвр прибытия** (ingress move).`,
+            },
+          ],
         },
         {
           id: 'section-20-04',

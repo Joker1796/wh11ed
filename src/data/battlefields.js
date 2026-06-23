@@ -183,6 +183,17 @@ While a model has **gone to ground**, subtract 3" from that model's **detection 
           body: `If a mission uses **objectives**, it will state where they are located on the battlefield. Typically, your mission will have a deployment map showing several points where **objectives** should be placed. The location of each point should coincide with a **terrain area** (13.01); that **terrain area** is the **objective**, and is called a **terrain objective**.
 
 When measuring distances to and from an **objective**, measure to and from the closest part of it.`,
+          children: [
+            {
+              id: 'section-14-01-01',
+              sectionNum: '14.01.01',
+              title: 'Objectives Not Within A Terrain Area',
+              fromApp: true,
+              body: `If the location point of an **objective** does not coincide with a **terrain area**, you must denote the location of that **objective** with a flat, circular marker, 40 mm in diameter, centred on that point – this is called an **objective marker**. Models can move through **objective markers** and they can end a move on top of **objective markers**.
+
+A model is within range of an **objective marker** while it is within 3" horizontally and 5" vertically of that **objective marker**. When measuring distances to and from an **objective marker**, measure to and from the closest part of it.`,
+            },
+          ],
         },
         {
           id: 'section-14-02',
@@ -233,6 +244,33 @@ Each time you use a **stratagem**, resolve the following sequence:
 1. Select targets as described in that **stratagem**.
 2. Reduce your CP total by the CP cost listed in that **stratagem**. If that **stratagem** contains a section that carries an additional CP cost (e.g. +1CP), you can only use that additional section if you increase the CP cost of that **stratagem** by the amount shown. If you do not have enough CP remaining, you cannot use that **stratagem**.
 3. Resolve the effects of that **stratagem**.`,
+          children: [
+            {
+              id: 'section-15-01-01',
+              sectionNum: '15.01.01',
+              title: 'Modifying CP Cost',
+              fromApp: true,
+              body: `Some rules modify the cost of using certain **stratagems**. In such cases, the following points apply:
+▪ The CP cost of a **stratagem** use can never be modified below 0CP.
+▪ If a rule modifies the CP cost of a **stratagem** when you use it, but does not specify a duration for that modifier, that modifier only applies to that usage of that **stratagem**.`,
+            },
+            {
+              id: 'section-15-01-02',
+              sectionNum: '15.01.02',
+              title: 'Affected By A Stratagem',
+              fromApp: true,
+              body: `If a unit is selected as the target of a **stratagem**, it is said to be affected by that **stratagem**.`,
+            },
+            {
+              id: 'section-15-01-03',
+              sectionNum: '15.01.03',
+              title: 'Stratagem Definitions',
+              fromApp: true,
+              body: `▪ **Your Opponent's Stratagems:** **stratagems** that your opponent uses are sometimes referred to as your opponent's **stratagems**.
+▪ **Your Stratagems:** **stratagems** that you use are sometimes referred to as your **stratagems**.
+▪ **Your Unit (in Stratagems):** The term 'your unit(s)' in the Effect section of **stratagems** always relates to the unit(s) selected in the Target section of that **stratagem**, and never refers to any other units from your army.`,
+            },
+          ],
         },
         {
           id: 'section-15-core-label',
@@ -606,6 +644,14 @@ If a unit performing an **action** makes a move (excluding **pile-in** and **con
           body: `Если в миссии используются **цели** (objectives), в ней указывается, где они находятся на поле боя. Как правило, в вашей миссии будет карта развёртывания, показывающая несколько точек, в которых должны быть размещены **цели**. Расположение каждой точки должно совпадать с **областью укрытия** (terrain area) (13.01); этот **элемент укрытия** (terrain feature) является **целью** и называется **целевым объектом местности** (terrain objective).
 
 При измерении расстояний до **цели** и от неё измеряйте расстояние до ближайшей её части.`,
+          children: [
+            {
+              title: 'Цели, не находящиеся внутри области укрытия (Objectives Not Within A Terrain Area)',
+              body: `Если точка расположения **цели** (objective) не совпадает с **областью укрытия** (terrain area), вы должны обозначить местоположение этой **цели** плоским круглым маркером диаметром 40 мм, отцентрованным на этой точке — это называется **маркером цели** (objective marker). Модели могут проходить сквозь **маркеры цели** и могут завершить манёвр на **маркерах цели**.
+
+Модель находится в пределах досягаемости **маркера цели**, пока она находится в пределах 3" по горизонтали и 5" по вертикали от этого **маркера цели**. При измерении расстояний до **маркера цели** и от него измеряйте до ближайшей его части.`,
+            },
+          ],
         },
         {
           id: 'section-14-02',
@@ -656,6 +702,24 @@ If a unit performing an **action** makes a move (excluding **pile-in** and **con
 1. Выберите цели, как описано в данной **стратегеме**.
 2. Уменьшите ваш запас командных очков (CP) на стоимость в CP, указанную в данной **стратегеме**. Если в **стратегеме** содержится раздел с дополнительной стоимостью в CP (например, +1 CP), вы можете использовать этот дополнительный раздел, только если вы увеличите стоимость **стратегемы** на указанную величину. Если у вас не осталось достаточного количества CP, вы не можете использовать эту **стратегему**.
 3. Примените эффекты данной **стратегемы**.`,
+          children: [
+            {
+              title: 'Изменение стоимости в CP (Modifying CP Cost)',
+              body: `Некоторые правила изменяют стоимость использования определённых **стратегем** (stratagems). В таких случаях применяются следующие положения:
+▪ Стоимость использования **стратегемы** в CP никогда не может быть изменена ниже 0 CP.
+▪ Если правило изменяет стоимость **стратегемы** в CP, когда вы её используете, но не указывает продолжительность этого модификатора, этот модификатор применяется только к этому использованию этой **стратегемы**.`,
+            },
+            {
+              title: 'Подвержен стратегеме (Affected By A Stratagem)',
+              body: `Если отряд выбран целью **стратегемы** (stratagem), говорят, что он подвержен этой **стратегеме**.`,
+            },
+            {
+              title: 'Определения стратегем (Stratagem Definitions)',
+              body: `▪ **Стратегемы вашего оппонента (Your Opponent's Stratagems):** **стратегемы** (stratagems), которые использует ваш оппонент, иногда называются стратегемами вашего оппонента.
+▪ **Ваши стратегемы (Your Stratagems):** **стратегемы**, которые используете вы, иногда называются вашими **стратегемами**.
+▪ **Ваш отряд (в стратегемах) (Your Unit (in Stratagems)):** Термин «ваш отряд(ы)» в разделе «Эффект» (Effect) **стратегем** всегда относится к отряду(ам), выбранному в разделе «Цель» (Target) этой **стратегемы**, и никогда не относится к каким-либо другим отрядам из вашей армии.`,
+            },
+          ],
         },
         {
           id: 'section-15-core-label',
