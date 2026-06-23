@@ -39,6 +39,27 @@ Each turn consists of seven parts: first the Start of Turn step, then a series o
 [img:/images/turn/FIGHT-PHASE.png|Phase icon: Fight Phase]
 [img:/images/turn/END-OF-TURN-STEP.png|Phase icon: End of Turn Step]`,
         example: `Player A won the roll-off and chose to take the first turn. In Battle Round 1, Player A completes their entire turn (Command → Movement → Shooting → Charge → Fight), then Player B takes theirs. In Battle Round 2, Player A again goes first — the order never changes mid-game.`,
+        children: [
+          {
+            id: 'section-07-02-01',
+            sectionNum: '07.02.01',
+            title: 'Out Of Phase Rules',
+            fromApp: true,
+            body: `Some rules allow a model or unit to make a move, shoot, declare a charge or fight outside of the normal turn sequence.
+
+When using these out-of-phase rules, you cannot use any other 'phase-locked' rules; that is, any other rule that explicitly states the phase in which that rule applies.`,
+            example: `In your opponent's Movement phase, you target a friendly unit with the Fire Overwatch **stratagem**. That unit has an ability which is used 'In your Shooting phase, after this unit has shot'. Because Fire Overwatch is phase-locked to your opponent's Shooting phase, that ability is not triggered.`,
+          },
+          {
+            id: 'section-07-02-02',
+            sectionNum: '07.02.02',
+            title: 'Battle Round/Turn/Phase Definitions',
+            fromApp: true,
+            body: `▪ **Start of Battle Round/Turn/Phase:** If a rule is triggered at the start of the battle round/turn/phase, it is triggered at the start of every battle round/turn/phase.
+▪ **The Turn/the Phase:** If a rule is triggered during __the__ turn/phase instead of during __your__ turn/phase or __your opponent's__ turn/phase, it is triggered in both players' turn/phase.`,
+            example: `If a rule states 'At the end of the Movement phase, this model **heals** 1 wound', that rule triggers at the end of your Movement phase and at the end of your opponent's Movement phase.`,
+          },
+        ],
       },
       {
         id: 'section-07-03',
@@ -82,6 +103,15 @@ The battle round then ends and, unless the battle ends, the next battle round st
         title: 'Gain Core CP',
         body: `Both players gain 1 Command Point (CP).`,
         note: 'Command Points are a valuable resource you can spend to use stratagems (15). The Gain Core CP step ensures that both players gain 1CP each turn. While these are termed Core CP here, they are Command Points like any other.',
+        children: [
+          {
+            id: 'section-08-02-01',
+            sectionNum: '08.02.01',
+            title: 'Command Points',
+            fromApp: true,
+            body: `Command Points are a valuable resource you can spend to use **stratagems** (15). The Gain Core CP step ensures that both players gain 1CP each turn. While these are termed Core CP here, they are Command Points like any other. Other rules sometimes mention 'Core CP' when referring to these Command Points`,
+          },
+        ],
       },
       {
         id: 'section-08-03',
@@ -99,6 +129,15 @@ If a unit was battle-shocked at the start of this step and its **battle-shock ro
 [img:/images/command/battle-shock-examples-4.jpg|Battle shock example 4 — OC reduction]
 `,
         seeAlso: ['Battle-Shock Rolls 01.07', 'Half-strength 24.00', 'Multiple Battle-Shock Rolls 24.00'],
+        children: [
+          {
+            id: 'section-08-03-01',
+            sectionNum: '08.03.01',
+            title: 'Multiple Battle-shock Rolls',
+            fromApp: true,
+            body: `In the Battle-shock step (08.03), unless otherwise stated, no more than one **battle-shock roll** can be made by each unit. If for any reason a unit must make a **battle-shock roll** in this step before one it is required to make for being battle-shocked or at or below **half-strength**, that unit does not also have to make the **battle-shock roll** for being battle-shocked or at or below **half-strength**.`,
+          },
+        ],
       },
       {
         id: 'section-08-04',
@@ -154,6 +193,33 @@ If a unit was battle-shocked at the start of this step and its **battle-shock ro
 ▪ **Disembark move** (18.04)
 ▪ **Ingress move** (20.04)`,
         seeAlso: ['Actions 16.00', 'Aircraft 23.00', 'Flying Models 21.03', 'Monsters and Vehicles 17.00', 'Strategic Reserves 20.00', 'Transports 18.00'],
+        children: [
+          {
+            id: 'section-09-02-01',
+            sectionNum: '09.02.01',
+            title: 'Selecting Units To Move',
+            fromApp: true,
+            body: `When the Move Units step ends, the active player must have selected all of their units to make a move with, including those in **strategic reserves**. This means that before the phase ends, every unit in their army will have been selected to make a move, even if it is to **remain stationary** (09.04). Any units the active player does not select a **move type** for during this step will **remain stationary**.`,
+          },
+          {
+            id: 'section-09-02-02',
+            sectionNum: '09.02.02',
+            title: 'Selecting Modes',
+            fromApp: true,
+            body: `Some rules instruct you to select a mode, such as **fall-back moves** (09.07). Modes are mutually exclusive, and you must assess each one in the order presented. When making a move, if your unit does not meet the conditions of any of the modes, it cannot make that move.
+
+Sometimes a mode will be mandatory if applicable (e.g. **consolidation modes**, 12.08), but in the case of **fall-back moves**, **ordered retreat** is not mandatory, so you could select **desperate escape** instead.
+
+Many **move types** state conditions you must meet while/after moving. Those that are labelled with a mode name only apply if you selected that mode; those not labelled with a mode name always apply.`,
+          },
+          {
+            id: 'section-09-02-03',
+            sectionNum: '09.02.03',
+            title: 'Reinforcements Step',
+            fromApp: true,
+            body: `Rules that say they happen during the Reinforcements step happen during the Move Units step.`,
+          },
+        ],
       },
       {
         id: 'section-09-03',
@@ -342,6 +408,15 @@ A unit is **eligible to shoot** if it is on the battlefield and has not already 
 
 2. Make **Charge Roll**: Make a **charge roll** by rolling 2D6: the result is the **maximum distance** for the **charge move**.
 3. Attempt Charge: If it is possible to make a **charge move**, and if you still want to, make a **charge move** with that unit. Otherwise, your unit does not make a **charge move**. In either case, the charge is then resolved.`,
+        children: [
+          {
+            id: 'section-11-02-01',
+            sectionNum: '11.02.01',
+            title: 'Failed Charges',
+            fromApp: true,
+            body: `Note that in the absence of modifiers to the **charge roll**, a result of 2 (a double 1) is never sufficient for a unit to complete a **charge move**, as a unit cannot be within **engagement range** (2") when it attempts a **charge**. Such a roll would therefore result in a failed **charge**, and the unit would not move.`,
+          },
+        ],
       },
       {
         id: 'section-11-03',
@@ -444,6 +519,16 @@ Players resolve the following sequence until all eligible units have been **sele
 → Otherwise, the other player selects their next unit.
 
 After resolving a fight in the Resolve Remaining Combats step, if there are one or more Fights First units that are now **eligible to fight**, return to the Resolve Fights First Combats step.`,
+        children: [
+          {
+            id: 'section-12-04-01',
+            sectionNum: '12.04.01',
+            title: 'Eligible to fight, but unable to fight',
+            fromApp: true,
+            body: `During the Fight sequence, when the sequence returns to a player to select a unit to fight, if all of that player's units that are **eligible to fight** are more than 5" from all enemy units, that player can instead choose to pass and return the sequence to their opponent to select a unit. If both players pass in succession, or if one player passes when their opponent has no remaining units that are **eligible to fight**, the Fight step ends.`,
+            note: `Designer's Note: Occasionally, all of a unit's targets will be **destroyed** before they have had a chance to fight, with no other targets close enough to **engage** with a **pile-in move**. In such cases, a player can choose to pass and wait to see if another enemy unit ends a **pile-in move** close enough to be attacked later in the phase.`,
+          },
+        ],
       },
       {
         id: 'section-12-fight-types',
@@ -543,6 +628,21 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 [img:/images/turn/fight-phase-banner-ru.png|Фаза ближнего боя]
 [img:/images/turn/end-of-turn-step-banner-ru.png|Шаг конца хода]`,
         example: `Игрок А выиграл бросок и выбрал первый ход. В Раунде боя 1 Игрок А завершает свой полный ход (Командование → Движение → Стрельба → Нападение → Ближний бой), затем Игрок Б делает свой ход. В Раунде боя 2 Игрок А снова ходит первым — порядок не меняется на протяжении всей игры.`,
+        children: [
+          {
+            title: 'Внефазовые правила (Out Of Phase Rules)',
+            body: `Некоторые правила позволяют модели или юниту совершить манёвр, выстрелить, объявить нападение или сразиться вне обычной последовательности хода.
+
+При использовании этих внефазовых правил вы не можете использовать никакие другие «привязанные к фазе» правила, то есть любые другие правила, которые явно указывают фазу, в которой они применяются.`,
+            example: `В Фазе движения вашего оппонента вы нацеливаетесь на союзный юнит **стратагемой** (stratagem) Fire Overwatch. У этого юнита есть способность, используемая «В вашей Фазе стрельбы, после того как этот юнит выстрелил». Поскольку Fire Overwatch привязана к Фазе стрельбы вашего оппонента, эта способность не срабатывает.`,
+          },
+          {
+            title: 'Определения раунда боя/хода/фазы (Battle Round/Turn/Phase Definitions)',
+            body: `▪ **Начало раунда боя/хода/фазы (Start of Battle Round/Turn/Phase):** Если правило срабатывает в начале раунда боя/хода/фазы, оно срабатывает в начале каждого раунда боя/хода/фазы.
+▪ **Ход/фаза (The Turn/the Phase):** Если правило срабатывает в __течение__ хода/фазы, а не в __вашем__ ходе/фазе или ходе/фазе __вашего оппонента__, оно срабатывает в ходе/фазе обоих игроков.`,
+            example: `Если правило гласит «В конце Фазы движения эта модель **исцеляет** 1 рану», это правило срабатывает в конце вашей Фазы движения и в конце Фазы движения вашего оппонента.`,
+          },
+        ],
       },
       {
         title: 'Конец раунда боя',
@@ -576,6 +676,12 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
         title: 'Получение базовых CP',
         body: `Оба игрока получают 1 командное очко (CP).`,
         note: 'Командные очки (CP) — это ценный ресурс, который вы можете тратить на использование стратагем (15). Этап получения базовых CP гарантирует, что оба игрока получают по 1 CP в каждый ход. Хотя здесь они называются базовыми (Core CP), это такие же командные очки, как и любые другие. Некоторые правила иногда упоминают «базовые CP» (Core CP), когда говорят об этих очках.',
+        children: [
+          {
+            title: 'Командные очки (Command Points)',
+            body: `**Командные очки** (Command Points) — это ценный ресурс, который вы можете тратить на использование **стратагем** (stratagems) (15). Шаг «Получение базовых CP» гарантирует, что оба игрока получают по 1 CP каждый ход. Хотя здесь они называются базовыми CP (Core CP), это командные очки, как и любые другие. Другие правила иногда упоминают «базовые CP» (Core CP), ссылаясь на эти командные очки.`,
+          },
+        ],
       },
       {
         title: 'Шок (Battle-Shock)',
@@ -590,6 +696,12 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 [img:/images/command/battle-shock-examples-3-ru.jpg|Тест боевого шока, пример 3 — несколько юнитов]
 [img:/images/command/battle-shock-examples-4-ru.jpg|Тест боевого шока, пример 4 — снижение OC]
 `,
+        children: [
+          {
+            title: 'Несколько проверок боевого шока (Multiple Battle-shock Rolls)',
+            body: `На шаге «Боевой шок» (08.03), если не указано иное, каждый юнит может сделать не более одной **проверки боевого шока** (battle-shock roll). Если по какой-либо причине юнит должен сделать **проверку боевого шока** на этом шаге раньше той, которую он обязан сделать за подверженность боевому шоку или за нахождение на — или ниже — **половинной численности** (half-strength), этому юниту не нужно также делать **проверку боевого шока** за подверженность боевому шоку или за нахождение на — или ниже — **половинной численности**.`,
+          },
+        ],
       },
       {
         title: 'Командные способности',
@@ -632,6 +744,24 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 ▪ Fall-back move (Отступление) (см.далее)
 ▪ Disembark move (Высадка) (18.04)
 ▪ Ingress move (Вторжение) (20.04)`,
+        children: [
+          {
+            title: 'Выбор юнитов для манёвра (Selecting Units To Move)',
+            body: `Когда шаг «Перемещение юнитов» заканчивается, активный игрок должен выбрать все свои юниты для совершения манёвра, включая находящиеся в **стратегических резервах** (strategic reserves). Это означает, что до конца фазы каждый юнит в его армии будет выбран для совершения манёвра, даже если это означает **остаться недвижимым** (remain stationary) (09.04). Любые юниты, для которых активный игрок не выбрал **тип манёвра** (move type) на этом шаге, **остаются недвижимыми**.`,
+          },
+          {
+            title: 'Выбор режимов (Selecting Modes)',
+            body: `Некоторые правила предписывают вам выбрать режим, например **манёвры отступления** (fall-back moves) (09.07). Режимы взаимоисключающие, и вы должны оценивать каждый из них в указанном порядке. При совершении манёвра, если ваш юнит не соответствует условиям ни одного из режимов, он не может совершить этот манёвр.
+
+Иногда режим обязателен, если применим (например, **режимы консолидации** (consolidation modes), 12.08), но в случае **манёвров отступления** **упорядоченное отступление** (ordered retreat) не обязательно, поэтому вместо него вы можете выбрать **отчаянное бегство** (desperate escape).
+
+Многие **типы манёвров** (move types) указывают условия, которые вы должны соблюсти во время/после манёвра. Те, что помечены названием режима, применяются только если вы выбрали этот режим; те, что не помечены названием режима, применяются всегда.`,
+          },
+          {
+            title: 'Шаг подкреплений (Reinforcements Step)',
+            body: `Правила, которые, как указано, происходят во время шага «Подкрепления» (Reinforcements step), происходят во время шага «Перемещение юнитов».`,
+          },
+        ],
       },
       {
         title: 'Конец фазы движения',
@@ -782,6 +912,12 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 
 2. Сделайте бросок на нападение (Make Charge Roll): Сделайте бросок на нападение, бросив 2D6: результат является **максимальным расстоянием** для манёвра нападения (charge move).
 3. Попытка нападения (Attempt Charge): Если возможно совершить манёвр нападения (charge move) и если вы всё ещё хотите этого, совершите манёвр нападения этим юнитом. В противном случае ваш юнит не совершает манёвр нападения. В любом случае нападение затем завершается.`,
+        children: [
+          {
+            title: 'Неудавшиеся нападения (Failed Charges)',
+            body: `Обратите внимание, что в отсутствие модификаторов к **броску нападения** (charge roll) результат 2 (две единицы) никогда не достаточен для завершения юнитом **манёвра нападения** (charge move), так как юнит не может находиться в **радиусе связывания** (engagement range) (2"), когда он совершает **нападение** (charge). Поэтому такой бросок приведёт к неудавшемуся **нападению**, и юнит не будет перемещаться.`,
+          },
+        ],
       },
       {
         title: 'Конец фазы нападения (End of Charge Phase)',
@@ -868,6 +1004,13 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 → В противном случае другой игрок выбирает свой следующий юнит.
 
 После выполнения схватки на шаге «Выполнить оставшиеся схватки», если появляется один или несколько юнитов с **«Первым ударом» (Fights First)**, которые теперь **имеют право сражаться (eligible to fight)**, вернитесь к шагу «Выполнить схватки с «Первым ударом»».`,
+        children: [
+          {
+            title: 'Может участвовать в бою, но не способен сражаться (Eligible to fight, but unable to fight)',
+            body: `Во время последовательности ближнего боя, когда последовательность возвращается к игроку для выбора юнита для боя, если все юниты этого игрока, **которые могут участвовать в бою** (eligible to fight), находятся более чем в 5" от всех вражеских юнитов, этот игрок может вместо этого передать ход и вернуть последовательность оппоненту для выбора юнита. Если оба игрока передают ход подряд или если один игрок передаёт ход, когда у его оппонента не осталось юнитов, **которые могут участвовать в бою**, шаг ближнего боя заканчивается.`,
+            note: `Примечание дизайнера: Иногда все цели юнита **уничтожаются** (destroyed) до того, как он получил шанс сразиться, и при этом нет других целей поблизости, достаточно близких, чтобы связаться с ними **сближением** (pile-in move). В таких случаях игрок может передать ход и ждать, чтобы увидеть, не закончит ли другой вражеский юнит **сближение** достаточно близко, чтобы атаковать его позже в этой фазе.`,
+          },
+        ],
       },
       {
         title: 'КОГДА ЮНИТ ВЫБРАН ДЛЯ БОЯ',

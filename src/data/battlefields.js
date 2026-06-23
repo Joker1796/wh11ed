@@ -30,6 +30,15 @@ In each case, the area of the battlefield occupied by that boundary or **terrain
 
 A mission's deployment map may define which **terrain categories** should be present within each **terrain area**. Meeting these requirements will create the best gaming experience.`,
           note: 'Note that **terrain features** sharing the same **terrain area** can belong to different **terrain categories**.',
+          children: [
+            {
+              id: 'section-13-02-01',
+              sectionNum: '13.02.01',
+              title: 'Creating Your Own Battlefield',
+              fromApp: true,
+              body: `Don't worry if your battlefield doesn't match a mission's **terrain category** requirements; just do the best with the **terrain features** you have. If a mission does not provide you with guidance, it will be up to the players to decide how to create their battlefield. When doing so, keep in mind that **dense terrain features** have the greatest impact on visibility and movement. Battlefields with too few **dense terrain features** can advantage armies that rely on shooting, or disadvantage armies that rely on melee. Also remember to leave sufficient room around **dense terrain features** for larger models such as MONSTERS/VEHICLES to manoeuvre, especially near the edges of the battlefield.`,
+            },
+          ],
         },
         {
           id: 'section-13-03',
@@ -80,6 +89,15 @@ Models can be set up or end a move on the ground level of **terrain features**. 
 
 [img:/images/terrain/terrain-and-movement-2.jpg|Terrain and movement example 2 — base overhang rules]`,
           note: 'Solid Terrain: If a **terrain feature** has the Solid rule (13.11), a model cannot end a move such that any part of it is through any enclosed part of that **terrain feature** that is 3" or less from ground level — not even through small openings such as doors and windows.',
+          children: [
+            {
+              id: 'section-13-06-01',
+              sectionNum: '13.06.01',
+              title: 'Solid Terrain and Movement',
+              fromApp: true,
+              body: `If a **terrain feature** has the **Solid** rule (13.11), as **dense terrain features** do, a model cannot end a move such that any part of it is through any enclosed part of that **terrain feature** that is 3" or less from ground level – not even through small openings such as doors and windows. This ensures that protruding elements of models cannot be used to circumvent the visibility restrictions of the Solid rule.`,
+            },
+          ],
         },
         {
           id: 'section-13-07',
@@ -107,6 +125,15 @@ Each time a ranged attack targets a unit that has the **benefit of cover** again
 ▪ That model's unit did not make one or more ranged attacks during this turn or during the previous turn.
 
 While a model is **hidden**, it can only be **visible** to enemy models that are within its **detection range**. Unless otherwise stated, a model's **detection range** is 15".`,
+          children: [
+            {
+              id: 'section-13-09-01',
+              sectionNum: '13.09.01',
+              title: 'Hidden and the First Turn',
+              fromApp: true,
+              body: `During the first turn, conditions that require something not to have happened during the previous turn are true. For the **Hidden** rule, this means that during the first turn a unit has not made ranged attacks during the previous turn.`,
+            },
+          ],
         },
         {
           id: 'section-13-10',
@@ -123,6 +150,22 @@ While a model is **hidden**, it can only be **visible** to enemy models that are
 
 [img:/images/terrain/solid.jpg|Solid terrain — line of sight blocking diagram]`,
           note: "Designer's Note: This rule ensures that models are not **visible** while sheltering in ground-level terrain, irrespective of small openings such as doors, windows or bullet holes, or because of small gaps between adjacent **terrain features**. 3\" is the height of the first floor of many **terrain features**, but some missions may adjust the height at which this rule takes effect.",
+          children: [
+            {
+              id: 'section-13-11-01',
+              sectionNum: '13.11.01',
+              title: 'Gone to Ground',
+              fromApp: true,
+              body: `**Hidden** models that are within **Solid terrain features** gain an extra benefit while they have **gone to ground**.
+
+A model has **gone to ground** while all of the following apply:
+▪ That model is **hidden**.
+▪ That model is not **fully visible** to the attacking model due to one or more intervening **Solid terrain features**.
+▪ That model's unit did not make one or more ranged attacks during this turn or during the previous turn.
+While a model has **gone to ground**, subtract 3" from that model's **detection range**.`,
+              note: `Designer's Note: Units that made ranged attacks in the current or previous turn cannot **go to ground**, regardless of any abilities that allow them to shoot and remain **hidden**.`,
+            },
+          ],
         },
       ],
     },
@@ -422,6 +465,12 @@ If a unit performing an **action** makes a move (excluding **pile-in** and **con
 
 Карта развёртывания миссии может определять, какие **категории укрытий** должны присутствовать в каждой **области укрытия** (terrain area). Соблюдение этих требований создаст наилучший игровой опыт.`,
           note: 'Обратите внимание, что **элементы укрытий** (terrain features), находящиеся в одной и той же **области укрытия** (terrain area), могут принадлежать к разным **категориям укрытий** (terrain categories).',
+          children: [
+            {
+              title: 'Создание собственного поля боя (Creating Your Own Battlefield)',
+              body: `Не переживайте, если ваше поле боя не соответствует требованиям миссии к **категориям укрытий** (terrain category); просто используйте имеющиеся **элементы укрытий** (terrain features) как можно лучше. Если миссия не даёт вам указаний, игроки сами решают, как создать своё поле боя. При этом помните, что **надёжные элементы укрытий** (dense terrain features) сильнее всего влияют на видимость и движение. Поля боя со слишком малым числом **надёжных элементов укрытий** могут давать преимущество армиям, полагающимся на стрельбу, или ставить в невыгодное положение армии, полагающиеся на ближний бой. Также не забудьте оставить достаточно места вокруг **надёжных элементов укрытий** для манёвра крупных моделей, таких как MONSTERS/VEHICLES, особенно у краёв поля боя.`,
+            },
+          ],
         },
         {
           id: 'section-13-03',
@@ -472,6 +521,12 @@ If a unit performing an **action** makes a move (excluding **pile-in** and **con
 
 [img:/images/terrain/terrain-and-movement-2-ru.jpg|Укрытие и движение, пример 2 — правила выноса базы]`,
           note: 'Сплошное укрытие: Если **элемент укрытия** (terrain feature) обладает правилом Сплошное (Solid) (13.11), модель не может завершить манёвр так, чтобы любая её часть оказалась по ту сторону любой закрытой части этого **элемента укрытия**, находящейся на высоте 3" или менее от уровня земли — даже через небольшие проёмы, такие как двери и окна.',
+          children: [
+            {
+              title: 'Сплошное укрытие и движение (Solid Terrain and Movement)',
+              body: `Если **элемент укрытия** (terrain feature) обладает правилом **Сплошное** (Solid) (13.11), как **надёжные элементы укрытий** (dense terrain features), модель не может завершить манёвр так, чтобы любая её часть оказалась по ту сторону любой закрытой части этого **элемента укрытия**, находящейся на высоте 3" или менее от уровня земли — даже через небольшие проёмы, такие как двери и окна. Это гарантирует, что выступающие элементы моделей нельзя использовать, чтобы обойти ограничения видимости правила Сплошное.`,
+            },
+          ],
         },
         {
           id: 'section-13-07',
@@ -499,6 +554,12 @@ If a unit performing an **action** makes a move (excluding **pile-in** and **con
 ▪ Юнит этой модели **не совершал** одну или несколько дистанционных атак в течение этого хода или в течение предыдущего хода.
 
 Пока модель находится в **скрытности**, она может быть **видна** (visible) только вражеским моделям, которые находятся в пределах её **радиуса обнаружения** (detection range). Если не указано иное, **радиус обнаружения** модели составляет 15".`,
+          children: [
+            {
+              title: 'Скрытность и первый ход (Hidden and the First Turn)',
+              body: `В течение первого хода условия, требующие, чтобы что-то не произошло в течение предыдущего хода, истинны. Для правила **Скрытность** (Hidden) это означает, что в течение первого хода юнит не совершал дистанционных атак в течение предыдущего хода.`,
+            },
+          ],
         },
         {
           id: 'section-13-10',
@@ -515,6 +576,19 @@ If a unit performing an **action** makes a move (excluding **pile-in** and **con
 
 [img:/images/terrain/solid-ru.jpg|Монолитное укрытие — диаграмма блокировки линии обзора]`,
           note: 'Примечание дизайнера: Это правило гарантирует, что модели **не видны** (not visible), пока укрываются в укрытиях на уровне земли, независимо от небольших отверстий, таких как двери, окна или нулевые отверстия, или из-за небольших зазоров между соседними **элементами укрытий**. 3" — это высота первого этажа многих **элементов укрытий**, но некоторые миссии могут корректировать высоту, на которой это правило вступает в силу.',
+          children: [
+            {
+              title: 'Залегание (Gone to Ground)',
+              body: `**Скрытные** (Hidden) модели, находящиеся внутри **сплошных элементов укрытий** (Solid terrain features), получают дополнительное преимущество, пока они **залегли** (gone to ground).
+
+Модель **залегла** (gone to ground), пока выполняются все следующие условия:
+▪ Эта модель **скрытна** (hidden).
+▪ Эта модель **не полностью видна** (not fully visible) атакующей модели из-за одного или нескольких промежуточных **сплошных элементов укрытий** (Solid terrain features).
+▪ Юнит этой модели не совершал одну или несколько дистанционных атак в течение этого хода или в течение предыдущего хода.
+Пока модель **залегла**, вычтите 3" из её **радиуса обнаружения** (detection range).`,
+              note: `Примечание дизайнера: Юниты, совершавшие дистанционные атаки в текущем или предыдущем ходу, не могут **залечь** (go to ground), независимо от любых способностей, позволяющих им стрелять и оставаться **скрытными** (hidden).`,
+            },
+          ],
         },
       ],
     },
