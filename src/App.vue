@@ -583,6 +583,7 @@ onUnmounted(() => {
   height: 100%;
   display: flex;
   align-items: stretch;
+  justify-content: center;
   gap: 0;
   overflow-x: auto;
   scrollbar-width: none;

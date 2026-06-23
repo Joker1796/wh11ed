@@ -470,7 +470,7 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
 ▪ Одно другое оружие ближнего боя этой модели, если возможно.`,
       children: [
         {
-          title: 'Только оружие [EXTRA ATTACKS] (Only [EXTRA ATTACKS] weapons)',
+          title: 'Только оружие [EXTRA ATTACKS]',
           body: `Если у юнита есть оружие [EXTRA ATTACKS], ему не нужно выбирать оружие без способности [EXTRA ATTACKS], чтобы совершать атаки этим оружием [EXTRA ATTACKS].`,
         },
       ],
