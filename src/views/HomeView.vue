@@ -10,13 +10,13 @@
       <p v-for="line in t.flavorText" :key="line" class="flavor-line">{{ line }}</p>
     </div>
 
-    <section class="intro-section">
+    <section id="intro-about" class="intro-section">
       <h2>{{ labels.introHeading }}</h2>
       <div v-for="para in introParagraphs" :key="para" class="para" v-html="renderInline(para)"></div>
       <div v-for="para in missionParagraphs" :key="para" class="para" v-html="renderInline(para)"></div>
     </section>
 
-    <section class="intro-section">
+    <section id="intro-app" class="intro-section">
       <h2>{{ labels.appHeading }}</h2>
       <div class="app-body">
         <div class="app-qr">
@@ -28,7 +28,7 @@
       </div>
     </section>
 
-    <section class="toc-section">
+    <section id="intro-contents" class="toc-section">
       <h2>{{ labels.contentsHeading }}</h2>
       <p class="toc-note">{{ labels.tocNote }}</p>
 
@@ -48,7 +48,7 @@
       </div>
     </section>
 
-    <section class="credits-section">
+    <section id="intro-credits" class="credits-section">
       <h2>{{ labels.creditsHeading }}</h2>
       <p class="credits-tagline">{{ t.credits.tagline }}</p>
       <p class="credits-meta">

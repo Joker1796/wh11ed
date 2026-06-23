@@ -2,10 +2,12 @@ import { basicRules } from '../data/basicRules.js'
 import { battleRound } from '../data/battleRound.js'
 import { battlefields } from '../data/battlefields.js'
 import { advancedRules } from '../data/advancedRules.js'
-import { coreAbilities } from '../data/reference.js'
+import { abilityIntro, coreAbilities, appendix, faqs } from '../data/reference.js'
 import { getEventContent } from '../data/eventCompanion.js'
 import { missions } from '../data/missions.js'
+import { intro } from '../data/intro.js'
 import { ui } from '../i18n/ui.js'
+import { h4AnchorId } from './anchors.js'
 
 const routeMap = {
   basicRules: '/basic-rules',
@@ -48,6 +50,18 @@ function stripMarkup(text) {
     .trim()
 }
 
+// `### h4` subheadings in body order. Stays in lockstep with RuleBlock's parser
+// (which numbers h4 blocks 1-based in the same order) via the shared h4AnchorId.
+function extractH4(body) {
+  if (!body) return []
+  return body
+    .split('\n')
+    .map(l => l.trim())
+    .filter(l => l.startsWith('### '))
+    .map(l => stripMarkup(l.slice(4)))
+    .filter(Boolean)
+}
+
 function buildIndex(locale) {
   const isRu = locale === 'ru'
   const items = []
@@ -64,6 +78,17 @@ function buildIndex(locale) {
       const ruSection = isRu && ruData ? (ruData[si] || {}) : {}
       if (!enSection.subsections) continue
       const sectionTitle = (isRu && ruSection.title) ? ruSection.title : (enSection.title || '')
+      // Chapter (h2) heading — a searchable, scrollable result of its own.
+      const sectionAnchor = 'section-' + String(enSection.id).padStart(2, '0')
+      const sectionDesc = (isRu && ruSection.description) ? ruSection.description : (enSection.description || '')
+      items.push({
+        id: sectionAnchor,
+        sectionNum: enSection.num || '',
+        title: sectionTitle,
+        body: stripMarkup(sectionDesc),
+        route,
+        sectionTitle,
+      })
       const ruSubs = (isRu && ruSection.subsections) ? ruSection.subsections : []
       for (let i = 0; i < enSection.subsections.length; i++) {
         const enSub = enSection.subsections[i]
@@ -77,6 +102,17 @@ function buildIndex(locale) {
           body: stripMarkup((merged.body || '') + (merged.note ? ' ' + merged.note : '')),
           route,
           sectionTitle,
+        })
+        // h4 subheadings within the body → individually navigable results.
+        extractH4(merged.body).forEach((heading, hi) => {
+          items.push({
+            id: h4AnchorId(enSub.id, hi + 1),
+            sectionNum: enSub.sectionNum,
+            title: heading,
+            body: '',
+            route,
+            sectionTitle,
+          })
         })
       }
     }
@@ -94,8 +130,84 @@ function buildIndex(locale) {
       sectionTitle: sectionTitles[locale].reference,
     })
   }
+  indexReferenceExtras(items, locale)
+  indexIntro(items, locale)
   indexEventCompanion(items, locale)
   return items
+}
+
+// Reference page extras beyond the Core Abilities table: the ability intro prose
+// (24.0x, rendered by RuleBlock → has sub.id + h4 ids), the Rules Appendix (each
+// entry has entry.id), and the FAQs (faq-<i> ids added in ReferenceView).
+function indexReferenceExtras(items, locale) {
+  const isRu = locale === 'ru'
+  const L = ui[locale]
+  const refTitle = sectionTitles[locale].reference
+
+  for (let i = 0; i < abilityIntro.en.length; i++) {
+    const en = abilityIntro.en[i]
+    const merged = isRu && abilityIntro.ru ? { ...en, ...(abilityIntro.ru[i] || {}) } : en
+    items.push({
+      id: en.id,
+      sectionNum: en.sectionNum || '',
+      title: merged.title || '',
+      body: stripMarkup((merged.body || '') + (merged.example ? ' ' + merged.example : '')),
+      route: '/reference',
+      sectionTitle: refTitle,
+    })
+    extractH4(merged.body).forEach((heading, hi) => {
+      items.push({ id: h4AnchorId(en.id, hi + 1), sectionNum: en.sectionNum || '', title: heading, body: '', route: '/reference', sectionTitle: refTitle })
+    })
+  }
+
+  for (let i = 0; i < appendix.en.length; i++) {
+    const en = appendix.en[i]
+    const merged = isRu && appendix.ru ? { ...en, ...(appendix.ru[i] || {}) } : en
+    const table = merged.table ? merged.table.rows.map(r => r.join(' ')).join('\n') : ''
+    items.push({
+      id: en.id,
+      sectionNum: '',
+      title: merged.title || '',
+      body: stripMarkup((merged.body || '') + '\n' + table),
+      route: '/reference',
+      sectionTitle: L.rulesAppendixTitle,
+    })
+  }
+
+  const faqList = isRu && faqs.ru ? faqs.ru : faqs.en
+  faqList.forEach((faq, i) => {
+    items.push({
+      id: 'faq-' + i,
+      sectionNum: '',
+      title: stripMarkup(faq.q),
+      body: stripMarkup(faq.a),
+      route: '/reference',
+      sectionTitle: L.faqsTitle,
+    })
+  })
+}
+
+// Intro / Home page (`/`) — the About, App, Contents and Credits sections. DOM ids
+// (intro-about/app/contents/credits) added in HomeView.vue so results scroll there.
+function indexIntro(items, locale) {
+  const t = intro[locale] || intro.en
+  const L = ui[locale]
+  const tocText = (t.toc || []).map(c => `${c.label} ${c.desc || ''}`).join('\n')
+  const credits = t.credits || {}
+  const add = (id, title, parts) => {
+    items.push({
+      id,
+      sectionNum: '',
+      title,
+      body: stripMarkup(parts.filter(Boolean).join('\n')),
+      route: '/',
+      sectionTitle: L.introHeading,
+    })
+  }
+  add('intro-about', L.introHeading, [t.lore, ...(t.flavorText || []), t.intro, t.missions])
+  add('intro-app', L.appHeading, [t.app])
+  add('intro-contents', L.contentsHeading, [L.tocNote, tocText])
+  add('intro-credits', L.creditsHeading, [credits.tagline])
 }
 
 // Event Companion lives in a different data shape ({ en, ru } objects rather than
