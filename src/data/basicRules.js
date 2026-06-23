@@ -810,6 +810,35 @@ You must select one melee weapon that model has.`,
               fromApp: true,
               body: `Some models are equipped with [CLOSE-QUARTERS] weapons in addition to other firearms. Such models can be an exception to the rules in this section, as you may not be able to select all of their weapons to make attacks with.`,
             },
+            {
+              id: 'section-04-01-03',
+              sectionNum: '04.01.03',
+              title: 'Multiple Weapon Profiles',
+              fromApp: true,
+              body: `In the **select weapons** step (04.01), if a selected weapon has more than one profile, then the controlling player must also select one of those profiles. The selected profile is then used in the Resolve Attacks step (04.03).
+
+Some of these profiles are known as **Hunter** profiles. **Hunter** profiles can only target units with the specified keywords.
+
+Note that if a unit is equipped with more than one such weapon, a different profile can be selected for each model within that unit.`,
+            },
+            {
+              id: 'section-04-01-04',
+              sectionNum: '04.01.04',
+              title: 'Attack Characteristics and Abilities',
+              fromApp: true,
+              body: `When making an attack, that attack is considered to have the same characteristics and abilities as the weapon making that attack.
+
+If any modifiers or abilities apply to an attack, those changes apply to the weapon making that attack until that unit's attack sequence and all effects of those abilities (e.g. [HAZARDOUS]) have been resolved.
+
+Rules that apply to a weapon that modify rolls apply to the attacks made with that weapon.`,
+            },
+            {
+              id: 'section-04-01-05',
+              sectionNum: '04.01.05',
+              title: 'Selected to Attack',
+              fromApp: true,
+              body: `Some rules use the term **selected to attack**. If a unit is **selected to fight**, **selected to shoot** or chosen to make attacks, that unit is **selected to attack**.`,
+            },
           ],
         },
         {
@@ -830,6 +859,40 @@ Select one or more enemy units to be the targets of that weapon:
 ▪ You cannot select more targets than that weapon's A characteristic.`,
           note: 'Selecting Targets: When shooting or fighting, you can select different targets for each weapon. If you cannot select a target for a weapon, or if you choose not to select a target for a ranged weapon, the model with that weapon will not make attacks with it.',
           seeAlso: ['Shooting at Engaged Monsters and Vehicles 17.03'],
+          children: [
+            {
+              id: 'section-04-02-01',
+              sectionNum: '04.02.01',
+              title: 'Selecting Targets',
+              fromApp: true,
+              body: `When shooting or fighting, you can select different targets for each weapon. If you cannot select a target for a weapon, or if you choose not to select a target for a ranged weapon, the model with that weapon will not make attacks with it.`,
+            },
+            {
+              id: 'section-04-02-02',
+              sectionNum: '04.02.02',
+              title: 'Against An Attack',
+              fromApp: true,
+              body: `Rules that are triggered 'against' certain attacks are triggered after the attacking unit has completed the Select Targets step (04.02), provided all other qualifiers are met (e.g. concerning the characteristics of the attacking unit or its weapons).
+
+Rules that are triggered when an attack is 'allocated' to a unit are triggered in step 1 of the Inflict Damage step (05.04).`,
+            },
+            {
+              id: 'section-04-02-03',
+              sectionNum: '04.02.03',
+              title: 'Single Target',
+              fromApp: true,
+              body: `When a model or unit attacks with one or more weapons, if all of the attacks made with those weapons target the same unit, that model or unit is said to be shooting at, fighting or targeting a single target.
+
+### FAQs
+**Q:** When selecting a target unit can the enemy model that is **visible** to my model and the enemy model that is in range of my model's weapon be different enemy models in the same unit?
+
+**A:** Yes
+
+**Q:** Can a model be within range of a weapon if it is not visible
+
+**A:** Yes`,
+            },
+          ],
         },
         {
           id: 'section-04-03',
@@ -859,6 +922,64 @@ If one or more other weapons targeting that unit make [def:identical-attacks:ide
               id: 'splitting-melee',
               term: 'Splitting Melee Attacks',
               text: 'While selecting targets, if you select more than one unit as the target of a melee weapon, you must split that weapon\'s attacks between those target units. To do so, declare how many of that weapon\'s attacks will be made against each unit (you must declare at least one attack per unit targeted).\n\nIn the **Gather Attack Dice** step, for each weapon that is splitting its attacks, only gather a number of **attack dice** for that weapon equal to the number of attacks you declared would be made against that target with that weapon.',
+            },
+          ],
+          children: [
+            {
+              id: 'section-04-03-01',
+              sectionNum: '04.03.01',
+              title: 'Identical Attacks',
+              fromApp: true,
+              body: `Identical attacks are those that have the same **BS/WS**, **S**, **AP** and **D** characteristics, and which are affected by the same applicable abilities and rules.`,
+            },
+            {
+              id: 'section-04-03-02',
+              sectionNum: '04.03.02',
+              title: 'Splitting Melee Attacks',
+              fromApp: true,
+              body: `While selecting targets, if you select more than one unit as the target of a melee weapon, you must split that weapon's attacks between those target units. To do so, declare how many of that weapon's attacks will be made against each unit (you must declare at least one attack per unit targeted).
+
+In the Gather Attack Dice step, for each weapon that is splitting its attacks, only gather a number of **attack dice** for that weapon equal to the number of attacks you declared would be made against that target with that weapon.`,
+            },
+            {
+              id: 'section-04-03-03',
+              sectionNum: '04.03.03',
+              title: 'Target No Longer Eligible Or Viable',
+              fromApp: true,
+              body: `If a unit that was an eligible target for a rule or attack when it was selected stops being an eligible target (for example, because a rule enables it to make an out-of-phase move that takes it out of range), the controlling player can select new targets.`,
+            },
+            {
+              id: 'section-04-03-04',
+              sectionNum: '04.03.04',
+              title: 'Shot',
+              fromApp: true,
+              body: `When all of the attacks made with a ranged weapon have been resolved, that weapon has shot.
+
+When all of a model's ranged weapons have shot, that model has shot.
+
+When all models in a unit that are making ranged attacks have resolved all of those attacks, that unit has shot.
+
+If a unit was selected to shoot and none of the models in it make any attacks, it has not shot.`,
+            },
+            {
+              id: 'section-04-03-05',
+              sectionNum: '04.03.05',
+              title: 'Fought',
+              fromApp: true,
+              body: `When all of the attacks made with a melee weapon have been resolved, that weapon has fought.
+
+When all of a model's selected melee weapons have fought, that model has fought.
+
+When all models in a unit that are making melee attacks have resolved all of those attacks, that unit has fought.
+
+If a unit was selected to fight and none of the models in it make any attacks, it has not fought.`,
+            },
+            {
+              id: 'section-04-03-06',
+              sectionNum: '04.03.06',
+              title: 'Finished Making Its Attacks',
+              fromApp: true,
+              body: `When all of an attacking unit's attacks have been resolved, it has finished making its attacks, and that unit has attacked.`,
             },
           ],
         },
@@ -891,6 +1012,15 @@ If one or more other weapons targeting that unit make [def:identical-attacks:ide
 ◆ Unmodified 6 → **CRITICAL HIT**
 ◆ Equal to or greater than that attack's BS/WS characteristic → HIT
 ◆ Any other result → FAILS`,
+          children: [
+            {
+              id: 'section-05-01-01',
+              sectionNum: '05.01.01',
+              title: 'Critical Hits and Critical Wounds',
+              fromApp: true,
+              body: `**Critical hits** are still hits, and **critical wounds** are still wounds. In addition, other rules can be triggered by a **critical hit** or a **critical wound**, such as [LETHAL HITS] and [DEVASTATING WOUNDS] (24).`,
+            },
+          ],
         },
         {
           id: 'section-05-02',
@@ -1677,6 +1807,26 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
               title: 'Дополнительное оружие (Sidearms)',
               body: `Некоторые модели оснащены оружием [CLOSE-QUARTERS] в дополнение к другому огнестрельному оружию. Такие модели могут быть исключением из правил этого раздела, поскольку вы можете быть не в состоянии выбрать всё их оружие для совершения атак.`,
             },
+            {
+              title: 'Несколько профилей оружия (Multiple Weapon Profiles)',
+              body: `На шаге **выбора оружия** (select weapons) (04.01), если у выбранного оружия более одного профиля, контролирующий игрок также должен выбрать один из этих профилей. Выбранный профиль затем используется на шаге «Совершение атак» (Resolve Attacks) (04.03).
+
+Некоторые из этих профилей известны как профили **Hunter**. Профили **Hunter** могут нацеливаться только на юниты с указанными ключевыми словами.
+
+Обратите внимание, что если юнит оснащён более чем одним таким оружием, для каждой модели в этом юните может быть выбран свой профиль.`,
+            },
+            {
+              title: 'Характеристики и способности атаки (Attack Characteristics and Abilities)',
+              body: `При совершении атаки эта атака считается имеющей те же характеристики и способности, что и оружие, совершающее эту атаку.
+
+Если к атаке применяются какие-либо модификаторы или способности, эти изменения применяются к оружию, совершающему эту атаку, до тех пор, пока не будут разрешены последовательность атаки этого юнита и все эффекты этих способностей (например, [HAZARDOUS]).
+
+Правила, применяемые к оружию, которые изменяют броски, применяются к атакам, совершаемым этим оружием.`,
+            },
+            {
+              title: 'Выбран для атаки (Selected to Attack)',
+              body: `Некоторые правила используют термин **выбран для атаки** (selected to attack). Если юнит **выбран для ближнего боя** (selected to fight), **выбран для стрельбы** (selected to shoot) или выбран для совершения атак, этот юнит **выбран для атаки**.`,
+            },
           ],
         },
         {
@@ -1694,6 +1844,31 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ▪ Каждая цель должна находиться в радиусе связывания(engaged) с моделью, у которой есть это оружие.
 ▪ Вы не можете выбирать больше целей, чем характеристика A этого оружия.`,
           note: `Выбор целей: при стрельбе или ближнем бою вы можете выбирать разные цели для каждого оружия. Если вы не можете выбрать цель для оружия или решите не выбирать цель для дистанционного оружия, модель с этим оружием не будет совершать атаки им.`,
+          children: [
+            {
+              title: 'Выбор целей (Selecting Targets)',
+              body: `При стрельбе или ближнем бою вы можете выбирать разные цели для каждого оружия. Если вы не можете выбрать цель для оружия или решите не выбирать цель для дистанционного оружия, модель с этим оружием не будет совершать атаки им.`,
+            },
+            {
+              title: 'Против атаки (Against An Attack)',
+              body: `Правила, срабатывающие «против» определённых атак, срабатывают после того, как атакующий юнит завершил шаг «Выбор целей» (Select Targets) (04.02), при условии, что соблюдены все остальные требования (например, касающиеся характеристик атакующего юнита или его оружия).
+
+Правила, срабатывающие, когда атака «распределяется» на юнит, срабатывают на шаге 1 шага «Нанесение урона» (Inflict Damage) (05.04).`,
+            },
+            {
+              title: 'Одна цель (Single Target)',
+              body: `Когда модель или юнит атакует одним или несколькими видами оружия, если все атаки этими видами оружия нацелены на один и тот же юнит, говорят, что эта модель или юнит стреляет, сражается или нацеливается на одну цель.
+
+### Часто задаваемые вопросы (FAQs)
+**В:** При выборе целевого юнита могут ли вражеская модель, **видимая** (visible) моей модели, и вражеская модель, находящаяся в дальности оружия моей модели, быть разными вражескими моделями в одном и том же юните?
+
+**О:** Да
+
+**В:** Может ли модель находиться в дальности оружия, если она не видима?
+
+**О:** Да`,
+            },
+          ],
         },
         {
           title: 'Совершение атак',
@@ -1723,6 +1898,46 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
               text: 'При выборе целей, если вы выбираете более одного юнита в качестве цели для оружия ближнего боя, вы должны разделить атаки этого оружия между этими целевыми юнитами. Для этого объявите, сколько атак этого оружия будет совершено против каждого юнита (вы должны объявить как минимум одну атаку на каждый юнит, нацеленный на него).\n\nНа шаге «Соберите кубики атаки» для каждого оружия, которое разделяет свои атаки, собирайте только количество **кубиков атаки** для этого оружия, равное числу атак, которые вы объявили для этого оружия против этой цели.',
             },
           ],
+          children: [
+            {
+              title: 'Идентичные атаки (Identical Attacks)',
+              body: `Идентичные атаки — это те, которые имеют одинаковые характеристики **BS/WS**, **S**, **AP** и **D**, а также на которые действуют одни и те же применимые способности и правила.`,
+            },
+            {
+              title: 'Разделение атак ближнего боя (Splitting Melee Attacks)',
+              body: `При выборе целей, если вы выбираете более одного юнита в качестве цели для оружия ближнего боя, вы должны разделить атаки этого оружия между этими целевыми юнитами. Для этого объявите, сколько атак этого оружия будет совершено против каждого юнита (вы должны объявить как минимум одну атаку на каждый нацеленный юнит).
+
+На шаге «Соберите кубики атаки» для каждого оружия, которое разделяет свои атаки, собирайте только количество **кубиков атаки** (attack dice) для этого оружия, равное числу атак, которые вы объявили для совершения против этой цели этим оружием.`,
+            },
+            {
+              title: 'Цель больше не доступна или непригодна (Target No Longer Eligible Or Viable)',
+              body: `Если юнит, который был доступной целью для правила или атаки на момент его выбора, перестаёт быть доступной целью (например, потому что правило позволяет ему совершить внефазовый манёвр, выводящий его из дальности), контролирующий игрок может выбрать новые цели.`,
+            },
+            {
+              title: 'Выстрелил (Shot)',
+              body: `Когда все атаки, совершённые дистанционным оружием, разрешены, это оружие выстрелило.
+
+Когда всё выбранное дистанционное оружие модели выстрелило, эта модель выстрелила.
+
+Когда все модели в юните, совершающие дистанционные атаки, разрешили все эти атаки, этот юнит выстрелил.
+
+Если юнит был выбран для стрельбы и ни одна из его моделей не совершает атак, он не выстрелил.`,
+            },
+            {
+              title: 'Сразился (Fought)',
+              body: `Когда все атаки, совершённые оружием ближнего боя, разрешены, это оружие сразилось.
+
+Когда всё выбранное оружие ближнего боя модели сразилось, эта модель сразилась.
+
+Когда все модели в юните, совершающие атаки ближнего боя, разрешили все эти атаки, этот юнит сразился.
+
+Если юнит был выбран для ближнего боя и ни одна из его моделей не совершает атак, он не сразился.`,
+            },
+            {
+              title: 'Закончил совершать свои атаки (Finished Making Its Attacks)',
+              body: `Когда все атаки атакующего юнита разрешены, он закончил совершать свои атаки, и этот юнит атаковал.`,
+            },
+          ],
         },
       ],
     },
@@ -1746,6 +1961,12 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ◆ Unmodified 6 (Немодифицированный) → CRITICAL HIT (Крит)
 ◆ Равна или превышает характеристику BS/WS этой атаки → HIT (Попадание)
 ◆ Любой другой результат → FAILS (Провал)`,
+          children: [
+            {
+              title: 'Критические попадания и критические ранения (Critical Hits and Critical Wounds)',
+              body: `**Критические попадания** (critical hits) по-прежнему являются попаданиями, а **критические ранения** (critical wounds) — ранениями. Кроме того, другие правила могут быть активированы **критическим попаданием** или **критическим ранением**, например, [LETHAL HITS] и [DEVASTATING WOUNDS] (24).`,
+            },
+          ],
         },
         {
           title: 'Wound Rolls (броски на ранение)',
