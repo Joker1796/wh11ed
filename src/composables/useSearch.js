@@ -2,6 +2,7 @@ import { basicRules } from '../data/basicRules.js'
 import { battleRound } from '../data/battleRound.js'
 import { battlefields } from '../data/battlefields.js'
 import { advancedRules } from '../data/advancedRules.js'
+import { muster } from '../data/muster.js'
 import { abilityIntro, coreAbilities, appendix, faqs } from '../data/reference.js'
 import { getEventContent } from '../data/eventCompanion.js'
 import { missions } from '../data/missions.js'
@@ -15,6 +16,7 @@ const routeMap = {
   battlefields: '/battlefields',
   advancedRules: '/advanced-rules',
   reference: '/reference',
+  muster: '/muster',
 }
 
 const sectionTitles = {
@@ -70,6 +72,7 @@ function buildIndex(locale) {
     { key: 'battleRound', enData: battleRound.en, ruData: battleRound.ru },
     { key: 'battlefields', enData: battlefields.en, ruData: battlefields.ru },
     { key: 'advancedRules', enData: advancedRules.en, ruData: advancedRules.ru },
+    { key: 'muster', enData: muster.en, ruData: muster.ru },
   ]
   for (const { key, enData, ruData } of sources) {
     const route = routeMap[key]

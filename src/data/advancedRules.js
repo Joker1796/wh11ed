@@ -25,7 +25,7 @@ When rotating a FRAME model as part of a move, if that model does not have a bas
           id: 'section-17-03',
           sectionNum: '17.03',
           title: 'Shooting at Engaged Monsters and Vehicles',
-          body: `In your Shooting phase, enemy MONSTER/VEHICLE units that are **engaged** can be selected as targets of ranged attacks.
+          body: `In your Shooting phase, enemy MONSTER/VEHICLE units that are **engaged** can be selected as targets of ranged attacks (excluding attacks made with [BLAST] weapons).
 
 Each time a model makes a ranged attack that targets such a unit, subtract 1 from the **hit roll** (excluding attacks made with [CLOSE-QUARTERS] weapons by models in a unit **engaged** with the target).
 
@@ -123,7 +123,10 @@ If a TRANSPORT model is **destroyed**, before removing it from the battlefield, 
 ◈ ELIGIBLE IF | Your unit is embarked within a TRANSPORT model that was just **destroyed**.
 ◈ EFFECT | Your unit is set up as described in Set Up (03.02).
 ◈ BEFORE MOVING | Make a **hazard roll** (06.03) for each model in your unit.
-◈ WHILE MOVING | Set up each model in your unit wholly within the **set-up distance** of that TRANSPORT, and as close as possible to that TRANSPORT. Each model that cannot be set up in this way is **destroyed**.
+◈ WHILE MOVING | Set up each model in your unit:
+▪ Wholly within the **set-up distance** of that TRANSPORT, and as close as possible to that TRANSPORT.
+▪ **Or:** If the above is not possible while remaining **unengaged**, set up that model wholly within the **set-up distance** of that TRANSPORT, as close as possible to that TRANSPORT, and **engaged**.
+▪ Each model that still cannot be set up is **destroyed**.
 ◈ AFTER MOVING | Your unit is **battle-shocked** and, until the end of the turn, it is not **eligible to declare a charge**.`,
         },
       ],
@@ -445,7 +448,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
           id: 'section-17-03',
           sectionNum: '17.03',
           title: 'Стрельба по связанным монстрам и технике',
-          body: `В вашу фазу стрельбы вражеские отряды МОНСТР/ТЕХНИКА (MONSTER/VEHICLE), находящиеся **в ближнем бою** (engaged), могут быть выбраны целью дальних атак.
+          body: `В вашу фазу стрельбы вражеские отряды МОНСТР/ТЕХНИКА (MONSTER/VEHICLE), находящиеся **в ближнем бою** (engaged), могут быть выбраны целью дальних атак (кроме атак оружием [BLAST]).
 
 Каждый раз, когда модель совершает дальнюю атаку, нацеленную на такой отряд, вычтите 1 из **броска на попадание** (hit roll) (кроме атак оружием [БЛИЖНЯЯ СТРЕЛЬБА] (CLOSE-QUARTERS), совершаемых моделями из отряда, **находящегося в ближнем бою** (engaged) с целью).
 
@@ -536,7 +539,10 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
 ◈ УСЛОВИЕ | Ваш отряд погружён в модель ТРАНСПОРТ (TRANSPORT), которая только что была **уничтожена** (destroyed).
 ◈ ЭФФЕКТ | Ваш отряд расставляется, как описано в «Расстановке» (03.02).
 ◈ ПЕРЕД ДВИЖЕНИЕМ | Совершите **бросок на опасность** (hazard roll) (06.03) за каждую модель вашего отряда.
-◈ ВО ВРЕМЯ ДВИЖЕНИЯ | Расставьте каждую модель вашего отряда целиком в пределах **расстояния расстановки** (set-up distance) от этого ТРАНСПОРТА и как можно ближе к нему. Каждая модель, которую невозможно расставить таким образом, **уничтожается**.
+◈ ВО ВРЕМЯ ДВИЖЕНИЯ | Расставьте каждую модель вашего отряда:
+▪ Целиком в пределах **расстояния расстановки** (set-up distance) от этого ТРАНСПОРТА и как можно ближе к нему.
+▪ **Или:** Если это невозможно, оставаясь **не связанным боем** (unengaged), расставьте эту модель целиком в пределах **расстояния расстановки** от этого ТРАНСПОРТА, как можно ближе к нему, и **связанной боем** (engaged).
+▪ Каждая модель, которую всё ещё невозможно расставить, **уничтожается**.
 ◈ ПОСЛЕ ДВИЖЕНИЯ | Ваш отряд находится **в боевом шоке** (battle-shocked) и до конца хода не может объявлять нападение.`,
         },
       ],

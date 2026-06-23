@@ -400,6 +400,13 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
       flavor: 'Dual weapons are often grafted to the same targeting system for greater lethality.',
       fullText: `Each time an attack is made with a **[TWIN-LINKED]** weapon, you can re-roll the **wound roll**.`,
     },
+    {
+      num: '24.39',
+      name: 'Damaged',
+      type: 'unit',
+      fullText: `This ability always takes the form **Damaged X**. While a model's remaining wounds are equal to or less than **X**, that model is **damaged**:
+▪ While a model is **damaged**, that model's attacks have -1 to **hit rolls**.`,
+    },
   ],
   ru: [
     {
@@ -651,6 +658,11 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
       // 24.38 [TWIN-LINKED]
       flavor: 'Спаренные оружия часто подключаются к одной системе наведения для большей смертоносности.',
       fullText: `Каждый раз, когда атака совершается оружием **[TWIN-LINKED]**, вы можете перебросить **бросок на ранение** (wound roll).`,
+    },
+    {
+      // 24.39 Damaged
+      fullText: `Эта способность всегда имеет вид **Damaged X**. Пока оставшиеся раны модели равны или меньше **X**, эта модель **повреждена** (damaged):
+▪ Пока модель **повреждена**, атаки этой модели имеют -1 к **броску на попадание** (hit rolls).`,
     },
   ],
 }

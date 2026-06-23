@@ -11,6 +11,7 @@ const ROUTE_MAP = {
   '20': '/advanced-rules', '21': '/advanced-rules', '22': '/advanced-rules',
   '23': '/advanced-rules',
   '24': '/reference',
+  '25': '/muster',
 }
 
 // Within the Event Companion: refs of the form "Label EC:key" or "Label EC:key#anchor".
