@@ -59,10 +59,15 @@ aws s3 sync dist "$BUCKET" \
 #     Excluded from step 2 to prevent CDN from caching them with a 1-year TTL.
 echo "▶ sw.js / registerSW.js / manifest  →  no-cache"
 set_nocache() { # <file> <content-type>
-  [ -f "dist/$1" ] && aws s3 cp "dist/$1" "$BUCKET/$1" \
-    --cache-control "no-cache" \
-    --content-type "$2" \
-    --metadata-directive REPLACE
+  # `if`, not `[ -f ] && …`: under `set -e` a missing file (e.g. no registerSW.js in
+  # PWA prompt mode) makes the `&&` return non-zero and aborts the whole deploy before
+  # index.html (step 3) and the CDN step ever run.
+  if [ -f "dist/$1" ]; then
+    aws s3 cp "dist/$1" "$BUCKET/$1" \
+      --cache-control "no-cache" \
+      --content-type "$2" \
+      --metadata-directive REPLACE
+  fi
 }
 set_nocache sw.js "application/javascript; charset=utf-8"
 set_nocache registerSW.js "application/javascript; charset=utf-8"
@@ -72,10 +77,12 @@ set_nocache manifest.webmanifest "application/manifest+json; charset=utf-8"
 #     1-year tier (step 2): a stale robots/sitemap can otherwise be served for a year.
 echo "▶ robots.txt / sitemap.xml  →  1 hour"
 set_shortcache() { # <file> <content-type>
-  [ -f "dist/$1" ] && aws s3 cp "dist/$1" "$BUCKET/$1" \
-    --cache-control "public, max-age=3600" \
-    --content-type "$2" \
-    --metadata-directive REPLACE
+  if [ -f "dist/$1" ]; then
+    aws s3 cp "dist/$1" "$BUCKET/$1" \
+      --cache-control "public, max-age=3600" \
+      --content-type "$2" \
+      --metadata-directive REPLACE
+  fi
 }
 set_shortcache robots.txt "text/plain; charset=utf-8"
 set_shortcache sitemap.xml "application/xml; charset=utf-8"
@@ -86,10 +93,12 @@ set_shortcache sitemap.xml "application/xml; charset=utf-8"
 #    change") — leaving a stale entry point pointing at hashed assets that step 1's
 #    `--delete` already removed. `cp` always uploads. (Same reason sw.js uses cp.)
 echo "▶ index.html  →  1 day"
-[ -f "dist/index.html" ] && aws s3 cp dist/index.html "$BUCKET/index.html" \
-  --cache-control "public, max-age=86400" \
-  --content-type "text/html; charset=utf-8" \
-  --metadata-directive REPLACE
+if [ -f "dist/index.html" ]; then
+  aws s3 cp dist/index.html "$BUCKET/index.html" \
+    --cache-control "public, max-age=86400" \
+    --content-type "text/html; charset=utf-8" \
+    --metadata-directive REPLACE
+fi
 
 # 4) Drop the CDN edge copy of the entry point (and anything stale).
 if [ -n "$CDN_RESOURCE_ID" ]; then
