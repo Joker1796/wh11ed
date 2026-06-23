@@ -1031,6 +1031,17 @@ If a unit was selected to fight and none of the models in it make any attacks, i
 ◆ Unmodified 6 → **CRITICAL WOUND**
 ◆ Equal to or greater than the required result (see table below) → WOUND
 ◆ Any other result → FAILS`,
+          children: [
+            {
+              id: 'section-05-02-01',
+              sectionNum: '05.02.01',
+              title: 'Multiple Toughness Characteristics',
+              fromApp: true,
+              body: `When resolving attacks that target a unit in which the models have two or more different **T** characteristics, follow the first instruction that applies from below:
+▪ If the target unit is an **attached unit**, use the highest **T** characteristic amongst **bodyguard** models in that unit that are on the battlefield.
+▪ Use the highest **T** characteristic amongst models in that unit that are on the battlefield.`,
+            },
+          ],
         },
         {
           id: 'section-05-03',
@@ -1067,6 +1078,60 @@ If a unit was selected to fight and none of the models in it make any attacks, i
 
 Example: An AP characteristic of -1 would modify a **save roll** of 3 to a 2. For models with a Sv characteristic of 2+ or better, that attack would fail.`,
           note: 'Current Allocation Group: The first group in the allocation order begins as the current group. Once all models in an allocation group are destroyed, the next group in the allocation order becomes the current one.',
+          children: [
+            {
+              id: 'section-05-04-01',
+              sectionNum: '05.04.01',
+              title: 'Current Allocation Group',
+              fromApp: true,
+              body: `The first group in the allocation order begins as the current group. Once all models in an allocation group are **destroyed**, the next group in the allocation order becomes the current one.`,
+            },
+            {
+              id: 'section-05-04-02',
+              sectionNum: '05.04.02',
+              title: 'Modifying Damage',
+              fromApp: true,
+              body: `See Modifiers (02.02.01).`,
+            },
+            {
+              id: 'section-05-04-03',
+              sectionNum: '05.04.03',
+              title: 'Suffers Damage',
+              fromApp: true,
+              body: `If an attack reaches the Resolve Damage step of the attack sequence (05.04), the model that attack was allocated to has suffered damage, even if that model subsequently uses a rule to ignore the wounds inflicted or it uses a rule that means those wounds are not lost.`,
+            },
+            {
+              id: 'section-05-04-04',
+              sectionNum: '05.04.04',
+              title: 'Destroyed',
+              fromApp: true,
+              body: `Throughout a battle, models will suffer damage, lose wounds and be **destroyed**. When every model in a unit has been **destroyed**, that unit is **destroyed**.
+
+When a model is **destroyed**, first resolve any rules that are triggered when it is **destroyed**, then it is removed from the battlefield. If any such rules apply, and if the model was **destroyed** as the result of an attack, unless otherwise stated, those rules are only resolved and that model is only removed after the attacking unit's attacks have been resolved. Unless otherwise stated, **destroyed** models and units cannot use abilities or be selected or targeted by rules.
+
+Some rules only trigger if an enemy model or unit was **destroyed** by you, or by a model or unit from your army. This means that the enemy model or unit was **destroyed** by an attack made by a model from your army, or by a player rule you have. Enemy models or units that are **destroyed** by any other means are not **destroyed** by you, or by a model or unit from your army.`,
+            },
+            {
+              id: 'section-05-04-05',
+              sectionNum: '05.04.05',
+              title: 'Fight On Death',
+              fromApp: true,
+              body: `Some rules enable models to attack after they have been **destroyed**. When a model under such an effect is **destroyed**, do not remove it from play.
+
+Those models will stay on the battlefield until their unit is **selected to attack** and has attacked, or until the end of the phase (whichever comes first). Any rules triggered by those models being **destroyed** are resolved, and then those **destroyed** models are removed.
+
+If a rule instructs a **destroyed** model to fight immediately after the attacking unit, instead that model is not removed from the battlefield until that model's unit has fought, or until the end of the phase (whichever comes first). This allows the models in the unit to fight all at once, and **stratagems** that target that unit will also affect that **destroyed** model.`,
+            },
+            {
+              id: 'section-05-04-06',
+              sectionNum: '05.04.06',
+              title: 'Measuring To A Destroyed Model Or Unit',
+              fromApp: true,
+              body: `When a player has to measure the distance to a **destroyed** model, that player can measure to any point occupied by that model's base (or any part of that model if it does not have a base or is a VEHICLE, excluding WALKER models that have a base) before it was **destroyed**.
+
+When a player has to measure the distance to a **destroyed** unit, they measure to the last model **destroyed** in that unit.`,
+            },
+          ],
         },
         {
           id: 'section-05-ex',
@@ -1196,6 +1261,16 @@ Other models and units can be either **visible** or **fully visible** to the obs
 
 [img:/images/visibility/unit-fully-visible.jpg|Unit visibility — unit fully visible to observer]`,
           note: 'Terrain applies additional rules to visibility (13.07).',
+          children: [
+            {
+              id: 'section-06-01-01',
+              sectionNum: '06.01.01',
+              title: 'Describing Visible Units',
+              fromApp: true,
+              body: `When a rule references a **visible** unit but does not state which units that unit must be **visible** to, it must be **visible** to the unit that is using that rule.`,
+              example: `You target a friendly unit with a **stratagem** that says 'select one **visible** enemy unit'. That enemy unit must be **visible** to the friendly unit you targeted with the **stratagem**.`,
+            },
+          ],
         },
         {
           id: 'section-06-02',
@@ -1213,12 +1288,44 @@ Other models and units can be either **visible** or **fully visible** to the obs
 
 ### Mortal Wounds and Normal Damage
 When resolving **attack dice**, if those attacks inflict a mixture of both **mortal wounds** and normal damage, resolve all of the normal damage first, then resolve all of the **mortal wounds**.`,
+          children: [
+            {
+              id: 'section-06-02-01',
+              sectionNum: '06.02.01',
+              title: 'Normal Damage',
+              fromApp: true,
+              body: `Normal Damage is damage that was inflicted on a model as a result of a weapon's **D** characteristic, rather than by other means such as **mortal wounds**. **Mortal wounds** dealt in addition to normal damage from an attack are part of that same attack.
+
+### FAQs
+**Q:** I have a rule that triggers when a **mortal wound** is allocated to a model, when does this happen?
+
+**A:** When you select a model in the **Select Model step** of **Mortal Wounds** (06.02).`,
+            },
+          ],
         },
         {
           id: 'section-06-03',
           sectionNum: '06.03',
           title: 'Hazard Rolls',
           body: `To make a **hazard roll** for a unit, roll one D6: on a 1-2, that roll fails and that unit suffers 1 **mortal wound**, or 3 **mortal wounds** instead if each model in that unit is a MONSTER/VEHICLE model. If more than one **hazard roll** is required for a unit, make all of those rolls simultaneously.`,
+          children: [
+            {
+              id: 'section-06-03-01',
+              sectionNum: '06.03.01',
+              title: 'Hazardous Test',
+              fromApp: true,
+              body: `The term 'Hazardous test' is the same as **hazard roll**.
+
+### FAQs
+**Q:** If a rule says my unit must make a **hazard roll** does every model in the unit make a **hazard roll**?
+
+**A:** No, the unit would make 1 single **hazard roll**.
+
+**Q:** I failed **hazard rolls** from [HAZARDOUS] weapons, do those **mortal wounds** have to be allocated to the models with the [HAZARDOUS] weapons?
+
+**A:** No, you allocate the **mortal wounds** to the unit as per **Mortal Wounds** (06.02). (This represents Bob the guardsmen picking up his fallen squad mates plasma gun or that the twisting power of James the Chaos Sorcerer pulling his followers into the warp.)`,
+            },
+          ],
         },
       ],
     },
@@ -1975,6 +2082,14 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ◆ Unmodified 6 (Немодифицированный) → CRITICAL WOUND (Крит)
 ◆ Равна или превышает требуемый результат (см. таблицу ниже) → WOUND (Рана)
 ◆ Любой другой результат → FAILS (Провал)`,
+          children: [
+            {
+              title: 'Несколько характеристик стойкости (Multiple Toughness Characteristics)',
+              body: `При разрешении атак, нацеленных на юнит, в котором модели имеют две или более разные характеристики **T** (стойкость), следуйте первой применимой инструкции ниже:
+▪ Если целевой юнит — **составной юнит** (attached unit), используйте наивысшую характеристику **T** среди моделей-**телохранителей** (bodyguard) в этом юните, находящихся на поле боя.
+▪ Используйте наивысшую характеристику **T** среди моделей в этом юните, находящихся на поле боя.`,
+            },
+          ],
         },
         {
           title: 'Save Rolls (спас-броски)',
@@ -2006,6 +2121,42 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 
 Пример: характеристика AP -1 изменит спас-бросок(save roll) с 3 на 2. Для моделей с характеристикой Sv 2+ или лучше эта атака будет неудачной.`,
           note: `Текущая группа распределения: первая группа в порядке распределения становится текущей. Когда все модели в группе распределения уничтожены(destroyed), следующая группа в порядке распределения становится текущей.`,
+          children: [
+            {
+              title: 'Текущая группа распределения (Current Allocation Group)',
+              body: `Первая группа в порядке распределения становится текущей группой. Когда все модели в группе распределения **уничтожены** (destroyed), следующая группа в порядке распределения становится текущей.`,
+            },
+            {
+              title: 'Изменение урона (Modifying Damage)',
+              body: `См. Модификаторы (02.02.01).`,
+            },
+            {
+              title: 'Получил урон (Suffers Damage)',
+              body: `Если атака достигает шага «Нанесение урона» (Resolve Damage) последовательности атаки (05.04), модель, которой была распределена эта атака, получила урон, даже если эта модель впоследствии использует правило, чтобы проигнорировать нанесённые раны, или использует правило, благодаря которому эти раны не теряются.`,
+            },
+            {
+              title: 'Уничтожение (Destroyed)',
+              body: `На протяжении битвы модели получают повреждения, теряют раны и **уничтожаются** (destroyed). Когда каждая модель в юните **уничтожена**, этот юнит **уничтожен**.
+
+Когда модель **уничтожена**, сначала разрешите любые правила, которые срабатывают, когда она **уничтожена**, затем она убирается с поля боя. Если такие правила применяются и если модель была **уничтожена** в результате атаки, если не указано иное, эти правила выполняются и модель убирается только после того, как атаки атакующего юнита завершены. Если не указано иное, **уничтоженные** модели и юниты не могут использовать способности или быть выбраны или стать целью для правил.
+
+Некоторые правила срабатывают, только если вражеская модель или юнит были **уничтожены** вами или моделью или юнитом из вашей армии. Это означает, что вражеская модель или юнит были **уничтожены** атакой, совершённой моделью из вашей армии, или вашим правилом игрока. Вражеские модели или юниты, **уничтоженные** любым другим способом, не считаются **уничтоженными** вами или моделью или юнитом из вашей армии.`,
+            },
+            {
+              title: 'Бой после смерти (Fight On Death)',
+              body: `Некоторые правила позволяют моделям атаковать после того, как они были **уничтожены** (destroyed). Когда модель под таким эффектом **уничтожена**, не убирайте её из игры.
+
+Эти модели остаются на поле боя, пока их юнит не будет **выбран для атаки** (selected to attack) и не атакует, или до конца фазы (что наступит раньше). Любые правила, срабатывающие при **уничтожении** этих моделей, разрешаются, а затем эти **уничтоженные** модели убираются.
+
+Если правило предписывает **уничтоженной** модели сражаться сразу после атакующего юнита, вместо этого эта модель не убирается с поля боя до тех пор, пока юнит этой модели не сразится, или до конца фазы (что наступит раньше). Это позволяет моделям в юните сражаться все сразу, и **стратагемы** (stratagems), нацеленные на этот юнит, также будут влиять на эту **уничтоженную** модель.`,
+            },
+            {
+              title: 'Измерение до уничтоженной модели или юнита (Measuring To A Destroyed Model Or Unit)',
+              body: `Когда игроку нужно измерить расстояние до **уничтоженной** (destroyed) модели, этот игрок может измерять до любой точки, которую занимала база этой модели (или любой части этой модели, если у неё нет базы или она является VEHICLE, исключая модели WALKER, у которых есть база), до того как она была **уничтожена**.
+
+Когда игроку нужно измерить расстояние до **уничтоженного** юнита, он измеряет до последней модели, **уничтоженной** в этом юните.`,
+            },
+          ],
         },
         {
           title: 'Пример: совершение атак',
@@ -2115,6 +2266,13 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 
 [img:/images/visibility/unit-fully-visible-ru.jpg|Диаграмма видимости — юнит полностью видим для наблюдателя]`,
           note: `Рельеф применяет дополнительные правила к видимости (13.07).`,
+          children: [
+            {
+              title: 'Описание видимых юнитов (Describing Visible Units)',
+              body: `Когда правило ссылается на **видимый** (visible) юнит, но не указывает, каким юнитам этот юнит должен быть **видим**, он должен быть **видим** юниту, использующему это правило.`,
+              example: `Вы нацеливаетесь на союзный юнит **стратагемой** (stratagem), которая гласит «выберите один **видимый** вражеский юнит». Этот вражеский юнит должен быть **видим** союзному юниту, на который вы нацелились этой **стратагемой**.`,
+            },
+          ],
         },
         {
           title: 'Смертельные раны (Mortal Wounds)',
@@ -2130,10 +2288,36 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 
 ### Смертельные раны и обычный урон
 При броске кубиков атаки(attack dice), если эти атаки наносят смесь как смертельных ран(mortal wounds), так и обычного урона, сначала нанесите весь обычный урон, затем нанесите все **смертельные раны**(mortal wounds).`,
+          children: [
+            {
+              title: 'Обычный урон (Normal Damage)',
+              body: `Обычный урон — это урон, нанесённый модели в результате характеристики **D** оружия, а не другими средствами, такими как **смертельные раны** (mortal wounds). **Смертельные раны**, нанесённые в дополнение к обычному урону от атаки, являются частью этой же атаки.
+
+### Часто задаваемые вопросы (FAQs)
+**В:** У меня есть правило, срабатывающее, когда **смертельная рана** (mortal wound) распределяется на модель — когда это происходит?
+
+**О:** Когда вы выбираете модель на шаге «Выбор модели» (Select Model step) раздела **Смертельные раны** (Mortal Wounds) (06.02).`,
+            },
+          ],
         },
         {
           title: 'Hazard Rolls (проверка опасности)',
           body: `Чтобы выполнить проверку опасности(hazard roll) для юнита, бросьте один D6: на 1-2 проверка провалена, и этот юнит страдает от 1 **смертельной раны**(mortal wound) или 3 смертельных ран(mortal wounds) вместо этого, если каждая модель в этом юните является МОНСТРОМ/ТЕХНИКОЙ(MONSTER/VEHICLE). Если для юнита требуется более одной проверки опасности(hazard roll), сделайте все эти броски одновременно.`,
+          children: [
+            {
+              title: 'Проверка опасности (Hazardous Test)',
+              body: `Термин «проверка опасности» (Hazardous test) — это то же самое, что **проверка опасности** (hazard roll).
+
+### Часто задаваемые вопросы (FAQs)
+**В:** Если правило говорит, что мой юнит должен сделать **проверку опасности** (hazard roll), делает ли каждая модель в юните **проверку опасности**?
+
+**О:** Нет, юнит сделает 1 одну **проверку опасности**.
+
+**В:** Я провалил **проверки опасности** (hazard rolls) от оружия [HAZARDOUS] — должны ли эти **смертельные раны** (mortal wounds) распределяться на модели с оружием [HAZARDOUS]?
+
+**О:** Нет, вы распределяете **смертельные раны** на юнит согласно разделу **Смертельные раны** (Mortal Wounds) (06.02). (Это символизирует, как Боб-гвардеец подбирает плазменное ружьё павшего товарища по отряду, или как искажающая сила Джеймса-чародея Хаоса затягивает его последователей в варп.)`,
+            },
+          ],
         },
       ],
     },
