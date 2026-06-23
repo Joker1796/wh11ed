@@ -129,7 +129,7 @@
     />
 
     <div class="faq-list">
-      <div v-for="(faq, i) in faqsData" :key="i" class="faq-item">
+      <div v-for="(faq, i) in faqsData" :key="i" :id="'faq-' + i" class="faq-item">
         <div class="faq-q">
           <span class="faq-badge">Q</span>
           <span v-html="renderInline(faq.q)" />

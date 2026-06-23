@@ -55,12 +55,25 @@ export function useRefNavigation() {
   async function navigateTo({ route, anchor }) {
     await router.push(anchor ? { path: route, hash: '#' + anchor } : { path: route })
     if (!anchor) return
-    await new Promise(r => setTimeout(r, 80))
-    const el = document.getElementById(anchor)
-    if (el) {
+    const scrollToAnchor = () => {
+      const el = document.getElementById(anchor)
+      if (!el) return false
       const top = el.getBoundingClientRect().top + window.scrollY - 100
       window.scrollTo({ top, behavior: 'smooth' })
+      return true
     }
+    // The target view (and its async illustrations) may not be laid out yet right
+    // after the route change. Poll up to ~1.5s for the element, then — once it
+    // exists — re-scroll after 400ms to correct for late-loading images shifting it.
+    const start = performance.now()
+    const tick = () => {
+      if (scrollToAnchor()) {
+        setTimeout(scrollToAnchor, 400)
+      } else if (performance.now() - start < 1500) {
+        requestAnimationFrame(tick)
+      }
+    }
+    requestAnimationFrame(tick)
   }
 
   return { resolveRef, navigateTo }
