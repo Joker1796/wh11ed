@@ -54,7 +54,7 @@
           <div v-else-if="block.type === 'img-group'" class="img-group">
             <AppImage v-for="(item, k) in block.srcs" :key="k" :src="item.src" :alt="item.alt" />
           </div>
-          <h4 v-else-if="block.type === 'h4'" class="rule-subheading" v-html="renderInline(block.text)"></h4>
+          <h4 v-else-if="block.type === 'h4'" :id="id ? h4AnchorId(id, block.n) : undefined" class="rule-subheading" v-html="renderInline(block.text)"></h4>
           <p v-else v-html="renderInline(block.text)"></p>
         </template>
 
@@ -73,6 +73,7 @@ import { computed } from 'vue'
 import SeeAlsoBlock from './SeeAlsoBlock.vue'
 import AppImage from './AppImage.vue'
 import { useRenderInline } from '../composables/useRenderInline.js'
+import { h4AnchorId } from '../composables/anchors.js'
 
 const props = defineProps({
   id: String,
@@ -92,6 +93,7 @@ const blocks = computed(() => {
   let buf = []
   let mode = null
   let cardRows = []
+  let h4n = 0
 
   const flush = () => {
     if (mode === 'info-card') {
@@ -171,7 +173,7 @@ const blocks = computed(() => {
       if (cardRows.length) cardRows[cardRows.length - 1].items.push(line.replace(/^[▪•▫]\s*/, '').trim())
     } else if (isSubheading) {
       flush()
-      result.push({ type: 'h4', text: line.slice(4) })
+      result.push({ type: 'h4', text: line.slice(4), n: ++h4n })
     } else if (isBullet) {
       if (mode !== 'ul') { flush(); mode = 'ul' }
       buf.push(line)
@@ -257,6 +259,7 @@ function handleDefClick(e) {
   font-weight: 700;
   color: var(--text-primary);
   margin: 0.75rem 0 0.25rem;
+  scroll-margin-top: 100px;
 }
 
 .rule-list {

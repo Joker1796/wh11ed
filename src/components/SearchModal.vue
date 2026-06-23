@@ -51,13 +51,13 @@
 
 <script setup>
 import { ref, computed, watch, nextTick, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
 import { search, highlightMatch } from '../composables/useSearch.js'
+import { useRefNavigation } from '../composables/useRefNavigation.js'
 import { useLocale } from '../composables/useLocale.js'
 import { ui } from '../i18n/ui.js'
 
 const emit = defineEmits(['close'])
-const router = useRouter()
+const { navigateTo } = useRefNavigation()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const inputEl = ref(null)
@@ -83,15 +83,9 @@ function goToSelected() {
   if (item) navigate(item)
 }
 
-async function navigate(item) {
+function navigate(item) {
   emit('close')
-  await router.push({ path: item.route, hash: '#' + item.id })
-  await nextTick()
-  const el = document.getElementById(item.id)
-  if (el) {
-    const top = el.getBoundingClientRect().top + window.scrollY - 80
-    window.scrollTo({ top, behavior: 'smooth' })
-  }
+  navigateTo({ route: item.route, anchor: item.id })
 }
 </script>
 
