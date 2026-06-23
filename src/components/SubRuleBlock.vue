@@ -112,7 +112,7 @@ function handleDefClick(e) {
   align-items: baseline;
   gap: 0.55rem;
   flex-wrap: wrap;
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 700;
   overflow-wrap: anywhere;
 }
@@ -140,7 +140,7 @@ function handleDefClick(e) {
 }
 
 .rule-body {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   line-height: 1.5;
   color: var(--sub-rule-ink);
 }
