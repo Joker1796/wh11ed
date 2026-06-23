@@ -26,17 +26,18 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import SeeAlsoBlock from './SeeAlsoBlock.vue'
 import RuleBody from './RuleBody.vue'
 import DataTable from './DataTable.vue'
 import { useRenderInline } from '../composables/useRenderInline.js'
 
 // A third-level rule block (x.x.x), nested inside a subsection (x.x) and rendered as a
-// collapsible accordion (open by default). Body markup is parsed by the shared RuleBody,
+// collapsible accordion (collapsed by default). Body markup is parsed by the shared RuleBody,
 // so it supports the same blocks as a normal rule. `fromApp` shows a provenance badge for
 // content transcribed verbatim from the official WH40k app.
-defineProps({
+const props = defineProps({
   id: String,
   sectionNum: String,
   title: String,
@@ -48,7 +49,17 @@ defineProps({
   fromApp: Boolean,
 })
 
-const open = ref(true)
+const open = ref(false)
+
+// Auto-expand when navigated to via a cross-ref or search result — either the block's own
+// anchor (#id) or one of its inner h4 anchors (#id-hN). Otherwise the jump would land on a
+// collapsed header with the content hidden.
+const route = useRoute()
+watch(() => route.hash, (hash) => {
+  if (hash && (hash === '#' + props.id || hash.startsWith('#' + props.id + '-'))) {
+    open.value = true
+  }
+}, { immediate: true })
 
 const { renderInline } = useRenderInline()
 
@@ -80,12 +91,11 @@ function handleDefClick(e) {
 }
 
 .sub-rule-head {
-  position: relative;
   width: 100%;
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  padding: 0.6rem 2.4rem 0.6rem 0.85rem;
+  padding: 0.6rem 0.85rem;
   background: var(--sub-rule-head-bg);
   border: none;
   border-bottom: 1px solid var(--sub-rule-border);
@@ -96,19 +106,19 @@ function handleDefClick(e) {
 }
 
 .sub-rule-title {
+  flex: 1;
+  min-width: 0;
   display: flex;
   align-items: baseline;
   gap: 0.55rem;
   flex-wrap: wrap;
   font-size: 1.05rem;
   font-weight: 700;
+  overflow-wrap: anywhere;
 }
 
 .from-app {
-  position: absolute;
-  top: 50%;
-  right: 2.8rem;
-  transform: translateY(-50%);
+  flex-shrink: 0;
   font-family: var(--font-sans);
   font-size: 0.62rem;
   font-weight: 600;
@@ -119,10 +129,7 @@ function handleDefClick(e) {
 }
 
 .sub-rule-chevron {
-  position: absolute;
-  right: 0.85rem;
-  top: 50%;
-  transform: translateY(-50%);
+  flex-shrink: 0;
   font-size: 0.95rem;
   opacity: 0.7;
 }
