@@ -40,6 +40,7 @@
           :example="sub.example"
           :see-also="sub.seeAlso"
           :side-image="sub.sideImage"
+          :children="sub.children"
         >
           <div v-if="sub.illustration" class="section-illustration">
             <AppImage :src="sub.illustration.src" :alt="sub.illustration.alt" />

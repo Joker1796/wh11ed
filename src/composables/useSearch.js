@@ -114,6 +114,29 @@ function buildIndex(locale) {
             sectionTitle,
           })
         })
+        // x.x.x children (SubRuleBlock) — indexed like subsections, incl. their h4s.
+        const ruChildren = ruSub.children || []
+        ;(enSub.children || []).forEach((enChild, ci) => {
+          const mc = isRu ? { ...enChild, ...(ruChildren[ci] || {}) } : enChild
+          items.push({
+            id: enChild.id,
+            sectionNum: enChild.sectionNum,
+            title: mc.title || '',
+            body: stripMarkup((mc.body || '') + (mc.note ? ' ' + mc.note : '')),
+            route,
+            sectionTitle,
+          })
+          extractH4(mc.body).forEach((heading, hi) => {
+            items.push({
+              id: h4AnchorId(enChild.id, hi + 1),
+              sectionNum: enChild.sectionNum,
+              title: heading,
+              body: '',
+              route,
+              sectionTitle,
+            })
+          })
+        })
       }
     }
   }
