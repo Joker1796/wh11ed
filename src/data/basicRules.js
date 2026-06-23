@@ -414,6 +414,78 @@ While a unit is battle-shocked:
 ▪ Objective Control (OC): How effectively a model can control an objective on the battlefield. If a model has an OC characteristic of '-' it is unable to control objectives at all.`,
           children: [
             {
+              id: 'section-02-02-01',
+              sectionNum: '02.02.01',
+              title: 'Modifiers',
+              fromApp: true,
+              body: `### What Are Modifiers?
+Many rules in the game modify a value, characteristic or roll elsewhere in the game. A rule that does so is known as a modifier. A value that has been changed is a modified rule (e.g. modified characteristic, modified roll, modified value, etc).
+
+One of the most common ways for modifiers to be presented is as +1 or -1 to a characteristic, roll or value.
+
+If the rule has +1 to a characteristic, it improves it by the value after the '+' symbol.
+
+**Example:** 'This weapon has +1 **AP**' would improve an **AP** characteristic of -2 to -3.
+
+If the rule has -1 to a characteristic, it worsens it by the value after the '-' symbol.
+
+**Example:** 'This unit has -1 **Sv**' would worsen a **Sv** characteristic of 3+ to 4+.
+
+### Applying Modifiers
+This section presents the various ways rules may be modified. All modifiers are cumulative.
+
+When a value is modified (e.g. characteristic, dice roll, distance), do so in the following order.
+1. If a rule instructs you to change or replace one value with a specified value, you must first change the relevant value to the new value. (Note that rules that modify a characteristic in this step to a new value of '0', '-' or '*' cannot be modified by other rules — in such cases, skip steps 2-5.)
+2. Apply multiplication modifiers.
+3. Apply addition modifiers.
+4. Apply division modifiers.
+5. Apply subtraction modifiers.
+6. Round any fractions up after applying all modifiers.
+
+### When Modifying Characteristics
+When modifying characteristics, the following points also apply:
+▪ Characteristics of '-', '*' and 'N/A' can never be modified.
+▪ Rules that modify a model's **WS** and/or **BS** characteristic modify the **WS** and/or **BS** characteristic of every weapon equipped by that model.
+▪ After all modifiers have been applied:
+▫ **M** cannot be less than 1".
+▫ **T** cannot be less than 1.
+▫ **Sv** cannot be 1+ or better.
+▫ **InSv** cannot be 1+ or better.
+▫ **Ld** cannot be 4+ (or better) or 9+ (or worse).
+▫ **OC** cannot be less than 0 or '-'.
+▫ **Range** characteristics cannot be less than 1".
+▫ **A** cannot be less than 1.
+▫ **WS** cannot be 1+ (or better) or 7+ (or worse).
+▫ **BS** cannot be 1+ (or better) or 7+ (or worse).
+▫ **S** cannot be less than 1.
+▫ **AP** cannot be worse than 0.
+▫ **D** cannot be less than 1.
+
+When these terms are used in rules, the affected characteristics are being modified, and the following points apply:
+▪ **Improving WS, BS, Sv and Ld:** When improving a **WS**, **BS**, **Sv** or **Ld** characteristic, subtract the appropriate amount from the number before the plus sign, e.g. improving a **WS** of 3+ by 1 would result in a **WS** of 2+.
+▪ **Worsening WS, BS, Sv and Ld:** When worsening a **WS**, **BS**, **Sv** or **Ld** characteristic, add the appropriate amount to the number before the plus sign, e.g. worsening a **WS** of 3+ by 1 would result in a **WS** of 4+.
+▪ **Improving AP:** When improving an Armour Penetration characteristic, subtract the appropriate amount from the characteristic, e.g. improving an **AP** of -1 by 1 would result in an **AP** of -2; improving an **AP** of 0 by 1 would result in an **AP** of -1.
+▪ **Reducing or Worsening AP:** When reducing or worsening an Armour Penetration characteristic, add the appropriate amount to the characteristic, to a maximum of 0, e.g. reducing/worsening an **AP** of -1 by 1 would result in an **AP** of 0; reducing/worsening an **AP** of 0 by 1 would result in an **AP** of 0.
+▪ **Improving or Worsening Other Characteristics:** When instructed to improve/worsen a characteristic that does not include a '+' or '-' symbol, add/subtract the specified amount to/from that characteristic (e.g. to improve a **S** by 1, add 1 to it).
+
+### When Modifying Dice Rolls
+When modifying dice rolls, the following points also apply:
+▪ Modifiers are applied after any re-rolls of that dice roll.
+▪ Rules that refer to the value of an 'unmodified' dice roll are referring to the dice result after any re-rolls, but before modifiers.
+▪ A dice result can be modified above its maximum possible value (for example, a D6 roll can be modified above 6).
+▪ A result that would be less than 1 is changed to a result of 1.
+▪ **Hit rolls** and **wound rolls** can never be modified by more than -1 or +1. After all the cumulative modifiers to such a roll have been calculated, if the total modifier would be:
+▫ -2 or worse, it is changed to -1.
+▫ +2 or better, it is changed to +1.
+▪ **Charge rolls** cannot be greater than 12. After all the cumulative modifiers to a **charge roll** have been calculated, if the result would be 13 or more, it is changed to 12.
+
+### Other Modified Rules
+The following rules apply to various rules and effects found throughout the game.
+▪ **Detection range** and **Lone Operative** cannot be better than 9" or worse than 30".
+
+A **stratagem** cannot have its **CP** increased by more than 1 or reduced to below 0 after all modifiers have been applied.`,
+            },
+            {
               id: 'section-02-02-02',
               sectionNum: '02.02.02',
               title: 'Ignore Modifiers',
@@ -1634,6 +1706,75 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ▪ Leadership (лидерство) (Ld): представленное как результат броска кубика (например, 7+), показывает, насколько модель храбра, решительна или самоконтролируема.
 ▪ Objective Control (контроль цели) (OC): насколько эффективно модель может контролировать цель(objective) на поле боя. Если модель имеет характеристику OC '-', она вообще не может контролировать цели(objectives).`,
           children: [
+            {
+              title: 'Модификаторы (Modifiers)',
+              body: `### Что такое модификаторы?
+Многие правила в игре изменяют какое-либо значение, характеристику или бросок в другом месте игры. Правило, которое это делает, называется модификатором (modifier). Изменённое значение является изменённым правилом (например, изменённая характеристика, изменённый бросок, изменённое значение и т.д.).
+
+Один из самых распространённых способов представления модификаторов — это +1 или -1 к характеристике, броску или значению.
+
+Если правило содержит +1 к характеристике, оно улучшает её на значение после знака «+».
+
+**Пример:** «Это оружие имеет +1 к **AP**» улучшит характеристику **AP** с -2 до -3.
+
+Если правило содержит -1 к характеристике, оно ухудшает её на значение после знака «-».
+
+**Пример:** «Этот юнит имеет -1 к **Sv**» ухудшит характеристику **Sv** с 3+ до 4+.
+
+### Применение модификаторов
+В этом разделе представлены различные способы изменения правил. Все модификаторы суммируются.
+
+Когда значение изменяется (например, характеристика, бросок кубика, дистанция), делайте это в следующем порядке.
+1. Если правило предписывает вам изменить или заменить одно значение указанным значением, вы должны сначала изменить соответствующее значение на новое. (Обратите внимание, что характеристики, изменённые на этом шаге до значения «0», «-» или «*», не могут быть изменены другими правилами — в таких случаях пропустите шаги 2–5.)
+2. Примените модификаторы умножения.
+3. Примените модификаторы сложения.
+4. Примените модификаторы деления.
+5. Примените модификаторы вычитания.
+6. Округлите любые дроби в большую сторону после применения всех модификаторов.
+
+### При изменении характеристик
+При изменении характеристик также применяются следующие положения:
+▪ Характеристики «-», «*» и «N/A» никогда не могут быть изменены.
+▪ Правила, изменяющие характеристику **WS** и/или **BS** модели, изменяют характеристику **WS** и/или **BS** каждого оружия, которым экипирована эта модель.
+▪ После применения всех модификаторов:
+▫ **M** не может быть меньше 1".
+▫ **T** не может быть меньше 1.
+▫ **Sv** не может быть 1+ или лучше.
+▫ **InSv** не может быть 1+ или лучше.
+▫ **Ld** не может быть 4+ (или лучше) или 9+ (или хуже).
+▫ **OC** не может быть меньше 0 или «-».
+▫ Характеристики **Range** не могут быть меньше 1".
+▫ **A** не может быть меньше 1.
+▫ **WS** не может быть 1+ (или лучше) или 7+ (или хуже).
+▫ **BS** не может быть 1+ (или лучше) или 7+ (или хуже).
+▫ **S** не может быть меньше 1.
+▫ **AP** не может быть хуже 0.
+▫ **D** не может быть меньше 1.
+
+Когда в правилах используются эти термины, затрагиваемые характеристики изменяются, и применяются следующие положения:
+▪ **Улучшение WS, BS, Sv и Ld:** При улучшении характеристики **WS**, **BS**, **Sv** или **Ld** вычтите соответствующую величину из числа перед знаком «плюс», например, улучшение **WS** 3+ на 1 даст **WS** 2+.
+▪ **Ухудшение WS, BS, Sv и Ld:** При ухудшении характеристики **WS**, **BS**, **Sv** или **Ld** прибавьте соответствующую величину к числу перед знаком «плюс», например, ухудшение **WS** 3+ на 1 даст **WS** 4+.
+▪ **Улучшение AP:** При улучшении характеристики бронепробития вычтите соответствующую величину из характеристики, например, улучшение **AP** -1 на 1 даст **AP** -2; улучшение **AP** 0 на 1 даст **AP** -1.
+▪ **Уменьшение или ухудшение AP:** При уменьшении или ухудшении характеристики бронепробития прибавьте соответствующую величину к характеристике, максимум до 0, например, уменьшение/ухудшение **AP** -1 на 1 даст **AP** 0; уменьшение/ухудшение **AP** 0 на 1 даст **AP** 0.
+▪ **Улучшение или ухудшение прочих характеристик:** Когда предписано улучшить/ухудшить характеристику, не содержащую знака «+» или «-», прибавьте/вычтите указанную величину к/из этой характеристики (например, чтобы улучшить **S** на 1, прибавьте к ней 1).
+
+### При изменении бросков кубиков
+При изменении бросков кубиков также применяются следующие положения:
+▪ Модификаторы применяются после любых перебросов этого броска.
+▪ Правила, ссылающиеся на значение «немодифицированного» броска кубика, имеют в виду результат кубика после любых перебросов, но до модификаторов.
+▪ Результат кубика может быть изменён выше его максимально возможного значения (например, бросок D6 может быть изменён выше 6).
+▪ Результат, который был бы меньше 1, меняется на результат 1.
+▪ **Броски на попадание** и **броски на ранение** никогда не могут быть изменены более чем на -1 или +1. После расчёта всех суммарных модификаторов к такому броску, если итоговый модификатор был бы:
+▫ -2 или хуже, он меняется на -1.
+▫ +2 или лучше, он меняется на +1.
+▪ **Броски нападения** не могут быть больше 12. После расчёта всех суммарных модификаторов к **броску нападения**, если результат был бы 13 или более, он меняется на 12.
+
+### Прочие изменённые правила
+Следующие правила применяются к различным правилам и эффектам, встречающимся в игре.
+▪ **Радиус обнаружения** (detection range) и **Lone Operative** не могут быть лучше 9" или хуже 30".
+
+**Стратагема** (stratagem) не может иметь свою стоимость в **CP** увеличенной более чем на 1 или уменьшенной ниже 0 после применения всех модификаторов.`,
+            },
             {
               title: 'Игнорирование модификаторов (Ignore Modifiers)',
               body: `Некоторые правила позволяют игроку, оружию, модели или юниту игнорировать модификаторы. При использовании таких правил применяются следующие положения:
