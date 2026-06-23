@@ -2,6 +2,7 @@ import { basicRules } from '../data/basicRules.js'
 import { battleRound } from '../data/battleRound.js'
 import { battlefields } from '../data/battlefields.js'
 import { advancedRules } from '../data/advancedRules.js'
+import { muster } from '../data/muster.js'
 import { abilityIntro, coreAbilities, appendix, faqs } from '../data/reference.js'
 import { getEventContent } from '../data/eventCompanion.js'
 import { missions } from '../data/missions.js'
@@ -15,6 +16,7 @@ const routeMap = {
   battlefields: '/battlefields',
   advancedRules: '/advanced-rules',
   reference: '/reference',
+  muster: '/muster',
 }
 
 const sectionTitles = {
@@ -70,6 +72,7 @@ function buildIndex(locale) {
     { key: 'battleRound', enData: battleRound.en, ruData: battleRound.ru },
     { key: 'battlefields', enData: battlefields.en, ruData: battlefields.ru },
     { key: 'advancedRules', enData: advancedRules.en, ruData: advancedRules.ru },
+    { key: 'muster', enData: muster.en, ruData: muster.ru },
   ]
   for (const { key, enData, ruData } of sources) {
     const route = routeMap[key]
@@ -114,6 +117,29 @@ function buildIndex(locale) {
             sectionTitle,
           })
         })
+        // x.x.x children (SubRuleBlock) — indexed like subsections, incl. their h4s.
+        const ruChildren = ruSub.children || []
+        ;(enSub.children || []).forEach((enChild, ci) => {
+          const mc = isRu ? { ...enChild, ...(ruChildren[ci] || {}) } : enChild
+          items.push({
+            id: enChild.id,
+            sectionNum: enChild.sectionNum,
+            title: mc.title || '',
+            body: stripMarkup((mc.body || '') + (mc.note ? ' ' + mc.note : '')),
+            route,
+            sectionTitle,
+          })
+          extractH4(mc.body).forEach((heading, hi) => {
+            items.push({
+              id: h4AnchorId(enChild.id, hi + 1),
+              sectionNum: enChild.sectionNum,
+              title: heading,
+              body: '',
+              route,
+              sectionTitle,
+            })
+          })
+        })
       }
     }
   }
@@ -128,6 +154,18 @@ function buildIndex(locale) {
       body: stripMarkup((merged.fullText || '') + ' ' + (merged.flavor || '')),
       route: '/reference',
       sectionTitle: sectionTitles[locale].reference,
+    })
+    const ruChildren = (ru.children) || []
+    ;(en.children || []).forEach((enChild, ci) => {
+      const mc = isRu ? { ...enChild, ...(ruChildren[ci] || {}) } : enChild
+      items.push({
+        id: enChild.id,
+        sectionNum: enChild.sectionNum,
+        title: mc.title || '',
+        body: stripMarkup((mc.body || '') + (mc.note ? ' ' + mc.note : '')),
+        route: '/reference',
+        sectionTitle: sectionTitles[locale].reference,
+      })
     })
   }
   indexReferenceExtras(items, locale)
@@ -157,6 +195,18 @@ function indexReferenceExtras(items, locale) {
     })
     extractH4(merged.body).forEach((heading, hi) => {
       items.push({ id: h4AnchorId(en.id, hi + 1), sectionNum: en.sectionNum || '', title: heading, body: '', route: '/reference', sectionTitle: refTitle })
+    })
+    const ruChildren = (isRu && abilityIntro.ru?.[i]?.children) || []
+    ;(en.children || []).forEach((enChild, ci) => {
+      const mc = isRu ? { ...enChild, ...(ruChildren[ci] || {}) } : enChild
+      items.push({
+        id: enChild.id,
+        sectionNum: enChild.sectionNum,
+        title: mc.title || '',
+        body: stripMarkup((mc.body || '') + (mc.note ? ' ' + mc.note : '')),
+        route: '/reference',
+        sectionTitle: refTitle,
+      })
     })
   }
 
