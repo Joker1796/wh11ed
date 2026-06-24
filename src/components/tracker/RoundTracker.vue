@@ -17,7 +17,7 @@
     </div>
     <p class="round-label">
       {{ labels.trackerRound }} {{ current.currentRound }}
-      <span v-if="current.settings.layout" class="round-layout">· {{ labels.eventLayout }} {{ current.settings.layout }}</span>
+      <span v-if="current.settings.layout" class="round-layout">· {{ roundLayoutLabel }}</span>
     </p>
 
     <!-- Active twist reminder (mission-changing twists are already applied to the primary). -->
@@ -105,6 +105,14 @@ const endModalOpen = ref(false)
 
 // Active twist (if any) — shown as a collapsible reminder; its mission effect (Mirrored
 // World / Scrambled Communications) is already baked into each player's primarySlug.
+// Battlefield layout label next to the round — "Custom <id>" for a picked layout, else
+// the recommended letter (e.g. "Layout A").
+const roundLayoutLabel = computed(() => {
+  const s = current.value.settings
+  if (s.layout === 'custom') return `${labels.value.trackerLayoutCustom}${s.customLayout?.id ? ' ' + s.customLayout.id : ''}`
+  return `${labels.value.eventLayout} ${s.layout}`
+})
+
 const activeTwist = computed(() => {
   const id = current.value?.settings?.twist
   if (!id) return null
