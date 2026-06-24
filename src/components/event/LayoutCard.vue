@@ -53,17 +53,18 @@ const defenderSrc = computed(() =>
 .layout-stack {
   max-width: min(100%, 384px);
   margin: 0 auto;
-  /* Same padding in both orientations so the battlefield image keeps an identical
-     footprint when switching A/B/C tabs — its size must not jump. The side gutters
-     hold the vertical edge bars without eating into the image. */
-  padding: 0.9rem 2.1rem 1rem;
+  /* Side gutters (held equal in both orientations) reserve room for the vertical edge
+     bars so the image footprint doesn't jump when switching A/B/C tabs. No vertical
+     padding — the horizontal top/bottom bars sit flush against the card edges. */
+  padding: 0 1rem;
 }
 
 /* Horizontal layouts — attacker bar on top, defender on the bottom (full width). */
 .layout-stack.is-horizontal {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  /* No gap — the top/bottom bars sit flush against the layout image's edges. */
+  gap: 0;
 }
 .layout-stack.is-horizontal :deep(.layout-img),
 .layout-stack.is-horizontal .edge-marker {
@@ -76,6 +77,12 @@ const defenderSrc = computed(() =>
   width: 100%;
   height: auto;
 }
+/* Overlap the image by half the bar's height. The bar is 800×48 (height = 6% of width),
+   so a -3% margin (margins resolve against the container width) pulls it in by half its
+   height; z-index keeps the bar painted over the image. */
+.layout-stack.is-horizontal .edge-marker { position: relative; z-index: 1; }
+.layout-stack.is-horizontal .em-attacker { margin-bottom: -3%; }
+.layout-stack.is-horizontal .em-defender { margin-top: -3%; }
 
 /* Vertical layouts — attacker bar on the left, defender on the right (full height).
    The side bars are absolutely positioned so their height tracks the image height
@@ -92,8 +99,9 @@ const defenderSrc = computed(() =>
 }
 .layout-stack.is-vertical .edge-marker {
   position: absolute;
-  top: 0.9rem;
-  bottom: 1rem;
+  /* Match the stack's vertical padding (0) so the bars span exactly the image's height. */
+  top: 0;
+  bottom: 0;
   display: block;
 }
 .layout-stack.is-vertical .edge-marker img {
