@@ -584,12 +584,7 @@ In order for those attacks to re-roll **hit rolls**, that target must be both th
               sectionNum: '02.04.01',
               title: 'Weapons With No Strength',
               fromApp: true,
-              body: `If a weapon has no **S** characteristic (because it is '-', or for any other reason) and a rule interacts with that weapon's **S**, that weapon has **S** 1 for that interaction.
-
-### FAQs
-**Q:** My rule says that "this units ranged attacks have +1 **A**", do each of my attacks get an extra attack dice?
-
-**A:** No, it increases the **A** characteristics of the unit's ranged weapons by 1.`,
+              body: `If a weapon has no **S** characteristic (because it is '-', or for any other reason) and a rule interacts with that weapon's **S**, that weapon has **S** 1 for that interaction.`,
             },
           ],
         },
@@ -638,12 +633,7 @@ Some rules are linked to one or more keywords. For example, a rule might say tha
               sectionNum: '02.06.02',
               title: "Unit's Equipment",
               fromApp: true,
-              body: `When a rule refers to a unit's equipment, it refers to all of the wargear equipped by models in that unit.
-
-### FAQs
-**Q:** The Munitorium Field Manual shows my unit can attach to different units then are on it's datasheet, which do I use?
-
-**A:** Use the Munitorium Field Manual.`,
+              body: `When a rule refers to a unit's equipment, it refers to all of the wargear equipped by models in that unit.`,
             },
           ],
         },
@@ -1646,12 +1636,12 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
           ],
         },
         {
-          title: 'Проверка лидерства',
+          title: 'Проверка лидерства (Leadership Rolls)',
           body: `Чтобы выполнить **проверку лидерства**(leadership roll) для юнита, его контролирующий игрок бросает 2D6: если результат равен или превышает одну или несколько характеристик Ld в этом юните, проверка успешна. В противном случае проверка провалена. Правило, которое предписало вам выполнить эту **проверку лидерства**(leadership roll), опишет последствия успеха или провала этой проверки.`,
           children: [
             {
-              title: 'Проверка лидерства (Leadership Test)',
-              body: `Некоторые правила могут использовать термин Leadership test — это то же самое, что **проверка лидерства** (leadership roll).`,
+              title: 'Тест на лидерство (Leadership Test)',
+              body: `Некоторые правила могут использовать термин тест на лидерство (Leadership test) — это то же самое, что **проверка лидерства** (leadership roll).`,
             },
           ],
         },
@@ -1848,12 +1838,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
           children: [
             {
               title: 'Оружие без силы (Weapons With No Strength)',
-              body: `Если оружие не имеет характеристики **S** (потому что она «-» или по любой другой причине) и правило взаимодействует с характеристикой **S** этого оружия, это оружие имеет **S** 1 для этого взаимодействия.
-
-### Часто задаваемые вопросы (FAQs)
-**В:** Моё правило гласит, что «дистанционные атаки этого юнита имеют +1 к **A**» — получает ли каждая моя атака дополнительный кубик атаки?
-
-**О:** Нет, оно увеличивает характеристику **A** дистанционного оружия юнита на 1.`,
+              body: `Если оружие не имеет характеристики **S** (потому что она «-» или по любой другой причине) и правило взаимодействует с характеристикой **S** этого оружия, это оружие имеет **S** 1 для этого взаимодействия.`,
             },
           ],
         },
@@ -1889,12 +1874,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
             },
             {
               title: 'Снаряжение юнита (Unit\'s Equipment)',
-              body: `Когда правило ссылается на снаряжение юнита, оно относится ко всему снаряжению(wargear), которым экипированы модели в этом юните.
-
-### Часто задаваемые вопросы (FAQs)
-**В:** Munitorium Field Manual показывает, что мой юнит может присоединяться к юнитам, отличным от указанных в его листе данных — какой использовать?
-
-**О:** Используйте Munitorium Field Manual.`,
+              body: `Когда правило ссылается на снаряжение юнита, оно относится ко всему снаряжению(wargear), которым экипированы модели в этом юните.`,
             },
           ],
         },
