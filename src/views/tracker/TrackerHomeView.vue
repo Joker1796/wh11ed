@@ -55,16 +55,18 @@
           v-for="g in visibleGames"
           :key="g.id"
           class="game"
+          :class="resultClass(g)"
           role="button"
           tabindex="0"
           @click="openGame(g.id)"
           @keydown.enter="openGame(g.id)"
         >
+          <span class="result-edge">{{ resultLabel(g) }}</span>
           <div class="game-main">
             <div class="game-players">
-              <span class="gp" :class="{ win: winnerIdx(g) === 0 }">{{ pname(g, 0) }}</span>
+              <span class="gp">{{ pname(g, 0) }}</span>
               <span class="vs">{{ labels.trackerVs }}</span>
-              <span class="gp" :class="{ win: winnerIdx(g) === 1 }">{{ pname(g, 1) }}</span>
+              <span class="gp">{{ pname(g, 1) }}</span>
             </div>
             <div class="game-score">
               <template v-if="g.settings && g.settings.scoreMode === 'bp'">
@@ -204,7 +206,8 @@ function pname(g, i) {
 function winnerIdx(g) {
   if (g.endReason === 'friendly-concede') return 1
   if (g.endReason === 'opponent-concede') return 0
-  const [a, b] = g.result?.totals || [0, 0]
+  // In BP mode the winner is decided by Battle Points (≤5 VP gap → 10–10 draw).
+  const [a, b] = g.settings?.scoreMode === 'bp' ? bp(g) : (g.result?.totals || [0, 0])
   if (a === b) return -1
   return a > b ? 0 : 1
 }
@@ -214,6 +217,9 @@ function bp(g) {
   const [a, b] = g.result?.totals || [0, 0]
   return battlePointsFromVp(a, b)
 }
+// Result from "You" (player 0) perspective — WIN/LOSS/DRAW edge (labels not translated).
+function resultClass(g) { const w = winnerIdx(g); return w === 0 ? 'res-win' : w === 1 ? 'res-loss' : 'res-draw' }
+function resultLabel(g) { const w = winnerIdx(g); return w === 0 ? 'WIN' : w === 1 ? 'LOSS' : 'DRAW' }
 function formatDate(iso) {
   try { return new Date(iso).toLocaleDateString(locale.value === 'ru' ? 'ru-RU' : 'en-GB') } catch { return '' }
 }
@@ -343,18 +349,37 @@ function formatDate(iso) {
 .empty { color: var(--text-muted); font-style: italic; }
 .games { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.6rem; }
 .game {
+  position: relative;
+  overflow: hidden;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 6px;
-  padding: 0.7rem 0.9rem;
+  padding: 0.7rem 0.9rem 0.7rem 1.9rem;
   cursor: pointer;
   transition: border-color 0.15s;
 }
 .game:hover { border-color: var(--accent); }
+.result-edge {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+.res-win .result-edge { background: #e3b341; color: #1a1a1a; }
+.res-loss .result-edge { background: #c0392b; color: #fff; }
+.res-draw .result-edge { background: var(--text-dim); color: var(--bg-card); }
 .game-main { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
 .game-players { display: flex; align-items: center; gap: 0.5rem; }
 .gp { font-weight: 600; color: var(--text-primary); font-size: 0.92rem; }
-.gp.win { color: var(--accent); }
 .vs { font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase; }
 .game-score { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); }
 .score-unit { font-size: 0.62rem; color: var(--text-dim); margin-left: 0.25rem; }
