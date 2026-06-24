@@ -66,7 +66,12 @@
               <span class="vs">{{ labels.trackerVs }}</span>
               <span class="gp" :class="{ win: winnerIdx(g) === 1 }">{{ pname(g, 1) }}</span>
             </div>
-            <div class="game-score">{{ g.result.totals[0] }} – {{ g.result.totals[1] }}</div>
+            <div class="game-score">
+              <template v-if="g.settings && g.settings.scoreMode === 'bp'">
+                {{ bp(g)[0] }} – {{ bp(g)[1] }}<span class="score-unit">BP</span>
+              </template>
+              <template v-else>{{ g.result.totals[0] }} – {{ g.result.totals[1] }}</template>
+            </div>
           </div>
           <div class="game-meta">
             <span class="meta-left">
@@ -85,6 +90,13 @@
         {{ labels.trackerShowMore }}
       </button>
     </section>
+
+    <GameSummaryModal
+      v-if="summaryGame"
+      :game="summaryGame"
+      @resume="onResumeGame"
+      @close="summaryGame = null"
+    />
   </div>
 </template>
 
@@ -92,6 +104,8 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import AlphaBanner from '../../components/tracker/AlphaBanner.vue'
+import GameSummaryModal from '../../components/tracker/GameSummaryModal.vue'
+import { battlePointsFromVp } from '../../composables/gameScoring.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker } from '../../composables/useTracker.js'
@@ -101,7 +115,7 @@ import { useCloudSync } from '../../composables/useCloudSync.js'
 const router = useRouter()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { current, history, setupDraft, discardGame, deleteHistory } = useTracker()
+const { current, history, setupDraft, discardGame, resumeFromHistory, deleteHistory } = useTracker()
 const { status, user, login, logout, ensureSession, dev, mockSignIn, mockSignOut } = useAuth()
 const {
   init: initCloudSync,
@@ -143,8 +157,9 @@ const visibleGames = computed(() => history.value.slice(0, visibleCount.value))
 function showMore() {
   visibleCount.value += PAGE
 }
+const summaryGame = ref(null)
 function openGame(id) {
-  router.push('/tracker/history/' + id)
+  summaryGame.value = history.value.find(g => g.id === id) || null
 }
 
 // Auth is restored silently ONLY here (the tracker section), on demand. If a session cookie is
@@ -174,13 +189,30 @@ function startNew() {
   setupDraft.value = null   // start the wizard fresh (a stale draft would otherwise restore)
   router.push('/tracker/game')
 }
+// Resume any finished game from the summary modal — pull it back into active play.
+function onResumeGame(id) {
+  summaryGame.value = null
+  if (current.value && !window.confirm(labels.value.trackerOverwriteConfirm)) return
+  resumeFromHistory(id)
+  router.push('/tracker/game')
+}
 function pname(g, i) {
   return g.players[i].name || (i === 0 ? labels.value.trackerYou : labels.value.trackerOpponent)
 }
+// Use the stored result.totals (VP at finish) — no recompute, so old saved games with
+// possibly-incomplete data never break the list. Concede overrides the winner / BP.
 function winnerIdx(g) {
-  const [a, b] = g.result.totals
+  if (g.endReason === 'friendly-concede') return 1
+  if (g.endReason === 'opponent-concede') return 0
+  const [a, b] = g.result?.totals || [0, 0]
   if (a === b) return -1
   return a > b ? 0 : 1
+}
+function bp(g) {
+  if (g.endReason === 'friendly-concede') return [0, 20]
+  if (g.endReason === 'opponent-concede') return [20, 0]
+  const [a, b] = g.result?.totals || [0, 0]
+  return battlePointsFromVp(a, b)
 }
 function formatDate(iso) {
   try { return new Date(iso).toLocaleDateString(locale.value === 'ru' ? 'ru-RU' : 'en-GB') } catch { return '' }
@@ -325,6 +357,7 @@ function formatDate(iso) {
 .gp.win { color: var(--accent); }
 .vs { font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase; }
 .game-score { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); }
+.score-unit { font-size: 0.62rem; color: var(--text-dim); margin-left: 0.25rem; }
 .game-meta {
   display: flex;
   align-items: center;

@@ -179,6 +179,17 @@
           </div>
         </label>
 
+        <label class="field">
+          <span>
+            {{ labels.trackerScoreMode }}
+            <button type="button" class="help-btn" @click="scoreHelpOpen = true" :aria-label="labels.trackerScoreHelp"><i class="bi bi-question-circle"></i></button>
+          </span>
+          <div class="seg">
+            <button :class="{ on: settings.scoreMode === 'vp' }" @click="settings.scoreMode = 'vp'">{{ labels.trackerScoreVp }}</button>
+            <button :class="{ on: settings.scoreMode === 'bp' }" @click="settings.scoreMode = 'bp'">{{ labels.trackerScoreBp }}</button>
+          </div>
+        </label>
+
         <label class="check" :class="{ on: settings.trackCP }">
           <input type="checkbox" v-model="settings.trackCP" />
           <span>{{ labels.trackerTrackCp }}</span>
@@ -240,6 +251,8 @@
       @random="onRandomMirror"
       @close="mirrorPickerOpen = false"
     />
+
+    <ScoreHelpModal v-if="scoreHelpOpen" @close="scoreHelpOpen = false" />
   </div>
 </template>
 
@@ -251,6 +264,7 @@ import RuleBody from '../RuleBody.vue'
 import TwistPickerModal from './TwistPickerModal.vue'
 import SecondaryPickerModal from './SecondaryPickerModal.vue'
 import MissionPickerModal from './MissionPickerModal.vue'
+import ScoreHelpModal from './ScoreHelpModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { eventCompanion, getEventContent } from '../../data/eventCompanion.js'
@@ -263,6 +277,8 @@ const { history, setupDraft } = useTracker()
 
 // Player 1 is "You"; pre-fill their name from the most recent finished game (editable).
 const lastYouName = history.value[0]?.players?.[0]?.name || ''
+// Default the score mode to the last game's choice (older games lack it → fall back to VP).
+const lastScoreMode = history.value[0]?.settings?.scoreMode === 'bp' ? 'bp' : 'vp'
 function playerLabel(i) {
   return i === 0 ? labels.value.trackerYou : labels.value.trackerOpponent
 }
@@ -286,7 +302,7 @@ const MAX_FIXED = 2   // Fixed secondaries: choose 2, kept for the whole game.
 function defaultPlayer(role, name = '') {
   return { name, factionSlug: null, detachments: [], disposition: null, role, secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false }
 }
-const defaultSettings = { trackCP: true, firstTurn: 1, layout: 'A', battleSize: 'strikeForce', twist: null, twistMission: null }
+const defaultSettings = { trackCP: true, firstTurn: 1, layout: 'A', battleSize: 'strikeForce', twist: null, twistMission: null, scoreMode: lastScoreMode }
 
 // Restore an in-progress draft if present, else start fresh (with the pre-filled name).
 // Read once, BEFORE the reset watchers are registered, so restoring a faction/detachments
@@ -330,6 +346,8 @@ function randomTwist() {
   setTwist(id)
   if (id === 'mirrored-world') randomMirror()
 }
+
+const scoreHelpOpen = ref(false)
 
 // Twist picker modal (full-screen on mobile).
 const twistPickerOpen = ref(false)
@@ -671,6 +689,17 @@ function cancel() {
 }
 .twist-chosen-body { padding: 0 0.7rem 0.6rem; font-size: 0.86rem; line-height: 1.5; }
 .twist-mission { margin-top: 0.8rem; }
+.help-btn {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  padding: 0 0.2rem;
+  font-size: 0.9rem;
+  line-height: 1;
+  vertical-align: middle;
+}
+.help-btn:hover { color: var(--accent); }
 .det-list {
   display: flex;
   flex-direction: column;
