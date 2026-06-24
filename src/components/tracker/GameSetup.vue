@@ -155,6 +155,36 @@
         <p v-else class="det-empty">{{ labels.trackerLayoutPending }}</p>
       </div>
 
+      <!-- Twist: optional pre-game modifier (applies to both players for the whole game) -->
+      <div class="settings twist-block">
+        <h3 class="block-head">{{ labels.trackerTwistHeading }}</h3>
+        <div class="seg twist-actions">
+          <button :class="{ on: !settings.twist }" @click="setTwist(null)">{{ labels.trackerNoTwist }}</button>
+          <button @click="randomTwist">🎲 {{ labels.trackerRandomTwist }}</button>
+        </div>
+        <div class="twist-list">
+          <button
+            v-for="t in twistList"
+            :key="t.id"
+            class="twist-opt"
+            :class="{ on: settings.twist === t.id }"
+            @click="setTwist(t.id)"
+          >{{ t.title }}</button>
+        </div>
+        <label v-if="settings.twist === 'mirrored-world'" class="field twist-mission">
+          <span>{{ labels.trackerTwistMission }}</span>
+          <div class="seg seg-wrap">
+            <button
+              v-for="m in mirrorMissions"
+              :key="m.slug"
+              :class="{ on: settings.twistMission === m.slug }"
+              @click="settings.twistMission = m.slug"
+            >{{ m.name }}</button>
+            <button :class="{ on: !settings.twistMission }" @click="randomMirror">🎲 {{ labels.trackerRandom }}</button>
+          </div>
+        </label>
+      </div>
+
       <div class="settings">
         <label class="field">
           <span>{{ labels.trackerFirstTurn }}</span>
@@ -183,8 +213,8 @@ import { reactive, ref, computed, watch } from 'vue'
 import LayoutCard from '../event/LayoutCard.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { eventCompanion } from '../../data/eventCompanion.js'
-import { FACTIONS, DISPOSITIONS, BATTLE_SIZES, detachmentsFor, detachmentInfo, fixedPool, primaryFor, dispositionName } from '../../composables/useTracker.js'
+import { eventCompanion, getEventContent } from '../../data/eventCompanion.js'
+import { FACTIONS, DISPOSITIONS, BATTLE_SIZES, MIRROR_MISSIONS, derivePrimary, detachmentsFor, detachmentInfo, fixedPool, dispositionName } from '../../composables/useTracker.js'
 
 const emit = defineEmits(['start', 'cancel'])
 const { locale } = useLocale()
@@ -201,10 +231,28 @@ const players = reactive([
   { name: '', factionSlug: null, detachments: [], disposition: null, role: 'attacker', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false },
   { name: '', factionSlug: null, detachments: [], disposition: null, role: 'defender', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false },
 ])
-const settings = reactive({ trackCP: true, firstTurn: 1, layout: 'A', battleSize: 'strikeForce' })
+const settings = reactive({ trackCP: true, firstTurn: 1, layout: 'A', battleSize: 'strikeForce', twist: null, twistMission: null })
 
 const battleSizes = BATTLE_SIZES
 const maxDp = computed(() => BATTLE_SIZES.find(b => b.id === settings.battleSize)?.maxDp ?? 3)
+
+// Twists — optional pre-game modifiers (names English; localized prose from the data).
+const twistList = computed(() => getEventContent(locale.value).twists.blocks)
+const mirrorMissions = MIRROR_MISSIONS
+function setTwist(id) {
+  settings.twist = id
+  if (id !== 'mirrored-world') settings.twistMission = null
+}
+function randomMirror() {
+  const m = mirrorMissions[Math.floor(Math.random() * mirrorMissions.length)]
+  settings.twistMission = m ? m.slug : null
+}
+function randomTwist() {
+  const ids = twistList.value.map(t => t.id)
+  const id = ids[Math.floor(Math.random() * ids.length)]
+  setTwist(id)
+  if (id === 'mirrored-world') randomMirror()
+}
 
 function factionName(slug) {
   return FACTIONS.find(f => f.slug === slug)?.name || ''
@@ -259,7 +307,9 @@ players.forEach(p => watch(() => candidateDispositions(p), (ids) => {
 function primaryName(i) {
   const me = players[i], opp = players[i === 0 ? 1 : 0]
   if (!me.disposition || !opp.disposition) return ''
-  const m = primaryFor(me.disposition, opp.disposition)
+  // Mirror the twist-aware derivation used when the game is created, so the preview
+  // reflects Scrambled Communications / Mirrored World.
+  const m = derivePrimary(me.disposition, opp.disposition, settings)
   return m ? m.name : ''
 }
 
@@ -430,6 +480,23 @@ function start() {
   margin-bottom: 1rem;
 }
 .battle-size .seg { flex-wrap: wrap; justify-content: center; }
+
+.twist-actions { width: fit-content; margin-bottom: 0.6rem; }
+.twist-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.twist-opt {
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.twist-opt:hover { color: var(--text-primary); border-color: var(--accent); }
+.twist-opt.on { background: var(--accent); color: var(--text-on-accent); border-color: var(--accent); }
+.twist-mission { margin-top: 0.8rem; }
 .det-list {
   display: flex;
   flex-direction: column;
