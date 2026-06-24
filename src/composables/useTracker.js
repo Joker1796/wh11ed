@@ -21,7 +21,11 @@ const CUR_KEY = 'wh11ed-tracker-current'
 const HIST_KEY = 'wh11ed-tracker-history'
 
 export const ROUND_COUNT = 5
-export const MAX_DP = 3
+// Battle sizes (rule 25.03): each sets the Detachment-Points budget used in setup.
+export const BATTLE_SIZES = [
+  { id: 'incursion', name: 'Incursion', points: 1000, maxDp: 2 },
+  { id: 'strikeForce', name: 'Strike Force', points: 2000, maxDp: 3 },
+]
 export const PRIMARY_ROUND_CAP = 15
 // Game-level caps live in gameScoring.js (single source of truth); re-export for existing
 // importers (RoundTracker, ScoreBreakdown).
@@ -138,6 +142,21 @@ export function primaryFor(myDisposition, opponentDisposition) {
   return missions.en.primary.find(m => m.deck === myDisposition && m.opponent === oppName) || null
 }
 
+// The five "mirror" primary missions both players can share under the Mirrored World
+// twist (each is a self-vs-self disposition matchup, tagged `mirror: true`).
+export const MIRROR_MISSIONS = missions.en.primary.filter(m => m.mirror)
+
+// Effective primary mission for a player, accounting for an active Twist:
+//  • scrambled-communications — players exchange Primary Mission cards (take the opponent's).
+//  • mirrored-world — both players use the same chosen mission (`settings.twistMission`).
+// Falls back to the normal disposition-derived primary. Returns the mission object or null.
+export function derivePrimary(myDisposition, opponentDisposition, settings = {}) {
+  if (settings.twist === 'scrambled-communications') return primaryFor(opponentDisposition, myDisposition)
+  if (settings.twist === 'mirrored-world' && settings.twistMission)
+    return missions.en.primary.find(m => m.slug === settings.twistMission) || primaryFor(myDisposition, opponentDisposition)
+  return primaryFor(myDisposition, opponentDisposition)
+}
+
 // "or"-linked rows in a block are mutually-exclusive BRACKETS (e.g. control 1 / 2 / 3+
 // objectives) — only one may be scored. Given a row, returns the pick keys of its
 // sibling rows that selecting it should clear. Per-tally rows ("For each…/Each time…")
@@ -226,8 +245,8 @@ function shuffle(arr) {
   return a
 }
 
-function makePlayer(p, opponent) {
-  const primary = primaryFor(p.disposition, opponent.disposition)
+function makePlayer(p, opponent, settings) {
+  const primary = derivePrimary(p.disposition, opponent.disposition, settings)
   const poolSlugs = secondaryPool(p.role).map(m => m.slug)
   const secondaryMode = p.secondaryMode || 'tactical'
   return {
@@ -262,13 +281,19 @@ export function useTracker() {
     // setup = { settings, players: [p1, p2] }
     // p = { name, factionSlug, detachments, disposition, role, secondaryMode }
     const [a, b] = setup.players
+    const settings = { ...setup.settings }
+    // Mirrored World with no agreed mission → roll a random one of the five and persist it
+    // (so a reload doesn't re-roll, and both players resolve to the same mission).
+    if (settings.twist === 'mirrored-world' && !settings.twistMission && MIRROR_MISSIONS.length) {
+      settings.twistMission = MIRROR_MISSIONS[Math.floor(Math.random() * MIRROR_MISSIONS.length)].slug
+    }
     current.value = {
       id: 'g' + Date.now(),
       createdAt: new Date().toISOString(),
       phase: 'playing',
       currentRound: 1,
-      settings: { ...setup.settings },
-      players: [makePlayer(a, b), makePlayer(b, a)],
+      settings,
+      players: [makePlayer(a, b, settings), makePlayer(b, a, settings)],
     }
   }
 
