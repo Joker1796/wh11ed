@@ -254,3 +254,32 @@ export const router = createRouter({
     return { top: 0 }
   },
 })
+
+// Remember the last open page and reopen it on the next launch — only for the installed
+// PWA (display-mode standalone); a normal browser tab is left untouched.
+const LAST_ROUTE_KEY = 'wh11ed-last-route'
+const SKIP_RESTORE = new Set(['/tracker/auth-callback']) // transient OAuth callback
+
+const isStandalone =
+  typeof window !== 'undefined' &&
+  (window.matchMedia?.('(display-mode: standalone)').matches || window.navigator.standalone === true)
+
+if (isStandalone) {
+  // One-time restore on the very first navigation, only if we landed on home (no deep link).
+  let restored = false
+  router.beforeEach((to) => {
+    if (restored) return
+    restored = true
+    if (to.path !== '/') return
+    let saved = null
+    try { saved = localStorage.getItem(LAST_ROUTE_KEY) } catch { /* ignore */ }
+    if (!saved || saved === to.fullPath) return
+    const resolved = router.resolve(saved)
+    if (resolved.matched.length && !SKIP_RESTORE.has(resolved.path)) return saved
+  })
+
+  router.afterEach((to) => {
+    if (SKIP_RESTORE.has(to.path)) return
+    try { localStorage.setItem(LAST_ROUTE_KEY, to.fullPath) } catch { /* quota / private — ignore */ }
+  })
+}
