@@ -291,6 +291,14 @@ function toggleDetachment(p, d) {
 // Changing faction resets its detachment/disposition choices.
 players.forEach(p => watch(() => p.factionSlug, () => { p.detachments = []; p.disposition = null }))
 
+// Shrinking the battle size (e.g. Strike Force → Incursion) can invalidate the chosen
+// detachments' DP, so clear each player's detachments and disposition for a fresh pick.
+watch(() => settings.battleSize, (next, prev) => {
+  const maxOf = id => BATTLE_SIZES.find(b => b.id === id)?.maxDp ?? 3
+  if (maxOf(next) >= maxOf(prev)) return
+  players.forEach(p => { p.detachments = []; p.disposition = null })
+})
+
 function factionHasDetachments(p) {
   return !!p.factionSlug && detachmentsFor(p.factionSlug).length > 0
 }
