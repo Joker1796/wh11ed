@@ -62,8 +62,10 @@ export function leader(game) {
   // A conceded game is won by the other player regardless of points.
   if (game.endReason === 'friendly-concede') return 1   // "You" (player 0) conceded
   if (game.endReason === 'opponent-concede') return 0   // opponent (player 1) conceded
-  const a = grandTotal(game, 0)
-  const b = grandTotal(game, 1)
+  // In BP mode the winner is decided by Battle Points (so a ≤5 VP gap is a 10–10 draw).
+  const [a, b] = game.settings?.scoreMode === 'bp'
+    ? battlePoints(game)
+    : [grandTotal(game, 0), grandTotal(game, 1)]
   if (a === b) return -1
   return a > b ? 0 : 1
 }
