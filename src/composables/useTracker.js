@@ -19,6 +19,7 @@ import {
 
 const CUR_KEY = 'wh11ed-tracker-current'
 const HIST_KEY = 'wh11ed-tracker-history'
+const DRAFT_KEY = 'wh11ed-tracker-setup-draft'
 
 export const ROUND_COUNT = 5
 // Battle sizes (rule 25.03): each sets the Detachment-Points budget used in setup.
@@ -219,6 +220,8 @@ function load(key, fallback) {
 
 const current = ref(load(CUR_KEY, null))
 const history = ref(load(HIST_KEY, []))
+// In-progress new-game setup, persisted so it survives reloads / navigating away.
+const setupDraft = ref(load(DRAFT_KEY, null))
 
 // Auto-save on every mutation — "saved automatically as you play". Debounced so a
 // burst of changes (e.g. typing in a name field, stepping a score counter) doesn't
@@ -228,6 +231,7 @@ const SAVE_DELAY = 500
 let saveTimer = null
 let pendingCurrent = false
 let pendingHistory = false
+let pendingSetupDraft = false
 
 function flushSave() {
   if (saveTimer) { clearTimeout(saveTimer); saveTimer = null }
@@ -242,6 +246,13 @@ function flushSave() {
     pendingHistory = false
     try { localStorage.setItem(HIST_KEY, JSON.stringify(history.value)) } catch { /* ignore */ }
   }
+  if (pendingSetupDraft) {
+    pendingSetupDraft = false
+    try {
+      if (setupDraft.value) localStorage.setItem(DRAFT_KEY, JSON.stringify(setupDraft.value))
+      else localStorage.removeItem(DRAFT_KEY)
+    } catch { /* ignore */ }
+  }
 }
 
 function scheduleSave() {
@@ -250,6 +261,7 @@ function scheduleSave() {
 
 watch(current, () => { pendingCurrent = true; scheduleSave() }, { deep: true })
 watch(history, () => { pendingHistory = true; scheduleSave() }, { deep: true })
+watch(setupDraft, () => { pendingSetupDraft = true; scheduleSave() }, { deep: true })
 
 // The debounce window could drop the final mutation if the tab closes / refreshes /
 // is backgrounded (mobile/PWA) before the timer fires — flush synchronously on those.
@@ -504,7 +516,7 @@ export function useTracker() {
   }
 
   return {
-    current, history,
+    current, history, setupDraft,
     newGame, setRoundPrimary, setCp,
     setPrimaryRow, primaryRowCount,
     drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,

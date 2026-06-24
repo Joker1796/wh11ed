@@ -24,7 +24,8 @@
 
     <div class="cta">
       <RouterLink v-if="current" to="/tracker/game" class="btn-primary">{{ labels.trackerResume }}</RouterLink>
-      <button class="btn-primary" :class="{ ghost: current }" @click="startNew">{{ labels.trackerNewGame }}</button>
+      <RouterLink v-if="setupDraft && !current" to="/tracker/game" class="btn-primary">{{ labels.trackerContinueSetup }}</RouterLink>
+      <button class="btn-primary" :class="{ ghost: current || setupDraft }" @click="startNew">{{ labels.trackerNewGame }}</button>
       <button
         v-if="status === 'authed'"
         class="btn-primary ghost"
@@ -100,7 +101,7 @@ import { useCloudSync } from '../../composables/useCloudSync.js'
 const router = useRouter()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { current, history, discardGame, deleteHistory } = useTracker()
+const { current, history, setupDraft, discardGame, deleteHistory } = useTracker()
 const { status, user, login, logout, ensureSession, dev, mockSignIn, mockSignOut } = useAuth()
 const {
   init: initCloudSync,
@@ -170,6 +171,7 @@ onMounted(async () => {
 function startNew() {
   if (current.value && !window.confirm(labels.value.trackerOverwriteConfirm)) return
   discardGame()
+  setupDraft.value = null   // start the wizard fresh (a stale draft would otherwise restore)
   router.push('/tracker/game')
 }
 function pname(g, i) {

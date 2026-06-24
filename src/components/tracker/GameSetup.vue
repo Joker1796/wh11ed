@@ -7,8 +7,11 @@
         <span class="step-sep">→</span>
         <span class="step" :class="{ on: step === 2, done: step > 2 }">2 · {{ labels.trackerStepMission }}</span>
         <span class="step-sep">→</span>
-        <span class="step" :class="{ on: step === 3 }">3 · {{ labels.trackerStepDeploy }}</span>
+        <span class="step" :class="{ on: step === 3, done: step > 3 }">3 · {{ labels.trackerStepBattlefield }}</span>
+        <span class="step-sep">→</span>
+        <span class="step" :class="{ on: step === 4 }">4 · {{ labels.trackerStepDeploy }}</span>
       </div>
+      <div class="steps-compact">{{ step }} / 4 · {{ stepLabel }}</div>
     </div>
 
     <!-- ───────── Step 1 — Armies ───────── -->
@@ -61,6 +64,14 @@
             <p v-else class="det-empty">{{ p.factionSlug ? labels.trackerNoDetachments : labels.trackerSelectFaction }}</p>
           </div>
 
+          <label class="field">
+            <span>{{ labels.trackerRole }}</span>
+            <div class="seg">
+              <button :class="{ on: p.role === 'attacker' }" @click="setRole(i, 'attacker')">{{ labels.trackerAttacker }}</button>
+              <button :class="{ on: p.role === 'defender' }" @click="setRole(i, 'defender')">{{ labels.trackerDefender }}</button>
+            </div>
+          </label>
+
           <label class="check br-check" :class="{ on: p.battleReady }">
             <input type="checkbox" v-model="p.battleReady" />
             <span>{{ labels.trackerBattleReady }} (+10 VP)</span>
@@ -69,7 +80,7 @@
       </div>
 
       <div class="actions">
-        <button class="btn-ghost" @click="$emit('cancel')">{{ labels.trackerCancel }}</button>
+        <button class="btn-ghost" @click="cancel">{{ labels.trackerCancel }}</button>
         <button class="btn-primary" :disabled="!canArmies" @click="step = 2">{{ labels.trackerNextStep }} →</button>
       </div>
     </div>
@@ -113,25 +124,26 @@
 
           <div v-if="p.secondaryMode === 'fixed'" class="field">
             <span>{{ labels.trackerChooseFixed }} <em class="dp-count">{{ p.fixedSecondaries.length }} / {{ MAX_FIXED }}</em></span>
-            <div class="chips">
-              <button
-                v-for="m in fixedPool(p.role)"
-                :key="m.slug"
-                class="chip"
-                :class="{ on: p.fixedSecondaries.includes(m.slug) }"
-                :disabled="!p.fixedSecondaries.includes(m.slug) && p.fixedSecondaries.length >= MAX_FIXED"
-                @click="toggleFixed(p, m.slug)"
-              >{{ m.name }}</button>
-            </div>
+            <button class="btn-choose-twist" @click="fixedPickerFor = i">
+              <span class="ct-name" :class="{ placeholder: !p.fixedSecondaries.length }">{{ fixedSummary(p) }}</span>
+              <i class="bi bi-chevron-right ct-chev"></i>
+            </button>
           </div>
 
-          <p class="primary-preview" v-if="primaryName(i)">
-            <span class="pp-label">{{ labels.trackerPrimaryPreview }}:</span> {{ primaryName(i) }}
-          </p>
+          <div class="primary-card" v-if="primaryCards[i]">
+            <MissionCard :mission="primaryCards[i]" :subtitle="labels.trackerPrimaryPreview" />
+          </div>
         </div>
       </div>
 
-      <!-- Battlefield layout: players pick A/B/C and set up the table themselves -->
+      <div class="actions">
+        <button class="btn-ghost" @click="step = 1">← {{ labels.trackerBack }}</button>
+        <button class="btn-primary" :disabled="!canMission" @click="step = 3">{{ labels.trackerNextStep }} →</button>
+      </div>
+    </div>
+
+    <!-- ───────── Step 3 — Battlefield (layout) ───────── -->
+    <div v-show="step === 3">
       <div class="settings layout-block">
         <h3 class="block-head">{{ labels.trackerLayoutHeading }}</h3>
         <p class="layout-note">{{ labels.trackerLayoutNote }}</p>
@@ -151,56 +163,13 @@
       </div>
 
       <div class="actions">
-        <button class="btn-ghost" @click="step = 1">← {{ labels.trackerBack }}</button>
-        <button class="btn-primary" :disabled="!canMission" @click="step = 3">{{ labels.trackerNextStep }} →</button>
+        <button class="btn-ghost" @click="step = 2">← {{ labels.trackerBack }}</button>
+        <button class="btn-primary" :disabled="!canBattlefield" @click="step = 4">{{ labels.trackerNextStep }} →</button>
       </div>
     </div>
 
-    <!-- ───────── Step 3 — Deployment ───────── -->
-    <div v-show="step === 3">
-      <!-- Twist: optional pre-game modifier (applies to both players for the whole game) -->
-      <div class="settings twist-block">
-        <h3 class="block-head">{{ labels.trackerTwistHeading }}</h3>
-        <div class="seg twist-actions">
-          <button :class="{ on: !settings.twist }" @click="setTwist(null)">{{ labels.trackerNoTwist }}</button>
-          <button @click="randomTwist">🎲 {{ labels.trackerRandomTwist }}</button>
-        </div>
-        <div class="twist-list">
-          <button
-            v-for="t in twistList"
-            :key="t.id"
-            class="twist-opt"
-            :class="{ on: settings.twist === t.id }"
-            @click="setTwist(t.id)"
-          >{{ t.title }}</button>
-        </div>
-        <label v-if="settings.twist === 'mirrored-world'" class="field twist-mission">
-          <span>{{ labels.trackerTwistMission }}</span>
-          <div class="seg seg-wrap">
-            <button
-              v-for="m in mirrorMissions"
-              :key="m.slug"
-              :class="{ on: settings.twistMission === m.slug }"
-              @click="settings.twistMission = m.slug"
-            >{{ m.name }}</button>
-            <button :class="{ on: !settings.twistMission }" @click="randomMirror">🎲 {{ labels.trackerRandom }}</button>
-          </div>
-        </label>
-      </div>
-
-      <div class="players">
-        <div v-for="(p, i) in players" :key="i" class="player-card">
-          <h3 class="player-head">{{ playerLabel(i) }}</h3>
-          <label class="field">
-            <span>{{ labels.trackerRole }}</span>
-            <div class="seg">
-              <button :class="{ on: p.role === 'attacker' }" @click="setRole(i, 'attacker')">{{ labels.trackerAttacker }}</button>
-              <button :class="{ on: p.role === 'defender' }" @click="setRole(i, 'defender')">{{ labels.trackerDefender }}</button>
-            </div>
-          </label>
-        </div>
-      </div>
-
+    <!-- ───────── Step 4 — Deployment (first turn, CP, twist) ───────── -->
+    <div v-show="step === 4">
       <div class="settings">
         <label class="field">
           <span>{{ labels.trackerFirstTurn }}</span>
@@ -216,26 +185,81 @@
         </label>
       </div>
 
+      <!-- Twist: optional pre-game modifier — chosen via a full-screen picker -->
+      <div class="settings twist-block">
+        <h3 class="block-head">{{ labels.trackerTwistHeading }}</h3>
+        <button class="btn-choose-twist" @click="twistPickerOpen = true">
+          <span class="ct-name" :class="{ placeholder: !chosenTwist }">{{ chosenTwist ? chosenTwist.title : labels.trackerChooseTwist }}</span>
+          <i class="bi bi-chevron-right ct-chev"></i>
+        </button>
+        <details v-if="chosenTwist" class="twist-chosen">
+          <summary>{{ labels.trackerTwistRules }}</summary>
+          <div class="twist-chosen-body"><RuleBody :body="chosenTwist.body" /></div>
+        </details>
+        <div v-if="settings.twist === 'mirrored-world'" class="field twist-mission">
+          <span>{{ labels.trackerTwistMission }}</span>
+          <button class="btn-choose-twist" @click="mirrorPickerOpen = true">
+            <span class="ct-name" :class="{ placeholder: !settings.twistMission }">{{ mirrorSummary }}</span>
+            <i class="bi bi-chevron-right ct-chev"></i>
+          </button>
+        </div>
+      </div>
+
       <div class="actions">
-        <button class="btn-ghost" @click="step = 2">← {{ labels.trackerBack }}</button>
+        <button class="btn-ghost" @click="step = 3">← {{ labels.trackerBack }}</button>
         <button class="btn-primary" :disabled="!canStart" @click="start">{{ labels.trackerStart }}</button>
       </div>
     </div>
+
+    <TwistPickerModal
+      v-if="twistPickerOpen"
+      :twists="twistList"
+      :selected="settings.twist"
+      @pick="onPickTwist"
+      @random="onRandomTwist"
+      @none="onNoTwist"
+      @close="twistPickerOpen = false"
+    />
+
+    <SecondaryPickerModal
+      v-if="fixedPickerFor >= 0"
+      :missions="fixedModalMissions"
+      :selected="players[fixedPickerFor].fixedSecondaries"
+      :max="MAX_FIXED"
+      @toggle="slug => toggleFixed(players[fixedPickerFor], slug)"
+      @close="fixedPickerFor = -1"
+    />
+
+    <MissionPickerModal
+      v-if="mirrorPickerOpen"
+      :title="labels.trackerTwistMission"
+      :missions="mirrorModalMissions"
+      :selected="settings.twistMission"
+      :random-label="labels.trackerRandom"
+      @pick="onPickMirror"
+      @random="onRandomMirror"
+      @close="mirrorPickerOpen = false"
+    />
   </div>
 </template>
 
 <script setup>
 import { reactive, ref, computed, watch } from 'vue'
 import LayoutCard from '../event/LayoutCard.vue'
+import MissionCard from '../event/MissionCard.vue'
+import RuleBody from '../RuleBody.vue'
+import TwistPickerModal from './TwistPickerModal.vue'
+import SecondaryPickerModal from './SecondaryPickerModal.vue'
+import MissionPickerModal from './MissionPickerModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { eventCompanion, getEventContent } from '../../data/eventCompanion.js'
-import { useTracker, FACTIONS, FACTION_GROUPS, DISPOSITIONS, BATTLE_SIZES, MIRROR_MISSIONS, derivePrimary, detachmentsFor, detachmentInfo, fixedPool, dispositionName } from '../../composables/useTracker.js'
+import { useTracker, FACTIONS, FACTION_GROUPS, DISPOSITIONS, BATTLE_SIZES, MIRROR_MISSIONS, derivePrimary, missionBySlug, detachmentsFor, detachmentInfo, fixedPool, dispositionName } from '../../composables/useTracker.js'
 
 const emit = defineEmits(['start', 'cancel'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { history } = useTracker()
+const { history, setupDraft } = useTracker()
 
 // Player 1 is "You"; pre-fill their name from the most recent finished game (editable).
 const lastYouName = history.value[0]?.players?.[0]?.name || ''
@@ -258,13 +282,22 @@ const dispositions = DISPOSITIONS
 const matchups = eventCompanion.en.matchups   // layout image paths are language-agnostic
 const MAX_FIXED = 2   // Fixed secondaries: choose 2, kept for the whole game.
 
-const step = ref(1)
+// Defaults (also the shape merged over a restored draft so older drafts gain new fields).
+function defaultPlayer(role, name = '') {
+  return { name, factionSlug: null, detachments: [], disposition: null, role, secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false }
+}
+const defaultSettings = { trackCP: true, firstTurn: 1, layout: 'A', battleSize: 'strikeForce', twist: null, twistMission: null }
 
+// Restore an in-progress draft if present, else start fresh (with the pre-filled name).
+// Read once, BEFORE the reset watchers are registered, so restoring a faction/detachments
+// doesn't trip the faction-change reset.
+const draft = setupDraft.value
+const step = ref(draft?.step ?? 1)
 const players = reactive([
-  { name: lastYouName, factionSlug: null, detachments: [], disposition: null, role: 'attacker', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false },
-  { name: '', factionSlug: null, detachments: [], disposition: null, role: 'defender', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false },
+  { ...defaultPlayer('attacker', lastYouName), ...(draft?.players?.[0]) },
+  { ...defaultPlayer('defender'), ...(draft?.players?.[1]) },
 ])
-const settings = reactive({ trackCP: true, firstTurn: 1, layout: 'A', battleSize: 'strikeForce', twist: null, twistMission: null })
+const settings = reactive({ ...defaultSettings, ...(draft?.settings) })
 
 const battleSizes = BATTLE_SIZES
 const maxDp = computed(() => BATTLE_SIZES.find(b => b.id === settings.battleSize)?.maxDp ?? 3)
@@ -280,12 +313,35 @@ function randomMirror() {
   const m = mirrorMissions[Math.floor(Math.random() * mirrorMissions.length)]
   settings.twistMission = m ? m.slug : null
 }
+
+// Mirrored World shared-mission picker modal (choose one of the 5, or randomize).
+const mirrorPickerOpen = ref(false)
+const mirrorModalMissions = computed(() => mirrorMissions.map(m => missionBySlug(m.slug, null, locale.value)))
+const mirrorSummary = computed(() =>
+  settings.twistMission
+    ? (missionBySlug(settings.twistMission, null, locale.value)?.name || settings.twistMission)
+    : labels.value.trackerSelect
+)
+function onPickMirror(slug) { settings.twistMission = slug; mirrorPickerOpen.value = false }
+function onRandomMirror() { randomMirror(); mirrorPickerOpen.value = false }
 function randomTwist() {
   const ids = twistList.value.map(t => t.id)
   const id = ids[Math.floor(Math.random() * ids.length)]
   setTwist(id)
   if (id === 'mirrored-world') randomMirror()
 }
+
+// Twist picker modal (full-screen on mobile).
+const twistPickerOpen = ref(false)
+const chosenTwist = computed(() => twistList.value.find(t => t.id === settings.twist) || null)
+function onPickTwist(id) { setTwist(id); twistPickerOpen.value = false }
+function onRandomTwist() { randomTwist(); twistPickerOpen.value = false }
+function onNoTwist() { setTwist(null); twistPickerOpen.value = false }
+
+const stepLabel = computed(() => [
+  labels.value.trackerStepArmies, labels.value.trackerStepMission,
+  labels.value.trackerStepBattlefield, labels.value.trackerStepDeploy,
+][step.value - 1])
 
 function factionName(slug) {
   return FACTIONS.find(f => f.slug === slug)?.name || ''
@@ -295,6 +351,19 @@ function toggleFixed(p, slug) {
   const i = p.fixedSecondaries.indexOf(slug)
   if (i >= 0) p.fixedSecondaries.splice(i, 1)
   else if (p.fixedSecondaries.length < MAX_FIXED) p.fixedSecondaries.push(slug)
+}
+
+// Fixed-secondary picker modal — open for player index (-1 = closed). Lists the
+// localized full mission cards so their text can be read before choosing.
+const fixedPickerFor = ref(-1)
+const fixedModalMissions = computed(() => {
+  if (fixedPickerFor.value < 0) return []
+  const role = players[fixedPickerFor.value].role
+  return fixedPool(role).map(m => missionBySlug(m.slug, role, locale.value))
+})
+function fixedSummary(p) {
+  if (!p.fixedSecondaries.length) return labels.value.trackerSelect
+  return p.fixedSecondaries.map(slug => missionBySlug(slug, p.role, locale.value)?.name || slug).join(', ')
 }
 
 function dpSpent(p) {
@@ -354,6 +423,14 @@ function primaryName(i) {
   return m ? m.name : ''
 }
 
+// Full localized primary-mission cards for the step-2 preview (one per player).
+const primaryCards = computed(() => players.map((p, i) => {
+  const opp = players[i === 0 ? 1 : 0]
+  if (!p.disposition || !opp.disposition) return null
+  const m = derivePrimary(p.disposition, opp.disposition, settings)
+  return m ? missionBySlug(m.slug, null, locale.value) : null
+}))
+
 // Switching back to tactical drops any chosen fixed missions.
 players.forEach(p => watch(() => p.secondaryMode, (m) => { if (m !== 'fixed') p.fixedSecondaries = [] }))
 
@@ -385,16 +462,32 @@ const canMission = computed(() =>
   !!primaryName(0) && !!primaryName(1)
 )
 
-// Step 3 (Deployment): roles set (always defaulted) — gate on the earlier steps too.
+// Step 3 (Battlefield): layout always has a default → gate only on the earlier steps.
+const canBattlefield = computed(() => canMission.value)
+
+// Step 4 (Deployment): roles set (always defaulted) — gate on the earlier steps too.
 const canStart = computed(() =>
   canMission.value && players.every(p => p.role)
 )
 
+// Persist the in-progress setup so it survives reloads / navigating away. Serialized
+// snapshot (deep, post-flush) — no loop since this watch doesn't read setupDraft.
+watch([step, () => players, () => settings], () => {
+  setupDraft.value = JSON.parse(JSON.stringify({ step: step.value, players, settings }))
+}, { deep: true, flush: 'post' })
+
+function clearDraft() { setupDraft.value = null }
+
 function start() {
+  clearDraft()
   emit('start', {
     settings: { ...settings },
     players: players.map(p => ({ ...p })),
   })
+}
+function cancel() {
+  clearDraft()
+  emit('cancel')
 }
 </script>
 
@@ -441,6 +534,18 @@ function start() {
   border-color: var(--accent);
 }
 .step-sep { color: var(--text-dim); }
+.steps-compact {
+  display: none;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+}
+@media (max-width: 560px) {
+  .steps { display: none; }
+  .steps-compact { display: block; }
+}
 .players {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -524,26 +629,47 @@ function start() {
 .dp-count.over { color: #c0392b; }
 :global([data-theme='dark']) .dp-count.over { color: #ef6e60; }
 .battle-size {
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 1rem;
 }
-.battle-size .seg { flex-wrap: wrap; justify-content: center; }
+.battle-size .seg { flex-wrap: wrap; justify-content: flex-start; }
 
-.twist-actions { width: fit-content; margin-bottom: 0.6rem; }
-.twist-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-.twist-opt {
-  padding: 0.4rem 0.75rem;
+.btn-choose-twist {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  width: 100%;
+  min-height: 44px;
+  padding: 0.6rem 0.85rem;
   border: 1px solid var(--border);
-  border-radius: 999px;
+  border-radius: 6px;
   background: var(--bg-secondary);
-  color: var(--text-muted);
+  color: var(--text-primary);
   cursor: pointer;
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   font-weight: 600;
-  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  transition: border-color 0.15s;
 }
-.twist-opt:hover { color: var(--text-primary); border-color: var(--accent); }
-.twist-opt.on { background: var(--accent); color: var(--text-on-accent); border-color: var(--accent); }
+.btn-choose-twist:hover { border-color: var(--accent); }
+.ct-name.placeholder { color: var(--text-muted); font-weight: 500; }
+.ct-chev { color: var(--text-dim); }
+.twist-chosen {
+  margin-top: 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-card);
+}
+.twist-chosen > summary {
+  cursor: pointer;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+.twist-chosen-body { padding: 0 0.7rem 0.6rem; font-size: 0.86rem; line-height: 1.5; }
 .twist-mission { margin-top: 0.8rem; }
 .det-list {
   display: flex;
@@ -645,19 +771,7 @@ function start() {
   cursor: pointer;
 }
 .br-check { margin-top: 0.2rem; }
-.primary-preview {
-  margin: 0.4rem 0 0;
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  line-height: 1.4;
-}
-.pp-label {
-  font-weight: 700;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  font-size: 0.7rem;
-  letter-spacing: 0.04em;
-}
+.primary-card { margin-top: 0.7rem; }
 
 /* Layout A/B/C tabs (mirror the Event Companion layout viewer). */
 .tabs {
