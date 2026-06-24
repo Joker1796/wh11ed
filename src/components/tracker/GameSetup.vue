@@ -5,7 +5,9 @@
       <div class="steps">
         <span class="step" :class="{ on: step === 1, done: step > 1 }">1 · {{ labels.trackerStepArmies }}</span>
         <span class="step-sep">→</span>
-        <span class="step" :class="{ on: step === 2 }">2 · {{ labels.trackerStepBattlefield }}</span>
+        <span class="step" :class="{ on: step === 2, done: step > 2 }">2 · {{ labels.trackerStepMission }}</span>
+        <span class="step-sep">→</span>
+        <span class="step" :class="{ on: step === 3 }">3 · {{ labels.trackerStepDeploy }}</span>
       </div>
     </div>
 
@@ -25,18 +27,19 @@
 
       <div class="players">
         <div v-for="(p, i) in players" :key="i" class="player-card">
-          <h3 class="player-head">{{ labels.trackerPlayer }} {{ i + 1 }}</h3>
+          <h3 class="player-head">{{ playerLabel(i) }}</h3>
 
           <label class="field">
-            <span>{{ labels.trackerName }}</span>
-            <input v-model="p.name" type="text" :placeholder="`${labels.trackerPlayer} ${i + 1}`" />
+            <input v-model="p.name" type="text" :placeholder="namePlaceholder(i)" />
           </label>
 
           <label class="field">
             <span>{{ labels.trackerFaction }}</span>
             <select v-model="p.factionSlug">
               <option :value="null" disabled>{{ labels.trackerSelectFaction }}</option>
-              <option v-for="f in factions" :key="f.slug" :value="f.slug">{{ f.name }}</option>
+              <optgroup v-for="g in factionGroups" :key="g.id" :label="factionGroupLabel(g.id)">
+                <option v-for="f in g.factions" :key="f.slug" :value="f.slug">{{ f.name }}</option>
+              </optgroup>
             </select>
           </label>
 
@@ -58,28 +61,6 @@
             <p v-else class="det-empty">{{ p.factionSlug ? labels.trackerNoDetachments : labels.trackerSelectFaction }}</p>
           </div>
 
-          <label class="field">
-            <span>{{ labels.trackerSecondaryMode }}</span>
-            <div class="seg">
-              <button :class="{ on: p.secondaryMode === 'tactical' }" @click="p.secondaryMode = 'tactical'">{{ labels.trackerTactical }}</button>
-              <button :class="{ on: p.secondaryMode === 'fixed' }" @click="p.secondaryMode = 'fixed'">{{ labels.trackerFixed }}</button>
-            </div>
-          </label>
-
-          <div v-if="p.secondaryMode === 'fixed'" class="field">
-            <span>{{ labels.trackerChooseFixed }} <em class="dp-count">{{ p.fixedSecondaries.length }} / {{ MAX_FIXED }}</em></span>
-            <div class="chips">
-              <button
-                v-for="m in fixedPool(p.role)"
-                :key="m.slug"
-                class="chip"
-                :class="{ on: p.fixedSecondaries.includes(m.slug) }"
-                :disabled="!p.fixedSecondaries.includes(m.slug) && p.fixedSecondaries.length >= MAX_FIXED"
-                @click="toggleFixed(p, m.slug)"
-              >{{ m.name }}</button>
-            </div>
-          </div>
-
           <label class="check br-check" :class="{ on: p.battleReady }">
             <input type="checkbox" v-model="p.battleReady" />
             <span>{{ labels.trackerBattleReady }} (+10 VP)</span>
@@ -89,16 +70,16 @@
 
       <div class="actions">
         <button class="btn-ghost" @click="$emit('cancel')">{{ labels.trackerCancel }}</button>
-        <button class="btn-primary" :disabled="!canNext" @click="step = 2">{{ labels.trackerNextStep }} →</button>
+        <button class="btn-primary" :disabled="!canArmies" @click="step = 2">{{ labels.trackerNextStep }} →</button>
       </div>
     </div>
 
-    <!-- ───────── Step 2 — Battlefield ───────── -->
+    <!-- ───────── Step 2 — Mission ───────── -->
     <div v-show="step === 2">
       <div class="players">
         <div v-for="(p, i) in players" :key="i" class="player-card">
-          <h3 class="player-head">{{ labels.trackerPlayer }} {{ i + 1 }}</h3>
-          <p class="army-summary">{{ p.name || `${labels.trackerPlayer} ${i + 1}` }} — {{ factionName(p.factionSlug) }}</p>
+          <h3 class="player-head">{{ playerLabel(i) }}</h3>
+          <p class="army-summary">{{ p.name || playerLabel(i) }} — {{ factionName(p.factionSlug) }}</p>
 
           <label class="field">
             <span>{{ candidateDispositions(p).length > 1 ? labels.trackerActiveDisposition : labels.trackerDisposition }}</span>
@@ -123,12 +104,26 @@
           </label>
 
           <label class="field">
-            <span>{{ labels.trackerRole }}</span>
+            <span>{{ labels.trackerSecondaryMode }}</span>
             <div class="seg">
-              <button :class="{ on: p.role === 'attacker' }" @click="setRole(i, 'attacker')">{{ labels.trackerAttacker }}</button>
-              <button :class="{ on: p.role === 'defender' }" @click="setRole(i, 'defender')">{{ labels.trackerDefender }}</button>
+              <button :class="{ on: p.secondaryMode === 'tactical' }" @click="p.secondaryMode = 'tactical'">{{ labels.trackerTactical }}</button>
+              <button :class="{ on: p.secondaryMode === 'fixed' }" @click="p.secondaryMode = 'fixed'">{{ labels.trackerFixed }}</button>
             </div>
           </label>
+
+          <div v-if="p.secondaryMode === 'fixed'" class="field">
+            <span>{{ labels.trackerChooseFixed }} <em class="dp-count">{{ p.fixedSecondaries.length }} / {{ MAX_FIXED }}</em></span>
+            <div class="chips">
+              <button
+                v-for="m in fixedPool(p.role)"
+                :key="m.slug"
+                class="chip"
+                :class="{ on: p.fixedSecondaries.includes(m.slug) }"
+                :disabled="!p.fixedSecondaries.includes(m.slug) && p.fixedSecondaries.length >= MAX_FIXED"
+                @click="toggleFixed(p, m.slug)"
+              >{{ m.name }}</button>
+            </div>
+          </div>
 
           <p class="primary-preview" v-if="primaryName(i)">
             <span class="pp-label">{{ labels.trackerPrimaryPreview }}:</span> {{ primaryName(i) }}
@@ -155,6 +150,14 @@
         <p v-else class="det-empty">{{ labels.trackerLayoutPending }}</p>
       </div>
 
+      <div class="actions">
+        <button class="btn-ghost" @click="step = 1">← {{ labels.trackerBack }}</button>
+        <button class="btn-primary" :disabled="!canMission" @click="step = 3">{{ labels.trackerNextStep }} →</button>
+      </div>
+    </div>
+
+    <!-- ───────── Step 3 — Deployment ───────── -->
+    <div v-show="step === 3">
       <!-- Twist: optional pre-game modifier (applies to both players for the whole game) -->
       <div class="settings twist-block">
         <h3 class="block-head">{{ labels.trackerTwistHeading }}</h3>
@@ -185,12 +188,25 @@
         </label>
       </div>
 
+      <div class="players">
+        <div v-for="(p, i) in players" :key="i" class="player-card">
+          <h3 class="player-head">{{ playerLabel(i) }}</h3>
+          <label class="field">
+            <span>{{ labels.trackerRole }}</span>
+            <div class="seg">
+              <button :class="{ on: p.role === 'attacker' }" @click="setRole(i, 'attacker')">{{ labels.trackerAttacker }}</button>
+              <button :class="{ on: p.role === 'defender' }" @click="setRole(i, 'defender')">{{ labels.trackerDefender }}</button>
+            </div>
+          </label>
+        </div>
+      </div>
+
       <div class="settings">
         <label class="field">
           <span>{{ labels.trackerFirstTurn }}</span>
           <div class="seg">
-            <button :class="{ on: settings.firstTurn === 1 }" @click="settings.firstTurn = 1">{{ labels.trackerPlayer }} 1</button>
-            <button :class="{ on: settings.firstTurn === 2 }" @click="settings.firstTurn = 2">{{ labels.trackerPlayer }} 2</button>
+            <button :class="{ on: settings.firstTurn === 1 }" @click="settings.firstTurn = 1">{{ labels.trackerYou }}</button>
+            <button :class="{ on: settings.firstTurn === 2 }" @click="settings.firstTurn = 2">{{ labels.trackerOpponent }}</button>
           </div>
         </label>
 
@@ -201,7 +217,7 @@
       </div>
 
       <div class="actions">
-        <button class="btn-ghost" @click="step = 1">← {{ labels.trackerBack }}</button>
+        <button class="btn-ghost" @click="step = 2">← {{ labels.trackerBack }}</button>
         <button class="btn-primary" :disabled="!canStart" @click="start">{{ labels.trackerStart }}</button>
       </div>
     </div>
@@ -214,13 +230,30 @@ import LayoutCard from '../event/LayoutCard.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { eventCompanion, getEventContent } from '../../data/eventCompanion.js'
-import { FACTIONS, DISPOSITIONS, BATTLE_SIZES, MIRROR_MISSIONS, derivePrimary, detachmentsFor, detachmentInfo, fixedPool, dispositionName } from '../../composables/useTracker.js'
+import { useTracker, FACTIONS, FACTION_GROUPS, DISPOSITIONS, BATTLE_SIZES, MIRROR_MISSIONS, derivePrimary, detachmentsFor, detachmentInfo, fixedPool, dispositionName } from '../../composables/useTracker.js'
 
 const emit = defineEmits(['start', 'cancel'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+const { history } = useTracker()
 
-const factions = FACTIONS
+// Player 1 is "You"; pre-fill their name from the most recent finished game (editable).
+const lastYouName = history.value[0]?.players?.[0]?.name || ''
+function playerLabel(i) {
+  return i === 0 ? labels.value.trackerYou : labels.value.trackerOpponent
+}
+function namePlaceholder(i) {
+  return i === 0 ? labels.value.trackerYourName : labels.value.trackerOpponentName
+}
+
+const factionGroups = FACTION_GROUPS
+const factionGroupLabels = {
+  astartes: 'factionGroupAstartes', imperium: 'factionGroupImperium',
+  chaos: 'factionGroupChaos', xenos: 'factionGroupXenos', other: 'factionGroupOther',
+}
+function factionGroupLabel(id) {
+  return labels.value[factionGroupLabels[id]] || ''
+}
 const dispositions = DISPOSITIONS
 const matchups = eventCompanion.en.matchups   // layout image paths are language-agnostic
 const MAX_FIXED = 2   // Fixed secondaries: choose 2, kept for the whole game.
@@ -228,7 +261,7 @@ const MAX_FIXED = 2   // Fixed secondaries: choose 2, kept for the whole game.
 const step = ref(1)
 
 const players = reactive([
-  { name: '', factionSlug: null, detachments: [], disposition: null, role: 'attacker', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false },
+  { name: lastYouName, factionSlug: null, detachments: [], disposition: null, role: 'attacker', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false },
   { name: '', factionSlug: null, detachments: [], disposition: null, role: 'defender', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false },
 ])
 const settings = reactive({ trackCP: true, firstTurn: 1, layout: 'A', battleSize: 'strikeForce', twist: null, twistMission: null })
@@ -335,19 +368,26 @@ const layouts = computed(() => matchup.value?.layouts ?? [])
 const currentLayout = computed(() => layouts.value.find(l => l.id === settings.layout) || layouts.value[0] || null)
 watch(matchup, () => { settings.layout = 'A' })
 
-// Step 1 is complete once both players have a valid army (faction + a detachment
-// where the faction has them + fixed picks when in fixed mode).
-const canNext = computed(() =>
+// Step 1 (Armies): both players have a valid army — faction + a detachment where the
+// faction has them.
+const canArmies = computed(() =>
   players.every(p =>
     p.factionSlug &&
-    (detachmentsFor(p.factionSlug).length === 0 || p.detachments.length > 0) &&
-    (p.secondaryMode !== 'fixed' || p.fixedSecondaries.length > 0)
+    (detachmentsFor(p.factionSlug).length === 0 || p.detachments.length > 0)
   )
 )
 
-const canStart = computed(() =>
-  players.every(p => p.disposition && p.role && (p.secondaryMode !== 'fixed' || p.fixedSecondaries.length > 0)) &&
+// Step 2 (Mission): dispositions resolved (→ a primary for each) + fixed picks chosen
+// where in fixed mode.
+const canMission = computed(() =>
+  canArmies.value &&
+  players.every(p => p.disposition && (p.secondaryMode !== 'fixed' || p.fixedSecondaries.length > 0)) &&
   !!primaryName(0) && !!primaryName(1)
+)
+
+// Step 3 (Deployment): roles set (always defaulted) — gate on the earlier steps too.
+const canStart = computed(() =>
+  canMission.value && players.every(p => p.role)
 )
 
 function start() {
