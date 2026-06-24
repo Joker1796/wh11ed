@@ -482,7 +482,7 @@ If a unit performing an **action** makes a move (excluding **pile-in** and **con
         {
           id: 'section-13-08',
           sectionNum: '13.08',
-          title: 'Преимущество от укрытия',
+          title: 'Преимущество от укрытия (Benefit of Cover)',
           sideImage: { src: '/images/terrain/benefit-of-cover.jpg', alt: 'Benefit of Cover diagram', width: '50%' },
           body: `Каждый раз, когда дистанционная атака нацелена на юнит, если **каждая** модель в этом юните соответствует одному или нескольким из следующих условий, этот юнит получает **преимущество от укрытия** (benefit of cover) от этой атаки:
 ▪ Эта модель имеет ключевое слово INFANTRY/BEASTS/SWARM (ПЕХОТА/ЗВЕРИ/РОЙ) и находится в пределах **области укрытия** (terrain area).
@@ -493,7 +493,7 @@ If a unit performing an **action** makes a move (excluding **pile-in** and **con
         {
           id: 'section-13-09',
           sectionNum: '13.09',
-          title: 'Скрытность',
+          title: 'Скрытность (hidden)',
           body: `Модель находится в **скрытности** (hidden), пока к ней применяются **все** следующие условия:
 ▪ Эта модель имеет ключевое слово INFANTRY/BEASTS/SWARM (ПЕХОТА/ЗВЕРИ/РОЙ) и находится в пределах **области укрытия** (terrain area), которая содержит один или несколько **надёжных элементов укрытий** (dense terrain features).
 ▪ Юнит этой модели **не совершал** одну или несколько дистанционных атак в течение этого хода или в течение предыдущего хода.
@@ -503,14 +503,14 @@ If a unit performing an **action** makes a move (excluding **pile-in** and **con
         {
           id: 'section-13-10',
           sectionNum: '13.10',
-          title: 'Загораживание',
+          title: 'Загораживание (obscuring)',
           sideImage: { src: '/images/terrain/hidden-and-obscuring.jpg', alt: 'Hidden and Obscuring diagram', width: '50%' },
           body: `**Области укрытий** (terrain areas), содержащие один или несколько **лёгких** или **надёжных элементов укрытий**, являются **загораживающими областями укрытий** (obscuring terrain areas). Если каждая **линия обзора** (line of sight), проведённая между двумя моделями, пересекает одну или несколько **загораживающих областей укрытий** (за исключением **загораживающих областей укрытий**, внутри которых находится одна или обе эти модели), эти две модели **не видят** (not visible) друг друга.`,
         },
         {
           id: 'section-13-11',
           sectionNum: '13.11',
-          title: 'Сплошное укрытие',
+          title: 'Сплошное укрытие (Solid)',
           body: `**Надёжные укрытия** (Dense terrain) обладают правилом **Сплошное укрытие** (Solid). **Линию обзора** (line of sight) нельзя провести через любой закрытый проём в поверхности такого **элемента укрытия** (terrain feature), который находится на высоте 3" или менее от уровня земли.
 
 [img:/images/terrain/solid-ru.jpg|Монолитное укрытие — диаграмма блокировки линии обзора]`,
