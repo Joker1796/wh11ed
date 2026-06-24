@@ -6,6 +6,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "deploy": "bash deploy.sh",
     "images:webp": "node scripts/gen-webp.mjs",
     "icons": "node scripts/gen-pwa-icons.mjs"
@@ -24,7 +26,10 @@
     "vue-router": "^4.6.4"
   },
   "devDependencies": {
+    "@vue/test-utils": "^2.4.11",
+    "jsdom": "^29.1.1",
     "sharp": "^0.35.1",
-    "vite-plugin-pwa": "^1.3.0"
+    "vite-plugin-pwa": "^1.3.0",
+    "vitest": "^4.1.9"
   }
 }

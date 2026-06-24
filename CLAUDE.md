@@ -13,7 +13,7 @@ npm run images:webp  # convert new illustration jpg/png in public/images/ to Web
 npm run icons        # regenerate PWA / home-screen icons from the "W" mark (see PWA)
 ```
 
-No test suite or linter configured.
+No linter configured. **Tests:** Vitest (`npm test` = `vitest run`, `npm run test:watch`), config in `vitest.config.js` (jsdom env, `src/test-setup.js` installs a clean in-memory localStorage). Specs live next to source as `src/**/*.test.js` and focus on the tracker: pure scoring/BP/winner logic (`gameScoring.test.js`), pure tracker helpers (`useTracker.helpers.test.js`), the module-singleton store with `vi.resetModules()` between cases (`useTracker.store.test.js`), and components via `@vue/test-utils` (`ScoreBoard`/`GameSetup`/`modals`). Test files are not imported by the app, so they never reach the build/precache.
 
 ## Architecture
 
