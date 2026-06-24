@@ -52,6 +52,31 @@ function stripMarkup(text) {
     .trim()
 }
 
+// Flatten a table object ({ title?, note?, headers[], rows[][], footnote? }) into a
+// searchable text blob. Tables live as a sibling property (not inside `body`), so the
+// index has to pull their cells in explicitly or table contents are unsearchable.
+function tableText(table) {
+  if (!table || !Array.isArray(table.rows)) return ''
+  const parts = []
+  if (table.title) parts.push(table.title)
+  if (table.note) parts.push(table.note)
+  if (Array.isArray(table.headers)) parts.push(table.headers.join(' '))
+  for (const r of table.rows) parts.push(Array.isArray(r) ? r.join(' ') : '')
+  if (table.footnote) parts.push(table.footnote)
+  return parts.join('\n')
+}
+
+// Section-level tables carry different field names (woundTable / battleSizeTable /
+// abilitiesTable), so match any table-shaped value (an object with a `rows` array)
+// rather than hard-coding names — picks up future ones for free.
+function sectionTablesText(section) {
+  if (!section) return ''
+  return Object.values(section)
+    .filter(v => v && Array.isArray(v.rows))
+    .map(tableText)
+    .join('\n')
+}
+
 // `### h4` subheadings in body order. Stays in lockstep with RuleBlock's parser
 // (which numbers h4 blocks 1-based in the same order) via the shared h4AnchorId.
 function extractH4(body) {
@@ -84,11 +109,12 @@ function buildIndex(locale) {
       // Chapter (h2) heading — a searchable, scrollable result of its own.
       const sectionAnchor = 'section-' + String(enSection.id).padStart(2, '0')
       const sectionDesc = (isRu && ruSection.description) ? ruSection.description : (enSection.description || '')
+      const sectionTables = sectionTablesText(isRu && ruSection.title ? ruSection : enSection)
       items.push({
         id: sectionAnchor,
         sectionNum: enSection.num || '',
         title: sectionTitle,
-        body: stripMarkup(sectionDesc),
+        body: stripMarkup(sectionDesc + (sectionTables ? '\n' + sectionTables : '')),
         route,
         sectionTitle,
       })
@@ -102,7 +128,7 @@ function buildIndex(locale) {
           id: enSub.id,
           sectionNum: enSub.sectionNum,
           title: merged.title || '',
-          body: stripMarkup((merged.body || '') + (merged.note ? ' ' + merged.note : '')),
+          body: stripMarkup((merged.body || '') + (merged.note ? ' ' + merged.note : '') + (merged.table ? '\n' + tableText(merged.table) : '')),
           route,
           sectionTitle,
         })
@@ -125,7 +151,7 @@ function buildIndex(locale) {
             id: enChild.id,
             sectionNum: enChild.sectionNum,
             title: mc.title || '',
-            body: stripMarkup((mc.body || '') + (mc.note ? ' ' + mc.note : '')),
+            body: stripMarkup((mc.body || '') + (mc.note ? ' ' + mc.note : '') + (mc.table ? '\n' + tableText(mc.table) : '')),
             route,
             sectionTitle,
           })
@@ -213,7 +239,7 @@ function indexReferenceExtras(items, locale) {
   for (let i = 0; i < appendix.en.length; i++) {
     const en = appendix.en[i]
     const merged = isRu && appendix.ru ? { ...en, ...(appendix.ru[i] || {}) } : en
-    const table = merged.table ? merged.table.rows.map(r => r.join(' ')).join('\n') : ''
+    const table = tableText(merged.table)
     items.push({
       id: en.id,
       sectionNum: '',
