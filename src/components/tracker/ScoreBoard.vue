@@ -69,7 +69,7 @@ const bp = computed(() => battlePointsOf(game.value))
   text-align: center;
 }
 .col.lead {
-  border-top-color: var(--accent);
+  border-top-color: #e3b341;
 }
 .col-head {
   display: flex;
@@ -84,8 +84,8 @@ const bp = computed(() => battlePointsOf(game.value))
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: #fff;
-  background: var(--accent);
+  color: #1a1a1a;
+  background: #e3b341;
   padding: 1px 6px;
   border-radius: 999px;
 }
