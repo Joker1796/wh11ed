@@ -154,8 +154,9 @@
               :key="l.id"
               class="tab"
               :class="{ active: settings.layout === l.id }"
-              @click="settings.layout = l.id"
+              @click="selectLayout(l.id)"
             ><span class="tab-word">{{ labels.eventLayout }}</span> {{ l.id }}</button>
+            <button class="tab" :class="{ active: settings.layout === 'custom' }" @click="layoutPickerOpen = true">{{ labels.trackerLayoutCustom }}</button>
           </div>
           <LayoutCard v-if="currentLayout" :layout="currentLayout" />
         </template>
@@ -253,6 +254,13 @@
     />
 
     <ScoreHelpModal v-if="scoreHelpOpen" @close="scoreHelpOpen = false" />
+
+    <LayoutPickerModal
+      v-if="layoutPickerOpen"
+      :selected="settings.layout === 'custom' ? settings.customLayout : null"
+      @pick="onPickLayout"
+      @close="layoutPickerOpen = false"
+    />
   </div>
 </template>
 
@@ -265,6 +273,8 @@ import TwistPickerModal from './TwistPickerModal.vue'
 import SecondaryPickerModal from './SecondaryPickerModal.vue'
 import MissionPickerModal from './MissionPickerModal.vue'
 import ScoreHelpModal from './ScoreHelpModal.vue'
+import LayoutPickerModal from './LayoutPickerModal.vue'
+import { resolveLayout } from '../../composables/trackerLayout.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { eventCompanion, getEventContent } from '../../data/eventCompanion.js'
@@ -302,7 +312,7 @@ const MAX_FIXED = 2   // Fixed secondaries: choose 2, kept for the whole game.
 function defaultPlayer(role, name = '') {
   return { name, factionSlug: null, detachments: [], disposition: null, role, secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false }
 }
-const defaultSettings = { trackCP: true, firstTurn: 1, layout: 'A', battleSize: 'strikeForce', twist: null, twistMission: null, scoreMode: lastScoreMode }
+const defaultSettings = { trackCP: true, firstTurn: 1, layout: 'A', customLayout: null, battleSize: 'strikeForce', twist: null, twistMission: null, scoreMode: lastScoreMode }
 
 // Restore an in-progress draft if present, else start fresh (with the pre-filled name).
 // Read once, BEFORE the reset watchers are registered, so restoring a faction/detachments
@@ -460,8 +470,15 @@ const matchup = computed(() => {
   return matchups.find(m => (m.a === you && m.b === opp) || (m.a === opp && m.b === you)) || null
 })
 const layouts = computed(() => matchup.value?.layouts ?? [])
-const currentLayout = computed(() => layouts.value.find(l => l.id === settings.layout) || layouts.value[0] || null)
-watch(matchup, () => { settings.layout = 'A' })
+// Resolves the recommended A/B/C OR a chosen custom layout (any of the 45).
+const currentLayout = computed(() => resolveLayout(settings, players[0].disposition, players[1].disposition))
+// Changing dispositions changes the recommended matchup → reset to A and drop any custom pick.
+watch(matchup, () => { settings.layout = 'A'; settings.customLayout = null })
+
+// Custom layout picker (any of the 45 across all matchups).
+const layoutPickerOpen = ref(false)
+function selectLayout(id) { settings.layout = id; settings.customLayout = null }
+function onPickLayout(l) { settings.layout = 'custom'; settings.customLayout = l; layoutPickerOpen.value = false }
 
 // Step 1 (Armies): both players have a valid army — faction + a detachment where the
 // faction has them.
