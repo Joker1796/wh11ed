@@ -824,6 +824,14 @@ export const faqs = {
       q: 'Can a unit embark within a TRANSPORT after making a **scout move**?',
       a: 'No. Scout moves happen in the Resolve Pre-battle Abilities step, which comes after the Declare Battle Formations step and before the Begin the Battle step.',
     },
+    {
+      q: 'My rule says that "this units ranged attacks have +1 **A**", do each of my attacks get an extra attack dice?',
+      a: 'No, it increases the **A** characteristics of the unit\'s ranged weapons by 1. (02.04)',
+    },
+    {
+      q: 'The Munitorium Field Manual shows my unit can attach to different units than are on its datasheet, which do I use?',
+      a: 'Use the Munitorium Field Manual.',
+    },
   ],
   ru: [
     {
@@ -845,6 +853,14 @@ export const faqs = {
     {
       q: 'Может ли юнит сесть внутри ТРАНСПОРТА после совершения **разведывательного манёвра** (scout move)?',
       a: 'Нет. **Разведывательные манёвры** (scout moves) происходят на шаге «Выбор предбоевых способностей» (Resolve Pre-battle Abilities step), который следует после шага «Объявление боевых порядков» (Declare Battle Formations step) и перед шагом «Начало битвы» (Begin the Battle step).',
+    },
+    {
+      q: 'Моё правило гласит, что «дистанционные атаки этого юнита имеют +1 к **A**» — получает ли каждая моя атака дополнительный кубик атаки?',
+      a: 'Нет, оно увеличивает характеристику **A** дистанционного оружия юнита на 1. (02.04)',
+    },
+    {
+      q: 'Munitorium Field Manual показывает, что мой юнит может присоединяться к юнитам, отличным от указанных в его листе данных — какой использовать?',
+      a: 'Используйте Munitorium Field Manual.',
     },
   ],
 }
