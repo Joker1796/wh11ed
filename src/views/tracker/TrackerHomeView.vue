@@ -34,8 +34,9 @@
         <i class="bi" :class="syncing ? 'bi-arrow-repeat' : 'bi-cloud-arrow-up-fill'"></i>
         {{ syncing ? labels.cloudSyncing : labels.cloudSync }}
       </button>
-      <button v-else class="btn-primary ghost" @click="onSignIn">
-        <i class="bi bi-box-arrow-in-right"></i> {{ labels.cloudSignIn }}
+      <button v-else class="ya-btn" @click="onSignIn">
+        <span class="ya-btn-logo" aria-hidden="true">Я</span>
+        {{ labels.cloudSignInYandex }}
       </button>
     </div>
 
@@ -186,6 +187,37 @@ function formatDate(iso) {
 
 <style scoped>
 .tracker-home { padding-top: 0.5rem; }
+/* Yandex ID branded sign-in button (login is Yandex OAuth) — brand red + the "Я" mark. */
+.ya-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.4rem;
+  background: #fc3f1d;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.ya-btn:hover { background: #e63414; }
+.ya-btn-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  color: #fc3f1d;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 0.92rem;
+  line-height: 1;
+}
 .hero {
   text-align: center;
   padding: 1rem 0 0.8rem;
