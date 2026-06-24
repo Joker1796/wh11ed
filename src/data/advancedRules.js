@@ -30,7 +30,6 @@ When rotating a FRAME model as part of a move, if that model does not have a bas
 Each time a model makes a ranged attack that targets such a unit, subtract 1 from the **hit roll** (excluding attacks made with [CLOSE-QUARTERS] weapons by models in a unit **engaged** with the target).
 
 [img:/images/monsters/engaged-monsters_vehicles-shooting.jpg|Engaged monsters and vehicles — shooting hit roll penalty]`,
-          note: `A unit that is **engaged** with an enemy MONSTER/VEHICLE unit is still not **eligible to shoot**, and so cannot make ranged attacks against that MONSTER/VEHICLE unit, unless that unit is **eligible to shoot** while **engaged** (e.g. because it is using **close-quarters shooting**).`,
           children: [
             {
               id: 'section-17-03-01',
@@ -453,10 +452,9 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
 Каждый раз, когда модель совершает дальнюю атаку, нацеленную на такой отряд, вычтите 1 из **броска на попадание** (hit roll) (кроме атак оружием [БЛИЖНЯЯ СТРЕЛЬБА] (CLOSE-QUARTERS), совершаемых моделями из отряда, **находящегося в ближнем бою** (engaged) с целью).
 
 [img:/images/monsters/engaged-monsters_vehicles-shooting-ru.jpg|Монстры и техника в контакте — штраф к броску попадания]`,
-          note: `Отряд, **находящийся в ближнем бою** (engaged) с вражеским отрядом МОНСТР/ТЕХНИКА (MONSTER/VEHICLE), всё равно **не может стрелять** (not eligible to shoot), а значит, не может совершать дальние атаки против отряда МОНСТР/ТЕХНИКА, если только он **может стрелять** (eligible to shoot) будучи **в ближнем бою** (engaged) (например, потому что использует **ближнюю стрельбу** (close-quarters shooting)).`,
           children: [
             {
-              title: 'Стрельба в ближнем бою с монстрами/техникой (Shooting While Engaged With Monsters/Vehicles)',
+              title: 'Стрельба в ближнем бою с монстрами/техникой',
               body: `Отряд, **находящийся в ближнем бою** (engaged) с вражеским отрядом МОНСТР/ТЕХНИКА (MONSTER/VEHICLE), всё равно __не__ **может стрелять** (eligible to shoot), а значит, не может совершать дальние атаки против отряда МОНСТР/ТЕХНИКА, если только он **может стрелять** будучи **в ближнем бою** (engaged) (например, потому что использует **ближнюю стрельбу** (close-quarters shooting)).`,
             },
           ],
@@ -491,7 +489,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
 Когда отряд грузится, активный игрок убирает его с поля боя — теперь он погружён в этот ТРАНСПОРТ и не находится на поле боя.`,
           children: [
             {
-              title: 'Может погрузиться (Able To Embark)',
+              title: 'Может погрузиться',
               body: `Отряд может погрузиться, если он соответствует всем условиям из раздела «Погрузка» (Embarking) (18.02). Обратите внимание, что одно или несколько из этих условий могут быть изменены другими правилами — в таком случае отряд должен удовлетворять этим изменённым условиям в дополнение к любым неизменённым условиям, чтобы иметь возможность погрузиться.
 
 ### Часто задаваемые вопросы (FAQs)
@@ -565,7 +563,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
 Если не указано иное, каждый отряд **телохранителей** может иметь только один присоединённый отряд **лидера** и один отряд **поддержки**.`,
           children: [
             {
-              title: 'Объединённые отряды после уничтожения отряда телохранителей (Attached Units After Their Bodyguard Unit is Destroyed)',
+              title: 'Объединённые отряды после уничтожения отряда телохранителей',
               body: `Некоторые отряды имеют правила, гласящие, что когда отряд в **объединённом** (attached) отряде **уничтожен** (destroyed), отряды **лидера/поддержки** (leader/support), присоединённые к ним, становятся отдельными отрядами со своей изначальной **начальной численностью** (starting strengths).
 
 Когда отряд **телохранителей** (bodyguard) в **объединённом** отряде, на который влияет такое правило, **уничтожен**, все эти отряды **лидера/поддержки** остаются единым отрядом для всех игровых целей.`,
@@ -658,7 +656,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
 ▪ **Переброшенные** (repositioned) отряды.`,
           children: [
             {
-              title: 'Расстановка как подкрепление (Set Up As Reinforcements)',
+              title: 'Расстановка как подкрепление',
               body: `Если правило упоминает отряд, расставляемый на поле боя как Подкрепление (Reinforcements), это означает отряд, совершивший **манёвр прибытия** (ingress move).`,
             },
           ],
