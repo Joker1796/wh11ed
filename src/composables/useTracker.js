@@ -476,16 +476,33 @@ export function useTracker() {
   }
 
   // Finish = show the final summary; the game stays current so it can be resumed.
-  function finishGame() {
+  // `reason` (optional) records how the game ended ('played'|'early'|'friendly-concede'|
+  // 'opponent-concede'); 'early' games can be continued later from history.
+  function finishGame(reason) {
     if (!current.value) return
     const g = current.value
     g.phase = 'finished'
     g.finishedAt = new Date().toISOString()
+    g.endReason = reason || null
     g.result = { totals: g.players.map((_, i) => grandTotal(i)) }
   }
 
   function resumeGame() {
     if (current.value) current.value.phase = 'playing'
+  }
+
+  // Pull a finished game back out of history into active play (used for games that ended
+  // early). Strips the finished metadata; the caller guards against overwriting a live game.
+  function resumeFromHistory(id) {
+    const g = history.value.find(x => x.id === id)
+    if (!g) return
+    const resumed = JSON.parse(JSON.stringify(g))
+    resumed.phase = 'playing'
+    delete resumed.finishedAt
+    delete resumed.result
+    delete resumed.endReason
+    current.value = resumed
+    history.value = history.value.filter(x => x.id !== id)
   }
 
   // Save the finished game to history and clear the current slot.
@@ -521,7 +538,7 @@ export function useTracker() {
     setPrimaryRow, primaryRowCount,
     drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,
     scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
-    goToRound, finishGame, resumeGame, archiveGame, discardGame, deleteHistory,
+    goToRound, finishGame, resumeGame, resumeFromHistory, archiveGame, discardGame, deleteHistory,
     primaryTotal, roundPrimaryMax, secondaryTotal, grandTotal, leader,
   }
 }

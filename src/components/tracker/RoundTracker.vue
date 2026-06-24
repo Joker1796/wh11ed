@@ -71,13 +71,15 @@
     />
 
     <div class="actions">
-      <button class="btn-ghost" @click="confirmFinish">{{ labels.trackerFinish }}</button>
+      <button class="btn-ghost" @click="endModalOpen = true">{{ labels.trackerFinish }}</button>
       <button
         v-if="current.currentRound < ROUND_COUNT"
         class="btn-primary"
         @click="goToRound(current.currentRound + 1)"
       >{{ labels.trackerNext }}</button>
     </div>
+
+    <GameEndModal v-if="endModalOpen" @confirm="onEndBattle" @close="endModalOpen = false" />
   </div>
 </template>
 
@@ -87,6 +89,7 @@ import NumberStepper from './NumberStepper.vue'
 import SecondaryDeck from './SecondaryDeck.vue'
 import ScoreBoard from './ScoreBoard.vue'
 import ScoringModal from './ScoringModal.vue'
+import GameEndModal from './GameEndModal.vue'
 import RuleBody from '../RuleBody.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -98,6 +101,7 @@ const labels = computed(() => ui[locale.value])
 const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, goToRound, finishGame } = useTracker()
 
 const openPrimary = ref(-1)   // index of the player whose primary scoring modal is open
+const endModalOpen = ref(false)
 
 // Active twist (if any) — shown as a collapsible reminder; its mission effect (Mirrored
 // World / Scrambled Communications) is already baked into each player's primarySlug.
@@ -118,8 +122,9 @@ function primaryName(i) {
 function primaryBlocks(i) {
   return scorableBlocks(current.value.players[i].primarySlug, null, current.value.currentRound, locale.value)
 }
-function confirmFinish() {
-  if (window.confirm(labels.value.trackerFinishConfirm)) finishGame()
+function onEndBattle(reason) {
+  endModalOpen.value = false
+  finishGame(reason)
 }
 </script>
 
