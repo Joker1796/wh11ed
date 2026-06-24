@@ -173,7 +173,7 @@ function startNew() {
   router.push('/tracker/game')
 }
 function pname(g, i) {
-  return g.players[i].name || `${labels.value.trackerPlayer} ${i + 1}`
+  return g.players[i].name || (i === 0 ? labels.value.trackerYou : labels.value.trackerOpponent)
 }
 function winnerIdx(g) {
   const [a, b] = g.result.totals
