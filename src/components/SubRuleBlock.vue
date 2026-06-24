@@ -93,7 +93,10 @@ function handleDefClick(e) {
 .sub-rule-head {
   width: 100%;
   display: flex;
-  align-items: center;
+  /* Top-align so the "from app" badge and chevron sit level with the section number on
+     the first line when a long title wraps (esp. on mobile), instead of centering on the
+     whole multi-line title. Single-line titles look identical to `center`. */
+  align-items: flex-start;
   gap: 0.6rem;
   padding: 0.6rem 0.85rem;
   background: var(--sub-rule-head-bg);
