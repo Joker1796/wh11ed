@@ -14,8 +14,9 @@
         <button :class="{ on: typeFilter === 'all' }" @click="typeFilter = 'all'">{{ labels.filterAll }}</button>
         <button :class="{ on: typeFilter === 'primary' }" @click="typeFilter = 'primary'">{{ labels.missionsTypePrimary }}</button>
         <button :class="{ on: typeFilter === 'secondary' }" @click="typeFilter = 'secondary'">{{ labels.missionsTypeSecondary }}</button>
+        <button :class="{ on: typeFilter === 'twists' }" @click="typeFilter = 'twists'">{{ labels.missionsTypeTwists }}</button>
       </div>
-      <div v-if="typeFilter !== 'secondary'" class="dispo-chips">
+      <div v-if="showPrimary" class="dispo-chips">
         <button class="chip" :class="{ on: dispoFilter === 'all' }" @click="dispoFilter = 'all'">{{ labels.filterAll }}</button>
         <button
           v-for="d in dispositions"
@@ -61,15 +62,25 @@
         />
       </div>
     </section>
+
+    <!-- Twists — optional pre-game modifiers (also selectable in the Game Tracker) -->
+    <section v-if="showTwists" id="missions-twists" class="m-section">
+      <h2 class="section-heading">{{ labels.missionsTwistsHeading }}</h2>
+      <p class="lead">{{ twists.intro }}</p>
+      <div class="mcards">
+        <TwistCard v-for="t in twists.blocks" :key="t.id" :twist="t" />
+      </div>
+    </section>
   </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
 import MissionCard from '../../components/event/MissionCard.vue'
+import TwistCard from '../../components/event/TwistCard.vue'
 import SeeAlsoBlock from '../../components/SeeAlsoBlock.vue'
 import { getMissions } from '../../data/missions.js'
-import { eventCompanion } from '../../data/eventCompanion.js'
+import { eventCompanion, getEventContent } from '../../data/eventCompanion.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 
@@ -101,11 +112,15 @@ const primaryGroups = computed(() =>
 // Attacker and Defender share an identical Secondary pool — list the 18 once.
 const secondaryList = computed(() => data.value.secondary.filter(m => m.role === 'attacker'))
 
-// Filters: type (all / primary / secondary) and Force Disposition (primary only).
-const typeFilter = ref('all')   // 'all' | 'primary' | 'secondary'
+// Twists — optional pre-game modifiers (localized prose, shared with the tracker).
+const twists = computed(() => getEventContent(locale.value).twists)
+
+// Filters: type (all / primary / secondary / twists) and Force Disposition (primary only).
+const typeFilter = ref('all')   // 'all' | 'primary' | 'secondary' | 'twists'
 const dispoFilter = ref('all')  // 'all' | <disposition id>
-const showPrimary = computed(() => typeFilter.value !== 'secondary')
-const showSecondary = computed(() => typeFilter.value !== 'primary')
+const showPrimary = computed(() => ['all', 'primary'].includes(typeFilter.value))
+const showSecondary = computed(() => ['all', 'secondary'].includes(typeFilter.value))
+const showTwists = computed(() => ['all', 'twists'].includes(typeFilter.value))
 const filteredPrimaryGroups = computed(() =>
   dispoFilter.value === 'all'
     ? primaryGroups.value
