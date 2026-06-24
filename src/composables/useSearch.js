@@ -345,6 +345,11 @@ function indexEventCompanion(items, locale) {
     add(b.id, b.title, [b.body, b.note], '/event-companion/pairings', L.eventPairingsHeading)
   }
 
+  // Twists — rendered on the Missions page (deep-link to #twist-<id>)
+  for (const b of ec.twists?.blocks || []) {
+    add('twist-' + b.id, b.title, [b.body, b.note, b.example], '/event-companion/missions', L.missionsTwistsHeading)
+  }
+
   // Errata & FAQs page (no per-item DOM ids → synthetic)
   ;(ec.faq.items || []).forEach((item, i) => {
     add('ec-faq-' + i, item.q, [item.a], '/event-companion/faq', L.eventFaqHeading)

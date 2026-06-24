@@ -166,6 +166,7 @@ export const eventGroups = [
     sections: [
       { id: 'missions-primary',   label: 'Primary Missions' },
       { id: 'missions-secondary', label: 'Secondary Missions' },
+      { id: 'missions-twists',    label: 'Twists' },
     ],
   },
   { label: 'Terrain & Layouts', path: '/event-companion/layouts', sections: [] },
@@ -198,6 +199,7 @@ export const eventGroupsRu = [
     sections: [
       { id: 'missions-primary',   label: 'Основные миссии' },
       { id: 'missions-secondary', label: 'Вторичные миссии' },
+      { id: 'missions-twists',    label: 'Твисты' },
     ],
   },
   { label: 'Террейн и раскладки',       path: '/event-companion/layouts',  sections: [] },

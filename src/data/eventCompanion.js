@@ -526,6 +526,101 @@ const en = {
     ],
   },
 
+  // ── Twists: optional pre-game mission modifiers ────────────────────────────
+  twists: {
+    intro:
+      'Twists are optional modifiers, agreed before the battle, that add variety to a ' +
+      'game. Choose one together, roll for a random one, or play with no twist at all. ' +
+      'A chosen twist applies to both players for the whole game.',
+    blocks: [
+      {
+        id: 'martial-pride',
+        title: 'Martial Pride',
+        body:
+          'A **BATTLELINE** unit can **start an action** in a turn in which it made an ' +
+          '**advance move**. A **BATTLELINE** unit can **shoot in a turn** in which it ' +
+          '**started an action**.',
+        note: "Designer's Note: This is a great twist for Incursion battles.",
+        example:
+          'The rank and file of your armies are determined to demonstrate their value, ' +
+          'advancing relentlessly toward their assigned objectives whilst maintaining a ' +
+          'punishing rate of fire.',
+      },
+      {
+        id: 'mirrored-world',
+        title: 'Mirrored World',
+        body:
+          'The players both replace their **Primary Mission** card with the same one of ' +
+          'the following **Primary Mission** cards. If both players agree on one of them, ' +
+          'use that **Primary Mission** card; otherwise, roll a D6 and consult the table ' +
+          'below.\n\n' +
+          '### Primary Mission (D6)\n' +
+          '▪ Battlefield Dominance — 1\n' +
+          '▪ Meatgrinder — 2\n' +
+          '▪ Outmanoeuvre — 3\n' +
+          '▪ Gather Intel — 4\n' +
+          '▪ Sabotage — 5\n' +
+          '▪ (Roll again) — 6',
+        note:
+          "Designer's Note: This is a great twist for players who want to play a simpler " +
+          'battle of Warhammer 40,000, as both players will be trying to achieve the same ' +
+          '**Primary Mission**.',
+        example:
+          'As destinies converge, rival warlords find themselves on parallel paths, ' +
+          'competing with one another to achieve near-identical outcomes and objectives.',
+      },
+      {
+        id: 'night-fighting',
+        title: 'Night Fighting',
+        body:
+          'Each unit is not **visible** to enemy models unless they are within 18" of that ' +
+          'unit, and each unit cannot be targeted by [INDIRECT FIRE] weapons unless the ' +
+          'attacking model is within 18" of that unit.',
+        note:
+          "Designer's Note: This is a great twist for players who do not yet have a " +
+          "battlefield's worth of terrain.",
+        example:
+          'A shroud of darkness has fallen across the battlefield, obscuring the vision of ' +
+          'your warriors and providing them with cover beneath which to advance.',
+      },
+      {
+        id: 'scrambled-communications',
+        title: 'Scrambled Communications',
+        body: 'The players exchange their **Primary Mission** cards.',
+        note:
+          "Designer's Note: This is a great twist to shake things up in a regular match-up, " +
+          'or for players who love to embrace chaos!',
+        example:
+          'Scrambled communications and intertwined vox-channels have disrupted the chain ' +
+          'of command, leaving your orders and objectives unclear.',
+      },
+      {
+        id: 'ruinscape',
+        title: 'Ruinscape',
+        body:
+          'When a unit makes a **normal** or **advance move**, models in that unit have the ' +
+          'MOBILE keyword until that move ends.',
+        note:
+          "Designer's Note: For players who want to play with a lot of terrain and/or with " +
+          'many large models, this twist can help keep the battle flowing.',
+        example:
+          'Decades of war have reduced the structures on this battlefield to hollow ruins. ' +
+          'Your warriors stalk and scramble through the skeletal remnants of half-destroyed ' +
+          'buildings as they close in upon their enemies.',
+      },
+      {
+        id: 'nowhere-to-hide',
+        title: 'Nowhere to Hide',
+        body: '**Terrain features** do not have the **Solid** rule.',
+        note:
+          "Designer's Note: This twist lets models draw **line of sight** through any gap in " +
+          'a **terrain feature**, allowing more ‘true line of sight’ and more lethal shooting.',
+        example:
+          'This battlefield only affords the illusion of cover — nowhere is safe.',
+      },
+    ],
+  },
+
   // ── Page 4: Errata & FAQs ──────────────────────────────────────────────────
   faq: {
     intro:
@@ -914,6 +1009,89 @@ const ru = {
           'неоспоримой истине — и хотя большинство из вас проиграет партию-другую, вы все ' +
           'разделите победу в своём опыте того, что значит побывать на Warhammer Event.\n\n' +
           '— Студия дизайна Warhammer и команда Warhammer Events',
+      },
+    ],
+  },
+
+  twists: {
+    intro:
+      'Твисты — это опциональные модификаторы, согласованные перед битвой, которые ' +
+      'добавляют игре разнообразия. Выберите один вместе, определите случайный броском ' +
+      'кубика или играйте вообще без твиста. Выбранный твист действует на обоих игроков ' +
+      'всю игру.',
+    blocks: [
+      {
+        body:
+          'Юнит **BATTLELINE** может **начать действие (action)** в ходу, в котором он ' +
+          'совершил **продвижение (advance move)**. Юнит **BATTLELINE** может **стрелять ' +
+          'в ходу**, в котором он **начал действие (action)**.',
+        note: "Designer's Note: Отличный твист для битв размера Incursion.",
+        example:
+          'Рядовые бойцы ваших армий полны решимости доказать свою ценность, неумолимо ' +
+          'продвигаясь к назначенным целям и поддерживая беспощадный темп стрельбы.',
+      },
+      {
+        body:
+          'Оба игрока заменяют свою карту **основной миссии (Primary Mission)** на одну и ' +
+          'ту же из следующих карт. Если игроки договорились об одной из них, используйте ' +
+          'её; иначе бросьте D6 и сверьтесь с таблицей ниже.\n\n' +
+          '### Основная миссия (D6)\n' +
+          '▪ Battlefield Dominance — 1\n' +
+          '▪ Meatgrinder — 2\n' +
+          '▪ Outmanoeuvre — 3\n' +
+          '▪ Gather Intel — 4\n' +
+          '▪ Sabotage — 5\n' +
+          '▪ (бросьте снова) — 6',
+        note:
+          "Designer's Note: Отличный твист для тех, кто хочет сыграть более простую партию " +
+          'Warhammer 40,000, ведь оба игрока будут стремиться выполнить одну и ту же ' +
+          '**основную миссию (Primary Mission)**.',
+        example:
+          'Судьбы сходятся, и соперничающие военачальники оказываются на параллельных ' +
+          'путях, состязаясь за почти одинаковые цели и результаты.',
+      },
+      {
+        body:
+          'Каждый юнит не **виден (visible)** вражеским моделям, если они не находятся в ' +
+          'пределах 18" от этого юнита, и каждый юнит нельзя выбрать целью оружия ' +
+          '[INDIRECT FIRE], если атакующая модель не находится в пределах 18" от этого юнита.',
+        note:
+          "Designer's Note: Отличный твист для игроков, у которых пока нет полного набора " +
+          'террейна на поле боя.',
+        example:
+          'Покров тьмы опустился на поле боя, застилая взор ваших воинов и давая им ' +
+          'укрытие, под которым можно продвигаться.',
+      },
+      {
+        body: 'Игроки обмениваются своими картами **основной миссии (Primary Mission)**.',
+        note:
+          "Designer's Note: Отличный твист, чтобы встряхнуть привычную партию, или для тех, " +
+          'кто обожает хаос!',
+        example:
+          'Спутанная связь и переплетённые вокс-каналы нарушили цепочку командования, ' +
+          'сделав ваши приказы и цели неясными.',
+      },
+      {
+        body:
+          'Когда юнит совершает **обычный манёвр (normal move)** или **продвижение ' +
+          '(advance move)**, модели в этом юните получают ключевое слово MOBILE до конца ' +
+          'этого манёвра.',
+        note:
+          "Designer's Note: Для тех, кто хочет играть с большим количеством террейна и/или " +
+          'множеством крупных моделей, — этот твист помогает поддерживать темп битвы.',
+        example:
+          'Десятилетия войны превратили строения на этом поле боя в пустые руины. Ваши ' +
+          'воины крадутся и карабкаются через скелеты полуразрушенных зданий, подбираясь ' +
+          'к врагам.',
+      },
+      {
+        body: '**Участки укрытий (terrain features)** не обладают правилом **Solid**.',
+        note:
+          "Designer's Note: Этот твист позволяет моделям проводить **линию видимости (line " +
+          'of sight)** через любой проём в **участке укрытий (terrain feature)**, обеспечивая ' +
+          'больше «истинной линии видимости» и более смертоносную стрельбу.',
+        example:
+          'Это поле боя даёт лишь иллюзию укрытия — нигде не безопасно.',
       },
     ],
   },
