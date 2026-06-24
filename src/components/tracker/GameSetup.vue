@@ -11,6 +11,18 @@
 
     <!-- ───────── Step 1 — Armies ───────── -->
     <div v-show="step === 1">
+      <div class="field battle-size">
+        <span>{{ labels.trackerBattleSize }}</span>
+        <div class="seg">
+          <button
+            v-for="b in battleSizes"
+            :key="b.id"
+            :class="{ on: settings.battleSize === b.id }"
+            @click="settings.battleSize = b.id"
+          >{{ b.name }} · {{ b.points }} · {{ b.maxDp }}DP</button>
+        </div>
+      </div>
+
       <div class="players">
         <div v-for="(p, i) in players" :key="i" class="player-card">
           <h3 class="player-head">{{ labels.trackerPlayer }} {{ i + 1 }}</h3>
@@ -29,14 +41,14 @@
           </label>
 
           <div class="field">
-            <span>{{ labels.trackerDpBudget }} <em class="dp-count">{{ dpSpent(p) }} / {{ MAX_DP }} DP</em></span>
+            <span>{{ labels.trackerDpBudget }} <em class="dp-count" :class="{ over: dpSpent(p) > maxDp }">{{ dpSpent(p) }} / {{ maxDp }} DP</em></span>
             <div v-if="p.factionSlug && detachmentsFor(p.factionSlug).length" class="det-list">
               <button
                 v-for="d in detachmentsFor(p.factionSlug)"
                 :key="d.name"
                 class="det"
                 :class="{ on: p.detachments.includes(d.name) }"
-                :disabled="!p.detachments.includes(d.name) && dpSpent(p) + d.dp > MAX_DP"
+                :disabled="!p.detachments.includes(d.name) && p.detachments.length > 0 && dpSpent(p) + d.dp > maxDp"
                 @click="toggleDetachment(p, d)"
               >
                 <span class="det-name">{{ d.name }}</span>
@@ -172,7 +184,7 @@ import LayoutCard from '../event/LayoutCard.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { eventCompanion } from '../../data/eventCompanion.js'
-import { FACTIONS, DISPOSITIONS, MAX_DP, detachmentsFor, detachmentInfo, fixedPool, primaryFor, dispositionName } from '../../composables/useTracker.js'
+import { FACTIONS, DISPOSITIONS, BATTLE_SIZES, detachmentsFor, detachmentInfo, fixedPool, primaryFor, dispositionName } from '../../composables/useTracker.js'
 
 const emit = defineEmits(['start', 'cancel'])
 const { locale } = useLocale()
@@ -189,7 +201,10 @@ const players = reactive([
   { name: '', factionSlug: null, detachments: [], disposition: null, role: 'attacker', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false },
   { name: '', factionSlug: null, detachments: [], disposition: null, role: 'defender', secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false },
 ])
-const settings = reactive({ trackCP: true, firstTurn: 1, layout: 'A' })
+const settings = reactive({ trackCP: true, firstTurn: 1, layout: 'A', battleSize: 'strikeForce' })
+
+const battleSizes = BATTLE_SIZES
+const maxDp = computed(() => BATTLE_SIZES.find(b => b.id === settings.battleSize)?.maxDp ?? 3)
 
 function factionName(slug) {
   return FACTIONS.find(f => f.slug === slug)?.name || ''
@@ -220,7 +235,9 @@ function setRole(idx, role) {
 function toggleDetachment(p, d) {
   const i = p.detachments.indexOf(d.name)
   if (i >= 0) p.detachments.splice(i, 1)
-  else if (dpSpent(p) + d.dp <= MAX_DP) p.detachments.push(d.name)
+  // You can always include at least one detachment (even over budget); further
+  // detachments must fit within the battle size's DP budget.
+  else if (p.detachments.length === 0 || dpSpent(p) + d.dp <= maxDp.value) p.detachments.push(d.name)
 }
 
 // Changing faction resets its detachment/disposition choices.
@@ -406,6 +423,13 @@ function start() {
   font-weight: 700;
   margin-left: 0.3rem;
 }
+.dp-count.over { color: #c0392b; }
+:global([data-theme='dark']) .dp-count.over { color: #ef6e60; }
+.battle-size {
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.battle-size .seg { flex-wrap: wrap; justify-content: center; }
 .det-list {
   display: flex;
   flex-direction: column;
