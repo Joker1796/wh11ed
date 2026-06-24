@@ -6,6 +6,7 @@
 
     <div v-else-if="current.phase === 'finished'" class="finished">
       <h2 class="finished-title">{{ labels.trackerGameOver }}</h2>
+      <p v-if="endReasonLabel" class="finished-reason">{{ endReasonLabel }}</p>
       <ScoreBoard :finished="true" />
       <ScoreBreakdown />
       <div class="finished-actions">
@@ -33,6 +34,17 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { current, newGame, resumeGame, archiveGame } = useTracker()
 
+const END_REASON_LABELS = {
+  played: 'trackerEndPlayed',
+  early: 'trackerEndEarly',
+  'friendly-concede': 'trackerEndFriendlyConcede',
+  'opponent-concede': 'trackerEndOpponentConcede',
+}
+const endReasonLabel = computed(() => {
+  const key = END_REASON_LABELS[current.value?.endReason]
+  return key ? labels.value[key] : ''
+})
+
 function onStart(setup) {
   newGame(setup)
 }
@@ -57,9 +69,15 @@ function backToTracker() {
   font-size: 1.6rem;
   font-weight: 700;
   color: var(--text-primary);
-  margin: 0 0 1rem;
+  margin: 0 0 0.5rem;
   padding-bottom: 0.4rem;
   border-bottom: 2px solid var(--accent);
+}
+.finished-reason {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0 0 1rem;
 }
 .finished-actions {
   display: flex;
