@@ -161,9 +161,11 @@ import { useLoreVisibility } from './composables/useLoreVisibility.js'
 import { useInstallPrompt } from './composables/useInstallPrompt.js'
 import { useKeywordPopover } from './composables/useKeywordPopover.js'
 import { resolveRef, useRefNavigation } from './composables/useRefNavigation.js'
+import { useViewRestore } from './composables/useViewRestore.js'
 import { ui } from './i18n/ui.js'
 
 const route = useRoute()
+useViewRestore() // PWA-only: remember & restore the last page + in-view section
 const mobileNavOpen = ref(false)
 const searchOpen = ref(false)
 const settingsOpen = ref(false)
