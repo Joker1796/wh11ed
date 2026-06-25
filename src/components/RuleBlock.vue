@@ -9,7 +9,7 @@
       <SeeAlsoBlock v-if="seeAlso && seeAlso.length" :refs="seeAlso" />
 
       <div class="rule-body" @click="handleDefClick">
-        <AppImage v-if="sideImage" class="side-image" :src="sideImage.src" :alt="sideImage.alt" :style="sideImage.width ? { maxWidth: sideImage.width } : undefined" />
+        <AppImage v-if="sideImage" class="side-image" :src="sideImage.src" :alt="sideImage.alt" :style="sideImage.width ? { '--side-image-width': sideImage.width } : undefined" />
         <RuleBody :id="id" :body="body" />
 
         <div v-if="note" class="note-box" v-html="renderParagraphs(note)"></div>
@@ -111,7 +111,7 @@ function handleDefClick(e) {
 
 :deep(.side-image) {
   float: left;
-  max-width: 40%;
+  max-width: var(--side-image-width, 40%);
   margin: 0 1.5rem 1rem 0;
   border-radius: 4px;
 }
