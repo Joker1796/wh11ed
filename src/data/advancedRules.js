@@ -556,7 +556,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
         {
           id: 'section-20-04',
           sectionNum: '20.04',
-          title: 'Манёвр прибытия',
+          title: 'Манёвр прибытия (Ingress Move)',
           body: `◈ РАССТОЯНИЕ РАССТАНОВКИ | 6"
 ◈ УСЛОВИЕ | Ваш отряд находится в **стратегическом резерве** (strategic reserves) и не погружён в ТРАНСПОРТ (TRANSPORT), также находящийся в **стратегическом резерве**.
 ◈ ЭФФЕКТ | Ваш отряд расставляется, как описано в «Расстановке» (03.02).
