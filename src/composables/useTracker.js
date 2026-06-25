@@ -19,9 +19,14 @@ import {
 
 const CUR_KEY = 'wh11ed-tracker-current'
 const HIST_KEY = 'wh11ed-tracker-history'
+const DRAFT_KEY = 'wh11ed-tracker-setup-draft'
 
 export const ROUND_COUNT = 5
-export const MAX_DP = 3
+// Battle sizes (rule 25.03): each sets the Detachment-Points budget used in setup.
+export const BATTLE_SIZES = [
+  { id: 'incursion', name: 'Incursion', points: 1000, maxDp: 2 },
+  { id: 'strikeForce', name: 'Strike Force', points: 2000, maxDp: 3 },
+]
 export const PRIMARY_ROUND_CAP = 15
 // Game-level caps live in gameScoring.js (single source of truth); re-export for existing
 // importers (RoundTracker, ScoreBreakdown).
@@ -35,6 +40,31 @@ export {
 // The 5 Force Dispositions (canonical id + English name), reused from the Event Companion.
 export const DISPOSITIONS = eventCompanion.en.dispositions.map(d => ({ id: d.id, name: d.name }))
 export const FACTIONS = mfmFactions.en.map(f => ({ slug: f.slug, name: f.name }))
+
+// Visual grouping of factions for the setup dropdown (`<optgroup>`) — the full list is
+// always selectable, the four groups only improve readability. Group ids map to labels
+// in ui.js (`factionGroup*`). Factions not listed here fall into an "other" group, so
+// new MFM factions never silently disappear from the picker.
+const FACTION_GROUP_SLUGS = {
+  astartes: ['space-marines', 'black-templars', 'blood-angels', 'dark-angels', 'deathwatch', 'grey-knights', 'space-wolves'],
+  imperium: ['adepta-sororitas', 'adeptus-custodes', 'adeptus-mechanicus', 'astra-militarum', 'imperial-agents', 'imperial-knights', 'titan-legions'],
+  chaos: ['chaos-space-marines', 'death-guard', 'thousand-sons', 'world-eaters', 'emperors-children', 'chaos-daemons', 'chaos-knights', 'chaos-titan-legions'],
+  xenos: ['aeldari', 'drukhari', 'necrons', 'orks', 'tau-empire', 'tyranids', 'genestealer-cults', 'leagues-of-votann'],
+}
+export const FACTION_GROUPS = (() => {
+  const byName = (a, b) => a.name.localeCompare(b.name)
+  const seen = new Set()
+  const groups = ['astartes', 'imperium', 'chaos', 'xenos'].map(id => {
+    const factions = FACTION_GROUP_SLUGS[id]
+      .map(slug => FACTIONS.find(f => f.slug === slug))
+      .filter(Boolean)
+    factions.forEach(f => seen.add(f.slug))
+    return { id, factions: factions.sort(byName) }
+  })
+  const other = FACTIONS.filter(f => !seen.has(f.slug)).sort(byName)
+  if (other.length) groups.push({ id: 'other', factions: other })
+  return groups
+})()
 
 export function dispositionName(id) {
   const d = DISPOSITIONS.find(x => x.id === id)
@@ -138,6 +168,21 @@ export function primaryFor(myDisposition, opponentDisposition) {
   return missions.en.primary.find(m => m.deck === myDisposition && m.opponent === oppName) || null
 }
 
+// The five "mirror" primary missions both players can share under the Mirrored World
+// twist (each is a self-vs-self disposition matchup, tagged `mirror: true`).
+export const MIRROR_MISSIONS = missions.en.primary.filter(m => m.mirror)
+
+// Effective primary mission for a player, accounting for an active Twist:
+//  • scrambled-communications — players exchange Primary Mission cards (take the opponent's).
+//  • mirrored-world — both players use the same chosen mission (`settings.twistMission`).
+// Falls back to the normal disposition-derived primary. Returns the mission object or null.
+export function derivePrimary(myDisposition, opponentDisposition, settings = {}) {
+  if (settings.twist === 'scrambled-communications') return primaryFor(opponentDisposition, myDisposition)
+  if (settings.twist === 'mirrored-world' && settings.twistMission)
+    return missions.en.primary.find(m => m.slug === settings.twistMission) || primaryFor(myDisposition, opponentDisposition)
+  return primaryFor(myDisposition, opponentDisposition)
+}
+
 // "or"-linked rows in a block are mutually-exclusive BRACKETS (e.g. control 1 / 2 / 3+
 // objectives) — only one may be scored. Given a row, returns the pick keys of its
 // sibling rows that selecting it should clear. Per-tally rows ("For each…/Each time…")
@@ -175,6 +220,8 @@ function load(key, fallback) {
 
 const current = ref(load(CUR_KEY, null))
 const history = ref(load(HIST_KEY, []))
+// In-progress new-game setup, persisted so it survives reloads / navigating away.
+const setupDraft = ref(load(DRAFT_KEY, null))
 
 // Auto-save on every mutation — "saved automatically as you play". Debounced so a
 // burst of changes (e.g. typing in a name field, stepping a score counter) doesn't
@@ -184,6 +231,7 @@ const SAVE_DELAY = 500
 let saveTimer = null
 let pendingCurrent = false
 let pendingHistory = false
+let pendingSetupDraft = false
 
 function flushSave() {
   if (saveTimer) { clearTimeout(saveTimer); saveTimer = null }
@@ -198,6 +246,13 @@ function flushSave() {
     pendingHistory = false
     try { localStorage.setItem(HIST_KEY, JSON.stringify(history.value)) } catch { /* ignore */ }
   }
+  if (pendingSetupDraft) {
+    pendingSetupDraft = false
+    try {
+      if (setupDraft.value) localStorage.setItem(DRAFT_KEY, JSON.stringify(setupDraft.value))
+      else localStorage.removeItem(DRAFT_KEY)
+    } catch { /* ignore */ }
+  }
 }
 
 function scheduleSave() {
@@ -206,6 +261,7 @@ function scheduleSave() {
 
 watch(current, () => { pendingCurrent = true; scheduleSave() }, { deep: true })
 watch(history, () => { pendingHistory = true; scheduleSave() }, { deep: true })
+watch(setupDraft, () => { pendingSetupDraft = true; scheduleSave() }, { deep: true })
 
 // The debounce window could drop the final mutation if the tab closes / refreshes /
 // is backgrounded (mobile/PWA) before the timer fires — flush synchronously on those.
@@ -226,8 +282,8 @@ function shuffle(arr) {
   return a
 }
 
-function makePlayer(p, opponent) {
-  const primary = primaryFor(p.disposition, opponent.disposition)
+function makePlayer(p, opponent, settings) {
+  const primary = derivePrimary(p.disposition, opponent.disposition, settings)
   const poolSlugs = secondaryPool(p.role).map(m => m.slug)
   const secondaryMode = p.secondaryMode || 'tactical'
   return {
@@ -262,13 +318,19 @@ export function useTracker() {
     // setup = { settings, players: [p1, p2] }
     // p = { name, factionSlug, detachments, disposition, role, secondaryMode }
     const [a, b] = setup.players
+    const settings = { ...setup.settings }
+    // Mirrored World with no agreed mission → roll a random one of the five and persist it
+    // (so a reload doesn't re-roll, and both players resolve to the same mission).
+    if (settings.twist === 'mirrored-world' && !settings.twistMission && MIRROR_MISSIONS.length) {
+      settings.twistMission = MIRROR_MISSIONS[Math.floor(Math.random() * MIRROR_MISSIONS.length)].slug
+    }
     current.value = {
       id: 'g' + Date.now(),
       createdAt: new Date().toISOString(),
       phase: 'playing',
       currentRound: 1,
-      settings: { ...setup.settings },
-      players: [makePlayer(a, b), makePlayer(b, a)],
+      settings,
+      players: [makePlayer(a, b, settings), makePlayer(b, a, settings)],
     }
   }
 
@@ -414,16 +476,33 @@ export function useTracker() {
   }
 
   // Finish = show the final summary; the game stays current so it can be resumed.
-  function finishGame() {
+  // `reason` (optional) records how the game ended ('played'|'early'|'friendly-concede'|
+  // 'opponent-concede'); 'early' games can be continued later from history.
+  function finishGame(reason) {
     if (!current.value) return
     const g = current.value
     g.phase = 'finished'
     g.finishedAt = new Date().toISOString()
+    g.endReason = reason || null
     g.result = { totals: g.players.map((_, i) => grandTotal(i)) }
   }
 
   function resumeGame() {
     if (current.value) current.value.phase = 'playing'
+  }
+
+  // Pull a finished game back out of history into active play (used for games that ended
+  // early). Strips the finished metadata; the caller guards against overwriting a live game.
+  function resumeFromHistory(id) {
+    const g = history.value.find(x => x.id === id)
+    if (!g) return
+    const resumed = JSON.parse(JSON.stringify(g))
+    resumed.phase = 'playing'
+    delete resumed.finishedAt
+    delete resumed.result
+    delete resumed.endReason
+    current.value = resumed
+    history.value = history.value.filter(x => x.id !== id)
   }
 
   // Save the finished game to history and clear the current slot.
@@ -454,12 +533,12 @@ export function useTracker() {
   }
 
   return {
-    current, history,
+    current, history, setupDraft,
     newGame, setRoundPrimary, setCp,
     setPrimaryRow, primaryRowCount,
     drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,
     scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
-    goToRound, finishGame, resumeGame, archiveGame, discardGame, deleteHistory,
+    goToRound, finishGame, resumeGame, resumeFromHistory, archiveGame, discardGame, deleteHistory,
     primaryTotal, roundPrimaryMax, secondaryTotal, grandTotal, leader,
   }
 }

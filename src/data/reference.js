@@ -10,6 +10,16 @@ export const abilityIntro = {
 
 If a **weapon ability** is followed by one or more keywords, when making attacks with that weapon, that ability only applies if the target unit has one or more of those keywords.`,
       example: 'The **[LETHAL HITS: VEHICLE]** ability only applies to attacks that target a VEHICLE unit. The **[SUSTAINED HITS 1: INFANTRY/BEASTS]** ability only applies to attacks that target an INFANTRY/BEASTS unit.',
+      children: [
+        {
+          id: 'section-24-01-01',
+          sectionNum: '24.01.01',
+          title: "With The 'X' Ability",
+          fromApp: true,
+          body: `Some rules affect or require you to select a model or unit with a particular ability. When resolving such rules, any numbers following the ability are irrelevant when determining if such rules apply.`,
+          example: `If a rule instructs you to select a model from your army with the **Deadly Demise** ability, you could select a model with the **Deadly Demise 1**, **Deadly Demise D3** or **Deadly Demise D6** ability.`,
+        },
+      ],
     },
     {
       id: 'section-24-02',
@@ -33,6 +43,16 @@ If a **weapon ability** is followed by one or more keywords, when making attacks
 
 Если за **способностью оружия** следует одно или несколько **ключевых слов** (keywords), то при совершении атак этим оружием эта способность применяется, только если целевой юнит имеет одно или несколько из этих ключевых слов.`,
       example: 'Способность **[LETHAL HITS: VEHICLE]** применяется только к атакам, целью которых является юнит ТЕХНИКИ (VEHICLE). Способность **[SUSTAINED HITS 1: INFANTRY/BEASTS]** применяется только к атакам, целью которых является юнит ПЕХОТЫ/ЗВЕРЕЙ (INFANTRY/BEASTS).',
+      children: [
+        {
+          id: 'section-24-01-01',
+          sectionNum: '24.01.01',
+          title: "Со способностью «X» (With The 'X' Ability)",
+          fromApp: true,
+          body: `Некоторые правила влияют на модель или юнит с определённой способностью или требуют выбрать такую модель или юнит. При разрешении таких правил любые числа, следующие за способностью, не имеют значения при определении того, применяются ли такие правила.`,
+          example: `Если правило предписывает вам выбрать модель из вашей армии со способностью **Deadly Demise**, вы можете выбрать модель со способностью **Deadly Demise 1**, **Deadly Demise D3** или **Deadly Demise D6**.`,
+        },
+      ],
     },
     {
       id: 'section-24-02',
@@ -126,6 +146,15 @@ When using another **shooting type**, for each model in that unit (excluding MON
       fullText: `Each time a unit containing one or more models with an **[EXTRA ATTACKS]** weapon fights, those models will make attacks with those weapons in addition to any others. In the Select Weapons step (04.01), for each of those models, you must select:
 ▪ All of that model's **[EXTRA ATTACKS]** weapons.
 ▪ One of that model's other melee weapons, if possible.`,
+      children: [
+        {
+          id: 'section-24-11-01',
+          sectionNum: '24.11.01',
+          title: 'Only [EXTRA ATTACKS] weapons',
+          fromApp: true,
+          body: `If a unit has [EXTRA ATTACKS] weapons, it does not need to select weapons without the [EXTRA ATTACKS] ability in order to make attacks with those [EXTRA ATTACKS] weapons.`,
+        },
+      ],
     },
     {
       num: '24.12',
@@ -229,6 +258,23 @@ See the Resolve Fights First Combats step in the Fight phase (12.04).`,
       fullText: `Unless part of an **attached** unit, this unit is not **visible** to enemy models unless they are within 12" of this unit, and it cannot be targeted by **[INDIRECT FIRE]** weapons unless the attacking model is within 12" of this unit.
 
 If this ability takes the form **Lone Operative X"**, unless part of an **attached** unit, this unit is not **visible** to enemy models unless they are within **X"** of this unit, and it cannot be targeted by **[INDIRECT FIRE]** weapons unless the attacking model is within **X"** of this unit.`,
+      children: [
+        {
+          id: 'section-24-24-01',
+          sectionNum: '24.24.01',
+          title: 'Attached units and Lone Operative',
+          fromApp: true,
+          body: `If all models in an **attached** unit have **Lone Operative**, that unit will benefit from **Lone Operative**.
+
+If a unit has **Lone Operative**, but models in that unit have different range values for **Lone Operative**, the highest value amongst that unit's models on the battlefield is applied to the whole unit.
+
+If an **attached** unit **below starting strength** only contains models with **Lone Operative**, **Lone Operative** becomes active again.
+
+**Example:** A CHARACTER with **Lone Operative** is attached to a **bodyguard** unit that has **Lone Operative 15"**. **Lone Operative 15"** is therefore used for the whole unit.
+
+**Example:** A CHARACTER with **Lone Operative** is attached to a **bodyguard** unit that does not have **Lone Operative**. Once all of the **bodyguard** models have been **destroyed** and only the CHARACTER remains, the CHARACTER's **Lone Operative** becomes active again.`,
+        },
+      ],
     },
     {
       num: '24.25',
@@ -248,6 +294,15 @@ If this ability takes the form **Lone Operative X"**, unless part of an **attach
 If a **destroyed** model is returned to a unit, all of its **[ONE SHOT]** weapons that have already been selected to make attacks with during the battle cannot be selected to make attacks with again.
 
 If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can be selected to make attacks with once per battle.`,
+      children: [
+        {
+          id: 'section-24-26-01',
+          sectionNum: '24.26.01',
+          title: 'Multiple [ONE SHOT] Weapons',
+          fromApp: true,
+          body: `If a model is equipped with more than one of the same weapon with the [ONE SHOT] ability (e.g. 2 hunter-killer missiles), that model can shoot with each of those weapons once per battle.`,
+        },
+      ],
     },
     {
       num: '24.27',
@@ -345,6 +400,13 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
       flavor: 'Dual weapons are often grafted to the same targeting system for greater lethality.',
       fullText: `Each time an attack is made with a **[TWIN-LINKED]** weapon, you can re-roll the **wound roll**.`,
     },
+    {
+      num: '24.39',
+      name: 'Damaged',
+      type: 'unit',
+      fullText: `This ability always takes the form **Damaged X**. While a model's remaining wounds are equal to or less than **X**, that model is **damaged**:
+▪ While a model is **damaged**, that model's attacks have -1 to **hit rolls**.`,
+    },
   ],
   ru: [
     {
@@ -406,6 +468,12 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
       fullText: `Каждый раз, когда юнит, содержащий одну или несколько моделей с оружием **[EXTRA ATTACKS]**, сражается, эти модели совершают атаки этим оружием в дополнение к любым другим. На шаге «**Выбор оружия**» (Select Weapons step) (04.01) для каждой из этих моделей вы должны выбрать:
 ▪ Все виды оружия **[EXTRA ATTACKS]** этой модели.
 ▪ Одно другое оружие ближнего боя этой модели, если возможно.`,
+      children: [
+        {
+          title: 'Только оружие [EXTRA ATTACKS]',
+          body: `Если у юнита есть оружие [EXTRA ATTACKS], ему не нужно выбирать оружие без способности [EXTRA ATTACKS], чтобы совершать атаки этим оружием [EXTRA ATTACKS].`,
+        },
+      ],
     },
     {
       // 24.12 Feel No Pain
@@ -483,6 +551,20 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
       fullText: `Если только он не является частью **составного юнита** (attached unit), этот юнит **не видим** (not visible) для вражеских моделей, если только они не находятся в пределах 12" от этого юнита, и он не может быть выбран целью для оружия **[INDIRECT FIRE]**, если только атакующая модель не находится в пределах 12" от этого юнита.
 
 Если эта способность имеет вид **Lone Operative X"**, то, если только он не является частью составного юнита, этот юнит не видим для вражеских моделей, если только они не находятся в пределах **X"** от этого юнита, и он не может быть выбран целью для оружия **[INDIRECT FIRE]**, если только атакующая модель не находится в пределах **X"** от этого юнита.`,
+      children: [
+        {
+          title: 'Объединённые отряды и Lone Operative (Attached units and Lone Operative)',
+          body: `Если все модели в **объединённом** (attached) отряде имеют **Lone Operative**, этот отряд получает преимущество от **Lone Operative**.
+
+Если у юнита есть **Lone Operative**, но модели в этом юните имеют разные значения дальности для **Lone Operative**, ко всему юниту применяется наивысшее значение среди моделей этого юнита на поле боя.
+
+Если **объединённый** отряд **ниже начальной численности** (below starting strength) содержит только модели с **Lone Operative**, **Lone Operative** снова становится активной.
+
+**Пример:** CHARACTER с **Lone Operative** присоединён к отряду **телохранителей** (bodyguard), у которого есть **Lone Operative 15"**. Поэтому для всего отряда используется **Lone Operative 15"**.
+
+**Пример:** CHARACTER с **Lone Operative** присоединён к отряду **телохранителей**, у которого нет **Lone Operative**. Как только все модели **телохранителей** **уничтожены** (destroyed) и остаётся только CHARACTER, **Lone Operative** этого CHARACTER снова становится активной.`,
+        },
+      ],
     },
     {
       // 24.25 [MELTA]
@@ -498,6 +580,12 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
 Если **уничтоженная** (destroyed) модель возвращена в юнит, всё её оружие **[ONE SHOT]**, которое уже было выбрано для совершения атак в ходе битвы, **не может** быть выбрано для совершения атак снова.
 
 Если новый юнит добавлен в армию, всё оружие **[ONE SHOT]** в этом юните может быть выбрано для совершения атак **один раз за игру** (once per battle).`,
+      children: [
+        {
+          title: 'Несколько видов оружия [ONE SHOT] (Multiple [ONE SHOT] Weapons)',
+          body: `Если модель оснащена более чем одним одинаковым оружием со способностью [ONE SHOT] (например, 2 ракеты hunter-killer), эта модель может выстрелить каждым из этих видов оружия один раз за битву.`,
+        },
+      ],
     },
     {
       // 24.27 [PISTOL]
@@ -570,6 +658,11 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
       // 24.38 [TWIN-LINKED]
       flavor: 'Спаренные оружия часто подключаются к одной системе наведения для большей смертоносности.',
       fullText: `Каждый раз, когда атака совершается оружием **[TWIN-LINKED]**, вы можете перебросить **бросок на ранение** (wound roll).`,
+    },
+    {
+      // 24.39 Damaged
+      fullText: `Эта способность всегда имеет вид **Damaged X**. Пока оставшиеся раны модели равны или меньше **X**, эта модель **повреждена** (damaged):
+▪ Пока модель **повреждена**, атаки этой модели имеют -1 к **броску на попадание** (hit rolls).`,
     },
   ],
 }
@@ -731,6 +824,14 @@ export const faqs = {
       q: 'Can a unit embark within a TRANSPORT after making a **scout move**?',
       a: 'No. Scout moves happen in the Resolve Pre-battle Abilities step, which comes after the Declare Battle Formations step and before the Begin the Battle step.',
     },
+    {
+      q: 'My rule says that "this units ranged attacks have +1 **A**", do each of my attacks get an extra attack dice?',
+      a: 'No, it increases the **A** characteristics of the unit\'s ranged weapons by 1. (02.04)',
+    },
+    {
+      q: 'The Munitorium Field Manual shows my unit can attach to different units than are on its datasheet, which do I use?',
+      a: 'Use the Munitorium Field Manual.',
+    },
   ],
   ru: [
     {
@@ -752,6 +853,14 @@ export const faqs = {
     {
       q: 'Может ли юнит сесть внутри ТРАНСПОРТА после совершения **разведывательного манёвра** (scout move)?',
       a: 'Нет. **Разведывательные манёвры** (scout moves) происходят на шаге «Выбор предбоевых способностей» (Resolve Pre-battle Abilities step), который следует после шага «Объявление боевых порядков» (Declare Battle Formations step) и перед шагом «Начало битвы» (Begin the Battle step).',
+    },
+    {
+      q: 'Моё правило гласит, что «дистанционные атаки этого юнита имеют +1 к **A**» — получает ли каждая моя атака дополнительный кубик атаки?',
+      a: 'Нет, оно увеличивает характеристику **A** дистанционного оружия юнита на 1. (02.04)',
+    },
+    {
+      q: 'Munitorium Field Manual показывает, что мой юнит может присоединяться к юнитам, отличным от указанных в его листе данных — какой использовать?',
+      a: 'Используйте Munitorium Field Manual.',
     },
   ],
 }

@@ -24,7 +24,8 @@
 
     <div class="cta">
       <RouterLink v-if="current" to="/tracker/game" class="btn-primary">{{ labels.trackerResume }}</RouterLink>
-      <button class="btn-primary" :class="{ ghost: current }" @click="startNew">{{ labels.trackerNewGame }}</button>
+      <RouterLink v-if="setupDraft && !current" to="/tracker/game" class="btn-primary">{{ labels.trackerContinueSetup }}</RouterLink>
+      <button class="btn-primary" :class="{ ghost: current || setupDraft }" @click="startNew">{{ labels.trackerNewGame }}</button>
       <button
         v-if="status === 'authed'"
         class="btn-primary ghost"
@@ -34,8 +35,9 @@
         <i class="bi" :class="syncing ? 'bi-arrow-repeat' : 'bi-cloud-arrow-up-fill'"></i>
         {{ syncing ? labels.cloudSyncing : labels.cloudSync }}
       </button>
-      <button v-else class="btn-primary ghost" @click="onSignIn">
-        <i class="bi bi-box-arrow-in-right"></i> {{ labels.cloudSignIn }}
+      <button v-else class="ya-btn" @click="onSignIn">
+        <span class="ya-btn-logo" aria-hidden="true">Я</span>
+        {{ labels.cloudSignInYandex }}
       </button>
     </div>
 
@@ -53,18 +55,25 @@
           v-for="g in visibleGames"
           :key="g.id"
           class="game"
+          :class="resultClass(g)"
           role="button"
           tabindex="0"
           @click="openGame(g.id)"
           @keydown.enter="openGame(g.id)"
         >
+          <span class="result-edge">{{ resultLabel(g) }}</span>
           <div class="game-main">
             <div class="game-players">
-              <span class="gp" :class="{ win: winnerIdx(g) === 0 }">{{ pname(g, 0) }}</span>
+              <span class="gp">{{ pname(g, 0) }}</span>
               <span class="vs">{{ labels.trackerVs }}</span>
-              <span class="gp" :class="{ win: winnerIdx(g) === 1 }">{{ pname(g, 1) }}</span>
+              <span class="gp">{{ pname(g, 1) }}</span>
             </div>
-            <div class="game-score">{{ g.result.totals[0] }} – {{ g.result.totals[1] }}</div>
+            <div class="game-score">
+              <template v-if="g.settings && g.settings.scoreMode === 'bp'">
+                {{ bp(g)[0] }} – {{ bp(g)[1] }}<span class="score-unit">BP</span>
+              </template>
+              <template v-else>{{ g.result.totals[0] }} – {{ g.result.totals[1] }}</template>
+            </div>
           </div>
           <div class="game-meta">
             <span class="meta-left">
@@ -83,6 +92,13 @@
         {{ labels.trackerShowMore }}
       </button>
     </section>
+
+    <GameSummaryModal
+      v-if="summaryGame"
+      :game="summaryGame"
+      @resume="onResumeGame"
+      @close="summaryGame = null"
+    />
   </div>
 </template>
 
@@ -90,6 +106,8 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import AlphaBanner from '../../components/tracker/AlphaBanner.vue'
+import GameSummaryModal from '../../components/tracker/GameSummaryModal.vue'
+import { battlePointsFromVp } from '../../composables/gameScoring.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker } from '../../composables/useTracker.js'
@@ -99,7 +117,7 @@ import { useCloudSync } from '../../composables/useCloudSync.js'
 const router = useRouter()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { current, history, discardGame, deleteHistory } = useTracker()
+const { current, history, setupDraft, discardGame, resumeFromHistory, deleteHistory } = useTracker()
 const { status, user, login, logout, ensureSession, dev, mockSignIn, mockSignOut } = useAuth()
 const {
   init: initCloudSync,
@@ -141,8 +159,9 @@ const visibleGames = computed(() => history.value.slice(0, visibleCount.value))
 function showMore() {
   visibleCount.value += PAGE
 }
+const summaryGame = ref(null)
 function openGame(id) {
-  router.push('/tracker/history/' + id)
+  summaryGame.value = history.value.find(g => g.id === id) || null
 }
 
 // Auth is restored silently ONLY here (the tracker section), on demand. If a session cookie is
@@ -169,16 +188,38 @@ onMounted(async () => {
 function startNew() {
   if (current.value && !window.confirm(labels.value.trackerOverwriteConfirm)) return
   discardGame()
+  setupDraft.value = null   // start the wizard fresh (a stale draft would otherwise restore)
+  router.push('/tracker/game')
+}
+// Resume any finished game from the summary modal — pull it back into active play.
+function onResumeGame(id) {
+  summaryGame.value = null
+  if (current.value && !window.confirm(labels.value.trackerOverwriteConfirm)) return
+  resumeFromHistory(id)
   router.push('/tracker/game')
 }
 function pname(g, i) {
-  return g.players[i].name || `${labels.value.trackerPlayer} ${i + 1}`
+  return g.players[i].name || (i === 0 ? labels.value.trackerYou : labels.value.trackerOpponent)
 }
+// Use the stored result.totals (VP at finish) — no recompute, so old saved games with
+// possibly-incomplete data never break the list. Concede overrides the winner / BP.
 function winnerIdx(g) {
-  const [a, b] = g.result.totals
+  if (g.endReason === 'friendly-concede') return 1
+  if (g.endReason === 'opponent-concede') return 0
+  // In BP mode the winner is decided by Battle Points (≤5 VP gap → 10–10 draw).
+  const [a, b] = g.settings?.scoreMode === 'bp' ? bp(g) : (g.result?.totals || [0, 0])
   if (a === b) return -1
   return a > b ? 0 : 1
 }
+function bp(g) {
+  if (g.endReason === 'friendly-concede') return [0, 20]
+  if (g.endReason === 'opponent-concede') return [20, 0]
+  const [a, b] = g.result?.totals || [0, 0]
+  return battlePointsFromVp(a, b)
+}
+// Result from "You" (player 0) perspective — WIN/LOSS/DRAW edge (labels not translated).
+function resultClass(g) { const w = winnerIdx(g); return w === 0 ? 'res-win' : w === 1 ? 'res-loss' : 'res-draw' }
+function resultLabel(g) { const w = winnerIdx(g); return w === 0 ? 'WIN' : w === 1 ? 'LOSS' : 'DRAW' }
 function formatDate(iso) {
   try { return new Date(iso).toLocaleDateString(locale.value === 'ru' ? 'ru-RU' : 'en-GB') } catch { return '' }
 }
@@ -186,6 +227,37 @@ function formatDate(iso) {
 
 <style scoped>
 .tracker-home { padding-top: 0.5rem; }
+/* Yandex ID branded sign-in button (login is Yandex OAuth) — brand red + the "Я" mark. */
+.ya-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.4rem;
+  background: #fc3f1d;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.ya-btn:hover { background: #e63414; }
+.ya-btn-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  color: #fc3f1d;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 0.92rem;
+  line-height: 1;
+}
 .hero {
   text-align: center;
   padding: 1rem 0 0.8rem;
@@ -277,20 +349,40 @@ function formatDate(iso) {
 .empty { color: var(--text-muted); font-style: italic; }
 .games { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.6rem; }
 .game {
+  position: relative;
+  overflow: hidden;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 6px;
-  padding: 0.7rem 0.9rem;
+  padding: 0.7rem 0.9rem 0.7rem 1.9rem;
   cursor: pointer;
   transition: border-color 0.15s;
 }
 .game:hover { border-color: var(--accent); }
+.result-edge {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+.res-win .result-edge { background: #e3b341; color: #1a1a1a; }
+.res-loss .result-edge { background: #c0392b; color: #fff; }
+.res-draw .result-edge { background: var(--text-dim); color: var(--bg-card); }
 .game-main { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
 .game-players { display: flex; align-items: center; gap: 0.5rem; }
 .gp { font-weight: 600; color: var(--text-primary); font-size: 0.92rem; }
-.gp.win { color: var(--accent); }
 .vs { font-size: 0.72rem; color: var(--text-dim); text-transform: uppercase; }
 .game-score { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); }
+.score-unit { font-size: 0.62rem; color: var(--text-dim); margin-left: 0.25rem; }
 .game-meta {
   display: flex;
   align-items: center;

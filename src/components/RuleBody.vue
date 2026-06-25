@@ -1,132 +1,381 @@
 <template>
-  <div class="rule-body" v-html="rendered"></div>
+  <template v-for="(block, i) in blocks" :key="i">
+    <ul v-if="block.type === 'ul'" class="rule-list">
+      <li v-for="(item, j) in block.items" :key="j">
+        <span v-html="renderInline(item.text)"></span>
+        <ul v-if="item.sub?.length" class="rule-list rule-list--sub">
+          <li v-for="(s, k) in item.sub" :key="k" v-html="renderInline(s)"></li>
+        </ul>
+      </li>
+    </ul>
+    <ol v-else-if="block.type === 'ol'" class="rule-ol">
+      <li v-for="(item, j) in block.items" :key="j" v-html="renderInline(item)"></li>
+    </ol>
+    <div v-else-if="block.type === 'flow'" class="flow-list">
+      <div v-for="(item, j) in block.items" :key="j" class="flow-item">
+        <span class="flow-arrow">→</span>
+        <span v-html="renderInline(item)"></span>
+      </div>
+    </div>
+    <div v-else-if="block.type === 'result-table'" class="result-table">
+      <div v-for="(row, j) in block.items" :key="j" class="result-row">
+        <span class="result-arrow">→</span>
+        <span class="result-condition" v-html="renderInline(row.condition)"></span>
+        <span
+          class="result-outcome"
+          :class="row.isFail ? 'result-fail' : 'result-success'"
+          v-html="renderInline(row.outcome)"
+        ></span>
+      </div>
+    </div>
+    <AppImage v-else-if="block.type === 'img'" :src="block.src" :alt="block.alt" class="body-image" />
+    <div v-else-if="block.type === 'info-card'" class="info-card">
+      <div v-for="(row, k) in block.rows" :key="k" class="info-row">
+        <div class="info-label">{{ row.label }}</div>
+        <div class="info-content">
+          <span v-if="row.content" v-html="renderInline(row.content)"></span>
+          <ul v-if="row.items.length" class="info-items">
+            <li v-for="(item, m) in row.items" :key="m" v-html="renderInline(item)"></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div v-else-if="block.type === 'img-group'" class="img-group">
+      <AppImage v-for="(item, k) in block.srcs" :key="k" :src="item.src" :alt="item.alt" />
+    </div>
+    <h4 v-else-if="block.type === 'h4'" :id="id ? h4AnchorId(id, block.n) : undefined" class="rule-subheading" v-html="renderInline(block.text)"></h4>
+    <p v-else v-html="renderInline(block.text)"></p>
+  </template>
 </template>
 
 <script setup>
 import { computed } from 'vue'
+import AppImage from './AppImage.vue'
 import { useRenderInline } from '../composables/useRenderInline.js'
+import { h4AnchorId } from '../composables/anchors.js'
 
+// Renders a rule `body` string as typed blocks. Multi-root (fragment) on purpose: its
+// nodes become direct children of the parent's `.rule-body`, so a floated `sideImage`
+// sibling still wraps the text. Shared by RuleBlock (subsections) and SubRuleBlock
+// (x.x.x children) so the body markup is parsed/rendered in exactly one place.
 const props = defineProps({
-  body: { type: String, default: '' },
+  id: String,
+  body: String,
 })
 
-const { renderInline } = useRenderInline()
+const blocks = computed(() => {
+  if (!props.body) return []
+  const lines = props.body.split('\n')
+  const result = []
+  let buf = []
+  let mode = null
+  let cardRows = []
+  let h4n = 0
 
-const rendered = computed(() => parse(props.body || '', renderInline))
-
-function parse(body, renderInline) {
-  const lines = body.split('\n')
-  const parts = []
-  let inUl = false
-  let lastLiIndex = -1
-
-  function closeUl() {
-    if (inUl) {
-      parts.push('</ul>')
-      inUl = false
-      lastLiIndex = -1
+  const flush = () => {
+    if (mode === 'info-card') {
+      if (cardRows.length) result.push({ type: 'info-card', rows: [...cardRows] })
+      cardRows = []
+      buf = []
+      return
     }
+    if (!buf.length) return
+    if (mode === 'ul') {
+      const items = []
+      for (const l of buf) {
+        if (/^▫/.test(l)) {
+          if (items.length) {
+            if (!items[items.length - 1].sub) items[items.length - 1].sub = []
+            items[items.length - 1].sub.push(l.replace(/^▫\s*/, '').trim())
+          }
+        } else {
+          items.push({ text: l.replace(/^[▪•]\s*/, '').trim() })
+        }
+      }
+      result.push({ type: 'ul', items })
+    } else if (mode === 'ol') {
+      result.push({ type: 'ol', items: buf.map(l => l.replace(/^\d+\.\s*/, '').trim()).filter(Boolean) })
+    } else if (mode === 'flow') {
+      result.push({ type: 'flow', items: buf.map(l => l.replace(/^→\s*/, '').trim()).filter(Boolean) })
+    } else if (mode === 'result-table') {
+      result.push({
+        type: 'result-table',
+        items: buf.map(l => {
+          const parts = l.replace(/^◆\s*/, '').split(' → ')
+          const condition = parts[0]?.trim() || ''
+          const outcome = parts.slice(1).join(' → ').trim()
+          const isFail = /FAIL|ПРОВАЛ|НЕ УДАЁТСЯ/i.test(outcome)
+          return { condition, outcome, isFail }
+        }).filter(r => r.condition),
+      })
+    } else if (mode === 'img-group') {
+      if (buf.length === 1) result.push({ type: 'img', src: buf[0].src, alt: buf[0].alt })
+      else result.push({ type: 'img-group', srcs: [...buf] })
+    } else {
+      const text = buf.join('<br>').trim()
+      if (text) result.push({ type: 'p', text })
+    }
+    buf = []
   }
 
   for (const raw of lines) {
     const line = raw.trim()
-    if (!line) {
-      closeUl()
+    if (line === '') {
+      flush()
+      mode = null
       continue
     }
-
-    if (line.startsWith('### ')) {
-      closeUl()
-      parts.push(`<h4>${renderInline(line.slice(4).trim())}</h4>`)
-      continue
+    const isBullet = /^[▪•▫]/.test(line)
+    const isOrdered = /^\d+\.\s/.test(line)
+    const isFlow = line.startsWith('→ ')
+    const isResultRow = line.startsWith('◆ ')
+    const isInfoRow = line.startsWith('◈ ')
+    const isSubheading = line.startsWith('### ')
+    const isImg = /^\[img:[^\]]+\]$/.test(line)
+    if (isImg) {
+      if (mode !== 'img-group') { flush(); mode = 'img-group' }
+      const imgContent = line.slice(5, -1)
+      const pipeIdx = imgContent.indexOf('|')
+      buf.push({
+        src: pipeIdx >= 0 ? imgContent.slice(0, pipeIdx).trim() : imgContent,
+        alt: pipeIdx >= 0 ? imgContent.slice(pipeIdx + 1).trim() : '',
+      })
+    } else if (isInfoRow) {
+      if (mode !== 'info-card') { flush(); mode = 'info-card' }
+      const sep = line.indexOf(' | ')
+      const label = line.slice(2, sep < 0 ? undefined : sep).trim()
+      const content = sep >= 0 ? line.slice(sep + 3).trim() : ''
+      cardRows.push({ label, content, items: [] })
+    } else if (isBullet && mode === 'info-card') {
+      if (cardRows.length) cardRows[cardRows.length - 1].items.push(line.replace(/^[▪•▫]\s*/, '').trim())
+    } else if (isSubheading) {
+      flush()
+      result.push({ type: 'h4', text: line.slice(4), n: ++h4n })
+    } else if (isBullet) {
+      if (mode !== 'ul') { flush(); mode = 'ul' }
+      buf.push(line)
+    } else if (isOrdered) {
+      if (mode !== 'ol') { flush(); mode = 'ol' }
+      buf.push(line)
+    } else if (isFlow) {
+      if (mode !== 'flow') { flush(); mode = 'flow' }
+      buf.push(line)
+    } else if (isResultRow) {
+      if (mode !== 'result-table') { flush(); mode = 'result-table' }
+      buf.push(line)
+    } else {
+      if (mode !== 'p') { flush(); mode = 'p' }
+      buf.push(line)
     }
-
-    if (line.startsWith('▪')) {
-      if (!inUl) {
-        parts.push('<ul>')
-        inUl = true
-      }
-      const content = renderInline(line.slice(1).trim())
-      parts.push(`<li>${content}</li>`)
-      lastLiIndex = parts.length - 1
-      continue
-    }
-
-    if (line.startsWith('▫')) {
-      const content = renderInline(line.slice(1).trim())
-      if (inUl && lastLiIndex >= 0) {
-        const li = parts[lastLiIndex]
-        if (li.endsWith('</ul></li>')) {
-          parts[lastLiIndex] =
-            li.slice(0, -'</ul></li>'.length) + `<li>${content}</li></ul></li>`
-        } else if (li.endsWith('</li>')) {
-          parts[lastLiIndex] =
-            li.slice(0, -'</li>'.length) + `<ul class="sub"><li>${content}</li></ul></li>`
-        }
-      } else {
-        parts.push(`<ul class="sub"><li>${content}</li></ul>`)
-      }
-      continue
-    }
-
-    closeUl()
-    parts.push(`<p>${renderInline(line)}</p>`)
   }
+  flush()
+  return result
+})
 
-  closeUl()
-  return parts.join('')
-}
+const { renderInline } = useRenderInline()
 </script>
 
 <style scoped>
-.rule-body :deep(p) {
-  margin: 0.5rem 0;
+p {
+  margin-bottom: 0.7rem;
 }
 
-.rule-body :deep(p:first-child) {
-  margin-top: 0;
-}
-
-.rule-body :deep(p:last-child) {
-  margin-bottom: 0;
-}
-
-.rule-body :deep(ul) {
-  margin: 0.4rem 0;
-  padding-left: 1.25rem;
-}
-
-.rule-body :deep(ul:first-child) {
-  margin-top: 0;
-}
-
-.rule-body :deep(ul:last-child) {
-  margin-bottom: 0;
-}
-
-.rule-body :deep(ul.sub) {
-  margin: 0.2rem 0 0.2rem 0;
-  padding-left: 1rem;
-  list-style: circle;
-}
-
-.rule-body :deep(li) {
-  margin: 0.2rem 0;
-}
-
-.rule-body :deep(h4) {
+.rule-subheading {
   font-family: var(--font-serif);
-  font-size: 0.85rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0.75rem 0 0.25rem;
+  scroll-margin-top: 100px;
+}
+
+.rule-list {
+  padding-left: 1.3rem;
+  margin-bottom: 0.6rem;
+}
+
+.rule-list li {
+  margin-bottom: 0.3rem;
+  line-height: 1.6;
+}
+
+.rule-ol {
+  padding-left: 1.3rem;
+  margin-bottom: 0.6rem;
+  list-style: decimal;
+}
+
+.rule-ol li {
+  margin-bottom: 0.3rem;
+  line-height: 1.6;
+}
+
+.flow-list {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  margin: 0.5rem 0 0.7rem;
+  overflow: hidden;
+}
+
+.flow-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.45rem 0.8rem;
+  border-bottom: 1px solid var(--border-light);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.flow-item:last-child {
+  border-bottom: none;
+}
+
+.flow-arrow {
+  color: var(--accent);
+  flex-shrink: 0;
+  font-weight: 600;
+}
+
+.result-table {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 0.5rem auto 0.7rem;
+}
+
+.result-row {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  border-bottom: 1px solid var(--border-light);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.result-row:last-child {
+  border-bottom: none;
+}
+
+.result-arrow {
+  color: var(--text-dim);
+  flex-shrink: 0;
+  padding: 0.35rem 0.4rem 0.35rem 0.75rem;
+  align-self: center;
+}
+
+.result-condition {
+  flex: 1;
+  padding: 0.35rem 0.6rem 0.35rem 0;
+  align-self: center;
+}
+
+.result-outcome {
+  font-weight: 700;
+  flex: 0 0 10rem;
+  white-space: normal;
+  padding: 0.35rem 0.75rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.result-fail    { background: #9d060d; }
+.result-success { background: #027360; }
+
+:deep(.body-image) {
+  display: block;
+  max-width: 100%;
+  margin: 0.5rem 0;
+  border-radius: 4px;
+}
+
+.info-card {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 0.5rem 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.info-row {
+  display: grid;
+  grid-template-columns: 9rem 1fr;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.info-row:last-child { border-bottom: none; }
+
+.info-label {
+  font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.6px;
-  color: var(--text-primary);
-  margin: 0.9rem 0 0.4rem;
-  padding-bottom: 0.25rem;
-  border-bottom: 1px solid var(--border);
+  letter-spacing: 0.4px;
+  padding: 0.45rem 0.6rem;
+  background: var(--bg-card);
+  color: var(--text-muted);
+  border-right: 1px solid var(--border-light);
 }
 
-.rule-body :deep(h4:first-child) {
-  margin-top: 0;
+.info-content {
+  padding: 0.45rem 0.7rem;
+}
+
+.rule-list--sub {
+  list-style: disc;
+  padding-left: 1.2rem;
+  margin: 0.2rem 0 0.1rem;
+}
+
+.info-items {
+  list-style: disc;
+  padding-left: 1.1rem;
+  margin: 0.2rem 0 0;
+}
+
+.info-items li { margin-bottom: 0.15rem; }
+
+.img-group {
+  margin: 0.5rem 0;
+  /* AppImage wraps each <img> in a display:contents <picture>, so the <img>s are the
+     flex items here — use gap (an `img + img` selector won't match across pictures). */
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.img-group :deep(img) {
+  display: block;
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .result-table {
+    width: 100%;
+  }
+
+  .result-row {
+    font-size: 0.85rem;
+  }
+
+  .result-arrow {
+    display: none;
+  }
+
+  .result-condition {
+    padding-left: 0.6rem;
+  }
+
+  .result-outcome {
+    flex: 0 0 6.5rem;
+    white-space: normal;
+  }
+
+  .info-row {
+    grid-template-columns: 7rem 1fr;
+  }
 }
 </style>
