@@ -77,4 +77,31 @@ const next = computed(() =>
   font-size: 1.05rem;
   color: var(--accent);
 }
+
+@media (max-width: 600px) {
+  .page-nav {
+    gap: 0.5rem;
+    margin-top: 1.75rem;
+  }
+
+  .page-nav-link {
+    flex: 1;
+    min-width: 0;
+    max-width: none;
+    padding: 0.5rem 0.625rem;
+  }
+
+  .page-nav-caption {
+    font-size: 0.7rem;
+  }
+
+  .page-nav-title {
+    display: block;
+    max-width: 100%;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
 </style>
