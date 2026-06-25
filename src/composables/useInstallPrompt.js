@@ -1,15 +1,12 @@
 import { ref } from 'vue'
+import { isStandaloneDisplay } from './standalone.js'
 
 // Module-singleton (same pattern as useLocale.js). Captures the Chromium
 // `beforeinstallprompt` event so we can offer a custom "Install app" button —
 // browsers like Yandex (and current Chrome) no longer show the automatic banner.
 
 const canInstall = ref(false)
-const isStandalone = ref(
-  (typeof window !== 'undefined' &&
-    (window.matchMedia?.('(display-mode: standalone)').matches ||
-      window.navigator.standalone === true)) || false,
-)
+const isStandalone = ref(isStandaloneDisplay())
 
 let deferredPrompt = null
 

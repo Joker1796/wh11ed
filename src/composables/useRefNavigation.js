@@ -60,31 +60,35 @@ export function resolveRef(text) {
   return { label, route, anchor }
 }
 
+// Robustly scroll the given element id into view below the sticky header. The target
+// view (and its async illustrations) may not be laid out yet right after a route change,
+// so poll up to ~1.5s for the element, then — once it exists — re-scroll after 400ms to
+// correct for late-loading images shifting it.
+export function scrollToAnchor(anchor, offset = 100) {
+  const doScroll = () => {
+    const el = document.getElementById(anchor)
+    if (!el) return false
+    const top = el.getBoundingClientRect().top + window.scrollY - offset
+    window.scrollTo({ top, behavior: 'smooth' })
+    return true
+  }
+  const start = performance.now()
+  const tick = () => {
+    if (doScroll()) {
+      setTimeout(doScroll, 400)
+    } else if (performance.now() - start < 1500) {
+      requestAnimationFrame(tick)
+    }
+  }
+  requestAnimationFrame(tick)
+}
+
 export function useRefNavigation() {
   const router = useRouter()
 
   async function navigateTo({ route, anchor }) {
     await router.push(anchor ? { path: route, hash: '#' + anchor } : { path: route })
-    if (!anchor) return
-    const scrollToAnchor = () => {
-      const el = document.getElementById(anchor)
-      if (!el) return false
-      const top = el.getBoundingClientRect().top + window.scrollY - 100
-      window.scrollTo({ top, behavior: 'smooth' })
-      return true
-    }
-    // The target view (and its async illustrations) may not be laid out yet right
-    // after the route change. Poll up to ~1.5s for the element, then — once it
-    // exists — re-scroll after 400ms to correct for late-loading images shifting it.
-    const start = performance.now()
-    const tick = () => {
-      if (scrollToAnchor()) {
-        setTimeout(scrollToAnchor, 400)
-      } else if (performance.now() - start < 1500) {
-        requestAnimationFrame(tick)
-      }
-    }
-    requestAnimationFrame(tick)
+    if (anchor) scrollToAnchor(anchor)
   }
 
   return { resolveRef, navigateTo }
