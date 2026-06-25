@@ -121,6 +121,51 @@ describe('history: archive & resume', () => {
   })
 })
 
+describe('redrawSecondary (WHEN DRAWN actions)', () => {
+  it("'shuffle' returns the card to the deck and draws a replacement", () => {
+    tracker.newGame(setupGame())
+    const s = tracker.current.value.players[0].secondary
+    tracker.drawSpecificSecondary(0, 'behind-enemy-lines')
+    expect(s.hand).toEqual(['behind-enemy-lines'])
+
+    tracker.redrawSecondary(0, 'behind-enemy-lines', 'shuffle')
+    expect(s.hand).toHaveLength(1)                       // one out, one in
+    expect(s.hand).not.toContain('behind-enemy-lines')   // the shuffled card isn't the redraw (it went to the deck tail)
+    expect(s.deck).toContain('behind-enemy-lines')       // back in the deck, redrawable
+  })
+
+  it("'discard' removes the card from play and draws a replacement", () => {
+    tracker.newGame(setupGame())
+    const s = tracker.current.value.players[0].secondary
+    tracker.drawSpecificSecondary(0, 'a-grievous-blow')
+
+    tracker.redrawSecondary(0, 'a-grievous-blow', 'discard')
+    expect(s.hand).toHaveLength(1)
+    expect(s.hand).not.toContain('a-grievous-blow')
+    expect(s.deck).not.toContain('a-grievous-blow')                  // gone from play
+    expect((s.discarded || []).some(d => (d.slug ?? d) === 'a-grievous-blow')).toBe(false)
+  })
+
+  it('clears any VP the redrawn card had scored', () => {
+    tracker.newGame(setupGame())
+    const s = tracker.current.value.players[0].secondary
+    tracker.drawSpecificSecondary(0, 'behind-enemy-lines')
+    tracker.scoreSecondaryRow(0, 'behind-enemy-lines', 0, 0, 1)
+    expect(s.scored.some(e => e.slug === 'behind-enemy-lines')).toBe(true)
+
+    tracker.redrawSecondary(0, 'behind-enemy-lines', 'shuffle')
+    expect(s.scored.some(e => e.slug === 'behind-enemy-lines')).toBe(false)
+  })
+
+  it('is a no-op when the card is not in hand', () => {
+    tracker.newGame(setupGame())
+    const s = tracker.current.value.players[0].secondary
+    const before = [...s.hand]
+    tracker.redrawSecondary(0, 'behind-enemy-lines', 'shuffle')
+    expect(s.hand).toEqual(before)
+  })
+})
+
 describe('localStorage hydration', () => {
   it('loads an existing current game on import', async () => {
     const saved = { id: 'g1', phase: 'playing', currentRound: 2, settings: {}, players: [{}, {}] }

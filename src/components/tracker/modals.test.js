@@ -3,7 +3,32 @@ import { mount } from '@vue/test-utils'
 import GameEndModal from './GameEndModal.vue'
 import ScoreHelpModal from './ScoreHelpModal.vue'
 import TwistPickerModal from './TwistPickerModal.vue'
+import ScoringModal from './ScoringModal.vue'
 import { BP_TABLE } from '../../composables/gameScoring.js'
+
+describe('ScoringModal — briefing & WHEN DRAWN action', () => {
+  const base = { title: 'Cleanse', blocks: [], count: () => 0 }
+
+  it('renders the briefing above the blocks', () => {
+    const w = mount(ScoringModal, { props: {
+      ...base,
+      briefing: [{ label: 'When Drawn', text: 'If you have Plunder active…' }],
+    } })
+    expect(w.find('.m-briefing').exists()).toBe(true)
+    expect(w.text()).toContain('If you have Plunder active')
+  })
+
+  it('shows no redraw button when whenDrawn is null', () => {
+    const w = mount(ScoringModal, { props: base })
+    expect(w.find('.redraw-btn').exists()).toBe(false)
+  })
+
+  it('emits redraw with the mode when the button is clicked', async () => {
+    const w = mount(ScoringModal, { props: { ...base, whenDrawn: { mode: 'shuffle' } } })
+    await w.find('.redraw-btn').trigger('click')
+    expect(w.emitted('redraw')[0]).toEqual(['shuffle'])
+  })
+})
 
 describe('GameEndModal', () => {
   it('offers two concede reasons and confirms the chosen one', async () => {

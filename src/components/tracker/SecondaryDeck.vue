@@ -35,8 +35,11 @@
       :subtitle="`${labels.trackerSecondary} · ${openMission.category}`"
       :vp="secondaryCardVp(pi, openMission.slug)"
       :blocks="relevantBlocks(openMission)"
+      :briefing="openMission.briefing"
+      :whenDrawn="whenDrawnFor(openMission)"
       :count="(bi, ri) => secondaryRowCount(pi, openMission.slug, bi, ri)"
       @set="(bi, ri, c) => scoreSecondaryRow(pi, openMission.slug, bi, ri, c)"
+      @redraw="mode => { redrawSecondary(pi, openMission.slug, mode); openSlug = null }"
       @close="openSlug = null"
     />
 
@@ -93,7 +96,7 @@ const labels = computed(() => ui[locale.value])
 
 const {
   current, drawSecondary, drawSpecificSecondary, returnSecondaryToDeck,
-  discardFromHand, scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
+  discardFromHand, redrawSecondary, scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
 } = useTracker()
 
 const player = computed(() => current.value.players[props.pi])
@@ -136,6 +139,18 @@ const actionMission = computed(() => actionSlug.value ? missionBySlug(actionSlug
 function relevantBlocks(m) {
   return scorableBlocks(m.slug, player.value.role, current.value.currentRound, locale.value)
     .filter(b => b.kind === mode.value)
+}
+
+// The WHEN DRAWN redraw action for an open card, or null. Tactical only; auto-gated where
+// the condition is computable (first battle round, or holding the paired card). Board-state
+// conditions (no SS 13+/W 10+) have no gate — always offered, the briefing is the reminder.
+function whenDrawnFor(m) {
+  if (mode.value !== 'tactical') return null
+  const w = m && m.whenDrawn
+  if (!w) return null
+  if (w.gate === 'first-round' && current.value.currentRound !== 1) return null
+  if (w.gate && w.gate.pairedActive && !player.value.secondary.hand.includes(w.gate.pairedActive)) return null
+  return { mode: w.mode }
 }
 
 function onDraw() { drawSecondary(props.pi) }
