@@ -88,6 +88,8 @@ function localize(m, role) {
   if (!tr) return m
   return {
     ...m,
+    // briefing is replaced wholesale (RU mirrors the EN structure, maintained in lockstep).
+    ...(tr.briefing ? { briefing: tr.briefing } : {}),
     blocks: m.blocks.map((b, bi) => {
       const tb = tr.blocks[bi]
       if (!tb) return b
@@ -410,6 +412,20 @@ export function useTracker() {
     }
   }
 
+  // Apply a tactical card's WHEN DRAWN action: drop the just-drawn card (it has scored
+  // nothing) and draw a random replacement. mode 'shuffle' returns it to the deck (it can
+  // come back), mode 'discard' removes it from play entirely. No-op if not in hand.
+  function redrawSecondary(pi, slug, mode) {
+    const s = current.value.players[pi].secondary
+    if (!s.hand.includes(slug)) return
+    s.hand = s.hand.filter(x => x !== slug)
+    s.scored = s.scored.filter(e => e.slug !== slug)
+    s.discarded = (s.discarded || []).filter(d => (d.slug ?? d) !== slug)
+    if (s.drawn) delete s.drawn[slug]
+    if (mode === 'shuffle' && !s.deck.includes(slug)) s.deck.push(slug)
+    drawSecondary(pi)
+  }
+
   function entryVp(pi, entry) {
     const m = missionBySlug(entry.slug, current.value.players[pi].role)
     if (!m || !entry.picks) return entry.vp || 0
@@ -536,7 +552,7 @@ export function useTracker() {
     current, history, setupDraft,
     newGame, setRoundPrimary, setCp,
     setPrimaryRow, primaryRowCount,
-    drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,
+    drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand, redrawSecondary,
     scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
     goToRound, finishGame, resumeGame, resumeFromHistory, archiveGame, discardGame, deleteHistory,
     primaryTotal, roundPrimaryMax, secondaryTotal, grandTotal, leader,

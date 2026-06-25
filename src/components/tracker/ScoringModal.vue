@@ -13,6 +13,12 @@
       </header>
 
       <div class="modal-body">
+        <MissionBriefing :briefing="briefing" />
+
+        <button v-if="whenDrawn" class="redraw-btn" @click="$emit('redraw', whenDrawn.mode)">
+          {{ whenDrawn.mode === 'discard' ? labels.trackerDiscardDraw : labels.trackerShuffleDraw }}
+        </button>
+
         <div v-for="b in blocks" :key="b.bi" class="m-block">
           <div class="m-bhead">
             <span v-if="b.kind" class="kind" :class="b.kind">{{ b.kind }}</span>
@@ -50,6 +56,7 @@
 <script setup>
 import { computed, onMounted, onUnmounted } from 'vue'
 import NumberStepper from './NumberStepper.vue'
+import MissionBriefing from '../MissionBriefing.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 
@@ -60,8 +67,10 @@ defineProps({
   blocks: { type: Array, required: true },   // [{ bi, kind?, heading, when?, rows:[{ri,text,vp,modifier,perEach}] }]
   count: { type: Function, required: true },  // (bi, ri) => number
   note: { type: String, default: '' },
+  briefing: { type: Array, default: null },   // mission.briefing — shown above the blocks
+  whenDrawn: { type: Object, default: null }, // { mode:'discard'|'shuffle' } — WHEN DRAWN redraw button, or null
 })
-const emit = defineEmits(['set', 'close'])
+const emit = defineEmits(['set', 'close', 'redraw'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
@@ -111,6 +120,20 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
 }
 .mh-close:hover { background: color-mix(in srgb, var(--text-primary) 8%, transparent); color: var(--text-primary); }
 .modal-body { padding: 0.5rem 0.9rem 0.9rem; overflow-y: auto; }
+.redraw-btn {
+  display: block;
+  width: 100%;
+  margin: 0.55rem 0 0.2rem;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #1a1206;
+  background: #c8961e;
+  border: 1px solid #a87c14;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.redraw-btn:hover { background: #d8a52a; }
 .m-block { margin-top: 0.7rem; }
 .m-bhead { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; margin-bottom: 0.35rem; }
 .kind {
