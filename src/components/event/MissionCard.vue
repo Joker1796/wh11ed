@@ -5,6 +5,8 @@
       <span v-if="subtitle" class="mcard-sub">{{ subtitle }}</span>
     </header>
 
+    <MissionBriefing :briefing="mission.briefing" />
+
     <div v-for="(b, bi) in mission.blocks" :key="bi" class="m-block">
       <div class="m-bhead">
         <span v-if="b.kind" class="kind" :class="b.kind">{{ b.kind }}</span>
@@ -26,9 +28,10 @@
 import { computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
+import MissionBriefing from '../MissionBriefing.vue'
 
 defineProps({
-  mission: { type: Object, required: true }, // { slug, name, blocks:[{ kind?, heading, when?, rows:[{text,vp,modifier?}] }] }
+  mission: { type: Object, required: true }, // { slug, name, briefing?:[{label?,text}|{action,rows:[{label,text}]}], blocks:[{ kind?, heading, when?, rows:[{text,vp,modifier?}] }] }
   subtitle: { type: String, default: '' },
 })
 
