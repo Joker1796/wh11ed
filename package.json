@@ -9,7 +9,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "deploy": "bash deploy.sh",
-    "images:webp": "node scripts/gen-webp.mjs",
+    "images:webp": "node scripts/gen-webp.mjs && node scripts/gen-image-dims.mjs",
+    "images:dims": "node scripts/gen-image-dims.mjs",
     "icons": "node scripts/gen-pwa-icons.mjs"
   },
   "keywords": [],
