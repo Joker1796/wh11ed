@@ -35,9 +35,14 @@
         <i class="bi" :class="syncing ? 'bi-arrow-repeat' : 'bi-cloud-arrow-up-fill'"></i>
         {{ syncing ? labels.cloudSyncing : labels.cloudSync }}
       </button>
-      <button v-else class="ya-btn" @click="onSignIn">
+      <button v-else-if="status === 'anon'" class="ya-btn" @click="onSignIn">
         <span class="ya-btn-logo" aria-hidden="true">Я</span>
         {{ labels.cloudSignInYandex }}
+      </button>
+      <!-- status === 'idle': silent ensureSession() is still in flight — show a disabled
+           placeholder so the user can't fire a redundant OAuth redirect mid-restore. -->
+      <button v-else class="ya-btn" disabled>
+        <i class="bi bi-arrow-repeat spin"></i>
       </button>
     </div>
 
@@ -244,6 +249,9 @@ function formatDate(iso) {
   transition: background 0.15s;
 }
 .ya-btn:hover { background: #e63414; }
+.ya-btn:disabled { background: #fc3f1d; opacity: 0.6; cursor: default; }
+.ya-btn .spin { animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
 .ya-btn-logo {
   display: inline-flex;
   align-items: center;
