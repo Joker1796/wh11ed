@@ -236,13 +236,14 @@ function navigate(item) {
 
 @media (max-width: 600px) {
   .search-overlay {
-    align-items: flex-end;
+    align-items: flex-start;
     padding-top: 0;
   }
 
   .search-box {
-    border-radius: 12px 12px 0 0;
-    max-height: 85dvh;
+    border-radius: 0;
+    height: 100dvh;
+    max-width: none;
     display: flex;
     flex-direction: column;
   }
@@ -280,6 +281,7 @@ function navigate(item) {
   }
 
   .search-hint-text {
+    flex: 1;
     padding: 2rem 1.25rem;
   }
 }
