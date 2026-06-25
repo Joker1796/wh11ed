@@ -1,8 +1,8 @@
 <template>
   <div class="view">
     <div class="view-hero">
-      <h1>{{ labels.battleRoundHeading }}</h1>
-      <p class="view-hero-desc">{{ labels.battleRoundDesc }}</p>
+      <h1>{{ labels.musterHeading }}</h1>
+      <p class="view-hero-desc">{{ labels.musterDesc }}</p>
     </div>
 
     <TableOfContents :sections="tocSections" />
@@ -14,23 +14,10 @@
         :title="section.title"
         :description="section.description"
         :page="section.page"
-        :phase="section.phase"
       />
 
       <template v-for="sub in section.subsections" :key="sub.id">
-        <GroupLabelBlock
-          v-if="sub.isGroupLabel"
-          :title="sub.title"
-          :body="sub.body"
-        />
-        <SectionTocBlock
-          v-else-if="!sub.sectionNum"
-          :items="section.subsections.filter(s => s.sectionNum)"
-          :description="sub.body.split('\n').find(l => l.trim() && !/^[▪•▫]/.test(l.trim()))"
-          route="/battle-round"
-        />
         <RuleBlock
-          v-else
           :id="sub.id"
           :section-num="sub.sectionNum"
           :title="sub.title"
@@ -40,6 +27,17 @@
           :see-also="sub.seeAlso"
           :children="sub.children"
         />
+
+        <!-- Battle size table, rendered right after 25.03 -->
+        <template v-if="sub.sectionNum === '25.03' && section.battleSizeTable">
+          <div class="table-block">
+            <DataTable
+              :headers="section.battleSizeTable.headers"
+              :rows="section.battleSizeTable.rows"
+              :footnote="section.battleSizeTable.footnote"
+            />
+          </div>
+        </template>
       </template>
     </template>
 
@@ -51,19 +49,22 @@
 import { computed } from 'vue'
 import SectionHeader from '../components/SectionHeader.vue'
 import RuleBlock from '../components/RuleBlock.vue'
-import SectionTocBlock from '../components/SectionTocBlock.vue'
-import GroupLabelBlock from '../components/GroupLabelBlock.vue'
+import DataTable from '../components/DataTable.vue'
 import TableOfContents from '../components/TableOfContents.vue'
 import PageNav from '../components/PageNav.vue'
-import { battleRound } from '../data/battleRound.js'
-import { ui } from '../i18n/ui.js'
+import { muster } from '../data/muster.js'
 import { useLocale } from '../composables/useLocale.js'
+import { ui } from '../i18n/ui.js'
 import { useBilingualSections } from '../composables/useBilingualMerge.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
-const sections = useBilingualSections(battleRound)
+const sections = useBilingualSections(muster, (section, ruSection) =>
+  section.battleSizeTable && ruSection.battleSizeTable
+    ? { battleSizeTable: { ...section.battleSizeTable, ...ruSection.battleSizeTable } }
+    : {}
+)
 
 const tocSections = computed(() =>
   sections.value.map(s => ({
@@ -89,5 +90,9 @@ const tocSections = computed(() =>
   color: var(--text-muted);
   font-size: 0.9rem;
   font-style: italic;
+}
+
+.table-block {
+  margin: 1rem 0 1.5rem;
 }
 </style>

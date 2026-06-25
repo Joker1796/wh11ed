@@ -7,7 +7,7 @@
 
     <div v-if="open" class="bd-body">
       <div v-for="(pl, i) in game.players" :key="i" class="bd-player">
-        <div class="bd-name" :class="{ win: leaderIdx === i }">{{ pl.name || `${labels.trackerPlayer} ${i + 1}` }}</div>
+        <div class="bd-name" :class="{ win: leaderIdx === i }">{{ pl.name || (i === 0 ? labels.trackerYou : labels.trackerOpponent) }}</div>
 
         <div class="grid">
           <!-- Went first -->

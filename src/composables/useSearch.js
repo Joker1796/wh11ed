@@ -2,6 +2,7 @@ import { basicRules } from '../data/basicRules.js'
 import { battleRound } from '../data/battleRound.js'
 import { battlefields } from '../data/battlefields.js'
 import { advancedRules } from '../data/advancedRules.js'
+import { muster } from '../data/muster.js'
 import { abilityIntro, coreAbilities, appendix, faqs } from '../data/reference.js'
 import { getEventContent } from '../data/eventCompanion.js'
 import { missions } from '../data/missions.js'
@@ -15,6 +16,7 @@ const routeMap = {
   battlefields: '/battlefields',
   advancedRules: '/advanced-rules',
   reference: '/reference',
+  muster: '/muster',
 }
 
 const sectionTitles = {
@@ -50,6 +52,31 @@ function stripMarkup(text) {
     .trim()
 }
 
+// Flatten a table object ({ title?, note?, headers[], rows[][], footnote? }) into a
+// searchable text blob. Tables live as a sibling property (not inside `body`), so the
+// index has to pull their cells in explicitly or table contents are unsearchable.
+function tableText(table) {
+  if (!table || !Array.isArray(table.rows)) return ''
+  const parts = []
+  if (table.title) parts.push(table.title)
+  if (table.note) parts.push(table.note)
+  if (Array.isArray(table.headers)) parts.push(table.headers.join(' '))
+  for (const r of table.rows) parts.push(Array.isArray(r) ? r.join(' ') : '')
+  if (table.footnote) parts.push(table.footnote)
+  return parts.join('\n')
+}
+
+// Section-level tables carry different field names (woundTable / battleSizeTable /
+// abilitiesTable), so match any table-shaped value (an object with a `rows` array)
+// rather than hard-coding names — picks up future ones for free.
+function sectionTablesText(section) {
+  if (!section) return ''
+  return Object.values(section)
+    .filter(v => v && Array.isArray(v.rows))
+    .map(tableText)
+    .join('\n')
+}
+
 // `### h4` subheadings in body order. Stays in lockstep with RuleBlock's parser
 // (which numbers h4 blocks 1-based in the same order) via the shared h4AnchorId.
 function extractH4(body) {
@@ -70,6 +97,7 @@ function buildIndex(locale) {
     { key: 'battleRound', enData: battleRound.en, ruData: battleRound.ru },
     { key: 'battlefields', enData: battlefields.en, ruData: battlefields.ru },
     { key: 'advancedRules', enData: advancedRules.en, ruData: advancedRules.ru },
+    { key: 'muster', enData: muster.en, ruData: muster.ru },
   ]
   for (const { key, enData, ruData } of sources) {
     const route = routeMap[key]
@@ -81,11 +109,12 @@ function buildIndex(locale) {
       // Chapter (h2) heading — a searchable, scrollable result of its own.
       const sectionAnchor = 'section-' + String(enSection.id).padStart(2, '0')
       const sectionDesc = (isRu && ruSection.description) ? ruSection.description : (enSection.description || '')
+      const sectionTables = sectionTablesText(isRu && ruSection.title ? ruSection : enSection)
       items.push({
         id: sectionAnchor,
         sectionNum: enSection.num || '',
         title: sectionTitle,
-        body: stripMarkup(sectionDesc),
+        body: stripMarkup(sectionDesc + (sectionTables ? '\n' + sectionTables : '')),
         route,
         sectionTitle,
       })
@@ -99,7 +128,7 @@ function buildIndex(locale) {
           id: enSub.id,
           sectionNum: enSub.sectionNum,
           title: merged.title || '',
-          body: stripMarkup((merged.body || '') + (merged.note ? ' ' + merged.note : '')),
+          body: stripMarkup((merged.body || '') + (merged.note ? ' ' + merged.note : '') + (merged.table ? '\n' + tableText(merged.table) : '')),
           route,
           sectionTitle,
         })
@@ -112,6 +141,29 @@ function buildIndex(locale) {
             body: '',
             route,
             sectionTitle,
+          })
+        })
+        // x.x.x children (SubRuleBlock) — indexed like subsections, incl. their h4s.
+        const ruChildren = ruSub.children || []
+        ;(enSub.children || []).forEach((enChild, ci) => {
+          const mc = isRu ? { ...enChild, ...(ruChildren[ci] || {}) } : enChild
+          items.push({
+            id: enChild.id,
+            sectionNum: enChild.sectionNum,
+            title: mc.title || '',
+            body: stripMarkup((mc.body || '') + (mc.note ? ' ' + mc.note : '') + (mc.table ? '\n' + tableText(mc.table) : '')),
+            route,
+            sectionTitle,
+          })
+          extractH4(mc.body).forEach((heading, hi) => {
+            items.push({
+              id: h4AnchorId(enChild.id, hi + 1),
+              sectionNum: enChild.sectionNum,
+              title: heading,
+              body: '',
+              route,
+              sectionTitle,
+            })
           })
         })
       }
@@ -128,6 +180,18 @@ function buildIndex(locale) {
       body: stripMarkup((merged.fullText || '') + ' ' + (merged.flavor || '')),
       route: '/reference',
       sectionTitle: sectionTitles[locale].reference,
+    })
+    const ruChildren = (ru.children) || []
+    ;(en.children || []).forEach((enChild, ci) => {
+      const mc = isRu ? { ...enChild, ...(ruChildren[ci] || {}) } : enChild
+      items.push({
+        id: enChild.id,
+        sectionNum: enChild.sectionNum,
+        title: mc.title || '',
+        body: stripMarkup((mc.body || '') + (mc.note ? ' ' + mc.note : '')),
+        route: '/reference',
+        sectionTitle: sectionTitles[locale].reference,
+      })
     })
   }
   indexReferenceExtras(items, locale)
@@ -158,12 +222,24 @@ function indexReferenceExtras(items, locale) {
     extractH4(merged.body).forEach((heading, hi) => {
       items.push({ id: h4AnchorId(en.id, hi + 1), sectionNum: en.sectionNum || '', title: heading, body: '', route: '/reference', sectionTitle: refTitle })
     })
+    const ruChildren = (isRu && abilityIntro.ru?.[i]?.children) || []
+    ;(en.children || []).forEach((enChild, ci) => {
+      const mc = isRu ? { ...enChild, ...(ruChildren[ci] || {}) } : enChild
+      items.push({
+        id: enChild.id,
+        sectionNum: enChild.sectionNum,
+        title: mc.title || '',
+        body: stripMarkup((mc.body || '') + (mc.note ? ' ' + mc.note : '')),
+        route: '/reference',
+        sectionTitle: refTitle,
+      })
+    })
   }
 
   for (let i = 0; i < appendix.en.length; i++) {
     const en = appendix.en[i]
     const merged = isRu && appendix.ru ? { ...en, ...(appendix.ru[i] || {}) } : en
-    const table = merged.table ? merged.table.rows.map(r => r.join(' ')).join('\n') : ''
+    const table = tableText(merged.table)
     items.push({
       id: en.id,
       sectionNum: '',
@@ -269,6 +345,11 @@ function indexEventCompanion(items, locale) {
     add(b.id, b.title, [b.body, b.note], '/event-companion/pairings', L.eventPairingsHeading)
   }
 
+  // Twists — rendered on the Missions page (deep-link to #twist-<id>)
+  for (const b of ec.twists?.blocks || []) {
+    add('twist-' + b.id, b.title, [b.body, b.note, b.example], '/event-companion/missions', L.missionsTwistsHeading)
+  }
+
   // Errata & FAQs page (no per-item DOM ids → synthetic)
   ;(ec.faq.items || []).forEach((item, i) => {
     add('ec-faq-' + i, item.q, [item.a], '/event-companion/faq', L.eventFaqHeading)
@@ -297,10 +378,42 @@ function getIndex(locale) {
   return (indexCache[key] ??= buildIndex(key))
 }
 
+// A query that is purely a section number (1–3 groups of 1–2 digits, optional
+// trailing dot): "7", "07", "7.2", "07.02", "24.05", "07.". Returns the canonical
+// zero-padded form ("7.2" → "07.02") or null if the query isn't a number.
+function normalizeSectionNum(q) {
+  if (!/^\d{1,2}(\.\d{1,2}){0,2}\.?$/.test(q)) return null
+  return q.replace(/\.$/, '').split('.').map(p => p.padStart(2, '0')).join('.')
+}
+
+// Section-number search: match against `sectionNum` only (ignoring title/body so
+// numbers in rule text don't add noise). Exact match ranks above prefix matches,
+// then ordered by sectionNum so the section heading leads its subsections.
+function searchBySectionNum(index, q) {
+  const results = []
+  for (const item of index) {
+    if (!item.sectionNum) continue
+    const num = normalizeSectionNum(item.sectionNum.toLowerCase())
+    if (!num) continue
+    let score = 0
+    if (num === q) score = 3
+    else if (num.startsWith(q + '.')) score = 2
+    if (score) results.push({ ...item, snippet: '', score })
+  }
+  return results
+    .sort((a, b) => b.score - a.score || a.sectionNum.localeCompare(b.sectionNum))
+    .slice(0, 25)
+}
+
 export function search(query, locale = 'en') {
-  if (!query || query.trim().length < 2) return []
+  if (!query) return []
+  const trimmed = query.trim().toLowerCase()
+  const numQuery = normalizeSectionNum(trimmed)
+  // Number queries bypass the 2-char minimum so a bare "7" works (→ "07").
+  if (numQuery) return searchBySectionNum(getIndex(locale), numQuery)
+  if (trimmed.length < 2) return []
   const index = getIndex(locale)
-  const q = query.trim().toLowerCase()
+  const q = trimmed
   const results = []
   for (const item of index) {
     const titleMatch = item.title.toLowerCase().includes(q)

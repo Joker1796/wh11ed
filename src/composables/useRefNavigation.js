@@ -11,6 +11,7 @@ const ROUTE_MAP = {
   '20': '/advanced-rules', '21': '/advanced-rules', '22': '/advanced-rules',
   '23': '/advanced-rules',
   '24': '/reference',
+  '25': '/muster',
 }
 
 // Within the Event Companion: refs of the form "Label EC:key" or "Label EC:key#anchor".
@@ -29,6 +30,16 @@ export function resolveRef(text) {
     const route = EVENT_MAP[ev[1]] || null
     const label = text.replace(/\s*EC:[a-z-]+(?:#[\w-]+)?$/, '').trim()
     return { label, route, anchor: route ? (ev[2] || null) : null }
+  }
+
+  // Three-level refs (x.x.x → SubRuleBlock anchor section-NN-NN-NN). Checked first so
+  // the two-level matcher below doesn't capture only the leading x.x.
+  const deep = text.match(/\b(\d{2})\.(\d{2})\.(\d{2})$/)
+  if (deep) {
+    const label = text.replace(/\s*\d{2}\.\d{2}\.\d{2}$/, '').trim()
+    const route = ROUTE_MAP[deep[1]]
+    if (!route) return { label, route: null, anchor: null }
+    return { label, route, anchor: `section-${deep[1]}-${deep[2]}-${deep[3]}` }
   }
 
   const match = text.match(/\b(\d{2})\.(\d{2})$/)

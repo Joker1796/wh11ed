@@ -24,6 +24,7 @@
       :title="sub.title"
       :body="sub.body"
       :example="sub.example"
+      :children="sub.children"
     />
 
     <!-- Filter buttons -->
@@ -75,6 +76,20 @@
         <div v-if="ability.example" class="example-block" v-html="renderInline(ability.example)" />
 
         <div v-if="ability.note" class="note-box ability-note-box" v-html="renderNoteHtml(ability.note)" />
+
+        <SubRuleBlock
+          v-for="child in ability.children"
+          :key="child.id"
+          :id="child.id"
+          :section-num="child.sectionNum"
+          :title="child.title"
+          :body="child.body"
+          :note="child.note"
+          :example="child.example"
+          :see-also="child.seeAlso"
+          :table="child.table"
+          :from-app="child.fromApp"
+        />
       </div>
     </div>
 
@@ -151,6 +166,7 @@ import SectionHeader from '../components/SectionHeader.vue'
 import DataTable from '../components/DataTable.vue'
 import TableOfContents from '../components/TableOfContents.vue'
 import RuleBlock from '../components/RuleBlock.vue'
+import SubRuleBlock from '../components/SubRuleBlock.vue'
 import PageNav from '../components/PageNav.vue'
 import { useRenderInline } from '../composables/useRenderInline.js'
 import { useLocale } from '../composables/useLocale.js'
@@ -165,15 +181,25 @@ const route = useRoute()
 
 const labels = computed(() => ui[locale.value])
 
+// Merge EN + RU, including any x.x.x `children` (RU child overrides title/body,
+// inherits id/sectionNum/fromApp from EN — same pattern as useBilingualMerge).
+function mergeWithChildren(en, ru) {
+  const merged = { ...en, ...ru }
+  if (en.children) {
+    merged.children = en.children.map((c, k) => ({ ...c, ...(ru.children?.[k]) }))
+  }
+  return merged
+}
+
 const abilityIntroData = computed(() =>
   locale.value === 'ru'
-    ? abilityIntro.en.map((e, i) => ({ ...e, ...abilityIntro.ru[i] }))
+    ? abilityIntro.en.map((e, i) => mergeWithChildren(e, abilityIntro.ru[i]))
     : abilityIntro.en
 )
 
 const coreAbilitiesData = computed(() =>
   locale.value === 'ru'
-    ? coreAbilities.en.map((e, i) => ({ ...e, ...coreAbilities.ru[i] }))
+    ? coreAbilities.en.map((e, i) => mergeWithChildren(e, coreAbilities.ru[i]))
     : coreAbilities.en
 )
 

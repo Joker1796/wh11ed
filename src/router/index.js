@@ -8,6 +8,7 @@ const BattleRoundView   = () => import('../views/BattleRoundView.vue')
 const BattlefieldsView  = () => import('../views/BattlefieldsView.vue')
 const AdvancedRulesView = () => import('../views/AdvancedRulesView.vue')
 const ReferenceView     = () => import('../views/ReferenceView.vue')
+const MusterView        = () => import('../views/MusterView.vue')
 const EventIntroView    = () => import('../views/event/EventIntroView.vue')
 const EventSequenceView = () => import('../views/event/EventSequenceView.vue')
 const EventMissionsView = () => import('../views/event/EventMissionsView.vue')
@@ -74,6 +75,12 @@ export const navGroups = [
       { id: 'section-faq', label: 'FAQs' },
     ],
   },
+  {
+    label: 'Muster Your Army', path: '/muster',
+    sections: [
+      { id: 'section-25', label: '25 Muster Your Army' },
+    ],
+  },
 ]
 
 export const navGroupsRu = [
@@ -131,6 +138,12 @@ export const navGroupsRu = [
       { id: 'section-faq', label: 'Частые вопросы' },
     ],
   },
+  {
+    label: 'Сбор армии', path: '/muster',
+    sections: [
+      { id: 'section-25', label: '25 Сбор армии' },
+    ],
+  },
 ]
 
 // Event Companion — second top-level section. Each entry is its own route
@@ -153,6 +166,7 @@ export const eventGroups = [
     sections: [
       { id: 'missions-primary',   label: 'Primary Missions' },
       { id: 'missions-secondary', label: 'Secondary Missions' },
+      { id: 'missions-twists',    label: 'Twists' },
     ],
   },
   { label: 'Terrain & Layouts', path: '/event-companion/layouts', sections: [] },
@@ -185,6 +199,7 @@ export const eventGroupsRu = [
     sections: [
       { id: 'missions-primary',   label: 'Основные миссии' },
       { id: 'missions-secondary', label: 'Вторичные миссии' },
+      { id: 'missions-twists',    label: 'Твисты' },
     ],
   },
   { label: 'Террейн и раскладки',       path: '/event-companion/layouts',  sections: [] },
@@ -219,6 +234,7 @@ export const router = createRouter({
     { path: '/battlefields',   component: BattlefieldsView },
     { path: '/advanced-rules', component: AdvancedRulesView },
     { path: '/reference',      component: ReferenceView },
+    { path: '/muster',         component: MusterView },
     { path: '/event-companion',          component: EventIntroView },
     { path: '/event-companion/sequence', component: EventSequenceView },
     { path: '/event-companion/missions', component: EventMissionsView },
@@ -238,3 +254,32 @@ export const router = createRouter({
     return { top: 0 }
   },
 })
+
+// Remember the last open page and reopen it on the next launch — only for the installed
+// PWA (display-mode standalone); a normal browser tab is left untouched.
+const LAST_ROUTE_KEY = 'wh11ed-last-route'
+const SKIP_RESTORE = new Set(['/tracker/auth-callback']) // transient OAuth callback
+
+const isStandalone =
+  typeof window !== 'undefined' &&
+  (window.matchMedia?.('(display-mode: standalone)').matches || window.navigator.standalone === true)
+
+if (isStandalone) {
+  // One-time restore on the very first navigation, only if we landed on home (no deep link).
+  let restored = false
+  router.beforeEach((to) => {
+    if (restored) return
+    restored = true
+    if (to.path !== '/') return
+    let saved = null
+    try { saved = localStorage.getItem(LAST_ROUTE_KEY) } catch { /* ignore */ }
+    if (!saved || saved === to.fullPath) return
+    const resolved = router.resolve(saved)
+    if (resolved.matched.length && !SKIP_RESTORE.has(resolved.path)) return saved
+  })
+
+  router.afterEach((to) => {
+    if (SKIP_RESTORE.has(to.path)) return
+    try { localStorage.setItem(LAST_ROUTE_KEY, to.fullPath) } catch { /* quota / private — ignore */ }
+  })
+}

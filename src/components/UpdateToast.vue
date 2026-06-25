@@ -1,6 +1,6 @@
 <template>
   <Transition name="ut-slide">
-    <div v-if="needRefresh" class="update-toast" role="status" aria-live="polite">
+    <div v-if="needRefresh && pwaInstalled" class="update-toast" role="status" aria-live="polite">
       <i class="bi bi-arrow-clockwise ut-icon"></i>
       <span class="ut-text">{{ labels.updateAvailable }}</span>
       <button class="ut-update" @click="updateServiceWorker(true)">{{ labels.updateNow }}</button>
@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import { useRegisterSW } from 'virtual:pwa-register/vue'
 import { useLocale } from '../composables/useLocale.js'
 import { ui } from '../i18n/ui.js'
@@ -20,28 +20,41 @@ import { ui } from '../i18n/ui.js'
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
+// Is the app running as an installed PWA (standalone window) vs a normal browser tab?
+// matchMedia covers Chrome/Android/desktop installs; navigator.standalone is the iOS Safari flag.
+const pwaInstalled =
+  window.matchMedia('(display-mode: standalone)').matches ||
+  window.matchMedia('(display-mode: fullscreen)').matches ||
+  window.matchMedia('(display-mode: minimal-ui)').matches ||
+  window.navigator.standalone === true
+
 // registerType is 'prompt' (vite.config.js): the SW activates only when the user
-// clicks Update, so we never auto-reload mid-game. needRefresh flips to true once a
-// new SW has finished installing in the background; updateServiceWorker(true) applies
-// it and reloads the page.
+// clicks Update. needRefresh flips to true once a new SW has finished installing in
+// the background; updateServiceWorker(true) applies it and reloads the page.
 const { needRefresh, updateServiceWorker } = useRegisterSW()
+
+// Only the installed PWA shows the manual "Update" prompt (so we never auto-reload a
+// standalone app mid-game). In a normal browser tab, apply the update silently and
+// reload as soon as the new version is ready — tracker state survives via localStorage.
+watch(needRefresh, (ready) => {
+  if (ready && !pwaInstalled) updateServiceWorker(true)
+}, { immediate: true })
 </script>
 
 <style scoped>
 .update-toast {
   position: fixed;
-  left: 50%;
-  bottom: calc(1rem + env(safe-area-inset-bottom));
-  transform: translateX(-50%);
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 400;
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  max-width: calc(100vw - 2rem);
-  padding: 0.6rem 0.7rem 0.6rem 0.9rem;
+  padding: 0.7rem 1rem;
+  padding-top: calc(0.7rem + env(safe-area-inset-top));
   background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  border-bottom: 1px solid var(--border);
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
   font-size: 0.85rem;
   color: var(--text-primary);
@@ -64,7 +77,7 @@ const { needRefresh, updateServiceWorker } = useRegisterSW()
   color: #fff;
   border: none;
   border-radius: 5px;
-  padding: 0.4rem 0.8rem;
+  padding: 0.4rem 2rem;
   font-size: 0.82rem;
   font-weight: 600;
   cursor: pointer;
@@ -93,7 +106,7 @@ const { needRefresh, updateServiceWorker } = useRegisterSW()
   color: var(--text-primary);
 }
 
-/* Slide up from the bottom */
+/* Slide down from the top */
 .ut-slide-enter-active,
 .ut-slide-leave-active {
   transition: opacity 0.25s ease, transform 0.25s ease;
@@ -102,15 +115,10 @@ const { needRefresh, updateServiceWorker } = useRegisterSW()
 .ut-slide-enter-from,
 .ut-slide-leave-to {
   opacity: 0;
-  transform: translate(-50%, 1rem);
+  transform: translateY(-1rem);
 }
 
 @media (max-width: 900px) {
-  /* Sit above the mobile bottom nav */
-  .update-toast {
-    bottom: calc(4.5rem + env(safe-area-inset-bottom));
-  }
-
   .ut-text {
     white-space: normal;
   }

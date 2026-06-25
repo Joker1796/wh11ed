@@ -28,7 +28,7 @@ import LayoutCard from '../../components/event/LayoutCard.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker } from '../../composables/useTracker.js'
-import { eventCompanion } from '../../data/eventCompanion.js'
+import { resolveLayout } from '../../composables/trackerLayout.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -38,18 +38,11 @@ const { history } = useTracker()
 
 const game = computed(() => history.value.find((g) => g.id === route.params.id) || null)
 
-// Resolve the battlefield layout diagram from the two dispositions + the chosen letter
-// (same lookup as GameSetup.vue). Layout image paths are language-agnostic.
-const matchups = eventCompanion.en.matchups
+// Battlefield layout diagram — recommended (by dispositions + letter) or a custom pick.
 const layout = computed(() => {
   const g = game.value
   if (!g) return null
-  const d0 = g.players[0]?.disposition
-  const d1 = g.players[1]?.disposition
-  const matchup = matchups.find(
-    (m) => (m.a === d0 && m.b === d1) || (m.a === d1 && m.b === d0),
-  )
-  return matchup?.layouts.find((l) => l.id === g.settings?.layout) || null
+  return resolveLayout(g.settings, g.players[0]?.disposition, g.players[1]?.disposition)
 })
 
 function back() {

@@ -27,6 +27,7 @@
         :note="sub.note"
         :example="sub.example"
         :see-also="sub.seeAlso"
+        :children="sub.children"
       />
 
       <!-- Attached Units abilities table -->

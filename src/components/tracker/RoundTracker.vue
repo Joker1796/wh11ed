@@ -17,12 +17,20 @@
     </div>
     <p class="round-label">
       {{ labels.trackerRound }} {{ current.currentRound }}
-      <span v-if="current.settings.layout" class="round-layout">· {{ labels.eventLayout }} {{ current.settings.layout }}</span>
+      <span v-if="current.settings.layout" class="round-layout">· {{ roundLayoutLabel }}</span>
     </p>
+
+    <!-- Active twist reminder (mission-changing twists are already applied to the primary). -->
+    <details v-if="activeTwist" class="twist-card">
+      <summary><span class="tc-label">{{ labels.trackerTwist }}</span> {{ activeTwist.title }}</summary>
+      <div class="twist-card-body">
+        <RuleBody :body="activeTwist.body" />
+      </div>
+    </details>
 
     <div class="players">
       <div v-for="(pl, i) in current.players" :key="i" class="player">
-        <h3 class="ptitle">{{ pl.name || `${labels.trackerPlayer} ${i + 1}` }}</h3>
+        <h3 class="ptitle">{{ pl.name || (i === 0 ? labels.trackerYou : labels.trackerOpponent) }}</h3>
         <p class="pmeta">{{ dispositionName(pl.disposition) }}</p>
         <p v-if="pl.detachments && pl.detachments.length" class="pdet">{{ pl.detachments.join(' · ') }}</p>
 
@@ -63,13 +71,15 @@
     />
 
     <div class="actions">
-      <button class="btn-ghost" @click="confirmFinish">{{ labels.trackerFinish }}</button>
+      <button class="btn-ghost" @click="endModalOpen = true">{{ labels.trackerFinish }}</button>
       <button
         v-if="current.currentRound < ROUND_COUNT"
         class="btn-primary"
         @click="goToRound(current.currentRound + 1)"
       >{{ labels.trackerNext }}</button>
     </div>
+
+    <GameEndModal v-if="endModalOpen" @confirm="onEndBattle" @close="endModalOpen = false" />
   </div>
 </template>
 
@@ -79,8 +89,11 @@ import NumberStepper from './NumberStepper.vue'
 import SecondaryDeck from './SecondaryDeck.vue'
 import ScoreBoard from './ScoreBoard.vue'
 import ScoringModal from './ScoringModal.vue'
+import GameEndModal from './GameEndModal.vue'
+import RuleBody from '../RuleBody.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { getEventContent } from '../../data/eventCompanion.js'
 import { useTracker, ROUND_COUNT, PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP, dispositionName, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
 
 const { locale } = useLocale()
@@ -88,6 +101,23 @@ const labels = computed(() => ui[locale.value])
 const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, goToRound, finishGame } = useTracker()
 
 const openPrimary = ref(-1)   // index of the player whose primary scoring modal is open
+const endModalOpen = ref(false)
+
+// Active twist (if any) — shown as a collapsible reminder; its mission effect (Mirrored
+// World / Scrambled Communications) is already baked into each player's primarySlug.
+// Battlefield layout label next to the round — "Custom <id>" for a picked layout, else
+// the recommended letter (e.g. "Layout A").
+const roundLayoutLabel = computed(() => {
+  const s = current.value.settings
+  if (s.layout === 'custom') return `${labels.value.trackerLayoutCustom}${s.customLayout?.id ? ' ' + s.customLayout.id : ''}`
+  return `${labels.value.eventLayout} ${s.layout}`
+})
+
+const activeTwist = computed(() => {
+  const id = current.value?.settings?.twist
+  if (!id) return null
+  return getEventContent(locale.value).twists.blocks.find(b => b.id === id) || null
+})
 
 function primaryMission(i) {
   return missionBySlug(current.value.players[i].primarySlug, null, locale.value)
@@ -100,8 +130,9 @@ function primaryName(i) {
 function primaryBlocks(i) {
   return scorableBlocks(current.value.players[i].primarySlug, null, current.value.currentRound, locale.value)
 }
-function confirmFinish() {
-  if (window.confirm(labels.value.trackerFinishConfirm)) finishGame()
+function onEndBattle(reason) {
+  endModalOpen.value = false
+  finishGame(reason)
 }
 </script>
 
@@ -148,6 +179,34 @@ function confirmFinish() {
   font-family: var(--font-sans);
   font-size: 0.82rem;
   font-weight: 600;
+  color: var(--text-muted);
+}
+.twist-card {
+  max-width: 640px;
+  margin: -0.4rem auto 1rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-card);
+}
+.twist-card > summary {
+  cursor: pointer;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.twist-card .tc-label {
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  margin-right: 0.35rem;
+}
+.twist-card-body {
+  padding: 0 0.75rem 0.6rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
   color: var(--text-muted);
 }
 .players { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
