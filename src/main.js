@@ -13,4 +13,13 @@ app.config.errorHandler = (err, _instance, info) => {
   console.error(`[vue] ${info}:`, err)
 }
 
-app.use(router).mount('#app')
+app.use(router)
+
+// Mount only after the router's initial navigation has settled. The PWA "resume last
+// view" restore is a `router.beforeEach` redirect (router/index.js) — an async navigation.
+// Mounting synchronously would run App.vue's onMounted (and useViewRestore's section
+// re-scroll, which keys off route.hash) BEFORE that redirect resolves: the hash would
+// still be empty, so the precise scroll-to-section never fires and persist() would
+// transiently clobber the saved location with '/'. Awaiting isReady also removes the
+// brief home flash before the restore. `finally`: mount even if the guard rejected.
+router.isReady().finally(() => app.mount('#app'))
