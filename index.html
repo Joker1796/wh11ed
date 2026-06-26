@@ -13,7 +13,7 @@
 
     <!-- SEO -->
     <title>Warhammer 40,000 — Core Rules 11th Edition</title>
-    <meta name="description" content="Bilingual (EN/RU) interactive reference for the Warhammer 40,000 11th Edition Core Rules and Event Companion — searchable, offline-capable, free." />
+    <meta name="description" content="Bilingual EN/RU reference for Warhammer 40,000 11th Edition — core rules, the battle round, stratagems, missions and the Event Companion. Searchable, offline, free." />
     <link rel="canonical" href="https://wh11ed.ru/" />
     <meta name="robots" content="index, follow, max-image-preview:large" />
 
@@ -26,7 +26,7 @@
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="WH11ED" />
     <meta property="og:title" content="Warhammer 40,000 — Core Rules 11th Edition" />
-    <meta property="og:description" content="Bilingual (EN/RU) interactive reference for the Warhammer 40,000 11th Edition Core Rules and Event Companion — searchable, offline-capable, free." />
+    <meta property="og:description" content="Bilingual EN/RU reference for Warhammer 40,000 11th Edition — core rules, the battle round, stratagems, missions and the Event Companion. Searchable, offline, free." />
     <meta property="og:url" content="https://wh11ed.ru/" />
     <meta property="og:image" content="https://wh11ed.ru/og-image.png" />
     <meta property="og:image:width" content="1200" />
@@ -37,22 +37,36 @@
     <!-- Twitter / X card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Warhammer 40,000 — Core Rules 11th Edition" />
-    <meta name="twitter:description" content="Bilingual (EN/RU) interactive reference for the Warhammer 40,000 11th Edition Core Rules and Event Companion." />
+    <meta name="twitter:description" content="Bilingual EN/RU reference for Warhammer 40,000 11th Edition — core rules, the battle round, stratagems, missions and the Event Companion." />
     <meta name="twitter:image" content="https://wh11ed.ru/og-image.png" />
 
     <!-- Structured data -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "WH11ED — Warhammer 40,000 11th Edition Core Rules",
-        "url": "https://wh11ed.ru/",
-        "applicationCategory": "GameApplication",
-        "operatingSystem": "Any (web, installable PWA)",
-        "inLanguage": ["en", "ru"],
-        "isAccessibleForFree": true,
-        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-        "description": "Bilingual (EN/RU) interactive reference for the Warhammer 40,000 11th Edition Core Rules and Event Companion."
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://wh11ed.ru/#website",
+            "name": "WH11ED",
+            "alternateName": "Warhammer 40,000 11th Edition Core Rules",
+            "url": "https://wh11ed.ru/",
+            "inLanguage": ["en", "ru"],
+            "description": "Bilingual EN/RU reference for the Warhammer 40,000 11th Edition Core Rules and Event Companion."
+          },
+          {
+            "@type": "WebApplication",
+            "name": "WH11ED — Warhammer 40,000 11th Edition Core Rules",
+            "url": "https://wh11ed.ru/",
+            "isPartOf": { "@id": "https://wh11ed.ru/#website" },
+            "applicationCategory": "GameApplication",
+            "operatingSystem": "Any (web, installable PWA)",
+            "inLanguage": ["en", "ru"],
+            "isAccessibleForFree": true,
+            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+            "description": "Bilingual EN/RU interactive reference for the Warhammer 40,000 11th Edition Core Rules and Event Companion — searchable, offline-capable, free."
+          }
+        ]
       }
     </script>
     <script>
