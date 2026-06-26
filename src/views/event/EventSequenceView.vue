@@ -38,6 +38,8 @@
       :body="block.body"
       :see-also="block.seeAlso"
     />
+
+    <PageNav />
   </div>
 </template>
 
@@ -45,6 +47,7 @@
 import { computed } from 'vue'
 import RuleBlock from '../../components/RuleBlock.vue'
 import DataTable from '../../components/DataTable.vue'
+import PageNav from '../../components/PageNav.vue'
 import { getEventContent } from '../../data/eventCompanion.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
