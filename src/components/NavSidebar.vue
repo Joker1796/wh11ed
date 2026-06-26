@@ -61,7 +61,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { navGroups, navGroupsRu, eventGroups, eventGroupsRu, trackerGroups, trackerGroupsRu } from '../router/index.js'
+import { navGroups, navGroupsRu, eventGroups, eventGroupsRu, trackerGroups, trackerGroupsRu, linksGroups, linksGroupsRu } from '../router/index.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useAbilityFilter } from '../composables/useAbilityFilter.js'
@@ -77,17 +77,20 @@ const labels = computed(() => ui[locale.value])
 const localizedGroups = computed(() => locale.value === 'ru' ? navGroupsRu : navGroups)
 const localizedEventGroups = computed(() => locale.value === 'ru' ? eventGroupsRu : eventGroups)
 const localizedTrackerGroups = computed(() => locale.value === 'ru' ? trackerGroupsRu : trackerGroups)
+const localizedLinksGroups = computed(() => locale.value === 'ru' ? linksGroupsRu : linksGroups)
 
 const navSections = computed(() => [
   { key: 'core',    label: labels.value.navCoreRules,      groups: localizedGroups.value },
   { key: 'event',   label: labels.value.navEventCompanion, groups: localizedEventGroups.value },
   { key: 'tracker', label: labels.value.navTracker,        groups: localizedTrackerGroups.value },
+  { key: 'links',   label: labels.value.navLinks,          groups: localizedLinksGroups.value },
 ])
 
 const currentSection = computed(() => {
   const p = route.path
   if (p.startsWith('/tracker')) return 'tracker'
   if (p.startsWith('/event-companion')) return 'event'
+  if (p.startsWith('/links')) return 'links'
   return 'core'
 })
 

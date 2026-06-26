@@ -24,6 +24,11 @@
             class="nav-link"
             :class="{ active: isTrackerRoute }"
           >{{ labels.navTracker }}</RouterLink>
+          <RouterLink
+            to="/links"
+            class="nav-link"
+            :class="{ active: isLinksRoute }"
+          >{{ labels.navLinks }}</RouterLink>
         </nav>
 
         <div class="navbar-actions">
@@ -100,8 +105,8 @@
     <!-- Mobile drawer (visible only on mobile via NavSidebar internal CSS) -->
     <NavSidebar :mobileOpen="mobileNavOpen" @close="mobileNavOpen = false" />
 
-    <!-- Subnav: core rules links (hidden on the section-less landing page) -->
-    <nav v-if="!isLanding" class="subnav">
+    <!-- Subnav: core rules links (hidden on the section-less landing & links pages) -->
+    <nav v-if="!isLanding && !isLinksRoute" class="subnav">
       <div class="subnav-inner">
         <RouterLink
           v-for="item in subNavItems"
@@ -195,6 +200,7 @@ const labels = computed(() => ui[locale.value])
 
 const coreRoutes = ['/introduction', '/basic-rules', '/battle-round', '/battlefields', '/advanced-rules', '/reference', '/muster']
 const isLanding = computed(() => route.path === '/')
+const isLinksRoute = computed(() => route.path === '/links')
 const isEventRoute = computed(() => route.path.startsWith('/event-companion'))
 const isMissionsRoute = computed(() => route.path === '/event-companion/missions')
 const isTrackerRoute = computed(() => route.path.startsWith('/tracker'))

@@ -137,6 +137,13 @@ const ROUTES = {
       ru: 'Бесплатный офлайн-трекер очков на 2 игроков для партии Warhammer 40,000 11-й редакции — миссии, вторичные задачи и подсчёт.',
     },
   },
+  '/links': {
+    title: { en: 'Links', ru: 'Ссылки' },
+    description: {
+      en: 'Official Warhammer Community source PDFs for Warhammer 40,000 11th edition — Core Rules, Event Companion, Teams Event Companion and Terrain Area Footprints.',
+      ru: 'Официальные исходные PDF Warhammer Community для Warhammer 40,000 11-й редакции — Core Rules, Event Companion, Teams Event Companion и Terrain Area Footprints.',
+    },
+  },
   '/tracker/game': {
     title: { en: 'Current Game — Tracker', ru: 'Текущая игра — Трекер' },
     description: {
