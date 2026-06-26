@@ -23,9 +23,22 @@ const DEFAULT = {
   },
 }
 
+// The "/" landing page — overview of the whole project (all three sections).
+const LANDING = {
+  title: {
+    en: 'Warhammer 40,000 11th Edition — Rules, Event Companion & Tracker',
+    ru: 'Warhammer 40,000 11-й редакции — правила, Event Companion и трекер',
+  },
+  description: DEFAULT.description,
+}
+
 // path → { title:{en,ru}, description:{en,ru} }. `title` here is the page-name prefix;
 // the brand suffix (SITE) is appended below, except for '/' which uses DEFAULT.title.
 const ROUTES = {
+  '/introduction': {
+    title: { en: 'Introduction', ru: 'Введение' },
+    description: DEFAULT.description,
+  },
   '/basic-rules': {
     title: { en: 'Basic Rules', ru: 'Основные правила' },
     description: {
@@ -131,7 +144,7 @@ function pick(loc) {
 }
 
 function metaFor(path, loc) {
-  if (path === '/') return { title: DEFAULT.title[loc], description: DEFAULT.description[loc] }
+  if (path === '/') return { title: LANDING.title[loc], description: LANDING.description[loc] }
   let entry = ROUTES[path]
   // dynamic / transient tracker routes (history/:id, auth-callback) → tracker default
   if (!entry && path.startsWith('/tracker')) entry = ROUTES['/tracker']

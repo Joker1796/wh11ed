@@ -11,9 +11,15 @@ describe('applyRouteMeta', () => {
     document.title = ''
   })
 
-  it('sets the full site title + default description on home', () => {
+  it('sets the project landing title + default description on home', () => {
     applyRouteMeta('/', 'en')
-    expect(document.title).toBe('Warhammer 40,000 — Core Rules 11th Edition')
+    expect(document.title).toBe('Warhammer 40,000 11th Edition — Rules, Event Companion & Tracker')
+    expect(descContent()).toMatch(/Bilingual/)
+  })
+
+  it('gives the Core Rules introduction its own title at /introduction', () => {
+    applyRouteMeta('/introduction', 'en')
+    expect(document.title).toBe('Introduction — Warhammer 40,000 11th Ed')
     expect(descContent()).toMatch(/Bilingual/)
   })
 
