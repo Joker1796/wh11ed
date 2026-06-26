@@ -23,6 +23,7 @@ const TrackerHomeView   = () => import('../views/tracker/TrackerHomeView.vue')
 const TrackerGameView   = () => import('../views/tracker/TrackerGameView.vue')
 const AuthCallbackView  = () => import('../views/tracker/AuthCallbackView.vue')
 const TrackerHistoryView = () => import('../views/tracker/TrackerHistoryView.vue')
+const LinksView         = () => import('../views/LinksView.vue')
 
 export const navGroups = [
   { label: 'Introduction',        path: '/introduction',   sections: [] },
@@ -247,6 +248,15 @@ export const trackerGroupsRu = [
   { label: 'Текущая игра',  path: '/tracker/game', sections: [] },
 ]
 
+// Links — fourth top-level section. Single page of external source PDFs, no anchors.
+export const linksGroups = [
+  { label: 'Source PDFs', path: '/links', sections: [] },
+]
+
+export const linksGroupsRu = [
+  { label: 'Исходные PDF', path: '/links', sections: [] },
+]
+
 export const router = createRouter({
   history: createWebHashHistory(),
   routes: [
@@ -269,6 +279,7 @@ export const router = createRouter({
     { path: '/tracker/game', component: TrackerGameView },
     { path: '/tracker/history/:id', component: TrackerHistoryView },
     { path: '/tracker/auth-callback', component: AuthCallbackView },
+    { path: '/links', component: LinksView },
   ],
   scrollBehavior(to, from, savedPosition) {
     if (to.hash) {
