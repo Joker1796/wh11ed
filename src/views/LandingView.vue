@@ -21,6 +21,21 @@
         <p class="section-card-desc">{{ s.desc }}</p>
       </RouterLink>
     </div>
+
+    <footer class="landing-footer">
+      <div class="footer-col">
+        <p class="footer-col-label">{{ t.footer.contactLabel }}</p>
+        <p class="footer-contact">
+          <a :href="'mailto:' + contactEmail">{{ contactEmail }}</a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p class="footer-col-label">{{ t.footer.thanksLabel }}</p>
+        <p v-for="th in t.footer.thanks" :key="th.label" class="footer-thanks">
+          {{ th.label }}<br /><span class="footer-who">{{ th.who }}</span>
+        </p>
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -31,6 +46,8 @@ import { useLocale } from '../composables/useLocale.js'
 
 const { locale } = useLocale()
 const t = computed(() => landing[locale.value])
+
+const contactEmail = 'yas-shaman@yandex.ru'
 </script>
 
 <style scoped>
@@ -122,6 +139,52 @@ const t = computed(() => landing[locale.value])
   color: var(--text-muted);
   line-height: 1.55;
   margin: 0;
+}
+
+.landing-footer {
+  margin-top: 2.5rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 3rem;
+  color: var(--text-muted);
+  font-size: 0.84rem;
+  line-height: 1.6;
+}
+
+.footer-col {
+  flex: 1 1 220px;
+  min-width: 0;
+}
+
+.footer-col-label {
+  margin: 0 0 0.3rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.footer-contact {
+  margin: 0;
+}
+
+.footer-contact a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.footer-contact a:hover {
+  color: var(--accent-hover);
+}
+
+.footer-thanks {
+  margin: 0 0 0.4rem;
+  color: var(--text-dim);
+}
+
+.footer-who {
+  font-style: italic;
 }
 
 @media (max-width: 600px) {
