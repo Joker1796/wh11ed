@@ -526,6 +526,217 @@ const en = {
     ],
   },
 
+  // ── Teams Event Companion (supplement) ─────────────────────────────────────
+  teams: {
+    intro:
+      'A Teams Event is one in which players compete in teams. Teams are matched against ' +
+      'each other, with each member of a team fighting a battle against a member of the ' +
+      'opposing team. This page collects the Teams-specific rules; everything else follows ' +
+      'the standard Event Companion.',
+    blocks: [
+      {
+        id: 'teams-overview',
+        title: 'Overview',
+        body:
+          'The Warhammer Teams Event Companion is used **alongside** the Warhammer Event ' +
+          'Companion. It changes only two things:\n' +
+          '▪ **Mission Sequence:** adjustments to the steps used to generate a mission and ' +
+          'prepare the battlefield.\n' +
+          '▪ **Pairings and Rankings:** advice for fairly pairing teams and determining ' +
+          'rankings.\n' +
+          'For everything else — errata, FAQs, missions and terrain layouts — refer to the ' +
+          'rest of the Event Companion.',
+        seeAlso: ['Mission Sequence EC:sequence', 'Pairings & Rankings EC:pairings'],
+      },
+      {
+        id: 'team-composition',
+        title: '1 · Team Composition and Muster Armies',
+        body:
+          'Each team has a single **captain**, responsible for ensuring players submit lists ' +
+          'on time and that scores are submitted at the end of each round.\n\n' +
+          'Within each team, only one player can use units with a given **faction keyword**. ' +
+          'This normally means only one player can use units from each Codex, including as ' +
+          'allied forces. It does not apply where the ally rules being used change faction ' +
+          'keywords, or where datasheets appear in multiple Codexes with different faction ' +
+          'keywords (e.g. Chaos Daemons and Khorne Daemons in Codex: World Eaters).\n\n' +
+          'Each player then musters an army as described in the Warhammer 40,000 app, with ' +
+          'one exception: once mustered, a player selects one [FORCE DISPOSITION] card ' +
+          'available to them and records it on their roster.\n\n' +
+          'Within each team, for every 5 players (rounding up), only one player can select ' +
+          'each Force Disposition.',
+        note:
+          '**Example:** At a 5-player Teams Event, each player must have a different Force ' +
+          'Disposition.\n\n**Example:** At an 8-player Teams Event, each Force Disposition ' +
+          'must have been selected at least once by a different player; the remaining 3 ' +
+          'players can then each select a 2nd instance of each Force Disposition.',
+      },
+      {
+        id: 'pairing-system',
+        title: '2 · Pairing System',
+        body:
+          'In every round, each member of a team plays a game against one member of the ' +
+          'opposing team, and the accumulated scores of all team members decide the winner ' +
+          'of the round. At the start of each round, both teams follow the pairing system ' +
+          'appropriate for the size of their teams; **team captains** coordinate it.\n\n' +
+          'Once pairing is complete, each player pair heads to their table. Each player finds ' +
+          "their opponent's Force Disposition symbol on their own Force Disposition card; the " +
+          "[PRIMARY MISSION] listed below that symbol is that player's Primary Mission.\n\n" +
+          'The system is broken into 3 modules; team size determines which you use:',
+        table: {
+          title: 'Modules by Team Size',
+          headers: ['Team Size', 'Modules Used'],
+          rows: [
+            ['3 players', 'Main Engagement'],
+            ['4 players', 'Main Engagement + Champion System'],
+            ['5 players', 'Initial Skirmish + Main Engagement'],
+            ['6 players', 'Initial Skirmish + Main Engagement + Champion System'],
+            ['7 players', 'Initial Skirmish (×2) + Main Engagement'],
+            ['8 players', 'Initial Skirmish (×2) + Main Engagement + Champion System'],
+          ],
+        },
+      },
+      {
+        id: 'initial-skirmish',
+        title: 'Initial Skirmish',
+        body:
+          '1. Each team secretly selects one member to be their **Defender**.\n' +
+          "2. Each team's selected Defender is revealed simultaneously.\n" +
+          '3. Each team secretly selects two of their remaining members to be **Attackers** ' +
+          'against the opposing Defender.\n' +
+          "4. Each team's selected Attackers are revealed simultaneously.\n" +
+          '5. Each team secretly chooses which of the two opposing Attackers they want their ' +
+          'Defender to play against.\n' +
+          '6. The chosen Attackers are revealed simultaneously. This decides two match-ups.\n' +
+          "7. Each team's Defender declares their layout choice.",
+        note:
+          "**Designer's Note:** Each combination of Primary Missions has three recommended " +
+          'layouts, labelled A, B and C. These can be found in the Warhammer 40,000 app and ' +
+          'in the Event Companion.',
+      },
+      {
+        id: 'main-engagement',
+        title: 'Main Engagement',
+        body:
+          '1. Each team secretly selects one member to be their **Defender**.\n' +
+          "2. Each team's selected Defender is revealed simultaneously.\n" +
+          '3. Each team secretly selects two of their remaining members to be **Attackers** ' +
+          'against the opposing Defender.\n' +
+          "4. Each team's selected Attackers are revealed simultaneously.\n" +
+          '5. Each team secretly chooses which of the two opposing Attackers they want their ' +
+          'Defender to play against.\n' +
+          '6. The chosen Attackers are revealed simultaneously. This decides two matchups.\n' +
+          "7. Each team's Defender declares their layout choice.\n" +
+          '8. The **refused Attacker** from each team plays against one another, using a ' +
+          'layout based on the round: round 1 use Layout A, round 2 Layout B, round 3 ' +
+          'Layout C, repeating this cycle in further rounds.',
+      },
+      {
+        id: 'champion-system',
+        title: 'Champion System',
+        body:
+          'This leaves one player from each team, who becomes the **Champion**. These ' +
+          'players play each other, using a layout based on the round: round 1 use Layout A, ' +
+          'round 2 Layout B, round 3 Layout C, repeating this cycle in further rounds.',
+      },
+      {
+        id: 'teams-sequence-note',
+        title: 'The Rest of the Sequence',
+        body:
+          'Once pairings are set, each matchup plays out the rest of the standard Mission ' +
+          'Sequence:\n' +
+          '▪ **Create the Battlefield** — missions are played on **44" by 60"** ' +
+          'battlefields; set up terrain areas and features as shown in the selected layout.\n' +
+          '▪ **Determine Attacker and Defender** — agree which battlefield edges match the ' +
+          'card. Who is Attacker and Defender follows the pairing system; for refused ' +
+          'Attackers or Champions playing each other, **roll off** — the winner decides.\n' +
+          '▪ The remaining steps — Select Secondary Missions, Declare Battle Formations, ' +
+          'Deploy, Redeploy, Determine First Turn, Resolve Pre-battle Rules, Begin and End ' +
+          'the Battle, and Determine Victor — are unchanged from the standard sequence.',
+        seeAlso: ['Mission Sequence EC:sequence'],
+      },
+      {
+        id: 'team-scoring-bp',
+        title: '14 · Team Scoring — Battle Points',
+        body:
+          'After determining the victor, both players earn **Battle Points (BP)** for their ' +
+          'team based on the VP differential of their individual game. Count your VP, ' +
+          "subtract your opponent's VP, and consult the table. If your differential is " +
+          'negative, read your BP from the **Opponent** column.',
+        table: {
+          title: 'Battle Points by VP Differential',
+          headers: ['VP Difference', 'Player BP', 'Opponent BP'],
+          rows: [
+            ['0–5', '10', '10'],
+            ['6–10', '11', '9'],
+            ['11–15', '12', '8'],
+            ['16–20', '13', '7'],
+            ['21–25', '14', '6'],
+            ['26–30', '15', '5'],
+            ['31–35', '16', '4'],
+            ['36–40', '17', '3'],
+            ['41–45', '18', '2'],
+            ['46–50', '19', '1'],
+            ['51+', '20', '0'],
+          ],
+        },
+        note:
+          "**Designer's Note:** the two players' BP always add up to 20.\n\n**Example:** A " +
+          'game ends 86–54. The differential is +32 for player A and −32 for player B, so ' +
+          'player A scores 16BP for their team and player B scores 4BP for theirs.',
+      },
+      {
+        id: 'team-scoring-match',
+        title: 'Team Scoring — Match Result',
+        body:
+          "At the end of the round, each team's total BP is added up and a match winner is " +
+          "determined. A team's total BP must exceed their opponents' by at least the margin " +
+          'below to score a win — any smaller margin is a draw.',
+        table: {
+          title: 'Winning Margin by Team Size',
+          headers: ['Team Size', 'Required BP Differential'],
+          rows: [
+            ['3 players', '4'],
+            ['4 players', '6'],
+            ['5 players', '6'],
+            ['6 players', '8'],
+            ['7 players', '10'],
+            ['8 players', '12'],
+          ],
+        },
+        note:
+          '**Example:** At a 5-player Teams Event, Team A scores 54BP and Team B 46BP. The ' +
+          'difference is at least 6BP, so Team A wins.\n\nThe match-winning team scores ' +
+          '**3 Team Points (TP)**; the losing team scores **1TP**. A draw scores both ' +
+          'teams 2TP.',
+      },
+      {
+        id: 'teams-pairing',
+        title: 'Pairing Teams',
+        body:
+          'While the first round is usually randomly paired, subsequent rounds pair teams ' +
+          'with the same record (e.g. a 3–1 team with another 3–1 team). To decide pairings ' +
+          'beyond that, we recommend:\n' +
+          '▪ First — by Team Points (the number of wins, losses and draws).\n' +
+          '▪ Second — by total individual wins (the cumulative individual wins of every team ' +
+          'member across all rounds so far).\n' +
+          '▪ Third — randomly within teams of the same ranking.',
+      },
+      {
+        id: 'teams-ranking',
+        title: 'Ranking Teams',
+        body:
+          'The overall Best Team is often the single undefeated team at the end of the ' +
+          'event. When draws or the number of rounds leave this undetermined, we recommend ' +
+          'ranking teams by:\n' +
+          '▪ First — by record (the number of wins, losses and draws).\n' +
+          '▪ Second — by total individual wins (the cumulative individual wins of every team ' +
+          'member across all rounds).\n' +
+          '▪ Third — by total Battle Points (the cumulative BP of every team member across ' +
+          'all rounds).',
+      },
+    ],
+  },
+
   // ── Twists: optional pre-game mission modifiers ────────────────────────────
   twists: {
     intro:
@@ -1009,6 +1220,210 @@ const ru = {
           'неоспоримой истине — и хотя большинство из вас проиграет партию-другую, вы все ' +
           'разделите победу в своём опыте того, что значит побывать на Warhammer Event.\n\n' +
           '— Студия дизайна Warhammer и команда Warhammer Events',
+      },
+    ],
+  },
+
+  teams: {
+    intro:
+      'Командный ивент (Teams Event) — это мероприятие, где игроки соревнуются командами. ' +
+      'Команды сводятся друг с другом, и каждый участник команды играет партию против ' +
+      'участника команды соперника. На этой странице собраны правила, специфичные для ' +
+      'командного формата; всё остальное следует обычному Event Companion.',
+    blocks: [
+      {
+        title: 'Обзор',
+        body:
+          'Warhammer Teams Event Companion используется **вместе** с Warhammer Event ' +
+          'Companion. Он меняет только две вещи:\n' +
+          '▪ **Последовательность миссии:** изменения в шагах генерации миссии и подготовки ' +
+          'поля боя.\n' +
+          '▪ **Паринги и ранжирование:** советы по честному составлению пар команд и ' +
+          'определению рангов.\n' +
+          'По всему остальному — эррата, FAQ, миссии и раскладки террейна — обращайтесь к ' +
+          'остальной части Event Companion.',
+        seeAlso: ['Последовательность миссии EC:sequence', 'Паринги и ранжирование EC:pairings'],
+      },
+      {
+        title: '1 · Состав команды и сбор армий',
+        body:
+          'У каждой команды есть один **капитан**, отвечающий за то, чтобы игроки вовремя ' +
+          'сдавали ростеры, а очки подавались в конце каждого раунда.\n\n' +
+          'Внутри команды только один игрок может использовать юниты с данным **ключевым ' +
+          'словом фракции** (faction keyword). Обычно это значит, что только один игрок ' +
+          'может использовать юниты из каждого Кодекса, в том числе как союзные силы. Это не ' +
+          'применяется, когда используемые правила союзников меняют ключевые слова фракции, ' +
+          'или когда листы данных встречаются в нескольких Кодексах с разными ключевыми ' +
+          'словами фракции (например, Chaos Daemons и Khorne Daemons в Codex: World Eaters).\n\n' +
+          'Затем каждый игрок собирает армию, как описано в приложении Warhammer 40,000, с ' +
+          'одним исключением: собрав армию, игрок выбирает одну доступную ему карту ' +
+          '[FORCE DISPOSITION] и записывает её в ростер.\n\n' +
+          'Внутри команды на каждые 5 игроков (с округлением вверх) только один игрок может ' +
+          'выбрать каждую Force Disposition.',
+        note:
+          '**Пример:** На командном ивенте из 5 игроков у каждого игрока должна быть разная ' +
+          'Force Disposition.\n\n**Пример:** На командном ивенте из 8 игроков каждая Force ' +
+          'Disposition должна быть выбрана хотя бы раз разными игроками; остальные 3 игрока ' +
+          'затем могут выбрать по 2-му экземпляру каждой Force Disposition.',
+      },
+      {
+        title: '2 · Система паринга',
+        body:
+          'В каждом раунде каждый участник команды играет партию против одного участника ' +
+          'команды соперника, и суммарные очки всех участников команды определяют ' +
+          'победителя раунда. В начале каждого раунда обе команды следуют системе паринга, ' +
+          'подходящей для размера их команд; её координируют **капитаны команд**.\n\n' +
+          'Когда паринг завершён, каждая пара игроков идёт к своему столу. Каждый игрок ' +
+          'находит символ Force Disposition соперника на своей карте Force Disposition; ' +
+          '[PRIMARY MISSION], указанная под этим символом, и есть его Primary Mission.\n\n' +
+          'Система делится на 3 модуля; размер команды определяет, какие из них ' +
+          'использовать:',
+        table: {
+          title: 'Модули по размеру команды',
+          headers: ['Размер команды', 'Используемые модули'],
+          rows: [
+            ['3 игрока', 'Main Engagement'],
+            ['4 игрока', 'Main Engagement + Champion System'],
+            ['5 игроков', 'Initial Skirmish + Main Engagement'],
+            ['6 игроков', 'Initial Skirmish + Main Engagement + Champion System'],
+            ['7 игроков', 'Initial Skirmish (×2) + Main Engagement'],
+            ['8 игроков', 'Initial Skirmish (×2) + Main Engagement + Champion System'],
+          ],
+        },
+      },
+      {
+        title: 'Initial Skirmish',
+        body:
+          '1. Каждая команда тайно выбирает одного участника своим **Defender**.\n' +
+          '2. Выбранные Defender обеих команд раскрываются одновременно.\n' +
+          '3. Каждая команда тайно выбирает двух своих оставшихся участников **Attacker** ' +
+          'против Defender соперника.\n' +
+          '4. Выбранные Attacker обеих команд раскрываются одновременно.\n' +
+          '5. Каждая команда тайно выбирает, против кого из двух Attacker соперника сыграет ' +
+          'её Defender.\n' +
+          '6. Выбранные Attacker раскрываются одновременно. Это определяет две пары.\n' +
+          '7. Defender каждой команды объявляет выбор раскладки.',
+        note:
+          "**Designer's Note:** Каждая комбинация Primary Mission имеет три рекомендованные " +
+          'раскладки, обозначенные A, B и C. Их можно найти в приложении Warhammer 40,000 и ' +
+          'в Event Companion.',
+      },
+      {
+        title: 'Main Engagement',
+        body:
+          '1. Каждая команда тайно выбирает одного участника своим **Defender**.\n' +
+          '2. Выбранные Defender обеих команд раскрываются одновременно.\n' +
+          '3. Каждая команда тайно выбирает двух своих оставшихся участников **Attacker** ' +
+          'против Defender соперника.\n' +
+          '4. Выбранные Attacker обеих команд раскрываются одновременно.\n' +
+          '5. Каждая команда тайно выбирает, против кого из двух Attacker соперника сыграет ' +
+          'её Defender.\n' +
+          '6. Выбранные Attacker раскрываются одновременно. Это определяет две пары.\n' +
+          '7. Defender каждой команды объявляет выбор раскладки.\n' +
+          '8. **Отклонённый Attacker** (refused Attacker) каждой команды играет друг против ' +
+          'друга, используя раскладку по номеру раунда: в раунде 1 — раскладку A, в раунде ' +
+          '2 — B, в раунде 3 — C, повторяя этот цикл в дальнейших раундах.',
+      },
+      {
+        title: 'Champion System',
+        body:
+          'Остаётся по одному игроку от каждой команды — он становится **Champion**. Эти ' +
+          'игроки играют друг против друга, используя раскладку по номеру раунда: в раунде ' +
+          '1 — раскладку A, в раунде 2 — B, в раунде 3 — C, повторяя этот цикл в дальнейших ' +
+          'раундах.',
+      },
+      {
+        title: 'Остальная последовательность',
+        body:
+          'Когда пары определены, каждый матч проходит остальную часть обычной ' +
+          'последовательности миссии:\n' +
+          '▪ **Создание поля боя** — миссии играются на поле боя **44" на 60"**; расставьте ' +
+          'зоны террейна и сам террейн, как показано на выбранной раскладке.\n' +
+          '▪ **Определение Attacker и Defender** — согласуйте, какие края поля боя ' +
+          'соответствуют карте. Кто Attacker, а кто Defender, следует системе паринга; для ' +
+          'отклонённых Attacker или для Champion, играющих друг против друга, сделайте ' +
+          '**roll off** — победитель решает.\n' +
+          '▪ Остальные шаги — выбор вторичных миссий, объявление боевых построений, ' +
+          'развёртывание, передислокация, определение первого хода, разрешение предбоевых ' +
+          'правил, начало и конец битвы и определение победителя — не отличаются от обычной ' +
+          'последовательности.',
+        seeAlso: ['Последовательность миссии EC:sequence'],
+      },
+      {
+        title: '14 · Командный подсчёт — Battle Points',
+        body:
+          'После определения победителя оба игрока получают **Battle Points (BP)** для своей ' +
+          'команды на основе разницы VP в их личной партии. Посчитайте свои VP, вычтите VP ' +
+          'соперника и сверьтесь с таблицей. Если ваша разница отрицательная, берите свои BP ' +
+          'из столбца **Соперник**.',
+        table: {
+          title: 'Battle Points по разнице VP',
+          headers: ['Разница VP', 'BP игрока', 'BP соперника'],
+          rows: [
+            ['0–5', '10', '10'],
+            ['6–10', '11', '9'],
+            ['11–15', '12', '8'],
+            ['16–20', '13', '7'],
+            ['21–25', '14', '6'],
+            ['26–30', '15', '5'],
+            ['31–35', '16', '4'],
+            ['36–40', '17', '3'],
+            ['41–45', '18', '2'],
+            ['46–50', '19', '1'],
+            ['51+', '20', '0'],
+          ],
+        },
+        note:
+          "**Designer's Note:** BP двух игроков всегда в сумме дают 20.\n\n**Пример:** Партия " +
+          'заканчивается 86–54. Разница составляет +32 для игрока A и −32 для игрока B, так ' +
+          'что игрок A набирает 16BP для своей команды, а игрок B — 4BP для своей.',
+      },
+      {
+        title: 'Командный подсчёт — результат матча',
+        body:
+          'В конце раунда суммируются общие BP каждой команды и определяется победитель ' +
+          'матча. Общие BP команды должны превышать BP соперников хотя бы на указанную ниже ' +
+          'величину, чтобы засчитать победу — любой меньший разрыв считается ничьёй.',
+        table: {
+          title: 'Разрыв для победы по размеру команды',
+          headers: ['Размер команды', 'Нужная разница BP'],
+          rows: [
+            ['3 игрока', '4'],
+            ['4 игрока', '6'],
+            ['5 игроков', '6'],
+            ['6 игроков', '8'],
+            ['7 игроков', '10'],
+            ['8 игроков', '12'],
+          ],
+        },
+        note:
+          '**Пример:** На командном ивенте из 5 игроков Team A набирает 54BP, а Team B — ' +
+          '46BP. Разница не меньше 6BP, поэтому побеждает Team A.\n\nКоманда-победитель ' +
+          'матча получает **3 Team Points (TP)**; проигравшая команда получает **1TP**. ' +
+          'При ничьей обе команды получают по 2TP.',
+      },
+      {
+        title: 'Составление пар команд',
+        body:
+          'Хотя первый раунд обычно составляется случайно, последующие раунды сводят команды ' +
+          'с одинаковым результатом (например, команду 3–1 с другой командой 3–1). Чтобы ' +
+          'определить пары дальше, мы рекомендуем:\n' +
+          '▪ Во-первых — по Team Points (число побед, поражений и ничьих).\n' +
+          '▪ Во-вторых — по сумме личных побед (суммарные личные победы каждого участника ' +
+          'команды за все раунды на данный момент).\n' +
+          '▪ В-третьих — случайно среди команд с одинаковым рангом.',
+      },
+      {
+        title: 'Ранжирование команд',
+        body:
+          'Лучшей командой (Best Team) обычно становится единственная команда без поражений ' +
+          'к концу мероприятия. Когда ничьи или число раундов оставляют это неопределённым, ' +
+          'мы рекомендуем ранжировать команды по:\n' +
+          '▪ Во-первых — по результату (число побед, поражений и ничьих).\n' +
+          '▪ Во-вторых — по сумме личных побед (суммарные личные победы каждого участника ' +
+          'команды за все раунды).\n' +
+          '▪ В-третьих — по сумме Battle Points (суммарные BP каждого участника команды за ' +
+          'все раунды).',
       },
     ],
   },

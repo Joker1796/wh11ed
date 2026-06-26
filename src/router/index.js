@@ -17,6 +17,7 @@ const EventSequenceView = () => import('../views/event/EventSequenceView.vue')
 const EventMissionsView = () => import('../views/event/EventMissionsView.vue')
 const EventLayoutsView  = () => import('../views/event/EventLayoutsView.vue')
 const EventPairingsView = () => import('../views/event/EventPairingsView.vue')
+const EventTeamsView    = () => import('../views/event/EventTeamsView.vue')
 const EventFaqView      = () => import('../views/event/EventFaqView.vue')
 const TrackerHomeView   = () => import('../views/tracker/TrackerHomeView.vue')
 const TrackerGameView   = () => import('../views/tracker/TrackerGameView.vue')
@@ -181,6 +182,15 @@ export const eventGroups = [
       { id: 'rules-appendix',  label: 'Rules Appendix, Errata & FAQs' },
     ],
   },
+  {
+    label: 'Teams', path: '/event-companion/teams',
+    sections: [
+      { id: 'team-composition', label: 'Team Composition' },
+      { id: 'pairing-system',   label: 'Pairing System' },
+      { id: 'team-scoring-bp',  label: 'Team Scoring' },
+      { id: 'teams-pairing',    label: 'Pairing Teams' },
+    ],
+  },
   { label: 'Errata & FAQs',    path: '/event-companion/faq',      sections: [] },
 ]
 
@@ -214,6 +224,15 @@ export const eventGroupsRu = [
       { id: 'rules-appendix',  label: 'Rules Appendix, эррата и FAQ' },
     ],
   },
+  {
+    label: 'Teams', path: '/event-companion/teams',
+    sections: [
+      { id: 'team-composition', label: 'Состав команды' },
+      { id: 'pairing-system',   label: 'Система паринга' },
+      { id: 'team-scoring-bp',  label: 'Командный подсчёт' },
+      { id: 'teams-pairing',    label: 'Составление пар команд' },
+    ],
+  },
   { label: 'Эррата и FAQ',              path: '/event-companion/faq',      sections: [] },
 ]
 
@@ -244,6 +263,7 @@ export const router = createRouter({
     { path: '/event-companion/missions', component: EventMissionsView },
     { path: '/event-companion/layouts',  component: EventLayoutsView },
     { path: '/event-companion/pairings', component: EventPairingsView },
+    { path: '/event-companion/teams',    component: EventTeamsView },
     { path: '/event-companion/faq',      component: EventFaqView },
     { path: '/tracker',      component: TrackerHomeView },
     { path: '/tracker/game', component: TrackerGameView },
