@@ -576,6 +576,18 @@ function handleDefClick(e) {
   }
 }
 
+@media (max-width: 600px) {
+  .ability-body .info-row {
+    display: block;
+  }
+
+  .ability-body .info-label {
+    border-right: none;
+    border-bottom: 1px solid var(--border-light);
+    padding: 0.35rem 0.7rem;
+  }
+}
+
 /* Appendix */
 .appendix-block {
   border-bottom: 1px solid var(--border-light);

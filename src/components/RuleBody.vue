@@ -375,7 +375,13 @@ p {
   }
 
   .info-row {
-    grid-template-columns: 7rem 1fr;
+    display: block;
+  }
+
+  .info-label {
+    border-right: none;
+    border-bottom: 1px solid var(--border-light);
+    padding: 0.35rem 0.7rem;
   }
 }
 </style>
