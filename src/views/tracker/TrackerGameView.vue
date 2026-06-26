@@ -1,6 +1,6 @@
 <template>
   <div class="tracker-game">
-    <AlphaBanner />
+    <BetaBanner />
     <GameSetup v-if="!current || current.phase === 'setup'" @start="onStart" @cancel="goHome" />
     <RoundTracker v-else-if="current.phase === 'playing'" />
 
@@ -24,7 +24,7 @@ import GameSetup from '../../components/tracker/GameSetup.vue'
 import RoundTracker from '../../components/tracker/RoundTracker.vue'
 import ScoreBoard from '../../components/tracker/ScoreBoard.vue'
 import ScoreBreakdown from '../../components/tracker/ScoreBreakdown.vue'
-import AlphaBanner from '../../components/tracker/AlphaBanner.vue'
+import BetaBanner from '../../components/tracker/BetaBanner.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker } from '../../composables/useTracker.js'

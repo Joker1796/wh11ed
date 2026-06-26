@@ -10,7 +10,7 @@
 
         <nav class="navbar-links">
           <RouterLink
-            to="/"
+            to="/introduction"
             class="nav-link"
             :class="{ active: isCoreRoute }"
           >{{ labels.navCoreRules }}</RouterLink>
@@ -100,8 +100,8 @@
     <!-- Mobile drawer (visible only on mobile via NavSidebar internal CSS) -->
     <NavSidebar :mobileOpen="mobileNavOpen" @close="mobileNavOpen = false" />
 
-    <!-- Subnav: core rules links -->
-    <nav class="subnav">
+    <!-- Subnav: core rules links (hidden on the section-less landing page) -->
+    <nav v-if="!isLanding" class="subnav">
       <div class="subnav-inner">
         <RouterLink
           v-for="item in subNavItems"
@@ -122,7 +122,7 @@
 
     <!-- Mobile bottom nav — quick switch between the global sections -->
     <nav class="bottom-nav">
-      <RouterLink to="/" class="bn-item" :class="{ active: isCoreRoute }">
+      <RouterLink to="/introduction" class="bn-item" :class="{ active: isCoreRoute }">
         <i class="bi bi-book-half"></i>
         <span>{{ labels.navCoreRulesShort }}</span>
       </RouterLink>
@@ -193,7 +193,8 @@ const { navigateTo } = useRefNavigation()
 
 const labels = computed(() => ui[locale.value])
 
-const coreRoutes = ['/', '/basic-rules', '/battle-round', '/battlefields', '/advanced-rules', '/reference', '/muster']
+const coreRoutes = ['/introduction', '/basic-rules', '/battle-round', '/battlefields', '/advanced-rules', '/reference', '/muster']
+const isLanding = computed(() => route.path === '/')
 const isEventRoute = computed(() => route.path.startsWith('/event-companion'))
 const isMissionsRoute = computed(() => route.path === '/event-companion/missions')
 const isTrackerRoute = computed(() => route.path.startsWith('/tracker'))
@@ -202,7 +203,7 @@ const isCoreRoute = computed(() => !isEventRoute.value && !isTrackerRoute.value 
 const coreSubNavItems = computed(() => {
   const l = labels.value
   return [
-    { path: '/', label: l.subNavIntro },
+    { path: '/introduction', label: l.subNavIntro },
     { path: '/basic-rules', label: l.subNavBasicRules },
     { path: '/battle-round', label: l.subNavBattleRound },
     { path: '/battlefields', label: l.subNavBattlefields },

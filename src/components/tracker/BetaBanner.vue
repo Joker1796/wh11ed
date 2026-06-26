@@ -1,7 +1,7 @@
 <template>
-  <div class="alpha-banner">
+  <div class="beta-banner">
     <i class="bi bi-info-circle-fill"></i>
-    <span>{{ labels.trackerAlpha }} <a :href="'mailto:' + email">{{ email }}</a></span>
+    <span>{{ labels.trackerBeta }} <a :href="'mailto:' + email">{{ email }}</a></span>
   </div>
 </template>
 
@@ -16,7 +16,7 @@ const email = 'yas-shaman@yandex.ru'
 </script>
 
 <style scoped>
-.alpha-banner {
+.beta-banner {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -30,6 +30,6 @@ const email = 'yas-shaman@yandex.ru'
   font-weight: 600;
   text-align: center;
 }
-.alpha-banner i { font-size: 0.95rem; }
-.alpha-banner a { color: #2a2014; text-decoration: underline; font-weight: 700; }
+.beta-banner i { font-size: 0.95rem; }
+.beta-banner a { color: #2a2014; text-decoration: underline; font-weight: 700; }
 </style>
