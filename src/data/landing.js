@@ -27,6 +27,13 @@ export const landing = {
         badge: 'Beta',
         desc: 'A client-side, offline 2-player score tracker for a game of 40k — missions, secondaries, command points and per-round scoring, with optional cloud backup of finished games.',
       },
+      {
+        key: 'links',
+        label: 'Links',
+        path: '/links',
+        badge: '4 PDFs',
+        desc: 'The official Warhammer Community source documents this reference is built from — Core Rules, Event Companion, Teams Event Companion and Terrain Area Footprints.',
+      },
     ],
     footer: {
       contactLabel: 'Contact the author:',
@@ -63,6 +70,13 @@ export const landing = {
         path: '/tracker',
         badge: 'Beta',
         desc: 'Клиентский офлайн-трекер очков на 2 игроков для партии в 40k — миссии, вторичные задачи, командные очки и подсчёт по раундам, с опциональным облачным сохранением сыгранных партий.',
+      },
+      {
+        key: 'links',
+        label: 'Ссылки',
+        path: '/links',
+        badge: '4 PDF',
+        desc: 'Официальные исходные документы Warhammer Community, на которых построен справочник — Core Rules, Event Companion, Teams Event Companion и Terrain Area Footprints.',
       },
     ],
     footer: {
