@@ -147,7 +147,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, defineAsyncComponent } from 'vue'
+import { ref, computed, watch, onMounted, onUnmounted, defineAsyncComponent } from 'vue'
 import { useRoute } from 'vue-router'
 // Lazy: SearchModal pulls in useSearch.js, which imports every data file to build
 // its index. Async-loading it keeps those data files out of the initial bundle.
@@ -162,6 +162,7 @@ import { useInstallPrompt } from './composables/useInstallPrompt.js'
 import { useKeywordPopover } from './composables/useKeywordPopover.js'
 import { resolveRef, useRefNavigation } from './composables/useRefNavigation.js'
 import { useViewRestore } from './composables/useViewRestore.js'
+import { applyRouteMeta } from './composables/useSeoMeta.js'
 import { ui } from './i18n/ui.js'
 
 const route = useRoute()
@@ -180,6 +181,10 @@ function toggleMobileNav() {
   if (mobileNavOpen.value) settingsOpen.value = false
 }
 const { locale, toggleLocale } = useLocale()
+
+// Per-route <title> + meta description (read-only w.r.t. the router; hash routing unchanged).
+watch([() => route.path, locale], ([path, loc]) => applyRouteMeta(path, loc), { immediate: true })
+
 const { theme, toggleTheme } = useTheme()
 const { hideLore, toggleLore } = useLoreVisibility()
 const { canInstall, isStandalone, promptInstall } = useInstallPrompt()
