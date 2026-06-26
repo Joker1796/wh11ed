@@ -14,11 +14,14 @@
         <p class="faq-a"><span class="faq-tag a">A</span><span v-html="renderInline(item.a)"></span></p>
       </div>
     </div>
+
+    <PageNav />
   </div>
 </template>
 
 <script setup>
 import { computed } from 'vue'
+import PageNav from '../../components/PageNav.vue'
 import { getEventContent } from '../../data/eventCompanion.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'

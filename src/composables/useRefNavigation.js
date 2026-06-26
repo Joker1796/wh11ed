@@ -21,6 +21,7 @@ const EVENT_MAP = {
   missions: '/event-companion/missions',
   layouts: '/event-companion/layouts',
   pairings: '/event-companion/pairings',
+  teams: '/event-companion/teams',
   faq: '/event-companion/faq',
 }
 

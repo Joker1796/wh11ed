@@ -123,6 +123,8 @@
 
       <LayoutCard v-if="currentLayout" :layout="currentLayout" />
     </div>
+
+    <PageNav />
   </div>
 </template>
 
@@ -131,6 +133,7 @@ import { ref, computed } from 'vue'
 import DataTable from '../../components/DataTable.vue'
 import MissionMatrix from '../../components/event/MissionMatrix.vue'
 import LayoutCard from '../../components/event/LayoutCard.vue'
+import PageNav from '../../components/PageNav.vue'
 import { getEventContent } from '../../data/eventCompanion.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
