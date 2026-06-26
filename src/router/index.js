@@ -1,9 +1,11 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import LandingView from '../views/LandingView.vue'
 import HomeView from '../views/HomeView.vue'
 import { isStandaloneDisplay } from '../composables/standalone.js'
 
 // Route views are lazy-loaded so each page (and its data file) ships in its own
-// chunk, keeping the initial bundle small. HomeView stays eager — it's the landing page.
+// chunk, keeping the initial bundle small. LandingView (the project landing at "/")
+// and HomeView (the Core Rules introduction at "/introduction") stay eager.
 const BasicRulesView    = () => import('../views/BasicRulesView.vue')
 const BattleRoundView   = () => import('../views/BattleRoundView.vue')
 const BattlefieldsView  = () => import('../views/BattlefieldsView.vue')
@@ -22,7 +24,7 @@ const AuthCallbackView  = () => import('../views/tracker/AuthCallbackView.vue')
 const TrackerHistoryView = () => import('../views/tracker/TrackerHistoryView.vue')
 
 export const navGroups = [
-  { label: 'Introduction',        path: '/',               sections: [] },
+  { label: 'Introduction',        path: '/introduction',   sections: [] },
   {
     label: 'Basic Rules', path: '/basic-rules',
     sections: [
@@ -85,7 +87,7 @@ export const navGroups = [
 ]
 
 export const navGroupsRu = [
-  { label: 'Введение',                  path: '/',               sections: [] },
+  { label: 'Введение',                  path: '/introduction',   sections: [] },
   {
     label: 'Базовые правила', path: '/basic-rules',
     sections: [
@@ -229,7 +231,8 @@ export const trackerGroupsRu = [
 export const router = createRouter({
   history: createWebHashHistory(),
   routes: [
-    { path: '/',               component: HomeView },
+    { path: '/',               component: LandingView },
+    { path: '/introduction',   component: HomeView },
     { path: '/basic-rules',    component: BasicRulesView },
     { path: '/battle-round',   component: BattleRoundView },
     { path: '/battlefields',   component: BattlefieldsView },
