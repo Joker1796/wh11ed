@@ -71,6 +71,8 @@
         <TwistCard v-for="t in twists.blocks" :key="t.id" :twist="t" />
       </div>
     </section>
+
+    <PageNav />
   </div>
 </template>
 
@@ -79,6 +81,7 @@ import { ref, computed } from 'vue'
 import MissionCard from '../../components/event/MissionCard.vue'
 import TwistCard from '../../components/event/TwistCard.vue'
 import SeeAlsoBlock from '../../components/SeeAlsoBlock.vue'
+import PageNav from '../../components/PageNav.vue'
 import { getMissions } from '../../data/missions.js'
 import { eventCompanion, getEventContent } from '../../data/eventCompanion.js'
 import { ui } from '../../i18n/ui.js'

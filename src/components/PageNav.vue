@@ -14,7 +14,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { navGroups, navGroupsRu } from '../router/index.js'
+import { navGroups, navGroupsRu, eventGroups, eventGroupsRu } from '../router/index.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 
@@ -22,7 +22,12 @@ const { locale } = useLocale()
 const route = useRoute()
 
 const labels = computed(() => ui[locale.value])
-const groups = computed(() => (locale.value === 'ru' ? navGroupsRu : navGroups))
+// Pick the group set matching the current section so one component serves both.
+const groups = computed(() => {
+  const ru = locale.value === 'ru'
+  if (route.path.startsWith('/event-companion')) return ru ? eventGroupsRu : eventGroups
+  return ru ? navGroupsRu : navGroups
+})
 
 const idx = computed(() => groups.value.findIndex(g => g.path === route.path))
 const prev = computed(() => (idx.value > 0 ? groups.value[idx.value - 1] : null))

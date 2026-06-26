@@ -116,6 +116,13 @@ const ROUTES = {
       ru: 'Составление пар и ранжирование игроков на турнирах, приложение правил, эррата и FAQ — Warhammer 40,000 Event Companion.',
     },
   },
+  '/event-companion/teams': {
+    title: { en: 'Teams Event — Event Companion', ru: 'Командный ивент — Event Companion' },
+    description: {
+      en: 'Running a Warhammer 40,000 Teams Event: team composition, the pairing system (Initial Skirmish, Main Engagement, Champion System) and team scoring.',
+      ru: 'Проведение командного ивента Warhammer 40,000: состав команды, система паринга (Initial Skirmish, Main Engagement, Champion System) и командный подсчёт.',
+    },
+  },
   '/event-companion/faq': {
     title: { en: 'Errata & FAQs — Event Companion', ru: 'Эррата и FAQ — Event Companion' },
     description: {

@@ -26,12 +26,15 @@
         :see-also="block.seeAlso"
       />
     </template>
+
+    <PageNav />
   </div>
 </template>
 
 <script setup>
 import { computed } from 'vue'
 import RuleBlock from '../../components/RuleBlock.vue'
+import PageNav from '../../components/PageNav.vue'
 import { getEventContent } from '../../data/eventCompanion.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
