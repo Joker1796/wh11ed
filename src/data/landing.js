@@ -28,6 +28,14 @@ export const landing = {
         desc: 'A client-side, offline 2-player score tracker for a game of 40k — missions, secondaries, command points and per-round scoring, with optional cloud backup of finished games.',
       },
     ],
+    footer: {
+      contactLabel: 'Contact the author:',
+      thanksLabel: 'Acknowledgements:',
+      thanks: [
+        { label: 'Translation help:', who: 'Nikita Lukin and Yuri Avakumov' },
+        { label: 'Testing help:', who: 'members of the «Кочующий стол» club' },
+      ],
+    },
   },
 
   ru: {
@@ -57,5 +65,13 @@ export const landing = {
         desc: 'Клиентский офлайн-трекер очков на 2 игроков для партии в 40k — миссии, вторичные задачи, командные очки и подсчёт по раундам, с опциональным облачным сохранением сыгранных партий.',
       },
     ],
+    footer: {
+      contactLabel: 'Связаться с автором:',
+      thanksLabel: 'Благодарности:',
+      thanks: [
+        { label: 'За помощь в переводе:', who: 'Никите Лукину и Юрию Авакумову' },
+        { label: 'За помощь в тестировании:', who: 'участникам клуба «Кочующий стол»' },
+      ],
+    },
   },
 }
