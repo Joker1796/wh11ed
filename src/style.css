@@ -78,6 +78,16 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Visible keyboard focus across the app. Only shows for keyboard/AT users (`:focus-visible`),
+   never on mouse click, so it doesn't add chrome for pointer users. Components that focus a
+   non-interactive container programmatically (e.g. BaseModal's dialog root) suppress it with
+   their own `:focus { outline: none }`. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
 body {
   font-family: var(--font-sans);
   background-color: var(--bg-primary);

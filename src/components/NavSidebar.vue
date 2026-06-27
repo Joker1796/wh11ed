@@ -1,11 +1,11 @@
 <template>
-  <nav class="sidebar" :class="{ open: mobileOpen }" aria-label="Navigation">
+  <nav class="sidebar" :class="{ open: mobileOpen }" :aria-label="labels.ariaNavigation">
     <div class="sidebar-header">
       <div class="sidebar-brand">
         <span class="sidebar-logo">WH40K</span>
         <span class="sidebar-subtitle">Core Rules 11th Ed.</span>
       </div>
-      <button class="mobile-close" @click="$emit('close')" aria-label="Close menu">✕</button>
+      <button class="mobile-close" @click="$emit('close')" :aria-label="labels.ariaCloseMenu">✕</button>
     </div>
 
     <div class="nav-groups">
@@ -22,7 +22,7 @@
             class="nav-section-toggle"
             @click="toggleSection(section.key)"
             :aria-expanded="openSection === section.key"
-            aria-label="Toggle section"
+            :aria-label="labels.ariaToggleSection"
           >
             <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
               <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -46,7 +46,7 @@
                   :class="{ expanded: expandedPath === group.path }"
                   @click="toggleGroupExpand(group)"
                   :aria-expanded="expandedPath === group.path"
-                  aria-label="Toggle subsections"
+                  :aria-label="labels.ariaToggleSubsections"
                 >
                   <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
                     <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>

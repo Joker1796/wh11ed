@@ -1,6 +1,6 @@
 <template>
-  <nav class="toc" aria-label="Page contents">
-    <div class="toc-header">Contents</div>
+  <nav class="toc" :aria-label="labels.ariaPageContents">
+    <div class="toc-header">{{ labels.contentsHeading }}</div>
     <ul class="toc-list">
       <li v-for="sec in sections" :key="sec.id">
         <a class="toc-link" :href="'#' + sec.id" @click.prevent="scrollTo(sec.id)">
@@ -13,12 +13,19 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
+import { ui } from '../i18n/ui.js'
+import { useLocale } from '../composables/useLocale.js'
+
 defineProps({
   sections: {
     type: Array,
     required: true,
   },
 })
+
+const { locale } = useLocale()
+const labels = computed(() => ui[locale.value])
 
 function scrollTo(id) {
   const el = document.getElementById(id)
