@@ -39,6 +39,7 @@ watch(status, (s) => {
   left: 50%;
   bottom: calc(1rem + var(--safe-bottom, 0px));
   transform: translateX(-50%);
+  /* mobile (≤900px) overridden below to sit above the fixed bottom-nav */
   z-index: 390;
   display: flex;
   align-items: center;
@@ -90,5 +91,12 @@ watch(status, (s) => {
 .owt-slide-leave-to {
   opacity: 0;
   transform: translate(-50%, 1rem);
+}
+
+/* On mobile the fixed bottom-nav (~4.5rem) is shown — lift the toast above it. */
+@media (max-width: 900px) {
+  .warmup-toast {
+    bottom: calc(5.25rem + var(--safe-bottom, 0px));
+  }
 }
 </style>
