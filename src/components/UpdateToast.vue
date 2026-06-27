@@ -31,7 +31,25 @@ const pwaInstalled =
 // registerType is 'prompt' (vite.config.js): the SW activates only when the user
 // clicks Update. needRefresh flips to true once a new SW has finished installing in
 // the background; updateServiceWorker(true) applies it and reloads the page.
-const { needRefresh, updateServiceWorker } = useRegisterSW()
+//
+// By default the SW is only checked for updates at registration (app start), so a
+// long-lived session (a kept-open tab or an installed PWA resumed from background)
+// never learns about a new deploy. Poll hourly AND whenever the app returns to the
+// foreground so updates reach those sessions without a manual relaunch.
+const UPDATE_CHECK_MS = 60 * 60 * 1000 // hourly
+
+const { needRefresh, updateServiceWorker } = useRegisterSW({
+  onRegisteredSW(_swUrl, registration) {
+    if (!registration) return
+    const check = () => {
+      if (navigator.onLine) registration.update().catch(() => {})
+    }
+    setInterval(check, UPDATE_CHECK_MS)
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') check()
+    })
+  },
+})
 
 // Only the installed PWA shows the manual "Update" prompt (so we never auto-reload a
 // standalone app mid-game). In a normal browser tab, apply the update silently and
