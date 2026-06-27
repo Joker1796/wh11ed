@@ -1,11 +1,39 @@
+import { readdirSync } from 'node:fs'
+import { join } from 'node:path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { VitePWA } from 'vite-plugin-pwa'
+
+// Emit `image-manifest.json` (the list of every `/images/**` URL) into the build.
+// Images are NOT precached anymore (they're runtime-cached, CacheFirst — see the PWA
+// config below); the installed app reads this manifest to "warm" the offline cache after
+// install (src/composables/useOfflineWarmup.js). Walks public/images, where files keep
+// stable (non-hashed) names, so the emitted URLs match what the app requests at runtime.
+function imageManifest() {
+  const walk = (dir, base = '/images') => {
+    const out = []
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      const url = `${base}/${entry.name}`
+      if (entry.isDirectory()) out.push(...walk(join(dir, entry.name), url))
+      else out.push(url)
+    }
+    return out
+  }
+  return {
+    name: 'wh11ed-image-manifest',
+    apply: 'build',
+    generateBundle() {
+      const files = walk('public/images').sort()
+      this.emitFile({ type: 'asset', fileName: 'image-manifest.json', source: JSON.stringify(files) })
+    },
+  }
+}
 
 export default defineConfig({
   base: '/',
   plugins: [
     vue(),
+    imageManifest(),
     VitePWA({
       // 'prompt' (not 'autoUpdate'): a new version is downloaded in the background
       // but only applied when the user clicks "Update" in UpdateToast.vue — so we
@@ -67,13 +95,32 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // Full offline: precache the app shell, all rules data (in JS) AND every image.
-        globPatterns: ['**/*.{js,css,html,svg,png,webp,woff2}'],
-        maximumFileSizeToCacheInBytes: 3 * 1024 * 1024, // largest webp ~0.5 MB
+        // Precache ONLY the app shell (JS/CSS/HTML/SVG, self-hosted fonts, and the small
+        // root PWA icons) — NOT the ~27 MB of `/images/**`. This keeps the web/tab version
+        // light: a casual visitor downloads only the shell and lazily caches images as they
+        // browse (runtimeCaching below). Full offline is for the INSTALLED app, reached by
+        // warming the image cache after install (useOfflineWarmup.js + image-manifest.json).
+        globPatterns: ['**/*.{js,css,html,svg,woff2,png}'],
+        globIgnores: ['**/images/**'], // images are runtime-cached, not precached
+        maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
         cleanupOutdatedCaches: true,
         navigateFallback: '/index.html',
-        // Fonts (Inter, EB Garamond) and bootstrap-icons are now self-hosted (src/fonts.js)
-        // and precached via globPatterns (woff2), so no external-CDN runtimeCaching is needed.
+        // Images (stable, non-hashed names) — CacheFirst. A tab caches them on demand as the
+        // user views them; the installed app's warm-up fetches all of them up front. Because
+        // names are stable, a changed image must be renamed (same rule as before) or the old
+        // cached copy is served. cleanupOutdatedCaches does NOT purge this cache; maxEntries
+        // bounds its growth (287 image files today — keep generous headroom).
+        runtimeCaching: [
+          {
+            urlPattern: ({ url }) => url.pathname.startsWith('/images/'),
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'wh11ed-images',
+              expiration: { maxEntries: 600, maxAgeSeconds: 60 * 60 * 24 * 365 },
+              cacheableResponse: { statuses: [0, 200] },
+            },
+          },
+        ],
       },
     }),
   ],
