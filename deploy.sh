@@ -4,17 +4,23 @@
 #
 # Requires the S3-compatible AWS CLI configured with a Yandex static access key:
 #   aws configure --profile yc      # key id + secret from a service account
-# and (optional) `yc` CLI for CDN purge.
+# and the `yc` CLI (CDN purge runs automatically after upload — see CDN_RESOURCE_ID).
 #
 # Usage:
-#   BUCKET=s3://wh11ed.ru CDN_RESOURCE_ID=bc8xxxx ./deploy.sh
+#   ./deploy.sh                       # build, upload, auto-purge prod CDN
+#   CDN_RESOURCE_ID= ./deploy.sh      # skip the CDN purge
 #
 set -euo pipefail
 
 BUCKET="${BUCKET:-s3://wh11ed.ru}"
 ENDPOINT="https://storage.yandexcloud.net"
 AWS_PROFILE="${AWS_PROFILE:-yc}"
-CDN_RESOURCE_ID="${CDN_RESOURCE_ID:-}"
+# Prod CDN resource — purge runs automatically after every deploy (a stale edge
+# copy of sw.js/index.html otherwise blocks updates from ever reaching clients).
+# Override with another id, or set CDN_RESOURCE_ID= (empty) to skip the purge.
+CDN_RESOURCE_ID="${CDN_RESOURCE_ID-bc8raqgpcdeagfb6ygn6}"
+# `yc` isn't always on PATH; the default Yandex installer drops it under ~/yandex-cloud/bin.
+YC_BIN="${YC_BIN:-$(command -v yc || echo "$HOME/yandex-cloud/bin/yc")}"
 
 aws() { command aws --endpoint-url="$ENDPOINT" --profile "$AWS_PROFILE" "$@"; }
 
@@ -103,11 +109,17 @@ if [ -f "dist/index.html" ]; then
 fi
 
 # 4) Drop the CDN edge copy of the entry point (and anything stale).
+#    `if …; then` so a purge failure warns instead of aborting (the upload is done).
 if [ -n "$CDN_RESOURCE_ID" ]; then
   echo "▶ Purging CDN $CDN_RESOURCE_ID"
-  yc cdn cache purge --resource-id "$CDN_RESOURCE_ID" --path "/*"
+  if "$YC_BIN" cdn cache purge --resource-id "$CDN_RESOURCE_ID" --path "/*"; then
+    echo "  CDN purged"
+  else
+    echo "⚠ CDN purge failed (yc: $YC_BIN). Purge manually:"
+    echo "    yc cdn cache purge --resource-id $CDN_RESOURCE_ID --path '/*'"
+  fi
 else
-  echo "⚠ CDN_RESOURCE_ID not set — purge the CDN cache manually for / and /index.html"
+  echo "⚠ CDN_RESOURCE_ID empty — skipping purge; do it manually for / and /index.html"
 fi
 
 echo "✔ Done."
