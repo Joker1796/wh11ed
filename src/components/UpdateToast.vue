@@ -52,7 +52,7 @@ watch(needRefresh, (ready) => {
   align-items: center;
   gap: 0.6rem;
   padding: 0.7rem 1rem;
-  padding-top: calc(0.7rem + env(safe-area-inset-top));
+  padding-top: calc(0.7rem + var(--safe-top));
   background: var(--bg-card);
   border-bottom: 1px solid var(--border);
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
