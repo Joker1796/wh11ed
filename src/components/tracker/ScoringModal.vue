@@ -1,16 +1,17 @@
 <template>
-  <div class="modal-overlay" @click.self="$emit('close')">
-    <div class="modal" role="dialog" aria-modal="true">
-      <header class="modal-head">
-        <div class="mh-text">
-          <h3 class="mh-title">{{ title }}</h3>
-          <p v-if="subtitle" class="mh-sub">{{ subtitle }}</p>
-        </div>
-        <div class="mh-right">
-          <span class="mh-vp">{{ vp }} VP</span>
-          <button class="mh-close" @click="$emit('close')" aria-label="Close">✕</button>
-        </div>
-      </header>
+  <BaseModal max-width="480px" @close="$emit('close')">
+      <template #header>
+        <header class="modal-head">
+          <div class="mh-text">
+            <h3 class="mh-title">{{ title }}</h3>
+            <p v-if="subtitle" class="mh-sub">{{ subtitle }}</p>
+          </div>
+          <div class="mh-right">
+            <span class="mh-vp">{{ vp }} VP</span>
+            <button class="mh-close" @click="$emit('close')" :aria-label="labels.modalClose">✕</button>
+          </div>
+        </header>
+      </template>
 
       <div class="modal-body">
         <MissionBriefing :briefing="briefing" />
@@ -49,12 +50,12 @@
       </div>
 
       <footer v-if="note" class="modal-foot">{{ note }}</footer>
-    </div>
-  </div>
+  </BaseModal>
 </template>
 
 <script setup>
-import { computed, onMounted, onUnmounted } from 'vue'
+import { computed } from 'vue'
+import BaseModal from '../BaseModal.vue'
 import NumberStepper from './NumberStepper.vue'
 import MissionBriefing from '../MissionBriefing.vue'
 import { ui } from '../../i18n/ui.js'
@@ -70,38 +71,12 @@ defineProps({
   briefing: { type: Array, default: null },   // mission.briefing — shown above the blocks
   whenDrawn: { type: Object, default: null }, // { mode:'discard'|'shuffle' } — WHEN DRAWN redraw button, or null
 })
-const emit = defineEmits(['set', 'close', 'redraw'])
+defineEmits(['set', 'close', 'redraw'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-
-function onKey(e) { if (e.key === 'Escape') emit('close') }
-onMounted(() => window.addEventListener('keydown', onKey))
-onUnmounted(() => window.removeEventListener('keydown', onKey))
 </script>
 
 <style scoped>
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 400;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-}
-.modal {
-  width: 100%;
-  max-width: 480px;
-  max-height: 85vh;
-  display: flex;
-  flex-direction: column;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
-  overflow: hidden;
-}
 .modal-head {
   display: flex;
   align-items: flex-start;
@@ -165,9 +140,5 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
   border-top: 1px solid var(--border);
   font-size: 0.74rem;
   color: var(--text-dim);
-}
-@media (max-width: 560px) {
-  .modal-overlay { padding: 0; align-items: flex-end; }
-  .modal { max-width: 100%; max-height: 92vh; border-radius: 12px 12px 0 0; }
 }
 </style>
