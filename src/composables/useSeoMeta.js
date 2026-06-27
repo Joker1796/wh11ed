@@ -23,13 +23,18 @@ const DEFAULT = {
   },
 }
 
-// The "/" landing page — overview of the whole project (all three sections).
+// The "/" landing page — overview of the whole project (all three sections). This is the
+// only route crawlers index (hash routing), so it carries the primary keywords: the brand in
+// both scripts (Warhammer / Вархаммер), "11-я редакция" and "на русском" for RU queries.
 const LANDING = {
   title: {
     en: 'Warhammer 40,000 11th Edition — Rules, Event Companion & Tracker',
-    ru: 'Warhammer 40,000 11-й редакции — правила, Event Companion и трекер',
+    ru: 'Warhammer 40,000 (Вархаммер) 11-я редакция — правила на русском',
   },
-  description: DEFAULT.description,
+  description: {
+    en: 'Bilingual (EN/RU) interactive reference for the Warhammer 40,000 11th Edition Core Rules and Event Companion — searchable, offline-capable, free.',
+    ru: 'Справочник по правилам Warhammer 40 000 (Вархаммер) 11-й редакции на русском: основные правила, раунд боя, миссии и стратагемы, трекер очков. С поиском, офлайн, бесплатно.',
+  },
 }
 
 // path → { title:{en,ru}, description:{en,ru} }. `title` here is the page-name prefix;
