@@ -1,12 +1,11 @@
 <template>
   <div class="search-overlay" @click.self="$emit('close')">
-    <div class="search-box" role="dialog" aria-modal="true" :aria-label="labels.ariaSearchDialog">
+    <div ref="boxEl" class="search-box" role="dialog" aria-modal="true" :aria-label="labels.ariaSearchDialog" tabindex="-1">
       <div class="search-input-wrap">
         <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
         </svg>
         <input
-          ref="inputEl"
           v-model="query"
           type="text"
           :placeholder="labels.searchPlaceholder"
@@ -50,17 +49,18 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, nextTick, onMounted } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { search, highlightMatch } from '../composables/useSearch.js'
 import { useRefNavigation } from '../composables/useRefNavigation.js'
 import { useLocale } from '../composables/useLocale.js'
+import { useModalA11y } from '../composables/useModalA11y.js'
 import { ui } from '../i18n/ui.js'
 
 const emit = defineEmits(['close'])
 const { navigateTo } = useRefNavigation()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const inputEl = ref(null)
+const boxEl = ref(null)
 const query = ref('')
 const selectedIndex = ref(0)
 
@@ -68,9 +68,9 @@ const results = computed(() => search(query.value, locale.value))
 
 watch(query, () => { selectedIndex.value = 0 })
 
-onMounted(() => {
-  nextTick(() => inputEl.value?.focus())
-})
+// Focus-trap + restore-focus-to-trigger, with initial focus on the search input. (The
+// command-palette shell stays bespoke — BaseModal's centered/bottom-sheet layout doesn't fit.)
+useModalA11y(boxEl, () => emit('close'), { initialFocus: '.search-input' })
 
 function moveSelection(dir) {
   const len = results.value.length
