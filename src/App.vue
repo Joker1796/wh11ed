@@ -80,9 +80,9 @@
                 <span>{{ hideLore ? labels.loreShow : labels.loreHide }}</span>
               </button>
               <button
-                v-if="canInstall && !isStandalone"
+                v-if="(canInstall || iosInstall) && !isStandalone"
                 class="settings-item"
-                @click="promptInstall"
+                @click="onInstallClick"
               >
                 <i class="bi bi-download"></i>
                 <span>{{ labels.installApp }}</span>
@@ -146,6 +146,7 @@
     </nav>
 
     <SearchModal v-if="searchOpen" @close="searchOpen = false" />
+    <InstallHintModal v-if="installHintOpen" @close="installHintOpen = false" />
     <KeywordPopover />
     <UpdateToast />
   </div>
@@ -157,6 +158,7 @@ import { useRoute } from 'vue-router'
 // Lazy: SearchModal pulls in useSearch.js, which imports every data file to build
 // its index. Async-loading it keeps those data files out of the initial bundle.
 const SearchModal = defineAsyncComponent(() => import('./components/SearchModal.vue'))
+const InstallHintModal = defineAsyncComponent(() => import('./components/InstallHintModal.vue'))
 import KeywordPopover from './components/KeywordPopover.vue'
 import NavSidebar from './components/NavSidebar.vue'
 import UpdateToast from './components/UpdateToast.vue'
@@ -175,6 +177,7 @@ useViewRestore() // PWA-only: remember & restore the last page + in-view section
 const mobileNavOpen = ref(false)
 const searchOpen = ref(false)
 const settingsOpen = ref(false)
+const installHintOpen = ref(false)
 
 function toggleSettings() {
   settingsOpen.value = !settingsOpen.value
@@ -192,7 +195,15 @@ watch([() => route.path, locale], ([path, loc]) => applyRouteMeta(path, loc), { 
 
 const { theme, toggleTheme } = useTheme()
 const { hideLore, toggleLore } = useLoreVisibility()
-const { canInstall, isStandalone, promptInstall } = useInstallPrompt()
+const { canInstall, isStandalone, iosInstall, promptInstall } = useInstallPrompt()
+
+// Chromium fires `beforeinstallprompt` → native prompt; iOS Safari has none →
+// show the "Add to Home Screen" how-to instead.
+function onInstallClick() {
+  settingsOpen.value = false
+  if (canInstall.value) promptInstall()
+  else if (iosInstall.value) installHintOpen.value = true
+}
 const { open: openKeyword, close: closeKeyword } = useKeywordPopover()
 const { navigateTo } = useRefNavigation()
 
