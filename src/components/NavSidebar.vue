@@ -180,6 +180,8 @@ async function handleAnchorClick(path, id, filter) {
     width: var(--sidebar-width);
     max-width: 85vw;
     height: 100dvh;
+    /* Keep the drawer header below the iOS translucent status bar */
+    padding-top: var(--safe-top);
     background: var(--bg-secondary);
     border-left: 1px solid var(--border);
     z-index: 300;

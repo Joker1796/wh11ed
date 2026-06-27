@@ -153,6 +153,8 @@ function navigate(item) {
 .search-results {
   max-height: 420px;
   overflow-y: auto;
+  /* Don't chain the result-list scroll to the page behind (iOS rubber-band) */
+  overscroll-behavior: contain;
 }
 
 .search-empty {
@@ -246,6 +248,10 @@ function navigate(item) {
     max-width: none;
     display: flex;
     flex-direction: column;
+    /* Full-screen sheet: keep the input row below the iOS status bar and the
+       last result above the home indicator. */
+    padding-top: var(--safe-top);
+    padding-bottom: var(--safe-bottom);
   }
 
   .search-input {
