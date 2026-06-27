@@ -1,36 +1,17 @@
 import { onMounted, onBeforeUnmount } from 'vue'
 
 // Shared modal accessibility: Escape-to-close, a Tab focus trap, initial focus into the
-// dialog, focus restore to the trigger on close, and a (nest-safe) body scroll lock.
-// Pass the dialog root element ref and a close callback.
+// dialog, and focus restore to the trigger on close. Pass the dialog root element ref and
+// a close callback.
+//
+// Deliberately NO body scroll lock: on iOS Safari `body{overflow:hidden}` resets the scroll
+// position (the page jumps/sticks to the top on open/close) and doesn't reliably lock anyway.
+// Background scroll-chaining is already contained by `.modal-body { overscroll-behavior:
+// contain }` in style.css, which is the iOS-safe approach.
 
 const FOCUSABLE =
   'a[href],area[href],button:not([disabled]),input:not([disabled]),' +
   'select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'
-
-// Body scroll lock is reference-counted so stacked modals don't unlock prematurely.
-let lockCount = 0
-let savedOverflow = ''
-let savedPadRight = ''
-function lockScroll() {
-  if (lockCount === 0) {
-    const sbw = window.innerWidth - document.documentElement.clientWidth
-    savedOverflow = document.body.style.overflow
-    savedPadRight = document.body.style.paddingRight
-    document.body.style.overflow = 'hidden'
-    // Compensate for the vanishing scrollbar so the page doesn't shift (skip the bogus
-    // width jsdom reports in tests).
-    if (sbw > 0 && sbw < 40) document.body.style.paddingRight = `${sbw}px`
-  }
-  lockCount++
-}
-function unlockScroll() {
-  lockCount = Math.max(0, lockCount - 1)
-  if (lockCount === 0) {
-    document.body.style.overflow = savedOverflow
-    document.body.style.paddingRight = savedPadRight
-  }
-}
 
 export function useModalA11y(rootRef, onClose) {
   let prevActive = null
@@ -73,14 +54,12 @@ export function useModalA11y(rootRef, onClose) {
   onMounted(() => {
     prevActive = document.activeElement
     window.addEventListener('keydown', onKey)
-    lockScroll()
     // Move focus into the dialog so keyboard/screen-reader users land inside it.
     requestAnimationFrame(() => rootRef.value?.focus?.())
   })
 
   onBeforeUnmount(() => {
     window.removeEventListener('keydown', onKey)
-    unlockScroll()
     if (prevActive && typeof prevActive.focus === 'function') prevActive.focus()
   })
 }
