@@ -18,9 +18,12 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
-import GameSetup from '../../components/tracker/GameSetup.vue'
+// Async: GameSetup pulls in the faction/detachment dataset (mfmFactions.js, ~290 KB via
+// trackerFactions.js). It's only shown in the setup phase, so loading it lazily keeps that
+// data out of the playing/finished screens (RoundTracker, ScoreBreakdown).
+const GameSetup = defineAsyncComponent(() => import('../../components/tracker/GameSetup.vue'))
 import RoundTracker from '../../components/tracker/RoundTracker.vue'
 import ScoreBoard from '../../components/tracker/ScoreBoard.vue'
 import ScoreBreakdown from '../../components/tracker/ScoreBreakdown.vue'

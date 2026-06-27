@@ -278,7 +278,8 @@ import { resolveLayout } from '../../composables/trackerLayout.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { eventCompanion, getEventContent } from '../../data/eventCompanion.js'
-import { useTracker, FACTIONS, FACTION_GROUPS, DISPOSITIONS, BATTLE_SIZES, MIRROR_MISSIONS, derivePrimary, missionBySlug, detachmentsFor, detachmentInfo, fixedPool, dispositionName } from '../../composables/useTracker.js'
+import { useTracker, DISPOSITIONS, BATTLE_SIZES, MIRROR_MISSIONS, derivePrimary, missionBySlug, fixedPool, dispositionName } from '../../composables/useTracker.js'
+import { FACTIONS, FACTION_GROUPS, detachmentsFor, detachmentInfo } from '../../composables/trackerFactions.js'
 
 const emit = defineEmits(['start', 'cancel'])
 const { locale } = useLocale()
