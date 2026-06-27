@@ -33,7 +33,7 @@ const LANDING = {
   },
   description: {
     en: 'Bilingual (EN/RU) interactive reference for the Warhammer 40,000 11th Edition Core Rules and Event Companion — searchable, offline-capable, free.',
-    ru: 'Справочник по правилам Warhammer 40 000 (Вархаммер) 11-й редакции на русском: основные правила, раунд боя, миссии и стратагемы, трекер очков. С поиском, офлайн, бесплатно.',
+    ru: 'Справочник по правилам Warhammer 40 000 (Вархаммер) 11-й редакции на русском: основные правила, миссии и стратагемы, трекер очков. С поиском, офлайн, бесплатно.',
   },
 }
 
