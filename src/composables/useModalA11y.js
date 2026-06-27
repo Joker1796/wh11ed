@@ -13,7 +13,9 @@ const FOCUSABLE =
   'a[href],area[href],button:not([disabled]),input:not([disabled]),' +
   'select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'
 
-export function useModalA11y(rootRef, onClose) {
+// opts.initialFocus: a CSS selector for the element to focus on open (e.g. a search input).
+// Defaults to the dialog root, which is the right target for most dialogs.
+export function useModalA11y(rootRef, onClose, opts = {}) {
   let prevActive = null
 
   function focusables() {
@@ -54,8 +56,12 @@ export function useModalA11y(rootRef, onClose) {
   onMounted(() => {
     prevActive = document.activeElement
     window.addEventListener('keydown', onKey)
-    // Move focus into the dialog so keyboard/screen-reader users land inside it.
-    requestAnimationFrame(() => rootRef.value?.focus?.())
+    // Move focus into the dialog so keyboard/screen-reader users land inside it — onto the
+    // requested initial element if given (e.g. a search input), else the dialog root.
+    requestAnimationFrame(() => {
+      const target = opts.initialFocus && rootRef.value?.querySelector(opts.initialFocus)
+      ;(target || rootRef.value)?.focus?.()
+    })
   })
 
   onBeforeUnmount(() => {

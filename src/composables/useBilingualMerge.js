@@ -17,12 +17,19 @@ export function localizeImageSrc(src) {
   return src.replace(/\.(png|jpg)$/, '-ru.$1')
 }
 
+// `sub` here is the already-merged subsection/child, so `sub.title` is the RU title.
 function localizeSubImages(sub) {
   let out = sub
   for (const field of IMAGE_FIELDS) {
-    if (out[field]?.src) {
+    const img = out[field]
+    if (img?.src) {
       if (out === sub) out = { ...sub }
-      out[field] = { ...out[field], src: localizeImageSrc(out[field].src) }
+      const localized = { ...img, src: localizeImageSrc(img.src) }
+      // Localize the alt too: reuse the (already-translated) RU subsection title so diagram
+      // labels carry canonical terminology from the data instead of the English alt. Only
+      // for meaningful images (those that had an alt) when a title is available.
+      if (img.alt && out.title) localized.alt = out.title
+      out[field] = localized
     }
   }
   return out
