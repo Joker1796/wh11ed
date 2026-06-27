@@ -31,6 +31,13 @@
   --subnav-height: 40px;
   --header-total: 96px;
   --sidebar-width: 280px;
+  /* iOS safe-area insets (notch / Dynamic Island / home indicator).
+     Single source of truth — fixed overlays each apply these to their own
+     content since `position:fixed; inset:0` ignores any body padding. */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
 }
 
 :root[data-theme='dark'] {
@@ -365,6 +372,22 @@ strong {
   /* Event/view heroes set their own h1 size via scoped styles (higher specificity),
      so override them here for small screens. */
   .view-hero h1 { font-size: 1.6rem !important; }
+}
+
+/* iOS safe-area: every tracker dialog shares the `.modal-overlay > .modal`
+   bottom-sheet pattern on phones (flush to the bottom edge). One global rule
+   keeps their footer / last row above the home indicator — no per-modal edit. */
+@media (max-width: 560px) {
+  .modal-overlay > .modal {
+    padding-bottom: var(--safe-bottom);
+  }
+}
+
+/* iOS: keep a modal's inner scroll from chaining to the page behind it
+   (rubber-band drag past the end of the list). `.modal-body` is the shared
+   scroll container across every tracker dialog. */
+.modal-body {
+  overscroll-behavior: contain;
 }
 
 /* "Hide lore" mode — hides non-rules flavour text */

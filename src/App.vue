@@ -286,7 +286,7 @@ onUnmounted(() => {
 
 <style scoped>
 .app-layout {
-  min-height: 100vh;
+  min-height: 100dvh;
   background: var(--bg-primary);
 }
 
@@ -297,7 +297,10 @@ onUnmounted(() => {
   z-index: 200;
   background: var(--bg-insert);
   border-bottom: 1px solid rgba(255,255,255,0.06);
-  height: var(--navbar-height);
+  /* Extend under the iOS translucent status bar (viewport-fit=cover) and pad
+     the content down so the menu never overlaps the battery/clock. */
+  height: calc(var(--navbar-height) + var(--safe-top));
+  padding-top: var(--safe-top);
 }
 
 .navbar-inner {
@@ -583,7 +586,7 @@ onUnmounted(() => {
 /* ── Subnav ── */
 .subnav {
   position: sticky;
-  top: var(--navbar-height);
+  top: calc(var(--navbar-height) + var(--safe-top));
   z-index: 190;
   background: var(--bg-secondary);
   border-bottom: 1px solid var(--border);
@@ -655,7 +658,8 @@ onUnmounted(() => {
 /* ── Mobile ── */
 @media (max-width: 900px) {
   .navbar-inner {
-    padding: 0 1rem;
+    /* +side insets so the logo/hamburger clear the landscape notch */
+    padding: 0 calc(1rem + var(--safe-right)) 0 calc(1rem + var(--safe-left));
     gap: 0.75rem;
   }
 
@@ -710,7 +714,7 @@ onUnmounted(() => {
   }
 
   .main-content {
-    padding: 0 1rem calc(4.5rem + env(safe-area-inset-bottom));
+    padding: 0 calc(1rem + var(--safe-right)) calc(4.5rem + var(--safe-bottom)) calc(1rem + var(--safe-left));
   }
 
   .bottom-nav {
@@ -722,7 +726,9 @@ onUnmounted(() => {
     z-index: 200;
     background: var(--bg-insert);
     border-top: 1px solid rgba(255, 255, 255, 0.08);
-    padding-bottom: env(safe-area-inset-bottom);
+    padding-bottom: var(--safe-bottom);
+    padding-left: var(--safe-left);
+    padding-right: var(--safe-right);
   }
 
   .bn-item {
