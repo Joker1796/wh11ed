@@ -76,6 +76,10 @@
 
 html {
   scroll-behavior: smooth;
+  /* Kill phantom horizontal scroll from the off-canvas mobile drawer (NavSidebar is
+     position:fixed + translateX(100%) when closed, so only the root can clip it). `clip`
+     (not `hidden`) does NOT create a scroll container, so it preserves the sticky navbar/subnav. */
+  overflow-x: clip;
 }
 
 /* Visible keyboard focus across the app. Only shows for keyboard/AT users (`:focus-visible`),
