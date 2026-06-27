@@ -44,29 +44,23 @@
     />
 
     <!-- Picker: choose a specific Secondary from the remaining deck -->
-    <div v-if="pickerOpen" class="modal-overlay" @click.self="pickerOpen = false">
-      <div class="modal" role="dialog" aria-modal="true">
-        <header class="modal-head">
-          <h3 class="mh-title">{{ labels.trackerPickTitle }}</h3>
-          <button class="mh-close" @click="pickerOpen = false" :aria-label="labels.modalClose">✕</button>
-        </header>
-        <div class="modal-body">
-          <ul v-if="deckMissions.length" class="pick-list">
-            <li v-for="m in deckMissions" :key="m.slug">
-              <button class="pick-item" @click="onPick(m.slug)">
-                <span class="pick-name">{{ m.name }}</span>
-                <span class="pick-cat">{{ m.category }}</span>
-              </button>
-            </li>
-          </ul>
-          <p v-else class="pick-empty">{{ labels.trackerNoMoreCards }}</p>
-        </div>
+    <BaseModal v-if="pickerOpen" :title="labels.trackerPickTitle" max-width="420px" @close="pickerOpen = false">
+      <div class="modal-body">
+        <ul v-if="deckMissions.length" class="pick-list">
+          <li v-for="m in deckMissions" :key="m.slug">
+            <button class="pick-item" @click="onPick(m.slug)">
+              <span class="pick-name">{{ m.name }}</span>
+              <span class="pick-cat">{{ m.category }}</span>
+            </button>
+          </li>
+        </ul>
+        <p v-else class="pick-empty">{{ labels.trackerNoMoreCards }}</p>
       </div>
-    </div>
+    </BaseModal>
 
     <!-- Per-card actions: set aside (keep VP) or return to deck (full undo) -->
-    <div v-if="actionMission" class="modal-overlay" @click.self="actionSlug = null">
-      <div class="modal modal-sm" role="dialog" aria-modal="true">
+    <BaseModal v-if="actionMission" max-width="340px" @close="actionSlug = null">
+      <template #header>
         <header class="modal-head">
           <div class="mh-text">
             <h3 class="mh-title">{{ actionMission.name }}</h3>
@@ -74,18 +68,19 @@
           </div>
           <button class="mh-close" @click="actionSlug = null" :aria-label="labels.modalClose">✕</button>
         </header>
-        <div class="modal-body act-list">
-          <button class="act-btn" @click="onSetAside(actionMission.slug)">{{ labels.trackerSetAside }}</button>
-          <button class="act-btn act-danger" @click="onReturn(actionMission.slug)">{{ labels.trackerReturnToDeck }}</button>
-        </div>
+      </template>
+      <div class="modal-body act-list">
+        <button class="act-btn" @click="onSetAside(actionMission.slug)">{{ labels.trackerSetAside }}</button>
+        <button class="act-btn act-danger" @click="onReturn(actionMission.slug)">{{ labels.trackerReturnToDeck }}</button>
       </div>
-    </div>
+    </BaseModal>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed } from 'vue'
 import ScoringModal from './ScoringModal.vue'
+import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker, missionBySlug, scorableBlocks } from '../../composables/useTracker.js'
@@ -157,12 +152,6 @@ function onDraw() { drawSecondary(props.pi) }
 function onPick(slug) { drawSpecificSecondary(props.pi, slug); pickerOpen.value = false }
 function onSetAside(slug) { discardFromHand(props.pi, slug); actionSlug.value = null }
 function onReturn(slug) { returnSecondaryToDeck(props.pi, slug); actionSlug.value = null }
-
-function onKey(e) {
-  if (e.key === 'Escape') { pickerOpen.value = false; actionSlug.value = null }
-}
-onMounted(() => window.addEventListener('keydown', onKey))
-onUnmounted(() => window.removeEventListener('keydown', onKey))
 </script>
 
 <style scoped>
@@ -204,19 +193,7 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
 }
 .manage:hover { color: var(--accent); border-color: var(--accent); }
 
-/* ── Modals (mirrors ScoringModal) ── */
-.modal-overlay {
-  position: fixed; inset: 0; z-index: 400;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex; align-items: center; justify-content: center; padding: 1rem;
-}
-.modal {
-  width: 100%; max-width: 420px; max-height: 85vh;
-  display: flex; flex-direction: column;
-  background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35); overflow: hidden;
-}
-.modal-sm { max-width: 340px; }
+/* Custom header for the per-card actions modal (others use BaseModal's default header). */
 .modal-head {
   display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem;
   padding: 0.8rem 0.9rem; border-bottom: 1px solid var(--border);
@@ -250,9 +227,4 @@ onUnmounted(() => window.removeEventListener('keydown', onKey))
 .act-btn:hover { border-color: var(--accent); }
 .act-danger { color: #c0392b; }
 .act-danger:hover { border-color: #c0392b; background: color-mix(in srgb, #c0392b 8%, transparent); }
-
-@media (max-width: 560px) {
-  .modal-overlay { padding: 0; align-items: flex-end; }
-  .modal { max-width: 100%; max-height: 92vh; border-radius: 12px 12px 0 0; }
-}
 </style>
