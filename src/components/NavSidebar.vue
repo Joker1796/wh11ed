@@ -257,7 +257,7 @@ async function handleAnchorClick(path, id, filter) {
   /* The section header is a dark surface (--bg-insert) in both themes, where --border
      (#3a3a40) is invisible in dark mode. Use the same light-on-dark divider as the other
      in-header separators (e.g. .nav-section-toggle) so the lines show in both themes. */
-  border-bottom: 1px solid color-mix(in srgb, var(--text-on-dark) 14%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--text-on-dark) 24%, transparent);
 }
 
 .nav-section-header {
