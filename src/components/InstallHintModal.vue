@@ -3,7 +3,7 @@
     <div class="modal" role="dialog" aria-modal="true">
       <header class="modal-head">
         <h3 class="mh-title">{{ labels.installIosTitle }}</h3>
-        <button class="mh-close" @click="$emit('close')" aria-label="Close">✕</button>
+        <button class="mh-close" @click="$emit('close')" :aria-label="labels.modalClose">✕</button>
       </header>
 
       <div class="modal-body">

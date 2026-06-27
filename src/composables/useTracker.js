@@ -186,8 +186,21 @@ function load(key, fallback) {
   }
 }
 
-const current = ref(load(CUR_KEY, null))
-const history = ref(load(HIST_KEY, []))
+// Minimal shape guard: a corrupted or old-schema blob can JSON.parse fine yet be the wrong
+// shape, then throw deep in a render (e.g. `current.players[i].primarySlug`) and wedge the
+// tracker. Reject anything without the stable game shape (two players + a settings object).
+export function isValidGame(g) {
+  return (
+    !!g && typeof g === 'object' &&
+    Array.isArray(g.players) && g.players.length === 2 &&
+    g.players.every((p) => p && typeof p === 'object') &&
+    !!g.settings && typeof g.settings === 'object'
+  )
+}
+
+const loadedCurrent = load(CUR_KEY, null)
+const current = ref(isValidGame(loadedCurrent) ? loadedCurrent : null)
+const history = ref((load(HIST_KEY, []) || []).filter(isValidGame))
 // In-progress new-game setup, persisted so it survives reloads / navigating away.
 const setupDraft = ref(load(DRAFT_KEY, null))
 
@@ -373,7 +386,8 @@ export function useTracker() {
     // and (being off the deck already) cannot be drawn again.
     const s = current.value.players[pi].secondary
     s.hand = s.hand.filter(x => x !== slug)
-    if (!s.discarded.some(d => d.slug === slug)) {
+    // Dedup tolerant of legacy string-form entries (read paths use `d.slug ?? d`).
+    if (!s.discarded.some(d => (d.slug ?? d) === slug)) {
       s.discarded.push({ slug, round: current.value.currentRound })
     }
   }
@@ -449,7 +463,7 @@ export function useTracker() {
         for (const slug of [...s.hand]) {
           if (scoredEarlier.has(slug)) {
             s.hand = s.hand.filter(x => x !== slug)
-            if (!s.discarded.some(d => d.slug === slug)) s.discarded.push({ slug, round: leaving })
+            if (!s.discarded.some(d => (d.slug ?? d) === slug)) s.discarded.push({ slug, round: leaving })
           }
         }
       }

@@ -15,7 +15,7 @@
         <div class="kw-popover-header">
           <span class="keyword kw-name">{{ activeKeyword.name }}</span>
           <span class="kw-num" @click="navigateNum">{{ activeKeyword.num }}</span>
-          <button class="kw-close" @click="close" aria-label="Close">✕</button>
+          <button class="kw-close" @click="close" :aria-label="labels.modalClose">✕</button>
         </div>
         <div class="kw-popover-body" v-html="renderInline(activeKeyword.fullText)" @click="handleBodyClick"></div>
       </div>
@@ -28,7 +28,11 @@ import { computed, ref, watch, nextTick } from 'vue'
 import { useKeywordPopover } from '../composables/useKeywordPopover.js'
 import { useRenderInline } from '../composables/useRenderInline.js'
 import { resolveRef, useRefNavigation } from '../composables/useRefNavigation.js'
+import { ui } from '../i18n/ui.js'
+import { useLocale } from '../composables/useLocale.js'
 
+const { locale } = useLocale()
+const labels = computed(() => ui[locale.value])
 const { visible, activeKeyword, anchor, close } = useKeywordPopover()
 
 // Move focus into the popover when it opens so screen-reader / keyboard users land
