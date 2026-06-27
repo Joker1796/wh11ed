@@ -13,6 +13,9 @@ export default defineConfig({
       registerType: 'prompt',
       includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
       manifest: {
+        // Explicit `id` keeps the app identity stable across deploys even if
+        // start_url ever changes (avoids duplicate installs).
+        id: '/',
         name: 'Warhammer 40,000 — Core Rules 11th Edition',
         short_name: 'WH11ED',
         description:
@@ -29,6 +32,38 @@ export default defineConfig({
           { src: 'pwa-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
           { src: 'pwa-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
           { src: 'maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+        ],
+        // Hash routing (createWebHashHistory): shortcut URLs MUST carry the `#`
+        // or they resolve to home (no path-based routes exist).
+        shortcuts: [
+          {
+            name: 'Game Tracker',
+            short_name: 'Tracker',
+            url: '/#/tracker',
+            icons: [{ src: 'pwa-192.png', sizes: '192x192', type: 'image/png' }],
+          },
+          {
+            name: 'Missions',
+            short_name: 'Missions',
+            url: '/#/event-companion/missions',
+            icons: [{ src: 'pwa-192.png', sizes: '192x192', type: 'image/png' }],
+          },
+        ],
+        screenshots: [
+          {
+            src: 'screenshot-wide.png',
+            sizes: '1280x720',
+            type: 'image/png',
+            form_factor: 'wide',
+            label: 'Warhammer 40,000 11th Edition rules reference',
+          },
+          {
+            src: 'screenshot-narrow.png',
+            sizes: '720x1280',
+            type: 'image/png',
+            form_factor: 'narrow',
+            label: 'Searchable bilingual rules on mobile',
+          },
         ],
       },
       workbox: {
