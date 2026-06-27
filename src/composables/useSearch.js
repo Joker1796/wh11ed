@@ -428,8 +428,9 @@ export function search(query, locale = 'en') {
       }
       results.push({ ...item, snippet, score: titleMatch ? 2 : 1 })
     }
-    if (results.length >= 20) break
   }
+  // Sort the full match set before slicing — capping earlier (in index order) would drop a
+  // later high-relevance title hit before it could be ranked.
   return results.sort((a, b) => b.score - a.score).slice(0, 10)
 }
 

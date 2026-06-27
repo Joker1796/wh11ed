@@ -29,11 +29,13 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker } from '../../composables/useTracker.js'
 import { resolveLayout } from '../../composables/trackerLayout.js'
+import { useFormatDate } from '../../composables/useFormatDate.js'
 
 const route = useRoute()
 const router = useRouter()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+const { formatDate } = useFormatDate()
 const { history } = useTracker()
 
 const game = computed(() => history.value.find((g) => g.id === route.params.id) || null)
@@ -47,14 +49,6 @@ const layout = computed(() => {
 
 function back() {
   router.push('/tracker')
-}
-
-function formatDate(iso) {
-  try {
-    return new Date(iso).toLocaleDateString(locale.value === 'ru' ? 'ru-RU' : 'en-GB')
-  } catch {
-    return ''
-  }
 }
 
 // Unknown id (e.g. deep link to a deleted game) → back to the list.
