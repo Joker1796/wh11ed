@@ -11,7 +11,9 @@
     "deploy": "bash deploy.sh",
     "images:webp": "node scripts/gen-webp.mjs && node scripts/gen-image-dims.mjs",
     "images:dims": "node scripts/gen-image-dims.mjs",
-    "icons": "node scripts/gen-pwa-icons.mjs"
+    "icons": "node scripts/gen-pwa-icons.mjs",
+    "screenshots": "node scripts/gen-pwa-screenshots.mjs",
+    "splash": "node scripts/gen-ios-splash.mjs"
   },
   "keywords": [],
   "author": "",
