@@ -1,6 +1,4 @@
 import { ref } from 'vue'
-import { coreAbilities } from '../data/reference.js'
-import { eventCompanion } from '../data/eventCompanion.js'
 import { useLocale } from './useLocale.js'
 
 const visible = ref(false)
@@ -11,7 +9,25 @@ const { locale } = useLocale()
 
 const bare = name => name.replace(/^\[|\]$/g, '').toUpperCase()
 
-function lookup(rawText) {
+// Lazy lookup data. reference.js (~96 KB) + eventCompanion.js (~108 KB) are large and
+// only needed once a `.keyword` is actually clicked, so we import them on first open
+// instead of dragging them into the entry chunk (which loads on every page). Both remain
+// precached for offline (Workbox globs all `.js`); this defers parsing, not caching.
+let dataPromise = null
+function loadData() {
+  if (!dataPromise) {
+    dataPromise = Promise.all([
+      import('../data/reference.js'),
+      import('../data/eventCompanion.js'),
+    ]).then(([ref, ec]) => ({
+      coreAbilities: ref.coreAbilities,
+      eventCompanion: ec.eventCompanion,
+    }))
+  }
+  return dataPromise
+}
+
+function lookup(rawText, { coreAbilities, eventCompanion }) {
   const text = rawText.toUpperCase().trim()
   const base = coreAbilities.en
   let idx = base.findIndex(a => bare(a.name) === text)
@@ -33,8 +49,9 @@ function lookup(rawText) {
 }
 
 export function useKeywordPopover() {
-  function open(rawText, rect) {
-    const found = lookup(rawText)
+  async function open(rawText, rect) {
+    const data = await loadData()
+    const found = lookup(rawText, data)
     if (!found) return
     activeKeyword.value = found
     anchor.value = rect

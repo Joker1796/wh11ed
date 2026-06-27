@@ -1,10 +1,11 @@
 import { describe, it, expect } from 'vitest'
 import {
-  BATTLE_SIZES, FACTIONS, FACTION_GROUPS, DISPOSITIONS, MIRROR_MISSIONS,
-  dispositionName, detachmentsFor, detachmentInfo,
+  BATTLE_SIZES, DISPOSITIONS, MIRROR_MISSIONS,
+  dispositionName,
   primaryFor, derivePrimary, missionBySlug, scorableBlocks,
   secondaryPool, fixedPool, numericVp,
 } from './useTracker.js'
+import { FACTIONS, FACTION_GROUPS, detachmentsFor, detachmentInfo } from './trackerFactions.js'
 
 describe('battle sizes', () => {
   it('defines Incursion (2 DP) and Strike Force (3 DP)', () => {

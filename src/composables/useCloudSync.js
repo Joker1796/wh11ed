@@ -92,7 +92,14 @@ export function useCloudSync() {
     syncing.value = true
     lastError.value = null
     try {
-      for (const g of history.value) await uploadGame(g)
+      // Push every local game; remember how many PUTs failed so we can surface it instead
+      // of silently reporting success (failed games also stay out of cloudIds → still shown
+      // as pending, but without this the user gets no error at all).
+      let uploadFailures = 0
+      for (const g of history.value) {
+        const ok = await uploadGame(g)
+        if (!ok) uploadFailures++
+      }
 
       const res = await authedFetch('/games')
       if (!res.ok) throw new Error(`list failed: ${res.status}`)
@@ -114,6 +121,10 @@ export function useCloudSync() {
           String(b.finishedAt || b.createdAt).localeCompare(String(a.finishedAt || a.createdAt)),
         )
         history.value = merged
+      }
+
+      if (uploadFailures > 0) {
+        lastError.value = `${uploadFailures} game(s) failed to upload`
       }
     } catch (e) {
       lastError.value = e instanceof Error ? e.message : String(e)
