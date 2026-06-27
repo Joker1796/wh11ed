@@ -48,7 +48,7 @@
       <div class="modal" role="dialog" aria-modal="true">
         <header class="modal-head">
           <h3 class="mh-title">{{ labels.trackerPickTitle }}</h3>
-          <button class="mh-close" @click="pickerOpen = false" aria-label="Close">✕</button>
+          <button class="mh-close" @click="pickerOpen = false" :aria-label="labels.modalClose">✕</button>
         </header>
         <div class="modal-body">
           <ul v-if="deckMissions.length" class="pick-list">
@@ -72,7 +72,7 @@
             <h3 class="mh-title">{{ actionMission.name }}</h3>
             <p class="mh-sub">{{ labels.trackerCardActions }}</p>
           </div>
-          <button class="mh-close" @click="actionSlug = null" aria-label="Close">✕</button>
+          <button class="mh-close" @click="actionSlug = null" :aria-label="labels.modalClose">✕</button>
         </header>
         <div class="modal-body act-list">
           <button class="act-btn" @click="onSetAside(actionMission.slug)">{{ labels.trackerSetAside }}</button>

@@ -1,6 +1,6 @@
 <template>
   <div class="search-overlay" @click.self="$emit('close')">
-    <div class="search-box" role="dialog" aria-modal="true" aria-label="Search rules">
+    <div class="search-box" role="dialog" aria-modal="true" :aria-label="labels.ariaSearchDialog">
       <div class="search-input-wrap">
         <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
@@ -16,7 +16,7 @@
           @keydown.up.prevent="moveSelection(-1)"
           @keydown.enter.prevent="goToSelected"
         />
-        <button class="search-close" @click="$emit('close')" aria-label="Close search">Esc</button>
+        <button class="search-close" @click="$emit('close')" :aria-label="labels.ariaCloseSearch">Esc</button>
       </div>
 
       <div class="search-results" v-if="query.trim().length >= 2">

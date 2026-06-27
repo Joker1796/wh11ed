@@ -1,12 +1,16 @@
 <template>
   <div class="stepper">
-    <button class="step-btn" :disabled="modelValue <= min" @click="bump(-step)" aria-label="decrease">−</button>
+    <button class="step-btn" :disabled="modelValue <= min" @click="bump(-step)" :aria-label="labels.ariaDecrease">−</button>
     <span class="step-val">{{ modelValue }}</span>
-    <button class="step-btn" :disabled="max != null && modelValue >= max" @click="bump(step)" aria-label="increase">+</button>
+    <button class="step-btn" :disabled="max != null && modelValue >= max" @click="bump(step)" :aria-label="labels.ariaIncrease">+</button>
   </div>
 </template>
 
 <script setup>
+import { computed } from 'vue'
+import { ui } from '../../i18n/ui.js'
+import { useLocale } from '../../composables/useLocale.js'
+
 const props = defineProps({
   modelValue: { type: Number, required: true },
   min: { type: Number, default: 0 },
@@ -14,6 +18,9 @@ const props = defineProps({
   step: { type: Number, default: 1 },
 })
 const emit = defineEmits(['update:modelValue'])
+
+const { locale } = useLocale()
+const labels = computed(() => ui[locale.value])
 
 function bump(delta) {
   let v = props.modelValue + delta

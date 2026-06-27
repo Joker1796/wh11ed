@@ -1,6 +1,6 @@
 import { ref, computed, watch } from 'vue'
 import { useAuth } from './useAuth.js'
-import { useTracker } from './useTracker.js'
+import { useTracker, isValidGame } from './useTracker.js'
 
 // Cloud backup of finished games, layered over useAuth + useTracker. localStorage stays the
 // primary store; the cloud is a best-effort backup — failures never disrupt the tracker.
@@ -79,7 +79,9 @@ export function useCloudSync() {
       if (!res.ok) throw new Error(`list failed: ${res.status}`)
       const { games = [] } = await res.json()
       cloudMetas.value = games
-      cloudIds.value = new Set(games.map((g) => g.gameId))
+      // Merge (don't replace) with our optimistic synced set: a just-PUT game may not yet
+      // appear in a lagging read-replica's list, and replacing would flap its icon to pending.
+      cloudIds.value = new Set([...syncedIds.value, ...games.map((g) => g.gameId)])
       checked.value = true
     } catch (e) {
       lastError.value = e instanceof Error ? e.message : String(e)
@@ -105,7 +107,9 @@ export function useCloudSync() {
       if (!res.ok) throw new Error(`list failed: ${res.status}`)
       const { games = [] } = await res.json()
       cloudMetas.value = games
-      cloudIds.value = new Set(games.map((g) => g.gameId))
+      // Merge (don't replace) with our optimistic synced set: a just-PUT game may not yet
+      // appear in a lagging read-replica's list, and replacing would flap its icon to pending.
+      cloudIds.value = new Set([...syncedIds.value, ...games.map((g) => g.gameId)])
       checked.value = true
 
       const localIds = new Set(history.value.map((g) => g.id))
@@ -113,7 +117,10 @@ export function useCloudSync() {
       for (const meta of games) {
         if (localIds.has(meta.gameId)) continue
         const r = await authedFetch(`/games/${encodeURIComponent(meta.gameId)}`)
-        if (r.ok) restored.push(await r.json())
+        if (!r.ok) continue
+        const game = await r.json()
+        // Guard against a malformed cloud blob wedging the history render.
+        if (isValidGame(game)) restored.push(game)
       }
       if (restored.length) {
         const merged = [...history.value, ...restored]
@@ -145,8 +152,11 @@ export function useCloudSync() {
         if (status.value !== 'authed') return
         for (const g of games) {
           if (knownIds.has(g.id)) continue
+          // Optimistically mark known to avoid a concurrent duplicate upload, but drop it
+          // on failure so a transient error stays retryable on the next history change
+          // (previously a failed PUT permanently skipped the game for the session).
           knownIds.add(g.id)
-          uploadGame(g) // fire-and-forget; best-effort
+          uploadGame(g).then((ok) => { if (!ok) knownIds.delete(g.id) })
         }
       },
       { deep: true },
