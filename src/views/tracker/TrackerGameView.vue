@@ -20,10 +20,16 @@
 <script setup>
 import { computed, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
+import SetupLoading from '../../components/tracker/SetupLoading.vue'
 // Async: GameSetup pulls in the faction/detachment dataset (mfmFactions.js, ~290 KB via
 // trackerFactions.js). It's only shown in the setup phase, so loading it lazily keeps that
-// data out of the playing/finished screens (RoundTracker, ScoreBreakdown).
-const GameSetup = defineAsyncComponent(() => import('../../components/tracker/GameSetup.vue'))
+// data out of the playing/finished screens (RoundTracker, ScoreBreakdown). A spinner fills
+// the gap on a cold/slow load instead of a blank screen.
+const GameSetup = defineAsyncComponent({
+  loader: () => import('../../components/tracker/GameSetup.vue'),
+  loadingComponent: SetupLoading,
+  delay: 150,
+})
 import RoundTracker from '../../components/tracker/RoundTracker.vue'
 import ScoreBoard from '../../components/tracker/ScoreBoard.vue'
 import ScoreBreakdown from '../../components/tracker/ScoreBreakdown.vue'

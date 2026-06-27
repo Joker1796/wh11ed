@@ -29,13 +29,15 @@ import ScoreBoard from './ScoreBoard.vue'
 import ScoreBreakdown from './ScoreBreakdown.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { useFormatDate } from '../../composables/useFormatDate.js'
 
 const props = defineProps({
   game: { type: Object, required: true },
 })
-const emit = defineEmits(['resume', 'close'])
+defineEmits(['resume', 'close'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+const { formatDate } = useFormatDate()
 
 const END_REASON_LABELS = {
   'friendly-concede': 'trackerEndFriendlyConcede',
@@ -45,10 +47,6 @@ const endReasonLabel = computed(() => {
   const key = END_REASON_LABELS[props.game?.endReason]
   return key ? labels.value[key] : ''
 })
-
-function formatDate(iso) {
-  try { return new Date(iso).toLocaleDateString(locale.value === 'ru' ? 'ru-RU' : 'en-GB') } catch { return '' }
-}
 </script>
 
 <style scoped>

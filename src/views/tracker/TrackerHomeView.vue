@@ -118,10 +118,12 @@ import { useLocale } from '../../composables/useLocale.js'
 import { useTracker } from '../../composables/useTracker.js'
 import { useAuth } from '../../composables/useAuth.js'
 import { useCloudSync } from '../../composables/useCloudSync.js'
+import { useFormatDate } from '../../composables/useFormatDate.js'
 
 const router = useRouter()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+const { formatDate } = useFormatDate()
 const { current, history, setupDraft, discardGame, resumeFromHistory, deleteHistory } = useTracker()
 const { status, user, login, logout, ensureSession, dev, mockSignIn, mockSignOut } = useAuth()
 const {
@@ -225,9 +227,6 @@ function bp(g) {
 // Result from "You" (player 0) perspective — WIN/LOSS/DRAW edge (labels not translated).
 function resultClass(g) { const w = winnerIdx(g); return w === 0 ? 'res-win' : w === 1 ? 'res-loss' : 'res-draw' }
 function resultLabel(g) { const w = winnerIdx(g); return w === 0 ? 'WIN' : w === 1 ? 'LOSS' : 'DRAW' }
-function formatDate(iso) {
-  try { return new Date(iso).toLocaleDateString(locale.value === 'ru' ? 'ru-RU' : 'en-GB') } catch { return '' }
-}
 </script>
 
 <style scoped>
