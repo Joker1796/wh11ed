@@ -37,8 +37,8 @@ function bump(delta) {
   gap: 0.25rem;
 }
 .step-btn {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   border: 1px solid var(--border);
   background: var(--bg-card);
   color: var(--text-primary);
