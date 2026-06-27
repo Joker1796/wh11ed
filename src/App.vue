@@ -149,6 +149,7 @@
     <InstallHintModal v-if="installHintOpen" @close="installHintOpen = false" />
     <KeywordPopover />
     <UpdateToast />
+    <OfflineWarmupToast />
   </div>
 </template>
 
@@ -162,6 +163,7 @@ const InstallHintModal = defineAsyncComponent(() => import('./components/Install
 import KeywordPopover from './components/KeywordPopover.vue'
 import NavSidebar from './components/NavSidebar.vue'
 import UpdateToast from './components/UpdateToast.vue'
+import OfflineWarmupToast from './components/OfflineWarmupToast.vue'
 import { useLocale } from './composables/useLocale.js'
 import { useTheme } from './composables/useTheme.js'
 import { useLoreVisibility } from './composables/useLoreVisibility.js'
