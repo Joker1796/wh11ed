@@ -36,6 +36,8 @@
         </p>
       </div>
     </footer>
+
+    <p class="landing-version">v{{ version }}</p>
   </div>
 </template>
 
@@ -48,6 +50,7 @@ const { locale } = useLocale()
 const t = computed(() => landing[locale.value])
 
 const contactEmail = 'yas-shaman@yandex.ru'
+const version = __APP_VERSION__
 </script>
 
 <style scoped>
@@ -185,6 +188,14 @@ const contactEmail = 'yas-shaman@yandex.ru'
 
 .footer-who {
   font-style: italic;
+}
+
+.landing-version {
+  margin: 1.2rem 0 0;
+  text-align: left;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
 }
 
 @media (max-width: 600px) {
