@@ -198,7 +198,7 @@ function onReturn(slug) { returnSecondaryToDeck(props.pi, slug); actionSlug.valu
   display: flex; align-items: flex-start; justify-content: space-between; gap: 0.5rem;
   padding: 0.8rem 0.9rem; border-bottom: 1px solid var(--border);
 }
-.mh-title { font-family: var(--font-serif); font-size: 1.15rem; font-weight: 700; color: var(--text-primary); margin: 0; }
+.mh-title { font-family: var(--font-display); font-size: 1.49rem; font-weight: 500; color: var(--text-primary); margin: 0; }
 .mh-sub { font-size: 0.76rem; color: var(--text-muted); margin: 0.1rem 0 0; }
 .mh-close {
   background: none; border: none; color: var(--text-muted);

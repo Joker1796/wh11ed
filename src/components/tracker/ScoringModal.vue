@@ -85,7 +85,7 @@ const labels = computed(() => ui[locale.value])
   padding: 0.8rem 0.9rem;
   border-bottom: 1px solid var(--border);
 }
-.mh-title { font-family: var(--font-serif); font-size: 1.15rem; font-weight: 700; color: var(--text-primary); margin: 0; }
+.mh-title { font-family: var(--font-display); font-size: 1.49rem; font-weight: 500; color: var(--text-primary); margin: 0; }
 .mh-sub { font-size: 0.76rem; color: var(--text-muted); margin: 0.1rem 0 0; }
 .mh-right { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
 .mh-vp { font-family: var(--font-mono); font-weight: 700; color: var(--accent); font-size: 0.95rem; }

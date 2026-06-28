@@ -62,7 +62,7 @@ function toggleOpen(slug) { openId.value = openId.value === slug ? null : slug }
   padding: 0.8rem 0.9rem;
   border-bottom: 1px solid var(--border);
 }
-.mh-title { font-family: var(--font-serif); font-size: 1.15rem; font-weight: 700; color: var(--text-primary); margin: 0; }
+.mh-title { font-family: var(--font-display); font-size: 1.49rem; font-weight: 500; color: var(--text-primary); margin: 0; }
 .mh-right { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
 .mh-count { font-family: var(--font-mono); font-weight: 700; color: var(--text-muted); font-size: 0.9rem; }
 .mh-count.full { color: var(--accent); }
@@ -94,9 +94,9 @@ function toggleOpen(slug) { openId.value = openId.value === slug ? null : slug }
   border: none;
   cursor: pointer;
   text-align: left;
-  font-family: var(--font-serif);
-  font-size: 1rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.10rem;
+  font-weight: 500;
   color: var(--text-primary);
 }
 .tp-chev { color: var(--text-dim); font-size: 0.9rem; }

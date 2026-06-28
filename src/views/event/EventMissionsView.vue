@@ -132,21 +132,6 @@ const filteredPrimaryGroups = computed(() =>
 </script>
 
 <style scoped>
-.view-hero {
-  padding: 1.25rem 0 0.9rem;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 1.25rem;
-}
-.view-hero h1 {
-  font-family: var(--font-serif);
-  font-size: 2.2rem;
-  margin-bottom: 0.4rem;
-}
-.view-hero-desc {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  font-style: italic;
-}
 .lead { margin: 0 0 1.5rem; line-height: 1.6; }
 
 /* ── Filters ── */
@@ -200,8 +185,8 @@ const filteredPrimaryGroups = computed(() =>
 .m-section:first-of-type { margin-top: 0; }
 
 .section-heading {
-  font-family: var(--font-serif);
-  font-size: 1.6rem;
+  font-family: var(--font-display);
+  font-size: var(--fs-rule-title);
   margin: 0 0 1rem;
   scroll-margin-top: 100px;
 }
@@ -212,8 +197,8 @@ const filteredPrimaryGroups = computed(() =>
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  font-family: var(--font-serif);
-  font-size: 1.2rem;
+  font-family: var(--font-display);
+  font-size: 1.32rem;
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.04em;

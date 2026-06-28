@@ -272,9 +272,9 @@ function resultLabel(g) { const w = winnerIdx(g); return w === 0 ? 'WIN' : w ===
   margin-bottom: 1.25rem;
 }
 .hero h1 {
-  font-family: var(--font-serif);
-  font-size: 2.4rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 2.64rem;
+  font-weight: 500;
   color: var(--text-primary);
   margin-bottom: 0.3rem;
 }
@@ -338,9 +338,9 @@ function resultLabel(g) { const w = winnerIdx(g); return w === 0 ? 'WIN' : w ===
   margin-bottom: 0.8rem;
 }
 .history-head h2 {
-  font-family: var(--font-serif);
-  font-size: 1.4rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.54rem;
+  font-weight: 500;
   color: var(--text-primary);
   margin: 0;
 }

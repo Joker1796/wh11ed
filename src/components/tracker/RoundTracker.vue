@@ -169,9 +169,9 @@ function onEndBattle(reason) {
 .rb-nav:disabled { opacity: 0.35; cursor: not-allowed; }
 .round-label {
   text-align: center;
-  font-family: var(--font-serif);
-  font-size: 1.15rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.26rem;
+  font-weight: 500;
   color: var(--text-primary);
   margin: 0 0 1rem;
 }
@@ -216,7 +216,7 @@ function onEndBattle(reason) {
   border-radius: 6px;
   padding: 0.8rem;
 }
-.ptitle { font-family: var(--font-serif); font-size: 1.05rem; font-weight: 700; color: var(--text-primary); margin: 0; }
+.ptitle { font-family: var(--font-display); font-size: 1.45rem; font-weight: 500; color: var(--text-primary); margin: 0; }
 .pmeta { font-size: 0.78rem; color: var(--text-muted); margin: 0.1rem 0 0.1rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; }
 .pdet { font-size: 0.72rem; color: var(--text-dim); margin: 0 0 0.7rem; font-family: var(--font-mono); }
 .sec-title-row {

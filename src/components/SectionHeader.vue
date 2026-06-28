@@ -44,7 +44,7 @@ defineProps({
 
 .section-header-inner {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 1rem;
   padding: 0.7rem 0 0.6rem;
   border-top: 3px solid var(--accent);
@@ -53,26 +53,25 @@ defineProps({
 }
 
 .section-num-large {
-  font-family: var(--font-serif);
-  font-size: 2.8rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--fs-section-num);
+  font-weight: var(--fw-heading);
   color: var(--accent);
   opacity: 0.35;
   line-height: 1;
-  min-width: 3.5rem;
+  min-width: 4rem;
   flex-shrink: 0;
   user-select: none;
 }
 
 .section-info {
   flex: 1;
-  padding-top: 0.25rem;
 }
 
 .section-info h2 {
-  font-family: var(--font-serif);
-  font-size: 1.6rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--fs-section-title);
+  font-weight: var(--fw-heading);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: var(--text-primary);
@@ -88,13 +87,10 @@ defineProps({
 }
 
 @media (max-width: 900px) {
+  /* Font sizes shrink via the shared --fs-* vars (style.css @media). Only the number
+     column gutter is component-specific. */
   .section-num-large {
-    font-size: 2rem;
-    min-width: 2.5rem;
-  }
-
-  .section-info h2 {
-    font-size: 1.3rem;
+    min-width: 3.2rem;
   }
 }
 </style>

@@ -52,9 +52,9 @@ const LINKS = [
 }
 
 .hero-title {
-  font-family: var(--font-serif);
-  font-size: 2.4rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 3.1rem;
+  font-weight: 400;
   color: var(--text-primary);
   margin-bottom: 0.4rem;
 }
@@ -94,9 +94,9 @@ const LINKS = [
 }
 
 .link-title {
-  font-family: var(--font-serif);
-  font-size: 1.15rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 400;
   color: var(--text-primary);
 }
 
@@ -112,7 +112,7 @@ const LINKS = [
 }
 
 @media (max-width: 600px) {
-  .hero-title { font-size: 1.9rem; }
+  .hero-title { font-size: 2.3rem; }
   .links-grid { grid-template-columns: 1fr; }
 }
 </style>

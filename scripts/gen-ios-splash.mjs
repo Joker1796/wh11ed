@@ -12,6 +12,7 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { mkdir } from 'node:fs/promises'
 import sharp from 'sharp'
+import { textPath } from './lib/w-mark.mjs'
 
 const OUT = join(dirname(fileURLToPath(import.meta.url)), '..', 'public', 'splash')
 const BG = '#242428'
@@ -29,12 +30,10 @@ const DEVICES = [
 ]
 
 const splash = (w, h) => {
-  const mark = Math.round(Math.min(w, h) * 0.28)
+  const mark = Math.round(Math.min(w, h) * 0.22)
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
     <rect width="${w}" height="${h}" fill="${BG}"/>
-    <text x="${w / 2}" y="${h / 2}" text-anchor="middle" dominant-baseline="central"
-          font-family="Georgia, 'EB Garamond', 'Times New Roman', serif"
-          font-size="${mark}" font-weight="700" fill="${FG}">W</text>
+    ${textPath({ text: 'W', cx: w / 2, cy: h / 2, height: mark, fill: FG })}
   </svg>`
 }
 

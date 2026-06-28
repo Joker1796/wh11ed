@@ -59,28 +59,13 @@ const seq = computed(() => ec.value.sequence)
 </script>
 
 <style scoped>
-.view-hero {
-  padding: 1.25rem 0 0.9rem;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 1.25rem;
-}
-.view-hero h1 {
-  font-family: var(--font-serif);
-  font-size: 2.2rem;
-  margin-bottom: 0.4rem;
-}
-.view-hero-desc {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  font-style: italic;
-}
 .lead {
   margin: 0 0 1.25rem;
   line-height: 1.6;
 }
 .group-heading {
-  font-family: var(--font-serif);
-  font-size: 1.6rem;
+  font-family: var(--font-display);
+  font-size: var(--fs-rule-title);
   margin: 2rem 0 0.75rem;
   padding-top: 1rem;
   border-top: 1px solid var(--border);
