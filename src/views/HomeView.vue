@@ -105,7 +105,6 @@ const tocItems = computed(() =>
   margin-bottom: 0;
 }
 
-
 .flavor-line {
   color: var(--text-muted);
   font-family: var(--font-serif);
@@ -116,9 +115,9 @@ const tocItems = computed(() =>
 }
 
 .hero-title {
-  font-family: var(--font-serif);
-  font-size: 3rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 3.30rem;
+  font-weight: 500;
   letter-spacing: 1px;
   color: var(--text-primary);
   margin-bottom: 0.4rem;
@@ -133,15 +132,14 @@ const tocItems = computed(() =>
   font-family: var(--font-sans);
 }
 
-
 .intro-section {
   margin-bottom: 1.25rem;
 }
 
 .intro-section h2 {
-  font-family: var(--font-serif);
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  font-weight: 500;
   margin-bottom: 0.6rem;
   padding-bottom: 0.3rem;
   border-bottom: 2px solid var(--accent);
@@ -156,9 +154,9 @@ const tocItems = computed(() =>
 }
 
 .toc-section h2 {
-  font-family: var(--font-serif);
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  font-weight: 500;
   margin-bottom: 0.4rem;
   padding-bottom: 0.3rem;
   border-bottom: 2px solid var(--accent);
@@ -212,11 +210,10 @@ const tocItems = computed(() =>
   border-radius: 2px;
 }
 
-
 .toc-card-title {
-  font-family: var(--font-serif);
-  font-size: 1.1rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--fs-subrule);
+  font-weight: 400;
   color: var(--text-primary);
   margin-bottom: 0.4rem;
 }

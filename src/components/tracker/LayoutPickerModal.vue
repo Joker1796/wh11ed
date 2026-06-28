@@ -55,9 +55,9 @@ function pick(m, l) {
 
 .lp-hint { text-align: center; font-size: 0.84rem; color: var(--text-muted); margin: 0.5rem 0 0.5rem; }
 .lp-matchup {
-  font-family: var(--font-serif);
-  font-size: 1rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.10rem;
+  font-weight: 500;
   color: var(--accent);
   margin: 0.4rem 0 0.6rem;
   text-align: center;

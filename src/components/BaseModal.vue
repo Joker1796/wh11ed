@@ -76,7 +76,7 @@ useModalA11y(root, () => emit('close'))
   padding: 0.8rem 0.9rem;
   border-bottom: 1px solid var(--border);
 }
-.mh-title { font-family: var(--font-serif); font-size: 1.15rem; font-weight: 700; color: var(--text-primary); margin: 0; }
+.mh-title { font-family: var(--font-display); font-size: 1.49rem; font-weight: 500; color: var(--text-primary); margin: 0; }
 .mh-close {
   background: none; border: none; color: var(--text-muted);
   font-size: 1.1rem; cursor: pointer; min-width: 36px; min-height: 36px; border-radius: 4px;

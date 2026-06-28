@@ -539,9 +539,9 @@ function cancel() {
   border-bottom: 2px solid var(--accent);
 }
 .setup-title {
-  font-family: var(--font-serif);
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  font-weight: 500;
   color: var(--text-primary);
   margin: 0;
 }
@@ -608,9 +608,9 @@ function cancel() {
   display: block;
 }
 .block-head {
-  font-family: var(--font-serif);
-  font-size: 1.1rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.21rem;
+  font-weight: 500;
   color: var(--accent);
   margin: 0 0 0.3rem;
 }
@@ -626,9 +626,9 @@ function cancel() {
   color: var(--text-muted);
 }
 .player-head {
-  font-family: var(--font-serif);
-  font-size: 1.1rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.21rem;
+  font-weight: 500;
   color: var(--accent);
   margin-bottom: 0.75rem;
 }
@@ -841,8 +841,8 @@ function cancel() {
   background: transparent;
   color: var(--text-primary);
   cursor: pointer;
-  font-family: var(--font-serif);
-  font-size: 0.95rem;
+  font-family: var(--font-display);
+  font-size: 1.04rem;
   transition: background 0.12s, border-color 0.12s;
 }
 .tab:hover { border-color: var(--accent); }
