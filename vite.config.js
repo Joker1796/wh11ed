@@ -1,8 +1,10 @@
-import { readdirSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { VitePWA } from 'vite-plugin-pwa'
+
+const pkgVersion = JSON.parse(readFileSync('./package.json', 'utf8')).version
 
 // Emit `image-manifest.json` (the list of every `/images/**` URL) into the build.
 // Images are NOT precached anymore (they're runtime-cached, CacheFirst — see the PWA
@@ -31,6 +33,9 @@ function imageManifest() {
 
 export default defineConfig({
   base: '/',
+  define: {
+    __APP_VERSION__: JSON.stringify(pkgVersion),
+  },
   plugins: [
     vue(),
     imageManifest(),
