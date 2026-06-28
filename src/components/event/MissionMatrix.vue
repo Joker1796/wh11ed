@@ -74,9 +74,9 @@ function isActive(rowId, colId) {
 .col-head,
 .row-head {
   background: var(--bg-secondary);
-  font-family: var(--font-serif);
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: 0.94rem;
+  font-weight: 500;
   padding: 0.5rem 0.6rem;
   color: var(--text-primary);
 }

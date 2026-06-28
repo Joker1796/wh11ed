@@ -47,9 +47,9 @@ function renderLines(text) {
 }
 
 .definition-term {
-  font-family: var(--font-serif);
-  font-size: 1rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.10rem;
+  font-weight: 500;
   margin-bottom: 0.15rem;
   color: var(--text-primary);
 }

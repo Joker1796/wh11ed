@@ -74,9 +74,9 @@ function backToTracker() {
 .finished { padding-top: 0.5rem; }
 .finished-title {
   text-align: center;
-  font-family: var(--font-serif);
-  font-size: 1.6rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.76rem;
+  font-weight: 500;
   color: var(--text-primary);
   margin: 0 0 0.5rem;
   padding-bottom: 0.4rem;

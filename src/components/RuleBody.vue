@@ -181,9 +181,9 @@ p {
 }
 
 .rule-subheading {
-  font-family: var(--font-serif);
-  font-size: 1rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--fs-subheading);
+  font-weight: var(--fw-heading);
   color: var(--text-primary);
   margin: 0.75rem 0 0.25rem;
   scroll-margin-top: 100px;

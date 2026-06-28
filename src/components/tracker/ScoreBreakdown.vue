@@ -110,7 +110,7 @@ function secondaries(pi) {
 .bd-player {
   background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; padding: 0.8rem;
 }
-.bd-name { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.6rem; }
+.bd-name { font-family: var(--font-display); font-size: 1.45rem; font-weight: 500; color: var(--text-primary); margin-bottom: 0.6rem; }
 .bd-name.win { color: var(--accent); }
 
 .grid {

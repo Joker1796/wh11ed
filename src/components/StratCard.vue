@@ -139,9 +139,9 @@ function renderField(text) {
 }
 
 .strat-name {
-  font-family: var(--font-serif);
-  font-size: 0.95rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--fs-subheading);
+  font-weight: var(--fw-heading);
   text-transform: uppercase;
   letter-spacing: 0.4px;
   white-space: nowrap;
@@ -281,9 +281,9 @@ function renderField(text) {
 }
 
 .strat-sub-title {
-  font-family: var(--font-serif);
-  font-size: 0.85rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 0.94rem;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.4px;
 }

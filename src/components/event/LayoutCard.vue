@@ -122,8 +122,8 @@ const defenderSrc = computed(() =>
 }
 
 .layout-badge {
-  font-family: var(--font-serif);
-  font-size: 1.05rem;
+  font-family: var(--font-display);
+  font-size: 1.16rem;
   color: var(--link-accent);
 }
 </style>

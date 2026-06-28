@@ -66,9 +66,9 @@ const version = __APP_VERSION__
 }
 
 .hero-title {
-  font-family: var(--font-serif);
-  font-size: 3rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 3.74rem;
+  font-weight: 500;
   letter-spacing: 1px;
   color: var(--text-primary);
   margin-bottom: 0.4rem;
@@ -130,9 +130,9 @@ const version = __APP_VERSION__
 }
 
 .section-card-title {
-  font-family: var(--font-serif);
-  font-size: 1.25rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  font-weight: 500;
   color: var(--text-primary);
   margin-bottom: 0.45rem;
 }

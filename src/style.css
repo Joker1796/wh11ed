@@ -27,6 +27,20 @@
   --font-serif: 'EB Garamond', Georgia, serif;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'Courier New', Courier, monospace;
+  /* Condensed display face for ALL headings/titles across the app (h1–h4 + the per-component
+     .*-title/.mh-title/etc.) and the WH40K logo wordmark (.logo-wh). EB Garamond (--font-serif)
+     stays only on lore flavor text (.flavor-quote/.flavor-line). */
+  --font-display: 'Sofia Sans Extra Condensed', 'Inter', sans-serif;
+  /* Shared text/content heading scale (the "Basic Rules" look). Single source of truth —
+     the global h1–h4 rule, .view-hero, and the rule components (SectionHeader/RuleBlock/
+     SubRuleBlock/RuleBody) + Event Companion prose headings all reference these. Mobile
+     shrink for the two large levels is in the @media block below. */
+  --fw-heading: 500;
+  --fs-section-num: 4.4rem;    /* SectionHeader big number ("08") */
+  --fs-section-title: 2.95rem; /* SectionHeader title + page hero (.view-hero h1) */
+  --fs-rule-title: 1.8rem;     /* rule / in-text section heading */
+  --fs-subrule: 1.4rem;        /* accordion sub-rule title */
+  --fs-subheading: 1.38rem;    /* "### " subheading */
   --navbar-height: 56px;
   --subnav-height: 40px;
   --header-total: 96px;
@@ -38,6 +52,14 @@
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --safe-left: env(safe-area-inset-left, 0px);
   --safe-right: env(safe-area-inset-right, 0px);
+}
+
+/* Mobile shrink for the two largest heading levels (shared scale). */
+@media (max-width: 900px) {
+  :root {
+    --fs-section-num: 2.9rem;
+    --fs-section-title: 1.95rem;
+  }
 }
 
 :root[data-theme='dark'] {
@@ -155,16 +177,37 @@ a:hover {
 }
 
 h1, h2, h3, h4 {
-  font-family: var(--font-serif);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-weight: var(--fw-heading);
   line-height: 1.25;
   color: var(--text-primary);
 }
 
-h1 { font-size: 2.2rem; }
-h2 { font-size: 1.7rem; }
-h3 { font-size: 1.25rem; }
-h4 { font-size: 1.05rem; }
+h1 { font-size: var(--fs-section-title); }
+h2 { font-size: var(--fs-rule-title); }
+h3 { font-size: var(--fs-subrule); }
+h4 { font-size: var(--fs-subheading); }
+
+/* Standard content page-title hero (Core Rules + Event Companion views). Single shared
+   definition — was duplicated byte-identically in 13 view <style scoped> blocks. */
+.view-hero {
+  padding: 1.25rem 0 0.9rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 1.25rem;
+}
+
+.view-hero h1 {
+  font-family: var(--font-display);
+  font-size: var(--fs-section-title);
+  font-weight: var(--fw-heading);
+  margin-bottom: 0.4rem;
+}
+
+.view-hero-desc {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-style: italic;
+}
 
 p {
   margin-bottom: 0.8rem;

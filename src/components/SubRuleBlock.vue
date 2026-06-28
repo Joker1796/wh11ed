@@ -104,7 +104,7 @@ function handleDefClick(e) {
   border-bottom: 1px solid var(--sub-rule-border);
   cursor: pointer;
   text-align: left;
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   color: var(--sub-rule-ink);
 }
 
@@ -112,11 +112,11 @@ function handleDefClick(e) {
   flex: 1;
   min-width: 0;
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: 0.55rem;
   flex-wrap: wrap;
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: var(--fs-subrule);
+  font-weight: var(--fw-heading);
   overflow-wrap: anywhere;
 }
 

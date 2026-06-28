@@ -335,11 +335,13 @@ onUnmounted(() => {
 }
 
 .logo-wh {
-  font-family: var(--font-serif);
-  font-size: 1.15rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.54rem;
+  font-weight: 500;
   color: var(--text-on-dark);
-  letter-spacing: 1px;
+  /* Tracked out so the condensed wordmark spans the same width as the "11th
+     Edition" subtitle below it (the lockup lines up flush on both edges). */
+  letter-spacing: 5px;
   line-height: 1;
 }
 

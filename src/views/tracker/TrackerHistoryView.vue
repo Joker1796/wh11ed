@@ -84,9 +84,9 @@ if (!game.value) router.replace('/tracker')
   margin-bottom: 1rem;
 }
 .hv-head h1 {
-  font-family: var(--font-serif);
-  font-size: 1.6rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.76rem;
+  font-weight: 500;
   color: var(--text-primary);
   margin: 0;
 }
@@ -98,9 +98,9 @@ if (!game.value) router.replace('/tracker')
   margin-top: 1.5rem;
 }
 .hv-layout h2 {
-  font-family: var(--font-serif);
-  font-size: 1.2rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.32rem;
+  font-weight: 500;
   color: var(--text-primary);
   margin-bottom: 0.6rem;
 }

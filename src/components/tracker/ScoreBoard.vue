@@ -78,7 +78,7 @@ const bp = computed(() => battlePointsOf(game.value))
   gap: 0.4rem;
   margin-bottom: 0.3rem;
 }
-.pname { font-weight: 700; color: var(--text-primary); font-size: 0.92rem; }
+.pname { font-weight: 700; color: var(--text-primary); font-size: 1.2rem; }
 .lead-tag {
   font-size: 0.62rem;
   font-weight: 700;
@@ -90,9 +90,9 @@ const bp = computed(() => battlePointsOf(game.value))
   border-radius: 999px;
 }
 .grand {
-  font-family: var(--font-serif);
-  font-size: 2.2rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 2.42rem;
+  font-weight: 500;
   color: var(--text-primary);
   line-height: 1;
 }
@@ -129,7 +129,7 @@ const bp = computed(() => battlePointsOf(game.value))
   /* Hide the leader tag ("Leading"/"Winner") on phones so both score columns stay aligned;
      the accent top-border already marks the leader. Desktop keeps the tag. */
   .lead-tag { display: none; }
-  .pname { font-size: 0.8rem; word-break: break-word; }
+  .pname { font-size: 1.05rem; word-break: break-word; }
   .grand { font-size: 1.7rem; }
   .grand-unit { font-size: 0.7rem; }
   .breakdown { gap: 0.5rem; }

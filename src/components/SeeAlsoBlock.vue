@@ -54,9 +54,9 @@ const resolvedRefs = computed(() => props.refs.map(ref => ({ ref, r: resolveRef(
 }
 
 .see-also-title {
-  font-family: var(--font-serif);
-  font-size: 1.05rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.16rem;
+  font-weight: 500;
   color: var(--text-primary);
   margin-bottom: 0.4rem;
 }

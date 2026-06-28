@@ -209,22 +209,6 @@ const currentLayout = computed(() =>
 </script>
 
 <style scoped>
-.view-hero {
-  padding: 1.25rem 0 0.9rem;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 1.25rem;
-}
-.view-hero h1 {
-  font-family: var(--font-serif);
-  font-size: 2.2rem;
-  margin-bottom: 0.4rem;
-}
-.view-hero-desc {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  font-style: italic;
-}
-
 .lead {
   margin: 0 0 1.25rem;
   line-height: 1.6;
@@ -275,8 +259,8 @@ const currentLayout = computed(() =>
   margin-bottom: 0;
 }
 .legend-heading {
-  font-family: var(--font-serif);
-  font-size: 1.5rem;
+  font-family: var(--font-display);
+  font-size: var(--fs-subrule);
   text-transform: uppercase;
   letter-spacing: 0.04em;
   margin: 0;
@@ -323,8 +307,8 @@ const currentLayout = computed(() =>
 }
 
 .legend-subheading {
-  font-family: var(--font-serif);
-  font-size: 1.05rem;
+  font-family: var(--font-display);
+  font-size: 1.16rem;
   color: var(--text-muted);
   margin: 0 0 0.6rem;
 }
@@ -452,14 +436,14 @@ const currentLayout = computed(() =>
   color: var(--text-muted);
 }
 .side-mission {
-  font-family: var(--font-serif);
-  font-size: 1.2rem;
+  font-family: var(--font-display);
+  font-size: 1.32rem;
   color: var(--link-accent);
   line-height: 1.2;
 }
 .side-vs {
-  font-family: var(--font-serif);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-weight: 500;
   color: var(--text-dim);
 }
 
@@ -476,8 +460,8 @@ const currentLayout = computed(() =>
   background: transparent;
   color: var(--text-primary);
   cursor: pointer;
-  font-family: var(--font-serif);
-  font-size: 0.95rem;
+  font-family: var(--font-display);
+  font-size: 1.04rem;
   transition: background 0.12s, border-color 0.12s;
 }
 .tab:hover {
@@ -493,7 +477,6 @@ const currentLayout = computed(() =>
   .matchup-sides { gap: 0.75rem; }
   .side-mission { font-size: 1rem; }
   .layouts-key { padding: 1rem; }
-  .legend-heading { font-size: 1.25rem; }
   .key-header {
     flex-direction: column;
     align-items: center;

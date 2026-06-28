@@ -78,8 +78,8 @@ const next = computed(() =>
 }
 
 .page-nav-title {
-  font-family: var(--font-serif);
-  font-size: 1.05rem;
+  font-family: var(--font-display);
+  font-size: 1.16rem;
   color: var(--accent);
 }
 

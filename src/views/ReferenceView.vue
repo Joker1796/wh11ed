@@ -308,22 +308,6 @@ function handleDefClick(e) {
 </script>
 
 <style scoped>
-.view-hero {
-  padding: 1.25rem 0 0.9rem;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 1.25rem;
-}
-.view-hero h1 {
-  font-family: var(--font-serif);
-  font-size: 2.2rem;
-  margin-bottom: 0.4rem;
-}
-.view-hero-desc {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  font-style: italic;
-}
-
 /* Filter */
 .ability-filters {
   display: flex;
@@ -536,9 +520,9 @@ function handleDefClick(e) {
 }
 
 .digital-support-title {
-  font-family: var(--font-serif);
-  font-size: 1rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.10rem;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--accent);
@@ -596,9 +580,9 @@ function handleDefClick(e) {
 }
 
 .appendix-title {
-  font-family: var(--font-serif);
-  font-size: 1.1rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: var(--fs-subrule);
+  font-weight: var(--fw-heading);
   color: var(--text-primary);
   margin-bottom: 0.75rem;
   padding-bottom: 0.4rem;

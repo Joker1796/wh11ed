@@ -88,9 +88,9 @@ function toggle(id) { openId.value = openId.value === id ? null : id }
   border: none;
   cursor: pointer;
   text-align: left;
-  font-family: var(--font-serif);
-  font-size: 1rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.10rem;
+  font-weight: 500;
   color: var(--text-primary);
 }
 .tp-chev { color: var(--text-dim); font-size: 0.9rem; }

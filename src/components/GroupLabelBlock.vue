@@ -27,9 +27,9 @@ const renderedBody = computed(() => props.body ? renderInline(props.body) : '')
 }
 
 .group-label-title {
-  font-family: var(--font-serif);
-  font-size: 0.75rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.01rem;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.6px;
   color: var(--accent);

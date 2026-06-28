@@ -14,6 +14,7 @@
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import sharp from 'sharp'
+import { textPath } from './lib/w-mark.mjs'
 
 const PUBLIC = join(dirname(fileURLToPath(import.meta.url)), '..', 'public')
 const BG = '#242428'
@@ -23,19 +24,15 @@ const ACCENT = '#6e0008'
 
 const card = (w, h) => {
   const cx = w / 2
-  const mark = Math.round(Math.min(w, h) * 0.26)
-  const title = Math.round(Math.min(w, h) * 0.072)
+  const mark = Math.round(Math.min(w, h) * 0.2)
+  const title = Math.round(Math.min(w, h) * 0.05)
   const sub = Math.round(Math.min(w, h) * 0.038)
   const markY = h * 0.42
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
     <rect width="${w}" height="${h}" fill="${BG}"/>
     <rect x="0" y="0" width="${w}" height="${Math.round(h * 0.012)}" fill="${ACCENT}"/>
-    <text x="${cx}" y="${markY}" text-anchor="middle" dominant-baseline="central"
-          font-family="Georgia, 'EB Garamond', 'Times New Roman', serif"
-          font-size="${mark}" font-weight="700" fill="${FG}">W</text>
-    <text x="${cx}" y="${h * 0.68}" text-anchor="middle"
-          font-family="Georgia, 'EB Garamond', serif" font-size="${title}"
-          font-weight="700" fill="${FG}" letter-spacing="2">WH11ED</text>
+    ${textPath({ text: 'W', cx, cy: markY, height: mark, fill: FG })}
+    ${textPath({ text: 'WH11ED', cx, cy: h * 0.68, height: title, fill: FG, tracking: 0.04 })}
     <text x="${cx}" y="${h * 0.75}" text-anchor="middle"
           font-family="'Helvetica Neue', Arial, sans-serif" font-size="${sub}"
           fill="${MUTED}">Warhammer 40,000 — Core Rules 11th Edition</text>

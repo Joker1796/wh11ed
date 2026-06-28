@@ -62,9 +62,9 @@ function isPerEach(text) {
   border-bottom: 1px solid var(--border);
 }
 .mcard-name {
-  font-family: var(--font-serif);
-  font-size: 1.2rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.49rem;
+  font-weight: 500;
   color: var(--text-primary);
   margin: 0;
 }
