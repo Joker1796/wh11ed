@@ -1,6 +1,5 @@
 <template>
   <div class="tracker-home">
-    <BetaBanner />
     <div class="hero">
       <h1>{{ labels.trackerIntroHeading }}</h1>
       <p class="hero-desc">{{ labels.trackerIntroDesc }}</p>
@@ -120,7 +119,6 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import BetaBanner from '../../components/tracker/BetaBanner.vue'
 import GameSummaryModal from '../../components/tracker/GameSummaryModal.vue'
 import ConfirmModal from '../../components/ConfirmModal.vue'
 import { battlePointsFromVp } from '../../composables/gameScoring.js'

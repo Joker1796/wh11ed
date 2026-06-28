@@ -171,7 +171,7 @@
 
     <!-- ───────── Step 4 — Deployment (first turn, CP, twist) ───────── -->
     <div v-show="step === 4">
-      <div class="settings">
+      <div class="settings deploy-opts">
         <label class="field">
           <span>{{ labels.trackerFirstTurn }}</span>
           <div class="seg">
@@ -604,6 +604,12 @@ function cancel() {
 /* Drop the field's bottom margin here so the First Turn control and the Track CP
    checkbox card sit on the same baseline (no vertical offset). */
 .settings .field { margin-bottom: 0; }
+/* Step 4 (Deployment): stack the options vertically, each on its own line. */
+.deploy-opts {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.9rem;
+}
 .layout-block {
   display: block;
 }
