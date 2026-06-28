@@ -55,7 +55,7 @@ npm run deploy
 
 # с явными параметрами
 BUCKET=s3://wh11ed.ru \
-CDN_RESOURCE_ID=bc8raqgpcdeagfb6ygn6 \
+CDN_RESOURCE_ID=<cdn-resource-id> \
 AWS_PROFILE=yc \
 npm run deploy
 ```
@@ -71,13 +71,14 @@ npm run deploy
 
 ### Сброс кэша CDN
 
-ID prod-ресурса CDN: **`bc8raqgpcdeagfb6ygn6`** (cname `wh11ed.ru`).
+ID prod-ресурса CDN (cname `wh11ed.ru`) храните в `.env.deploy` (gitignore) —
+скопируйте `.env.deploy.example` → `.env.deploy` и впишите `CDN_RESOURCE_ID`.
 
-Если задан `CDN_RESOURCE_ID`, скрипт сам сделает `yc cdn cache purge … --path "/*"`.
-Иначе (по умолчанию `CDN_RESOURCE_ID` не задан) — почистить кэш вручную:
+`deploy.sh` подхватывает `.env.deploy` и сам делает `yc cdn cache purge … --path "/*"`.
+Если `CDN_RESOURCE_ID` пуст — purge пропускается; почистить кэш вручную:
 
 ```bash
-yc cdn cache purge --resource-id bc8raqgpcdeagfb6ygn6 --path '/*'
+yc cdn cache purge --resource-id <cdn-resource-id> --path '/*'
 ```
 
 Без purge новая сборка пользователям не долетит (CDN отдаёт старый `index.html`).
