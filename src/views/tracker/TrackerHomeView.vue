@@ -104,6 +104,16 @@
       @resume="onResumeGame"
       @close="summaryGame = null"
     />
+
+    <ConfirmModal
+      v-if="confirmState"
+      :title="confirmState.title"
+      :message="labels.trackerOverwriteConfirm"
+      :confirm-label="confirmState.confirmLabel"
+      :cancel-label="labels.trackerCancel"
+      @confirm="onConfirmAction"
+      @close="confirmState = null"
+    />
   </div>
 </template>
 
@@ -112,6 +122,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import BetaBanner from '../../components/tracker/BetaBanner.vue'
 import GameSummaryModal from '../../components/tracker/GameSummaryModal.vue'
+import ConfirmModal from '../../components/ConfirmModal.vue'
 import { battlePointsFromVp } from '../../composables/gameScoring.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -192,8 +203,18 @@ onMounted(async () => {
   else refreshCloudList()
 })
 
+// Overwrite confirmation (shown only when a game is in progress). Holds the pending action
+// so one ConfirmModal serves both "New game" and "Resume from history".
+const confirmState = ref(null) // { title, confirmLabel, action } | null
+
 function startNew() {
-  if (current.value && !window.confirm(labels.value.trackerOverwriteConfirm)) return
+  if (current.value) {
+    confirmState.value = { title: labels.value.trackerNewGame, confirmLabel: labels.value.trackerNewGame, action: doStartNew }
+    return
+  }
+  doStartNew()
+}
+function doStartNew() {
   discardGame()
   setupDraft.value = null   // start the wizard fresh (a stale draft would otherwise restore)
   router.push('/tracker/game')
@@ -201,9 +222,20 @@ function startNew() {
 // Resume any finished game from the summary modal — pull it back into active play.
 function onResumeGame(id) {
   summaryGame.value = null
-  if (current.value && !window.confirm(labels.value.trackerOverwriteConfirm)) return
+  if (current.value) {
+    confirmState.value = { title: labels.value.trackerResume, confirmLabel: labels.value.trackerResume, action: () => doResume(id) }
+    return
+  }
+  doResume(id)
+}
+function doResume(id) {
   resumeFromHistory(id)
   router.push('/tracker/game')
+}
+function onConfirmAction() {
+  const action = confirmState.value?.action
+  confirmState.value = null
+  if (action) action()
 }
 function pname(g, i) {
   return g.players[i].name || (i === 0 ? labels.value.trackerYou : labels.value.trackerOpponent)

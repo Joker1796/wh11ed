@@ -15,10 +15,6 @@
       </div>
       <button class="rb-nav" :disabled="current.currentRound >= ROUND_COUNT" @click="goToRound(current.currentRound + 1)">›</button>
     </div>
-    <p class="round-label">
-      {{ labels.trackerRound }} {{ current.currentRound }}
-      <span v-if="current.settings.layout" class="round-layout">· {{ roundLayoutLabel }}</span>
-    </p>
 
     <!-- Active twist reminder (mission-changing twists are already applied to the primary). -->
     <details v-if="activeTwist" class="twist-card">
@@ -105,14 +101,6 @@ const endModalOpen = ref(false)
 
 // Active twist (if any) — shown as a collapsible reminder; its mission effect (Mirrored
 // World / Scrambled Communications) is already baked into each player's primarySlug.
-// Battlefield layout label next to the round — "Custom <id>" for a picked layout, else
-// the recommended letter (e.g. "Layout A").
-const roundLayoutLabel = computed(() => {
-  const s = current.value.settings
-  if (s.layout === 'custom') return `${labels.value.trackerLayoutCustom}${s.customLayout?.id ? ' ' + s.customLayout.id : ''}`
-  return `${labels.value.eventLayout} ${s.layout}`
-})
-
 const activeTwist = computed(() => {
   const id = current.value?.settings?.twist
   if (!id) return null
@@ -142,7 +130,7 @@ function onEndBattle(reason) {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  margin: 1rem 0 0.2rem;
+  margin: 1rem 0 1.2rem;
 }
 .rb-rounds { display: flex; gap: 0.3rem; }
 .rb-round {
@@ -167,20 +155,6 @@ function onEndBattle(reason) {
   cursor: pointer;
 }
 .rb-nav:disabled { opacity: 0.35; cursor: not-allowed; }
-.round-label {
-  text-align: center;
-  font-family: var(--font-display);
-  font-size: 1.26rem;
-  font-weight: 500;
-  color: var(--text-primary);
-  margin: 0 0 1rem;
-}
-.round-layout {
-  font-family: var(--font-sans);
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--text-muted);
-}
 .twist-card {
   max-width: 640px;
   margin: -0.4rem auto 1rem;
