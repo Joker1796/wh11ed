@@ -4,10 +4,11 @@ dist/
 *.local
 .idea/
 
-# Local env (Vite). Keep .env.example committed.
+# Local env (Vite + deploy). Keep the *.example templates committed.
 .env
 .env.*
 !.env.example
+!.env.deploy.example
 
 # Local source/reference material (not for the repo)
 sources/

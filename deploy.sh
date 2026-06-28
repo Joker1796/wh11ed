@@ -12,13 +12,17 @@
 #
 set -euo pipefail
 
+# Local, gitignored deploy config (CDN_RESOURCE_ID, optional BUCKET/AWS_PROFILE/…).
+# Copy .env.deploy.example → .env.deploy and fill it in. Existing env vars win.
+if [ -f .env.deploy ]; then set -a; . ./.env.deploy; set +a; fi
+
 BUCKET="${BUCKET:-s3://wh11ed.ru}"
 ENDPOINT="https://storage.yandexcloud.net"
 AWS_PROFILE="${AWS_PROFILE:-yc}"
 # Prod CDN resource — purge runs automatically after every deploy (a stale edge
 # copy of sw.js/index.html otherwise blocks updates from ever reaching clients).
-# Override with another id, or set CDN_RESOURCE_ID= (empty) to skip the purge.
-CDN_RESOURCE_ID="${CDN_RESOURCE_ID-bc8raqgpcdeagfb6ygn6}"
+# Set it in .env.deploy (or inline). Empty → the purge is skipped with a warning.
+CDN_RESOURCE_ID="${CDN_RESOURCE_ID-}"
 # `yc` isn't always on PATH; the default Yandex installer drops it under ~/yandex-cloud/bin.
 YC_BIN="${YC_BIN:-$(command -v yc || echo "$HOME/yandex-cloud/bin/yc")}"
 
