@@ -135,7 +135,7 @@ const router = useRouter()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { formatDate } = useFormatDate()
-const { current, history, setupDraft, discardGame, resumeFromHistory, deleteHistory } = useTracker()
+const { current, history, setupDraft, finishGame, archiveGame, resumeFromHistory, deleteHistory } = useTracker()
 const { status, user, login, logout, ensureSession, dev, mockSignIn, mockSignOut } = useAuth()
 const {
   init: initCloudSync,
@@ -215,7 +215,7 @@ function startNew() {
   doStartNew()
 }
 function doStartNew() {
-  discardGame()
+  archiveCurrent()          // save the in-progress game to history (instead of losing it)
   setupDraft.value = null   // start the wizard fresh (a stale draft would otherwise restore)
   router.push('/tracker/game')
 }
@@ -229,8 +229,16 @@ function onResumeGame(id) {
   doResume(id)
 }
 function doResume(id) {
+  archiveCurrent()          // save the in-progress game to history before swapping in the chosen one
   resumeFromHistory(id)
   router.push('/tracker/game')
+}
+// Freeze the in-progress game at its current score and move it to history (resumable),
+// reusing the normal end-of-game flow. No-op when there's no live game.
+function archiveCurrent() {
+  if (!current.value) return
+  finishGame('early')
+  archiveGame()
 }
 function onConfirmAction() {
   const action = confirmState.value?.action
