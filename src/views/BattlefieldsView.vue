@@ -40,7 +40,7 @@
       <template v-if="section.id === '15' && section.stratagems">
         <div class="stratagems-section" id="section-15-list">
           <div class="strat-grid">
-            <StratCard v-for="strat in section.stratagems" :key="strat.num" :strat="strat" />
+            <StratCard v-for="strat in section.stratagems" :key="strat.num" :id="'strat-' + strat.num.replace('.', '-')" :strat="strat" />
           </div>
         </div>
       </template>
