@@ -82,7 +82,7 @@
           <div class="game-meta">
             <span class="meta-left">
               <i
-                v-if="status === 'authed' && isBackedUp(g.id)"
+                v-if="status === 'authed' && isBackedUp(g)"
                 class="bi bi-cloud-check-fill cloud-flag"
                 :title="labels.cloudBackedUp"
               ></i>
