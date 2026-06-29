@@ -1,6 +1,5 @@
 <template>
   <RouterLink to="/tracker/game" class="resume-bar" role="button">
-    <i class="bi bi-arrow-return-left"></i>
     <span>{{ labels.resumeGameBar }}</span>
   </RouterLink>
 </template>
@@ -39,10 +38,6 @@ const labels = computed(() => ui[locale.value])
 
 .resume-bar:hover {
   filter: brightness(1.1);
-}
-
-.resume-bar i {
-  font-size: 1.05rem;
 }
 
 /* Full-width bar sitting directly above the bottom-nav (.bn-item min-height 52px). */
