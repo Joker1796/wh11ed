@@ -167,6 +167,21 @@ function buildIndex(locale) {
           })
         })
       }
+      // Stratagems — each has num + name (EN only; names stay English per convention).
+      const ruStratagems = (isRu && ruSection.stratagems) ? ruSection.stratagems : []
+      ;(enSection.stratagems || []).forEach((enStrat, si) => {
+        const merged = isRu ? { ...enStrat, ...(ruStratagems[si] || {}) } : enStrat
+        const body = [merged.when, merged.target, merged.effect, merged.restrictions, merged.flavor]
+          .filter(Boolean).join(' ')
+        items.push({
+          id: 'strat-' + enStrat.num.replace('.', '-'),
+          sectionNum: enStrat.num,
+          title: enStrat.name,
+          body: stripMarkup(body),
+          route,
+          sectionTitle,
+        })
+      })
     }
   }
   for (let i = 0; i < coreAbilities.en.length; i++) {
