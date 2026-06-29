@@ -3,8 +3,8 @@
   --bg-secondary: #dfe1d8;
   --bg-card: #f5f5f0;
   --bg-insert: #2a2828;
-  --accent: #6e0008;
-  --accent-hover: #4a0005;
+  --accent: #8b2a33;
+  --accent-hover: #6d1f27;
   /* Accent legible on always-dark surfaces (e.g. the bottom-nav) regardless of theme. */
   --accent-on-dark: #c8585e;
   --link-accent: var(--accent);
@@ -17,7 +17,7 @@
   --border: #c8cac0;
   --border-light: #d8dbd2;
   --bg-row-alt: rgba(104, 105, 87, 0.06);
-  --bg-row-hover: rgba(110, 0, 8, 0.04);
+  --bg-row-hover: rgba(139, 42, 51, 0.05);
   --ability-weapon: #7a5a00;
   --ability-unit: #004a6e;
   --bg-definition: #cfd0c3;
