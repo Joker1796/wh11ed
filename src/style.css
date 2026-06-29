@@ -5,6 +5,8 @@
   --bg-insert: #2a2828;
   --accent: #6e0008;
   --accent-hover: #4a0005;
+  /* Accent legible on always-dark surfaces (e.g. the bottom-nav) regardless of theme. */
+  --accent-on-dark: #c8585e;
   --link-accent: var(--accent);
   --link-accent-hover: var(--accent-hover);
   --text-primary: #2a2828;
