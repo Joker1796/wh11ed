@@ -290,6 +290,8 @@ const { history, setupDraft } = useTracker()
 const lastYouName = history.value[0]?.players?.[0]?.name || ''
 // Default the score mode to the last game's choice (older games lack it → fall back to VP).
 const lastScoreMode = history.value[0]?.settings?.scoreMode === 'bp' ? 'bp' : 'vp'
+// Remember the Track CP toggle from the last game (older games lack it → default on).
+const lastTrackCP = history.value[0]?.settings?.trackCP ?? true
 function playerLabel(i) {
   return i === 0 ? labels.value.trackerYou : labels.value.trackerOpponent
 }
@@ -313,7 +315,7 @@ const MAX_FIXED = 2   // Fixed secondaries: choose 2, kept for the whole game.
 function defaultPlayer(role, name = '') {
   return { name, factionSlug: null, detachments: [], disposition: null, role, secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false }
 }
-const defaultSettings = { trackCP: true, firstTurn: 1, layout: 'A', customLayout: null, battleSize: 'strikeForce', twist: null, twistMission: null, scoreMode: lastScoreMode }
+const defaultSettings = { trackCP: lastTrackCP, firstTurn: 1, layout: 'A', customLayout: null, battleSize: 'strikeForce', twist: null, twistMission: null, scoreMode: lastScoreMode }
 
 // Restore an in-progress draft if present, else start fresh (with the pre-filled name).
 // Read once, BEFORE the reset watchers are registered, so restoring a faction/detachments
