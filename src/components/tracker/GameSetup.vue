@@ -286,8 +286,12 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { history, setupDraft } = useTracker()
 
-// Player 1 is "You"; pre-fill their name from the most recent finished game (editable).
-const lastYouName = history.value[0]?.players?.[0]?.name || ''
+// Pre-fill "Your" name from the most recent finished game. New games mark the "You" player with
+// isYou:true (possibly at index 1 if Opponent went first); fall back to index 0 for old games.
+const lastGame = history.value[0]
+const lastYouName = lastGame
+  ? ((lastGame.players.find(p => p.isYou) ?? lastGame.players[0])?.name ?? '')
+  : ''
 // Default the score mode to the last game's choice (older games lack it → fall back to VP).
 const lastScoreMode = history.value[0]?.settings?.scoreMode === 'bp' ? 'bp' : 'vp'
 // Remember the Track CP toggle from the last game (older games lack it → default on).

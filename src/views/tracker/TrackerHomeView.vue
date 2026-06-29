@@ -252,7 +252,8 @@ function onConfirmAction() {
   if (action) action()
 }
 function pname(g, i) {
-  return g.players[i].name || (i === 0 ? labels.value.trackerYou : labels.value.trackerOpponent)
+  const pl = g.players[i]
+  return pl.name || ((pl.isYou ?? i === 0) ? labels.value.trackerYou : labels.value.trackerOpponent)
 }
 // Use the stored result.totals (VP at finish) — no recompute, so old saved games with
 // possibly-incomplete data never break the list. Concede overrides the winner / BP.
