@@ -88,7 +88,7 @@
               ></i>
               {{ formatDate(g.finishedAt || g.createdAt) }}
             </span>
-            <button class="del" @click.stop="deleteHistory(g.id)">{{ labels.trackerDelete }}</button>
+            <button class="del" @click.stop="onDeleteGame(g.id)">{{ labels.trackerDelete }}</button>
           </div>
         </li>
       </ul>
@@ -140,11 +140,19 @@ const {
   syncNow,
   refreshCloudList,
   isBackedUp,
+  deleteGame,
   syncing,
   lastError,
   inSync,
   cloudEmpty,
 } = useCloudSync()
+
+// Deleting a game removes it locally AND from the cloud backup (so it doesn't resurface on
+// another device or get re-downloaded by a later sync).
+function onDeleteGame(id) {
+  deleteHistory(id)
+  deleteGame(id)
+}
 
 const SYNC_AFTER_LOGIN = 'wh11ed-sync-after-login'
 
