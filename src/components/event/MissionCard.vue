@@ -5,7 +5,7 @@
       <span v-if="subtitle" class="mcard-sub">{{ subtitle }}</span>
     </header>
 
-    <p v-if="mission.lore" class="mcard-lore">{{ mission.lore }}</p>
+    <p v-if="mission.lore && showLore" class="mcard-lore">{{ mission.lore }}</p>
 
     <MissionBriefing :briefing="mission.briefing" />
 
@@ -33,8 +33,11 @@ import { useLocale } from '../../composables/useLocale.js'
 import MissionBriefing from '../MissionBriefing.vue'
 
 defineProps({
-  mission: { type: Object, required: true }, // { slug, name, briefing?:[{label?,text}|{action,rows:[{label,text}]}], blocks:[{ kind?, heading, when?, rows:[{text,vp,modifier?}] }] }
+  mission: { type: Object, required: true }, // { slug, name, lore?, briefing?:[{label?,text}|{action,rows:[{label,text}]}], blocks:[{ kind?, heading, when?, rows:[{text,vp,modifier?}] }] }
   subtitle: { type: String, default: '' },
+  // Flavour lore is shown on the Event Companion Missions catalogue, but hidden in the
+  // tracker (setup preview / pickers) — there only the rules info (briefing + blocks) is useful.
+  showLore: { type: Boolean, default: true },
 })
 
 const { locale } = useLocale()
