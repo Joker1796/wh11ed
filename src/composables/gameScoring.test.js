@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import {
-  PRIMARY_GAME_CAP, FIXED_SECONDARY_CAP, SECONDARY_GAME_CAP, BATTLE_READY_VP,
+  PRIMARY_GAME_CAP, FIXED_SECONDARY_CAP, TACTICAL_SECONDARY_CAP, SECONDARY_GAME_CAP, BATTLE_READY_VP,
   primaryTotal, secondaryTotal, grandTotal, leader,
   battlePointsFromVp, battlePoints, BP_TABLE,
 } from './gameScoring.js'
@@ -36,11 +36,17 @@ describe('primaryTotal', () => {
 })
 
 describe('secondaryTotal', () => {
-  it('tactical: sums scored VP, capped at 40', () => {
-    const g = game({ secondary: { scored: [{ vp: 12 }, { vp: 10 }] } })
-    expect(secondaryTotal(g, 0)).toBe(22)
-    const over = game({ secondary: { scored: [{ vp: 30 }, { vp: 30 }] } })
-    expect(secondaryTotal(over, 0)).toBe(SECONDARY_GAME_CAP)
+  it('tactical: caps each scoring at 5VP ("up to 5VP"), then sums', () => {
+    const g = game({ secondary: { scored: [{ vp: 5 }, { vp: 3 }] } })
+    expect(secondaryTotal(g, 0)).toBe(8)
+    // "For each … 3VP" scoring 4 units → 12, but a tactical secondary is capped at 5 each.
+    const over = game({ secondary: { scored: [{ vp: 12 }, { vp: 10 }] } })
+    expect(secondaryTotal(over, 0)).toBe(10)
+    expect(TACTICAL_SECONDARY_CAP).toBe(5)
+  })
+  it('tactical: also caps the game total at 40', () => {
+    const many = game({ secondary: { scored: Array.from({ length: 9 }, () => ({ vp: 5 })) } })
+    expect(secondaryTotal(many, 0)).toBe(SECONDARY_GAME_CAP)
     expect(SECONDARY_GAME_CAP).toBe(40)
   })
   it('fixed: caps each mission at 20 before the 40 game cap', () => {
@@ -58,11 +64,11 @@ describe('grandTotal', () => {
   it('adds primary + secondary + battle-ready bonus', () => {
     const g = {
       players: [
-        player({ rounds: [{ primary: 10 }, { primary: 5 }, {}, {}, {}], secondary: { scored: [{ vp: 7 }] }, battleReady: true }),
+        player({ rounds: [{ primary: 10 }, { primary: 5 }, {}, {}, {}], secondary: { scored: [{ vp: 5 }] }, battleReady: true }),
         player(),
       ],
     }
-    expect(grandTotal(g, 0)).toBe(15 + 7 + BATTLE_READY_VP)
+    expect(grandTotal(g, 0)).toBe(15 + 5 + BATTLE_READY_VP)
     expect(BATTLE_READY_VP).toBe(10)
   })
 })

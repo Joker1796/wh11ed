@@ -5,6 +5,8 @@
       <span v-if="subtitle" class="mcard-sub">{{ subtitle }}</span>
     </header>
 
+    <p v-if="mission.lore" class="mcard-lore">{{ mission.lore }}</p>
+
     <MissionBriefing :briefing="mission.briefing" />
 
     <div v-for="(b, bi) in mission.blocks" :key="bi" class="m-block">
@@ -73,6 +75,18 @@ function isPerEach(text) {
   text-transform: uppercase;
   letter-spacing: 0.03em;
   color: var(--text-muted);
+}
+/* Flavour text (lore), shown right after the title — matches the project's
+   .flavor-quote convention; hidden by the global "hide lore" toggle. */
+.mcard-lore {
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--text-muted);
+  border-left: 2px solid var(--border);
+  padding-left: 0.85rem;
+  margin: 0.4rem 0 0.2rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
 }
 
 .m-block { margin-top: 0.7rem; }
