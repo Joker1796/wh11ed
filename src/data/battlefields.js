@@ -731,7 +731,7 @@ If a unit performing an **action** makes a move (excluding **pile-in** and **con
         {
           id: 'section-15-09',
           sectionNum: '15.09',
-          title: 'Стрельба на упреждение',
+          title: 'Snap Shooting',
           inline: true,
           body: `◈ ДОПУСТИМО ЕСЛИ | Как указано в правиле, разрешающем этот **тип стрельбы**.
 ◈ ЭФФЕКТ | Ваш юнит стреляет, как описано в разделе «Совершение атак» (04).
@@ -800,7 +800,7 @@ If a unit performing an **action** makes a move (excluding **pile-in** and **con
           extraCost: [],
           subRule: {
             sectionNum: '15.09',
-            title: 'Стрельба на упреждение',
+            title: 'Snap Shooting',
             fields: [
               { label: 'ДОПУСТИМО ЕСЛИ', text: 'Как указано в правиле, разрешающем этот **тип стрельбы**.' },
               { label: 'ЭФФЕКТ', text: 'Ваш юнит стреляет, как описано в разделе «Совершение атак» (04).' },
