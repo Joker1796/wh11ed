@@ -242,11 +242,13 @@ export const eventGroupsRu = [
 export const trackerGroups = [
   { label: 'Game Tracker', path: '/tracker',      sections: [] },
   { label: 'Current Game', path: '/tracker/game', sections: [] },
+  { label: 'Stratagems',   path: '/stratagems',   sections: [] },
 ]
 
 export const trackerGroupsRu = [
   { label: 'Трекер игры',   path: '/tracker',      sections: [] },
   { label: 'Текущая игра',  path: '/tracker/game', sections: [] },
+  { label: 'Стратагемы',    path: '/stratagems',   sections: [] },
 ]
 
 // Links — fourth top-level section. Single page of external source PDFs, no anchors.

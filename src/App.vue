@@ -265,11 +265,14 @@ const trackerSubNavItems = computed(() => {
   return [
     { path: '/tracker', label: l.subNavTrackerHome },
     { path: '/tracker/game', label: l.subNavTrackerGame },
+    { path: '/stratagems', label: l.navStratagemsShort },
   ]
 })
 
 const subNavItems = computed(() => {
-  if (isTrackerRoute.value) return trackerSubNavItems.value
+  // /stratagems rides with the tracker subnav so reaching it from there keeps the
+  // Game Tracker / Current Game tabs in view (desktop has no "Back to game" bar).
+  if (isTrackerRoute.value || isStratagemsRoute.value) return trackerSubNavItems.value
   if (isEventRoute.value) return eventSubNavItems.value
   return coreSubNavItems.value
 })
