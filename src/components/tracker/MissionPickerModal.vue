@@ -16,7 +16,7 @@
             </button>
           </div>
           <div v-show="openId === m.slug" class="tp-body">
-            <MissionCard :mission="m" />
+            <MissionCard :mission="m" :show-lore="false" />
           </div>
         </div>
       </div>

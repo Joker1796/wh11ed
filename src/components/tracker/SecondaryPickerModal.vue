@@ -25,7 +25,7 @@
             >{{ selected.includes(m.slug) ? '✓ ' : '' }}{{ labels.trackerSelect }}</button>
           </div>
           <div v-show="openId === m.slug" class="tp-body">
-            <MissionCard :mission="m" :subtitle="m.category" />
+            <MissionCard :mission="m" :subtitle="m.category" :show-lore="false" />
           </div>
         </div>
       </div>
