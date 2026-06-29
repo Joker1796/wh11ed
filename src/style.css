@@ -115,6 +115,10 @@ html {
      position:fixed + translateX(100%) when closed, so only the root can clip it). `clip`
      (not `hidden`) does NOT create a scroll container, so it preserves the sticky navbar/subnav. */
   overflow-x: clip;
+  /* No elastic rubber-band overscroll: on iOS the document bounce makes the fixed bottom-nav
+     appear to lift off the bottom during a fast flick. (Standalone PWA has no pull-to-refresh
+     to lose.) */
+  overscroll-behavior-y: none;
 }
 
 /* Visible keyboard focus across the app. Only shows for keyboard/AT users (`:focus-visible`),
