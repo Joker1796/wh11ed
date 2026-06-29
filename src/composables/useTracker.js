@@ -216,16 +216,19 @@ let pendingSetupDraft = false
 
 function flushSave() {
   if (saveTimer) { clearTimeout(saveTimer); saveTimer = null }
+  // History BEFORE current: when archiving, current is cleared and the game moves to history.
+  // Writing history first means a failure (quota/iOS) on the current write can't leave us with
+  // a finished game dropped from both keys.
+  if (pendingHistory) {
+    pendingHistory = false
+    try { localStorage.setItem(HIST_KEY, JSON.stringify(history.value)) } catch { /* ignore */ }
+  }
   if (pendingCurrent) {
     pendingCurrent = false
     try {
       if (current.value) localStorage.setItem(CUR_KEY, JSON.stringify(current.value))
       else localStorage.removeItem(CUR_KEY)
     } catch { /* quota / private mode — ignore */ }
-  }
-  if (pendingHistory) {
-    pendingHistory = false
-    try { localStorage.setItem(HIST_KEY, JSON.stringify(history.value)) } catch { /* ignore */ }
   }
   if (pendingSetupDraft) {
     pendingSetupDraft = false
@@ -238,6 +241,17 @@ function flushSave() {
 
 function scheduleSave() {
   if (!saveTimer) saveTimer = setTimeout(() => { saveTimer = null; flushSave() }, SAVE_DELAY)
+}
+
+// Force an immediate, synchronous persist. The 500ms debounce (+ flush on pagehide/hidden)
+// is fine for frequent in-play edits, but for the infrequent, critical game transitions
+// (archive/discard/resume-from-history) it's risky: an installed iOS PWA can be frozen and
+// killed without reliably firing pagehide, dropping the pending write — so a finished game
+// the user just "saved" reverts on relaunch. Write those through right away instead.
+function saveNow() {
+  pendingCurrent = true
+  pendingHistory = true
+  flushSave()
 }
 
 watch(current, () => { pendingCurrent = true; scheduleSave() }, { deep: true })
@@ -499,6 +513,7 @@ export function useTracker() {
     delete resumed.endReason
     current.value = resumed
     history.value = history.value.filter(x => x.id !== id)
+    saveNow()
   }
 
   // Save the finished game to history and clear the current slot.
@@ -506,10 +521,12 @@ export function useTracker() {
     if (!current.value) return
     history.value = [JSON.parse(JSON.stringify(current.value)), ...history.value]
     current.value = null
+    saveNow() // persist synchronously — don't let an iOS PWA suspend drop the just-saved game
   }
 
   function discardGame() {
     current.value = null
+    saveNow()
   }
 
   function deleteHistory(id) {
