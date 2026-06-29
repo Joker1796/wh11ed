@@ -9,7 +9,7 @@
 //   deck = your Force Disposition; opponent = the matchup disposition; mirror when same.
 //   lore = the card's flavour text (the collapsible "Lore" panel in the official app),
 //     shown after the title on the Missions page and hidden by the "hide lore" toggle.
-// secondary = { type, role:'attacker'|'defender', slug, name, category, image, briefing?, whenDrawn?, blocks }
+// secondary = { type, role:'attacker'|'defender', slug, name, category, image, lore?, briefing?, whenDrawn?, blocks }
 //   block = { kind?:'fixed'|'tactical', heading, when?, rows:[{ text, vp, modifier? }] }
 //   vp is a number, or a '+N' string for cumulative bonuses; modifier ∈ 'or'|'cumulative'.
 //   whenDrawn = the card's WHEN DRAWN deck action, applied one-tap in the tracker (tactical only):
@@ -787,6 +787,7 @@ const secondary = [
   {
     type: 'secondary', role: 'attacker', slug: 'a-grievous-blow', name: 'A Grievous Blow', category: 'Fixed / Tactical',
     image: '/assets/11th/secondary-missions/attacker/a-grievous-blow.png',
+    lore: 'Target and eliminate the most numerous and potent of enemy infantry to shatter their battle line.',
     whenDrawn: { mode: 'discard' },
     briefing: [
       { label: 'When Drawn', text: 'If no enemy units with a Starting Strength of 13 or more are on the battlefield, you may discard this card and draw one new Secondary Mission card.' },
@@ -809,6 +810,7 @@ const secondary = [
   {
     type: 'secondary', role: 'defender', slug: 'a-grievous-blow', name: 'A Grievous Blow', category: 'Fixed / Tactical',
     image: '/assets/11th/secondary-missions/defender/a-grievous-blow.png',
+    lore: 'Target and eliminate the most numerous and potent of enemy infantry to shatter their battle line.',
     whenDrawn: { mode: 'discard' },
     briefing: [
       { label: 'When Drawn', text: 'If no enemy units with a Starting Strength of 13 or more are on the battlefield, you may discard this card and draw one new Secondary Mission card.' },
@@ -831,6 +833,7 @@ const secondary = [
   {
     type: 'secondary', role: 'attacker', slug: 'a-tempting-target', name: 'A Tempting Target', category: 'Tactical',
     image: '/assets/11th/secondary-missions/attacker/a-tempting-target.png',
+    lore: 'An opportunity to seize a valuable asset has been identified, but the enemy are likely to use it as bait in a trap. Move to secure the site, but be wary of enemy ambushes.',
     briefing: [
       { label: 'When Drawn', text: "Your opponent selects one objective (excluding home objectives) within No Man's Land to be your tempting target." },
     ],
@@ -846,6 +849,7 @@ const secondary = [
   {
     type: 'secondary', role: 'defender', slug: 'a-tempting-target', name: 'A Tempting Target', category: 'Tactical',
     image: '/assets/11th/secondary-missions/defender/a-tempting-target.png',
+    lore: 'An opportunity to seize a valuable asset has been identified, but the enemy are likely to use it as bait in a trap. Move to secure the site, but be wary of enemy ambushes.',
     briefing: [
       { label: 'When Drawn', text: "Your opponent selects one objective (excluding home objectives) within No Man's Land to be your tempting target." },
     ],
@@ -861,6 +865,7 @@ const secondary = [
   {
     type: 'secondary', role: 'attacker', slug: 'assassination', name: 'Assassination', category: 'Fixed / Tactical',
     image: '/assets/11th/secondary-missions/attacker/assassination.png',
+    lore: 'The enemy looks to their champions for courage. Identify and eliminate them with extreme prejudice.',
     blocks: [
       {
         kind: 'fixed', heading: 'Any Battle Round', when: 'While this card is active',
@@ -881,6 +886,7 @@ const secondary = [
   {
     type: 'secondary', role: 'defender', slug: 'assassination', name: 'Assassination', category: 'Fixed / Tactical',
     image: '/assets/11th/secondary-missions/defender/assassination.png',
+    lore: 'The enemy looks to their champions for courage. Identify and eliminate them with extreme prejudice.',
     blocks: [
       {
         kind: 'fixed', heading: 'Any Battle Round', when: 'While this card is active',
@@ -901,6 +907,7 @@ const secondary = [
   {
     type: 'secondary', role: 'attacker', slug: 'beacon', name: 'Beacon', category: 'Tactical',
     image: '/assets/11th/secondary-missions/attacker/beacon.png',
+    lore: "Bold and defiant, your chosen champions taunt the foe, drawing them on. Should they hold fast in the face of the inevitable response, the enemy's momentum will surely falter.",
     briefing: [
       { label: 'When Drawn', text: 'Choose one friendly unit on the battlefield, or embarked within a TRANSPORT on the battlefield, to be your beacon unit.' },
     ],
@@ -917,6 +924,7 @@ const secondary = [
   {
     type: 'secondary', role: 'defender', slug: 'beacon', name: 'Beacon', category: 'Tactical',
     image: '/assets/11th/secondary-missions/defender/beacon.png',
+    lore: "Bold and defiant, your chosen champions taunt the foe, drawing them on. Should they hold fast in the face of the inevitable response, the enemy's momentum will surely falter.",
     briefing: [
       { label: 'When Drawn', text: 'Choose one friendly unit on the battlefield, or embarked within a TRANSPORT on the battlefield, to be your beacon unit.' },
     ],
@@ -933,6 +941,7 @@ const secondary = [
   {
     type: 'secondary', role: 'attacker', slug: 'behind-enemy-lines', name: 'Behind Enemy Lines', category: 'Tactical',
     image: '/assets/11th/secondary-missions/attacker/behind-enemy-lines.png',
+    lore: 'Your orders are clear: break through the enemy and cut off their escape routes.',
     whenDrawn: { mode: 'shuffle', gate: 'first-round' },
     briefing: [
       { label: 'When Drawn', text: 'During the first battle round, you may shuffle this card back into your Secondary Mission deck and then draw one new Secondary Mission card.' },
@@ -949,6 +958,7 @@ const secondary = [
   {
     type: 'secondary', role: 'defender', slug: 'behind-enemy-lines', name: 'Behind Enemy Lines', category: 'Tactical',
     image: '/assets/11th/secondary-missions/defender/behind-enemy-lines.png',
+    lore: 'Your orders are clear: break through the enemy and cut off their escape routes.',
     whenDrawn: { mode: 'shuffle', gate: 'first-round' },
     briefing: [
       { label: 'When Drawn', text: 'During the first battle round, you may shuffle this card back into your Secondary Mission deck and then draw one new Secondary Mission card.' },
@@ -965,6 +975,7 @@ const secondary = [
   {
     type: 'secondary', role: 'attacker', slug: 'bring-it-down', name: 'Bring it Down', category: 'Fixed / Tactical',
     image: '/assets/11th/secondary-missions/attacker/bring-it-down.png',
+    lore: 'Prioritise the destruction of heavily armoured assets. Bring them down at all costs.',
     whenDrawn: { mode: 'discard' },
     briefing: [
       { label: 'When Drawn', text: 'If there are no enemy models on the battlefield with a Wounds characteristic of 10 or more, you may discard this card and draw one new Secondary Mission card.' },
@@ -987,6 +998,7 @@ const secondary = [
   {
     type: 'secondary', role: 'defender', slug: 'bring-it-down', name: 'Bring it Down', category: 'Fixed / Tactical',
     image: '/assets/11th/secondary-missions/defender/bring-it-down.png',
+    lore: 'Prioritise the destruction of heavily armoured assets. Bring them down at all costs.',
     whenDrawn: { mode: 'discard' },
     briefing: [
       { label: 'When Drawn', text: 'If there are no enemy models on the battlefield with a Wounds characteristic of 10 or more, you may discard this card and draw one new Secondary Mission card.' },
@@ -1009,6 +1021,7 @@ const secondary = [
   {
     type: 'secondary', role: 'attacker', slug: 'burden-of-trust', name: 'Burden of Trust', category: 'Tactical',
     image: '/assets/11th/secondary-missions/attacker/burden-of-trust.png',
+    lore: 'The strategic prizes in this region must be guarded at all costs – a duty that falls upon a chosen few.',
     briefing: [
       { label: 'When Drawn / Start of Your Turn', text: 'For each objective, you may pick one friendly unit on the battlefield to guard that objective. From then until the start of your next turn, that objective counts as guarded by your army for as long as the chosen unit is within range of it and you control it.' },
     ],
@@ -1024,6 +1037,7 @@ const secondary = [
   {
     type: 'secondary', role: 'defender', slug: 'burden-of-trust', name: 'Burden of Trust', category: 'Tactical',
     image: '/assets/11th/secondary-missions/defender/burden-of-trust.png',
+    lore: 'The strategic prizes in this region must be guarded at all costs – a duty that falls upon a chosen few.',
     briefing: [
       { label: 'When Drawn / Start of Your Turn', text: 'For each objective, you may pick one friendly unit on the battlefield to guard that objective. From then until the start of your next turn, that objective counts as guarded by your army for as long as the chosen unit is within range of it and you control it.' },
     ],
@@ -1039,6 +1053,7 @@ const secondary = [
   {
     type: 'secondary', role: 'attacker', slug: 'centre-ground', name: 'Centre Ground', category: 'Tactical',
     image: '/assets/11th/secondary-missions/attacker/centre-ground.png',
+    lore: 'The heart of the battlefield is key to victory. Dominate the centre ground, and you shall be one step closer to achieving your goals.',
     blocks: [
       {
         kind: 'tactical', heading: 'Any Battle Round', when: 'End of your turn',
@@ -1052,6 +1067,7 @@ const secondary = [
   {
     type: 'secondary', role: 'defender', slug: 'centre-ground', name: 'Centre Ground', category: 'Tactical',
     image: '/assets/11th/secondary-missions/defender/centre-ground.png',
+    lore: 'The heart of the battlefield is key to victory. Dominate the centre ground, and you shall be one step closer to achieving your goals.',
     blocks: [
       {
         kind: 'tactical', heading: 'Any Battle Round', when: 'End of your turn',
@@ -1065,6 +1081,7 @@ const secondary = [
   {
     type: 'secondary', role: 'attacker', slug: 'cleanse', name: 'Cleanse', category: 'Tactical',
     image: '/assets/11th/secondary-missions/attacker/cleanse.png',
+    lore: 'Your forces have identified a series of tainted objectives in this area. Purify these locations.',
     whenDrawn: { mode: 'shuffle', gate: { pairedActive: 'plunder' } },
     briefing: [
       { label: 'When Drawn', text: 'If you have the Plunder Secondary Mission active, you may shuffle this card back into your Secondary Mission deck and then draw one new Secondary Mission card.' },
@@ -1089,6 +1106,7 @@ const secondary = [
   {
     type: 'secondary', role: 'defender', slug: 'cleanse', name: 'Cleanse', category: 'Tactical',
     image: '/assets/11th/secondary-missions/defender/cleanse.png',
+    lore: 'Your forces have identified a series of tainted objectives in this area. Purify these locations.',
     whenDrawn: { mode: 'shuffle', gate: { pairedActive: 'plunder' } },
     briefing: [
       { label: 'When Drawn', text: 'If you have the Plunder Secondary Mission active, you may shuffle this card back into your Secondary Mission deck and then draw one new Secondary Mission card.' },
@@ -1113,6 +1131,7 @@ const secondary = [
   {
     type: 'secondary', role: 'attacker', slug: 'defend-stronghold', name: 'Defend Stronghold', category: 'Tactical',
     image: '/assets/11th/secondary-missions/attacker/defend-stronghold.png',
+    lore: 'You are charged with the defence of a critical objective. It must not be permitted to fall into enemy hands.',
     whenDrawn: { mode: 'shuffle', gate: 'first-round' },
     briefing: [
       { label: 'When Drawn', text: 'During the first battle round, shuffle this card back into your Secondary Mission deck and then draw one new Secondary Mission card.' },
@@ -1130,6 +1149,7 @@ const secondary = [
   {
     type: 'secondary', role: 'defender', slug: 'defend-stronghold', name: 'Defend Stronghold', category: 'Tactical',
     image: '/assets/11th/secondary-missions/defender/defend-stronghold.png',
+    lore: 'You are charged with the defence of a critical objective. It must not be permitted to fall into enemy hands.',
     whenDrawn: { mode: 'shuffle', gate: 'first-round' },
     briefing: [
       { label: 'When Drawn', text: 'During the first battle round, shuffle this card back into your Secondary Mission deck and then draw one new Secondary Mission card.' },
@@ -1147,6 +1167,7 @@ const secondary = [
   {
     type: 'secondary', role: 'attacker', slug: 'display-of-might', name: 'Display of Might', category: 'Tactical',
     image: '/assets/11th/secondary-missions/attacker/display-of-might.png',
+    lore: "Intimidation is a potent weapon. Demonstrate your battlefield supremacy with a brutal show of force and erode what remains of the enemy's morale.",
     blocks: [
       {
         kind: 'tactical', heading: 'Any Battle Round', when: 'End of your turn',
@@ -1165,6 +1186,7 @@ const secondary = [
   {
     type: 'secondary', role: 'defender', slug: 'display-of-might', name: 'Display of Might', category: 'Tactical',
     image: '/assets/11th/secondary-missions/defender/display-of-might.png',
+    lore: "Intimidation is a potent weapon. Demonstrate your battlefield supremacy with a brutal show of force and erode what remains of the enemy's morale.",
     blocks: [
       {
         kind: 'tactical', heading: 'Any Battle Round', when: 'End of your turn',
@@ -1183,6 +1205,7 @@ const secondary = [
   {
     type: 'secondary', role: 'attacker', slug: 'engage-on-all-fronts', name: 'Engage on All Fronts', category: 'Fixed / Tactical',
     image: '/assets/11th/secondary-missions/attacker/engage-on-all-fronts.png',
+    lore: 'Probe their lines and engage any resistance. Stretch the foe to breaking point.',
     briefing: [
       { text: 'You have a presence in a table quarter if one or more friendly units (excluding AIRCRAFT and battle-shocked units) are wholly within that table quarter and are not within 6" of the centre of the battlefield.' },
     ],
@@ -1206,6 +1229,7 @@ const secondary = [
   {
     type: 'secondary', role: 'defender', slug: 'engage-on-all-fronts', name: 'Engage on All Fronts', category: 'Fixed / Tactical',
     image: '/assets/11th/secondary-missions/defender/engage-on-all-fronts.png',
+    lore: 'Probe their lines and engage any resistance. Stretch the foe to breaking point.',
     briefing: [
       { text: 'You have a presence in a table quarter if one or more friendly units (excluding AIRCRAFT and battle-shocked units) are wholly within that table quarter and are not within 6" of the centre of the battlefield.' },
     ],
@@ -1229,6 +1253,7 @@ const secondary = [
   {
     type: 'secondary', role: 'attacker', slug: 'forward-position', name: 'Forward Position', category: 'Tactical',
     image: '/assets/11th/secondary-missions/attacker/forward-position.png',
+    lore: 'You must break the enemy line and establish a forward position to launch fresh assaults.',
     whenDrawn: { mode: 'shuffle', gate: 'first-round' },
     briefing: [
       { label: 'When Drawn', text: 'During the first battle round, you may shuffle this card back into your Secondary Mission deck and then draw one new Secondary Mission card.' },
@@ -1245,6 +1270,7 @@ const secondary = [
   {
     type: 'secondary', role: 'defender', slug: 'forward-position', name: 'Forward Position', category: 'Tactical',
     image: '/assets/11th/secondary-missions/defender/forward-position.png',
+    lore: 'You must break the enemy line and establish a forward position to launch fresh assaults.',
     whenDrawn: { mode: 'shuffle', gate: 'first-round' },
     briefing: [
       { label: 'When Drawn', text: 'During the first battle round, you may shuffle this card back into your Secondary Mission deck and then draw one new Secondary Mission card.' },
@@ -1261,6 +1287,7 @@ const secondary = [
   {
     type: 'secondary', role: 'attacker', slug: 'no-prisoners', name: 'No Prisoners', category: 'Tactical',
     image: '/assets/11th/secondary-missions/attacker/no-prisoners.png',
+    lore: 'Show no mercy. Exterminate your enemies.',
     blocks: [
       {
         kind: 'tactical', heading: 'Any Battle Round', when: 'End of a turn',
@@ -1273,6 +1300,7 @@ const secondary = [
   {
     type: 'secondary', role: 'defender', slug: 'no-prisoners', name: 'No Prisoners', category: 'Tactical',
     image: '/assets/11th/secondary-missions/defender/no-prisoners.png',
+    lore: 'Show no mercy. Exterminate your enemies.',
     blocks: [
       {
         kind: 'tactical', heading: 'Any Battle Round', when: 'End of a turn',
@@ -1285,6 +1313,10 @@ const secondary = [
   {
     type: 'secondary', role: 'attacker', slug: 'outflank', name: 'Outflank', category: 'Tactical',
     image: '/assets/11th/secondary-missions/attacker/outflank.png',
+    lore: 'Exploit the flanks; use your speed and momentum to surround the foe and catch them in the jaws of a trap.',
+    briefing: [
+      { label: "Designer's Note", text: 'Opposite battlefield edges are those parallel to each other.' },
+    ],
     blocks: [
       {
         kind: 'tactical', heading: 'Any Battle Round', when: 'End of your turn',
@@ -1298,6 +1330,10 @@ const secondary = [
   {
     type: 'secondary', role: 'defender', slug: 'outflank', name: 'Outflank', category: 'Tactical',
     image: '/assets/11th/secondary-missions/defender/outflank.png',
+    lore: 'Exploit the flanks; use your speed and momentum to surround the foe and catch them in the jaws of a trap.',
+    briefing: [
+      { label: "Designer's Note", text: 'Opposite battlefield edges are those parallel to each other.' },
+    ],
     blocks: [
       {
         kind: 'tactical', heading: 'Any Battle Round', when: 'End of your turn',
@@ -1311,6 +1347,7 @@ const secondary = [
   {
     type: 'secondary', role: 'attacker', slug: 'overwhelming-force', name: 'Overwhelming Force', category: 'Tactical',
     image: '/assets/11th/secondary-missions/attacker/overwhelming-force.png',
+    lore: 'The enemy holds your assigned objectives. Commit your forces in full and sweep them from these locations post-haste.',
     blocks: [
       {
         kind: 'tactical', heading: 'Any Battle Round', when: 'End of a turn',
@@ -1323,6 +1360,7 @@ const secondary = [
   {
     type: 'secondary', role: 'defender', slug: 'overwhelming-force', name: 'Overwhelming Force', category: 'Tactical',
     image: '/assets/11th/secondary-missions/defender/overwhelming-force.png',
+    lore: 'The enemy holds your assigned objectives. Commit your forces in full and sweep them from these locations post-haste.',
     blocks: [
       {
         kind: 'tactical', heading: 'Any Battle Round', when: 'End of a turn',
@@ -1335,6 +1373,7 @@ const secondary = [
   {
     type: 'secondary', role: 'attacker', slug: 'plunder', name: 'Plunder', category: 'Tactical',
     image: '/assets/11th/secondary-missions/attacker/plunder.png',
+    lore: 'Unguarded prizes lie strewn across the field of battle. Secure them and deny them to the enemy.',
     whenDrawn: { mode: 'shuffle', gate: { pairedActive: 'cleanse' } },
     briefing: [
       { label: 'When Drawn', text: 'If you have the Cleanse Secondary Mission active, you may shuffle this card back into your Secondary Mission deck and then draw one new Secondary Mission card.' },
@@ -1358,6 +1397,7 @@ const secondary = [
   {
     type: 'secondary', role: 'defender', slug: 'plunder', name: 'Plunder', category: 'Tactical',
     image: '/assets/11th/secondary-missions/defender/plunder.png',
+    lore: 'Unguarded prizes lie strewn across the field of battle. Secure them and deny them to the enemy.',
     whenDrawn: { mode: 'shuffle', gate: { pairedActive: 'cleanse' } },
     briefing: [
       { label: 'When Drawn', text: 'If you have the Cleanse Secondary Mission active, you may shuffle this card back into your Secondary Mission deck and then draw one new Secondary Mission card.' },
@@ -1381,6 +1421,7 @@ const secondary = [
   {
     type: 'secondary', role: 'attacker', slug: 'secure-no-man-s-land', name: 'Secure No Man\'s Land', category: 'Tactical',
     image: '/assets/11th/secondary-missions/attacker/secure-no-man-s-land.png',
+    lore: 'You must advance swiftly into no man\'s land and seize it before the enemy can, lest they take control of the battlefield.',
     blocks: [
       {
         kind: 'tactical', heading: 'Any Battle Round', when: 'End of your turn',
@@ -1393,6 +1434,7 @@ const secondary = [
   {
     type: 'secondary', role: 'defender', slug: 'secure-no-man-s-land', name: 'Secure No Man\'s Land', category: 'Tactical',
     image: '/assets/11th/secondary-missions/defender/secure-no-man-s-land.png',
+    lore: 'You must advance swiftly into no man\'s land and seize it before the enemy can, lest they take control of the battlefield.',
     blocks: [
       {
         kind: 'tactical', heading: 'Any Battle Round', when: 'End of your turn',
