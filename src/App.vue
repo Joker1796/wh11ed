@@ -127,7 +127,7 @@
 
     <!-- Mobile bottom nav — quick switch between the global sections -->
     <nav class="bottom-nav">
-      <RouterLink to="/introduction" class="bn-item" :class="{ active: isCoreRoute }">
+      <RouterLink to="/basic-rules" class="bn-item" :class="{ active: isCoreRoute }">
         <i class="bi bi-book-half"></i>
         <span>{{ labels.navCoreRulesShort }}</span>
       </RouterLink>
