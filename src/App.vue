@@ -1,5 +1,5 @@
 <template>
-  <div class="app-layout">
+  <div class="app-layout" :style="{ '--resume-bar-h': showResumeGame ? '3.5rem' : '0px' }">
     <!-- Top navbar: brand + action buttons -->
     <header class="navbar">
       <div class="navbar-inner">
@@ -131,9 +131,9 @@
         <i class="bi bi-book-half"></i>
         <span>{{ labels.navCoreRulesShort }}</span>
       </RouterLink>
-      <RouterLink to="/event-companion" class="bn-item" :class="{ active: isEventRoute && !isMissionsRoute }">
-        <i class="bi bi-calendar-event"></i>
-        <span>{{ labels.navEventShort }}</span>
+      <RouterLink to="/stratagems" class="bn-item" :class="{ active: isStratagemsRoute }">
+        <i class="bi bi-lightning-charge"></i>
+        <span>{{ labels.navStratagemsShort }}</span>
       </RouterLink>
       <RouterLink to="/event-companion/missions" class="bn-item" :class="{ active: isMissionsRoute }">
         <i class="bi bi-card-checklist"></i>
@@ -148,6 +148,7 @@
     <SearchModal v-if="searchOpen" @close="searchOpen = false" />
     <InstallHintModal v-if="installHintOpen" @close="installHintOpen = false" />
     <KeywordPopover />
+    <ResumeGameButton v-if="showResumeGame" />
     <UpdateToast />
     <OfflineWarmupToast />
   </div>
@@ -164,11 +165,13 @@ import KeywordPopover from './components/KeywordPopover.vue'
 import NavSidebar from './components/NavSidebar.vue'
 import UpdateToast from './components/UpdateToast.vue'
 import OfflineWarmupToast from './components/OfflineWarmupToast.vue'
+import ResumeGameButton from './components/ResumeGameButton.vue'
 import { useLocale } from './composables/useLocale.js'
 import { useTheme } from './composables/useTheme.js'
 import { useLoreVisibility } from './composables/useLoreVisibility.js'
 import { useInstallPrompt } from './composables/useInstallPrompt.js'
 import { useKeywordPopover } from './composables/useKeywordPopover.js'
+import { useTracker } from './composables/useTracker.js'
 import { resolveRef, useRefNavigation } from './composables/useRefNavigation.js'
 import { useViewRestore } from './composables/useViewRestore.js'
 import { applyRouteMeta } from './composables/useSeoMeta.js'
@@ -216,7 +219,20 @@ const isLanding = computed(() => route.path === '/')
 const isLinksRoute = computed(() => route.path === '/links')
 const isEventRoute = computed(() => route.path.startsWith('/event-companion'))
 const isMissionsRoute = computed(() => route.path === '/event-companion/missions')
+const isStratagemsRoute = computed(() => route.path === '/stratagems')
 const isTrackerRoute = computed(() => route.path.startsWith('/tracker'))
+
+// "Back to game" bar: only when a game is actively in progress and the user is reading something
+// outside the tracker. Hidden while a full-screen modal/drawer is open so it never overlaps them.
+const { current: currentGame } = useTracker()
+const showResumeGame = computed(() =>
+  currentGame.value?.phase === 'playing' &&
+  !isTrackerRoute.value &&
+  !isLanding.value &&
+  !searchOpen.value &&
+  !installHintOpen.value &&
+  !mobileNavOpen.value
+)
 const isCoreRoute = computed(() => !isEventRoute.value && !isTrackerRoute.value && coreRoutes.includes(route.path))
 
 const coreSubNavItems = computed(() => {
@@ -729,7 +745,7 @@ onUnmounted(() => {
   }
 
   .main-content {
-    padding: 0 calc(1rem + var(--safe-right)) calc(4.5rem + var(--safe-bottom)) calc(1rem + var(--safe-left));
+    padding: 0 calc(1rem + var(--safe-right)) calc(4.5rem + var(--safe-bottom) + var(--resume-bar-h, 0px)) calc(1rem + var(--safe-left));
   }
 
   .bottom-nav {
@@ -768,7 +784,9 @@ onUnmounted(() => {
   }
 
   .bn-item.active {
-    color: var(--accent);
+    /* The bottom-nav is always a dark surface, so use the on-dark accent — the light
+       theme's --accent (#6e0008) is near-invisible against it. */
+    color: var(--accent-on-dark);
   }
 }
 </style>

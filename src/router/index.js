@@ -24,6 +24,7 @@ const TrackerGameView   = () => import('../views/tracker/TrackerGameView.vue')
 const AuthCallbackView  = () => import('../views/tracker/AuthCallbackView.vue')
 const TrackerHistoryView = () => import('../views/tracker/TrackerHistoryView.vue')
 const LinksView         = () => import('../views/LinksView.vue')
+const StratagemsView    = () => import('../views/StratagemsView.vue')
 
 export const navGroups = [
   { label: 'Introduction',        path: '/introduction',   sections: [] },
@@ -280,6 +281,9 @@ export const router = createRouter({
     { path: '/tracker/history/:id', component: TrackerHistoryView },
     { path: '/tracker/auth-callback', component: AuthCallbackView },
     { path: '/links', component: LinksView },
+    // Game-time stratagem reference. Reachable only via the mobile bottom-nav (and direct
+    // URL on desktop) — intentionally not in navGroups / NavSidebar / the top navbar.
+    { path: '/stratagems', component: StratagemsView },
   ],
   scrollBehavior(to, from, savedPosition) {
     if (to.hash) {
