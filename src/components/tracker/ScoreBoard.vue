@@ -7,7 +7,7 @@
       :class="{ lead: leaderIdx === i }"
     >
       <div class="col-head">
-        <span class="pname">{{ pl.name || (i === 0 ? labels.trackerYou : labels.trackerOpponent) }}</span>
+        <span class="pname">{{ pl.name || ((pl.isYou ?? i === 0) ? labels.trackerYou : labels.trackerOpponent) }}</span>
         <span v-if="leaderIdx === i" class="lead-tag">{{ finished ? labels.trackerWinner : labels.trackerLeader }}</span>
       </div>
       <div class="grand">

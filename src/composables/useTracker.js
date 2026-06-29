@@ -277,11 +277,12 @@ function shuffle(arr) {
   return a
 }
 
-function makePlayer(p, opponent, settings) {
+function makePlayer(p, opponent, settings, isYou = false) {
   const primary = derivePrimary(p.disposition, opponent.disposition, settings)
   const poolSlugs = secondaryPool(p.role).map(m => m.slug)
   const secondaryMode = p.secondaryMode || 'tactical'
   return {
+    isYou: !!isYou,
     name: p.name || '',
     factionSlug: p.factionSlug || null,
     detachments: [...(p.detachments || [])],   // up to 3 DP worth; each grants a disposition
@@ -310,7 +311,7 @@ function makePlayer(p, opponent, settings) {
 export function useTracker() {
 
   function newGame(setup) {
-    // setup = { settings, players: [p1, p2] }
+    // setup = { settings, players: [p1=You, p2=Opponent] }
     // p = { name, factionSlug, detachments, disposition, role, secondaryMode }
     const [a, b] = setup.players
     const settings = { ...setup.settings }
@@ -319,13 +320,19 @@ export function useTracker() {
     if (settings.twist === 'mirrored-world' && !settings.twistMission && MIRROR_MISSIONS.length) {
       settings.twistMission = MIRROR_MISSIONS[Math.floor(Math.random() * MIRROR_MISSIONS.length)].slug
     }
+    // Reorder so the first-turn player is always at index 0; normalize firstTurn to 1 so
+    // players[0] can be identified as first-turn player regardless of original selection.
+    const youFirst = settings.firstTurn !== 2
+    settings.firstTurn = 1
     current.value = {
       id: 'g' + Date.now(),
       createdAt: new Date().toISOString(),
       phase: 'playing',
       currentRound: 1,
       settings,
-      players: [makePlayer(a, b, settings), makePlayer(b, a, settings)],
+      players: youFirst
+        ? [makePlayer(a, b, settings, true),  makePlayer(b, a, settings, false)]
+        : [makePlayer(b, a, settings, false), makePlayer(a, b, settings, true)],
     }
   }
 

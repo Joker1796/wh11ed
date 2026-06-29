@@ -39,6 +39,23 @@ describe('newGame', () => {
     expect(tracker.current.value.settings.scoreMode).toBe('bp')
     expect(tracker.current.value.settings.battleSize).toBe('incursion')
   })
+  it('firstTurn:1 — You at index 0 (isYou=true), firstTurn normalized to 1', () => {
+    tracker.newGame(setupGame({ settings: { firstTurn: 1 } }))
+    const g = tracker.current.value
+    expect(g.players[0].isYou).toBe(true)
+    expect(g.players[0].name).toBe('Me')
+    expect(g.players[1].isYou).toBe(false)
+    expect(g.settings.firstTurn).toBe(1)
+  })
+  it('firstTurn:2 — Opponent at index 0 (isYou=false), You at index 1 (isYou=true), firstTurn normalized to 1', () => {
+    tracker.newGame(setupGame({ settings: { firstTurn: 2 } }))
+    const g = tracker.current.value
+    expect(g.players[0].isYou).toBe(false)
+    expect(g.players[0].name).toBe('Opp')
+    expect(g.players[1].isYou).toBe(true)
+    expect(g.players[1].name).toBe('Me')
+    expect(g.settings.firstTurn).toBe(1)
+  })
 })
 
 describe('twists at game creation', () => {

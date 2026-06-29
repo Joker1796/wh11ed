@@ -26,7 +26,7 @@
 
     <div class="players">
       <div v-for="(pl, i) in current.players" :key="i" class="player">
-        <h3 class="ptitle">{{ pl.name || (i === 0 ? labels.trackerYou : labels.trackerOpponent) }}</h3>
+        <h3 class="ptitle">{{ pl.name || ((pl.isYou ?? i === 0) ? labels.trackerYou : labels.trackerOpponent) }}</h3>
         <p class="pmeta">{{ dispositionName(pl.disposition) }}</p>
         <p v-if="pl.detachments && pl.detachments.length" class="pdet">{{ pl.detachments.join(' · ') }}</p>
 
