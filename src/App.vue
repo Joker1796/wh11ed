@@ -763,6 +763,10 @@ onUnmounted(() => {
     padding-bottom: var(--safe-bottom);
     padding-left: var(--safe-left);
     padding-right: var(--safe-right);
+    /* Promote to its own compositor layer so iOS doesn't repaint-lag (the bar detaching from
+       the bottom edge) during fast momentum scrolling. */
+    transform: translateZ(0);
+    backface-visibility: hidden;
   }
 
   .bn-item {
