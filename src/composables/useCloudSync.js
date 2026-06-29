@@ -6,27 +6,31 @@ import { useTracker, isValidGame } from './useTracker.js'
 // primary store; the cloud is a best-effort backup — failures never disrupt the tracker.
 
 const SYNCED_KEY = 'wh11ed-tracker-synced'
+const DELETED_KEY = 'wh11ed-tracker-deleted'
 
 const syncing = ref(false)
 const lastError = ref(null)
-const syncedIds = ref(loadSynced()) // persisted optimistic record of what we've uploaded/seen
+const syncedIds = ref(loadSet(SYNCED_KEY)) // persisted optimistic record of what we've uploaded/seen
 const cloudIds = ref(new Set(syncedIds.value)) // authoritative after a GET /games (seeded for instant icons)
 const cloudMetas = ref([]) // last GET /games result, for "missing locally" math
+// Tombstones: games deleted locally whose cloud copy must NOT be restored by syncNow — and
+// whose cloud DELETE is retried until it lands (covers deleting while offline / signed out).
+const deletedIds = ref(loadSet(DELETED_KEY))
 const checked = ref(false) // a successful cloud check happened this session
 let initialised = false
 
-function loadSynced() {
+function loadSet(key) {
   try {
-    const raw = localStorage.getItem(SYNCED_KEY)
+    const raw = localStorage.getItem(key)
     return new Set(raw ? JSON.parse(raw) : [])
   } catch {
     return new Set()
   }
 }
 
-function persistSynced() {
+function persist(key, set) {
   try {
-    localStorage.setItem(SYNCED_KEY, JSON.stringify([...syncedIds.value]))
+    localStorage.setItem(key, JSON.stringify([...set]))
   } catch {
     /* ignore quota / private mode */
   }
@@ -35,7 +39,26 @@ function persistSynced() {
 function markSynced(id) {
   syncedIds.value = new Set(syncedIds.value).add(id)
   cloudIds.value = new Set(cloudIds.value).add(id)
-  persistSynced()
+  persist(SYNCED_KEY, syncedIds.value)
+}
+
+// Forget a game we no longer keep in the cloud (after a successful DELETE / a 404).
+function unmarkSynced(id) {
+  const s = new Set(syncedIds.value); s.delete(id); syncedIds.value = s
+  const c = new Set(cloudIds.value); c.delete(id); cloudIds.value = c
+  cloudMetas.value = cloudMetas.value.filter((m) => m.gameId !== id)
+  persist(SYNCED_KEY, syncedIds.value)
+}
+
+function addTombstone(id) {
+  deletedIds.value = new Set(deletedIds.value).add(id)
+  persist(DELETED_KEY, deletedIds.value)
+}
+
+function clearTombstone(id) {
+  if (!deletedIds.value.has(id)) return
+  const d = new Set(deletedIds.value); d.delete(id); deletedIds.value = d
+  persist(DELETED_KEY, deletedIds.value)
 }
 
 export function useCloudSync() {
@@ -69,6 +92,22 @@ export function useCloudSync() {
       return true
     }
     return false
+  }
+
+  // Delete a game's cloud backup (called alongside the local history delete). Best-effort:
+  // tombstone it first so it can't be restored by a later syncNow, then DELETE on the API.
+  // If we're offline / signed out, the tombstone keeps the deletion pending until syncNow
+  // (or the next deleteGame) can push it through.
+  async function deleteGame(id) {
+    addTombstone(id)
+    unmarkSynced(id)
+    if (status.value !== 'authed') return
+    try {
+      const res = await authedFetch(`/games/${encodeURIComponent(id)}`, { method: 'DELETE' })
+      if (res.ok || res.status === 404) clearTombstone(id) // gone from the cloud
+    } catch (e) {
+      lastError.value = e instanceof Error ? e.message : String(e)
+    }
   }
 
   // Read-only: fetch the cloud game list to drive the "backed up" icons + in-sync status.
@@ -116,6 +155,13 @@ export function useCloudSync() {
       const restored = []
       for (const meta of games) {
         if (localIds.has(meta.gameId)) continue
+        // Deleted locally (maybe while offline): honor it — finish the cloud DELETE now and
+        // never restore it, instead of pulling the game back from the cloud.
+        if (deletedIds.value.has(meta.gameId)) {
+          const del = await authedFetch(`/games/${encodeURIComponent(meta.gameId)}`, { method: 'DELETE' })
+          if (del.ok || del.status === 404) clearTombstone(meta.gameId)
+          continue
+        }
         const r = await authedFetch(`/games/${encodeURIComponent(meta.gameId)}`)
         if (!r.ok) continue
         const game = await r.json()
@@ -173,6 +219,7 @@ export function useCloudSync() {
     pendingDownloadCount,
     isBackedUp,
     uploadGame,
+    deleteGame,
     syncNow,
     refreshCloudList,
     init,
