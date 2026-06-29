@@ -60,6 +60,7 @@
       :subtitle="`${labels.trackerPrimary} · ${dispositionName(current.players[openPrimary].disposition)}`"
       :vp="current.players[openPrimary].rounds[current.currentRound - 1].primary"
       :blocks="primaryBlocks(openPrimary)"
+      :briefing="primaryMission(openPrimary).briefing"
       :count="(bi, ri) => primaryRowCount(openPrimary, current.currentRound - 1, bi, ri)"
       :note="`${labels.trackerPrimary}: ${labels.trackerThisRound} ≤ ${PRIMARY_ROUND_CAP} · ${PRIMARY_GAME_CAP}/${labels.trackerTotal}`"
       @set="(bi, ri, c) => setPrimaryRow(openPrimary, current.currentRound - 1, bi, ri, c)"
