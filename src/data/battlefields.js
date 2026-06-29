@@ -826,7 +826,7 @@ If a unit performing an **action** makes a move (excluding **pile-in** and **con
           extraCost: [
             {
               cp: '+1CP',
-              title: 'В гущу схватки',
+              title: 'Into the Fray',
               body: 'При совершении **броска на нападение** (charge roll), если его результат (после модификаторов) больше 6, измените его на 6. При выборе целей для нападения (charge targets) вы можете выбирать любые вражеские юниты, которые находятся в пределах 6" от вашего юнита и в пределах **максимальной дистанции** (maximum distance).',
             },
           ],

@@ -24,7 +24,7 @@ export const landing = {
         key: 'tracker',
         label: 'Game Tracker',
         path: '/tracker',
-        badge: 'Beta',
+        badge: 'Tracker & Stratagems',
         desc: 'A client-side, offline 2-player score tracker for a game of 40k — missions, secondaries, command points and per-round scoring, with optional cloud backup of finished games.',
       },
       {
@@ -68,7 +68,7 @@ export const landing = {
         key: 'tracker',
         label: 'Game Tracker',
         path: '/tracker',
-        badge: 'Beta',
+        badge: 'Трекер и стратагемы',
         desc: 'Клиентский офлайн-трекер очков на 2 игроков для партии в 40k — миссии, вторичные задачи, командные очки и подсчёт по раундам, с опциональным облачным сохранением сыгранных партий.',
       },
       {

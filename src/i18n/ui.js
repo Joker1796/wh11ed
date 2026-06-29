@@ -202,7 +202,7 @@ export const ui = {
     trackerWinner: 'Winner',
     trackerOr: 'or',
     trackerEach: 'each',
-    trackerSetAside: 'Set aside',
+    trackerSetAside: 'Discard',
     trackerDiscardDraw: 'Discard & draw new',
     trackerShuffleDraw: 'Shuffle back & draw new',
     trackerGameOver: 'Game over',
