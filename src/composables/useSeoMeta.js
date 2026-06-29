@@ -65,6 +65,13 @@ const ROUTES = {
       ru: 'Террейн, цели, стратагемы и действия — правила поля боя и базовые стратагемы Warhammer 40,000 11-й редакции.',
     },
   },
+  '/stratagems': {
+    title: { en: 'Stratagems', ru: 'Стратагемы' },
+    description: {
+      en: 'The core stratagems of Warhammer 40,000 11th edition — a quick card reference for use during a game.',
+      ru: 'Базовые стратагемы Warhammer 40,000 11-й редакции — быстрый просмотр карточек во время партии.',
+    },
+  },
   '/advanced-rules': {
     title: { en: 'Advanced Rules', ru: 'Продвинутые правила' },
     description: {

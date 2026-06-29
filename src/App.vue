@@ -131,9 +131,9 @@
         <i class="bi bi-book-half"></i>
         <span>{{ labels.navCoreRulesShort }}</span>
       </RouterLink>
-      <RouterLink to="/event-companion" class="bn-item" :class="{ active: isEventRoute && !isMissionsRoute }">
-        <i class="bi bi-calendar-event"></i>
-        <span>{{ labels.navEventShort }}</span>
+      <RouterLink to="/stratagems" class="bn-item" :class="{ active: isStratagemsRoute }">
+        <i class="bi bi-lightning-charge"></i>
+        <span>{{ labels.navStratagemsShort }}</span>
       </RouterLink>
       <RouterLink to="/event-companion/missions" class="bn-item" :class="{ active: isMissionsRoute }">
         <i class="bi bi-card-checklist"></i>
@@ -216,6 +216,7 @@ const isLanding = computed(() => route.path === '/')
 const isLinksRoute = computed(() => route.path === '/links')
 const isEventRoute = computed(() => route.path.startsWith('/event-companion'))
 const isMissionsRoute = computed(() => route.path === '/event-companion/missions')
+const isStratagemsRoute = computed(() => route.path === '/stratagems')
 const isTrackerRoute = computed(() => route.path.startsWith('/tracker'))
 const isCoreRoute = computed(() => !isEventRoute.value && !isTrackerRoute.value && coreRoutes.includes(route.path))
 
@@ -768,7 +769,9 @@ onUnmounted(() => {
   }
 
   .bn-item.active {
-    color: var(--accent);
+    /* The bottom-nav is always a dark surface, so use the on-dark accent — the light
+       theme's --accent (#6e0008) is near-invisible against it. */
+    color: var(--accent-on-dark);
   }
 }
 </style>
