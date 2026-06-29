@@ -48,20 +48,24 @@
 
           <div class="field">
             <span>{{ labels.trackerDpBudget }} <em class="dp-count" :class="{ over: dpSpent(p) > maxDp }">{{ dpSpent(p) }} / {{ maxDp }} DP</em></span>
-            <div v-if="p.factionSlug && detachmentsFor(p.factionSlug).length" class="det-list">
-              <button
-                v-for="d in detachmentsFor(p.factionSlug)"
-                :key="d.name"
-                class="det"
-                :class="{ on: p.detachments.includes(d.name) }"
-                :disabled="!p.detachments.includes(d.name) && p.detachments.length > 0 && dpSpent(p) + d.dp > maxDp"
-                @click="toggleDetachment(p, d)"
-              >
-                <span class="det-name">{{ d.name }}</span>
-                <span class="det-meta">{{ d.dp }}DP · {{ d.forceDisposition }}</span>
-              </button>
+            <div v-if="p.detachments.length" class="det-chips">
+              <span v-for="name in p.detachments" :key="name" class="det-chip">{{ name }}</span>
             </div>
+            <button
+              v-if="p.factionSlug && detachmentsFor(p.factionSlug).length"
+              class="det-open-btn"
+              @click="detPickerIdx = i"
+            >{{ labels.trackerChooseDetachments }}</button>
             <p v-else class="det-empty">{{ p.factionSlug ? labels.trackerNoDetachments : labels.trackerSelectFaction }}</p>
+            <DetachmentPickerModal
+              v-if="detPickerIdx === i"
+              :detachments="detachmentsFor(p.factionSlug)"
+              :selected="p.detachments"
+              :max-dp="maxDp"
+              :dp-spent="dpSpent(p)"
+              @toggle="d => toggleDetachment(p, d)"
+              @close="detPickerIdx = -1"
+            />
           </div>
 
           <label class="field">
@@ -270,6 +274,7 @@ import LayoutCard from '../event/LayoutCard.vue'
 import MissionCard from '../event/MissionCard.vue'
 import RuleBody from '../RuleBody.vue'
 import TwistPickerModal from './TwistPickerModal.vue'
+import DetachmentPickerModal from './DetachmentPickerModal.vue'
 import SecondaryPickerModal from './SecondaryPickerModal.vue'
 import MissionPickerModal from './MissionPickerModal.vue'
 import ScoreHelpModal from './ScoreHelpModal.vue'
@@ -391,6 +396,7 @@ function toggleFixed(p, slug) {
 // Fixed-secondary picker modal — open for player index (-1 = closed). Lists the
 // localized full mission cards so their text can be read before choosing.
 const fixedPickerFor = ref(-1)
+const detPickerIdx = ref(-1)
 const fixedModalMissions = computed(() => {
   if (fixedPickerFor.value < 0) return []
   const role = players[fixedPickerFor.value].role
@@ -738,33 +744,28 @@ function cancel() {
   vertical-align: middle;
 }
 .help-btn:hover { color: var(--accent); }
-.det-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  max-height: 220px;
-  overflow-y: auto;
-  padding-right: 2px;
+.det-chips { display: flex; flex-wrap: wrap; gap: 0.3rem; margin: 0.25rem 0; }
+.det-chip {
+  font-size: 0.78rem;
+  padding: 2px 8px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  color: var(--text-primary);
 }
-.det {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 1px;
-  text-align: left;
-  padding: 0.4rem 0.55rem;
+.det-open-btn {
+  margin-top: 0.25rem;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.82rem;
   border: 1px solid var(--border);
   background: var(--bg-secondary);
   border-radius: 4px;
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
+  color: var(--text-primary);
+  transition: border-color 0.15s;
 }
-.det:hover:not(:disabled) { border-color: var(--accent); }
-.det.on { background: color-mix(in srgb, var(--accent) 16%, transparent); border-color: var(--accent); }
-.det:disabled { opacity: 0.4; cursor: not-allowed; }
-.det-name { font-size: 0.85rem; font-weight: 600; color: var(--text-primary); }
-.det-meta { font-size: 0.7rem; color: var(--text-dim); font-family: var(--font-mono); }
-.det-empty { font-size: 0.82rem; color: var(--text-dim); font-style: italic; margin: 0; }
+.det-open-btn:hover { border-color: var(--accent); }
+.det-empty { font-size: 0.82rem; color: var(--text-dim); font-style: italic; margin: 0.25rem 0 0; }
 .chips { display: flex; flex-wrap: wrap; gap: 0.3rem; }
 .chip {
   padding: 0.3rem 0.55rem;
