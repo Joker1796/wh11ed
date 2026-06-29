@@ -785,7 +785,7 @@ onUnmounted(() => {
 
   .bn-item.active {
     /* The bottom-nav is always a dark surface, so use the on-dark accent — the light
-       theme's --accent (#6e0008) is near-invisible against it. */
+       theme's deep-red --accent is near-invisible against it. */
     color: var(--accent-on-dark);
   }
 }
