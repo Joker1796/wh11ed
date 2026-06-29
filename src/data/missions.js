@@ -410,7 +410,7 @@ const primary = [
       {
         heading: 'Second Battle Round Onwards', when: 'End of your turn',
         rows: [
-          { text: 'No enemy operation markers are on the battlefield.', vp: 5 },
+          { text: "None of your opponent's operation markers are on the battlefield.", vp: 5 },
         ],
       },
     ],
@@ -535,7 +535,7 @@ const primary = [
         heading: 'Any Battle Round', when: 'End of your turn',
         rows: [
           { text: 'A friendly unit secured the asset this turn.', vp: 4 },
-          { text: 'At least one enemy unit that started the turn within range of one or more central objectives was destroyed.', vp: 2 },
+          { text: 'One or more enemy units that started the turn within range of one or more central objectives are destroyed.', vp: 2 },
         ],
       },
       {
@@ -642,7 +642,7 @@ const primary = [
       {
         heading: 'Any Battle Round', when: 'End of your turn',
         rows: [
-          { text: 'At least one enemy unit that started the turn in a terrain area has been destroyed, provided that terrain area is trapped.', vp: 3 },
+          { text: 'One or more enemy units that started the turn within a terrain area were destroyed, if that terrain area is trapped.', vp: 3 },
         ],
       },
       {
@@ -697,20 +697,20 @@ const primary = [
       {
         heading: 'Any Battle Round', when: 'End of your turn',
         rows: [
-          { text: 'At least one enemy unit that started its turn within range of an objective has been destroyed.', vp: 4 },
-          { text: 'Only one of your operation markers remains, with a unit of yours in that terrain area and no enemy units there.', vp: 4 },
+          { text: 'One or more enemy units that started the turn within range of one or more objectives are destroyed.', vp: 4 },
+          { text: 'Only one of your operation markers is on the battlefield, if one or more of your units are within the same terrain area as that operation marker, and no enemy units are within that terrain area.', vp: 4 },
         ],
       },
       {
         heading: 'Second Battle Round Onwards', when: 'End of your Command phase (or the end of your turn in the fifth battle round)',
         rows: [
-          { text: 'You control at least one objective (excluding your home objective).', vp: 4 },
+          { text: 'You control one or more objectives (excluding your home objective).', vp: 4 },
         ],
       },
       {
         heading: 'End of Battle',
         rows: [
-          { text: 'Only one of your operation markers remains, with a unit of yours in that terrain area and no enemy units there.', vp: 5 },
+          { text: 'Only one of your operation markers is on the battlefield, if one or more of your units are within the same terrain area as that operation marker, and no enemy units are within that terrain area.', vp: 5 },
         ],
       },
     ],
@@ -763,7 +763,7 @@ const primary = [
       {
         heading: 'Any Battle Round', when: 'End of your turn',
         rows: [
-          { text: 'For each objective that is a decoy.', vp: 2 },
+          { text: 'For each objective that is decoyed.', vp: 2 },
           { text: 'For each of those objectives that is within your opponent\'s territory.', vp: '+2', modifier: 'cumulative' },
         ],
       },
@@ -776,7 +776,7 @@ const primary = [
       {
         heading: 'End of Battle',
         rows: [
-          { text: 'At least four objectives are decoys.', vp: 10 },
+          { text: 'Four or more objectives are decoyed.', vp: 10 },
         ],
       },
     ],

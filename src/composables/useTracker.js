@@ -4,6 +4,7 @@ import { missionsRu } from '../data/missionsRu.js'
 import { eventCompanion } from '../data/eventCompanion.js'
 import {
   PRIMARY_GAME_CAP,
+  TACTICAL_SECONDARY_CAP,
   primaryTotal as primaryTotalOf,
   secondaryTotal as secondaryTotalOf,
   grandTotal as grandTotalOf,
@@ -32,6 +33,7 @@ export const PRIMARY_ROUND_CAP = 15
 export {
   PRIMARY_GAME_CAP,
   FIXED_SECONDARY_CAP,
+  TACTICAL_SECONDARY_CAP,
   SECONDARY_GAME_CAP,
   BATTLE_READY_VP,
 } from './gameScoring.js'
@@ -436,6 +438,11 @@ export function useTracker() {
       const [bi, ri] = key.split(':').map(Number)
       const row = m.blocks[bi] && m.blocks[bi].rows[ri]
       if (row) total += count * numericVp(row.vp)
+    }
+    // Tactical secondaries score at most 5VP per scoring ("up to 5VP" on the cards).
+    // Fixed secondaries are capped per-game (20) in secondaryTotal, not per scoring.
+    if (current.value.players[pi].secondaryMode === 'tactical') {
+      total = Math.min(total, TACTICAL_SECONDARY_CAP)
     }
     return total
   }

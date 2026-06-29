@@ -4,6 +4,7 @@
 
 export const PRIMARY_GAME_CAP = 50
 export const FIXED_SECONDARY_CAP = 20 // each fixed secondary, over the game
+export const TACTICAL_SECONDARY_CAP = 5 // each tactical secondary, per scoring ("up to 5VP")
 export const SECONDARY_GAME_CAP = 40
 export const BATTLE_READY_VP = 10
 
@@ -23,7 +24,8 @@ export function secondaryTotal(game, pi) {
     for (const e of scored) bySlug[e.slug] = (bySlug[e.slug] || 0) + e.vp
     total = Object.values(bySlug).reduce((s, v) => s + Math.min(v, FIXED_SECONDARY_CAP), 0)
   } else {
-    total = scored.reduce((s, e) => s + e.vp, 0)
+    // Tactical secondaries score "up to 5VP" per scoring (e.g. "For each … 3VP (up to 5VP)").
+    total = scored.reduce((s, e) => s + Math.min(e.vp, TACTICAL_SECONDARY_CAP), 0)
   }
   return Math.min(total, SECONDARY_GAME_CAP)
 }
