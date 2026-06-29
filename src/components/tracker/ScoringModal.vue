@@ -14,7 +14,13 @@
       </template>
 
       <div class="modal-body">
-        <MissionBriefing :briefing="briefing" />
+        <template v-if="briefing && briefing.length">
+          <button class="brief-toggle" @click="toggleBriefing" :aria-expanded="briefingOpen">
+            <span>{{ labels.trackerBriefing }}</span>
+            <i class="bi" :class="briefingOpen ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+          </button>
+          <MissionBriefing v-show="briefingOpen" :briefing="briefing" />
+        </template>
 
         <button v-if="whenDrawn" class="redraw-btn" @click="$emit('redraw', whenDrawn.mode)">
           {{ whenDrawn.mode === 'discard' ? labels.trackerDiscardDraw : labels.trackerShuffleDraw }}
@@ -54,12 +60,13 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import NumberStepper from './NumberStepper.vue'
 import MissionBriefing from '../MissionBriefing.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { getItem, setItem } from '../../composables/safeStorage.js'
 
 defineProps({
   title: { type: String, required: true },
@@ -74,6 +81,14 @@ defineProps({
 defineEmits(['set', 'close', 'redraw'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+
+// Briefing is collapsible; the preference persists (stored value is the "collapsed" flag).
+const BRIEF_KEY = 'wh11ed-tracker-briefing-collapsed'
+const briefingOpen = ref(getItem(BRIEF_KEY) !== 'true')
+function toggleBriefing() {
+  briefingOpen.value = !briefingOpen.value
+  setItem(BRIEF_KEY, String(!briefingOpen.value))
+}
 </script>
 
 <style scoped>
@@ -95,6 +110,15 @@ const labels = computed(() => ui[locale.value])
 }
 .mh-close:hover { background: color-mix(in srgb, var(--text-primary) 8%, transparent); color: var(--text-primary); }
 .modal-body { padding: 0.5rem 0.9rem 0.9rem; overflow-y: auto; }
+.brief-toggle {
+  display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+  width: 100%; margin-top: 0.35rem; padding: 0.45rem 0.7rem;
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px;
+  color: var(--text-primary); font-size: 0.78rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.03em; cursor: pointer;
+}
+.brief-toggle:hover { border-color: var(--accent); }
+.brief-toggle .bi { font-size: 0.9rem; color: var(--text-muted); }
 .redraw-btn {
   display: block;
   width: 100%;
