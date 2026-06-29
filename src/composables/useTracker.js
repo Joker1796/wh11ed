@@ -56,6 +56,7 @@ function localize(m, role) {
     ...m,
     // briefing is replaced wholesale (RU mirrors the EN structure, maintained in lockstep).
     ...(tr.briefing ? { briefing: tr.briefing } : {}),
+    ...(tr.lore ? { lore: tr.lore } : {}),
     blocks: m.blocks.map((b, bi) => {
       const tb = tr.blocks[bi]
       if (!tb) return b
