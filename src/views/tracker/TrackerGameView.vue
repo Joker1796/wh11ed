@@ -68,7 +68,10 @@ function backToTracker() {
 </script>
 
 <style scoped>
-.tracker-game { padding-top: 0.5rem; }
+/* touch-action: manipulation across the whole tracker surface (not just the buttons) so a
+   rapid second tap landing in the gap between +/- controls can't double-tap-zoom on iOS
+   either. Scrolling and two-finger pinch-zoom still work. */
+.tracker-game { padding-top: 0.5rem; touch-action: manipulation; }
 .finished { padding-top: 0.5rem; }
 .finished-title {
   text-align: center;
