@@ -57,14 +57,33 @@ describe('syncNow', () => {
 
   it('clears lastError when all uploads succeed', async () => {
     await load()
-    h.history.value = [game('g1')]
+    const g1 = game('g1')
+    h.history.value = [g1]
     h.fetchImpl = (url, opts) => {
       if (opts?.method === 'PUT') return Promise.resolve({ ok: true })
-      return Promise.resolve({ ok: true, json: async () => ({ games: [{ gameId: 'g1' }] }) })
+      return Promise.resolve({ ok: true, json: async () => ({ games: [{ gameId: 'g1', finishedAt: g1.finishedAt }] }) })
     }
     await cloud.syncNow()
     expect(cloud.lastError.value).toBeNull()
-    expect(cloud.isBackedUp('g1')).toBe(true)
+    expect(cloud.isBackedUp(g1)).toBe(true)
+  })
+
+  it('a resumed+changed game (same id, new finishedAt) is no longer shown as backed up', async () => {
+    await load()
+    const g1 = game('g1')
+    h.history.value = [g1]
+    h.fetchImpl = (url, opts) => {
+      if (opts?.method === 'PUT') return Promise.resolve({ ok: true })
+      return Promise.resolve({ ok: true, json: async () => ({ games: [{ gameId: 'g1', finishedAt: g1.finishedAt }] }) })
+    }
+    await cloud.syncNow()
+    expect(cloud.isBackedUp(g1)).toBe(true)
+    // Same game resumed and re-finished later → different version.
+    const g1v2 = game('g1', { finishedAt: '2026-02-02T00:00:00.000Z' })
+    expect(cloud.isBackedUp(g1v2)).toBe(false)
+    expect(cloud.pendingUploadCount.value).toBe(0) // history still holds the old version
+    h.history.value = [g1v2]
+    expect(cloud.pendingUploadCount.value).toBe(1) // the changed version needs re-upload
   })
 
   it('rejects a malformed restored game but accepts a valid one', async () => {
@@ -87,15 +106,16 @@ describe('syncNow', () => {
 })
 
 describe('refreshCloudList', () => {
-  it('merges the server list with optimistically-synced ids (no icon flap on replica lag)', async () => {
-    // Pre-seed an optimistic synced id before the module initialises.
-    localStorage.setItem('wh11ed-tracker-synced', JSON.stringify(['g1']))
+  it('merges the server list with optimistically-synced versions (no icon flap on replica lag)', async () => {
+    const g1 = game('g1')
+    // Pre-seed an optimistic synced version signature before the module initialises.
+    localStorage.setItem('wh11ed-tracker-synced', JSON.stringify([`g1:${g1.finishedAt}`]))
     await load()
     h.history.value = []
     // Server list lags and does NOT include g1 yet.
     h.fetchImpl = () => Promise.resolve({ ok: true, json: async () => ({ games: [] }) })
     await cloud.refreshCloudList()
-    expect(cloud.isBackedUp('g1')).toBe(true) // still backed up, not flipped to pending
+    expect(cloud.isBackedUp(g1)).toBe(true) // still backed up, not flipped to pending
   })
 
   it('is a no-op when not authed', async () => {

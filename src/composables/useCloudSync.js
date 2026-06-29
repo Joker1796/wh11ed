@@ -8,10 +8,19 @@ import { useTracker, isValidGame } from './useTracker.js'
 const SYNCED_KEY = 'wh11ed-tracker-synced'
 const DELETED_KEY = 'wh11ed-tracker-deleted'
 
+// A game's cloud "version" = id + finishedAt. Tracking versions (not just ids) means a game
+// that was backed up, then resumed and changed, shows as NOT in sync and re-uploads — instead
+// of the stale cloud copy falsely showing as synced. finishedAt changes on every (re-)finish
+// and GET /games returns it, so local and cloud versions are directly comparable.
+const gameSig = (g) => `${g.id}:${g.finishedAt || ''}`
+const metaSig = (m) => `${m.gameId}:${m.finishedAt || ''}`
+
 const syncing = ref(false)
 const lastError = ref(null)
-const syncedIds = ref(loadSet(SYNCED_KEY)) // persisted optimistic record of what we've uploaded/seen
-const cloudIds = ref(new Set(syncedIds.value)) // authoritative after a GET /games (seeded for instant icons)
+// Sets of version signatures (id:finishedAt). Legacy persisted entries were bare ids (no ':')
+// — drop them on load; the next cloud check re-seeds from real cloud versions.
+const syncedSigs = ref(new Set([...loadSet(SYNCED_KEY)].filter((s) => s.includes(':'))))
+const cloudSigs = ref(new Set(syncedSigs.value)) // authoritative after a GET /games (seeded for instant icons)
 const cloudMetas = ref([]) // last GET /games result, for "missing locally" math
 // Tombstones: games deleted locally whose cloud copy must NOT be restored by syncNow — and
 // whose cloud DELETE is retried until it lands (covers deleting while offline / signed out).
@@ -36,18 +45,20 @@ function persist(key, set) {
   }
 }
 
-function markSynced(id) {
-  syncedIds.value = new Set(syncedIds.value).add(id)
-  cloudIds.value = new Set(cloudIds.value).add(id)
-  persist(SYNCED_KEY, syncedIds.value)
+function markSynced(game) {
+  const sig = gameSig(game)
+  syncedSigs.value = new Set(syncedSigs.value).add(sig)
+  cloudSigs.value = new Set(cloudSigs.value).add(sig)
+  persist(SYNCED_KEY, syncedSigs.value)
 }
 
-// Forget a game we no longer keep in the cloud (after a successful DELETE / a 404).
-function unmarkSynced(id) {
-  const s = new Set(syncedIds.value); s.delete(id); syncedIds.value = s
-  const c = new Set(cloudIds.value); c.delete(id); cloudIds.value = c
+// Forget every version of a game we no longer keep in the cloud (after a successful DELETE / 404).
+function unmarkSyncedId(id) {
+  const drop = (set) => new Set([...set].filter((s) => !s.startsWith(`${id}:`)))
+  syncedSigs.value = drop(syncedSigs.value)
+  cloudSigs.value = drop(cloudSigs.value)
   cloudMetas.value = cloudMetas.value.filter((m) => m.gameId !== id)
-  persist(SYNCED_KEY, syncedIds.value)
+  persist(SYNCED_KEY, syncedSigs.value)
 }
 
 function addTombstone(id) {
@@ -66,7 +77,7 @@ export function useCloudSync() {
   const { history } = useTracker()
 
   const pendingUploadCount = computed(
-    () => history.value.filter((g) => !cloudIds.value.has(g.id)).length,
+    () => history.value.filter((g) => !cloudSigs.value.has(gameSig(g))).length,
   )
   const pendingDownloadCount = computed(() => {
     const local = new Set(history.value.map((g) => g.id))
@@ -78,8 +89,8 @@ export function useCloudSync() {
   // After a cloud check, distinguishes "all backed up" from "the cloud simply has nothing".
   const cloudEmpty = computed(() => cloudMetas.value.length === 0)
 
-  function isBackedUp(id) {
-    return cloudIds.value.has(id)
+  function isBackedUp(game) {
+    return cloudSigs.value.has(gameSig(game))
   }
 
   async function uploadGame(game) {
@@ -88,7 +99,7 @@ export function useCloudSync() {
       body: JSON.stringify(game),
     })
     if (res.ok) {
-      markSynced(game.id)
+      markSynced(game)
       return true
     }
     return false
@@ -100,7 +111,7 @@ export function useCloudSync() {
   // (or the next deleteGame) can push it through.
   async function deleteGame(id) {
     addTombstone(id)
-    unmarkSynced(id)
+    unmarkSyncedId(id)
     if (status.value !== 'authed') return
     try {
       const res = await authedFetch(`/games/${encodeURIComponent(id)}`, { method: 'DELETE' })
@@ -120,7 +131,7 @@ export function useCloudSync() {
       cloudMetas.value = games
       // Merge (don't replace) with our optimistic synced set: a just-PUT game may not yet
       // appear in a lagging read-replica's list, and replacing would flap its icon to pending.
-      cloudIds.value = new Set([...syncedIds.value, ...games.map((g) => g.gameId)])
+      cloudSigs.value = new Set([...syncedSigs.value, ...games.map(metaSig)])
       checked.value = true
     } catch (e) {
       lastError.value = e instanceof Error ? e.message : String(e)
@@ -134,10 +145,11 @@ export function useCloudSync() {
     lastError.value = null
     try {
       // Push every local game; remember how many PUTs failed so we can surface it instead
-      // of silently reporting success (failed games also stay out of cloudIds → still shown
+      // of silently reporting success (failed games also stay out of cloudSigs → still shown
       // as pending, but without this the user gets no error at all).
       let uploadFailures = 0
       for (const g of history.value) {
+        if (cloudSigs.value.has(gameSig(g))) continue // this exact version is already in the cloud
         const ok = await uploadGame(g)
         if (!ok) uploadFailures++
       }
@@ -148,7 +160,7 @@ export function useCloudSync() {
       cloudMetas.value = games
       // Merge (don't replace) with our optimistic synced set: a just-PUT game may not yet
       // appear in a lagging read-replica's list, and replacing would flap its icon to pending.
-      cloudIds.value = new Set([...syncedIds.value, ...games.map((g) => g.gameId)])
+      cloudSigs.value = new Set([...syncedSigs.value, ...games.map(metaSig)])
       checked.value = true
 
       const localIds = new Set(history.value.map((g) => g.id))
@@ -191,18 +203,22 @@ export function useCloudSync() {
   function init() {
     if (initialised) return
     initialised = true
-    const knownIds = new Set(history.value.map((g) => g.id))
+    // Track by version signature, not id: a game backed up earlier, then resumed and changed,
+    // gets a new finishedAt → a new signature → it re-uploads automatically (its stale cloud
+    // copy is overwritten by the same-id PUT).
+    const knownSigs = new Set(history.value.map(gameSig))
     watch(
       history,
       (games) => {
         if (status.value !== 'authed') return
         for (const g of games) {
-          if (knownIds.has(g.id)) continue
+          const sig = gameSig(g)
+          if (knownSigs.has(sig)) continue
           // Optimistically mark known to avoid a concurrent duplicate upload, but drop it
           // on failure so a transient error stays retryable on the next history change
           // (previously a failed PUT permanently skipped the game for the session).
-          knownIds.add(g.id)
-          uploadGame(g).then((ok) => { if (!ok) knownIds.delete(g.id) })
+          knownSigs.add(sig)
+          uploadGame(g).then((ok) => { if (!ok) knownSigs.delete(sig) })
         }
       },
       { deep: true },
