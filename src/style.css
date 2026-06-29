@@ -98,6 +98,17 @@
   padding: 0;
 }
 
+/* Kill double-tap-to-zoom (and the legacy 300ms tap delay) on tap targets — rapid taps on
+   the tracker's +/- score/CP steppers were zooming the page instead of incrementing. Only
+   disables the double-tap gesture; normal scrolling and pinch-zoom are unaffected. */
+button,
+a,
+[role='button'],
+input[type='checkbox'],
+label {
+  touch-action: manipulation;
+}
+
 html {
   scroll-behavior: smooth;
   /* Kill phantom horizontal scroll from the off-canvas mobile drawer (NavSidebar is
