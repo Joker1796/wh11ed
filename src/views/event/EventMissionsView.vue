@@ -77,7 +77,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import MissionCard from '../../components/event/MissionCard.vue'
 import TwistCard from '../../components/event/TwistCard.vue'
 import SeeAlsoBlock from '../../components/SeeAlsoBlock.vue'
@@ -86,6 +86,7 @@ import { getMissions } from '../../data/missions.js'
 import { eventCompanion, getEventContent } from '../../data/eventCompanion.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { getItem, setItem } from '../../composables/safeStorage.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -119,8 +120,17 @@ const secondaryList = computed(() => data.value.secondary.filter(m => m.role ===
 const twists = computed(() => getEventContent(locale.value).twists)
 
 // Filters: type (all / primary / secondary / twists) and Force Disposition (primary only).
-const typeFilter = ref('all')   // 'all' | 'primary' | 'secondary' | 'twists'
-const dispoFilter = ref('all')  // 'all' | <disposition id>
+const VALID_TYPES = ['all', 'primary', 'secondary', 'twists']
+const VALID_DISPOS = ['all', ...dispositions.map(d => d.id)]
+
+const savedType = getItem('wh11ed-missions-type-filter')
+const typeFilter = ref(VALID_TYPES.includes(savedType) ? savedType : 'all')
+
+const savedDispo = getItem('wh11ed-missions-dispo-filter')
+const dispoFilter = ref(VALID_DISPOS.includes(savedDispo) ? savedDispo : 'all')
+
+watch(typeFilter, v => setItem('wh11ed-missions-type-filter', v))
+watch(dispoFilter, v => setItem('wh11ed-missions-dispo-filter', v))
 const showPrimary = computed(() => ['all', 'primary'].includes(typeFilter.value))
 const showSecondary = computed(() => ['all', 'secondary'].includes(typeFilter.value))
 const showTwists = computed(() => ['all', 'twists'].includes(typeFilter.value))
