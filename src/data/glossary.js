@@ -303,6 +303,11 @@ export const glossary = {
   },
 
   // — Terrain —
+  'terrain': {
+    term: 'Terrain',
+    en: 'The scenery on the battlefield — ruins, forests, barricades and so on — represented by terrain features placed in terrain areas.',
+    ru: 'Укрытия на поле боя — руины, леса, баррикады и т.п., — представленные элементами ландшафта, размещёнными в областях укрытий.',
+  },
   'terrain-area': {
     term: 'Terrain Area',
     en: 'The area covered by an Area Terrain feature, used for visibility and the Benefit of Cover.',
