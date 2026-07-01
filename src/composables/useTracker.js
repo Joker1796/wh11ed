@@ -14,8 +14,8 @@ import {
 // Game Tracker store — a module singleton persisted to localStorage, mirroring the
 // pattern in useLocale.js / useLoreVisibility.js. Models a 2-player game of 40k 11th:
 // setup → 5 battle rounds → finish, with primary/secondary/CP scoring. Inspired by the
-// GDM tracker; scoring constants (15/round, 50 total primary; 20 per fixed secondary)
-// match the official caps.
+// GDM tracker; scoring constants (15/round, 45 total primary; 45 total secondary;
+// 20 per fixed secondary) match the official caps.
 
 const CUR_KEY = 'wh11ed-tracker-current'
 const HIST_KEY = 'wh11ed-tracker-history'
@@ -345,7 +345,7 @@ export function useTracker() {
   }
 
   // Record how many times a primary scoring row was achieved this round; the round's
-  // primary = min(sum of row contributions, 15). The game cap (50) is applied in primaryTotal.
+  // primary = min(sum of row contributions, 15). The game cap (45) is applied in primaryTotal.
   function setPrimaryRow(pi, roundIdx, blockIdx, rowIdx, count) {
     const pl = current.value.players[pi]
     const round = pl.rounds[roundIdx]

@@ -28,10 +28,10 @@ describe('primaryTotal', () => {
     const g = { players: [withPrimary([10, 10, 5, 0, 0]), player()] }
     expect(primaryTotal(g, 0)).toBe(25)
   })
-  it('caps at the per-game primary cap (50)', () => {
+  it('caps at the per-game primary cap (45)', () => {
     const g = { players: [withPrimary([15, 15, 15, 15, 15]), player()] }
     expect(primaryTotal(g, 0)).toBe(PRIMARY_GAME_CAP)
-    expect(PRIMARY_GAME_CAP).toBe(50)
+    expect(PRIMARY_GAME_CAP).toBe(45)
   })
 })
 
@@ -44,12 +44,12 @@ describe('secondaryTotal', () => {
     expect(secondaryTotal(over, 0)).toBe(10)
     expect(TACTICAL_SECONDARY_CAP).toBe(5)
   })
-  it('tactical: also caps the game total at 40', () => {
-    const many = game({ secondary: { scored: Array.from({ length: 9 }, () => ({ vp: 5 })) } })
+  it('tactical: also caps the game total at 45', () => {
+    const many = game({ secondary: { scored: Array.from({ length: 10 }, () => ({ vp: 5 })) } })
     expect(secondaryTotal(many, 0)).toBe(SECONDARY_GAME_CAP)
-    expect(SECONDARY_GAME_CAP).toBe(40)
+    expect(SECONDARY_GAME_CAP).toBe(45)
   })
-  it('fixed: caps each mission at 20 before the 40 game cap', () => {
+  it('fixed: caps each mission at 20 before the 45 game cap', () => {
     const g = game({
       secondaryMode: 'fixed',
       secondary: { scored: [{ slug: 'a', vp: 15 }, { slug: 'a', vp: 15 }, { slug: 'b', vp: 8 }] },
