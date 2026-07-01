@@ -499,6 +499,11 @@ export const glossary = {
     en: 'The attack step where you make Hit rolls, Wound rolls and saving throws, then inflict damage.',
     ru: 'Шаг атаки, на котором вы совершаете броски на попадание, на ранение и спас-броски, а затем наносите урон.',
   },
+  'allocation-order': {
+    term: 'Allocation Order',
+    en: 'The order in which the target’s controlling player allocates each attack to their models during Resolve Attacks (nearest models first if a model already has an allocated attack).',
+    ru: 'Порядок, в котором контролирующий игрок цели распределяет каждую атаку по своим моделям при отыгрыше атак (сначала на модель с уже распределённой атакой).',
+  },
   'inflict-damage': {
     term: 'Inflict Damage',
     en: 'The attack step where unsaved wounds reduce the target’s Wounds characteristic; a model is destroyed when reduced to 0.',

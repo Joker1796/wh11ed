@@ -143,7 +143,7 @@ When using another **shooting type**, for each model in that unit (excluding MON
       name: '[EXTRA ATTACKS]',
       type: 'weapon',
       flavor: 'Some warriors ride to battle atop trusty mounts that gore and trample nearby foes. Others wield combat weapons that deliver a frenzy of additional blows.',
-      fullText: `Each time a unit containing one or more models with an **[EXTRA ATTACKS]** weapon fights, those models will make attacks with those weapons in addition to any others. In the Select Weapons step (04.01), for each of those models, you must select:
+      fullText: `Each time a unit containing one or more models with an **[EXTRA ATTACKS]** weapon fights, those models will make attacks with those weapons in addition to any others. In the [gloss:select-weapons:Select Weapons] step (04.01), for each of those models, you must select:
 ▪ All of that model's **[EXTRA ATTACKS]** weapons.
 ▪ One of that model's other melee weapons, if possible.`,
       children: [
@@ -317,7 +317,7 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
       name: '[PRECISION]',
       type: 'weapon',
       flavor: 'Precision attacks can pick high-value targets out in a crowd.',
-      fullText: `While resolving attacks made with one or more **[PRECISION]** weapons, at the start of the Allocation Order step (05.03), if the target unit contains one or more **CHARACTER** models **visible** to one or more of the attacking models, the active player can select one allocation group that contains one of those **visible CHARACTER** models. If they do, until those attacks are resolved, or until that **CHARACTER** group is **destroyed** (whichever happens first), that **CHARACTER** group is the current allocation group.`,
+      fullText: `While resolving attacks made with one or more **[PRECISION]** weapons, at the start of the [gloss:allocation-order:Allocation Order] step (05.03), if the target unit contains one or more **CHARACTER** models **visible** to one or more of the attacking models, the active player can select one allocation group that contains one of those **visible CHARACTER** models. If they do, until those attacks are resolved, or until that **CHARACTER** group is **destroyed** (whichever happens first), that **CHARACTER** group is the current allocation group.`,
     },
     {
       num: '24.29',
@@ -465,7 +465,7 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
     {
       // 24.11 [EXTRA ATTACKS]
       flavor: 'Некоторые воины отправляются в бой верхом на верных скакунах, которые бодают и топчут ближайших врагов. Другие владеют боевым оружием, которое наносит каскад дополнительных ударов.',
-      fullText: `Каждый раз, когда юнит, содержащий одну или несколько моделей с оружием **[EXTRA ATTACKS]**, сражается, эти модели совершают атаки этим оружием в дополнение к любым другим. На шаге «**Выбор оружия**» (Select Weapons step) (04.01) для каждой из этих моделей вы должны выбрать:
+      fullText: `Каждый раз, когда юнит, содержащий одну или несколько моделей с оружием **[EXTRA ATTACKS]**, сражается, эти модели совершают атаки этим оружием в дополнение к любым другим. На шаге «**[gloss:select-weapons:Выбор оружия]**» (04.01) для каждой из этих моделей вы должны выбрать:
 ▪ Все виды оружия **[EXTRA ATTACKS]** этой модели.
 ▪ Одно другое оружие ближнего боя этой модели, если возможно.`,
       children: [
@@ -596,7 +596,7 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
     {
       // 24.28 [PRECISION]
       flavor: 'Точные атаки могут поразить высокоприоритетные цели в толпе.',
-      fullText: `При отыгрыше атак, совершаемых одним или несколькими видами оружия **[PRECISION]**, в начале шага «**Порядок назначения**» (Allocation Order step) (05.03), если целевой юнит содержит одну или несколько моделей **ПЕРСОНАЖА** (CHARACTER), **видимых** (visible) для одной или нескольких атакующих моделей, активный игрок может выбрать одну **группу назначения** (allocation group), которая содержит одну из этих **видимых моделей ПЕРСОНАЖА**. Если он это делает, то, пока эти атаки не будут отыграны, или пока эта группа ПЕРСОНАЖА не будет **уничтожена** (destroyed) (в зависимости от того, что наступит раньше), эта группа ПЕРСОНАЖА является **текущей группой назначения** (current allocation group).`,
+      fullText: `При отыгрыше атак, совершаемых одним или несколькими видами оружия **[PRECISION]**, в начале шага «**[gloss:allocation-order:Порядок назначения]**» (05.03), если целевой юнит содержит одну или несколько моделей **ПЕРСОНАЖА** (CHARACTER), **видимых** (visible) для одной или нескольких атакующих моделей, активный игрок может выбрать одну **группу назначения** (allocation group), которая содержит одну из этих **видимых моделей ПЕРСОНАЖА**. Если он это делает, то, пока эти атаки не будут отыграны, или пока эта группа ПЕРСОНАЖА не будет **уничтожена** (destroyed) (в зависимости от того, что наступит раньше), эта группа ПЕРСОНАЖА является **текущей группой назначения** (current allocation group).`,
     },
     {
       // 24.29 [PSYCHIC]
@@ -685,7 +685,7 @@ Units or models whose **W** characteristic or **starting strength** cannot be ev
           ['**Below Half-Strength**', 'Model\'s remaining wounds are less than half of its **W** characteristic.', 'Number of remaining models in the unit is less than half of its **starting strength**.'],
         ],
       },
-      example: 'A Captain (1 model) is attached to a unit of Intercessors (5 models). This **attached** unit has a **starting strength** of 6. If three Intercessors were **destroyed**, the unit would be **at half-strength**. If four Intercessors were **destroyed**, the unit would be **below half-strength**. If all of the Intercessors were **destroyed**, the remaining Captain would be **below half-strength**, despite having his full wounds remaining.',
+      example: 'A Captain (1 model) is attached to a unit of Intercessors (5 models). This **attached** unit has a **starting strength** of 6. If three Intercessors were **destroyed**, the unit would be **at half-strength**. If four Intercessors were **destroyed**, the unit would be **below half-strength**. If all of the Intercessors were **destroyed**, the remaining Captain would be **below half-strength**, despite having his full [gloss:wounds:wounds] remaining.',
     },
     {
       id: 'app-new-unit',
@@ -713,7 +713,7 @@ When a model is **destroyed**, first resolve any rules that are triggered when i
     {
       id: 'app-mixed-keywords',
       title: 'Mixed Keywords in Units',
-      body: `Some units can contain models that have different keywords, either because they are an **attached** unit or as a result of abilities listed on their datasheet and/or items of wargear they have. While this is the case, such a unit has all the keywords of all of its models, but its models do not gain the keywords of other models in that unit that they do not already have. Remember that attacks target units, not models.`,
+      body: `Some units can contain models that have different keywords, either because they are an **attached** unit or as a result of abilities listed on their datasheet and/or items of [gloss:wargear:wargear] they have. While this is the case, such a unit has all the keywords of all of its models, but its models do not gain the keywords of other models in that unit that they do not already have. Remember that attacks target units, not models.`,
     },
     {
       id: 'app-objective-markers',
@@ -751,7 +751,7 @@ If a **leader** or **support** model in an **attached** unit is **destroyed** an
           ['**Ниже половинной численности**', 'Оставшиеся раны модели составляют **менее половины** её характеристики **W** (ран).', 'Количество оставшихся моделей в юните составляет **менее половины** его начальной численности.'],
         ],
       },
-      example: 'Капитан (1 модель) приписан к отряду Интерцессоров (5 моделей). Этот **составной юнит** (attached unit) имеет **начальную численность** (starting strength) 6. Если три Интерцессора **уничтожены**, юнит находится **на половинной численности** (half-strength). Если четыре Интерцессора **уничтожены**, юнит находится **ниже половинной численности** (below half-strength). Если все Интерцессоры **уничтожены**, оставшийся Капитан находится **ниже половинной численности**, несмотря на то, что у него осталось полное количество ран (wounds).',
+      example: 'Капитан (1 модель) приписан к отряду Интерцессоров (5 моделей). Этот **составной юнит** (attached unit) имеет **начальную численность** (starting strength) 6. Если три Интерцессора **уничтожены**, юнит находится **на половинной численности** (half-strength). Если четыре Интерцессора **уничтожены**, юнит находится **ниже половинной численности** (below half-strength). Если все Интерцессоры **уничтожены**, оставшийся Капитан находится **ниже половинной численности**, несмотря на то, что у него осталось полное количество [gloss:wounds:ран].',
     },
     {
       id: 'app-new-unit',
@@ -779,7 +779,7 @@ If a **leader** or **support** model in an **attached** unit is **destroyed** an
     {
       id: 'app-mixed-keywords',
       title: 'Смешанные ключевые слова в юнитах',
-      body: `Некоторые юниты могут содержать модели с разными **ключевыми словами** (keywords), либо потому что они являются **составным юнитом** (attached unit), либо в результате разделений, указанных в их **листе данных** (datasheet) и/или предметов снаряжения (items of wargear), которые они имеют. В этом случае такой юнит имеет все ключевые слова всех своих моделей, но его модели не получают ключевые слова других моделей в этом юните, которых у них ещё нет. Помните, что атаки нацелены на **юниты**, а не на **модели**.`,
+      body: `Некоторые юниты могут содержать модели с разными **ключевыми словами** (keywords), либо потому что они являются **составным юнитом** (attached unit), либо в результате разделений, указанных в их **листе данных** (datasheet) и/или [gloss:wargear:предметов снаряжения], которые они имеют. В этом случае такой юнит имеет все ключевые слова всех своих моделей, но его модели не получают ключевые слова других моделей в этом юните, которых у них ещё нет. Помните, что атаки нацелены на **юниты**, а не на **модели**.`,
     },
     {
       id: 'app-objective-markers',
@@ -791,7 +791,7 @@ If a **leader** or **support** model in an **attached** unit is **destroyed** an
     {
       id: 'app-revived',
       title: 'Восстановленный',
-      body: `Когда правило **возрождает** (revives), **воскрешает** (resurrects) или **возвращает** (returns) модели в юнит, указанное количество **уничтоженных** (destroyed) моделей добавляется в юнит. Это не может расширить юнит сверх его **начальной численности** (starting strength). Такие модели добавляются со всем **снаряжением** (wargear) и **усилениями** (enhancements), которые они имели в начале битвы, и, если не указано иное, возвращаются с полным количеством **ран** (wounds).
+      body: `Когда правило **возрождает** (revives), **воскрешает** (resurrects) или **возвращает** (returns) модели в юнит, указанное количество **уничтоженных** (destroyed) моделей добавляется в юнит. Это не может расширить юнит сверх его **начальной численности** (starting strength). Такие модели добавляются со всем **снаряжением** (wargear) и **усилениями** (enhancements), которые они имели в начале битвы, и, если не указано иное, возвращаются с полным количеством **[gloss:wounds:ран]**.
 
 Модели, возвращённые в юнит на поле боя, должны быть размещены следующим образом:
 ▪ В **боевом построении** (coherency) с моделями в этом юните, которые начали эту фазу на поле боя (т.е. моделями, которые уже были на поле боя, когда это правило было использовано).
