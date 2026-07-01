@@ -11,14 +11,14 @@ export const basicRules = {
           id: 'section-01-01',
           sectionNum: '01.01',
           title: 'Armies',
-          body: `Each player in a game of Warhammer 40,000 commands an army made up of units of models. You control all of the models in your army. If a rule refers to the '[gloss:controlling-player:controlling player]', it is referring to the player who controls the models being affected by that rule.`,
+          body: `Each player in a game of Warhammer 40,000 commands an army made up of units of models. You control all of the models in your army. If a rule refers to the 'controlling player', it is referring to the player who controls the models being affected by that rule.`,
           children: [
             {
               id: 'section-01-01-01',
               sectionNum: '01.01.01',
               title: 'You',
               fromApp: true,
-              body: `If a rule refers to '[gloss:you:you]', it is referring to you the person, as the controlling player.`,
+              body: `If a rule refers to 'you', it is referring to you the person, as the controlling player.`,
             },
           ],
         },
