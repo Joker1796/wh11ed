@@ -13,9 +13,9 @@
         @click.stop
       >
         <div class="kw-popover-header">
-          <span class="keyword kw-name">{{ activeKeyword.name }}</span>
-          <span class="kw-num" @click="navigateNum">{{ activeKeyword.num }}</span>
-          <button class="kw-close" @click="close" :aria-label="labels.modalClose">✕</button>
+          <span :class="activeKeyword.kind === 'gloss' ? 'gloss-name' : 'keyword kw-name'">{{ activeKeyword.name }}</span>
+          <span v-if="activeKeyword.num" class="kw-num" @click="navigateNum">{{ activeKeyword.num }}</span>
+          <button class="kw-close" :class="{ 'kw-close-push': !activeKeyword.num }" @click="close" :aria-label="labels.modalClose">✕</button>
         </div>
         <div class="kw-popover-body" v-html="renderInline(activeKeyword.fullText)" @click="handleBodyClick"></div>
       </div>
@@ -111,6 +111,12 @@ const positionStyle = computed(() => {
   font-size: 0.8rem;
 }
 
+.gloss-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #e8c96a;
+}
+
 .kw-num {
   font-size: 0.72rem;
   font-family: var(--font-mono);
@@ -123,6 +129,10 @@ const positionStyle = computed(() => {
   color: var(--accent);
   text-decoration: underline dotted;
   text-underline-offset: 2px;
+}
+
+.kw-close-push {
+  margin-left: auto;
 }
 
 .kw-close {
