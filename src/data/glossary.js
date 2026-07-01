@@ -639,6 +639,38 @@ export const glossary = {
     ru: 'Стрельба в радиусе связывания по особым правилам (например, из пистолетов или из ТРАНСПОРТА).',
   },
 
+  // — Battlefields: terrain traits & terrain rules —
+  'terrain-category': {
+    term: 'Terrain Category',
+    en: 'The classification of a terrain feature (e.g. Ruins, Woods, Hills, Obstacles) that determines which terrain rules apply to it.',
+    ru: 'Классификация элемента ландшафта (например, руины, лес, холмы, препятствия), определяющая, какие правила ландшафта к нему применяются.',
+  },
+  'obscuring': {
+    term: 'Obscuring',
+    en: 'A terrain trait: for visibility, models cannot be seen through an Obscuring terrain feature.',
+    ru: 'Свойство ландшафта: для видимости модели не видны сквозь укрытие со свойством «Obscuring».',
+  },
+  'dense-terrain': {
+    term: 'Dense Terrain',
+    en: 'A terrain trait: it blocks line of sight drawn through it to models more than 2" beyond it.',
+    ru: 'Свойство ландшафта: перекрывает линию обзора, проводимую сквозь него, к моделям дальше 2" за ним.',
+  },
+  'solid': {
+    term: 'Solid',
+    en: 'A terrain trait: models cannot see, move or be set up through a Solid terrain feature.',
+    ru: 'Свойство ландшафта: сквозь «Solid»-элемент нельзя видеть, перемещаться или размещаться.',
+  },
+  'go-to-ground': {
+    term: 'Go to Ground',
+    en: 'An Action an INFANTRY unit can take to gain the Benefit of Cover and a 6+ invulnerable save until its next turn.',
+    ru: 'Действие, которое юнит ПЕХОТЫ может выполнить, чтобы получить преимущество укрытия и инвуль-спас 6+ до своего следующего хода.',
+  },
+  'level-of-control': {
+    term: 'Level of Control',
+    en: 'How strongly a unit controls an objective marker — the total Objective Control of its eligible models there versus the enemy’s.',
+    ru: 'Насколько сильно юнит контролирует маркер цели — суммарный Контроль цели его подходящих моделей там против вражеского.',
+  },
+
   // Translation-only glosses: popover shows just the English original, no definition body.
   'controlling-player': {
     term: 'Controlling Player',
