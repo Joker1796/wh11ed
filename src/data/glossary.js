@@ -173,6 +173,11 @@ export const glossary = {
     en: 'A CHARACTER unit that can be attached to a Bodyguard unit to lead it.',
     ru: 'Юнит-ПЕРСОНАЖ, который может присоединиться к юниту-телохранителю (Bodyguard), возглавив его.',
   },
+  'support': {
+    term: 'Support',
+    en: 'A unit that, like a Leader, can be attached to a Bodyguard unit; every Support unit in your roster must be attached to one.',
+    ru: 'Юнит, который, как и лидер, может присоединяться к юниту-телохранителю; каждый юнит поддержки в списке должен быть присоединён.',
+  },
   'bodyguard': {
     term: 'Bodyguard',
     en: 'A unit that a Leader can be attached to, forming an Attached unit.',
@@ -182,6 +187,11 @@ export const glossary = {
     term: 'Attached Unit',
     en: 'The single unit formed when a Leader (CHARACTER) joins a Bodyguard unit; they act as one unit.',
     ru: 'Юнит, образованный, когда лидер (ПЕРСОНАЖ) присоединяется к юниту-телохранителю; они действуют как один юнит.',
+  },
+  'forming-attached-units': {
+    term: 'Forming Attached Units',
+    en: 'The rules for attaching Leader and Support units to a Bodyguard unit they can join, forming a single Attached unit.',
+    ru: 'Правила присоединения отрядов лидера и поддержки к юниту-телохранителю, к которому они могут присоединиться, образуя один составной юнит.',
   },
   'enhancement': {
     term: 'Enhancement',
@@ -346,6 +356,38 @@ export const glossary = {
     term: 'Detachment',
     en: 'The set of rules, Enhancements and Stratagems chosen for your army from its Faction.',
     ru: 'Набор правил, усилений и стратагем, выбранный для вашей армии из её фракции.',
+  },
+
+  // — Muster Your Army —
+  'army-roster': {
+    term: 'Army Roster',
+    en: 'The written (or app-based) record of your army: its faction, detachments, units, wargear, enhancements and points.',
+    ru: 'Запись вашей армии (на бумаге или в приложении): её фракция, детачменты, юниты, снаряжение, улучшения и очки.',
+  },
+  'army-faction': {
+    term: 'Army Faction',
+    en: 'The one faction keyword noted on your army roster; it determines which units and detachments your army can include.',
+    ru: 'Одно ключевое слово фракции, записанное в вашем списке армии; определяет, какие юниты и детачменты может включать армия.',
+  },
+  'warlord': {
+    term: 'Warlord',
+    en: 'The supreme leader of your army: one CHARACTER model you select when mustering. That model gains the WARLORD keyword.',
+    ru: 'Верховный лидер вашей армии: одна модель CHARACTER, выбираемая при сборе армии. Эта модель получает ключевое слово WARLORD.',
+  },
+  'force-disposition': {
+    term: 'Force Disposition',
+    en: 'A battle-plan affiliation granted by your detachments; the two players’ Force Dispositions together determine the Primary Mission.',
+    ru: 'Тип боевого расписания, который дают ваши детачменты; сочетание диспозиций сил обоих игроков определяет основную миссию.',
+  },
+  'detachment-rule': {
+    term: 'Detachment Rule',
+    en: 'A special rule your army gains from a Detachment you selected for it.',
+    ru: 'Особое правило, которое ваша армия получает от выбранного для неё детачмента.',
+  },
+  'upgrade': {
+    term: 'Upgrade',
+    en: 'An Enhancement tagged ‘Upgrade’: it can be given to non-CHARACTER units, and you can include up to three of the same Upgrade.',
+    ru: 'Улучшение с тегом «Upgrade»: его можно давать отрядам не-CHARACTER, и в армию можно включить до трёх одинаковых Upgrade.',
   },
   'coherency': {
     term: 'Unit Coherency',
