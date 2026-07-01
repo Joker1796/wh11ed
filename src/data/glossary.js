@@ -488,6 +488,23 @@ export const glossary = {
     ru: 'Укрытие, улучшающее спас-бросок юнита против дальних атак на 1 (не лучше 3+).',
   },
 
+  // — Attack sequence steps —
+  'select-targets': {
+    term: 'Select Targets',
+    en: 'The attack step where the attacking player picks which enemy unit(s) the attacking unit’s weapons will target.',
+    ru: 'Шаг атаки, на котором атакующий игрок выбирает, по каким вражеским юнитам будет вести атаки оружие атакующего юнита.',
+  },
+  'resolve-attacks': {
+    term: 'Resolve Attacks',
+    en: 'The attack step where you make Hit rolls, Wound rolls and saving throws, then inflict damage.',
+    ru: 'Шаг атаки, на котором вы совершаете броски на попадание, на ранение и спас-броски, а затем наносите урон.',
+  },
+  'inflict-damage': {
+    term: 'Inflict Damage',
+    en: 'The attack step where unsaved wounds reduce the target’s Wounds characteristic; a model is destroyed when reduced to 0.',
+    ru: 'Шаг атаки, на котором неспасённые ранения уменьшают характеристику ран цели; модель уничтожается при снижении до 0.',
+  },
+
   // — Profile characteristics (abbreviations from the datasheet) —
   'move-characteristic': {
     term: 'Move (M)',

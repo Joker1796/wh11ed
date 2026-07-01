@@ -506,7 +506,7 @@ When a rule states you can ignore modifiers to a stated roll or characteristic, 
               fromApp: true,
               body: `**Random Movement:** When a unit with a random **[gloss:move-characteristic:M]** characteristic is **selected to move**, determine the entire unit's move distance by rolling the indicated number of dice.
 
-**Random Attacks:** If a weapon has a random **[gloss:attack-dice:A]** characteristic, that characteristic is determined when generating attacks for that weapon at the Resolve Attacks step (04.03). If several weapons with random **[gloss:attack-dice:A]** characteristics are making **identical attacks**, generate the attacks for each of those weapons individually, and group them all together.
+**Random Attacks:** If a weapon has a random **[gloss:attack-dice:A]** characteristic, that characteristic is determined when generating attacks for that weapon at the [gloss:resolve-attacks:Resolve Attacks] step (04.03). If several weapons with random **[gloss:attack-dice:A]** characteristics are making **identical attacks**, generate the attacks for each of those weapons individually, and group them all together.
 
 **Random Damage:** If a weapon has a random **[gloss:damage-roll:D]** characteristic, then each time an attack made with it inflicts damage, the controlling player determines that weapon's characteristic when the opposing player has selected a model in the target unit to allocate that attack to.
 
@@ -873,7 +873,7 @@ You must select one melee weapon that model has.`,
               sectionNum: '04.01.03',
               title: 'Multiple Weapon Profiles',
               fromApp: true,
-              body: `In the **[gloss:select-weapons:select weapons]** step (04.01), if a selected weapon has more than one profile, then the controlling player must also select one of those profiles. The selected profile is then used in the Resolve Attacks step (04.03).
+              body: `In the **[gloss:select-weapons:select weapons]** step (04.01), if a selected weapon has more than one profile, then the controlling player must also select one of those profiles. The selected profile is then used in the [gloss:resolve-attacks:Resolve Attacks] step (04.03).
 
 Some of these profiles are known as **Hunter** profiles. **Hunter** profiles can only target units with the specified keywords.
 
@@ -929,9 +929,9 @@ Select one or more enemy units to be the targets of that weapon:
               sectionNum: '04.02.02',
               title: 'Against An Attack',
               fromApp: true,
-              body: `Rules that are triggered 'against' certain attacks are triggered after the attacking unit has completed the Select Targets step (04.02), provided all other qualifiers are met (e.g. concerning the characteristics of the attacking unit or its weapons).
+              body: `Rules that are triggered 'against' certain attacks are triggered after the attacking unit has completed the [gloss:select-targets:Select Targets] step (04.02), provided all other qualifiers are met (e.g. concerning the characteristics of the attacking unit or its weapons).
 
-Rules that are triggered when an attack is 'allocated' to a unit are triggered in step 1 of the Inflict Damage step (05.04).`,
+Rules that are triggered when an attack is 'allocated' to a unit are triggered in step 1 of the [gloss:inflict-damage:Inflict Damage] step (05.04).`,
             },
             {
               id: 'section-04-02-03',
@@ -1355,7 +1355,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ### FAQs
 **Q:** I have a rule that triggers when a **mortal wound** is allocated to a model, when does this happen?
 
-**A:** When you select a model in the **Select Model step** of **Mortal Wounds** (06.02).`,
+**A:** When you select a model in the **Select Model step** of **[gloss:mortal-wound:Mortal Wounds]** (06.02).`,
             },
           ],
         },
@@ -1379,7 +1379,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 
 **Q:** I failed **hazard rolls** from [HAZARDOUS] weapons, do those **mortal wounds** have to be allocated to the models with the [HAZARDOUS] weapons?
 
-**A:** No, you allocate the **mortal wounds** to the unit as per **Mortal Wounds** (06.02). (This represents Bob the guardsmen picking up his fallen squad mates plasma gun or that the twisting power of James the Chaos Sorcerer pulling his followers into the warp.)`,
+**A:** No, you allocate the **mortal wounds** to the unit as per **[gloss:mortal-wound:Mortal Wounds]** (06.02). (This represents Bob the guardsmen picking up his fallen squad mates plasma gun or that the twisting power of James the Chaos Sorcerer pulling his followers into the warp.)`,
             },
           ],
         },
@@ -1774,7 +1774,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
               title: 'Случайные характеристики',
               body: `**Случайное движение (Random Movement):** Когда юнит со случайной характеристикой **[gloss:move-characteristic:M]** **[gloss:selected-to-move:выбирается для манёвра]**, определите дистанцию манёвра всего юнита, бросив указанное количество кубиков.
 
-**Случайные атаки (Random Attacks):** Если оружие имеет случайную характеристику **[gloss:attack-dice:A]**, эта характеристика определяется при генерации атак для этого оружия на шаге «Отыгрыш атак» (Resolve Attacks step) (04.03). Если несколько единиц оружия со случайными характеристиками **[gloss:attack-dice:A]** совершают **идентичные атаки** (identical attacks), сгенерируйте атаки для каждого из этих видов оружия по отдельности, а затем сгруппируйте их все вместе.
+**Случайные атаки (Random Attacks):** Если оружие имеет случайную характеристику **[gloss:attack-dice:A]**, эта характеристика определяется при генерации атак для этого оружия на шаге «[gloss:resolve-attacks:Отыгрыш атак]» (04.03). Если несколько единиц оружия со случайными характеристиками **[gloss:attack-dice:A]** совершают **идентичные атаки** (identical attacks), сгенерируйте атаки для каждого из этих видов оружия по отдельности, а затем сгруппируйте их все вместе.
 
 **Случайный урон (Random Damage):** Если оружие имеет случайную характеристику **[gloss:damage-roll:D]**, то каждый раз, когда атака им наносит урон, контролирующий игрок определяет эту характеристику оружия после того, как противостоящий игрок выбрал модель в целевом юните для распределения этой атаки.
 
@@ -2027,7 +2027,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
             },
             {
               title: 'Несколько профилей оружия',
-              body: `На шаге **[gloss:select-weapons:выбора оружия]** (04.01), если у выбранного оружия более одного профиля, контролирующий игрок также должен выбрать один из этих профилей. Выбранный профиль затем используется на шаге «Отыгрыш атак» (Resolve Attacks) (04.03).
+              body: `На шаге **[gloss:select-weapons:выбора оружия]** (04.01), если у выбранного оружия более одного профиля, контролирующий игрок также должен выбрать один из этих профилей. Выбранный профиль затем используется на шаге «[gloss:resolve-attacks:Отыгрыш атак]» (04.03).
 
 Некоторые из этих профилей известны как профили **Hunter**. Профили **Hunter** могут нацеливаться только на юниты с указанными ключевыми словами.
 
@@ -2068,9 +2068,9 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
             },
             {
               title: 'Против атаки',
-              body: `Правила, срабатывающие «против» определённых атак, срабатывают после того, как атакующий юнит завершил шаг «Выбор целей» (Select Targets) (04.02), при условии, что соблюдены все остальные требования (например, касающиеся характеристик атакующего юнита или его оружия).
+              body: `Правила, срабатывающие «против» определённых атак, срабатывают после того, как атакующий юнит завершил шаг «[gloss:select-targets:Выбор целей]» (04.02), при условии, что соблюдены все остальные требования (например, касающиеся характеристик атакующего юнита или его оружия).
 
-Правила, срабатывающие, когда атака «распределяется» на юнит, срабатывают на шаге 1 шага «Нанесение урона» (Inflict Damage) (05.04).`,
+Правила, срабатывающие, когда атака «распределяется» на юнит, срабатывают на шаге 1 шага «[gloss:inflict-damage:Нанесение урона]» (05.04).`,
             },
             {
               title: 'Одна цель',
@@ -2405,7 +2405,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ### Часто задаваемые вопросы (FAQs)
 **В:** У меня есть правило, срабатывающее, когда **[gloss:mortal-wound:смертельная рана]** распределяется на модель — когда это происходит?
 
-**О:** Когда вы выбираете модель на шаге «Выбор модели» (Select Model step) раздела **Смертельные раны** (Mortal Wounds) (06.02).`,
+**О:** Когда вы выбираете модель на шаге «Выбор модели» (Select Model step) раздела **[gloss:mortal-wound:Смертельные раны]** (06.02).`,
             },
           ],
         },
@@ -2424,7 +2424,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 
 **В:** Я провалил **[gloss:hazard-roll:проверки опасности]** от оружия [HAZARDOUS] — должны ли эти **[gloss:mortal-wound:смертельные раны]** распределяться на модели с оружием [HAZARDOUS]?
 
-**О:** Нет, вы распределяете **смертельные раны** на юнит согласно разделу **Смертельные раны** (Mortal Wounds) (06.02). (Это символизирует, как Боб-гвардеец подбирает плазменное ружьё павшего товарища по отряду, или как искажающая сила Джеймса-чародея Хаоса затягивает его последователей в варп.)`,
+**О:** Нет, вы распределяете **смертельные раны** на юнит согласно разделу **[gloss:mortal-wound:Смертельные раны]** (06.02). (Это символизирует, как Боб-гвардеец подбирает плазменное ружьё павшего товарища по отряду, или как искажающая сила Джеймса-чародея Хаоса затягивает его последователей в варп.)`,
             },
           ],
         },
