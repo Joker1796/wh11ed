@@ -541,14 +541,11 @@ export const glossary = {
   },
 
   // — Misc glossary terms —
+  // Translation-only glosses: popover shows just the English original, no definition body.
   'controlling-player': {
     term: 'Controlling Player',
-    en: 'The player whose army a unit or model belongs to and who makes decisions for it.',
-    ru: 'Игрок, чьей армии принадлежит юнит или модель и который принимает за них решения.',
   },
   'you': {
-    term: '“You”',
-    en: 'In a rule, “you” means the player reading and using that rule.',
-    ru: 'В правиле «вы» означает игрока, который читает и использует это правило.',
+    term: 'You',
   },
 }
