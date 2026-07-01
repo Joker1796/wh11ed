@@ -558,6 +558,87 @@ export const glossary = {
   },
 
   // — Misc glossary terms —
+  // — Advanced Rules: transports —
+  'transport-capacity': {
+    term: 'Transport Capacity',
+    en: 'The number and type of models a TRANSPORT can carry, as listed on its datasheet.',
+    ru: 'Количество и тип моделей, которые может перевозить ТРАНСПОРТ, согласно его листу данных.',
+  },
+  'embark': {
+    term: 'Embark',
+    en: 'To place a unit inside a friendly TRANSPORT it is eligible to embark within.',
+    ru: 'Разместить юнит внутри дружественного ТРАНСПОРТА, в который он может погрузиться.',
+  },
+  'eligible-to-embark': {
+    term: 'Eligible to Embark',
+    en: 'A unit can embark within a TRANSPORT if it has the required keywords and there is room in its Transport Capacity.',
+    ru: 'Юнит может погрузиться в ТРАНСПОРТ, если у него есть нужные ключевые слова и в грузоподъёмности есть место.',
+  },
+  'disembark': {
+    term: 'Disembark',
+    en: 'To set up an embarked unit on the battlefield within 3" of its TRANSPORT and more than 1" from enemy models.',
+    ru: 'Высадить погруженный юнит на поле боя в пределах 3" от его ТРАНСПОРТА и более чем в 1" от вражеских моделей.',
+  },
+
+  // — Advanced Rules: reserves & movement —
+  'reinforcements': {
+    term: 'Reinforcements',
+    en: 'Units arriving from Reserves during the battle rather than being deployed at the start.',
+    ru: 'Юниты, прибывающие из резервов во время битвы, а не размещённые в начале.',
+  },
+  'ingress-move': {
+    term: 'Ingress Move',
+    en: 'The move a Reserves unit makes as it arrives on the battlefield during the battle.',
+    ru: 'Манёвр, который юнит из резервов совершает, прибывая на поле боя во время битвы.',
+  },
+  'surge-move': {
+    term: 'Surge Move',
+    en: 'A special extra move some units can make (a “surge”), often outside the Movement phase.',
+    ru: 'Особый дополнительный манёвр (рывок), который могут совершать некоторые юниты, часто вне фазы движения.',
+  },
+  'surge-target': {
+    term: 'Surge Target',
+    en: 'The point or unit that a Surge move is made towards.',
+    ru: 'Точка или юнит, к которым совершается рывок.',
+  },
+  'reposition': {
+    term: 'Reposition',
+    en: 'To move a unit to a new position on the battlefield as directed by a rule.',
+    ru: 'Переместить юнит на новую позицию на поле боя, как указано правилом.',
+  },
+  'deployment-zone': {
+    term: 'Deployment Zone',
+    en: 'The area of the battlefield in which a player sets up their army before the battle begins.',
+    ru: 'Область поля боя, в которой игрок размещает свою армию до начала битвы.',
+  },
+
+  // — Advanced Rules: abilities & shooting —
+  'aura': {
+    term: 'Aura Ability',
+    en: 'An ability that affects units within a stated range of the model that has it.',
+    ru: 'Способность, действующая на юниты в пределах указанного расстояния от модели, обладающей ею.',
+  },
+  'faction-abilities': {
+    term: 'Faction Abilities',
+    en: 'Rules shared by every unit of a given Faction.',
+    ru: 'Правила, общие для всех юнитов данной фракции.',
+  },
+  'psychic': {
+    term: 'Psychic',
+    en: 'The [PSYKER] keyword and its abilities and weapons; some rules interact only with Psychic attacks or abilities.',
+    ru: 'Ключевое слово [PSYKER] и его способности и оружие; некоторые правила взаимодействуют только с психическими атаками или способностями.',
+  },
+  'plunging-fire': {
+    term: 'Plunging Fire',
+    en: 'A rule where shooting down from a higher elevation ignores the target’s Benefit of Cover.',
+    ru: 'Правило, при котором стрельба сверху, с возвышения, игнорирует преимущество укрытия цели.',
+  },
+  'close-quarters': {
+    term: 'Close-quarters Shooting',
+    en: 'Shooting made while within Engagement Range under specific rules (e.g. Pistols, or from a TRANSPORT).',
+    ru: 'Стрельба в радиусе связывания по особым правилам (например, из пистолетов или из ТРАНСПОРТА).',
+  },
+
   // Translation-only glosses: popover shows just the English original, no definition body.
   'controlling-player': {
     term: 'Controlling Player',
