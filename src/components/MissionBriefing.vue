@@ -79,4 +79,16 @@ defineProps({
   padding-top: 0.07rem;
 }
 .m-action-text { color: var(--text-muted); }
+
+@media (max-width: 600px) {
+  /* Stack the OBJECTIVE ACTION rows like the 10.04 info-card does on mobile:
+     label on its own line, text full-width below (instead of a cramped 5.5rem column). */
+  .m-action-row {
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .m-action-label {
+    flex: none;
+  }
+}
 </style>
