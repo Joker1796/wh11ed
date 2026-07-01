@@ -11,14 +11,14 @@ export const basicRules = {
           id: 'section-01-01',
           sectionNum: '01.01',
           title: 'Armies',
-          body: `Each player in a game of Warhammer 40,000 commands an army made up of units of models. You control all of the models in your army. If a rule refers to the 'controlling player', it is referring to the player who controls the models being affected by that rule.`,
+          body: `Each player in a game of Warhammer 40,000 commands an army made up of units of models. You control all of the models in your army. If a rule refers to the '[gloss:controlling-player:controlling player]', it is referring to the player who controls the models being affected by that rule.`,
           children: [
             {
               id: 'section-01-01-01',
               sectionNum: '01.01.01',
               title: 'You',
               fromApp: true,
-              body: `If a rule refers to 'you', it is referring to you the person, as the controlling player.`,
+              body: `If a rule refers to '[gloss:you:you]', it is referring to you the person, as the controlling player.`,
             },
           ],
         },
@@ -44,13 +44,13 @@ If a rule affects units or models without specifying that they are friendly or e
 
 Some rules refer to units being **below starting strength**, or at — or below — **half-strength**. The meaning of these terms varies depending on a unit's **starting strength**, as shown below.
 
-Units or models whose **W** characteristic or **starting strength** cannot be evenly divided in half cannot be **at half-strength** (but can be **below half-strength**).`,
+Units or models whose **[gloss:wounds:W]** characteristic or **starting strength** cannot be evenly divided in half cannot be **at half-strength** (but can be **below half-strength**).`,
               table: {
                 headers: ['Condition', 'Starting Strength of 1 (tracks wounds)', 'Starting Strength of 2 or more'],
                 rows: [
-                  ['**Below Starting Strength**', "Model's remaining wounds are less than its **W** characteristic.", 'Number of remaining models in the unit is less than its **starting strength**.'],
-                  ['**At Half-Strength**', "Model's remaining wounds are half of its **W** characteristic.", 'Number of remaining models in the unit is half of its **starting strength**.'],
-                  ['**Below Half-Strength**', "Model's remaining wounds are less than half of its **W** characteristic.", 'Number of remaining models in the unit is less than half of its **starting strength**.'],
+                  ['**Below Starting Strength**', "Model's remaining wounds are less than its **[gloss:wounds:W]** characteristic.", 'Number of remaining models in the unit is less than its **starting strength**.'],
+                  ['**At Half-Strength**', "Model's remaining wounds are half of its **[gloss:wounds:W]** characteristic.", 'Number of remaining models in the unit is half of its **starting strength**.'],
+                  ['**Below Half-Strength**', "Model's remaining wounds are less than half of its **[gloss:wounds:W]** characteristic.", 'Number of remaining models in the unit is less than half of its **starting strength**.'],
                 ],
               },
               example: 'A Captain (1 model) is attached to a unit of Intercessors (5 models). This **attached** unit has a **starting strength** of 6. If three Intercessors were **[gloss:destroyed:destroyed]**, the unit would be **at half-strength**. If four Intercessors were **destroyed**, the unit would be **below half-strength**. If all of the Intercessors were **destroyed**, the remaining Captain would be **below half-strength**, despite having his full wounds remaining.',
@@ -76,7 +76,7 @@ If a rule or effect is given to a unit and it does not specify how long it is ac
               body: `When a rule **revives**, resurrects, returns or adds models to a unit, the specified number of models are added to the unit.
 ▪ If a rule **revives**, resurrects or returns models to a unit, it does so through **destroyed** models from that unit.
 ▪ This cannot expand a unit beyond its **starting strength**.
-▪ Unless otherwise stated, such models are added with all [gloss:wargear:wargear] and enhancements they started the battle with, and with their full **W** remaining.
+▪ Unless otherwise stated, such models are added with all [gloss:wargear:wargear] and enhancements they started the battle with, and with their full **[gloss:wounds:W]** remaining.
 Models returned to a unit on the battlefield must be set up as follows:
 
 ▪ They must be set up in **[gloss:coherency:coherency]** with models in that unit that started that phase on the battlefield.
@@ -424,11 +424,11 @@ One of the most common ways for modifiers to be presented is as +1 or -1 to a ch
 
 If the rule has +1 to a characteristic, it improves it by the value after the '+' symbol.
 
-**Example:** 'This weapon has +1 **AP**' would improve an **AP** characteristic of -2 to -3.
+**Example:** 'This weapon has +1 **[gloss:armour-penetration:AP]**' would improve an **[gloss:armour-penetration:AP]** characteristic of -2 to -3.
 
 If the rule has -1 to a characteristic, it worsens it by the value after the '-' symbol.
 
-**Example:** 'This unit has -1 **Sv**' would worsen a **Sv** characteristic of 3+ to 4+.
+**Example:** 'This unit has -1 **[gloss:save-roll:Sv]**' would worsen a **[gloss:save-roll:Sv]** characteristic of 3+ to 4+.
 
 ### Applying Modifiers
 This section presents the various ways rules may be modified. All modifiers are cumulative.
@@ -444,28 +444,28 @@ When a value is modified (e.g. characteristic, dice roll, distance), do so in th
 ### When Modifying Characteristics
 When modifying characteristics, the following points also apply:
 ▪ Characteristics of '-', '*' and 'N/A' can never be modified.
-▪ Rules that modify a model's **WS** and/or **BS** characteristic modify the **WS** and/or **BS** characteristic of every weapon equipped by that model.
+▪ Rules that modify a model's **[gloss:weapon-skill:WS]** and/or **[gloss:ballistic-skill:BS]** characteristic modify the **[gloss:weapon-skill:WS]** and/or **[gloss:ballistic-skill:BS]** characteristic of every weapon equipped by that model.
 ▪ After all modifiers have been applied:
-▫ **M** cannot be less than 1".
-▫ **T** cannot be less than 1.
-▫ **Sv** cannot be 1+ or better.
-▫ **InSv** cannot be 1+ or better.
-▫ **Ld** cannot be 4+ (or better) or 9+ (or worse).
-▫ **OC** cannot be less than 0 or '-'.
+▫ **[gloss:move-characteristic:M]** cannot be less than 1".
+▫ **[gloss:toughness:T]** cannot be less than 1.
+▫ **[gloss:save-roll:Sv]** cannot be 1+ or better.
+▫ **[gloss:invulnerable-save:InSv]** cannot be 1+ or better.
+▫ **[gloss:leadership:Ld]** cannot be 4+ (or better) or 9+ (or worse).
+▫ **[gloss:objective-control:OC]** cannot be less than 0 or '-'.
 ▫ **Range** characteristics cannot be less than 1".
-▫ **A** cannot be less than 1.
-▫ **WS** cannot be 1+ (or better) or 7+ (or worse).
-▫ **BS** cannot be 1+ (or better) or 7+ (or worse).
-▫ **S** cannot be less than 1.
-▫ **AP** cannot be worse than 0.
-▫ **D** cannot be less than 1.
+▫ **[gloss:attack-dice:A]** cannot be less than 1.
+▫ **[gloss:weapon-skill:WS]** cannot be 1+ (or better) or 7+ (or worse).
+▫ **[gloss:ballistic-skill:BS]** cannot be 1+ (or better) or 7+ (or worse).
+▫ **[gloss:strength:S]** cannot be less than 1.
+▫ **[gloss:armour-penetration:AP]** cannot be worse than 0.
+▫ **[gloss:damage-roll:D]** cannot be less than 1.
 
 When these terms are used in rules, the affected characteristics are being modified, and the following points apply:
-▪ **Improving WS, BS, Sv and Ld:** When improving a **WS**, **BS**, **Sv** or **Ld** characteristic, subtract the appropriate amount from the number before the plus sign, e.g. improving a **WS** of 3+ by 1 would result in a **WS** of 2+.
-▪ **Worsening WS, BS, Sv and Ld:** When worsening a **WS**, **BS**, **Sv** or **Ld** characteristic, add the appropriate amount to the number before the plus sign, e.g. worsening a **WS** of 3+ by 1 would result in a **WS** of 4+.
-▪ **Improving AP:** When improving an Armour Penetration characteristic, subtract the appropriate amount from the characteristic, e.g. improving an **AP** of -1 by 1 would result in an **AP** of -2; improving an **AP** of 0 by 1 would result in an **AP** of -1.
-▪ **Reducing or Worsening AP:** When reducing or worsening an Armour Penetration characteristic, add the appropriate amount to the characteristic, to a maximum of 0, e.g. reducing/worsening an **AP** of -1 by 1 would result in an **AP** of 0; reducing/worsening an **AP** of 0 by 1 would result in an **AP** of 0.
-▪ **Improving or Worsening Other Characteristics:** When instructed to improve/worsen a characteristic that does not include a '+' or '-' symbol, add/subtract the specified amount to/from that characteristic (e.g. to improve a **S** by 1, add 1 to it).
+▪ **Improving WS, BS, Sv and Ld:** When improving a **[gloss:weapon-skill:WS]**, **[gloss:ballistic-skill:BS]**, **[gloss:save-roll:Sv]** or **[gloss:leadership:Ld]** characteristic, subtract the appropriate amount from the number before the plus sign, e.g. improving a **[gloss:weapon-skill:WS]** of 3+ by 1 would result in a **[gloss:weapon-skill:WS]** of 2+.
+▪ **Worsening WS, BS, Sv and Ld:** When worsening a **[gloss:weapon-skill:WS]**, **[gloss:ballistic-skill:BS]**, **[gloss:save-roll:Sv]** or **[gloss:leadership:Ld]** characteristic, add the appropriate amount to the number before the plus sign, e.g. worsening a **[gloss:weapon-skill:WS]** of 3+ by 1 would result in a **[gloss:weapon-skill:WS]** of 4+.
+▪ **Improving AP:** When improving an Armour Penetration characteristic, subtract the appropriate amount from the characteristic, e.g. improving an **[gloss:armour-penetration:AP]** of -1 by 1 would result in an **[gloss:armour-penetration:AP]** of -2; improving an **[gloss:armour-penetration:AP]** of 0 by 1 would result in an **[gloss:armour-penetration:AP]** of -1.
+▪ **Reducing or Worsening AP:** When reducing or worsening an Armour Penetration characteristic, add the appropriate amount to the characteristic, to a maximum of 0, e.g. reducing/worsening an **[gloss:armour-penetration:AP]** of -1 by 1 would result in an **[gloss:armour-penetration:AP]** of 0; reducing/worsening an **[gloss:armour-penetration:AP]** of 0 by 1 would result in an **[gloss:armour-penetration:AP]** of 0.
+▪ **Improving or Worsening Other Characteristics:** When instructed to improve/worsen a characteristic that does not include a '+' or '-' symbol, add/subtract the specified amount to/from that characteristic (e.g. to improve a **[gloss:strength:S]** by 1, add 1 to it).
 
 ### When Modifying Dice Rolls
 When modifying dice rolls, the following points also apply:
@@ -495,7 +495,7 @@ Unless otherwise stated, that rule allows you to ignore modifiers to the unit's 
 
 When a rule states you can ignore modifiers to a stated roll or characteristic, you can choose to ignore all of those modifiers, or only some of them. For example, you can still choose to apply positive/beneficial modifiers while ignoring negative/detrimental modifiers.
 
-**Example:** Your unit can ignore characteristic modifiers and is under the effect of +2" **M** and -2" **M**. You can choose to ignore the -2" **M**, meaning that unit's **M** characteristic will only be modified by the +2" **M**.
+**Example:** Your unit can ignore characteristic modifiers and is under the effect of +2" **[gloss:move-characteristic:M]** and -2" **[gloss:move-characteristic:M]**. You can choose to ignore the -2" **[gloss:move-characteristic:M]**, meaning that unit's **[gloss:move-characteristic:M]** characteristic will only be modified by the +2" **[gloss:move-characteristic:M]**.
 
 **Example:** Your unit's ranged attacks can ignore roll modifiers and are under the effect of +1 to **hit rolls** and -1 to **hit rolls**. You can choose to ignore the -1 to **hit rolls**, meaning those attacks will only be affected by the +1 to **hit rolls**.`,
             },
@@ -504,15 +504,15 @@ When a rule states you can ignore modifiers to a stated roll or characteristic, 
               sectionNum: '02.02.03',
               title: 'Random Characteristics',
               fromApp: true,
-              body: `**Random Movement:** When a unit with a random **M** characteristic is **selected to move**, determine the entire unit's move distance by rolling the indicated number of dice.
+              body: `**Random Movement:** When a unit with a random **[gloss:move-characteristic:M]** characteristic is **selected to move**, determine the entire unit's move distance by rolling the indicated number of dice.
 
-**Random Attacks:** If a weapon has a random **A** characteristic, that characteristic is determined when generating attacks for that weapon at the Resolve Attacks step (04.03). If several weapons with random **A** characteristics are making **identical attacks**, generate the attacks for each of those weapons individually, and group them all together.
+**Random Attacks:** If a weapon has a random **[gloss:attack-dice:A]** characteristic, that characteristic is determined when generating attacks for that weapon at the Resolve Attacks step (04.03). If several weapons with random **[gloss:attack-dice:A]** characteristics are making **identical attacks**, generate the attacks for each of those weapons individually, and group them all together.
 
-**Random Damage:** If a weapon has a random **D** characteristic, then each time an attack made with it inflicts damage, the controlling player determines that weapon's characteristic when the opposing player has selected a model in the target unit to allocate that attack to.
+**Random Damage:** If a weapon has a random **[gloss:damage-roll:D]** characteristic, then each time an attack made with it inflicts damage, the controlling player determines that weapon's characteristic when the opposing player has selected a model in the target unit to allocate that attack to.
 
-When determining a random **D** characteristic, the dice roll made is called a **[gloss:damage-roll:damage roll]**.
+When determining a random **[gloss:damage-roll:D]** characteristic, the dice roll made is called a **[gloss:damage-roll:damage roll]**.
 
-Where a **D** characteristic includes an operator (e.g. a '+', as in D6+1), the value after the operator is part of that **D** characteristic – it is not a modifier.
+Where a **[gloss:damage-roll:D]** characteristic includes an operator (e.g. a '+', as in D6+1), the value after the operator is part of that **[gloss:damage-roll:D]** characteristic – it is not a modifier.
 
 **Other Random Characteristics:** For all other characteristics, roll to determine the value on an individual, per-model or per-weapon basis each time that characteristic is required.`,
             },
@@ -533,7 +533,7 @@ If a rule states that a model **heals** or regains a number of wounds, only that
               sectionNum: '02.02.05',
               title: 'Full Wounds Remaining',
               fromApp: true,
-              body: `A model has its full wounds remaining if it has the same number of wounds remaining as its **W** characteristic.`,
+              body: `A model has its full wounds remaining if it has the same number of wounds remaining as its **[gloss:wounds:W]** characteristic.`,
             },
             {
               id: 'section-02-02-06',
@@ -583,7 +583,7 @@ In order for those attacks to re-roll **hit rolls**, that target must be both th
               sectionNum: '02.04.01',
               title: 'Weapons With No Strength',
               fromApp: true,
-              body: `If a weapon has no **S** characteristic (because it is '-', or for any other reason) and a rule interacts with that weapon's **S**, that weapon has **S** 1 for that interaction.`,
+              body: `If a weapon has no **[gloss:strength:S]** characteristic (because it is '-', or for any other reason) and a rule interacts with that weapon's **[gloss:strength:S]**, that weapon has **[gloss:strength:S]** 1 for that interaction.`,
             },
           ],
         },
@@ -707,8 +707,8 @@ If one or more of the above conditions are not met, that unit cannot make that m
               sectionNum: '03.01.01',
               title: 'Different Move Characteristics',
               fromApp: true,
-              body: `When making a **move type** whose **maximum distance** uses the unit's **M** characteristic, if different models in the moving unit have different **M** characteristics, the **maximum distance** for that move will be different for those models.`,
-              example: `If a unit makes a **normal move** and all models in that unit have an **M** characteristic of 6" except for one model with an **M** characteristic of 9", that model's **maximum distance** for that move is 9", while the other models' **maximum distance** is 6". While that unit is making that move, all other restrictions must be met.`,
+              body: `When making a **move type** whose **maximum distance** uses the unit's **[gloss:move-characteristic:M]** characteristic, if different models in the moving unit have different **[gloss:move-characteristic:M]** characteristics, the **maximum distance** for that move will be different for those models.`,
+              example: `If a unit makes a **normal move** and all models in that unit have an **[gloss:move-characteristic:M]** characteristic of 6" except for one model with an **[gloss:move-characteristic:M]** characteristic of 9", that model's **maximum distance** for that move is 9", while the other models' **maximum distance** is 6". While that unit is making that move, all other restrictions must be met.`,
             },
             {
               id: 'section-03-01-02',
@@ -959,9 +959,9 @@ Rules that are triggered when an attack is 'allocated' to a unit are triggered i
 
 1. **Select Enemy Unit:** Select one of the enemy units targeted by one or more weapons.
 
-2. **Gather Attack Dice:** Select one weapon targeting that unit that has not yet been used to make attacks against it, and gather a number of D6 equal to that weapon's **A** characteristic. These are **attack dice** – each one represents one attack being made by an attacking model with that weapon.
+2. **Gather Attack Dice:** Select one weapon targeting that unit that has not yet been used to make attacks against it, and gather a number of D6 equal to that weapon's **[gloss:attack-dice:A]** characteristic. These are **attack dice** – each one represents one attack being made by an attacking model with that weapon.
 
-If one or more other weapons targeting that unit make [def:identical-attacks:identical attacks] to the selected weapon and those weapons have not yet been used to make attacks against that target, they do so now and you gather those weapons’ **attack dice** as well (e.g. for three weapons making [def:identical-attacks:identical attacks], each with an **A** characteristic of 2, gather a total of six D6)
+If one or more other weapons targeting that unit make [def:identical-attacks:identical attacks] to the selected weapon and those weapons have not yet been used to make attacks against that target, they do so now and you gather those weapons’ **attack dice** as well (e.g. for three weapons making [def:identical-attacks:identical attacks], each with an **[gloss:attack-dice:A]** characteristic of 2, gather a total of six D6)
 
 3. **Resolve Attack Dice:** Resolve the attack sequence (05) for all of the **attack dice** you just gathered.
 
@@ -987,7 +987,7 @@ If one or more other weapons targeting that unit make [def:identical-attacks:ide
               sectionNum: '04.03.01',
               title: 'Identical Attacks',
               fromApp: true,
-              body: `Identical attacks are those that have the same **BS/WS**, **S**, **AP** and **D** characteristics, and which are affected by the same applicable abilities and rules.`,
+              body: `Identical attacks are those that have the same **BS/WS**, **[gloss:strength:S]**, **[gloss:armour-penetration:AP]** and **[gloss:damage-roll:D]** characteristics, and which are affected by the same applicable abilities and rules.`,
             },
             {
               id: 'section-04-03-02',
@@ -1094,9 +1094,9 @@ If a unit was selected to fight and none of the models in it make any attacks, i
               sectionNum: '05.02.01',
               title: 'Multiple Toughness Characteristics',
               fromApp: true,
-              body: `When resolving attacks that target a unit in which the models have two or more different **T** characteristics, follow the first instruction that applies from below:
-▪ If the target unit is an **attached unit**, use the highest **T** characteristic amongst **[gloss:bodyguard:bodyguard]** models in that unit that are on the battlefield.
-▪ Use the highest **T** characteristic amongst models in that unit that are on the battlefield.`,
+              body: `When resolving attacks that target a unit in which the models have two or more different **[gloss:toughness:T]** characteristics, follow the first instruction that applies from below:
+▪ If the target unit is an **attached unit**, use the highest **[gloss:toughness:T]** characteristic amongst **[gloss:bodyguard:bodyguard]** models in that unit that are on the battlefield.
+▪ Use the highest **[gloss:toughness:T]** characteristic amongst models in that unit that are on the battlefield.`,
             },
           ],
         },
@@ -1205,8 +1205,8 @@ The {blue:BLUE} unit is selected as the target. The unit is **visible** to all m
 
 ### 3. RESOLVE ATTACKS
 There is only one enemy unit being targeted, so the controlling player now gathers **attack dice**:
-▪ Five **attack dice** are gathered for the boltguns and bolt pistol, which have **A** characteristics of 2 and 1 respectively and all make **identical attacks**.
-▪ Three **attack dice** are gathered for the heavy bolter, which has an **A** characteristic of 3 but does not make **identical attacks**.`,
+▪ Five **attack dice** are gathered for the boltguns and bolt pistol, which have **[gloss:attack-dice:A]** characteristics of 2 and 1 respectively and all make **identical attacks**.
+▪ Three **attack dice** are gathered for the heavy bolter, which has an **[gloss:attack-dice:A]** characteristic of 3 but does not make **identical attacks**.`,
         },
         {
           id: 'section-05-ex2',
@@ -1214,18 +1214,18 @@ There is only one enemy unit being targeted, so the controlling player now gathe
           title: 'Attack Sequence Example — RESOLVING ATTACK DICE',
           sideImage: { src: '/images/attack/resolve-attack-dice.jpg', alt: 'Resolve attack dice example' },
           body: `### 1. **HIT ROLLS**
-The controlling player chooses to make the five **hit rolls** for the boltguns and bolt pistol first. The **BS** characteristic of the weapons is 3+. Four of the attacks hit the target.
+The controlling player chooses to make the five **hit rolls** for the boltguns and bolt pistol first. The **[gloss:ballistic-skill:BS]** characteristic of the weapons is 3+. Four of the attacks hit the target.
 
 ### 2. WOUND ROLLS
-The controlling player makes four **wound rolls**. The weapons have an **S** characteristic of 4 and the target unit has a **T** characteristic of 3, so rolls of 3+ are required to wound. Three of the attacks wound the target.
+The controlling player makes four **wound rolls**. The weapons have an **[gloss:strength:S]** characteristic of 4 and the target unit has a **[gloss:toughness:T]** characteristic of 3, so rolls of 3+ are required to wound. Three of the attacks wound the target.
 
 ### 3. SAVE ROLLS
 The target unit's controlling player makes three **save rolls**.
 
 ### 4. INFLICT DAMAGE
-▪ The lowest result is less than both the **InSv** and **Sv** characteristics of the target, so that attack inflicts damage. This reduces the model to which that attack was allocated to 0 wounds, which destroys it.
-▪ The next lowest result is less than the target's **InSv** characteristic, but greater than its **Sv** characteristic of 3+; that attack fails.
-▪ The other result is greater than the target's **InSv** characteristic of 5+; that attack also fails.`,
+▪ The lowest result is less than both the **[gloss:invulnerable-save:InSv]** and **[gloss:save-roll:Sv]** characteristics of the target, so that attack inflicts damage. This reduces the model to which that attack was allocated to 0 wounds, which destroys it.
+▪ The next lowest result is less than the target's **[gloss:invulnerable-save:InSv]** characteristic, but greater than its **[gloss:save-roll:Sv]** characteristic of 3+; that attack fails.
+▪ The other result is greater than the target's **[gloss:invulnerable-save:InSv]** characteristic of 5+; that attack also fails.`,
         },
         {
           id: 'section-05-ex3',
@@ -1233,17 +1233,17 @@ The target unit's controlling player makes three **save rolls**.
           title: 'Attack Sequence Example — RESOLVING OTHER ATTACKS',
           sideImage: { src: '/images/attack/resolve-other-attacks.jpg', alt: 'Resolving other attacks example' },
           body: `### 1. **HIT ROLLS**
-The controlling player then makes three **hit rolls** for the heavy bolter. The **BS** characteristic of the weapon is 4+. Two of the attacks hit the target.
+The controlling player then makes three **hit rolls** for the heavy bolter. The **[gloss:ballistic-skill:BS]** characteristic of the weapon is 4+. Two of the attacks hit the target.
 
 ### 2. WOUND ROLLS
-The controlling player makes two **wound rolls**. The weapon has an **S** characteristic of 5, so rolls of 3+ are required to wound. Both attacks wound the target.
+The controlling player makes two **wound rolls**. The weapon has an **[gloss:strength:S]** characteristic of 5, so rolls of 3+ are required to wound. Both attacks wound the target.
 
 ### 3. SAVE ROLLS
 The target unit's controlling player makes two **save rolls**.
 
 ### 4. INFLICT DAMAGE
-▪ The lowest result, __when modified by the attacking weapon's **AP** characteristic of -1__, is less than the target's **Sv** characteristic of 3+, so that attack inflicts damage. This reduces the model to which that attack was allocated to 0 wounds, which destroys it.
-▪ The other result is equal to the target's **InSv** characteristic of 5+; that attack fails.`,
+▪ The lowest result, __when modified by the attacking weapon's **[gloss:armour-penetration:AP]** characteristic of -1__, is less than the target's **[gloss:save-roll:Sv]** characteristic of 3+, so that attack inflicts damage. This reduces the model to which that attack was allocated to 0 wounds, which destroys it.
+▪ The other result is equal to the target's **[gloss:invulnerable-save:InSv]** characteristic of 5+; that attack fails.`,
         },
         {
           id: 'section-05-ex4',
@@ -1260,10 +1260,10 @@ The {red:RED} unit is attacking. The following weapons are selected to make atta
 The {blue:BLUE} unit is selected as the target. It is an attached unit (19) formed from a Seraphim unit and Saint Celestine (with her two Geminae Superia). The unit is **visible** to all models in the attacking unit, and all of the selected weapons are in range.
 
 ### 3. RESOLVE ATTACKS
-There is only one enemy unit being targeted, so the controlling player now gathers **attack dice**. They decide to resolve the heavy bolter attacks first, which each have an **A** characteristic of 3, so six **attack dice** are gathered.
+There is only one enemy unit being targeted, so the controlling player now gathers **attack dice**. They decide to resolve the heavy bolter attacks first, which each have an **[gloss:attack-dice:A]** characteristic of 3, so six **attack dice** are gathered.
 The **attack dice** for the remaining weapons will be gathered once the heavy bolter attacks are resolved (see opposite), as follows:
-▪ 14 **attack dice** for the boltguns, which each have an **A** characteristic of 2.
-▪ One **attack dice** for the plasma pistol, which has an **A** characteristic of 1.`,
+▪ 14 **attack dice** for the boltguns, which each have an **[gloss:attack-dice:A]** characteristic of 2.
+▪ One **attack dice** for the plasma pistol, which has an **[gloss:attack-dice:A]** characteristic of 1.`,
         },
         {
           id: 'section-05-ex5',
@@ -1271,13 +1271,13 @@ The **attack dice** for the remaining weapons will be gathered once the heavy bo
           title: 'Attack Sequence Example — ALLOCATION GROUPS',
           sideImage: { src: '/images/attack/allocation-groups.jpg', alt: 'Allocation groups example', width: '60%' },
           body: `### 1. CREATE GROUPS AND DECLARE ORDER
-The target unit's controlling player divides it into groups: one containing Saint Celestine, one containing the Geminae Superia, and one containing the Seraphim. They then declare the allocation order, choosing the Geminae Superia first (1), hoping their better **Sv** and **InSv** characteristics will weather the attacks. The Seraphim must be chosen second (2), as Saint Celestine is a CHARACTER model so must be last in the order (3).
+The target unit's controlling player divides it into groups: one containing Saint Celestine, one containing the Geminae Superia, and one containing the Seraphim. They then declare the allocation order, choosing the Geminae Superia first (1), hoping their better **[gloss:save-roll:Sv]** and **[gloss:invulnerable-save:InSv]** characteristics will weather the attacks. The Seraphim must be chosen second (2), as Saint Celestine is a CHARACTER model so must be last in the order (3).
 
 ### 2. RESOLVE ATTACK DICE
 The heavy bolters' attacks wound the target five times, so the target unit's controlling player makes five **save rolls**.
 The attacks are resolved one at a time, from lowest **save rolls** to highest:
 ▪ The two results of 1 are allocated first, to the current allocation group (the Geminae Superia). They both inflict damage, and both Geminae Superia are destroyed.
-▪ The result of 3 is now allocated to the Seraphim, who have become the current allocation group. __When modified by the attacking weapon's **AP** characteristic of -1__, this also inflicts damage, destroying one Seraphim model.
+▪ The result of 3 is now allocated to the Seraphim, who have become the current allocation group. __When modified by the attacking weapon's **[gloss:armour-penetration:AP]** characteristic of -1__, this also inflicts damage, destroying one Seraphim model.
 ▪ The remaining attacks fail, so no further damage is inflicted.
 
 ### 3. SELECT NEXT GROUP OF ATTACK DICE AND REPEAT`,
@@ -1350,7 +1350,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
               sectionNum: '06.02.01',
               title: 'Normal Damage',
               fromApp: true,
-              body: `Normal Damage is damage that was inflicted on a model as a result of a weapon's **D** characteristic, rather than by other means such as **mortal wounds**. **Mortal wounds** dealt in addition to normal damage from an attack are part of that same attack.
+              body: `Normal Damage is damage that was inflicted on a model as a result of a weapon's **[gloss:damage-roll:D]** characteristic, rather than by other means such as **mortal wounds**. **Mortal wounds** dealt in addition to normal damage from an attack are part of that same attack.
 
 ### FAQs
 **Q:** I have a rule that triggers when a **mortal wound** is allocated to a model, when does this happen?
@@ -1394,11 +1394,11 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
       subsections: [
         {
           title: 'Армии',
-          body: `Каждый игрок в игре Warhammer 40,000 командует армией, состоящей из юнитов моделей. Вы контролируете все модели в своей армии. Если правило ссылается на «контролирующего игрока»('controlling player'), оно относится к игроку, который контролирует модели, на которые распространяется это правило.`,
+          body: `Каждый игрок в игре Warhammer 40,000 командует армией, состоящей из юнитов моделей. Вы контролируете все модели в своей армии. Если правило ссылается на «[gloss:controlling-player:контролирующего игрока]», оно относится к игроку, который контролирует модели, на которые распространяется это правило.`,
           children: [
             {
               title: 'Вы',
-              body: `Если правило ссылается на «вас» ('you'), оно относится к вам как к человеку, контролирующему игроку.`,
+              body: `Если правило ссылается на «[gloss:you:вас]», оно относится к вам как к человеку, контролирующему игроку.`,
             },
           ],
         },
@@ -1418,13 +1418,13 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 
 Некоторые правила ссылаются на юниты, находящиеся **ниже начальной численности** (below starting strength), или **на — или ниже — половинной численности** (at – or below – half-strength). Значение этих терминов варьируется в зависимости от **начальной численности** юнита, как показано ниже.
 
-Юниты или модели, чья характеристика **W** (раны) или **начальная численность** не может быть равномерно разделена пополам, не могут находиться **[gloss:half-strength:на половинной численности]** (но могут быть **ниже половинной численности**).`,
+Юниты или модели, чья характеристика **[gloss:wounds:W]** или **начальная численность** не может быть равномерно разделена пополам, не могут находиться **[gloss:half-strength:на половинной численности]** (но могут быть **ниже половинной численности**).`,
               table: {
                 headers: ['Условие', 'Начальная численность 1 (отслеживает раны)', 'Начальная численность 2 или более'],
                 rows: [
-                  ['**Ниже начальной численности**', 'Оставшиеся раны модели **меньше** её характеристики **W** (ран).', 'Количество оставшихся моделей в юните **меньше** его начальной численности.'],
-                  ['**На половинной численности**', 'Оставшиеся раны модели составляют **половину** её характеристики **W** (ран).', 'Количество оставшихся моделей в юните составляет **половину** его начальной численности.'],
-                  ['**Ниже половинной численности**', 'Оставшиеся раны модели составляют **менее половины** её характеристики **W** (ран).', 'Количество оставшихся моделей в юните составляет **менее половины** его начальной численности.'],
+                  ['**Ниже начальной численности**', 'Оставшиеся раны модели **меньше** её характеристики **[gloss:wounds:W]**.', 'Количество оставшихся моделей в юните **меньше** его начальной численности.'],
+                  ['**На половинной численности**', 'Оставшиеся раны модели составляют **половину** её характеристики **[gloss:wounds:W]**.', 'Количество оставшихся моделей в юните составляет **половину** его начальной численности.'],
+                  ['**Ниже половинной численности**', 'Оставшиеся раны модели составляют **менее половины** её характеристики **[gloss:wounds:W]**.', 'Количество оставшихся моделей в юните составляет **менее половины** его начальной численности.'],
                 ],
               },
               example: 'Капитан (1 модель) приписан к отряду Интерцессоров (5 моделей). Этот **[gloss:attached-unit:составной юнит]** имеет **[gloss:starting-strength:начальную численность]** 6. Если три Интерцессора **уничтожены**, юнит находится **[gloss:half-strength:на половинной численности]**. Если четыре Интерцессора **уничтожены**, юнит находится **ниже половинной численности** (below half-strength). Если все Интерцессоры **уничтожены**, оставшийся Капитан находится **ниже половинной численности**, несмотря на то, что у него осталось полное количество [gloss:wounds:ран].',
@@ -1444,7 +1444,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
               body: `Когда правило **[gloss:revive:возрождает]**, воскрешает, возвращает или добавляет модели в юнит, указанное количество моделей добавляется в юнит.
 ▪ Если правило **[gloss:revive:возрождает]**, воскрешает или возвращает модели в юнит, оно делает это через **[gloss:destroyed:уничтоженные]** модели из этого юнита.
 ▪ Это не может расширить юнит сверх его **[gloss:starting-strength:начальной численности]**.
-▪ Если не указано иное, такие модели добавляются со всем [gloss:wargear:снаряжением] и [gloss:enhancement:усилениями], с которыми они начинали битву, и с полным запасом **W** (ран).
+▪ Если не указано иное, такие модели добавляются со всем [gloss:wargear:снаряжением] и [gloss:enhancement:усилениями], с которыми они начинали битву, и с полным запасом **[gloss:wounds:W]**.
 Модели, возвращённые в юнит на поле боя, должны быть размещены следующим образом:
 
 ▪ Они должны быть размещены в **[gloss:coherency:боевом построении]** с моделями этого юнита, которые начали эту фазу на поле боя.
@@ -1698,11 +1698,11 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 
 Если правило содержит +1 к характеристике, оно улучшает её на значение после знака «+».
 
-**Пример:** «Это оружие имеет +1 к **AP**» улучшит характеристику **AP** с -2 до -3.
+**Пример:** «Это оружие имеет +1 к **[gloss:armour-penetration:AP]**» улучшит характеристику **[gloss:armour-penetration:AP]** с -2 до -3.
 
 Если правило содержит -1 к характеристике, оно ухудшает её на значение после знака «-».
 
-**Пример:** «Этот юнит имеет -1 к **Sv**» ухудшит характеристику **Sv** с 3+ до 4+.
+**Пример:** «Этот юнит имеет -1 к **[gloss:save-roll:Sv]**» ухудшит характеристику **[gloss:save-roll:Sv]** с 3+ до 4+.
 
 ### Применение модификаторов
 В этом разделе представлены различные способы изменения правил. Все модификаторы суммируются.
@@ -1718,28 +1718,28 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ### При изменении характеристик
 При изменении характеристик также применяются следующие положения:
 ▪ Характеристики «-», «*» и «N/A» никогда не могут быть изменены.
-▪ Правила, изменяющие характеристику **WS** и/или **BS** модели, изменяют характеристику **WS** и/или **BS** каждого оружия, которым экипирована эта модель.
+▪ Правила, изменяющие характеристику **[gloss:weapon-skill:WS]** и/или **[gloss:ballistic-skill:BS]** модели, изменяют характеристику **[gloss:weapon-skill:WS]** и/или **[gloss:ballistic-skill:BS]** каждого оружия, которым экипирована эта модель.
 ▪ После применения всех модификаторов:
-▫ **M** не может быть меньше 1".
-▫ **T** не может быть меньше 1.
-▫ **Sv** не может быть 1+ или лучше.
-▫ **InSv** не может быть 1+ или лучше.
-▫ **Ld** не может быть 4+ (или лучше) или 9+ (или хуже).
-▫ **OC** не может быть меньше 0 или «-».
+▫ **[gloss:move-characteristic:M]** не может быть меньше 1".
+▫ **[gloss:toughness:T]** не может быть меньше 1.
+▫ **[gloss:save-roll:Sv]** не может быть 1+ или лучше.
+▫ **[gloss:invulnerable-save:InSv]** не может быть 1+ или лучше.
+▫ **[gloss:leadership:Ld]** не может быть 4+ (или лучше) или 9+ (или хуже).
+▫ **[gloss:objective-control:OC]** не может быть меньше 0 или «-».
 ▫ Характеристики **Range** не могут быть меньше 1".
-▫ **A** не может быть меньше 1.
-▫ **WS** не может быть 1+ (или лучше) или 7+ (или хуже).
-▫ **BS** не может быть 1+ (или лучше) или 7+ (или хуже).
-▫ **S** не может быть меньше 1.
-▫ **AP** не может быть хуже 0.
-▫ **D** не может быть меньше 1.
+▫ **[gloss:attack-dice:A]** не может быть меньше 1.
+▫ **[gloss:weapon-skill:WS]** не может быть 1+ (или лучше) или 7+ (или хуже).
+▫ **[gloss:ballistic-skill:BS]** не может быть 1+ (или лучше) или 7+ (или хуже).
+▫ **[gloss:strength:S]** не может быть меньше 1.
+▫ **[gloss:armour-penetration:AP]** не может быть хуже 0.
+▫ **[gloss:damage-roll:D]** не может быть меньше 1.
 
 Когда в правилах используются эти термины, затрагиваемые характеристики изменяются, и применяются следующие положения:
-▪ **Улучшение WS, BS, Sv и Ld:** При улучшении характеристики **WS**, **BS**, **Sv** или **Ld** вычтите соответствующую величину из числа перед знаком «плюс», например, улучшение **WS** 3+ на 1 даст **WS** 2+.
-▪ **Ухудшение WS, BS, Sv и Ld:** При ухудшении характеристики **WS**, **BS**, **Sv** или **Ld** прибавьте соответствующую величину к числу перед знаком «плюс», например, ухудшение **WS** 3+ на 1 даст **WS** 4+.
-▪ **Улучшение AP:** При улучшении характеристики бронепробития вычтите соответствующую величину из характеристики, например, улучшение **AP** -1 на 1 даст **AP** -2; улучшение **AP** 0 на 1 даст **AP** -1.
-▪ **Уменьшение или ухудшение AP:** При уменьшении или ухудшении характеристики бронепробития прибавьте соответствующую величину к характеристике, максимум до 0, например, уменьшение/ухудшение **AP** -1 на 1 даст **AP** 0; уменьшение/ухудшение **AP** 0 на 1 даст **AP** 0.
-▪ **Улучшение или ухудшение прочих характеристик:** Когда предписано улучшить/ухудшить характеристику, не содержащую знака «+» или «-», прибавьте/вычтите указанную величину к/из этой характеристики (например, чтобы улучшить **S** на 1, прибавьте к ней 1).
+▪ **Улучшение WS, BS, Sv и Ld:** При улучшении характеристики **[gloss:weapon-skill:WS]**, **[gloss:ballistic-skill:BS]**, **[gloss:save-roll:Sv]** или **[gloss:leadership:Ld]** вычтите соответствующую величину из числа перед знаком «плюс», например, улучшение **[gloss:weapon-skill:WS]** 3+ на 1 даст **[gloss:weapon-skill:WS]** 2+.
+▪ **Ухудшение WS, BS, Sv и Ld:** При ухудшении характеристики **[gloss:weapon-skill:WS]**, **[gloss:ballistic-skill:BS]**, **[gloss:save-roll:Sv]** или **[gloss:leadership:Ld]** прибавьте соответствующую величину к числу перед знаком «плюс», например, ухудшение **[gloss:weapon-skill:WS]** 3+ на 1 даст **[gloss:weapon-skill:WS]** 4+.
+▪ **Улучшение AP:** При улучшении характеристики бронепробития вычтите соответствующую величину из характеристики, например, улучшение **[gloss:armour-penetration:AP]** -1 на 1 даст **[gloss:armour-penetration:AP]** -2; улучшение **[gloss:armour-penetration:AP]** 0 на 1 даст **[gloss:armour-penetration:AP]** -1.
+▪ **Уменьшение или ухудшение AP:** При уменьшении или ухудшении характеристики бронепробития прибавьте соответствующую величину к характеристике, максимум до 0, например, уменьшение/ухудшение **[gloss:armour-penetration:AP]** -1 на 1 даст **[gloss:armour-penetration:AP]** 0; уменьшение/ухудшение **[gloss:armour-penetration:AP]** 0 на 1 даст **[gloss:armour-penetration:AP]** 0.
+▪ **Улучшение или ухудшение прочих характеристик:** Когда предписано улучшить/ухудшить характеристику, не содержащую знака «+» или «-», прибавьте/вычтите указанную величину к/из этой характеристики (например, чтобы улучшить **[gloss:strength:S]** на 1, прибавьте к ней 1).
 
 ### При изменении бросков кубиков
 При изменении бросков кубиков также применяются следующие положения:
@@ -1766,21 +1766,21 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 
 Когда правило указывает, что вы можете игнорировать модификаторы к определённому броску или характеристике, вы можете выбрать игнорировать все эти модификаторы или только некоторые из них. Например, вы всё ещё можете применять положительные/полезные модификаторы, игнорируя отрицательные/вредные.
 
-**Пример:** Ваш юнит может игнорировать модификаторы характеристик и находится под эффектом +2" к **M** и -2" к **M**. Вы можете выбрать игнорировать -2" к **M**, что означает, что характеристика **M** этого юнита будет изменена только на +2".
+**Пример:** Ваш юнит может игнорировать модификаторы характеристик и находится под эффектом +2" к **[gloss:move-characteristic:M]** и -2" к **[gloss:move-characteristic:M]**. Вы можете выбрать игнорировать -2" к **[gloss:move-characteristic:M]**, что означает, что характеристика **[gloss:move-characteristic:M]** этого юнита будет изменена только на +2".
 
 **Пример:** Дистанционные атаки вашего юнита могут игнорировать модификаторы бросков и находятся под эффектом +1 к **[gloss:hit-roll:броскам попадания]** и -1 к **броскам попадания**. Вы можете выбрать игнорировать -1 к **броскам попадания**, что означает, что эти атаки будут затронуты только +1 к **броскам попадания**.`,
             },
             {
               title: 'Случайные характеристики',
-              body: `**Случайное движение (Random Movement):** Когда юнит со случайной характеристикой **M** **[gloss:selected-to-move:выбирается для манёвра]**, определите дистанцию манёвра всего юнита, бросив указанное количество кубиков.
+              body: `**Случайное движение (Random Movement):** Когда юнит со случайной характеристикой **[gloss:move-characteristic:M]** **[gloss:selected-to-move:выбирается для манёвра]**, определите дистанцию манёвра всего юнита, бросив указанное количество кубиков.
 
-**Случайные атаки (Random Attacks):** Если оружие имеет случайную характеристику **A**, эта характеристика определяется при генерации атак для этого оружия на шаге «Отыгрыш атак» (Resolve Attacks step) (04.03). Если несколько единиц оружия со случайными характеристиками **A** совершают **идентичные атаки** (identical attacks), сгенерируйте атаки для каждого из этих видов оружия по отдельности, а затем сгруппируйте их все вместе.
+**Случайные атаки (Random Attacks):** Если оружие имеет случайную характеристику **[gloss:attack-dice:A]**, эта характеристика определяется при генерации атак для этого оружия на шаге «Отыгрыш атак» (Resolve Attacks step) (04.03). Если несколько единиц оружия со случайными характеристиками **[gloss:attack-dice:A]** совершают **идентичные атаки** (identical attacks), сгенерируйте атаки для каждого из этих видов оружия по отдельности, а затем сгруппируйте их все вместе.
 
-**Случайный урон (Random Damage):** Если оружие имеет случайную характеристику **D**, то каждый раз, когда атака им наносит урон, контролирующий игрок определяет эту характеристику оружия после того, как противостоящий игрок выбрал модель в целевом юните для распределения этой атаки.
+**Случайный урон (Random Damage):** Если оружие имеет случайную характеристику **[gloss:damage-roll:D]**, то каждый раз, когда атака им наносит урон, контролирующий игрок определяет эту характеристику оружия после того, как противостоящий игрок выбрал модель в целевом юните для распределения этой атаки.
 
-При определении случайной характеристики **D** совершаемый бросок кубика называется **[gloss:damage-roll:броском урона]**.
+При определении случайной характеристики **[gloss:damage-roll:D]** совершаемый бросок кубика называется **[gloss:damage-roll:броском урона]**.
 
-Если характеристика **D** включает оператор (например, «+», как в D6+1), значение после оператора является частью этой характеристики **D** — это не модификатор.
+Если характеристика **[gloss:damage-roll:D]** включает оператор (например, «+», как в D6+1), значение после оператора является частью этой характеристики **[gloss:damage-roll:D]** — это не модификатор.
 
 **Другие случайные характеристики (Other Random Characteristics):** Для всех остальных характеристик бросайте, чтобы определить значение индивидуально, для каждой модели или для каждого оружия, каждый раз, когда требуется эта характеристика.`,
             },
@@ -1795,7 +1795,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
             },
             {
               title: 'Полное количество оставшихся ран',
-              body: `Модель имеет полное количество оставшихся ран, если у неё столько же оставшихся ран, сколько указано в её характеристике **W** (раны).`,
+              body: `Модель имеет полное количество оставшихся ран, если у неё столько же оставшихся ран, сколько указано в её характеристике **[gloss:wounds:W]**.`,
             },
             {
               title: 'Модификаторы характеристик и изменённые характеристики',
@@ -1831,7 +1831,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
           children: [
             {
               title: 'Оружие без силы',
-              body: `Если оружие не имеет характеристики **S** (потому что она «-» или по любой другой причине) и правило взаимодействует с характеристикой **S** этого оружия, это оружие имеет **S** 1 для этого взаимодействия.`,
+              body: `Если оружие не имеет характеристики **[gloss:strength:S]** (потому что она «-» или по любой другой причине) и правило взаимодействует с характеристикой **[gloss:strength:S]** этого оружия, это оружие имеет **[gloss:strength:S]** 1 для этого взаимодействия.`,
             },
           ],
         },
@@ -1910,8 +1910,8 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
           children: [
             {
               title: 'Различные характеристики движения',
-              body: `При совершении **[gloss:move-type:типа манёвра]**, чьё **[gloss:maximum-distance:максимальное расстояние]** использует характеристику **M** юнита, если разные модели в перемещающемся юните имеют разные характеристики **M**, **максимальное расстояние** для этого манёвра будет разным для этих моделей.`,
-              example: `Если юнит совершает **[gloss:normal-move:обычный манёвр]** и все модели в этом юните имеют характеристику **M** 6", кроме одной модели с характеристикой **M** 9", то **максимальное расстояние** для этой модели составляет 9", тогда как для остальных моделей **максимальное расстояние** — 6". Пока этот юнит совершает этот манёвр, должны соблюдаться все остальные ограничения.`,
+              body: `При совершении **[gloss:move-type:типа манёвра]**, чьё **[gloss:maximum-distance:максимальное расстояние]** использует характеристику **[gloss:move-characteristic:M]** юнита, если разные модели в перемещающемся юните имеют разные характеристики **[gloss:move-characteristic:M]**, **максимальное расстояние** для этого манёвра будет разным для этих моделей.`,
+              example: `Если юнит совершает **[gloss:normal-move:обычный манёвр]** и все модели в этом юните имеют характеристику **[gloss:move-characteristic:M]** 6", кроме одной модели с характеристикой **[gloss:move-characteristic:M]** 9", то **максимальное расстояние** для этой модели составляет 9", тогда как для остальных моделей **максимальное расстояние** — 6". Пока этот юнит совершает этот манёвр, должны соблюдаться все остальные ограничения.`,
             },
             {
               title: 'Движение над или сквозь модели',
@@ -2093,9 +2093,9 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 
 1. **Выберите вражеский юнит:** выберите один из вражеских юнитов, по которому нацелено одно или несколько орудий.
 
-2. **Соберите кубики атаки:** выберите одно оружие, нацеленное на этот юнит, которое ещё не использовалось для совершения атак по нему, и соберите количество D6, равное характеристике **A** этого оружия. Это **[gloss:attack-dice:кубики атаки]** — каждый представляет одну атаку атакующей модели этим оружием.
+2. **Соберите кубики атаки:** выберите одно оружие, нацеленное на этот юнит, которое ещё не использовалось для совершения атак по нему, и соберите количество D6, равное характеристике **[gloss:attack-dice:A]** этого оружия. Это **[gloss:attack-dice:кубики атаки]** — каждый представляет одну атаку атакующей модели этим оружием.
 
-Если одно или несколько других орудий, нацеленных на этот юнит, совершают [def:identical-attacks:идентичные атаки(identical attacks)] к выбранному оружию и эти оружия ещё не использовались для совершения атак по этой цели, они делают это сейчас, и вы также собираете **кубики атаки** этих орудий (например, для трёх орудий, совершающих [def:identical-attacks:идентичные атаки(identical attacks)], каждое с характеристикой **A** 2, соберите в общей сложности шесть D6).
+Если одно или несколько других орудий, нацеленных на этот юнит, совершают [def:identical-attacks:идентичные атаки(identical attacks)] к выбранному оружию и эти оружия ещё не использовались для совершения атак по этой цели, они делают это сейчас, и вы также собираете **кубики атаки** этих орудий (например, для трёх орудий, совершающих [def:identical-attacks:идентичные атаки(identical attacks)], каждое с характеристикой **[gloss:attack-dice:A]** 2, соберите в общей сложности шесть D6).
 
 3. **Отыгрыш кубиков атаки:** отыграйте последовательность атаки (05) для всех **[gloss:attack-dice:кубиков атаки]**, которые вы только что собрали.
 
@@ -2118,7 +2118,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
           children: [
             {
               title: 'Идентичные атаки',
-              body: `Идентичные атаки — это те, которые имеют одинаковые характеристики **BS/WS**, **S**, **AP** и **D**, а также на которые действуют одни и те же применимые способности и правила.`,
+              body: `Идентичные атаки — это те, которые имеют одинаковые характеристики **BS/WS**, **[gloss:strength:S]**, **[gloss:armour-penetration:AP]** и **[gloss:damage-roll:D]**, а также на которые действуют одни и те же применимые способности и правила.`,
             },
             {
               title: 'Разделение атак ближнего боя',
@@ -2195,9 +2195,9 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
           children: [
             {
               title: 'Несколько характеристик стойкости',
-              body: `При отыгрыше атак, нацеленных на юнит, в котором модели имеют две или более разные характеристики **T** (стойкость), следуйте первой применимой инструкции ниже:
-▪ Если целевой юнит — **[gloss:attached-unit:составной юнит]**, используйте наивысшую характеристику **T** среди моделей-**[gloss:bodyguard:телохранителей]** в этом юните, находящихся на поле боя.
-▪ Используйте наивысшую характеристику **T** среди моделей в этом юните, находящихся на поле боя.`,
+              body: `При отыгрыше атак, нацеленных на юнит, в котором модели имеют две или более разные характеристики **[gloss:toughness:T]**, следуйте первой применимой инструкции ниже:
+▪ Если целевой юнит — **[gloss:attached-unit:составной юнит]**, используйте наивысшую характеристику **[gloss:toughness:T]** среди моделей-**[gloss:bodyguard:телохранителей]** в этом юните, находящихся на поле боя.
+▪ Используйте наивысшую характеристику **[gloss:toughness:T]** среди моделей в этом юните, находящихся на поле боя.`,
             },
           ],
         },
@@ -2280,39 +2280,39 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 
 ### 3. СОВЕРШЕНИЕ АТАК
 Здесь есть только один вражеский юнит, являющийся целью, поэтому контролирующий игрок теперь выбирает **кубики атаки**:
-▪ Пять **кубиков атаки** собраны для болтганов и болт-пистолетов, которые имеют характеристики **A** 2 и 1 соответственно и все совершают **идентичные атаки**.
-▪ Три **кубика атаки** собраны для тяжёлого болтера, который имеет характеристику **A** 3, но не совершает **идентичных атак**.`,
+▪ Пять **кубиков атаки** собраны для болтганов и болт-пистолетов, которые имеют характеристики **[gloss:attack-dice:A]** 2 и 1 соответственно и все совершают **идентичные атаки**.
+▪ Три **кубика атаки** собраны для тяжёлого болтера, который имеет характеристику **[gloss:attack-dice:A]** 3, но не совершает **идентичных атак**.`,
         },
         {
           title: 'Пример: отыгрыш кубиков атаки',
           body: `### 1. HIT ROLLS (**БРОСКИ НА ПОПАДАНИЕ**)
-Контролирующий игрок решает сначала сделать пять **бросков на попадание** для болтганов и болт-пистолета. Характеристика **BS** оружия 3+. Четыре атаки попадают в цель.
+Контролирующий игрок решает сначала сделать пять **бросков на попадание** для болтганов и болт-пистолета. Характеристика **[gloss:ballistic-skill:BS]** оружия 3+. Четыре атаки попадают в цель.
 
 ### 2. WOUND ROLLS (БРОСКИ НА РАНЕНИЕ)
-Контролирующий игрок делает четыре **броска на ранение**. Оружие имеет характеристику **S** 4, а целевой юнит — характеристику **T** 3, поэтому для ранения требуются результаты 3+. Три атаки ранят цель.
+Контролирующий игрок делает четыре **броска на ранение**. Оружие имеет характеристику **[gloss:strength:S]** 4, а целевой юнит — характеристику **[gloss:toughness:T]** 3, поэтому для ранения требуются результаты 3+. Три атаки ранят цель.
 
 ### 3. SAVE ROLLS (СПАС-БРОСКИ)
 Контролирующий игрок целевого юнита делает три **спас-броска**.
 
 ### 4. INFLICT DAMAGE (НАНЕСЕНИЕ УРОНА)
-▪ Самый низкий результат меньше как характеристики **InSv**, так и **Sv** цели, поэтому эта атака наносит урон. Это снижает модель, которой была назначена эта атака, до 0 ран, что уничтожает её.
-▪ Следующий по величине результат меньше характеристики **InSv** цели, но больше её характеристики **Sv** 3+; эта атака проваливается.
-▪ Другой результат больше характеристики **InSv** цели 5+; эта атака также проваливается.`,
+▪ Самый низкий результат меньше как характеристики **[gloss:invulnerable-save:InSv]**, так и **[gloss:save-roll:Sv]** цели, поэтому эта атака наносит урон. Это снижает модель, которой была назначена эта атака, до 0 ран, что уничтожает её.
+▪ Следующий по величине результат меньше характеристики **[gloss:invulnerable-save:InSv]** цели, но больше её характеристики **[gloss:save-roll:Sv]** 3+; эта атака проваливается.
+▪ Другой результат больше характеристики **[gloss:invulnerable-save:InSv]** цели 5+; эта атака также проваливается.`,
         },
         {
           title: 'Пример: отыгрыш других атак',
           body: `### 1. HIT ROLLS (**БРОСКИ НА ПОПАДАНИЕ**)
-Затем контролирующий игрок делает три **броска на попадание** для тяжёлого болтера. Характеристика **BS** оружия 4+. Две атаки попадают в цель.
+Затем контролирующий игрок делает три **броска на попадание** для тяжёлого болтера. Характеристика **[gloss:ballistic-skill:BS]** оружия 4+. Две атаки попадают в цель.
 
 ### 2. WOUND ROLLS (БРОСКИ НА РАНЕНИЕ)
-Контролирующий игрок делает два **броска на ранение**. Оружие имеет характеристику **S** 5, поэтому для ранения требуются результаты 3+. Обе атаки ранят цель.
+Контролирующий игрок делает два **броска на ранение**. Оружие имеет характеристику **[gloss:strength:S]** 5, поэтому для ранения требуются результаты 3+. Обе атаки ранят цель.
 
 ### 3. SAVE ROLLS (СПАС-БРОСКИ)
 Контролирующий игрок целевого юнита делает два **спас-броска**.
 
 ### 4. INFLICT DAMAGE (НАНЕСЕНИЕ УРОНА)
-▪ Самый низкий результат, __после модификации характеристикой **AP** атакующего оружия -1__, становится меньше характеристики **Sv** цели 3+, поэтому эта атака наносит урон. Это снижает модель, которой была назначена эта атака, до 0 ран, что уничтожает её.
-▪ Другой результат равен характеристике **InSv** цели 5+; эта атака проваливается.`,
+▪ Самый низкий результат, __после модификации характеристикой **[gloss:armour-penetration:AP]** атакующего оружия -1__, становится меньше характеристики **[gloss:save-roll:Sv]** цели 3+, поэтому эта атака наносит урон. Это снижает модель, которой была назначена эта атака, до 0 ран, что уничтожает её.
+▪ Другой результат равен характеристике **[gloss:invulnerable-save:InSv]** цели 5+; эта атака проваливается.`,
         },
         {
           title: 'Пример: атака присоединённых юнитов',
@@ -2326,21 +2326,21 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 {blue:СИНИЙ} юнит выбран в качестве цели. Это присоединённый юнит (19), сформированный из юнита Серафим и Святой Селестины (с двумя её Геминами Суперии). Юнит **видим** всем моделям в атакующем юните, и все выбранное оружие находится в пределах дальности.
 
 ### 3. СОВЕРШЕНИЕ АТАК
-Нацелен только один вражеский юнит, поэтому контролирующий игрок теперь выбирает **кубики атаки**. Он решает сначала отыграть атаки тяжёлых болтеров, каждый из которых имеет характеристику **A** 3, поэтому берётся шесть **кубиков атаки**.
+Нацелен только один вражеский юнит, поэтому контролирующий игрок теперь выбирает **кубики атаки**. Он решает сначала отыграть атаки тяжёлых болтеров, каждый из которых имеет характеристику **[gloss:attack-dice:A]** 3, поэтому берётся шесть **кубиков атаки**.
 **Кубики атаки** для остального оружия будут выбраны после того, как атаки тяжёлых болтеров будут отыграны (см. напротив), следующим образом:
-▪ 14 **кубиков атаки** для болтганов, каждый из которых имеет характеристику **A** 2.
-▪ Один **кубик атаки** для плазма-пистолета, который имеет характеристику **A** 1.`,
+▪ 14 **кубиков атаки** для болтганов, каждый из которых имеет характеристику **[gloss:attack-dice:A]** 2.
+▪ Один **кубик атаки** для плазма-пистолета, который имеет характеристику **[gloss:attack-dice:A]** 1.`,
         },
         {
           title: 'Пример: группы распределения',
           body: `### 1. СОЗДАТЬ ГРУППЫ И ОБЪЯВИТЬ ПОРЯДОК
-Контролирующий игрок целевого юнита делит его на группы: одну, содержащую Святую Селестину, одну, содержащую Гемин Суперии, и одну, содержащую Серафим. Затем он объявляет порядок распределения, выбирая сначала Гемин Суперию (1), надеясь, что их лучшие характеристики **Sv** и **InSv** выдержат атаки. Серафим должны быть выбраны вторыми (2), так как Святая Селестина является моделью ПЕРСОНАЖА, поэтому должна быть последней в порядке (3).
+Контролирующий игрок целевого юнита делит его на группы: одну, содержащую Святую Селестину, одну, содержащую Гемин Суперии, и одну, содержащую Серафим. Затем он объявляет порядок распределения, выбирая сначала Гемин Суперию (1), надеясь, что их лучшие характеристики **[gloss:save-roll:Sv]** и **[gloss:invulnerable-save:InSv]** выдержат атаки. Серафим должны быть выбраны вторыми (2), так как Святая Селестина является моделью ПЕРСОНАЖА, поэтому должна быть последней в порядке (3).
 
 ### 2. ВЫБОР КУБИКОВ АТАКИ
 Атаки тяжёлых болтеров ранили цель пять раз, поэтому контролирующий игрок целевого юнита делает пять **[gloss:save-roll:спас-бросков]**.
 Атаки отыгрываются по одной, от самых низких **спас-бросков** к самым высоким:
 ▪ Два результата 1 назначаются первыми текущей группе распределения (Гемины Суперии). Оба наносят урон, и обе Гемины Суперии уничтожены.
-▪ Результат 3 теперь назначается Серафим, которые стали текущей группой распределения. __После модификации характеристикой **AP** атакующего оружия -1__ он также наносит урон, уничтожая одну модель Серафим.
+▪ Результат 3 теперь назначается Серафим, которые стали текущей группой распределения. __После модификации характеристикой **[gloss:armour-penetration:AP]** атакующего оружия -1__ он также наносит урон, уничтожая одну модель Серафим.
 ▪ Оставшиеся атаки проваливаются, поэтому дальнейшего урона не наносится.
 
 ### 3. ВЫБРАТЬ СЛЕДУЮЩУЮ ГРУППУ КУБИКОВ АТАКИ И ПОВТОРИТЬ`,
@@ -2400,7 +2400,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
           children: [
             {
               title: 'Обычный урон',
-              body: `Обычный урон — это урон, нанесённый модели в результате характеристики **D** оружия, а не другими средствами, такими как **[gloss:mortal-wound:смертельные раны]**. **Смертельные раны**, нанесённые в дополнение к обычному урону от атаки, являются частью этой же атаки.
+              body: `Обычный урон — это урон, нанесённый модели в результате характеристики **[gloss:damage-roll:D]** оружия, а не другими средствами, такими как **[gloss:mortal-wound:смертельные раны]**. **Смертельные раны**, нанесённые в дополнение к обычному урону от атаки, являются частью этой же атаки.
 
 ### Часто задаваемые вопросы (FAQs)
 **В:** У меня есть правило, срабатывающее, когда **[gloss:mortal-wound:смертельная рана]** распределяется на модель — когда это происходит?

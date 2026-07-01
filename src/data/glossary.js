@@ -68,12 +68,12 @@ export const glossary = {
     ru: 'Бросок D6, определяющий, ранила ли атака: сравнивается сила оружия с выносливостью цели.',
   },
   'save-roll': {
-    term: 'Saving Throw',
+    term: 'Saving Throw (Sv)',
     en: 'A D6 roll to avoid damage, using the target’s Save (or Invulnerable Save) characteristic.',
     ru: 'Бросок D6, позволяющий избежать урона, с использованием спас-броска (или инвуль-спаса) цели.',
   },
   'damage-roll': {
-    term: 'Damage',
+    term: 'Damage (D)',
     en: 'The amount of damage an unsaved wound inflicts, from the weapon’s Damage (D) characteristic.',
     ru: 'Величина урона от неспасённого ранения, определяемая характеристикой урона (D) оружия.',
   },
@@ -117,7 +117,7 @@ export const glossary = {
 
   // — Units, models & profiles —
   'wounds': {
-    term: 'Wounds',
+    term: 'Wounds (W)',
     en: 'The Wounds (W) characteristic: how much damage a model can take before it is destroyed.',
     ru: 'Характеристика ран (W): сколько урона может выдержать модель, прежде чем будет уничтожена.',
   },
@@ -162,7 +162,7 @@ export const glossary = {
     ru: 'Особые правила юнита, указанные в его листе данных или дарованные армией либо отрядом (Detachment).',
   },
   'attack-dice': {
-    term: 'Attack Dice',
+    term: 'Attacks (A)',
     en: 'The dice rolled for a weapon’s Attacks (A) characteristic when it makes its attacks.',
     ru: 'Кубики, которые бросаются за характеристику атак (A) оружия при совершении атак.',
   },
@@ -486,5 +486,69 @@ export const glossary = {
     term: 'Benefit of Cover',
     en: 'Cover that improves a unit’s saving throw against ranged attacks by 1 (to a maximum of 3+).',
     ru: 'Укрытие, улучшающее спас-бросок юнита против дальних атак на 1 (не лучше 3+).',
+  },
+
+  // — Profile characteristics (abbreviations from the datasheet) —
+  'move-characteristic': {
+    term: 'Move (M)',
+    en: 'A model characteristic: the maximum distance in inches it can travel with a Normal, Advance or Fall Back move.',
+    ru: 'Характеристика модели: максимальное расстояние в дюймах, на которое она перемещается обычным манёвром, продвижением или отходом.',
+  },
+  'toughness': {
+    term: 'Toughness (T)',
+    en: 'A model characteristic representing how durable it is; compared to a weapon’s Strength to determine the wound roll.',
+    ru: 'Характеристика прочности модели; сравнивается с силой оружия для определения броска на ранение.',
+  },
+  'invulnerable-save': {
+    term: 'Invulnerable Save (InSv)',
+    en: 'A saving throw that can be used against any attack, ignoring the attack’s Armour Penetration.',
+    ru: 'Спас-бросок, который можно использовать против любой атаки, игнорируя её бронепробитие.',
+  },
+  'leadership': {
+    term: 'Leadership (Ld)',
+    en: 'A model characteristic used for Leadership tests, such as Battle-shock tests.',
+    ru: 'Характеристика модели, используемая для тестов на лидерство, например проверок на боевой шок.',
+  },
+  'objective-control': {
+    term: 'Objective Control (OC)',
+    en: 'A model characteristic determining how strongly it contests objective markers.',
+    ru: 'Характеристика модели, определяющая, насколько сильно она контролирует маркеры целей.',
+  },
+  'range': {
+    term: 'Range (R)',
+    en: 'A weapon characteristic: the maximum distance at which a ranged weapon can target enemies. Melee weapons have no Range.',
+    ru: 'Характеристика оружия: максимальная дистанция, на которой дальнобойное оружие может нацеливаться на врагов. У оружия ближнего боя дальности нет.',
+  },
+  'ballistic-skill': {
+    term: 'Ballistic Skill (BS)',
+    en: 'A ranged weapon characteristic: the D6 result needed for its hit rolls.',
+    ru: 'Характеристика дальнобойного оружия: результат D6, нужный для его бросков на попадание.',
+  },
+  'weapon-skill': {
+    term: 'Weapon Skill (WS)',
+    en: 'A melee weapon characteristic: the D6 result needed for its hit rolls.',
+    ru: 'Характеристика оружия ближнего боя: результат D6, нужный для его бросков на попадание.',
+  },
+  'strength': {
+    term: 'Strength (S)',
+    en: 'A weapon characteristic compared to the target’s Toughness to determine the wound roll needed.',
+    ru: 'Характеристика оружия, сравниваемая с выносливостью цели для определения нужного броска на ранение.',
+  },
+  'armour-penetration': {
+    term: 'Armour Penetration (AP)',
+    en: 'A weapon characteristic that worsens the target’s saving throw (e.g. AP -1 subtracts 1 from the save).',
+    ru: 'Характеристика оружия, ухудшающая спас-бросок цели (например, AP -1 вычитает 1 из спас-броска).',
+  },
+
+  // — Misc glossary terms —
+  'controlling-player': {
+    term: 'Controlling Player',
+    en: 'The player whose army a unit or model belongs to and who makes decisions for it.',
+    ru: 'Игрок, чьей армии принадлежит юнит или модель и который принимает за них решения.',
+  },
+  'you': {
+    term: '“You”',
+    en: 'In a rule, “you” means the player reading and using that rule.',
+    ru: 'В правиле «вы» означает игрока, который читает и использует это правило.',
   },
 }
