@@ -352,4 +352,139 @@ export const glossary = {
     en: 'The formation rule keeping a unit’s models within 2" of another model in the unit (a chain of two for units of 7+ models).',
     ru: 'Правило построения: модели юнита должны быть в пределах 2" от другой модели юнита (цепочкой по двое для юнитов из 7+ моделей).',
   },
+
+  // — Battle Round: movement types —
+  'advance': {
+    term: 'Advance',
+    en: 'A move made instead of a Normal move that adds an Advance roll to the unit’s Move; it usually can’t shoot or charge afterwards.',
+    ru: 'Манёвр вместо обычного, добавляющий к движению юнита бросок продвижения; после него обычно нельзя стрелять или нападать.',
+  },
+  'advance-move': {
+    term: 'Advance Move',
+    en: 'The move made when a unit Advances: its Move characteristic plus the Advance roll.',
+    ru: 'Манёвр, совершаемый при продвижении юнита: характеристика движения плюс бросок продвижения.',
+  },
+  'advance-roll': {
+    term: 'Advance Roll',
+    en: 'A D6 added to a unit’s Move characteristic when it Advances.',
+    ru: 'D6, добавляемый к характеристике движения юнита при продвижении.',
+  },
+  'fall-back-move': {
+    term: 'Fall Back',
+    en: 'A move that lets a unit leave Engagement Range; it usually can’t shoot or charge that turn.',
+    ru: 'Манёвр, позволяющий юниту выйти из радиуса связывания; в этом ходу он обычно не может стрелять или нападать.',
+  },
+  'ordered-retreat': {
+    term: 'Ordered Retreat',
+    en: 'A controlled Fall Back in which each model can be moved up to its Move, made under certain rules.',
+    ru: 'Упорядоченный отход — контролируемый манёвр отхода, при котором каждую модель можно переместить на величину её движения.',
+  },
+  'desperate-escape': {
+    term: 'Desperate Escape',
+    en: 'A test taken when a unit Falls Back through enemies, or Advances/Falls Back while battle-shocked. On a 1–2 a model is destroyed.',
+    ru: 'Проверка, когда юнит отходит сквозь врагов или продвигается/отходит под боевым шоком. При 1–2 модель уничтожается.',
+  },
+
+  // — Battle Round: charging —
+  'charge': {
+    term: 'Charge',
+    en: 'An attempt in the Charge phase to move a unit into Engagement Range of one or more enemy units.',
+    ru: 'Попытка в фазе нападения переместить юнит в радиус связывания одного или нескольких вражеских юнитов.',
+  },
+  'declare-charge': {
+    term: 'Declare a Charge',
+    en: 'Choosing an eligible unit and its charge targets before making the charge roll.',
+    ru: 'Выбор подходящего юнита и его целей нападения перед броском нападения.',
+  },
+  'charge-move': {
+    term: 'Charge Move',
+    en: 'The move a unit makes after a successful charge roll, ending in Engagement Range of a target it declared.',
+    ru: 'Манёвр, который юнит совершает после успешного броска нападения, завершаясь в радиусе связывания объявленной цели.',
+  },
+  'charge-roll': {
+    term: 'Charge Roll',
+    en: '2D6 rolled to determine how far a charging unit can move.',
+    ru: '2D6, бросаемые, чтобы определить, как далеко может переместиться нападающий юнит.',
+  },
+  'charge-target': {
+    term: 'Charge Target',
+    en: 'An enemy unit declared as a target of a charge.',
+    ru: 'Вражеский юнит, объявленный целью нападения.',
+  },
+  'failed-charge': {
+    term: 'Failed Charge',
+    en: 'A charge whose roll is too low to reach a target in Engagement Range without breaking the rules; the unit does not move.',
+    ru: 'Нападение, броска которого не хватает, чтобы достичь цели в радиусе связывания без нарушения правил; юнит не перемещается.',
+  },
+
+  // — Battle Round: fighting & consolidation —
+  'pile-in': {
+    term: 'Pile In',
+    en: 'A move of up to 3" that fighting models make towards the closest enemy unit before making their attacks.',
+    ru: 'Манёвр до 3", который сражающиеся модели совершают к ближайшему вражескому юниту перед атаками.',
+  },
+  'consolidation': {
+    term: 'Consolidate',
+    en: 'A move of up to 3" a unit makes after it finishes fighting (Консолидация).',
+    ru: 'Консолидация — манёвр до 3", который юнит совершает после завершения боя.',
+  },
+  'overrun': {
+    term: 'Overrun',
+    en: 'A Consolidation move made towards the closest enemy unit, potentially into Engagement Range.',
+    ru: 'Консолидация в сторону ближайшего вражеского юнита, возможно в радиус связывания.',
+  },
+  'fights-first': {
+    term: 'Fights First',
+    en: 'A rule letting a unit fight in the Fights First step, before units that do not have it.',
+    ru: 'Правило, позволяющее юниту сражаться на этапе «сначала бьют», раньше юнитов без него.',
+  },
+  'fight-type': {
+    term: 'Fight Type',
+    en: 'The reason a unit is Eligible to Fight — it charged this turn, or is within Engagement Range of an enemy.',
+    ru: 'Основание, по которому юнит может сражаться: совершил нападение в этом ходу или находится в радиусе связывания врага.',
+  },
+  'shooting-type': {
+    term: 'Shooting Type',
+    en: 'The reason a unit is Eligible to Shoot — e.g. it did not Advance or Fall Back, or a rule lets it shoot anyway.',
+    ru: 'Основание, по которому юнит может стрелять: например, он не продвигался и не отходил, либо правило разрешает стрельбу.',
+  },
+
+  // — Battle Round: eligibility —
+  'eligible-to-fight': {
+    term: 'Eligible to Fight',
+    en: 'A unit can be selected to fight if it is within Engagement Range of an enemy unit, or made a Charge move this turn.',
+    ru: 'Юнит может быть выбран для боя, если он в радиусе связывания вражеского юнита или совершил манёвр нападения в этом ходу.',
+  },
+  'eligible-to-shoot': {
+    term: 'Eligible to Shoot',
+    en: 'A unit is normally eligible to shoot if it did not Advance or Fall Back and is not battle-shocked.',
+    ru: 'Юнит обычно может стрелять, если он не продвигался и не отходил и не подвержен боевому шоку.',
+  },
+  'eligible-to-charge': {
+    term: 'Eligible to Declare a Charge',
+    en: 'A unit can declare a charge if it is not within Engagement Range and did not Advance or Fall Back this turn.',
+    ru: 'Юнит может объявить нападение, если он не в радиусе связывания и не продвигался и не отходил в этом ходу.',
+  },
+  'eligible-to-act': {
+    term: 'Eligible to Start an Action',
+    en: 'A unit can start an Action only if it is eligible — e.g. not battle-shocked and, usually, not within Engagement Range.',
+    ru: 'Юнит может начать действие, только если он подходит — например, не подвержен боевому шоку и, как правило, не в радиусе связывания.',
+  },
+
+  // — Battle Round: misc —
+  'command-points': {
+    term: 'Command Points',
+    en: 'A resource (CP) spent to use Stratagems. Players usually gain 1 CP each Command phase.',
+    ru: 'Ресурс (командные очки, CP), тратящийся на стратагемы. Обычно игроки получают 1 CP каждую командную фазу.',
+  },
+  'battle-shock': {
+    term: 'Battle-shock',
+    en: 'The Battle-shock step of the Command phase, where units below Half-strength must take Battle-shock tests.',
+    ru: 'Этап боевого шока в командной фазе, когда юниты ниже половинной численности проходят проверки на боевой шок.',
+  },
+  'benefit-of-cover': {
+    term: 'Benefit of Cover',
+    en: 'Cover that improves a unit’s saving throw against ranged attacks by 1 (to a maximum of 3+).',
+    ru: 'Укрытие, улучшающее спас-бросок юнита против дальних атак на 1 (не лучше 3+).',
+  },
 }
