@@ -209,7 +209,7 @@ function onInstallClick() {
   if (canInstall.value) promptInstall()
   else if (iosInstall.value) installHintOpen.value = true
 }
-const { open: openKeyword, close: closeKeyword } = useKeywordPopover()
+const { open: openKeyword, openGloss, close: closeKeyword } = useKeywordPopover()
 const { navigateTo } = useRefNavigation()
 
 const labels = computed(() => ui[locale.value])
@@ -295,6 +295,11 @@ function onGlobalClick(e) {
   if (refEl) {
     const { route, anchor } = resolveRef(refEl.dataset.ref)
     if (route && anchor) navigateTo({ route, anchor })
+    return
+  }
+  const glossEl = e.target.closest('.gloss')
+  if (glossEl) {
+    openGloss(glossEl.dataset.gloss, glossEl.getBoundingClientRect())
     return
   }
   const kwEl = e.target.closest('.keyword')

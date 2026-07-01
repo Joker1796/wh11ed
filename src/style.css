@@ -180,6 +180,19 @@ a:hover {
   text-decoration: underline;
 }
 
+.gloss {
+  color: inherit;
+  text-decoration: underline dotted;
+  text-decoration-color: var(--link-accent);
+  text-underline-offset: 2px;
+  cursor: help;
+}
+
+.gloss:hover {
+  color: var(--link-accent-hover);
+  text-decoration-color: var(--link-accent-hover);
+}
+
 .cross-ref {
   color: var(--link-accent);
   text-decoration: underline dotted;

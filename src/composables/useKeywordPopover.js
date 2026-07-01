@@ -48,17 +48,42 @@ function lookup(rawText, { coreAbilities, eventCompanion }) {
     : glossary[gj]
 }
 
+// Gloss data (glossary.js) is lazy-loaded on first gloss click, same rationale as the
+// keyword lookup tables above: keep it out of the entry chunk.
+let glossPromise = null
+function loadGlossary() {
+  if (!glossPromise) {
+    glossPromise = import('../data/glossary.js').then(m => m.glossary)
+  }
+  return glossPromise
+}
+
 export function useKeywordPopover() {
   async function open(rawText, rect) {
     const data = await loadData()
     const found = lookup(rawText, data)
     if (!found) return
-    activeKeyword.value = found
+    activeKeyword.value = { ...found, kind: 'keyword' }
+    anchor.value = rect
+    visible.value = true
+  }
+  async function openGloss(id, rect) {
+    const glossary = await loadGlossary()
+    const entry = glossary[id]
+    if (!entry) return
+    // Normalize to the popover's { name, num, fullText } shape: header shows the English
+    // term, body shows the per-locale definition. No num → no cross-ref navigation.
+    activeKeyword.value = {
+      name: entry.term,
+      num: '',
+      fullText: entry[locale.value] ?? entry.en,
+      kind: 'gloss',
+    }
     anchor.value = rect
     visible.value = true
   }
   function close() {
     visible.value = false
   }
-  return { visible, activeKeyword, anchor, open, close }
+  return { visible, activeKeyword, anchor, open, openGloss, close }
 }

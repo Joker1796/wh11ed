@@ -40,7 +40,7 @@ If a rule affects units or models without specifying that they are friendly or e
               sectionNum: '01.02.01',
               title: 'Starting Strength and Half-Strength',
               fromApp: true,
-              body: `The number of models a unit contains at the start of the first battle round is its **starting strength**. The **starting strength** of an **attached** unit is the number of models that unit contains at the start of the first battle round.
+              body: `The number of models a unit contains at the start of the first battle round is its **[gloss:starting-strength:starting strength]**. The **starting strength** of an **attached** unit is the number of models that unit contains at the start of the first battle round.
 
 Some rules refer to units being **below starting strength**, or at — or below — **half-strength**. The meaning of these terms varies depending on a unit's **starting strength**, as shown below.
 
@@ -53,7 +53,7 @@ Units or models whose **W** characteristic or **starting strength** cannot be ev
                   ['**Below Half-Strength**', "Model's remaining wounds are less than half of its **W** characteristic.", 'Number of remaining models in the unit is less than half of its **starting strength**.'],
                 ],
               },
-              example: 'A Captain (1 model) is attached to a unit of Intercessors (5 models). This **attached** unit has a **starting strength** of 6. If three Intercessors were **destroyed**, the unit would be **at half-strength**. If four Intercessors were **destroyed**, the unit would be **below half-strength**. If all of the Intercessors were **destroyed**, the remaining Captain would be **below half-strength**, despite having his full wounds remaining.',
+              example: 'A Captain (1 model) is attached to a unit of Intercessors (5 models). This **attached** unit has a **starting strength** of 6. If three Intercessors were **[gloss:destroyed:destroyed]**, the unit would be **at half-strength**. If four Intercessors were **destroyed**, the unit would be **below half-strength**. If all of the Intercessors were **destroyed**, the remaining Captain would be **below half-strength**, despite having his full wounds remaining.',
             },
             {
               id: 'section-01-02-02',
@@ -62,7 +62,7 @@ Units or models whose **W** characteristic or **starting strength** cannot be ev
               fromApp: true,
               body: `Some rules apply an effect that lasts until a certain duration has passed (e.g. until the start of your next turn). Such effects are known as persisting effects.
 
-If a persisting effect applies to a unit when you place it in **strategic reserves** or when it embarks within a TRANSPORT, make a note of that effect and its duration; if that unit is set up on the battlefield again, any persisting effects continue to apply to that unit for their full duration.
+If a persisting effect applies to a unit when you place it in **[gloss:strategic-reserves:strategic reserves]** or when it embarks within a TRANSPORT, make a note of that effect and its duration; if that unit is set up on the battlefield again, any persisting effects continue to apply to that unit for their full duration.
 
 If you have a rule that specifies when it is triggered (e.g. 'In the Shooting phase') and it does not specify how long it is active for, it is only active for the duration of that specified period (e.g. until the end of that Shooting phase). After that period, that effect is no longer applicable/active.
 
@@ -76,12 +76,12 @@ If a rule or effect is given to a unit and it does not specify how long it is ac
               body: `When a rule **revives**, resurrects, returns or adds models to a unit, the specified number of models are added to the unit.
 ▪ If a rule **revives**, resurrects or returns models to a unit, it does so through **destroyed** models from that unit.
 ▪ This cannot expand a unit beyond its **starting strength**.
-▪ Unless otherwise stated, such models are added with all wargear and enhancements they started the battle with, and with their full **W** remaining.
+▪ Unless otherwise stated, such models are added with all [gloss:wargear:wargear] and enhancements they started the battle with, and with their full **W** remaining.
 Models returned to a unit on the battlefield must be set up as follows:
 
-▪ They must be set up in **coherency** with models in that unit that started that phase on the battlefield.
-▪ They can be set up **engaged** with one or more enemy units, but only if those enemy units were already **engaged** with the unit that model is being returned to.
-If a **leader** or **support** model in an **attached** unit is **destroyed** and subsequently revived, they are still part of that **attached** unit and they must be returned to it if possible.`,
+▪ They must be set up in **[gloss:coherency:coherency]** with models in that unit that started that phase on the battlefield.
+▪ They can be set up **[gloss:engaged:engaged]** with one or more enemy units, but only if those enemy units were already **engaged** with the unit that model is being returned to.
+If a **[gloss:leader:leader]** or **support** model in an **attached** unit is **destroyed** and subsequently revived, they are still part of that **attached** unit and they must be returned to it if possible.`,
             },
             {
               id: 'section-01-02-04',
@@ -89,14 +89,14 @@ If a **leader** or **support** model in an **attached** unit is **destroyed** an
               title: 'Not On The Battlefield',
               fromApp: true,
               body: `A unit that is embarked within a TRANSPORT or that is in **strategic reserves** is not on the battlefield. The following applies to such units:
-▪ That unit is __not__ **visible** to any __other__ units (units are **visible** to themselves).
+▪ That unit is __not__ **[gloss:visible:visible]** to any __other__ units (units are **visible** to themselves).
 ▪ Any other unit is __not__ **visible** to that unit.
-▪ Players cannot measure distances to or from that unit (units are within range of their own abilities).
+▪ Players cannot measure distances to or from that unit (units are within range of their own [gloss:ability:abilities]).
 This means units not on the battlefield cannot be selected or targeted by any attack or rule that requires a unit to be **visible** or within a certain distance (other than their own abilities).
 
 Such units can still use their other rules, and are still units in the controlling player's army and so can be affected by rules that require a player to select a unit from an army, as well as rules that affect all units in an army.
 
-The controlling player must make **battle-shock rolls** for units that are not on the battlefield in their Command phase if they are **battle-shocked**, or if they are at or below **half-strength**.`,
+The controlling player must make **battle-shock rolls** for units that are not on the battlefield in their Command phase if they are **[gloss:battle-shocked:battle-shocked]**, or if they are at or below **half-strength**.`,
             },
             {
               id: 'section-01-02-05',
@@ -105,7 +105,7 @@ The controlling player must make **battle-shock rolls** for units that are not o
               fromApp: true,
               body: `When a rule refers to models or units 'other' than the one with that rule (or one already mentioned by that rule), it means a different model or unit to that original one.
 
-Different instances of the same datasheet are still considered to be 'other' units.`,
+Different instances of the same [gloss:datasheet:datasheet] are still considered to be 'other' units.`,
             },
             {
               id: 'section-01-02-06',
@@ -121,7 +121,7 @@ Different instances of the same datasheet are still considered to be 'other' uni
               sectionNum: '01.02.07',
               title: 'Describing Units',
               fromApp: true,
-              body: `When a rule mentions a unit, it may have a descriptor for the unit (e.g. TERMINATOR unit, **hidden** unit, **battle-shocked** unit, **visible** unit, controlling unit). For such descriptors to apply to a unit, that unit must have at least one model in that unit that meets that descriptor.
+              body: `When a rule mentions a unit, it may have a descriptor for the unit (e.g. TERMINATOR unit, **[gloss:hidden:hidden]** unit, **battle-shocked** unit, **visible** unit, controlling unit). For such descriptors to apply to a unit, that unit must have at least one model in that unit that meets that descriptor.
 
 This does not give that rule to every model in the unit, unless that rule specifically states that it gives that rule to the unit, in which case every model in that unit gains that rule, as described in Units and Models (01.02).`,
               example: `A **hidden** unit would be a unit that has a model in it that is **hidden**.`,
@@ -151,8 +151,8 @@ This does not give that rule to every model in the unit, unless that rule specif
 While it is neither player's turn (e.g. at the start or end of the battle round), the player who takes the first turn in each battle round is the active player.
 
 While it is a player's turn, that player is the active player, with the following exceptions:
-▪ Each time a unit is **selected to move**, that unit's controlling player is the active player until that move ends.
-▪ Each time a unit is **selected to shoot** or **selected to fight**, that unit's controlling player is the active player until those attacks are resolved.`,
+▪ Each time a unit is **[gloss:selected-to-move:selected to move]**, that unit's controlling player is the active player until that move ends.
+▪ Each time a unit is **[gloss:selected-to-shoot:selected to shoot]** or **[gloss:selected-to-fight:selected to fight]**, that unit's controlling player is the active player until those attacks are resolved.`,
           children: [
             {
               id: 'section-01-03-01',
@@ -162,9 +162,9 @@ While it is a player's turn, that player is the active player, with the followin
               body: `During the game, players will sometimes need to know which rules are theirs, as opposed to their opponent's. The following are considered a player's rules:
 
 ▪ Any **army rules** they have.
-▪ Any **detachments** in their army.
-▪ Any **stratagems** they use.
-▪ Any **enhancements** that units or models in their army have.
+▪ Any **[gloss:detachments:detachments]** in their army.
+▪ Any **[gloss:stratagem:stratagems]** they use.
+▪ Any **[gloss:enhancement:enhancements]** that units or models in their army have.
 ▪ Any abilities or rules found on their units' datasheets.
 ▪ Rules that have restrictions (e.g. 'Once per battle/turn/phase') only apply to the player whose rule it is.
 
@@ -186,7 +186,7 @@ Some missions may introduce additional rules that take effect in the battle. Whe
 4. All of the opposing player's rules that they can optionally use and wish to use, in an order of their choosing.
 
 If another rule could be used after a rule has resolved during this sequence but before other rules in that same timing have resolved, those new rules do not trigger until all the remaining rules to be resolved in that same timing have been resolved.`,
-              example: `The active player's unit has an ability enabling it to make a **normal move** after it has shot. An enemy unit targeted by that unit has an ability enabling it to shoot back at a unit that shot at it. The active player's rule is resolved first, followed by the opposing player's rule.`,
+              example: `The active player's unit has an ability enabling it to make a **[gloss:normal-move:normal move]** after it has shot. An enemy unit targeted by that unit has an ability enabling it to shoot back at a unit that shot at it. The active player's rule is resolved first, followed by the opposing player's rule.`,
             },
           ],
         },
@@ -204,12 +204,12 @@ When a rule refers to a model's position in relation to anything else on the bat
               sectionNum: '01.04.01',
               title: 'Within / Wholly Within',
               fromApp: true,
-              body: `Rules in Warhammer 40,000 will often apply to models or units that are within or wholly within a certain distance. The following definitions explain what these terms mean:
+              body: `Rules in Warhammer 40,000 will often apply to models or units that are [gloss:within:within] or [gloss:wholly-within:wholly within] a certain distance. The following definitions explain what these terms mean:
 
 ▪ **Within:** If a rule says it applies 'within' a specified distance, it applies at any distance that is not more than that distance. For example, within 1" means any distance that is not more than 1" away
-▪ **Model/Unit Within:** A model is within a specified distance if any part of its base is within that distance. A unit is within a specified distance if one or more of its models are within that distance.
-▪ **Model/Unit Wholly Within:** A model is wholly within a specified distance if every part of its base is within that distance. A unit is wholly within if every model in that unit is wholly within the specified distance. A model with the FRAME keyword is wholly within a specified distance if all parts of that model are within the specified distance.`,
-              example: `A model is wholly within a **terrain area** if no part of its base extends beyond the footprint of that **terrain area**. A unit is wholly within a specified distance if every model in that unit is wholly within that distance.`,
+▪ **Model/Unit Within:** A model is within a specified distance if any part of its [gloss:base:base] is within that distance. A unit is within a specified distance if one or more of its models are within that distance.
+▪ **Model/Unit Wholly Within:** A model is wholly within a specified distance if every part of its [gloss:base:base] is within that distance. A unit is wholly within if every model in that unit is wholly within the specified distance. A model with the FRAME keyword is wholly within a specified distance if all parts of that model are within the specified distance.`,
+              example: `A model is wholly within a **[gloss:terrain-area:terrain area]** if no part of its base extends beyond the [gloss:footprint:footprint] of that **terrain area**. A unit is wholly within a specified distance if every model in that unit is wholly within that distance.`,
             },
             {
               id: 'section-01-04-02',
@@ -225,10 +225,10 @@ If two or more are equally close, the controlling player of the model or unit us
               sectionNum: '01.04.03',
               title: 'As Close As Possible',
               fromApp: true,
-              body: `If a rule instructs you to move a model as close as possible to a unit or model you must end that model's move in base contact with that unit or model if its move is sufficient to do so without breaking any other restrictions (such as **coherency**), or as close as you can achieve if its move is not sufficient.
+              body: `If a rule instructs you to move a model as close as possible to a unit or model you must end that model's move in [gloss:base-contact:base contact] with that unit or model if its move is sufficient to do so without breaking any other restrictions (such as **coherency**), or as close as you can achieve if its move is not sufficient.
 ▪ If a model is already as close as possible to a unit or model when it is instructed to make a move as close as possible towards a unit or model, that model cannot be moved, but still counts as having made the move in question.
-If a rule instructs you to move a model as close as possible to an **objective** you must end that model's move within range of an **objective** if its move is sufficient to do so without breaking any other restrictions (such as **coherency**), or as close as you can achieve if its move is not sufficient.
-▪ If that model is already within range of an **objective** it can move up to the **maximum distance** of that move but must end its move still within range of that **objective**.`,
+If a rule instructs you to move a model as close as possible to an **[gloss:objective:objective]** you must end that model's move within range of an **objective** if its move is sufficient to do so without breaking any other restrictions (such as **coherency**), or as close as you can achieve if its move is not sufficient.
+▪ If that model is already within range of an **objective** it can move up to the **[gloss:maximum-distance:maximum distance]** of that move but must end its move still within range of that **objective**.`,
             },
             {
               id: 'section-01-04-04',
@@ -262,16 +262,16 @@ When moving a model from your army into base contact with an enemy model during 
               fromApp: true,
               body: `When a dice roll or test is automatically successful or automatically passes/hits/wounds, do not roll the dice and instead move to the next step of the sequence for that roll as if the required result had been rolled. Any rules that take effect on a particular dice result or roll result do not take effect.
 
-**Example:** If a **hit roll** is automatically successful, move straight to the Wound Rolls step for that attack. Such a **hit roll** is not a **critical hit**.
+**Example:** If a **[gloss:hit-roll:hit roll]** is automatically successful, move straight to the Wound Rolls step for that attack. Such a **hit roll** is not a **[gloss:critical-hit:critical hit]**.
 
-**Example:** If a **wound roll** is automatically successful, move straight to the Save Rolls step for that attack. Such a **wound roll** is not a **critical wound**.`,
+**Example:** If a **[gloss:wound-roll:wound roll]** is automatically successful, move straight to the Save Rolls step for that attack. Such a **wound roll** is not a **[gloss:critical-wound:critical wound]**.`,
             },
             {
               id: 'section-01-05-02',
               sectionNum: '01.05.02',
               title: 'Re-rolls',
               fromApp: true,
-              body: `Some rules allow you to re-roll a dice roll, which means you get to roll some or all of the dice again. When a rule lets you re-roll one or more dice, the following points apply:
+              body: `Some rules allow you to [gloss:re-roll:re-roll] a dice roll, which means you get to roll some or all of the dice again. When a rule lets you re-roll one or more dice, the following points apply:
 
 ▪ If a rule allows you to re-roll a dice roll that was made by adding several dice together (e.g. 2D6, 3D6, etc.) then you must re-roll all of those dice again.
 ▪ You can never re-roll a dice more than once, and re-rolls happen before modifiers (if any) are applied.
@@ -296,7 +296,7 @@ When moving a model from your army into base contact with an enemy model during 
               sectionNum: '01.05.05',
               title: 'Roll Off',
               fromApp: true,
-              body: `Some rules instruct players to roll off.
+              body: `Some rules instruct players to [gloss:roll-off:roll off].
 ▪ To do so, both players roll one D6, and whoever rolls highest wins the roll-off.
 ▪ If there is a tie for the highest roll, roll off again.`,
             },
@@ -331,14 +331,14 @@ This may result in a value that is greater than a value that could be rolled on 
           id: 'section-01-06',
           sectionNum: '01.06',
           title: 'Leadership Rolls',
-          body: `To make a **leadership roll** for a unit, its controlling player rolls 2D6: if the result is equal to or greater than one or more of the Ld characteristics in that unit, that roll succeeds. Otherwise, that roll fails. The rule that instructed you to make that **leadership roll** will describe the effects of that roll succeeding or failing.`,
+          body: `To make a **[gloss:leadership-roll:leadership roll]** for a unit, its controlling player rolls 2D6: if the result is equal to or greater than one or more of the Ld characteristics in that unit, that roll succeeds. Otherwise, that roll fails. The rule that instructed you to make that **leadership roll** will describe the effects of that roll succeeding or failing.`,
           children: [
             {
               id: 'section-01-06-01',
               sectionNum: '01.06.01',
               title: 'Leadership Test',
               fromApp: true,
-              body: `Some rules may use the term Leadership test, this is the same as **leadership roll**.`,
+              body: `Some rules may use the term [gloss:leadership-test:Leadership test], this is the same as **leadership roll**.`,
             },
           ],
         },
@@ -353,7 +353,7 @@ This may result in a value that is greater than a value that could be rolled on 
 While a unit is battle-shocked:
 ▪ The Objective Control (OC) characteristic of all of its models is modified to '-'.
 ▪ Its controlling player cannot target that unit with stratagems.
-▪ It is not **eligible to start an action**, and any action it has started cannot be completed.`,
+▪ It is not **eligible to start an [gloss:action:action]**, and any action it has started cannot be completed.`,
           example: `A Guardsman squad with Ld 7+ has taken heavy casualties and must make a **battle-shock roll**. The player rolls 2D6 and gets a 9 — since 9 is not less than 7, the roll succeeds and the squad holds its nerve. If the roll had been 6 or less, the entire unit would become battle-shocked, losing their ability to control objectives.`,
           seeAlso: ['Command Phase 08.00'],
           children: [
@@ -418,7 +418,7 @@ While a unit is battle-shocked:
               title: 'Modifiers',
               fromApp: true,
               body: `### What Are Modifiers?
-Many rules in the game modify a value, characteristic or roll elsewhere in the game. A rule that does so is known as a modifier. A value that has been changed is a modified rule (e.g. modified characteristic, modified roll, modified value, etc).
+Many rules in the game modify a value, characteristic or roll elsewhere in the game. A rule that does so is known as a [gloss:modifier:modifier]. A value that has been changed is a modified rule (e.g. modified characteristic, modified roll, modified value, etc).
 
 One of the most common ways for modifiers to be presented is as +1 or -1 to a characteristic, roll or value.
 
@@ -510,7 +510,7 @@ When a rule states you can ignore modifiers to a stated roll or characteristic, 
 
 **Random Damage:** If a weapon has a random **D** characteristic, then each time an attack made with it inflicts damage, the controlling player determines that weapon's characteristic when the opposing player has selected a model in the target unit to allocate that attack to.
 
-When determining a random **D** characteristic, the dice roll made is called a **damage roll**.
+When determining a random **D** characteristic, the dice roll made is called a **[gloss:damage-roll:damage roll]**.
 
 Where a **D** characteristic includes an operator (e.g. a '+', as in D6+1), the value after the operator is part of that **D** characteristic – it is not a modifier.
 
@@ -571,7 +571,7 @@ In order for those attacks to re-roll **hit rolls**, that target must be both th
           title: 'Weapons',
           body: `Weapons have the following characteristics:
 ▪ Range (R): How far ranged weapons can shoot. Weapons with an R characteristic of 'Melee' are melee weapons.
-▪ Attacks (A): How many **attack dice** are used each time that weapon is used.
+▪ Attacks (A): How many **[gloss:attack-dice:attack dice]** are used each time that weapon is used.
 ▪ Ballistic Skill (BS): Presented as a dice result (e.g. 4+), this shows how accurate the bearer is when shooting with the relevant ranged weapon.
 ▪ Weapon Skill (WS): Presented as a dice result (e.g. 4+), this reflects the bearer's skill in wielding the relevant melee weapon.
 ▪ Strength (S): The higher a weapon's S characteristic, the more likely it is to wound a foe.
@@ -667,7 +667,7 @@ Each time you move a model, unless otherwise stated:
 ▪ All stated 'While Moving' conditions must be met.
 
 ### Moving a Model in a Straight Line
-Each time you move a model in a straight line, move it horizontally across the battlefield. Measure from the same point on its base at the start and end of that move, and add that distance to any other distance it has moved since its unit began that move. The distance moved cannot be greater than the **maximum distance** of that **move type**.
+Each time you move a model in a straight line, move it horizontally across the battlefield. Measure from the same point on its base at the start and end of that move, and add that distance to any other distance it has moved since its unit began that move. The distance moved cannot be greater than the **maximum distance** of that **[gloss:move-type:move type]**.
 
 ### Rotating a Model
 Each time you rotate a model, turn it any amount around the centre of its base, while keeping it upright. Note that rotating a model does not count towards the distance it has moved.
@@ -675,7 +675,7 @@ Each time you rotate a model, turn it any amount around the centre of its base, 
 ### Ending a Move
 After you have finished setting up all of the models in a unit and/or moving all of the models in a unit that you want to move, check that all of the following apply:
 ▪ If that unit is on the battlefield, it is in **coherency** (03.03).
-▪ No models in that unit are on another model or partway through a surface of a **terrain feature** (e.g. a wall or ceiling).
+▪ No models in that unit are on another model or partway through a surface of a **[gloss:terrain-feature:terrain feature]** (e.g. a wall or ceiling).
 ▪ All stated 'After Moving' conditions are met.
 
 If one or more of the above conditions are not met, that unit cannot make that move and its models are returned to their positions at the start of that move. Otherwise, after resolving any additional rules stated in the 'After Moving' section of that **move type**, that move ends.`,
@@ -754,7 +754,7 @@ If you cannot set up all of the models in a unit, remove that unit from the batt
               sectionNum: '03.02.01',
               title: 'If You Cannot Set Up a Unit',
               fromApp: true,
-              body: `While having to set up a unit as the result of a **move type**, if you have to return a unit's models to their previous positions because it is not possible to set them all up, that unit has not been **selected to move**. This means it can be **selected to move** later, so could either attempt another set up or **remain stationary** (09.04).`,
+              body: `While having to set up a unit as the result of a **move type**, if you have to return a unit's models to their previous positions because it is not possible to set them all up, that unit has not been **selected to move**. This means it can be **selected to move** later, so could either attempt another set up or **[gloss:remain-stationary:remain stationary]** (09.04).`,
             },
             {
               id: 'section-03-02-02',
@@ -809,7 +809,7 @@ In the End of Turn step of each player's turn, if one or more units on the battl
           id: 'section-03-04',
           sectionNum: '03.04',
           title: 'Engagement',
-          body: `A model's **engagement range** is the area of the battlefield within 2" horizontally and 5" vertically of it.
+          body: `A model's **[gloss:engagement-range:engagement range]** is the area of the battlefield within 2" horizontally and 5" vertically of it.
 ▪ While a friendly model is within **engagement range** of one or more enemy models, those models – and the units they belong to – are engaged with each other.
 ▪ While a unit contains no engaged models, that unit is unengaged.`,
           image: { src: '/images/visibility/engagement.jpg', alt: 'Engagement' },
@@ -873,7 +873,7 @@ You must select one melee weapon that model has.`,
               sectionNum: '04.01.03',
               title: 'Multiple Weapon Profiles',
               fromApp: true,
-              body: `In the **select weapons** step (04.01), if a selected weapon has more than one profile, then the controlling player must also select one of those profiles. The selected profile is then used in the Resolve Attacks step (04.03).
+              body: `In the **[gloss:select-weapons:select weapons]** step (04.01), if a selected weapon has more than one profile, then the controlling player must also select one of those profiles. The selected profile is then used in the Resolve Attacks step (04.03).
 
 Some of these profiles are known as **Hunter** profiles. **Hunter** profiles can only target units with the specified keywords.
 
@@ -895,7 +895,7 @@ Rules that apply to a weapon that modify rolls apply to the attacks made with th
               sectionNum: '04.01.05',
               title: 'Selected to Attack',
               fromApp: true,
-              body: `Some rules use the term **selected to attack**. If a unit is **selected to fight**, **selected to shoot** or chosen to make attacks, that unit is **selected to attack**.`,
+              body: `Some rules use the term **[gloss:selected-to-attack:selected to attack]**. If a unit is **selected to fight**, **selected to shoot** or chosen to make attacks, that unit is **selected to attack**.`,
             },
           ],
         },
@@ -1056,7 +1056,7 @@ If a unit was selected to fight and none of the models in it make any attacks, i
           body: `Each time the active player is instructed to resolve the attack sequence, they follow the steps below. In each step, if there is more than one dice to roll, make all of those rolls simultaneously.
 ▪ 1. **Hit Rolls**
 ▪ 2. **Wound Rolls**
-▪ 3. **Save Rolls**
+▪ 3. **[gloss:save-roll:Save Rolls]**
 ▪ 4. Inflict Damage`,
           note: '**Critical Hits** and **Critical Wounds**: **Critical hits** are still hits, and **critical wounds** are still wounds. In addition, other rules can be triggered by a **critical hit** or a **critical wound**, such as [LETHAL HITS] and [DEVASTATING WOUNDS].',
         },
@@ -1095,7 +1095,7 @@ If a unit was selected to fight and none of the models in it make any attacks, i
               title: 'Multiple Toughness Characteristics',
               fromApp: true,
               body: `When resolving attacks that target a unit in which the models have two or more different **T** characteristics, follow the first instruction that applies from below:
-▪ If the target unit is an **attached unit**, use the highest **T** characteristic amongst **bodyguard** models in that unit that are on the battlefield.
+▪ If the target unit is an **attached unit**, use the highest **T** characteristic amongst **[gloss:bodyguard:bodyguard]** models in that unit that are on the battlefield.
 ▪ Use the highest **T** characteristic amongst models in that unit that are on the battlefield.`,
             },
           ],
@@ -1305,9 +1305,9 @@ The attacks are resolved one at a time, from lowest **save rolls** to highest:
           id: 'section-06-01',
           sectionNum: '06.01',
           title: 'Visibility',
-          body: `**Line of sight** is used to determine visibility between models. For an observing model to have **line of sight**, it must be possible to draw an imaginary straight line, 1 mm wide, from any part of that model to any part of the model being observed. This line is the **line of sight**. While doing so, other models in the observing model's unit and in the observed model's unit are ignored.
+          body: `**[gloss:line-of-sight:Line of sight]** is used to determine visibility between models. For an observing model to have **line of sight**, it must be possible to draw an imaginary straight line, 1 mm wide, from any part of that model to any part of the model being observed. This line is the **line of sight**. While doing so, other models in the observing model's unit and in the observed model's unit are ignored.
 
-Other models and units can be either **visible** or **fully visible** to the observing model, as shown below.
+Other models and units can be either **visible** or **[gloss:fully-visible:fully visible]** to the observing model, as shown below.
 
 [img:/images/visibility/model-visible.jpg|Model visibility — model partially visible]
 
@@ -1332,7 +1332,7 @@ Other models and units can be either **visible** or **fully visible** to the obs
           id: 'section-06-02',
           sectionNum: '06.02',
           title: 'Mortal Wounds',
-          body: `Some attacks or rules inflict **mortal wounds** on units. Each time a unit suffers one or more **mortal wounds**, its controlling player must resolve the following sequence for each of those **mortal wounds**, until either all of them have been inflicted or that unit is destroyed:
+          body: `Some attacks or rules inflict **[gloss:mortal-wound:mortal wounds]** on units. Each time a unit suffers one or more **mortal wounds**, its controlling player must resolve the following sequence for each of those **mortal wounds**, until either all of them have been inflicted or that unit is destroyed:
 
 1. Select Model: Select one model in that unit by following the first instruction below that applies:
 → If a non-CHARACTER model in that unit has lost one or more wounds, you must select that model.
@@ -1404,21 +1404,21 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
         },
         {
           title: 'Юниты и модели',
-          body: `Юнит может содержать одну или несколько моделей. Эти модели перемещаются и сражаются вместе как единая группа. У большинства моделей есть база (base), которая также является частью этой модели для всех целей правил.
+          body: `Юнит может содержать одну или несколько моделей. Эти модели перемещаются и сражаются вместе как единая группа. У большинства моделей есть [gloss:base:база], которая также является частью этой модели для всех целей правил.
 
 Правила иногда влияют на «союзные» или «вражеские» модели или юниты, которые определяются следующим образом:
-▪ Союзные(friendly) юниты и модели — это те, что в вашей армии.
-▪ Вражеские(enemy) юниты и модели — это те, что в армии вашего оппонента.
+▪ [gloss:friendly:Союзные] юниты и модели — это те, что в вашей армии.
+▪ [gloss:enemy:Вражеские] юниты и модели — это те, что в армии вашего оппонента.
 
 Если правило влияет на юниты или модели, не уточняя, являются ли они союзными или вражескими, это правило влияет на любой юнит или модель, независимо от того, в чьей они армии. Когда эффект или способность применяется к юниту, она применяется к каждой модели в этом юните.`,
           children: [
             {
               title: 'Начальная численность и половинная численность (Starting Strength and Half-Strength)',
-              body: `Количество моделей, которое юнит содержит в начале первого **раунда боя** (battle round), является его **начальной численностью** (starting strength). **Начальная численность** **составного юнита** (attached unit) — это количество моделей, которое этот юнит содержит в начале первого раунда боя.
+              body: `Количество моделей, которое юнит содержит в начале первого **[gloss:battle-round:раунда боя]**, является его **[gloss:starting-strength:начальной численностью]**. **Начальная численность** **[gloss:attached-unit:составного юнита]** — это количество моделей, которое этот юнит содержит в начале первого раунда боя.
 
 Некоторые правила ссылаются на юниты, находящиеся **ниже начальной численности** (below starting strength), или **на — или ниже — половинной численности** (at – or below – half-strength). Значение этих терминов варьируется в зависимости от **начальной численности** юнита, как показано ниже.
 
-Юниты или модели, чья характеристика **W** (раны) или **начальная численность** не может быть равномерно разделена пополам, не могут находиться **на половинной численности** (half-strength) (но могут быть **ниже половинной численности**).`,
+Юниты или модели, чья характеристика **W** (раны) или **начальная численность** не может быть равномерно разделена пополам, не могут находиться **[gloss:half-strength:на половинной численности]** (но могут быть **ниже половинной численности**).`,
               table: {
                 headers: ['Условие', 'Начальная численность 1 (отслеживает раны)', 'Начальная численность 2 или более'],
                 rows: [
@@ -1427,13 +1427,13 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
                   ['**Ниже половинной численности**', 'Оставшиеся раны модели составляют **менее половины** её характеристики **W** (ран).', 'Количество оставшихся моделей в юните составляет **менее половины** его начальной численности.'],
                 ],
               },
-              example: 'Капитан (1 модель) приписан к отряду Интерцессоров (5 моделей). Этот **составной юнит** (attached unit) имеет **начальную численность** (starting strength) 6. Если три Интерцессора **уничтожены**, юнит находится **на половинной численности** (half-strength). Если четыре Интерцессора **уничтожены**, юнит находится **ниже половинной численности** (below half-strength). Если все Интерцессоры **уничтожены**, оставшийся Капитан находится **ниже половинной численности**, несмотря на то, что у него осталось полное количество ран (wounds).',
+              example: 'Капитан (1 модель) приписан к отряду Интерцессоров (5 моделей). Этот **[gloss:attached-unit:составной юнит]** имеет **[gloss:starting-strength:начальную численность]** 6. Если три Интерцессора **уничтожены**, юнит находится **[gloss:half-strength:на половинной численности]**. Если четыре Интерцессора **уничтожены**, юнит находится **ниже половинной численности** (below half-strength). Если все Интерцессоры **уничтожены**, оставшийся Капитан находится **ниже половинной численности**, несмотря на то, что у него осталось полное количество [gloss:wounds:ран].',
             },
             {
               title: 'Сохраняющиеся эффекты правил',
-              body: `Некоторые правила применяют эффект, который длится, пока не пройдёт определённая продолжительность (например, до начала вашего следующего хода). Такие эффекты называются сохраняющимися эффектами(persisting effects).
+              body: `Некоторые правила применяют эффект, который длится, пока не пройдёт определённая продолжительность (например, до начала вашего следующего хода). Такие эффекты называются [gloss:persisting-effects:сохраняющимися эффектами].
 
-Если сохраняющийся эффект применяется к юниту, когда вы помещаете его в **стратегический резерв** (strategic reserves) или когда он садится в TRANSPORT, запишите этот эффект и его продолжительность; если этот юнит снова выставляется на поле боя, любые сохраняющиеся эффекты продолжают применяться к нему на всю их продолжительность.
+Если сохраняющийся эффект применяется к юниту, когда вы помещаете его в **[gloss:strategic-reserves:стратегический резерв]** или когда он садится в TRANSPORT, запишите этот эффект и его продолжительность; если этот юнит снова выставляется на поле боя, любые сохраняющиеся эффекты продолжают применяться к нему на всю их продолжительность.
 
 Если у вас есть правило, которое указывает, когда оно срабатывает (например, «В фазе стрельбы»), но не указывает, как долго оно активно, оно активно только на протяжении указанного периода (например, до конца этой фазы стрельбы). После этого периода этот эффект больше не применим/не активен.
 
@@ -1441,50 +1441,50 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
             },
             {
               title: 'Восстановление и добавление моделей в юнит',
-              body: `Когда правило **возрождает** (revives), воскрешает, возвращает или добавляет модели в юнит, указанное количество моделей добавляется в юнит.
-▪ Если правило **возрождает** (revives), воскрешает или возвращает модели в юнит, оно делает это через **уничтоженные** (destroyed) модели из этого юнита.
-▪ Это не может расширить юнит сверх его **начальной численности** (starting strength).
-▪ Если не указано иное, такие модели добавляются со всем снаряжением(wargear) и усилениями(enhancements), с которыми они начинали битву, и с полным запасом **W** (ран).
+              body: `Когда правило **[gloss:revive:возрождает]**, воскрешает, возвращает или добавляет модели в юнит, указанное количество моделей добавляется в юнит.
+▪ Если правило **[gloss:revive:возрождает]**, воскрешает или возвращает модели в юнит, оно делает это через **[gloss:destroyed:уничтоженные]** модели из этого юнита.
+▪ Это не может расширить юнит сверх его **[gloss:starting-strength:начальной численности]**.
+▪ Если не указано иное, такие модели добавляются со всем [gloss:wargear:снаряжением] и [gloss:enhancement:усилениями], с которыми они начинали битву, и с полным запасом **W** (ран).
 Модели, возвращённые в юнит на поле боя, должны быть размещены следующим образом:
 
-▪ Они должны быть размещены в **боевом построении** (coherency) с моделями этого юнита, которые начали эту фазу на поле боя.
-▪ Они могут быть размещены **в ближнем бою** (engaged) с одним или несколькими вражескими юнитами, но только если эти вражеские юниты уже были **в ближнем бою** (engaged) с юнитом, в который возвращается модель.
-Если модель **лидера** (leader) или **поддержки** (support) в **составном юните** (attached unit) **уничтожена** (destroyed) и впоследствии возрождена, она всё ещё является частью этого **составного юнита** и должна быть возвращена в него, если возможно.`,
+▪ Они должны быть размещены в **[gloss:coherency:боевом построении]** с моделями этого юнита, которые начали эту фазу на поле боя.
+▪ Они могут быть размещены **[gloss:engaged:в ближнем бою]** с одним или несколькими вражескими юнитами, но только если эти вражеские юниты уже были **[gloss:engaged:в ближнем бою]** с юнитом, в который возвращается модель.
+Если модель **[gloss:leader:лидера]** или **поддержки** (support) в **[gloss:attached-unit:составном юните]** **[gloss:destroyed:уничтожена]** и впоследствии возрождена, она всё ещё является частью этого **составного юнита** и должна быть возвращена в него, если возможно.`,
             },
             {
               title: 'Не на поле боя',
-              body: `Юнит, находящийся внутри TRANSPORT или в **стратегическом резерве** (strategic reserves), не находится на поле боя. К таким юнитам применяется следующее:
-▪ Этот юнит __не__ **виден** (visible) никаким __другим__ юнитам (юниты **видят** себя сами).
+              body: `Юнит, находящийся внутри TRANSPORT или в **[gloss:strategic-reserves:стратегическом резерве]**, не находится на поле боя. К таким юнитам применяется следующее:
+▪ Этот юнит __не__ **[gloss:visible:виден]** никаким __другим__ юнитам (юниты **видят** себя сами).
 ▪ Любой другой юнит __не__ **виден** этому юниту.
 ▪ Игроки не могут измерять расстояния до или от этого юнита (юниты находятся в пределах дальности своих собственных способностей).
 Это означает, что юниты не на поле боя не могут быть выбраны или стать целью какой-либо атаки или правила, требующего, чтобы юнит был **виден** или находился в пределах определённого расстояния (кроме их собственных способностей).
 
 Такие юниты всё ещё могут использовать свои другие правила и остаются юнитами в армии контролирующего игрока, поэтому на них могут влиять правила, требующие от игрока выбрать юнит из армии, а также правила, влияющие на все юниты в армии.
 
-Контролирующий игрок должен выполнять **проверки боевого шока** (battle-shock rolls) для юнитов, не находящихся на поле боя, в свою Фазу командования, если они **подвержены боевому шоку** (battle-shocked) или находятся на — или ниже — **половинной численности** (half-strength).`,
+Контролирующий игрок должен выполнять **[gloss:battle-shock-test:проверки боевого шока]** для юнитов, не находящихся на поле боя, в свою Фазу командования, если они **[gloss:battle-shocked:подвержены боевому шоку]** или находятся на — или ниже — **[gloss:half-strength:половинной численности]**.`,
             },
             {
               title: 'Другая модель / юнит',
               body: `Когда правило ссылается на модели или юниты, «отличные» (other) от того, у которого есть это правило (или от уже упомянутого этим правилом), это означает модель или юнит, отличный от исходного.
 
-Разные экземпляры одного и того же листа данных(datasheet) всё ещё считаются «другими» (other) юнитами.`,
+Разные экземпляры одного и того же [gloss:datasheet:листа данных] всё ещё считаются «другими» (other) юнитами.`,
             },
             {
               title: 'Разделение юнитов',
               body: `Некоторые правила позволяют вам разделять юниты на меньшие юниты (например, способность Transport у Drukhari Venoms). При использовании таких правил:
 ▪ Одни и те же модели могут быть разделены таким образом только один раз (например, эти меньшие юниты сами не могут быть разделены далее).
-▪ Если правило используется для разделения юнита на несколько юнитов до битвы, **начальная численность** (starting strength) каждого отдельного юнита изменяется так, чтобы равняться количеству моделей в этом юните.`,
+▪ Если правило используется для разделения юнита на несколько юнитов до битвы, **[gloss:starting-strength:начальная численность]** каждого отдельного юнита изменяется так, чтобы равняться количеству моделей в этом юните.`,
             },
             {
               title: 'Описание юнитов',
-              body: `Когда правило упоминает юнит, у него может быть дескриптор для юнита (например, юнит TERMINATOR, **скрытый** (hidden) юнит, **подверженный боевому шоку** (battle-shocked) юнит, **видимый** (visible) юнит, контролирующий юнит). Чтобы такие дескрипторы применялись к юниту, в этом юните должна быть хотя бы одна модель, соответствующая этому дескриптору.
+              body: `Когда правило упоминает юнит, у него может быть дескриптор для юнита (например, юнит TERMINATOR, **[gloss:hidden:скрытый]** юнит, **[gloss:battle-shocked:подверженный боевому шоку]** юнит, **[gloss:visible:видимый]** юнит, контролирующий юнит). Чтобы такие дескрипторы применялись к юниту, в этом юните должна быть хотя бы одна модель, соответствующая этому дескриптору.
 
 Это не даёт это правило каждой модели в юните, если только это правило прямо не указывает, что оно даёт это правило юниту — в этом случае каждая модель в этом юните получает это правило, как описано в разделе «Юниты и модели» (01.02).`,
-              example: `**Скрытый** (hidden) юнит — это юнит, в котором есть модель, которая является **скрытой** (hidden).`,
+              example: `**[gloss:hidden:Скрытый]** юнит — это юнит, в котором есть модель, которая является **[gloss:hidden:скрытой]**.`,
             },
             {
               title: 'Добавление нового юнита в вашу армию',
-              body: `Некоторые правила добавляют новый юнит в вашу армию во время битвы. **Начальная численность** (starting strength) этого юнита определяется в момент его добавления в вашу армию, но в остальном определяется так же, как и для других юнитов.`,
+              body: `Некоторые правила добавляют новый юнит в вашу армию во время битвы. **[gloss:starting-strength:Начальная численность]** этого юнита определяется в момент его добавления в вашу армию, но в остальном определяется так же, как и для других юнитов.`,
             },
             {
               title: 'Все типы моделей',
@@ -1499,18 +1499,18 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 Когда не идёт ход ни одного игрока (например, в начале или конце раунда боя), активным игроком является игрок, который делает первый ход в каждом раунде боя.
 
 Когда идёт ход игрока, этот игрок является активным игроком, за следующими исключениями:
-▪ Каждый раз, когда юнит выбирается для манёвра(selected to move), контролирующий этот юнит игрок является активным игроком до окончания этого манёвра.
-▪ Каждый раз, когда юнит выбирается для стрельбы(selected to shoot) или выбирается для ближнего боя(selected to fight), контролирующий этот юнит игрок является активным игроком до тех пор, пока эти атаки не будут отыграны.`,
+▪ Каждый раз, когда юнит [gloss:selected-to-move:выбирается для манёвра], контролирующий этот юнит игрок является активным игроком до окончания этого манёвра.
+▪ Каждый раз, когда юнит [gloss:selected-to-shoot:выбирается для стрельбы] или [gloss:selected-to-fight:выбирается для ближнего боя], контролирующий этот юнит игрок является активным игроком до тех пор, пока эти атаки не будут отыграны.`,
           children: [
             {
               title: 'Правила игрока',
               body: `Во время игры игрокам иногда нужно знать, какие правила принадлежат им, в отличие от правил оппонента. Правилами игрока считаются следующие:
 
-▪ Любые **армейские правила** (army rules), которые у него есть.
-▪ Любые **детачменты** (detachments) в его армии.
-▪ Любые **стратагемы** (stratagems), которые он использует.
-▪ Любые **улучшения** (enhancements), которые есть у юнитов или моделей в его армии.
-▪ Любые способности или правила, указанные в листах данных (datasheets) его юнитов.
+▪ Любые **[gloss:army-rules:армейские правила]**, которые у него есть.
+▪ Любые **[gloss:detachments:детачменты]** в его армии.
+▪ Любые **[gloss:stratagem:стратагемы]**, которые он использует.
+▪ Любые **[gloss:enhancement:улучшения]**, которые есть у юнитов или моделей в его армии.
+▪ Любые способности или правила, указанные в [gloss:datasheet:листах данных] его юнитов.
 ▪ Правила с ограничениями (например, «Один раз за битву/ход/фазу») применяются только к тому игроку, чьим правилом они являются.
 
 Некоторые миссии могут вводить дополнительные правила, действующие в битве. В таком случае:
@@ -1528,7 +1528,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 4. Все правила противостоящего игрока, которые он может использовать по желанию и хочет использовать, в порядке по его выбору.
 
 Если какое-либо правило может быть использовано после того, как правило отыгралось в этой последовательности, но до того, как отыгрались другие правила с тем же таймингом, эти новые правила не срабатывают, пока не будут отыграны все оставшиеся правила с тем же таймингом.`,
-              example: `У юнита активного игрока есть способность, позволяющая ему совершить **обычный манёвр** (normal move) после стрельбы. У вражеского юнита, выбранного целью этим юнитом, есть способность, позволяющая ему выстрелить в ответ по юниту, который по нему стрелял. Сначала отыгрывается правило активного игрока, затем — правило противостоящего игрока.`,
+              example: `У юнита активного игрока есть способность, позволяющая ему совершить **[gloss:normal-move:обычный манёвр]** после стрельбы. У вражеского юнита, выбранного целью этим юнитом, есть способность, позволяющая ему выстрелить в ответ по юниту, который по нему стрелял. Сначала отыгрывается правило активного игрока, затем — правило противостоящего игрока.`,
             },
           ],
         },
@@ -1541,12 +1541,12 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
           children: [
             {
               title: 'В пределах / полностью в пределах (Within / Wholly Within)',
-              body: `Правила в Warhammer 40,000 часто применяются к моделям или юнитам, которые находятся в пределах(within) или полностью в пределах(wholly within) определённого расстояния. Следующие определения объясняют, что означают эти термины:
+              body: `Правила в Warhammer 40,000 часто применяются к моделям или юнитам, которые находятся [gloss:within:в пределах] или [gloss:wholly-within:полностью в пределах] определённого расстояния. Следующие определения объясняют, что означают эти термины:
 
 ▪ **В пределах (Within):** Если правило говорит, что оно применяется «в пределах» указанного расстояния, оно применяется на любом расстоянии, не превышающем указанное. Например, в пределах 1" означает любое расстояние, не превышающее 1".
-▪ **Модель/юнит в пределах (Model/Unit Within):** Модель находится в пределах указанного расстояния, если любая часть её базы(base) находится в пределах этого расстояния. Юнит находится в пределах указанного расстояния, если одна или несколько его моделей находятся в пределах этого расстояния.
-▪ **Модель/юнит полностью в пределах (Model/Unit Wholly Within):** Модель полностью в пределах указанного расстояния, если каждая часть её базы(base) находится в пределах этого расстояния. Юнит полностью в пределах, если каждая модель в этом юните полностью в пределах указанного расстояния. Модель с ключевым словом FRAME полностью в пределах указанного расстояния, если все части этой модели находятся в пределах указанного расстояния.`,
-              example: `Модель полностью в пределах **участка укрытия** (terrain area), если ни одна часть её базы(base) не выходит за след(footprint) этого **участка укрытия** (terrain area). Юнит полностью в пределах указанного расстояния, если каждая модель в этом юните полностью в пределах этого расстояния.`,
+▪ **Модель/юнит в пределах (Model/Unit Within):** Модель находится в пределах указанного расстояния, если любая часть её [gloss:base:базы] находится в пределах этого расстояния. Юнит находится в пределах указанного расстояния, если одна или несколько его моделей находятся в пределах этого расстояния.
+▪ **Модель/юнит полностью в пределах (Model/Unit Wholly Within):** Модель полностью в пределах указанного расстояния, если каждая часть её [gloss:base:базы] находится в пределах этого расстояния. Юнит полностью в пределах, если каждая модель в этом юните полностью в пределах указанного расстояния. Модель с ключевым словом FRAME полностью в пределах указанного расстояния, если все части этой модели находятся в пределах указанного расстояния.`,
+              example: `Модель полностью в пределах **[gloss:terrain-area:участка укрытия]**, если ни одна часть её [gloss:base:базы] не выходит за [gloss:footprint:след] этого **[gloss:terrain-area:участка укрытия]**. Юнит полностью в пределах указанного расстояния, если каждая модель в этом юните полностью в пределах этого расстояния.`,
             },
             {
               title: 'Ближайшая модель/юнит (Closest Or Nearest Model/Unit)',
@@ -1556,14 +1556,14 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
             },
             {
               title: 'Как можно ближе',
-              body: `Если правило предписывает вам переместить модель как можно ближе к юниту или модели, вы должны завершить манёвр этой модели в контакте баз(base contact) с этим юнитом или моделью, если её манёвра достаточно для этого без нарушения других ограничений (таких как **боевое построение** (coherency)), или как можно ближе, если её манёвра недостаточно.
+              body: `Если правило предписывает вам переместить модель как можно ближе к юниту или модели, вы должны завершить манёвр этой модели в [gloss:base-contact:контакте баз] с этим юнитом или моделью, если её манёвра достаточно для этого без нарушения других ограничений (таких как **[gloss:coherency:боевое построение]**), или как можно ближе, если её манёвра недостаточно.
 ▪ Если модель уже находится как можно ближе к юниту или модели, когда ей предписано совершить манёвр как можно ближе к юниту или модели, эту модель нельзя перемещать, но она всё равно считается совершившей данный манёвр.
-Если правило предписывает вам переместить модель как можно ближе к **цели** (objective), вы должны завершить манёвр этой модели в пределах дальности **цели** (objective), если её манёвра достаточно для этого без нарушения других ограничений (таких как **боевое построение** (coherency)), или как можно ближе, если её манёвра недостаточно.
-▪ Если эта модель уже находится в пределах дальности **цели** (objective), она может переместиться на **максимальную дистанцию** (maximum distance) этого манёвра, но должна завершить манёвр всё ещё в пределах дальности этой **цели** (objective).`,
+Если правило предписывает вам переместить модель как можно ближе к **[gloss:objective:цели]**, вы должны завершить манёвр этой модели в пределах дальности **[gloss:objective:цели]**, если её манёвра достаточно для этого без нарушения других ограничений (таких как **[gloss:coherency:боевое построение]**), или как можно ближе, если её манёвра недостаточно.
+▪ Если эта модель уже находится в пределах дальности **[gloss:objective:цели]**, она может переместиться на **[gloss:maximum-distance:максимальную дистанцию]** этого манёвра, но должна завершить манёвр всё ещё в пределах дальности этой **[gloss:objective:цели]**.`,
             },
             {
               title: 'Контакт баз или контакт база к базе (Base Contact or Base to Base Contact)',
-              body: `Когда базы(base) двух моделей соприкасаются, они находятся в контакте баз(base contact) — также известном как контакт база к базе(base-to-base contact) — и находятся как можно ближе (01.04.03).
+              body: `Когда [gloss:base:базы] двух моделей соприкасаются, они находятся в [gloss:base-contact:контакте баз] — также известном как [gloss:base-contact:контакт база к базе] — и находятся как можно ближе (01.04.03).
 
 Когда вы перемещаете модель из своей армии в контакт баз с вражеской моделью во время манёвра, если эта вражеская модель нависает над своей базой так, что физически невозможно вступить с ней в контакт баз, до конца хода эти модели считаются находящимися в контакте баз друг с другом, пока истинно всё следующее:
 ▪ Дистанции, на которую ваша модель могла переместиться, было достаточно, чтобы привести её в контакт баз с вражеской моделью, если бы не было нависания.
@@ -1585,13 +1585,13 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
               title: 'Автоматический успех/прохождение/попадание/ранение',
               body: `Когда бросок кубика или проверка автоматически успешны или автоматически проходят/попадают/ранят, не бросайте кубик, а вместо этого переходите к следующему шагу последовательности для этого броска, как если бы был выброшен требуемый результат. Любые правила, действующие при определённом результате кубика или броска, не действуют.
 
-**Пример:** Если **бросок попадания** (hit roll) автоматически успешен, переходите сразу к шагу бросков на ранение для этой атаки. Такой **бросок попадания** (hit roll) не является **критическим попаданием** (critical hit).
+**Пример:** Если **[gloss:hit-roll:бросок попадания]** автоматически успешен, переходите сразу к шагу бросков на ранение для этой атаки. Такой **[gloss:hit-roll:бросок попадания]** не является **[gloss:critical-hit:критическим попаданием]**.
 
-**Пример:** Если **бросок ранения** (wound roll) автоматически успешен, переходите сразу к шагу спасбросков для этой атаки. Такой **бросок ранения** (wound roll) не является **критическим ранением** (critical wound).`,
+**Пример:** Если **[gloss:wound-roll:бросок ранения]** автоматически успешен, переходите сразу к шагу спасбросков для этой атаки. Такой **[gloss:wound-roll:бросок ранения]** не является **[gloss:critical-wound:критическим ранением]**.`,
             },
             {
               title: 'Перебросы',
-              body: `Некоторые правила позволяют вам перебросить(re-roll) бросок кубика, что означает, что вы можете бросить часть или все кубики заново. Когда правило позволяет вам перебросить один или несколько кубиков, применяются следующие положения:
+              body: `Некоторые правила позволяют вам [gloss:re-roll:перебросить] бросок кубика, что означает, что вы можете бросить часть или все кубики заново. Когда правило позволяет вам перебросить один или несколько кубиков, применяются следующие положения:
 
 ▪ Если правило позволяет вам перебросить бросок кубика, сделанный сложением нескольких кубиков (например, 2D6, 3D6 и т.д.), то вы должны перебросить все эти кубики заново.
 ▪ Вы никогда не можете перебросить кубик более одного раза, и перебросы происходят до применения модификаторов (если они есть).
@@ -1607,7 +1607,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
             },
             {
               title: 'Состязание бросков',
-              body: `Некоторые правила предписывают игрокам сделать состязание бросков(roll off).
+              body: `Некоторые правила предписывают игрокам сделать [gloss:roll-off:состязание бросков].
 ▪ Для этого оба игрока бросают по одному D6, и тот, у кого выпадет больше, выигрывает состязание бросков.
 ▪ Если есть ничья за наивысший бросок, проведите состязание бросков заново.`,
             },
@@ -1631,33 +1631,33 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
         },
         {
           title: 'Проверка лидерства (Leadership Rolls)',
-          body: `Чтобы выполнить **проверку лидерства**(leadership roll) для юнита, его контролирующий игрок бросает 2D6: если результат равен или превышает одну или несколько характеристик Ld в этом юните, проверка успешна. В противном случае проверка провалена. Правило, которое предписало вам выполнить эту **проверку лидерства**(leadership roll), опишет последствия успеха или провала этой проверки.`,
+          body: `Чтобы выполнить **[gloss:leadership-roll:проверку лидерства]** для юнита, его контролирующий игрок бросает 2D6: если результат равен или превышает одну или несколько характеристик Ld в этом юните, проверка успешна. В противном случае проверка провалена. Правило, которое предписало вам выполнить эту **[gloss:leadership-roll:проверку лидерства]**, опишет последствия успеха или провала этой проверки.`,
           children: [
             {
               title: 'Тест на лидерство (Leadership Test)',
-              body: `Некоторые правила могут использовать термин тест на лидерство (Leadership test) — это то же самое, что **проверка лидерства** (leadership roll).`,
+              body: `Некоторые правила могут использовать термин [gloss:leadership-test:тест на лидерство] — это то же самое, что **[gloss:leadership-roll:проверка лидерства]**.`,
             },
           ],
         },
         {
           title: 'Проверка на боевой шок',
-          body: `Чтобы выполнить **проверку боевого шока**(battle-shock roll) для юнита, его контролирующий игрок выполняет для него **проверку лидерства** (leadership roll) (см. выше).
-▪ Если проверка успешна, юнит не становится подверженным боевому шоку(battle-shocked).
-▪ Если проверка провалена, этот юнит и каждая модель в нём становится подверженной боевому шоку(battle-shocked).
+          body: `Чтобы выполнить **[gloss:battle-shock-test:проверку боевого шока]** для юнита, его контролирующий игрок выполняет для него **[gloss:leadership-roll:проверку лидерства]** (см. выше).
+▪ Если проверка успешна, юнит не становится [gloss:battle-shocked:подверженным боевому шоку].
+▪ Если проверка провалена, этот юнит и каждая модель в нём становится [gloss:battle-shocked:подверженной боевому шоку].
 
-Пока юнит подвержен боевому шоку(battle-shocked):
+Пока юнит [gloss:battle-shocked:подвержен боевому шоку]:
 ▪ Характеристика Objective Control (OC) всех его моделей изменяется на '-'.
-▪ Его контролирующий игрок не может нацеливать на этот юнит стратагемы(stratagems).
-▪ Он не имеет права начинать действия(actions), и любое начатое действие(action) не может быть завершено.`,
-          example: `Отряд гвардейцев с Ld 7+ понёс тяжёлые потери и должен выполнить **проверку боевого шока**(battle-shock roll). Игрок бросает 2D6 и получает 9 — поскольку 9 не меньше 7, проверка успешна, и отряд держится. Если бы результат был 6 или меньше, весь юнит стал бы подвержен боевому шоку(battle-shocked), утратив способность контролировать цели(objectives).`,
+▪ Его контролирующий игрок не может нацеливать на этот юнит [gloss:stratagem:стратагемы].
+▪ Он не имеет права начинать [gloss:action:действия], и любое начатое [gloss:action:действие] не может быть завершено.`,
+          example: `Отряд гвардейцев с Ld 7+ понёс тяжёлые потери и должен выполнить **[gloss:battle-shock-test:проверку боевого шока]**. Игрок бросает 2D6 и получает 9 — поскольку 9 не меньше 7, проверка успешна, и отряд держится. Если бы результат был 6 или меньше, весь юнит стал бы [gloss:battle-shocked:подвержен боевому шоку], утратив способность контролировать [gloss:objective:цели].`,
           children: [
             {
               title: 'Боевой дух на поле боя',
-              body: `Боевой дух и организация войск могут колебаться и рушиться во время битвы. Это проверяется с помощью **проверок боевого шока** (battle-shock rolls), чаще всего в Фазе командования. Провал такой проверки означает, что мужество юнита падает из-за потерь или других помех, снижая его боевую эффективность. Аналогично, некоторые правила потребуют от вас проверить готовность юнита с помощью **проверки лидерства** (leadership roll).`,
+              body: `Боевой дух и организация войск могут колебаться и рушиться во время битвы. Это проверяется с помощью **[gloss:battle-shock-test:проверок боевого шока]**, чаще всего в Фазе командования. Провал такой проверки означает, что мужество юнита падает из-за потерь или других помех, снижая его боевую эффективность. Аналогично, некоторые правила потребуют от вас проверить готовность юнита с помощью **[gloss:leadership-roll:проверки лидерства]**.`,
             },
             {
               title: 'Проверка на боевой шок (Battle-shock Test)',
-              body: `Термин «проверка на боевой шок» (Battle-shock test) — это то же самое, что **проверка боевого шока** (battle-shock roll).`,
+              body: `Термин «проверка на боевой шок» (Battle-shock test) — это то же самое, что **[gloss:battle-shock-test:проверка боевого шока]**.`,
             },
           ],
         },
@@ -1665,7 +1665,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
     },
     {
       title: 'Листы данных',
-      description: 'У каждого юнита есть лист данных(datasheet), который объясняет, как он действует в бою. Здесь вы узнаете, как использовать листы данных(datasheets) при подготовке армии и во время игры.',
+      description: 'У каждого юнита есть [gloss:datasheet:лист данных], который объясняет, как он действует в бою. Здесь вы узнаете, как использовать [gloss:datasheet:листы данных] при подготовке армии и во время игры.',
       subsections: [
         {
           title: 'Название листа данных',
@@ -1687,12 +1687,12 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ▪ Invulnerable Save (неуязвимый спас-бросок) (InSv): представленный как результат броска кубика (например, 4+). Некоторые модели защищены эзотерическими средствами в дополнение к физической броне, такими как силовые поля или сверхъестественные рефлексы. Не все модели имеют характеристику InSv, но если она есть, она будет указана здесь.
 ▪ Wounds (раны) (W): раны представляют, сколько урона может выдержать модель, прежде чем она будет уничтожена. Если раны модели снижаются до 0 или ниже, модель уничтожена.
 ▪ Leadership (лидерство) (Ld): представленное как результат броска кубика (например, 7+), показывает, насколько модель храбра, решительна или самоконтролируема.
-▪ Objective Control (контроль цели) (OC): насколько эффективно модель может контролировать цель(objective) на поле боя. Если модель имеет характеристику OC '-', она вообще не может контролировать цели(objectives).`,
+▪ Objective Control (контроль цели) (OC): насколько эффективно модель может контролировать [gloss:objective:цель] на поле боя. Если модель имеет характеристику OC '-', она вообще не может контролировать [gloss:objective:цели].`,
           children: [
             {
               title: 'Модификаторы (Modifiers)',
               body: `### Что такое модификаторы?
-Многие правила в игре изменяют какое-либо значение, характеристику или бросок в другом месте игры. Правило, которое это делает, называется модификатором (modifier). Изменённое значение является изменённым правилом (например, изменённая характеристика, изменённый бросок, изменённое значение и т.д.).
+Многие правила в игре изменяют какое-либо значение, характеристику или бросок в другом месте игры. Правило, которое это делает, называется [gloss:modifier:модификатором]. Изменённое значение является изменённым правилом (например, изменённая характеристика, изменённый бросок, изменённое значение и т.д.).
 
 Один из самых распространённых способов представления модификаторов — это +1 или -1 к характеристике, броску или значению.
 
@@ -1754,9 +1754,9 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 
 ### Прочие изменённые правила
 Следующие правила применяются к различным правилам и эффектам, встречающимся в игре.
-▪ **Радиус обнаружения** (detection range) и **Lone Operative** не могут быть лучше 9" или хуже 30".
+▪ **[gloss:detection-range:Радиус обнаружения]** и **Lone Operative** не могут быть лучше 9" или хуже 30".
 
-**Стратагема** (stratagem) не может иметь свою стоимость в **CP** увеличенной более чем на 1 или уменьшенной ниже 0 после применения всех модификаторов.`,
+**[gloss:stratagem:Стратагема]** не может иметь свою стоимость в **CP** увеличенной более чем на 1 или уменьшенной ниже 0 после применения всех модификаторов.`,
             },
             {
               title: 'Игнорирование модификаторов',
@@ -1768,17 +1768,17 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 
 **Пример:** Ваш юнит может игнорировать модификаторы характеристик и находится под эффектом +2" к **M** и -2" к **M**. Вы можете выбрать игнорировать -2" к **M**, что означает, что характеристика **M** этого юнита будет изменена только на +2".
 
-**Пример:** Дистанционные атаки вашего юнита могут игнорировать модификаторы бросков и находятся под эффектом +1 к **броскам попадания** (hit rolls) и -1 к **броскам попадания**. Вы можете выбрать игнорировать -1 к **броскам попадания**, что означает, что эти атаки будут затронуты только +1 к **броскам попадания**.`,
+**Пример:** Дистанционные атаки вашего юнита могут игнорировать модификаторы бросков и находятся под эффектом +1 к **[gloss:hit-roll:броскам попадания]** и -1 к **броскам попадания**. Вы можете выбрать игнорировать -1 к **броскам попадания**, что означает, что эти атаки будут затронуты только +1 к **броскам попадания**.`,
             },
             {
               title: 'Случайные характеристики',
-              body: `**Случайное движение (Random Movement):** Когда юнит со случайной характеристикой **M** **выбирается для манёвра** (selected to move), определите дистанцию манёвра всего юнита, бросив указанное количество кубиков.
+              body: `**Случайное движение (Random Movement):** Когда юнит со случайной характеристикой **M** **[gloss:selected-to-move:выбирается для манёвра]**, определите дистанцию манёвра всего юнита, бросив указанное количество кубиков.
 
 **Случайные атаки (Random Attacks):** Если оружие имеет случайную характеристику **A**, эта характеристика определяется при генерации атак для этого оружия на шаге «Отыгрыш атак» (Resolve Attacks step) (04.03). Если несколько единиц оружия со случайными характеристиками **A** совершают **идентичные атаки** (identical attacks), сгенерируйте атаки для каждого из этих видов оружия по отдельности, а затем сгруппируйте их все вместе.
 
 **Случайный урон (Random Damage):** Если оружие имеет случайную характеристику **D**, то каждый раз, когда атака им наносит урон, контролирующий игрок определяет эту характеристику оружия после того, как противостоящий игрок выбрал модель в целевом юните для распределения этой атаки.
 
-При определении случайной характеристики **D** совершаемый бросок кубика называется **броском урона** (damage roll).
+При определении случайной характеристики **D** совершаемый бросок кубика называется **[gloss:damage-roll:броском урона]**.
 
 Если характеристика **D** включает оператор (например, «+», как в D6+1), значение после оператора является частью этой характеристики **D** — это не модификатор.
 
@@ -1786,12 +1786,12 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
             },
             {
               title: 'Исцеление или восстановление потерянных ран',
-              body: `Когда юнит **исцеляет** (heals) или восстанавливает некоторое количество ран, он восстанавливает до этого количества потерянных ран. За каждую исцелённую или восстановленную рану действуйте следующим образом:
+              body: `Когда юнит **[gloss:heal:исцеляет]** или восстанавливает некоторое количество ран, он восстанавливает до этого количества потерянных ран. За каждую исцелённую или восстановленную рану действуйте следующим образом:
 ▪ Если в этом юните есть одна или несколько моделей, у которых не полное количество оставшихся ран, выберите одну из этих моделей; эта модель восстанавливает одну потерянную рану.
-▪ Если все модели в этом юните имеют своё начальное количество ран, но одна или несколько моделей из этого юнита в данный момент **уничтожены** (destroyed), **возродите** (revive) одну из этих **уничтоженных** моделей с одной оставшейся раной.
+▪ Если все модели в этом юните имеют своё начальное количество ран, но одна или несколько моделей из этого юнита в данный момент **[gloss:destroyed:уничтожены]**, **[gloss:revive:возродите]** одну из этих **уничтоженных** моделей с одной оставшейся раной.
 Это не может привести к тому, что у модели останется больше ран, чем было в начале битвы.
 
-Если правило указывает, что модель **исцеляет** (heals) или восстанавливает некоторое количество ран, только эта модель может восстанавливать раны до своего начального количества. Любые избыточные восстановленные раны теряются и не приводят к **возрождению** **уничтоженной** модели из этого юнита.`,
+Если правило указывает, что модель **[gloss:heal:исцеляет]** или восстанавливает некоторое количество ран, только эта модель может восстанавливать раны до своего начального количества. Любые избыточные восстановленные раны теряются и не приводят к **возрождению** **уничтоженной** модели из этого юнита.`,
             },
             {
               title: 'Полное количество оставшихся ран',
@@ -1805,15 +1805,15 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
         },
         {
           title: 'Способности (Abilities)',
-          body: `У многих юнитов есть способности(abilities), которые могут применяться во время игры. Они будут описаны здесь.`,
+          body: `У многих юнитов есть [gloss:ability:способности], которые могут применяться во время игры. Они будут описаны здесь.`,
           children: [
             {
               title: 'Правила с несколькими условиями и эффектами',
               body: `Некоторые правила имеют несколько условий, при этом второе, более конкретное условие даёт улучшенное правило — либо вместо правила первого условия, либо в дополнение к нему. Такие правила требуют выполнения и первого, и второго условия, чтобы применялось улучшенное правило.
 
 Например, способность гласит: «Дистанционные атаки этого юнита, нацеленные на ближайшую доступную цель, могут:
-▪ Перебрасывать **броски попадания** (hit rolls), равные 1.
-▪ __Или:__ Если эта цель находится в пределах дальности **цели** (objective), которую контролирует ваш оппонент, перебрасывать **броски попадания**.»
+▪ Перебрасывать **[gloss:hit-roll:броски попадания]**, равные 1.
+▪ __Или:__ Если эта цель находится в пределах дальности **[gloss:objective:цели]**, которую контролирует ваш оппонент, перебрасывать **броски попадания**.»
 Чтобы эти атаки перебрасывали **броски попадания**, цель должна быть одновременно ближайшей доступной целью и находиться в пределах дальности **цели**, которую контролирует ваш оппонент.`,
             },
           ],
@@ -1822,7 +1822,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
           title: 'Оружие',
           body: `Оружие имеет следующие характеристики:
 ▪ Range (дальность) (R): как далеко может стрелять дистанционное оружие. Оружие с характеристикой R «Melee» является оружием ближнего боя.
-▪ Attacks (атаки) (A): сколько кубиков атаки(attack dice) используется каждый раз при использовании этого оружия.
+▪ Attacks (атаки) (A): сколько [gloss:attack-dice:кубиков атаки] используется каждый раз при использовании этого оружия.
 ▪ Ballistic Skill (навык стрельбы) (BS): представленный как результат броска кубика (например, 4+), показывает, насколько точен владелец при стрельбе из соответствующего оружия.
 ▪ Weapon Skill (навык ближнего боя) (WS): представленный как результат броска кубика (например, 4+), отражает мастерство владельца в использовании соответствующего оружия ближнего боя.
 ▪ Strength (сила) (S): чем выше характеристика S оружия, тем больше вероятность нанести рану врагу.
@@ -1859,15 +1859,15 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
         },
         {
           title: 'Состав юнита и другие правила',
-          body: `В этом разделе подробно описано количество и типы моделей в юните. Каждая из этих моделей будет иметь один набор стандартного снаряжения, который будет перечислен здесь. Здесь также могут быть перечислены другие правила, например, к каким юнитам может присоединиться юнит-лидер(leader) или какие юниты могут сесть в ТРАНСПОРТ(TRANSPORT).`,
+          body: `В этом разделе подробно описано количество и типы моделей в юните. Каждая из этих моделей будет иметь один набор стандартного снаряжения, который будет перечислен здесь. Здесь также могут быть перечислены другие правила, например, к каким юнитам может присоединиться [gloss:leader:юнит-лидер] или какие юниты могут сесть в ТРАНСПОРТ(TRANSPORT).`,
           children: [
             {
               title: 'Носитель (Bearer)',
-              body: `Носитель оружия, усиления(enhancement) или предмета снаряжения(wargear) — это модель, экипированная им.`,
+              body: `Носитель оружия, [gloss:enhancement:усиления] или предмета [gloss:wargear:снаряжения] — это модель, экипированная им.`,
             },
             {
               title: 'Снаряжение юнита',
-              body: `Когда правило ссылается на снаряжение юнита, оно относится ко всему снаряжению(wargear), которым экипированы модели в этом юните.`,
+              body: `Когда правило ссылается на снаряжение юнита, оно относится ко всему [gloss:wargear:снаряжению], которым экипированы модели в этом юните.`,
             },
           ],
         },
@@ -1883,7 +1883,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
       subsections: [
         {
           title: 'Движение юнитов',
-          body: `Существует несколько типов манёвров, которые может совершить юнит. Каждый из них определяет, какие юниты имеют право на его совершение, каково его **максимальное расстояние**(maximum distance) или расстояние установки(set-up distance), а также любые условия, которые должны быть соблюдены.
+          body: `Существует несколько типов манёвров, которые может совершить юнит. Каждый из них определяет, какие юниты имеют право на его совершение, каково его **[gloss:maximum-distance:максимальное расстояние]** или [gloss:set-up-distance:расстояние установки], а также любые условия, которые должны быть соблюдены.
 
 Каждый раз при манёвре юнита вы можете переместить одну или несколько его моделей поочерёдно, перемещая каждую по прямой линии и/или поворачивая её столько раз, сколько хотите.
 
@@ -1895,23 +1895,23 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ▪ Все условия «Во время манёвра»(While Moving) должны быть соблюдены.
 
 ### Движение модели по прямой линии
-Каждый раз, когда вы перемещаете модель по прямой линии, перемещайте её горизонтально по полю боя. Измеряйте расстояние от одной и той же точки на её базе в начале и в конце этого манёвра и прибавляйте это расстояние к любому другому расстоянию, которое она преодолела с момента начала манёвра её юнита. Пройденное расстояние не может превышать **максимальное расстояние**(maximum distance) для данного **типа манёвра**(move type).
+Каждый раз, когда вы перемещаете модель по прямой линии, перемещайте её горизонтально по полю боя. Измеряйте расстояние от одной и той же точки на её базе в начале и в конце этого манёвра и прибавляйте это расстояние к любому другому расстоянию, которое она преодолела с момента начала манёвра её юнита. Пройденное расстояние не может превышать **[gloss:maximum-distance:максимальное расстояние]** для данного **[gloss:move-type:типа манёвра]**.
 
 ### Поворот модели
 Каждый раз, когда вы поворачиваете модель, поверните её на любое количество градусов вокруг центра её базы, удерживая её вертикально. Обратите внимание, что поворот модели не учитывается в пройденном ею расстоянии.
 
 ### Завершение манёвра
 После того как вы закончили устанавливать все модели в юните и/или перемещать все модели в юните, которые вы хотите переместить, проверьте, выполняются ли все следующие условия:
-▪ Если этот юнит находится на поле боя, он находится в **боевом построении** (coherency) (03.03).
-▪ Ни одна модель в этом юните не находится на другой модели или частично внутри поверхности **элемента укрытия**(terrain feature) (например, стены или потолка).
+▪ Если этот юнит находится на поле боя, он находится в **[gloss:coherency:боевом построении]** (03.03).
+▪ Ни одна модель в этом юните не находится на другой модели или частично внутри поверхности **[gloss:terrain-feature:элемента укрытия]** (например, стены или потолка).
 ▪ Все условия «После манёвра»(After Moving) соблюдены.
 
-Если одно или несколько из вышеуказанных условий не соблюдены, этот юнит не может совершить этот манёвр, и его модели возвращаются на свои изначальные позиции. В противном случае, после отыгрыша любых дополнительных правил, указанных в разделе «После манёвра»(After Moving) для этого **типа манёвра**(move type), этот манёвр заканчивается.`,
+Если одно или несколько из вышеуказанных условий не соблюдены, этот юнит не может совершить этот манёвр, и его модели возвращаются на свои изначальные позиции. В противном случае, после отыгрыша любых дополнительных правил, указанных в разделе «После манёвра»(After Moving) для этого **[gloss:move-type:типа манёвра]**, этот манёвр заканчивается.`,
           children: [
             {
               title: 'Различные характеристики движения',
-              body: `При совершении **типа манёвра** (move type), чьё **максимальное расстояние** (maximum distance) использует характеристику **M** юнита, если разные модели в перемещающемся юните имеют разные характеристики **M**, **максимальное расстояние** для этого манёвра будет разным для этих моделей.`,
-              example: `Если юнит совершает **обычный манёвр** (normal move) и все модели в этом юните имеют характеристику **M** 6", кроме одной модели с характеристикой **M** 9", то **максимальное расстояние** для этой модели составляет 9", тогда как для остальных моделей **максимальное расстояние** — 6". Пока этот юнит совершает этот манёвр, должны соблюдаться все остальные ограничения.`,
+              body: `При совершении **[gloss:move-type:типа манёвра]**, чьё **[gloss:maximum-distance:максимальное расстояние]** использует характеристику **M** юнита, если разные модели в перемещающемся юните имеют разные характеристики **M**, **максимальное расстояние** для этого манёвра будет разным для этих моделей.`,
+              example: `Если юнит совершает **[gloss:normal-move:обычный манёвр]** и все модели в этом юните имеют характеристику **M** 6", кроме одной модели с характеристикой **M** 9", то **максимальное расстояние** для этой модели составляет 9", тогда как для остальных моделей **максимальное расстояние** — 6". Пока этот юнит совершает этот манёвр, должны соблюдаться все остальные ограничения.`,
             },
             {
               title: 'Движение над или сквозь модели',
@@ -1921,11 +1921,11 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
               title: 'Случайное движение',
               body: `См. Случайные характеристики (02.02.03)
 
-Обе показанные здесь модели могут переместиться на **максимальное расстояние** (maximum distance) 6". Обе перемещаются на 3" по прямой линии, затем на 3" по другой прямой линии, что в сумме даёт перемещение на 6".`,
+Обе показанные здесь модели могут переместиться на **[gloss:maximum-distance:максимальное расстояние]** 6". Обе перемещаются на 3" по прямой линии, затем на 3" по другой прямой линии, что в сумме даёт перемещение на 6".`,
             },
             {
               title: 'При перемещении на величину до',
-              body: `Некоторые правила позволяют юниту совершить манёвр на величину до X". Это указанное расстояние является **максимальным расстоянием** (maximum distance) для этого манёвра.`,
+              body: `Некоторые правила позволяют юниту совершить манёвр на величину до X". Это указанное расстояние является **[gloss:maximum-distance:максимальным расстоянием]** для этого манёвра.`,
             },
           ],
         },
@@ -1935,15 +1935,15 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 
 Когда правило предписывает вам установить юнит, поместите его модели на поле боя так, чтобы:
 ▪ Этот юнит находился в **боевом построении** (см. ниже).
-▪ Этот юнит не был связан боем(unengaged) (см. ниже).
+▪ Этот юнит [gloss:unengaged:не был связан боем] (см. ниже).
 ▪ Были соблюдены все остальные требования и ограничения.
 
-Если вы не можете установить все модели в юните, удалите этот юнит с поля боя и верните его на исходную позицию (например, в стратегические резервы(strategic reserves) или внутри ТРАНСПОРТА(TRANSPORT)).`,
-          note: `Если вы не можете установить юнит: если в результате манёвра вам пришлось вернуть модели юнита на прежние позиции, потому что невозможно установить их всех, можно сказать что этот юнит не был выбран для совершения этого манёвра. Поэтому он может либо повторить попытку установки, либо остаться недвижимым(remain stationary) (09.04).`,
+Если вы не можете установить все модели в юните, удалите этот юнит с поля боя и верните его на исходную позицию (например, в [gloss:strategic-reserves:стратегические резервы] или внутри ТРАНСПОРТА(TRANSPORT)).`,
+          note: `Если вы не можете установить юнит: если в результате манёвра вам пришлось вернуть модели юнита на прежние позиции, потому что невозможно установить их всех, можно сказать что этот юнит не был выбран для совершения этого манёвра. Поэтому он может либо повторить попытку установки, либо [gloss:remain-stationary:остаться недвижимым] (09.04).`,
           children: [
             {
               title: 'Если вы не можете установить юнит',
-              body: `Когда вам приходится устанавливать юнит в результате **типа манёвра** (move type), если вам пришлось вернуть модели юнита на их прежние позиции, потому что невозможно установить их все, этот юнит не был **выбран для манёвра** (selected to move). Это означает, что он может быть **выбран для манёвра** позже, поэтому может либо повторить попытку установки, либо **остаться недвижимым** (remain stationary) (09.04).`,
+              body: `Когда вам приходится устанавливать юнит в результате **[gloss:move-type:типа манёвра]**, если вам пришлось вернуть модели юнита на их прежние позиции, потому что невозможно установить их все, этот юнит не был **[gloss:selected-to-move:выбран для манёвра]**. Это означает, что он может быть **выбран для манёвра** позже, поэтому может либо повторить попытку установки, либо **[gloss:remain-stationary:остаться недвижимым]** (09.04).`,
             },
             {
               title: 'Установка крупных моделей',
@@ -1959,7 +1959,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ▪ Совершать какие-либо атаки дистанционным оружием.
 Некоторые крупные модели, обычно AIRCRAFT, имеют крылья и другие части, значительно выходящие за пределы их базы. Такие модели могут нависать над краем поля боя, если иначе их невозможно установить, но при установке они всё равно должны находиться более чем в 8" от всех вражеских юнитов.
 
-**Высадка из транспорта (Disembarking from a Transport):** Когда юнит высаживается из TRANSPORT, он должен быть установлен полностью в пределах 3" от этой модели. Если высаживающаяся модель настолько большая, что её невозможно установить полностью в пределах 3" (обычно потому, что она сама больше 3" во всех направлениях), установите эту модель так, чтобы её база была в пределах 1" от базы (или корпуса) этого TRANSPORT, и не **в сцеплении** (engaged) с вражескими юнитами.`,
+**Высадка из транспорта (Disembarking from a Transport):** Когда юнит высаживается из TRANSPORT, он должен быть установлен полностью в пределах 3" от этой модели. Если высаживающаяся модель настолько большая, что её невозможно установить полностью в пределах 3" (обычно потому, что она сама больше 3" во всех направлениях), установите эту модель так, чтобы её база была в пределах 1" от базы (или корпуса) этого TRANSPORT, и не **[gloss:engaged:в сцеплении]** с вражескими юнитами.`,
             },
             {
               title: 'Передислокация (Redeployments)',
@@ -1978,19 +1978,19 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
           children: [
             {
               title: 'Что такое боевое построение (What Is Coherency)',
-              body: `**Боевое построение** (coherency) не позволяет моделям в одном юните слишком сильно отдаляться друг от друга на поле боя, гарантируя, что они устанавливаются и завершают любой вид манёвра как единая группа.`,
+              body: `**[gloss:coherency:Боевое построение]** не позволяет моделям в одном юните слишком сильно отдаляться друг от друга на поле боя, гарантируя, что они устанавливаются и завершают любой вид манёвра как единая группа.`,
             },
           ],
         },
         {
           title: 'Связывание (Engagement)',
-          body: `Радиус связывания(engagement range) модели — это область поля боя в пределах 2" по горизонтали и 5" по вертикали от неё.
-▪ Пока союзная модель находится в радиусе связывания(engagement range) с одной или несколькими вражескими моделями, эти модели — и юниты, к которым они принадлежат, — находятся в сцеплении(engaged) друг с другом.
-▪ Пока юнит не содержит ни одной связанной модели, этот юнит считается не связанным(unengaged).`,
+          body: `[gloss:engagement-range:Радиус связывания] модели — это область поля боя в пределах 2" по горизонтали и 5" по вертикали от неё.
+▪ Пока союзная модель находится в [gloss:engagement-range:радиусе связывания] с одной или несколькими вражескими моделями, эти модели — и юниты, к которым они принадлежат, — находятся [gloss:engaged:в сцеплении] друг с другом.
+▪ Пока юнит не содержит ни одной связанной модели, этот юнит считается [gloss:unengaged:не связанным].`,
           children: [
             {
               title: 'Что такое связывание (What Is Engagement)',
-              body: `Когда вражеские модели находятся в **радиусе связывания** (engagement range) друг друга, они могут сражаться в жестокой рукопашной, поэтому, если только они не стремятся сражаться в ближнем бою, модели должны держаться вне досягаемости своих врагов.`,
+              body: `Когда вражеские модели находятся в **[gloss:engagement-range:радиусе связывания]** друг друга, они могут сражаться в жестокой рукопашной, поэтому, если только они не стремятся сражаться в ближнем бою, модели должны держаться вне досягаемости своих врагов.`,
             },
           ],
         },
@@ -2027,7 +2027,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
             },
             {
               title: 'Несколько профилей оружия',
-              body: `На шаге **выбора оружия** (select weapons) (04.01), если у выбранного оружия более одного профиля, контролирующий игрок также должен выбрать один из этих профилей. Выбранный профиль затем используется на шаге «Отыгрыш атак» (Resolve Attacks) (04.03).
+              body: `На шаге **[gloss:select-weapons:выбора оружия]** (04.01), если у выбранного оружия более одного профиля, контролирующий игрок также должен выбрать один из этих профилей. Выбранный профиль затем используется на шаге «Отыгрыш атак» (Resolve Attacks) (04.03).
 
 Некоторые из этих профилей известны как профили **Hunter**. Профили **Hunter** могут нацеливаться только на юниты с указанными ключевыми словами.
 
@@ -2043,7 +2043,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
             },
             {
               title: 'Выбран для атаки',
-              body: `Некоторые правила используют термин **выбран для атаки** (selected to attack). Если юнит **выбран для ближнего боя** (selected to fight), **выбран для стрельбы** (selected to shoot) или выбран для совершения атак, этот юнит **выбран для атаки**.`,
+              body: `Некоторые правила используют термин **[gloss:selected-to-attack:выбран для атаки]**. Если юнит **[gloss:selected-to-fight:выбран для ближнего боя]**, **[gloss:selected-to-shoot:выбран для стрельбы]** или выбран для совершения атак, этот юнит **выбран для атаки**.`,
             },
           ],
         },
@@ -2053,13 +2053,13 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 
 ### При стрельбе
 Выберите один вражеский юнит в качестве цели для этого оружия. Если не указано иное, каждая цель должна:
-▪ Быть видимой(visible) для модели, у которой есть это оружие (06.01).
+▪ Быть [gloss:visible:видимой] для модели, у которой есть это оружие (06.01).
 ▪ Находиться в дальности этого оружия.
-▪ Не находиться в связывании(unengaged).
+▪ [gloss:unengaged:Не находиться в связывании].
 
 ### При ближнем бое
 Выберите один или несколько вражеских юнитов в качестве целей для этого оружия:
-▪ Каждая цель должна находиться в радиусе связывания(engaged) с моделью, у которой есть это оружие.
+▪ Каждая цель должна находиться в [gloss:engaged:радиусе связывания] с моделью, у которой есть это оружие.
 ▪ Вы не можете выбирать больше целей, чем характеристика A этого оружия.`,
           children: [
             {
@@ -2077,7 +2077,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
               body: `Когда модель или юнит атакует одним или несколькими видами оружия, если все атаки этими видами оружия нацелены на один и тот же юнит, говорят, что эта модель или юнит стреляет, сражается или нацеливается на одну цель.
 
 ### Часто задаваемые вопросы (FAQs)
-**В:** При выборе целевого юнита могут ли вражеская модель, **видимая** (visible) моей модели, и вражеская модель, находящаяся в дальности оружия моей модели, быть разными вражескими моделями в одном и том же юните?
+**В:** При выборе целевого юнита могут ли вражеская модель, **[gloss:visible:видимая]** моей модели, и вражеская модель, находящаяся в дальности оружия моей модели, быть разными вражескими моделями в одном и том же юните?
 
 **О:** Да
 
@@ -2093,11 +2093,11 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 
 1. **Выберите вражеский юнит:** выберите один из вражеских юнитов, по которому нацелено одно или несколько орудий.
 
-2. **Соберите кубики атаки:** выберите одно оружие, нацеленное на этот юнит, которое ещё не использовалось для совершения атак по нему, и соберите количество D6, равное характеристике **A** этого оружия. Это **кубики атаки(attack dice)** — каждый представляет одну атаку атакующей модели этим оружием.
+2. **Соберите кубики атаки:** выберите одно оружие, нацеленное на этот юнит, которое ещё не использовалось для совершения атак по нему, и соберите количество D6, равное характеристике **A** этого оружия. Это **[gloss:attack-dice:кубики атаки]** — каждый представляет одну атаку атакующей модели этим оружием.
 
 Если одно или несколько других орудий, нацеленных на этот юнит, совершают [def:identical-attacks:идентичные атаки(identical attacks)] к выбранному оружию и эти оружия ещё не использовались для совершения атак по этой цели, они делают это сейчас, и вы также собираете **кубики атаки** этих орудий (например, для трёх орудий, совершающих [def:identical-attacks:идентичные атаки(identical attacks)], каждое с характеристикой **A** 2, соберите в общей сложности шесть D6).
 
-3. **Отыгрыш кубиков атаки:** отыграйте последовательность атаки (05) для всех **кубиков атаки(attack dice)**, которые вы только что собрали.
+3. **Отыгрыш кубиков атаки:** отыграйте последовательность атаки (05) для всех **[gloss:attack-dice:кубиков атаки]**, которые вы только что собрали.
 
 4. **Другие атаки:** следуйте первой из инструкций ниже, которая применяется:
 → Если есть какое-либо оружие, нацеленное на тот же юнит, которое ещё не использовалось для совершения атак, вернитесь к шагу «Соберите кубики атаки».
@@ -2124,7 +2124,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
               title: 'Разделение атак ближнего боя',
               body: `При выборе целей, если вы выбираете более одного юнита в качестве цели для оружия ближнего боя, вы должны разделить атаки этого оружия между этими целевыми юнитами. Для этого объявите, сколько атак этого оружия будет совершено против каждого юнита (вы должны объявить как минимум одну атаку на каждый нацеленный юнит).
 
-На шаге «Соберите кубики атаки» для каждого оружия, которое разделяет свои атаки, собирайте только количество **кубиков атаки** (attack dice) для этого оружия, равное числу атак, которые вы объявили для совершения против этой цели этим оружием.`,
+На шаге «Соберите кубики атаки» для каждого оружия, которое разделяет свои атаки, собирайте только количество **[gloss:attack-dice:кубиков атаки]** для этого оружия, равное числу атак, которые вы объявили для совершения против этой цели этим оружием.`,
             },
             {
               title: 'Цель больше не доступна или непригодна',
@@ -2173,7 +2173,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
         },
         {
           title: 'Hit Rolls (броски на попадание)',
-          body: `Сделайте один бросок на попадание(hit roll) для каждого кубика атаки(attack dice), бросив один D6. Для каждого результата проверьте, провален он или является попаданием, сопоставив первое условие ниже, которое применяется:
+          body: `Сделайте один [gloss:hit-roll:бросок на попадание] для каждого [gloss:attack-dice:кубика атаки], бросив один D6. Для каждого результата проверьте, провален он или является попаданием, сопоставив первое условие ниже, которое применяется:
 ◆ Unmodified 1 (Немодифицированный) → FAILS (Провал)
 ◆ Unmodified 6 (Немодифицированный) → CRITICAL HIT (Крит)
 ◆ Равна или превышает характеристику BS/WS этой атаки → HIT (Попадание)
@@ -2181,13 +2181,13 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
           children: [
             {
               title: 'Критические попадания и критические ранения (Critical Hits and Critical Wounds)',
-              body: `**Критические попадания** (critical hits) по-прежнему являются попаданиями, а **критические ранения** (critical wounds) — ранениями. Кроме того, другие правила могут быть активированы **критическим попаданием** или **критическим ранением**, например, [LETHAL HITS] и [DEVASTATING WOUNDS] (24).`,
+              body: `**[gloss:critical-hit:Критические попадания]** по-прежнему являются попаданиями, а **[gloss:critical-wound:критические ранения]** — ранениями. Кроме того, другие правила могут быть активированы **критическим попаданием** или **критическим ранением**, например, [LETHAL HITS] и [DEVASTATING WOUNDS] (24).`,
             },
           ],
         },
         {
           title: 'Wound Rolls (броски на ранение)',
-          body: `Сделайте один бросок на ранение(wound roll) для каждого попадания, бросив один D6. Для каждого результата проверьте, провален он или является ранением, сопоставив первое условие ниже, которое применяется:
+          body: `Сделайте один [gloss:wound-roll:бросок на ранение] для каждого попадания, бросив один D6. Для каждого результата проверьте, провален он или является ранением, сопоставив первое условие ниже, которое применяется:
 ◆ Unmodified 1 (Немодифицированный) → FAILS (Провал)
 ◆ Unmodified 6 (Немодифицированный) → CRITICAL WOUND (Крит)
 ◆ Равна или превышает требуемый результат (см. таблицу ниже) → WOUND (Рана)
@@ -2196,7 +2196,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
             {
               title: 'Несколько характеристик стойкости',
               body: `При отыгрыше атак, нацеленных на юнит, в котором модели имеют две или более разные характеристики **T** (стойкость), следуйте первой применимой инструкции ниже:
-▪ Если целевой юнит — **составной юнит** (attached unit), используйте наивысшую характеристику **T** среди моделей-**телохранителей** (bodyguard) в этом юните, находящихся на поле боя.
+▪ Если целевой юнит — **[gloss:attached-unit:составной юнит]**, используйте наивысшую характеристику **T** среди моделей-**[gloss:bodyguard:телохранителей]** в этом юните, находящихся на поле боя.
 ▪ Используйте наивысшую характеристику **T** среди моделей в этом юните, находящихся на поле боя.`,
             },
           ],
@@ -2214,26 +2214,26 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ▪ Ни одна группа ПЕРСОНАЖА(CHARACTER) не может быть раньше в порядке распределения, чем группа не-ПЕРСОНАЖА(non-CHARACTER).
 ▪ Группы ПЕРСОНАЖА, содержащие модель, которая потеряла одну или несколько ран, должны быть раньше в порядке распределения, чем группы ПЕРСОНАЖА, не содержащие раненых моделей.
 
-3. Сделайте **спас-броски**(Save Rolls): противостоящий игрок делает один спас-бросок(save roll) для каждой атаки, которая ранила цель, бросив один D6.`,
+3. Сделайте **спас-броски**(Save Rolls): противостоящий игрок делает один [gloss:save-roll:спас-бросок] для каждой атаки, которая ранила цель, бросив один D6.`,
         },
         {
           title: 'Нанесение урона',
-          body: `Противостоящий игрок отыгрывает следующую последовательность для каждого **спас-броска**, работая от самого низкого результата(ов) к самому высокому результату(ам), пока все атаки не будут отыграны или все модели в целевом юните не будут уничтожены(destroyed) — в последнем случае любые избыточные атаки теряются.
+          body: `Противостоящий игрок отыгрывает следующую последовательность для каждого **спас-броска**, работая от самого низкого результата(ов) к самому высокому результату(ам), пока все атаки не будут отыграны или все модели в целевом юните не будут [gloss:destroyed:уничтожены] — в последнем случае любые избыточные атаки теряются.
 
 1. Выберите модель: выберите одну модель в текущей группе распределения (см. справа); это должна быть модель, которая потеряла одну или несколько ран, если возможно.
-2. Проверьте спас-бросок(save rolls): для каждого результата проверьте, наносит ли эта атака урон или проваливается, сопоставив первое условие ниже, которое применяется:
+2. Проверьте [gloss:save-roll:спас-бросок]: для каждого результата проверьте, наносит ли эта атака урон или проваливается, сопоставив первое условие ниже, которое применяется:
 ◆ Unmodified 1 (Немодифицированный) → INFLICTS DAMAGE (Наносит урон)
 ◆ Неуязвимый спас-бросок(Invulnerable Save): модели в текущей группе распределения имеют характеристику InSv, и результат равен или превышает эту характеристику → FAILS (Провал)
 ◆ Save и AP: после модификации результата AP атакующего оружия он равен или превышает характеристику Sv моделей в текущей группе распределения → FAILS (Провал)
 ◆ Любой другой результат → INFLICTS DAMAGE (Наносит урон)
 
-3. Отыграйте урон: если эта атака наносит урон, выбранная модель теряет количество ран, равное характеристике D этой атаки. Если это снижает оставшиеся раны модели до 0 или ниже, она уничтожена(destroyed).
+3. Отыграйте урон: если эта атака наносит урон, выбранная модель теряет количество ран, равное характеристике D этой атаки. Если это снижает оставшиеся раны модели до 0 или ниже, она [gloss:destroyed:уничтожена].
 
-Пример: характеристика AP -1 изменит спас-бросок(save roll) с 3 на 2. Для моделей с характеристикой Sv 2+ или лучше эта атака будет неудачной.`,
+Пример: характеристика AP -1 изменит [gloss:save-roll:спас-бросок] с 3 на 2. Для моделей с характеристикой Sv 2+ или лучше эта атака будет неудачной.`,
           children: [
             {
               title: 'Текущая группа распределения',
-              body: `Первая группа в порядке распределения становится текущей группой. Когда все модели в группе распределения **уничтожены** (destroyed), следующая группа в порядке распределения становится текущей.`,
+              body: `Первая группа в порядке распределения становится текущей группой. Когда все модели в группе распределения **[gloss:destroyed:уничтожены]**, следующая группа в порядке распределения становится текущей.`,
             },
             {
               title: 'Изменение урона',
@@ -2245,7 +2245,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
             },
             {
               title: 'Уничтожение (Destroyed)',
-              body: `На протяжении битвы модели получают повреждения, теряют раны и **уничтожаются** (destroyed). Когда каждая модель в юните **уничтожена**, этот юнит **уничтожен**.
+              body: `На протяжении битвы модели получают повреждения, теряют раны и **[gloss:destroyed:уничтожаются]**. Когда каждая модель в юните **уничтожена**, этот юнит **уничтожен**.
 
 Когда модель **уничтожена**, сначала отыграйте любые правила, которые срабатывают, когда она **уничтожена**, затем она убирается с поля боя. Если такие правила применяются и если модель была **уничтожена** в результате атаки, если не указано иное, эти правила отыгрываются и модель убирается только после того, как атаки атакующего юнита отыграны. Если не указано иное, **уничтоженные** модели и юниты не могут использовать способности или быть выбраны или стать целью для правил.
 
@@ -2253,15 +2253,15 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
             },
             {
               title: 'Бой после смерти (Fight On Death)',
-              body: `Некоторые правила позволяют моделям атаковать после того, как они были **уничтожены** (destroyed). Когда модель под таким эффектом **уничтожена**, не убирайте её из игры.
+              body: `Некоторые правила позволяют моделям атаковать после того, как они были **[gloss:destroyed:уничтожены]**. Когда модель под таким эффектом **уничтожена**, не убирайте её из игры.
 
-Эти модели остаются на поле боя, пока их юнит не будет **выбран для атаки** (selected to attack) и не атакует, или до конца фазы (что наступит раньше). Любые правила, срабатывающие при **уничтожении** этих моделей, отыгрываются, а затем эти **уничтоженные** модели убираются.
+Эти модели остаются на поле боя, пока их юнит не будет **[gloss:selected-to-attack:выбран для атаки]** и не атакует, или до конца фазы (что наступит раньше). Любые правила, срабатывающие при **уничтожении** этих моделей, отыгрываются, а затем эти **уничтоженные** модели убираются.
 
-Если правило предписывает **уничтоженной** модели сражаться сразу после атакующего юнита, вместо этого эта модель не убирается с поля боя до тех пор, пока юнит этой модели не сразится, или до конца фазы (что наступит раньше). Это позволяет моделям в юните сражаться все сразу, и **стратагемы** (stratagems), нацеленные на этот юнит, также будут влиять на эту **уничтоженную** модель.`,
+Если правило предписывает **уничтоженной** модели сражаться сразу после атакующего юнита, вместо этого эта модель не убирается с поля боя до тех пор, пока юнит этой модели не сразится, или до конца фазы (что наступит раньше). Это позволяет моделям в юните сражаться все сразу, и **[gloss:stratagem:стратагемы]**, нацеленные на этот юнит, также будут влиять на эту **уничтоженную** модель.`,
             },
             {
               title: 'Измерение до уничтоженной модели или юнита',
-              body: `Когда игроку нужно измерить расстояние до **уничтоженной** (destroyed) модели, этот игрок может измерять до любой точки, которую занимала база этой модели (или любой части этой модели, если у неё нет базы или она является VEHICLE, исключая модели WALKER, у которых есть база), до того как она была **уничтожена**.
+              body: `Когда игроку нужно измерить расстояние до **[gloss:destroyed:уничтоженной]** модели, этот игрок может измерять до любой точки, которую занимала база этой модели (или любой части этой модели, если у неё нет базы или она является VEHICLE, исключая модели WALKER, у которых есть база), до того как она была **уничтожена**.
 
 Когда игроку нужно измерить расстояние до **уничтоженного** юнита, он измеряет до последней модели, **уничтоженной** в этом юните.`,
             },
@@ -2337,7 +2337,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 Контролирующий игрок целевого юнита делит его на группы: одну, содержащую Святую Селестину, одну, содержащую Гемин Суперии, и одну, содержащую Серафим. Затем он объявляет порядок распределения, выбирая сначала Гемин Суперию (1), надеясь, что их лучшие характеристики **Sv** и **InSv** выдержат атаки. Серафим должны быть выбраны вторыми (2), так как Святая Селестина является моделью ПЕРСОНАЖА, поэтому должна быть последней в порядке (3).
 
 ### 2. ВЫБОР КУБИКОВ АТАКИ
-Атаки тяжёлых болтеров ранили цель пять раз, поэтому контролирующий игрок целевого юнита делает пять **спас-бросков**(save rolls).
+Атаки тяжёлых болтеров ранили цель пять раз, поэтому контролирующий игрок целевого юнита делает пять **[gloss:save-roll:спас-бросков]**.
 Атаки отыгрываются по одной, от самых низких **спас-бросков** к самым высоким:
 ▪ Два результата 1 назначаются первыми текущей группе распределения (Гемины Суперии). Оба наносят урон, и обе Гемины Суперии уничтожены.
 ▪ Результат 3 теперь назначается Серафим, которые стали текущей группой распределения. __После модификации характеристикой **AP** атакующего оружия -1__ он также наносит урон, уничтожая одну модель Серафим.
@@ -2363,9 +2363,9 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
       subsections: [
         {
           title: 'Видимость',
-          body: `**Линия обзора**(line of sight) используется для определения видимости между моделями. Чтобы наблюдающая модель имела **линию обзора**(line of sight), необходимо провести воображаемую прямую линию шириной 1 мм от любой части этой модели до любой части наблюдаемой модели. Эта линия является **линией обзора**(line of sight). При этом другие модели в юните наблюдающей модели и в юните наблюдаемой модели игнорируются.
+          body: `**[gloss:line-of-sight:Линия обзора]** используется для определения видимости между моделями. Чтобы наблюдающая модель имела **[gloss:line-of-sight:линию обзора]**, необходимо провести воображаемую прямую линию шириной 1 мм от любой части этой модели до любой части наблюдаемой модели. Эта линия является **[gloss:line-of-sight:линией обзора]**. При этом другие модели в юните наблюдающей модели и в юните наблюдаемой модели игнорируются.
 
-Другие модели и юниты могут быть либо **видимыми(visible)**, либо **полностью видимыми(fully visible)** для наблюдающей модели, как показано ниже.
+Другие модели и юниты могут быть либо **[gloss:visible:видимыми]**, либо **[gloss:fully-visible:полностью видимыми]** для наблюдающей модели, как показано ниже.
 
 [img:/images/visibility/model-visible-ru.jpg|Диаграмма видимости — модель частично видима]
 
@@ -2378,14 +2378,14 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
           children: [
             {
               title: 'Описание видимых юнитов',
-              body: `Когда правило ссылается на **видимый** (visible) юнит, но не указывает, каким юнитам этот юнит должен быть **видим**, он должен быть **видим** юниту, использующему это правило.`,
-              example: `Вы нацеливаетесь на союзный юнит **стратагемой** (stratagem), которая гласит «выберите один **видимый** вражеский юнит». Этот вражеский юнит должен быть **видим** союзному юниту, на который вы нацелились этой **стратагемой**.`,
+              body: `Когда правило ссылается на **[gloss:visible:видимый]** юнит, но не указывает, каким юнитам этот юнит должен быть **видим**, он должен быть **видим** юниту, использующему это правило.`,
+              example: `Вы нацеливаетесь на союзный юнит **[gloss:stratagem:стратагемой]**, которая гласит «выберите один **видимый** вражеский юнит». Этот вражеский юнит должен быть **видим** союзному юниту, на который вы нацелились этой **стратагемой**.`,
             },
           ],
         },
         {
           title: 'Смертельные раны (Mortal Wounds)',
-          body: `Некоторые атаки или правила наносят **смертельные раны**(mortal wounds) юнитам. Каждый раз, когда юнит получает одну или несколько смертельных ран(mortal wounds), его контролирующий игрок должен отыграть следующую последовательность действий для каждой из этих смертельных ран(mortal wounds), пока либо все они не будут нанесены или этот юнит не будет уничтожен:
+          body: `Некоторые атаки или правила наносят **[gloss:mortal-wound:смертельные раны]** юнитам. Каждый раз, когда юнит получает одну или несколько [gloss:mortal-wound:смертельных ран], его контролирующий игрок должен отыграть следующую последовательность действий для каждой из этих [gloss:mortal-wound:смертельных ран], пока либо все они не будут нанесены или этот юнит не будет уничтожен:
 
 1. Выберите модель: выберите одну модель в этом юните, следуя первой инструкции ниже, которая будет применима:
 → Если не-ПЕРСОНАЖ(non-CHARACTER) модель в этом юните потеряла одну или несколько ран, вы должны выбрать эту модель.
@@ -2396,14 +2396,14 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 2. Отыграйте урон: выбранная модель теряет 1 рану. Если это снижает оставшиеся раны модели до 0, она уничтожена.
 
 ### Смертельные раны и обычный урон
-При отыгрыше кубиков атаки (attack dice), если эти атаки наносят смесь как смертельных ран(mortal wounds), так и обычного урона, сначала нанесите весь обычный урон, затем нанесите все **смертельные раны**(mortal wounds).`,
+При отыгрыше [gloss:attack-dice:кубиков атаки], если эти атаки наносят смесь как [gloss:mortal-wound:смертельных ран], так и обычного урона, сначала нанесите весь обычный урон, затем нанесите все **[gloss:mortal-wound:смертельные раны]**.`,
           children: [
             {
               title: 'Обычный урон',
-              body: `Обычный урон — это урон, нанесённый модели в результате характеристики **D** оружия, а не другими средствами, такими как **смертельные раны** (mortal wounds). **Смертельные раны**, нанесённые в дополнение к обычному урону от атаки, являются частью этой же атаки.
+              body: `Обычный урон — это урон, нанесённый модели в результате характеристики **D** оружия, а не другими средствами, такими как **[gloss:mortal-wound:смертельные раны]**. **Смертельные раны**, нанесённые в дополнение к обычному урону от атаки, являются частью этой же атаки.
 
 ### Часто задаваемые вопросы (FAQs)
-**В:** У меня есть правило, срабатывающее, когда **смертельная рана** (mortal wound) распределяется на модель — когда это происходит?
+**В:** У меня есть правило, срабатывающее, когда **[gloss:mortal-wound:смертельная рана]** распределяется на модель — когда это происходит?
 
 **О:** Когда вы выбираете модель на шаге «Выбор модели» (Select Model step) раздела **Смертельные раны** (Mortal Wounds) (06.02).`,
             },
@@ -2411,18 +2411,18 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
         },
         {
           title: 'Hazard Rolls (проверка опасности)',
-          body: `Чтобы выполнить проверку опасности(hazard roll) для юнита, бросьте один D6: на 1-2 проверка провалена, и этот юнит страдает от 1 **смертельной раны**(mortal wound) или 3 смертельных ран(mortal wounds) вместо этого, если каждая модель в этом юните является МОНСТРОМ/ТЕХНИКОЙ(MONSTER/VEHICLE). Если для юнита требуется более одной проверки опасности(hazard roll), сделайте все эти броски одновременно.`,
+          body: `Чтобы выполнить [gloss:hazard-roll:проверку опасности] для юнита, бросьте один D6: на 1-2 проверка провалена, и этот юнит страдает от 1 **[gloss:mortal-wound:смертельной раны]** или 3 [gloss:mortal-wound:смертельных ран] вместо этого, если каждая модель в этом юните является МОНСТРОМ/ТЕХНИКОЙ(MONSTER/VEHICLE). Если для юнита требуется более одной [gloss:hazard-roll:проверки опасности], сделайте все эти броски одновременно.`,
           children: [
             {
               title: 'Проверка опасности (Hazardous Test)',
-              body: `Термин «проверка опасности» (Hazardous test) — это то же самое, что **проверка опасности** (hazard roll).
+              body: `Термин «проверка опасности» (Hazardous test) — это то же самое, что **[gloss:hazard-roll:проверка опасности]**.
 
 ### Часто задаваемые вопросы (FAQs)
-**В:** Если правило говорит, что мой юнит должен сделать **проверку опасности** (hazard roll), делает ли каждая модель в юните **проверку опасности**?
+**В:** Если правило говорит, что мой юнит должен сделать **[gloss:hazard-roll:проверку опасности]**, делает ли каждая модель в юните **проверку опасности**?
 
 **О:** Нет, юнит сделает 1 одну **проверку опасности**.
 
-**В:** Я провалил **проверки опасности** (hazard rolls) от оружия [HAZARDOUS] — должны ли эти **смертельные раны** (mortal wounds) распределяться на модели с оружием [HAZARDOUS]?
+**В:** Я провалил **[gloss:hazard-roll:проверки опасности]** от оружия [HAZARDOUS] — должны ли эти **[gloss:mortal-wound:смертельные раны]** распределяться на модели с оружием [HAZARDOUS]?
 
 **О:** Нет, вы распределяете **смертельные раны** на юнит согласно разделу **Смертельные раны** (Mortal Wounds) (06.02). (Это символизирует, как Боб-гвардеец подбирает плазменное ружьё павшего товарища по отряду, или как искажающая сила Джеймса-чародея Хаоса затягивает его последователей в варп.)`,
             },
