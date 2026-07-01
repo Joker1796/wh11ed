@@ -73,10 +73,11 @@ export function useKeywordPopover() {
     if (!entry) return
     // Normalize to the popover's { name, num, fullText } shape: header shows the English
     // term, body shows the per-locale definition. No num → no cross-ref navigation.
+    // Translation-only entries carry no en/ru → fullText is empty and the body is hidden.
     activeKeyword.value = {
       name: entry.term,
       num: '',
-      fullText: entry[locale.value] ?? entry.en,
+      fullText: entry[locale.value] ?? entry.en ?? '',
       kind: 'gloss',
     }
     anchor.value = rect

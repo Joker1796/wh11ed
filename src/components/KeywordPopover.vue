@@ -17,7 +17,7 @@
           <span v-if="activeKeyword.num" class="kw-num" @click="navigateNum">{{ activeKeyword.num }}</span>
           <button class="kw-close" :class="{ 'kw-close-push': !activeKeyword.num }" @click="close" :aria-label="labels.modalClose">✕</button>
         </div>
-        <div class="kw-popover-body" v-html="renderInline(activeKeyword.fullText)" @click="handleBodyClick"></div>
+        <div v-if="activeKeyword.fullText" class="kw-popover-body" v-html="renderInline(activeKeyword.fullText)" @click="handleBodyClick"></div>
       </div>
     </Transition>
   </Teleport>
