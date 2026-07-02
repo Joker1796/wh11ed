@@ -72,7 +72,7 @@ const en = {
         '▪ **Chapter Approved Mission Deck Errata & FAQs:** Updates to certain cards and ' +
         'answers to frequently asked questions.\n' +
         '▪ **Pairings and Rankings:** Advice for fairly pairing players and determining rankings.\n' +
-        '▪ **Terrain Layouts:** A suite of carefully designed terrain setups to be used in ' +
+        '▪ **Terrain Layouts:** A suite of carefully designed [gloss:terrain:terrain] setups to be used in ' +
         'conjunction with the Chapter Approved Mission Deck.\n' +
         '▪ **Base Size Guide:** The most up-to-date base sizes appropriate for all ' +
         'Warhammer 40,000 models that can be used in Warhammer Events.',
@@ -122,8 +122,8 @@ const en = {
         title: '4 · Create the Battlefield',
         body:
           'Missions are played on rectangular battlefields **44" by 60"** in size. ' +
-          'Players set up the terrain areas as shown in the selected layout, then set up ' +
-          'terrain features (13) on those terrain areas as shown in the selected layout.',
+          'Players set up the [gloss:terrain-area:terrain areas] as shown in the selected layout, then set up ' +
+          '[gloss:terrain-feature:terrain features] (13) on those terrain areas as shown in the selected layout.',
         seeAlso: ['Terrain 13.00'],
       },
       {
@@ -132,8 +132,8 @@ const en = {
         body:
           "Players look at the selected layout and agree which edges of the battlefield " +
           "correspond with the [ATTACKER]'s and [DEFENDER]'s battlefield edges labelled on " +
-          "the card.\n\n→ Roll off: the winner decides who will be the Attacker and who " +
-          "will be the Defender.",
+          "the card.\n\n→ Roll off: the winner decides who will be the [gloss:attacker:Attacker] and who " +
+          "will be the [gloss:defender:Defender].",
       },
       {
         id: 'step-6',
@@ -150,7 +150,7 @@ const en = {
         body:
           'Players secretly note down, in order:\n' +
           '▪ Which of their units will start the battle embarked within which TRANSPORTS (18).\n' +
-          '▪ Which of their units will start the battle in strategic reserves (20).\n' +
+          '▪ Which of their units will start the battle in [gloss:strategic-reserves:strategic reserves] (20).\n' +
           'Players then reveal these decisions.',
         seeAlso: ['Transports 18.00', 'Strategic Reserves 20.00'],
       },
@@ -159,7 +159,7 @@ const en = {
         title: '8 · Deploy Armies',
         body:
           'Players take it in turns to set up their units (excluding those in strategic ' +
-          'reserves) one at a time, wholly within their deployment zone, starting with ' +
+          'reserves) one at a time, wholly within their [gloss:deployment-zone:deployment zone], starting with ' +
           'the **Defender**. If you set up a TITANIC unit when it is your turn, skip ' +
           'your next turn to set up a unit. Once you have finished, if your opponent has ' +
           'units not yet set up, they set up those units.',
@@ -188,7 +188,7 @@ const en = {
       {
         id: 'step-12',
         title: '12 · Begin the Battle',
-        body: 'The first battle round begins.',
+        body: 'The first [gloss:battle-round:battle round] begins.',
       },
       {
         id: 'step-13',
@@ -210,8 +210,8 @@ const en = {
           title: 'Maximum VP per Source',
           headers: ['VP Source', 'Maximum VP'],
           rows: [
-            ['Primary Mission', '45VP (up to 15VP per battle round)'],
-            ['Secondary Missions', '45VP (up to 15VP per battle round)*'],
+            ['[gloss:primary-mission:Primary Mission]', '45VP (up to 15VP per battle round)'],
+            ['[gloss:secondary-mission:Secondary Missions]', '45VP (up to 15VP per battle round)*'],
             ['Battle Ready Army', '10VP'],
           ],
         },
@@ -298,7 +298,7 @@ const en = {
   terrain: {
     intro:
       'These are the layouts used at Games Workshop events, designed by the Warhammer ' +
-      'Studio to create risk-and-reward decisions with each player\'s objectives (14) in ' +
+      'Studio to create risk-and-reward decisions with each player\'s [gloss:objective:objectives] (14) in ' +
       'mind. Each combination of [PRIMARY MISSION]s has three recommended [LAYOUT]s ' +
       '(A, B and C). As directed by the organiser, players either use the layout ' +
       'specified or randomly determine which to use.\n\nSelect your [FORCE DISPOSITION] ' +
@@ -319,8 +319,8 @@ const en = {
         '[Terrain Area Footprints (PDF)](https://assets.warhammer-community.com/eng_12-06_warhammer40000_terrainareafootprints-biavo5zf9f-gxdahkydbj.pdf)',
     },
     keyNote:
-      'Each layout uses the terrain features from the Battlefields: Armageddon box in the ' +
-      "'Warhammer recommended' build, each denoted as a **dense** (green) or **light** " +
+      'Each layout uses the [gloss:terrain-feature:terrain features] from the Battlefields: Armageddon box in the ' +
+      "'Warhammer recommended' build, each denoted as a **[gloss:dense-terrain:dense]** (green) or **[gloss:light-terrain:light]** " +
       '(yellow) terrain feature. Letters (AB, CD, EF, GH) mark which terrain feature ' +
       'corresponds with the component markings on that terrain set. The configurations are ' +
       'designed to create the best experience with the Hidden rule and movement rules for ' +
@@ -389,7 +389,7 @@ const en = {
       name: '[FORCE DISPOSITION]', num: '',
       fullText:
         "The card a player selects after mustering their army. Your opponent's Force " +
-        'Disposition symbol on your card tells you your **Primary Mission** for the battle.',
+        'Disposition symbol on your card tells you your **[gloss:primary-mission:Primary Mission]** for the battle.',
     },
     {
       name: '[PRIMARY MISSION]', num: '',
@@ -462,10 +462,10 @@ const en = {
           'can be paired in a number of ways. We recommend pairing players by the following ' +
           'criteria:\n' +
           '▪ First — by record (the number of wins, losses and draws).\n' +
-          '▪ Second — by win path (the timing of the rounds in which a player won or lost).\n' +
+          '▪ Second — by [gloss:win-path:win path] (the timing of the rounds in which a player won or lost).\n' +
           '▪ Third — randomly within players of the same ranking.',
         note:
-          "A player's 'win path' refers not to their number of wins and losses, but to the " +
+          "A player's '[gloss:win-path:win path]' refers not to their number of wins and losses, but to the " +
           'timing of those wins and losses. Pairing by win path tends to pair players based ' +
           'on shared recent experience, improving the enjoyment of both.',
       },
@@ -554,7 +554,7 @@ const en = {
         body:
           'Each team has a single **captain**, responsible for ensuring players submit lists ' +
           'on time and that scores are submitted at the end of each round.\n\n' +
-          'Within each team, only one player can use units with a given **faction keyword**. ' +
+          'Within each team, only one player can use units with a given **[gloss:faction-keyword:faction keyword]**. ' +
           'This normally means only one player can use units from each Codex, including as ' +
           'allied forces. It does not apply where the ally rules being used change faction ' +
           'keywords, or where datasheets appear in multiple Codexes with different faction ' +
@@ -626,7 +626,7 @@ const en = {
           'Defender to play against.\n' +
           '6. The chosen Attackers are revealed simultaneously. This decides two matchups.\n' +
           "7. Each team's Defender declares their layout choice.\n" +
-          '8. The **refused Attacker** from each team plays against one another, using a ' +
+          '8. The **[gloss:refused-attacker:refused Attacker]** from each team plays against one another, using a ' +
           'layout based on the round: round 1 use Layout A, round 2 Layout B, round 3 ' +
           'Layout C, repeating this cycle in further rounds.',
       },
@@ -725,7 +725,7 @@ const en = {
         id: 'teams-ranking',
         title: 'Ranking Teams',
         body:
-          'The overall Best Team is often the single undefeated team at the end of the ' +
+          'The overall [gloss:best-team:Best Team] is often the single undefeated team at the end of the ' +
           'event. When draws or the number of rounds leave this undetermined, we recommend ' +
           'ranking teams by:\n' +
           '▪ First — by record (the number of wins, losses and draws).\n' +
@@ -748,9 +748,9 @@ const en = {
         id: 'martial-pride',
         title: 'Martial Pride',
         body:
-          'A **BATTLELINE** unit can **start an action** in a turn in which it made an ' +
-          '**advance move**. A **BATTLELINE** unit can **shoot in a turn** in which it ' +
-          '**started an action**.',
+          'A **BATTLELINE** unit can **start an [gloss:action:action]** in a turn in which it made an ' +
+          '**[gloss:advance-move:advance move]**. A **BATTLELINE** unit can **shoot in a turn** in which it ' +
+          '**started an [gloss:action:action]**.',
         note: "Designer's Note: This is a great twist for Incursion battles.",
         example:
           'The rank and file of your armies are determined to demonstrate their value, ' +
@@ -761,7 +761,7 @@ const en = {
         id: 'mirrored-world',
         title: 'Mirrored World',
         body:
-          'The players both replace their **Primary Mission** card with the same one of ' +
+          'The players both replace their **[gloss:primary-mission:Primary Mission]** card with the same one of ' +
           'the following **Primary Mission** cards. If both players agree on one of them, ' +
           'use that **Primary Mission** card; otherwise, roll a D6 and consult the table ' +
           'below.\n\n' +
@@ -775,7 +775,7 @@ const en = {
         note:
           "Designer's Note: This is a great twist for players who want to play a simpler " +
           'battle of Warhammer 40,000, as both players will be trying to achieve the same ' +
-          '**Primary Mission**.',
+          '**[gloss:primary-mission:Primary Mission]**.',
         example:
           'As destinies converge, rival warlords find themselves on parallel paths, ' +
           'competing with one another to achieve near-identical outcomes and objectives.',
@@ -784,7 +784,7 @@ const en = {
         id: 'night-fighting',
         title: 'Night Fighting',
         body:
-          'Each unit is not **visible** to enemy models unless they are within 18" of that ' +
+          'Each unit is not **[gloss:visible:visible]** to enemy models unless they are within 18" of that ' +
           'unit, and each unit cannot be targeted by [INDIRECT FIRE] weapons unless the ' +
           'attacking model is within 18" of that unit.',
         note:
@@ -797,7 +797,7 @@ const en = {
       {
         id: 'scrambled-communications',
         title: 'Scrambled Communications',
-        body: 'The players exchange their **Primary Mission** cards.',
+        body: 'The players exchange their **[gloss:primary-mission:Primary Mission]** cards.',
         note:
           "Designer's Note: This is a great twist to shake things up in a regular match-up, " +
           'or for players who love to embrace chaos!',
@@ -809,7 +809,7 @@ const en = {
         id: 'ruinscape',
         title: 'Ruinscape',
         body:
-          'When a unit makes a **normal** or **advance move**, models in that unit have the ' +
+          'When a unit makes a **[gloss:normal-move:normal]** or **[gloss:advance-move:advance move]**, models in that unit have the ' +
           'MOBILE keyword until that move ends.',
         note:
           "Designer's Note: For players who want to play with a lot of terrain and/or with " +
@@ -822,10 +822,10 @@ const en = {
       {
         id: 'nowhere-to-hide',
         title: 'Nowhere to Hide',
-        body: '**Terrain features** do not have the **Solid** rule.',
+        body: '**[gloss:terrain-feature:Terrain features]** do not have the **Solid** rule.',
         note:
-          "Designer's Note: This twist lets models draw **line of sight** through any gap in " +
-          'a **terrain feature**, allowing more ‘true line of sight’ and more lethal shooting.',
+          "Designer's Note: This twist lets models draw **[gloss:line-of-sight:line of sight]** through any gap in " +
+          'a **[gloss:terrain-feature:terrain feature]**, allowing more ‘true line of sight’ and more lethal shooting.',
         example:
           'This battlefield only affords the illusion of cover — nowhere is safe.',
       },
@@ -883,7 +883,7 @@ const ru = {
         '▪ **Chapter Approved Mission Deck Errata & FAQs:** обновления отдельных карт и ' +
         'ответы на частые вопросы.\n' +
         '▪ **Pairings and Rankings:** советы по честному составлению пар и определению ранга.\n' +
-        '▪ **Terrain Layouts:** набор тщательно продуманных расстановок тиррейна (terrain) ' +
+        '▪ **Terrain Layouts:** набор тщательно продуманных расстановок [gloss:terrain:тиррейна] ' +
         'для использования с Chapter Approved Mission Deck.\n' +
         '▪ **Base Size Guide:** самые актуальные размеры подставок для всех моделей ' +
         'Warhammer 40,000, которые можно использовать на мероприятиях.',
@@ -929,8 +929,8 @@ const ru = {
         title: '4 · Создание поля боя',
         body:
           'Миссии играются на прямоугольных полях боя размером **44" на 60"**. Игроки ' +
-          'расставляют участки укрытий (terrain), как показано в выбранной расстановке, ' +
-          'затем размещают на этих участках элементы ландшафта (terrain features) (13), как ' +
+          'расставляют [gloss:terrain-area:участки укрытий], как показано в выбранной расстановке, ' +
+          'затем размещают на этих участках [gloss:terrain-feature:элементы ландшафта] (13), как ' +
           'показано в расстановке.',
         seeAlso: ['Укрытия 13.00'],
       },
@@ -939,7 +939,7 @@ const ru = {
         body:
           'Игроки смотрят на выбранную расстановку и договариваются, какие края поля боя ' +
           'соответствуют краям [ATTACKER] и [DEFENDER], обозначенным на карте.\n\n→ Переброс: ' +
-          'победитель решает, кто будет Атакующим (Attacker), а кто — Защищающимся (Defender).',
+          'победитель решает, кто будет [gloss:attacker:Атакующим], а кто — [gloss:defender:Защищающимся].',
       },
       {
         title: '6 · Выбор вторичных миссий',
@@ -954,7 +954,7 @@ const ru = {
         body:
           'Игроки тайно записывают, по порядку:\n' +
           '▪ Какие их юниты начнут битву погружёнными в какие ТРАНСПОРТЫ (TRANSPORT) (18).\n' +
-          '▪ Какие их юниты начнут битву в стратегических резервах (strategic reserves) (20).\n' +
+          '▪ Какие их юниты начнут битву в [gloss:strategic-reserves:стратегических резервах] (20).\n' +
           'Затем игроки раскрывают свои решения.',
         seeAlso: ['Транспорты 18.00', 'Стратегические резервы 20.00'],
       },
@@ -962,8 +962,8 @@ const ru = {
         title: '8 · Развёртывание армий',
         body:
           'Игроки по очереди выставляют свои юниты (кроме находящихся в стратегических ' +
-          'резервах) по одному, полностью в пределах своей зоны развёртывания (deployment ' +
-          'zone), начиная с **Защищающегося**. Если в свой черёд вы выставляете ' +
+          'резервах) по одному, полностью в пределах своей [gloss:deployment-zone:зоны развёртывания], ' +
+          'начиная с **Защищающегося**. Если в свой черёд вы выставляете ' +
           'ТИТАНИЧЕСКИЙ (TITANIC) юнит, пропустите следующий черёд выставления юнита. Когда ' +
           'вы закончите, если у соперника остались невыставленные юниты, он выставляет их.',
       },
@@ -988,7 +988,7 @@ const ru = {
       },
       {
         title: '12 · Начало битвы',
-        body: 'Начинается первый раунд боя (battle round).',
+        body: 'Начинается первый [gloss:battle-round:раунд боя].',
       },
       {
         title: '13 · Окончание битвы',
@@ -1008,8 +1008,8 @@ const ru = {
           title: 'Максимум VP по источникам',
           headers: ['Источник VP', 'Максимум VP'],
           rows: [
-            ['Основная миссия (Primary Mission)', '45VP (до 15VP за раунд боя)'],
-            ['Вторичные миссии (Secondary Missions)', '45VP (до 15VP за раунд боя)*'],
+            ['[gloss:primary-mission:Основная миссия]', '45VP (до 15VP за раунд боя)'],
+            ['[gloss:secondary-mission:Вторичные миссии]', '45VP (до 15VP за раунд боя)*'],
             ['Армия Battle Ready', '10VP'],
           ],
         },
@@ -1091,7 +1091,7 @@ const ru = {
   terrain: {
     intro:
       'Это расстановки, используемые на мероприятиях Games Workshop, разработанные студией ' +
-      'Warhammer так, чтобы создавать решения «риск-награда» с учётом целей (objectives) (14) ' +
+      'Warhammer так, чтобы создавать решения «риск-награда» с учётом [gloss:objective:целей] (14) ' +
       'каждого игрока. Для каждой комбинации [PRIMARY MISSION] есть три рекомендованные ' +
       '[LAYOUT] (A, B и C). По указанию организатора игроки либо используют заданную ' +
       'расстановку, либо определяют её случайно.\n\nВыберите свою [FORCE DISPOSITION] и ' +
@@ -1105,9 +1105,9 @@ const ru = {
         '[Terrain Area Footprints (PDF)](https://assets.warhammer-community.com/eng_12-06_warhammer40000_terrainareafootprints-biavo5zf9f-gxdahkydbj.pdf)',
     },
     keyNote:
-      'В каждой расстановке используются элементы ландшафта (terrain features) из набора ' +
+      'В каждой расстановке используются [gloss:terrain-feature:элементы ландшафта] из набора ' +
       "Battlefields: Armageddon в сборке «Warhammer recommended», каждый обозначен как " +
-      '**плотный** (dense, зелёный) или **лёгкий** (light, жёлтый) элемент ландшафта. Буквы ' +
+      '**[gloss:dense-terrain:плотный]** (зелёный) или **[gloss:light-terrain:лёгкий]** (жёлтый) элемент ландшафта. Буквы ' +
       '(AB, CD, EF, GH) указывают, какой элемент ландшафта соответствует маркировке ' +
       'компонентов в этом наборе. Конфигурации продуманы так, чтобы дать лучший опыт с ' +
       'правилом Hidden и правилами движения для разных юнитов, и между элементом ландшафта ' +
@@ -1135,7 +1135,7 @@ const ru = {
   },
 
   glossary: [
-    { fullText: 'Карта, которую игрок выбирает после сбора армии. Символ Force Disposition соперника на вашей карте указывает вашу **основную миссию** (Primary Mission) на битву.' },
+    { fullText: 'Карта, которую игрок выбирает после сбора армии. Символ Force Disposition соперника на вашей карте указывает вашу **[gloss:primary-mission:основную миссию]** на битву.' },
     { fullText: 'Ваш главный источник VP (до 45VP, максимум 15 за раунд боя), определяемый комбинацией Force Disposition обоих игроков.' },
     { fullText: 'Дополнительные способы набирать VP (до 45VP). Перед битвой каждый игрок тайно выбирает **фиксированные** (Fixed) или **тактические** (Tactical) вторичные миссии.' },
     { fullText: 'Вторичные миссии, выложенные лицом вверх с начала. Их нельзя сбрасывать, и они активны всю битву (максимум 20VP за фиксированную карту).' },
@@ -1161,11 +1161,11 @@ const ru = {
           'можно составлять по-разному. Мы рекомендуем составлять пары игроков по следующим ' +
           'критериям:\n' +
           '▪ Во-первых — по результату (число побед, поражений и ничьих).\n' +
-          '▪ Во-вторых — по пути побед (win path: тайминг раундов, в которых игрок выиграл ' +
+          '▪ Во-вторых — по [gloss:win-path:пути побед] (тайминг раундов, в которых игрок выиграл ' +
           'или проиграл).\n' +
           '▪ В-третьих — случайно среди игроков с одинаковым рангом.',
         note:
-          '«Путь побед» (win path) игрока — это не число его побед и поражений, а их тайминг. ' +
+          '«[gloss:win-path:Путь побед]» игрока — это не число его побед и поражений, а их тайминг. ' +
           'Составление пар по пути побед склонно объединять игроков со схожим недавним ' +
           'опытом, повышая удовольствие обоих.',
       },
@@ -1246,8 +1246,8 @@ const ru = {
         body:
           'У каждой команды есть один **капитан**, отвечающий за то, чтобы игроки вовремя ' +
           'сдавали ростеры, а очки подавались в конце каждого раунда.\n\n' +
-          'Внутри команды только один игрок может использовать юниты с данным **ключевым ' +
-          'словом фракции** (faction keyword). Обычно это значит, что только один игрок ' +
+          'Внутри команды только один игрок может использовать юниты с данным **[gloss:faction-keyword:ключевым ' +
+          'словом фракции]**. Обычно это значит, что только один игрок ' +
           'может использовать юниты из каждого Кодекса, в том числе как союзные силы. Это не ' +
           'применяется, когда используемые правила союзников меняют ключевые слова фракции, ' +
           'или когда листы данных встречаются в нескольких Кодексах с разными ключевыми ' +
@@ -1317,7 +1317,7 @@ const ru = {
           'её Defender.\n' +
           '6. Выбранные Attacker раскрываются одновременно. Это определяет две пары.\n' +
           '7. Defender каждой команды объявляет выбор раскладки.\n' +
-          '8. **Отклонённый Attacker** (refused Attacker) каждой команды играет друг против ' +
+          '8. **[gloss:refused-attacker:Отклонённый Attacker]** каждой команды играет друг против ' +
           'друга, используя раскладку по номеру раунда: в раунде 1 — раскладку A, в раунде ' +
           '2 — B, в раунде 3 — C, повторяя этот цикл в дальнейших раундах.',
       },
@@ -1413,7 +1413,7 @@ const ru = {
       {
         title: 'Ранжирование команд',
         body:
-          'Лучшей командой (Best Team) обычно становится единственная команда без поражений ' +
+          '[gloss:best-team:Лучшей командой] обычно становится единственная команда без поражений ' +
           'к концу мероприятия. Когда ничьи или число раундов оставляют это неопределённым, ' +
           'мы рекомендуем ранжировать команды по:\n' +
           '▪ Во-первых — по результату (число побед, поражений и ничьих).\n' +
@@ -1434,9 +1434,9 @@ const ru = {
     blocks: [
       {
         body:
-          'Юнит **BATTLELINE** может **начать действие (action)** в ходу, в котором он ' +
-          'совершил **продвижение (advance move)**. Юнит **BATTLELINE** может **стрелять ' +
-          'в ходу**, в котором он **начал действие (action)**.',
+          'Юнит **BATTLELINE** может **начать [gloss:action:действие]** в ходу, в котором он ' +
+          'совершил **[gloss:advance-move:продвижение]**. Юнит **BATTLELINE** может **стрелять ' +
+          'в ходу**, в котором он **начал [gloss:action:действие]**.',
         note: "Designer's Note: Отличный твист для битв размера Incursion.",
         example:
           'Рядовые бойцы ваших армий полны решимости доказать свою ценность, неумолимо ' +
@@ -1444,7 +1444,7 @@ const ru = {
       },
       {
         body:
-          'Оба игрока заменяют свою карту **основной миссии (Primary Mission)** на одну и ' +
+          'Оба игрока заменяют свою карту **[gloss:primary-mission:основной миссии]** на одну и ' +
           'ту же из следующих карт. Если игроки договорились об одной из них, используйте ' +
           'её; иначе бросьте D6 и сверьтесь с таблицей ниже.\n\n' +
           '### Основная миссия (D6)\n' +
@@ -1457,14 +1457,14 @@ const ru = {
         note:
           "Designer's Note: Отличный твист для тех, кто хочет сыграть более простую партию " +
           'Warhammer 40,000, ведь оба игрока будут стремиться выполнить одну и ту же ' +
-          '**основную миссию (Primary Mission)**.',
+          '**[gloss:primary-mission:основную миссию]**.',
         example:
           'Судьбы сходятся, и соперничающие военачальники оказываются на параллельных ' +
           'путях, состязаясь за почти одинаковые цели и результаты.',
       },
       {
         body:
-          'Каждый юнит не **виден (visible)** вражеским моделям, если они не находятся в ' +
+          'Каждый юнит не **[gloss:visible:виден]** вражеским моделям, если они не находятся в ' +
           'пределах 18" от этого юнита, и каждый юнит нельзя выбрать целью оружия ' +
           '[INDIRECT FIRE], если атакующая модель не находится в пределах 18" от этого юнита.',
         note:
@@ -1475,7 +1475,7 @@ const ru = {
           'укрытие, под которым можно продвигаться.',
       },
       {
-        body: 'Игроки обмениваются своими картами **основной миссии (Primary Mission)**.',
+        body: 'Игроки обмениваются своими картами **[gloss:primary-mission:основной миссии]**.',
         note:
           "Designer's Note: Отличный твист, чтобы встряхнуть привычную партию, или для тех, " +
           'кто обожает хаос!',
@@ -1485,8 +1485,8 @@ const ru = {
       },
       {
         body:
-          'Когда юнит совершает **обычный манёвр (normal move)** или **продвижение ' +
-          '(advance move)**, модели в этом юните получают ключевое слово MOBILE до конца ' +
+          'Когда юнит совершает **[gloss:normal-move:обычный манёвр]** или **[gloss:advance-move:продвижение]**, ' +
+          'модели в этом юните получают ключевое слово MOBILE до конца ' +
           'этого манёвра.',
         note:
           "Designer's Note: Для тех, кто хочет играть с большим количеством террейна и/или " +
@@ -1497,10 +1497,10 @@ const ru = {
           'к врагам.',
       },
       {
-        body: '**Участки укрытий (terrain features)** не обладают правилом **Solid**.',
+        body: '**[gloss:terrain-feature:Участки укрытий]** не обладают правилом **Solid**.',
         note:
-          "Designer's Note: Этот твист позволяет моделям проводить **линию видимости (line " +
-          'of sight)** через любой проём в **участке укрытий (terrain feature)**, обеспечивая ' +
+          "Designer's Note: Этот твист позволяет моделям проводить **[gloss:line-of-sight:линию видимости]** " +
+          'через любой проём в **[gloss:terrain-feature:участке укрытий]**, обеспечивая ' +
           'больше «истинной линии видимости» и более смертоносную стрельбу.',
         example:
           'Это поле боя даёт лишь иллюзию укрытия — нигде не безопасно.',
