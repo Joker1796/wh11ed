@@ -207,7 +207,7 @@ In all of the above cases, if that last model was **destroyed** as the result of
         rows: [
           ['Leader/support unit', 'The last model in that leader/support unit is destroyed*'],
           ['Bodyguard unit (e.g. from a datasheet ability)', 'The last model in that bodyguard unit is destroyed'],
-          ['A specific model (e.g. bearer of an enhancement or an item of wargear)', 'That model is destroyed'],
+          ['A specific model (e.g. **[gloss:bearer:bearer]** of an enhancement or an item of wargear)', 'That model is destroyed'],
         ],
       },
     },
@@ -315,7 +315,7 @@ At the end of the third battle round, unless otherwise stated, all **strategic r
           id: 'section-21-03',
           sectionNum: '21.03',
           title: 'Flying Models',
-          body: `Models with the FLY keyword can **take to the skies** when making a **normal**, **advance**, **fall-back** or **[gloss:charge-move:charge move]**. Each time a FLYING unit is selected to make such a move, before moving any models in that unit, the active player can declare that it will **take to the skies**. If it does, while resolving that move:
+          body: `Models with the **[gloss:fly:FLY]** keyword can **[gloss:take-to-the-skies:take to the skies]** when making a **normal**, **advance**, **fall-back** or **[gloss:charge-move:charge move]**. Each time a FLYING unit is selected to make such a move, before moving any models in that unit, the active player can declare that it will **take to the skies**. If it does, while resolving that move:
 ▪ Subtract 2" from the **[gloss:maximum-distance:maximum distance]**.
 ▪ Each time a FLYING model moves:
 ▫ Ignore all vertical distance for the purposes of how far it has moved.
@@ -372,7 +372,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
           title: 'Plunging Fire',
           body: `Each time a model makes a ranged attack that targets a **[gloss:visible:visible]** unit containing one or more models on **ground level**, if one or more of the following conditions apply, improve the **BS** characteristic of that attack by 1:
 ▪ The attacking model is on a section of a **terrain feature** that is 3" or more in height.
-▪ The attacking model has the TOWERING keyword and the target unit is within 12".
+▪ The attacking model has the **[gloss:towering:TOWERING]** keyword and the target unit is within 12".
 
 [img:/images/fire/plunging-fire.jpg|Plunging fire — elevation and range requirements]`,
           seeAlso: ['Aircraft 23.03'],
@@ -610,7 +610,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
         rows: [
           ['Отряд лидера/поддержки', 'Уничтожения последней модели в этом отряде лидера/поддержки*'],
           ['Отряд телохранителей (например, от способности карточки данных)', 'Уничтожения последней модели в этом отряде телохранителей'],
-          ['Конкретная модель (например, носитель улучшения или предмета снаряжения)', 'Уничтожения этой модели'],
+          ['Конкретная модель (например, **[gloss:bearer:носитель]** улучшения или предмета снаряжения)', 'Уничтожения этой модели'],
         ],
       },
     },
@@ -712,7 +712,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
           id: 'section-21-03',
           sectionNum: '21.03',
           title: 'Летящие модели',
-          body: `Модели с ключевым словом FLY могут **подниматься в небо** (take to the skies) при совершении **[gloss:normal-move:обычного манёвра]**, **[gloss:advance-move:продвижения]**, **[gloss:fall-back-move:отступления]** или **[gloss:charge-move:манёвра нападения]**. Каждый раз, когда ЛЕТЯЩИЙ (FLYING) отряд выбирается для совершения такого манёвра, до манёвра любых моделей в этом отряде активный игрок может объявить, что он будет **подниматься в небо**. Если он это делает, при отыгрыше этого манёвра:
+          body: `Модели с ключевым словом **[gloss:fly:FLY]** могут **[gloss:take-to-the-skies:подниматься в небо]** (take to the skies) при совершении **[gloss:normal-move:обычного манёвра]**, **[gloss:advance-move:продвижения]**, **[gloss:fall-back-move:отступления]** или **[gloss:charge-move:манёвра нападения]**. Каждый раз, когда ЛЕТЯЩИЙ (FLYING) отряд выбирается для совершения такого манёвра, до манёвра любых моделей в этом отряде активный игрок может объявить, что он будет **подниматься в небо**. Если он это делает, при отыгрыше этого манёвра:
 ▪ Вычтите 2" из **[gloss:maximum-distance:максимального расстояния]**.
 ▪ Каждый раз, когда ЛЕТЯЩАЯ модель движется:
 ▫ Игнорируйте всё вертикальное расстояние для целей определения пройденного расстояния.
@@ -768,7 +768,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
           title: 'Стрельба с возвышения',
           body: `Каждый раз, когда модель совершает дальнюю атаку, нацеленную на **[gloss:visible:видимый]** отряд, содержащий одну или несколько моделей на **уровне земли** (ground level), если применяется одно или несколько следующих условий, улучшите характеристику **BS** этой атаки на 1:
 ▪ Атакующая модель находится на участке **[gloss:terrain-feature:элемента ландшафта]** высотой 3" или более.
-▪ Атакующая модель имеет ключевое слово ИСПОЛИНСКИЙ (TOWERING), и целевой отряд находится в пределах 12".
+▪ Атакующая модель имеет ключевое слово **[gloss:towering:ИСПОЛИНСКИЙ]** (TOWERING), и целевой отряд находится в пределах 12".
 
 [img:/images/fire/plunging-fire-ru.jpg|Стрельба с возвышения — требования по высоте и дальности]`,
         },

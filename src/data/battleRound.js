@@ -263,7 +263,7 @@ Many **move types** state conditions you must meet while/after moving. Those tha
         body: `◈ MAXIMUM DISTANCE | Your unit's **M** characteristic.
 ◈ ELIGIBLE IF | Your unit is **[gloss:engaged:engaged]**.
 ◈ EFFECT | Your unit moves as described in Moving (03).
-◈ BEFORE MOVING | Select fall-back mode:
+◈ BEFORE MOVING | Select **[gloss:fall-back-mode:fall-back mode]**:
 ▪ **Ordered Retreat:** If your unit is not **[gloss:battle-shocked:battle-shocked]**, you can select this mode.
 ▪ **Desperate Escape:** Otherwise, you must select this mode. Make a **hazard roll** for each model in your unit (06.03).
 ◈ WHILE MOVING
@@ -308,10 +308,10 @@ A unit is **[gloss:eligible-to-shoot:eligible to shoot]** if it is on the battle
 
 1. Select Unit: Select one friendly unit that is **eligible to shoot**; that unit is **selected to shoot**.
 2. Select **[gloss:shooting-type:Shooting Type]**: Select one **shooting type** that unit is eligible to make, and resolve it with that unit. This can be one listed below, or one presented elsewhere:
-▪ **Normal shooting** (10.04)
-▪ **Assault shooting** (10.05)
+▪ **[gloss:normal-shooting:Normal shooting]** (10.04)
+▪ **[gloss:assault-shooting:Assault shooting]** (10.05)
 ▪ **Close-quarters shooting** (10.06)
-▪ **Indirect shooting** (10.07)`,
+▪ **[gloss:indirect-shooting:Indirect shooting]** (10.07)`,
         seeAlso: ['Actions 16.00', 'Shooting at Engaged Monsters and Vehicles 17.03', 'Terrain and Visibility 13.07'],
       },
       {
@@ -795,7 +795,7 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
         body: `◈ МАКСИМАЛЬНОЕ РАССТОЯНИЕ | Характеристика **M** вашего юнита.
 ◈ ПРАВО НА ВЫБОР | Ваш юнит **[gloss:engaged:связан боем]**.
 ◈ ЭФФЕКТ | Ваш юнит перемещается, как описано в разделе «Движение» (03).
-◈ ПЕРЕД МАНЁВРОМ | Выберите режим отступления:
+◈ ПЕРЕД МАНЁВРОМ | Выберите **[gloss:fall-back-mode:режим отступления]**:
 ▪ **Упорядоченное отступление (Ordered Retreat):** Если ваш юнит не подвержен **[gloss:battle-shocked:боевому шоку]**, вы можете выбрать этот режим.
 ▪ **Отчаянный побег (Desperate Escape):** В противном случае вы должны выбрать этот режим. Сделайте **[gloss:hazard-roll:проверку опасности]** для каждой модели в вашем юните (06.03).
 ◈ ВО ВРЕМЯ МАНЁВРА
@@ -831,10 +831,10 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 Юнит **имеет [gloss:eligible-to-shoot:право стрелять]**, если он находится на поле боя и ещё не был [gloss:selected-to-shoot:выбран для стрельбы] в этой фазе.
 1. Выберите юнит: Выберите один союзный юнит, который **имеет [gloss:eligible-to-shoot:право стрелять]**; этот юнит **[gloss:selected-to-shoot:выбран для стрельбы]**.
 2. Выберите **тип стрельбы**: Выберите один **[gloss:shooting-type:тип стрельбы]**, который этот юнит имеет право совершить, и отыграйте его с этим юнитом. Это может быть один из перечисленных ниже или представленный в другом месте:
-▪ Normal shooting (Обычная стрельба) (10.04)
-▪ Assault shooting (Штурмовая стрельба) (10.05)
+▪ **[gloss:normal-shooting:Normal shooting]** (Обычная стрельба) (10.04)
+▪ **[gloss:assault-shooting:Assault shooting]** (Штурмовая стрельба) (10.05)
 ▪ Close-quarters shooting (Стрельба в ближнем бою) (10.06)
-▪ Indirect shooting (Непрямая стрельба) (10.07)`,
+▪ **[gloss:indirect-shooting:Indirect shooting]** (Непрямая стрельба) (10.07)`,
       },
       {
         title: 'Конец фазы стрельбы',

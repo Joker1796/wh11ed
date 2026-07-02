@@ -770,6 +770,382 @@ export const glossary = {
     ru: 'Насколько сильно юнит контролирует маркер цели — суммарный Контроль цели его подходящих моделей там против вражеского.',
   },
 
+  // — Imported terms (minstrel gloss.txt, 2026-07): players, army & game basics —
+  'army': {
+    term: 'Army',
+    en: 'All the units and models a player brings to a game, chosen within the mission’s and army-building restrictions.',
+    ru: 'Все юниты и модели игрока, выбранные для партии в рамках ограничений миссии и правил сборки армии.',
+  },
+  'battlefield': {
+    term: 'Battlefield',
+    en: 'The playing surface, set with terrain, on which the armies are deployed and the battle is fought.',
+    ru: 'Игровая поверхность с террейном, на которой размещаются армии и идёт сражение.',
+  },
+  'codex': {
+    term: 'Codex',
+    en: 'A faction’s book of background, datasheets and rules for its models and playstyles.',
+    ru: 'Книга фракции с предысторией, таблицами данных и правилами её моделей и стилей игры.',
+  },
+  'mission': {
+    term: 'Mission',
+    en: 'The scenario for a game: it sets deployment, extra rules and victory conditions.',
+    ru: 'Сценарий партии: задаёт развёртывание, дополнительные правила и условия победы.',
+  },
+  'player': {
+    term: 'Player',
+    en: 'A participant in the game who commands their army and makes decisions for its units and models.',
+    ru: 'Участник партии, который управляет своей армией и принимает решения за её юниты и модели.',
+  },
+  'active-player': {
+    term: 'Active Player',
+    en: 'The player currently taking their turn or resolving a rule; their opponent is the opposing player.',
+    ru: 'Игрок, который в данный момент выполняет ход или отыгрывает правило; его оппонент — противостоящий игрок.',
+  },
+  'opposing-player': {
+    term: 'Opposing Player',
+    en: 'The opponent of the active player. When one player becomes active, the other becomes the opposing player.',
+    ru: 'Оппонент активного игрока. Когда один игрок становится активным, другой становится противостоящим.',
+  },
+  'unit': {
+    term: 'Unit',
+    en: 'One or more models that act together and use a single datasheet.',
+    ru: 'Одна или несколько моделей, которые действуют вместе и используют одну таблицу данных.',
+  },
+  'model': {
+    term: 'Model',
+    en: 'A single miniature on the battlefield — an infantry trooper, vehicle, monster or other game piece.',
+    ru: 'Одна миниатюра на поле боя: пехотинец, техника, монстр или иной игровой элемент.',
+  },
+  'dice': {
+    term: 'Dice',
+    en: 'Six-sided dice (D6) used for the rolls, tests and random values throughout the rules.',
+    ru: 'Шестигранные кубики (D6), используемые для бросков, проверок и случайных значений в правилах.',
+  },
+  'inch': {
+    term: 'Inch (")',
+    en: 'The unit of distance in Warhammer 40,000; one inch is 2.54 cm.',
+    ru: 'Единица измерения дистанций в Warhammer 40,000; один дюйм равен 2,54 см.',
+  },
+
+  // — Imported terms: datasheet, weapons & attacks —
+  'profiles': {
+    term: 'Profiles',
+    en: 'The datasheet block listing a model’s characteristics — its speed, toughness, save, wounds, leadership and objective control.',
+    ru: 'Блок таблицы данных с характеристиками модели: скорость, стойкость, защита, раны, лидерство и контроль цели.',
+  },
+  'keywords': {
+    term: 'Keywords',
+    en: 'The words listed on a unit’s datasheet that rules, abilities and restrictions interact with.',
+    ru: 'Слова в таблице данных юнита, с которыми взаимодействуют правила, способности и ограничения.',
+  },
+  'melee-weapons': {
+    term: 'Melee Weapons',
+    en: 'Weapons used to make melee attacks; a weapon with a Range of ‘Melee’ is a melee weapon.',
+    ru: 'Оружие для атак ближнего боя; оружие с дальностью «Melee» является оружием ближнего боя.',
+  },
+  'ranged-weapons': {
+    term: 'Ranged Weapons',
+    en: 'Weapons used to make ranged attacks; when shooting, a model can select one or more of the ranged weapons it has.',
+    ru: 'Оружие для стрелковых атак; при стрельбе модель может выбрать одно или несколько своих видов стрелкового оружия.',
+  },
+  'save': {
+    term: 'Save (Sv)',
+    en: 'The characteristic used to make a save roll after a model is wounded; the roll can be modified by Armour Penetration, cover and other modifiers.',
+    ru: 'Характеристика для спас-броска после ранения модели; результат может изменяться бронепробитием, укрытием и другими модификаторами.',
+  },
+  'transport': {
+    term: 'Transport',
+    en: 'A model or unit able to carry other units, using the embark, disembark and transport capacity rules.',
+    ru: 'Модель или юнит, способные перевозить другие юниты по правилам посадки, высадки и транспортной вместимости.',
+  },
+  'attack-sequence': {
+    term: 'Attack Sequence',
+    en: 'The order in which a single attack is resolved: hit, wound, allocate, save and inflict damage.',
+    ru: 'Порядок отыгрыша отдельной атаки: попадание, ранение, распределение, спас-бросок и нанесение урона.',
+  },
+  'ranged-attacks': {
+    term: 'Ranged Attacks',
+    en: 'Attacks a model makes with ranged weapons in the Shooting phase or by a special rule.',
+    ru: 'Атаки, которые модель совершает стрелковым оружием в фазу стрельбы или по особому правилу.',
+  },
+  'melee-attacks': {
+    term: 'Melee Attacks',
+    en: 'Attacks a model makes with a melee weapon when its unit is selected to fight; targets must usually be in engagement range.',
+    ru: 'Атаки, которые модель совершает оружием ближнего боя, когда её юнит выбран для боя; цели обычно должны быть в радиусе связывания.',
+  },
+  'allocation-group': {
+    term: 'Allocation Group',
+    en: 'A group of models in the target unit, formed before save rolls, that sets the order attacks are allocated and damage is dealt.',
+    ru: 'Группа моделей целевого юнита, сформированная перед спас-бросками, задающая порядок распределения атак и нанесения урона.',
+  },
+  'character': {
+    term: 'CHARACTER',
+    en: 'A model/unit keyword; when allocating attacks, each CHARACTER model forms its own group.',
+    ru: 'Ключевое слово модели или юнита; при распределении атак каждая модель CHARACTER образует отдельную группу.',
+  },
+  'monster-vehicle': {
+    term: 'MONSTER / VEHICLE',
+    en: 'Model keywords; if every model in a unit is a MONSTER or VEHICLE, a failed hazard roll inflicts 3 mortal wounds instead of 1.',
+    ru: 'Ключевые слова моделей; если все модели в юните — MONSTER или VEHICLE, проваленный опасный бросок наносит 3 смертельные раны вместо 1.',
+  },
+
+  // — Imported terms: move, shooting & fight types —
+  'while-moving': {
+    term: 'While Moving',
+    en: 'Conditions of a move type that must be satisfied throughout a model’s or unit’s move.',
+    ru: 'Условия типа манёвра, которые должны соблюдаться на протяжении перемещения модели или юнита.',
+  },
+  'after-moving': {
+    term: 'After Moving',
+    en: 'Conditions and extra rules of a move type that are checked or resolved once the move is complete.',
+    ru: 'Условия и дополнительные правила типа манёвра, которые проверяются или отыгрываются после завершения перемещения.',
+  },
+  'end-of-turn-step': {
+    term: 'End of Turn Step',
+    en: 'The final step of a player’s turn, where ‘end of turn’ effects are resolved and rules that end at that moment are checked.',
+    ru: 'Финальный шаг хода игрока, где отыгрываются эффекты «в конце хода» и проверяются правила, завершающиеся в этот момент.',
+  },
+  'normal-shooting': {
+    term: 'Normal Shooting',
+    en: 'The shooting type for a unit not in engagement range that did not Advance this turn.',
+    ru: 'Тип стрельбы для юнита вне радиуса связывания, который не совершал продвижение в этот ход.',
+  },
+  'assault-shooting': {
+    term: 'Assault Shooting',
+    en: 'The shooting type for a unit not in engagement range that Advanced this turn and has [ASSAULT] weapons.',
+    ru: 'Тип стрельбы для юнита вне радиуса связывания, который совершил продвижение и имеет оружие [ASSAULT].',
+  },
+  'indirect-shooting': {
+    term: 'Indirect Shooting',
+    en: 'The shooting type for a unit not in engagement range shooting with [INDIRECT FIRE] weapons at a target it cannot see.',
+    ru: 'Тип стрельбы для юнита вне радиуса связывания, стреляющего оружием [INDIRECT FIRE] по цели, которую он не видит.',
+  },
+  'snap-shooting': {
+    term: 'Snap Shooting',
+    en: 'A special shooting type allowed by Fire Overwatch: the unit shoots at a limited target and attacks hit only on an unmodified hit roll of 6.',
+    ru: 'Особый тип стрельбы, разрешаемый правилом Fire Overwatch: юнит стреляет по ограниченной цели, а атаки попадают только на немодифицированный бросок попадания 6.',
+  },
+  'declared-charge': {
+    term: 'Declared a Charge',
+    en: 'A unit has declared a charge if it was selected to charge in the current phase.',
+    ru: 'Юнит объявил нападение, если был выбран для отыгрыша нападения в текущей фазе.',
+  },
+  'normal-fight': {
+    term: 'Normal Fight',
+    en: 'The fight type for a unit in engagement range; it fights using the normal rules for making attacks.',
+    ru: 'Тип боя для юнита в радиусе связывания; юнит сражается по обычным правилам проведения атак.',
+  },
+  'overrun-fight': {
+    term: 'Overrun Fight',
+    en: 'A fight type letting a unit not in (or newly in) engagement range make an extra pile-in move and then fight.',
+    ru: 'Тип боя, при котором юнит вне радиуса связывания (или недавно вступивший в него) может совершить дополнительный манёвр сближения, а затем сражаться.',
+  },
+  'fall-back-mode': {
+    term: 'Fall-back Mode',
+    en: 'The mode chosen before a Fall-back move; options include Ordered Retreat and Desperate Escape.',
+    ru: 'Режим, выбираемый перед манёвром отступления; возможные режимы — упорядоченное отступление и отчаянный побег.',
+  },
+
+  // — Imported terms: consolidation & pile-in —
+  'consolidation-mode': {
+    term: 'Consolidation Mode',
+    en: 'The mode chosen before a Consolidation move; it sets which enemies or objective markers the unit must move toward.',
+    ru: 'Режим, выбираемый перед манёвром консолидации; определяет, к каким врагам или маркерам цели должен двигаться юнит.',
+  },
+  'ongoing-consolidation': {
+    term: 'Ongoing Consolidation',
+    en: 'A Consolidation mode for a unit in engagement range: it selects every enemy unit it is already engaged with.',
+    ru: 'Режим консолидации для юнита в радиусе связывания: он выбирает все вражеские юниты, с которыми уже связан.',
+  },
+  'engaging-consolidation': {
+    term: 'Engaging Consolidation',
+    en: 'A Consolidation mode for a unit not in engagement range with enemies nearby, letting it move into engagement range.',
+    ru: 'Режим консолидации для юнита вне радиуса связывания при наличии рядом врагов; позволяет войти с ними в радиус связывания.',
+  },
+  'objective-consolidation': {
+    term: 'Objective Consolidation',
+    en: 'A Consolidation mode for a unit near an objective marker when it cannot choose Ongoing or Engaging Consolidation.',
+    ru: 'Режим консолидации для юнита рядом с маркером цели, если он не может выбрать продолжающуюся или вовлекающую консолидацию.',
+  },
+  'pile-in-target': {
+    term: 'Pile-in Target',
+    en: 'The enemy unit chosen before a pile-in move; moved models must move toward the nearest such target and into engagement range if able.',
+    ru: 'Вражеский юнит, выбранный перед манёвром сближения; перемещаемые модели должны двигаться к ближайшей такой цели и, если возможно, войти в радиус связывания.',
+  },
+  'eligible-to-consolidate': {
+    term: 'Eligible to Consolidate',
+    en: 'A unit can make a consolidation move if it is the Fight phase and that unit was able to fight this phase.',
+    ru: 'Юнит может совершить манёвр консолидации, если сейчас фаза боя и этот юнит мог сражаться в эту фазу.',
+  },
+  'eligible-to-pile-in': {
+    term: 'Eligible to Pile In',
+    en: 'A unit can make a pile-in move in the Fight phase if it is in engagement range, charged this turn, or was selected for an overrun fight.',
+    ru: 'Юнит может совершить манёвр сближения в фазу боя, если он в радиусе связывания, совершил нападение в этот ход или выбран для рукопашной с прорывом.',
+  },
+
+  // — Imported terms: objectives & terrain —
+  'secured-objective': {
+    term: 'Secured Objective',
+    en: 'An objective that stays under a player’s control until the opponent’s level of control there is higher at the end of a phase.',
+    ru: 'Цель, остающаяся под контролем армии игрока, пока уровень контроля оппонента не станет выше в конце фазы.',
+  },
+  'terrain-objective': {
+    term: 'Terrain Objective',
+    en: 'A terrain feature that the mission’s deployment map places in the same area as an objective marker, so it can affect movement, visibility, cover and objective control at once.',
+    ru: 'Элемент террейна, который по карте развёртывания миссии находится в той же области, что и маркер цели, и потому может одновременно влиять на движение, видимость, укрытие и контроль цели.',
+  },
+  'exposed-terrain': {
+    term: 'Exposed Terrain',
+    en: 'A terrain category that gives little protection and can be crossed without hindrance.',
+    ru: 'Категория террейна, дающая слабую защиту и преодолеваемая без помех.',
+  },
+  'obscuring-terrain-area': {
+    term: 'Obscuring Terrain Area',
+    en: 'A terrain area with one or more Light or Heavy terrain features; a line of sight drawn through it can leave models not visible to each other.',
+    ru: 'Область террейна с одним или несколькими лёгкими или плотными элементами; линия обзора через неё может делать модели не видимыми друг для друга.',
+  },
+
+  // — Imported terms: keywords —
+  'aircraft': {
+    term: 'Aircraft',
+    en: 'A keyword for flying craft, which follow their own movement restrictions and rules.',
+    ru: 'Ключевое слово летающих аппаратов, к которым применяются отдельные ограничения и правила перемещения.',
+  },
+  'smoke': {
+    term: 'SMOKE',
+    en: 'A unit keyword marking the ability to use smoke screens or smoke-related effects.',
+    ru: 'Ключевое слово юнита, обозначающее способность применять дымовую завесу или связанные с дымом эффекты.',
+  },
+  'titanic': {
+    term: 'TITANIC',
+    en: 'A keyword for especially large models and units; some rules specifically exclude them or apply to them differently.',
+    ru: 'Ключевое слово особо крупных моделей и юнитов; некоторые правила прямо исключают их или применяются к ним иначе.',
+  },
+  'fortification': {
+    term: 'Fortification',
+    en: 'A keyword for static, defensive pieces that usually have their own restrictions on actions and movement.',
+    ru: 'Ключевое слово неподвижных оборонительных объектов, обычно имеющих отдельные ограничения на действия и перемещение.',
+  },
+  'frame': {
+    term: 'FRAME',
+    en: 'A keyword for large models for which distances are measured to and from the nearest point of the model itself, not necessarily its base.',
+    ru: 'Ключевое слово крупных моделей, для которых расстояния измеряются до ближайшей точки самой модели и от неё, а не обязательно от базы.',
+  },
+  'fly': {
+    term: 'FLY',
+    en: 'A model keyword; models with FLY, and the units they are part of, are treated as able to fly.',
+    ru: 'Ключевое слово модели; модели с FLY и юниты, частью которых они являются, считаются способными летать.',
+  },
+  'flying-unit': {
+    term: 'Flying Unit',
+    en: 'A model with the FLY keyword, or a unit that contains such a model.',
+    ru: 'Модель с ключевым словом FLY или юнит, содержащий такую модель.',
+  },
+  'towering': {
+    term: 'TOWERING',
+    en: 'A keyword for very tall models; for Plunging Fire, such a model improves the BS of attacks against a visible target within 12" if that target contains models at ground level.',
+    ru: 'Ключевое слово очень высоких моделей; для правила Plunging Fire такая модель улучшает BS атак по видимой цели в пределах 12", если цель содержит модели на уровне земли.',
+  },
+
+  // — Imported terms: stratagems, reserves, transport, muster —
+  'core-stratagems': {
+    term: 'Core Stratagems',
+    en: 'The set of stratagems available to every player regardless of army; codexes and other publications may add more.',
+    ru: 'Набор стратагем, доступный каждому игроку независимо от армии; кодексы и другие издания могут добавлять свои.',
+  },
+  'declare-battle-formations': {
+    term: 'Declare Battle Formations',
+    en: 'A pre-battle step where players declare relevant battle formations, including units that start the battle embarked in a Transport.',
+    ru: 'Шаг перед битвой, на котором игроки объявляют соответствующие боевые построения, включая юниты, начинающие битву внутри транспорта.',
+  },
+  'muster-armies': {
+    term: 'Muster Armies',
+    en: 'The army-preparation step where players choose their armies and declare related army-composition decisions.',
+    ru: 'Шаг подготовки к битве, на котором игроки выбирают армии и объявляют связанные с составом армии решения.',
+  },
+  'points-limit': {
+    term: 'Points Limit',
+    en: 'The maximum total points cost of an army, set by the battle size or the mission.',
+    ru: 'Максимальная суммарная стоимость армии в очках, заданная размером битвы или миссией.',
+  },
+  'eligible-to-move': {
+    term: 'Eligible to Move',
+    en: 'A unit can make a move if it is in a suitable state and no rule forbids the chosen move type.',
+    ru: 'Юнит может совершить манёвр, если он в подходящем состоянии и правила не запрещают выбранный тип манёвра.',
+  },
+  'repositioned-unit': {
+    term: 'Repositioned Unit',
+    en: 'A unit removed from the battlefield during the battle and placed into Strategic Reserves by a reposition rule.',
+    ru: 'Юнит, убранный с поля боя во время битвы и помещённый в стратегический резерв правилом перемещения на новую позицию.',
+  },
+  'embarked': {
+    term: 'Embarked',
+    en: 'The state of a unit inside a Transport and not on the battlefield.',
+    ru: 'Состояние юнита, находящегося внутри транспорта и не на поле боя.',
+  },
+  'disembark-mode': {
+    term: 'Disembark Mode',
+    en: 'The mode chosen before a Disembark move; it sets the set-up distance and the restrictions that follow disembarking.',
+    ru: 'Режим, выбираемый перед манёвром высадки; определяет дистанцию выставления и ограничения после высадки.',
+  },
+  'tactical-disembark': {
+    term: 'Tactical Disembark',
+    en: 'A disembark mode from a Transport that stayed stationary or has not yet moved; afterwards the unit can make a Normal or Advance move.',
+    ru: 'Режим высадки из транспорта, который остался неподвижен или ещё не перемещался; после него юнит может совершить обычный манёвр или манёвр продвижения.',
+  },
+  'rapid-disembark': {
+    term: 'Rapid Disembark',
+    en: 'A disembark mode after the Transport has moved or arrived; it usually limits the unit’s subsequent charge.',
+    ru: 'Режим высадки после того, как транспорт переместился или прибыл; обычно ограничивает последующее нападение юнита.',
+  },
+  'combat-disembark': {
+    term: 'Combat Disembark',
+    en: 'A disembark mode in a difficult situation; it requires hazard rolls and leaves the unit battle-shocked and unable to declare a charge until the end of the turn.',
+    ru: 'Режим высадки в сложной ситуации; требует опасных бросков и оставляет юнит под боевым шоком с запретом объявлять нападение до конца хода.',
+  },
+  'emergency-disembark-move': {
+    term: 'Emergency Disembark Move',
+    en: 'The mandatory disembark of passengers before a destroyed Transport is removed from the battlefield.',
+    ru: 'Обязательный манёвр высадки пассажиров перед удалением уничтоженного транспорта с поля боя.',
+  },
+  'take-to-the-skies': {
+    term: 'Take to the Skies',
+    en: 'A declaration before a flying unit’s Normal, Advance, Fall-back or Charge move: its maximum distance drops by 2", but flying models ignore vertical distance and can move through models and terrain.',
+    ru: 'Объявление перед обычным манёвром, продвижением, отступлением или нападением летающего юнита: максимальное расстояние уменьшается на 2", но летающие модели игнорируют вертикальную дистанцию и могут двигаться сквозь модели и террейн.',
+  },
+
+  // — Imported terms: abilities —
+  'bearer': {
+    term: 'Bearer',
+    en: 'The model that has a particular item of wargear; that wargear’s ability applies while the bearer is not destroyed.',
+    ru: 'Модель, у которой есть конкретный предмет снаряжения; способность этого снаряжения действует, пока носитель не уничтожен.',
+  },
+  'faction-ability': {
+    term: 'Faction Ability',
+    en: 'An ability shared by units of a given faction, listed in the Faction Abilities section of the datasheet.',
+    ru: 'Способность, общая для юнитов определённой фракции, указанная в разделе способностей фракции таблицы данных.',
+  },
+  'wargear-ability': {
+    term: 'Wargear Ability',
+    en: 'An ability a unit or model gains from a specific item of wargear.',
+    ru: 'Способность, которую юнит или модель получает от определённого предмета снаряжения.',
+  },
+  'psychic-ability': {
+    term: 'Psychic Ability',
+    en: 'An ability marked Psychic; mortal wounds it inflicts count as inflicted by a psychic attack.',
+    ru: 'Способность с пометкой Psychic; нанесённые ею смертельные раны считаются нанесёнными психической атакой.',
+  },
+  'psychic-attack': {
+    term: 'Psychic Attack',
+    en: 'The source of mortal wounds inflicted by a Psychic ability, which can matter for triggering other rules.',
+    ru: 'Источник смертельных ран, нанесённых психической способностью; может быть важен для срабатывания других правил.',
+  },
+  'ground-level': {
+    term: 'Ground Level',
+    en: 'The lowest level of the battlefield or a terrain feature, used to check whether a model is on the ground.',
+    ru: 'Нижний уровень поля боя или элемента террейна, относительно которого проверяется, находится ли модель на земле.',
+  },
+
   // Translation-only glosses: popover shows just the English original, no definition body.
   'controlling-player': {
     term: 'Controlling Player',
