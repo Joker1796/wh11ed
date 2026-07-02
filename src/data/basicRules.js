@@ -88,7 +88,7 @@ If a **[gloss:leader:leader]** or **support** model in an **attached** unit is *
               sectionNum: '01.02.04',
               title: 'Not On The Battlefield',
               fromApp: true,
-              body: `A unit that is embarked within a TRANSPORT or that is in **strategic reserves** is not on the battlefield. The following applies to such units:
+              body: `A unit that is embarked within a **[gloss:transport:TRANSPORT]** or that is in **strategic reserves** is not on the battlefield. The following applies to such units:
 ▪ That unit is __not__ **[gloss:visible:visible]** to any __other__ units (units are **visible** to themselves).
 ▪ Any other unit is __not__ **visible** to that unit.
 ▪ Players cannot measure distances to or from that unit (units are within range of their own [gloss:ability:abilities]).
@@ -138,7 +138,7 @@ This does not give that rule to every model in the unit, unless that rule specif
               sectionNum: '01.02.11',
               title: 'All Types of Model',
               fromApp: true,
-              body: `When a rule mentions 'all types of model', this is inclusive of friendly and enemy models and all keywords, e.g. MONSTER/VEHICLE models.`,
+              body: `When a rule mentions 'all types of model', this is inclusive of friendly and enemy models and all **[gloss:keywords:keywords]**, e.g. **[gloss:monster-vehicle:MONSTER/VEHICLE]** models.`,
             },
           ],
         },
@@ -194,7 +194,7 @@ If another rule could be used after a rule has resolved during this sequence but
           id: 'section-01-04',
           sectionNum: '01.04',
           title: 'Measuring Distances',
-          body: `Distances in Warhammer 40,000 are measured in inches ("). You can measure distances whenever you want to.
+          body: `Distances in Warhammer 40,000 are measured in **[gloss:inch:inches]** ("). You can measure distances whenever you want to.
 
 When a rule refers to a model's position in relation to anything else on the battlefield, unless otherwise stated, measure to or from the closest part of that model's base.`,
           example: `A Space Marine Intercessor (base: 32mm) is 4" from an enemy Ork Boy (base: 25mm). You measure from the closest edge of the Space Marine's base to the closest edge of the Ork Boy's base — not from their centres. If a rule requires them to be within 1", they are not yet within range.`,
@@ -491,7 +491,7 @@ A **stratagem** cannot have its **CP** increased by more than 1 or reduced to be
               fromApp: true,
               body: `Some rules enable a player, weapon, model or unit to ignore modifiers. When using such rules, the following points apply:
 
-Unless otherwise stated, that rule allows you to ignore modifiers to the unit's rolls and the unit's profile and weapon characteristics.
+Unless otherwise stated, that rule allows you to ignore modifiers to the unit's rolls and the unit's **[gloss:profiles:profile]** and weapon characteristics.
 
 When a rule states you can ignore modifiers to a stated roll or characteristic, you can choose to ignore all of those modifiers, or only some of them. For example, you can still choose to apply positive/beneficial modifiers while ignoring negative/detrimental modifiers.
 
@@ -664,7 +664,7 @@ Each time you move a model, unless otherwise stated:
 ▪ It can be moved through any space its base can fit through.
 ▪ Its base cannot be moved through enemy models.
 ▪ Its base cannot cross the edge of the battlefield.
-▪ All stated 'While Moving' conditions must be met.
+▪ All stated '**[gloss:while-moving:While Moving]**' conditions must be met.
 
 ### Moving a Model in a Straight Line
 Each time you move a model in a straight line, move it horizontally across the battlefield. Measure from the same point on its base at the start and end of that move, and add that distance to any other distance it has moved since its unit began that move. The distance moved cannot be greater than the **maximum distance** of that **[gloss:move-type:move type]**.
@@ -676,7 +676,7 @@ Each time you rotate a model, turn it any amount around the centre of its base, 
 After you have finished setting up all of the models in a unit and/or moving all of the models in a unit that you want to move, check that all of the following apply:
 ▪ If that unit is on the battlefield, it is in **coherency** (03.03).
 ▪ No models in that unit are on another model or partway through a surface of a **[gloss:terrain-feature:terrain feature]** (e.g. a wall or ceiling).
-▪ All stated 'After Moving' conditions are met.
+▪ All stated '**[gloss:after-moving:After Moving]**' conditions are met.
 
 If one or more of the above conditions are not met, that unit cannot make that move and its models are returned to their positions at the start of that move. Otherwise, after resolving any additional rules stated in the 'After Moving' section of that **move type**, that move ends.`,
           seeAlso: ['Monsters and Vehicles 17.00', 'Moving Vertically 13.06', 'Strategic Reserves 20.00', 'Terrain 13.00', 'Transports 18.00'],
@@ -793,7 +793,7 @@ Some large models, typically AIRCRAFT, have wings and other parts that extend si
 ▪ Within 9" horizontally and 5" vertically of every other model in that unit.
 
 ### Regaining Coherency
-In the End of Turn step of each player's turn, if one or more units on the battlefield are not in **coherency**, those units' controlling players must remove models from them, one at a time, until they are in **coherency** again. Models removed in this way are **destroyed**, but they do not trigger rules that apply when a model is **destroyed**.`,
+In the **[gloss:end-of-turn-step:End of Turn step]** of each player's turn, if one or more units on the battlefield are not in **coherency**, those units' controlling players must remove models from them, one at a time, until they are in **coherency** again. Models removed in this way are **destroyed**, but they do not trigger rules that apply when a model is **destroyed**.`,
           image: { src: '/images/coherency/coherency.jpg', alt: 'Coherency' },
           children: [
             {
@@ -836,7 +836,7 @@ In the End of Turn step of each player's turn, if one or more units on the battl
           id: 'section-04-intro',
           sectionNum: '',
           title: 'Attack Steps',
-          body: `Each time a unit shoots or fights, the active player follows these steps:
+          body: `Each time a unit shoots or fights, the **[gloss:active-player:active player]** follows these steps:
 ▪ 1. Select Weapons
 ▪ 2. Select Targets
 ▪ 3. Resolve Attacks`,
@@ -845,7 +845,7 @@ In the End of Turn step of each player's turn, if one or more units on the battl
           id: 'section-04-01',
           sectionNum: '04.01',
           title: 'Select Weapons',
-          body: `For each model in the attacking unit, select which weapons that model will make attacks with. Models make ranged attacks with ranged weapons, and make melee attacks with melee weapons.
+          body: `For each model in the attacking unit, select which weapons that model will make attacks with. Models make **[gloss:ranged-attacks:ranged attacks]** with **[gloss:ranged-weapons:ranged weapons]**, and make **[gloss:melee-attacks:melee attacks]** with **[gloss:melee-weapons:melee weapons]**.
 
 ### While Shooting
 You can select one or more ranged weapons that model has.
@@ -886,7 +886,7 @@ Note that if a unit is equipped with more than one such weapon, a different prof
               fromApp: true,
               body: `When making an attack, that attack is considered to have the same characteristics and abilities as the weapon making that attack.
 
-If any modifiers or abilities apply to an attack, those changes apply to the weapon making that attack until that unit's attack sequence and all effects of those abilities (e.g. [HAZARDOUS]) have been resolved.
+If any modifiers or abilities apply to an attack, those changes apply to the weapon making that attack until that unit's **[gloss:attack-sequence:attack sequence]** and all effects of those abilities (e.g. [HAZARDOUS]) have been resolved.
 
 Rules that apply to a weapon that modify rolls apply to the attacks made with that weapon.`,
             },
@@ -1104,10 +1104,10 @@ If a unit was selected to fight and none of the models in it make any attacks, i
           id: 'section-05-03',
           sectionNum: '05.03',
           title: 'Save Rolls',
-          body: `The opposing player resolves the following sequence:
+          body: `The **[gloss:opposing-player:opposing player]** resolves the following sequence:
 
 1. Create Groups: Divide all models in the target unit into the following groups, as many times as required:
-▪ One group for each CHARACTER model.
+▪ One group for each **[gloss:character:CHARACTER]** model.
 ▪ One group for all other models with the same W, Sv and InSv characteristics.
 
 2. Allocation Order: Declare the order in which those groups will have attacks allocated to them, applying all of the following:
@@ -1124,7 +1124,7 @@ If a unit was selected to fight and none of the models in it make any attacks, i
           title: 'Inflict Damage',
           body: `The opposing player resolves the following sequence for each **save roll**, working from lowest result(s) to highest result(s), until all attacks are resolved or all models in the target unit are **destroyed** – in the latter case, any excess attacks are lost.
 
-1. Select Model: Select one model in the current allocation group; this must be a model that has lost one or more wounds if possible.
+1. Select Model: Select one model in the current **[gloss:allocation-group:allocation group]**; this must be a model that has lost one or more wounds if possible.
 2. Check **Save Roll**: For each result, check if that attack inflicts damage or fails by matching the first condition below that applies:
 ◆ Unmodified 1 → INFLICTS DAMAGE
 ◆ Invulnerable Save: The models in the current allocation group have an InSv characteristic, and the result is equal to or greater than that characteristic → FAILS (no damage)
@@ -1453,7 +1453,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
             },
             {
               title: 'Не на поле боя',
-              body: `Юнит, находящийся внутри TRANSPORT или в **[gloss:strategic-reserves:стратегическом резерве]**, не находится на поле боя. К таким юнитам применяется следующее:
+              body: `Юнит, находящийся внутри **[gloss:transport:TRANSPORT]** или в **[gloss:strategic-reserves:стратегическом резерве]**, не находится на поле боя. К таким юнитам применяется следующее:
 ▪ Этот юнит __не__ **[gloss:visible:виден]** никаким __другим__ юнитам (юниты **видят** себя сами).
 ▪ Любой другой юнит __не__ **виден** этому юниту.
 ▪ Игроки не могут измерять расстояния до или от этого юнита (юниты находятся в пределах дальности своих собственных способностей).
@@ -1488,7 +1488,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
             },
             {
               title: 'Все типы моделей',
-              body: `Когда правило упоминает «все типы моделей», это включает союзные и вражеские модели и все ключевые слова, например, модели MONSTER/VEHICLE.`,
+              body: `Когда правило упоминает «все типы моделей», это включает союзные и вражеские модели и все **[gloss:keywords:ключевые слова]**, например, модели **[gloss:monster-vehicle:MONSTER/VEHICLE]**.`,
             },
           ],
         },
@@ -1534,7 +1534,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
         },
         {
           title: 'Измерение расстояний',
-          body: `Расстояния в Warhammer 40,000 измеряются в дюймах("). Вы можете измерять расстояния в любое время.
+          body: `Расстояния в Warhammer 40,000 измеряются в **[gloss:inch:дюймах]**("). Вы можете измерять расстояния в любое время.
 
 Когда правило ссылается на положение модели по отношению к чему-либо на поле боя, если не указано иное, измеряйте расстояние до ближайшей части базы этой модели.`,
           example: `Космодесантник Intercessor (база: 32 мм) находится в 4" от вражеского Ork Boy (база: 25 мм). Измеряется от ближайшего края базы Космодесантника до ближайшего края базы Ork Boy — не от центров. Если правило требует нахождения в пределах 1", они ещё не попадают в диапазон.`,
@@ -1762,7 +1762,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
               title: 'Игнорирование модификаторов',
               body: `Некоторые правила позволяют игроку, оружию, модели или юниту игнорировать модификаторы. При использовании таких правил применяются следующие положения:
 
-Если не указано иное, это правило позволяет вам игнорировать модификаторы к броскам юнита, а также к характеристикам профиля юнита и оружия.
+Если не указано иное, это правило позволяет вам игнорировать модификаторы к броскам юнита, а также к характеристикам **[gloss:profiles:профиля]** юнита и оружия.
 
 Когда правило указывает, что вы можете игнорировать модификаторы к определённому броску или характеристике, вы можете выбрать игнорировать все эти модификаторы или только некоторые из них. Например, вы всё ещё можете применять положительные/полезные модификаторы, игнорируя отрицательные/вредные.
 
@@ -1892,7 +1892,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ▪ Её можно перемещать через любое пространство, через которое может пройти её база.
 ▪ Её базу нельзя перемещать сквозь вражеские модели.
 ▪ Её база не может пересекать край поля боя.
-▪ Все условия «Во время манёвра»(While Moving) должны быть соблюдены.
+▪ Все условия **[gloss:while-moving:«Во время манёвра»]**(While Moving) должны быть соблюдены.
 
 ### Движение модели по прямой линии
 Каждый раз, когда вы перемещаете модель по прямой линии, перемещайте её горизонтально по полю боя. Измеряйте расстояние от одной и той же точки на её базе в начале и в конце этого манёвра и прибавляйте это расстояние к любому другому расстоянию, которое она преодолела с момента начала манёвра её юнита. Пройденное расстояние не может превышать **[gloss:maximum-distance:максимальное расстояние]** для данного **[gloss:move-type:типа манёвра]**.
@@ -1904,7 +1904,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 После того как вы закончили устанавливать все модели в юните и/или перемещать все модели в юните, которые вы хотите переместить, проверьте, выполняются ли все следующие условия:
 ▪ Если этот юнит находится на поле боя, он находится в **[gloss:coherency:боевом построении]** (03.03).
 ▪ Ни одна модель в этом юните не находится на другой модели или частично внутри поверхности **[gloss:terrain-feature:элемента укрытия]** (например, стены или потолка).
-▪ Все условия «После манёвра»(After Moving) соблюдены.
+▪ Все условия **[gloss:after-moving:«После манёвра»]**(After Moving) соблюдены.
 
 Если одно или несколько из вышеуказанных условий не соблюдены, этот юнит не может совершить этот манёвр, и его модели возвращаются на свои изначальные позиции. В противном случае, после отыгрыша любых дополнительных правил, указанных в разделе «После манёвра»(After Moving) для этого **[gloss:move-type:типа манёвра]**, этот манёвр заканчивается.`,
           children: [
@@ -1974,7 +1974,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ▪ Находится в пределах 9" по горизонтали и 5" по вертикали от каждой другой модели в этом юните.
 
 ### Восстановление боевого построения
-На этапе «Конец хода»(End of Turn) каждого хода игрока, если один или несколько юнитов на поле боя не находятся в **боевом построении**, контролирующие игроки этих юнитов должны удалять модели из них, по одной, пока такой юнит снова не придёт в **боевое построение**. Модели, удалённые таким образом, **уничтожаются**, но они не активируют правила, которые срабатывают тогда, когда модель **уничтожена**.`,
+На этапе **[gloss:end-of-turn-step:«Конец хода»]**(End of Turn) каждого хода игрока, если один или несколько юнитов на поле боя не находятся в **боевом построении**, контролирующие игроки этих юнитов должны удалять модели из них, по одной, пока такой юнит снова не придёт в **боевое построение**. Модели, удалённые таким образом, **уничтожаются**, но они не активируют правила, которые срабатывают тогда, когда модель **уничтожена**.`,
           children: [
             {
               title: 'Что такое боевое построение (What Is Coherency)',
@@ -2002,14 +2002,14 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
       subsections: [
         {
           title: 'Шаги атаки',
-          body: `Каждый раз, когда юнит стреляет или вступает в ближний бой, активный игрок выполняет следующие шаги:
+          body: `Каждый раз, когда юнит стреляет или вступает в ближний бой, **[gloss:active-player:активный игрок]** выполняет следующие шаги:
 ▪ 1. Выбрать оружие
 ▪ 2. Выбрать цели
 ▪ 3. Отыграть атаки`,
         },
         {
           title: 'Выбор оружия',
-          body: `Для каждой модели в атакующем юните выберите, каким оружием эта модель будет совершать атаки. Модели совершают дистанционные атаки дистанционным оружием и совершают атаки ближнего боя оружием ближнего боя.
+          body: `Для каждой модели в атакующем юните выберите, каким оружием эта модель будет совершать атаки. Модели совершают **[gloss:ranged-attacks:дистанционные атаки]** **[gloss:ranged-weapons:дистанционным оружием]** и совершают **[gloss:melee-attacks:атаки ближнего боя]** **[gloss:melee-weapons:оружием ближнего боя]**.
 
 ### При стрельбе
 Вы можете выбрать одно или несколько единиц дистанционного оружия, которое есть у этой модели.
@@ -2037,7 +2037,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
               title: 'Характеристики и способности атаки',
               body: `При совершении атаки эта атака считается имеющей те же характеристики и способности, что и оружие, совершающее эту атаку.
 
-Если к атаке применяются какие-либо модификаторы или способности, эти изменения применяются к оружию, совершающему эту атаку, до тех пор, пока не будут отыграны последовательность атаки этого юнита и все эффекты этих способностей (например, [HAZARDOUS]).
+Если к атаке применяются какие-либо модификаторы или способности, эти изменения применяются к оружию, совершающему эту атаку, до тех пор, пока не будут отыграны **[gloss:attack-sequence:последовательность атаки]** этого юнита и все эффекты этих способностей (например, [HAZARDOUS]).
 
 Правила, применяемые к оружию, которые изменяют броски, применяются к атакам, совершаемым этим оружием.`,
             },
@@ -2203,10 +2203,10 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
         },
         {
           title: 'Save Rolls (спас-броски)',
-          body: `Противостоящий игрок отыгрывает следующую последовательность:
+          body: `**[gloss:opposing-player:Противостоящий игрок]** отыгрывает следующую последовательность:
 
 1. Создайте группы: разделите все модели в целевом юните на следующие группы, столько раз, сколько необходимо:
-▪ По одной группе для каждой модели ПЕРСОНАЖА(CHARACTER).
+▪ По одной группе для каждой модели **[gloss:character:ПЕРСОНАЖА]**(CHARACTER).
 ▪ Одна группа для всех остальных моделей с одинаковыми характеристиками W, Sv и InSv.
 
 2. Порядок распределения: объявите порядок, в котором эти группы будут получать атаки, применяя все следующее:
@@ -2220,7 +2220,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
           title: 'Нанесение урона',
           body: `Противостоящий игрок отыгрывает следующую последовательность для каждого **спас-броска**, работая от самого низкого результата(ов) к самому высокому результату(ам), пока все атаки не будут отыграны или все модели в целевом юните не будут **[gloss:destroyed:уничтожены]** — в последнем случае любые избыточные атаки теряются.
 
-1. Выберите модель: выберите одну модель в текущей группе распределения (см. справа); это должна быть модель, которая потеряла одну или несколько ран, если возможно.
+1. Выберите модель: выберите одну модель в текущей **[gloss:allocation-group:группе распределения]** (см. справа); это должна быть модель, которая потеряла одну или несколько ран, если возможно.
 2. Проверьте [gloss:save-roll:спас-бросок]: для каждого результата проверьте, наносит ли эта атака урон или проваливается, сопоставив первое условие ниже, которое применяется:
 ◆ Unmodified 1 (Немодифицированный) → INFLICTS DAMAGE (Наносит урон)
 ◆ Неуязвимый спас-бросок(Invulnerable Save): модели в текущей группе распределения имеют характеристику InSv, и результат равен или превышает эту характеристику → FAILS (Провал)

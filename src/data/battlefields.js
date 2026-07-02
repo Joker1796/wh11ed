@@ -373,7 +373,7 @@ Each time you use a **stratagem**, resolve the following sequence:
           turn: 'opponent',
           flavor: 'A hail of fire can drive back advancing foes.',
           when: 'End of your opponent\'s Movement phase',
-          target: 'One friendly **unengaged** unit (not a TITANIC unit)',
+          target: 'One friendly **unengaged** unit (not a **[gloss:titanic:TITANIC]** unit)',
           effect: 'That unit shoots using **snap shooting** (15.09).',
           restrictions: '',
           extraCost: [],
@@ -794,7 +794,7 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
         {
           flavor: 'Шквальный огонь обратит вспять любую атаку.',
           when: 'Конец фазы движения (Movement phase) вашего противника.',
-          target: 'Один дружественный **[gloss:unengaged:не вовлечённый в ближний бой]** юнит (не юнит TITANIC).',
+          target: 'Один дружественный **[gloss:unengaged:не вовлечённый в ближний бой]** юнит (не юнит **[gloss:titanic:TITANIC]**).',
           effect: 'Этот юнит использует **стрельбу на упреждение** (snap shooting) (15.09).',
           restrictions: '',
           extraCost: [],
