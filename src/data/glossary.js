@@ -345,7 +345,7 @@ export const glossary = {
   'persisting-effects': {
     term: 'Persisting Effects',
     en: 'Effects that continue to apply for a stated duration (e.g. “until the end of the turn”) rather than resolving instantly.',
-    ru: 'Эффекты, которые продолжают действовать в течение указанного срока (например, «до конца хода»), а не разрешаются мгновенно.',
+    ru: 'Эффекты, которые продолжают действовать в течение указанного срока (например, «до конца хода»), а не отыгрываются мгновенно.',
   },
   'battle-round': {
     term: 'Battle Round',
