@@ -609,6 +609,48 @@ export const glossary = {
     ru: 'Характеристика оружия, ухудшающая спас-бросок цели (например, AP -1 вычитает 1 из спас-броска).',
   },
 
+  // — Event Companion / missions —
+  'attacker': {
+    term: 'Attacker',
+    en: 'One of the two battle roles in a mission, decided by a roll-off; the layout labels the Attacker’s battlefield edges.',
+    ru: 'Одна из двух боевых ролей в миссии, определяемая перебросом; расстановка обозначает края поля боя Атакующего.',
+  },
+  'defender': {
+    term: 'Defender',
+    en: 'One of the two battle roles: the Defender deploys their units first, and the layout labels the Defender’s battlefield edge.',
+    ru: 'Одна из двух боевых ролей: Защищающийся развёртывает свои юниты первым, и расстановка обозначает его край поля боя.',
+  },
+  'primary-mission': {
+    term: 'Primary Mission',
+    en: 'Your main source of VP (up to 45VP, max 15VP per battle round), determined by the combination of both players’ Force Dispositions.',
+    ru: 'Ваш главный источник VP (до 45VP, максимум 15VP за раунд боя), определяемый сочетанием диспозиций сил (Force Disposition) обоих игроков.',
+  },
+  'secondary-mission': {
+    term: 'Secondary Mission',
+    en: 'Additional ways to score VP (up to 45VP in total). Before the battle each player secretly chooses Fixed or Tactical Secondary Missions.',
+    ru: 'Дополнительные способы набирать VP (в сумме до 45VP). Перед битвой каждый игрок тайно выбирает фиксированные (Fixed) или тактические (Tactical) вторичные миссии.',
+  },
+  'win-path': {
+    term: 'Win Path',
+    en: 'The timing of a player’s wins and losses across the rounds of an event, rather than just their number.',
+    ru: 'Тайминг побед и поражений игрока по раундам турнира, а не просто их количество.',
+  },
+  'faction-keyword': {
+    term: 'Faction Keyword',
+    en: 'The keyword linking a unit to its faction; you note one on your army roster as your army faction when mustering.',
+    ru: 'Ключевое слово, связывающее юнит с его фракцией; при сборе армии одно из них записывается в список армии как фракция армии.',
+  },
+  'refused-attacker': {
+    term: 'Refused Attacker',
+    en: 'In a Teams Event pairing, the Attacker each Defender did not choose to play against; the two refused Attackers play each other.',
+    ru: 'В паринге командного ивента — тот из двух Attacker, против которого Defender не стал играть; отклонённые Attacker обеих команд играют друг с другом.',
+  },
+  'best-team': {
+    term: 'Best Team',
+    en: 'The team ranked first at a Teams Event — usually the single team left undefeated at its end.',
+    ru: 'Команда, занявшая первое место на командном ивенте, — обычно единственная команда без поражений к его концу.',
+  },
+
   // — Misc glossary terms —
   // — Advanced Rules: transports —
   'transport-capacity': {
@@ -706,6 +748,11 @@ export const glossary = {
     term: 'Dense Terrain',
     en: 'A terrain trait: it blocks line of sight drawn through it to models more than 2" beyond it.',
     ru: 'Свойство ландшафта: перекрывает линию обзора, проводимую сквозь него, к моделям дальше 2" за ним.',
+  },
+  'light-terrain': {
+    term: 'Light Terrain',
+    en: 'A terrain category: light terrain can provide cover from incoming attacks, but will not slow an enemy’s advance or offer lasting defence (e.g. barricades, low walls).',
+    ru: 'Категория укрытий: лёгкие укрытия могут обеспечить укрытие от направленных атак, но не замедляют продвижение врага и не дают долговременной защиты (например, баррикады, невысокие стены).',
   },
   'solid': {
     term: 'Solid',
