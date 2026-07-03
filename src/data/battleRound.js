@@ -48,7 +48,7 @@ Each turn consists of seven parts: first the Start of Turn step, then a series o
             body: `Some rules allow a model or unit to make a move, shoot, declare a charge or fight outside of the normal turn sequence.
 
 When using these out-of-phase rules, you cannot use any other 'phase-locked' rules; that is, any other rule that explicitly states the phase in which that rule applies.`,
-            example: `In your opponent's Movement phase, you target a friendly unit with the Fire Overwatch **[gloss:stratagem:stratagem]**. That unit has an ability which is used 'In your Shooting phase, after this unit has shot'. Because Fire Overwatch is phase-locked to your opponent's Shooting phase, that ability is not triggered.`,
+            example: `In your opponent's Movement phase, you target a friendly unit with the Fire Overwatch **[gloss:stratagem:stratagem]** (15.08). That unit has an ability which is used 'In your Shooting phase, after this unit has shot'. Because Fire Overwatch is phase-locked to your opponent's Shooting phase, that ability is not triggered.`,
           },
           {
             id: 'section-07-02-02',
@@ -310,7 +310,7 @@ A unit is **[gloss:eligible-to-shoot:eligible to shoot]** if it is on the battle
 2. Select **[gloss:shooting-type:Shooting Type]**: Select one **shooting type** that unit is eligible to make, and resolve it with that unit. This can be one listed below, or one presented elsewhere:
 ▪ **[gloss:normal-shooting:Normal shooting]** (10.04)
 ▪ **[gloss:assault-shooting:Assault shooting]** (10.05)
-▪ **Close-quarters shooting** (10.06)
+▪ **[gloss:close-quarters:Close-quarters shooting]** (10.06)
 ▪ **[gloss:indirect-shooting:Indirect shooting]** (10.07)`,
         seeAlso: ['Actions 16.00', 'Shooting at Engaged Monsters and Vehicles 17.03', 'Terrain and Visibility 13.07'],
       },
@@ -510,15 +510,15 @@ A unit is **[gloss:eligible-to-shoot:eligible to shoot]** if it is on the battle
 
 Players resolve the following sequence until all eligible units have been **selected to fight** and their attacks have been resolved:
 
-1. Resolve Fights First Combats: Starting with the player whose turn it is, players alternate selecting one friendly **Fights First** unit that is **eligible to fight**; that unit is **selected to fight**. If this is not possible:
-→ If there are no **Fights First** units that are **eligible to fight**, move to the Resolve Remaining Combats step where this player will select their next unit.
+1. Resolve Fights First Combats: Starting with the player whose turn it is, players alternate selecting one friendly **[gloss:fights-first:Fights First]** unit that is **eligible to fight**; that unit is **selected to fight**. If this is not possible:
+→ If there are no **[gloss:fights-first:Fights First]** units that are **eligible to fight**, move to the Resolve Remaining Combats step where this player will select their next unit.
 → Otherwise, the other player selects their next unit.
 
 2. Resolve Remaining Combats: Starting with the player who just moved this sequence onto this step, players alternate selecting one friendly unit that is **eligible to fight**; that unit is **selected to fight**. If this is not possible:
 → If there are no units that are **eligible to fight**, the Fight step ends.
 → Otherwise, the other player selects their next unit.
 
-After resolving a fight in the Resolve Remaining Combats step, if there are one or more Fights First units that are now **eligible to fight**, return to the Resolve Fights First Combats step.`,
+After resolving a fight in the Resolve Remaining Combats step, if there are one or more [gloss:fights-first:Fights First] units that are now **eligible to fight**, return to the Resolve Fights First Combats step.`,
         children: [
           {
             id: 'section-12-04-01',
@@ -554,7 +554,7 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 ◈ EFFECT | Your unit can make one additional **pile-in move**, then fights as described in Making Attacks (04).
 
 [img:/images/fight/overrun-fight.jpg|Overrun fight — eligible conditions]`,
-        note: 'When a unit makes an **overrun fight**, its models can be moved such that enemy units that were unengaged become engaged. Such enemy units become **eligible to fight** this phase (and may even be able to fight next if they are Fights First units).',
+        note: 'When a unit makes an **overrun fight**, its models can be moved such that enemy units that were unengaged become engaged. Such enemy units become **eligible to fight** this phase (and may even be able to fight next if they are [gloss:fights-first:Fights First] units).',
       },
       {
         id: 'section-12-07',
@@ -634,7 +634,7 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
             body: `Некоторые правила позволяют модели или юниту совершить манёвр, выстрелить, объявить нападение или сразиться вне обычной последовательности хода.
 
 При использовании этих внефазовых правил вы не можете использовать никакие другие «привязанные к фазе» правила, то есть любые другие правила, которые явно указывают фазу, в которой они применяются.`,
-            example: `В Фазе движения вашего оппонента вы нацеливаетесь на союзный юнит **[gloss:stratagem:стратагемой]** Fire Overwatch. У этого юнита есть способность, используемая «В вашей Фазе стрельбы, после того как этот юнит выстрелил». Поскольку Fire Overwatch привязана к Фазе стрельбы вашего оппонента, эта способность не срабатывает.`,
+            example: `В Фазе движения вашего оппонента вы нацеливаетесь на союзный юнит **[gloss:stratagem:стратагемой]** Fire Overwatch (15.08). У этого юнита есть способность, используемая «В вашей Фазе стрельбы, после того как этот юнит выстрелил». Поскольку Fire Overwatch привязана к Фазе стрельбы вашего оппонента, эта способность не срабатывает.`,
           },
           {
             title: 'Определения раунда боя/хода/фазы',
@@ -736,7 +736,7 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
         title: 'Движение юнитов',
         body: `Активный игрок перемещает свои юниты по одному, используя последовательность ниже, пока все его юниты не будут **[gloss:selected-to-move:выбраны для манёвра]** и эти манёвры не закончатся.
 
-1. Выбор юнита: Выберите один союзный юнит, который ещё не был [gloss:selected-to-move:выбран для манёвра] в этой фазе. Вы можете выбрать юнит на поле боя, в [gloss:strategic-reserves:стратегических резервах] или внутри ТРАНСПОРТА (TRANSPORT). Этот юнит [gloss:selected-to-move:выбран для манёвра].
+1. Выбор юнита: Выберите один союзный юнит, который ещё не был [gloss:selected-to-move:выбран для манёвра] в этой фазе. Вы можете выбрать юнит на поле боя, в [gloss:strategic-reserves:стратегических резервах] или внутри [gloss:transport:ТРАНСПОРТА]. Этот юнит [gloss:selected-to-move:выбран для манёвра].
 2. Выбор **типа манёвра**: Выберите один **[gloss:move-type:тип манёвра]**, который этот юнит имеет право совершить, и отыграйте его с этим юнитом. Это может быть один из перечисленных ниже или представленный в другом месте:
 ▪ Remain stationary (Оставаться неподвижным) (см.далее)
 ▪ Normal move (Обычный манёвр) (см.далее)
@@ -833,7 +833,7 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 2. Выберите **тип стрельбы**: Выберите один **[gloss:shooting-type:тип стрельбы]**, который этот юнит имеет право совершить, и отыграйте его с этим юнитом. Это может быть один из перечисленных ниже или представленный в другом месте:
 ▪ **[gloss:normal-shooting:Normal shooting]** (Обычная стрельба) (10.04)
 ▪ **[gloss:assault-shooting:Assault shooting]** (Штурмовая стрельба) (10.05)
-▪ Close-quarters shooting (Стрельба в ближнем бою) (10.06)
+▪ **[gloss:close-quarters:Close-quarters shooting]** (Стрельба в ближнем бою) (10.06)
 ▪ **[gloss:indirect-shooting:Indirect shooting]** (Непрямая стрельба) (10.07)`,
       },
       {
@@ -936,7 +936,7 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 ◈ ПОСЛЕ МАНЁВРА
 ▪ Ваш юнит должен быть **[gloss:engaged:в бою]** со всеми **[gloss:charge-target:целями нападения]**.
 ▪ Ваш юнит **не может** быть **[gloss:engaged:в бою]** с вражескими юнитами, которые **не являются [gloss:charge-target:целями нападения]**.
-▪ До конца хода каждая модель в вашем юните обладает способностью **«Первый удар» (Fights First)** (24.13).
+▪ До конца хода каждая модель в вашем юните обладает способностью **[gloss:fights-first:«Первый удар»]** (24.13).
 
 [img:/images/charge/making-a-charge-move-ru.jpg|Ход нападения — допустимые и недопустимые примеры]`,
       },
@@ -995,15 +995,15 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 
 Игроки отыгрывают следующую последовательность, пока все имеющие право юниты не будут **[gloss:selected-to-fight:выбраны для боя]** и их атаки не будут отыграны:
 
-1. Отыграть схватки с «Первым ударом» (Fights First): Начиная с игрока, чей сейчас ход, игроки по очереди выбирают один союзный юнит с **«Первым ударом» (Fights First)**, который **имеет [gloss:eligible-to-fight:право сражаться]**; этот юнит **[gloss:selected-to-fight:выбран для боя]**. Если это невозможно:
-→ Если нет ни одного юнита с **«Первым ударом» (Fights First)**, который **имеет [gloss:eligible-to-fight:право сражаться]**, перейдите к шагу «Отыграть оставшиеся схватки», где этот игрок выберет свой следующий юнит.
+1. Отыграть схватки с «Первым ударом» (Fights First): Начиная с игрока, чей сейчас ход, игроки по очереди выбирают один союзный юнит с **[gloss:fights-first:«Первым ударом»]**, который **имеет [gloss:eligible-to-fight:право сражаться]**; этот юнит **[gloss:selected-to-fight:выбран для боя]**. Если это невозможно:
+→ Если нет ни одного юнита с **[gloss:fights-first:«Первым ударом»]**, который **имеет [gloss:eligible-to-fight:право сражаться]**, перейдите к шагу «Отыграть оставшиеся схватки», где этот игрок выберет свой следующий юнит.
 → В противном случае другой игрок выбирает свой следующий юнит.
 
 2. Отыграть оставшиеся схватки: Начиная с игрока, который только что перевёл эту последовательность на этот шаг, игроки по очереди выбирают один союзный юнит, который **имеет [gloss:eligible-to-fight:право сражаться]**; этот юнит **[gloss:selected-to-fight:выбран для боя]**. Если это невозможно:
 → Если нет ни одного юнита, который **имеет [gloss:eligible-to-fight:право сражаться]**, шаг «Бой» заканчивается.
 → В противном случае другой игрок выбирает свой следующий юнит.
 
-После отыгрыша схватки на шаге «Отыграть оставшиеся схватки», если появляется один или несколько юнитов с **«Первым ударом» (Fights First)**, которые теперь **имеют [gloss:eligible-to-fight:право сражаться]**, вернитесь к шагу «Отыграть схватки с «Первым ударом»».`,
+После отыгрыша схватки на шаге «Отыграть оставшиеся схватки», если появляется один или несколько юнитов с **[gloss:fights-first:«Первым ударом»]**, которые теперь **имеют [gloss:eligible-to-fight:право сражаться]**, вернитесь к шагу «Отыграть схватки с «Первым ударом»».`,
         children: [
           {
             title: 'Может участвовать в бою, но не способен сражаться',
@@ -1029,7 +1029,7 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 ◈ ЭФФЕКТ | Ваш юнит может совершить один дополнительный **[gloss:pile-in:манёвр сближения]**, затем сражается, как описано в разделе «Совершение атак» (04).
 
 [img:/images/fight/overrun-fight-ru.jpg|Оверран — условия доступности]`,
-        note: 'Когда юнит совершает [gloss:overrun:оверран], его модели могут быть перемещены так, что вражеские юниты, которые были не связаны боем, становятся связанными боем. Такие вражеские юниты получают право сражаться в этой фазе (и даже могут сражаться следующими, если они являются юнитами с «Первым ударом» (Fights First)).',
+        note: 'Когда юнит совершает [gloss:overrun:оверран], его модели могут быть перемещены так, что вражеские юниты, которые были не связаны боем, становятся связанными боем. Такие вражеские юниты получают право сражаться в этой фазе (и даже могут сражаться следующими, если они являются юнитами с [gloss:fights-first:«Первым ударом»]).',
       },
       {
         title: 'Консолидация (Consolidate)',

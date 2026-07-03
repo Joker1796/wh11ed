@@ -36,7 +36,7 @@ Each time a model makes a ranged attack that targets such a unit, subtract 1 fro
               sectionNum: '17.03.01',
               title: 'Shooting While Engaged With Monsters/Vehicles',
               fromApp: true,
-              body: `A unit that is **engaged** with an enemy MONSTER/VEHICLE unit is still __not__ **[gloss:eligible-to-shoot:eligible to shoot]**, and so cannot make ranged attacks against that MONSTER/VEHICLE unit, unless that unit is **eligible to shoot** while **engaged** (e.g. because it is using **close-quarters shooting**).`,
+              body: `A unit that is **engaged** with an enemy MONSTER/VEHICLE unit is still __not__ **[gloss:eligible-to-shoot:eligible to shoot]**, and so cannot make ranged attacks against that MONSTER/VEHICLE unit, unless that unit is **eligible to shoot** while **engaged** (e.g. because it is using **[gloss:close-quarters:close-quarters shooting]**).`,
             },
           ],
         },
@@ -466,13 +466,13 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
       num: '18',
       title: 'Транспорты',
       page: 64,
-      description: 'Модели ТРАНСПОРТ (TRANSPORT) могут перевозить пассажиров по полю боя. Этот раздел объясняет, как использовать такие модели в ваших играх и как отряды могут погружаться в них и высаживаться из них.',
+      description: 'Модели [gloss:transport:ТРАНСПОРТ] могут перевозить пассажиров по полю боя. Этот раздел объясняет, как использовать такие модели в ваших играх и как отряды могут погружаться в них и высаживаться из них.',
       subsections: [
         {
           id: 'section-18-01',
           sectionNum: '18.01',
           title: 'Вместимость транспорта',
-          body: `Модели ТРАНСПОРТ (TRANSPORT) имеют **[gloss:transport-capacity:вместимость транспорта]**, указанную на их карточке данных. Это определяет тип и максимальное количество дружественных моделей, **[gloss:eligible-to-embark:которые могут погрузиться]** в них. Более одного отряда может быть погружено в одну модель ТРАНСПОРТ одновременно при наличии достаточной **вместимости транспорта**.
+          body: `Модели [gloss:transport:ТРАНСПОРТ] имеют **[gloss:transport-capacity:вместимость транспорта]**, указанную на их карточке данных. Это определяет тип и максимальное количество дружественных моделей, **[gloss:eligible-to-embark:которые могут погрузиться]** в них. Более одного отряда может быть погружено в одну модель ТРАНСПОРТ одновременно при наличии достаточной **вместимости транспорта**.
 
 До битвы, на шаге «Объявление боевых построений» (Declare Battle Formations step), ваши отряды могут начать погружёнными в любую дружественную модель ТРАНСПОРТ с достаточной оставшейся **вместимостью транспорта** для всего отряда.`,
         },
@@ -480,7 +480,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
           id: 'section-18-02',
           sectionNum: '18.02',
           title: 'Погрузка',
-          body: `После начала первого [gloss:battle-round:раунда боя] дружественный отряд может погрузиться в дружественную модель ТРАНСПОРТ (TRANSPORT) после совершения **[gloss:normal-move:обычного манёвра]**, **[gloss:advance-move:продвижения]** или **[gloss:fall-back-move:отступления]**, если применяются **все** следующие условия:
+          body: `После начала первого [gloss:battle-round:раунда боя] дружественный отряд может погрузиться в дружественную модель [gloss:transport:ТРАНСПОРТ] после совершения **[gloss:normal-move:обычного манёвра]**, **[gloss:advance-move:продвижения]** или **[gloss:fall-back-move:отступления]**, если применяются **все** следующие условия:
 ▪ Каждая модель в этом отряде находится в пределах 3" от этого ТРАНСПОРТА.
 ▪ Этот отряд не был расставлен на поле боя в этот ход.
 ▪ Этот отряд **[gloss:eligible-to-embark:может погрузиться]** в этот ТРАНСПОРТ, как описано на его карточке данных.
@@ -503,7 +503,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
           id: 'section-18-03',
           sectionNum: '18.03',
           title: 'Высадка',
-          body: `В фазу движения (Movement phase) активного игрока каждый дружественный отряд, погружённый в модель ТРАНСПОРТ (TRANSPORT), может высадиться из неё, совершив **[gloss:disembark:манёвр высадки]** (см. ниже).
+          body: `В фазу движения (Movement phase) активного игрока каждый дружественный отряд, погружённый в модель [gloss:transport:ТРАНСПОРТ], может высадиться из неё, совершив **[gloss:disembark:манёвр высадки]** (см. ниже).
 
 Если модель ТРАНСПОРТ **[gloss:destroyed:уничтожена]**, до её удаления с поля боя активный игрок должен совершить **[gloss:disembark:экстренный манёвр высадки]** (см. напротив) каждым отрядом, погружённым в неё.`,
         },
@@ -515,7 +515,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
 ◈ УСЛОВИЕ | К вашему отряду применяются все из следующего:
 ▪ Погружён в модель ТРАНСПОРТ, находящуюся на поле боя.
 ▪ Не грузился в этот ТРАНСПОРТ в эту фазу.
-▪ Этот ТРАНСПОРТ (TRANSPORT) не совершал **[gloss:advance-move:продвижения]** или **[gloss:fall-back-move:отступления]** в эту фазу.
+▪ Этот [gloss:transport:ТРАНСПОРТ] не совершал **[gloss:advance-move:продвижения]** или **[gloss:fall-back-move:отступления]** в эту фазу.
 ◈ ЭФФЕКТ | Ваш отряд расставляется, как описано в «Расстановке» (03.02).
 ◈ ПЕРЕД ДВИЖЕНИЕМ | Выберите **[gloss:disembark:режим высадки]** в следующем порядке:
 ▪ **Стремительная высадка (Rapid Disembark):** Если этот ТРАНСПОРТ совершил **[gloss:normal-move:обычный манёвр]** или **[gloss:ingress-move:манёвр прибытия]** в эту фазу, вы должны выбрать этот режим.
@@ -534,7 +534,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
           sectionNum: '18.05',
           title: 'Экстренный манёвр высадки',
           body: `◈ РАССТОЯНИЕ РАССТАНОВКИ | 6"
-◈ УСЛОВИЕ | Ваш отряд погружён в модель ТРАНСПОРТ (TRANSPORT), которая только что была **[gloss:destroyed:уничтожена]**.
+◈ УСЛОВИЕ | Ваш отряд погружён в модель [gloss:transport:ТРАНСПОРТ], которая только что была **[gloss:destroyed:уничтожена]**.
 ◈ ЭФФЕКТ | Ваш отряд расставляется, как описано в «Расстановке» (03.02).
 ◈ ПЕРЕД ДВИЖЕНИЕМ | Совершите **[gloss:hazard-roll:бросок на опасность]** (06.03) за каждую модель вашего отряда.
 ◈ ВО ВРЕМЯ ДВИЖЕНИЯ | Расставьте каждую модель вашего отряда:
@@ -666,7 +666,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
           sectionNum: '20.04',
           title: 'Манёвр прибытия (Ingress Move)',
           body: `◈ РАССТОЯНИЕ РАССТАНОВКИ | 6"
-◈ УСЛОВИЕ | Ваш отряд находится в **[gloss:strategic-reserves:стратегическом резерве]** и не погружён в ТРАНСПОРТ (TRANSPORT), также находящийся в **стратегическом резерве**.
+◈ УСЛОВИЕ | Ваш отряд находится в **[gloss:strategic-reserves:стратегическом резерве]** и не погружён в [gloss:transport:ТРАНСПОРТ], также находящийся в **стратегическом резерве**.
 ◈ ЭФФЕКТ | Ваш отряд расставляется, как описано в «Расстановке» (03.02).
 ◈ ВО ВРЕМЯ ДВИЖЕНИЯ | Расставьте ваш отряд целиком в пределах 6" от одного или нескольких краёв поля боя и более чем в 8" по горизонтали от всех вражеских отрядов.
 ▪ **До третьего раунда боя:** при этом ни одна модель не может быть расставлена в [gloss:deployment-zone:зоне развёртывания] противника.
