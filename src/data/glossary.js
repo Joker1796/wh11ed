@@ -12,18 +12,18 @@ export const glossary = {
   },
   'footprint': {
     term: 'Footprint',
-    en: 'The area a model’s base (or hull) covers on the battlefield when viewed from above.',
-    ru: 'Площадь, которую база модели (или её корпус) занимает на поле боя, если смотреть сверху.',
+    en: 'The area a terrain area takes up on the battlefield — the ground inside the boundary (such as the mat) it’s placed on, seen from directly above.',
+    ru: 'Площадь, которую участок укрытия занимает на поле боя — земля в пределах его границы (например, мата), если смотреть строго сверху.',
   },
   'within': {
     term: 'Within',
-    en: 'A model is Within a distance if **any** part of its base (or hull) is at or closer than that distance; a unit is Within if any of its models are.',
-    ru: 'Модель находится «в пределах» расстояния, если **любая** часть её базы (или корпуса) находится на этом расстоянии или ближе; юнит — если в пределах находится любая его модель.',
+    en: '“Within X” is measured to the nearest point: a model counts if **any** part of its base (or hull) is that far away or closer, and a unit counts if **at least one** of its models does.',
+    ru: '«В пределах X» измеряется до ближайшей точки: модель считается, если **любая** часть её базы (или корпуса) находится на этом расстоянии или ближе, а юнит — если это верно хотя бы для **одной** его модели.',
   },
   'wholly-within': {
     term: 'Wholly Within',
-    en: 'A model is Wholly Within a distance if **every** part of its base (or hull) is at or closer than that distance; a unit is Wholly Within if all of its models are.',
-    ru: 'Модель находится «полностью в пределах» расстояния, если **каждая** часть её базы (или корпуса) находится на этом расстоянии или ближе; юнит — если полностью в пределах находятся все его модели.',
+    en: '“Wholly Within X” is stricter than Within: a model counts only if **every** part of its base (or hull) is that far away or closer, and a unit counts only if **all** of its models are.',
+    ru: '«Полностью в пределах X» — строже, чем «в пределах»: модель считается, только если **каждая** часть её базы (или корпуса) находится на этом расстоянии или ближе, а юнит — только если это верно для **всех** его моделей.',
   },
   'base-contact': {
     term: 'Base Contact',
@@ -89,15 +89,15 @@ export const glossary = {
   },
   'hazard-roll': {
     term: 'Hazardous Test',
-    en: 'A test taken for Hazardous weapons: on a 1 the bearer suffers mortal wounds or is destroyed.',
-    ru: 'Проверка для оружия с правилом Hazardous: при результате 1 носитель получает смертельные раны или уничтожается.',
+    en: 'A test for Hazardous weapons: roll one D6 for the unit — on a 1-2 it suffers 1 mortal wound (or 3 if every model in it is a MONSTER/VEHICLE).',
+    ru: 'Проверка для оружия с правилом Hazardous: бросьте один D6 за юнит — на 1-2 он получает 1 смертельную рану (или 3, если каждая модель в нём — MONSTER/VEHICLE).',
   },
 
   // — Leadership & Battle-shock —
   'leadership-roll': {
     term: 'Leadership Roll',
-    en: 'A general term for rolls made against the Leadership characteristic, such as Battle-shock tests.',
-    ru: 'Общий термин для проверок, совершаемых по характеристике лидерства, например тестов на боевой шок.',
+    en: 'The controlling player rolls 2D6; the roll succeeds if the result equals or beats one or more of the unit’s Leadership (Ld) characteristics, otherwise it fails, and the rule that called for it says what success or failure does. Battle-shock tests are Leadership rolls.',
+    ru: 'Контролирующий игрок бросает 2D6; проверка успешна, если результат равен одной или нескольким характеристикам лидерства (Ld) юнита или превышает их, иначе — провалена, а вызвавшее её правило описывает последствия успеха или провала. Проверки боевого шока — это проверки лидерства.',
   },
   'leadership-test': {
     term: 'Leadership Test',
@@ -106,8 +106,8 @@ export const glossary = {
   },
   'battle-shock-test': {
     term: 'Battle-shock Test',
-    en: 'A Leadership test a unit takes when required (e.g. while below Half-strength). Failing it leaves the unit Battle-shocked.',
-    ru: 'Тест на лидерство, который юнит проходит при необходимости (например, будучи ниже половинной численности). Провал делает юнит подверженным боевому шоку.',
+    en: 'A Leadership test a unit takes when required (e.g. while below Half-strength): roll 2D6, passing if the result equals or beats the unit’s Leadership (Ld) characteristic. Failing it leaves the unit Battle-shocked.',
+    ru: 'Тест на лидерство, который юнит проходит при необходимости (например, будучи ниже половинной численности): бросьте 2D6, тест пройден, если результат равен характеристике лидерства (Ld) юнита или превышает её. Провал делает юнит подверженным боевому шоку.',
   },
   'battle-shocked': {
     term: 'Battle-shocked',
@@ -140,6 +140,11 @@ export const glossary = {
     term: 'Starting Strength',
     en: 'The number of models a unit has when it is set up at the start of the battle.',
     ru: 'Количество моделей в юните на момент его размещения в начале битвы.',
+  },
+  'below-starting-strength': {
+    term: 'Below Starting Strength',
+    en: 'A unit that has fewer remaining models than its Starting Strength (or, for a single-model unit, fewer remaining wounds than its Wounds characteristic).',
+    ru: 'Юнит, в котором осталось меньше моделей, чем его начальная численность (или, для юнита из одной модели, меньше ран, чем его характеристика W).',
   },
   'half-strength': {
     term: 'Half-strength',
@@ -180,13 +185,13 @@ export const glossary = {
   },
   'bodyguard': {
     term: 'Bodyguard',
-    en: 'A unit that a Leader can be attached to, forming an Attached unit.',
-    ru: 'Юнит, к которому может присоединиться лидер, образуя присоединённый юнит.',
+    en: 'A unit that a Leader and/or Support units can be attached to, forming an Attached unit.',
+    ru: 'Юнит, к которому могут присоединиться лидер и/или юниты поддержки, образуя присоединённый юнит.',
   },
   'attached-unit': {
     term: 'Attached Unit',
-    en: 'The single unit formed when a Leader (CHARACTER) joins a Bodyguard unit; they act as one unit.',
-    ru: 'Юнит, образованный, когда лидер (ПЕРСОНАЖ) присоединяется к юниту-телохранителю; они действуют как один юнит.',
+    en: 'The single unit formed when a Leader (CHARACTER) and/or Support units join a Bodyguard unit; they act as one unit.',
+    ru: 'Юнит, образованный, когда лидер (ПЕРСОНАЖ) и/или юниты поддержки присоединяются к юниту-телохранителю; они действуют как один юнит.',
   },
   'forming-attached-units': {
     term: 'Forming Attached Units',
@@ -195,15 +200,15 @@ export const glossary = {
   },
   'enhancement': {
     term: 'Enhancement',
-    en: 'An upgrade from a Detachment that can be given to a CHARACTER, modifying its abilities or wargear.',
-    ru: 'Усиление из отряда (Detachment), которое можно дать ПЕРСОНАЖУ, изменяя его способности или снаряжение.',
+    en: 'A bonus you take from your Detachment when building your army. There are two kinds: a standard Enhancement is given to a single CHARACTER to improve its abilities or wargear; an Enhancement marked ‘Upgrade’ goes to a non-CHARACTER unit instead, and you may take up to three of the same one.',
+    ru: 'Бонус, который вы берёте из своего детачмента (Detachment) при сборке армии. Бывает двух видов: обычное улучшение даётся одному ПЕРСОНАЖУ, усиливая его способности или снаряжение; улучшение с пометкой «Upgrade» вместо этого даётся отряду не-CHARACTER, и таких одинаковых можно взять до трёх.',
   },
 
   // — Selection & moves —
   'selected-to-move': {
     term: 'Selected to Move',
-    en: 'When a unit is picked to move during the Movement phase.',
-    ru: 'Когда юнит выбирается для совершения манёвра в фазе движения.',
+    en: 'When a unit is picked to make a move. This usually happens in the Movement phase, but some rules select a unit to move at other times too.',
+    ru: 'Когда юнит выбирается для совершения манёвра. Обычно это происходит в фазе движения, но некоторые правила выбирают юнит для манёвра и в другое время.',
   },
   'selected-to-shoot': {
     term: 'Selected to Shoot',
@@ -227,8 +232,8 @@ export const glossary = {
   },
   'normal-move': {
     term: 'Normal Move',
-    en: 'A move up to a unit’s Move (M) characteristic made in the Movement phase.',
-    ru: 'Обычный манёвр на величину до характеристики движения (M) юнита в фазе движения.',
+    en: 'A unit’s basic move: each model moves up to its Move (M) characteristic and can’t end within Engagement Range of an enemy. Units usually make one in the Movement phase, but some rules let a unit make a Normal Move at other times too.',
+    ru: 'Базовый манёвр юнита: каждая модель проходит до своей характеристики движения (M) и не может закончить его в радиусе связывания врага. Обычно юнит совершает его в фазе движения, но некоторые правила позволяют совершить обычный манёвр и в другое время.',
   },
   'remain-stationary': {
     term: 'Remain Stationary',
@@ -244,8 +249,8 @@ export const glossary = {
   // — Engagement —
   'engagement-range': {
     term: 'Engagement Range',
-    en: 'The zone within 1" horizontally and 5" vertically of a model, used for combat and movement restrictions.',
-    ru: 'Зона в пределах 1" по горизонтали и 5" по вертикали от модели, определяющая ограничения боя и движения.',
+    en: 'The zone within 2" horizontally and 5" vertically of a model, used for combat and movement restrictions.',
+    ru: 'Зона в пределах 2" по горизонтали и 5" по вертикали от модели, определяющая ограничения боя и движения.',
   },
   'engaged': {
     term: 'Engaged',
@@ -274,6 +279,11 @@ export const glossary = {
     en: 'A target is visible to a model if any part of it can be seen from that model.',
     ru: 'Цель видима для модели, если любую её часть можно увидеть от этой модели.',
   },
+  'not-visible': {
+    term: 'Not Visible',
+    en: 'A unit or model that cannot be seen at all from the observing model — no part of it can be seen. It cannot be selected or targeted by attacks or rules that require a visible target.',
+    ru: 'Юнит или модель, которую невозможно увидеть от наблюдающей модели — ни одну её часть. Её нельзя выбрать целью атак или правил, требующих видимую цель.',
+  },
   'fully-visible': {
     term: 'Fully Visible',
     en: 'A target is fully visible if all of it can be seen from the observing model.',
@@ -281,8 +291,8 @@ export const glossary = {
   },
   'hidden': {
     term: 'Hidden',
-    en: 'A model that cannot be seen at all from the observing model.',
-    ru: 'Модель, которую вообще нельзя увидеть от наблюдающей модели.',
+    en: 'A terrain rule (13.09): an INFANTRY/BEASTS/SWARM model within a terrain area with light/dense terrain features whose unit made no ranged attacks this or the previous turn is Hidden — visible only to enemy models within its detection range (15" unless stated otherwise).',
+    ru: 'Правило укрытий (13.09): модель с ключевым словом INFANTRY/BEASTS/SWARM в области укрытия с лёгкими/плотными элементами, чей юнит не совершал дальних атак в этом и прошлом ходу, находится в скрытности — видима только вражеским моделям в пределах её радиуса обнаружения (15", если не указано иное).',
   },
   'line-of-sight': {
     term: 'Line of Sight',
@@ -298,8 +308,8 @@ export const glossary = {
   // — Damage & mortal wounds —
   'mortal-wound': {
     term: 'Mortal Wounds',
-    en: 'Damage that ignores saving throws; each mortal wound removes one wound from the target.',
-    ru: 'Урон, игнорирующий спас-броски; каждая смертельная рана снимает одну рану с цели.',
+    en: 'Damage inflicted directly on a unit that can’t be reduced by saving throws. They are dealt one at a time — each removes 1 wound from a model in the unit, spilling over to the next model until all are inflicted or the unit is destroyed.',
+    ru: 'Урон, наносимый напрямую юниту, который нельзя уменьшить спас-бросками. Наносятся по одной — каждая снимает 1 рану с модели юнита и переходит на следующую модель, пока все не нанесены или юнит не будет уничтожен.',
   },
 
   // — Terrain —
@@ -310,8 +320,8 @@ export const glossary = {
   },
   'terrain-area': {
     term: 'Terrain Area',
-    en: 'The area covered by an Area Terrain feature, used for visibility and the Benefit of Cover.',
-    ru: 'Область, занимаемая участком укрытия, используемая для видимости и преимущества укрытия.',
+    en: 'The patch of the battlefield taken up by a piece of terrain — either the boundary you set down (such as a base or mat) or the terrain feature(s) placed there. Many rules, such as Hidden, Benefit of Cover and objectives, depend on whether a model is inside one.',
+    ru: 'Участок поля боя, который занимает укрытие — либо очерченная граница (например, база или мат), либо поставленные там элементы укрытия. Многие правила — Скрытность, Преимущество от укрытия, цели — зависят от того, находится ли модель внутри такой области.',
   },
   'terrain-feature': {
     term: 'Terrain Feature',
@@ -360,7 +370,7 @@ export const glossary = {
   'detachments': {
     term: 'Detachment',
     en: 'The set of rules, Enhancements and Stratagems chosen for your army from its Faction.',
-    ru: 'Набор правил, усилений и стратагем, выбранный для вашей армии из её фракции.',
+    ru: 'Набор правил, усилений и стратагем, выбранный для вашей армии на этапе создания ростера.',
   },
 
   // — Muster Your Army —
@@ -396,8 +406,8 @@ export const glossary = {
   },
   'coherency': {
     term: 'Unit Coherency',
-    en: 'The formation rule keeping a unit’s models within 2" of another model in the unit (a chain of two for units of 7+ models).',
-    ru: 'Правило построения: модели юнита должны быть в пределах 2" от другой модели юнита (цепочкой по двое для юнитов из 7+ моделей).',
+    en: 'The formation rule: every model must be within 2" horizontally and 5" vertically of at least one other model in the unit, and within 9" horizontally and 5" vertically of every other model in the unit.',
+    ru: 'Правило построения: каждая модель должна быть в пределах 2" по горизонтали и 5" по вертикали от хотя бы одной другой модели юнита и в пределах 9" по горизонтали и 5" по вертикали от каждой другой модели юнита.',
   },
 
   // — Battle Round: movement types —
@@ -452,6 +462,16 @@ export const glossary = {
     term: 'Charge Roll',
     en: '2D6 rolled to determine how far a charging unit can move.',
     ru: '2D6, бросаемые, чтобы определить, как далеко может переместиться нападающий юнит.',
+  },
+  'lone-operative': {
+    term: 'Lone Operative',
+    en: 'An ability of the form Lone Operative X": unless part of an attached unit, the unit is not visible to enemy models more than X" away, and cannot be targeted by [INDIRECT FIRE] from beyond X".',
+    ru: 'Способность вида Lone Operative X": если юнит не входит в состав составного юнита, он не виден вражеским моделям дальше X" и не может быть выбран целью оружия [INDIRECT FIRE] из-за пределов X".',
+  },
+  'infiltrators': {
+    term: 'Infiltrators',
+    en: 'A unit ability (24.20): during deployment, if every model in the unit has it, the unit can be set up anywhere on the battlefield more than 8" horizontally from the enemy deployment zone and all enemy units.',
+    ru: 'Способность юнита (24.20): при развёртывании, если ею обладает каждая модель юнита, юнит можно выставить где угодно на поле боя дальше 8" по горизонтали от зоны развёртывания противника и всех вражеских юнитов.',
   },
   'charge-target': {
     term: 'Charge Target',
@@ -598,6 +618,11 @@ export const glossary = {
     en: 'A melee weapon characteristic: the D6 result needed for its hit rolls.',
     ru: 'Характеристика оружия ближнего боя: результат D6, нужный для его бросков на попадание.',
   },
+  'bs-ws': {
+    term: 'BS/WS',
+    en: 'The characteristic a hit roll is made against — Ballistic Skill (BS) for ranged attacks, Weapon Skill (WS) for melee attacks.',
+    ru: 'Характеристика, против которой совершается бросок на попадание — Ballistic Skill (BS) для дистанционных атак, Weapon Skill (WS) для атак ближнего боя.',
+  },
   'strength': {
     term: 'Strength (S)',
     en: 'A weapon characteristic compared to the target’s Toughness to determine the wound roll needed.',
@@ -639,6 +664,11 @@ export const glossary = {
     term: 'Faction Keyword',
     en: 'The keyword linking a unit to its faction; you note one on your army roster as your army faction when mustering.',
     ru: 'Ключевое слово, связывающее юнит с его фракцией; при сборе армии одно из них записывается в список армии как фракция армии.',
+  },
+  'terminator': {
+    term: 'Terminator',
+    en: 'An example unit keyword — the elite infantry that wear Terminator armour. Here it stands in for any keyword a rule might use to describe a unit.',
+    ru: 'Пример ключевого слова юнита — элитная пехота в терминаторской броне. Здесь приведено как пример любого ключевого слова, которым правило может описывать юнит.',
   },
   'refused-attacker': {
     term: 'Refused Attacker',
@@ -705,6 +735,11 @@ export const glossary = {
     en: 'The area of the battlefield in which a player sets up their army before the battle begins.',
     ru: 'Область поля боя, в которой игрок размещает свою армию до начала битвы.',
   },
+  'during-deployment': {
+    term: 'During Deployment',
+    en: 'While setting up your army before the battle begins — the deployment step, where units are placed in your deployment zone.',
+    ru: 'Во время расстановки армии перед началом битвы — шаг развёртывания, когда юниты размещаются в вашей зоне развёртывания.',
+  },
 
   // — Advanced Rules: abilities & shooting —
   'aura': {
@@ -768,6 +803,11 @@ export const glossary = {
     term: 'Level of Control',
     en: 'How strongly a unit controls an objective marker — the total Objective Control of its eligible models there versus the enemy’s.',
     ru: 'Насколько сильно юнит контролирует маркер цели — суммарный Контроль цели его подходящих моделей там против вражеского.',
+  },
+  'controlling-unit': {
+    term: 'Controlling Unit',
+    en: 'The unit that controls an objective marker — the one whose eligible models within range of it have the greater total Objective Control.',
+    ru: 'Юнит, который контролирует маркер цели — тот, у чьих подходящих моделей в пределах его дальности суммарный Контроль цели больше.',
   },
 
   // — Imported terms (minstrel gloss.txt, 2026-07): players, army & game basics —
@@ -835,8 +875,6 @@ export const glossary = {
   },
   'keywords': {
     term: 'Keywords',
-    en: 'The words listed on a unit’s datasheet that rules, abilities and restrictions interact with.',
-    ru: 'Слова в таблице данных юнита, с которыми взаимодействуют правила, способности и ограничения.',
   },
   'melee-weapons': {
     term: 'Melee Weapons',
@@ -880,8 +918,8 @@ export const glossary = {
   },
   'character': {
     term: 'CHARACTER',
-    en: 'A model/unit keyword; when allocating attacks, each CHARACTER model forms its own group.',
-    ru: 'Ключевое слово модели или юнита; при распределении атак каждая модель CHARACTER образует отдельную группу.',
+    en: 'A model/unit keyword, usually a leader or hero. A CHARACTER can often join a Bodyguard unit as a Leader, and when attacks are allocated each CHARACTER model forms its own group.',
+    ru: 'Ключевое слово модели или юнита — обычно лидер или герой. CHARACTER часто может присоединиться к юниту-телохранителю как лидер, а при распределении атак каждая модель CHARACTER образует отдельную группу.',
   },
   'monster-vehicle': {
     term: 'MONSTER / VEHICLE',
@@ -907,8 +945,8 @@ export const glossary = {
   },
   'normal-shooting': {
     term: 'Normal Shooting',
-    en: 'The shooting type for a unit not in engagement range that did not Advance this turn.',
-    ru: 'Тип стрельбы для юнита вне радиуса связывания, который не совершал продвижение в этот ход.',
+    en: 'A unit’s basic way of shooting — available when it’s not within Engagement Range and hasn’t Advanced or Fallen Back this turn. It usually happens in the Shooting phase, but some rules let a unit shoot this way at other times too.',
+    ru: 'Базовый способ стрельбы юнита — доступен, если он не в радиусе связывания и не совершал продвижение или отход в этот ход. Обычно происходит в фазе стрельбы, но некоторые правила позволяют так стрелять и в другое время.',
   },
   'assault-shooting': {
     term: 'Assault Shooting',
@@ -923,7 +961,7 @@ export const glossary = {
   'snap-shooting': {
     term: 'Snap Shooting',
     en: 'A special shooting type allowed by Fire Overwatch: the unit shoots at a limited target and attacks hit only on an unmodified hit roll of 6.',
-    ru: 'Особый тип стрельбы, разрешаемый правилом Fire Overwatch: юнит стреляет по ограниченной цели, а атаки попадают только на немодифицированный бросок попадания 6.',
+    ru: 'Особый тип стрельбы, разрешаемый правилом Fire Overwatch: юнит стреляет по ограниченной цели, а атаки попадают только на немодифицированный бросок на попадание 6.',
   },
   'declared-charge': {
     term: 'Declared a Charge',
@@ -1020,6 +1058,16 @@ export const glossary = {
     term: 'TITANIC',
     en: 'A keyword for especially large models and units; some rules specifically exclude them or apply to them differently.',
     ru: 'Ключевое слово особо крупных моделей и юнитов; некоторые правила прямо исключают их или применяются к ним иначе.',
+  },
+  'vehicle': {
+    term: 'VEHICLE',
+    en: 'A model/unit keyword for armoured war machines such as tanks and gunships.',
+    ru: 'Ключевое слово модели или юнита для бронированных боевых машин — танков, штурмовых кораблей и т. п.',
+  },
+  'walker': {
+    term: 'WALKER',
+    en: 'A VEHICLE keyword for legged war machines that stride the battlefield on two or more legs.',
+    ru: 'Ключевое слово (подтип VEHICLE) для шагающих боевых машин, передвигающихся на двух или более ногах.',
   },
   'fortification': {
     term: 'Fortification',
@@ -1152,5 +1200,8 @@ export const glossary = {
   },
   'you': {
     term: 'You',
+  },
+  'other': {
+    term: 'Other',
   },
 }
