@@ -103,7 +103,7 @@ Models can be set up or end a move on the ground level of **terrain features**. 
           id: 'section-13-07',
           sectionNum: '13.07',
           title: 'Terrain and Visibility',
-          body: `Terrain can affect visibility, depending on whether the **[gloss:benefit-of-cover:Benefit of Cover]**, **[gloss:hidden:Hidden]**, **[gloss:obscuring:Obscuring]** or **Solid** rules apply.`,
+          body: `Terrain can affect visibility, depending on whether the **[gloss:benefit-of-cover:Benefit of Cover]**, **[gloss:hidden:Hidden]**, **[gloss:obscuring:Obscuring]** or **[gloss:solid:Solid]** rules apply.`,
         },
         {
           id: 'section-13-08',
@@ -112,7 +112,7 @@ Models can be set up or end a move on the ground level of **terrain features**. 
           sideImage: { src: '/images/terrain/benefit-of-cover.jpg', alt: 'Benefit of Cover diagram', width: '50%' },
           body: `Each time a ranged attack targets a unit, if **every** model in that unit meets one or more of the following conditions, that unit has the **benefit of cover** against that attack:
 ▪ That model has the INFANTRY/BEASTS/SWARM keyword and is within a **terrain area**.
-▪ That model is not **[gloss:fully-visible:fully visible]** to the attacking model due to one or more intervening **terrain features** and/or one or more intervening **obscuring terrain areas** (see 13.10).
+▪ That model is **[gloss:not-fully-visible:not fully visible]** to the attacking model due to one or more intervening **terrain features** and/or one or more intervening **obscuring terrain areas** (see 13.10).
 
 Each time a ranged attack targets a unit that has the **benefit of cover** against it, worsen the **BS** characteristic of that attack by 1.`,
         },
@@ -131,7 +131,7 @@ While a model is **hidden**, it can only be **[gloss:visible:visible]** to enemy
               sectionNum: '13.09.01',
               title: 'Hidden and the First Turn',
               fromApp: true,
-              body: `During the first turn, conditions that require something not to have happened during the previous turn are true. For the **Hidden** rule, this means that during the first turn a unit has not made ranged attacks during the previous turn.`,
+              body: `During the first turn, conditions that require something not to have happened during the previous turn are true. For the **[gloss:hidden:Hidden]** rule, this means that during the first turn a unit has not made ranged attacks during the previous turn.`,
             },
           ],
         },
@@ -156,11 +156,11 @@ While a model is **hidden**, it can only be **[gloss:visible:visible]** to enemy
               sectionNum: '13.11.01',
               title: 'Gone to Ground',
               fromApp: true,
-              body: `**Hidden** models that are within **Solid terrain features** gain an extra benefit while they have **gone to ground**.
+              body: `**Hidden** models that are within **[gloss:solid:Solid terrain features]** gain an extra benefit while they have **gone to ground**.
 
 A model has **gone to ground** while all of the following apply:
 ▪ That model is **hidden**.
-▪ That model is not **fully visible** to the attacking model due to one or more intervening **Solid terrain features**.
+▪ That model is **[gloss:not-fully-visible:not fully visible]** to the attacking model due to one or more intervening **[gloss:solid:Solid terrain features]**.
 ▪ That model's unit did not make one or more ranged attacks during this turn or during the previous turn.
 While a model has **gone to ground**, subtract 3" from that model's **detection range**.`,
               note: `Designer's Note: Units that made ranged attacks in the current or previous turn cannot **[gloss:go-to-ground:go to ground]**, regardless of any abilities that allow them to shoot and remain **hidden**.`,
@@ -189,7 +189,7 @@ When measuring distances to and from an **objective**, measure to and from the c
               sectionNum: '14.01.01',
               title: 'Objectives Not Within A Terrain Area',
               fromApp: true,
-              body: `If the location point of an **objective** does not coincide with a **terrain area**, you must denote the location of that **objective** with a flat, circular marker, 40 mm in diameter, centred on that point – this is called an **objective marker**. Models can move through **objective markers** and they can end a move on top of **objective markers**.
+              body: `If the location point of an **objective** does not coincide with a **terrain area**, you must denote the location of that **objective** with a flat, circular marker, 40 mm in diameter, centred on that point – this is called an **[gloss:objective-marker:objective marker]**. Models can move through **objective markers** and they can end a move on top of **objective markers**.
 
 A model is within range of an **objective marker** while it is within 3" horizontally and 5" vertically of that **objective marker**. When measuring distances to and from an **objective marker**, measure to and from the closest part of it.`,
             },
@@ -203,18 +203,18 @@ A model is within range of an **objective marker** while it is within 3" horizon
 
 At the end of each phase and turn, to determine a player's **[gloss:level-of-control:level of control]** over an **objective**, add together the **OC** characteristics of all the models in that player's army that are within range of that **objective**:
 ▪ The player who has the highest **level of control** over that **objective** controls that **objective**.
-▪ If both players have the same **level of control** over that **objective**, unless that **objective** is **secured** (see below), that **objective** is not controlled by either player.
+▪ If both players have the same **level of control** over that **objective**, unless that **objective** is **[gloss:secured-objective:secured]** (see below), that **objective** is not controlled by either player.
 
 While one or more units from a player's army are within range of an **objective** that player controls, for each of those units that contains one or more models with an **OC** characteristic of 1 or more, that unit is said to be **controlling** that **objective**.
 
 [img:/images/terrain/controlling-a-terrain-objective.jpg|Controlling a terrain objective — OC and control range]`,
-          note: 'Hold at All Costs: Some units have abilities that are triggered when they control an **objective**, or when they **secure** an **objective** for your army.',
+          note: 'Hold at All Costs: Some units have abilities that are triggered when they control an **objective**, or when they **[gloss:secured-objective:secure]** an **objective** for your army.',
         },
         {
           id: 'section-14-03',
           sectionNum: '14.03',
           title: 'Secured Objectives',
-          body: `Some rules allow an **objective** to be **secured** by a player's army. When an **objective** is **secured** by a player's army, that **objective** remains under their control — even once they no longer have any units within range of it — until their opponent's **level of control** over that **objective** is greater than theirs at the end of a phase.`,
+          body: `Some rules allow an **objective** to be **[gloss:secured-objective:secured]** by a player's army. When an **objective** is **secured** by a player's army, that **objective** remains under their control — even once they no longer have any units within range of it — until their opponent's **level of control** over that **objective** is greater than theirs at the end of a phase.`,
         },
       ],
     },
@@ -374,7 +374,7 @@ Each time you use a **stratagem**, resolve the following sequence:
           flavor: 'A hail of fire can drive back advancing foes.',
           when: 'End of your opponent\'s Movement phase',
           target: 'One friendly **unengaged** unit (not a **[gloss:titanic:TITANIC]** unit)',
-          effect: 'That unit shoots using **snap shooting** (15.09).',
+          effect: 'That unit shoots using **[gloss:snap-shooting:snap shooting]** (15.09).',
           restrictions: '',
           extraCost: [],
           subRule: {
@@ -396,7 +396,7 @@ Each time you use a **stratagem**, resolve the following sequence:
           flavor: 'Even the most skilled marksmen struggle to hit targets veiled by billowing screens of smoke.',
           when: 'Start of your opponent\'s Shooting phase',
           target: 'One friendly SMOKE unit',
-          effect: 'Until the end of the phase, each time an attack targets your SMOKE unit, or targets a unit that is not **fully visible** to the attacking model because of one or more models in your SMOKE unit, the target has the **benefit of cover** against that attack (13.08).',
+          effect: 'Until the end of the phase, each time an attack targets your SMOKE unit, or targets a unit that is **[gloss:not-fully-visible:not fully visible]** to the attacking model because of one or more models in your SMOKE unit, the target has the **benefit of cover** against that attack (13.08).',
           restrictions: '',
           extraCost: [],
         },
@@ -570,7 +570,7 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
           id: 'section-13-07',
           sectionNum: '13.07',
           title: 'Укрытия и видимость',
-          body: `Укрытия могут влиять на видимость в зависимости от того, применяются ли правила **Преимущества от укрытия** (Benefit of Cover), **Скрытности** (Hidden), **Загораживания** (Obscuring) или **Сплошного укрытия** (Solid).`,
+          body: `Укрытия могут влиять на видимость в зависимости от того, применяются ли правила **[gloss:benefit-of-cover:Преимущества от укрытия]**, **[gloss:hidden:Скрытности]**, **[gloss:obscuring:Загораживания]** или **[gloss:solid:Сплошного укрытия]**.`,
         },
         {
           id: 'section-13-08',
@@ -579,14 +579,14 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
           sideImage: { src: '/images/terrain/benefit-of-cover.jpg', alt: 'Benefit of Cover diagram', width: '50%' },
           body: `Каждый раз, когда дистанционная атака нацелена на юнит, если **каждая** модель в этом юните соответствует одному или нескольким из следующих условий, этот юнит получает **[gloss:benefit-of-cover:преимущество от укрытия]** от этой атаки:
 ▪ Эта модель имеет ключевое слово INFANTRY/BEASTS/SWARM (ПЕХОТА/ЗВЕРИ/РОЙ) и находится в пределах **[gloss:terrain-area:области укрытия]**.
-▪ Эта модель **[gloss:fully-visible:не полностью видна]** атакующей модели из-за одного или нескольких промежуточных **[gloss:terrain-feature:элементов укрытий]** и/или одной или нескольких промежуточных **[gloss:obscuring:загораживающих областей укрытий]** (см. 13.10).
+▪ Эта модель **[gloss:not-fully-visible:не полностью видна]** атакующей модели из-за одного или нескольких промежуточных **[gloss:terrain-feature:элементов укрытий]** и/или одной или нескольких промежуточных **[gloss:obscuring:загораживающих областей укрытий]** (см. 13.10).
 
 Каждый раз, когда дистанционная атака нацелена на юнит, который имеет **преимущество от укрытия** от этой атаки, ухудшите характеристику **BS** этой атаки на 1.`,
         },
         {
           id: 'section-13-09',
           sectionNum: '13.09',
-          title: '[gloss:hidden:Скрытность]',
+          title: 'Скрытность',
           body: `Модель находится в **[gloss:hidden:скрытности]**, пока к ней применяются **все** следующие условия:
 ▪ Эта модель имеет ключевое слово INFANTRY/BEASTS/SWARM (ПЕХОТА/ЗВЕРИ/РОЙ) и находится в пределах **[gloss:terrain-area:области укрытия]**, которая содержит один или несколько **лёгких/надёжных элементов укрытий** (light/dense terrain features).
 ▪ Юнит этой модели **не совершал** одну или несколько дистанционных атак в течение этого хода или в течение предыдущего хода.
@@ -595,14 +595,14 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
           children: [
             {
               title: 'Скрытность и первый ход',
-              body: `В течение первого хода условия, требующие, чтобы что-то не произошло в течение предыдущего хода, истинны. Для правила **Скрытность** (Hidden) это означает, что в течение первого хода юнит не совершал дистанционных атак в течение предыдущего хода.`,
+              body: `В течение первого хода условия, требующие, чтобы что-то не произошло в течение предыдущего хода, истинны. Для правила **[gloss:hidden:Скрытность]** это означает, что в течение первого хода юнит не совершал дистанционных атак в течение предыдущего хода.`,
             },
           ],
         },
         {
           id: 'section-13-10',
           sectionNum: '13.10',
-          title: '[gloss:obscuring:Загораживание]',
+          title: 'Загораживание',
           sideImage: { src: '/images/terrain/hidden-and-obscuring.jpg', alt: 'Hidden and Obscuring diagram', width: '50%' },
           body: `**[gloss:terrain-area:Области укрытий]**, содержащие один или несколько **лёгких** или **надёжных элементов укрытий**, являются **[gloss:obscuring:загораживающими областями укрытий]**. Если каждая **[gloss:line-of-sight:линия обзора]**, проведённая между двумя моделями, пересекает одну или несколько **загораживающих областей укрытий** (за исключением **загораживающих областей укрытий**, внутри которых находится одна или обе эти модели), эти две модели **[gloss:visible:не видят]** друг друга.`,
         },
@@ -617,11 +617,11 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
           children: [
             {
               title: 'Залегание (Gone to Ground)',
-              body: `**Скрытные** (Hidden) модели, находящиеся внутри **сплошных элементов укрытий** (Solid terrain features), получают дополнительное преимущество, пока они **[gloss:go-to-ground:залегли]**.
+              body: `**Скрытные** (Hidden) модели, находящиеся внутри **[gloss:solid:сплошных элементов укрытий]**, получают дополнительное преимущество, пока они **[gloss:go-to-ground:залегли]**.
 
 Модель **[gloss:go-to-ground:залегла]**, пока выполняются все следующие условия:
 ▪ Эта модель **[gloss:hidden:скрытна]**.
-▪ Эта модель **[gloss:fully-visible:не полностью видна]** атакующей модели из-за одного или нескольких промежуточных **сплошных элементов укрытий** (Solid terrain features).
+▪ Эта модель **[gloss:not-fully-visible:не полностью видна]** атакующей модели из-за одного или нескольких промежуточных **[gloss:solid:сплошных элементов укрытий]**.
 ▪ Юнит этой модели не совершал одну или несколько дистанционных атак в течение этого хода или в течение предыдущего хода.
 Пока модель **залегла**, вычтите 3" из её **[gloss:detection-range:радиуса обнаружения]**.`,
               note: `Примечание дизайнера: Юниты, совершавшие дистанционные атаки в текущем или предыдущем ходу, не могут **[gloss:go-to-ground:залечь]**, независимо от любых способностей, позволяющих им стрелять и оставаться **[gloss:hidden:скрытными]**.`,
@@ -647,7 +647,7 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
           children: [
             {
               title: 'Цели, не находящиеся внутри области укрытия',
-              body: `Если точка расположения **[gloss:objective:цели]** не совпадает с **[gloss:terrain-area:областью укрытия]**, вы должны обозначить местоположение этой **цели** плоским круглым маркером диаметром 40 мм, отцентрованным на этой точке — это называется **[gloss:objective:маркером цели]**. Модели могут проходить сквозь **маркеры цели** и могут завершить манёвр на **маркерах цели**.
+              body: `Если точка расположения **[gloss:objective:цели]** не совпадает с **[gloss:terrain-area:областью укрытия]**, вы должны обозначить местоположение этой **цели** плоским круглым маркером диаметром 40 мм, отцентрованным на этой точке — это называется **[gloss:objective-marker:маркером цели]**. Модели могут проходить сквозь **маркеры цели** и могут завершить манёвр на **маркерах цели**.
 
 Модель находится в пределах досягаемости **маркера цели**, пока она находится в пределах 3" по горизонтали и 5" по вертикали от этого **маркера цели**. При измерении расстояний до **маркера цели** и от него измеряйте до ближайшей его части.`,
             },
@@ -661,18 +661,18 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
 
 В конце каждой фазы и хода, чтобы определить **[gloss:level-of-control:уровень контроля]** игрока над **целью**, сложите вместе значения характеристик **OC** всех моделей в армии этого игрока, которые находятся в пределах досягаемости этой **цели**:
 ▪ Игрок, у которого самый высокий **уровень контроля** над этой **целью**, контролирует эту **цель**.
-▪ Если оба игрока имеют **одинаковый уровень контроля** над этой **целью**, то, если только эта **цель** не является **закреплённой** (secured) (см. ниже), эта **цель** не контролируется ни одним из игроков.
+▪ Если оба игрока имеют **одинаковый уровень контроля** над этой **целью**, то, если только эта **цель** не является **[gloss:secured-objective:закреплённой]** (см. ниже), эта **цель** не контролируется ни одним из игроков.
 
 Пока одна или несколько **единиц** из армии игрока находятся в пределах досягаемости до **цели**, которую этот игрок контролирует, для каждой из этих единиц, которая содержит одну или несколько моделей с характеристикой OC 1 или более, считается, что эта единица контролирует данную **цель**.
 
 [img:/images/terrain/controlling-a-terrain-objective-ru.jpg|Захват цели у укрытия — диаграмма контроля]`,
-          note: 'Удержать любой ценой: Некоторые юниты имеют способности, которые срабатывают, когда они контролируют **[gloss:objective:цель]**, или когда они **закрепляют** (secure) **цель** для вашей армии.',
+          note: 'Удержать любой ценой: Некоторые юниты имеют способности, которые срабатывают, когда они контролируют **[gloss:objective:цель]**, или когда они **[gloss:secured-objective:закрепляют]** **цель** для вашей армии.',
         },
         {
           id: 'section-14-03',
           sectionNum: '14.03',
           title: 'Закреплённые цели',
-          body: `Некоторые правила позволяют **закрепить** (secure) **[gloss:objective:цель]** за армией игрока. Когда **цель закреплена** за армией игрока, она остаётся под их контролем — даже если у него больше нет ни одного юнита в пределах досягаемости этой **цели**, — до тех пор, пока **[gloss:level-of-control:уровень контроля]** противника над этой **целью** не станет выше его собственного в конце фазы.`,
+          body: `Некоторые правила позволяют **[gloss:secured-objective:закрепить]** **[gloss:objective:цель]** за армией игрока. Когда **цель закреплена** за армией игрока, она остаётся под их контролем — даже если у него больше нет ни одного юнита в пределах досягаемости этой **цели**, — до тех пор, пока **[gloss:level-of-control:уровень контроля]** противника над этой **целью** не станет выше его собственного в конце фазы.`,
         },
       ],
     },
@@ -770,8 +770,8 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
         {
           flavor: 'Активируя детонаторы гранат и другой взрывчатки, эти воины заносят руку и швыряют саму смерть в самую гущу неприятеля.',
           when: 'Ваша фаза стрельбы (Shooting phase).',
-          target: 'Один дружественный **[gloss:unengaged:не вовлечённый в ближний бой]** юнит EXPLOSIVES/GRENADES (ВЗРЫВЧАТКА/ГРАНАТЫ), который является допустимой целью для стрельбы и не совершал **[gloss:advance-move:продвижение]** в этом ходу.',
-          effect: 'Отыграйте следующую последовательность действий:\n1. Выберите одну модель EXPLOSIVES/GRENADES в вашем юните.\n2. Выберите один **не вовлечённый в ближний бой** вражеский юнит в пределах 8" от этой модели и в зоне её [gloss:visible:видимости].\n3. Бросьте шесть D6: за каждый результат 4+ этот вражеский юнит получает 1 **[gloss:mortal-wound:смертельную рану]**.',
+          target: 'Один дружественный **[gloss:unengaged:не связанный боем]** юнит EXPLOSIVES/GRENADES (ВЗРЫВЧАТКА/ГРАНАТЫ), который является допустимой целью для стрельбы и не совершал **[gloss:advance-move:продвижение]** в этом ходу.',
+          effect: 'Отыграйте следующую последовательность действий:\n1. Выберите одну модель EXPLOSIVES/GRENADES в вашем юните.\n2. Выберите один **не связанный боем** вражеский юнит в пределах 8" от этой модели и в зоне её [gloss:visible:видимости].\n3. Бросьте шесть D6: за каждый результат 4+ этот вражеский юнит получает 1 **[gloss:mortal-wound:смертельную рану]**.',
           restrictions: '',
           extraCost: [],
         },
@@ -794,8 +794,8 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
         {
           flavor: 'Шквальный огонь обратит вспять любую атаку.',
           when: 'Конец фазы движения (Movement phase) вашего противника.',
-          target: 'Один дружественный **[gloss:unengaged:не вовлечённый в ближний бой]** юнит (не юнит **[gloss:titanic:TITANIC]**).',
-          effect: 'Этот юнит использует **стрельбу на упреждение** (snap shooting) (15.09).',
+          target: 'Один дружественный **[gloss:unengaged:не связанный боем]** юнит (не юнит **[gloss:titanic:TITANIC]**).',
+          effect: 'Этот юнит использует **[gloss:snap-shooting:стрельбу на вскидку]** (15.09).',
           restrictions: '',
           extraCost: [],
           subRule: {
@@ -813,14 +813,14 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
           flavor: 'Даже самым искусным стрелкам трудно попасть в цель, укрытую клубящимися дымовыми завесами.',
           when: 'Начало фазы стрельбы (Shooting phase) вашего противника.',
           target: 'Один дружественный юнит SMOKE (ДЫМОВОЙ ЗАВЕСЫ).',
-          effect: 'До конца фазы, каждый раз, когда атака нацелена на ваш юнит SMOKE или на юнит, который **[gloss:fully-visible:не полностью видим]** атакующей модели из-за одной или нескольких моделей в вашем юните SMOKE, цель получает **[gloss:benefit-of-cover:преимущество от укрытия]** от этой атаки (13.08).',
+          effect: 'До конца фазы, каждый раз, когда атака нацелена на ваш юнит SMOKE или на юнит, который **[gloss:not-fully-visible:не полностью видим]** атакующей модели из-за одной или нескольких моделей в вашем юните SMOKE, цель получает **[gloss:benefit-of-cover:преимущество от укрытия]** от этой атаки (13.08).',
           restrictions: '',
           extraCost: [],
         },
         {
           flavor: 'Возвышая голоса в яростных боевых кличах, ваши воины устремляются вперёд, чтобы встретить вражеский натиск лицом к лицу.',
           when: 'Конец фазы нападения (Charge phase) вашего противника.',
-          target: 'Один дружественный **[gloss:unengaged:не вовлечённый в ближний бой]** юнит в пределах 12" от одного или нескольких вражеских юнитов. Вы можете выбрать юнит VEHICLE, только если это юнит CHARACTER/WALKER.',
+          target: 'Один дружественный **[gloss:unengaged:не связанный боем]** юнит в пределах 12" от одного или нескольких вражеских юнитов. Вы можете выбрать юнит VEHICLE, только если это юнит CHARACTER/WALKER.',
           effect: 'Отыграйте **[gloss:charge:нападение]** вашим юнитом (11.02). При этом перед совершением **[gloss:charge-roll:броска на нападение]** вы должны выбрать один из следующих режимов:\n▪ **Прыжок для защиты:** При выборе целей [gloss:charge-target:для нападения] вы можете выбирать только те вражеские юниты, которые совершили **[gloss:charge-move:манёвр нападения]** в этой фазе и находятся в пределах **[gloss:maximum-distance:максимальной дистанции]**.',
           restrictions: '',
           extraCost: [
@@ -851,7 +851,7 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
         {
           id: 'section-16-01',
           sectionNum: '16.01',
-          title: 'Выполнение [gloss:action:действий]',
+          title: 'Выполнение действий',
           body: `Некоторые правила позволяют юнитам выполнять **[gloss:action:действия]**. Каждое **[gloss:action:действие]** указывает:
 ▪ **НАЧАЛО:** Когда оно начинается.
 ▪ **ЮНИТЫ:** Какие дружественные юниты могут его выполнять.
@@ -859,7 +859,7 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
 ▪ **ЗАВЕРШЕНИЕ:** Когда оно завершается.
 ▪ **ЭФФЕКТ:** Каковы эффекты от его завершения.
 
-### Начало [gloss:action:действия]
+### Начало действия
 Юнит **[gloss:eligible-to-act:может начать действие]**, если к нему **не** применяются одно или несколько из следующих условий:
 ▪ Он не находится на поле боя.
 ▪ Это юнит AIRCRAFT/FORTIFICATION (ЛЕТАТЕЛЬНОГО АППАРАТА/УКРЕПЛЕНИЯ).
@@ -873,7 +873,7 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
 ▪ Он **[gloss:eligible-to-shoot:не может стрелять]** (за исключением TITANIC юнитов).
 ▪ Он **[gloss:eligible-to-charge:не может объявлять нападение]**.
 
-### Завершение [gloss:action:действия]
+### Завершение действия
 Если юнит, выполняющий **[gloss:action:действие]**, совершает манёвр (за исключением **[gloss:pile-in:сближения]** и **[gloss:consolidation:консолидации]**) или покидает поле боя, этот юнит не завершает это **[gloss:action:действие]**. В противном случае, когда **[gloss:action:действие]** завершается, срабатывает его раздел «Эффект».`,
           note: 'ГДЕ НАЙТИ ДЕЙСТВИЯ\n**[gloss:action:Действия]**, которые могут использовать игроки, можно найти в других публикациях, таких как пакеты миссий. Все игроки могут использовать **[gloss:action:базовые действия]**, тогда как другие **[gloss:action:действия]** могут иметь ограничения, например по фракции армии (army faction).',
         },

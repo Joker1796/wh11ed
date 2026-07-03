@@ -111,7 +111,7 @@ function handleDefClick(e) {
 
 :deep(.side-image) {
   float: left;
-  max-width: var(--side-image-width, 45%);
+  max-width: var(--side-image-width, 50%);
   margin: 0 1.5rem 1rem 0;
   border-radius: 4px;
 }
