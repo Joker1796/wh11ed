@@ -242,8 +242,8 @@ export const glossary = {
   },
   'strategic-reserves': {
     term: 'Strategic Reserves',
-    en: 'Units held off the battlefield that arrive as reinforcements during the battle.',
-    ru: 'Юниты, оставленные вне поля боя, которые прибывают как подкрепление во время битвы.',
+    en: 'Units set up off the battlefield instead of deployed, arriving later via ingress moves (usually from the second battle round). Their combined points can’t exceed 50% of your army, and any still in reserve at the end of the third round are destroyed.',
+    ru: 'Юниты, размещённые вне поля боя вместо развёртывания и прибывающие позже манёврами прибытия (обычно со второго раунда боя). Их суммарная стоимость не может превышать 50% армии, а оставшиеся в резерве к концу третьего раунда уничтожаются.',
   },
 
   // — Engagement —
@@ -254,8 +254,8 @@ export const glossary = {
   },
   'engaged': {
     term: 'Engaged',
-    en: 'A unit within Engagement Range of one or more enemy units.',
-    ru: 'Юнит, находящийся в радиусе связывания одного или нескольких вражеских юнитов.',
+    en: 'A unit with a model within Engagement Range (2" horizontally and 5" vertically) of an enemy model; the two units are then engaged with each other. Engaged units can fight but generally can’t shoot or make a Normal move, and must Fall Back to leave.',
+    ru: 'Юнит, у которого модель находится в радиусе связывания (2" по горизонтали и 5" по вертикали) от вражеской модели; тогда оба юнита связаны боем друг с другом. Связанные боем юниты могут сражаться, но обычно не могут стрелять или совершать обычный манёвр, а чтобы выйти — должны отойти.',
   },
   'unengaged': {
     term: 'Unengaged',
@@ -289,6 +289,11 @@ export const glossary = {
     en: 'A target is fully visible if all of it can be seen from the observing model.',
     ru: 'Цель полностью видима, если можно увидеть её целиком от наблюдающей модели.',
   },
+  'not-fully-visible': {
+    term: 'Not Fully Visible',
+    en: 'A target that is not Fully Visible to a model — at least part of it is hidden by intervening terrain features or obscuring terrain areas. This can grant the Benefit of Cover.',
+    ru: 'Цель, которая не полностью видима модели — хотя бы часть её скрыта промежуточными элементами укрытий или загораживающими областями укрытий. Это может давать преимущество от укрытия.',
+  },
   'hidden': {
     term: 'Hidden',
     en: 'A terrain rule (13.09): an INFANTRY/BEASTS/SWARM model within a terrain area with light/dense terrain features whose unit made no ranged attacks this or the previous turn is Hidden — visible only to enemy models within its detection range (15" unless stated otherwise).',
@@ -301,8 +306,8 @@ export const glossary = {
   },
   'detection-range': {
     term: 'Detection Range',
-    en: 'A range within which hidden enemy units can be detected (used by some rules).',
-    ru: 'Дистанция, в пределах которой можно обнаружить скрытые вражеские юниты (используется некоторыми правилами).',
+    en: 'A Hidden model can only be seen by enemy models within its detection range. Unless stated otherwise it is 15" (and drops by 3" while the model has gone to ground).',
+    ru: 'Скрытая модель видима только вражеским моделям в пределах её радиуса обнаружения. Если не указано иное, он равен 15" (и уменьшается на 3", пока модель залегла).',
   },
 
   // — Damage & mortal wounds —
@@ -332,8 +337,13 @@ export const glossary = {
   // — Objectives, Stratagems, Actions —
   'objective': {
     term: 'Objective',
-    en: 'An objective marker on the battlefield that units contest to score Victory Points.',
-    ru: 'Маркер цели на поле боя, который юниты оспаривают, чтобы набирать очки победы.',
+    en: 'A point on the battlefield the mission marks as an objective. Usually it coincides with a terrain area (13.01), which then is the objective — a terrain objective; distances are measured to and from its closest part.',
+    ru: 'Точка на поле боя, которую миссия отмечает как цель. Обычно она совпадает с областью укрытия (13.01), которая и становится этой целью — целевым объектом местности; расстояния измеряются до её ближайшей части и от неё.',
+  },
+  'objective-marker': {
+    term: 'Objective Marker',
+    en: 'A flat, circular marker 40 mm across that marks an objective not coinciding with a terrain area. Models can move through it or end a move on top of it; a model is within range while within 3" horizontally and 5" vertically of it.',
+    ru: 'Плоский круглый маркер диаметром 40 мм, обозначающий цель, которая не совпадает с областью укрытия. Модели могут проходить сквозь него и завершать манёвр на нём; модель в пределах досягаемости, пока находится в 3" по горизонтали и 5" по вертикали от него.',
   },
   'stratagem': {
     term: 'Stratagem',
@@ -342,8 +352,8 @@ export const glossary = {
   },
   'action': {
     term: 'Action',
-    en: 'A special activity a unit can start instead of doing other things; it usually completes later to gain a benefit.',
-    ru: 'Особая активность (action), которую юнит может начать вместо других действий; обычно завершается позже, давая эффект.',
+    en: 'A special activity a unit can start (defined by mission packs and other rules). After starting it, the unit usually can’t shoot or charge that turn and mustn’t move (beyond pile-in/consolidate) or leave the battlefield, or it won’t complete; completing it triggers its effect.',
+    ru: 'Особое действие (action), которое юнит может начать (задаётся паками миссий и другими правилами). После начала юнит обычно не может стрелять или нападать в этот ход и не должен перемещаться (кроме сближения и консолидации) или покидать поле боя — иначе действие не завершится; при завершении срабатывает его эффект.',
   },
   'select-weapons': {
     term: 'Select Weapons',
@@ -418,8 +428,8 @@ export const glossary = {
   },
   'advance-move': {
     term: 'Advance Move',
-    en: 'The move made when a unit Advances: its Move characteristic plus the Advance roll.',
-    ru: 'Манёвр, совершаемый при продвижении юнита: характеристика движения плюс бросок продвижения.',
+    en: 'A move a unit makes instead of a Normal move: its maximum distance is its Move (M) plus an Advance roll (one D6). It must start and end unengaged, and afterwards can’t declare a charge or start an action that turn (and usually can’t shoot).',
+    ru: 'Манёвр, который юнит совершает вместо обычного: максимальная дистанция — его характеристика движения (M) плюс бросок продвижения (один D6). Юнит должен начинать и заканчивать манёвр не связанным боем, а после него не может в этот ход объявлять нападение или начинать действие (и обычно не может стрелять).',
   },
   'advance-roll': {
     term: 'Advance Roll',
@@ -428,8 +438,8 @@ export const glossary = {
   },
   'fall-back-move': {
     term: 'Fall Back',
-    en: 'A move that lets a unit leave Engagement Range; it usually can’t shoot or charge that turn.',
-    ru: 'Манёвр, позволяющий юниту выйти из радиуса связывания; в этом ходу он обычно не может стрелять или нападать.',
+    en: 'A move an engaged unit makes to leave Engagement Range, up to its Move (M). It must end unengaged and can’t shoot, declare a charge or start an action that turn; a battle-shocked unit must use Desperate Escape, risking losses.',
+    ru: 'Манёвр, которым связанный боем юнит выходит из радиуса связывания, на величину до своей характеристики движения (M). Он должен закончить не связанным боем и не может в этот ход стрелять, объявлять нападение или начинать действие; юнит под боевым шоком вынужден идти «отчаянным побегом», рискуя потерями.',
   },
   'ordered-retreat': {
     term: 'Ordered Retreat',
@@ -455,8 +465,8 @@ export const glossary = {
   },
   'charge-move': {
     term: 'Charge Move',
-    en: 'The move a unit makes after a successful charge roll, ending in Engagement Range of a target it declared.',
-    ru: 'Манёвр, который юнит совершает после успешного броска нападения, завершаясь в радиусе связывания объявленной цели.',
+    en: 'In the Charge phase, a unit that declared a charge makes this move up to its Charge roll (2D6). Each model must end closer to a charge target and, if it can, within Engagement Range of one; the charge succeeds only if the unit ends engaged with all its charge targets and no other enemy unit. Each of its models then has Fights First until the end of the turn.',
+    ru: 'В фазе нападения юнит, объявивший нападение, совершает этот манёвр на величину до броска нападения (2D6). Каждая модель должна закончить ближе к цели нападения и, если может, в радиусе связывания с ней; нападение удаётся, только если юнит закончил связанным боем со всеми своими целями нападения и ни с одним другим вражеским юнитом. После этого каждая его модель до конца хода обладает «Первым ударом».',
   },
   'charge-roll': {
     term: 'Charge Roll',
@@ -487,8 +497,8 @@ export const glossary = {
   // — Battle Round: fighting & consolidation —
   'pile-in': {
     term: 'Pile In',
-    en: 'A move of up to 3" that fighting models make towards the closest enemy unit before making their attacks.',
-    ru: 'Манёвр до 3", который сражающиеся модели совершают к ближайшему вражескому юниту перед атаками.',
+    en: 'A move of up to 3" a unit makes at the start of the Fight phase (if it is engaged, charged this turn, or is overrunning). Each moved model must end closer to the nearest pile-in target and, if it can, engaged with it.',
+    ru: 'Манёвр до 3", который юнит совершает в начале фазы боя (если он связан боем, нападал в этот ход или совершает прорыв). Каждая перемещаемая модель должна закончить ближе к ближайшей цели сближения и, если может, связанной с ней боем.',
   },
   'consolidation': {
     term: 'Consolidate',
@@ -712,8 +722,8 @@ export const glossary = {
   },
   'ingress-move': {
     term: 'Ingress Move',
-    en: 'The move a Reserves unit makes as it arrives on the battlefield during the battle.',
-    ru: 'Манёвр, который юнит из резервов совершает, прибывая на поле боя во время битвы.',
+    en: 'The move a Strategic Reserves unit makes to arrive on the battlefield: it is set up wholly within 6" of a battlefield edge and more than 8" horizontally from all enemy units (and not in the enemy deployment zone before the third battle round).',
+    ru: 'Манёвр, которым юнит из стратегических резервов прибывает на поле боя: он выставляется полностью в пределах 6" от края поля боя и дальше 8" по горизонтали от всех вражеских юнитов (а до третьего раунда боя — не в зоне развёртывания противника).',
   },
   'surge-move': {
     term: 'Surge Move',
@@ -771,13 +781,13 @@ export const glossary = {
   // — Battlefields: terrain traits & terrain rules —
   'terrain-category': {
     term: 'Terrain Category',
-    en: 'The classification of a terrain feature (e.g. Ruins, Woods, Hills, Obstacles) that determines which terrain rules apply to it.',
-    ru: 'Классификация элемента ландшафта (например, руины, лес, холмы, препятствия), определяющая, какие правила ландшафта к нему применяются.',
+    en: 'The classification of a terrain feature — Exposed, Light or Dense — which determines how it affects models’ movement and visibility.',
+    ru: 'Классификация элемента укрытия — открытые (Exposed), лёгкие (Light) или плотные (Dense), — определяющая, как он влияет на движение и видимость моделей.',
   },
   'obscuring': {
     term: 'Obscuring',
-    en: 'A terrain trait: for visibility, models cannot be seen through an Obscuring terrain feature.',
-    ru: 'Свойство ландшафта: для видимости модели не видны сквозь укрытие со свойством «Obscuring».',
+    en: 'A terrain rule: a terrain area containing a Light or Dense feature is an obscuring terrain area. Two models can’t see each other if every line of sight between them crosses one or more such areas that neither model is within.',
+    ru: 'Правило ландшафта: область укрытия с лёгким или плотным элементом является загораживающей. Две модели не видят друг друга, если каждая линия обзора между ними пересекает одну или несколько таких областей, внутри которых не находится ни одна из этих моделей.',
   },
   'dense-terrain': {
     term: 'Dense Terrain',
@@ -791,18 +801,18 @@ export const glossary = {
   },
   'solid': {
     term: 'Solid',
-    en: 'A terrain trait: models cannot see, move or be set up through a Solid terrain feature.',
-    ru: 'Свойство ландшафта: сквозь «Solid»-элемент нельзя видеть, перемещаться или размещаться.',
+    en: 'A terrain trait (also carried by Dense terrain): line of sight can’t be drawn through — and a model can’t end a move through — any enclosed part of the feature 3" or less above ground level, not even through doors or windows.',
+    ru: 'Свойство ландшафта (есть и у плотных укрытий): сквозь закрытые части элемента на высоте 3" и менее от земли нельзя провести линию обзора и нельзя завершить манёвр — даже через двери или окна.',
   },
   'go-to-ground': {
     term: 'Go to Ground',
-    en: 'An Action an INFANTRY unit can take to gain the Benefit of Cover and a 6+ invulnerable save until its next turn.',
-    ru: 'Действие, которое юнит ПЕХОТЫ может выполнить, чтобы получить преимущество укрытия и инвуль-спас 6+ до своего следующего хода.',
+    en: 'A state, not an Action: a Hidden model within Solid terrain that made no ranged attacks this or the previous turn has gone to ground; while it has, subtract 3" from that model’s detection range, making it harder to spot.',
+    ru: 'Состояние, а не действие: скрытая модель внутри сплошного укрытия, не стрелявшая в этот и прошлый ход, считается залёгшей; пока она залегла, из её радиуса обнаружения вычитается 3", и её труднее обнаружить.',
   },
   'level-of-control': {
     term: 'Level of Control',
-    en: 'How strongly a unit controls an objective marker — the total Objective Control of its eligible models there versus the enemy’s.',
-    ru: 'Насколько сильно юнит контролирует маркер цели — суммарный Контроль цели его подходящих моделей там против вражеского.',
+    en: 'A player’s total control over an objective at the end of a phase or turn — the sum of the Objective Control characteristics of all their models within range of it. The player with the higher level of control controls the objective.',
+    ru: 'Суммарный контроль игрока над целью в конце фазы или хода — сумма характеристик Контроля цели всех его моделей в пределах дальности этой цели. Цель контролирует тот игрок, у кого уровень контроля выше.',
   },
   'controlling-unit': {
     term: 'Controlling Unit',
@@ -960,8 +970,8 @@ export const glossary = {
   },
   'snap-shooting': {
     term: 'Snap Shooting',
-    en: 'A special shooting type allowed by Fire Overwatch: the unit shoots at a limited target and attacks hit only on an unmodified hit roll of 6.',
-    ru: 'Особый тип стрельбы, разрешаемый правилом Fire Overwatch: юнит стреляет по ограниченной цели, а атаки попадают только на немодифицированный бросок на попадание 6.',
+    en: 'A shooting type allowed by Fire Overwatch: the unit can target only one visible enemy unit within 24", each attack hits only on an unmodified hit roll of 6 (regardless of BS or modifiers), and hit rolls can’t be re-rolled.',
+    ru: 'Тип стрельбы, разрешаемый правилом Fire Overwatch: юнит может выбрать целью только один видимый вражеский юнит в пределах 24", каждая атака попадает только на немодифицированный бросок на попадание 6 (независимо от BS и модификаторов), а броски на попадание нельзя перебрасывать.',
   },
   'declared-charge': {
     term: 'Declared a Charge',
@@ -1039,8 +1049,8 @@ export const glossary = {
   },
   'obscuring-terrain-area': {
     term: 'Obscuring Terrain Area',
-    en: 'A terrain area with one or more Light or Heavy terrain features; a line of sight drawn through it can leave models not visible to each other.',
-    ru: 'Область террейна с одним или несколькими лёгкими или плотными элементами; линия обзора через неё может делать модели не видимыми друг для друга.',
+    en: 'A terrain area with one or more Light or Dense terrain features; a line of sight drawn through it can leave models not visible to each other.',
+    ru: 'Область укрытия с одним или несколькими лёгкими или плотными элементами; линия обзора через неё может делать модели не видимыми друг для друга.',
   },
 
   // — Imported terms: keywords —
