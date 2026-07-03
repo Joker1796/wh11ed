@@ -111,8 +111,8 @@ export const glossary = {
   },
   'battle-shocked': {
     term: 'Battle-shocked',
-    en: 'A unit that failed a Battle-shock test. Until the start of its next Command phase its Objective Control is 0, it cannot use Stratagems, and it cannot start Actions.',
-    ru: 'Юнит, проваливший проверку на боевой шок. До начала своей следующей командной фазы его Контроль цели равен 0, он не может использовать стратагемы и не может начинать действия.',
+    en: 'A unit that failed a Battle-shock test. Until the start of its next Command phase its Objective Control is treated as 0, its controlling player cannot target it with Stratagems, and it cannot start Actions (and can’t complete any it had started).',
+    ru: 'Юнит, проваливший проверку на боевой шок. До начала своей следующей командной фазы его Контроль цели считается равным 0, его контролирующий игрок не может выбирать его целью стратагем, и он не может начинать действия (а начатые — завершить).',
   },
 
   // — Units, models & profiles —
@@ -212,8 +212,8 @@ export const glossary = {
   },
   'selected-to-shoot': {
     term: 'Selected to Shoot',
-    en: 'When a unit is picked to shoot during the Shooting phase.',
-    ru: 'Когда юнит выбирается для стрельбы в фазе стрельбы.',
+    en: 'When a unit is picked to shoot. This usually happens in the Shooting phase, but some rules select a unit to shoot at other times too.',
+    ru: 'Когда юнит выбирается для стрельбы. Обычно это происходит в фазе стрельбы, но некоторые правила выбирают юнит для стрельбы и в другое время.',
   },
   'selected-to-fight': {
     term: 'Selected to Fight',
@@ -480,8 +480,8 @@ export const glossary = {
   },
   'failed-charge': {
     term: 'Failed Charge',
-    en: 'A charge whose roll is too low to reach a target in Engagement Range without breaking the rules; the unit does not move.',
-    ru: 'Нападение, броска которого не хватает, чтобы достичь цели в радиусе связывания без нарушения правил; юнит не перемещается.',
+    en: 'A declared charge the unit can’t complete: its Charge roll isn’t enough to end the move engaged with every charge target (and not with any non-target) while following the move rules. The unit stays where it started.',
+    ru: 'Объявленное нападение, которое юнит не может завершить: броска нападения не хватает, чтобы закончить манёвр связанным боем со всеми целями нападения (и ни с одним не-целью), соблюдая правила манёвра. Юнит остаётся на исходной позиции.',
   },
 
   // — Battle Round: fighting & consolidation —
@@ -492,8 +492,8 @@ export const glossary = {
   },
   'consolidation': {
     term: 'Consolidate',
-    en: 'A move of up to 3" a unit makes after it finishes fighting (Консолидация).',
-    ru: 'Консолидация — манёвр до 3", который юнит совершает после завершения боя.',
+    en: 'A move of up to 3" a unit that was eligible to fight makes in the Consolidate step; moved models must end closer to the nearest enemy unit (engaged if possible) or to a nearby objective.',
+    ru: 'Консолидация — манёвр до 3", который юнит, имевший право сражаться, совершает на шаге консолидации; перемещаемые модели должны закончить ближе к ближайшему вражескому юниту (в связывании боем, если возможно) или к близкой цели.',
   },
   'overrun': {
     term: 'Overrun',
@@ -502,8 +502,8 @@ export const glossary = {
   },
   'fights-first': {
     term: 'Fights First',
-    en: 'A rule letting a unit fight in the Fights First step, before units that do not have it.',
-    ru: 'Правило, позволяющее юниту сражаться на этапе «сначала бьют», раньше юнитов без него.',
+    en: 'An ability (24.13): units that have it are selected to fight in the Fight phase’s first step (Resolve Fights First Combats), before units without it fight in the Resolve Remaining Combats step.',
+    ru: 'Способность (24.13): юниты с ней выбираются для боя на первом шаге фазы боя (отыгрыш схваток с «Первым ударом»), раньше, чем юниты без неё сражаются на шаге отыгрыша оставшихся схваток.',
   },
   'fight-type': {
     term: 'Fight Type',
@@ -524,8 +524,8 @@ export const glossary = {
   },
   'eligible-to-shoot': {
     term: 'Eligible to Shoot',
-    en: 'A unit is normally eligible to shoot if it did not Advance or Fall Back and is not battle-shocked.',
-    ru: 'Юнит обычно может стрелять, если он не продвигался и не отходил и не подвержен боевому шоку.',
+    en: 'A unit is eligible to shoot if it is on the battlefield and has not already been selected to shoot this phase.',
+    ru: 'Юнит может стрелять, если он находится на поле боя и ещё не был выбран для стрельбы в этой фазе.',
   },
   'eligible-to-charge': {
     term: 'Eligible to Declare a Charge',
@@ -551,8 +551,8 @@ export const glossary = {
   },
   'benefit-of-cover': {
     term: 'Benefit of Cover',
-    en: 'Cover that improves a unit’s saving throw against ranged attacks by 1 (to a maximum of 3+).',
-    ru: 'Укрытие, улучшающее спас-бросок юнита против дальних атак на 1 (не лучше 3+).',
+    en: 'Cover a unit gets against a ranged attack when every model is within a terrain area or is not fully visible due to intervening terrain. It worsens that attack’s BS by 1, making the unit harder to hit.',
+    ru: 'Укрытие, которое юнит получает против дальней атаки, когда каждая его модель в области укрытия или не полностью видна из-за промежуточного террейна. Оно ухудшает BS этой атаки на 1, делая юнит труднее для попадания.',
   },
 
   // — Attack sequence steps —
@@ -759,8 +759,8 @@ export const glossary = {
   },
   'plunging-fire': {
     term: 'Plunging Fire',
-    en: 'A rule where shooting down from a higher elevation ignores the target’s Benefit of Cover.',
-    ru: 'Правило, при котором стрельба сверху, с возвышения, игнорирует преимущество укрытия цели.',
+    en: 'A rule that improves a ranged attack’s BS by 1 when the attacking model is on terrain 3" or more high (or is TOWERING and within 12") and the target has one or more models at ground level.',
+    ru: 'Правило, улучшающее BS дальней атаки на 1, когда атакующая модель находится на террейне высотой 3" и более (или обладает TOWERING и в пределах 12"), а цель содержит хотя бы одну модель на уровне земли.',
   },
   'close-quarters': {
     term: 'Close-quarters Shooting',
@@ -781,8 +781,8 @@ export const glossary = {
   },
   'dense-terrain': {
     term: 'Dense Terrain',
-    en: 'A terrain trait: it blocks line of sight drawn through it to models more than 2" beyond it.',
-    ru: 'Свойство ландшафта: перекрывает линию обзора, проводимую сквозь него, к моделям дальше 2" за ним.',
+    en: 'A terrain trait: a terrain area containing a Dense terrain feature counts as an obscuring terrain area, so two models can’t see each other if the line of sight between them crosses it and neither is within it.',
+    ru: 'Свойство ландшафта: область с плотным (Dense) элементом считается загораживающей, поэтому две модели не видят друг друга, если линия обзора между ними пересекает её и ни одна из них не находится внутри.',
   },
   'light-terrain': {
     term: 'Light Terrain',
