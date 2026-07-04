@@ -17,9 +17,12 @@
          before-leave pins the card's offset: an abs-positioned flex child's static
          position is the container's start, so without it the ghost jumps to the top. -->
     <TransitionGroup tag="ul" name="card" class="cards" @before-leave="el => { el.style.top = el.offsetTop + 'px' }">
-      <li v-for="m in handMissions" :key="m.slug" class="card">
+      <li v-for="m in handMissions" :key="m.slug" class="card" :class="{ 'set-aside': isSetAside(m.slug) }">
         <button class="card-open" @click="openSlug = m.slug">
-          <span class="card-name">{{ m.name }}</span>
+          <span class="card-name">
+            {{ m.name }}
+            <span v-if="isSetAside(m.slug)" class="badge">{{ labels.trackerDiscardedBadge }}</span>
+          </span>
           <span class="card-vp">{{ secondaryCardVp(pi, m.slug) }} VP</span>
         </button>
         <button
@@ -29,6 +32,13 @@
           :aria-label="labels.trackerCardActions"
           @click="actionSlug = m.slug"
         >⋯</button>
+        <button
+          v-else-if="mode === 'tactical' && isSetAside(m.slug)"
+          class="manage restore"
+          :title="labels.trackerReturnToHand"
+          :aria-label="labels.trackerReturnToHand"
+          @click="onRestore(m.slug)"
+        ><i class="bi bi-arrow-counterclockwise"></i></button>
       </li>
     </TransitionGroup>
 
@@ -40,6 +50,7 @@
       :blocks="relevantBlocks(openMission)"
       :briefing="openMission.briefing"
       :whenDrawn="whenDrawnFor(openMission)"
+      :readonly="isSetAside(openMission.slug)"
       :count="(bi, ri) => secondaryRowCount(pi, openMission.slug, bi, ri)"
       @set="(bi, ri, c) => scoreSecondaryRow(pi, openMission.slug, bi, ri, c)"
       @redraw="mode => { redrawSecondary(pi, openMission.slug, mode); openSlug = null }"
@@ -94,12 +105,16 @@ const labels = computed(() => ui[locale.value])
 
 const {
   current, drawSecondary, drawSpecificSecondary, returnSecondaryToDeck,
-  discardFromHand, redrawSecondary, scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
+  discardFromHand, restoreSecondaryToHand, redrawSecondary, scoreSecondaryRow,
+  secondaryRowCount, secondaryCardVp,
 } = useTracker()
 
 const player = computed(() => current.value.players[props.pi])
 const mode = computed(() => player.value.secondaryMode)
 function inHand(slug) { return player.value.secondary.hand.includes(slug) }
+// A displayed card that isn't in the hand is a set-aside (discarded) one — handMissions
+// only ever pulls from hand ∪ discarded, so "not in hand" ⇒ set aside.
+function isSetAside(slug) { return !inHand(slug) }
 
 // "In play" for the viewed round: cards held in hand that round — either still in
 // hand, or discarded in a LATER round (so a scored card shows as active in the round
@@ -157,6 +172,7 @@ function onDraw() { drawSecondary(props.pi) }
 function onPick(slug) { drawSpecificSecondary(props.pi, slug); pickerOpen.value = false }
 function onSetAside(slug) { discardFromHand(props.pi, slug); actionSlug.value = null }
 function onReturn(slug) { returnSecondaryToDeck(props.pi, slug); actionSlug.value = null }
+function onRestore(slug) { restoreSecondaryToHand(props.pi, slug) }
 </script>
 
 <style scoped>
@@ -203,6 +219,27 @@ function onReturn(slug) { returnSecondaryToDeck(props.pi, slug); actionSlug.valu
   cursor: pointer; font-size: 1rem; line-height: 1; padding: 0 0.55rem; flex-shrink: 0;
 }
 .manage:hover { color: var(--accent); border-color: var(--accent); }
+.manage.restore { display: flex; align-items: center; }
+.manage.restore .bi { font-size: 0.95rem; }
+
+/* Set-aside (discarded) card: dimmed, dashed border, a "Discarded" badge. Only the card
+   face is muted — the Return button stays fully legible so undoing an accidental set-aside
+   is easy. */
+.card.set-aside .card-open { opacity: 0.6; border-style: dashed; }
+.card.set-aside .card-open:hover { opacity: 0.85; }
+.badge {
+  margin-left: 0.4rem;
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0 0.28rem;
+  vertical-align: middle;
+  white-space: nowrap;
+}
 
 /* Custom header for the per-card actions modal (others use BaseModal's default header). */
 .modal-head {

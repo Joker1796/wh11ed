@@ -183,6 +183,37 @@ describe('redrawSecondary (WHEN DRAWN actions)', () => {
   })
 })
 
+describe('set aside & restore secondaries', () => {
+  it('discardFromHand sets the card aside, keeping any scored VP', () => {
+    tracker.newGame(setupGame())
+    const s = tracker.current.value.players[0].secondary
+    tracker.drawSpecificSecondary(0, 'behind-enemy-lines')
+    tracker.scoreSecondaryRow(0, 'behind-enemy-lines', 0, 0, 1)
+    const vp = tracker.secondaryCardVp(0, 'behind-enemy-lines')
+    expect(vp).toBeGreaterThan(0)
+
+    tracker.discardFromHand(0, 'behind-enemy-lines')
+    expect(s.hand).not.toContain('behind-enemy-lines')
+    expect((s.discarded || []).some(d => (d.slug ?? d) === 'behind-enemy-lines')).toBe(true)
+    expect(tracker.secondaryCardVp(0, 'behind-enemy-lines')).toBe(vp)   // VP preserved
+  })
+
+  it('restoreSecondaryToHand returns a set-aside card to the hand, preserving VP', () => {
+    tracker.newGame(setupGame())
+    const s = tracker.current.value.players[0].secondary
+    tracker.drawSpecificSecondary(0, 'behind-enemy-lines')
+    tracker.scoreSecondaryRow(0, 'behind-enemy-lines', 0, 0, 1)
+    const vp = tracker.secondaryCardVp(0, 'behind-enemy-lines')
+    tracker.discardFromHand(0, 'behind-enemy-lines')
+
+    tracker.restoreSecondaryToHand(0, 'behind-enemy-lines')
+    expect(s.hand).toContain('behind-enemy-lines')
+    expect((s.discarded || []).some(d => (d.slug ?? d) === 'behind-enemy-lines')).toBe(false)
+    expect(s.deck).not.toContain('behind-enemy-lines')                 // not shoved back to the deck
+    expect(tracker.secondaryCardVp(0, 'behind-enemy-lines')).toBe(vp)  // VP unchanged
+  })
+})
+
 describe('localStorage hydration', () => {
   it('loads an existing current game on import', async () => {
     const saved = { id: 'g1', phase: 'playing', currentRound: 2, settings: {}, players: [{}, {}] }

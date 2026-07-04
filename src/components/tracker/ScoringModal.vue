@@ -14,6 +14,10 @@
       </template>
 
       <div class="modal-body">
+        <p v-if="readonly" class="view-only">
+          <i class="bi bi-eye"></i> {{ labels.trackerViewOnly }}
+        </p>
+
         <template v-if="briefing && briefing.length">
           <button class="brief-toggle" @click="toggleBriefing" :aria-expanded="briefingOpen">
             <span>{{ labels.trackerBriefing }}</span>
@@ -24,7 +28,7 @@
           </CollapseTransition>
         </template>
 
-        <button v-if="whenDrawn" class="redraw-btn" @click="$emit('redraw', whenDrawn.mode)">
+        <button v-if="whenDrawn && !readonly" class="redraw-btn" @click="$emit('redraw', whenDrawn.mode)">
           {{ whenDrawn.mode === 'discard' ? labels.trackerDiscardDraw : labels.trackerShuffleDraw }}
         </button>
 
@@ -34,9 +38,13 @@
             <span class="m-heading">{{ b.heading }}</span>
             <span v-if="b.when" class="m-when">{{ b.when }}</span>
           </div>
-          <label v-for="r in b.rows" :key="r.ri" class="m-cond" :class="{ on: count(b.bi, r.ri) > 0 }">
+          <label v-for="r in b.rows" :key="r.ri" class="m-cond" :class="{ on: count(b.bi, r.ri) > 0, readonly }">
+            <!-- Read-only (set-aside card): show the recorded value, no editable controls. -->
+            <span v-if="readonly" class="m-static" :class="{ hit: count(b.bi, r.ri) > 0 }">
+              {{ r.perEach ? count(b.bi, r.ri) : (count(b.bi, r.ri) > 0 ? '✓' : '—') }}
+            </span>
             <NumberStepper
-              v-if="r.perEach"
+              v-else-if="r.perEach"
               :modelValue="count(b.bi, r.ri)"
               :min="0" :max="20"
               @update:modelValue="v => $emit('set', b.bi, r.ri, v)"
@@ -80,6 +88,7 @@ defineProps({
   note: { type: String, default: '' },
   briefing: { type: Array, default: null },   // mission.briefing — shown above the blocks
   whenDrawn: { type: Object, default: null }, // { mode:'discard'|'shuffle' } — WHEN DRAWN redraw button, or null
+  readonly: { type: Boolean, default: false }, // view-only (e.g. a set-aside secondary): no scoring inputs
 })
 defineEmits(['set', 'close', 'redraw'])
 const { locale } = useLocale()
@@ -158,7 +167,32 @@ function toggleBriefing() {
   background: var(--bg-secondary);
 }
 .m-cond.on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.m-cond.readonly { cursor: default; }
 .m-check { width: 20px; height: 20px; margin-top: 1px; flex-shrink: 0; accent-color: var(--accent); cursor: pointer; }
+/* Static value shown in place of the stepper/checkbox for a read-only (set-aside) card. */
+.m-static {
+  flex-shrink: 0;
+  min-width: 20px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text-dim);
+}
+.m-static.hit { color: var(--accent); }
+.view-only {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0 0 0.5rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 5px;
+  background: var(--bg-secondary);
+  border: 1px dashed var(--border);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
 .m-text { font-size: 0.84rem; color: var(--text-muted); line-height: 1.45; }
 .m-text strong { color: var(--text-primary); white-space: nowrap; }
 .or { font-style: normal; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; color: var(--text-dim); margin-right: 0.2rem; }
