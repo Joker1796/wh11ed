@@ -13,8 +13,8 @@ describe('GameSetup', () => {
     expect(w.text()).toContain('You')
     expect(w.text()).toContain('Opponent')
     expect(w.findAll('.player-card').length).toBeGreaterThanOrEqual(2)
-    // a faction <select> per player
-    expect(w.findAll('select').length).toBeGreaterThanOrEqual(2)
+    // a faction picker button per player (opens FactionPickerModal)
+    expect(w.findAll('.faction-btn').length).toBeGreaterThanOrEqual(2)
   })
 
   it('defaults the battle size to Strike Force', () => {

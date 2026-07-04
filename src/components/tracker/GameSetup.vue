@@ -36,26 +36,30 @@
             <input v-model="p.name" type="text" :placeholder="namePlaceholder(i)" />
           </label>
 
-          <label class="field">
+          <div class="field">
             <span>{{ labels.trackerFaction }}</span>
-            <select v-model="p.factionSlug">
-              <option :value="null" disabled>{{ labels.trackerSelectFaction }}</option>
-              <optgroup v-for="g in factionGroups" :key="g.id" :label="factionGroupLabel(g.id)">
-                <option v-for="f in g.factions" :key="f.slug" :value="f.slug">{{ f.name }}</option>
-              </optgroup>
-            </select>
-          </label>
+            <button class="btn-choose-twist faction-btn" @click="factionPickerIdx = i">
+              <span class="ct-name" :class="{ placeholder: !p.factionSlug }">{{ p.factionSlug ? factionName(p.factionSlug) : labels.trackerSelectFaction }}</span>
+              <i class="bi bi-chevron-right ct-chev"></i>
+            </button>
+            <FactionPickerModal
+              v-if="factionPickerIdx === i"
+              :selected="p.factionSlug"
+              @pick="slug => selectFaction(p, slug)"
+              @close="factionPickerIdx = -1"
+            />
+          </div>
 
           <div class="field">
             <span>{{ labels.trackerDpBudget }} <em class="dp-count" :class="{ over: dpSpent(p) > maxDp }">{{ dpSpent(p) }} / {{ maxDp }} DP</em></span>
-            <div v-if="p.detachments.length" class="det-chips">
-              <span v-for="name in p.detachments" :key="name" class="det-chip">{{ name }}</span>
-            </div>
             <button
               v-if="p.factionSlug && detachmentsFor(p.factionSlug).length"
-              class="det-open-btn"
+              class="btn-choose-twist"
               @click="detPickerIdx = i"
-            >{{ labels.trackerChooseDetachments }}</button>
+            >
+              <span class="ct-name" :class="{ placeholder: !p.detachments.length }">{{ detSummary(p) }}</span>
+              <i class="bi bi-chevron-right ct-chev"></i>
+            </button>
             <p v-else class="det-empty">{{ p.factionSlug ? labels.trackerNoDetachments : labels.trackerSelectFaction }}</p>
             <DetachmentPickerModal
               v-if="detPickerIdx === i"
@@ -275,6 +279,7 @@ import MissionCard from '../event/MissionCard.vue'
 import RuleBody from '../RuleBody.vue'
 import TwistPickerModal from './TwistPickerModal.vue'
 import DetachmentPickerModal from './DetachmentPickerModal.vue'
+import FactionPickerModal from './FactionPickerModal.vue'
 import SecondaryPickerModal from './SecondaryPickerModal.vue'
 import MissionPickerModal from './MissionPickerModal.vue'
 import ScoreHelpModal from './ScoreHelpModal.vue'
@@ -284,7 +289,7 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { eventCompanion, getEventContent } from '../../data/eventCompanion.js'
 import { useTracker, DISPOSITIONS, BATTLE_SIZES, MIRROR_MISSIONS, derivePrimary, missionBySlug, fixedPool, dispositionName } from '../../composables/useTracker.js'
-import { FACTIONS, FACTION_GROUPS, detachmentsFor, detachmentInfo } from '../../composables/trackerFactions.js'
+import { FACTIONS, detachmentsFor, detachmentInfo } from '../../composables/trackerFactions.js'
 
 const emit = defineEmits(['start', 'cancel'])
 const { locale } = useLocale()
@@ -308,14 +313,6 @@ function namePlaceholder(i) {
   return i === 0 ? labels.value.trackerYourName : labels.value.trackerOpponentName
 }
 
-const factionGroups = FACTION_GROUPS
-const factionGroupLabels = {
-  astartes: 'factionGroupAstartes', imperium: 'factionGroupImperium',
-  chaos: 'factionGroupChaos', xenos: 'factionGroupXenos', other: 'factionGroupOther',
-}
-function factionGroupLabel(id) {
-  return labels.value[factionGroupLabels[id]] || ''
-}
 const dispositions = DISPOSITIONS
 const matchups = eventCompanion.en.matchups   // layout image paths are language-agnostic
 const MAX_FIXED = 2   // Fixed secondaries: choose 2, kept for the whole game.
@@ -414,6 +411,13 @@ function toggleFixed(p, slug) {
 // localized full mission cards so their text can be read before choosing.
 const fixedPickerFor = ref(-1)
 const detPickerIdx = ref(-1)
+const factionPickerIdx = ref(-1)
+
+// Faction is single-select: picking one applies it and closes the modal immediately.
+function selectFaction(p, slug) {
+  p.factionSlug = slug
+  factionPickerIdx.value = -1
+}
 const fixedModalMissions = computed(() => {
   if (fixedPickerFor.value < 0) return []
   const role = players[fixedPickerFor.value].role
@@ -422,6 +426,11 @@ const fixedModalMissions = computed(() => {
 function fixedSummary(p) {
   if (!p.fixedSecondaries.length) return labels.value.trackerSelect
   return p.fixedSecondaries.map(slug => missionBySlug(slug, p.role, locale.value)?.name || slug).join(', ')
+}
+
+function detSummary(p) {
+  if (!p.detachments.length) return labels.value.trackerChooseDetachments
+  return p.detachments.join(', ')
 }
 
 function dpSpent(p) {
@@ -769,27 +778,6 @@ function cancel() {
   vertical-align: middle;
 }
 .help-btn:hover { color: var(--accent); }
-.det-chips { display: flex; flex-wrap: wrap; gap: 0.3rem; margin: 0.25rem 0; }
-.det-chip {
-  font-size: 0.78rem;
-  padding: 2px 8px;
-  border-radius: 3px;
-  background: color-mix(in srgb, var(--accent) 14%, transparent);
-  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
-  color: var(--text-primary);
-}
-.det-open-btn {
-  margin-top: 0.25rem;
-  padding: 0.35rem 0.75rem;
-  font-size: 0.82rem;
-  border: 1px solid var(--border);
-  background: var(--bg-secondary);
-  border-radius: 4px;
-  cursor: pointer;
-  color: var(--text-primary);
-  transition: border-color 0.15s;
-}
-.det-open-btn:hover { border-color: var(--accent); }
 .det-empty { font-size: 0.82rem; color: var(--text-dim); font-style: italic; margin: 0.25rem 0 0; }
 .chips { display: flex; flex-wrap: wrap; gap: 0.3rem; }
 .chip {
