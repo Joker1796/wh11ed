@@ -67,7 +67,11 @@ export function resolveRef(text) {
 // correct for late-loading images shifting it.
 export function scrollToAnchor(anchor, offset = 100) {
   const doScroll = () => {
+    // Stratagems render as StratCards with `strat-15-XX` ids, but numeric refs like
+    // (15.08) resolve to `section-15-08`; fall back to the strat- id when there's no
+    // matching section- element so those refs still land on the card.
     const el = document.getElementById(anchor)
+      || (anchor.startsWith('section-') && document.getElementById(anchor.replace(/^section-/, 'strat-')))
     if (!el) return false
     const top = el.getBoundingClientRect().top + window.scrollY - offset
     window.scrollTo({ top, behavior: 'smooth' })
