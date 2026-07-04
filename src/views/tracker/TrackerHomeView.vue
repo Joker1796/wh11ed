@@ -107,7 +107,7 @@
     <ConfirmModal
       v-if="confirmState"
       :title="confirmState.title"
-      :message="labels.trackerOverwriteConfirm"
+      :message="confirmState.message"
       :confirm-label="confirmState.confirmLabel"
       :cancel-label="labels.trackerCancel"
       @confirm="onConfirmAction"
@@ -148,10 +148,14 @@ const {
 } = useCloudSync()
 
 // Deleting a game removes it locally AND from the cloud backup (so it doesn't resurface on
-// another device or get re-downloaded by a later sync).
+// another device or get re-downloaded by a later sync) — destructive, so confirm first.
 function onDeleteGame(id) {
-  deleteHistory(id)
-  deleteGame(id)
+  confirmState.value = {
+    title: labels.value.trackerDelete,
+    message: labels.value.trackerDeleteConfirm,
+    confirmLabel: labels.value.trackerDelete,
+    action: () => { deleteHistory(id); deleteGame(id) },
+  }
 }
 
 const SYNC_AFTER_LOGIN = 'wh11ed-sync-after-login'
@@ -209,13 +213,13 @@ onMounted(async () => {
   else refreshCloudList()
 })
 
-// Overwrite confirmation (shown only when a game is in progress). Holds the pending action
-// so one ConfirmModal serves both "New game" and "Resume from history".
-const confirmState = ref(null) // { title, confirmLabel, action } | null
+// Pending-action confirmation. Holds the message and the action so one ConfirmModal
+// serves "New game" / "Resume from history" (overwrite) and "Delete from history".
+const confirmState = ref(null) // { title, message, confirmLabel, action } | null
 
 function startNew() {
   if (current.value) {
-    confirmState.value = { title: labels.value.trackerNewGame, confirmLabel: labels.value.trackerNewGame, action: doStartNew }
+    confirmState.value = { title: labels.value.trackerNewGame, message: labels.value.trackerOverwriteConfirm, confirmLabel: labels.value.trackerNewGame, action: doStartNew }
     return
   }
   doStartNew()
@@ -229,7 +233,7 @@ function doStartNew() {
 function onResumeGame(id) {
   summaryGame.value = null
   if (current.value) {
-    confirmState.value = { title: labels.value.trackerResume, confirmLabel: labels.value.trackerResume, action: () => doResume(id) }
+    confirmState.value = { title: labels.value.trackerResume, message: labels.value.trackerOverwriteConfirm, confirmLabel: labels.value.trackerResume, action: () => doResume(id) }
     return
   }
   doResume(id)
