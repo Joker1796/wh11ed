@@ -10,7 +10,7 @@
         <span class="pname">{{ pl.name || ((pl.isYou ?? i === 0) ? labels.trackerYou : labels.trackerOpponent) }}</span>
         <span v-if="leaderIdx === i" class="lead-tag">{{ finished ? labels.trackerWinner : labels.trackerLeader }}</span>
       </div>
-      <div class="grand">
+      <div class="grand" :ref="el => (grandEls[i] = el)">
         <template v-if="bpMode">
           {{ bp[i] }}<span class="grand-unit">BP</span>
           <span class="grand-vp">{{ grandTotal(i) }} VP</span>
@@ -31,6 +31,7 @@
 import { computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { useFlashOnChange } from '../../composables/useFlashOnChange.js'
 import { useTracker } from '../../composables/useTracker.js'
 import { primaryTotal as primaryTotalOf, secondaryTotal as secondaryTotalOf, grandTotal as grandTotalOf, leader as leaderOf, battlePoints as battlePointsOf } from '../../composables/gameScoring.js'
 
@@ -51,6 +52,11 @@ const leaderIdx = computed(() => leaderOf(game.value))
 // Battle Points are a finished-game metric — only shown on results when scoreMode is 'bp'.
 const bpMode = computed(() => props.finished && game.value?.settings?.scoreMode === 'bp')
 const bp = computed(() => battlePointsOf(game.value))
+
+// Pulse a column's grand total when it changes (scoring feedback).
+const grandEls = []
+useFlashOnChange(() => grandTotal(0), () => grandEls[0])
+useFlashOnChange(() => grandTotal(1), () => grandEls[1])
 </script>
 
 <style scoped>

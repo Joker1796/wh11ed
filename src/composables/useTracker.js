@@ -418,10 +418,13 @@ export function useTracker() {
 
   // Apply a tactical card's WHEN DRAWN action: drop the just-drawn card (it has scored
   // nothing) and draw a random replacement. mode 'shuffle' returns it to the deck (it can
-  // come back), mode 'discard' removes it from play entirely. No-op if not in hand.
+  // come back), mode 'discard' removes it from play entirely. No-op if not in hand, or if
+  // the deck is empty — no replacement exists, so 'shuffle' would just draw the same card
+  // back and 'discard' would leave the hand a card short.
   function redrawSecondary(pi, slug, mode) {
     const s = current.value.players[pi].secondary
     if (!s.hand.includes(slug)) return
+    if (!s.deck.length) return
     s.hand = s.hand.filter(x => x !== slug)
     s.scored = s.scored.filter(e => e.slug !== slug)
     s.discarded = (s.discarded || []).filter(d => (d.slug ?? d) !== slug)
@@ -546,6 +549,10 @@ export function useTracker() {
 
   function deleteHistory(id) {
     history.value = history.value.filter(g => g.id !== id)
+    // Synchronous write, like archiveGame/discardGame: the caller deletes the cloud copy
+    // immediately, so losing the local delete to a frozen-PWA debounce window would
+    // resurrect the game locally while its backup is already gone.
+    saveNow()
   }
 
   // ---- scoring (thin wrappers over gameScoring.js bound to the active game) ----

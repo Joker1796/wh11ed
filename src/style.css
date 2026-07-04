@@ -54,6 +54,27 @@
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --safe-left: env(safe-area-inset-left, 0px);
   --safe-right: env(safe-area-inset-right, 0px);
+  /* Motion tokens — every entrance/feedback animation derives its duration from these,
+     so the reduced-motion override below disables them all in one place. */
+  --motion-fast: 0.15s;
+  --motion-med: 0.22s;
+  --motion-flash: 0.45s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-fast: 0s;
+    --motion-med: 0s;
+    --motion-flash: 0s;
+  }
+}
+
+/* Brief color pulse on a value that just changed (useFlashOnChange re-triggers it). */
+@keyframes vp-flash {
+  from { color: var(--accent); }
+}
+.vp-flash {
+  animation: vp-flash var(--motion-flash) ease-out;
 }
 
 /* Mobile shrink for the two largest heading levels (shared scale). */

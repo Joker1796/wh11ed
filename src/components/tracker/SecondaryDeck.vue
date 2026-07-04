@@ -12,8 +12,11 @@
       </div>
     </div>
 
-    <!-- Compact mission cards — tap to open the scoring modal -->
-    <ul class="cards">
+    <!-- Compact mission cards — tap to open the scoring modal. TransitionGroup animates
+         draws in and set-aside/redraw out (remaining cards slide up via .card-move).
+         before-leave pins the card's offset: an abs-positioned flex child's static
+         position is the container's start, so without it the ghost jumps to the top. -->
+    <TransitionGroup tag="ul" name="card" class="cards" @before-leave="el => { el.style.top = el.offsetTop + 'px' }">
       <li v-for="m in handMissions" :key="m.slug" class="card">
         <button class="card-open" @click="openSlug = m.slug">
           <span class="card-name">{{ m.name }}</span>
@@ -27,7 +30,7 @@
           @click="actionSlug = m.slug"
         >⋯</button>
       </li>
-    </ul>
+    </TransitionGroup>
 
     <ScoringModal
       v-if="openMission"
@@ -143,6 +146,8 @@ function whenDrawnFor(m) {
   if (mode.value !== 'tactical') return null
   const w = m && m.whenDrawn
   if (!w) return null
+  // No replacement to draw — redrawSecondary would no-op, so don't offer the action.
+  if (!player.value.secondary.deck.length) return null
   if (w.gate === 'first-round' && current.value.currentRound !== 1) return null
   if (w.gate && w.gate.pairedActive && !player.value.secondary.hand.includes(w.gate.pairedActive)) return null
   return { mode: w.mode }
@@ -169,8 +174,14 @@ function onReturn(slug) { returnSecondaryToDeck(props.pi, slug); actionSlug.valu
   border: 1px solid var(--border); border-radius: 4px; font-size: 0.78rem; font-weight: 600; cursor: pointer;
 }
 .choose-btn:hover { color: var(--text-primary); border-color: var(--accent); }
-.cards { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; }
+.cards { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.4rem; position: relative; }
 .card { display: flex; align-items: stretch; gap: 0.3rem; }
+/* Hand transitions: draws fade/slide in, removed cards fade out in place (absolute, so
+   the remaining cards FLIP-slide up via .card-move). */
+.card-enter-active, .card-move { transition: opacity var(--motion-med) ease, transform var(--motion-med) ease; }
+.card-enter-from { opacity: 0; transform: translateY(-6px); }
+.card-leave-active { position: absolute; width: 100%; transition: opacity var(--motion-fast) ease; }
+.card-leave-to { opacity: 0; }
 .card-open {
   flex: 1;
   display: flex;
