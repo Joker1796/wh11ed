@@ -173,6 +173,33 @@ The site is an installable PWA via **`vite-plugin-pwa`** (Workbox `generateSW`),
 - **Updates (silent, no button):** `registerType: 'prompt'` (NOT `autoUpdate`), but there is **no longer an "Update" button** — `UpdateToast.vue` is now a **headless** component (renders nothing) that registers the SW via `useRegisterSW()` (`virtual:pwa-register/vue`) and applies updates automatically. A new deploy downloads in the background; once `needRefresh` flips true it's applied at a moment that won't interrupt play: a **normal browser tab** applies + reloads immediately (state survives via `localStorage`); the **installed PWA** applies at a *safe* moment — on returning to the foreground (`visibilitychange`) or when leaving the live game screen — but **never while on an active tracker game** (`route.path` starts with `/tracker/game`), so we don't reload mid-game. `cleanupOutdatedCaches` purges stale **precache** on activation (it does **not** touch the `wh11ed-images` runtime cache — that's bounded by `maxEntries` and relies on the rename-on-change rule). Works only if the SW itself isn't long-cached — see Deployment. (Under prompt mode the registration is bundled via `workbox-window`; no separate `registerSW.js` is emitted.) **The SW is only checked for updates at registration by default, so `UpdateToast.vue`'s `onRegisteredSW` polls `registration.update()` hourly + on return to the foreground (guarded by `navigator.onLine`)** — otherwise a kept-open tab or a backgrounded installed PWA never learns about a new deploy.
 - **Resume last view (standalone only):** in the installed PWA the app reopens on the last page *and* the section the user was reading; a normal browser tab is untouched. Standalone is detected via `isStandaloneDisplay()` (`src/composables/standalone.js`, the single source for `display-mode: standalone` / iOS `navigator.standalone`). The last location is stored in `localStorage['wh11ed-last-route']` as `path` or `path#section-anchor`. **Restore** is a one-time `router.beforeEach` in `src/router/index.js` (runs before the first view mounts, so it never flashes home; skips deep links and `/tracker/auth-callback`). **Persistence** lives in `useViewRestore.js` (called once in `App.vue`): since scrolling never changes the URL hash, a rAF-throttled scroll-spy (`currentSectionId()`) records the topmost section anchor — `section-*` / `ability-*` / Event Companion `step-*`,`missions-*`,`pairing-*`,`ranking-*` ids — and writes `path#anchor` back; on launch it re-runs the robust `scrollToAnchor()` (extracted from `useRefNavigation.js`) to correct for late-loading illustrations.
 
+## Motion & animations
+
+All motion is hand-rolled Vue `<Transition>`/`<TransitionGroup>` + native CSS — **no animation
+libraries** (don't add GSAP/@vueuse/motion/animate.css).
+
+- **Motion tokens** live in `src/style.css` (`--motion-fast .15s`, `--motion-med .22s`,
+  `--motion-flash .45s`). **Every animation must derive its duration from a token** — the single
+  `@media (prefers-reduced-motion: reduce)` override there zeroes all three, disabling motion
+  app-wide in one place. Don't hard-code seconds (older hover micro-transitions still do; new work shouldn't).
+- **Reusable global transition classes** (also in `style.css`, use by `name=`): `fade` (opacity,
+  single toggled elements), `list` (opacity + `position:absolute` leave + `list-move` FLIP, for
+  `TransitionGroup` lists — the list container needs `position: relative` to contain leavers),
+  `fade-pop` (dropdowns/anchored menus), `slide-up` (fixed bottom bars). `.vp-flash` is the
+  value-change color pulse re-triggered by `useFlashOnChange.js`.
+- **`CollapseTransition.vue`** — shared height-collapse wrapper for accordions/disclosures of
+  **unknown/variable height** (rule bodies, briefings, legends). Uses the Web Animations API driven
+  off `--motion-med`, so reduced-motion (token → 0) collapses instantly with no special-casing.
+  Slotted content must be a single root element. Used by `SubRuleBlock`, the tracker picker modals
+  (`Twist/Mission/SecondaryPickerModal`), `ScoringModal` (briefing), `ScoreBreakdown`,
+  `EventLayoutsView` (LAYOUTS KEY). Prefer it over per-component `max-height` caps (NavSidebar's
+  scoped `expand-*` accordions predate it and keep their own max-height rule).
+- **`BaseModal` animates open only** (`<Transition name="modal" appear>`); **close is intentionally
+  instant** — a leave phase races the focus-restore in `useModalA11y.js`. Don't "fix" it.
+- **Page transitions**: `App.vue` wraps `<RouterView>` in `<Transition name="fade" mode="out-in">`
+  keyed on `$route.path`. Kept at `--motion-fast`; scroll-to-anchor (`scrollToAnchor` in
+  `useRefNavigation.js`) polls the DOM for ~1.5s so the short mount delay doesn't break it.
+
 ## Deployment
 
 Hosted at **wh11ed.ru** on a **Yandex Object Storage** bucket (`wh11ed.ru`) behind **Yandex CDN**. Deploy with `npm run deploy` (runs `deploy.sh`), which builds and `aws s3 sync`s `dist/` with tiered `Cache-Control`:

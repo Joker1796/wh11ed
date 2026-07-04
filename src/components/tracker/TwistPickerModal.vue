@@ -16,11 +16,13 @@
               {{ selected === t.id ? '✓ ' : '' }}{{ labels.trackerSelect }}
             </button>
           </div>
-          <div v-show="openId === t.id" class="tp-body">
-            <p v-if="t.example" class="tcard-flavor" v-html="renderInline(t.example)"></p>
-            <RuleBody :body="t.body" />
-            <p v-if="t.note" class="tp-note" v-html="renderInline(t.note)"></p>
-          </div>
+          <CollapseTransition>
+            <div v-show="openId === t.id" class="tp-body">
+              <p v-if="t.example" class="tcard-flavor" v-html="renderInline(t.example)"></p>
+              <RuleBody :body="t.body" />
+              <p v-if="t.note" class="tp-note" v-html="renderInline(t.note)"></p>
+            </div>
+          </CollapseTransition>
         </div>
       </div>
   </BaseModal>
@@ -30,6 +32,7 @@
 import { ref, computed } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import RuleBody from '../RuleBody.vue'
+import CollapseTransition from '../CollapseTransition.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'

@@ -19,7 +19,9 @@
             <span>{{ labels.trackerBriefing }}</span>
             <i class="bi" :class="briefingOpen ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
           </button>
-          <MissionBriefing v-show="briefingOpen" :briefing="briefing" />
+          <CollapseTransition>
+            <MissionBriefing v-show="briefingOpen" :briefing="briefing" />
+          </CollapseTransition>
         </template>
 
         <button v-if="whenDrawn" class="redraw-btn" @click="$emit('redraw', whenDrawn.mode)">
@@ -64,6 +66,7 @@ import { computed, ref } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import NumberStepper from './NumberStepper.vue'
 import MissionBriefing from '../MissionBriefing.vue'
+import CollapseTransition from '../CollapseTransition.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'

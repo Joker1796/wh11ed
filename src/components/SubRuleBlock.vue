@@ -9,19 +9,21 @@
       <i class="bi sub-rule-chevron" :class="open ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
     </button>
 
-    <div v-show="open" class="sub-rule-body-wrap">
-      <SeeAlsoBlock v-if="seeAlso && seeAlso.length" :refs="seeAlso" />
+    <CollapseTransition>
+      <div v-show="open" class="sub-rule-body-wrap">
+        <SeeAlsoBlock v-if="seeAlso && seeAlso.length" :refs="seeAlso" />
 
-      <div class="rule-body" @click="handleDefClick">
-        <RuleBody :id="id" :body="body" />
+        <div class="rule-body" @click="handleDefClick">
+          <RuleBody :id="id" :body="body" />
 
-        <DataTable v-if="table" :headers="table.headers" :rows="table.rows" :footnote="table.footnote" />
+          <DataTable v-if="table" :headers="table.headers" :rows="table.rows" :footnote="table.footnote" />
 
-        <div v-if="note" class="note-box" v-html="renderParagraphs(note)"></div>
+          <div v-if="note" class="note-box" v-html="renderParagraphs(note)"></div>
 
-        <div v-if="example" class="example-block" v-html="renderInline(example)"></div>
+          <div v-if="example" class="example-block" v-html="renderInline(example)"></div>
+        </div>
       </div>
-    </div>
+    </CollapseTransition>
   </section>
 </template>
 
@@ -31,6 +33,7 @@ import { useRoute } from 'vue-router'
 import SeeAlsoBlock from './SeeAlsoBlock.vue'
 import RuleBody from './RuleBody.vue'
 import DataTable from './DataTable.vue'
+import CollapseTransition from './CollapseTransition.vue'
 import { useRenderInline } from '../composables/useRenderInline.js'
 
 // A third-level rule block (x.x.x), nested inside a subsection (x.x) and rendered as a

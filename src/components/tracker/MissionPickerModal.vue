@@ -15,9 +15,11 @@
               {{ selected === m.slug ? '✓ ' : '' }}{{ labels.trackerSelect }}
             </button>
           </div>
-          <div v-show="openId === m.slug" class="tp-body">
-            <MissionCard :mission="m" :show-lore="false" />
-          </div>
+          <CollapseTransition>
+            <div v-show="openId === m.slug" class="tp-body">
+              <MissionCard :mission="m" :show-lore="false" />
+            </div>
+          </CollapseTransition>
         </div>
       </div>
   </BaseModal>
@@ -27,6 +29,7 @@
 import { ref, computed } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import MissionCard from '../event/MissionCard.vue'
+import CollapseTransition from '../CollapseTransition.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 

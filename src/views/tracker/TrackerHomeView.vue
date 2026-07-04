@@ -54,7 +54,7 @@
         </span>
       </div>
       <p v-if="!history.length" class="empty">{{ labels.trackerNoGames }}</p>
-      <ul v-else class="games">
+      <TransitionGroup v-else tag="ul" name="list" class="games">
         <li
           v-for="g in visibleGames"
           :key="g.id"
@@ -91,7 +91,7 @@
             <button class="del" @click.stop="onDeleteGame(g.id)">{{ labels.trackerDelete }}</button>
           </div>
         </li>
-      </ul>
+      </TransitionGroup>
       <button v-if="history.length > visibleCount" class="show-more" @click="showMore">
         {{ labels.trackerShowMore }}
       </button>
@@ -405,7 +405,7 @@ function resultLabel(g) { const w = winnerIdx(g); return w === 0 ? 'WIN' : w ===
 }
 .in-sync .bi { color: var(--accent); }
 .empty { color: var(--text-muted); font-style: italic; }
-.games { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+.games { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.6rem; position: relative; }
 .game {
   position: relative;
   overflow: hidden;

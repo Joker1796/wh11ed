@@ -22,7 +22,7 @@
         <div v-if="results.length === 0" class="search-empty">
           {{ labels.searchNoResults }} "<strong>{{ query }}</strong>"
         </div>
-        <ul v-else class="results-list">
+        <TransitionGroup v-else tag="ul" name="res" class="results-list">
           <li
             v-for="(item, i) in results"
             :key="item.id"
@@ -38,7 +38,7 @@
             <div class="result-title" v-html="highlightMatch(item.title, query)"></div>
             <div class="result-snippet" v-if="item.snippet" v-html="highlightMatch(item.snippet, query)"></div>
           </li>
-        </ul>
+        </TransitionGroup>
       </div>
 
       <div v-else class="search-hint-text">
@@ -179,6 +179,26 @@ function navigate(item) {
 .result-item:last-child {
   border-bottom: none;
 }
+
+/* Staggered fade-in as results appear (enter only; leave is instant so rapid typing
+   doesn't pile up overlapping rows). Duration derives from the motion token, so
+   reduced-motion shows them at once. Delay lives under .res-enter-active, keeping the
+   .result-item hover transition untouched. */
+.res-enter-active {
+  transition: opacity var(--motion-med) ease, transform var(--motion-med) ease;
+}
+.res-enter-from {
+  opacity: 0;
+  transform: translateY(6px);
+}
+.res-enter-active:nth-child(1) { transition-delay: 0ms; }
+.res-enter-active:nth-child(2) { transition-delay: 25ms; }
+.res-enter-active:nth-child(3) { transition-delay: 50ms; }
+.res-enter-active:nth-child(4) { transition-delay: 75ms; }
+.res-enter-active:nth-child(5) { transition-delay: 100ms; }
+.res-enter-active:nth-child(6) { transition-delay: 125ms; }
+.res-enter-active:nth-child(7) { transition-delay: 150ms; }
+.res-enter-active:nth-child(n+8) { transition-delay: 175ms; }
 
 .result-item.selected,
 .result-item:hover {

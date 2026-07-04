@@ -69,25 +69,29 @@
             >
               <i class="bi bi-gear-fill"></i>
             </button>
-            <div v-if="settingsOpen" class="settings-backdrop" @click="settingsOpen = false"></div>
-            <div v-if="settingsOpen" class="settings-menu">
-              <button class="settings-item" @click="toggleTheme">
-                <i :class="theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill'"></i>
-                <span>{{ theme === 'dark' ? labels.themeToLight : labels.themeToDark }}</span>
-              </button>
-              <button class="settings-item" :class="{ active: hideLore }" @click="toggleLore">
-                <i :class="hideLore ? 'bi bi-book' : 'bi bi-book-fill'"></i>
-                <span>{{ hideLore ? labels.loreShow : labels.loreHide }}</span>
-              </button>
-              <button
-                v-if="(canInstall || iosInstall) && !isStandalone"
-                class="settings-item"
-                @click="onInstallClick"
-              >
-                <i class="bi bi-download"></i>
-                <span>{{ labels.installApp }}</span>
-              </button>
-            </div>
+            <Transition name="fade">
+              <div v-if="settingsOpen" class="settings-backdrop" @click="settingsOpen = false"></div>
+            </Transition>
+            <Transition name="fade-pop">
+              <div v-if="settingsOpen" class="settings-menu">
+                <button class="settings-item" @click="toggleTheme">
+                  <i :class="theme === 'dark' ? 'bi bi-sun-fill' : 'bi bi-moon-fill'"></i>
+                  <span>{{ theme === 'dark' ? labels.themeToLight : labels.themeToDark }}</span>
+                </button>
+                <button class="settings-item" :class="{ active: hideLore }" @click="toggleLore">
+                  <i :class="hideLore ? 'bi bi-book' : 'bi bi-book-fill'"></i>
+                  <span>{{ hideLore ? labels.loreShow : labels.loreHide }}</span>
+                </button>
+                <button
+                  v-if="(canInstall || iosInstall) && !isStandalone"
+                  class="settings-item"
+                  @click="onInstallClick"
+                >
+                  <i class="bi bi-download"></i>
+                  <span>{{ labels.installApp }}</span>
+                </button>
+              </div>
+            </Transition>
           </div>
           <button
             class="hamburger"
@@ -106,23 +110,31 @@
     <NavSidebar :mobileOpen="mobileNavOpen" @close="mobileNavOpen = false" />
 
     <!-- Subnav: core rules links (hidden on the section-less landing & links pages) -->
-    <nav v-if="!isLanding && !isLinksRoute" class="subnav">
-      <div class="subnav-inner">
-        <RouterLink
-          v-for="item in subNavItems"
-          :key="item.path"
-          :to="item.path"
-          class="subnav-link"
-          :class="{ active: $route.path === item.path }"
-        >{{ item.label }}</RouterLink>
-      </div>
-    </nav>
+    <Transition name="fade">
+      <nav v-if="!isLanding && !isLinksRoute" class="subnav">
+        <div class="subnav-inner">
+          <RouterLink
+            v-for="item in subNavItems"
+            :key="item.path"
+            :to="item.path"
+            class="subnav-link"
+            :class="{ active: $route.path === item.path }"
+          >{{ item.label }}</RouterLink>
+        </div>
+      </nav>
+    </Transition>
 
-    <!-- Overlay backdrop for drawer -->
-    <div v-if="mobileNavOpen" class="nav-overlay" @click="mobileNavOpen = false"></div>
+    <!-- Overlay backdrop for drawer (fades in/out in step with the sliding drawer) -->
+    <Transition name="fade">
+      <div v-if="mobileNavOpen" class="nav-overlay" @click="mobileNavOpen = false"></div>
+    </Transition>
 
     <main class="main-content">
-      <RouterView />
+      <RouterView v-slot="{ Component }">
+        <Transition name="fade" mode="out-in">
+          <component :is="Component" :key="$route.path" />
+        </Transition>
+      </RouterView>
     </main>
 
     <!-- Mobile bottom nav — quick switch between the global sections -->
@@ -148,7 +160,9 @@
     <SearchModal v-if="searchOpen" @close="searchOpen = false" />
     <InstallHintModal v-if="installHintOpen" @close="installHintOpen = false" />
     <KeywordPopover />
-    <ResumeGameButton v-if="showResumeGame" />
+    <Transition name="slide-up">
+      <ResumeGameButton v-if="showResumeGame" />
+    </Transition>
     <UpdateToast />
     <OfflineWarmupToast />
   </div>

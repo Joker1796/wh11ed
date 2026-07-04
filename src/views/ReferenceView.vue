@@ -40,7 +40,7 @@
       </button>
     </div>
 
-    <div class="abilities-list">
+    <TransitionGroup tag="div" name="list" class="abilities-list">
       <div
         v-for="ability in filteredAbilities"
         :key="ability.num"
@@ -91,7 +91,7 @@
           :from-app="child.fromApp"
         />
       </div>
-    </div>
+    </TransitionGroup>
 
     <!-- Rules Appendix -->
     <SectionHeader
@@ -344,6 +344,7 @@ function handleDefClick(e) {
   display: grid;
   gap: 0.6rem;
   margin-bottom: 1.25rem;
+  position: relative; /* contain the absolute-positioned leaving cards during filter transitions */
 }
 
 .ability-card {
