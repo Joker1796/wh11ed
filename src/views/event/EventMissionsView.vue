@@ -218,10 +218,15 @@ const filteredPrimaryGroups = computed(() =>
 }
 .mgroup-icon { width: 34px; height: 34px; object-fit: contain; flex: none; }
 
+/* Multicol (like .strat-grid in StratagemsView) instead of grid: each card keeps its
+   content height rather than stretching to the tallest card in the row. */
 .mcards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
-  gap: 1rem;
+  column-width: 320px;
+  column-gap: 1rem;
+}
+.mcards > * {
+  break-inside: avoid;
+  margin-bottom: 1rem;
 }
 
 </style>
