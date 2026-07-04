@@ -1,4 +1,8 @@
 <template>
+  <!-- Enter-only transition (`appear` — consumers mount the modal with their own v-if).
+       Close stays instant: a leave phase would have to outlive the consumer's v-if and
+       would race useModalA11y's focus restore. -->
+  <Transition name="modal" appear>
   <div class="modal-overlay" :style="{ zIndex }" @click.self="$emit('close')">
     <div
       ref="root"
@@ -20,6 +24,7 @@
       <slot />
     </div>
   </div>
+  </Transition>
 </template>
 
 <script setup>
@@ -86,5 +91,19 @@ useModalA11y(root, () => emit('close'))
 @media (max-width: 560px) {
   .modal-overlay { padding: 0; align-items: flex-end; }
   .modal { max-width: 100%; max-height: 92vh; border-radius: 12px 12px 0 0; }
+}
+
+/* Enter animation: the backdrop color fades in while the dialog scales in (slides up as
+   a bottom sheet on phones). Only background-color and transform animate — never the
+   dialog's opacity: useModalA11y focuses the dialog in a rAF right after mount, and iOS
+   VoiceOver mishandles focus moved into a not-yet-visible element. Durations come from
+   the motion tokens, so prefers-reduced-motion zeroes them and the modal appears instantly. */
+.modal-enter-active { transition: background-color var(--motion-med) ease; }
+.modal-enter-active .modal { transition: transform var(--motion-med) ease; }
+.modal-enter-from { background-color: transparent; }
+.modal-enter-from .modal { transform: scale(0.96); }
+
+@media (max-width: 560px) {
+  .modal-enter-from .modal { transform: translateY(28px); }
 }
 </style>

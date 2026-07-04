@@ -3,17 +3,19 @@
     <ScoreBoard />
 
     <div class="round-bar">
-      <button class="rb-nav" :disabled="current.currentRound <= 1" @click="goToRound(current.currentRound - 1)">‹</button>
+      <button class="rb-nav" :disabled="current.currentRound <= 1" :aria-label="labels.ariaPrevRound" @click="goToRound(current.currentRound - 1)">‹</button>
       <div class="rb-rounds">
         <button
           v-for="n in ROUND_COUNT"
           :key="n"
           class="rb-round"
           :class="{ on: current.currentRound === n }"
+          :aria-label="`${labels.trackerRound} ${n}`"
+          :aria-current="current.currentRound === n ? 'step' : undefined"
           @click="goToRound(n)"
         >{{ n }}</button>
       </div>
-      <button class="rb-nav" :disabled="current.currentRound >= ROUND_COUNT" @click="goToRound(current.currentRound + 1)">›</button>
+      <button class="rb-nav" :disabled="current.currentRound >= ROUND_COUNT" :aria-label="labels.ariaNextRound" @click="goToRound(current.currentRound + 1)">›</button>
     </div>
 
     <!-- Active twist reminder (mission-changing twists are already applied to the primary). -->
