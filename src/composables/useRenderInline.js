@@ -25,6 +25,7 @@ export function useRenderInline() {
       )
       .replace(/\{(red|blue|green):([^}]+)\}/g, (_, color, text) => `<strong class="color-${color}">${text}</strong>`)
       .replace(/\[def:([^\]:]+):([^\]]+)\]/g, '<span class="def-link" data-def="$1">$2</span>')
+      .replace(/\[gloss:([^\]:]+):([^\]]+)\]/g, '<span class="gloss" data-gloss="$1">$2</span>')
       .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
       .replace(/__(.+?)__/g, '<u>$1</u>')
       .replace(/\[([A-Z][A-Z\s\-–:0-9+]*)\]/g, '<span class="keyword">[$1]</span>')
