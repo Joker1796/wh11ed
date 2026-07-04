@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
 
@@ -6,6 +7,12 @@ import vue from '@vitejs/plugin-vue'
 // transform is needed; jsdom gives us localStorage + a DOM for store/component tests.
 export default defineConfig({
   plugins: [vue()],
+  resolve: {
+    // Without a dev server, plugin-vue compiles absolute template URLs (`src="/images/…"`)
+    // into imports; point them at public/ so vitest can resolve them (on Windows the bare
+    // `file:///images/…` URL is invalid and crashes the suite at import time).
+    alias: [{ find: /^\/images\//, replacement: fileURLToPath(new URL('./public/images/', import.meta.url)) }],
+  },
   test: {
     globals: true,
     environment: 'jsdom',
