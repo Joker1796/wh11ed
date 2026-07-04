@@ -416,6 +416,15 @@ export function useTracker() {
     }
   }
 
+  // Undo an accidental set-aside: move the card from discarded[] back into the hand as an
+  // active card. Unlike returnSecondaryToDeck, this KEEPS any scored VP and its drawn round —
+  // the card resumes exactly as it was before being set aside.
+  function restoreSecondaryToHand(pi, slug) {
+    const s = current.value.players[pi].secondary
+    s.discarded = (s.discarded || []).filter(d => (d.slug ?? d) !== slug)
+    if (!s.hand.includes(slug)) s.hand.push(slug)
+  }
+
   // Apply a tactical card's WHEN DRAWN action: drop the just-drawn card (it has scored
   // nothing) and draw a random replacement. mode 'shuffle' returns it to the deck (it can
   // come back), mode 'discard' removes it from play entirely. No-op if not in hand, or if
@@ -571,7 +580,8 @@ export function useTracker() {
     current, history, setupDraft,
     newGame, setRoundPrimary, setCp,
     setPrimaryRow, primaryRowCount,
-    drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand, redrawSecondary,
+    drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,
+    restoreSecondaryToHand, redrawSecondary,
     scoreSecondaryRow, secondaryRowCount, secondaryCardVp,
     goToRound, finishGame, resumeGame, resumeFromHistory, archiveGame, discardGame, deleteHistory,
     primaryTotal, roundPrimaryMax, secondaryTotal, grandTotal, leader,
