@@ -23,8 +23,8 @@
             <span>{{ labels.trackerBriefing }}</span>
             <i class="bi" :class="briefingOpen ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
           </button>
-          <CollapseTransition>
-            <MissionBriefing v-show="briefingOpen" :briefing="briefing" />
+          <CollapseTransition :show="briefingOpen">
+            <MissionBriefing :briefing="briefing" />
           </CollapseTransition>
         </template>
 

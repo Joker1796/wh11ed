@@ -9,8 +9,8 @@
       <i class="bi sub-rule-chevron" :class="open ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
     </button>
 
-    <CollapseTransition>
-      <div v-show="open" class="sub-rule-body-wrap">
+    <CollapseTransition :show="open">
+      <div class="sub-rule-body-wrap">
         <SeeAlsoBlock v-if="seeAlso && seeAlso.length" :refs="seeAlso" />
 
         <div class="rule-body" @click="handleDefClick">

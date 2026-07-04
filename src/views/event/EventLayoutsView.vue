@@ -39,8 +39,8 @@
         </button>
       </div>
 
-      <CollapseTransition>
-      <div v-show="showKey" class="key-body">
+      <CollapseTransition :show="showKey">
+      <div class="key-body">
         <h3 class="legend-subheading">{{ labels.legendMissions }}</h3>
         <ul class="legend legend-dispositions">
           <li v-for="d in ec.dispositions" :key="d.id">
