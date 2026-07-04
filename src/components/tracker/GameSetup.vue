@@ -3,19 +3,19 @@
     <div class="setup-head">
       <h2 class="setup-title">{{ labels.trackerSetupTitle }}</h2>
       <div class="steps">
-        <span class="step" :class="{ on: step === 1, done: step > 1 }">1 · {{ labels.trackerStepArmies }}</span>
+        <span class="step" :class="{ on: step === 1, done: step > 1 }" :aria-current="step === 1 ? 'step' : undefined">1 · {{ labels.trackerStepArmies }}</span>
         <span class="step-sep">→</span>
-        <span class="step" :class="{ on: step === 2, done: step > 2 }">2 · {{ labels.trackerStepMission }}</span>
+        <span class="step" :class="{ on: step === 2, done: step > 2 }" :aria-current="step === 2 ? 'step' : undefined">2 · {{ labels.trackerStepMission }}</span>
         <span class="step-sep">→</span>
-        <span class="step" :class="{ on: step === 3, done: step > 3 }">3 · {{ labels.trackerStepBattlefield }}</span>
+        <span class="step" :class="{ on: step === 3, done: step > 3 }" :aria-current="step === 3 ? 'step' : undefined">3 · {{ labels.trackerStepBattlefield }}</span>
         <span class="step-sep">→</span>
-        <span class="step" :class="{ on: step === 4 }">4 · {{ labels.trackerStepDeploy }}</span>
+        <span class="step" :class="{ on: step === 4 }" :aria-current="step === 4 ? 'step' : undefined">4 · {{ labels.trackerStepDeploy }}</span>
       </div>
       <div class="steps-compact">{{ step }} / 4 · {{ stepLabel }}</div>
     </div>
 
     <!-- ───────── Step 1 — Armies ───────── -->
-    <div v-show="step === 1">
+    <div v-show="step === 1" :ref="el => (panelEls[0] = el)" class="step-panel">
       <div class="field battle-size">
         <span>{{ labels.trackerBattleSize }}</span>
         <div class="seg">
@@ -90,7 +90,7 @@
     </div>
 
     <!-- ───────── Step 2 — Mission ───────── -->
-    <div v-show="step === 2">
+    <div v-show="step === 2" :ref="el => (panelEls[1] = el)" class="step-panel">
       <div class="players">
         <div v-for="(p, i) in players" :key="i" class="player-card">
           <h3 class="player-head">{{ playerLabel(i) }}</h3>
@@ -147,7 +147,7 @@
     </div>
 
     <!-- ───────── Step 3 — Battlefield (layout) ───────── -->
-    <div v-show="step === 3">
+    <div v-show="step === 3" :ref="el => (panelEls[2] = el)" class="step-panel">
       <div class="settings layout-block">
         <h3 class="block-head">{{ labels.trackerLayoutHeading }}</h3>
         <p class="layout-note">{{ labels.trackerLayoutNote }}</p>
@@ -174,7 +174,7 @@
     </div>
 
     <!-- ───────── Step 4 — Deployment (first turn, CP, twist) ───────── -->
-    <div v-show="step === 4">
+    <div v-show="step === 4" :ref="el => (panelEls[3] = el)" class="step-panel">
       <div class="settings deploy-opts">
         <label class="field">
           <span>{{ labels.trackerFirstTurn }}</span>
@@ -269,7 +269,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, computed, watch } from 'vue'
+import { reactive, ref, computed, watch, nextTick } from 'vue'
 import LayoutCard from '../event/LayoutCard.vue'
 import MissionCard from '../event/MissionCard.vue'
 import RuleBody from '../RuleBody.vue'
@@ -382,6 +382,23 @@ const stepLabel = computed(() => [
   labels.value.trackerStepArmies, labels.value.trackerStepMission,
   labels.value.trackerStepBattlefield, labels.value.trackerStepDeploy,
 ][step.value - 1])
+
+// On step change: return to the top (Next/Back sit at the bottom of long panels) and
+// replay the panel's entrance animation. Panels use v-show (all stay mounted), so the
+// animation is re-triggered by re-adding the class after a forced reflow.
+const panelEls = []
+watch(step, async (n) => {
+  const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches
+  // 'instant', not 'auto': the global `html { scroll-behavior: smooth }` makes 'auto'
+  // scroll smoothly anyway, which would defeat the reduced-motion branch.
+  window.scrollTo({ top: 0, behavior: reduced ? 'instant' : 'smooth' })
+  await nextTick()
+  const el = panelEls[n - 1]
+  if (!el) return
+  el.classList.remove('wizard-in')
+  void el.offsetWidth
+  el.classList.add('wizard-in')
+})
 
 function factionName(slug) {
   return FACTIONS.find(f => f.slug === slug)?.name || ''
@@ -540,6 +557,14 @@ function cancel() {
 </script>
 
 <style scoped>
+/* Entrance replayed on each step change (class re-added from the step watcher). */
+.wizard-in {
+  animation: wizard-in var(--motion-med) ease-out;
+}
+@keyframes wizard-in {
+  from { opacity: 0; transform: translateY(8px); }
+}
+
 .setup-head {
   display: flex;
   align-items: center;
