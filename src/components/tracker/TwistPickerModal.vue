@@ -16,8 +16,8 @@
               {{ selected === t.id ? '✓ ' : '' }}{{ labels.trackerSelect }}
             </button>
           </div>
-          <CollapseTransition>
-            <div v-show="openId === t.id" class="tp-body">
+          <CollapseTransition :show="openId === t.id">
+            <div class="tp-body">
               <p v-if="t.example" class="tcard-flavor" v-html="renderInline(t.example)"></p>
               <RuleBody :body="t.body" />
               <p v-if="t.note" class="tp-note" v-html="renderInline(t.note)"></p>

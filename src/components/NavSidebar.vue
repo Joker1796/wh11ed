@@ -30,8 +30,8 @@
           </button>
         </div>
 
-        <transition name="expand-section">
-          <div v-if="openSection === section.key && !isDirect(section)" class="nav-section-body">
+        <CollapseTransition :show="openSection === section.key && !isDirect(section)">
+          <div class="nav-section-body">
             <div
               v-for="group in section.groups"
               :key="group.path"
@@ -54,18 +54,18 @@
                 </button>
               </div>
 
-              <transition name="expand">
-                <ul v-if="expandedPath === group.path && group.sections.length" class="nav-sub">
+              <CollapseTransition :show="expandedPath === group.path && group.sections.length > 0">
+                <ul class="nav-sub">
                   <li v-for="sec in group.sections" :key="sec.label">
                     <a href="#" class="nav-sub-link" @click.prevent="handleAnchorClick(group.path, sec.id, sec.filter)">
                       {{ sec.label.replace(/^\d+\s+/, '') }}
                     </a>
                   </li>
                 </ul>
-              </transition>
+              </CollapseTransition>
             </div>
           </div>
-        </transition>
+        </CollapseTransition>
       </div>
     </div>
   </nav>
@@ -78,6 +78,7 @@ import { navGroups, navGroupsRu, eventGroups, eventGroupsRu, trackerGroups, trac
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useAbilityFilter } from '../composables/useAbilityFilter.js'
+import CollapseTransition from './CollapseTransition.vue'
 
 defineProps({ mobileOpen: Boolean })
 const emit = defineEmits(['close'])
@@ -401,23 +402,4 @@ async function handleAnchorClick(path, id, filter) {
   background: color-mix(in srgb, var(--accent) 6%, transparent);
 }
 
-.expand-enter-active, .expand-leave-active {
-  transition: max-height 0.25s ease;
-  overflow: hidden;
-  max-height: 800px;
-}
-.expand-enter-from, .expand-leave-to {
-  max-height: 0;
-}
-
-/* Section-level accordion — larger cap so a section body containing an
-   expanded group never clips mid-animation. */
-.expand-section-enter-active, .expand-section-leave-active {
-  transition: max-height 0.28s ease;
-  overflow: hidden;
-  max-height: 2000px;
-}
-.expand-section-enter-from, .expand-section-leave-to {
-  max-height: 0;
-}
 </style>

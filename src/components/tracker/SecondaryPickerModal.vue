@@ -24,8 +24,8 @@
               @click="$emit('toggle', m.slug)"
             >{{ selected.includes(m.slug) ? '✓ ' : '' }}{{ labels.trackerSelect }}</button>
           </div>
-          <CollapseTransition>
-            <div v-show="openId === m.slug" class="tp-body">
+          <CollapseTransition :show="openId === m.slug">
+            <div class="tp-body">
               <MissionCard :mission="m" :subtitle="m.category" :show-lore="false" />
             </div>
           </CollapseTransition>
