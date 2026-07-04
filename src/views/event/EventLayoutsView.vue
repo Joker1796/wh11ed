@@ -39,6 +39,7 @@
         </button>
       </div>
 
+      <CollapseTransition>
       <div v-show="showKey" class="key-body">
         <h3 class="legend-subheading">{{ labels.legendMissions }}</h3>
         <ul class="legend legend-dispositions">
@@ -85,6 +86,7 @@
           </li>
         </ul>
       </div>
+      </CollapseTransition>
     </section>
 
     <MissionMatrix
@@ -134,6 +136,7 @@ import DataTable from '../../components/DataTable.vue'
 import MissionMatrix from '../../components/event/MissionMatrix.vue'
 import LayoutCard from '../../components/event/LayoutCard.vue'
 import PageNav from '../../components/PageNav.vue'
+import CollapseTransition from '../../components/CollapseTransition.vue'
 import { getEventContent } from '../../data/eventCompanion.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'

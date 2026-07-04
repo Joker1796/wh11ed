@@ -77,6 +77,50 @@
   animation: vp-flash var(--motion-flash) ease-out;
 }
 
+/* Reusable global transition classes (all derive duration from the motion tokens, so the
+   reduced-motion override zeroes them). Component-local transitions (drawer, accordions,
+   modal) keep their own scoped classes. */
+
+/* Plain opacity fade for single toggled elements (scrims, subnav, page swaps). */
+.fade-enter-active, .fade-leave-active {
+  transition: opacity var(--motion-fast) ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+}
+
+/* List (TransitionGroup) fade: leaving items drop out of flow so survivors reflow/slide. */
+.list-enter-active, .list-leave-active {
+  transition: opacity var(--motion-med) ease;
+}
+.list-enter-from, .list-leave-to {
+  opacity: 0;
+}
+.list-leave-active {
+  position: absolute;
+}
+.list-move {
+  transition: transform var(--motion-med) ease;
+}
+
+/* Small pop for dropdowns / anchored menus (opacity + slight drop). */
+.fade-pop-enter-active, .fade-pop-leave-active {
+  transition: opacity var(--motion-fast) ease, transform var(--motion-fast) ease;
+}
+.fade-pop-enter-from, .fade-pop-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+/* Slide up from below for fixed bottom bars (e.g. the "Back to game" resume bar). */
+.slide-up-enter-active, .slide-up-leave-active {
+  transition: opacity var(--motion-med) ease, transform var(--motion-med) ease;
+}
+.slide-up-enter-from, .slide-up-leave-to {
+  opacity: 0;
+  transform: translateY(100%);
+}
+
 /* Mobile shrink for the two largest heading levels (shared scale). */
 @media (max-width: 900px) {
   :root {
