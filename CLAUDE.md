@@ -188,12 +188,17 @@ libraries** (don't add GSAP/@vueuse/motion/animate.css).
   `fade-pop` (dropdowns/anchored menus), `slide-up` (fixed bottom bars). `.vp-flash` is the
   value-change color pulse re-triggered by `useFlashOnChange.js`.
 - **`CollapseTransition.vue`** — shared height-collapse wrapper for accordions/disclosures of
-  **unknown/variable height** (rule bodies, briefings, legends). Uses the Web Animations API driven
-  off `--motion-med`, so reduced-motion (token → 0) collapses instantly with no special-casing.
-  Slotted content must be a single root element. Used by `SubRuleBlock`, the tracker picker modals
-  (`Twist/Mission/SecondaryPickerModal`), `ScoringModal` (briefing), `ScoreBreakdown`,
-  `EventLayoutsView` (LAYOUTS KEY). Prefer it over per-component `max-height` caps (NavSidebar's
-  scoped `expand-*` accordions predate it and keep their own max-height rule).
+  **unknown/variable height** (rule bodies, briefings, legends). **State-driven: pass the open state
+  as `:show`** (not a `v-if`/`v-show` inside the slot — the wrapper hides the collapsed content
+  itself). Pure CSS via the grid `0fr → 1fr` row trick (inner clip is `overflow:hidden;
+  min-height:0`), so padding/margins collapse for free with no per-frame padding/box-sizing churn and
+  no synchronous `scrollHeight` read — this is what fixed the mobile jank of the old Web-Animations
+  version. `contain: layout paint` scopes the reflow to the subtree; collapsed content leaves the
+  a11y tree via delayed `visibility`. Duration is `--motion-med`, so reduced-motion (token → 0)
+  collapses instantly. Slot may have any number of root nodes. Used by `SubRuleBlock`, the tracker
+  picker modals (`Twist/Mission/SecondaryPickerModal`), `ScoringModal` (briefing), `ScoreBreakdown`,
+  `EventLayoutsView` (LAYOUTS KEY), and `NavSidebar` (both the section- and group-level drawer
+  accordions). Prefer it over per-component `max-height` caps — don't reintroduce them.
 - **`BaseModal` animates open only** (`<Transition name="modal" appear>`); **close is intentionally
   instant** — a leave phase races the focus-restore in `useModalA11y.js`. Don't "fix" it.
 - **Page transitions**: `App.vue` wraps `<RouterView>` in `<Transition name="fade" mode="out-in">`

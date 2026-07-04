@@ -5,8 +5,8 @@
       {{ labels.trackerDetails }}
     </button>
 
-    <CollapseTransition>
-    <div v-if="open" class="bd-body">
+    <CollapseTransition :show="open">
+    <div class="bd-body">
       <div v-for="(pl, i) in game.players" :key="i" class="bd-player">
         <div class="bd-name" :class="{ win: leaderIdx === i }">{{ pl.name || ((pl.isYou ?? i === 0) ? labels.trackerYou : labels.trackerOpponent) }}</div>
 

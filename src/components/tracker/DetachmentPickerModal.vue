@@ -1,8 +1,13 @@
 <template>
   <BaseModal @close="$emit('close')">
     <template #header>
-      <span class="dp-modal-title">{{ labels.trackerDpBudget }}</span>
-      <em class="dp-modal-count" :class="{ over: dpSpent > maxDp }">{{ dpSpent }} / {{ maxDp }} DP</em>
+      <header class="modal-head">
+        <h3 class="mh-title">{{ labels.trackerDpBudget }}</h3>
+        <div class="mh-right">
+          <em class="dp-modal-count" :class="{ over: dpSpent > maxDp }">{{ dpSpent }} / {{ maxDp }} DP</em>
+          <button class="mh-close" @click="$emit('close')" :aria-label="labels.modalClose">✕</button>
+        </div>
+      </header>
     </template>
 
     <div class="modal-body">
@@ -40,13 +45,22 @@ const labels = computed(() => ui[locale.value])
 </script>
 
 <style scoped>
-.dp-modal-title {
-  font-family: var(--font-display);
-  font-size: 1.15rem;
-  font-weight: 500;
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.8rem 0.9rem;
+  border-bottom: 1px solid var(--border);
 }
+.mh-title { font-family: var(--font-display); font-size: 1.49rem; font-weight: 500; color: var(--text-primary); margin: 0; }
+.mh-right { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
+.mh-close {
+  background: none; border: none; color: var(--text-muted);
+  font-size: 1.1rem; cursor: pointer; min-width: 36px; min-height: 36px; border-radius: 4px;
+}
+.mh-close:hover { background: color-mix(in srgb, var(--text-primary) 8%, transparent); color: var(--text-primary); }
 .dp-modal-count {
-  margin-left: 0.5rem;
   font-size: 0.82rem;
   font-family: var(--font-mono);
   color: var(--text-muted);
@@ -60,6 +74,7 @@ const labels = computed(() => ui[locale.value])
   flex-direction: column;
   gap: 0.3rem;
   padding: 0.75rem;
+  overflow-y: auto;
 }
 
 .det {
