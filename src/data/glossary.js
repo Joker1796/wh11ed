@@ -166,6 +166,36 @@ export const glossary = {
     en: 'Special rules a unit has, listed on its datasheet or granted by its army or Detachment.',
     ru: 'Особые правила юнита, указанные в его листе данных или дарованные армией либо отрядом (Detachment).',
   },
+  'core-abilities': {
+    term: 'Core Abilities',
+    en: 'Named abilities (e.g. Leader, Scouts, Fights First) listed on a unit’s datasheet, defined in Section 24 of the core rules.',
+    ru: 'Именованные способности (напр. Leader, Scouts, Fights First), указанные в листе данных юнита и определённые в разделе 24 основных правил.',
+  },
+  'weapon-abilities': {
+    term: 'Weapon Abilities',
+    en: 'Abilities shown in square brackets in a weapon’s profile (e.g. [BLAST]) that change how that weapon’s attacks work.',
+    ru: 'Способности, указанные в квадратных скобках в профиле оружия (например, [BLAST]), изменяющие работу атак этого оружия.',
+  },
+  'weapon-profiles': {
+    term: 'Weapon Profiles',
+    en: 'The block on a datasheet listing a weapon’s characteristics — Range, A, BS/WS, S, AP and D — along with any weapon abilities it has.',
+    ru: 'Блок в листе данных с характеристиками оружия — дальность, A, BS/WS, S, AP и D — а также с его способностями оружия.',
+  },
+  'duplicated': {
+    term: 'Duplicated',
+    en: 'When a unit has more than one instance of the same ability, the instances are duplicated — they don’t stack; the controlling player picks which one applies.',
+    ru: 'Когда у юнита несколько экземпляров одной и той же способности, они считаются повторяющимися — не складываются; контролирующий игрок выбирает, какой из них действует.',
+  },
+  'scouts': {
+    term: 'Scouts',
+    en: 'A unit ability, Scouts X": before the battle the unit can make a scout move of up to X" (or redeploy), ending more than 8" from all enemy units.',
+    ru: 'Способность юнита, Scouts X": перед битвой юнит может совершить разведывательный манёвр на величину до X" (или передислоцироваться), закончив дальше 8" от всех вражеских юнитов.',
+  },
+  'damaged': {
+    term: 'Damaged',
+    en: 'A unit ability, Damaged X: while a model’s remaining wounds are X or fewer, it is Damaged and subtracts 1 from its hit rolls.',
+    ru: 'Способность юнита, Damaged X: пока оставшиеся раны модели равны X или меньше, она повреждена и вычитает 1 из своих бросков на попадание.',
+  },
   'attack-dice': {
     term: 'Attacks (A)',
     en: 'The dice rolled for a weapon’s Attacks (A) characteristic when it makes its attacks.',
@@ -176,7 +206,7 @@ export const glossary = {
   'leader': {
     term: 'Leader',
     en: 'A CHARACTER unit that can be attached to a Bodyguard unit to lead it.',
-    ru: 'Юнит-ПЕРСОНАЖ, который может присоединиться к юниту-телохранителю (Bodyguard), возглавив его.',
+    ru: 'Юнит-CHARACTER, который может присоединиться к юниту-телохранителю (Bodyguard), возглавив его.',
   },
   'support': {
     term: 'Support',
@@ -191,7 +221,7 @@ export const glossary = {
   'attached-unit': {
     term: 'Attached Unit',
     en: 'The single unit formed when a Leader (CHARACTER) and/or Support units join a Bodyguard unit; they act as one unit.',
-    ru: 'Юнит, образованный, когда лидер (ПЕРСОНАЖ) и/или юниты поддержки присоединяются к юниту-телохранителю; они действуют как один юнит.',
+    ru: 'Юнит, образованный, когда лидер (CHARACTER) и/или юниты поддержки присоединяются к юниту-телохранителю; они действуют как один юнит.',
   },
   'forming-attached-units': {
     term: 'Forming Attached Units',
@@ -206,7 +236,7 @@ export const glossary = {
   'enhancement': {
     term: 'Enhancement',
     en: 'A bonus you take from your Detachment when building your army. There are two kinds: a standard Enhancement is given to a single CHARACTER to improve its abilities or wargear; an Enhancement marked ‘Upgrade’ goes to a non-CHARACTER unit instead, and you may take up to three of the same one.',
-    ru: 'Бонус, который вы берёте из своего детачмента (Detachment) при сборке армии. Бывает двух видов: обычное улучшение даётся одному ПЕРСОНАЖУ, усиливая его способности или снаряжение; улучшение с пометкой «Upgrade» вместо этого даётся отряду не-CHARACTER, и таких одинаковых можно взять до трёх.',
+    ru: 'Бонус, который вы берёте из своего детачмента (Detachment) при сборке армии. Бывает двух видов: обычное улучшение даётся одному CHARACTER, усиливая его способности или снаряжение; улучшение с пометкой «Upgrade» вместо этого даётся отряду не-CHARACTER, и таких одинаковых можно взять до трёх.',
   },
 
   // — Selection & moves —
@@ -706,22 +736,22 @@ export const glossary = {
   'transport-capacity': {
     term: 'Transport Capacity',
     en: 'The number and type of models a TRANSPORT can carry, as listed on its datasheet.',
-    ru: 'Количество и тип моделей, которые может перевозить ТРАНСПОРТ, согласно его листу данных.',
+    ru: 'Количество и тип моделей, которые может перевозить TRANSPORT, согласно его листу данных.',
   },
   'embark': {
     term: 'Embark',
     en: 'To move a unit inside a friendly TRANSPORT after a Normal, Advance or Fall-back move — if every model is within 3" of it and it has spare transport capacity. The unit is then removed from the battlefield and counts as embarked.',
-    ru: 'Погрузить юнит в дружественный ТРАНСПОРТ после обычного манёвра, продвижения или отхода — если каждая модель в пределах 3" от него и в нём есть свободная вместимость. Юнит убирается с поля боя и считается погружённым.',
+    ru: 'Погрузить юнит в дружественный TRANSPORT после обычного манёвра, продвижения или отхода — если каждая модель в пределах 3" от него и в нём есть свободная вместимость. Юнит убирается с поля боя и считается погружённым.',
   },
   'eligible-to-embark': {
     term: 'Eligible to Embark',
     en: 'A unit can embark within a TRANSPORT if it has the required keywords and there is room in its Transport Capacity.',
-    ru: 'Юнит может погрузиться в ТРАНСПОРТ, если у него есть нужные ключевые слова и в грузоподъёмности есть место.',
+    ru: 'Юнит может погрузиться в TRANSPORT, если у него есть нужные ключевые слова и в грузоподъёмности есть место.',
   },
   'disembark': {
     term: 'Disembark',
     en: 'To set an embarked unit back onto the battlefield from its TRANSPORT (in the Movement phase) via a disembark move — wholly within the set-up distance (3" for a Tactical/Rapid disembark, 6" for a Combat disembark). It must be set up unengaged, except a Combat Disembark, which may be set up engaged.',
-    ru: 'Высадить погружённый юнит из его ТРАНСПОРТА обратно на поле боя (в фазе движения) манёвром высадки — полностью в пределах дистанции выставления (3" при тактической/стремительной высадке, 6" при боевой). Юнит должен выставляться не связанным боем, кроме боевой высадки, при которой он может быть выставлен связанным.',
+    ru: 'Высадить погружённый юнит из его TRANSPORT обратно на поле боя (в фазе движения) манёвром высадки — полностью в пределах дистанции выставления (3" при тактической/стремительной высадке, 6" при боевой). Юнит должен выставляться не связанным боем, кроме боевой высадки, при которой он может быть выставлен связанным.',
   },
 
   // — Advanced Rules: reserves & movement —
@@ -785,7 +815,7 @@ export const glossary = {
   'close-quarters': {
     term: 'Close-quarters Shooting',
     en: 'Shooting made while within Engagement Range under specific rules (e.g. Pistols, or from a TRANSPORT).',
-    ru: 'Стрельба в радиусе связывания по особым правилам (например, из пистолетов или из ТРАНСПОРТА).',
+    ru: 'Стрельба в радиусе связывания по особым правилам (например, из пистолетов или из TRANSPORT).',
   },
 
   // — Battlefields: terrain traits & terrain rules —
@@ -895,6 +925,8 @@ export const glossary = {
   },
   'keywords': {
     term: 'Keywords',
+    en: 'The words listed in a unit’s Keywords section (and its datasheet name) that rules, abilities and restrictions interact with — e.g. INFANTRY, VEHICLE, a faction keyword.',
+    ru: 'Слова, перечисленные в разделе «Ключевые слова» юнита (и название его листа данных), с которыми взаимодействуют правила, способности и ограничения — например INFANTRY, VEHICLE.',
   },
   'melee-weapons': {
     term: 'Melee Weapons',
@@ -1089,6 +1121,21 @@ export const glossary = {
     en: 'A VEHICLE keyword for legged war machines that stride the battlefield on two or more legs.',
     ru: 'Ключевое слово (подтип VEHICLE) для шагающих боевых машин, передвигающихся на двух или более ногах.',
   },
+  'infantry': {
+    term: 'INFANTRY',
+    en: 'A model/unit keyword for foot soldiers — the most common troop type.',
+    ru: 'Ключевое слово модели или юнита для пеших солдат — самого распространённого типа войск.',
+  },
+  'beasts': {
+    term: 'BEASTS',
+    en: 'A model/unit keyword for beasts and cavalry-like creatures; for movement and terrain they follow the same rules as INFANTRY.',
+    ru: 'Ключевое слово модели или юнита для зверей и подобных кавалерии существ; в движении и террейне действуют так же, как INFANTRY.',
+  },
+  'psyker': {
+    term: 'PSYKER',
+    en: 'A model/unit keyword for psychic wielders; some rules (e.g. [ANTI-PSYKER] weapons) specifically target or affect PSYKER units.',
+    ru: 'Ключевое слово модели или юнита для владеющих псионикой; некоторые правила (например, оружие [ANTI-PSYKER]) специально нацелены на юниты PSYKER или влияют на них.',
+  },
   'fortification': {
     term: 'Fortification',
     en: 'A keyword for static, defensive pieces that usually have their own restrictions on actions and movement.',
@@ -1217,6 +1264,8 @@ export const glossary = {
   // Translation-only glosses: popover shows just the English original, no definition body.
   'controlling-player': {
     term: 'Controlling Player',
+    en: 'The player who controls a given model or unit — the one whose army it belongs to.',
+    ru: 'Игрок, который контролирует данную модель или юнит — тот, в чьей армии он находится.',
   },
   'you': {
     term: 'You',
