@@ -74,7 +74,7 @@ export const coreAbilities = {
       name: '[ANTI]',
       type: 'weapon',
       flavor: 'Certain weapons are the bane of particular foes.',
-      fullText: `This ability always takes the form **[ANTI-X Y+]**. Each time an attack is made with an **[ANTI]** weapon, if the target unit has the keyword denoted by **X**, an unmodified **wound roll** of Y+ is a **critical wound**.`,
+      fullText: `This ability always takes the form **[ANTI-X Y+]**. Each time an attack is made with an **[ANTI]** weapon, if the target unit has the keyword denoted by **X**, an unmodified **[gloss:wound-roll:wound roll]** of Y+ is a **[gloss:critical-wound:critical wound]**.`,
       example: 'An attack made with an **[ANTI-VEHICLE 4+]** weapon against a VEHICLE unit will result in a **critical wound** on an unmodified **wound roll** of 4+, while an attack made with an **[ANTI-PSYKER 2+]** weapon against a PSYKER unit will result in a **critical wound** on an unmodified **wound roll** of 2+.',
     },
     {
@@ -82,14 +82,14 @@ export const coreAbilities = {
       name: '[ASSAULT]',
       type: 'weapon',
       flavor: 'Folding stocks, shortened barrels or lightweight construction enable some weapons to be easily fired on the move.',
-      fullText: `Units containing one or more models with an **[ASSAULT]** weapon can shoot using **assault shooting** (10.05).`,
+      fullText: `Units containing one or more models with an **[ASSAULT]** weapon can shoot using **[gloss:assault-shooting:assault shooting]** (10.05).`,
     },
     {
       num: '24.05',
       name: '[BLAST]',
       type: 'weapon',
       flavor: 'High-explosive rounds can fell several warriors in a single blast, but firing them too close to comrades is unwise.',
-      fullText: `Each time you gather **attack dice** for a **[BLAST]** weapon, add one additional **attack die** for every five models that were in the target unit in the Select Targets step (rounding down).
+      fullText: `Each time you gather **[gloss:attack-dice:attack dice]** for a **[BLAST]** weapon, add one additional **attack die** for every five models that were in the target unit in the Select Targets step (rounding down).
 
 If this ability takes the form **[BLAST X]**, each time you gather **attack dice** for such a weapon, add **X** additional **attack dice** for every five models that were in the target unit in the Select Targets step (rounding down) instead.`,
       example: 'If a **[BLAST 2]** weapon with an **A** characteristic of 3 targets a unit containing 12 models, you would gather four additional **attack dice** for that weapon (for a total of seven for that weapon).',
@@ -99,7 +99,7 @@ If this ability takes the form **[BLAST X]**, each time you gather **attack dice
       name: '[CLEAVE]',
       type: 'weapon',
       flavor: 'With sufficient might or skill, warriors may sweep blades or talons through their foes in long lethal arcs.',
-      fullText: `This ability always takes the form **[CLEAVE X]**. Each time you gather **attack dice** for a **[CLEAVE]** weapon, if you only selected one target for all of that weapon's attacks, add **X** additional **attack dice** for every five models that were in the target unit in the Select Targets step (rounding down).`,
+      fullText: `This ability always takes the form **[CLEAVE X]**. Each time you gather **[gloss:attack-dice:attack dice]** for a **[CLEAVE]** weapon, if you only selected one target for all of that weapon's attacks, add **X** additional **attack dice** for every five models that were in the target unit in the Select Targets step (rounding down).`,
       example: 'If a **[CLEAVE 1]** weapon with an **A** characteristic of 3 targets a unit containing 16 models, you would gather three additional **attack dice** for that weapon (for a total of six for that weapon).',
     },
     {
@@ -107,7 +107,7 @@ If this ability takes the form **[BLAST X]**, each time you gather **attack dice
       name: '[CLOSE-QUARTERS]',
       type: 'weapon',
       flavor: 'Weapons designed for close-quarters fighting can be wielded effectively even in the press of melee combat.',
-      fullText: `Units containing one or more models with a **[CLOSE-QUARTERS]** weapon can shoot using **close-quarters shooting** (10.06).
+      fullText: `Units containing one or more models with a **[CLOSE-QUARTERS]** weapon can shoot using **[gloss:close-quarters:close-quarters shooting]** (10.06).
 
 When using another **shooting type**, for each model in that unit (excluding MONSTER/VEHICLE models), you can only select **one** of the following to make attacks with:
 ▪ One or more of its **[CLOSE-QUARTERS]** weapons.
@@ -118,7 +118,7 @@ When using another **shooting type**, for each model in that unit (excluding MON
       name: 'Deadly Demise',
       type: 'unit',
       flavor: 'From detonating ammo stores to corrosive innards or frenzied death throes, some targets are deadly even in defeat.',
-      fullText: `This ability always takes the form **Deadly Demise X**. Each time a model in this unit is **destroyed**, after the units embarked within it (if any) have made their **emergency disembark moves**, roll one D6. On a 6, that model suffers a **deadly demise**; each unit within 6" of that model suffers a number of **mortal wounds** denoted by **X** (if this is a random number, roll separately for each unit within 6").`,
+      fullText: `This ability always takes the form **Deadly Demise X**. Each time a model in this unit is **[gloss:destroyed:destroyed]**, after the units embarked within it (if any) have made their **emergency disembark moves**, roll one D6. On a 6, that model suffers a **deadly demise**; each unit within 6" of that model suffers a number of **[gloss:mortal-wound:mortal wounds]** denoted by **X** (if this is a random number, roll separately for each unit within 6").`,
       example: 'An Impulsor with a unit of Intercessors embarked within it is **destroyed** by ranged attacks. First, any unresolved attacks made by the attacking unit are resolved. Then the Intercessors make an **emergency disembark move**. Then the roll is made for the **Deadly Demise** ability, and on a 6, that ability is resolved. Finally, the Impulsor is removed from the battlefield.',
     },
     {
@@ -126,14 +126,14 @@ When using another **shooting type**, for each model in that unit (excluding MON
       name: 'Deep Strike',
       type: 'unit',
       flavor: 'There are many ways by which to deploy troops to the field of battle including tunnels, teleportation devices and other esoteric means of transportation.',
-      fullText: `Each time this unit makes an **ingress move** (20.04), if every model in this unit has this ability, it can be set up anywhere on the battlefield that is more than 8" horizontally from all enemy units, even if that is within your opponent's deployment zone.`,
+      fullText: `Each time this unit makes an **[gloss:ingress-move:ingress move]** (20.04), if every model in this unit has this ability, it can be set up anywhere on the battlefield that is more than 8" horizontally from all enemy units, even if that is within your opponent's deployment zone.`,
     },
     {
       num: '24.10',
       name: '[DEVASTATING WOUNDS]',
       type: 'weapon',
       flavor: 'The most potent weapons strike with such power that they make a mockery of armour and can cleave through several foes.',
-      fullText: `Each time an attack made with a **[DEVASTATING WOUNDS]** weapon results in a **critical wound**, the attack sequence for that attack ends and the target unit suffers a number of **mortal wounds** equal to the **D** characteristic of that weapon. These are inflicted after resolving any normal damage inflicted by those attacks.
+      fullText: `Each time an attack made with a **[DEVASTATING WOUNDS]** weapon results in a **[gloss:critical-wound:critical wound]**, the attack sequence for that attack ends and the target unit suffers a number of **[gloss:mortal-wound:mortal wounds]** equal to the **[gloss:damage-roll:D]** characteristic of that weapon. These are inflicted after resolving any normal damage inflicted by those attacks.
 
 **Mortal wounds** inflicted by **[DEVASTATING WOUNDS]** weapons can damage a maximum of one model for each **critical wound**; any remaining **mortal wounds** inflicted by that attack are lost.`,
       example: 'An attack made with a **[DEVASTATING WOUNDS]** weapon with a **D** characteristic of 3 results in a **critical wound** against an Intercessor Squad, so inflicts **3 mortal wounds**. The first 2 **mortal wounds** are sufficient to **destroy** 1 Intercessor model, so the remaining **mortal wound** is lost.',
@@ -168,7 +168,7 @@ When using another **shooting type**, for each model in that unit (excluding MON
       name: 'Fights First',
       type: 'unit',
       flavor: 'Those possessed of lightning-fast reactions may strike before the opponent can react.',
-      fullText: `While every model in a unit has this ability, that unit is a **Fights First** unit.
+      fullText: `While every model in a unit has this ability, that unit is a **[gloss:fights-first:Fights First]** unit.
 
 See the Resolve Fights First Combats step in the Fight phase (12.04).`,
     },
@@ -181,22 +181,22 @@ See the Resolve Fights First Combats step in the Fight phase (12.04).`,
 1. Select up to **X** models embarked within this TRANSPORT (excluding models whose units have already been **selected to shoot** this phase).
 2. For each selected model, select one of its ranged weapons (excluding **[ONE SHOT]** weapons).
 3. Until this TRANSPORT has resolved all of its attacks, it has all of those selected weapons in addition to its other weapons.
-4. Until the end of the turn, units embarked within this TRANSPORT are not **eligible to shoot**.`,
+4. Until the end of the turn, units embarked within this TRANSPORT are **[gloss:not-eligible-to-shoot:not eligible to shoot]**.`,
     },
     {
       num: '24.15',
       name: '[HAZARDOUS]',
       type: 'weapon',
       flavor: 'Weapons powered by unstable and dangerous energy sources pose a substantial risk to the wielder and those that stand beside them.',
-      fullText: `Each time a unit is **selected to shoot** or **selected to fight**, after that unit has resolved all of its attacks, make a number of **hazard rolls** (06.03) for that unit equal to the number of **[HAZARDOUS]** weapons you selected in the Select Weapons step.`,
+      fullText: `Each time a unit is **[gloss:selected-to-shoot:selected to shoot]** or **[gloss:selected-to-fight:selected to fight]**, after that unit has resolved all of its attacks, make a number of **[gloss:hazard-roll:hazard rolls]** (06.03) for that unit equal to the number of **[HAZARDOUS]** weapons you selected in the Select Weapons step.`,
     },
     {
       num: '24.16',
       name: '[HEAVY]',
       type: 'weapon',
       flavor: 'Heavy weapons are amongst the biggest guns on the battlefield, but require bracing to fire at full effect.',
-      fullText: `In your Shooting phase, each time an attack is made with a **[HEAVY]** weapon, add 1 to the **hit roll** if all of the following apply to the attacking unit:
-▪ That unit is **unengaged**.
+      fullText: `In your Shooting phase, each time an attack is made with a **[HEAVY]** weapon, add 1 to the **[gloss:hit-roll:hit roll]** if all of the following apply to the attacking unit:
+▪ That unit is **[gloss:unengaged:unengaged]**.
 ▪ That unit was not set up on the battlefield this turn.
 ▪ No model in that unit has moved more than 3" this turn.`,
     },
@@ -205,21 +205,21 @@ See the Resolve Fights First Combats step in the Fight phase (12.04).`,
       name: 'Hover',
       type: 'unit',
       flavor: 'Some airborne vehicles can use vectored thrusters or anti-gravity technology to hover and skim over the battlefield, the better to hunt their prey or deploy embarked troops.',
-      fullText: `Each time this unit **takes to the skies** (21.03), do not subtract 2" from the **maximum distance**.`,
+      fullText: `Each time this unit **[gloss:take-to-the-skies:takes to the skies]** (21.03), do not subtract 2" from the **[gloss:maximum-distance:maximum distance]**.`,
     },
     {
       num: '24.18',
       name: '[IGNORES COVER]',
       type: 'weapon',
       flavor: 'Some weapons are designed to route enemy formations out of entrenched positions.',
-      fullText: `Each time an attack is made with an **[IGNORES COVER]** weapon, the target cannot have the **benefit of cover** against that attack, including from rules that give a model or unit the **benefit of cover** (e.g. **Stealth**).`,
+      fullText: `Each time an attack is made with an **[IGNORES COVER]** weapon, the target cannot have the **[gloss:benefit-of-cover:benefit of cover]** against that attack, including from rules that give a model or unit the **benefit of cover** (e.g. **Stealth**).`,
     },
     {
       num: '24.19',
       name: '[INDIRECT FIRE]',
       type: 'weapon',
       flavor: 'Indirect fire weapons launch munitions over or around intervening obstacles – nowhere is safe from their fury.',
-      fullText: `Units containing one or more models with an **[INDIRECT FIRE]** weapon can shoot using **indirect shooting** (10.07).`,
+      fullText: `Units containing one or more models with an **[INDIRECT FIRE]** weapon can shoot using **[gloss:indirect-shooting:indirect shooting]** (10.07).`,
     },
     {
       num: '24.20',
@@ -233,7 +233,7 @@ See the Resolve Fights First Combats step in the Fight phase (12.04).`,
       name: '[LANCE]',
       type: 'weapon',
       flavor: 'With the momentum of a warrior at full-tilt, lance weapons are deadly on the charge.',
-      fullText: `Each time an attack is made with a **[LANCE]** weapon, if the attacking model's unit made a **charge move** this turn, add 1 to the **wound roll**.`,
+      fullText: `Each time an attack is made with a **[LANCE]** weapon, if the attacking model's unit made a **[gloss:charge-move:charge move]** this turn, add 1 to the **[gloss:wound-roll:wound roll]**.`,
     },
     {
       num: '24.22',
@@ -247,7 +247,7 @@ See the Resolve Fights First Combats step in the Fight phase (12.04).`,
       name: '[LETHAL HITS]',
       type: 'weapon',
       flavor: 'Many deadly weapons can inflict fatal injuries on any foe, no matter their resilience.',
-      fullText: `Each time an attack made with a **[LETHAL HITS]** weapon results in a **critical hit**, you can choose for that attack to automatically wound the target.`,
+      fullText: `Each time an attack made with a **[LETHAL HITS]** weapon results in a **[gloss:critical-hit:critical hit]**, you can choose for that attack to automatically wound the target.`,
       note: 'Choosing to automatically wound the target means that no **wound roll** is made for that attack. You may decide against this, as it means that attack cannot result in a **critical wound** and so cannot trigger other abilities such as **[DEVASTATING WOUNDS]**.',
     },
     {
@@ -281,7 +281,7 @@ If an **attached** unit **below starting strength** only contains models with **
       name: '[MELTA]',
       type: 'weapon',
       flavor: 'Melta weapons are powerful heat rays whose fury is magnified at close range.',
-      fullText: `This ability always takes the form **[MELTA X]**. Each time a model makes an attack with a **[MELTA]** weapon, if the target unit was within half range of that weapon in the Select Targets step, until the attacking unit's attacks have been resolved, add **X** to that weapon's **D** characteristic.`,
+      fullText: `This ability always takes the form **[MELTA X]**. Each time a model makes an attack with a **[MELTA]** weapon, if the target unit was within half range of that weapon in the Select Targets step, until the attacking unit's attacks have been resolved, add **X** to that weapon's **[gloss:damage-roll:D]** characteristic.`,
       example: 'A model targets a unit that is within half range of a **[MELTA 2]** weapon with a **D** characteristic of D6. While resolving those attacks, that weapon has a **D** characteristic of D6+2.',
     },
     {
@@ -291,7 +291,7 @@ If an **attached** unit **below starting strength** only contains models with **
       flavor: 'Some weapons are so rare, or so complex and slow to reload, that they can only be used once.',
       fullText: `Each weapon with this ability can only be selected to make attacks with once per battle.
 
-If a **destroyed** model is returned to a unit, all of its **[ONE SHOT]** weapons that have already been selected to make attacks with during the battle cannot be selected to make attacks with again.
+If a **[gloss:destroyed:destroyed]** model is returned to a unit, all of its **[ONE SHOT]** weapons that have already been selected to make attacks with during the battle cannot be selected to make attacks with again.
 
 If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can be selected to make attacks with once per battle.`,
       children: [
@@ -317,21 +317,21 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
       name: '[PRECISION]',
       type: 'weapon',
       flavor: 'Precision attacks can pick high-value targets out in a crowd.',
-      fullText: `While resolving attacks made with one or more **[PRECISION]** weapons, at the start of the [gloss:allocation-order:Allocation Order] step (05.03), if the target unit contains one or more **CHARACTER** models **visible** to one or more of the attacking models, the active player can select one allocation group that contains one of those **visible CHARACTER** models. If they do, until those attacks are resolved, or until that **CHARACTER** group is **destroyed** (whichever happens first), that **CHARACTER** group is the current allocation group.`,
+      fullText: `While resolving attacks made with one or more **[PRECISION]** weapons, at the start of the [gloss:allocation-order:Allocation Order] step (05.03), if the target unit contains one or more **[gloss:character:CHARACTER]** models **[gloss:visible:visible]** to one or more of the attacking models, the active player can select one allocation group that contains one of those **visible CHARACTER** models. If they do, until those attacks are resolved, or until that **CHARACTER** group is **destroyed** (whichever happens first), that **CHARACTER** group is the current allocation group.`,
     },
     {
       num: '24.29',
       name: '[PSYCHIC]',
       type: 'weapon',
       flavor: 'Some weapons can channel the bearer\'s psychic might to empower their blows.',
-      fullText: `Each time an attack is made with a **[PSYCHIC]** weapon, you can ignore any or all modifiers to that attack's **BS** or **WS** characteristic and any or all modifiers to the **hit roll**. Attacks made with **[PSYCHIC]** weapons are known as **psychic attacks** (this can be important for the triggering of other rules).`,
+      fullText: `Each time an attack is made with a **[PSYCHIC]** weapon, you can ignore any or all modifiers to that attack's **[gloss:ballistic-skill:BS]** or **[gloss:weapon-skill:WS]** characteristic and any or all modifiers to the **[gloss:hit-roll:hit roll]**. Attacks made with **[PSYCHIC]** weapons are known as **[gloss:psychic:psychic attacks]** (this can be important for the triggering of other rules).`,
     },
     {
       num: '24.30',
       name: '[RAPID FIRE]',
       type: 'weapon',
       flavor: 'Rapid fire weapons are capable of long-ranged precision shots or controlled bursts at nearby targets.',
-      fullText: `This ability always takes the form **[RAPID FIRE X]**. Each time you gather **attack dice** for a **[RAPID FIRE]** weapon, add **X** additional **attack dice** if the target unit was within half range of that weapon in the Select Targets step.`,
+      fullText: `This ability always takes the form **[RAPID FIRE X]**. Each time you gather **[gloss:attack-dice:attack dice]** for a **[RAPID FIRE]** weapon, add **X** additional **attack dice** if the target unit was within half range of that weapon in the Select Targets step.`,
       example: 'If a **[RAPID FIRE 1]** weapon with an **A** characteristic of 1 targets a unit that is within half range, you would gather one additional **attack die** for that weapon (for a total of two for that weapon).',
     },
     {
@@ -340,7 +340,7 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
       type: 'unit',
       flavor: 'Scouts form the vanguard of many armies. Unnoticed by the enemy, they range ahead of the main force.',
       fullText: `This ability always takes the form **Scouts X"**. In the Resolve Pre-battle Abilities step, if every model in a unit has this ability, you can do **one** of the following:
-▪ If that unit is in **strategic reserves**, you can set up that unit anywhere that is wholly within your deployment zone.
+▪ If that unit is in **[gloss:strategic-reserves:strategic reserves]**, you can set up that unit anywhere that is wholly within your deployment zone.
 ▪ If that unit is wholly within your deployment zone, it can make a **scout move** (see below).
 ▪ If that unit is embarked within a **DEDICATED TRANSPORT** that is wholly within your deployment zone, and if every model embarked within that **DEDICATED TRANSPORT** has the **Scouts** ability, that **DEDICATED TRANSPORT** can make a **scout move**.`,
     },
@@ -359,7 +359,7 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
       name: 'Stealth',
       type: 'unit',
       flavor: 'The stealthiest warriors can evade the attentions, and the bullets, of their foes.',
-      fullText: `If every model in a unit has this ability, each time a ranged attack targets that unit, that unit has the **benefit of cover** against that attack (13.08).`,
+      fullText: `If every model in a unit has this ability, each time a ranged attack targets that unit, that unit has the **[gloss:benefit-of-cover:benefit of cover]** against that attack (13.08).`,
     },
     {
       num: '24.34',
@@ -373,9 +373,9 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
       name: 'Super-heavy Walker',
       type: 'unit',
       flavor: 'Monstrous creatures and gigantic engines of war loom over the battlefield like gods given form, striding through almost any obstacle that bars their passage.',
-      fullText: `Each time a unit with this ability makes a **normal**, **advance** or **fall-back move**:
+      fullText: `Each time a unit with this ability makes a **normal**, **[gloss:advance:advance]** or **[gloss:fall-back-move:fall-back move]**:
 ▪ Models in that unit can move through models (including MONSTER/VEHICLE models, but excluding TITANIC models) and can move horizontally through sections of **terrain features** that are 4" or less in height.
-▪ Before moving that unit, you can select for all models in that unit to have the MOBILE keyword until that move ends. If you do, when that move ends, roll one D6: on a 1, that unit is **battle-shocked**.`,
+▪ Before moving that unit, you can select for all models in that unit to have the MOBILE keyword until that move ends. If you do, when that move ends, roll one D6: on a 1, that unit is **[gloss:battle-shocked:battle-shocked]**.`,
       note: 'Gaining the MOBILE keyword for the duration of a move will enable models in that unit to move horizontally through **dense terrain features** (13.06).',
     },
     {
@@ -383,7 +383,7 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
       name: '[SUSTAINED HITS]',
       type: 'weapon',
       flavor: 'Some weapons possess a punishing rate of fire, or can land devastating flurries of blows, tearing the foe apart with relentless ferocity.',
-      fullText: `This ability always takes the form **[SUSTAINED HITS X]**. Each time an attack made with a **[SUSTAINED HITS]** weapon results in a **critical hit**, that attack results in a number of additional hits on the target as denoted by **X**.`,
+      fullText: `This ability always takes the form **[SUSTAINED HITS X]**. Each time an attack made with a **[SUSTAINED HITS]** weapon results in a **[gloss:critical-hit:critical hit]**, that attack results in a number of additional hits on the target as denoted by **X**.`,
       example: 'An attack made with a **[SUSTAINED HITS 2]** weapon results in a **critical hit**. That attack therefore hits the target three times (once from the **critical hit**, and twice more from the **[SUSTAINED HITS 2]** ability).',
     },
     {
@@ -398,32 +398,32 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
       name: '[TWIN-LINKED]',
       type: 'weapon',
       flavor: 'Dual weapons are often grafted to the same targeting system for greater lethality.',
-      fullText: `Each time an attack is made with a **[TWIN-LINKED]** weapon, you can re-roll the **wound roll**.`,
+      fullText: `Each time an attack is made with a **[TWIN-LINKED]** weapon, you can re-roll the **[gloss:wound-roll:wound roll]**.`,
     },
     {
       num: '24.39',
       name: 'Damaged',
       type: 'unit',
       fullText: `This ability always takes the form **Damaged X**. While a model's remaining wounds are equal to or less than **X**, that model is **damaged**:
-▪ While a model is **damaged**, that model's attacks have -1 to **hit rolls**.`,
+▪ While a model is **damaged**, that model's attacks have -1 to **[gloss:hit-roll:hit rolls]**.`,
     },
   ],
   ru: [
     {
       // 24.03 [ANTI]
       flavor: 'Некоторые виды оружия являются настоящим бичом для определённых врагов.',
-      fullText: `Эта способность всегда имеет вид **[ANTI-X Y+]**. Каждый раз, когда совершается атака оружием **[ANTI]**, если целевой юнит имеет **ключевое слово** (keyword), обозначенное **X**, **немодифицированный** (unmodified) **бросок ранения** Y+ считается **критическим ранением** (critical wound).`,
+      fullText: `Эта способность всегда имеет вид **[ANTI-X Y+]**. Каждый раз, когда совершается атака оружием **[ANTI]**, если целевой юнит имеет **ключевое слово** (keyword), обозначенное **X**, **немодифицированный** (unmodified) **[gloss:wound-roll:бросок на ранение]** Y+ считается **[gloss:critical-wound:критическим ранением]**.`,
       example: 'Атака, совершённая оружием **[ANTI-VEHICLE 4+]** против юнита ТЕХНИКИ (VEHICLE), приведёт к **критическому ранению** (critical wound) при **немодифицированном** броске на ранение 4+. В то время как атака, совершённая оружием **[ANTI-PSYKER 2+]** против юнита ПСАЙКЕРА (PSYKER), приведёт к **критическому ранению** при немодифицированном броске на ранение 2+.',
     },
     {
       // 24.04 [ASSAULT]
       flavor: 'Складные приклады, укороченные стволы или облегчённая конструкция позволяют некоторому оружию легко стрелять на ходу.',
-      fullText: `Юниты, содержащие одну или несколько моделей с оружием **[ASSAULT]**, могут стрелять, используя **штурмовую стрельбу** (assault shooting) (10.05).`,
+      fullText: `Юниты, содержащие одну или несколько моделей с оружием **[ASSAULT]**, могут стрелять, используя **[gloss:assault-shooting:штурмовую стрельбу]** (10.05).`,
     },
     {
       // 24.05 [BLAST]
       flavor: 'Фугасные снаряды могут поразить нескольких воинов одним взрывом, но стрелять ими слишком близко к товарищам неразумно.',
-      fullText: `Каждый раз, когда вы выбираете **кубики атаки** (attack dice) для оружия **[BLAST]**, добавьте один дополнительный **кубик атаки** за каждые **пять** моделей, которые находились в целевом юните на шаге «**Выбор целей**» (Select Targets step) (округляя в меньшую сторону).
+      fullText: `Каждый раз, когда вы выбираете **[gloss:attack-dice:кубики атаки]** для оружия **[BLAST]**, добавьте один дополнительный **кубик атаки** за каждые **пять** моделей, которые находились в целевом юните на шаге «**Выбор целей**» (Select Targets step) (округляя в меньшую сторону).
 
 Если эта способность имеет вид **[BLAST X]**, то каждый раз, когда вы выбираете **кубики атаки** для такого оружия, вместо этого добавьте **X** дополнительных **кубиков атаки** за каждые пять моделей, которые находились в целевом юните на шаге «Выбор целей» (округление в меньшую сторону).`,
       example: 'Если оружие **[BLAST 2]** с характеристикой **A** (количество атак) 3 нацелено на юнит, содержащий 12 моделей, вы добавите четыре дополнительных **кубика атаки** для этого оружия (всего семь **кубиков атаки** для этого оружия).',
@@ -431,13 +431,13 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
     {
       // 24.06 [CLEAVE]
       flavor: 'Обладая достаточной мощью или мастерством, воины могут проводить атаки клинками или когтями по врагам длинными смертоносными дугами.',
-      fullText: `Эта способность всегда имеет вид **[CLEAVE X]**. Каждый раз, когда вы выбираете **кубики атаки** (attack dice) для оружия **[CLEAVE]**, если вы выбрали только одну цель для всех атак этого оружия, добавьте **X** дополнительных **кубиков атаки** за каждые **пять** моделей, которые находились в целевом юните на шаге «Выбор целей» (округление в меньшую сторону).`,
+      fullText: `Эта способность всегда имеет вид **[CLEAVE X]**. Каждый раз, когда вы выбираете **[gloss:attack-dice:кубики атаки]** для оружия **[CLEAVE]**, если вы выбрали только одну цель для всех атак этого оружия, добавьте **X** дополнительных **кубиков атаки** за каждые **пять** моделей, которые находились в целевом юните на шаге «Выбор целей» (округление в меньшую сторону).`,
       example: 'Если оружие **[CLEAVE 1]** с характеристикой **A** (количество атак) 3 нацелено на один юнит, содержащий 16 моделей, вы добавите три дополнительных **кубика атаки** для этого оружия (всего шесть **кубиков атаки** для этого оружия).',
     },
     {
       // 24.07 [CLOSE-QUARTERS]
       flavor: 'Оружие, предназначенное для боя в тесных условиях, может эффективно применяться даже в гуще рукопашной схватки.',
-      fullText: `Юниты, содержащие одну или несколько моделей с оружием **[CLOSE-QUARTERS]**, могут стрелять, используя **стрельбу в тесном бою** (close-quarters shooting) (10.06).
+      fullText: `Юниты, содержащие одну или несколько моделей с оружием **[CLOSE-QUARTERS]**, могут стрелять, используя **[gloss:close-quarters:стрельбу в тесном бою]** (10.06).
 
 При использовании другого **типа стрельбы** для каждой модели в этом юните (за исключением моделей МОНСТРОВ/ТЕХНИКИ) вы можете выбрать **только одно** из следующего для совершения атак:
 ▪ Одно или несколько его видов оружия **[CLOSE-QUARTERS]**.
@@ -446,18 +446,18 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
     {
       // 24.08 Deadly Demise
       flavor: 'От детонирующих боеприпасов до едких внутренностей или бешеных предсмертных конвульсий — некоторые цели смертоносны даже после поражения.',
-      fullText: `Эта способность всегда имеет вид **Смертоносная гибель X** (Deadly Demise X). Каждый раз, когда модель в этом юните **уничтожена**, после того как юниты, находящиеся внутри неё (если таковые имеются), совершили свои **аварийные манёвры высадки** (emergency disembark moves), бросьте один D6. На 6 эта модель получает **смертоносную гибель** (deadly demise); каждый юнит в пределах 6" от этой модели получает количество **смертельных ран** (mortal wounds), обозначенное **X** (если это случайное число, бросьте отдельно для каждого юнита в пределах 6").`,
+      fullText: `Эта способность всегда имеет вид **Смертоносная гибель X** (Deadly Demise X). Каждый раз, когда модель в этом юните **[gloss:destroyed:уничтожена]**, после того как юниты, находящиеся внутри неё (если таковые имеются), совершили свои **аварийные манёвры высадки** (emergency disembark moves), бросьте один D6. На 6 эта модель получает **смертоносную гибель** (deadly demise); каждый юнит в пределах 6" от этой модели получает количество **[gloss:mortal-wound:смертельных ран]**, обозначенное **X** (если это случайное число, бросьте отдельно для каждого юнита в пределах 6").`,
       example: 'Импульсор (Impulsor) с отрядом Интерцессоров (Intercessors) внутри него уничтожен дистанционными атаками. Сначала отыгрываются любые незавершённые атаки, совершённые атакующим юнитом. Затем Интерцессоры совершают **аварийный манёвр высадки** (emergency disembark move). Затем совершается бросок для способности **Смертоносная гибель** (Deadly Demise), и на 6 эта способность отыгрывается. Наконец, Импульсор убирается с поля боя.',
     },
     {
       // 24.09 Deep Strike
       flavor: 'Существует множество способов доставить войска на поле боя, включая туннели, телепортационные устройства и другие эзотерические средства транспортировки.',
-      fullText: `Каждый раз, когда этот юнит совершает **манёвр вторжением** (ingress move) (20.04), если каждая модель в этом юните имеет эту способность, он может быть размещён в любом месте поля боя, находящемся на расстоянии более 8" по горизонтали от всех вражеских юнитов, даже если это находится в **зоне развёртывания** (deployment zone) вашего противника.`,
+      fullText: `Каждый раз, когда этот юнит совершает **[gloss:ingress-move:манёвр вторжением]** (20.04), если каждая модель в этом юните имеет эту способность, он может быть размещён в любом месте поля боя, находящемся на расстоянии более 8" по горизонтали от всех вражеских юнитов, даже если это находится в **зоне развёртывания** (deployment zone) вашего противника.`,
     },
     {
       // 24.10 [DEVASTATING WOUNDS]
       flavor: 'Самое мощное оружие наносит удар с такой силой, что оно делает броню насмешкой и может расcкать нескольких врагов.',
-      fullText: `Каждый раз, когда атака, совершённая оружием **[DEVASTATING WOUNDS]**, приводит к **критическому ранению** (critical wound), последовательность атаки для этой атаки завершается, и целевой юнит получает количество **смертельных ран** (mortal wounds), равное характеристике **D** (урон) этого оружия. Они наносятся после отыгрыша любого обычного урона, нанесённого этими атаками.
+      fullText: `Каждый раз, когда атака, совершённая оружием **[DEVASTATING WOUNDS]**, приводит к **[gloss:critical-wound:критическому ранению]**, последовательность атаки для этой атаки завершается, и целевой юнит получает количество **[gloss:mortal-wound:смертельных ран]**, равное характеристике **[gloss:damage-roll:D]** (урон) этого оружия. Они наносятся после отыгрыша любого обычного урона, нанесённого этими атаками.
 
 **Смертельные раны** (mortal wounds), нанесённые оружием **[DEVASTATING WOUNDS]**, могут повредить не более одной модели за каждое **критическое ранение** (critical wound); любые оставшиеся **смертельные раны**, нанесённые этой атакой, теряются.`,
       example: 'Атака, совершённая оружием **[DEVASTATING WOUNDS]** с характеристикой **D** (урон) 3, приводит к **критическому ранению** (critical wound) против отряда Интерцессоров (Intercessor Squad), поэтому наносит **3 смертельные раны** (mortal wounds). Первые 2 **смертельные раны** достаточно для уничтожения 1 модели Интерцессора, поэтому оставшаяся **смертельная рана** теряется.',
@@ -483,7 +483,7 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
     {
       // 24.13 Fights First
       flavor: 'Обладающие молниеносными реакциями воины могут нанести удар прежде, чем противник успеет среагировать.',
-      fullText: `Пока каждая модель в юните обладает этой способностью, этот юнит является юнитом «**Атакует первым**» (Fights First).
+      fullText: `Пока каждая модель в юните обладает этой способностью, этот юнит является юнитом «**[gloss:fights-first:Атакует первым]**».
 
 См. шаг «Отыграть схватки с «Первым ударом»» в фазе ближнего боя (12.04).`,
     },
@@ -494,35 +494,35 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
 1. Выберите до **X** моделей, находящихся внутри этого ТРАНСПОРТА (за исключением моделей, чьи юниты уже **были выбраны для стрельбы** в этой фазе).
 2. Для каждой выбранной модели выберите **одно** из её видов дистанционного оружия (за исключением оружия **[ONE SHOT]**).
 3. Пока этот ТРАНСПОРТ не отыграет все свои атаки, он имеет всё это выбранное оружие **в дополнение** к своему другому оружию.
-4. До конца хода юниты, находящиеся внутри этого ТРАНСПОРТА, **не могут стрелять** (not eligible to shoot).`,
+4. До конца хода юниты, находящиеся внутри этого ТРАНСПОРТА, **[gloss:not-eligible-to-shoot:не могут стрелять]**.`,
     },
     {
       // 24.15 [HAZARDOUS]
       flavor: 'Оружие, работающее от нестабильных и опасных источников энергии, представляет значительную угрозу для владельца и тех, кто стоит рядом с ним.',
-      fullText: `Каждый раз, когда юнит **выбран для стрельбы** (selected to shoot) или **выбран для ближнего боя** (selected to fight), после того как этот юнит отыграл все свои атаки, совершите количество **бросков на опасность** (hazard rolls) (06.03) для этого юнита, равное количеству оружия **[HAZARDOUS]**, которое вы выбрали на шаге «Выбор оружия» (Select Weapons step).`,
+      fullText: `Каждый раз, когда юнит **[gloss:selected-to-shoot:выбран для стрельбы]** или **[gloss:selected-to-fight:выбран для ближнего боя]**, после того как этот юнит отыграл все свои атаки, совершите количество **[gloss:hazard-roll:бросков на опасность]** (06.03) для этого юнита, равное количеству оружия **[HAZARDOUS]**, которое вы выбрали на шаге «Выбор оружия» (Select Weapons step).`,
     },
     {
       // 24.16 [HEAVY]
       flavor: 'Тяжёлое оружие — одно из самых крупных орудий на поле боя, но для стрельбы на полную мощность требует упора.',
-      fullText: `В вашу фазу стрельбы каждый раз, когда атака совершается оружием **[HEAVY]**, добавьте 1 к **броску на попадание** (hit roll), если для атакующего юнита выполняются все следующие условия:
-▪ Этот юнит не **связан ближним боем** (unengaged).
+      fullText: `В вашу фазу стрельбы каждый раз, когда атака совершается оружием **[HEAVY]**, добавьте 1 к **[gloss:hit-roll:броску на попадание]**, если для атакующего юнита выполняются все следующие условия:
+▪ Этот юнит не **[gloss:unengaged:связан ближним боем]**.
 ▪ Этот юнит не был размещён на поле боя в этот ход.
 ▪ Ни одна модель в этом юните не перемещалась более чем на 3" в этот ход.`,
     },
     {
       // 24.17 Hover
       flavor: 'Некоторые летательные аппараты могут использовать векторные двигатели или антигравитационные технологии, что позволяет им скользить над полем боя, лучше выслеживать добычу или высаживать находящиеся внутри войска.',
-      fullText: `Каждый раз, когда этот юнит **взлетает** (takes to the skies) (21.03), не вычитайте 2" из **максимальной дистанции** (maximum distance).`,
+      fullText: `Каждый раз, когда этот юнит **[gloss:take-to-the-skies:взлетает]** (21.03), не вычитайте 2" из **[gloss:maximum-distance:максимальной дистанции]**.`,
     },
     {
       // 24.18 [IGNORES COVER]
       flavor: 'Некоторые виды оружия предназначены для выкуривания вражеских формирований из укреплённых позиций.',
-      fullText: `Каждый раз, когда атака совершается оружием **[IGNORES COVER]**, цель не может получить **преимущество укрытия** (benefit of cover) от этой атаки (13.08), включая преимущество укрытия от правил, которые дают модели или юниту **преимущество укрытия** (например, **Скрытность** (Stealth)).`,
+      fullText: `Каждый раз, когда атака совершается оружием **[IGNORES COVER]**, цель не может получить **[gloss:benefit-of-cover:преимущество укрытия]** от этой атаки (13.08), включая преимущество укрытия от правил, которые дают модели или юниту **преимущество укрытия** (например, **Скрытность** (Stealth)).`,
     },
     {
       // 24.19 [INDIRECT FIRE]
       flavor: 'Оружие непрямой наводки запускает боеприпасы через или вокруг промежуточных препятствий — нигде не укрыться от его ярости.',
-      fullText: `Юниты, содержащие одну или несколько моделей с оружием **[INDIRECT FIRE]**, могут стрелять, используя **стрельбу непрямой наводкой** (indirect shooting) (10.07).`,
+      fullText: `Юниты, содержащие одну или несколько моделей с оружием **[INDIRECT FIRE]**, могут стрелять, используя **[gloss:indirect-shooting:стрельбу непрямой наводкой]** (10.07).`,
     },
     {
       // 24.20 Infiltrators
@@ -532,7 +532,7 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
     {
       // 24.21 [LANCE]
       flavor: 'Используя инерцию несущегося на полной скорости воина, копьевое оружие смертоносно в нападении.',
-      fullText: `Каждый раз, когда атака совершается оружием **[LANCE]**, если атакующий юнит совершил **манёвр нападения** (charge move) в этот ход, добавьте 1 к **броску на ранение** (wound roll).`,
+      fullText: `Каждый раз, когда атака совершается оружием **[LANCE]**, если атакующий юнит совершил **[gloss:charge-move:манёвр нападения]** в этот ход, добавьте 1 к **[gloss:wound-roll:броску на ранение]**.`,
     },
     {
       // 24.22 Leader
@@ -542,7 +542,7 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
     {
       // 24.23 [LETHAL HITS]
       flavor: 'Многие смертоносные виды оружия могут наносить фатальные раны любому врагу, независимо от его живучести.',
-      fullText: `Каждый раз, когда атака, совершённая оружием **[LETHAL HITS]**, приводит к **критическому попаданию** (critical hit), вы можете выбрать, чтобы эта атака автоматически ранила цель.`,
+      fullText: `Каждый раз, когда атака, совершённая оружием **[LETHAL HITS]**, приводит к **[gloss:critical-hit:критическому попаданию]**, вы можете выбрать, чтобы эта атака автоматически ранила цель.`,
       note: 'Примечание дизайнера: Выбор **автоматического ранения** цели означает, что для этой атаки не совершается **бросок на ранение** (wound roll). Вы можете отказаться от этого, так как это означает, что эта атака не может привести к **критическому ранению** (critical wound) и, следовательно, не может активировать другие способности, такие как **[DEVASTATING WOUNDS]**.',
     },
     {
@@ -569,7 +569,7 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
     {
       // 24.25 [MELTA]
       flavor: 'Мельта-оружие — это мощные тепловые лучи, чья ярость усиливается на близкой дистанции.',
-      fullText: `Эта способность всегда имеет вид **[MELTA X]**. Каждый раз, когда модель совершает атаку оружием **[MELTA]**, если целевой юнит находился в **пределах половины дальности** этого оружия на шаге «Выбор целей», то до тех пор, пока атаки атакующего юнита не будут отыграны, **добавьте X** к характеристике **D** (урон) этого оружия.`,
+      fullText: `Эта способность всегда имеет вид **[MELTA X]**. Каждый раз, когда модель совершает атаку оружием **[MELTA]**, если целевой юнит находился в **пределах половины дальности** этого оружия на шаге «Выбор целей», то до тех пор, пока атаки атакующего юнита не будут отыграны, **добавьте X** к характеристике **[gloss:damage-roll:D]** (урон) этого оружия.`,
       example: 'Модель нацеливается на юнит, который находится в пределах половины дальности оружия **[MELTA 2]** с характеристикой **D** (урон) D6. При отыгрыше этих атак это оружие имеет характеристику **D**, равную D6+2.',
     },
     {
@@ -577,7 +577,7 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
       flavor: 'Некоторые виды оружия настолько редки, или настолько сложны и медленно перезаряжаются, что могут быть использованы только один раз.',
       fullText: `Каждое оружие с этой способностью может быть выбрано для совершения атак только **один раз за игру** (once per battle).
 
-Если **уничтоженная** (destroyed) модель возвращена в юнит, всё её оружие **[ONE SHOT]**, которое уже было выбрано для совершения атак в ходе битвы, **не может** быть выбрано для совершения атак снова.
+Если **[gloss:destroyed:уничтоженная]** модель возвращена в юнит, всё её оружие **[ONE SHOT]**, которое уже было выбрано для совершения атак в ходе битвы, **не может** быть выбрано для совершения атак снова.
 
 Если новый юнит добавлен в армию, всё оружие **[ONE SHOT]** в этом юните может быть выбрано для совершения атак **один раз за игру** (once per battle).`,
       children: [
@@ -596,24 +596,24 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
     {
       // 24.28 [PRECISION]
       flavor: 'Точные атаки могут поразить высокоприоритетные цели в толпе.',
-      fullText: `При отыгрыше атак, совершаемых одним или несколькими видами оружия **[PRECISION]**, в начале шага «**[gloss:allocation-order:Порядок назначения]**» (05.03), если целевой юнит содержит одну или несколько моделей **ПЕРСОНАЖА** (CHARACTER), **видимых** (visible) для одной или нескольких атакующих моделей, активный игрок может выбрать одну **группу назначения** (allocation group), которая содержит одну из этих **видимых моделей ПЕРСОНАЖА**. Если он это делает, то, пока эти атаки не будут отыграны, или пока эта группа ПЕРСОНАЖА не будет **уничтожена** (destroyed) (в зависимости от того, что наступит раньше), эта группа ПЕРСОНАЖА является **текущей группой назначения** (current allocation group).`,
+      fullText: `При отыгрыше атак, совершаемых одним или несколькими видами оружия **[PRECISION]**, в начале шага «**[gloss:allocation-order:Порядок назначения]**» (05.03), если целевой юнит содержит одну или несколько моделей **[gloss:character:ПЕРСОНАЖА]**, **[gloss:visible:видимых]** для одной или нескольких атакующих моделей, активный игрок может выбрать одну **группу назначения** (allocation group), которая содержит одну из этих **видимых моделей ПЕРСОНАЖА**. Если он это делает, то, пока эти атаки не будут отыграны, или пока эта группа ПЕРСОНАЖА не будет **уничтожена** (destroyed) (в зависимости от того, что наступит раньше), эта группа ПЕРСОНАЖА является **текущей группой назначения** (current allocation group).`,
     },
     {
       // 24.29 [PSYCHIC]
       flavor: 'Некоторые виды оружия могут направлять психическую мощь носителя, чтобы усилить его удары.',
-      fullText: `Каждый раз, когда атака совершается оружием **[PSYCHIC]**, вы можете игнорировать **любые** или все модификаторы характеристик **BS** или **WS** этой атаки, а также любые или все модификаторы **броска на попадание** (hit roll). Атаки, совершённые оружием **[PSYCHIC]**, известны как **психические атаки** (psychic attacks) (это может быть важно для срабатывания других правил).`,
+      fullText: `Каждый раз, когда атака совершается оружием **[PSYCHIC]**, вы можете игнорировать **любые** или все модификаторы характеристик **[gloss:ballistic-skill:BS]** или **[gloss:weapon-skill:WS]** этой атаки, а также любые или все модификаторы **[gloss:hit-roll:броска на попадание]**. Атаки, совершённые оружием **[PSYCHIC]**, известны как **[gloss:psychic:психические атаки]** (это может быть важно для срабатывания других правил).`,
     },
     {
       // 24.30 [RAPID FIRE]
       flavor: 'Оружие с быстрой стрельбой способно вести точные выстрелы на большой дальности или контролируемые очереди по ближайшим целям.',
-      fullText: `Эта способность всегда имеет вид **[RAPID FIRE X]**. Каждый раз, когда вы выбираете **кубики атаки** (attack dice) для оружия **[RAPID FIRE]**, добавьте **X** дополнительных **кубиков атаки**, если целевой юнит находился в **пределах половины дальности** этого оружия на шаге «Выбор целей».`,
+      fullText: `Эта способность всегда имеет вид **[RAPID FIRE X]**. Каждый раз, когда вы выбираете **[gloss:attack-dice:кубики атаки]** для оружия **[RAPID FIRE]**, добавьте **X** дополнительных **кубиков атаки**, если целевой юнит находился в **пределах половины дальности** этого оружия на шаге «Выбор целей».`,
       example: 'Если оружие **[RAPID FIRE 1]** с характеристикой **A** (количество атак) 1 нацелено на юнит, который находится в пределах половины дальности, вы добавите один дополнительный **кубик атаки** для этого оружия (всего два **кубика атаки** для этого оружия).',
     },
     {
       // 24.31 Scouts
       flavor: 'Разведчики формируют авангард многих армий. Незамеченные врагом, они действуют впереди основных сил.',
       fullText: `Эта способность всегда имеет вид **Разведка X"** (Scouts X"). На шаге «**Отыгрыш предбоевых способностей**» (Resolve Pre-battle Abilities step), если **каждая модель** в юните имеет эту способность, вы можете сделать **одно** из следующего:
-▪ Если этот юнит находится в **стратегическом резерве** (strategic reserves), вы можете разместить этот юнит в любом месте, полностью находящемся в пределах вашей **зоны развёртывания** (deployment zone).
+▪ Если этот юнит находится в **[gloss:strategic-reserves:стратегическом резерве]**, вы можете разместить этот юнит в любом месте, полностью находящемся в пределах вашей **зоны развёртывания** (deployment zone).
 ▪ Если этот юнит полностью находится в пределах вашей зоны развёртывания, он может совершить **разведывательный манёвр** (scout move) (см. ниже).
 ▪ Если этот юнит находится внутри **ДЕСАНТНОГО ТРАНСПОРТА** (DEDICATED TRANSPORT), который полностью находится в пределах вашей зоны развёртывания, и если каждая модель, находящаяся внутри этого ДЕСАНТНОГО ТРАНСПОРТА, имеет способность **Разведка** (Scouts), то этот ДЕСАНТНЫЙ ТРАНСПОРТ может совершить **разведывательный манёвр** (scout move).`,
     },
@@ -628,7 +628,7 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
     {
       // 24.33 Stealth
       flavor: 'Самые скрытные воины могут уклоняться от внимания и пуль своих врагов.',
-      fullText: `Если каждая модель в юните имеет эту способность, каждый раз, когда дистанционная атака направлена на этот юнит, этот юнит получает **преимущество укрытия** (benefit of cover) от этой атаки (13.08).`,
+      fullText: `Если каждая модель в юните имеет эту способность, каждый раз, когда дистанционная атака направлена на этот юнит, этот юнит получает **[gloss:benefit-of-cover:преимущество укрытия]** от этой атаки (13.08).`,
     },
     {
       // 24.34 Support
@@ -638,15 +638,15 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
     {
       // 24.35 Super-heavy Walker
       flavor: 'Чудовищные создания и гигантские машины войны возвышаются над полем боя, словно обретшие форму боги, шагая поверх сражающихся и сокрушая почти любые преграды на своём пути.',
-      fullText: `Каждый раз, когда юнит с этой способностью совершает **обычный манёвр** (normal move), **ускорение** (advance) или **отступление** (fall-back move):
+      fullText: `Каждый раз, когда юнит с этой способностью совершает **обычный манёвр** (normal move), **[gloss:advance:ускорение]** или **[gloss:fall-back-move:отступление]**:
 ▪ Модели в этом юните могут перемещаться сквозь модели (включая модели МОНСТРОВ/ТЕХНИКИ, но исключая ТИТАНИЧЕСКИЕ (TITANIC) модели) и могут перемещаться горизонтально сквозь части **элементов укрытий** (terrain features) высотой 4" и менее.
-▪ Перед манёвром этого юнита вы можете выбрать, чтобы все модели в этом юните имели ключевое слово MOBILE до окончания этого манёвра. Если вы делаете это, то когда этот манёвр заканчивается, бросьте один D6: на 1 этот юнит получает **состояние боевого шока** (battle-shocked).`,
+▪ Перед манёвром этого юнита вы можете выбрать, чтобы все модели в этом юните имели ключевое слово MOBILE до окончания этого манёвра. Если вы делаете это, то когда этот манёвр заканчивается, бросьте один D6: на 1 этот юнит получает **[gloss:battle-shocked:состояние боевого шока]**.`,
       note: 'Примечание дизайнера: Получение ключевого слова MOBILE на время манёвра позволит моделям в этом юните перемещаться горизонтально сквозь элементы **надёжных укрытий** (dense terrain features) (13.06).',
     },
     {
       // 24.36 [SUSTAINED HITS]
       flavor: 'Некоторые виды оружия обладают сокрушительной скорострельностью или могут наносить сокрушительные грады ударов, разрывая врага на части с безжалостной яростью.',
-      fullText: `Эта способность всегда имеет вид **[SUSTAINED HITS X]**. Каждый раз, когда атака, совершённая оружием **[SUSTAINED HITS]**, приводит к **критическому попаданию** (critical hit), эта атака приводит к дополнительному количеству попаданий по цели, обозначенному **X**.`,
+      fullText: `Эта способность всегда имеет вид **[SUSTAINED HITS X]**. Каждый раз, когда атака, совершённая оружием **[SUSTAINED HITS]**, приводит к **[gloss:critical-hit:критическому попаданию]**, эта атака приводит к дополнительному количеству попаданий по цели, обозначенному **X**.`,
       example: 'Атака, совершённая оружием **[SUSTAINED HITS 2]**, приводит к **критическому попаданию** (critical hit). Следовательно, эта атака попадает в цель три раза (один раз от **критического попадания** и ещё два раза от способности **[SUSTAINED HITS 2]**).',
     },
     {
@@ -657,12 +657,12 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
     {
       // 24.38 [TWIN-LINKED]
       flavor: 'Спаренные оружия часто подключаются к одной системе наведения для большей смертоносности.',
-      fullText: `Каждый раз, когда атака совершается оружием **[TWIN-LINKED]**, вы можете перебросить **бросок на ранение** (wound roll).`,
+      fullText: `Каждый раз, когда атака совершается оружием **[TWIN-LINKED]**, вы можете перебросить **[gloss:wound-roll:бросок на ранение]**.`,
     },
     {
       // 24.39 Damaged
       fullText: `Эта способность всегда имеет вид **Damaged X**. Пока оставшиеся раны модели равны или меньше **X**, эта модель **повреждена** (damaged):
-▪ Пока модель **повреждена**, атаки этой модели имеют -1 к **броску на попадание** (hit rolls).`,
+▪ Пока модель **повреждена**, атаки этой модели имеют -1 к **[gloss:hit-roll:броску на попадание]**.`,
     },
   ],
 }

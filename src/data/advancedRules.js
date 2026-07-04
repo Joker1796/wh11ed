@@ -36,7 +36,7 @@ Each time a model makes a ranged attack that targets such a unit, subtract 1 fro
               sectionNum: '17.03.01',
               title: 'Shooting While Engaged With Monsters/Vehicles',
               fromApp: true,
-              body: `A unit that is **engaged** with an enemy MONSTER/VEHICLE unit is still __not__ **[gloss:eligible-to-shoot:eligible to shoot]**, and so cannot make ranged attacks against that MONSTER/VEHICLE unit, unless that unit is **eligible to shoot** while **engaged** (e.g. because it is using **[gloss:close-quarters:close-quarters shooting]**).`,
+              body: `A unit that is **engaged** with an enemy MONSTER/VEHICLE unit is still **[gloss:not-eligible-to-shoot:not eligible to shoot]**, and so cannot make ranged attacks against that MONSTER/VEHICLE unit, unless that unit is **eligible to shoot** while **engaged** (e.g. because it is using **[gloss:close-quarters:close-quarters shooting]**).`,
             },
           ],
         },
@@ -55,7 +55,7 @@ Each time a model makes a ranged attack that targets such a unit, subtract 1 fro
           title: 'Transport Capacity',
           body: `TRANSPORT models have a **[gloss:transport-capacity:transport capacity]** listed on their datasheet. This determines the type and maximum number of friendly models that are **[gloss:eligible-to-embark:eligible to embark]** within them. More than one unit can be embarked within the same TRANSPORT model at the same time, provided it has sufficient **transport capacity**.
 
-Before the battle, in the Declare Battle Formations step, your units can start embarked within any friendly TRANSPORT model that has sufficient **transport capacity** remaining for the whole unit.`,
+Before the battle, in the [gloss:declare-battle-formations:Declare Battle Formations] step, your units can start embarked within any friendly TRANSPORT model that has sufficient **transport capacity** remaining for the whole unit.`,
         },
         {
           id: 'section-18-02',
@@ -141,7 +141,7 @@ If a TRANSPORT model is **[gloss:destroyed:destroyed]**, before removing it from
           id: 'section-19-01',
           sectionNum: '19.01',
           title: 'Forming Attached Units',
-          body: `Some units have the **[gloss:leader:Leader]** or **Support** ability listed on their datasheet. Such units are known as **leader** units and **support** units respectively. Both of these abilities allow such units to **lead** other friendly units (known as **[gloss:bodyguard:bodyguard]** units) to form **attached** units. An **attached** unit is a single unit for all rules purposes. **Leader** and **support** units can only lead specific **bodyguard** units, as listed in the Warhammer 40,000 app.
+          body: `Some units have the **[gloss:leader:Leader]** or **[gloss:support:Support]** ability listed on their datasheet. Such units are known as **leader** units and **support** units respectively. Both of these abilities allow such units to **[gloss:lead:lead]** other friendly units (known as **[gloss:bodyguard:bodyguard]** units) to form **attached** units. An **attached** unit is a single unit for all rules purposes. **Leader** and **support** units can only lead specific **bodyguard** units, as listed in the Warhammer 40,000 app.
 
 Before the battle, in the Muster Armies step, for each **leader** and **support** unit in your army, you can select one friendly **bodyguard** unit that unit can **lead**. That unit will then **lead** that **bodyguard** unit for the battle and form an **attached** unit with it.
 
@@ -195,7 +195,7 @@ In all of the above cases, if that last model was **destroyed** as the result of
               sectionNum: '19.04.01',
               title: 'Only In Death Does Duty End',
               fromApp: true,
-              body: `**Leader** and **support** units often have abilities that make the models they are leading more powerful. In the same way, some **bodyguard** units' abilities can enhance the power of those leading them. Abilities in Attached Units (19.04) means that once the models conferring such effects are **destroyed**, that **attached** unit does not continue to benefit from them. Should those models later be **revived**, however, those abilities will once more apply to their **attached** unit.`,
+              body: `**[gloss:leader:Leader]** and **[gloss:support:support]** units often have abilities that make the models they are leading more powerful. In the same way, some **bodyguard** units' abilities can enhance the power of those leading them. Abilities in Attached Units (19.04) means that once the models conferring such effects are **destroyed**, that **attached** unit does not continue to benefit from them. Should those models later be **revived**, however, those abilities will once more apply to their **attached** unit.`,
             },
           ],
         },
@@ -222,9 +222,9 @@ In all of the above cases, if that last model was **destroyed** as the result of
           id: 'section-20-01',
           sectionNum: '20.01',
           title: 'Placing Units in Strategic Reserves',
-          body: `Before the battle, in the Declare Battle Formations step, you can select one or more friendly units (excluding FORTIFICATIONS) to place in **[gloss:strategic-reserves:strategic reserves]**. Instead of setting up these units on the battlefield during deployment, place them to one side; they are **strategic reserves** units, and will arrive later in the battle.
+          body: `Before the battle, in the [gloss:declare-battle-formations:Declare Battle Formations] step, you can select one or more friendly units (excluding [gloss:fortification:FORTIFICATIONS]) to place in **[gloss:strategic-reserves:strategic reserves]**. Instead of setting up these units on the battlefield during deployment, place them to one side; they are **strategic reserves** units, and will arrive later in the battle.
 
-Unless otherwise stated, the combined points value of all of your **strategic reserves** units (including those embarked within TRANSPORTS that are themselves placed in **strategic reserves**) cannot exceed 50% of your points limit for your battle size.`,
+Unless otherwise stated, the combined points value of all of your **strategic reserves** units (including those embarked within [gloss:transport:TRANSPORTS] that are themselves placed in **strategic reserves**) cannot exceed 50% of your points limit for your battle size.`,
           children: [
             {
               id: 'section-20-01-01',
@@ -252,7 +252,7 @@ Unless otherwise stated, the combined points value of all of your **strategic re
           body: `To arrive on the battlefield, each **strategic reserves** unit must make an **ingress move** (see below). Unless otherwise stated, they can only do so from the second battle round onwards.
 
 At the end of the third battle round, unless otherwise stated, all **strategic reserves** units that have not made one or more **ingress moves** are **destroyed**, with the following exceptions:
-▪ Units embarked within TRANSPORTS that have made an **ingress move** during the battle.
+▪ Units embarked within [gloss:transport:TRANSPORTS] that have made an **ingress move** during the battle.
 ▪ **Repositioned** units.`,
           children: [
             {
@@ -390,7 +390,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
           id: 'section-23-01',
           sectionNum: '23.01',
           title: 'Deployment',
-          body: `In the Declare Battle Formations step, all AIRCRAFT units must be placed in **strategic reserves** (20.01).`,
+          body: `In the [gloss:declare-battle-formations:Declare Battle Formations] step, all AIRCRAFT units must be placed in **strategic reserves** (20.01).`,
           seeAlso: ['Strategic Reserves 20.01'],
         },
         {
@@ -455,7 +455,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
           children: [
             {
               title: 'Стрельба в ближнем бою с монстрами/техникой',
-              body: `Отряд, **[gloss:engaged:находящийся в ближнем бою]** с вражеским отрядом МОНСТР/ТЕХНИКА (MONSTER/VEHICLE), всё равно __не__ **[gloss:eligible-to-shoot:может стрелять]**, а значит, не может совершать дальние атаки против отряда МОНСТР/ТЕХНИКА, если только он **может стрелять** будучи **[gloss:engaged:в ближнем бою]** (например, потому что использует **[gloss:close-quarters:ближнюю стрельбу]**).`,
+              body: `Отряд, **[gloss:engaged:находящийся в ближнем бою]** с вражеским отрядом МОНСТР/ТЕХНИКА (MONSTER/VEHICLE), всё равно **[gloss:not-eligible-to-shoot:не может стрелять]**, а значит, не может совершать дальние атаки против отряда МОНСТР/ТЕХНИКА, если только он **может стрелять** будучи **[gloss:engaged:в ближнем бою]** (например, потому что использует **[gloss:close-quarters:ближнюю стрельбу]**).`,
             },
           ],
         },
@@ -474,7 +474,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
           title: 'Вместимость транспорта',
           body: `Модели [gloss:transport:ТРАНСПОРТ] имеют **[gloss:transport-capacity:вместимость транспорта]**, указанную на их карточке данных. Это определяет тип и максимальное количество дружественных моделей, **[gloss:eligible-to-embark:которые могут погрузиться]** в них. Более одного отряда может быть погружено в одну модель ТРАНСПОРТ одновременно при наличии достаточной **вместимости транспорта**.
 
-До битвы, на шаге «Объявление боевых построений» (Declare Battle Formations step), ваши отряды могут начать погружёнными в любую дружественную модель ТРАНСПОРТ с достаточной оставшейся **вместимостью транспорта** для всего отряда.`,
+До битвы, на шаге «[gloss:declare-battle-formations:Объявление боевых построений]», ваши отряды могут начать погружёнными в любую дружественную модель ТРАНСПОРТ с достаточной оставшейся **вместимостью транспорта** для всего отряда.`,
         },
         {
           id: 'section-18-02',
@@ -556,9 +556,9 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
           id: 'section-19-01',
           sectionNum: '19.01',
           title: 'Создание объединённых отрядов',
-          body: `Некоторые отряды имеют способность **Лидер** (Leader) или **Поддержка** (Support), указанную на их карточке данных. Такие отряды известны как отряды **лидеров** и отряды **поддержки** соответственно. Обе эти способности позволяют таким отрядам **вести** (lead) другие дружественные отряды (известные как отряды **[gloss:bodyguard:телохранителей]**) для создания **[gloss:attached-unit:объединённых]** отрядов. **Объединённый** отряд является единым отрядом для всех игровых целей. Отряды **лидеров** и **поддержки** могут вести только определённые отряды **телохранителей**, как указано в приложении Warhammer 40,000.
+          body: `Некоторые отряды имеют способность **[gloss:leader:Лидер]** или **[gloss:support:Поддержка]**, указанную на их карточке данных. Такие отряды известны как отряды **лидеров** и отряды **поддержки** соответственно. Обе эти способности позволяют таким отрядам **[gloss:lead:возглавлять]** другие дружественные отряды (известные как отряды **[gloss:bodyguard:телохранителей]**) для создания **[gloss:attached-unit:объединённых]** отрядов. **Объединённый** отряд является единым отрядом для всех игровых целей. Отряды **лидеров** и **поддержки** могут возглавлять только определённые отряды **телохранителей**, как указано в приложении Warhammer 40,000.
 
-До битвы, на шаге «Формирование армий» (Muster Armies step), для каждого отряда **лидера** и **поддержки** в вашей армии вы можете выбрать один дружественный отряд **телохранителей**, которым он может **командовать**. Этот отряд будет **вести** этот отряд **телохранителей** в битве и создаст с ним **объединённый** отряд.
+До битвы, на шаге «Формирование армий» (Muster Armies step), для каждого отряда **лидера** и **поддержки** в вашей армии вы можете выбрать один дружественный отряд **телохранителей**, который он может **возглавлять**. Этот отряд будет **возглавлять** этот отряд **телохранителей** в битве и создаст с ним **объединённый** отряд.
 
 Если не указано иное, каждый отряд **телохранителей** может иметь только один присоединённый отряд **лидера** и один отряд **поддержки**.`,
           children: [
@@ -598,7 +598,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
           children: [
             {
               title: 'Только смерть прекращает службу (Only In Death Does Duty End)',
-              body: `Отряды **лидеров** (Leader) и **поддержки** (support) часто имеют способности, делающие ведомые ими модели сильнее. Точно так же способности некоторых отрядов **[gloss:bodyguard:телохранителей]** могут усиливать ведущих их. Раздел «Способности в объединённых отрядах» (Abilities in Attached Units, 19.04) означает, что как только модели, предоставляющие такие эффекты, **[gloss:destroyed:уничтожены]**, этот **[gloss:attached-unit:объединённый]** отряд перестаёт получать от них пользу. Однако если эти модели позже будут **[gloss:revive:воскрешены]**, эти способности снова будут применяться к их **объединённому** отряду.`,
+              body: `Отряды **[gloss:leader:лидеров]** и **[gloss:support:поддержки]** часто имеют способности, делающие ведомые ими модели сильнее. Точно так же способности некоторых отрядов **[gloss:bodyguard:телохранителей]** могут усиливать ведущих их. Раздел «Способности в объединённых отрядах» (19.04) означает, что как только модели, предоставляющие такие эффекты, **[gloss:destroyed:уничтожены]**, этот **[gloss:attached-unit:объединённый]** отряд перестаёт получать от них пользу. Однако если эти модели позже будут **[gloss:revive:воскрешены]**, эти способности снова будут применяться к их **объединённому** отряду.`,
             },
           ],
         },
@@ -625,9 +625,9 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
           id: 'section-20-01',
           sectionNum: '20.01',
           title: 'Размещение отрядов в стратегическом резерве',
-          body: `До битвы, на шаге «Объявление боевых построений» (Declare Battle Formations step), вы можете выбрать один или несколько дружественных отрядов (кроме УКРЕПЛЕНИЙ (FORTIFICATIONS)), чтобы поместить их в **[gloss:strategic-reserves:стратегический резерв]**. Вместо того чтобы расставлять эти отряды на поле боя во время развёртывания, отложите их в сторону — они являются отрядами **стратегического резерва** и прибудут позже в ходе битвы.
+          body: `До битвы, на шаге «[gloss:declare-battle-formations:Объявление боевых построений]», вы можете выбрать один или несколько дружественных отрядов (кроме [gloss:fortification:УКРЕПЛЕНИЙ]), чтобы поместить их в **[gloss:strategic-reserves:стратегический резерв]**. Вместо того чтобы расставлять эти отряды на поле боя во время развёртывания, отложите их в сторону — они являются отрядами **стратегического резерва** и прибудут позже в ходе битвы.
 
-Если не указано иное, суммарная стоимость в очках всех ваших отрядов **стратегического резерва** (включая те, что погружены в ТРАНСПОРТЫ (TRANSPORTS), сами помещённые в **стратегический резерв**) не может превышать 50% от вашего лимита очков для вашего размера битвы.`,
+Если не указано иное, суммарная стоимость в очках всех ваших отрядов **стратегического резерва** (включая те, что погружены в [gloss:transport:ТРАНСПОРТЫ], сами помещённые в **стратегический резерв**) не может превышать 50% от вашего лимита очков для вашего размера битвы.`,
           children: [
             {
               title: 'Резервы (Reserves)',
@@ -652,7 +652,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
           body: `Для прибытия на поле боя каждый отряд **[gloss:strategic-reserves:стратегического резерва]** должен совершить **[gloss:ingress-move:манёвр прибытия]** (см. ниже). Если не указано иное, они могут сделать это только начиная со второго [gloss:battle-round:раунда боя].
 
 В конце третьего раунда боя, если не указано иное, все отряды **стратегического резерва**, не совершившие одно или несколько **движений прибытия**, **[gloss:destroyed:уничтожаются]** со следующими исключениями:
-▪ Отряды, погружённые в ТРАНСПОРТЫ (TRANSPORTS), которые совершили **манёвр прибытия** во время битвы.
+▪ Отряды, погружённые в [gloss:transport:ТРАНСПОРТЫ], которые совершили **манёвр прибытия** во время битвы.
 ▪ **[gloss:reposition:Переброшенные]** отряды.`,
           children: [
             {
@@ -785,7 +785,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
           id: 'section-23-01',
           sectionNum: '23.01',
           title: 'Развёртывание',
-          body: `На шаге «Объявление боевых построений» (Declare Battle Formations step) все отряды ВОЗДУШНЫХ СУДОВ (AIRCRAFT) должны быть помещены в **[gloss:strategic-reserves:стратегический резерв]** (20.01).`,
+          body: `На шаге «[gloss:declare-battle-formations:Объявление боевых построений]» все отряды ВОЗДУШНЫХ СУДОВ (AIRCRAFT) должны быть помещены в **[gloss:strategic-reserves:стратегический резерв]** (20.01).`,
         },
         {
           id: 'section-23-02',
