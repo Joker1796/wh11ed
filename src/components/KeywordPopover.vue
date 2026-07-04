@@ -24,7 +24,7 @@
 </template>
 
 <script setup>
-import { computed, ref, watch, nextTick } from 'vue'
+import { computed, ref, watch, nextTick, onUnmounted } from 'vue'
 import { useKeywordPopover } from '../composables/useKeywordPopover.js'
 import { useRenderInline } from '../composables/useRenderInline.js'
 import { resolveRef, useRefNavigation } from '../composables/useRefNavigation.js'
@@ -37,12 +37,26 @@ const { visible, activeKeyword, anchor, close } = useKeywordPopover()
 
 // Move focus into the popover when it opens so screen-reader / keyboard users land
 // on the dialog (and Escape — handled globally in App.vue — closes it).
+// The popover is anchored to a rect captured at open time and positioned `fixed`, so it
+// can't follow the page as it scrolls — dismiss it on scroll/resize instead (matches the
+// usual anchored-popover behaviour). preventScroll on focus() avoids the focus itself
+// nudging the page and self-closing the popover.
 const popoverEl = ref(null)
+function dismissOnMove() { if (visible.value) close() }
 watch(visible, async open => {
   if (open) {
     await nextTick()
-    popoverEl.value?.focus()
+    popoverEl.value?.focus({ preventScroll: true })
+    window.addEventListener('scroll', dismissOnMove, { capture: true, passive: true })
+    window.addEventListener('resize', dismissOnMove, { passive: true })
+  } else {
+    window.removeEventListener('scroll', dismissOnMove, { capture: true })
+    window.removeEventListener('resize', dismissOnMove)
   }
+})
+onUnmounted(() => {
+  window.removeEventListener('scroll', dismissOnMove, { capture: true })
+  window.removeEventListener('resize', dismissOnMove)
 })
 const { renderInline } = useRenderInline()
 const { navigateTo } = useRefNavigation()
