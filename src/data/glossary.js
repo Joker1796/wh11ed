@@ -198,6 +198,11 @@ export const glossary = {
     en: 'The rules for attaching Leader and Support units to a Bodyguard unit they can join, forming a single Attached unit.',
     ru: 'Правила присоединения отрядов лидера и поддержки к юниту-телохранителю, к которому они могут присоединиться, образуя один составной юнит.',
   },
+  'lead': {
+    term: 'Lead',
+    en: 'To attach a Leader or Support unit to a Bodyguard unit it is allowed to join, so the two form a single Attached unit for the battle.',
+    ru: 'Присоединить отряд-лидер или отряд поддержки к разрешённому ему отряду-телохранителю, чтобы они образовали на всю битву единый объединённый отряд.',
+  },
   'enhancement': {
     term: 'Enhancement',
     en: 'A bonus you take from your Detachment when building your army. There are two kinds: a standard Enhancement is given to a single CHARACTER to improve its abilities or wargear; an Enhancement marked ‘Upgrade’ goes to a non-CHARACTER unit instead, and you may take up to three of the same one.',
@@ -537,6 +542,11 @@ export const glossary = {
     en: 'A unit is eligible to shoot if it is on the battlefield and has not already been selected to shoot this phase.',
     ru: 'Юнит может стрелять, если он находится на поле боя и ещё не был выбран для стрельбы в этой фазе.',
   },
+  'not-eligible-to-shoot': {
+    term: 'Not Eligible to Shoot',
+    en: 'A unit that is not eligible to shoot: it cannot be selected to shoot, so it makes no ranged attacks (some rules impose this for a phase or the rest of the turn).',
+    ru: 'Юнит, который не может стрелять: его нельзя выбрать для стрельбы, поэтому он не совершает дальних атак (некоторые правила накладывают это на фазу или до конца хода).',
+  },
   'eligible-to-charge': {
     term: 'Eligible to Declare a Charge',
     en: 'A unit can declare a charge if it is not within Engagement Range and did not Advance or Fall Back this turn.',
@@ -700,8 +710,8 @@ export const glossary = {
   },
   'embark': {
     term: 'Embark',
-    en: 'To place a unit inside a friendly TRANSPORT it is eligible to embark within.',
-    ru: 'Разместить юнит внутри дружественного ТРАНСПОРТА, в который он может погрузиться.',
+    en: 'To move a unit inside a friendly TRANSPORT after a Normal, Advance or Fall-back move — if every model is within 3" of it and it has spare transport capacity. The unit is then removed from the battlefield and counts as embarked.',
+    ru: 'Погрузить юнит в дружественный ТРАНСПОРТ после обычного манёвра, продвижения или отхода — если каждая модель в пределах 3" от него и в нём есть свободная вместимость. Юнит убирается с поля боя и считается погружённым.',
   },
   'eligible-to-embark': {
     term: 'Eligible to Embark',
@@ -710,8 +720,8 @@ export const glossary = {
   },
   'disembark': {
     term: 'Disembark',
-    en: 'To set up an embarked unit on the battlefield within 3" of its TRANSPORT and more than 1" from enemy models.',
-    ru: 'Высадить погруженный юнит на поле боя в пределах 3" от его ТРАНСПОРТА и более чем в 1" от вражеских моделей.',
+    en: 'To set an embarked unit back onto the battlefield from its TRANSPORT (in the Movement phase) via a disembark move — wholly within the set-up distance (3" for a Tactical/Rapid disembark, 6" for a Combat disembark). It must be set up unengaged, except a Combat Disembark, which may be set up engaged.',
+    ru: 'Высадить погружённый юнит из его ТРАНСПОРТА обратно на поле боя (в фазе движения) манёвром высадки — полностью в пределах дистанции выставления (3" при тактической/стремительной высадке, 6" при боевой). Юнит должен выставляться не связанным боем, кроме боевой высадки, при которой он может быть выставлен связанным.',
   },
 
   // — Advanced Rules: reserves & movement —
@@ -764,8 +774,8 @@ export const glossary = {
   },
   'psychic': {
     term: 'Psychic',
-    en: 'The [PSYKER] keyword and its abilities and weapons; some rules interact only with Psychic attacks or abilities.',
-    ru: 'Ключевое слово [PSYKER] и его способности и оружие; некоторые правила взаимодействуют только с психическими атаками или способностями.',
+    en: 'A tag on some abilities and weapons. Wounds inflicted by a Psychic ability count as psychic attacks, which certain rules (e.g. [ANTI-PSYKER] or psychic defences) react to.',
+    ru: 'Метка на некоторых способностях и оружии. Раны, наносимые психической способностью, считаются психическими атаками, на которые реагируют определённые правила (например, [ANTI-PSYKER] или психические защиты).',
   },
   'plunging-fire': {
     term: 'Plunging Fire',
@@ -1168,15 +1178,15 @@ export const glossary = {
   },
   'take-to-the-skies': {
     term: 'Take to the Skies',
-    en: 'A declaration before a flying unit’s Normal, Advance, Fall-back or Charge move: its maximum distance drops by 2", but flying models ignore vertical distance and can move through models and terrain.',
-    ru: 'Объявление перед обычным манёвром, продвижением, отступлением или нападением летающего юнита: максимальное расстояние уменьшается на 2", но летающие модели игнорируют вертикальную дистанцию и могут двигаться сквозь модели и террейн.',
+    en: 'A flying unit can declare this before it moves: it loses 2" of movement, but its models can fly over models and terrain and ignore vertical distances.',
+    ru: 'Летающий юнит может объявить это перед манёвром: он теряет 2" движения, зато его модели пролетают над моделями и террейном и игнорируют вертикальную дистанцию.',
   },
 
   // — Imported terms: abilities —
   'bearer': {
     term: 'Bearer',
-    en: 'The model that has a particular item of wargear; that wargear’s ability applies while the bearer is not destroyed.',
-    ru: 'Модель, у которой есть конкретный предмет снаряжения; способность этого снаряжения действует, пока носитель не уничтожен.',
+    en: 'The single model in a unit that carries a particular item of wargear (or an Enhancement). Its ability applies through that model and lasts only while the bearer is not destroyed.',
+    ru: 'Одна модель в юните, несущая конкретный предмет снаряжения (или улучшение). Его способность действует через эту модель и только пока носитель не уничтожен.',
   },
   'faction-ability': {
     term: 'Faction Ability',

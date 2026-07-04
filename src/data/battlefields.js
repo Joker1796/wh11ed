@@ -461,7 +461,7 @@ A unit is **eligible to start an action** unless one or more of the following ap
 ▪ It started another **action** this turn.
 
 If a unit starts an **action**, until the end of the turn:
-▪ It is not **eligible to shoot** (excluding TITANIC units).
+▪ It is **[gloss:not-eligible-to-shoot:not eligible to shoot]** (excluding TITANIC units).
 ▪ It is not **eligible to declare a charge**.
 
 ### Completing an Action
@@ -870,7 +870,7 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
 ▪ Он начал другое **[gloss:action:действие]** в этом ходу.
 
 Если юнит начинает **[gloss:action:действие]**, то до конца хода:
-▪ Он **[gloss:eligible-to-shoot:не может стрелять]** (за исключением TITANIC юнитов).
+▪ Он **[gloss:not-eligible-to-shoot:не может стрелять]** (за исключением TITANIC юнитов).
 ▪ Он **[gloss:eligible-to-charge:не может объявлять нападение]**.
 
 ### Завершение действия
