@@ -30,7 +30,7 @@ export const factionGroups = [
       { slug: 'adepta-sororitas',   name: 'Adepta Sororitas', ready: true },
       { slug: 'adeptus-custodes',   name: 'Adeptus Custodes', ready: true },
       { slug: 'adeptus-mechanicus', name: 'Adeptus Mechanicus', ready: true },
-      { slug: 'astra-militarum',    name: 'Astra Militarum' },
+      { slug: 'astra-militarum',    name: 'Astra Militarum', ready: true },
       { slug: 'imperial-agents',    name: 'Imperial Agents' },
       { slug: 'imperial-knights',   name: 'Imperial Knights' },
       { slug: 'titan-legions',      name: 'Titan Legions' },
