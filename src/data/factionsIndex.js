@@ -15,7 +15,7 @@ export const factionGroups = [
   {
     id: 'astartes',
     factions: [
-      { slug: 'black-templars',     name: 'Black Templars' },
+      { slug: 'black-templars',     name: 'Black Templars', ready: true },
       { slug: 'blood-angels',       name: 'Blood Angels' },
       { slug: 'dark-angels',        name: 'Dark Angels', ready: true },
       { slug: 'deathwatch',         name: 'Deathwatch' },
