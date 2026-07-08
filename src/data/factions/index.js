@@ -1,6 +1,7 @@
 // Registry of implemented faction rule datasets, keyed by slug. FactionView resolves
 // `:slug` here; only factions present in this map have a rules page (others show
 // "coming soon" on the /factions list). Add a faction by importing its data module here.
+import { adeptaSororitas } from './adepta-sororitas.js'
 import { adeptusCustodes } from './adeptus-custodes.js'
 import { adeptusMechanicus } from './adeptus-mechanicus.js'
 import { aeldari } from './aeldari.js'
@@ -17,6 +18,7 @@ import { thousandSons } from './thousand-sons.js'
 import { tyranids } from './tyranids.js'
 
 export const factionData = {
+  'adepta-sororitas': adeptaSororitas,
   'adeptus-custodes': adeptusCustodes,
   'adeptus-mechanicus': adeptusMechanicus,
   aeldari,
