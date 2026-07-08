@@ -4,6 +4,7 @@
 import { adeptusMechanicus } from './adeptus-mechanicus.js'
 import { darkAngels } from './dark-angels.js'
 import { necrons } from './necrons.js'
+import { orks } from './orks.js'
 import { spaceMarines } from './space-marines.js'
 import { tyranids } from './tyranids.js'
 
@@ -11,6 +12,7 @@ export const factionData = {
   'adeptus-mechanicus': adeptusMechanicus,
   'dark-angels': darkAngels,
   necrons,
+  orks,
   'space-marines': spaceMarines,
   tyranids,
 }
