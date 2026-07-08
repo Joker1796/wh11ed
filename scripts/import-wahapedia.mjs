@@ -115,6 +115,10 @@ function titleCase(name) {
 }
 const normName = (s) =>
   s.toLowerCase().replace(/[’`]/g, "'").replace(/\s+/g, ' ').replace(/\s*\((upgrade|aura)\)\s*$/, '').trim()
+// MFM detachment name → Wahapedia detachment name, where the two disagree (normName forms).
+const DETACHMENT_ALIASES = {
+  'brood brothers auxilia': 'brood brother auxilia',
+}
 const slugify = (s) =>
   normName(s).replace(/'/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 
@@ -170,7 +174,7 @@ const missing = []
 const blocks = []
 
 for (const d of mfm.detachments) {
-  const k = normName(d.name)
+  const k = DETACHMENT_ALIASES[normName(d.name)] || normName(d.name)
   const rules = detRules.get(k) || []
   const strats = detStrats.get(k) || []
   const enh = detEnh.get(k) || []
