@@ -38,7 +38,6 @@ const GROUP_LABEL_KEYS = {
   imperium: 'factionGroupImperium',
   xenos: 'factionGroupXenos',
   chaos: 'factionGroupChaos',
-  unaligned: 'factionGroupUnaligned',
 }
 function groupLabelKey(id) {
   return GROUP_LABEL_KEYS[id] || id

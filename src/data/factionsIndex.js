@@ -4,7 +4,7 @@
 // the Imperium. Membership mirrors the tracker's FACTION_GROUP_SLUGS (hand-kept in sync here
 // rather than imported, so this file — loaded by FactionsListView/NavSidebar — doesn't pull in
 // the heavy mfmFactions dataset the tracker lazy-loads). Within each group factions are sorted
-// by name, as in the tracker.
+// by name, matching the tracker (Astartes / Imperium / Chaos / Xenos).
 //
 // Only factions with a data file in src/data/factions/<slug>.js and `ready: true` link
 // through; the rest render as "coming soon". Names are the factions' own English names (kept
@@ -60,12 +60,6 @@ export const factionGroups = [
       { slug: 'orks',               name: 'Orks', ready: true },
       { slug: 'tau-empire',         name: 'T’au Empire' },
       { slug: 'tyranids',           name: 'Tyranids', ready: true },
-    ],
-  },
-  {
-    id: 'unaligned',
-    factions: [
-      { slug: 'unaligned-forces', name: 'Unaligned Forces' },
     ],
   },
 ]
