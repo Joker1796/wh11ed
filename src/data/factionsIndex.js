@@ -54,7 +54,7 @@ export const factionGroups = [
     factions: [
       { slug: 'aeldari',            name: 'Aeldari', ready: true },
       { slug: 'drukhari',           name: 'Drukhari', ready: true },
-      { slug: 'genestealer-cults',  name: 'Genestealer Cults' },
+      { slug: 'genestealer-cults',  name: 'Genestealer Cults', ready: true },
       { slug: 'leagues-of-votann',  name: 'Leagues of Votann' },
       { slug: 'necrons',            name: 'Necrons', ready: true },
       { slug: 'orks',               name: 'Orks', ready: true },
