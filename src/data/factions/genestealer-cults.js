@@ -58,7 +58,7 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
       rule: {
         name: "Hypermorphic Fury",
         flavor: "Little can assuage a Genestealer Cults least Human instincts, behaviours made even more ferocious under provocation. Stimulated by psionic pulses of the Broodmind or fuelled by alchemical concoctions delivered from alien grafts, impulses drive the blessed to acts of increased savagery.",
-        body: "Add 1 to Charge rolls made for AbERRANTS, BIOPHAgUS and PURESTRAIN GENESTEALERS units from your army. In addition, each time such a unit is selected to fight, if it made a Charge move this turn, until the end of the phase, add 1 to the Attacks characteristic of melee weapons equipped by models in that unit.",
+        body: "Add 1 to Charge rolls made for ABERRANTS, BIOPHAGUS and PURESTRAIN GENESTEALERS units from your army. In addition, each time such a unit is selected to fight, if it made a Charge move this turn, until the end of the phase, add 1 to the Attacks characteristic of melee weapons equipped by models in that unit.",
       },
       stratagems: [
         {
@@ -139,19 +139,19 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
           name: "Biomorph Adaptation",
           points: 25,
           flavor: "The power of the Star Children flows through this creatures veins, their physiology showing unnatural gifts and lethal enhancements.",
-          body: "AbOmINANT or PATRIARCH model only. Improve the Armour Penetration and Damage characteristics of melee weapons equipped by the bearer by 1.",
+          body: "ABOMINANT or PATRIARCH model only. Improve the Armour Penetration and Damage characteristics of melee weapons equipped by the bearer by 1.",
         },
         {
           name: "Mutagenic Regeneration",
           points: 10,
           flavor: "Though the truth may lie with cocktails of alchemical enzymes or xenos hormones triggering ferocious metabolic renewal, the cult’s masses see this nigh-immortal leader as a vessel of divine favour.",
-          body: "AbOmINANT, BIOPHAgUS or PATRIARCH model only. In each Command phase, one model in the bearer’s unit regains 1 lost wound.",
+          body: "ABOMINANT, BIOPHAGUS or PATRIARCH model only. In each Command phase, one model in the bearer’s unit regains 1 lost wound.",
         },
         {
           name: "Alien Majesty",
           points: 15,
           flavor: "An aura of palpable grandeur surrounds this individual, their mere presence a powerful stimulant to the nerve of their followers and a cowing nimbus to subjugate tyrannical foes.",
-          body: "AbOmINANT, BIOPHAgUS or PATRIARCH model only. While an enemy unit is within Engagement Range of the bearer’s unit, subtract 1 from the Objective Control characteristic of models in that enemy unit (to a minimum of 1).",
+          body: "ABOMINANT, BIOPHAGUS or PATRIARCH model only. While an enemy unit is within Engagement Range of the bearer’s unit, subtract 1 from the Objective Control characteristic of models in that enemy unit (to a minimum of 1).",
         },
       ],
     },
@@ -594,7 +594,7 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
       rule: {
         name: "Unquestioning Fanaticism",
         flavor: "Downtrodden by the oppressors for so long, a cult’s lowly broodkin are fanatically devoted to their leaders, for those hallowed individuals serve the Patriarchs will more directly. The masses draw upon energy reserves in their desire to heed their masters’ wishes, surging selflessly into the fray, ready to hurl themselves in harm’s way for the Patriarch’s chosen.",
-        body: "For each ACOLyTE HybRIDS, HybRID METAmORPHS and NEOPHyTE HybRIDS unit from your army, while one or more CHARACTER models are leading that unit, you can re-roll Advance and Charge rolls made for it. If that CHARACTER model is a MAgUS, PRImUS or ACOLyTE ICONwARD, that model has the Feel No Pain 3+ ability while leading that unit.",
+        body: "For each ACOLYTE HybRIDS, HybRID METAMORPHS and NEOPHYTE HybRIDS unit from your army, while one or more CHARACTER models are leading that unit, you can re-roll Advance and Charge rolls made for it. If that CHARACTER model is a MAGUS, PRIMUS or ACOLYTE ICONWARD, that model has the Feel No Pain 3+ ability while leading that unit.",
       },
       stratagems: [
         {
@@ -669,13 +669,13 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
           name: "Gene-sire’s Reliquant",
           points: 5,
           flavor: "This war leader carries a gift from their Patriarch: a talismanic shard of a chitinous claw, a vial of the liquid that seeps into the genesis pools or a psionic growth within the chosen one’s brain. Its form matters less than its effect, for it radiates an inspirational wave of the Broodmind that focuses the minds of the faithful on their duties to the cult above all else.",
-          body: "MAgUS, PRImUS or ACOLyTE ICONwARD model only. You can re-roll Battle-shock tests taken for the bearer’s unit.",
+          body: "MAGUS, PRIMUS or ACOLYTE ICONWARD model only. You can re-roll Battle-shock tests taken for the bearer’s unit.",
         },
         {
           name: "Denunciator of Tyrants",
           points: 25,
           flavor: "With vitriol and passion do the cult’s leaders castigate the foe’s champions, casting them as the most hated architects of oppression and inciting their comrades to murderous intent.",
-          body: "MAgUS, PRImUS or ACOLyTE ICONwARD model only. Each time a model in the bearer’s unit makes an attack that targets a CHARACTER unit, add 1 to the Hit roll and add 1 to the Wound roll.",
+          body: "MAGUS, PRIMUS or ACOLYTE ICONWARD model only. Each time a model in the bearer’s unit makes an attack that targets a CHARACTER unit, add 1 to the Hit roll and add 1 to the Wound roll.",
         },
         {
           name: "Deeds That Speak to the Masses",
@@ -687,7 +687,7 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
           name: "Incendiary Inspiration",
           points: 15,
           flavor: "This insurgent is a font of aggressive encouragement. As some supernatural vitality their broodkin feel in their souls, the leader’s words and deeds rouse them with fresh energy and stir them to charge forth in blind fury.",
-          body: "MAgUS, PRImUS or ACOLyTE ICONwARD model only. The bearer’s unit is eligible to declare a charge in a turn in which it Advanced.",
+          body: "MAGUS, PRIMUS or ACOLYTE ICONWARD model only. The bearer’s unit is eligible to declare a charge in a turn in which it Advanced.",
         },
       ],
     },
