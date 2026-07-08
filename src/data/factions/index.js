@@ -10,6 +10,7 @@ import { drukhari } from './drukhari.js'
 import { necrons } from './necrons.js'
 import { orks } from './orks.js'
 import { spaceMarines } from './space-marines.js'
+import { tauEmpire } from './tau-empire.js'
 import { thousandSons } from './thousand-sons.js'
 import { tyranids } from './tyranids.js'
 
@@ -23,6 +24,7 @@ export const factionData = {
   necrons,
   orks,
   'space-marines': spaceMarines,
+  'tau-empire': tauEmpire,
   'thousand-sons': thousandSons,
   tyranids,
 }
