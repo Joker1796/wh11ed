@@ -16,7 +16,7 @@ export const factionGroups = [
       { slug: 'grey-knights',       name: 'Grey Knights' },
       { slug: 'imperial-agents',    name: 'Imperial Agents' },
       { slug: 'imperial-knights',   name: 'Imperial Knights' },
-      { slug: 'space-marines',      name: 'Space Marines' },
+      { slug: 'space-marines',      name: 'Space Marines', ready: true },
     ],
   },
   {

@@ -51,15 +51,17 @@
       <RuleBlock :title="det.rule.name" :body="det.rule.body" />
 
       <!-- Stratagems -->
-      <h3 class="fsub-title" id="stratagems">{{ labels.factionStratagems }}</h3>
-      <div class="strat-grid">
-        <StratCard
-          v-for="s in det.stratagems"
-          :key="s.name"
-          :strat="s"
-          :sublabel="s.sublabel"
-        />
-      </div>
+      <template v-if="det.stratagems && det.stratagems.length">
+        <h3 class="fsub-title" id="stratagems">{{ labels.factionStratagems }}</h3>
+        <div class="strat-grid">
+          <StratCard
+            v-for="s in det.stratagems"
+            :key="s.name"
+            :strat="s"
+            :sublabel="s.sublabel"
+          />
+        </div>
+      </template>
 
       <!-- Enhancements -->
       <h3 class="fsub-title" id="enhancements">{{ labels.factionEnhancements }}</h3>
