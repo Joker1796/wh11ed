@@ -58,7 +58,7 @@ export const factionGroups = [
       { slug: 'leagues-of-votann',  name: 'Leagues of Votann' },
       { slug: 'necrons',            name: 'Necrons', ready: true },
       { slug: 'orks',               name: 'Orks', ready: true },
-      { slug: 'tau-empire',         name: 'T’au Empire' },
+      { slug: 'tau-empire',         name: 'T’au Empire', ready: true },
       { slug: 'tyranids',           name: 'Tyranids', ready: true },
     ],
   },
