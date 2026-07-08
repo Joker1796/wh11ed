@@ -41,7 +41,7 @@ export const factionGroups = [
       { slug: 'chaos-space-marines', name: 'Chaos Space Marines' },
       { slug: 'death-guard',         name: 'Death Guard' },
       { slug: 'emperors-children',   name: 'Emperor’s Children' },
-      { slug: 'thousand-sons',       name: 'Thousand Sons' },
+      { slug: 'thousand-sons',       name: 'Thousand Sons', ready: true },
       { slug: 'world-eaters',        name: 'World Eaters' },
     ],
   },
