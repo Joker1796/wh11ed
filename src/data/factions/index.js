@@ -10,6 +10,7 @@ import { blackTemplars } from './black-templars.js'
 import { darkAngels } from './dark-angels.js'
 import { drukhari } from './drukhari.js'
 import { genestealerCults } from './genestealer-cults.js'
+import { imperialAgents } from './imperial-agents.js'
 import { imperialKnights } from './imperial-knights.js'
 import { leaguesOfVotann } from './leagues-of-votann.js'
 import { necrons } from './necrons.js'
@@ -29,6 +30,7 @@ export const factionData = {
   'dark-angels': darkAngels,
   drukhari,
   'genestealer-cults': genestealerCults,
+  'imperial-agents': imperialAgents,
   'imperial-knights': imperialKnights,
   'leagues-of-votann': leaguesOfVotann,
   necrons,

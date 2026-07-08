@@ -86,8 +86,16 @@ function htmlToMarkup(html) {
   s = s.replace(/<li[^>]*>/gi, '\n▪ ').replace(/<\/li>/gi, '')
   // line breaks / paragraphs
   s = s.replace(/<br\s*\/?>/gi, '\n').replace(/<\/?p[^>]*>/gi, '\n')
-  // bold → ** (drop bold on keyword spans first: they're stripped to plain text)
-  s = s.replace(/<span[^>]*class="kw[^"]*"[^>]*>(.*?)<\/span>/gis, '$1')
+  // bold → ** (drop bold on keyword spans first: they're stripped to plain text).
+  // Wahapedia renders keywords in small-caps and the raw text sometimes carries stray
+  // lowercase letters inside caps runs ("ASTRA MILITARUm", "INqUISITOR") — normalise
+  // mostly-uppercase span content to full uppercase.
+  s = s.replace(/<span[^>]*class="kw[^"]*"[^>]*>(.*?)<\/span>/gis, (m, inner) => {
+    const letters = inner.replace(/[^A-Za-z]/g, '')
+    const upper = letters.replace(/[^A-Z]/g, '')
+    if (letters && upper.length / letters.length >= 0.6 && upper.length !== letters.length) return inner.toUpperCase()
+    return inner
+  })
   s = s.replace(/<b>(.*?)<\/b>/gis, '**$1**').replace(/<strong>(.*?)<\/strong>/gis, '**$1**')
   s = s.replace(/<\/?i>/gi, '')
   // everything else (links, divs, imgs, tooltips) → plain text
@@ -99,6 +107,12 @@ function htmlToMarkup(html) {
   s = s.replace(/\n\n(▪ )/g, '\n$1')
   // empty-bold artefacts
   s = s.replace(/\*\*\s*\*\*/g, '')
+  // Wahapedia's small-caps keywords carry stray lowercase letters in otherwise-uppercase
+  // words ("ADEpTUS", "INFANTRy") — normalise mostly-uppercase words to full uppercase.
+  s = s.replace(/\b[A-Za-z]{3,}\b/g, (w) => {
+    const upper = w.replace(/[^A-Z]/g, '')
+    return upper.length / w.length >= 0.6 && upper.length !== w.length ? w.toUpperCase() : w
+  })
   return s.trim()
 }
 // "MULTISENSORY SCANNING" → "Multisensory Scanning" (keep small words lowered mid-name)
@@ -118,6 +132,9 @@ const normName = (s) =>
 // MFM detachment name → Wahapedia detachment name, where the two disagree (normName forms).
 const DETACHMENT_ALIASES = {
   'brood brothers auxilia': 'brood brother auxilia',
+  'ordo hereticus, purgation force': 'ordo hereticus purgation force',
+  'ordo malleus, daemon hunters': 'ordo malleus daemon hunters',
+  'ordo xenos, alien hunters': 'ordo xenos alien hunters',
 }
 const slugify = (s) =>
   normName(s).replace(/'/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
