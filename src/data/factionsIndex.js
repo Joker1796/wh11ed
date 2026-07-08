@@ -55,7 +55,7 @@ export const factionGroups = [
       { slug: 'aeldari',            name: 'Aeldari', ready: true },
       { slug: 'drukhari',           name: 'Drukhari', ready: true },
       { slug: 'genestealer-cults',  name: 'Genestealer Cults', ready: true },
-      { slug: 'leagues-of-votann',  name: 'Leagues of Votann' },
+      { slug: 'leagues-of-votann',  name: 'Leagues of Votann', ready: true },
       { slug: 'necrons',            name: 'Necrons', ready: true },
       { slug: 'orks',               name: 'Orks', ready: true },
       { slug: 'tau-empire',         name: 'T’au Empire', ready: true },
