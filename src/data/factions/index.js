@@ -3,6 +3,7 @@
 // "coming soon" on the /factions list). Add a faction by importing its data module here.
 import { adeptusCustodes } from './adeptus-custodes.js'
 import { adeptusMechanicus } from './adeptus-mechanicus.js'
+import { aeldari } from './aeldari.js'
 import { darkAngels } from './dark-angels.js'
 import { necrons } from './necrons.js'
 import { orks } from './orks.js'
@@ -13,6 +14,7 @@ import { tyranids } from './tyranids.js'
 export const factionData = {
   'adeptus-custodes': adeptusCustodes,
   'adeptus-mechanicus': adeptusMechanicus,
+  aeldari,
   'dark-angels': darkAngels,
   necrons,
   orks,
