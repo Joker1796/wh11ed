@@ -29,7 +29,7 @@ export const factionGroups = [
       { slug: 'necrons',            name: 'Necrons', ready: true },
       { slug: 'orks',               name: 'Orks' },
       { slug: 'tau-empire',         name: 'T’au Empire' },
-      { slug: 'tyranids',           name: 'Tyranids' },
+      { slug: 'tyranids',           name: 'Tyranids', ready: true },
     ],
   },
   {

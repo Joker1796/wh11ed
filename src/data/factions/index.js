@@ -3,10 +3,12 @@
 // "coming soon" on the /factions list). Add a faction by importing its data module here.
 import { necrons } from './necrons.js'
 import { spaceMarines } from './space-marines.js'
+import { tyranids } from './tyranids.js'
 
 export const factionData = {
   necrons,
   'space-marines': spaceMarines,
+  tyranids,
 }
 
 export function getFaction(slug) {
