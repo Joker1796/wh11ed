@@ -7,6 +7,7 @@ import { darkAngels } from './dark-angels.js'
 import { necrons } from './necrons.js'
 import { orks } from './orks.js'
 import { spaceMarines } from './space-marines.js'
+import { thousandSons } from './thousand-sons.js'
 import { tyranids } from './tyranids.js'
 
 export const factionData = {
@@ -16,6 +17,7 @@ export const factionData = {
   necrons,
   orks,
   'space-marines': spaceMarines,
+  'thousand-sons': thousandSons,
   tyranids,
 }
 
