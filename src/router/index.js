@@ -25,6 +25,8 @@ const AuthCallbackView  = () => import('../views/tracker/AuthCallbackView.vue')
 const TrackerHistoryView = () => import('../views/tracker/TrackerHistoryView.vue')
 const LinksView         = () => import('../views/LinksView.vue')
 const StratagemsView    = () => import('../views/StratagemsView.vue')
+const FactionsListView  = () => import('../views/FactionsListView.vue')
+const FactionView       = () => import('../views/FactionView.vue')
 
 export const navGroups = [
   { label: 'Introduction',        path: '/introduction',   sections: [] },
@@ -251,6 +253,16 @@ export const trackerGroupsRu = [
   { label: 'Стратагемы',    path: '/stratagems',   sections: [] },
 ]
 
+// Factions — top-level section. List page (/factions) + per-faction rules page
+// (/factions/:slug). The sidebar navigates on click (no in-page anchors).
+export const factionGroups = [
+  { label: 'Factions', path: '/factions', sections: [] },
+]
+
+export const factionGroupsRu = [
+  { label: 'Фракции', path: '/factions', sections: [] },
+]
+
 // Links — fourth top-level section. Single page of external source PDFs, no anchors.
 export const linksGroups = [
   { label: 'Source PDFs', path: '/links', sections: [] },
@@ -283,6 +295,8 @@ export const router = createRouter({
     { path: '/tracker/history/:id', component: TrackerHistoryView },
     { path: '/tracker/auth-callback', component: AuthCallbackView },
     { path: '/links', component: LinksView },
+    { path: '/factions',       component: FactionsListView },
+    { path: '/factions/:slug', component: FactionView },
     // Game-time stratagem reference. Reachable only via the mobile bottom-nav (and direct
     // URL on desktop) — intentionally not in navGroups / NavSidebar / the top navbar.
     { path: '/stratagems', component: StratagemsView },
