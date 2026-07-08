@@ -34,6 +34,7 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
 const GROUP_LABEL_KEYS = {
+  astartes: 'factionGroupAstartes',
   imperium: 'factionGroupImperium',
   xenos: 'factionGroupXenos',
   chaos: 'factionGroupChaos',
