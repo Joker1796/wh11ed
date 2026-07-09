@@ -15,6 +15,7 @@ import { deathGuard } from './death-guard.js'
 import { drukhari } from './drukhari.js'
 import { emperorsChildren } from './emperors-children.js'
 import { genestealerCults } from './genestealer-cults.js'
+import { greyKnights } from './grey-knights.js'
 import { imperialAgents } from './imperial-agents.js'
 import { imperialKnights } from './imperial-knights.js'
 import { leaguesOfVotann } from './leagues-of-votann.js'
@@ -41,6 +42,7 @@ export const factionData = {
   drukhari,
   'emperors-children': emperorsChildren,
   'genestealer-cults': genestealerCults,
+  'grey-knights': greyKnights,
   'imperial-agents': imperialAgents,
   'imperial-knights': imperialKnights,
   'leagues-of-votann': leaguesOfVotann,
