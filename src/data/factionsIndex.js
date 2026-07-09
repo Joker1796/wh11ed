@@ -40,7 +40,7 @@ export const factionGroups = [
     id: 'chaos',
     factions: [
       { slug: 'chaos-daemons',       name: 'Chaos Daemons', ready: true },
-      { slug: 'chaos-knights',       name: 'Chaos Knights' },
+      { slug: 'chaos-knights',       name: 'Chaos Knights', ready: true },
       { slug: 'chaos-space-marines', name: 'Chaos Space Marines', ready: true },
       { slug: 'chaos-titan-legions', name: 'Chaos Titan Legions' },
       { slug: 'death-guard',         name: 'Death Guard', ready: true },
