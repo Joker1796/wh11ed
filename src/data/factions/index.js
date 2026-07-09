@@ -12,6 +12,7 @@ import { chaosDaemons } from './chaos-daemons.js'
 import { chaosKnights } from './chaos-knights.js'
 import { chaosSpaceMarines } from './chaos-space-marines.js'
 import { darkAngels } from './dark-angels.js'
+import { deathwatch } from './deathwatch.js'
 import { deathGuard } from './death-guard.js'
 import { drukhari } from './drukhari.js'
 import { emperorsChildren } from './emperors-children.js'
@@ -41,6 +42,7 @@ export const factionData = {
   'chaos-knights': chaosKnights,
   'chaos-space-marines': chaosSpaceMarines,
   'dark-angels': darkAngels,
+  deathwatch,
   'death-guard': deathGuard,
   drukhari,
   'emperors-children': emperorsChildren,
