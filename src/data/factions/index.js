@@ -7,6 +7,7 @@ import { adeptusMechanicus } from './adeptus-mechanicus.js'
 import { aeldari } from './aeldari.js'
 import { astraMilitarum } from './astra-militarum.js'
 import { blackTemplars } from './black-templars.js'
+import { chaosSpaceMarines } from './chaos-space-marines.js'
 import { darkAngels } from './dark-angels.js'
 import { drukhari } from './drukhari.js'
 import { genestealerCults } from './genestealer-cults.js'
@@ -27,6 +28,7 @@ export const factionData = {
   aeldari,
   'astra-militarum': astraMilitarum,
   'black-templars': blackTemplars,
+  'chaos-space-marines': chaosSpaceMarines,
   'dark-angels': darkAngels,
   drukhari,
   'genestealer-cults': genestealerCults,
