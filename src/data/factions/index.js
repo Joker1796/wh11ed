@@ -21,6 +21,7 @@ import { spaceMarines } from './space-marines.js'
 import { tauEmpire } from './tau-empire.js'
 import { thousandSons } from './thousand-sons.js'
 import { tyranids } from './tyranids.js'
+import { worldEaters } from './world-eaters.js'
 
 export const factionData = {
   'adepta-sororitas': adeptaSororitas,
@@ -43,6 +44,7 @@ export const factionData = {
   'tau-empire': tauEmpire,
   'thousand-sons': thousandSons,
   tyranids,
+  'world-eaters': worldEaters,
 }
 
 export function getFaction(slug) {
