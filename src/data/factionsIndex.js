@@ -18,7 +18,7 @@ export const factionGroups = [
       { slug: 'black-templars',     name: 'Black Templars', ready: true },
       { slug: 'blood-angels',       name: 'Blood Angels', ready: true },
       { slug: 'dark-angels',        name: 'Dark Angels', ready: true },
-      { slug: 'deathwatch',         name: 'Deathwatch' },
+      { slug: 'deathwatch',         name: 'Deathwatch', ready: true },
       { slug: 'grey-knights',       name: 'Grey Knights', ready: true },
       { slug: 'space-marines',      name: 'Space Marines', ready: true },
       { slug: 'space-wolves',       name: 'Space Wolves', ready: true },
