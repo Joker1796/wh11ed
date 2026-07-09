@@ -22,6 +22,7 @@ import { leaguesOfVotann } from './leagues-of-votann.js'
 import { necrons } from './necrons.js'
 import { orks } from './orks.js'
 import { spaceMarines } from './space-marines.js'
+import { spaceWolves } from './space-wolves.js'
 import { tauEmpire } from './tau-empire.js'
 import { thousandSons } from './thousand-sons.js'
 import { tyranids } from './tyranids.js'
@@ -49,6 +50,7 @@ export const factionData = {
   necrons,
   orks,
   'space-marines': spaceMarines,
+  'space-wolves': spaceWolves,
   'tau-empire': tauEmpire,
   'thousand-sons': thousandSons,
   tyranids,
