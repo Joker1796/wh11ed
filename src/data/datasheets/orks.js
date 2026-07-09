@@ -3,6 +3,86 @@
 // Lazy-loaded per faction via src/data/datasheets/index.js — do not import statically.
 export default [
   {
+    "id": "bannernob",
+    "name": "Bannernob",
+    "points": [
+      {
+        "models": 1,
+        "points": 50
+      }
+    ],
+    "flavor": "The tribe's Waaagh! banner has an almost religious significance, its presence on the battlefield filling the Orks with the overwhelming need to storm headlong into the enemy. It is typically carried to war by a Bannernob, a particularly large and belligerent Ork who has doubtless brutalised his rivals to claim this honour.",
+    "profiles": [
+      {
+        "name": "Bannernob",
+        "m": "6\"",
+        "t": "5",
+        "sv": "4+",
+        "w": "4",
+        "ld": "7+",
+        "oc": "6",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Shoota",
+        "tags": [
+          "RAPID FIRE 1"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Choppa",
+        "tags": [],
+        "a": "5",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "core": "Support",
+    "faction": "Waaagh!",
+    "abilities": [
+      {
+        "name": "Waaagh! Banner",
+        "text": "▪ This unit has a 5+ invulnerable save.\n▪ While the Waaagh! is active for this unit, this unit has +1 Toughness."
+      }
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Boyz",
+        "Breaka Boyz",
+        "Burna Boyz",
+        "Flash Gitz",
+        "Lootas",
+        "Nobz",
+        "Tankbustas"
+      ]
+    },
+    "composition": [
+      "1 Bannernob"
+    ],
+    "loadout": "This model is equipped with: 1 shoota; 1 choppa.",
+    "keywords": [
+      "Infantry",
+      "Character",
+      "Bannernob"
+    ],
+    "factionKeywords": [
+      "Orks"
+    ]
+  },
+  {
     "id": "battlewagon",
     "name": "Battlewagon",
     "points": [
@@ -608,6 +688,93 @@ export default [
     ]
   },
   {
+    "id": "big-mek-dakkarig",
+    "name": "Big Mek Dakkarig",
+    "points": [
+      {
+        "models": 1,
+        "points": 100,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 110,
+        "note": "3rd+"
+      }
+    ],
+    "flavor": "Dakkarigs are ridden into battle by Big Meks, and provide a stable firing platform for some really heavy firepower. Lumbering relentlessly forward, they unleash corkscrewing hails of rokkits, and hurricanes of dakka from their screaming blitzkannons, all while their gleeful pilot is protected from return fire by a crackling kustom force field.",
+    "profiles": [
+      {
+        "name": "Big Mek Dakkarig",
+        "m": "8\"",
+        "t": "8",
+        "sv": "3+",
+        "w": "11",
+        "ld": "7+",
+        "oc": "3",
+        "inv": "5+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Blitzkannon",
+        "tags": [
+          "HEAVY",
+          "SUSTAINED HITS 1"
+        ],
+        "range": "24\"",
+        "a": "8",
+        "bs": "5+",
+        "s": "7",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
+        "name": "Rokkit launcha",
+        "tags": [
+          "HEAVY"
+        ],
+        "range": "24\"",
+        "a": "6",
+        "bs": "5+",
+        "s": "10",
+        "ap": "-2",
+        "d": "3"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Stompy feet",
+        "tags": [],
+        "a": "4",
+        "ws": "3+",
+        "s": "6",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "faction": "Waaagh!",
+    "abilities": [
+      {
+        "name": "Dakkablitz",
+        "text": "In your Shooting phase, while making attacks with this unit, if its blitzkannon targeted a non-MONSTER/VEHICLE unit, that weapon has +6 Attacks."
+      }
+    ],
+    "composition": [
+      "1 Big Mek Dakkarig"
+    ],
+    "loadout": "This model is equipped with: 1 blitzkannon; 1 rokkit launcha; 1 stompy feet.",
+    "keywords": [
+      "Vehicle",
+      "Walker",
+      "Big Mek",
+      "Dakkarig"
+    ],
+    "factionKeywords": [
+      "Orks"
+    ]
+  },
+  {
     "id": "big-mek-in-mega-armour",
     "name": "Big Mek In Mega Armour",
     "points": [
@@ -937,6 +1104,87 @@ export default [
       "Transport",
       "Vehicle",
       "Fortification"
+    ],
+    "factionKeywords": [
+      "Orks"
+    ]
+  },
+  {
+    "id": "bigboss",
+    "name": "Bigboss",
+    "points": [
+      {
+        "models": 1,
+        "points": 55
+      }
+    ],
+    "flavor": "Second only to the tribe's Warboss, Bigbosses spend their time ordering other Orks around and giving enemy champions and war leaders a good kicking. They are formidably tough, usually heavily armed, always completely merciless, and entirely capable of ripping a Space Marine limb from limb with their bare hands.",
+    "profiles": [
+      {
+        "name": "Bigboss",
+        "m": "6\"",
+        "t": "5",
+        "sv": "4+",
+        "w": "5",
+        "ld": "7+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Slugga",
+        "tags": [
+          "CLOSE-QUARTERS"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "5+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Two-handed big choppa",
+        "tags": [
+          "CLEAVE 1"
+        ],
+        "a": "5",
+        "ws": "3+",
+        "s": "7",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "core": "Leader",
+    "faction": "Waaagh!",
+    "abilities": [
+      {
+        "name": "Breakin' Heads",
+        "text": "This unit's melee weapons have [SUSTAINED HITS 1]."
+      },
+      {
+        "name": "Somethin' to Prove",
+        "text": "This unit has +1 to Charge rolls."
+      }
+    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Boyz",
+        "Breaka Boyz",
+        "Nobz"
+      ]
+    },
+    "composition": [
+      "1 Bigboss"
+    ],
+    "loadout": "This model is equipped with: 1 slugga; 1 two-handed big choppa.",
+    "keywords": [
+      "Infantry",
+      "Character",
+      "Bigboss"
     ],
     "factionKeywords": [
       "Orks"
@@ -5572,6 +5820,83 @@ export default [
     ]
   },
   {
+    "id": "wartrakk",
+    "name": "Wartrakk",
+    "points": [
+      {
+        "models": 1,
+        "points": 60
+      }
+    ],
+    "flavor": "The Wartrakk is a fast, lightly armoured attack vehicle that mounts a rack of armour-busting rokkits. Aimed and fired by the leering Nob who rides on the back, these projectiles compensate for their inaccuracy by making a spectacular mess of anything they actually hit.",
+    "profiles": [
+      {
+        "name": "Wartrakk",
+        "m": "12\"",
+        "t": "6",
+        "sv": "4+",
+        "w": "7",
+        "ld": "7+",
+        "oc": "3",
+        "inv": "6+"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Kustom shoota",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Rokkit launcha",
+        "tags": [],
+        "range": "24\"",
+        "a": "D3+3",
+        "bs": "5+",
+        "s": "10",
+        "ap": "-2",
+        "d": "3"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Choppas",
+        "tags": [],
+        "a": "5",
+        "ws": "3+",
+        "s": "4",
+        "ap": "-1",
+        "d": "1"
+      }
+    ],
+    "faction": "Waaagh!",
+    "abilities": [
+      {
+        "name": "Indiscriminate Detonations",
+        "text": "In your Shooting phase, when this unit has resolved its attacks, select one enemy unit hit by one or more of those attacks. That enemy unit is suppressed until the start of your next Command phase (while a unit is suppressed, it has -1 to Hit rolls)."
+      }
+    ],
+    "composition": [
+      "1 Wartrakk"
+    ],
+    "loadout": "This model is equipped with: 1 kustom shoota; 1 rokkit launcha; 1 choppas.",
+    "keywords": [
+      "Mounted",
+      "Speed Freeks",
+      "Wartrakk"
+    ],
+    "factionKeywords": [
+      "Orks"
+    ]
+  },
+  {
     "id": "wazbom-blastajet",
     "name": "Wazbom Blastajet",
     "points": [
@@ -6067,9 +6392,3 @@ export default [
     ]
   }
 ]
-
-// MISSING FROM WAHAPEDIA (new-in-pack datasheets, add manually later):
-//   - Bannernob
-//   - Bigboss
-//   - Big Mek Dakkarig
-//   - Wartrakk
