@@ -9,6 +9,7 @@ import { astraMilitarum } from './astra-militarum.js'
 import { blackTemplars } from './black-templars.js'
 import { chaosSpaceMarines } from './chaos-space-marines.js'
 import { darkAngels } from './dark-angels.js'
+import { deathGuard } from './death-guard.js'
 import { drukhari } from './drukhari.js'
 import { genestealerCults } from './genestealer-cults.js'
 import { imperialAgents } from './imperial-agents.js'
@@ -30,6 +31,7 @@ export const factionData = {
   'black-templars': blackTemplars,
   'chaos-space-marines': chaosSpaceMarines,
   'dark-angels': darkAngels,
+  'death-guard': deathGuard,
   drukhari,
   'genestealer-cults': genestealerCults,
   'imperial-agents': imperialAgents,
