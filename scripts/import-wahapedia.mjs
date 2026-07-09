@@ -164,12 +164,15 @@ const mfm = (await import(mfmUrl)).default
 
 const [factions, detAbilities, stratagems, enhancements] = await Promise.all(TABLES.map(loadTable))
 
+// Space Marine chapters are not separate factions on Wahapedia — their chapter
+// detachments live under the Space Marines faction id.
+const FACTION_ID_OVERRIDES = { 'blood-angels': 'SM', 'deathwatch': 'SM', 'space-wolves': 'SM' }
 const fac = factions.find((f) => normName(f.name) === normName(mfm.name))
-if (!fac) {
+if (!fac && !FACTION_ID_OVERRIDES[slug]) {
   console.error(`Faction "${mfm.name}" not found in Wahapedia Factions.csv`)
   process.exit(1)
 }
-const fid = fac.id
+const fid = FACTION_ID_OVERRIDES[slug] || fac.id
 console.log(`Faction: ${mfm.name} (wahapedia id ${fid})`)
 
 const byDet = (rows) => {

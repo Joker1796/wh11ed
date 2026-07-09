@@ -14,6 +14,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
+import EXTRAS from './datasheet-extras.mjs'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const CACHE = path.join(ROOT, 'node_modules', '.cache', 'wahapedia')
@@ -202,7 +203,13 @@ async function generate(slug) {
   for (const u of roster) {
     const key = UNIT_ALIASES[normName(u.name)] || normName(u.name)
     const row = own.find((d) => normName(d.name) === key) || byName.get(key)
-    if (!row) { missing.push(u.name); continue }
+    if (!row) {
+      // New-in-pack datasheets absent from Wahapedia: hand-transcribed in datasheet-extras.mjs
+      const extra = EXTRAS[key]
+      if (extra) sheets.push({ id: extra.id, name: extra.name, points: u.options, ...extra })
+      else missing.push(u.name)
+      continue
+    }
     sheets.push(buildDatasheet(row, u))
   }
   sheets.sort((a, b) => a.name.localeCompare(b.name))

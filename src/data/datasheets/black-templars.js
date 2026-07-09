@@ -4654,6 +4654,94 @@ export default [
     ]
   },
   {
+    "id": "eradicator-squad-with-heavy-bolters",
+    "name": "Eradicator Squad with Heavy Bolters",
+    "points": [
+      {
+        "models": 3,
+        "points": 70,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 3,
+        "points": 80,
+        "note": "3rd+"
+      }
+    ],
+    "flavor": "The heavy Mk X Gravis armour of these fire support specialists allows them to weather storms of incoming projectiles. Standing firm, they return fire with their brutal heavy bolters, scything down enemy infantry and blowing apart the foe's light armoured vehicles with well-placed shots to weak spots in their targets' hulls.",
+    "profiles": [
+      {
+        "name": "Eradicator Squad with Heavy Bolters",
+        "m": "5\"",
+        "t": "6",
+        "sv": "3+",
+        "w": "3",
+        "ld": "6+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Bolt pistol",
+        "tags": [
+          "CLOSE-QUARTERS"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Heavy bolter",
+        "tags": [
+          "HEAVY",
+          "SUSTAINED HITS 1"
+        ],
+        "range": "36\"",
+        "a": "3",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "faction": "Oath of Moment",
+    "abilities": [
+      {
+        "name": "Overlapping Detonations",
+        "text": "In your Shooting phase, when this unit is selected to shoot you can select one non-MONSTER/VEHICLE enemy unit visible to it. While making attacks, this unit's heavy bolters that targeted that selected unit have [BLAST 1]."
+      }
+    ],
+    "composition": [
+      "1 Eradicator Sergeant",
+      "2 Eradicators"
+    ],
+    "loadout": "Every model is equipped with: 1 bolt pistol; 1 heavy bolter; 1 close combat weapon.",
+    "keywords": [
+      "Infantry",
+      "Imperium",
+      "Gravis",
+      "Eradicator Squad",
+      "Eradicator Squad with Heavy Bolters"
+    ],
+    "factionKeywords": [
+      "Adeptus Astartes"
+    ]
+  },
+  {
     "id": "execrator",
     "name": "Execrator",
     "points": [
@@ -11716,6 +11804,3 @@ export default [
     ]
   }
 ]
-
-// MISSING FROM WAHAPEDIA (new-in-pack datasheets, add manually later):
-//   - Eradicator Squad with Heavy Bolters
