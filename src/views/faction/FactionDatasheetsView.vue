@@ -13,19 +13,20 @@
         />
         <template v-for="g in groupedDatasheets" :key="g.key">
           <h3 class="ds-group-head">{{ g.label }}</h3>
-          <div class="ds-accordion">
-            <div v-for="s in g.sheets" :key="s.id" class="ds-item">
-              <button type="button" class="ds-toggle" :aria-expanded="openDs === s.id" @click="toggleDs(s.id)">
-                <span class="ds-toggle-name">{{ s.name }}</span>
-                <span v-if="s.points" class="ds-toggle-pts">{{ ptsSummary(s.points) }}</span>
-                <span class="ds-toggle-chevron" :class="{ open: openDs === s.id }">▾</span>
-              </button>
-              <CollapseTransition :show="openDs === s.id">
-                <DatasheetCard :sheet="s" />
-              </CollapseTransition>
-            </div>
+          <div class="ds-grid">
+            <button v-for="s in g.sheets" :key="s.id" type="button" class="ds-chip" @click="openSheet = s">
+              <span class="ds-chip-name">{{ s.name }}</span>
+              <span v-if="s.points" class="ds-chip-pts">{{ ptsSummary(s.points) }}</span>
+            </button>
           </div>
         </template>
+
+        <DatasheetModal
+          v-if="openSheet"
+          :sheet="openSheet"
+          :faction-name="faction?.name"
+          @close="openSheet = null"
+        />
       </template>
       <p v-else-if="loaded" class="ds-empty">{{ labels.factionsSoon }}</p>
     </section>
@@ -35,14 +36,15 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import CollapseTransition from '../../components/CollapseTransition.vue'
-import DatasheetCard from '../../components/DatasheetCard.vue'
+import DatasheetModal from '../../components/DatasheetModal.vue'
 import FactionLayout from '../../components/FactionLayout.vue'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { ui } from '../../i18n/ui.js'
+import { useFactionPage } from '../../composables/useFactionPage.js'
 import { useLocale } from '../../composables/useLocale.js'
 
 const route = useRoute()
+const { faction } = useFactionPage()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
@@ -51,14 +53,16 @@ const labels = computed(() => ui[locale.value])
 const datasheets = ref([])
 const loaded = ref(false)
 const dsQuery = ref('')
-const openDs = ref(null)
+// The sheet currently open in the DatasheetModal (null = closed). The list keeps its
+// search text and scroll position while the modal is up — that was the accordion's flaw.
+const openSheet = ref(null)
 watch(
   () => route.params.slug,
   async (slug) => {
     datasheets.value = []
     loaded.value = false
     dsQuery.value = ''
-    openDs.value = null
+    openSheet.value = null
     if (!slug) return
     const list = await loadDatasheets(slug)
     // guard against a stale resolve after a rapid route change
@@ -103,10 +107,6 @@ function ptsSummary(points) {
   if (min !== max) return `${min}–${max} pts`
   const models = points[0].models
   return (models > 1 ? `${models}× ` : '') + `${min} pts`
-}
-
-function toggleDs(id) {
-  openDs.value = openDs.value === id ? null : id
 }
 </script>
 
@@ -153,58 +153,47 @@ function toggleDs(id) {
   border-bottom: 1px solid var(--border);
 }
 
-.ds-accordion {
+.ds-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.5rem;
+}
+
+.ds-chip {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-}
-
-.ds-item {
+  align-items: flex-start;
+  gap: 0.15rem;
+  text-align: left;
+  padding: 0.5rem 0.7rem;
+  background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 6px;
-  overflow: hidden;
-}
-
-.ds-toggle {
-  display: flex;
-  align-items: baseline;
-  gap: 0.6rem;
-  width: 100%;
-  text-align: left;
-  padding: 0.55rem 0.9rem;
-  background: var(--bg-card);
-  border: none;
   cursor: pointer;
-  transition: background var(--motion-fast);
+  transition: background var(--motion-fast), border-color var(--motion-fast);
 }
 
-.ds-toggle:hover { background: color-mix(in srgb, var(--accent) 8%, var(--bg-card)); }
+.ds-chip:hover {
+  background: color-mix(in srgb, var(--accent) 8%, var(--bg-card));
+  border-color: var(--accent);
+}
 
-.ds-toggle-name {
+.ds-chip-name {
   font-family: var(--font-display);
-  font-size: 1.15rem;
+  font-size: 1.05rem;
+  line-height: 1.15;
   text-transform: uppercase;
   letter-spacing: 0.3px;
   color: var(--text-primary);
 }
 
-.ds-toggle-pts {
-  margin-left: auto;
-  flex-shrink: 0;
+.ds-chip-pts {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 700;
   color: var(--text-muted);
   white-space: nowrap;
 }
-
-.ds-toggle-chevron {
-  flex-shrink: 0;
-  color: var(--text-muted);
-  transition: transform var(--motion-fast);
-}
-
-.ds-toggle-chevron.open { transform: rotate(180deg); }
 
 .ds-empty {
   color: var(--text-muted);
