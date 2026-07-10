@@ -1,4 +1,4 @@
-// Registry of implemented faction rule datasets, keyed by slug. FactionView resolves
+// Registry of implemented faction rule datasets, keyed by slug. The faction views resolve
 // `:slug` here; only factions present in this map have a rules page (others show
 // "coming soon" on the /factions list). Add a faction by importing its data module here.
 import { adeptaSororitas } from './adepta-sororitas.js'

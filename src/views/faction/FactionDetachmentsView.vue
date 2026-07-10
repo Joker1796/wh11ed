@@ -1,27 +1,8 @@
 <template>
-  <div v-if="faction" class="faction-view">
-    <div class="hero">
-      <RouterLink to="/factions" class="back-link">← {{ labels.factionsBack }}</RouterLink>
-      <h1 class="hero-title">{{ faction.name }}</h1>
-    </div>
-
-    <!-- Army Rule -->
-    <section class="fsection" id="army-rule">
-      <h2 class="fsection-title">{{ labels.factionArmyRule }}</h2>
-      <p v-if="faction.armyRule.flavor" class="faction-flavor">{{ faction.armyRule.flavor }}</p>
-      <RuleBlock
-        :id="faction.armyRule.id"
-        :title="faction.armyRule.name"
-        :body="faction.armyRule.body"
-        :example="faction.armyRule.example"
-      />
-    </section>
-
-    <!-- Detachments -->
+  <FactionLayout>
+    <!-- Detachment picker -->
     <section class="fsection" id="detachments">
-      <div class="fsection-eyebrow">{{ labels.factionDetachment }}</div>
-
-      <!-- Detachment picker -->
+      <div class="fsection-eyebrow">{{ labels.factionDetachments }}</div>
       <div v-if="detachments.length > 1" class="det-picker" role="tablist">
         <button
           v-for="d in detachments"
@@ -79,93 +60,24 @@
         </article>
       </div>
     </section>
-
-    <!-- Datasheets (lazy-loaded per faction from src/data/datasheets/<slug>.js) -->
-    <section v-if="datasheets.length" class="fsection" id="datasheets">
-      <h2 class="fsection-title">{{ labels.factionDatasheets }}</h2>
-      <input
-        v-model="dsQuery"
-        type="search"
-        class="ds-search"
-        :placeholder="labels.dsSearch"
-        :aria-label="labels.dsSearch"
-      />
-      <div class="ds-accordion">
-        <div v-for="s in filteredDatasheets" :key="s.id" class="ds-item">
-          <button type="button" class="ds-toggle" :aria-expanded="openDs === s.id" @click="toggleDs(s.id)">
-            <span class="ds-toggle-name">{{ s.name }}</span>
-            <span v-if="s.points" class="ds-toggle-pts">
-              {{ s.points.map((p) => (p.models ? p.models + '× ' : '') + p.points + ' pts').join(' · ') }}
-            </span>
-            <span class="ds-toggle-chevron" :class="{ open: openDs === s.id }">▾</span>
-          </button>
-          <CollapseTransition :show="openDs === s.id">
-            <DatasheetCard :sheet="s" />
-          </CollapseTransition>
-        </div>
-      </div>
-    </section>
-  </div>
-
-  <div v-else class="faction-view">
-    <div class="hero">
-      <RouterLink to="/factions" class="back-link">← {{ labels.factionsBack }}</RouterLink>
-      <h1 class="hero-title">{{ labels.factionsHeading }}</h1>
-    </div>
-    <p class="fsoon">{{ labels.factionsSoon }}</p>
-  </div>
+  </FactionLayout>
 </template>
 
 <script setup>
 import { computed, ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
-import CollapseTransition from '../components/CollapseTransition.vue'
-import DatasheetCard from '../components/DatasheetCard.vue'
-import RuleBlock from '../components/RuleBlock.vue'
-import StratCard from '../components/StratCard.vue'
-import { loadDatasheets } from '../data/datasheets/index.js'
-import { getFaction } from '../data/factions/index.js'
-import { ui } from '../i18n/ui.js'
-import { useLocale } from '../composables/useLocale.js'
-import { useRenderInline } from '../composables/useRenderInline.js'
+import FactionLayout from '../../components/FactionLayout.vue'
+import RuleBlock from '../../components/RuleBlock.vue'
+import StratCard from '../../components/StratCard.vue'
+import { useFactionPage } from '../../composables/useFactionPage.js'
+import { ui } from '../../i18n/ui.js'
+import { useLocale } from '../../composables/useLocale.js'
+import { useRenderInline } from '../../composables/useRenderInline.js'
 
-const route = useRoute()
+const { faction } = useFactionPage()
 const { locale } = useLocale()
 const { renderInline } = useRenderInline()
 const labels = computed(() => ui[locale.value])
 
-// Datasheets are lazy-loaded per faction (each src/data/datasheets/<slug>.js is its own
-// chunk) so the heavy unit data never rides in the shared FactionView bundle.
-const datasheets = ref([])
-const dsQuery = ref('')
-const openDs = ref(null)
-watch(
-  () => route.params.slug,
-  async (slug) => {
-    datasheets.value = []
-    dsQuery.value = ''
-    openDs.value = null
-    if (!slug) return
-    const list = await loadDatasheets(slug)
-    // guard against a stale resolve after a rapid route change
-    if (route.params.slug === slug && list) datasheets.value = list
-  },
-  { immediate: true },
-)
-const filteredDatasheets = computed(() => {
-  const q = dsQuery.value.trim().toLowerCase()
-  if (!q) return datasheets.value
-  return datasheets.value.filter((s) => s.name.toLowerCase().includes(q))
-})
-function toggleDs(id) {
-  openDs.value = openDs.value === id ? null : id
-}
-
-// EN-first: data.ru currently reuses data.en. Resolve the localized object when RU diverges.
-const faction = computed(() => {
-  const data = getFaction(route.params.slug)
-  return data ? (locale.value === 'ru' ? data.ru : data.en) : null
-})
 // Detachments: support the multi-detachment `detachments[]` shape, falling back to the
 // legacy single `detachment` object. A chip picker selects the active one.
 const detachments = computed(() => {
@@ -190,38 +102,6 @@ const det = computed(() => detachments.value.find((d) => d.id === activeId.value
 </script>
 
 <style scoped>
-.faction-view {
-  padding-top: 0.5rem;
-}
-
-.hero {
-  padding: 0.5rem 0 0.9rem;
-  border-bottom: 2px solid var(--accent);
-  margin-bottom: 1.5rem;
-}
-
-.back-link {
-  display: inline-block;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-decoration: none;
-  margin-bottom: 0.6rem;
-}
-
-.back-link:hover {
-  color: var(--accent);
-  text-decoration: none;
-}
-
-.hero-title {
-  font-family: var(--font-display);
-  font-size: 3rem;
-  font-weight: 400;
-  color: var(--text-primary);
-  line-height: 1;
-}
-
 .fsection {
   margin-bottom: 2.5rem;
   scroll-margin-top: var(--header-total);
@@ -397,84 +277,7 @@ const det = computed(() => detachments.value.find((d) => d.id === activeId.value
   color: var(--text-muted);
 }
 
-/* Datasheets */
-.ds-search {
-  width: 100%;
-  max-width: 24rem;
-  padding: 0.5rem 0.7rem;
-  font-size: 0.9rem;
-  color: var(--text-primary);
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  margin-bottom: 0.9rem;
-}
-
-.ds-search:focus {
-  outline: none;
-  border-color: var(--accent);
-}
-
-.ds-accordion {
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-}
-
-.ds-item {
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.ds-toggle {
-  display: flex;
-  align-items: baseline;
-  gap: 0.6rem;
-  width: 100%;
-  text-align: left;
-  padding: 0.55rem 0.9rem;
-  background: var(--bg-card);
-  border: none;
-  cursor: pointer;
-  transition: background var(--motion-fast);
-}
-
-.ds-toggle:hover { background: color-mix(in srgb, var(--accent) 8%, var(--bg-card)); }
-
-.ds-toggle-name {
-  font-family: var(--font-display);
-  font-size: 1.15rem;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  color: var(--text-primary);
-}
-
-.ds-toggle-pts {
-  margin-left: auto;
-  flex-shrink: 0;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: var(--text-muted);
-  white-space: nowrap;
-}
-
-.ds-toggle-chevron {
-  flex-shrink: 0;
-  color: var(--text-muted);
-  transition: transform var(--motion-fast);
-}
-
-.ds-toggle-chevron.open { transform: rotate(180deg); }
-
-.fsoon {
-  color: var(--text-muted);
-  font-size: 1rem;
-}
-
 @media (max-width: 640px) {
-  .hero-title { font-size: 2.2rem; }
   .fsection-title { font-size: 1.6rem; }
 }
 </style>
