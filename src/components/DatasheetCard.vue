@@ -7,14 +7,26 @@
     <div v-for="(p, i) in sheet.profiles" :key="i" class="ds-statline">
       <span v-if="sheet.profiles.length > 1" class="ds-prof-name">{{ p.name }}</span>
       <div class="ds-stats">
-        <div v-for="s in statCells(p)" :key="s.label" class="ds-stat">
-          <span class="ds-stat-label">{{ s.label }}</span>
-          <span class="ds-stat-value">{{ s.value }}</span>
-          <!-- Invulnerable save rides under the armour save, in the "4++" shorthand -->
-          <span v-if="s.label === 'SV' && p.inv" class="ds-stat-inv">{{ p.inv }}+</span>
-        </div>
+        <template v-for="s in statCells(p)" :key="s.label">
+          <!-- The invulnerable save is a second stat box stacked under SV; a conditional
+               (e.g. one-use / ranged-only) invuln gets an asterisk explained below. -->
+          <div v-if="s.label === 'SV' && p.inv" class="ds-stat-col">
+            <div class="ds-stat">
+              <span class="ds-stat-label">{{ s.label }}</span>
+              <span class="ds-stat-value">{{ s.value }}</span>
+            </div>
+            <div class="ds-stat ds-stat-inv">
+              <span class="ds-stat-label">INV</span>
+              <span class="ds-stat-value">{{ p.inv }}{{ p.invNote ? '*' : '' }}</span>
+            </div>
+          </div>
+          <div v-else class="ds-stat">
+            <span class="ds-stat-label">{{ s.label }}</span>
+            <span class="ds-stat-value">{{ s.value }}</span>
+          </div>
+        </template>
       </div>
-      <div v-if="p.invNote" class="ds-inv-note">{{ p.invNote }}</div>
+      <div v-if="p.invNote" class="ds-inv-note">{{ invNoteText(p.invNote) }}</div>
     </div>
 
     <!-- Weapons -->
@@ -119,16 +131,17 @@
         <thead>
           <tr>
             <th class="pname">{{ pointsTable.hasLabels ? '' : labels.dsModels }}</th>
-            <th v-for="t in pointsTable.tiers" :key="t || 'pts'">{{ t || labels.dsPoints }}</th>
+            <th v-for="t in pointsTable.tiers" :key="t || 'pts'">{{ tierLabel(t) }}</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="r in pointsTable.rows" :key="r.key">
             <td class="pname">{{ r.label || r.models }}</td>
-            <td v-for="t in pointsTable.tiers" :key="t || 'pts'">{{ r.cells[t ?? ''] ?? '—' }}</td>
+            <td v-for="t in pointsTable.tiers" :key="t || 'pts'">{{ r.cells[t ?? ''] != null ? r.cells[t ?? ''] + ' pts' : '—' }}</td>
           </tr>
         </tbody>
       </table>
+      <p v-if="pointsTable.tiers.some((t) => t)" class="ds-points-note">{{ labels.dsPointsCopyNote }}</p>
     </div>
   </article>
 </template>
@@ -181,6 +194,22 @@ const pointsTable = computed(() => {
   return { rows, tiers, hasLabels: rows.some((r) => r.label) }
 })
 
+// '1st-2nd' / '3rd+' → "1st–2nd copy" / «1–2-я копия»: which copy of this datasheet
+// in the army the price applies to (explained by the note under the table).
+function tierLabel(tier) {
+  if (!tier) return labels.value.dsPoints
+  if (locale.value === 'ru') {
+    const nums = (tier.match(/\d+/g) || []).join('–')
+    return `${nums}-я${tier.includes('+') ? '+' : ''} копия`
+  }
+  return `${tier.replace('-', '–')} copy`
+}
+
+// invNote data is inconsistent about the leading asterisk — normalize to one '* '.
+function invNoteText(note) {
+  return '* ' + note.replace(/^\*\s*/, '')
+}
+
 // Bold this sheet's faction keywords (ORKS, ADEPTUS ASTARTES…) wherever the rules text
 // mentions them, matching the codex typography. [BRACKET] tags and existing **bold**
 // runs are matched first and passed through untouched so the markup never nests.
@@ -228,7 +257,8 @@ function statCells(p) {
   color: var(--text-muted);
   margin-bottom: 0.25rem;
 }
-.ds-stats { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.ds-stats { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 0.35rem; }
+.ds-stat-col { display: flex; flex-direction: column; gap: 0.35rem; }
 .ds-stat {
   min-width: 3rem;
   text-align: center;
@@ -249,12 +279,8 @@ function statCells(p) {
   font-size: 1.15rem;
   color: var(--text-primary);
 }
-.ds-stat-inv {
-  display: block;
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: var(--accent);
-}
+.ds-stat-inv { border-color: var(--accent); }
+.ds-stat-inv .ds-stat-label, .ds-stat-inv .ds-stat-value { color: var(--accent); }
 .ds-inv-note { font-size: 0.75rem; font-style: italic; color: var(--text-muted); margin-top: 0.25rem; }
 
 /* Points */
@@ -280,6 +306,12 @@ function statCells(p) {
 }
 .ds-points .pname { text-align: left; padding-left: 0; }
 .ds-points td.pname { font-family: var(--font-sans); color: var(--text-muted); white-space: normal; }
+.ds-points-note {
+  margin-top: 0.35rem;
+  font-size: 0.72rem;
+  font-style: italic;
+  color: var(--text-muted);
+}
 
 /* Weapons */
 .ds-weapons { overflow-x: auto; margin-bottom: 0.7rem; }
