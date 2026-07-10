@@ -1,5 +1,5 @@
 <template>
-  <div class="faction-view">
+  <div class="faction-view" :class="{ themed: !!color }" :style="colorVars">
     <div class="hero">
       <RouterLink to="/factions" class="back-link">← {{ labels.factionsBack }}</RouterLink>
       <h1 class="hero-title">{{ faction ? faction.name : labels.factionsHeading }}</h1>
@@ -24,6 +24,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { factionIndexBySlug } from '../data/factionsIndex.js'
 import { useFactionPage } from '../composables/useFactionPage.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
@@ -32,6 +33,13 @@ const route = useRoute()
 const { slug, faction } = useFactionPage()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+
+// Wahapedia-style faction theming: the palette in factionsIndex.js is exposed as two
+// private custom props; the scoped CSS below folds them into --accent per theme.
+const color = computed(() => factionIndexBySlug(slug.value)?.color || null)
+const colorVars = computed(() =>
+  color.value ? { '--fa-light': color.value.light, '--fa-dark': color.value.dark } : undefined,
+)
 
 const tabs = computed(() => {
   const base = `/factions/${slug.value}`
@@ -48,6 +56,43 @@ const tabs = computed(() => {
 <style scoped>
 .faction-view {
   padding-top: 0.5rem;
+}
+
+/* ── Per-faction accent (--fa-light / --fa-dark set inline from factionsIndex.js) ──
+   Mirrors the app's three-step theme resolution in style.css: prefers-color-scheme is
+   the default signal, an explicit :root[data-theme] wins in both directions.
+   --link-accent must be re-declared locally: on :root it is declared as var(--accent)
+   and inherits already computed (the app-wide red), so it would not follow --accent. */
+.faction-view.themed {
+  --accent: var(--fa-light);
+  --accent-hover: color-mix(in srgb, var(--fa-light) 80%, black);
+  --link-accent: var(--accent);
+  --link-accent-hover: var(--accent-hover);
+}
+
+/* Dark theme: links stay the app's gold (--link-accent in style.css is a readability
+   choice there, not the accent) — keep the literals in sync with :root[data-theme='dark']. */
+@media (prefers-color-scheme: dark) {
+  .faction-view.themed {
+    --accent: var(--fa-dark);
+    --accent-hover: color-mix(in srgb, var(--fa-dark) 80%, white);
+    --link-accent: #e8c96a;
+    --link-accent-hover: #f0d98a;
+  }
+}
+
+:global(:root[data-theme='light']) .faction-view.themed {
+  --accent: var(--fa-light);
+  --accent-hover: color-mix(in srgb, var(--fa-light) 80%, black);
+  --link-accent: var(--accent);
+  --link-accent-hover: var(--accent-hover);
+}
+
+:global(:root[data-theme='dark']) .faction-view.themed {
+  --accent: var(--fa-dark);
+  --accent-hover: color-mix(in srgb, var(--fa-dark) 80%, white);
+  --link-accent: #e8c96a;
+  --link-accent-hover: #f0d98a;
 }
 
 .hero {
