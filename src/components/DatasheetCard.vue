@@ -16,6 +16,24 @@
       <div v-if="p.invNote" class="ds-inv-note">{{ p.invNote }}</div>
     </div>
 
+    <!-- Points: unit sizes × MFM copy tiers (1st-2nd / 3rd+ copy of this datasheet) -->
+    <div v-if="pointsTable" class="ds-points">
+      <table>
+        <thead>
+          <tr>
+            <th class="pname">{{ pointsTable.hasLabels ? '' : labels.dsModels }}</th>
+            <th v-for="t in pointsTable.tiers" :key="t || 'pts'">{{ t || labels.dsPoints }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="r in pointsTable.rows" :key="r.key">
+            <td class="pname">{{ r.label || r.models }}</td>
+            <td v-for="t in pointsTable.tiers" :key="t || 'pts'">{{ r.cells[t ?? ''] ?? '—' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
     <!-- Weapons -->
     <div v-if="sheet.ranged" class="ds-weapons">
       <table>
@@ -132,6 +150,38 @@ const labels = computed(() => ui[locale.value])
 
 const coreParts = computed(() => (props.sheet.core ? props.sheet.core.split(/,\s*/) : []))
 
+// MFM points notes are either a bare copy tier ('1st-2nd', '3rd+', '2nd+', '1st-3rd'…),
+// a composition label with the tier in parens ('3 Wolf Guard Headtakers (1st-2nd)'),
+// or absent. Pivot them into rows (unit size / composition) × columns (copy tier).
+const TIER_RE = /^\d+(?:st|nd|rd|th)(?:-\d+(?:st|nd|rd|th))?\+?$/
+function splitNote(note) {
+  if (!note) return { label: null, tier: null }
+  if (TIER_RE.test(note)) return { label: null, tier: note }
+  const m = note.match(/^(.*?)\s*\((\d[^)]*)\)$/)
+  if (m) return { label: m[1], tier: m[2] }
+  return { label: note, tier: null }
+}
+
+const pointsTable = computed(() => {
+  const pts = props.sheet.points
+  // A single flat cost is already fully shown in the accordion toggle — no table needed.
+  if (!pts || pts.length < 2) return null
+  const rows = []
+  const tiers = []
+  for (const p of pts) {
+    const { label, tier } = splitNote(p.note)
+    const key = label ?? String(p.models ?? '')
+    let row = rows.find((r) => r.key === key)
+    if (!row) {
+      row = { key, label, models: p.models, cells: {} }
+      rows.push(row)
+    }
+    if (!tiers.includes(tier)) tiers.push(tier)
+    row.cells[tier ?? ''] = p.points
+  }
+  return { rows, tiers, hasLabels: rows.some((r) => r.label) }
+})
+
 // Bold this sheet's faction keywords (ORKS, ADEPTUS ASTARTES…) wherever the rules text
 // mentions them, matching the codex typography. [BRACKET] tags and existing **bold**
 // runs are matched first and passed through untouched so the markup never nests.
@@ -203,6 +253,30 @@ function statCells(p) {
 .ds-stat-inv { border-color: var(--accent); }
 .ds-stat-inv .ds-stat-label, .ds-stat-inv .ds-stat-value { color: var(--accent); }
 .ds-inv-note { font-size: 0.75rem; font-style: italic; color: var(--text-muted); margin-top: 0.25rem; }
+
+/* Points */
+.ds-points { overflow-x: auto; margin-bottom: 0.7rem; }
+.ds-points table { border-collapse: collapse; font-size: 0.8rem; }
+.ds-points th {
+  text-align: center;
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  padding: 0.2rem 0.7rem;
+  white-space: nowrap;
+}
+.ds-points td {
+  text-align: center;
+  padding: 0.25rem 0.7rem;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+.ds-points .pname { text-align: left; padding-left: 0; }
+.ds-points td.pname { font-family: var(--font-sans); color: var(--text-muted); white-space: normal; }
 
 /* Weapons */
 .ds-weapons { overflow-x: auto; margin-bottom: 0.7rem; }

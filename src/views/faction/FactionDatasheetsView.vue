@@ -11,20 +11,21 @@
           :placeholder="labels.dsSearch"
           :aria-label="labels.dsSearch"
         />
-        <div class="ds-accordion">
-          <div v-for="s in filteredDatasheets" :key="s.id" class="ds-item">
-            <button type="button" class="ds-toggle" :aria-expanded="openDs === s.id" @click="toggleDs(s.id)">
-              <span class="ds-toggle-name">{{ s.name }}</span>
-              <span v-if="s.points" class="ds-toggle-pts">
-                {{ s.points.map((p) => (p.models ? p.models + '× ' : '') + p.points + ' pts').join(' · ') }}
-              </span>
-              <span class="ds-toggle-chevron" :class="{ open: openDs === s.id }">▾</span>
-            </button>
-            <CollapseTransition :show="openDs === s.id">
-              <DatasheetCard :sheet="s" />
-            </CollapseTransition>
+        <template v-for="g in groupedDatasheets" :key="g.key">
+          <h3 class="ds-group-head">{{ g.label }}</h3>
+          <div class="ds-accordion">
+            <div v-for="s in g.sheets" :key="s.id" class="ds-item">
+              <button type="button" class="ds-toggle" :aria-expanded="openDs === s.id" @click="toggleDs(s.id)">
+                <span class="ds-toggle-name">{{ s.name }}</span>
+                <span v-if="s.points" class="ds-toggle-pts">{{ ptsSummary(s.points) }}</span>
+                <span class="ds-toggle-chevron" :class="{ open: openDs === s.id }">▾</span>
+              </button>
+              <CollapseTransition :show="openDs === s.id">
+                <DatasheetCard :sheet="s" />
+              </CollapseTransition>
+            </div>
           </div>
-        </div>
+        </template>
       </template>
       <p v-else-if="loaded" class="ds-empty">{{ labels.factionsSoon }}</p>
     </section>
@@ -74,6 +75,36 @@ const filteredDatasheets = computed(() => {
   return datasheets.value.filter((s) => s.name.toLowerCase().includes(q))
 })
 
+// Codex-style type groups, in roster-building order. A sheet lands in the first group
+// whose keyword it carries (Epic Heroes are also CHARACTER, so precedence matters).
+const TYPE_GROUPS = [
+  { key: 'epic',       kw: 'Epic Hero',           label: 'dsGroupEpicHeroes' },
+  { key: 'character',  kw: 'Character',           label: 'dsGroupCharacters' },
+  { key: 'battleline', kw: 'Battleline',          label: 'dsGroupBattleline' },
+  { key: 'transport',  kw: 'Dedicated Transport', label: 'dsGroupTransports' },
+  { key: 'other',      kw: null,                  label: 'dsGroupOther' },
+]
+
+const groupedDatasheets = computed(() => {
+  const l = labels.value
+  const buckets = TYPE_GROUPS.map((g) => ({ key: g.key, kw: g.kw, label: l[g.label], sheets: [] }))
+  for (const s of filteredDatasheets.value) {
+    buckets.find((b) => !b.kw || (s.keywords || []).includes(b.kw)).sheets.push(s)
+  }
+  return buckets.filter((b) => b.sheets.length)
+})
+
+// Compact points summary for the accordion toggle; the full sizes × copy-tiers
+// breakdown lives in the card's points table (DatasheetCard).
+function ptsSummary(points) {
+  const vals = points.map((p) => p.points)
+  const min = Math.min(...vals)
+  const max = Math.max(...vals)
+  if (min !== max) return `${min}–${max} pts`
+  const models = points[0].models
+  return (models > 1 ? `${models}× ` : '') + `${min} pts`
+}
+
 function toggleDs(id) {
   openDs.value = openDs.value === id ? null : id
 }
@@ -108,6 +139,18 @@ function toggleDs(id) {
 .ds-search:focus {
   outline: none;
   border-color: var(--accent);
+}
+
+.ds-group-head {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--accent);
+  margin: 1.4rem 0 0.6rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--border);
 }
 
 .ds-accordion {
