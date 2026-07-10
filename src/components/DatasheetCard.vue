@@ -10,10 +10,8 @@
         <div v-for="s in statCells(p)" :key="s.label" class="ds-stat">
           <span class="ds-stat-label">{{ s.label }}</span>
           <span class="ds-stat-value">{{ s.value }}</span>
-        </div>
-        <div v-if="p.inv" class="ds-stat ds-stat-inv">
-          <span class="ds-stat-label">INV</span>
-          <span class="ds-stat-value">{{ p.inv }}</span>
+          <!-- Invulnerable save rides under the armour save, in the "4++" shorthand -->
+          <span v-if="s.label === 'SV' && p.inv" class="ds-stat-inv">{{ p.inv }}+</span>
         </div>
       </div>
       <div v-if="p.invNote" class="ds-inv-note">{{ p.invNote }}</div>
@@ -251,8 +249,12 @@ function statCells(p) {
   font-size: 1.15rem;
   color: var(--text-primary);
 }
-.ds-stat-inv { border-color: var(--accent); }
-.ds-stat-inv .ds-stat-label, .ds-stat-inv .ds-stat-value { color: var(--accent); }
+.ds-stat-inv {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent);
+}
 .ds-inv-note { font-size: 0.75rem; font-style: italic; color: var(--text-muted); margin-top: 0.25rem; }
 
 /* Points */
