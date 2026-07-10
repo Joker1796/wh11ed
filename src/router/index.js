@@ -29,6 +29,7 @@ const FactionsListView  = () => import('../views/FactionsListView.vue')
 const FactionRuleView        = () => import('../views/faction/FactionRuleView.vue')
 const FactionDetachmentsView = () => import('../views/faction/FactionDetachmentsView.vue')
 const FactionDatasheetsView  = () => import('../views/faction/FactionDatasheetsView.vue')
+const FactionDatasheetView   = () => import('../views/faction/FactionDatasheetView.vue')
 
 export const navGroups = [
   { label: 'Introduction',        path: '/introduction',   sections: [] },
@@ -303,6 +304,7 @@ export const router = createRouter({
     { path: '/factions/:slug',             component: FactionRuleView },
     { path: '/factions/:slug/detachments', component: FactionDetachmentsView },
     { path: '/factions/:slug/datasheets',  component: FactionDatasheetsView },
+    { path: '/factions/:slug/datasheets/:unit', component: FactionDatasheetView },
     // Game-time stratagem reference. Reachable only via the mobile bottom-nav (and direct
     // URL on desktop) — intentionally not in navGroups / NavSidebar / the top navbar.
     { path: '/stratagems', component: StratagemsView },

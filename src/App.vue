@@ -123,7 +123,7 @@
             :key="item.path"
             :to="item.path"
             class="subnav-link"
-            :class="{ active: $route.path === item.path }"
+            :class="{ active: $route.path === item.path || (item.prefix && $route.path.startsWith(item.path + '/')) }"
           >{{ item.label }}</RouterLink>
         </div>
       </nav>
@@ -297,7 +297,8 @@ const factionSubNavItems = computed(() => {
   return [
     { path: base, label: l.factionArmyRule },
     { path: `${base}/detachments`, label: l.factionDetachments },
-    { path: `${base}/datasheets`, label: l.factionDatasheets },
+    // prefix: the per-unit pages (/datasheets/:unit) keep this item highlighted
+    { path: `${base}/datasheets`, label: l.factionDatasheets, prefix: true },
   ]
 })
 

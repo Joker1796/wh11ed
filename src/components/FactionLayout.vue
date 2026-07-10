@@ -11,7 +11,7 @@
           :key="t.path"
           :to="t.path"
           class="faction-tab"
-          :class="{ active: route.path === t.path }"
+          :class="{ active: route.path === t.path || (t.prefix && route.path.startsWith(t.path + '/')) }"
         >{{ t.label }}</RouterLink>
       </nav>
     </div>
@@ -39,7 +39,8 @@ const tabs = computed(() => {
   return [
     { path: base, label: l.factionArmyRule },
     { path: `${base}/detachments`, label: l.factionDetachments },
-    { path: `${base}/datasheets`, label: l.factionDatasheets },
+    // prefix: the per-unit pages (/datasheets/:unit) keep this tab highlighted
+    { path: `${base}/datasheets`, label: l.factionDatasheets, prefix: true },
   ]
 })
 </script>

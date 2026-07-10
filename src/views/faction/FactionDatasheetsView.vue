@@ -14,19 +14,17 @@
         <template v-for="g in groupedDatasheets" :key="g.key">
           <h3 class="ds-group-head">{{ g.label }}</h3>
           <div class="ds-grid">
-            <button v-for="s in g.sheets" :key="s.id" type="button" class="ds-chip" @click="openSheet = s">
+            <RouterLink
+              v-for="s in g.sheets"
+              :key="s.id"
+              :to="`/factions/${slug}/datasheets/${s.id}`"
+              class="ds-chip"
+            >
               <span class="ds-chip-name">{{ s.name }}</span>
               <span v-if="s.points" class="ds-chip-pts">{{ ptsSummary(s.points) }}</span>
-            </button>
+            </RouterLink>
           </div>
         </template>
-
-        <DatasheetModal
-          v-if="openSheet"
-          :sheet="openSheet"
-          :faction-name="faction?.name"
-          @close="openSheet = null"
-        />
       </template>
       <p v-else-if="loaded" class="ds-empty">{{ labels.factionsSoon }}</p>
     </section>
@@ -36,15 +34,14 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import DatasheetModal from '../../components/DatasheetModal.vue'
 import FactionLayout from '../../components/FactionLayout.vue'
-import { loadDatasheets } from '../../data/datasheets/index.js'
+import { loadDatasheets, ptsSummary } from '../../data/datasheets/index.js'
 import { ui } from '../../i18n/ui.js'
 import { useFactionPage } from '../../composables/useFactionPage.js'
 import { useLocale } from '../../composables/useLocale.js'
 
 const route = useRoute()
-const { faction } = useFactionPage()
+const { slug } = useFactionPage()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
@@ -53,20 +50,16 @@ const labels = computed(() => ui[locale.value])
 const datasheets = ref([])
 const loaded = ref(false)
 const dsQuery = ref('')
-// The sheet currently open in the DatasheetModal (null = closed). The list keeps its
-// search text and scroll position while the modal is up — that was the accordion's flaw.
-const openSheet = ref(null)
 watch(
   () => route.params.slug,
-  async (slug) => {
+  async (s) => {
     datasheets.value = []
     loaded.value = false
     dsQuery.value = ''
-    openSheet.value = null
-    if (!slug) return
-    const list = await loadDatasheets(slug)
+    if (!s) return
+    const list = await loadDatasheets(s)
     // guard against a stale resolve after a rapid route change
-    if (route.params.slug !== slug) return
+    if (route.params.slug !== s) return
     if (list) datasheets.value = list
     loaded.value = true
   },
@@ -99,16 +92,6 @@ const groupedDatasheets = computed(() => {
   return buckets.filter((b) => b.sheets.length)
 })
 
-// Compact points summary for the accordion toggle; the full sizes × copy-tiers
-// breakdown lives in the card's points table (DatasheetCard).
-function ptsSummary(points) {
-  const vals = points.map((p) => p.points)
-  const min = Math.min(...vals)
-  const max = Math.max(...vals)
-  if (min !== max) return `${min}–${max} pts`
-  const models = points[0].models
-  return (models > 1 ? `${models}× ` : '') + `${min} pts`
-}
 </script>
 
 <style scoped>
@@ -171,8 +154,11 @@ function ptsSummary(points) {
   border: 1px solid var(--border);
   border-radius: 6px;
   cursor: pointer;
+  text-decoration: none;
   transition: background var(--motion-fast), border-color var(--motion-fast);
 }
+
+.ds-chip:hover { text-decoration: none; }
 
 .ds-chip:hover {
   background: color-mix(in srgb, var(--accent) 8%, var(--bg-card));

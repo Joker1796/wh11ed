@@ -8,3 +8,15 @@ export function loadDatasheets(slug) {
   const loader = modules[`./${slug}.js`]
   return loader ? loader().then((m) => m.default) : Promise.resolve(null)
 }
+
+// Compact points summary (flat cost or min–max range) shared by the list chips and the
+// datasheet page header; the full sizes × copy-tiers breakdown lives in DatasheetCard.
+export function ptsSummary(points) {
+  if (!points?.length) return ''
+  const vals = points.map((p) => p.points)
+  const min = Math.min(...vals)
+  const max = Math.max(...vals)
+  if (min !== max) return `${min}–${max} pts`
+  const models = points[0].models
+  return (models > 1 ? `${models}× ` : '') + `${min} pts`
+}
