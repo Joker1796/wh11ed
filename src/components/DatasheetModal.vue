@@ -126,4 +126,11 @@ async function copyName() {
 .dsm-close {
   font-size: 1.1rem;
 }
+
+/* BaseModal caps the dialog height; the body is the scroll container (the global
+   .modal-body rule only adds overscroll-behavior, not the overflow itself). */
+.modal-body {
+  overflow-y: auto;
+  min-height: 0;
+}
 </style>

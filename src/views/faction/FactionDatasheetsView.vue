@@ -86,6 +86,7 @@ const TYPE_GROUPS = [
   { key: 'character',  kw: 'Character',           label: 'dsGroupCharacters' },
   { key: 'battleline', kw: 'Battleline',          label: 'dsGroupBattleline' },
   { key: 'transport',  kw: 'Dedicated Transport', label: 'dsGroupTransports' },
+  { key: 'fortification', kw: 'Fortification',    label: 'dsGroupFortifications' },
   { key: 'other',      kw: null,                  label: 'dsGroupOther' },
 ]
 
