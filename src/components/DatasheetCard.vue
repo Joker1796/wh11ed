@@ -1,5 +1,8 @@
 <template>
   <article class="ds-card">
+    <!-- Lore (hidden app-wide by the "Hide lore" toggle via data-hide-lore) -->
+    <p v-if="sheet.flavor" class="ds-flavor">{{ sheet.flavor }}</p>
+
     <!-- Stat profiles -->
     <div v-for="(p, i) in sheet.profiles" :key="i" class="ds-statline">
       <span v-if="sheet.profiles.length > 1" class="ds-prof-name">{{ p.name }}</span>
@@ -14,24 +17,6 @@
         </div>
       </div>
       <div v-if="p.invNote" class="ds-inv-note">{{ p.invNote }}</div>
-    </div>
-
-    <!-- Points: unit sizes × MFM copy tiers (1st-2nd / 3rd+ copy of this datasheet) -->
-    <div v-if="pointsTable" class="ds-points">
-      <table>
-        <thead>
-          <tr>
-            <th class="pname">{{ pointsTable.hasLabels ? '' : labels.dsModels }}</th>
-            <th v-for="t in pointsTable.tiers" :key="t || 'pts'">{{ t || labels.dsPoints }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="r in pointsTable.rows" :key="r.key">
-            <td class="pname">{{ r.label || r.models }}</td>
-            <td v-for="t in pointsTable.tiers" :key="t || 'pts'">{{ r.cells[t ?? ''] ?? '—' }}</td>
-          </tr>
-        </tbody>
-      </table>
     </div>
 
     <!-- Weapons -->
@@ -130,7 +115,23 @@
       </div>
     </div>
 
-    <p v-if="sheet.flavor" class="ds-flavor">{{ sheet.flavor }}</p>
+    <!-- Points: unit sizes × MFM copy tiers (1st-2nd / 3rd+ copy of this datasheet) -->
+    <div v-if="pointsTable" class="ds-points">
+      <table>
+        <thead>
+          <tr>
+            <th class="pname">{{ pointsTable.hasLabels ? '' : labels.dsModels }}</th>
+            <th v-for="t in pointsTable.tiers" :key="t || 'pts'">{{ t || labels.dsPoints }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="r in pointsTable.rows" :key="r.key">
+            <td class="pname">{{ r.label || r.models }}</td>
+            <td v-for="t in pointsTable.tiers" :key="t || 'pts'">{{ r.cells[t ?? ''] ?? '—' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </article>
 </template>
 
@@ -255,7 +256,7 @@ function statCells(p) {
 .ds-inv-note { font-size: 0.75rem; font-style: italic; color: var(--text-muted); margin-top: 0.25rem; }
 
 /* Points */
-.ds-points { overflow-x: auto; margin-bottom: 0.7rem; }
+.ds-points { overflow-x: auto; margin-top: 0.8rem; }
 .ds-points table { border-collapse: collapse; font-size: 0.8rem; }
 .ds-points th {
   text-align: center;
@@ -346,7 +347,7 @@ function statCells(p) {
 }
 
 .ds-flavor {
-  margin-top: 0.7rem;
+  margin-bottom: 0.8rem;
   font-style: italic;
   font-size: 0.82rem;
   line-height: 1.5;
