@@ -15,16 +15,6 @@
             <i :class="copied ? 'bi bi-check2' : 'bi bi-clipboard'"></i>
           </button>
           <a
-            :href="googleUrl"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="dsm-btn"
-            :title="labels.dsSearchGoogle"
-            :aria-label="labels.dsSearchGoogle"
-          >
-            <i class="bi bi-search"></i>
-          </a>
-          <a
             :href="imageUrl"
             target="_blank"
             rel="noopener noreferrer"
@@ -63,7 +53,6 @@ const labels = computed(() => ui[locale.value])
 
 // Same query Wahapedia uses for its "Search for model's image on the Internet" icon.
 const query = computed(() => encodeURIComponent(`Warhammer 40000 ${props.factionName} ${props.sheet.name}`.trim()))
-const googleUrl = computed(() => `https://www.google.com/search?q=${query.value}`)
 const imageUrl = computed(() => `https://www.google.com/search?tbm=isch&q=${query.value}%20miniature`)
 
 const copied = ref(false)
