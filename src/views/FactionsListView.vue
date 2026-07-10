@@ -51,9 +51,9 @@ function groupLabelKey(id) {
 
 .hero {
   text-align: center;
-  padding: 1.5rem 0 0.7rem;
+  padding: 1rem 0 0.6rem;
   border-bottom: 2px solid var(--accent);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.2rem;
 }
 
 .hero-title {
@@ -76,7 +76,7 @@ function groupLabelKey(id) {
 .groups {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 2rem 3rem;
+  gap: 1.4rem 2.5rem;
 }
 
 .group-title {
@@ -105,9 +105,9 @@ function groupLabelKey(id) {
   display: flex;
   align-items: baseline;
   gap: 0.6rem;
-  padding: 0.35rem 0;
+  padding: 0.16rem 0;
   font-family: var(--font-display);
-  font-size: 1.55rem;
+  font-size: 1.25rem;
   font-weight: 400;
   color: var(--text-primary);
   text-decoration: none;
@@ -139,7 +139,7 @@ a.faction-link:hover {
 
 @media (max-width: 640px) {
   .hero-title { font-size: 2.3rem; }
-  .groups { grid-template-columns: 1fr; gap: 1.5rem; }
-  .faction-link { font-size: 1.35rem; }
+  .groups { grid-template-columns: 1fr; gap: 1.1rem; }
+  .faction-link { font-size: 1.15rem; }
 }
 </style>
