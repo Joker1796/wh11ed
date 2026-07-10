@@ -46,57 +46,70 @@
 
     <!-- Abilities -->
     <div class="ds-abilities">
-      <p v-if="sheet.core" class="ds-ability-line"><strong>{{ labels.dsCore }}:</strong> <span v-html="renderInline(sheet.core)"></span></p>
-      <p v-if="sheet.faction" class="ds-ability-line"><strong>{{ labels.dsFaction }}:</strong> <span v-html="renderInline(sheet.faction)"></span></p>
+      <!-- Core abilities are clickable keywords: Leader, Deep Strike, Scouts 9"… all
+           resolve in KeywordPopover via the coreAbilities lookup (exact or prefix match). -->
+      <p v-if="sheet.core" class="ds-ability-line">
+        <strong>{{ labels.dsCore }}:</strong>
+        <template v-for="(c, i) in coreParts" :key="c">{{ i ? ', ' : ' ' }}<span class="keyword">{{ c }}</span></template>
+      </p>
+      <p v-if="sheet.faction" class="ds-ability-line">
+        <strong>{{ labels.dsFaction }}:</strong> <span class="ds-faction-rule">{{ sheet.faction }}</span>
+      </p>
       <div v-for="a in sheet.abilities" :key="a.name" class="ds-ability">
-        <strong>{{ a.name }}:</strong> <span v-html="renderInline(a.text)"></span>
+        <strong>{{ a.name }}:</strong> <span v-html="dsText(a.text)"></span>
       </div>
       <template v-if="sheet.wargearAbilities">
         <h5 class="ds-group-title">{{ labels.dsWargearAbilities }}</h5>
         <div v-for="a in sheet.wargearAbilities" :key="a.name" class="ds-ability">
-          <strong>{{ a.name }}:</strong> <span v-html="renderInline(a.text)"></span>
+          <strong>{{ a.name }}:</strong> <span v-html="dsText(a.text)"></span>
         </div>
       </template>
       <div v-for="a in sheet.specialAbilities" :key="a.name" class="ds-ability">
-        <strong>{{ a.name }}:</strong> <span v-html="renderInline(a.text)"></span>
+        <strong>{{ a.name }}:</strong> <span v-html="dsText(a.text)"></span>
       </div>
       <div v-if="sheet.damaged" class="ds-damaged">
         <strong>{{ labels.dsDamaged }}: {{ sheet.damaged.note }}</strong>
-        <div v-html="renderInline(sheet.damaged.text)"></div>
+        <div v-html="dsText(sheet.damaged.text)"></div>
       </div>
     </div>
 
     <!-- Transport / Leader -->
     <div v-if="sheet.transport" class="ds-block">
       <h5 class="ds-group-title">{{ labels.dsTransport }}</h5>
-      <div v-html="renderInline(sheet.transport)"></div>
+      <div v-html="dsText(sheet.transport)"></div>
     </div>
     <div v-if="sheet.leader" class="ds-block">
       <h5 class="ds-group-title">{{ labels.dsLeader }}</h5>
-      <div v-html="renderInline(sheet.leader.text)"></div>
+      <div v-html="dsText(sheet.leader.text)"></div>
       <ul class="ds-list">
         <li v-for="u in sheet.leader.units" :key="u">{{ u }}</li>
       </ul>
-      <div v-if="sheet.leader.footer" v-html="renderInline(sheet.leader.footer)"></div>
+      <div v-if="sheet.leader.footer" v-html="dsText(sheet.leader.footer)"></div>
     </div>
 
     <!-- Composition / loadout / options -->
     <div v-if="sheet.composition || sheet.loadout" class="ds-block">
       <h5 class="ds-group-title">{{ labels.dsComposition }}</h5>
       <ul v-if="sheet.composition" class="ds-list">
-        <li v-for="c in sheet.composition" :key="c" v-html="renderInline(c)"></li>
+        <li v-for="c in sheet.composition" :key="c" v-html="dsText(c)"></li>
       </ul>
-      <div v-if="sheet.loadout" class="ds-loadout" v-html="renderInline(sheet.loadout)"></div>
+      <div v-if="sheet.loadout" class="ds-loadout" v-html="dsText(sheet.loadout)"></div>
     </div>
     <div v-if="sheet.options" class="ds-block">
       <h5 class="ds-group-title">{{ labels.dsOptions }}</h5>
-      <div v-for="(o, i) in sheet.options" :key="i" class="ds-option" v-html="renderInline(o)"></div>
+      <div v-for="(o, i) in sheet.options" :key="i" class="ds-option" v-html="dsText(o)"></div>
     </div>
 
     <!-- Keywords -->
     <div class="ds-keywords">
-      <div><strong>{{ labels.dsKeywords }}:</strong> {{ sheet.keywords.join(', ') }}</div>
-      <div><strong>{{ labels.dsFactionKeywords }}:</strong> {{ sheet.factionKeywords.join(', ') }}</div>
+      <div>
+        <strong>{{ labels.dsKeywords }}:</strong>
+        <template v-for="(k, i) in sheet.keywords" :key="k">{{ i ? ', ' : ' ' }}<span class="ds-kw">{{ k }}</span></template>
+      </div>
+      <div>
+        <strong>{{ labels.dsFactionKeywords }}:</strong>
+        <template v-for="(k, i) in sheet.factionKeywords" :key="k">{{ i ? ', ' : ' ' }}<span class="ds-kw">{{ k }}</span></template>
+      </div>
     </div>
 
     <p v-if="sheet.flavor" class="ds-flavor">{{ sheet.flavor }}</p>
@@ -109,13 +122,31 @@ import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useRenderInline } from '../composables/useRenderInline.js'
 
-defineProps({
+const props = defineProps({
   sheet: { type: Object, required: true },
 })
 
 const { locale } = useLocale()
 const { renderInline } = useRenderInline()
 const labels = computed(() => ui[locale.value])
+
+const coreParts = computed(() => (props.sheet.core ? props.sheet.core.split(/,\s*/) : []))
+
+// Bold this sheet's faction keywords (ORKS, ADEPTUS ASTARTES…) wherever the rules text
+// mentions them, matching the codex typography. [BRACKET] tags and existing **bold**
+// runs are matched first and passed through untouched so the markup never nests.
+const factionKwRegex = computed(() => {
+  const kws = (props.sheet.factionKeywords || [])
+    .map((k) => k.toUpperCase().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+    .sort((a, b) => b.length - a.length)
+  return kws.length ? new RegExp(`\\[[^\\]]*\\]|\\*\\*.*?\\*\\*|\\b(${kws.join('|')})\\b`, 'g') : null
+})
+
+function dsText(text) {
+  const re = factionKwRegex.value
+  const marked = re ? text.replace(re, (m, kw) => (kw ? `**${kw}**` : m)) : text
+  return renderInline(marked)
+}
 
 function statCells(p) {
   return [
@@ -199,6 +230,7 @@ function statCells(p) {
 
 /* Abilities */
 .ds-abilities { font-size: 0.85rem; line-height: 1.5; color: var(--text-primary); }
+.ds-faction-rule { font-weight: 600; }
 .ds-ability-line { margin-bottom: 0.3rem; }
 .ds-ability { margin-bottom: 0.45rem; }
 .ds-group-title {
@@ -231,6 +263,12 @@ function statCells(p) {
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
+}
+
+.ds-kw {
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-primary);
 }
 
 .ds-flavor {

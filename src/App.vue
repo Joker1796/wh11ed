@@ -116,7 +116,7 @@
 
     <!-- Subnav: core rules links (hidden on the section-less landing & links pages) -->
     <Transition name="fade">
-      <nav v-if="!isLanding && !isLinksRoute && !isFactionRoute" class="subnav">
+      <nav v-if="!isLanding && !isLinksRoute && (!isFactionRoute || isFactionDetailRoute)" class="subnav">
         <div class="subnav-inner">
           <RouterLink
             v-for="item in subNavItems"
@@ -237,6 +237,8 @@ const coreRoutes = ['/introduction', '/basic-rules', '/battle-round', '/battlefi
 const isLanding = computed(() => route.path === '/')
 const isLinksRoute = computed(() => route.path === '/links')
 const isFactionRoute = computed(() => route.path.startsWith('/factions'))
+// A specific faction's pages (/factions/:slug...) get their own subnav; the /factions list doesn't.
+const isFactionDetailRoute = computed(() => isFactionRoute.value && !!route.params.slug)
 const isEventRoute = computed(() => route.path.startsWith('/event-companion'))
 const isMissionsRoute = computed(() => route.path === '/event-companion/missions')
 const isStratagemsRoute = computed(() => route.path === '/stratagems')
@@ -289,11 +291,22 @@ const trackerSubNavItems = computed(() => {
   ]
 })
 
+const factionSubNavItems = computed(() => {
+  const l = labels.value
+  const base = `/factions/${route.params.slug}`
+  return [
+    { path: base, label: l.factionArmyRule },
+    { path: `${base}/detachments`, label: l.factionDetachments },
+    { path: `${base}/datasheets`, label: l.factionDatasheets },
+  ]
+})
+
 const subNavItems = computed(() => {
   // /stratagems rides with the tracker subnav so reaching it from there keeps the
   // Game Tracker / Current Game tabs in view (desktop has no "Back to game" bar).
   if (isTrackerRoute.value || isStratagemsRoute.value) return trackerSubNavItems.value
   if (isEventRoute.value) return eventSubNavItems.value
+  if (isFactionDetailRoute.value) return factionSubNavItems.value
   return coreSubNavItems.value
 })
 
