@@ -148,13 +148,17 @@
         <i class="bi bi-book-half"></i>
         <span>{{ labels.navCoreRulesShort }}</span>
       </RouterLink>
+      <button type="button" class="bn-item" :class="{ active: isFactionRoute }" @click="showFactions = true">
+        <i class="bi bi-shield-shaded"></i>
+        <span>{{ labels.navFactions }}</span>
+      </button>
+      <RouterLink v-if="isUnitRoute" :to="unitsListPath" class="bn-item">
+        <i class="bi bi-people-fill"></i>
+        <span>{{ labels.factionDatasheets }}</span>
+      </RouterLink>
       <RouterLink to="/stratagems" class="bn-item" :class="{ active: isStratagemsRoute }">
         <i class="bi bi-lightning-charge"></i>
         <span>{{ labels.navStratagemsShort }}</span>
-      </RouterLink>
-      <RouterLink to="/event-companion/missions" class="bn-item" :class="{ active: isMissionsRoute }">
-        <i class="bi bi-card-checklist"></i>
-        <span>{{ labels.subNavEventMissions }}</span>
       </RouterLink>
       <RouterLink to="/tracker" class="bn-item" :class="{ active: isTrackerRoute }">
         <i class="bi bi-clipboard-data"></i>
@@ -164,6 +168,7 @@
 
     <SearchModal v-if="searchOpen" @close="searchOpen = false" />
     <InstallHintModal v-if="installHintOpen" @close="installHintOpen = false" />
+    <FactionsNavModal v-if="showFactions" @close="showFactions = false" />
     <KeywordPopover />
     <Transition name="slide-up">
       <ResumeGameButton v-if="showResumeGame" />
@@ -180,6 +185,7 @@ import { useRoute } from 'vue-router'
 // its index. Async-loading it keeps those data files out of the initial bundle.
 const SearchModal = defineAsyncComponent(() => import('./components/SearchModal.vue'))
 const InstallHintModal = defineAsyncComponent(() => import('./components/InstallHintModal.vue'))
+const FactionsNavModal = defineAsyncComponent(() => import('./components/FactionsNavModal.vue'))
 import KeywordPopover from './components/KeywordPopover.vue'
 import NavSidebar from './components/NavSidebar.vue'
 import UpdateToast from './components/UpdateToast.vue'
@@ -202,6 +208,7 @@ const mobileNavOpen = ref(false)
 const searchOpen = ref(false)
 const settingsOpen = ref(false)
 const installHintOpen = ref(false)
+const showFactions = ref(false)
 
 function toggleSettings() {
   settingsOpen.value = !settingsOpen.value
@@ -239,8 +246,11 @@ const isLinksRoute = computed(() => route.path === '/links')
 const isFactionRoute = computed(() => route.path.startsWith('/factions'))
 // A specific faction's pages (/factions/:slug...) get their own subnav; the /factions list doesn't.
 const isFactionDetailRoute = computed(() => isFactionRoute.value && !!route.params.slug)
+// A single unit's datasheet (/factions/:slug/datasheets/:unit) — the bottom nav adds a "Units" link
+// back to that faction's datasheet list while one is open.
+const isUnitRoute = computed(() => isFactionRoute.value && !!route.params.unit)
+const unitsListPath = computed(() => `/factions/${route.params.slug}/datasheets`)
 const isEventRoute = computed(() => route.path.startsWith('/event-companion'))
-const isMissionsRoute = computed(() => route.path === '/event-companion/missions')
 const isStratagemsRoute = computed(() => route.path === '/stratagems')
 const isTrackerRoute = computed(() => route.path.startsWith('/tracker'))
 
@@ -320,6 +330,7 @@ function onKeydown(e) {
     searchOpen.value = false
     mobileNavOpen.value = false
     settingsOpen.value = false
+    showFactions.value = false
     closeKeyword()
   }
 }
@@ -822,6 +833,15 @@ onUnmounted(() => {
     font-size: 0.64rem;
     font-weight: 500;
     text-align: center;
+  }
+
+  /* The Factions item is a <button> (opens a modal) — strip native button chrome so it
+     matches the RouterLink tabs. */
+  button.bn-item {
+    background: none;
+    border: none;
+    font-family: inherit;
+    cursor: pointer;
   }
 
   .bn-item i {
