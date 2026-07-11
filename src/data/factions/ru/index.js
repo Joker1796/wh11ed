@@ -6,9 +6,13 @@
 // useFactionPage only in the RU locale, so the overlays never enter the EN bundle.
 const modules = import.meta.glob(['./*.js', '!./index.js'])
 
+// Resolves the RU overlay MODULE for a faction (or null). The module's `default` export is
+// the sparse overlay merged by deepOverlay; an optional `stratNamesRu` named export maps
+// English stratagem names → RU display names (see useFactionPage). Returning the whole
+// module namespace keeps both available from a single lazy import.
 export function loadFactionRu(slug) {
   const loader = modules[`./${slug}.js`]
-  return loader ? loader().then((m) => m.default) : Promise.resolve(null)
+  return loader ? loader().then((m) => m) : Promise.resolve(null)
 }
 
 // Merge a sparse RU overlay over the EN object: objects merge per key, arrays per index
