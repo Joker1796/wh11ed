@@ -1,8 +1,6 @@
 <template>
-  <FactionLayout>
+  <FactionLayout :hero="false">
     <section class="fsection">
-      <RouterLink :to="`/factions/${slug}/datasheets`" class="ds-back">← {{ labels.factionDatasheets }}</RouterLink>
-
       <template v-if="sheet">
         <div class="ds-head">
           <h2 class="ds-title">{{ sheet.name }}</h2>
@@ -19,15 +17,17 @@
               <i :class="copied ? 'bi bi-check2' : 'bi bi-clipboard'"></i>
             </button>
             <button
+              v-if="sheet.flavor && !hideLore"
+              ref="loreBtn"
               type="button"
               class="ds-btn"
-              :class="{ copied: showLore }"
-              :title="showLore ? labels.loreHide : labels.loreShow"
-              :aria-label="showLore ? labels.loreHide : labels.loreShow"
-              :aria-pressed="showLore"
-              @click="showLore = !showLore"
+              :class="{ copied: loreOpen }"
+              :title="loreOpen ? labels.loreHide : labels.loreShow"
+              :aria-label="loreOpen ? labels.loreHide : labels.loreShow"
+              :aria-pressed="loreOpen"
+              @click="toggleLorePopover"
             >
-              <i :class="showLore ? 'bi bi-book-fill' : 'bi bi-book'"></i>
+              <i :class="loreOpen ? 'bi bi-book-fill' : 'bi bi-book'"></i>
             </button>
             <a
               :href="imageUrl"
@@ -41,15 +41,33 @@
             </a>
           </div>
         </div>
-        <DatasheetCard :sheet="sheet" :show-flavor="showLore" />
+        <DatasheetCard :sheet="sheet" />
       </template>
       <p v-else-if="loaded" class="ds-missing">{{ labels.factionsSoon }}</p>
     </section>
+
+    <Teleport to="body">
+      <Transition name="fade">
+        <div
+          v-if="loreOpen && sheet"
+          ref="lorePopEl"
+          class="ds-lore-pop"
+          :style="lorePos"
+          role="dialog"
+          aria-modal="false"
+          :aria-label="labels.loreShow"
+          @click.stop
+        >
+          <button class="ds-lore-close" :aria-label="labels.modalClose" @click="closeLore">✕</button>
+          <p class="ds-lore-text">{{ sheet.flavor }}</p>
+        </div>
+      </Transition>
+    </Teleport>
   </FactionLayout>
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import DatasheetCard from '../../components/DatasheetCard.vue'
 import FactionLayout from '../../components/FactionLayout.vue'
@@ -57,11 +75,13 @@ import { loadDatasheets, ptsSummary } from '../../data/datasheets/index.js'
 import { ui } from '../../i18n/ui.js'
 import { useFactionPage } from '../../composables/useFactionPage.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { useLoreVisibility } from '../../composables/useLoreVisibility.js'
 
 const route = useRoute()
 const { slug, faction } = useFactionPage()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+const { hideLore } = useLoreVisibility()
 
 const datasheets = ref([])
 const loaded = ref(false)
@@ -87,9 +107,64 @@ const imageUrl = computed(() => {
   return `https://www.google.com/search?tbm=isch&q=${q}%20miniature`
 })
 
-// Lore hidden by default; the book icon reveals it (the app-wide "Hide lore"
-// toggle still wins — data-hide-lore hides .ds-flavor regardless).
-const showLore = ref(false)
+// Lore lives in an anchored popover opened by the book button (not in the card).
+// Anchored/fixed popover recipe mirrors KeywordPopover.vue: capture the trigger rect at
+// open time, position `fixed`, and dismiss on scroll/resize since it can't follow the page.
+const loreOpen = ref(false)
+const loreAnchor = ref(null)
+const loreBtn = ref(null)
+const lorePopEl = ref(null)
+
+function toggleLorePopover(e) {
+  if (loreOpen.value) { closeLore(); return }
+  loreAnchor.value = e.currentTarget.getBoundingClientRect()
+  loreOpen.value = true
+}
+function closeLore() { loreOpen.value = false }
+
+function dismissOnMove() { if (loreOpen.value) closeLore() }
+function onKeydown(e) { if (e.key === 'Escape') closeLore() }
+function onDocClick(e) {
+  if (lorePopEl.value?.contains(e.target) || loreBtn.value?.contains(e.target)) return
+  closeLore()
+}
+
+watch(loreOpen, (open) => {
+  if (open) {
+    window.addEventListener('scroll', dismissOnMove, { capture: true, passive: true })
+    window.addEventListener('resize', dismissOnMove, { passive: true })
+    document.addEventListener('keydown', onKeydown)
+    document.addEventListener('click', onDocClick)
+  } else {
+    window.removeEventListener('scroll', dismissOnMove, { capture: true })
+    window.removeEventListener('resize', dismissOnMove)
+    document.removeEventListener('keydown', onKeydown)
+    document.removeEventListener('click', onDocClick)
+  }
+})
+onUnmounted(() => {
+  window.removeEventListener('scroll', dismissOnMove, { capture: true })
+  window.removeEventListener('resize', dismissOnMove)
+  document.removeEventListener('keydown', onKeydown)
+  document.removeEventListener('click', onDocClick)
+})
+
+const lorePos = computed(() => {
+  const r = loreAnchor.value
+  if (!r) return {}
+  const vw = window.innerWidth
+  const vh = window.innerHeight
+  const popW = Math.min(340, vw - 16)
+  const spaceBelow = vh - r.bottom
+  const left = Math.max(8, Math.min(r.right - popW, vw - popW - 8))
+  const style = { width: popW + 'px', left: left + 'px' }
+  if (spaceBelow < 200 && r.top > spaceBelow) {
+    style.bottom = (vh - r.top + 8) + 'px'
+  } else {
+    style.top = (r.bottom + 8) + 'px'
+  }
+  return style
+})
 
 const copied = ref(false)
 let copyTimer = null
@@ -110,20 +185,6 @@ async function copyName() {
 .fsection {
   margin-bottom: 2.5rem;
   scroll-margin-top: var(--header-total);
-}
-
-.ds-back {
-  display: inline-block;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-decoration: none;
-  margin-bottom: 0.7rem;
-}
-
-.ds-back:hover {
-  color: var(--accent);
-  text-decoration: none;
 }
 
 .ds-head {
@@ -186,6 +247,43 @@ async function copyName() {
 .ds-btn.copied {
   color: var(--accent);
   border-color: var(--accent);
+}
+
+/* Anchored lore popover (teleported to body — scoped styles still apply to it). */
+.ds-lore-pop {
+  position: fixed;
+  z-index: 500;
+  background: var(--bg-insert);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55);
+  padding: 0.75rem 2.1rem 0.8rem 0.9rem;
+}
+
+.ds-lore-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.6rem;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  font-size: 0.85rem;
+  line-height: 1;
+  padding: 0;
+  transition: color var(--motion-fast);
+}
+
+.ds-lore-close:hover {
+  color: #fff;
+}
+
+.ds-lore-text {
+  margin: 0;
+  font-style: italic;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--text-on-dark);
 }
 
 .ds-missing {

@@ -2,6 +2,9 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+> Родительская папка `../` содержит второй проект (бэкенд `../wh11ed-api`) и общий обзор —
+> см. [`../CLAUDE.md`](../CLAUDE.md) (маршрутизация фронт/бэк и стиль работы).
+
 ## Commands
 
 ```bash

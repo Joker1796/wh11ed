@@ -550,7 +550,6 @@ strong {
 [data-hide-lore="true"] .tcard-flavor,
 [data-hide-lore="true"] .mcard-lore,
 [data-hide-lore="true"] .faction-flavor,
-[data-hide-lore="true"] .ds-flavor,
 [data-hide-lore="true"] .section-desc {
   display: none !important;
 }
