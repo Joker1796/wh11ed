@@ -1,4 +1,39 @@
 // T'au Empire — русский перевод правил фракции (оверлей, см. ./index.js).
+// RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
+export const stratNamesRu = {
+  'Wall of Mirrors': 'Стена зеркал',
+  'A Tempting Trap': 'Заманчивая ловушка',
+  'Coordinate to Engage': 'Согласовать атаку',
+  'Point-Blank Ambush': 'Засада в упор',
+  'Photon Grenades': 'Фотонные гранаты',
+  'Combat Embarkation': 'Боевая посадка',
+  'Join the Hunt': 'Присоединиться к охоте',
+  'A Trap Well Laid': 'Умело поставленная ловушка',
+  'The Grisly Feast': 'Жуткий пир',
+  'Guerrilla Warriors': 'Партизаны',
+  'Hidden Hunters': 'Скрытые охотники',
+  'EMP Grenades': 'ЭМИ-гранаты',
+  'Aggressive Mobility': 'Агрессивная мобильность',
+  'Pinpoint Counter-Offensive': 'Точечное контрнаступление',
+  'Focused Fire': 'Сосредоточенный огонь',
+  'Combat Debarkation': 'Боевая высадка',
+  'Pulse Onslaught': 'Импульсный натиск',
+  'Counterfire Defence Systems': 'Системы контрбатарейной защиты',
+  'The Arro’kon Protocol': 'Протокол Арро’кон',
+  'Fail-Safe Detonator': 'Отказоустойчивый детонатор',
+  'The Shortened Blade': 'Укороченный клинок',
+  'The Torchstar Gambit': 'Гамбит «Факелозвезда»',
+  'Grav-Inhibitor Field': 'Поле грави-ингибитора',
+  'Stimm Injectors': 'Инъекторы стиммов',
+  'Marker Beacon': 'Маркер-маяк',
+  'Microdrone Support': 'Поддержка микродронов',
+  'Autoreactive Camouflage': 'Авторективный камуфляж',
+  'Experimental Modifications': 'Экспериментальные модификации',
+  'Alien Expertise': 'Инопланетное мастерство',
+  'Guided by Unity': 'Ведомы Единством',
+  'Experimental Ammunition': 'Экспериментальные боеприпасы',
+}
+
 export default {
   armyRule: {
     flavor:

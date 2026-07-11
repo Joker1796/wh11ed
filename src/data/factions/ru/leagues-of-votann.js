@@ -4,6 +4,58 @@
 // ALL-CAPS ключевые слова, [BRACKET]-способности и имена юнитов остаются английскими.
 // Механики Prioritised Efficiency / Yield points (YP) / Hostile Acquisition / Fortify Takeover
 // оставлены английскими. Порядок массивов detachments/stratagems/enhancements = EN-файлу.
+// RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
+export const stratNamesRu = {
+  'Bastion Running': 'Бастионный марш',
+  'Vengeance Flare': 'Вспышка возмездия',
+  'Opportunistic Escalation': 'Оппортунистичная эскалация',
+  'Inexorable Efficiency': 'Неумолимая эффективность',
+  'Secure Positions': 'Закрепить позиции',
+  'Illuminated Priority': 'Подсвеченный приоритет',
+  'Cyberstimm Infusion': 'Вливание киберстиммов',
+  'Hidden Accessways': 'Скрытые проходы',
+  'Unstoppable Force': 'Неудержимая сила',
+  'Tectonic Fracture': 'Тектонический разлом',
+  'Augmented Assault': 'Аугментированный штурм',
+  'Weavewërke Buttress': 'Опора Weavewërke',
+  'Brëkkeknots': 'Брёккекноты',
+  'Fury of the Hearth': 'Ярость Очага',
+  'Superior Craftsmanship': 'Превосходное мастерство',
+  'Unyielding Aggression': 'Несгибаемая агрессия',
+  'Materialisation Matrices': 'Матрицы материализации',
+  'Sure of Purpose': 'Уверены в цели',
+  'Unwavering Accuracy': 'Непоколебимая точность',
+  'Wall of Steel': 'Стальная стена',
+  'Cogitated Need': 'Расчётливая необходимость',
+  'First Concern': 'Первоочередная забота',
+  'Preventative Purge': 'Превентивная чистка',
+  'Delayed-Fire Rounds': 'Снаряды замедленного действия',
+  'Auxiliary Contract': 'Вспомогательный контракт',
+  'New Horizons': 'Новые горизонты',
+  'Grand Artifice': 'Великая уловка',
+  'Mobile Exploitation': 'Мобильное использование',
+  'Optimal Expenditure': 'Оптимальный расход',
+  'Privateer Arsenal': 'Арсенал капера',
+  'Ancestral Sentence': 'Приговор предков',
+  'Honour of the Hold': 'Честь Твердыни',
+  'Huntr’S Mark': 'Метка охотника',
+  'Ordered Retreat': 'Организованный отход',
+  'Reactive Reprisal': 'Реактивное возмездие',
+  'Void Hardened': 'Закалены пустотой',
+  'Ranger Tactics': 'Тактика рейнджеров',
+  'Frontier Momentum': 'Порыв фронтира',
+  'Exposed Flaws': 'Обнажённые изъяны',
+  'Dispersed Formation': 'Рассредоточенный строй',
+  'Claimstaker Reflex': 'Рефлекс застолбителя',
+  'Adaptable Avarice': 'Гибкая алчность',
+  'Coordinated Crossfire': 'Согласованный перекрёстный огонь',
+  'Outflanking Armour': 'Обходящая с фланга броня',
+  'Built to Last': 'Сделаны на века',
+  'Scornful Analysis': 'Презрительный анализ',
+  'No Shot Wasted': 'Ни выстрела впустую',
+  'Economy of Motion': 'Экономия движения',
+}
+
 export default {
   armyRule: {
     flavor:

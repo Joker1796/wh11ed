@@ -1,4 +1,38 @@
 // Imperial Agents — русский перевод правил фракции (оверлей, см. ./index.js).
+// RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
+export const stratNamesRu = {
+  'Close-Quarters Barrage': 'Заградительный огонь в упор',
+  'Masters of the Void': 'Владыки пустоты',
+  'Selfless Bodyguard': 'Самоотверженный телохранитель',
+  'Emperor’S Will': 'Воля Императора',
+  'Violent Acquisition': 'Жестокое изъятие',
+  'Displacer Field': 'Поле смещения',
+  'Dispense Justice': 'Вершить правосудие',
+  'Execution Order': 'Приказ о ликвидации',
+  'Inviolate Jurisdiction': 'Неприкосновенная юрисдикция',
+  'Exact Punishment': 'Взыскать кару',
+  'Line of Fire': 'Линия огня',
+  'Stun Grenades': 'Оглушающие гранаты',
+  'Steel Heart': 'Стальное сердце',
+  'Rites of Exorcism': 'Обряды экзорцизма',
+  'Ritual of Warding': 'Ритуал оберегания',
+  'Hexagrammic Wards': 'Гексаграммические обереги',
+  'Psybolt Ammunition': 'Псиболтовые боеприпасы',
+  'Truesilver Armour': 'Доспех из истинного серебра',
+  'Armour of Contempt': 'Броня презрения',
+  'Adaptive Tactics': 'Гибкая тактика',
+  'Rapid Tactical Relocation': 'Быстрая тактическая передислокация',
+  'Hellfire Rounds': 'Патроны «Адское пламя»',
+  'Dragonfire Rounds': 'Патроны «Драконье пламя»',
+  'Kraken Rounds': 'Патроны «Кракен»',
+  'Prime Target': 'Приоритетная цель',
+  'Hyperstimms': 'Гиперстимуляторы',
+  'Orbital Oversight': 'Орбитальный надзор',
+  'Will-sapping Salvo': 'Залп, подавляющий волю',
+  'Blind Grenades': 'Слепящие гранаты',
+  'Ensnaring Trap': 'Ловушка-западня',
+}
+
 export default {
   armyRule: {
     flavor:

@@ -4,6 +4,56 @@
 // ALL-CAPS ключевые слова, [BRACKET]-способности и имена юнитов остаются английскими.
 // Механики Shadow of Chaos / Flux tokens / боги (Khorne/Tzeentch/Nurgle/Slaanesh) — англ.
 // Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN-файлом.
+// RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
+export const stratNamesRu = {
+  'Sheathed in Brass': 'Окованы латунью',
+  'Fools’ Flight': 'Полёт глупцов',
+  'Wrath Undeniable': 'Неоспоримый гнев',
+  'Gore‑hungry Onslaught': 'Жаждущий крови натиск',
+  'Skulls Beget Blood': 'Черепа порождают кровь',
+  'Blood Begets Skulls': 'Кровь порождает черепа',
+  'Draught of Terror': 'Глоток ужаса',
+  'Daemonic Invulnerability': 'Демоническая неуязвимость',
+  'The Realm of Chaos': 'Царство Хаоса',
+  'Warp Surge': 'Всплеск варпа',
+  'Corrupt Realspace': 'Осквернить реальное пространство',
+  'Denizens of the Warp': 'Обитатели варпа',
+  'Overwhelming Excess': 'Подавляющее излишество',
+  'Archagonists': 'Архагонисты',
+  'Cavalcade of Blades': 'Кавалькада клинков',
+  'Thieves of Pain': 'Похитители боли',
+  'Sensory Excruciation': 'Сенсорная пытка',
+  'Phantasmal Longing': 'Призрачное томление',
+  'Fever Visions': 'Лихорадочные видения',
+  'Murkshadows': 'Мракотени',
+  'Seeping Virulence': 'Сочащаяся зараза',
+  'Foetid Resurgence': 'Смрадное возрождение',
+  'Rot and Renewal': 'Гниль и обновление',
+  'Plague of Woes': 'Чума бедствий',
+  'Pyrogenesis': 'Пирогенез',
+  'Fateborne Nightmares': 'Кошмары, рождённые судьбой',
+  'Flickering Reality': 'Мерцающая реальность',
+  'Impossible Eclipse': 'Невозможное затмение',
+  'Ficklefire': 'Изменчивый огонь',
+  'Delirium Unmade': 'Развоплощённый бред',
+  'Encroaching Darkness': 'Наступающая тьма',
+  'Shade Path': 'Тропа теней',
+  'Death Denied': 'Смерть отвергнута',
+  'Channelled Wrath': 'Направленный гнев',
+  'Spiteful Demise': 'Злобная гибель',
+  'Binding Shadow': 'Связующая тень',
+  'From Beyond the Veil': 'Из-за завесы',
+  'Warp-Riders': 'Наездники варпа',
+  'Inescapable Manifestations': 'Неотвратимые проявления',
+  'Carnival of Excess': 'Карнавал излишеств',
+  'Call to Murder': 'Зов к убийству',
+  'Bilious Blessing': 'Желчное благословение',
+  'Skirling Magicks': 'Визжащие чары',
+  'Daemonic Infestation': 'Демоническое нашествие',
+  'Soulseeing': 'Видение душ',
+  'Incorporeal Entities': 'Бестелесные сущности',
+}
+
 export default {
   armyRule: {
     flavor:

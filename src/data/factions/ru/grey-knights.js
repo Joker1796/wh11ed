@@ -4,6 +4,55 @@
 // ALL-CAPS ключевые слова, [BRACKET]-способности и имена юнитов остаются английскими.
 // Механики Gate of Infinity / Hallowed Ground / Deep Strike оставлены английскими.
 // Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN-файлом.
+// RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
+export const stratNamesRu = {
+  'Aggressive Anticipation': 'Агрессивное упреждение',
+  'Appointed Hour': 'Назначенный час',
+  'Forewarned Evasion': 'Упреждающее уклонение',
+  'Necessary End': 'Необходимый конец',
+  'Redirected Strike': 'Перенаправленный удар',
+  'Mirage of Echoes': 'Мираж отголосков',
+  'Hexwrought Reprisal': 'Возмездие, сотканное чарами',
+  'Warding Chant': 'Оберегающее песнопение',
+  'Chaos Bane': 'Погибель Хаоса',
+  'Celerity': 'Стремительность',
+  'Shadow of Anarch': 'Тень Анарха',
+  'Circle of Sanctuary': 'Круг святилища',
+  'Purgation Pattern': 'Схема очищения',
+  'Shining Veil': 'Сияющая завеса',
+  'Combat Manifestation': 'Боевое проявление',
+  'Truesilver Channelling': 'Проводимость истинного серебра',
+  'Duty Unending': 'Нескончаемый долг',
+  'Expeditious Exit': 'Спешный отход',
+  'Giants of the Battlefield': 'Гиганты поля боя',
+  'Grind Them Underfoot': 'Растоптать их',
+  'Unending Fidelity': 'Нескончаемая верность',
+  'Shining Resolve': 'Сияющая решимость',
+  'Precognitive Strategies': 'Предвидящие стратегии',
+  'Point-Blank Purgation': 'Очищение в упор',
+  'Abominus-Class Targets': 'Цели класса «Абоминус»',
+  'Truesilver Will': 'Воля истинного серебра',
+  'Argent Wrath': 'Серебряный гнев',
+  'Force Wave': 'Силовая волна',
+  'Redoubled Assault': 'Удвоенный штурм',
+  'Armoured Aegis': 'Бронированная эгида',
+  'Sanctified Kill Zone': 'Освящённая зона поражения',
+  'Hallowed Beacon': 'Священный маяк',
+  'Fires of Covenant': 'Огни завета',
+  'Aegis Eternal': 'Вечная эгида',
+  'Repelling Sphere': 'Отражающая сфера',
+  'Flames of Sanctity': 'Пламя святости',
+  'Truesilver Aegis': 'Эгида истинного серебра',
+  'A Threat Ended': 'Угроза устранена',
+  'Aura of Vengeance': 'Аура возмездия',
+  'Soul-locked': 'Скованная душа',
+  'Focused Immolation': 'Сосредоточенное испепеление',
+  'Spiritsear': 'Выжигание духа',
+  'Blades from the Beyond': 'Клинки из-за грани',
+  'By Thought Alone': 'Одной лишь мыслью',
+  'Responsive Displacement': 'Ответное перемещение',
+}
+
 export default {
   armyRule: {
     flavor:

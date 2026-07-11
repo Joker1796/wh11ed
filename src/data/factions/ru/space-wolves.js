@@ -2,6 +2,43 @@
 const chapterLock =
   '\n\n**Ограничения:** ваша армия может включать юниты SPACE WOLVES, но не может включать юниты ADEPTUS ASTARTES любого другого ордена.'
 
+// RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
+export const stratNamesRu = {
+  'Unbridled Ferocity': 'Необузданная свирепость',
+  'Pinning Fire': 'Прижимающий огонь',
+  'Shock Cavalry': 'Ударная кавалерия',
+  'Coordinated Strike': 'Согласованный удар',
+  'Impetuosity': 'Стремительность',
+  'Thunderous Pursuit': 'Громовое преследование',
+  'Inspiring Presence': 'Вдохновляющее присутствие',
+  'Heroic Resolve': 'Героическая решимость',
+  'Countercharge': 'Контрнападение',
+  'Champion’S Guidance': 'Наставление чемпиона',
+  'Birth of a Saga': 'Рождение саги',
+  'Alpha Strike': 'Упреждающий удар',
+  'Grimnar’S Command': 'Приказ Гримнара',
+  'Eye of the Pack': 'Око стаи',
+  'Battle Instincts': 'Боевые инстинкты',
+  'The Foe Foreseen': 'Предвиденный враг',
+  'Fenrisian Ferocity': 'Фенрисийская свирепость',
+  'Unrelenting Hunters': 'Неумолимые охотники',
+  'Marked for Destruction': 'Помечен на уничтожение',
+  'Overwhelming Onslaught': 'Подавляющий натиск',
+  'Bounding Advance': 'Скачкообразное продвижение',
+  'Territorial Advantage': 'Территориальное преимущество',
+  'Hunters’ Trail': 'Тропа охотников',
+  'Chosen Prey': 'Избранная добыча',
+  'Wolf Totems': 'Волчьи тотемы',
+  'Runes of Claiming': 'Руны притязания',
+  'Stalk Between Worlds': 'Поступь меж миров',
+  'Fangs of the Pack': 'Клыки стаи',
+  'Chilling Howl': 'Леденящий вой',
+  'Wings of the Blizzard': 'Крылья метели',
+  'Grizzled Killers': 'Матёрые убийцы',
+  'Icy Calm': 'Ледяное спокойствие',
+  'Blade-keen Senses': 'Острые как клинок чувства',
+}
+
 export default {
   armyRule: {
     flavor:

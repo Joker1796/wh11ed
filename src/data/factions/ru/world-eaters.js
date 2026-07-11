@@ -1,4 +1,47 @@
 // World Eaters — русский перевод правил фракции (оверлей, см. ./index.js).
+// RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
+export const stratNamesRu = {
+  'Hack and Slash': 'Руби и кромсай',
+  'Frenzied Resilience': 'Неистовая живучесть',
+  'Blood Offering': 'Кровавое подношение',
+  'Apoplectic Frenzy': 'Апоплексическое неистовство',
+  'Skulls for the Skull Throne!': 'Черепа для Трона Черепов!',
+  'Berzerker’S Wrath': 'Гнев берсерка',
+  'Bloodthirsty Horde': 'Кровожадная орда',
+  'Bloody Vengeance': 'Кровавое возмездие',
+  'Brazen Idol': 'Медный идол',
+  'Drawn to the Slaughter': 'Влекомые к бойне',
+  'In the Shadow of Brass Idols': 'В тени латунных идолов',
+  'Fail not the Blood God': 'Не подведи Кровавого Бога',
+  'Fury Unleashed': 'Спущенная ярость',
+  'Endless Pursuit of Violence': 'Бесконечная жажда насилия',
+  'Smash Through': 'Проломить',
+  'Aggressive Disembarkation': 'Агрессивная высадка',
+  'Full-Throttle Assault': 'Штурм на полном ходу',
+  'Unrelenting Advance': 'Неумолимое наступление',
+  'Daemonic Fury': 'Демоническая ярость',
+  'Blessing of Burning Blood': 'Благословение горящей крови',
+  'A Worthy Skull': 'Достойный череп',
+  'Murder-Call': 'Зов убийства',
+  'Summoned by Slaughter': 'Призванные бойней',
+  'Daemontide': 'Демонический прилив',
+  'Daemonic Strength': 'Демоническая сила',
+  'Immortal Fury': 'Бессмертная ярость',
+  'Daemonic Resistance': 'Демоническая стойкость',
+  'Rapid Manifestation': 'Быстрое проявление',
+  'Horrifying Violence': 'Ужасающее насилие',
+  'Warp Stalkers': 'Крадущиеся варпа',
+  'Apoplectic Clarity': 'Апоплексическая ясность',
+  'Trail of Destruction': 'След разрушения',
+  'Goaded to Fury': 'Раззадорены до ярости',
+  'Focused Ferocity': 'Сосредоточенная свирепость',
+  'A Trophy for the Throne': 'Трофей для Трона',
+  'Wrath Beyond Reason': 'Гнев вне рассудка',
+  'Scorn the Witch': 'Презрение к колдуну',
+  'Aspire to Infamy': 'Стремление к дурной славе',
+  'Punish the Craven': 'Покарать труса',
+}
+
 export default {
   armyRule: {
     flavor:

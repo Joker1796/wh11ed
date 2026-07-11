@@ -4,6 +4,45 @@
 // DEATH COMPANY, JUMP PACK и т.п.), [BRACKET]-способности, теги GRACE/DOOMED, имена
 // детачментов/стратагем/улучшений и структурные метки боевых размеров (Incursion и т.д.).
 
+// RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
+export const stratNamesRu = {
+  'Focused Fury': 'Сосредоточенная ярость',
+  'Armour of Contempt': 'Броня презрения',
+  'In the Shadow of Great Wings': 'В тени великих крыл',
+  'Instant of Grace': 'Миг благодати',
+  'Strike Now for Glory': 'Бей ныне во славу',
+  'Unto the Burning Skies': 'К пылающим небесам',
+  'Savage Echoes': 'Свирепые отголоски',
+  'Red Rampage': 'Красное неистовство',
+  'Angelic Grace': 'Ангельская благодать',
+  'Relentless Assault': 'Неумолимый штурм',
+  'Aggressive Onslaught': 'Агрессивный натиск',
+  'A Grim Warning': 'Мрачное предостережение',
+  'Deathless Duty': 'Бессмертный долг',
+  'Limb from Limb': 'Разорвать на части',
+  'Red Wrath': 'Красный гнев',
+  'Insensate Rampage': 'Безрассудное неистовство',
+  'Martial Exemplars': 'Образцы воинского искусства',
+  'Angel’S Sacrifice': 'Жертва ангела',
+  'Death from the Skies': 'Смерть с небес',
+  'Unbridled Ardour': 'Необузданный пыл',
+  'Descent of Angels': 'Сошествие ангелов',
+  'Furious Onslaught': 'Яростный натиск',
+  'Lost to Rage': 'Поглощённые яростью',
+  'Glorious Sacrifice': 'Славная жертва',
+  'Final Retribution': 'Последнее возмездие',
+  'Wrathful Rampage': 'Гневное неистовство',
+  'Martial Paragon': 'Образец воинской доблести',
+  'Soul-darkened Fury': 'Ярость почерневшей души',
+  "Aura of the Angel's Grace": 'Аура ангельской благодати',
+  'Judgement of the Golden Host': 'Суд золотого воинства',
+  'Inexorable Valour': 'Неумолимая доблесть',
+  'Blinding Blurs of Vengeance': 'Слепящие вихри возмездия',
+  'Death Begets Vengeance': 'Смерть порождает возмездие',
+  'No Barrier to Retribution': 'Нет преград возмездию',
+  'Rage-fuelled Response': 'Ответ, движимый яростью',
+}
+
 export default {
   armyRule: {
     flavor:

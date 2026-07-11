@@ -13,6 +13,45 @@ const armourOfContempt = {
 const daOnly =
   'ваша армия может включать юниты Dark Angels, но не может включать юниты Adeptus Astartes любого другого ордена.'
 
+// RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
+export const stratNamesRu = {
+  'Armour of Contempt': 'Броня презрения',
+  'Fire Discipline': 'Огневая дисциплина',
+  'Unforgiven Fury': 'Ярость Непрощённых',
+  'Grim Retribution': 'Мрачное возмездие',
+  'Intractable': 'Непреклонность',
+  'Unbreakable Lines': 'Несокрушимые рубежи',
+  'Relic Teleportarium': 'Реликтовый телепортариум',
+  'Martial Mastery': 'Воинское мастерство',
+  'Wrath of the Lion': 'Гнев Льва',
+  'Duty unto Death': 'Долг до самой смерти',
+  'Unmatched Fortitude': 'Непревзойдённая стойкость',
+  "Hunters' Trail": 'Тропа охотников',
+  'Death on the Wind': 'Смерть на ветру',
+  'High-Speed Focus': 'Скоростная концентрация',
+  'Talon Strike': 'Удар когтя',
+  'Rapid Reappraisal': 'Быстрая переоценка',
+  'Searing Bursts': 'Обжигающие очереди',
+  'No Sacrifice Too Great': 'Нет непосильной жертвы',
+  'Revelation of Guilt': 'Откровение вины',
+  'Skyborne Surveillance': 'Воздушная разведка',
+  'Wings of Shadow': 'Крылья тени',
+  'We Are Vengeance': 'Мы — возмездие',
+  'Exacting Punishment': 'Взыскующая кара',
+  'Terrifying Zeal': 'Устрашающее рвение',
+  'Wages of Cowardice': 'Плата за трусость',
+  'Overpowering Exaction': 'Подавляющее взыскание',
+  'Knights of Iron': 'Железные рыцари',
+  'Strength in Unity': 'Сила в единстве',
+  'Illuminating Fire': 'Озаряющий огонь',
+  'Inescapable Wrath': 'Неотвратимый гнев',
+  'Inescapable Justice': 'Неотвратимое правосудие',
+  'Tactical Mastery': 'Тактическое мастерство',
+  "Lion's Will": 'Воля Льва',
+  'Relics of the Dark Age': 'Реликвии Тёмной Эры',
+  'Leonine Aggression': 'Львиная агрессия',
+}
+
 export default {
   armyRule: {
     flavor:

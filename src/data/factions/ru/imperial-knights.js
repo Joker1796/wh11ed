@@ -4,6 +4,48 @@
 // ALL-CAPS ключевые слова, [BRACKET]-способности и имена юнитов остаются английскими.
 // Механики Code Chivalric / Oath / Deed / Quality / Bondsman / Honoured оставлены английскими.
 // Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN-файлом.
+// RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
+export const stratNamesRu = {
+  'Strength from Exile': 'Сила из изгнания',
+  'Survivor of Strife': 'Переживший распрю',
+  'Noble Sacrifice': 'Благородная жертва',
+  'Flanking Manoeuvres': 'Фланговые манёвры',
+  'Point-blank Barrage': 'Заградительный огонь в упор',
+  'Full Tilt': 'Во весь опор',
+  'Steadfast Superiority': 'Стойкое превосходство',
+  'Drive Them Out!': 'Выбить их!',
+  'Marshal the Defence': 'Организовать оборону',
+  'Titanic Bombardment': 'Титаническая бомбардировка',
+  'Fortress of Intimidation': 'Крепость устрашения',
+  'Lancebreaker': 'Сокрушитель копий',
+  'Courageous Stand': 'Мужественный отпор',
+  'Driven by the Past': 'Ведомый прошлым',
+  'Unstoppable Warrior': 'Неудержимый воин',
+  'Moment of Glory': 'Миг славы',
+  'Hero’S Tread': 'Поступь героя',
+  'Titanic Duel': 'Титаническая дуэль',
+  'Thin Their Ranks': 'Проредить их ряды',
+  'Exemplar’S Wisdom': 'Мудрость образцового рыцаря',
+  'Virtue of Courage': 'Добродетель отваги',
+  'Let Duty Be Your Shield': 'Пусть долг станет твоим щитом',
+  'Mantle of the Mentor': 'Мантия наставника',
+  'Squires Ofthe Hunt': 'Оруженосцы охоты',
+  'Thunderstomp': 'Громовой топот',
+  'Vow of Retribution': 'Обет возмездия',
+  'Tactical Foil': 'Тактический контрход',
+  'Run Them Through!': 'Пронзить их!',
+  'Rotate Ion Shields': 'Развернуть ионные щиты',
+  'Ground-shaking Strides': 'Сотрясающие землю шаги',
+  'Foebreaker Firestorm': 'Огненный шторм сокрушителя врагов',
+  'Fire Shocked': 'Огневое подавление',
+  "Omnissiah's Grace": 'Милость Омниссии',
+  'Vengeance of the Machine Cult': 'Возмездие Культа Машины',
+  'In the Shadow of Giants': 'В тени гигантов',
+  'Neural Lash': 'Нейронный хлыст',
+  'Helm Conditioning': 'Настройка шлема',
+  'Honoured to Serve': 'Честь служить',
+}
+
 export default {
   armyRule: {
     flavor:

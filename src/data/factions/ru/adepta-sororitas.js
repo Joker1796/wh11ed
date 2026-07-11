@@ -3,6 +3,46 @@
 // restrictions, тексты улучшений). Названия детачментов, стратагем, улучшений и правил,
 // ALL-CAPS ключевые слова, [BRACKET]-способности и имена юнитов остаются английскими.
 // Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN-файлом.
+// RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
+export const stratNamesRu = {
+  'Shield of Faith': 'Щит веры',
+  'Faith and Fury': 'Вера и ярость',
+  'Divine Guidance': 'Божественное водительство',
+  'Light of the Emperor': 'Свет Императора',
+  'Angelic Descent': 'Ангельское сошествие',
+  'Blinding Radiance': 'Слепящее сияние',
+  'Blazing Ire': 'Пылающий гнев',
+  'Rites of Fire': 'Обряды огня',
+  'Cleansing Flames': 'Очищающее пламя',
+  'Righteous Blows': 'Праведные удары',
+  'Shield of Aversion': 'Щит отвращения',
+  'Carry Forth the Faithful': 'Несите верных вперёд',
+  'To the Heart of Heresy': 'В сердце ереси',
+  'Path of the Righteous': 'Путь праведных',
+  'Bastion of Faith': 'Бастион веры',
+  'Shield of Denial': 'Щит отрицания',
+  'Suffer Not the Unfaithful': 'Не потерпите неверных',
+  'Indefatigable Dedication': 'Неутомимая преданность',
+  'Righteous Vengeance': 'Праведное возмездие',
+  'Divine Intervention': 'Божественное вмешательство',
+  'Suffering and Sacrifice': 'Страдание и жертва',
+  'Sanctified Immolation': 'Освящённое испепеление',
+  'Spirit of the Martyr': 'Дух мученика',
+  'Praise the Fallen': 'Восславьте павших',
+  'Purity of Suffering': 'Чистота страдания',
+  'Lash of Guilt': 'Плеть вины',
+  'Passion of the Penitent': 'Страсть кающегося',
+  'Final Redemption': 'Последнее искупление',
+  'Devout Fanaticism': 'Благочестивый фанатизм',
+  'Boundless Zeal': 'Безграничное рвение',
+  'Inspirational Battle Canticles': 'Вдохновляющие боевые канты',
+  'Harmonised Exorcism': 'Согласованный экзорцизм',
+  'Devastating Reprise': 'Опустошительная реприза',
+  'Sanctified Blows': 'Освящённые удары',
+  'Faithful Fortitude': 'Верная стойкость',
+  'Unflinching Determination': 'Непоколебимая решимость',
+}
+
 export default {
   armyRule: {
     flavor:

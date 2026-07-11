@@ -2,6 +2,34 @@
 const chapterLock =
   '\n\n**Ограничения:** ваша армия может включать юниты Black Templars, но не может включать юниты Adeptus Astartes любого другого ордена.'
 
+// RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
+export const stratNamesRu = {
+  'Devout Push': 'Благочестивый натиск',
+  'Hearts Hardened to Duty': 'Сердца, закалённые долгом',
+  "For the Emperor's Honour!": 'За честь Императора!',
+  'Pious Enmity': 'Благочестивая вражда',
+  'Heresy Begets Retribution': 'Ересь порождает возмездие',
+  'Dread Crusaders': 'Грозные крестоносцы',
+  'Refusal to Yield': 'Отказ уступить',
+  'Litanies of Purgation': 'Литании очищения',
+  'Spoor of the Unholy': 'След нечестивых',
+  "Reclaim Our Honour!": 'Вернём нашу честь!',
+  'Recitation of the Revered': 'Речение почитаемых',
+  'Perfervid Intervention': 'Пылкое вмешательство',
+  'A Ceaseless Cause': 'Неустанное дело',
+  'Focused Hatred': 'Сосредоточенная ненависть',
+  'Uncompromising Egress': 'Бескомпромиссный отход',
+  'Gauntlet of the God-Emperor': 'Латная перчатка Бога-Императора',
+  'Condemnatory Info-screed': 'Обличающая инфо-литания',
+  'Blessed Hull': 'Благословлённый корпус',
+  'Slayers of Abominations': 'Убийцы мерзостей',
+  'Blade of Detestation': 'Клинок отвращения',
+  'Unsparing Execution': 'Беспощадная казнь',
+  'Fuelled by Faith': 'Движимые верой',
+  'Castigate the Demagogues': 'Покарать демагогов',
+  'Rite of Perfervid Wrath': 'Обряд пылкого гнева',
+}
+
 export default {
   armyRule: {
     flavor:
