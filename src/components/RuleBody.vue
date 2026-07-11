@@ -43,7 +43,10 @@
     <div v-else-if="block.type === 'img-group'" class="img-group">
       <AppImage v-for="(item, k) in block.srcs" :key="k" :src="item.src" :alt="item.alt" />
     </div>
-    <h4 v-else-if="block.type === 'h4'" :id="id ? h4AnchorId(id, block.n) : undefined" class="rule-subheading" v-html="renderInline(block.text)"></h4>
+    <h4 v-else-if="block.type === 'h4'" :id="id ? h4AnchorId(id, block.n) : undefined" class="rule-subheading">
+      <span v-html="renderInline(block.text)"></span>
+      <span v-if="block.ru" class="rule-subheading-ru">{{ block.ru }}</span>
+    </h4>
     <p v-else v-html="renderInline(block.text)"></p>
   </template>
 </template>
@@ -150,7 +153,16 @@ const blocks = computed(() => {
       if (cardRows.length) cardRows[cardRows.length - 1].items.push(line.replace(/^[▪•▫]\s*/, '').trim())
     } else if (isSubheading) {
       flush()
-      result.push({ type: 'h4', text: line.slice(4), n: ++h4n })
+      // A subheading may carry a RU translation after ` | ` (faction rule bodies), shown as
+      // a small muted line under the English heading — mirrors the bilingual rule/name titles.
+      const raw = line.slice(4)
+      const pipe = raw.indexOf(' | ')
+      result.push({
+        type: 'h4',
+        text: pipe >= 0 ? raw.slice(0, pipe) : raw,
+        ru: pipe >= 0 ? raw.slice(pipe + 3).trim() : undefined,
+        n: ++h4n,
+      })
     } else if (isBullet) {
       if (mode !== 'ul') { flush(); mode = 'ul' }
       buf.push(line)
@@ -187,6 +199,18 @@ p {
   color: var(--text-primary);
   margin: 0.75rem 0 0.25rem;
   scroll-margin-top: 100px;
+}
+
+/* RU translation of an English subheading — small muted line tucked under it */
+.rule-subheading-ru {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  opacity: 0.75;
+  line-height: 1.1;
+  margin-top: -1px;
 }
 
 .rule-list {

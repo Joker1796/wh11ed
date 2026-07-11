@@ -43,6 +43,29 @@ export const stratNamesRu = {
   'Rage-fuelled Response': 'Ответ, движимый яростью',
 }
 
+export const armyRuleNameRu = 'Клятва момента'
+
+export const detNamesRu = {
+  'Angelic Inheritors': 'Ангельские наследники',
+  'Liberator Assault Group': 'Штурмовая группа «Освободитель»',
+  'Rage-Cursed Onslaught': 'Натиск, проклятый яростью',
+  'The Angelic Host': 'Ангельское воинство',
+  'The Lost Brethren': 'Потерянные братья',
+  'Legacy of Grace': 'Наследие благодати',
+  'Encarmine Speartip': 'Остриё «Энкармин»',
+  'Wrath of the Doomed': 'Гнев обречённых',
+}
+
+export const detRuleNamesRu = {
+  'Legacy of the Angel': 'Наследие Ангела',
+  'Red Thirst': 'Красная жажда',
+  'Maddened Ferocity': 'Обезумевшая свирепость',
+  'Upon Wings of Fire': 'На огненных крыльях',
+  'A Noble Death in Combat': 'Благородная смерть в бою',
+  'Wrath of Angels': 'Гнев ангелов',
+  'Fanatical Celerity': 'Фанатичная стремительность',
+}
+
 export default {
   armyRule: {
     flavor:

@@ -33,6 +33,24 @@ export const stratNamesRu = {
   'Ensnaring Trap': 'Ловушка-западня',
 }
 
+export const armyRuleNameRu = 'Приданные агенты'
+
+export const detNamesRu = {
+  'Imperialis Fleet': 'Флот «Империалис»',
+  'Ordo Hereticus, Purgation Force': 'Ордо Еретикус, отряд очищения',
+  'Ordo Malleus, Daemon Hunters': 'Ордо Маллеус, охотники на демонов',
+  'Ordo Xenos, Alien Hunters': 'Ордо Ксенос, охотники на чужих',
+  'Veiled Blade Elimination Force': 'Отряд ликвидации «Сокрытый клинок»',
+}
+
+export const detRuleNamesRu = {
+  'At all Costs': 'Любой ценой',
+  'Root out Heresy': 'Искоренить ересь',
+  'Destroy the Daemonic': 'Уничтожить демоническое',
+  'Deathwatch Mission Tactics': 'Тактика миссий «Караула смерти»',
+  'Extremis Sanction': 'Санкция «Экстремис»',
+}
+
 export default {
   armyRule: {
     flavor:

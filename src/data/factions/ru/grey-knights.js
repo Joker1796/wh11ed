@@ -53,6 +53,32 @@ export const stratNamesRu = {
   'Responsive Displacement': 'Ответное перемещение',
 }
 
+export const armyRuleNameRu = 'Врата бесконечности'
+
+export const detNamesRu = {
+  'Augurium Task Force': 'Ударная группа «Авгуриум»',
+  'Banishers': 'Изгоняющие',
+  'Brotherhood Strike': 'Удар братства',
+  'Hallowed Conclave': 'Священный конклав',
+  'Sanctic Spearhead': 'Освящённое остриё',
+  'Warpbane Task Force': 'Ударная группа «Погибель варпа»',
+  'Argent Assault': 'Серебряный штурм',
+  'Fires of Purgation': 'Огни очищения',
+  'Immaterial Interdiction': 'Имматериальное воспрещение',
+}
+
+export const detRuleNamesRu = {
+  'Prescient Redeployment': 'Предвидящая передислокация',
+  'Channelled Force': 'Направленная сила',
+  'Fury of Titan': 'Ярость Титана',
+  'Duty Before All': 'Долг превыше всего',
+  'Mailed Fist': 'Латный кулак',
+  'Hallowed Ground': 'Освящённая земля',
+  'Dauntless Champions': 'Неустрашимые чемпионы',
+  'Searing Soulflame': 'Жгучее пламя души',
+  'Echojump': 'Эхо-прыжок',
+}
+
 export default {
   armyRule: {
     flavor:

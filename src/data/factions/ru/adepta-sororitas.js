@@ -43,6 +43,30 @@ export const stratNamesRu = {
   'Unflinching Determination': 'Непоколебимая решимость',
 }
 
+export const armyRuleNameRu = 'Деяния веры'
+
+export const detNamesRu = {
+  'Army of Faith': 'Армия веры',
+  'Bringers of Flame': 'Несущие пламя',
+  'Champions of Faith': 'Поборники веры',
+  'Hallowed Martyrs': 'Священные мученицы',
+  'Penitent Host': 'Воинство кающихся',
+  'Chorus of Condemnation': 'Хор осуждения',
+  'Sacred Champions': 'Священные поборницы',
+  'Sanctified Orators': 'Освящённые ораторы',
+}
+
+export const detRuleNamesRu = {
+  'Sacred Rites': 'Священные обряды',
+  'Fervent Purgation': 'Пылкое очищение',
+  'Righteous Purpose': 'Праведная цель',
+  'The Blood of Martyrs': 'Кровь мучениц',
+  'Desperate for Redemption': 'Отчаянно жаждущие искупления',
+  'Angelic Judgement': 'Ангельский суд',
+  'Holy Quest': 'Святое искание',
+  'Hymns of Battle': 'Боевые гимны',
+}
+
 export default {
   armyRule: {
     flavor:

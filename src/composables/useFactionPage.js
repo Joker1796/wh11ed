@@ -34,11 +34,14 @@ export function useFactionPage() {
     const mod = ruModule.value
     if (!mod) return data.ru
     const merged = deepOverlay(data.en, mod.default)
-    // Attach RU display names for stratagems (shown under the English name). Keyed by the
-    // English name; merged stratagems are fresh objects (deepOverlay copies), so this does
-    // not mutate the EN source.
-    if (mod.stratNamesRu) {
-      for (const d of merged.detachments || []) {
+    // Attach RU display names (shown as a small line under the English name). Keyed by the
+    // English name; merged objects are fresh copies from deepOverlay, so this does not
+    // mutate the EN source.
+    if (mod.armyRuleNameRu && merged.armyRule) merged.armyRule.nameRu = mod.armyRuleNameRu
+    for (const d of merged.detachments || []) {
+      if (mod.detNamesRu) d.nameRu = mod.detNamesRu[d.name]
+      if (mod.detRuleNamesRu && d.rule) d.rule.nameRu = mod.detRuleNamesRu[d.rule.name]
+      if (mod.stratNamesRu) {
         for (const s of d.stratagems || []) {
           const ru = mod.stratNamesRu[s.name]
           if (ru) s.nameRu = ru

@@ -70,6 +70,38 @@ export const stratNamesRu = {
   'Phase Melding': 'Фазовое слияние',
 }
 
+export const armyRuleNameRu = 'Протоколы реанимации'
+
+export const detNamesRu = {
+  'Awakened Dynasty': 'Пробуждённая династия',
+  'Annihilation Legion': 'Легион истребления',
+  'Canoptek Court': 'Двор каноптек',
+  'Hypercrypt Legion': 'Легион гиперкрипты',
+  'Obeisance Phalanx': 'Фаланга повиновения',
+  'Hand of the Dynasty': 'Длань династии',
+  'Skyshroud Spearhead': 'Остриё «Небесная завеса»',
+  "The Phaeron's Armoury": 'Арсенал Фаэрона',
+  'Starshatter Arsenal': 'Арсенал «Звездокол»',
+  'Cryptek Conclave': 'Конклав криптеков',
+  'Cursed Legion': 'Проклятый легион',
+  'Pantheon of Woe': 'Пантеон скорби',
+}
+
+export const detRuleNamesRu = {
+  'Command Protocols': 'Командные протоколы',
+  'Annihilation Protocol': 'Протокол истребления',
+  'Power Matrix': 'Матрица энергии',
+  'Hyperphasing': 'Гиперфазировка',
+  'Worthy Foes': 'Достойные враги',
+  'Hypermotility Protocols': 'Протоколы гипермобильности',
+  'Transdimensional Deployment': 'Транспространственное развёртывание',
+  'Empowered Engines': 'Усиленные двигатели',
+  'Relentless Onslaught': 'Неумолимый натиск',
+  'Techno-sorcerous Augmentations': 'Техно-чародейские аугментации',
+  'Cold Fervour': 'Хладное рвение',
+  'Cosmic Distortion': 'Космическое искажение',
+}
+
 export default {
   armyRule: {
     flavor:

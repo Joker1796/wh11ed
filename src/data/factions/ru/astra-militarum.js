@@ -65,6 +65,36 @@ export const stratNamesRu = {
   'Sump-smog Screen': 'Завеса трюмного смога',
 }
 
+export const armyRuleNameRu = 'Голос командования'
+
+export const detNamesRu = {
+  'Armoured Infantry': 'Бронепехота',
+  'Combined Arms': 'Общевойсковой отряд',
+  'Grizzled Company': 'Матёрая рота',
+  'Hammer of the Emperor': 'Молот Императора',
+  'Mechanised Assault': 'Механизированный штурм',
+  'Recon Element': 'Разведподразделение',
+  'Siege Regiment': 'Осадный полк',
+  'Steel Hammer': 'Стальной молот',
+  'Abhuman Auxiliaries': 'Абхуманские вспомогательные войска',
+  'Bridgehead Strike': 'Удар с плацдарма',
+  'Designation Force': 'Отряд целеуказания',
+}
+
+export const detRuleNamesRu = {
+  'Squadron Command': 'Командование эскадроном',
+  'Born Soldiers': 'Прирождённые солдаты',
+  'Ruthless Discipline': 'Беспощадная дисциплина',
+  'Iron Tread': 'Железная поступь',
+  'Armoured Fist': 'Бронированный кулак',
+  'Masters of Camouflage': 'Мастера маскировки',
+  'Artillery Support': 'Артиллерийская поддержка',
+  'Ceaseless Cannonade': 'Непрестанная канонада',
+  'Absolutist Principles': 'Абсолютистские принципы',
+  'Fire Zone Purge': 'Зачистка огневой зоны',
+  'Designated Targets': 'Назначенные цели',
+}
+
 export default {
   armyRule: {
     flavor:
@@ -75,7 +105,7 @@ export default {
 
 До начала вашей следующей фазы командования выбранный вами юнит затронут тем Order. Если не указано иное, юнит может быть затронут только одним Order одновременно (любой последующий Order, отданный тому юниту, заменяет текущий). Orders нельзя отдавать юнитам в боевом шоке, и если юнит, затронутый Order, попадает в боевой шок, тот Order перестаёт его затрагивать. Только модели ASTRA MILITARUM получают выгоду от Order, отданного их юниту.
 
-### Orders
+### Orders | Приказы
 ▪ **Move! Move! Move!** — Добавьте 3" к характеристике манёвра моделей этого юнита.
 ▪ **Fix Bayonets!** — Улучшите характеристику меткости в ближнем бою оружия ближнего боя моделей этого юнита на 1.
 ▪ **Take Aim!** — Улучшите характеристику меткости в дальнем бою оружия дальнего боя моделей этого юнита на 1.
