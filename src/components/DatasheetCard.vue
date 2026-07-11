@@ -31,8 +31,8 @@
           <tr><th class="wname">{{ labels.dsRanged }}</th><th>Range</th><th>A</th><th>BS</th><th>S</th><th>AP</th><th>D</th></tr>
         </thead>
         <tbody>
-          <tr v-for="(w, i) in sheet.ranged" :key="i">
-            <td class="wname">{{ w.name }} <span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></td>
+          <tr v-for="(w, i) in rangedRows" :key="i" :class="'wg-' + w.gpos">
+            <td class="wname"><span v-if="w.gpos !== 'single'" class="wprofile-arrow" aria-hidden="true"></span>{{ w.name }} <span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></td>
             <td>{{ w.range }}</td><td>{{ w.a }}</td><td>{{ w.bs }}</td><td>{{ w.s }}</td><td>{{ w.ap }}</td><td>{{ w.d }}</td>
           </tr>
         </tbody>
@@ -44,8 +44,8 @@
           <tr><th class="wname">{{ labels.dsMelee }}</th><th>Range</th><th>A</th><th>WS</th><th>S</th><th>AP</th><th>D</th></tr>
         </thead>
         <tbody>
-          <tr v-for="(w, i) in sheet.melee" :key="i">
-            <td class="wname">{{ w.name }} <span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></td>
+          <tr v-for="(w, i) in meleeRows" :key="i" :class="'wg-' + w.gpos">
+            <td class="wname"><span v-if="w.gpos !== 'single'" class="wprofile-arrow" aria-hidden="true"></span>{{ w.name }} <span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></td>
             <td>Melee</td><td>{{ w.a }}</td><td>{{ w.ws }}</td><td>{{ w.s }}</td><td>{{ w.ap }}</td><td>{{ w.d }}</td>
           </tr>
         </tbody>
@@ -156,6 +156,28 @@ const { renderInline } = useRenderInline()
 const labels = computed(() => ui[locale.value])
 
 const coreParts = computed(() => (props.sheet.core ? props.sheet.core.split(/,\s*/) : []))
+
+// Multi-profile weapons are stored as adjacent rows sharing a base name with a spaced-dash
+// suffix ("Scythe of the Nightbringer – strike" / "– sweep"). The data is inconsistent about
+// the dash — some entries use an en-dash "–", others a plain hyphen "-" (e.g. Ghazghkull's
+// "Gork's Klaw - strike") — so split on a SPACED dash of any kind (hyphen / en / em). The
+// surrounding spaces keep AP values like "-3" (a separate field anyway) from ever matching.
+function weaponBase(name) { return (name || '').split(/ [-–—] /)[0].trim() }
+function withGroupPos(list) {
+  const rows = list || []
+  return rows.map((w, i) => {
+    const base = weaponBase(w.name)
+    const prevSame = i > 0 && weaponBase(rows[i - 1].name) === base
+    const nextSame = i < rows.length - 1 && weaponBase(rows[i + 1].name) === base
+    let gpos = 'single'
+    if (prevSame && nextSame) gpos = 'mid'
+    else if (nextSame) gpos = 'start'
+    else if (prevSame) gpos = 'end'
+    return { ...w, gpos }
+  })
+}
+const rangedRows = computed(() => withGroupPos(props.sheet.ranged))
+const meleeRows = computed(() => withGroupPos(props.sheet.melee))
 
 // MFM points notes are either a bare copy tier ('1st-2nd', '3rd+', '2nd+', '1st-3rd'…),
 // a composition label with the tier in parens ('3 Wolf Guard Headtakers (1st-2nd)'),
@@ -387,6 +409,24 @@ function statCells(p) {
 .ds-weapons .wname { text-align: left; white-space: normal; min-width: 10rem; }
 .wtag { font-size: 0.72rem; }
 
+/* Multi-profile weapons (Wahapedia-style): each profile row carries an accent arrow-pennant
+   before the name, and all rows of one weapon share a faint faction-accent background so the
+   profiles read as one weapon. Single-profile weapons are untouched. */
+.ds-weapons tr.wg-start td,
+.ds-weapons tr.wg-mid td,
+.ds-weapons tr.wg-end td {
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+.wprofile-arrow {
+  display: inline-block;
+  width: 13px;
+  height: 9px;
+  margin-right: 0.4rem;
+  background: var(--accent);
+  clip-path: polygon(0 0, 65% 0, 100% 50%, 65% 100%, 0 100%);
+  vertical-align: middle;
+}
+
 /* Abilities */
 .ds-abilities { font-size: 0.85rem; line-height: 1.5; color: var(--text-primary); }
 .ds-faction-rule { font-weight: 600; }
@@ -439,7 +479,14 @@ function statCells(p) {
      so the band uses the faction's dark variant (--fa-light, inherited from
      FactionLayout) — darkened plain accent as the non-faction fallback. -->
 <style>
-.ds-card { --ds-th-bg: var(--accent); }
+/* --bg-row-hover is a hardcoded brand-red rgba on :root and does NOT follow the faction
+   --accent, so table row-hover on datasheets flashed the global red. Re-point it at the
+   faction accent for every table inside the card. (The zebra --bg-row-alt is a neutral
+   olive, not red, so it's left alone.) */
+.ds-card {
+  --ds-th-bg: var(--accent);
+  --bg-row-hover: color-mix(in srgb, var(--accent) 14%, transparent);
+}
 @media (prefers-color-scheme: dark) {
   .ds-card { --ds-th-bg: var(--fa-light, color-mix(in srgb, var(--accent) 55%, black)); }
 }
