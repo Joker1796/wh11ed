@@ -324,11 +324,14 @@ function statCells(p) {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  color: var(--ds-th-accent, var(--accent));
-  border-bottom: 2px solid var(--accent);
-  padding: 0.25rem 0.35rem;
+  color: #fff;
+  background: var(--ds-th-bg, var(--accent));
+  padding: 0.3rem 0.35rem;
   white-space: nowrap;
 }
+
+.ds-weapons th:first-child { border-top-left-radius: 4px; }
+.ds-weapons th:last-child { border-top-right-radius: 4px; }
 .ds-weapons td {
   text-align: center;
   padding: 0.3rem 0.35rem;
@@ -393,14 +396,15 @@ function statCells(p) {
 
 <!-- Unscoped on purpose (same reason as FactionLayout): a data-theme selector above the
      component root can't be expressed in scoped CSS without the :global() pitfall.
-     Weapon-table header text softens the accent in the light theme — the faction light
-     colors are deliberately dark (for white text on chips) and read almost black as
-     small type; the dark theme keeps the plain accent. -->
+     Weapon-table headers are Wahapedia-style solid faction-color bands with white text.
+     In the dark theme the accents are deliberately LIGHT (unreadable under white text),
+     so the band uses the faction's dark variant (--fa-light, inherited from
+     FactionLayout) — darkened plain accent as the non-faction fallback. -->
 <style>
-.ds-card { --ds-th-accent: color-mix(in srgb, var(--accent) 75%, #fff); }
+.ds-card { --ds-th-bg: var(--accent); }
 @media (prefers-color-scheme: dark) {
-  .ds-card { --ds-th-accent: var(--accent); }
+  .ds-card { --ds-th-bg: var(--fa-light, color-mix(in srgb, var(--accent) 55%, black)); }
 }
-:root[data-theme='light'] .ds-card { --ds-th-accent: color-mix(in srgb, var(--accent) 75%, #fff); }
-:root[data-theme='dark'] .ds-card { --ds-th-accent: var(--accent); }
+:root[data-theme='light'] .ds-card { --ds-th-bg: var(--accent); }
+:root[data-theme='dark'] .ds-card { --ds-th-bg: var(--fa-light, color-mix(in srgb, var(--accent) 55%, black)); }
 </style>
