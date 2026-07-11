@@ -9,7 +9,7 @@
          row 2 = the invulnerable box straight under SV, with the faction-color band
          top-aligned to its right and the asterisk note under the band. -->
     <div v-for="(p, i) in sheet.profiles" :key="i" class="ds-statline">
-      <div class="ds-stats">
+      <div class="ds-stats" :class="{ 'has-name': sheet.profiles.length > 1 }">
         <!-- Stat labels only once, above the first profile's row -->
         <div v-for="s in statCells(p)" :key="s.label" class="ds-stat">
           <span v-if="i === 0" class="ds-stat-label">{{ s.label }}</span>
@@ -324,6 +324,19 @@ function statCells(p) {
 
 @media (max-width: 480px) {
   .ds-stat-box { min-width: 2.55rem; font-size: 1.15rem; padding: 0.25rem; }
+}
+
+/* Mobile: multi-profile model names move above their stat row (right of it on desktop) */
+@media (max-width: 640px) {
+  .ds-stats.has-name .ds-prof-name {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    align-self: end;
+    padding-left: 0;
+  }
+  .ds-stats.has-name .ds-stat { grid-row: 2; }
+  .ds-stats.has-name .ds-inv-box { grid-row: 3; }
+  .ds-stats.has-name .ds-inv-side { grid-row: 3; }
 }
 
 /* Points */
