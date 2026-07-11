@@ -24,11 +24,30 @@
             class="nav-link"
             :class="{ active: isTrackerRoute }"
           >{{ labels.navTracker }}</RouterLink>
-          <RouterLink
-            to="/factions"
-            class="nav-link"
-            :class="{ active: isFactionRoute }"
-          >{{ labels.navFactions }}</RouterLink>
+          <div
+            class="nav-dropdown"
+            :class="{ 'nd-suppressed': factionMenuSuppressed }"
+            @mouseleave="factionMenuSuppressed = false"
+          >
+            <RouterLink
+              to="/factions"
+              class="nav-link"
+              :class="{ active: isFactionRoute }"
+              aria-haspopup="true"
+              @click="closeFactionMenu"
+            >{{ labels.navFactions }}</RouterLink>
+            <div class="nav-dropdown-menu">
+              <div class="nav-dropdown-panel">
+                <div v-for="g in factionGroups" :key="g.id" class="nd-group">
+                  <h4 class="nd-group-title">{{ labels[groupLabelKey(g.id)] }}</h4>
+                  <template v-for="f in g.factions" :key="f.slug">
+                    <RouterLink v-if="f.ready" :to="`/factions/${f.slug}`" class="nd-link" @click="closeFactionMenu">{{ f.name }}</RouterLink>
+                    <span v-else class="nd-link disabled">{{ f.name }}<span class="nd-soon">{{ labels.factionsSoon }}</span></span>
+                  </template>
+                </div>
+              </div>
+            </div>
+          </div>
           <RouterLink
             to="/links"
             class="nav-link"
@@ -201,6 +220,7 @@ import { resolveRef, useRefNavigation } from './composables/useRefNavigation.js'
 import { useViewRestore } from './composables/useViewRestore.js'
 import { applyRouteMeta } from './composables/useSeoMeta.js'
 import { ui } from './i18n/ui.js'
+import { factionGroups } from './data/factionsIndex.js'
 
 const route = useRoute()
 useViewRestore() // PWA-only: remember & restore the last page + in-view section
@@ -239,6 +259,22 @@ const { open: openKeyword, openGloss, close: closeKeyword } = useKeywordPopover(
 const { navigateTo } = useRefNavigation()
 
 const labels = computed(() => ui[locale.value])
+
+// Faction-group headings for the desktop navbar "Factions" hover dropdown (same tiny
+// id→i18n-key map used by FactionsListView; faction names themselves stay English).
+const GROUP_LABEL_KEYS = {
+  astartes: 'factionGroupAstartes', imperium: 'factionGroupImperium',
+  xenos: 'factionGroupXenos', chaos: 'factionGroupChaos',
+}
+function groupLabelKey(id) { return GROUP_LABEL_KEYS[id] || id }
+
+// The Factions dropdown is CSS hover/focus-within; clicking a link navigates but the cursor
+// stays over the trigger, so force-hide it on click and re-enable on mouseleave.
+const factionMenuSuppressed = ref(false)
+function closeFactionMenu() {
+  factionMenuSuppressed.value = true
+  if (document.activeElement instanceof HTMLElement) document.activeElement.blur()
+}
 
 const coreRoutes = ['/introduction', '/basic-rules', '/battle-round', '/battlefields', '/advanced-rules', '/reference', '/muster']
 const isLanding = computed(() => route.path === '/')
@@ -448,6 +484,101 @@ onUnmounted(() => {
 .nav-link.active {
   color: #fff;
   background: var(--accent);
+}
+
+/* ── "Factions" hover dropdown (desktop only — .navbar-links is display:none ≤900px) ── */
+.nav-dropdown {
+  position: relative;
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 210;
+  padding-top: 6px; /* transparent bridge so the gap doesn't dismiss the menu on hover */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(4px);
+  pointer-events: none;
+  transition: opacity var(--motion-fast), transform var(--motion-fast), visibility var(--motion-fast);
+}
+
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  pointer-events: auto;
+}
+
+/* After a click the pointer is still over the trigger — force the menu shut (higher
+   specificity than the hover/focus-within rule above) until the cursor leaves. */
+.nav-dropdown.nd-suppressed:hover .nav-dropdown-menu,
+.nav-dropdown.nd-suppressed:focus-within .nav-dropdown-menu {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(4px);
+  pointer-events: none;
+}
+
+.nav-dropdown-panel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(160px, 1fr));
+  gap: 0.9rem 1.4rem;
+  max-height: min(70vh, 460px);
+  overflow-y: auto;
+  padding: 0.9rem 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+}
+
+.nd-group-title {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent);
+  margin: 0 0 0.3rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.nd-link {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  padding: 0.16rem 0;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--motion-fast);
+}
+
+a.nd-link:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.nd-link.disabled {
+  color: var(--text-dim);
+  cursor: default;
+}
+
+.nd-soon {
+  font-size: 0.55rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  padding: 0 4px;
+  align-self: center;
 }
 
 .navbar-actions {
