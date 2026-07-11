@@ -10,8 +10,9 @@
          top-aligned to its right and the asterisk note under the band. -->
     <div v-for="(p, i) in sheet.profiles" :key="i" class="ds-statline">
       <div class="ds-stats">
+        <!-- Stat labels only once, above the first profile's row -->
         <div v-for="s in statCells(p)" :key="s.label" class="ds-stat">
-          <span class="ds-stat-label">{{ s.label }}</span>
+          <span v-if="i === 0" class="ds-stat-label">{{ s.label }}</span>
           <span class="ds-stat-box">{{ s.value }}</span>
         </div>
         <span v-if="sheet.profiles.length > 1" class="ds-prof-name">{{ p.name }}</span>
@@ -245,8 +246,9 @@ function statCells(p) {
   padding: 0.9rem 1rem 1rem;
 }
 
-/* Stat line */
+/* Stat line (consecutive profile rows sit tight — labels render only on the first) */
 .ds-statline { margin-bottom: 0.7rem; }
+.ds-statline:has(+ .ds-statline) { margin-bottom: 0.35rem; }
 .ds-stats {
   display: grid;
   grid-template-columns: repeat(6, max-content) minmax(0, 1fr);
