@@ -71,7 +71,10 @@ const tabs = computed(() => {
 }
 
 /* Dark theme: links stay the app's gold (--link-accent in style.css is a readability
-   choice there, not the accent) — keep the literals in sync with :root[data-theme='dark']. */
+   choice there, not the accent) — keep the literals in sync with :root[data-theme='dark'].
+   The explicit :root[data-theme] overrides live in the UNSCOPED style block below:
+   Vue's :global() drops the descendant part of the selector, which turned them into
+   bare :root rules that poisoned --accent app-wide once this lazy CSS chunk loaded. */
 @media (prefers-color-scheme: dark) {
   .faction-view.themed {
     --accent: var(--fa-dark);
@@ -79,20 +82,6 @@ const tabs = computed(() => {
     --link-accent: #e8c96a;
     --link-accent-hover: #f0d98a;
   }
-}
-
-:global(:root[data-theme='light']) .faction-view.themed {
-  --accent: var(--fa-light);
-  --accent-hover: color-mix(in srgb, var(--fa-light) 80%, black);
-  --link-accent: var(--accent);
-  --link-accent-hover: var(--accent-hover);
-}
-
-:global(:root[data-theme='dark']) .faction-view.themed {
-  --accent: var(--fa-dark);
-  --accent-hover: color-mix(in srgb, var(--fa-dark) 80%, white);
-  --link-accent: #e8c96a;
-  --link-accent-hover: #f0d98a;
 }
 
 .hero {
@@ -162,5 +151,25 @@ const tabs = computed(() => {
 
 @media (max-width: 640px) {
   .hero-title { font-size: 2.2rem; }
+}
+</style>
+
+<!-- Unscoped on purpose: an explicit data-theme on :root must win over the
+     prefers-color-scheme fallback above in BOTH directions. Written without :global()
+     because Vue's scoped compiler mishandles a descendant after it (see note above);
+     the .faction-view.themed class keeps these rules from touching anything else. -->
+<style>
+:root[data-theme='light'] .faction-view.themed {
+  --accent: var(--fa-light);
+  --accent-hover: color-mix(in srgb, var(--fa-light) 80%, black);
+  --link-accent: var(--accent);
+  --link-accent-hover: var(--accent-hover);
+}
+
+:root[data-theme='dark'] .faction-view.themed {
+  --accent: var(--fa-dark);
+  --accent-hover: color-mix(in srgb, var(--fa-dark) 80%, white);
+  --link-accent: #e8c96a;
+  --link-accent-hover: #f0d98a;
 }
 </style>
