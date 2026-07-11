@@ -14,15 +14,15 @@ export function useFactionPage() {
   const { locale } = useLocale()
   const slug = computed(() => route.params.slug)
 
-  const ruOverlay = ref(null)
+  const ruModule = ref(null)
   watch(
     [slug, locale],
     async ([s, loc]) => {
-      ruOverlay.value = null
+      ruModule.value = null
       if (!s || loc !== 'ru') return
-      const overlay = await loadFactionRu(s)
+      const mod = await loadFactionRu(s)
       // guard against a stale resolve after a rapid route/locale change
-      if (slug.value === s && locale.value === 'ru') ruOverlay.value = overlay
+      if (slug.value === s && locale.value === 'ru') ruModule.value = mod
     },
     { immediate: true },
   )
@@ -30,10 +30,22 @@ export function useFactionPage() {
   const faction = computed(() => {
     const data = getFaction(slug.value)
     if (!data) return null
-    if (locale.value === 'ru') {
-      return ruOverlay.value ? deepOverlay(data.en, ruOverlay.value) : data.ru
+    if (locale.value !== 'ru') return data.en
+    const mod = ruModule.value
+    if (!mod) return data.ru
+    const merged = deepOverlay(data.en, mod.default)
+    // Attach RU display names for stratagems (shown under the English name). Keyed by the
+    // English name; merged stratagems are fresh objects (deepOverlay copies), so this does
+    // not mutate the EN source.
+    if (mod.stratNamesRu) {
+      for (const d of merged.detachments || []) {
+        for (const s of d.stratagems || []) {
+          const ru = mod.stratNamesRu[s.name]
+          if (ru) s.nameRu = ru
+        }
+      }
     }
-    return data.en
+    return merged
   })
 
   return { slug, faction }

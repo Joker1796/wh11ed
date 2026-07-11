@@ -1,9 +1,12 @@
 <template>
   <div class="strat-card" :class="`turn-${strat.turn || 'your'}`">
     <div class="strat-header">
-      <div class="strat-title-row">
-        <span class="strat-name">{{ strat.name }}</span>
-        <span class="strat-num">{{ strat.num }}</span>
+      <div class="strat-heading">
+        <div class="strat-title-row">
+          <span class="strat-name">{{ strat.name }}</span>
+          <span class="strat-num">{{ strat.num }}</span>
+        </div>
+        <span v-if="strat.nameRu" class="strat-name-ru">{{ strat.nameRu }}</span>
       </div>
       <span class="strat-cp">{{ strat.cp }}</span>
     </div>
@@ -130,12 +133,31 @@ function renderField(text) {
   color: #fff;
 }
 
-.strat-title-row {
+.strat-heading {
   flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.strat-title-row {
   display: flex;
   align-items: baseline;
   gap: 0.5rem;
   min-width: 0;
+}
+
+/* RU translation of the stratagem name — small, semi-transparent second line */
+.strat-name-ru {
+  font-size: 0.66rem;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  color: rgba(255, 255, 255, 0.45);
+  line-height: 1.05;
+  margin-top: -6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .strat-name {
