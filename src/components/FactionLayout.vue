@@ -1,6 +1,6 @@
 <template>
   <div class="faction-view" :class="{ themed: !!color }" :style="colorVars">
-    <div class="hero">
+    <div v-if="hero" class="hero">
       <RouterLink to="/factions" class="back-link">← {{ labels.factionsBack }}</RouterLink>
       <h1 class="hero-title">{{ faction ? faction.name : labels.factionsHeading }}</h1>
       <!-- Mobile-only page tabs: the desktop subnav (App.vue) is hidden ≤900px, where the
@@ -28,6 +28,10 @@ import { factionIndexBySlug } from '../data/factionsIndex.js'
 import { useFactionPage } from '../composables/useFactionPage.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
+
+// hero=false hides the whole faction header (name + "All factions" + mobile tabs) —
+// used by the per-unit datasheet page for a clean, chrome-free sheet.
+defineProps({ hero: { type: Boolean, default: true } })
 
 const route = useRoute()
 const { slug, faction } = useFactionPage()

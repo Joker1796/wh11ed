@@ -1,9 +1,5 @@
 <template>
   <article class="ds-card">
-    <!-- Lore: gated by the page's book-icon toggle (showFlavor) and still hidden
-         app-wide by the "Hide lore" toggle via data-hide-lore -->
-    <p v-if="sheet.flavor && showFlavor" class="ds-flavor">{{ sheet.flavor }}</p>
-
     <!-- Stat profiles -->
     <!-- Grid: row 1 = the six stat columns + (multi-profile) model name to the right;
          row 2 = the invulnerable box straight under SV, with the faction-color band
@@ -153,7 +149,6 @@ import { useRenderInline } from '../composables/useRenderInline.js'
 
 const props = defineProps({
   sheet: { type: Object, required: true },
-  showFlavor: { type: Boolean, default: true },
 })
 
 const { locale } = useLocale()
@@ -435,13 +430,6 @@ function statCells(p) {
   color: var(--text-primary);
 }
 
-.ds-flavor {
-  margin-bottom: 0.8rem;
-  font-style: italic;
-  font-size: 0.82rem;
-  line-height: 1.5;
-  color: var(--text-muted);
-}
 </style>
 
 <!-- Unscoped on purpose (same reason as FactionLayout): a data-theme selector above the
