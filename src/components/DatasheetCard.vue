@@ -284,18 +284,31 @@ function statCells(p) {
   letter-spacing: 1px;
   color: var(--text-muted);
 }
+/* Stat boxes: 10th-ed look — no rounding, top-left + bottom-right corners chamfered.
+   clip-path can't carry a border, so the fill is an inset ::before over a border-colour
+   base (isolation keeps the z-index:-1 fill inside this box). Numbers are big + heavy. */
 .ds-stat-box {
+  position: relative;
+  isolation: isolate;
   display: block;
   min-width: 3rem;
   text-align: center;
-  background: color-mix(in srgb, var(--accent) 7%, transparent);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 0.3rem;
+  background: var(--border);
+  clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px);
+  padding: 0.28rem 0.3rem;
   font-family: var(--font-display);
-  font-size: 1.3rem;
-  line-height: 1.15;
+  font-weight: 700;
+  font-size: 1.55rem;
+  line-height: 1.1;
   color: var(--text-primary);
+}
+.ds-stat-box::before {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  background: color-mix(in srgb, var(--accent) 8%, var(--bg-card));
+  clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px);
 }
 /* Multi-profile model name: right of the stat row, vertically centred on it. */
 .ds-prof-name {
@@ -311,32 +324,49 @@ function statCells(p) {
   line-height: 1.25;
   color: var(--text-muted);
 }
-/* Invulnerable save: box straight under SV (column 3), band + note to its right. */
+/* Invulnerable save: shield straight under SV (column 3), label + note to its right.
+   Source style — the value sits in a downward-pointing shield (flat top, pointed bottom)
+   and the label is plain uppercase text, not a coloured pill. */
 .ds-inv-box { grid-column: 3; grid-row: 2; }
+.ds-inv-box .ds-stat-box,
+.ds-inv-box .ds-stat-box::before {
+  clip-path: polygon(0 0, 100% 0, 100% 52%, 50% 100%, 0 52%);
+}
+.ds-inv-box .ds-stat-box { padding-bottom: 0.85rem; }
 .ds-inv-side {
   grid-column: 4 / -1;
   grid-row: 2;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: flex-start;
   gap: 3px;
   min-width: 0;
 }
 .ds-inv-band {
-  background: var(--ds-th-bg, var(--accent));
-  color: #fff;
-  font-size: 0.62rem;
+  color: var(--text-primary);
+  font-size: 0.66rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  padding: 0.28rem 0.55rem;
-  border-radius: 4px;
   white-space: nowrap;
 }
 .ds-inv-note { font-size: 0.72rem; font-style: italic; line-height: 1.35; color: var(--text-muted); }
 
 @media (max-width: 480px) {
-  .ds-stat-box { min-width: 2.55rem; font-size: 1.15rem; padding: 0.25rem; }
+  .ds-stat-box {
+    min-width: 2.55rem;
+    font-size: 1.3rem;
+    padding: 0.24rem;
+    clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
+  }
+  .ds-stat-box::before {
+    clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
+  }
+  .ds-inv-box .ds-stat-box,
+  .ds-inv-box .ds-stat-box::before {
+    clip-path: polygon(0 0, 100% 0, 100% 52%, 50% 100%, 0 52%);
+  }
 }
 
 /* Mobile: multi-profile model names move above their stat row (right of it on desktop) */
