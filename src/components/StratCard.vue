@@ -227,10 +227,10 @@ function renderField(text) {
   min-width: 64px;
   width: auto;
   font-size: 0.62rem;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: var(--turn-color);
+  color: var(--text-primary);
   padding-top: 2px;
 }
 
