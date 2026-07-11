@@ -91,8 +91,9 @@ const labels = computed(() => ui[locale.value])
 const localizedGroups = computed(() => locale.value === 'ru' ? navGroupsRu : navGroups)
 const localizedEventGroups = computed(() => locale.value === 'ru' ? eventGroupsRu : eventGroups)
 const localizedTrackerGroups = computed(() => locale.value === 'ru' ? trackerGroupsRu : trackerGroups)
-// When a faction is open, the drawer's Factions section also lists that faction's three
-// pages (rule / detachments / datasheets) — the desktop subnav is hidden on mobile.
+// When a faction is open, the drawer's Factions section also lists that faction's two
+// pages (rules — army rule + detachments merged — / datasheets) — the desktop subnav is
+// hidden on mobile.
 const localizedFactionGroups = computed(() => {
   const base = locale.value === 'ru' ? factionGroupsRu : factionGroups
   const slug = route.path.startsWith('/factions/') ? route.params.slug : null
@@ -101,9 +102,8 @@ const localizedFactionGroups = computed(() => {
   const root = `/factions/${slug}`
   return [
     ...base,
-    { label: l.factionArmyRule,    path: root,                  sections: [] },
-    { label: l.factionDetachments, path: `${root}/detachments`, sections: [] },
-    { label: l.factionDatasheets,  path: `${root}/datasheets`,  sections: [] },
+    { label: l.factionRules,      path: root,                 sections: [] },
+    { label: l.factionDatasheets, path: `${root}/datasheets`, sections: [] },
   ]
 })
 const localizedLinksGroups = computed(() => locale.value === 'ru' ? linksGroupsRu : linksGroups)

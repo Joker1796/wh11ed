@@ -4,7 +4,7 @@ import { getFaction } from '../data/factions/index.js'
 import { deepOverlay, loadFactionRu } from '../data/factions/ru/index.js'
 import { useLocale } from './useLocale.js'
 
-// Shared by the three faction sub-pages (rule / detachments / datasheets):
+// Shared by the faction pages (rules — army rule + detachments — and datasheets):
 // resolves the localized faction object for the current /factions/:slug route.
 // EN is the source of truth; the RU overlay (src/data/factions/ru/<slug>.js) is
 // lazy-loaded only in the RU locale and deep-merged over EN — until it resolves

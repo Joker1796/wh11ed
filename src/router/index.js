@@ -27,7 +27,6 @@ const LinksView         = () => import('../views/LinksView.vue')
 const StratagemsView    = () => import('../views/StratagemsView.vue')
 const FactionsListView  = () => import('../views/FactionsListView.vue')
 const FactionRuleView        = () => import('../views/faction/FactionRuleView.vue')
-const FactionDetachmentsView = () => import('../views/faction/FactionDetachmentsView.vue')
 const FactionDatasheetsView  = () => import('../views/faction/FactionDatasheetsView.vue')
 const FactionDatasheetView   = () => import('../views/faction/FactionDatasheetView.vue')
 
@@ -256,10 +255,10 @@ export const trackerGroupsRu = [
   { label: 'Стратагемы',    path: '/stratagems',   sections: [] },
 ]
 
-// Factions — top-level section. List page (/factions) + three per-faction pages:
-// /factions/:slug (army rule), .../detachments, .../datasheets. On desktop those three
-// ride in the subnav (App.vue); on mobile the drawer gets them dynamically (NavSidebar)
-// plus in-page tabs in the FactionLayout hero.
+// Factions — top-level section. List page (/factions) + two per-faction pages:
+// /factions/:slug (army rule + detachments, merged) and .../datasheets (units). The old
+// .../detachments URL redirects to the merged page. On desktop those two ride in the subnav
+// (App.vue); on mobile they're in-page tabs in the FactionLayout hero.
 export const factionGroups = [
   { label: 'Factions', path: '/factions', sections: [] },
 ]
@@ -302,7 +301,8 @@ export const router = createRouter({
     { path: '/links', component: LinksView },
     { path: '/factions',       component: FactionsListView },
     { path: '/factions/:slug',             component: FactionRuleView },
-    { path: '/factions/:slug/detachments', component: FactionDetachmentsView },
+    // Merged into /factions/:slug — redirect old bookmarks/links to the combined page.
+    { path: '/factions/:slug/detachments', redirect: (to) => `/factions/${to.params.slug}` },
     { path: '/factions/:slug/datasheets',  component: FactionDatasheetsView },
     { path: '/factions/:slug/datasheets/:unit', component: FactionDatasheetView },
     // Game-time stratagem reference. Reachable only via the mobile bottom-nav (and direct
