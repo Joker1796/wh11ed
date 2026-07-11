@@ -100,6 +100,48 @@ export const stratNamesRu = {
   'Warp-twisted Terrors': 'Искажённые варпом ужасы',
 }
 
+export const armyRuleNameRu = 'Тёмные пакты'
+
+export const detNamesRu = {
+  'Chaos Cult': 'Культ Хаоса',
+  'Creations of Bile': 'Творения Желчи',
+  'Cult of the Arkifane': 'Культ Аркифана',
+  'Deceptors': 'Обманщики',
+  'Dread Talons': 'Грозные когти',
+  'Fellhammer Siege-Host': 'Осадное воинство «Феллхаммер»',
+  'Huron’s Marauders': 'Мародёры Хурона',
+  'Nightmare Hunt': 'Кошмарная охота',
+  'Pactbound Zealots': 'Связанные пактом фанатики',
+  'Renegade Raiders': 'Ренегаты-налётчики',
+  'Renegade Warband': 'Ренегатская банда',
+  'Soulforged Warpack': 'Боевая стая «Душекузня»',
+  'Veterans of the Long War': 'Ветераны Долгой войны',
+  'Warpstrike Champions': 'Поборники варп-удара',
+  'Cabal of Chaos': 'Кабал Хаоса',
+  'Devotees of Destruction': 'Приверженцы разрушения',
+  'Murdertalon Raiders': 'Налётчики «Коготь убийства»',
+}
+
+export const detRuleNamesRu = {
+  'Desperate Devotion & KEYWORDS': 'Отчаянная преданность и KEYWORDS',
+  'Experimental Augmentations': 'Экспериментальные аугментации',
+  'Soul Forge Boons': 'Дары Душекузни',
+  'Masters of Misdirection': 'Мастера отвлечения',
+  'Terror Descends (Aura)': 'Ужас нисходит (Aura)',
+  'Iron Fortitude': 'Железная стойкость',
+  'Tyrannical Motivation': 'Тираническая мотивация',
+  'Terror Made Manifest': 'Воплощённый ужас',
+  'Marks of Chaos': 'Метки Хаоса',
+  'Raiders and Reavers': 'Налётчики и разорители',
+  'Slaves to None & Vendetta & Twisted Doctrine': 'Ничьи рабы, Вендетта и Искажённая доктрина',
+  'Debt to the Soul Forge': 'Долг Душекузне',
+  'Focus of Hatred': 'Средоточие ненависти',
+  'Warp Portals': 'Порталы варпа',
+  'Empyric Wellspring': 'Эмпирейный источник',
+  'Rain of Ruin': 'Ливень разрухи',
+  'Prey on the Weak': 'Охота на слабых',
+}
+
 export default {
   armyRule: {
     flavor:
@@ -108,7 +150,7 @@ export default {
 ▪ [LETHAL HITS]
 ▪ [SUSTAINED HITS 1]
 
-### Cult of the Dark Gods
+### Cult of the Dark Gods | Культ Тёмных Богов
 Если фракция вашей армии — HERETIC ASTARTES, вы можете включить в армию любые из следующих юнитов, и при этом их ключевые слова фракции заменяются на HERETIC ASTARTES:
 ▪ KHORNE BERZERKERS (см. World Eaters)
 ▪ RUBRIC MARINES (см. Thousand Sons)
@@ -123,13 +165,13 @@ export default {
     {
       rule: {
         flavor: 'Всецело преданные поклонению Тёмным Богам, кишащие смертные культисты и полки гвардейцев-предателей более чем готовы приносить кровавые жертвы и идти на отчаянные поступки в надежде снискать благосклонность.',
-        body: `### Desperate Devotion
+        body: `### Desperate Devotion | Отчаянная преданность
 Каждый раз, когда юнит DAMNED вашей армии со способностью Dark Pacts выбран для обычного манёвра, продвижения или объявления нападения (кроме юнитов, что прибыли из резерва в этот ход), он может заключить Desperate Pact (см. ниже). Если заключает, до конца фазы прибавьте 2 к характеристике Движения моделей этого юнита и 2 к броскам нападения для этого юнита.
 
 Desperate Pacts
 Каждый раз, когда юнит заключает Desperate Pact, он сперва обязан пройти тест лидерства; если этот тест провален, тот юнит получает D3 смертельных ран до того, как разрешатся какие-либо эффекты этого Desperate Pact.
 
-### KEYWORDS
+### KEYWORDS | Ключевые слова
 Юниты TRAITOR GUARDSMEN SQUAD вашей армии получают ключевое слово BATTLELINE.`,
       },
       stratagems: [
@@ -881,17 +923,17 @@ Red Corsairs практикуют крайне мобильную форму в�
     {
       rule: {
         flavor: 'Многие Ренегаты отвергают дары Тёмных Богов, полагаясь лишь на собственную доблесть.',
-        body: `### Slaves to None
+        body: `### Slaves to None | Ничьи рабы
 Модели HERETIC ASTARTES вашей армии теряют способность Dark Pacts.
 
 Дальнобойное оружие моделей HERETIC ASTARTES вашей армии обладает способностью [ASSAULT].
 
 При наборе армии вы не можете использовать правило Cults of the Dark Gods.
 
-### Vendetta
+### Vendetta | Вендетта
 В начале вашей командной фазы выберите один юнит из армии оппонента. До начала вашей следующей командной фазы тот вражеский юнит — ваша цель Vendetta. Каждый раз, когда модель HERETIC ASTARTES вашей армии (кроме моделей Damned) совершает атаку по вашей цели Vendetta, вы можете перебросить бросок попадания.
 
-### Twisted Doctrine
+### Twisted Doctrine | Искажённая доктрина
 В вашу фазу движения каждый раз, когда вы выставляете или выбираете для движения юнит HERETIC ASTARTES (кроме юнитов в состоянии боевого шока) вашей армии, он может выбрать «действовать по доктрине» (Default to Doctrine). Если выбирает, он сперва обязан пройти тест боевого шока. Затем выберите одно из следующего:
 ▪ До конца хода этот юнит может стрелять и объявлять нападение в ход, в котором он отступил.
 ▪ До конца хода этот юнит может объявлять нападение в ход, в котором он совершил продвижение.`,

@@ -2,7 +2,10 @@
   <div class="rule-block" :id="id">
     <div class="rule-header">
       <span v-if="sectionNum" class="section-num">{{ sectionNum }}</span>
-      <h3 class="rule-title">{{ title }}</h3>
+      <div class="rule-title-wrap">
+        <h3 class="rule-title">{{ title }}</h3>
+        <div v-if="subtitle" class="rule-title-ru">{{ subtitle }}</div>
+      </div>
     </div>
 
     <div class="rule-body-wrap">
@@ -47,6 +50,7 @@ defineProps({
   id: String,
   sectionNum: String,
   title: String,
+  subtitle: String,
   body: String,
   note: String,
   example: String,
@@ -101,6 +105,16 @@ function handleDefClick(e) {
   font-weight: var(--fw-heading);
   color: var(--text-primary);
   letter-spacing: 0.2px;
+}
+
+/* RU translation of the rule name — small, muted line tucked under the English title */
+.rule-title-ru {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  opacity: 0.75;
+  line-height: 1.05;
+  margin-top: -5px;
 }
 
 .rule-body {

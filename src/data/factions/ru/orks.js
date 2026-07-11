@@ -73,6 +73,38 @@ export const stratNamesRu = {
   'Krump and Run': 'Крампни и беги',
 }
 
+export const armyRuleNameRu = 'Ваааагх!'
+
+export const detNamesRu = {
+  'War Horde': 'Военная орда',
+  'Da Big Hunt': 'Большая охота',
+  'Kult of Speed': 'Культ скорости',
+  'Dread Mob': 'Грозная банда',
+  'Green Tide': 'Зелёный прилив',
+  'Bully Boyz': 'Задиры',
+  "Rollin' Deff": 'Катящаяся смерть',
+  'More Dakka!': 'Больше дакки!',
+  'Taktikal Brigade': 'Тактегеская бригада',
+  'Speedwaaagh!': 'Скоростной Ваааагх!',
+  'Blitz Brigade': 'Блиц-бригада',
+  'Freebooter Krew': 'Команда вольных пиратов',
+}
+
+export const detRuleNamesRu = {
+  'Get Stuck In!': 'Врубайся!',
+  'Da Hunt Is On': 'Охота началась',
+  'Adrenaline Junkies': 'Адреналиновые торчки',
+  'Try Dat Button!': 'Жми энту кнопку!',
+  'Mob Mentality': 'Стадный дух',
+  "Da Boss Is Watchin'": 'Босс смотрит',
+  'Thundering Wagons': 'Громыхающие повозки',
+  'Dakka! Dakka! Dakka!': 'Дакка! Дакка! Дакка!',
+  "Lissen 'Ere": 'Слышь сюды',
+  'Turbo Boostas': 'Турбо-ускорители',
+  'Eager for the Fight': 'Рвутся в драку',
+  'Here Be Loot': 'Тут есть лут',
+}
+
 export default {
   armyRule: {
     flavor:
@@ -313,7 +345,7 @@ export default {
 
 Если оружие модели вашей армии обладает способностью [HAZARDOUS] из нескольких источников, каждый раз, когда вы проходите тест Hazardous для этого оружия, он провален на броске 1-3.
 
-### Keywords
+### Keywords | Ключевые слова
 Юниты Gretchin вашей армии получают ключевое слово Battleline.`,
       },
       stratagems: [

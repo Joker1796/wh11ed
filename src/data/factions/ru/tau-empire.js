@@ -34,6 +34,28 @@ export const stratNamesRu = {
   'Experimental Ammunition': 'Экспериментальные боеприпасы',
 }
 
+export const armyRuleNameRu = 'Ради общего блага'
+
+export const detNamesRu = {
+  'Kauyon': 'Кауйон',
+  'Kroot Hunting Pack': 'Охотничья стая крутов',
+  'Mont’ka': 'Монт’ка',
+  'Retaliation Cadre': 'Кадр возмездия',
+  'Advanced Acquisition Cadre': 'Кадр передового изъятия',
+  'Auxiliary Cadre': 'Вспомогательный кадр',
+  'Experimental Prototype Cadre': 'Кадр экспериментальных прототипов',
+}
+
+export const detRuleNamesRu = {
+  'Patient Hunter': 'Терпеливый охотник',
+  'Hunter’s Instincts & Skirmish Fighters': 'Инстинкты охотника и Бойцы-застрельщики',
+  'Killing Blow': 'Смертельный удар',
+  'Bonded Heroes': 'Связанные узами герои',
+  'Expert Fieldcraft': 'Мастерство полевого дела',
+  'Integrated Command Structure': 'Интегрированная командная структура',
+  'Superior Craftsmanship': 'Превосходное мастерство',
+}
+
 export default {
   armyRule: {
     flavor:
@@ -136,13 +158,13 @@ export default {
     {
       rule: {
         flavor: 'Круты от природы охотятся на ослабленную добычу, привлечённые запахом пролитой крови и внутренностей.',
-        body: `### Hunter's Instincts
+        body: `### Hunter's Instincts | Инстинкты охотника
 Каждый раз, когда модель Kroot вашей армии совершает атаку, добавляйте 1 к броску на попадание, если цель этой атаки ниже своей начальной численности, и вдобавок добавляйте 1 к броску на ранение, если цель ниже половинной численности.
 
-### Skirmish Fighters
+### Skirmish Fighters | Бойцы-застрельщики
 Модели Kroot вашей армии имеют инвулевый спас-бросок (InSv) 6+ против атак ближнего боя и InSv 5+ против атак дальнего боя.
 
-### KEYWORDS
+### KEYWORDS | Ключевые слова
 Если вы выбираете этот детачмент, юниты Kroot Carnivore вашей армии имеют ключевое слово Battleline.`,
       },
       stratagems: [

@@ -53,19 +53,45 @@ export const stratNamesRu = {
   'Simultaneous Contamination': 'Одновременное заражение',
 }
 
+export const armyRuleNameRu = 'Дар Нургла (Aura)'
+
+export const detNamesRu = {
+  'Champions of Contagion': 'Поборники заразы',
+  'Death Lord’s Chosen': 'Избранники Владыки Смерти',
+  'Mortarion’s Hammer': 'Молот Мортариона',
+  'Shamblerot Vectorium': 'Векториум «Ковыльная гниль»',
+  'Tallyband Summoners': 'Призыватели счётной банды',
+  'Virulent Vectorium': 'Заразный векториум',
+  'Contagion Engines': 'Машины заразы',
+  'Flyblown Host': 'Обмушенное воинство',
+  'Paragons of Putrescence': 'Образцы гниения',
+}
+
+export const detRuleNamesRu = {
+  'Manifold Maladies': 'Многоликие недуги',
+  'Deadly Vectors': 'Смертоносные переносчики',
+  'Miasmic Bombardment': 'Миазменная бомбардировка',
+  'Numberless Horde': 'Бессчётная орда',
+  'Reverberant Rancidity': 'Гулкая прогорклость',
+  'Worldblight': 'Мирозараза',
+  'Warped and Rusted Animus': 'Искажённый и проржавевший дух',
+  'Verminous Haze': 'Паразитическая дымка',
+  'Hypervirulent Strains': 'Гипервирулентные штаммы',
+}
+
 export default {
   armyRule: {
     flavor:
       'Death Guard — воины Бога Чумы Нургла. Их раздутые тела изъедены порчей, и одно их присутствие заставляет врага болеть и увядать в хватке сверхъестественных недугов, пока поле боя вокруг них обращается в гниль и руины.',
     body: `Если фракция вашей армии — DEATH GUARD, пока вражеский юнит в пределах Contagion Range одной или более моделей DEATH GUARD вашей армии, он **Afflicted** (см. ниже).
 
-### Contagion Range
+### Contagion Range | Дистанция заразы
 Contagion Range меняется по ходу битвы:
 ▪ **В течение первого раунда боя:** Contagion Range 3".
 ▪ **Со второго раунда боя:** Contagion Range 6".
 ▪ Contagion Range не может быть больше 12" после модификаторов.
 
-### Afflicted
+### Afflicted | Поражённые
 В шаге «Объявление боевых построений» выберите один из Plagues ниже. До конца битвы, пока вражеский юнит — Afflicted, вычитайте 1 из характеристики прочности моделей того юнита, и тот юнит имеет эффект выбранного вами Plague.
 ▪ **Skullsquirm Blight:** Каждый раз, когда модель этого юнита совершает атаку ближнего боя, вычитайте 1 из броска на попадание.
 ▪ **Rattlejoint Ague:** Ухудшите характеристику спасброска моделей этого юнита на 1.

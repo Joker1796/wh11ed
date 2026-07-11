@@ -7,6 +7,7 @@
       <RuleBlock
         :id="faction.armyRule.id"
         :title="faction.armyRule.name"
+        :subtitle="faction.armyRule.nameRu"
         :body="faction.armyRule.body"
         :example="faction.armyRule.example"
       />
@@ -33,6 +34,7 @@
 
     <section v-if="det" class="fsection" :id="det.id" :key="det.id">
       <h2 class="fsection-title">{{ det.name }}</h2>
+      <div v-if="det.nameRu" class="fsection-title-ru">{{ det.nameRu }}</div>
 
       <div v-if="det.dp || det.forceDisposition || det.unique" class="det-meta">
         <span v-if="det.dp" class="det-meta-item">{{ det.dp }} DP</span>
@@ -41,7 +43,7 @@
       </div>
 
       <p v-if="det.rule.flavor" class="faction-flavor">{{ det.rule.flavor }}</p>
-      <RuleBlock :title="det.rule.name" :body="det.rule.body" />
+      <RuleBlock :title="det.rule.name" :subtitle="det.rule.nameRu" :body="det.rule.body" />
 
       <!-- Stratagems -->
       <template v-if="det.stratagems && det.stratagems.length">
@@ -211,6 +213,16 @@ const det = computed(() => detachments.value.find((d) => d.id === activeId.value
   font-weight: 400;
   color: var(--text-primary);
   margin-bottom: 0.8rem;
+}
+
+/* RU translation of the detachment name — small muted line tucked under the heading */
+.fsection-title-ru {
+  margin-top: -0.9rem;
+  margin-bottom: 0.8rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  opacity: 0.8;
 }
 
 .fsub-title {

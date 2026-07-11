@@ -39,6 +39,28 @@ export const stratNamesRu = {
   'Blade-keen Senses': 'Острые как клинок чувства',
 }
 
+export const armyRuleNameRu = 'Клятва момента'
+
+export const detNamesRu = {
+  'Saga of the Beastslayer': 'Сага о Звероборце',
+  'Saga of the Bold': 'Сага о Смелых',
+  'Saga of the Great Wolf': 'Сага о Великом Волке',
+  'Saga of the Hunter': 'Сага об Охотнике',
+  'Champions of Fenris': 'Чемпионы Фенриса',
+  'Legends of Saga and Song': 'Легенды саги и песни',
+  'Veterans of the Fang': 'Ветераны Клыка',
+}
+
+export const detRuleNamesRu = {
+  'Legendary Slayers': 'Легендарные истребители',
+  'Heroes All': 'Все — герои',
+  'Master of Wolves & Howling Onslaught & Restrictions': 'Повелитель волков и Воющий натиск и Ограничения',
+  'Pack’s Quarry': 'Добыча стаи',
+  'The Great Wolf Watches': 'Великий Волк наблюдает',
+  'Loping Charge': 'Размашистый бросок',
+  'Old Greymanes': 'Старые Седогривы',
+}
+
 export default {
   armyRule: {
     flavor:
@@ -216,13 +238,13 @@ Saga of the Bold
     {
       rule: {
         flavor: 'Под командованием Логана Гримнара охотничьи стаи Космических Волков сражаются с наивысшей слаженностью.',
-        body: `### Master of Wolves
+        body: `### Master of Wolves | Повелитель волков
 В начале вашей фазы командования вы можете выбрать одну из Охотничьих Стай, перечисленных ниже. До начала вашей следующей фазы командования эта Охотничья Стая активна, и её эффекты применяются ко всем юнитам ADEPTUS ASTARTES вашей армии. Каждую Охотничью Стаю можно выбрать только один раз за битву.
 ▪ **Encircling Jaws:** этот юнит может перебрасывать броски на продвижение и броски на нападение.
 ▪ **Hunter's Eye:** каждый раз, когда модель этого юнита совершает атаку дальнего боя, добавляйте 1 к броску на попадание.
 ▪ **Ferocious Strike:** каждый раз, когда этот юнит выбирается сражаться, выберите способность [LETHAL HITS] или [SUSTAINED HITS 1]. До конца фазы оружие моделей этого юнита имеет выбранную способность.
 
-### Howling Onslaught
+### Howling Onslaught | Воющий натиск
 Один раз за битву, при выборе Охотничьей Стаи для правила детачмента Master of Wolves, если модель Logan Grimnar вашей армии на поле боя, вы можете выбрать Охотничью Стаю, которую уже выбирали в этой битве.
 
 ### Ограничения
