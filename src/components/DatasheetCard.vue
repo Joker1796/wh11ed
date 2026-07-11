@@ -324,7 +324,7 @@ function statCells(p) {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  color: var(--accent);
+  color: var(--ds-th-accent, var(--accent));
   border-bottom: 2px solid var(--accent);
   padding: 0.25rem 0.35rem;
   white-space: nowrap;
@@ -389,4 +389,18 @@ function statCells(p) {
   line-height: 1.5;
   color: var(--text-muted);
 }
+</style>
+
+<!-- Unscoped on purpose (same reason as FactionLayout): a data-theme selector above the
+     component root can't be expressed in scoped CSS without the :global() pitfall.
+     Weapon-table header text softens the accent in the light theme — the faction light
+     colors are deliberately dark (for white text on chips) and read almost black as
+     small type; the dark theme keeps the plain accent. -->
+<style>
+.ds-card { --ds-th-accent: color-mix(in srgb, var(--accent) 75%, #fff); }
+@media (prefers-color-scheme: dark) {
+  .ds-card { --ds-th-accent: var(--accent); }
+}
+:root[data-theme='light'] .ds-card { --ds-th-accent: color-mix(in srgb, var(--accent) 75%, #fff); }
+:root[data-theme='dark'] .ds-card { --ds-th-accent: var(--accent); }
 </style>
