@@ -3,6 +3,53 @@
 // restrictions, тексты улучшений). Названия детачментов, стратагем, улучшений и правил,
 // ALL-CAPS ключевые слова, [BRACKET]-способности и имена юнитов остаются английскими.
 // Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN-файлом.
+// RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
+export const stratNamesRu = {
+  'Hunt as One': 'Охота как единое целое',
+  "Emperor's Executioners": 'Палачи Императора',
+  'Talons Interlocked': 'Сомкнутые когти',
+  'Taloned Pincer': 'Когтистые клещи',
+  'Empyric Severance': 'Эмпирейское отсечение',
+  'Shield of Honour': 'Щит чести',
+  'Arcane Genetic Alchemy': 'Тайная генетическая алхимия',
+  'Multipotentiality': 'Многогранность',
+  'Avenge the Fallen': 'Отомстить за павших',
+  'Vigilance Eternal': 'Вечная бдительность',
+  'Unwavering Sentinels': 'Непоколебимые стражи',
+  'Archeotech Munitions': 'Археотех-боеприпасы',
+  "Desperation's Price": 'Цена отчаяния',
+  'Psy-chaff Volley': 'Залп пси-помех',
+  'Witch Hunters': 'Охотники на ведьм',
+  'Purgation Sweep': 'Очищающая зачистка',
+  'Anathema Blademastery': 'Мастерство клинка Анафемы',
+  'Psychic Abominations': 'Псионические мерзости',
+  'Slayer of Champions': 'Убийца чемпионов',
+  'Earning of a Name': 'Обретение имени',
+  'Superhuman Reserves': 'Сверхчеловеческие резервы',
+  'Vigil Unending': 'Нескончаемая стража',
+  "The Emperor's Auspice": 'Покровительство Императора',
+  'Shoulder the Mantle': 'Принять бремя',
+  'Flawless Construction': 'Безупречное строение',
+  'Unstoppable Advance': 'Неудержимое наступление',
+  'Prioritised Eradication': 'Приоритетное истребление',
+  'Deathsong Scythes': 'Косы песни смерти',
+  'Umbral Prosecution': 'Теневое преследование',
+  'Synchronised Inferno': 'Синхронное пекло',
+  'Hardened Resolve': 'Закалённая решимость',
+  'Unleash the Lions': 'Спустить львов',
+  'Electro-exorcist Saturation': 'Электро-экзорцистское насыщение',
+  'Gilded Champion': 'Позолоченный чемпион',
+  'Defiant to the Last': 'Непокорны до последнего',
+  'Manoeuvre and Fire': 'Манёвр и огонь',
+  'Swift as the Eagle': 'Стремительны как орёл',
+  'Peerless Warrior': 'Несравненный воин',
+  "Emperor's Vengeance": 'Возмездие Императора',
+  'Wrathful Advance': 'Гневное наступление',
+  'Unstoppable': 'Неудержимость',
+  'Relentless Persecution': 'Неумолимое преследование',
+  'Punishment Inescapable': 'Неотвратимая кара',
+}
+
 export default {
   armyRule: {
     flavor:

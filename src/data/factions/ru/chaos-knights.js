@@ -4,6 +4,49 @@
 // ALL-CAPS ключевые слова, [BRACKET]-способности и имена юнитов остаются английскими.
 // Механики Harbingers of Dread / Dread ability / Malefic Surge / Empowered оставлены
 // английскими. Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN.
+// RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
+export const stratNamesRu = {
+  'Merciless Fusillade': 'Беспощадный залп',
+  'Flush the Quarry': 'Выгнать добычу',
+  'Beasthide Manifestation': 'Проявление звериной шкуры',
+  'Contemptuous Volleys': 'Презрительные залпы',
+  'Feral Arrogance': 'Дикарское высокомерие',
+  'Goaded Beast': 'Раззадоренный зверь',
+  'Vox-Howl': 'Вокс-вой',
+  'Hungry for Combat': 'Жаждущий боя',
+  'Animalistic Rage': 'Звериная ярость',
+  'Encircling Pack': 'Окружающая стая',
+  'Cunning Hunter': 'Хитрый охотник',
+  'Harrying Hounds': 'Терзающие псы',
+  'Profane Symbiosis': 'Нечестивый симбиоз',
+  'Hellforged Construction': 'Строение из адского горна',
+  'Corrupting Taint': 'Растлевающая порча',
+  'Diabolic Bulwark': 'Дьявольский оплот',
+  'Warp Vision': 'Взор варпа',
+  'Unleash Balefire': 'Спустить зловещий огонь',
+  'Spiteful Demise': 'Злобная гибель',
+  'Titanic Duel': 'Титаническая дуэль',
+  'Runes of Disdain': 'Руны презрения',
+  'Claimed for the Dark Gods': 'Взято для Тёмных Богов',
+  'Crushed Like Vermin': 'Раздавлены как паразиты',
+  'Trophy Hunter': 'Охотник за трофеями',
+  'Conquerors Without Mercy': 'Завоеватели без пощады',
+  'Imperious Advance': 'Властное наступление',
+  'Disdain for the Weak': 'Презрение к слабым',
+  'Storm of Darkness': 'Буря тьмы',
+  'A Long Leash': 'Длинный поводок',
+  'Pterrorshades': 'Птеррор-тени',
+  'Rune-cursed Stronghold': 'Проклятый рунами оплот',
+  'Pitiless Focus': 'Безжалостная сосредоточенность',
+  'Intimidating Reminder': 'Устрашающее напоминание',
+  'Insensate Bloodthirst': 'Безрассудная кровожадность',
+  'Leash of the Masters': 'Поводок владык',
+  'Stalking Focus': 'Хищная сосредоточенность',
+  'Avenge the Masters!': 'Отомстить за владык!',
+  'Dark Sacrifice': 'Тёмная жертва',
+  'Coursing Thralls': 'Мчащиеся рабы',
+}
+
 export default {
   armyRule: {
     flavor:

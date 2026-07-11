@@ -4,6 +4,55 @@
 // ALL-CAPS ключевые слова, [BRACKET]-способности и имена юнитов остаются английскими.
 // Механики Nurgle's Gift / Contagion Range / Afflicted / Plague(s) оставлены английскими.
 // Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN-файлом.
+// RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
+export const stratNamesRu = {
+  'Grotesque Fortitude': 'Гротескная стойкость',
+  'Blessings of Filth': 'Благословения скверны',
+  'Malignance Magnified': 'Усиленная злокачественность',
+  'Rabid Infusion': 'Бешеное вливание',
+  'Mobile Vector': 'Подвижный переносчик',
+  'Death’S Heads': 'Головы смерти',
+  'Grim Reapers': 'Мрачные жнецы',
+  'Signal Pox': 'Сигнальная оспа',
+  'Blooming Pestilence': 'Цветущий мор',
+  'Undying Spite': 'Неумирающая злоба',
+  "Mortarion'S Teachings": 'Учения Мортариона',
+  'Sickening Impact': 'Тошнотворный удар',
+  'Drawn to Despair': 'Влекомые к отчаянию',
+  'Font of Filth': 'Источник скверны',
+  'Blighted Land': 'Заражённая земля',
+  'Stinking Mire': 'Смрадная трясина',
+  'Eyestinger Storm': 'Буря глазожалов',
+  'Relentless Grind': 'Неумолимое перемалывание',
+  'Gnawing Hunger': 'Грызущий голод',
+  'Grip of the Walking Pox': 'Хватка ходячей оспы',
+  'Shambling Wall': 'Ковыляющая стена',
+  'Shock and Horror': 'Шок и ужас',
+  'Hidden Amongst the Dead': 'Сокрыты средь мёртвых',
+  'Smeared with Filth': 'Измазаны скверной',
+  'Clutching Corruption': 'Цепкая порча',
+  'Persistent Pests': 'Назойливые вредители',
+  'All is Rot': 'Всё есть гниль',
+  'Fleshy Avalanche': 'Плотская лавина',
+  'Avatars of Decay': 'Аватары распада',
+  'Mireslick': 'Топкая слизь',
+  'Disgustingly Resilient': 'Отвратительно живучи',
+  'Plaguesurge': 'Чумной прилив',
+  'Leechspore Eruption': 'Извержение спор-пиявок',
+  'Putrid Detonation': 'Гнилостная детонация',
+  'Overwhelming Generosity': 'Подавляющая щедрость',
+  'Creeping Blight': 'Ползучая порча',
+  'Fresh Vectors': 'Свежие переносчики',
+  'Bloodrust Deluge': 'Потоп кровавой ржавчины',
+  'Soulrot Flux': 'Поток душегнили',
+  'Nauseating Paroxysms': 'Тошнотворные пароксизмы',
+  'Droning Horror': 'Гудящий ужас',
+  'Eye of the Swarm': 'Око роя',
+  'Territorial Infection': 'Территориальная зараза',
+  'Aggravus Spasms': 'Спазмы Аггравуса',
+  'Simultaneous Contamination': 'Одновременное заражение',
+}
+
 export default {
   armyRule: {
     flavor:

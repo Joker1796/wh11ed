@@ -1,4 +1,14 @@
 // Deathwatch — русский перевод правил фракции (оверлей, см. ./index.js).
+// RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
+export const stratNamesRu = {
+  'Armour of Contempt': 'Броня презрения',
+  'Adaptive Tactics': 'Гибкая тактика',
+  'Site-To-Site Teleportation': 'Телепортация точка-в-точку',
+  'Hellfire Rounds': 'Патроны «Адское пламя»',
+  'Kraken Rounds': 'Патроны «Кракен»',
+  'Dragonfire Rounds': 'Патроны «Драконье пламя»',
+}
+
 export default {
   armyRule: {
     flavor:

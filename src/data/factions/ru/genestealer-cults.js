@@ -4,6 +4,55 @@
 // ALL-CAPS ключевые слова, [BRACKET]-способности и имена юнитов остаются английскими.
 // Механики Cult Ambush / Resurgence points оставлены английскими.
 // Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN-файлом.
+// RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
+export const stratNamesRu = {
+  'Stimulated Bio-Surge': 'Стимулированный био-всплеск',
+  'Gene-Twisted Muscle': 'Ген-искажённые мышцы',
+  'Hyper-Metabolic Vigour': 'Гиперметаболическая мощь',
+  'Saintly Paroxysm': 'Святой пароксизм',
+  'Bio-Horror Revelation': 'Откровение био-ужаса',
+  'Evasive Vanguard': 'Уклончивый авангард',
+  'Symbiotic Destruction': 'Симбиотическое разрушение',
+  'A Dark Network': 'Тёмная сеть',
+  'Acceptable Losses': 'Приемлемые потери',
+  'Suppress and Overwhelm': 'Подавить и сокрушить',
+  'Regimental Reinforcements': 'Полковые подкрепления',
+  'In the Shadow of Iron': 'В тени железа',
+  'Divine Imperative': 'Божественный императив',
+  'Hyperferocity': 'Гиперсвирепость',
+  'Avenge the Star Children': 'Отомстить за Звёздных Детей',
+  'Darting Attacks': 'Стремительные атаки',
+  'Psi Surge': 'Пси-всплеск',
+  'Resistance Tunnels': 'Туннели сопротивления',
+  'Coordinated Trap': 'Согласованная ловушка',
+  'Primed and Readied': 'Готовы и заряжены',
+  'Tunnel Crawlers': 'Ползущие по туннелям',
+  'Return to the Shadows': 'Вернуться в тени',
+  'Lying in Wait': 'Затаившись в ожидании',
+  'A Deadly Snare': 'Смертельная западня',
+  'Devoted Crew': 'Преданный экипаж',
+  'Deft Manoeuvring': 'Ловкое маневрирование',
+  'Close-Range Shoot-Out': 'Перестрелка в упор',
+  'Along Shadowed Trails': 'По тенистым тропам',
+  'Rapid Feint': 'Быстрый финт',
+  'Encircling the Prey': 'Окружение добычи',
+  'Frenzied Devotion': 'Неистовая преданность',
+  'Vengeance for the Martyr!': 'Возмездие за мученика!',
+  'The Downtrodden Rise': 'Угнетённые восстают',
+  'Transcendent Celerity': 'Трансцендентная стремительность',
+  'Tireless Fervour': 'Неутомимое рвение',
+  'The Path of Anguish': 'Путь муки',
+  'Living Up to Legend': 'Соответствуя легенде',
+  'Surging Broodworship': 'Нарастающее поклонение выводку',
+  'Loyal to the End': 'Верны до конца',
+  'Lurk and Strike': 'Затаиться и ударить',
+  'Crawling Horror': 'Ползучий ужас',
+  'Inhuman Reactions': 'Нечеловеческие реакции',
+  'Eyes of the Cult': 'Глаза культа',
+  'Fanatical Hail': 'Фанатичный град',
+  'Slunk from the Underbelly': 'Выползшие из недр',
+}
+
 export default {
   armyRule: {
     flavor:

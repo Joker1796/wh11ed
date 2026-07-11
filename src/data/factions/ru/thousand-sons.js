@@ -4,6 +4,55 @@
 // ALL-CAPS ключевые слова, [BRACKET]-способности и имена юнитов остаются английскими.
 // Механики Cabal of Sorcerers / Ritual / Warp Charge / Channel the Warp / Flow of Magic — англ.
 // Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN-файлом.
+// RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
+export const stratNamesRu = {
+  'Psychic Dominion': 'Псионическое владычество',
+  'Desecration of Worlds': 'Осквернение миров',
+  'Destined by Fate': 'Предначертано судьбой',
+  'Arcane Focus': 'Тайная сосредоточенность',
+  'Egotistical Power': 'Эгоистичная мощь',
+  'Devastating Sorcery': 'Опустошительное чародейство',
+  'Sulphurous Veil': 'Серная завеса',
+  'Fractal Disjunction': 'Фрактальный разлом',
+  'Deceptive Glamour': 'Обманчивый морок',
+  'Chronosorcerous Bleed': 'Хроночародейский прорыв',
+  'Ethereal Phantasm': 'Эфирный фантазм',
+  'Glimmershift Portal': 'Портал мерцающего сдвига',
+  'Gift of Change': 'Дар перемен',
+  'Blessed Transmutations': 'Благословенные превращения',
+  'Warped Vicissitude': 'Искажённая превратность',
+  'Touched by Tzeentch': 'Тронутые Тзинчем',
+  'Deranged Ferocity': 'Безумная свирепость',
+  'Twisted Mirage': 'Извращённый мираж',
+  'Ardent Automata': 'Ревностные автоматы',
+  'Revenge of the Rubricae': 'Месть Рубрикариев',
+  'Inexorable Advance': 'Неумолимое наступление',
+  'Implacable Guardians': 'Непреклонные стражи',
+  'Infernal Fusillade': 'Инфернальный залп',
+  'Unwavering Phalanx': 'Непоколебимая фаланга',
+  'Hex-marked Armour': 'Доспех с меткой проклятия',
+  'Malevolent Animus': 'Злобный дух',
+  'Mutate Landscape': 'Мутировать ландшафт',
+  'Ensorcelled Infusion': 'Зачарованное вливание',
+  'Cyberspirit Machinations': 'Козни кибердуха',
+  'Warpflame Gargoyles': 'Гаргульи варп-пламени',
+  'Relentless Rebirth': 'Неумолимое перерождение',
+  'Mutagenic Magicks': 'Мутагенные чары',
+  'Multitudinous Limbs': 'Бесчисленные конечности',
+  'Arcane Venting': 'Тайный выброс',
+  'Ectoplasmic Extrusion': 'Эктоплазменное извержение',
+  'Warp Fields': 'Поля варпа',
+  'Prismatic Displacement': 'Призматическое смещение',
+  'Temporal Instability': 'Временная нестабильность',
+  'The Land Writhes': 'Земля извивается',
+  'Warding Hex': 'Оберегающее проклятие',
+  'Wrath of the Doomed': 'Гнев обречённых',
+  'Strands of Time': 'Нити времени',
+  'Through the Veil': 'Сквозь завесу',
+  'Scouring Warpflame': 'Испепеляющее варп-пламя',
+  'Kaleidoscopic Tempest': 'Калейдоскопическая буря',
+}
+
 export default {
   armyRule: {
     flavor:

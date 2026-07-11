@@ -4,6 +4,54 @@
 // ALL-CAPS ключевые слова, [BRACKET]-способности и имена юнитов остаются английскими.
 // Механики Power From Pain / Pain token / Empowered / Combat Drugs / Contract оставлены
 // английскими. Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN.
+// RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
+export const stratNamesRu = {
+  'Insensible to Pain': 'Нечувствительны к боли',
+  'Fighting Shadows': 'Бой с тенями',
+  'Instinctive Spite': 'Инстинктивная злоба',
+  'Dark Harvest': 'Тёмная жатва',
+  'Eager for the Kill': 'Жаждущие убийства',
+  'Raid and Fade': 'Налёт и исчезновение',
+  'Vicious Blades': 'Свирепые клинки',
+  'Wraithlike Retreat': 'Призрачный отход',
+  'Pounce on the Prey': 'Броситься на добычу',
+  'Skyborne Annihilation': 'Воздушное истребление',
+  'Swooping Mockery': 'Пикирующая насмешка',
+  'Night Shield': 'Ночной щит',
+  'Berserk Fugue': 'Берсеркерская фуга',
+  'Deadly Debut': 'Смертельный дебют',
+  'Feigned Weakness': 'Притворная слабость',
+  'Preternatural Agility': 'Сверхъестественная ловкость',
+  'A Challenge Met': 'Вызов принят',
+  'Acrobatic Display': 'Акробатическое представление',
+  'Postmortality': 'Посмертие',
+  'Symphony of Suffering': 'Симфония страдания',
+  "Poisoner's Art": 'Искусство отравителя',
+  'Distillers of Fear': 'Дистилляторы страха',
+  'Connoisseurs of Pain': 'Ценители боли',
+  'Enfolding Nightmare': 'Обволакивающий кошмар',
+  'Double-Cross': 'Двойное предательство',
+  'Taken Alive': 'Взяты живьём',
+  'Tailored Toxins': 'Подобранные токсины',
+  'Enemies Without Number': 'Бесчисленные враги',
+  'Making a Point': 'Показательный урок',
+  'Deadly Deceivers': 'Смертоносные обманщики',
+  'Planned Strikes': 'Спланированные удары',
+  'Sculpting the Stage': 'Подготовка сцены',
+  'Prioritised Victim': 'Приоритетная жертва',
+  "Shadows' Reach": 'Досягаемость теней',
+  'Killers from the Dark Spires': 'Убийцы из Тёмных шпилей',
+  'Salting the Wound': 'Соль на рану',
+  'Dividends of Agony': 'Дивиденды агонии',
+  'Urgent Metamorphosis': 'Спешная метаморфоза',
+  'Malicious Frenzy': 'Злобное неистовство',
+  'Fateful Role': 'Роковая роль',
+  "Murderer's Circus": 'Цирк убийцы',
+  'Shorten the Odds': 'Уравнять шансы',
+  'Scintillating Tempo': 'Искрящийся темп',
+  'Dance Macabre': 'Пляска смерти',
+}
+
 export default {
   armyRule: {
     flavor:
