@@ -84,8 +84,9 @@ import { useFactionPage } from '../../composables/useFactionPage.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
+import { getItem, setItem } from '../../composables/safeStorage.js'
 
-const { faction } = useFactionPage()
+const { slug, faction } = useFactionPage()
 const { locale } = useLocale()
 const { renderInline } = useRenderInline()
 const labels = computed(() => ui[locale.value])
@@ -99,16 +100,34 @@ const detachments = computed(() => {
   return f.detachment ? [f.detachment] : []
 })
 
-const activeId = ref(detachments.value[0]?.id)
+// Remember the last-opened detachment per faction (localStorage map slug → detachment id),
+// so returning to a faction reopens the detachment you were last reading.
+const STORAGE_KEY = 'wh11ed-faction-detachment'
+const savedMap = () => {
+  try { return JSON.parse(getItem(STORAGE_KEY) || '{}') || {} } catch { return {} }
+}
 
-// Keep a valid selection when the faction (route) changes.
+const activeId = ref()
+
+// Restore the saved (or first) detachment when the faction changes; keep the current pick
+// across in-place list changes (e.g. the RU overlay resolving) as long as it stays valid.
 watch(
-  detachments,
-  (list) => {
-    if (!list.some((d) => d.id === activeId.value)) activeId.value = list[0]?.id
+  [slug, detachments],
+  ([s, list], prev) => {
+    if (!list.length) { activeId.value = undefined; return }
+    const slugChanged = !prev || s !== prev[0]
+    if (!slugChanged && list.some((d) => d.id === activeId.value)) return
+    const saved = savedMap()[s]
+    activeId.value = list.some((d) => d.id === saved) ? saved : list[0].id
   },
   { immediate: true },
 )
+
+// Persist the user's pick per faction.
+watch(activeId, (id) => {
+  if (!slug.value || !id) return
+  setItem(STORAGE_KEY, JSON.stringify({ ...savedMap(), [slug.value]: id }))
+})
 
 const det = computed(() => detachments.value.find((d) => d.id === activeId.value) || detachments.value[0] || null)
 </script>
