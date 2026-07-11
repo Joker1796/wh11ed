@@ -1,7 +1,8 @@
 <template>
   <article class="ds-card">
-    <!-- Lore (hidden app-wide by the "Hide lore" toggle via data-hide-lore) -->
-    <p v-if="sheet.flavor" class="ds-flavor">{{ sheet.flavor }}</p>
+    <!-- Lore: gated by the page's book-icon toggle (showFlavor) and still hidden
+         app-wide by the "Hide lore" toggle via data-hide-lore -->
+    <p v-if="sheet.flavor && showFlavor" class="ds-flavor">{{ sheet.flavor }}</p>
 
     <!-- Stat profiles -->
     <div v-for="(p, i) in sheet.profiles" :key="i" class="ds-statline">
@@ -154,6 +155,7 @@ import { useRenderInline } from '../composables/useRenderInline.js'
 
 const props = defineProps({
   sheet: { type: Object, required: true },
+  showFlavor: { type: Boolean, default: true },
 })
 
 const { locale } = useLocale()

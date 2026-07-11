@@ -18,6 +18,17 @@
             >
               <i :class="copied ? 'bi bi-check2' : 'bi bi-clipboard'"></i>
             </button>
+            <button
+              type="button"
+              class="ds-btn"
+              :class="{ copied: showLore }"
+              :title="showLore ? labels.loreHide : labels.loreShow"
+              :aria-label="showLore ? labels.loreHide : labels.loreShow"
+              :aria-pressed="showLore"
+              @click="showLore = !showLore"
+            >
+              <i :class="showLore ? 'bi bi-book-fill' : 'bi bi-book'"></i>
+            </button>
             <a
               :href="imageUrl"
               target="_blank"
@@ -30,7 +41,7 @@
             </a>
           </div>
         </div>
-        <DatasheetCard :sheet="sheet" />
+        <DatasheetCard :sheet="sheet" :show-flavor="showLore" />
       </template>
       <p v-else-if="loaded" class="ds-missing">{{ labels.factionsSoon }}</p>
     </section>
@@ -75,6 +86,10 @@ const imageUrl = computed(() => {
   const q = encodeURIComponent(`Warhammer 40000 ${faction.value?.name ?? ''} ${sheet.value?.name ?? ''}`.trim())
   return `https://www.google.com/search?tbm=isch&q=${q}%20miniature`
 })
+
+// Lore hidden by default; the book icon reveals it (the app-wide "Hide lore"
+// toggle still wins — data-hide-lore hides .ds-flavor regardless).
+const showLore = ref(false)
 
 const copied = ref(false)
 let copyTimer = null
