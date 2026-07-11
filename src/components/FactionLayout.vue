@@ -49,8 +49,8 @@ const tabs = computed(() => {
   const base = `/factions/${slug.value}`
   const l = labels.value
   return [
-    { path: base, label: l.factionArmyRule },
-    { path: `${base}/detachments`, label: l.factionDetachments },
+    // Army rule + detachments are merged onto the base page.
+    { path: base, label: l.factionRules },
     // prefix: the per-unit pages (/datasheets/:unit) keep this tab highlighted
     { path: `${base}/datasheets`, label: l.factionDatasheets, prefix: true },
   ]

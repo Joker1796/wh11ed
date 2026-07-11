@@ -341,8 +341,8 @@ const factionSubNavItems = computed(() => {
   const l = labels.value
   const base = `/factions/${route.params.slug}`
   return [
-    { path: base, label: l.factionArmyRule },
-    { path: `${base}/detachments`, label: l.factionDetachments },
+    // Army rule + detachments are merged onto the base page.
+    { path: base, label: l.factionRules },
     // prefix: the per-unit pages (/datasheets/:unit) keep this item highlighted
     { path: `${base}/datasheets`, label: l.factionDatasheets, prefix: true },
   ]
