@@ -5,29 +5,26 @@
     <p v-if="sheet.flavor && showFlavor" class="ds-flavor">{{ sheet.flavor }}</p>
 
     <!-- Stat profiles -->
+    <!-- Grid: row 1 = the six stat columns + (multi-profile) model name to the right;
+         row 2 = the invulnerable box straight under SV, with the faction-color band
+         top-aligned to its right and the asterisk note under the band. -->
     <div v-for="(p, i) in sheet.profiles" :key="i" class="ds-statline">
-      <span v-if="sheet.profiles.length > 1" class="ds-prof-name">{{ p.name }}</span>
       <div class="ds-stats">
-        <template v-for="s in statCells(p)" :key="s.label">
-          <!-- The invulnerable save is a second stat box stacked under SV; a conditional
-               (e.g. one-use / ranged-only) invuln gets an asterisk explained below. -->
-          <div v-if="s.label === 'SV' && p.inv" class="ds-stat-col">
-            <div class="ds-stat">
-              <span class="ds-stat-label">{{ s.label }}</span>
-              <span class="ds-stat-value">{{ s.value }}</span>
-            </div>
-            <div class="ds-stat ds-stat-inv">
-              <span class="ds-stat-label">INV</span>
-              <span class="ds-stat-value">{{ p.inv }}{{ p.invNote ? '*' : '' }}</span>
-            </div>
+        <div v-for="s in statCells(p)" :key="s.label" class="ds-stat">
+          <span class="ds-stat-label">{{ s.label }}</span>
+          <span class="ds-stat-box">{{ s.value }}</span>
+        </div>
+        <span v-if="sheet.profiles.length > 1" class="ds-prof-name">{{ p.name }}</span>
+        <template v-if="p.inv">
+          <div class="ds-stat ds-inv-box">
+            <span class="ds-stat-box ds-stat-box-inv">{{ p.inv }}{{ p.invNote ? '*' : '' }}</span>
           </div>
-          <div v-else class="ds-stat">
-            <span class="ds-stat-label">{{ s.label }}</span>
-            <span class="ds-stat-value">{{ s.value }}</span>
+          <div class="ds-inv-side">
+            <span class="ds-inv-band">Invulnerable Save</span>
+            <span v-if="p.invNote" class="ds-inv-note">{{ invNoteText(p.invNote) }}</span>
           </div>
         </template>
       </div>
-      <div v-if="p.invNote" class="ds-inv-note">{{ invNoteText(p.invNote) }}</div>
     </div>
 
     <!-- Weapons -->
@@ -250,40 +247,82 @@ function statCells(p) {
 
 /* Stat line */
 .ds-statline { margin-bottom: 0.7rem; }
-.ds-prof-name {
-  display: block;
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--text-muted);
-  margin-bottom: 0.25rem;
+.ds-stats {
+  display: grid;
+  grid-template-columns: repeat(6, max-content) minmax(0, 1fr);
+  gap: 0.35rem;
+  align-items: start;
 }
-.ds-stats { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 0.35rem; }
-.ds-stat-col { display: flex; flex-direction: column; gap: 0.35rem; }
 .ds-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.ds-stat-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+}
+.ds-stat-box {
+  display: block;
   min-width: 3rem;
   text-align: center;
   background: color-mix(in srgb, var(--accent) 7%, transparent);
   border: 1px solid var(--border);
   border-radius: 4px;
-  padding: 0.25rem 0.3rem;
-}
-.ds-stat-label {
-  display: block;
-  font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  color: var(--text-muted);
-}
-.ds-stat-value {
+  padding: 0.3rem;
   font-family: var(--font-display);
-  font-size: 1.15rem;
+  font-size: 1.3rem;
+  line-height: 1.15;
   color: var(--text-primary);
 }
-.ds-stat-inv { border-color: var(--accent); }
-.ds-stat-inv .ds-stat-label, .ds-stat-inv .ds-stat-value { color: var(--accent); }
-.ds-inv-note { font-size: 0.75rem; font-style: italic; color: var(--text-muted); margin-top: 0.25rem; }
+.ds-stat-box-inv {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+/* Multi-profile model name: right of the stat row, vertically centred on it. */
+.ds-prof-name {
+  grid-column: 7;
+  grid-row: 1;
+  align-self: center;
+  justify-self: start;
+  padding-left: 0.4rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 1.25;
+  color: var(--text-muted);
+}
+/* Invulnerable save: box straight under SV (column 3), band + note to its right. */
+.ds-inv-box { grid-column: 3; grid-row: 2; }
+.ds-inv-side {
+  grid-column: 4 / -1;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  min-width: 0;
+}
+.ds-inv-band {
+  background: var(--ds-th-bg, var(--accent));
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 0.28rem 0.55rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.ds-inv-note { font-size: 0.72rem; font-style: italic; line-height: 1.35; color: var(--text-muted); }
+
+@media (max-width: 480px) {
+  .ds-stat-box { min-width: 2.55rem; font-size: 1.15rem; padding: 0.25rem; }
+}
 
 /* Points */
 .ds-points { overflow-x: auto; margin-top: 0.8rem; }
