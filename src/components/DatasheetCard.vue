@@ -18,7 +18,7 @@
         <span v-if="sheet.profiles.length > 1" class="ds-prof-name">{{ p.name }}</span>
         <template v-if="p.inv">
           <div class="ds-stat ds-inv-box">
-            <span class="ds-stat-box ds-stat-box-inv">{{ p.inv }}{{ p.invNote ? '*' : '' }}</span>
+            <span class="ds-stat-box">{{ p.inv }}{{ p.invNote ? '*' : '' }}</span>
           </div>
           <div class="ds-inv-side">
             <span class="ds-inv-band">Invulnerable Save</span>
@@ -279,10 +279,6 @@ function statCells(p) {
   font-size: 1.3rem;
   line-height: 1.15;
   color: var(--text-primary);
-}
-.ds-stat-box-inv {
-  border-color: var(--accent);
-  color: var(--accent);
 }
 /* Multi-profile model name: right of the stat row, vertically centred on it. */
 .ds-prof-name {
