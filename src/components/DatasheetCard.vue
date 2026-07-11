@@ -344,7 +344,7 @@ function statCells(p) {
   min-width: 0;
 }
 .ds-inv-band {
-  color: var(--text-primary);
+  color: var(--accent);
   font-size: 0.66rem;
   font-weight: 700;
   text-transform: uppercase;
