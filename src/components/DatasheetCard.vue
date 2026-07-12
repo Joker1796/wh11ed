@@ -64,16 +64,22 @@
         <strong>{{ labels.dsFaction }}:</strong> <span class="ds-faction-rule">{{ sheet.faction }}</span>
       </p>
       <div v-for="a in sheet.abilities" :key="a.name" class="ds-ability">
-        <strong>{{ a.name }}:</strong> <span v-html="dsText(a.text)"></span>
+        <strong>{{ a.name }}:</strong>
+        <span v-if="a.nameRu" class="ds-ability-name-ru">{{ a.nameRu }}</span>
+        <span v-html="dsText(a.text)"></span>
       </div>
       <template v-if="sheet.wargearAbilities">
         <h5 class="ds-group-title">{{ labels.dsWargearAbilities }}</h5>
         <div v-for="a in sheet.wargearAbilities" :key="a.name" class="ds-ability">
-          <strong>{{ a.name }}:</strong> <span v-html="dsText(a.text)"></span>
+          <strong>{{ a.name }}:</strong>
+          <span v-if="a.nameRu" class="ds-ability-name-ru">{{ a.nameRu }}</span>
+          <span v-html="dsText(a.text)"></span>
         </div>
       </template>
       <div v-for="a in sheet.specialAbilities" :key="a.name" class="ds-ability">
-        <strong>{{ a.name }}:</strong> <span v-html="dsText(a.text)"></span>
+        <strong>{{ a.name }}:</strong>
+        <span v-if="a.nameRu" class="ds-ability-name-ru">{{ a.nameRu }}</span>
+        <span v-html="dsText(a.text)"></span>
       </div>
       <div v-if="sheet.damaged" class="ds-damaged">
         <strong>{{ labels.dsDamaged }}: {{ sheet.damaged.note }}</strong>
@@ -462,6 +468,17 @@ function statCells(p) {
 .ds-faction-rule { font-weight: 600; }
 .ds-ability-line { margin-bottom: 0.3rem; }
 .ds-ability { margin-bottom: 0.45rem; }
+/* RU display name of the ability, on its own line under the English name (like the
+   stratagem-card nameRu subline). Only present in the RU locale. */
+.ds-ability-name-ru {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  color: var(--accent);
+  line-height: 1.2;
+  margin: 1px 0 2px;
+}
 .ds-group-title {
   font-size: 0.68rem;
   font-weight: 700;
