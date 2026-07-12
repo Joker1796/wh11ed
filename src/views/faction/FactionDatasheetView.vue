@@ -17,7 +17,7 @@
               <i :class="copied ? 'bi bi-check2' : 'bi bi-clipboard'"></i>
             </button>
             <button
-              v-if="sheet.flavor && !hideLore"
+              v-if="sheet.flavor"
               ref="loreBtn"
               type="button"
               class="ds-btn"
@@ -72,16 +72,15 @@ import { useRoute } from 'vue-router'
 import DatasheetCard from '../../components/DatasheetCard.vue'
 import FactionLayout from '../../components/FactionLayout.vue'
 import { loadDatasheets, ptsSummary } from '../../data/datasheets/index.js'
+import { loadDatasheetsRu, localizeSheet } from '../../data/datasheets/ru/index.js'
 import { ui } from '../../i18n/ui.js'
 import { useFactionPage } from '../../composables/useFactionPage.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useLoreVisibility } from '../../composables/useLoreVisibility.js'
 
 const route = useRoute()
 const { slug, faction } = useFactionPage()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { hideLore } = useLoreVisibility()
 
 const datasheets = ref([])
 const loaded = ref(false)
@@ -99,7 +98,28 @@ watch(
   { immediate: true },
 )
 
-const sheet = computed(() => datasheets.value.find((d) => d.id === route.params.unit) || null)
+// RU prose overlay (src/data/datasheets/ru/<slug>.js), lazy-loaded only in the RU locale
+// and merged per-sheet by localizeSheet — until it resolves (or where no overlay exists)
+// RU falls back to the EN datasheet text.
+const ruModule = ref(null)
+watch(
+  [() => route.params.slug, locale],
+  async ([s, loc]) => {
+    ruModule.value = null
+    if (!s || loc !== 'ru') return
+    const mod = await loadDatasheetsRu(s)
+    if (route.params.slug === s && locale.value === 'ru') ruModule.value = mod
+  },
+  { immediate: true },
+)
+
+const sheet = computed(() => {
+  const en = datasheets.value.find((d) => d.id === route.params.unit) || null
+  if (!en || locale.value !== 'ru') return en
+  const mod = ruModule.value
+  if (!mod) return en
+  return localizeSheet(en, mod.default?.[en.id], mod.abilityNamesRu)
+})
 
 // Same query Wahapedia uses for its "Search for model's image on the Internet" icon.
 const imageUrl = computed(() => {
