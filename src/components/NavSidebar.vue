@@ -74,7 +74,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { navGroups, navGroupsRu, eventGroups, eventGroupsRu, trackerGroups, trackerGroupsRu, factionGroups, factionGroupsRu, linksGroups, linksGroupsRu } from '../router/index.js'
+import { navGroups, navGroupsRu, eventGroups, eventGroupsRu, trackerGroups, trackerGroupsRu, factionGroups, factionGroupsRu } from '../router/index.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useAbilityFilter } from '../composables/useAbilityFilter.js'
@@ -106,14 +106,11 @@ const localizedFactionGroups = computed(() => {
     { label: l.factionDatasheets, path: `${root}/datasheets`, sections: [] },
   ]
 })
-const localizedLinksGroups = computed(() => locale.value === 'ru' ? linksGroupsRu : linksGroups)
-
 const navSections = computed(() => [
   { key: 'core',    label: labels.value.navCoreRules,      groups: localizedGroups.value },
   { key: 'event',   label: labels.value.navEventCompanion, groups: localizedEventGroups.value },
   { key: 'tracker', label: labels.value.navTracker,        groups: localizedTrackerGroups.value },
   { key: 'factions', label: labels.value.navFactions,      groups: localizedFactionGroups.value },
-  { key: 'links',   label: labels.value.navLinks,          groups: localizedLinksGroups.value },
 ])
 
 const currentSection = computed(() => {
@@ -121,7 +118,6 @@ const currentSection = computed(() => {
   if (p.startsWith('/tracker')) return 'tracker'
   if (p.startsWith('/event-companion')) return 'event'
   if (p.startsWith('/factions')) return 'factions'
-  if (p.startsWith('/links')) return 'links'
   return 'core'
 })
 

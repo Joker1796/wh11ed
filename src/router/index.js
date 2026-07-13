@@ -268,14 +268,8 @@ export const factionGroupsRu = [
   { label: 'Фракции', path: '/factions', sections: [] },
 ]
 
-// Links — fourth top-level section. Single page of external source PDFs, no anchors.
-export const linksGroups = [
-  { label: 'Source PDFs', path: '/links', sections: [] },
-]
-
-export const linksGroupsRu = [
-  { label: 'Исходные PDF', path: '/links', sections: [] },
-]
+// The Links page (/links, external source PDFs) is deliberately NOT in the navbar or
+// the drawer — it's reachable only from its card on the landing page (src/data/landing.js).
 
 export const router = createRouter({
   history: createWebHistory(),

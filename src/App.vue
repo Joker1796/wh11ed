@@ -48,11 +48,6 @@
               </div>
             </div>
           </div>
-          <RouterLink
-            to="/links"
-            class="nav-link"
-            :class="{ active: isLinksRoute }"
-          >{{ labels.navLinks }}</RouterLink>
         </nav>
 
         <div class="navbar-actions">
