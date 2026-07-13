@@ -4,7 +4,6 @@
       <template v-if="sheet">
         <div class="ds-head">
           <h2 class="ds-title">{{ sheet.name }}</h2>
-          <span v-if="sheet.points" class="ds-pts">{{ ptsSummary(sheet.points) }}</span>
           <div class="ds-actions">
             <button
               type="button"
@@ -71,7 +70,7 @@ import { computed, ref, watch, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import DatasheetCard from '../../components/DatasheetCard.vue'
 import FactionLayout from '../../components/FactionLayout.vue'
-import { loadDatasheets, ptsSummary } from '../../data/datasheets/index.js'
+import { loadDatasheets } from '../../data/datasheets/index.js'
 import { loadDatasheetsRu, localizeSheet } from '../../data/datasheets/ru/index.js'
 import { ui } from '../../i18n/ui.js'
 import { useFactionPage } from '../../composables/useFactionPage.js'
@@ -236,14 +235,6 @@ async function copyName() {
   letter-spacing: 0.3px;
   color: #fff;
   margin: 0;
-}
-
-.ds-pts {
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.85);
-  white-space: nowrap;
 }
 
 .ds-actions {
