@@ -25,7 +25,7 @@
         <TransitionGroup v-else tag="ul" name="res" class="results-list">
           <li
             v-for="(item, i) in results"
-            :key="item.id"
+            :key="item.key || item.id"
             class="result-item"
             :class="{ selected: i === selectedIndex }"
             @click="navigate(item)"
@@ -50,7 +50,7 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
-import { search, highlightMatch } from '../composables/useSearch.js'
+import { search, highlightMatch, preloadDatasheetIndex } from '../composables/useSearch.js'
 import { useRefNavigation } from '../composables/useRefNavigation.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useModalA11y } from '../composables/useModalA11y.js'
@@ -63,6 +63,10 @@ const labels = computed(() => ui[locale.value])
 const boxEl = ref(null)
 const query = ref('')
 const selectedIndex = ref(0)
+
+// Kick off the datasheet-name chunk as soon as the palette opens; `search()` reads a
+// reactive tick, so results already on screen refresh when it lands.
+preloadDatasheetIndex()
 
 const results = computed(() => search(query.value, locale.value))
 
