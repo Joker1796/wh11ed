@@ -131,19 +131,32 @@ fi
 #     harmless (they serve index.html → the SPA's catch-all shows its 404 view, noindex).
 echo "▶ SEO route keys  →  index.html copies, 1 hour"
 if [ -f dist/.seo-routes.txt ] && [ -f dist/index.html ]; then
+  # S3 allows a key to be both an "object" and a "directory" (event-companion AND
+  # event-companion/sequence); a local filesystem mirror can't. So keys that are a
+  # prefix of other keys ("parents", a handful) upload one-by-one via `cp`, and the
+  # leaf keys go through a single fast `sync` from a temp mirror.
   MIRROR="$(mktemp -d)"
   trap 'rm -rf "$MIRROR"' EXIT
+  PARENTS=0
   while IFS= read -r route; do
     [ -n "$route" ] || continue
     key="${route#/}"
-    mkdir -p "$MIRROR/$(dirname "$key")"
-    cp dist/index.html "$MIRROR/$key"
+    if grep -q "^/$key/" dist/.seo-routes.txt; then
+      aws s3 cp dist/index.html "$BUCKET/$key" \
+        --cache-control "public, max-age=3600" \
+        --content-type "text/html; charset=utf-8" \
+        --metadata-directive REPLACE >/dev/null
+      PARENTS=$((PARENTS + 1))
+    else
+      mkdir -p "$MIRROR/$(dirname "$key")"
+      cp dist/index.html "$MIRROR/$key"
+    fi
   done < dist/.seo-routes.txt
-  # Fresh mtimes on every mirror file ⇒ sync always uploads (no cp-per-key round trips).
+  # Fresh mtimes on every mirror file ⇒ sync always uploads them.
   aws s3 sync "$MIRROR" "$BUCKET" \
     --cache-control "public, max-age=3600" \
     --content-type "text/html; charset=utf-8"
-  echo "  → $(wc -l < dist/.seo-routes.txt | tr -d ' ') route keys uploaded"
+  echo "  → $(wc -l < dist/.seo-routes.txt | tr -d ' ') route keys uploaded ($PARENTS parents via cp)"
 else
   echo "⚠ dist/.seo-routes.txt missing — SEO route keys not uploaded"
 fi
