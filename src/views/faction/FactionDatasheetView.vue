@@ -207,13 +207,26 @@ async function copyName() {
   scroll-margin-top: var(--header-total);
 }
 
+/* Datasheet header band: the name row is a solid faction-color plate (same visual
+   language as the weapon-table headers in DatasheetCard — --ds-th-bg is the accent in
+   light theme and the faction's dark variant in dark theme, where the plain accent is
+   too light to carry white text). It sits flush on top of the card (radius 0 0 6 6). */
 .ds-head {
   display: flex;
   align-items: baseline;
   flex-wrap: wrap;
   gap: 0.3rem 0.8rem;
-  margin-bottom: 0.7rem;
+  margin-bottom: 0;
+  padding: 0.5rem 1rem 0.45rem;
+  background: var(--ds-th-bg, var(--accent));
+  border-radius: 6px 6px 0 0;
+  --ds-th-bg: var(--accent);
 }
+@media (prefers-color-scheme: dark) {
+  .ds-head { --ds-th-bg: var(--fa-light, color-mix(in srgb, var(--accent) 55%, black)); }
+}
+:root[data-theme='light'] .ds-head { --ds-th-bg: var(--accent); }
+:root[data-theme='dark'] .ds-head { --ds-th-bg: var(--fa-light, color-mix(in srgb, var(--accent) 55%, black)); }
 
 .ds-title {
   font-family: var(--font-display);
@@ -221,7 +234,7 @@ async function copyName() {
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.3px;
-  color: var(--text-primary);
+  color: #fff;
   margin: 0;
 }
 
@@ -229,7 +242,7 @@ async function copyName() {
   font-family: var(--font-mono);
   font-size: 0.8rem;
   font-weight: 700;
-  color: var(--text-muted);
+  color: rgba(255, 255, 255, 0.85);
   white-space: nowrap;
 }
 
@@ -248,9 +261,9 @@ async function copyName() {
   min-width: 36px;
   min-height: 36px;
   background: none;
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: 4px;
-  color: var(--text-muted);
+  color: rgba(255, 255, 255, 0.85);
   font-size: 1rem;
   cursor: pointer;
   text-decoration: none;
@@ -258,15 +271,16 @@ async function copyName() {
 }
 
 .ds-btn:hover {
-  background: color-mix(in srgb, var(--text-primary) 8%, transparent);
-  color: var(--text-primary);
-  border-color: var(--accent);
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border-color: #fff;
   text-decoration: none;
 }
 
 .ds-btn.copied {
-  color: var(--accent);
-  border-color: var(--accent);
+  color: #fff;
+  border-color: #fff;
+  background: rgba(255, 255, 255, 0.18);
 }
 
 /* Anchored lore popover (teleported to body — scoped styles still apply to it). */

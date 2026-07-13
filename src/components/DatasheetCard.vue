@@ -1,26 +1,31 @@
 <template>
   <article class="ds-card">
     <!-- Stat profiles -->
+    <!-- The whole statline zone is part of the datasheet header: it bleeds over the card
+         padding and carries an accent-tinted background, reading as one band with the
+         solid faction-color name plate (.ds-head) that the parent view renders above. -->
     <!-- Grid: row 1 = the six stat columns + (multi-profile) model name to the right;
          row 2 = the invulnerable box straight under SV, with the faction-color band
          top-aligned to its right and the asterisk note under the band. -->
-    <div v-for="(p, i) in sheet.profiles" :key="i" class="ds-statline">
-      <div class="ds-stats" :class="{ 'has-name': sheet.profiles.length > 1 }">
-        <!-- Stat labels only once, above the first profile's row -->
-        <div v-for="s in statCells(p)" :key="s.label" class="ds-stat">
-          <span v-if="i === 0" class="ds-stat-label">{{ s.label }}</span>
-          <span class="ds-stat-box">{{ s.value }}</span>
+    <div v-if="sheet.profiles?.length" class="ds-cardhead">
+      <div v-for="(p, i) in sheet.profiles" :key="i" class="ds-statline">
+        <div class="ds-stats" :class="{ 'has-name': sheet.profiles.length > 1 }">
+          <!-- Stat labels only once, above the first profile's row -->
+          <div v-for="s in statCells(p)" :key="s.label" class="ds-stat">
+            <span v-if="i === 0" class="ds-stat-label">{{ s.label }}</span>
+            <span class="ds-stat-box">{{ s.value }}</span>
+          </div>
+          <span v-if="sheet.profiles.length > 1" class="ds-prof-name">{{ p.name }}</span>
+          <template v-if="p.inv">
+            <div class="ds-stat ds-inv-box">
+              <span class="ds-stat-box">{{ p.inv }}{{ p.invNote ? '*' : '' }}</span>
+            </div>
+            <div class="ds-inv-side">
+              <span class="ds-inv-band">Invulnerable Save</span>
+              <span v-if="p.invNote" class="ds-inv-note">{{ invNoteText(p.invNote) }}</span>
+            </div>
+          </template>
         </div>
-        <span v-if="sheet.profiles.length > 1" class="ds-prof-name">{{ p.name }}</span>
-        <template v-if="p.inv">
-          <div class="ds-stat ds-inv-box">
-            <span class="ds-stat-box">{{ p.inv }}{{ p.invNote ? '*' : '' }}</span>
-          </div>
-          <div class="ds-inv-side">
-            <span class="ds-inv-band">Invulnerable Save</span>
-            <span v-if="p.invNote" class="ds-inv-note">{{ invNoteText(p.invNote) }}</span>
-          </div>
-        </template>
       </div>
     </div>
 
@@ -268,6 +273,18 @@ function statCells(p) {
   border-radius: 0 0 6px 6px;
   padding: 0.9rem 1rem 1rem;
 }
+
+/* Header zone of the card: bleeds over the card padding so the accent-tinted band runs
+   edge-to-edge under the solid name plate above; a border separates it from the body.
+   Stat boxes get a plain card-colored fill so they pop on the tinted background. */
+.ds-cardhead {
+  margin: -0.9rem -1rem 0.8rem;
+  padding: 0.75rem 1rem 0.7rem;
+  background: color-mix(in srgb, var(--ds-th-bg, var(--accent)) 10%, var(--bg-card));
+  border-bottom: 1px solid var(--border);
+}
+.ds-cardhead .ds-stat-box::before { background: var(--bg-card); }
+.ds-cardhead .ds-statline:last-child { margin-bottom: 0; }
 
 /* Stat line (consecutive profile rows sit tight — labels render only on the first) */
 .ds-statline { margin-bottom: 0.7rem; }
