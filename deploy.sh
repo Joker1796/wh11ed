@@ -107,6 +107,11 @@ set_shortcache() { # <file> <content-type>
 }
 set_shortcache robots.txt "text/plain; charset=utf-8"
 set_shortcache sitemap.xml "application/xml; charset=utf-8"
+# Search-engine ownership verification files (step 2 excludes *.html, so list them here).
+# `if`, not `[ -f ] && …` — same set -e trap as set_nocache (unmatched glob stays literal).
+for vf in dist/yandex_*.html dist/google*.html; do
+  if [ -f "$vf" ]; then set_shortcache "$(basename "$vf")" "text/html; charset=utf-8"; fi
+done
 
 # 3) index.html — entry point. Short TTL (1h) so a deploy is discovered quickly by
 #    the SW bootstrap and non-SW browsers (under SW control, navigations come from
