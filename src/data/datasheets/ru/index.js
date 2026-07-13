@@ -46,9 +46,12 @@ export function localizeSheet(en, overlay, abilityNamesRu) {
       return out
     })
 
+  // Overlays were authored with both key spellings (`wargear`/`special` in the earlier
+  // files, `wargearAbilities`/`specialAbilities` in later ones) — accept both, or the
+  // short-form texts are silently ignored.
   if (en.abilities) s.abilities = localizeAbilities(en.abilities, o.abilities)
-  if (en.wargearAbilities) s.wargearAbilities = localizeAbilities(en.wargearAbilities, o.wargearAbilities)
-  if (en.specialAbilities) s.specialAbilities = localizeAbilities(en.specialAbilities, o.specialAbilities)
+  if (en.wargearAbilities) s.wargearAbilities = localizeAbilities(en.wargearAbilities, o.wargearAbilities || o.wargear)
+  if (en.specialAbilities) s.specialAbilities = localizeAbilities(en.specialAbilities, o.specialAbilities || o.special)
 
   return s
 }
