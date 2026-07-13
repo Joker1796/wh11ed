@@ -187,9 +187,30 @@ async function generate(slug) {
   const fid = FACTION_ID_OVERRIDES[slug] || factions.find((f) => normName(f.name) === normName(mfm.name))?.id
   if (!fid) { console.error(`${slug}: faction id not found`); return }
 
-  // MFM roster: units + subfaction units (points attached from the MFM options)
-  const roster = [...mfm.units]
-  for (const sf of mfm.subfactions || []) roster.push(...sf.units)
+  // MFM roster: units + subfaction units (points attached from the MFM options).
+  // A subfaction can repeat the SAME unit at a different cost (Imperial Agents'
+  // "Agents of the Imperium (allied)" — the price when taken in another army): merge
+  // those into the base unit's options as note-labelled rows (extra rows of the
+  // datasheet's points table) instead of emitting a duplicate datasheet.
+  const roster = mfm.units.map((u) => ({ ...u, options: [...u.options] }))
+  const byUnit = new Map(roster.map((u) => [normName(u.name), u]))
+  for (const sf of mfm.subfactions || []) {
+    for (const u of sf.units) {
+      const base = byUnit.get(normName(u.name))
+      if (!base) {
+        const cp = { ...u, options: [...u.options] }
+        roster.push(cp)
+        byUnit.set(normName(u.name), cp)
+        continue
+      }
+      for (const o of u.options) {
+        const dup = base.options.some((b) => b.models === o.models && b.points === o.points && !b.note)
+        if (dup) continue
+        const label = base.options.length > 1 ? `${sf.name} — ${o.models} models` : sf.name
+        base.options.push({ models: o.models, points: o.points, note: label })
+      }
+    }
+  }
 
   // candidate datasheets: the faction's own + (for allied subfactions like Harlequins /
   // Ynnari under Aeldari) any name match across factions as a fallback
