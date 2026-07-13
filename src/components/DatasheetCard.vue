@@ -131,8 +131,12 @@
       </div>
     </div>
 
-    <!-- Points: unit sizes × MFM copy tiers (1st-2nd / 3rd+ copy of this datasheet) -->
+    <!-- Points: unit sizes × MFM copy tiers (1st-2nd / 3rd+ copy of this datasheet).
+         Always the LAST section of the card (mirrors the source books: costs live at the
+         bottom of a datasheet, never in its header) — an accent-tinted band like the
+         statline zone at the top, so the card is framed by the faction colour. -->
     <div v-if="pointsTable" class="ds-points">
+      <h5 class="ds-points-title">{{ labels.dsPoints }}</h5>
       <table>
         <thead>
           <tr>
@@ -204,8 +208,9 @@ function splitNote(note) {
 
 const pointsTable = computed(() => {
   const pts = props.sheet.points
-  // A single flat cost is already fully shown in the accordion toggle — no table needed.
-  if (!pts || pts.length < 2) return null
+  // Even a single flat cost renders (the card is the only place showing prices now —
+  // the header plate deliberately carries none, matching the source datasheets).
+  if (!pts?.length) return null
   const rows = []
   const tiers = []
   for (const p of pts) {
@@ -405,15 +410,32 @@ function statCells(p) {
   .ds-stats.has-name .ds-inv-side { grid-row: 3; }
 }
 
-/* Points */
-.ds-points { overflow-x: auto; margin-top: 0.8rem; }
+/* Points — closing faction-colour band: bleeds over the card padding (mirroring
+   .ds-cardhead at the top) with the same accent-tinted fill, so the header and the
+   costs frame the card in the faction colour. */
+.ds-points {
+  overflow-x: auto;
+  margin: 0.8rem -1rem -1rem;
+  padding: 0.55rem 1rem 0.75rem;
+  background: color-mix(in srgb, var(--ds-th-bg, var(--accent)) 10%, var(--bg-card));
+  border-top: 1px solid var(--border);
+  border-radius: 0 0 5px 5px;
+}
+.ds-points-title {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent);
+  margin: 0 0 0.25rem;
+}
 .ds-points table { border-collapse: collapse; font-size: 0.8rem; }
 .ds-points th {
   text-align: center;
   font-size: 0.6rem;
   font-weight: 700;
-  text-transform: uppercase;
   letter-spacing: 0.8px;
+  text-transform: uppercase;
   color: var(--text-muted);
   border-bottom: 1px solid var(--border);
   padding: 0.2rem 0.7rem;
