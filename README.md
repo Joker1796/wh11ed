@@ -16,7 +16,7 @@ Interactive, **bilingual (EN/RU)** digital reference for the Warhammer 40,000 11
 ## Stack
 
 - [Vue 3](https://vuejs.org/) + [Vite](https://vitejs.dev/)
-- [Vue Router](https://router.vuejs.org/) (hash history)
+- [Vue Router](https://router.vuejs.org/) (HTML5 history)
 - [vite-plugin-pwa](https://vite-pwa-org.netlify.app/) — manifest + offline service worker (Workbox)
 - [sharp](https://sharp.pixelplumbing.com/) (dev only) — WebP image & app-icon generation
 - Google Fonts: EB Garamond + Inter
