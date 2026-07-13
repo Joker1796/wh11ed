@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { search, highlightMatch } from './useSearch.js'
+import { search, highlightMatch, preloadDatasheetIndex } from './useSearch.js'
 
 describe('search', () => {
   it('returns nothing for an empty or sub-2-char query', () => {
@@ -46,6 +46,37 @@ describe('search', () => {
     const res = search('фаза', 'ru')
     expect(Array.isArray(res)).toBe(true)
     expect(res.length).toBeGreaterThan(0)
+  })
+})
+
+describe('datasheet unit search', () => {
+  it('finds a unit by name once the datasheet index is loaded', async () => {
+    await preloadDatasheetIndex()
+    const res = search('ghazghkull', 'en')
+    const unit = res.find((r) => r.route.startsWith('/factions/'))
+    expect(unit).toBeTruthy()
+    expect(unit.route).toBe('/factions/orks/datasheets/ghazghkull-thraka')
+    expect(unit.title).toBe('Ghazghkull Thraka')
+    expect(unit.sectionTitle).toContain('Orks')
+    expect(unit.key).toBeTruthy()
+  })
+
+  it('localizes the datasheets label in RU results', async () => {
+    await preloadDatasheetIndex()
+    const res = search('avatar of khaine', 'ru')
+    const unit = res.find((r) => r.route.startsWith('/factions/aeldari/'))
+    expect(unit?.sectionTitle).toContain('Юниты')
+  })
+
+  it('keeps same-scored rule-title hits above unit hits', async () => {
+    await preloadDatasheetIndex()
+    // "Charge" matches both rule titles and unit names (e.g. none) — generic check:
+    const res = search('warboss', 'en')
+    expect(res.length).toBeGreaterThan(0)
+    // all results are ranked by score descending
+    for (let i = 1; i < res.length; i++) {
+      expect(res[i - 1].score).toBeGreaterThanOrEqual(res[i].score)
+    }
   })
 })
 

@@ -3,6 +3,7 @@
 // Usage:
 //   node scripts/import-wahapedia-datasheets.mjs <slug> [<slug> ...]
 //   node scripts/import-wahapedia-datasheets.mjs --all
+//   (afterwards: node scripts/gen-datasheet-index.mjs — refreshes the search unit-name index)
 //
 // For each faction slug (matching src/data/mfm/<slug>.js), the unit roster is taken from
 // the MFM (units + subfaction units — the authoritative 11ed list, with points), matched
