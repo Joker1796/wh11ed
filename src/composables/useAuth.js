@@ -175,7 +175,7 @@ async function authedFetch(path, opts = {}) {
 }
 
 function login(provider) {
-  // Full-page navigation: the backend 302s to the provider and back to /#/tracker/auth-callback.
+  // Full-page navigation: the backend 302s to the provider and back to /tracker/auth-callback.
   window.location.href = api(`/auth/${provider}/login`)
 }
 

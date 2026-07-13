@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import LandingView from '../views/LandingView.vue'
 import HomeView from '../views/HomeView.vue'
 import { isStandaloneDisplay } from '../composables/standalone.js'
@@ -29,6 +29,7 @@ const FactionsListView  = () => import('../views/FactionsListView.vue')
 const FactionRuleView        = () => import('../views/faction/FactionRuleView.vue')
 const FactionDatasheetsView  = () => import('../views/faction/FactionDatasheetsView.vue')
 const FactionDatasheetView   = () => import('../views/faction/FactionDatasheetView.vue')
+const NotFoundView      = () => import('../views/NotFoundView.vue')
 
 export const navGroups = [
   { label: 'Introduction',        path: '/introduction',   sections: [] },
@@ -277,7 +278,7 @@ export const linksGroupsRu = [
 ]
 
 export const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes: [
     { path: '/',               component: LandingView },
     { path: '/introduction',   component: HomeView },
@@ -308,6 +309,9 @@ export const router = createRouter({
     // Game-time stratagem reference. Reachable only via the mobile bottom-nav (and direct
     // URL on desktop) — intentionally not in navGroups / NavSidebar / the top navbar.
     { path: '/stratagems', component: StratagemsView },
+    // Catch-all 404. The bucket's ErrorDocument serves index.html (HTTP 404) for any
+    // unknown path, so the SPA must render its own not-found page (with noindex).
+    { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFoundView },
   ],
   scrollBehavior(to, from, savedPosition) {
     if (to.hash) {

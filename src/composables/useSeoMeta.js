@@ -1,14 +1,18 @@
-// Per-route document title + meta description (bilingual).
+// Per-route document title, meta description, canonical, og:url and hreflang (bilingual).
 //
-// The app uses hash routing (createWebHashHistory), so search engines index only the
-// root URL — these JS-set tags do NOT make sections separately indexable (that needs
-// history mode + an SPA fallback). What they DO give us: correct browser-tab / bookmark
-// / history titles, the title/description Google sees when it renders the SPA, and a
-// foundation that's ready if we ever switch to history mode. Social scrapers don't run
-// JS, so they keep reading the static tags in index.html — we intentionally leave those
-// (canonical/hreflang/OG/Twitter) alone and only touch <title> + <meta name=description>.
+// The app uses history routing (createWebHistory) and the deploy uploads an index.html
+// copy under every public route key (deploy.sh + scripts/gen-seo-routes.mjs), so each
+// section is separately crawlable at a clean URL with HTTP 200. Every deep URL serves the
+// same index.html, whose static tags describe the ROOT — so the per-route canonical /
+// og:url / hreflang MUST be managed here (Google processes JS-set canonicals) and must
+// NOT be hardcoded in index.html: a static canonical pointing at "/" on every deep page
+// would collapse the whole site back into one indexed URL. Static og:title/description/
+// image in index.html stay as the site-wide fallback for social scrapers (they don't
+// run JS; og:url is optional and falls back to the request URL).
 //
-// No head-management dependency: we just set document.title and one <meta> element.
+// No head-management dependency: we just set document.title and a few head elements.
+
+const ORIGIN = 'https://wh11ed.ru'
 
 const SITE = { en: 'Warhammer 40,000 11th Ed', ru: 'Warhammer 40,000' }
 
@@ -23,9 +27,9 @@ const DEFAULT = {
   },
 }
 
-// The "/" landing page — overview of the whole project (all three sections). This is the
-// only route crawlers index (hash routing), so it carries the primary keywords: the brand in
-// both scripts (Warhammer / Вархаммер), "11-я редакция" and "на русском" for RU queries.
+// The "/" landing page — overview of the whole project (all three sections). The main
+// entry point for crawlers, so it carries the primary keywords: the brand in both
+// scripts (Warhammer / Вархаммер), "11-я редакция" and "на русском" for RU queries.
 const LANDING = {
   title: {
     en: 'Warhammer 40,000 11th Edition — Rules, Event Companion & Tracker',
@@ -181,17 +185,70 @@ function metaFor(path, loc) {
   return { title, description: entry.description[loc] }
 }
 
-/** Set document.title and <meta name="description"> for the given route + locale. */
+function upsertMeta(selector, create, content) {
+  let el = document.querySelector(selector)
+  if (!el) {
+    el = create()
+    document.head.appendChild(el)
+  }
+  el.setAttribute('content', content)
+  return el
+}
+
+function upsertLink(rel, href, hreflang) {
+  const selector = hreflang ? `link[rel="${rel}"][hreflang="${hreflang}"]` : `link[rel="${rel}"]`
+  let el = document.querySelector(selector)
+  if (!el) {
+    el = document.createElement('link')
+    el.setAttribute('rel', rel)
+    if (hreflang) el.setAttribute('hreflang', hreflang)
+    document.head.appendChild(el)
+  }
+  el.setAttribute('href', href)
+}
+
+function removeCanonicalTags() {
+  document
+    .querySelectorAll('link[rel="canonical"], link[rel="alternate"][hreflang], meta[property="og:url"]')
+    .forEach((el) => el.remove())
+}
+
+// Canonical + og:url + hreflang for the indexable routes. Each language variant is
+// self-canonical (EN = clean path, RU = path?lang=ru) with hreflang pointing at its
+// sibling — canonicalizing RU onto EN would deindex the RU pages. Non-indexable paths
+// (tracker game/history/auth-callback, unknown → NotFoundView with its noindex) get the
+// canonical trio removed instead of pointing somewhere misleading.
+function applyCanonical(path, loc) {
+  const indexable = path === '/' || (!!ROUTES[path] && path !== '/tracker/game')
+  if (!indexable) {
+    removeCanonicalTags()
+    return
+  }
+  const enUrl = `${ORIGIN}${path}`
+  const ruUrl = path === '/' ? `${ORIGIN}/?lang=ru` : `${enUrl}?lang=ru`
+  const canonical = loc === 'ru' ? ruUrl : enUrl
+  upsertLink('canonical', canonical)
+  upsertLink('alternate', enUrl, 'en')
+  upsertLink('alternate', ruUrl, 'ru')
+  upsertLink('alternate', enUrl, 'x-default')
+  upsertMeta('meta[property="og:url"]', () => {
+    const el = document.createElement('meta')
+    el.setAttribute('property', 'og:url')
+    return el
+  }, canonical)
+}
+
+/** Set document.title, <meta name="description"> and the canonical/og:url/hreflang trio
+ *  for the given route + locale. */
 export function applyRouteMeta(path, locale) {
   if (typeof document === 'undefined') return
   const loc = pick(locale)
   const { title, description } = metaFor(path, loc)
   document.title = title
-  let el = document.querySelector('meta[name="description"]')
-  if (!el) {
-    el = document.createElement('meta')
+  upsertMeta('meta[name="description"]', () => {
+    const el = document.createElement('meta')
     el.setAttribute('name', 'description')
-    document.head.appendChild(el)
-  }
-  el.setAttribute('content', description)
+    return el
+  }, description)
+  applyCanonical(path, loc)
 }
