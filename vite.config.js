@@ -66,19 +66,18 @@ export default defineConfig({
           { src: 'pwa-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
           { src: 'maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
         ],
-        // Hash routing (createWebHashHistory): shortcut URLs MUST carry the `#`
-        // or they resolve to home (no path-based routes exist).
+        // History routing (createWebHistory): shortcut URLs are clean paths.
         shortcuts: [
           {
             name: 'Game Tracker',
             short_name: 'Tracker',
-            url: '/#/tracker',
+            url: '/tracker',
             icons: [{ src: 'pwa-192.png', sizes: '192x192', type: 'image/png' }],
           },
           {
             name: 'Missions',
             short_name: 'Missions',
-            url: '/#/event-companion/missions',
+            url: '/event-companion/missions',
             icons: [{ src: 'pwa-192.png', sizes: '192x192', type: 'image/png' }],
           },
         ],

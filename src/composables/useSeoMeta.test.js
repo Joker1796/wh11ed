@@ -5,9 +5,23 @@ function descContent() {
   return document.querySelector('meta[name="description"]')?.getAttribute('content') || ''
 }
 
+function canonicalHref() {
+  return document.querySelector('link[rel="canonical"]')?.getAttribute('href') || ''
+}
+
+function alternateHref(hreflang) {
+  return document.querySelector(`link[rel="alternate"][hreflang="${hreflang}"]`)?.getAttribute('href') || ''
+}
+
+function ogUrl() {
+  return document.querySelector('meta[property="og:url"]')?.getAttribute('content') || ''
+}
+
 describe('applyRouteMeta', () => {
   beforeEach(() => {
-    document.head.querySelectorAll('meta[name="description"]').forEach((el) => el.remove())
+    document.head
+      .querySelectorAll('meta[name="description"], meta[property="og:url"], link[rel="canonical"], link[rel="alternate"]')
+      .forEach((el) => el.remove())
     document.title = ''
   })
 
@@ -56,5 +70,48 @@ describe('applyRouteMeta', () => {
     applyRouteMeta('/reference', 'ru')
     expect(document.querySelectorAll('meta[name="description"]').length).toBe(1)
     expect(descContent()).toMatch(/Базовые способности/)
+  })
+
+  it('sets a self-referential canonical + og:url + hreflang pair per route (EN)', () => {
+    applyRouteMeta('/basic-rules', 'en')
+    expect(canonicalHref()).toBe('https://wh11ed.ru/basic-rules')
+    expect(ogUrl()).toBe('https://wh11ed.ru/basic-rules')
+    expect(alternateHref('en')).toBe('https://wh11ed.ru/basic-rules')
+    expect(alternateHref('ru')).toBe('https://wh11ed.ru/basic-rules?lang=ru')
+    expect(alternateHref('x-default')).toBe('https://wh11ed.ru/basic-rules')
+  })
+
+  it('canonicalizes the RU variant to itself (?lang=ru), not to the EN URL', () => {
+    applyRouteMeta('/basic-rules', 'ru')
+    expect(canonicalHref()).toBe('https://wh11ed.ru/basic-rules?lang=ru')
+    expect(ogUrl()).toBe('https://wh11ed.ru/basic-rules?lang=ru')
+  })
+
+  it('uses /?lang=ru (not //?lang=ru) for the home RU alternate', () => {
+    applyRouteMeta('/', 'en')
+    expect(canonicalHref()).toBe('https://wh11ed.ru/')
+    expect(alternateHref('ru')).toBe('https://wh11ed.ru/?lang=ru')
+  })
+
+  it('reuses single canonical/alternate elements across navigations', () => {
+    applyRouteMeta('/basic-rules', 'en')
+    applyRouteMeta('/reference', 'en')
+    expect(document.querySelectorAll('link[rel="canonical"]').length).toBe(1)
+    expect(document.querySelectorAll('link[rel="alternate"]').length).toBe(3)
+    expect(canonicalHref()).toBe('https://wh11ed.ru/reference')
+  })
+
+  it('removes the canonical trio on non-indexable routes', () => {
+    applyRouteMeta('/basic-rules', 'en')
+    applyRouteMeta('/tracker/history/abc123', 'en')
+    expect(canonicalHref()).toBe('')
+    expect(ogUrl()).toBe('')
+    expect(document.querySelectorAll('link[rel="alternate"]').length).toBe(0)
+  })
+
+  it('removes the canonical trio on unknown (404) routes', () => {
+    applyRouteMeta('/reference', 'en')
+    applyRouteMeta('/totally-unknown', 'en')
+    expect(canonicalHref()).toBe('')
   })
 })

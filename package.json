@@ -4,7 +4,7 @@
   "description": "Bilingual (EN/RU) interactive reference for the Warhammer 40,000 11th Edition Core Rules and Event Companion — a fast, searchable Vue 3 SPA hosted at wh11ed.ru.",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/gen-seo-routes.mjs",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
