@@ -130,7 +130,7 @@
 
     <!-- Subnav: core rules links (hidden on the section-less landing & links pages) -->
     <Transition name="fade">
-      <nav v-if="!isLanding && !isLinksRoute && (!isFactionRoute || isFactionDetailRoute)" class="subnav">
+      <nav v-if="!isLanding && !isLinksRoute && (!isFactionRoute || isFactionUnitPage)" class="subnav">
         <div class="subnav-inner">
           <RouterLink
             v-for="item in subNavItems"
@@ -277,6 +277,9 @@ const isLinksRoute = computed(() => route.path === '/links')
 const isFactionRoute = computed(() => route.path.startsWith('/factions'))
 // A specific faction's pages (/factions/:slug...) get their own subnav; the /factions list doesn't.
 const isFactionDetailRoute = computed(() => isFactionRoute.value && !!route.params.slug)
+// A single unit's datasheet page is chrome-free (FactionLayout hero=false → no in-hero tabs),
+// so it keeps the top subnav for the Rules/Units switch; the faction hero pages use in-hero tabs.
+const isFactionUnitPage = computed(() => isFactionRoute.value && !!route.params.unit)
 // The bottom-nav "Units" link — same button used on unit pages (bi-people-fill → the faction's
 // datasheets list). Shown on any faction-with-slug page (faction overview / datasheet list /
 // single unit) AND, during a game, pointing to the "You" player's faction — a quick jump from
