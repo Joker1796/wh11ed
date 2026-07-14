@@ -25,6 +25,10 @@ const AuthCallbackView  = () => import('../views/tracker/AuthCallbackView.vue')
 const TrackerHistoryView = () => import('../views/tracker/TrackerHistoryView.vue')
 const LinksView         = () => import('../views/LinksView.vue')
 const StratagemsView    = () => import('../views/StratagemsView.vue')
+const FactionsListView  = () => import('../views/FactionsListView.vue')
+const FactionRuleView        = () => import('../views/faction/FactionRuleView.vue')
+const FactionDatasheetsView  = () => import('../views/faction/FactionDatasheetsView.vue')
+const FactionDatasheetView   = () => import('../views/faction/FactionDatasheetView.vue')
 const NotFoundView      = () => import('../views/NotFoundView.vue')
 
 export const navGroups = [
@@ -252,14 +256,20 @@ export const trackerGroupsRu = [
   { label: 'Стратагемы',    path: '/stratagems',   sections: [] },
 ]
 
-// Links — fourth top-level section. Single page of external source PDFs, no anchors.
-export const linksGroups = [
-  { label: 'Source PDFs', path: '/links', sections: [] },
+// Factions — top-level section. List page (/factions) + two per-faction pages:
+// /factions/:slug (army rule + detachments, merged) and .../datasheets (units). The old
+// .../detachments URL redirects to the merged page. On desktop those two ride in the subnav
+// (App.vue); on mobile they're in-page tabs in the FactionLayout hero.
+export const factionGroups = [
+  { label: 'Factions', path: '/factions', sections: [] },
 ]
 
-export const linksGroupsRu = [
-  { label: 'Исходные PDF', path: '/links', sections: [] },
+export const factionGroupsRu = [
+  { label: 'Фракции', path: '/factions', sections: [] },
 ]
+
+// The Links page (/links, external source PDFs) is deliberately NOT in the navbar or
+// the drawer — it's reachable only from its card on the landing page (src/data/landing.js).
 
 export const router = createRouter({
   history: createWebHistory(),
@@ -284,6 +294,12 @@ export const router = createRouter({
     { path: '/tracker/history/:id', component: TrackerHistoryView },
     { path: '/tracker/auth-callback', component: AuthCallbackView },
     { path: '/links', component: LinksView },
+    { path: '/factions',       component: FactionsListView },
+    { path: '/factions/:slug',             component: FactionRuleView },
+    // Merged into /factions/:slug — redirect old bookmarks/links to the combined page.
+    { path: '/factions/:slug/detachments', redirect: (to) => `/factions/${to.params.slug}` },
+    { path: '/factions/:slug/datasheets',  component: FactionDatasheetsView },
+    { path: '/factions/:slug/datasheets/:unit', component: FactionDatasheetView },
     // Game-time stratagem reference. Reachable only via the mobile bottom-nav (and direct
     // URL on desktop) — intentionally not in navGroups / NavSidebar / the top navbar.
     { path: '/stratagems', component: StratagemsView },

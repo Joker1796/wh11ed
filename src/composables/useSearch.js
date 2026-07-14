@@ -1,3 +1,4 @@
+import { ref } from 'vue'
 import { basicRules } from '../data/basicRules.js'
 import { battleRound } from '../data/battleRound.js'
 import { battlefields } from '../data/battlefields.js'
@@ -384,6 +385,45 @@ function indexEventCompanion(items, locale) {
   }
 }
 
+// Datasheet unit names (find a unit by name → its /factions/…/datasheets/… page).
+// The compact generated index (src/data/datasheetIndex.js) is dynamic-imported on
+// first search open — same pattern as KeywordPopover's data — so the entry bundle
+// never carries it. `dsVersion` is a reactive tick: SearchModal's `results` computed
+// reads it (inside search()), so results refresh once the chunk arrives mid-typing.
+let dsIndex = null
+let dsPromise = null
+const dsVersion = ref(0)
+export function preloadDatasheetIndex() {
+  dsPromise ??= import('../data/datasheetIndex.js').then((m) => {
+    dsIndex = m.datasheetIndex
+    dsVersion.value++
+  })
+  return dsPromise
+}
+
+function searchDatasheets(q, locale) {
+  if (!dsIndex) return []
+  const L = ui[locale] || ui.en
+  const results = []
+  for (const [slug, faction, units] of dsIndex) {
+    for (const [id, name] of units) {
+      if (!name.toLowerCase().includes(q)) continue
+      results.push({
+        id: '',
+        key: `ds-${slug}-${id}`,
+        sectionNum: '',
+        title: name,
+        body: '',
+        snippet: '',
+        route: `/factions/${slug}/datasheets/${id}`,
+        sectionTitle: `${faction} · ${L.factionDatasheets}`,
+        score: 2,
+      })
+    }
+  }
+  return results
+}
+
 // Built lazily on first search (per locale) so importing this module — and the
 // large data files it pulls in — never triggers a synchronous index build at
 // load time. Most users only ever search one locale, so we never build the other.
@@ -421,6 +461,9 @@ function searchBySectionNum(index, q) {
 }
 
 export function search(query, locale = 'en') {
+  // Reactive dependency: a caller's computed re-runs when the datasheet index chunk
+  // loads (see preloadDatasheetIndex above).
+  void dsVersion.value
   if (!query) return []
   const trimmed = query.trim().toLowerCase()
   const numQuery = normalizeSectionNum(trimmed)
@@ -444,6 +487,9 @@ export function search(query, locale = 'en') {
       results.push({ ...item, snippet, score: titleMatch ? 2 : 1 })
     }
   }
+  // Datasheet unit names go after the rules items: with equal scores the stable sort
+  // keeps rule titles (the app's primary content) above same-scored unit hits.
+  results.push(...searchDatasheets(q, locale))
   // Sort the full match set before slicing — capping earlier (in index order) would drop a
   // later high-relevance title hit before it could be ranked.
   return results.sort((a, b) => b.score - a.score).slice(0, 10)

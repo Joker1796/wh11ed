@@ -33,7 +33,7 @@ import { useLocale } from '../composables/useLocale.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { visible, activeKeyword, anchor, close } = useKeywordPopover()
+const { visible, activeKeyword, anchor, open, openGloss, close } = useKeywordPopover()
 
 // Move focus into the popover when it opens so screen-reader / keyboard users land
 // on the dialog (and Escape — handled globally in App.vue — closes it).
@@ -66,11 +66,24 @@ function navigateNum() {
   if (route && a) { close(); navigateTo({ route, anchor: a }) }
 }
 
+// The popover root has @click.stop (so a click inside doesn't reach App.vue's global handler
+// and self-close), so we resolve in-popover clicks here — mirroring App.vue's onGlobalClick:
+// cross-refs navigate; a gloss or nested keyword re-anchors and replaces the popover content.
 function handleBodyClick(e) {
   const refEl = e.target.closest('.cross-ref')
   if (refEl) {
     const { route, anchor: a } = resolveRef(refEl.dataset.ref)
     if (route && a) { close(); navigateTo({ route, anchor: a }) }
+    return
+  }
+  const glossEl = e.target.closest('.gloss')
+  if (glossEl) {
+    openGloss(glossEl.dataset.gloss, glossEl.getBoundingClientRect())
+    return
+  }
+  const kwEl = e.target.closest('.keyword')
+  if (kwEl) {
+    open(kwEl.textContent.replace(/^\[|\]$/g, '').trim(), kwEl.getBoundingClientRect())
   }
 }
 
@@ -179,6 +192,17 @@ const positionStyle = computed(() => {
   color: #e8c96a;
   background: rgba(232, 201, 106, 0.12);
   border-color: rgba(232, 201, 106, 0.4);
+}
+
+/* Glosses inside the (always-dark) popover: the page's .gloss:hover uses --link-accent-hover,
+   which is dark red in light theme → dark-on-dark here. Pin to the popover's gold accent so
+   it stays readable in both themes (inline page glosses keep their theme-aware colours). */
+.kw-popover-body :deep(.gloss) {
+  text-decoration-color: #e8c96a;
+}
+.kw-popover-body :deep(.gloss:hover) {
+  color: #e8c96a;
+  text-decoration-color: #e8c96a;
 }
 
 /* Transition */
