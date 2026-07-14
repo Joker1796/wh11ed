@@ -17,8 +17,8 @@
     "splash": "node scripts/gen-ios-splash.mjs"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Joker1796",
+  "license": "MIT",
   "type": "module",
   "dependencies": {
     "@fontsource/eb-garamond": "^5.2.7",
