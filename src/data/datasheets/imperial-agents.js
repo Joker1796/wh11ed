@@ -24,7 +24,8 @@ export default [
         "sv": "3+",
         "w": "2",
         "ld": "6+",
-        "oc": "2"
+        "oc": "2",
+        "baseSize": "32mm"
       },
       {
         "name": "GRAVIS VETERAN",
@@ -33,7 +34,8 @@ export default [
         "sv": "3+",
         "w": "3",
         "ld": "6+",
-        "oc": "2"
+        "oc": "2",
+        "baseSize": "40mm"
       }
     ],
     "ranged": [
@@ -408,7 +410,8 @@ export default [
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "corvus-blackstar",
@@ -550,7 +553,8 @@ export default [
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "culexus-assassin",
@@ -637,7 +641,8 @@ export default [
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "deathwatch-kill-team",
@@ -854,7 +859,8 @@ export default [
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "eversor-assassin",
@@ -942,7 +948,8 @@ export default [
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "exaction-squad",
@@ -1131,7 +1138,8 @@ export default [
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "grey-knights-terminator-squad",
@@ -1266,7 +1274,8 @@ export default [
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "imperial-navy-breachers",
@@ -1486,7 +1495,8 @@ export default [
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "imperial-rhino",
@@ -1572,7 +1582,8 @@ export default [
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "inquisitor",
@@ -1750,7 +1761,8 @@ export default [
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "inquisitor-coteaz",
@@ -1902,7 +1914,8 @@ export default [
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "inquisitor-draxus",
@@ -2046,7 +2059,8 @@ export default [
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "inquisitor-greyfax",
@@ -2190,7 +2204,8 @@ export default [
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "inquisitor-kroyle",
@@ -2295,7 +2310,8 @@ export default [
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "inquisitorial-agents",
@@ -2493,7 +2509,8 @@ export default [
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "inquisitorial-chimera",
@@ -2642,7 +2659,8 @@ export default [
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "ministorum-priest",
@@ -2754,7 +2772,8 @@ export default [
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "navigator",
@@ -2843,7 +2862,8 @@ export default [
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "rogue-trader-entourage",
@@ -2869,7 +2889,8 @@ export default [
         "w": "4",
         "ld": "6+",
         "oc": "1",
-        "inv": "4+"
+        "inv": "4+",
+        "baseSize": "25mm"
       },
       {
         "name": "OTHER MODELS",
@@ -2879,7 +2900,8 @@ export default [
         "w": "2",
         "ld": "7+",
         "oc": "1",
-        "inv": "4+"
+        "inv": "4+",
+        "baseSize": "25mm"
       }
     ],
     "ranged": [
@@ -3205,7 +3227,8 @@ export default [
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "sisters-of-battle-immolator",
@@ -3338,7 +3361,8 @@ export default [
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "sisters-of-battle-squad",
@@ -3618,7 +3642,8 @@ export default [
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "subductor-squad",
@@ -3714,7 +3739,8 @@ export default [
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "vigilant-squad",
@@ -3878,7 +3904,8 @@ export default [
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "vindicare-assassin",
@@ -3977,7 +4004,8 @@ export default [
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "voidsmen-at-arms",
@@ -4099,7 +4127,8 @@ export default [
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "watch-captain-artemis",
@@ -4192,7 +4221,8 @@ export default [
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "watch-master",
@@ -4286,6 +4316,7 @@ export default [
     ],
     "factionKeywords": [
       "Agents of the Imperium"
-    ]
+    ],
+    "baseSize": "32mm"
   }
 ]

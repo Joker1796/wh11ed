@@ -115,7 +115,8 @@ export default [
     ],
     "factionKeywords": [
       "Chaos Knights"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "chaos-acastus-knight-porphyrion",
@@ -250,7 +251,8 @@ export default [
     ],
     "factionKeywords": [
       "Chaos Knights"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "chaos-cerastus-knight-acheron",
@@ -364,7 +366,8 @@ export default [
     ],
     "factionKeywords": [
       "Chaos Knights"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "chaos-cerastus-knight-atrapos",
@@ -505,7 +508,8 @@ export default [
     ],
     "factionKeywords": [
       "Chaos Knights"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "chaos-cerastus-knight-castigator",
@@ -605,7 +609,8 @@ export default [
     ],
     "factionKeywords": [
       "Chaos Knights"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "chaos-cerastus-knight-lancer",
@@ -707,7 +712,8 @@ export default [
     ],
     "factionKeywords": [
       "Chaos Knights"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "chaos-questoris-knight-magaera",
@@ -851,7 +857,8 @@ export default [
     ],
     "factionKeywords": [
       "Chaos Knights"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "chaos-questoris-knight-styrix",
@@ -996,7 +1003,8 @@ export default [
     ],
     "factionKeywords": [
       "Chaos Knights"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "knight-abominant",
@@ -1110,7 +1118,8 @@ export default [
     ],
     "factionKeywords": [
       "Chaos Knights"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "knight-desecrator",
@@ -1238,7 +1247,8 @@ export default [
     ],
     "factionKeywords": [
       "Chaos Knights"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "knight-despoiler",
@@ -1465,7 +1475,8 @@ export default [
     ],
     "factionKeywords": [
       "Chaos Knights"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "knight-rampager",
@@ -1588,7 +1599,8 @@ export default [
     ],
     "factionKeywords": [
       "Chaos Knights"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "knight-ruinator",
@@ -1701,7 +1713,8 @@ export default [
     ],
     "factionKeywords": [
       "Chaos Knights"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "knight-tyrant",
@@ -1882,7 +1895,8 @@ export default [
     ],
     "factionKeywords": [
       "Chaos Knights"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "war-dog-brigand",
@@ -1995,7 +2009,8 @@ export default [
     ],
     "factionKeywords": [
       "Chaos Knights"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "war-dog-executioner",
@@ -2095,7 +2110,8 @@ export default [
     ],
     "factionKeywords": [
       "Chaos Knights"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "war-dog-huntsman",
@@ -2206,7 +2222,8 @@ export default [
     ],
     "factionKeywords": [
       "Chaos Knights"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "war-dog-karnivore",
@@ -2310,7 +2327,8 @@ export default [
     ],
     "factionKeywords": [
       "Chaos Knights"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "war-dog-moirax",
@@ -2456,7 +2474,8 @@ export default [
     ],
     "factionKeywords": [
       "Chaos Knights"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "war-dog-stalker",
@@ -2589,6 +2608,7 @@ export default [
     ],
     "factionKeywords": [
       "Chaos Knights"
-    ]
+    ],
+    "baseSize": "100mm"
   }
 ]

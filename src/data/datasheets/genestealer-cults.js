@@ -70,7 +70,8 @@ export default [
     ],
     "factionKeywords": [
       "Genestealer Cults"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "abominant",
@@ -139,7 +140,8 @@ export default [
     ],
     "factionKeywords": [
       "Genestealer Cults"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "achilles-ridgerunners",
@@ -275,7 +277,8 @@ export default [
     ],
     "factionKeywords": [
       "Genestealer Cults"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "acolyte-hybrids-with-autopistols",
@@ -381,7 +384,8 @@ export default [
     ],
     "factionKeywords": [
       "Genestealer Cults"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "acolyte-hybrids-with-hand-flamers",
@@ -493,7 +497,8 @@ export default [
     ],
     "factionKeywords": [
       "Genestealer Cults"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "acolyte-iconward",
@@ -574,7 +579,8 @@ export default [
     ],
     "factionKeywords": [
       "Genestealer Cults"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "atalan-jackals",
@@ -610,7 +616,8 @@ export default [
         "sv": "5+",
         "w": "2",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "60x35.5mm Oval Base"
       },
       {
         "name": "ATALAN WOLFQUAD",
@@ -619,7 +626,8 @@ export default [
         "sv": "5+",
         "w": "4",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "60mm"
       }
     ],
     "ranged": [
@@ -841,7 +849,8 @@ export default [
     ],
     "factionKeywords": [
       "Genestealer Cults"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "biophagus",
@@ -943,7 +952,8 @@ export default [
     ],
     "factionKeywords": [
       "Genestealer Cults"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "clamavus",
@@ -1024,7 +1034,8 @@ export default [
     ],
     "factionKeywords": [
       "Genestealer Cults"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "goliath-rockgrinder",
@@ -1156,7 +1167,8 @@ export default [
     ],
     "factionKeywords": [
       "Genestealer Cults"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "goliath-truck",
@@ -1251,7 +1263,8 @@ export default [
     ],
     "factionKeywords": [
       "Genestealer Cults"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "hybrid-metamorphs",
@@ -1378,7 +1391,8 @@ export default [
     ],
     "factionKeywords": [
       "Genestealer Cults"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "jackal-alphus",
@@ -1469,7 +1483,8 @@ export default [
     ],
     "factionKeywords": [
       "Genestealer Cults"
-    ]
+    ],
+    "baseSize": "60x35.5mm Oval Base"
   },
   {
     "id": "kelermorph",
@@ -1542,7 +1557,8 @@ export default [
     ],
     "factionKeywords": [
       "Genestealer Cults"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "locus",
@@ -1610,7 +1626,8 @@ export default [
     ],
     "factionKeywords": [
       "Genestealer Cults"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "magus",
@@ -1698,7 +1715,8 @@ export default [
     ],
     "factionKeywords": [
       "Genestealer Cults"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "neophyte-hybrids",
@@ -1912,7 +1930,8 @@ export default [
     ],
     "factionKeywords": [
       "Genestealer Cults"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "nexos",
@@ -1993,7 +2012,8 @@ export default [
     ],
     "factionKeywords": [
       "Genestealer Cults"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "patriarch",
@@ -2065,7 +2085,8 @@ export default [
     ],
     "factionKeywords": [
       "Genestealer Cults"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "primus",
@@ -2160,7 +2181,8 @@ export default [
     ],
     "factionKeywords": [
       "Genestealer Cults"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "purestrain-genestealers",
@@ -2230,7 +2252,8 @@ export default [
     ],
     "factionKeywords": [
       "Genestealer Cults"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "reductus-saboteur",
@@ -2330,7 +2353,8 @@ export default [
     ],
     "factionKeywords": [
       "Genestealer Cults"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "sanctus",
@@ -2423,6 +2447,7 @@ export default [
     ],
     "factionKeywords": [
       "Genestealer Cults"
-    ]
+    ],
+    "baseSize": "32mm"
   }
 ]

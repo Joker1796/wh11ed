@@ -138,7 +138,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "160mm"
   },
   {
     "id": "breacher-team",
@@ -240,7 +241,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "broadside-battlesuits",
@@ -396,7 +398,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "cadre-fireblade",
@@ -478,7 +481,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "commander-farsight",
@@ -569,7 +573,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "commander-in-coldstar-battlesuit",
@@ -755,7 +760,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "commander-in-enforcer-battlesuit",
@@ -931,7 +937,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "commander-shadowsun",
@@ -1048,7 +1055,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "crisis-fireknife-battlesuits",
@@ -1142,7 +1150,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "crisis-starscythe-battlesuits",
@@ -1239,7 +1248,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "crisis-sunforge-battlesuits",
@@ -1320,7 +1330,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "darkstrider",
@@ -1399,7 +1410,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "devilfish",
@@ -1508,7 +1520,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "ethereal",
@@ -1583,7 +1596,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "firesight-team",
@@ -1667,7 +1681,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "ghostkeel-battlesuit",
@@ -1819,7 +1834,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "105x70mm Oval Base"
   },
   {
     "id": "hammerhead-gunship",
@@ -1977,7 +1993,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "kroot-carnivores",
@@ -2087,7 +2104,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "kroot-farstalkers",
@@ -2113,7 +2131,8 @@ export default [
         "sv": "6+",
         "w": "1",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "28.5mm / 32mm"
       },
       {
         "name": "KROOT HOUNDS",
@@ -2122,7 +2141,8 @@ export default [
         "sv": "6+",
         "w": "1",
         "ld": "7+",
-        "oc": "0"
+        "oc": "0",
+        "baseSize": "28.5mm"
       }
     ],
     "ranged": [
@@ -2332,7 +2352,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "kroot-hounds",
@@ -2392,7 +2413,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "kroot-lone-spear",
@@ -2502,7 +2524,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "90x52.5mm Oval Base"
   },
   {
     "id": "kroot-trail-shaper",
@@ -2581,7 +2604,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "kroot-war-shaper",
@@ -2688,7 +2712,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "krootox-rampagers",
@@ -2786,7 +2811,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "krootox-riders",
@@ -2888,7 +2914,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "manta",
@@ -3029,7 +3056,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "Unique"
   },
   {
     "id": "pathfinder-team",
@@ -3199,7 +3227,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "piranhas",
@@ -3331,7 +3360,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "razorshark-strike-fighter",
@@ -3451,7 +3481,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "riptide-battlesuit",
@@ -3602,7 +3633,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "sky-ray-gunship",
@@ -3716,7 +3748,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "stealth-battlesuits",
@@ -3828,7 +3861,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "stormsurge",
@@ -4026,7 +4060,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "strike-team",
@@ -4139,7 +4174,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "sun-shark-bomber",
@@ -4261,7 +4297,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "taunar-supremacy-armour",
@@ -4444,7 +4481,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "160mm"
   },
   {
     "id": "the-twin-lance",
@@ -4618,7 +4656,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "60mm / 32mm"
   },
   {
     "id": "tidewall-droneport",
@@ -4688,7 +4727,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "tidewall-gunrig",
@@ -4754,7 +4794,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "tidewall-shieldline",
@@ -4825,7 +4866,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "tiger-shark",
@@ -5018,7 +5060,8 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "160mm"
   },
   {
     "id": "vespid-stingwings",
@@ -5136,6 +5179,7 @@ export default [
     ],
     "factionKeywords": [
       "T’au Empire"
-    ]
+    ],
+    "baseSize": "28.5mm"
   }
 ]

@@ -71,7 +71,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "biovores",
@@ -149,7 +150,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "80mm"
   },
   {
     "id": "broodlord",
@@ -220,7 +222,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "75x42mm Oval Base"
   },
   {
     "id": "carnifexes",
@@ -383,7 +386,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "105x70mm Oval Base"
   },
   {
     "id": "deathleaper",
@@ -446,7 +450,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "exocrine",
@@ -524,7 +529,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "gargoyles",
@@ -599,7 +605,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "Small Flying Base"
   },
   {
     "id": "genestealers",
@@ -670,7 +677,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "harpy",
@@ -771,7 +779,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "harridan",
@@ -856,7 +865,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "Unique"
   },
   {
     "id": "haruspex",
@@ -945,7 +955,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "hierophant",
@@ -1058,7 +1069,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "hive-crone",
@@ -1167,7 +1179,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "hive-guard",
@@ -1265,7 +1278,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "hive-tyrant",
@@ -1376,7 +1390,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "hormagaunts",
@@ -1434,7 +1449,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "hyperadapted-raveners",
@@ -1460,7 +1476,8 @@ export default [
         "sv": "4+",
         "w": "6",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "40mm"
       },
       {
         "name": "Raveners",
@@ -1469,7 +1486,8 @@ export default [
         "sv": "4+",
         "w": "3",
         "ld": "8+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "40mm"
       }
     ],
     "ranged": [
@@ -1610,7 +1628,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "maleceptor",
@@ -1700,7 +1719,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "mawloc",
@@ -1772,7 +1792,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "mucolid-spores",
@@ -1835,7 +1856,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "neurogaunts",
@@ -1893,7 +1915,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "neurolictor",
@@ -1965,7 +1988,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "neurotyrant",
@@ -2058,7 +2082,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "norn-assimilator",
@@ -2152,7 +2177,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "norn-emissary",
@@ -2274,7 +2300,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "old-one-eye",
@@ -2348,7 +2375,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "105x70mm Oval Base"
   },
   {
     "id": "parasite-of-mortrex",
@@ -2421,7 +2449,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "psychophage",
@@ -2498,7 +2527,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "pyrovores",
@@ -2594,7 +2624,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "80mm"
   },
   {
     "id": "raveners",
@@ -2660,7 +2691,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "ripper-swarms",
@@ -2741,7 +2773,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "screamer-killer",
@@ -2815,7 +2848,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "90mm"
   },
   {
     "id": "spore-mines",
@@ -2878,7 +2912,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "sporocyst",
@@ -2947,7 +2982,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "termagants",
@@ -3089,7 +3125,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "tervigon",
@@ -3186,7 +3223,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "the-red-terror",
@@ -3267,7 +3305,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "the-swarmlord",
@@ -3357,7 +3396,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "toxicrene",
@@ -3430,7 +3470,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "trygon",
@@ -3503,7 +3544,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "tyranid-prime-with-lash-whip",
@@ -3594,7 +3636,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "tyranid-warriors-with-melee-bio-weapons",
@@ -3654,7 +3697,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "tyranid-warriors-with-ranged-bio-weapons",
@@ -3777,7 +3821,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "tyrannocyte",
@@ -3847,7 +3892,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "tyrannofex",
@@ -3963,7 +4009,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "tyrant-guard",
@@ -4042,7 +4089,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "venomthropes",
@@ -4102,7 +4150,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "von-ryans-leapers",
@@ -4161,7 +4210,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "winged-hive-tyrant",
@@ -4276,7 +4326,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "winged-tyranid-prime",
@@ -4348,7 +4399,8 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "zoanthropes",
@@ -4441,6 +4493,7 @@ export default [
     ],
     "factionKeywords": [
       "Tyranids"
-    ]
+    ],
+    "baseSize": "40mm"
   }
 ]

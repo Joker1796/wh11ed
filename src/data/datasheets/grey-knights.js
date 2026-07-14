@@ -127,7 +127,8 @@ export default [
     ],
     "factionKeywords": [
       "Grey Knights"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "brotherhood-champion",
@@ -212,7 +213,8 @@ export default [
     ],
     "factionKeywords": [
       "Grey Knights"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "brotherhood-chaplain",
@@ -294,7 +296,8 @@ export default [
     ],
     "factionKeywords": [
       "Grey Knights"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "brotherhood-librarian",
@@ -414,7 +417,8 @@ export default [
     ],
     "factionKeywords": [
       "Grey Knights"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "brotherhood-techmarine",
@@ -522,7 +526,8 @@ export default [
     ],
     "factionKeywords": [
       "Grey Knights"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "brotherhood-terminator-squad",
@@ -688,7 +693,8 @@ export default [
     ],
     "factionKeywords": [
       "Grey Knights"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "castellan-crowe",
@@ -787,7 +793,8 @@ export default [
     ],
     "factionKeywords": [
       "Grey Knights"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "grand-master",
@@ -914,7 +921,8 @@ export default [
     ],
     "factionKeywords": [
       "Grey Knights"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "grand-master-in-nemesis-dreadknight",
@@ -1114,7 +1122,8 @@ export default [
     ],
     "factionKeywords": [
       "Grey Knights"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "grand-master-voldus",
@@ -1212,7 +1221,8 @@ export default [
     ],
     "factionKeywords": [
       "Grey Knights"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "grey-knights-thunderhawk-gunship",
@@ -1350,7 +1360,8 @@ export default [
     ],
     "factionKeywords": [
       "Grey Knights"
-    ]
+    ],
+    "baseSize": "Unique"
   },
   {
     "id": "interceptor-squad",
@@ -1490,7 +1501,8 @@ export default [
     ],
     "factionKeywords": [
       "Grey Knights"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "land-raider",
@@ -1621,7 +1633,8 @@ export default [
     ],
     "factionKeywords": [
       "Grey Knights"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "land-raider-crusader",
@@ -1757,7 +1770,8 @@ export default [
     ],
     "factionKeywords": [
       "Grey Knights"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "land-raider-redeemer",
@@ -1893,7 +1907,8 @@ export default [
     ],
     "factionKeywords": [
       "Grey Knights"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "nemesis-dreadknight",
@@ -2037,7 +2052,8 @@ export default [
     ],
     "factionKeywords": [
       "Grey Knights"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "paladin-squad",
@@ -2202,7 +2218,8 @@ export default [
     ],
     "factionKeywords": [
       "Grey Knights"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "purgation-squad",
@@ -2341,7 +2358,8 @@ export default [
     ],
     "factionKeywords": [
       "Grey Knights"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "purifier-squad",
@@ -2494,7 +2512,8 @@ export default [
     ],
     "factionKeywords": [
       "Grey Knights"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "razorback",
@@ -2606,7 +2625,8 @@ export default [
     ],
     "factionKeywords": [
       "Grey Knights"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "rhino",
@@ -2692,7 +2712,8 @@ export default [
     ],
     "factionKeywords": [
       "Grey Knights"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "stormhawk-interceptor",
@@ -2835,7 +2856,8 @@ export default [
     ],
     "factionKeywords": [
       "Grey Knights"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "stormraven-gunship",
@@ -3031,7 +3053,8 @@ export default [
     ],
     "factionKeywords": [
       "Grey Knights"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "stormtalon-gunship",
@@ -3162,7 +3185,8 @@ export default [
     ],
     "factionKeywords": [
       "Grey Knights"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "strike-squad",
@@ -3290,7 +3314,8 @@ export default [
     ],
     "factionKeywords": [
       "Grey Knights"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "venerable-dreadnought",
@@ -3433,6 +3458,7 @@ export default [
     ],
     "factionKeywords": [
       "Grey Knights"
-    ]
+    ],
+    "baseSize": "60mm"
   }
 ]

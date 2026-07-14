@@ -66,7 +66,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "armoured-sentinels",
@@ -247,7 +248,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "80mm"
   },
   {
     "id": "artillery-team",
@@ -376,7 +378,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "130mm"
   },
   {
     "id": "attilan-rough-riders",
@@ -520,7 +523,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "60x35.5mm Oval Base"
   },
   {
     "id": "avenger-strike-fighter",
@@ -617,7 +621,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "baneblade",
@@ -770,7 +775,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "banehammer",
@@ -891,7 +897,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "banesword",
@@ -1011,7 +1018,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "basilisk",
@@ -1132,7 +1140,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "bullgryn-squad",
@@ -1240,7 +1249,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "cadian-castellan",
@@ -1402,7 +1412,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "cadian-command-squad",
@@ -1422,7 +1433,8 @@ export default [
         "sv": "5+",
         "w": "3",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "28.5mm"
       },
       {
         "name": "CADIAN VETERAN GUARDSMAN",
@@ -1431,7 +1443,8 @@ export default [
         "sv": "5+",
         "w": "1",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "28.5mm"
       }
     ],
     "ranged": [
@@ -1805,7 +1818,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "cadian-recon-squad",
@@ -1992,7 +2006,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "cadian-shock-troops",
@@ -2196,7 +2211,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "catachan-command-squad",
@@ -2216,7 +2232,8 @@ export default [
         "sv": "5+",
         "w": "3",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "25mm"
       },
       {
         "name": "VETERAN GUARDSMAN",
@@ -2225,7 +2242,8 @@ export default [
         "sv": "5+",
         "w": "1",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "25mm"
       }
     ],
     "ranged": [
@@ -2641,7 +2659,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "catachan-jungle-fighters",
@@ -2752,7 +2771,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "centaur-rsv",
@@ -2826,7 +2846,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "chimera",
@@ -2975,7 +2996,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "commissar",
@@ -3104,7 +3126,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "commissar-graves",
@@ -3229,7 +3252,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "commissar-graves-on-foot",
@@ -3327,7 +3351,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "commissar-yarrick",
@@ -3467,7 +3492,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "cyclops-demolition-vehicle",
@@ -3533,7 +3559,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "death-korps-of-krieg",
@@ -3792,7 +3819,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "death-riders",
@@ -3886,7 +3914,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "60x35.5mm Oval Base"
   },
   {
     "id": "deathstrike",
@@ -4008,7 +4037,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "doomhammer",
@@ -4130,7 +4160,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "field-ordnance-battery",
@@ -4252,7 +4283,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "gaunts-ghosts",
@@ -4274,7 +4306,8 @@ export default [
         "ld": "6+",
         "oc": "1",
         "inv": "5+",
-        "invNote": "Ibram Gaunt only."
+        "invNote": "Ibram Gaunt only.",
+        "baseSize": "28.5mm"
       },
       {
         "name": "TANITH GHOST",
@@ -4283,7 +4316,8 @@ export default [
         "sv": "5+",
         "w": "2",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "28.5mm"
       }
     ],
     "ranged": [
@@ -4576,7 +4610,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "hellhound",
@@ -4735,7 +4770,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "hippogriff-afv",
@@ -4875,7 +4911,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "hydra",
@@ -4989,7 +5026,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "kasrkin",
@@ -5247,7 +5285,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "krieg-combat-engineers",
@@ -5449,7 +5488,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "krieg-command-squad",
@@ -5469,7 +5509,8 @@ export default [
         "sv": "5+",
         "w": "3",
         "ld": "6+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "32mm"
       },
       {
         "name": "VETERAN GUARDSMAN",
@@ -5478,7 +5519,8 @@ export default [
         "sv": "5+",
         "w": "1",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "25mm"
       }
     ],
     "ranged": [
@@ -5752,7 +5794,8 @@ export default [
         "sv": "4+",
         "w": "2",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "50mm"
       },
       {
         "name": "FIRE COORDINATOR",
@@ -5761,7 +5804,8 @@ export default [
         "sv": "5+",
         "w": "1",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "25mm"
       }
     ],
     "ranged": [
@@ -6043,7 +6087,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "leman-russ-commander",
@@ -6303,7 +6348,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "leman-russ-demolisher",
@@ -6495,7 +6541,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "leman-russ-eradicator",
@@ -6688,7 +6735,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "leman-russ-executioner",
@@ -6893,7 +6941,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "leman-russ-exterminator",
@@ -7086,7 +7135,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "leman-russ-punisher",
@@ -7276,7 +7326,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "leman-russ-vanquisher",
@@ -7468,7 +7519,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "lord-marshal-dreir",
@@ -7563,7 +7615,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "75x42mm Oval Base"
   },
   {
     "id": "lord-solar-leontus",
@@ -7661,7 +7714,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "80mm"
   },
   {
     "id": "manticore",
@@ -7783,7 +7837,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "militarum-tempestus-command-squad",
@@ -7809,7 +7864,8 @@ export default [
         "sv": "4+",
         "w": "1",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "25mm"
       },
       {
         "name": "TEMPESTOR PRIME",
@@ -7818,7 +7874,8 @@ export default [
         "sv": "4+",
         "w": "3",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "25mm"
       }
     ],
     "ranged": [
@@ -8153,7 +8210,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "nork-deddog",
@@ -8236,7 +8294,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "ogryn-bodyguard",
@@ -8365,7 +8424,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "ogryn-squad",
@@ -8441,7 +8501,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "primaris-psyker",
@@ -8555,7 +8616,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "ratlings",
@@ -8653,7 +8715,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "rogal-dorn-battle-tank",
@@ -8830,7 +8893,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "rogal-dorn-commander",
@@ -9002,7 +9066,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "scout-sentinels",
@@ -9183,7 +9248,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "80mm"
   },
   {
     "id": "shadowsword",
@@ -9303,7 +9369,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "sly-marbo",
@@ -9382,7 +9449,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "stormlord",
@@ -9515,7 +9583,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "stormsword",
@@ -9635,7 +9704,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "taurox",
@@ -9720,7 +9790,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "taurox-prime",
@@ -9870,7 +9941,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "tech-priest-enginseer",
@@ -9971,7 +10043,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "tempestus-aquilons",
@@ -10195,7 +10268,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "tempestus-scions",
@@ -10454,7 +10528,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "ursula-creed",
@@ -10536,7 +10611,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "valkyrie",
@@ -10665,7 +10741,8 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "wyvern",
@@ -10787,6 +10864,7 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
-    ]
+    ],
+    "baseSize": "Hull"
   }
 ]

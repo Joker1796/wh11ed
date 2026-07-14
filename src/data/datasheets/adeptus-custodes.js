@@ -103,7 +103,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "75x42mm Oval Base"
   },
   {
     "id": "aleya",
@@ -178,7 +179,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "allarus-custodians",
@@ -315,7 +317,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "anathema-psykana-rhino",
@@ -405,7 +408,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "aquilon-custodians",
@@ -520,7 +524,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "ares-gunship",
@@ -611,7 +616,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "160mm"
   },
   {
     "id": "blade-champion",
@@ -707,7 +713,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "caladius-grav-tank",
@@ -814,7 +821,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "contemptor-achillus-dreadnought",
@@ -929,7 +937,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "contemptor-galatus-dreadnought",
@@ -1009,7 +1018,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "coronus-grav-carrier",
@@ -1106,7 +1116,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "custodian-guard",
@@ -1240,7 +1251,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "custodian-guard-with-adrasite-and-pyrithite-spears",
@@ -1340,7 +1352,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "custodian-wardens",
@@ -1459,7 +1472,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "knight-centura",
@@ -1572,7 +1586,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "orion-assault-dropship",
@@ -1679,7 +1694,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "160mm"
   },
   {
     "id": "pallas-grav-attack",
@@ -1752,7 +1768,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "105x70mm Oval Base"
   },
   {
     "id": "prosecutors",
@@ -1835,7 +1852,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "sagittarum-custodians",
@@ -1910,7 +1928,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "shield-captain",
@@ -2063,7 +2082,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "shield-captain-in-allarus-terminator-armour",
@@ -2179,7 +2199,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "shield-captain-on-dawneagle-jetbike",
@@ -2278,7 +2299,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "75x42mm Oval Base"
   },
   {
     "id": "telemon-heavy-dreadnought",
@@ -2408,7 +2430,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "trajann-valoris",
@@ -2489,7 +2512,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "valerian",
@@ -2571,7 +2595,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "venatari-custodians",
@@ -2682,7 +2707,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "venerable-contemptor-dreadnought",
@@ -2784,7 +2810,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "venerable-land-raider",
@@ -2903,7 +2930,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "vertus-praetors",
@@ -2997,7 +3025,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "75x42mm Oval Base"
   },
   {
     "id": "vigilators",
@@ -3069,7 +3098,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "witchseekers",
@@ -3157,6 +3187,7 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Custodes"
-    ]
+    ],
+    "baseSize": "32mm"
   }
 ]

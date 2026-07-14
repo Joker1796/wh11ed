@@ -87,7 +87,8 @@ export default [
     "factionKeywords": [
       "",
       "Asuryani"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "autarch",
@@ -273,7 +274,8 @@ export default [
     "factionKeywords": [
       "",
       "Asuryani"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "autarch-wayleaper",
@@ -450,7 +452,8 @@ export default [
     "factionKeywords": [
       "",
       "Asuryani"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "avatar-of-khaine",
@@ -539,7 +542,8 @@ export default [
     "factionKeywords": [
       "",
       "Asuryani"
-    ]
+    ],
+    "baseSize": "80mm"
   },
   {
     "id": "baharroth",
@@ -628,7 +632,8 @@ export default [
     "factionKeywords": [
       "Asuryani",
       ""
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "corsair-skyreavers",
@@ -811,7 +816,8 @@ export default [
     "factionKeywords": [
       "",
       "Asuryani"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "corsair-voidreavers",
@@ -984,7 +990,8 @@ export default [
     "factionKeywords": [
       "Asuryani",
       ""
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "corsair-voidscarred",
@@ -1235,7 +1242,8 @@ export default [
     "factionKeywords": [
       "",
       "Asuryani"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "crimson-hunter",
@@ -1330,7 +1338,8 @@ export default [
     "factionKeywords": [
       "Asuryani",
       ""
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "d-cannon-platform",
@@ -1427,7 +1436,8 @@ export default [
     "factionKeywords": [
       "Asuryani",
       ""
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "dark-reapers",
@@ -1452,7 +1462,8 @@ export default [
         "w": "1",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+"
+        "inv": "5+",
+        "baseSize": "28.5mm"
       },
       {
         "name": "DARK REAPER EXARCH",
@@ -1462,7 +1473,8 @@ export default [
         "w": "2",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+"
+        "inv": "5+",
+        "baseSize": "28.5mm"
       }
     ],
     "ranged": [
@@ -1668,7 +1680,8 @@ export default [
     "factionKeywords": [
       "Harlequins",
       ""
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "dire-avengers",
@@ -1693,7 +1706,8 @@ export default [
         "w": "1",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+"
+        "inv": "5+",
+        "baseSize": "28.5mm"
       },
       {
         "name": "DIRE AVENGER EXARCH",
@@ -1703,7 +1717,8 @@ export default [
         "w": "2",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+"
+        "inv": "5+",
+        "baseSize": "28.5mm"
       }
     ],
     "ranged": [
@@ -1904,7 +1919,8 @@ export default [
     "factionKeywords": [
       "Asuryani",
       ""
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "falcon",
@@ -2060,7 +2076,8 @@ export default [
     "factionKeywords": [
       "Asuryani",
       ""
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "farseer",
@@ -2187,7 +2204,8 @@ export default [
     "factionKeywords": [
       "Asuryani",
       ""
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "farseer-skyrunner",
@@ -2327,7 +2345,8 @@ export default [
     "factionKeywords": [
       "Asuryani",
       ""
-    ]
+    ],
+    "baseSize": "Small Flying Base"
   },
   {
     "id": "fire-dragons",
@@ -2364,7 +2383,8 @@ export default [
         "w": "1",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+"
+        "inv": "5+",
+        "baseSize": "28.5mm"
       },
       {
         "name": "FIRE DRAGON EXARCH",
@@ -2374,7 +2394,8 @@ export default [
         "w": "2",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+"
+        "inv": "5+",
+        "baseSize": "28.5mm"
       }
     ],
     "ranged": [
@@ -2611,7 +2632,8 @@ export default [
     "factionKeywords": [
       "Asuryani",
       ""
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "fuegan",
@@ -2710,7 +2732,8 @@ export default [
     "factionKeywords": [
       "",
       "Asuryani"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "guardian-defenders",
@@ -2730,7 +2753,8 @@ export default [
         "sv": "4+",
         "w": "1",
         "ld": "7+",
-        "oc": "2"
+        "oc": "2",
+        "baseSize": "28.5mm"
       },
       {
         "name": "HEAVY WEAPON PLATFORM",
@@ -2739,7 +2763,8 @@ export default [
         "sv": "4+",
         "w": "2",
         "ld": "7+",
-        "oc": "0"
+        "oc": "0",
+        "baseSize": "40mm"
       }
     ],
     "ranged": [
@@ -2937,7 +2962,8 @@ export default [
     "factionKeywords": [
       "Asuryani",
       ""
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "howling-banshees",
@@ -2963,7 +2989,8 @@ export default [
         "ld": "6+",
         "oc": "1",
         "inv": "5+",
-        "invNote": "This invulnerable save is improved to 4+ against melee attacks."
+        "invNote": "This invulnerable save is improved to 4+ against melee attacks.",
+        "baseSize": "28.5mm"
       },
       {
         "name": "HOWLING BANSHEE EXARCH",
@@ -2974,7 +3001,8 @@ export default [
         "ld": "6+",
         "oc": "1",
         "inv": "5+",
-        "invNote": "This invulnerable save is improved to 4+ against melee attacks."
+        "invNote": "This invulnerable save is improved to 4+ against melee attacks.",
+        "baseSize": "28.5mm"
       }
     ],
     "ranged": [
@@ -3169,7 +3197,8 @@ export default [
     "factionKeywords": [
       "",
       "Asuryani"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "kharseth",
@@ -3263,7 +3292,8 @@ export default [
     "factionKeywords": [
       "",
       "Asuryani"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "lhykhis",
@@ -3364,7 +3394,8 @@ export default [
     "factionKeywords": [
       "",
       "Asuryani"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "maugan-ra",
@@ -3448,7 +3479,8 @@ export default [
     "factionKeywords": [
       "Asuryani",
       ""
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "night-spinner",
@@ -3557,7 +3589,8 @@ export default [
     "factionKeywords": [
       "Asuryani",
       ""
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "phantom-titan",
@@ -3707,7 +3740,8 @@ export default [
     "factionKeywords": [
       "Asuryani",
       ""
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "prince-yriel",
@@ -3809,7 +3843,8 @@ export default [
     "factionKeywords": [
       "",
       "Asuryani"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "rangers",
@@ -3900,7 +3935,8 @@ export default [
     "factionKeywords": [
       "",
       "Asuryani"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "revenant-titan",
@@ -4018,7 +4054,8 @@ export default [
     "factionKeywords": [
       "",
       "Asuryani"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "shadow-weaver-platform",
@@ -4108,7 +4145,8 @@ export default [
     "factionKeywords": [
       "Asuryani",
       ""
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "shadowseer",
@@ -4222,7 +4260,8 @@ export default [
     "factionKeywords": [
       "Harlequins",
       ""
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "shining-spears",
@@ -4247,7 +4286,8 @@ export default [
         "w": "2",
         "ld": "6+",
         "oc": "2",
-        "inv": "5+"
+        "inv": "5+",
+        "baseSize": "Large Flying Base"
       },
       {
         "name": "SHINING SPEAR EXARCH",
@@ -4257,7 +4297,8 @@ export default [
         "w": "3",
         "ld": "6+",
         "oc": "2",
-        "inv": "5+"
+        "inv": "5+",
+        "baseSize": "Large Flying Base"
       }
     ],
     "ranged": [
@@ -4481,7 +4522,8 @@ export default [
     "factionKeywords": [
       "",
       "Asuryani"
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "skyweavers",
@@ -4591,7 +4633,8 @@ export default [
     "factionKeywords": [
       "",
       "Harlequins"
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "solitaire",
@@ -4666,7 +4709,8 @@ export default [
     "factionKeywords": [
       "Harlequins",
       ""
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "spiritseer",
@@ -4749,7 +4793,8 @@ export default [
     "factionKeywords": [
       "Asuryani",
       ""
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "starfangs",
@@ -4841,7 +4886,8 @@ export default [
     "factionKeywords": [
       "",
       "Asuryani"
-    ]
+    ],
+    "baseSize": "105x70mm Oval Base"
   },
   {
     "id": "starweaver",
@@ -4915,7 +4961,8 @@ export default [
     "factionKeywords": [
       "",
       "Harlequins"
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "storm-guardians",
@@ -4935,7 +4982,8 @@ export default [
         "sv": "4+",
         "w": "1",
         "ld": "7+",
-        "oc": "2"
+        "oc": "2",
+        "baseSize": "28.5mm"
       },
       {
         "name": "SERPENT’S SCALE PLATFORM",
@@ -4944,7 +4992,8 @@ export default [
         "sv": "4+",
         "w": "2",
         "ld": "7+",
-        "oc": "0"
+        "oc": "0",
+        "baseSize": "40mm"
       }
     ],
     "ranged": [
@@ -5072,7 +5121,8 @@ export default [
         "w": "1",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+"
+        "inv": "5+",
+        "baseSize": "28.5mm"
       },
       {
         "name": "STRIKING SCORPION EXARCH",
@@ -5082,7 +5132,8 @@ export default [
         "w": "2",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+"
+        "inv": "5+",
+        "baseSize": "28.5mm"
       }
     ],
     "ranged": [
@@ -5228,7 +5279,8 @@ export default [
         "w": "1",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+"
+        "inv": "5+",
+        "baseSize": "32mm"
       },
       {
         "name": "SWOOPING HAWK EXARCH",
@@ -5238,7 +5290,8 @@ export default [
         "w": "2",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+"
+        "inv": "5+",
+        "baseSize": "32mm"
       }
     ],
     "ranged": [
@@ -5468,7 +5521,8 @@ export default [
     "factionKeywords": [
       "Ynnari",
       ""
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "the-yncarne",
@@ -5563,7 +5617,8 @@ export default [
     "factionKeywords": [
       "Ynnari",
       ""
-    ]
+    ],
+    "baseSize": "80mm"
   },
   {
     "id": "troupe",
@@ -5710,7 +5765,8 @@ export default [
     "factionKeywords": [
       "",
       "Harlequins"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "troupe-master",
@@ -5849,7 +5905,8 @@ export default [
     "factionKeywords": [
       "Harlequins",
       ""
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "vibro-cannon-platform",
@@ -5936,7 +5993,8 @@ export default [
     "factionKeywords": [
       "Asuryani",
       ""
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "voidweaver",
@@ -6044,7 +6102,8 @@ export default [
     "factionKeywords": [
       "Harlequins",
       ""
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "vypers",
@@ -6175,7 +6234,8 @@ export default [
     "factionKeywords": [
       "Asuryani",
       ""
-    ]
+    ],
+    "baseSize": "105x70mm Oval Base"
   },
   {
     "id": "war-walkers",
@@ -6306,7 +6366,8 @@ export default [
     "factionKeywords": [
       "Asuryani",
       ""
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "warlock",
@@ -6433,7 +6494,8 @@ export default [
     "factionKeywords": [
       "Asuryani",
       ""
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "warlock-conclave",
@@ -6556,7 +6618,8 @@ export default [
     "factionKeywords": [
       "Asuryani",
       ""
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "warlock-skyrunners",
@@ -6693,7 +6756,8 @@ export default [
     "factionKeywords": [
       "Asuryani",
       ""
-    ]
+    ],
+    "baseSize": "Small Flying Base"
   },
   {
     "id": "warp-spiders",
@@ -6730,7 +6794,8 @@ export default [
         "w": "1",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+"
+        "inv": "5+",
+        "baseSize": "28.5mm"
       },
       {
         "name": "WARP SPIDER EXARCH",
@@ -6740,7 +6805,8 @@ export default [
         "w": "2",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+"
+        "inv": "5+",
+        "baseSize": "28.5mm"
       }
     ],
     "ranged": [
@@ -7036,7 +7102,8 @@ export default [
     "factionKeywords": [
       "Asuryani",
       ""
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "windriders",
@@ -7137,7 +7204,8 @@ export default [
     "factionKeywords": [
       "Asuryani",
       ""
-    ]
+    ],
+    "baseSize": "Small Flying Base"
   },
   {
     "id": "wraithblades",
@@ -7212,7 +7280,8 @@ export default [
     "factionKeywords": [
       "Asuryani",
       ""
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "wraithguard",
@@ -7296,7 +7365,8 @@ export default [
     "factionKeywords": [
       "Asuryani",
       ""
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "wraithknight",
@@ -7439,7 +7509,8 @@ export default [
     "factionKeywords": [
       "",
       "Asuryani"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "wraithknight-with-ghostglaive",
@@ -7574,7 +7645,8 @@ export default [
     "factionKeywords": [
       "",
       "Asuryani"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "wraithlord",
@@ -7750,7 +7822,8 @@ export default [
     "factionKeywords": [
       "",
       "Asuryani"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "ynnari-archon",
@@ -7857,7 +7930,8 @@ export default [
     "factionKeywords": [
       "",
       "Ynnari"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "ynnari-incubi",
@@ -7894,7 +7968,8 @@ export default [
         "w": "1",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+"
+        "inv": "5+",
+        "baseSize": "28.5mm"
       },
       {
         "name": "KLAIVEX",
@@ -7904,7 +7979,8 @@ export default [
         "w": "2",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+"
+        "inv": "5+",
+        "baseSize": "28.5mm"
       }
     ],
     "melee": [
@@ -8135,7 +8211,8 @@ export default [
     "factionKeywords": [
       "Ynnari",
       ""
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "ynnari-raider",
@@ -8219,7 +8296,8 @@ export default [
     "factionKeywords": [
       "Ynnari",
       ""
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "ynnari-reavers",
@@ -8359,7 +8437,8 @@ export default [
     "factionKeywords": [
       "",
       "Ynnari"
-    ]
+    ],
+    "baseSize": "Small Flying Base"
   },
   {
     "id": "ynnari-succubus",
@@ -8458,7 +8537,8 @@ export default [
     "factionKeywords": [
       "",
       "Ynnari"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "ynnari-venom",
@@ -8550,7 +8630,8 @@ export default [
     "factionKeywords": [
       "Ynnari",
       ""
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "ynnari-wyches",
@@ -8639,7 +8720,8 @@ export default [
     "factionKeywords": [
       "",
       "Ynnari"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "yvraine",
@@ -8737,6 +8819,7 @@ export default [
     "factionKeywords": [
       "Ynnari",
       ""
-    ]
+    ],
+    "baseSize": "75x42mm Oval Base"
   }
 ]

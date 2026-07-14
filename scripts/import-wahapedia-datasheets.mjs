@@ -16,6 +16,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import EXTRAS from './datasheet-extras.mjs'
+import { attachBaseSizes } from './base-sizes.mjs'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const CACHE = path.join(ROOT, 'node_modules', '.cache', 'wahapedia')
@@ -234,6 +235,8 @@ async function generate(slug) {
     }
     sheets.push(buildDatasheet(row, u))
   }
+  // Base sizes (Base Size Guide) survive regeneration — same pass the one-shot back-fill used.
+  for (const s of sheets) attachBaseSizes(s, slug)
   sheets.sort((a, b) => a.name.localeCompare(b.name))
 
   fs.mkdirSync(OUT_DIR, { recursive: true })

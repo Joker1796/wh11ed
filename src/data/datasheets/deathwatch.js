@@ -115,7 +115,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "ancient",
@@ -240,7 +241,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "ancient-in-terminator-armour",
@@ -390,7 +392,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "apothecary",
@@ -502,7 +505,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "apothecary-biologis",
@@ -586,7 +590,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "assault-intercessor-squad",
@@ -732,7 +737,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "assault-intercessors-with-jump-packs",
@@ -882,7 +888,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "astraeus",
@@ -1052,7 +1059,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "ballistus-dreadnought",
@@ -1165,7 +1173,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "90mm"
   },
   {
     "id": "bladeguard-ancient",
@@ -1249,7 +1258,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "bladeguard-veteran-squad",
@@ -1377,7 +1387,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "brutalis-dreadnought",
@@ -1525,7 +1536,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "90mm"
   },
   {
     "id": "captain",
@@ -1715,7 +1727,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "captain-in-gravis-armour",
@@ -1857,7 +1870,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "captain-in-phobos-armour",
@@ -1957,7 +1971,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "captain-in-terminator-armour",
@@ -2072,7 +2087,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "captain-with-jump-pack",
@@ -2241,7 +2257,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "centurion-assault-squad",
@@ -2353,7 +2370,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "centurion-devastator-squad",
@@ -2479,7 +2497,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "chaplain",
@@ -2580,7 +2599,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "chaplain-in-terminator-armour",
@@ -2677,7 +2697,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "chaplain-on-bike",
@@ -2773,7 +2794,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "90x52.5mm Oval Base"
   },
   {
     "id": "chaplain-with-jump-pack",
@@ -2974,7 +2996,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "company-heroes",
@@ -3096,7 +3119,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "corvus-blackstar",
@@ -3236,7 +3260,8 @@ export default [
     "factionKeywords": [
       "Deathwatch",
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "deathwatch-terminator-squad",
@@ -3440,7 +3465,8 @@ export default [
     "factionKeywords": [
       "Deathwatch",
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "deathwatch-veterans",
@@ -3651,7 +3677,8 @@ export default [
     "factionKeywords": [
       "Adeptus Astartes",
       "Deathwatch"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "decimus-kill-team",
@@ -3675,7 +3702,8 @@ export default [
         "sv": "3+",
         "w": "2",
         "ld": "6+",
-        "oc": "2"
+        "oc": "2",
+        "baseSize": "32mm"
       },
       {
         "name": "GRAVIS VETERAN",
@@ -3684,7 +3712,8 @@ export default [
         "sv": "3+",
         "w": "3",
         "ld": "6+",
-        "oc": "2"
+        "oc": "2",
+        "baseSize": "40mm"
       }
     ],
     "ranged": [
@@ -4098,7 +4127,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "dreadnought",
@@ -4277,7 +4307,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "drop-pod",
@@ -4341,7 +4372,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "eliminator-squad",
@@ -4456,7 +4488,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "eradicator-squad",
@@ -4570,7 +4603,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "eradicator-squad-with-heavy-bolters",
@@ -4658,7 +4692,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "firestrike-servo-turrets",
@@ -4744,7 +4779,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "80mm"
   },
   {
     "id": "fortis-kill-team",
@@ -5050,7 +5086,8 @@ export default [
     "factionKeywords": [
       "Adeptus Astartes",
       "Deathwatch"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "gladiator-lancer",
@@ -5181,7 +5218,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "gladiator-reaper",
@@ -5300,7 +5338,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "gladiator-valiant",
@@ -5418,7 +5457,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "hammerfall-bunker",
@@ -5527,7 +5567,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "heavy-intercessor-squad",
@@ -5631,7 +5672,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "hellblaster-squad",
@@ -5763,7 +5805,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "impulsor",
@@ -5919,7 +5962,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "inceptor-squad",
@@ -6041,7 +6085,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "incursor-squad",
@@ -6152,7 +6197,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "indomitor-kill-team",
@@ -6346,7 +6392,8 @@ export default [
     "factionKeywords": [
       "Adeptus Astartes",
       "Deathwatch"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "infernus-squad",
@@ -6432,7 +6479,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "infiltrator-squad",
@@ -6546,7 +6594,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "intercessor-squad",
@@ -6741,7 +6790,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "invader-atv",
@@ -6848,7 +6898,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "invictor-tactical-warsuit",
@@ -6974,7 +7025,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "90mm"
   },
   {
     "id": "judiciar",
@@ -7074,7 +7126,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "land-raider",
@@ -7207,7 +7260,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "land-raider-crusader",
@@ -7345,7 +7399,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "land-raider-redeemer",
@@ -7483,7 +7538,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "land-speeder",
@@ -7573,7 +7629,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "105x70mm Oval Base"
   },
   {
     "id": "librarian",
@@ -7701,7 +7758,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "librarian-in-phobos-armour",
@@ -7815,7 +7873,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "librarian-in-terminator-armour",
@@ -7949,7 +8008,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "lieutenant",
@@ -8139,7 +8199,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "lieutenant-in-phobos-armour",
@@ -8236,7 +8297,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "lieutenant-in-reiver-armour",
@@ -8323,7 +8385,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "lieutenant-with-combi-weapon",
@@ -8403,7 +8466,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "outrider-squad",
@@ -8430,7 +8494,8 @@ export default [
         "sv": "3+",
         "w": "4",
         "ld": "6+",
-        "oc": "2"
+        "oc": "2",
+        "baseSize": "90x52.5mm Oval Base"
       },
       {
         "name": "INVADER ATV",
@@ -8439,7 +8504,8 @@ export default [
         "sv": "3+",
         "w": "8",
         "ld": "6+",
-        "oc": "2"
+        "oc": "2",
+        "baseSize": "90x52.5mm Oval Base"
       }
     ],
     "ranged": [
@@ -8678,7 +8744,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "predator-destructor",
@@ -8807,7 +8874,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "razorback",
@@ -8920,7 +8988,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "redemptor-dreadnought",
@@ -9094,7 +9163,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "90mm"
   },
   {
     "id": "reiver-squad",
@@ -9213,7 +9283,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "repulsor",
@@ -9356,7 +9427,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "repulsor-executioner",
@@ -9540,7 +9612,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "rhino",
@@ -9626,7 +9699,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "spectrus-kill-team",
@@ -9840,7 +9914,8 @@ export default [
     "factionKeywords": [
       "Adeptus Astartes",
       "Deathwatch"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "sternguard-veteran-squad",
@@ -10004,7 +10079,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "storm-speeder-hailstrike",
@@ -10104,7 +10180,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "90mm"
   },
   {
     "id": "storm-speeder-hammerstrike",
@@ -10199,7 +10276,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "90mm"
   },
   {
     "id": "storm-speeder-thunderstrike",
@@ -10295,7 +10373,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "90mm"
   },
   {
     "id": "stormhawk-interceptor",
@@ -10440,7 +10519,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "stormraven-gunship",
@@ -10638,7 +10718,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "stormtalon-gunship",
@@ -10772,7 +10853,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "suppressor-squad",
@@ -10856,7 +10938,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "talonstrike-kill-team",
@@ -10882,7 +10965,8 @@ export default [
         "sv": "3+",
         "w": "2",
         "ld": "6+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "32mm"
       },
       {
         "name": "KILL TEAM HEAVY INTERCESSORS WITH JUMP PACKS",
@@ -10891,7 +10975,8 @@ export default [
         "sv": "3+",
         "w": "3",
         "ld": "6+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "40mm"
       }
     ],
     "ranged": [
@@ -11186,7 +11271,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "thunderhawk-gunship",
@@ -11320,7 +11406,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "Unique"
   },
   {
     "id": "vanguard-veteran-squad-with-jump-packs",
@@ -11483,7 +11570,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "vindicator",
@@ -11589,7 +11677,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "watch-captain-artemis",
@@ -11679,7 +11768,8 @@ export default [
     "factionKeywords": [
       "Deathwatch",
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "watch-master",
@@ -11765,7 +11855,8 @@ export default [
     "factionKeywords": [
       "Deathwatch",
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "whirlwind",
@@ -11872,6 +11963,7 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Astartes"
-    ]
+    ],
+    "baseSize": "Hull"
   }
 ]
