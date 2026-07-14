@@ -1,0 +1,55 @@
+import { computed, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
+import { getFaction } from '../data/factions/index.js'
+import { deepOverlay, loadFactionRu } from '../data/factions/ru/index.js'
+import { useLocale } from './useLocale.js'
+
+// Shared by the faction pages (rules — army rule + detachments — and datasheets):
+// resolves the localized faction object for the current /factions/:slug route.
+// EN is the source of truth; the RU overlay (src/data/factions/ru/<slug>.js) is
+// lazy-loaded only in the RU locale and deep-merged over EN — until it resolves
+// (or where no overlay exists yet) RU falls back to the EN text.
+export function useFactionPage() {
+  const route = useRoute()
+  const { locale } = useLocale()
+  const slug = computed(() => route.params.slug)
+
+  const ruModule = ref(null)
+  watch(
+    [slug, locale],
+    async ([s, loc]) => {
+      ruModule.value = null
+      if (!s || loc !== 'ru') return
+      const mod = await loadFactionRu(s)
+      // guard against a stale resolve after a rapid route/locale change
+      if (slug.value === s && locale.value === 'ru') ruModule.value = mod
+    },
+    { immediate: true },
+  )
+
+  const faction = computed(() => {
+    const data = getFaction(slug.value)
+    if (!data) return null
+    if (locale.value !== 'ru') return data.en
+    const mod = ruModule.value
+    if (!mod) return data.ru
+    const merged = deepOverlay(data.en, mod.default)
+    // Attach RU display names (shown as a small line under the English name). Keyed by the
+    // English name; merged objects are fresh copies from deepOverlay, so this does not
+    // mutate the EN source.
+    if (mod.armyRuleNameRu && merged.armyRule) merged.armyRule.nameRu = mod.armyRuleNameRu
+    for (const d of merged.detachments || []) {
+      if (mod.detNamesRu) d.nameRu = mod.detNamesRu[d.name]
+      if (mod.detRuleNamesRu && d.rule) d.rule.nameRu = mod.detRuleNamesRu[d.rule.name]
+      if (mod.stratNamesRu) {
+        for (const s of d.stratagems || []) {
+          const ru = mod.stratNamesRu[s.name]
+          if (ru) s.nameRu = ru
+        }
+      }
+    }
+    return merged
+  })
+
+  return { slug, faction }
+}

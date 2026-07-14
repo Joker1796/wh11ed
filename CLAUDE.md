@@ -2,6 +2,9 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+> Родительская папка `../` содержит второй проект (бэкенд `../wh11ed-api`) и общий обзор —
+> см. [`../CLAUDE.md`](../CLAUDE.md) (маршрутизация фронт/бэк и стиль работы).
+
 ## Commands
 
 ```bash
@@ -29,10 +32,10 @@ Vue 3 SPA using HTML5 history routing (`createWebHistory`) — clean paths like 
 
 **Navigation model:** Two levels.
 
-- **Top navbar** (`App.vue`) — three sections: "Core Rules", "Event Companion", and "Tracker". `isEventRoute` (path starts with `/event-companion`) and `isTrackerRoute` (starts with `/tracker`) switch which subnav renders.
+- **Top navbar** (`App.vue`) — sections "Core Rules", "Event Companion", "Tracker", "Factions". (The `/links` page of source PDFs is deliberately NOT in the navbar or the drawer — only its card on the landing page links to it.) `isEventRoute` (path starts with `/event-companion`) and `isTrackerRoute` (starts with `/tracker`) switch which subnav renders. **Factions** is a `.nav-dropdown`: the link still navigates to `/factions`, but on **hover / focus-within** (desktop only — `.navbar-links` is `display:none` ≤900px) it opens a pure-CSS grouped mega-menu of all factions (2-column grid from `data/factionsIndex.js` via `groupLabelKey`, links to `/factions/:slug`, "coming soon" for non-ready). No JS state — reveal is CSS `:hover`/`:focus-within` with a transparent `padding-top` bridge.
 - **Subnav** (sticky bar below navbar) — for Core Rules: route links (Introduction / Basic Rules / Battle Round / Battlefields / Advanced / Reference). For Event Companion: Introduction / Sequence / Missions / Terrain & Layouts / Pairings / FAQs. For Tracker: Game Tracker / Current Game / Stratagems. The `/stratagems` page rides with the **tracker** subnav (`subNavItems` returns `trackerSubNavItems` when `isTrackerRoute || isStratagemsRoute`) so reaching it from the tracker keeps those tabs in view (desktop has no "Back to game" bar).
 - `router/index.js` exports `navGroups`/`navGroupsRu` (Core), `eventGroups`/`eventGroupsRu` (Event), **and** `trackerGroups`/`trackerGroupsRu` (Tracker); `NavSidebar.vue` renders all three as labelled mobile sections.
-- **Mobile** (≤900px): the navbar links + subnav are hidden; a hamburger opens `NavSidebar.vue` (the drawer, for in-section navigation) and a fixed **bottom nav** in `App.vue` with icons: Core Rules / **Stratagems** (`/stratagems`) / **Missions** (`/event-companion/missions`) / Tracker. The bottom nav uses its own short RU labels (`navCoreRulesShort` «Правила», `navStratagemsShort` «Стратагемы») so they fit; the top navbar keeps the full names (Event Companion stays in the top navbar/drawer — it's only the bottom-nav slot that's a Stratagems shortcut). `isStratagemsRoute`/`isMissionsRoute` highlight their items. The bottom-nav is an always-dark surface, so the active item uses `--accent-on-dark` (the light theme's `--accent` is invisible on it).
+- **Mobile** (≤900px): the navbar links + subnav are hidden; a hamburger opens `NavSidebar.vue` (the drawer, for in-section navigation) and a fixed **bottom nav** in `App.vue` with icons: Core Rules / **Factions** / **Stratagems** (`/stratagems`) / Tracker. **Factions** is a `<button>` (not a link) that opens `FactionsNavModal.vue` — a lightweight grouped faction list (driven by the light `data/factionsIndex.js`, links to `/factions/:slug`, closes on pick); it's highlighted while `isFactionRoute`. While a single unit's datasheet is open (`isUnitRoute` = `/factions/:slug/datasheets/:unit`), an **additional** «Units» link is inserted in the middle → back to that faction's `/factions/:slug/datasheets` list (it does not replace Factions). The bottom nav uses its own short RU labels (`navCoreRulesShort` «Правила», `navStratagemsShort` «Стратагемы»; Factions/Units reuse `navFactions`/`factionDatasheets`) so they fit; the top navbar keeps the full names (Event Companion stays in the top navbar/drawer — Missions is no longer in the bottom nav, only reachable via the Event subnav/drawer). `isStratagemsRoute` highlights its item. The bottom-nav is an always-dark surface, so the active item uses `--accent-on-dark` (the light theme's `--accent` is invisible on it); the Factions `<button>` gets a native-chrome reset (`button.bn-item`).
 - **"Back to game" bar** (`ResumeGameButton.vue`, mobile only): when a game is in progress (`useTracker().current.phase === 'playing'`) and the user is on any non-tracker, non-landing route with no full-screen modal/drawer open (`showResumeGame` in `App.vue`), a full-width bar floats just above the bottom nav linking to `/tracker/game` — one-tap return after looking up a rule. A shared `--resume-bar-h` var (set on `.app-layout`) lifts the content bottom-padding and the offline-warmup toast above it so nothing overlaps.
 
 **Data → View pipeline:**
@@ -85,7 +88,7 @@ A `Section` has `{ id, num, title, page, description, subsections[] }`. A subsec
 
 **Cross-references** (`seeAlso: ['Rule Name NN.NN']`) are resolved by `useRefNavigation.js` and rendered by `SeeAlsoBlock`. Click navigates to `#section-NN-NN`.
 
-**Search** (`Ctrl+K`) — `useSearch.js` builds a flat index at import time from all data files. Searches `title`, `sectionNum`, `body`, `note` fields.
+**Search** (`Ctrl+K`) — `useSearch.js` builds a flat index lazily (per locale) from all data files. Searches `title`, `sectionNum`, `body`, `note` fields. **Datasheet units are searchable by name** via `src/data/datasheetIndex.js` — a compact generated name-only index (`npm run datasheets:index`, re-run after re-importing datasheets), dynamic-imported when the palette opens so the heavy per-faction datasheet files never ride in the search bundle.
 
 **Keyword popover** — `useKeywordPopover.js` is a singleton; any click on `.keyword` span opens `KeywordPopover.vue` with the ability text looked up from `reference.js` (`coreAbilities`) / the Event Companion glossary. **Perf:** those two big data files are **dynamically `import()`ed on first keyword click** (not statically), so they stay out of the entry chunk that loads on every page — `open()` is async. Keep it that way (don't re-add a static import).
 

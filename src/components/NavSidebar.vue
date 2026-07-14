@@ -74,7 +74,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { navGroups, navGroupsRu, eventGroups, eventGroupsRu, trackerGroups, trackerGroupsRu, linksGroups, linksGroupsRu } from '../router/index.js'
+import { navGroups, navGroupsRu, eventGroups, eventGroupsRu, trackerGroups, trackerGroupsRu, factionGroups, factionGroupsRu } from '../router/index.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useAbilityFilter } from '../composables/useAbilityFilter.js'
@@ -91,20 +91,33 @@ const labels = computed(() => ui[locale.value])
 const localizedGroups = computed(() => locale.value === 'ru' ? navGroupsRu : navGroups)
 const localizedEventGroups = computed(() => locale.value === 'ru' ? eventGroupsRu : eventGroups)
 const localizedTrackerGroups = computed(() => locale.value === 'ru' ? trackerGroupsRu : trackerGroups)
-const localizedLinksGroups = computed(() => locale.value === 'ru' ? linksGroupsRu : linksGroups)
-
+// When a faction is open, the drawer's Factions section also lists that faction's two
+// pages (rules — army rule + detachments merged — / datasheets) — the desktop subnav is
+// hidden on mobile.
+const localizedFactionGroups = computed(() => {
+  const base = locale.value === 'ru' ? factionGroupsRu : factionGroups
+  const slug = route.path.startsWith('/factions/') ? route.params.slug : null
+  if (!slug) return base
+  const l = labels.value
+  const root = `/factions/${slug}`
+  return [
+    ...base,
+    { label: l.factionRules,      path: root,                 sections: [] },
+    { label: l.factionDatasheets, path: `${root}/datasheets`, sections: [] },
+  ]
+})
 const navSections = computed(() => [
   { key: 'core',    label: labels.value.navCoreRules,      groups: localizedGroups.value },
   { key: 'event',   label: labels.value.navEventCompanion, groups: localizedEventGroups.value },
   { key: 'tracker', label: labels.value.navTracker,        groups: localizedTrackerGroups.value },
-  { key: 'links',   label: labels.value.navLinks,          groups: localizedLinksGroups.value },
+  { key: 'factions', label: labels.value.navFactions,      groups: localizedFactionGroups.value },
 ])
 
 const currentSection = computed(() => {
   const p = route.path
   if (p.startsWith('/tracker')) return 'tracker'
   if (p.startsWith('/event-companion')) return 'event'
-  if (p.startsWith('/links')) return 'links'
+  if (p.startsWith('/factions')) return 'factions'
   return 'core'
 })
 
