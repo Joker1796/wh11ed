@@ -39,7 +39,7 @@ const labels = computed(() => ui[locale.value])
 const ec = computed(() => getEventContent(locale.value))
 const intro = computed(() => ec.value.sequence.introduction)
 
-const authorEmail = 'yas-shaman@yandex.ru'
+const authorEmail = 'gorlovevgeni9617@gmail.com'
 </script>
 
 <style scoped>

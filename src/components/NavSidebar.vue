@@ -109,8 +109,8 @@ const localizedFactionGroups = computed(() => {
 const navSections = computed(() => [
   { key: 'core',    label: labels.value.navCoreRules,      groups: localizedGroups.value },
   { key: 'event',   label: labels.value.navEventCompanion, groups: localizedEventGroups.value },
-  { key: 'tracker', label: labels.value.navTracker,        groups: localizedTrackerGroups.value },
   { key: 'factions', label: labels.value.navFactions,      groups: localizedFactionGroups.value },
+  { key: 'tracker', label: labels.value.navTracker,        groups: localizedTrackerGroups.value },
 ])
 
 const currentSection = computed(() => {
