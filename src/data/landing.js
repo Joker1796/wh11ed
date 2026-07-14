@@ -21,6 +21,13 @@ export const landing = {
         desc: 'The matched-play tournament rules — the 25 primary and 18 secondary missions, terrain layouts and the mission matrix, pairings and FAQs.',
       },
       {
+        key: 'factions',
+        label: 'Factions',
+        path: '/factions',
+        badge: '28 factions',
+        desc: 'Army rules, detachments and searchable unit datasheets for all 28 factions — with base sizes and bilingual EN/RU text.',
+      },
+      {
         key: 'tracker',
         label: 'Game Tracker',
         path: '/tracker',
@@ -42,6 +49,9 @@ export const landing = {
         { label: 'Translation help:', who: 'Nikita Lukin and Yuri Avakumov' },
         { label: 'Testing help:', who: 'members of the «Кочующий стол» club' },
       ],
+      openSourceLabel: 'Open source:',
+      openSourceText: 'This project is free and open source, under the MIT license.',
+      repoLinkLabel: 'GitHub',
     },
   },
 
@@ -52,21 +62,28 @@ export const landing = {
     sections: [
       {
         key: 'core',
-        label: 'Core Rules',
+        label: 'Основные правила',
         path: '/introduction',
         badge: '24 раздела',
         desc: 'Полные основные правила 11-й редакции — базовые концепции, раунд боя и его фазы, поля сражений, продвинутые правила и справочный раздел.',
       },
       {
         key: 'event',
-        label: 'Event Companion',
+        label: 'Путеводитель по ивентам',
         path: '/event-companion',
         badge: 'Миссии · Террейн · Паринги',
         desc: 'Турнирные правила matched play — 25 основных и 18 вторичных миссий, раскладки террейна и матрица миссий, паринги и FAQ.',
       },
       {
+        key: 'factions',
+        label: 'Фракции',
+        path: '/factions',
+        badge: '28 фракций',
+        desc: 'Правила армии, детачменты и листы данных юнитов с поиском — для всех 28 фракций, с размерами баз и двуязычным EN/RU текстом.',
+      },
+      {
         key: 'tracker',
-        label: 'Game Tracker',
+        label: 'Трекер игры',
         path: '/tracker',
         badge: 'Трекер и стратагемы',
         desc: 'Клиентский офлайн-трекер очков на 2 игроков для партии в 40k — миссии, вторичные задачи, командные очки и подсчёт по раундам, с опциональным облачным сохранением сыгранных партий.',
@@ -86,6 +103,9 @@ export const landing = {
         { label: 'За помощь в переводе:', who: 'Никите Лукину и Юрию Авакумову' },
         { label: 'За помощь в тестировании:', who: 'участникам клуба «Кочующий стол»' },
       ],
+      openSourceLabel: 'Открытый код:',
+      openSourceText: 'Проект бесплатный и с открытым исходным кодом, под лицензией MIT.',
+      repoLinkLabel: 'GitHub',
     },
   },
 }
