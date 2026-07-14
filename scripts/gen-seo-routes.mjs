@@ -14,7 +14,7 @@
 // enumerated from the data files, so this script needs no changes when factions land.
 
 import { existsSync, writeFileSync } from 'node:fs'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import { join } from 'node:path'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
@@ -45,7 +45,7 @@ const STATIC_ROUTES = [
 async function factionRoutes() {
   const indexFile = join(ROOT, 'src/data/factionsIndex.js')
   if (!existsSync(indexFile)) return []
-  const { factionGroups } = await import(indexFile)
+  const { factionGroups } = await import(pathToFileURL(indexFile))
   const routes = ['/factions']
   for (const group of factionGroups) {
     for (const f of group.factions) {
@@ -55,7 +55,7 @@ async function factionRoutes() {
       const sheetsFile = join(ROOT, `src/data/datasheets/${f.slug}.js`)
       if (!existsSync(sheetsFile)) continue
       routes.push(`/factions/${f.slug}/datasheets`)
-      const units = (await import(sheetsFile)).default ?? []
+      const units = (await import(pathToFileURL(sheetsFile))).default ?? []
       for (const u of units) routes.push(`/factions/${f.slug}/datasheets/${u.id}`)
     }
   }

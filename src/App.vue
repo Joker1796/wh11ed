@@ -19,11 +19,6 @@
             class="nav-link"
             :class="{ active: isEventRoute }"
           >{{ labels.navEventCompanion }}</RouterLink>
-          <RouterLink
-            to="/tracker"
-            class="nav-link"
-            :class="{ active: isTrackerRoute }"
-          >{{ labels.navTracker }}</RouterLink>
           <div
             class="nav-dropdown"
             :class="{ 'nd-suppressed': factionMenuSuppressed }"
@@ -48,6 +43,11 @@
               </div>
             </div>
           </div>
+          <RouterLink
+            to="/tracker"
+            class="nav-link"
+            :class="{ active: isTrackerRoute }"
+          >{{ labels.navTracker }}</RouterLink>
         </nav>
 
         <div class="navbar-actions">
