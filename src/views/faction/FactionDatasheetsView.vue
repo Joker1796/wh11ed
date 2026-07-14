@@ -139,20 +139,20 @@ const groupedDatasheets = computed(() => {
 
 .ds-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.35rem;
 }
 
 .ds-chip {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.15rem;
+  gap: 0.05rem;
   text-align: left;
-  padding: 0.5rem 0.7rem;
+  padding: 0.35rem 0.55rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 4px;
   cursor: pointer;
   text-decoration: none;
   transition: background var(--motion-fast), border-color var(--motion-fast);
@@ -167,8 +167,8 @@ const groupedDatasheets = computed(() => {
 
 .ds-chip-name {
   font-family: var(--font-display);
-  font-size: 1.05rem;
-  line-height: 1.15;
+  font-size: 1.1rem;
+  line-height: 1.1;
   text-transform: uppercase;
   letter-spacing: 0.3px;
   color: var(--text-primary);
