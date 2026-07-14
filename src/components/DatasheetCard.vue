@@ -354,12 +354,13 @@ function statCells(p) {
   line-height: 1.25;
   color: var(--text-muted);
 }
-/* Base size (⌀32mm / 75×42mm …) after the model name — lighter, non-caps, in the accent. */
+/* Base size (⌀32mm / 75×42mm …) after the model name — secondary: same muted colour as
+   the name but lighter weight, so it never stands out more than the model name itself. */
 .ds-prof-name .ds-base {
-  font-weight: 600;
+  font-weight: 400;
   text-transform: none;
   letter-spacing: 0;
-  color: var(--accent);
+  color: var(--text-muted);
   white-space: nowrap;
 }
 /* Invulnerable save: shield straight under SV (column 3), label + note to its right.
