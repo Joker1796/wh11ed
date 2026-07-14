@@ -90,7 +90,6 @@ const tabs = computed(() => {
 
 .hero {
   padding: 0.5rem 0 0.9rem;
-  border-bottom: 2px solid var(--accent);
   margin-bottom: 1.5rem;
 }
 
@@ -116,36 +115,45 @@ const tabs = computed(() => {
   line-height: 1;
 }
 
+/* Angular 40k-style tabs under the faction name (both mobile and desktop — on desktop they
+   replace the App.vue subnav for faction hero pages). Classic folder tabs, square corners:
+   the closed (inactive) tabs are recessed (--bg-secondary) boxes whose bottom sits flush with a
+   full-width faction-accent line; the open (active) tab is a content-coloured (--bg-primary) box
+   with an accent frame whose bottom border matches the content, erasing the line under it so it
+   merges into the content. The open/closed states are told apart by their background colour. */
 .faction-tabs {
-  display: none;
+  display: flex;
+  gap: 0;
+  margin-top: 1rem;
+  /* full-width faction-accent line the tabs sit on */
+  border-bottom: 1px solid var(--accent);
 }
 
-@media (max-width: 900px) {
-  .faction-tabs {
-    display: flex;
-    gap: 0.4rem;
-    margin-top: 0.8rem;
-  }
+.faction-tab {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: var(--text-muted);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-bottom: 1px solid var(--accent);
+  border-radius: 0;
+  padding: 0.55rem 1.3rem;
+  margin-bottom: -1px; /* overlap the container's accent line */
+  text-decoration: none;
+  transition: color var(--motion-fast), background var(--motion-fast), border-color var(--motion-fast);
+}
 
-  .faction-tab {
-    font-family: var(--font-display);
-    font-size: 0.95rem;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    color: var(--text-muted);
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 0.35rem 0.7rem;
-    text-decoration: none;
-    transition: color var(--motion-fast), border-color var(--motion-fast), background var(--motion-fast);
-  }
+.faction-tab:hover {
+  color: var(--text-primary);
+}
 
-  .faction-tab.active {
-    color: #fff;
-    background: var(--accent);
-    border-color: var(--accent);
-  }
+.faction-tab.active {
+  color: var(--accent);
+  background: var(--bg-primary);
+  border-color: var(--accent);
+  border-bottom-color: var(--bg-primary); /* erase the accent line under the open tab → merge with content */
 }
 
 .fsoon {
