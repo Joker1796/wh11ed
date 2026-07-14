@@ -68,24 +68,36 @@
       <p v-if="sheet.faction" class="ds-ability-line">
         <strong>{{ labels.dsFaction }}:</strong> <span class="ds-faction-rule">{{ sheet.faction }}</span>
       </p>
-      <div v-for="a in sheet.abilities" :key="a.name" class="ds-ability">
-        <strong>{{ a.name }}:</strong>
-        <span v-if="a.nameRu" class="ds-ability-name-ru">{{ a.nameRu }}</span>
-        <span v-html="dsText(a.text)"></span>
-      </div>
-      <template v-if="sheet.wargearAbilities">
-        <h5 class="ds-group-title">{{ labels.dsWargearAbilities }}</h5>
-        <div v-for="a in sheet.wargearAbilities" :key="a.name" class="ds-ability">
-          <strong>{{ a.name }}:</strong>
-          <span v-if="a.nameRu" class="ds-ability-name-ru">{{ a.nameRu }}</span>
-          <span v-html="dsText(a.text)"></span>
+      <template v-if="sheet.abilities">
+        <div class="ds-ability-group">
+          <h5 class="ds-group-title">{{ labels.dsAbilities }}</h5>
+          <div v-for="a in sheet.abilities" :key="a.name" class="ds-ability">
+            <strong>{{ a.name }}:</strong>
+            <span v-if="a.nameRu" class="ds-ability-name-ru">{{ a.nameRu }}</span>
+            <span v-html="dsText(a.text)"></span>
+          </div>
         </div>
       </template>
-      <div v-for="a in sheet.specialAbilities" :key="a.name" class="ds-ability">
-        <strong>{{ a.name }}:</strong>
-        <span v-if="a.nameRu" class="ds-ability-name-ru">{{ a.nameRu }}</span>
-        <span v-html="dsText(a.text)"></span>
-      </div>
+      <template v-if="sheet.wargearAbilities">
+        <div class="ds-ability-group">
+          <h5 class="ds-group-title">{{ labels.dsWargearAbilities }}</h5>
+          <div v-for="a in sheet.wargearAbilities" :key="a.name" class="ds-ability">
+            <strong>{{ a.name }}:</strong>
+            <span v-if="a.nameRu" class="ds-ability-name-ru">{{ a.nameRu }}</span>
+            <span v-html="dsText(a.text)"></span>
+          </div>
+        </div>
+      </template>
+      <template v-if="sheet.specialAbilities">
+        <div class="ds-ability-group">
+          <h5 class="ds-group-title">{{ labels.dsSpecialAbilities }}</h5>
+          <div v-for="a in sheet.specialAbilities" :key="a.name" class="ds-ability">
+            <strong>{{ a.name }}:</strong>
+            <span v-if="a.nameRu" class="ds-ability-name-ru">{{ a.nameRu }}</span>
+            <span v-html="dsText(a.text)"></span>
+          </div>
+        </div>
+      </template>
       <div v-if="sheet.damaged" class="ds-damaged">
         <strong>{{ labels.dsDamaged }}: {{ sheet.damaged.note }}</strong>
         <div v-html="dsText(sheet.damaged.text)"></div>
@@ -540,6 +552,24 @@ function statCells(p) {
   color: var(--accent);
   margin: 0.7rem 0 0.3rem;
 }
+/* Plain and special abilities each sit in a faction-accent-tinted card with a solid-fill
+   header bar (same idiom as the weapon table headers), so the two categories read as
+   distinct groups rather than one undifferentiated list. */
+.ds-ability-group {
+  margin: 0.6rem 0;
+  border-radius: 4px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+.ds-ability-group > .ds-group-title {
+  margin: 0;
+  padding: 0.3rem 0.7rem;
+  background: var(--ds-th-bg, var(--accent));
+  color: #fff;
+}
+.ds-ability-group .ds-ability { margin: 0.45rem 0.7rem; }
+.ds-ability-group .ds-ability:first-of-type { margin-top: 0.5rem; }
+.ds-ability-group .ds-ability:last-child { margin-bottom: 0.5rem; }
 .ds-damaged {
   margin-top: 0.6rem;
   padding: 0.5rem 0.7rem;
