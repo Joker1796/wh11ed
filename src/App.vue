@@ -166,7 +166,7 @@
         <i class="bi bi-shield-shaded"></i>
         <span>{{ labels.navFactions }}</span>
       </button>
-      <RouterLink v-if="isUnitRoute" :to="unitsListPath" class="bn-item">
+      <RouterLink v-if="unitsNavPath" :to="unitsNavPath" class="bn-item">
         <i class="bi bi-people-fill"></i>
         <span>{{ labels.factionDatasheets }}</span>
       </RouterLink>
@@ -277,10 +277,19 @@ const isLinksRoute = computed(() => route.path === '/links')
 const isFactionRoute = computed(() => route.path.startsWith('/factions'))
 // A specific faction's pages (/factions/:slug...) get their own subnav; the /factions list doesn't.
 const isFactionDetailRoute = computed(() => isFactionRoute.value && !!route.params.slug)
-// A single unit's datasheet (/factions/:slug/datasheets/:unit) — the bottom nav adds a "Units" link
-// back to that faction's datasheet list while one is open.
-const isUnitRoute = computed(() => isFactionRoute.value && !!route.params.unit)
-const unitsListPath = computed(() => `/factions/${route.params.slug}/datasheets`)
+// The bottom-nav "Units" link — same button used on unit pages (bi-people-fill → the faction's
+// datasheets list). Shown on any faction-with-slug page (faction overview / datasheet list /
+// single unit) AND, during a game, pointing to the "You" player's faction — a quick jump from
+// the tracker to your army's datasheets. Null when there's no faction context.
+const unitsNavPath = computed(() => {
+  if (isFactionDetailRoute.value) return `/factions/${route.params.slug}/datasheets`
+  const g = currentGame.value
+  if (g?.phase === 'playing') {
+    const you = g.players?.find((p) => p.isYou) ?? g.players?.[0]
+    if (you?.factionSlug) return `/factions/${you.factionSlug}/datasheets`
+  }
+  return null
+})
 const isEventRoute = computed(() => route.path.startsWith('/event-companion'))
 const isStratagemsRoute = computed(() => route.path === '/stratagems')
 const isTrackerRoute = computed(() => route.path.startsWith('/tracker'))
