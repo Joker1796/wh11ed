@@ -446,6 +446,9 @@ function statCells(p) {
   font-weight: 700;
   letter-spacing: 0.8px;
   text-transform: uppercase;
+  /* Override the global dark `th` fill — the points band already carries its own
+     accent-tinted background, so the header must stay transparent (was dark in light theme). */
+  background: none;
   color: var(--text-muted);
   border-bottom: 1px solid var(--border);
   padding: 0.2rem 0.7rem;
