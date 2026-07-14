@@ -92,7 +92,8 @@ export default [
     "keywords": [
       "Vehicle",
       "Annihilation Barge",
-      "Fly"
+      "Fly",
+      "Frame"
     ],
     "factionKeywords": [
       "Necrons"
@@ -1111,7 +1112,8 @@ export default [
       "Vehicle",
       "Character",
       "Catacomb Command Barge",
-      "Fly"
+      "Fly",
+      "Frame"
     ],
     "factionKeywords": [
       "Necrons"
@@ -1171,7 +1173,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Reanimation Protocols",
     "abilities": [
       {
@@ -1269,7 +1271,8 @@ export default [
     "keywords": [
       "Fortification",
       "Vehicle",
-      "Convergence of Dominion"
+      "Convergence of Dominion",
+      "Frame"
     ],
     "factionKeywords": [
       "Necrons"
@@ -1441,12 +1444,12 @@ export default [
     "profiles": [
       {
         "name": "Doom Scythe",
-        "m": "20+\"",
+        "m": "-",
         "t": "9",
         "sv": "3+",
         "w": "12",
         "ld": "7+",
-        "oc": "0"
+        "oc": "-"
       }
     ],
     "ranged": [
@@ -1726,7 +1729,7 @@ export default [
         "d": "2"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Reanimation Protocols",
     "abilities": [
       {
@@ -1834,7 +1837,8 @@ export default [
       "Ghost Ark",
       "Dedicated Transport",
       "Fly",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Necrons"
@@ -2666,7 +2670,7 @@ export default [
     "abilities": [
       {
         "name": "Eternity Gate",
-        "text": "In the Reinforcements step of your Movement phase, you can select one Necrons Infantry unit from your army that is either in Reserves or on the battlefield (if you select the latter, remove that unit from the battlefield and place it into Reserves). That unit is then set up anywhere on the battlefield that is wholly within 6\" of this model and not within Engagement Range of any enemy models. That unit cannot declare a charge this turn."
+        "text": "In your movement phase (excluding the first battle round), you can select one friendly Necrons Infantry unit that is either in strategic reserves or on the battlefield (if you select a unit on the battlefield, remove that unit from the battlefield and place it into strategic reserves). That unit can make an ingress move, and must be set up wholly within 6\" of this unit and not engaged with any enemy units. That unit cannot make a charge move this turn."
       }
     ],
     "damaged": {
@@ -2685,7 +2689,8 @@ export default [
       "Towering",
       "Vehicle",
       "Titanic",
-      "Fly"
+      "Fly",
+      "Frame"
     ],
     "factionKeywords": [
       "Necrons"
@@ -2890,7 +2895,7 @@ export default [
     "profiles": [
       {
         "name": "Night Scythe",
-        "m": "20+\"",
+        "m": "14\"",
         "t": "9",
         "sv": "3+",
         "w": "12",
@@ -2924,12 +2929,12 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deadly Demise D3, Deep Strike",
+    "core": "Deadly Demise D3, Deep Strike, Hover",
     "faction": "Reanimation Protocols",
     "abilities": [
       {
-        "name": "Translocation Beams",
-        "text": "At the end of the Fight phase, if there are no models currently embarked within this TRANSPORT, you can select one friendly Necrons Infantry unit wholly within 6\" of this TRANSPORT. Unless that unit is within Engagement Range of one or more enemy units, it can embark within this TRANSPORT."
+        "name": "Invasion Beams",
+        "text": "At the end of the Fight phase, if there are no models currently embarked within this TRANSPORT, you can select one friendly Necrons Infantry unit wholly within 6\" of this TRANSPORT. Unless that unit is within Engagement Range of one or more enemy units, it can embark within this TRANSPORT. That unit can embark within this TRANSPORT in a turn it disembarked from this TRANSPORT."
       },
       {
         "name": "Quantum Invader",
@@ -2947,10 +2952,10 @@ export default [
     "transport": "This model has a transport capacity of 1 Necrons Infantry unit.",
     "keywords": [
       "Night Scythe",
-      "Aircraft",
       "Fly",
       "Vehicle",
-      "Transport"
+      "Transport",
+      "Frame"
     ],
     "factionKeywords": [
       "Necrons"
@@ -3031,7 +3036,8 @@ export default [
       "Obelisk",
       "Towering",
       "Titanic",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Necrons"
@@ -3091,7 +3097,7 @@ export default [
     "abilities": [
       {
         "name": "Tunnelling Horrors",
-        "text": "At the end of your opponent’s turn, if this unit is not within Engagement Range of one or more enemy units, you can remove this unit from the battlefield. In the Reinforcements step of your next Movement phase, set it up anywhere on the battlefield that is more than 9\" horizontally away from all enemy models."
+        "text": "At the end of your opponent’s turn, if this unit is not within Engagement Range of one or more enemy units, you can remove this unit from the battlefield. In the Reinforcements step of your next Movement phase, set it up anywhere on the battlefield that is more than 8\" horizontally away from all enemy models."
       }
     ],
     "wargearAbilities": [
@@ -3152,7 +3158,7 @@ export default [
         "d": "D3"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Reanimation Protocols",
     "abilities": [
       {
@@ -3434,7 +3440,7 @@ export default [
         "d": "2"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Reanimation Protocols",
     "abilities": [
       {
@@ -3513,7 +3519,7 @@ export default [
         "d": "3"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Reanimation Protocols",
     "abilities": [
       {
@@ -3741,7 +3747,8 @@ export default [
       "Titanic",
       "Vehicle",
       "Seraptek Heavy Construct",
-      "Towering"
+      "Towering",
+      "Frame"
     ],
     "factionKeywords": [
       "Necrons"
@@ -3965,7 +3972,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Reanimation Protocols",
     "abilities": [
       {
@@ -4121,7 +4128,8 @@ export default [
       "Towering",
       "Titanic",
       "Vehicle",
-      "Fly"
+      "Fly",
+      "Frame"
     ],
     "factionKeywords": [
       "Necrons"
@@ -4251,7 +4259,7 @@ export default [
       "text": "While this unit’s Szarekh model has 1-6 wounds remaining, halve the Attacks characteristic of that model’s weapons, and each time this unit makes an attack, subtract 1 from the Hit roll."
     },
     "composition": [
-      "1 Szarekh – EPIC HERO",
+      "1 Szarekh – CHARACTER, EPIC HERO",
       "2 Triarchal Menhirs"
     ],
     "loadout": "**Szarekh is equipped with:** Sceptre of Eternal Glory; Staff of Stars; Weapons of the Final Triarch.\n\n**Every Triarchal Menhir is equipped with:** annihilator beam; armoured bulk.",
@@ -4458,7 +4466,7 @@ export default [
     "abilities": [
       {
         "name": "Transdimensional Displacement",
-        "text": "Each time this model is selected to Advance, you can remove it from the battlefield and set it up again anywhere on the battlefield that is more than 9\" horizontally away from all enemy units."
+        "text": "Each time this model is selected to Advance, you can remove it from the battlefield and set it up again anywhere on the battlefield that is more than 8\" horizontally away from all enemy units."
       },
       {
         "name": "Necrodermis",
@@ -4767,7 +4775,8 @@ export default [
       "Vehicle",
       "Walker",
       "Triarch",
-      "Stalker"
+      "Stalker",
+      "Frame"
     ],
     "factionKeywords": [
       "Necrons"
