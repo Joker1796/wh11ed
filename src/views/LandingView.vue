@@ -35,6 +35,13 @@
           {{ th.label }}<br /><span class="footer-who">{{ th.who }}</span>
         </p>
       </div>
+      <div class="footer-col">
+        <p class="footer-col-label">{{ t.footer.openSourceLabel }}</p>
+        <p class="footer-thanks">{{ t.footer.openSourceText }}</p>
+        <p class="footer-contact">
+          <a :href="repoUrl" target="_blank" rel="noopener">{{ t.footer.repoLinkLabel }}</a>
+        </p>
+      </div>
     </footer>
 
     <p class="landing-version">v{{ version }}</p>
@@ -49,7 +56,8 @@ import { useLocale } from '../composables/useLocale.js'
 const { locale } = useLocale()
 const t = computed(() => landing[locale.value])
 
-const contactEmail = 'yas-shaman@yandex.ru'
+const contactEmail = 'gorlovevgeni9617@gmail.com'
+const repoUrl = 'https://github.com/Joker1796/wh11ed'
 const version = __APP_VERSION__
 </script>
 
