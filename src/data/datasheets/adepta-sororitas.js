@@ -21,7 +21,8 @@ export default [
         "w": "4",
         "ld": "6+",
         "oc": "1",
-        "inv": "4+"
+        "inv": "4+",
+        "baseSize": "32mm"
       },
       {
         "name": "AGATHAE DOLAN",
@@ -31,7 +32,8 @@ export default [
         "w": "3",
         "ld": "7+",
         "oc": "1",
-        "inv": "4+"
+        "inv": "4+",
+        "baseSize": "25mm"
       }
     ],
     "ranged": [
@@ -169,7 +171,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "battle-sisters-squad",
@@ -443,7 +446,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "canoness",
@@ -632,7 +636,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "canoness-with-jump-pack",
@@ -740,7 +745,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "castigator",
@@ -874,7 +880,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "celestian-insidiants",
@@ -1026,7 +1033,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "celestian-sacresants",
@@ -1190,7 +1198,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "daemonifuge",
@@ -1211,7 +1220,8 @@ export default [
         "w": "5",
         "ld": "7+",
         "oc": "1",
-        "inv": "4+"
+        "inv": "4+",
+        "baseSize": "32mm"
       },
       {
         "name": "KYGANIL OF THE BLOODY TEARS",
@@ -1221,7 +1231,8 @@ export default [
         "w": "3",
         "ld": "7+",
         "oc": "1",
-        "inv": "4+"
+        "inv": "4+",
+        "baseSize": "32mm"
       }
     ],
     "ranged": [
@@ -1376,7 +1387,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "dogmata",
@@ -1462,7 +1474,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "dominion-squad",
@@ -1706,7 +1719,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "exorcist",
@@ -1827,7 +1841,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "hospitaller",
@@ -1919,7 +1934,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "imagifier",
@@ -2017,7 +2033,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "immolator",
@@ -2150,7 +2167,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "intranzia-fraye",
@@ -2267,7 +2285,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "junith-eruita",
@@ -2356,7 +2375,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "ministorum-priest",
@@ -2467,7 +2487,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "mortifiers",
@@ -2603,7 +2624,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "morvenn-vahl",
@@ -2719,7 +2741,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "palatine",
@@ -2833,7 +2856,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "paragon-warsuits",
@@ -2985,7 +3009,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "penitent-engines",
@@ -3102,7 +3127,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "repentia-squad",
@@ -3127,7 +3153,8 @@ export default [
         "w": "1",
         "ld": "7+",
         "oc": "1",
-        "inv": "6+"
+        "inv": "6+",
+        "baseSize": "32mm"
       },
       {
         "name": "SISTERS REPENTIA",
@@ -3137,7 +3164,8 @@ export default [
         "w": "1",
         "ld": "8+",
         "oc": "1",
-        "inv": "6+"
+        "inv": "6+",
+        "baseSize": "28.5mm"
       }
     ],
     "ranged": [
@@ -3434,7 +3462,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "saint-celestine",
@@ -3455,7 +3484,8 @@ export default [
         "w": "5",
         "ld": "6+",
         "oc": "1",
-        "inv": "4+"
+        "inv": "4+",
+        "baseSize": "40mm"
       },
       {
         "name": "GEMINAE SUPERIA",
@@ -3465,7 +3495,8 @@ export default [
         "w": "2",
         "ld": "7+",
         "oc": "1",
-        "inv": "4+"
+        "inv": "4+",
+        "baseSize": "32mm"
       }
     ],
     "ranged": [
@@ -3752,7 +3783,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "seraphim-squad",
@@ -3914,7 +3946,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "sisters-novitiate-squad",
@@ -3935,7 +3968,8 @@ export default [
         "w": "1",
         "ld": "7+",
         "oc": "2",
-        "inv": "6+"
+        "inv": "6+",
+        "baseSize": "32mm"
       },
       {
         "name": "SISTER NOVITIATE",
@@ -3945,7 +3979,8 @@ export default [
         "w": "1",
         "ld": "8+",
         "oc": "2",
-        "inv": "6+"
+        "inv": "6+",
+        "baseSize": "28.5mm"
       }
     ],
     "ranged": [
@@ -4190,7 +4225,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "triumph-of-saint-katherine",
@@ -4302,7 +4338,8 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "zephyrim-squad",
@@ -4413,6 +4450,7 @@ export default [
     ],
     "factionKeywords": [
       "Adepta Sororitas"
-    ]
+    ],
+    "baseSize": "32mm"
   }
 ]

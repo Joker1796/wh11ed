@@ -100,7 +100,8 @@ export default [
     "factionKeywords": [
       "",
       "World Eaters"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "bloodcrushers",
@@ -201,7 +202,8 @@ export default [
     "factionKeywords": [
       "",
       "Blood Legions"
-    ]
+    ],
+    "baseSize": "90x52.5mm Oval Base"
   },
   {
     "id": "bloodletters",
@@ -275,7 +277,8 @@ export default [
     "factionKeywords": [
       "",
       "Blood Legions"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "bloodthirster",
@@ -416,7 +419,8 @@ export default [
     "factionKeywords": [
       "",
       "Blood Legions"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "chaos-land-raider",
@@ -554,7 +558,8 @@ export default [
     "factionKeywords": [
       "",
       "World Eaters"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "chaos-predator-annihilator",
@@ -701,7 +706,8 @@ export default [
     "factionKeywords": [
       "World Eaters",
       ""
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "chaos-predator-destructor",
@@ -847,7 +853,8 @@ export default [
     "factionKeywords": [
       "",
       "World Eaters"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "chaos-rhino",
@@ -950,7 +957,8 @@ export default [
     "factionKeywords": [
       "World Eaters",
       ""
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "chaos-spawn",
@@ -1005,7 +1013,8 @@ export default [
     "factionKeywords": [
       "World Eaters",
       ""
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "chaos-terminators",
@@ -1172,7 +1181,8 @@ export default [
     "factionKeywords": [
       "World Eaters",
       ""
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "daemon-prince-of-khorne",
@@ -1261,7 +1271,8 @@ export default [
     "factionKeywords": [
       "",
       "World Eaters"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "daemon-prince-of-khorne-with-wings",
@@ -1347,7 +1358,8 @@ export default [
     "factionKeywords": [
       "World Eaters",
       ""
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "defiler",
@@ -1563,7 +1575,8 @@ export default [
     "factionKeywords": [
       "World Eaters",
       ""
-    ]
+    ],
+    "baseSize": "160mm"
   },
   {
     "id": "eightbound",
@@ -1638,7 +1651,8 @@ export default [
     "factionKeywords": [
       "",
       "World Eaters"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "exalted-eightbound",
@@ -1716,7 +1730,8 @@ export default [
     "factionKeywords": [
       "",
       "World Eaters"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "flesh-hounds",
@@ -1803,7 +1818,8 @@ export default [
     "factionKeywords": [
       "",
       "Blood Legions"
-    ]
+    ],
+    "baseSize": "60x35.5mm Oval Base"
   },
   {
     "id": "forgefiend",
@@ -1911,7 +1927,8 @@ export default [
     "factionKeywords": [
       "",
       "World Eaters"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "goremongers",
@@ -2010,7 +2027,8 @@ export default [
     "factionKeywords": [
       "",
       "World Eaters"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "helbrute",
@@ -2221,7 +2239,8 @@ export default [
     "factionKeywords": [
       "",
       "World Eaters"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "heldrake",
@@ -2317,7 +2336,8 @@ export default [
     "factionKeywords": [
       "",
       "World Eaters"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "jakhals",
@@ -2430,7 +2450,8 @@ export default [
     "factionKeywords": [
       "World Eaters",
       ""
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "kh-rn-the-betrayer",
@@ -2530,7 +2551,8 @@ export default [
     "factionKeywords": [
       "World Eaters",
       ""
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "khorne-berzerkers",
@@ -2651,7 +2673,8 @@ export default [
     "factionKeywords": [
       "World Eaters",
       ""
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "khorne-lord-of-skulls",
@@ -2803,7 +2826,8 @@ export default [
     "factionKeywords": [
       "World Eaters",
       ""
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "lord-invocatus",
@@ -2901,7 +2925,8 @@ export default [
     "factionKeywords": [
       "World Eaters",
       ""
-    ]
+    ],
+    "baseSize": "90x52.5mm Oval Base"
   },
   {
     "id": "lord-on-juggernaut",
@@ -3009,7 +3034,8 @@ export default [
     "factionKeywords": [
       "",
       "World Eaters"
-    ]
+    ],
+    "baseSize": "90x52.5mm Oval Base"
   },
   {
     "id": "master-of-executions",
@@ -3092,7 +3118,8 @@ export default [
     "factionKeywords": [
       "World Eaters",
       ""
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "maulerfiend",
@@ -3193,7 +3220,8 @@ export default [
     "factionKeywords": [
       "World Eaters",
       ""
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "skarbrand",
@@ -3285,7 +3313,8 @@ export default [
     "factionKeywords": [
       "",
       "Blood Legions"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "slaughterbound",
@@ -3361,6 +3390,7 @@ export default [
     "factionKeywords": [
       "",
       "World Eaters"
-    ]
+    ],
+    "baseSize": "50mm"
   }
 ]

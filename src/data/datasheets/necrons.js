@@ -96,7 +96,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "ctan-shard-of-the-deceiver",
@@ -178,7 +179,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "ctan-shard-of-the-nightbringer",
@@ -267,7 +269,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "90mm"
   },
   {
     "id": "ctan-shard-of-the-void-dragon",
@@ -382,7 +385,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "80mm"
   },
   {
     "id": "canoptek-doomstalker",
@@ -470,7 +474,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "90mm"
   },
   {
     "id": "canoptek-macrocytes",
@@ -576,7 +581,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "canoptek-reanimator",
@@ -642,7 +648,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "canoptek-scarab-swarms",
@@ -705,7 +712,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "canoptek-spyders",
@@ -793,7 +801,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "canoptek-tomb-crawlers",
@@ -879,7 +888,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "canoptek-wraiths",
@@ -987,7 +997,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "catacomb-command-barge",
@@ -1104,7 +1115,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "chronomancer",
@@ -1191,7 +1203,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "convergence-of-dominion",
@@ -1260,7 +1273,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "cryptothralls",
@@ -1327,7 +1341,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "deathmarks",
@@ -1410,7 +1425,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "doom-scythe",
@@ -1495,7 +1511,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "doomsday-ark",
@@ -1587,7 +1604,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "flayed-ones",
@@ -1646,7 +1664,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "geomancer",
@@ -1746,7 +1765,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "ghost-ark",
@@ -1818,7 +1838,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "hexmark-destroyer",
@@ -1891,7 +1912,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "illuminor-szeras",
@@ -1978,7 +2000,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "80mm"
   },
   {
     "id": "immortals",
@@ -2064,7 +2087,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "imotekh-the-stormlord",
@@ -2159,7 +2183,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "lokhust-destroyers",
@@ -2262,7 +2287,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "lokhust-heavy-destroyers",
@@ -2373,7 +2399,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "lokhust-lord",
@@ -2477,7 +2504,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "lychguard",
@@ -2552,7 +2580,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "monolith",
@@ -2660,7 +2689,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "160mm"
   },
   {
     "id": "necron-warriors",
@@ -2746,7 +2776,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "nekrosor-ammentar",
@@ -2843,7 +2874,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "80mm"
   },
   {
     "id": "night-scythe",
@@ -2922,7 +2954,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "obelisk",
@@ -3002,7 +3035,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "ophydian-destroyers",
@@ -3080,7 +3114,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "orikan-the-diviner",
@@ -3151,7 +3186,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "overlord",
@@ -3274,7 +3310,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "overlord-with-translocation-shroud",
@@ -3350,7 +3387,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "plasmancer",
@@ -3428,7 +3466,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "psychomancer",
@@ -3506,7 +3545,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "royal-warden",
@@ -3585,7 +3625,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "seraptek-heavy-construct",
@@ -3704,7 +3745,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "skorpekh-destroyers",
@@ -3781,7 +3823,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "skorpekh-lord",
@@ -3869,7 +3912,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "technomancer",
@@ -3955,7 +3999,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "tesseract-vault",
@@ -4080,7 +4125,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "the-silent-king",
@@ -4101,7 +4147,8 @@ export default [
         "w": "16",
         "ld": "6+",
         "oc": "6",
-        "inv": "4+"
+        "inv": "4+",
+        "baseSize": "100mm"
       },
       {
         "name": "TRIARCHAL MENHIR",
@@ -4111,7 +4158,8 @@ export default [
         "w": "5",
         "ld": "6+",
         "oc": "1",
-        "inv": "4+"
+        "inv": "4+",
+        "baseSize": "50mm"
       }
     ],
     "ranged": [
@@ -4346,7 +4394,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "Small Flying Base"
   },
   {
     "id": "transcendent-ctan",
@@ -4438,7 +4487,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "trazyn-the-infinite",
@@ -4508,7 +4558,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "triarch-praetorians",
@@ -4603,7 +4654,8 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "triarch-stalker",
@@ -4719,6 +4771,7 @@ export default [
     ],
     "factionKeywords": [
       "Necrons"
-    ]
+    ],
+    "baseSize": "Hull"
   }
 ]

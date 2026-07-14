@@ -64,7 +64,8 @@ export default [
     "factionKeywords": [
       "",
       "Plague Legions"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "biologus-putrifier",
@@ -164,7 +165,8 @@ export default [
     "factionKeywords": [
       "",
       "Death Guard"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "blightlord-terminators",
@@ -329,7 +331,8 @@ export default [
     "factionKeywords": [
       "Death Guard",
       ""
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "chaos-land-raider",
@@ -466,7 +469,8 @@ export default [
     "factionKeywords": [
       "",
       "Death Guard"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "chaos-predator-annihilator",
@@ -613,7 +617,8 @@ export default [
     "factionKeywords": [
       "",
       "Death Guard"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "chaos-predator-destructor",
@@ -761,7 +766,8 @@ export default [
     "factionKeywords": [
       "",
       "Death Guard"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "chaos-rhino",
@@ -865,7 +871,8 @@ export default [
     "factionKeywords": [
       "",
       "Death Guard"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "chaos-spawn",
@@ -920,7 +927,8 @@ export default [
     "factionKeywords": [
       "",
       "Death Guard"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "daemon-prince-of-nurgle",
@@ -1013,7 +1021,8 @@ export default [
     "factionKeywords": [
       "",
       "Death Guard"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "daemon-prince-of-nurgle-with-wings",
@@ -1103,7 +1112,8 @@ export default [
     "factionKeywords": [
       "Death Guard",
       ""
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "deathshroud-terminators",
@@ -1221,7 +1231,8 @@ export default [
     "factionKeywords": [
       "Death Guard",
       ""
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "defiler",
@@ -1441,7 +1452,8 @@ export default [
     "factionKeywords": [
       "",
       "Death Guard"
-    ]
+    ],
+    "baseSize": "160mm"
   },
   {
     "id": "foetid-bloat-drone",
@@ -1537,7 +1549,8 @@ export default [
     "factionKeywords": [
       "Death Guard",
       ""
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "foetid-bloat-drone-with-heavy-blight-launcher",
@@ -1618,7 +1631,8 @@ export default [
     "factionKeywords": [
       "Death Guard",
       ""
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "foul-blightspawn",
@@ -1702,7 +1716,8 @@ export default [
     "factionKeywords": [
       "Death Guard",
       ""
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "great-unclean-one",
@@ -1842,7 +1857,8 @@ export default [
     "factionKeywords": [
       "Plague Legions",
       ""
-    ]
+    ],
+    "baseSize": "130mm"
   },
   {
     "id": "helbrute",
@@ -2052,7 +2068,8 @@ export default [
     "factionKeywords": [
       "",
       "Death Guard"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "icon-bearer",
@@ -2136,7 +2153,8 @@ export default [
     "factionKeywords": [
       "Death Guard",
       ""
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "lord-of-contagion",
@@ -2219,7 +2237,8 @@ export default [
     "factionKeywords": [
       "Death Guard",
       ""
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "lord-of-poxes",
@@ -2317,7 +2336,8 @@ export default [
     "factionKeywords": [
       "Death Guard",
       ""
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "lord-of-virulence",
@@ -2405,7 +2425,8 @@ export default [
     "factionKeywords": [
       "Death Guard",
       ""
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "malignant-plaguecaster",
@@ -2518,7 +2539,8 @@ export default [
     "factionKeywords": [
       "Death Guard",
       ""
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "miasmic-malignifier",
@@ -2591,7 +2613,8 @@ export default [
     "factionKeywords": [
       "Death Guard",
       ""
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "mortarion",
@@ -2725,7 +2748,8 @@ export default [
     "factionKeywords": [
       "",
       "Death Guard"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "myphitic-blight-hauler",
@@ -2838,7 +2862,8 @@ export default [
     "factionKeywords": [
       "Death Guard",
       ""
-    ]
+    ],
+    "baseSize": "80mm"
   },
   {
     "id": "noxious-blightbringer",
@@ -2936,7 +2961,8 @@ export default [
     "factionKeywords": [
       "",
       "Death Guard"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "nurglings",
@@ -3000,7 +3026,8 @@ export default [
     "factionKeywords": [
       "",
       "Plague Legions"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "plague-drones",
@@ -3107,7 +3134,8 @@ export default [
     "factionKeywords": [
       "Plague Legions",
       ""
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "plague-marines",
@@ -3353,7 +3381,8 @@ export default [
     "factionKeywords": [
       "Death Guard",
       ""
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "plague-surgeon",
@@ -3437,7 +3466,8 @@ export default [
     "factionKeywords": [
       "",
       "Death Guard"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "plaguebearers",
@@ -3513,7 +3543,8 @@ export default [
     "factionKeywords": [
       "Plague Legions",
       ""
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "plagueburst-crawler",
@@ -3651,7 +3682,8 @@ export default [
     "factionKeywords": [
       "Death Guard",
       ""
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "poxwalkers",
@@ -3712,7 +3744,8 @@ export default [
     "factionKeywords": [
       "Death Guard",
       ""
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "rotigus",
@@ -3812,7 +3845,8 @@ export default [
     "factionKeywords": [
       "Plague Legions",
       ""
-    ]
+    ],
+    "baseSize": "130mm"
   },
   {
     "id": "tallyman",
@@ -3906,7 +3940,8 @@ export default [
     "factionKeywords": [
       "",
       "Death Guard"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "typhus",
@@ -3991,6 +4026,7 @@ export default [
     "factionKeywords": [
       "Death Guard",
       ""
-    ]
+    ],
+    "baseSize": "50mm"
   }
 ]

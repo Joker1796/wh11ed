@@ -85,7 +85,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "archaeopter-stratoraptor",
@@ -194,7 +195,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "archaeopter-transvector",
@@ -281,7 +283,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "belisarius-cawl",
@@ -398,7 +401,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "105x70mm Oval Base"
   },
   {
     "id": "corpuscarii-electro-priests",
@@ -475,7 +479,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "cybernetica-datasmith",
@@ -554,7 +559,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "fulgurite-electro-priests",
@@ -616,7 +622,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "hastarii-exterminators",
@@ -735,7 +742,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "hastarii-fusiliers",
@@ -839,7 +847,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "ironstrider-ballistarii",
@@ -957,7 +966,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "105x70mm Oval Base"
   },
   {
     "id": "kastelan-robots",
@@ -1109,7 +1119,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "kataphron-breachers",
@@ -1211,7 +1222,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "kataphron-destroyers",
@@ -1336,7 +1348,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "onager-dunecrawler",
@@ -1503,7 +1516,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "130mm"
   },
   {
     "id": "pteraxii-skystalkers",
@@ -1614,7 +1628,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "pteraxii-sterylizors",
@@ -1727,7 +1742,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "serberys-raiders",
@@ -1823,7 +1839,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "60x35.5mm Oval Base"
   },
   {
     "id": "serberys-sulphurhounds",
@@ -1953,7 +1970,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "60x35.5mm Oval Base"
   },
   {
     "id": "servitor-battleclade",
@@ -1974,7 +1992,8 @@ export default [
         "w": "2",
         "ld": "7+",
         "oc": "1",
-        "inv": "6+"
+        "inv": "6+",
+        "baseSize": "32mm"
       },
       {
         "name": "Combat Servitors and Gun Servitors",
@@ -1984,7 +2003,8 @@ export default [
         "w": "1",
         "ld": "8+",
         "oc": "1",
-        "inv": "6+"
+        "inv": "6+",
+        "baseSize": "32mm / 25mm"
       }
     ],
     "ranged": [
@@ -2235,7 +2255,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "sicarian-ruststalkers",
@@ -2340,7 +2361,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "skitarii-marshal",
@@ -2424,7 +2446,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "skitarii-rangers",
@@ -2583,7 +2606,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "skitarii-vanguard",
@@ -2743,7 +2767,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "skorpius-disintegrator",
@@ -2859,7 +2884,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "skorpius-dunerider",
@@ -2937,7 +2963,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "sydonian-dragoons-with-radium-jezzails",
@@ -3036,7 +3063,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "105x70mm Oval Base"
   },
   {
     "id": "sydonian-dragoons-with-taser-lances",
@@ -3125,7 +3153,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "105x70mm Oval Base"
   },
   {
     "id": "sydonian-skatros",
@@ -3233,7 +3262,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "tech-priest-dominus",
@@ -3371,7 +3401,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "tech-priest-enginseer",
@@ -3476,7 +3507,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "tech-priest-manipulus",
@@ -3581,7 +3613,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "technoarcheologist",
@@ -3674,7 +3707,8 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "thulia-ghuld",
@@ -3793,6 +3827,7 @@ export default [
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
-    ]
+    ],
+    "baseSize": "80mm"
   }
 ]

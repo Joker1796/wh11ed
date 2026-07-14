@@ -80,7 +80,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "battlewagon",
@@ -254,7 +255,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "beast-snagga-boyz",
@@ -278,7 +280,8 @@ export default [
         "sv": "5+",
         "w": "1",
         "ld": "7+",
-        "oc": "2"
+        "oc": "2",
+        "baseSize": "32mm"
       },
       {
         "name": "BEAST SNAGGA NOB",
@@ -287,7 +290,8 @@ export default [
         "sv": "5+",
         "w": "2",
         "ld": "7+",
-        "oc": "2"
+        "oc": "2",
+        "baseSize": "32mm"
       }
     ],
     "ranged": [
@@ -465,7 +469,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "beastboss-on-squigosaur",
@@ -575,7 +580,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "80mm"
   },
   {
     "id": "big-mek",
@@ -685,7 +691,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "big-mek-dakkarig",
@@ -772,7 +779,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "90mm"
   },
   {
     "id": "big-mek-in-mega-armour",
@@ -913,7 +921,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "big-mek-with-shokk-attack-gun",
@@ -1013,7 +1022,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "biged-bossbunka",
@@ -1107,7 +1117,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "bigboss",
@@ -1188,7 +1199,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "blitza-bommer",
@@ -1276,7 +1288,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "boomdakka-snazzwagon",
@@ -1371,7 +1384,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "150x95mm Oval Base"
   },
   {
     "id": "boss-snikrot",
@@ -1455,7 +1469,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "boyz",
@@ -1479,7 +1494,8 @@ export default [
         "sv": "5+",
         "w": "1",
         "ld": "7+",
-        "oc": "2"
+        "oc": "2",
+        "baseSize": "32mm"
       },
       {
         "name": "BOSS NOB",
@@ -1488,7 +1504,8 @@ export default [
         "sv": "5+",
         "w": "2",
         "ld": "7+",
-        "oc": "2"
+        "oc": "2",
+        "baseSize": "32mm"
       }
     ],
     "ranged": [
@@ -1741,7 +1758,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "burna-boyz",
@@ -1860,7 +1878,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "burna-bommer",
@@ -1965,7 +1984,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "dakkajet",
@@ -2044,7 +2064,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "deff-dread",
@@ -2170,7 +2191,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "deffkilla-wartrike",
@@ -2275,7 +2297,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "150x95mm Oval Base"
   },
   {
     "id": "deffkoptas",
@@ -2377,7 +2400,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "75x42mm Oval Base"
   },
   {
     "id": "flash-gitz",
@@ -2470,7 +2494,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "gargantuan-squiggoth",
@@ -2590,7 +2615,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "ghazghkull-thraka",
@@ -2611,7 +2637,8 @@ export default [
         "w": "10",
         "ld": "6+",
         "oc": "4",
-        "inv": "4+"
+        "inv": "4+",
+        "baseSize": "80mm"
       },
       {
         "name": "MAKARI",
@@ -2622,7 +2649,8 @@ export default [
         "ld": "8+",
         "oc": "1",
         "inv": "2+",
-        "invNote": "You cannot re-roll invulnerable saving throws made for this model."
+        "invNote": "You cannot re-roll invulnerable saving throws made for this model.",
+        "baseSize": "25mm"
       }
     ],
     "ranged": [
@@ -2839,7 +2867,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "gretchin",
@@ -2863,7 +2892,8 @@ export default [
         "sv": "7+",
         "w": "1",
         "ld": "8+",
-        "oc": "2"
+        "oc": "2",
+        "baseSize": "25mm"
       },
       {
         "name": "RUNTHERD",
@@ -2872,7 +2902,8 @@ export default [
         "sv": "5+",
         "w": "2",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "32mm"
       }
     ],
     "ranged": [
@@ -3058,7 +3089,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "kill-rig",
@@ -3186,7 +3218,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "killa-kans",
@@ -3313,7 +3346,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "kommandos",
@@ -3333,7 +3367,8 @@ export default [
         "sv": "5+",
         "w": "1",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "32mm"
       },
       {
         "name": "BOSS NOB",
@@ -3342,7 +3377,8 @@ export default [
         "sv": "5+",
         "w": "2",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "32mm"
       }
     ],
     "ranged": [
@@ -3585,7 +3621,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "150x95mm Oval Base"
   },
   {
     "id": "lootas",
@@ -3707,7 +3744,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "meganobz",
@@ -3847,7 +3885,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "megatrakk-scrapjet",
@@ -3938,7 +3977,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "150x95mm Oval Base"
   },
   {
     "id": "mek",
@@ -4033,7 +4073,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "mek-gunz",
@@ -4194,7 +4235,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "morkanaut",
@@ -4327,7 +4369,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "mozrog-skragbad",
@@ -4423,7 +4466,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "80mm"
   },
   {
     "id": "nobz",
@@ -4549,7 +4593,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "painboss",
@@ -4625,7 +4670,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "painboy",
@@ -4715,7 +4761,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "rukkatrukk-squigbuggy",
@@ -4801,7 +4848,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "150x95mm Oval Base"
   },
   {
     "id": "shokkjump-dragsta",
@@ -4883,7 +4931,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "150x95mm Oval Base"
   },
   {
     "id": "squighog-boyz",
@@ -4907,7 +4956,8 @@ export default [
         "sv": "4+",
         "w": "3",
         "ld": "7+",
-        "oc": "2"
+        "oc": "2",
+        "baseSize": "75x42mm Oval Base"
       },
       {
         "name": "Nob On Smasha Squig",
@@ -4916,7 +4966,8 @@ export default [
         "sv": "4+",
         "w": "4",
         "ld": "7+",
-        "oc": "2"
+        "oc": "2",
+        "baseSize": "90x52.5mm Oval Base"
       }
     ],
     "ranged": [
@@ -5184,7 +5235,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "stormboyz",
@@ -5208,7 +5260,8 @@ export default [
         "sv": "5+",
         "w": "1",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "32mm"
       },
       {
         "name": "BOSS NOB",
@@ -5217,7 +5270,8 @@ export default [
         "sv": "5+",
         "w": "2",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "32mm"
       }
     ],
     "ranged": [
@@ -5405,7 +5459,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "trukk",
@@ -5489,7 +5544,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "warbikers",
@@ -5514,7 +5570,8 @@ export default [
         "w": "3",
         "ld": "7+",
         "oc": "2",
-        "inv": "6+"
+        "inv": "6+",
+        "baseSize": "75x42mm Oval Base"
       },
       {
         "name": "BOSS NOB ON WARBIKE",
@@ -5524,7 +5581,8 @@ export default [
         "w": "4",
         "ld": "7+",
         "oc": "2",
-        "inv": "6+"
+        "inv": "6+",
+        "baseSize": "75x42mm Oval Base"
       }
     ],
     "ranged": [
@@ -5737,7 +5795,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "warboss-in-mega-armour",
@@ -5817,7 +5876,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "wartrakk",
@@ -5894,7 +5954,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "105x70mm Oval Base"
   },
   {
     "id": "wazbom-blastajet",
@@ -6021,7 +6082,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "150x95mm Oval Base"
   },
   {
     "id": "wazdakka-gutsmek",
@@ -6149,7 +6211,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "120mm"
   },
   {
     "id": "weirdboy",
@@ -6231,7 +6294,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "wurrboy",
@@ -6310,7 +6374,8 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "zodgrod-wortsnagga",
@@ -6389,6 +6454,7 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
-    ]
+    ],
+    "baseSize": "50mm"
   }
 ]

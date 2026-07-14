@@ -129,7 +129,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "beasts-of-nurgle",
@@ -195,7 +196,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "bloodcrushers",
@@ -295,7 +297,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "90x52.5mm Oval Base"
   },
   {
     "id": "bloodletters",
@@ -368,7 +371,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "bloodmaster",
@@ -439,7 +443,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "bloodthirster",
@@ -583,7 +588,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "blue-horrors",
@@ -691,7 +697,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "burning-chariot",
@@ -794,7 +801,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "changecaster",
@@ -897,7 +905,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "contorted-epitome",
@@ -981,7 +990,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "75x42mm Oval Base"
   },
   {
     "id": "daemon-prince-of-chaos",
@@ -1088,7 +1098,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "daemon-prince-of-chaos-with-wings",
@@ -1192,7 +1203,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "daemonettes",
@@ -1267,7 +1279,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "epidemius",
@@ -1340,7 +1353,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "exalted-flamer",
@@ -1441,7 +1455,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "75x42mm Oval Base"
   },
   {
     "id": "fateskimmer",
@@ -1557,7 +1572,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "feculent-gnarlmaw",
@@ -1625,7 +1641,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "fiends",
@@ -1692,7 +1709,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "75x42mm Oval Base"
   },
   {
     "id": "flamers",
@@ -1774,7 +1792,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "flesh-hounds",
@@ -1860,7 +1879,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "60x35.5mm Oval Base"
   },
   {
     "id": "fluxmaster",
@@ -1964,7 +1984,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "great-unclean-one",
@@ -2107,7 +2128,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "130mm"
   },
   {
     "id": "hellflayers",
@@ -2213,7 +2235,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "horticulous-slimux",
@@ -2298,7 +2321,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "105x70mm Oval Base"
   },
   {
     "id": "infernal-enrapturess",
@@ -2397,7 +2421,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "60x35.5mm Oval Base"
   },
   {
     "id": "kairos-fateweaver",
@@ -2505,7 +2530,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "karanak",
@@ -2600,7 +2626,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "75x42mm Oval Base"
   },
   {
     "id": "keeper-of-secrets",
@@ -2750,7 +2777,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "lord-of-change",
@@ -2883,7 +2911,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "nurglings",
@@ -2950,7 +2979,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "pink-horrors",
@@ -2971,7 +3001,8 @@ export default [
         "w": "1",
         "ld": "7+",
         "oc": "2",
-        "inv": "4+"
+        "inv": "4+",
+        "baseSize": "32mm"
       },
       {
         "name": "BLUE HORROR/BRIMSTONE HORROR",
@@ -2981,7 +3012,8 @@ export default [
         "w": "1",
         "ld": "8+",
         "oc": "1",
-        "inv": "4+"
+        "inv": "4+",
+        "baseSize": "32mm"
       }
     ],
     "ranged": [
@@ -3200,7 +3232,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "plaguebearers",
@@ -3275,7 +3308,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "poxbringer",
@@ -3349,7 +3383,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "rendmaster-on-blood-throne",
@@ -3431,7 +3466,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "rotigus",
@@ -3536,7 +3572,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "130mm"
   },
   {
     "id": "screamers",
@@ -3604,7 +3641,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "Small Flying Base"
   },
   {
     "id": "seekers",
@@ -3694,7 +3732,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "60x35.5mm Oval Base"
   },
   {
     "id": "shalaxi-helbane",
@@ -3824,7 +3863,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "skarbrand",
@@ -3921,7 +3961,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "skull-altar",
@@ -3989,7 +4030,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "skull-cannon",
@@ -4074,7 +4116,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "skullmaster",
@@ -4157,7 +4200,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "90x52.5mm Oval Base"
   },
   {
     "id": "skulltaker",
@@ -4231,7 +4275,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "sloppity-bilepiper",
@@ -4304,7 +4349,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "soul-grinder",
@@ -4466,7 +4512,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "160mm"
   },
   {
     "id": "spoilpox-scrivener",
@@ -4554,7 +4601,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "syllesske",
@@ -4682,7 +4730,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "the-blue-scribes",
@@ -4750,7 +4799,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "the-changeling",
@@ -4849,7 +4899,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "the-masque-of-slaanesh",
@@ -4917,7 +4968,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "tormentbringer",
@@ -5032,7 +5084,8 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "tranceweaver",
@@ -5106,6 +5159,7 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
-    ]
+    ],
+    "baseSize": "32mm"
   }
 ]

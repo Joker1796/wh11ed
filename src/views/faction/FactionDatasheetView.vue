@@ -3,7 +3,7 @@
     <section class="fsection">
       <template v-if="sheet">
         <div class="ds-head">
-          <h2 class="ds-title">{{ sheet.name }}</h2>
+          <h2 class="ds-title">{{ sheet.name }}<span v-if="sheet.baseSize" class="ds-title-base">({{ fmtBase(sheet.baseSize) }})</span></h2>
           <div class="ds-actions">
             <button
               type="button"
@@ -75,11 +75,13 @@ import { loadDatasheetsRu, localizeSheet } from '../../data/datasheets/ru/index.
 import { ui } from '../../i18n/ui.js'
 import { useFactionPage } from '../../composables/useFactionPage.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { formatBaseSize } from '../../utils/baseSize.js'
 
 const route = useRoute()
 const { slug, faction } = useFactionPage()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+const fmtBase = (raw) => formatBaseSize(raw, labels.value)
 
 const datasheets = ref([])
 const loaded = ref(false)
@@ -235,6 +237,18 @@ async function copyName() {
   letter-spacing: 0.3px;
   color: #fff;
   margin: 0;
+}
+/* Single-model base size (⌀50mm) to the right of the unit name on the header plate. */
+.ds-title-base {
+  display: inline;
+  margin-left: 0.45rem;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.82);
 }
 
 .ds-actions {

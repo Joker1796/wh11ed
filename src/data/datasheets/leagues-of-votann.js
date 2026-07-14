@@ -98,7 +98,8 @@ export default [
     ],
     "factionKeywords": [
       "Leagues of Votann"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "berehk-stornbr-w",
@@ -190,7 +191,8 @@ export default [
     ],
     "factionKeywords": [
       "Leagues of Votann"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "br-khyr-iron-master",
@@ -210,7 +212,8 @@ export default [
         "sv": "4+",
         "w": "4",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "32mm"
       },
       {
         "name": "IRONKIN ASSISTANT",
@@ -219,7 +222,8 @@ export default [
         "sv": "4+",
         "w": "1",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "28.5mm"
       },
       {
         "name": "E-COG",
@@ -228,7 +232,8 @@ export default [
         "sv": "4+",
         "w": "1",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "25mm"
       }
     ],
     "ranged": [
@@ -457,7 +462,8 @@ export default [
     ],
     "factionKeywords": [
       "Leagues of Votann"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "buri-aegnirssen",
@@ -541,7 +547,8 @@ export default [
     ],
     "factionKeywords": [
       "Leagues of Votann"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "cthonian-beserks",
@@ -646,7 +653,8 @@ export default [
     ],
     "factionKeywords": [
       "Leagues of Votann"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "cthonian-earthshakers",
@@ -748,7 +756,8 @@ export default [
     ],
     "factionKeywords": [
       "Leagues of Votann"
-    ]
+    ],
+    "baseSize": "80mm"
   },
   {
     "id": "einhyr-champion",
@@ -847,7 +856,8 @@ export default [
     ],
     "factionKeywords": [
       "Leagues of Votann"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "einhyr-hearthguard",
@@ -991,7 +1001,8 @@ export default [
     ],
     "factionKeywords": [
       "Leagues of Votann"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "grimnyr",
@@ -1012,7 +1023,8 @@ export default [
         "w": "4",
         "ld": "6+",
         "oc": "1",
-        "inv": "4+"
+        "inv": "4+",
+        "baseSize": "40mm"
       },
       {
         "name": "CORV",
@@ -1022,7 +1034,8 @@ export default [
         "w": "1",
         "ld": "6+",
         "oc": "1",
-        "inv": "4+"
+        "inv": "4+",
+        "baseSize": "25mm"
       }
     ],
     "ranged": [
@@ -1324,7 +1337,8 @@ export default [
     ],
     "factionKeywords": [
       "Leagues of Votann"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "hekaton-land-fortress",
@@ -1491,7 +1505,8 @@ export default [
     ],
     "factionKeywords": [
       "Leagues of Votann"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "hernkyn-pioneers",
@@ -1643,7 +1658,8 @@ export default [
     ],
     "factionKeywords": [
       "Leagues of Votann"
-    ]
+    ],
+    "baseSize": "90x52.5mm Oval Base"
   },
   {
     "id": "hernkyn-yaegirs",
@@ -1764,7 +1780,8 @@ export default [
     ],
     "factionKeywords": [
       "Leagues of Votann"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "ironkin-steeljacks-with-heavy-volkanite-disintegrators",
@@ -1879,7 +1896,8 @@ export default [
     ],
     "factionKeywords": [
       "Leagues of Votann"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "ironkin-steeljacks-with-melee-weapons",
@@ -1984,7 +2002,8 @@ export default [
     ],
     "factionKeywords": [
       "Leagues of Votann"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "k-hl",
@@ -2097,7 +2116,8 @@ export default [
     ],
     "factionKeywords": [
       "Leagues of Votann"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "kapricus-carrier",
@@ -2188,7 +2208,8 @@ export default [
     ],
     "factionKeywords": [
       "Leagues of Votann"
-    ]
+    ],
+    "baseSize": "105x70mm Oval Base"
   },
   {
     "id": "kapricus-defenders",
@@ -2296,7 +2317,8 @@ export default [
     ],
     "factionKeywords": [
       "Leagues of Votann"
-    ]
+    ],
+    "baseSize": "105x70mm Oval Base"
   },
   {
     "id": "memnyr-strategist",
@@ -2374,7 +2396,8 @@ export default [
     ],
     "factionKeywords": [
       "Leagues of Votann"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "sagitaur",
@@ -2502,7 +2525,8 @@ export default [
     ],
     "factionKeywords": [
       "Leagues of Votann"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "thar-the-destined",
@@ -2591,6 +2615,7 @@ export default [
     ],
     "factionKeywords": [
       "Leagues of Votann"
-    ]
+    ],
+    "baseSize": "40mm"
   }
 ]

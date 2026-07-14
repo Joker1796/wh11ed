@@ -115,7 +115,8 @@ export default [
     ],
     "factionKeywords": [
       "Imperial Knights"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "acastus-knight-porphyrion",
@@ -250,7 +251,8 @@ export default [
     ],
     "factionKeywords": [
       "Imperial Knights"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "armiger-helverin",
@@ -350,7 +352,8 @@ export default [
     ],
     "factionKeywords": [
       "Imperial Knights"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "armiger-moirax",
@@ -496,7 +499,8 @@ export default [
     ],
     "factionKeywords": [
       "Imperial Knights"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "armiger-warglaive",
@@ -607,7 +611,8 @@ export default [
     ],
     "factionKeywords": [
       "Imperial Knights"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "canis-rex",
@@ -729,7 +734,8 @@ export default [
     ],
     "factionKeywords": [
       "Imperial Knights"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "cerastus-knight-acheron",
@@ -843,7 +849,8 @@ export default [
     ],
     "factionKeywords": [
       "Imperial Knights"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "cerastus-knight-atrapos",
@@ -984,7 +991,8 @@ export default [
     ],
     "factionKeywords": [
       "Imperial Knights"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "cerastus-knight-castigator",
@@ -1084,7 +1092,8 @@ export default [
     ],
     "factionKeywords": [
       "Imperial Knights"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "cerastus-knight-lancer",
@@ -1186,7 +1195,8 @@ export default [
     ],
     "factionKeywords": [
       "Imperial Knights"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "knight-castellan",
@@ -1341,7 +1351,8 @@ export default [
     ],
     "factionKeywords": [
       "Imperial Knights"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "knight-crusader",
@@ -1531,7 +1542,8 @@ export default [
     ],
     "factionKeywords": [
       "Imperial Knights"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "knight-defender",
@@ -1672,7 +1684,8 @@ export default [
     ],
     "factionKeywords": [
       "Imperial Knights"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "knight-destrier",
@@ -1836,7 +1849,8 @@ export default [
     ],
     "factionKeywords": [
       "Imperial Knights"
-    ]
+    ],
+    "baseSize": "150x95mm Oval Base"
   },
   {
     "id": "knight-errant",
@@ -2017,7 +2031,8 @@ export default [
     ],
     "factionKeywords": [
       "Imperial Knights"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "knight-gallant",
@@ -2192,7 +2207,8 @@ export default [
     ],
     "factionKeywords": [
       "Imperial Knights"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "knight-paladin",
@@ -2373,7 +2389,8 @@ export default [
     ],
     "factionKeywords": [
       "Imperial Knights"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "knight-preceptor",
@@ -2575,7 +2592,8 @@ export default [
     ],
     "factionKeywords": [
       "Imperial Knights"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "knight-valiant",
@@ -2719,7 +2737,8 @@ export default [
     ],
     "factionKeywords": [
       "Imperial Knights"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "knight-warden",
@@ -2910,7 +2929,8 @@ export default [
     ],
     "factionKeywords": [
       "Imperial Knights"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "questoris-knight-magaera",
@@ -3054,7 +3074,8 @@ export default [
     ],
     "factionKeywords": [
       "Imperial Knights"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   },
   {
     "id": "questoris-knight-styrix",
@@ -3199,6 +3220,7 @@ export default [
     ],
     "factionKeywords": [
       "Imperial Knights"
-    ]
+    ],
+    "baseSize": "170x109mm Oval Base"
   }
 ]

@@ -15,7 +15,7 @@
             <span v-if="i === 0" class="ds-stat-label">{{ s.label }}</span>
             <span class="ds-stat-box">{{ s.value }}</span>
           </div>
-          <span v-if="sheet.profiles.length > 1" class="ds-prof-name">{{ p.name }}</span>
+          <span v-if="sheet.profiles.length > 1" class="ds-prof-name">{{ p.name }}<span v-if="p.baseSize" class="ds-base"> ({{ fmtBase(p.baseSize) }})</span></span>
           <template v-if="p.inv">
             <div class="ds-stat ds-inv-box">
               <span class="ds-stat-box">{{ p.inv }}{{ p.invNote ? '*' : '' }}</span>
@@ -161,6 +161,7 @@ import { computed } from 'vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useRenderInline } from '../composables/useRenderInline.js'
+import { formatBaseSize } from '../utils/baseSize.js'
 
 const props = defineProps({
   sheet: { type: Object, required: true },
@@ -169,6 +170,7 @@ const props = defineProps({
 const { locale } = useLocale()
 const { renderInline } = useRenderInline()
 const labels = computed(() => ui[locale.value])
+const fmtBase = (raw) => formatBaseSize(raw, labels.value)
 
 const coreParts = computed(() => (props.sheet.core ? props.sheet.core.split(/,\s*/) : []))
 
@@ -351,6 +353,14 @@ function statCells(p) {
   letter-spacing: 0.5px;
   line-height: 1.25;
   color: var(--text-muted);
+}
+/* Base size (⌀32mm / 75×42mm …) after the model name — lighter, non-caps, in the accent. */
+.ds-prof-name .ds-base {
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--accent);
+  white-space: nowrap;
 }
 /* Invulnerable save: shield straight under SV (column 3), label + note to its right.
    Source style — the value sits in a downward-pointing shield (flat top, pointed bottom)

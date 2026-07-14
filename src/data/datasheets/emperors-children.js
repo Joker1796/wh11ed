@@ -134,7 +134,8 @@ export default [
     "factionKeywords": [
       "",
       "Emperor’s Children"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "chaos-rhino",
@@ -236,7 +237,8 @@ export default [
     "factionKeywords": [
       "Emperor’s Children",
       ""
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "chaos-spawn",
@@ -290,7 +292,8 @@ export default [
     "factionKeywords": [
       "Emperor’s Children",
       ""
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "chaos-terminators",
@@ -439,7 +442,8 @@ export default [
     "factionKeywords": [
       "",
       "Emperor’s Children"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "daemon-prince-of-slaanesh",
@@ -531,7 +535,8 @@ export default [
     "factionKeywords": [
       "",
       "Emperor’s Children"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "daemon-prince-of-slaanesh-with-wings",
@@ -620,7 +625,8 @@ export default [
     "factionKeywords": [
       "",
       "Emperor’s Children"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "daemonettes",
@@ -696,7 +702,8 @@ export default [
     "factionKeywords": [
       "",
       "Legions of Excess"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "defiler",
@@ -903,7 +910,8 @@ export default [
     "factionKeywords": [
       "",
       "Emperor’s Children"
-    ]
+    ],
+    "baseSize": "160mm"
   },
   {
     "id": "fiends",
@@ -968,7 +976,8 @@ export default [
     "factionKeywords": [
       "Legions of Excess",
       ""
-    ]
+    ],
+    "baseSize": "75x42mm Oval Base"
   },
   {
     "id": "flawless-blades",
@@ -1041,7 +1050,8 @@ export default [
     "factionKeywords": [
       "",
       "Emperor’s Children"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "fulgrim",
@@ -1169,7 +1179,8 @@ export default [
     "factionKeywords": [
       "",
       "Emperor’s Children"
-    ]
+    ],
+    "baseSize": "130mm"
   },
   {
     "id": "heldrake",
@@ -1262,7 +1273,8 @@ export default [
     "factionKeywords": [
       "",
       "Emperor’s Children"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "infractors",
@@ -1397,7 +1409,8 @@ export default [
     "factionKeywords": [
       "",
       "Emperor’s Children"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "keeper-of-secrets",
@@ -1544,7 +1557,8 @@ export default [
     "factionKeywords": [
       "Legions of Excess",
       ""
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "lord-exultant",
@@ -1722,7 +1736,8 @@ export default [
     "factionKeywords": [
       "",
       "Emperor’s Children"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "lord-kakophonist",
@@ -1817,7 +1832,8 @@ export default [
     "factionKeywords": [
       "Emperor’s Children",
       ""
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "lucius-the-eternal",
@@ -1897,7 +1913,8 @@ export default [
     "factionKeywords": [
       "",
       "Emperor’s Children"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "maulerfiend",
@@ -1993,7 +2010,8 @@ export default [
     "factionKeywords": [
       "Emperor’s Children",
       ""
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "noise-marines",
@@ -2118,7 +2136,8 @@ export default [
     "factionKeywords": [
       "",
       "Emperor’s Children"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "seekers",
@@ -2209,7 +2228,8 @@ export default [
     "factionKeywords": [
       "",
       "Legions of Excess"
-    ]
+    ],
+    "baseSize": "60x35.5mm Oval Base"
   },
   {
     "id": "shalaxi-helbane",
@@ -2334,7 +2354,8 @@ export default [
     "factionKeywords": [
       "Legions of Excess",
       ""
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "sorcerer",
@@ -2445,7 +2466,8 @@ export default [
     "factionKeywords": [
       "Emperor’s Children",
       ""
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "tormentors",
@@ -2631,6 +2653,7 @@ export default [
     "factionKeywords": [
       "",
       "Emperor’s Children"
-    ]
+    ],
+    "baseSize": "32mm"
   }
 ]

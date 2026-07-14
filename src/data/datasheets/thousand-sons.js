@@ -102,7 +102,8 @@ export default [
     "factionKeywords": [
       "",
       "Thousand Sons"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "blue-horrors",
@@ -208,7 +209,8 @@ export default [
     "factionKeywords": [
       "Scintillating Legions",
       ""
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "chaos-land-raider",
@@ -342,7 +344,8 @@ export default [
     "factionKeywords": [
       "Thousand Sons",
       ""
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "chaos-predator-annihilator",
@@ -486,7 +489,8 @@ export default [
     "factionKeywords": [
       "",
       "Thousand Sons"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "chaos-predator-destructor",
@@ -630,7 +634,8 @@ export default [
     "factionKeywords": [
       "Thousand Sons",
       ""
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "chaos-rhino",
@@ -732,7 +737,8 @@ export default [
     "factionKeywords": [
       "",
       "Thousand Sons"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "chaos-spawn",
@@ -788,7 +794,8 @@ export default [
     "factionKeywords": [
       "Thousand Sons",
       ""
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "chaos-vindicator",
@@ -909,7 +916,8 @@ export default [
     "factionKeywords": [
       "Thousand Sons",
       ""
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "daemon-prince-of-tzeentch",
@@ -1017,7 +1025,8 @@ export default [
     "factionKeywords": [
       "Thousand Sons",
       ""
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "daemon-prince-of-tzeentch-with-wings",
@@ -1128,7 +1137,8 @@ export default [
     "factionKeywords": [
       "",
       "Thousand Sons"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "defiler",
@@ -1332,7 +1342,8 @@ export default [
     "factionKeywords": [
       "",
       "Thousand Sons"
-    ]
+    ],
+    "baseSize": "160mm"
   },
   {
     "id": "exalted-sorcerer",
@@ -1443,7 +1454,8 @@ export default [
     "factionKeywords": [
       "Thousand Sons",
       ""
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "exalted-sorcerer-on-disc-of-tzeentch",
@@ -1558,7 +1570,8 @@ export default [
     "factionKeywords": [
       "",
       "Thousand Sons"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "flamers",
@@ -1638,7 +1651,8 @@ export default [
     "factionKeywords": [
       "",
       "Scintillating Legions"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "forgefiend",
@@ -1742,7 +1756,8 @@ export default [
     "factionKeywords": [
       "",
       "Thousand Sons"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "helbrute",
@@ -1945,7 +1960,8 @@ export default [
     "factionKeywords": [
       "",
       "Thousand Sons"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "heldrake",
@@ -2038,7 +2054,8 @@ export default [
     "factionKeywords": [
       "",
       "Thousand Sons"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "infernal-master",
@@ -2150,7 +2167,8 @@ export default [
     "factionKeywords": [
       "",
       "Thousand Sons"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "kairos-fateweaver",
@@ -2253,7 +2271,8 @@ export default [
     "factionKeywords": [
       "",
       "Scintillating Legions"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "lord-of-change",
@@ -2383,7 +2402,8 @@ export default [
     "factionKeywords": [
       "",
       "Scintillating Legions"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "magnus-the-red",
@@ -2514,7 +2534,8 @@ export default [
     "factionKeywords": [
       "Thousand Sons",
       ""
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "maulerfiend",
@@ -2609,7 +2630,8 @@ export default [
     "factionKeywords": [
       "Thousand Sons",
       ""
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "mutalith-vortex-beast",
@@ -2727,7 +2749,8 @@ export default [
     "factionKeywords": [
       "Thousand Sons",
       ""
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "pink-horrors",
@@ -2748,7 +2771,8 @@ export default [
         "w": "1",
         "ld": "7+",
         "oc": "1",
-        "inv": "4+"
+        "inv": "4+",
+        "baseSize": "32mm"
       },
       {
         "name": "BLUE HORROR/BRIMSTONE HORROR",
@@ -2758,7 +2782,8 @@ export default [
         "w": "1",
         "ld": "8+",
         "oc": "0",
-        "inv": "4+"
+        "inv": "4+",
+        "baseSize": "32mm"
       }
     ],
     "ranged": [
@@ -2909,7 +2934,8 @@ export default [
         "w": "2",
         "ld": "7+",
         "oc": "2",
-        "inv": "5+"
+        "inv": "5+",
+        "baseSize": "32mm"
       },
       {
         "name": "Aspiring Sorcerer",
@@ -2919,7 +2945,8 @@ export default [
         "w": "3",
         "ld": "6+",
         "oc": "2",
-        "inv": "5+"
+        "inv": "5+",
+        "baseSize": "32mm"
       }
     ],
     "ranged": [
@@ -3094,7 +3121,8 @@ export default [
         "w": "3",
         "ld": "7+",
         "oc": "1",
-        "inv": "4+"
+        "inv": "4+",
+        "baseSize": "40mm"
       },
       {
         "name": "Scarab Occult Sorcerer",
@@ -3104,7 +3132,8 @@ export default [
         "w": "4",
         "ld": "6+",
         "oc": "1",
-        "inv": "4+"
+        "inv": "4+",
+        "baseSize": "40mm"
       }
     ],
     "ranged": [
@@ -3288,7 +3317,8 @@ export default [
     "factionKeywords": [
       "Scintillating Legions",
       ""
-    ]
+    ],
+    "baseSize": "Small Flying Base"
   },
   {
     "id": "sekhetar-robots",
@@ -3410,7 +3440,8 @@ export default [
     "factionKeywords": [
       "",
       "Thousand Sons"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "sorcerer",
@@ -3520,7 +3551,8 @@ export default [
     "factionKeywords": [
       "Thousand Sons",
       ""
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "sorcerer-in-terminator-armour",
@@ -3643,7 +3675,8 @@ export default [
     "factionKeywords": [
       "",
       "Thousand Sons"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "tzaangor-enlightened",
@@ -3735,7 +3768,8 @@ export default [
     "factionKeywords": [
       "",
       "Thousand Sons"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "tzaangor-enlightened-with-fatecaster-greatbows",
@@ -3813,7 +3847,8 @@ export default [
     "factionKeywords": [
       "",
       "Thousand Sons"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "tzaangor-shaman",
@@ -3904,7 +3939,8 @@ export default [
     "factionKeywords": [
       "",
       "Thousand Sons"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "tzaangors",
@@ -4003,6 +4039,7 @@ export default [
     "factionKeywords": [
       "Thousand Sons",
       ""
-    ]
+    ],
+    "baseSize": "32mm"
   }
 ]

@@ -137,7 +137,8 @@ export default [
     ],
     "factionKeywords": [
       "Drukhari"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "cronos",
@@ -234,7 +235,8 @@ export default [
     ],
     "factionKeywords": [
       "Drukhari"
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "drazhar",
@@ -318,7 +320,8 @@ export default [
     ],
     "factionKeywords": [
       "Drukhari"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "haemonculus",
@@ -407,7 +410,8 @@ export default [
     ],
     "factionKeywords": [
       "Drukhari"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "hand-of-the-archon",
@@ -644,7 +648,8 @@ export default [
     ],
     "factionKeywords": [
       "Drukhari"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "hellions",
@@ -791,7 +796,8 @@ export default [
     ],
     "factionKeywords": [
       "Drukhari"
-    ]
+    ],
+    "baseSize": "Small Flying Base"
   },
   {
     "id": "incubi",
@@ -828,7 +834,8 @@ export default [
         "w": "1",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+"
+        "inv": "5+",
+        "baseSize": "28.5mm"
       },
       {
         "name": "KLAIVEX",
@@ -838,7 +845,8 @@ export default [
         "w": "2",
         "ld": "6+",
         "oc": "1",
-        "inv": "5+"
+        "inv": "5+",
+        "baseSize": "28.5mm"
       }
     ],
     "melee": [
@@ -1088,7 +1096,8 @@ export default [
     ],
     "factionKeywords": [
       "Drukhari"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "lady-malys",
@@ -1176,7 +1185,8 @@ export default [
     ],
     "factionKeywords": [
       "Drukhari"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "lelith-hesperax",
@@ -1252,7 +1262,8 @@ export default [
     ],
     "factionKeywords": [
       "Drukhari"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "mandrakes",
@@ -1346,7 +1357,8 @@ export default [
     ],
     "factionKeywords": [
       "Drukhari"
-    ]
+    ],
+    "baseSize": "28.5mm"
   },
   {
     "id": "raider",
@@ -1451,7 +1463,8 @@ export default [
     ],
     "factionKeywords": [
       "Drukhari"
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "ravager",
@@ -1546,7 +1559,8 @@ export default [
     ],
     "factionKeywords": [
       "Drukhari"
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "razorwing-jetfighter",
@@ -1697,7 +1711,8 @@ export default [
     ],
     "factionKeywords": [
       "Drukhari"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "reavers",
@@ -1843,7 +1858,8 @@ export default [
     ],
     "factionKeywords": [
       "Drukhari"
-    ]
+    ],
+    "baseSize": "Small Flying Base"
   },
   {
     "id": "scourges-with-heavy-weapons",
@@ -2048,7 +2064,8 @@ export default [
     ],
     "factionKeywords": [
       "Drukhari"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "scourges-with-shardcarbines",
@@ -2199,7 +2216,8 @@ export default [
     ],
     "factionKeywords": [
       "Drukhari"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "succubus",
@@ -2272,7 +2290,8 @@ export default [
     ],
     "factionKeywords": [
       "Drukhari"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "talos",
@@ -2454,7 +2473,8 @@ export default [
     ],
     "factionKeywords": [
       "Drukhari"
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "venom",
@@ -2549,7 +2569,8 @@ export default [
     ],
     "factionKeywords": [
       "Drukhari"
-    ]
+    ],
+    "baseSize": "Large Flying Base"
   },
   {
     "id": "voidraven-bomber",
@@ -2663,7 +2684,8 @@ export default [
     ],
     "factionKeywords": [
       "Drukhari"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "wracks",
@@ -2815,7 +2837,8 @@ export default [
     ],
     "factionKeywords": [
       "Drukhari"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "wyches",
@@ -2930,6 +2953,7 @@ export default [
     ],
     "factionKeywords": [
       "Drukhari"
-    ]
+    ],
+    "baseSize": "25mm"
   }
 ]

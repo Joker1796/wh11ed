@@ -110,7 +110,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "accursed-cultists",
@@ -146,7 +147,8 @@ export default [
         "sv": "6+",
         "w": "1",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "25mm"
       },
       {
         "name": "TORMENT",
@@ -155,7 +157,8 @@ export default [
         "sv": "6+",
         "w": "3",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "40mm"
       }
     ],
     "melee": [
@@ -411,7 +414,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "75x42mm Oval Base"
   },
   {
     "id": "chaos-land-raider",
@@ -544,7 +548,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "chaos-lord",
@@ -673,7 +678,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "chaos-lord-in-terminator-armour",
@@ -804,7 +810,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "chaos-lord-with-jump-pack",
@@ -936,7 +943,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "chaos-predator-annihilator",
@@ -1079,7 +1087,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "chaos-predator-destructor",
@@ -1222,7 +1231,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "chaos-rhino",
@@ -1323,7 +1333,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "chaos-spawn",
@@ -1379,7 +1390,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "chaos-terminator-squad",
@@ -1531,7 +1543,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "chaos-vindicator",
@@ -1651,7 +1664,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "chosen",
@@ -1817,7 +1831,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "cultist-firebrand",
@@ -1905,7 +1920,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "cultist-mob",
@@ -1994,7 +2010,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "cypher",
@@ -2098,7 +2115,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "dark-apostle",
@@ -2119,7 +2137,8 @@ export default [
         "w": "4",
         "ld": "5+",
         "oc": "1",
-        "inv": "4+"
+        "inv": "4+",
+        "baseSize": "40mm"
       },
       {
         "name": "DARK DISCIPLE",
@@ -2129,7 +2148,8 @@ export default [
         "w": "1",
         "ld": "7+",
         "oc": "1",
-        "inv": "4+"
+        "inv": "4+",
+        "baseSize": "25mm"
       }
     ],
     "ranged": [
@@ -2233,7 +2253,8 @@ export default [
         "sv": "6+",
         "w": "4",
         "ld": "6+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "32mm"
       },
       {
         "name": "OTHER MODELS",
@@ -2242,7 +2263,8 @@ export default [
         "sv": "6+",
         "w": "1",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "28.5mm / 32mm"
       }
     ],
     "ranged": [
@@ -2563,7 +2585,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "160mm"
   },
   {
     "id": "fabius-bile",
@@ -2583,7 +2606,8 @@ export default [
         "sv": "3+",
         "w": "5",
         "ld": "6+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "40mm"
       },
       {
         "name": "SURGEON ACOLYTE",
@@ -2592,7 +2616,8 @@ export default [
         "sv": "6+",
         "w": "1",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "32mm"
       }
     ],
     "ranged": [
@@ -2836,7 +2861,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "forgefiend",
@@ -2939,7 +2965,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "haarken-worldclaimer",
@@ -3038,7 +3065,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "havocs",
@@ -3280,7 +3308,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "helbrute",
@@ -3481,7 +3510,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "heldrake",
@@ -3573,7 +3603,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "heretic-astartes-daemon-prince",
@@ -3680,7 +3711,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "heretic-astartes-daemon-prince-with-wings",
@@ -3784,7 +3816,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "60mm"
   },
   {
     "id": "huron-blackheart",
@@ -3874,7 +3907,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "khorne-lord-of-skulls",
@@ -4015,7 +4049,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "kravek-morne",
@@ -4130,7 +4165,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "legionaries",
@@ -4415,7 +4451,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "lord-discordant-on-helstalker",
@@ -4552,7 +4589,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "master-of-executions",
@@ -4638,7 +4676,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "master-of-possession",
@@ -4756,7 +4795,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "masters-of-the-maelstrom",
@@ -4776,7 +4816,8 @@ export default [
         "sv": "3+",
         "w": "4",
         "ld": "6+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "40mm"
       },
       {
         "name": "CAPTAIN SARGOTTA, THE ENFORCER",
@@ -4785,7 +4826,8 @@ export default [
         "sv": "4+",
         "w": "3",
         "ld": "6+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "40mm / 32mm"
       }
     ],
     "ranged": [
@@ -5031,7 +5073,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "120x92mm Oval Base"
   },
   {
     "id": "mutilators",
@@ -5113,7 +5156,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "nemesis-claw",
@@ -5384,7 +5428,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "noctilith-crown",
@@ -5446,7 +5491,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "Hull"
   },
   {
     "id": "obliterators",
@@ -5545,7 +5591,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "50mm"
   },
   {
     "id": "possessed",
@@ -5625,7 +5672,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "raptors",
@@ -5836,7 +5884,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "red-corsairs-raiders",
@@ -5976,7 +6025,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "red-corsairs-reave-captain",
@@ -6098,7 +6148,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "sorcerer",
@@ -6209,7 +6260,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "sorcerer-in-terminator-armour",
@@ -6342,7 +6394,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "40mm"
   },
   {
     "id": "traitor-enforcer",
@@ -6364,7 +6417,8 @@ export default [
         "ld": "6+",
         "oc": "1",
         "inv": "5+",
-        "invNote": "* Traitor Enforcer model only."
+        "invNote": "* Traitor Enforcer model only.",
+        "baseSize": "32mm"
       },
       {
         "name": "TRAITOR OGRYN",
@@ -6373,7 +6427,8 @@ export default [
         "sv": "5+",
         "w": "4",
         "ld": "7+",
-        "oc": "1"
+        "oc": "1",
+        "baseSize": "40mm"
       }
     ],
     "ranged": [
@@ -6647,7 +6702,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "25mm"
   },
   {
     "id": "vashtorr-the-arkifane",
@@ -6747,7 +6803,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "80mm"
   },
   {
     "id": "venomcrawler",
@@ -6821,7 +6878,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "100mm"
   },
   {
     "id": "warp-talons",
@@ -6901,7 +6959,8 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "32mm"
   },
   {
     "id": "warpsmith",
@@ -7030,6 +7089,7 @@ export default [
     ],
     "factionKeywords": [
       "Heretic Astartes"
-    ]
+    ],
+    "baseSize": "60x35.5mm Oval Base"
   }
 ]
