@@ -876,7 +876,8 @@ export default [
       "Castigator",
       "Vehicle",
       "Smoke",
-      "Imperium"
+      "Imperium",
+      "Frame"
     ],
     "factionKeywords": [
       "Adepta Sororitas"
@@ -1283,7 +1284,7 @@ export default [
       },
       {
         "name": "Mysterious Saviours",
-        "text": "You can target this unit with the Heroic Intervention Stratagem for 0CP, and can do so even if you have already targeted a different unit with that Stratagem this phase."
+        "text": "You can target this unit with the Heroic Intervention stratagem, regardless of any other uses of that stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that stratagem on other units this phase."
       }
     ],
     "composition": [
@@ -1350,7 +1351,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Acts of Faith",
     "abilities": [
       {
@@ -1437,7 +1438,7 @@ export default [
         "d": "2"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Acts of Faith",
     "abilities": [
       {
@@ -1691,7 +1692,7 @@ export default [
       },
       {
         "name": "Righteous Awareness",
-        "text": "Once per turn, when an enemy unit ends a Normal, Advance or Fall Back move within 9\" of this unit, if this unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to D6\"."
+        "text": "In your opponent's Movement phase, if an enemy unit ends a move within 8\" of this unit, if this unit is not within Engagement Range of one or more enemy units it can make a Normal move of up to D6\"."
       }
     ],
     "wargearAbilities": [
@@ -1843,7 +1844,8 @@ export default [
       "Vehicle",
       "Exorcist",
       "Smoke",
-      "Imperium"
+      "Imperium",
+      "Frame"
     ],
     "factionKeywords": [
       "Adepta Sororitas"
@@ -1903,7 +1905,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Acts of Faith",
     "abilities": [
       {
@@ -2002,7 +2004,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Acts of Faith",
     "abilities": [
       {
@@ -2169,7 +2171,8 @@ export default [
       "Smoke",
       "Immolator",
       "Imperium",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Adepta Sororitas"
@@ -4239,7 +4242,8 @@ export default [
       "Smoke",
       "Dedicated Transport",
       "Transport",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Adepta Sororitas"
