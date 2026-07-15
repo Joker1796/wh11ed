@@ -62,7 +62,8 @@ export default [
     "keywords": [
       "Aegis Defence Line",
       "Imperium",
-      "Fortification"
+      "Fortification",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -777,7 +778,8 @@ export default [
       "Vehicle",
       "Smoke",
       "Imperium",
-      "Baneblade"
+      "Baneblade",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -899,7 +901,8 @@ export default [
       "Smoke",
       "Imperium",
       "Transport",
-      "Banehammer"
+      "Banehammer",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -1020,7 +1023,8 @@ export default [
       "Smoke",
       "Imperium",
       "Banesword",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -1142,7 +1146,8 @@ export default [
       "Smoke",
       "Squadron",
       "Basilisk",
-      "Imperium"
+      "Imperium",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -1637,7 +1642,7 @@ export default [
     "abilities": [
       {
         "name": "Cadia Stands!",
-        "text": "While this unit contains an OFFICER, each time a ranged attack targets this unit, if this unit is within range of an objective marker you control, models in this unit have the Benefit of Cover against that attack."
+        "text": "While this unit contains an OFFICER model and this unit is within range of an objective, this unit can re-roll battle-shock rolls."
       }
     ],
     "wargearAbilities": [
@@ -3028,7 +3033,8 @@ export default [
       "Vehicle",
       "Transport",
       "Imperium",
-      "Smoke"
+      "Smoke",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -4082,7 +4088,8 @@ export default [
       "Imperium",
       "Smoke",
       "Artillery",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -4205,7 +4212,8 @@ export default [
       "Vehicle",
       "Doomhammer",
       "Transport",
-      "Imperium"
+      "Imperium",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -4486,7 +4494,7 @@ export default [
       },
       {
         "name": "Covert Stealth Team",
-        "text": "At the end of your opponent’s turn, if this unit is not within Engagement Range of one or more enemy units, you can remove this unit from the battlefield. In the Reinforcements step of your next Movement phase, set it up anywhere on the battlefield that is more than 9\" horizontally away from all enemy models."
+        "text": "At the end of your opponent’s turn, if this unit is not within Engagement Range of one or more enemy units, you can remove this unit from the battlefield. In your next Movement phase, set it up anywhere on the battlefield that is more than 8\" horizontally away from all enemy models."
       }
     ],
     "composition": [
@@ -4661,7 +4669,8 @@ export default [
       "Imperium",
       "Hellhammer",
       "Vehicle",
-      "Titanic"
+      "Titanic",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -4821,7 +4830,8 @@ export default [
       "Squadron",
       "Hellhound",
       "Imperium",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -5077,7 +5087,8 @@ export default [
       "Squadron",
       "Imperium",
       "Vehicle",
-      "Smoke"
+      "Smoke",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -5288,15 +5299,6 @@ export default [
         "ws": "4+",
         "s": "3",
         "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Power weapon",
-        "tags": [],
-        "a": "3",
-        "ws": "4+",
-        "s": "4",
-        "ap": "-2",
         "d": "1"
       }
     ],
@@ -6150,7 +6152,8 @@ export default [
       "Smoke",
       "Vehicle",
       "Squadron",
-      "Leman Russ Battle Tank"
+      "Leman Russ Battle Tank",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -6411,7 +6414,8 @@ export default [
       "Squadron",
       "Character",
       "Vehicle",
-      "Smoke"
+      "Smoke",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -6610,7 +6614,8 @@ export default [
       "Squadron",
       "Imperium",
       "Smoke",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -6804,7 +6809,8 @@ export default [
       "Squadron",
       "Leman Russ Eradicator",
       "Vehicle",
-      "Imperium"
+      "Imperium",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -7010,7 +7016,8 @@ export default [
       "Imperium",
       "Squadron",
       "Leman Russ Executioner",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -7204,7 +7211,8 @@ export default [
       "Smoke",
       "Imperium",
       "Squadron",
-      "Leman Russ Exterminator"
+      "Leman Russ Exterminator",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -7395,7 +7403,8 @@ export default [
       "Leman Russ Punisher",
       "Squadron",
       "Smoke",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -7588,7 +7597,8 @@ export default [
       "Vehicle",
       "Squadron",
       "Leman Russ Vanquisher",
-      "Smoke"
+      "Smoke",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -7922,7 +7932,8 @@ export default [
       "Squadron",
       "Imperium",
       "Smoke",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -8984,7 +8995,8 @@ export default [
       "Vehicle",
       "Imperium",
       "Rogal Dorn Battle Tank",
-      "Squadron"
+      "Squadron",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -9157,7 +9169,8 @@ export default [
       "Vehicle",
       "Rogal Dorn Commander",
       "Officer",
-      "Imperium"
+      "Imperium",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -9466,7 +9479,8 @@ export default [
       "Imperium",
       "Titanic",
       "Smoke",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -9686,7 +9700,8 @@ export default [
       "Transport",
       "Imperium",
       "Stormlord",
-      "Smoke"
+      "Smoke",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -9807,7 +9822,8 @@ export default [
       "Imperium",
       "Stormsword",
       "Vehicle",
-      "Smoke"
+      "Smoke",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -9893,7 +9909,8 @@ export default [
       "Squadron",
       "Vehicle",
       "Imperium",
-      "Transport"
+      "Transport",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -10044,7 +10061,8 @@ export default [
       "Squadron",
       "Transport",
       "Dedicated Transport",
-      "Taurox Prime"
+      "Taurox Prime",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -10182,7 +10200,7 @@ export default [
         ],
         "range": "12\"",
         "a": "1",
-        "bs": "4+",
+        "bs": "3+",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -10423,7 +10441,7 @@ export default [
         ],
         "range": "12\"",
         "a": "1",
-        "bs": "4+",
+        "bs": "3+",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -10850,7 +10868,8 @@ export default [
       "Transport",
       "Valkyrie",
       "Imperium",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -10973,7 +10992,8 @@ export default [
       "Imperium",
       "Smoke",
       "Artillery",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
