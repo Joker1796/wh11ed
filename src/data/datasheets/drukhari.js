@@ -622,6 +622,12 @@ export default [
         "text": "Once per turn, the first time a saving throw is failed for a model in the bearer’s unit, change the Damage characteristic of that attack to 0."
       }
     ],
+    "specialAbilities": [
+      {
+        "name": "ARCHON’S RETINUE",
+        "text": "If this unit has a Leader unit attached to it during the Declare Battle Formations step, that Leader unit gains the Scouts 7\" ability."
+      }
+    ],
     "composition": [
       "1 Kabalite Archsybarite",
       "9 Kabalite Agents"

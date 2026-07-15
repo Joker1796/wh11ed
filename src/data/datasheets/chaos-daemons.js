@@ -93,6 +93,10 @@ export default [
     ],
     "specialAbilities": [
       {
+        "name": "SUPREME COMMANDER",
+        "text": "If this model is in your army, it must be your Warlord."
+      },
+      {
         "name": "Wreathed in Shadows (Aura, Psychic)",
         "text": "While a friendly Legiones Daemonica unit or Shadow Legion unit is within 6\" of this model, that unit can only be targeted by a ranged attack if the attacking model is within 18\"."
       },
@@ -1065,6 +1069,10 @@ export default [
     ],
     "specialAbilities": [
       {
+        "name": "DAEMONIC ALLEGIANCE",
+        "text": "When you select this model to include in your army, you must select one of the following keywords for it to gain:\n▪ KHORNE\n▪ TZEENTCH\n▪ NURGLE\n▪ SLAANESH\nThe keyword you select will also affect some of this model’s characteristics, as stated overleaf."
+      },
+      {
         "name": "Daemon Prince of Khorne",
         "text": "If this model has the KHORNE keyword, add 2 to the Strength characteristic of this model’s hellforged weapons."
       },
@@ -1168,6 +1176,10 @@ export default [
       }
     ],
     "specialAbilities": [
+      {
+        "name": "DAEMONIC ALLEGIANCE",
+        "text": "When you select this model to include in your army, you must select one of the following keywords for it to gain:\n▪ KHORNE\n▪ TZEENTCH\n▪ NURGLE\n▪ SLAANESH\nThe keyword you select will also affect some of this model’s characteristics, as stated overleaf."
+      },
       {
         "name": "Daemon Prince of Khorne",
         "text": "If this model has the KHORNE keyword, add 2 to the Strength characteristic of this model’s hellforged weapons."
@@ -1428,6 +1440,12 @@ export default [
       {
         "name": "Flames of Change (Psychic)",
         "text": "In your Shooting phase, after this model has shot, select one enemy unit (excluding MONSTERS and VEHICLES) hit by one or more of those attacks, and roll one D6. On a 4+, until the end of your opponent’s next turn, that enemy unit is aflame. While a unit is aflame, subtract 2\" from its Move characteristic and subtract 2 from Advance and Charge rolls made for it."
+      }
+    ],
+    "specialAbilities": [
+      {
+        "name": "MANIFESTATION OF DESTRUCTION",
+        "text": "This model cannot be your Warlord and cannot be given Enhancements."
       }
     ],
     "composition": [
@@ -3102,6 +3120,12 @@ export default [
       {
         "name": "Instrument of Chaos",
         "text": "Add 1 to Charge rolls made for the bearer’s unit."
+      }
+    ],
+    "specialAbilities": [
+      {
+        "name": "HORRORS ARE PINK. HORRORS ARE BLUE. WHEREONCE THERE WAS ONE, NOW THERE ARE TWO.",
+        "text": "If, at any point, this unit contains no PINK HORROR models, use the BLUE HORRORS datasheet for this unit.\n\n**Designer’s Note:** While this unit contains one or more PINK HORROR models, the Sullen Malevolence and Exploding Horrors abilities from the BLUE HORRORS datasheet do not apply to this unit."
       }
     ],
     "composition": [

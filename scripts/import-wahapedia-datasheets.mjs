@@ -151,7 +151,7 @@ function buildDatasheet(row, mfmUnit) {
     else if (a.type === 'Faction') faction.push(withParam)
     else if (a.type === 'Wargear') wg.push({ name: nm, text: htmlToMarkup(a.description) })
     else if (a.type === 'Datasheet') other.push({ name: nm, text: htmlToMarkup(a.description) })
-    else if (a.type === 'Primarch' || a.type === 'Special' || a.type.startsWith('Fortification')) {
+    else if (a.type === 'Primarch' || a.type.startsWith('Special') || a.type.startsWith('Fortification')) {
       special.push({ name: withParam, text: htmlToMarkup(a.description) })
     }
     // 'Wargear profile' rows (bracket-keyword definitions) are skipped — the [TAG] on the

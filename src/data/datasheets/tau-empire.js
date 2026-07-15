@@ -550,6 +550,12 @@ export default [
         "text": "Once per battle round, you can target this model’s unit with a Stratagem. If it does, reduce the CP cost of that use of that Stratagem by 1CP."
       }
     ],
+    "specialAbilities": [
+      {
+        "name": "INDEPENDENT POWER",
+        "text": "If your army includes COMMANDER FARSIGHT, it cannot include any Ethereal units. If your army includes any ETHEREAL units, it cannot include COMMANDER FARSIGHT."
+      }
+    ],
     "composition": [
       "1 Commander Farsight – EPIC HERO"
     ],
@@ -1039,6 +1045,12 @@ export default [
       {
         "name": "Command-link Drone (Aura)",
         "text": "While a friendly T’AU EMPIRE unit is within 6\" of the bearer, each time you select that unit as the target of a Stratagem, roll one D6: on a 5+, you gain 1CP."
+      }
+    ],
+    "specialAbilities": [
+      {
+        "name": "SUPREME COMMANDER",
+        "text": "If this model is in your army, it must be your Warlord."
       }
     ],
     "composition": [
@@ -2085,6 +2097,12 @@ export default [
       {
         "name": "Fieldcraft",
         "text": "At the end of your Command phase, if this unit is within range of an objective marker you control, that objective marker remains under your control, even if you have no models within range of it, until your opponent controls it at the start or end of any turn."
+      }
+    ],
+    "specialAbilities": [
+      {
+        "name": "BODYGUARD",
+        "text": "If this unit has a Starting Strength of 20, you can attach up to two Leader units to it instead of one, provided those Leaders are not duplicates (e.g. you cannot attach two WAR SHAPERS to this unit). If you do, and this unit is destroyed, the Leader units attached to it become separate units with  their original Starting Strengths."
       }
     ],
     "composition": [

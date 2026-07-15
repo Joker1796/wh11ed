@@ -3690,6 +3690,12 @@ export default [
         "text": "While a CHARACTER model is leading this unit, each time an attack targets this unit, subtract 1 from the Wound roll."
       }
     ],
+    "specialAbilities": [
+      {
+        "name": "COMPANY HEROES",
+        "text": "You must attach one CAPTAIN or CHAPTER MASTER model to this unit. If this is not possible, this unit does not take part in the battle and counts as having been destroyed."
+      }
+    ],
     "composition": [
       "1 Ancient",
       "1 Company Champion",
@@ -4304,6 +4310,12 @@ export default [
         "text": "Each time a model in this unit makes an attack, that attack has the [SUSTAINED HITS 1] ability if this unit is below its Starting Strength, or the [SUSTAINED HITS 2] ability if this unit is Below Half-strength."
       }
     ],
+    "specialAbilities": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Chaplain model from your army with the Leader ability can be attached to an Assault Intercessor Squad unit, it can be attached to this unit instead."
+      }
+    ],
     "composition": [
       "5-10 Death Company Marines"
     ],
@@ -4537,6 +4549,12 @@ export default [
         "text": "Once per turn, you can target this unit with the Fire Overwatch or the Heroic Intervention Stratagem for 0CP. While resolving that Stratagem, each time a model in this unit makes a ranged attack you can re-roll the Hit roll, or you can re-roll the Charge roll made for this unit (whichever applies)."
       }
     ],
+    "specialAbilities": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Chaplain model from your army with the Leader ability can be attached to an Intercessor Squad unit, it can be attached to this unit instead."
+      }
+    ],
     "composition": [
       "5-10 Death Company Marines with Bolt Rifles"
     ],
@@ -4714,6 +4732,12 @@ export default [
       {
         "name": "Savage Fury",
         "text": "You can re-roll Charge rolls made for this unit."
+      }
+    ],
+    "specialAbilities": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Chaplain model from your army with the Leader ability can be attached to Assault Intercessors with Jump Packs, it can be attached to this unit instead."
       }
     ],
     "composition": [
@@ -9083,6 +9107,12 @@ export default [
         "text": "Once per turn, when an enemy unit ends a Normal, Advance or Fall Back move within 9\" of this unit, if this unit is not within Engagement Range of one or more enemy units, it can make a Normal move."
       }
     ],
+    "specialAbilities": [
+      {
+        "name": "LAST SURVIVOR",
+        "text": "This model cannot be selected as your Warlord."
+      }
+    ],
     "composition": [
       "1 Lieutenant with Combi-weapon"
     ],
@@ -10437,6 +10467,12 @@ export default [
       {
         "name": "Sanguinary Banner",
         "text": "Add 1 to the Objective Control characteristic of models in the bearer’s unit."
+      }
+    ],
+    "specialAbilities": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Captain model from your army with the Leader ability can be attached to an Assault Intercessors with Jump Packs unit, it can be attached to this unit instead."
       }
     ],
     "composition": [

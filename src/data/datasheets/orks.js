@@ -1617,6 +1617,12 @@ export default [
         "text": "At the end of your Command phase, if this unit is within range of an objective marker you control, that objective marker remains under your control, even if you have no models within range of it, until your opponent controls it at the start or end of any turn."
       }
     ],
+    "specialAbilities": [
+      {
+        "name": "BODYGUARD",
+        "text": "If this unit has a Starting Strength of 20, you can attach up to two Leader units to it instead of one (but only if one of those is a Warboss unit). If you do, and this unit is destroyed, the Leader units attached to it become separate units with their original Starting Strengths."
+      }
+    ],
     "composition": [
       "1 Boss Nob",
       "9-19 Boyz"
@@ -1739,6 +1745,12 @@ export default [
       {
         "name": "Bomb Squigs",
         "text": "Once per battle, for each bomb squig this unit has, after this unit ends a Normal move, you can use one Bomb Squig. If you do, select one enemy unit within 12\" and visible to this unit and roll one D6: on a 3+, that enemy unit suffers D3 mortal wounds.\n\n**Designer’s Note:** Place two Bomb Squig tokens next to the unit, removing one each time this unit uses this ability."
+      }
+    ],
+    "specialAbilities": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Character unit from your army with the Leader ability can be attached to a Boyz unit, it can be attached to this unit instead."
       }
     ],
     "composition": [
@@ -2708,6 +2720,12 @@ export default [
       {
         "name": "Ghazghkull’s Waaagh! Banner (Aura)",
         "text": "While a friendly ORKS unit is within 12\" of Makari, if the Waaagh! is active for your army, melee weapons equipped by models in that unit have the [LETHAL HITS] ability."
+      }
+    ],
+    "specialAbilities": [
+      {
+        "name": "SUPREME COMMANDER",
+        "text": "If this unit is in your army, its Ghazghkull Thraka model must be your Warlord."
       }
     ],
     "composition": [
@@ -6194,6 +6212,10 @@ export default [
       {
         "name": "Pulse Jet",
         "text": "Each time this unit Advances, do not make an Advance roll for it. Instead, until the end of the phase:\n▪ Add 6\" to the Move characteristic of models in this unit.\n▪ Models in this unit can move through models and terrain features."
+      },
+      {
+        "name": "WAAAGH! WAZDAKKA",
+        "text": "If this model is your WARLORD, Warbiker units from your army have the Battleline keyword."
       }
     ],
     "composition": [
