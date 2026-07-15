@@ -2572,7 +2572,7 @@ export default [
     "options": [
       "This model’s twin splinter rifle can be replaced with 1 splinter cannon."
     ],
-    "transport": "This model has a transport capacity of 6 Drukhari Infantry models (excluding Jump Pack models).\n\nBefore the battle, at the start of the Declare Battle Formations step, you can select one Kabalite Warriors, Hand of the Archon or Wyches unit from your army that has not already been split. If you do, that unit is split into two units, each containing as equal a number of models as possible (when splitting a unit in this way, make a note of which models form each of the two new units]. One of these units must start the battle embarked within this model; the other can start the battle embarked within another TRANSPORT, or it can be deployed as a separate unit.",
+    "transport": "This model has a transport capacity of 6 Drukhari Infantry models (excluding Jump Pack models).\n\nBefore the battle, at the start of the Declare Battle Formations step, you can select one Kabalite Warriors, Hand of the Archon or Wyches unit from your army that has not already been split. If you do, that unit is split into two units, each containing as equal a number of models as possible (when splitting a unit in this way, make a note of which models form each of the two new units). One of these units must start the battle embarked within this model; the other can start the battle embarked within another TRANSPORT, or it can be deployed as a separate unit.",
     "keywords": [
       "Transport",
       "Dedicated Transport",
