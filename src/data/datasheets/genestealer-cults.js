@@ -554,7 +554,7 @@ export default [
       },
       {
         "name": "Summon the Cult",
-        "text": "Once per battle, when you have to remove a Cult Ambush marker because your opponent has moved too close to it, if one or more models from your army with this ability are on the battlefield, you can use this ability. If you do, instead of removing that marker, you can place it anywhere on the battlefield that is within 12\" of a model from your army with this ability and more than 9\" horizontally away from all enemy units (if this is not possible, this ability is not considered to have been used and that marker is removed as normal)."
+        "text": "Once per battle, when you have to remove a Cult Ambush marker because your opponent has moved too close to it, if one or more models from your army with this ability are on the battlefield, you can use this ability. If you do, instead of removing that marker, you can place it anywhere on the battlefield that is within 12\" of a model from your army with this ability and more than 8\" horizontally away from all enemy units (if this is not possible, this ability is not considered to have been used and that marker is removed as normal)."
       }
     ],
     "composition": [
@@ -912,7 +912,7 @@ export default [
         "d": "D3"
       }
     ],
-    "core": "Deep Strike, Leader",
+    "core": "Deep Strike, Support",
     "abilities": [
       {
         "name": "Twisted Science",
@@ -932,7 +932,7 @@ export default [
     "composition": [
       "1 Biophagus"
     ],
-    "loadout": "**This model is equipped with:** autopistol; chemical vials; injector goad, alchemicus familiar.",
+    "loadout": "**This model is equipped with:** autopistol; chemical vials; injector goad; alchemicus familiar.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
@@ -1001,7 +1001,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deep Strike, Leader",
+    "core": "Deep Strike, Support",
     "abilities": [
       {
         "name": "Voice of New Truths",
@@ -1163,7 +1163,8 @@ export default [
       "Goliath Rockgrinder",
       "Great Devourer",
       "Vehicle",
-      "Transport"
+      "Transport",
+      "Frame"
     ],
     "factionKeywords": [
       "Genestealer Cults"
@@ -1259,7 +1260,8 @@ export default [
       "Great Devourer",
       "Vehicle",
       "Dedicated Transport",
-      "Goliath Truck"
+      "Goliath Truck",
+      "Frame"
     ],
     "factionKeywords": [
       "Genestealer Cults"
@@ -1365,7 +1367,7 @@ export default [
     "abilities": [
       {
         "name": "Brood Surge",
-        "text": "Each time an enemy unit is selected to shoot, after that unit has shot, if any models from this unit were destroyed as a result of those attacks, this unit can make a Brood Surge move. To do so, roll one D6: this unit can be moved a number of inches up to the result, but it must end that move as close as possible to the closest enemy unit (excluding AIRCRAFT). When doing so, those models can be moved within Engagement Range of that enemy unit.\n\nIf, at the start of the battle, no model in this unit is equipped with a hand flamer, each time this unit makes a Brood Surge move, it can be moved up to 6\" instead of up to D6\". A unit cannot make a Brood Surge move while it is Battle-shocked."
+        "text": "In your opponent’s Shooting phase, when an enemy unit has shot, if a model in this unit was destroyed as a result of those attacks, this unit can make a surge move of up to D6\"."
       }
     ],
     "wargearAbilities": [
@@ -1542,7 +1544,7 @@ export default [
       },
       {
         "name": "Hypersensory Abilities",
-        "text": "Once per turn, in your opponent’s Movement phase, when an enemy unit ends a Normal, Advance or Fall Back move within 9\" of this model, if this model is not within Engagement Range of one or more enemy units, it can shoot at that unit as if it were your Shooting phase and then make a Normal move of up to D6\" (it cannot embark within a TRANSPORT as part of this move)."
+        "text": "Once per turn, in your opponent’s Movement phase, when an enemy unit ends a Normal, Advance or Fall Back move within 8\" of this model, if this model is not within Engagement Range of one or more enemy units, it can shoot at that unit as if it were your Shooting phase and then make a Normal move of up to D6\" (it cannot embark within a TRANSPORT as part of this move)."
       }
     ],
     "composition": [
@@ -1593,7 +1595,7 @@ export default [
         "d": "2"
       }
     ],
-    "core": "Deep Strike, Fights First, Leader",
+    "core": "Deep Strike, Fights First, Support",
     "abilities": [
       {
         "name": "Sudden Assault",
@@ -1979,7 +1981,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deep Strike, Leader",
+    "core": "Deep Strike, Support",
     "abilities": [
       {
         "name": "Battlefield Analysis",
@@ -2086,7 +2088,13 @@ export default [
     "factionKeywords": [
       "Genestealer Cults"
     ],
-    "baseSize": "50mm"
+    "baseSize": "50mm",
+    "rules": [
+      {
+        "name": "SUPREME COMMANDER",
+        "text": "▪ You cannot include more than one PATRIARCH model in your army.\n▪ If this model is in your army, it must be your Warlord."
+      }
+    ]
   },
   {
     "id": "primus",
@@ -2337,7 +2345,7 @@ export default [
       },
       {
         "name": "Planted Explosives",
-        "text": "Once per battle, when an enemy unit ends a Normal, Advance or Fall Back move within 9” of this model, this model can use its Reductus mine. If it does, roll one D6: on a 2+, that enemy unit suffers D3+3 mortal wounds. Only one model from your army with this ability can use it in the same battle round.\n\n**Designer’s Note:** Place a Reductus Mine token next to the model, removing it once this ability has been used."
+        "text": "Once per battle, when an enemy unit ends a Normal, Advance or Fall Back move within 8” of this model, this model can use its Reductus mine. If it does, roll one D6: on a 2+, that enemy unit suffers D3+3 mortal wounds. Only one model from your army with this ability can use it in the same battle round.\n\n**Designer’s Note:** Place a Reductus Mine token next to the model, removing it once this ability has been used."
       }
     ],
     "composition": [
@@ -2421,11 +2429,11 @@ export default [
     "abilities": [
       {
         "name": "Creeping Shadow",
-        "text": "If this model is equipped with a cult sniper rifle, once per turn, when an enemy unit ends a Normal, Advance or Fall Back move within 9\" of this model, if this model is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 6\"."
+        "text": "If this model is equipped with a Cult Sniper Rifle, in your opponent’s Movement phase, if an enemy unit ends a move within 8\" of this unit, if this unit is not within Engagement Range of one or more enemy units, this unit can make a Normal move of up to 6\"."
       },
       {
         "name": "Cloaked Assassin",
-        "text": "If this model is equipped with a Sanctus bio-dagger, enemy units cannot use the Fire Overwatch Stratagem to shoot at this model."
+        "text": "If this model is equipped with a Sanctus bio-dagger, enemy units cannot target this unit with snap shooting attacks."
       },
       {
         "name": "Psychic Spoor",

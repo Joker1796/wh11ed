@@ -464,7 +464,8 @@ export default [
       "Smoke",
       "Nurgle",
       "Land Raider",
-      "Transport"
+      "Transport",
+      "Frame"
     ],
     "factionKeywords": [
       "",
@@ -612,7 +613,8 @@ export default [
       "Vehicle",
       "Smoke",
       "Chaos",
-      "Nurgle"
+      "Nurgle",
+      "Frame"
     ],
     "factionKeywords": [
       "",
@@ -761,7 +763,8 @@ export default [
       "Nurgle",
       "Chaos",
       "Smoke",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "",
@@ -866,7 +869,8 @@ export default [
       "Dedicated Transport",
       "Rhino",
       "Vehicle",
-      "Transport"
+      "Transport",
+      "Frame"
     ],
     "factionKeywords": [
       "",
@@ -1203,7 +1207,7 @@ export default [
       },
       {
         "name": "Death Approaches",
-        "text": "In your Movement phase, when this unit is set up on the battlefield using the Deep Strike ability, it can be set up anywhere on the battlefield that is more than 6\" horizontally away from all Afflicted enemy units, and more than 9\" horizontally away from all other enemy units."
+        "text": "Each time this unit is set up on the battlefield using the Deep Strike ability, it can be set up anywhere on the battlefield that is more than 6\" horizontally away from all Afflicted enemy units, and more than 8\" horizontally away from all other enemy units."
       }
     ],
     "wargearAbilities": [
@@ -2608,7 +2612,8 @@ export default [
       "Fortification",
       "Miasmic Malignifier",
       "Nurgle",
-      "Chaos"
+      "Chaos",
+      "Frame"
     ],
     "factionKeywords": [
       "Death Guard",
@@ -2699,7 +2704,7 @@ export default [
     "abilities": [
       {
         "name": "Lord of the Death Guard",
-        "text": "Once per turn, this model can use one of the Lord of the Death Guard abilities (see left)."
+        "text": "Once per turn, this model can use one of the Lord of the Death Guard abilities (see below)."
       },
       {
         "name": "Host of Plagues",
@@ -2707,18 +2712,6 @@ export default [
       }
     ],
     "specialAbilities": [
-      {
-        "name": "Diseased Influence",
-        "text": "Just after an enemy unit ends a Normal, Advance or Fall Back move within 9\" of a friendly Death Guard unit that is within 6\" of this model, if that DEATH GUARD unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 5\"."
-      },
-      {
-        "name": "Boon of Death",
-        "text": "In the Fight phase, when a friendly DEATH GUARD unit within 6\" of this model is selected as the target of an attack, this model can use this ability. If it does, until the end of the phase, each time a model in that DEATH GUARD unit is destroyed by a melee attack, if that model has not fought this phase, roll one D6. On a 2+, do not remove it from play; that destroyed model can fight after the attacking unit has finished making its attacks, and it is then removed from play."
-      },
-      {
-        "name": "Inflamed Reprisal",
-        "text": "In your opponent’s Shooting phase, when a friendly DEATH GUARD unit within 6\" of this model is selected as the target of an attack, this model can use this ability. If it does, after the attacking unit has finished making its attacks, that Death Guard unit can shoot as if it were your Shooting phase, but when resolving those attacks it can only target that enemy unit (and only if it is an eligible target)."
-      },
       {
         "name": "SUPREME COMMANDER",
         "text": "If this model is in your army, it must be your WARLORD."
@@ -2749,7 +2742,26 @@ export default [
       "",
       "Death Guard"
     ],
-    "baseSize": "100mm"
+    "baseSize": "100mm",
+    "abilitySets": [
+      {
+        "name": "Lord of the Death Guard",
+        "options": [
+          {
+            "name": "Diseased Influence",
+            "text": "Just after an enemy unit ends a Normal, Advance or Fall Back move within 9\" of a friendly Death Guard unit that is within 6\" of this model, if that DEATH GUARD unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 5\"."
+          },
+          {
+            "name": "Boon of Death",
+            "text": "In the Fight phase, when a friendly DEATH GUARD unit within 6\" of this model is selected as the target of an attack, this model can use this ability. If it does, until the end of the phase, each time a model in that DEATH GUARD unit is destroyed by a melee attack, if that model has not fought this phase, roll one D6. On a 2+, do not remove it from play; that destroyed model can fight after the attacking unit has finished making its attacks, and it is then removed from play."
+          },
+          {
+            "name": "Inflamed Reprisal",
+            "text": "In your opponent’s Shooting phase, when a friendly DEATH GUARD unit within 6\" of this model is selected as the target of an attack, this model can use this ability. If it does, after the attacking unit has finished making its attacks, that Death Guard unit can shoot as if it were your Shooting phase, but when resolving those attacks it can only target that enemy unit (and only if it is an eligible target)."
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "myphitic-blight-hauler",
@@ -3677,7 +3689,8 @@ export default [
       "Chaos",
       "Nurgle",
       "Daemon",
-      "Plagueburst Crawler"
+      "Plagueburst Crawler",
+      "Frame"
     ],
     "factionKeywords": [
       "Death Guard",

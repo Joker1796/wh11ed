@@ -144,6 +144,7 @@ function buildDatasheet(row, mfmUnit) {
   const other = []
   const wg = []
   const special = []
+  const plates = []
   for (const a of abilitiesBy.get(id) || []) {
     const nm = a.name || abilityName.get(a.ability_id) || ''
     const withParam = a.parameter ? `${nm} ${a.parameter}` : nm
@@ -151,7 +152,11 @@ function buildDatasheet(row, mfmUnit) {
     else if (a.type === 'Faction') faction.push(withParam)
     else if (a.type === 'Wargear') wg.push({ name: nm, text: htmlToMarkup(a.description) })
     else if (a.type === 'Datasheet') other.push({ name: nm, text: htmlToMarkup(a.description) })
-    else if (a.type === 'Primarch' || a.type === 'Special' || a.type.startsWith('Fortification')) {
+    // "Special (…колонка)" abilities are standalone ALL-CAPS structural rules (BODYGUARD,
+    // ATTACHED UNIT, SUPREME COMMANDER…) → their own plate via out.rules. Primarch/Fortification
+    // (auras, selectable sets, fortification rules) stay grouped in specialAbilities.
+    else if (a.type.startsWith('Special')) plates.push({ name: withParam, text: htmlToMarkup(a.description) })
+    else if (a.type === 'Primarch' || a.type.startsWith('Fortification')) {
       special.push({ name: withParam, text: htmlToMarkup(a.description) })
     }
     // 'Wargear profile' rows (bracket-keyword definitions) are skipped — the [TAG] on the
@@ -162,6 +167,7 @@ function buildDatasheet(row, mfmUnit) {
   if (other.length) out.abilities = other
   if (wg.length) out.wargearAbilities = wg
   if (special.length) out.specialAbilities = special
+  if (plates.length) out.rules = plates
   if (row.damaged_w) out.damaged = { note: `${row.damaged_w} wounds remaining`, text: htmlToMarkup(row.damaged_description) }
 
   // composition / loadout / options / transport / leader

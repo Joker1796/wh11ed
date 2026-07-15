@@ -247,11 +247,12 @@ export default [
       "This model’s tracks and wheels can be replaced with 1 deff rolla.",
       "This model can be equipped with any of the following:\n▪ 1 ’ard case\n▪ 1 grabbin’ klaw\n▪ 1 wreckin’ ball"
     ],
-    "transport": "This model has a transport capacity of 22 Orks Infantry models. If this model is equipped with a killkannon, it has a transport capacity of 12 ORKS INFANTRY models. Each Mega Armour or Jump Pack model takes up the space of 2 models. The Ghazghkull Thraka model takes up the space of 4 models.",
+    "transport": "This model has a transport capacity of 22 ORKS INFANTRY models. If this model is equipped with a killkannon, it has a transport capacity of 12 ORKS INFANTRY models. Each MEGA ARMOUR or JUMP PACK model takes up the space of 2 models. The GHAZGHKULL THRAKA model takes up the space of 4 models.",
     "keywords": [
       "Battlewagon",
       "Vehicle",
-      "Transport"
+      "Transport",
+      "Frame"
     ],
     "factionKeywords": [
       "Orks"
@@ -555,7 +556,7 @@ export default [
       },
       {
         "name": "Single-minded Predator",
-        "text": "You can target this model's unit with the Heroic Intervention Stratagem for 0CP, and can do so even if you have already targeted a different unit with that Stratagem this phase."
+        "text": "You can target this unit with the Heroic Intervention stratagem, regardless of any other uses of that stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that stratagem on other units this phase."
       }
     ],
     "composition": [
@@ -1215,12 +1216,12 @@ export default [
     "profiles": [
       {
         "name": "Blitza-bommer",
-        "m": "20+\"",
+        "m": "-",
         "t": "9",
         "sv": "3+",
         "w": "12",
         "ld": "7+",
-        "oc": "0",
+        "oc": "-",
         "inv": "6+"
       }
     ],
@@ -1268,7 +1269,7 @@ export default [
     "abilities": [
       {
         "name": "Boom Bomb",
-        "text": "Each time this model ends a Normal move, you can select one enemy unit it moved over during that move and roll one D6: on a 4+, that unit suffers D6 mortal wounds."
+        "text": "At the end of your opponent’s Fight phase, select one visible enemy unit (excluding Lone Operative units) within 24\" of this unit, and roll one D6 for that unit: On a 4+, that unit suffers D6 mortal wounds."
       }
     ],
     "damaged": {
@@ -1284,7 +1285,8 @@ export default [
       "Blitza-bommer",
       "Aircraft",
       "Speed Freeks",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Orks"
@@ -1442,11 +1444,11 @@ export default [
     "abilities": [
       {
         "name": "Red Skull Kommandos",
-        "text": "While this model is leading a unit, models in that unit have the Benefit of Cover."
+        "text": "This unit has +1 Sv against ranged attacks."
       },
       {
         "name": "Kunnin’ Infiltrator",
-        "text": "Once per battle, in your Movement phase, instead of making a Normal move with this model’s unit, you can remove it from the battlefield and set it up again anywhere on the battlefield that is more than 9\" horizontally away from all enemy models."
+        "text": "Kunnin’ Infiltrator (Once per battle, per army): In your Movement phase, if this unit is unengaged, you can use this ability. If you do:\n▪ Place this unit in strategic reserves.\n▪ This unit has Deep Strike until the end of the phase."
       }
     ],
     "composition": [
@@ -1637,6 +1639,12 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
+    ],
+    "rules": [
+      {
+        "name": "BODYGUARD",
+        "text": "If this unit has a Starting Strength of 20, you can attach up to two Leader units to it instead of one (but only if one of those is a WARBOSS unit). If you do, and this unit is destroyed, the Leader units attached to it become separate units with their original Starting Strengths."
+      }
     ]
   },
   {
@@ -1759,7 +1767,13 @@ export default [
     "factionKeywords": [
       "Orks"
     ],
-    "baseSize": "32mm"
+    "baseSize": "32mm",
+    "rules": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Character unit from your army with the Leader ability can be attached to a Boyz unit, it can be attached to this unit instead."
+      }
+    ]
   },
   {
     "id": "burna-boyz",
@@ -1894,12 +1908,12 @@ export default [
     "profiles": [
       {
         "name": "Burna-bommer",
-        "m": "20+\"",
+        "m": "-",
         "t": "9",
         "sv": "3+",
         "w": "12",
         "ld": "7+",
-        "oc": "0",
+        "oc": "-",
         "inv": "6+"
       }
     ],
@@ -1961,7 +1975,7 @@ export default [
     "abilities": [
       {
         "name": "Burna Bomb",
-        "text": "Each time this model ends a Normal move, you can select one enemy unit it moved over during that move. Until the end of the turn, models in that unit cannot have the Benefit of Cover. In addition, roll one D6 for each model in that unit: for each 6, that unit suffers 1 mortal wound."
+        "text": "At the end of your opponent’s Fight phase, you can select one visible enemy unit (excluding Lone Operative units) within 24\" of this unit:\n▪ Friendly ORKS units’ ranged attacks that target that enemy unit have [IGNORES COVER] until the end of your next turn.\n▪ Roll one D6 for each model in that enemy unit: for each 6, that enemy unit suffers 1 mortal wound."
       }
     ],
     "damaged": {
@@ -1980,7 +1994,8 @@ export default [
       "Fly",
       "Aircraft",
       "Speed Freeks",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Orks"
@@ -2000,12 +2015,12 @@ export default [
     "profiles": [
       {
         "name": "Dakkajet",
-        "m": "20+\"",
+        "m": "-",
         "t": "9",
         "sv": "3+",
         "w": "12",
         "ld": "7+",
-        "oc": "0",
+        "oc": "-",
         "inv": "6+"
       }
     ],
@@ -2060,7 +2075,8 @@ export default [
       "Fly",
       "Aircraft",
       "Dakkajet",
-      "Speed Freeks"
+      "Speed Freeks",
+      "Frame"
     ],
     "factionKeywords": [
       "Orks"
@@ -2720,8 +2736,7 @@ export default [
       "units": [
         "Nobz",
         "Meganobz",
-        "Boyz",
-        "Breaka Boyz"
+        "Boyz"
       ],
       "footer": "If this unit’s Bodyguard unit is destroyed, Ghazkghull Thraka and Makari become a single unit with their original Starting Strength."
     },
@@ -2734,6 +2749,12 @@ export default [
     ],
     "factionKeywords": [
       "Orks"
+    ],
+    "rules": [
+      {
+        "name": "SUPREME COMMANDER",
+        "text": "If this unit is in your army, its Ghazghkull Thraka model must be your Warlord."
+      }
     ]
   },
   {
@@ -3085,7 +3106,8 @@ export default [
       "Transport",
       "Beast Snagga",
       "Monster",
-      "Hunta Rig"
+      "Hunta Rig",
+      "Frame"
     ],
     "factionKeywords": [
       "Orks"
@@ -3214,7 +3236,8 @@ export default [
       "Monster",
       "Beast Snagga",
       "Kill Rig",
-      "Psyker"
+      "Psyker",
+      "Frame"
     ],
     "factionKeywords": [
       "Orks"
@@ -3483,8 +3506,8 @@ export default [
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Sneaky Surprise",
-        "text": "Enemy units cannot use the Fire Overwatch Stratagem to shoot at this unit."
+        "name": "Sneaky Gitz",
+        "text": "Enemy units cannot target this unit with snap shooting attacks."
       }
     ],
     "wargearAbilities": [
@@ -5231,7 +5254,8 @@ export default [
       "Walker",
       "Vehicle",
       "Titanic",
-      "Stompa"
+      "Stompa",
+      "Frame"
     ],
     "factionKeywords": [
       "Orks"
@@ -5540,7 +5564,8 @@ export default [
       "Trukk",
       "Dedicated Transport",
       "Transport",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Orks"
@@ -5970,12 +5995,12 @@ export default [
     "profiles": [
       {
         "name": "Wazbom Blastajet",
-        "m": "20+\"",
+        "m": "-",
         "t": "9",
         "sv": "3+",
         "w": "12",
         "ld": "7+",
-        "oc": "0",
+        "oc": "-",
         "inv": "6+"
       }
     ],
@@ -6182,20 +6207,6 @@ export default [
         "text": "In your Command phase, select one of the abilities in the Throttlerokkit Shokka Engine section (see below). Until the start of your next Command phase, this model has that ability."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "Turbo Engine",
-        "text": "This unit is eligible to declare a charge in a turn in which it Advanced or Fell Back."
-      },
-      {
-        "name": "Shokk Attack Engine",
-        "text": "In your Command phase, if this unit is not within Engagement Range of one or more enemy units, you can remove it from the battlefield and place it into Strategic Reserves."
-      },
-      {
-        "name": "Pulse Jet",
-        "text": "Each time this unit Advances, do not make an Advance roll for it. Instead, until the end of the phase:\n▪ Add 6\" to the Move characteristic of models in this unit.\n▪ Models in this unit can move through models and terrain features."
-      }
-    ],
     "composition": [
       "1 Wazdakka Gutsmek – EPIC HERO"
     ],
@@ -6212,7 +6223,32 @@ export default [
     "factionKeywords": [
       "Orks"
     ],
-    "baseSize": "120mm"
+    "baseSize": "120mm",
+    "rules": [
+      {
+        "name": "WAAAGH! WAZDAKKA",
+        "text": "If this model is your WARLORD, Warbiker units from your army have the Battleline keyword."
+      }
+    ],
+    "abilitySets": [
+      {
+        "name": "Throttlerokkit Shokka Engine",
+        "options": [
+          {
+            "name": "Turbo Engine",
+            "text": "This unit is eligible to declare a charge in a turn in which it Advanced or Fell Back."
+          },
+          {
+            "name": "Shokk Attack Engine",
+            "text": "In your Command phase, if this unit is not within Engagement Range of one or more enemy units, you can remove it from the battlefield and place it into Strategic Reserves."
+          },
+          {
+            "name": "Pulse Jet",
+            "text": "Each time this unit Advances, do not make an Advance roll for it. Instead, until the end of the phase:\n▪ Add 6\" to the Move characteristic of models in this unit.\n▪ Models in this unit can move through models and terrain features."
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "weirdboy",

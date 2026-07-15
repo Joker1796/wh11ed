@@ -3120,7 +3120,13 @@ export default [
     "factionKeywords": [
       "Adeptus Astartes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "COMPANY HEROES",
+        "text": "You must attach one CAPTAIN or CHAPTER MASTER model to this unit. If this is not possible, this unit does not take part in the battle and counts as having been destroyed."
+      }
+    ]
   },
   {
     "id": "corvus-blackstar",
@@ -3466,7 +3472,13 @@ export default [
       "Deathwatch",
       "Adeptus Astartes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Character from your army with the Leader ability can be attached to a Terminator Squad, it can be attached to this unit instead."
+      }
+    ]
   },
   {
     "id": "deathwatch-veterans",
@@ -3678,7 +3690,13 @@ export default [
       "Adeptus Astartes",
       "Deathwatch"
     ],
-    "baseSize": "32mm"
+    "baseSize": "32mm",
+    "rules": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Character from your army with the Leader ability can be attached to a Sternguard Veteran Squad, it can be attached to this unit instead."
+      }
+    ]
   },
   {
     "id": "decimus-kill-team",
@@ -3997,6 +4015,12 @@ export default [
     "factionKeywords": [
       "Adeptus Astartes",
       "Deathwatch"
+    ],
+    "rules": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Character from your army with the Leader ability can be attached to an Intercessor Squad, it can be attached to this unit instead."
+      }
     ]
   },
   {
@@ -5087,7 +5111,13 @@ export default [
       "Adeptus Astartes",
       "Deathwatch"
     ],
-    "baseSize": "32mm"
+    "baseSize": "32mm",
+    "rules": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Character from your army with the Leader ability can be attached to an Intercessor Squad, it can be attached to this unit instead."
+      }
+    ]
   },
   {
     "id": "gladiator-lancer",
@@ -8467,7 +8497,13 @@ export default [
     "factionKeywords": [
       "Adeptus Astartes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "LAST SURVIVOR",
+        "text": "This model cannot be selected as your Warlord."
+      }
+    ]
   },
   {
     "id": "outrider-squad",
@@ -9915,7 +9951,13 @@ export default [
       "Adeptus Astartes",
       "Deathwatch"
     ],
-    "baseSize": "32mm"
+    "baseSize": "32mm",
+    "rules": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Character from your army with the Leader ability can be attached to an Infiltrator Squad, it can be attached to this unit instead.\n\nIf this unit has a Leader unit attached to it during the Declare Battle Formations step, that Leader unit gains the Infiltrators and Scouts 6\" abilities."
+      }
+    ]
   },
   {
     "id": "sternguard-veteran-squad",

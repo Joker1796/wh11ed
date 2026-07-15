@@ -98,6 +98,29 @@
           </div>
         </div>
       </template>
+      <!-- Selectable ability sets (Primarch/named-character "pick one" groups). The heading is
+           the parent ability's name, so its "(see below)" reference resolves to this block. -->
+      <template v-if="sheet.abilitySets">
+        <div v-for="set in sheet.abilitySets" :key="set.name" class="ds-ability-group">
+          <h5 class="ds-group-title">
+            {{ set.name }}<span v-if="set.nameRu" class="ds-ability-name-ru">{{ set.nameRu }}</span>
+          </h5>
+          <div v-for="a in set.options" :key="a.name" class="ds-ability">
+            <strong>{{ a.name }}:</strong>
+            <span v-if="a.nameRu" class="ds-ability-name-ru">{{ a.nameRu }}</span>
+            <span v-html="dsText(a.text)"></span>
+          </div>
+        </div>
+      </template>
+      <template v-if="sheet.rules">
+        <div v-for="r in sheet.rules" :key="r.name" class="ds-ability-group">
+          <h5 class="ds-group-title">{{ r.name }}</h5>
+          <div class="ds-ability">
+            <span v-if="r.nameRu" class="ds-ability-name-ru">{{ r.nameRu }}</span>
+            <span v-html="dsText(r.text)"></span>
+          </div>
+        </div>
+      </template>
       <div v-if="sheet.damaged" class="ds-damaged">
         <strong>{{ labels.dsDamaged }}: {{ sheet.damaged.note }}</strong>
         <div v-html="dsText(sheet.damaged.text)"></div>
@@ -109,33 +132,43 @@
       <h5 class="ds-group-title">{{ labels.dsTransport }}</h5>
       <div v-html="dsText(sheet.transport)"></div>
     </div>
-    <div v-if="sheet.leader" class="ds-block">
+    <div v-if="sheet.leader" class="ds-ability-group">
       <h5 class="ds-group-title">{{ labels.dsLeader }}</h5>
-      <div v-html="dsText(sheet.leader.text)"></div>
-      <ul class="ds-list">
-        <li v-for="u in sheet.leader.units" :key="u">{{ u }}</li>
-      </ul>
-      <div v-if="sheet.leader.footer" v-html="dsText(sheet.leader.footer)"></div>
+      <div class="ds-ability">
+        <div v-html="dsText(sheet.leader.text)"></div>
+        <ul class="ds-list">
+          <li v-for="u in sheet.leader.units" :key="u">{{ u }}</li>
+        </ul>
+        <div v-if="sheet.leader.footer" v-html="dsText(sheet.leader.footer)"></div>
+      </div>
     </div>
 
     <!-- Composition / loadout / options -->
-    <div v-if="sheet.composition || sheet.loadout" class="ds-block">
+    <div v-if="sheet.composition || sheet.loadout" class="ds-ability-group">
       <h5 class="ds-group-title">{{ labels.dsComposition }}</h5>
-      <ul v-if="sheet.composition" class="ds-list">
-        <li v-for="c in sheet.composition" :key="c" v-html="dsText(c)"></li>
-      </ul>
-      <div v-if="sheet.loadout" class="ds-loadout" v-html="dsText(sheet.loadout)"></div>
+      <div class="ds-ability">
+        <ul v-if="sheet.composition" class="ds-list">
+          <li v-for="c in sheet.composition" :key="c" v-html="dsText(c)"></li>
+        </ul>
+        <div v-if="sheet.loadout" class="ds-loadout" v-html="dsText(sheet.loadout)"></div>
+      </div>
     </div>
-    <div v-if="sheet.options" class="ds-block">
+    <div v-if="sheet.options" class="ds-ability-group">
       <h5 class="ds-group-title">{{ labels.dsOptions }}</h5>
-      <div v-for="(o, i) in sheet.options" :key="i" class="ds-option" v-html="dsText(o)"></div>
+      <div class="ds-ability">
+        <div v-for="(o, i) in sheet.options" :key="i" class="ds-option" v-html="dsText(o)"></div>
+      </div>
     </div>
 
     <!-- Keywords -->
     <div class="ds-keywords">
       <div>
         <strong>{{ labels.dsKeywords }}:</strong>
-        <template v-for="(k, i) in sheet.keywords" :key="k">{{ i ? ', ' : ' ' }}<span class="ds-kw">{{ k }}</span></template>
+        <template v-for="(g, gi) in keywordGroups" :key="gi">
+          <template v-if="gi">{{ ' |' }}</template>
+          <template v-if="g.model">{{ ' ' + g.model + ' -' }}</template>
+          <template v-for="(k, i) in g.list" :key="k">{{ i ? ', ' : ' ' }}<span class="ds-kw">{{ k }}</span></template>
+        </template>
       </div>
       <div>
         <strong>{{ labels.dsFactionKeywords }}:</strong>
@@ -185,6 +218,13 @@ const labels = computed(() => ui[locale.value])
 const fmtBase = (raw) => formatBaseSize(raw, labels.value)
 
 const coreParts = computed(() => (props.sheet.core ? props.sheet.core.split(/,\s*/) : []))
+
+// Per-model keyword split (e.g. The Silent King: keywords shared by every model in the
+// unit vs ones that only apply to a specific named model) — sheet.keywordsByModel is
+// [{ model, list }]; falls back to a single unlabelled group for the common flat-array case.
+const keywordGroups = computed(() =>
+  props.sheet.keywordsByModel ? props.sheet.keywordsByModel : [{ model: null, list: props.sheet.keywords || [] }],
+)
 
 // Multi-profile weapons are stored as adjacent rows sharing a base name with a spaced-dash
 // suffix ("Scythe of the Nightbringer – strike" / "– sweep"). The data is inconsistent about
@@ -560,6 +600,9 @@ function statCells(p) {
   border-radius: 4px;
   overflow: hidden;
   background: color-mix(in srgb, var(--accent) 8%, transparent);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--text-primary);
 }
 .ds-ability-group > .ds-group-title {
   margin: 0;
