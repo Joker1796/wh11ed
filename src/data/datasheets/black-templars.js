@@ -2821,21 +2821,7 @@ export default [
       },
       {
         "name": "Temple Relics",
-        "text": "In your Command phase, if this unit contains one or more Cenobyte Servitor models, select one Temple Relics ability (see left). Until the start of your next Command phase, this unit’s Chaplain Grimaldus model has that ability."
-      }
-    ],
-    "specialAbilities": [
-      {
-        "name": "Banner of the Emperor Victorious",
-        "text": "Add 1 to Advance and Charge rolls made for this unit."
-      },
-      {
-        "name": "Column from the Major Altar",
-        "text": "Add 1 to the Toughness characteristic of models in this unit."
-      },
-      {
-        "name": "Water from the Stoup of Elucidation",
-        "text": "Improve the Armour Penetration characteristic of melee weapons equipped by models in this unit by 1."
+        "text": "In your Command phase, if this unit contains one or more Cenobyte Servitor models, select one Temple Relics ability (see below). Until the start of your next Command phase, this unit’s Chaplain Grimaldus model has that ability."
       }
     ],
     "composition": [
@@ -2870,6 +2856,25 @@ export default [
     "factionKeywords": [
       "Black Templars",
       "Adeptus Astartes"
+    ],
+    "abilitySets": [
+      {
+        "name": "Temple Relics",
+        "options": [
+          {
+            "name": "Banner of the Emperor Victorious",
+            "text": "Add 1 to Advance and Charge rolls made for this unit."
+          },
+          {
+            "name": "Column from the Major Altar",
+            "text": "Add 1 to the Toughness characteristic of models in this unit."
+          },
+          {
+            "name": "Water from the Stoup of Elucidation",
+            "text": "Improve the Armour Penetration characteristic of melee weapons equipped by models in this unit by 1."
+          }
+        ]
+      }
     ]
   },
   {
@@ -3373,12 +3378,6 @@ export default [
         "text": "While a CHARACTER model is leading this unit, each time an attack targets this unit, subtract 1 from the Wound roll."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "COMPANY HEROES",
-        "text": "You must attach one CAPTAIN or CHAPTER MASTER model to this unit. If this is not possible, this unit does not take part in the battle and counts as having been destroyed."
-      }
-    ],
     "composition": [
       "1 Ancient",
       "1 Company Champion",
@@ -3396,7 +3395,13 @@ export default [
     "factionKeywords": [
       "Adeptus Astartes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "COMPANY HEROES",
+        "text": "You must attach one CAPTAIN or CHAPTER MASTER model to this unit. If this is not possible, this unit does not take part in the battle and counts as having been destroyed."
+      }
+    ]
   },
   {
     "id": "crusade-ancient",
@@ -3649,12 +3654,6 @@ export default [
         "text": "In your opponent’s Shooting phase, each time an enemy unit has shot, if any models in this unit were destroyed as a result of those attacks, this unit can make a Righteous Zeal move. To do so, roll one D6 and add 2 to the result: models in this unit move a number of inches up to this result, but this unit must end that move as close as possible to the closest enemy unit (excluding AIRCRAFT). When doing so, those models can be moved within Engagement Range of that enemy unit. This unit cannot make a Righteous Zeal move while it is Battle-shocked or within Engagement Range of one or more enemy units, and can only make one Righteous Zeal move per phase."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "ATTACHED UNIT",
-        "text": "If a Character from your army with the Leader ability can be attached to an Intercessor Squad, it can be attached to this unit instead."
-      }
-    ],
     "composition": [
       "1 Sword Brother",
       "5-11 Initiates",
@@ -3678,6 +3677,12 @@ export default [
     "factionKeywords": [
       "Black Templars",
       "Adeptus Astartes"
+    ],
+    "rules": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Character from your army with the Leader ability can be attached to an Intercessor Squad, it can be attached to this unit instead."
+      }
     ]
   },
   {
@@ -7888,12 +7893,6 @@ export default [
         "text": "Once per turn, when an enemy unit ends a Normal, Advance or Fall Back move within 9\" of this unit, if this unit is not within Engagement Range of one or more enemy units, it can make a Normal move."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "LAST SURVIVOR",
-        "text": "This model cannot be selected as your Warlord."
-      }
-    ],
     "composition": [
       "1 Lieutenant with Combi-weapon"
     ],
@@ -7910,7 +7909,13 @@ export default [
     "factionKeywords": [
       "Adeptus Astartes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "LAST SURVIVOR",
+        "text": "This model cannot be selected as your Warlord."
+      }
+    ]
   },
   {
     "id": "marshal",
@@ -10652,12 +10657,6 @@ export default [
         "text": "Each time an enemy unit within Engagement Range of this unit is selected to Fall Back, after it ends that Fall Back move, if this unit is not within Engagement Range of one or more enemy units, this unit can make a Normal move."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "ATTACHED UNIT",
-        "text": "If a Character from your army with the Leader ability can be attached to an Intercessor Squad, it can be attached to this unit instead."
-      }
-    ],
     "composition": [
       "4-10 Sword Brothers"
     ],
@@ -10680,7 +10679,13 @@ export default [
       "Black Templars",
       "Adeptus Astartes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Character from your army with the Leader ability can be attached to an Intercessor Squad, it can be attached to this unit instead."
+      }
+    ]
   },
   {
     "id": "tactical-squad",

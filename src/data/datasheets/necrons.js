@@ -4255,25 +4255,11 @@ export default [
     "abilities": [
       {
         "name": "Voice of the Triarch",
-        "text": "At the start of the battle round, select one Triarch ability (see left). Until the start of the next battle round, this unit has that ability."
+        "text": "At the start of the battle round, select one Triarch ability (see below). Until the start of the next battle round, this unit has that ability."
       },
       {
         "name": "The Silent King",
         "text": "While a friendly NECRONS unit is within 6\" of this unit’s Szarekh model, improve that unit’s Leadership characteristic by 1."
-      }
-    ],
-    "specialAbilities": [
-      {
-        "name": "Phaeron of the Stars (Aura)",
-        "text": "While a friendly NECRONS unit (excluding Monster units) is within 6\" of this unit’s Szarekh model, each time a model in that unit makes an attack, re-roll a Hit roll of 1 and re-roll a Wound roll of 1."
-      },
-      {
-        "name": "Phaeron of the Blades (Aura)",
-        "text": "While a friendly NECRONS unit (excluding Monster units) is within 6\" of this unit’s Szarekh model, you can re-roll Charge rolls made for that unit and each time a model in that unit makes a melee attack, add 1 to the Strength characteristic of that attack."
-      },
-      {
-        "name": "Relentless March (Aura)",
-        "text": "While a friendly NECRONS unit (excluding Monster units) is within 6\" of this unit’s Szarekh model, add 2\" to the Move characteristic of models in that unit."
       }
     ],
     "rules": [
@@ -4305,15 +4291,41 @@ export default [
     "keywordsByModel": [
       {
         "model": "ALL MODELS",
-        "list": ["Vehicle", "Epic Hero", "Triarch"]
+        "list": [
+          "Vehicle",
+          "Epic Hero",
+          "Triarch"
+        ]
       },
       {
         "model": "SZAREKH MODEL",
-        "list": ["Character", "The Silent King"]
+        "list": [
+          "Character",
+          "The Silent King"
+        ]
       }
     ],
     "factionKeywords": [
       "Necrons"
+    ],
+    "abilitySets": [
+      {
+        "name": "Voice of the Triarch",
+        "options": [
+          {
+            "name": "Phaeron of the Stars (Aura)",
+            "text": "While a friendly NECRONS unit (excluding Monster units) is within 6\" of this unit’s Szarekh model, each time a model in that unit makes an attack, re-roll a Hit roll of 1 and re-roll a Wound roll of 1."
+          },
+          {
+            "name": "Phaeron of the Blades (Aura)",
+            "text": "While a friendly NECRONS unit (excluding Monster units) is within 6\" of this unit’s Szarekh model, you can re-roll Charge rolls made for that unit and each time a model in that unit makes a melee attack, add 1 to the Strength characteristic of that attack."
+          },
+          {
+            "name": "Relentless March (Aura)",
+            "text": "While a friendly NECRONS unit (excluding Monster units) is within 6\" of this unit’s Szarekh model, add 2\" to the Move characteristic of models in that unit."
+          }
+        ]
+      }
     ]
   },
   {

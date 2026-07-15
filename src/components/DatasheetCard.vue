@@ -98,6 +98,20 @@
           </div>
         </div>
       </template>
+      <!-- Selectable ability sets (Primarch/named-character "pick one" groups). The heading is
+           the parent ability's name, so its "(see below)" reference resolves to this block. -->
+      <template v-if="sheet.abilitySets">
+        <div v-for="set in sheet.abilitySets" :key="set.name" class="ds-ability-group">
+          <h5 class="ds-group-title">
+            {{ set.name }}<span v-if="set.nameRu" class="ds-ability-name-ru">{{ set.nameRu }}</span>
+          </h5>
+          <div v-for="a in set.options" :key="a.name" class="ds-ability">
+            <strong>{{ a.name }}:</strong>
+            <span v-if="a.nameRu" class="ds-ability-name-ru">{{ a.nameRu }}</span>
+            <span v-html="dsText(a.text)"></span>
+          </div>
+        </div>
+      </template>
       <template v-if="sheet.rules">
         <div v-for="r in sheet.rules" :key="r.name" class="ds-ability-group">
           <h5 class="ds-group-title">{{ r.name }}</h5>

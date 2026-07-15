@@ -372,24 +372,6 @@ export default [
         "text": "At the start of your Command phase, this model regains up to D3 lost wounds."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "SUPREME COMMANDER",
-        "text": "If this model is in your army, it must be your Warlord."
-      },
-      {
-        "name": "Invocation of Machine Vengeance",
-        "text": "At the start of your Command phase, select one unit from your opponent’s army. Until the start of your next Command phase, that enemy unit is your Machine Vengeance target. Each time a model in a friendly Adeptus Mechanicus unit makes an attack that targets your Machine Vengeance target, you can re-roll the Hit roll."
-      },
-      {
-        "name": "Mantra of Discipline",
-        "text": "This model has the BATTLELINE keyword and has the following ability:\n▪ **Binharic Courage (Aura):** While a friendly ADEPTUS MECHANICUS unit is within 6\" of this model, add 1 to the Objective Control characteristic of models in that unit and each time you take a Battle-shock or Leadership test for that unit, add 1 to that test."
-      },
-      {
-        "name": "Shroudpsalm (Aura)",
-        "text": "While a friendly ADEPTUS MECHANICUS unit is within 6\" of this model, that unit has the Stealth ability."
-      }
-    ],
     "composition": [
       "1 Belisarius Cawl – EPIC HERO"
     ],
@@ -406,7 +388,32 @@ export default [
     "factionKeywords": [
       "Adeptus Mechanicus"
     ],
-    "baseSize": "105x70mm Oval Base"
+    "baseSize": "105x70mm Oval Base",
+    "rules": [
+      {
+        "name": "SUPREME COMMANDER",
+        "text": "If this model is in your army, it must be your Warlord."
+      }
+    ],
+    "abilitySets": [
+      {
+        "name": "Canticles of the Omnissiah",
+        "options": [
+          {
+            "name": "Invocation of Machine Vengeance",
+            "text": "At the start of your Command phase, select one unit from your opponent’s army. Until the start of your next Command phase, that enemy unit is your Machine Vengeance target. Each time a model in a friendly Adeptus Mechanicus unit makes an attack that targets your Machine Vengeance target, you can re-roll the Hit roll."
+          },
+          {
+            "name": "Mantra of Discipline",
+            "text": "This model has the BATTLELINE keyword and has the following ability:\n▪ **Binharic Courage (Aura):** While a friendly ADEPTUS MECHANICUS unit is within 6\" of this model, add 1 to the Objective Control characteristic of models in that unit and each time you take a Battle-shock or Leadership test for that unit, add 1 to that test."
+          },
+          {
+            "name": "Shroudpsalm (Aura)",
+            "text": "While a friendly ADEPTUS MECHANICUS unit is within 6\" of this model, that unit has the Stealth ability."
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "corpuscarii-electro-priests",
@@ -3249,12 +3256,6 @@ export default [
         "text": "Each time this model makes an attack with a radium jezzail that targets an INFANTRY unit, you can re-roll the Wound roll. Each time this model makes an attack with a Skatros transuranic arquebus that targets a MONSTER or VEHICLE unit, you can re-roll the Wound roll."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "SYDONIAN SENTINEL",
-        "text": "This model cannot be your WARLORD"
-      }
-    ],
     "composition": [
       "1 Sydonian Skatros"
     ],
@@ -3273,7 +3274,13 @@ export default [
     "factionKeywords": [
       "Adeptus Mechanicus"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "SYDONIAN SENTINEL",
+        "text": "This model cannot be your WARLORD"
+      }
+    ]
   },
   {
     "id": "tech-priest-dominus",
@@ -3808,24 +3815,6 @@ export default [
         "text": "At the start of your Shooting phase, select one enemy VEHICLE unit within 12\" of this model and roll one D6: on a 2+, that enemy unit suffers D3+1 mortal wounds."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "SUPREME COMMANDER",
-        "text": "If this model is in your army, it must be your Warlord."
-      },
-      {
-        "name": "Fanatical Devotion",
-        "text": "You can select one friendly Skitarii or THULIA GHULD unit within 6\" of this model; until the start of your next Command phase, that unit is eligible to shoot and declare a charge in a turn in which it Advanced."
-      },
-      {
-        "name": "Adaptive Tactics",
-        "text": "You can select one friendly Skitarii or THULIA GHULD unit within 6\" of this model; until the start of your next Command phase, that unit is eligible to shoot and declare a charge in a turn in which it Fell Back."
-      },
-      {
-        "name": "The Fires of Mars",
-        "text": "You can select one friendly Skitarii or THULIA GHULD unit within 6\" of this model; until the start of your next Command phase, the Conqueror Imperative and Protector Imperative are both active for that unit."
-      }
-    ],
     "composition": [
       "1 Archmagos Terminus Thulia Ghuld – EPIC HERO"
     ],
@@ -3842,6 +3831,31 @@ export default [
     "factionKeywords": [
       "Adeptus Mechanicus"
     ],
-    "baseSize": "80mm"
+    "baseSize": "80mm",
+    "rules": [
+      {
+        "name": "SUPREME COMMANDER",
+        "text": "If this model is in your army, it must be your Warlord."
+      }
+    ],
+    "abilitySets": [
+      {
+        "name": "Rod of the War Forge",
+        "options": [
+          {
+            "name": "Fanatical Devotion",
+            "text": "You can select one friendly Skitarii or THULIA GHULD unit within 6\" of this model; until the start of your next Command phase, that unit is eligible to shoot and declare a charge in a turn in which it Advanced."
+          },
+          {
+            "name": "Adaptive Tactics",
+            "text": "You can select one friendly Skitarii or THULIA GHULD unit within 6\" of this model; until the start of your next Command phase, that unit is eligible to shoot and declare a charge in a turn in which it Fell Back."
+          },
+          {
+            "name": "The Fires of Mars",
+            "text": "You can select one friendly Skitarii or THULIA GHULD unit within 6\" of this model; until the start of your next Command phase, the Conqueror Imperative and Protector Imperative are both active for that unit."
+          }
+        ]
+      }
+    ]
   }
 ]

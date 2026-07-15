@@ -2486,7 +2486,7 @@ export default [
     "abilities": [
       {
         "name": "Unearthly Power",
-        "text": "At the start of the battle round, select one of the abilities in the Crimson King section (see left). Until the start of the next battle round, this model has that ability."
+        "text": "At the start of the battle round, select one of the abilities in the Crimson King section (see below). Until the start of the next battle round, this model has that ability."
       },
       {
         "name": "Lord of the Planet of the Sorcerers (Psychic)",
@@ -2494,18 +2494,6 @@ export default [
       }
     ],
     "specialAbilities": [
-      {
-        "name": "Impossible Form (Psychic)",
-        "text": "Each time an attack is made against this PSYKER (excluding Psychic Attacks), subtract 1 from the Damage characteristic of that attack."
-      },
-      {
-        "name": "Treason of Tzeentch (Psychic)",
-        "text": "At the start of your opponent’s Shooting phase, select one enemy unit within 24\" of this PSYKER. Until the end of the phase, ranged weapons equipped by models in that unit have the [HAZARDOUS] ability."
-      },
-      {
-        "name": "Time Flux (Aura, Psychic)",
-        "text": "While a friendly Thousand Sons unit is within 6\" of this PSYKER, add 2\" to the Move characteristic of models in that unit."
-      },
       {
         "name": "SUPREME COMMANDER",
         "text": "If this model is in your army, it must be your WARLORD."
@@ -2535,7 +2523,26 @@ export default [
       "Thousand Sons",
       ""
     ],
-    "baseSize": "100mm"
+    "baseSize": "100mm",
+    "abilitySets": [
+      {
+        "name": "Unearthly Power",
+        "options": [
+          {
+            "name": "Impossible Form (Psychic)",
+            "text": "Each time an attack is made against this PSYKER (excluding Psychic Attacks), subtract 1 from the Damage characteristic of that attack."
+          },
+          {
+            "name": "Treason of Tzeentch (Psychic)",
+            "text": "At the start of your opponent’s Shooting phase, select one enemy unit within 24\" of this PSYKER. Until the end of the phase, ranged weapons equipped by models in that unit have the [HAZARDOUS] ability."
+          },
+          {
+            "name": "Time Flux (Aura, Psychic)",
+            "text": "While a friendly Thousand Sons unit is within 6\" of this PSYKER, add 2\" to the Move characteristic of models in that unit."
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "maulerfiend",
@@ -2874,12 +2881,6 @@ export default [
         "text": "Add 1 to Charge rolls made for the bearer’s unit."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "HORRORS ARE PINK. HORRORS ARE BLUE. WHEREONCE THERE WAS ONE, NOW THERE ARE TWO.",
-        "text": "If, at any point, this unit contains no PINK HORROR models, use the BLUE HORRORS datasheet for this unit.\n\n**Designer’s Note:** While this unit contains one or more PINK HORROR models, the Sullen Malevolence and Exploding Horrors abilities from the BLUE HORRORS datasheet do not apply to this unit."
-      }
-    ],
     "composition": [
       "10 Pink Horrors"
     ],
@@ -2903,6 +2904,12 @@ export default [
     "factionKeywords": [
       "Scintillating Legions",
       ""
+    ],
+    "rules": [
+      {
+        "name": "HORRORS ARE PINK. HORRORS ARE BLUE. WHEREONCE THERE WAS ONE, NOW THERE ARE TWO.",
+        "text": "If, at any point, this unit contains no PINK HORROR models, use the BLUE HORRORS datasheet for this unit.\n\n**Designer’s Note:** While this unit contains one or more PINK HORROR models, the Sullen Malevolence and Exploding Horrors abilities from the BLUE HORRORS datasheet do not apply to this unit."
+      }
     ]
   },
   {

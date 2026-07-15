@@ -3426,12 +3426,6 @@ export default [
         "text": "While a CHARACTER model is leading this unit, each time an attack targets this unit, subtract 1 from the Wound roll."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "COMPANY HEROES",
-        "text": "You must attach one CAPTAIN or CHAPTER MASTER model to this unit. If this is not possible, this unit does not take part in the battle and counts as having been destroyed."
-      }
-    ],
     "composition": [
       "1 Ancient",
       "1 Company Champion",
@@ -3449,7 +3443,13 @@ export default [
     "factionKeywords": [
       "Adeptus Astartes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "COMPANY HEROES",
+        "text": "You must attach one CAPTAIN or CHAPTER MASTER model to this unit. If this is not possible, this unit does not take part in the battle and counts as having been destroyed."
+      }
+    ]
   },
   {
     "id": "deathwing-knights",
@@ -3543,12 +3543,6 @@ export default [
         "text": "Once per battle, in any phase, just after a mortal wound is allocated to an ADEPTUS ASTARTES model in this unit, this unit can summon a Watcher in the Dark. When it does, until the end of the phase, models in this unit have the Feel No Pain 4+ ability against mortal wounds.\n\n**Designer’s Note:** Place a Watcher in the Dark token next to the unit, removing it when this ability has been used."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "ATTACHED UNIT",
-        "text": "If a Character unit from your army with the Leader ability can be attached to a Terminator Squad, it can be attached to this unit instead."
-      }
-    ],
     "composition": [
       "1 Knight Master",
       "4 Deathwing Knights"
@@ -3570,7 +3564,13 @@ export default [
       "Dark Angels",
       "Adeptus Astartes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Character unit from your army with the Leader ability can be attached to a Terminator Squad, it can be attached to this unit instead."
+      }
+    ]
   },
   {
     "id": "deathwing-terminator-squad",
@@ -3733,12 +3733,6 @@ export default [
         "text": "Once per battle, in any phase, just after a mortal wound is allocated to an ADEPTUS ASTARTES model in this unit, this unit can summon a Watcher in the Dark. When it does, until the end of the phase, models in this unit have the Feel No Pain 4+ ability against mortal wounds.\n\n**Designer’s Note:** Place a Watcher in the Dark token next to the unit, removing it when this ability has been used."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "ATTACHED UNIT",
-        "text": "If a Character unit from your army with the Leader ability can be attached to a Terminator Squad, it can be attached to this unit instead."
-      }
-    ],
     "composition": [
       "1 Deathwing Sergeant",
       "4-9 Deathwing Terminators"
@@ -3760,7 +3754,13 @@ export default [
       "Dark Angels",
       "Adeptus Astartes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Character unit from your army with the Leader ability can be attached to a Terminator Squad, it can be attached to this unit instead."
+      }
+    ]
   },
   {
     "id": "desolation-squad",
@@ -6388,12 +6388,6 @@ export default [
         "text": "Each time a model in this unit makes an attack that targets a CHARACTER unit, add 1 to the Hit roll."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "Attached Unit",
-        "text": "If a Character unit from your army with the Leader ability can be attached to a Sternguard Veteran Squad, it can be attached to this unit instead."
-      }
-    ],
     "composition": [
       "3-6 Inner Circle Companions"
     ],
@@ -6409,7 +6403,13 @@ export default [
       "Dark Angels",
       "Adeptus Astartes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "Attached Unit",
+        "text": "If a Character unit from your army with the Leader ability can be attached to a Sternguard Veteran Squad, it can be attached to this unit instead."
+      }
+    ]
   },
   {
     "id": "intercessor-squad",
@@ -8489,12 +8489,6 @@ export default [
         "text": "Once per turn, when an enemy unit ends a Normal, Advance or Fall Back move within 9\" of this unit, if this unit is not within Engagement Range of one or more enemy units, it can make a Normal move."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "LAST SURVIVOR",
-        "text": "This model cannot be selected as your Warlord."
-      }
-    ],
     "composition": [
       "1 Lieutenant with Combi-weapon"
     ],
@@ -8511,7 +8505,13 @@ export default [
     "factionKeywords": [
       "Adeptus Astartes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "LAST SURVIVOR",
+        "text": "This model cannot be selected as your Warlord."
+      }
+    ]
   },
   {
     "id": "lion-eljonson",
@@ -8603,10 +8603,6 @@ export default [
     ],
     "specialAbilities": [
       {
-        "name": "SUPREME COMMANDER",
-        "text": "If this model is in your army, it must be your Warlord."
-      },
-      {
         "name": "Mist-wreathed Shadow Realms",
         "text": "In your Command phase, if this unit is not within Engagement Range of one or more enemy units, you can remove it from the battlefield and place it into Strategic Reserves."
       },
@@ -8638,7 +8634,13 @@ export default [
       "Adeptus Astartes",
       "Dark Angels"
     ],
-    "baseSize": "60mm"
+    "baseSize": "60mm",
+    "rules": [
+      {
+        "name": "SUPREME COMMANDER",
+        "text": "If this model is in your army, it must be your Warlord."
+      }
+    ]
   },
   {
     "id": "nephilim-jetfighter",
@@ -9282,12 +9284,6 @@ export default [
         "text": "Each time this unit is selected to fight, if it made a Charge move this turn, until the end of the phase, melee weapons equipped by models in this unit have the [ANTI-MONSTER 4+] and [ANTI-VEHICLE 4+] abilities."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "ATTACHED UNIT",
-        "text": "If a Character unit from your army with the Leader ability can be attached to an Outrider Squad, it can be attached to this unit instead."
-      }
-    ],
     "composition": [
       "1 Ravenwing Huntmaster",
       "2-5 Ravenwing Black Knights"
@@ -9307,7 +9303,13 @@ export default [
       "Adeptus Astartes",
       "Dark Angels"
     ],
-    "baseSize": "75x42mm Oval Base"
+    "baseSize": "75x42mm Oval Base",
+    "rules": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Character unit from your army with the Leader ability can be attached to an Outrider Squad, it can be attached to this unit instead."
+      }
+    ]
   },
   {
     "id": "ravenwing-command-squad",

@@ -1141,18 +1141,6 @@ export default [
     ],
     "specialAbilities": [
       {
-        "name": "Beguiling Form",
-        "text": "Each time a model makes an attack that targets this model, subtract 1 from the Hit roll."
-      },
-      {
-        "name": "Daemonic Speed",
-        "text": "This model has the Fights First ability."
-      },
-      {
-        "name": "Enthralling Hypnosis (Aura)",
-        "text": "While an enemy unit is within 6\" of this model, each time that unit is selected to Fall Back, it must take a Leadership test. If that test is failed, that unit must Remain Stationary this phase instead."
-      },
-      {
         "name": "SUPREME COMMANDER",
         "text": "If this model is in your army, it must be your WARLORD."
       }
@@ -1180,7 +1168,26 @@ export default [
       "",
       "Emperor’s Children"
     ],
-    "baseSize": "130mm"
+    "baseSize": "130mm",
+    "abilitySets": [
+      {
+        "name": "Daemon Primarch of Slaanesh",
+        "options": [
+          {
+            "name": "Beguiling Form",
+            "text": "Each time a model makes an attack that targets this model, subtract 1 from the Hit roll."
+          },
+          {
+            "name": "Daemonic Speed",
+            "text": "This model has the Fights First ability."
+          },
+          {
+            "name": "Enthralling Hypnosis (Aura)",
+            "text": "While an enemy unit is within 6\" of this model, each time that unit is selected to Fall Back, it must take a Leadership test. If that test is failed, that unit must Remain Stationary this phase instead."
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "heldrake",

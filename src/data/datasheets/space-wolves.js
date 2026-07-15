@@ -3239,12 +3239,6 @@ export default [
         "text": "While a CHARACTER model is leading this unit, each time an attack targets this unit, subtract 1 from the Wound roll."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "COMPANY HEROES",
-        "text": "You must attach one CAPTAIN or CHAPTER MASTER model to this unit. If this is not possible, this unit does not take part in the battle and counts as having been destroyed."
-      }
-    ],
     "composition": [
       "1 Ancient",
       "1 Company Champion",
@@ -3262,7 +3256,13 @@ export default [
     "factionKeywords": [
       "Adeptus Astartes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "COMPANY HEROES",
+        "text": "You must attach one CAPTAIN or CHAPTER MASTER model to this unit. If this is not possible, this unit does not take part in the battle and counts as having been destroyed."
+      }
+    ]
   },
   {
     "id": "desolation-squad",
@@ -7519,12 +7519,6 @@ export default [
         "text": "Once per turn, when an enemy unit ends a Normal, Advance or Fall Back move within 9\" of this unit, if this unit is not within Engagement Range of one or more enemy units, it can make a Normal move."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "LAST SURVIVOR",
-        "text": "This model cannot be selected as your Warlord."
-      }
-    ],
     "composition": [
       "1 Lieutenant with Combi-weapon"
     ],
@@ -7541,7 +7535,13 @@ export default [
     "factionKeywords": [
       "Adeptus Astartes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "LAST SURVIVOR",
+        "text": "This model cannot be selected as your Warlord."
+      }
+    ]
   },
   {
     "id": "logan-grimnar",

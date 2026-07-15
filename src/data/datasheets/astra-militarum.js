@@ -53,12 +53,6 @@ export default [
         "text": "While an enemy unit is only within Engagement Range of one or more FORTIFICATIONS from your army:\n▪ That unit can still be selected as the target of ranged attacks, but each time such an attack is made, unless it is made with a Pistol, subtract 1 from the Hit roll.\n▪ Models in that unit do not need to take Desperate Escape tests due to Falling Back while Battle-shocked, except for those that will move over enemy models when doing so."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "DEPLOYMENT",
-        "text": "When this model is set up, it will consist of 1 platform section, up to 5 shield sections, up to 2 broken shield sections, and up to 2 end sections. All sections must be connected to each other to form a continuous defence line; the two broken shield sections can be placed either at the end of the defence line, or in the middle of it such that both are within 1/2\" of each other (in this case, these two sections count as being connected to each other). All the sections that have been set up are then treated as a single model for all rules purposes."
-      }
-    ],
     "composition": [
       "1 Aegis Defence Line"
     ],
@@ -73,7 +67,13 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
-    "baseSize": "Hull"
+    "baseSize": "Hull",
+    "rules": [
+      {
+        "name": "DEPLOYMENT",
+        "text": "When this model is set up, it will consist of 1 platform section, up to 5 shield sections, up to 2 broken shield sections, and up to 2 end sections. All sections must be connected to each other to form a continuous defence line; the two broken shield sections can be placed either at the end of the defence line, or in the middle of it such that both are within 1/2\" of each other (in this case, these two sections count as being connected to each other). All the sections that have been set up are then treated as a single model for all rules purposes."
+      }
+    ]
   },
   {
     "id": "armoured-sentinels",
@@ -1393,12 +1393,6 @@ export default [
         "text": "While this model is leading a unit, that unit is eligible to shoot in a turn in which it Fell Back."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "ORDERS",
-        "text": "This OFFICER can issue 2 Orders to Regiment units."
-      }
-    ],
     "composition": [
       "1 Cadian Castellan"
     ],
@@ -1425,7 +1419,13 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
-    "baseSize": "28.5mm"
+    "baseSize": "28.5mm",
+    "rules": [
+      {
+        "name": "ORDERS",
+        "text": "This OFFICER can issue 2 Orders to Regiment units."
+      }
+    ]
   },
   {
     "id": "cadian-command-squad",
@@ -1654,12 +1654,6 @@ export default [
         "text": "Add 1 to the Objective Control characteristic of models in the bearer’s unit."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "ORDERS",
-        "text": "This unit’s OFFICER can issue 1 Order to a Regiment unit."
-      }
-    ],
     "composition": [
       "1 Cadian Commander",
       "4 Cadian Veteran Guardsmen"
@@ -1690,6 +1684,12 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
+    ],
+    "rules": [
+      {
+        "name": "ORDERS",
+        "text": "This unit’s OFFICER can issue 1 Order to a Regiment unit."
+      }
     ]
   },
   {
@@ -1820,12 +1820,6 @@ export default [
         "text": "Each time you target this unit with the Fire Overwatch Stratagem, while resolving that Stratagem, hits are scored on unmodified Hit rolls of 5+, or on unmodified Hit rolls of 4+ instead if this unit is within 6\" of one or more friendly Platoon units."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "EMBARKING",
-        "text": "While embarked within a Transport, each model takes up the space of 2 models, and each weapon equipped by these models is considered to be 2 models’ weapons for the purposes of the Firing Deck ability."
-      }
-    ],
     "composition": [
       "3 Heavy Weapons Teams"
     ],
@@ -1843,7 +1837,13 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
-    "baseSize": "50mm"
+    "baseSize": "50mm",
+    "rules": [
+      {
+        "name": "EMBARKING",
+        "text": "While embarked within a Transport, each model takes up the space of 2 models, and each weapon equipped by these models is considered to be 2 models’ weapons for the purposes of the Firing Deck ability."
+      }
+    ]
   },
   {
     "id": "cadian-recon-squad",
@@ -2503,12 +2503,6 @@ export default [
         "text": "Add 1 to the Objective Control characteristic of models in the bearer’s unit."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "ORDERS",
-        "text": "This unit’s OFFICER can issue 1 Order to a Regiment unit."
-      }
-    ],
     "composition": [
       "1 Catachan Commander",
       "4 Veteran Guardsmen"
@@ -2542,6 +2536,12 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
+    ],
+    "rules": [
+      {
+        "name": "ORDERS",
+        "text": "This unit’s OFFICER can issue 1 Order to a Regiment unit."
+      }
     ]
   },
   {
@@ -2673,12 +2673,6 @@ export default [
         "text": "Each time a model in this unit makes a ranged attack that targets a MONSTER of VEHICLE unit, re-roll a Hit roll of 1 and re-roll a Wound roll of 1."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "EMBARKING",
-        "text": "While embarked within a Transport, each model takes up the space of 2 models, and each weapon equipped by these models is considered to be 2 models’ weapons for the purposes of the Firing Deck ability."
-      }
-    ],
     "composition": [
       "3 Heavy Weapons Teams"
     ],
@@ -2696,7 +2690,13 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
-    "baseSize": "60mm"
+    "baseSize": "60mm",
+    "rules": [
+      {
+        "name": "EMBARKING",
+        "text": "While embarked within a Transport, each model takes up the space of 2 models, and each weapon equipped by these models is considered to be 2 models’ weapons for the purposes of the Firing Deck ability."
+      }
+    ]
   },
   {
     "id": "catachan-jungle-fighters",
@@ -3486,18 +3486,6 @@ export default [
       {
         "name": "ORDERS",
         "text": "This OFFICER can issue up to 2 Orders to Regiment, Squadron or Titanic units."
-      },
-      {
-        "name": "Counterstrategist",
-        "text": "At the end of your opponent’s Movement phase, you can select one enemy unit that was set up or ended a move within 9\" of this model, and one friendly Regiment unit within 6\" of and visible to this model that has not made a Normal move or been targeted with the Fire Overwatch Stratagem this phase. That REGIMENT unit can then either:\n▪ Make a Normal move of up to D6\".\n▪ Shoot at that enemy unit, but only if it is an eligible target. Until the end of the phase, each time a model in that unit makes a ranged attack, an unmodified Hit roll of 6 is required to score a hit, irrespective of the attacking weapon’s Ballistic Skill or any modifiers.\n▪ Make a Surge move. To do so, roll one D6: models in that unit move a number of inches up to the result, but that unit must end that move as close as possible to the closest enemy unit (excluding AIRCRAFT). When doing so, those models can be moved within %000015002Engageme"
-      },
-      {
-        "name": "Decisive Command",
-        "text": "The next Order issued by this model can be issued to one eligible friendly unit within 12\" of this model; if this is the first Order issued by a unit from your army this Command phase, that Order affects not only that eligible unit, but every other eligible friendly unit within 6\" of that eligible unit."
-      },
-      {
-        "name": "Inspiring Hero (Aura)",
-        "text": "While a friendly ASTRA MILITARUM unit is within 6\" of this model, you can re-roll Battle-shock and Leadership tests taken for that unit."
       }
     ],
     "composition": [
@@ -3529,7 +3517,26 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
-    "baseSize": "32mm"
+    "baseSize": "32mm",
+    "abilitySets": [
+      {
+        "name": "Hero of Hades Hive",
+        "options": [
+          {
+            "name": "Counterstrategist",
+            "text": "At the end of your opponent’s Movement phase, you can select one enemy unit that was set up or ended a move within 9\" of this model, and one friendly Regiment unit within 6\" of and visible to this model that has not made a Normal move or been targeted with the Fire Overwatch Stratagem this phase. That REGIMENT unit can then either:\n▪ Make a Normal move of up to D6\".\n▪ Shoot at that enemy unit, but only if it is an eligible target. Until the end of the phase, each time a model in that unit makes a ranged attack, an unmodified Hit roll of 6 is required to score a hit, irrespective of the attacking weapon’s Ballistic Skill or any modifiers.\n▪ Make a Surge move. To do so, roll one D6: models in that unit move a number of inches up to the result, but that unit must end that move as close as possible to the closest enemy unit (excluding AIRCRAFT). When doing so, those models can be moved within %000015002Engageme"
+          },
+          {
+            "name": "Decisive Command",
+            "text": "The next Order issued by this model can be issued to one eligible friendly unit within 12\" of this model; if this is the first Order issued by a unit from your army this Command phase, that Order affects not only that eligible unit, but every other eligible friendly unit within 6\" of that eligible unit."
+          },
+          {
+            "name": "Inspiring Hero (Aura)",
+            "text": "While a friendly ASTRA MILITARUM unit is within 6\" of this model, you can re-roll Battle-shock and Leadership tests taken for that unit."
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "cyclops-demolition-vehicle",
@@ -3581,12 +3588,6 @@ export default [
         "text": "When rolling for this model’s Deadly Demise ability, units within 6\" suffer mortal wounds on a 4+, instead of on a 6."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "COMPACT",
-        "text": "This model can embark within an Astra Militarum Transport model as if it were an Infantry model. If it does, it takes up the space of 7 models."
-      }
-    ],
     "composition": [
       "1 Cyclops Demolition Vehicle"
     ],
@@ -3602,7 +3603,13 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
-    "baseSize": "Hull"
+    "baseSize": "Hull",
+    "rules": [
+      {
+        "name": "COMPACT",
+        "text": "This model can embark within an Astra Militarum Transport model as if it were an Infantry model. If it does, it takes up the space of 7 models."
+      }
+    ]
   },
   {
     "id": "death-korps-of-krieg",
@@ -4482,12 +4489,6 @@ export default [
         "text": "At the end of your opponent’s turn, if this unit is not within Engagement Range of one or more enemy units, you can remove this unit from the battlefield. In the Reinforcements step of your next Movement phase, set it up anywhere on the battlefield that is more than 9\" horizontally away from all enemy models."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "ORDERS",
-        "text": "This unit’s OFFICER can issue up to 2 Orders to Regiment or GAUNT’S GHOSTS units."
-      }
-    ],
     "composition": [
       "1 Ibram Gaunt",
       "5 Tanith Ghosts"
@@ -4504,6 +4505,12 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
+    ],
+    "rules": [
+      {
+        "name": "ORDERS",
+        "text": "This unit’s OFFICER can issue up to 2 Orders to Regiment or GAUNT’S GHOSTS units."
+      }
     ]
   },
   {
@@ -5791,12 +5798,6 @@ export default [
         "text": "Once per battle, when issuing an Order, the Lord Commissar can issue one additional Order.\n\n**Designer’s Note:** Place a Servo-scribes token next to the unit, removing it when this ability has been used."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "ORDERS",
-        "text": "This unit’s OFFICER can issue 1 Order to a Regiment unit."
-      }
-    ],
     "composition": [
       "1 Lord Commissar",
       "5 Veteran Guardsmen"
@@ -5828,6 +5829,12 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
+    ],
+    "rules": [
+      {
+        "name": "ORDERS",
+        "text": "This unit’s OFFICER can issue 1 Order to a Regiment unit."
+      }
     ]
   },
   {
@@ -5932,12 +5939,6 @@ export default [
         "text": "While the Fire Coordinator model is on the battlefield, each time a Heavy Weapons Gunner model is destroyed, roll one D6: on a 3+, do not remove it from play. The destroyed model can shoot after the attacking model’s unit has finished making its attacks, and is then removed from play."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "EMBARKING",
-        "text": "While embarked within a Transport, each Heavy Weapons Gunner model takes up the space of 2 models, and each weapon equipped by these models is considered to be 2 models’ weapons for the purposes of the Firing Deck ability."
-      }
-    ],
     "composition": [
       "3 Heavy Weapons Gunners",
       "1 Fire Coordinator"
@@ -5955,6 +5956,12 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
+    ],
+    "rules": [
+      {
+        "name": "EMBARKING",
+        "text": "While embarked within a Transport, each Heavy Weapons Gunner model takes up the space of 2 models, and each weapon equipped by these models is considered to be 2 models’ weapons for the purposes of the Firing Deck ability."
+      }
     ]
   },
   {
@@ -6382,12 +6389,6 @@ export default [
         "text": "When this model is destroyed, roll one D6: on a 2+, do not remove it from play - it can, after the attacking model’s unit has finished making its attacks, shoot as if it were your Shooting phase and as if it had its full wounds remaining. This model is then removed from play."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "ORDERS",
-        "text": "This OFFICER can issue up to 2 Orders to Squadron units."
-      }
-    ],
     "damaged": {
       "note": "1-4 wounds remaining",
       "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
@@ -6415,7 +6416,13 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
-    "baseSize": "Hull"
+    "baseSize": "Hull",
+    "rules": [
+      {
+        "name": "ORDERS",
+        "text": "This OFFICER can issue up to 2 Orders to Squadron units."
+      }
+    ]
   },
   {
     "id": "leman-russ-demolisher",
@@ -7660,12 +7667,6 @@ export default [
         "text": "Each time this model’s unit makes a Charge move, until the end of the turn, melee weapons equipped by models in that unit have the [DEVASTATING WOUNDS] ability."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "ORDERS",
-        "text": "This OFFICER can issue up to 3 Orders to Regiment units."
-      }
-    ],
     "composition": [
       "1 Lord Marshal Dreir – EPIC HERO"
     ],
@@ -7688,7 +7689,13 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
-    "baseSize": "75x42mm Oval Base"
+    "baseSize": "75x42mm Oval Base",
+    "rules": [
+      {
+        "name": "ORDERS",
+        "text": "This OFFICER can issue up to 3 Orders to Regiment units."
+      }
+    ]
   },
   {
     "id": "lord-solar-leontus",
@@ -7760,16 +7767,6 @@ export default [
         "text": "After both players have deployed their armies, select up to three ASTRA MILITARUM units from your army and redeploy them. When doing so, you can set those units up in Strategic Reserves if you wish, regardless of how many units are already in Strategic Reserves."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "SUPREME COMMANDER",
-        "text": "If this model is in your army, it must be your WARLORD."
-      },
-      {
-        "name": "ORDERS",
-        "text": "This OFFICER can issue up to 3 Orders to:\n▪ Regiment units\n▪ Squadron units\n▪ Titanic units"
-      }
-    ],
     "composition": [
       "1 Lord Solar Leontus – EPIC HERO"
     ],
@@ -7797,7 +7794,17 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
-    "baseSize": "80mm"
+    "baseSize": "80mm",
+    "rules": [
+      {
+        "name": "SUPREME COMMANDER",
+        "text": "If this model is in your army, it must be your WARLORD."
+      },
+      {
+        "name": "ORDERS",
+        "text": "This OFFICER can issue up to 3 Orders to:\n▪ Regiment units\n▪ Squadron units\n▪ Titanic units"
+      }
+    ]
   },
   {
     "id": "manticore",
@@ -8153,12 +8160,6 @@ export default [
         "text": "Each time the OFFICER in the bearer’s unit issues an Order, it can issue it to an eligible unit up to 24\" away."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "ORDERS",
-        "text": "This unit’s OFFICER can issue 1 Order to a Regiment unit."
-      }
-    ],
     "composition": [
       "1 Tempestor Prime",
       "4 Tempestus Scions"
@@ -8189,6 +8190,12 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
+    ],
+    "rules": [
+      {
+        "name": "ORDERS",
+        "text": "This unit’s OFFICER can issue 1 Order to a Regiment unit."
+      }
     ]
   },
   {
@@ -9129,12 +9136,6 @@ export default [
         "text": "Each time this model is selected to shoot, you can re-roll one Hit roll, you can re-roll one Wound roll and you can re-roll one Damage roll when resolving its attacks."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "ORDERS",
-        "text": "This OFFICER can issue up to 2 Orders to Squadron units."
-      }
-    ],
     "damaged": {
       "note": "1-6 wounds remaining",
       "text": "While this model has 1-6 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
@@ -9161,7 +9162,13 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
-    "baseSize": "Hull"
+    "baseSize": "Hull",
+    "rules": [
+      {
+        "name": "ORDERS",
+        "text": "This OFFICER can issue up to 2 Orders to Squadron units."
+      }
+    ]
   },
   {
     "id": "scout-sentinels",
@@ -9528,12 +9535,6 @@ export default [
         "text": "In your Shooting phase, after this model has shot, if it is not within Engagement Range of one or more enemy units, it can make a Normal move. If it does, until the end of the turn, this model is not eligible to declare a charge."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "LONER",
-        "text": "This model cannot be selected as your WARLORD."
-      }
-    ],
     "composition": [
       "1 Sly Marbo – EPIC HERO"
     ],
@@ -9550,7 +9551,13 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
-    "baseSize": "32mm"
+    "baseSize": "32mm",
+    "rules": [
+      {
+        "name": "LONER",
+        "text": "This model cannot be selected as your WARLORD."
+      }
+    ]
   },
   {
     "id": "stormlord",
@@ -10690,12 +10697,6 @@ export default [
         "text": "Once per battle round, one friendly Regiment unit within 12\" of this model can be targeted with a Stratagem. If it does, reduce the CP cost of that use of that Stratagem by 1CP."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "ORDERS",
-        "text": "This OFFICER can issue up to 3 Orders to Regiment units."
-      }
-    ],
     "composition": [
       "1 Ursula Creed – EPIC HERO"
     ],
@@ -10718,7 +10719,13 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
-    "baseSize": "32mm"
+    "baseSize": "32mm",
+    "rules": [
+      {
+        "name": "ORDERS",
+        "text": "This OFFICER can issue up to 3 Orders to Regiment units."
+      }
+    ]
   },
   {
     "id": "valkyrie",

@@ -407,6 +407,13 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
       fullText: `This ability always takes the form **Damaged X**. While a model's remaining wounds are equal to or less than **X**, that model is **[gloss:damaged:damaged]**:
 ▪ While a model is **damaged**, that model's attacks have -1 to **[gloss:hit-roll:hit rolls]**.`,
     },
+    {
+      num: '',
+      name: '[BUBBLECHUKKA]',
+      type: 'weapon',
+      flavor: 'Bubblechukkas fire unstable pockets of force whose size and density are anyone’s guess.',
+      fullText: `This ability is unique to the bubblechukka. Before selecting targets for one or more models equipped with a **[BUBBLECHUKKA]** weapon, roll one D6 to determine which profile those models make attacks with: **1-2** big bubble; **3-4** wobbly bubble; **5-6** dense bubble.`,
+    },
   ],
   ru: [
     {
@@ -663,6 +670,10 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
       // 24.39 Damaged
       fullText: `Эта способность всегда имеет вид **Damaged X**. Пока оставшиеся раны модели равны или меньше **X**, эта модель **[gloss:damaged:повреждена]**:
 ▪ Пока модель **повреждена**, атаки этой модели имеют -1 к **[gloss:hit-roll:броску на попадание]**.`,
+    },
+    {
+      // [BUBBLECHUKKA]
+      fullText: `Эта способность уникальна для «баблчукки». Прежде чем выбрать цели для одной или нескольких моделей с оружием **[BUBBLECHUKKA]**, бросьте один D6, чтобы определить, каким профилем эти модели совершают атаки: **1-2** big bubble; **3-4** wobbly bubble; **5-6** dense bubble.`,
     },
   ],
 }
