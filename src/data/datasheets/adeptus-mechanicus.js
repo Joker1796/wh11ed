@@ -541,7 +541,7 @@ export default [
         "d": "2"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Doctrina Imperatives",
     "abilities": [
       {
@@ -1825,7 +1825,7 @@ export default [
     "abilities": [
       {
         "name": "Tactica Obliqua",
-        "text": "Once per turn, when an enemy unit ends a Normal, Advance or Fall Back move within 9\" of this unit, if this unit is not within Engagement Range of one or more enemy units, it can do one of the following:\n▪ Make a Normal move of up to D6\".\n▪ Make a Normal move of up to 6\", provided every model in this unit ends that move wholly within 6\" of one or more friendly Adeptus Mechanicus Battleline units."
+        "text": "In your opponent's Movement phase, if an enemy unit ends a move within 8\" of this unit, if this unit is not within Engagement Range of one or more enemy units, it can do one of the following:\n▪ Make a Normal move of up to D6\".\n▪ Make a Normal move of up to 6\", provided every model in this unit ends that move wholly within 6\" of one or more friendly Adeptus Mechanicus Battleline units."
       }
     ],
     "wargearAbilities": [
@@ -2423,7 +2423,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Doctrina Imperatives",
     "abilities": [
       {
@@ -2891,7 +2891,8 @@ export default [
       "Smoke",
       "Vehicle",
       "Imperium",
-      "Skorpius Disintegrator"
+      "Skorpius Disintegrator",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
@@ -2970,7 +2971,8 @@ export default [
       "Imperium",
       "Skitarii",
       "Smoke",
-      "Skorpius Dunerider"
+      "Skorpius Dunerider",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Mechanicus"
@@ -3684,7 +3686,7 @@ export default [
         "d": "2"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Doctrina Imperatives",
     "abilities": [
       {
