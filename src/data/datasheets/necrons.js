@@ -4291,7 +4291,7 @@ export default [
       "text": "While this unit’s Szarekh model has 1-6 wounds remaining, halve the Attacks characteristic of that model’s weapons, and each time this unit makes an attack, subtract 1 from the Hit roll."
     },
     "composition": [
-      "1 Szarekh – CHARACTER, EPIC HERO",
+      "1 Szarekh – CHARACTER",
       "2 Triarchal Menhirs"
     ],
     "loadout": "**Szarekh is equipped with:** Sceptre of Eternal Glory; Staff of Stars; Weapons of the Final Triarch.\n\n**Every Triarchal Menhir is equipped with:** annihilator beam; armoured bulk.",
