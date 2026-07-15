@@ -464,7 +464,8 @@ export default [
       "Smoke",
       "Nurgle",
       "Land Raider",
-      "Transport"
+      "Transport",
+      "Frame"
     ],
     "factionKeywords": [
       "",
@@ -612,7 +613,8 @@ export default [
       "Vehicle",
       "Smoke",
       "Chaos",
-      "Nurgle"
+      "Nurgle",
+      "Frame"
     ],
     "factionKeywords": [
       "",
@@ -761,7 +763,8 @@ export default [
       "Nurgle",
       "Chaos",
       "Smoke",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "",
@@ -866,7 +869,8 @@ export default [
       "Dedicated Transport",
       "Rhino",
       "Vehicle",
-      "Transport"
+      "Transport",
+      "Frame"
     ],
     "factionKeywords": [
       "",
@@ -1203,7 +1207,7 @@ export default [
       },
       {
         "name": "Death Approaches",
-        "text": "In your Movement phase, when this unit is set up on the battlefield using the Deep Strike ability, it can be set up anywhere on the battlefield that is more than 6\" horizontally away from all Afflicted enemy units, and more than 9\" horizontally away from all other enemy units."
+        "text": "Each time this unit is set up on the battlefield using the Deep Strike ability, it can be set up anywhere on the battlefield that is more than 6\" horizontally away from all Afflicted enemy units, and more than 8\" horizontally away from all other enemy units."
       }
     ],
     "wargearAbilities": [
@@ -2608,7 +2612,8 @@ export default [
       "Fortification",
       "Miasmic Malignifier",
       "Nurgle",
-      "Chaos"
+      "Chaos",
+      "Frame"
     ],
     "factionKeywords": [
       "Death Guard",
@@ -3684,7 +3689,8 @@ export default [
       "Chaos",
       "Nurgle",
       "Daemon",
-      "Plagueburst Crawler"
+      "Plagueburst Crawler",
+      "Frame"
     ],
     "factionKeywords": [
       "Death Guard",
