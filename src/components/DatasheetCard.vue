@@ -584,6 +584,9 @@ function statCells(p) {
   border-radius: 4px;
   overflow: hidden;
   background: color-mix(in srgb, var(--accent) 8%, transparent);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--text-primary);
 }
 .ds-ability-group > .ds-group-title {
   margin: 0;
