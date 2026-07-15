@@ -410,7 +410,8 @@ export default [
       "Smoke",
       "Transport",
       "Rhino",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Custodes"
@@ -2319,7 +2320,8 @@ export default [
       "Mounted",
       "Dawneagle Jetbike",
       "Fly",
-      "Shield-Captain"
+      "Shield-Captain",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Custodes"
@@ -2962,7 +2964,8 @@ export default [
       "Transport",
       "Smoke",
       "Venerable Land Raider",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Custodes"
@@ -3057,7 +3060,8 @@ export default [
       "Vertus Praetors",
       "Imperium",
       "Mounted",
-      "Fly"
+      "Fly",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Custodes"
