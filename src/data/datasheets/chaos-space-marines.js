@@ -76,6 +76,10 @@ export default [
     ],
     "specialAbilities": [
       {
+        "name": "SUPREME COMMANDER",
+        "text": "If this model is in your army, it must be your Warlord."
+      },
+      {
         "name": "Paragon of Hatred (Aura)",
         "text": "While a friendly HERETIC ASTARTES unit is within 6\" (excluding DAMNED units) of this model, each time a model in that unit makes an attack, you can re-roll the Hit roll."
       },
@@ -5404,6 +5408,12 @@ export default [
       {
         "name": "Voice Eater",
         "text": "Enemy units (excluding MONSTERS and VEHICLES) cannot be targeted with Stratagems while they are within Engagement Range of the bearer’s unit."
+      }
+    ],
+    "specialAbilities": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Character unit from your army with the Leader ability (excluding Epic Heroes) can be attached to a Legionaries unit, it can be attached to this unit instead."
       }
     ],
     "composition": [

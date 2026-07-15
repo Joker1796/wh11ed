@@ -1700,6 +1700,12 @@ export default [
         "text": "At the end of your Command phase, for each objective marker you control that has one or more units from your army with this ability within range of it, roll one D6: on a 4+, you gain 1 Miracle dice showing a value equal to that result."
       }
     ],
+    "specialAbilities": [
+      {
+        "name": "Holy Vanguard",
+        "text": "If this unit has a Leader unit attached to it during the Declare Battle Formations step and this unit starts the battle embarked within a TRANSPORT, that Leader unit gains the Scouts 6\" ability."
+      }
+    ],
     "composition": [
       "1 Dominion Superior",
       "9 Dominions"
@@ -2459,6 +2465,12 @@ export default [
         "text": "Once per battle, in the Fight phase, this model can use this ability. If it does, until the end of the phase, improve the Strength and Attacks characteristics of melee weapons equipped by this model by 3."
       }
     ],
+    "specialAbilities": [
+      {
+        "name": "Holy Mission",
+        "text": "If this model is attached to a DOMINION SQUAD during the Declare Battle Formations step, it gains the Scouts 6\" ability. If this model is attached to a SISTERS NOVITIATE SQUAD during the Declare Battle Formations step, it gains the Infiltrators ability."
+      }
+    ],
     "composition": [
       "1 Preacher"
     ],
@@ -2719,6 +2731,12 @@ export default [
       {
         "name": "Righteous Repugnance",
         "text": "Each time this model’s unit is selected to shoot or fight, you can discard 1 Miracle dice. If you do, until the end of the phase, add 3 to the Attacks characteristic of Fidelis and the Lance of Illumination. Each time an enemy unit is destroyed by this model, you gain 1 Miracle dice."
+      }
+    ],
+    "specialAbilities": [
+      {
+        "name": "SUPREME COMMANDER",
+        "text": "If this model is in your army, it must be your Warlord."
       }
     ],
     "composition": [

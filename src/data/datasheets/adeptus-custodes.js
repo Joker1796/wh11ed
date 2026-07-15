@@ -88,6 +88,12 @@ export default [
         "text": "Once per battle, in your Shooting phase, after this unit has shot, if it is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 6\". If it does, until the end of the turn, this unit is not eligible to declare a charge."
       }
     ],
+    "specialAbilities": [
+      {
+        "name": "JETBIKE OUTRIDERS",
+        "text": "If a model from your army with the Leader ability can be attached to a Vertus Praetors unit, it can be attached to this unit instead."
+      }
+    ],
     "composition": [
       "3-6 Agamatus Custodians"
     ],
@@ -506,6 +512,12 @@ export default [
       {
         "name": "From Golden Light",
         "text": "Once per battle, at the end of your opponent’s turn, if this unit is not within Engagement Range of one or more enemy units, you can remove it from the battlefield and place it into Strategic Reserves."
+      }
+    ],
+    "specialAbilities": [
+      {
+        "name": "LIONS OF THE EMPEROR",
+        "text": "If a model from your army with the Leader ability can be attached to an Allarus Custodians unit, it can be attached to this unit instead."
       }
     ],
     "composition": [
@@ -1338,6 +1350,12 @@ export default [
         "text": "Once per battle, at the start of your Shooting phase, this unit can use this ability. If it does, until the end of the phase, ranged weapons equipped by models in this unit have the [LETHAL HITS] and [IGNORES COVER] abilities."
       }
     ],
+    "specialAbilities": [
+      {
+        "name": "CUSTODIAN GUARD",
+        "text": "If an ADEPTUS CUSTODES model from your army with the Leader ability can be attached to a Custodian Guard unit, it can be attached to this unit instead."
+      }
+    ],
     "composition": [
       "5 Custodian Guard with Adrasite and Pyrithite Spears"
     ],
@@ -1912,6 +1930,12 @@ export default [
       {
         "name": "Disintegration Beams",
         "text": "Once per battle, at the start of your Shooting phase, this unit can use this ability. If it does, until the end of the phase, ranged weapons equipped by models in this unit have the [DEVASTATING WOUNDS] ability."
+      }
+    ],
+    "specialAbilities": [
+      {
+        "name": "CUSTODIAN GUARD",
+        "text": "If an ADEPTUS CUSTODES model from your army with the Leader ability can be attached to a Custodian Guard unit, it can be attached to this unit instead."
       }
     ],
     "composition": [
@@ -2492,6 +2516,12 @@ export default [
         "text": "Once per battle, at the start of the Fight phase, you can select one of the following to take effect until the end of the phase:\n▪ This model’s Watcher’s Axe melee weapon has an Attacks characteristic of 12.\n▪ This model has a 2+ invulnerable save."
       }
     ],
+    "specialAbilities": [
+      {
+        "name": "SUPREME COMMANDER",
+        "text": "If this model is in your army, it must be your Warlord."
+      }
+    ],
     "composition": [
       "1 Trajann Valoris – EPIC HERO"
     ],
@@ -2689,6 +2719,12 @@ export default [
       {
         "name": "Tarsis Buckler",
         "text": "The bearer has a Wounds characteristic of 4."
+      }
+    ],
+    "specialAbilities": [
+      {
+        "name": "JUMP PACKS",
+        "text": "This unit cannot embark within a Venerable Land Raider."
       }
     ],
     "composition": [

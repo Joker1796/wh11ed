@@ -2874,6 +2874,12 @@ export default [
         "text": "Add 1 to Charge rolls made for the bearer’s unit."
       }
     ],
+    "specialAbilities": [
+      {
+        "name": "HORRORS ARE PINK. HORRORS ARE BLUE. WHEREONCE THERE WAS ONE, NOW THERE ARE TWO.",
+        "text": "If, at any point, this unit contains no PINK HORROR models, use the BLUE HORRORS datasheet for this unit.\n\n**Designer’s Note:** While this unit contains one or more PINK HORROR models, the Sullen Malevolence and Exploding Horrors abilities from the BLUE HORRORS datasheet do not apply to this unit."
+      }
+    ],
     "composition": [
       "10 Pink Horrors"
     ],

@@ -3103,6 +3103,12 @@ export default [
         "text": "While a CHARACTER model is leading this unit, each time an attack targets this unit, subtract 1 from the Wound roll."
       }
     ],
+    "specialAbilities": [
+      {
+        "name": "COMPANY HEROES",
+        "text": "You must attach one CAPTAIN or CHAPTER MASTER model to this unit. If this is not possible, this unit does not take part in the battle and counts as having been destroyed."
+      }
+    ],
     "composition": [
       "1 Ancient",
       "1 Company Champion",
@@ -3446,6 +3452,12 @@ export default [
         "text": "The bearer has a Wounds characteristic of 4."
       }
     ],
+    "specialAbilities": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Character from your army with the Leader ability can be attached to a Terminator Squad, it can be attached to this unit instead."
+      }
+    ],
     "composition": [
       "1 Deathwatch Terminator Sergeant",
       "4-9 Deathwatch Terminators"
@@ -3648,6 +3660,12 @@ export default [
       {
         "name": "Astartes Shield",
         "text": "The bearer has a 4+ invulnerable save."
+      }
+    ],
+    "specialAbilities": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Character from your army with the Leader ability can be attached to a Sternguard Veteran Squad, it can be attached to this unit instead."
       }
     ],
     "composition": [
@@ -3966,6 +3984,12 @@ export default [
       {
         "name": "Astartes Shield",
         "text": "The bearer has a 4+ invulnerable save."
+      }
+    ],
+    "specialAbilities": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Character from your army with the Leader ability can be attached to an Intercessor Squad, it can be attached to this unit instead."
       }
     ],
     "composition": [
@@ -5055,6 +5079,12 @@ export default [
       {
         "name": "Fortis Doctrines",
         "text": "Each time a model in this unit makes an attack that targets a unit that is below its Starting Strength, add 1 to the Hit roll. If that attack targets a unit that is Below Half-strength, add 1 to the Hit roll and add 1 to the Wound roll instead."
+      }
+    ],
+    "specialAbilities": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Character from your army with the Leader ability can be attached to an Intercessor Squad, it can be attached to this unit instead."
       }
     ],
     "composition": [
@@ -8451,6 +8481,12 @@ export default [
         "text": "Once per turn, when an enemy unit ends a Normal, Advance or Fall Back move within 9\" of this unit, if this unit is not within Engagement Range of one or more enemy units, it can make a Normal move."
       }
     ],
+    "specialAbilities": [
+      {
+        "name": "LAST SURVIVOR",
+        "text": "This model cannot be selected as your Warlord."
+      }
+    ],
     "composition": [
       "1 Lieutenant with Combi-weapon"
     ],
@@ -9886,6 +9922,12 @@ export default [
       {
         "name": "Instigator Bolt Carbine",
         "text": "In your Shooting phase, after the bearer’s unit has shot, the bearer’s unit can make a Normal move. If it does, until the end of the turn, the bearer’s unit is not eligible to declare a charge."
+      }
+    ],
+    "specialAbilities": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Character from your army with the Leader ability can be attached to an Infiltrator Squad, it can be attached to this unit instead.\n\nIf this unit has a Leader unit attached to it during the Declare Battle Formations step, that Leader unit gains the Infiltrators and Scouts 6\" abilities."
       }
     ],
     "composition": [

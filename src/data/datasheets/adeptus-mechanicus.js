@@ -374,6 +374,10 @@ export default [
     ],
     "specialAbilities": [
       {
+        "name": "SUPREME COMMANDER",
+        "text": "If this model is in your army, it must be your Warlord."
+      },
+      {
         "name": "Invocation of Machine Vengeance",
         "text": "At the start of your Command phase, select one unit from your opponent’s army. Until the start of your next Command phase, that enemy unit is your Machine Vengeance target. Each time a model in a friendly Adeptus Mechanicus unit makes an attack that targets your Machine Vengeance target, you can re-roll the Hit roll."
       },
@@ -3245,6 +3249,12 @@ export default [
         "text": "Each time this model makes an attack with a radium jezzail that targets an INFANTRY unit, you can re-roll the Wound roll. Each time this model makes an attack with a Skatros transuranic arquebus that targets a MONSTER or VEHICLE unit, you can re-roll the Wound roll."
       }
     ],
+    "specialAbilities": [
+      {
+        "name": "SYDONIAN SENTINEL",
+        "text": "This model cannot be your WARLORD"
+      }
+    ],
     "composition": [
       "1 Sydonian Skatros"
     ],
@@ -3799,6 +3809,10 @@ export default [
       }
     ],
     "specialAbilities": [
+      {
+        "name": "SUPREME COMMANDER",
+        "text": "If this model is in your army, it must be your Warlord."
+      },
       {
         "name": "Fanatical Devotion",
         "text": "You can select one friendly Skitarii or THULIA GHULD unit within 6\" of this model; until the start of your next Command phase, that unit is eligible to shoot and declare a charge in a turn in which it Advanced."
