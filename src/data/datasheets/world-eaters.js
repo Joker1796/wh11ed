@@ -560,7 +560,8 @@ export default [
       "Chaos",
       "Smoke",
       "Transport",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "",
@@ -708,7 +709,8 @@ export default [
       "Chaos",
       "Smoke",
       "Vehicle",
-      "Predator Annihilator"
+      "Predator Annihilator",
+      "Frame"
     ],
     "factionKeywords": [
       "World Eaters",
@@ -855,7 +857,8 @@ export default [
       "Predator Destructor",
       "Khorne",
       "Chaos",
-      "Smoke"
+      "Smoke",
+      "Frame"
     ],
     "factionKeywords": [
       "",
@@ -940,7 +943,7 @@ export default [
     "abilities": [
       {
         "name": "Meet Any Challenge",
-        "text": "In your opponent’s Movement phase, each time an enemy unit is set up or ends a Normal, Advance or Fall Back move within 9\" of this model, any units embarked within it can disembark."
+        "text": "In your opponent’s Movement phase, each time an enemy unit is set up or ends a Normal, Advance or Fall Back move within 8\" of this model, any units embarked within it can disembark."
       }
     ],
     "composition": [
@@ -959,7 +962,8 @@ export default [
       "Chaos",
       "Dedicated Transport",
       "Rhino",
-      "Smoke"
+      "Smoke",
+      "Frame"
     ],
     "factionKeywords": [
       "World Eaters",
@@ -1163,7 +1167,7 @@ export default [
     "abilities": [
       {
         "name": "Bloody Fury",
-        "text": "Each time a model in this unit makes a ranged attack that targets the closest enemy unit, you can re-roll the Hit roll. Each time this unit declares a charge that targets the closest eligible enemy unit, you can re-roll the Charge roll."
+        "text": "This unit’s ranged attacks that target the closest eligible target can re-roll Hit rolls. When this unit declares a charge, you can use this part of this ability. If you do: this unit can re-roll that charge roll; this unit must end that charge move engaged with the closest charge target."
       }
     ],
     "composition": [
@@ -2012,7 +2016,7 @@ export default [
     "abilities": [
       {
         "name": "Loping Speed",
-        "text": "Once per turn, when an enemy unit ends a Normal, Advance or Fall Back move within 9\" of this unit, if this unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to D6\"."
+        "text": "In your opponent’s Movement phase, if an enemy unit ends a move within 8\" of this unit, if this unit is not within Engagement Range of one or more enemy units, this unit can make a Normal move of up to D6\"."
       }
     ],
     "composition": [
@@ -2224,7 +2228,7 @@ export default [
       },
       {
         "name": "Frenzy",
-        "text": "In your opponent’s Shooting phase, and in the Fight phase, each time an enemy unit targets this model, after that unit has finished making its attacks, this model can either shoot or fight, but when resolving those attacks it can only target that enemy unit (and only if it is an eligible target)."
+        "text": "(Once per turn, per unit) In the Fight phase, when an enemy unit targets this unit, after that unit has resolved its attacks, you can use this ability. If you do, this unit is eligible to fight (even if it has already fought this phase) and must be selected to fight next."
       }
     ],
     "composition": [
@@ -2262,12 +2266,12 @@ export default [
     "profiles": [
       {
         "name": "Heldrake",
-        "m": "20+\"",
+        "m": "12\"",
         "t": "9",
         "sv": "3+",
         "w": "12",
         "ld": "6+",
-        "oc": "0",
+        "oc": "-",
         "inv": "5+"
       }
     ],
@@ -2332,7 +2336,6 @@ export default [
       "This model’s Hades autocannon can be replaced with 1 baleflamer."
     ],
     "keywords": [
-      "Aircraft",
       "Vehicle",
       "Fly",
       "Heldrake",
@@ -2649,7 +2652,7 @@ export default [
     "abilities": [
       {
         "name": "Blood Surge",
-        "text": "In your opponent’s Shooting phase, each time an enemy unit has shot, if any models from this unit were destroyed as a result of those attacks, this unit can make a Blood Surge move. To do so, roll one D6 and add 2 to the roll: models in this unit move a number of inches up to this result, but this unit must end that move as close as possible to the closest enemy unit (excluding AIRCRAFT), When doing so, those models can be moved within Engagement Range of that enemy unit. This unit cannot make a Blood Surge move while it is Battle-shocked or within Engagement Range of one or more enemy units, and can only make one Blood Surge move per phase."
+        "text": "In your opponent’s Shooting phase, when an enemy unit has shot, if a model in this unit was destroyed as a result of those attacks, this unit can make a surge move of up to D6+2\"."
       }
     ],
     "wargearAbilities": [
@@ -2828,7 +2831,8 @@ export default [
       "Chaos",
       "Towering",
       "Titanic",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "World Eaters",
@@ -3198,7 +3202,7 @@ export default [
     "abilities": [
       {
         "name": "The Scent of Blood",
-        "text": "Each time this model declares a charge that targets one or more units below Starting Strength, add 1 to the Charge roll. If one or more of the targets of that charge are Below Half-strength, add 2 to the Charge roll instead."
+        "text": "In the Charge phase, when this unit declares a charge: if an enemy unit below Starting Strength is within 9\" of this unit, this unit has +1 to Charge rolls; or, if an enemy unit Below Half-strength is within 9\" of this unit, this unit has +2 to Charge rolls."
       },
       {
         "name": "Savage Exaltation",
