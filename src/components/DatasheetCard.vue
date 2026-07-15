@@ -139,9 +139,11 @@
         <div v-if="sheet.loadout" class="ds-loadout" v-html="dsText(sheet.loadout)"></div>
       </div>
     </div>
-    <div v-if="sheet.options" class="ds-block">
+    <div v-if="sheet.options" class="ds-ability-group">
       <h5 class="ds-group-title">{{ labels.dsOptions }}</h5>
-      <div v-for="(o, i) in sheet.options" :key="i" class="ds-option" v-html="dsText(o)"></div>
+      <div class="ds-ability">
+        <div v-for="(o, i) in sheet.options" :key="i" class="ds-option" v-html="dsText(o)"></div>
+      </div>
     </div>
 
     <!-- Keywords -->
