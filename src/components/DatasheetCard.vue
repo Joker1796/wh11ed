@@ -98,6 +98,15 @@
           </div>
         </div>
       </template>
+      <template v-if="sheet.rules">
+        <div v-for="r in sheet.rules" :key="r.name" class="ds-ability-group">
+          <h5 class="ds-group-title">{{ r.name }}</h5>
+          <div class="ds-ability">
+            <span v-if="r.nameRu" class="ds-ability-name-ru">{{ r.nameRu }}</span>
+            <span v-html="dsText(r.text)"></span>
+          </div>
+        </div>
+      </template>
       <div v-if="sheet.damaged" class="ds-damaged">
         <strong>{{ labels.dsDamaged }}: {{ sheet.damaged.note }}</strong>
         <div v-html="dsText(sheet.damaged.text)"></div>
