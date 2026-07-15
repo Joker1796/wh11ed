@@ -32,7 +32,10 @@
       <template v-for="extra in (strat.extraCost || [])" :key="extra.title">
         <div class="strat-extra">
           <div class="strat-extra-header">
-            <span class="strat-extra-title">{{ extra.title }}</span>
+            <div class="strat-extra-heading">
+              <span class="strat-extra-title">{{ extra.title }}</span>
+              <span v-if="extra.titleRu" class="strat-extra-title-ru">{{ extra.titleRu }}</span>
+            </div>
             <span class="strat-extra-cp">{{ extra.cp }}</span>
           </div>
           <div class="strat-content" v-html="renderField(extra.body)"></div>
@@ -48,7 +51,10 @@
     <div v-if="strat.subRule" class="strat-sub-rule">
       <div class="strat-sub-rule-header">
         <span class="strat-sub-num">{{ strat.subRule.sectionNum }}</span>
-        <span class="strat-sub-title">{{ strat.subRule.title }}</span>
+        <div class="strat-sub-heading">
+          <span class="strat-sub-title">{{ strat.subRule.title }}</span>
+          <span v-if="strat.subRule.titleRu" class="strat-sub-title-ru">{{ strat.subRule.titleRu }}</span>
+        </div>
       </div>
       <div class="strat-body strat-sub-body">
         <div v-for="field in strat.subRule.fields" :key="field.label" class="strat-row">
@@ -267,11 +273,26 @@ function renderField(text) {
   margin-bottom: 0.3rem;
 }
 
+.strat-extra-heading {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
 .strat-extra-title {
   font-size: 0.68rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+}
+
+/* RU translation of the +1CP block title */
+.strat-extra-title-ru {
+  font-size: 0.6rem;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.1;
 }
 
 .strat-extra-cp {
@@ -302,12 +323,28 @@ function renderField(text) {
   flex-shrink: 0;
 }
 
+.strat-sub-heading {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
 .strat-sub-title {
   font-family: var(--font-display);
   font-size: 0.94rem;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.4px;
+}
+
+/* RU translation of the sub-rule title */
+.strat-sub-title-ru {
+  font-size: 0.62rem;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.1;
+  margin-top: 1px;
 }
 
 .strat-sub-body {
