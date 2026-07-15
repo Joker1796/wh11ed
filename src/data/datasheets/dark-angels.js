@@ -3530,7 +3530,7 @@ export default [
     "abilities": [
       {
         "name": "Teleport Homer",
-        "text": "At the start of the battle, you can set up one Teleport Homer token for this unit anywhere on the battlefield that is not in your opponent’s deployment zone. If you do, once per battle, you can target this unit with the Rapid Ingress Stratagem for 0CP, but when resolving that Stratagem, you must set this unit up within 3\" horizontally of that token and not within 9\" horizontally of any enemy models. That token is then removed."
+        "text": "At the start of the battle, you can set up one Teleport Homer token for this unit anywhere on the battlefield that is not in your opponent’s deployment zone. If you do, once per battle, you can target this unit with the Rapid Ingress Stratagem for 0CP, but when resolving that Stratagem, you must set this unit up within 3\" horizontally of that token and not within 8\" horizontally of any enemy models. That token is then removed."
       },
       {
         "name": "Inner Circle",
@@ -3720,7 +3720,7 @@ export default [
     "abilities": [
       {
         "name": "Teleport Homer",
-        "text": "At the start of the battle, you can set up one Teleport Homer token for this unit anywhere on the battlefield that is not in your opponent’s deployment zone. If you do, once per battle, you can target this unit with the Rapid Ingress Stratagem for 0CP, but when resolving that Stratagem, you must set this unit up within 3\" horizontally of that token and not within 9\" horizontally of any enemy models. That token is then removed."
+        "text": "At the start of the battle, you can set up one Teleport Homer token for this unit anywhere on the battlefield that is not in your opponent’s deployment zone. If you do, once per battle, you can target this unit with the Rapid Ingress Stratagem for 0CP, but when resolving that Stratagem, you must set this unit up within 3\" horizontally of that token and not within 8\" horizontally of any enemy models. That token is then removed."
       },
       {
         "name": "Deathwing",
@@ -7558,7 +7558,8 @@ export default [
       "Fly",
       "Ravenwing",
       "Land Speeder Vengeance",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Dark Angels",
@@ -8655,12 +8656,12 @@ export default [
     "profiles": [
       {
         "name": "Nephilim Jetfighter",
-        "m": "20+\"",
+        "m": "-",
         "t": "8",
         "sv": "3+",
         "w": "11",
         "ld": "6+",
-        "oc": "0",
+        "oc": "-",
         "inv": "5+"
       }
     ],
@@ -8724,7 +8725,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deadly Demise D3, Hover",
+    "core": "Deadly Demise D3",
     "faction": "Oath of Moment",
     "abilities": [
       {
@@ -9435,7 +9436,7 @@ export default [
       },
       {
         "name": "Honour or Death",
-        "text": "While this unit contains a Ravenwing Champion, add 1 to Advance and Charge rolls made for this unit and you can target this unit with the Heroic Intervention Stratagem for 0CP."
+        "text": "While this unit contains a Ravenwing Champion, add 1 to Advance and Charge rolls made for this unit. When you target this unit with the Heroic Intervention Stratagem, that use is -1 CP."
       }
     ],
     "composition": [
@@ -9483,12 +9484,12 @@ export default [
     "profiles": [
       {
         "name": "Ravenwing Dark Talon",
-        "m": "20+\"",
+        "m": "-",
         "t": "8",
         "sv": "3+",
         "w": "11",
         "ld": "6+",
-        "oc": "0",
+        "oc": "-",
         "inv": "5+"
       }
     ],
@@ -9531,7 +9532,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deadly Demise D3, Hover",
+    "core": "Deadly Demise D3",
     "faction": "Oath of Moment",
     "abilities": [
       {
@@ -9640,7 +9641,8 @@ export default [
       "Imperium",
       "Fly",
       "Vehicle",
-      "Ravenwing Darkshroud"
+      "Ravenwing Darkshroud",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes",
@@ -10581,7 +10583,8 @@ export default [
       "Fly",
       "Epic Hero",
       "Character",
-      "Mounted"
+      "Mounted",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes",
