@@ -1258,12 +1258,12 @@ export default [
     "profiles": [
       {
         "name": "Crimson Hunter",
-        "m": "20+\"",
+        "m": "-",
         "t": "8",
         "sv": "3+",
         "w": "12",
         "ld": "6+",
-        "oc": "0",
+        "oc": "-",
         "inv": "5+"
       }
     ],
@@ -1333,7 +1333,8 @@ export default [
       "Aircraft",
       "Aspect Warrior",
       "Crimson Hunter",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Asuryani",
@@ -2065,7 +2066,7 @@ export default [
       "This model’s scatter laser can be replaced with one of the following:\n▪ 1 missile launcher\n▪ 1 bright lance\n▪ 1 shuriken cannon\n▪ 1 starcannon",
       "This model’s twin shuriken catapult can be replaced with 1 shuriken cannon."
     ],
-    "transport": "This model has a transport capacity of 6 Aeldari Infantry models. Each Wraith Construct model takes the space of 2 models. It cannot transport Jump Pack models or Ynnari models (excluding Asuryani, Yvraine and The Visarch models).",
+    "transport": "This model has a transport capacity of 6 AELDARI INFANTRY models. Each WRAITH CONSTRUCT model takes the space of 2 models. It cannot transport JUMP PACK models or YNNARI models (excluding ASURYANI, YVRAINE and THE VISARCH models).",
     "keywords": [
       "Transport",
       "Fly",
@@ -2903,12 +2904,12 @@ export default [
     "profiles": [
       {
         "name": "Hemlock Wraithfighter",
-        "m": "20+\"",
+        "m": "-",
         "t": "8",
         "sv": "3+",
         "w": "12",
         "ld": "6+",
-        "oc": "0"
+        "oc": "-"
       }
     ],
     "ranged": [
@@ -2957,7 +2958,8 @@ export default [
       "Wraith Construct",
       "Fly",
       "Hemlock Wraithfighter",
-      "Aeldari"
+      "Aeldari",
+      "Frame"
     ],
     "factionKeywords": [
       "Asuryani",
@@ -3917,7 +3919,7 @@ export default [
     "abilities": [
       {
         "name": "Path of the Outcast",
-        "text": "Once per turn, when an enemy unit ends a Normal, Advance or Fall Back move within 9\" of this unit, it can make a Normal move of up to D6\"."
+        "text": "In your opponent's Movement phase, if an enemy unit ends a move within 8\" of this unit, if this unit is not within Engagement Range of one or more enemy units, this unit can make a Normal move of up to D6\"."
       }
     ],
     "composition": [
@@ -4941,7 +4943,7 @@ export default [
     "abilities": [
       {
         "name": "Rapid Embarkation",
-        "text": "At the end of the Fight phase, if there are no models currently embarked within this TRANSPORT, you can select one friendly Harlequins Infantry unit that has 6 or fewer models that is wholly within 6\" of this TRANSPORT. Unless that unit is within Engagement Range of one or more enemy units, it can embark within this TRANSPORT."
+        "text": "At the end of the Fight phase, if there are no models currently embarked within this TRANSPORT, you can select one friendly Harlequins Infantry unit that has 6 or fewer models that is wholly within 6\" of this TRANSPORT. Unless that unit is within Engagement Range of one or more enemy units, it can embark within this TRANSPORT. That unit can embark within this TRANSPORT in a turn it disembarked from this TRANSPORT."
       }
     ],
     "composition": [
@@ -6457,7 +6459,7 @@ export default [
         "d": "2"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Battle Focus",
     "abilities": [
       {
@@ -6619,7 +6621,13 @@ export default [
       "Asuryani",
       ""
     ],
-    "baseSize": "32mm"
+    "baseSize": "32mm",
+    "rules": [
+      {
+        "name": "ATTACHMENT",
+        "text": "At the start of the Declare Battle Formations step, if this unit is not an Attached unit, this unit can join one GUARDIAN DEFENDERS or STORM GUARDIANS unit from your army (a unit cannot have more than one WARLOCK CONCLAVE unit joined to it). If it does, until the end of the battle, every model in this unit counts as being part of that Bodyguard unit, and that Bodyguard unit’s Starting Strength is increased accordingly."
+      }
+    ]
   },
   {
     "id": "warlock-skyrunners",
@@ -6757,7 +6765,13 @@ export default [
       "Asuryani",
       ""
     ],
-    "baseSize": "Small Flying Base"
+    "baseSize": "Small Flying Base",
+    "rules": [
+      {
+        "name": "ATTACHMENT",
+        "text": "At the start of the Declare Battle Formations step, if this unit is not an Attached unit, this unit can join one WINDRIDERS unit from your army (a unit cannot have more than one WARLOCK SKYRUNNERS unit joined to it). If it does, until the end of the battle, every model in this unit counts as being part of that Bodyguard unit, and that Bodyguard unit’s Starting Strength is increased accordingly."
+      }
+    ]
   },
   {
     "id": "warp-spiders",
@@ -7090,7 +7104,7 @@ export default [
       "This model’s twin shuriken cannon can be replaced with one of the following:\n▪ 1 twin missile launcher\n▪ 1 twin bright lance\n▪ 1 twin scatter laser\n▪ 1 twin starcannon",
       "This model’s twin shuriken catapult can be replaced with 1 shuriken cannon."
     ],
-    "transport": "This model has a transport capacity of 12 Aeldari Infantry models. Each Wraith Construct model takes the space of 2 models. It cannot transport Jump Pack models or Ynnari models (excluding Asuryani, Yvraine and The Visarch models).",
+    "transport": "This model has a transport capacity of 12 ASURYANI INFANTRY models. Each WRAITH CONSTRUCT model takes the space of 2 models. It cannot transport JUMP PACK models or YNNARI models (excluding ASURYANI, YVRAINE and THE VISARCH models).",
     "keywords": [
       "Vehicle",
       "Aeldari",
@@ -8608,7 +8622,7 @@ export default [
     "abilities": [
       {
         "name": "Lithe Embarkation",
-        "text": "At the end of the Fight phase, if there are no models currently embarked within this TRANSPORT, you can select one friendly Ynnari Infantry unit that only includes models from the units listed in this unit’s Transport section, that has 6 or fewer models and that is wholly within 6\" of this TRANSPORT. Unless that unit is within Engagement Range of one or more enemy units, it can embark within this TRANSPORT."
+        "text": "At the end of the Fight phase, if there are no models currently embarked within this TRANSPORT, you can select one friendly Ynnari Infantry unit that only includes models from the units listed in this unit’s Transport section, that has 6 or fewer models and that is wholly within 6\" of this TRANSPORT. Unless that unit is within Engagement Range of one or more enemy units, it can embark within this TRANSPORT. That unit can embark within this TRANSPORT in a turn it disembarked from this TRANSPORT."
       }
     ],
     "composition": [
