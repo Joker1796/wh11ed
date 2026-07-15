@@ -3,8 +3,9 @@
 // (flavor, ability texts, composition, loadout, options, damaged/leader/transport text).
 // Unit names, weapon profiles, stats, keywords, core & faction rule names, and [BRACKET]
 // tags stay English and inherit from EN. An optional `abilityNamesRu` named export maps
-// English ability names → RU display names (shown as a small line under the English name,
-// mirroring the stratagem-name pattern in useFactionPage).
+// English ability names → RU display names, which replace the ability name in the card
+// header (the English name is not shown). Necrons instead carries the name inline via the
+// per-sheet overlay's { name, text } form; both paths translate the header, none add a subline.
 //
 // Loaded on demand by FactionDatasheetView only in the RU locale, so the overlays never
 // enter the EN bundle. Each ./<slug>.js is code-split into its own chunk via glob.
@@ -20,8 +21,8 @@ export function loadDatasheetsRu(slug) {
 
 // Merge a sparse RU overlay for ONE datasheet over its EN object. Ability lists are keyed
 // by the English ability name (robust to reordering); `abilities`/`wargearAbilities`/
-// `specialAbilities` overlay values are { [enName]: ruText } maps — or, to translate the
-// name itself (header) instead of adding a nameRu subline, { [enName]: { name, text } }.
+// `specialAbilities` overlay values are { [enName]: ruText } maps — or, to also override the
+// translated header name for that entry, { [enName]: { name, text } }.
 // `composition`/`options` are full-replacement arrays (author them in EN order). Everything
 // absent inherits EN.
 export function localizeSheet(en, overlay, abilityNamesRu) {
@@ -38,23 +39,21 @@ export function localizeSheet(en, overlay, abilityNamesRu) {
   if (o.damaged) s.damaged = { ...en.damaged, ...o.damaged }
   if (o.leader) s.leader = { ...en.leader, ...o.leader }
 
-  // Abilities: attach a RU display name (nameRu) from the global map and swap in the
+  // Abilities: translate the display name in the header from the global map and swap in the
   // translated text from this sheet's per-list overlay map, keyed by English name. An
-  // overlay entry can instead be { name, text } to replace the displayed name outright
-  // (header translated, no nameRu subline) — used where the English name shouldn't be
-  // shown at all, unlike the usual "keep EN name + RU subline" treatment.
+  // overlay entry can also be { name, text } to override the header name for that entry.
   const localizeAbilities = (list, textMap) =>
     (list || []).map((a) => {
       const out = { ...a }
-      if (names[a.name]) out.nameRu = names[a.name]
+      // Translate the ability NAME directly in the card header (no English kept, no
+      // separate subline). The global map is keyed by the original English name; the
+      // per-sheet overlay's { name, text } form can override it further (Necrons-style).
+      if (names[a.name]) out.name = names[a.name]
       const overlay = textMap && textMap[a.name]
       if (typeof overlay === 'string') {
         out.text = overlay
       } else if (overlay) {
-        if (overlay.name) {
-          out.name = overlay.name
-          delete out.nameRu
-        }
+        if (overlay.name) out.name = overlay.name
         if (overlay.text) out.text = overlay.text
       }
       return out
@@ -78,7 +77,7 @@ export function localizeSheet(en, overlay, abilityNamesRu) {
     const so = (o.abilitySets && o.abilitySets[set.name]) || {}
     const textMap = { ...(o.specialAbilities || o.special || {}), ...(so.options || {}) }
     const out = { ...set, options: localizeAbilities(set.options, textMap) }
-    if (names[set.name] || so.name) out.nameRu = names[set.name] || so.name
+    if (names[set.name] || so.name) out.name = names[set.name] || so.name
     return out
   })
 
