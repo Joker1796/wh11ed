@@ -923,12 +923,17 @@ a.nd-link:hover {
 .subnav-dropdown-menu {
   position: absolute;
   top: 100%;
-  left: 0;
+  /* The "Units" tab sits near the horizontal centre of the subnav (it's one of only
+     2 tabs in a centered group), so a menu anchored to its left edge and wide enough
+     for the longest unit names overflows the viewport on anything narrower than a very
+     wide desktop. Center the menu under the trigger instead, and clamp its width to
+     the viewport so it never runs off either edge. */
+  left: 50%;
   z-index: 210;
   padding-top: 6px; /* transparent bridge so the gap doesn't dismiss the menu on hover */
   opacity: 0;
   visibility: hidden;
-  transform: translateY(4px);
+  transform: translateX(-50%) translateY(4px);
   pointer-events: none;
   transition: opacity var(--motion-fast), transform var(--motion-fast), visibility var(--motion-fast);
 }
@@ -937,15 +942,15 @@ a.nd-link:hover {
 .subnav-dropdown:focus-within .subnav-dropdown-menu {
   opacity: 1;
   visibility: visible;
-  transform: none;
+  transform: translateX(-50%);
   pointer-events: auto;
 }
 
 .subnav-dropdown-panel {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  width: 34rem;
-  gap: 0.25rem 1rem;
+  width: min(46rem, 94vw);
+  gap: 0.1rem 1.25rem;
   max-height: min(70vh, 420px);
   overflow-y: auto;
   padding: 0.9rem 1rem;
@@ -960,12 +965,13 @@ a.nd-link:hover {
   font-weight: 700;
 }
 
-/* Unit names are long (multi-word) and the panel above is a tight 3-column grid — clip
-   with an ellipsis instead of letting nowrap text spill into the next column. */
+/* Some unit names are very long (40-54 chars) — clip with an ellipsis instead of letting
+   nowrap text spill into the next column. */
 .subnav-dropdown-panel .nd-link {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
+  padding: 0.06rem 0;
 }
 
 /* ── Mobile bottom nav (shown only on mobile, see media query) ── */
