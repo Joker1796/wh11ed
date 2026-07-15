@@ -72,9 +72,7 @@
         <div class="ds-ability-group">
           <h5 class="ds-group-title">{{ labels.dsAbilities }}</h5>
           <div v-for="a in sheet.abilities" :key="a.name" class="ds-ability">
-            <strong>{{ a.name }}:</strong>
-            <span v-if="a.nameRu" class="ds-ability-name-ru">{{ a.nameRu }}</span>
-            <span v-html="dsText(a.text)"></span>
+            <strong>{{ a.name }}:</strong> <span v-html="dsText(a.text)"></span>
           </div>
         </div>
       </template>
@@ -82,9 +80,7 @@
         <div class="ds-ability-group">
           <h5 class="ds-group-title">{{ labels.dsWargearAbilities }}</h5>
           <div v-for="a in sheet.wargearAbilities" :key="a.name" class="ds-ability">
-            <strong>{{ a.name }}:</strong>
-            <span v-if="a.nameRu" class="ds-ability-name-ru">{{ a.nameRu }}</span>
-            <span v-html="dsText(a.text)"></span>
+            <strong>{{ a.name }}:</strong> <span v-html="dsText(a.text)"></span>
           </div>
         </div>
       </template>
@@ -92,9 +88,7 @@
         <div class="ds-ability-group">
           <h5 class="ds-group-title">{{ labels.dsSpecialAbilities }}</h5>
           <div v-for="a in sheet.specialAbilities" :key="a.name" class="ds-ability">
-            <strong>{{ a.name }}:</strong>
-            <span v-if="a.nameRu" class="ds-ability-name-ru">{{ a.nameRu }}</span>
-            <span v-html="dsText(a.text)"></span>
+            <strong>{{ a.name }}:</strong> <span v-html="dsText(a.text)"></span>
           </div>
         </div>
       </template>
@@ -102,13 +96,9 @@
            the parent ability's name, so its "(see below)" reference resolves to this block. -->
       <template v-if="sheet.abilitySets">
         <div v-for="set in sheet.abilitySets" :key="set.name" class="ds-ability-group">
-          <h5 class="ds-group-title">
-            {{ set.name }}<span v-if="set.nameRu" class="ds-ability-name-ru">{{ set.nameRu }}</span>
-          </h5>
+          <h5 class="ds-group-title">{{ set.name }}</h5>
           <div v-for="a in set.options" :key="a.name" class="ds-ability">
-            <strong>{{ a.name }}:</strong>
-            <span v-if="a.nameRu" class="ds-ability-name-ru">{{ a.nameRu }}</span>
-            <span v-html="dsText(a.text)"></span>
+            <strong>{{ a.name }}:</strong> <span v-html="dsText(a.text)"></span>
           </div>
         </div>
       </template>
@@ -116,7 +106,6 @@
         <div v-for="r in sheet.rules" :key="r.name" class="ds-ability-group">
           <h5 class="ds-group-title">{{ r.name }}</h5>
           <div class="ds-ability">
-            <span v-if="r.nameRu" class="ds-ability-name-ru">{{ r.nameRu }}</span>
             <span v-html="dsText(r.text)"></span>
           </div>
         </div>
@@ -573,17 +562,6 @@ function statCells(p) {
 .ds-faction-rule { font-weight: 600; }
 .ds-ability-line { margin-bottom: 0.3rem; }
 .ds-ability { margin-bottom: 0.45rem; }
-/* RU display name of the ability, on its own line under the English name (like the
-   stratagem-card nameRu subline). Only present in the RU locale. */
-.ds-ability-name-ru {
-  display: block;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.2px;
-  color: var(--accent);
-  line-height: 1.2;
-  margin: 1px 0 2px;
-}
 .ds-group-title {
   font-size: 0.68rem;
   font-weight: 700;
