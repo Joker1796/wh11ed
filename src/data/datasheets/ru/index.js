@@ -70,5 +70,17 @@ export function localizeSheet(en, overlay, abilityNamesRu) {
   // DatasheetCard.vue), distinct from the grouped `specialAbilities` card.
   if (en.rules) s.rules = localizeAbilities(en.rules, o.rules)
 
+  // `abilitySets` — Primarch/named-character "pick one" groups; heading = parent ability name.
+  // Overlay: { [setName]: { name?: ruHeading, options: { [enName]: ruText | {name,text} } } }.
+  // Option translations authored under the old `specialAbilities` map (before these abilities
+  // were grouped into a set) still apply as a fallback, so overlays needn't be migrated.
+  if (en.abilitySets) s.abilitySets = en.abilitySets.map((set) => {
+    const so = (o.abilitySets && o.abilitySets[set.name]) || {}
+    const textMap = { ...(o.specialAbilities || o.special || {}), ...(so.options || {}) }
+    const out = { ...set, options: localizeAbilities(set.options, textMap) }
+    if (names[set.name] || so.name) out.nameRu = names[set.name] || so.name
+    return out
+  })
+
   return s
 }

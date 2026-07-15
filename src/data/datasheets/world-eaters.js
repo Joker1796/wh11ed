@@ -64,18 +64,6 @@ export default [
       {
         "name": "SUPREME COMMANDER",
         "text": "If this model is in your army, it must be your WARLORD."
-      },
-      {
-        "name": "The Blood God’s Favour",
-        "text": "Each time you make a Blessings of Khorne roll, if this model is on the battlefield, you can re-roll up to six of the D6 rolled."
-      },
-      {
-        "name": "Overwhelming Wrath (Aura)",
-        "text": "Each time an enemy unit within 6\" of this model is selected to Fall Back, that unit must take a Leadership test. If that test is failed, that unit must Remain Stationary this phase instead."
-      },
-      {
-        "name": "Driven by Ultimate Rage (Aura)",
-        "text": "While a friendly World Eaters unit is within 6\" of this model, you can ignore any or all modifiers to that unit’s Move characteristic and to Advance and Charge rolls made for it, and each time a model in that unit makes a melee attack, you can ignore any or all modifiers to that attack’s Weapon Skill characteristic and/or any or all modifiers to the Hit roll."
       }
     ],
     "damaged": {
@@ -101,7 +89,26 @@ export default [
       "",
       "World Eaters"
     ],
-    "baseSize": "100mm"
+    "baseSize": "100mm",
+    "abilitySets": [
+      {
+        "name": "Wrathful Presence",
+        "options": [
+          {
+            "name": "The Blood God’s Favour",
+            "text": "Each time you make a Blessings of Khorne roll, if this model is on the battlefield, you can re-roll up to six of the D6 rolled."
+          },
+          {
+            "name": "Overwhelming Wrath (Aura)",
+            "text": "Each time an enemy unit within 6\" of this model is selected to Fall Back, that unit must take a Leadership test. If that test is failed, that unit must Remain Stationary this phase instead."
+          },
+          {
+            "name": "Driven by Ultimate Rage (Aura)",
+            "text": "While a friendly World Eaters unit is within 6\" of this model, you can ignore any or all modifiers to that unit’s Move characteristic and to Advance and Charge rolls made for it, and each time a model in that unit makes a melee attack, you can ignore any or all modifiers to that attack’s Weapon Skill characteristic and/or any or all modifiers to the Hit roll."
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "bloodcrushers",

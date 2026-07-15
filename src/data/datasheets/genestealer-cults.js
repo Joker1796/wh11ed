@@ -2066,12 +2066,6 @@ export default [
         "text": "Once per battle, at the start of the Fight phase, this model can use its psychic familiar. If it does, until the end of the phase, add 6\" to the range of its Cosmic Horror ability.\n\n**Designer’s Note:** Place a Psychic Familiar token next to the model, removing it once this ability has been used."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "SUPREME COMMANDER",
-        "text": "▪ You cannot include more than one PATRIARCH model in your army.\n▪ If this model is in your army, it must be your Warlord."
-      }
-    ],
     "composition": [
       "1 Patriarch"
     ],
@@ -2092,7 +2086,13 @@ export default [
     "factionKeywords": [
       "Genestealer Cults"
     ],
-    "baseSize": "50mm"
+    "baseSize": "50mm",
+    "rules": [
+      {
+        "name": "SUPREME COMMANDER",
+        "text": "▪ You cannot include more than one PATRIARCH model in your army.\n▪ If this model is in your army, it must be your Warlord."
+      }
+    ]
   },
   {
     "id": "primus",

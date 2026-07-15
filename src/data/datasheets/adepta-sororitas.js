@@ -1700,12 +1700,6 @@ export default [
         "text": "At the end of your Command phase, for each objective marker you control that has one or more units from your army with this ability within range of it, roll one D6: on a 4+, you gain 1 Miracle dice showing a value equal to that result."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "Holy Vanguard",
-        "text": "If this unit has a Leader unit attached to it during the Declare Battle Formations step and this unit starts the battle embarked within a TRANSPORT, that Leader unit gains the Scouts 6\" ability."
-      }
-    ],
     "composition": [
       "1 Dominion Superior",
       "9 Dominions"
@@ -1726,7 +1720,13 @@ export default [
     "factionKeywords": [
       "Adepta Sororitas"
     ],
-    "baseSize": "32mm"
+    "baseSize": "32mm",
+    "rules": [
+      {
+        "name": "Holy Vanguard",
+        "text": "If this unit has a Leader unit attached to it during the Declare Battle Formations step and this unit starts the battle embarked within a TRANSPORT, that Leader unit gains the Scouts 6\" ability."
+      }
+    ]
   },
   {
     "id": "exorcist",
@@ -2465,12 +2465,6 @@ export default [
         "text": "Once per battle, in the Fight phase, this model can use this ability. If it does, until the end of the phase, improve the Strength and Attacks characteristics of melee weapons equipped by this model by 3."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "Holy Mission",
-        "text": "If this model is attached to a DOMINION SQUAD during the Declare Battle Formations step, it gains the Scouts 6\" ability. If this model is attached to a SISTERS NOVITIATE SQUAD during the Declare Battle Formations step, it gains the Infiltrators ability."
-      }
-    ],
     "composition": [
       "1 Preacher"
     ],
@@ -2500,7 +2494,13 @@ export default [
     "factionKeywords": [
       "Adepta Sororitas"
     ],
-    "baseSize": "32mm"
+    "baseSize": "32mm",
+    "rules": [
+      {
+        "name": "Holy Mission",
+        "text": "If this model is attached to a DOMINION SQUAD during the Declare Battle Formations step, it gains the Scouts 6\" ability. If this model is attached to a SISTERS NOVITIATE SQUAD during the Declare Battle Formations step, it gains the Infiltrators ability."
+      }
+    ]
   },
   {
     "id": "mortifiers",
@@ -2733,12 +2733,6 @@ export default [
         "text": "Each time this model’s unit is selected to shoot or fight, you can discard 1 Miracle dice. If you do, until the end of the phase, add 3 to the Attacks characteristic of Fidelis and the Lance of Illumination. Each time an enemy unit is destroyed by this model, you gain 1 Miracle dice."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "SUPREME COMMANDER",
-        "text": "If this model is in your army, it must be your Warlord."
-      }
-    ],
     "composition": [
       "1 Morvenn Vahl – EPIC HERO"
     ],
@@ -2760,7 +2754,13 @@ export default [
     "factionKeywords": [
       "Adepta Sororitas"
     ],
-    "baseSize": "60mm"
+    "baseSize": "60mm",
+    "rules": [
+      {
+        "name": "SUPREME COMMANDER",
+        "text": "If this model is in your army, it must be your Warlord."
+      }
+    ]
   },
   {
     "id": "palatine",
@@ -4298,37 +4298,11 @@ export default [
     "abilities": [
       {
         "name": "Relics of the Matriarchs",
-        "text": "At the start of the battle round, select up to two of the abilities in the Relics of the Matriarchs section (see left). Until the start of the next battle round, this model has those abilities."
+        "text": "At the start of the battle round, select up to two of the abilities in the Relics of the Matriarchs section (see below). Until the start of the next battle round, this model has those abilities."
       },
       {
         "name": "Solemn Procession",
         "text": "Each time you gain 1 Miracle dice at the start of the battle round, if this model is on the battlefield, do not roll one D6 to determine the value of that Miracle dice; it has a value of 6."
-      }
-    ],
-    "specialAbilities": [
-      {
-        "name": "The Fiery Heart (Aura)",
-        "text": "While a friendly ADEPTA SORORITAS unit is within 6\" of this model, add 2\" to that unit's Move characteristic and add 1 to Advance and Charge rolls made for that unit."
-      },
-      {
-        "name": "Censer of the Sacred Rose (Aura)",
-        "text": "While a friendly ADEPTA SORORITAS unit is within 6\" of this model, you can re-roll Battle-shock tests taken for that unit."
-      },
-      {
-        "name": "Simulacrum of the Ebon Chalice (Aura)",
-        "text": "While a friendly ADEPTA SORORITAS unit is within 6\" of this model, that unit can perform up to two Acts of Faith per phase, instead of only one."
-      },
-      {
-        "name": "Simulacrum of the Argent Shroud (Aura)",
-        "text": "While a friendly ADEPTA SORORITAS unit is within 6\" of this model, each time a model in that unit makes a ranged attack, re-roll a Wound roll of 1."
-      },
-      {
-        "name": "Icon of the Valorous Heart (Aura)",
-        "text": "While a friendly ADEPTA SORORITAS unit is within 6\" of this model, models in that unit have the Feel No Pain 6+ ability."
-      },
-      {
-        "name": "Petals of the Bloody Rose (Aura)",
-        "text": "While a friendly ADEPTA SORORITAS unit is within 6\" of this model, improve the Armour Penetration characteristic of melee weapons equipped by models in that unit by 1."
       }
     ],
     "damaged": {
@@ -4357,7 +4331,38 @@ export default [
     "factionKeywords": [
       "Adepta Sororitas"
     ],
-    "baseSize": "120x92mm Oval Base"
+    "baseSize": "120x92mm Oval Base",
+    "abilitySets": [
+      {
+        "name": "Relics of the Matriarchs",
+        "options": [
+          {
+            "name": "The Fiery Heart (Aura)",
+            "text": "While a friendly ADEPTA SORORITAS unit is within 6\" of this model, add 2\" to that unit's Move characteristic and add 1 to Advance and Charge rolls made for that unit."
+          },
+          {
+            "name": "Censer of the Sacred Rose (Aura)",
+            "text": "While a friendly ADEPTA SORORITAS unit is within 6\" of this model, you can re-roll Battle-shock tests taken for that unit."
+          },
+          {
+            "name": "Simulacrum of the Ebon Chalice (Aura)",
+            "text": "While a friendly ADEPTA SORORITAS unit is within 6\" of this model, that unit can perform up to two Acts of Faith per phase, instead of only one."
+          },
+          {
+            "name": "Simulacrum of the Argent Shroud (Aura)",
+            "text": "While a friendly ADEPTA SORORITAS unit is within 6\" of this model, each time a model in that unit makes a ranged attack, re-roll a Wound roll of 1."
+          },
+          {
+            "name": "Icon of the Valorous Heart (Aura)",
+            "text": "While a friendly ADEPTA SORORITAS unit is within 6\" of this model, models in that unit have the Feel No Pain 6+ ability."
+          },
+          {
+            "name": "Petals of the Bloody Rose (Aura)",
+            "text": "While a friendly ADEPTA SORORITAS unit is within 6\" of this model, improve the Armour Penetration characteristic of melee weapons equipped by models in that unit by 1."
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "zephyrim-squad",

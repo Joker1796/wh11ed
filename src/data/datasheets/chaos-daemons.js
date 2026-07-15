@@ -91,24 +91,6 @@ export default [
         "text": "At the start of the battle round, select one Shadow Form ability (see below). Until the end of the battle round, this model has that ability."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "SUPREME COMMANDER",
-        "text": "If this model is in your army, it must be your Warlord."
-      },
-      {
-        "name": "Wreathed in Shadows (Aura, Psychic)",
-        "text": "While a friendly Legiones Daemonica unit or Shadow Legion unit is within 6\" of this model, that unit can only be targeted by a ranged attack if the attacking model is within 18\"."
-      },
-      {
-        "name": "Pall of Despair (Aura, Psychic)",
-        "text": "In the Battle-shock step of your opponent’s Command phase, if an enemy unit that is below its Starting Strength is within 9\" of this model, that unit must take a Battle-shock test. For the purposes of this ability, if a unit has a Starting Strength of 1, it is considered to be below its Starting Strength while it has lost one or more wounds. In addition, for each enemy unit that fails a Battle-shock test within 9\" of this model, this model regains up to D3 lost wounds."
-      },
-      {
-        "name": "Shadow Lord (Aura, Psychic)",
-        "text": "While a friendly Legiones Daemonica or Shadow Legion unit is within 6\" of this model, each time a model in that unit makes an attack, re-roll a Hit roll of 1."
-      }
-    ],
     "damaged": {
       "note": "1-6 wounds remaining",
       "text": "While this model has 1-6 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
@@ -134,7 +116,32 @@ export default [
     "factionKeywords": [
       "Legiones Daemonica"
     ],
-    "baseSize": "100mm"
+    "baseSize": "100mm",
+    "rules": [
+      {
+        "name": "SUPREME COMMANDER",
+        "text": "If this model is in your army, it must be your Warlord."
+      }
+    ],
+    "abilitySets": [
+      {
+        "name": "Shadow Form",
+        "options": [
+          {
+            "name": "Wreathed in Shadows (Aura, Psychic)",
+            "text": "While a friendly Legiones Daemonica unit or Shadow Legion unit is within 6\" of this model, that unit can only be targeted by a ranged attack if the attacking model is within 18\"."
+          },
+          {
+            "name": "Pall of Despair (Aura, Psychic)",
+            "text": "In the Battle-shock step of your opponent’s Command phase, if an enemy unit that is below its Starting Strength is within 9\" of this model, that unit must take a Battle-shock test. For the purposes of this ability, if a unit has a Starting Strength of 1, it is considered to be below its Starting Strength while it has lost one or more wounds. In addition, for each enemy unit that fails a Battle-shock test within 9\" of this model, this model regains up to D3 lost wounds."
+          },
+          {
+            "name": "Shadow Lord (Aura, Psychic)",
+            "text": "While a friendly Legiones Daemonica or Shadow Legion unit is within 6\" of this model, each time a model in that unit makes an attack, re-roll a Hit roll of 1."
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "beasts-of-nurgle",
@@ -1069,10 +1076,6 @@ export default [
     ],
     "specialAbilities": [
       {
-        "name": "DAEMONIC ALLEGIANCE",
-        "text": "When you select this model to include in your army, you must select one of the following keywords for it to gain:\n▪ KHORNE\n▪ TZEENTCH\n▪ NURGLE\n▪ SLAANESH\nThe keyword you select will also affect some of this model’s characteristics, as stated overleaf."
-      },
-      {
         "name": "Daemon Prince of Khorne",
         "text": "If this model has the KHORNE keyword, add 2 to the Strength characteristic of this model’s hellforged weapons."
       },
@@ -1107,7 +1110,13 @@ export default [
     "factionKeywords": [
       "Legiones Daemonica"
     ],
-    "baseSize": "60mm"
+    "baseSize": "60mm",
+    "rules": [
+      {
+        "name": "DAEMONIC ALLEGIANCE",
+        "text": "When you select this model to include in your army, you must select one of the following keywords for it to gain:\n▪ KHORNE\n▪ TZEENTCH\n▪ NURGLE\n▪ SLAANESH\nThe keyword you select will also affect some of this model’s characteristics, as stated overleaf."
+      }
+    ]
   },
   {
     "id": "daemon-prince-of-chaos-with-wings",
@@ -1175,28 +1184,6 @@ export default [
         "text": "Each time this model is selected to fight, select one of the following abilities. Until the end of the phase, this model’s hellforged weapons have that ability:\n▪ [LETHAL HITS]\n▪ [PRECISION]\n▪ [SUSTAINED HITS 1]"
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "DAEMONIC ALLEGIANCE",
-        "text": "When you select this model to include in your army, you must select one of the following keywords for it to gain:\n▪ KHORNE\n▪ TZEENTCH\n▪ NURGLE\n▪ SLAANESH\nThe keyword you select will also affect some of this model’s characteristics, as stated overleaf."
-      },
-      {
-        "name": "Daemon Prince of Khorne",
-        "text": "If this model has the KHORNE keyword, add 2 to the Strength characteristic of this model’s hellforged weapons."
-      },
-      {
-        "name": "Daemon Prince of Tzeentch",
-        "text": "If this model has the TZEENTCH keyword, add 3 to the Attacks characteristic of this model’s infernal cannon."
-      },
-      {
-        "name": "Daemon Prince of Nurgle",
-        "text": "If this model has the NURGLE keyword, add 1 to this model’s Toughness characteristic."
-      },
-      {
-        "name": "Daemon Prince of Slaanesh",
-        "text": "If this model has the SLAANESH keyword, add 2\" to this model’s Move characteristic."
-      }
-    ],
     "composition": [
       "1 Daemon Prince of Chaos with Wings"
     ],
@@ -1216,7 +1203,36 @@ export default [
     "factionKeywords": [
       "Legiones Daemonica"
     ],
-    "baseSize": "60mm"
+    "baseSize": "60mm",
+    "rules": [
+      {
+        "name": "DAEMONIC ALLEGIANCE",
+        "text": "When you select this model to include in your army, you must select one of the following keywords for it to gain:\n▪ KHORNE\n▪ TZEENTCH\n▪ NURGLE\n▪ SLAANESH\nThe keyword you select will also affect some of this model’s characteristics, as stated overleaf."
+      }
+    ],
+    "abilitySets": [
+      {
+        "name": "Harbinger of Death",
+        "options": [
+          {
+            "name": "Daemon Prince of Khorne",
+            "text": "If this model has the KHORNE keyword, add 2 to the Strength characteristic of this model’s hellforged weapons."
+          },
+          {
+            "name": "Daemon Prince of Tzeentch",
+            "text": "If this model has the TZEENTCH keyword, add 3 to the Attacks characteristic of this model’s infernal cannon."
+          },
+          {
+            "name": "Daemon Prince of Nurgle",
+            "text": "If this model has the NURGLE keyword, add 1 to this model’s Toughness characteristic."
+          },
+          {
+            "name": "Daemon Prince of Slaanesh",
+            "text": "If this model has the SLAANESH keyword, add 2\" to this model’s Move characteristic."
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "daemonettes",
@@ -1442,12 +1458,6 @@ export default [
         "text": "In your Shooting phase, after this model has shot, select one enemy unit (excluding MONSTERS and VEHICLES) hit by one or more of those attacks, and roll one D6. On a 4+, until the end of your opponent’s next turn, that enemy unit is aflame. While a unit is aflame, subtract 2\" from its Move characteristic and subtract 2 from Advance and Charge rolls made for it."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "MANIFESTATION OF DESTRUCTION",
-        "text": "This model cannot be your Warlord and cannot be given Enhancements."
-      }
-    ],
     "composition": [
       "1 Exalted Flamer"
     ],
@@ -1474,7 +1484,13 @@ export default [
     "factionKeywords": [
       "Legiones Daemonica"
     ],
-    "baseSize": "75x42mm Oval Base"
+    "baseSize": "75x42mm Oval Base",
+    "rules": [
+      {
+        "name": "MANIFESTATION OF DESTRUCTION",
+        "text": "This model cannot be your Warlord and cannot be given Enhancements."
+      }
+    ]
   },
   {
     "id": "fateskimmer",
@@ -3122,12 +3138,6 @@ export default [
         "text": "Add 1 to Charge rolls made for the bearer’s unit."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "HORRORS ARE PINK. HORRORS ARE BLUE. WHEREONCE THERE WAS ONE, NOW THERE ARE TWO.",
-        "text": "If, at any point, this unit contains no PINK HORROR models, use the BLUE HORRORS datasheet for this unit.\n\n**Designer’s Note:** While this unit contains one or more PINK HORROR models, the Sullen Malevolence and Exploding Horrors abilities from the BLUE HORRORS datasheet do not apply to this unit."
-      }
-    ],
     "composition": [
       "10 Pink Horrors"
     ],
@@ -3150,6 +3160,12 @@ export default [
     ],
     "factionKeywords": [
       "Legiones Daemonica"
+    ],
+    "rules": [
+      {
+        "name": "HORRORS ARE PINK. HORRORS ARE BLUE. WHEREONCE THERE WAS ONE, NOW THERE ARE TWO.",
+        "text": "If, at any point, this unit contains no PINK HORROR models, use the BLUE HORRORS datasheet for this unit.\n\n**Designer’s Note:** While this unit contains one or more PINK HORROR models, the Sullen Malevolence and Exploding Horrors abilities from the BLUE HORRORS datasheet do not apply to this unit."
+      }
     ]
   },
   {

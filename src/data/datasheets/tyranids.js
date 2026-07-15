@@ -436,12 +436,6 @@ export default [
         "text": "While an enemy unit is within 6\" of this model, worsen the Leadership characteristic of models in that unit by 1. In addition, in the Battle-shock step of your opponent’s Command phase, if such an enemy unit is below its Starting Strength, it must take a Battle-shock test."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "HUNTER ORGANISM",
-        "text": "This model cannot be your WARLORD."
-      }
-    ],
     "composition": [
       "1 Deathleaper – EPIC HERO"
     ],
@@ -457,7 +451,13 @@ export default [
     "factionKeywords": [
       "Tyranids"
     ],
-    "baseSize": "60mm"
+    "baseSize": "60mm",
+    "rules": [
+      {
+        "name": "HUNTER ORGANISM",
+        "text": "This model cannot be your WARLORD."
+      }
+    ]
   },
   {
     "id": "exocrine",

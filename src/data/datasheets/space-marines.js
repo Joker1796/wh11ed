@@ -3763,12 +3763,6 @@ export default [
         "text": "While a CHARACTER model is leading this unit, each time an attack targets this unit, subtract 1 from the Wound roll."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "COMPANY HEROES",
-        "text": "You must attach one CAPTAIN or CHAPTER MASTER model to this unit. If this is not possible, this unit does not take part in the battle and counts as having been destroyed."
-      }
-    ],
     "composition": [
       "1 Ancient",
       "1 Company Champion",
@@ -3786,7 +3780,13 @@ export default [
     "factionKeywords": [
       "Adeptus Astartes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "COMPANY HEROES",
+        "text": "You must attach one CAPTAIN or CHAPTER MASTER model to this unit. If this is not possible, this unit does not take part in the battle and counts as having been destroyed."
+      }
+    ]
   },
   {
     "id": "darnath-lysander",
@@ -8454,12 +8454,6 @@ export default [
         "text": "Once per turn, when an enemy unit ends a Normal, Advance or Fall Back move within 9\" of this unit, if this unit is not within Engagement Range of one or more enemy units, it can make a Normal move."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "LAST SURVIVOR",
-        "text": "This model cannot be selected as your Warlord."
-      }
-    ],
     "composition": [
       "1 Lieutenant with Combi-weapon"
     ],
@@ -8476,7 +8470,13 @@ export default [
     "factionKeywords": [
       "Adeptus Astartes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "LAST SURVIVOR",
+        "text": "This model cannot be selected as your Warlord."
+      }
+    ]
   },
   {
     "id": "marneus-calgar-in-armour-of-antilochus",
@@ -9998,7 +9998,7 @@ export default [
     "abilities": [
       {
         "name": "Author of the Codex",
-        "text": "At the Start of your Command phase, select two Author of the Codex abilities (see left). Until the start of your next Command phase, this model has those abilities."
+        "text": "At the Start of your Command phase, select two Author of the Codex abilities (see below). Until the start of your next Command phase, this model has those abilities."
       },
       {
         "name": "Ultramarines Bodyguard",
@@ -10007,24 +10007,6 @@ export default [
       {
         "name": "Armour of Fate",
         "text": "The first time this model is destroyed, roll one D6 at the end of the phase: on a 3+, set this model back up on the battlefield as close as possible to where it was destroyed and not within Engagement Range of any enemy models, with 6 wounds remaining."
-      }
-    ],
-    "specialAbilities": [
-      {
-        "name": "SUPREME COMMANDER",
-        "text": "If this model is in your army, it must be your Warlord."
-      },
-      {
-        "name": "Primarch of the XIII (Aura)",
-        "text": "While a friendly ADEPTUS ASTARTES unit is within 6\" of this model, add 1 to the Objective Control characteristic of models in that unit and you can re-roll Battle-shock and Leadership tests taken for that unit."
-      },
-      {
-        "name": "Master of Battle",
-        "text": "At the start of your Command phase, after you have selected your Oath of Moment target, select a second enemy unit. Until the start of your next Command phase, if your Oath of Moment target is destroyed, that second enemy unit becomes your Oath of Moment target until you select a new one."
-      },
-      {
-        "name": "Supreme Strategist",
-        "text": "Once per battle round, one unit from your army with this ability can use it when a friendly ADEPTUS ASTARTES unit within 12\" of that model is targeted with a Stratagem. If it does, reduce the CP cost of that usage of that Stratagem by 1CP."
       }
     ],
     "composition": [
@@ -10043,7 +10025,32 @@ export default [
       "Adeptus Astartes",
       "Ultramarines"
     ],
-    "baseSize": "60mm"
+    "baseSize": "60mm",
+    "rules": [
+      {
+        "name": "SUPREME COMMANDER",
+        "text": "If this model is in your army, it must be your Warlord."
+      }
+    ],
+    "abilitySets": [
+      {
+        "name": "Author of the Codex",
+        "options": [
+          {
+            "name": "Primarch of the XIII (Aura)",
+            "text": "While a friendly ADEPTUS ASTARTES unit is within 6\" of this model, add 1 to the Objective Control characteristic of models in that unit and you can re-roll Battle-shock and Leadership tests taken for that unit."
+          },
+          {
+            "name": "Master of Battle",
+            "text": "At the start of your Command phase, after you have selected your Oath of Moment target, select a second enemy unit. Until the start of your next Command phase, if your Oath of Moment target is destroyed, that second enemy unit becomes your Oath of Moment target until you select a new one."
+          },
+          {
+            "name": "Supreme Strategist",
+            "text": "Once per battle round, one unit from your army with this ability can use it when a friendly ADEPTUS ASTARTES unit within 12\" of that model is targeted with a Stratagem. If it does, reduce the CP cost of that usage of that Stratagem by 1CP."
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "scout-squad",

@@ -622,12 +622,6 @@ export default [
         "text": "Once per turn, the first time a saving throw is failed for a model in the bearer’s unit, change the Damage characteristic of that attack to 0."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "ARCHON’S RETINUE",
-        "text": "If this unit has a Leader unit attached to it during the Declare Battle Formations step, that Leader unit gains the Scouts 7\" ability."
-      }
-    ],
     "composition": [
       "1 Kabalite Archsybarite",
       "9 Kabalite Agents"
@@ -655,7 +649,13 @@ export default [
     "factionKeywords": [
       "Drukhari"
     ],
-    "baseSize": "25mm"
+    "baseSize": "25mm",
+    "rules": [
+      {
+        "name": "ARCHON’S RETINUE",
+        "text": "If this unit has a Leader unit attached to it during the Declare Battle Formations step, that Leader unit gains the Scouts 7\" ability."
+      }
+    ]
   },
   {
     "id": "hellions",
@@ -1430,25 +1430,7 @@ export default [
       },
       {
         "name": "Vanguard of the Dark City",
-        "text": "At the start of your Command phase, select one of the abilities in the Vanguard of the Dark City section (see above) for this model. Until the start of your next Command phase, this model has that ability."
-      }
-    ],
-    "specialAbilities": [
-      {
-        "name": "Masters of the Shadowed Sky",
-        "text": "At the end of your Command phase, if this model is within range of an objective marker you control, and if one or more Kabalite Warriors units are embarked within it, that objective marker remains under your control until your opponent’s Level of Control over that objective marker is greater than yours at the end of a phase."
-      },
-      {
-        "name": "Speed of the Kill",
-        "text": "Each time a Wyches unit disembarks from this model (excluding Emergency Disembarkations), models in that WYCHES unit must be set up wholly within 6\" of this model."
-      },
-      {
-        "name": "Visions of Butchery",
-        "text": "While one or more Wracks units are embarked within this model, for each WRACKS model embarked within this model, add 1 to the Attacks characteristic of this model’s bladevanes and chainsnares."
-      },
-      {
-        "name": "Aethersails",
-        "text": "While one or more Drukhari units are embarked within this model, you can re-roll Advance and Charge rolls made for this model."
+        "text": "At the start of your Command phase, select one of the abilities in the Vanguard of the Dark City section (see below) for this model. Until the start of your next Command phase, this model has that ability."
       }
     ],
     "composition": [
@@ -1470,7 +1452,30 @@ export default [
     "factionKeywords": [
       "Drukhari"
     ],
-    "baseSize": "Large Flying Base"
+    "baseSize": "Large Flying Base",
+    "abilitySets": [
+      {
+        "name": "Vanguard of the Dark City",
+        "options": [
+          {
+            "name": "Masters of the Shadowed Sky",
+            "text": "At the end of your Command phase, if this model is within range of an objective marker you control, and if one or more Kabalite Warriors units are embarked within it, that objective marker remains under your control until your opponent’s Level of Control over that objective marker is greater than yours at the end of a phase."
+          },
+          {
+            "name": "Speed of the Kill",
+            "text": "Each time a Wyches unit disembarks from this model (excluding Emergency Disembarkations), models in that WYCHES unit must be set up wholly within 6\" of this model."
+          },
+          {
+            "name": "Visions of Butchery",
+            "text": "While one or more Wracks units are embarked within this model, for each WRACKS model embarked within this model, add 1 to the Attacks characteristic of this model’s bladevanes and chainsnares."
+          },
+          {
+            "name": "Aethersails",
+            "text": "While one or more Drukhari units are embarked within this model, you can re-roll Advance and Charge rolls made for this model."
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "ravager",

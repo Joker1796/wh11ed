@@ -396,12 +396,6 @@ export default [
         "text": "Each time your opponent targets a unit from their army with a Stratagem, if that unit is within 12\" of this model, increase the cost of that use of that Stratagem by 1CP."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "SHADOW ASSIGNMENT",
-        "text": "This model cannot be selected to be your WARLORD.\n\nIf your army faction is AGENTS OF THE IMPERIUM, then during the Declare Battle Formations step, you can replace this model with a different OFFICIO ASSASSINORUM model, provided the total points value of the new model does not exceed the points value of the model it replaced. Your army cannot include duplicates of the same model (i.e. after replacing a model with this rule, your army cannot have more than 1 VINDICARE ASSASSIN, it cannot have more than 1 CULEXUS ASSASSIN, it cannot have more than 1 EVERSOR ASSASSIN and it cannot have more than 1 CALLIDUS ASSASSIN)."
-      }
-    ],
     "composition": [
       "1 Callidus Assassin – EPIC HERO"
     ],
@@ -417,7 +411,13 @@ export default [
     "factionKeywords": [
       "Agents of the Imperium"
     ],
-    "baseSize": "32mm"
+    "baseSize": "32mm",
+    "rules": [
+      {
+        "name": "SHADOW ASSIGNMENT",
+        "text": "This model cannot be selected to be your WARLORD.\n\nIf your army faction is AGENTS OF THE IMPERIUM, then during the Declare Battle Formations step, you can replace this model with a different OFFICIO ASSASSINORUM model, provided the total points value of the new model does not exceed the points value of the model it replaced. Your army cannot include duplicates of the same model (i.e. after replacing a model with this rule, your army cannot have more than 1 VINDICARE ASSASSIN, it cannot have more than 1 CULEXUS ASSASSIN, it cannot have more than 1 EVERSOR ASSASSIN and it cannot have more than 1 CALLIDUS ASSASSIN)."
+      }
+    ]
   },
   {
     "id": "corvus-blackstar",
@@ -632,12 +632,6 @@ export default [
         "text": "Once per battle, at the start of any Command phase, this model can use this ability. If it does, each enemy unit within 9\" of this model must take a Battle-shock test, subtracting 1 from that test (or subtracting 2 if that unit is a PSYKER)."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "SHADOW ASSIGNMENT",
-        "text": "This model cannot be selected to be your WARLORD.\n\nIf your army faction is AGENTS OF THE IMPERIUM, then during the Declare Battle Formations step, you can replace this model with a different OFFICIO ASSASSINORUM model, provided the total points value of the new model does not exceed the points value of the model it replaced. Your army cannot include duplicates of the same model (i.e. after replacing a model with this rule, your army cannot have more than 1 VINDICARE ASSASSIN, it cannot have more than 1 CULEXUS ASSASSIN, it cannot have more than 1 EVERSOR ASSASSIN and it cannot have more than 1 CALLIDUS ASSASSIN)."
-      }
-    ],
     "composition": [
       "1 Culexus Assassin – EPIC HERO"
     ],
@@ -654,7 +648,13 @@ export default [
     "factionKeywords": [
       "Agents of the Imperium"
     ],
-    "baseSize": "32mm"
+    "baseSize": "32mm",
+    "rules": [
+      {
+        "name": "SHADOW ASSIGNMENT",
+        "text": "This model cannot be selected to be your WARLORD.\n\nIf your army faction is AGENTS OF THE IMPERIUM, then during the Declare Battle Formations step, you can replace this model with a different OFFICIO ASSASSINORUM model, provided the total points value of the new model does not exceed the points value of the model it replaced. Your army cannot include duplicates of the same model (i.e. after replacing a model with this rule, your army cannot have more than 1 VINDICARE ASSASSIN, it cannot have more than 1 CULEXUS ASSASSIN, it cannot have more than 1 EVERSOR ASSASSIN and it cannot have more than 1 CALLIDUS ASSASSIN)."
+      }
+    ]
   },
   {
     "id": "deathwatch-kill-team",
@@ -945,12 +945,6 @@ export default [
         "text": "Once per battle, in your Movement phase, this model can use this ability before it makes a Normal move. If it does, until the end of the turn, add 6\" to this model’s Move characteristic and add 3 to the Attacks characteristic of this model’s melee weapons."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "SHADOW ASSIGNMENT",
-        "text": "This model cannot be selected to be your WARLORD.\n\nIf your army faction is AGENTS OF THE IMPERIUM, then during the Declare Battle Formations step, you can replace this model with a different OFFICIO ASSASSINORUM model, provided the total points value of the new model does not exceed the points value of the model it replaced. Your army cannot include duplicates of the same model (i.e. after replacing a model with this rule, your army cannot have more than 1 VINDICARE ASSASSIN, it cannot have more than 1 CULEXUS ASSASSIN, it cannot have more than 1 EVERSOR ASSASSIN and it cannot have more than 1 CALLIDUS ASSASSIN)."
-      }
-    ],
     "composition": [
       "1 Eversor Assassin – EPIC HERO"
     ],
@@ -967,7 +961,13 @@ export default [
     "factionKeywords": [
       "Agents of the Imperium"
     ],
-    "baseSize": "32mm"
+    "baseSize": "32mm",
+    "rules": [
+      {
+        "name": "SHADOW ASSIGNMENT",
+        "text": "This model cannot be selected to be your WARLORD.\n\nIf your army faction is AGENTS OF THE IMPERIUM, then during the Declare Battle Formations step, you can replace this model with a different OFFICIO ASSASSINORUM model, provided the total points value of the new model does not exceed the points value of the model it replaced. Your army cannot include duplicates of the same model (i.e. after replacing a model with this rule, your army cannot have more than 1 VINDICARE ASSASSIN, it cannot have more than 1 CULEXUS ASSASSIN, it cannot have more than 1 EVERSOR ASSASSIN and it cannot have more than 1 CALLIDUS ASSASSIN)."
+      }
+    ]
   },
   {
     "id": "exaction-squad",
@@ -1269,12 +1269,6 @@ export default [
         "text": "In your Command phase, you can return 1 destroyed model (excluding CHARACTERS) to the bearer’s unit."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "Rites of Teleportation",
-        "text": "If one or more INQUISITOR units are attached to this unit during the Declare Battle formations step, models in those units have the Deep Strike ability."
-      }
-    ],
     "composition": [
       "1 Terminator Justicar",
       "4 Grey Knights Terminators"
@@ -1299,7 +1293,13 @@ export default [
     "factionKeywords": [
       "Agents of the Imperium"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "Rites of Teleportation",
+        "text": "If one or more INQUISITOR units are attached to this unit during the Declare Battle formations step, models in those units have the Deep Strike ability."
+      }
+    ]
   },
   {
     "id": "imperial-navy-breachers",
@@ -2511,12 +2511,6 @@ export default [
         "text": "Once per battle for each Tome-skull this unit is equipped with, at the start of any phase, you can select either one friendly AGENTS OF THE IMPERIUM unit that is Battle-shocked and within 6\" of this unit or one enemy unit within 6\" of this unit. If you select a friendly unit, that unit is no longer Battle-shocked. If you select an enemy unit, it must take a Battle-shock test.\n\n**Designer’s Note:** Place the appropriate number of Tome-skull tokens next to the unit at the start of the battle, removing one each time this unit uses this ability."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "INQUISITORIAL HENCHMEN",
-        "text": "If your Army Faction is not AGENTS OF THE IMPERIUM, then for each Inquisitor unit you include in your army, you can include one INQUISITORIAL AGENTS unit in your army that does not count towards the number of RETINUE units your army can include (see Assigned Agents)."
-      }
-    ],
     "composition": [
       "5-10 Inquisitorial Agents",
       "1-2 Gun Servitors*"
@@ -2540,7 +2534,13 @@ export default [
     "factionKeywords": [
       "Agents of the Imperium"
     ],
-    "baseSize": "25mm"
+    "baseSize": "25mm",
+    "rules": [
+      {
+        "name": "INQUISITORIAL HENCHMEN",
+        "text": "If your Army Faction is not AGENTS OF THE IMPERIUM, then for each Inquisitor unit you include in your army, you can include one INQUISITORIAL AGENTS unit in your army that does not count towards the number of RETINUE units your army can include (see Assigned Agents)."
+      }
+    ]
   },
   {
     "id": "inquisitorial-chimera",
@@ -4019,12 +4019,6 @@ export default [
         "text": "Once per battle, when selecting targets for this model’s exitus rifle, it can fire a shieldbreaker round. If it does, until the end of the phase, each time this model makes an attack with that weapon, add 1 to the Wound roll and any successful Wound roll scores a Critical Wound."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "SHADOW ASSIGNMENT",
-        "text": "This model cannot be selected to be your WARLORD.\n\nIf your army faction is AGENTS OF THE IMPERIUM, then during the Declare Battle Formations step, you can replace this model with a different OFFICIO ASSASSINORUM model, provided the total points value of the new model does not exceed the points value of the model it replaced. Your army cannot include duplicates of the same model (i.e. after replacing a model with this rule, your army cannot have more than 1 VINDICARE ASSASSIN, it cannot have more than 1 CULEXUS ASSASSIN, it cannot have more than 1 EVERSOR ASSASSIN and it cannot have more than 1 CALLIDUS ASSASSIN)."
-      }
-    ],
     "composition": [
       "1 Vindicare Assassin – EPIC HERO"
     ],
@@ -4041,7 +4035,13 @@ export default [
     "factionKeywords": [
       "Agents of the Imperium"
     ],
-    "baseSize": "32mm"
+    "baseSize": "32mm",
+    "rules": [
+      {
+        "name": "SHADOW ASSIGNMENT",
+        "text": "This model cannot be selected to be your WARLORD.\n\nIf your army faction is AGENTS OF THE IMPERIUM, then during the Declare Battle Formations step, you can replace this model with a different OFFICIO ASSASSINORUM model, provided the total points value of the new model does not exceed the points value of the model it replaced. Your army cannot include duplicates of the same model (i.e. after replacing a model with this rule, your army cannot have more than 1 VINDICARE ASSASSIN, it cannot have more than 1 CULEXUS ASSASSIN, it cannot have more than 1 EVERSOR ASSASSIN and it cannot have more than 1 CALLIDUS ASSASSIN)."
+      }
+    ]
   },
   {
     "id": "voidsmen-at-arms",
@@ -4147,12 +4147,6 @@ export default [
         "text": "Each time a model in this unit makes a ranged attack that targets the closest eligible target, that attack has the [LETHAL HITS] ability."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "NAVY BODYGUARD",
-        "text": "If your Army Faction is not AGENTS OF THE IMPERIUM, then for each Voidfarers Character unit you include in your army, you can include one VOIDSMEN-AT-ARMS unit in your army that does not count towards the number of RETINUE units your army can include (see Assigned Agents)"
-      }
-    ],
     "composition": [
       "1 Voidmaster",
       "4 Voidsmen",
@@ -4170,7 +4164,13 @@ export default [
     "factionKeywords": [
       "Agents of the Imperium"
     ],
-    "baseSize": "25mm"
+    "baseSize": "25mm",
+    "rules": [
+      {
+        "name": "NAVY BODYGUARD",
+        "text": "If your Army Faction is not AGENTS OF THE IMPERIUM, then for each Voidfarers Character unit you include in your army, you can include one VOIDSMEN-AT-ARMS unit in your army that does not count towards the number of RETINUE units your army can include (see Assigned Agents)"
+      }
+    ]
   },
   {
     "id": "watch-captain-artemis",

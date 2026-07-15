@@ -67,29 +67,11 @@ export default [
     "abilities": [
       {
         "name": "The Warmaster",
-        "text": "In your Command phase, select one Warmaster ability (see left). Until the start of your next Command phase, this model has that ability."
+        "text": "In your Command phase, select one Warmaster ability (see below). Until the start of your next Command phase, this model has that ability."
       },
       {
         "name": "Dark Destiny",
         "text": "Each time this model's unit makes a Dark Pact and does not fail the resulting Leadership test, if the result of that test was 7+, you gain 1CP."
-      }
-    ],
-    "specialAbilities": [
-      {
-        "name": "SUPREME COMMANDER",
-        "text": "If this model is in your army, it must be your Warlord."
-      },
-      {
-        "name": "Paragon of Hatred (Aura)",
-        "text": "While a friendly HERETIC ASTARTES unit is within 6\" (excluding DAMNED units) of this model, each time a model in that unit makes an attack, you can re-roll the Hit roll."
-      },
-      {
-        "name": "Mark of Chaos Ascendant (Aura)",
-        "text": "While a friendly Heretic Astartes Infantry or Heretic Astartes Mounted unit (excluding DAMNED units) is within 6\" of this model, models in that unit have a 4+ invulnerable save."
-      },
-      {
-        "name": "Lord of the Traitor Legions (Aura)",
-        "text": "While a friendly HERETIC ASTARTES unit (excluding DAMNED units) is within 6\" of this model, you can re-roll Leadership and Battle-shock tests taken for that unit."
       }
     ],
     "composition": [
@@ -115,7 +97,32 @@ export default [
     "factionKeywords": [
       "Heretic Astartes"
     ],
-    "baseSize": "60mm"
+    "baseSize": "60mm",
+    "rules": [
+      {
+        "name": "SUPREME COMMANDER",
+        "text": "If this model is in your army, it must be your Warlord."
+      }
+    ],
+    "abilitySets": [
+      {
+        "name": "The Warmaster",
+        "options": [
+          {
+            "name": "Paragon of Hatred (Aura)",
+            "text": "While a friendly HERETIC ASTARTES unit is within 6\" (excluding DAMNED units) of this model, each time a model in that unit makes an attack, you can re-roll the Hit roll."
+          },
+          {
+            "name": "Mark of Chaos Ascendant (Aura)",
+            "text": "While a friendly Heretic Astartes Infantry or Heretic Astartes Mounted unit (excluding DAMNED units) is within 6\" of this model, models in that unit have a 4+ invulnerable save."
+          },
+          {
+            "name": "Lord of the Traitor Legions (Aura)",
+            "text": "While a friendly HERETIC ASTARTES unit (excluding DAMNED units) is within 6\" of this model, you can re-roll Leadership and Battle-shock tests taken for that unit."
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "accursed-cultists",
@@ -5410,12 +5417,6 @@ export default [
         "text": "Enemy units (excluding MONSTERS and VEHICLES) cannot be targeted with Stratagems while they are within Engagement Range of the bearer’s unit."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "ATTACHED UNIT",
-        "text": "If a Character unit from your army with the Leader ability (excluding Epic Heroes) can be attached to a Legionaries unit, it can be attached to this unit instead."
-      }
-    ],
     "composition": [
       "1 Visionary",
       "4-9 Legionaries"
@@ -5439,7 +5440,13 @@ export default [
     "factionKeywords": [
       "Heretic Astartes"
     ],
-    "baseSize": "32mm"
+    "baseSize": "32mm",
+    "rules": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Character unit from your army with the Leader ability (excluding Epic Heroes) can be attached to a Legionaries unit, it can be attached to this unit instead."
+      }
+    ]
   },
   {
     "id": "noctilith-crown",
