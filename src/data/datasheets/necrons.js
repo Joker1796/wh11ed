@@ -4302,6 +4302,16 @@ export default [
       "Triarch",
       "The Silent King"
     ],
+    "keywordsByModel": [
+      {
+        "model": "ALL MODELS",
+        "list": ["Vehicle", "Epic Hero", "Triarch"]
+      },
+      {
+        "model": "SZAREKH MODEL",
+        "list": ["Character", "The Silent King"]
+      }
+    ],
     "factionKeywords": [
       "Necrons"
     ]
