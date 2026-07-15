@@ -4254,6 +4254,16 @@ export default [
         "text": "While a friendly NECRONS unit (excluding Monster units) is within 6\" of this unit’s Szarekh model, add 2\" to the Move characteristic of models in that unit."
       }
     ],
+    "rules": [
+      {
+        "name": "SUPREME COMMANDER",
+        "text": "If this unit is in your army, it must be your WARLORD."
+      },
+      {
+        "name": "TRIARCHAL MENHIRS",
+        "text": "If this unit’s Szarekh model is destroyed, all of this unit’s remaining Triarchal Menhir models are also destroyed."
+      }
+    ],
     "damaged": {
       "note": "1-6 wounds remaining",
       "text": "While this unit’s Szarekh model has 1-6 wounds remaining, halve the Attacks characteristic of that model’s weapons, and each time this unit makes an attack, subtract 1 from the Hit roll."
