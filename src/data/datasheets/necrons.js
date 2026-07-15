@@ -1173,7 +1173,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Support",
+    "core": "Leader",
     "faction": "Reanimation Protocols",
     "abilities": [
       {
@@ -1264,6 +1264,12 @@ export default [
         "text": "While an enemy unit is only within Engagement Range of one or more Fortifications from your army:\n▪ That unit can still be selected as the target of ranged attacks, but each time such an attack is made, unless it is made with a Pistol, subtract 1 from the Hit roll.\n▪ Models in that unit do not need to take Desperate Escape tests due to Falling Back while Battle-shocked, except for those that will move over enemy models when doing so."
       }
     ],
+    "rules": [
+      {
+        "name": "DEPLOYMENT",
+        "text": "When this unit is first set up on the battlefield, its models do not have to be set up in Unit Coherency. Instead, each model must be set up wholly within 12\" of one other model from its unit. From that point on, each model in this unit is treated as a separate unit."
+      }
+    ],
     "composition": [
       "1-3 Convergence of Dominion Starsteles"
     ],
@@ -1332,6 +1338,12 @@ export default [
       {
         "name": "Systematic Vigour",
         "text": "Each time a CRYPTOTHRALL model in this unit is destroyed by a melee attack, if that model has not fought this phase, roll one D6: on a 2+, do not remove it from play.  The destroyed model can fight after the attacking model’s unit has finished making its attacks, and it is then removed from play."
+      }
+    ],
+    "rules": [
+      {
+        "name": "CRYPTEK RETINUE",
+        "text": "At the start of the Declare Battle Formations step, this unit can join one other unit from your army that is being led by a Cryptek Infantry model (a unit cannot have more than one Cryptothralls unit joined to it). If it does, until the end of the battle, every model in this unit counts as being part of that Bodyguard unit, and that Bodyguard unit’s Starting Strength is increased accordingly."
       }
     ],
     "composition": [
@@ -1729,7 +1741,7 @@ export default [
         "d": "2"
       }
     ],
-    "core": "Support",
+    "core": "Leader",
     "faction": "Reanimation Protocols",
     "abilities": [
       {
@@ -2670,7 +2682,7 @@ export default [
     "abilities": [
       {
         "name": "Eternity Gate",
-        "text": "In your movement phase (excluding the first battle round), you can select one friendly Necrons Infantry unit that is either in strategic reserves or on the battlefield (if you select a unit on the battlefield, remove that unit from the battlefield and place it into strategic reserves). That unit can make an ingress move, and must be set up wholly within 6\" of this unit and not engaged with any enemy units. That unit cannot make a charge move this turn."
+        "text": "In the Reinforcements step of your Movement phase, you can select one Necrons Infantry unit from your army that is either in Reserves or on the battlefield (if you select the latter, remove that unit from the battlefield and place it into Reserves). That unit is then set up anywhere on the battlefield that is wholly within 6\" of this model and not within Engagement Range of any enemy models. That unit cannot declare a charge this turn."
       }
     ],
     "damaged": {
@@ -2933,8 +2945,8 @@ export default [
     "faction": "Reanimation Protocols",
     "abilities": [
       {
-        "name": "Invasion Beams",
-        "text": "At the end of the Fight phase, if there are no models currently embarked within this TRANSPORT, you can select one friendly Necrons Infantry unit wholly within 6\" of this TRANSPORT. Unless that unit is within Engagement Range of one or more enemy units, it can embark within this TRANSPORT. That unit can embark within this TRANSPORT in a turn it disembarked from this TRANSPORT."
+        "name": "Translocation Beams",
+        "text": "At the end of the Fight phase, if there are no models currently embarked within this TRANSPORT, you can select one friendly Necrons Infantry unit wholly within 6\" of this TRANSPORT. Unless that unit is within Engagement Range of one or more enemy units, it can embark within this TRANSPORT."
       },
       {
         "name": "Quantum Invader",
@@ -3097,7 +3109,7 @@ export default [
     "abilities": [
       {
         "name": "Tunnelling Horrors",
-        "text": "At the end of your opponent’s turn, if this unit is not within Engagement Range of one or more enemy units, you can remove this unit from the battlefield. In the Reinforcements step of your next Movement phase, set it up anywhere on the battlefield that is more than 8\" horizontally away from all enemy models."
+        "text": "At the end of your opponent’s turn, if this unit is not within Engagement Range of one or more enemy units, you can remove this unit from the battlefield. In the Reinforcements step of your next Movement phase, set it up anywhere on the battlefield that is more than 9\" horizontally away from all enemy models."
       }
     ],
     "wargearAbilities": [
@@ -3158,7 +3170,7 @@ export default [
         "d": "D3"
       }
     ],
-    "core": "Support",
+    "core": "Leader",
     "faction": "Reanimation Protocols",
     "abilities": [
       {
@@ -3440,7 +3452,7 @@ export default [
         "d": "2"
       }
     ],
-    "core": "Support",
+    "core": "Leader",
     "faction": "Reanimation Protocols",
     "abilities": [
       {
@@ -3519,7 +3531,7 @@ export default [
         "d": "3"
       }
     ],
-    "core": "Support",
+    "core": "Leader",
     "faction": "Reanimation Protocols",
     "abilities": [
       {
@@ -3972,7 +3984,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Support",
+    "core": "Leader",
     "faction": "Reanimation Protocols",
     "abilities": [
       {
@@ -4476,7 +4488,7 @@ export default [
     "abilities": [
       {
         "name": "Transdimensional Displacement",
-        "text": "Each time this model is selected to Advance, you can remove it from the battlefield and set it up again anywhere on the battlefield that is more than 8\" horizontally away from all enemy units."
+        "text": "Each time this model is selected to Advance, you can remove it from the battlefield and set it up again anywhere on the battlefield that is more than 9\" horizontally away from all enemy units."
       },
       {
         "name": "Necrodermis",
