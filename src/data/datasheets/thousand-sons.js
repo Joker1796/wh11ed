@@ -339,7 +339,8 @@ export default [
       "Tzeentch",
       "Chaos",
       "Smoke",
-      "Transport"
+      "Transport",
+      "Frame"
     ],
     "factionKeywords": [
       "Thousand Sons",
@@ -484,7 +485,8 @@ export default [
       "Smoke",
       "Vehicle",
       "Predator Annihilator",
-      "Chaos"
+      "Chaos",
+      "Frame"
     ],
     "factionKeywords": [
       "",
@@ -629,7 +631,8 @@ export default [
       "Smoke",
       "Vehicle",
       "Predator Destructor",
-      "Tzeentch"
+      "Tzeentch",
+      "Frame"
     ],
     "factionKeywords": [
       "Thousand Sons",
@@ -732,7 +735,8 @@ export default [
       "Chaos",
       "Vehicle",
       "Rhino",
-      "Tzeentch"
+      "Tzeentch",
+      "Frame"
     ],
     "factionKeywords": [
       "",
@@ -911,7 +915,8 @@ export default [
       "Tzeentch",
       "Vindicator",
       "Vehicle",
-      "Smoke"
+      "Smoke",
+      "Frame"
     ],
     "factionKeywords": [
       "Thousand Sons",
@@ -1976,12 +1981,12 @@ export default [
     "profiles": [
       {
         "name": "Heldrake",
-        "m": "20+\"",
+        "m": "12\"",
         "t": "9",
         "sv": "3+",
         "w": "12",
         "ld": "6+",
-        "oc": "0",
+        "oc": "-",
         "inv": "5+"
       }
     ],
@@ -2043,7 +2048,6 @@ export default [
       "This model’s Hades autocannon can be replaced with 1 baleflamer."
     ],
     "keywords": [
-      "Aircraft",
       "Vehicle",
       "Heldrake",
       "Tzeentch",
@@ -2216,7 +2220,7 @@ export default [
           "PSYCHIC"
         ],
         "range": "24\"",
-        "a": "D3+6",
+        "a": "D6+6",
         "bs": "2+",
         "s": "9",
         "ap": "-2",
@@ -2612,7 +2616,7 @@ export default [
     "abilities": [
       {
         "name": "Snarling Protector",
-        "text": "You can target this model with the Heroic Intervention Stratagem for 0CP, and can do so even if you have already targeted a different unit with that Stratagem this phase. In addition, each time this model declares a charge that targets an enemy unit within Engagement Range of one or more Thousand Sons Psyker units from your army, you can re-roll the Charge roll."
+        "text": "You can target this unit with the Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do: that use is -1 CP; that use does not prevent any uses of that Stratagem on other units this phase; when this unit declares a charge, if a friendly engaged PSYKER unit is within 12\" of this unit, you can use this part of this ability. If you do, this unit can re-roll that charge roll and this unit must end that charge move engaged with an enemy unit engaged with that friendly PSYKER unit."
       }
     ],
     "damaged": {
@@ -3433,7 +3437,7 @@ export default [
     "abilities": [
       {
         "name": "Prophetic Sentinels",
-        "text": "Once per battle round, you can target this unit with the Fire Overwatch or Heroic Intervention Stratagem for 0CP."
+        "text": "Once per turn, when you target this unit with the Fire Overwatch or Heroic Intervention Stratagem, that use is -1 CP."
       }
     ],
     "composition": [
@@ -3840,7 +3844,7 @@ export default [
     "abilities": [
       {
         "name": "Malign Trickery",
-        "text": "Once per turn, when an enemy unit ends a Normal, Advance or Fall Back move within 9\" of this unit, if this unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to D6\"."
+        "text": "In your opponent’s Movement phase, if an enemy unit ends a move within 8\" of this unit, if this unit is not within Engagement Range of one or more enemy units, this unit can make a Normal move of up to D6\"."
       }
     ],
     "composition": [
