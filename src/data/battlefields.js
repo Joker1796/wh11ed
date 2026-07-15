@@ -744,6 +744,7 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
       ],
       stratagems: [
         {
+          nameRu: 'Командный переброс',
           flavor: 'Великий командующий способен подчинить своей воле даже превратности судьбы и удачи, чтобы обеспечить победу.',
           when: 'Любая фаза, сразу после того, как вы совершили один из следующих бросков за дружественный юнит или модель:\n▪ Бросок на продвижение (Advance roll)\n▪ Бросок на нападение (Charge roll)\n▪ Бросок на урон (Damage roll)\n▪ Бросок на опасность (Hazard roll)\n▪ Бросок на попадание (Hit roll)\n▪ Спас-бросок (Save roll)\n▪ Бросок на ранение (Wound roll)\n▪ Бросок для определения количества атак, совершаемых оружием',
           target: 'Этот юнит или модель.',
@@ -752,6 +753,7 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
           extraCost: [],
         },
         {
+          nameRu: 'Эпический вызов',
           flavor: 'Легенды 41-го тысячелетия изобилуют рассказами о смертельных поединках между могущественными героями.',
           when: 'Фаза ближнего боя, сразу после того, как дружественный юнит CHARACTER выбран для совершения атак.',
           target: 'Этот юнит CHARACTER.',
@@ -760,6 +762,7 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
           extraCost: [],
         },
         {
+          nameRu: 'Безумная храбрость',
           flavor: 'Безразличные к собственному выживанию, эти воины держат позицию даже против, казалось бы, неодолимых сил.',
           when: 'Шаг боевого шока (Battle-shock step) вашей фазы командования (Command phase), сразу перед тем, как вы совершаете **[gloss:battle-shock-test:бросок на боевой шок]** за дружественный юнит.',
           target: 'Этот юнит.',
@@ -768,6 +771,7 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
           extraCost: [],
         },
         {
+          nameRu: 'Взрывчатка',
           flavor: 'Активируя детонаторы гранат и другой взрывчатки, эти воины заносят руку и швыряют саму смерть в самую гущу неприятеля.',
           when: 'Ваша фаза стрельбы (Shooting phase).',
           target: 'Один дружественный **[gloss:unengaged:не связанный боем]** юнит EXPLOSIVES/GRENADES (ВЗРЫВЧАТКА/ГРАНАТЫ), который является допустимой целью для стрельбы и не совершал **[gloss:advance-move:продвижение]** в этом ходу.',
@@ -776,6 +780,7 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
           extraCost: [],
         },
         {
+          nameRu: 'Сокрушительный удар',
           flavor: 'В крайнем случае, бронированные машины и буйствующие чудовища могут пустить в ход свои исполинские габариты как оружие — давя и круша врагов под своей колоссальной тушей, пусть подобное и чревато ответными повреждениями.',
           when: 'Ваша фаза нападения (Charge phase), сразу после того, как дружественный юнит MONSTER/VEHICLE завершает **[gloss:charge-move:манёвр нападения]**.',
           target: 'Этот юнит MONSTER/VEHICLE.',
@@ -784,6 +789,7 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
           extraCost: [],
         },
         {
+          nameRu: 'Стремительное прибытие',
           flavor: 'Будь то коварная стратегия, могущественные технологии или оккультный ритуал — есть множество путей, коими полководец может ускорить выдвижение своих войск.',
           when: 'Конец фазы движения (Movement phase) вашего противника.',
           target: 'Один дружественный юнит, находящийся в **[gloss:strategic-reserves:стратегическом резерве]** (не юнит AIRCRAFT).',
@@ -792,6 +798,7 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
           extraCost: [],
         },
         {
+          nameRu: 'Заградительный огонь',
           flavor: 'Шквальный огонь обратит вспять любую атаку.',
           when: 'Конец фазы движения (Movement phase) вашего противника.',
           target: 'Один дружественный **[gloss:unengaged:не связанный боем]** юнит (не юнит **[gloss:titanic:TITANIC]**).',
@@ -810,6 +817,7 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
           },
         },
         {
+          nameRu: 'Дымовая завеса',
           flavor: 'Даже самым искусным стрелкам трудно попасть в цель, укрытую клубящимися дымовыми завесами.',
           when: 'Начало фазы стрельбы (Shooting phase) вашего противника.',
           target: 'Один дружественный юнит SMOKE (ДЫМОВОЙ ЗАВЕСЫ).',
@@ -818,6 +826,7 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
           extraCost: [],
         },
         {
+          nameRu: 'Героическое вмешательство',
           flavor: 'Возвышая голоса в яростных боевых кличах, ваши воины устремляются вперёд, чтобы встретить вражеский натиск лицом к лицу.',
           when: 'Конец фазы нападения (Charge phase) вашего противника.',
           target: 'Один дружественный **[gloss:unengaged:не связанный боем]** юнит в пределах 12" от одного или нескольких вражеских юнитов. Вы можете выбрать юнит VEHICLE, только если это юнит CHARACTER/WALKER.',
@@ -832,6 +841,7 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
           ],
         },
         {
+          nameRu: 'Контрнаступление',
           flavor: 'В рукопашной схватке даже миг промедления даёт быстрому противнику шанс, которым он непременно воспользуется.',
           when: 'Шаг ближнего боя (Fight step) фазы ближнего боя (Fight phase) вашего противника, сразу после того, как вражеский юнит отыграл свои атаки.',
           target: 'Один дружественный юнит, который может **[gloss:eligible-to-fight:совершать атаки в ближнем бою]**.',
