@@ -532,7 +532,7 @@ export default [
       },
       {
         "name": "Unhinged Vengeance",
-        "text": "In your opponent’s Shooting phase, each time an enemy unit has shot, if this model lost one or more wounds as a result of those attacks, this model can make a Vengeance move. To do so, roll one D6 and add 2 to the result: it moves a number of inches up to this result, but it must end that move as close as possible to the closest enemy unit (excluding AIRCRAFT). When doing so, it can be moved within Engagement Range of that enemy unit. This model cannot make a Vengeance move while it is Battle-shocked or within Engagement Range of one or more enemy units, and can only make one Vengeance move per phase."
+        "text": "In your opponent’s Shooting phase, when an enemy unit has shot, if this model lost one or more wounds as a result of those attacks, this unit can make a surge move of up to D6+2\"."
       }
     ],
     "composition": [
@@ -1501,7 +1501,8 @@ export default [
     "keywords": [
       "Hekaton Land Fortress",
       "Vehicle",
-      "Transport"
+      "Transport",
+      "Frame"
     ],
     "factionKeywords": [
       "Leagues of Votann"
@@ -1759,7 +1760,7 @@ export default [
     "abilities": [
       {
         "name": "Pragmatic Hunters",
-        "text": "Once per turn, when an enemy unit ends a Normal, Advance or Fall Back move within 9\" of this unit, it can make a Normal move of up to D6\"."
+        "text": "In your opponent’s Movement phase, if an enemy unit ends a move within 8\" of this unit, if this unit is not within Engagement Range of one or more enemy units, this unit can make a Normal move of up to D6\"."
       }
     ],
     "composition": [
@@ -2375,7 +2376,7 @@ export default [
       },
       {
         "name": "Predictive Guidance",
-        "text": "Once per battle round, this model can use this ability. If it does, you can target this unit with the Fire Overwatch or Heroic Intervention Stratagem for 0CP."
+        "text": "Once per battle round, when you target this unit with the Fire Overwatch or Heroic Intervention Stratagem, you can use this ability. If you do, that use of that Stratagem is -1 CP."
       }
     ],
     "composition": [
@@ -2521,7 +2522,8 @@ export default [
       "Sagitaur",
       "Dedicated Transport",
       "Transport",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Leagues of Votann"

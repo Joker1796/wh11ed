@@ -2333,7 +2333,7 @@ export default [
         "d": "2"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Templar Vows",
     "abilities": [
       {
@@ -2821,21 +2821,7 @@ export default [
       },
       {
         "name": "Temple Relics",
-        "text": "In your Command phase, if this unit contains one or more Cenobyte Servitor models, select one Temple Relics ability (see left). Until the start of your next Command phase, this unit’s Chaplain Grimaldus model has that ability."
-      }
-    ],
-    "specialAbilities": [
-      {
-        "name": "Banner of the Emperor Victorious",
-        "text": "Add 1 to Advance and Charge rolls made for this unit."
-      },
-      {
-        "name": "Column from the Major Altar",
-        "text": "Add 1 to the Toughness characteristic of models in this unit."
-      },
-      {
-        "name": "Water from the Stoup of Elucidation",
-        "text": "Improve the Armour Penetration characteristic of melee weapons equipped by models in this unit by 1."
+        "text": "In your Command phase, if this unit contains one or more Cenobyte Servitor models, select one Temple Relics ability (see below). Until the start of your next Command phase, this unit’s Chaplain Grimaldus model has that ability."
       }
     ],
     "composition": [
@@ -2870,6 +2856,25 @@ export default [
     "factionKeywords": [
       "Black Templars",
       "Adeptus Astartes"
+    ],
+    "abilitySets": [
+      {
+        "name": "Temple Relics",
+        "options": [
+          {
+            "name": "Banner of the Emperor Victorious",
+            "text": "Add 1 to Advance and Charge rolls made for this unit."
+          },
+          {
+            "name": "Column from the Major Altar",
+            "text": "Add 1 to the Toughness characteristic of models in this unit."
+          },
+          {
+            "name": "Water from the Stoup of Elucidation",
+            "text": "Improve the Armour Penetration characteristic of melee weapons equipped by models in this unit by 1."
+          }
+        ]
+      }
     ]
   },
   {
@@ -3390,7 +3395,13 @@ export default [
     "factionKeywords": [
       "Adeptus Astartes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "COMPANY HEROES",
+        "text": "You must attach one CAPTAIN or CHAPTER MASTER model to this unit. If this is not possible, this unit does not take part in the battle and counts as having been destroyed."
+      }
+    ]
   },
   {
     "id": "crusade-ancient",
@@ -3440,7 +3451,7 @@ export default [
         "d": "2"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Templar Vows",
     "abilities": [
       {
@@ -3640,7 +3651,7 @@ export default [
     "abilities": [
       {
         "name": "Righteous Zeal",
-        "text": "In your opponent’s Shooting phase, each time an enemy unit has shot, if any models in this unit were destroyed as a result of those attacks, this unit can make a Righteous Zeal move. To do so, roll one D6 and add 2 to the result: models in this unit move a number of inches up to this result, but this unit must end that move as close as possible to the closest enemy unit (excluding AIRCRAFT). When doing so, those models can be moved within Engagement Range of that enemy unit. This unit cannot make a Righteous Zeal move while it is Battle-shocked or within Engagement Range of one or more enemy units, and can only make one Righteous Zeal move per phase."
+        "text": "In your opponent’s Shooting phase, each time an enemy unit has shot, if any models in this unit were destroyed as a result of those attacks, this unit can make a surge move of up to D6+2\"."
       }
     ],
     "composition": [
@@ -3666,6 +3677,12 @@ export default [
     "factionKeywords": [
       "Black Templars",
       "Adeptus Astartes"
+    ],
+    "rules": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Character from your army with the Leader ability can be attached to an Intercessor Squad, it can be attached to this unit instead."
+      }
     ]
   },
   {
@@ -4529,7 +4546,7 @@ export default [
       },
       {
         "name": "Sigismund’s Heir",
-        "text": "Each time this model’s unit declares a charge, if one or more targets of that charge have the CHARACTER keyword, add 2 to the Charge roll. Once per battle, when this model’s unit is selected to fight, if that unit is within Engagement Range of one or more enemy CHARACTER units, this model can use this ability. If it does, until the end of the phase, melee weapons equipped by this model have the [DEVASTATING WOUNDS] ability."
+        "text": "Each time this model’s unit declares a charge, if an enemy CHARACTER unit is within 12\" of this unit, you can use this part of this ability. If you do: this unit can re-roll that charge roll; this unit must end that charge move engaged with one or more of those enemy CHARACTER units. (Once per battle, per army) In the Fight phase, when this unit is selected to fight, if this unit is engaged with a CHARACTER unit, you can use this part of this ability. If you do, this unit’s melee attacks have [DEVASTATING WOUNDS]."
       }
     ],
     "specialAbilities": [
@@ -5107,7 +5124,8 @@ export default [
       "Vehicle",
       "Smoke",
       "Imperium",
-      "Gladiator Lancer"
+      "Gladiator Lancer",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -5227,7 +5245,8 @@ export default [
       "Vehicle",
       "Imperium",
       "Gladiator Reaper",
-      "Smoke"
+      "Smoke",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -5346,7 +5365,8 @@ export default [
       "Imperium",
       "Vehicle",
       "Gladiator Valiant",
-      "Smoke"
+      "Smoke",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -5957,7 +5977,8 @@ export default [
       "Imperium",
       "Vehicle",
       "Transport",
-      "Impulsor"
+      "Impulsor",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -7199,7 +7220,8 @@ export default [
       "Transport",
       "Grenades",
       "Smoke",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -7892,7 +7914,13 @@ export default [
     "factionKeywords": [
       "Adeptus Astartes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "LAST SURVIVOR",
+        "text": "This model cannot be selected as your Warlord."
+      }
+    ]
   },
   {
     "id": "marshal",
@@ -8984,7 +9012,8 @@ export default [
       "Repulsor",
       "Smoke",
       "Imperium",
-      "Deathwing"
+      "Deathwing",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -9169,7 +9198,8 @@ export default [
       "Imperium",
       "Transport",
       "Smoke",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -10656,7 +10686,13 @@ export default [
       "Black Templars",
       "Adeptus Astartes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Character from your army with the Leader ability can be attached to an Intercessor Squad, it can be attached to this unit instead."
+      }
+    ]
   },
   {
     "id": "tactical-squad",
@@ -11352,7 +11388,7 @@ export default [
     "abilities": [
       {
         "name": "Teleport Homer",
-        "text": "At the start of the battle, you can set up one Teleport Homer token for this unit anywhere on the battlefield that is not in your opponent’s deployment zone. If you do, once per battle, you can target this unit with the Rapid Ingress Stratagem for 0CP, but when resolving that Stratagem, you must set this unit up within 3\" of that token and not within 9\" of any enemy models. That token is then removed."
+        "text": "At the start of the battle, you can set up one Teleport Homer token for this unit anywhere on the battlefield that is not in your opponent’s deployment zone. If you do, once per battle, you can target this unit with the Rapid Ingress Stratagem for 0CP, but when resolving that Stratagem, you must set this unit up within 3\" of that token and not within 8\" of any enemy models. That token is then removed."
       },
       {
         "name": "Fury of the First",

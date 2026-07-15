@@ -3443,7 +3443,13 @@ export default [
     "factionKeywords": [
       "Adeptus Astartes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "COMPANY HEROES",
+        "text": "You must attach one CAPTAIN or CHAPTER MASTER model to this unit. If this is not possible, this unit does not take part in the battle and counts as having been destroyed."
+      }
+    ]
   },
   {
     "id": "deathwing-knights",
@@ -3524,7 +3530,7 @@ export default [
     "abilities": [
       {
         "name": "Teleport Homer",
-        "text": "At the start of the battle, you can set up one Teleport Homer token for this unit anywhere on the battlefield that is not in your opponent’s deployment zone. If you do, once per battle, you can target this unit with the Rapid Ingress Stratagem for 0CP, but when resolving that Stratagem, you must set this unit up within 3\" horizontally of that token and not within 9\" horizontally of any enemy models. That token is then removed."
+        "text": "At the start of the battle, you can set up one Teleport Homer token for this unit anywhere on the battlefield that is not in your opponent’s deployment zone. If you do, once per battle, you can target this unit with the Rapid Ingress Stratagem for 0CP, but when resolving that Stratagem, you must set this unit up within 3\" horizontally of that token and not within 8\" horizontally of any enemy models. That token is then removed."
       },
       {
         "name": "Inner Circle",
@@ -3558,7 +3564,13 @@ export default [
       "Dark Angels",
       "Adeptus Astartes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Character unit from your army with the Leader ability can be attached to a Terminator Squad, it can be attached to this unit instead."
+      }
+    ]
   },
   {
     "id": "deathwing-terminator-squad",
@@ -3708,7 +3720,7 @@ export default [
     "abilities": [
       {
         "name": "Teleport Homer",
-        "text": "At the start of the battle, you can set up one Teleport Homer token for this unit anywhere on the battlefield that is not in your opponent’s deployment zone. If you do, once per battle, you can target this unit with the Rapid Ingress Stratagem for 0CP, but when resolving that Stratagem, you must set this unit up within 3\" horizontally of that token and not within 9\" horizontally of any enemy models. That token is then removed."
+        "text": "At the start of the battle, you can set up one Teleport Homer token for this unit anywhere on the battlefield that is not in your opponent’s deployment zone. If you do, once per battle, you can target this unit with the Rapid Ingress Stratagem for 0CP, but when resolving that Stratagem, you must set this unit up within 3\" horizontally of that token and not within 8\" horizontally of any enemy models. That token is then removed."
       },
       {
         "name": "Deathwing",
@@ -3742,7 +3754,13 @@ export default [
       "Dark Angels",
       "Adeptus Astartes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Character unit from your army with the Leader ability can be attached to a Terminator Squad, it can be attached to this unit instead."
+      }
+    ]
   },
   {
     "id": "desolation-squad",
@@ -6385,7 +6403,13 @@ export default [
       "Dark Angels",
       "Adeptus Astartes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "Attached Unit",
+        "text": "If a Character unit from your army with the Leader ability can be attached to a Sternguard Veteran Squad, it can be attached to this unit instead."
+      }
+    ]
   },
   {
     "id": "intercessor-squad",
@@ -7534,7 +7558,8 @@ export default [
       "Fly",
       "Ravenwing",
       "Land Speeder Vengeance",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Dark Angels",
@@ -8481,7 +8506,13 @@ export default [
     "factionKeywords": [
       "Adeptus Astartes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "LAST SURVIVOR",
+        "text": "This model cannot be selected as your Warlord."
+      }
+    ]
   },
   {
     "id": "lion-eljonson",
@@ -8604,7 +8635,13 @@ export default [
       "Adeptus Astartes",
       "Dark Angels"
     ],
-    "baseSize": "60mm"
+    "baseSize": "60mm",
+    "rules": [
+      {
+        "name": "SUPREME COMMANDER",
+        "text": "If this model is in your army, it must be your Warlord."
+      }
+    ]
   },
   {
     "id": "nephilim-jetfighter",
@@ -8619,12 +8656,12 @@ export default [
     "profiles": [
       {
         "name": "Nephilim Jetfighter",
-        "m": "20+\"",
+        "m": "-",
         "t": "8",
         "sv": "3+",
         "w": "11",
         "ld": "6+",
-        "oc": "0",
+        "oc": "-",
         "inv": "5+"
       }
     ],
@@ -8688,7 +8725,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deadly Demise D3, Hover",
+    "core": "Deadly Demise D3",
     "faction": "Oath of Moment",
     "abilities": [
       {
@@ -9267,7 +9304,13 @@ export default [
       "Adeptus Astartes",
       "Dark Angels"
     ],
-    "baseSize": "75x42mm Oval Base"
+    "baseSize": "75x42mm Oval Base",
+    "rules": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Character unit from your army with the Leader ability can be attached to an Outrider Squad, it can be attached to this unit instead."
+      }
+    ]
   },
   {
     "id": "ravenwing-command-squad",
@@ -9393,7 +9436,7 @@ export default [
       },
       {
         "name": "Honour or Death",
-        "text": "While this unit contains a Ravenwing Champion, add 1 to Advance and Charge rolls made for this unit and you can target this unit with the Heroic Intervention Stratagem for 0CP."
+        "text": "While this unit contains a Ravenwing Champion, add 1 to Advance and Charge rolls made for this unit. When you target this unit with the Heroic Intervention Stratagem, that use is -1 CP."
       }
     ],
     "composition": [
@@ -9441,12 +9484,12 @@ export default [
     "profiles": [
       {
         "name": "Ravenwing Dark Talon",
-        "m": "20+\"",
+        "m": "-",
         "t": "8",
         "sv": "3+",
         "w": "11",
         "ld": "6+",
-        "oc": "0",
+        "oc": "-",
         "inv": "5+"
       }
     ],
@@ -9489,7 +9532,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deadly Demise D3, Hover",
+    "core": "Deadly Demise D3",
     "faction": "Oath of Moment",
     "abilities": [
       {
@@ -9598,7 +9641,8 @@ export default [
       "Imperium",
       "Fly",
       "Vehicle",
-      "Ravenwing Darkshroud"
+      "Ravenwing Darkshroud",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes",
@@ -10539,7 +10583,8 @@ export default [
       "Fly",
       "Epic Hero",
       "Character",
-      "Mounted"
+      "Mounted",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes",

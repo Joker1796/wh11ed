@@ -104,7 +104,13 @@ export default [
     "factionKeywords": [
       "Adeptus Custodes"
     ],
-    "baseSize": "75x42mm Oval Base"
+    "baseSize": "75x42mm Oval Base",
+    "rules": [
+      {
+        "name": "JETBIKE OUTRIDERS",
+        "text": "If a model from your army with the Leader ability can be attached to a Vertus Praetors unit, it can be attached to this unit instead."
+      }
+    ]
   },
   {
     "id": "aleya",
@@ -404,7 +410,8 @@ export default [
       "Smoke",
       "Transport",
       "Rhino",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Custodes"
@@ -525,7 +532,13 @@ export default [
     "factionKeywords": [
       "Adeptus Custodes"
     ],
-    "baseSize": "50mm"
+    "baseSize": "50mm",
+    "rules": [
+      {
+        "name": "LIONS OF THE EMPEROR",
+        "text": "If a model from your army with the Leader ability can be attached to an Allarus Custodians unit, it can be attached to this unit instead."
+      }
+    ]
   },
   {
     "id": "ares-gunship",
@@ -1353,7 +1366,13 @@ export default [
     "factionKeywords": [
       "Adeptus Custodes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "CUSTODIAN GUARD",
+        "text": "If an ADEPTUS CUSTODES model from your army with the Leader ability can be attached to a Custodian Guard unit, it can be attached to this unit instead."
+      }
+    ]
   },
   {
     "id": "custodian-wardens",
@@ -1929,7 +1948,13 @@ export default [
     "factionKeywords": [
       "Adeptus Custodes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "CUSTODIAN GUARD",
+        "text": "If an ADEPTUS CUSTODES model from your army with the Leader ability can be attached to a Custodian Guard unit, it can be attached to this unit instead."
+      }
+    ]
   },
   {
     "id": "shield-captain",
@@ -2295,7 +2320,8 @@ export default [
       "Mounted",
       "Dawneagle Jetbike",
       "Fly",
-      "Shield-Captain"
+      "Shield-Captain",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Custodes"
@@ -2513,7 +2539,13 @@ export default [
     "factionKeywords": [
       "Adeptus Custodes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "SUPREME COMMANDER",
+        "text": "If this model is in your army, it must be your Warlord."
+      }
+    ]
   },
   {
     "id": "valerian",
@@ -2708,7 +2740,13 @@ export default [
     "factionKeywords": [
       "Adeptus Custodes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "JUMP PACKS",
+        "text": "This unit cannot embark within a Venerable Land Raider."
+      }
+    ]
   },
   {
     "id": "venerable-contemptor-dreadnought",
@@ -2926,7 +2964,8 @@ export default [
       "Transport",
       "Smoke",
       "Venerable Land Raider",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Custodes"
@@ -3021,7 +3060,8 @@ export default [
       "Vertus Praetors",
       "Imperium",
       "Mounted",
-      "Fly"
+      "Fly",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Custodes"

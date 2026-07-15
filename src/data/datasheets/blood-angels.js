@@ -1283,7 +1283,8 @@ export default [
       "Vehicle",
       "Smoke",
       "Imperium",
-      "Baal Predator"
+      "Baal Predator",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes",
@@ -3707,7 +3708,13 @@ export default [
     "factionKeywords": [
       "Adeptus Astartes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "COMPANY HEROES",
+        "text": "You must attach one CAPTAIN or CHAPTER MASTER model to this unit. If this is not possible, this unit does not take part in the battle and counts as having been destroyed."
+      }
+    ]
   },
   {
     "id": "death-company-captain",
@@ -3796,7 +3803,7 @@ export default [
       },
       {
         "name": "Black Rage",
-        "text": "Each time this model makes a melee attack, you can re-roll the Hit roll. While this model’s unit is not within 6\" of one or more friendly Blood Angels Character models, or 12\" of one or more friendly Chaplain models, it cannot be selected to Fall Back and its Objective Control characteristic is 0."
+        "text": "Each time a model in this unit makes a melee attack, you can re-roll the Hit roll. While this unit is not within 6\" of one or more friendly BLOOD ANGELS CHARACTER models, or not within 12\" of one or more friendly CHAPLAIN models, it cannot be selected to Fall Back and its Objective Control characteristic is 0."
       },
       {
         "name": "Death Vision of Sanguinius",
@@ -3946,7 +3953,7 @@ export default [
       },
       {
         "name": "Black Rage",
-        "text": "Each time this model makes a melee attack, you can re-roll the Hit roll. While this model’s unit is not within 6\" of one or more friendly Blood Angels Character models, or 12\" of one or more friendly Chaplain models, it cannot be selected to Fall Back and its Objective Control characteristic is 0."
+        "text": "Each time a model in this unit makes a melee attack, you can re-roll the Hit roll. While this unit is not within 6\" of one or more friendly BLOOD ANGELS CHARACTER models, or not within 12\" of one or more friendly CHAPLAIN models, it cannot be selected to Fall Back and its Objective Control characteristic is 0."
       },
       {
         "name": "Death Vision of Sanguinius",
@@ -4105,11 +4112,11 @@ export default [
     "abilities": [
       {
         "name": "Black Rage",
-        "text": "Each time this model makes a melee attack, you can re-roll the Hit roll. While this model’s unit is not within 6\" of one or more friendly Blood Angels Character models, or 12\" of one or more friendly Chaplain models, it cannot be selected to Fall Back and its Objective Control characteristic is 0."
+        "text": "Each time a model in this unit makes a melee attack, you can re-roll the Hit roll. While this unit is not within 6\" of one or more friendly BLOOD ANGELS CHARACTER models, or not within 12\" of one or more friendly CHAPLAIN models, it cannot be selected to Fall Back and its Objective Control characteristic is 0."
       },
       {
         "name": "Driven by Fury",
-        "text": "In your opponent’s Shooting phase, each time an enemy unit has shot, if this model was hit by one or more of those attacks, it can make a Driven by Fury move. To do so, roll one D6 and add 2 to the roll: this model moves a number of inches up to the result, but must finish as close as possible to the closest enemy unit (excluding AIRCRAFT). When doing so, this model can be moved within Engagement Range of that enemy unit. A model cannot make a Driven by Fury move while it is Battle-shocked or within Engagement Range of one or more enemy units, and can only make one Driven by Fury move per phase."
+        "text": "In your opponent’s Shooting phase, when an enemy unit has shot, if this model lost a wound as a result of those attacks, this unit can make a surge move of up to D6+2\"."
       }
     ],
     "damaged": {
@@ -4297,7 +4304,7 @@ export default [
     "abilities": [
       {
         "name": "Black Rage",
-        "text": "Each time this model makes a melee attack, you can re-roll the Hit roll. While this model’s unit is not within 6\" of one or more friendly Blood Angels Character models, or 12\" of one or more friendly Chaplain models, it cannot be selected to Fall Back and its Objective Control characteristic is 0."
+        "text": "Each time a model in this unit makes a melee attack, you can re-roll the Hit roll. While this unit is not within 6\" of one or more friendly BLOOD ANGELS CHARACTER models, or not within 12\" of one or more friendly CHAPLAIN models, it cannot be selected to Fall Back and its Objective Control characteristic is 0."
       },
       {
         "name": "An Honourable Death in Combat",
@@ -4325,7 +4332,13 @@ export default [
       "Adeptus Astartes",
       "Blood Angels"
     ],
-    "baseSize": "32mm"
+    "baseSize": "32mm",
+    "rules": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Chaplain model from your army with the Leader ability can be attached to an Assault Intercessor Squad unit, it can be attached to this unit instead."
+      }
+    ]
   },
   {
     "id": "death-company-marines-with-bolt-rifles",
@@ -4530,11 +4543,11 @@ export default [
     "abilities": [
       {
         "name": "Black Rage",
-        "text": "Each time this model makes a melee attack, you can re-roll the Hit roll. While this model’s unit is not within 6\" of one or more friendly Blood Angels Character models, or 12\" of one or more friendly Chaplain models, it cannot be selected to Fall Back and its Objective Control characteristic is 0."
+        "text": "Each time a model in this unit makes a melee attack, you can re-roll the Hit roll. While this unit is not within 6\" of one or more friendly BLOOD ANGELS CHARACTER models, or not within 12\" of one or more friendly CHAPLAIN models, it cannot be selected to Fall Back and its Objective Control characteristic is 0."
       },
       {
         "name": "Visions of Heresy",
-        "text": "Once per turn, you can target this unit with the Fire Overwatch or the Heroic Intervention Stratagem for 0CP. While resolving that Stratagem, each time a model in this unit makes a ranged attack you can re-roll the Hit roll, or you can re-roll the Charge roll made for this unit (whichever applies)."
+        "text": "This unit can re-roll charge rolls. When you target this unit with the Fire Overwatch or Heroic Intervention Stratagem, that use is -1 CP."
       }
     ],
     "composition": [
@@ -4559,7 +4572,13 @@ export default [
       "Adeptus Astartes",
       "Blood Angels"
     ],
-    "baseSize": "32mm"
+    "baseSize": "32mm",
+    "rules": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Chaplain model from your army with the Leader ability can be attached to an Intercessor Squad unit, it can be attached to this unit instead."
+      }
+    ]
   },
   {
     "id": "death-company-marines-with-jump-packs",
@@ -4709,7 +4728,7 @@ export default [
     "abilities": [
       {
         "name": "Black Rage",
-        "text": "Each time this model makes a melee attack, you can re-roll the Hit roll. While this model’s unit is not within 6\" of one or more friendly Blood Angels Character models, or 12\" of one or more friendly Chaplain models, it cannot be selected to Fall Back and its Objective Control characteristic is 0."
+        "text": "Each time a model in this unit makes a melee attack, you can re-roll the Hit roll. While this unit is not within 6\" of one or more friendly BLOOD ANGELS CHARACTER models, or not within 12\" of one or more friendly CHAPLAIN models, it cannot be selected to Fall Back and its Objective Control characteristic is 0."
       },
       {
         "name": "Savage Fury",
@@ -4740,7 +4759,13 @@ export default [
       "Adeptus Astartes",
       "Blood Angels"
     ],
-    "baseSize": "32mm"
+    "baseSize": "32mm",
+    "rules": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Chaplain model from your army with the Leader ability can be attached to Assault Intercessors with Jump Packs, it can be attached to this unit instead."
+      }
+    ]
   },
   {
     "id": "desolation-squad",
@@ -9099,7 +9124,13 @@ export default [
     "factionKeywords": [
       "Adeptus Astartes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "LAST SURVIVOR",
+        "text": "This model cannot be selected as your Warlord."
+      }
+    ]
   },
   {
     "id": "outrider-squad",
@@ -10461,7 +10492,13 @@ export default [
       "Adeptus Astartes",
       "Blood Angels"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "ATTACHED UNIT",
+        "text": "If a Captain model from your army with the Leader ability can be attached to an Assault Intercessors with Jump Packs unit, it can be attached to this unit instead."
+      }
+    ]
   },
   {
     "id": "sanguinary-priest",
@@ -10515,7 +10552,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Oath of Moment",
     "abilities": [
       {
@@ -12548,7 +12585,7 @@ export default [
       },
       {
         "name": "Miraculous Saviour",
-        "text": "Once per battle, at the end of your opponent’s Charge phase, if this model is still in Reserves, you can select one enemy unit that made a Charge move this phase. Set this model up on the battlefield within Engagement Range of that enemy unit."
+        "text": "(Once per battle, per army) At the end of your opponent’s Charge phase (excluding the first battle round), you can select one enemy unit that made a charge move this phase. This unit can make an ingress move and must be set up engaged with that enemy unit."
       }
     ],
     "composition": [

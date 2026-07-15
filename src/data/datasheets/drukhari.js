@@ -649,7 +649,13 @@ export default [
     "factionKeywords": [
       "Drukhari"
     ],
-    "baseSize": "25mm"
+    "baseSize": "25mm",
+    "rules": [
+      {
+        "name": "ARCHON’S RETINUE",
+        "text": "If this unit has a Leader unit attached to it during the Declare Battle Formations step, that Leader unit gains the Scouts 7\" ability."
+      }
+    ]
   },
   {
     "id": "hellions",
@@ -768,7 +774,7 @@ export default [
       },
       {
         "name": "Skyboard Evasion",
-        "text": "Once per turn, when an enemy unit ends a Normal, Advance or Fall Back move within 9\" of this unit, this unit can make a Normal move of up to D6\"."
+        "text": "In your opponent’s Movement phase, if an enemy unit ends a move within 8\" of this unit, if this unit is not within Engagement Range of one or more enemy units, this unit can make a Normal move of up to D6\"."
       }
     ],
     "wargearAbilities": [
@@ -1158,8 +1164,8 @@ export default [
         "text": "If your army includes this model, after both players have deployed their armies, select up to three Drukhari units from your army and redeploy them. When doing so, you can set those units up in Strategic Reserves if you wish, regardless of how many units are already in Strategic Reserves."
       },
       {
-        "name": "Mind Like a Steel Trap (Aura)",
-        "text": "Each time your opponent targets a unit from their army with a Stratagem, if that unit is within 12\" of this model, increase the cost of that use of that Stratagem by 1CP."
+        "name": "Mind Like a Steel Trap",
+        "text": "Once per turn, when your opponent targets a unit from their army within 12\" of this model with a Stratagem, you can use this ability. If you do, increase the CP cost of that use of that Stratagem by 1CP."
       }
     ],
     "composition": [
@@ -1424,25 +1430,7 @@ export default [
       },
       {
         "name": "Vanguard of the Dark City",
-        "text": "At the start of your Command phase, select one of the abilities in the Vanguard of the Dark City section (see above) for this model. Until the start of your next Command phase, this model has that ability."
-      }
-    ],
-    "specialAbilities": [
-      {
-        "name": "Masters of the Shadowed Sky",
-        "text": "At the end of your Command phase, if this model is within range of an objective marker you control, and if one or more Kabalite Warriors units are embarked within it, that objective marker remains under your control until your opponent’s Level of Control over that objective marker is greater than yours at the end of a phase."
-      },
-      {
-        "name": "Speed of the Kill",
-        "text": "Each time a Wyches unit disembarks from this model (excluding Emergency Disembarkations), models in that WYCHES unit must be set up wholly within 6\" of this model."
-      },
-      {
-        "name": "Visions of Butchery",
-        "text": "While one or more Wracks units are embarked within this model, for each WRACKS model embarked within this model, add 1 to the Attacks characteristic of this model’s bladevanes and chainsnares."
-      },
-      {
-        "name": "Aethersails",
-        "text": "While one or more Drukhari units are embarked within this model, you can re-roll Advance and Charge rolls made for this model."
+        "text": "At the start of your Command phase, select one of the abilities in the Vanguard of the Dark City section (see below) for this model. Until the start of your next Command phase, this model has that ability."
       }
     ],
     "composition": [
@@ -1459,12 +1447,36 @@ export default [
       "Aeldari",
       "Raider",
       "Transport",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Drukhari"
     ],
-    "baseSize": "Large Flying Base"
+    "baseSize": "Large Flying Base",
+    "abilitySets": [
+      {
+        "name": "Vanguard of the Dark City",
+        "options": [
+          {
+            "name": "Masters of the Shadowed Sky",
+            "text": "At the end of your Command phase, if this model is within range of an objective marker you control, and if one or more Kabalite Warriors units are embarked within it, that objective marker remains under your control until your opponent’s Level of Control over that objective marker is greater than yours at the end of a phase."
+          },
+          {
+            "name": "Speed of the Kill",
+            "text": "Each time a Wyches unit disembarks from this model (excluding Emergency Disembarkations), models in that WYCHES unit must be set up wholly within 6\" of this model."
+          },
+          {
+            "name": "Visions of Butchery",
+            "text": "While one or more Wracks units are embarked within this model, for each WRACKS model embarked within this model, add 1 to the Attacks characteristic of this model’s bladevanes and chainsnares."
+          },
+          {
+            "name": "Aethersails",
+            "text": "While one or more Drukhari units are embarked within this model, you can re-roll Advance and Charge rolls made for this model."
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "ravager",
@@ -1555,7 +1567,8 @@ export default [
       "Kabal",
       "Fly",
       "Aeldari",
-      "Ravager"
+      "Ravager",
+      "Frame"
     ],
     "factionKeywords": [
       "Drukhari"
@@ -1575,12 +1588,12 @@ export default [
     "profiles": [
       {
         "name": "Razorwing Jetfighter",
-        "m": "20+\"",
+        "m": "-",
         "t": "8",
         "sv": "4+",
         "w": "10",
         "ld": "7+",
-        "oc": "0",
+        "oc": "-",
         "inv": "6+"
       }
     ],
@@ -1707,7 +1720,8 @@ export default [
       "Aeldari",
       "Aircraft",
       "Fly",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Drukhari"
@@ -2548,7 +2562,7 @@ export default [
       },
       {
         "name": "Aerialists",
-        "text": "At the end of the Fight phase, if there are no models currently embarked within this TRANSPORT, you can select one friendly Drukhari Infantry unit that has 6 or fewer models that is wholly within 6\" of this TRANSPORT (you cannot select a unit that can Fly). Unless that unit is within Engagement Range of one or more enemy units, it can embark within this TRANSPORT."
+        "text": "At the end of the Fight phase, if there are no models currently embarked within this TRANSPORT, you can select one friendly Drukhari Infantry unit that has 6 or fewer models that is wholly within 6\" of this TRANSPORT (you cannot select a unit that can Fly). Unless that unit is within Engagement Range of one or more enemy units, it can embark within this TRANSPORT. That unit can embark within this TRANSPORT in a turn it disembarked from this TRANSPORT."
       }
     ],
     "composition": [
@@ -2565,7 +2579,8 @@ export default [
       "Vehicle",
       "Fly",
       "Aeldari",
-      "Venom"
+      "Venom",
+      "Frame"
     ],
     "factionKeywords": [
       "Drukhari"
@@ -2585,12 +2600,12 @@ export default [
     "profiles": [
       {
         "name": "Voidraven Bomber",
-        "m": "20+\"",
+        "m": "-",
         "t": "9",
         "sv": "4+",
         "w": "12",
         "ld": "7+",
-        "oc": "0",
+        "oc": "-",
         "inv": "6+"
       }
     ],
@@ -2660,7 +2675,7 @@ export default [
       },
       {
         "name": "Void Mine",
-        "text": "Once per battle, after this unit ends a Normal move, you can select one enemy model that it moved over during that move, then roll one D6 for each enemy unit within D6\" of that model: on a 4+, that enemy unit suffers D6 mortal wounds."
+        "text": "At the end of your opponent’s Fight phase, select one visible enemy model (excluding Lone Operative units) within 24\" of this unit, and roll one D6 for each enemy unit within D6\" of that model: for each 4+, that enemy unit suffers D6 mortal wounds."
       }
     ],
     "damaged": {
@@ -2680,7 +2695,8 @@ export default [
       "Vehicle",
       "Aircraft",
       "Aeldari",
-      "Fly"
+      "Fly",
+      "Frame"
     ],
     "factionKeywords": [
       "Drukhari"

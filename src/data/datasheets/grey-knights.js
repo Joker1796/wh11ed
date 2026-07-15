@@ -501,7 +501,7 @@ export default [
       },
       {
         "name": "Guardians of the Machine",
-        "text": "Each time an enemy unit ends a charge move within Engagement Range of one or more Grey Knights Vehicle units from your army and within 6\" of this model’s unit, you can target this model’s unit with the Heroic Intervention Stratagem for 0CP, and can do so even if you have already targeted a different unit with that Stratagem this phase."
+        "text": "Each time an enemy unit ends a charge move engaged with one or more friendly GREY KNIGHTS VEHICLE units and within 6\" of this unit, you can target this unit with the Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do: that use is -1 CP; that use does not prevent any uses of that Stratagem on other units this phase."
       }
     ],
     "composition": [
@@ -1629,7 +1629,8 @@ export default [
       "Imperium",
       "Smoke",
       "Transport",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Grey Knights"
@@ -1766,7 +1767,8 @@ export default [
       "Smoke",
       "Transport",
       "Vehicle",
-      "Crusader"
+      "Crusader",
+      "Frame"
     ],
     "factionKeywords": [
       "Grey Knights"
@@ -1903,7 +1905,8 @@ export default [
       "Smoke",
       "Transport",
       "Vehicle",
-      "Redeemer"
+      "Redeemer",
+      "Frame"
     ],
     "factionKeywords": [
       "Grey Knights"
@@ -2621,7 +2624,8 @@ export default [
       "Razorback",
       "Imperium",
       "Vehicle",
-      "Transport"
+      "Transport",
+      "Frame"
     ],
     "factionKeywords": [
       "Grey Knights"
@@ -2708,7 +2712,8 @@ export default [
       "Smoke",
       "Dedicated Transport",
       "Rhino",
-      "Transport"
+      "Transport",
+      "Frame"
     ],
     "factionKeywords": [
       "Grey Knights"
@@ -2728,12 +2733,12 @@ export default [
     "profiles": [
       {
         "name": "Stormhawk Interceptor",
-        "m": "20+\"",
+        "m": "-",
         "t": "9",
         "sv": "3+",
         "w": "10",
         "ld": "6+",
-        "oc": "0"
+        "oc": "-"
       }
     ],
     "ranged": [
@@ -2831,7 +2836,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deadly Demise D3, Hover",
+    "core": "Deadly Demise D3",
     "abilities": [
       {
         "name": "Interceptor",
@@ -2852,7 +2857,8 @@ export default [
       "Fly",
       "Smoke",
       "Stormhawk Interceptor",
-      "Imperium"
+      "Imperium",
+      "Frame"
     ],
     "factionKeywords": [
       "Grey Knights"
@@ -2878,7 +2884,7 @@ export default [
     "profiles": [
       {
         "name": "Stormraven Gunship",
-        "m": "20+\"",
+        "m": "14\"",
         "t": "10",
         "sv": "3+",
         "w": "14",
@@ -3048,8 +3054,8 @@ export default [
       "Imperium",
       "Stormraven Gunship",
       "Vehicle",
-      "Aircraft",
-      "Transport"
+      "Transport",
+      "Frame"
     ],
     "factionKeywords": [
       "Grey Knights"
@@ -3069,12 +3075,12 @@ export default [
     "profiles": [
       {
         "name": "Stormtalon Gunship",
-        "m": "20+\"",
+        "m": "-",
         "t": "9",
         "sv": "3+",
         "w": "10",
         "ld": "6+",
-        "oc": "0"
+        "oc": "-"
       }
     ],
     "ranged": [
@@ -3162,7 +3168,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deadly Demise D3, Hover",
+    "core": "Deadly Demise D3",
     "abilities": [
       {
         "name": "Strafing Run",
@@ -3181,7 +3187,8 @@ export default [
       "Fly",
       "Vehicle",
       "Imperium",
-      "Stormtalon Gunship"
+      "Stormtalon Gunship",
+      "Frame"
     ],
     "factionKeywords": [
       "Grey Knights"

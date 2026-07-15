@@ -62,12 +62,19 @@ export default [
     "keywords": [
       "Aegis Defence Line",
       "Imperium",
-      "Fortification"
+      "Fortification",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
     ],
-    "baseSize": "Hull"
+    "baseSize": "Hull",
+    "rules": [
+      {
+        "name": "DEPLOYMENT",
+        "text": "When this model is set up, it will consist of 1 platform section, up to 5 shield sections, up to 2 broken shield sections, and up to 2 end sections. All sections must be connected to each other to form a continuous defence line; the two broken shield sections can be placed either at the end of the defence line, or in the middle of it such that both are within 1/2\" of each other (in this case, these two sections count as being connected to each other). All the sections that have been set up are then treated as a single model for all rules purposes."
+      }
+    ]
   },
   {
     "id": "armoured-sentinels",
@@ -771,7 +778,8 @@ export default [
       "Vehicle",
       "Smoke",
       "Imperium",
-      "Baneblade"
+      "Baneblade",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -893,7 +901,8 @@ export default [
       "Smoke",
       "Imperium",
       "Transport",
-      "Banehammer"
+      "Banehammer",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -1014,7 +1023,8 @@ export default [
       "Smoke",
       "Imperium",
       "Banesword",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -1136,7 +1146,8 @@ export default [
       "Smoke",
       "Squadron",
       "Basilisk",
-      "Imperium"
+      "Imperium",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -1413,7 +1424,13 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
-    "baseSize": "28.5mm"
+    "baseSize": "28.5mm",
+    "rules": [
+      {
+        "name": "ORDERS",
+        "text": "This OFFICER can issue 2 Orders to Regiment units."
+      }
+    ]
   },
   {
     "id": "cadian-command-squad",
@@ -1625,7 +1642,7 @@ export default [
     "abilities": [
       {
         "name": "Cadia Stands!",
-        "text": "While this unit contains an OFFICER, each time a ranged attack targets this unit, if this unit is within range of an objective marker you control, models in this unit have the Benefit of Cover against that attack."
+        "text": "While this unit contains an OFFICER model and this unit is within range of an objective, this unit can re-roll battle-shock rolls."
       }
     ],
     "wargearAbilities": [
@@ -1672,6 +1689,12 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
+    ],
+    "rules": [
+      {
+        "name": "ORDERS",
+        "text": "This unit’s OFFICER can issue 1 Order to a Regiment unit."
+      }
     ]
   },
   {
@@ -1819,7 +1842,13 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
-    "baseSize": "50mm"
+    "baseSize": "50mm",
+    "rules": [
+      {
+        "name": "EMBARKING",
+        "text": "While embarked within a Transport, each model takes up the space of 2 models, and each weapon equipped by these models is considered to be 2 models’ weapons for the purposes of the Firing Deck ability."
+      }
+    ]
   },
   {
     "id": "cadian-recon-squad",
@@ -2512,6 +2541,12 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
+    ],
+    "rules": [
+      {
+        "name": "ORDERS",
+        "text": "This unit’s OFFICER can issue 1 Order to a Regiment unit."
+      }
     ]
   },
   {
@@ -2660,7 +2695,13 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
-    "baseSize": "60mm"
+    "baseSize": "60mm",
+    "rules": [
+      {
+        "name": "EMBARKING",
+        "text": "While embarked within a Transport, each model takes up the space of 2 models, and each weapon equipped by these models is considered to be 2 models’ weapons for the purposes of the Firing Deck ability."
+      }
+    ]
   },
   {
     "id": "catachan-jungle-fighters",
@@ -2992,7 +3033,8 @@ export default [
       "Vehicle",
       "Transport",
       "Imperium",
-      "Smoke"
+      "Smoke",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -3450,18 +3492,6 @@ export default [
       {
         "name": "ORDERS",
         "text": "This OFFICER can issue up to 2 Orders to Regiment, Squadron or Titanic units."
-      },
-      {
-        "name": "Counterstrategist",
-        "text": "At the end of your opponent’s Movement phase, you can select one enemy unit that was set up or ended a move within 9\" of this model, and one friendly Regiment unit within 6\" of and visible to this model that has not made a Normal move or been targeted with the Fire Overwatch Stratagem this phase. That REGIMENT unit can then either:\n▪ Make a Normal move of up to D6\".\n▪ Shoot at that enemy unit, but only if it is an eligible target. Until the end of the phase, each time a model in that unit makes a ranged attack, an unmodified Hit roll of 6 is required to score a hit, irrespective of the attacking weapon’s Ballistic Skill or any modifiers.\n▪ Make a Surge move. To do so, roll one D6: models in that unit move a number of inches up to the result, but that unit must end that move as close as possible to the closest enemy unit (excluding AIRCRAFT). When doing so, those models can be moved within %000015002Engageme"
-      },
-      {
-        "name": "Decisive Command",
-        "text": "The next Order issued by this model can be issued to one eligible friendly unit within 12\" of this model; if this is the first Order issued by a unit from your army this Command phase, that Order affects not only that eligible unit, but every other eligible friendly unit within 6\" of that eligible unit."
-      },
-      {
-        "name": "Inspiring Hero (Aura)",
-        "text": "While a friendly ASTRA MILITARUM unit is within 6\" of this model, you can re-roll Battle-shock and Leadership tests taken for that unit."
       }
     ],
     "composition": [
@@ -3493,7 +3523,26 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
-    "baseSize": "32mm"
+    "baseSize": "32mm",
+    "abilitySets": [
+      {
+        "name": "Hero of Hades Hive",
+        "options": [
+          {
+            "name": "Counterstrategist",
+            "text": "At the end of your opponent’s Movement phase, you can select one enemy unit that was set up or ended a move within 9\" of this model, and one friendly Regiment unit within 6\" of and visible to this model that has not made a Normal move or been targeted with the Fire Overwatch Stratagem this phase. That REGIMENT unit can then either:\n▪ Make a Normal move of up to D6\".\n▪ Shoot at that enemy unit, but only if it is an eligible target. Until the end of the phase, each time a model in that unit makes a ranged attack, an unmodified Hit roll of 6 is required to score a hit, irrespective of the attacking weapon’s Ballistic Skill or any modifiers.\n▪ Make a Surge move. To do so, roll one D6: models in that unit move a number of inches up to the result, but that unit must end that move as close as possible to the closest enemy unit (excluding AIRCRAFT). When doing so, those models can be moved within %000015002Engageme"
+          },
+          {
+            "name": "Decisive Command",
+            "text": "The next Order issued by this model can be issued to one eligible friendly unit within 12\" of this model; if this is the first Order issued by a unit from your army this Command phase, that Order affects not only that eligible unit, but every other eligible friendly unit within 6\" of that eligible unit."
+          },
+          {
+            "name": "Inspiring Hero (Aura)",
+            "text": "While a friendly ASTRA MILITARUM unit is within 6\" of this model, you can re-roll Battle-shock and Leadership tests taken for that unit."
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "cyclops-demolition-vehicle",
@@ -3560,7 +3609,13 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
-    "baseSize": "Hull"
+    "baseSize": "Hull",
+    "rules": [
+      {
+        "name": "COMPACT",
+        "text": "This model can embark within an Astra Militarum Transport model as if it were an Infantry model. If it does, it takes up the space of 7 models."
+      }
+    ]
   },
   {
     "id": "death-korps-of-krieg",
@@ -4033,7 +4088,8 @@ export default [
       "Imperium",
       "Smoke",
       "Artillery",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -4156,7 +4212,8 @@ export default [
       "Vehicle",
       "Doomhammer",
       "Transport",
-      "Imperium"
+      "Imperium",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -4437,7 +4494,7 @@ export default [
       },
       {
         "name": "Covert Stealth Team",
-        "text": "At the end of your opponent’s turn, if this unit is not within Engagement Range of one or more enemy units, you can remove this unit from the battlefield. In the Reinforcements step of your next Movement phase, set it up anywhere on the battlefield that is more than 9\" horizontally away from all enemy models."
+        "text": "At the end of your opponent’s turn, if this unit is not within Engagement Range of one or more enemy units, you can remove this unit from the battlefield. In your next Movement phase, set it up anywhere on the battlefield that is more than 8\" horizontally away from all enemy models."
       }
     ],
     "composition": [
@@ -4456,6 +4513,12 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
+    ],
+    "rules": [
+      {
+        "name": "ORDERS",
+        "text": "This unit’s OFFICER can issue up to 2 Orders to Regiment or GAUNT’S GHOSTS units."
+      }
     ]
   },
   {
@@ -4606,7 +4669,8 @@ export default [
       "Imperium",
       "Hellhammer",
       "Vehicle",
-      "Titanic"
+      "Titanic",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -4766,7 +4830,8 @@ export default [
       "Squadron",
       "Hellhound",
       "Imperium",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -5022,7 +5087,8 @@ export default [
       "Squadron",
       "Imperium",
       "Vehicle",
-      "Smoke"
+      "Smoke",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -5233,15 +5299,6 @@ export default [
         "ws": "4+",
         "s": "3",
         "ap": "0",
-        "d": "1"
-      },
-      {
-        "name": "Power weapon",
-        "tags": [],
-        "a": "3",
-        "ws": "4+",
-        "s": "4",
-        "ap": "-2",
         "d": "1"
       }
     ],
@@ -5774,6 +5831,12 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
+    ],
+    "rules": [
+      {
+        "name": "ORDERS",
+        "text": "This unit’s OFFICER can issue 1 Order to a Regiment unit."
+      }
     ]
   },
   {
@@ -5895,6 +5958,12 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
+    ],
+    "rules": [
+      {
+        "name": "EMBARKING",
+        "text": "While embarked within a Transport, each Heavy Weapons Gunner model takes up the space of 2 models, and each weapon equipped by these models is considered to be 2 models’ weapons for the purposes of the Firing Deck ability."
+      }
     ]
   },
   {
@@ -6083,7 +6152,8 @@ export default [
       "Smoke",
       "Vehicle",
       "Squadron",
-      "Leman Russ Battle Tank"
+      "Leman Russ Battle Tank",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -6344,12 +6414,19 @@ export default [
       "Squadron",
       "Character",
       "Vehicle",
-      "Smoke"
+      "Smoke",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
     ],
-    "baseSize": "Hull"
+    "baseSize": "Hull",
+    "rules": [
+      {
+        "name": "ORDERS",
+        "text": "This OFFICER can issue up to 2 Orders to Squadron units."
+      }
+    ]
   },
   {
     "id": "leman-russ-demolisher",
@@ -6537,7 +6614,8 @@ export default [
       "Squadron",
       "Imperium",
       "Smoke",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -6731,7 +6809,8 @@ export default [
       "Squadron",
       "Leman Russ Eradicator",
       "Vehicle",
-      "Imperium"
+      "Imperium",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -6937,7 +7016,8 @@ export default [
       "Imperium",
       "Squadron",
       "Leman Russ Executioner",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -7131,7 +7211,8 @@ export default [
       "Smoke",
       "Imperium",
       "Squadron",
-      "Leman Russ Exterminator"
+      "Leman Russ Exterminator",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -7322,7 +7403,8 @@ export default [
       "Leman Russ Punisher",
       "Squadron",
       "Smoke",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -7515,7 +7597,8 @@ export default [
       "Vehicle",
       "Squadron",
       "Leman Russ Vanquisher",
-      "Smoke"
+      "Smoke",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -7616,7 +7699,13 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
-    "baseSize": "75x42mm Oval Base"
+    "baseSize": "75x42mm Oval Base",
+    "rules": [
+      {
+        "name": "ORDERS",
+        "text": "This OFFICER can issue up to 3 Orders to Regiment units."
+      }
+    ]
   },
   {
     "id": "lord-solar-leontus",
@@ -7715,7 +7804,17 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
-    "baseSize": "80mm"
+    "baseSize": "80mm",
+    "rules": [
+      {
+        "name": "SUPREME COMMANDER",
+        "text": "If this model is in your army, it must be your WARLORD."
+      },
+      {
+        "name": "ORDERS",
+        "text": "This OFFICER can issue up to 3 Orders to:\n▪ Regiment units\n▪ Squadron units\n▪ Titanic units"
+      }
+    ]
   },
   {
     "id": "manticore",
@@ -7833,7 +7932,8 @@ export default [
       "Squadron",
       "Imperium",
       "Smoke",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -8101,6 +8201,12 @@ export default [
     ],
     "factionKeywords": [
       "Astra Militarum"
+    ],
+    "rules": [
+      {
+        "name": "ORDERS",
+        "text": "This unit’s OFFICER can issue 1 Order to a Regiment unit."
+      }
     ]
   },
   {
@@ -8889,7 +8995,8 @@ export default [
       "Vehicle",
       "Imperium",
       "Rogal Dorn Battle Tank",
-      "Squadron"
+      "Squadron",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -9062,12 +9169,19 @@ export default [
       "Vehicle",
       "Rogal Dorn Commander",
       "Officer",
-      "Imperium"
+      "Imperium",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
     ],
-    "baseSize": "Hull"
+    "baseSize": "Hull",
+    "rules": [
+      {
+        "name": "ORDERS",
+        "text": "This OFFICER can issue up to 2 Orders to Squadron units."
+      }
+    ]
   },
   {
     "id": "scout-sentinels",
@@ -9365,7 +9479,8 @@ export default [
       "Imperium",
       "Titanic",
       "Smoke",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -9450,7 +9565,13 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
-    "baseSize": "32mm"
+    "baseSize": "32mm",
+    "rules": [
+      {
+        "name": "LONER",
+        "text": "This model cannot be selected as your WARLORD."
+      }
+    ]
   },
   {
     "id": "stormlord",
@@ -9579,7 +9700,8 @@ export default [
       "Transport",
       "Imperium",
       "Stormlord",
-      "Smoke"
+      "Smoke",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -9700,7 +9822,8 @@ export default [
       "Imperium",
       "Stormsword",
       "Vehicle",
-      "Smoke"
+      "Smoke",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -9786,7 +9909,8 @@ export default [
       "Squadron",
       "Vehicle",
       "Imperium",
-      "Transport"
+      "Transport",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -9937,7 +10061,8 @@ export default [
       "Squadron",
       "Transport",
       "Dedicated Transport",
-      "Taurox Prime"
+      "Taurox Prime",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -10075,7 +10200,7 @@ export default [
         ],
         "range": "12\"",
         "a": "1",
-        "bs": "4+",
+        "bs": "3+",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -10316,7 +10441,7 @@ export default [
         ],
         "range": "12\"",
         "a": "1",
-        "bs": "4+",
+        "bs": "3+",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -10612,7 +10737,13 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
-    "baseSize": "32mm"
+    "baseSize": "32mm",
+    "rules": [
+      {
+        "name": "ORDERS",
+        "text": "This OFFICER can issue up to 3 Orders to Regiment units."
+      }
+    ]
   },
   {
     "id": "valkyrie",
@@ -10737,7 +10868,8 @@ export default [
       "Transport",
       "Valkyrie",
       "Imperium",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"
@@ -10860,7 +10992,8 @@ export default [
       "Imperium",
       "Smoke",
       "Artillery",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Astra Militarum"

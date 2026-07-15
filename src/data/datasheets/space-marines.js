@@ -380,7 +380,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Oath of Moment",
     "abilities": [
       {
@@ -536,7 +536,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deep Strike, Leader",
+    "core": "Deep Strike, Support",
     "faction": "Oath of Moment",
     "abilities": [
       {
@@ -647,7 +647,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Oath of Moment",
     "abilities": [
       {
@@ -748,7 +748,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Oath of Moment",
     "abilities": [
       {
@@ -1417,7 +1417,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Oath of Moment",
     "abilities": [
       {
@@ -3613,7 +3613,7 @@ export default [
       },
       {
         "name": "Master of Prescience (Psychic)",
-        "text": "While this model is leading a unit, each time an attack targets that unit, subtract 1 from the Hit roll. In addition, once per battle round, you can target that unit with one of the following Stratagems for OCP: Counter-offensive; Fire Overwatch; Go to Ground; Heroic Intervention"
+        "text": "While this model is leading a unit, each time an attack targets that unit, subtract 1 from the Hit roll. In addition, once per battle round, when you target that unit with the Counteroffensive, Fire Overwatch or Heroic Intervention Stratagem, that use is -1 CP."
       }
     ],
     "composition": [
@@ -3780,7 +3780,13 @@ export default [
     "factionKeywords": [
       "Adeptus Astartes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "COMPANY HEROES",
+        "text": "You must attach one CAPTAIN or CHAPTER MASTER model to this unit. If this is not possible, this unit does not take part in the battle and counts as having been destroyed."
+      }
+    ]
   },
   {
     "id": "darnath-lysander",
@@ -4537,7 +4543,8 @@ export default [
       "Drop Pod",
       "Imperium",
       "Dedicated Transport",
-      "Transport"
+      "Transport",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -5076,7 +5083,8 @@ export default [
       "Vehicle",
       "Smoke",
       "Imperium",
-      "Gladiator Lancer"
+      "Gladiator Lancer",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -5196,7 +5204,8 @@ export default [
       "Vehicle",
       "Imperium",
       "Gladiator Reaper",
-      "Smoke"
+      "Smoke",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -5315,7 +5324,8 @@ export default [
       "Imperium",
       "Vehicle",
       "Gladiator Valiant",
-      "Smoke"
+      "Smoke",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -5425,7 +5435,8 @@ export default [
       "Hammerfall Bunker",
       "Imperium",
       "Vehicle",
-      "Fortification"
+      "Fortification",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -5820,7 +5831,8 @@ export default [
       "Imperium",
       "Vehicle",
       "Transport",
-      "Impulsor"
+      "Impulsor",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -6561,7 +6573,8 @@ export default [
       "Grenades",
       "Imperium",
       "Invader ATV",
-      "Mounted"
+      "Mounted",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -7090,25 +7103,12 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Sword Brethren Squad",
-        "Vanguard Veteran Squad",
-        "Fortis Kill Team",
-        "Crusader Squad (Legendary)",
-        "Wolf Guard",
-        "Deathwatch Veterans",
-        "Tactical Squad",
-        "Company Heroes",
-        "Bladeguard Veteran Squad",
-        "Command Squad",
-        "Assault Squad",
-        "Victrix Honour Guard",
         "Assault Intercessor Squad",
-        "Crusader Squad",
-        "Inner Circle Companions",
-        "Decimus Kill Team",
+        "Bladeguard Veteran Squad",
+        "Company Heroes",
         "Intercessor Squad",
         "Sternguard Veteran Squad",
-        "Sternguard Veteran Squad"
+        "Tactical Squad"
       ]
     },
     "keywords": [
@@ -7253,7 +7253,8 @@ export default [
       "Imperium",
       "Transport",
       "Vehicle",
-      "Smoke"
+      "Smoke",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -7392,7 +7393,8 @@ export default [
       "Transport",
       "Grenades",
       "Smoke",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -7531,7 +7533,8 @@ export default [
       "Grenades",
       "Land Raider Redeemer",
       "Deathwing",
-      "Smoke"
+      "Smoke",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -8132,7 +8135,7 @@ export default [
         "d": "2"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Oath of Moment",
     "abilities": [
       {
@@ -8257,7 +8260,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deep Strike, Infiltrators, Leader, Scouts 6\"",
+    "core": "Deep Strike, Infiltrators, Support, Scouts 6\"",
     "faction": "Oath of Moment",
     "abilities": [
       {
@@ -8346,7 +8349,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Leader, Scouts 6\"",
+    "core": "Support, Scouts 6\"",
     "faction": "Oath of Moment",
     "abilities": [
       {
@@ -8445,7 +8448,7 @@ export default [
       },
       {
         "name": "Evade and Survive",
-        "text": "Once per turn, when an enemy unit ends a Normal, Advance or Fall Back move within 9\" of this unit, if this unit is not within Engagement Range of one or more enemy units, it can make a Normal move."
+        "text": "In your opponent’s Movement phase, if an enemy unit ends a move within 8\" of this unit, if this unit is not within Engagement Range of one or more enemy units, this unit can make a Normal move of up to 6\"."
       }
     ],
     "composition": [
@@ -8464,7 +8467,13 @@ export default [
     "factionKeywords": [
       "Adeptus Astartes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "40mm",
+    "rules": [
+      {
+        "name": "LAST SURVIVOR",
+        "text": "This model cannot be selected as your Warlord."
+      }
+    ]
   },
   {
     "id": "marneus-calgar-in-armour-of-antilochus",
@@ -8960,7 +8969,8 @@ export default [
       "Vehicle",
       "Smoke",
       "Imperium",
-      "Predator Annihilator"
+      "Predator Annihilator",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -9090,7 +9100,8 @@ export default [
       "Imperium",
       "Predator Destructor",
       "Vehicle",
-      "Smoke"
+      "Smoke",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -9204,7 +9215,8 @@ export default [
       "Imperium",
       "Razorback",
       "Vehicle",
-      "Smoke"
+      "Smoke",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -9643,7 +9655,8 @@ export default [
       "Repulsor",
       "Smoke",
       "Imperium",
-      "Deathwing"
+      "Deathwing",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -9828,7 +9841,8 @@ export default [
       "Imperium",
       "Transport",
       "Smoke",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -9915,7 +9929,8 @@ export default [
       "Rhino",
       "Dedicated Transport",
       "Imperium",
-      "Transport"
+      "Transport",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -9986,7 +10001,7 @@ export default [
     "abilities": [
       {
         "name": "Author of the Codex",
-        "text": "At the Start of your Command phase, select two Author of the Codex abilities (see left). Until the start of your next Command phase, this model has those abilities."
+        "text": "At the Start of your Command phase, select two Author of the Codex abilities (see below). Until the start of your next Command phase, this model has those abilities."
       },
       {
         "name": "Ultramarines Bodyguard",
@@ -9995,20 +10010,10 @@ export default [
       {
         "name": "Armour of Fate",
         "text": "The first time this model is destroyed, roll one D6 at the end of the phase: on a 3+, set this model back up on the battlefield as close as possible to where it was destroyed and not within Engagement Range of any enemy models, with 6 wounds remaining."
-      }
-    ],
-    "specialAbilities": [
-      {
-        "name": "Primarch of the XIII (Aura)",
-        "text": "While a friendly ADEPTUS ASTARTES unit is within 6\" of this model, add 1 to the Objective Control characteristic of models in that unit and you can re-roll Battle-shock and Leadership tests taken for that unit."
-      },
-      {
-        "name": "Master of Battle",
-        "text": "At the start of your Command phase, after you have selected your Oath of Moment target, select a second enemy unit. Until the start of your next Command phase, if your Oath of Moment target is destroyed, that second enemy unit becomes your Oath of Moment target until you select a new one."
       },
       {
         "name": "Supreme Strategist",
-        "text": "Once per battle round, one unit from your army with this ability can use it when a friendly ADEPTUS ASTARTES unit within 12\" of that model is targeted with a Stratagem. If it does, reduce the CP cost of that usage of that Stratagem by 1CP."
+        "text": "Once per battle round, one model from your army with this ability can use it when a friendly ADEPTUS ASTARTES unit within 12\" of that model is targeted with a Stratagem. If it does, reduce the CP cost of that use of that Stratagem by 1CP."
       }
     ],
     "composition": [
@@ -10027,7 +10032,32 @@ export default [
       "Adeptus Astartes",
       "Ultramarines"
     ],
-    "baseSize": "60mm"
+    "baseSize": "60mm",
+    "rules": [
+      {
+        "name": "SUPREME COMMANDER",
+        "text": "If this model is in your army, it must be your Warlord."
+      }
+    ],
+    "abilitySets": [
+      {
+        "name": "Author of the Codex",
+        "options": [
+          {
+            "name": "Primarch of the XIII (Aura)",
+            "text": "While a friendly ADEPTUS ASTARTES unit is within 6\" of this model, add 1 to the Objective Control characteristic of models in that unit and you can re-roll Battle-shock and Leadership tests taken for that unit."
+          },
+          {
+            "name": "Master of Battle",
+            "text": "At the start of your Command phase, after you have selected your Oath of Moment target, select a second enemy unit. Until the start of your next Command phase, if your Oath of Moment target is destroyed, that second enemy unit becomes your Oath of Moment target until you select a new one."
+          },
+          {
+            "name": "Supreme Strategist",
+            "text": "Once per battle round, one unit from your army with this ability can use it when a friendly ADEPTUS ASTARTES unit within 12\" of that model is targeted with a Stratagem. If it does, reduce the CP cost of that usage of that Stratagem by 1CP."
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "scout-squad",
@@ -10472,7 +10502,8 @@ export default [
       "Fly",
       "Storm Speeder Hailstrike",
       "Ravenwing",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -10568,7 +10599,8 @@ export default [
       "Vehicle",
       "Imperium",
       "Ravenwing",
-      "Fly"
+      "Fly",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -10665,7 +10697,8 @@ export default [
       "Ravenwing",
       "Storm Speeder Thunderstrike",
       "Vehicle",
-      "Fly"
+      "Fly",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -10685,12 +10718,12 @@ export default [
     "profiles": [
       {
         "name": "Stormhawk Interceptor",
-        "m": "20+\"",
+        "m": "-",
         "t": "9",
         "sv": "3+",
         "w": "10",
         "ld": "6+",
-        "oc": "0"
+        "oc": "-"
       }
     ],
     "ranged": [
@@ -10811,7 +10844,8 @@ export default [
       "Stormhawk Interceptor",
       "Ravenwing",
       "Vehicle",
-      "Imperium"
+      "Imperium",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -10837,7 +10871,7 @@ export default [
     "profiles": [
       {
         "name": "Stormraven Gunship",
-        "m": "20+\"",
+        "m": "14\"",
         "t": "10",
         "sv": "3+",
         "w": "14",
@@ -11006,11 +11040,11 @@ export default [
     "keywords": [
       "Fly",
       "Vehicle",
-      "Aircraft",
       "Ravenwing",
       "Stormraven Gunship",
       "Imperium",
-      "Transport"
+      "Transport",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -11030,12 +11064,12 @@ export default [
     "profiles": [
       {
         "name": "Stormtalon Gunship",
-        "m": "20+\"",
+        "m": "-",
         "t": "8",
         "sv": "3+",
         "w": "10",
         "ld": "6+",
-        "oc": "0"
+        "oc": "-"
       }
     ],
     "ranged": [
@@ -11124,7 +11158,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deadly Demise D3, Hover",
+    "core": "Deadly Demise D3",
     "faction": "Oath of Moment",
     "abilities": [
       {
@@ -11145,7 +11179,8 @@ export default [
       "Imperium",
       "Ravenwing",
       "Aircraft",
-      "Stormtalon Gunship"
+      "Stormtalon Gunship",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -11887,7 +11922,7 @@ export default [
     "abilities": [
       {
         "name": "Teleport Homer",
-        "text": "At the start of the battle, you can set up one Teleport Homer token for this unit anywhere on the battlefield that is not in your opponent’s deployment zone. If you do, once per battle, you can target this unit with the Rapid Ingress Stratagem for 0CP, but when resolving that Stratagem, you must set this unit up within 3\" horizontally of that token and not within 9\" horizontally of any enemy models. That token is then removed."
+        "text": "At the start of the battle, you can set up one Teleport Homer token for this unit anywhere on the battlefield that is not in your opponent’s deployment zone. If you do, once per battle, you can target this unit with the Rapid Ingress Stratagem for 0CP, but when resolving that Stratagem, you must set this unit up within 3\" horizontally of that token and not within 8\" horizontally of any enemy models. That token is then removed."
       },
       {
         "name": "Terminatus Assault",
@@ -12043,7 +12078,7 @@ export default [
     "abilities": [
       {
         "name": "Teleport Homer",
-        "text": "At the start of the battle, you can set up one Teleport Homer token for this unit anywhere on the battlefield that is not in your opponent’s deployment zone. If you do, once per battle, you can target this unit with the Rapid Ingress Stratagem for 0CP, but when resolving that Stratagem, you must set this unit up within 3\" of that token and not within 9\" of any enemy models. That token is then removed."
+        "text": "At the start of the battle, you can set up one Teleport Homer token for this unit anywhere on the battlefield that is not in your opponent’s deployment zone. If you do, once per battle, you can target this unit with the Rapid Ingress Stratagem for 0CP, but when resolving that Stratagem, you must set this unit up within 3\" of that token and not within 8\" of any enemy models. That token is then removed."
       },
       {
         "name": "Fury of the First",
@@ -12358,12 +12393,12 @@ export default [
     "faction": "Oath of Moment",
     "abilities": [
       {
-        "name": "Unorthodox Strategist (Aura)",
-        "text": "Each time your opponent targets a unit from their army with a Stratagem, if that unit is within 12\" of this model, increase the cost of that use of that Stratagem by 1CP (this is not cumulative with any other rules that would increase the CP cost of that Stratagem)."
+        "name": "Unorthodox Strategist",
+        "text": "Once per turn, when your opponent targets a unit from their army within 12\" of this model with a Stratagem, this model can use this ability. If you do, increase the CP cost of that use of that Stratagem by 1CP."
       },
       {
         "name": "Master of the Fleet",
-        "text": "During the Declare Battle Formations step, if your army includes this model, select one Phobos, Gravis or Tacticus Adeptus Astartes Infantry unit from your army. That unit gains the Deep Strike ability."
+        "text": "During the Declare Battle Formations step, if your army includes this model, select one Phobos, Gravis or Adeptus Astartes Tacticus Infantry unit from your army. That unit gains the Deep Strike ability."
       }
     ],
     "composition": [
@@ -12790,7 +12825,8 @@ export default [
       "Vindicator",
       "Imperium",
       "Smoke",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -13036,6 +13072,7 @@ export default [
         "d": "2"
       }
     ],
+    "core": "Support",
     "faction": "Oath of Moment",
     "abilities": [
       {
@@ -13187,7 +13224,8 @@ export default [
       "Smoke",
       "Imperium",
       "Whirlwind",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Adeptus Astartes"

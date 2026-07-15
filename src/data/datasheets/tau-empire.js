@@ -574,7 +574,13 @@ export default [
     "factionKeywords": [
       "T’au Empire"
     ],
-    "baseSize": "60mm"
+    "baseSize": "60mm",
+    "rules": [
+      {
+        "name": "INDEPENDENT POWER",
+        "text": "If your army includes COMMANDER FARSIGHT, it cannot include any Ethereal units. If your army includes any ETHEREAL units, it cannot include COMMANDER FARSIGHT."
+      }
+    ]
   },
   {
     "id": "commander-in-coldstar-battlesuit",
@@ -1056,7 +1062,13 @@ export default [
     "factionKeywords": [
       "T’au Empire"
     ],
-    "baseSize": "50mm"
+    "baseSize": "50mm",
+    "rules": [
+      {
+        "name": "SUPREME COMMANDER",
+        "text": "If this model is in your army, it must be your Warlord."
+      }
+    ]
   },
   {
     "id": "crisis-fireknife-battlesuits",
@@ -1516,7 +1528,8 @@ export default [
       "Devilfish",
       "Vehicle",
       "Fly",
-      "Dedicated Transport"
+      "Dedicated Transport",
+      "Frame"
     ],
     "factionKeywords": [
       "T’au Empire"
@@ -1989,7 +2002,8 @@ export default [
     "keywords": [
       "Hammerhead Gunship",
       "Fly",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "T’au Empire"
@@ -2105,7 +2119,13 @@ export default [
     "factionKeywords": [
       "T’au Empire"
     ],
-    "baseSize": "28.5mm"
+    "baseSize": "28.5mm",
+    "rules": [
+      {
+        "name": "BODYGUARD",
+        "text": "If this unit has a Starting Strength of 20, you can attach up to two Leader units to it instead of one, provided those Leaders are not duplicates (e.g. you cannot attach two WAR SHAPERS to this unit). If you do, and this unit is destroyed, the Leader units attached to it become separate units with  their original Starting Strengths."
+      }
+    ]
   },
   {
     "id": "kroot-farstalkers",
@@ -2577,7 +2597,7 @@ export default [
     "abilities": [
       {
         "name": "Trail Finding",
-        "text": "Once per turn, when an enemy unit ends a Normal, Advance or Fall Back move within 9\" of this model’s unit, if this model’s unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to D6\"."
+        "text": "In your opponent’s Movement phase, if an enemy unit ends a move within 8\" of this unit, if this unit is not within Engagement Range of one or more enemy units, this unit can make a Normal move of up to D6\"."
       },
       {
         "name": "Kroot Ambush",
@@ -3356,7 +3376,8 @@ export default [
     "keywords": [
       "Vehicle",
       "Fly",
-      "Piranhas"
+      "Piranhas",
+      "Frame"
     ],
     "factionKeywords": [
       "T’au Empire"
@@ -3477,7 +3498,8 @@ export default [
       "Razorshark Strike Fighter",
       "Fly",
       "Aircraft",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "T’au Empire"
@@ -3744,7 +3766,8 @@ export default [
       "Vehicle",
       "Fly",
       "Markerlight",
-      "Sky Ray Gunship"
+      "Sky Ray Gunship",
+      "Frame"
     ],
     "factionKeywords": [
       "T’au Empire"
@@ -4293,7 +4316,8 @@ export default [
       "Fly",
       "Aircraft",
       "Vehicle",
-      "Sun Shark Bomber"
+      "Sun Shark Bomber",
+      "Frame"
     ],
     "factionKeywords": [
       "T’au Empire"
@@ -4723,7 +4747,8 @@ export default [
       "Tidewall Droneport",
       "Fly",
       "Transport",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "T’au Empire"
@@ -4790,7 +4815,8 @@ export default [
       "Vehicle",
       "Transport",
       "Tidewall Gunrig",
-      "Fly"
+      "Fly",
+      "Frame"
     ],
     "factionKeywords": [
       "T’au Empire"
@@ -4862,7 +4888,8 @@ export default [
       "Vehicle",
       "Transport",
       "Fly",
-      "Tidewall Shieldline"
+      "Tidewall Shieldline",
+      "Frame"
     ],
     "factionKeywords": [
       "T’au Empire"

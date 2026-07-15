@@ -876,7 +876,8 @@ export default [
       "Castigator",
       "Vehicle",
       "Smoke",
-      "Imperium"
+      "Imperium",
+      "Frame"
     ],
     "factionKeywords": [
       "Adepta Sororitas"
@@ -1283,7 +1284,7 @@ export default [
       },
       {
         "name": "Mysterious Saviours",
-        "text": "You can target this unit with the Heroic Intervention Stratagem for 0CP, and can do so even if you have already targeted a different unit with that Stratagem this phase."
+        "text": "You can target this unit with the Heroic Intervention stratagem, regardless of any other uses of that stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that stratagem on other units this phase."
       }
     ],
     "composition": [
@@ -1350,7 +1351,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Acts of Faith",
     "abilities": [
       {
@@ -1437,7 +1438,7 @@ export default [
         "d": "2"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Acts of Faith",
     "abilities": [
       {
@@ -1691,7 +1692,7 @@ export default [
       },
       {
         "name": "Righteous Awareness",
-        "text": "Once per turn, when an enemy unit ends a Normal, Advance or Fall Back move within 9\" of this unit, if this unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to D6\"."
+        "text": "In your opponent's Movement phase, if an enemy unit ends a move within 8\" of this unit, if this unit is not within Engagement Range of one or more enemy units it can make a Normal move of up to D6\"."
       }
     ],
     "wargearAbilities": [
@@ -1720,7 +1721,13 @@ export default [
     "factionKeywords": [
       "Adepta Sororitas"
     ],
-    "baseSize": "32mm"
+    "baseSize": "32mm",
+    "rules": [
+      {
+        "name": "Holy Vanguard",
+        "text": "If this unit has a Leader unit attached to it during the Declare Battle Formations step and this unit starts the battle embarked within a TRANSPORT, that Leader unit gains the Scouts 6\" ability."
+      }
+    ]
   },
   {
     "id": "exorcist",
@@ -1837,7 +1844,8 @@ export default [
       "Vehicle",
       "Exorcist",
       "Smoke",
-      "Imperium"
+      "Imperium",
+      "Frame"
     ],
     "factionKeywords": [
       "Adepta Sororitas"
@@ -1897,7 +1905,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Acts of Faith",
     "abilities": [
       {
@@ -1996,7 +2004,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Acts of Faith",
     "abilities": [
       {
@@ -2163,7 +2171,8 @@ export default [
       "Smoke",
       "Immolator",
       "Imperium",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Adepta Sororitas"
@@ -2488,7 +2497,13 @@ export default [
     "factionKeywords": [
       "Adepta Sororitas"
     ],
-    "baseSize": "32mm"
+    "baseSize": "32mm",
+    "rules": [
+      {
+        "name": "Holy Mission",
+        "text": "If this model is attached to a DOMINION SQUAD during the Declare Battle Formations step, it gains the Scouts 6\" ability. If this model is attached to a SISTERS NOVITIATE SQUAD during the Declare Battle Formations step, it gains the Infiltrators ability."
+      }
+    ]
   },
   {
     "id": "mortifiers",
@@ -2742,7 +2757,13 @@ export default [
     "factionKeywords": [
       "Adepta Sororitas"
     ],
-    "baseSize": "60mm"
+    "baseSize": "60mm",
+    "rules": [
+      {
+        "name": "SUPREME COMMANDER",
+        "text": "If this model is in your army, it must be your Warlord."
+      }
+    ]
   },
   {
     "id": "palatine",
@@ -4221,7 +4242,8 @@ export default [
       "Smoke",
       "Dedicated Transport",
       "Transport",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Adepta Sororitas"
@@ -4280,37 +4302,11 @@ export default [
     "abilities": [
       {
         "name": "Relics of the Matriarchs",
-        "text": "At the start of the battle round, select up to two of the abilities in the Relics of the Matriarchs section (see left). Until the start of the next battle round, this model has those abilities."
+        "text": "At the start of the battle round, select up to two of the abilities in the Relics of the Matriarchs section (see below). Until the start of the next battle round, this model has those abilities."
       },
       {
         "name": "Solemn Procession",
         "text": "Each time you gain 1 Miracle dice at the start of the battle round, if this model is on the battlefield, do not roll one D6 to determine the value of that Miracle dice; it has a value of 6."
-      }
-    ],
-    "specialAbilities": [
-      {
-        "name": "The Fiery Heart (Aura)",
-        "text": "While a friendly ADEPTA SORORITAS unit is within 6\" of this model, add 2\" to that unit's Move characteristic and add 1 to Advance and Charge rolls made for that unit."
-      },
-      {
-        "name": "Censer of the Sacred Rose (Aura)",
-        "text": "While a friendly ADEPTA SORORITAS unit is within 6\" of this model, you can re-roll Battle-shock tests taken for that unit."
-      },
-      {
-        "name": "Simulacrum of the Ebon Chalice (Aura)",
-        "text": "While a friendly ADEPTA SORORITAS unit is within 6\" of this model, that unit can perform up to two Acts of Faith per phase, instead of only one."
-      },
-      {
-        "name": "Simulacrum of the Argent Shroud (Aura)",
-        "text": "While a friendly ADEPTA SORORITAS unit is within 6\" of this model, each time a model in that unit makes a ranged attack, re-roll a Wound roll of 1."
-      },
-      {
-        "name": "Icon of the Valorous Heart (Aura)",
-        "text": "While a friendly ADEPTA SORORITAS unit is within 6\" of this model, models in that unit have the Feel No Pain 6+ ability."
-      },
-      {
-        "name": "Petals of the Bloody Rose (Aura)",
-        "text": "While a friendly ADEPTA SORORITAS unit is within 6\" of this model, improve the Armour Penetration characteristic of melee weapons equipped by models in that unit by 1."
       }
     ],
     "damaged": {
@@ -4339,7 +4335,38 @@ export default [
     "factionKeywords": [
       "Adepta Sororitas"
     ],
-    "baseSize": "120x92mm Oval Base"
+    "baseSize": "120x92mm Oval Base",
+    "abilitySets": [
+      {
+        "name": "Relics of the Matriarchs",
+        "options": [
+          {
+            "name": "The Fiery Heart (Aura)",
+            "text": "While a friendly ADEPTA SORORITAS unit is within 6\" of this model, add 2\" to that unit's Move characteristic and add 1 to Advance and Charge rolls made for that unit."
+          },
+          {
+            "name": "Censer of the Sacred Rose (Aura)",
+            "text": "While a friendly ADEPTA SORORITAS unit is within 6\" of this model, you can re-roll Battle-shock tests taken for that unit."
+          },
+          {
+            "name": "Simulacrum of the Ebon Chalice (Aura)",
+            "text": "While a friendly ADEPTA SORORITAS unit is within 6\" of this model, that unit can perform up to two Acts of Faith per phase, instead of only one."
+          },
+          {
+            "name": "Simulacrum of the Argent Shroud (Aura)",
+            "text": "While a friendly ADEPTA SORORITAS unit is within 6\" of this model, each time a model in that unit makes a ranged attack, re-roll a Wound roll of 1."
+          },
+          {
+            "name": "Icon of the Valorous Heart (Aura)",
+            "text": "While a friendly ADEPTA SORORITAS unit is within 6\" of this model, models in that unit have the Feel No Pain 6+ ability."
+          },
+          {
+            "name": "Petals of the Bloody Rose (Aura)",
+            "text": "While a friendly ADEPTA SORORITAS unit is within 6\" of this model, improve the Armour Penetration characteristic of melee weapons equipped by models in that unit by 1."
+          }
+        ]
+      }
+    ]
   },
   {
     "id": "zephyrim-squad",
