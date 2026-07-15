@@ -129,7 +129,8 @@ export default [
       "Smoke",
       "Chaos",
       "Slaanesh",
-      "Land Raider"
+      "Land Raider",
+      "Frame"
     ],
     "factionKeywords": [
       "",
@@ -232,7 +233,8 @@ export default [
       "Transport",
       "Vehicle",
       "Dedicated Transport",
-      "Rhino"
+      "Rhino",
+      "Frame"
     ],
     "factionKeywords": [
       "Emperor’s Children",
@@ -276,7 +278,7 @@ export default [
     "abilities": [
       {
         "name": "Scuttling Horrors",
-        "text": "Once per turn, when an enemy unit ends a Normal, Advance or Fall Back move within 9\" of this unit, this unit can make a Normal move of up to 6\"."
+        "text": "In your opponent’s Movement phase, if an enemy unit ends a move within 8\" of this unit, if this unit is not within Engagement Range of one or more enemy units, this unit can make a Normal move of up to 6\"."
       }
     ],
     "composition": [
@@ -417,7 +419,7 @@ export default [
     "abilities": [
       {
         "name": "Lethal Obsession",
-        "text": "In your Shooting phase, each time this unit is selected to shoot, if it makes one or more ranged attacks and all of those attacks target the same enemy unit, until the end of the turn, each time this unit declares a charge, if that enemy unit is a target of that charge, you can re-roll the Charge roll."
+        "text": "In your Shooting phase, after this unit has shot, you can use this ability. If you do, select one enemy unit hit by those ranged attacks. Until the end of the turn, when this unit declares a charge: this unit can re-roll that charge roll; this unit must end that charge move engaged with that enemy unit."
       }
     ],
     "composition": [
@@ -1201,12 +1203,12 @@ export default [
     "profiles": [
       {
         "name": "Heldrake",
-        "m": "20+\"",
+        "m": "12\"",
         "t": "10",
         "sv": "3+",
         "w": "14",
         "ld": "7+",
-        "oc": "0",
+        "oc": "-",
         "inv": "5+"
       }
     ],
@@ -1272,7 +1274,6 @@ export default [
       "Chaos",
       "Fly",
       "Vehicle",
-      "Aircraft",
       "Slaanesh",
       "Heldrake",
       "Daemon"
