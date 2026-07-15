@@ -1528,7 +1528,8 @@ export default [
       "Devilfish",
       "Vehicle",
       "Fly",
-      "Dedicated Transport"
+      "Dedicated Transport",
+      "Frame"
     ],
     "factionKeywords": [
       "T’au Empire"
@@ -2001,7 +2002,8 @@ export default [
     "keywords": [
       "Hammerhead Gunship",
       "Fly",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "T’au Empire"
@@ -2595,7 +2597,7 @@ export default [
     "abilities": [
       {
         "name": "Trail Finding",
-        "text": "Once per turn, when an enemy unit ends a Normal, Advance or Fall Back move within 9\" of this model’s unit, if this model’s unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to D6\"."
+        "text": "In your opponent’s Movement phase, if an enemy unit ends a move within 8\" of this unit, if this unit is not within Engagement Range of one or more enemy units, this unit can make a Normal move of up to D6\"."
       },
       {
         "name": "Kroot Ambush",
@@ -3374,7 +3376,8 @@ export default [
     "keywords": [
       "Vehicle",
       "Fly",
-      "Piranhas"
+      "Piranhas",
+      "Frame"
     ],
     "factionKeywords": [
       "T’au Empire"
@@ -3495,7 +3498,8 @@ export default [
       "Razorshark Strike Fighter",
       "Fly",
       "Aircraft",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "T’au Empire"
@@ -3762,7 +3766,8 @@ export default [
       "Vehicle",
       "Fly",
       "Markerlight",
-      "Sky Ray Gunship"
+      "Sky Ray Gunship",
+      "Frame"
     ],
     "factionKeywords": [
       "T’au Empire"
@@ -4311,7 +4316,8 @@ export default [
       "Fly",
       "Aircraft",
       "Vehicle",
-      "Sun Shark Bomber"
+      "Sun Shark Bomber",
+      "Frame"
     ],
     "factionKeywords": [
       "T’au Empire"
@@ -4741,7 +4747,8 @@ export default [
       "Tidewall Droneport",
       "Fly",
       "Transport",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "T’au Empire"
@@ -4808,7 +4815,8 @@ export default [
       "Vehicle",
       "Transport",
       "Tidewall Gunrig",
-      "Fly"
+      "Fly",
+      "Frame"
     ],
     "factionKeywords": [
       "T’au Empire"
@@ -4880,7 +4888,8 @@ export default [
       "Vehicle",
       "Transport",
       "Fly",
-      "Tidewall Shieldline"
+      "Tidewall Shieldline",
+      "Frame"
     ],
     "factionKeywords": [
       "T’au Empire"
