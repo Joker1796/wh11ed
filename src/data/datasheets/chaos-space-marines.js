@@ -71,7 +71,7 @@ export default [
       },
       {
         "name": "Dark Destiny",
-        "text": "Each time this model's unit makes a Dark Pact and does not fail the resulting Leadership test, if the result of that test was 7+, you gain 1CP."
+        "text": "Each time this model’s unit makes a Dark Pact and does not fail the resulting Leadership roll, if the result of that roll was 7+, you gain 1CP."
       }
     ],
     "composition": [
@@ -196,8 +196,8 @@ export default [
     "faction": "Dark Pacts",
     "abilities": [
       {
-        "name": "Accursed Horde",
-        "text": "Each time an enemy unit has shot, if one or more models from this unit were destroyed as a result of those attacks, this unit can make a Horde move. To do so, roll one D6: this unit can be moved a number of inches up to the result, but this unit must finish that move as close as possible to the closest enemy unit (excluding AIRCRAFT). When doing so, those models can be moved within Engagement Range of that enemy unit. A unit cannot make a Horde move while it is Battle-shocked."
+        "name": "Howling Horde",
+        "text": "In your opponent’s Shooting phase, when an enemy unit has shot, if a model from this unit was destroyed as a result of those attacks, this unit can make a surge move of up to D6\"."
       }
     ],
     "composition": [
@@ -555,7 +555,8 @@ export default [
       "Vehicle",
       "Transport",
       "Smoke",
-      "Land Raider"
+      "Land Raider",
+      "Frame"
     ],
     "factionKeywords": [
       "Heretic Astartes"
@@ -1094,7 +1095,8 @@ export default [
       "Predator Annihilator",
       "Chaos",
       "Smoke",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Heretic Astartes"
@@ -1238,7 +1240,8 @@ export default [
       "Chaos",
       "Smoke",
       "Vehicle",
-      "Predator Destructor"
+      "Predator Destructor",
+      "Frame"
     ],
     "factionKeywords": [
       "Heretic Astartes"
@@ -1333,14 +1336,15 @@ export default [
       "This model can be equipped with one of the following:\n▪ 1 combi-bolter\n▪ 1 combi-weapon",
       "This model can be equipped with 1 havoc launcher or can replace 1 combi-bolter with 1 havoc launcher."
     ],
-    "transport": "This model has a transport capacity of 12 Heretic Astartes Infantry models. It cannot transport Terminator, Jump Pack, Mutilators, Obliterator or Possessed models.",
+    "transport": "This model has a transport capacity of 12 Heretic Astartes Infantry models. It cannot transport Terminator, Jump Pack, Mutilators, Obliterators or Possessed models.",
     "keywords": [
       "Transport",
       "Vehicle",
       "Dedicated Transport",
       "Smoke",
       "Chaos",
-      "Rhino"
+      "Rhino",
+      "Frame"
     ],
     "factionKeywords": [
       "Heretic Astartes"
@@ -1671,7 +1675,8 @@ export default [
       "Smoke",
       "Chaos",
       "Vindicator",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
       "Heretic Astartes"
@@ -2104,8 +2109,8 @@ export default [
     "faction": "Dark Pacts",
     "abilities": [
       {
-        "name": "Agent of Discord (Aura)",
-        "text": "Each time your opponent targets a unit from their army with a Stratagem, if that unit is within 12\" of this model, increase the cost of that use of that Stratagem by 1CP (this is not cumulative with any other rules that would increase the CP cost of that Stratagem)."
+        "name": "Agent of Discord",
+        "text": "Once per turn, when your opponent targets a unit from their army within 12\" of this model with a Stratagem, you can use this ability. If you do, increase the CP cost of that use of that Stratagem by 1CP."
       },
       {
         "name": "Guns Blazing",
@@ -2690,7 +2695,7 @@ export default [
       },
       {
         "name": "Chirurgeon",
-        "text": "The first time this unit’s FABIUS BILE model is destroyed, at the end of the phase roll one D6: on a 2+, set it back up on the battlefield, as close as possible to where it was destroyed and not within Engagement Range of any enemy models, with its full wounds remaining. If that model was attached to a unit when it was destroyed, it must be set up attached to that unit."
+        "text": "The first time this unit’s FABIUS BILE model is destroyed, at the end of the phase, roll one D6: on a 2+, set it back up on the battlefield, as close as possible to where it was destroyed and not within Engagement Range of any enemy models, with its full wounds remaining."
       }
     ],
     "composition": [
@@ -3537,12 +3542,12 @@ export default [
     "profiles": [
       {
         "name": "Heldrake",
-        "m": "20+\"",
+        "m": "12\"",
         "t": "9",
         "sv": "3+",
         "w": "12",
         "ld": "6+",
-        "oc": "0",
+        "oc": "-",
         "inv": "5+"
       }
     ],
@@ -3609,8 +3614,7 @@ export default [
       "Fly",
       "Heldrake",
       "Daemon",
-      "Chaos",
-      "Aircraft"
+      "Chaos"
     ],
     "factionKeywords": [
       "Heretic Astartes"
@@ -4056,7 +4060,8 @@ export default [
       "Towering",
       "Chaos",
       "Daemon",
-      "Lord of Skulls"
+      "Lord of Skulls",
+      "Frame"
     ],
     "factionKeywords": [
       "Heretic Astartes"
@@ -4652,7 +4657,7 @@ export default [
         "d": "2"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Dark Pacts",
     "abilities": [
       {
@@ -5504,7 +5509,8 @@ export default [
     "keywords": [
       "Noctilith Crown",
       "Chaos",
-      "Fortification"
+      "Fortification",
+      "Frame"
     ],
     "factionKeywords": [
       "Heretic Astartes"
@@ -5593,7 +5599,7 @@ export default [
     "abilities": [
       {
         "name": "Warp Rift Firepower",
-        "text": "Once per battle, during the shooting phase, this unit can use this ability. If it does, until the end of the phase, ranged weapons equipped by models in this unit have the [INDIRECT FIRE] ability."
+        "text": "(Once per battle, per unit) In your Shooting phase, when this unit is selected to shoot, you can use this ability. If you do, this unit’s ranged attacks have the [INDIRECT FIRE] ability."
       }
     ],
     "composition": [
@@ -6697,7 +6703,7 @@ export default [
     "abilities": [
       {
         "name": "Twisted Defence Force",
-        "text": "While this unit is within range of an objective marker, each time a ranged attack targets this unit, models in this unit have the Benefit of Cover against that attack."
+        "text": "While this unit is within range of an objective, this unit has +1 Sv against ranged attacks."
       }
     ],
     "composition": [
