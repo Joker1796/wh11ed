@@ -6791,10 +6791,6 @@ export default [
       {
         "name": "Master of the Forge",
         "text": "In your Command phase, select one friendly ADEPTUS ASTARTES VEHICLE model within 3\" of this model. That model regains up to 3 lost wounds and, until the start of your next Command phase, each time that VEHICLE model makes an attack, add 1 to the Hit roll. You cannot select a unit for this ability that has already been selected for the Blessing of the Omnissiah ability this phase, and vice versa."
-      },
-      {
-        "name": "Inspiring Commander",
-        "text": "If you include this model in your army, until the end of the battle, non-CHARACTER models in HEAVY INTERCESSOR SQUAD units from your army have an Objective Control characteristic of 3 while they are not Battle-shocked."
       }
     ],
     "specialAbilities": [
@@ -6992,10 +6988,6 @@ export default [
       {
         "name": "Echo of the Ravenspire",
         "text": "At the end of your opponent’s turn, if this model’s unit is not within Engagement Range of any enemy models, you can remove it from the battlefield and place it into Strategic Reserves."
-      },
-      {
-        "name": "Inspiring Commander",
-        "text": "If you include this model in your army, until the end of the battle, non-CHARACTER models in ASSAULT INTERCESSORS WITH JUMP PACKS units from your army have an Objective Control characteristic of 2 while they are not Battle-shocked."
       }
     ],
     "specialAbilities": [
@@ -7096,10 +7088,6 @@ export default [
       {
         "name": "Trophy Taker",
         "text": "Each time this model destroys an enemy CHARACTER model, you gain 1CP."
-      },
-      {
-        "name": "Inspiring Commander",
-        "text": "If you include this model in your army, until the end of the battle, non-CHARACTER models in OUTRIDER SQUAD units from your army have an Objective Control characteristic of 3 while they are not Battle-shocked."
       }
     ],
     "specialAbilities": [
@@ -8811,10 +8799,6 @@ export default [
       {
         "name": "To the Last",
         "text": "While this model is leading a unit, each time a model in that unit makes an attack, add 1 to the Hit roll if that unit is below its Starting Strength, and add 1 to the Wound roll as well if that unit is Below Half-strength."
-      },
-      {
-        "name": "Inspiring Commander",
-        "text": "If you include this model in your army, until the end of the battle, non-CHARACTER models in STERNGUARD VETERAN SQUAD units from your army have an Objective Control characteristic of 2 while they are not Battle-shocked."
       }
     ],
     "specialAbilities": [
