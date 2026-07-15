@@ -136,7 +136,7 @@ export default [
     "abilities": [
       {
         "name": "Seed Spore Mines",
-        "text": "Once per turn, in your Shooting phase, when selected to shoot, one unit with this ability can use it instead of making any attacks with its ranged weapons. If it does, you can add one new Spore Mines unit to your army and set it up anywhere on the battlefield that is wholly within 48\" of this unit and more than 9\" horizontally away from all enemy units. That SPORE MINES unit contains 1 model for each model in this unit."
+        "text": "Once per turn, in your Shooting phase, when selected to shoot, one unit with this ability can use it instead of making any attacks with its ranged weapons. If it does, you can add one new Spore Mines unit to your army and set it up anywhere on the battlefield that is wholly within 48\" of this unit and more than 8\" horizontally away from all enemy units. That SPORE MINES unit contains 1 model for each model in this unit."
       }
     ],
     "composition": [
@@ -366,7 +366,7 @@ export default [
     "abilities": [
       {
         "name": "Blistering Assault",
-        "text": "Each time an enemy unit is selected to shoot, after that unit has shot, if any models from this unit lost one or more wounds as a result of those attacks, this unit can make a Blistering Assault move. If it does, roll one D6, adding 2 to the result: each model in this unit can be moved a distance in inches up to the result, but this unit must finish that move as close as possible to the closest enemy unit. When doing so, those models can be moved within Engagement Range of that enemy unit. Each unit can only make one Blistering Assault move per phase."
+        "text": "In your opponent’s Shooting phase, when an enemy unit has shot, if a model in this unit lost a wound as a result of those attacks, this unit can make a surge move of up to D6+2\"."
       }
     ],
     "composition": [
@@ -699,12 +699,12 @@ export default [
     "profiles": [
       {
         "name": "Harpy",
-        "m": "20+\"",
+        "m": "-",
         "t": "9",
         "sv": "3+",
         "w": "12",
         "ld": "8+",
-        "oc": "0"
+        "oc": "-"
       }
     ],
     "ranged": [
@@ -756,12 +756,12 @@ export default [
         "d": "2"
       }
     ],
-    "core": "Deadly Demise D3, Hover",
+    "core": "Deadly Demise D3",
     "faction": "Synapse",
     "abilities": [
       {
         "name": "Spore Mine Cysts",
-        "text": "Each time this model ends a Normal move, you can select one of the following:\n▪ Select one enemy unit it moved over during that move and roll six D6: for each 3+, that unit suffers 1 mortal wound.\n▪ Add one new Spore Mines unit containing D3 models to your army and set it up anywhere on the battlefield that is wholly within 6\" of this model and more than 9\" horizontally away from all enemy units. You cannot select this option for more than one model per turn."
+        "text": "At the end of your opponent’s Fight phase, you can do one of the following:\n▪ Select one visible enemy unit (excluding Lone Operative units) within 24\" of this unit and roll six D6 for that unit: for each 3+, that unit suffers 1 mortal wound.\n▪ Add a new SPORE MINES unit containing D3 models to your army and set it up anywhere on the battlefield that is within 6\" of this model and more than 8\" horizontally away from all enemy units. You cannot select this option for more than one model per turn."
       }
     ],
     "damaged": {
@@ -2970,7 +2970,7 @@ export default [
     "abilities": [
       {
         "name": "Seed Mucolids",
-        "text": "Once per turn, in your Shooting phase, when selected to shoot, one unit with this ability can use it instead of making any attacks with its ranged weapons. If it does, you can add one new Mucolid Spores unit containing 1 model to your army and set it up anywhere on the battlefield that is wholly within 18\" of this model and more than 9\" horizontally away from all enemy units."
+        "text": "Once per turn, in your Shooting phase, when selected to shoot, one unit with this ability can use it instead of making any attacks with its ranged weapons. If it does, you can add one new Mucolid Spores unit containing 1 model to your army and set it up anywhere on the battlefield that is wholly within 18\" of this model and more than 8\" horizontally away from all enemy units."
       },
       {
         "name": "Hive Defences",
@@ -3108,7 +3108,7 @@ export default [
     "abilities": [
       {
         "name": "Skulking Horrors",
-        "text": "Once per turn, when an enemy unit ends a Normal, Advance or Fall Back move within 9\" of this unit, if this unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to D6\"."
+        "text": "In your opponent’s Movement phase, if an enemy unit ends a move within 8\" of this unit, if this unit is not within Engagement Range of one or more enemy units, this unit can make a Normal move of up to D6\"."
       }
     ],
     "composition": [
@@ -4201,7 +4201,7 @@ export default [
     "abilities": [
       {
         "name": "Pouncing Leap",
-        "text": "You can target this unit with the Heroic Intervention Stratagem for 0CP, and can do so even if you have already used that Stratagem on a different unit this phase."
+        "text": "You can target this unit with the Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do: that use is -1 CP; that use does not prevent any uses of that Stratagem on other units this phase."
       }
     ],
     "composition": [
