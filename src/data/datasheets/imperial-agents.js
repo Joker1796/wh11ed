@@ -389,11 +389,11 @@ export default [
     "abilities": [
       {
         "name": "Acrobatic Escape",
-        "text": "At the end of the Fight phase, if this model is within Engagement Range of one or more enemy units, it can make a Fall Back move of up to D6\". In addition, at the end of your opponent’s turn, if this model is not within 3\" of one or more enemy units, you can remove it from the battlefield and then, in the Reinforcements step of your next Movement phase, set it up anywhere on the battlefield that is more than 9\" horizontally away from all enemy models. If the battle ends and this model is not on the battlefield, it is destroyed."
+        "text": "At the end of the Fight phase, if this model is within Engagement Range of one or more enemy units, it can make a Fall Back move of up to D6\". In addition, at the end of your opponent’s turn, if this model is not within 3\" of one or more enemy units, you can remove it from the battlefield and then, in the Reinforcements step of your next Movement phase, set it up anywhere on the battlefield that is more than 8\" horizontally away from all enemy models. If the battle ends and this model is not on the battlefield, it is destroyed."
       },
       {
-        "name": "Lord of Deceit (Aura)",
-        "text": "Each time your opponent targets a unit from their army with a Stratagem, if that unit is within 12\" of this model, increase the cost of that use of that Stratagem by 1CP."
+        "name": "Reign of Confusion",
+        "text": "Once per turn, when your opponent targets a unit from their army within 12\" of this model with a Stratagem, this model can use this ability. If you do, increase the CP cost of that use of that Stratagem by 1CP."
       }
     ],
     "composition": [
@@ -432,7 +432,7 @@ export default [
     "profiles": [
       {
         "name": "Corvus Blackstar",
-        "m": "20+\"",
+        "m": "14\"",
         "t": "10",
         "sv": "3+",
         "w": "14",
@@ -549,13 +549,13 @@ export default [
     "keywords": [
       "Vehicle",
       "Deathwatch",
-      "Aircraft",
       "Fly",
       "Corvus Blackstar",
       "Transport",
       "Imperium",
       "Ordo Xenos",
-      "Retinue"
+      "Retinue",
+      "Frame"
     ],
     "factionKeywords": [
       "Agents of the Imperium"
@@ -1602,7 +1602,8 @@ export default [
       "Smoke",
       "Transport",
       "Dedicated Transport",
-      "Imperial Rhino"
+      "Imperial Rhino",
+      "Frame"
     ],
     "factionKeywords": [
       "Agents of the Imperium"
@@ -1742,7 +1743,6 @@ export default [
         "Catachan Jungle Fighters",
         "Vigilant Squad",
         "Deathwatch Veterans",
-        "Deathwatch Kill Team",
         "Crusader Squad (Legendary)",
         "Skitarii Vanguard",
         "Strike Squad",
@@ -2052,7 +2052,6 @@ export default [
         "Proteus Kill Team",
         "Skitarii Vanguard",
         "Intercessor Squad",
-        "Deathwatch Kill Team",
         "Grey Hunters",
         "Crusader Squad",
         "Catachan Jungle Fighters",
@@ -2685,7 +2684,8 @@ export default [
       "Vehicle",
       "Inquisitorial Chimera",
       "Imperium",
-      "Dedicated Transport"
+      "Dedicated Transport",
+      "Frame"
     ],
     "factionKeywords": [
       "Agents of the Imperium"
@@ -2761,7 +2761,7 @@ export default [
         "d": "2"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Assigned Agents",
     "abilities": [
       {
@@ -3387,7 +3387,8 @@ export default [
       "Dedicated Transport",
       "Imperium",
       "Ordo Hereticus",
-      "Immolator"
+      "Immolator",
+      "Frame"
     ],
     "factionKeywords": [
       "Agents of the Imperium"
@@ -4012,7 +4013,7 @@ export default [
     "abilities": [
       {
         "name": "Deadshot",
-        "text": "Each time this model makes a ranged attack, when selecting targets for that attack, you can ignore the Lone Operative ability."
+        "text": "When this unit is selected to shoot, until this unit has shot: enemy units do not have Lone Operative; hidden enemy units have +15\" detection range."
       },
       {
         "name": "Shieldbreaker",
