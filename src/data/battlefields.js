@@ -798,7 +798,7 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
           extraCost: [],
         },
         {
-          nameRu: 'Заградительный огонь',
+          nameRu: 'Упреждающий огонь',
           flavor: 'Шквальный огонь обратит вспять любую атаку.',
           when: 'Конец фазы движения (Movement phase) вашего противника.',
           target: 'Один дружественный **[gloss:unengaged:не связанный боем]** юнит (не юнит **[gloss:titanic:TITANIC]**).',
@@ -808,6 +808,7 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
           subRule: {
             sectionNum: '15.09',
             title: 'Snap Shooting',
+            titleRu: 'Стрельба на вскидку',
             fields: [
               { label: 'ДОПУСТИМО ЕСЛИ', text: 'Как указано в правиле, разрешающем этот **тип стрельбы**.' },
               { label: 'ЭФФЕКТ', text: 'Ваш юнит стреляет, как описано в разделе «Совершение атак» (04).' },
@@ -836,6 +837,7 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
             {
               cp: '+1CP',
               title: 'Into the Fray',
+              titleRu: 'В гущу боя',
               body: 'При совершении **[gloss:charge-roll:броска на нападение]**, если его результат (после модификаторов) больше 6, измените его на 6. При выборе целей [gloss:charge-target:для нападения] вы можете выбирать любые вражеские юниты, которые находятся в пределах 6" от вашего юнита и в пределах **[gloss:maximum-distance:максимальной дистанции]**.',
             },
           ],
