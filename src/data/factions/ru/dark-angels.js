@@ -76,6 +76,36 @@ export const detRuleNamesRu = {
   'Dutiful Tenacity': 'Верное упорство',
 }
 
+// RU display names for enhancements — shown as a small muted second line under the
+// English name in FactionRuleView (RU locale only), same treatment as stratNamesRu.
+export const enhNamesRu = {
+  'Shroud of Heroes': 'Покров героев',
+  'Stubborn Tenacity': 'Упрямая стойкость',
+  'Weapons of the First Legion': 'Оружие Первого Легиона',
+  'Pennant of Remembrance': 'Вымпел памяти',
+  'Champion of the Deathwing': 'Поборник Deathwing',
+  'Eye of the Unseen': 'Око незримого',
+  'Singular Will': 'Непреклонная воля',
+  'Deathwing Assault': 'Штурм Deathwing',
+  'Master-crafted Weapon': 'Оружие мастерской работы',
+  'Mounted Strategist': 'Конный стратег',
+  'Master of Manoeuvre': 'Мастер манёвра',
+  'Recon Hunter': 'Охотник-разведчик',
+  'Petition of Stability': 'Мольба о стабильности',
+  'Entreaty of Perpetual Ardour': 'Мольба извечного пыла',
+  'Thundercowl Turbines': 'Турбины Громового Капюшона',
+  'Nightforged Battery': 'Батарея ночной ковки',
+  'Limitless Zeal': 'Безграничное рвение',
+  'Inescapable Interrogation': 'Неизбежный допрос',
+  'Calibanite Armaments': 'Калибанитское оружие',
+  'Lord of the Hunt': 'Владыка охоты',
+  'Stalwart Champion': 'Стойкий поборник',
+  'Fulgus Magna': 'Фулгус Магна',
+  'Tempered in Battle': 'Закалённый в бою',
+  'Ancient Weapons': 'Древнее оружие',
+  'Lord of the Ravenwing': 'Владыка Ravenwing',
+}
+
 export default {
   armyRule: {
     flavor:
