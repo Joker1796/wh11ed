@@ -30,6 +30,24 @@
           {{ d.name }}
         </button>
       </div>
+      <button
+        v-if="detachments.length > 1"
+        type="button"
+        class="det-trigger"
+        :aria-label="labels.factionDetachments"
+        @click="showDetPicker = true"
+      >
+        <span class="det-trigger-name">{{ det?.name }}</span>
+        <i class="bi bi-chevron-right det-trigger-chev"></i>
+      </button>
+
+      <FactionDetachmentPickerModal
+        v-if="showDetPicker"
+        :detachments="detachments"
+        :active-id="activeId"
+        @pick="(id) => { activeId = id; showDetPicker = false }"
+        @close="showDetPicker = false"
+      />
     </section>
 
     <section v-if="det" class="fsection" :id="det.id" :key="det.id">
@@ -85,6 +103,7 @@ import { computed, ref, watch } from 'vue'
 import FactionLayout from '../../components/FactionLayout.vue'
 import RuleBlock from '../../components/RuleBlock.vue'
 import StratCard from '../../components/StratCard.vue'
+import FactionDetachmentPickerModal from '../../components/FactionDetachmentPickerModal.vue'
 import { useFactionPage } from '../../composables/useFactionPage.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -113,6 +132,7 @@ const savedMap = () => {
 }
 
 const activeId = ref()
+const showDetPicker = ref(false)
 
 // Restore the saved (or first) detachment when the faction changes; keep the current pick
 // across in-place list changes (e.g. the RU overlay resolving) as long as it stays valid.
@@ -183,6 +203,43 @@ const det = computed(() => detachments.value.find((d) => d.id === activeId.value
   color: #fff;
   background: var(--accent);
   border-color: var(--accent);
+}
+
+/* Mobile detachment trigger — collapses the chip row into a single "current value +
+   chevron" button that opens FactionDetachmentPickerModal (hidden by default, shown at
+   the ≤640px breakpoint below; copies GameSetup.vue's .btn-choose-twist layout). */
+.det-trigger {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  width: 100%;
+  min-height: 44px;
+  margin-top: 0.5rem;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: border-color var(--motion-fast);
+}
+
+.det-trigger:hover {
+  border-color: var(--accent);
+}
+
+.det-trigger-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.det-trigger-chev {
+  flex-shrink: 0;
+  color: var(--text-dim);
 }
 
 /* Detachment meta (DP / disposition / unique) */
@@ -340,5 +397,7 @@ const det = computed(() => detachments.value.find((d) => d.id === activeId.value
 
 @media (max-width: 640px) {
   .fsection-title { font-size: 1.6rem; }
+  .det-picker { display: none; }
+  .det-trigger { display: flex; }
 }
 </style>
