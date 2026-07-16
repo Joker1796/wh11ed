@@ -557,6 +557,39 @@ function statCells(p) {
   vertical-align: middle;
 }
 
+/* Very narrow phones (≤480px): placed after the base .ds-card/.ds-cardhead/.ds-points/
+   .ds-weapons rules above so it wins the cascade at equal specificity (a same-specificity
+   override defined earlier in the file, e.g. inside the .ds-stat-box media block, loses to
+   these later unconditional rules regardless of the media query matching). The card's own
+   1rem gutter stacks on top of .main-content's — shrink it here, re-bleed the header/points
+   bands (their negative margins key off this padding), and tighten the weapon/points tables,
+   which otherwise have no responsive treatment at all: .wname's 10rem floor plus nowrap on
+   every other cell forces horizontal scroll well before this. */
+@media (max-width: 480px) {
+  .ds-card { padding: 0.9rem 0.4rem 0.6rem; }
+  .ds-cardhead { margin: -0.9rem -0.4rem 0.8rem; padding: 0.75rem 0.4rem 0.7rem; }
+  .ds-points { margin: 0.8rem -0.4rem -0.6rem; padding: 0.55rem 0.4rem 0.75rem; }
+
+  .ds-weapons table,
+  .ds-points table {
+    font-size: 0.68rem;
+  }
+  .ds-weapons th,
+  .ds-weapons td {
+    padding: 0.18rem 0.1rem;
+  }
+  .ds-weapons th {
+    font-size: 0.54rem;
+  }
+  .ds-weapons .wname {
+    min-width: 4.5rem;
+  }
+  .ds-points th,
+  .ds-points td {
+    padding: 0.2rem 0.3rem;
+  }
+}
+
 /* Abilities */
 .ds-abilities { font-size: 0.85rem; line-height: 1.5; color: var(--text-primary); }
 .ds-faction-rule { font-weight: 600; }

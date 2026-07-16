@@ -1110,4 +1110,12 @@ a.nd-link:hover {
     color: var(--accent-on-dark);
   }
 }
+
+/* Very narrow phones (≤480px): the 900px tier's 1rem gutter still wastes a large share
+   of a 320-375px viewport, so shrink it further here — almost-zero but not edge-to-edge. */
+@media (max-width: 480px) {
+  .main-content {
+    padding: 0 calc(0.5rem + var(--safe-right)) calc(4.5rem + var(--safe-bottom) + var(--resume-bar-h, 0px)) calc(0.5rem + var(--safe-left));
+  }
+}
 </style>
