@@ -1,8 +1,10 @@
 // Adeptus Mechanicus — русский перевод правил фракции. Разреженный оверлей поверх EN-структуры
 // (см. ./index.js): переведены только тексты (flavor/body/example, when/target/effect/
-// restrictions, тексты улучшений). Названия детачментов, стратагем, улучшений и правил,
-// ALL-CAPS ключевые слова, [BRACKET]-способности и имена юнитов остаются английскими.
-// Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN-файлом.
+// restrictions, тексты улучшений). Названия детачментов и правил, ALL-CAPS ключевые слова,
+// [BRACKET]-способности и имена юнитов остаются английскими. Стратагемы и улучшения
+// получают RU-имя отдельной строкой под английским названием — см. stratNamesRu/
+// enhNamesRu ниже. Порядок массивов detachments/stratagems/enhancements обязан совпадать
+// с EN-файлом.
 // RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
 export const stratNamesRu = {
   'Baleful Halo': 'Зловещий ореол',
@@ -84,6 +86,45 @@ export const detRuleNamesRu = {
   'Cyber-static Canticles': 'Кибер-статические канты',
   'Murderous Imperative': 'Смертоносный императив',
   'Noospheric Transference': 'Ноосферная передача',
+}
+
+// RU display names for enhancements — shown as a small muted second line under the
+// English name in FactionRuleView (RU locale only), same treatment as stratNamesRu.
+export const enhNamesRu = {
+  'Radial Suffusion': 'Радиальная суффузия',
+  'Malphonic Susurrus': 'Малфонический шёпот',
+  'Peerless Eradicator': 'Непревзойдённый истребитель',
+  'Autoclavic Denunciation': 'Автоклавное обличение',
+  'Cantic Thrallnet': 'Кантик-Тралнет',
+  'Clandestine Infiltrator': 'Тайный лазутчик',
+  'Veiled Hunter': 'Сокрытый охотник',
+  'Battle-sphere Uplink': 'Канал связи боевой сферы',
+  'Mechanicus Locum': 'Наместник Механикум',
+  'Mantle of the Gnosticarch': 'Мантия Гностиарха',
+  'Data-blessed Autosermon': 'Дата-благословенная автопроповедь',
+  'Temporcopia': 'Темпоркопия',
+  'Magos': 'Магос',
+  'Genetor': 'Генетор',
+  'Logis': 'Логис',
+  'Artisan': 'Артизан',
+  'Necromechanic': 'Некромеханик',
+  'Lord of Machines': 'Владыка машин',
+  'Emotionless Clarity': 'Бесстрастная ясность',
+  'Arch-negator': 'Архиотрицатель',
+  'Explorator Dispensation': 'Дозволение эксплоратора',
+  'Stealth-screened Cybercanids': 'Кибер-псы под стелс-завесой',
+  "Vingh's Wafers of Dynamism": 'Вафли динамизма Вин',
+  'TL-4ø9': 'TL-4ø9',
+  'Voltagheist Reliquary': 'Реликварий вольтагейстов',
+  'Electromiasmic Brazier': 'Электромиазматическая жаровня',
+  'Omnicogitator': 'Омникогитатор',
+  'Martial Signatum Amplificator': 'Боевой усилитель сигнатума',
+  'Belicosa-class Capacitor Vanes': 'Конденсаторные лопасти класса «Беликоза»',
+  "Omnissiah's Fury": 'Ярость Омниссии',
+  'Transoracular Dyad Wafers': 'Трансоракулярные вафли-диады',
+  'Cognitive Reinforcement': 'Когнитивное усиление',
+  'Sanctified Ordnance': 'Освящённый боезапас',
+  'Inloaded Lethality': 'Загруженная смертоносность',
 }
 
 export default {
