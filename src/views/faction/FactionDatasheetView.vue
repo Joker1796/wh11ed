@@ -40,7 +40,7 @@
             </a>
           </div>
         </div>
-        <DatasheetCard :sheet="sheet" />
+        <DatasheetCard :sheet="sheet" :unit-index="unitIndex" :faction-slug="route.params.slug" />
       </template>
       <p v-else-if="loaded" class="ds-missing">{{ labels.factionsSoon }}</p>
     </section>
@@ -120,6 +120,16 @@ const sheet = computed(() => {
   const mod = ruModule.value
   if (!mod) return en
   return localizeSheet(en, mod.default?.[en.id], mod.abilityNamesRu)
+})
+
+// Name → id lookup so DatasheetCard can link Leader/Attached-unit references (e.g. the
+// bodyguard units listed under a Character's "Leader" ability) to their own datasheet
+// page. Always built from the EN names (unit names are never translated, see the RU
+// bilingual conventions), so it's unaffected by locale/localizeSheet.
+const unitIndex = computed(() => {
+  const map = new Map()
+  for (const d of datasheets.value) map.set(d.name, d.id)
+  return map
 })
 
 // Same query Wahapedia uses for its "Search for model's image on the Internet" icon.
