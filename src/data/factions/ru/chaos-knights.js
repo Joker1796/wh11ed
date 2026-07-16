@@ -1,9 +1,10 @@
 // Chaos Knights — русский перевод правил фракции. Разреженный оверлей поверх EN-структуры
 // (см. ./index.js): переведены только тексты (flavor/body/example, when/target/effect/
-// restrictions, тексты улучшений). Названия детачментов, стратагем, улучшений и правил,
-// ALL-CAPS ключевые слова, [BRACKET]-способности и имена юнитов остаются английскими.
-// Механики Harbingers of Dread / Dread ability / Malefic Surge / Empowered оставлены
-// английскими. Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN.
+// restrictions, тексты улучшений). Названия детачментов и правил, ALL-CAPS ключевые слова,
+// [BRACKET]-способности и имена юнитов остаются английскими. Механики Harbingers of Dread /
+// Dread ability / Malefic Surge / Empowered оставлены английскими. Стратагемы и улучшения
+// получают RU-имя отдельной строкой под английским названием — см. stratNamesRu/
+// enhNamesRu ниже. Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN.
 // RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
 export const stratNamesRu = {
   'Merciless Fusillade': 'Беспощадный залп',
@@ -69,6 +70,39 @@ export const detRuleNamesRu = {
   'Annihilate the Unworthy': 'Истребить недостойных',
   'Scenting Fear': 'Чуя страх',
   'Wretched Thralls': 'Жалкие рабы',
+}
+
+// RU display names for enhancements — shown as a small muted second line under the
+// English name in FactionRuleView (RU locale only), same treatment as stratNamesRu.
+export const enhNamesRu = {
+  'Aspect of the Beast': 'Лик зверя',
+  'Hunter’s Helm': 'Шлем охотника',
+  'Octagram of Conjuration': 'Октаграмма призыва',
+  'Throne Tyrannicus': 'Трон Тираникус',
+  'Preyslayer’s Mantle': 'Мантия Губителя Добычи',
+  'Final Howl': 'Последний вой',
+  'Loping Predator': 'Стремительный хищник',
+  'Panoply of the Cursed Knights': 'Доспех Проклятых Рыцарей',
+  'Knight Diabolus': 'Рыцарь-Диаболус',
+  'Blasphemous Engine': 'Богохульная машина',
+  'Fleshmetal Fusion': 'Слияние плоти и металла',
+  'Bestial Aspect': 'Звериный облик',
+  'Throne Mechanicum of Skulls': 'Трон Механикум Черепов',
+  'Blade of Celerity': 'Клинок стремительности',
+  'Warp-borne Stalker': 'Рождённый варпом преследователь',
+  'Putrid Carapace': 'Гнилостный панцирь',
+  'Mirror of Fates': 'Зеркало судеб',
+  'Blessing of the Dark Master': 'Благословение Тёмного Владыки',
+  'Nightmare’s Master': 'Владыка кошмаров',
+  'Tyrant’s Shadow': 'Тень тирана',
+  'Malevolent Heraldry': 'Злобная геральдика',
+  'Veil of Medrengard': 'Покров Медренгарда',
+  'Pterrorshade Rookery': 'Гнездовье птеррошейдов',
+  'Hate-filled Dominion': 'Владычество ненависти',
+  'Soul-spoor Auspicator': 'Ауспикатор душевного следа',
+  'Snarling Rivalry': 'Рычащее соперничество',
+  'Cruel Lashmaster': 'Жестокий бичеватель',
+  'Iconoclast Idol': 'Идол иконоборцев',
 }
 
 export default {
