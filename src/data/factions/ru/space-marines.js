@@ -3,8 +3,9 @@
 // Английскими остаются: keyword'ы (Adeptus Astartes, Vehicle, Infantry, Monster, Walker,
 // Gravis, Captain, Techmarine и т.п. — в том же регистре Title Case, что и в EN),
 // [BRACKET]-способности, названные механики (Oath of Moment, Combat Doctrines, Devastator/
-// Tactical/Assault Doctrine, Feel No Pain, Deadly Demise), имена детачментов/стратагем/
-// улучшений, названия орденов (Codex Astartes и т.п.), ids/dp/points.
+// Tactical/Assault Doctrine, Feel No Pain, Deadly Demise), имена детачментов, названия
+// орденов (Codex Astartes и т.п.), ids/dp/points. Стратагемы и улучшения получают RU-имя
+// отдельной строкой под английским названием — см. stratNamesRu/enhNamesRu ниже.
 // Общая стратагема Armour of Contempt повторяется в большинстве детачментов на своей позиции.
 
 const armourOfContempt = {
@@ -176,6 +177,93 @@ export const detRuleNamesRu = {
   'Interlocking Tactics': 'Взаимосвязанная тактика',
   'Rapid-drop Deployment': 'Быстрая десантная высадка',
   'Oath of Reclamation': 'Клятва возвращения',
+}
+
+// RU display names for enhancements — shown as a small muted second line under the
+// English name in FactionRuleView (RU locale only), same treatment as stratNamesRu.
+// Keyed by the English name so repeated enhancements share one translation. Latin/Roman
+// proper-noun names (Spiritus Ferrum, Liberatum) are deliberately omitted — they stay
+// English, same policy as Latin flavor ability names in datasheets.
+export const enhNamesRu = {
+  'Adept of the Codex': 'Адепт Кодекса',
+  'Artificer Armour': 'Мастеровая броня',
+  'Fire Discipline': 'Огневая дисциплина',
+  'The Honour Vehement': 'Пылкая честь',
+  'Architect of War': 'Архитектор войны',
+  'Fleet Commander': 'Командующий флотом',
+  'Indomitable Fury': 'Несокрушимая ярость',
+  'Stoic Defender': 'Стойкий защитник',
+  'Adept of the Omnissiah': 'Адепт Омниссии',
+  'Master of Machine War': 'Мастер машинной войны',
+  'Target Augury Web': 'Сеть целеуказания',
+  'The Flesh Is Weak': 'Плоть слаба',
+  'Adamantine Mantle': 'Адамантиевая мантия',
+  'Champion of Humanity': 'Поборник человечества',
+  'Forged in Battle': 'Закалённый в боях',
+  'War-tempered Artifice': 'Закалённое войной мастерство',
+  'Feinting Withdrawal': 'Обманный отход',
+  'Fury of the Storm': 'Ярость бури',
+  'Portents of Wisdom': 'Знамения мудрости',
+  'Execute and Redeploy': 'Удар и отход',
+  'Ghostweave Cloak': 'Плащ призрачного плетения',
+  'Shadow War Veteran': 'Ветеран теневой войны',
+  'The Blade Driven Deep': 'Глубоко вонзённый клинок',
+  'Fear Made Manifest': 'Воплощённый страх',
+  'Rites of War': 'Обряды войны',
+  'Iron Resolve': 'Железная решимость',
+  'Bellicose Weapon Spirits': 'Воинственные духи оружия',
+  'Raptorial Cogitator Core': 'Хищное ядро когитатора',
+  'Celerity': 'Стремительность',
+  'Prescience': 'Предвидение',
+  'Obfuscation': 'Сокрытие',
+  'Temporal Corridor': 'Временной коридор',
+  'Fusillade': 'Шквальный залп',
+  'Shroud Field': 'Маскирующее поле',
+  'Death in the Dark': 'Смерть во тьме',
+  'Armoured Commander': 'Бронированный командир',
+  'Liberator': 'Освободитель',
+  'Shock Deployment': 'Шоковая высадка',
+  'Tip of the Spear': 'Остриё копья',
+  'Astartes Tank Ace': 'Танковый ас Астартес',
+  'Firestorm Coordinators': 'Координаторы огненного шторма',
+  'Gunnery Honours': 'Почести расчёта',
+  'Redoubtable Machine Spirit': 'Грозный дух машины',
+  'Castellum Omnivox': 'Кастеллум-омнивокс',
+  'Defensive Mastery': 'Оборонительное мастерство',
+  'Honour Indefatigable': 'Неутомимая честь',
+  'Spy-skull Data Link': 'Канал данных черепа-шпиона',
+  'Armour of Antoninus': 'Броня Антонина',
+  'Oath of Macragge': 'Клятва Макрагга',
+  'Student of the Codex': 'Ученик Кодекса',
+  'Veteran of Behemoth': 'Ветеран Бегемота',
+  'Iron Laurel': 'Железный лавр',
+  'Medusan Roar': 'Медузианский рёв',
+  'Steel Font': 'Стальной источник',
+  'Chogorian Huntmaster': 'Чогорианский ловчий',
+  'Spearpoint Paragon': 'Идеал острия копья',
+  'Immolator': 'Поджигатель',
+  'Champion of the Feast': 'Чемпион Пира клинков',
+  'Disciple of Rhetoricus': 'Ученик Реторикуса',
+  'Indomitable Champion': 'Несокрушимый чемпион',
+  'Malodraxian Standard': 'Малодраксийский штандарт',
+  'Blackwing Shroud': 'Покров Чёрного Крыла',
+  'Coronal Susurrant': 'Шепчущий венец',
+  'Umbral Raptor': 'Теневой хищник',
+  'Blades of Valour': 'Клинки доблести',
+  'Bombast Omnivox': 'Омнивокс «Бомбаст»',
+  'Eye of the Primarch': 'Око Примарха',
+  'Hero of the Chapter': 'Герой Ордена',
+  'Dedicated Gunship': 'Приданный штурмовик',
+  'Laurels of Thunder': 'Лавры грома',
+  'Orbital Uplink Reliquary': 'Реликварий орбитальной связи',
+  'Veteran of the Vanguard': 'Ветеран авангарда',
+  'Avenging Avatar': 'Мстящий аватар',
+  'Scroll of Proclamation': 'Свиток провозглашения',
+  'Seals of Reconquest': 'Печати Реконкисты',
+  "Hunter's Instincts": 'Инстинкты охотника',
+  "The Imperium's Sword": 'Меч Империума',
+  "Hunter's Eye": 'Глаз охотника',
+  "Stormseers' Wisdom": 'Мудрость штормовидцев',
 }
 
 export default {

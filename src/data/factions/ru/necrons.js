@@ -1,8 +1,10 @@
 // Necrons — русский перевод правил фракции. Разреженный оверлей поверх EN-структуры
 // (см. ./index.js): переведены только тексты (flavor/body/example, when/target/effect/
-// restrictions, тексты улучшений). Названия детачментов, стратагем, улучшений и правил,
-// ALL-CAPS ключевые слова, [BRACKET]-способности и имена юнитов остаются английскими.
-// Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN-файлом.
+// restrictions, тексты улучшений). Названия детачментов и правил, ALL-CAPS ключевые слова,
+// [BRACKET]-способности и имена юнитов остаются английскими. Стратагемы и улучшения
+// получают RU-имя отдельной строкой под английским названием — см. stratNamesRu/
+// enhNamesRu ниже. Порядок массивов detachments/stratagems/enhancements обязан совпадать
+// с EN-файлом.
 // RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
 export const stratNamesRu = {
   'Protocol of the Eternal Revenant': 'Протокол Вечного Возрождённого',
@@ -100,6 +102,54 @@ export const detRuleNamesRu = {
   'Techno-sorcerous Augmentations': 'Техно-чародейские аугментации',
   'Cold Fervour': 'Хладное рвение',
   'Cosmic Distortion': 'Космическое искажение',
+}
+
+// RU display names for enhancements — shown as a small muted second line under the
+// English name in FactionRuleView (RU locale only), same treatment as stratNamesRu.
+// Keyed by the English name.
+export const enhNamesRu = {
+  'Veil of Darkness': 'Покров тьмы',
+  'Nether-realm Casket': 'Шкатулка Иномирья',
+  'Phasal Subjugator': 'Фазовый поработитель',
+  'Enaegic Dermal Bond': 'Энаэгическая дермальная связь',
+  'Eternal Madness': 'Вечное безумие',
+  'Ingrained Superiority': 'Врождённое превосходство',
+  'Soulless Reaper': 'Бездушный жнец',
+  'Eldritch Nightmare': 'Потусторонний кошмар',
+  'Dimensional Sanctum': 'Пространственное святилище',
+  'Hyperphasic Fulcrum': 'Гиперфазовая опора',
+  'Autodivinator': 'Автодивинатор',
+  'Metalodermal Tesla Weave': 'Металлодермальное тесла-плетение',
+  'Dimensional Overseer': 'Пространственный надзиратель',
+  'Arisen Tyrant': 'Восставший тиран',
+  'Hyperspatial Transfer Node': 'Узел гиперпространственной переброски',
+  'Osteoclave Fulcrum': 'Опора остеоклава',
+  'Honourable Combatant': 'Благородный боец',
+  'Unflinching Will': 'Несгибаемая воля',
+  'Warrior Noble': 'Благородный воин',
+  'Eternal Conqueror': 'Вечный завоеватель',
+  'Enlivened Sentinels': 'Оживлённые стражи',
+  'Tools of Dominion': 'Орудия владычества',
+  'Recursive Reanimation': 'Рекурсивная реанимация',
+  'Deepening Madness': 'Углубляющееся безумие',
+  'Prelocational Optimiser': 'Оптимизатор упреждающего позиционирования',
+  'Mortality Shroud': 'Покров смертности',
+  'Dread Majesty': 'Грозное величие',
+  'Miniaturised Nebuloscope': 'Миниатюрный небулоскоп',
+  'Demanding Leader': 'Взыскательный командир',
+  'Chrono-impedance Fields': 'Поля хроно-импеданса',
+  'Quantum Abacus': 'Квантовые счёты',
+  'Atomic Disintegrators': 'Атомные дезинтеграторы',
+  'Gauntlet of Compression': 'Перчатка сжатия',
+  'Gravitic Bolas': 'Гравитационные боласы',
+  'Destroyer Ankh': 'Анкх Разрушителя',
+  'Murdermind': 'Смертоносный разум',
+  'Mark of the Nekrosor': 'Клеймо Некрозора',
+  'Cursed Circlet': 'Проклятый обруч',
+  'Singularity Matrix': 'Матрица сингулярности',
+  'Quantum Goad': 'Квантовое стрекало',
+  'Animus Damper': 'Демпфер анимуса',
+  'Reletavistic Tether': 'Релятивистская привязь',
 }
 
 export default {
