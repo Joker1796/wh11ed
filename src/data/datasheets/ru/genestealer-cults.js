@@ -5,9 +5,6 @@
 // способности (Feel No Pain, Fights First) и тег (Psychic) остаются английскими.
 
 const LEADER_TEXT = 'Эту модель можно присоединить к следующим юнитам:'
-// Сноска лидеров-советников (Biophagus/Clamavus/Locus/Nexos).
-const GSC_LEADER_FOOTER =
-  'Вы можете присоединить эту модель к юниту Acolyte Hybrids или Neophyte Hybrids, даже если к нему уже присоединена модель Primus, Magus или Acolyte Iconward. Если вы это делаете и этот юнит-Bodyguard уничтожен, юниты-Leader, присоединённые к нему, становятся отдельными юнитами со своей исходной начальной численностью.'
 // Cult Icon — стандартный вариант (Acolytes / Hybrid Metamorphs).
 const CULT_ICON =
   'В вашей фазе командования вы можете вернуть до D3 уничтоженных моделей в юнит носителя. Если юнит носителя находится в пределах дальности маркера цели, который вы контролируете, вы можете вернуть в этот юнит до 3 уничтоженных моделей вместо этого. Эту способность нельзя использовать, чтобы вернуть уничтоженные модели Character в объединённых юнитах, а любое [ONE SHOT]-оружие возвращённых моделей, из которого стреляли до того, как их уничтожили, всё равно считается использованным.'
@@ -151,7 +148,7 @@ export default {
       'Alchemicus Familiar':
         'Один раз за битву, когда юнит носителя выбирается для схватки, носитель может задействовать свой alchemicus familiar. Если он это делает, до конца фазы каждый раз, когда модель юнита носителя совершает атаку по юниту Infantry, прибавьте 1 к броску ранения.\n\n**Примечание разработчика:** положите рядом с носителем жетон Alchemicus Familiar и уберите его, как только эта способность будет использована.',
     },
-    leader: { text: LEADER_TEXT, footer: GSC_LEADER_FOOTER },
+    leader: { text: LEADER_TEXT },
     loadout:
       '**Эта модель вооружена:** autopistol; chemical vials; injector goad, alchemicus familiar.',
   },
@@ -165,7 +162,7 @@ export default {
       'Scrambler Array':
         'Вражеские юниты, что выставляются на поле боя как подкрепления, не могут быть выставлены в пределах 12" от этой модели.',
     },
-    leader: { text: LEADER_TEXT, footer: GSC_LEADER_FOOTER },
+    leader: { text: LEADER_TEXT },
     loadout: '**Эта модель вооружена:** autopistol; close combat weapon.',
   },
 
@@ -253,7 +250,7 @@ export default {
       Bodyguard:
         'Пока эта модель возглавляет юнит, другие модели Character, присоединённые к этому юниту, имеют способность Feel No Pain 4+.',
     },
-    leader: { text: LEADER_TEXT, footer: GSC_LEADER_FOOTER },
+    leader: { text: LEADER_TEXT },
     loadout: '**Эта модель вооружена:** Locus blades.',
   },
 
@@ -300,7 +297,7 @@ export default {
       'Cult Infiltration':
         'В начале фазы командования каждого игрока, если эта модель на поле боя, вы можете выбрать один из ваших маркеров Cult Ambush, что находится на поле боя и не двигался в этот ход, и передвинуть его до 6".',
     },
-    leader: { text: LEADER_TEXT, footer: GSC_LEADER_FOOTER },
+    leader: { text: LEADER_TEXT },
     loadout: '**Эта модель вооружена:** autopistol; close combat weapon.',
   },
 
