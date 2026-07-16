@@ -24,9 +24,6 @@ const MY_WILL_BE_DONE =
   'Один раз за раунд боя один юнит вашей армии с этой способностью может задействовать её, когда его юнит выбирается целью стратагемы. Если он это делает, уменьшите стоимость этого применения этой стратагемы на 1 CP.'
 const RESURRECTION_ORB_LEADER =
   'Один раз за битву, пока носитель возглавляет юнит, в конце любой фазы он может воскресить этот юнит, если тот находится на поле боя. Когда вы это делаете, активируются Reanimation Protocols этого юнита, реанимируя D6 ран вместо D3. Вы не можете воскресить больше одного юнита за ход.'
-// Длинная сноска Cryptek-лидеров (Chronomancer/Geomancer/Orikan/Plasmancer/Psychomancer/Technomancer).
-const CRYPTEK_LEADER_FOOTER =
-  'Вы можете присоединить эту модель к одному из перечисленных выше юнитов, даже если к нему уже присоединена одна модель Royal Warden или Noble. Если вы это делаете и этот юнит-Bodyguard уничтожен, юниты-Leader, присоединённые к нему, становятся отдельными юнитами со своей исходной начальной численностью.'
 const LEADER_TEXT = 'Эту модель можно присоединить к следующим юнитам:'
 const EQUIP_THIS = '**Эта модель вооружена:**'
 const EQUIP_EVERY = '**Каждая модель вооружена:**'
@@ -284,7 +281,6 @@ export default {
     },
     leader: {
       text: LEADER_TEXT,
-      footer: CRYPTEK_LEADER_FOOTER,
     },
     loadout: '**Эта модель вооружена:** aeonstave.',
   },
@@ -410,7 +406,6 @@ export default {
     },
     leader: {
       text: LEADER_TEXT,
-      footer: CRYPTEK_LEADER_FOOTER,
     },
     loadout: '**Эта модель вооружена:** tremorglaive.',
   },
@@ -701,7 +696,6 @@ export default {
     },
     leader: {
       text: LEADER_TEXT,
-      footer: CRYPTEK_LEADER_FOOTER,
     },
     loadout: '**Эта модель вооружена:** Staff of Tomorrow.',
   },
@@ -772,7 +766,6 @@ export default {
     },
     leader: {
       text: LEADER_TEXT,
-      footer: CRYPTEK_LEADER_FOOTER,
     },
     loadout: '**Эта модель вооружена:** plasmic lance.',
   },
@@ -791,7 +784,6 @@ export default {
     },
     leader: {
       text: LEADER_TEXT,
-      footer: CRYPTEK_LEADER_FOOTER,
     },
     loadout: '**Эта модель вооружена:** abyssal lance.',
   },
@@ -891,7 +883,6 @@ export default {
     },
     leader: {
       text: LEADER_TEXT,
-      footer: CRYPTEK_LEADER_FOOTER,
     },
     loadout: '**Эта модель вооружена:** staff of light.',
   },
