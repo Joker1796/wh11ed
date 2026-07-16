@@ -26,10 +26,11 @@
         class="strat-toggle"
         :class="{ active: byPhase }"
         :aria-pressed="byPhase"
+        :aria-label="byPhase ? labels.stratGroupAsList : labels.stratGroupByPhase"
         @click="byPhase = !byPhase"
       >
         <i class="bi" :class="byPhase ? 'bi-list-ul' : 'bi-collection'"></i>
-        {{ byPhase ? labels.stratGroupAsList : labels.stratGroupByPhase }}
+        <span class="strat-toggle-label">{{ byPhase ? labels.stratGroupAsList : labels.stratGroupByPhase }}</span>
       </button>
     </div>
 
@@ -386,6 +387,28 @@ function togglePhase(key) {
 @media (max-width: 640px) {
   .strat-grid {
     column-count: 1;
+  }
+}
+
+/* Narrow phones: with a game on there are 4 toolbar buttons (3 filters + the toggle),
+   which wrap to a second row. Compact them so they fit one line — tighter filter pills
+   and an icon-only toggle (its text label is the widest of the lot). */
+@media (max-width: 480px) {
+  .strat-toolbar {
+    gap: 0.4rem;
+  }
+  .strat-filters {
+    gap: 0.3rem;
+  }
+  .strat-filter {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.75rem;
+  }
+  .strat-toggle {
+    padding: 0.35rem 0.55rem;
+  }
+  .strat-toggle-label {
+    display: none;
   }
 }
 </style>
