@@ -19,6 +19,15 @@ export const detRuleNamesRu = {
   'Mission Tactics': 'Тактика миссии',
 }
 
+// RU display names for enhancements — shown as a small muted second line under the
+// English name in FactionRuleView (RU locale only), same treatment as stratNamesRu.
+export const enhNamesRu = {
+  'Thief of Secrets': 'Похититель тайн',
+  'Osseus Key': 'Ключ Оссеус',
+  'Beacon Angelis': 'Маяк Ангелис',
+  'The Tome of Ectoclades': 'Том Эктоклада',
+}
+
 export default {
   armyRule: {
     flavor:
