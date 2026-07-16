@@ -1,8 +1,9 @@
 // Genestealer Cults — русский перевод правил фракции. Разреженный оверлей поверх EN-структуры
 // (см. ./index.js): переведены только тексты (flavor/body/example, when/target/effect/
-// restrictions, тексты улучшений). Названия детачментов, стратагем, улучшений и правил,
-// ALL-CAPS ключевые слова, [BRACKET]-способности и имена юнитов остаются английскими.
-// Механики Cult Ambush / Resurgence points оставлены английскими.
+// restrictions, тексты улучшений). Названия детачментов и правил, ALL-CAPS ключевые слова,
+// [BRACKET]-способности и имена юнитов остаются английскими. Механики Cult Ambush /
+// Resurgence points оставлены английскими. Стратагемы и улучшения получают RU-имя
+// отдельной строкой под английским названием — см. stratNamesRu/enhNamesRu ниже.
 // Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN-файлом.
 // RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
 export const stratNamesRu = {
@@ -77,6 +78,41 @@ export const detRuleNamesRu = {
   'Killer Reputation': 'Репутация убийц',
   'Enemy Within': 'Враг внутри',
   'Hordes of the Faithful': 'Орды верных',
+}
+
+// RU display names for enhancements — shown as a small muted second line under the
+// English name in FactionRuleView (RU locale only), same treatment as stratNamesRu.
+export const enhNamesRu = {
+  'Predatory Instincts': 'Хищные инстинкты',
+  'Biomorph Adaptation': 'Биоморфная адаптация',
+  'Mutagenic Regeneration': 'Мутагенная регенерация',
+  'Alien Majesty': 'Чужеродное величие',
+  'Martial Espionage': 'Военный шпионаж',
+  'Adaptive Reprisal': 'Адаптивное возмездие',
+  'The Hero Returned': 'Вернувшийся герой',
+  'Fire-point Commander': 'Командир огневой точки',
+  'Synaptic Auger': 'Синаптический зонд',
+  'Enraptured Damnation': 'Экстатическое проклятие',
+  'Vanguard Tyrant': 'Тиран авангарда',
+  'Inhuman Integration': 'Нечеловеческая интеграция',
+  'Prowling Agitant': 'Крадущийся подстрекатель',
+  'A Chink in Their Armour': 'Брешь в их броне',
+  'Our Time Is Nigh': 'Наш час близок',
+  'Assassination Edict': 'Указ об убийстве',
+  'Serpentine Tactics': 'Змеиная тактика',
+  'Cartographic Data-leech': 'Картографическая пиявка данных',
+  'Starfall Shells': 'Снаряды звездопада',
+  'Assault Commando': 'Штурмовой коммандос',
+  'Gene-sire’s Reliquant': 'Реликвия Прародителя',
+  'Denunciator of Tyrants': 'Обличитель тиранов',
+  'Deeds That Speak to the Masses': 'Деяния, что говорят массам',
+  'Incendiary Inspiration': 'Зажигательное вдохновение',
+  'Gene-tailored Toxins': 'Генно-настроенные токсины',
+  'Contraband Munitions': 'Контрабандные боеприпасы',
+  'Mark of the Star Children': 'Клеймо Звёздных Детей',
+  'Talons of the Sire': 'Когти Прародителя',
+  'Inspired to Greatness': 'Вдохновлённые на величие',
+  'Devious Disguises': 'Хитроумные маскировки',
 }
 
 export default {
