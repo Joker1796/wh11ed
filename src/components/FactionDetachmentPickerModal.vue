@@ -14,9 +14,8 @@
             <span class="fdp-name">{{ d.name }}</span>
             <span v-if="d.nameRu" class="fdp-name-ru">{{ d.nameRu }}</span>
           </span>
-          <span v-if="d.dp || d.forceDisposition || d.unique" class="fdp-side">
+          <span v-if="d.dp || d.unique" class="fdp-side">
             <span v-if="d.dp" class="fdp-dp">{{ d.dp }} DP</span>
-            <span v-if="d.forceDisposition" class="fdp-meta-item">{{ d.forceDisposition }}</span>
             <span v-if="d.unique" class="fdp-meta-item fdp-meta-unique">Unique: {{ d.unique }}</span>
           </span>
         </span>
