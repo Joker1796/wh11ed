@@ -126,7 +126,10 @@
       <div class="ds-ability">
         <div v-html="dsText(sheet.leader.text)"></div>
         <ul class="ds-list">
-          <li v-for="u in sheet.leader.units" :key="u">{{ u }}</li>
+          <li v-for="u in sheet.leader.units" :key="u">
+            <RouterLink v-if="unitIndex?.get(u)" :to="`/factions/${factionSlug}/datasheets/${unitIndex.get(u)}`">{{ u }}</RouterLink>
+            <template v-else>{{ u }}</template>
+          </li>
         </ul>
         <div v-if="sheet.leader.footer" v-html="dsText(sheet.leader.footer)"></div>
       </div>
@@ -199,6 +202,12 @@ import { formatBaseSize } from '../utils/baseSize.js'
 
 const props = defineProps({
   sheet: { type: Object, required: true },
+  // Name → id lookup (this faction's datasheets only) and the faction slug, used to turn
+  // Leader/Attached-unit bodyguard-unit names into links to their own datasheet page.
+  // Optional so DatasheetCard still works if a future caller doesn't wire them up — names
+  // just render as plain text then, same as before this feature existed.
+  unitIndex: { type: Object, default: null },
+  factionSlug: { type: String, default: '' },
 })
 
 const { locale } = useLocale()
