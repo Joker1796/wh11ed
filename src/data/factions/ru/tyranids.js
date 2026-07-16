@@ -1,9 +1,10 @@
 // Tyranids — русский перевод правил фракции. Разреженный оверлей поверх EN-структуры
 // (см. ./index.js): переведены только тексты (flavor/body/example, when/target/effect/
-// restrictions, тексты улучшений). Названия детачментов, стратагем, улучшений и правил,
-// ALL-CAPS ключевые слова, [BRACKET]-способности и имена юнитов остаются английскими.
-// Механики Synapse / Synapse Range / Shadow in the Warp / Hyper-adaptations / Synaptic
-// Imperatives / Feed the Swarm — англ. Порядок массивов обязан совпадать с EN-файлом.
+// restrictions, тексты улучшений). Названия детачментов и правил, ALL-CAPS ключевые слова,
+// [BRACKET]-способности и имена юнитов остаются английскими. Механики Synapse / Synapse
+// Range / Shadow in the Warp / Hyper-adaptations / Synaptic Imperatives / Feed the Swarm —
+// англ. Стратагемы и улучшения получают RU-имя отдельной строкой под английским названием
+// — см. stratNamesRu/enhNamesRu ниже. Порядок массивов обязан совпадать с EN-файлом.
 // RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
 export const stratNamesRu = {
   'Rapid Regeneration': 'Быстрая регенерация',
@@ -85,6 +86,45 @@ export const detRuleNamesRu = {
   'Higher Imperatives': 'Высшие императивы',
   'Leader-beasts': 'Звери-вожаки',
   'Surprise Assault': 'Внезапный штурм',
+}
+
+// RU display names for enhancements — shown as a small muted second line under the
+// English name in FactionRuleView (RU locale only), same treatment as stratNamesRu.
+export const enhNamesRu = {
+  'Alien Cunning': 'Чужеродная хитрость',
+  'Perfectly Adapted': 'Идеально адаптированный',
+  'Synaptic Linchpin': 'Синаптическая опора',
+  'Adaptive Biology': 'Адаптивная биология',
+  'Ominous Presence': 'Зловещее присутствие',
+  'Enraged Reserves': 'Взбешённые резервы',
+  'Null Nodules': 'Нуль-узелки',
+  'Monstrous Nemesis': 'Чудовищная немезида',
+  'Relentless Hunger': 'Неумолимый голод',
+  'Naturalised Camouflage': 'Естественный камуфляж',
+  'Piercing Talons': 'Пронзающие когти',
+  'Adrenalised Onslaught': 'Адреналиновый натиск',
+  'Regenerating Monstrosity': 'Регенерирующее чудовище',
+  'Instinctive Defence': 'Инстинктивная защита',
+  'Biophagic Flow': 'Биофагический поток',
+  'Parasitic Biomorphology': 'Паразитическая биоморфология',
+  'Hunting Grounds': 'Охотничьи угодья',
+  'Chameleonic': 'Хамелеоновый',
+  'Stalker': 'Ловчий',
+  'Neuronode': 'Нейроузел',
+  'Power of the Hive Mind': 'Мощь Разума Улья',
+  'Psychostatic Disruption': 'Психостатическое возмущение',
+  'Synaptic Control': 'Синаптический контроль',
+  'The Dirgeheart of Kharis': 'Заупокойное сердце Кариса',
+  'Encircling Horrors': 'Окружающие ужасы',
+  'Cryptophotaic Camouflage': 'Криптофотический камуфляж',
+  'Destabilising Predation': 'Дестабилизирующее хищничество',
+  'Synaptoprescience': 'Синаптопровидение',
+  'Elevated Might': 'Возросшая мощь',
+  'Ocular Adaptation': 'Окулярная адаптация',
+  'Synaptic Strategy': 'Синаптическая стратегия',
+  'Tremor Senses': 'Чувства колебаний',
+  'Vanguard Intellect': 'Авангардный интеллект',
+  'Trygon Prime': 'Триган Прайм',
 }
 
 export default {
