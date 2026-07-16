@@ -16,7 +16,7 @@
           </span>
           <span v-if="d.dp || d.unique" class="fdp-side">
             <span v-if="d.dp" class="fdp-dp">{{ d.dp }} DP</span>
-            <span v-if="d.unique" class="fdp-meta-item fdp-meta-unique">Unique: {{ d.unique }}</span>
+            <span v-if="d.unique" class="fdp-unique">{{ d.unique }}</span>
           </span>
         </span>
       </button>
@@ -118,21 +118,14 @@ const labels = computed(() => ui[locale.value])
   white-space: nowrap;
 }
 
-.fdp-meta-item {
-  font-size: 0.64rem;
+/* Bare keyword only (no "Unique:" prefix) — kept quiet: small and muted so it never
+   competes with the DP price above it or breaks the row on narrow screens. */
+.fdp-unique {
+  font-size: 0.56rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.6px;
-  color: var(--text-muted);
-  background: color-mix(in srgb, var(--accent) 8%, transparent);
-  border: 1px solid var(--border);
-  border-radius: 3px;
-  padding: 2px 6px;
+  letter-spacing: 0.5px;
+  color: var(--text-dim);
   white-space: nowrap;
-}
-
-.fdp-meta-unique {
-  color: var(--accent);
-  border-color: var(--accent);
 }
 </style>
