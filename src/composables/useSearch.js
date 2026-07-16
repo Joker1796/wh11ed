@@ -434,6 +434,24 @@ function getIndex(locale) {
   return (indexCache[key] ??= buildIndex(key))
 }
 
+// id → item lookup per locale, built lazily off getIndex() and cached the same way.
+// `id` is always taken from the EN source object regardless of locale (see buildIndex),
+// so the EN and RU indexes share the exact same id set at the same conceptual position —
+// this is what lets the cross-lingual fallback below map an EN-text match back to its
+// RU-displayed counterpart.
+const indexByIdCache = { en: null, ru: null }
+function getIndexById(locale) {
+  const key = locale === 'ru' ? 'ru' : 'en'
+  if (!indexByIdCache[key]) {
+    const map = new Map()
+    for (const item of getIndex(key)) {
+      if (item.id) map.set(item.id, item)
+    }
+    indexByIdCache[key] = map
+  }
+  return indexByIdCache[key]
+}
+
 // Treat 'ё'/'Ё' as 'е'/'Е' for search matching — Russian users almost never type ё,
 // even though the indexed rules text (correctly) uses it (e.g. «манёвр»).
 function foldYo(s) {
@@ -480,6 +498,7 @@ export function search(query, locale = 'en') {
   const index = getIndex(locale)
   const q = foldYo(trimmed)
   const results = []
+  const matchedIds = new Set()
   for (const item of index) {
     const titleMatch = foldYo(item.title.toLowerCase()).includes(q)
     const bodyMatch = foldYo(item.body.toLowerCase()).includes(q)
@@ -495,6 +514,27 @@ export function search(query, locale = 'en') {
         snippet = (start > 0 ? '…' : '') + item.body.slice(start, end) + (end < item.body.length ? '…' : '')
       }
       results.push({ ...item, snippet, score: titleMatch ? 2 : 1 })
+      if (item.id) matchedIds.add(item.id)
+    }
+  }
+  // Cross-lingual fallback: RU users often type an English term with no RU-text match
+  // (e.g. "Units" doesn't appear anywhere in «Юниты и модели»). Match against the EN
+  // index too and surface the RU-displayed item (same id — buildIndex always takes `id`
+  // from the EN source object regardless of locale) so results still read in Russian.
+  // No snippet: the EN match position doesn't correspond to any offset in the
+  // (differently worded) RU body, so there's nothing sane to slice from — same as the
+  // existing title-only-match case above, which already ships with an empty snippet.
+  if (locale === 'ru') {
+    const ruById = getIndexById('ru')
+    for (const enItem of getIndex('en')) {
+      if (!enItem.id || matchedIds.has(enItem.id)) continue
+      const titleMatch = foldYo(enItem.title.toLowerCase()).includes(q)
+      const bodyMatch = foldYo(enItem.body.toLowerCase()).includes(q)
+      if (!titleMatch && !bodyMatch) continue
+      const ruItem = ruById.get(enItem.id)
+      if (!ruItem) continue
+      results.push({ ...ruItem, snippet: '', score: titleMatch ? 1 : 0.5 })
+      matchedIds.add(enItem.id)
     }
   }
   // Datasheet unit names go after the rules items: with equal scores the stable sort

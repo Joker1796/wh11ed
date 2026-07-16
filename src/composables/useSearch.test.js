@@ -54,6 +54,23 @@ describe('search', () => {
     expect(res.some((r) => r.title.includes('манёвр') || r.title.includes('Манёвр') || r.body.includes('манёвр'))).toBe(true)
   })
 
+  it('finds a RU-displayed result for an English query with no RU-text match (cross-lingual fallback)', () => {
+    // «Юниты и модели» (01.02) never contains the literal word "Units" in its RU body/
+    // title — the match only exists on the EN side ("Units and Models") and must be
+    // mapped back to the RU item by shared id so the result still displays in Russian.
+    const res = search('Units', 'ru')
+    const hit = res.find((r) => r.sectionNum === '01.02')
+    expect(hit).toBeTruthy()
+    expect(hit.title).toBe('Юниты и модели')
+    expect(hit.route).toBe('/basic-rules')
+  })
+
+  it('does not duplicate a result that matches both natively and cross-lingually', () => {
+    const res = search('юниты', 'ru')
+    const hits = res.filter((r) => r.sectionNum === '01.02')
+    expect(hits.length).toBe(1)
+  })
+
   it('strips [gloss:id:label] tokens down to their visible label, not raw markup', () => {
     // advancedRules.js body text uses [gloss:close-quarters:close-quarters shooting] etc. —
     // the indexed body/snippet must show the label only, never the raw [gloss:...] syntax.
