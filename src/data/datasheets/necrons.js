@@ -1205,7 +1205,6 @@ export default [
         "Necron Warriors",
         "Immortals"
       ],
-      "footer": "You can attach this model to one of the above units even if one Royal Warden or Noble model has already been attached to it. If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Chronomancer",
@@ -1780,7 +1779,6 @@ export default [
         "Immortals",
         "Necron Warriors"
       ],
-      "footer": "You can attach this model to one of the above units even if one Royal Warden or Noble model has already been attached to it. If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Infantry",
@@ -3202,7 +3200,6 @@ export default [
         "Necron Warriors",
         "Immortals"
       ],
-      "footer": "You can attach this model to one of the above units even if one Royal Warden or Noble model has already been attached to it. If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Orikan the Diviner",
@@ -3484,7 +3481,6 @@ export default [
         "Necron Warriors",
         "Immortals"
       ],
-      "footer": "You can attach this model to one of the above units even if one Royal Warden or Noble model has already been attached to it. If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Cryptek",
@@ -3563,7 +3559,6 @@ export default [
         "Necron Warriors",
         "Immortals"
       ],
-      "footer": "You can attach this model to one of the above units even if one Royal Warden or Noble model has already been attached to it. If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Infantry",
@@ -4017,7 +4012,6 @@ export default [
         "Immortals",
         "Canoptek Wraiths"
       ],
-      "footer": "You can attach this model to one of the above units even if one Royal Warden or Noble model has already been attached to it. If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Infantry",

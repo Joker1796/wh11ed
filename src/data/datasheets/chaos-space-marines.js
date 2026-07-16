@@ -4681,7 +4681,6 @@ export default [
         "Chosen",
         "Red Corsairs Raiders"
       ],
-      "footer": "You can attach this model to one of the above units even if one other Character model has already been attached to it (a unit cannot have two MASTERS OF EXECUTIONS attached to it). If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Character",
