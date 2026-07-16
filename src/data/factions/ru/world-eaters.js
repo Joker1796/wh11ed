@@ -66,6 +66,37 @@ export const detRuleNamesRu = {
   'Wrath of Khorne': 'Гнев Кхорна',
 }
 
+// RU display names for enhancements — shown as a small muted second line under the
+// English name in FactionRuleView (RU locale only), same treatment as stratNamesRu.
+export const enhNamesRu = {
+  'Berzerker Glaive': 'Глефа берсерка',
+  'Helm of Brazen Ire': 'Шлем медного гнева',
+  'Favoured of Khorne': 'Избранник Кхорна',
+  'Battle-lust': 'Жажда битвы',
+  'Chosen of the Blood God': 'Избранник Кровавого Бога',
+  'Butcher Lord': 'Владыка-мясник',
+  'Brazen Form': 'Медный облик',
+  'Strategic Slaughter': 'Стратегическая резня',
+  'Murderous Onslaught': 'Смертоносный натиск',
+  'Aggressive Deployment': 'Агрессивная высадка',
+  'Unleash Hell': 'Обрушить ад',
+  'Infernal Infusion': 'Инфернальное вливание',
+  'Icon of War': 'Икона войны',
+  'Blood-forged Armour': 'Броня, кованная в крови',
+  'Disciple of Khorne': 'Ученик Кхорна',
+  'Blade of Endless Bloodshed': 'Клинок бесконечного кровопролития',
+  'Malicious Vigour': 'Злобная бодрость',
+  'Killing Clarity': 'Убийственная ясность',
+  'Frenzied Focus': 'Исступлённая сосредоточенность',
+  'Violent Demise': 'Неистовая гибель',
+  'Talons of Butchery': 'Когти мясника',
+  'Murder-forged Entity': 'Существо, кованное в убийстве',
+  'Sanctified in Slaughter': 'Освящённые резнёй',
+  'Gore-stained Veterans': 'Ветераны, забрызганные кровью',
+  'Archslaughterer': 'Архимясник',
+  'Gateways to Glory': 'Врата к славе',
+}
+
 export default {
   armyRule: {
     flavor:
