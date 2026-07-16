@@ -114,10 +114,13 @@ function renderField(text) {
 </script>
 
 <style scoped>
-/* Turn color tokens */
-.turn-either { --turn-color: #1e7a5a; }
-.turn-your   { --turn-color: #1a3a6e; }
-.turn-opponent { --turn-color: #8b1a1a; }
+/* Turn color tokens. --turn-text is a separate token from --turn-color (used for the
+   sublabel/extra-header bar backgrounds under white text, unaffected by theme) — the
+   dark-theme override below only brightens --turn-text, since the same dark saturated
+   hex used as text color directly on the card background is unreadable in dark mode. */
+.turn-either { --turn-color: #1e7a5a; --turn-text: var(--turn-color); }
+.turn-your   { --turn-color: #1a3a6e; --turn-text: var(--turn-color); }
+.turn-opponent { --turn-color: #8b1a1a; --turn-text: var(--turn-color); }
 
 .strat-card {
   background: var(--bg-card);
@@ -235,8 +238,8 @@ function renderField(text) {
   font-size: 0.62rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--text-primary);
+  letter-spacing: 0.7px;
+  color: var(--turn-text);
   padding-top: 2px;
 }
 
@@ -374,4 +377,24 @@ function renderField(text) {
     padding-top: 0;
   }
 }
+</style>
+
+<!-- Unscoped on purpose (same reason as DatasheetCard/FactionLayout): a data-theme
+     selector above the component root can't be expressed in scoped CSS without the
+     :global() pitfall. --turn-color's dark, saturated hexes (used as a background under
+     white text) are unreadable as --turn-label's text-on-card-background use in dark
+     mode, so brighten them there — same red/blue/green pairs already used by
+     style.css's .color-red/.color-blue/.color-green dark-theme overrides. -->
+<style>
+@media (prefers-color-scheme: dark) {
+  .strat-card.turn-either { --turn-text: #5cbf83; }
+  .strat-card.turn-your { --turn-text: #6aa9d6; }
+  .strat-card.turn-opponent { --turn-text: #ef6e60; }
+}
+:root[data-theme='light'] .strat-card.turn-either { --turn-text: var(--turn-color); }
+:root[data-theme='light'] .strat-card.turn-your { --turn-text: var(--turn-color); }
+:root[data-theme='light'] .strat-card.turn-opponent { --turn-text: var(--turn-color); }
+:root[data-theme='dark'] .strat-card.turn-either { --turn-text: #5cbf83; }
+:root[data-theme='dark'] .strat-card.turn-your { --turn-text: #6aa9d6; }
+:root[data-theme='dark'] .strat-card.turn-opponent { --turn-text: #ef6e60; }
 </style>
