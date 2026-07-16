@@ -558,7 +558,7 @@ export default [
       "units": [
         "Kastelan Robots"
       ],
-      "footer": "You must attach this model to a KASTELAN ROBOTS unit, even if one or more other CYBERNETICA DATASMITH models have already been attached to it. In such cases, if that Bodyguard unit is destroyed, the Leader units attached to it become separate units with their original Starting Strengths. If you cannot attach this model to a KASTELAN ROBOTS unit, this model cannot be deployed and counts as having been destroyed during the first battle round. While attached to a KASTELAN ROBOTS unit, this model loses the INFANTRY keyword."
+      "footer": "You must attach this model to a KASTELAN ROBOTS unit. If you cannot attach this model to a KASTELAN ROBOTS unit, this model cannot be deployed and counts as having been destroyed during the first battle round. While attached to a KASTELAN ROBOTS unit, this model loses the INFANTRY keyword."
     },
     "keywords": [
       "Infantry",

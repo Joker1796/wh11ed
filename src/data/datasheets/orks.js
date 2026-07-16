@@ -1643,7 +1643,7 @@ export default [
     "rules": [
       {
         "name": "BODYGUARD",
-        "text": "If this unit has a Starting Strength of 20, you can attach up to two Leader units to it instead of one (but only if one of those is a WARBOSS unit). If you do, and this unit is destroyed, the Leader units attached to it become separate units with their original Starting Strengths."
+        "text": "If this unit has a Starting Strength of 20, you can attach up to two Leader units to it instead of one (but only if one of those is a WARBOSS unit)."
       }
     ]
   },

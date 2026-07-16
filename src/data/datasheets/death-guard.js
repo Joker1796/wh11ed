@@ -152,7 +152,6 @@ export default [
       "units": [
         "Plague Marines"
       ],
-      "footer": "You can attach this model to a PLAGUE MARINES unit, even if one other Leader unit has already been attached to it (you cannot attach more than one of the same leader to the same unit). If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Chaos",
@@ -1707,7 +1706,6 @@ export default [
       "units": [
         "Plague Marines"
       ],
-      "footer": "You can attach this model to a PLAGUE MARINES unit, even if one other Leader unit has already been attached to it (you cannot attach more than one of the same leader to the same unit). If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Chaos",
@@ -2144,7 +2142,6 @@ export default [
       "units": [
         "Plague Marines"
       ],
-      "footer": "You can attach this model to a PLAGUE MARINES unit, even if one other Leader unit has already been attached to it (you cannot attach more than one of the same Leader to the same unit). If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Chaos",
@@ -2961,7 +2958,6 @@ export default [
         "Poxwalkers",
         "Plague Marines"
       ],
-      "footer": "You can attach this model to a PLAGUE MARINES or POXWALKERS unit, even if one other Leader unit has already been attached to it (you cannot attach more than one of the same Leader to the same unit). If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Character",
@@ -3466,7 +3462,6 @@ export default [
       "units": [
         "Plague Marines"
       ],
-      "footer": "You can attach this model to a PLAGUE MARINES unit, even if one other Leader unit has already been attached to it (you cannot attach more than one of the same Leader to the same unit). If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Plague Surgeon",
@@ -3941,7 +3936,6 @@ export default [
       "units": [
         "Plague Marines"
       ],
-      "footer": "You can attach this model to a PLAGUE MARINES unit, even if one other Leader unit has already been attached to it (you cannot attach more than one of the same leader to the same unit). If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Tallyman",

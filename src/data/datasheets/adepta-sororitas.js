@@ -1378,7 +1378,6 @@ export default [
         "Celestian Insidiants",
         "Dominion Squad"
       ],
-      "footer": "This model can be attached to a Battle Sisters Squad, even if one Canoness, Palatine, Junith Eruita or AESTRED THURGA model has already been attached to it. If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Infantry",
@@ -1464,7 +1463,6 @@ export default [
         "Dominion Squad",
         "Celestian Sacresants"
       ],
-      "footer": "This model can be attached to a Battle Sisters Squad, even if one Canoness, Palatine, Junith Eruita or AESTRED THURGA model has already been attached to it. If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Grenades",
@@ -1932,7 +1930,6 @@ export default [
         "Celestian Insidiants",
         "Dominion Squad"
       ],
-      "footer": "This model can be attached to a Battle Sisters Squad, even if one Canoness, Palatine, Junith Eruita or AESTRED THURGA model has already been attached to it. If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Infantry",
@@ -2030,7 +2027,6 @@ export default [
         "Retributor Squad",
         "Dominion Squad"
       ],
-      "footer": "This model can be attached to a Battle Sisters Squad, even if one Canoness, Palatine, Junith Eruita or AESTRED THURGA model has already been attached to it. If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Imagifier",

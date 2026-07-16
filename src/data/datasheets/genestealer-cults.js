@@ -942,7 +942,6 @@ export default [
         "Acolyte Hybrids With Autopistols",
         "Aberrants"
       ],
-      "footer": "You can attach this model to a ACOLYTE HYBRIDS or NEOPHYTE HYBRIDS unit, even if a Primus, Magus or Acolyte Iconward model has already been attached to it. If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Character",
@@ -1024,7 +1023,6 @@ export default [
         "Neophyte Hybrids",
         "Hybrid Metamorphs"
       ],
-      "footer": "You can attach this model to a ACOLYTE HYBRIDS or NEOPHYTE HYBRIDS unit, even if a Primus, Magus or Acolyte Iconward model has already been attached to it. If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Great Devourer",
@@ -1618,7 +1616,6 @@ export default [
         "Neophyte Hybrids",
         "Hybrid Metamorphs"
       ],
-      "footer": "You can attach this model to a ACOLYTE HYBRIDS or NEOPHYTE HYBRIDS unit, even if a Primus, Magus or Acolyte Iconward model has already been attached to it. If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Locus",
@@ -2004,7 +2001,6 @@ export default [
         "Neophyte Hybrids",
         "Hybrid Metamorphs"
       ],
-      "footer": "You can attach this model to a ACOLYTE HYBRIDS or NEOPHYTE HYBRIDS unit, even if a Primus, Magus or Acolyte Iconward model has already been attached to it. If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Infantry",
