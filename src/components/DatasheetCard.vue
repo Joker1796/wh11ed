@@ -122,7 +122,7 @@
       <div v-html="dsText(sheet.transport)"></div>
     </div>
     <div v-if="sheet.leader" class="ds-ability-group">
-      <h5 class="ds-group-title">{{ labels.dsLeader }}</h5>
+      <h5 class="ds-group-title">{{ leaderGroupLabel }}</h5>
       <div class="ds-ability">
         <div v-html="dsText(sheet.leader.text)"></div>
         <ul class="ds-list">
@@ -216,6 +216,15 @@ const labels = computed(() => ui[locale.value])
 const fmtBase = (raw) => formatBaseSize(raw, labels.value)
 
 const coreParts = computed(() => (props.sheet.core ? props.sheet.core.split(/,\s*/) : []))
+
+// The "Leader" ability-group heading above the bodyguard-unit list: a handful of
+// characters carry the "Support" core ability instead of "Leader" (a Faction-Pack
+// errata override — e.g. Necrons' six Cryptek Leaders, see datasheets/necrons.js's
+// header comment) but populate the exact same sheet.leader field, so the heading must
+// follow whichever core ability this specific sheet actually has.
+const leaderGroupLabel = computed(() =>
+  /\bSupport\b/.test(props.sheet.core || '') ? labels.value.dsSupport : labels.value.dsLeader,
+)
 
 // Per-model keyword split (e.g. The Silent King: keywords shared by every model in the
 // unit vs ones that only apply to a specific named model) — sheet.keywordsByModel is
