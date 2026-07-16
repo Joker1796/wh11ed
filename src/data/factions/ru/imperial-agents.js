@@ -51,6 +51,31 @@ export const detRuleNamesRu = {
   'Extremis Sanction': 'Санкция «Экстремис»',
 }
 
+// RU display names for enhancements — shown as a small muted second line under the
+// English name in FactionRuleView (RU locale only), same treatment as stratNamesRu.
+export const enhNamesRu = {
+  'Clandestine Operation': 'Тайная операция',
+  'Combat Landers': 'Десантные боты',
+  'Digital Weapons': 'Перстневое оружие',
+  'Fleetmaster': 'Флотоводец',
+  'Ignis Judicium': 'Игнис Юдициум',
+  'Liber Heresius': 'Либер Гересиус',
+  'No Escape': 'Нет спасения',
+  'Witch Hunter': 'Охотник на ведьм',
+  'Daemon Slayer': 'Губитель демонов',
+  'Formidable Resolve': 'Грозная решимость',
+  'Gift of the Prescient': 'Дар провидца',
+  'Grimoire of True Names': 'Гримуар истинных имён',
+  'Amulet of Auto-Chastisement': 'Амулет самобичевания',
+  'Beacon Angelis': 'Маяк Ангелис',
+  'Blackweave Shroud': 'Покров чёрного плетения',
+  'Universal Anathema': 'Всеобщая анафема',
+  'Decoy Targets': 'Ложные цели',
+  'Esoteric Explosives': 'Эзотерическая взрывчатка',
+  'Intraneural Biotech': 'Внутринейронные биотехнологии',
+  'Micromelta Rounds': 'Микромелта-патроны',
+}
+
 export default {
   armyRule: {
     flavor:
