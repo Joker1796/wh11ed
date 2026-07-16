@@ -9,31 +9,33 @@
        tiers so the visible controls line up with the rest of the page. -->
   <div class="fpb">
     <div class="fpb-inner">
-      <div v-if="chapters.length" class="fpb-group">
-        <div class="fpb-eyebrow">{{ labels.dsChapterFilter }}</div>
-        <button
-          type="button"
-          class="fpb-trigger"
-          :aria-label="labels.dsChapterFilter"
-          @click="showChapterPicker = true"
-        >
+      <button
+        v-if="chapters.length"
+        type="button"
+        class="fpb-trigger"
+        :aria-label="labels.dsChapterFilter"
+        @click="showChapterPicker = true"
+      >
+        <span class="fpb-trigger-main">
+          <span class="fpb-trigger-label">{{ labels.dsChapterFilter }}</span>
           <span class="fpb-trigger-name">{{ chapter || labels.dsChapterAll }}</span>
-          <i class="bi bi-chevron-right fpb-trigger-chev"></i>
-        </button>
-      </div>
+        </span>
+        <i class="bi bi-chevron-right fpb-trigger-chev"></i>
+      </button>
 
-      <div v-if="detachments.length > 1" class="fpb-group">
-        <div class="fpb-eyebrow">{{ labels.factionDetachments }}</div>
-        <button
-          type="button"
-          class="fpb-trigger"
-          :aria-label="labels.factionDetachments"
-          @click="showDetPicker = true"
-        >
+      <button
+        v-if="detachments.length > 1"
+        type="button"
+        class="fpb-trigger"
+        :aria-label="labels.factionDetachments"
+        @click="showDetPicker = true"
+      >
+        <span class="fpb-trigger-main">
+          <span class="fpb-trigger-label">{{ labels.factionDetachments }}</span>
           <span class="fpb-trigger-name">{{ activeDet?.name }}</span>
-          <i class="bi bi-chevron-right fpb-trigger-chev"></i>
-        </button>
-      </div>
+        </span>
+        <i class="bi bi-chevron-right fpb-trigger-chev"></i>
+      </button>
     </div>
 
     <FactionDetachmentPickerModal
@@ -130,65 +132,68 @@ function pickChapter(id) {
   border-bottom: 1px solid var(--border);
 }
 
-/* Both pickers are collapsed "current value + chevron" triggers on every viewport;
-   on wide screens the two groups sit side by side, stacking on narrow ones. */
+/* Both pickers are compact "label + current value + chevron" pill buttons on every
+   viewport — no separate eyebrow line, so the pinned bar stays low. Side by side on
+   wide screens, stacked on narrow. */
 .fpb-inner {
   max-width: 860px;
   margin: 0 auto;
-  padding: 0.7rem 2rem 0.9rem;
+  padding: 0.35rem 2rem;
   display: flex;
-  gap: 1rem;
-}
-
-.fpb-group {
-  flex: 1;
-  min-width: 0;
+  gap: 0.5rem;
 }
 
 @media (max-width: 900px) {
   .fpb-inner {
-    padding: 0.7rem calc(1rem + var(--safe-right)) 0.9rem calc(1rem + var(--safe-left));
+    padding: 0.35rem calc(1rem + var(--safe-right)) 0.35rem calc(1rem + var(--safe-left));
   }
 }
 
 @media (max-width: 480px) {
   .fpb-inner {
-    padding: 0.7rem calc(0.5rem + var(--safe-right)) 0.9rem calc(0.5rem + var(--safe-left));
+    padding: 0.35rem calc(0.5rem + var(--safe-right)) 0.35rem calc(0.5rem + var(--safe-left));
   }
 }
 
-.fpb-eyebrow {
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: var(--accent);
-  margin-bottom: 0.1rem;
-}
-
-/* Trigger — a single "current value + chevron" button that opens the picker modal
-   (copies GameSetup.vue's .btn-choose-twist layout). */
+/* Trigger — a compact pill that opens the picker modal. The label rides inside it as a
+   quiet dim prefix (no eyebrow line above), keeping the whole bar to a single row height. */
 .fpb-trigger {
+  flex: 1;
+  min-width: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.6rem;
-  width: 100%;
-  min-height: 44px;
-  margin-top: 0.5rem;
-  padding: 0.6rem 0.85rem;
+  gap: 0.5rem;
+  min-height: 34px;
+  padding: 0.3rem 0.65rem;
   border: 1px solid var(--border);
   border-radius: 6px;
   background: var(--bg-secondary);
   color: var(--text-primary);
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 600;
   transition: border-color var(--motion-fast);
 }
 
 .fpb-trigger:hover {
   border-color: var(--accent);
+}
+
+.fpb-trigger-main {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.fpb-trigger-label {
+  flex-shrink: 0;
+  font-size: 0.58rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-dim);
 }
 
 .fpb-trigger-name {
@@ -202,10 +207,12 @@ function pickChapter(id) {
   color: var(--text-dim);
 }
 
+/* Narrow phones: two triggers side by side would cramp long detachment names, so stack
+   them instead (still just two thin rows, ~half the old eyebrow+44px-button height). */
 @media (max-width: 640px) {
   .fpb-inner {
     flex-direction: column;
-    gap: 0.35rem;
+    gap: 0.25rem;
   }
 }
 </style>
