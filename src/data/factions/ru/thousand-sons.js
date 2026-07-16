@@ -1,9 +1,11 @@
 // Thousand Sons — русский перевод правил фракции. Разреженный оверлей поверх EN-структуры
 // (см. ./index.js): переведены только тексты (flavor/body/example, when/target/effect/
-// restrictions, тексты улучшений). Названия детачментов, стратагем, улучшений и правил,
-// ALL-CAPS ключевые слова, [BRACKET]-способности и имена юнитов остаются английскими.
-// Механики Cabal of Sorcerers / Ritual / Warp Charge / Channel the Warp / Flow of Magic — англ.
-// Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN-файлом.
+// restrictions, тексты улучшений). Названия детачментов и правил, ALL-CAPS ключевые слова,
+// [BRACKET]-способности и имена юнитов остаются английскими. Механики Cabal of Sorcerers /
+// Ritual / Warp Charge / Channel the Warp / Flow of Magic — англ. Стратагемы и улучшения
+// получают RU-имя отдельной строкой под английским названием — см. stratNamesRu/
+// enhNamesRu ниже. Порядок массивов detachments/stratagems/enhancements обязан совпадать
+// с EN-файлом.
 // RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
 export const stratNamesRu = {
   'Psychic Dominion': 'Псионическое владычество',
@@ -77,6 +79,41 @@ export const detRuleNamesRu = {
   'Ensorcelled Animus': 'Зачарованный дух',
   'All-Seeing Mutant Hordes': 'Всевидящие орды мутантов',
   'Flow of Magic': 'Поток магии',
+}
+
+// RU display names for enhancements — shown as a small muted second line under the
+// English name in FactionRuleView (RU locale only), same treatment as stratNamesRu.
+export const enhNamesRu = {
+  'Lord of Forbidden Lore': 'Владыка запретного знания',
+  'Incandaeum': 'Инкандеум',
+  'Umbralefic Crystal': 'Умбралефический кристалл',
+  "Eldritch Vortex of E'Taph": 'Потусторонний вихрь Э’тафа',
+  'Nethershriek Mind-Eater': 'Визжащий Пожиратель Разума',
+  'Diabolic Savant': 'Дьявольский мудрец',
+  'Duplicitous Malediction': 'Двуличное проклятие',
+  'Tome of True Names': 'Том истинных имён',
+  'Warpmeld Dagger': 'Кинжал варп-слияния',
+  'Diamond of Distortion': 'Алмаз искажения',
+  'Bray Lord': 'Вожак блеющих',
+  'Flowing Flesh': 'Текучая плоть',
+  'Risen Rubricae': 'Восставшие Рубрикарии',
+  'Arcane Thralls': 'Тайные рабы',
+  'Lord of the Rubricae': 'Владыка Рубрикариев',
+  'Stave Abominus': 'Посох Абоминус',
+  'Warp Syphon': 'Варп-сифон',
+  'Perplexing Cloak': 'Плащ смятения',
+  'Biomechanical Mutation': 'Биомеханическая мутация',
+  'Warp-Cursed Runemaster': 'Варп-проклятый мастер рун',
+  'Eruption of Vitality': 'Извержение жизненной силы',
+  'Curse of Life': 'Проклятие жизни',
+  'Walking Rampart': 'Шагающий бастион',
+  'Occulus Infernum': 'Окулус Инфернум',
+  'Unravelled Fates': 'Распутанные судьбы',
+  'Thicket of Bladed Bone': 'Чаща клинковых костей',
+  'Arcane Might': 'Тайная мощь',
+  'Empowered Manifestation': 'Усиленное проявление',
+  'Empyric Onslaught': 'Эмпирейский натиск',
+  'Noctilith Mantle': 'Ноктилитовая мантия',
 }
 
 export default {
