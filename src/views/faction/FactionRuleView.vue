@@ -15,31 +15,33 @@
 
     <!-- Detachment picker -->
     <section class="fsection" id="detachments">
-      <div class="fsection-eyebrow">{{ labels.factionDetachments }}</div>
-      <div v-if="detachments.length > 1" class="det-picker" role="tablist">
+      <div class="det-sticky-inner">
+        <div class="fsection-eyebrow">{{ labels.factionDetachments }}</div>
+        <div v-if="detachments.length > 1" class="det-picker" role="tablist">
+          <button
+            v-for="d in detachments"
+            :key="d.id"
+            type="button"
+            role="tab"
+            class="det-chip"
+            :class="{ active: d.id === activeId }"
+            :aria-selected="d.id === activeId"
+            @click="activeId = d.id"
+          >
+            {{ d.name }}
+          </button>
+        </div>
         <button
-          v-for="d in detachments"
-          :key="d.id"
+          v-if="detachments.length > 1"
           type="button"
-          role="tab"
-          class="det-chip"
-          :class="{ active: d.id === activeId }"
-          :aria-selected="d.id === activeId"
-          @click="activeId = d.id"
+          class="det-trigger"
+          :aria-label="labels.factionDetachments"
+          @click="showDetPicker = true"
         >
-          {{ d.name }}
+          <span class="det-trigger-name">{{ det?.name }}</span>
+          <i class="bi bi-chevron-right det-trigger-chev"></i>
         </button>
       </div>
-      <button
-        v-if="detachments.length > 1"
-        type="button"
-        class="det-trigger"
-        :aria-label="labels.factionDetachments"
-        @click="showDetPicker = true"
-      >
-        <span class="det-trigger-name">{{ det?.name }}</span>
-        <i class="bi bi-chevron-right det-trigger-chev"></i>
-      </button>
 
       <FactionDetachmentPickerModal
         v-if="showDetPicker"
@@ -176,14 +178,36 @@ const det = computed(() => detachments.value.find((d) => d.id === activeId.value
    element on this page — App.vue's subnav is hidden for /factions/:slug rule pages,
    see isFactionUnitPage) so you can jump between detachments while reading further
    down. Background + border-bottom mirror App.vue's .subnav treatment, the app's
-   established look for a sticky sub-bar. */
+   established look for a sticky sub-bar. Bled to full viewport width (the classic
+   negative-margin trick) rather than being capped by .main-content's own max-width/
+   padding, same as .navbar/.subnav — the inner wrapper below re-applies .main-content's
+   own padding tiers so the visible chips/trigger still line up with the rest of the page. */
 #detachments {
   position: sticky;
   top: calc(var(--navbar-height) + var(--safe-top));
   z-index: 150;
-  padding: 0.7rem 0 0.9rem;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
   background: var(--bg-secondary);
   border-bottom: 1px solid var(--border);
+}
+
+.det-sticky-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0.7rem 2rem 0.9rem;
+}
+
+@media (max-width: 900px) {
+  .det-sticky-inner {
+    padding: 0.7rem calc(1rem + var(--safe-right)) 0.9rem calc(1rem + var(--safe-left));
+  }
+}
+
+@media (max-width: 480px) {
+  .det-sticky-inner {
+    padding: 0.7rem calc(0.5rem + var(--safe-right)) 0.9rem calc(0.5rem + var(--safe-left));
+  }
 }
 
 /* Detachment picker */
