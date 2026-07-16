@@ -11,6 +11,16 @@
           :placeholder="labels.dsSearch"
           :aria-label="labels.dsSearch"
         />
+        <!-- Global army choice (chapter + detachment), shared with the rule page.
+             Chapter-less factions keep their datasheet list bar-free — a detachment
+             picker filters nothing here. -->
+        <FactionPickerBar
+          v-if="chapters.length"
+          class="ds-picker-bar"
+          :slug="slug"
+          :detachments="detachments"
+          :chapters="chapters"
+        />
         <template v-for="g in groupedDatasheets" :key="g.key">
           <h3 class="ds-group-head">{{ g.label }}</h3>
           <div class="ds-grid">
@@ -21,6 +31,7 @@
               class="ds-chip"
             >
               <span class="ds-chip-name">{{ s.name }}</span>
+              <span v-if="chapters.length && !chapter && chapterOf(s)" class="ds-chip-chapter">{{ chapterOf(s) }}</span>
               <span v-if="s.points" class="ds-chip-pts">{{ ptsSummary(s.points) }}</span>
             </RouterLink>
           </div>
@@ -35,13 +46,15 @@
 import { computed, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import FactionLayout from '../../components/FactionLayout.vue'
+import FactionPickerBar from '../../components/FactionPickerBar.vue'
 import { loadDatasheets, ptsSummary } from '../../data/datasheets/index.js'
 import { ui } from '../../i18n/ui.js'
 import { useFactionPage } from '../../composables/useFactionPage.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { useFactionChoice } from '../../composables/useFactionChoice.js'
 
 const route = useRoute()
-const { slug } = useFactionPage()
+const { slug, faction } = useFactionPage()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
@@ -66,10 +79,42 @@ watch(
   { immediate: true },
 )
 
+// The global army choice (chapter + detachment) is shared with the rule page via
+// FactionPickerBar / useFactionChoice. Chapters come from the faction rules data
+// (`chapters` on space-marines.js) — other factions have none, so their datasheet
+// pages stay bar-free (extra faction keywords like Plague Legions or Ynnari are
+// not Chapters and no army restriction applies to them).
+const chapters = computed(() => faction.value?.chapters || [])
+const detachments = computed(() => {
+  const f = faction.value
+  if (!f) return []
+  if (Array.isArray(f.detachments)) return f.detachments
+  return f.detachment ? [f.detachment] : []
+})
+
+const { activeChapter } = useFactionChoice()
+const chapter = computed(() => activeChapter(slug.value, chapters.value))
+
+// A unit's Chapter = the second Faction keyword on its datasheet. Order in
+// factionKeywords[] is not stable (Pedro Kantor lists Adeptus Astartes first),
+// so find the non-umbrella keyword instead of taking [0].
+const UMBRELLA_KEYWORDS = new Set(['Adeptus Astartes', 'Imperium'])
+function chapterOf(s) {
+  return (s.factionKeywords || []).find((k) => !UMBRELLA_KEYWORDS.has(k))
+}
+
 const filteredDatasheets = computed(() => {
   const q = dsQuery.value.trim().toLowerCase()
-  if (!q) return datasheets.value
-  return datasheets.value.filter((s) => s.name.toLowerCase().includes(q))
+  const c = chapter.value
+  return datasheets.value.filter((s) => {
+    if (q && !s.name.toLowerCase().includes(q)) return false
+    if (c) {
+      // Chapter-less sheets are generic Adeptus Astartes units, legal in any Chapter's army.
+      const sc = chapterOf(s)
+      if (sc && sc !== c) return false
+    }
+    return true
+  })
 })
 
 // Codex-style type groups, in roster-building order. A sheet lands in the first group
@@ -125,6 +170,12 @@ const groupedDatasheets = computed(() => {
   border-color: var(--accent);
 }
 
+/* The sticky chapter/detachment bar itself lives in FactionPickerBar; here we only
+   restore the list's breathing room under it. */
+.ds-picker-bar {
+  margin-bottom: 0.9rem;
+}
+
 .ds-group-head {
   font-family: var(--font-display);
   font-size: 1.3rem;
@@ -172,6 +223,15 @@ const groupedDatasheets = computed(() => {
   text-transform: uppercase;
   letter-spacing: 0.3px;
   color: var(--text-primary);
+}
+
+.ds-chip-chapter {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--accent);
+  white-space: nowrap;
 }
 
 .ds-chip-pts {

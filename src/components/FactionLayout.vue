@@ -5,24 +5,42 @@
       <h1 class="hero-title">{{ faction ? faction.name : labels.factionsHeading }}</h1>
       <!-- Mobile-only page tabs: the desktop subnav (App.vue) is hidden ≤900px, where the
            drawer is the only other way to switch between the three faction pages. -->
-      <nav v-if="faction" class="faction-tabs" :aria-label="labels.navFactions">
+      <nav v-if="faction" ref="tabsEl" class="faction-tabs" :aria-label="labels.navFactions">
         <RouterLink
           v-for="t in tabs"
           :key="t.path"
           :to="t.path"
           class="faction-tab"
-          :class="{ active: route.path === t.path || (t.prefix && route.path.startsWith(t.path + '/')) }"
-        >{{ t.label }}</RouterLink>
+          :class="{ active: isTabActive(t) }"
+        ><i class="faction-tab-icon" :class="t.icon"></i>{{ t.label }}</RouterLink>
       </nav>
     </div>
 
     <slot v-if="faction" />
     <p v-else class="fsoon">{{ labels.factionsSoon }}</p>
+
+    <!-- Desktop-only floating jump to the other tab: the hero tabs scroll away on these
+         long pages and >900px has no bottom nav, so switching Rules ↔ Units meant
+         scrolling back to the top. A single icon FAB (the tab you can go to, named by
+         its tooltip), bottom-right, shown only while the hero tabs are scrolled out of
+         view. Hidden on the per-unit page (hero=false) — the top subnav with the same
+         links stays visible there (see App.vue isFactionUnitPage). -->
+    <Transition name="fade">
+      <RouterLink
+        v-if="faction && hero && otherTab && !tabsInView"
+        :to="otherTab.path"
+        class="faction-tab-fab"
+        :title="otherTab.label"
+        :aria-label="otherTab.label"
+      >
+        <i :class="otherTab.icon"></i>
+      </RouterLink>
+    </Transition>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { factionIndexBySlug } from '../data/factionsIndex.js'
 import { useFactionPage } from '../composables/useFactionPage.js'
@@ -49,12 +67,32 @@ const tabs = computed(() => {
   const base = `/factions/${slug.value}`
   const l = labels.value
   return [
-    // Army rule + detachments are merged onto the base page.
-    { path: base, label: l.factionRules },
+    // Army rule + detachments are merged onto the base page. Icons match the mobile
+    // bottom nav (bi-shield-shaded = faction, bi-people-fill = units) — used by the FAB.
+    { path: base, label: l.factionRules, icon: 'bi bi-shield-shaded' },
     // prefix: the per-unit pages (/datasheets/:unit) keep this tab highlighted
-    { path: `${base}/datasheets`, label: l.factionDatasheets, prefix: true },
+    { path: `${base}/datasheets`, label: l.factionDatasheets, prefix: true, icon: 'bi bi-people-fill' },
   ]
 })
+
+const isTabActive = (t) => route.path === t.path || (t.prefix && route.path.startsWith(t.path + '/'))
+
+// The FAB links to the tab you're NOT on.
+const otherTab = computed(() => tabs.value.find((t) => !isTabActive(t)))
+
+// Show the FAB only while the hero tabs are scrolled out of view — with them on
+// screen it would just duplicate what's already in front of the user.
+const tabsEl = ref(null)
+const tabsInView = ref(true)
+let tabsObserver = null
+watch(tabsEl, (el) => {
+  tabsObserver?.disconnect()
+  tabsObserver = null
+  if (!el) { tabsInView.value = true; return }
+  tabsObserver = new IntersectionObserver(([entry]) => { tabsInView.value = entry.isIntersecting })
+  tabsObserver.observe(el)
+})
+onBeforeUnmount(() => tabsObserver?.disconnect())
 </script>
 
 <style scoped>
@@ -130,6 +168,9 @@ const tabs = computed(() => {
 }
 
 .faction-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   font-family: var(--font-display);
   font-size: 1.15rem;
   text-transform: uppercase;
@@ -156,9 +197,49 @@ const tabs = computed(() => {
   border-bottom-color: var(--bg-primary); /* erase the accent line under the open tab → merge with content */
 }
 
+/* Same icons as the desktop FAB and the mobile bottom nav — the visual link between
+   the three ways of reaching these pages. Slightly smaller than the tab text so the
+   display-font label stays the anchor. */
+.faction-tab-icon {
+  font-size: 0.9em;
+}
+
 .fsoon {
   color: var(--text-muted);
   font-size: 1rem;
+}
+
+/* Floating jump to the other tab — hidden by default, shown only >900px (the exact
+   inverse of App.vue's bottom-nav breakpoint). A round icon FAB in the bottom-right
+   corner; sits inside .faction-view.themed so it picks up the faction accent. The
+   tab name rides in the native title tooltip. */
+.faction-tab-fab {
+  display: none;
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 195; /* below drawer-overlay (299) and modals (400–500), same tier as ResumeGameButton */
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font-size: 1.25rem;
+  text-decoration: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  transition: filter var(--motion-fast);
+}
+
+.faction-tab-fab:hover {
+  filter: brightness(1.1);
+  text-decoration: none;
+  color: #fff;
+}
+
+@media (min-width: 901px) {
+  .faction-tab-fab { display: flex; }
 }
 
 @media (max-width: 640px) {
