@@ -1,5 +1,5 @@
 <template>
-  <BaseModal :title="labels.factionDetachments" max-width="480px" @close="$emit('close')">
+  <BaseModal :title="title || labels.factionDetachments" max-width="480px" @close="$emit('close')">
     <div class="fdp-body">
       <button
         v-for="d in detachments"
@@ -14,9 +14,10 @@
             <span class="fdp-name">{{ d.name }}</span>
             <span v-if="d.nameRu" class="fdp-name-ru">{{ d.nameRu }}</span>
           </span>
-          <span v-if="d.dp || d.unique" class="fdp-side">
+          <span v-if="d.dp || d.unique || d.tag" class="fdp-side">
             <span v-if="d.dp" class="fdp-dp">{{ d.dp }} DP</span>
             <span v-if="d.unique" class="fdp-unique">{{ d.unique }}</span>
+            <span v-if="d.tag" class="fdp-unique">{{ d.tag }}</span>
           </span>
         </span>
       </button>
@@ -30,9 +31,14 @@ import BaseModal from './BaseModal.vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 
+// Also reused as a generic option picker (e.g. the Chapter picker in
+// FactionPickerBar) — pass plain { id, name } items and a `title`; the
+// detachment-only fields (nameRu / dp / unique) simply don't render. An optional
+// `tag` renders as a quiet corner keyword (the chapter lock on SM detachments).
 defineProps({
   detachments: { type: Array, required: true },
   activeId: { type: String, default: null },
+  title: { type: String, default: null },
 })
 defineEmits(['pick', 'close'])
 

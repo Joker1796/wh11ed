@@ -13,44 +13,14 @@
       />
     </section>
 
-    <!-- Detachment picker -->
-    <section class="fsection" id="detachments">
-      <div class="det-sticky-inner">
-        <div class="fsection-eyebrow">{{ labels.factionDetachments }}</div>
-        <div v-if="detachments.length > 1" class="det-picker" role="tablist">
-          <button
-            v-for="d in detachments"
-            :key="d.id"
-            type="button"
-            role="tab"
-            class="det-chip"
-            :class="{ active: d.id === activeId }"
-            :aria-selected="d.id === activeId"
-            @click="activeId = d.id"
-          >
-            {{ d.name }}
-          </button>
-        </div>
-        <button
-          v-if="detachments.length > 1"
-          type="button"
-          class="det-trigger"
-          :aria-label="labels.factionDetachments"
-          @click="showDetPicker = true"
-        >
-          <span class="det-trigger-name">{{ det?.name }}</span>
-          <i class="bi bi-chevron-right det-trigger-chev"></i>
-        </button>
-      </div>
-
-      <FactionDetachmentPickerModal
-        v-if="showDetPicker"
-        :detachments="detachments"
-        :active-id="activeId"
-        @pick="(id) => { activeId = id; showDetPicker = false }"
-        @close="showDetPicker = false"
-      />
-    </section>
+    <!-- Chapter + detachment picker (global army choice, shared with the datasheets page) -->
+    <FactionPickerBar
+      v-if="detachments.length > 1"
+      class="fsection"
+      :slug="slug"
+      :detachments="detachments"
+      :chapters="faction.chapters || []"
+    />
 
     <section v-if="det" class="fsection" :id="det.id" :key="det.id">
       <h2 class="fsection-title">{{ det.name }}</h2>
@@ -101,16 +71,16 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed } from 'vue'
 import FactionLayout from '../../components/FactionLayout.vue'
 import RuleBlock from '../../components/RuleBlock.vue'
 import StratCard from '../../components/StratCard.vue'
-import FactionDetachmentPickerModal from '../../components/FactionDetachmentPickerModal.vue'
+import FactionPickerBar from '../../components/FactionPickerBar.vue'
 import { useFactionPage } from '../../composables/useFactionPage.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
-import { getItem, setItem } from '../../composables/safeStorage.js'
+import { useFactionChoice } from '../../composables/useFactionChoice.js'
 
 const { slug, faction } = useFactionPage()
 const { locale } = useLocale()
@@ -118,7 +88,8 @@ const { renderInline } = useRenderInline()
 const labels = computed(() => ui[locale.value])
 
 // Detachments: support the multi-detachment `detachments[]` shape, falling back to the
-// legacy single `detachment` object. A chip picker selects the active one.
+// legacy single `detachment` object. FactionPickerBar selects the active one; the pick
+// (and, for Space Marines, the chapter) is persisted per faction by useFactionChoice.
 const detachments = computed(() => {
   const f = faction.value
   if (!f) return []
@@ -126,158 +97,14 @@ const detachments = computed(() => {
   return f.detachment ? [f.detachment] : []
 })
 
-// Remember the last-opened detachment per faction (localStorage map slug → detachment id),
-// so returning to a faction reopens the detachment you were last reading.
-const STORAGE_KEY = 'wh11ed-faction-detachment'
-const savedMap = () => {
-  try { return JSON.parse(getItem(STORAGE_KEY) || '{}') || {} } catch { return {} }
-}
-
-const activeId = ref()
-const showDetPicker = ref(false)
-
-// Restore the saved (or first) detachment when the faction changes; keep the current pick
-// across in-place list changes (e.g. the RU overlay resolving) as long as it stays valid.
-watch(
-  [slug, detachments],
-  ([s, list], prev) => {
-    if (!list.length) { activeId.value = undefined; return }
-    const slugChanged = !prev || s !== prev[0]
-    if (!slugChanged && list.some((d) => d.id === activeId.value)) return
-    const saved = savedMap()[s]
-    activeId.value = list.some((d) => d.id === saved) ? saved : list[0].id
-  },
-  { immediate: true },
-)
-
-// Persist the user's pick per faction.
-watch(activeId, (id) => {
-  if (!slug.value || !id) return
-  setItem(STORAGE_KEY, JSON.stringify({ ...savedMap(), [slug.value]: id }))
-})
-
-const det = computed(() => detachments.value.find((d) => d.id === activeId.value) || detachments.value[0] || null)
+const { activeDetachment } = useFactionChoice()
+const det = computed(() => activeDetachment(slug.value, detachments.value))
 </script>
 
 <style scoped>
 .fsection {
   margin-bottom: 2.5rem;
   scroll-margin-top: var(--header-total);
-}
-
-.fsection-eyebrow {
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: var(--accent);
-  margin-bottom: 0.1rem;
-}
-
-/* Detachment picker section: sticks right under the navbar (the only other sticky
-   element on this page — App.vue's subnav is hidden for /factions/:slug rule pages,
-   see isFactionUnitPage) so you can jump between detachments while reading further
-   down. Background + border-bottom mirror App.vue's .subnav treatment, the app's
-   established look for a sticky sub-bar. Bled to full viewport width (the classic
-   negative-margin trick) rather than being capped by .main-content's own max-width/
-   padding, same as .navbar/.subnav — the inner wrapper below re-applies .main-content's
-   own padding tiers so the visible chips/trigger still line up with the rest of the page. */
-#detachments {
-  position: sticky;
-  top: calc(var(--navbar-height) + var(--safe-top));
-  z-index: 150;
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
-  background: var(--bg-secondary);
-  border-bottom: 1px solid var(--border);
-}
-
-.det-sticky-inner {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 0.7rem 2rem 0.9rem;
-}
-
-@media (max-width: 900px) {
-  .det-sticky-inner {
-    padding: 0.7rem calc(1rem + var(--safe-right)) 0.9rem calc(1rem + var(--safe-left));
-  }
-}
-
-@media (max-width: 480px) {
-  .det-sticky-inner {
-    padding: 0.7rem calc(0.5rem + var(--safe-right)) 0.9rem calc(0.5rem + var(--safe-left));
-  }
-}
-
-/* Detachment picker */
-.det-picker {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-top: 0.5rem;
-}
-
-.det-chip {
-  font-family: var(--font-display);
-  font-size: 0.95rem;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-  color: var(--text-muted);
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 0.35rem 0.7rem;
-  cursor: pointer;
-  transition: color var(--motion-fast), border-color var(--motion-fast), background var(--motion-fast);
-}
-
-.det-chip:hover {
-  color: var(--text-primary);
-  border-color: var(--accent);
-}
-
-.det-chip.active {
-  color: #fff;
-  background: var(--accent);
-  border-color: var(--accent);
-}
-
-/* Mobile detachment trigger — collapses the chip row into a single "current value +
-   chevron" button that opens FactionDetachmentPickerModal (hidden by default, shown at
-   the ≤640px breakpoint below; copies GameSetup.vue's .btn-choose-twist layout). */
-.det-trigger {
-  display: none;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.6rem;
-  width: 100%;
-  min-height: 44px;
-  margin-top: 0.5rem;
-  padding: 0.6rem 0.85rem;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: 600;
-  transition: border-color var(--motion-fast);
-}
-
-.det-trigger:hover {
-  border-color: var(--accent);
-}
-
-.det-trigger-name {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.det-trigger-chev {
-  flex-shrink: 0;
-  color: var(--text-dim);
 }
 
 /* Detachment meta (DP / disposition / unique) */
@@ -435,7 +262,5 @@ const det = computed(() => detachments.value.find((d) => d.id === activeId.value
 
 @media (max-width: 640px) {
   .fsection-title { font-size: 1.6rem; }
-  .det-picker { display: none; }
-  .det-trigger { display: flex; }
 }
 </style>
