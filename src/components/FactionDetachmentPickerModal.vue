@@ -44,9 +44,18 @@ const labels = computed(() => ui[locale.value])
 .fdp-body {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.3rem;
   padding: 0.75rem;
   overflow-y: auto;
+}
+
+/* Narrow phones: BaseModal itself goes edge-to-edge (bottom sheet) at this breakpoint,
+   so shrink the body's own gutter too — cards get closer to the full screen width
+   instead of being inset by a fixed 0.75rem regardless of how little room there is. */
+@media (max-width: 560px) {
+  .fdp-body {
+    padding: 0.5rem 0.4rem;
+  }
 }
 
 .fdp-item {
