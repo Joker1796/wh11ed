@@ -1,9 +1,12 @@
 // Leagues of Votann — русский перевод правил фракции. Разреженный оверлей поверх EN-структуры
 // (см. ./index.js): переведены только тексты (flavor/body/example, when/target/effect/
-// restrictions, тексты улучшений). Названия детачментов, стратагем, улучшений и правил,
-// ALL-CAPS ключевые слова, [BRACKET]-способности и имена юнитов остаются английскими.
-// Механики Prioritised Efficiency / Yield points (YP) / Hostile Acquisition / Fortify Takeover
-// оставлены английскими. Порядок массивов detachments/stratagems/enhancements = EN-файлу.
+// restrictions, тексты улучшений). Названия детачментов и правил, ALL-CAPS ключевые слова,
+// [BRACKET]-способности и имена юнитов остаются английскими. Механики Prioritised Efficiency /
+// Yield points (YP) / Hostile Acquisition / Fortify Takeover оставлены английскими.
+// Стратагемы и улучшения получают RU-имя отдельной строкой под английским названием — см.
+// stratNamesRu/enhNamesRu ниже. Изобретённые вотаннские слова с диакритикой (Kâhl, Brôkhyr,
+// weavewërke и т.п.) не транслитерируются — остаются как в EN. Порядок массивов
+// detachments/stratagems/enhancements = EN-файлу.
 // RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
 export const stratNamesRu = {
   'Bastion Running': 'Бастионный марш',
@@ -82,6 +85,43 @@ export const detRuleNamesRu = {
   'Sagitaur Spearhead': 'Остриё «Сагитавр»',
   'Eye of the Hunt': 'Око охоты',
   'Avatars of the Ancestors': 'Аватары Предков',
+}
+
+// RU display names for enhancements — shown as a small muted second line under the
+// English name in FactionRuleView (RU locale only), same treatment as stratNamesRu.
+export const enhNamesRu = {
+  'Tactical Alchemy': 'Тактическая алхимия',
+  'Trivärg Cyber Implant': 'Кибер-имплант Trivärg',
+  'Precursive Judgement': 'Предвосхищающее суждение',
+  'Signature Restoration': 'Особое восстановление',
+  'Dêlvewerke Navigator': 'Навигатор Dêlvewerke',
+  'Multiwave System Jammer': 'Многоволновый системный глушитель',
+  'Quake Supervisor': 'Сейсмоаналитик',
+  'Piledriver': 'Копёр',
+  'Bastion Shield': 'Бастионный щит',
+  'Quake Multigenerator': 'Сейсмический мультигенератор',
+  'Ironskein': 'Железная нить',
+  'High Kâhl': 'Верховный Kâhl',
+  'Fârstrydr Node': 'Узел Fârstrydr',
+  'Calculated Tenacity': 'Расчётливая цепкость',
+  'Mantle of Elders': 'Мантия старейшин',
+  'Graviton Vault': 'Гравитонное хранилище',
+  'Mercenary Prospector': 'Наёмник-старатель',
+  'Metaphysical Brokerage': 'Метафизическое посредничество',
+  'Etacarn SB9 Targeting Implant': 'Прицельный имплант Etacarn SB9',
+  'Asset Manipulator': 'Манипулятор активами',
+  'Oathbound Speculator': 'Клятвенный спекулянт',
+  'Dead Reckoning': 'Счисление пути',
+  'Iron Ambassador': 'Железный посол',
+  'Ancestral Crest': 'Родовой гребень',
+  'Eye for Weakness': 'Чутьё на слабость',
+  'Writ of Acquisition': 'Грамота приобретения',
+  'Surgical Saboteur': 'Хирургический диверсант',
+  'Nomad Strategist': 'Стратег-кочевник',
+  'Saturation Rounds': 'Патроны сплошного огня',
+  'Optimised Attack Lines': 'Оптимизированные линии атаки',
+  'Pan-spectral Lockons': 'Панспектральные захваты цели',
+  'Shroudwërke Talismans': 'Талисманы Shroudwërke',
 }
 
 export default {
