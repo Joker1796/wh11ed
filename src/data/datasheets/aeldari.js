@@ -1906,7 +1906,6 @@ export default [
         "Storm Guardians",
         "Guardian Defenders"
       ],
-      "footer": "If this model is not already attached to a unit, you can attach this model to a unit, even if one Warlocks unit has already been attached to it. If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Infantry",
@@ -5511,7 +5510,6 @@ export default [
         "Ynnari Wyches",
         "Ynnari Incubi"
       ],
-      "footer": "You can attach this unit to one of the above units, even if Yvraine has already been attached to it. If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Character",
@@ -6484,7 +6482,6 @@ export default [
         "Storm Guardians",
         "Guardian Defenders"
       ],
-      "footer": "You can attach this model to a unit, even if one Autarch or Farseer model has already been attached to it. If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Warlock",

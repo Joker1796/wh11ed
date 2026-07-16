@@ -2220,7 +2220,7 @@ export default [
       "OR",
       "2 Shock Trooper Sergeants and 18 Shock Troopers"
     ],
-    "loadout": "**Every Shock Trooper Sergeant is equipped with:** laspistol; chainsword.\n\n**Every Shock Trooper is equipped with:** lasgun; close combat weapon.\n\nThis unit can have up to two Leader units attached to it, provided no more than one of those units is a Command Squad unit. If it does, and this Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths.",
+    "loadout": "**Every Shock Trooper Sergeant is equipped with:** laspistol; chainsword.\n\n**Every Shock Trooper is equipped with:** lasgun; close combat weapon.\n\nThis unit can have up to two Leader units attached to it, provided no more than one of those units is a Command Squad unit.",
     "options": [
       "For every 10 models in this unit, up to 2 Shock Troopers can each have their lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 meltagun\n▪ 1 plasma gun",
       "For every 10 models in this unit, 1 Shock Trooper equipped with a lasgun can be equipped with 1 vox-caster (that model’s lasgun cannot be replaced).",
@@ -2796,7 +2796,7 @@ export default [
       "OR",
       "2 Jungle Fighter Sergeants and 18 Jungle Fighters"
     ],
-    "loadout": "**Every Jungle Fighter Sergeant is equipped with:** laspistol; close combat weapon.\n\n**Every Jungle Fighter is equipped with:** lasgun; close combat weapon.\n\nThis unit can have up to two Leader units attached to it, provided no more than one of those units is a Command Squad unit. If it does, and this Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths.",
+    "loadout": "**Every Jungle Fighter Sergeant is equipped with:** laspistol; close combat weapon.\n\n**Every Jungle Fighter is equipped with:** lasgun; close combat weapon.\n\nThis unit can have up to two Leader units attached to it, provided no more than one of those units is a Command Squad unit.",
     "options": [
       "For every 5 models in this unit, 1 Jungle Fighter’s lasgun can be replaced with 1 flamer.",
       "For every 10 models in this unit, 1 Jungle Fighter equipped with a lasgun can be equipped with 1 vox-caster (that model’s lasgun cannot be replaced)."
@@ -3852,7 +3852,7 @@ export default [
       "OR",
       "2 Death Korps Watchmasters and 18 Death Korps Troopers"
     ],
-    "loadout": "**Every Death Korps Watchmaster is equipped with:** laspistol; chainsword.\n\n**Every Death Korps Trooper is equipped with: lasgun;** close combat weapon.\n\nThis unit can have up to two Leader units attached to it, provided no more than one of those units is a Command Squad unit. If it does, and this Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths.",
+    "loadout": "**Every Death Korps Watchmaster is equipped with:** laspistol; chainsword.\n\n**Every Death Korps Trooper is equipped with: lasgun;** close combat weapon.\n\nThis unit can have up to two Leader units attached to it, provided no more than one of those units is a Command Squad unit.",
     "options": [
       "For every 10 models in this unit, up to 2 Death Korps Troopers can each have their lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 long-las\n▪ 1 meltagun\n▪ 1 plasma gun",
       "For every 10 models in this unit, 1 Death Korps Trooper equipped with a lasgun can be equipped with 1 Death Korps medi-pack (that model’s lasgun cannot be replaced)**.",
@@ -10635,7 +10635,7 @@ export default [
       "1 Tempestor",
       "4-9 Tempestus Scions"
     ],
-    "loadout": "**The Tempestor is equipped with:** hot-shot laspistol; chainsword.\n\n**Every Tempestus Scion is equipped with:** hot-shot lasgun; close combat weapon.\n\nThis unit can have up to two Leader units attached to it, provided no more than one of those units is a Command Squad unit. If it does, and this Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths.",
+    "loadout": "**The Tempestor is equipped with:** hot-shot laspistol; chainsword.\n\n**Every Tempestus Scion is equipped with:** hot-shot lasgun; close combat weapon.\n\nThis unit can have up to two Leader units attached to it, provided no more than one of those units is a Command Squad unit.",
     "options": [
       "For every 5 models in this unit, up to two Tempestus Scions can each have their hot-shot lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 hot-shot volley gun\n▪ 1 meltagun\n▪ 1 plasma gun",
       "1 Tempestus Scion’s hot-shot lasgun can be replaced with 1 hot-shot laspistol and 1 vox-caster.",

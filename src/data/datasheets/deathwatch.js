@@ -229,7 +229,6 @@ export default [
         "Hellblaster Squad",
         "Crusader Squad (Legendary)"
       ],
-      "footer": "You can attach this model to one of the above units even if one CAPTAIN, CHAPTER MASTER or LIEUTENANT model has already been attached to it. If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Character",
@@ -380,7 +379,6 @@ export default [
         "Terminator Squad",
         "Relic Terminator Squad"
       ],
-      "footer": "You can attach this model to one of the above units even if one Captain, Chapter Master or Lieutenant model has already been attached to it. If you do, and that Bodyguard unit is destroyed, the LEADER units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Infantry",
@@ -493,7 +491,6 @@ export default [
         "Devastator Squad",
         "Assault Intercessor Squad"
       ],
-      "footer": "You can attach this model to one of the above units even if one CAPTAIN, CHAPTER MASTER or LIEUTENANT model has already been attached to it. If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Tacticus",
@@ -578,7 +575,6 @@ export default [
         "Aggressor Squad",
         "Heavy Intercessor Squad"
       ],
-      "footer": "You can attach this model to one of the above units even if one Captain or Chapter Master model has already been attached to it. If you do, and that Bodyguard unit is destroyed, the LEADER units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Apothecary",
@@ -1244,7 +1240,6 @@ export default [
       "units": [
         "Bladeguard Veteran Squad"
       ],
-      "footer": "You can attach this model to the above unit even if one Captain, Chapter Master or Lieutenant model has already been attached to it. If you do, and that Bodyguard unit is destroyed, the LEADER units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Tacticus",
@@ -8217,7 +8212,6 @@ export default [
         "Assault Squad",
         "Inner Circle Companions"
       ],
-      "footer": "You can attach this model to a unit it can lead even if one Captain or Chapter Master model has already been attached to it. If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Lieutenant",
@@ -8315,7 +8309,6 @@ export default [
         "Spectrus Kill Team",
         "Infiltrator Squad"
       ],
-      "footer": "You can attach this model to a unit it can lead even if one Captain or Chapter Master model has already been attached to it. If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Lieutenant",
@@ -8401,7 +8394,6 @@ export default [
         "Hounds Of Morkai",
         "Reiver Squad"
       ],
-      "footer": "You can attach this model to a unit it can lead even if one Captain or Chapter Master model has already been attached to it. If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Lieutenant in Reiver Armour",
