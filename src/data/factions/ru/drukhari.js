@@ -1,9 +1,10 @@
 // Drukhari — русский перевод правил фракции. Разреженный оверлей поверх EN-структуры
 // (см. ./index.js): переведены только тексты (flavor/body/example, when/target/effect/
-// restrictions, тексты улучшений). Названия детачментов, стратагем, улучшений и правил,
-// ALL-CAPS ключевые слова, [BRACKET]-способности и имена юнитов остаются английскими.
-// Механики Power From Pain / Pain token / Empowered / Combat Drugs / Contract оставлены
-// английскими. Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN.
+// restrictions, тексты улучшений). Названия детачментов и правил, ALL-CAPS ключевые слова,
+// [BRACKET]-способности и имена юнитов остаются английскими. Механики Power From Pain /
+// Pain token / Empowered / Combat Drugs / Contract оставлены английскими. Стратагемы и
+// улучшения получают RU-имя отдельной строкой под английским названием — см. stratNamesRu/
+// enhNamesRu ниже. Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN.
 // RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
 export const stratNamesRu = {
   'Insensible to Pain': 'Нечувствительны к боли',
@@ -76,6 +77,39 @@ export const detRuleNamesRu = {
   'Contracted Harvest': 'Заказанная жатва',
   'Darkest Artifice': 'Темнейшая уловка',
   'Callous Competition': 'Бездушное состязание',
+}
+
+// RU display names for enhancements — shown as a small muted second line under the
+// English name in FactionRuleView (RU locale only), same treatment as stratNamesRu.
+export const enhNamesRu = {
+  'Dark Vitality': 'Тёмная жизненная сила',
+  'Labyrinthine Cunning': 'Лабиринтное коварство',
+  'Eye of Spite': 'Око злобы',
+  'Crucible of Malediction': 'Тигель проклятия',
+  'Phantasmal Smoke': 'Призрачный дым',
+  'Sadistic Fulcrum': 'Садистская точка опоры',
+  'Spiteful Raider': 'Злобный рейдер',
+  'Nightmare Shroud': 'Кошмарный покров',
+  'Chronoshard': 'Хроноосколок',
+  "Morghenna's Curse": 'Проклятие Моргенны',
+  'Periapt of Torments': 'Амулет мучений',
+  'Pharmacophex': 'Фармакофекс',
+  'Master Regenesist': 'Мастер-регенезист',
+  'Master Nemesine': 'Мастер-Немезина',
+  'Master Artisan': 'Мастер-ремесленник',
+  'Master Repugnomancer': 'Мастер-репугномант',
+  'Informant Network': 'Сеть осведомителей',
+  'Webway Awl': 'Шило Паутины',
+  'Towering Arrogance': 'Непомерное высокомерие',
+  'Leechbite Plate': 'Пластина пиявочьего укуса',
+  'Hyperstimm Trafficker': 'Торговец гиперстимом',
+  'Contempt for Rivals': 'Презрение к соперникам',
+  'Gnarlskin Experimentor': 'Испытатель узловатой кожи',
+  'Elixir of the Corpse Courts': 'Эликсир Трупных Дворов',
+  'Archraider': 'Архирейдер',
+  'Conductor of Torment': 'Дирижёр мучений',
+  "Reaper's Cowl": 'Капюшон Жнеца',
+  'Webway Walker': 'Ходок Паутины',
 }
 
 export default {
