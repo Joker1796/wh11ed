@@ -50,6 +50,28 @@ export const detRuleNamesRu = {
   'Chant of Deathless Devotion': 'Песнь бессмертной преданности',
 }
 
+// RU display names for enhancements — shown as a small muted second line under the
+// English name in FactionRuleView (RU locale only), same treatment as stratNamesRu.
+export const enhNamesRu = {
+  'Incendiary Animus': 'Подстрекающий дух',
+  'Merciless Denunciation': 'Безжалостное обличение',
+  'Oathbound Exemplar': 'Клятвенный поборник',
+  'Zealous Vanguard': 'Ревностный авангард',
+  'Consecrating Aura': 'Освящающая аура',
+  'Imperialis of the Eternal Crusade': 'Империалис Вечного Крестового похода',
+  "Orb of the Emperor's Aegis": 'Сфера эгиды Императора',
+  'Warden of Honour': 'Страж чести',
+  'Paragon of Fury': 'Эталон ярости',
+  'Battle-Psalm Precentor': 'Запевала боевого псалма',
+  'Augury Servo-Host': 'Ауспик-рой сервочерепов',
+  'Herald of Sacred Slaughter': 'Вестник священной резни',
+  'Fervent Exemplars': 'Ревностные поборники',
+  'Inheritors of Sigismund': 'Наследники Сигизмунда',
+  'Guiding Omens': 'Направляющие знамения',
+  'Adaptable Executioner': 'Находчивый палач',
+  'Benediction of Fury': 'Благословение ярости',
+}
+
 export default {
   armyRule: {
     flavor:
