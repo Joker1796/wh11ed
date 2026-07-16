@@ -1,8 +1,10 @@
 // Adepta Sororitas — русский перевод правил фракции. Разреженный оверлей поверх EN-структуры
 // (см. ./index.js): переведены только тексты (flavor/body/example, when/target/effect/
-// restrictions, тексты улучшений). Названия детачментов, стратагем, улучшений и правил,
-// ALL-CAPS ключевые слова, [BRACKET]-способности и имена юнитов остаются английскими.
-// Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN-файлом.
+// restrictions, тексты улучшений). Названия детачментов и правил, ALL-CAPS ключевые слова,
+// [BRACKET]-способности и имена юнитов остаются английскими. Стратагемы и улучшения
+// получают RU-имя отдельной строкой под английским названием — см. stratNamesRu/
+// enhNamesRu ниже. Порядок массивов detachments/stratagems/enhancements обязан совпадать
+// с EN-файлом.
 // RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
 export const stratNamesRu = {
   'Shield of Faith': 'Щит веры',
@@ -65,6 +67,36 @@ export const detRuleNamesRu = {
   'Angelic Judgement': 'Ангельский суд',
   'Holy Quest': 'Святое искание',
   'Hymns of Battle': 'Боевые гимны',
+}
+
+// RU display names for enhancements — shown as a small muted second line under the
+// English name in FactionRuleView (RU locale only), same treatment as stratNamesRu.
+export const enhNamesRu = {
+  'Litanies of Faith': 'Литании веры',
+  'Blade of Saint Ellynor': 'Клинок святой Эллинор',
+  'Divine Aspect': 'Божественный облик',
+  'Triptych of the Macharian Crusade': 'Триптих Крестового похода Макария',
+  'Righteous Rage': 'Праведный гнев',
+  'Manual of Saint Griselda': 'Устав святой Гризельды',
+  'Fire and Fury': 'Огонь и ярость',
+  'Iron Surplice of Saint Istalela': 'Железная риза святой Исталелы',
+  'Triptych of Judgement': 'Триптих Суда',
+  'Mark of Devotion': 'Клеймо преданности',
+  'Eyes of the Oracle': 'Глаза провидицы',
+  'Sanctified Amulet': 'Освящённый амулет',
+  'Saintly Example': 'Святой пример',
+  'Through Suffering, Strength': 'Через страдание — сила',
+  'Chaplet of Sacrifice': 'Чётки жертвы',
+  'Mantle of Ophelia': 'Мантия Офелии',
+  'Psalm of Righteous Judgement': 'Псалом праведного суда',
+  'Verse of Holy Piety': 'Стих святого благочестия',
+  'Refrain of Enduring Faith': 'Рефрен стойкой веры',
+  'Catechism of Divine Penitence': 'Катехизис божественного покаяния',
+  'Clarion of Urgency': 'Горн неотложности',
+  'Symphonic Payload': 'Симфонический залп',
+  'Writ of Compunction': 'Грамота раскаяния',
+  'Perfervid Haste': 'Неистовая спешка',
+  'Hagiomnifex': 'Хагиомнифекс',
 }
 
 export default {
