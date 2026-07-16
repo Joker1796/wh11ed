@@ -1,8 +1,10 @@
 // Adeptus Custodes — русский перевод правил фракции. Разреженный оверлей поверх EN-структуры
 // (см. ./index.js): переведены только тексты (flavor/body/example, when/target/effect/
-// restrictions, тексты улучшений). Названия детачментов, стратагем, улучшений и правил,
-// ALL-CAPS ключевые слова, [BRACKET]-способности и имена юнитов остаются английскими.
-// Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN-файлом.
+// restrictions, тексты улучшений). Названия детачментов и правил, ALL-CAPS ключевые слова,
+// [BRACKET]-способности и имена юнитов остаются английскими. Стратагемы и улучшения
+// получают RU-имя отдельной строкой под английским названием — см. stratNamesRu/
+// enhNamesRu ниже. Порядок массивов detachments/stratagems/enhancements обязан совпадать
+// с EN-файлом.
 // RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
 export const stratNamesRu = {
   'Hunt as One': 'Охота как единое целое',
@@ -74,6 +76,41 @@ export const detRuleNamesRu = {
   'The Hammer Falls': 'Молот падает',
   'Against All Odds': 'Вопреки всему',
   'Auric Armour': 'Золотой доспех',
+}
+
+// RU display names for enhancements — shown as a small muted second line under the
+// English name in FactionRuleView (RU locale only), same treatment as stratNamesRu.
+export const enhNamesRu = {
+  'Radiant Mantle': 'Лучезарная мантия',
+  'Gift of Terran Artifice': 'Дар терранского мастерства',
+  'Champion of the Imperium': 'Поборник Империума',
+  'Aegis Projector': 'Проектор Эгиды',
+  'From the Hall of Armouries': 'Из Оружейных палат',
+  "Castellan's Mark": 'Знак Кастеляна',
+  'Auric Mantle': 'Золотая мантия',
+  'Panoptispex': 'Паноптиспекс',
+  'Raptor Blade': 'Клинок Раптора',
+  'Enhanced Voidsheen Cloak': 'Улучшенный плащ пустотного блеска',
+  "Huntress' Eye": 'Око Охотницы',
+  'Oblivion Knight': 'Рыцарь Забвения',
+  'Blade Imperator': 'Клинок Императора',
+  'Inspirational Exemplar': 'Вдохновляющий образец',
+  'Veiled Blade': 'Сокрытый клинок',
+  'Martial Philosopher': 'Военный философ',
+  'Interred Expertise': 'Погребённое мастерство',
+  'Auramite Sarcophagus': 'Аурамитовый саркофаг',
+  'Encircling Hunter': 'Обходящий охотник',
+  'Psyk-out Grenades': 'Пси-оглушающие гранаты',
+  'Mnemo-locked Shrine Cipher': 'Мнемо-запертый храмовый шифр',
+  'Efficient Aggression': 'Эффективная агрессия',
+  'Superior Creation': 'Превосходное творение',
+  'Praesidius': 'Президиус',
+  'Fierce Conqueror': 'Свирепый завоеватель',
+  'Admonimortis': 'Адмонимортис',
+  'Adamantine Talisman': 'Адамантиевый талисман',
+  'Augury Uplink': 'Канал ауспик-данных',
+  'Honoured Fallen': 'Чествуемые павшие',
+  'Veteran of the Kataphraktoi': 'Ветеран Катафрактов',
 }
 
 export default {
