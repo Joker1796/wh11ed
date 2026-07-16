@@ -1,9 +1,11 @@
 // Death Guard — русский перевод правил фракции. Разреженный оверлей поверх EN-структуры
 // (см. ./index.js): переведены только тексты (flavor/body/example, when/target/effect/
-// restrictions, тексты улучшений). Названия детачментов, стратагем, улучшений и правил,
-// ALL-CAPS ключевые слова, [BRACKET]-способности и имена юнитов остаются английскими.
-// Механики Nurgle's Gift / Contagion Range / Afflicted / Plague(s) оставлены английскими.
-// Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN-файлом.
+// restrictions, тексты улучшений). Названия детачментов и правил, ALL-CAPS ключевые слова,
+// [BRACKET]-способности и имена юнитов остаются английскими. Механики Nurgle's Gift /
+// Contagion Range / Afflicted / Plague(s) оставлены английскими. Стратагемы и улучшения
+// получают RU-имя отдельной строкой под английским названием — см. stratNamesRu/
+// enhNamesRu ниже. Порядок массивов detachments/stratagems/enhancements обязан совпадать
+// с EN-файлом.
 // RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
 export const stratNamesRu = {
   'Grotesque Fortitude': 'Гротескная стойкость',
@@ -77,6 +79,41 @@ export const detRuleNamesRu = {
   'Warped and Rusted Animus': 'Искажённый и проржавевший дух',
   'Verminous Haze': 'Паразитическая дымка',
   'Hypervirulent Strains': 'Гипервирулентные штаммы',
+}
+
+// RU display names for enhancements — shown as a small muted second line under the
+// English name in FactionRuleView (RU locale only), same treatment as stratNamesRu.
+export const enhNamesRu = {
+  'Final Ingredient': 'Последний ингредиент',
+  'Visions of Virulence': 'Видения вирулентности',
+  'Needle of Nurgle': 'Игла Нургла',
+  'Cornucophagus': 'Корнукофаг',
+  'Face of Death': 'Лик смерти',
+  'Vile Vigour': 'Мерзостная бодрость',
+  'Warprot Talisman': 'Талисман варп-гнили',
+  'Helm of the Fly King': 'Шлем Короля Мух',
+  'Eye of Affliction': 'Око недуга',
+  'Bilemaw Blight': 'Порча Желчной Пасти',
+  'Shriekworm Familiar': 'Фамильяр-визгочервь',
+  'Tendrilous Emissions': 'Щупальцевые выделения',
+  'Witherbone Pipes': 'Дудки Костоувядания',
+  'Lord of the Walking Pox': 'Владыка ходячей заразы',
+  'Sorrowsyphon': 'Высасыватель скорби',
+  'Talisman of Burgeoning': 'Талисман произрастания',
+  'Beckoning Blight': 'Зазывающая порча',
+  'Fell Harvester': 'Губительный жнец',
+  'Entropic Knell': 'Энтропийный погребальный звон',
+  'Tome of Bounteous Blessings': 'Том щедрых благословений',
+  'Daemon Weapon of Nurgle': 'Демоническое оружие Нургла',
+  'Furnace of Plagues': 'Горнило чумы',
+  'Arch Contaminator': 'Архосквернитель',
+  'Revolting Regeneration': 'Отвратительная регенерация',
+  'Parasitic Woe-reaper': 'Паразитический жнец горя',
+  'Lancet of the Worldsore': 'Ланцет Мировой Язвы',
+  'Insectile Murmuration': 'Инсектоидное роение',
+  'Plagueveil': 'Чумной покров',
+  'Rejuvenating Swarm': 'Омолаживающий рой',
+  'Host of the Hybridised Pox': 'Полчище гибридной хвори',
 }
 
 export default {
