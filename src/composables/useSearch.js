@@ -408,7 +408,7 @@ function searchDatasheets(q, locale) {
   const results = []
   for (const [slug, faction, units] of dsIndex) {
     for (const [id, name] of units) {
-      if (!name.toLowerCase().includes(q)) continue
+      if (!foldYo(name.toLowerCase()).includes(q)) continue
       results.push({
         id: '',
         key: `ds-${slug}-${id}`,
@@ -432,6 +432,12 @@ const indexCache = { en: null, ru: null }
 function getIndex(locale) {
   const key = locale === 'ru' ? 'ru' : 'en'
   return (indexCache[key] ??= buildIndex(key))
+}
+
+// Treat 'ё'/'Ё' as 'е'/'Е' for search matching — Russian users almost never type ё,
+// even though the indexed rules text (correctly) uses it (e.g. «манёвр»).
+function foldYo(s) {
+  return s.replace(/ё/g, 'е').replace(/Ё/g, 'Е')
 }
 
 // A query that is purely a section number (1–3 groups of 1–2 digits, optional
@@ -472,15 +478,18 @@ export function search(query, locale = 'en') {
   if (numQuery) return searchBySectionNum(getIndex(locale), numQuery)
   if (trimmed.length < 2) return []
   const index = getIndex(locale)
-  const q = trimmed
+  const q = foldYo(trimmed)
   const results = []
   for (const item of index) {
-    const titleMatch = item.title.toLowerCase().includes(q)
-    const bodyMatch = item.body.toLowerCase().includes(q)
+    const titleMatch = foldYo(item.title.toLowerCase()).includes(q)
+    const bodyMatch = foldYo(item.body.toLowerCase()).includes(q)
     if (titleMatch || bodyMatch) {
       let snippet = ''
       if (bodyMatch) {
-        const pos = item.body.toLowerCase().indexOf(q)
+        // Position comes from the folded (ё→е) text, but the slice below is taken from
+        // the ORIGINAL item.body — foldYo is a 1:1 char replace so indices still line up,
+        // and the snippet keeps the correct «манёвр» spelling instead of showing «маневр».
+        const pos = foldYo(item.body.toLowerCase()).indexOf(q)
         const start = Math.max(0, pos - 60)
         const end = Math.min(item.body.length, pos + q.length + 80)
         snippet = (start > 0 ? '…' : '') + item.body.slice(start, end) + (end < item.body.length ? '…' : '')
@@ -498,6 +507,11 @@ export function search(query, locale = 'en') {
 
 export function highlightMatch(text, query) {
   if (!query || !text) return text
-  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  // Escape regex metacharacters first, then fold е/ё into one character class (the 'gi'
+  // flag case-folds it to also match Е/Ё) — so a query typed with plain "е" still
+  // highlights the "ё" spelling in the matched text, matching search()'s foldYo().
+  const escaped = query
+    .replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    .replace(/[еЕёЁ]/g, '[её]')
   return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>')
 }

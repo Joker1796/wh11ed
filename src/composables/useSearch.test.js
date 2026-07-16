@@ -48,6 +48,12 @@ describe('search', () => {
     expect(res.length).toBeGreaterThan(0)
   })
 
+  it('treats е and ё as equivalent so "маневр" finds «манёвр»', () => {
+    const res = search('маневр', 'ru')
+    expect(res.length).toBeGreaterThan(0)
+    expect(res.some((r) => r.title.includes('манёвр') || r.title.includes('Манёвр') || r.body.includes('манёвр'))).toBe(true)
+  })
+
   it('strips [gloss:id:label] tokens down to their visible label, not raw markup', () => {
     // advancedRules.js body text uses [gloss:close-quarters:close-quarters shooting] etc. —
     // the indexed body/snippet must show the label only, never the raw [gloss:...] syntax.
@@ -103,5 +109,11 @@ describe('highlightMatch', () => {
   it('returns the text unchanged when query or text is empty', () => {
     expect(highlightMatch('abc', '')).toBe('abc')
     expect(highlightMatch('', 'x')).toBe('')
+  })
+
+  it('highlights the ё spelling when the query is typed with plain е', () => {
+    expect(highlightMatch('Совершите манёвр продвижения', 'маневр')).toBe(
+      'Совершите <mark>манёвр</mark> продвижения',
+    )
   })
 })
