@@ -47,6 +47,17 @@ describe('search', () => {
     expect(Array.isArray(res)).toBe(true)
     expect(res.length).toBeGreaterThan(0)
   })
+
+  it('strips [gloss:id:label] tokens down to their visible label, not raw markup', () => {
+    // advancedRules.js body text uses [gloss:close-quarters:close-quarters shooting] etc. —
+    // the indexed body/snippet must show the label only, never the raw [gloss:...] syntax.
+    const res = search('close-quarters shooting', 'en')
+    expect(res.length).toBeGreaterThan(0)
+    for (const r of res) {
+      expect(r.body).not.toContain('[gloss:')
+      expect(r.snippet).not.toContain('[gloss:')
+    }
+  })
 })
 
 describe('datasheet unit search', () => {
