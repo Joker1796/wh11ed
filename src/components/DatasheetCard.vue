@@ -122,11 +122,14 @@
       <div v-html="dsText(sheet.transport)"></div>
     </div>
     <div v-if="sheet.leader" class="ds-ability-group">
-      <h5 class="ds-group-title">{{ labels.dsLeader }}</h5>
+      <h5 class="ds-group-title">{{ leaderGroupLabel }}</h5>
       <div class="ds-ability">
         <div v-html="dsText(sheet.leader.text)"></div>
         <ul class="ds-list">
-          <li v-for="u in sheet.leader.units" :key="u">{{ u }}</li>
+          <li v-for="u in sheet.leader.units" :key="u">
+            <RouterLink v-if="unitIndex?.get(u)" :to="`/factions/${factionSlug}/datasheets/${unitIndex.get(u)}`">{{ u }}</RouterLink>
+            <template v-else>{{ u }}</template>
+          </li>
         </ul>
         <div v-if="sheet.leader.footer" v-html="dsText(sheet.leader.footer)"></div>
       </div>
@@ -199,6 +202,12 @@ import { formatBaseSize } from '../utils/baseSize.js'
 
 const props = defineProps({
   sheet: { type: Object, required: true },
+  // Name → id lookup (this faction's datasheets only) and the faction slug, used to turn
+  // Leader/Attached-unit bodyguard-unit names into links to their own datasheet page.
+  // Optional so DatasheetCard still works if a future caller doesn't wire them up — names
+  // just render as plain text then, same as before this feature existed.
+  unitIndex: { type: Object, default: null },
+  factionSlug: { type: String, default: '' },
 })
 
 const { locale } = useLocale()
@@ -207,6 +216,15 @@ const labels = computed(() => ui[locale.value])
 const fmtBase = (raw) => formatBaseSize(raw, labels.value)
 
 const coreParts = computed(() => (props.sheet.core ? props.sheet.core.split(/,\s*/) : []))
+
+// The "Leader" ability-group heading above the bodyguard-unit list: a handful of
+// characters carry the "Support" core ability instead of "Leader" (a Faction-Pack
+// errata override — e.g. Necrons' six Cryptek Leaders, see datasheets/necrons.js's
+// header comment) but populate the exact same sheet.leader field, so the heading must
+// follow whichever core ability this specific sheet actually has.
+const leaderGroupLabel = computed(() =>
+  /\bSupport\b/.test(props.sheet.core || '') ? labels.value.dsSupport : labels.value.dsLeader,
+)
 
 // Per-model keyword split (e.g. The Silent King: keywords shared by every model in the
 // unit vs ones that only apply to a specific named model) — sheet.keywordsByModel is

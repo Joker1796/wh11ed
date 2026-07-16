@@ -2791,7 +2791,6 @@ export default [
         "Exaction Squad",
         "Sisters of Battle Squad"
       ],
-      "footer": "You can attach this model to an INQUISITORIAL AGENTS unit, even if one INQUISITOR has already been attached to it. If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Infantry",
