@@ -4,7 +4,10 @@
 // Переводим только прозу (flavor / body / when / target / effect / restrictions).
 // Английскими остаются: Waaagh!, все ORK-сленговые ключевые слова (Beast Snagga,
 // Speed Freeks, Mek, Grots/Gretchin, Trukk, WAGONS, Deffkilla Wartrike и т.д.),
-// [BRACKET]-способности, имена детачментов/стратагем/улучшений, датащиты.
+// [BRACKET]-способности, имена детачментов/правил, датащиты. Стратагемы и улучшения
+// получают RU-имя отдельной строкой под английским названием — см. stratNamesRu/
+// enhNamesRu ниже (орочий слэнг переведён на разговорный русский или транслитерирован
+// как жаргонное заимствование — «дакка», «губбинз», «гит» — по образцу прозы).
 
 // RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
 export const stratNamesRu = {
@@ -103,6 +106,52 @@ export const detRuleNamesRu = {
   'Turbo Boostas': 'Турбо-ускорители',
   'Eager for the Fight': 'Рвутся в драку',
   'Here Be Loot': 'Тут есть лут',
+}
+
+// RU display names for enhancements — shown as a small muted second line under the
+// English name in FactionRuleView (RU locale only), same treatment as stratNamesRu.
+export const enhNamesRu = {
+  'Follow Me Ladz': 'За мной, пацаны!',
+  "Headwoppa's Killchoppa": 'Смерторуб Хедвоппы',
+  "Kunnin' But Brutal": 'Хитёр, да жесток',
+  'Supa-Cybork Body': 'Супа-кибборг-тело',
+  'Glory Hog': 'Хапуга славы',
+  'Skrag Every Stash!': 'Круши каждый схрон!',
+  'Proper Killy': 'Взаправду убойный',
+  'Surly as a Squiggoth': 'Угрюмый, как сквиггот',
+  'Fasta Than Yooz': 'Шибче вас всех',
+  'Speed Makes Right': 'Скорость есть правда',
+  'Squig-hide Tyres': 'Шины из шкуры сквига',
+  'Wazblasta': 'Вазбласта',
+  'Smoky Gubbinz': 'Дымные губбинзы',
+  'Supa-glowy Fing': 'Супа-светящаяся штуковина',
+  'Press It Fasta!': 'Жми быстрее!',
+  'Gitfinder Gogglez': 'Гитфиндерские окуляры',
+  'Ferocious Show Off': 'Свирепый показушник',
+  "Brutal But Kunnin'": 'Жестокий, но хитрый',
+  'Bloodthirsty Belligerence': 'Кровожадная воинственность',
+  'Raucous Warcaller': 'Горластый зачинщик войны',
+  'Big Gob': 'Большая пасть',
+  'Da Biggest Boss': 'Самый большой босс',
+  "'Eadstompa": 'Эдстомпа',
+  'Tellyporta': 'Теллепорта',
+  'Boarding Ramps': 'Абордажные трапы',
+  "Targetin' Gizmos": 'Прицельные примочки',
+  'Da Gobshot Thunderbuss': 'Тандербас Gobshot',
+  "Mork's Kunnin'": 'Хитрость Морка',
+  'Slippery Git': 'Скользкий гит',
+  'Kustom Shokk Box': 'Кастомная шокк-коробка',
+  'Dakkamek': 'Даккамек',
+  'Supa-Burny Fuel': 'Супа-горючка',
+  'Master Meknologist': 'Мастер-мекнолог',
+  "Runnin' Boots": 'Бегательные ботинки',
+  'Blitzkaptin': 'Блицкаптин',
+  'Supercharged Squig Oil': 'Форсированное сквиговое масло',
+  'Tuff Git': 'Крутой гит',
+  'Da Kaptin': 'Каптин',
+  'Gitspotter Squig': 'Сквиг-высматриватель гитов',
+  'Bionik Workshop': 'Бионическая мастерская',
+  "Razgit's Magik Map": 'Волшебная карта Разгита',
 }
 
 export default {
