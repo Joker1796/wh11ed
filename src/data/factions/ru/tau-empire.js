@@ -56,6 +56,34 @@ export const detRuleNamesRu = {
   'Superior Craftsmanship': 'Превосходное мастерство',
 }
 
+// RU display names for enhancements — shown as a small muted second line under the
+// English name in FactionRuleView (RU locale only), same treatment as stratNamesRu.
+export const enhNamesRu = {
+  'Exemplar of the Kauyon': 'Образец Кауйона',
+  'Precision of the Patient Hunter': 'Точность Терпеливого Охотника',
+  'Solid-image Projection Unit': 'Проектор твёрдого изображения',
+  'Through Unity, Devastation': 'Через единство — опустошение',
+  'Borthrod Gland': 'Железа бортрода',
+  'Kroothawk Flock': 'Стая крутоястребов',
+  'Nomadic Hunter': 'Кочующий охотник',
+  'Root-carved Weapons': 'Оружие из резного Корня',
+  'Coordinated Exploitation': 'Скоординированное использование',
+  'Exemplar of the Mont’ka': 'Образец Монт’ка',
+  'Strategic Conqueror': 'Стратегический завоеватель',
+  'Strike Swiftly': 'Разить стремительно',
+  'Internal Grenade Racks': 'Встроенные гранатные стеллажи',
+  'Prototype Weapon System': 'Прототип оружейной системы',
+  'Puretide Engram Neurochip': 'Энграммный нейрочип Пуртайда',
+  'Starflare Ignition System': 'Система зажигания «Звёздная вспышка»',
+  'Negation Emitters': 'Эмиттеры отрицания',
+  'Unmasking Suite': 'Демаскирующий комплекс',
+  'Student of Kauyon': 'Ученик Кауйона',
+  'Admired Leader': 'Почитаемый предводитель',
+  'Thermoneutronic Projector': 'Термонейтронный проектор',
+  'Plasma Accelerator Rifle': 'Плазменная винтовка-ускоритель',
+  'Supernova Launcher': 'Пусковая установка «Сверхновая»',
+}
+
 export default {
   armyRule: {
     flavor:
