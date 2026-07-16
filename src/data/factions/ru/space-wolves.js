@@ -61,6 +61,33 @@ export const detRuleNamesRu = {
   'Old Greymanes': 'Старые Седогривы',
 }
 
+// RU display names for enhancements — shown as a small muted second line under the
+// English name in FactionRuleView (RU locale only), same treatment as stratNamesRu.
+export const enhNamesRu = {
+  'Wolf-touched': 'Тронутый волком',
+  'Hunter’s Guile': 'Охотничья хитрость',
+  'Elder’s Guidance': 'Наставление старейшины',
+  'Helm of the Beastslayer': 'Шлем Зверебоя',
+  'Braggart’s Steel': 'Сталь хвастуна',
+  'Skjald': 'Скальд',
+  'Hordeslayer': 'Губитель орд',
+  'Thunderwolf’s Fortitude': 'Стойкость громового волка',
+  'Grimnar’s Mark': 'Клеймо Гримнара',
+  'Howlmaw': 'Воющая пасть',
+  'Chariots of the Storm': 'Колесницы бури',
+  'Skjald’s Foretelling': 'Предсказание скальда',
+  'Swift Hunter': 'Быстрый охотник',
+  'Fenrisian Grit': 'Фенрисийская стойкость',
+  'Wolf Master': 'Повелитель волков',
+  'Feral Rage': 'Дикая ярость',
+  'A Giant Amongst Giants': 'Гигант среди гигантов',
+  'Preyslayer': 'Губитель добычи',
+  'Thirst for Glory': 'Жажда славы',
+  'Fierce Example': 'Свирепый пример',
+  'Eye of the Hunter': 'Око охотника',
+  'Weaver of Sagas': 'Ткач саг',
+}
+
 export default {
   armyRule: {
     flavor:
