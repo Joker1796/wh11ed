@@ -1,9 +1,11 @@
 // Astra Militarum — русский перевод правил фракции. Разреженный оверлей поверх EN-структуры
 // (см. ./index.js): переведены только тексты (flavor/body/example, when/target/effect/
-// restrictions, тексты улучшений). Названия детачментов, стратагем, улучшений и правил,
-// ALL-CAPS ключевые слова, [BRACKET]-способности и имена юнитов остаются английскими.
-// Order/Orders и названия приказов (Move! Move! Move! и т.п.) оставлены английскими.
-// Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN-файлом.
+// restrictions, тексты улучшений). Названия детачментов и правил, ALL-CAPS ключевые слова,
+// [BRACKET]-способности и имена юнитов остаются английскими. Order/Orders и названия
+// приказов (Move! Move! Move! и т.п.) оставлены английскими. Стратагемы и улучшения
+// получают RU-имя отдельной строкой под английским названием — см. stratNamesRu/
+// enhNamesRu ниже. Порядок массивов detachments/stratagems/enhancements обязан совпадать
+// с EN-файлом.
 // RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
 export const stratNamesRu = {
   'Opening Salvo': 'Первый залп',
@@ -93,6 +95,48 @@ export const detRuleNamesRu = {
   'Absolutist Principles': 'Абсолютистские принципы',
   'Fire Zone Purge': 'Зачистка огневой зоны',
   'Designated Targets': 'Назначенные цели',
+}
+
+// RU display names for enhancements — shown as a small muted second line under the
+// English name in FactionRuleView (RU locale only), same treatment as stratNamesRu.
+export const enhNamesRu = {
+  'Exemplary Officer': 'Образцовый офицер',
+  'Master Manoeuvrist': 'Мастер манёвра',
+  'Omnissian Unguents': 'Омниссианские масла',
+  'Grand Strategist': 'Великий стратег',
+  'Death Mask of Ollanius': 'Маска смерти Оллания',
+  'Drill Commander': 'Командир-муштровщик',
+  'Reactive Command': 'Молниеносное реагирование',
+  'Abhuman Detail': 'Абхьюманская стража',
+  'Aquilan Eye': 'Аквилланское око',
+  'Spec Ops Veteran': 'Ветеран спецопераций',
+  'Laud Hailer': 'Вокс-усилитель',
+  'Calm Under Fire': 'Хладнокровие под огнём',
+  'Indomitable Steed': 'Несокрушимый скакун',
+  'Regimental Banner': 'Полковое знамя',
+  'Veteran Crew': 'Ветеранский экипаж',
+  'Bold Leadership': 'Отважное командование',
+  'Sacred Unguents': 'Священные масла',
+  'Smoke Grenades': 'Дымовые гранаты',
+  'Vanguard Honours': 'Почести авангарда',
+  'Guerrilla Honours': 'Партизанские почести',
+  'Scare Gas Grenades': 'Гранаты газа паники',
+  'Survival Gear': 'Снаряжение выживания',
+  'Tripwires': 'Растяжки',
+  'Eager Advance': 'Рьяное продвижение',
+  'Flash Grenades': 'Светошумовые гранаты',
+  'Legacy Sidearm': 'Родовой пистолет',
+  'Stalwart’s Honours': 'Почести стойкости',
+  'Battalion Commander': 'Командир батальона',
+  'Titan Killer': 'Убийца титанов',
+  'Engine Speaker': 'Заклинатель двигателя',
+  'Assault Hatches': 'Штурмовые люки',
+  'Sharp Eyes, Light Fingers': 'Острый глаз, лёгкие пальцы',
+  'Exemplar of Duty': 'Образец долга',
+  'Bombast-class Vox-array': 'Вокс-система класса «Бомбаст»',
+  'Priority Drop Beacon': 'Приоритетный маяк высадки',
+  'Long-range Scout': 'Дальний разведчик',
+  'Recon Star': 'Звезда разведки',
 }
 
 export default {
