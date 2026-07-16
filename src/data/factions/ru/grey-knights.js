@@ -1,8 +1,9 @@
 // Grey Knights — русский перевод правил фракции. Разреженный оверлей поверх EN-структуры
 // (см. ./index.js): переведены только тексты (flavor/body/example, when/target/effect/
-// restrictions, тексты улучшений). Названия детачментов, стратагем, улучшений и правил,
-// ALL-CAPS ключевые слова, [BRACKET]-способности и имена юнитов остаются английскими.
-// Механики Gate of Infinity / Hallowed Ground / Deep Strike оставлены английскими.
+// restrictions, тексты улучшений). Названия детачментов и правил, ALL-CAPS ключевые слова,
+// [BRACKET]-способности и имена юнитов остаются английскими. Механики Gate of Infinity /
+// Hallowed Ground / Deep Strike оставлены английскими. Стратагемы и улучшения получают
+// RU-имя отдельной строкой под английским названием — см. stratNamesRu/enhNamesRu ниже.
 // Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN-файлом.
 // RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
 export const stratNamesRu = {
@@ -77,6 +78,41 @@ export const detRuleNamesRu = {
   'Dauntless Champions': 'Неустрашимые чемпионы',
   'Searing Soulflame': 'Жгучее пламя души',
   'Echojump': 'Эхо-прыжок',
+}
+
+// RU display names for enhancements — shown as a small muted second line under the
+// English name in FactionRuleView (RU locale only), same treatment as stratNamesRu.
+export const enhNamesRu = {
+  'Grimoire of Conjunctions': 'Гримуар соединений',
+  'Shield of Prophecy': 'Щит пророчества',
+  'One Foot in the Future': 'Одной ногой в будущем',
+  'Doomseer’s Amulet': 'Амулет провидца гибели',
+  'Sigil of the Hunt': 'Сигилла охоты',
+  'The Ephemeral Tome': 'Эфемерный том',
+  'The Sixty-sixth Seal': 'Шестьдесят шестая печать',
+  'Pyresoul (Psychic)': 'Огнедуша (психическая)',
+  'Banishing Wave (Psychic)': 'Волна изгнания (психическая)',
+  'Blinding Aura': 'Ослепляющая аура',
+  'Purity of Purpose': 'Чистота цели',
+  'Tome of Forbidden Ways': 'Том запретных путей',
+  'Eye of the Augurium': 'Око Аугуриума',
+  'Inescapable Judgement (Psychic)': 'Неотвратимый приговор (психический)',
+  'Sanctic Reaper': 'Санктический жнец',
+  'Nemesis Rounds': 'Патроны Nemesis',
+  'Driven by Duty': 'Ведомый долгом',
+  'Quickening Foci': 'Средоточия ускорения',
+  'Sigil of Exigence': 'Сигилла крайней нужды',
+  'Spiritus Machina': 'Спиритус Махина',
+  'Mandulian Reliquary': 'Мандулианский реликварий',
+  'Radiant Champion': 'Лучезарный поборник',
+  'Phial of the Abyss': 'Фиал бездны',
+  'Paragon of Sanctity': 'Образец святости',
+  'Psychic Celerity': 'Психическая стремительность',
+  'Vigilance of Titan': 'Бдительность Титана',
+  'Precognicient Volleys': 'Предвидящие залпы',
+  'Boons of Deimos': 'Дары Деймоса',
+  'Predestined Coordinates': 'Предначертанные координаты',
+  'Astral Overlap': 'Астральное наложение',
 }
 
 export default {
