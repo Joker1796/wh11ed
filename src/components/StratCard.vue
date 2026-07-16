@@ -358,4 +358,20 @@ function renderField(text) {
   font-size: 0.8rem;
   margin-top: 0.1rem;
 }
+
+/* Narrow phones: stack the label above the content instead of a fixed-width column —
+   same pattern as RuleBody.vue's .info-row / MissionBriefing.vue's .m-action-row. The
+   64px min-width column wasted a lot of a narrow card's width, worse on RU labels
+   (e.g. «ОГРАНИЧЕНИЯ» is wider than the EN "RESTRICTIONS"). Covers every .strat-row use
+   (When/Target/Effect/Restrictions and subRule.fields) in one place. */
+@media (max-width: 600px) {
+  .strat-row {
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .strat-label {
+    min-width: 0;
+    padding-top: 0;
+  }
+}
 </style>
