@@ -1,9 +1,10 @@
 // Emperor's Children — русский перевод правил фракции. Разреженный оверлей поверх EN-структуры
 // (см. ./index.js): переведены только тексты (flavor/body/example, when/target/effect/
-// restrictions, тексты улучшений). Названия детачментов, стратагем, улучшений и правил,
-// ALL-CAPS ключевые слова, [BRACKET]-способности и имена юнитов остаются английскими.
-// Механики Thrill Seekers / Empowered / Pact points / Favoured Champions — англ.; «обет» переведён.
-// Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN-файлом.
+// restrictions, тексты улучшений). Названия детачментов и правил, ALL-CAPS ключевые слова,
+// [BRACKET]-способности и имена юнитов остаются английскими. Механики Thrill Seekers /
+// Empowered / Pact points / Favoured Champions — англ.; «обет» переведён. Стратагемы и
+// улучшения получают RU-имя отдельной строкой под английским названием — см. stratNamesRu/
+// enhNamesRu ниже. Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN.
 // RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
 export const stratNamesRu = {
   'Sustained by Agony': 'Питаемы агонией',
@@ -85,6 +86,45 @@ export const detRuleNamesRu = {
   'Eager to Kill': 'Жаждущие убивать',
   'Frantic Focus': 'Исступлённая сосредоточенность',
   'Entitled to Victory': 'Достойные победы',
+}
+
+// RU display names for enhancements — shown as a small muted second line under the
+// English name in FactionRuleView (RU locale only), same treatment as stratNamesRu.
+export const enhNamesRu = {
+  'Empyric Suffusion': 'Эмпирейная суффузия',
+  'Dark Blessings': 'Тёмные благословения',
+  'Possessed Blade': 'Одержимый клинок',
+  'Warp Walker': 'Ходок варпа',
+  'Pledge of Eternal Servitude': 'Обет вечного служения',
+  'Pledge of Dark Glory': 'Обет тёмной славы',
+  'Pledge of Mortal Pain': 'Обет смертной боли',
+  'Pledge of Unholy Fortune': 'Обет нечестивой удачи',
+  'Tears of the Phoenix': 'Слёзы Феникса',
+  'Exalted Patron': 'Превознесённый покровитель',
+  'Soulstain Made Manifest': 'Воплощённая порча души',
+  'Spiritsliver': 'Осколок духа',
+  'Steeped in Suffering': 'Пропитанный страданием',
+  'Intoxicating Musk': 'Дурманящий мускус',
+  'Tactical Perfection': 'Тактическое совершенство',
+  'Loathsome Dexterity': 'Омерзительная ловкость',
+  'Faultless Opportunist': 'Безупречный оппортунист',
+  'Blinding Speed': 'Ослепляющая скорость',
+  'Distortion': 'Искажение',
+  'Rise to the Challenge': 'Принять вызов',
+  'Sublime Prescience': 'Возвышенное предвидение',
+  'Spearhead Striker': 'Остриё удара',
+  'Accomplished Tactician': 'Искушённый тактик',
+  'Heretek Adept': 'Еретек-адепт',
+  'Eager to Prove': 'Жаждущий доказать',
+  'Repulsed by Weakness': 'Отвращённый слабостью',
+  'Proud and Vainglorious': 'Гордый и тщеславный',
+  'Slayer of Champions': 'Губитель чемпионов',
+  'Cacophonic Accompaniment': 'Какофоническое сопровождение',
+  'Frenzied Ferocity': 'Исступлённая свирепость',
+  'Euphoric Crown': 'Эйфорическая корона',
+  'Howling Plate': 'Воющая броня',
+  'Eager Patrons': 'Жаждущие покровители',
+  'Beguiling Grotesquerie': 'Пленительное уродство',
 }
 
 export default {
