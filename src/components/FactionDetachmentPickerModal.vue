@@ -9,14 +9,16 @@
         :class="{ on: d.id === activeId }"
         @click="$emit('pick', d.id)"
       >
-        <span class="fdp-heading">
-          <span class="fdp-name">{{ d.name }}</span>
-          <span v-if="d.nameRu" class="fdp-name-ru">{{ d.nameRu }}</span>
-        </span>
-        <span v-if="d.dp || d.forceDisposition || d.unique" class="fdp-meta">
-          <span v-if="d.dp" class="fdp-meta-item">{{ d.dp }} DP</span>
-          <span v-if="d.forceDisposition" class="fdp-meta-item">{{ d.forceDisposition }}</span>
-          <span v-if="d.unique" class="fdp-meta-item fdp-meta-unique">Unique: {{ d.unique }}</span>
+        <span class="fdp-top">
+          <span class="fdp-heading">
+            <span class="fdp-name">{{ d.name }}</span>
+            <span v-if="d.nameRu" class="fdp-name-ru">{{ d.nameRu }}</span>
+          </span>
+          <span v-if="d.dp || d.forceDisposition || d.unique" class="fdp-side">
+            <span v-if="d.dp" class="fdp-dp">{{ d.dp }} DP</span>
+            <span v-if="d.forceDisposition" class="fdp-meta-item">{{ d.forceDisposition }}</span>
+            <span v-if="d.unique" class="fdp-meta-item fdp-meta-unique">Unique: {{ d.unique }}</span>
+          </span>
         </span>
       </button>
     </div>
@@ -50,9 +52,6 @@ const labels = computed(() => ui[locale.value])
 
 .fdp-item {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.3rem;
   width: 100%;
   min-height: 44px;
   padding: 0.5rem 0.65rem;
@@ -73,9 +72,19 @@ const labels = computed(() => ui[locale.value])
   border-color: var(--accent);
 }
 
+/* Name on the left, price + disposition + keyword stacked in the top-right corner. */
+.fdp-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.6rem;
+  width: 100%;
+}
+
 .fdp-heading {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .fdp-name {
@@ -94,10 +103,20 @@ const labels = computed(() => ui[locale.value])
   opacity: 0.8;
 }
 
-.fdp-meta {
+.fdp-side {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+  gap: 0.25rem;
+}
+
+.fdp-dp {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent);
+  white-space: nowrap;
 }
 
 .fdp-meta-item {
@@ -110,6 +129,7 @@ const labels = computed(() => ui[locale.value])
   border: 1px solid var(--border);
   border-radius: 3px;
   padding: 2px 6px;
+  white-space: nowrap;
 }
 
 .fdp-meta-unique {
