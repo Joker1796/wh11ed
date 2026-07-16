@@ -1,8 +1,10 @@
 // Aeldari — русский перевод правил фракции. Разреженный оверлей поверх EN-структуры
 // (см. ./index.js): переведены только тексты (flavor/body/example, when/target/effect/
-// restrictions, тексты улучшений). Названия детачментов, стратагем, улучшений и правил,
-// ALL-CAPS ключевые слова, [BRACKET]-способности и имена юнитов остаются английскими.
-// Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN-файлом.
+// restrictions, тексты улучшений). Названия детачментов и правил, ALL-CAPS ключевые слова,
+// [BRACKET]-способности и имена юнитов остаются английскими. Стратагемы и улучшения
+// получают RU-имя отдельной строкой под английским названием — см. stratNamesRu/
+// enhNamesRu ниже. Порядок массивов detachments/stratagems/enhancements обязан совпадать
+// с EN-файлом.
 // RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
 export const stratNamesRu = {
   'Lightning-Fast Reactions': 'Молниеносные реакции',
@@ -116,6 +118,62 @@ export const detRuleNamesRu = {
   'Boons of the Brood': 'Дары выводка',
   "Yriel's Own": 'Люди Ириэля',
   'Relentless Raiders': 'Неумолимые налётчики',
+}
+
+// RU display names for enhancements — shown as a small muted second line under the
+// English name in FactionRuleView (RU locale only), same treatment as stratNamesRu.
+export const enhNamesRu = {
+  'Phoenix Gem': 'Феникс-Самоцвет',
+  'Timeless Strategist': 'Извечный стратег',
+  'Gift of Foresight': 'Дар предвидения',
+  'Psychic Destroyer': 'Психический разрушитель',
+  'Firstdrawn Blade': 'Первым обнажённый клинок',
+  'Mirage Field': 'Поле миражей',
+  'Seersight Strike': 'Удар ясновидящего',
+  'Echoes of Ulthanesh': 'Отголоски Ултанеша',
+  'Light of Clarity': 'Свет ясности',
+  'Stave of Kurnous': 'Посох Курнуса',
+  'Rune of Mists': 'Руна туманов',
+  'Higher Duty': 'Высший долг',
+  "Craftworld's Champion": 'Поборник крафтмира',
+  'Ethereal Pathway': 'Эфирная тропа',
+  'Protector of the Paths': 'Хранитель троп',
+  'Breath of Vaul': 'Дыхание Ваула',
+  "Cegorach's Coil": 'Плеть Кегораха',
+  'Mask of Secrets': 'Маска тайн',
+  "Murder's Jest": 'Насмешка убийцы',
+  'Mistweave': 'Туманная завеса',
+  'Gaze of Ynnead': 'Взор Иннеада',
+  'Storm of Whispers': 'Буря шёпотов',
+  'Borrowed Vigour': 'Заёмная мощь',
+  'Morbid Might': 'Могильная мощь',
+  'Lucid Eye': 'Ясновидящее око',
+  'Runes of Warding': 'Обережные руны',
+  'Stone of Eldritch Fury': 'Камень потусторонней ярости',
+  'Torc of Morai-Heg': 'Торквес Морай-Хег',
+  'Aspect of Murder': 'Лик убийцы',
+  'Mantle of Wisdom': 'Мантия мудрости',
+  'Shimmerstone': 'Мерцающий самоцвет',
+  'Strategic Savant': 'Стратегический мудрец',
+  'Spirit Stone of Raelyth': 'Камень духа Раэлита',
+  'Guiding Presence': 'Направляющее присутствие',
+  'A Foot in the Future': 'Шаг в будущее',
+  'Camouflaged Snipers': 'Замаскированные снайперы',
+  "Assassins' Eye": 'Око убийцы',
+  'Shadowfall Masks': 'Маски сумрачного падения',
+  'Prelude Performer': 'Исполнитель прелюдии',
+  'Key of Ghosts': 'Ключ призраков',
+  "Weavers' Wail": 'Вопль Ткачих',
+  'Fanged Leer': 'Клыкастый оскал',
+  'Shedskin Raiment': 'Одеяние сброшенной кожи',
+  'Pirate Prince': 'Принц-пират',
+  'Alacritous Assault': 'Стремительный натиск',
+  'Exotic Munitions': 'Экзотические боеприпасы',
+  'Adrenal Infusions': 'Адреналиновые вливания',
+  'Infamy': 'Дурная слава',
+  'Webway Pathstone': 'Путевой камень Паутины',
+  'Archraider': 'Архирейдер',
+  'Voidstone': 'Пустотный камень',
 }
 
 export default {
