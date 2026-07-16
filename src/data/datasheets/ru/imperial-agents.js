@@ -515,7 +515,7 @@ export default {
 // RU-подписи под английскими названиями способностей (сабтайтл в карточке).
 export const abilityNamesRu = {
   'Death to the Alien': 'Смерть чужаку',
-  'Kill Team': 'Команда убийц',
+  'Kill Team': 'Истребительная команда',
   'Astartes Shield': 'Щит астартес',
   'ATTACHED UNIT': 'Присоединяемый юнит',
   'Acrobatic Escape': 'Акробатический уход',
