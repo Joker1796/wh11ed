@@ -17,7 +17,10 @@
           :aria-label="labels.dsChapterFilter"
           @click="showChapterPicker = true"
         >
-          <span class="fpb-trigger-name">{{ chapter || labels.dsChapterAll }}</span>
+          <span class="fpb-trigger-main">
+            <span class="fpb-trigger-label">{{ labels.dsChapterFilter }}</span>
+            <span class="fpb-trigger-name">{{ chapter || labels.dsChapterAll }}</span>
+          </span>
           <i class="bi bi-chevron-right fpb-trigger-chev"></i>
         </button>
       </div>
@@ -30,7 +33,10 @@
           :aria-label="labels.factionDetachments"
           @click="showDetPicker = true"
         >
-          <span class="fpb-trigger-name">{{ activeDet?.name }}</span>
+          <span class="fpb-trigger-main">
+            <span class="fpb-trigger-label">{{ labels.factionDetachments }}</span>
+            <span class="fpb-trigger-name">{{ activeDet?.name }}</span>
+          </span>
           <i class="bi bi-chevron-right fpb-trigger-chev"></i>
         </button>
       </div>
@@ -191,6 +197,25 @@ function pickChapter(id) {
   border-color: var(--accent);
 }
 
+.fpb-trigger-main {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+/* Inline label inside the button — hidden on desktop (the eyebrow above carries the
+   label there); revealed on narrow screens where the eyebrow is dropped to save height. */
+.fpb-trigger-label {
+  display: none;
+  flex-shrink: 0;
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-dim);
+}
+
 .fpb-trigger-name {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -202,10 +227,28 @@ function pickChapter(id) {
   color: var(--text-dim);
 }
 
+/* Narrow phones: the pinned bar was ~24% of a 360px viewport (chapter + detachment
+   each = an eyebrow line + a 44px button). Collapse each group to a single compact
+   button: drop the eyebrow, fold the label inside the button as a quiet prefix, and
+   tighten heights/paddings so the whole bar stays low when stuck to the top. */
 @media (max-width: 640px) {
   .fpb-inner {
     flex-direction: column;
-    gap: 0.35rem;
+    gap: 0.3rem;
+    padding-top: 0.45rem;
+    padding-bottom: 0.5rem;
+  }
+  .fpb-eyebrow {
+    display: none;
+  }
+  .fpb-trigger-label {
+    display: inline;
+  }
+  .fpb-trigger {
+    margin-top: 0;
+    min-height: 40px;
+    padding: 0.4rem 0.7rem;
+    font-size: 0.85rem;
   }
 }
 </style>
