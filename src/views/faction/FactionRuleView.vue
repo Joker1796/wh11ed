@@ -172,6 +172,20 @@ const det = computed(() => detachments.value.find((d) => d.id === activeId.value
   margin-bottom: 0.1rem;
 }
 
+/* Detachment picker section: sticks right under the navbar (the only other sticky
+   element on this page — App.vue's subnav is hidden for /factions/:slug rule pages,
+   see isFactionUnitPage) so you can jump between detachments while reading further
+   down. Background + border-bottom mirror App.vue's .subnav treatment, the app's
+   established look for a sticky sub-bar. */
+#detachments {
+  position: sticky;
+  top: calc(var(--navbar-height) + var(--safe-top));
+  z-index: 150;
+  padding: 0.7rem 0 0.9rem;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+}
+
 /* Detachment picker */
 .det-picker {
   display: flex;
