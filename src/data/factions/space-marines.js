@@ -33,6 +33,12 @@ const en = {
   slug: 'space-marines',
   name: 'Space Marines',
 
+  // Chapters of this codex (the second Faction keyword on datasheets — see the
+  // "Space Marine Chapters" army-rule block). Language-agnostic: keywords stay
+  // English in both locales. Drives the chapter picker on the faction pages;
+  // chapter-locked faction-pack detachments carry a matching `chapter` field.
+  chapters: ['Imperial Fists', 'Iron Hands', 'Raven Guard', 'Salamanders', 'Ultramarines', 'White Scars'],
+
   armyRule: {
     id: 'oath-of-moment',
     name: 'Oath of Moment',
@@ -41,7 +47,11 @@ const en = {
     // Faction-Pack Rules Update adds the "add 1 to the Wound roll" clause for Codex SM detachments.
     body: `If your Army Faction is Adeptus Astartes, at the start of your Command phase, select one unit from your opponent's army. Until the start of your next Command phase, that enemy unit is your Oath of Moment target. Each time a model with this ability makes an attack that targets your Oath of Moment target:
 ▪ You can re-roll the Hit roll.
-▪ If you are using a Codex: Space Marines Detachment and your army does not include one or more units with the Blood Angels, Dark Angels, Deathwatch or Space Wolves keywords, add 1 to the Wound roll as well.`,
+▪ If you are using a Codex: Space Marines Detachment and your army does not include one or more units with the Blood Angels, Dark Angels, Deathwatch or Space Wolves keywords, add 1 to the Wound roll as well.
+
+**Space Marine Chapters:**
+▪ If an Adeptus Astartes unit has a second Faction keyword on its datasheet, that Faction keyword is the name of that unit's Chapter. For example, Marneus Calgar has both the Adeptus Astartes and Ultramarines Faction keywords, and is therefore from the Ultramarines Chapter.
+▪ You cannot include units from more than one Chapter in your army.`,
   },
 
   detachments: [
@@ -1250,6 +1260,7 @@ Adeptus Astartes units from your army gain the Entrenched keyword while all of t
       id: 'blade-of-ultramar',
       name: 'Blade of Ultramar',
       source: 'faction-pack',
+      chapter: 'Ultramarines',
       dp: 3,
       forceDisposition: 'Priority Assets',
       rule: {
@@ -1359,6 +1370,7 @@ Restrictions: Your army can include Ultramarines units, but it cannot include an
       id: 'hammer-of-avernii',
       name: 'Hammer of Avernii',
       source: 'faction-pack',
+      chapter: 'Iron Hands',
       dp: 2,
       forceDisposition: 'Priority Assets',
       rule: {
@@ -1463,6 +1475,7 @@ Restrictions: Your army can include Iron Hands units, but it cannot include any 
       id: 'spearpoint-task-force',
       name: 'Spearpoint Task Force',
       source: 'faction-pack',
+      chapter: 'White Scars',
       dp: 2,
       forceDisposition: 'Disruption',
       rule: {
@@ -1566,6 +1579,7 @@ Restrictions: Your army can include White Scars units, but it cannot include any
       id: 'forgefathers-seekers',
       name: "Forgefather's Seekers",
       source: 'faction-pack',
+      chapter: 'Salamanders',
       dp: 2,
       forceDisposition: 'Purge the Foe',
       rule: {
@@ -1671,6 +1685,7 @@ Restrictions: Your army can include Salamanders units, but it cannot include any
       id: 'emperors-shield',
       name: "Emperor's Shield",
       source: 'faction-pack',
+      chapter: 'Imperial Fists',
       dp: 2,
       forceDisposition: 'Priority Assets',
       rule: {
@@ -1773,6 +1788,7 @@ Restrictions: Your army can include Imperial Fists units, but it cannot include 
       id: 'shadowmark-talon',
       name: 'Shadowmark Talon',
       source: 'faction-pack',
+      chapter: 'Raven Guard',
       dp: 2,
       forceDisposition: 'Disruption',
       rule: {
@@ -2101,6 +2117,7 @@ Each time an Adeptus Astartes model from your army makes an attack, if it was se
       id: 'reclamation-force',
       name: 'Reclamation Force',
       source: 'faction-pack',
+      chapter: 'Ultramarines',
       dp: 2,
       forceDisposition: 'Take and Hold',
       rule: {
