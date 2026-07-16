@@ -1,9 +1,10 @@
 // Imperial Knights — русский перевод правил фракции. Разреженный оверлей поверх EN-структуры
 // (см. ./index.js): переведены только тексты (flavor/body/example, when/target/effect/
-// restrictions, тексты улучшений). Названия детачментов, стратагем, улучшений и правил,
-// ALL-CAPS ключевые слова, [BRACKET]-способности и имена юнитов остаются английскими.
-// Механики Code Chivalric / Oath / Deed / Quality / Bondsman / Honoured оставлены английскими.
-// Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN-файлом.
+// restrictions, тексты улучшений). Названия детачментов и правил, ALL-CAPS ключевые слова,
+// [BRACKET]-способности и имена юнитов остаются английскими. Механики Code Chivalric /
+// Oath / Deed / Quality / Bondsman / Honoured оставлены английскими. Стратагемы и
+// улучшения получают RU-имя отдельной строкой под английским названием — см. stratNamesRu/
+// enhNamesRu ниже. Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN.
 // RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
 export const stratNamesRu = {
   'Strength from Exile': 'Сила из изгнания',
@@ -68,6 +69,37 @@ export const detRuleNamesRu = {
   'Rain of Devastation': 'Ливень опустошения',
   'Cogbound Alliance': 'Союз, скреплённый шестернёй',
   'Driven from Their Lairs': 'Изгнаны из своих логовищ',
+}
+
+// RU display names for enhancements — shown as a small muted second line under the
+// English name in FactionRuleView (RU locale only), same treatment as stratNamesRu.
+export const enhNamesRu = {
+  'Bringer of Justice': 'Носитель правосудия',
+  'Hunter’s Eye': 'Око охотника',
+  'Mysterious Guardian': 'Таинственный страж',
+  'Sanctuary': 'Святилище',
+  'Acquisitor-at-Arms': 'Оружейный стяжатель',
+  'Purgation’s Hand': 'Длань очищения',
+  'Augury Halo': 'Ауспик-нимб',
+  'Vengeful Tread': 'Мстительная поступь',
+  'Herald of Triumph': 'Вестник триумфа',
+  'Wyrmslayer Divination': 'Гадание Змееборца',
+  'Pennant of Silvered Fury': 'Вымпел серебрёной ярости',
+  'Crushing Condemnation': 'Сокрушительное осуждение',
+  'Mentor’s Pride': 'Гордость наставника',
+  'Fables of Nightmare': 'Сказания кошмара',
+  'Tales of Heroism': 'Сказания героизма',
+  'Martial Tuition': 'Военное обучение',
+  'Bearer of the Iron Chalice': 'Носитель Железной Чаши',
+  'Bearer of the Evanescent Ion': 'Носитель Испаряющегося Иона',
+  'Bearer of the Judicant’s Helm': 'Носитель Шлема Юдиканта',
+  'Bearer of the Lancer’s Sigil': 'Носитель Сигиллы Улана',
+  'Blessed Plate': 'Благословенная броня',
+  'Archeotech Autoloaders': 'Археотехнические автозарядники',
+  'Magos Questoris': 'Магос Кесторис',
+  'Knight of the Opus Machina': 'Рыцарь Опус Махины',
+  'Gyro-optimised Actuators': 'Гиро-оптимизированные актуаторы',
+  'Ancestral Overbleed': 'Предковый переток',
 }
 
 export default {
