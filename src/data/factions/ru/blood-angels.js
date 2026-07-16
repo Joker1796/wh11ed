@@ -2,7 +2,9 @@
 // deepOverlay мержит по ключам и индексам массивов — порядок обязан совпадать с EN.
 // Переводим только прозу; английскими остаются keyword'ы (ADEPTUS ASTARTES, BLOOD ANGELS,
 // DEATH COMPANY, JUMP PACK и т.п.), [BRACKET]-способности, теги GRACE/DOOMED, имена
-// детачментов/стратагем/улучшений и структурные метки боевых размеров (Incursion и т.д.).
+// детачментов и структурные метки боевых размеров (Incursion и т.д.). Стратагемы и
+// улучшения получают RU-имя отдельной строкой под английским названием — см.
+// stratNamesRu/enhNamesRu ниже.
 
 // RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
 export const stratNamesRu = {
@@ -64,6 +66,37 @@ export const detRuleNamesRu = {
   'A Noble Death in Combat': 'Благородная смерть в бою',
   'Wrath of Angels': 'Гнев ангелов',
   'Fanatical Celerity': 'Фанатичная стремительность',
+}
+
+// RU display names for enhancements — shown as a small muted second line under the
+// English name in FactionRuleView (RU locale only), same treatment as stratNamesRu.
+export const enhNamesRu = {
+  'Prescient Flash': 'Вспышка предвидения',
+  'Troubling Visions': 'Тревожные видения',
+  'Blazing Icon': 'Пылающая икона',
+  'Ordained Sacrifice': 'Предначертанная жертва',
+  'Speed of the Primarch': 'Скорость Примарха',
+  'Rage-fuelled Warrior': 'Воин, питаемый яростью',
+  'Icon of the Angel': 'Икона Ангела',
+  'Gift of Foresight': 'Дар предвидения',
+  'Carmine Reliquary': 'Багряный реликварий',
+  'Master of the Red Thirst': 'Повелитель Красной жажды',
+  'Sanguinary Tear': 'Кровавая слеза',
+  'Angel’s Fang': 'Клык Ангела',
+  'Artisan of War': 'Мастер войны',
+  'Visage of Death': 'Лик смерти',
+  'Archangel’s Shard': 'Осколок Архангела',
+  'Gleaming Pinions': 'Сверкающие крылья',
+  'Sanguinius’ Grace': 'Милость Сангвиния',
+  'Blood Shard': 'Осколок крови',
+  'To Slay the Warmaster': 'Сразить Магистра войны',
+  'Vengeful Onslaught': 'Мстительный натиск',
+  'Blood Boil': 'Кипение крови',
+  'Aureole of the Angel': 'Ореол Ангела',
+  'Angelic Executioner': 'Ангельский палач',
+  'Shadow of Abomination': 'Тень мерзости',
+  'Instinctive Interception': 'Инстинктивный перехват',
+  "On the Archtraitor's Bridge": 'На мостике Архипредателя',
 }
 
 export default {
