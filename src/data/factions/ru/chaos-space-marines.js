@@ -3,7 +3,8 @@
 // Английскими остаются: keyword'ы (HERETIC ASTARTES, DAMNED, DAEMON, SOUL FORGE, KHORNE,
 // TZEENTCH, NURGLE, SLAANESH, CHAOS UNDIVIDED и т.п.), [BRACKET]-способности, названные
 // механики (Dark Pact, Desperate Pact, Vendetta, Soul Forge), теги NIGHTMARE/GRACE, имена
-// детачментов/стратагем/улучшений, структурные таблицы боевых размеров.
+// детачментов и структурные таблицы боевых размеров. Стратагемы и улучшения получают
+// RU-имя отдельной строкой под английским названием — см. stratNamesRu/enhNamesRu ниже.
 
 // RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
 export const stratNamesRu = {
@@ -140,6 +141,72 @@ export const detRuleNamesRu = {
   'Empyric Wellspring': 'Эмпирейный источник',
   'Rain of Ruin': 'Ливень разрухи',
   'Prey on the Weak': 'Охота на слабых',
+}
+
+// RU display names for enhancements — shown as a small muted second line under the
+// English name in FactionRuleView (RU locale only), same treatment as stratNamesRu.
+export const enhNamesRu = {
+  'Amulet of Tainted Vigour': 'Амулет осквернённой силы',
+  'Cultist’s Brand': 'Клеймо культиста',
+  'Incendiary Goad': 'Зажигательное стрекало',
+  'Warped Foresight': 'Искажённое предвидение',
+  'Surgical Precision': 'Хирургическая точность',
+  'Living Carapace': 'Живой панцирь',
+  'Helm of All-seeing': 'Шлем всевидения',
+  'Prime Test Subject': 'Главный подопытный',
+  'Wyredjinn': 'Вайреджинн',
+  'Cybinfernal Font': 'Кибер-инфернальный источник',
+  'Mark of the Soul Forges': 'Клеймо Душекузниц',
+  'Crown of Worms': 'Корона червей',
+  'Cursed Fang': 'Проклятый клык',
+  'Falsehood': 'Обман',
+  'Shroud of Obfuscation': 'Покров сокрытия',
+  'Soul Link': 'Связь душ',
+  'Eater of Dread': 'Пожиратель ужаса',
+  'Night’s Shroud': 'Покров ночи',
+  'Warp-fuelled Thrusters': 'Двигатели, питаемые варпом',
+  'Willbreaker': 'Сокрушитель воли',
+  'Bastion Plate': 'Бастионная броня',
+  'Iron Artifice': 'Железное мастерство',
+  'Ironbound Enmity': 'Окованная железом вражда',
+  'Warp Tracer': 'Варп-маяк',
+  'Voice of the Tyrant': 'Голос тирана',
+  'Raid Leader': 'Предводитель набега',
+  'Dread Reputation': 'Устрашающая репутация',
+  'Eager for Bloodshed': 'Жаждущий кровопролития',
+  'Greyveil Hex': 'Порча Серого Покрова',
+  'Terrorglut Parasite': 'Паразит гложущего ужаса',
+  'Sorrowscent Vulture': 'Стервятник скорбного духа',
+  'Eye of Tzeentch': 'Око Тзинча',
+  'Intoxicating Elixir': 'Дурманящий эликсир',
+  'Orbs of Unlife': 'Сферы противожизни',
+  'Talisman of Burning Blood': 'Талисман горящей крови',
+  'Despot’s Claim': 'Притязание деспота',
+  'Dread Reaver': 'Ужасающий рейдер',
+  'Mark of the Hound': 'Клеймо гончей',
+  'Tyrant’s Lash': 'Плеть тирана',
+  'Weaponised Hatred': 'Ненависть как оружие',
+  'Eyes of the Hunter': 'Глаза охотника',
+  'Fratricidal Trophies': 'Братоубийственные трофеи',
+  'Empyric Symbiote': 'Эмпирейный симбионт',
+  'Forge’s Blessing': 'Благословение кузницы',
+  'Invigorated Mechatendrils': 'Оживлённые механо-щупальца',
+  'Tempting Addendum': 'Соблазнительное дополнение',
+  'Soul Harvester': 'Жнец душ',
+  'Eager for Vengeance': 'Жаждущий мести',
+  'Eye of Abaddon': 'Око Аббадона',
+  'Mark of Legend': 'Клеймо легенды',
+  'Warmaster’s Gift': 'Дар Магистра войны',
+  'Infernal Fulgurite': 'Инфернальный фульгурит',
+  'Eye of the Warp': 'Око варпа',
+  'Akshur’s Binding Runes': 'Вяжущие руны Акшура',
+  'Tzagulla': 'Цзагулла',
+  'Touched by the Warp': 'Тронутый варпом',
+  'Conduit of Chaos': 'Проводник Хаоса',
+  'Pact of Destruction': 'Пакт разрушения',
+  'Eye of Oblivion': 'Око забвения',
+  'Shadowcowl Talisman': 'Талисман теневой мантии',
+  'Pact of Cursed Pinions': 'Пакт проклятых крыльев',
 }
 
 export default {
