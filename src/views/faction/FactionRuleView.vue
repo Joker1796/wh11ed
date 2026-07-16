@@ -63,7 +63,10 @@
       <div class="enh-grid">
         <article v-for="e in det.enhancements" :key="e.name" class="enh-card">
           <div class="enh-head">
-            <span class="enh-name">{{ e.name }}</span>
+            <div class="enh-heading">
+              <span class="enh-name">{{ e.name }}</span>
+              <span v-if="e.nameRu" class="enh-name-ru">{{ e.nameRu }}</span>
+            </div>
             <span v-if="e.aura" class="enh-tag">{{ labels.factionAura }}</span>
             <span v-if="e.upgrade" class="enh-tag">Upgrade</span>
             <span v-if="e.points != null" class="enh-pts">{{ e.points }} pts</span>
@@ -273,6 +276,12 @@ const det = computed(() => detachments.value.find((d) => d.id === activeId.value
   margin-bottom: 0.5rem;
 }
 
+.enh-heading {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
 .enh-name {
   font-family: var(--font-display);
   font-size: 1.25rem;
@@ -280,6 +289,15 @@ const det = computed(() => detachments.value.find((d) => d.id === activeId.value
   text-transform: uppercase;
   letter-spacing: 0.3px;
   color: var(--text-primary);
+}
+
+/* RU translation of the enhancement name — small muted line under the English name */
+.enh-name-ru {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  opacity: 0.8;
+  line-height: 1.15;
 }
 
 .enh-tag {

@@ -47,6 +47,12 @@ export function useFactionPage() {
           if (ru) s.nameRu = ru
         }
       }
+      if (mod.enhNamesRu) {
+        for (const e of d.enhancements || []) {
+          const ru = mod.enhNamesRu[e.name]
+          if (ru) e.nameRu = ru
+        }
+      }
     }
     return merged
   })
