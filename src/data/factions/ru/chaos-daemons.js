@@ -1,9 +1,11 @@
 // Chaos Daemons — русский перевод правил фракции. Разреженный оверлей поверх EN-структуры
 // (см. ./index.js): переведены только тексты (flavor/body/example, when/target/effect/
-// restrictions, тексты улучшений). Названия детачментов, стратагем, улучшений и правил,
-// ALL-CAPS ключевые слова, [BRACKET]-способности и имена юнитов остаются английскими.
-// Механики Shadow of Chaos / Flux tokens / боги (Khorne/Tzeentch/Nurgle/Slaanesh) — англ.
-// Порядок массивов detachments/stratagems/enhancements обязан совпадать с EN-файлом.
+// restrictions, тексты улучшений). Названия детачментов и правил, ALL-CAPS ключевые слова,
+// [BRACKET]-способности и имена юнитов остаются английскими. Механики Shadow of Chaos /
+// Flux tokens / боги (Khorne/Tzeentch/Nurgle/Slaanesh) — англ. Стратагемы и улучшения
+// получают RU-имя отдельной строкой под английским названием — см. stratNamesRu/
+// enhNamesRu ниже. Порядок массивов detachments/stratagems/enhancements обязан совпадать
+// с EN-файлом.
 // RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
 export const stratNamesRu = {
   'Sheathed in Brass': 'Окованы латунью',
@@ -78,6 +80,40 @@ export const detRuleNamesRu = {
   'Unholy Avalanche': 'Нечестивая лавина',
   'Loci of Power': 'Средоточия силы',
   'Shudderblink': 'Мерцающая дрожь',
+}
+
+// RU display names for enhancements — shown as a small muted second line under the
+// English name in FactionRuleView (RU locale only), same treatment as stratNamesRu.
+export const enhNamesRu = {
+  'Slaughterthirst': 'Жажда бойни',
+  'Fury’s Cage': 'Клетка ярости',
+  'Brazenmaw': 'Латунная пасть',
+  'Gateway Unto Damnation': 'Врата погибели',
+  'A’rgath, the King of Blades': 'А’ргат, Король Клинков',
+  'Soulstealer': 'Похититель душ',
+  'The Endless Gift': 'Бесконечный дар',
+  'The Everstave': 'Вечный посох',
+  'False Majesty': 'Ложное величие',
+  'Dreaming Crown': 'Грезящая корона',
+  'Avatar of Perfection': 'Аватар совершенства',
+  'Soul Glutton': 'Пожиратель душ',
+  'Cankerblight': 'Гнилостная порча',
+  'Maggot Maws': 'Личинковые пасти',
+  'Droning Shroud': 'Гудящий саван',
+  'Font of Spores': 'Источник спор',
+  'Inescapable Eye': 'Неизбежное око',
+  'Infernal Puppeteer': 'Инфернальный кукловод',
+  'Neverblade': 'Клинок небытия',
+  'Improbable Shield': 'Невероятный щит',
+  'Leaping Shadows': 'Прыгающие тени',
+  'Mantle of Gloom': 'Мантия мрака',
+  'Fade to Darkness': 'Растворение во тьме',
+  'Malice Made Manifest': 'Воплощённая злоба',
+  'Apocalyptic Steeds': 'Апокалиптические скакуны',
+  'Soul-shattering Charge': 'Душесокрушающий натиск',
+  'Swollen with Power': 'Раздувшийся от мощи',
+  'Bane-forged Weapons': 'Кованное проклятием оружие',
+  'Soul-hungry Slaughterers': 'Душеголодные убийцы',
 }
 
 export default {
