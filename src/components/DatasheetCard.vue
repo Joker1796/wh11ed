@@ -570,6 +570,16 @@ function statCells(p) {
   .ds-cardhead { margin: -0.9rem -0.4rem 0.8rem; padding: 0.75rem 0.4rem 0.7rem; }
   .ds-points { margin: 0.8rem -0.4rem -0.6rem; padding: 0.55rem 0.4rem 0.75rem; }
 
+  /* Bleed the weapon table to the card's edges too, like .ds-cardhead/.ds-points —
+     square corners since it's no longer inset, not floating mid-card. */
+  .ds-weapons {
+    margin-left: -0.4rem;
+    margin-right: -0.4rem;
+  }
+  .ds-weapons th:first-child,
+  .ds-weapons th:last-child {
+    border-radius: 0;
+  }
   .ds-weapons table,
   .ds-points table {
     font-size: 0.68rem;
@@ -631,6 +641,18 @@ function statCells(p) {
   background: color-mix(in srgb, #c0392b 8%, transparent);
   border-radius: 0 4px 4px 0;
   font-size: 0.82rem;
+}
+
+/* Very narrow phones: bleed ability groups to the card's edges too (placed after the
+   base .ds-ability-group rule above so it wins the cascade — see the .ds-weapons media
+   block earlier for why source order matters here). Square corners since it's flush
+   against the card border now, not floating mid-card. */
+@media (max-width: 480px) {
+  .ds-ability-group {
+    margin-left: -0.4rem;
+    margin-right: -0.4rem;
+    border-radius: 0;
+  }
 }
 
 .ds-block { font-size: 0.85rem; line-height: 1.5; color: var(--text-primary); margin-top: 0.5rem; }
