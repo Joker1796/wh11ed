@@ -65,6 +65,16 @@ describe('search', () => {
     expect(hit.route).toBe('/basic-rules')
   })
 
+  it('also works the other way: a Russian query in the EN locale finds the EN-displayed result', () => {
+    // "Units and Models" never contains the literal word "юниты" — the match only
+    // exists on the RU side and must map back to the EN item by shared id.
+    const res = search('юниты', 'en')
+    const hit = res.find((r) => r.sectionNum === '01.02')
+    expect(hit).toBeTruthy()
+    expect(hit.title).toBe('Units and Models')
+    expect(hit.route).toBe('/basic-rules')
+  })
+
   it('does not duplicate a result that matches both natively and cross-lingually', () => {
     const res = search('юниты', 'ru')
     const hits = res.filter((r) => r.sectionNum === '01.02')

@@ -425,9 +425,11 @@ function searchDatasheets(q, locale) {
   return results
 }
 
-// Built lazily on first search (per locale) so importing this module — and the
-// large data files it pulls in — never triggers a synchronous index build at
-// load time. Most users only ever search one locale, so we never build the other.
+// Built lazily on first search (per locale) so importing this module — and the large
+// data files it pulls in — never triggers a synchronous index build at load time. The
+// cross-lingual fallback below means a first search of 2+ chars typically ends up
+// building BOTH locales' indexes (whichever locale you're in, plus the other one to
+// check for an other-language match) — still cheap, still cached after the first time.
 const indexCache = { en: null, ru: null }
 function getIndex(locale) {
   const key = locale === 'ru' ? 'ru' : 'en'
@@ -437,8 +439,8 @@ function getIndex(locale) {
 // id → item lookup per locale, built lazily off getIndex() and cached the same way.
 // `id` is always taken from the EN source object regardless of locale (see buildIndex),
 // so the EN and RU indexes share the exact same id set at the same conceptual position —
-// this is what lets the cross-lingual fallback below map an EN-text match back to its
-// RU-displayed counterpart.
+// this is what lets the cross-lingual fallback below map a match in one locale's text
+// back to the OTHER locale's displayed item.
 const indexByIdCache = { en: null, ru: null }
 function getIndexById(locale) {
   const key = locale === 'ru' ? 'ru' : 'en'
@@ -517,24 +519,27 @@ export function search(query, locale = 'en') {
       if (item.id) matchedIds.add(item.id)
     }
   }
-  // Cross-lingual fallback: RU users often type an English term with no RU-text match
-  // (e.g. "Units" doesn't appear anywhere in «Юниты и модели»). Match against the EN
-  // index too and surface the RU-displayed item (same id — buildIndex always takes `id`
-  // from the EN source object regardless of locale) so results still read in Russian.
-  // No snippet: the EN match position doesn't correspond to any offset in the
-  // (differently worded) RU body, so there's nothing sane to slice from — same as the
-  // existing title-only-match case above, which already ships with an empty snippet.
-  if (locale === 'ru') {
-    const ruById = getIndexById('ru')
-    for (const enItem of getIndex('en')) {
-      if (!enItem.id || matchedIds.has(enItem.id)) continue
-      const titleMatch = foldYo(enItem.title.toLowerCase()).includes(q)
-      const bodyMatch = foldYo(enItem.body.toLowerCase()).includes(q)
+  // Cross-lingual fallback (works both ways): users often type a term in the OTHER
+  // language from the one they're browsing in — an English word while in RU (e.g.
+  // "Units" doesn't appear anywhere in «Юниты и модели»), or a Russian word while in EN.
+  // Match against the other locale's index too and surface THIS locale's displayed item
+  // for the same id (buildIndex always takes `id` from the EN source object regardless
+  // of locale, so both indexes share the same id set at the same conceptual position).
+  // No snippet: the other-locale match position doesn't correspond to any offset in this
+  // locale's (differently worded) body — same as the existing title-only-match case
+  // above, which already ships with an empty snippet.
+  {
+    const otherLocale = locale === 'ru' ? 'en' : 'ru'
+    const displayById = getIndexById(locale)
+    for (const otherItem of getIndex(otherLocale)) {
+      if (!otherItem.id || matchedIds.has(otherItem.id)) continue
+      const titleMatch = foldYo(otherItem.title.toLowerCase()).includes(q)
+      const bodyMatch = foldYo(otherItem.body.toLowerCase()).includes(q)
       if (!titleMatch && !bodyMatch) continue
-      const ruItem = ruById.get(enItem.id)
-      if (!ruItem) continue
-      results.push({ ...ruItem, snippet: '', score: titleMatch ? 1 : 0.5 })
-      matchedIds.add(enItem.id)
+      const displayItem = displayById.get(otherItem.id)
+      if (!displayItem) continue
+      results.push({ ...displayItem, snippet: '', score: titleMatch ? 1 : 0.5 })
+      matchedIds.add(otherItem.id)
     }
   }
   // Datasheet unit names go after the rules items: with equal scores the stable sort
