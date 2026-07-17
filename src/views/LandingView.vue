@@ -57,7 +57,9 @@ const { locale } = useLocale()
 const t = computed(() => landing[locale.value])
 
 const contactEmail = 'gorlovevgeni9617@gmail.com'
-const repoUrl = 'https://github.com/Joker1796/wh11ed'
+// The umbrella repo, not this one: it explains how the frontend, the API and the
+// translation glossary fit together and links on to each. Front door for contributors.
+const repoUrl = 'https://github.com/Joker1796/wh-rules.ru'
 const version = __APP_VERSION__
 </script>
 
