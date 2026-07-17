@@ -1288,6 +1288,19 @@ export const glossary = {
     ru: 'Один из четырёх Обетов, выбираемый в начале первого раунда боя. Выбранный Обет активен для всех юнитов Adeptus Astartes армии и даёт им способность этого Обета. В армии Чёрных Храмовников Templar Vows полностью заменяет армейское правило Oath of Moment.',
   },
 
+  // — Faction rules: Space Marines (Oath of Moment) —
+  'sm-oath-of-moment': {
+    term: 'Oath of Moment target',
+    en: 'One enemy unit picked at the start of your Command phase; it stays your target until the start of your next one. Attacks against it can re-roll the Hit roll, and with a Codex: Space Marines Detachment they add 1 to the Wound roll as well. A Black Templars army replaces this rule with Templar Vows.',
+    ru: 'Один вражеский юнит, выбираемый в начале вашей фазы командования; он остаётся вашей целью до начала следующей. Атаки по нему могут перебросить бросок на попадание, а с детачментом из Codex: Space Marines — вдобавок добавить 1 к броску на ранение. В армии Чёрных Храмовников это правило заменено на Templar Vows.',
+  },
+
+  'sm-combat-doctrine': {
+    term: 'Combat Doctrine',
+    en: 'The Gladius Task Force detachment rule. At the start of your Command phase you may switch on one of three Doctrines — **Devastator** (shoot after Advancing), **Tactical** (shoot and charge after Falling Back) or **Assault** (charge after Advancing) — for the whole army until your next Command phase. Each may be chosen only once per battle.',
+    ru: 'Правило детачмента Gladius Task Force. В начале вашей фазы командования можно включить одну из трёх доктрин — **Devastator** (стрелять после продвижения), **Tactical** (стрелять и нападать после отступления) или **Assault** (нападать после продвижения) — на всю армию до вашей следующей фазы командования. Каждую можно выбрать лишь раз за битву.',
+  },
+
   // Translation-only glosses: popover shows just the English original, no definition body.
   'controlling-player': {
     term: 'Controlling Player',
