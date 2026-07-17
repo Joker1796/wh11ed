@@ -49,9 +49,6 @@ without it the rest of the app is unaffected.
 **The one real coupling** is the saved-game envelope: `wh11ed-api`'s `domain/game.ts` validates it,
 so changing the tracker's game format or the auth flow means checking the backend too.
 
-> Если рядом склонирована родительская папка, в [`../CLAUDE.md`](../CLAUDE.md) лежит маршрутизация
-> фронт/бэк и стиль работы. При отдельном клоне этого репозитория её нет — всё необходимое есть здесь.
-
 ## Commands
 
 ```bash
