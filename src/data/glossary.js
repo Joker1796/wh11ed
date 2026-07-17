@@ -1281,6 +1281,13 @@ export const glossary = {
     ru: 'Юнит со способностью For the Greater Good (исключая юниты-**наблюдатели**), пока он целится в один или более **замеченных** юнитов. Его атаки по замеченному юниту улучшают баллистический навык на 1.',
   },
 
+  // — Faction rules: Black Templars (Templar Vows) —
+  'bt-templar-vow': {
+    term: 'Templar Vow',
+    en: 'One of four Vows, chosen at the start of the first battle round. The chosen Vow is active for every Adeptus Astartes unit in the army and grants it that Vow’s ability. In a Black Templars army, Templar Vows replaces the Oath of Moment army rule entirely.',
+    ru: 'Один из четырёх Обетов, выбираемый в начале первого раунда боя. Выбранный Обет активен для всех юнитов Adeptus Astartes армии и даёт им способность этого Обета. В армии Чёрных Храмовников Templar Vows полностью заменяет армейское правило Oath of Moment.',
+  },
+
   // Translation-only glosses: popover shows just the English original, no definition body.
   'controlling-player': {
     term: 'Controlling Player',
