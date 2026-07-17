@@ -190,7 +190,7 @@ export default {
 Каждый раз, когда модель Kroot вашей армии совершает атаку, добавляйте 1 к [gloss:hit-roll:броску на попадание], если цель этой атаки [gloss:below-starting-strength:ниже своей начальной численности], и вдобавок добавляйте 1 к [gloss:wound-roll:броску на ранение], если цель [gloss:half-strength:ниже половинной численности].
 
 ### Skirmish Fighters | Бойцы-застрельщики
-Модели Kroot вашей армии имеют [gloss:invulnerable-save:инвулевый спас-бросок (InSv)] 6+ против [gloss:melee-attacks:атак ближнего боя] и InSv 5+ против [gloss:ranged-attacks:атак дальнего боя].
+Модели Kroot вашей армии имеют [gloss:invulnerable-save:неуязвимый спас-бросок] 6+ против [gloss:melee-attacks:атак ближнего боя] и InSv 5+ против [gloss:ranged-attacks:атак дальнего боя].
 
 ### KEYWORDS | Ключевые слова
 Если вы выбираете этот [gloss:detachments:детачмент], юниты Kroot Carnivore вашей армии имеют [gloss:keywords:ключевое слово] Battleline.`,
