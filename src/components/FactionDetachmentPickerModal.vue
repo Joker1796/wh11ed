@@ -1,6 +1,9 @@
 <template>
   <BaseModal :title="title || labels.factionDetachments" max-width="480px" @close="$emit('close')">
-    <div class="fdp-body">
+    <!-- `modal-body` is not cosmetic: it carries the global `overscroll-behavior: contain`
+         (style.css) that keeps a scroll at the list's end from chaining to the page behind.
+         There is deliberately no body scroll-lock, so this class is what contains it. -->
+    <div class="modal-body">
       <button
         v-for="d in detachments"
         :key="d.id"
@@ -47,7 +50,7 @@ const labels = computed(() => ui[locale.value])
 </script>
 
 <style scoped>
-.fdp-body {
+.modal-body {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
@@ -59,7 +62,7 @@ const labels = computed(() => ui[locale.value])
    so shrink the body's own gutter too — cards get closer to the full screen width
    instead of being inset by a fixed 0.75rem regardless of how little room there is. */
 @media (max-width: 560px) {
-  .fdp-body {
+  .modal-body {
     padding: 0.5rem 0.4rem;
   }
 }
