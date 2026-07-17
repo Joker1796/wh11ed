@@ -29,7 +29,7 @@ on bad reception. That shapes most of the decisions below.
 - **No linter.** Match the surrounding code. Tests are Vitest (`npm test`).
 
 **Where to start:** *Architecture* below is the map — the data→view pipeline and the navigation
-model. `README.md` is the user- and contributor-facing overview.
+model. This file is the engineering reference; `README.md` is the product overview for users.
 
 ## How this repo relates to the others
 
