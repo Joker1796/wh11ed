@@ -1268,17 +1268,17 @@ export const glossary = {
   'tau-observer': {
     term: 'Observer',
     en: 'A unit selected at the start of your Shooting phase by the For the Greater Good army rule. Each Observer unit that has not been selected to shoot and is eligible to shoot marks one visible enemy unit as **Spotted**.',
-    ru: 'Юнит, выбранный в начале вашей фазы стрельбы армейским правилом For the Greater Good. Каждый юнит-наблюдатель, который ещё не был выбран стрелять и имеет право стрелять, помечает один видимый вражеский юнит как **засечённый**.',
+    ru: 'Юнит, выбранный в начале вашей фазы стрельбы армейским правилом For the Greater Good. Каждый юнит-наблюдатель, который ещё не был выбран стрелять и имеет право стрелять, помечает один видимый вражеский юнит как **замеченный**.',
   },
   'tau-spotted': {
     term: 'Spotted',
     en: 'An enemy unit marked by an **Observer** unit until the end of the phase. Each enemy unit can only be marked as Spotted once per phase; units targeting it become **Guided**.',
-    ru: 'Вражеский юнит, помеченный юнитом-**наблюдателем** до конца фазы. Каждый вражеский юнит может быть помечен засечённым лишь раз за фазу; юниты, целящиеся в него, становятся **наведёнными**.',
+    ru: 'Вражеский юнит, помеченный юнитом-**наблюдателем** до конца фазы. Каждый вражеский юнит может стать замеченным лишь раз за фазу; юниты, целящиеся в него, становятся **наведёнными**.',
   },
   'tau-guided': {
     term: 'Guided',
     en: 'A unit with the For the Greater Good ability (excluding **Observer** units) while it targets one or more **Spotted** units. Its attacks against a Spotted unit improve their Ballistic Skill by 1.',
-    ru: 'Юнит со способностью For the Greater Good (исключая юниты-**наблюдатели**), пока он целится в один или более **засечённых** юнитов. Его атаки по засечённому юниту улучшают баллистический навык на 1.',
+    ru: 'Юнит со способностью For the Greater Good (исключая юниты-**наблюдатели**), пока он целится в один или более **замеченных** юнитов. Его атаки по замеченному юниту улучшают баллистический навык на 1.',
   },
 
   // Translation-only glosses: popover shows just the English original, no definition body.
