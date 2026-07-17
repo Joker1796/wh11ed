@@ -2,8 +2,55 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-> Родительская папка `../` содержит второй проект (бэкенд `../wh11ed-api`) и общий обзор —
-> см. [`../CLAUDE.md`](../CLAUDE.md) (маршрутизация фронт/бэк и стиль работы).
+## What this is
+
+**wh11ed** is a bilingual (EN/RU) reference for the **Warhammer 40,000 11th edition** rules plus an
+offline tracker for a game in progress — live at [wh11ed.ru](https://wh11ed.ru), moving to
+wh-rules.ru. This repo is the frontend, and the frontend is ~99% of the product: every rule, every
+page and the tracker all live here, with no backend involved.
+
+The audience is players at a table — someone looking a rule up mid-game, usually on a phone, often
+on bad reception. That shapes most of the decisions below.
+
+**Four things to know before changing anything:**
+
+- **The centre of gravity is data, not code.** The bulk of the repo, and the bulk of the risk, is
+  the bilingual rule data in `src/data/`. The characteristic bug here isn't a logic error — it's an
+  **EN↔RU desync**: block-marker counts that no longer match, unbalanced `**`, a gloss added on one
+  side only. Check that first on any text change (see *Bilingual content conventions*).
+- **Light in a tab, fully offline once installed.** A casual visitor gets a light, fast site; the
+  *installed* PWA reaches full offline through a one-time warm-up. Anything that inflates what a
+  browser tab downloads fights the central product decision (see *PWA*).
+- **Documented "don't fix this" invariants exist** — no body scroll-lock in modals, `-ru` images
+  that look unused but aren't, images deliberately kept out of `globPatterns`, dynamic imports of
+  heavy data files, `index.html` uploaded with `cp` and not `sync`. Before "fixing" something that
+  looks wrong, search this file for it: the reason is usually written down, along with what broke
+  last time.
+- **No linter.** Match the surrounding code. Tests are Vitest (`npm test`).
+
+**Where to start:** *Architecture* below is the map — the data→view pipeline and the navigation
+model. This file is the engineering reference; `README.md` is the product overview for users.
+
+## How this repo relates to the others
+
+The product is split across separate repositories, cloned side by side into one working folder.
+They are **not** submodules: each versions and deploys independently.
+
+| Repo | What it is |
+|---|---|
+| [wh-rules.ru](https://github.com/Joker1796/wh-rules.ru) | the umbrella — what the project is made of and how to assemble it. No code |
+| **wh11ed** | this repo: the whole app |
+| [wh11ed-api](https://github.com/Joker1796/wh11ed-api) | optional backend — login and cloud backup of tracker history |
+
+**This repo is self-contained:** it builds, tests and runs with none of the others present. Only
+login and cloud sync need `wh11ed-api` (`VITE_API_BASE_URL`, defaulting to a local dev server), and
+without it the rest of the app is unaffected.
+
+**The one real coupling** is the saved-game envelope: `wh11ed-api`'s `domain/game.ts` validates it,
+so changing the tracker's game format or the auth flow means checking the backend too.
+
+> Если рядом склонирована родительская папка, в [`../CLAUDE.md`](../CLAUDE.md) лежит маршрутизация
+> фронт/бэк и стиль работы. При отдельном клоне этого репозитория её нет — всё необходимое есть здесь.
 
 ## Commands
 
