@@ -1301,6 +1301,12 @@ export const glossary = {
     ru: 'Правило детачмента Gladius Task Force. В начале вашей фазы командования можно включить одну из трёх доктрин — **Devastator** (стрелять после продвижения), **Tactical** (стрелять и нападать после отступления) или **Assault** (нападать после продвижения) — на всю армию до вашей следующей фазы командования. Каждую можно выбрать лишь раз за битву.',
   },
 
+  'sm-psychic-discipline': {
+    term: 'Psychic Discipline',
+    en: 'The Librarius Conclave detachment rule. At the start of each battle round you pick one of five Disciplines — Biomancy, Divination, Pyromancy, Telekinesis or Telepathy — and every friendly Adeptus Astartes Psyker unit gains that ability until the end of the round. Several of the detachment’s Enhancements do more when a specific Discipline is active.',
+    ru: 'Правило детачмента Librarius Conclave. В начале каждого раунда боя вы выбираете одну из пяти дисциплин — Biomancy, Divination, Pyromancy, Telekinesis или Telepathy, — и каждый дружественный юнит Adeptus Astartes Psyker получает эту способность до конца раунда. Некоторые улучшения детачмента усиливаются, когда активна определённая дисциплина.',
+  },
+
   // Translation-only glosses: popover shows just the English original, no definition body.
   'controlling-player': {
     term: 'Controlling Player',

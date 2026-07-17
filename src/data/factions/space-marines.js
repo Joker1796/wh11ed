@@ -775,8 +775,8 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
         name: 'Skystrike',
         flavor:
           "With howling engines and a buffeting of anti-gravitic forces, a Chapter's massed combat skimmers plunge into the midst of battle with guns blazing.",
-        body: `▪ Friendly Land Speeder/Storm Speeder Hailstrike/Storm Speeder Hammerstrike/Storm Speeder Thunderstrike units have Speeder.
-▪ In your first Movement phase, friendly Speeder units can make an ingress move.`,
+        body: `▪ [gloss:friendly:Friendly] Land Speeder/Storm Speeder Hailstrike/Storm Speeder Hammerstrike/Storm Speeder Thunderstrike units have Speeder.
+▪ In your first Movement phase, friendly Speeder units can make an [gloss:ingress-move:ingress move].`,
       },
       stratagems: [
         {
@@ -785,9 +785,9 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
           cp: '1CP',
           turn: 'your',
           flavor: "Speeder crews are trained to exploit their craft's reconnaissance augurs in a data-link with its weapons to target suddenly revealed foes.",
-          when: 'Your Shooting phase, when a friendly Speeder unit is selected to shoot.',
+          when: 'Your Shooting phase, when a [gloss:friendly:friendly] Speeder unit is [gloss:selected-to-shoot:selected to shoot].',
           target: 'That Speeder unit.',
-          effect: 'Select one enemy unit within 24" of your unit. That enemy unit has +6" detection range until your unit has shot.',
+          effect: 'Select one enemy unit [gloss:within:within] 24" of your unit. That enemy unit has +6" [gloss:detection-range:detection range] until your unit has shot.',
           restrictions: '',
         },
         {
@@ -796,9 +796,9 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
           cp: '1CP',
           turn: 'opponent',
           flavor: "Triggering sudden flows of power to engines and manoeuvring planes, aggressive advances by the foe can be left foundering in a skimmer's wake.",
-          when: "Your opponent's Movement phase, when an enemy unit ends a move within 8\" of a friendly unengaged Speeder unit.",
+          when: "Your opponent's Movement phase, when an enemy unit ends a move [gloss:within:within] 8\" of a [gloss:friendly:friendly] [gloss:unengaged:unengaged] Speeder unit.",
           target: 'That Speeder unit.',
-          effect: 'Your unit can make a normal move of up to D3+3".',
+          effect: 'Your unit can make a [gloss:normal-move:normal move] of up to D3+3".',
           restrictions: '',
         },
         {
@@ -808,8 +808,8 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
           turn: 'opponent',
           flavor: 'The anti-grav plates of this combat skimmer thrum with extra power, powering the craft into the atmosphere from where it can redeploy.',
           when: "End of your opponent's Fight phase.",
-          target: 'One friendly unengaged Speeder unit.',
-          effect: 'Place your unit in strategic reserves.',
+          target: 'One [gloss:friendly:friendly] [gloss:unengaged:unengaged] Speeder unit.',
+          effect: 'Place your unit in [gloss:strategic-reserves:strategic reserves].',
           restrictions: '',
         },
       ],
@@ -819,14 +819,14 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
           points: 15,
           upgrade: true,
           flavor: "Entreated by veteran gunners, this skimmer's potent weapons unleash their spirits' wrath in bursts of excoriating destruction.",
-          body: `Speeder unit only. This unit can re-roll Damage rolls and rolls to determine the Attacks characteristic of a weapon.`,
+          body: `Speeder unit only. This unit can [gloss:re-roll:re-roll] [gloss:damage-roll:Damage rolls] and rolls to determine the Attacks characteristic of a weapon.`,
         },
         {
           name: 'Raptorial Cogitator Core',
           points: 15,
           upgrade: true,
           flavor: "The pinpoint firing solutions woven in runic screed by this vehicle's logic engine speak to its predatory instincts.",
-          body: `Speeder unit only. This unit's ranged attacks have [IGNORES COVER].`,
+          body: `Speeder unit only. This unit's [gloss:ranged-attacks:ranged attacks] have [IGNORES COVER].`,
         },
       ],
     },
@@ -841,12 +841,12 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
         name: 'Psychic Disciplines',
         flavor:
           'Librarians spend their lives mastering psychic disciplines, learning how to manipulate the energies of the Immaterium to confound their foes and embolden their battle-brothers.',
-        body: `At the start of the battle round, select one of the following Psychic Disciplines abilities. Friendly Adeptus Astartes Psyker units have that ability until the end of the battle round.
+        body: `At the start of the [gloss:battle-round:battle round], select one of the following [gloss:sm-psychic-discipline:Psychic Disciplines] abilities. [gloss:friendly:Friendly] Adeptus Astartes [gloss:psyker:Psyker] units have that ability until the end of the battle round.
 ▪ Biomancy Discipline: This unit has +2" M.
-▪ Divination Discipline: This unit's attacks can re-roll Hit rolls of 1 and re-roll Wound rolls of 1.
-▪ Pyromancy Discipline: This unit's ranged attacks that target an enemy unit within 12" of this unit have +1 AP.
-▪ Telekinesis Discipline: Ranged attacks that target this unit have -1 Strength.
-▪ Telepathy Discipline: This unit's attacks can ignore modifiers to Ballistic Skill, Weapon Skill and Hit rolls.`,
+▪ Divination Discipline: This unit's attacks can [gloss:re-roll:re-roll] [gloss:hit-roll:Hit rolls] of 1 and re-roll [gloss:wound-roll:Wound rolls] of 1.
+▪ Pyromancy Discipline: This unit's [gloss:ranged-attacks:ranged attacks] that target an enemy unit [gloss:within:within] 12" of this unit have +1 AP.
+▪ Telekinesis Discipline: Ranged attacks that target this unit have -1 [gloss:strength:Strength].
+▪ Telepathy Discipline: This unit's attacks can ignore [gloss:modifier:modifiers] to [gloss:ballistic-skill:Ballistic Skill], [gloss:weapon-skill:Weapon Skill] and Hit rolls.`,
       },
       stratagems: [],
       enhancements: [
@@ -854,31 +854,31 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
           name: 'Celerity',
           points: 35,
           flavor: 'The powers of the Immaterium flow through the psyker, heightening his speed and that of his battle-brothers.',
-          body: `Adeptus Astartes Psyker model only. When this unit is selected to make an advance move, that move does not prevent this unit from being eligible to declare a charge. When this unit is selected to make a fallback move, if this unit has the Biomancy Discipline ability, that move does not prevent this unit from being eligible to declare a charge.`,
+          body: `Adeptus Astartes [gloss:psyker:Psyker] model only. When this unit is selected to make an [gloss:advance-move:advance move], that move does not prevent this unit from being [gloss:eligible-to-charge:eligible to declare a charge]. When this unit is selected to make a [gloss:fall-back-move:fallback move], if this unit has the Biomancy [gloss:sm-psychic-discipline:Discipline] ability, that move does not prevent this unit from being eligible to declare a charge.`,
         },
         {
           name: 'Prescience',
           points: 20,
           flavor: 'Those who specialise in prognostication may foresee the flow of battle and position their allies accordingly.',
-          body: `Adeptus Astartes Psyker model only (excluding Terminator models). Once per turn per unit, in your opponent's Movement phase, when an enemy unit ends a move within 8" of this unit, if this unit is unengaged, this unit can make a normal move of up to D6", or, if this unit has the Divination Discipline ability, up to 6".`,
+          body: `Adeptus Astartes [gloss:psyker:Psyker] model only (excluding Terminator models). Once per turn per unit, in your opponent's Movement phase, when an enemy unit ends a move [gloss:within:within] 8" of this unit, if this unit is [gloss:unengaged:unengaged], this unit can make a [gloss:normal-move:normal move] of up to D6", or, if this unit has the Divination [gloss:sm-psychic-discipline:Discipline] ability, up to 6".`,
         },
         {
           name: 'Obfuscation',
           points: 25,
           flavor: 'By manipulating the minds of the foe, practitioners of telepathy may obfuscate their presence.',
-          body: `Adeptus Astartes Psyker model only. Enemy units cannot target this unit with snap shooting attacks. If this unit has the Telepathy Discipline ability, this unit has -3" detection range.`,
+          body: `Adeptus Astartes [gloss:psyker:Psyker] model only. Enemy units cannot target this unit with [gloss:snap-shooting:snap shooting] attacks. If this unit has the Telepathy [gloss:sm-psychic-discipline:Discipline] ability, this unit has -3" [gloss:detection-range:detection range].`,
         },
         {
           name: 'Temporal Corridor',
           points: 15,
           flavor: 'Folding existence around an invisible path along which time is altered, the Librarian propels his allies across the battlefield with supernatural swiftness.',
-          body: `Adeptus Astartes Psyker model only. At the end of your opponent's Fight phase, you can place this unit into strategic reserves. If this unit has the Telekinesis Discipline ability, this unit has Deep Strike.`,
+          body: `Adeptus Astartes [gloss:psyker:Psyker] model only. At the end of your opponent's Fight phase, you can place this unit into [gloss:strategic-reserves:strategic reserves]. If this unit has the Telekinesis [gloss:sm-psychic-discipline:Discipline] ability, this unit has Deep Strike.`,
         },
         {
           name: 'Fusillade',
           points: 20,
           flavor: 'The Librarian wreathes the ammunition of his allies in armour-eroding halos of azure fire.',
-          body: `Adeptus Astartes Psyker model only. This unit's ranged attacks have [ANTI-MONSTER/VEHICLE 5+]. If this unit has the Pyromancy Discipline ability, [SUSTAINED HITS 1].`,
+          body: `Adeptus Astartes [gloss:psyker:Psyker] model only. This unit's [gloss:ranged-attacks:ranged attacks] have [ANTI-MONSTER/VEHICLE 5+]. If this unit has the Pyromancy [gloss:sm-psychic-discipline:Discipline] ability, [SUSTAINED HITS 1].`,
         },
       ],
     },
@@ -893,8 +893,8 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
         name: 'Nowhere to Hide',
         flavor:
           "With transhuman instincts, auto-senses, and more specialised equipment, a Chapter's masters of clandestine warfare are able to unmask the foe, leaving them ripe for swift eradication.",
-        body: `Friendly Phobos/Scout Squad units have the following ability:
-▪ Transhuman Perception: In your Shooting phase, this unit can select one visible enemy unit within 12". That enemy unit is detected. While a unit is detected, that unit has +3" detection range.`,
+        body: `[gloss:friendly:Friendly] Phobos/Scout Squad units have the following ability:
+▪ Transhuman Perception: In your Shooting phase, this unit can select one [gloss:visible:visible] enemy unit [gloss:within:within] 12". That enemy unit is detected. While a unit is detected, that unit has +3" [gloss:detection-range:detection range].`,
       },
       stratagems: [
         {
@@ -903,9 +903,9 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
           cp: '1CP',
           turn: 'your',
           flavor: 'Those warriors who operate far from Chapter reinforcement maintain their lethal fire even while conducting vital strategic operations.',
-          when: 'Your Shooting phase, when a friendly Phobos/Scout Squad unit starts an action.',
+          when: 'Your Shooting phase, when a [gloss:friendly:friendly] Phobos/Scout Squad unit starts an [gloss:action:action].',
           target: 'That Phobos/Scout Squad unit.',
-          effect: 'That action does not prevent your unit from being eligible to shoot.',
+          effect: 'That action does not prevent your unit from being [gloss:eligible-to-shoot:eligible to shoot].',
           restrictions: '',
         },
         {
@@ -914,9 +914,9 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
           cp: '1CP',
           turn: 'your',
           flavor: 'Holding to the shadows and choosing victims with care, stealthy warriors winnow the enemy ranks without ever revealing their positions.',
-          when: 'Your Shooting phase, when a friendly Phobos/Scout Squad unit has shot.',
+          when: 'Your Shooting phase, when a [gloss:friendly:friendly] Phobos/Scout Squad unit has shot.',
           target: 'That Phobos/Scout Squad unit.',
-          effect: 'Those ranged attacks do not prevent your unit from being hidden.',
+          effect: 'Those [gloss:ranged-attacks:ranged attacks] do not prevent your unit from being [gloss:hidden:hidden].',
           restrictions: '',
         },
         {
@@ -926,8 +926,8 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
           turn: 'opponent',
           flavor: "When still, silent and further masked by cameleoline materials or drifting smoke, a Chapter's forward operatives are almost impossible to spot until it is too late.",
           when: "Start of your opponent's Movement phase.",
-          target: 'One friendly unengaged Phobos/Scout Squad unit.',
-          effect: 'Your unit has -3" detection range until the end of the turn.',
+          target: 'One [gloss:friendly:friendly] [gloss:unengaged:unengaged] Phobos/Scout Squad unit.',
+          effect: 'Your unit has -3" [gloss:detection-range:detection range] until the end of the turn.',
           restrictions: '',
         },
       ],
@@ -936,14 +936,14 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
           name: 'Shroud Field',
           points: 20,
           flavor: 'This camouflaging field projector employs a chameleonic twisting of emissions whose secrets the Techmarines cannot reproduce.',
-          body: `Phobos model only. This model has Lone Operative and Stealth.`,
+          body: `Phobos model only. This model has [gloss:lone-operative:Lone Operative] and Stealth.`,
         },
         {
           name: 'Death in the Dark',
           points: 15,
           upgrade: true,
           flavor: 'To slay the hidden foe where they lurk, where their deaths go unmarked and unremembered, is to deny their hateful lives meaning.',
-          body: `Infantry Phobos unit only. This unit's attacks that target a hidden unit have +1 to hit rolls.`,
+          body: `Infantry Phobos unit only. This unit's attacks that target a [gloss:hidden:hidden] unit have +1 to [gloss:hit-roll:hit rolls].`,
         },
       ],
     },
@@ -958,10 +958,10 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
         name: 'Rapid Deployment',
         flavor:
           'Land Raiders, Repulsors and other armoured transports plunge headlong into the heart of enemy formations, weathering heavy firepower to deploy their cargo of elite Space Marines into battle.',
-        body: `Each time an Adeptus Astartes unit from your army disembarks from a Transport (excluding Fly) that made a Normal or Advance move this phase (excluding those that arrived from Strategic Reserves), that disembarked unit can make a Normal move of up to D6", or a Normal move of up to D3+3" instead if that Transport is a Heavy Transport (see below).
+        body: `Each time an Adeptus Astartes unit from your army [gloss:disembark:disembarks] from a [gloss:transport:Transport] (excluding Fly) that made a [gloss:normal-move:Normal] or [gloss:advance-move:Advance move] this phase (excluding those that arrived from [gloss:strategic-reserves:Strategic Reserves]), that disembarked unit can make a Normal move of up to D6", or a Normal move of up to D3+3" instead if that Transport is a Heavy Transport (see below).
 
 ### Keywords
-Adeptus Astartes Transport units from your army (excluding Fly) that have a Wounds characteristic of 14+ have the Heavy Transport keyword.`,
+Adeptus Astartes Transport units from your army (excluding Fly) that have a [gloss:wounds:Wounds] characteristic of 14+ have the Heavy Transport [gloss:keywords:keyword].`,
       },
       stratagems: [
         armourOfContempt('Armoured Speartip'),
@@ -971,9 +971,9 @@ Adeptus Astartes Transport units from your army (excluding Fly) that have a Woun
           cp: '1CP',
           turn: 'either',
           flavor: 'In a last act of vengeance, the doomed crew of this burning transport drive into the midst of the enemy.',
-          when: 'Any phase, just after a Heavy Transport unit from your army with the Deadly Demise ability is destroyed.',
+          when: 'Any phase, just after a Heavy Transport unit from your army with the Deadly Demise ability is [gloss:destroyed:destroyed].',
           target: 'That Heavy Transport unit, if you rolled a 6 for its Deadly Demise ability. You can use this Stratagem on that unit even though it was just destroyed.',
-          effect: 'Your unit can make a Normal or Fall Back move before its Deadly Demise ability is resolved, and before any embarked units perform an Emergency Disembarkation. When making this move, your unit can move through enemy models (excluding Monsters and Vehicles) and can move within Engagement Range of such models, but cannot end that move within Engagement Range of them, and any Desperate Escape test is automatically passed.',
+          effect: 'Your unit can make a [gloss:normal-move:Normal] or [gloss:fall-back-move:Fall Back] move before its Deadly Demise ability is resolved, and before any [gloss:embarked:embarked] units perform an [gloss:emergency-disembark-move:Emergency Disembarkation]. When making this move, your unit can move through enemy models (excluding Monsters and Vehicles) and can move within [gloss:engagement-range:Engagement Range] of such models, but cannot end that move within Engagement Range of them, and any [gloss:desperate-escape:Desperate Escape] test is automatically passed.',
           restrictions: '',
         },
         {
@@ -983,8 +983,8 @@ Adeptus Astartes Transport units from your army (excluding Fly) that have a Woun
           turn: 'either',
           flavor: 'With steely discipline, Space Marine battle-brothers mount up swiftly, even as the enemy closes in.',
           when: 'End of the Fight phase.',
-          target: 'One Adeptus Astartes Infantry unit from your army that is not within Engagement Range of one or more enemy units, and one friendly Heavy Transport it is able to embark within.',
-          effect: 'If your Adeptus Astartes Infantry unit is wholly within 6" of that Heavy Transport, it can embark within it.',
+          target: 'One Adeptus Astartes Infantry unit from your army that is not within [gloss:engagement-range:Engagement Range] of one or more enemy units, and one [gloss:friendly:friendly] Heavy Transport it is able to embark within.',
+          effect: 'If your Adeptus Astartes Infantry unit is [gloss:wholly-within:wholly within] 6" of that Heavy Transport, it can [gloss:embark:embark] within it.',
           restrictions: '',
         },
         {
@@ -994,8 +994,8 @@ Adeptus Astartes Transport units from your army (excluding Fly) that have a Woun
           turn: 'your',
           flavor: 'The mightiest Space Marine transports are unstoppable on the advance.',
           when: 'Your Movement phase.',
-          target: 'One Adeptus Astartes Transport unit from your army that has not been selected to move this phase.',
-          effect: 'Until the end of the phase, each time your unit makes a Normal or Advance move, it can move horizontally through terrain features. In addition, if your unit is a Heavy Transport, when making this move, your unit can move through enemy models (excluding Monsters and Vehicles) and can move within Engagement Range of such models, but cannot end that move within Engagement Range of them, and any Desperate Escape test is automatically passed.',
+          target: 'One Adeptus Astartes Transport unit from your army that has not been [gloss:selected-to-move:selected to move] this phase.',
+          effect: 'Until the end of the phase, each time your unit makes a [gloss:normal-move:Normal] or [gloss:advance-move:Advance move], it can move horizontally through [gloss:terrain-feature:terrain features]. In addition, if your unit is a Heavy Transport, when making this move, your unit can move through enemy models (excluding Monsters and Vehicles) and can move within [gloss:engagement-range:Engagement Range] of such models, but cannot end that move within Engagement Range of them, and any [gloss:desperate-escape:Desperate Escape] test is automatically passed.',
           restrictions: '',
         },
         {
@@ -1005,8 +1005,8 @@ Adeptus Astartes Transport units from your army (excluding Fly) that have a Woun
           turn: 'your',
           flavor: 'Coaxing the utmost from roaring engines, transport crews strive to deploy their passengers as close as possible to their assigned objectives.',
           when: 'Your Movement phase.',
-          target: 'One Adeptus Astartes Transport unit from your army that has not been selected to move this phase.',
-          effect: 'Until the end of the phase, units can disembark from your Transport after it has Advanced. Units that do so count as having made a Normal move this phase, and cannot declare a charge in the same turn (unless your Transport has the Assault Ramp ability), but can otherwise act normally.',
+          target: 'One Adeptus Astartes Transport unit from your army that has not been [gloss:selected-to-move:selected to move] this phase.',
+          effect: 'Until the end of the phase, units can [gloss:disembark:disembark] from your Transport after it has [gloss:advance:Advanced]. Units that do so count as having made a [gloss:normal-move:Normal move] this phase, and cannot [gloss:declare-charge:declare a charge] in the same turn (unless your Transport has the Assault Ramp ability), but can otherwise act normally.',
           restrictions: '',
         },
         {
@@ -1016,8 +1016,8 @@ Adeptus Astartes Transport units from your army (excluding Fly) that have a Woun
           turn: 'your',
           flavor: 'Emerging from their transports, Space Marine infantry ruthlessly clear enemy positions.',
           when: 'Your Shooting phase.',
-          target: 'One Adeptus Astartes unit from your army that has not been selected to shoot this phase.',
-          effect: 'Until the end of the phase, each time a model in your unit makes an attack, add 1 to the Hit roll (if your unit disembarked from a Heavy Transport this turn, add 1 to the Wound roll as well).',
+          target: 'One Adeptus Astartes unit from your army that has not been [gloss:selected-to-shoot:selected to shoot] this phase.',
+          effect: 'Until the end of the phase, each time a model in your unit makes an attack, add 1 to the [gloss:hit-roll:Hit roll] (if your unit [gloss:disembark:disembarked] from a Heavy Transport this turn, add 1 to the [gloss:wound-roll:Wound roll] as well).',
           restrictions: '',
         },
       ],
@@ -1026,25 +1026,25 @@ Adeptus Astartes Transport units from your army (excluding Fly) that have a Woun
           name: 'Armoured Commander',
           points: 25,
           flavor: 'This veteran commander of mechanised infantry utilises its manoeuvrability to ensnare the foe.',
-          body: `Adeptus Astartes model only. Once per turn, in your Movement phase, the bearer can use this Enhancement. If it does, select one friendly Adeptus Astartes Transport that is in Strategic Reserves. Until the end of the phase, for the purposes of setting up that Transport on the battlefield, treat the current battle round number as being one higher than it actually is.`,
+          body: `Adeptus Astartes model only. Once per turn, in your Movement phase, the [gloss:bearer:bearer] can use this [gloss:enhancement:Enhancement]. If it does, select one [gloss:friendly:friendly] Adeptus Astartes Transport that is in [gloss:strategic-reserves:Strategic Reserves]. Until the end of the phase, for the purposes of setting up that Transport on the battlefield, treat the current [gloss:battle-round:battle round] number as being one higher than it actually is.`,
         },
         {
           name: 'Liberator',
           points: 15,
           flavor: 'A dauntless conqueror and liberator of worlds, this intimidating champion inspires confidence in their battle-brothers and abject fear in the enemy.',
-          body: `Adeptus Astartes model only. If you control an objective marker at the end of your Command phase, and the bearer's unit (or any Heavy Transport it is embarked within) is within range of that objective marker, that objective marker remains under your control until your opponent's Level of Control over that objective marker is greater than yours at the end of a phase.`,
+          body: `Adeptus Astartes model only. If you control an [gloss:objective-marker:objective marker] at the end of your Command phase, and the [gloss:bearer:bearer]'s unit (or any Heavy Transport it is [gloss:embarked:embarked] within) is within range of that objective marker, that objective marker remains under your control until your opponent's [gloss:level-of-control:Level of Control] over that objective marker is greater than yours at the end of a phase.`,
         },
         {
           name: 'Shock Deployment',
           points: 20,
           flavor: 'From the ramps of armoured transports, elite infantry deploy swiftly, unleashing fire on overawed enemies.',
-          body: `Adeptus Astartes Terminator or Gravis model only. In your Shooting phase, each time the bearer's unit is selected to shoot, if it disembarked from a Transport this turn, until the end of the phase, ranged weapons equipped by models in that unit have the [SUSTAINED HITS 1] ability.`,
+          body: `Adeptus Astartes Terminator or Gravis model only. In your Shooting phase, each time the [gloss:bearer:bearer]'s unit is [gloss:selected-to-shoot:selected to shoot], if it [gloss:disembark:disembarked] from a [gloss:transport:Transport] this turn, until the end of the phase, [gloss:ranged-weapons:ranged weapons] equipped by models in that unit have the [SUSTAINED HITS 1] ability.`,
         },
         {
           name: 'Tip of the Spear',
           points: 40,
           flavor: 'This aggressive frontline commander knows the value of speed and decisive manoeuvre.',
-          body: `Adeptus Astartes model only. If the bearer starts the battle embarked within a Transport, that Transport has the Scouts 6" ability.`,
+          body: `Adeptus Astartes model only. If the [gloss:bearer:bearer] starts the battle [gloss:embarked:embarked] within a Transport, that Transport has the [gloss:scouts:Scouts] 6" ability.`,
         },
       ],
     },
@@ -1059,12 +1059,12 @@ Adeptus Astartes Transport units from your army (excluding Fly) that have a Woun
         name: 'Target Sighted',
         flavor:
           'Space Marine crews are relentless in their pursuit of assigned targets, coaxing every last trace of power from their war machines and demonstrating exemplary gunnery even under heavy fire.',
-        body: `Each time a Tank Ace unit from your army (see below) Advances, do not make an Advance roll for it. Instead, until the end of the phase, add 6" to the Move characteristic of models in that unit.
+        body: `Each time a Tank Ace unit from your army (see below) [gloss:advance:Advances], do not make an [gloss:advance-roll:Advance roll] for it. Instead, until the end of the phase, add 6" to the [gloss:move-characteristic:Move characteristic] of models in that unit.
 
-Each time a Tank Ace unit from your army shoots in your Shooting phase, if that unit did not Advance this turn, you can re-roll the Damage roll.
+Each time a Tank Ace unit from your army shoots in your Shooting phase, if that unit did not Advance this turn, you can [gloss:re-roll:re-roll] the [gloss:damage-roll:Damage roll].
 
 ### Keywords
-Adeptus Astartes Vehicle units from your army (excluding Fortifications, Drop Pods, Walkers and units that can Fly) have the Tank Ace keyword. In the Muster Armies step, you can select up to three Tank Ace units from your army to gain the Character keyword.`,
+Adeptus Astartes Vehicle units from your army (excluding Fortifications, Drop Pods, Walkers and units that can Fly) have the Tank Ace [gloss:keywords:keyword]. In the [gloss:muster-armies:Muster Armies] step, you can select up to three Tank Ace units from your army to gain the Character keyword.`,
       },
       stratagems: [
         armourOfContempt('Headhunter Task Force'),
@@ -1075,9 +1075,9 @@ Adeptus Astartes Vehicle units from your army (excluding Fortifications, Drop Po
           turn: 'your',
           flavor: 'Targeting vulnerable joints or seams between armoured plates, Space Marine gunners increase the effectiveness of their weapons.',
           when: 'Your Shooting phase.',
-          target: 'One Tank Ace unit from your army that has not been selected to shoot this phase.',
-          effect: 'Until the end of the phase, each time a model in your unit makes a ranged attack that targets a Monster or Vehicle unit, improve the Armour Penetration characteristic of that attack by 1.',
-          restrictions: 'A unit cannot be targeted with this and the Kill Shot Stratagem in the same phase.',
+          target: 'One Tank Ace unit from your army that has not been [gloss:selected-to-shoot:selected to shoot] this phase.',
+          effect: 'Until the end of the phase, each time a model in your unit makes a [gloss:ranged-attacks:ranged attack] that targets a Monster or Vehicle unit, improve the [gloss:armour-penetration:Armour Penetration] characteristic of that attack by 1.',
+          restrictions: 'A unit cannot be targeted with this and the Kill Shot [gloss:stratagem:Stratagem] in the same phase.',
         },
         {
           name: 'Kill Shot',
@@ -1086,9 +1086,9 @@ Adeptus Astartes Vehicle units from your army (excluding Fortifications, Drop Po
           turn: 'your',
           flavor: 'Space Marines are ruthless in culling weakened foes.',
           when: 'Your Shooting phase.',
-          target: 'One Tank Ace unit from your army that has not been selected to shoot this phase.',
-          effect: 'Until the end of the phase, each time a model in your unit makes an attack that targets a Monster or Vehicle unit, re-roll a Wound roll of 1. If the target unit is below its Starting Strength, you can re-roll the Wound roll instead.',
-          restrictions: 'A unit cannot be targeted with this and the Target Weak Point Stratagem in the same phase.',
+          target: 'One Tank Ace unit from your army that has not been [gloss:selected-to-shoot:selected to shoot] this phase.',
+          effect: 'Until the end of the phase, each time a model in your unit makes an attack that targets a Monster or Vehicle unit, [gloss:re-roll:re-roll] a [gloss:wound-roll:Wound roll] of 1. If the target unit is [gloss:below-starting-strength:below its Starting Strength], you can re-roll the Wound roll instead.',
+          restrictions: 'A unit cannot be targeted with this and the Target Weak Point [gloss:stratagem:Stratagem] in the same phase.',
         },
         {
           name: 'Rapid Gunnery',
@@ -1097,8 +1097,8 @@ Adeptus Astartes Vehicle units from your army (excluding Fortifications, Drop Po
           turn: 'your',
           flavor: 'Advanced targeting systems and the skill of transhuman gunners ensure that Space Marine tanks keep up a punishing rate of fire, even when extracting themselves from a press of enemies.',
           when: 'Your Shooting phase.',
-          target: 'One Adeptus Astartes unit from your army that has not been selected to shoot this phase.',
-          effect: 'Until the end of the phase, your unit is eligible to shoot in a turn in which it Fell Back.',
+          target: 'One Adeptus Astartes unit from your army that has not been [gloss:selected-to-shoot:selected to shoot] this phase.',
+          effect: 'Until the end of the phase, your unit is [gloss:eligible-to-shoot:eligible to shoot] in a turn in which it [gloss:fall-back-move:Fell Back].',
           restrictions: '',
         },
         {
@@ -1107,9 +1107,9 @@ Adeptus Astartes Vehicle units from your army (excluding Fortifications, Drop Po
           cp: '1CP',
           turn: 'opponent',
           flavor: "Reacting swiftly to enemy movements, this tank's crew reposition their vehicle, angling armour or taking up an advantageous firing position.",
-          when: "Your opponent's Movement phase, just after an enemy unit ends a Normal, Advance or Fall Back move.",
-          target: 'One Tank Ace unit from your army (excluding units containing one or more models with a Wounds characteristic of 16+) that is within 8" of that enemy unit.',
-          effect: 'Your unit can make a Normal move of up to D6".',
+          when: "Your opponent's Movement phase, just after an enemy unit ends a Normal, [gloss:advance-move:Advance] or [gloss:fall-back-move:Fall Back] move.",
+          target: 'One Tank Ace unit from your army (excluding units containing one or more models with a [gloss:wounds:Wounds] characteristic of 16+) that is [gloss:within:within] 8" of that enemy unit.',
+          effect: 'Your unit can make a [gloss:normal-move:Normal move] of up to D6".',
           restrictions: '',
         },
         {
@@ -1119,8 +1119,8 @@ Adeptus Astartes Vehicle units from your army (excluding Fortifications, Drop Po
           turn: 'opponent',
           flavor: "Bellicose in the extreme, this vehicle's machine spirit demands immediate vengeance for the hurts it has incurred.",
           when: "Your opponent's Shooting phase, just after an enemy unit has shot.",
-          target: "One Tank Ace unit from your army (excluding units containing one or more models with a Wounds characteristic of 16+) that was selected as the target of one or more of the attacking unit's attacks.",
-          effect: 'Your unit can shoot as if it were your Shooting phase, but must target only that enemy unit when doing so, and can only do so if that enemy unit is visible and an eligible target.',
+          target: "One Tank Ace unit from your army (excluding units containing one or more models with a [gloss:wounds:Wounds] characteristic of 16+) that was selected as the target of one or more of the attacking unit's attacks.",
+          effect: 'Your unit can shoot as if it were your Shooting phase, but must target only that enemy unit when doing so, and can only do so if that enemy unit is [gloss:visible:visible] and an eligible target.',
           restrictions: '',
         },
       ],
@@ -1130,25 +1130,25 @@ Adeptus Astartes Vehicle units from your army (excluding Fortifications, Drop Po
           points: 40,
           aura: true,
           flavor: 'The commander of this battle tank is a storied tank ace whose exploits are the stuff of Chapter legend.',
-          body: `Adeptus Astartes Vehicle model only. In your Shooting phase, while a friendly Adeptus Astartes Vehicle unit is within 6" of the bearer, ranged weapons equipped by models in that unit have the [ASSAULT] ability.`,
+          body: `Adeptus Astartes Vehicle model only. In your Shooting phase, while a [gloss:friendly:friendly] Adeptus Astartes Vehicle unit is [gloss:within:within] 6" of the [gloss:bearer:bearer], [gloss:ranged-weapons:ranged weapons] equipped by models in that unit have the [ASSAULT] ability.`,
         },
         {
           name: 'Firestorm Coordinators',
           points: 20,
           flavor: "This vehicle's fire control systems incorporate ancient yet highly advanced logic engines, which assist the crew in keeping up an exceptionally rapid rate of fire.",
-          body: `Adeptus Astartes Vehicle model only. Ranged weapons equipped by the bearer have the [SUSTAINED HITS 1] ability.`,
+          body: `Adeptus Astartes Vehicle model only. [gloss:ranged-weapons:Ranged weapons] equipped by the [gloss:bearer:bearer] have the [SUSTAINED HITS 1] ability.`,
         },
         {
           name: 'Gunnery Honours',
           points: 20,
           flavor: 'The crew of this war machine demonstrate exemplary gunnery and have earned the highest honours for their craft.',
-          body: `Adeptus Astartes Vehicle model only. Once per phase, you can re-roll one Hit roll, one Wound roll and one Damage roll for the bearer.`,
+          body: `Adeptus Astartes Vehicle model only. Once per phase, you can [gloss:re-roll:re-roll] one [gloss:hit-roll:Hit roll], one [gloss:wound-roll:Wound roll] and one [gloss:damage-roll:Damage roll] for the [gloss:bearer:bearer].`,
         },
         {
           name: 'Redoubtable Machine Spirit',
           points: 25,
           flavor: 'This ancient war machine has endured millennia of battle, and its belligerent machine spirit has only become more obdurate.',
-          body: `Adeptus Astartes Vehicle model only. The bearer has a 5+ invulnerable save and, at the end of your Command phase, the bearer regains 1 lost wound.`,
+          body: `Adeptus Astartes Vehicle model only. The [gloss:bearer:bearer] has a 5+ [gloss:invulnerable-save:invulnerable save] and, at the end of your Command phase, the bearer regains 1 lost [gloss:wounds:wound].`,
         },
       ],
     },
