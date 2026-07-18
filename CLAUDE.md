@@ -142,13 +142,22 @@ A **"By phase / As list" toggle** (persisted to `localStorage['wh11ed-stratagems
 
 **Faction pages** — `FactionRuleView.vue` (`/factions/:slug`, army rule + the active detachment's rule / stratagems / enhancements) and `FactionDatasheetView.vue` (`/factions/:slug/datasheets/:unit`, a `DatasheetCard`) both read faction data via `useFactionPage.js`. The **active detachment** and, for Space Marines, the chosen **Chapter** are one shared "army choice" held in `src/composables/useFactionChoice.js` — a **module singleton** persisted per faction slug to `localStorage['wh11ed-faction-choice']` (`{ slug: { det, chapter } }`; migrates the pre-chapter `wh11ed-faction-detachment` map once), so a pick on the rules page is reflected on the datasheets page and vice-versa. The UI is **`FactionPickerBar.vue`** — a bar sticky under the navbar (full-viewport-bleed background) that renders the Chapter and/or Detachment as compact "label + value + chevron" pill buttons opening `FactionDetachmentPickerModal.vue` (a `BaseModal`-based option list reused for both, via its optional `title`/`tag` props); it only renders when a faction has >1 detachment. Chapter↔detachment consistency (a chapter-locked detachment implies its chapter) lives in the bar, not the store. In `DatasheetCard`, bodyguard-unit names under a Character's **Leader/Support** ability are `RouterLink`s to those units' own datasheets (name→id via `FactionDatasheetView`'s `unitIndex`, always built from **EN** names); the group heading shows "Support" vs "Leader" (`dsSupport`/`dsLeader`) from the sheet's `core` field.
 
-**`sourceId`** — faction/datasheet entities (detachments, stratagems, enhancements, detachment rules,
-datasheets, abilities) may carry an optional `sourceId`: the stable app UUID from `wh40k-appdata`
-(the private sibling repo treated as the authoritative rules source), alongside their own `id`/slug.
-`id` is load-bearing (URLs, `RouterLink`s) and never changes; `sourceId` exists purely so
-`scripts/sync-appdata.mjs` can match an entity across regenerations even if its name changes —
-it's write-only metadata, not read by any view. Backfilled automatically by that script on first
-sync per faction; never hand-typed.
+**`sourceId` map (`src/data/sourceIds.json`)** — a generated **sidecar** mapping each faction
+entity (army rule, detachments, stratagems, enhancements, datasheets) to its stable source UUID
+from `wh40k-appdata` (the private sibling repo treated as the authoritative rules source). It's an
+external file, **not** an inline field: the faction data files (`src/data/factions/*.js`) are
+hand-authored — helper-generated stratagems, name-only entities, comments — so an id can't be
+safely written into them; the datasheet files could carry it inline but the map keeps one uniform,
+regenerable mechanism. Shape: `{ "<slug>": { "<kind>:<key>": "<uuid>" } }` where `kind` is
+`armyrule|det|strat|enh|ds` and `key` is the entity's own wh11ed `id` (datasheets `ds:<id>`,
+detachments `det:<id>`) or its normalized name (strat/enh scoped under their detachment). `id` is
+load-bearing (URLs, `RouterLink`s) and never changes; the map exists purely so `sync-appdata.mjs`
+can match an entity across a `data_version` bump even after GW renames it — a stable-id bridge, not
+read by any view. Regenerate with `node scripts/gen-source-ids.mjs` (`--check` fails if stale);
+built by name-matching wh11ed↔appdata, so run it while names still agree. On the next bump
+`sync-appdata.mjs` uses it to report a `⟲ renamed` line (same id, new appdata name) instead of a
+spurious missing+extra pair. Datasheets map 1:1 (100%); a residue of strat/enh name-variants stays
+unmapped and is the same set the name-diff already surfaces.
 
 **SM-Chapter datasheet dedup** — the 5 Chapter codex files (`black-templars.js`, `blood-angels.js`,
 `dark-angels.js`, `deathwatch.js`, `space-wolves.js`) don't duplicate datasheets that are identical
