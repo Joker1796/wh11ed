@@ -73,6 +73,7 @@ Unless otherwise stated:
         rows: [
           ['Incursion', '1000', '2', '2', '2'],
           ['Strike Force', '2000', '3', '4', '3'],
+          ['Onslaught', '3000', '3', '4', '3'],
         ],
         footnote: '* The unit limit for **BATTLELINE** and **DEDICATED TRANSPORT** units is double the relevant amount shown above, and every **EPIC HERO** has a unit limit of 1, regardless of the battle size.',
       },
@@ -149,6 +150,7 @@ Unless otherwise stated:
         rows: [
           ['Incursion (Вторжение)', '1000', '2', '2', '2'],
           ['Strike Force (Ударные силы)', '2000', '3', '4', '3'],
+          ['Onslaught (Натиск)', '3000', '3', '4', '3'],
         ],
         footnote: '* Лимит юнитов для юнитов **BATTLELINE** и **DEDICATED TRANSPORT** удваивается относительно указанного выше, и каждый **EPIC HERO** имеет лимит юнитов 1, независимо от размера битвы.',
       },
