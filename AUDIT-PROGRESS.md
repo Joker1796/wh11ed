@@ -102,7 +102,7 @@ the other machine's next `git pull` sees it's done.
 - [x] black-templars
 - [x] blood-angels
 - [x] chaos-knights
-- [ ] chaos-space-marines
+- [x] chaos-space-marines
 - [ ] dark-angels
 - [ ] death-guard
 - [ ] drukhari

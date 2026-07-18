@@ -66,7 +66,7 @@ export default [
     "faction": "Dark Pacts",
     "abilities": [
       {
-        "name": "The Warmaster",
+        "name": "Warmaster",
         "text": "In your Command phase, select one Warmaster ability (see below). Until the start of your next Command phase, this model has that ability."
       },
       {
@@ -106,7 +106,7 @@ export default [
     ],
     "abilitySets": [
       {
-        "name": "The Warmaster",
+        "name": "Warmaster",
         "options": [
           {
             "name": "Paragon of Hatred (Aura)",
@@ -396,7 +396,7 @@ export default [
     "faction": "Dark Pacts",
     "abilities": [
       {
-        "name": "Outmanoeuvre",
+        "name": "Rapid Assault",
         "text": "Each time a model in this unit makes a melee attack, if this unit made a Charge move this turn, improve the Strength characteristic of that attack by 1."
       }
     ],

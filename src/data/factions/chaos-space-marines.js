@@ -266,7 +266,7 @@ The combined points value of such units you can include in your army depends on 
       },
       stratagems: [
         {
-          name: "Soul-Tally Offering",
+          name: "Soul-Tally Offerings",
           sublabel: "Cult of the Arkifane – Battle Tactic Stratagem",
           cp: "2CP",
           turn: "either",
@@ -1060,7 +1060,7 @@ The combined points value of such units you can include in your army depends on 
           restrictions: "",
         },
         {
-          name: "Reavers’ Haste",
+          name: "Reaver’s Haste",
           sublabel: "Renegade Raiders – Strategic Ploy Stratagem",
           cp: "1CP",
           turn: "your",
@@ -1241,7 +1241,7 @@ The combined points value of such units you can include in your army depends on 
           restrictions: "",
         },
         {
-          name: "Daemonic Possesion",
+          name: "Daemonic Possession",
           sublabel: "Soulforged Warpack – Epic Deed Stratagem",
           cp: "1CP",
           turn: "your",
