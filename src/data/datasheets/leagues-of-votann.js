@@ -1303,7 +1303,7 @@ export default [
     "faction": "Prioritised Efficiency",
     "abilities": [
       {
-        "name": "Luck Has. Need Keeps. Toil Earns",
+        "name": "Luck Has. Need Keeps. Toil Earns.",
         "text": "At the end of your Command phase, if this unit is within range of an objective marker you control, that objective marker remains under your control until your opponent’s Level of Control over that objective markers greater than yours at the end of a phase."
       },
       {
