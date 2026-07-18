@@ -113,7 +113,7 @@ export const stratNamesRu = {
   'Suppression Strafing': 'Подавляющий обстрел',
   'Tactical Decapitation': 'Тактическое обезглавливание',
   'Shock Onslaught': 'Шоковый натиск',
-  'Autosense Coordination': 'Координация авточувств',
+  'Auto-sense Coordination': 'Координация авточувств',
   'Blind Screen': 'Слепящая завеса',
   'Onward for the Emperor': 'Вперёд, за Императора',
   'Crusading Conquerors': 'Крестоносцы-завоеватели',

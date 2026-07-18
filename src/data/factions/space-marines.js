@@ -2052,7 +2052,7 @@ Each time an Adeptus Astartes model from your army makes an attack, if it was se
           restrictions: '',
         },
         {
-          name: 'Autosense Coordination',
+          name: 'Auto-sense Coordination',
           sublabel: 'Orbital Assault Force – Battle Tactic Stratagem',
           cp: '1CP',
           turn: 'your',
