@@ -48,6 +48,9 @@ the other machine's next `git pull` sees it's done.
   here is correct, not a bug.
 - appdata's own `unit_composition` join occasionally yields duplicate rows for the same
   price — de-duped before comparing.
+- wh11ed keeps intentional **"designer's note"** pseudo-abilities on a few datasheets
+  (Devastator/Hellblaster Squad) that appdata has no equivalent for — editorial content,
+  not a real gap; leave them.
 - Some single-model units carry a **second, higher appdata "default" composition at the same
   1-model size** (imperial-agents Assassins — Callidus 100/**140**, Culexus 85/**125**,
   Eversor 120/**145**, Vindicare 125/**155**, the lone **Agent of the Imperium** allied price;
@@ -122,7 +125,7 @@ the other machine's next `git pull` sees it's done.
 - [x] leagues-of-votann
 - [x] necrons
 - [x] orks
-- [ ] space-marines
+- [x] space-marines
 - [ ] space-wolves
 - [ ] tau-empire
 - [ ] thousand-sons
