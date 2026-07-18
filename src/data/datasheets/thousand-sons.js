@@ -2029,7 +2029,7 @@ export default [
         "d": "2"
       }
     ],
-    "core": "Deadly Demise D3, Hover",
+    "core": "Deadly Demise D3",
     "abilities": [
       {
         "name": "Flame-wreathed",

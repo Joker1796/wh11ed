@@ -202,3 +202,43 @@ already listed these ids and pulled `smRu[id]` directly — so **no RU changes w
 only the EN files needed their `sharedUnitIds` synced to match. Verified: `own.length +
 sharedUnitIds.length` unchanged per chapter before/after (no unit lost or duplicated), full
 merged datasheet lists have zero duplicate ids, `npm run build && npx vitest run` green.
+
+## `core`/`faction` field check — added to `sync-appdata.mjs`
+
+wh11ed's flat `core`/`faction` comma-joined summary strings (e.g. `"Deadly Demise D6+6"`,
+`"Support"`) were never diffed by the script before — this is exactly the class of bug
+hand-found while building Titan Legions (a generic Character mislabeled "Leader" instead of
+"Support"), and appdata's own FAQ/errata table has more of these on record ("Master of
+Executions, Core Abilities Section: Remove 'Leader', add 'Support'"). The check compares
+core+faction as **one merged set**, not two separate fields — wh11ed's `faction` is sometimes
+itself a comma-joined list of several faction-type abilities (e.g. Aeldari's "Battle Focus,
+Disparate Paths"), and appdata is internally inconsistent about which bucket ("core" vs
+"faction") the same ability name lands in per datasheet (e.g. "Super-heavy Walker" is
+`type:'faction'` on some datasheets, `type:'core'` on others) — diffing the fields separately
+would flag that inconsistency as a false "difference" even when the actual name set matches.
+
+**New false-positive class:** appdata can itself omit a faction-wide ability on one datasheet
+that every sibling unit in the same book has. Confirmed for **Poxbringer** and **Lady Malys**
+(Chaos Daemons/Drukhari) — every other checked unit in their respective books has
+"The Shadow of Chaos"/"Power from Pain", but these two units' own appdata entries lack any
+faction-type ability at all. wh11ed's existing data is correct here; **do not "fix" these** —
+they will keep showing as `core/faction differ` lines forever, that's expected.
+
+**Real bugs found by this check (fixed):** Cato Sicarius (core "Leader"→"Support"), Land
+Speeder (dropped a phantom "Deadly Demise 1"), Doomhammer ("Firing Deck 6"→"12", an errata'd
+value), Ares Gunship/Archaeopter Fusilave/Archaeopter Stratoraptor/Hive Crone (each had a
+phantom "Hover" not in appdata), thousand-sons' Heldrake (same phantom "Hover" — its `abilities`
+field was already correctly faction-specific, only `core` was stale), Ta'unar Supremacy Armour
+(missing "Super-heavy Walker"), Ministorum Priest in imperial-agents (a stray, unsupported
+"Assigned Agents" faction ability with no corresponding rules text anywhere on the sheet),
+Bannernob in orks (a stray "Support" core ability despite having no core-type ability in
+appdata at all), Parasite Of Mortrex (missing "Shadow in the Warp"), and Tormentbringer in
+chaos-daemons (missing "Leader" — confirmed by its own `leader` field listing Hellflayer as an
+attachable unit).
+
+**Also fixed a real regression from the SM-Chapter dedup work above:** Black Templars' Gladiator
+Lancer/Reaper/Valiant had been folded into `sharedUnitIds` as "100% generic," but Black
+Templars' own appdata book does list unique entries for all 3 (own `"faction": "Templar Vows"`
+vs the generic "Oath of Moment" was the tell). Reverted the fold and restored the 3 as local
+datasheets with their Black-Templars-specific `faction`/wording. `ru/black-templars.js` needed
+no changes — its own `SHARED` array already assumed the correct (unfolded) state.

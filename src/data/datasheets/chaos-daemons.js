@@ -5086,7 +5086,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deep Strike",
+    "core": "Deep Strike, Leader",
     "faction": "The Shadow of Chaos",
     "abilities": [
       {

@@ -2739,7 +2739,7 @@ export default [
         "d": "2"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Oath of Moment",
     "abilities": [
       {
@@ -5053,7 +5053,7 @@ export default [
     "abilities": [
       {
         "name": "Aquilon Optics",
-        "text": "Each time this model is selected to shoot, you can re-roll one Hit roll, you can re-roll one Wound roll and you can re-roll one Damage roll when resolving those attacks."
+        "text": "Each time this model is selected to shoot, you can re-roll one Hit roll, you can re-roll one Wound roll and you can re-roll one Damage roll when resolving its attacks."
       }
     ],
     "damaged": {
@@ -7604,7 +7604,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deadly Demise 1, Deep Strike",
+    "core": "Deep Strike",
     "faction": "Oath of Moment",
     "abilities": [
       {

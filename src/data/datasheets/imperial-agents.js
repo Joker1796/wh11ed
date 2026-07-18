@@ -2762,7 +2762,6 @@ export default [
       }
     ],
     "core": "Support",
-    "faction": "Assigned Agents",
     "abilities": [
       {
         "name": "Holy Hatred",

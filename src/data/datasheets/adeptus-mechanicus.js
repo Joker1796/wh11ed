@@ -50,7 +50,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deadly Demise D3, Hover",
+    "core": "Deadly Demise D3",
     "faction": "Doctrina Imperatives",
     "abilities": [
       {
@@ -160,7 +160,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deadly Demise D3, Hover",
+    "core": "Deadly Demise D3",
     "faction": "Doctrina Imperatives",
     "abilities": [
       {
