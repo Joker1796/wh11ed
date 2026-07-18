@@ -5948,7 +5948,7 @@ export default [
         "text": "While this model is leading a unit, that unit is eligible to shoot and declare a charge in a turn in which it Advanced or Fell Back."
       },
       {
-        "name": "Watch Master",
+        "name": "Rites of Battle",
         "text": "Once per battle round, one unit from your army with this ability can use it when its unit is targeted with a Stratagem. If it does, reduce the CP cost of that use of that Stratagem by 1CP."
       }
     ],
