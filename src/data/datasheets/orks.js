@@ -447,7 +447,7 @@ export default [
         "text": "While this model is leading a unit, each time a model in that unit makes a melee attack, add 1 to the Hit roll."
       },
       {
-        "name": "Beastly Rage",
+        "name": "Ferocious Rage",
         "text": "Each time this model makes a Charge move, until the end of the turn, melee weapons it is equipped with have the [DEVASTATING WOUNDS] ability."
       }
     ],
@@ -1370,7 +1370,7 @@ export default [
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Dust Trails (Aura)",
+        "name": "Billowing Fumes (Aura)",
         "text": "While an enemy unit (excluding MONSTERS and VEHICLES) is within 6\" of this model, each time a model in that unit makes an attack, subtract 1 from the Hit roll."
       }
     ],
@@ -4063,7 +4063,7 @@ export default [
     "faction": "Waaagh!",
     "abilities": [
       {
-        "name": "Mekboy",
+        "name": "Know-wotz",
         "text": "While this model is within 3\" of one or more friendly Orks Vehicle units, this model has the Lone Operative ability."
       },
       {
@@ -4465,7 +4465,7 @@ export default [
         "text": "While this model is leading a unit, each time a model in that unit is destroyed by a melee attack, if it has not fought this phase, roll one D6: on a 4+, do not remove it from play. The destroyed model can fight after the attacking unit has finished making its attacks, and is then removed from play."
       },
       {
-        "name": "Da Bigger Dey iz...",
+        "name": "Da Bigger Dey Iz…",
         "text": "Each time this model makes a melee attack that targets a MONSTER or VEHICLE unit, add 1 to the Damage characteristic of that attack. Each time this model makes a melee attack that targets a TITANIC unit, add 2 to the Damage characteristic of that attack instead."
       }
     ],

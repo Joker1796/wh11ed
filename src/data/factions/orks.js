@@ -308,7 +308,7 @@ const en = {
           restrictions: '',
         },
         {
-          name: 'Full Throttle!',
+          name: 'Full Throttle',
           sublabel: 'Kult of Speed – Battle Tactic Stratagem',
           cp: '1CP',
           turn: 'your',
@@ -1197,7 +1197,7 @@ Each time a model in an Orks Infantry, Orks Mounted or Orks Walker unit from you
           restrictions: '',
         },
         {
-          name: 'Rolling Lootheap',
+          name: 'Rolling Loot-Heap',
           sublabel: 'Freebooter Krew – Strategic Ploy Stratagem',
           cp: '1CP',
           turn: 'your',
@@ -1227,7 +1227,7 @@ Each time a model in an Orks Infantry, Orks Mounted or Orks Walker unit from you
           body: `Warboss model only. Once per battle round, at the start of any phase, you can select one friendly Orks unit that is Battle-shocked and within 12" of the bearer. That unit suffers D3 mortal wounds and it is no longer Battle-shocked.`,
         },
         {
-          name: 'Gitspotter Squig',
+          name: 'Git-Spotter Squig',
           points: 20,
           flavor: 'Wealthy Freebooterz can afford augmetically enhanced Gitspotter Squigs to sit on their shoulders and spot gits.',
           body: `Orks model only. Ranged weapons equipped by models in the bearer's unit have the [IGNORES COVER] ability.`,
