@@ -3737,15 +3737,11 @@ export default [
       }
     ],
     "core": "Deadly Demise D6+2",
-    "faction": "Reanimation Protocols",
+    "faction": "Reanimation Protocols, Super-heavy Walker",
     "abilities": [
       {
         "name": "Terrifying Monstrosity",
         "text": "At the start of the Fight phase, each enemy unit within Engagement Range of one or more units with this ability must take a Battle-shock test."
-      },
-      {
-        "name": "Titanic Walker",
-        "text": "Each time this model makes a Normal, Advance or Fall Back move, it can move over models (excluding TITANIC models) and terrain features that are 4\" or less in height as if they were not there."
       }
     ],
     "damaged": {
@@ -4248,7 +4244,7 @@ export default [
     "faction": "Reanimation Protocols",
     "abilities": [
       {
-        "name": "Voice of the Triarch",
+        "name": "Triarch Abilities",
         "text": "At the start of the battle round, select one Triarch ability (see below). Until the start of the next battle round, this unit has that ability."
       },
       {
@@ -4304,7 +4300,7 @@ export default [
     ],
     "abilitySets": [
       {
-        "name": "Voice of the Triarch",
+        "name": "Triarch Abilities",
         "options": [
           {
             "name": "Phaeron of the Stars (Aura)",
