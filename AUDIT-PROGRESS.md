@@ -60,7 +60,9 @@ the other machine's next `git pull` sees it's done.
   also includes units shared with `space-marines.js`. Only look at `missing`/`differs` for
   these 5; skim `extra` for genuine renames/removals but don't chase the shared-pool units.
 - **appdata itself can have a typo** — Blood Angels' "Martial Examplars" is appdata's own
-  misspelling of "Martial Exemplars" (wh11ed already had it right). Don't blindly copy a
+  misspelling of "Martial Exemplars" (wh11ed already had it right). Likewise orks' Bully
+  Boyz stratagem: appdata's "Cut' Em Down" mis-places the apostrophe; wh11ed's "Cut 'Em
+  Down" is correct — left alone. Don't blindly copy a
   "missing"/"extra" name pair without a sanity check on which side is actually correct
   English.
 
@@ -119,7 +121,7 @@ the other machine's next `git pull` sees it's done.
 - [x] imperial-knights
 - [x] leagues-of-votann
 - [x] necrons
-- [ ] orks
+- [x] orks
 - [ ] space-marines
 - [ ] space-wolves
 - [ ] tau-empire

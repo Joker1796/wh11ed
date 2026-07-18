@@ -26,7 +26,7 @@ export const stratNamesRu = {
   'Speediest Freeks': 'Быстрейшие чудилы',
   'Blitza Fire': 'Блица-огонь',
   "Squig Flingin'": 'Метание сквигов',
-  'Full Throttle!': 'На всю катушку!',
+  'Full Throttle': 'На всю катушку!',
   'Dakkastorm': 'Дакка-шторм',
   "More Gitz Over 'Ere!": 'Ещё гадов сюды!',
   "Klankin' Klaws": 'Лязгающие клешни',
@@ -72,7 +72,7 @@ export const stratNamesRu = {
   'Grab and Bash': 'Хапнуть и вломить',
   "Boardin' Rush": 'Абордажный рывок',
   'Deck Fraggers': 'Палубные фрагатели',
-  'Rolling Lootheap': 'Катящаяся груда лута',
+  'Rolling Loot-Heap': 'Катящаяся груда лута',
   'Krump and Run': 'Крампни и беги',
 }
 
@@ -149,7 +149,7 @@ export const enhNamesRu = {
   'Supercharged Squig Oil': 'Форсированное сквиговое масло',
   'Tuff Git': 'Крутой гит',
   'Da Kaptin': 'Каптин',
-  'Gitspotter Squig': 'Сквиг-высматриватель гитов',
+  'Git-Spotter Squig': 'Сквиг-высматриватель гитов',
   'Bionik Workshop': 'Бионическая мастерская',
   "Razgit's Magik Map": 'Волшебная карта Разгита',
 }
