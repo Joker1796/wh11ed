@@ -72,7 +72,7 @@ the other machine's next `git pull` sees it's done.
 - [x] adeptus-custodes
 - [x] adeptus-mechanicus
 - [x] aeldari
-- [ ] astra-militarum
+- [x] astra-militarum
 - [ ] black-templars
 - [ ] blood-angels
 - [ ] chaos-knights

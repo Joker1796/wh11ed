@@ -131,7 +131,7 @@ export const enhNamesRu = {
   'Titan Killer': 'Убийца титанов',
   'Engine Speaker': 'Заклинатель двигателя',
   'Assault Hatches': 'Штурмовые люки',
-  'Sharp Eyes, Light Fingers': 'Острый глаз, лёгкие пальцы',
+  'Sharp Eyes': 'Острый глаз',
   'Exemplar of Duty': 'Образец долга',
   'Bombast-class Vox-array': 'Вокс-система класса «Бомбаст»',
   'Priority Drop Beacon': 'Приоритетный маяк высадки',

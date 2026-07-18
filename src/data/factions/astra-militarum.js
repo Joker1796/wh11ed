@@ -950,7 +950,7 @@ Until the start of your next Command phase, the unit you selected is affected by
       ],
       enhancements: [
         {
-          name: "Sharp Eyes, Light Fingers",
+          name: "Sharp Eyes",
           points: 10,
           upgrade: true,
           flavor: "These Ratlings\u2019 naturally keen vision is supplemented with varied magnoculors, listening devices and other detection gear that mysteriously comes into their possession.",
