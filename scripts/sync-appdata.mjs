@@ -34,10 +34,7 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
-import { fileURLToPath, pathToFileURL } from 'node:url'
-
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-const APPDATA = process.env.WH40K_APPDATA_PATH || path.join(ROOT, '..', 'wh40k-appdata')
+import { ROOT, APPDATA, norm, appdataToMarkup, bodyText, loadJson, loadModule, byNormName, diffByName } from './lib/sync-common.mjs'
 
 // wh11ed slug → wh40k-appdata slug, wherever the two disagree.
 const SLUG_MAP = {
@@ -48,42 +45,6 @@ const SLUG_MAP = {
   'chaos-daemons': 'legiones-daemonica',
   'titan-legions': 'adeptus-titanicus',
   'chaos-titan-legions': 'titanicus-traitoris',
-}
-
-// wh11ed appends a classification suffix to some enhancement/ability names ("Fear Made
-// Manifest (Aura)", "Mental Fortress (Psychic)") that appdata's bare name doesn't carry —
-// strip any trailing "(...)" before matching (no name in either source legitimately ends
-// in one otherwise).
-const norm = (s) => (s || '').toLowerCase().replace(/(?:\s*\([^)]*\))+\s*$/, '').replace(/[’‘`]/g, "'").replace(/[-‐‑–—]/g, '-').replace(/\s+/g, ' ').trim()
-
-function appdataToMarkup(text) {
-  if (!text) return ''
-  let s = text
-  s = s.replace(/<\/?ul[^>]*>/gi, '\n').replace(/<li[^>]*>/gi, '\n▪ ').replace(/<\/li>/gi, '')
-  s = s.replace(/<br\s*\/?>/gi, '\n')
-  s = s.replace(/<u>(.*?)<\/u>/gis, '__$1__')
-  s = s.replace(/<k>(.*?)<\/k>/gis, (_, inner) => inner.toUpperCase())
-  s = s.replace(/<b>(.*?)<\/b>/gis, '**$1**')
-  s = s.replace(/<[^>]+>/g, '')
-  s = s.split('\n').map((l) => l.trim()).join(' ').replace(/\s{2,}/g, ' ')
-  return s.trim()
-}
-
-// A detachment/army rule's `body` is appdata's array of typed text blocks — flatten to one
-// converted string for the report (full multi-block rendering is wh11ed's own job once the
-// text is actually being added to a data file).
-function bodyText(body) {
-  return (body || [])
-    .map((b) => appdataToMarkup(b.text || b.trigger || b.effect || ''))
-    .filter(Boolean)
-    .join(' / ')
-}
-
-async function loadJson(file) {
-  return fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : null
-}
-async function loadModule(file) {
-  return fs.existsSync(file) ? import(pathToFileURL(file)) : null
 }
 
 // Combat Patrol publications (`isCombatPatrol`) are a separate boxed game mode with fixed
@@ -113,45 +74,6 @@ async function loadWh11edDatasheets(slug) {
   const smMod = await loadModule(path.join(ROOT, 'src/data/datasheets/space-marines.js'))
   const idSet = new Set(mod.sharedUnitIds)
   return [...own, ...(smMod?.default || []).filter((d) => idSet.has(d.id))]
-}
-
-function byNormName(list, nameOf) {
-  const m = new Map()
-  for (const item of list) m.set(norm(nameOf(item)), item)
-  return m
-}
-
-// Compare two same-named lists (e.g. a detachment's stratagems); report added/removed/
-// changed(scalar). `scalarFields` are compared as an exact-value mismatch; anything else
-// is presence-only. `textOf` (appdata item -> converted markup) is printed alongside a
-// "missing" line so the report is directly actionable, not just a name to go look up.
-function diffByName(label, wh11edList, appdataList, nameOf11, nameOfApp, scalarFields = [], textOf = null) {
-  const a = byNormName(wh11edList || [], nameOf11)
-  const b = byNormName(appdataList || [], nameOfApp)
-  const lines = []
-  for (const [key, item] of b) {
-    if (a.has(key)) continue
-    lines.push(`  + missing in wh11ed: ${label} "${nameOfApp(item)}"`)
-    const text = textOf?.(item)
-    if (text) lines.push(`      ${text}`)
-  }
-  for (const [key, item] of a) {
-    if (!b.has(key)) lines.push(`  - extra in wh11ed (not in appdata): ${label} "${nameOf11(item)}"`)
-  }
-  for (const [key, whItem] of a) {
-    const appItem = b.get(key)
-    if (!appItem) continue
-    for (const f of scalarFields) {
-      const [whField, appField] = Array.isArray(f) ? f : [f, f]
-      // Compare digits only — wh11ed writes "1CP"/free-text costs, appdata a bare number.
-      const whVal = String(whItem[whField] ?? '').replace(/\D/g, '')
-      const appVal = String(appItem[appField] ?? '').replace(/\D/g, '')
-      if (whVal && appVal && whVal !== appVal) {
-        lines.push(`  ~ ${label} "${nameOf11(whItem)}" ${whField} differs: wh11ed=${JSON.stringify(whItem[whField])} appdata=${JSON.stringify(appItem[appField])}`)
-      }
-    }
-  }
-  return lines
 }
 
 async function syncFaction(slug) {

@@ -26,6 +26,7 @@ export const ROUND_COUNT = 5
 export const BATTLE_SIZES = [
   { id: 'incursion', name: 'Incursion', points: 1000, maxDp: 2 },
   { id: 'strikeForce', name: 'Strike Force', points: 2000, maxDp: 3 },
+  { id: 'onslaught', name: 'Onslaught', points: 3000, maxDp: 3 },
 ]
 export const PRIMARY_ROUND_CAP = 15
 // Game-level caps live in gameScoring.js (single source of truth); re-export for existing
