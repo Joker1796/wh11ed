@@ -315,7 +315,9 @@ At the end of the third battle round, unless otherwise stated, all **strategic r
           id: 'section-21-03',
           sectionNum: '21.03',
           title: 'Flying Models',
-          body: `Models with the **[gloss:fly:FLY]** keyword can **[gloss:take-to-the-skies:take to the skies]** when making a **normal**, **advance**, **fall-back** or **[gloss:charge-move:charge move]**. Each time a FLYING unit is selected to make such a move, before moving any models in that unit, the active player can declare that it will **take to the skies**. If it does, while resolving that move:
+          body: `Models with the **[gloss:fly:FLY]** keyword, and units such models are part of, are said to be able to FLY. Some rules also refer to such models/units as FLYING models/FLYING units.
+
+Models with the FLY keyword can **[gloss:take-to-the-skies:take to the skies]** when making a **normal**, **advance**, **fall-back** or **[gloss:charge-move:charge move]**. Each time a FLYING unit is selected to make such a move, before moving any models in that unit, the active player can declare that it will **take to the skies**. If it does, while resolving that move:
 ▪ Subtract 2" from the **[gloss:maximum-distance:maximum distance]**.
 ▪ Each time a FLYING model moves:
 ▫ Ignore all vertical distance for the purposes of how far it has moved.
@@ -712,7 +714,9 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
           id: 'section-21-03',
           sectionNum: '21.03',
           title: 'Летящие модели',
-          body: `Модели с ключевым словом **[gloss:fly:FLY]** могут **[gloss:take-to-the-skies:подниматься в небо]** (take to the skies) при совершении **[gloss:normal-move:обычного манёвра]**, **[gloss:advance-move:продвижения]**, **[gloss:fall-back-move:отступления]** или **[gloss:charge-move:манёвра нападения]**. Каждый раз, когда ЛЕТЯЩИЙ (FLYING) отряд выбирается для совершения такого манёвра, до манёвра любых моделей в этом отряде активный игрок может объявить, что он будет **подниматься в небо**. Если он это делает, при отыгрыше этого манёвра:
+          body: `Модели с ключевым словом **[gloss:fly:FLY]** и отряды, в состав которых входят такие модели, считаются способными летать. Некоторые правила также называют такие модели/отряды ЛЕТЯЩИМИ (FLYING) моделями/отрядами.
+
+Модели с ключевым словом FLY могут **[gloss:take-to-the-skies:подниматься в небо]** (take to the skies) при совершении **[gloss:normal-move:обычного манёвра]**, **[gloss:advance-move:продвижения]**, **[gloss:fall-back-move:отступления]** или **[gloss:charge-move:манёвра нападения]**. Каждый раз, когда ЛЕТЯЩИЙ (FLYING) отряд выбирается для совершения такого манёвра, до манёвра любых моделей в этом отряде активный игрок может объявить, что он будет **подниматься в небо**. Если он это делает, при отыгрыше этого манёвра:
 ▪ Вычтите 2" из **[gloss:maximum-distance:максимального расстояния]**.
 ▪ Каждый раз, когда ЛЕТЯЩАЯ модель движется:
 ▫ Игнорируйте всё вертикальное расстояние для целей определения пройденного расстояния.
