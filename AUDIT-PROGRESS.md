@@ -114,7 +114,7 @@ the other machine's next `git pull` sees it's done.
 - [x] grey-knights
 - [x] imperial-agents
 - [x] imperial-knights
-- [ ] leagues-of-votann
+- [x] leagues-of-votann
 - [ ] necrons
 - [ ] orks
 - [ ] space-marines
