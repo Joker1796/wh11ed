@@ -2762,7 +2762,7 @@ export default [
   },
   {
     "id": "myphitic-blight-hauler",
-    "name": "Myphitic Blight-hauler",
+    "name": "Myphitic Blight-haulers",
     "points": [
       {
         "models": 1,
@@ -2776,7 +2776,7 @@ export default [
     "flavor": "Belching stinking gases that hang thick in the air, Myphitic Blight-haulers use their all-terrain mobility and heavy armaments to hunt down the enemy’s tanks and provide fire support even in the most dangerous environments. Should the enemy get too close, these Daemon Engines pounce with fanged maws and sprays of bile.",
     "profiles": [
       {
-        "name": "Myphitic Blight-haulers",
+        "name": "Myphitic Blight-hauler",
         "m": "10\"",
         "t": "9",
         "sv": "3+",
@@ -2866,7 +2866,7 @@ export default [
       "Chaos",
       "Nurgle",
       "Daemon",
-      "Myphitic Blight-hauler"
+      "Myphitic Blight-Hauler"
     ],
     "factionKeywords": [
       "Death Guard",
@@ -4000,7 +4000,7 @@ export default [
     "faction": "Nurgle’s Gift (Aura)",
     "abilities": [
       {
-        "name": "The Destroyer Hive",
+        "name": "Destroyer Hive",
         "text": "While this model is leading a unit, each time a melee attack targets that unit, subtract 1 from the Hit roll."
       },
       {
