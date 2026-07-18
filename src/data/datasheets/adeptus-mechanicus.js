@@ -3384,7 +3384,7 @@ export default [
         "text": "While this model is leading a unit, models in that unit have the Feel No Pain 5+ ability. If that unit has the Electro-Priests keyword, models in that unit have the Feel No Pain 4+ ability instead."
       },
       {
-        "name": "Data-spike",
+        "name": "Dataspike",
         "text": "At the start of the Fight phase, you can select one enemy VEHICLE unit within Engagement Range of this model’s unit and roll one D6: on a 4+, that enemy unit suffers D6 mortal wounds and, until the end of the phase, the Weapon Skill characteristic of melee weapons equipped by that enemy unit is worsened by 1."
       }
     ],
