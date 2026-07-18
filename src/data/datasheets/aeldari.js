@@ -6107,7 +6107,7 @@ export default [
   },
   {
     "id": "vypers",
-    "name": "Vypers",
+    "name": "Vyper",
     "points": [
       {
         "models": 1,

@@ -1318,7 +1318,7 @@ This detachment has the **ACROBATIC** tag and cannot be taken with another **ACR
           restrictions: '',
         },
         {
-          name: "Weavers' Coils",
+          name: "Weaver’s Coils",
           sublabel: "Serpent's Brood – Stratagem",
           cp: '1CP',
           turn: 'your',
@@ -1395,7 +1395,7 @@ This detachment has the **ACROBATIC** tag and cannot be taken with another **ACR
       },
       stratagems: [
         {
-          name: "Raiders' Spoils",
+          name: "Raider’s Spoils",
           sublabel: 'Eldritch Raiders – Strategic Ploy Stratagem',
           cp: '1CP',
           turn: 'your',
