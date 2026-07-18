@@ -64,7 +64,7 @@ If every model from your army has the CHAOS KNIGHTS or HERETIC ASTARTES keyword,
           restrictions: "",
         },
         {
-          name: "Fools’ Flight",
+          name: "Fool’s Flight",
           sublabel: "Blood Legion – Strategic Ploy Stratagem",
           cp: "2CP",
           turn: "opponent",

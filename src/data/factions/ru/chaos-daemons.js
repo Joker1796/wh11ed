@@ -9,7 +9,7 @@
 // RU display names for stratagems (see useFactionPage / StratCard). Keyed by English name.
 export const stratNamesRu = {
   'Sheathed in Brass': 'Окованы латунью',
-  'Fools’ Flight': 'Полёт глупцов',
+  'Fool’s Flight': 'Полёт глупца',
   'Wrath Undeniable': 'Неоспоримый гнев',
   'Gore‑hungry Onslaught': 'Жаждущий крови натиск',
   'Skulls Beget Blood': 'Черепа порождают кровь',
