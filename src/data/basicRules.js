@@ -127,6 +127,21 @@ This does not give that rule to every model in the unit, unless that rule specif
               example: `A **hidden** unit would be a unit that has a model in it that is **hidden**.`,
             },
             {
+              id: 'section-01-02-08',
+              sectionNum: '01.02.08',
+              title: 'A (Unit/Model/Object)',
+              fromApp: true,
+              body: `Some rules may refer to 'a' unit/model/object without specifying an exact number. In such cases, the meaning is 'one or more', rather than exactly one.`,
+              example: `If a rule has a condition that requires a unit to be 'within range of an **[gloss:objective:objective]**', that condition is still met if that unit is within range of more than one **objective**.`,
+            },
+            {
+              id: 'section-01-02-09',
+              sectionNum: '01.02.09',
+              title: 'Tokens',
+              fromApp: true,
+              body: `Tokens are gaming aids that some rules instruct you to place next to a model/unit to remind you and your opponent that a model/unit either has a limited-use ability or is under the effects of a particular rule. Tokens are not counted as models for any purposes (even if they are being represented by a model). If another model needs to move into the space occupied by a token, reposition the token to allow that move to be made.`,
+            },
+            {
               id: 'section-01-02-10',
               sectionNum: '01.02.10',
               title: 'Adding a new unit to your army',
@@ -670,7 +685,7 @@ Each time you move a model, unless otherwise stated:
 Each time you move a model in a straight line, move it horizontally across the battlefield. Measure from the same point on its base at the start and end of that move, and add that distance to any other distance it has moved since its unit began that move. The distance moved cannot be greater than the **maximum distance** of that **[gloss:move-type:move type]**.
 
 ### Rotating a Model
-Each time you rotate a model, turn it any amount around the centre of its base, while keeping it upright. Note that rotating a model does not count towards the distance it has moved.
+Each time you rotate a model, turn it any amount around the centre of its base, while keeping it upright. Note that rotating a model does not count towards the distance it has moved. Models without a base are rotated around their central axis (see FRAME, 17.02).
 
 ### Ending a Move
 After you have finished setting up all of the models in a unit and/or moving all of the models in a unit that you want to move, check that all of the following apply:
@@ -1117,6 +1132,15 @@ If a unit was selected to fight and none of the models in it make any attacks, i
 
 3. Make **Save Rolls**: The opposing player makes one **save roll** for each attack that wounded the target by rolling one D6.`,
           seeAlso: ['Modifying Damage', 'Modifying Dice Rolls', 'Random Characteristics'],
+          children: [
+            {
+              id: 'section-05-03-01',
+              sectionNum: '05.03.01',
+              title: 'Saving Throw',
+              fromApp: true,
+              body: `The term 'saving throw' is the same as **save roll**.`,
+            },
+          ],
         },
         {
           id: 'section-05-04',
@@ -1483,6 +1507,15 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
               example: `**[gloss:hidden:Скрытый]** юнит — это юнит, в котором есть модель, которая является **[gloss:hidden:скрытой]**.`,
             },
             {
+              title: '«A» (юнит/модель/объект)',
+              body: `Некоторые правила могут упоминать «a» (англ. неопределённый артикль) юнит/модель/объект, не указывая точное число. В таких случаях значение — «один или более», а не ровно один.`,
+              example: `Если у правила есть условие, требующее, чтобы юнит был «в пределах досягаемости **[gloss:objective:цели]**», это условие всё равно выполняется, если юнит находится в пределах досягаемости более чем одной **цели**.`,
+            },
+            {
+              title: 'Токены',
+              body: `Токены — это игровые вспомогательные средства, которые некоторые правила предписывают размещать рядом с моделью/юнитом, чтобы напоминать вам и вашему оппоненту, что модель/юнит либо обладает способностью ограниченного использования, либо находится под действием определённого правила. Токены не считаются моделями ни для каких целей (даже если они представлены моделью). Если другой модели нужно переместиться в пространство, занятое токеном, переместите токен, чтобы этот манёвр можно было выполнить.`,
+            },
+            {
               title: 'Добавление нового юнита в вашу армию',
               body: `Некоторые правила добавляют новый юнит в вашу армию во время битвы. **[gloss:starting-strength:Начальная численность]** этого юнита определяется в момент его добавления в вашу армию, но в остальном определяется так же, как и для других юнитов.`,
             },
@@ -1665,7 +1698,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
     },
     {
       title: 'Листы данных',
-      description: 'У каждого юнита есть [gloss:datasheet:лист данных], который объясняет, как он действует в бою. Здесь вы узнаете, как использовать [gloss:datasheet:листы данных] при подготовке армии и во время игры.',
+      description: 'У каждого юнита есть лист данных, который объясняет, как он действует в бою. Здесь вы узнаете, как использовать листы данных при подготовке армии и во время игры.',
       subsections: [
         {
           title: 'Название листа данных',
@@ -1898,7 +1931,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 Каждый раз, когда вы перемещаете модель по прямой линии, перемещайте её горизонтально по полю боя. Измеряйте расстояние от одной и той же точки на её базе в начале и в конце этого манёвра и прибавляйте это расстояние к любому другому расстоянию, которое она преодолела с момента начала манёвра её юнита. Пройденное расстояние не может превышать **[gloss:maximum-distance:максимальное расстояние]** для данного **[gloss:move-type:типа манёвра]**.
 
 ### Поворот модели
-Каждый раз, когда вы поворачиваете модель, поверните её на любое количество градусов вокруг центра её базы, удерживая её вертикально. Обратите внимание, что поворот модели не учитывается в пройденном ею расстоянии.
+Каждый раз, когда вы поворачиваете модель, поверните её на любое количество градусов вокруг центра её базы, удерживая её вертикально. Обратите внимание, что поворот модели не учитывается в пройденном ею расстоянии. Модели без базы поворачиваются вокруг своей центральной оси (см. FRAME, 17.02).
 
 ### Завершение манёвра
 После того как вы закончили устанавливать все модели в юните и/или перемещать все модели в юните, которые вы хотите переместить, проверьте, выполняются ли все следующие условия:
@@ -2215,6 +2248,12 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ▪ Группы **[gloss:character:CHARACTER]**, содержащие модель, которая потеряла одну или несколько ран, должны быть раньше в порядке распределения, чем группы **[gloss:character:CHARACTER]**, не содержащие раненых моделей.
 
 3. Сделайте **спас-броски**(Save Rolls): противостоящий игрок делает один [gloss:save-roll:спас-бросок] для каждой атаки, которая ранила цель, бросив один D6.`,
+          children: [
+            {
+              title: 'Saving Throw (спас-бросок)',
+              body: `Термин «saving throw» — это то же самое, что и **спас-бросок**.`,
+            },
+          ],
         },
         {
           title: 'Нанесение урона',
