@@ -135,6 +135,27 @@
       <div v-if="entry.note" class="note-box" v-html="renderNoteHtml(entry.note)" />
     </div>
 
+    <!-- Errata -->
+    <SectionHeader
+      id="section-errata"
+      num="—"
+      :title="labels.errataTitle"
+      :description="labels.errataDesc"
+    />
+
+    <div v-for="entry in errataData" :key="entry.id" :id="entry.id" class="appendix-block">
+      <h3 class="appendix-title">{{ entry.header }}</h3>
+
+      <div @click="handleDefClick">
+        <template v-for="(block, bi) in parseBody(entry.body)" :key="bi">
+          <ul v-if="block.type === 'ul'" class="appendix-list">
+            <li v-for="(item, li) in block.items" :key="li" v-html="renderInline(item)" />
+          </ul>
+          <p v-else v-html="renderInline(block.text)" />
+        </template>
+      </div>
+    </div>
+
     <!-- FAQs -->
     <SectionHeader
       id="section-faq"
@@ -165,7 +186,7 @@ import { useLocale } from '../composables/useLocale.js'
 import { useAbilityFilter } from '../composables/useAbilityFilter.js'
 import { useRoute } from 'vue-router'
 import { ui } from '../i18n/ui.js'
-import { abilityIntro, coreAbilities, appendix, faqs } from '../data/reference.js'
+import { abilityIntro, coreAbilities, appendix, errata, faqs } from '../data/reference.js'
 
 const { renderInline } = useRenderInline()
 const { locale } = useLocale()
@@ -201,6 +222,12 @@ const appendixData = computed(() =>
     : appendix.en
 )
 
+const errataData = computed(() =>
+  locale.value === 'ru'
+    ? errata.en.map((e, i) => ({ ...e, ...errata.ru[i] }))
+    : errata.en
+)
+
 const faqsData = computed(() =>
   locale.value === 'ru' ? faqs.ru : faqs.en
 )
@@ -208,6 +235,7 @@ const faqsData = computed(() =>
 const tocSections = computed(() => [
   { id: 'section-24', num: '24', label: labels.value.coreAbilitiesTitle },
   { id: 'section-appendix', num: '—', label: labels.value.rulesAppendixTitle },
+  { id: 'section-errata', num: '—', label: labels.value.errataTitle },
   { id: 'section-faq', num: '—', label: labels.value.faqsTitle },
 ])
 
