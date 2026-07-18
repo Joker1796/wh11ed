@@ -42,6 +42,15 @@ const STATIC_ROUTES = [
   '/links',
 ]
 
+// The 5 SM-Chapter codex files don't duplicate datasheets identical to space-marines.js —
+// they list those ids in `sharedUnitIds` instead (see src/data/datasheets/index.js). Fold
+// them back in so their per-unit SEO route keys still get generated.
+let smUnits = null
+async function loadSpaceMarines() {
+  if (!smUnits) smUnits = (await import(pathToFileURL(join(ROOT, 'src/data/datasheets/space-marines.js')))).default
+  return smUnits
+}
+
 async function factionRoutes() {
   const indexFile = join(ROOT, 'src/data/factionsIndex.js')
   if (!existsSync(indexFile)) return []
@@ -55,7 +64,13 @@ async function factionRoutes() {
       const sheetsFile = join(ROOT, `src/data/datasheets/${f.slug}.js`)
       if (!existsSync(sheetsFile)) continue
       routes.push(`/factions/${f.slug}/datasheets`)
-      const units = (await import(pathToFileURL(sheetsFile))).default ?? []
+      const mod = await import(pathToFileURL(sheetsFile))
+      let units = mod.default ?? []
+      if (mod.sharedUnitIds?.length) {
+        const idSet = new Set(mod.sharedUnitIds)
+        const sm = await loadSpaceMarines()
+        units = [...units, ...sm.filter((u) => idSet.has(u.id))]
+      }
       for (const u of units) routes.push(`/factions/${f.slug}/datasheets/${u.id}`)
     }
   }

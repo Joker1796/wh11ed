@@ -13,10 +13,25 @@ const modules = import.meta.glob(['./*.js', '!./index.js'])
 
 // Resolves the RU overlay MODULE for a faction (or null). Returns the whole module
 // namespace so both `default` (the id→overlay map) and `abilityNamesRu` are available
-// from a single lazy import.
-export function loadDatasheetsRu(slug) {
+// from a single lazy import. For the 5 SM-Chapter codex factions (see `sharedIdsFor` in
+// ../index.js), also folds in space-marines.js's own RU overlay entries for the shared
+// unit ids — the chapter's own entry for an id wins if both exist.
+export async function loadDatasheetsRu(slug) {
   const loader = modules[`./${slug}.js`]
-  return loader ? loader().then((m) => m) : Promise.resolve(null)
+  const own = loader ? await loader() : null
+  const { sharedIdsFor } = await import('../index.js')
+  const sharedIds = await sharedIdsFor(slug)
+  if (!sharedIds) return own
+  const smLoader = modules['./space-marines.js']
+  const sm = smLoader ? await smLoader() : null
+  const idSet = new Set(sharedIds)
+  const sharedDefault = Object.fromEntries(
+    Object.entries(sm?.default || {}).filter(([id]) => idSet.has(id)),
+  )
+  return {
+    default: { ...sharedDefault, ...(own?.default || {}) },
+    abilityNamesRu: { ...(sm?.abilityNamesRu || {}), ...(own?.abilityNamesRu || {}) },
+  }
 }
 
 // Merge a sparse RU overlay for ONE datasheet over its EN object. Ability lists are keyed
