@@ -353,7 +353,16 @@ This may result in a value that is greater than a value that could be rolled on 
 While a unit is **battle-shocked**:
 ▪ The Objective Control (OC) characteristic of all of its models is modified to '-'.
 ▪ Its controlling player cannot target that unit with **stratagems**.
-▪ It is not **eligible to start an [gloss:action:action]**, and any action it has started cannot be completed.`,
+▪ It is not **eligible to start an [gloss:action:action]**, and any action it has started cannot be completed.
+
+### FAQs
+**Q:** If a unit becomes **battle-shocked** after **starting an action**, does it stop performing that **action**?
+
+**A:** Yes
+
+**Q:** If a unit has a rule that allows it to **start an action** when it is **battle-shocked**, can it also continue doing that action if it becomes **battle-shocked** after starting an **action**?
+
+**A:** Yes`,
           example: `A Guardsman squad with Ld 7+ has taken heavy casualties and must make a **battle-shock roll**. The player rolls 2D6 and gets a 9 — since 9 is not less than 7, the roll succeeds and the squad holds its nerve. If the roll had been 6 or less, the entire unit would become battle-shocked, losing their ability to control objectives.`,
           seeAlso: ['Command Phase 08.00'],
           children: [
@@ -793,7 +802,20 @@ Some large models, typically [gloss:aircraft:AIRCRAFT], have wings and other par
 ▪ Within 9" horizontally and 5" vertically of every other model in that unit.
 
 ### Regaining Coherency
-In the **[gloss:end-of-turn-step:End of Turn step]** of each player's turn, if one or more units on the battlefield are not in **coherency**, those units' controlling players must remove models from them, one at a time, until they are in **coherency** again. Models removed in this way are **[gloss:destroyed:destroyed]**, but they do not trigger rules that apply when a model is **[gloss:destroyed:destroyed]**.`,
+In the **[gloss:end-of-turn-step:End of Turn step]** of each player's turn, if one or more units on the battlefield are not in **coherency**, those units' controlling players must remove models from them, one at a time, until they are in **coherency** again. Models removed in this way are **[gloss:destroyed:destroyed]**, but they do not trigger rules that apply when a model is **[gloss:destroyed:destroyed]**.
+
+### FAQs
+**Q:** When a move says that a model or unit must move in a way if it is able, can that requirement force the unit to end their move not in coherency?
+
+**A:** No — when a model or unit is making a move it must follow requirements while ending that move in **coherency**.
+
+**Q:** When checking **coherency** for my unit, can my unit be in multiple groups?
+
+**A:** No, it must be in a single contiguous group, as per **Units and Models** (01.02) and What Is Coherency.
+
+**Q:** Do models **destroyed** when a unit is out of **coherency** count for mission objectives?
+
+**A:** Yes.`,
           image: { src: '/images/coherency/coherency.jpg', alt: 'Coherency' },
           children: [
             {
@@ -811,7 +833,12 @@ In the **[gloss:end-of-turn-step:End of Turn step]** of each player's turn, if o
           title: 'Engagement',
           body: `A model's **engagement range** is the area of the battlefield within 2" horizontally and 5" vertically of it.
 ▪ While a friendly model is within **engagement range** of one or more enemy models, those models – and the units they belong to – are **engaged** with each other.
-▪ While a unit contains no **engaged** models, that unit is **unengaged**.`,
+▪ While a unit contains no **engaged** models, that unit is **unengaged**.
+
+### FAQs
+**Q:** Does my model or unit become **engaged** while moving through an enemy unit's **engagement range** during a move?
+
+**A:** No.`,
           image: { src: '/images/visibility/engagement.jpg', alt: 'Engagement' },
           children: [
             {
@@ -968,7 +995,16 @@ If one or more other weapons targeting that unit make [def:identical-attacks:ide
 4. **Other Attacks:** Follow the first of the instructions below that applies:
 → If there are any weapons targeting the same unit that have not yet been used to make attacks, return to the **Gather Attack Dice** step.
 → Otherwise, if there are any weapons with unresolved attacks targeting a different unit, return to the **Select Enemy Unit** step.
-→ Otherwise, if all weapons have been used to make all of their attacks, this sequence ends.`,
+→ Otherwise, if all weapons have been used to make all of their attacks, this sequence ends.
+
+### FAQs
+**Q:** My rule says that "this unit's ranged attacks have +1 **A**" — does each of my attacks get an extra attack dice?
+
+**A:** No, it increases the **A** characteristic of the unit's ranged weapons by 1.
+
+**Q:** If my unit has weapons that are identical in characteristics, but some of those weapons have [PRECISION], and those weapons targeted a unit without the CHARACTER keyword, do I roll all of those weapons together?
+
+**A:** Yes — the [PRECISION] ability is not an applicable ability for those attacks, as there is no CHARACTER in the target unit for the ability to trigger.`,
           definitions: [
             {
               id: 'identical-attacks',
@@ -1115,7 +1151,16 @@ If a unit was selected to fight and none of the models in it make any attacks, i
 ▪ No **[gloss:character:CHARACTER]** group can be earlier in the allocation order than a non-**[gloss:character:CHARACTER]** group.
 ▪ **[gloss:character:CHARACTER]** groups containing a model that has lost one or more wounds must be earlier in the allocation order than **[gloss:character:CHARACTER]** groups containing no wounded models.
 
-3. Make **Save Rolls**: The opposing player makes one **save roll** for each attack that wounded the target by rolling one D6.`,
+3. Make **Save Rolls**: The opposing player makes one **save roll** for each attack that wounded the target by rolling one D6.
+
+### FAQs
+**Q:** When declaring the allocation order of groups in my unit, I have more than one non-CHARACTER group that contains a model with a missing wound — how must I select the order?
+
+**A:** Those groups can be selected in an order of your choosing, but must come before any non-CHARACTER groups that do not contain a model with a missing wound.
+
+**Q:** I have a unit being attacked with weapons that will modify some of their **save rolls** to be worse than 6 — should I make those **save rolls**?
+
+**A:** Yes — because other models in your unit may have better **Sv** values, enough **save rolls** could be allocated to those models that the rest of the results are not greater than the **Sv** of the other models in your unit.`,
           seeAlso: ['Modifying Damage', 'Modifying Dice Rolls', 'Random Characteristics'],
         },
         {
@@ -1648,7 +1693,16 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 Пока юнит **подвержен боевому шоку**:
 ▪ Характеристика Objective Control (OC) всех его моделей изменяется на '-'.
 ▪ Его контролирующий игрок не может нацеливать на этот юнит **[gloss:stratagem:стратагемы]**.
-▪ Он не имеет права начинать [gloss:action:действия], и любое начатое [gloss:action:действие] не может быть завершено.`,
+▪ Он не имеет права начинать [gloss:action:действия], и любое начатое [gloss:action:действие] не может быть завершено.
+
+### FAQs
+**В:** Если юнит становится **подверженным боевому шоку** после того, как **начал действие**, прекращает ли он выполнять это **действие**?
+
+**О:** Да
+
+**В:** Если у юнита есть правило, позволяющее ему **начать действие**, когда он **подвержен боевому шоку**, может ли он также продолжать выполнять это действие, если станет **подверженным боевому шоку** после начала **действия**?
+
+**О:** Да`,
           example: `Отряд гвардейцев с Ld 7+ понёс тяжёлые потери и должен выполнить **[gloss:battle-shock-test:проверку боевого шока]**. Игрок бросает 2D6 и получает 9 — поскольку 9 не меньше 7, проверка успешна, и отряд держится. Если бы результат был 6 или меньше, весь юнит стал бы [gloss:battle-shocked:подвержен боевому шоку], утратив способность контролировать [gloss:objective:цели].`,
           children: [
             {
@@ -1974,7 +2028,20 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ▪ Находится в пределах 9" по горизонтали и 5" по вертикали от каждой другой модели в этом юните.
 
 ### Восстановление боевого построения
-На этапе **[gloss:end-of-turn-step:«Конец хода»]** каждого хода игрока, если один или несколько юнитов на поле боя не находятся в **боевом построении**, контролирующие игроки этих юнитов должны удалять модели из них, по одной, пока такой юнит снова не придёт в **боевое построение**. Модели, удалённые таким образом, **[gloss:destroyed:уничтожаются]**, но они не активируют правила, которые срабатывают тогда, когда модель **[gloss:destroyed:уничтожена]**.`,
+На этапе **[gloss:end-of-turn-step:«Конец хода»]** каждого хода игрока, если один или несколько юнитов на поле боя не находятся в **боевом построении**, контролирующие игроки этих юнитов должны удалять модели из них, по одной, пока такой юнит снова не придёт в **боевое построение**. Модели, удалённые таким образом, **[gloss:destroyed:уничтожаются]**, но они не активируют правила, которые срабатывают тогда, когда модель **[gloss:destroyed:уничтожена]**.
+
+### FAQs
+**В:** Когда манёвр требует, чтобы модель или юнит двигались определённым образом, если это возможно, может ли это требование заставить юнит закончить манёвр вне боевого построения?
+
+**О:** Нет — совершая манёвр, модель или юнит должны соблюдать требования, заканчивая этот манёвр в **боевом построении**.
+
+**В:** При проверке **боевого построения** моего юнита может ли мой юнит находиться в нескольких группах?
+
+**О:** Нет, он должен быть в одной непрерывной группе, согласно разделам **Юниты и модели** (01.02) и «Что такое боевое построение».
+
+**В:** Считаются ли модели, **[gloss:destroyed:уничтоженные]** когда юнит находится вне боевого построения, для игровых целей?
+
+**О:** Да.`,
           children: [
             {
               title: 'Что такое боевое построение (What Is Coherency)',
@@ -1986,7 +2053,12 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
           title: 'Связывание (Engagement)',
           body: `Радиус связывания модели — это область поля боя в пределах 2" по горизонтали и 5" по вертикали от неё.
 ▪ Пока союзная модель находится в **радиусе связывания** с одной или несколькими вражескими моделями, эти модели — и юниты, к которым они принадлежат, — **связаны боем** друг с другом.
-▪ Пока юнит не содержит ни одной **связанной** модели, этот юнит считается **не связанным**.`,
+▪ Пока юнит не содержит ни одной **связанной** модели, этот юнит считается **не связанным**.
+
+### FAQs
+**В:** Становится ли моя модель или юнит **связанным**, проходя через **радиус связывания** вражеского юнита во время манёвра?
+
+**О:** Нет.`,
           children: [
             {
               title: 'Что такое связывание (What Is Engagement)',
@@ -2076,7 +2148,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
               title: 'Одна цель',
               body: `Когда модель или юнит атакует одним или несколькими видами оружия, если все атаки этими видами оружия нацелены на один и тот же юнит, говорят, что эта модель или юнит стреляет, сражается или нацеливается на одну цель.
 
-### Часто задаваемые вопросы (FAQs)
+### FAQs
 **В:** При выборе целевого юнита могут ли вражеская модель, **[gloss:visible:видимая]** моей модели, и вражеская модель, находящаяся в дальности оружия моей модели, быть разными вражескими моделями в одном и том же юните?
 
 **О:** Да
@@ -2102,7 +2174,16 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 4. **Другие атаки:** следуйте первой из инструкций ниже, которая применяется:
 → Если есть какое-либо оружие, нацеленное на тот же юнит, которое ещё не использовалось для совершения атак, вернитесь к шагу «Соберите кубики атаки».
 → В противном случае, если есть какое-либо оружие с неотыгранными атаками, нацеленное на другой юнит, вернитесь к шагу «Выберите вражеский юнит».
-→ В противном случае, если все оружие использовано для совершения всех своих атак, эта последовательность заканчивается.`,
+→ В противном случае, если все оружие использовано для совершения всех своих атак, эта последовательность заканчивается.
+
+### FAQs
+**В:** Моё правило говорит, что «дальнобойные атаки этого юнита получают +1 **A**» — получает ли каждая моя атака дополнительный кубик атаки?
+
+**О:** Нет, оно увеличивает характеристику **A** дальнобойного оружия юнита на 1.
+
+**В:** Если у моего юнита есть оружие с одинаковыми характеристиками, но часть этого оружия имеет [PRECISION], и это оружие нацелено на юнит без ключевого слова CHARACTER, бросаю ли я всё это оружие вместе?
+
+**О:** Да — способность [PRECISION] неприменима для этих атак, поскольку в целевом юните нет CHARACTER, чтобы её правило сработало.`,
           definitions: [
             {
               id: 'identical-attacks',
@@ -2214,7 +2295,16 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ▪ Ни одна группа **[gloss:character:CHARACTER]** не может быть раньше в порядке распределения, чем группа не-**[gloss:character:CHARACTER]**.
 ▪ Группы **[gloss:character:CHARACTER]**, содержащие модель, которая потеряла одну или несколько ран, должны быть раньше в порядке распределения, чем группы **[gloss:character:CHARACTER]**, не содержащие раненых моделей.
 
-3. Сделайте **спас-броски**(Save Rolls): противостоящий игрок делает один [gloss:save-roll:спас-бросок] для каждой атаки, которая ранила цель, бросив один D6.`,
+3. Сделайте **спас-броски**(Save Rolls): противостоящий игрок делает один [gloss:save-roll:спас-бросок] для каждой атаки, которая ранила цель, бросив один D6.
+
+### FAQs
+**В:** При объявлении порядка распределения групп в моём юните у меня несколько не-CHARACTER групп, содержащих модель с недостающей раной — как я должен выбрать порядок?
+
+**О:** Эти группы можно выбирать в любом порядке на ваше усмотрение, но они должны идти раньше любых не-CHARACTER групп, не содержащих модель с недостающей раной.
+
+**В:** На мой юнит нападают оружием, которое ухудшит часть его **спас-бросков** хуже 6 — должен ли я делать эти **спас-броски**?
+
+**О:** Да — поскольку у других моделей в вашем юните может быть лучшая **Sv**, достаточно **спас-бросков** можно распределить на них так, что остальные результаты не превысят **Sv** других моделей в вашем юните.`,
         },
         {
           title: 'Нанесение урона',
@@ -2402,7 +2492,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
               title: 'Обычный урон',
               body: `Обычный урон — это урон, нанесённый модели в результате характеристики **[gloss:damage-roll:D]** оружия, а не другими средствами, такими как **[gloss:mortal-wound:смертельные раны]**. **Смертельные раны**, нанесённые в дополнение к обычному урону от атаки, являются частью этой же атаки.
 
-### Часто задаваемые вопросы (FAQs)
+### FAQs
 **В:** У меня есть правило, срабатывающее, когда **[gloss:mortal-wound:смертельная рана]** распределяется на модель — когда это происходит?
 
 **О:** Когда вы выбираете модель на шаге «Выбор модели» (Select Model step) раздела **[gloss:mortal-wound:Смертельные раны]** (06.02).`,
@@ -2417,7 +2507,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
               title: 'Проверка опасности (Hazardous Test)',
               body: `Термин «проверка опасности» (Hazardous test) — это то же самое, что **[gloss:hazard-roll:проверка опасности]**.
 
-### Часто задаваемые вопросы (FAQs)
+### FAQs
 **В:** Если правило говорит, что мой юнит должен сделать **проверку опасности**, делает ли каждая модель в юните **проверку опасности**?
 
 **О:** Нет, юнит сделает 1 одну **проверку опасности**.
