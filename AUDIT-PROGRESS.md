@@ -48,6 +48,11 @@ the other machine's next `git pull` sees it's done.
   here is correct, not a bug.
 - appdata's own `unit_composition` join occasionally yields duplicate rows for the same
   price — de-duped before comparing.
+- Officio Assassinorum Assassins (imperial-agents) carry a second, higher appdata points
+  tier for the *same* 1-model composition (Callidus 100/**140**, Culexus 85/**125**, Eversor
+  ...120/**145**, Vindicare ...125/**155**) — the lone **Agent of the Imperium** allied-
+  inclusion price. wh11ed's faction page shows the base (Agents-army) price; left as-is,
+  don't "fix" the points to appdata's higher tier.
 - For the 5 SM-Chapter factions (black-templars/blood-angels/dark-angels/deathwatch/
   space-wolves): most of the `extra` list is NOT a real gap — appdata's own per-chapter
   bundle only lists that Chapter's exclusive publications, while wh11ed's list (correctly)
@@ -86,7 +91,7 @@ the other machine's next `git pull` sees it's done.
 
 - [x] genestealer-cults
 - [x] grey-knights
-- [ ] imperial-agents
+- [x] imperial-agents
 - [ ] imperial-knights
 - [ ] leagues-of-votann
 - [ ] necrons
