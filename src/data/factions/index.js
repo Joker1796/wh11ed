@@ -11,6 +11,7 @@ import { bloodAngels } from './blood-angels.js'
 import { chaosDaemons } from './chaos-daemons.js'
 import { chaosKnights } from './chaos-knights.js'
 import { chaosSpaceMarines } from './chaos-space-marines.js'
+import { chaosTitanLegions } from './chaos-titan-legions.js'
 import { darkAngels } from './dark-angels.js'
 import { deathwatch } from './deathwatch.js'
 import { deathGuard } from './death-guard.js'
@@ -27,6 +28,7 @@ import { spaceMarines } from './space-marines.js'
 import { spaceWolves } from './space-wolves.js'
 import { tauEmpire } from './tau-empire.js'
 import { thousandSons } from './thousand-sons.js'
+import { titanLegions } from './titan-legions.js'
 import { tyranids } from './tyranids.js'
 import { worldEaters } from './world-eaters.js'
 
@@ -41,6 +43,7 @@ export const factionData = {
   'chaos-daemons': chaosDaemons,
   'chaos-knights': chaosKnights,
   'chaos-space-marines': chaosSpaceMarines,
+  'chaos-titan-legions': chaosTitanLegions,
   'dark-angels': darkAngels,
   deathwatch,
   'death-guard': deathGuard,
@@ -57,6 +60,7 @@ export const factionData = {
   'space-wolves': spaceWolves,
   'tau-empire': tauEmpire,
   'thousand-sons': thousandSons,
+  'titan-legions': titanLegions,
   tyranids,
   'world-eaters': worldEaters,
 }

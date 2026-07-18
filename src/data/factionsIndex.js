@@ -38,7 +38,7 @@ export const factionGroups = [
       { slug: 'astra-militarum',    name: 'Astra Militarum', ready: true, color: { light: '#4e5d2e', dark: '#a3b36b' } },
       { slug: 'imperial-agents',    name: 'Imperial Agents', ready: true, color: { light: '#33635c', dark: '#6fb3a8' } },
       { slug: 'imperial-knights',   name: 'Imperial Knights', ready: true, color: { light: '#2e5f8a', dark: '#7fb0da' } },
-      { slug: 'titan-legions',      name: 'Titan Legions', color: { light: '#6b3f24', dark: '#b98a63' } },
+      { slug: 'titan-legions',      name: 'Titan Legions', ready: true, color: { light: '#6b3f24', dark: '#b98a63' } },
     ],
   },
   {
@@ -47,7 +47,7 @@ export const factionGroups = [
       { slug: 'chaos-daemons',       name: 'Chaos Daemons', ready: true, color: { light: '#8a2c1e', dark: '#de7256' } },
       { slug: 'chaos-knights',       name: 'Chaos Knights', ready: true, color: { light: '#5b2b66', dark: '#b07cc0' } },
       { slug: 'chaos-space-marines', name: 'Chaos Space Marines', ready: true, color: { light: '#7c1f3a', dark: '#d06080' } },
-      { slug: 'chaos-titan-legions', name: 'Chaos Titan Legions', color: { light: '#5d3a28', dark: '#b08464' } },
+      { slug: 'chaos-titan-legions', name: 'Chaos Titan Legions', ready: true, color: { light: '#5d3a28', dark: '#b08464' } },
       { slug: 'death-guard',         name: 'Death Guard', ready: true, color: { light: '#5c6e1f', dark: '#a9c04e' } },
       { slug: 'emperors-children',   name: 'Emperor’s Children', ready: true, color: { light: '#99377c', dark: '#e07fc4' } },
       { slug: 'thousand-sons',       name: 'Thousand Sons', ready: true, color: { light: '#1f6e8c', dark: '#5fb6d8' } },

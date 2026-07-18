@@ -46,6 +46,8 @@ const SLUG_MAP = {
   'imperial-agents': 'agents-of-the-imperium',
   'aeldari': 'asuryani',
   'chaos-daemons': 'legiones-daemonica',
+  'titan-legions': 'adeptus-titanicus',
+  'chaos-titan-legions': 'titanicus-traitoris',
 }
 
 // wh11ed appends a classification suffix to some enhancement/ability names ("Fear Made
