@@ -40,7 +40,7 @@ export const stratNamesRu = {
   'Dynamic Breakthrough': 'Динамичный прорыв',
   'Ceaseless Onslaught': 'Непрестанный натиск',
   'Advance and Claim': 'Наступать и захватывать',
-  'Onto the Next': 'К следующему',
+  'On to the Next': 'К следующему',
   'Outflanking Strike': 'Фланговый удар',
   'Reactive Disembarkation': 'Реактивная высадка',
   'Devoted Duellists': 'Преданные дуэлянты',
