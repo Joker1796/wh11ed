@@ -17,13 +17,28 @@ const ROOT = fileURLToPath(new URL('..', import.meta.url))
 
 const { factionGroups } = await import(join(ROOT, 'src/data/factionsIndex.js'))
 
+// The 5 SM-Chapter codex files don't duplicate datasheets identical to space-marines.js —
+// they list those ids in `sharedUnitIds` instead (see src/data/datasheets/index.js). Fold
+// them back in so search still finds those units under each Chapter.
+let smUnits = null
+async function loadSpaceMarines() {
+  if (!smUnits) smUnits = (await import(join(ROOT, 'src/data/datasheets/space-marines.js'))).default
+  return smUnits
+}
+
 const out = []
 for (const group of factionGroups) {
   for (const f of group.factions) {
     if (!f.ready || !existsSync(join(ROOT, `src/data/factions/${f.slug}.js`))) continue
     const sheetsFile = join(ROOT, `src/data/datasheets/${f.slug}.js`)
     if (!existsSync(sheetsFile)) continue
-    const units = (await import(sheetsFile)).default ?? []
+    const mod = await import(sheetsFile)
+    let units = mod.default ?? []
+    if (mod.sharedUnitIds?.length) {
+      const idSet = new Set(mod.sharedUnitIds)
+      const sm = await loadSpaceMarines()
+      units = [...units, ...sm.filter((u) => idSet.has(u.id))]
+    }
     out.push([f.slug, f.name, units.map((u) => [u.id, u.name])])
   }
 }
