@@ -891,7 +891,7 @@ Each time a Drukhari or Harlequins model from your army makes an attack, if that
         {
           name: "Murderer's Circus",
           sublabel: "Reaper's Wager – Battle Tactic Stratagem",
-          cp: '2CP',
+          cp: '1CP',
           turn: 'either',
           flavor: 'In bounding leaps and graceful pirouettes, the cavalcade of capricious killers bounds through hails of fire, cackling gleefully as they come.',
           when: 'Fight phase, just after an enemy unit has selected its targets.',
@@ -924,7 +924,7 @@ Each time a Drukhari or Harlequins model from your army makes an attack, if that
         {
           name: 'Dance Macabre',
           sublabel: "Reaper's Wager – Strategic Ploy Stratagem",
-          cp: '1CP',
+          cp: '2CP',
           turn: 'opponent',
           flavor: "The saedath's victims become unwitting partners in a frantic dance of ghastly slaughter.",
           when: "Your opponent's Movement phase, just after an enemy unit ends a Normal, Advance or Fall Back move.",

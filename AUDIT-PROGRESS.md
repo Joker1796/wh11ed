@@ -110,7 +110,7 @@ the other machine's next `git pull` sees it's done.
 - [x] chaos-space-marines
 - [x] dark-angels
 - [x] death-guard
-- [ ] drukhari
+- [x] drukhari
 - [ ] emperors-children
 
 ## Machine B — 13 factions (~313 wu)
