@@ -458,7 +458,7 @@ export default {
     abilities: {
       'Lord of the Machine Cult':
         'Пока эта модель возглавляет юнит, модели этого юнита имеют способность Feel No Pain 5+. Если этот юнит имеет ключевое слово Electro-Priests, модели этого юнита вместо этого имеют способность Feel No Pain 4+.',
-      'Data-spike':
+      'Dataspike':
         'В начале фазы ближнего боя вы можете выбрать один вражеский юнит VEHICLE в дистанции ввязывания юнита этой модели и бросить один D6: на 4+ этот вражеский юнит получает D6 смертельные раны и, до конца фазы, характеристика Навыка ближнего боя (Weapon Skill) оружия ближнего боя этого вражеского юнита ухудшается на 1.',
     },
     loadout: `${EQUIP_THIS} macrostubber; volkite blaster; Omnissian axe.`,
@@ -543,7 +543,7 @@ export const abilityNamesRu = {
   'Dread Snipers': 'Грозные снайперы',
   'Achillan Eye': 'Глаз achillan',
   'Lord of the Machine Cult': 'Владыка Культа Машины',
-  'Data-spike': 'Data-spike',
+  Dataspike: 'Dataspike',
   Enginseer: 'Enginseer',
   'Omnissiah’s Blessing': 'Благословение Омниссии',
   'Vengeance for the Omnissiah': 'Месть за Омниссию',

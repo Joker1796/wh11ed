@@ -64,7 +64,7 @@ the other machine's next `git pull` sees it's done.
 
 - [x] adepta-sororitas
 - [x] adeptus-custodes
-- [ ] adeptus-mechanicus
+- [x] adeptus-mechanicus
 - [ ] aeldari
 - [ ] astra-militarum
 - [ ] black-templars
