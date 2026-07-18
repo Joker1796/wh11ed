@@ -1141,7 +1141,7 @@ export default [
     "core": "Deadly Demise D3, Firing Deck 6",
     "abilities": [
       {
-        "name": "Grinding Clearance",
+        "name": "Grinding Line-breaker",
         "text": "Each time an enemy unit (excluding MONSTERS and VEHICLES) that is within Engagement Range of this model Falls Back, all models in that enemy unit must take a Desperate Escape test. When doing so, if that enemy unit is Battle-shocked, subtract 1 from each of those tests."
       }
     ],

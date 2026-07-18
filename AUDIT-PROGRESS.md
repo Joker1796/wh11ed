@@ -29,6 +29,15 @@ the other machine's next `git pull` sees it's done.
 
 ## Known false-positive classes already filtered (don't re-report these as bugs)
 
+- **Combat Patrol content.** Publications flagged `isCombatPatrol` (e.g. "Combat Patrol:
+  Claw of Ascension") are a separate boxed game mode with fixed 0-point rosters and
+  detachment-name-prefixed unit variants; wh11ed is matched-play only and carries none of
+  it. `sync-appdata.mjs` now derives the CP datasheet/detachment name sets from the raw
+  appdata `tables/` (the bundle flags detachments but not datasheets) and drops them before
+  diffing — so a whole missing "detachment + N datasheets, all 0pts" block is almost always
+  just a Combat Patrol box, not a real gap.
+- The U+2010 hyphen (`‐`) in some appdata names (e.g. "Bio‐horror Disruption") — added to the
+  name-normaliser's dash class alongside the U+2011 one.
 - wh11ed's `"1CP"` vs appdata's bare `"1"` stratagem CP formatting.
 - A `(Aura)`/`(Psychic)` classification suffix wh11ed appends to some enhancement/ability
   names that appdata's bare name doesn't carry.
@@ -74,7 +83,7 @@ the other machine's next `git pull` sees it's done.
 
 ## Machine B — 13 factions (~313 wu)
 
-- [ ] genestealer-cults
+- [x] genestealer-cults
 - [ ] grey-knights
 - [ ] imperial-agents
 - [ ] imperial-knights
