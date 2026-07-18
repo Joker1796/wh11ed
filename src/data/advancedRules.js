@@ -89,7 +89,12 @@ When a unit embarks, the active player removes that unit from the battlefield �
           title: 'Disembarking',
           body: `In the active player's Movement phase, each friendly unit embarked within a TRANSPORT model can disembark from it by making a **disembark move** (see below).
 
-If a TRANSPORT model is **[gloss:destroyed:destroyed]**, before removing it from the battlefield, the active player must make an **emergency disembark move** (see opposite) with each unit embarked within it.`,
+If a TRANSPORT model is **[gloss:destroyed:destroyed]**, before removing it from the battlefield, the active player must make an **emergency disembark move** (see opposite) with each unit embarked within it.
+
+### FAQs
+**Q:** If a unit makes any disembark move in a turn (i.e. Disembark move, Emergency Disembark move, etc.), has it disembarked that turn?
+
+**A:** Yes.`,
         },
         {
           id: 'section-18-04',
@@ -145,7 +150,12 @@ If a TRANSPORT model is **[gloss:destroyed:destroyed]**, before removing it from
 
 Before the battle, in the Muster Armies step, for each **leader** and **support** unit in your army, you can select one friendly **bodyguard** unit that unit can **lead**. That unit will then **lead** that **bodyguard** unit for the battle and form an **attached** unit with it.
 
-Unless otherwise stated, each **bodyguard** unit can only have one **leader** unit and one **support** unit attached to it.`,
+Unless otherwise stated, each **bodyguard** unit can only have one **leader** unit and one **support** unit attached to it.
+
+### FAQs
+**Q:** The Munitorium Field Manual shows my unit can attach to different units than are on its datasheet — which do I use?
+
+**A:** Use the Munitorium Field Manual.`,
           seeAlso: ['Leader 24.22', 'Support 24.34'],
           children: [
             {
@@ -494,7 +504,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
               title: 'Может погрузиться',
               body: `Отряд может погрузиться, если он соответствует всем условиям из раздела «[gloss:embark:Погрузка]» (18.02). Обратите внимание, что одно или несколько из этих условий могут быть изменены другими правилами — в таком случае отряд должен удовлетворять этим изменённым условиям в дополнение к любым неизменённым условиям, чтобы иметь возможность погрузиться.
 
-### Часто задаваемые вопросы (FAQs)
+### FAQs
 **В:** Если правило говорит, что отряд может погрузиться в TRANSPORT в тот ход, когда он высадился, обходит ли это ограничение основных правил на погрузку в тот ход, когда отряд совершил манёвр расстановки (см. 18.02)?
 
 **О:** Да`,
@@ -507,7 +517,12 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
           title: 'Высадка',
           body: `В фазу движения (Movement phase) активного игрока каждый дружественный отряд, погружённый в модель [gloss:transport:TRANSPORT], может высадиться из неё, совершив **[gloss:disembark:манёвр высадки]** (см. ниже).
 
-Если модель TRANSPORT **[gloss:destroyed:уничтожена]**, до её удаления с поля боя активный игрок должен совершить **[gloss:disembark:экстренный манёвр высадки]** (см. напротив) каждым отрядом, погружённым в неё.`,
+Если модель TRANSPORT **[gloss:destroyed:уничтожена]**, до её удаления с поля боя активный игрок должен совершить **[gloss:disembark:экстренный манёвр высадки]** (см. напротив) каждым отрядом, погружённым в неё.
+
+### FAQs
+**В:** Если юнит совершает любой манёвр высадки за ход (т.е. манёвр высадки, экстренный манёвр высадки и т.д.), считается ли, что он высадился в этот ход?
+
+**О:** Да.`,
         },
         {
           id: 'section-18-04',
@@ -562,7 +577,12 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
 
 До битвы, на шаге «Формирование армий» (Muster Armies step), для каждого отряда **лидера** и **поддержки** в вашей армии вы можете выбрать один дружественный отряд **телохранителей**, который он может **возглавлять**. Этот отряд будет **возглавлять** этот отряд **телохранителей** в битве и создаст с ним **объединённый** отряд.
 
-Если не указано иное, каждый отряд **телохранителей** может иметь только один присоединённый отряд **лидера** и один отряд **поддержки**.`,
+Если не указано иное, каждый отряд **телохранителей** может иметь только один присоединённый отряд **лидера** и один отряд **поддержки**.
+
+### FAQs
+**В:** Munitorium Field Manual показывает, что мой юнит может присоединяться к другим юнитам, чем указано в его листе данных — что мне использовать?
+
+**О:** Используйте Munitorium Field Manual.`,
           children: [
             {
               title: 'Объединённые отряды после уничтожения отряда телохранителей',
