@@ -311,7 +311,12 @@ A unit is **[gloss:eligible-to-shoot:eligible to shoot]** if it is on the battle
 ▪ **[gloss:normal-shooting:Normal shooting]** (10.04)
 ▪ **[gloss:assault-shooting:Assault shooting]** (10.05)
 ▪ **[gloss:close-quarters:Close-quarters shooting]** (10.06)
-▪ **[gloss:indirect-shooting:Indirect shooting]** (10.07)`,
+▪ **[gloss:indirect-shooting:Indirect shooting]** (10.07)
+
+### FAQs
+**Q:** Can I select a unit to shoot or fight if it doesn't have melee or ranged weapons?
+
+**A:** Yes — it just makes no attacks, and then the **fight type** or **shoot type** is resolved.`,
         seeAlso: ['Actions 16.00', 'Shooting at Engaged Monsters and Vehicles 17.03', 'Terrain and Visibility 13.07'],
       },
       {
@@ -407,7 +412,12 @@ A unit is **[gloss:eligible-to-shoot:eligible to shoot]** if it is on the battle
 ▪ It made an [gloss:advance:advance] or **fall-back move** this turn.
 
 2. Make **Charge Roll**: Make a **charge roll** by rolling 2D6: the result is the **maximum distance** for the **charge move**.
-3. Attempt Charge: If it is possible to make a **charge move**, and if you still want to, make a **charge move** with that unit. Otherwise, your unit does not make a **charge move**. In either case, the charge is then resolved.`,
+3. Attempt Charge: If it is possible to make a **charge move**, and if you still want to, make a **charge move** with that unit. Otherwise, your unit does not make a **charge move**. In either case, the charge is then resolved.
+
+### FAQs
+**Q:** When a rule instructs you to perform a charge outside of the Charge phase, do I resolve steps 2 and 3 of the Charge step (11.02)?
+
+**A:** Yes.`,
         children: [
           {
             id: 'section-11-02-01',
@@ -498,7 +508,20 @@ A unit is **[gloss:eligible-to-shoot:eligible to shoot]** if it is on the battle
 ▪ Your unit must be **engaged**.
 ▪ Each model that started this move **engaged** with an enemy unit must still be **engaged** with that enemy unit.
 
-[img:/images/fight/pile-in-moves.jpg|Pile-in moves — engaging with enemy units]`,
+[img:/images/fight/pile-in-moves.jpg|Pile-in moves — engaging with enemy units]
+
+### FAQs
+**Q:** If I have a rule that says my unit can move up to 6" when it makes a **pile-in move** or **consolidation move**, does this also change the **maximum distance** of those moves to 6"?
+
+**A:** Yes.
+
+**Q:** If a rule allows my unit to pile-in or consolidate an extra distance in the Fight phase, when can I use that rule?
+
+**A:** For **pile-in moves**, during the Pile-in step (12.02); for **consolidation moves**, during the Consolidate step (12.07).
+
+**Q:** If a rule modifies how far a unit or model can move during a **pile-in move** or **consolidation move**, does it also change the distance of the target units?
+
+**A:** No.`,
       },
       {
         id: 'section-12-04',
@@ -834,7 +857,12 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 ▪ **[gloss:normal-shooting:Normal shooting]** (Обычная стрельба) (10.04)
 ▪ **[gloss:assault-shooting:Assault shooting]** (Штурмовая стрельба) (10.05)
 ▪ **[gloss:close-quarters:Close-quarters shooting]** (Стрельба в ближнем бою) (10.06)
-▪ **[gloss:indirect-shooting:Indirect shooting]** (Непрямая стрельба) (10.07)`,
+▪ **[gloss:indirect-shooting:Indirect shooting]** (Непрямая стрельба) (10.07)
+
+### FAQs
+**В:** Могу ли я выбрать юнит для стрельбы или боя, если у него нет оружия ближнего или дальнего боя?
+
+**О:** Да — он просто не совершает атак, а затем **тип боя** или **тип стрельбы** отыгрывается.`,
       },
       {
         title: 'Конец фазы стрельбы',
@@ -911,7 +939,12 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 ▪ Он совершил **[gloss:advance:продвижение]** или **[gloss:fall-back-move:отступление]** в этом ходу.
 
 2. Сделайте бросок на нападение (Make Charge Roll): Сделайте бросок на нападение, бросив 2D6: результат является **максимальным расстоянием** для [gloss:charge-move:манёвра нападения].
-3. Попытка нападения (Attempt Charge): Если возможно совершить [gloss:charge-move:манёвр нападения] и если вы всё ещё хотите этого, совершите манёвр нападения этим юнитом. В противном случае ваш юнит не совершает манёвр нападения. В любом случае нападение затем отыгрывается.`,
+3. Попытка нападения (Attempt Charge): Если возможно совершить [gloss:charge-move:манёвр нападения] и если вы всё ещё хотите этого, совершите манёвр нападения этим юнитом. В противном случае ваш юнит не совершает манёвр нападения. В любом случае нападение затем отыгрывается.
+
+### FAQs
+**В:** Когда правило предписывает совершить нападение вне фазы нападения, отыгрываю ли я шаги 2 и 3 шага «Нападение» (11.02)?
+
+**О:** Да.`,
         children: [
           {
             title: 'Неудавшиеся нападения',
@@ -985,7 +1018,20 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 ▪ Ваш юнит должен быть **[gloss:engaged:связан боем]**.
 ▪ Каждая модель, которая начала этот манёвр **[gloss:engaged:связанной боем]** с вражеским юнитом, должна всё ещё быть **[gloss:engaged:связана боем]** с этим вражеским юнитом.
 
-[img:/images/fight/pile-in-moves-ru.jpg|Манёвр в контакт — вступление в бой с врагом]`,
+[img:/images/fight/pile-in-moves-ru.jpg|Манёвр в контакт — вступление в бой с врагом]
+
+### FAQs
+**В:** Если у меня есть правило, что мой юнит может двигаться до 6" при **манёвре сближения** или **консолидации**, меняет ли это также **максимальную дистанцию** этих манёвров на 6"?
+
+**О:** Да.
+
+**В:** Если правило позволяет моему юниту сблизиться или консолидироваться на дополнительную дистанцию в фазе боя, когда я могу использовать это правило?
+
+**О:** Для **манёвров сближения** — во время шага «Сближение» (12.02); для **консолидаций** — во время шага «Консолидация» (12.07).
+
+**В:** Если правило изменяет, насколько далеко юнит или модель может двигаться во время **манёвра сближения** или **консолидации**, меняет ли это также дистанцию целевых юнитов?
+
+**О:** Нет.`,
       },
       {
         title: 'Бой',
