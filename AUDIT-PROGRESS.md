@@ -51,12 +51,17 @@ the other machine's next `git pull` sees it's done.
 - wh11ed keeps intentional **"designer's note"** pseudo-abilities on a few datasheets
   (Devastator/Hellblaster Squad) that appdata has no equivalent for — editorial content,
   not a real gap; leave them.
-- Some single-model units carry a **second, higher appdata "default" composition at the same
-  1-model size** (imperial-agents Assassins — Callidus 100/**140**, Culexus 85/**125**,
-  Eversor 120/**145**, Vindicare 125/**155**, the lone **Agent of the Imperium** allied price;
-  necrons C'tan Shards — Deceiver 330/**375**, Nightbringer 360/**405**, Void Dragon 345/**380**,
-  Transcendent 340/**380**, provenance unclear). wh11ed shows the base/standard price; leave
-  these `~ points differ` lines as-is, don't "fix" to appdata's higher tier.
+- Some units carry a **second, higher appdata "default" composition at the same model
+  count** (imperial-agents Assassins — Callidus 100/**140**, Culexus 85/**125**, Eversor
+  120/**145**, Vindicare 125/**155**, the lone **Agent of the Imperium** allied price; necrons
+  C'tan Shards — Deceiver 330/**375**, Nightbringer 360/**405**, Void Dragon 345/**380**,
+  Transcendent 340/**380**; space-marines squad/jump-pack units — Assault Intercessor Squad
+  75/**80**, Assault Intercessors With Jump Packs 85/**95**, Bladeguard Veteran Squad
+  80/**85**, Captain/Chaplain With Jump Pack 75/**80**, Outrider Squad 70/**75**, Repulsor
+  Executioner 230/**240** (four duplicate 230 rows plus one 240), Vanguard Veteran Squad With
+  Jump Packs 100/**105** — provenance unclear, possibly a historical MFM price snapshot kept
+  alongside the current one). wh11ed shows the base/lower price; leave these `~ points differ`
+  lines as-is, don't "fix" to appdata's higher tier.
 - For the 5 SM-Chapter factions (black-templars/blood-angels/dark-angels/deathwatch/
   space-wolves): most of the `extra` list is NOT a real gap — appdata's own per-chapter
   bundle only lists that Chapter's exclusive publications, while wh11ed's list (correctly)
@@ -105,6 +110,23 @@ the other machine's next `git pull` sees it's done.
   field at all (out of scope for the script), so **manually grep each chapter/faction's
   datasheet file for the generic army-rule name** (`grep -c '"faction": "<generic name>"'`)
   and cross-check against the faction's own `armyRule.name` in `src/data/factions/<slug>.js`.
+- **A named-character/Primarch "pick one" `abilitySets` group's parent name can drift from
+  appdata's `subAbilities` parent name** even when its options are complete and correct —
+  chaos-daemons' Be'lakor had `abilities`/`abilitySets` both named "Shadow Form" while appdata
+  calls the same group "Shadow Form Abilities" (the 3 sub-options — Wreathed in Shadows, Pall
+  of Despair, Shadow Lord — were already present and correct). `sync-appdata.mjs` doesn't know
+  about `abilitySets` at all, so it reports this as a missing+extra pair rather than a rename.
+  Renamed to match appdata exactly (EN `abilities`/`abilitySets` name + RU overlay key).
+
+## Full-canon re-verification (post-audit sanity pass)
+
+Ran `sync-appdata.mjs` fresh across all 28 factions after every audit PR above had merged (not
+just the ones with open findings) — a final check that nothing regressed and nothing was
+missed. Found and fixed one real gap (the Be'lakor naming drift above, in `chaos-daemons`,
+one of the "already done before the split" factions that predated most of the false-positive
+classes documented here). Everything else was already-catalogued noise (SM-Chapter shared-pool
+`extra` list, appdata's own Martial Examplars/Cut' Em Down typos, duplicate-default points
+rows). Worth re-running this full sweep after any future `wh40k-appdata` data_version bump.
 
 ## Machine A — done, now picking up 3 of Machine B's remaining 4
 

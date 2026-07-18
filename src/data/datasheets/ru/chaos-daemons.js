@@ -44,7 +44,7 @@ export default {
     abilities: {
       'The Dark Master (Aura)':
         'Участок поля боя в пределах 6" от этой модели находится в Shadow of Chaos вашей армии.',
-      'Shadow Form':
+      'Shadow Form Abilities':
         'В начале раунда боя выберите одну способность Shadow Form (см. ниже). До конца раунда боя эта модель имеет эту способность.',
     },
     special: {
@@ -871,7 +871,7 @@ export const abilityNamesRu = {
   Poxbringer: 'Носитель моров',
   'Feculent Despair (Aura, Psychic)': 'Гнилостное отчаяние (Аура, Психика)',
   'The Dark Master (Aura)': 'Тёмный Владыка (Аура)',
-  'Shadow Form': 'Теневая форма',
+  'Shadow Form Abilities': 'Теневая форма',
   'Wreathed in Shadows (Aura, Psychic)': 'Окутанный тенями (Аура, Психика)',
   'Pall of Despair (Aura, Psychic)': 'Пелена отчаяния (Аура, Психика)',
   'Shadow Lord (Aura, Psychic)': 'Владыка теней (Аура, Психика)',
