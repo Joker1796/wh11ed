@@ -52,7 +52,7 @@ const SLUG_MAP = {
 // Manifest (Aura)", "Mental Fortress (Psychic)") that appdata's bare name doesn't carry —
 // strip any trailing "(...)" before matching (no name in either source legitimately ends
 // in one otherwise).
-const norm = (s) => (s || '').toLowerCase().replace(/\s*\([^)]*\)\s*$/, '').replace(/[’‘`]/g, "'").replace(/[-–—]/g, '-').replace(/\s+/g, ' ').trim()
+const norm = (s) => (s || '').toLowerCase().replace(/\s*\([^)]*\)\s*$/, '').replace(/[’‘`]/g, "'").replace(/[-–—‑]/g, '-').replace(/\s+/g, ' ').trim()
 
 function appdataToMarkup(text) {
   if (!text) return ''
@@ -181,7 +181,11 @@ async function syncFaction(slug) {
   for (const d of wh11edSheets) {
     const appDs = appDsByName.get(norm(d.name))
     if (!appDs) continue
-    const whPts = (d.points || []).map((p) => p.points).sort((x, y) => x - y)
+    // wh11ed's `points[].note` sometimes marks MFM "copy tax" tiers ("1st-2nd" vs "3rd+"
+    // costing more for spamming the same unit) — appdata's composition join only exposes
+    // the base price, so drop any tier past the first before comparing.
+    const isSurchargeTier = (note) => note && /^(2nd|3rd|4th|5th)/i.test(note)
+    const whPts = (d.points || []).filter((p) => !isSurchargeTier(p.note)).map((p) => p.points).sort((x, y) => x - y)
     const appPts = (appDs.points || []).map((p) => p.points).sort((x, y) => x - y)
     if (whPts.length && appPts.length && JSON.stringify(whPts) !== JSON.stringify(appPts)) {
       lines.push(`  ~ datasheet "${d.name}" points differ: wh11ed=${JSON.stringify(whPts)} appdata=${JSON.stringify(appPts)}`)
