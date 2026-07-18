@@ -52,7 +52,7 @@ const SLUG_MAP = {
 // Manifest (Aura)", "Mental Fortress (Psychic)") that appdata's bare name doesn't carry —
 // strip any trailing "(...)" before matching (no name in either source legitimately ends
 // in one otherwise).
-const norm = (s) => (s || '').toLowerCase().replace(/\s*\([^)]*\)\s*$/, '').replace(/[’‘`]/g, "'").replace(/[-–—‑]/g, '-').replace(/\s+/g, ' ').trim()
+const norm = (s) => (s || '').toLowerCase().replace(/\s*\([^)]*\)\s*$/, '').replace(/[’‘`]/g, "'").replace(/[-‐‑–—]/g, '-').replace(/\s+/g, ' ').trim()
 
 function appdataToMarkup(text) {
   if (!text) return ''
@@ -82,6 +82,22 @@ async function loadJson(file) {
 }
 async function loadModule(file) {
   return fs.existsSync(file) ? import(pathToFileURL(file)) : null
+}
+
+// Combat Patrol publications (`isCombatPatrol`) are a separate boxed game mode with fixed
+// 0-point rosters and detachment-name-prefixed unit variants; wh11ed is matched-play only
+// and deliberately carries none of it. The faction bundle flags detachments but not
+// datasheets, so derive both name sets straight from the raw appdata tables and drop them
+// before diffing (self-contained — no bundle regeneration needed). Computed once.
+let _combatPatrol = null
+function combatPatrolNames() {
+  if (_combatPatrol) return _combatPatrol
+  const T = path.join(APPDATA, 'tables')
+  const read = (f) => (fs.existsSync(path.join(T, f)) ? JSON.parse(fs.readFileSync(path.join(T, f), 'utf8')) : [])
+  const cpPubIds = new Set(read('publication.json').filter((p) => p.isCombatPatrol).map((p) => p.id))
+  const namesUnder = (f) => new Set(read(f).filter((r) => cpPubIds.has(r.publicationId)).map((r) => norm(r?.localisations?.en?.name || '')).filter(Boolean))
+  _combatPatrol = { datasheets: namesUnder('datasheet.json'), detachments: namesUnder('detachment.json') }
+  return _combatPatrol
 }
 
 // Fold a Chapter's shared space-marines.js units back in, mirroring
@@ -154,6 +170,11 @@ async function syncFaction(slug) {
 
   const lines = []
 
+  // Drop Combat Patrol content — a separate game mode wh11ed doesn't carry (see helper).
+  const cp = combatPatrolNames()
+  const appDetachments = (bundle.detachments || []).filter((d) => !cp.detachments.has(norm(d.name)))
+  const appDatasheets = (bundle.datasheets || []).filter((d) => !cp.datasheets.has(norm(d.name)))
+
   // Army rule(s): wh11ed has one combined armyRule; appdata may have several.
   const appArmyNames = (bundle.armyRules || []).map((a) => norm(a.name))
   if (en.armyRule && !appArmyNames.some((n) => (en.armyRule.name || '').toLowerCase().includes(n) || n.includes((en.armyRule.name || '').toLowerCase()))) {
@@ -161,9 +182,9 @@ async function syncFaction(slug) {
   }
 
   // Detachments, and within each, stratagems/enhancements.
-  lines.push(...diffByName('detachment', en.detachments, bundle.detachments, (d) => d.name, (d) => d.name, [],
+  lines.push(...diffByName('detachment', en.detachments, appDetachments, (d) => d.name, (d) => d.name, [],
     (d) => (d.rules || []).map((r) => `${r.name}: ${bodyText(r.body)}`).join(' | ')))
-  const appDetByName = byNormName(bundle.detachments || [], (d) => d.name)
+  const appDetByName = byNormName(appDetachments, (d) => d.name)
   for (const d of en.detachments || []) {
     const appDet = appDetByName.get(norm(d.name))
     if (!appDet) continue
@@ -179,9 +200,9 @@ async function syncFaction(slug) {
   // Datasheets. For entirely missing units, a points/keywords pointer is enough — a new
   // datasheet needs full authoring (RU translation included), not a one-line paste.
   const wh11edSheets = await loadWh11edDatasheets(slug)
-  lines.push(...diffByName('datasheet', wh11edSheets, bundle.datasheets, (d) => d.name, (d) => d.name, [],
+  lines.push(...diffByName('datasheet', wh11edSheets, appDatasheets, (d) => d.name, (d) => d.name, [],
     (d) => `${(d.points || []).map((p) => `${p.models}=${p.points}pts`).join(', ')} — ${(d.keywords || []).join(', ')}`))
-  const appDsByName = byNormName(bundle.datasheets || [], (d) => d.name)
+  const appDsByName = byNormName(appDatasheets, (d) => d.name)
   for (const d of wh11edSheets) {
     const appDs = appDsByName.get(norm(d.name))
     if (!appDs) continue
