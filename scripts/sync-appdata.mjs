@@ -52,7 +52,7 @@ const SLUG_MAP = {
 // Manifest (Aura)", "Mental Fortress (Psychic)") that appdata's bare name doesn't carry —
 // strip any trailing "(...)" before matching (no name in either source legitimately ends
 // in one otherwise).
-const norm = (s) => (s || '').toLowerCase().replace(/\s*\([^)]*\)\s*$/, '').replace(/[’‘`]/g, "'").replace(/[-‐‑–—]/g, '-').replace(/\s+/g, ' ').trim()
+const norm = (s) => (s || '').toLowerCase().replace(/(?:\s*\([^)]*\))+\s*$/, '').replace(/[’‘`]/g, "'").replace(/[-‐‑–—]/g, '-').replace(/\s+/g, ' ').trim()
 
 function appdataToMarkup(text) {
   if (!text) return ''
