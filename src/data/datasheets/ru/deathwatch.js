@@ -231,7 +231,7 @@ export default {
     abilities: {
       'Strategic Knowledge':
         'Пока эта модель возглавляет юнит, этот юнит может стрелять и объявлять нападение в ход, в который он продвигался или отступал.',
-      'Watch Master': CP_REDUCE,
+      'Rites of Battle': CP_REDUCE,
     },
     loadout: `${EQUIP_THIS} vigil spear.`,
     options: ['Нет.'],
@@ -254,5 +254,4 @@ export const abilityNamesRu = {
   'Tactical Instinct': 'Тактический инстинкт',
   'Unstoppable Champion': 'Неудержимый чемпион',
   'Strategic Knowledge': 'Стратегическое знание',
-  'Watch Master': 'Мастер Вахты',
 }
