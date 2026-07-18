@@ -157,10 +157,15 @@ its own (chapter-unique or diverging) datasheets. `loadDatasheets`/`loadDatashee
 (`src/data/datasheets/index.js` / `ru/index.js`) fold the referenced `space-marines.js` entries back
 in transparently, so every other consumer (`FactionDatasheetsView`, `FactionDatasheetView`,
 `gen-datasheet-index.mjs`, `gen-seo-routes.mjs`) sees one flat per-faction list — ids/URLs are
-unaffected either way. **Only exact duplicates were folded in** (same content but for
-`factionKeywords`); units with the same name but any real content difference between a Chapter file
-and `space-marines.js` were deliberately left as-is, chapter-local, pending reconciliation against
-`wh40k-appdata` (see `scripts/sync-appdata.mjs`) rather than guessing which version is current.
+unaffected either way. A unit is folded into the shared pool whenever `wh40k-appdata` doesn't list a
+Chapter-specific override for it under that Chapter's own publication — cross-checked during the
+appdata reconciliation (see `AUDIT-PROGRESS.md`'s Follow-up), which found the Chapter files had
+drifted far more than believed: only **6 units total, all in Black Templars** (Impulsor, Land Raider
+Crusader, Repulsor, Repulsor Executioner, Sternguard Veteran Squad, Terminator Squad) are genuinely
+Chapter-unique; everything else that looked "differing" was stale duplication (missing keywords,
+pre-errata ability text, outdated points, wrong core-ability labels) that had silently drifted out of
+sync with the shared pool. Each Chapter's `ru/<slug>.js` RU overlay was already ahead of this — its
+own `SHARED` list already assumed the correct fold — so only the EN files needed the catch-up.
 
 ## Bilingual content conventions
 

@@ -579,7 +579,6 @@ export default [
       "Imperium",
       "Terminator",
       "Character",
-      "Deathwing",
       "Ancient"
     ],
     "factionKeywords": [
@@ -1355,7 +1354,6 @@ export default [
     "loadout": "**This model is equipped with:** Ballistus missile launcher; Ballistus lascannon; twin storm bolter; armoured feet.",
     "keywords": [
       "Ballistus Dreadnought",
-      "Deathwing",
       "Walker",
       "Vehicle",
       "Dreadnought",
@@ -1441,7 +1439,6 @@ export default [
       "Grenades",
       "Infantry",
       "Character",
-      "Deathwing",
       "Bladeguard Ancient",
       "Ancient"
     ],
@@ -1571,8 +1568,7 @@ export default [
       "Bladeguard Veteran Squad",
       "Grenades",
       "Infantry",
-      "Imperium",
-      "Deathwing"
+      "Imperium"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -1720,8 +1716,7 @@ export default [
       "Walker",
       "Imperium",
       "Dreadnought",
-      "Brutalis Dreadnought",
-      "Deathwing"
+      "Brutalis Dreadnought"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -2371,8 +2366,7 @@ export default [
       "Character",
       "Imperium",
       "Terminator",
-      "Captain",
-      "Deathwing"
+      "Captain"
     ],
     "factionKeywords": [
       "Adeptus Astartes"
@@ -3211,7 +3205,6 @@ export default [
       ]
     },
     "keywords": [
-      "Deathwing",
       "Imperium",
       "Character",
       "Terminator",
@@ -4475,7 +4468,6 @@ export default [
       "Walker",
       "Vehicle",
       "Dreadnought",
-      "Deathwing",
       "Imperium"
     ],
     "factionKeywords": [
@@ -7258,7 +7250,6 @@ export default [
     ],
     "transport": "This model has a transport capacity of 12 Adeptus Astartes Infantry models. Each Jump Pack, Wulfen, Gravis or Terminator model takes up the space of 2 models and each Centurion model takes up the space of 3 models.",
     "keywords": [
-      "Deathwing",
       "Land Raider",
       "Imperium",
       "Transport",
@@ -7541,7 +7532,6 @@ export default [
       "Land Raider",
       "Grenades",
       "Land Raider Redeemer",
-      "Deathwing",
       "Smoke",
       "Frame"
     ],
@@ -8008,7 +7998,6 @@ export default [
     },
     "keywords": [
       "Librarian",
-      "Deathwing",
       "Character",
       "Psyker",
       "Infantry",
@@ -9399,7 +9388,6 @@ export default [
       "Vehicle",
       "Imperium",
       "Walker",
-      "Deathwing",
       "Redemptor Dreadnought",
       "Dreadnought"
     ],
@@ -9665,7 +9653,6 @@ export default [
       "Repulsor",
       "Smoke",
       "Imperium",
-      "Deathwing",
       "Frame"
     ],
     "factionKeywords": [
@@ -9846,7 +9833,6 @@ export default [
     ],
     "transport": "This model has a transport capacity of 7 Adeptus Astartes Infantry models. Each Jump Pack, Wulfen, Gravis or Terminator model takes up the space of 2 models and each Centurion model takes up the space of 3 models.",
     "keywords": [
-      "Deathwing",
       "Repulsor Executioner",
       "Imperium",
       "Transport",
@@ -10406,7 +10392,6 @@ export default [
       "Grenades",
       "Sternguard Veteran Squad",
       "Imperium",
-      "Deathwing",
       "Tacticus"
     ],
     "factionKeywords": [
@@ -11952,7 +11937,6 @@ export default [
     "keywords": [
       "Terminator Assault Squad",
       "Infantry",
-      "Deathwing",
       "Imperium",
       "Terminators"
     ],
@@ -12603,7 +12587,6 @@ export default [
       "Vanguard Veteran Squad",
       "Infantry",
       "Jump Pack",
-      "Deathwing",
       "Grenades",
       "Vanguard Veteran Squad with Jump Packs",
       "Imperium"

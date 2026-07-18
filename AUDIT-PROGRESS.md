@@ -147,11 +147,36 @@ and skip the other three so we don't collide again like on space-marines.
 - [x] chaos-daemons
 - [x] deathwatch
 
-## Follow-up (after every faction above is checked off)
+## Follow-up — DONE
 
 The 5 SM-Chapter factions (black-templars, blood-angels, dark-angels, deathwatch,
-space-wolves) each still carry a chapter-local "differs" set of units that are the *same
-unit* as a `space-marines.js` one but not byte-identical (see CLAUDE.md's SM-Chapter
-datasheet dedup note — this was deliberately left unresolved during the dedup, pending this
-audit). Once every faction above is clear, revisit those and decide whether any should be
-folded into the shared pool now that appdata gives a reconciliation source.
+space-wolves) each carried a chapter-local "differs" set of units that were the *same unit*
+as a `space-marines.js` one but not byte-identical (see CLAUDE.md's SM-Chapter datasheet
+dedup note). Reconciled against `wh40k-appdata`: cross-checking every such unit's name
+against each Chapter's own appdata publication found only **6 genuinely unique units, all in
+Black Templars** (Impulsor, Land Raider Crusader, Repulsor, Repulsor Executioner, Sternguard
+Veteran Squad, Terminator Squad). Everything else (~150 unit-copies across the 5 files) was
+stale duplication, not real Chapter content — confirmed by checking every field diff against
+appdata directly:
+
+- **Stray "Deathwing" keyword** baked into 17 datasheets in the shared `space-marines.js`
+  pool itself (Ballistus/Brutalis/Redemptor Dreadnought, Captain/Chaplain/Librarian/Ancient
+  in Terminator Armour, Bladeguard Ancient/Veteran Squad, Land Raider (+Redeemer), Repulsor
+  (+Executioner), Sternguard/Terminator Assault Squad, Vanguard Veteran Squad with Jump
+  Packs) — appdata's generic Adeptus Astartes bundle confirms none of them should carry it.
+  This is the same leak class as the earlier Terminator Squad/Land Raider Crusader fix, just
+  far more widespread than realized at the time. Fixed directly in `space-marines.js`.
+- **Wrong "Support"/"Leader" core-ability label** on ~8 Character units per chapter (e.g.
+  Ancient showed "Leader", appdata says "Support" everywhere).
+- **Missing "Frame" keyword** on most chapter-local vehicle copies.
+- **Stale pre-errata ability text**: Gladiator Reaper/Valiant ("Rotating Death"/"Ferocious
+  Assault" instead of "Reaping Tally"/"Priority Target Acquisition"), Terminator
+  Squad/Assault Squad's Teleport Homer ("9\"" instead of "8\""), Lieutenant with
+  Combi-weapon's Evade and Survive (a fully outdated rules text).
+- **Stale points** (e.g. Repulsor Executioner 230/250 vs the correct 240/260).
+
+Each Chapter's `ru/<slug>.js` RU overlay was already ahead of this — its own `SHARED` array
+already listed these ids and pulled `smRu[id]` directly — so **no RU changes were needed**,
+only the EN files needed their `sharedUnitIds` synced to match. Verified: `own.length +
+sharedUnitIds.length` unchanged per chapter before/after (no unit lost or duplicated), full
+merged datasheet lists have zero duplicate ids, `npm run build && npx vitest run` green.
