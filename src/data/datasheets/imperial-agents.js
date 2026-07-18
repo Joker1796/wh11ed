@@ -4011,7 +4011,7 @@ export default [
     "faction": "Assigned Agents",
     "abilities": [
       {
-        "name": "Deadshot",
+        "name": "Dead-shot",
         "text": "When this unit is selected to shoot, until this unit has shot: enemy units do not have Lone Operative; hidden enemy units have +15\" detection range."
       },
       {
