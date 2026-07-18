@@ -127,6 +127,21 @@ This does not give that rule to every model in the unit, unless that rule specif
               example: `A **hidden** unit would be a unit that has a model in it that is **hidden**.`,
             },
             {
+              id: 'section-01-02-08',
+              sectionNum: '01.02.08',
+              title: 'A (Unit/Model/Object)',
+              fromApp: true,
+              body: `Some rules may refer to 'a' unit/model/object without specifying an exact number. In such cases, the meaning is 'one or more', rather than exactly one.`,
+              example: `If a rule has a condition that requires a unit to be 'within range of an **[gloss:objective:objective]**', that condition is still met if that unit is within range of more than one **objective**.`,
+            },
+            {
+              id: 'section-01-02-09',
+              sectionNum: '01.02.09',
+              title: 'Tokens',
+              fromApp: true,
+              body: `Tokens are gaming aids that some rules instruct you to place next to a model/unit to remind you and your opponent that a model/unit either has a limited-use ability or is under the effects of a particular rule. Tokens are not counted as models for any purposes (even if they are being represented by a model). If another model needs to move into the space occupied by a token, reposition the token to allow that move to be made.`,
+            },
+            {
               id: 'section-01-02-10',
               sectionNum: '01.02.10',
               title: 'Adding a new unit to your army',
@@ -1117,6 +1132,15 @@ If a unit was selected to fight and none of the models in it make any attacks, i
 
 3. Make **Save Rolls**: The opposing player makes one **save roll** for each attack that wounded the target by rolling one D6.`,
           seeAlso: ['Modifying Damage', 'Modifying Dice Rolls', 'Random Characteristics'],
+          children: [
+            {
+              id: 'section-05-03-01',
+              sectionNum: '05.03.01',
+              title: 'Saving Throw',
+              fromApp: true,
+              body: `The term 'saving throw' is the same as **save roll**.`,
+            },
+          ],
         },
         {
           id: 'section-05-04',
@@ -1481,6 +1505,15 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 
 Это не даёт это правило каждой модели в юните, если только это правило прямо не указывает, что оно даёт это правило юниту — в этом случае каждая модель в этом юните получает это правило, как описано в разделе «Юниты и модели» (01.02).`,
               example: `**[gloss:hidden:Скрытый]** юнит — это юнит, в котором есть модель, которая является **[gloss:hidden:скрытой]**.`,
+            },
+            {
+              title: '«A» (юнит/модель/объект)',
+              body: `Некоторые правила могут упоминать «a» (англ. неопределённый артикль) юнит/модель/объект, не указывая точное число. В таких случаях значение — «один или более», а не ровно один.`,
+              example: `Если у правила есть условие, требующее, чтобы юнит был «в пределах досягаемости **[gloss:objective:цели]**», это условие всё равно выполняется, если юнит находится в пределах досягаемости более чем одной **цели**.`,
+            },
+            {
+              title: 'Токены',
+              body: `Токены — это игровые вспомогательные средства, которые некоторые правила предписывают размещать рядом с моделью/юнитом, чтобы напоминать вам и вашему оппоненту, что модель/юнит либо обладает способностью ограниченного использования, либо находится под действием определённого правила. Токены не считаются моделями ни для каких целей (даже если они представлены моделью). Если другой модели нужно переместиться в пространство, занятое токеном, переместите токен, чтобы этот манёвр можно было выполнить.`,
             },
             {
               title: 'Добавление нового юнита в вашу армию',
@@ -2215,6 +2248,12 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ▪ Группы **[gloss:character:CHARACTER]**, содержащие модель, которая потеряла одну или несколько ран, должны быть раньше в порядке распределения, чем группы **[gloss:character:CHARACTER]**, не содержащие раненых моделей.
 
 3. Сделайте **спас-броски**(Save Rolls): противостоящий игрок делает один [gloss:save-roll:спас-бросок] для каждой атаки, которая ранила цель, бросив один D6.`,
+          children: [
+            {
+              title: 'Saving Throw (спас-бросок)',
+              body: `Термин «saving throw» — это то же самое, что и **спас-бросок**.`,
+            },
+          ],
         },
         {
           title: 'Нанесение урона',
