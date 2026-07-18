@@ -63,7 +63,7 @@ the other machine's next `git pull` sees it's done.
 ## Machine A — 13 factions (~266 wu)
 
 - [x] adepta-sororitas
-- [ ] adeptus-custodes
+- [x] adeptus-custodes
 - [ ] adeptus-mechanicus
 - [ ] aeldari
 - [ ] astra-militarum

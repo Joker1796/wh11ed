@@ -39,7 +39,7 @@ export const stratNamesRu = {
   'Synchronised Inferno': 'Синхронное пекло',
   'Hardened Resolve': 'Закалённая решимость',
   'Unleash the Lions': 'Спустить львов',
-  'Electro-exorcist Saturation': 'Электро-экзорцистское насыщение',
+  'Electroexorcist Saturation': 'Электроэкзорцистское насыщение',
   'Gilded Champion': 'Позолоченный чемпион',
   'Defiant to the Last': 'Непокорны до последнего',
   'Manoeuvre and Fire': 'Манёвр и огонь',
