@@ -4,9 +4,30 @@
 // datasheet data must never be imported statically (it would bloat the shared view chunk).
 const modules = import.meta.glob(['./*.js', '!./index.js'])
 
-export function loadDatasheets(slug) {
+// The 5 Space Marines Chapter codex files (Deathwatch, Black Templars, Blood Angels, Dark
+// Angels, Space Wolves) don't duplicate datasheets that are byte-identical to their
+// space-marines.js counterpart — each exports a `sharedUnitIds` list instead (see one of
+// those files for how the split was derived). loadDatasheets folds the referenced
+// space-marines.js entries back in so callers still see one flat per-faction list; unit
+// ids/URLs are unaffected either way. Kept here (not duplicated in ru/index.js) so both
+// loaders resolve "who shares what" from one place.
+export async function sharedIdsFor(slug) {
   const loader = modules[`./${slug}.js`]
-  return loader ? loader().then((m) => m.default) : Promise.resolve(null)
+  if (!loader) return null
+  const mod = await loader()
+  return mod.sharedUnitIds?.length ? mod.sharedUnitIds : null
+}
+
+export async function loadDatasheets(slug) {
+  const loader = modules[`./${slug}.js`]
+  if (!loader) return null
+  const own = (await loader()).default
+  const sharedIds = await sharedIdsFor(slug)
+  if (!sharedIds) return own
+  const smLoader = modules['./space-marines.js']
+  const sm = smLoader ? (await smLoader()).default : []
+  const idSet = new Set(sharedIds)
+  return [...own, ...sm.filter((d) => idSet.has(d.id))]
 }
 
 // Compact points summary (flat cost or min–max range) shared by the list chips and the

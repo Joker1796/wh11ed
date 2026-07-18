@@ -150,6 +150,18 @@ datasheets, abilities) may carry an optional `sourceId`: the stable app UUID fro
 it's write-only metadata, not read by any view. Backfilled automatically by that script on first
 sync per faction; never hand-typed.
 
+**SM-Chapter datasheet dedup** — the 5 Chapter codex files (`black-templars.js`, `blood-angels.js`,
+`dark-angels.js`, `deathwatch.js`, `space-wolves.js`) don't duplicate datasheets that are identical
+to their `space-marines.js` counterpart; each instead exports a `sharedUnitIds: string[]` alongside
+its own (chapter-unique or diverging) datasheets. `loadDatasheets`/`loadDatasheetsRu`
+(`src/data/datasheets/index.js` / `ru/index.js`) fold the referenced `space-marines.js` entries back
+in transparently, so every other consumer (`FactionDatasheetsView`, `FactionDatasheetView`,
+`gen-datasheet-index.mjs`, `gen-seo-routes.mjs`) sees one flat per-faction list — ids/URLs are
+unaffected either way. **Only exact duplicates were folded in** (same content but for
+`factionKeywords`); units with the same name but any real content difference between a Chapter file
+and `space-marines.js` were deliberately left as-is, chapter-local, pending reconciliation against
+`wh40k-appdata` (see `scripts/sync-appdata.mjs`) rather than guessing which version is current.
+
 ## Bilingual content conventions
 
 The data is the bulk of the repo and the EN/RU arrays are edited in lockstep. When touching `body`/`note`/`example` text:
