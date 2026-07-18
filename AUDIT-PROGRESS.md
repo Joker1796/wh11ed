@@ -92,7 +92,7 @@ the other machine's next `git pull` sees it's done.
 - [x] genestealer-cults
 - [x] grey-knights
 - [x] imperial-agents
-- [ ] imperial-knights
+- [x] imperial-knights
 - [ ] leagues-of-votann
 - [ ] necrons
 - [ ] orks

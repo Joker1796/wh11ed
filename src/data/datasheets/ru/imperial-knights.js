@@ -35,6 +35,15 @@ const CARAPACE_OPTION =
   'Эту модель можно снарядить одним из следующего:\n▪ 1 ironstorm missile pod\n▪ 1 stormspear rocket pod\n▪ 1 twin Icarus autocannon'
 
 export default {
+  'sir-hekhtur': {
+    flavor:
+      'Некогда пленник Iron Warriors, Sir Hekhtur выстоял под мучительными пытками и спасся лишь благодаря несокрушимой вере, решимости и чести. Ныне он странствует по галактике, освобождая имперских граждан, порабощённых силами Архиврага.',
+    loadout:
+      '**Эта модель вооружена:** Hekhtur’s pistol; close combat weapon.',
+    composition: ['1 Sir Hekhtur', 'Выставляется при уничтожении Canis Rex (см. Canis Rex).'],
+    options: NONE,
+  },
+
   'acastus-knight-asterius': {
     flavor:
       'Как и его сородич Porphyrion, гигантский Acastus Knight Asterius — реликт утраченной технологической эпохи. Вооружённый парой twin conversion beam cannon, karacnos mortar battery и двумя volkite culverin, Asterius способен проламывать стены могучих крепостей и очищать бастионы градом фугасов, а его толстая бронированная шкура делает его почти неуязвимым для оружейного огня.',

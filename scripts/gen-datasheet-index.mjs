@@ -10,19 +10,22 @@
 // surface in search results pointing at "coming soon" pages.
 
 import { existsSync, writeFileSync } from 'node:fs'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import { join } from 'node:path'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
+// Dynamic import() needs a file:// URL, not a raw path — a bare Windows path
+// (C:\...) throws ERR_UNSUPPORTED_ESM_URL_SCHEME.
+const imp = (rel) => import(pathToFileURL(join(ROOT, rel)).href)
 
-const { factionGroups } = await import(join(ROOT, 'src/data/factionsIndex.js'))
+const { factionGroups } = await imp('src/data/factionsIndex.js')
 
 // The 5 SM-Chapter codex files don't duplicate datasheets identical to space-marines.js —
 // they list those ids in `sharedUnitIds` instead (see src/data/datasheets/index.js). Fold
 // them back in so search still finds those units under each Chapter.
 let smUnits = null
 async function loadSpaceMarines() {
-  if (!smUnits) smUnits = (await import(join(ROOT, 'src/data/datasheets/space-marines.js'))).default
+  if (!smUnits) smUnits = (await imp('src/data/datasheets/space-marines.js')).default
   return smUnits
 }
 
@@ -32,7 +35,7 @@ for (const group of factionGroups) {
     if (!f.ready || !existsSync(join(ROOT, `src/data/factions/${f.slug}.js`))) continue
     const sheetsFile = join(ROOT, `src/data/datasheets/${f.slug}.js`)
     if (!existsSync(sheetsFile)) continue
-    const mod = await import(sheetsFile)
+    const mod = await import(pathToFileURL(sheetsFile).href)
     let units = mod.default ?? []
     if (mod.sharedUnitIds?.length) {
       const idSet = new Set(mod.sharedUnitIds)
