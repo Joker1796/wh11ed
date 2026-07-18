@@ -729,6 +729,30 @@ function cancel() {
   margin-bottom: 1rem;
 }
 .battle-size .seg { flex-wrap: wrap; justify-content: flex-start; }
+/* 3 battle sizes (Incursion/Strike Force/Onslaught) is one too many for the flex-wrap
+   pill row on narrow phones: each button keeps its own (very different) content width,
+   so they stack one-per-line, left-aligned, with a large empty gap on every row — reads
+   as broken rather than just narrow. A 3-column grid of equal square-ish tiles uses the
+   width evenly instead; the smaller phones get a second, tighter font-size step since
+   "Strike Force · 2000 · 3DP" wrapped onto two lines is still tight at 0.82rem. */
+@media (max-width: 560px) {
+  .battle-size .seg {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+  }
+  .battle-size .seg button {
+    aspect-ratio: 1;
+    padding: 0.4rem 0.3rem;
+    text-align: center;
+    white-space: normal;
+    line-height: 1.25;
+  }
+  .battle-size .seg button + button { border-left: 1px solid var(--border); }
+}
+@media (max-width: 380px) {
+  .battle-size .seg button { font-size: 0.72rem; }
+}
 
 .btn-choose-twist {
   display: flex;
