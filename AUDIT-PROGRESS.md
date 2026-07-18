@@ -70,6 +70,23 @@ the other machine's next `git pull` sees it's done.
   Crusader — left alone for now, flagged in CLAUDE.md, not yet fixed).
 - Apostrophe-position typos changing meaning ("Fools' Flight" → should be "Fool's Flight",
   Chaos Daemons) — check the stratagem's actual effect text to judge singular vs plural.
+- **A Chapter's own bonus ability on a shared-name unit got errata'd and wh11ed still has the
+  old one** (Black Templars: Terminator Squad/Land Raider Crusader/Repulsor/Repulsor
+  Executioner/Sternguard Veteran Squad each had one datasheet ability swapped for a
+  differently-named, differently-worded one in appdata — a real balance/Faction-Pack update,
+  not a naming variant). This is exactly why B4 correctly left these chapter-local instead of
+  folding them into the shared `space-marines.js` pool — check "differs" units for **all 5
+  SM-Chapter factions** for the same pattern, not just missing/extra. Conversely, if an
+  ability's *text* is byte-identical to the shared version and only the *name* differs
+  (Gladiator Reaper's "Rotating Death" == "Reaping Tally" in appdata's Black Templars view,
+  same rules text) — that's a cosmetic chapter-flavored name, not worth duplicating the whole
+  datasheet to fix; leave it.
+- **A datasheet's `faction`/`core` summary string can be stale generic text** — Black Templars
+  had 41 datasheets saying `"faction": "Oath of Moment"` (the generic Space Marines army rule)
+  instead of `"faction": "Templar Vows"` (their own). `sync-appdata.mjs` doesn't check this
+  field at all (out of scope for the script), so **manually grep each chapter/faction's
+  datasheet file for the generic army-rule name** (`grep -c '"faction": "<generic name>"'`)
+  and cross-check against the faction's own `armyRule.name` in `src/data/factions/<slug>.js`.
 
 ## Machine A — 13 factions (~266 wu)
 
@@ -78,7 +95,7 @@ the other machine's next `git pull` sees it's done.
 - [x] adeptus-mechanicus
 - [x] aeldari
 - [x] astra-militarum
-- [ ] black-templars
+- [x] black-templars
 - [ ] blood-angels
 - [ ] chaos-knights
 - [ ] chaos-space-marines

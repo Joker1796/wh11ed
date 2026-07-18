@@ -16,16 +16,20 @@ const SHARED = [
   'gladiator-reaper', 'gladiator-valiant', 'hammerfall-bunker', 'heavy-intercessor-squad',
   'hellblaster-squad', 'impulsor', 'inceptor-squad', 'incursor-squad', 'infernus-squad',
   'infiltrator-squad', 'intercessor-squad', 'invader-atv', 'invictor-tactical-warsuit',
-  'judiciar', 'land-raider', 'land-raider-crusader', 'land-raider-redeemer', 'land-speeder',
+  'judiciar', 'land-raider', 'land-raider-redeemer', 'land-speeder',
   'lieutenant', 'lieutenant-in-phobos-armour', 'lieutenant-in-reiver-armour',
   'lieutenant-with-combi-weapon', 'outrider-squad', 'predator-annihilator', 'predator-destructor',
-  'razorback', 'redemptor-dreadnought', 'reiver-squad', 'repulsor', 'repulsor-executioner',
-  'rhino', 'scout-squad', 'sternguard-veteran-squad', 'storm-speeder-hailstrike',
+  'razorback', 'redemptor-dreadnought', 'reiver-squad',
+  'rhino', 'scout-squad', 'storm-speeder-hailstrike',
   'storm-speeder-hammerstrike', 'storm-speeder-thunderstrike', 'stormhawk-interceptor',
   'stormraven-gunship', 'stormtalon-gunship', 'suppressor-squad', 'tactical-squad',
-  'techmarine', 'terminator-assault-squad', 'terminator-squad', 'thunderhawk-gunship',
+  'techmarine', 'terminator-assault-squad', 'thunderhawk-gunship',
   'vanguard-veteran-squad-with-jump-packs', 'vindicator', 'whirlwind',
 ]
+// These 5 carry a Black Templars-specific bonus ability appdata reveals that the generic
+// space-marines.js copy doesn't have — no longer byte-identical, so they're translated
+// locally below (still reusing smRu's flavor/loadout/etc via the spread) instead of being
+// borrowed wholesale via SHARED.
 
 const LEADER_TEXT = 'Эту модель можно присоединить к следующим юнитам:'
 const EQUIP_THIS = '**Эта модель вооружена:**'
@@ -33,6 +37,51 @@ const EQUIP_EVERY = '**Каждая модель вооружена:**'
 
 export default {
   ...Object.fromEntries(SHARED.map((id) => [id, smRu[id]])),
+
+  'land-raider-crusader': {
+    ...smRu['land-raider-crusader'],
+    abilities: {
+      ...smRu['land-raider-crusader']?.abilities,
+      'Legacy of Jerulas':
+        'В вашей фазе стрельбы, после того как эта модель выстрелила, выберите один вражеский юнит, поражённый одной или более из этих атак. До конца хода каждый раз, когда дружественная модель, высадившаяся из этого TRANSPORT в этот ход, совершает атаку, нацеленную на этот вражеский юнит, перебросьте бросок попадания, равный 1, и перебросьте бросок ранения, равный 1.',
+    },
+  },
+
+  repulsor: {
+    ...smRu.repulsor,
+    abilities: {
+      ...smRu.repulsor?.abilities,
+      'Stabilised Disembarkation':
+        'В фазе стрельбы вашего оппонента, каждый раз, когда вражеский юнит выбирается для стрельбы, после того как этот юнит отстрелялся, если какие-либо из этих атак были нацелены на этот TRANSPORT, он может задействовать эту способность. Если он это делает, любые юниты, погружённые в него, могут высадиться. При этом модели этих юнитов можно расставить где угодно на поле боя целиком в пределах 6" от этого TRANSPORT и не в дистанции ввязывания одного или более вражеских юнитов.',
+    },
+  },
+
+  'repulsor-executioner': {
+    ...smRu['repulsor-executioner'],
+    abilities: {
+      ...smRu['repulsor-executioner']?.abilities,
+      'Interception Strike':
+        'Каждый раз, когда эта модель совершает дальнюю атаку, нацеленную на вражеский юнит в пределах 12" от одного или более юнитов ADEPTUS ASTARTES вашей армии, вы можете перебросить бросок попадания.',
+    },
+  },
+
+  'sternguard-veteran-squad': {
+    ...smRu['sternguard-veteran-squad'],
+    abilities: {
+      ...smRu['sternguard-veteran-squad']?.abilities,
+      'Virtuous Onslaught':
+        'Каждый раз, когда модель этого юнита совершает атаку, нацеленную на ближайшую доступную цель, перебросьте бросок ранения, равный 1.',
+    },
+  },
+
+  'terminator-squad': {
+    ...smRu['terminator-squad'],
+    abilities: {
+      ...smRu['terminator-squad']?.abilities,
+      'Judgement of the Weak':
+        'Каждый раз, когда вражеский юнит (исключая MONSTER и VEHICLE) в дистанции ввязывания этого юнита отступает, все модели этого вражеского юнита обязаны пройти проверку Desperate Escape. При этом, если этот вражеский юнит в боевом шоке, вычтите 1 из каждой из этих проверок.',
+    },
+  },
 
   castellan: {
     flavor:
@@ -185,6 +234,11 @@ export default {
 
 export const abilityNamesRu = {
   ...smNames,
+  'Legacy of Jerulas': 'Наследие Джеруласа',
+  'Stabilised Disembarkation': 'Стабилизированная высадка',
+  'Interception Strike': 'Перехватывающий удар',
+  'Virtuous Onslaught': 'Добродетельный натиск',
+  'Judgement of the Weak': 'Приговор слабым',
   'Vehement Aggression': 'Яростный напор',
   'Prioritised Eradication': 'Приоритетное истребление',
   'Litanies of the Devout': 'Литании верных',

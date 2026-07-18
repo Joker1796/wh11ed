@@ -117,7 +117,7 @@ export default [
       }
     ],
     "core": "Leader",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Astartes Banner",
@@ -272,7 +272,7 @@ export default [
       }
     ],
     "core": "Deep Strike, Leader",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Astartes Banner",
@@ -381,7 +381,7 @@ export default [
       }
     ],
     "core": "Leader",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Narthecium",
@@ -481,7 +481,7 @@ export default [
       }
     ],
     "core": "Leader",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Surgical Precision",
@@ -604,7 +604,7 @@ export default [
       }
     ],
     "core": "Deadly Demise D3",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Ballistus Strike",
@@ -679,7 +679,7 @@ export default [
       }
     ],
     "core": "Leader",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Astartes Banner",
@@ -815,7 +815,7 @@ export default [
         "d": "2"
       }
     ],
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Bladeguard",
@@ -959,7 +959,7 @@ export default [
       }
     ],
     "core": "Deadly Demise D3",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Brutalis Charge",
@@ -1061,7 +1061,7 @@ export default [
       }
     ],
     "core": "Deep Strike, Leader",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Rites of Battle",
@@ -1427,7 +1427,7 @@ export default [
       }
     ],
     "core": "Deep Strike, Leader",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Litany of Hate",
@@ -1909,7 +1909,7 @@ export default [
       }
     ],
     "core": "Deadly Demise 1",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Wisdom of the Ancients (Aura)",
@@ -1970,7 +1970,7 @@ export default [
       }
     ],
     "core": "Deadly Demise 1, Deep Strike",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Drop Pod Assault",
@@ -2304,7 +2304,7 @@ export default [
       }
     ],
     "core": "Deadly Demise D6",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Fortification",
@@ -2565,7 +2565,7 @@ export default [
       }
     ],
     "core": "Deadly Demise D3, Firing Deck 6",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Assault Vehicle",
@@ -2687,7 +2687,7 @@ export default [
         "d": "1"
       }
     ],
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Outrider Escort",
@@ -2813,7 +2813,7 @@ export default [
       }
     ],
     "core": "Deadly Demise D6",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Assault Ramp",
@@ -2949,11 +2949,15 @@ export default [
       }
     ],
     "core": "Deadly Demise D6",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Assault Ramp",
         "text": "Each time a unit disembarks from this model after it has made a Normal move, that unit is still eligible to declare a charge this turn."
+      },
+      {
+        "name": "Legacy of Jerulas",
+        "text": "In your Shooting phase, after this model has shot, select one enemy unit hit by one or more of those attacks. Until the end of the turn, each time a friendly model that disembarked from this TRANSPORT this turn makes an attack that targets that enemy unit, re-roll a Hit roll of 1 and re-roll a Wound roll of 1."
       }
     ],
     "damaged": {
@@ -3088,7 +3092,7 @@ export default [
       }
     ],
     "core": "Deadly Demise D6",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Assault Ramp",
@@ -3248,7 +3252,7 @@ export default [
       }
     ],
     "core": "Leader",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Tactical Precision",
@@ -3372,7 +3376,7 @@ export default [
       }
     ],
     "core": "Deep Strike, Infiltrators, Leader, Scouts 6\"",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Tactical Precision",
@@ -3460,7 +3464,7 @@ export default [
       }
     ],
     "core": "Leader, Scouts 6\"",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Tactical Precision",
@@ -3549,7 +3553,7 @@ export default [
       }
     ],
     "core": "Feel No Pain 5+, Infiltrators, Lone Operative, Stealth",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Priority Objective Identified",
@@ -3819,7 +3823,7 @@ export default [
       }
     ],
     "core": "Deadly Demise D3",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Annihilator",
@@ -3949,7 +3953,7 @@ export default [
       }
     ],
     "core": "Deadly Demise D3",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Destructor",
@@ -4064,7 +4068,7 @@ export default [
       }
     ],
     "core": "Deadly Demise D3",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Fire Support",
@@ -4235,7 +4239,7 @@ export default [
       }
     ],
     "core": "Deadly Demise D3",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Duty Eternal",
@@ -4379,11 +4383,11 @@ export default [
       }
     ],
     "core": "Deadly Demise D6",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
-        "name": "Emergency Combat Embarkation",
-        "text": "Once per turn, in your opponent’s Charge phase, after an enemy unit has selected targets for its charge but before it makes a Charge move, you can select one ADEPTUS ASTARTES unit from your army that was selected as a target of that charge. Provided that unit is not within Engagement Range of one or more enemy units and every model in that unit is within 3\" of this TRANSPORT, it can embark within this TRANSPORT. The charging unit can then select new targets for its charge."
+        "name": "Stabilised Disembarkation",
+        "text": "In your opponent’s Shooting phase, each time an enemy unit is selected to shoot, after that unit has shot, if any of those attacks targeted this TRANSPORT, it can use this ability. If it does, any units embarked within it can disembark. When doing so, models in those units can be set up anywhere on the battlefield wholly within 6\" of this TRANSPORT and not within Engagement Range of one or more enemy units."
       }
     ],
     "damaged": {
@@ -4563,11 +4567,11 @@ export default [
       }
     ],
     "core": "Deadly Demise D6",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
-        "name": "Executioner",
-        "text": "Each time this model makes an attack that targets a unit that is Below Half-strength, add 1 to the Hit roll."
+        "name": "Interception Strike",
+        "text": "Each time this model makes a ranged attack that targets an enemy unit within 12\" of one or more ADEPTUS ASTARTES units from your army, you can re-roll the Hit roll."
       }
     ],
     "damaged": {
@@ -4656,7 +4660,7 @@ export default [
       }
     ],
     "core": "Deadly Demise D3, Firing Deck 2",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Self Repair",
@@ -4818,11 +4822,11 @@ export default [
         "d": "2"
       }
     ],
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
-        "name": "Sternguard Focus",
-        "text": "Each time a model in this unit makes an attack that targets your Oath of Moment target, you can re-roll the Wound roll."
+        "name": "Virtuous Onslaught",
+        "text": "Each time a model in this unit makes an attack that targets the closest eligible target, re-roll a Wound roll of 1."
       }
     ],
     "composition": [
@@ -4926,7 +4930,7 @@ export default [
       }
     ],
     "core": "Deadly Demise D3, Deep Strike",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Hailstrike",
@@ -5022,7 +5026,7 @@ export default [
       }
     ],
     "core": "Deadly Demise D3, Deep Strike",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Hammerstrike",
@@ -5119,7 +5123,7 @@ export default [
       }
     ],
     "core": "Deadly Demise D3, Deep Strike",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Thunderstrike",
@@ -5259,7 +5263,7 @@ export default [
       }
     ],
     "core": "Deadly Demise D3",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Interceptor",
@@ -5452,7 +5456,7 @@ export default [
       }
     ],
     "core": "Deadly Demise D6, Hover",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Armoured Resilience",
@@ -5595,7 +5599,7 @@ export default [
       }
     ],
     "core": "Deadly Demise D3, Hover",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Strafing Run",
@@ -5866,7 +5870,7 @@ export default [
       }
     ],
     "core": "Deep Strike",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Teleport Homer",
@@ -6021,15 +6025,15 @@ export default [
       }
     ],
     "core": "Deep Strike",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Teleport Homer",
         "text": "At the start of the battle, you can set up one Teleport Homer token for this unit anywhere on the battlefield that is not in your opponent’s deployment zone. If you do, once per battle, you can target this unit with the Rapid Ingress Stratagem for 0CP, but when resolving that Stratagem, you must set this unit up within 3\" of that token and not within 8\" of any enemy models. That token is then removed."
       },
       {
-        "name": "Fury of the First",
-        "text": "Each time a model in this unit makes an attack that targets your Oath of Moment target, add 1 to the Hit roll."
+        "name": "Judgement of the Weak",
+        "text": "Each time an enemy unit (excluding MONSTERS and VEHICLES) within Engagement Range of this unit Falls Back, all models in that enemy unit must take a Desperate Escape test. When doing so, if that enemy unit is Battle-shocked, subtract 1 from each of those tests."
       }
     ],
     "composition": [
@@ -6182,7 +6186,7 @@ export default [
       }
     ],
     "core": "Deep Strike",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Vanguard Assault",
@@ -6294,7 +6298,7 @@ export default [
       }
     ],
     "core": "Deadly Demise D3",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Siege Shield",
@@ -6402,7 +6406,7 @@ export default [
       }
     ],
     "core": "Deadly Demise D3",
-    "faction": "Oath of Moment",
+    "faction": "Templar Vows",
     "abilities": [
       {
         "name": "Pinning Bombardment",
