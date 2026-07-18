@@ -47,7 +47,7 @@ Each time a model makes a ranged attack that targets such a unit, subtract 1 fro
       num: '18',
       title: 'Transports',
       page: 64,
-      description: 'TRANSPORT models can carry passengers across the battlefield. This section explains how to use such models in your battles, and how units can embark within and [gloss:disembark:disembark] from them.',
+      description: 'TRANSPORT models can carry passengers across the battlefield. This section explains how to use such models in your battles, and how units can embark within and disembark from them.',
       subsections: [
         {
           id: 'section-18-01',
@@ -135,7 +135,7 @@ If a TRANSPORT model is **[gloss:destroyed:destroyed]**, before removing it from
       num: '19',
       title: 'Attached Units',
       page: 66,
-      description: 'The heroes of your army rarely fight alone. Instead, they typically lead bands of warriors, forming an [gloss:attached-unit:attached unit] that acts as a single entity. This section explains how to form attached units and how they function on the battlefield.',
+      description: 'The heroes of your army rarely fight alone. Instead, they typically lead bands of warriors, forming an attached unit that acts as a single entity. This section explains how to form attached units and how they function on the battlefield.',
       subsections: [
         {
           id: 'section-19-01',
@@ -216,7 +216,7 @@ In all of the above cases, if that last model was **destroyed** as the result of
       num: '20',
       title: 'Strategic Reserves',
       page: 68,
-      description: 'Strategic reserves are units that arrive on the battlefield at different times, either because they were held back during deployment, or because they are using special abilities to [gloss:reposition:reposition] themselves.',
+      description: 'Strategic reserves are units that arrive on the battlefield at different times, either because they were held back during deployment, or because they are using special abilities to reposition themselves.',
       subsections: [
         {
           id: 'section-20-01',
@@ -466,7 +466,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
       num: '18',
       title: 'Транспорты',
       page: 64,
-      description: 'Модели [gloss:transport:TRANSPORT] могут перевозить пассажиров по полю боя. Этот раздел объясняет, как использовать такие модели в ваших играх и как отряды могут погружаться в них и высаживаться из них.',
+      description: 'Модели TRANSPORT могут перевозить пассажиров по полю боя. Этот раздел объясняет, как использовать такие модели в ваших играх и как отряды могут погружаться в них и высаживаться из них.',
       subsections: [
         {
           id: 'section-18-01',

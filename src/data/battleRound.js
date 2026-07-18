@@ -450,7 +450,7 @@ A unit is **[gloss:eligible-to-shoot:eligible to shoot]** if it is on the battle
     num: '12',
     title: 'Fight Phase',
     page: 38,
-    description: 'In the Fight phase, both players get to act. First, units will [gloss:pile-in:pile in] to maximise the number of models that are engaged, then all the combatants will make melee attacks, before units [gloss:consolidation:consolidate] their position.',
+    description: 'In the Fight phase, both players get to act. First, units will pile in to maximise the number of models that are engaged, then all the combatants will make melee attacks, before units consolidate their position.',
     subsections: [
       {
         id: 'section-12-structure',
@@ -886,7 +886,7 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
   // 11 — Фаза нападения
   {
     title: 'Фаза нападения',
-    description: 'В фазе нападения вы сможете [gloss:charge-move:совершать нападения] своими отрядами. Это отражает то, как ваши силы сокращают дистанцию с врагами, чтобы вступить с ними в кровавый ближний бой.',
+    description: 'В фазе нападения вы сможете совершать нападения своими отрядами. Это отражает то, как ваши силы сокращают дистанцию с врагами, чтобы вступить с ними в кровавый ближний бой.',
     subsections: [
       {
         title: 'Шаги фазы нападения',
