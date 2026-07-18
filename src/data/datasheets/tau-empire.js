@@ -1138,7 +1138,7 @@ export default [
         "text": "Each time a model in this unit makes a ranged attack, re-roll a Hit roll of 1. If that attack targets a unit that is at its Starting Strength, you can re-roll the Hit roll instead."
       },
       {
-        "name": "Weapon Support System",
+        "name": "Weapon Support Systems",
         "text": "Each time a model in this unit makes a ranged attack, you can ignore any or all modifiers to the Hit roll."
       }
     ],
@@ -1236,7 +1236,7 @@ export default [
         "text": "Each time a model in this unit makes a ranged attack (excluding attacks that target MONSTERS and VEHICLES), improve the Armour Penetration characteristic of that attack by 1."
       },
       {
-        "name": "Battlesuit Support System",
+        "name": "Battlesuit Support Systems",
         "text": "This unit is eligible to shoot in a turn in which it Fell Back."
       }
     ],
@@ -4832,7 +4832,8 @@ export default [
         "points": 85
       },
       {
-        "points": 20
+        "models": 2,
+        "points": 105
       }
     ],
     "flavor": "In keeping with the Code of Fire, the Tidewall Shieldline provides a mobile fortification that can redeploy during battle. Its refractive field absorbs enemy fire, while its design allows entrenched Fire Warriors to ride the shieldline to a new position when it moves.",
@@ -4876,7 +4877,7 @@ export default [
       }
     ],
     "composition": [
-      "1 Tidewall Shieldline"
+      "1-2 Tidewall Shieldlines"
     ],
     "loadout": "This model can be equipped with 1 Tidewall defence platform",
     "options": [

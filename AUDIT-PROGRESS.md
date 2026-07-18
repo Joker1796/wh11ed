@@ -68,6 +68,12 @@ the other machine's next `git pull` sees it's done.
   Down" is correct — left alone. Don't blindly copy a
   "missing"/"extra" name pair without a sanity check on which side is actually correct
   English.
+- **appdata abilities with `type !== 'datasheet'` are invisible to the script's ability diff**
+  (it only compares `d.abilities.filter(a => a.type === 'datasheet')`) — e.g. tau-empire's
+  Ta'unar Supremacy Armour "Super-heavy Walker" is appdata `type: 'core'` (grouped with
+  Deadly Demise), so it always reports as an "extra ability (not in appdata)" even though it's
+  really there under a different type. Verify with a quick raw-JSON check on the faction
+  bundle before treating this shape of finding as a real gap.
 
 ## Real bugs found so far (patterns to watch for elsewhere)
 
@@ -115,7 +121,7 @@ the other machine's next `git pull` sees it's done.
 - [x] death-guard
 - [x] drukhari
 - [x] emperors-children
-- [ ] tau-empire (reassigned from Machine B — see note below)
+- [x] tau-empire (reassigned from Machine B — see note below)
 - [ ] thousand-sons (reassigned from Machine B — see note below)
 - [ ] world-eaters (reassigned from Machine B — see note below)
 
