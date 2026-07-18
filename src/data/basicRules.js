@@ -685,7 +685,7 @@ Each time you move a model, unless otherwise stated:
 Each time you move a model in a straight line, move it horizontally across the battlefield. Measure from the same point on its base at the start and end of that move, and add that distance to any other distance it has moved since its unit began that move. The distance moved cannot be greater than the **maximum distance** of that **[gloss:move-type:move type]**.
 
 ### Rotating a Model
-Each time you rotate a model, turn it any amount around the centre of its base, while keeping it upright. Note that rotating a model does not count towards the distance it has moved.
+Each time you rotate a model, turn it any amount around the centre of its base, while keeping it upright. Note that rotating a model does not count towards the distance it has moved. Models without a base are rotated around their central axis (see FRAME, 17.02).
 
 ### Ending a Move
 After you have finished setting up all of the models in a unit and/or moving all of the models in a unit that you want to move, check that all of the following apply:
@@ -1931,7 +1931,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 Каждый раз, когда вы перемещаете модель по прямой линии, перемещайте её горизонтально по полю боя. Измеряйте расстояние от одной и той же точки на её базе в начале и в конце этого манёвра и прибавляйте это расстояние к любому другому расстоянию, которое она преодолела с момента начала манёвра её юнита. Пройденное расстояние не может превышать **[gloss:maximum-distance:максимальное расстояние]** для данного **[gloss:move-type:типа манёвра]**.
 
 ### Поворот модели
-Каждый раз, когда вы поворачиваете модель, поверните её на любое количество градусов вокруг центра её базы, удерживая её вертикально. Обратите внимание, что поворот модели не учитывается в пройденном ею расстоянии.
+Каждый раз, когда вы поворачиваете модель, поверните её на любое количество градусов вокруг центра её базы, удерживая её вертикально. Обратите внимание, что поворот модели не учитывается в пройденном ею расстоянии. Модели без базы поворачиваются вокруг своей центральной оси (см. FRAME, 17.02).
 
 ### Завершение манёвра
 После того как вы закончили устанавливать все модели в юните и/или перемещать все модели в юните, которые вы хотите переместить, проверьте, выполняются ли все следующие условия:
