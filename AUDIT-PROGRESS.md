@@ -58,6 +58,10 @@ the other machine's next `git pull` sees it's done.
   bundle only lists that Chapter's exclusive publications, while wh11ed's list (correctly)
   also includes units shared with `space-marines.js`. Only look at `missing`/`differs` for
   these 5; skim `extra` for genuine renames/removals but don't chase the shared-pool units.
+- **appdata itself can have a typo** — Blood Angels' "Martial Examplars" is appdata's own
+  misspelling of "Martial Exemplars" (wh11ed already had it right). Don't blindly copy a
+  "missing"/"extra" name pair without a sanity check on which side is actually correct
+  English.
 
 ## Real bugs found so far (patterns to watch for elsewhere)
 
@@ -96,7 +100,7 @@ the other machine's next `git pull` sees it's done.
 - [x] aeldari
 - [x] astra-militarum
 - [x] black-templars
-- [ ] blood-angels
+- [x] blood-angels
 - [ ] chaos-knights
 - [ ] chaos-space-marines
 - [ ] dark-angels
