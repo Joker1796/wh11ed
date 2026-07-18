@@ -184,11 +184,11 @@
         <i class="bi bi-book-half"></i>
         <span>{{ labels.navCoreRulesShort }}</span>
       </RouterLink>
-      <button type="button" class="bn-item" :class="{ active: isFactionRoute }" @click="showFactions = true">
+      <button type="button" class="bn-item" :class="{ active: isFactionRoute && !isUnitsRoute }" @click="showFactions = true">
         <i class="bi bi-shield-shaded"></i>
         <span>{{ labels.navFactions }}</span>
       </button>
-      <RouterLink v-if="unitsNavPath" :to="unitsNavPath" class="bn-item">
+      <RouterLink v-if="unitsNavPath" :to="unitsNavPath" class="bn-item" :class="{ active: isUnitsRoute }">
         <i class="bi bi-people-fill"></i>
         <span>{{ labels.factionDatasheets }}</span>
       </RouterLink>
@@ -302,6 +302,10 @@ const isFactionDetailRoute = computed(() => isFactionRoute.value && !!route.para
 // A single unit's datasheet page is chrome-free (FactionLayout hero=false → no in-hero tabs),
 // so it keeps the top subnav for the Rules/Units switch; the faction hero pages use in-hero tabs.
 const isFactionUnitPage = computed(() => isFactionRoute.value && !!route.params.unit)
+// True on the datasheets list AND a single unit's page — used to hand off the bottom-nav
+// "active" highlight from the Factions button to the Units button while browsing units,
+// so only one of the two is ever lit at a time.
+const isUnitsRoute = computed(() => isFactionDetailRoute.value && route.path.includes('/datasheets'))
 // The bottom-nav "Units" link — same button used on unit pages (bi-people-fill → the faction's
 // datasheets list). Shown on any faction-with-slug page (faction overview / datasheet list /
 // single unit) AND, during a game, pointing to the "You" player's faction — a quick jump from
