@@ -184,9 +184,11 @@ async function syncFaction(slug) {
     // wh11ed's `points[].note` sometimes marks MFM "copy tax" tiers ("1st-2nd" vs "3rd+"
     // costing more for spamming the same unit) — appdata's composition join only exposes
     // the base price, so drop any tier past the first before comparing.
+    // appdata's own unit_composition join sometimes yields duplicate rows for the same
+    // price (multiple miniature slots in one composition) — de-dupe before comparing.
     const isSurchargeTier = (note) => note && /^(2nd|3rd|4th|5th)/i.test(note)
-    const whPts = (d.points || []).filter((p) => !isSurchargeTier(p.note)).map((p) => p.points).sort((x, y) => x - y)
-    const appPts = (appDs.points || []).map((p) => p.points).sort((x, y) => x - y)
+    const whPts = [...new Set((d.points || []).filter((p) => !isSurchargeTier(p.note)).map((p) => p.points))].sort((x, y) => x - y)
+    const appPts = [...new Set((appDs.points || []).map((p) => p.points))].sort((x, y) => x - y)
     if (whPts.length && appPts.length && JSON.stringify(whPts) !== JSON.stringify(appPts)) {
       lines.push(`  ~ datasheet "${d.name}" points differ: wh11ed=${JSON.stringify(whPts)} appdata=${JSON.stringify(appPts)}`)
     }
