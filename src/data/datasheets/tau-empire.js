@@ -4471,7 +4471,7 @@ export default [
         "d": "2"
       }
     ],
-    "core": "Deadly Demise D6+3",
+    "core": "Deadly Demise D6+3, Super-heavy Walker",
     "faction": "For the Greater Good",
     "abilities": [
       {

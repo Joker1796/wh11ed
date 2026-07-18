@@ -4186,7 +4186,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deadly Demise D6+2, Firing Deck 6",
+    "core": "Deadly Demise D6+2, Firing Deck 12",
     "abilities": [
       {
         "name": "Close-range Titan Killer",

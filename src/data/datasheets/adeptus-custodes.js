@@ -601,7 +601,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deadly Demise D6, Hover",
+    "core": "Deadly Demise D6",
     "faction": "Martial Ka’tah",
     "abilities": [
       {
