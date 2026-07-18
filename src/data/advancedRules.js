@@ -47,7 +47,7 @@ Each time a model makes a ranged attack that targets such a unit, subtract 1 fro
       num: '18',
       title: 'Transports',
       page: 64,
-      description: 'TRANSPORT models can carry passengers across the battlefield. This section explains how to use such models in your battles, and how units can embark within and [gloss:disembark:disembark] from them.',
+      description: 'TRANSPORT models can carry passengers across the battlefield. This section explains how to use such models in your battles, and how units can embark within and disembark from them.',
       subsections: [
         {
           id: 'section-18-01',
@@ -140,7 +140,7 @@ If a TRANSPORT model is **[gloss:destroyed:destroyed]**, before removing it from
       num: '19',
       title: 'Attached Units',
       page: 66,
-      description: 'The heroes of your army rarely fight alone. Instead, they typically lead bands of warriors, forming an [gloss:attached-unit:attached unit] that acts as a single entity. This section explains how to form attached units and how they function on the battlefield.',
+      description: 'The heroes of your army rarely fight alone. Instead, they typically lead bands of warriors, forming an attached unit that acts as a single entity. This section explains how to form attached units and how they function on the battlefield.',
       subsections: [
         {
           id: 'section-19-01',
@@ -226,7 +226,7 @@ In all of the above cases, if that last model was **destroyed** as the result of
       num: '20',
       title: 'Strategic Reserves',
       page: 68,
-      description: 'Strategic reserves are units that arrive on the battlefield at different times, either because they were held back during deployment, or because they are using special abilities to [gloss:reposition:reposition] themselves.',
+      description: 'Strategic reserves are units that arrive on the battlefield at different times, either because they were held back during deployment, or because they are using special abilities to reposition themselves.',
       subsections: [
         {
           id: 'section-20-01',
@@ -325,7 +325,9 @@ At the end of the third battle round, unless otherwise stated, all **strategic r
           id: 'section-21-03',
           sectionNum: '21.03',
           title: 'Flying Models',
-          body: `Models with the **[gloss:fly:FLY]** keyword can **[gloss:take-to-the-skies:take to the skies]** when making a **normal**, **advance**, **fall-back** or **[gloss:charge-move:charge move]**. Each time a FLYING unit is selected to make such a move, before moving any models in that unit, the active player can declare that it will **take to the skies**. If it does, while resolving that move:
+          body: `Models with the **[gloss:fly:FLY]** keyword, and units such models are part of, are said to be able to FLY. Some rules also refer to such models/units as FLYING models/FLYING units.
+
+Models with the FLY keyword can **[gloss:take-to-the-skies:take to the skies]** when making a **normal**, **advance**, **fall-back** or **[gloss:charge-move:charge move]**. Each time a FLYING unit is selected to make such a move, before moving any models in that unit, the active player can declare that it will **take to the skies**. If it does, while resolving that move:
 ▪ Subtract 2" from the **[gloss:maximum-distance:maximum distance]**.
 ▪ Each time a FLYING model moves:
 ▫ Ignore all vertical distance for the purposes of how far it has moved.
@@ -476,7 +478,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
       num: '18',
       title: 'Транспорты',
       page: 64,
-      description: 'Модели [gloss:transport:TRANSPORT] могут перевозить пассажиров по полю боя. Этот раздел объясняет, как использовать такие модели в ваших играх и как отряды могут погружаться в них и высаживаться из них.',
+      description: 'Модели TRANSPORT могут перевозить пассажиров по полю боя. Этот раздел объясняет, как использовать такие модели в ваших играх и как отряды могут погружаться в них и высаживаться из них.',
       subsections: [
         {
           id: 'section-18-01',
@@ -732,7 +734,9 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
           id: 'section-21-03',
           sectionNum: '21.03',
           title: 'Летящие модели',
-          body: `Модели с ключевым словом **[gloss:fly:FLY]** могут **[gloss:take-to-the-skies:подниматься в небо]** (take to the skies) при совершении **[gloss:normal-move:обычного манёвра]**, **[gloss:advance-move:продвижения]**, **[gloss:fall-back-move:отступления]** или **[gloss:charge-move:манёвра нападения]**. Каждый раз, когда ЛЕТЯЩИЙ (FLYING) отряд выбирается для совершения такого манёвра, до манёвра любых моделей в этом отряде активный игрок может объявить, что он будет **подниматься в небо**. Если он это делает, при отыгрыше этого манёвра:
+          body: `Модели с ключевым словом **[gloss:fly:FLY]** и отряды, в состав которых входят такие модели, считаются способными летать. Некоторые правила также называют такие модели/отряды ЛЕТЯЩИМИ (FLYING) моделями/отрядами.
+
+Модели с ключевым словом FLY могут **[gloss:take-to-the-skies:подниматься в небо]** (take to the skies) при совершении **[gloss:normal-move:обычного манёвра]**, **[gloss:advance-move:продвижения]**, **[gloss:fall-back-move:отступления]** или **[gloss:charge-move:манёвра нападения]**. Каждый раз, когда ЛЕТЯЩИЙ (FLYING) отряд выбирается для совершения такого манёвра, до манёвра любых моделей в этом отряде активный игрок может объявить, что он будет **подниматься в небо**. Если он это делает, при отыгрыше этого манёвра:
 ▪ Вычтите 2" из **[gloss:maximum-distance:максимального расстояния]**.
 ▪ Каждый раз, когда ЛЕТЯЩАЯ модель движется:
 ▫ Игнорируйте всё вертикальное расстояние для целей определения пройденного расстояния.

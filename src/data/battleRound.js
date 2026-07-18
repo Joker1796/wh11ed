@@ -460,7 +460,7 @@ A unit is **[gloss:eligible-to-shoot:eligible to shoot]** if it is on the battle
     num: '12',
     title: 'Fight Phase',
     page: 38,
-    description: 'In the Fight phase, both players get to act. First, units will [gloss:pile-in:pile in] to maximise the number of models that are engaged, then all the combatants will make melee attacks, before units [gloss:consolidation:consolidate] their position.',
+    description: 'In the Fight phase, both players get to act. First, units will pile in to maximise the number of models that are engaged, then all the combatants will make melee attacks, before units consolidate their position.',
     subsections: [
       {
         id: 'section-12-structure',
@@ -486,7 +486,7 @@ A unit is **[gloss:eligible-to-shoot:eligible to shoot]** if it is on the battle
         id: 'section-12-02',
         sectionNum: '12.02',
         title: 'Pile In',
-        body: `Both players make **pile-in moves** with all of their eligible units they choose to move. The player whose turn it is resolves all of their moves first, followed by their opponent. Each unit cannot make more than one **pile-in move** during this step.`,
+        body: `Both players make **pile-in moves** with all of their eligible units they choose to move. The 'Eligible If' section describes which units are eligible to make such moves. The player whose turn it is resolves all of their moves first, followed by their opponent. Each unit cannot make more than one **pile-in move** during this step.`,
       },
       {
         id: 'section-12-03',
@@ -583,7 +583,7 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
         id: 'section-12-07',
         sectionNum: '12.07',
         title: 'Consolidate',
-        body: `Both players make **consolidation moves** with all of their eligible units they choose to move. The player whose turn it is resolves all of their moves first, followed by their opponent. Each unit cannot make more than one **consolidation move** during this step.`,
+        body: `Both players make **consolidation moves** with all of their eligible units they choose to move. The 'Eligible If' section describes which units are eligible to make such moves. The player whose turn it is resolves all of their moves first, followed by their opponent. Each unit cannot make more than one **consolidation move** during this step.`,
       },
       {
         id: 'section-12-08',
@@ -914,7 +914,7 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
   // 11 — Фаза нападения
   {
     title: 'Фаза нападения',
-    description: 'В фазе нападения вы сможете [gloss:charge-move:совершать нападения] своими отрядами. Это отражает то, как ваши силы сокращают дистанцию с врагами, чтобы вступить с ними в кровавый ближний бой.',
+    description: 'В фазе нападения вы сможете совершать нападения своими отрядами. Это отражает то, как ваши силы сокращают дистанцию с врагами, чтобы вступить с ними в кровавый ближний бой.',
     subsections: [
       {
         title: 'Шаги фазы нападения',
@@ -998,7 +998,7 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
       },
       {
         title: 'Сближение (Pile In)',
-        body: `Оба игрока совершают **[gloss:pile-in:манёвры сближения]** (см. ниже) со своими имеющими право юнитами, которые они решают переместить. Игрок, чей сейчас ход, отыгрывает все свои манёвры первым, затем его оппонент. Каждый юнит не может совершить более одного **[gloss:pile-in:манёвра сближения]** во время этого шага.`,
+        body: `Оба игрока совершают **[gloss:pile-in:манёвры сближения]** (см. ниже) со своими имеющими право юнитами, которые они решают переместить. Раздел «Eligible If» описывает, какие юниты имеют право совершать такие манёвры. Игрок, чей сейчас ход, отыгрывает все свои манёвры первым, затем его оппонент. Каждый юнит не может совершить более одного **[gloss:pile-in:манёвра сближения]** во время этого шага.`,
       },
       {
         title: 'Манёвр сближения',
@@ -1079,7 +1079,7 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
       },
       {
         title: 'Консолидация (Consolidate)',
-        body: `Оба игрока совершают **[gloss:consolidation:консолидации]** (см. ниже) со своими имеющими право юнитами, которые они решают переместить. Игрок, чей сейчас ход, отыгрывает все свои манёвры первым, затем его оппонент. Каждый юнит не может совершить более одной **[gloss:consolidation:консолидации]** во время этого шага.`,
+        body: `Оба игрока совершают **[gloss:consolidation:консолидации]** (см. ниже) со своими имеющими право юнитами, которые они решают переместить. Раздел «Eligible If» описывает, какие юниты имеют право совершать такие манёвры. Игрок, чей сейчас ход, отыгрывает все свои манёвры первым, затем его оппонент. Каждый юнит не может совершить более одной **[gloss:consolidation:консолидации]** во время этого шага.`,
       },
       {
         title: 'Консолидация',
