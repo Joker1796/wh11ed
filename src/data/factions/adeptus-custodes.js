@@ -674,7 +674,7 @@ This detachment has the LIONS tag and cannot be taken with another LIONS detachm
           restrictions: '',
         },
         {
-          name: 'Electro-exorcist Saturation',
+          name: 'Electroexorcist Saturation',
           sublabel: 'Tharanatoi Hammerblow – Stratagem',
           cp: '1CP',
           turn: 'your',
