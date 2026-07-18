@@ -122,7 +122,7 @@ the other machine's next `git pull` sees it's done.
 - [x] drukhari
 - [x] emperors-children
 - [x] tau-empire (reassigned from Machine B — see note below)
-- [ ] thousand-sons (reassigned from Machine B — see note below)
+- [x] thousand-sons (reassigned from Machine B — see note below)
 - [ ] world-eaters (reassigned from Machine B — see note below)
 
 ## Machine B — 1 faction left (reassignment: keep only the heaviest)
