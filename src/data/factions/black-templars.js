@@ -241,7 +241,7 @@ If this unit has the Infantry keyword: At the end of your Command phase, if this
         {
           name: 'Perfervid Intervention',
           sublabel: 'Vindication Task Force – Strategic Ploy Stratagem',
-          cp: '1CP',
+          cp: '2CP',
           turn: 'opponent',
           flavor: 'When the Emperor blesses his crusaders with the opportunity to seize the initiative, none refuse.',
           when: "End of your opponent's Charge phase.",
@@ -350,7 +350,7 @@ If this unit has the Infantry keyword: At the end of your Command phase, if this
         {
           name: 'Blessed Hull',
           sublabel: 'Godhammer Assault Force – Battle Tactic Stratagem',
-          cp: '1CP',
+          cp: '2CP',
           turn: 'opponent',
           flavor: "Their hulls blessed by the chants of Techmarines and their prayer-servitors, a crusade's war engines can be entreated to withstand the most malign attacks.",
           when: "Your opponent's Shooting phase, just after an enemy unit has [gloss:select-targets:selected its targets].",
