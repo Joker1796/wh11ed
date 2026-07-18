@@ -134,7 +134,7 @@ and skip the other three so we don't collide again like on space-marines.
 - [x] orks
 - [x] space-marines
 - [x] space-wolves
-- [ ] tyranids
+- [x] tyranids
 - [ ] world-eaters
 
 ## Already done (before the split)
