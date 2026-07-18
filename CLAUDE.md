@@ -56,6 +56,7 @@ npm run dev      # dev server at http://localhost:5173
 npm run build    # production build → dist/
 npm run preview  # preview the production build
 npm run deploy   # build + upload to the Yandex Object Storage bucket (see Deployment)
+npm run sync     # audit all data against wh40k-appdata: version check + sourceIds + faction/tracker/core diffs (report-only)
 npm run images:webp  # convert new illustration jpg/png in public/images/ to WebP (see Image organization)
 npm run icons        # regenerate PWA / home-screen icons from the "W" mark (see PWA)
 npm run screenshots  # regenerate the manifest install-dialog screenshots (see PWA)
