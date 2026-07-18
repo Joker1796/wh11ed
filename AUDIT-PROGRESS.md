@@ -101,7 +101,7 @@ the other machine's next `git pull` sees it's done.
 - [x] astra-militarum
 - [x] black-templars
 - [x] blood-angels
-- [ ] chaos-knights
+- [x] chaos-knights
 - [ ] chaos-space-marines
 - [ ] dark-angels
 - [ ] death-guard
