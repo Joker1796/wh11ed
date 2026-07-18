@@ -9,10 +9,7 @@
     <p class="errata" v-html="renderInline(faq.errata)"></p>
 
     <div class="faq-list">
-      <div v-for="(item, i) in faq.items" :key="i" class="faq-item">
-        <p class="faq-q"><span class="faq-tag q">Q</span><span v-html="renderInline(item.q)"></span></p>
-        <p class="faq-a"><span class="faq-tag a">A</span><span v-html="renderInline(item.a)"></span></p>
-      </div>
+      <FaqItem v-for="(item, i) in faq.items" :key="i" :q="item.q" :a="item.a" />
     </div>
 
     <PageNav />
@@ -22,6 +19,7 @@
 <script setup>
 import { computed } from 'vue'
 import PageNav from '../../components/PageNav.vue'
+import FaqItem from '../../components/FaqItem.vue'
 import { getEventContent } from '../../data/eventCompanion.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -46,34 +44,6 @@ const faq = computed(() => ec.value.faq)
 .faq-list {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.75rem;
 }
-.faq-item {
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 0.9rem 1.1rem;
-  background: var(--bg-card);
-}
-.faq-q,
-.faq-a {
-  display: flex;
-  gap: 0.6rem;
-  margin: 0;
-  line-height: 1.55;
-}
-.faq-q { margin-bottom: 0.5rem; }
-.faq-tag {
-  flex-shrink: 0;
-  width: 1.4rem;
-  height: 1.4rem;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--text-on-accent);
-}
-.faq-tag.q { background: var(--accent); }
-.faq-tag.a { background: var(--text-muted); }
 </style>
