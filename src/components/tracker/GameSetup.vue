@@ -732,8 +732,9 @@ function cancel() {
 /* 3 battle sizes (Incursion/Strike Force/Onslaught) is one too many for the flex-wrap
    pill row on narrow phones: each button keeps its own (very different) content width,
    so they stack one-per-line, left-aligned, with a large empty gap on every row — reads
-   as broken rather than just narrow. A 3-column grid of equal square-ish tiles uses the
-   width evenly instead; the smaller phones get a second, tighter font-size step since
+   as broken rather than just narrow. A 3-column grid of equal-width tiles uses the width
+   evenly instead — compact, not square (an aspect-ratio: 1 tile reads as too tall for a
+   single form field); the smaller phones get a second, tighter font-size step since
    "Strike Force · 2000 · 3DP" wrapped onto two lines is still tight at 0.82rem. */
 @media (max-width: 560px) {
   .battle-size .seg {
@@ -742,7 +743,6 @@ function cancel() {
     width: 100%;
   }
   .battle-size .seg button {
-    aspect-ratio: 1;
     padding: 0.4rem 0.3rem;
     text-align: center;
     white-space: normal;
