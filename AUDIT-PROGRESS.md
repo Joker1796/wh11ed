@@ -106,7 +106,7 @@ the other machine's next `git pull` sees it's done.
 - [x] chaos-knights
 - [x] chaos-space-marines
 - [x] dark-angels
-- [ ] death-guard
+- [x] death-guard
 - [ ] drukhari
 - [ ] emperors-children
 
