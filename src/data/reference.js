@@ -813,6 +813,69 @@ If a **leader** or **support** model in an **attached** unit is **destroyed** an
   ],
 }
 
+export const errata = {
+  en: [
+    {
+      id: 'errata-13-09',
+      header: '13.09 – Change to First Bullet Point',
+      body: `Changed to: 'That model has the INFANTRY/BEASTS/SWARM keyword and is within a **terrain area** that contains one or more **light/dense terrain features**.'`,
+    },
+    {
+      id: 'errata-17-03',
+      header: '17.03 – Change to First Sentence',
+      body: `Added to the end of the first sentence: '(excluding attacks made with [BLAST] weapons)'.`,
+    },
+    {
+      id: 'errata-18-05',
+      header: '18.05 – Change to Emergency Disembark Move',
+      body: `Changed the WHILE MOVING row to: Set up each model in your unit:
+▪ Wholly within the **set-up distance** of that TRANSPORT, and as close as possible to that TRANSPORT.
+▪ **Or:** If the above is not possible while remaining **unengaged**, set up that model wholly within the **set-up distance** of that TRANSPORT, as close as possible to that TRANSPORT, and **engaged**.
+▪ Each model that still cannot be set up is **destroyed**.`,
+    },
+    {
+      id: 'errata-tank-shock',
+      header: 'Tank Shock Stratagem',
+      body: `The Tank Shock stratagem is the same as the **Crushing Impact** stratagem.`,
+    },
+    {
+      id: 'errata-grenades',
+      header: 'Grenades Stratagem',
+      body: `The Grenades stratagem is the same as the **Explosives** stratagem.`,
+    },
+  ],
+  ru: [
+    {
+      id: 'errata-13-09',
+      header: '13.09 — правка первого пункта',
+      body: `Изменено на: «Эта модель имеет ключевое слово INFANTRY/BEASTS/SWARM и находится в пределах **[gloss:terrain-area:области укрытия]**, которая содержит один или несколько лёгких/надёжных элементов укрытий».`,
+    },
+    {
+      id: 'errata-17-03',
+      header: '17.03 — правка первого предложения',
+      body: `Добавлено в конец первого предложения: «(кроме атак оружием [BLAST])».`,
+    },
+    {
+      id: 'errata-18-05',
+      header: '18.05 — правка манёвра экстренной высадки',
+      body: `Изменена строка «ВО ВРЕМЯ ДВИЖЕНИЯ» на: Расставьте каждую модель вашего отряда:
+▪ Целиком в пределах **расстояния расстановки** от этого TRANSPORT и как можно ближе к нему.
+▪ **Или:** Если это невозможно, оставаясь **не связанным боем**, расставьте эту модель целиком в пределах **расстояния расстановки** от этого TRANSPORT, как можно ближе к нему, и **связанной боем**.
+▪ Каждая модель, которую всё ещё невозможно расставить, **уничтожается**.`,
+    },
+    {
+      id: 'errata-tank-shock',
+      header: 'Стратагема Tank Shock',
+      body: `Стратагема Tank Shock — то же самое, что и стратагема **Crushing Impact**.`,
+    },
+    {
+      id: 'errata-grenades',
+      header: 'Стратагема Grenades',
+      body: `Стратагема Grenades — то же самое, что и стратагема **Explosives**.`,
+    },
+  ],
+}
+
 export const faqs = {
   en: [
     {
@@ -843,6 +906,118 @@ export const faqs = {
       q: 'The Munitorium Field Manual shows my unit can attach to different units than are on its datasheet, which do I use?',
       a: 'Use the Munitorium Field Manual.',
     },
+    {
+      q: 'I have a rule that triggers when a **mortal wound** is allocated to a model, when does this happen?',
+      a: 'When you select a model in the **Select Model step** of **[gloss:mortal-wound:Mortal Wounds]** (06.02).',
+    },
+    {
+      q: 'Does my model or unit become **engaged** while moving through an enemy unit\'s **engagement range** during a move?',
+      a: 'No.',
+    },
+    {
+      q: 'If my unit has weapons that are identical in characteristics, but some of those weapons have [PRECISION], and those weapons targeted a unit without the CHARACTER keyword, do I roll all of those weapons together?',
+      a: 'Yes — the [PRECISION] ability is not an applicable ability for those attacks, as there is no CHARACTER in the target unit for the ability to trigger.',
+    },
+    {
+      q: 'If a rule says a unit can embark into a TRANSPORT in a turn that unit disembarked, does this ignore the core rules restriction on embarking in a turn that unit made a set up move (see 18.02)?',
+      a: 'Yes.',
+    },
+    {
+      q: 'When a rule instructs you to perform a charge outside of the Charge phase, do I resolve steps 2 and 3 of the Charge step (11.02)?',
+      a: 'Yes.',
+    },
+    {
+      q: 'If a rule modifies how far a unit or model can move during a **pile-in move** or **consolidation move**, does it also change the distance of the target units?',
+      a: 'No.',
+    },
+    {
+      q: 'How many mortal wounds do you take from hazard rolls for a unit that combines VEHICLE/MONSTER and INFANTRY models?',
+      a: 'The roll is made all at once, and it inflicts 1 mortal wound per failed roll.',
+    },
+    {
+      q: 'If a rule allows my unit to pile-in or consolidate an extra distance in the Fight phase, when can I use that rule?',
+      a: 'For **pile-in moves**, during the Pile-in step (12.02); for **consolidation moves**, during the Consolidate step (12.07).',
+    },
+    {
+      q: 'Can I select a unit to shoot or fight if it doesn\'t have melee or ranged weapons?',
+      a: 'Yes — it just makes no attacks, and then the **fight type** or **shoot type** is resolved.',
+    },
+    {
+      q: 'When checking **coherency** for my unit, can my unit be in multiple groups?',
+      a: 'No, it must be in a single contiguous group, as per **Units and Models** (01.02) and What Is Coherency.',
+    },
+    {
+      q: 'When a move says that a model or unit must move in a way if it is able, can that requirement force the unit to end their move not in coherency?',
+      a: 'No — when a model or unit is making a move it must follow requirements while ending that move in **coherency**.',
+    },
+    {
+      q: 'If the [ANTI] ability on my unit is [ANTI-non-MONSTER/VEHICLE], does that mean the [ANTI] rule triggers when targeting units that do not have the MONSTER or VEHICLE keyword?',
+      a: 'Yes, ANTI-non-(any keyword) triggers on any unit that does not have the specified keyword.',
+    },
+    {
+      q: 'If a unit becomes **battle-shocked** after **starting an action**, does it stop performing that **action**?',
+      a: 'Yes.',
+    },
+    {
+      q: 'Does the Aerialists ability let a unit embark within a TRANSPORT even though it disembarked from a TRANSPORT this turn?',
+      a: 'Yes, as the unit embarking is not making a **normal move**, **advance move** or **fall-back move** as part of this embarkation.',
+    },
+    {
+      q: 'I failed **hazard rolls** from [HAZARDOUS] weapons, do those **mortal wounds** have to be allocated to the models with the [HAZARDOUS] weapons?',
+      a: 'No, you allocate the **mortal wounds** to the unit as per **[gloss:mortal-wound:Mortal Wounds]** (06.02). (This represents Bob the guardsmen picking up his fallen squad mates plasma gun or that the twisting power of James the Chaos Sorcerer pulling his followers into the warp.)',
+    },
+    {
+      q: 'Can a model be within range of a weapon if it is not **visible**?',
+      a: 'Yes.',
+    },
+    {
+      q: 'When declaring the allocation order of groups in my unit, I have more than one non-CHARACTER group that contains a model with a missing wound — how must I select the order?',
+      a: 'Those groups can be selected in an order of your choosing, but must come before any non-CHARACTER groups that do not contain a model with a missing wound.',
+    },
+    {
+      q: 'What does the X" in **Lone Operative X"** mean?',
+      a: 'The X is a placeholder for a number of inches that the ability might use, e.g. **Lone Operative 15"**, where the X has been replaced with 15".',
+    },
+    {
+      q: 'If a rule says a unit auto passes Desperate Escape tests, does that mean it would auto pass the **hazard rolls** from a desperate escape move?',
+      a: 'Yes.',
+    },
+    {
+      q: 'If a unit has a rule that allows it to **start an action** when it is **battle-shocked**, can it also continue doing that action if it becomes **battle-shocked** after starting an **action**?',
+      a: 'Yes.',
+    },
+    {
+      q: 'When selecting a target unit can the enemy model that is **visible** to my model and the enemy model that is in range of my model\'s weapon be different enemy models in the same unit?',
+      a: 'Yes.',
+    },
+    {
+      q: 'I have a unit being attacked with weapons that will modify some of their **save rolls** to be worse than 6 — should I make those **save rolls**?',
+      a: 'Yes — because other models in your unit may have better **Sv** values, enough **save rolls** could be allocated to those models that the rest of the results are not greater than the **Sv** of the other models in your unit.',
+    },
+    {
+      q: 'If a rule says my unit must make a **hazard roll**, does every model in the unit make a **hazard roll**?',
+      a: 'No, the unit would make 1 single **hazard roll**.',
+    },
+    {
+      q: 'Do models **destroyed** when a unit is out of **coherency** count for mission objectives?',
+      a: 'Yes.',
+    },
+    {
+      q: 'If my unit has taken control of an objective at the end of my Movement phase, and it has an ability that secures an objective it controls, can it secure that objective?',
+      a: 'Yes.',
+    },
+    {
+      q: 'If my unit has the **Deadly Demise** ability and an ability that allows it to **Fight on Death**, how do I resolve this?',
+      a: '**Fight on Death** rules are resolved before **Deadly Demise** abilities — your unit\'s **Deadly Demise** resolves after it has fought/at the end of the phase, once the relevant models have been removed from the battlefield.',
+    },
+    {
+      q: 'If I have a rule that says my unit can move up to 6" when it makes a **pile-in move** or **consolidation move**, does this also change the **maximum distance** of those moves to 6"?',
+      a: 'Yes.',
+    },
+    {
+      q: 'If a unit makes any disembark move in a turn (i.e. Disembark move, Emergency Disembark move, etc.), has it disembarked that turn?',
+      a: 'Yes.',
+    },
   ],
   ru: [
     {
@@ -872,6 +1047,118 @@ export const faqs = {
     {
       q: 'Munitorium Field Manual показывает, что мой юнит может присоединяться к юнитам, отличным от указанных в его листе данных — какой использовать?',
       a: 'Используйте Munitorium Field Manual.',
+    },
+    {
+      q: 'У меня есть правило, срабатывающее, когда **[gloss:mortal-wound:смертельная рана]** распределяется на модель — когда это происходит?',
+      a: 'Когда вы выбираете модель на шаге «Выбор модели» (Select Model step) раздела **[gloss:mortal-wound:Смертельные раны]** (06.02).',
+    },
+    {
+      q: 'Становится ли моя модель или юнит **связанным**, проходя через **радиус связывания** вражеского юнита во время манёвра?',
+      a: 'Нет.',
+    },
+    {
+      q: 'Если у моего юнита есть оружие с одинаковыми характеристиками, но часть этого оружия имеет [PRECISION], и это оружие нацелено на юнит без ключевого слова CHARACTER, бросаю ли я всё это оружие вместе?',
+      a: 'Да — способность [PRECISION] неприменима для этих атак, поскольку в целевом юните нет CHARACTER, чтобы её правило сработало.',
+    },
+    {
+      q: 'Если правило говорит, что отряд может погрузиться в TRANSPORT в тот ход, когда он высадился, обходит ли это ограничение основных правил на погрузку в тот ход, когда отряд совершил манёвр расстановки (см. 18.02)?',
+      a: 'Да.',
+    },
+    {
+      q: 'Когда правило предписывает совершить нападение вне фазы нападения, отыгрываю ли я шаги 2 и 3 шага «Нападение» (11.02)?',
+      a: 'Да.',
+    },
+    {
+      q: 'Если правило изменяет, насколько далеко юнит или модель может двигаться во время **манёвра сближения** или **консолидации**, меняет ли это также дистанцию целевых юнитов?',
+      a: 'Нет.',
+    },
+    {
+      q: 'Сколько **[gloss:mortal-wound:смертельных ран]** вы получаете от **[gloss:hazard-roll:проверок опасности]** для юнита, объединяющего модели VEHICLE/MONSTER и INFANTRY?',
+      a: 'Бросок делается один раз за весь юнит, и он наносит 1 **[gloss:mortal-wound:смертельную рану]** за каждую провальную проверку.',
+    },
+    {
+      q: 'Если правило позволяет моему юниту сблизиться или консолидироваться на дополнительную дистанцию в фазе боя, когда я могу использовать это правило?',
+      a: 'Для **манёвров сближения** — во время шага «Сближение» (12.02); для **консолидаций** — во время шага «Консолидация» (12.07).',
+    },
+    {
+      q: 'Могу ли я выбрать юнит для стрельбы или боя, если у него нет оружия ближнего или дальнего боя?',
+      a: 'Да — он просто не совершает атак, а затем **тип боя** или **тип стрельбы** отыгрывается.',
+    },
+    {
+      q: 'При проверке **боевого построения** моего юнита может ли мой юнит находиться в нескольких группах?',
+      a: 'Нет, он должен быть в одной непрерывной группе, согласно разделам **Юниты и модели** (01.02) и «Что такое боевое построение».',
+    },
+    {
+      q: 'Когда манёвр требует, чтобы модель или юнит двигались определённым образом, если это возможно, может ли это требование заставить юнит закончить манёвр вне боевого построения?',
+      a: 'Нет — совершая манёвр, модель или юнит должны соблюдать требования, заканчивая этот манёвр в **боевом построении**.',
+    },
+    {
+      q: 'Если способность **[ANTI]** моего юнита — **[ANTI-non-MONSTER/VEHICLE]**, значит ли это, что правило **[ANTI]** срабатывает при нацеливании на юниты без ключевого слова MONSTER или VEHICLE?',
+      a: 'Да, **ANTI-non-**(любое ключевое слово) срабатывает на любом юните, у которого нет указанного ключевого слова.',
+    },
+    {
+      q: 'Если юнит становится **подверженным боевому шоку** после того, как **начал действие**, прекращает ли он выполнять это **действие**?',
+      a: 'Да.',
+    },
+    {
+      q: 'Позволяет ли способность Aerialists юниту погрузиться в TRANSPORT, даже если в этот ход он уже высадился из TRANSPORT?',
+      a: 'Да, поскольку погрузка в рамках этой способности не является **обычным манёвром**, **продвижением** или **манёвром отступления**.',
+    },
+    {
+      q: 'Я провалил **проверки опасности** от оружия [HAZARDOUS] — должны ли эти **[gloss:mortal-wound:смертельные раны]** распределяться на модели с оружием [HAZARDOUS]?',
+      a: 'Нет, вы распределяете **смертельные раны** на юнит согласно разделу **[gloss:mortal-wound:Смертельные раны]** (06.02). (Это символизирует, как Боб-гвардеец подбирает плазменное ружьё павшего товарища по отряду, или как искажающая сила Джеймса-чародея Хаоса затягивает его последователей в варп.)',
+    },
+    {
+      q: 'Может ли модель находиться в дальности оружия, если она не **видима**?',
+      a: 'Да.',
+    },
+    {
+      q: 'При объявлении порядка распределения групп в моём юните у меня несколько не-CHARACTER групп, содержащих модель с недостающей раной — как я должен выбрать порядок?',
+      a: 'Эти группы можно выбирать в любом порядке на ваше усмотрение, но они должны идти раньше любых не-CHARACTER групп, не содержащих модель с недостающей раной.',
+    },
+    {
+      q: 'Что означает X" в способности **Lone Operative X"**?',
+      a: 'X — заполнитель для числа дюймов, которое может подставляться в эту способность, например **Lone Operative 15"**, где X заменён на 15".',
+    },
+    {
+      q: 'Если правило гласит, что юнит автоматически проходит проверки на **отчаянный побег** (Desperate Escape), означает ли это, что он также автоматически проходит **проверки опасности**, которые требует этот режим?',
+      a: 'Да.',
+    },
+    {
+      q: 'Если у юнита есть правило, позволяющее ему **начать действие**, когда он **подвержен боевому шоку**, может ли он также продолжать выполнять это действие, если станет **подверженным боевому шоку** после начала **действия**?',
+      a: 'Да.',
+    },
+    {
+      q: 'При выборе целевого юнита могут ли вражеская модель, **[gloss:visible:видимая]** моей модели, и вражеская модель, находящаяся в дальности оружия моей модели, быть разными вражескими моделями в одном и том же юните?',
+      a: 'Да.',
+    },
+    {
+      q: 'На мой юнит нападают оружием, которое ухудшит часть его **спас-бросков** хуже 6 — должен ли я делать эти **спас-броски**?',
+      a: 'Да — поскольку у других моделей в вашем юните может быть лучшая **Sv**, достаточно **спас-бросков** можно распределить на них так, что остальные результаты не превысят **Sv** других моделей в вашем юните.',
+    },
+    {
+      q: 'Если правило говорит, что мой юнит должен сделать **проверку опасности**, делает ли каждая модель в юните **проверку опасности**?',
+      a: 'Нет, юнит сделает 1 одну **проверку опасности**.',
+    },
+    {
+      q: 'Считаются ли модели, **[gloss:destroyed:уничтоженные]** когда юнит находится вне боевого построения, для игровых целей?',
+      a: 'Да.',
+    },
+    {
+      q: 'Если мой юнит взял под контроль **цель** в конце моей фазы движения, и у него есть способность, которая **[gloss:secured-objective:закрепляет]** контролируемую цель, может ли он закрепить эту цель?',
+      a: 'Да.',
+    },
+    {
+      q: 'Если у моего юнита есть способность **Deadly Demise** и способность **Fight on Death**, в каком порядке их отыгрывать?',
+      a: 'Правила **Fight on Death** отыгрываются раньше способности **Deadly Demise** — то есть **Deadly Demise** вашего юнита отыгрывается после того, как он сразился/в конце фазы, когда соответствующие модели уже убраны с поля боя.',
+    },
+    {
+      q: 'Если у меня есть правило, что мой юнит может двигаться до 6" при **манёвре сближения** или **консолидации**, меняет ли это также **максимальную дистанцию** этих манёвров на 6"?',
+      a: 'Да.',
+    },
+    {
+      q: 'Если юнит совершает любой манёвр высадки за ход (т.е. манёвр высадки, экстренный манёвр высадки и т.д.), считается ли, что он высадился в этот ход?',
+      a: 'Да.',
     },
   ],
 }
