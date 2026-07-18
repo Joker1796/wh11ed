@@ -38,6 +38,10 @@ the other machine's next `git pull` sees it's done.
   here is correct, not a bug.
 - appdata's own `unit_composition` join occasionally yields duplicate rows for the same
   price — de-duped before comparing.
+- Every faction has an exclusive **Combat Patrol** boxed-set detachment + 0pt datasheets
+  (`isCombatPatrol: true`) — wh11ed doesn't cover Combat Patrol as a product line at all, so
+  these are filtered out entirely before comparing (was showing up as a "missing detachment"
+  + several "missing datasheet" per faction, e.g. space-marines' "Assault Force").
 - For the 5 SM-Chapter factions (black-templars/blood-angels/dark-angels/deathwatch/
   space-wolves): most of the `extra` list is NOT a real gap — appdata's own per-chapter
   bundle only lists that Chapter's exclusive publications, while wh11ed's list (correctly)
@@ -58,7 +62,7 @@ the other machine's next `git pull` sees it's done.
 
 ## Machine A — 13 factions (~266 wu)
 
-- [ ] adepta-sororitas
+- [x] adepta-sororitas
 - [ ] adeptus-custodes
 - [ ] adeptus-mechanicus
 - [ ] aeldari
