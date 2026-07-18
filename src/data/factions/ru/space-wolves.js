@@ -26,7 +26,7 @@ export const stratNamesRu = {
   'Overwhelming Onslaught': 'Подавляющий натиск',
   'Bounding Advance': 'Скачкообразное продвижение',
   'Territorial Advantage': 'Территориальное преимущество',
-  'Hunters’ Trail': 'Тропа охотников',
+  'Envelop and Ensnare': 'Окружить и опутать',
   'Chosen Prey': 'Избранная добыча',
   'Wolf Totems': 'Волчьи тотемы',
   'Runes of Claiming': 'Руны притязания',

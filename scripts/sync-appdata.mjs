@@ -207,7 +207,9 @@ async function syncFaction(slug) {
     // the base price, so drop any tier past the first before comparing.
     // appdata's own unit_composition join sometimes yields duplicate rows for the same
     // price (multiple miniature slots in one composition) — de-dupe before comparing.
-    const isSurchargeTier = (note) => note && /^(2nd|3rd|4th|5th)/i.test(note)
+    // The ordinal can be the whole note ("3rd+") or trail a longer composition
+    // description in parens ("3 Wolf Guard Headtakers (3rd+)") — match either.
+    const isSurchargeTier = (note) => note && /(^|\()(2nd|3rd|4th|5th)/i.test(note)
     const whPts = [...new Set((d.points || []).filter((p) => !isSurchargeTier(p.note)).map((p) => p.points))].sort((x, y) => x - y)
     const appPts = [...new Set((appDs.points || []).map((p) => p.points))].sort((x, y) => x - y)
     if (whPts.length && appPts.length && JSON.stringify(whPts) !== JSON.stringify(appPts)) {
