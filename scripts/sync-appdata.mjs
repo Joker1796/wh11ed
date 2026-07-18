@@ -149,6 +149,19 @@ async function syncFaction(slug) {
       if (!whAbilities.has(n)) lines.push(`  + datasheet "${d.name}" missing ability: "${a.name}" — ${appdataToMarkup(a.rules)}`)
     }
     for (const n of whAbilities) if (!appAbilityByName.has(n)) lines.push(`  - datasheet "${d.name}" extra ability (not in appdata): "${n}"`)
+
+    // Compare core+faction as ONE merged set, not two separate fields: wh11ed's `faction`
+    // is itself sometimes a comma-joined list (e.g. Aeldari's "Battle Focus, Disparate
+    // Paths"), and appdata inconsistently buckets the same ability name as 'core' on some
+    // datasheets and 'faction' on others (e.g. "Super-heavy Walker") — diffing per-field
+    // would flag that inconsistency as a false difference even when the name set matches.
+    const appCoreFaction = (appDs.abilities || []).filter((a) => a.type === 'core' || a.type === 'faction').map((a) => norm(a.name))
+    const whCoreFaction = [...(d.core || '').split(','), ...(d.faction || '').split(',')].map((s) => norm(s.trim())).filter(Boolean)
+    const missingCF = appCoreFaction.filter((n) => !whCoreFaction.includes(n))
+    const extraCF = whCoreFaction.filter((n) => !appCoreFaction.includes(n))
+    if (missingCF.length || extraCF.length) {
+      lines.push(`  ~ datasheet "${d.name}" core/faction differ: wh11ed=${JSON.stringify([d.core, d.faction].filter(Boolean))} appdata=${JSON.stringify(appCoreFaction)}`)
+    }
   }
 
   if (!lines.length) console.log('  no structural differences found')

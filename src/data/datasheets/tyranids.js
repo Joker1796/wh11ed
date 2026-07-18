@@ -1159,7 +1159,7 @@ export default [
         "d": "D6"
       }
     ],
-    "core": "Deadly Demise D3, Hover",
+    "core": "Deadly Demise D3",
     "faction": "Synapse",
     "abilities": [
       {
@@ -2429,7 +2429,7 @@ export default [
       }
     ],
     "core": "Deep Strike, Lone Operative, Stealth",
-    "faction": "Synapse",
+    "faction": "Shadow in the Warp, Synapse",
     "abilities": [
       {
         "name": "Parasitic Infection",

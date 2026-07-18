@@ -49,7 +49,6 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Support",
     "faction": "Waaagh!",
     "abilities": [
       {
