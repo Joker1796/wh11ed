@@ -41,7 +41,8 @@ the other machine's next `git pull` sees it's done.
 - wh11ed's `"1CP"` vs appdata's bare `"1"` stratagem CP formatting.
 - A `(Aura)`/`(Psychic)` classification suffix wh11ed appends to some enhancement/ability
   names that appdata's bare name doesn't carry.
-- The U+2011 non-breaking hyphen in some appdata names vs a regular hyphen in wh11ed's.
+- Unicode hyphen variants in appdata names (U+2010 HYPHEN, U+2011 non-breaking hyphen) vs a
+  regular hyphen-minus in wh11ed's — norm() folds `-–—‑‐` all to `-`.
 - MFM "copy tax" points tiers (`note: "1st-2nd"` vs `"3rd+"`, pricier for spamming the same
   unit) — appdata's composition join only exposes the base price. wh11ed having *two* prices
   here is correct, not a bug.
@@ -70,7 +71,7 @@ the other machine's next `git pull` sees it's done.
 - [x] adepta-sororitas
 - [x] adeptus-custodes
 - [x] adeptus-mechanicus
-- [ ] aeldari
+- [x] aeldari
 - [ ] astra-militarum
 - [ ] black-templars
 - [ ] blood-angels
