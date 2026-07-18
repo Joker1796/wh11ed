@@ -70,7 +70,7 @@ At the start of your Command phase during the second, third, fourth and fifth ba
         {
           name: 'Baleful Halo',
           sublabel: 'Rad-Zone Corps – Battle Tactic Stratagem',
-          cp: '1CP',
+          cp: '2CP',
           turn: 'either',
           flavor: 'By briefly unshielding the most corrosive or irradiated components of their being, the warriors of a Rad-Zone Corps can exhale an isotopic fog, sapping the strength of those not inured to its effects.',
           when: 'Fight phase, just after an enemy unit has selected its targets.',
@@ -125,7 +125,7 @@ At the start of your Command phase during the second, third, fourth and fifth ba
         {
           name: 'Bulwark Imperative',
           sublabel: 'Rad-Zone Corps – Battle Tactic Stratagem',
-          cp: '1CP',
+          cp: '2CP',
           turn: 'opponent',
           flavor: "With a pulse of force-loaded wisdom, microactuators lock into bracing positions, reserve power cells are brought online and the Omnissiah's holy crusaders are bestowed with a sensation of sacred invulnerability.",
           when: "Your opponent's Shooting phase, just after an enemy unit has selected its targets.",
@@ -200,7 +200,7 @@ At the start of your Command phase during the second, third, fourth and fifth ba
         {
           name: 'Binharic Offence',
           sublabel: 'Skitarii Hunter Cohort – Strategic Ploy Stratagem',
-          cp: '1CP',
+          cp: '2CP',
           turn: 'either',
           flavor: 'Employing directed binharic entanglement to coordinate their motions, paired squads of Skitarii attack with eerie and lethal synchronicity.',
           when: 'The start of your Shooting phase or the start of the Fight phase.',
@@ -412,7 +412,7 @@ This detachment has the DATA-PSALM tag and cannot be taken with another DATA-PSA
         {
           name: 'Auto-oracular Retrieval',
           sublabel: 'Explorator Maniple – Battle Tactic Stratagem',
-          cp: '1CP',
+          cp: '2CP',
           turn: 'your',
           flavor: 'With a surge of targeting data from the war engine as its hatches slam open, the warriors inside pour out with weapons already trained unerringly on the foe.',
           when: 'Your Shooting phase.',
