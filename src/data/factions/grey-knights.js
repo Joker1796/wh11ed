@@ -227,13 +227,13 @@ Once you have made your selections, remove those units from the battlefield and 
           body: "GREY KNIGHTS model only. In your Shooting phase, each time a model in the bearer’s unit makes an attack, re-roll a Hit roll of 1.",
         },
         {
-          name: "The Ephemeral Tome",
+          name: "Ephemeral Tome",
           points: 15,
           flavor: "A sorcerous volume whose treatises on the impermanence of reality change constantly, this tome’s harnessed power allows the bearer to flicker in and out of phase with realspace.",
           body: "GREY KNIGHTS INFANTRY model only. At the start of your Shooting phase, if the bearer’s unit is not within Engagement Range of one or more enemy units, the bearer can use this Enhancement. If it does, the bearer’s unit can make a Normal move of up to D6\", and until the end of the turn, the bearer’s unit is not eligible to declare a charge.",
         },
         {
-          name: "The Sixty-sixth Seal",
+          name: "Sixty-sixth Seal",
           points: 25,
           flavor: "One of the six hundred and sixty-six seals of purity once affixed to the tomb of Vasandrius, the talismanic properties of this artefact lend a keen edge of sacred intolerance to their bearer’s armaments.",
           body: "GREY KNIGHTS model only. In your Shooting phase, each time a model in the bearer’s unit makes an attack, improve the Armour Penetration characteristic of that attack by 1.",

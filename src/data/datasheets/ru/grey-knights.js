@@ -118,7 +118,7 @@ export default {
     abilities: {
       'Champion of the Order of Purifiers (Psychic)':
         'Пока эта модель возглавляет юнит, прибавьте 1 к характеристике Атак (Attacks) оружия Purifying Flame моделей этого юнита.',
-      'Foresight (Psychic)':
+      'Foesight (Psychic)':
         'Каждый раз, когда эта модель совершает атаку по юниту CHARACTER, вы можете перебросить бросок попадания.',
     },
     loadout: `${EQUIP_THIS} Purifying Flame; storm bolter; Black Blade of Antwyr.`,
@@ -452,7 +452,7 @@ export const abilityNamesRu = {
   'Ancient’s Banner': 'Штандарт Ancient',
   'Apothecary’s Narthecium': 'Нартециум Apothecary',
   'Champion of the Order of Purifiers (Psychic)': 'Чемпион Ордена Очистителей (Психика)',
-  'Foresight (Psychic)': 'Предвидение (Психика)',
+  'Foesight (Psychic)': 'Взор на врага (Психика)',
   'Warrior Strategist': 'Воин-стратег',
   'Might of Titan (Psychic)': 'Мощь Титана (Психика)',
   'Surge of Wrath (Psychic)': 'Прилив гнева (Психика)',

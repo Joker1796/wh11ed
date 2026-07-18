@@ -768,7 +768,7 @@ export default [
         "text": "While this model is leading a unit, add 1 to the Attacks characteristic of Purifying Flame weapons equipped by models in that unit."
       },
       {
-        "name": "Foresight (Psychic)",
+        "name": "Foesight (Psychic)",
         "text": "Each time this model makes an attack that targets a CHARACTER unit, you can re-roll the Hit roll."
       }
     ],
