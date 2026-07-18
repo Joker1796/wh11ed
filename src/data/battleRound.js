@@ -243,6 +243,15 @@ Many **move types** state conditions you must meet while/after moving. Those tha
 ◈ ELIGIBLE IF | Your unit is on the battlefield and **[gloss:unengaged:unengaged]**.
 ◈ EFFECT | Your unit moves as described in Moving (03).
 ◈ AFTER MOVING | Your unit must be **unengaged**.`,
+        children: [
+          {
+            id: 'section-09-05-01',
+            sectionNum: '09.05.01',
+            title: 'More Than One Normal Move in a Phase',
+            fromApp: true,
+            body: `A unit cannot make more than one **Normal Move** in a phase.`,
+          },
+        ],
       },
       {
         id: 'section-09-06',
@@ -802,6 +811,12 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 ◈ ПРАВО НА ВЫБОР | Ваш юнит находится на поле боя и **[gloss:unengaged:не связан боем]**.
 ◈ ЭФФЕКТ | Ваш юнит перемещается, как описано в разделе «Движение» (03).
 ◈ ПОСЛЕ МАНЁВРА | Ваш юнит должен быть **[gloss:unengaged:не связан боем]**.`,
+        children: [
+          {
+            title: 'Больше одного обычного манёвра за фазу',
+            body: `Юнит не может совершить больше одного **обычного манёвра** за фазу.`,
+          },
+        ],
       },
       {
         title: 'Продвижение',
