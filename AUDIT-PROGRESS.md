@@ -85,7 +85,7 @@ the other machine's next `git pull` sees it's done.
 ## Machine B — 13 factions (~313 wu)
 
 - [x] genestealer-cults
-- [ ] grey-knights
+- [x] grey-knights
 - [ ] imperial-agents
 - [ ] imperial-knights
 - [ ] leagues-of-votann
