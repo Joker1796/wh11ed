@@ -30,7 +30,7 @@ export const stratNamesRu = {
   'Virtue of Courage': 'Добродетель отваги',
   'Let Duty Be Your Shield': 'Пусть долг станет твоим щитом',
   'Mantle of the Mentor': 'Мантия наставника',
-  'Squires Ofthe Hunt': 'Оруженосцы охоты',
+  'Squires of the Hunt': 'Оруженосцы охоты',
   'Thunderstomp': 'Громовой топот',
   'Vow of Retribution': 'Обет возмездия',
   'Tactical Foil': 'Тактический контрход',

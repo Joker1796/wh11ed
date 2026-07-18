@@ -445,7 +445,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           restrictions: "",
         },
         {
-          name: "Squires Ofthe Hunt",
+          name: "Squires of the Hunt",
           sublabel: "Spearhead-At-Arms – Strategic Ploy Stratagem",
           cp: "1CP",
           turn: "opponent",

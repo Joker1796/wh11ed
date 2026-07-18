@@ -738,6 +738,65 @@ export default [
     "baseSize": "170x109mm Oval Base"
   },
   {
+    "id": "sir-hekhtur",
+    "name": "Sir Hekhtur",
+    "points": [],
+    "flavor": "Once a prisoner of the Iron Warriors, Sir Hekhtur resisted agonising torture and escaped only through sheer faith, determination and honour. Now he travels the galaxy, liberating Imperial citizens enslaved by the forces of the Arch-enemy.",
+    "profiles": [
+      {
+        "name": "Sir Hekhtur",
+        "m": "6\"",
+        "t": "3",
+        "sv": "4+",
+        "w": "3",
+        "ld": "5+",
+        "oc": "1"
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Hekhtur’s pistol",
+        "tags": [
+          "PISTOL"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "2+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      }
+    ],
+    "melee": [
+      {
+        "name": "Close combat weapon",
+        "tags": [],
+        "a": "2",
+        "ws": "2+",
+        "s": "3",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
+    "core": "Lone Operative",
+    "faction": "",
+    "abilities": [],
+    "composition": [
+      "1 Sir Hekhtur",
+      "Set up when Canis Rex is destroyed (see Canis Rex)."
+    ],
+    "loadout": "**This model is equipped with:** Hekhtur’s pistol; close combat weapon.",
+    "keywords": [
+      "Character",
+      "Epic Hero",
+      "Imperium",
+      "Infantry",
+      "Sir Hekhtur"
+    ],
+    "factionKeywords": [],
+    "baseSize": "25mm"
+  },
+  {
     "id": "cerastus-knight-acheron",
     "name": "Cerastus Knight Acheron",
     "points": [
