@@ -43,6 +43,9 @@
     <div v-else-if="block.type === 'img-group'" class="img-group">
       <AppImage v-for="(item, k) in block.srcs" :key="k" :src="item.src" :alt="item.alt" />
     </div>
+    <div v-else-if="block.type === 'faq'" class="faq-list">
+      <FaqItem v-for="(item, j) in block.items" :key="j" :q="item.q" :a="item.a" />
+    </div>
     <h4 v-else-if="block.type === 'h4'" :id="id ? h4AnchorId(id, block.n) : undefined" class="rule-subheading">
       <span v-html="renderInline(block.text)"></span>
       <span v-if="block.ru" class="rule-subheading-ru">{{ block.ru }}</span>
@@ -54,6 +57,7 @@
 <script setup>
 import { computed } from 'vue'
 import AppImage from './AppImage.vue'
+import FaqItem from './FaqItem.vue'
 import { useRenderInline } from '../composables/useRenderInline.js'
 import { h4AnchorId } from '../composables/anchors.js'
 
@@ -79,6 +83,11 @@ const blocks = computed(() => {
     if (mode === 'info-card') {
       if (cardRows.length) result.push({ type: 'info-card', rows: [...cardRows] })
       cardRows = []
+      buf = []
+      return
+    }
+    if (mode === 'faq') {
+      if (buf.length) result.push({ type: 'faq', items: [...buf] })
       buf = []
       return
     }
@@ -124,6 +133,9 @@ const blocks = computed(() => {
   for (const raw of lines) {
     const line = raw.trim()
     if (line === '') {
+      // Inside a FAQ block, blank lines only separate Q/A pairs — keep grouping them
+      // into the same block so they render as one connected list.
+      if (mode === 'faq') continue
       flush()
       mode = null
       continue
@@ -135,6 +147,8 @@ const blocks = computed(() => {
     const isInfoRow = line.startsWith('◈ ')
     const isSubheading = line.startsWith('### ')
     const isImg = /^\[img:[^\]]+\]$/.test(line)
+    const isFaqQ = /^\*\*[QВ]:\*\*/.test(line)
+    const isFaqA = /^\*\*[AО]:\*\*/.test(line)
     if (isImg) {
       if (mode !== 'img-group') { flush(); mode = 'img-group' }
       const imgContent = line.slice(5, -1)
@@ -151,6 +165,11 @@ const blocks = computed(() => {
       cardRows.push({ label, content, items: [] })
     } else if (isBullet && mode === 'info-card') {
       if (cardRows.length) cardRows[cardRows.length - 1].items.push(line.replace(/^[▪•▫]\s*/, '').trim())
+    } else if (isFaqQ) {
+      if (mode !== 'faq') { flush(); mode = 'faq' }
+      buf.push({ q: line.replace(/^\*\*[QВ]:\*\*\s*/, ''), a: '' })
+    } else if (isFaqA && mode === 'faq' && buf.length) {
+      buf[buf.length - 1].a = line.replace(/^\*\*[AО]:\*\*\s*/, '')
     } else if (isSubheading) {
       flush()
       // A subheading may carry a RU translation after ` | ` (faction rule bodies), shown as
@@ -361,6 +380,13 @@ p {
 }
 
 .info-items li { margin-bottom: 0.15rem; }
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 0.5rem 0 0.7rem;
+}
 
 .img-group {
   margin: 0.5rem 0;

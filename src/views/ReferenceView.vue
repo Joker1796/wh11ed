@@ -144,16 +144,7 @@
     />
 
     <div class="faq-list">
-      <div v-for="(faq, i) in faqsData" :key="i" :id="'faq-' + i" class="faq-item">
-        <div class="faq-q">
-          <span class="faq-badge">Q</span>
-          <span v-html="renderInline(faq.q)" />
-        </div>
-        <div class="faq-a">
-          <span class="faq-badge ans">A</span>
-          <span v-html="renderInline(faq.a)" />
-        </div>
-      </div>
+      <FaqItem v-for="(faq, i) in faqsData" :id="'faq-' + i" :key="i" :q="faq.q" :a="faq.a" />
     </div>
 
     <PageNav />
@@ -168,6 +159,7 @@ import TableOfContents from '../components/TableOfContents.vue'
 import RuleBlock from '../components/RuleBlock.vue'
 import SubRuleBlock from '../components/SubRuleBlock.vue'
 import PageNav from '../components/PageNav.vue'
+import FaqItem from '../components/FaqItem.vue'
 import { useRenderInline } from '../composables/useRenderInline.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useAbilityFilter } from '../composables/useAbilityFilter.js'
@@ -614,48 +606,5 @@ function handleDefClick(e) {
   flex-direction: column;
   gap: 0.75rem;
   margin-bottom: 1.25rem;
-}
-
-.faq-item {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.faq-q, .faq-a {
-  display: flex;
-  gap: 0.75rem;
-  padding: 0.75rem 1rem;
-  font-size: 0.9rem;
-  align-items: flex-start;
-}
-
-.faq-q {
-  border-bottom: 1px solid var(--border-light);
-  font-weight: 600;
-}
-
-.faq-a {
-  color: var(--text-muted);
-}
-
-.faq-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  min-width: 22px;
-  background: var(--accent);
-  border-radius: 3px;
-  font-weight: 700;
-  font-size: 0.75rem;
-  color: var(--text-on-accent);
-  flex-shrink: 0;
-}
-
-.faq-badge.ans {
-  background: var(--text-muted);
 }
 </style>
