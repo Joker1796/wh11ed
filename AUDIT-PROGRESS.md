@@ -100,7 +100,7 @@ the other machine's next `git pull` sees it's done.
   datasheet file for the generic army-rule name** (`grep -c '"faction": "<generic name>"'`)
   and cross-check against the faction's own `armyRule.name` in `src/data/factions/<slug>.js`.
 
-## Machine A — 13 factions (~266 wu)
+## Machine A — done, now picking up 3 of Machine B's remaining 4
 
 - [x] adepta-sororitas
 - [x] adeptus-custodes
@@ -115,8 +115,15 @@ the other machine's next `git pull` sees it's done.
 - [x] death-guard
 - [x] drukhari
 - [x] emperors-children
+- [ ] tau-empire (reassigned from Machine B — see note below)
+- [ ] thousand-sons (reassigned from Machine B — see note below)
+- [ ] world-eaters (reassigned from Machine B — see note below)
 
-## Machine B — 13 factions (~313 wu)
+## Machine B — 1 faction left (reassignment: keep only the heaviest)
+
+Machine A finished its 13 and is now taking tau-empire/thousand-sons/world-eaters off Machine
+B's plate — **Machine B, please only do `tyranids`** (the heaviest of the 4 remaining, ~18 wu)
+and skip the other three so we don't collide again like on space-marines.
 
 - [x] genestealer-cults
 - [x] grey-knights
@@ -127,8 +134,6 @@ the other machine's next `git pull` sees it's done.
 - [x] orks
 - [x] space-marines
 - [x] space-wolves
-- [ ] tau-empire
-- [ ] thousand-sons
 - [ ] tyranids
 - [ ] world-eaters
 
