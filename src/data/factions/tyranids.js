@@ -77,7 +77,7 @@ If your Army Faction is Tyranids, once per battle, in either player's Command ph
         {
           name: 'Adrenal Surge',
           sublabel: 'Invasion Fleet – Battle Tactic Stratagem',
-          cp: '1CP',
+          cp: '2CP',
           turn: 'your',
           flavor: 'These warrior organisms destroy all as their adrenaline surges.',
           when: 'Fight phase.',
@@ -463,7 +463,7 @@ In addition, while a Tyranids Monster unit from your army (excluding Battle-shoc
         {
           name: 'Ablative Carapace',
           sublabel: 'Assimilation Swarm – Epic Deed Stratagem',
-          cp: '1CP',
+          cp: '2CP',
           turn: 'opponent',
           flavor: 'These organisms have employed consumed minerals to exude an additional hardened protective layer over their chitinous armour.',
           when: "Your opponent's Shooting phase or the Fight phase, just after an enemy unit has selected its targets.",
