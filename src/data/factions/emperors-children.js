@@ -612,7 +612,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           restrictions: "",
         },
         {
-          name: "Onto the Next",
+          name: "On to the Next",
           sublabel: "Rapid Evisceration – Strategic Ploy Stratagem",
           cp: "1CP",
           turn: "either",
