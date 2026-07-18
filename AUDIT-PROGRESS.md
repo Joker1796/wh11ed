@@ -65,6 +65,26 @@ the other machine's next `git pull` sees it's done.
   Down" is correct — left alone. Don't blindly copy a
   "missing"/"extra" name pair without a sanity check on which side is actually correct
   English.
+- **wh11ed spreads unit-specific abilities across `abilities`/`wargearAbilities`/
+  `specialAbilities`**, but only `abilities`+`specialAbilities` are compared against
+  appdata's `type: 'datasheet'` list (`wargearAbilities` maps to appdata's separate
+  wargear-rule-text concept, tied to a wargear item rather than a named ability, and isn't
+  diffed here — comparing it produces noise like "Storm Shield"). Found via space-marines:
+  6 named characters' "missing: Inspiring Commander" were false positives — the ability was
+  already there, just in `specialAbilities`, which the script didn't check yet at the time.
+- **Structural ALL-CAPS rule plates that restate a Core Rule for a specific keyword**
+  (SUPREME COMMANDER, ATTACHED UNIT, CRIMSON FISTS-style Chapter-lore plates, "designer's
+  note" asides, named-character title plates like "DEMETRIAN TITUS") live in wh11ed's
+  `rules`/`specialAbilities` with **no appdata counterpart at all** — appdata expects the
+  reader to infer these from the keyword + Core Rules reference instead of restating them
+  per-datasheet. These always show as "extra ability (not in appdata)" and are not bugs;
+  don't try to match or remove them.
+- **A single composition tier can appear twice in appdata with two different points values,
+  both marked `default: true`** (space-marines: Captain with Jump Pack 1-model at both 75
+  and 80; Outrider Squad's 3-model tier at both 70 and 75, its 4-model tier at both 130 and
+  135) — an appdata-side data-duplication artifact (distinct from the exact-duplicate-row
+  case already de-duped), not a missing wh11ed price tier. Leave wh11ed's single value alone
+  unless MFM independently confirms a change.
 
 ## Real bugs found so far (patterns to watch for elsewhere)
 
@@ -87,15 +107,33 @@ the other machine's next `git pull` sees it's done.
   folding them into the shared `space-marines.js` pool — check "differs" units for **all 5
   SM-Chapter factions** for the same pattern, not just missing/extra. Conversely, if an
   ability's *text* is byte-identical to the shared version and only the *name* differs
-  (Gladiator Reaper's "Rotating Death" == "Reaping Tally" in appdata's Black Templars view,
-  same rules text) — that's a cosmetic chapter-flavored name, not worth duplicating the whole
-  datasheet to fix; leave it.
+  (Gladiator Reaper's "Rotating Death"/"Ferocious Assault" in wh11ed vs appdata's "Reaping
+  Tally"/"Priority Target Acquisition") — **check appdata's *generic* Adeptus Astartes bundle
+  before assuming it's a cosmetic chapter-flavored name**: these two turned out to be
+  genuine global renames (appdata's own `adeptus-astartes.json` calls them "Reaping Tally"/
+  "Priority Target Acquisition" too, not just the Black Templars view) — fixed directly in
+  `space-marines.js` while auditing that faction, which also silently fixes it for all 5
+  SM-Chapter factions sharing the pool.
 - **A datasheet's `faction`/`core` summary string can be stale generic text** — Black Templars
   had 41 datasheets saying `"faction": "Oath of Moment"` (the generic Space Marines army rule)
   instead of `"faction": "Templar Vows"` (their own). `sync-appdata.mjs` doesn't check this
   field at all (out of scope for the script), so **manually grep each chapter/faction's
   datasheet file for the generic army-rule name** (`grep -c '"faction": "<generic name>"'`)
   and cross-check against the faction's own `armyRule.name` in `src/data/factions/<slug>.js`.
+  (Some factions legitimately show a *second* faction-ability value for their own Daemon/
+  Daemon-Engine-type units — e.g. Death Guard/Emperor's Children/World Eaters/Thousand Sons
+  Daemon units correctly reference the generic Chaos "Pact of X" ability instead of the
+  Chapter/Legion's own army rule; verify per-unit before "fixing" that as if it were the
+  same Oath-of-Moment-style bug.)
+- **4 more named-character abilities were quietly renamed/reworded** (space-marines.js):
+  Captain in Terminator Armour's "The Imperium's Sword" → "Unstoppable Valour" (same text);
+  Invictor Tactical Warsuit's "Combat Support" → "Vanguard Support" (reworded); Kayvaan
+  Shrike's "Shadowmaster" → "Trifold Path of Shadow" (reworded); Land Speeder's "Target
+  Sighted" → "Purgation Run" (**completely different ability** — Blast-weapon targeting
+  bonus replaced outright by a post-shoot movement bonus, not just a rename). Same
+  old-name/new-name-with-matching-or-close text pattern as the Black Templars find — always
+  check whether appdata's "missing" ability's text matches an "extra" one before treating
+  them as unrelated additions/removals.
 
 ## Machine A — 13 factions (~266 wu)
 
@@ -122,7 +160,7 @@ the other machine's next `git pull` sees it's done.
 - [x] leagues-of-votann
 - [x] necrons
 - [x] orks
-- [ ] space-marines
+- [x] space-marines
 - [ ] space-wolves
 - [ ] tau-empire
 - [ ] thousand-sons

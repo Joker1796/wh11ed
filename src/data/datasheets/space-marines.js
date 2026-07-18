@@ -904,7 +904,7 @@ export default [
     "faction": "Oath of Moment",
     "abilities": [
       {
-        "name": "Shock Assault",
+        "name": "Targeted Intercession",
         "text": "Each time a model in this unit targets an enemy unit with a melee attack, re-roll a Wound roll of 1. If that enemy unit is within range of an objective marker, you can re-roll the Wound roll instead."
       }
     ],
@@ -2341,7 +2341,7 @@ export default [
         "text": "Once per battle round, one unit from your army with this ability can use it when its unit is targeted with a Stratagem. If it does, reduce the CP cost of that use of that Stratagem by 1CP."
       },
       {
-        "name": "The Imperium’s Sword",
+        "name": "Unstoppable Valour",
         "text": "You can re-roll Charge rolls made for this model’s unit."
       }
     ],
@@ -5178,7 +5178,7 @@ export default [
     "faction": "Oath of Moment",
     "abilities": [
       {
-        "name": "Rotating Death",
+        "name": "Reaping Tally",
         "text": "This model’s twin heavy onslaught gatling cannon has the [SUSTAINED HITS 2] ability when targeting INFANTRY units."
       }
     ],
@@ -5298,7 +5298,7 @@ export default [
     "faction": "Oath of Moment",
     "abilities": [
       {
-        "name": "Ferocious Assault",
+        "name": "Priority Target Acquisition",
         "text": "Each time this model makes an attack with its twin las-talon that targets the closest eligible MONSTER or VEHICLE unit, add 1 to the Hit roll."
       }
     ],
@@ -6675,8 +6675,8 @@ export default [
     "faction": "Oath of Moment",
     "abilities": [
       {
-        "name": "Combat Support",
-        "text": "Once per turn, in your opponent’s Shooting phase, when a friendly Adeptus Astartes Phobos Infantry unit within 6\" of this model is selected as the target of an attack, one model from your army with this ability can use it. If it does, after that enemy unit has finished making its attacks, that model can shoot as if it were your Shooting phase, but when resolving those attacks it can only target that enemy unit [and only if it is an eligible target)."
+        "name": "Vanguard Support",
+        "text": "Once per turn, in your opponent’s Shooting phase, when a friendly Adeptus Astartes Phobos Infantry unit within 6\" of this model is selected as the target of an attack, this model can use this ability. If it does, after that enemy model’s unit has finished making its attacks, this model can shoot as if it were your Shooting phase, but when resolving those attacks it can only target that enemy unit (and only if it is an eligible target)."
       }
     ],
     "damaged": {
@@ -6976,8 +6976,8 @@ export default [
     "faction": "Oath of Moment",
     "abilities": [
       {
-        "name": "Shadowmaster",
-        "text": "While this model is leading a unit, models in this unit cannot be targeted by ranged attacks unless the attacking model is within 12\"."
+        "name": "Trifold Path of Shadow",
+        "text": "While this model is leading a unit, that unit cannot be targeted by ranged attacks unless the attacking model is within 12\"."
       },
       {
         "name": "Echo of the Ravenspire",
@@ -7602,8 +7602,8 @@ export default [
     "faction": "Oath of Moment",
     "abilities": [
       {
-        "name": "Target Sighted",
-        "text": "At the start of your Shooting phase, select one enemy unit that is visible to this model. Until the end of the phase, each time a friendly Adeptus Astartes model makes an attack with a Blast weapon that targets that enemy unit, add 1 to the Hit roll and that attack has the [IGNORES COVER] ability."
+        "name": "Purgation Run",
+        "text": "In your Shooting phase, after this unit has shot, it can make a Normal move of up to D6\". If it does, until the end of the turn, this unit is not eligible to declare a charge."
       }
     ],
     "composition": [

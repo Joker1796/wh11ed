@@ -214,10 +214,14 @@ async function syncFaction(slug) {
       lines.push(`  ~ datasheet "${d.name}" points differ: wh11ed=${JSON.stringify(whPts)} appdata=${JSON.stringify(appPts)}`)
     }
     // Only appdata's `type: 'datasheet'` abilities are genuinely unit-specific and map to
-    // wh11ed's `abilities` array — `core`/`faction` are Core Rulebook/army-rule references
-    // wh11ed keeps as its own `core`/`faction` summary strings, and `wargear` maps to
-    // `wargearAbilities`, not `abilities`.
-    const whAbilities = new Set((d.abilities || []).map((a) => norm(a.name)))
+    // wh11ed's `abilities`/`specialAbilities` — `core`/`faction` are Core Rulebook/army-rule
+    // references wh11ed keeps as its own `core`/`faction` summary strings. Named-character
+    // "grouped" abilities (e.g. INSPIRING COMMANDER) live in wh11ed's `specialAbilities`, not
+    // `abilities` — check both or these false-flag as missing. `wargearAbilities` is
+    // deliberately NOT included: that maps to appdata's separate wargear-rule-text concept
+    // (tied to a wargear item, not a named datasheet ability), which isn't diffed here, so
+    // comparing it against `abilities` only produces noise (e.g. "Storm Shield").
+    const whAbilities = new Set([...(d.abilities || []), ...(d.specialAbilities || [])].map((a) => norm(a.name)))
     const appAbilityByName = byNormName((appDs.abilities || []).filter((a) => a.type === 'datasheet'), (a) => a.name)
     for (const [n, a] of appAbilityByName) {
       if (!whAbilities.has(n)) lines.push(`  + datasheet "${d.name}" missing ability: "${a.name}" — ${appdataToMarkup(a.rules)}`)
