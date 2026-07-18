@@ -408,7 +408,7 @@ const en = {
           restrictions: "",
         },
         {
-          name: "Hunters’ Trail",
+          name: "Envelop and Ensnare",
           sublabel: "Saga of the Hunter – Strategic Ploy Stratagem",
           cp: "1CP",
           turn: "either",

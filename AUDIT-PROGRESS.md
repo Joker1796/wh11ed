@@ -126,7 +126,7 @@ the other machine's next `git pull` sees it's done.
 - [x] necrons
 - [x] orks
 - [x] space-marines
-- [ ] space-wolves
+- [x] space-wolves
 - [ ] tau-empire
 - [ ] thousand-sons
 - [ ] tyranids
