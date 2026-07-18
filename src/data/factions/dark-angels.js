@@ -144,7 +144,7 @@ In your Command phase, you can select one Adeptus Astartes unit from your army. 
         {
           name: 'Unbreakable Lines',
           sublabel: 'Unforgiven Task Force – Battle Tactic Stratagem',
-          cp: '1CP',
+          cp: '2CP',
           turn: 'opponent',
           flavor: 'Countless assaults have faltered against the unbreakable ceramite wall that is the Unforgiven standing their ground.',
           when: "Your opponent's Charge phase, just after an enemy unit ends a Charge move.",
@@ -303,7 +303,7 @@ Outrider Squad units from your army gain the Battleline keyword.`,
       },
       stratagems: [
         {
-          name: "Hunters' Trail",
+          name: "Hunter’s Trail",
           sublabel: 'Company of Hunters – Strategic Ploy Stratagem',
           cp: '1CP',
           turn: 'your',

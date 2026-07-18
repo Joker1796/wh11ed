@@ -71,7 +71,9 @@ the other machine's next `git pull` sees it's done.
   like a unit/character name.
 - A stray keyword that leaked from one Chapter's copy into `space-marines.js`'s shared copy
   of a unit (found: "Deathwing" (Dark Angels-only) on the shared Terminator Squad/Land Raider
-  Crusader — left alone for now, flagged in CLAUDE.md, not yet fixed).
+  Crusader — **fixed** while auditing dark-angels, confirmed against appdata's generic
+  Adeptus Astartes copy that neither should carry it, and that dark-angels.js's own
+  chapter-local copies already correctly have it).
 - Apostrophe-position typos changing meaning ("Fools' Flight" → should be "Fool's Flight",
   Chaos Daemons) — check the stratagem's actual effect text to judge singular vs plural.
 - **A Chapter's own bonus ability on a shared-name unit got errata'd and wh11ed still has the
@@ -103,7 +105,7 @@ the other machine's next `git pull` sees it's done.
 - [x] blood-angels
 - [x] chaos-knights
 - [x] chaos-space-marines
-- [ ] dark-angels
+- [x] dark-angels
 - [ ] death-guard
 - [ ] drukhari
 - [ ] emperors-children

@@ -26,7 +26,7 @@ export const stratNamesRu = {
   'Wrath of the Lion': 'Гнев Льва',
   'Duty unto Death': 'Долг до самой смерти',
   'Unmatched Fortitude': 'Непревзойдённая стойкость',
-  "Hunters' Trail": 'Тропа охотников',
+  'Hunter’s Trail': 'Тропа охотника',
   'Death on the Wind': 'Смерть на ветру',
   'High-Speed Focus': 'Скоростная концентрация',
   'Talon Strike': 'Удар когтя',
