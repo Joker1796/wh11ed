@@ -157,10 +157,6 @@ async function syncFaction(slug) {
   const bundle = await loadJson(path.join(APPDATA, 'factions', `${appSlug}.json`))
   console.log(`\n=== ${slug} (appdata: ${appSlug}) ===`)
   if (!bundle) { console.log('  no appdata bundle found — check SLUG_MAP or spelling'); return }
-  // Every faction has an exclusive Combat Patrol boxed-set detachment + datasheets —
-  // wh11ed doesn't cover Combat Patrol as a product line, so drop them before comparing.
-  bundle.detachments = (bundle.detachments || []).filter((d) => !d.isCombatPatrol)
-  bundle.datasheets = (bundle.datasheets || []).filter((d) => !d.isCombatPatrol)
 
   // Each faction file's only export is a camelCase binding (`blackTemplars`, `spaceMarines`,
   // ...) that doesn't match the dashed slug — grab whatever the module's one export is.
