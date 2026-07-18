@@ -7380,7 +7380,6 @@ export default [
     ],
     "transport": "This model has a transport capacity of 16 Adeptus Astartes Infantry models. Each Jump Pack, Wulfen, Gravis or Terminator model takes up the space of 2 models and each Centurion model takes up the space of 3 models.",
     "keywords": [
-      "Deathwing",
       "Land Raider Crusader",
       "Land Raider",
       "Imperium",
@@ -12091,7 +12090,6 @@ export default [
       "Imperium",
       "Terminator Squad",
       "Terminator",
-      "Deathwing",
       "Infantry"
     ],
     "factionKeywords": [
