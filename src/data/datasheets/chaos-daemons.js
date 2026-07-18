@@ -87,7 +87,7 @@ export default [
         "text": "The area of the battlefield within 6\" of this model is within your army’s Shadow of Chaos."
       },
       {
-        "name": "Shadow Form",
+        "name": "Shadow Form Abilities",
         "text": "At the start of the battle round, select one Shadow Form ability (see below). Until the end of the battle round, this model has that ability."
       }
     ],
@@ -125,7 +125,7 @@ export default [
     ],
     "abilitySets": [
       {
-        "name": "Shadow Form",
+        "name": "Shadow Form Abilities",
         "options": [
           {
             "name": "Wreathed in Shadows (Aura, Psychic)",
