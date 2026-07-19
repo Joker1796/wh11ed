@@ -2,93 +2,6 @@
 export default {
   "slug": "space-wolves",
   "name": "Space Wolves",
-  "items": {
-    "1": "Foehammer",
-    "2": "Assault cannon",
-    "3": "Trueclaw",
-    "4": "Heavy flamer",
-    "5": "Helfrost cannon",
-    "6": "Multi-melta",
-    "7": "Bolt pistol",
-    "8": "Astartes chainsword",
-    "9": "Power weapon",
-    "10": "Plasma pistol",
-    "11": "Teeth and claws",
-    "12": "Bolt carbine",
-    "13": "Power fist",
-    "14": "Tempest hammer and servo-arm",
-    "15": "Helfrost pistol",
-    "16": "Tyrnak and Fenrir",
-    "17": "Storm bolter",
-    "18": "Axe Morkai",
-    "19": "Murderclaws",
-    "20": "Storm bolter",
-    "21": "Living Lightning",
-    "22": "Staff of the Stormcaller",
-    "23": "Frostfang",
-    "24": "Bolt Pistol",
-    "25": "Teeth and Claws",
-    "26": "Wolf Guard weapon",
-    "27": "Boltgun",
-    "28": "Storm Shield",
-    "29": "Plasma pistol",
-    "30": "Artificer crozius arcanum",
-    "31": "Dreadnought combat weapon",
-    "32": "Assault cannon",
-    "33": "Fenrisian great axe",
-    "34": "Blizzard Shield",
-    "35": "Helfrost cannon",
-    "36": "Multi-melta",
-    "37": "Master-crafted power weapon",
-    "38": "Storm Shield",
-    "39": "Thunder hammer",
-    "40": "Master‑crafted bolt carbine",
-    "41": "Master‑crafted heavy bolt pistol",
-    "42": "Heavy bolt pistol",
-    "43": "Master-crafted power weapon",
-    "44": "Paired master‑crafted power weapons",
-    "45": "Relic greataxe",
-    "46": "Twin lightning claws",
-    "47": "Storm Shield",
-    "48": "Absolvor bolt pistol",
-    "49": "Crozius arcanum",
-    "50": "Combat blade",
-    "51": "Teeth and claws",
-    "52": "Instigator bolt carbine",
-    "53": "Plasma gun",
-    "54": "Thunderclap",
-    "55": "Runic stave",
-    "56": "Haywire Mine",
-    "57": "Death Totem",
-    "58": "Wulfen weapons",
-    "59": "Stormfrag auto-launcher",
-    "60": "Thunder hammer",
-    "61": "Great wolf claw"
-  },
-  "texts": {
-    "1": "This model’s assault cannon can be replaced with one of the following:",
-    "2": "The Blood Claw Pack Leader’s Astartes chainsword can be replaced with 1 power weapon.",
-    "3": "The Blood Claw Pack Leader’s bolt pistol can be replaced with 1 plasma pistol.",
-    "4": "The Grey Hunter Pack Leader’s bolt carbine can be replaced with 1 plasma pistol.",
-    "5": "The Grey Hunter Pack Leader’s Astartes chainsword can be replaced with one of the following:",
-    "6": "Any number of models can each have their bolt pistol replaced with one of the following:",
-    "7": "For every 3 models in this unit, one model’s bolt pistol can be replaced with 1 plasma pistol.",
-    "8": "This model’s storm bolter can be replaced with 1 heavy flamer.",
-    "9": "This model’s assault cannon, storm bolter and Dreadnought combat weapon can be replaced with one of the following:\n\n◦ 1 Fenrisian great axe, 1 blizzard shield and 1 storm bolter\n◦ 1 Fenrisian great axe, 1 blizzard shield and 1 heavy flamer",
-    "10": "This model’s master‑crafted power weapon can be replaced with 1 thunder hammer.",
-    "11": "This model’s storm shield can be replaced with one of the following:",
-    "12": "All of the models in this unit can each have their master‑crafted power weapon and storm shield replaced with 1 paired master‑crafted power weapons.",
-    "13": "The Wolf Guard Terminator Pack Leader’s storm bolter and master‑crafted power weapon can be replaced with 1 of the following:",
-    "14": "Any number of models can each have their storm bolter replaced with 1 storm shield.",
-    "15": "For every 5 models in this unit, 1 Wolf Guard Terminator can replace its storm bolter and master‑crafted power weapon with 1 assault cannon and 1 power fist.",
-    "16": "If this unit contains 12 models, 1 Wolf Scout’s plasma pistol can be replaced with 1 instigator bolt carbine.",
-    "17": "1 Wolf Scout’s plasma pistol can be replaced with 1 plasma gun.",
-    "18": "1 Wolf Scout’s plasma pistol and combat blade can be replaced with 1 bolt pistol, 1 Thunderclap and 1 runic stave.",
-    "19": "1 Wolf Scout equipped with a plasma pistol can be equipped with 1 haywire mine (That model’s plasma pistol cannot be replaced).",
-    "20": "Any number of models can each have their death totem replaced with 1 stormfrag auto‑launcher.",
-    "21": "This model’s Fenrisian great axe or great wolf claw and storm bolter can be replaced with 1 blizzard shield and 1 heavy flamer.",
-    "22": "If this model is not equipped with a storm bolter, its heavy flamer can be replaced with 1 storm bolter."
-  },
   "units": [
     {
       "id": "arjac-rockfist",
@@ -128,7 +41,7 @@ export default {
           0,
           [
             [
-              1,
+              1979,
               1
             ]
           ]
@@ -169,15 +82,15 @@ export default {
           0,
           [
             [
-              2,
+              1980,
               1
             ],
             [
-              3,
+              1981,
               1
             ],
             [
-              4,
+              474,
               1
             ]
           ]
@@ -186,14 +99,14 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 1,
+          "t": 608,
           "in": "checkbox",
           "o": [
             [
-              5
+              1982
             ],
             [
-              6
+              164
             ]
           ]
         }
@@ -243,11 +156,11 @@ export default {
           1,
           [
             [
-              7,
+              1,
               1
             ],
             [
-              8,
+              734,
               1
             ]
           ]
@@ -256,11 +169,11 @@ export default {
           0,
           [
             [
-              7,
+              1,
               1
             ],
             [
-              8,
+              734,
               1
             ]
           ]
@@ -269,21 +182,21 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 2,
+          "t": 831,
           "in": "checkbox",
           "o": [
             [
-              9
+              716
             ]
           ]
         },
         {
           "m": 0,
-          "t": 3,
+          "t": 832,
           "in": "checkbox",
           "o": [
             [
-              10
+              20
             ]
           ]
         }
@@ -326,7 +239,7 @@ export default {
           0,
           [
             [
-              11,
+              1983,
               1
             ]
           ]
@@ -370,15 +283,15 @@ export default {
           1,
           [
             [
-              8,
+              734,
               1
             ],
             [
-              12,
+              1984,
               1
             ],
             [
-              7,
+              1,
               1
             ]
           ]
@@ -387,15 +300,15 @@ export default {
           0,
           [
             [
-              8,
+              734,
               1
             ],
             [
-              7,
+              1,
               1
             ],
             [
-              12,
+              1984,
               1
             ]
           ]
@@ -404,24 +317,24 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 4,
+          "t": 833,
           "in": "checkbox",
           "o": [
             [
-              10
+              20
             ]
           ]
         },
         {
           "m": 0,
-          "t": 5,
+          "t": 834,
           "in": "checkbox",
           "o": [
             [
-              13
+              671
             ],
             [
-              9
+              716
             ]
           ]
         }
@@ -471,11 +384,11 @@ export default {
           0,
           [
             [
-              14,
+              1985,
               1
             ],
             [
-              15,
+              1986,
               1
             ]
           ]
@@ -521,15 +434,15 @@ export default {
           0,
           [
             [
-              16,
+              1987,
               1
             ],
             [
-              17,
+              171,
               1
             ],
             [
-              18,
+              1988,
               1
             ]
           ]
@@ -571,15 +484,15 @@ export default {
           0,
           [
             [
-              19,
+              1989,
               1
             ],
             [
-              4,
+              474,
               1
             ],
             [
-              20,
+              36,
               1
             ]
           ]
@@ -633,15 +546,15 @@ export default {
           0,
           [
             [
-              21,
+              1990,
               1
             ],
             [
-              7,
+              1,
               1
             ],
             [
-              22,
+              1991,
               1
             ]
           ]
@@ -692,11 +605,11 @@ export default {
           0,
           [
             [
-              23,
+              1992,
               1
             ],
             [
-              24,
+              22,
               1
             ]
           ]
@@ -749,15 +662,15 @@ export default {
           1,
           [
             [
-              25,
+              1993,
               1
             ],
             [
-              26,
+              1994,
               1
             ],
             [
-              7,
+              1,
               1
             ]
           ]
@@ -766,15 +679,15 @@ export default {
           0,
           [
             [
-              26,
+              1994,
               1
             ],
             [
-              25,
+              1993,
               1
             ],
             [
-              7,
+              1,
               1
             ]
           ]
@@ -783,49 +696,49 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 6,
+          "t": 835,
           "in": "stepper",
           "o": [
             [
-              27
+              935
             ],
             [
-              28,
+              1929,
               5
             ]
           ]
         },
         {
           "m": 0,
-          "t": 7,
+          "t": 836,
           "in": "checkbox",
           "o": [
             [
-              10
+              20
             ]
           ]
         },
         {
           "m": 0,
-          "t": 6,
+          "t": 835,
           "in": "checkbox",
           "o": [
             [
-              27
+              935
             ],
             [
-              28,
+              1929,
               5
             ]
           ]
         },
         {
           "m": 1,
-          "t": 7,
+          "t": 836,
           "in": "stepper",
           "o": [
             [
-              10
+              20
             ]
           ]
         }
@@ -878,11 +791,11 @@ export default {
           0,
           [
             [
-              29,
+              28,
               1
             ],
             [
-              30,
+              1995,
               1
             ]
           ]
@@ -922,15 +835,15 @@ export default {
           0,
           [
             [
-              20,
+              36,
               1
             ],
             [
-              31,
+              1395,
               1
             ],
             [
-              32,
+              717,
               1
             ]
           ]
@@ -939,43 +852,43 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 8,
+          "t": 609,
           "in": "checkbox",
           "o": [
             [
-              4
+              474
             ]
           ]
         },
         {
           "m": 0,
-          "t": 9,
+          "t": 837,
           "in": "checkbox",
           "o": [
             [
-              33
+              1996
             ],
             [
-              34
-            ],
-            [
-              20
-            ],
-            [
-              4
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 1,
-          "in": "checkbox",
-          "o": [
-            [
-              35
+              1997
             ],
             [
               36
+            ],
+            [
+              474
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 608,
+          "in": "checkbox",
+          "o": [
+            [
+              1998
+            ],
+            [
+              84
             ]
           ]
         }
@@ -1026,11 +939,11 @@ export default {
           0,
           [
             [
-              37,
+              1999,
               1
             ],
             [
-              38,
+              2000,
               1
             ]
           ]
@@ -1039,27 +952,27 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 10,
+          "t": 838,
           "in": "checkbox",
           "o": [
             [
-              39
+              1881
             ]
           ]
         },
         {
           "m": 0,
-          "t": 11,
+          "t": 839,
           "in": "checkbox",
           "o": [
             [
-              40
+              2001
             ],
             [
-              41
+              2002
             ],
             [
-              10
+              20
             ]
           ]
         }
@@ -1128,15 +1041,15 @@ export default {
           0,
           [
             [
-              42,
+              665,
               1
             ],
             [
-              43,
+              1865,
               1
             ],
             [
-              28,
+              1929,
               1
             ]
           ]
@@ -1145,7 +1058,7 @@ export default {
           1,
           [
             [
-              11,
+              1983,
               1
             ]
           ]
@@ -1154,11 +1067,11 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 12,
+          "t": 840,
           "in": "stepper",
           "o": [
             [
-              44
+              2003
             ]
           ]
         }
@@ -1211,11 +1124,11 @@ export default {
           1,
           [
             [
-              43,
+              1865,
               1
             ],
             [
-              17,
+              171,
               1
             ]
           ]
@@ -1224,11 +1137,11 @@ export default {
           0,
           [
             [
-              17,
+              171,
               1
             ],
             [
-              43,
+              1865,
               1
             ]
           ]
@@ -1237,48 +1150,48 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 13,
+          "t": 841,
           "in": "checkbox",
           "o": [
             [
-              45
+              2004
             ],
             [
-              46
+              1961
             ]
           ]
         },
         {
           "m": 1,
-          "t": 14,
+          "t": 842,
           "in": "stepper",
           "o": [
             [
-              47,
+              1181,
               5
             ]
           ]
         },
         {
           "m": 1,
-          "t": 15,
+          "t": 843,
           "in": "stepper",
           "o": [
             [
-              13
+              671
             ],
             [
-              2
+              1980
             ]
           ]
         },
         {
           "m": 0,
-          "t": 14,
+          "t": 842,
           "in": "checkbox",
           "o": [
             [
-              47,
+              1181,
               5
             ]
           ]
@@ -1329,11 +1242,11 @@ export default {
           0,
           [
             [
-              48,
+              675,
               1
             ],
             [
-              49,
+              676,
               1
             ]
           ]
@@ -1391,11 +1304,11 @@ export default {
           1,
           [
             [
-              50,
+              2005,
               1
             ],
             [
-              10,
+              20,
               1
             ]
           ]
@@ -1404,11 +1317,11 @@ export default {
           0,
           [
             [
-              9,
+              716,
               1
             ],
             [
-              10,
+              20,
               1
             ]
           ]
@@ -1417,7 +1330,7 @@ export default {
           2,
           [
             [
-              51,
+              2006,
               1
             ]
           ]
@@ -1426,47 +1339,47 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 16,
+          "t": 844,
           "in": "checkbox",
           "o": [
             [
-              52
+              1899
             ]
           ]
         },
         {
           "m": 1,
-          "t": 17,
+          "t": 845,
           "in": "checkbox",
           "o": [
             [
-              53
+              589
             ]
           ]
         },
         {
           "m": 1,
-          "t": 18,
+          "t": 846,
           "in": "checkbox",
           "o": [
             [
-              7
+              1
             ],
             [
-              54
+              2007
             ],
             [
-              55
+              2008
             ]
           ]
         },
         {
           "m": 1,
-          "t": 19,
+          "t": 847,
           "in": "checkbox",
           "o": [
             [
-              56
+              1910
             ]
           ]
         }
@@ -1509,11 +1422,11 @@ export default {
           0,
           [
             [
-              57,
+              2009,
               1
             ],
             [
-              58,
+              2010,
               1
             ]
           ]
@@ -1522,11 +1435,11 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 20,
+          "t": 848,
           "in": "stepper",
           "o": [
             [
-              59
+              2011
             ]
           ]
         }
@@ -1564,15 +1477,15 @@ export default {
           0,
           [
             [
-              33,
+              1996,
               1
             ],
             [
-              20,
+              36,
               1
             ],
             [
-              61,
+              2013,
               1
             ]
           ]
@@ -1581,24 +1494,24 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 21,
+          "t": 849,
           "in": "checkbox",
           "o": [
             [
-              34
+              1997
             ],
             [
-              4
+              474
             ]
           ]
         },
         {
           "m": 0,
-          "t": 22,
+          "t": 850,
           "in": "checkbox",
           "o": [
             [
-              20
+              36
             ]
           ]
         }
@@ -1642,11 +1555,11 @@ export default {
           0,
           [
             [
-              57,
+              2009,
               1
             ],
             [
-              60,
+              2012,
               1
             ]
           ]
@@ -1655,11 +1568,11 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 20,
+          "t": 848,
           "in": "stepper",
           "o": [
             [
-              59
+              2011
             ]
           ]
         }
@@ -1998,5 +1911,87 @@ export default {
         }
       ]
     }
+  ],
+  "sharedUnitIds": [
+    "aggressor-squad",
+    "ancient",
+    "ancient-in-terminator-armour",
+    "assault-intercessor-squad",
+    "assault-intercessors-with-jump-packs",
+    "astraeus",
+    "ballistus-dreadnought",
+    "bladeguard-ancient",
+    "bladeguard-veteran-squad",
+    "brutalis-dreadnought",
+    "captain",
+    "captain-in-gravis-armour",
+    "captain-in-phobos-armour",
+    "captain-in-terminator-armour",
+    "captain-with-jump-pack",
+    "centurion-assault-squad",
+    "centurion-devastator-squad",
+    "chaplain",
+    "chaplain-in-terminator-armour",
+    "chaplain-on-bike",
+    "chaplain-with-jump-pack",
+    "company-heroes",
+    "desolation-squad",
+    "dreadnought",
+    "drop-pod",
+    "eliminator-squad",
+    "eradicator-squad",
+    "eradicator-squad-with-heavy-bolters",
+    "firestrike-servo-turrets",
+    "gladiator-lancer",
+    "gladiator-reaper",
+    "gladiator-valiant",
+    "hammerfall-bunker",
+    "heavy-intercessor-squad",
+    "hellblaster-squad",
+    "impulsor",
+    "inceptor-squad",
+    "incursor-squad",
+    "infernus-squad",
+    "infiltrator-squad",
+    "intercessor-squad",
+    "invader-atv",
+    "invictor-tactical-warsuit",
+    "judiciar",
+    "land-raider",
+    "land-raider-crusader",
+    "land-raider-redeemer",
+    "land-speeder",
+    "librarian",
+    "librarian-in-phobos-armour",
+    "librarian-in-terminator-armour",
+    "lieutenant",
+    "lieutenant-in-phobos-armour",
+    "lieutenant-in-reiver-armour",
+    "lieutenant-with-combi-weapon",
+    "outrider-squad",
+    "predator-annihilator",
+    "predator-destructor",
+    "razorback",
+    "redemptor-dreadnought",
+    "reiver-squad",
+    "repulsor",
+    "repulsor-executioner",
+    "rhino",
+    "scout-squad",
+    "sternguard-veteran-squad",
+    "storm-speeder-hailstrike",
+    "storm-speeder-hammerstrike",
+    "storm-speeder-thunderstrike",
+    "stormhawk-interceptor",
+    "stormraven-gunship",
+    "stormtalon-gunship",
+    "suppressor-squad",
+    "techmarine",
+    "terminator-assault-squad",
+    "terminator-squad",
+    "thunderhawk-gunship",
+    "vanguard-veteran-squad-with-jump-packs",
+    "vindicator",
+    "whirlwind"
   ]
 }

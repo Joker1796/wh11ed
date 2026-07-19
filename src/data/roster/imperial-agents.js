@@ -2,213 +2,6 @@
 export default {
   "slug": "imperial-agents",
   "name": "Agents of the Imperium",
-  "items": {
-    "1": "Bolt pistol",
-    "2": "Heavy thunder hammer",
-    "3": "Deathwatch marksman bolt carbine",
-    "4": "Close combat weapon",
-    "5": "Special-issue bolt pistol",
-    "6": "Stalker bolt rifle",
-    "7": "Power weapon",
-    "8": "Plasma pistol",
-    "9": "Infernus heavy bolter",
-    "10": "Xenophase blade",
-    "11": "Combat knife",
-    "12": "Frag cannon",
-    "13": "Hellstorm bolt rifle",
-    "14": "Astartes grenade launcher",
-    "15": "Plasma incinerator",
-    "16": "Astartes shield",
-    "17": "Neural shredder",
-    "18": "Phase sword and poison blades",
-    "19": "Blackstar rocket launcher",
-    "20": "Armoured hull",
-    "21": "Twin assault cannon",
-    "22": "Stormstrike missile launcher",
-    "23": "Hurricane bolter",
-    "24": "Auspex Array",
-    "25": "Infernum Halo-launcher",
-    "26": "Twin lascannon",
-    "27": "Life-draining touch",
-    "28": "Animus speculum",
-    "29": "Power weapon",
-    "30": "Boltgun",
-    "31": "Black Shield blades",
-    "32": "Stalker-pattern boltgun",
-    "33": "Deathwatch shotgun",
-    "34": "Frag cannon",
-    "35": "Combi-weapon",
-    "36": "Deathwatch thunder hammer",
-    "37": "Infernus heavy bolter",
-    "38": "Executioner pistol",
-    "39": "Power sword and neuro gauntlet",
-    "40": "Mechanical bite",
-    "41": "Arbites shotpistol",
-    "42": "Close combat weapon",
-    "43": "Arbites combat shotgun",
-    "44": "Excruciator maul",
-    "45": "Executioner shotgun",
-    "46": "Arbites grenade launcher",
-    "47": "Heavy stubber",
-    "48": "Webber",
-    "49": "Soulguilt Scanner",
-    "50": "Arbites Medi-kit",
-    "51": "Nuncio-acquila",
-    "52": "Storm bolter",
-    "53": "Nemesis force weapon",
-    "54": "Incinerator",
-    "55": "Psilencer",
-    "56": "Psycannon",
-    "57": "Narthecium",
-    "58": "Ancient’s Banner",
-    "59": "Navis shotgun",
-    "60": "Close combat weapon",
-    "61": "Autopistol",
-    "62": "Chainfist",
-    "63": "Power weapon",
-    "64": "Navis heavy shotgun",
-    "65": "Endurant Shield",
-    "66": "Meltagun",
-    "67": "Plasma gun",
-    "68": "Navis las-volley",
-    "69": "Chainsword",
-    "70": "Bolt pistol",
-    "71": "Demolition charge",
-    "72": "Hunter-killer missile",
-    "73": "Blessed Wardings",
-    "74": "Inquisitorial melee weapon",
-    "75": "Bolt pistol",
-    "76": "Psychic Gifts",
-    "77": "Psychic Shock Wave",
-    "78": "Combi-weapon",
-    "79": "Force weapon",
-    "80": "Psychic Blast",
-    "81": "Nemesis daemon hammer",
-    "82": "Psychic Tempest",
-    "83": "Power fist",
-    "84": "Dirgesinger",
-    "85": "Castigation",
-    "86": "Condemnor stake",
-    "87": "Master-crafted power sword",
-    "88": "Butcher blade",
-    "89": "Garralisk’s claws and teeth",
-    "90": "Jindarii tox‑cycler",
-    "91": "Stubcarbine",
-    "92": "Agent melee weapon",
-    "93": "Heavy bolter",
-    "94": "Agent firearm",
-    "95": "Tome‐skull",
-    "96": "Plasma pistol",
-    "97": "Mystic stave",
-    "98": "Eviscerator",
-    "99": "Multi-melta",
-    "100": "Plasma cannon",
-    "101": "Hunter-killer missile",
-    "102": "Storm bolter",
-    "103": "Heavy flamer",
-    "104": "Heavy bolter",
-    "105": "Zealot’s vindictor",
-    "106": "Holy pistol",
-    "107": "Power weapon",
-    "108": "Healing serum",
-    "109": "Laspistol",
-    "110": "Death Cult power blade",
-    "111": "Dartmask",
-    "112": "Voltaic pistol",
-    "113": "Household pistol",
-    "114": "Monomolecular cane-rapier",
-    "115": "Close combat weapon",
-    "116": "Simulacrum Imperialis",
-    "117": "Holy fire",
-    "118": "Ministorum hand flamer",
-    "119": "Heavy bolter",
-    "120": "Immolation flamers",
-    "121": "Armoured tracks",
-    "122": "Twin heavy bolter",
-    "123": "Twin multi-melta",
-    "124": "Close combat weapon",
-    "125": "Boltgun",
-    "126": "Condemnor boltgun",
-    "127": "Inferno pistol",
-    "128": "Artificer-crafted storm bolter",
-    "129": "Meltagun",
-    "130": "Ministorum flamer",
-    "131": "Ministorum heavy flamer",
-    "132": "Chainsword",
-    "133": "Shock maul",
-    "134": "Master-crafted power weapon",
-    "135": "Hellfire Extremis",
-    "136": "Vigil spear",
-    "137": "Exitus pistol",
-    "138": "Exitus rifle",
-    "139": "Vindicare combat knife",
-    "140": "Artificer shotgun",
-    "141": "Lasgun",
-    "142": "Vicious bite",
-    "143": "Voidsman rotor cannon"
-  },
-  "texts": {
-    "1": "For every 5 models in the unit, up to one model’s Deathwatch marksman bolt carbine can be replaced with 1 combat knife.",
-    "2": "For every 5 models in the unit, up to one model’s infernus heavy bolter can be replaced with one of the following:\n◦ 1 frag cannon.\n◦ 1 hellstorm bolt rifle and 1 Astartes grenade launcher.",
-    "3": "For every 5 models in the unit, up to one model’s stalker bolt rifle can be replaced with 1 plasma incinerator.",
-    "4": "For every 5 models in the unit, up to one model’s heavy thunder hammer can be replaced with 1 power weapon and 1 Astartes shield.",
-    "5": "This model’s 2 Blackstar rocket launchers can be replaced with 2 stormstrike missile launchers.",
-    "6": "This model can be equipped with 1 hurricane bolter.",
-    "7": "This model can be equipped with one of the following:",
-    "8": "This model’s twin assault cannon can be replaced with 1 twin lascannon.",
-    "9": "One model’s boltgun and power weapon can be replaced with 1 Black Shield blades.",
-    "10": "For every 5 models in this unit, 1 model can have their boltgun and power weapon replaced with 1 stalker‐pattern boltgun and 1 close combat weapon.",
-    "11": "For every 5 models in this unit, up to 2 models can each have their boltgun and power weapon replaced with 1 Deathwatch shotgun and 1 close combat weapon.",
-    "12": "For every 5 models in this unit, up to 2 models can each have their boltgun and power weapon replaced with one of the following:\n◦ 1 boltgun and 1 Astartes shield\n◦ 1 power weapon and 1 Astartes shield",
-    "13": "For every 5 models in this unit, 1 model can have its boltgun and power weapon replaced with 1 frag cannon and 1 close combat weapon.",
-    "14": "The Watch Sergeant’s boltgun can be replaced with 1 combi‐weapon.",
-    "15": "For every 5 models in this unit, up to 2 models can each have their boltgun and power weapon replaced with 1 Deathwatch thunder hammer.",
-    "16": "The Watch Sergeant’s power weapon can be replaced with 1 xenophase blade.",
-    "17": "For every 5 models in this unit, 1 model can have its boltgun and power weapon replaced with 1 infernus heavy bolter and 1 close combat weapon.",
-    "18": "1 Exaction Vigilant that is equipped with an Arbites combat shotgun can be equipped with 1 excruciator maul.*\n\n*That model’s Arbites combat shotgun cannot be replaced.",
-    "19": "Up to 2 Exaction Vigilants can each have their Arbites combat shotguns replaced with one of the following (duplicates are not allowed):",
-    "20": "1 other Exaction Vigilant that is equipped with an Arbites combat shotgun can be equipped with 1 soulguilt scanner.*\n\n* That model’s Arbites combat shotgun cannot be replaced.",
-    "21": "1 other Exaction Vigilant that is equipped with an Arbites combat shotgun can be equipped with 1 Arbites medi-kit.*\n\n* That model’s Arbites combat shotgun cannot be replaced.",
-    "22": "The Proctor-Exactant can be equipped with 1 nuncio aquila.",
-    "23": "1 Grey Knights Terminator’s storm bolter can be replaced with one of the following:",
-    "24": "1 Grey Knights Terminator can have its storm bolter replaced with 1 narthecium.* \n\n*You cannot select both an Ancient’s banner and a narthecium for the same model",
-    "25": "1 Grey Knights Terminator equipped with a storm bolter can be equipped with 1 Ancient’s banner.* \n\n*You cannot select both an Ancient’s banner and a narthecium for the same model",
-    "26": "1 Navis Armsman’s Navis shotgun can be replaced with 1 autopistol and 1 chainfist.",
-    "27": "1 Navis Armsman’s Navis shotgun can be replaced with 1 autopistol and 1 power weapon.",
-    "28": "One other Navis Armsman is equipped with:",
-    "29": "1 Navis Armsman’s Navis las-volley can be replaced with one of the following:",
-    "30": "One Navis Armsman is equipped with:",
-    "31": "Every other model is equipped with:",
-    "32": "The Navis Sergeant-at-Arms’ Navis shotgun can be replaced with one of the following: \n\n◦ 1 autopistol and 1 chainsword\n◦ 1 bolt pistol and 1 power weapon",
-    "33": "1 Navis Armsman can be equipped with 1 demolition charge.",
-    "34": "This model can be equipped with 1 hunter‐killer missile.",
-    "35": "This model’s blessed wardings can be replaced with 1 psychic gifts and 1 Psychic Shock Wave.",
-    "36": "This model’s bolt pistol can be replaced with 1 combi-weapon.",
-    "37": "If this model is equipped with 1 psychic gifts, its Inquisitorial melee weapon can be replaced with 1 force weapon.",
-    "38": "For every 5 Inquisitorial Agents in this unit, it can be equipped with 1 Tome‐skull.",
-    "39": "For every 5 Inquisitorial Agents in this unit, 1 Inquisitorial Agent can be equipped with 1 plasma pistol.",
-    "40": "For every 5 Inquisitorial Agents in this unit, 1 Inquisitorial Agent can be equipped with 1 Mystic stave.",
-    "41": "For every 5 Inquisitorial Agents in this unit, 1 Inquisitorial Agent can be equipped with 1 eviscerator.",
-    "42": "Any number of Gun Servitor’s can each have their heavy bolter replaced with one of the following:",
-    "43": "This model’s heavy bolter can be replaced with 1 heavy flamer.",
-    "44": "This model’s multi‐laser can be replaced with one of the following*:\n\n*This weapon cannot be replaced",
-    "45": "This model’s zealot’s vindictor can be replaced with 1 holy pistol and 1 power weapon.",
-    "46": "1 Sanctifier model can have its 1 Sanctifier melee weapon replaced with 1 close combat weapon and 1 simulacrum imperialis.",
-    "47": "1 Missionary model equipped with 1 plasma gun can be equipped with 1 holy fire (this model’s plasma gun cannot be replaced).",
-    "48": "1 Missionary model can have its 1 plasma gun replaced with 1 meltagun.",
-    "49": "1 Sanctifier model can have its 1 Sanctifier melee weapon replaced with 1 Ministorum hand flamer and 1 close combat weapon.",
-    "50": "This model can be equipped with 1 hunter-killer missile.",
-    "51": "This model’s immolation flamers can be replaced with one of the following:",
-    "52": "The Sister Superior’s boltgun can be replaced with one of the following:",
-    "53": "1 Battle Sister’s boltgun can be replaced with one of the following:",
-    "54": "1 Battle Sister equipped with 1 boltgun can be equipped with 1 simulacrum imperialis (that model’s boltgun cannot be replaced).",
-    "55": "The Sister Superior can be equipped with one of the following:",
-    "56": "The Proctor-Subductor can be equipped with 1 nuncio aquila.",
-    "57": "The Proctor-Vigilant can be equipped with 1 nuncio aquila.",
-    "58": "Up to 2 Vigilants can each have their Arbites combat shotgun replaced with one of the following (duplicates are not allowed):",
-    "59": "Every other Voidsman is equipped with:",
-    "60": "One Voidsman is equipped with:"
-  },
   "units": [
     {
       "id": "aquila-kill-team",
@@ -284,11 +77,11 @@ export default {
           2,
           [
             [
-              1,
+              1166,
               1
             ],
             [
-              2,
+              1169,
               1
             ]
           ]
@@ -297,15 +90,15 @@ export default {
           4,
           [
             [
-              3,
+              1170,
               1
             ],
             [
-              4,
+              668,
               1
             ],
             [
-              5,
+              1167,
               1
             ]
           ]
@@ -314,15 +107,15 @@ export default {
           1,
           [
             [
-              1,
+              1166,
               1
             ],
             [
-              4,
+              668,
               1
             ],
             [
-              6,
+              1165,
               1
             ]
           ]
@@ -331,11 +124,11 @@ export default {
           0,
           [
             [
-              7,
+              1164,
               1
             ],
             [
-              8,
+              20,
               1
             ]
           ]
@@ -344,15 +137,15 @@ export default {
           5,
           [
             [
-              1,
+              1166,
               1
             ],
             [
-              4,
+              668,
               1
             ],
             [
-              9,
+              1397,
               1
             ]
           ]
@@ -361,11 +154,11 @@ export default {
           3,
           [
             [
-              5,
+              1167,
               1
             ],
             [
-              10,
+              1168,
               1
             ]
           ]
@@ -374,50 +167,50 @@ export default {
       "gear": [
         {
           "m": 4,
-          "t": 1,
+          "t": 487,
           "in": "stepper",
           "o": [
             [
-              11
+              1176
             ]
           ]
         },
         {
           "m": 5,
-          "t": 2,
+          "t": 485,
           "in": "stepper",
           "o": [
             [
-              12
+              1173
             ],
             [
-              13
+              1174
             ],
             [
-              14
+              738
             ]
           ]
         },
         {
           "m": 1,
-          "t": 3,
+          "t": 484,
           "in": "stepper",
           "o": [
             [
-              15
+              1172
             ]
           ]
         },
         {
           "m": 2,
-          "t": 4,
+          "t": 486,
           "in": "stepper",
           "o": [
             [
-              7
+              1164
             ],
             [
-              16
+              1175
             ]
           ]
         }
@@ -470,11 +263,11 @@ export default {
           0,
           [
             [
-              17,
+              1398,
               1
             ],
             [
-              18,
+              1399,
               1
             ]
           ]
@@ -520,15 +313,15 @@ export default {
           0,
           [
             [
-              19,
+              1177,
               2
             ],
             [
-              20,
+              146,
               1
             ],
             [
-              21,
+              691,
               1
             ]
           ]
@@ -537,44 +330,44 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 5,
+          "t": 490,
           "in": "stepper",
           "o": [
             [
-              22
+              1180
             ]
           ]
         },
         {
           "m": 0,
-          "t": 6,
+          "t": 489,
           "in": "checkbox",
           "o": [
             [
-              23
+              692
             ]
           ]
         },
         {
           "m": 0,
-          "t": 7,
+          "t": 187,
           "in": "checkbox",
           "o": [
             [
-              24
+              1178
             ],
             [
-              25
+              1179
             ]
           ]
         },
         {
           "m": 0,
-          "t": 8,
+          "t": 488,
           "in": "checkbox",
           "o": [
             [
-              26
+              699
             ]
           ]
         }
@@ -628,11 +421,11 @@ export default {
           0,
           [
             [
-              27,
+              1400,
               1
             ],
             [
-              28,
+              1401,
               1
             ]
           ]
@@ -699,11 +492,11 @@ export default {
           1,
           [
             [
-              29,
+              1183,
               1
             ],
             [
-              30,
+              935,
               1
             ]
           ]
@@ -712,11 +505,11 @@ export default {
           0,
           [
             [
-              29,
+              1183,
               1
             ],
             [
-              30,
+              935,
               1
             ]
           ]
@@ -725,116 +518,87 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 9,
+          "t": 500,
           "in": "checkbox",
           "o": [
             [
-              31
+              1188
             ]
           ]
         },
         {
           "m": 0,
-          "t": 10,
+          "t": 498,
           "in": "checkbox",
           "o": [
             [
-              32
+              1186
             ],
             [
-              4
+              668
             ]
           ]
         },
         {
           "m": 1,
-          "t": 11,
+          "t": 494,
           "in": "stepper",
           "o": [
             [
-              33
+              1184
             ],
             [
-              4
+              668
             ]
           ]
         },
         {
           "m": 1,
-          "t": 10,
+          "t": 498,
           "in": "stepper",
           "o": [
             [
-              32
+              1186
             ],
             [
-              4
+              668
             ]
           ]
         },
         {
           "m": 1,
-          "t": 12,
+          "t": 495,
           "in": "stepper",
           "o": [
             [
-              30
+              935
             ],
             [
-              29
+              1183
             ],
             [
-              16
+              1175
             ]
           ]
         },
         {
           "m": 1,
-          "t": 13,
+          "t": 501,
           "in": "stepper",
           "o": [
             [
-              34
+              1189
             ],
             [
-              4
+              668
             ]
           ]
         },
         {
           "m": 0,
-          "t": 14,
+          "t": 502,
           "in": "checkbox",
           "o": [
-            [
-              35
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 11,
-          "in": "checkbox",
-          "o": [
-            [
-              33
-            ],
-            [
-              4
-            ]
-          ]
-        },
-        {
-          "m": 0,
-          "t": 12,
-          "in": "checkbox",
-          "o": [
-            [
-              30
-            ],
-            [
-              29
-            ],
             [
               16
             ]
@@ -842,80 +606,109 @@ export default {
         },
         {
           "m": 0,
-          "t": 13,
+          "t": 494,
           "in": "checkbox",
           "o": [
             [
-              34
+              1184
             ],
             [
-              4
+              668
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 495,
+          "in": "checkbox",
+          "o": [
+            [
+              935
+            ],
+            [
+              1183
+            ],
+            [
+              1175
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 501,
+          "in": "checkbox",
+          "o": [
+            [
+              1189
+            ],
+            [
+              668
             ]
           ]
         },
         {
           "m": 1,
-          "t": 15,
+          "t": 499,
           "in": "stepper",
           "o": [
             [
-              36
+              1187
             ]
           ]
         },
         {
           "m": 1,
-          "t": 9,
+          "t": 500,
           "in": "checkbox",
           "o": [
             [
-              31
+              1188
             ]
           ]
         },
         {
           "m": 0,
-          "t": 16,
+          "t": 497,
           "in": "checkbox",
           "o": [
             [
-              10
+              1168
             ]
           ]
         },
         {
           "m": 0,
-          "t": 17,
+          "t": 496,
           "in": "checkbox",
           "o": [
             [
-              37
+              1185
             ],
             [
-              4
+              668
             ]
           ]
         },
         {
           "m": 0,
-          "t": 15,
+          "t": 499,
           "in": "checkbox",
           "o": [
             [
-              36
+              1187
             ]
           ]
         },
         {
           "m": 1,
-          "t": 17,
+          "t": 496,
           "in": "stepper",
           "o": [
             [
-              37
+              1185
             ],
             [
-              4
+              668
             ]
           ]
         }
@@ -969,11 +762,11 @@ export default {
           0,
           [
             [
-              38,
+              1402,
               1
             ],
             [
-              39,
+              1403,
               1
             ]
           ]
@@ -1027,7 +820,7 @@ export default {
           2,
           [
             [
-              40,
+              1404,
               1
             ]
           ]
@@ -1036,15 +829,15 @@ export default {
           0,
           [
             [
-              41,
+              1405,
               1
             ],
             [
-              42,
+              221,
               1
             ],
             [
-              43,
+              1406,
               1
             ]
           ]
@@ -1053,15 +846,15 @@ export default {
           1,
           [
             [
-              43,
+              1406,
               1
             ],
             [
-              41,
+              1405,
               1
             ],
             [
-              42,
+              221,
               1
             ]
           ]
@@ -1070,60 +863,60 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 18,
+          "t": 610,
           "in": "checkbox",
           "o": [
             [
-              44
+              1407
             ]
           ]
         },
         {
           "m": 1,
-          "t": 19,
+          "t": 611,
           "in": "checkbox",
           "o": [
             [
-              45
+              1408
             ],
             [
-              46
+              1409
             ],
             [
-              47
+              487
             ],
             [
-              48
+              1410
             ]
           ]
         },
         {
           "m": 1,
-          "t": 20,
+          "t": 612,
           "in": "checkbox",
           "o": [
             [
-              49
+              1411
             ]
           ]
         },
         {
           "m": 1,
-          "t": 21,
+          "t": 613,
           "in": "checkbox",
           "o": [
             [
-              50
+              1412
             ]
           ]
         },
         {
           "m": 0,
-          "t": 22,
+          "t": 614,
           "in": "checkbox",
           "o": [
             [
-              51
+              1413
             ]
           ]
         }
@@ -1175,11 +968,11 @@ export default {
           1,
           [
             [
-              52,
+              36,
               1
             ],
             [
-              53,
+              1362,
               1
             ]
           ]
@@ -1188,11 +981,11 @@ export default {
           0,
           [
             [
-              53,
+              1362,
               1
             ],
             [
-              52,
+              36,
               1
             ]
           ]
@@ -1201,38 +994,38 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 23,
+          "t": 615,
           "in": "checkbox",
           "o": [
             [
-              54
+              1352
             ],
             [
-              55
+              1363
             ],
             [
-              56,
+              1364,
               5
             ]
           ]
         },
         {
           "m": 1,
-          "t": 24,
+          "t": 616,
           "in": "checkbox",
           "o": [
             [
-              57
+              1414
             ]
           ]
         },
         {
           "m": 1,
-          "t": 25,
+          "t": 617,
           "in": "checkbox",
           "o": [
             [
-              58
+              1366
             ]
           ]
         }
@@ -1284,11 +1077,11 @@ export default {
           0,
           [
             [
-              59,
+              1415,
               1
             ],
             [
-              60,
+              6,
               1
             ]
           ]
@@ -1297,77 +1090,47 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 26,
+          "t": 618,
           "in": "checkbox",
           "o": [
             [
-              61
+              590
             ],
             [
-              62
+              1416
             ]
           ]
         },
         {
           "m": 1,
-          "t": 27,
+          "t": 619,
           "in": "checkbox",
           "o": [
             [
-              61
+              590
             ],
             [
-              63
+              15
             ]
           ]
         },
         {
           "m": 1,
-          "t": 28,
+          "t": 620,
           "in": "checkbox",
           "o": [
             [
-              64,
+              1417,
               0,
               1
             ],
             [
-              60,
+              6,
               0,
               1
             ],
             [
-              65,
-              0,
-              1
-            ]
-          ]
-        },
-        {
-          "m": 1,
-          "t": 29,
-          "in": "checkbox",
-          "o": [
-            [
-              66
-            ],
-            [
-              67
-            ]
-          ]
-        },
-        {
-          "m": 1,
-          "t": 30,
-          "in": "checkbox",
-          "o": [
-            [
-              68,
-              0,
-              1
-            ],
-            [
-              60,
+              1418,
               0,
               1
             ]
@@ -1375,16 +1138,46 @@ export default {
         },
         {
           "m": 1,
-          "t": 31,
+          "t": 621,
+          "in": "checkbox",
+          "o": [
+            [
+              95
+            ],
+            [
+              1419
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 622,
+          "in": "checkbox",
+          "o": [
+            [
+              1420,
+              0,
+              1
+            ],
+            [
+              6,
+              0,
+              1
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 623,
           "in": "stepper",
           "o": [
             [
-              59,
+              1415,
               0,
               7
             ],
             [
-              60,
+              6,
               0,
               7
             ]
@@ -1392,30 +1185,30 @@ export default {
         },
         {
           "m": 0,
-          "t": 32,
+          "t": 624,
           "in": "checkbox",
           "o": [
             [
-              61
+              590
             ],
             [
-              69
+              14
             ],
             [
-              70
+              514
             ],
             [
-              63
+              15
             ]
           ]
         },
         {
           "m": 1,
-          "t": 33,
+          "t": 625,
           "in": "checkbox",
           "o": [
             [
-              71
+              1421
             ]
           ]
         }
@@ -1456,11 +1249,11 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 34,
+          "t": 626,
           "in": "checkbox",
           "o": [
             [
-              72
+              37
             ]
           ]
         }
@@ -1541,15 +1334,15 @@ export default {
           0,
           [
             [
-              73,
+              1422,
               1
             ],
             [
-              74,
+              1423,
               1
             ],
             [
-              75,
+              1,
               1
             ]
           ]
@@ -1558,34 +1351,34 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 35,
+          "t": 627,
           "in": "checkbox",
           "o": [
             [
-              76
+              1424
             ],
             [
-              77
+              1425
             ]
           ]
         },
         {
           "m": 0,
-          "t": 36,
+          "t": 628,
           "in": "checkbox",
           "o": [
             [
-              78
+              1426
             ]
           ]
         },
         {
           "m": 0,
-          "t": 37,
+          "t": 629,
           "in": "checkbox",
           "o": [
             [
-              79
+              1427
             ]
           ]
         }
@@ -1658,15 +1451,15 @@ export default {
           0,
           [
             [
-              80,
+              1428,
               1
             ],
             [
-              75,
+              1,
               1
             ],
             [
-              81,
+              1429,
               1
             ]
           ]
@@ -1741,15 +1534,15 @@ export default {
           0,
           [
             [
-              82,
+              1430,
               1
             ],
             [
-              83,
+              509,
               1
             ],
             [
-              84,
+              1431,
               1
             ]
           ]
@@ -1828,15 +1621,15 @@ export default {
           0,
           [
             [
-              85,
+              1432,
               1
             ],
             [
-              86,
+              1433,
               1
             ],
             [
-              87,
+              1434,
               1
             ]
           ]
@@ -1884,19 +1677,19 @@ export default {
           0,
           [
             [
-              88,
+              1435,
               1
             ],
             [
-              89,
+              1436,
               1
             ],
             [
-              90,
+              1437,
               1
             ],
             [
-              91,
+              1438,
               1
             ]
           ]
@@ -1974,11 +1767,11 @@ export default {
           1,
           [
             [
-              92,
+              1439,
               1
             ],
             [
-              93,
+              8,
               1
             ]
           ]
@@ -1987,11 +1780,11 @@ export default {
           0,
           [
             [
-              94,
+              1440,
               1
             ],
             [
-              92,
+              1439,
               1
             ]
           ]
@@ -2000,54 +1793,54 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 38,
+          "t": 630,
           "in": "stepper",
           "o": [
             [
-              95
+              1441
             ]
           ]
         },
         {
           "m": 0,
-          "t": 39,
+          "t": 631,
           "in": "stepper",
           "o": [
             [
-              96
+              1442
             ]
           ]
         },
         {
           "m": 0,
-          "t": 40,
+          "t": 632,
           "in": "stepper",
           "o": [
             [
-              97
+              1443
             ]
           ]
         },
         {
           "m": 0,
-          "t": 41,
+          "t": 633,
           "in": "stepper",
           "o": [
             [
-              98
+              1444
             ]
           ]
         },
         {
           "m": 1,
-          "t": 42,
+          "t": 634,
           "in": "stepper",
           "o": [
             [
-              99
+              12
             ],
             [
-              100
+              1445
             ]
           ]
         }
@@ -2088,47 +1881,47 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 34,
+          "t": 626,
           "in": "checkbox",
           "o": [
             [
-              101
+              479
             ]
           ]
         },
         {
           "m": 0,
-          "t": 7,
+          "t": 187,
           "in": "checkbox",
           "o": [
             [
-              47
+              487
             ],
             [
-              102
+              538
             ]
           ]
         },
         {
           "m": 0,
-          "t": 43,
+          "t": 198,
           "in": "checkbox",
           "o": [
             [
-              103
+              474
             ]
           ]
         },
         {
           "m": 0,
-          "t": 44,
+          "t": 635,
           "in": "checkbox",
           "o": [
             [
-              104
+              501
             ],
             [
-              103
+              474
             ]
           ]
         }
@@ -2201,7 +1994,7 @@ export default {
           0,
           [
             [
-              105,
+              68,
               1
             ]
           ]
@@ -2210,14 +2003,14 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 45,
+          "t": 28,
           "in": "checkbox",
           "o": [
             [
-              106
+              69
             ],
             [
-              107
+              520
             ]
           ]
         }
@@ -2329,15 +2122,15 @@ export default {
           3,
           [
             [
-              108,
+              1446,
               1
             ],
             [
-              109,
+              489,
               1
             ],
             [
-              60,
+              6,
               1
             ]
           ]
@@ -2346,11 +2139,11 @@ export default {
           1,
           [
             [
-              110,
+              1447,
               1
             ],
             [
-              111,
+              1448,
               1
             ]
           ]
@@ -2359,11 +2152,11 @@ export default {
           2,
           [
             [
-              60,
+              6,
               1
             ],
             [
-              112,
+              1449,
               1
             ]
           ]
@@ -2372,11 +2165,11 @@ export default {
           0,
           [
             [
-              113,
+              1450,
               1
             ],
             [
-              114,
+              1451,
               1
             ]
           ]
@@ -2433,47 +2226,47 @@ export default {
       "gear": [
         {
           "m": 4,
-          "t": 46,
+          "t": 42,
           "in": "checkbox",
           "o": [
             [
-              115
+              96
             ],
             [
-              116
+              1452
             ]
           ]
         },
         {
           "m": 3,
-          "t": 47,
+          "t": 43,
           "in": "checkbox",
           "o": [
             [
-              117
+              97
             ]
           ]
         },
         {
           "m": 3,
-          "t": 48,
+          "t": 40,
           "in": "checkbox",
           "o": [
             [
-              66
+              95
             ]
           ]
         },
         {
           "m": 4,
-          "t": 49,
+          "t": 41,
           "in": "checkbox",
           "o": [
             [
-              118
+              19
             ],
             [
-              115
+              96
             ]
           ]
         }
@@ -2517,15 +2310,15 @@ export default {
           0,
           [
             [
-              119,
+              35,
               1
             ],
             [
-              120,
+              59,
               1
             ],
             [
-              121,
+              34,
               1
             ]
           ]
@@ -2534,24 +2327,24 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 50,
+          "t": 11,
           "in": "checkbox",
           "o": [
             [
-              72
+              37
             ]
           ]
         },
         {
           "m": 0,
-          "t": 51,
+          "t": 27,
           "in": "checkbox",
           "o": [
             [
-              122
+              60
             ],
             [
-              123,
+              61,
               15
             ]
           ]
@@ -2602,15 +2395,15 @@ export default {
           0,
           [
             [
-              124,
+              1453,
               1
             ],
             [
-              75,
+              1,
               1
             ],
             [
-              125,
+              5,
               1
             ]
           ]
@@ -2619,15 +2412,15 @@ export default {
           1,
           [
             [
-              124,
+              1453,
               1
             ],
             [
-              125,
+              5,
               1
             ],
             [
-              75,
+              1,
               1
             ]
           ]
@@ -2636,90 +2429,90 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 52,
+          "t": 4,
           "in": "checkbox",
           "o": [
             [
-              75
+              1
             ],
             [
-              35
+              16
             ],
             [
-              126
+              17
             ],
             [
-              127
+              18
             ],
             [
-              118
+              19
+            ],
+            [
+              20
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              7
             ],
             [
               8
+            ],
+            [
+              9
+            ],
+            [
+              10
+            ],
+            [
+              11
+            ],
+            [
+              12
             ]
           ]
         },
         {
           "m": 1,
-          "t": 53,
+          "t": 1,
           "in": "checkbox",
           "o": [
             [
-              128
+              7
             ],
             [
-              93
+              9
             ],
             [
-              129
-            ],
-            [
-              130
-            ],
-            [
-              131
-            ],
-            [
-              99
+              10
             ]
           ]
         },
         {
           "m": 1,
-          "t": 53,
+          "t": 2,
           "in": "checkbox",
           "o": [
             [
-              128
-            ],
-            [
-              129
-            ],
-            [
-              130
-            ]
-          ]
-        },
-        {
-          "m": 1,
-          "t": 54,
-          "in": "checkbox",
-          "o": [
-            [
-              116
+              1452
             ]
           ]
         },
         {
           "m": 0,
-          "t": 55,
+          "t": 3,
           "in": "checkbox",
           "o": [
             [
-              132
+              1454
             ],
             [
-              63
+              15
             ]
           ]
         }
@@ -2772,11 +2565,11 @@ export default {
           1,
           [
             [
-              133,
+              1455,
               1
             ],
             [
-              41,
+              1405,
               1
             ]
           ]
@@ -2785,11 +2578,11 @@ export default {
           0,
           [
             [
-              41,
+              1405,
               1
             ],
             [
-              133,
+              1455,
               1
             ]
           ]
@@ -2798,7 +2591,7 @@ export default {
           2,
           [
             [
-              40,
+              1404,
               1
             ]
           ]
@@ -2807,11 +2600,11 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 56,
+          "t": 636,
           "in": "checkbox",
           "o": [
             [
-              51
+              1413
             ]
           ]
         }
@@ -2865,15 +2658,15 @@ export default {
           1,
           [
             [
-              43,
+              1406,
               1
             ],
             [
-              41,
+              1405,
               1
             ],
             [
-              42,
+              221,
               1
             ]
           ]
@@ -2882,7 +2675,7 @@ export default {
           2,
           [
             [
-              40,
+              1404,
               1
             ]
           ]
@@ -2891,15 +2684,15 @@ export default {
           0,
           [
             [
-              43,
+              1406,
               1
             ],
             [
-              41,
+              1405,
               1
             ],
             [
-              42,
+              221,
               1
             ]
           ]
@@ -2908,30 +2701,30 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 57,
+          "t": 637,
           "in": "checkbox",
           "o": [
             [
-              51
+              1413
             ]
           ]
         },
         {
           "m": 1,
-          "t": 58,
+          "t": 638,
           "in": "checkbox",
           "o": [
             [
-              45
+              1408
             ],
             [
-              46
+              1409
             ],
             [
-              47
+              487
             ],
             [
-              48
+              1410
             ]
           ]
         }
@@ -2985,15 +2778,15 @@ export default {
           0,
           [
             [
-              137,
+              1456,
               1
             ],
             [
-              138,
+              1457,
               1
             ],
             [
-              139,
+              1458,
               1
             ]
           ]
@@ -3047,15 +2840,15 @@ export default {
           0,
           [
             [
-              60,
+              6,
               1
             ],
             [
-              109,
+              489,
               1
             ],
             [
-              140,
+              1459,
               1
             ]
           ]
@@ -3064,15 +2857,15 @@ export default {
           1,
           [
             [
-              109,
+              489,
               1
             ],
             [
-              141,
+              482,
               1
             ],
             [
-              60,
+              6,
               1
             ]
           ]
@@ -3081,7 +2874,7 @@ export default {
           2,
           [
             [
-              142,
+              1460,
               1
             ]
           ]
@@ -3090,21 +2883,21 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 59,
+          "t": 639,
           "in": "stepper",
           "o": [
             [
-              141,
+              482,
               0,
               3
             ],
             [
-              109,
+              489,
               0,
               3
             ],
             [
-              60,
+              6,
               0,
               3
             ]
@@ -3112,21 +2905,21 @@ export default {
         },
         {
           "m": 1,
-          "t": 60,
+          "t": 640,
           "in": "stepper",
           "o": [
             [
-              109,
+              489,
               0,
               1
             ],
             [
-              143,
+              1461,
               0,
               1
             ],
             [
-              60,
+              6,
               0,
               1
             ]
@@ -3185,11 +2978,11 @@ export default {
           0,
           [
             [
-              134,
+              1095,
               1
             ],
             [
-              135,
+              1213,
               1
             ]
           ]
@@ -3245,7 +3038,7 @@ export default {
           0,
           [
             [
-              136,
+              1214,
               1
             ]
           ]

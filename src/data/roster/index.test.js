@@ -6,13 +6,41 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import rosterCore from './core.js'
+import rosterItems from './items.js'
+import { loadRosterFaction } from './index.js'
 
 const DIR = path.dirname(fileURLToPath(import.meta.url))
-const files = fs.readdirSync(DIR).filter((f) => f.endsWith('.js') && !['index.js', 'core.js', 'index.test.js'].includes(f))
+const files = fs.readdirSync(DIR).filter((f) => f.endsWith('.js') && !['index.js', 'core.js', 'items.js', 'index.test.js'].includes(f))
 
 const factions = await Promise.all(
   files.map(async (f) => ({ slug: f.replace(/\.js$/, ''), data: (await import(`./${f}`)).default })),
 )
+
+describe('roster shared items', () => {
+  it('exposes global item + text dictionaries', () => {
+    expect(Object.keys(rosterItems.items).length).toBeGreaterThan(0)
+    expect(Object.keys(rosterItems.texts).length).toBeGreaterThan(0)
+  })
+})
+
+describe('SM-Chapter shared-pool fold', () => {
+  for (const chapter of ['black-templars', 'blood-angels', 'dark-angels', 'deathwatch', 'space-wolves']) {
+    it(`${chapter} folds in the shared Adeptus Astartes units`, async () => {
+      const own = (await import(`./${chapter}.js`)).default
+      expect(own.sharedUnitIds.length).toBeGreaterThan(0)
+      const folded = await loadRosterFaction(chapter)
+      // folded list = own units + shared, all unique ids, and gear still resolves globally
+      expect(folded.units.length).toBe(own.units.length + own.sharedUnitIds.length)
+      expect(new Set(folded.units.map((u) => u.id)).size).toBe(folded.units.length)
+      for (const u of folded.units) {
+        for (const g of u.gear || []) {
+          expect(rosterItems.texts[g.t]).toBeTruthy()
+          for (const o of g.o) expect(rosterItems.items[o[0]]).toBeTruthy()
+        }
+      }
+    })
+  }
+})
 
 describe('roster core', () => {
   it('has the three matched-play battle sizes with limits ascending by points', () => {
@@ -67,9 +95,7 @@ describe('roster factions', () => {
       })
 
       it('wargear defaults/gear reference existing interned items and texts', () => {
-        const { items, texts } = data
-        expect(typeof items).toBe('object')
-        expect(typeof texts).toBe('object')
+        const { items, texts } = rosterItems
         for (const u of data.units) {
           for (const [, list] of u.defaults || []) {
             for (const [itemId] of list) expect(items[itemId], `${u.name} default item ${itemId}`).toBeTruthy()

@@ -2,65 +2,6 @@
 export default {
   "slug": "dark-angels",
   "name": "Dark Angels",
-  "items": {
-    "1": "Crozius arcanum and power weapon",
-    "2": "Heavy bolt pistol",
-    "3": "The Lion Helm",
-    "4": "The Sword of Secrets",
-    "5": "Lion’s Wrath",
-    "6": "The Sword of Silence",
-    "7": "Master-crafted storm bolter",
-    "8": "Mace of absolution",
-    "9": "Great weapon of the Unforgiven",
-    "10": "Power weapon",
-    "11": "Relic weapon",
-    "12": "Watcher in the Dark",
-    "13": "Power fist",
-    "14": "Storm bolter",
-    "15": "Power weapon",
-    "16": "Assault cannon",
-    "17": "Heavy flamer",
-    "18": "Plasma cannon",
-    "19": "Cyclone missile launcher",
-    "20": "Chainfist",
-    "21": "Traitor’s Bane",
-    "22": "The Deliverer",
-    "23": "Book of Salvation",
-    "24": "Mind Wipe",
-    "25": "Calibanite greatsword",
-    "26": "Enmity’s Edge",
-    "27": "Bolt Pistol",
-    "28": "Close combat weapon",
-    "29": "Plasma storm battery",
-    "30": "Heavy bolter",
-    "31": "Arma Luminis",
-    "32": "Fealty",
-    "33": "Armoured hull",
-    "34": "Twin heavy bolter",
-    "35": "Avenger mega bolter",
-    "36": "Blacksword missiles",
-    "37": "Nephilim lascannons",
-    "38": "Bolt pistol",
-    "39": "Plasma talon",
-    "40": "Black Knight combat weapon",
-    "41": "Astartes grenade launcher",
-    "42": "Master-crafted power weapon",
-    "43": "Rift cannon",
-    "44": "Hurricane bolter",
-    "45": "Twin storm bolter",
-    "46": "The Raven Sword",
-    "47": "Master-crafted plasma cannon"
-  },
-  "texts": {
-    "1": "All Deathwing Knights in this unit can each have their mace of absolution replaced with 1 power weapon.",
-    "2": "The Knight Master’s great weapon of the Unforgiven can be replaced with 1 relic weapon.",
-    "3": "This unit can be equipped with 1 Watcher in the Dark.",
-    "4": "For every 5 models in the unit, 1 Deathwing Terminator can replace its storm bolter with one of the following: \n◦ 1 assault cannon \n◦ 1 heavy flamer \n◦ 1 plasma cannon \n◦ 1 storm bolter and 1 cyclone missile launcher (this model’s storm bolter cannot be replaced)",
-    "5": "Any number of Deathwing Terminators can each have their power fist replaced with 1 chainfist",
-    "6": "This model’s heavy bolter can be replaced with 1 assault cannon.",
-    "7": "This model’s avenger mega bolter can be replaced with 1 Nephilim lascannons.",
-    "8": "For every 3 models in this unit, 1 model’s plasma talon can be replaced with 1 Astartes grenade."
-  },
   "units": [
     {
       "id": "asmodai",
@@ -131,11 +72,11 @@ export default {
           0,
           [
             [
-              1,
+              1069,
               1
             ],
             [
-              2,
+              665,
               1
             ]
           ]
@@ -211,15 +152,15 @@ export default {
           0,
           [
             [
-              3,
+              1070,
               1
             ],
             [
-              4,
+              1071,
               1
             ],
             [
-              5,
+              1072,
               1
             ]
           ]
@@ -278,11 +219,11 @@ export default {
           0,
           [
             [
-              6,
+              1073,
               1
             ],
             [
-              7,
+              1074,
               1
             ]
           ]
@@ -329,7 +270,7 @@ export default {
           1,
           [
             [
-              8,
+              1075,
               1
             ]
           ]
@@ -338,7 +279,7 @@ export default {
           0,
           [
             [
-              9,
+              1076,
               1
             ]
           ]
@@ -347,31 +288,31 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 1,
+          "t": 452,
           "in": "stepper",
           "o": [
             [
-              10
+              1077
             ]
           ]
         },
         {
           "m": 0,
-          "t": 2,
+          "t": 453,
           "in": "checkbox",
           "o": [
             [
-              11
+              1078
             ]
           ]
         },
         {
           "m": 0,
-          "t": 3,
+          "t": 454,
           "in": "checkbox",
           "o": [
             [
-              12
+              1079
             ]
           ]
         }
@@ -420,11 +361,11 @@ export default {
           1,
           [
             [
-              13,
+              671,
               1
             ],
             [
-              14,
+              36,
               1
             ]
           ]
@@ -433,11 +374,11 @@ export default {
           0,
           [
             [
-              14,
+              36,
               1
             ],
             [
-              15,
+              716,
               1
             ]
           ]
@@ -446,43 +387,43 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 3,
+          "t": 454,
           "in": "checkbox",
           "o": [
             [
-              12
+              1079
             ]
           ]
         },
         {
           "m": 1,
-          "t": 4,
+          "t": 455,
           "in": "stepper",
           "o": [
             [
-              16
+              717
             ],
             [
-              17
+              474
             ],
             [
-              18
+              1080
             ],
             [
-              14
+              36
             ],
             [
-              19
+              718
             ]
           ]
         },
         {
           "m": 1,
-          "t": 5,
+          "t": 456,
           "in": "stepper",
           "o": [
             [
-              20
+              715
             ]
           ]
         }
@@ -557,19 +498,19 @@ export default {
           0,
           [
             [
-              21,
+              1081,
               1
             ],
             [
-              22,
+              1082,
               1
             ],
             [
-              23,
+              1083,
               1
             ],
             [
-              24,
+              1084,
               1
             ]
           ]
@@ -615,11 +556,11 @@ export default {
           0,
           [
             [
-              2,
+              665,
               1
             ],
             [
-              25,
+              1085,
               1
             ]
           ]
@@ -659,15 +600,15 @@ export default {
           0,
           [
             [
-              28,
+              706,
               1
             ],
             [
-              29,
+              1087,
               1
             ],
             [
-              30,
+              35,
               1
             ]
           ]
@@ -676,11 +617,11 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 6,
+          "t": 457,
           "in": "checkbox",
           "o": [
             [
-              16
+              717
             ]
           ]
         }
@@ -751,11 +692,11 @@ export default {
           0,
           [
             [
-              26,
+              1086,
               1
             ],
             [
-              27,
+              22,
               1
             ]
           ]
@@ -795,11 +736,11 @@ export default {
           0,
           [
             [
-              31,
+              1088,
               1
             ],
             [
-              32,
+              1089,
               1
             ]
           ]
@@ -835,19 +776,19 @@ export default {
           0,
           [
             [
-              33,
+              146,
               1
             ],
             [
-              34,
+              694,
               1
             ],
             [
-              35,
+              1090,
               1
             ],
             [
-              36,
+              1091,
               1
             ]
           ]
@@ -856,11 +797,11 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 7,
+          "t": 458,
           "in": "checkbox",
           "o": [
             [
-              37
+              1092
             ]
           ]
         }
@@ -913,15 +854,15 @@ export default {
           0,
           [
             [
-              38,
+              1,
               1
             ],
             [
-              39,
+              1093,
               1
             ],
             [
-              40,
+              1094,
               1
             ]
           ]
@@ -930,15 +871,15 @@ export default {
           1,
           [
             [
-              40,
+              1094,
               1
             ],
             [
-              38,
+              1,
               1
             ],
             [
-              39,
+              1093,
               1
             ]
           ]
@@ -947,21 +888,21 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 8,
+          "t": 459,
           "in": "stepper",
           "o": [
             [
-              41
+              738
             ]
           ]
         },
         {
           "m": 0,
-          "t": 8,
+          "t": 459,
           "in": "checkbox",
           "o": [
             [
-              41
+              738
             ]
           ]
         }
@@ -1023,15 +964,15 @@ export default {
           2,
           [
             [
-              39,
+              1093,
               1
             ],
             [
-              38,
+              1,
               1
             ],
             [
-              40,
+              1094,
               1
             ]
           ]
@@ -1040,15 +981,15 @@ export default {
           1,
           [
             [
-              40,
+              1094,
               1
             ],
             [
-              39,
+              1093,
               1
             ],
             [
-              38,
+              1,
               1
             ]
           ]
@@ -1057,15 +998,15 @@ export default {
           0,
           [
             [
-              39,
+              1093,
               1
             ],
             [
-              38,
+              1,
               1
             ],
             [
-              42,
+              1095,
               1
             ]
           ]
@@ -1074,31 +1015,31 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 8,
+          "t": 459,
           "in": "checkbox",
           "o": [
             [
-              41
+              738
             ]
           ]
         },
         {
           "m": 2,
-          "t": 8,
+          "t": 459,
           "in": "checkbox",
           "o": [
             [
-              41
+              738
             ]
           ]
         },
         {
           "m": 0,
-          "t": 8,
+          "t": 459,
           "in": "checkbox",
           "o": [
             [
-              41
+              738
             ]
           ]
         }
@@ -1133,15 +1074,15 @@ export default {
           0,
           [
             [
-              43,
+              1096,
               1
             ],
             [
-              44,
+              692,
               2
             ],
             [
-              33,
+              146,
               1
             ]
           ]
@@ -1177,11 +1118,11 @@ export default {
           0,
           [
             [
-              30,
+              35,
               1
             ],
             [
-              28,
+              706,
               1
             ]
           ]
@@ -1190,11 +1131,11 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 6,
+          "t": 457,
           "in": "checkbox",
           "o": [
             [
-              16
+              717
             ]
           ]
         }
@@ -1246,19 +1187,19 @@ export default {
           0,
           [
             [
-              45,
+              1097,
               1
             ],
             [
-              27,
+              22,
               1
             ],
             [
-              46,
+              1098,
               1
             ],
             [
-              47,
+              1099,
               1
             ]
           ]
@@ -1659,5 +1600,91 @@ export default {
         }
       ]
     }
+  ],
+  "sharedUnitIds": [
+    "aggressor-squad",
+    "ancient",
+    "ancient-in-terminator-armour",
+    "apothecary",
+    "apothecary-biologis",
+    "assault-intercessor-squad",
+    "assault-intercessors-with-jump-packs",
+    "astraeus",
+    "ballistus-dreadnought",
+    "bladeguard-ancient",
+    "bladeguard-veteran-squad",
+    "brutalis-dreadnought",
+    "captain",
+    "captain-in-gravis-armour",
+    "captain-in-phobos-armour",
+    "captain-in-terminator-armour",
+    "captain-with-jump-pack",
+    "centurion-assault-squad",
+    "centurion-devastator-squad",
+    "chaplain",
+    "chaplain-in-terminator-armour",
+    "chaplain-on-bike",
+    "chaplain-with-jump-pack",
+    "company-heroes",
+    "desolation-squad",
+    "devastator-squad",
+    "dreadnought",
+    "drop-pod",
+    "eliminator-squad",
+    "eradicator-squad",
+    "eradicator-squad-with-heavy-bolters",
+    "firestrike-servo-turrets",
+    "gladiator-lancer",
+    "gladiator-reaper",
+    "gladiator-valiant",
+    "hammerfall-bunker",
+    "heavy-intercessor-squad",
+    "hellblaster-squad",
+    "impulsor",
+    "inceptor-squad",
+    "incursor-squad",
+    "infernus-squad",
+    "infiltrator-squad",
+    "intercessor-squad",
+    "invader-atv",
+    "invictor-tactical-warsuit",
+    "judiciar",
+    "land-raider",
+    "land-raider-crusader",
+    "land-raider-redeemer",
+    "land-speeder",
+    "librarian",
+    "librarian-in-phobos-armour",
+    "librarian-in-terminator-armour",
+    "lieutenant",
+    "lieutenant-in-phobos-armour",
+    "lieutenant-in-reiver-armour",
+    "lieutenant-with-combi-weapon",
+    "outrider-squad",
+    "predator-annihilator",
+    "predator-destructor",
+    "razorback",
+    "redemptor-dreadnought",
+    "reiver-squad",
+    "repulsor",
+    "repulsor-executioner",
+    "rhino",
+    "scout-squad",
+    "sternguard-veteran-squad",
+    "storm-speeder-hailstrike",
+    "storm-speeder-hammerstrike",
+    "storm-speeder-thunderstrike",
+    "stormhawk-interceptor",
+    "stormraven-gunship",
+    "stormtalon-gunship",
+    "suppressor-squad",
+    "tactical-squad",
+    "techmarine",
+    "terminator-assault-squad",
+    "terminator-squad",
+    "thunderhawk-gunship",
+    "vanguard-veteran-squad-with-jump-packs",
+    "vindicator",
+    "whirlwind"
   ]
 }
