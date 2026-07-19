@@ -19,6 +19,18 @@ export function appdataDataVersion() {
   return fs.existsSync(meta) ? JSON.parse(fs.readFileSync(meta, 'utf8')).data_version : null
 }
 
+// wh11ed faction slug → wh40k-appdata faction slug, wherever the two disagree. Shared by
+// sync-appdata.mjs and gen-roster-data.mjs so both resolve the same bundle/faction keyword.
+export const SLUG_MAP = {
+  'space-marines': 'adeptus-astartes',
+  'chaos-space-marines': 'heretic-astartes',
+  'imperial-agents': 'agents-of-the-imperium',
+  'aeldari': 'asuryani',
+  'chaos-daemons': 'legiones-daemonica',
+  'titan-legions': 'adeptus-titanicus',
+  'chaos-titan-legions': 'titanicus-traitoris',
+}
+
 // Normalize a name for matching: fold quote/dash variants, strip a trailing "(...)"
 // classification suffix ("Fear Made Manifest (Aura)"), case/whitespace-insensitive.
 export const norm = (s) => (s || '').toLowerCase().replace(/(?:\s*\([^)]*\))+\s*$/, '').replace(/[’‘`]/g, "'").replace(/[-‐‑–—]/g, '-').replace(/\s+/g, ' ').trim()
