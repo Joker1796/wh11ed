@@ -52,6 +52,7 @@ export const landing = {
       openSourceLabel: 'Open source:',
       openSourceText: 'This project is free and open source.',
       repoLinkLabel: 'GitHub',
+      disclaimerLink: 'Legal & disclaimer',
       disclaimer:
         'This is an unofficial fan project, not affiliated with or endorsed by Games Workshop. Warhammer 40,000, the names, rules and imagery are © Games Workshop Ltd, used without permission — no challenge to their status is intended. The open-source license covers this project’s code only, not the game content. Rights holders may request removal via the contact above.',
     },
@@ -108,6 +109,7 @@ export const landing = {
       openSourceLabel: 'Открытый код:',
       openSourceText: 'Проект бесплатный, с открытым исходным кодом.',
       repoLinkLabel: 'GitHub',
+      disclaimerLink: 'Правовая информация',
       disclaimer:
         'Это неофициальный фан-проект, не связанный с Games Workshop и не одобренный ей. Warhammer 40,000, названия, правила и изображения — © Games Workshop Ltd, используются без разрешения; вызов их правам не бросается. Открытая лицензия покрывает только код проекта, но не игровой контент. Правообладатель может запросить удаление через контакт выше.',
     },
