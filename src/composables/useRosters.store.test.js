@@ -100,6 +100,17 @@ describe('persistence + load', () => {
     expect(reloaded.rosters.value[0].name).toBe('Good')
   })
 
+  it('migrates a legacy single detachment and drops uuid-shaped leftovers', async () => {
+    const legacy = { ...mod.makeRoster('Legacy'), detachment: '01c7258d-72a9-4df9-bea2-b4f7bfdaebb8', detachments: undefined }
+    const withSid = { ...mod.makeRoster('Sid'), detachments: ['Gladius', 'be00d308-504e-4da9-a254-98f21ce84e18'] }
+    localStorage.setItem(KEY, JSON.stringify({ v: 1, rosters: [legacy, withSid] }))
+    vi.resetModules()
+    const reloaded = (await import('./useRosters.js')).useRosters()
+    expect(reloaded.rosters.value[0].detachments).toEqual([]) // sid can't map to a name → dropped
+    expect(reloaded.rosters.value[0].detachment).toBeUndefined()
+    expect(reloaded.rosters.value[1].detachments).toEqual(['Gladius']) // uuid removed, name kept
+  })
+
   it('starts empty when storage is absent or corrupt', async () => {
     localStorage.setItem(KEY, 'not json{')
     vi.resetModules()
