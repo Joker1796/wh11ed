@@ -8,7 +8,7 @@
     :title="pinned ? labels.favUnpin : labels.favPin"
     @click.stop.prevent="$emit('toggle')"
   >
-    <i class="bi" :class="pinned ? 'bi-star-fill' : 'bi-star'"></i>
+    <i class="bi" :class="pinned ? 'bi-pin-angle-fill' : 'bi-pin-angle'"></i>
   </button>
 </template>
 
@@ -46,6 +46,5 @@ const labels = computed(() => ui[locale.value])
   transition: color 0.15s, background 0.15s;
 }
 .fav-star:hover { color: var(--accent); background: var(--bg-tertiary, rgba(128, 128, 128, 0.12)); }
-.fav-star.on { color: #e0a72b; }
-.fav-star.on:hover { color: #c8891a; }
+.fav-star.on { color: var(--accent); }
 </style>
