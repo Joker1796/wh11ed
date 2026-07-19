@@ -20,6 +20,9 @@
         </template>
         <i v-else class="bi bi-check-circle-fill"></i>
       </button>
+      <button v-if="roster.units.length" class="hdr-icon" :aria-label="labels.rosterExport" @click="exportOpen = true">
+        <i class="bi bi-box-arrow-up"></i>
+      </button>
     </header>
 
     <!-- Army choices -->
@@ -132,6 +135,14 @@
       @goto="(uid) => { issuesOpen = false; openEditor(uid) }"
       @close="issuesOpen = false"
     />
+    <RosterExportModal
+      v-if="exportOpen"
+      :roster="roster"
+      :faction="factionData"
+      :core="rosterCore"
+      :items="rosterItems.items"
+      @close="exportOpen = false"
+    />
   </div>
 </template>
 
@@ -142,6 +153,7 @@ import FactionDetachmentPickerModal from '../../components/FactionDetachmentPick
 import RosterUnitPickerModal from '../../components/roster/RosterUnitPickerModal.vue'
 import UnitEditorSheet from '../../components/roster/UnitEditorSheet.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
+import RosterExportModal from '../../components/roster/RosterExportModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosters, uid } from '../../composables/useRosters.js'
@@ -315,6 +327,7 @@ const points = computed(() => rosterPoints(roster.value?.units, defOf, curDetach
 
 // Live validation — never blocks, just reports (see rosterValidation.js).
 const issuesOpen = ref(false)
+const exportOpen = ref(false)
 const validation = computed(() =>
   factionData.value
     ? validateRoster(roster.value, { faction: factionData.value, core: rosterCore })
@@ -384,6 +397,17 @@ function rename(name) {
 }
 .issues-badge.has-err { color: #c0392b; border-color: color-mix(in srgb, #c0392b 45%, var(--border)); }
 .issues-badge.ok { color: #3c9a5f; }
+.hdr-icon {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--bg-card);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.hdr-icon:hover { border-color: var(--accent); color: var(--accent); }
 
 .red-choices { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1.25rem; }
 .choice {

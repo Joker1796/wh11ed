@@ -144,14 +144,16 @@ function updateRoster(id, patch) {
   return r
 }
 
-// Import a roster object (from a share link / text) as a NEW saved roster with a fresh id,
-// so importing can never clobber an existing one.
+// Import a roster object (from a share link / text) as a NEW saved roster with a fresh id, so
+// importing can never clobber an existing one. Share payloads deliberately omit id/timestamps
+// (assigned here) and summary (recomputed by the editor) — so validate only the essentials.
 function importRoster(obj, name) {
-  if (!isValidRoster(obj)) return null
+  if (!obj || typeof obj !== 'object' || !Array.isArray(obj.units)) return null
   const r = JSON.parse(JSON.stringify(obj))
   r.id = uid()
-  if (name) r.name = name
+  r.name = name || r.name || 'Roster'
   r.createdAt = r.updatedAt = Date.now()
+  if (!r.summary) r.summary = { points: 0, unitCount: r.units.length, issues: 0 }
   rosters.value.unshift(r)
   saveNow()
   return r

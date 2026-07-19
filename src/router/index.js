@@ -25,6 +25,7 @@ const AuthCallbackView  = () => import('../views/tracker/AuthCallbackView.vue')
 const TrackerHistoryView = () => import('../views/tracker/TrackerHistoryView.vue')
 const RosterListView    = () => import('../views/tracker/RosterListView.vue')
 const RosterEditorView  = () => import('../views/tracker/RosterEditorView.vue')
+const RosterSharedView  = () => import('../views/tracker/RosterSharedView.vue')
 const LinksView         = () => import('../views/LinksView.vue')
 const StratagemsView    = () => import('../views/StratagemsView.vue')
 const FactionsListView  = () => import('../views/FactionsListView.vue')
@@ -299,8 +300,10 @@ export const router = createRouter({
     { path: '/tracker/game', component: TrackerGameView },
     // Roster builder: public list (/roster, indexable) + private per-roster editor
     // (/roster/:id, not in STATIC_ROUTES — like /tracker/game).
-    { path: '/roster',       component: RosterListView },
-    { path: '/roster/:id',   component: RosterEditorView },
+    { path: '/roster',        component: RosterListView },
+    // Static /roster/shared must precede the :id route so it isn't captured as an id.
+    { path: '/roster/shared', component: RosterSharedView },
+    { path: '/roster/:id',    component: RosterEditorView },
     { path: '/tracker/history/:id', component: TrackerHistoryView },
     { path: '/tracker/auth-callback', component: AuthCallbackView },
     { path: '/links', component: LinksView },
@@ -318,7 +321,9 @@ export const router = createRouter({
     { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFoundView },
   ],
   scrollBehavior(to, from, savedPosition) {
-    if (to.hash) {
+    // A hash carrying `=` is data (the roster share payload `#r=…`), not a scroll anchor —
+    // don't try to querySelector it (invalid selector) or scroll to it.
+    if (to.hash && !to.hash.includes('=')) {
       return { el: to.hash, behavior: 'smooth', top: 80 }
     }
     if (savedPosition) return savedPosition
