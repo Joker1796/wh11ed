@@ -379,7 +379,9 @@ function genCore() {
 function genIndex() {
   const body = `${HEAD}// Lazy per-faction roster data. Each faction file is a chunk of its own so the roster
 // editor only pulls the faction being built (PWA entry-chunk stays clean — see CLAUDE.md).
-const loaders = import.meta.glob('./*.js', { import: 'default' })
+// Glob only the faction files — exclude core/items/index and the test file (the latter pulls
+// in node: builtins and would break the browser build once this loader is bundled).
+const loaders = import.meta.glob(['./*.js', '!./core.js', '!./items.js', '!./index.js', '!./*.test.js'], { import: 'default' })
 
 const load = (slug) => {
   const loader = loaders[\`./\${slug}.js\`]
