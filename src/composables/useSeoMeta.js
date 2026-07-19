@@ -11,6 +11,13 @@
 // run JS; og:url is optional and falls back to the request URL).
 //
 // No head-management dependency: we just set document.title and a few head elements.
+//
+// Faction / datasheet pages (/factions/:slug[/datasheets[/:unit]]) aren't in the static
+// ROUTES map — there are ~1500 of them — so their title/description/canonical are generated
+// from templates below. The faction name comes from the light factionsIndex (safe to import
+// into the entry chunk); the precise unit name is pushed in by FactionDatasheetView via
+// setDatasheetName once its datasheet has loaded (the heavy per-faction file never rides here).
+import { factionIndexBySlug } from '../data/factionsIndex.js'
 
 const ORIGIN = 'https://wh11ed.ru'
 
@@ -22,8 +29,8 @@ const DEFAULT = {
     ru: 'Warhammer 40,000 — Основные правила 11-й редакции',
   },
   description: {
-    en: 'Bilingual (EN/RU) interactive reference for the Warhammer 40,000 11th Edition Core Rules and Event Companion — searchable, offline-capable, free.',
-    ru: 'Двуязычный (EN/RU) интерактивный справочник по основным правилам Warhammer 40,000 11-й редакции и Event Companion — с поиском, офлайн, бесплатно.',
+    en: 'Bilingual (EN/RU) interactive reference for Warhammer 40,000 11th edition: core rules, Event Companion, faction rules and unit datasheets, plus an offline game tracker — searchable, free.',
+    ru: 'Двуязычный (EN/RU) интерактивный справочник по Warhammer 40,000 11-й редакции: основные правила, Event Companion, правила фракций и листы данных юнитов, плюс офлайн-трекер партии — с поиском, бесплатно.',
   },
 }
 
@@ -36,8 +43,8 @@ const LANDING = {
     ru: 'Warhammer 40,000 (Вархаммер) 11-я редакция — правила на русском',
   },
   description: {
-    en: 'Bilingual (EN/RU) interactive reference for the Warhammer 40,000 11th Edition Core Rules and Event Companion — searchable, offline-capable, free.',
-    ru: 'Справочник по правилам Warhammer 40 000 (Вархаммер) 11-й редакции на русском: основные правила, миссии и стратагемы, трекер очков. С поиском, офлайн, бесплатно.',
+    en: 'Bilingual (EN/RU) reference for Warhammer 40,000 11th edition: core rules, Event Companion, faction rules and unit datasheets, plus a free offline game tracker. Searchable, installable, free.',
+    ru: 'Справочник по Warhammer 40 000 (Вархаммер) 11-й редакции на русском: основные правила, миссии и стратагемы, правила фракций и листы данных юнитов, трекер очков. С поиском, офлайн, бесплатно.',
   },
 }
 
@@ -173,8 +180,49 @@ function pick(loc) {
   return loc === 'ru' ? 'ru' : 'en'
 }
 
+// --- Faction / datasheet pages (dynamic, template-driven) ----------------------------------
+const FACTION_RE = /^\/factions\/([^/]+)$/
+const DATASHEETS_RE = /^\/factions\/([^/]+)\/datasheets$/
+const DATASHEET_RE = /^\/factions\/([^/]+)\/datasheets\/([^/]+)$/
+export const isFactionPath = (path) => FACTION_RE.test(path) || DATASHEETS_RE.test(path) || DATASHEET_RE.test(path)
+
+// Precise unit names supplied by FactionDatasheetView (keyed by path, so a locale switch that
+// re-runs applyRouteMeta keeps the real name). Faction/unit NAMES stay English in both locales
+// (project convention) — only the surrounding phrasing is localized.
+const unitNames = new Map()
+const prettifySlug = (s) => s.split('-').map((w) => (w ? w[0].toUpperCase() + w.slice(1) : w)).join(' ')
+const factionName = (slug) => factionIndexBySlug(slug)?.name || prettifySlug(slug)
+
+function dynamicMetaFor(path, loc) {
+  let m = path.match(DATASHEET_RE)
+  if (m) {
+    const faction = factionName(m[1])
+    const unit = unitNames.get(path) || prettifySlug(m[2])
+    return loc === 'ru'
+      ? { title: `${unit} — датащит ${faction} — ${SITE.ru}`, description: `${unit} — лист данных ${faction} для Warhammer 40,000 11-й редакции: характеристики, оружие, способности, ключевые слова и очки.` }
+      : { title: `${unit} — ${faction} Datasheet — ${SITE.en}`, description: `${unit} datasheet for ${faction} in Warhammer 40,000 11th edition: statline, weapons, abilities, keywords and points.` }
+  }
+  m = path.match(DATASHEETS_RE)
+  if (m) {
+    const faction = factionName(m[1])
+    return loc === 'ru'
+      ? { title: `Датащиты ${faction} — ${SITE.ru}`, description: `Все листы данных юнитов ${faction} для Warhammer 40,000 11-й редакции: характеристики, оружие, способности, ключевые слова и очки.` }
+      : { title: `${faction} Datasheets — ${SITE.en}`, description: `All unit datasheets for ${faction} in Warhammer 40,000 11th edition: statlines, weapons, abilities, keywords and points.` }
+  }
+  m = path.match(FACTION_RE)
+  if (m) {
+    const faction = factionName(m[1])
+    return loc === 'ru'
+      ? { title: `${faction} — правила фракции — ${SITE.ru}`, description: `${faction} в Warhammer 40,000 11-й редакции: армейское правило, детачменты, стратагемы, улучшения и листы данных юнитов.` }
+      : { title: `${faction} — Army Rules & Detachments — ${SITE.en}`, description: `${faction} in Warhammer 40,000 11th edition: army rule, detachments, stratagems, enhancements and unit datasheets.` }
+  }
+  return null
+}
+
 function metaFor(path, loc) {
   if (path === '/') return { title: LANDING.title[loc], description: LANDING.description[loc] }
+  const dyn = dynamicMetaFor(path, loc)
+  if (dyn) return dyn
   let entry = ROUTES[path]
   // dynamic / transient tracker routes (history/:id, auth-callback) → tracker default
   if (!entry && path.startsWith('/tracker')) entry = ROUTES['/tracker']
@@ -219,7 +267,7 @@ function removeCanonicalTags() {
 // (tracker game/history/auth-callback, unknown → NotFoundView with its noindex) get the
 // canonical trio removed instead of pointing somewhere misleading.
 function applyCanonical(path, loc) {
-  const indexable = path === '/' || (!!ROUTES[path] && path !== '/tracker/game')
+  const indexable = path === '/' || (!!ROUTES[path] && path !== '/tracker/game') || isFactionPath(path)
   if (!indexable) {
     removeCanonicalTags()
     return
@@ -238,11 +286,26 @@ function applyCanonical(path, loc) {
   }, canonical)
 }
 
+// Last applied route, so setDatasheetName can re-render the title/description in place once the
+// view supplies the precise unit name (the first paint uses the slug-derived fallback).
+let _lastPath = null
+let _lastLocale = 'en'
+
+/** Called by FactionDatasheetView once its datasheet loads, to replace the slug-derived unit
+ *  name in the title/description with the real one (unit names are never translated). */
+export function setDatasheetName(path, name) {
+  if (!name || unitNames.get(path) === name) return
+  unitNames.set(path, name)
+  if (path === _lastPath) applyRouteMeta(_lastPath, _lastLocale)
+}
+
 /** Set document.title, <meta name="description"> and the canonical/og:url/hreflang trio
  *  for the given route + locale. */
 export function applyRouteMeta(path, locale) {
   if (typeof document === 'undefined') return
   const loc = pick(locale)
+  _lastPath = path
+  _lastLocale = locale
   const { title, description } = metaFor(path, loc)
   document.title = title
   upsertMeta('meta[name="description"]', () => {

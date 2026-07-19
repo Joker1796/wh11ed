@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { applyRouteMeta } from './useSeoMeta.js'
+import { applyRouteMeta, setDatasheetName } from './useSeoMeta.js'
 
 function descContent() {
   return document.querySelector('meta[name="description"]')?.getAttribute('content') || ''
@@ -113,5 +113,36 @@ describe('applyRouteMeta', () => {
     applyRouteMeta('/reference', 'en')
     applyRouteMeta('/totally-unknown', 'en')
     expect(canonicalHref()).toBe('')
+  })
+
+  it('gives a faction rules page its own templated title + indexable canonical', () => {
+    applyRouteMeta('/factions/space-marines', 'en')
+    expect(document.title).toBe('Space Marines — Army Rules & Detachments — Warhammer 40,000 11th Ed')
+    expect(descContent()).toMatch(/army rule, detachments, stratagems/i)
+    expect(canonicalHref()).toBe('https://wh11ed.ru/factions/space-marines')
+    expect(alternateHref('ru')).toBe('https://wh11ed.ru/factions/space-marines?lang=ru')
+  })
+
+  it('titles the datasheets list page per faction', () => {
+    applyRouteMeta('/factions/orks/datasheets', 'en')
+    expect(document.title).toBe('Orks Datasheets — Warhammer 40,000 11th Ed')
+    expect(canonicalHref()).toBe('https://wh11ed.ru/factions/orks/datasheets')
+  })
+
+  it('uses a slug-derived unit name until the view supplies the real one, then upgrades it', () => {
+    applyRouteMeta('/factions/orks/datasheets/bannernob', 'en')
+    expect(document.title).toBe('Bannernob — Orks Datasheet — Warhammer 40,000 11th Ed')
+    // a slug that does not prettify cleanly stays wrong until the view registers the real name
+    applyRouteMeta('/factions/space-marines/datasheets/cato-sicarius', 'en')
+    expect(document.title).toBe('Cato Sicarius — Space Marines Datasheet — Warhammer 40,000 11th Ed')
+    setDatasheetName('/factions/space-marines/datasheets/cato-sicarius', 'Cato Sicarius')
+    expect(document.title).toBe('Cato Sicarius — Space Marines Datasheet — Warhammer 40,000 11th Ed')
+    expect(canonicalHref()).toBe('https://wh11ed.ru/factions/space-marines/datasheets/cato-sicarius')
+  })
+
+  it('localizes faction-page phrasing but keeps the English faction/unit name (RU)', () => {
+    applyRouteMeta('/factions/space-marines', 'ru')
+    expect(document.title).toBe('Space Marines — правила фракции — Warhammer 40,000')
+    expect(descContent()).toMatch(/армейское правило/i)
   })
 })
