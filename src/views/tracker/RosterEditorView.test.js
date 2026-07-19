@@ -78,4 +78,19 @@ describe('RosterEditorView', () => {
     expect(store.rosterById(r.id).summary.points).toBe(1525)
     expect(w.text()).toContain('1525')
   })
+
+  it('surfaces validation errors in the summary and header badge', async () => {
+    const store = useRosters()
+    const r = store.createRoster('No warlord')
+    r.faction = 'space-marines'
+    r.units.push({ uid: 'u1', id: 'intercessor-squad', size: 0 }) // battleline, no warlord possible
+    ROSTER_ID = r.id
+
+    const w = mount(RosterEditorView, { global: { stubs } })
+    await waitFor(w, 'Intercessor Squad')
+
+    // A list with units but no Warlord is illegal → at least one error is denormalised.
+    expect(store.rosterById(r.id).summary.issues).toBeGreaterThan(0)
+    expect(w.find('.issues-badge.has-err').exists()).toBe(true)
+  })
 })

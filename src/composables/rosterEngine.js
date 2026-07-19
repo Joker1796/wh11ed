@@ -6,7 +6,7 @@
 // first because those carry the tightest army-building limits.
 export const UNIT_GROUPS = ['epic', 'characters', 'battleline', 'transports', 'other']
 
-function hasKeyword(unit, name) {
+export function hasKeyword(unit, name) {
   const n = name.toLowerCase()
   return (unit.kws || []).some((k) => k.toLowerCase() === n)
 }
