@@ -2395,7 +2395,8 @@ export default {
     {
       "name": "Changehost of Deceit",
       "sid": "6bc12e9e-73c2-46aa-8876-1bf10e95677a",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Nethershriek Mind-Eater",
@@ -2466,7 +2467,8 @@ export default {
     {
       "name": "Grand Coven",
       "sid": "d7f54185-ca1d-4300-981d-84a28641ce14",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Lord of Forbidden Lore",
@@ -2524,7 +2526,8 @@ export default {
     {
       "name": "Hexwarp Thrallband",
       "sid": "c4040e42-40b2-4df2-ba73-83a17dfe3e72",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Arcane Might",
@@ -2579,7 +2582,8 @@ export default {
     {
       "name": "Ritual of Regeneration",
       "sid": "8703803f-2be2-4862-8622-c729c12babca",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Eruption of Vitality",
@@ -2636,7 +2640,8 @@ export default {
     {
       "name": "Rubricae Phalanx",
       "sid": "da4b1448-5954-4083-a820-bc98d08b6672",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Risen Rubricae",
@@ -2694,7 +2699,8 @@ export default {
     {
       "name": "Sekhetar Cohort",
       "sid": "9b8af121-ddff-4e4e-9928-37050a67b0a8",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Walking Rampart",
@@ -2735,7 +2741,8 @@ export default {
     {
       "name": "Servants of Change",
       "sid": "6bfd15ec-5723-410f-853c-092d82919512",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Unravelled Fates",
@@ -2768,7 +2775,8 @@ export default {
     {
       "name": "Warpforged Cabal",
       "sid": "baf498d8-40c2-4536-869c-0432cf6ec054",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Warp Syphon",
@@ -2826,7 +2834,8 @@ export default {
     {
       "name": "Warpmeld Pact",
       "sid": "d8a383c5-a6a0-445a-b1ad-5a4858bc6265",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Warpmeld Dagger",

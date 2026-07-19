@@ -1551,7 +1551,8 @@ export default {
     {
       "name": "Dominus Foebreakers",
       "sid": "bf191d4b-5ac6-4e24-a6f6-d962c1a7b068",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Blessed Plate",
@@ -1588,7 +1589,8 @@ export default {
     {
       "name": "Freeblade Company",
       "sid": "c6d159b0-4062-4a44-944c-8e00ee4a7edc",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Mysterious Guardian",
@@ -1643,7 +1645,8 @@ export default {
     {
       "name": "Gate Warden Lance",
       "sid": "44cad685-2a76-4309-b842-3e356f75219d",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Acquisitor-at-Arms",
@@ -1698,7 +1701,8 @@ export default {
     {
       "name": "Questor Forgepact",
       "sid": "05240064-5412-4911-a60b-229ff34c78c3",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Magos Questoris",
@@ -1729,7 +1733,8 @@ export default {
     {
       "name": "Questoris Companions",
       "sid": "9c41ff78-125e-402f-a9df-f408825e940b",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Herald of Triumph",
@@ -1784,7 +1789,8 @@ export default {
     {
       "name": "Spearhead-at-Arms",
       "sid": "9634aebe-95e3-412b-a881-e33a334ae495",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Mentor’s Pride",
@@ -1839,7 +1845,8 @@ export default {
     {
       "name": "Throne-bonded Outriders",
       "sid": "a6ada922-2612-4ef6-b7ad-6020954ae038",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Gyro-optimised Actuators (Upgrade)",
@@ -1874,7 +1881,8 @@ export default {
     {
       "name": "Valourstrike Lance",
       "sid": "00b6b732-e65e-4176-88d9-35e542ee81dc",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Bearer of the Iron Chalice",

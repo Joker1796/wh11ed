@@ -2168,7 +2168,8 @@ export default {
     {
       "name": "Argent Assault",
       "sid": "eced4532-3d3c-43ec-9c30-d2bf278514d0",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Vigilance of Titan",
@@ -2199,7 +2200,8 @@ export default {
     {
       "name": "Augurium Task Force",
       "sid": "5442a079-724c-4f27-a87f-461cdf5b75bf",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Grimoire of Conjunctions",
@@ -2254,7 +2256,8 @@ export default {
     {
       "name": "Banishers",
       "sid": "a756d7e9-6264-4d9f-9b2a-dd81e2aba304",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Sigil of the Hunt",
@@ -2312,7 +2315,8 @@ export default {
     {
       "name": "Brotherhood Strike",
       "sid": "b7be5d8d-321e-4043-888f-83a09d1bf1ac",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Banishing Wave (Psychic)",
@@ -2367,7 +2371,8 @@ export default {
     {
       "name": "Fires of Purgation",
       "sid": "6043077b-0e2f-4e4f-a0d7-8ebcec480131",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Precognicient Volleys (Upgrade)",
@@ -2402,7 +2407,8 @@ export default {
     {
       "name": "Hallowed Conclave",
       "sid": "c82ee909-80d7-408a-9f67-a83e78b7d1a8",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Eye of the Augurium",
@@ -2463,7 +2469,8 @@ export default {
     {
       "name": "Immaterial Interdiction",
       "sid": "ad206ac1-4a33-4d1e-8b4e-2c21118303d9",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Predestined Coordinates (Upgrade)",
@@ -2498,7 +2505,8 @@ export default {
     {
       "name": "Sanctic Spearhead",
       "sid": "f225bc7e-c854-4487-81ed-d18d5b12c2ad",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Driven by Duty",
@@ -2562,7 +2570,8 @@ export default {
     {
       "name": "Warpbane Task Force",
       "sid": "b2c8df0c-e202-4230-a44b-5e9e23df9737",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Mandulian Reliquary",

@@ -1607,7 +1607,8 @@ export default {
     {
       "name": "Companions of Vehemence",
       "sid": "88882c56-6492-4cd0-8b73-34e1c80e55ae",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Incendiary Animus",
@@ -1675,7 +1676,8 @@ export default {
     {
       "name": "Godhammer Assault Force",
       "sid": "d8ec92c4-5d86-4e48-a27e-fab751c097ac",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Paragon of Fury",
@@ -1730,7 +1732,8 @@ export default {
     {
       "name": "Marshal's Household",
       "sid": "b78cbc68-a012-494f-bd72-91873b382204",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Fervent Exemplars (Upgrade)",
@@ -1765,7 +1768,8 @@ export default {
     {
       "name": "The Living Miracle",
       "sid": "287d753d-cc67-40da-a7f4-9d2db2abdb67",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Guiding Omens",
@@ -1785,7 +1789,8 @@ export default {
     {
       "name": "Vindication Task Force",
       "sid": "b22f1234-d890-401a-b6cb-cf03bc1b5505",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Imperialis of the Eternal Crusade",
@@ -1840,7 +1845,8 @@ export default {
     {
       "name": "Wrathful Procession",
       "sid": "aab75a4c-d486-47e0-b800-caf0028b62c8",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Benediction of Fury",

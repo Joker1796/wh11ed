@@ -3935,7 +3935,8 @@ export default {
     {
       "name": "Blitz Brigade",
       "sid": "28be3515-baa7-41c1-9a46-81b27c97d722",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Runnin’ Boots",
@@ -3996,7 +3997,8 @@ export default {
     {
       "name": "Bully Boyz",
       "sid": "87313610-665a-4302-ac99-cd4b37608172",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Tellyporta",
@@ -4054,7 +4056,8 @@ export default {
     {
       "name": "Da Big Hunt",
       "sid": "495f699c-39b1-4ad2-9e31-624efbf8ff9a",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Glory Hog",
@@ -4109,7 +4112,8 @@ export default {
     {
       "name": "Dread Mob",
       "sid": "4fa77afa-6086-4703-b2e6-0f61e2b07a04",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Smoky Gubbinz",
@@ -4164,7 +4168,8 @@ export default {
     {
       "name": "Freebooter Krew",
       "sid": "b187c79e-2b20-46b3-94fc-51fadb86595f",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Da Kaptin",
@@ -4224,7 +4229,8 @@ export default {
     {
       "name": "Green Tide",
       "sid": "953d5dae-75e4-4f1c-a13d-9ec75a528187",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Ferocious Show Off",
@@ -4291,7 +4297,8 @@ export default {
     {
       "name": "Kult of Speed",
       "sid": "41229cb5-ce01-4126-acdc-c658ecb9fe7e",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Wazblasta",
@@ -4349,7 +4356,8 @@ export default {
     {
       "name": "More Dakka!",
       "sid": "7541781b-1b85-47a4-9dda-e1e284d5fdb5",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Da Gobshot Thunderbuss",
@@ -4388,7 +4396,8 @@ export default {
     {
       "name": "Rollin' Deff",
       "sid": "bf9ea326-64fe-4ded-82c7-093f96a4b619",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Boarding Ramps (Upgrade)",
@@ -4423,7 +4432,8 @@ export default {
     {
       "name": "Speedwaaagh!",
       "sid": "7a72a5a0-4ac8-40ea-8d31-d8fb2f14e97c",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Kustom Shokk Box",
@@ -4478,7 +4488,8 @@ export default {
     {
       "name": "Taktikal Brigade",
       "sid": "50193e18-32f4-42d3-b64b-9dd2395d39c2",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Slippery Git",
@@ -4513,7 +4524,8 @@ export default {
     {
       "name": "War Horde",
       "sid": "7100d457-ec86-46aa-b323-934394530a9e",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Follow Me Ladz",

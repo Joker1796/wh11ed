@@ -1496,7 +1496,8 @@ export default {
     {
       "name": "Black Spear Task Force",
       "sid": "cb3cd2ee-9410-46ce-9abd-80b05cdfb4ba",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Priority Assets",
       "excludedUnits": [
         "watch-master",
         "corvus-blackstar",

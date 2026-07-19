@@ -1120,7 +1120,8 @@ export default {
     {
       "name": "Angelic Inheritors",
       "sid": "2de2e2bc-8c9a-415e-ad61-11a8c2704590",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Prescient Flash",
@@ -1178,7 +1179,8 @@ export default {
     {
       "name": "Encarmine Speartip",
       "sid": "ce2408b7-6810-4219-9f28-3c20499f0e13",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Shadow of Abomination",
@@ -1215,7 +1217,8 @@ export default {
     {
       "name": "Legacy of Grace",
       "sid": "6c2b0c94-4bce-40ba-b6cc-8effe9e5efff",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Blood Boil",
@@ -1249,7 +1252,8 @@ export default {
     {
       "name": "Liberator Assault Group",
       "sid": "5f032619-a925-4e61-8d52-5d2e5f81311f",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Speed of the Primarch",
@@ -1304,7 +1308,8 @@ export default {
     {
       "name": "Rage-cursed Onslaught",
       "sid": "98d89ce1-bf5b-49f5-bbcc-cba5e32659e5",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Carmine Reliquary",
@@ -1359,7 +1364,8 @@ export default {
     {
       "name": "The Angelic Host",
       "sid": "8351fbfa-edd6-4db9-a21d-400c05f1e9f1",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Artisan of War",
@@ -1426,7 +1432,8 @@ export default {
     {
       "name": "The Lost Brethren",
       "sid": "0002bcde-4fd1-4bcc-99ea-7edbd5809792",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Sanguinius’ Grace",
@@ -1481,7 +1488,8 @@ export default {
     {
       "name": "Wrath of the Doomed",
       "sid": "b5a5858b-3187-44f3-95af-e34dfe7eb7c9",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "On the Archtraitor's Bridge",

@@ -5373,7 +5373,8 @@ export default {
     {
       "name": "Armoured Warhost",
       "sid": "b58e871b-db2a-47e2-a6cb-38e6db200209",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Guiding Presence",
@@ -5406,7 +5407,8 @@ export default {
     {
       "name": "Aspect Host",
       "sid": "fc9dead1-222d-4925-bf9c-ba18c4121f50",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Aspect of Murder",
@@ -5481,7 +5483,8 @@ export default {
     {
       "name": "Corsair Coterie",
       "sid": "6fe9602c-f133-4a56-9d82-c9137a9ecc10",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Infamy (Aura)",
@@ -5546,7 +5549,8 @@ export default {
     {
       "name": "Devoted of Ynnead",
       "sid": "3b0ed811-f339-4f72-ba0b-532a04a18089",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Priority Assets",
       "mandWarlord": "the-yncarne",
       "enhancements": [
         {
@@ -5602,7 +5606,8 @@ export default {
     {
       "name": "Eldritch Raiders",
       "sid": "9915f243-6846-46c2-a616-701659f50a8e",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Pirate Prince",
@@ -5665,7 +5670,8 @@ export default {
     {
       "name": "Fateful Performance",
       "sid": "28ea8bf8-1cb6-4ae3-b0c7-2a171e5dc29f",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Mistweave",
@@ -5696,7 +5702,8 @@ export default {
     {
       "name": "Ghosts of the Webway",
       "sid": "06936a21-a084-45d1-b358-5386ce9c3c47",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Cegorach’s Coil",
@@ -5751,7 +5758,8 @@ export default {
     {
       "name": "Guardian Battlehost",
       "sid": "43121bed-ff37-44a9-8c6c-44f29cf2c858",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Craftworld’s Champion",
@@ -5806,7 +5814,8 @@ export default {
     {
       "name": "Path of the Outcast",
       "sid": "ab0126f1-e344-469a-8125-2838fdcefe8d",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Assassins' Eye (Upgrade)",
@@ -5846,7 +5855,8 @@ export default {
     {
       "name": "Seer Council",
       "sid": "b5d7418d-8a4d-42c8-86d8-b8a0c5c788aa",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Lucid Eye",
@@ -5913,7 +5923,8 @@ export default {
     {
       "name": "Serpent’s Brood",
       "sid": "2651d2ae-b43a-4576-9e58-6d5275c89350",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Key of Ghosts",
@@ -5971,7 +5982,8 @@ export default {
     {
       "name": "Spirit Conclave",
       "sid": "33492cd0-2688-4ce1-b174-2f5a7b31a54b",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Light of Clarity",
@@ -6026,7 +6038,8 @@ export default {
     {
       "name": "Twilight Flickers",
       "sid": "366e2930-9de3-4494-bcee-e6fed3c3ad1e",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Shadowfall Masks (Upgrade)",
@@ -6059,7 +6072,8 @@ export default {
     {
       "name": "Warhost",
       "sid": "df808d6f-3013-4a9b-8a6f-0b68785891d0",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Phoenix Gem",
@@ -6117,7 +6131,8 @@ export default {
     {
       "name": "Windrider Host",
       "sid": "116e5e49-e39e-4e06-9b10-c7d7d77defdb",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Firstdrawn Blade",

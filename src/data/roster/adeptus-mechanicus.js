@@ -2495,7 +2495,8 @@ export default {
     {
       "name": "Cohort Acquisitus",
       "sid": "b8fe0260-4813-45c4-996b-1622ae022223",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Explorator Dispensation",
@@ -2528,7 +2529,8 @@ export default {
     {
       "name": "Cohort Cybernetica",
       "sid": "8affc9e3-5c18-407d-9221-78bb107b7bd5",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Necromechanic",
@@ -2583,7 +2585,8 @@ export default {
     {
       "name": "Data-psalm Conclave",
       "sid": "a6cedc66-4c91-4957-b8c3-fa1b30fd8f5a",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Mechanicus Locum",
@@ -2638,7 +2641,8 @@ export default {
     {
       "name": "Eradication Cohort",
       "sid": "ef26ded5-b525-47c9-8329-deaab91c2c74",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Omnicogitator",
@@ -2695,7 +2699,8 @@ export default {
     {
       "name": "Explorator Maniple",
       "sid": "cdf5ae0a-7913-4ebc-b7c8-949f48e869f8",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Magos",
@@ -2750,7 +2755,8 @@ export default {
     {
       "name": "Haloscreed Battle Clade",
       "sid": "1f88f9ac-0833-4f98-8c7c-81d0fe96b6c1",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Transoracular Dyad Wafers",
@@ -2813,7 +2819,8 @@ export default {
     {
       "name": "Lords of the Forge",
       "sid": "8a1e297b-d845-493b-9371-1e245b85b98a",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "TL-4ø9",
@@ -2847,7 +2854,8 @@ export default {
     {
       "name": "Luminen Auto-Choir",
       "sid": "40fdf203-095d-45f2-9678-3a0e7c30346d",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Voltagheist Reliquary",
@@ -2884,7 +2892,8 @@ export default {
     {
       "name": "Rad-Zone Corps",
       "sid": "e00b5962-4b5a-4857-bb5d-d1372e762d2f",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Radial Suffusion",
@@ -2939,7 +2948,8 @@ export default {
     {
       "name": "Skitarii Hunter Cohort",
       "sid": "a3be11dc-9a25-4d6b-90a2-1828e6d2d10b",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Cantic Thrallnet",

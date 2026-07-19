@@ -2358,7 +2358,8 @@ export default {
     {
       "name": "Champions of Contagion",
       "sid": "ac958d83-3ee2-4279-8115-2b164658da08",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Final Ingredient",
@@ -2413,7 +2414,8 @@ export default {
     {
       "name": "Contagion Engines",
       "sid": "80f1f5cf-8331-4b71-87fa-fe4caaa92633",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Parasitic Woe‑reaper (Upgrade)",
@@ -2453,7 +2455,8 @@ export default {
     {
       "name": "Death Lord’s Chosen",
       "sid": "db1b2621-c7fc-4c1f-91ba-3f75779123b8",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Face of Death",
@@ -2508,7 +2511,8 @@ export default {
     {
       "name": "Flyblown Host",
       "sid": "9a41d668-c9ee-41c8-81e7-58585d6d8efb",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Insectile Murmuration (Upgrade)",
@@ -2543,7 +2547,8 @@ export default {
     {
       "name": "Mortarion’s Hammer",
       "sid": "b3a2a4b5-40a0-4875-8017-bc455d657040",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Eye of Affliction",
@@ -2598,7 +2603,8 @@ export default {
     {
       "name": "Paragons of Putrescence",
       "sid": "39484a39-656d-4552-9eff-acbd524e4f5e",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Rejuvenating Swarm",
@@ -2638,7 +2644,8 @@ export default {
     {
       "name": "Shamblerot Vectorium",
       "sid": "bd9bf924-b054-47bf-9df6-a301a62b41c5",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Witherbone Pipes",
@@ -2693,7 +2700,8 @@ export default {
     {
       "name": "Tallyband Summoners",
       "sid": "73927182-408b-4119-a045-e3b21d35cc36",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Beckoning Blight",
@@ -2748,7 +2756,8 @@ export default {
     {
       "name": "Virulent Vectorium",
       "sid": "51470653-e741-468c-a4c5-efc6110e46d0",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Daemon Weapon of Nurgle",
