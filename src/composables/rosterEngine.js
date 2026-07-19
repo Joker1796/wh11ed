@@ -48,21 +48,51 @@ export function unitWargearPoints(def, entry) {
   return pts
 }
 
-// Full points for one unit entry: base bracket (+ copy tax) plus selected wargear.
-export function unitPoints(def, entry, copyIndex = 1) {
-  return unitBasePoints(def, entry?.size ?? 0, copyIndex) + unitWargearPoints(def, entry)
+// Can this unit be the army's Warlord? Characters (and the rare non-character unit GW flags)
+// unless explicitly barred.
+export function canBeWarlord(def) {
+  return !def?.flags?.noWarlord && !!(def?.flags?.char || def?.flags?.nonCharWarlordOk)
+}
+
+// Is an enhancement legal on this unit? Enhancements go on Characters (unless the enhancement is
+// flagged for non-characters), never on Epic Heroes unless flagged, never on enhancement-barred
+// units. Then the keyword gates: any excluded keyword disqualifies; the OR-groups of required
+// keywords must have at least one group fully satisfied (faction-keyword parts are satisfied by
+// being in the faction, so only the per-unit keywords are checked here).
+export function enhEligible(enh, def) {
+  if (!enh || !def) return false
+  if (def.flags?.noEnh) return false
+  if (!def.flags?.char && !enh.nonCharOk) return false
+  if (def.flags?.epic && !enh.epicOk) return false
+  if (enh.exclKw?.some((k) => hasKeyword(def, k))) return false
+  if (enh.req?.length) {
+    const ok = enh.req.some((g) => (g.kw || []).every((k) => hasKeyword(def, k)))
+    if (!ok) return false
+  }
+  return true
+}
+
+// Points added by a unit's chosen enhancement (entry.enh = enhancement name).
+export function enhancementPoints(detachment, entry) {
+  if (!entry?.enh || !detachment?.enhancements) return 0
+  return detachment.enhancements.find((e) => e.name === entry.enh)?.pts || 0
+}
+
+// Full points for one unit entry: base bracket (+ copy tax), selected wargear, and enhancement.
+export function unitPoints(def, entry, copyIndex = 1, detachment = null) {
+  return unitBasePoints(def, entry?.size ?? 0, copyIndex) + unitWargearPoints(def, entry) + enhancementPoints(detachment, entry)
 }
 
 // Total points for a list of roster unit entries. `defOf(id)` resolves a unit id to its
 // faction-data definition. Copy index is assigned per unit id in list order, so the 2nd/3rd
 // copy of a datasheet pays its step surcharge.
-export function rosterPoints(units, defOf) {
+export function rosterPoints(units, defOf, detachment = null) {
   const seen = new Map()
   let total = 0
   for (const u of units || []) {
     const copyIndex = (seen.get(u.id) || 0) + 1
     seen.set(u.id, copyIndex)
-    total += unitPoints(defOf(u.id), u, copyIndex)
+    total += unitPoints(defOf(u.id), u, copyIndex, detachment)
   }
   return total
 }

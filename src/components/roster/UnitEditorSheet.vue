@@ -77,6 +77,54 @@
         </div>
       </section>
 
+      <!-- Warlord -->
+      <section v-if="canWarlord" class="ues-sec">
+        <label class="opt opt-check" :class="{ on: isWarlord }">
+          <input type="checkbox" :checked="isWarlord" @change="$emit('toggle-warlord')" />
+          <span class="opt-name"><i class="bi bi-star-fill wl-star"></i> {{ labels.rosterWarlord }}</span>
+        </label>
+      </section>
+
+      <!-- Enhancement -->
+      <section v-if="enhOptions.length" class="ues-sec">
+        <h4 class="ues-h">{{ labels.rosterEnhancement }}</h4>
+        <div class="opt-col">
+          <button class="opt" :class="{ on: !entry.enh }" @click="setEnh(null)">
+            <span class="opt-name">{{ labels.rosterEnhNone }}</span>
+          </button>
+          <button
+            v-for="e in enhOptions"
+            :key="e.name"
+            class="opt"
+            :class="{ on: entry.enh === e.name, disabled: (!e.eligible || e.used) && entry.enh !== e.name }"
+            :disabled="(!e.eligible || e.used) && entry.enh !== e.name"
+            @click="setEnh(e.name)"
+          >
+            <span class="opt-name">{{ e.name }}<span v-if="e.used" class="opt-tag">{{ labels.rosterEnhUsed }}</span></span>
+            <span v-if="e.pts" class="opt-pts">+{{ e.pts }}</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Leader attachment -->
+      <section v-if="leaderTargets.length" class="ues-sec">
+        <h4 class="ues-h">{{ labels.rosterAttachTo }}</h4>
+        <div class="opt-col">
+          <button class="opt" :class="{ on: !entry.leaderOf }" @click="setLeader(null)">
+            <span class="opt-name">{{ labels.rosterLeaderNone }}</span>
+          </button>
+          <button
+            v-for="t in leaderTargets"
+            :key="t.uid"
+            class="opt"
+            :class="{ on: entry.leaderOf === t.uid }"
+            @click="setLeader(t.uid)"
+          >
+            <span class="opt-name">{{ t.name }}</span>
+          </button>
+        </div>
+      </section>
+
       <div class="ues-foot">
         <span class="ues-total">{{ unitTotal }}{{ labels.rosterPointsLabel }}</span>
         <button class="ues-done" @click="$emit('close')">{{ labels.rosterDone }}</button>
@@ -100,8 +148,13 @@ const props = defineProps({
   texts: { type: Object, required: true },
   factionSlug: { type: String, default: '' },
   copyIndex: { type: Number, default: 1 },
+  detachment: { type: Object, default: null },
+  canWarlord: { type: Boolean, default: false },
+  isWarlord: { type: Boolean, default: false },
+  enhOptions: { type: Array, default: () => [] },
+  leaderTargets: { type: Array, default: () => [] },
 })
-defineEmits(['close'])
+defineEmits(['close', 'toggle-warlord'])
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -165,7 +218,10 @@ function stepMax(g) {
   return m ? Math.floor(models.value / Number(m[1])) : models.value
 }
 
-const unitTotal = computed(() => unitPoints(props.def, props.entry, props.copyIndex))
+function setEnh(name) { if (name) props.entry.enh = name; else delete props.entry.enh }
+function setLeader(uid) { if (uid) props.entry.leaderOf = uid; else delete props.entry.leaderOf }
+
+const unitTotal = computed(() => unitPoints(props.def, props.entry, props.copyIndex, props.detachment))
 </script>
 
 <style scoped>
@@ -217,6 +273,9 @@ const unitTotal = computed(() => unitPoints(props.def, props.entry, props.copyIn
 .opt-name { color: var(--text-primary); }
 .opt-pts { font-family: var(--font-mono); font-weight: 700; color: var(--accent); }
 .opt-step { cursor: default; }
+.opt.disabled { opacity: 0.45; cursor: not-allowed; }
+.opt-tag { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-dim); margin-left: 0.4rem; }
+.wl-star { color: #e3b341; margin-right: 0.3rem; }
 .ues-foot {
   position: sticky;
   bottom: 0;
