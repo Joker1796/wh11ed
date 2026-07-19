@@ -97,22 +97,33 @@ sitemap и canonical на новый домен.
 
 ---
 
-## Шаг 4 — 301 со старого домена + Search Console (ТЫ)
+## Шаг 4 — 301, OAuth, Search Console
 
-1. **301-редирект**: у бакета/CDN `wh11ed.ru` включить веб-редирект «перенаправлять все запросы
-   на хост `wh-rules.ru` по HTTPS» (Object Storage → старый бакет → Веб-сайт → *Перенаправление
-   запросов*). Постоянный. Путь сохраняется. **Оставить бессрочно** (старые ссылки/закладки/выдача).
-2. **OAuth-провайдер**: добавить новые redirect URIs (`https://wh-rules.ru/...`, `api.wh-rules.ru`);
-   старые пока оставить.
-3. **Google Search Console**: добавить и подтвердить ресурс `wh-rules.ru` → инструмент **Change of
-   Address** со старого на новый → пересабмитить `https://wh-rules.ru/sitemap.xml`.
+**4a — 301-редирект со старого домена (Я, через `yc`).** Всё в Яндекс Облаке, доступ есть:
+```bash
+yc storage bucket update --name wh11ed.ru \
+  --website-settings '{"redirect_all_requests":{"protocol":"https","hostname":"wh-rules.ru"}}'
+yc storage bucket update --name www.wh11ed.ru \
+  --website-settings '{"redirect_all_requests":{"protocol":"https","hostname":"wh-rules.ru"}}'
+yc cdn cache purge --resource-id bc8raqgpcdeagfb6ygn6 --path '/*'   # старый CDN
+```
+Постоянный, путь сохраняется, оставить бессрочно (старые ссылки/закладки/выдача).
+
+**4b — OAuth redirect URIs (ТЫ — это oauth.yandex.ru, не Облако, `yc` туда не ходит).** В настройках
+OAuth-приложения добавить redirect URI `https://api.wh-rules.ru/auth/yandex/callback` (тот же путь,
+что у `api.wh11ed.ru`); старый пока оставить.
+
+**4c — Google Search Console (ТЫ — Google-аккаунт).** Добавить и подтвердить ресурс `wh-rules.ru`
+(подтверждение DNS-TXT — дай значение, добавлю запись в зону через `yc`) → инструмент **Change of
+Address** со старого на новый → пересабмитить `https://wh-rules.ru/sitemap.xml`.
 
 ---
 
 ## Порядок (сводка) и риск
 
 ```
-Шаг 1 (инфра, ты) → Шаг 2 (бэк-CORS, деплой ПЕРВЫМ) → Шаг 3 (фронт-катовер, я) → Шаг 4 (301 + GSC, ты)
+Шаг 1 (инфра — СДЕЛАНО) → Шаг 2 (бэк-катовер, я, деплой ПЕРВЫМ) → Шаг 3 (фронт-катовер, я)
+  → Шаг 4a (301, я) → Шаг 4b/4c (OAuth + GSC, ты — внешние консоли)
 ```
 
 **Риск №1:** фронт на `wh-rules.ru` раньше, чем бэк добавил CORS-origin → ломается логин и
