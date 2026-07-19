@@ -20,6 +20,9 @@
         </template>
         <i v-else class="bi bi-check-circle-fill"></i>
       </button>
+      <button v-if="roster.faction && roster.units.length" class="hdr-icon" :aria-label="labels.rosterUseInTracker" @click="useInTracker">
+        <i class="bi bi-clipboard-data"></i>
+      </button>
       <button v-if="roster.units.length" class="hdr-icon" :aria-label="labels.rosterExport" @click="exportOpen = true">
         <i class="bi bi-box-arrow-up"></i>
       </button>
@@ -162,12 +165,22 @@ import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import { UNIT_GROUPS, bucketOf, unitPoints, rosterPoints, canBeWarlord, enhEligible } from '../../composables/rosterEngine.js'
 import { validateRoster } from '../../composables/rosterValidation.js'
+import { prefillDraftFromRoster } from '../../composables/rosterHandoff.js'
+import { useTracker } from '../../composables/useTracker.js'
 
 const route = useRoute()
 const router = useRouter()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { rosterById } = useRosters()
+const { current: trackerCurrent } = useTracker()
+
+// Hand the roster to the tracker: pre-fill the setup draft, then go to the wizard (or the
+// tracker home if a live game is in progress, so we never clobber it).
+function useInTracker() {
+  prefillDraftFromRoster(roster.value, curDetachment.value?.name)
+  router.push(trackerCurrent.value ? '/tracker' : '/tracker/game')
+}
 
 const roster = computed(() => rosterById(route.params.id))
 // A missing/deleted id → back to the list (no broken editor shell).
