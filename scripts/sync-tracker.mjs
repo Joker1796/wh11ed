@@ -26,17 +26,7 @@
 //   sometimes pre-sums these into mutually-exclusive flat tiers (4vp if W≥4, 3vp otherwise).
 //   Check the arithmetic (base + bonus) before treating this as a mismatch.
 import path from 'node:path'
-import { ROOT, APPDATA, norm, appdataToMarkup, loadJson, loadModule, byNormName, diffByName } from './lib/sync-common.mjs'
-
-const SLUG_MAP = {
-  'space-marines': 'adeptus-astartes',
-  'chaos-space-marines': 'heretic-astartes',
-  'imperial-agents': 'agents-of-the-imperium',
-  'aeldari': 'asuryani',
-  'chaos-daemons': 'legiones-daemonica',
-  'titan-legions': 'adeptus-titanicus',
-  'chaos-titan-legions': 'titanicus-traitoris',
-}
+import { ROOT, APPDATA, SLUG_MAP, norm, appdataToMarkup, loadJson, loadModule, byNormName, diffByName } from './lib/sync-common.mjs'
 
 const core = loadJson(path.join(APPDATA, 'factions', '_core-content.json'))
 if (!core) {
