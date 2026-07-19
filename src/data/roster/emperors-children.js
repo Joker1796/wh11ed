@@ -2,6 +2,109 @@
 export default {
   "slug": "emperors-children",
   "name": "Emperor’s Children",
+  "items": {
+    "1": "Armoured tracks",
+    "2": "Twin heavy bolter",
+    "3": "Soulshatter lascannon",
+    "4": "Havoc launcher",
+    "5": "Combi-bolter",
+    "6": "Combi-weapon",
+    "7": "Armoured tracks",
+    "8": "Hideous mutations",
+    "9": "Accursed weapon",
+    "10": "Chainfist",
+    "11": "Power fist",
+    "12": "Paired accursed weapons",
+    "13": "Heavy flamer",
+    "14": "Reaper autocannon",
+    "15": "Slashing claws",
+    "16": "Instrument of Chaos",
+    "17": "Daemonic Icon",
+    "18": "Barbed tail and dissecting claws",
+    "19": "Blissblade",
+    "20": "Bolt pistol",
+    "21": "Hades autocannon",
+    "22": "Heldrake claws",
+    "23": "Baleflamer",
+    "24": "Power sword",
+    "25": "Duelling sabre",
+    "26": "Rapture lash",
+    "27": "Icon of Excess",
+    "28": "Plasma pistol",
+    "29": "Witstealer sword",
+    "30": "Snapping claws",
+    "31": "Phantasmagoria",
+    "32": "Living whip",
+    "33": "Ritual knife",
+    "34": "Shining Aegis",
+    "35": "Power fist",
+    "36": "Rapture lash",
+    "37": "Master-crafted power sword",
+    "38": "Screamer pistol",
+    "39": "Close combat weapon",
+    "40": "Lash of Torment",
+    "41": "Blade of the Laer",
+    "42": "Lasher tendrils",
+    "43": "Maulerfiend fists",
+    "44": "Magma cutters",
+    "45": "Close combat weapon",
+    "46": "Sonic blaster",
+    "47": "Blastmaster",
+    "48": "Screamer pistol",
+    "49": "Power sword",
+    "50": "Lashing tongue",
+    "51": "Lash of Slaanesh",
+    "52": "Pavane of Slaanesh",
+    "53": "Soulpiercer",
+    "54": "Excruciator cannon",
+    "55": "Hades battle cannon",
+    "56": "Heavy baleflamer",
+    "57": "Heavy missile launcher",
+    "58": "Shearing Claws",
+    "59": "Ectoplasma destructor",
+    "60": "Magma cutters",
+    "61": "Hades lascannon",
+    "62": "Heavy reaper autocannon",
+    "63": "Electroscourge",
+    "64": "Bolt pistol",
+    "65": "Boltgun",
+    "66": "Plasma gun",
+    "67": "Rapture lash",
+    "68": "Meltagun",
+    "69": "Plasma pistol"
+  },
+  "texts": {
+    "1": "This model can be equipped with 1 havoc launcher.",
+    "2": "This model can be equipped with one of the following:",
+    "3": "This model can be equipped with 1 havoc launcher or can replace 1 combi-bolter with 1 havoc launcher.",
+    "4": "1 model’s accursed weapon can be replaced with 1 chainfist.",
+    "5": "Up to 3 models can each have their accursed weapon replaced with 1 power fist.",
+    "6": "1 model’s combi-bolter and accursed weapon can be replaced with 1 paired accursed weapons.",
+    "7": "Any number of models can each have their combi-bolter replaced with 1 combi-weapon.",
+    "8": "1 Chaos Terminator’s combi-bolter can be replaced with one of the following:",
+    "9": "1 Daemonette that is not equipped with a daemonic icon can be equipped with 1 instrument of Chaos.",
+    "10": "1 Daemonette that is not equipped with an instrument of Chaos can be equipped with 1 daemonic icon.",
+    "11": "This model’s Hades autocannon can be replaced with 1 baleflamer.",
+    "12": "The Obsessionist’s power sword can be replaced with 1 rapture lash.",
+    "13": "1 Infractor can be equipped with 1 icon of excess.",
+    "14": "The Obsessionist’s bolt pistol can be replaced with 1 plasma pistol",
+    "15": "This model’s plasma pistol can be replaced with one of the following:",
+    "16": "This model’s Phoenix power spear can be replaced with one of the following:",
+    "17": "This model’s power sword can be replaced with 1 screamer pistol and 1 close combat weapon.",
+    "18": "This model’s lasher tendrils can be replaced with 2 magma cutters.",
+    "19": "Up to 2 Noise Marines can each replace their sonic blaster with 1 blastmaster.",
+    "20": "The Disharmonist’s sonic blaster can be replaced with 1 screamer pistol and 1 power sword.",
+    "21": "1 Seeker that is not equipped with an instrument of Chaos can be equipped with 1 daemonic icon.",
+    "22": "1 Seeker that is not equipped with a daemonic icon can be equipped with 1 instrument of Chaos.",
+    "23": "This model’s Hades battle cannon can be replaced with 1 ectoplasma destructor",
+    "24": "This model’s excruciator cannons can be replaced with 2 magma cutters",
+    "25": "This model’s heavy baleflamer can be replaced with one of the following:\n◦ 1 Hades lascannon\n◦ 1 heavy reaper autocannon\n◦ 1 electroscourge (a model cannot be equipped with more than one electroscourge)",
+    "26": "This model’s heavy missile launcher can be replaced with one of the following:\n◦ 1 Hades lascannon\n◦ 1 heavy reaper autocannon\n◦ 1 electroscourge (a model cannot be equipped with more than one electroscourge)",
+    "27": "For every 5 models in this unit, 1 Tormentor’s boltgun can be replaced with 1 plasma gun.",
+    "28": "1 Tormentor can be equipped with 1 icon of excess.",
+    "29": "For every 5 models in this unit, 1 Tormentor’s boltgun can be replaced with 1 meltagun.",
+    "30": "The Obsessionist’s bolt pistol can be replaced with 1 plasma pistol."
+  },
   "units": [
     {
       "id": "chaos-land-raider",
@@ -31,7 +134,51 @@ export default {
       "step": {
         "at": 3,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              2
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              4
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              5
+            ],
+            [
+              6
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "chaos-rhino",
@@ -58,7 +205,47 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              5,
+              1
+            ],
+            [
+              7,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 3,
+          "in": "checkbox",
+          "o": [
+            [
+              4
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              5
+            ],
+            [
+              6
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "chaos-spawn",
@@ -81,7 +268,18 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              8,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "chaos-terminators",
@@ -105,7 +303,138 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Terminator Champion"
+        },
+        {
+          "n": "Chaos Terminator"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              5,
+              1
+            ],
+            [
+              9,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              9,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 4,
+          "in": "stepper",
+          "o": [
+            [
+              10
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 5,
+          "in": "checkbox",
+          "o": [
+            [
+              11
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              12
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 7,
+          "in": "stepper",
+          "o": [
+            [
+              6
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 4,
+          "in": "checkbox",
+          "o": [
+            [
+              10
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 6,
+          "in": "stepper",
+          "o": [
+            [
+              12
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 8,
+          "in": "stepper",
+          "o": [
+            [
+              13
+            ],
+            [
+              14
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              6
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 5,
+          "in": "stepper",
+          "o": [
+            [
+              11
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "daemon-prince-of-slaanesh",
@@ -194,7 +523,57 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Alluress"
+        },
+        {
+          "n": "Daemonette"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              15,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              15,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 9,
+          "in": "checkbox",
+          "o": [
+            [
+              16
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 10,
+          "in": "checkbox",
+          "o": [
+            [
+              17
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "defiler",
@@ -223,7 +602,92 @@ export default {
       "step": {
         "at": 2,
         "pts": 30
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              54,
+              2
+            ],
+            [
+              55,
+              1
+            ],
+            [
+              56,
+              1
+            ],
+            [
+              57,
+              1
+            ],
+            [
+              58,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 23,
+          "in": "checkbox",
+          "o": [
+            [
+              59
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 24,
+          "in": "stepper",
+          "o": [
+            [
+              60
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 25,
+          "in": "checkbox",
+          "o": [
+            [
+              61,
+              10
+            ],
+            [
+              62,
+              10
+            ],
+            [
+              63
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 26,
+          "in": "checkbox",
+          "o": [
+            [
+              61,
+              10
+            ],
+            [
+              62,
+              10
+            ],
+            [
+              63
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "fiends",
@@ -255,7 +719,35 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Blissbringer"
+        },
+        {
+          "n": "Fiend"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              18,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              18,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "flawless-blades",
@@ -286,7 +778,22 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              19,
+              1
+            ],
+            [
+              20,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "fulgrim",
@@ -343,7 +850,34 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              21,
+              1
+            ],
+            [
+              22,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              23
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "infractors",
@@ -375,7 +909,75 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Obsessionist"
+        },
+        {
+          "n": "Infractor"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              24,
+              1
+            ],
+            [
+              20,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              25,
+              1
+            ],
+            [
+              20,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              26
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 13,
+          "in": "checkbox",
+          "o": [
+            [
+              27
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 14,
+          "in": "checkbox",
+          "o": [
+            [
+              28
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "keeper-of-secrets",
@@ -409,7 +1011,44 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              29,
+              1
+            ],
+            [
+              30,
+              1
+            ],
+            [
+              31,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              32
+            ],
+            [
+              33
+            ],
+            [
+              34
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "lord-exultant",
@@ -450,6 +1089,34 @@ export default {
           "to": "infractors",
           "type": "leader"
         }
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 15,
+          "in": "checkbox",
+          "o": [
+            [
+              35
+            ],
+            [
+              36
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 16,
+          "in": "checkbox",
+          "o": [
+            [
+              37
+            ],
+            [
+              38
+            ]
+          ]
+        }
       ]
     },
     {
@@ -487,6 +1154,21 @@ export default {
           "to": "noise-marines",
           "type": "leader"
         }
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 17,
+          "in": "checkbox",
+          "o": [
+            [
+              38
+            ],
+            [
+              39
+            ]
+          ]
+        }
       ]
     },
     {
@@ -521,6 +1203,21 @@ export default {
           "to": "flawless-blades",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              40,
+              1
+            ],
+            [
+              41,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -550,7 +1247,34 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              42,
+              1
+            ],
+            [
+              43,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 18,
+          "in": "stepper",
+          "o": [
+            [
+              44
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "noise-marines",
@@ -577,7 +1301,68 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "minis": [
+        {
+          "n": "Disharmonist"
+        },
+        {
+          "n": "Noise Marine"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              45,
+              1
+            ],
+            [
+              46,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              45,
+              1
+            ],
+            [
+              46,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 19,
+          "in": "stepper",
+          "o": [
+            [
+              47
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 20,
+          "in": "checkbox",
+          "o": [
+            [
+              48
+            ],
+            [
+              49
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "seekers",
@@ -609,7 +1394,65 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Heartseeker"
+        },
+        {
+          "n": "Seeker"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              15,
+              1
+            ],
+            [
+              50,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              15,
+              1
+            ],
+            [
+              50,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 21,
+          "in": "checkbox",
+          "o": [
+            [
+              17
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 22,
+          "in": "checkbox",
+          "o": [
+            [
+              16
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "shalaxi-helbane",
@@ -641,7 +1484,30 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              51,
+              1
+            ],
+            [
+              30,
+              1
+            ],
+            [
+              52,
+              1
+            ],
+            [
+              53,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "sorcerer",
@@ -715,7 +1581,95 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Obsessionist"
+        },
+        {
+          "n": "Tormentor"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              64,
+              1
+            ],
+            [
+              49,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              45,
+              1
+            ],
+            [
+              65,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 27,
+          "in": "stepper",
+          "o": [
+            [
+              66
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 28,
+          "in": "checkbox",
+          "o": [
+            [
+              27
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              67
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 29,
+          "in": "stepper",
+          "o": [
+            [
+              68
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 30,
+          "in": "checkbox",
+          "o": [
+            [
+              69
+            ]
+          ]
+        }
+      ]
     }
   ],
   "detachments": [

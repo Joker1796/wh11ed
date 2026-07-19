@@ -2,6 +2,88 @@
 export default {
   "slug": "imperial-knights",
   "name": "Imperial Knights",
+  "items": {
+    "1": "Titanic feet",
+    "2": "Twin conversion beam cannon",
+    "3": "Asterius volkite culverin",
+    "4": "Karacnos mortar battery",
+    "5": "Armoured feet",
+    "6": "Questoris heavy stubber",
+    "7": "Armiger autocannon",
+    "8": "Meltagun",
+    "9": "Acastus autocannon",
+    "10": "Twin magna lascannon",
+    "11": "Acastus ironstorm missile pod",
+    "12": "Lascannon",
+    "13": "Helios defence missiles",
+    "14": "Thermal spear",
+    "15": "Reaper chain-cleaver",
+    "16": "Las-impulsor",
+    "17": "Freedom’s Hand",
+    "18": "Questoris multi-laser",
+    "19": "Graviton pulsar",
+    "20": "Volkite veuglaire",
+    "21": "Siege claw",
+    "22": "Rad cleanser",
+    "23": "Lightning lock",
+    "24": "Conversion beam cannon",
+    "25": "Titanic feet",
+    "26": "Twin siegebreaker cannon",
+    "27": "Shieldbreaker missile launcher",
+    "28": "Volcano lance",
+    "29": "Plasma decimator",
+    "30": "Twin meltagun",
+    "31": "Thermal cannon",
+    "32": "Heavy flamer",
+    "33": "Avenger gatling cannon",
+    "34": "Ironstorm missile pod",
+    "35": "Stormspear rocket pod",
+    "36": "Twin Icarus autocannon",
+    "37": "Rapid-fire battle cannon",
+    "38": "Reaper chainfist",
+    "39": "Twin heavy bolter",
+    "40": "Acheron flame cannon",
+    "41": "Atrapos lascutter",
+    "42": "Graviton singularity cannon",
+    "43": "Chastiser gatling cannon",
+    "44": "Frag bombard",
+    "45": "Questoris heavy stubber",
+    "46": "Bellatus reaper chainsword",
+    "47": "Thundershock spear",
+    "48": "Tempest warblade",
+    "49": "Castigator bolt cannon",
+    "50": "Reaper chainsword",
+    "51": "Thunderstrike gauntlet",
+    "52": "Cerastus shock lance",
+    "53": "Reaper chainsword",
+    "54": "Thunderstrike gauntlet",
+    "55": "Las-impulsor",
+    "56": "Questoris multi-laser",
+    "57": "Conflagration cannon",
+    "58": "Thundercoil harpoon",
+    "59": "Lightning cannon",
+    "60": "Phased plasma-fusil",
+    "61": "Hekaton siege claw",
+    "62": "Twin rad cleanser",
+    "63": "Graviton crusher",
+    "64": "Volkite chierovile"
+  },
+  "texts": {
+    "1": "This model’s Questoris heavy stubber can be replaced with 1 meltagun.",
+    "2": "This model’s 2 Acastus autocannons can be replaced with one of the following:\n◦ 2 lascannons\n◦ 1 Acastus autocannon and 1 lascannon",
+    "3": "This model’s Acastus ironstorm missile pod can be replaced with 1 helios defence missiles.",
+    "4": "This model’s volkite veuglaire can be replaced with one of the following:\n◦ 1 siege claw and 1 rad cleanser\n◦ 1 graviton pulsar\n◦ 1 lightning lock\n◦ 1 conversion beam cannon",
+    "5": "This model’s graviton pulsar can be replaced with one of the following;\n◦ 1 siege claw and 1 rad cleanser\n◦ 1 lightning lock\n◦ 1 conversion beam cannon\n◦ 1 volkite veuglaire",
+    "6": "This model’s 2 shieldbreaker missile launchers and twin siegebreaker cannon can be replaced with 1 shieldbreaker missile launcher and 2 twin siegebreaker cannons",
+    "7": "This model’s meltagun can be replaced with 1 Questoris heavy stubber.",
+    "8": "This model can be equipped with one of the following:",
+    "9": "This model’s thermal cannon can be replaced with 1 rapid-fire battle cannon and 1 Questoris heavy stubber",
+    "10": "This model’s frag bombard can be replaced with one of the following:\n◦ 1 bellatus reaper chainsword*\n◦ 1 thundershock spear*\n\n* *A model cannot be equipped with more than one bellatus reaper chainsword or more than one thundershock spear.*",
+    "11": "This model’s chastiser gatling cannon can be replaced with one of the following:\n◦ 1 bellatus reaper chainsword*\n◦ 1 thundershock spear*\n\n* *A model cannot be equipped with more than one bellatus reaper chainsword or more than one thundershock spear.*",
+    "12": "This model’s reaper chainsword can be replaced with 1 thunderstrike gauntlet.",
+    "13": "This model’s Questoris multi-laser can be replaced with one of the following:",
+    "14": "This model’s reaper chainsword can be replaced with 1 hekaton siege claw and 1 twin rad cleanser."
+  },
   "units": [
     {
       "id": "acastus-knight-asterius",
@@ -32,7 +114,30 @@ export default {
       "step": {
         "at": 2,
         "pts": 75
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              3,
+              2
+            ],
+            [
+              4,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "acastus-knight-porphyrion",
@@ -63,7 +168,55 @@ export default {
       "step": {
         "at": 2,
         "pts": 75
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              9,
+              2
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              11,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 2,
+          "in": "stepper",
+          "o": [
+            [
+              12
+            ],
+            [
+              9
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 3,
+          "in": "checkbox",
+          "o": [
+            [
+              13
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "armiger-helverin",
@@ -88,7 +241,38 @@ export default {
         }
       ],
       "linked": 1,
-      "condBattleline": 1
+      "condBattleline": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              5,
+              1
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              7,
+              2
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              8
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "armiger-moirax",
@@ -117,7 +301,72 @@ export default {
         "at": 3,
         "pts": 10
       },
-      "condBattleline": 1
+      "condBattleline": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              5,
+              1
+            ],
+            [
+              19,
+              1
+            ],
+            [
+              20,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 4,
+          "in": "checkbox",
+          "o": [
+            [
+              21
+            ],
+            [
+              22
+            ],
+            [
+              19
+            ],
+            [
+              23
+            ],
+            [
+              24
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 5,
+          "in": "checkbox",
+          "o": [
+            [
+              21
+            ],
+            [
+              22
+            ],
+            [
+              23
+            ],
+            [
+              24
+            ],
+            [
+              20
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "armiger-warglaive",
@@ -142,7 +391,38 @@ export default {
         }
       ],
       "linked": 1,
-      "condBattleline": 1
+      "condBattleline": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              14,
+              1
+            ],
+            [
+              15,
+              1
+            ],
+            [
+              6,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              8
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "canis-rex",
@@ -173,7 +453,26 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              16,
+              1
+            ],
+            [
+              17,
+              1
+            ],
+            [
+              18,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "cerastus-knight-acheron",
@@ -206,7 +505,26 @@ export default {
       "step": {
         "at": 2,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              38,
+              1
+            ],
+            [
+              39,
+              1
+            ],
+            [
+              40,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "cerastus-knight-atrapos",
@@ -239,7 +557,22 @@ export default {
       "step": {
         "at": 2,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              41,
+              1
+            ],
+            [
+              42,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "cerastus-knight-castigator",
@@ -272,7 +605,22 @@ export default {
       "step": {
         "at": 2,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              48,
+              1
+            ],
+            [
+              49,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "cerastus-knight-lancer",
@@ -305,7 +653,18 @@ export default {
       "step": {
         "at": 2,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              52,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "knight-castellan",
@@ -338,7 +697,53 @@ export default {
       "step": {
         "at": 2,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              25,
+              1
+            ],
+            [
+              26,
+              1
+            ],
+            [
+              27,
+              2
+            ],
+            [
+              28,
+              1
+            ],
+            [
+              29,
+              1
+            ],
+            [
+              30,
+              2
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              27
+            ],
+            [
+              26
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "knight-crusader",
@@ -371,7 +776,76 @@ export default {
       "step": {
         "at": 2,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              31,
+              1
+            ],
+            [
+              32,
+              1
+            ],
+            [
+              25,
+              1
+            ],
+            [
+              8,
+              1
+            ],
+            [
+              33,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              6
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 8,
+          "in": "checkbox",
+          "o": [
+            [
+              34
+            ],
+            [
+              35
+            ],
+            [
+              36
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 9,
+          "in": "checkbox",
+          "o": [
+            [
+              37,
+              15
+            ],
+            [
+              6
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "knight-defender",
@@ -437,7 +911,58 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              43,
+              1
+            ],
+            [
+              44,
+              1
+            ],
+            [
+              45,
+              1
+            ],
+            [
+              25,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 10,
+          "in": "checkbox",
+          "o": [
+            [
+              46
+            ],
+            [
+              47
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              46
+            ],
+            [
+              47
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "knight-errant",
@@ -470,7 +995,64 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              31,
+              1
+            ],
+            [
+              50,
+              1
+            ],
+            [
+              8,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              6
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 8,
+          "in": "checkbox",
+          "o": [
+            [
+              34
+            ],
+            [
+              35
+            ],
+            [
+              36
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              51
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "knight-gallant",
@@ -503,7 +1085,54 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              53,
+              1
+            ],
+            [
+              54,
+              1
+            ],
+            [
+              8,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              6
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 8,
+          "in": "checkbox",
+          "o": [
+            [
+              34
+            ],
+            [
+              35
+            ],
+            [
+              36
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "knight-paladin",
@@ -536,7 +1165,68 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              8,
+              1
+            ],
+            [
+              50,
+              1
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              37,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 8,
+          "in": "checkbox",
+          "o": [
+            [
+              34
+            ],
+            [
+              35
+            ],
+            [
+              36
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              6
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              51
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "knight-preceptor",
@@ -569,7 +1259,67 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              55,
+              1
+            ],
+            [
+              56,
+              1
+            ],
+            [
+              50,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 13,
+          "in": "checkbox",
+          "o": [
+            [
+              8
+            ],
+            [
+              6
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 8,
+          "in": "checkbox",
+          "o": [
+            [
+              34
+            ],
+            [
+              35
+            ],
+            [
+              36
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              51
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "knight-valiant",
@@ -602,7 +1352,53 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              26,
+              1
+            ],
+            [
+              57,
+              1
+            ],
+            [
+              58,
+              1
+            ],
+            [
+              25,
+              1
+            ],
+            [
+              30,
+              2
+            ],
+            [
+              27,
+              2
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              27
+            ],
+            [
+              26
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "knight-warden",
@@ -635,7 +1431,68 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              32,
+              1
+            ],
+            [
+              50,
+              1
+            ],
+            [
+              33,
+              1
+            ],
+            [
+              8,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              51
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 8,
+          "in": "checkbox",
+          "o": [
+            [
+              34
+            ],
+            [
+              35
+            ],
+            [
+              36
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              6
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "questoris-knight-magaera",
@@ -668,7 +1525,41 @@ export default {
       "step": {
         "at": 2,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              50,
+              1
+            ],
+            [
+              59,
+              1
+            ],
+            [
+              60,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 14,
+          "in": "checkbox",
+          "o": [
+            [
+              61
+            ],
+            [
+              62
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "questoris-knight-styrix",
@@ -701,7 +1592,41 @@ export default {
       "step": {
         "at": 2,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              63,
+              1
+            ],
+            [
+              50,
+              1
+            ],
+            [
+              64,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 14,
+          "in": "checkbox",
+          "o": [
+            [
+              61
+            ],
+            [
+              62
+            ]
+          ]
+        }
+      ]
     }
   ],
   "detachments": [

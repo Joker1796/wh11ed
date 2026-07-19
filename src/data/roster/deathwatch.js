@@ -2,6 +2,123 @@
 export default {
   "slug": "deathwatch",
   "name": "Deathwatch",
+  "items": {
+    "1": "Plasma pistol",
+    "2": "Power weapon",
+    "3": "Close combat weapon",
+    "4": "Stalker bolt rifle",
+    "5": "Bolt pistol",
+    "6": "Special-issue bolt pistol",
+    "7": "Xenophase blade",
+    "8": "Heavy thunder hammer",
+    "9": "Deathwatch marksman bolt carbine",
+    "10": "Infernus heavy bolter",
+    "11": "Plasma incinerator",
+    "12": "Frag cannon",
+    "13": "Hellstorm bolt rifle",
+    "14": "Astartes grenade launcher",
+    "15": "Astartes shield",
+    "16": "Combat knife",
+    "17": "Twin assault cannon",
+    "18": "Blackstar rocket launcher",
+    "19": "Armoured hull",
+    "20": "Twin lascannon",
+    "21": "Auspex Array",
+    "22": "Infernum Halo-launcher",
+    "23": "Hurricane bolter",
+    "24": "Stormstrike missile launcher",
+    "25": "Storm bolter",
+    "26": "Power fist",
+    "27": "Power weapon",
+    "28": "Chainfist",
+    "29": "Thunder hammer",
+    "30": "Storm Shield",
+    "31": "Twin lightning claws",
+    "32": "Assault cannon",
+    "33": "Heavy flamer",
+    "34": "Plasma cannon",
+    "35": "Cyclone missile launcher",
+    "36": "Power weapon",
+    "37": "Boltgun",
+    "38": "Deathwatch shotgun",
+    "39": "Infernus heavy bolter",
+    "40": "Stalker-pattern boltgun",
+    "41": "Deathwatch thunder hammer",
+    "42": "Black Shield blades",
+    "43": "Frag cannon",
+    "44": "Combi-weapon",
+    "45": "Bolt pistol",
+    "46": "Deathwatch bolt rifle",
+    "47": "Pyreblaster",
+    "48": "Castellan launcher",
+    "49": "Superfrag rocket launcher",
+    "50": "Heavy bolt pistol",
+    "51": "Astartes chainsword",
+    "52": "Vengor launcher",
+    "53": "Superkrak rocket launcher",
+    "54": "Hand flamer",
+    "55": "Melta rifle",
+    "56": "Twin power fists",
+    "57": "Flamestorm gauntlets",
+    "58": "Deathwatch heavy bolt rifle",
+    "59": "Auto boltstorm gauntlets",
+    "60": "Fragstorm grenade launcher",
+    "61": "Multi-melta",
+    "62": "Deathwatch heavy bolter",
+    "63": "Special-issue bolt pistol",
+    "64": "Bolt sniper rifle",
+    "65": "Deathwatch occulus bolt carbine",
+    "66": "Paired combat blades",
+    "67": "Helix Gauntlet",
+    "68": "Infiltrator Comms Array",
+    "69": "Deathwatch bolt carbine",
+    "70": "Las fusil",
+    "71": "Instigator Bolt Carbine",
+    "72": "Assault bolters",
+    "73": "Plasma exterminators",
+    "74": "Hellfire Extremis",
+    "75": "Master-crafted power weapon",
+    "76": "Vigil spear"
+  },
+  "texts": {
+    "1": "For every 5 models in the unit, up to one model’s stalker bolt rifle can be replaced with 1 plasma incinerator.",
+    "2": "For every 5 models in the unit, up to one model’s infernus heavy bolter can be replaced with one of the following:\n◦ 1 frag cannon.\n◦ 1 hellstorm bolt rifle and 1 Astartes grenade launcher.",
+    "3": "For every 5 models in the unit, up to one model’s heavy thunder hammer can be replaced with 1 power weapon and 1 Astartes shield.",
+    "4": "For every 5 models in the unit, up to one model’s Deathwatch marksman bolt carbine can be replaced with 1 combat knife.",
+    "5": "This model’s twin assault cannon can be replaced with 1 twin lascannon.",
+    "6": "This model can be equipped with one of the following:",
+    "7": "This model can be equipped with 1 hurricane bolter.",
+    "8": "This model’s 2 Blackstar rocket launchers can be replaced with 2 stormstrike missile launchers.",
+    "9": "Any number of models can each have their power fist and storm bolter replaced with one of  the following:\n◦ 1 storm bolter and 1 power weapon\n◦ 1 storm bolter and 1 chainfist\n◦ 1 thunder hammer and 1 storm shield\n◦ 1 twin lightning claws",
+    "10": "Up to 3 Deathwatch Terminators can each have their storm bolter replaced with one of the following:\n◦ 1 assault cannon\n◦ 1 heavy flamer\n◦ 1 plasma cannon\n◦ 1 cyclone missile launcher and 1 storm bolter (this model’s storm bolter cannot be replaced)",
+    "11": "Any number of models can each have their power fist and storm bolter replaced with one of the following:\n◦ 1 storm bolter and 1 power weapon\n◦ 1 storm bolter and 1 chainfist\n◦ 1 thunder hammer and 1 storm shield\n◦ 1 twin lightning claws",
+    "12": "For every 5 models in this unit, up to 2 models can each have their boltgun and power weapon replaced with 1 Deathwatch shotgun and 1 close combat weapon.",
+    "13": "For every 5 models in this unit, up to 2 models can each have their boltgun and power weapon replaced with one of the following:\n◦ 1 boltgun and 1 Astartes shield\n◦ 1 power weapon and 1 Astartes shield",
+    "14": "For every 5 models in this unit, 1 model can have its boltgun and power weapon replaced with 1 infernus heavy bolter and 1 close combat weapon.",
+    "15": "The Watch Sergeant’s power weapon can be replaced with 1 xenophase blade.",
+    "16": "For every 5 models in this unit, 1 model can have their boltgun and power weapon replaced with 1 stalker‐pattern boltgun and 1 close combat weapon.",
+    "17": "For every 5 models in this unit, up to 2 models can each have their boltgun and power weapon replaced with 1 Deathwatch thunder hammer.",
+    "18": "One model’s boltgun and power weapon can be replaced with 1 Black Shield blades.",
+    "19": "For every 5 models in this unit, 1 model can have its boltgun and power weapon replaced with 1 frag cannon and 1 close combat weapon.",
+    "20": "The Watch Sergeant’s boltgun can be replaced with 1 combi‐weapon.",
+    "21": "For every 5 models in this unit, 1 model equipped with a Deathwatch bolt rifle can be equipped with 1 Astartes grenade launcher.",
+    "22": "1 model can replace its superfrag rocket launcher with 1 vengor launcher.",
+    "23": "The Kill Team Sergeant can replace its close combat weapon with one of the following:",
+    "24": "One model equipped with a plasma incinerator can replace its bolt pistol with 1 plasma pistol.",
+    "25": "Any number of models can each replace their superfrag rocket launcher with 1 superkrak rocket launcher.",
+    "26": "The Kill Team Sergeant can replace its Deathwatch bolt rifle with one of the following:",
+    "27": "Any number of models can each have their flamestorm gauntlets replaced with 1 auto boltstorm gauntlets and 1 fragstorm grenade launcher.",
+    "28": "1 model can replace its melta rifle with 1 multi-melta.",
+    "29": "For every 5 models in this unit, 1 model can replace its Deathwatch heavy bolt rifle with 1 Deathwatch heavy bolter.",
+    "30": "One model equipped with a Deathwatch marksman bolt carbine can be equipped with one of the following:",
+    "31": "Any number of models can each replace their combat knife with 1 Deathwatch bolt carbine and 1 close combat weapon.",
+    "32": "Any number of models can each replace their bolt sniper rifle with 1 las fusil.",
+    "33": "One model can replace its bolt sniper rifle with 1 instigator bolt carbine.",
+    "34": "For every 5 models in this unit, 1 model can replace its heavy bolt pistol with 1 plasma pistol",
+    "35": "The Kill Team Sergeant with Jump Pack can replace its Astartes chainsword with one of the following:",
+    "36": "Any number of models can each have their assault bolters replaced with 1 plasma exterminators.",
+    "37": "The Kill Team Sergeant with Jump Pack can replace its heavy bolt pistol with one of the following:"
+  },
   "units": [
     {
       "id": "corvus-blackstar",
@@ -26,7 +143,71 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              17,
+              1
+            ],
+            [
+              18,
+              2
+            ],
+            [
+              19,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 5,
+          "in": "checkbox",
+          "o": [
+            [
+              20
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              21
+            ],
+            [
+              22
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              23
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 8,
+          "in": "stepper",
+          "o": [
+            [
+              24
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "deathwatch-terminator-squad",
@@ -57,7 +238,119 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Deathwatch Terminator Sergeant"
+        },
+        {
+          "n": "Deathwatch Terminator"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              25,
+              1
+            ],
+            [
+              26,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              26,
+              1
+            ],
+            [
+              25,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 9,
+          "in": "checkbox",
+          "o": [
+            [
+              25
+            ],
+            [
+              27
+            ],
+            [
+              28
+            ],
+            [
+              29,
+              5
+            ],
+            [
+              30
+            ],
+            [
+              31
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 10,
+          "in": "stepper",
+          "o": [
+            [
+              32
+            ],
+            [
+              33
+            ],
+            [
+              34
+            ],
+            [
+              35
+            ],
+            [
+              25
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 11,
+          "in": "stepper",
+          "o": [
+            [
+              25
+            ],
+            [
+              27
+            ],
+            [
+              28
+            ],
+            [
+              29,
+              5
+            ],
+            [
+              30
+            ],
+            [
+              31
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "deathwatch-veterans",
@@ -89,7 +382,241 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Watch Sergeant"
+        },
+        {
+          "n": "Deathwatch Veterans"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              36,
+              1
+            ],
+            [
+              37,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              37,
+              1
+            ],
+            [
+              36,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              38
+            ],
+            [
+              3
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 13,
+          "in": "stepper",
+          "o": [
+            [
+              37
+            ],
+            [
+              36
+            ],
+            [
+              15
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 14,
+          "in": "checkbox",
+          "o": [
+            [
+              39
+            ],
+            [
+              3
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 15,
+          "in": "checkbox",
+          "o": [
+            [
+              7
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 16,
+          "in": "checkbox",
+          "o": [
+            [
+              40
+            ],
+            [
+              3
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 17,
+          "in": "stepper",
+          "o": [
+            [
+              41
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 18,
+          "in": "checkbox",
+          "o": [
+            [
+              42
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 17,
+          "in": "checkbox",
+          "o": [
+            [
+              41
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 12,
+          "in": "stepper",
+          "o": [
+            [
+              38
+            ],
+            [
+              3
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 19,
+          "in": "checkbox",
+          "o": [
+            [
+              43
+            ],
+            [
+              3
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 18,
+          "in": "checkbox",
+          "o": [
+            [
+              42
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 13,
+          "in": "checkbox",
+          "o": [
+            [
+              37
+            ],
+            [
+              36
+            ],
+            [
+              15
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 16,
+          "in": "stepper",
+          "o": [
+            [
+              40
+            ],
+            [
+              3
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 19,
+          "in": "stepper",
+          "o": [
+            [
+              43
+            ],
+            [
+              3
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 20,
+          "in": "checkbox",
+          "o": [
+            [
+              44
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 14,
+          "in": "stepper",
+          "o": [
+            [
+              39
+            ],
+            [
+              3
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "decimus-kill-team",
@@ -123,7 +650,170 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Kill Team Sergeant"
+        },
+        {
+          "n": "Deathwatch Veteran"
+        },
+        {
+          "n": "Deathwatch Veteran"
+        },
+        {
+          "n": "Deathwatch Veteran"
+        },
+        {
+          "n": "Deathwatch Veteran"
+        },
+        {
+          "n": "Gravis Veteran"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              3,
+              1
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ]
+        ],
+        [
+          4,
+          [
+            [
+              6,
+              1
+            ],
+            [
+              7,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              8,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ]
+        ],
+        [
+          3,
+          [
+            [
+              3,
+              1
+            ],
+            [
+              9,
+              1
+            ],
+            [
+              6,
+              1
+            ]
+          ]
+        ],
+        [
+          5,
+          [
+            [
+              3,
+              1
+            ],
+            [
+              10,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 1,
+          "in": "stepper",
+          "o": [
+            [
+              11
+            ]
+          ]
+        },
+        {
+          "m": 5,
+          "t": 2,
+          "in": "stepper",
+          "o": [
+            [
+              12
+            ],
+            [
+              13
+            ],
+            [
+              14
+            ]
+          ]
+        },
+        {
+          "m": 2,
+          "t": 3,
+          "in": "stepper",
+          "o": [
+            [
+              2
+            ],
+            [
+              15
+            ]
+          ]
+        },
+        {
+          "m": 3,
+          "t": 4,
+          "in": "stepper",
+          "o": [
+            [
+              16
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "fortis-kill-team",
@@ -159,7 +849,221 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "minis": [
+        {
+          "n": "Kill Team Sergeant"
+        },
+        {
+          "n": "Kill Team Intercessor"
+        },
+        {
+          "n": "Kill Team Intercessor with plasma incinerator"
+        },
+        {
+          "n": "Kill Team Intercessor with heavy bolt pistol"
+        },
+        {
+          "n": "Kill Team Intercessor with pyreblaster"
+        },
+        {
+          "n": "Kill Team Intercessor with superfrag rocket launcher"
+        }
+      ],
+      "defaults": [
+        [
+          2,
+          [
+            [
+              3,
+              1
+            ],
+            [
+              11,
+              1
+            ],
+            [
+              45,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              45,
+              1
+            ],
+            [
+              46,
+              1
+            ],
+            [
+              3,
+              1
+            ]
+          ]
+        ],
+        [
+          4,
+          [
+            [
+              47,
+              1
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              45,
+              1
+            ]
+          ]
+        ],
+        [
+          5,
+          [
+            [
+              3,
+              1
+            ],
+            [
+              45,
+              1
+            ],
+            [
+              48,
+              1
+            ],
+            [
+              49,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              45,
+              1
+            ],
+            [
+              46,
+              1
+            ],
+            [
+              3,
+              1
+            ]
+          ]
+        ],
+        [
+          3,
+          [
+            [
+              50,
+              1
+            ],
+            [
+              51,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 21,
+          "in": "checkbox",
+          "o": [
+            [
+              14
+            ]
+          ]
+        },
+        {
+          "m": 5,
+          "t": 22,
+          "in": "checkbox",
+          "o": [
+            [
+              52
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 23,
+          "in": "checkbox",
+          "o": [
+            [
+              51
+            ],
+            [
+              26
+            ],
+            [
+              27
+            ],
+            [
+              29
+            ]
+          ]
+        },
+        {
+          "m": 2,
+          "t": 24,
+          "in": "checkbox",
+          "o": [
+            [
+              1
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 21,
+          "in": "stepper",
+          "o": [
+            [
+              14
+            ]
+          ]
+        },
+        {
+          "m": 5,
+          "t": 25,
+          "in": "stepper",
+          "o": [
+            [
+              53
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 26,
+          "in": "checkbox",
+          "o": [
+            [
+              51
+            ],
+            [
+              54
+            ],
+            [
+              1
+            ],
+            [
+              27
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "indomitor-kill-team",
@@ -195,7 +1099,102 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "minis": [
+        {
+          "n": "Kill Team Heavy Intercessors"
+        },
+        {
+          "n": "Kill Team Heavy Intercessor with power fists"
+        },
+        {
+          "n": "Kill Team Heavy Intercessor with melta rifle"
+        }
+      ],
+      "defaults": [
+        [
+          2,
+          [
+            [
+              55,
+              1
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              45,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              56,
+              1
+            ],
+            [
+              57,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              3,
+              1
+            ],
+            [
+              45,
+              1
+            ],
+            [
+              58,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 27,
+          "in": "stepper",
+          "o": [
+            [
+              59
+            ],
+            [
+              60
+            ]
+          ]
+        },
+        {
+          "m": 2,
+          "t": 28,
+          "in": "checkbox",
+          "o": [
+            [
+              61
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 29,
+          "in": "stepper",
+          "o": [
+            [
+              62
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "spectrus-kill-team",
@@ -232,7 +1231,135 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Kill Team Infiltrator"
+        },
+        {
+          "n": "Kill Team Infiltrator with bolt sniper rifle"
+        },
+        {
+          "n": "Kill Team Infiltrator with Deathwatch occulus bolt carbine"
+        },
+        {
+          "n": "Kill Team Infiltrator with combat knife"
+        }
+      ],
+      "defaults": [
+        [
+          3,
+          [
+            [
+              63,
+              1
+            ],
+            [
+              16,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              9,
+              1
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              45,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              45,
+              1
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              64,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              65,
+              1
+            ],
+            [
+              45,
+              1
+            ],
+            [
+              66,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 30,
+          "in": "checkbox",
+          "o": [
+            [
+              67
+            ],
+            [
+              68
+            ]
+          ]
+        },
+        {
+          "m": 3,
+          "t": 31,
+          "in": "stepper",
+          "o": [
+            [
+              69
+            ],
+            [
+              3
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 32,
+          "in": "stepper",
+          "o": [
+            [
+              70
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 33,
+          "in": "checkbox",
+          "o": [
+            [
+              71
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "talonstrike-kill-team",
@@ -269,7 +1396,107 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "minis": [
+        {
+          "n": "Kill Team Sergeant with Jump Pack"
+        },
+        {
+          "n": "Kill Team Intercessor with Jump Pack"
+        },
+        {
+          "n": "Kill Team Heavy Intercessor with Jump Pack"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              51,
+              1
+            ],
+            [
+              50,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              51,
+              1
+            ],
+            [
+              50,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              3,
+              1
+            ],
+            [
+              72,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 34,
+          "in": "stepper",
+          "o": [
+            [
+              1
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 35,
+          "in": "checkbox",
+          "o": [
+            [
+              26
+            ],
+            [
+              27
+            ]
+          ]
+        },
+        {
+          "m": 2,
+          "t": 36,
+          "in": "stepper",
+          "o": [
+            [
+              73
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 37,
+          "in": "checkbox",
+          "o": [
+            [
+              54
+            ],
+            [
+              1
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "watch-captain-artemis",
@@ -312,6 +1539,21 @@ export default {
           "to": "decimus-kill-team",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              74,
+              1
+            ],
+            [
+              75,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -353,6 +1595,17 @@ export default {
           "to": "decimus-kill-team",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              76,
+              1
+            ]
+          ]
+        ]
       ]
     }
   ],

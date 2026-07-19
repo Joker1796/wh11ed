@@ -2,6 +2,148 @@
 export default {
   "slug": "thousand-sons",
   "name": "Thousand Sons",
+  "items": {
+    "1": "Inferno bolt pistol",
+    "2": "Transmogrifying Blast",
+    "3": "Black Staff of Ahriman",
+    "4": "Coruscating yellow flames",
+    "5": "Yellow claws",
+    "6": "Coruscating blue flames",
+    "7": "Blue claws",
+    "8": "Twin inferno heavy bolter",
+    "9": "Soulshatter lascannon",
+    "10": "Armoured tracks",
+    "11": "Inferno combi-bolter",
+    "12": "Inferno combi-weapon",
+    "13": "Havoc launcher",
+    "14": "Armoured tracks",
+    "15": "Predator twin lascannon",
+    "16": "Lascannon",
+    "17": "Inferno heavy bolter",
+    "18": "Predator autocannon",
+    "19": "Hideous mutations",
+    "20": "Demolisher cannon",
+    "21": "Infernal cannon",
+    "22": "Hellforged weapons",
+    "23": "Dark Blessing",
+    "24": "Excruciator cannon",
+    "25": "Hades battle cannon",
+    "26": "Heavy baleflamer",
+    "27": "Heavy missile launcher",
+    "28": "Shearing claws",
+    "29": "Ectoplasma destructor",
+    "30": "Pyraflux magma cutters",
+    "31": "Hades lascannon",
+    "32": "Heavy reaper autocannon",
+    "33": "Electroscourge",
+    "34": "Astral Blast",
+    "35": "Force weapon",
+    "36": "Prosperine khopesh",
+    "37": "Arcane Fire",
+    "38": "Flickering flames",
+    "39": "Flamer mouths",
+    "40": "Forgefiend jaws",
+    "41": "Hades autocannon",
+    "42": "Ectoplasma cannon",
+    "43": "Forgefiend claws",
+    "44": "Close combat weapon",
+    "45": "Multi-melta",
+    "46": "Missile launcher",
+    "47": "Helbrute plasma cannon",
+    "48": "Twin autocannon",
+    "49": "Twin lascannon",
+    "50": "Helbrute fist",
+    "51": "Heavy flamer",
+    "52": "Helbrute hammer",
+    "53": "Power scourge",
+    "54": "Heldrake claws",
+    "55": "Baleflamer",
+    "56": "Force weapon",
+    "57": "Fires of the Abyss",
+    "58": "Staff of Tzeentch",
+    "59": "Bolt of Change",
+    "60": "Rod of sorcery",
+    "61": "Baleful sword",
+    "62": "Tzeentch’s Firestorm",
+    "63": "Gaze of Magnus",
+    "64": "Blade of Magnus",
+    "65": "Maulerfiend fists",
+    "66": "Lasher tendrils",
+    "67": "Magma cutter",
+    "68": "Warp vortex",
+    "69": "Mutalith claws",
+    "70": "Betentacled maw",
+    "71": "Pink claws",
+    "72": "Coruscating pink flames",
+    "73": "Daemonic Icon",
+    "74": "Instrument of Chaos",
+    "75": "Force weapon",
+    "76": "Inferno bolt pistol",
+    "77": "Malefic Curse",
+    "78": "Inferno boltgun",
+    "79": "Close combat weapon",
+    "80": "Soulreaper cannon",
+    "81": "Icon of Flame",
+    "82": "Warpflame pistol",
+    "83": "Warpflamer",
+    "84": "Prosperine khopesh",
+    "85": "Heavy warpflamer",
+    "86": "Hellfyre missile rack",
+    "87": "Lamprey bite",
+    "88": "Hellfyre missile rack",
+    "89": "Close combat weapon",
+    "90": "Pyreflux meltagun",
+    "91": "Warpflame projector",
+    "92": "Power claw",
+    "93": "Pandaemonic Delusion",
+    "94": "Force weapon",
+    "95": "Gaze of Hate",
+    "96": "Tzaangor blades",
+    "97": "Brayhorn",
+    "98": "Autopistol",
+    "99": "Chainsword",
+    "100": "Herd banner",
+    "101": "Baleful Devolution",
+    "102": "Force stave",
+    "103": "Divining spear",
+    "104": "Chainsword",
+    "105": "Close combat weapon",
+    "106": "Fatecaster greatbow"
+  },
+  "texts": {
+    "1": "This model can be equipped with one of the following:",
+    "2": "This model can be equipped with 1 havoc launcher.",
+    "3": "This model can be equipped with one of the following:\n\n◦ 2 lascannons\n◦ 2 inferno heavy bolters",
+    "4": "This model can be equipped with one of the following:\n◦ 1 additional inferno combi‑bolter\n◦ 1 inferno combi‑weapon",
+    "5": "This model can be equipped with 1 havoc launcher or can replace 1 inferno combi‑bolter with 1 havoc launcher.",
+    "6": "This model’s Hades battle cannon can be replaced with 1 ectoplasma destructor.",
+    "7": "This model’s excruciator cannons can be replaced with 2 pyraflux magma cutters.",
+    "8": "This model’s heavy missile launcher can be replaced with one of the following:\n◦ 1 Hades lascannon\n◦ 1 heavy reaper autocannon\n◦ 1 electroscourge (a model cannot be equipped with more than one electroscourge)",
+    "9": "This model’s heavy baleflamer can be replaced with one of the following:\n◦ 1 Hades lascannon\n◦ 1 heavy reaper autocannon\n◦ 1 electroscourge (a model cannot be equipped with more than one electroscourge)",
+    "10": "This model can be equipped with 1 Prosperine khopesh.",
+    "11": "This model’s 2 Hades autocannons can be replaced with 2 ectoplasma cannons.",
+    "12": "This model’s Forgefiend jaws can be replaced with 1 ectoplasma cannon and 1 Forgefiend claws.",
+    "13": "This model’s multi-melta can be replaced with one of the following:",
+    "14": "For each Helbrute fist this model is equipped with, it can be equipped with one of the following:",
+    "15": "This model’s missile launcher can be replaced with one of the following:",
+    "16": "This model’s Hades autocannon can be replaced with 1 baleflamer.",
+    "17": "This model’s lasher tendrils can be replaced with 2 magma cutters.",
+    "18": "1 Pink Horror that is not equipped with an instrument of Chaos can be equipped with 1 daemonic icon.",
+    "19": "1 Pink Horror that is not equipped with a daemonic icon can be equipped with 1 instrument of Chaos.",
+    "20": "1 Rubric Marine’s inferno boltgun can be replaced with 1 soulreaper cannon.",
+    "21": "1 Rubric Marine can be equipped with 1 icon of flame.",
+    "22": "The Aspiring Sorcerer’s inferno bolt pistol can be replaced with 1 warpflame pistol.",
+    "23": "Any number of Rubric Marines can each have their inferno boltgun replaced with 1 warpflamer.",
+    "24": "For every 5 models in this unit, 1 Scarab Occult Terminator’s inferno combi-bolter can be replaced with one of the following:",
+    "25": "For every 5 models in this unit, 1 Scarab Occult Terminator can be equipped with 1 hellfyre missile rack.",
+    "26": "The Scarab Occult Sorcerer’s inferno combi-bolter can be replaced with 1 Prosperine khopesh.",
+    "27": "Any number of models can each have their pyreflux meltagun replaced with 1 warpflame projector and 1 power claw.",
+    "28": "This model’s inferno combi-bolter can be replaced with 1 inferno combi-weapon.",
+    "29": "1 Tzaangor not equipped with a herd banner can be equipped with 1 brayhorn.",
+    "30": "Any number of models can each have their Tzaangor blades replaced with 1 autopistol and 1 chainsword.",
+    "31": "1 Tzaangor not equipped with a brayhorn can be equipped with 1 herd banner.",
+    "32": "Any number of models can each have their divining spear replaced with 1 autopistol and 1 chainsword."
+  },
   "units": [
     {
       "id": "ahriman",
@@ -46,6 +188,25 @@ export default {
           "to": "tzaangor-enlightened-with-fatecaster-greatbows",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -74,7 +235,43 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Blue Horror"
+        },
+        {
+          "n": "Brimstone Horror"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              4,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              6,
+              1
+            ],
+            [
+              7,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "chaos-land-raider",
@@ -104,7 +301,51 @@ export default {
       "step": {
         "at": 3,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              8,
+              1
+            ],
+            [
+              9,
+              2
+            ],
+            [
+              10,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              11
+            ],
+            [
+              12
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              13
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "chaos-predator-annihilator",
@@ -133,7 +374,60 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              14,
+              1
+            ],
+            [
+              15,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 3,
+          "in": "stepper",
+          "o": [
+            [
+              16
+            ],
+            [
+              17
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              11
+            ],
+            [
+              12
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              13
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "chaos-predator-destructor",
@@ -162,7 +456,60 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              14,
+              1
+            ],
+            [
+              18,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              13
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              11
+            ],
+            [
+              12
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 3,
+          "in": "stepper",
+          "o": [
+            [
+              16
+            ],
+            [
+              17
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "chaos-rhino",
@@ -189,7 +536,47 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              14,
+              1
+            ],
+            [
+              11,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 4,
+          "in": "checkbox",
+          "o": [
+            [
+              11
+            ],
+            [
+              12
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 5,
+          "in": "checkbox",
+          "o": [
+            [
+              13
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "chaos-spawn",
@@ -213,7 +600,18 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              19,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "chaos-vindicator",
@@ -242,7 +640,47 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              14,
+              1
+            ],
+            [
+              20,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              11
+            ],
+            [
+              12
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              13
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "daemon-prince-of-tzeentch",
@@ -270,7 +708,26 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              21,
+              1
+            ],
+            [
+              22,
+              1
+            ],
+            [
+              23,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "daemon-prince-of-tzeentch-with-wings",
@@ -303,7 +760,26 @@ export default {
       "step": {
         "at": 2,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              21,
+              1
+            ],
+            [
+              22,
+              1
+            ],
+            [
+              23,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "defiler",
@@ -332,7 +808,92 @@ export default {
       "step": {
         "at": 2,
         "pts": 30
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              24,
+              2
+            ],
+            [
+              25,
+              1
+            ],
+            [
+              26,
+              1
+            ],
+            [
+              27,
+              1
+            ],
+            [
+              28,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              29
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 7,
+          "in": "stepper",
+          "o": [
+            [
+              30
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 8,
+          "in": "checkbox",
+          "o": [
+            [
+              31,
+              10
+            ],
+            [
+              32,
+              10
+            ],
+            [
+              33
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 9,
+          "in": "checkbox",
+          "o": [
+            [
+              32,
+              10
+            ],
+            [
+              33
+            ],
+            [
+              31,
+              10
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "exalted-sorcerer",
@@ -365,6 +926,37 @@ export default {
         {
           "to": "rubric-marines",
           "type": "leader"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              34,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              35,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 10,
+          "in": "checkbox",
+          "o": [
+            [
+              36
+            ]
+          ]
         }
       ]
     },
@@ -410,6 +1002,37 @@ export default {
           "to": "tzaangor-enlightened-with-fatecaster-greatbows",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              37,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              35,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 10,
+          "in": "checkbox",
+          "o": [
+            [
+              36
+            ]
+          ]
+        }
       ]
     },
     {
@@ -443,7 +1066,43 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Pyrocaster"
+        },
+        {
+          "n": "Flamer"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              38,
+              1
+            ],
+            [
+              39,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              38,
+              1
+            ],
+            [
+              39,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "forgefiend",
@@ -472,7 +1131,47 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              40,
+              1
+            ],
+            [
+              41,
+              2
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 11,
+          "in": "stepper",
+          "o": [
+            [
+              42
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              42
+            ],
+            [
+              43
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "helbrute",
@@ -496,7 +1195,79 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              44,
+              1
+            ],
+            [
+              45,
+              1
+            ],
+            [
+              46,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 13,
+          "in": "checkbox",
+          "o": [
+            [
+              47
+            ],
+            [
+              48
+            ],
+            [
+              8
+            ],
+            [
+              49
+            ],
+            [
+              50
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 14,
+          "in": "stepper",
+          "o": [
+            [
+              11
+            ],
+            [
+              51
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 15,
+          "in": "checkbox",
+          "o": [
+            [
+              50
+            ],
+            [
+              52
+            ],
+            [
+              53
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "heldrake",
@@ -521,7 +1292,34 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              54,
+              1
+            ],
+            [
+              41,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 16,
+          "in": "checkbox",
+          "o": [
+            [
+              55
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "infernal-master",
@@ -555,6 +1353,25 @@ export default {
           "to": "rubric-marines",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              56,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              57,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -623,7 +1440,37 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              58,
+              1
+            ],
+            [
+              59,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              60
+            ],
+            [
+              61
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "magnus-the-red",
@@ -656,7 +1503,26 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              62,
+              1
+            ],
+            [
+              63,
+              1
+            ],
+            [
+              64,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "maulerfiend",
@@ -685,7 +1551,34 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              65,
+              1
+            ],
+            [
+              66,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 17,
+          "in": "stepper",
+          "o": [
+            [
+              67
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "mutalith-vortex-beast",
@@ -713,7 +1606,26 @@ export default {
       "step": {
         "at": 3,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              68,
+              1
+            ],
+            [
+              69,
+              1
+            ],
+            [
+              70,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "pink-horrors",
@@ -742,7 +1654,81 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Pink Horror"
+        },
+        {
+          "n": "Blue Horror"
+        },
+        {
+          "n": "Brimstone Horror"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              6,
+              1
+            ],
+            [
+              7,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              71,
+              1
+            ],
+            [
+              72,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              5,
+              1
+            ],
+            [
+              4,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 18,
+          "in": "checkbox",
+          "o": [
+            [
+              73
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 19,
+          "in": "checkbox",
+          "o": [
+            [
+              74
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "rubric-marines",
@@ -779,7 +1765,89 @@ export default {
       "step": {
         "at": 4,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Aspiring Sorcerer"
+        },
+        {
+          "n": "Rubric Marine"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              75,
+              1
+            ],
+            [
+              76,
+              1
+            ],
+            [
+              77,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              78,
+              1
+            ],
+            [
+              79,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 20,
+          "in": "checkbox",
+          "o": [
+            [
+              80
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 21,
+          "in": "checkbox",
+          "o": [
+            [
+              81
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 22,
+          "in": "checkbox",
+          "o": [
+            [
+              82
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 23,
+          "in": "stepper",
+          "o": [
+            [
+              83
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "scarab-occult-terminators",
@@ -816,7 +1884,82 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "minis": [
+        {
+          "n": "Scarab Occult Sorcerer"
+        },
+        {
+          "n": "Scarab Occult Terminator"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              11,
+              1
+            ],
+            [
+              77,
+              1
+            ],
+            [
+              56,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              84,
+              1
+            ],
+            [
+              11,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 24,
+          "in": "stepper",
+          "o": [
+            [
+              85
+            ],
+            [
+              80
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 25,
+          "in": "stepper",
+          "o": [
+            [
+              86
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 26,
+          "in": "checkbox",
+          "o": [
+            [
+              84
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "screamers",
@@ -849,7 +1992,18 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              87,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "sekhetar-robots",
@@ -880,7 +2034,45 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              88,
+              1
+            ],
+            [
+              89,
+              1
+            ],
+            [
+              90,
+              1
+            ],
+            [
+              85,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 27,
+          "in": "stepper",
+          "o": [
+            [
+              91
+            ],
+            [
+              92
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "sorcerer",
@@ -913,6 +2105,37 @@ export default {
         {
           "to": "rubric-marines",
           "type": "leader"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              76,
+              1
+            ],
+            [
+              56,
+              1
+            ],
+            [
+              93,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 10,
+          "in": "checkbox",
+          "o": [
+            [
+              84
+            ]
+          ]
         }
       ]
     },
@@ -952,6 +2175,37 @@ export default {
           "to": "scarab-occult-terminators",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              11,
+              1
+            ],
+            [
+              94,
+              1
+            ],
+            [
+              95,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 28,
+          "in": "checkbox",
+          "o": [
+            [
+              12
+            ]
+          ]
+        }
       ]
     },
     {
@@ -984,7 +2238,63 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Aviarch"
+        },
+        {
+          "n": "Enlightened"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              103,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              103,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 32,
+          "in": "stepper",
+          "o": [
+            [
+              98
+            ],
+            [
+              104
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 32,
+          "in": "checkbox",
+          "o": [
+            [
+              98
+            ],
+            [
+              104
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "tzaangor-enlightened-with-fatecaster-greatbows",
@@ -1017,7 +2327,43 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Aviarch"
+        },
+        {
+          "n": "Enlightened"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              105,
+              1
+            ],
+            [
+              106,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              106,
+              1
+            ],
+            [
+              105,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "tzaangor-shaman",
@@ -1061,6 +2407,21 @@ export default {
           "to": "tzaangor-enlightened-with-fatecaster-greatbows",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              101,
+              1
+            ],
+            [
+              102,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -1093,7 +2454,83 @@ export default {
         }
       ],
       "linked": 1,
-      "condBattleline": 1
+      "condBattleline": 1,
+      "minis": [
+        {
+          "n": "Twistbray"
+        },
+        {
+          "n": "Tzaangor"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              96,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              96,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 29,
+          "in": "checkbox",
+          "o": [
+            [
+              97
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 30,
+          "in": "stepper",
+          "o": [
+            [
+              98
+            ],
+            [
+              99
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 30,
+          "in": "checkbox",
+          "o": [
+            [
+              98
+            ],
+            [
+              99
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 31,
+          "in": "checkbox",
+          "o": [
+            [
+              100
+            ]
+          ]
+        }
+      ]
     }
   ],
   "detachments": [

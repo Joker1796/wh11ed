@@ -2,6 +2,112 @@
 export default {
   "slug": "black-templars",
   "name": "Black Templars",
+  "items": {
+    "1": "Master-crafted power weapon",
+    "2": "Combi-weapon",
+    "3": "Astartes chainsword",
+    "4": "Heavy bolt pistol",
+    "5": "Close combat weapon",
+    "6": "Artificer crozius",
+    "7": "Plasma pistol",
+    "8": "Bolt pistol",
+    "9": "Master-crafted power weapon",
+    "10": "Heavy bolt pistol",
+    "11": "Master-crafted power weapon",
+    "12": "Astartes chainsword",
+    "13": "Close combat weapon",
+    "14": "Bolt rifle",
+    "15": "Neophyte firearm",
+    "16": "Power fist",
+    "17": "Pyreblaster",
+    "18": "Pyre pistol",
+    "19": "Black Sword",
+    "20": "Bolt Pistol",
+    "21": "Absolvor bolt pistol",
+    "22": "Crozius arcanum",
+    "23": "Master-crafted power weapon",
+    "24": "Lancer laser destroyer",
+    "25": "Storm bolter",
+    "26": "Armoured hull",
+    "27": "Fragstorm grenade launcher",
+    "28": "Icarus rocket pod",
+    "29": "Ironhail heavy stubber",
+    "30": "Multi-melta",
+    "31": "Tempest bolter",
+    "32": "Twin heavy onslaught gatling cannon",
+    "33": "Twin las-talon",
+    "34": "Ferocity",
+    "35": "Sword of the High Marshals",
+    "36": "Bellicatus missile array",
+    "37": "Ironhail skytalon array",
+    "38": "Orbital Comms Array (Aura)",
+    "39": "Shield Dome",
+    "40": "Twin assault cannon",
+    "41": "Hurricane bolter",
+    "42": "Armoured tracks",
+    "43": "Hunter-killer missile",
+    "44": "Master-crafted power weapon",
+    "45": "Twin heavy bolter",
+    "46": "Heavy onslaught gatling cannon",
+    "47": "Armoured hull",
+    "48": "Hunter-slayer missile",
+    "49": "Repulsor defensive array",
+    "50": "Las-talon",
+    "51": "Twin lascannon",
+    "52": "Twin Icarus ironhail heavy stubber",
+    "53": "Macro plasma incinerator",
+    "54": "Repulsor Executioner defensive array",
+    "55": "Heavy laser destroyer",
+    "56": "Sternguard bolt pistol",
+    "57": "Sternguard bolt rifle",
+    "58": "Close combat weapon",
+    "59": "Sternguard heavy bolter",
+    "60": "Pyrecannon",
+    "61": "Astartes chainsword",
+    "62": "Combi-weapon",
+    "63": "Power weapon",
+    "64": "Power fist",
+    "65": "Astartes chainsword",
+    "66": "Plasma pistol",
+    "67": "Thunder hammer",
+    "68": "Twin lightning claws",
+    "69": "Chainfist",
+    "70": "Power weapon",
+    "71": "Assault cannon",
+    "72": "Heavy flamer",
+    "73": "Cyclone missile launcher"
+  },
+  "texts": {
+    "1": "This model’s master-crafted power weapon can be replaced with 1 Astartes chainsword.",
+    "2": "This model’s combi-weapon can be replaced with 1 heavy bolt pistol.",
+    "3": "Any number of Neophytes can each have their bolt pistol and Astartes chainsword replaced with 1 Neophyte firearm and 1 close combat weapon.",
+    "4": "For every 10 models in this unit, up to 2 Initiates can each have their bolt rifle replaced with one of the following:\n\n◦ 1 heavy bolt pistol and 1 power fist\n◦ 1 pyreblaster",
+    "5": "Any number of Initiates can each have their bolt rifle replaced with 1 heavy bolt pistol and 1 Astartes chainsword.",
+    "6": "The Sword Brother’s heavy bolt pistol can be replaced with 1 pyre pistol.",
+    "7": "This model’s absolver bolt pistol can be replaced with 1 pyre pistol.",
+    "8": "lf this model is equipped with an absolver bolt pistol, it can be equipped with 1 master-crafted power weapon (this model’s absolver bolt pistol cannot be replaced).",
+    "9": "This model’s 2 storm bolters can be replaced with 2 fragstorm grenade launchers.",
+    "10": "This model can be equipped with 1 Icarus rocket pod.",
+    "11": "This model can be equipped with one of the following:",
+    "12": "This model can be equipped with 1 multi-melta.",
+    "13": "This model can be equipped with 1 hunter-killer missile.",
+    "14": "This model can be equipped with 1 storm bolter.",
+    "15": "This model’s plasma pistol can be replaced with one combi-weapon.",
+    "16": "This model’s heavy onslaught gatling cannon can be replaced with 1 las-talon.",
+    "17": "This model’s twin heavy bolter can be replaced with 1 twin lascannon.",
+    "18": "This model’s macro plasma incinerator can be replaced with 1 heavy laser destroyer.",
+    "19": "For every 5 models in this unit, 1 Sternguard Veteran’s Sternguard bolt rifle can be replaced with one of the following:",
+    "20": "The Sternguard Veteran Sergeant’s Sternguard bolt rifle can be replaced with one of the following:\n\n◦ 1 Astartes chainsword \n◦ 1 combi-weapon\n◦ 1 power weapon\n◦ 1 power fist\n◦ 1 Astartes chainsword and 1 Sternguard bolt rifle*\n◦ 1 power weapon and 1 Sternguard bolt rifle*\n◦ 1 power fist and 1 Sternguard bolt rifle*\n\n* This model’s Sternguard bolt rifle cannot be replaced.",
+    "21": "Any number of models can each have their Sternguard bolt rifle replaced with 1 combi-weapon.",
+    "22": "For every 5 models in this unit, 1 Sword Brother’s heavy bolt pistol can be replaced with 1 plasma pistol.",
+    "23": "Any number of Sword Brothers can each have their Astartes chainsword replaced with 1 master-crafted power weapon.",
+    "24": "For every 5 models in this unit, 1 Sword Brother’s Astartes chainsword can be replaced with 1 thunder hammer.",
+    "25": "For every 5 models in this unit, 1 Sword Brother’s heavy bolt pistol and Astartes chainsword can be replaced with 1 twin lightning claws.",
+    "26": "For every 5 models in this unit, up to 2 Sword Brothers can each have their heavy bolt pistol replaced with 1 pyre pistol.",
+    "27": "Any number of models can each have their power fist replaced with 1 chainfist.",
+    "28": "The Terminator Squad Leader’s power fist can be replaced with 1 power weapon.",
+    "29": "For every 5 models in this unit, 1 Terminator’s storm bolter can be replaced with one of the following:\n◦ 1 assault cannon\n◦ 1 heavy flamer\n◦ 1 cyclone missile launcher and 1 storm bolter.*\n\n* This model’s storm bolter cannot be replaced."
+  },
   "units": [
     {
       "id": "castellan",
@@ -59,6 +165,43 @@ export default {
           "to": "sternguard-veteran-squad",
           "type": "support"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              3
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              4
+            ]
+          ]
+        }
       ]
     },
     {
@@ -111,6 +254,38 @@ export default {
           "to": "sword-brethren-squad",
           "type": "leader"
         }
+      ],
+      "minis": [
+        {
+          "n": "Chaplain Grimaldus"
+        },
+        {
+          "n": "Cenobyte Servitor"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              5,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              6,
+              1
+            ],
+            [
+              7,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -149,6 +324,21 @@ export default {
           "to": "sword-brethren-squad",
           "type": "support"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              8,
+              1
+            ],
+            [
+              9,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -181,7 +371,117 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Sword Brother"
+        },
+        {
+          "n": "Initiate"
+        },
+        {
+          "n": "Neophyte"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              10,
+              1
+            ],
+            [
+              11,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              12,
+              1
+            ],
+            [
+              8,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              13,
+              1
+            ],
+            [
+              14,
+              1
+            ],
+            [
+              8,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 2,
+          "t": 3,
+          "in": "stepper",
+          "o": [
+            [
+              15
+            ],
+            [
+              13
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 4,
+          "in": "stepper",
+          "o": [
+            [
+              10
+            ],
+            [
+              16
+            ],
+            [
+              17
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 5,
+          "in": "stepper",
+          "o": [
+            [
+              10
+            ],
+            [
+              12
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              18
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "emperors-champion",
@@ -234,6 +534,21 @@ export default {
           "to": "sternguard-veteran-squad",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              19,
+              1
+            ],
+            [
+              20,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -272,6 +587,43 @@ export default {
           "to": "sword-brethren-squad",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              21,
+              1
+            ],
+            [
+              22,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              18
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 8,
+          "in": "checkbox",
+          "o": [
+            [
+              23
+            ]
+          ]
+        }
       ]
     },
     {
@@ -300,7 +652,61 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              24,
+              1
+            ],
+            [
+              25,
+              2
+            ],
+            [
+              26,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 9,
+          "in": "stepper",
+          "o": [
+            [
+              27
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 10,
+          "in": "checkbox",
+          "o": [
+            [
+              28
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              29
+            ],
+            [
+              30
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "gladiator-reaper",
@@ -328,7 +734,51 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              26,
+              1
+            ],
+            [
+              31,
+              2
+            ],
+            [
+              32,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 10,
+          "in": "checkbox",
+          "o": [
+            [
+              28
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              29
+            ],
+            [
+              30
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "gladiator-valiant",
@@ -356,7 +806,51 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              26,
+              1
+            ],
+            [
+              33,
+              1
+            ],
+            [
+              30,
+              2
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 10,
+          "in": "checkbox",
+          "o": [
+            [
+              28
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              29
+            ],
+            [
+              30
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "high-marshal-helbrecht",
@@ -404,6 +898,21 @@ export default {
           "to": "sword-brethren-squad",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              34,
+              1
+            ],
+            [
+              35,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -429,7 +938,66 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              26,
+              1
+            ],
+            [
+              25,
+              2
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              36
+            ],
+            [
+              37
+            ],
+            [
+              38
+            ],
+            [
+              39
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 9,
+          "in": "stepper",
+          "o": [
+            [
+              27
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              29
+            ],
+            [
+              30
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "land-raider-crusader",
@@ -460,7 +1028,58 @@ export default {
       "step": {
         "at": 3,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              40,
+              1
+            ],
+            [
+              41,
+              2
+            ],
+            [
+              42,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              30
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 13,
+          "in": "checkbox",
+          "o": [
+            [
+              43
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 14,
+          "in": "checkbox",
+          "o": [
+            [
+              25
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "marshal",
@@ -522,6 +1141,33 @@ export default {
           "to": "sternguard-veteran-squad",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              7,
+              1
+            ],
+            [
+              44,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 15,
+          "in": "checkbox",
+          "o": [
+            [
+              2
+            ]
+          ]
+        }
       ]
     },
     {
@@ -551,7 +1197,66 @@ export default {
       "step": {
         "at": 3,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              45,
+              1
+            ],
+            [
+              46,
+              1
+            ],
+            [
+              47,
+              1
+            ],
+            [
+              48,
+              1
+            ],
+            [
+              49,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 16,
+          "in": "checkbox",
+          "o": [
+            [
+              50
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              30
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 17,
+          "in": "checkbox",
+          "o": [
+            [
+              51
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "repulsor-executioner",
@@ -580,7 +1285,73 @@ export default {
       "step": {
         "at": 3,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              52,
+              1
+            ],
+            [
+              53,
+              1
+            ],
+            [
+              45,
+              1
+            ],
+            [
+              46,
+              1
+            ],
+            [
+              47,
+              1
+            ],
+            [
+              54,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              29
+            ],
+            [
+              30
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 18,
+          "in": "checkbox",
+          "o": [
+            [
+              55
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 10,
+          "in": "checkbox",
+          "o": [
+            [
+              28
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "sternguard-veteran-squad",
@@ -611,7 +1382,98 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Sternguard Veteran Sergeant"
+        },
+        {
+          "n": "Sternguard Veteran"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              56,
+              1
+            ],
+            [
+              57,
+              1
+            ],
+            [
+              58,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              57,
+              1
+            ],
+            [
+              58,
+              1
+            ],
+            [
+              56,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 19,
+          "in": "stepper",
+          "o": [
+            [
+              59
+            ],
+            [
+              60
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 20,
+          "in": "checkbox",
+          "o": [
+            [
+              61
+            ],
+            [
+              62
+            ],
+            [
+              63
+            ],
+            [
+              64
+            ],
+            [
+              57
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 21,
+          "in": "stepper",
+          "o": [
+            [
+              62
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "sword-brethren-squad",
@@ -660,7 +1522,74 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              10,
+              1
+            ],
+            [
+              65,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 22,
+          "in": "stepper",
+          "o": [
+            [
+              66
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 23,
+          "in": "stepper",
+          "o": [
+            [
+              11
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 24,
+          "in": "stepper",
+          "o": [
+            [
+              67
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 25,
+          "in": "stepper",
+          "o": [
+            [
+              68
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 26,
+          "in": "stepper",
+          "o": [
+            [
+              18
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "terminator-squad",
@@ -690,7 +1619,94 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Terminator Squad Leader"
+        },
+        {
+          "n": "Terminator"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              25,
+              1
+            ],
+            [
+              16,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              25,
+              1
+            ],
+            [
+              16,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 27,
+          "in": "checkbox",
+          "o": [
+            [
+              69
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 28,
+          "in": "checkbox",
+          "o": [
+            [
+              70
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 29,
+          "in": "stepper",
+          "o": [
+            [
+              71
+            ],
+            [
+              72
+            ],
+            [
+              73
+            ],
+            [
+              25
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 27,
+          "in": "stepper",
+          "o": [
+            [
+              69
+            ]
+          ]
+        }
+      ]
     }
   ],
   "detachments": [

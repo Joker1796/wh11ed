@@ -2,6 +2,213 @@
 export default {
   "slug": "imperial-agents",
   "name": "Agents of the Imperium",
+  "items": {
+    "1": "Bolt pistol",
+    "2": "Heavy thunder hammer",
+    "3": "Deathwatch marksman bolt carbine",
+    "4": "Close combat weapon",
+    "5": "Special-issue bolt pistol",
+    "6": "Stalker bolt rifle",
+    "7": "Power weapon",
+    "8": "Plasma pistol",
+    "9": "Infernus heavy bolter",
+    "10": "Xenophase blade",
+    "11": "Combat knife",
+    "12": "Frag cannon",
+    "13": "Hellstorm bolt rifle",
+    "14": "Astartes grenade launcher",
+    "15": "Plasma incinerator",
+    "16": "Astartes shield",
+    "17": "Neural shredder",
+    "18": "Phase sword and poison blades",
+    "19": "Blackstar rocket launcher",
+    "20": "Armoured hull",
+    "21": "Twin assault cannon",
+    "22": "Stormstrike missile launcher",
+    "23": "Hurricane bolter",
+    "24": "Auspex Array",
+    "25": "Infernum Halo-launcher",
+    "26": "Twin lascannon",
+    "27": "Life-draining touch",
+    "28": "Animus speculum",
+    "29": "Power weapon",
+    "30": "Boltgun",
+    "31": "Black Shield blades",
+    "32": "Stalker-pattern boltgun",
+    "33": "Deathwatch shotgun",
+    "34": "Frag cannon",
+    "35": "Combi-weapon",
+    "36": "Deathwatch thunder hammer",
+    "37": "Infernus heavy bolter",
+    "38": "Executioner pistol",
+    "39": "Power sword and neuro gauntlet",
+    "40": "Mechanical bite",
+    "41": "Arbites shotpistol",
+    "42": "Close combat weapon",
+    "43": "Arbites combat shotgun",
+    "44": "Excruciator maul",
+    "45": "Executioner shotgun",
+    "46": "Arbites grenade launcher",
+    "47": "Heavy stubber",
+    "48": "Webber",
+    "49": "Soulguilt Scanner",
+    "50": "Arbites Medi-kit",
+    "51": "Nuncio-acquila",
+    "52": "Storm bolter",
+    "53": "Nemesis force weapon",
+    "54": "Incinerator",
+    "55": "Psilencer",
+    "56": "Psycannon",
+    "57": "Narthecium",
+    "58": "Ancient’s Banner",
+    "59": "Navis shotgun",
+    "60": "Close combat weapon",
+    "61": "Autopistol",
+    "62": "Chainfist",
+    "63": "Power weapon",
+    "64": "Navis heavy shotgun",
+    "65": "Endurant Shield",
+    "66": "Meltagun",
+    "67": "Plasma gun",
+    "68": "Navis las-volley",
+    "69": "Chainsword",
+    "70": "Bolt pistol",
+    "71": "Demolition charge",
+    "72": "Hunter-killer missile",
+    "73": "Blessed Wardings",
+    "74": "Inquisitorial melee weapon",
+    "75": "Bolt pistol",
+    "76": "Psychic Gifts",
+    "77": "Psychic Shock Wave",
+    "78": "Combi-weapon",
+    "79": "Force weapon",
+    "80": "Psychic Blast",
+    "81": "Nemesis daemon hammer",
+    "82": "Psychic Tempest",
+    "83": "Power fist",
+    "84": "Dirgesinger",
+    "85": "Castigation",
+    "86": "Condemnor stake",
+    "87": "Master-crafted power sword",
+    "88": "Butcher blade",
+    "89": "Garralisk’s claws and teeth",
+    "90": "Jindarii tox‑cycler",
+    "91": "Stubcarbine",
+    "92": "Agent melee weapon",
+    "93": "Heavy bolter",
+    "94": "Agent firearm",
+    "95": "Tome‐skull",
+    "96": "Plasma pistol",
+    "97": "Mystic stave",
+    "98": "Eviscerator",
+    "99": "Multi-melta",
+    "100": "Plasma cannon",
+    "101": "Hunter-killer missile",
+    "102": "Storm bolter",
+    "103": "Heavy flamer",
+    "104": "Heavy bolter",
+    "105": "Zealot’s vindictor",
+    "106": "Holy pistol",
+    "107": "Power weapon",
+    "108": "Healing serum",
+    "109": "Laspistol",
+    "110": "Death Cult power blade",
+    "111": "Dartmask",
+    "112": "Voltaic pistol",
+    "113": "Household pistol",
+    "114": "Monomolecular cane-rapier",
+    "115": "Close combat weapon",
+    "116": "Simulacrum Imperialis",
+    "117": "Holy fire",
+    "118": "Ministorum hand flamer",
+    "119": "Heavy bolter",
+    "120": "Immolation flamers",
+    "121": "Armoured tracks",
+    "122": "Twin heavy bolter",
+    "123": "Twin multi-melta",
+    "124": "Close combat weapon",
+    "125": "Boltgun",
+    "126": "Condemnor boltgun",
+    "127": "Inferno pistol",
+    "128": "Artificer-crafted storm bolter",
+    "129": "Meltagun",
+    "130": "Ministorum flamer",
+    "131": "Ministorum heavy flamer",
+    "132": "Chainsword",
+    "133": "Shock maul",
+    "134": "Master-crafted power weapon",
+    "135": "Hellfire Extremis",
+    "136": "Vigil spear",
+    "137": "Exitus pistol",
+    "138": "Exitus rifle",
+    "139": "Vindicare combat knife",
+    "140": "Artificer shotgun",
+    "141": "Lasgun",
+    "142": "Vicious bite",
+    "143": "Voidsman rotor cannon"
+  },
+  "texts": {
+    "1": "For every 5 models in the unit, up to one model’s Deathwatch marksman bolt carbine can be replaced with 1 combat knife.",
+    "2": "For every 5 models in the unit, up to one model’s infernus heavy bolter can be replaced with one of the following:\n◦ 1 frag cannon.\n◦ 1 hellstorm bolt rifle and 1 Astartes grenade launcher.",
+    "3": "For every 5 models in the unit, up to one model’s stalker bolt rifle can be replaced with 1 plasma incinerator.",
+    "4": "For every 5 models in the unit, up to one model’s heavy thunder hammer can be replaced with 1 power weapon and 1 Astartes shield.",
+    "5": "This model’s 2 Blackstar rocket launchers can be replaced with 2 stormstrike missile launchers.",
+    "6": "This model can be equipped with 1 hurricane bolter.",
+    "7": "This model can be equipped with one of the following:",
+    "8": "This model’s twin assault cannon can be replaced with 1 twin lascannon.",
+    "9": "One model’s boltgun and power weapon can be replaced with 1 Black Shield blades.",
+    "10": "For every 5 models in this unit, 1 model can have their boltgun and power weapon replaced with 1 stalker‐pattern boltgun and 1 close combat weapon.",
+    "11": "For every 5 models in this unit, up to 2 models can each have their boltgun and power weapon replaced with 1 Deathwatch shotgun and 1 close combat weapon.",
+    "12": "For every 5 models in this unit, up to 2 models can each have their boltgun and power weapon replaced with one of the following:\n◦ 1 boltgun and 1 Astartes shield\n◦ 1 power weapon and 1 Astartes shield",
+    "13": "For every 5 models in this unit, 1 model can have its boltgun and power weapon replaced with 1 frag cannon and 1 close combat weapon.",
+    "14": "The Watch Sergeant’s boltgun can be replaced with 1 combi‐weapon.",
+    "15": "For every 5 models in this unit, up to 2 models can each have their boltgun and power weapon replaced with 1 Deathwatch thunder hammer.",
+    "16": "The Watch Sergeant’s power weapon can be replaced with 1 xenophase blade.",
+    "17": "For every 5 models in this unit, 1 model can have its boltgun and power weapon replaced with 1 infernus heavy bolter and 1 close combat weapon.",
+    "18": "1 Exaction Vigilant that is equipped with an Arbites combat shotgun can be equipped with 1 excruciator maul.*\n\n*That model’s Arbites combat shotgun cannot be replaced.",
+    "19": "Up to 2 Exaction Vigilants can each have their Arbites combat shotguns replaced with one of the following (duplicates are not allowed):",
+    "20": "1 other Exaction Vigilant that is equipped with an Arbites combat shotgun can be equipped with 1 soulguilt scanner.*\n\n* That model’s Arbites combat shotgun cannot be replaced.",
+    "21": "1 other Exaction Vigilant that is equipped with an Arbites combat shotgun can be equipped with 1 Arbites medi-kit.*\n\n* That model’s Arbites combat shotgun cannot be replaced.",
+    "22": "The Proctor-Exactant can be equipped with 1 nuncio aquila.",
+    "23": "1 Grey Knights Terminator’s storm bolter can be replaced with one of the following:",
+    "24": "1 Grey Knights Terminator can have its storm bolter replaced with 1 narthecium.* \n\n*You cannot select both an Ancient’s banner and a narthecium for the same model",
+    "25": "1 Grey Knights Terminator equipped with a storm bolter can be equipped with 1 Ancient’s banner.* \n\n*You cannot select both an Ancient’s banner and a narthecium for the same model",
+    "26": "1 Navis Armsman’s Navis shotgun can be replaced with 1 autopistol and 1 chainfist.",
+    "27": "1 Navis Armsman’s Navis shotgun can be replaced with 1 autopistol and 1 power weapon.",
+    "28": "One other Navis Armsman is equipped with:",
+    "29": "1 Navis Armsman’s Navis las-volley can be replaced with one of the following:",
+    "30": "One Navis Armsman is equipped with:",
+    "31": "Every other model is equipped with:",
+    "32": "The Navis Sergeant-at-Arms’ Navis shotgun can be replaced with one of the following: \n\n◦ 1 autopistol and 1 chainsword\n◦ 1 bolt pistol and 1 power weapon",
+    "33": "1 Navis Armsman can be equipped with 1 demolition charge.",
+    "34": "This model can be equipped with 1 hunter‐killer missile.",
+    "35": "This model’s blessed wardings can be replaced with 1 psychic gifts and 1 Psychic Shock Wave.",
+    "36": "This model’s bolt pistol can be replaced with 1 combi-weapon.",
+    "37": "If this model is equipped with 1 psychic gifts, its Inquisitorial melee weapon can be replaced with 1 force weapon.",
+    "38": "For every 5 Inquisitorial Agents in this unit, it can be equipped with 1 Tome‐skull.",
+    "39": "For every 5 Inquisitorial Agents in this unit, 1 Inquisitorial Agent can be equipped with 1 plasma pistol.",
+    "40": "For every 5 Inquisitorial Agents in this unit, 1 Inquisitorial Agent can be equipped with 1 Mystic stave.",
+    "41": "For every 5 Inquisitorial Agents in this unit, 1 Inquisitorial Agent can be equipped with 1 eviscerator.",
+    "42": "Any number of Gun Servitor’s can each have their heavy bolter replaced with one of the following:",
+    "43": "This model’s heavy bolter can be replaced with 1 heavy flamer.",
+    "44": "This model’s multi‐laser can be replaced with one of the following*:\n\n*This weapon cannot be replaced",
+    "45": "This model’s zealot’s vindictor can be replaced with 1 holy pistol and 1 power weapon.",
+    "46": "1 Sanctifier model can have its 1 Sanctifier melee weapon replaced with 1 close combat weapon and 1 simulacrum imperialis.",
+    "47": "1 Missionary model equipped with 1 plasma gun can be equipped with 1 holy fire (this model’s plasma gun cannot be replaced).",
+    "48": "1 Missionary model can have its 1 plasma gun replaced with 1 meltagun.",
+    "49": "1 Sanctifier model can have its 1 Sanctifier melee weapon replaced with 1 Ministorum hand flamer and 1 close combat weapon.",
+    "50": "This model can be equipped with 1 hunter-killer missile.",
+    "51": "This model’s immolation flamers can be replaced with one of the following:",
+    "52": "The Sister Superior’s boltgun can be replaced with one of the following:",
+    "53": "1 Battle Sister’s boltgun can be replaced with one of the following:",
+    "54": "1 Battle Sister equipped with 1 boltgun can be equipped with 1 simulacrum imperialis (that model’s boltgun cannot be replaced).",
+    "55": "The Sister Superior can be equipped with one of the following:",
+    "56": "The Proctor-Subductor can be equipped with 1 nuncio aquila.",
+    "57": "The Proctor-Vigilant can be equipped with 1 nuncio aquila.",
+    "58": "Up to 2 Vigilants can each have their Arbites combat shotgun replaced with one of the following (duplicates are not allowed):",
+    "59": "Every other Voidsman is equipped with:",
+    "60": "One Voidsman is equipped with:"
+  },
   "units": [
     {
       "id": "aquila-kill-team",
@@ -51,7 +258,170 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Kill Team Sergeant"
+        },
+        {
+          "n": "Deathwatch Veteran"
+        },
+        {
+          "n": "Deathwatch Veteran"
+        },
+        {
+          "n": "Deathwatch Veteran"
+        },
+        {
+          "n": "Deathwatch Veteran"
+        },
+        {
+          "n": "Gravis Veteran"
+        }
+      ],
+      "defaults": [
+        [
+          2,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ]
+          ]
+        ],
+        [
+          4,
+          [
+            [
+              3,
+              1
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              6,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              7,
+              1
+            ],
+            [
+              8,
+              1
+            ]
+          ]
+        ],
+        [
+          5,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              9,
+              1
+            ]
+          ]
+        ],
+        [
+          3,
+          [
+            [
+              5,
+              1
+            ],
+            [
+              10,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 4,
+          "t": 1,
+          "in": "stepper",
+          "o": [
+            [
+              11
+            ]
+          ]
+        },
+        {
+          "m": 5,
+          "t": 2,
+          "in": "stepper",
+          "o": [
+            [
+              12
+            ],
+            [
+              13
+            ],
+            [
+              14
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 3,
+          "in": "stepper",
+          "o": [
+            [
+              15
+            ]
+          ]
+        },
+        {
+          "m": 2,
+          "t": 4,
+          "in": "stepper",
+          "o": [
+            [
+              7
+            ],
+            [
+              16
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "callidus-assassin",
@@ -94,7 +464,22 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              17,
+              1
+            ],
+            [
+              18,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "corvus-blackstar",
@@ -129,7 +514,71 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              19,
+              2
+            ],
+            [
+              20,
+              1
+            ],
+            [
+              21,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 5,
+          "in": "stepper",
+          "o": [
+            [
+              22
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              23
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              24
+            ],
+            [
+              25
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 8,
+          "in": "checkbox",
+          "o": [
+            [
+              26
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "culexus-assassin",
@@ -173,7 +622,22 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              27,
+              1
+            ],
+            [
+              28,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "deathwatch-kill-team",
@@ -221,7 +685,241 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Watch Sergeant"
+        },
+        {
+          "n": "Deathwatch Veterans"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              29,
+              1
+            ],
+            [
+              30,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              29,
+              1
+            ],
+            [
+              30,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 9,
+          "in": "checkbox",
+          "o": [
+            [
+              31
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 10,
+          "in": "checkbox",
+          "o": [
+            [
+              32
+            ],
+            [
+              4
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 11,
+          "in": "stepper",
+          "o": [
+            [
+              33
+            ],
+            [
+              4
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 10,
+          "in": "stepper",
+          "o": [
+            [
+              32
+            ],
+            [
+              4
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 12,
+          "in": "stepper",
+          "o": [
+            [
+              30
+            ],
+            [
+              29
+            ],
+            [
+              16
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 13,
+          "in": "stepper",
+          "o": [
+            [
+              34
+            ],
+            [
+              4
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 14,
+          "in": "checkbox",
+          "o": [
+            [
+              35
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              33
+            ],
+            [
+              4
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              30
+            ],
+            [
+              29
+            ],
+            [
+              16
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 13,
+          "in": "checkbox",
+          "o": [
+            [
+              34
+            ],
+            [
+              4
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 15,
+          "in": "stepper",
+          "o": [
+            [
+              36
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 9,
+          "in": "checkbox",
+          "o": [
+            [
+              31
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 16,
+          "in": "checkbox",
+          "o": [
+            [
+              10
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 17,
+          "in": "checkbox",
+          "o": [
+            [
+              37
+            ],
+            [
+              4
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 15,
+          "in": "checkbox",
+          "o": [
+            [
+              36
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 17,
+          "in": "stepper",
+          "o": [
+            [
+              37
+            ],
+            [
+              4
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "eversor-assassin",
@@ -265,7 +963,22 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              38,
+              1
+            ],
+            [
+              39,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "exaction-squad",
@@ -297,7 +1010,124 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Proctor-Exactant"
+        },
+        {
+          "n": "Exaction Vigilant"
+        },
+        {
+          "n": "Cyber-mastiff"
+        }
+      ],
+      "defaults": [
+        [
+          2,
+          [
+            [
+              40,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              41,
+              1
+            ],
+            [
+              42,
+              1
+            ],
+            [
+              43,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              43,
+              1
+            ],
+            [
+              41,
+              1
+            ],
+            [
+              42,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 18,
+          "in": "checkbox",
+          "o": [
+            [
+              44
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 19,
+          "in": "checkbox",
+          "o": [
+            [
+              45
+            ],
+            [
+              46
+            ],
+            [
+              47
+            ],
+            [
+              48
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 20,
+          "in": "checkbox",
+          "o": [
+            [
+              49
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 21,
+          "in": "checkbox",
+          "o": [
+            [
+              50
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 22,
+          "in": "checkbox",
+          "o": [
+            [
+              51
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "grey-knights-terminator-squad",
@@ -331,7 +1161,82 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Terminator Justicar"
+        },
+        {
+          "n": "Grey Knights Terminators"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              52,
+              1
+            ],
+            [
+              53,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              53,
+              1
+            ],
+            [
+              52,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 23,
+          "in": "checkbox",
+          "o": [
+            [
+              54
+            ],
+            [
+              55
+            ],
+            [
+              56,
+              5
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 24,
+          "in": "checkbox",
+          "o": [
+            [
+              57
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 25,
+          "in": "checkbox",
+          "o": [
+            [
+              58
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "imperial-navy-breachers",
@@ -365,7 +1270,156 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Navis Sergeant-at-Arms"
+        },
+        {
+          "n": "Navis Armsman"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              59,
+              1
+            ],
+            [
+              60,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 26,
+          "in": "checkbox",
+          "o": [
+            [
+              61
+            ],
+            [
+              62
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 27,
+          "in": "checkbox",
+          "o": [
+            [
+              61
+            ],
+            [
+              63
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 28,
+          "in": "checkbox",
+          "o": [
+            [
+              64,
+              0,
+              1
+            ],
+            [
+              60,
+              0,
+              1
+            ],
+            [
+              65,
+              0,
+              1
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 29,
+          "in": "checkbox",
+          "o": [
+            [
+              66
+            ],
+            [
+              67
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 30,
+          "in": "checkbox",
+          "o": [
+            [
+              68,
+              0,
+              1
+            ],
+            [
+              60,
+              0,
+              1
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 31,
+          "in": "stepper",
+          "o": [
+            [
+              59,
+              0,
+              7
+            ],
+            [
+              60,
+              0,
+              7
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 32,
+          "in": "checkbox",
+          "o": [
+            [
+              61
+            ],
+            [
+              69
+            ],
+            [
+              70
+            ],
+            [
+              63
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 33,
+          "in": "checkbox",
+          "o": [
+            [
+              71
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "imperial-rhino",
@@ -398,7 +1452,19 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "gear": [
+        {
+          "m": 0,
+          "t": 34,
+          "in": "checkbox",
+          "o": [
+            [
+              72
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "inquisitor",
@@ -469,6 +1535,60 @@ export default {
           "to": "sanctifiers",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              73,
+              1
+            ],
+            [
+              74,
+              1
+            ],
+            [
+              75,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 35,
+          "in": "checkbox",
+          "o": [
+            [
+              76
+            ],
+            [
+              77
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 36,
+          "in": "checkbox",
+          "o": [
+            [
+              78
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 37,
+          "in": "checkbox",
+          "o": [
+            [
+              79
+            ]
+          ]
+        }
       ]
     },
     {
@@ -532,6 +1652,25 @@ export default {
           "to": "vigilant-squad",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              80,
+              1
+            ],
+            [
+              75,
+              1
+            ],
+            [
+              81,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -596,6 +1735,25 @@ export default {
           "to": "vigilant-squad",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              82,
+              1
+            ],
+            [
+              83,
+              1
+            ],
+            [
+              84,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -664,6 +1822,25 @@ export default {
           "to": "sanctifiers",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              85,
+              1
+            ],
+            [
+              86,
+              1
+            ],
+            [
+              87,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -701,7 +1878,30 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              88,
+              1
+            ],
+            [
+              89,
+              1
+            ],
+            [
+              90,
+              1
+            ],
+            [
+              91,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "inquisitorial-agents",
@@ -760,7 +1960,98 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Inquisitorial Agent"
+        },
+        {
+          "n": "Gun Servitor"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              92,
+              1
+            ],
+            [
+              93,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              94,
+              1
+            ],
+            [
+              92,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 38,
+          "in": "stepper",
+          "o": [
+            [
+              95
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 39,
+          "in": "stepper",
+          "o": [
+            [
+              96
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 40,
+          "in": "stepper",
+          "o": [
+            [
+              97
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 41,
+          "in": "stepper",
+          "o": [
+            [
+              98
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 42,
+          "in": "stepper",
+          "o": [
+            [
+              99
+            ],
+            [
+              100
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "inquisitorial-chimera",
@@ -793,7 +2084,55 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "gear": [
+        {
+          "m": 0,
+          "t": 34,
+          "in": "checkbox",
+          "o": [
+            [
+              101
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              47
+            ],
+            [
+              102
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 43,
+          "in": "checkbox",
+          "o": [
+            [
+              103
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 44,
+          "in": "checkbox",
+          "o": [
+            [
+              104
+            ],
+            [
+              103
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "ministorum-priest",
@@ -855,6 +2194,32 @@ export default {
         {
           "to": "sanctifiers",
           "type": "support"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              105,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 45,
+          "in": "checkbox",
+          "o": [
+            [
+              106
+            ],
+            [
+              107
+            ]
+          ]
         }
       ]
     },
@@ -944,6 +2309,78 @@ export default {
           "to": "voidsmen-at-arms",
           "type": "leader"
         }
+      ],
+      "minis": [
+        {
+          "n": "Rogue Trader"
+        },
+        {
+          "n": "Death Cult Assassin"
+        },
+        {
+          "n": "Lectro‐Maester"
+        },
+        {
+          "n": "Rejuvenat Adept"
+        }
+      ],
+      "defaults": [
+        [
+          3,
+          [
+            [
+              108,
+              1
+            ],
+            [
+              109,
+              1
+            ],
+            [
+              60,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              110,
+              1
+            ],
+            [
+              111,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              60,
+              1
+            ],
+            [
+              112,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              113,
+              1
+            ],
+            [
+              114,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -975,7 +2412,72 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Miraculist"
+        },
+        {
+          "n": "Salvationist"
+        },
+        {
+          "n": "Death Cult Assassin"
+        },
+        {
+          "n": "Missionary"
+        },
+        {
+          "n": "Sanctifier"
+        }
+      ],
+      "gear": [
+        {
+          "m": 4,
+          "t": 46,
+          "in": "checkbox",
+          "o": [
+            [
+              115
+            ],
+            [
+              116
+            ]
+          ]
+        },
+        {
+          "m": 3,
+          "t": 47,
+          "in": "checkbox",
+          "o": [
+            [
+              117
+            ]
+          ]
+        },
+        {
+          "m": 3,
+          "t": 48,
+          "in": "checkbox",
+          "o": [
+            [
+              66
+            ]
+          ]
+        },
+        {
+          "m": 4,
+          "t": 49,
+          "in": "checkbox",
+          "o": [
+            [
+              118
+            ],
+            [
+              115
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "sisters-of-battle-immolator",
@@ -1009,7 +2511,52 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              119,
+              1
+            ],
+            [
+              120,
+              1
+            ],
+            [
+              121,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 50,
+          "in": "checkbox",
+          "o": [
+            [
+              72
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 51,
+          "in": "checkbox",
+          "o": [
+            [
+              122
+            ],
+            [
+              123,
+              15
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "sisters-of-battle-squad",
@@ -1041,7 +2588,142 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Sister Superior"
+        },
+        {
+          "n": "Battle Sister"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              124,
+              1
+            ],
+            [
+              75,
+              1
+            ],
+            [
+              125,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              124,
+              1
+            ],
+            [
+              125,
+              1
+            ],
+            [
+              75,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 52,
+          "in": "checkbox",
+          "o": [
+            [
+              75
+            ],
+            [
+              35
+            ],
+            [
+              126
+            ],
+            [
+              127
+            ],
+            [
+              118
+            ],
+            [
+              8
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 53,
+          "in": "checkbox",
+          "o": [
+            [
+              128
+            ],
+            [
+              93
+            ],
+            [
+              129
+            ],
+            [
+              130
+            ],
+            [
+              131
+            ],
+            [
+              99
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 53,
+          "in": "checkbox",
+          "o": [
+            [
+              128
+            ],
+            [
+              129
+            ],
+            [
+              130
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 54,
+          "in": "checkbox",
+          "o": [
+            [
+              116
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 55,
+          "in": "checkbox",
+          "o": [
+            [
+              132
+            ],
+            [
+              63
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "subductor-squad",
@@ -1073,7 +2755,67 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Proctor-Subductor"
+        },
+        {
+          "n": "Subductor"
+        },
+        {
+          "n": "Cyber-mastiff"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              133,
+              1
+            ],
+            [
+              41,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              41,
+              1
+            ],
+            [
+              133,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              40,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 56,
+          "in": "checkbox",
+          "o": [
+            [
+              51
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "vigilant-squad",
@@ -1106,7 +2848,94 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Proctor-Vigilant"
+        },
+        {
+          "n": "Vigilant"
+        },
+        {
+          "n": "Cyber-mastiff"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              43,
+              1
+            ],
+            [
+              41,
+              1
+            ],
+            [
+              42,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              40,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              43,
+              1
+            ],
+            [
+              41,
+              1
+            ],
+            [
+              42,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 57,
+          "in": "checkbox",
+          "o": [
+            [
+              51
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 58,
+          "in": "checkbox",
+          "o": [
+            [
+              45
+            ],
+            [
+              46
+            ],
+            [
+              47
+            ],
+            [
+              48
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "vindicare-assassin",
@@ -1150,7 +2979,26 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              137,
+              1
+            ],
+            [
+              138,
+              1
+            ],
+            [
+              139,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "voidsmen-at-arms",
@@ -1182,7 +3030,109 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Voidmaster"
+        },
+        {
+          "n": "Voidsman"
+        },
+        {
+          "n": "Canid"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              60,
+              1
+            ],
+            [
+              109,
+              1
+            ],
+            [
+              140,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              109,
+              1
+            ],
+            [
+              141,
+              1
+            ],
+            [
+              60,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              142,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 59,
+          "in": "stepper",
+          "o": [
+            [
+              141,
+              0,
+              3
+            ],
+            [
+              109,
+              0,
+              3
+            ],
+            [
+              60,
+              0,
+              3
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 60,
+          "in": "stepper",
+          "o": [
+            [
+              109,
+              0,
+              1
+            ],
+            [
+              143,
+              0,
+              1
+            ],
+            [
+              60,
+              0,
+              1
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "watch-captain-artemis",
@@ -1229,6 +3179,21 @@ export default {
           "to": "aquila-kill-team",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              134,
+              1
+            ],
+            [
+              135,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -1274,6 +3239,17 @@ export default {
           "to": "aquila-kill-team",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              136,
+              1
+            ]
+          ]
+        ]
       ]
     }
   ],

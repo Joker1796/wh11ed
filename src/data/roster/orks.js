@@ -2,6 +2,225 @@
 export default {
   "slug": "orks",
   "name": "Orks",
+  "items": {
+    "1": "Shoota",
+    "2": "Choppa",
+    "3": "Tracks and wheels",
+    "4": "Kannon",
+    "5": "Killkannon",
+    "6": "Zzap gun",
+    "7": "Lobba",
+    "8": "’Ard Case",
+    "9": "Grabbin’ klaw",
+    "10": "Wreckin’ ball",
+    "11": "Deff rolla",
+    "12": "Big shoota",
+    "13": "Shoota",
+    "14": "Beast Snagga klaw",
+    "15": "Beastchoppa",
+    "16": "Squigosaur’s jaws",
+    "17": "Slugga",
+    "18": "Thump gun",
+    "19": "Choppa",
+    "20": "Power snappa",
+    "21": "Close combat weapon",
+    "22": "Slugga",
+    "23": "Two‑handed big choppa",
+    "24": "Gaze of Gork",
+    "25": "Power klaw",
+    "26": "Kustom mega-blasta",
+    "27": "Drilla",
+    "28": "Traktor blasta",
+    "29": "Blitzkannon",
+    "30": "Rokkit launcha",
+    "31": "Stompy feet",
+    "32": "Tellyport blasta",
+    "33": "Kustom Force Field",
+    "34": "Killsaw",
+    "35": "Kombi-weapon",
+    "36": "Kustom shoota",
+    "37": "Grot Oiler",
+    "38": "Shokk attack gun",
+    "39": "Close combat weapon",
+    "40": "Grot Assistant",
+    "41": "Armoured hull",
+    "42": "Twin supa-shoota",
+    "43": "Grot blasta",
+    "44": "Mek speshul",
+    "45": "Spiked wheels",
+    "46": "Slugga",
+    "47": "Mork’s Teeth",
+    "48": "Choppa",
+    "49": "Big choppa",
+    "50": "Close combat weapon",
+    "51": "Power klaw",
+    "52": "Rokkit launcha",
+    "53": "Choppa",
+    "54": "Rokkit pistol",
+    "55": "Smash hammer",
+    "56": "Tankhammer",
+    "57": "Knucklebustas",
+    "58": "Twin big shoota",
+    "59": "Skorcha missile rack",
+    "60": "Cuttin’ flames",
+    "61": "Burna",
+    "62": "Close combat weapon",
+    "63": "Dread klaw",
+    "64": "Stompy feet",
+    "65": "Skorcha",
+    "66": "Boomstikks",
+    "67": "Killa jet",
+    "68": "Snagga klaw",
+    "69": "Huge tusks",
+    "70": "Kannon",
+    "71": "Supa-kannon",
+    "72": "Kopta rokkits",
+    "73": "Spinnin’ blades",
+    "74": "Snazzgun",
+    "75": "Ammo Runt",
+    "76": "Gork’s Klaw",
+    "77": "Mork’s Roar",
+    "78": "Makari’s stabba",
+    "79": "Klaw of Gork",
+    "80": "Deffstorm mega-shoota",
+    "81": "Runtherd tools",
+    "82": "Close combat weapon",
+    "83": "Savage horns and hooves",
+    "84": "Stikka kannon",
+    "85": "Saw blades",
+    "86": "’Eavy lobba",
+    "87": "Butcha boyz",
+    "88": "Kan klaw",
+    "89": "Kan shoota",
+    "90": "Grotzooka",
+    "91": "Rokkit launcha",
+    "92": "Wurrtower",
+    "93": "Breacha ram",
+    "94": "Bomb Squig",
+    "95": "Big choppa",
+    "96": "Distraction Grot",
+    "97": "Kustom shoota",
+    "98": "Burna exhausts",
+    "99": "Rivet kannon",
+    "100": "Spiked ram",
+    "101": "Deffgun",
+    "102": "Killsaw",
+    "103": "Twin killsaws",
+    "104": "Wing missiles",
+    "105": "Rokkit kannon",
+    "106": "Nose drill",
+    "107": "Kustom mega-slugga",
+    "108": "Killsaw",
+    "109": "Grot crew",
+    "110": "Smasha gun",
+    "111": "Bubblechukka",
+    "112": "Kustom mega-kannon",
+    "113": "Traktor kannon",
+    "114": "Kustom mega-zappa",
+    "115": "Klaw of Mork",
+    "116": "Big Chompa’s jaws",
+    "117": "Gutrippa",
+    "118": "Close combat weapon",
+    "119": "Ammo Runt",
+    "120": "Beast Snagga klaw",
+    "121": "Grot Orderly",
+    "122": "’Urty syringe",
+    "123": "Squig-launchas",
+    "124": "Saw blades",
+    "125": "Sawn-off shotgun",
+    "126": "Rokkits",
+    "127": "Kustom shokk rifle",
+    "128": "Stikka",
+    "129": "Saddlegit weapons",
+    "130": "Squig jaws",
+    "131": "Big choppa",
+    "132": "Mega-choppa",
+    "133": "Supa-gatler",
+    "134": "Deffkannon",
+    "135": "Supa-rokkits",
+    "136": "Pulsa Rokkit",
+    "137": "Spiked wheels",
+    "138": "Twin dakkagun",
+    "139": "Twin sluggas",
+    "140": "Big choppa",
+    "141": "Power klaw",
+    "142": "Attack squig",
+    "143": "’Uge choppa",
+    "144": "Big shoota",
+    "145": "Kustom shoota",
+    "146": "Rokkit launcha",
+    "147": "Choppas",
+    "148": "Fixit’s wrench",
+    "149": "Grabba dragga",
+    "150": "Psyko‑gatler",
+    "151": "Speeding bulk and flaming exhaust",
+    "152": "Smasha gun",
+    "153": "Twin wazbom mega-kannon",
+    "154": "Twin supa-shoota",
+    "155": "Twin tellyport mega-blasta",
+    "156": "Blastajet Force Field",
+    "157": "Weirdboy staff",
+    "158": "’Eadbanger",
+    "159": "Eyez of Mork",
+    "160": "Squigstoppa",
+    "161": "Da Grabzappa"
+  },
+  "texts": {
+    "1": "This model can be equipped with one of the following:",
+    "2": "This model can be equipped with:",
+    "3": "This model can be equipped with any of the following:",
+    "4": "This model’s tracks and wheels can be replaced with 1 deff rolla.",
+    "5": "This model can be equipped with up to 4 big shootas.",
+    "6": "This model can be equipped with 1 thump gun.",
+    "7": "For every 10 models in this unit, 1 Beast Snagga Boy’s slugga and choppa can be replaced with 1 thump gun and 1 close combat weapon.",
+    "8": "This model can be equipped with up to 3 additional big shootas.",
+    "9": "This model’s power klaw can be replaced with 1 drilla.",
+    "10": "This model’s kustom mega‑blasta can be replaced with 1 traktor blasta.",
+    "11": "This model’s kustom-mega blasta can be replaced with one of the following:",
+    "12": "This model can be equipped with 1 grot oiler.",
+    "13": "This model can be equipped with 1 grot assistant.",
+    "14": "The Boss Nob’s big choppa and slugga can be replaced with 1 kombi-weapon and 1 close combat weapon.",
+    "15": "The Boss Nob’s big choppa can be replaced with 1 power klaw.",
+    "16": "For every 10 models in this unit, 1 Boy’s choppa and slugga can be replaced with one of the following:\n\n◦ 1 big shoota and 1 close combat weapon\n◦ 1 rokkit launcha and 1 close combat weapon",
+    "17": "Any number of Boyz can each have their slugga and choppa replaced with 1 shoota and 1 close combat weapon.",
+    "18": "One Breaka Boy’s smash hammer can be replaced with 1 tankhammer.",
+    "19": "One Breaka Boy’s smash hammer can be replaced with 1 knucklebustas.",
+    "20": "The Boss Nob’s smash hammer can be replaced with 1 rokkit pistol.",
+    "21": "This model can be equipped with 1 skorcha missile rack.",
+    "22": "Any number of Spanners can each have their big shoota replaced with one of the following:",
+    "23": "This model can be equipped with 1 additional twin supa-shoota.",
+    "24": "This model’s big shootas can each be replaced with one of the following:",
+    "25": "This model’s dread klaws can each be replaced with one of the following:",
+    "26": "For every 3 models in this unit, 1 Deffkopta can have its kopta rokkits replaced with 1 kustom mega-blasta.",
+    "27": "This unit can be equipped with 1 ammo runt.",
+    "28": "Each Killa Kan’s Kan shoota can be replaced with one of the following:",
+    "29": "1 Kommando’s slugga and choppa can be replaced with 1 breacha ram.",
+    "30": "This unit can be equipped with 1 bomb squig.",
+    "31": "The Boss Nob’s choppa can be replaced with one of the following:",
+    "32": "This unit can be equipped with 1 distraction grot.",
+    "33": "1 Kommando’s slugga and choppa can be replaced with 1 burna and 1 close combat weapon.",
+    "34": "Up to 2 Kommandos can each have their slugga and choppa replaced with 1 Kustom shoota and 1 close combat weapon.",
+    "35": "1 Kommando’s slugga and choppa can be replaced with 1 rokkit launcha and 1 close combat weapon.",
+    "36": "Any number of models can each have their kustom shoota and power klaw replaced with one of the following:\n\n◦ 1 kombi-weapon and 1 power klaw\n◦ 1 kombi-weapon and 1 killsaw\n◦ 1 kustom shoota and 1 killsaw\n◦ 1 killsaw and 1 power klaw\n◦ 1 twin killsaws",
+    "37": "This model’s close combat weapon can be replaced with 1 killsaw.",
+    "38": "Each model’s smasha gun can be replaced with one of the following:",
+    "39": "Any number of models can each have their big choppa replaced with 1 power klaw.",
+    "40": "Any number of models can each have their slugga and big choppa replaced with 1 kombi-weapon and 1 close combat weapon.",
+    "41": "For every 5 models in this unit, this unit can be equipped with 1 ammo runt.",
+    "42": "This model can be equipped with 1 grot orderly.",
+    "43": "For every 4 models in this unit, this unit can be equipped with 1 bomb squig.",
+    "44": "The Boss Nob’s choppa can be replaced with 1 power klaw.",
+    "45": "One Tankbusta can be equipped with one of the following:\n\n◦ 1 pulsa rokkit\n◦ 1 additional rokkit launcha",
+    "46": "1 of the Boss Nob’s rokkit pistols can be replaced with 1 smash hammer.",
+    "47": "This model can be equipped with 1 wreckin’ ball.",
+    "48": "The Boss Nob on Warbike can be equipped with one of the following:",
+    "49": "Each Warbiker can be equipped with one of the following:",
+    "50": "This model’s big choppa can be replaced with 1 power klaw.",
+    "51": "This model can be equipped with 1 attack squig.",
+    "52": "This model can be equipped with 1 twin supa-shoota.",
+    "53": "This model’s twin wazbom mega-kannon can be replaced with 1 twin tellyport mega-blasta.",
+    "54": "This model can be equipped with 1 blastajet force field."
+  },
   "units": [
     {
       "id": "bannernob",
@@ -55,6 +274,21 @@ export default {
           "to": "tankbustas",
           "type": "support"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -78,7 +312,83 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              3,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              4
+            ],
+            [
+              5
+            ],
+            [
+              6
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              7
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 3,
+          "in": "checkbox",
+          "o": [
+            [
+              8,
+              15
+            ],
+            [
+              9
+            ],
+            [
+              10
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 4,
+          "in": "checkbox",
+          "o": [
+            [
+              11
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 5,
+          "in": "stepper",
+          "o": [
+            [
+              12
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "beast-snagga-boyz",
@@ -109,7 +419,58 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Beast Snagga Boy"
+        },
+        {
+          "n": "Beast Snagga Nob"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              19,
+              1
+            ],
+            [
+              17,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              20,
+              1
+            ],
+            [
+              17,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 7,
+          "in": "stepper",
+          "o": [
+            [
+              18
+            ],
+            [
+              21
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "beastboss",
@@ -141,6 +502,25 @@ export default {
           "to": "beast-snagga-boyz",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              13,
+              1
+            ],
+            [
+              14,
+              1
+            ],
+            [
+              15,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -172,6 +552,37 @@ export default {
         {
           "to": "squighog-boyz",
           "type": "leader"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              15,
+              1
+            ],
+            [
+              16,
+              1
+            ],
+            [
+              17,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              18
+            ]
+          ]
         }
       ]
     },
@@ -225,6 +636,43 @@ export default {
           "to": "tankbustas",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              25,
+              1
+            ],
+            [
+              26,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 9,
+          "in": "checkbox",
+          "o": [
+            [
+              27
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 10,
+          "in": "checkbox",
+          "o": [
+            [
+              28
+            ]
+          ]
+        }
       ]
     },
     {
@@ -251,7 +699,26 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              29,
+              1
+            ],
+            [
+              30,
+              1
+            ],
+            [
+              31,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "big-mek-in-mega-armour",
@@ -282,6 +749,62 @@ export default {
         {
           "to": "meganobz",
           "type": "leader"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              26,
+              1
+            ],
+            [
+              25,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              32
+            ],
+            [
+              33
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              34
+            ],
+            [
+              35
+            ],
+            [
+              36
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              37
+            ]
+          ]
         }
       ]
     },
@@ -339,6 +862,33 @@ export default {
           "to": "tankbustas",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              38,
+              1
+            ],
+            [
+              39,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 13,
+          "in": "checkbox",
+          "o": [
+            [
+              40
+            ]
+          ]
+        }
       ]
     },
     {
@@ -362,7 +912,34 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              24,
+              1
+            ],
+            [
+              12,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 8,
+          "in": "stepper",
+          "o": [
+            [
+              12
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "bigboss",
@@ -400,6 +977,21 @@ export default {
           "to": "nobz",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              22,
+              1
+            ],
+            [
+              23,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -425,7 +1017,26 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              41,
+              1
+            ],
+            [
+              12,
+              1
+            ],
+            [
+              42,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "boomdakka-snazzwagon",
@@ -448,7 +1059,30 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              43,
+              1
+            ],
+            [
+              12,
+              1
+            ],
+            [
+              44,
+              1
+            ],
+            [
+              45,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "boss-snikrot",
@@ -482,6 +1116,21 @@ export default {
           "to": "kommandos",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              46,
+              1
+            ],
+            [
+              47,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -513,7 +1162,97 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Boy"
+        },
+        {
+          "n": "Boss Nob"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              17,
+              1
+            ],
+            [
+              48,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              49,
+              1
+            ],
+            [
+              17,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 14,
+          "in": "checkbox",
+          "o": [
+            [
+              35
+            ],
+            [
+              50
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 15,
+          "in": "checkbox",
+          "o": [
+            [
+              51
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 16,
+          "in": "stepper",
+          "o": [
+            [
+              12
+            ],
+            [
+              52
+            ],
+            [
+              50
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 17,
+          "in": "stepper",
+          "o": [
+            [
+              1
+            ],
+            [
+              50
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "breaka-boyz",
@@ -539,7 +1278,75 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Boss Nob"
+        },
+        {
+          "n": "Breaka Boy"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              53,
+              1
+            ],
+            [
+              54,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              55,
+              1
+            ],
+            [
+              55,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 18,
+          "in": "checkbox",
+          "o": [
+            [
+              56
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 19,
+          "in": "checkbox",
+          "o": [
+            [
+              57
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 20,
+          "in": "checkbox",
+          "o": [
+            [
+              54
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "burna-boyz",
@@ -567,7 +1374,58 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Spanner"
+        },
+        {
+          "n": "Burna Boy"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              60,
+              1
+            ],
+            [
+              61,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              62,
+              1
+            ],
+            [
+              12,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 22,
+          "in": "stepper",
+          "o": [
+            [
+              26
+            ],
+            [
+              52
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "burna-bommer",
@@ -592,7 +1450,38 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              58,
+              1
+            ],
+            [
+              42,
+              1
+            ],
+            [
+              41,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 21,
+          "in": "checkbox",
+          "o": [
+            [
+              59
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "dakkajet",
@@ -617,7 +1506,34 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              41,
+              1
+            ],
+            [
+              42,
+              2
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 23,
+          "in": "checkbox",
+          "o": [
+            [
+              42
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "deff-dread",
@@ -643,7 +1559,66 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              63,
+              2
+            ],
+            [
+              12,
+              2
+            ],
+            [
+              64,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 24,
+          "in": "stepper",
+          "o": [
+            [
+              63
+            ],
+            [
+              26
+            ],
+            [
+              52
+            ],
+            [
+              65
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 25,
+          "in": "stepper",
+          "o": [
+            [
+              12
+            ],
+            [
+              26
+            ],
+            [
+              52
+            ],
+            [
+              65
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "deffkilla-wartrike",
@@ -675,6 +1650,25 @@ export default {
           "to": "warbikers",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              66,
+              1
+            ],
+            [
+              67,
+              1
+            ],
+            [
+              68,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -706,7 +1700,38 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              72,
+              1
+            ],
+            [
+              17,
+              1
+            ],
+            [
+              73,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 26,
+          "in": "stepper",
+          "o": [
+            [
+              26
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "flash-gitz",
@@ -739,7 +1764,55 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Kaptin"
+        },
+        {
+          "n": "Flash Git"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              53,
+              1
+            ],
+            [
+              74,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              53,
+              1
+            ],
+            [
+              74,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 27,
+          "in": "checkbox",
+          "o": [
+            [
+              75
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "gargantuan-squiggoth",
@@ -768,7 +1841,33 @@ export default {
       "step": {
         "at": 2,
         "pts": 50
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              69,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              70
+            ],
+            [
+              71
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "ghazghkull-thraka",
@@ -814,6 +1913,38 @@ export default {
           "to": "breaka-boyz",
           "type": "leader"
         }
+      ],
+      "minis": [
+        {
+          "n": "Ghazghkull Thraka"
+        },
+        {
+          "n": "Makari"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              76,
+              1
+            ],
+            [
+              77,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              78,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -843,7 +1974,34 @@ export default {
       "step": {
         "at": 3,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              79,
+              1
+            ],
+            [
+              58,
+              2
+            ],
+            [
+              80,
+              1
+            ],
+            [
+              52,
+              2
+            ],
+            [
+              65,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "gretchin",
@@ -873,7 +2031,43 @@ export default {
         }
       ],
       "linked": 1,
-      "condBattleline": 1
+      "condBattleline": 1,
+      "minis": [
+        {
+          "n": "Gretchin"
+        },
+        {
+          "n": "Runtherd"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              81,
+              1
+            ],
+            [
+              17,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              82,
+              1
+            ],
+            [
+              43,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "hunta-rig",
@@ -897,7 +2091,34 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              83,
+              1
+            ],
+            [
+              84,
+              1
+            ],
+            [
+              85,
+              1
+            ],
+            [
+              86,
+              1
+            ],
+            [
+              87,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "kill-rig",
@@ -922,7 +2143,38 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              87,
+              1
+            ],
+            [
+              83,
+              1
+            ],
+            [
+              92,
+              1
+            ],
+            [
+              86,
+              1
+            ],
+            [
+              85,
+              1
+            ],
+            [
+              84,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "killa-kans",
@@ -956,7 +2208,40 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              88,
+              1
+            ],
+            [
+              89,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 28,
+          "in": "stepper",
+          "o": [
+            [
+              90
+            ],
+            [
+              91
+            ],
+            [
+              65
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "kommandos",
@@ -979,7 +2264,127 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Kommando"
+        },
+        {
+          "n": "Boss Nob"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              48,
+              1
+            ],
+            [
+              17,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              17,
+              1
+            ],
+            [
+              48,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 29,
+          "in": "checkbox",
+          "o": [
+            [
+              93
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 30,
+          "in": "checkbox",
+          "o": [
+            [
+              94
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 31,
+          "in": "checkbox",
+          "o": [
+            [
+              95
+            ],
+            [
+              51
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 32,
+          "in": "checkbox",
+          "o": [
+            [
+              96
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 33,
+          "in": "checkbox",
+          "o": [
+            [
+              61
+            ],
+            [
+              50
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 34,
+          "in": "stepper",
+          "o": [
+            [
+              97
+            ],
+            [
+              50
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 35,
+          "in": "checkbox",
+          "o": [
+            [
+              52
+            ],
+            [
+              50
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "kustom-boosta-blasta",
@@ -1002,7 +2407,30 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              98,
+              1
+            ],
+            [
+              99,
+              1
+            ],
+            [
+              100,
+              1
+            ],
+            [
+              43,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "lootas",
@@ -1034,7 +2462,58 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Spanner"
+        },
+        {
+          "n": "Loota"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              12,
+              1
+            ],
+            [
+              50,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              50,
+              1
+            ],
+            [
+              101,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 22,
+          "in": "stepper",
+          "o": [
+            [
+              26
+            ],
+            [
+              52
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "meganobz",
@@ -1082,7 +2561,46 @@ export default {
       "step": {
         "at": 3,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              51,
+              1
+            ],
+            [
+              36,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 36,
+          "in": "stepper",
+          "o": [
+            [
+              35
+            ],
+            [
+              51
+            ],
+            [
+              102
+            ],
+            [
+              36
+            ],
+            [
+              103
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "megatrakk-scrapjet",
@@ -1104,7 +2622,30 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              104,
+              1
+            ],
+            [
+              105,
+              1
+            ],
+            [
+              58,
+              2
+            ],
+            [
+              106,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "mek",
@@ -1150,6 +2691,33 @@ export default {
           "to": "tankbustas",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              107,
+              1
+            ],
+            [
+              62,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 37,
+          "in": "checkbox",
+          "o": [
+            [
+              108
+            ]
+          ]
+        }
       ]
     },
     {
@@ -1190,7 +2758,40 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              109,
+              1
+            ],
+            [
+              110,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 38,
+          "in": "stepper",
+          "o": [
+            [
+              111
+            ],
+            [
+              112
+            ],
+            [
+              113
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "morkanaut",
@@ -1219,7 +2820,34 @@ export default {
       "step": {
         "at": 3,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              114,
+              1
+            ],
+            [
+              115,
+              1
+            ],
+            [
+              26,
+              1
+            ],
+            [
+              58,
+              2
+            ],
+            [
+              52,
+              2
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "mozrog-skragbad",
@@ -1253,6 +2881,25 @@ export default {
           "to": "squighog-boyz",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              116,
+              1
+            ],
+            [
+              117,
+              1
+            ],
+            [
+              18,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -1286,7 +2933,101 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Boss Nob"
+        },
+        {
+          "n": "Nob"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              17,
+              1
+            ],
+            [
+              49,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              17,
+              1
+            ],
+            [
+              49,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 39,
+          "in": "stepper",
+          "o": [
+            [
+              51
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 40,
+          "in": "checkbox",
+          "o": [
+            [
+              35
+            ],
+            [
+              118
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 41,
+          "in": "stepper",
+          "o": [
+            [
+              119
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 40,
+          "in": "stepper",
+          "o": [
+            [
+              35
+            ],
+            [
+              118
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 39,
+          "in": "checkbox",
+          "o": [
+            [
+              51
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "painboss",
@@ -1316,6 +3057,29 @@ export default {
         {
           "to": "beast-snagga-boyz",
           "type": "leader"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              120,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 42,
+          "in": "checkbox",
+          "o": [
+            [
+              121
+            ]
+          ]
         }
       ]
     },
@@ -1367,6 +3131,33 @@ export default {
           "to": "tankbustas",
           "type": "support"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              51,
+              1
+            ],
+            [
+              122,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 42,
+          "in": "checkbox",
+          "o": [
+            [
+              121
+            ]
+          ]
+        }
       ]
     },
     {
@@ -1389,7 +3180,26 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              123,
+              1
+            ],
+            [
+              124,
+              1
+            ],
+            [
+              125,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "shokkjump-dragsta",
@@ -1411,7 +3221,26 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              126,
+              1
+            ],
+            [
+              124,
+              1
+            ],
+            [
+              127,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "squighog-boyz",
@@ -1441,7 +3270,63 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Squighog Boy"
+        },
+        {
+          "n": "Nob on Smasha Squig"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              128,
+              1
+            ],
+            [
+              129,
+              1
+            ],
+            [
+              130,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              17,
+              1
+            ],
+            [
+              130,
+              1
+            ],
+            [
+              131,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 43,
+          "in": "stepper",
+          "o": [
+            [
+              94
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "stompa",
@@ -1471,7 +3356,42 @@ export default {
       "step": {
         "at": 2,
         "pts": 100
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              132,
+              1
+            ],
+            [
+              65,
+              1
+            ],
+            [
+              133,
+              1
+            ],
+            [
+              58,
+              1
+            ],
+            [
+              134,
+              1
+            ],
+            [
+              135,
+              1
+            ],
+            [
+              12,
+              3
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "stormboyz",
@@ -1503,7 +3423,55 @@ export default {
         }
       ],
       "linked": 1,
-      "condBattleline": 1
+      "condBattleline": 1,
+      "minis": [
+        {
+          "n": "Stormboy"
+        },
+        {
+          "n": "Boss Nob"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              17,
+              1
+            ],
+            [
+              48,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              48,
+              1
+            ],
+            [
+              17,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 44,
+          "in": "checkbox",
+          "o": [
+            [
+              51
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "tankbustas",
@@ -1529,7 +3497,68 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Boss Nob"
+        },
+        {
+          "n": "Tankbusta"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              53,
+              1
+            ],
+            [
+              54,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              118,
+              1
+            ],
+            [
+              52,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 45,
+          "in": "checkbox",
+          "o": [
+            [
+              136
+            ],
+            [
+              52
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 46,
+          "in": "checkbox",
+          "o": [
+            [
+              55
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "trukk",
@@ -1553,7 +3582,34 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              12,
+              1
+            ],
+            [
+              137,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 47,
+          "in": "checkbox",
+          "o": [
+            [
+              10
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "warbikers",
@@ -1584,7 +3640,74 @@ export default {
         }
       ],
       "linked": 1,
-      "condBattleline": 1
+      "condBattleline": 1,
+      "minis": [
+        {
+          "n": "Warbiker"
+        },
+        {
+          "n": "Boss Nob on Warbike"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              138,
+              1
+            ],
+            [
+              50,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              50,
+              1
+            ],
+            [
+              138,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 48,
+          "in": "checkbox",
+          "o": [
+            [
+              17
+            ],
+            [
+              49
+            ],
+            [
+              51
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 49,
+          "in": "stepper",
+          "o": [
+            [
+              17
+            ],
+            [
+              48
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "warboss",
@@ -1623,6 +3746,47 @@ export default {
           "to": "breaka-boyz",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              139,
+              1
+            ],
+            [
+              35,
+              1
+            ],
+            [
+              140,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 50,
+          "in": "checkbox",
+          "o": [
+            [
+              141
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 51,
+          "in": "checkbox",
+          "o": [
+            [
+              142
+            ]
+          ]
+        }
       ]
     },
     {
@@ -1655,6 +3819,21 @@ export default {
           "to": "meganobz",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              143,
+              1
+            ],
+            [
+              144,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -1677,7 +3856,26 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              145,
+              1
+            ],
+            [
+              146,
+              1
+            ],
+            [
+              147,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "wazbom-blastajet",
@@ -1702,7 +3900,58 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              152,
+              1
+            ],
+            [
+              41,
+              1
+            ],
+            [
+              153,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 52,
+          "in": "checkbox",
+          "o": [
+            [
+              154
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 53,
+          "in": "checkbox",
+          "o": [
+            [
+              155
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 54,
+          "in": "checkbox",
+          "o": [
+            [
+              156
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "wazdakka-gutsmek",
@@ -1731,7 +3980,30 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              148,
+              1
+            ],
+            [
+              149,
+              1
+            ],
+            [
+              150,
+              1
+            ],
+            [
+              151,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "weirdboy",
@@ -1766,6 +4038,21 @@ export default {
           "to": "breaka-boyz",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              157,
+              1
+            ],
+            [
+              158,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -1798,6 +4085,21 @@ export default {
           "to": "beast-snagga-boyz",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              159,
+              1
+            ],
+            [
+              118,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -1830,6 +4132,21 @@ export default {
           "to": "gretchin",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              160,
+              1
+            ],
+            [
+              161,
+              1
+            ]
+          ]
+        ]
       ]
     }
   ],

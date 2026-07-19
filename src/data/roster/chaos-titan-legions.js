@@ -2,6 +2,45 @@
 export default {
   "slug": "chaos-titan-legions",
   "name": "Titanicus Traitoris",
+  "items": {
+    "1": "Reaver laser blaster",
+    "2": "Reaver gatling blaster",
+    "3": "Reaver apocalypse launcher",
+    "4": "Reaver feet",
+    "5": "Reaver melta cannon",
+    "6": "Reaver volcano cannon",
+    "7": "Reaver power fist",
+    "8": "Nemesis quake cannon",
+    "9": "Nemesis feet",
+    "10": "Ardex-defensor mauler",
+    "11": "Anvillus defence battery",
+    "12": "Nemesis volcano cannon",
+    "13": "Warhound feet",
+    "14": "Warhound vulcan mega-bolter",
+    "15": "Warhound plasma blastgun",
+    "16": "Warhound inferno gun",
+    "17": "Warhound turbo-laser destructor",
+    "18": "Arioch power claw",
+    "19": "Macro gatling blaster",
+    "20": "Apocalypse launcher",
+    "21": "Ardex-defensor lascannon",
+    "22": "Warlord feet",
+    "23": "Belicosa volcano cannon",
+    "24": "Mori quake cannon",
+    "25": "Sunfury plasma annihilator",
+    "26": "Laser blaster"
+  },
+  "texts": {
+    "1": "This model’s Reaver laser blaster can be replaced with one of the following:\n◦ 1 Reaver gatling blaster\n◦ 1 Reaver melta cannon\n◦ 1 Reaver volcano cannon",
+    "2": "This model’s Reaver gatling blaster can be replaced with one of the following:\n◦ 1 Reaver laser blaster\n◦ 1 Reaver melta cannon\n◦ 1 Reaver volcano cannon\n◦ 1 Reaver power fist",
+    "3": "This model’s Nemesis quake cannon can be replaced with 1 Nemesis volcano cannon.",
+    "4": "This model’s Reaver gatling blaster can be replaced with one of the following:\n◦ 1 Reaver laser blaster\n◦ 1 Reaver melta cannon\n◦ 1 Reaver volcano cannon",
+    "5": "This model’s Warhound plasma blastgun can be replaced with one of the following:\n◦ 1 Warhound inferno gun\n◦ 1 Warhound turbo-laser destructor\n◦ 1 Warhound vulcan mega-bolter",
+    "6": "This model’s Warhound vulcan mega-bolter can be replaced with one of the following:\n◦ 1 Warhound inferno gun\n◦ 1 Warhound plasma blastgun\n◦ 1 Warhound turbo-laser destructor",
+    "7": "This model’s macro gatling blaster can be replaced with one of the following:\n◦ 1 arioch power claw\n◦ 1 belicosa volcano cannon\n◦ 1 mori quake cannon\n◦ 1 sunfury plasma annihilator",
+    "8": "This model’s 2 apocalypse launchers can be replaced with 2 laser blasters.",
+    "9": "This model’s arioch power claw can be replaced with one of the following:\n◦ 1 belicosa volcano cannon\n◦ 1 macro gatling blaster\n◦ 1 mori quake cannon\n◦ 1 sunfury plasma annihilator"
+  },
   "units": [
     {
       "id": "chaos-reaver-titan",
@@ -29,7 +68,67 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              4,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              2
+            ],
+            [
+              5
+            ],
+            [
+              6
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              1
+            ],
+            [
+              5
+            ],
+            [
+              6
+            ],
+            [
+              7
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "chaos-warbringer-nemesis-titan",
@@ -57,7 +156,82 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              8,
+              1
+            ],
+            [
+              9,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              10,
+              3
+            ],
+            [
+              11,
+              2
+            ],
+            [
+              2,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              2
+            ],
+            [
+              5
+            ],
+            [
+              6
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 3,
+          "in": "checkbox",
+          "o": [
+            [
+              12
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 4,
+          "in": "checkbox",
+          "o": [
+            [
+              1
+            ],
+            [
+              5
+            ],
+            [
+              6
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "chaos-warhound-titan",
@@ -85,7 +259,60 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              13,
+              1
+            ],
+            [
+              14,
+              1
+            ],
+            [
+              15,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 5,
+          "in": "checkbox",
+          "o": [
+            [
+              16
+            ],
+            [
+              17
+            ],
+            [
+              14
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              16
+            ],
+            [
+              15
+            ],
+            [
+              17
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "chaos-warlord-titan",
@@ -113,7 +340,88 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              18,
+              1
+            ],
+            [
+              19,
+              1
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              20,
+              2
+            ],
+            [
+              21,
+              2
+            ],
+            [
+              22,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              18
+            ],
+            [
+              23
+            ],
+            [
+              24
+            ],
+            [
+              25
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 8,
+          "in": "stepper",
+          "o": [
+            [
+              26
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 9,
+          "in": "checkbox",
+          "o": [
+            [
+              23
+            ],
+            [
+              19
+            ],
+            [
+              24
+            ],
+            [
+              25
+            ]
+          ]
+        }
+      ]
     }
   ],
   "detachments": []

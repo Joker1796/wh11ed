@@ -2,6 +2,93 @@
 export default {
   "slug": "space-wolves",
   "name": "Space Wolves",
+  "items": {
+    "1": "Foehammer",
+    "2": "Assault cannon",
+    "3": "Trueclaw",
+    "4": "Heavy flamer",
+    "5": "Helfrost cannon",
+    "6": "Multi-melta",
+    "7": "Bolt pistol",
+    "8": "Astartes chainsword",
+    "9": "Power weapon",
+    "10": "Plasma pistol",
+    "11": "Teeth and claws",
+    "12": "Bolt carbine",
+    "13": "Power fist",
+    "14": "Tempest hammer and servo-arm",
+    "15": "Helfrost pistol",
+    "16": "Tyrnak and Fenrir",
+    "17": "Storm bolter",
+    "18": "Axe Morkai",
+    "19": "Murderclaws",
+    "20": "Storm bolter",
+    "21": "Living Lightning",
+    "22": "Staff of the Stormcaller",
+    "23": "Frostfang",
+    "24": "Bolt Pistol",
+    "25": "Teeth and Claws",
+    "26": "Wolf Guard weapon",
+    "27": "Boltgun",
+    "28": "Storm Shield",
+    "29": "Plasma pistol",
+    "30": "Artificer crozius arcanum",
+    "31": "Dreadnought combat weapon",
+    "32": "Assault cannon",
+    "33": "Fenrisian great axe",
+    "34": "Blizzard Shield",
+    "35": "Helfrost cannon",
+    "36": "Multi-melta",
+    "37": "Master-crafted power weapon",
+    "38": "Storm Shield",
+    "39": "Thunder hammer",
+    "40": "Master‑crafted bolt carbine",
+    "41": "Master‑crafted heavy bolt pistol",
+    "42": "Heavy bolt pistol",
+    "43": "Master-crafted power weapon",
+    "44": "Paired master‑crafted power weapons",
+    "45": "Relic greataxe",
+    "46": "Twin lightning claws",
+    "47": "Storm Shield",
+    "48": "Absolvor bolt pistol",
+    "49": "Crozius arcanum",
+    "50": "Combat blade",
+    "51": "Teeth and claws",
+    "52": "Instigator bolt carbine",
+    "53": "Plasma gun",
+    "54": "Thunderclap",
+    "55": "Runic stave",
+    "56": "Haywire Mine",
+    "57": "Death Totem",
+    "58": "Wulfen weapons",
+    "59": "Stormfrag auto-launcher",
+    "60": "Thunder hammer",
+    "61": "Great wolf claw"
+  },
+  "texts": {
+    "1": "This model’s assault cannon can be replaced with one of the following:",
+    "2": "The Blood Claw Pack Leader’s Astartes chainsword can be replaced with 1 power weapon.",
+    "3": "The Blood Claw Pack Leader’s bolt pistol can be replaced with 1 plasma pistol.",
+    "4": "The Grey Hunter Pack Leader’s bolt carbine can be replaced with 1 plasma pistol.",
+    "5": "The Grey Hunter Pack Leader’s Astartes chainsword can be replaced with one of the following:",
+    "6": "Any number of models can each have their bolt pistol replaced with one of the following:",
+    "7": "For every 3 models in this unit, one model’s bolt pistol can be replaced with 1 plasma pistol.",
+    "8": "This model’s storm bolter can be replaced with 1 heavy flamer.",
+    "9": "This model’s assault cannon, storm bolter and Dreadnought combat weapon can be replaced with one of the following:\n\n◦ 1 Fenrisian great axe, 1 blizzard shield and 1 storm bolter\n◦ 1 Fenrisian great axe, 1 blizzard shield and 1 heavy flamer",
+    "10": "This model’s master‑crafted power weapon can be replaced with 1 thunder hammer.",
+    "11": "This model’s storm shield can be replaced with one of the following:",
+    "12": "All of the models in this unit can each have their master‑crafted power weapon and storm shield replaced with 1 paired master‑crafted power weapons.",
+    "13": "The Wolf Guard Terminator Pack Leader’s storm bolter and master‑crafted power weapon can be replaced with 1 of the following:",
+    "14": "Any number of models can each have their storm bolter replaced with 1 storm shield.",
+    "15": "For every 5 models in this unit, 1 Wolf Guard Terminator can replace its storm bolter and master‑crafted power weapon with 1 assault cannon and 1 power fist.",
+    "16": "If this unit contains 12 models, 1 Wolf Scout’s plasma pistol can be replaced with 1 instigator bolt carbine.",
+    "17": "1 Wolf Scout’s plasma pistol can be replaced with 1 plasma gun.",
+    "18": "1 Wolf Scout’s plasma pistol and combat blade can be replaced with 1 bolt pistol, 1 Thunderclap and 1 runic stave.",
+    "19": "1 Wolf Scout equipped with a plasma pistol can be equipped with 1 haywire mine (That model’s plasma pistol cannot be replaced).",
+    "20": "Any number of models can each have their death totem replaced with 1 stormfrag auto‑launcher.",
+    "21": "This model’s Fenrisian great axe or great wolf claw and storm bolter can be replaced with 1 blizzard shield and 1 heavy flamer.",
+    "22": "If this model is not equipped with a storm bolter, its heavy flamer can be replaced with 1 storm bolter."
+  },
   "units": [
     {
       "id": "arjac-rockfist",
@@ -35,6 +122,17 @@ export default {
           "to": "wolf-guard-terminators",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -65,7 +163,41 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              4,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              5
+            ],
+            [
+              6
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "blood-claws",
@@ -97,7 +229,65 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Blood Claw Pack Leader"
+        },
+        {
+          "n": "Blood Claw"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              7,
+              1
+            ],
+            [
+              8,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              7,
+              1
+            ],
+            [
+              8,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              9
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 3,
+          "in": "checkbox",
+          "o": [
+            [
+              10
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "fenrisian-wolves",
@@ -130,7 +320,18 @@ export default {
       "step": {
         "at": 3,
         "pts": 5
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              11,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "grey-hunters",
@@ -155,7 +356,76 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Grey Hunter Pack Leader"
+        },
+        {
+          "n": "Grey Hunter"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              8,
+              1
+            ],
+            [
+              12,
+              1
+            ],
+            [
+              7,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              8,
+              1
+            ],
+            [
+              7,
+              1
+            ],
+            [
+              12,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 4,
+          "in": "checkbox",
+          "o": [
+            [
+              10
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 5,
+          "in": "checkbox",
+          "o": [
+            [
+              13
+            ],
+            [
+              9
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "iron-priest",
@@ -195,6 +465,21 @@ export default {
           "to": "wolf-guard-headtakers",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              14,
+              1
+            ],
+            [
+              15,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -230,6 +515,25 @@ export default {
           "to": "wolf-guard-terminators",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              16,
+              1
+            ],
+            [
+              17,
+              1
+            ],
+            [
+              18,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -261,7 +565,26 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              19,
+              1
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              20,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "njal-stormcaller",
@@ -304,6 +627,25 @@ export default {
           "to": "wolf-guard-headtakers",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              21,
+              1
+            ],
+            [
+              7,
+              1
+            ],
+            [
+              22,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -344,6 +686,21 @@ export default {
           "to": "wolf-guard-headtakers",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              23,
+              1
+            ],
+            [
+              24,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -378,7 +735,101 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Thunderwolf Cavalry Pack Leader"
+        },
+        {
+          "n": "Thunderwolf Cavalry"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              25,
+              1
+            ],
+            [
+              26,
+              1
+            ],
+            [
+              7,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              26,
+              1
+            ],
+            [
+              25,
+              1
+            ],
+            [
+              7,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 6,
+          "in": "stepper",
+          "o": [
+            [
+              27
+            ],
+            [
+              28,
+              5
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              10
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              27
+            ],
+            [
+              28,
+              5
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 7,
+          "in": "stepper",
+          "o": [
+            [
+              10
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "ulrik-the-slayer",
@@ -421,6 +872,21 @@ export default {
           "to": "wolf-guard-headtakers",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              29,
+              1
+            ],
+            [
+              30,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -450,7 +916,70 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              20,
+              1
+            ],
+            [
+              31,
+              1
+            ],
+            [
+              32,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 8,
+          "in": "checkbox",
+          "o": [
+            [
+              4
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 9,
+          "in": "checkbox",
+          "o": [
+            [
+              33
+            ],
+            [
+              34
+            ],
+            [
+              20
+            ],
+            [
+              4
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              35
+            ],
+            [
+              36
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "wolf-guard-battle-leader",
@@ -490,6 +1019,49 @@ export default {
         {
           "to": "wolf-guard-headtakers",
           "type": "leader"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              37,
+              1
+            ],
+            [
+              38,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 10,
+          "in": "checkbox",
+          "o": [
+            [
+              39
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              40
+            ],
+            [
+              41
+            ],
+            [
+              10
+            ]
+          ]
         }
       ]
     },
@@ -542,7 +1114,55 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Wolf Guard Headtaker"
+        },
+        {
+          "n": "Hunting Wolves"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              42,
+              1
+            ],
+            [
+              43,
+              1
+            ],
+            [
+              28,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              11,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 12,
+          "in": "stepper",
+          "o": [
+            [
+              44
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "wolf-guard-terminators",
@@ -577,7 +1197,93 @@ export default {
       "step": {
         "at": 2,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Wolf Guard Terminator Pack Leader"
+        },
+        {
+          "n": "Wolf Guard Terminator"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              43,
+              1
+            ],
+            [
+              17,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              17,
+              1
+            ],
+            [
+              43,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 13,
+          "in": "checkbox",
+          "o": [
+            [
+              45
+            ],
+            [
+              46
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 14,
+          "in": "stepper",
+          "o": [
+            [
+              47,
+              5
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 15,
+          "in": "stepper",
+          "o": [
+            [
+              13
+            ],
+            [
+              2
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 14,
+          "in": "checkbox",
+          "o": [
+            [
+              47,
+              5
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "wolf-priest",
@@ -617,6 +1323,21 @@ export default {
           "to": "wolf-guard-headtakers",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              48,
+              1
+            ],
+            [
+              49,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -653,7 +1374,103 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Wolf Scout Pack Leader"
+        },
+        {
+          "n": "Wolf Scout"
+        },
+        {
+          "n": "Hunting Wolf"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              50,
+              1
+            ],
+            [
+              10,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              9,
+              1
+            ],
+            [
+              10,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              51,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 16,
+          "in": "checkbox",
+          "o": [
+            [
+              52
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 17,
+          "in": "checkbox",
+          "o": [
+            [
+              53
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 18,
+          "in": "checkbox",
+          "o": [
+            [
+              7
+            ],
+            [
+              54
+            ],
+            [
+              55
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 19,
+          "in": "checkbox",
+          "o": [
+            [
+              56
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "wulfen",
@@ -686,7 +1503,34 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              57,
+              1
+            ],
+            [
+              58,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 20,
+          "in": "stepper",
+          "o": [
+            [
+              59
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "wulfen-dreadnought",
@@ -714,7 +1558,51 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              33,
+              1
+            ],
+            [
+              20,
+              1
+            ],
+            [
+              61,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 21,
+          "in": "checkbox",
+          "o": [
+            [
+              34
+            ],
+            [
+              4
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 22,
+          "in": "checkbox",
+          "o": [
+            [
+              20
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "wulfen-with-storm-shields",
@@ -748,7 +1636,34 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              57,
+              1
+            ],
+            [
+              60,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 20,
+          "in": "stepper",
+          "o": [
+            [
+              59
+            ]
+          ]
+        }
+      ]
     }
   ],
   "detachments": [

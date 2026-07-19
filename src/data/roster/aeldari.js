@@ -2,6 +2,291 @@
 export default {
   "slug": "aeldari",
   "name": "Asuryani",
+  "items": {
+    "1": "Sword of Asur",
+    "2": "Bloody Twins",
+    "3": "Star glaive",
+    "4": "Shuriken pistol",
+    "5": "Scorpion chainsword",
+    "6": "Banshee blade",
+    "7": "Death spinner",
+    "8": "Dragon fusion gun",
+    "9": "Dragon fusion pistol",
+    "10": "Reaper launcher",
+    "11": "The Wailing Doom",
+    "12": "Shining Blade",
+    "13": "Fury of the Tempest",
+    "14": "Shuriken pistol",
+    "15": "Corsair blade",
+    "16": "Blaster",
+    "17": "Flamer",
+    "18": "Fusion gun",
+    "19": "Shredder",
+    "20": "Close combat weapon",
+    "21": "Blast pistol",
+    "22": "Neuro disruptor",
+    "23": "Close combat weapon",
+    "24": "Power sword",
+    "25": "Shuriken rifle",
+    "26": "Shuriken cannon",
+    "27": "Wraithcannon",
+    "28": "Mistshield",
+    "29": "Power sword",
+    "30": "Paired Hekatarii blades",
+    "31": "Channeller Stones",
+    "32": "Witch staff",
+    "33": "Executioner",
+    "34": "Faolchú",
+    "35": "Fusion pistol",
+    "36": "Long rifle",
+    "37": "Pulse laser",
+    "38": "Wraithbone hull",
+    "39": "Starcannon",
+    "40": "Bright lance",
+    "41": "D-cannon",
+    "42": "Shuriken catapult",
+    "43": "Reaper launcher",
+    "44": "Missile launcher",
+    "45": "Shuriken cannon",
+    "46": "Tempest launcher",
+    "47": "Aspect Shrine Token",
+    "48": "Jester’s blade",
+    "49": "Flip Belt",
+    "50": "Shrieker cannon",
+    "51": "Avenger shuriken catapult",
+    "52": "Diresword",
+    "53": "Power glaive",
+    "54": "Shimmershield",
+    "55": "Mind War",
+    "56": "The Staff of Ulthamar and witchblade",
+    "57": "Scatter laser",
+    "58": "Twin shuriken catapult",
+    "59": "Missile launcher",
+    "60": "Witchblade",
+    "61": "Eldritch Storm",
+    "62": "Singing spear",
+    "63": "Singing spear",
+    "64": "Exarch’s Dragon fusion gun",
+    "65": "Dragon fusion gun",
+    "66": "Dragon’s breath flamer",
+    "67": "Dragon fusion pistol",
+    "68": "Dragon axe",
+    "69": "Firepike",
+    "70": "Prism cannon",
+    "71": "Fire Axe",
+    "72": "Searsong",
+    "73": "Close combat weapon",
+    "74": "Heavy D-scythe",
+    "75": "Banshee blade",
+    "76": "Mirrorswords",
+    "77": "Executioner",
+    "78": "Triskele",
+    "79": "Silent Death",
+    "80": "Blade of Destruction",
+    "81": "Dread of the Deep Void",
+    "82": "Waystave",
+    "83": "Weaverender",
+    "84": "Spider’s Fangs",
+    "85": "Brood Twain",
+    "86": "Maugetar",
+    "87": "Doomweaver",
+    "88": "Eye of Wrath",
+    "89": "Spear of Twilight",
+    "90": "Shadow weaver",
+    "91": "Miststave",
+    "92": "Neuro disruptor",
+    "93": "Voidstorm missile launcher",
+    "94": "Phantom pulsar",
+    "95": "D-bombard",
+    "96": "Phantom feet",
+    "97": "Phantom starcannon",
+    "98": "Wraith glaive",
+    "99": "Laser lance",
+    "100": "Paragon sabre",
+    "101": "Star lance",
+    "102": "Long rifle",
+    "103": "Star bolas",
+    "104": "Close combat weapon",
+    "105": "Zephyrglaive",
+    "106": "Skyweaver haywire cannon",
+    "107": "Cloudburst missile launcher",
+    "108": "Revenant feet",
+    "109": "Revenant pulsar",
+    "110": "Sonic lance",
+    "111": "Solitaire weapons",
+    "112": "Starfang grenade launcher",
+    "113": "Disintegrator cannon",
+    "114": "Serpent shield",
+    "115": "Scorpion chainsword",
+    "116": "Scorpion’s claw",
+    "117": "Chainsabres",
+    "118": "Biting blade",
+    "119": "Hawk’s talon",
+    "120": "Lasblaster",
+    "121": "Exarch’s lasblaster",
+    "122": "Sunpistol",
+    "123": "Power sword",
+    "124": "Asu-var",
+    "125": "Vilith-zhar",
+    "126": "Swirling soul energy",
+    "127": "Harlequin’s blade",
+    "128": "Power sword",
+    "129": "Harlequin’s special weapon",
+    "130": "Troupe Master’s blade",
+    "131": "Harlequin’s special weapon",
+    "132": "Fusion pistol",
+    "133": "Vibro cannon",
+    "134": "Voidweaver haywire cannon",
+    "135": "Prismatic cannon",
+    "136": "Scatter laser",
+    "137": "Starcannon",
+    "138": "War Walker feet",
+    "139": "Destructor",
+    "140": "Witchblade",
+    "141": "Singing Spear",
+    "142": "Twin shuriken cannon",
+    "143": "Twin missile launcher",
+    "144": "Twin bright lance",
+    "145": "Twin scatter laser",
+    "146": "Twin starcannon",
+    "147": "Exarch’s death spinner",
+    "148": "Powerblades",
+    "149": "Powerblade array",
+    "150": "Spinneret rifle",
+    "151": "Death weavers",
+    "152": "Ghostswords",
+    "153": "Ghostaxe",
+    "154": "Forceshield",
+    "155": "Wraithcannon",
+    "156": "Close combat weapon",
+    "157": "D-scythe",
+    "158": "Scattershield",
+    "159": "Titanic feet",
+    "160": "Suncannon",
+    "161": "Heavy wraithcannon",
+    "162": "Titanic ghostglaive",
+    "163": "Wraithbone fists",
+    "164": "Shuriken catapult",
+    "165": "Missile launcher",
+    "166": "Bright lance",
+    "167": "Scatter laser",
+    "168": "Shuriken cannon",
+    "169": "Starcannon",
+    "170": "Ghostglaive",
+    "171": "Huskblade",
+    "172": "Shadow Field",
+    "173": "Splinter pistol",
+    "174": "Blast pistol",
+    "175": "Klaive",
+    "176": "Demiklaives",
+    "177": "Splinter rifle",
+    "178": "Sybarite weapon",
+    "179": "Phantasm grenade launcher",
+    "180": "Splinter cannon",
+    "181": "Blast pistol",
+    "182": "Splinter pistol",
+    "183": "Dark lance",
+    "184": "Bladevanes",
+    "185": "Dark lance",
+    "186": "Disintegrator cannon",
+    "187": "Bladevanes",
+    "188": "Grav-talon",
+    "189": "Cluster caltrops",
+    "190": "Agoniser",
+    "191": "Heat lance",
+    "192": "Succubus weapons",
+    "193": "Twin splinter rifle",
+    "194": "Splinter cannon",
+    "195": "Bladevanes",
+    "196": "Hekatarii blade",
+    "197": "Blast pistol",
+    "198": "Storm of Whispers",
+    "199": "Kha-vir"
+  },
+  "texts": {
+    "1": "This model’s star glaive can be replaced with one of the following:",
+    "2": "This model’s shuriken pistol can be replaced with one of the following:",
+    "3": "For every 5 models in the unit, up to 2 Skyreaver models can each have their shuriken pistol and Corsair blade replaced with one of the following*:\n\n◦ 1 blaster and 1 close combat weapon\n◦ 1 flamer and 1 close combat weapon\n◦ 1 fusion gun and 1 close combat weapon\n◦ 1 shredder and 1 close combat weapon\n\n* You cannot select the same option more than once per unit unless it contains 10 models, in which case you cannot select the same weapon more than twice per unit.",
+    "4": "The Skyreaver Felarch can replace its shuriken pistol with one of the following:",
+    "5": "Any number of Corsair Voidreavers in this unit can each have their shuriken pistol and power sword replaced with 1 shuriken rifle.",
+    "6": "If this unit contains 10 models, 1 Corsair Voidreaver’s shuriken rifle can be replaced with one of the following:",
+    "7": "The Voidreaver Felarch can be equipped with:",
+    "8": "For every 5 models in this unit, 1 Corsair Voidreaver’s power sword or shuriken rifle can be replaced with one of the following:",
+    "9": "The Voidreaver Felarch’s shuriken pistol can be replaced with one of the following:",
+    "10": "1 Corsair Voidscarred model equipped with a shuriken pistol and power sword can be equipped with 1 Faolchú.",
+    "11": "The Voidscarred Felarch can be equipped with 1 mistshield.",
+    "12": "If this unit contains 10 models, 1 Corsair Voidscarred’s power sword can be replaced with 1 fusion pistol.",
+    "13": "If this unit contains 10 models, 1 Corsair Voidscarred’s shuriken rifle can be replaced with one of the following:",
+    "14": "For every 5 models in this unit, 1 Corsair Voidscarred’s shuriken rifle can be replaced with one of the following:",
+    "15": "Any number of Corsair Voidscarred can each have their shuriken pistol and power sword replaced with 1 shuriken rifle.",
+    "16": "If this unit contains 10 models, 1 Corsair Voidscarred’s shuriken rifle can be replaced with 1 long rifle.",
+    "17": "The Voidscarred Felarch’s shuriken pistol can be replaced with one of the following:",
+    "18": "This model’s 2 starcannons can be replaced with 2 bright lances.",
+    "19": "The Dark Reaper Exarch’s Reaper launcher can be replaced with 1 of the following:",
+    "20": "For every 5 models in this unit, it can have 1 Aspect Shrine token.",
+    "21": "The Dire Avenger Exarch’s Avenger shuriken catapult can be replaced with 1 shuriken pistol and one of the following:",
+    "22": "For every 5 models in this unit, it can have 1 Aspect Shrine token",
+    "23": "The Dire Avenger Exarch’s shuriken pistol can be replaced with:",
+    "24": "If this unit’s Dire Avenger Exarch is equipped with 1 Avenger shuriken catapult, it can be equipped with 1 additional Avenger shuriken catapult.",
+    "25": "This model’s twin shuriken catapult can be replaced with 1 shuriken cannon.",
+    "26": "This model’s scatter laser can be replaced with one of the following:",
+    "27": "This model’s witchblade can be replaced with 1 singing spear.",
+    "28": "The Fire Dragon Exarch’s Dragon fusion gun can be replaced with 1 of the following:\n\n◦ 1 Dragon’s breath flamer\n◦ 1 Dragon fusion pistol and 1 Dragon axe\n◦ 1 firepike",
+    "29": "The Heavy Weapon Platform can replace its shuriken cannon with one of the following:",
+    "30": "The Howling Banshee Exarch’s shuriken pistol and Banshee blade can be replaced with 1 mirrorswords.",
+    "31": "The Howling Banshee Exarch’s Banshee blade can be replaced with 1 of the following:",
+    "32": "This model’s shuriken pistol can be replaced with 1 neuro disruptor.",
+    "33": "This model’s D-bombard can be replaced with one of the following:\n◦ 2 Phantom starcannons and 1 wraith glaive\n◦ 1 Phantom starcannon, 1 pulse laser and 1 wraith glaive \n◦ 2 pulse lasers and 1 wraith glaive\n◦ 1 Phantom pulsar",
+    "34": "This model’s Phantom starcannon can be replaced with 1 pulse laser.",
+    "35": "This model’s Phantom pulsar can be replaced with one of the following:\n◦ 1 D-bombard\n◦ 2 Phantom starcannons and 1 wraith glaive\n◦ 1 Phantom starcannon, 1 pulse laser and 1 wraith glaive\n◦ 2 pulse lasers and 1 wraith glaive",
+    "36": "The Shining Spear Exarch can be equipped with 1 shimmershield.",
+    "37": "The Shining Spear Exarch’s laser lance can be replaced with one of the following:",
+    "38": "The Shining Spear Exarch’s twin shuriken catapult can be replaced with 1 shuriken cannon.",
+    "39": "Any number of models can each have their star bolas replaced with 1 zephyrglaive.",
+    "40": "Any number of models can each have their shuriken cannon replaced with 1 Skyweaver haywire cannon.",
+    "41": "This model’s sonic lance can be replaced with 1 Revenant pulsar",
+    "42": "This model’s Revenant pulsar can be replaced with 1 sonic lance.",
+    "43": "Up to 2 Storm Guardians can each have their shuriken pistol replaced with 1 fusion gun.",
+    "44": "Up to 2 Storm Guardians can each have their close combat weapon replaced with 1 power sword.",
+    "45": "Up to 2 Storm Guardians can each have their shuriken pistol replaced with 1 flamer.",
+    "46": "The Striking Scorpion Exarch’s shuriken pistol, Scorpion chainsword and Scorpion’s claw can be replaced with one of the following:\n◦ 1 biting blade and 1 shuriken pistol\n◦ 1 chainsabres",
+    "47": "The Swooping Hawk Exarch’s Hawk’s talon can be replaced with one of the following:\n\n◦ 1 Exarch’s lasblaster\n◦ 1 sunpistol and 1 power sword\n◦ 1 scatter laser",
+    "48": "The Lead Player’s Harlequin’s blade can be replaced with 1  power sword.",
+    "49": "Any number of models can each have their Harlequin’s blade replaced with 1 Harlequin’s special weapon.",
+    "50": "If this unit contains 9 or fewer models:\n◦ Up to two models can each have their shuriken pistol replaced with 1 neuro disruptor\n◦ Up to two models can each have their shuriken pistol replaced with 1 fusion pistol\n\nIf this unit contains 10 or more models:\n◦ Up to four models can each have their shuriken pistol replaced with 1 neuro disruptor\n◦ Up to four models can each have their shuriken pistol replaced with 1 fusion pistol",
+    "51": "This model’s Troupe Master’s blade can be replaced with 1 Harlequin’s special weapon.",
+    "52": "This model’s Voidweaver haywire cannon can be replaced with 1 prismatic cannon.",
+    "53": "Any number of models can each have their bright lance replaced with one of the following:",
+    "54": "Any number of models can each have their shuriken cannon replaced with 1 missile launcher.",
+    "55": "Each model can have each shuriken cannon it is equipped with replaced with one of the following:",
+    "56": "Any number of models can each have their witchblade replaced with 1 singing spear.",
+    "57": "This model’s twin shuriken cannon can be replaced with one of the following:",
+    "58": "The Warp Spider Exarch’s Exarch’s death spinner can be replaced with one of the following:\n◦ 1 spinneret rifle and 1 death weavers\n◦ 1 powerblades and 1 death weavers\n◦ 1 powerblade array",
+    "59": "Any number of models can each have their twin shuriken catapult replaced with one of the following:",
+    "60": "All of the models in this unit can each have their ghostswords replaced with 1 ghostaxe and 1 forceshield.",
+    "61": "All of the models in this unit can each have their wraithcannon replaced with 1 D-scythe.",
+    "62": "This model’s suncannon can be replaced with 1 heavy wraithcannon.",
+    "63": "This model’s scattershield can be replaced with 1 heavy wraithcannon.",
+    "64": "This model can be equipped with up to two of the following:",
+    "65": "Each of this model’s shuriken catapults can be replaced with 1 flamer.",
+    "66": "This model can be equipped with 1 ghostglaive.",
+    "67": "This model’s splinter pistol can be replaced with 1 blast pistol.",
+    "68": "The Klaivex’s klaive can be replaced with 1 demiklaives",
+    "69": "The Sybarite’s close combat weapon can be replaced with 1 Sybarite weapon.",
+    "70": "1 Kabalite Warrior’s splinter rifle can be replaced with 1 shredder.",
+    "71": "The Sybarite can be equipped with 1 phantasm grenade launcher.",
+    "72": "1 Kabalite Warrior’s splinter rifle can be replaced with 1 splinter cannon.",
+    "73": "The Sybarite’s splinter rifle can be replaced with one of the following:",
+    "74": "1 Kabalite Warrior’s splinter rifle can be replaced with 1 dark lance.",
+    "75": "1 Kabalite Warrior’s splinter rifle can be replaced with 1 blaster.",
+    "76": "This model’s dark lance can be replaced with 1 disintegrator cannon.",
+    "77": "For every 3 models in this unit, 1 model can be equipped with one of the following:",
+    "78": "The Arena Champion can be equipped with 1 agoniser.",
+    "79": "For every 3 models in this unit, 1 model’s splinter rifle can be replaced with one of the following:",
+    "80": "This model can be equipped with one of the following:",
+    "81": "This model’s twin splinter rifle can be replaced with 1 splinter cannon.",
+    "82": "The Hekatrix’s splinter pistol can be replaced with 1 blast pistol."
+  },
   "units": [
     {
       "id": "asurmen",
@@ -37,6 +322,21 @@ export default {
           "to": "dire-avengers",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -93,6 +393,55 @@ export default {
           "to": "striking-scorpions",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              3,
+              1
+            ],
+            [
+              4,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              5
+            ],
+            [
+              6
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              7
+            ],
+            [
+              8
+            ],
+            [
+              9
+            ],
+            [
+              10
+            ]
+          ]
+        }
       ]
     },
     {
@@ -131,6 +480,55 @@ export default {
           "to": "warp-spiders",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              4,
+              1
+            ],
+            [
+              3,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              6
+            ],
+            [
+              5
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              7
+            ],
+            [
+              8
+            ],
+            [
+              9
+            ],
+            [
+              10
+            ]
+          ]
+        }
       ]
     },
     {
@@ -159,7 +557,18 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              11,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "baharroth",
@@ -197,6 +606,21 @@ export default {
           "to": "swooping-hawks",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              12,
+              1
+            ],
+            [
+              13,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -234,7 +658,80 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Skyreaver Felarch"
+        },
+        {
+          "n": "Skyreaver"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              14,
+              1
+            ],
+            [
+              15,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              15,
+              1
+            ],
+            [
+              14,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 3,
+          "in": "stepper",
+          "o": [
+            [
+              16
+            ],
+            [
+              17
+            ],
+            [
+              18
+            ],
+            [
+              19
+            ],
+            [
+              20
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 4,
+          "in": "checkbox",
+          "o": [
+            [
+              21
+            ],
+            [
+              22
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "corsair-voidreavers",
@@ -266,7 +763,112 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Voidreaver Felarch"
+        },
+        {
+          "n": "Corsair Voidreaver"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              23,
+              1
+            ],
+            [
+              24,
+              1
+            ],
+            [
+              14,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              24,
+              1
+            ],
+            [
+              23,
+              1
+            ],
+            [
+              14,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 5,
+          "in": "stepper",
+          "o": [
+            [
+              25
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              26
+            ],
+            [
+              27
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              28
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 8,
+          "in": "stepper",
+          "o": [
+            [
+              16
+            ],
+            [
+              19
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 9,
+          "in": "checkbox",
+          "o": [
+            [
+              22
+            ],
+            [
+              25
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "corsair-voidscarred",
@@ -347,7 +949,198 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Voidscarred Felarch"
+        },
+        {
+          "n": "Corsair Voidscarred"
+        },
+        {
+          "n": "Shade Runner"
+        },
+        {
+          "n": "Soul Weaver"
+        },
+        {
+          "n": "Way Seeker"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              29,
+              1
+            ],
+            [
+              20,
+              1
+            ],
+            [
+              14,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              14,
+              1
+            ],
+            [
+              20,
+              1
+            ],
+            [
+              29,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              30,
+              1
+            ],
+            [
+              14,
+              1
+            ]
+          ]
+        ],
+        [
+          3,
+          [
+            [
+              14,
+              1
+            ],
+            [
+              29,
+              1
+            ],
+            [
+              31,
+              1
+            ]
+          ]
+        ],
+        [
+          4,
+          [
+            [
+              14,
+              1
+            ],
+            [
+              32,
+              1
+            ],
+            [
+              33,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 10,
+          "in": "checkbox",
+          "o": [
+            [
+              34
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              28
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              35
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 13,
+          "in": "checkbox",
+          "o": [
+            [
+              26
+            ],
+            [
+              27
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 14,
+          "in": "stepper",
+          "o": [
+            [
+              16
+            ],
+            [
+              19
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 15,
+          "in": "stepper",
+          "o": [
+            [
+              25
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 16,
+          "in": "checkbox",
+          "o": [
+            [
+              36
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 17,
+          "in": "checkbox",
+          "o": [
+            [
+              22
+            ],
+            [
+              25
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "crimson-hunter",
@@ -373,7 +1166,38 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              37,
+              1
+            ],
+            [
+              38,
+              1
+            ],
+            [
+              39,
+              2
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 18,
+          "in": "stepper",
+          "o": [
+            [
+              40
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "d-cannon-platform",
@@ -400,7 +1224,26 @@ export default {
       "step": {
         "at": 2,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              23,
+              1
+            ],
+            [
+              41,
+              1
+            ],
+            [
+              42,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "dark-reapers",
@@ -430,7 +1273,71 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Dark Reaper Exarch"
+        },
+        {
+          "n": "Dark Reaper"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              43,
+              1
+            ],
+            [
+              23,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              43,
+              1
+            ],
+            [
+              23,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 19,
+          "in": "checkbox",
+          "o": [
+            [
+              44
+            ],
+            [
+              45
+            ],
+            [
+              46
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 20,
+          "in": "stepper",
+          "o": [
+            [
+              47
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "death-jester",
@@ -455,7 +1362,26 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              48,
+              1
+            ],
+            [
+              49,
+              1
+            ],
+            [
+              50,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "dire-avengers",
@@ -486,7 +1412,91 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Dire Avenger Exarch"
+        },
+        {
+          "n": "Dire Avenger"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              23,
+              1
+            ],
+            [
+              51,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              51,
+              1
+            ],
+            [
+              23,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 21,
+          "in": "checkbox",
+          "o": [
+            [
+              14
+            ],
+            [
+              52
+            ],
+            [
+              53
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 22,
+          "in": "stepper",
+          "o": [
+            [
+              47
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 23,
+          "in": "checkbox",
+          "o": [
+            [
+              54
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 24,
+          "in": "checkbox",
+          "o": [
+            [
+              51
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "eldrad-ulthran",
@@ -529,6 +1539,25 @@ export default {
           "to": "warlock-conclave",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              55,
+              1
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              56,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -553,7 +1582,61 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              57,
+              1
+            ],
+            [
+              37,
+              1
+            ],
+            [
+              58,
+              1
+            ],
+            [
+              38,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 25,
+          "in": "checkbox",
+          "o": [
+            [
+              26
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 26,
+          "in": "checkbox",
+          "o": [
+            [
+              59
+            ],
+            [
+              40
+            ],
+            [
+              26
+            ],
+            [
+              39
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "farseer",
@@ -593,6 +1676,37 @@ export default {
           "to": "warlock-conclave",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              4,
+              1
+            ],
+            [
+              60,
+              1
+            ],
+            [
+              61,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 27,
+          "in": "checkbox",
+          "o": [
+            [
+              62
+            ]
+          ]
+        }
       ]
     },
     {
@@ -631,6 +1745,41 @@ export default {
           "to": "warlock-skyrunners",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              60,
+              1
+            ],
+            [
+              61,
+              1
+            ],
+            [
+              14,
+              1
+            ],
+            [
+              58,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 27,
+          "in": "checkbox",
+          "o": [
+            [
+              63
+            ]
+          ]
+        }
       ]
     },
     {
@@ -666,7 +1815,74 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Fire Dragon Exarch"
+        },
+        {
+          "n": "Fire Dragon"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              64,
+              1
+            ],
+            [
+              23,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              65,
+              1
+            ],
+            [
+              23,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 20,
+          "in": "stepper",
+          "o": [
+            [
+              47
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 28,
+          "in": "checkbox",
+          "o": [
+            [
+              66
+            ],
+            [
+              67
+            ],
+            [
+              68
+            ],
+            [
+              69
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "fire-prism",
@@ -689,7 +1905,38 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              70,
+              1
+            ],
+            [
+              58,
+              1
+            ],
+            [
+              38,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 25,
+          "in": "checkbox",
+          "o": [
+            [
+              26
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "fuegan",
@@ -725,6 +1972,21 @@ export default {
           "to": "fire-dragons",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              71,
+              1
+            ],
+            [
+              72,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -750,7 +2012,64 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Guardian Defender"
+        },
+        {
+          "n": "Heavy Weapon Platform"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              73,
+              1
+            ],
+            [
+              42,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              73,
+              1
+            ],
+            [
+              26,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 29,
+          "in": "checkbox",
+          "o": [
+            [
+              59
+            ],
+            [
+              40
+            ],
+            [
+              57
+            ],
+            [
+              39
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "hemlock-wraithfighter",
@@ -777,7 +2096,22 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              38,
+              1
+            ],
+            [
+              74,
+              2
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "howling-banshees",
@@ -807,7 +2141,78 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Howling Banshee Exarch"
+        },
+        {
+          "n": "Howling Banshee"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              14,
+              1
+            ],
+            [
+              75,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              14,
+              1
+            ],
+            [
+              75,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 20,
+          "in": "stepper",
+          "o": [
+            [
+              47
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 30,
+          "in": "checkbox",
+          "o": [
+            [
+              76
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 31,
+          "in": "checkbox",
+          "o": [
+            [
+              77
+            ],
+            [
+              78
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "jain-zar",
@@ -842,6 +2247,21 @@ export default {
           "to": "howling-banshees",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              79,
+              1
+            ],
+            [
+              80,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -881,6 +2301,21 @@ export default {
           "to": "corsair-voidscarred",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              81,
+              1
+            ],
+            [
+              82,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -918,6 +2353,25 @@ export default {
           "to": "warp-spiders",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              83,
+              1
+            ],
+            [
+              84,
+              1
+            ],
+            [
+              85,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -953,6 +2407,17 @@ export default {
           "to": "dark-reapers",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              86,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -980,7 +2445,38 @@ export default {
       "step": {
         "at": 2,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              87,
+              1
+            ],
+            [
+              58,
+              1
+            ],
+            [
+              38,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 25,
+          "in": "checkbox",
+          "o": [
+            [
+              26
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "phantom-titan",
@@ -1006,7 +2502,84 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              93,
+              1
+            ],
+            [
+              94,
+              1
+            ],
+            [
+              95,
+              1
+            ],
+            [
+              96,
+              1
+            ],
+            [
+              97,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 33,
+          "in": "stepper",
+          "o": [
+            [
+              97
+            ],
+            [
+              37
+            ],
+            [
+              98
+            ],
+            [
+              94
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 34,
+          "in": "checkbox",
+          "o": [
+            [
+              37
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 35,
+          "in": "checkbox",
+          "o": [
+            [
+              95
+            ],
+            [
+              97
+            ],
+            [
+              37
+            ],
+            [
+              98
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "prince-yriel",
@@ -1044,6 +2617,25 @@ export default {
           "to": "corsair-voidscarred",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              88,
+              1
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              89,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -1073,7 +2665,26 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              4,
+              1
+            ],
+            [
+              36,
+              1
+            ],
+            [
+              73,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "revenant-titan",
@@ -1100,7 +2711,52 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              107,
+              1
+            ],
+            [
+              108,
+              1
+            ],
+            [
+              109,
+              1
+            ],
+            [
+              110,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 41,
+          "in": "checkbox",
+          "o": [
+            [
+              109
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 42,
+          "in": "checkbox",
+          "o": [
+            [
+              110
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "shadow-weaver-platform",
@@ -1123,7 +2779,26 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              23,
+              1
+            ],
+            [
+              42,
+              1
+            ],
+            [
+              90,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "shadowseer",
@@ -1156,6 +2831,37 @@ export default {
           "to": "troupe",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              91,
+              1
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              49,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 32,
+          "in": "checkbox",
+          "o": [
+            [
+              92
+            ]
+          ]
+        }
       ]
     },
     {
@@ -1187,7 +2893,78 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Shining Spear Exarch"
+        },
+        {
+          "n": "Shining Spear"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              99,
+              1
+            ],
+            [
+              58,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              99,
+              1
+            ],
+            [
+              58,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 36,
+          "in": "checkbox",
+          "o": [
+            [
+              54
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 37,
+          "in": "checkbox",
+          "o": [
+            [
+              100
+            ],
+            [
+              101
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 38,
+          "in": "checkbox",
+          "o": [
+            [
+              26
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "shroud-runners",
@@ -1217,7 +2994,30 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              57,
+              1
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              73,
+              1
+            ],
+            [
+              102,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "skyweavers",
@@ -1248,7 +3048,48 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              103,
+              1
+            ],
+            [
+              26,
+              1
+            ],
+            [
+              104,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 39,
+          "in": "stepper",
+          "o": [
+            [
+              105
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 40,
+          "in": "stepper",
+          "o": [
+            [
+              106
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "solitaire",
@@ -1276,7 +3117,22 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              49,
+              1
+            ],
+            [
+              111,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "spiritseer",
@@ -1302,7 +3158,22 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              4,
+              1
+            ],
+            [
+              32,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "starfangs",
@@ -1335,7 +3206,26 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              112,
+              1
+            ],
+            [
+              38,
+              1
+            ],
+            [
+              113,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "starweaver",
@@ -1361,7 +3251,22 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              104,
+              1
+            ],
+            [
+              26,
+              2
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "storm-guardians",
@@ -1386,7 +3291,75 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Storm Guardian"
+        },
+        {
+          "n": "Serpent’s Scale Platform"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              23,
+              1
+            ],
+            [
+              114,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              23,
+              1
+            ],
+            [
+              14,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 43,
+          "in": "stepper",
+          "o": [
+            [
+              18
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 44,
+          "in": "stepper",
+          "o": [
+            [
+              24
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 45,
+          "in": "stepper",
+          "o": [
+            [
+              17
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "striking-scorpions",
@@ -1416,7 +3389,75 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Striking Scorpion Exarch"
+        },
+        {
+          "n": "Striking Scorpion"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              14,
+              1
+            ],
+            [
+              115,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              116,
+              1
+            ],
+            [
+              115,
+              1
+            ],
+            [
+              14,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 20,
+          "in": "stepper",
+          "o": [
+            [
+              47
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 46,
+          "in": "checkbox",
+          "o": [
+            [
+              14
+            ],
+            [
+              117
+            ],
+            [
+              118
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "swooping-hawks",
@@ -1453,7 +3494,74 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "minis": [
+        {
+          "n": "Swooping Hawk Exarch"
+        },
+        {
+          "n": "Swooping Hawk"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              23,
+              1
+            ],
+            [
+              119,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              120,
+              1
+            ],
+            [
+              23,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 47,
+          "in": "checkbox",
+          "o": [
+            [
+              121
+            ],
+            [
+              122
+            ],
+            [
+              123
+            ],
+            [
+              57
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 20,
+          "in": "stepper",
+          "o": [
+            [
+              47
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "the-visarch",
@@ -1510,6 +3618,17 @@ export default {
           "to": "ynnari-kabalite-warriors",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              124,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -1540,7 +3659,22 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              125,
+              1
+            ],
+            [
+              126,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "troupe",
@@ -1585,7 +3719,109 @@ export default {
         }
       ],
       "linked": 1,
-      "condBattleline": 1
+      "condBattleline": 1,
+      "minis": [
+        {
+          "n": "Lead Player"
+        },
+        {
+          "n": "Player"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              14,
+              1
+            ],
+            [
+              127,
+              1
+            ],
+            [
+              49,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              14,
+              1
+            ],
+            [
+              127,
+              1
+            ],
+            [
+              49,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 48,
+          "in": "checkbox",
+          "o": [
+            [
+              128
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 49,
+          "in": "checkbox",
+          "o": [
+            [
+              129
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 50,
+          "in": "stepper",
+          "o": [
+            [
+              22
+            ],
+            [
+              35
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 49,
+          "in": "stepper",
+          "o": [
+            [
+              129
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 50,
+          "in": "checkbox",
+          "o": [
+            [
+              22
+            ],
+            [
+              35
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "troupe-master",
@@ -1617,6 +3853,50 @@ export default {
           "to": "troupe",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              130,
+              1
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              49,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 51,
+          "in": "checkbox",
+          "o": [
+            [
+              131
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              132
+            ],
+            [
+              92
+            ]
+          ]
+        }
       ]
     },
     {
@@ -1640,7 +3920,26 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              133,
+              1
+            ],
+            [
+              42,
+              1
+            ],
+            [
+              23,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "voidweaver",
@@ -1663,7 +3962,38 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              134,
+              1
+            ],
+            [
+              104,
+              1
+            ],
+            [
+              26,
+              2
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 52,
+          "in": "checkbox",
+          "o": [
+            [
+              135
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "vypers",
@@ -1693,7 +4023,51 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              40,
+              1
+            ],
+            [
+              26,
+              1
+            ],
+            [
+              38,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 53,
+          "in": "stepper",
+          "o": [
+            [
+              136
+            ],
+            [
+              137
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 54,
+          "in": "stepper",
+          "o": [
+            [
+              59
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "war-walkers",
@@ -1723,7 +4097,43 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              138,
+              1
+            ],
+            [
+              26,
+              2
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 55,
+          "in": "stepper",
+          "o": [
+            [
+              59
+            ],
+            [
+              40
+            ],
+            [
+              57
+            ],
+            [
+              39
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "warlock",
@@ -1758,6 +4168,37 @@ export default {
         {
           "to": "storm-guardians",
           "type": "support"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              139,
+              1
+            ],
+            [
+              140,
+              1
+            ],
+            [
+              14,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 27,
+          "in": "checkbox",
+          "o": [
+            [
+              141
+            ]
+          ]
         }
       ]
     },
@@ -1800,6 +4241,37 @@ export default {
           "to": "storm-guardians",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              14,
+              1
+            ],
+            [
+              140,
+              1
+            ],
+            [
+              139,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 56,
+          "in": "stepper",
+          "o": [
+            [
+              141
+            ]
+          ]
+        }
       ]
     },
     {
@@ -1838,6 +4310,41 @@ export default {
           "to": "windriders",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              140,
+              1
+            ],
+            [
+              139,
+              1
+            ],
+            [
+              14,
+              1
+            ],
+            [
+              58,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 56,
+          "in": "stepper",
+          "o": [
+            [
+              141
+            ]
+          ]
+        }
       ]
     },
     {
@@ -1874,7 +4381,74 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "minis": [
+        {
+          "n": "Warp Spider Exarch"
+        },
+        {
+          "n": "Warp Spider"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              23,
+              1
+            ],
+            [
+              147,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              7,
+              1
+            ],
+            [
+              23,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 58,
+          "in": "checkbox",
+          "o": [
+            [
+              148
+            ],
+            [
+              149
+            ],
+            [
+              150
+            ],
+            [
+              151
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 20,
+          "in": "stepper",
+          "o": [
+            [
+              47
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "wave-serpent",
@@ -1899,7 +4473,57 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              38,
+              1
+            ],
+            [
+              58,
+              1
+            ],
+            [
+              142,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 25,
+          "in": "checkbox",
+          "o": [
+            [
+              26
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 57,
+          "in": "checkbox",
+          "o": [
+            [
+              143
+            ],
+            [
+              144
+            ],
+            [
+              145
+            ],
+            [
+              146
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "windriders",
@@ -1930,7 +4554,37 @@ export default {
         }
       ],
       "linked": 1,
-      "condBattleline": 1
+      "condBattleline": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              20,
+              1
+            ],
+            [
+              58,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 59,
+          "in": "stepper",
+          "o": [
+            [
+              57
+            ],
+            [
+              26
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "wraithblades",
@@ -1954,7 +4608,33 @@ export default {
         }
       ],
       "linked": 1,
-      "condBattleline": 1
+      "condBattleline": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              152,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 60,
+          "in": "stepper",
+          "o": [
+            [
+              153
+            ],
+            [
+              154
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "wraithguard",
@@ -1978,7 +4658,34 @@ export default {
         }
       ],
       "linked": 1,
-      "condBattleline": 1
+      "condBattleline": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              155,
+              1
+            ],
+            [
+              156,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 61,
+          "in": "stepper",
+          "o": [
+            [
+              157
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "wraithknight",
@@ -2008,7 +4715,66 @@ export default {
       "step": {
         "at": 2,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              158,
+              1
+            ],
+            [
+              159,
+              1
+            ],
+            [
+              160,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 62,
+          "in": "checkbox",
+          "o": [
+            [
+              161,
+              10
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 63,
+          "in": "checkbox",
+          "o": [
+            [
+              161,
+              10
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 64,
+          "in": "stepper",
+          "o": [
+            [
+              57
+            ],
+            [
+              26
+            ],
+            [
+              39
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "wraithknight-with-ghostglaive",
@@ -2038,7 +4804,50 @@ export default {
       "step": {
         "at": 2,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              162,
+              1
+            ],
+            [
+              158,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 64,
+          "in": "stepper",
+          "o": [
+            [
+              57
+            ],
+            [
+              26
+            ],
+            [
+              39
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 63,
+          "in": "checkbox",
+          "o": [
+            [
+              161
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "wraithlord",
@@ -2062,7 +4871,66 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              163,
+              1
+            ],
+            [
+              164,
+              2
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 64,
+          "in": "stepper",
+          "o": [
+            [
+              165
+            ],
+            [
+              166
+            ],
+            [
+              167
+            ],
+            [
+              168
+            ],
+            [
+              169
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 65,
+          "in": "stepper",
+          "o": [
+            [
+              17
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 66,
+          "in": "checkbox",
+          "o": [
+            [
+              170
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "ynnari-archon",
@@ -2097,6 +4965,37 @@ export default {
           "to": "ynnari-kabalite-warriors",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              171,
+              1
+            ],
+            [
+              172,
+              1
+            ],
+            [
+              173,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 67,
+          "in": "checkbox",
+          "o": [
+            [
+              174
+            ]
+          ]
+        }
       ]
     },
     {
@@ -2130,7 +5029,47 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Klaivex"
+        },
+        {
+          "n": "Incubi"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              175,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              175,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 68,
+          "in": "checkbox",
+          "o": [
+            [
+              176
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "ynnari-kabalite-warriors",
@@ -2153,7 +5092,118 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Sybarite"
+        },
+        {
+          "n": "Kabalite Warrior"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              23,
+              1
+            ],
+            [
+              177,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              23,
+              1
+            ],
+            [
+              177,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 69,
+          "in": "checkbox",
+          "o": [
+            [
+              178
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 70,
+          "in": "checkbox",
+          "o": [
+            [
+              19
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 71,
+          "in": "checkbox",
+          "o": [
+            [
+              179
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 72,
+          "in": "checkbox",
+          "o": [
+            [
+              180
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 73,
+          "in": "checkbox",
+          "o": [
+            [
+              181
+            ],
+            [
+              182
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 74,
+          "in": "checkbox",
+          "o": [
+            [
+              183
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 75,
+          "in": "checkbox",
+          "o": [
+            [
+              16
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "ynnari-raider",
@@ -2178,7 +5228,34 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              184,
+              1
+            ],
+            [
+              185,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 76,
+          "in": "checkbox",
+          "o": [
+            [
+              186
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "ynnari-reavers",
@@ -2208,7 +5285,115 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Arena Champion"
+        },
+        {
+          "n": "Reaver"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              177,
+              1
+            ],
+            [
+              187,
+              1
+            ],
+            [
+              182,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              187,
+              1
+            ],
+            [
+              177,
+              1
+            ],
+            [
+              182,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 77,
+          "in": "stepper",
+          "o": [
+            [
+              188
+            ],
+            [
+              189
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 77,
+          "in": "checkbox",
+          "o": [
+            [
+              188
+            ],
+            [
+              189
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 78,
+          "in": "checkbox",
+          "o": [
+            [
+              190
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 79,
+          "in": "checkbox",
+          "o": [
+            [
+              16
+            ],
+            [
+              191
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 79,
+          "in": "stepper",
+          "o": [
+            [
+              16
+            ],
+            [
+              191
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "ynnari-succubus",
@@ -2239,6 +5424,32 @@ export default {
           "to": "ynnari-wyches",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              192,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 80,
+          "in": "checkbox",
+          "o": [
+            [
+              174
+            ],
+            [
+              173
+            ]
+          ]
+        }
       ]
     },
     {
@@ -2264,7 +5475,38 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              193,
+              1
+            ],
+            [
+              194,
+              1
+            ],
+            [
+              195,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 81,
+          "in": "checkbox",
+          "o": [
+            [
+              194
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "ynnari-wyches",
@@ -2288,7 +5530,55 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Hekatrix"
+        },
+        {
+          "n": "Wych"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              196,
+              1
+            ],
+            [
+              182,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              196,
+              1
+            ],
+            [
+              182,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 82,
+          "in": "checkbox",
+          "o": [
+            [
+              197
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "yvraine",
@@ -2346,6 +5636,21 @@ export default {
           "to": "ynnari-wyches",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              198,
+              1
+            ],
+            [
+              199,
+              1
+            ]
+          ]
+        ]
       ]
     }
   ],

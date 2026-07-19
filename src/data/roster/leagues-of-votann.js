@@ -2,6 +2,129 @@
 export default {
   "slug": "leagues-of-votann",
   "name": "Leagues of Votann",
+  "items": {
+    "1": "Kromlôk’s Revenge",
+    "2": "Warforge Gauntlets",
+    "3": "Autoch-pattern bolt pistol",
+    "4": "Close combat weapon",
+    "5": "Las-beam cutter",
+    "6": "Manipulator arms",
+    "7": "Graviton rifle",
+    "8": "Graviton hammer",
+    "9": "Plasma torch",
+    "10": "Close combat weapon",
+    "11": "Bolt cannon",
+    "12": "SP conversion beamer",
+    "13": "Graviton blast cannon",
+    "14": "Heavy plasma axe",
+    "15": "Twin concussion gauntlet",
+    "16": "Concussion maul",
+    "17": "Mole grenade launcher",
+    "18": "Breacher ordnance",
+    "19": "Autoch-pattern bolt pistol",
+    "20": "Plasma picks",
+    "21": "Tremor shells",
+    "22": "Weavefield Crest",
+    "23": "Mass hammer",
+    "24": "Autoch-pattern combi-bolter",
+    "25": "Darkstar axe",
+    "26": "Teleport Crest",
+    "27": "Weavefield crest",
+    "28": "Exoarmour grenade launcher",
+    "29": "EtaCarn plasma gun",
+    "30": "Concussion gauntlet",
+    "31": "Teleport Crest",
+    "32": "Plasma blade gauntlet",
+    "33": "Volkanite disintegrator",
+    "34": "Autoch-pattern bolter",
+    "35": "Ancestral ward stave",
+    "36": "Ancestral Wrath",
+    "37": "Close combat weapon",
+    "38": "HYLas auto rifle",
+    "39": "HYLas rotary cannon",
+    "40": "L7 missile launcher",
+    "41": "EtaCarn plasma beamer",
+    "42": "Magna-rail rifle",
+    "43": "Plasma knife",
+    "44": "Ion blaster",
+    "45": "Theyn’s pistol",
+    "46": "Theyn’s melee weapon",
+    "47": "Twin bolt cannon",
+    "48": "MATR autocannon",
+    "49": "Cyclic ion cannon",
+    "50": "Armoured wheels",
+    "51": "Panspectral Scanner",
+    "52": "Hekaton warhead",
+    "53": "SP heavy conversion beamer",
+    "54": "Heavy magna-rail cannon",
+    "55": "Twin ion beamer",
+    "56": "Bolt shotgun",
+    "57": "Magna-coil autocannon",
+    "58": "Bolt revolver",
+    "59": "HYLas rotary cannon",
+    "60": "Ion beamer",
+    "61": "Multiwave Comms Array",
+    "62": "Rollbar Searchlight",
+    "63": "Magna-coil rifle",
+    "64": "APM launcher",
+    "65": "Plasma knife",
+    "66": "Heavy volkanite disintegrator",
+    "67": "Autoch-pattern bolter",
+    "68": "Plasma sword",
+    "69": "Concussion gauntlet",
+    "70": "Forgewrought plasma axe",
+    "71": "Rampart Crest",
+    "72": "Volkanite disintegrator",
+    "73": "Teleport Crest",
+    "74": "Mass gauntlet",
+    "75": "Smoke Launcher",
+    "76": "Armoured hull",
+    "77": "Magna‑rail cannon",
+    "78": "Twin magna‑coil autocannon",
+    "79": "HYLas rotary cannon",
+    "80": "HYLas beam cannon",
+    "81": "Armoured wheels",
+    "82": "L7 missile launcher",
+    "83": "Sagitaur missile launcher",
+    "84": "Rampart Crest",
+    "85": "Blade of the Ancestors"
+  },
+  "texts": {
+    "1": "All models in this unit can each have their bolt cannon replaced with 1 SP conversion beamer.",
+    "2": "All models in this unit can each have their bolt cannon replaced with 1 graviton blast cannon.",
+    "3": "For every 5 models in this unit, 1 model that is not equipped with a mole grenade launcher can have its heavy plasma axe or concussion maul replaced with 1 twin concussion gauntlet.",
+    "4": "All models in this unit can each have their heavy plasma axe replaced with 1 concussion maul.",
+    "5": "For every 5 models in this unit, 1 model that is not equipped with a twin concussion gauntlet or a mole grenade launcher can be equipped with 1 mole grenade launcher. *\n\n* Designer’s Note: If a Cthonian Beserk is equipped with a mole grenade launcher, it will be accompanied by an L‑COG unit: both models should be placed on the same base and together they act as a single model for all rules purposes.",
+    "6": "All models in this unit can each have their breacher ordnance replaced with 1 tremor shells.",
+    "7": "This model’s mass hammer can be replaced with 1 darkstar axe.",
+    "8": "This model’s weavefield crest can be replaced with 1 teleport crest.",
+    "9": "The Hesyr’s concussion gauntlet or plasma blade gauntlet can be replaced with 1 graviton hammer.",
+    "10": "The Hesyr’s weavefield crest can be replaced with 1 teleport crest.",
+    "11": "All models in this unit can each have their concussion gauntlet replaced with 1 plasma blade gauntlet.",
+    "12": "All models in this unit can each have their EtaCarn plasma gun replaced with 1 volkanite disintegrator.",
+    "13": "Up to 2 Hearthkyn Warriors can each have their Autoch‑pattern bolter or ion blaster replaced with one of the following (duplicates are not allowed):",
+    "14": "Up to 2 Hearthkyn Warriors can each have their Autoch‑pattern bolter or ion blaster replaced with 1 plasma knife.",
+    "15": "The Theyn’s Autoch-pattern bolter can be replaced with one of the following:",
+    "16": "The Theyn can be equipped with 1 Theyn’s melee weapon.",
+    "17": "Any number of Hearthkyn Warriors can each have their Autoch‑pattern bolter replaced with 1 ion blaster.",
+    "18": "This model’s panspectral scanner can be replaced with 1 Hekaton warhead.",
+    "19": "This model’s cyclic ion cannon can be replaced with one of the following:",
+    "20": "This model’s 2 twin bolt cannons can be replaced with one of the following:\n◦ 1 twin bolt cannon and 1 twin ion beamer\n◦ 2 twin ion beamers",
+    "21": "For every 3 models in this unit, 1 model can be equipped with one of the following:",
+    "22": "■ 1 model that is not equipped with either a HYLas rotary cannon or an ion beamer can be equipped with 1 multiwave comms array. *\n\n■ 1 model that is not equipped with either a HYLas rotary cannon or an ion beamer can be equipped with 1 panspectral scanner. *\n\n■ 1 model that is not equipped with either a HYLas rotary cannon or an ion beamer can be equipped with 1 rollbar searchlight. *\n\n* A model can only take one of these options, and cannot be equipped with a HYLas rotary cannon or an ion beamer.",
+    "23": "1 Hernkyn Yaegir can have its bolt revolver and plasma knife or its bolt shotgun replaced with 1 magna-coil rifle.",
+    "24": "All models in this unit can each have their bolt shotgun replaced with 1 bolt revolver and 1 plasma knife.",
+    "25": "1 Hernkyn Yaegir can have its bolt revolver and plasma knife or its bolt shotgun replaced with 1 APM launcher.",
+    "26": "The Steeljack Theyn’s heavy volkanite disintegrator and plasma knife can be replaced with 1 Autoch‑pattern bolter and 1 plasma sword.",
+    "27": "Any number of models in this unit can each have their plasma sword replaced with 1 concussion gauntlet.",
+    "28": "This model’s Autoch-pattern combi-bolter can be replaced with 1 volkanite disintegrator.",
+    "29": "This model’s rampart crest can be replaced with 1 teleport crest.",
+    "30": "This model’s forgewrought plasma axe can be replaced with 1 mass gauntlet.",
+    "31": "This model can be equipped with 1 smoke launcher.",
+    "32": "Any number of models can each be equipped with 1 smoke launcher.",
+    "33": "Any number of models in this unit can each have their magna‑rail cannon replaced with 1 HYLas rotary cannon.",
+    "34": "This model’s HYLas beam cannon can be replaced with one of the following:\n◦ 1 L7 missile launcher and 1 Sagitaur missile launcher\n◦ 1 MATR autocannon"
+  },
   "units": [
     {
       "id": "arkanyst-evaluator",
@@ -58,6 +181,21 @@ export default {
           "to": "cthonian-beserks",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -93,6 +231,82 @@ export default {
           "to": "br-khyr-thunderkyn",
           "type": "leader"
         }
+      ],
+      "minis": [
+        {
+          "n": "Brôkhyr Iron-master"
+        },
+        {
+          "n": "Ironkin Assistant"
+        },
+        {
+          "n": "E-COG"
+        },
+        {
+          "n": "E-COG"
+        },
+        {
+          "n": "E-COG"
+        }
+      ],
+      "defaults": [
+        [
+          4,
+          [
+            [
+              3,
+              1
+            ],
+            [
+              4,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              5,
+              1
+            ],
+            [
+              4,
+              1
+            ]
+          ]
+        ],
+        [
+          3,
+          [
+            [
+              6,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              7,
+              1
+            ],
+            [
+              8,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              9,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -127,7 +341,44 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              10,
+              1
+            ],
+            [
+              11,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1,
+          "in": "stepper",
+          "o": [
+            [
+              12
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 2,
+          "in": "stepper",
+          "o": [
+            [
+              13
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "buri-aegnirssen",
@@ -183,7 +434,50 @@ export default {
         }
       ],
       "linked": 1,
-      "condBattleline": 1
+      "condBattleline": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              14,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 3,
+          "in": "stepper",
+          "o": [
+            [
+              15
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 4,
+          "in": "stepper",
+          "o": [
+            [
+              16
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 5,
+          "in": "stepper",
+          "o": [
+            [
+              17
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "cthonian-earthshakers",
@@ -206,7 +500,38 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              18,
+              1
+            ],
+            [
+              19,
+              1
+            ],
+            [
+              20,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 6,
+          "in": "stepper",
+          "o": [
+            [
+              21
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "einhyr-champion",
@@ -236,6 +561,47 @@ export default {
         {
           "to": "einhyr-hearthguard",
           "type": "leader"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              22,
+              1
+            ],
+            [
+              23,
+              1
+            ],
+            [
+              24,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              25
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 8,
+          "in": "checkbox",
+          "o": [
+            [
+              26
+            ]
+          ]
         }
       ]
     },
@@ -270,7 +636,117 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Hesyr"
+        },
+        {
+          "n": "Einhyr Hearthguard"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              27,
+              1
+            ],
+            [
+              28,
+              1
+            ],
+            [
+              29,
+              1
+            ],
+            [
+              30,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              29,
+              1
+            ],
+            [
+              30,
+              1
+            ],
+            [
+              28,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 9,
+          "in": "checkbox",
+          "o": [
+            [
+              8
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 10,
+          "in": "checkbox",
+          "o": [
+            [
+              31
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              32
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              33
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 11,
+          "in": "stepper",
+          "o": [
+            [
+              32
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 12,
+          "in": "stepper",
+          "o": [
+            [
+              33
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "grimnyr",
@@ -301,6 +777,42 @@ export default {
           "to": "hearthkyn-warriors",
           "type": "leader"
         }
+      ],
+      "minis": [
+        {
+          "n": "Grimnyr"
+        },
+        {
+          "n": "CORV"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              34,
+              1
+            ],
+            [
+              4,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              35,
+              1
+            ],
+            [
+              36,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -324,7 +836,122 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Theyn"
+        },
+        {
+          "n": "Hearthkyn Warrior"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              27,
+              1
+            ],
+            [
+              34,
+              1
+            ],
+            [
+              19,
+              1
+            ],
+            [
+              37,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              37,
+              1
+            ],
+            [
+              34,
+              1
+            ],
+            [
+              19,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 13,
+          "in": "checkbox",
+          "o": [
+            [
+              38
+            ],
+            [
+              39
+            ],
+            [
+              40
+            ],
+            [
+              41
+            ],
+            [
+              42
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 14,
+          "in": "stepper",
+          "o": [
+            [
+              43
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 15,
+          "in": "checkbox",
+          "o": [
+            [
+              44
+            ],
+            [
+              45
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 16,
+          "in": "checkbox",
+          "o": [
+            [
+              46
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 17,
+          "in": "stepper",
+          "o": [
+            [
+              44
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "hekaton-land-fortress",
@@ -351,7 +978,72 @@ export default {
       "step": {
         "at": 2,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              47,
+              2
+            ],
+            [
+              48,
+              1
+            ],
+            [
+              49,
+              1
+            ],
+            [
+              50,
+              1
+            ],
+            [
+              51,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 18,
+          "in": "checkbox",
+          "o": [
+            [
+              52
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 19,
+          "in": "checkbox",
+          "o": [
+            [
+              53
+            ],
+            [
+              54
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 20,
+          "in": "checkbox",
+          "o": [
+            [
+              47
+            ],
+            [
+              55
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "hernkyn-pioneers",
@@ -386,7 +1078,61 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              43,
+              1
+            ],
+            [
+              56,
+              1
+            ],
+            [
+              57,
+              1
+            ],
+            [
+              58,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 21,
+          "in": "stepper",
+          "o": [
+            [
+              59
+            ],
+            [
+              60
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 22,
+          "in": "checkbox",
+          "o": [
+            [
+              61
+            ],
+            [
+              51
+            ],
+            [
+              62
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "hernkyn-yaegirs",
@@ -409,7 +1155,91 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Yaegir Theyn"
+        },
+        {
+          "n": "Hernkyn Yaegir"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              37,
+              1
+            ],
+            [
+              56,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              56,
+              1
+            ],
+            [
+              37,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 23,
+          "in": "checkbox",
+          "o": [
+            [
+              63
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 24,
+          "in": "checkbox",
+          "o": [
+            [
+              58
+            ],
+            [
+              43
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 24,
+          "in": "stepper",
+          "o": [
+            [
+              58
+            ],
+            [
+              43
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 25,
+          "in": "checkbox",
+          "o": [
+            [
+              64
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "ironkin-steeljacks-with-heavy-volkanite-disintegrators",
@@ -442,7 +1272,45 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Steeljack Theyn"
+        },
+        {
+          "n": "Ironkin Steeljack"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              65,
+              1
+            ],
+            [
+              66,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 26,
+          "in": "checkbox",
+          "o": [
+            [
+              67
+            ],
+            [
+              68
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "ironkin-steeljacks-with-melee-weapons",
@@ -475,7 +1343,52 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Steeljack Theyn"
+        },
+        {
+          "n": "Ironkin Steeljack"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              68,
+              1
+            ],
+            [
+              67,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 27,
+          "in": "stepper",
+          "o": [
+            [
+              69
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 27,
+          "in": "checkbox",
+          "o": [
+            [
+              69
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "k-hl",
@@ -509,6 +1422,57 @@ export default {
           "to": "hearthkyn-warriors",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              70,
+              1
+            ],
+            [
+              71,
+              1
+            ],
+            [
+              24,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 28,
+          "in": "checkbox",
+          "o": [
+            [
+              72
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 29,
+          "in": "checkbox",
+          "o": [
+            [
+              73
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 30,
+          "in": "checkbox",
+          "o": [
+            [
+              74
+            ]
+          ]
+        }
       ]
     },
     {
@@ -535,7 +1499,19 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "gear": [
+        {
+          "m": 0,
+          "t": 31,
+          "in": "checkbox",
+          "o": [
+            [
+              75
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "kapricus-defenders",
@@ -566,7 +1542,48 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              76,
+              1
+            ],
+            [
+              77,
+              1
+            ],
+            [
+              78,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 32,
+          "in": "stepper",
+          "o": [
+            [
+              75
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 33,
+          "in": "stepper",
+          "o": [
+            [
+              79
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "memnyr-strategist",
@@ -624,7 +1641,44 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              47,
+              1
+            ],
+            [
+              80,
+              1
+            ],
+            [
+              81,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 34,
+          "in": "checkbox",
+          "o": [
+            [
+              82
+            ],
+            [
+              83
+            ],
+            [
+              48
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "thar-the-destined",
@@ -661,6 +1715,25 @@ export default {
           "to": "hearthkyn-warriors",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              72,
+              1
+            ],
+            [
+              84,
+              1
+            ],
+            [
+              85,
+              1
+            ]
+          ]
+        ]
       ]
     }
   ],

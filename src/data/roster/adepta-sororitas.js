@@ -2,6 +2,166 @@
 export default {
   "slug": "adepta-sororitas",
   "name": "Adepta Sororitas",
+  "items": {
+    "1": "Bolt pistol",
+    "2": "Scribe’s staff",
+    "3": "Blade of Vigil",
+    "4": "Arco-flails",
+    "5": "Boltgun",
+    "6": "Close combat weapon",
+    "7": "Artificer-crafted storm bolter",
+    "8": "Heavy bolter",
+    "9": "Meltagun",
+    "10": "Ministorum flamer",
+    "11": "Ministorum heavy flamer",
+    "12": "Multi-melta",
+    "13": "Simulacrum Imperialis",
+    "14": "Chainsword",
+    "15": "Power weapon",
+    "16": "Combi-weapon",
+    "17": "Condemnor boltgun",
+    "18": "Inferno pistol",
+    "19": "Ministorum hand flamer",
+    "20": "Plasma pistol",
+    "21": "Hallowed chainsword",
+    "22": "Bolt Pistol",
+    "23": "Rod of Office",
+    "24": "Blessed blade",
+    "25": "Power weapon",
+    "26": "Condemnor boltgun",
+    "27": "Inferno pistol",
+    "28": "Plasma pistol",
+    "29": "Brazier of holy fire",
+    "30": "Null Rod",
+    "31": "Blessed halberd",
+    "32": "Holy eviscerator",
+    "33": "Castigator autocannons",
+    "34": "Armoured tracks",
+    "35": "Heavy bolter",
+    "36": "Storm bolter",
+    "37": "Hunter-killer missile",
+    "38": "Castigator battle cannon",
+    "39": "Null mace",
+    "40": "Condemnor bolt pistol",
+    "41": "Virge of admonition",
+    "42": "Denuncia oratory",
+    "43": "Blessed sword",
+    "44": "Hallowed mace",
+    "45": "Anointed halberd",
+    "46": "Spear of the faithful",
+    "47": "The Outcast’s Weapons",
+    "48": "Sanctity",
+    "49": "Dialogus staff",
+    "50": "Mace of the righteous",
+    "51": "Boltgun",
+    "52": "Artificer-crafted storm bolter",
+    "53": "Meltagun",
+    "54": "Ministorum flamer",
+    "55": "Exorcist missile launcher",
+    "56": "Exorcist conflagration rockets",
+    "57": "Chirurgeon’s tools",
+    "58": "Close combat weapon",
+    "59": "Immolation flamers",
+    "60": "Twin heavy bolter",
+    "61": "Twin multi-melta",
+    "62": "Mace of Castigation",
+    "63": "Twin Ministorum heavy flamer",
+    "64": "Heavy bolter",
+    "65": "Mace of Saint Praxedes",
+    "66": "Melta missile array",
+    "67": "Throne of Blame",
+    "68": "Zealot’s vindictor",
+    "69": "Holy pistol",
+    "70": "Power weapon",
+    "71": "Twin penitent buzz-blades",
+    "72": "Twin penitent flails",
+    "73": "Penitent buzz-blade",
+    "74": "Penitent flail",
+    "75": "Mortifier flamer",
+    "76": "Anchorite Sarcophagus",
+    "77": "Paragon missile launcher",
+    "78": "Fidelis",
+    "79": "Lance of Illumination",
+    "80": "Palatine blade",
+    "81": "Paragon storm bolters",
+    "82": "Paragon war blade",
+    "83": "Paragon grenade launchers",
+    "84": "Multi-melta",
+    "85": "Paragon war mace",
+    "86": "Twin penitent buzz-blades",
+    "87": "Penitent flamers",
+    "88": "Penitent buzz-blade ",
+    "89": "Penitent Flail",
+    "90": "Twin penitent flails",
+    "91": "Penitent eviscerator",
+    "92": "Neural whips",
+    "93": "Power weapon",
+    "94": "The Ardent Blade",
+    "95": "Meltagun",
+    "96": "Close combat weapon",
+    "97": "Holy fire",
+    "98": "Chainsword",
+    "99": "Autopistol",
+    "100": "Autogun",
+    "101": "Novitiate melee weapons",
+    "102": "Sacred Banner",
+    "103": "Relic weapons",
+    "104": "Bolt pistols"
+  },
+  "texts": {
+    "1": "1 Battle Sister’s boltgun can be replaced with one of the following:",
+    "2": "1 Battle Sister equipped with 1 boltgun can be equipped with 1 simulacrum imperialis (that model’s boltgun cannot be replaced).",
+    "3": "The Sister Superior can be equipped with one of the following:",
+    "4": "The Sister Superior’s boltgun can be replaced with one of the following:",
+    "5": "If this model is equipped with a plasma pistol and a power weapon, it can be equipped with:",
+    "6": "This model’s hallowed chainsword can be replaced with one of the following:",
+    "7": "This model’s bolt pistol can be replaced with one of the following:",
+    "8": "If this model is equipped with a hallowed chainsword, it can be equipped with one of the following:",
+    "9": "This model’s blessed halberd can be replaced with one of the following:\n• 1 holy eviscerator\n• 1 Ministorum hand flamer and 1 power weapon",
+    "10": "This model can be equipped with 1 storm bolter.",
+    "11": "This model can be equipped with 1 hunter-killer missile.",
+    "12": "This model’s Castigator autocannons can be replaced with 1 Castigator battle cannon.",
+    "13": "Up to 2 Celestian Insidiants can each have their condemnor bolt pistol replaced with 1 Munitorum hand flamer.",
+    "14": "One Celestian Insidiant’s condemnor bolt pistol and null mace can be replaced with 1 virge of admonition.",
+    "15": "One Celestian Insidiant’s condemnor bolt pistol can be replaced with 1 Denuncia oratory.",
+    "16": "One Celestian Insidiant equipped with 1 condemnor bolt pistol can be equipped with 1 Simulacrum Imperialis (that model’s condemnor bolt pistol cannot be replaced).",
+    "17": "The Celestian Insidiant’s Superior’s condemnor bolt pistol can be replaced with 1 inferno pistol.",
+    "18": "Up to 2 Celestian Insidiants can each have their condemnor bolt pistol and null mace replaced with 1 blessed sword.",
+    "19": "Any number of models can each have their hallowed mace replaced with 1 anointed halberd.",
+    "20": "The Sacresant Superior’s bolt pistol can be replaced with one of the following:",
+    "21": "The Sacresant Superior’s hallowed mace can be replaced with 1 spear of the faithful.",
+    "22": "The Dominion Superior’s boltgun can be replaced with one of the following:",
+    "23": "Up to 4 Dominions can each have their boltgun replaced with one of the following:",
+    "24": "1 Dominion equipped with 1 boltgun can be equipped with 1 simulacrum imperialis (that model’s boltgun cannot be replaced).",
+    "25": "The Dominion Superior can be equipped with one of the following:",
+    "26": "This model’s Exorcist missile launcher can be replaced with 1 Exorcist conflagration rockets.",
+    "27": "This model’s immolation flamers can be replaced with one of the following:",
+    "28": "This model’s zealot’s vindictor can be replaced with 1 holy pistol and 1 power weapon.",
+    "29": "Any number of models can each have their twin penitent buzz-blades replaced with one of the following:\n◦ 1 twin penitent flails\n◦ 1 penitent buzz-blade and 1 penitent flail",
+    "30": "Any number of models can each have their 2 heavy bolters replaced with one of the following: \n◦ 1 heavy bolter and 1 Mortifier flamer \n◦ 2 Mortifier flamers",
+    "31": "1 model can be equipped with 1 anchorite sarcophagus.",
+    "32": "This model’s bolt pistol can be replaced with 1 plasma pistol.",
+    "33": "Any number of models can each have their Paragon storm bolters replaced with 1 Paragon grenade launchers.",
+    "34": "Any number of models can each have their heavy bolter replaced with one of the following:",
+    "35": "Any number of models can each have their Paragon war blade replaced with 1 Paragon war mace.",
+    "36": "Any number of models can each have their twin penitent buzz-blades replaced with one of the following: \n◦ 1 penitent buzz-blade and 1 penitent flail \n◦ 1 twin penitent flails",
+    "37": "The Retributor Superior’s boltgun can be replaced with one of the following:",
+    "38": "Each Retributor’s heavy bolter can be replaced with one of the following:",
+    "39": "The Retributor Superior can be equipped with one of the following:",
+    "40": "1 Missionary model can have its 1 plasma gun replaced with 1 meltagun.",
+    "41": "1 Sanctifier model can have its 1 Sanctifier melee weapon replaced with 1 Ministorum hand flamer and 1 close combat weapon.",
+    "42": "1 Sanctifier model can have its 1 Sanctifier melee weapon replaced with 1 close combat weapon and 1 simulacrum imperialis.",
+    "43": "1 Missionary model equipped with 1 plasma gun can be equipped with 1 holy fire (this model’s plasma gun cannot be replaced).",
+    "44": "The Seraphim Superior’s 2 bolt pistols can be replaced with one of the following:\n◦ 1 bolt pistol and 1 chainsword\n◦ 1 bolt pistol and 1 plasma pistol\n◦ 1 bolt pistol and 1 power weapon\n◦ 1 plasma pistol and 1 chainsword\n◦ 1 plasma pistol and 1 power weapon",
+    "45": "For every 5 models in the unit, up to 2 Seraphim can each have their 2 bolt pistols replaced with one of the following: \n◦ 2 inferno pistols \n◦ 2 Ministorum hand flamers",
+    "46": "Any number of Sisters Novitiate can each have their autogun and close combat weapon replaced with 1 Novitiate melee weapons.",
+    "47": "1 Sister Novitiate’s autogun can be replaced with 1 simulacrum imperialis.",
+    "48": "Up to 2 Sisters Novitiate can each have their autogun replaced with 1 Ministorum flamer.",
+    "49": "1 Sister Novitiate’s autogun can be replaced with 1 sacred banner.",
+    "50": "The Novitiate Superior’s bolt pistol and boltgun can be replaced with one of the following: \n◦ 1 bolt pistol and 1 power weapon\n◦ 1 plasma pistol and 1 power weapon",
+    "51": "The Zephyrim Superior’s bolt pistol can be replaced with 1 plasma pistol.",
+    "52": "The Zephyrim Superior can be equipped with 1 sacred banner."
+  },
   "units": [
     {
       "id": "aestred-thurga-and-agathae-dolan",
@@ -56,6 +216,42 @@ export default {
           "to": "retributor-squad",
           "type": "leader"
         }
+      ],
+      "minis": [
+        {
+          "n": "Aestred Thurga"
+        },
+        {
+          "n": "Agathae Dolan"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              3,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -86,7 +282,18 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              4,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "battle-sisters-squad",
@@ -110,7 +317,142 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Sister Superior"
+        },
+        {
+          "n": "Battle Sister"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              5,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              6,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              5,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              6,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              7
+            ],
+            [
+              8
+            ],
+            [
+              9
+            ],
+            [
+              10
+            ],
+            [
+              11
+            ],
+            [
+              12
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              13
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 3,
+          "in": "checkbox",
+          "o": [
+            [
+              14
+            ],
+            [
+              15
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 4,
+          "in": "checkbox",
+          "o": [
+            [
+              1
+            ],
+            [
+              16
+            ],
+            [
+              17
+            ],
+            [
+              18
+            ],
+            [
+              19
+            ],
+            [
+              20
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              7
+            ],
+            [
+              9
+            ],
+            [
+              10
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "canoness",
@@ -162,6 +504,75 @@ export default {
           "to": "dominion-squad",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              21,
+              1
+            ],
+            [
+              22,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 5,
+          "in": "checkbox",
+          "o": [
+            [
+              23
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              24
+            ],
+            [
+              25
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              26
+            ],
+            [
+              27
+            ],
+            [
+              28
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 8,
+          "in": "checkbox",
+          "o": [
+            [
+              29
+            ],
+            [
+              30
+            ]
+          ]
+        }
       ]
     },
     {
@@ -200,6 +611,35 @@ export default {
           "to": "zephyrim-squad",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              31,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 9,
+          "in": "checkbox",
+          "o": [
+            [
+              32
+            ],
+            [
+              19
+            ],
+            [
+              25
+            ]
+          ]
+        }
       ]
     },
     {
@@ -228,7 +668,58 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              33,
+              1
+            ],
+            [
+              34,
+              1
+            ],
+            [
+              35,
+              3
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 10,
+          "in": "checkbox",
+          "o": [
+            [
+              36
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              37
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              38
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "celestian-insidiants",
@@ -251,7 +742,105 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Celestian Insidiant Superior"
+        },
+        {
+          "n": "Celestian Insidiant"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              39,
+              1
+            ],
+            [
+              40,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              39,
+              1
+            ],
+            [
+              40,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 13,
+          "in": "stepper",
+          "o": [
+            [
+              19
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 14,
+          "in": "checkbox",
+          "o": [
+            [
+              41
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 15,
+          "in": "checkbox",
+          "o": [
+            [
+              42
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 16,
+          "in": "checkbox",
+          "o": [
+            [
+              13
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 17,
+          "in": "checkbox",
+          "o": [
+            [
+              18
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 18,
+          "in": "stepper",
+          "o": [
+            [
+              43
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "celestian-sacresants",
@@ -285,7 +874,91 @@ export default {
       "step": {
         "at": 2,
         "pts": 15
-      }
+      },
+      "minis": [
+        {
+          "n": "Sacresant Superior"
+        },
+        {
+          "n": "Celestian Sacresant"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              44,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              44,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 19,
+          "in": "stepper",
+          "o": [
+            [
+              45
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 20,
+          "in": "checkbox",
+          "o": [
+            [
+              18
+            ],
+            [
+              19
+            ],
+            [
+              20
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 19,
+          "in": "checkbox",
+          "o": [
+            [
+              45
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 21,
+          "in": "checkbox",
+          "o": [
+            [
+              46
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "daemonifuge",
@@ -313,7 +986,39 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Ephrael Stern"
+        },
+        {
+          "n": "Kyganil of the Bloody Tears"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              47,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              48,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "dialogus",
@@ -364,6 +1069,21 @@ export default {
           "to": "celestian-insidiants",
           "type": "support"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              49,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -412,6 +1132,21 @@ export default {
           "to": "celestian-insidiants",
           "type": "support"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              50,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -439,7 +1174,118 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Dominion Superior"
+        },
+        {
+          "n": "Dominion"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              51,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              6,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              51,
+              1
+            ],
+            [
+              6,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 22,
+          "in": "checkbox",
+          "o": [
+            [
+              1
+            ],
+            [
+              16
+            ],
+            [
+              17
+            ],
+            [
+              18
+            ],
+            [
+              19
+            ],
+            [
+              20
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 23,
+          "in": "stepper",
+          "o": [
+            [
+              52
+            ],
+            [
+              53,
+              5
+            ],
+            [
+              54
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 24,
+          "in": "checkbox",
+          "o": [
+            [
+              13
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 25,
+          "in": "checkbox",
+          "o": [
+            [
+              14
+            ],
+            [
+              15
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "exorcist",
@@ -467,7 +1313,48 @@ export default {
       "step": {
         "at": 2,
         "pts": 40
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              55,
+              1
+            ],
+            [
+              34,
+              1
+            ],
+            [
+              35,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 26,
+          "in": "checkbox",
+          "o": [
+            [
+              56
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              37
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "hospitaller",
@@ -522,6 +1409,21 @@ export default {
           "to": "celestian-insidiants",
           "type": "support"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              57,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -570,6 +1472,25 @@ export default {
           "to": "celestian-sacresants",
           "type": "support"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              58,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -600,7 +1521,52 @@ export default {
       "step": {
         "at": 4,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              34,
+              1
+            ],
+            [
+              35,
+              1
+            ],
+            [
+              59,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              37
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 27,
+          "in": "checkbox",
+          "o": [
+            [
+              60
+            ],
+            [
+              61,
+              15
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "intranzia-fraye",
@@ -629,7 +1595,34 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              64,
+              1
+            ],
+            [
+              65,
+              1
+            ],
+            [
+              66,
+              1
+            ],
+            [
+              11,
+              1
+            ],
+            [
+              67,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "junith-eruita",
@@ -683,6 +1676,21 @@ export default {
           "to": "retributor-squad",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              62,
+              1
+            ],
+            [
+              63,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -735,6 +1743,32 @@ export default {
           "to": "celestian-insidiants",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              68,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 28,
+          "in": "checkbox",
+          "o": [
+            [
+              69
+            ],
+            [
+              70
+            ]
+          ]
+        }
       ]
     },
     {
@@ -766,7 +1800,63 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              35,
+              2
+            ],
+            [
+              71,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 29,
+          "in": "stepper",
+          "o": [
+            [
+              72
+            ],
+            [
+              73
+            ],
+            [
+              74
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 30,
+          "in": "stepper",
+          "o": [
+            [
+              35
+            ],
+            [
+              75
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 31,
+          "in": "checkbox",
+          "o": [
+            [
+              76
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "morvenn-vahl",
@@ -801,6 +1891,25 @@ export default {
           "to": "paragon-warsuits",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              77,
+              1
+            ],
+            [
+              78,
+              1
+            ],
+            [
+              79,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -853,6 +1962,33 @@ export default {
           "to": "celestian-insidiants",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              80,
+              1
+            ],
+            [
+              22,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 32,
+          "in": "checkbox",
+          "o": [
+            [
+              28
+            ]
+          ]
+        }
       ]
     },
     {
@@ -881,7 +2017,129 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Paragon Superior"
+        },
+        {
+          "n": "Paragon"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              81,
+              1
+            ],
+            [
+              82,
+              1
+            ],
+            [
+              35,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              82,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              81,
+              1
+            ],
+            [
+              35,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 33,
+          "in": "checkbox",
+          "o": [
+            [
+              83
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 34,
+          "in": "checkbox",
+          "o": [
+            [
+              11
+            ],
+            [
+              84,
+              10
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 35,
+          "in": "checkbox",
+          "o": [
+            [
+              85
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 33,
+          "in": "stepper",
+          "o": [
+            [
+              83
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 35,
+          "in": "stepper",
+          "o": [
+            [
+              85
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 34,
+          "in": "stepper",
+          "o": [
+            [
+              11
+            ],
+            [
+              84,
+              10
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "penitent-engines",
@@ -912,7 +2170,40 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              86,
+              1
+            ],
+            [
+              87,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 36,
+          "in": "stepper",
+          "o": [
+            [
+              88
+            ],
+            [
+              89
+            ],
+            [
+              90
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "repentia-squad",
@@ -943,7 +2234,39 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Repentia Superior"
+        },
+        {
+          "n": "Sister Repentia"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              91,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              92,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "retributor-squad",
@@ -970,7 +2293,105 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Retributor Superior"
+        },
+        {
+          "n": "Retributor"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              5,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              6,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              8,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 37,
+          "in": "checkbox",
+          "o": [
+            [
+              1
+            ],
+            [
+              16
+            ],
+            [
+              17
+            ],
+            [
+              18
+            ],
+            [
+              19
+            ],
+            [
+              20
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 38,
+          "in": "stepper",
+          "o": [
+            [
+              11
+            ],
+            [
+              12,
+              5
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 39,
+          "in": "checkbox",
+          "o": [
+            [
+              14
+            ],
+            [
+              15
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "saint-celestine",
@@ -1010,6 +2431,38 @@ export default {
           "to": "zephyrim-squad",
           "type": "leader"
         }
+      ],
+      "minis": [
+        {
+          "n": "Celestine"
+        },
+        {
+          "n": "Geminae Superia"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              93,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              94,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -1033,7 +2486,72 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Miraculist"
+        },
+        {
+          "n": "Salvationist"
+        },
+        {
+          "n": "Death Cult Assassin"
+        },
+        {
+          "n": "Missionary"
+        },
+        {
+          "n": "Sanctifier"
+        }
+      ],
+      "gear": [
+        {
+          "m": 3,
+          "t": 40,
+          "in": "checkbox",
+          "o": [
+            [
+              95
+            ]
+          ]
+        },
+        {
+          "m": 4,
+          "t": 41,
+          "in": "checkbox",
+          "o": [
+            [
+              19
+            ],
+            [
+              96
+            ]
+          ]
+        },
+        {
+          "m": 4,
+          "t": 42,
+          "in": "checkbox",
+          "o": [
+            [
+              96
+            ],
+            [
+              13
+            ]
+          ]
+        },
+        {
+          "m": 3,
+          "t": 43,
+          "in": "checkbox",
+          "o": [
+            [
+              97
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "seraphim-squad",
@@ -1069,7 +2587,77 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Seraphim Superior"
+        },
+        {
+          "n": "Seraphim"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              96,
+              1
+            ],
+            [
+              1,
+              2
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              1,
+              2
+            ],
+            [
+              96,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 44,
+          "in": "checkbox",
+          "o": [
+            [
+              98
+            ],
+            [
+              20
+            ],
+            [
+              70
+            ],
+            [
+              1
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 45,
+          "in": "stepper",
+          "o": [
+            [
+              18
+            ],
+            [
+              19
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "sisters-novitiate-squad",
@@ -1092,7 +2680,109 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Novitiate Superior"
+        },
+        {
+          "n": "Sister Novitiate"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              6,
+              1
+            ],
+            [
+              99,
+              1
+            ],
+            [
+              100,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 46,
+          "in": "stepper",
+          "o": [
+            [
+              101
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 47,
+          "in": "checkbox",
+          "o": [
+            [
+              13
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 48,
+          "in": "stepper",
+          "o": [
+            [
+              10
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 49,
+          "in": "checkbox",
+          "o": [
+            [
+              102
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 50,
+          "in": "checkbox",
+          "o": [
+            [
+              1
+            ],
+            [
+              15
+            ],
+            [
+              20
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "sororitas-rhino",
@@ -1118,7 +2808,34 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              34,
+              1
+            ],
+            [
+              36,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              37
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "triumph-of-saint-katherine",
@@ -1152,6 +2869,21 @@ export default {
           "to": "battle-sisters-squad",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              103,
+              1
+            ],
+            [
+              104,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -1184,7 +2916,65 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Zephyrim Superior"
+        },
+        {
+          "n": "Zephyrim"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              70,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              70,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 51,
+          "in": "checkbox",
+          "o": [
+            [
+              20
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 52,
+          "in": "checkbox",
+          "o": [
+            [
+              102
+            ]
+          ]
+        }
+      ]
     }
   ],
   "detachments": [

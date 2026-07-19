@@ -2,6 +2,259 @@
 export default {
   "slug": "chaos-space-marines",
   "name": "Heretic Astartes",
+  "items": {
+    "1": "Talon of Horus",
+    "2": "Drach’nyen",
+    "3": "Blasphemous appendages",
+    "4": "Hideous mutations",
+    "5": "Bolt pistol",
+    "6": "Combi-bolter",
+    "7": "Close combat weapon",
+    "8": "Flamer",
+    "9": "Meltagun",
+    "10": "Plasma gun",
+    "11": "Combi-weapon",
+    "12": "Chaos Icon",
+    "13": "Astartes chainsword",
+    "14": "Plasma pistol",
+    "15": "Accursed weapon",
+    "16": "Power fist",
+    "17": "Soulshatter lascannon",
+    "18": "Twin heavy bolter",
+    "19": "Armoured tracks",
+    "20": "Havoc launcher",
+    "21": "Daemon hammer",
+    "22": "Plasma pistol",
+    "23": "Accursed weapon",
+    "24": "Astartes chainsword",
+    "25": "Power fist",
+    "26": "Combi-bolter",
+    "27": "Exalted weapon",
+    "28": "Chainfist",
+    "29": "Power fist",
+    "30": "Paired accursed weapons",
+    "31": "Combi-weapon",
+    "32": "Bolt Pistol",
+    "33": "Twin lightning claws",
+    "34": "Plasma pistol",
+    "35": "Predator twin lascannon",
+    "36": "Armoured tracks",
+    "37": "Heavy bolter",
+    "38": "Lascannon",
+    "39": "Predator autocannon",
+    "40": "Paired accursed weapons",
+    "41": "Chainfist",
+    "42": "Heavy flamer",
+    "43": "Reaper autocannon",
+    "44": "Demolisher cannon",
+    "45": "Boltgun",
+    "46": "Power fist",
+    "47": "Balefire pike",
+    "48": "Close combat weapon",
+    "49": "Brutal assault weapon",
+    "50": "Autopistol",
+    "51": "Bolt pistol",
+    "52": "Cypher’s plasma pistol",
+    "53": "Cypher’s bolt pistol",
+    "54": "Close combat weapon",
+    "55": "Accursed crozius",
+    "56": "Commune stave",
+    "57": "Commune blade",
+    "58": "Warp Curse",
+    "59": "Excruciator cannon",
+    "60": "Hades battle cannon",
+    "61": "Heavy baleflamer",
+    "62": "Heavy missile launcher",
+    "63": "Shearing claws",
+    "64": "Ectoplasma destructor",
+    "65": "Magma cutters",
+    "66": "Hades lascannon",
+    "67": "Heavy reaper autocannon",
+    "68": "Electroscourge",
+    "69": "Rod of Torment",
+    "70": "Chirurgeon",
+    "71": "Xyclos Needler",
+    "72": "Surgeon Acolyte’s tools",
+    "73": "Close combat weapon",
+    "74": "Chainsword",
+    "75": "Great weapon",
+    "76": "Corrupted stave",
+    "77": "Plasma pistol",
+    "78": "Hades autocannon",
+    "79": "Forgefiend jaws",
+    "80": "Ectoplasma cannon",
+    "81": "Armoured limbs",
+    "82": "Helspear",
+    "83": "Herald’s Talon",
+    "84": "Havoc autocannon",
+    "85": "Havoc lascannon",
+    "86": "Astartes chainsword",
+    "87": "Havoc heavy bolter",
+    "88": "Havoc missile launcher",
+    "89": "Havoc reaper chaincannon",
+    "90": "Multi-melta",
+    "91": "Missile launcher",
+    "92": "Close combat weapon",
+    "93": "Helbrute plasma cannon",
+    "94": "Twin autocannon",
+    "95": "Twin lascannon",
+    "96": "Helbrute fist",
+    "97": "Helbrute hammer",
+    "98": "Power scourge",
+    "99": "Heldrake claws",
+    "100": "Baleflamer",
+    "101": "Hellforged weapons",
+    "102": "Infernal cannon",
+    "103": "Tyrant’s Claw heavy flamer",
+    "104": "Tyrant’s Claw and exalted power weapon",
+    "105": "Gorestorm cannon",
+    "106": "Hades gatling cannon",
+    "107": "Great cleaver of Khorne",
+    "108": "Skullhurler",
+    "109": "Daemongore cannon",
+    "110": "Ichor cannon",
+    "111": "Last Argument and power fist",
+    "112": "Servo-harness",
+    "113": "Balefire tome",
+    "114": "Heavy melee weapon",
+    "115": "Havoc autocannon",
+    "116": "Heavy bolter",
+    "117": "Lascannon",
+    "118": "Missile launcher",
+    "119": "Reaper chaincannon",
+    "120": "Impaler chainglaive",
+    "121": "Bladed limbs",
+    "122": "Helstalker autocannon",
+    "123": "Techno-virus injector",
+    "124": "Magma cutter",
+    "125": "Axe of dismemberment",
+    "126": "Staff of possession",
+    "127": "Rite of Possession",
+    "128": "Londaxi maimer",
+    "129": "Bionic gauntlet",
+    "130": "Absolvor bolt pistol",
+    "131": "Reductor array",
+    "132": "Bolt pistol",
+    "133": "Axe of Ending",
+    "134": "Mind Wrench",
+    "135": "Force stave",
+    "136": "Laspistol",
+    "137": "Power sabre",
+    "138": "Maulerfiend fists",
+    "139": "Lasher tendrils",
+    "140": "Magma cutters",
+    "141": "Fleshmetal weapons",
+    "142": "Nostraman chainblade",
+    "143": "Nostraman chainglaive",
+    "144": "Paired accursed weapons",
+    "145": "Voice Eater",
+    "146": "Lashing warp energies",
+    "147": "Fleshmetal guns",
+    "148": "Crushing fists",
+    "149": "Hideous mutations",
+    "150": "Mutations",
+    "151": "Reaver’s blade",
+    "152": "Hand flamer",
+    "153": "Power sword",
+    "154": "Power maul",
+    "155": "Force weapon",
+    "156": "Infernal Gaze",
+    "157": "Chaos Familiar",
+    "158": "Ogryn weapons",
+    "159": "Power fist",
+    "160": "Corrupted pistol",
+    "161": "Lasgun",
+    "162": "Boltgun",
+    "163": "Chainsword",
+    "164": "Power weapon",
+    "165": "Cultist grenade launcher",
+    "166": "Meltagun",
+    "167": "Plasma gun",
+    "168": "Cultist sniper rifle",
+    "169": "Vashtorr’s hammer",
+    "170": "Vashtorr’s claw",
+    "171": "Soulflayer tendrils and claws",
+    "172": "Melta tendril",
+    "173": "Forge weapon",
+    "174": "Flamer tendril",
+    "175": "Warp claws"
+  },
+  "texts": {
+    "1": "Up to 2 Chaos Bikers can each have their combi-bolter replaced with 1 combi-weapon, or can be equipped with one of the following:",
+    "2": "1 model can be equipped with 1 Chaos icon.",
+    "3": "Any number of Chaos Bikers can each have their bolt pistol replaced with 1 Astartes chainsword.",
+    "4": "The Biker Champion’s bolt pistol can be replaced with one of the following:",
+    "5": "This model can be equipped with 1 havoc launcher.",
+    "6": "This model can be equipped with one of the following:",
+    "7": "This model’s daemon hammer can be replaced with one of the following:",
+    "8": "This model’s plasma pistol can be replaced with 1 power fist.",
+    "9": "This model’s exalted weapon can be replaced with one of the following:",
+    "10": "This model’s combi-bolter and exalted weapon can be replaced with 1 paired accursed weapons.",
+    "11": "This model’s combi-bolter can be replaced with 1 combi-weapon.",
+    "12": "This model’s bolt pistol and accursed weapon can be replaced with 1 twin lightning claws.",
+    "13": "This model’s accursed weapon can be replaced with 1 power fist.",
+    "14": "This model’s bolt pistol can be replaced with 1 plasma pistol.",
+    "15": "This model can be equipped with one of the following: \n◦ 2 heavy bolters \n◦ 2 lascannons",
+    "16": "This model can be equipped with 1 Havoc launcher.",
+    "17": "This model can be equipped with 1 havoc launcher or can replace 1 combi-bolter with 1 havoc launcher.",
+    "18": "For every 5 models in this unit, up to 3 models can each have their accursed weapon replaced with 1 power fist.",
+    "19": "For every 5 models in this unit, 1 model’s combi-bolter and accursed weapon can be replaced with 1 paired accursed weapons.",
+    "20": "Any number of models can each have their combi-bolter replaced with 1 combi-weapon.",
+    "21": "For every 5 models in this unit, 1 model’s accursed weapon can be replaced with 1 chainfist.",
+    "22": "For every 5 models in this unit, 1 Terminator’s combi-bolter can be replaced with one of the following:",
+    "23": "For every 5 models in this unit, up to 2 models can each have their boltgun replaced with 1 combi-weapon.",
+    "24": "For every 5 models in this unit, up to 2 models can each have their bolt pistol replaced with 1 plasma pistol.",
+    "25": "For every 5 models in this unit, 1 model equipped with a boltgun can have its accursed weapon replaced with 1 power fist. That model’s boltgun cannot be replaced.",
+    "26": "For every 5 models in this unit, 1 model’s boltgun and accursed weapon can be replaced with 1 paired accursed weapons.",
+    "27": "The Cultist Champion’s autopistol can be replaced with 1 bolt pistol.",
+    "28": "This model’s Hades battle cannon can be replaced with 1 ectoplasma destructor",
+    "29": "This model’s excruciator cannons can be replaced with 2 magma cutters",
+    "30": "This model’s heavy missile launcher can be replaced with one of the following:\n◦ 1 Hades lascannon\n◦ 1 heavy reaper autocannon\n◦ 1 electroscourge (a model cannot be equipped with more than one electroscourge)",
+    "31": "This model’s heavy baleflamer can be replaced with one of the following:\n◦ 1 Hades lascannon\n◦ 1 heavy reaper autocannon\n◦ 1 electroscourge (a model cannot be equipped with more than one electroscourge)",
+    "32": "1 Fellgor Beastman’s close combat weapon can be replaced with 1 great weapon.",
+    "33": "1 Fellgor Beastman’s close combat weapon can be replaced with 1 corrupted stave.",
+    "34": "The Fellgor Champion’s bolt pistol can be replaced with 1 plasma pistol.",
+    "35": "This model’s Forgefiend jaws can be replaced with 1 ectoplasma cannon and 1 armoured limbs.",
+    "36": "This model’s 2 Hades autocannons can be replaced with 2 ectoplasma cannons.",
+    "37": "The Havoc Champion’s Astartes chainsword can be replaced with one of the following:",
+    "38": "Any number of Havocs can each have their Havoc autocannon or Havoc lascannon replaced with one of the following:",
+    "39": "The Havoc Champion’s flamer can be replaced with one of the following:",
+    "40": "For each Helbrute fist this model is equipped with, it can be equipped with one of the following:",
+    "41": "This model’s multi-melta can be replaced with one of the following:",
+    "42": "This model’s missile launcher can be replaced with one of the following:",
+    "43": "This model’s Hades autocannon can be replaced with 1 baleflamer.",
+    "44": "This model’s Hades gatling cannon can be replaced with 1 skullhurler.",
+    "45": "This model’s gorestorm cannon can be replaced with one of the following:",
+    "46": "One Legionary’s boltgun can be replaced with 1 balefire tome.",
+    "47": "The Aspiring Champion’s bolt pistol can be replaced with one of the following: \n\n◦ 1 plasma pistol* \n◦ 1 accursed weapon \n◦ 1 Astartes chainsword \n◦ 1 heavy melee weapon  \n\n* Maximum 1 per model.",
+    "48": "Any number of Legionaries can each have their boltgun replaced with 1 Astartes chainsword.",
+    "49": "The Aspiring Champion’s boltgun can be replaced with one of the following: \n\n◦ 1 plasma pistol* \n◦ 1 accursed weapon \n◦ 1 Astartes chainsword \n◦ 1 heavy melee weapon \n\n* Maximum 1 per model.",
+    "50": "One Legionary’s boltgun can be replaced with 1 heavy melee weapon.",
+    "51": "For every 5 models in this unit, 1 Legionary’s boltgun can be replaced with one of the following (duplicates are not allowed): \n◦ 1 plasma pistol and 1 Astartes chainsword.\n◦ 1 flamer\n◦ 1 havoc autocannon\n◦ 1 heavy bolter\n◦ 1 lascannon\n◦ 1 meltagun\n◦ 1 missile launcher\n◦ 1 plasma gun\n◦ 1 reaper chaincannon",
+    "52": "This model’s Helstalker autocannon can be replaced with 1 baleflamer.",
+    "53": "This model’s techno-virus injector can be replaced with 1 magma cutter.",
+    "54": "This model’s lasher tendrils can be replaced with 2 magma cutters.",
+    "55": "The Visionary’s bolt pistol can be replaced with 1 plasma pistol.",
+    "56": "The Visionary’s Nostraman chainblade can be replaced with one of the following:",
+    "57": "One Legionary’s boltgun can be replaced with one of the following:",
+    "58": "Up to four Legionaries can each have their boltgun replaced with one of the following (duplicates are not allowed):\n◦ 1 accursed weapon\n◦ 1 Nostraman chainglaive\n◦ 1 paired accursed weapons\n◦ 1 voice eater and 1 Astartes chainsword",
+    "59": "If this unit contains 10 models, one Legionary’s boltgun can be replaced with one of the following:",
+    "60": "The Raptor Champion’s bolt pistol can be replaced with 1 plasma pistol.",
+    "61": "The Raptor Champion’s Astartes chainsword can be replaced with one of the following:",
+    "62": "If this unit contains 10 models, up to 2 additional Raptors can each have their Astartes chainsword replaced with one of the following options (you cannot select the same option more than once):\n1 flamer and 1 close combat weapon\n1 meltagun and 1 close combat weapon\n1 plasma gun and 1 close combat weapon",
+    "63": "For every 5 models in this unit, up to 2 Raptors can each have their bolt pistol replaced with 1 plasma pistol (these models’ Astartes chainswords cannot be replaced).",
+    "64": "For every 5 models in this unit, 1 Raptor can replace their Astartes chainsword with 1 mutations.",
+    "65": "Up to 2 Raptors can each have their Astartes chainsword replaced with one of the following options (you cannot select the same option more than once):\n1 flamer and 1 close combat weapon\n1 meltagun and 1 close combat weapon\n1 plasma gun and 1 close combat weapon",
+    "66": "For every 5 models in this unit, up 2 Raptors can each have their Astartes chainsword replaced with 1 heavy melee weapon.",
+    "67": "For every 5 models in this unit:\n◦ 1 Red Corsairs Raider’s boltgun can be replaced with 1 meltagun\n◦ 1 Red Corsairs Raider’s reaver’s blade can be replaced with 1 power fist",
+    "68": "The Red Corsairs Raider Champion’s bolt pistol can be replaced with 1 hand flamer.",
+    "69": "This model’s power sword can be replaced with 1 power maul",
+    "70": "This model can be equipped with 1 plasma pistol",
+    "71": "This model can be equipped with 1 Chaos familiar.",
+    "72": "The Traitor Sergeant’s corrupted pistol can be replaced with 1 boltgun.",
+    "73": "The Traitor Sergeant’s close combat weapon can be replaced with one of the following:",
+    "74": "Up to 3 Traitor Guardsmen can each have their lasgun replaced with one of the following (duplicates are not allowed):"
+  },
   "units": [
     {
       "id": "abaddon-the-despoiler",
@@ -93,6 +346,21 @@ export default {
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -134,7 +402,35 @@ export default {
       "step": {
         "at": 2,
         "pts": 20
-      }
+      },
+      "minis": [
+        {
+          "n": "Mutant"
+        },
+        {
+          "n": "Torment"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              3,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              4,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "chaos-bikers",
@@ -164,7 +460,121 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Biker Champion"
+        },
+        {
+          "n": "Chaos Biker"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              5,
+              1
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              7,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              6,
+              1
+            ],
+            [
+              7,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 1,
+          "in": "stepper",
+          "o": [
+            [
+              8
+            ],
+            [
+              9
+            ],
+            [
+              10
+            ],
+            [
+              11
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              12
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 3,
+          "in": "stepper",
+          "o": [
+            [
+              13
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              12
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 4,
+          "in": "checkbox",
+          "o": [
+            [
+              14
+            ],
+            [
+              15
+            ],
+            [
+              13
+            ],
+            [
+              16
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "chaos-land-raider",
@@ -193,7 +603,51 @@ export default {
       "step": {
         "at": 3,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              17,
+              2
+            ],
+            [
+              18,
+              1
+            ],
+            [
+              19,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 5,
+          "in": "checkbox",
+          "o": [
+            [
+              20
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              6
+            ],
+            [
+              11
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "chaos-lord",
@@ -341,6 +795,46 @@ export default {
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              21,
+              1
+            ],
+            [
+              22,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              23
+            ],
+            [
+              24
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 8,
+          "in": "checkbox",
+          "o": [
+            [
+              25
+            ]
+          ]
+        }
       ]
     },
     {
@@ -399,6 +893,56 @@ export default {
           "to": "chaos-terminator-squad",
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              26,
+              1
+            ],
+            [
+              27,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 9,
+          "in": "checkbox",
+          "o": [
+            [
+              28
+            ],
+            [
+              29
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 10,
+          "in": "checkbox",
+          "o": [
+            [
+              30
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              31
+            ]
+          ]
         }
       ]
     },
@@ -460,6 +1004,53 @@ export default {
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              23,
+              1
+            ],
+            [
+              32,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              33
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 13,
+          "in": "checkbox",
+          "o": [
+            [
+              29
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 14,
+          "in": "checkbox",
+          "o": [
+            [
+              34
+            ]
+          ]
+        }
       ]
     },
     {
@@ -488,7 +1079,60 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              35,
+              1
+            ],
+            [
+              36,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 15,
+          "in": "stepper",
+          "o": [
+            [
+              37
+            ],
+            [
+              38
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 16,
+          "in": "checkbox",
+          "o": [
+            [
+              20
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              6
+            ],
+            [
+              11
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "chaos-predator-destructor",
@@ -516,7 +1160,60 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              36,
+              1
+            ],
+            [
+              39,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              6
+            ],
+            [
+              11
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 15,
+          "in": "stepper",
+          "o": [
+            [
+              37
+            ],
+            [
+              38
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 16,
+          "in": "checkbox",
+          "o": [
+            [
+              20
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "chaos-rhino",
@@ -542,7 +1239,47 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              36,
+              1
+            ],
+            [
+              6,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 17,
+          "in": "checkbox",
+          "o": [
+            [
+              20
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              6
+            ],
+            [
+              11
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "chaos-spawn",
@@ -564,7 +1301,18 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              4,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "chaos-terminator-squad",
@@ -594,7 +1342,138 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Terminator Champion"
+        },
+        {
+          "n": "Chaos Terminator"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              6,
+              1
+            ],
+            [
+              15,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              15,
+              1
+            ],
+            [
+              6,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 18,
+          "in": "stepper",
+          "o": [
+            [
+              16
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 19,
+          "in": "checkbox",
+          "o": [
+            [
+              40
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 20,
+          "in": "checkbox",
+          "o": [
+            [
+              11
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 21,
+          "in": "stepper",
+          "o": [
+            [
+              41
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 20,
+          "in": "stepper",
+          "o": [
+            [
+              11
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 21,
+          "in": "checkbox",
+          "o": [
+            [
+              41
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 18,
+          "in": "checkbox",
+          "o": [
+            [
+              16
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 22,
+          "in": "stepper",
+          "o": [
+            [
+              42
+            ],
+            [
+              43
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 19,
+          "in": "stepper",
+          "o": [
+            [
+              40
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "chaos-vindicator",
@@ -622,7 +1501,47 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              44,
+              1
+            ],
+            [
+              36,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              6
+            ],
+            [
+              11
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 16,
+          "in": "checkbox",
+          "o": [
+            [
+              20
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "chosen",
@@ -656,7 +1575,153 @@ export default {
       "step": {
         "at": 2,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Chosen Champion"
+        },
+        {
+          "n": "Chosen"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              15,
+              1
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              45,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              5,
+              1
+            ],
+            [
+              45,
+              1
+            ],
+            [
+              15,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 23,
+          "in": "checkbox",
+          "o": [
+            [
+              11
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 24,
+          "in": "stepper",
+          "o": [
+            [
+              14
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 24,
+          "in": "checkbox",
+          "o": [
+            [
+              14
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 25,
+          "in": "stepper",
+          "o": [
+            [
+              46
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              12
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 25,
+          "in": "checkbox",
+          "o": [
+            [
+              46
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 23,
+          "in": "stepper",
+          "o": [
+            [
+              11
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              12
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 26,
+          "in": "checkbox",
+          "o": [
+            [
+              40
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 26,
+          "in": "stepper",
+          "o": [
+            [
+              40
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "cultist-firebrand",
@@ -749,6 +1814,21 @@ export default {
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              47,
+              1
+            ],
+            [
+              48,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -781,7 +1861,55 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Cultist Champion"
+        },
+        {
+          "n": "Chaos Cultist"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              49,
+              1
+            ],
+            [
+              50,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              49,
+              1
+            ],
+            [
+              50,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 27,
+          "in": "checkbox",
+          "o": [
+            [
+              51
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "cypher",
@@ -809,7 +1937,22 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              52,
+              1
+            ],
+            [
+              53,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "dark-apostle",
@@ -1017,6 +2160,38 @@ export default {
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
+      ],
+      "minis": [
+        {
+          "n": "Dark Apostle"
+        },
+        {
+          "n": "Dark Disciple"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              54,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              5,
+              1
+            ],
+            [
+              55,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -1112,6 +2287,74 @@ export default {
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
+      ],
+      "minis": [
+        {
+          "n": "Cult Demagogue"
+        },
+        {
+          "n": "Mindwitch"
+        },
+        {
+          "n": "Iconarch"
+        },
+        {
+          "n": "Blessed Blade"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              56,
+              1
+            ],
+            [
+              50,
+              1
+            ]
+          ]
+        ],
+        [
+          3,
+          [
+            [
+              57,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              54,
+              1
+            ],
+            [
+              58,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              12,
+              1
+            ],
+            [
+              50,
+              1
+            ],
+            [
+              54,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -1140,7 +2383,92 @@ export default {
       "step": {
         "at": 2,
         "pts": 30
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              59,
+              2
+            ],
+            [
+              60,
+              1
+            ],
+            [
+              61,
+              1
+            ],
+            [
+              62,
+              1
+            ],
+            [
+              63,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 28,
+          "in": "checkbox",
+          "o": [
+            [
+              64
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 29,
+          "in": "stepper",
+          "o": [
+            [
+              65
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 30,
+          "in": "checkbox",
+          "o": [
+            [
+              66,
+              10
+            ],
+            [
+              67,
+              10
+            ],
+            [
+              68
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 31,
+          "in": "checkbox",
+          "o": [
+            [
+              66,
+              10
+            ],
+            [
+              67,
+              10
+            ],
+            [
+              68
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "fabius-bile",
@@ -1320,6 +2648,42 @@ export default {
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
+      ],
+      "minis": [
+        {
+          "n": "Fabius Bile"
+        },
+        {
+          "n": "Surgeon Acolyte"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              69,
+              1
+            ],
+            [
+              70,
+              1
+            ],
+            [
+              71,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              72,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -1344,7 +2708,75 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Fellgor Champion"
+        },
+        {
+          "n": "Fellgor Beastmen"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              73,
+              1
+            ],
+            [
+              50,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              51,
+              1
+            ],
+            [
+              74,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 32,
+          "in": "checkbox",
+          "o": [
+            [
+              75
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 33,
+          "in": "checkbox",
+          "o": [
+            [
+              76
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 34,
+          "in": "checkbox",
+          "o": [
+            [
+              77
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "forgefiend",
@@ -1372,7 +2804,49 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              78,
+              2
+            ],
+            [
+              79,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 35,
+          "in": "checkbox",
+          "o": [
+            [
+              80,
+              5
+            ],
+            [
+              81
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 36,
+          "in": "stepper",
+          "o": [
+            [
+              80,
+              5
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "haarken-worldclaimer",
@@ -1434,6 +2908,21 @@ export default {
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              82,
+              1
+            ],
+            [
+              83,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -1460,7 +2949,109 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Havoc Champion"
+        },
+        {
+          "n": "Havoc"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              84,
+              1
+            ],
+            [
+              85,
+              1
+            ],
+            [
+              7,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              8,
+              1
+            ],
+            [
+              86,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 37,
+          "in": "checkbox",
+          "o": [
+            [
+              15
+            ],
+            [
+              16
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 38,
+          "in": "stepper",
+          "o": [
+            [
+              84
+            ],
+            [
+              87
+            ],
+            [
+              85
+            ],
+            [
+              88
+            ],
+            [
+              89
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 39,
+          "in": "checkbox",
+          "o": [
+            [
+              45
+            ],
+            [
+              9
+            ],
+            [
+              10
+            ],
+            [
+              14
+            ],
+            [
+              15
+            ],
+            [
+              16
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "helbrute",
@@ -1483,7 +3074,79 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              90,
+              1
+            ],
+            [
+              91,
+              1
+            ],
+            [
+              92,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 40,
+          "in": "stepper",
+          "o": [
+            [
+              6
+            ],
+            [
+              42
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 41,
+          "in": "checkbox",
+          "o": [
+            [
+              93
+            ],
+            [
+              94
+            ],
+            [
+              18
+            ],
+            [
+              95
+            ],
+            [
+              96
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 42,
+          "in": "checkbox",
+          "o": [
+            [
+              96
+            ],
+            [
+              97
+            ],
+            [
+              98
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "heldrake",
@@ -1507,7 +3170,34 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              78,
+              1
+            ],
+            [
+              99,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 43,
+          "in": "checkbox",
+          "o": [
+            [
+              100
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "heretic-astartes-daemon-prince",
@@ -1533,7 +3223,22 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              101,
+              1
+            ],
+            [
+              102,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "heretic-astartes-daemon-prince-with-wings",
@@ -1560,7 +3265,22 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              102,
+              1
+            ],
+            [
+              101,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "huron-blackheart",
@@ -1740,6 +3460,21 @@ export default {
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              103,
+              1
+            ],
+            [
+              104,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -1771,7 +3506,51 @@ export default {
       "step": {
         "at": 2,
         "pts": 25
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              105,
+              1
+            ],
+            [
+              106,
+              1
+            ],
+            [
+              107,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 44,
+          "in": "checkbox",
+          "o": [
+            [
+              108
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 45,
+          "in": "checkbox",
+          "o": [
+            [
+              109
+            ],
+            [
+              110
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "kravek-morne",
@@ -1892,6 +3671,29 @@ export default {
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              100,
+              1
+            ],
+            [
+              26,
+              1
+            ],
+            [
+              111,
+              1
+            ],
+            [
+              112,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -1923,7 +3725,178 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Aspiring Champion"
+        },
+        {
+          "n": "Legionary"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              45,
+              1
+            ],
+            [
+              7,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              45,
+              1
+            ],
+            [
+              7,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              12
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              12
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 46,
+          "in": "checkbox",
+          "o": [
+            [
+              113
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 47,
+          "in": "checkbox",
+          "o": [
+            [
+              14
+            ],
+            [
+              15
+            ],
+            [
+              13
+            ],
+            [
+              114
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 48,
+          "in": "stepper",
+          "o": [
+            [
+              13
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 49,
+          "in": "checkbox",
+          "o": [
+            [
+              14
+            ],
+            [
+              15
+            ],
+            [
+              13
+            ],
+            [
+              114
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 50,
+          "in": "checkbox",
+          "o": [
+            [
+              114
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 51,
+          "in": "checkbox",
+          "o": [
+            [
+              14
+            ],
+            [
+              13
+            ],
+            [
+              8
+            ],
+            [
+              115
+            ],
+            [
+              116
+            ],
+            [
+              117
+            ],
+            [
+              9
+            ],
+            [
+              118
+            ],
+            [
+              10
+            ],
+            [
+              119
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "lord-discordant-on-helstalker",
@@ -1949,7 +3922,56 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              32,
+              1
+            ],
+            [
+              120,
+              1
+            ],
+            [
+              121,
+              1
+            ],
+            [
+              122,
+              1
+            ],
+            [
+              123,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 52,
+          "in": "checkbox",
+          "o": [
+            [
+              100
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 53,
+          "in": "checkbox",
+          "o": [
+            [
+              124
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "master-of-executions",
@@ -2097,6 +4119,21 @@ export default {
           "type": "support",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              125,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -2275,6 +4312,25 @@ export default {
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              126,
+              1
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              127,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -2395,6 +4451,90 @@ export default {
           "type": "support",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
+      ],
+      "minis": [
+        {
+          "n": "Garreon the Corpsemaster"
+        },
+        {
+          "n": "Garlon Souleater"
+        },
+        {
+          "n": "Katar Garrix"
+        },
+        {
+          "n": "Captain Sargotta"
+        },
+        {
+          "n": "The Enforcer"
+        }
+      ],
+      "defaults": [
+        [
+          4,
+          [
+            [
+              128,
+              1
+            ],
+            [
+              129,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              130,
+              1
+            ],
+            [
+              131,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              132,
+              1
+            ],
+            [
+              133,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              134,
+              1
+            ],
+            [
+              135,
+              1
+            ]
+          ]
+        ],
+        [
+          3,
+          [
+            [
+              136,
+              1
+            ],
+            [
+              137,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -2419,7 +4559,34 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              138,
+              1
+            ],
+            [
+              139,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 54,
+          "in": "stepper",
+          "o": [
+            [
+              140
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "mutilators",
@@ -2446,7 +4613,18 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              141,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "nemesis-claw",
@@ -2477,7 +4655,133 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Visionary"
+        },
+        {
+          "n": "Legionary"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              5,
+              1
+            ],
+            [
+              45,
+              1
+            ],
+            [
+              7,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              5,
+              1
+            ],
+            [
+              142,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 55,
+          "in": "checkbox",
+          "o": [
+            [
+              14
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 48,
+          "in": "stepper",
+          "o": [
+            [
+              13
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 56,
+          "in": "checkbox",
+          "o": [
+            [
+              15
+            ],
+            [
+              16
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 57,
+          "in": "checkbox",
+          "o": [
+            [
+              8
+            ],
+            [
+              9
+            ],
+            [
+              10
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 58,
+          "in": "checkbox",
+          "o": [
+            [
+              15
+            ],
+            [
+              143
+            ],
+            [
+              144
+            ],
+            [
+              145
+            ],
+            [
+              13
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 59,
+          "in": "checkbox",
+          "o": [
+            [
+              116
+            ],
+            [
+              118
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "noctilith-crown",
@@ -2500,7 +4804,18 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              146,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "obliterators",
@@ -2527,7 +4842,22 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              147,
+              1
+            ],
+            [
+              148,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "possessed",
@@ -2561,7 +4891,57 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Possessed Champion"
+        },
+        {
+          "n": "Possessed"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              149,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              149,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              12
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              12
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "raptors",
@@ -2597,7 +4977,136 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Raptor Champion"
+        },
+        {
+          "n": "Raptor"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              13,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              13,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 60,
+          "in": "checkbox",
+          "o": [
+            [
+              14
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 61,
+          "in": "checkbox",
+          "o": [
+            [
+              15
+            ],
+            [
+              114
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 62,
+          "in": "checkbox",
+          "o": [
+            [
+              8
+            ],
+            [
+              9
+            ],
+            [
+              10
+            ],
+            [
+              7
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 63,
+          "in": "stepper",
+          "o": [
+            [
+              14
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 64,
+          "in": "stepper",
+          "o": [
+            [
+              150
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 65,
+          "in": "checkbox",
+          "o": [
+            [
+              8
+            ],
+            [
+              9
+            ],
+            [
+              10
+            ],
+            [
+              7
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 66,
+          "in": "stepper",
+          "o": [
+            [
+              114
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "red-corsairs-raiders",
@@ -2631,7 +5140,76 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Red Corsairs Raider Champion"
+        },
+        {
+          "n": "Red Corsairs Raider"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              151,
+              1
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              45,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              5,
+              1
+            ],
+            [
+              45,
+              1
+            ],
+            [
+              151,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 67,
+          "in": "stepper",
+          "o": [
+            [
+              9
+            ],
+            [
+              16
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 68,
+          "in": "checkbox",
+          "o": [
+            [
+              152
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "red-corsairs-reave-captain",
@@ -2777,6 +5355,43 @@ export default {
           "to": "red-corsairs-raiders",
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              32,
+              1
+            ],
+            [
+              153,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 69,
+          "in": "checkbox",
+          "o": [
+            [
+              154
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 70,
+          "in": "checkbox",
+          "o": [
+            [
+              34
+            ]
+          ]
         }
       ]
     },
@@ -2927,6 +5542,25 @@ export default {
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              155,
+              1
+            ],
+            [
+              156,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -2985,6 +5619,47 @@ export default {
           "to": "chaos-terminator-squad",
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              6,
+              1
+            ],
+            [
+              156,
+              1
+            ],
+            [
+              155,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 71,
+          "in": "checkbox",
+          "o": [
+            [
+              157
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              11
+            ]
+          ]
         }
       ]
     },
@@ -3045,6 +5720,38 @@ export default {
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
+      ],
+      "minis": [
+        {
+          "n": "Traitor Enforcer"
+        },
+        {
+          "n": "Traitor Ogryn"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              158,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              159,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -3070,7 +5777,90 @@ export default {
         }
       ],
       "linked": 1,
-      "condBattleline": 1
+      "condBattleline": 1,
+      "minis": [
+        {
+          "n": "Traitor Sergeant"
+        },
+        {
+          "n": "Traitor Guardsmen"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              54,
+              1
+            ],
+            [
+              160,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              161,
+              1
+            ],
+            [
+              54,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 72,
+          "in": "checkbox",
+          "o": [
+            [
+              162
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 73,
+          "in": "checkbox",
+          "o": [
+            [
+              163
+            ],
+            [
+              164
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 74,
+          "in": "stepper",
+          "o": [
+            [
+              165
+            ],
+            [
+              8
+            ],
+            [
+              166
+            ],
+            [
+              167
+            ],
+            [
+              168
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "vashtorr-the-arkifane",
@@ -3099,7 +5889,22 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              169,
+              1
+            ],
+            [
+              170,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "venomcrawler",
@@ -3127,7 +5932,22 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              171,
+              1
+            ],
+            [
+              59,
+              2
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "warp-talons",
@@ -3164,7 +5984,35 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Warp Talon Champion"
+        },
+        {
+          "n": "Warp Talon"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              175,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              175,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "warpsmith",
@@ -3342,6 +6190,29 @@ export default {
           "type": "leader",
           "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              22,
+              1
+            ],
+            [
+              172,
+              1
+            ],
+            [
+              173,
+              1
+            ],
+            [
+              174,
+              1
+            ]
+          ]
+        ]
       ]
     }
   ],
