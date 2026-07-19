@@ -30,6 +30,29 @@ export function unitBasePoints(unitDef, sizeIdx = 0, copyIndex = 1) {
   return pts
 }
 
+// Points from a unit's selected wargear. Selections live on the entry as `wg: [[gi,oi,n],…]`
+// (group index, option index, count) — only choices the user made. A paid option that's
+// selected-by-default (its `def` flag) is already priced into the base bracket, so it never
+// adds again; everything else adds its points × count. (The exact default-swap accounting is
+// refined in the validation phase.)
+export function unitWargearPoints(def, entry) {
+  if (!def?.gear || !entry?.wg?.length) return 0
+  let pts = 0
+  for (const [gi, oi, n] of entry.wg) {
+    const opt = def.gear[gi]?.o?.[oi]
+    if (!opt) continue
+    const p = opt[1] || 0
+    const isDefault = opt[2] || 0
+    if (p && !isDefault) pts += p * (n || 1)
+  }
+  return pts
+}
+
+// Full points for one unit entry: base bracket (+ copy tax) plus selected wargear.
+export function unitPoints(def, entry, copyIndex = 1) {
+  return unitBasePoints(def, entry?.size ?? 0, copyIndex) + unitWargearPoints(def, entry)
+}
+
 // Total points for a list of roster unit entries. `defOf(id)` resolves a unit id to its
 // faction-data definition. Copy index is assigned per unit id in list order, so the 2nd/3rd
 // copy of a datasheet pays its step surcharge.
@@ -39,7 +62,7 @@ export function rosterPoints(units, defOf) {
   for (const u of units || []) {
     const copyIndex = (seen.get(u.id) || 0) + 1
     seen.set(u.id, copyIndex)
-    total += unitBasePoints(defOf(u.id), u.size ?? 0, copyIndex)
+    total += unitPoints(defOf(u.id), u, copyIndex)
   }
   return total
 }
