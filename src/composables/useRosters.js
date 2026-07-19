@@ -51,13 +51,18 @@ export function isValidRoster(r) {
   )
 }
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
 function migrate(env) {
   // env is the parsed { v, rosters } envelope (or something older/broken). Future schema
   // bumps branch on env.v here.
   const rosters = Array.isArray(env?.rosters) ? env.rosters.filter(isValidRoster) : []
   for (const r of rosters) {
-    // Single `detachment` → `detachments` array (pre-multi-detachment rosters).
-    if (!Array.isArray(r.detachments)) r.detachments = r.detachment ? [r.detachment] : []
+    // Detachments are stored by NAME now (was a single sid). Coerce to an array and drop any
+    // uuid-shaped leftovers — a pre-multi-detachment roster stored the detachment's appdata sid,
+    // which can't be resolved to a name here, so it must not linger as a selection.
+    if (!Array.isArray(r.detachments)) r.detachments = []
+    r.detachments = r.detachments.filter((n) => typeof n === 'string' && !UUID_RE.test(n))
     delete r.detachment
   }
   return rosters
