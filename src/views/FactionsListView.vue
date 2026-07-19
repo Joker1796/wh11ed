@@ -6,13 +6,24 @@
     </div>
 
     <div class="groups">
+      <section v-if="pinned.length" class="group pinned-group">
+        <h2 class="group-title">{{ labels.favPinnedGroup }}</h2>
+        <ul class="faction-list">
+          <li v-for="f in pinned" :key="'pin-' + f.slug" class="fac-row">
+            <RouterLink :to="`/factions/${f.slug}`" class="faction-link">{{ f.name }}</RouterLink>
+            <FavoriteStar :pinned="true" @toggle="toggleFaction(f.slug)" />
+          </li>
+        </ul>
+      </section>
+
       <section v-for="group in factionGroups" :key="group.id" class="group">
         <h2 class="group-title">{{ labels[groupLabelKey(group.id)] }}</h2>
         <ul class="faction-list">
-          <li v-for="f in group.factions" :key="f.slug">
-            <RouterLink v-if="f.ready" :to="`/factions/${f.slug}`" class="faction-link">
-              {{ f.name }}
-            </RouterLink>
+          <li v-for="f in group.factions" :key="f.slug" class="fac-row">
+            <template v-if="f.ready">
+              <RouterLink :to="`/factions/${f.slug}`" class="faction-link">{{ f.name }}</RouterLink>
+              <FavoriteStar :pinned="isFactionPinned(f.slug)" @toggle="toggleFaction(f.slug)" />
+            </template>
             <span v-else class="faction-link disabled">
               {{ f.name }}
               <span class="soon">{{ labels.factionsSoon }}</span>
@@ -26,12 +37,17 @@
 
 <script setup>
 import { computed } from 'vue'
+import FavoriteStar from '../components/FavoriteStar.vue'
 import { factionGroups } from '../data/factionsIndex.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
+import { useFavorites } from '../composables/useFavorites.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+
+const { isFactionPinned, toggleFaction, pinnedFactionsFrom } = useFavorites()
+const pinned = computed(() => pinnedFactionsFrom(factionGroups))
 
 const GROUP_LABEL_KEYS = {
   astartes: 'factionGroupAstartes',
@@ -79,6 +95,10 @@ function groupLabelKey(id) {
   gap: 1.4rem 2.5rem;
 }
 
+.pinned-group {
+  grid-column: 1 / -1;
+}
+
 .group-title {
   font-family: var(--font-sans);
   font-size: 0.9rem;
@@ -97,11 +117,15 @@ function groupLabelKey(id) {
   padding: 0;
 }
 
-.faction-list li {
-  margin: 0;
+.fac-row {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
 }
 
 .faction-link {
+  flex: 1;
+  min-width: 0;
   display: flex;
   align-items: baseline;
   gap: 0.6rem;
