@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { bucketOf, unitBasePoints, rosterPoints } from './rosterEngine.js'
+import { bucketOf, unitBasePoints, unitWargearPoints, unitPoints, rosterPoints } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -27,6 +27,32 @@ describe('unitBasePoints', () => {
     expect(unitBasePoints(knight, 0, 1)).toBe(725)
     expect(unitBasePoints(knight, 0, 2)).toBe(800)
     expect(unitBasePoints(knight, 0, 3)).toBe(800)
+  })
+})
+
+describe('unitWargearPoints', () => {
+  // gear group option = [itemId, pts?, def?]. A paid add-on (def 0) charges; a free swap or a
+  // default-selected paid option does not.
+  const crisis = {
+    id: 'crisis',
+    sizes: [{ pts: 130, per: [3, 3], default: 1 }],
+    gear: [
+      { m: 0, t: 1, in: 'stepper', o: [[10, 5]] },        // Missile pod +5, def 0 → charges
+      { m: 0, t: 2, in: 'checkbox', o: [[11], [12, 5, 1]] }, // free swap; +5 but default → no charge
+    ],
+  }
+  it('charges paid non-default selections by count', () => {
+    expect(unitWargearPoints(crisis, { wg: [[0, 0, 2]] })).toBe(10) // 2× Missile pod
+  })
+  it('ignores free swaps and default-selected paid options', () => {
+    expect(unitWargearPoints(crisis, { wg: [[1, 0, 1], [1, 1, 1]] })).toBe(0)
+  })
+  it('is safe with no selections', () => {
+    expect(unitWargearPoints(crisis, {})).toBe(0)
+    expect(unitWargearPoints(crisis, { wg: [] })).toBe(0)
+  })
+  it('folds wargear into unitPoints', () => {
+    expect(unitPoints(crisis, { size: 0, wg: [[0, 0, 1]] }, 1)).toBe(135)
   })
 })
 

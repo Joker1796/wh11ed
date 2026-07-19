@@ -51,37 +51,17 @@
           <template v-if="g.entries.length">
             <h3 class="rug-head">{{ labels[GROUP_LABEL_KEYS[g.id]] }}</h3>
             <div v-for="e in g.entries" :key="e.uid" class="runit">
-              <div class="runit-main">
-                <RouterLink
-                  v-if="defOf(e.id)?.linked"
-                  :to="`/factions/${roster.faction}/datasheets/${e.id}`"
-                  class="runit-name link"
-                >{{ defOf(e.id)?.name || e.id }}</RouterLink>
-                <span v-else class="runit-name">{{ defOf(e.id)?.name || e.id }}</span>
-                <span class="runit-pts">{{ entryPoints.get(e.uid) }}</span>
-                <button class="runit-del" :aria-label="labels.rosterRemove" @click="removeUnit(e.uid)">
-                  <i class="bi bi-x-lg"></i>
-                </button>
-              </div>
-              <div class="runit-opts">
-                <div v-if="defOf(e.id)?.sizes.length > 1" class="size-opts">
-                  <button
-                    v-for="(s, i) in defOf(e.id).sizes"
-                    :key="i"
-                    class="size-btn"
-                    :class="{ on: (e.size ?? 0) === i }"
-                    @click="setSize(e, i)"
-                  >{{ sizeLabel(s) }}</button>
-                </div>
-                <NumberStepper
-                  v-if="hasRange(e)"
-                  :model-value="e.count ?? sizeOf(e).per[0]"
-                  :min="sizeOf(e).per[0]"
-                  :max="sizeOf(e).per[1]"
-                  @update:model-value="setCount(e, $event)"
-                />
-                <span v-if="hasRange(e)" class="models-label">{{ labels.rosterModelsLabel }}</span>
-              </div>
+              <button class="runit-row" @click="openEditor(e.uid)">
+                <span class="runit-text">
+                  <span class="runit-name">{{ defOf(e.id)?.name || e.id }}</span>
+                  <span class="runit-sub">{{ summaryLine(e) }}</span>
+                </span>
+                <span class="runit-pts">{{ entryMeta.get(e.uid)?.points }}</span>
+                <i class="bi bi-chevron-right runit-chev"></i>
+              </button>
+              <button class="runit-del" :aria-label="labels.rosterRemove" @click="removeUnit(e.uid)">
+                <i class="bi bi-x-lg"></i>
+              </button>
             </div>
           </template>
         </template>
@@ -124,6 +104,16 @@
       @pick="addUnit"
       @close="unitPickerOpen = false"
     />
+    <UnitEditorSheet
+      v-if="editingEntry && editingDef"
+      :entry="editingEntry"
+      :def="editingDef"
+      :items="rosterItems.items"
+      :texts="rosterItems.texts"
+      :faction-slug="roster.faction"
+      :copy-index="entryMeta.get(editingUid)?.copyIndex || 1"
+      @close="editingUid = null"
+    />
   </div>
 </template>
 
@@ -132,14 +122,14 @@ import { computed, ref, watch, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import FactionDetachmentPickerModal from '../../components/FactionDetachmentPickerModal.vue'
 import RosterUnitPickerModal from '../../components/roster/RosterUnitPickerModal.vue'
-import NumberStepper from '../../components/tracker/NumberStepper.vue'
+import UnitEditorSheet from '../../components/roster/UnitEditorSheet.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosters, uid } from '../../composables/useRosters.js'
 import rosterCore from '../../data/roster/core.js'
-import { loadRosterFaction } from '../../data/roster/index.js'
+import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
-import { UNIT_GROUPS, bucketOf, unitBasePoints, rosterPoints } from '../../composables/rosterEngine.js'
+import { UNIT_GROUPS, bucketOf, unitPoints, rosterPoints } from '../../composables/rosterEngine.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -231,21 +221,32 @@ function removeUnit(entryUid) {
   roster.value.units = roster.value.units.filter((e) => e.uid !== entryUid)
   touch()
 }
-function setSize(e, idx) { e.size = idx; delete e.count; touch() }
-function setCount(e, n) { e.count = n; touch() }
+// ── Per-unit editor sheet ──
+const editingUid = ref(null)
+function openEditor(entryUid) { editingUid.value = entryUid }
+const editingEntry = computed(() => roster.value?.units.find((e) => e.uid === editingUid.value) || null)
+const editingDef = computed(() => editingEntry.value && defOf(editingEntry.value.id))
 
-function sizeOf(e) { const def = defOf(e.id); return def?.sizes[e.size ?? 0] || def?.sizes[0] || { per: [1, 1], pts: 0 } }
-function hasRange(e) { const s = sizeOf(e); return s.per[0] !== s.per[1] }
-function sizeLabel(s) { return s.per[0] === s.per[1] ? String(s.per[0]) : `${s.per[0]}–${s.per[1]}` }
+// A one-line summary of an entry's current size + upgrade count for its list row.
+function summaryLine(e) {
+  const def = defOf(e.id)
+  if (!def) return ''
+  const size = def.sizes[e.size ?? 0] || def.sizes[0]
+  const n = e.count ?? size.per[0]
+  const parts = []
+  if (size.per[1] > 1) parts.push(`${n} ${labels.value.rosterModelsLabel}`)
+  if (e.wg?.length) parts.push(`${e.wg.length} ${labels.value.rosterUpgradesLabel}`)
+  return parts.join(' · ')
+}
 
-// Per-entry points (copy tax assigned in list order) for the row display.
-const entryPoints = computed(() => {
+// Per-entry points + copy index (copy tax assigned in list order), for row display and the sheet.
+const entryMeta = computed(() => {
   const seen = new Map()
   const m = new Map()
   for (const e of roster.value?.units || []) {
     const copyIndex = (seen.get(e.id) || 0) + 1
     seen.set(e.id, copyIndex)
-    m.set(e.uid, unitBasePoints(defOf(e.id), e.size ?? 0, copyIndex))
+    m.set(e.uid, { points: unitPoints(defOf(e.id), e, copyIndex), copyIndex })
   }
   return m
 })
@@ -345,34 +346,42 @@ function rename(name) {
   border-bottom: 1px solid var(--border);
 }
 .runit {
+  display: flex;
+  align-items: stretch;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 6px;
-  padding: 0.6rem 0.75rem;
   margin-bottom: 0.5rem;
+  overflow: hidden;
 }
-.runit-main { display: flex; align-items: center; gap: 0.6rem; }
-.runit-name { font-weight: 600; color: var(--text-primary); font-size: 0.92rem; flex: 1; min-width: 0; }
-.runit-name.link { text-decoration: none; }
-.runit-name.link:hover { color: var(--accent); text-decoration: underline; }
-.runit-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); }
-.runit-del { background: none; border: none; color: var(--text-dim); cursor: pointer; padding: 0.2rem; font-size: 0.8rem; }
-.runit-del:hover { color: #c0392b; }
-.runit-opts { display: flex; align-items: center; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.5rem; }
-.size-opts { display: inline-flex; gap: 0.25rem; }
-.size-btn {
-  padding: 0.25rem 0.55rem;
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  font-weight: 600;
-  border: 1px solid var(--border);
-  background: var(--bg-secondary);
-  color: var(--text-muted);
-  border-radius: 4px;
+.runit:hover { border-color: var(--accent); }
+.runit-row {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.5rem 0.6rem 0.75rem;
+  background: none;
+  border: none;
   cursor: pointer;
+  text-align: left;
 }
-.size-btn.on { background: color-mix(in srgb, var(--accent) 16%, transparent); border-color: var(--accent); color: var(--text-primary); }
-.models-label { font-size: 0.76rem; color: var(--text-dim); }
+.runit-text { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 0.1rem; }
+.runit-name { font-weight: 600; color: var(--text-primary); font-size: 0.92rem; }
+.runit-sub { font-size: 0.74rem; color: var(--text-dim); }
+.runit-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); }
+.runit-chev { color: var(--text-dim); font-size: 0.7rem; }
+.runit-del {
+  background: none;
+  border: none;
+  border-left: 1px solid var(--border);
+  color: var(--text-dim);
+  cursor: pointer;
+  padding: 0 0.7rem;
+  font-size: 0.8rem;
+}
+.runit-del:hover { color: #c0392b; }
 
 .red-add { margin-top: 1rem; }
 .btn-add, .st-add {
