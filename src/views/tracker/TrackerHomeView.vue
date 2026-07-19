@@ -45,6 +45,15 @@
       </button>
     </div>
 
+    <RouterLink to="/roster" class="roster-card">
+      <i class="bi bi-clipboard-plus"></i>
+      <span class="rc-text">
+        <span class="rc-title">{{ labels.rosterCardTitle }}</span>
+        <span class="rc-desc">{{ labels.rosterCardDesc }}</span>
+      </span>
+      <i class="bi bi-chevron-right rc-arrow"></i>
+    </RouterLink>
+
     <section class="history">
       <div class="history-head">
         <h2>{{ labels.trackerHistory }}</h2>
@@ -378,6 +387,24 @@ function resultLabel(g) { const w = winnerIdx(g); return w === 0 ? 'WIN' : w ===
   color: var(--text-muted);
   border: 1px solid var(--border);
 }
+.roster-card {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.85rem 1rem;
+  margin-bottom: 2rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: border-color 0.15s;
+}
+.roster-card:hover { border-color: var(--accent); }
+.roster-card > .bi { font-size: 1.4rem; color: var(--accent); }
+.rc-text { display: flex; flex-direction: column; flex: 1; }
+.rc-title { font-weight: 600; color: var(--text-primary); font-size: 0.98rem; }
+.rc-desc { font-size: 0.82rem; color: var(--text-muted); }
+.rc-arrow { color: var(--text-dim); }
 .history-head {
   display: flex;
   align-items: center;

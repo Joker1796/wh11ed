@@ -38,6 +38,7 @@ const STATIC_ROUTES = [
   '/event-companion/teams',
   '/event-companion/faq',
   '/tracker',
+  '/roster',
   '/stratagems',
   '/links',
 ]

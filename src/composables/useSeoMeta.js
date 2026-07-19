@@ -160,6 +160,13 @@ const ROUTES = {
       ru: 'Бесплатный офлайн-трекер очков на 2 игроков для партии Warhammer 40,000 11-й редакции — миссии, вторичные задачи и подсчёт.',
     },
   },
+  '/roster': {
+    title: { en: 'Roster Builder', ru: 'Ростербилдер' },
+    description: {
+      en: 'Free army list builder for Warhammer 40,000 11th edition — pick units, wargear, leaders and enhancements, cost your list and check restrictions offline.',
+      ru: 'Бесплатный конструктор армейских листов для Warhammer 40,000 11-й редакции — юниты, вооружение, лидеры и улучшения, подсчёт очков и проверка ограничений офлайн.',
+    },
+  },
   '/links': {
     title: { en: 'Links', ru: 'Ссылки' },
     description: {
