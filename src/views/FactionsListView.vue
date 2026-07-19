@@ -129,7 +129,8 @@ function groupLabelKey(id) {
   display: flex;
   align-items: baseline;
   gap: 0.6rem;
-  padding: 0.16rem 0;
+  padding: 0.04rem 0;
+  line-height: 1.3;
   font-family: var(--font-display);
   font-size: 1.25rem;
   font-weight: 400;
