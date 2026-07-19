@@ -4,6 +4,7 @@
       <div class="footer-col">
         <p class="footer-col-label">{{ t.footer.contactLabel }}</p>
         <p class="footer-contact"><a :href="'mailto:' + contactEmail">{{ contactEmail }}</a></p>
+        <p class="footer-contact"><RouterLink to="/disclaimer">{{ t.footer.disclaimerLink }}</RouterLink></p>
       </div>
       <div class="footer-col">
         <p class="footer-col-label">{{ t.footer.thanksLabel }}</p>
@@ -17,7 +18,6 @@
         <p class="footer-contact"><a :href="repoUrl" target="_blank" rel="noopener">{{ t.footer.repoLinkLabel }}</a></p>
       </div>
     </div>
-    <p class="footer-disclaimer">{{ t.footer.disclaimer }}</p>
     <p class="footer-version">v{{ version }}</p>
   </footer>
 </template>
@@ -88,14 +88,6 @@ const version = __APP_VERSION__
 
 .footer-who {
   font-style: italic;
-}
-
-.footer-disclaimer {
-  margin: 1.3rem 0 0;
-  color: var(--text-dim);
-  font-size: 0.76rem;
-  line-height: 1.55;
-  max-width: 90ch;
 }
 
 .footer-version {
