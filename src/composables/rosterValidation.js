@@ -3,7 +3,7 @@
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
-import { hasKeyword, canBeWarlord, enhEligible, rosterPoints } from './rosterEngine.js'
+import { hasKeyword, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle } from './rosterEngine.js'
 
 // Per-unit duplicate cap: the battle size's limit, doubled for Battleline / Dedicated Transport,
 // and hard-capped at 1 for every Epic Hero — regardless of battle size (rule 25).
@@ -17,30 +17,37 @@ export function validateRoster(roster, { faction, core } = {}) {
   const units = roster?.units || []
   const defMap = new Map((faction?.units || []).map((u) => [u.id, u]))
   const defOf = (id) => defMap.get(id)
-  const battleSize = core?.battleSizes?.find((b) => b.id === roster?.battleSize) || null
-  const detachment = (faction?.detachments || []).find((d) => d.sid === roster?.detachment) || null
+  const battle = effectiveBattle(roster, core)
+  // Selected detachments (roster stores names, like the tracker) → their data objects.
+  const detachments = (roster?.detachments || [])
+    .map((name) => (faction?.detachments || []).find((d) => d.name === name))
+    .filter(Boolean)
 
-  const points = rosterPoints(units, defOf, detachment)
+  const points = rosterPoints(units, defOf, detachments)
   const issues = []
   const add = (code, level, extra) => issues.push({ code, level, ...extra })
 
   // Incompleteness (soft).
   if (!roster?.faction) add('noFaction', 'warn')
-  else if (!roster?.detachment) add('noDetachment', 'warn')
+  else if (!roster?.detachments?.length) add('noDetachment', 'warn')
 
   // Points limit.
-  if (battleSize && points > battleSize.points) {
-    add('overPoints', 'error', { params: { over: points - battleSize.points, limit: battleSize.points } })
+  if (points > battle.points) {
+    add('overPoints', 'error', { params: { over: points - battle.points, limit: battle.points } })
   }
 
+  // Detachment-Points budget: the selected detachments' costs must fit the battle size's DP.
+  const dpSpent = detachments.reduce((s, d) => s + (d.dp || 0), 0)
+  if (dpSpent > battle.dp) add('overDp', 'error', { params: { spent: dpSpent, limit: battle.dp } })
+
   // Duplicate datasheet limits.
-  if (battleSize) {
+  {
     const byId = new Map()
     for (const u of units) { if (!byId.has(u.id)) byId.set(u.id, []); byId.get(u.id).push(u) }
     for (const [id, list] of byId) {
       const def = defOf(id)
       if (!def) continue
-      const limit = duplicateLimit(def, battleSize.dupLimit)
+      const limit = duplicateLimit(def, battle.dupLimit)
       if (list.length > limit) {
         add('overDuplicate', 'error', { uid: list[limit].uid, params: { name: def.name, count: list.length, limit } })
       }
@@ -55,7 +62,8 @@ export function validateRoster(roster, { faction, core } = {}) {
     const def = defOf(w.id)
     if (def && !canBeWarlord(def)) add('warlordIneligible', 'error', { uid: w.uid, params: { name: def.name } })
   }
-  if (detachment?.mandWarlord && warlords.length === 1 && warlords[0].id !== detachment.mandWarlord) {
+  const mandWarlords = detachments.map((d) => d.mandWarlord).filter(Boolean)
+  if (mandWarlords.length && warlords.length === 1 && !mandWarlords.includes(warlords[0].id)) {
     add('mandatoryWarlord', 'warn', { uid: warlords[0].uid })
   }
 
@@ -66,16 +74,16 @@ export function validateRoster(roster, { faction, core } = {}) {
     if (enhSeen.has(u.enh)) add('dupEnh', 'error', { uid: u.uid, params: { enh: u.enh } })
     enhSeen.add(u.enh)
   }
-  if (detachment && battleSize) {
+  if (detachments.length) {
     const counted = enhUnits.filter((u) => {
-      const e = detachment.enhancements.find((x) => x.name === u.enh)
+      const e = findEnhancement(detachments, u.enh)
       return e && !e.uncounted
     }).length
-    if (counted > battleSize.enhLimit) add('overEnhLimit', 'error', { params: { count: counted, limit: battleSize.enhLimit } })
+    if (counted > battle.enhLimit) add('overEnhLimit', 'error', { params: { count: counted, limit: battle.enhLimit } })
   }
   for (const u of enhUnits) {
-    if (!detachment) { add('enhNoDetachment', 'error', { uid: u.uid }); continue }
-    const e = detachment.enhancements.find((x) => x.name === u.enh)
+    if (!detachments.length) { add('enhNoDetachment', 'error', { uid: u.uid }); continue }
+    const e = findEnhancement(detachments, u.enh)
     const def = defOf(u.id)
     if (!e || (def && !enhEligible(e, def))) add('enhIneligible', 'error', { uid: u.uid, params: { enh: u.enh } })
   }
@@ -89,9 +97,9 @@ export function validateRoster(roster, { faction, core } = {}) {
     if (!target || !canJoin.has(target.id)) add('leaderTargetInvalid', 'warn', { uid: u.uid })
   }
 
-  // Detachment-excluded datasheets.
-  if (detachment?.excludedUnits?.length) {
-    const excl = new Set(detachment.excludedUnits)
+  // Detachment-excluded datasheets (union across the selected detachments).
+  const excl = new Set(detachments.flatMap((d) => d.excludedUnits || []))
+  if (excl.size) {
     for (const u of units) if (excl.has(u.id)) add('unitExcluded', 'error', { uid: u.uid, params: { name: defOf(u.id)?.name || u.id } })
   }
 

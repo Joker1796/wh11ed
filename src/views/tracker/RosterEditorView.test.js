@@ -79,6 +79,21 @@ describe('RosterEditorView', () => {
     expect(w.text()).toContain('1525')
   })
 
+  it('uses a custom battle-size points total as the limit', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Custom')
+    r.faction = 'space-marines'
+    r.battleSize = 'custom'
+    r.customPoints = 500
+    r.units.push({ uid: 'u1', id: 'intercessor-squad', size: 0 })
+    ROSTER_ID = r.id
+
+    const w = mount(RosterEditorView, { global: { stubs } })
+    await waitFor(w, 'Intercessor Squad')
+    expect(w.text()).toContain('80')  // unit points
+    expect(w.text()).toContain('500') // custom limit
+  })
+
   it('surfaces validation errors in the summary and header badge', async () => {
     const store = useRosters()
     const r = store.createRoster('No warlord')

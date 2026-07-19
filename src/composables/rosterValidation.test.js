@@ -31,7 +31,7 @@ const faction = { slug: 'space-marines', units: [captain, lt, chaplain, marneus,
 
 function roster(over = {}) {
   return {
-    faction: 'space-marines', detachment: 'det-1', battleSize: 'strike-force',
+    faction: 'space-marines', detachments: ['Gladius'], battleSize: 'strike-force',
     units: [], ...over,
   }
 }
@@ -50,7 +50,24 @@ describe('duplicateLimit', () => {
 describe('validateRoster — completeness', () => {
   it('warns when faction or detachment is missing', () => {
     expect(codes({ ...roster(), faction: null })).toContain('noFaction')
-    expect(codes({ ...roster(), detachment: null })).toContain('noDetachment')
+    expect(codes({ ...roster(), detachments: [] })).toContain('noDetachment')
+  })
+})
+
+describe('validateRoster — custom battle size + DP budget', () => {
+  it('uses the custom points total as the limit', () => {
+    const units = [U('captain', { warlord: true }), ...Array.from({ length: 6 }, () => U('intercessor-squad'))] // 6×80+85=565
+    const r = { ...roster({ units }), battleSize: 'custom', customPoints: 500 }
+    expect(codes(r)).toContain('overPoints')
+    const r2 = { ...roster({ units }), battleSize: 'custom', customPoints: 1000 }
+    expect(codes(r2)).not.toContain('overPoints')
+  })
+  it('flags exceeding the Detachment-Points budget', () => {
+    const det2 = { sid: 'det-2', name: 'Pricey', dp: 4, enhancements: [] } // > Strike Force dp 3
+    const f = { ...faction, detachments: [detachment, det2] }
+    const r = roster({ units: [U('captain', { warlord: true })] })
+    r.detachments = ['Gladius', 'Pricey']
+    expect(validateRoster(r, { faction: f, core }).issues.map((i) => i.code)).toContain('overDp')
   })
 })
 

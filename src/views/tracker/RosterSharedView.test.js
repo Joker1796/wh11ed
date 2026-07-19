@@ -40,7 +40,7 @@ describe('RosterSharedView', () => {
 
   it('decodes a shared roster, previews it, and saves a copy', async () => {
     const shared = {
-      id: 'orig', name: 'Shared Alpha', faction: 'space-marines', detachment: null, battleSize: 'strike-force',
+      id: 'orig', name: 'Shared Alpha', faction: 'space-marines', detachments: [], battleSize: 'strike-force',
       units: [{ uid: 'u1', id: 'intercessor-squad', size: 0 }],
     }
     HASH = `#r=${await encodeRoster(shared)}`

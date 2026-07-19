@@ -18,9 +18,9 @@ describe('toTrackerBattleSize', () => {
 })
 
 describe('prefillDraftFromRoster', () => {
-  it('writes a minimal setup draft with faction, detachment and battle size', () => {
-    const roster = { faction: 'space-marines', detachment: 'sid-x', battleSize: 'strike-force' }
-    mod.prefillDraftFromRoster(roster, 'Gladius Task Force')
+  it('writes a minimal setup draft with faction, detachments and battle size', () => {
+    const roster = { faction: 'space-marines', detachments: ['Gladius Task Force'], battleSize: 'strike-force' }
+    mod.prefillDraftFromRoster(roster)
     const d = tracker.setupDraft.value
     expect(d.step).toBe(1)
     expect(d.players[0].factionSlug).toBe('space-marines')
@@ -29,10 +29,10 @@ describe('prefillDraftFromRoster', () => {
     expect(d.settings.battleSize).toBe('strikeForce')
   })
 
-  it('handles a roster with no detachment', () => {
-    mod.prefillDraftFromRoster({ faction: 'orks', battleSize: 'incursion' }, null)
+  it('handles a roster with no detachment and maps custom → strikeForce', () => {
+    mod.prefillDraftFromRoster({ faction: 'orks', detachments: [], battleSize: 'custom', customPoints: 1750 })
     const d = tracker.setupDraft.value
     expect(d.players[0].detachments).toEqual([])
-    expect(d.settings.battleSize).toBe('incursion')
+    expect(d.settings.battleSize).toBe('strikeForce')
   })
 })

@@ -72,27 +72,51 @@ export function enhEligible(enh, def) {
   return true
 }
 
+// Find an enhancement by name across the roster's selected detachments (an army may field
+// several detachments, up to its Detachment-Points budget — like the tracker).
+export function findEnhancement(detachments, name) {
+  for (const d of detachments || []) {
+    const e = d?.enhancements?.find((x) => x.name === name)
+    if (e) return e
+  }
+  return null
+}
+
 // Points added by a unit's chosen enhancement (entry.enh = enhancement name).
-export function enhancementPoints(detachment, entry) {
-  if (!entry?.enh || !detachment?.enhancements) return 0
-  return detachment.enhancements.find((e) => e.name === entry.enh)?.pts || 0
+export function enhancementPoints(detachments, entry) {
+  if (!entry?.enh) return 0
+  return findEnhancement(detachments, entry.enh)?.pts || 0
 }
 
 // Full points for one unit entry: base bracket (+ copy tax), selected wargear, and enhancement.
-export function unitPoints(def, entry, copyIndex = 1, detachment = null) {
-  return unitBasePoints(def, entry?.size ?? 0, copyIndex) + unitWargearPoints(def, entry) + enhancementPoints(detachment, entry)
+export function unitPoints(def, entry, copyIndex = 1, detachments = null) {
+  return unitBasePoints(def, entry?.size ?? 0, copyIndex) + unitWargearPoints(def, entry) + enhancementPoints(detachments, entry)
+}
+
+// The effective battle-size limits for a roster. A 'custom' size carries its own points total
+// and borrows the duplicate / enhancement / DP limits of the standard bracket it falls within.
+export function effectiveBattle(roster, core) {
+  const sizes = [...(core?.battleSizes || [])].sort((a, b) => a.points - b.points)
+  const fallback = sizes[sizes.length - 1] || { points: 2000, dp: 3, enhLimit: 4, dupLimit: 3 }
+  if (roster?.battleSize === 'custom') {
+    const points = roster.customPoints || 0
+    const std = sizes.find((b) => points <= b.points) || fallback
+    return { id: 'custom', points, dp: std.dp, enhLimit: std.enhLimit, dupLimit: std.dupLimit, custom: true }
+  }
+  const b = sizes.find((x) => x.id === roster?.battleSize)
+  return b ? { ...b, custom: false } : { ...fallback, custom: false }
 }
 
 // Total points for a list of roster unit entries. `defOf(id)` resolves a unit id to its
 // faction-data definition. Copy index is assigned per unit id in list order, so the 2nd/3rd
 // copy of a datasheet pays its step surcharge.
-export function rosterPoints(units, defOf, detachment = null) {
+export function rosterPoints(units, defOf, detachments = null) {
   const seen = new Map()
   let total = 0
   for (const u of units || []) {
     const copyIndex = (seen.get(u.id) || 0) + 1
     seen.set(u.id, copyIndex)
-    total += unitPoints(defOf(u.id), u, copyIndex, detachment)
+    total += unitPoints(defOf(u.id), u, copyIndex, detachments)
   }
   return total
 }
