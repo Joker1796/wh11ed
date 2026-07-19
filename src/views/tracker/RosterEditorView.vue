@@ -14,6 +14,12 @@
         <span class="rp-sep">/</span>
         <span class="rp-cap">{{ limit }}</span>
       </div>
+      <button v-if="roster.faction" class="issues-badge" :class="validation.errorCount ? 'has-err' : 'ok'" @click="issuesOpen = true">
+        <template v-if="validation.errorCount">
+          <i class="bi bi-exclamation-triangle-fill"></i> {{ validation.errorCount }}
+        </template>
+        <i v-else class="bi bi-check-circle-fill"></i>
+      </button>
     </header>
 
     <!-- Army choices -->
@@ -120,6 +126,12 @@
       @toggle-warlord="toggleWarlord"
       @close="editingUid = null"
     />
+    <RosterIssuesModal
+      v-if="issuesOpen"
+      :issues="validation.issues"
+      @goto="(uid) => { issuesOpen = false; openEditor(uid) }"
+      @close="issuesOpen = false"
+    />
   </div>
 </template>
 
@@ -129,6 +141,7 @@ import { useRoute, useRouter } from 'vue-router'
 import FactionDetachmentPickerModal from '../../components/FactionDetachmentPickerModal.vue'
 import RosterUnitPickerModal from '../../components/roster/RosterUnitPickerModal.vue'
 import UnitEditorSheet from '../../components/roster/UnitEditorSheet.vue'
+import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosters, uid } from '../../composables/useRosters.js'
@@ -136,6 +149,7 @@ import rosterCore from '../../data/roster/core.js'
 import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import { UNIT_GROUPS, bucketOf, unitPoints, rosterPoints, canBeWarlord, enhEligible } from '../../composables/rosterEngine.js'
+import { validateRoster } from '../../composables/rosterValidation.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -299,6 +313,13 @@ const entryMeta = computed(() => {
 })
 const points = computed(() => rosterPoints(roster.value?.units, defOf, curDetachment.value))
 
+// Live validation — never blocks, just reports (see rosterValidation.js).
+const issuesOpen = ref(false)
+const validation = computed(() =>
+  factionData.value
+    ? validateRoster(roster.value, { faction: factionData.value, core: rosterCore })
+    : { points: points.value, issues: [], errorCount: 0 })
+
 const groupedUnits = computed(() =>
   UNIT_GROUPS.map((id) => ({
     id,
@@ -309,7 +330,7 @@ const groupedUnits = computed(() =>
 // loading faction data. Writing summary doesn't feed back into `points`, so no watch loop.
 watchEffect(() => {
   if (!roster.value || !factionData.value) return
-  roster.value.summary = { points: points.value, unitCount: roster.value.units.length, issues: 0 }
+  roster.value.summary = { points: points.value, unitCount: roster.value.units.length, issues: validation.value.errorCount }
 })
 
 function rename(name) {
@@ -348,6 +369,21 @@ function rename(name) {
 .rp-used { color: var(--text-primary); }
 .rpoints.over .rp-used { color: #c0392b; }
 .rp-sep, .rp-cap { color: var(--text-dim); }
+.issues-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--bg-card);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.issues-badge.has-err { color: #c0392b; border-color: color-mix(in srgb, #c0392b 45%, var(--border)); }
+.issues-badge.ok { color: #3c9a5f; }
 
 .red-choices { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1.25rem; }
 .choice {
