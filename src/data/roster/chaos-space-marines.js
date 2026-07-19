@@ -5967,7 +5967,8 @@ export default {
     {
       "name": "Cabal of Chaos",
       "sid": "cbb28bd5-40ae-4d3e-8dbd-3b3e1591a89a",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Conduit of Chaos",
@@ -6007,7 +6008,8 @@ export default {
     {
       "name": "Chaos Cult",
       "sid": "93ea6b6a-690f-4a73-bb76-638cc4da5641",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Cultist’s Brand",
@@ -6077,7 +6079,8 @@ export default {
     {
       "name": "Creations of Bile",
       "sid": "d730df46-12ec-4dff-80cf-60aeea5eefcd",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Surgical Precision",
@@ -6147,7 +6150,8 @@ export default {
     {
       "name": "Cult of the Arkifane",
       "sid": "c61a7add-d879-4bb6-a61e-dfa1c621e203",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Wyredjinn",
@@ -6211,7 +6215,8 @@ export default {
     {
       "name": "Deceptors",
       "sid": "41e763bc-5f5c-4e65-be45-9c168c962033",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Falsehood",
@@ -6279,7 +6284,8 @@ export default {
     {
       "name": "Devotees of Destruction",
       "sid": "802cf206-9418-4fa8-9b4a-3ac3d2b9d01d",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Eye of Oblivion",
@@ -6310,7 +6316,8 @@ export default {
     {
       "name": "Dread Talons",
       "sid": "92401979-2a38-4cbd-9781-d3d53d6ad2e0",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Night’s Shroud",
@@ -6369,7 +6376,8 @@ export default {
     {
       "name": "Fellhammer Siege-host",
       "sid": "3fe68451-1e4f-41e0-85a9-ecaf0d20e60c",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Bastion Plate",
@@ -6430,7 +6438,8 @@ export default {
     {
       "name": "Huron’s Marauders",
       "sid": "12492ec7-0f2c-46fa-822a-80b0c2e8bfd6",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Voice of the Tyrant",
@@ -6494,7 +6503,8 @@ export default {
     {
       "name": "Murdertalon Raiders",
       "sid": "64363c88-2015-4700-9f88-ac03407213db",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Pact of Cursed Pinions",
@@ -6525,7 +6535,8 @@ export default {
     {
       "name": "Nightmare Hunt",
       "sid": "b7654c2c-0922-444c-a98a-f49438d4f22c",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Greyveil Hex",
@@ -6582,7 +6593,8 @@ export default {
     {
       "name": "Pactbound Zealots",
       "sid": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Talisman of Burning Blood",
@@ -6649,7 +6661,8 @@ export default {
     {
       "name": "Renegade Raiders",
       "sid": "1a658734-6ba0-4fe7-8f05-ddf084cc694d",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Despot’s Claim",
@@ -6704,7 +6717,8 @@ export default {
     {
       "name": "Renegade Warband",
       "sid": "8f4e4263-86bf-426d-b235-6d760ffe8584",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Weaponised Hatred",
@@ -6762,7 +6776,8 @@ export default {
     {
       "name": "Soulforged Warpack",
       "sid": "807aa974-ca16-4d8a-8958-68c1a32f9c86",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Invigorated Mechatendrils",
@@ -6817,7 +6832,8 @@ export default {
     {
       "name": "Veterans of the Long War",
       "sid": "a0d2bc8f-ba0c-4ea6-8ee1-42dccb8fbc4d",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Warmaster’s Gift",
@@ -6881,7 +6897,8 @@ export default {
     {
       "name": "Warpstrike Champions",
       "sid": "b7baa3d5-a100-40d8-9e84-44ec95a8dcfc",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Infernal Fulgurite",

@@ -1912,7 +1912,8 @@ export default {
     {
       "name": "Covenite Coterie",
       "sid": "eaf6ced2-c21b-42fa-b442-ee7437cc3430",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Master Regenesist",
@@ -1967,7 +1968,8 @@ export default {
     {
       "name": "Exhibition of Slaughter",
       "sid": "ebd949cd-20a6-46be-929e-17421b92e77d",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Hyperstimm Trafficker",
@@ -1998,7 +2000,8 @@ export default {
     {
       "name": "Kabalite Agonysts",
       "sid": "091a9dfa-59b6-43e9-957a-a211981c684e",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Towering Arrogance",
@@ -2029,7 +2032,8 @@ export default {
     {
       "name": "Kabalite Cartel",
       "sid": "6693dc93-0d9b-4364-8e5a-4882debb529b",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Leechbite Plate",
@@ -2084,7 +2088,8 @@ export default {
     {
       "name": "Realspace Raiders",
       "sid": "bad361ab-6952-46ab-97f5-921e8d8984a0",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Dark Vitality",
@@ -2139,7 +2144,8 @@ export default {
     {
       "name": "Reaper’s Wager",
       "sid": "8205608c-1f2e-465f-854d-d6b99d455143",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Archraider",
@@ -2204,7 +2210,8 @@ export default {
     {
       "name": "Skysplinter Assault",
       "sid": "6b2f4fd1-8411-4c4a-92f0-110bfe87ebb5",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Phantasmal Smoke",
@@ -2259,7 +2266,8 @@ export default {
     {
       "name": "Spectacle of Spite",
       "sid": "07ecddab-2a2f-4eeb-b505-fff5138e729f",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Pharmacophex",
@@ -2314,7 +2322,8 @@ export default {
     {
       "name": "Tools of Torment",
       "sid": "cbe64aa9-4b35-42c6-8674-4d841cc6fcf9",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Gnarlskin Experimentor",

@@ -1211,7 +1211,8 @@ export default {
     {
       "name": "Company of Hunters",
       "sid": "88060204-d25c-4ed9-95c7-a4b58d530320",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Master-crafted Weapon",
@@ -1266,7 +1267,8 @@ export default {
     {
       "name": "Dark Age Arsenal",
       "sid": "2e1dbbe3-13ef-42cd-b3d8-6daae893ae82",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Petition of Stability (Upgrade)",
@@ -1301,7 +1303,8 @@ export default {
     {
       "name": "Darkflight Pursuit",
       "sid": "0b44b0ad-420b-4b4c-af5a-27f0a735042e",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Thundercowl Turbines (Upgrade)",
@@ -1337,7 +1340,8 @@ export default {
     {
       "name": "Inner Circle Task Force",
       "sid": "0843e2f3-27e5-4bc2-90ac-0ad099c66d3e",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Champion of the Deathwing",
@@ -1392,7 +1396,8 @@ export default {
     {
       "name": "Interrogation Conclave",
       "sid": "2a38def8-f0d2-4f28-aeca-bc2b555172bb",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Limitless Zeal",
@@ -1423,7 +1428,8 @@ export default {
     {
       "name": "Lion’s Blade Task Force",
       "sid": "6040c18f-09c2-4708-8e85-912f88949221",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Calibanite Armaments",
@@ -1488,7 +1494,8 @@ export default {
     {
       "name": "Unforgiven Task Force",
       "sid": "410ea102-b63f-4b3e-b901-05c2c869c298",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Shroud of Heroes",
@@ -1548,7 +1555,8 @@ export default {
     {
       "name": "Wrath of the Rock",
       "sid": "e5a06319-a071-4bb4-aaa6-07c98c07abc6",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Tempered in Battle (Aura)",

@@ -6672,7 +6672,8 @@ export default {
     {
       "name": "Abhuman Auxiliaries",
       "sid": "7b0fe28b-5a8e-48cd-bbe7-699babfbd463",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Sharp Eyes (Upgrade)",
@@ -6707,7 +6708,8 @@ export default {
     {
       "name": "Armoured Infantry",
       "sid": "1fe960ed-2abc-4e1d-82f4-b0770b8cd2d8",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Exemplary Officer",
@@ -6767,7 +6769,8 @@ export default {
     {
       "name": "Bridgehead Strike",
       "sid": "aae77907-0898-4c11-8a9e-a866a3e67456",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Priority Drop Beacon",
@@ -6806,7 +6809,8 @@ export default {
     {
       "name": "Combined Arms",
       "sid": "6ae8f235-c8b0-4485-8e18-505b6926f1b2",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Death Mask of Ollanius",
@@ -6861,7 +6865,8 @@ export default {
     {
       "name": "Designation Force",
       "sid": "7c12acc3-f2ae-4fa7-b80b-03dae96b72da",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Long-range Scout (Upgrade)",
@@ -6900,7 +6905,8 @@ export default {
     {
       "name": "Grizzled Company",
       "sid": "8f29b4e9-92c8-450f-8d35-5561c49e8803",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Abhuman Detail",
@@ -6965,7 +6971,8 @@ export default {
     {
       "name": "Hammer of the Emperor",
       "sid": "4fa424ac-a7aa-4830-b497-45c89aae7fbb",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Calm Under Fire",
@@ -7024,7 +7031,8 @@ export default {
     {
       "name": "Mechanised Assault",
       "sid": "c3170734-b810-4e24-8244-0371f715ff9c",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Bold Leadership",
@@ -7085,7 +7093,8 @@ export default {
     {
       "name": "Recon Element",
       "sid": "3062acc0-d72e-471a-bbd1-26598bc30ec4",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Guerrilla Honours",
@@ -7150,7 +7159,8 @@ export default {
     {
       "name": "Siege Regiment",
       "sid": "f284cddb-5060-44ff-abbb-a2876dedcf18",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Eager Advance",
@@ -7208,7 +7218,8 @@ export default {
     {
       "name": "Steel Hammer",
       "sid": "660a5970-862e-4ea0-8365-1901adb404be",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Battalion Commander",

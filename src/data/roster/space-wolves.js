@@ -1583,7 +1583,8 @@ export default {
     {
       "name": "Champions of Fenris",
       "sid": "cbfdd62b-fa52-4689-835b-0b881bb978fb",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "A Giant Amongst Giants",
@@ -1620,7 +1621,8 @@ export default {
     {
       "name": "Legends of Saga and Song",
       "sid": "0bb425be-1dff-4825-96ba-704523da27c4",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Thirst for Glory (Upgrade)",
@@ -1658,7 +1660,8 @@ export default {
     {
       "name": "Saga of the Beastslayer",
       "sid": "41547c19-336b-4ea9-8161-bdbc8cb68343",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Wolf-touched",
@@ -1713,7 +1716,8 @@ export default {
     {
       "name": "Saga of the Bold",
       "sid": "fc3194f8-b96f-4158-9380-693ae00db4db",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Braggart’s Steel",
@@ -1768,7 +1772,8 @@ export default {
     {
       "name": "Saga of the Great Wolf",
       "sid": "d8b12845-85b4-48db-8565-4771287a2fa7",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Grimnar’s Mark",
@@ -1828,7 +1833,8 @@ export default {
     {
       "name": "Saga of the Hunter",
       "sid": "a6359296-90bd-4ec0-a70d-87813eaf9da9",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Swift Hunter",
@@ -1883,7 +1889,8 @@ export default {
     {
       "name": "Veterans of the Fang",
       "sid": "74c4b04a-de7a-41a5-b015-97803080bf87",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Eye of the Hunter",

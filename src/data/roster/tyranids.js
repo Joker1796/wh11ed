@@ -2716,7 +2716,8 @@ export default {
     {
       "name": "Ambush Predators",
       "sid": "0d13e327-3ae5-4e76-8d7d-749ffe5e6476",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Cryptophotaic Camouflage (Upgrade)",
@@ -2761,7 +2762,8 @@ export default {
     {
       "name": "Assimilation Swarm",
       "sid": "f88d7c8d-3766-4623-9192-ff35ed729622",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Regenerating Monstrosity",
@@ -2819,7 +2821,8 @@ export default {
     {
       "name": "Crusher Stampede",
       "sid": "75814c70-8935-4305-8507-01c8f8b0d119",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Ominous Presence",
@@ -2886,7 +2889,8 @@ export default {
     {
       "name": "Invasion Fleet",
       "sid": "f018a051-11c7-4aaf-a873-16acb8c4c38d",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Alien Cunning",
@@ -2941,7 +2945,8 @@ export default {
     {
       "name": "Subterranean Assault",
       "sid": "1589d16c-5e24-4e72-b352-b674041fdc84",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Synaptic Strategy",
@@ -2996,7 +3001,8 @@ export default {
     {
       "name": "Synaptic Nexus",
       "sid": "00c96306-e64e-4084-b09b-37b1f1af7b8a",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Power of the Hive Mind",
@@ -3063,7 +3069,8 @@ export default {
     {
       "name": "Talons of the Norn Queen",
       "sid": "c44ad21f-ef34-4d29-befb-3202706563f9",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Destabilising Predation (Upgrade)",
@@ -3098,7 +3105,8 @@ export default {
     {
       "name": "Unending Swarm",
       "sid": "7bba616f-e032-443b-8e27-55370028348c",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Relentless Hunger",
@@ -3153,7 +3161,8 @@ export default {
     {
       "name": "Vanguard Onslaught",
       "sid": "c8d42dc3-5901-4e96-90e8-254a8af33252",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Hunting Grounds",
@@ -3208,7 +3217,8 @@ export default {
     {
       "name": "Warrior Bioform Onslaught",
       "sid": "dd488d53-7bfa-4778-8ff1-2a7468860747",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Elevated Might",

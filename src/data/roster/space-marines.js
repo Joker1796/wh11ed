@@ -8739,7 +8739,8 @@ export default {
     {
       "name": "1st Company Task Force",
       "sid": "01c7258d-72a9-4df9-bea2-b4f7bfdaebb8",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "The Imperium’s Sword",
@@ -8800,7 +8801,8 @@ export default {
     {
       "name": "Anvil Siege Force",
       "sid": "e544168f-0535-4b58-ac04-c5f3793ea56b",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Indomitable Fury",
@@ -8855,7 +8857,8 @@ export default {
     {
       "name": "Armoured Speartip",
       "sid": "2816281c-0f5d-4c0c-a63b-9be13599e674",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Liberator",
@@ -8921,7 +8924,8 @@ export default {
     {
       "name": "Bastion Task Force",
       "sid": "b0cdcaeb-2e58-46e3-83c5-a1ece9ad4e66",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Eye of the Primarch",
@@ -8976,7 +8980,8 @@ export default {
     {
       "name": "Blade of Ultramar",
       "sid": "114f009f-63b2-40bc-922a-83363eab24cc",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Armour of Antoninus",
@@ -9031,7 +9036,8 @@ export default {
     {
       "name": "Ceramite Sentinels",
       "sid": "3f2130dc-e858-45a7-b42c-4cd5953b9b43",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Honour Indefatigable",
@@ -9086,7 +9092,8 @@ export default {
     {
       "name": "Emperor’s Shield",
       "sid": "5e6fedf7-bfb7-4042-84ce-7644be942167",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Champion of the Feast",
@@ -9150,7 +9157,8 @@ export default {
     {
       "name": "Firestorm Assault Force",
       "sid": "fcc5de05-5825-4af5-9484-38af6358ff2b",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Champion of Humanity",
@@ -9208,7 +9216,8 @@ export default {
     {
       "name": "Forgefather’s Seekers",
       "sid": "9c26c287-1ec3-4580-9106-82b7b054ce98",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Immolator",
@@ -9266,7 +9275,8 @@ export default {
     {
       "name": "Fulguris Task Force",
       "sid": "a65dba8d-ae69-4e3e-a72e-afeb748a98ca",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Bellicose Weapon Spirits (Upgrade)",
@@ -9301,7 +9311,8 @@ export default {
     {
       "name": "Gladius Task Force",
       "sid": "047e97fc-2e78-4db6-b401-1f8bb65d9162",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Artificer Armour",
@@ -9356,7 +9367,8 @@ export default {
     {
       "name": "Hammer of Avernii",
       "sid": "1ca178a4-0e04-4f18-ae3a-ecd0336131a6",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Spiritus Ferrum",
@@ -9414,7 +9426,8 @@ export default {
     {
       "name": "Headhunter Task Force",
       "sid": "a5da316c-604e-4aca-b5ac-53517dcd01b3",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Redoubtable Machine Spirit",
@@ -9481,7 +9494,8 @@ export default {
     {
       "name": "Ironstorm Spearhead",
       "sid": "fe7ac957-dfdf-4025-bd77-c387cd6c62a5",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Target Augury Web",
@@ -9536,7 +9550,8 @@ export default {
     {
       "name": "Librarius Conclave",
       "sid": "9492c5aa-1baf-49d0-a587-c332d6119d10",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Fusillade",
@@ -9618,7 +9633,8 @@ export default {
     {
       "name": "Orbital Assault Force",
       "sid": "dd0c31ee-65db-4143-b1f9-60aaea303b1c",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Laurels of Thunder",
@@ -9676,7 +9692,8 @@ export default {
     {
       "name": "Reclamation Force",
       "sid": "f6429de4-1567-4ee9-8570-8c3d405e93f9",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Seals of Reconquest",
@@ -9731,7 +9748,8 @@ export default {
     {
       "name": "Shadowmark Talon",
       "sid": "b91b5421-b1fe-4b75-b088-f2615683410e",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Blackwing Shroud",
@@ -9789,7 +9807,8 @@ export default {
     {
       "name": "Spearpoint Task Force",
       "sid": "2975ba73-73c1-4866-bbd9-c9ae1f66de97",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Spearpoint Paragon",
@@ -9847,7 +9866,8 @@ export default {
     {
       "name": "Stormlance Task Force",
       "sid": "0854459d-3909-4621-8073-46d54d1a0464",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Fury of the Storm",
@@ -9908,7 +9928,8 @@ export default {
     {
       "name": "Subversion Assets",
       "sid": "b87e2dfa-d598-4fbb-a4ac-e08fdba03391",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Death in the Dark (Upgrade)",
@@ -9942,7 +9963,8 @@ export default {
     {
       "name": "Vanguard Spearhead",
       "sid": "720ee5b2-2412-43f4-b145-bec27a90b6d5",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "The Blade Driven Deep",

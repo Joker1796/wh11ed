@@ -1894,7 +1894,8 @@ export default {
     {
       "name": "Auric Champions",
       "sid": "2ed9481a-9f80-4e78-8931-b8070fef82e3",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Blade Imperator",
@@ -1949,7 +1950,8 @@ export default {
     {
       "name": "Lions of the Emperor",
       "sid": "16f0256d-a6ba-4d12-963f-2b8874eb17a5",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Superior Creation",
@@ -2007,7 +2009,8 @@ export default {
     {
       "name": "Might of the Moritoi",
       "sid": "4edac749-d510-4161-b3c3-1fd31e91cfcf",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Interred Expertise (Upgrade)",
@@ -2048,7 +2051,8 @@ export default {
     {
       "name": "Null Maiden Vigil",
       "sid": "b70a6b14-333a-4f04-a3c3-b3341e48c08c",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Raptor Blade",
@@ -2103,7 +2107,8 @@ export default {
     {
       "name": "Shield Host",
       "sid": "71a22085-3750-4339-bd18-7b7511e831ee",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "From the Hall of Armouries",
@@ -2168,7 +2173,8 @@ export default {
     {
       "name": "Silent Hunters",
       "sid": "58dd1c38-27e6-4ccf-a7f5-53068e61b838",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Encircling Hunter",
@@ -2201,7 +2207,8 @@ export default {
     {
       "name": "Solar Spearhead",
       "sid": "3cb02267-28e0-4dab-9ff3-976caa1b7a31",
-      "dp": 0,
+      "dp": 2,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Adamantine Talisman",
@@ -2275,7 +2282,8 @@ export default {
     {
       "name": "Talons of the Emperor",
       "sid": "f0e490e7-c6e3-4c51-9162-93dca988eee5",
-      "dp": 0,
+      "dp": 3,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Radiant Mantle",
@@ -2330,7 +2338,8 @@ export default {
     {
       "name": "Tharanatoi Hammerblow",
       "sid": "92ae3afb-c5d5-41a9-80da-8db33c91ed41",
-      "dp": 0,
+      "dp": 1,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Efficient Aggression",

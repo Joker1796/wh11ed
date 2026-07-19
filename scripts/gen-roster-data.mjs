@@ -296,8 +296,12 @@ function buildEnhancement(e) {
   return enh
 }
 
-function buildDetachment(bdet, idMap) {
-  const det = { name: bdet.name, sid: bdet.id, dp: bdet.detachmentPointsCost ?? bdet.pointsCost ?? 0 }
+function buildDetachment(bdet, idMap, mfmDet) {
+  // The Detachment-Points cost + Force Disposition come from mfm (what the tracker shows), not
+  // appdata's detachmentPointsCost — those disagree (appdata is 0 for standard detachments).
+  const mfm = mfmDet.get(norm(bdet.name))
+  const det = { name: bdet.name, sid: bdet.id, dp: mfm?.dp ?? bdet.detachmentPointsCost ?? 0 }
+  if (mfm?.forceDisposition) det.fd = mfm.forceDisposition
   const excl = (detExcluded.get(bdet.id) || []).map((id) => idMap.get(id) || slugify(enOf(dsById.get(id)).name || '')).filter(Boolean)
   if (excl.length) det.excludedUnits = excl
   const linked = (detLinked.get(bdet.id) || []).map((r) => {
@@ -328,6 +332,11 @@ async function genFaction(slug) {
   if (!bundle) { report.missingBundle.push(slug); return }
   const idMap = unitIdMap(slug)
 
+  // mfm detachment map (name → { dp, forceDisposition }) — the tracker's numbers.
+  const mfmMod = await loadModule(path.join(ROOT, 'src/data/mfm', `${slug}.js`))
+  const mfmFaction = mfmMod?.default
+  const mfmDet = new Map((mfmFaction?.detachments || []).map((d) => [norm(d.name), d]))
+
   // A handful of datasheets carry no points/composition (special epic heroes or
   // detachment-only variants) — not buildable matched-play line entries, so drop them.
   const bundleUnits = (bundle.datasheets || []).filter((d) => {
@@ -338,7 +347,7 @@ async function genFaction(slug) {
   const units = bundleUnits.map((bd) => buildUnit(bd, idMap, fx)).sort((a, b) => a.name.localeCompare(b.name))
   const detachments = (bundle.detachments || [])
     .filter((d) => !d.isCombatPatrol && !cpDatasheetIds.has(d.id))
-    .map((bdet) => buildDetachment(bdet, idMap))
+    .map((bdet) => buildDetachment(bdet, idMap, mfmDet))
     .sort((a, b) => a.name.localeCompare(b.name))
 
   report.factions++

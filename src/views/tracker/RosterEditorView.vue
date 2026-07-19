@@ -233,9 +233,10 @@ const accentStyle = computed(() => factionColor.value
   ? { '--fa-light': factionColor.value.light, '--fa-dark': factionColor.value.dark }
   : {})
 
-// Detachment options for the tracker's DP-budget-aware multi-select picker.
+// Detachment options for the tracker's DP-budget-aware multi-select picker (same shape and
+// layout as the tracker: DP cost + Force Disposition).
 const detachmentOptions = computed(() =>
-  (factionData.value?.detachments || []).map((d) => ({ name: d.name, dp: d.dp || 0, forceDisposition: '' })))
+  (factionData.value?.detachments || []).map((d) => ({ name: d.name, dp: d.dp || 0, forceDisposition: d.fd || '' })))
 // The selected detachments' data objects (roster stores names).
 const curDetachments = computed(() =>
   (roster.value?.detachments || [])
