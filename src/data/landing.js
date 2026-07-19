@@ -46,12 +46,14 @@ export const landing = {
       contactLabel: 'Contact the author:',
       thanksLabel: 'Acknowledgements:',
       thanks: [
-        { label: 'Translation help:', who: 'Nikita Lukin and Yuri Avakumov' },
-        { label: 'Testing help:', who: 'members of the «Кочующий стол» club' },
+        { label: 'Translation help:', who: 'Yuri Avakumov' },
+        { label: 'Testing help:', who: 'members of the «Кочующий стол» and «Z4VOD» clubs' },
       ],
       openSourceLabel: 'Open source:',
-      openSourceText: 'This project is free and open source, under the MIT license.',
+      openSourceText: 'This project is free and open source.',
       repoLinkLabel: 'GitHub',
+      disclaimer:
+        'This is an unofficial fan project, not affiliated with or endorsed by Games Workshop. Warhammer 40,000, the names, rules and imagery are © Games Workshop Ltd, used without permission — no challenge to their status is intended. The open-source license covers this project’s code only, not the game content. Rights holders may request removal via the contact above.',
     },
   },
 
@@ -100,12 +102,14 @@ export const landing = {
       contactLabel: 'Связаться с автором:',
       thanksLabel: 'Благодарности:',
       thanks: [
-        { label: 'За помощь в переводе:', who: 'Никите Лукину и Юрию Авакумову' },
-        { label: 'За помощь в тестировании:', who: 'участникам клуба «Кочующий стол»' },
+        { label: 'За помощь в переводе:', who: 'Юрию Авакумову' },
+        { label: 'За помощь в тестировании:', who: 'участникам клубов «Кочующий стол» и «Z4VOD»' },
       ],
       openSourceLabel: 'Открытый код:',
-      openSourceText: 'Проект бесплатный и с открытым исходным кодом, под лицензией MIT.',
+      openSourceText: 'Проект бесплатный, с открытым исходным кодом.',
       repoLinkLabel: 'GitHub',
+      disclaimer:
+        'Это неофициальный фан-проект, не связанный с Games Workshop и не одобренный ей. Warhammer 40,000, названия, правила и изображения — © Games Workshop Ltd, используются без разрешения; вызов их правам не бросается. Открытая лицензия покрывает только код проекта, но не игровой контент. Правообладатель может запросить удаление через контакт выше.',
     },
   },
 }

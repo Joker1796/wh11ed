@@ -22,29 +22,6 @@
       </RouterLink>
     </div>
 
-    <footer class="landing-footer">
-      <div class="footer-col">
-        <p class="footer-col-label">{{ t.footer.contactLabel }}</p>
-        <p class="footer-contact">
-          <a :href="'mailto:' + contactEmail">{{ contactEmail }}</a>
-        </p>
-      </div>
-      <div class="footer-col">
-        <p class="footer-col-label">{{ t.footer.thanksLabel }}</p>
-        <p v-for="th in t.footer.thanks" :key="th.label" class="footer-thanks">
-          {{ th.label }}<br /><span class="footer-who">{{ th.who }}</span>
-        </p>
-      </div>
-      <div class="footer-col">
-        <p class="footer-col-label">{{ t.footer.openSourceLabel }}</p>
-        <p class="footer-thanks">{{ t.footer.openSourceText }}</p>
-        <p class="footer-contact">
-          <a :href="repoUrl" target="_blank" rel="noopener">{{ t.footer.repoLinkLabel }}</a>
-        </p>
-      </div>
-    </footer>
-
-    <p class="landing-version">v{{ version }}</p>
   </div>
 </template>
 
@@ -55,12 +32,6 @@ import { useLocale } from '../composables/useLocale.js'
 
 const { locale } = useLocale()
 const t = computed(() => landing[locale.value])
-
-const contactEmail = 'gorlovevgeni9617@gmail.com'
-// The umbrella repo, not this one: it explains how the frontend, the API and the
-// translation glossary fit together and links on to each. Front door for contributors.
-const repoUrl = 'https://github.com/Joker1796/wh-rules.ru'
-const version = __APP_VERSION__
 </script>
 
 <style scoped>
@@ -152,60 +123,6 @@ const version = __APP_VERSION__
   color: var(--text-muted);
   line-height: 1.55;
   margin: 0;
-}
-
-.landing-footer {
-  margin-top: 2.5rem;
-  padding-top: 1.1rem;
-  border-top: 1px solid var(--border);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem 3rem;
-  color: var(--text-muted);
-  font-size: 0.84rem;
-  line-height: 1.6;
-}
-
-.footer-col {
-  flex: 1 1 220px;
-  min-width: 0;
-}
-
-.footer-col-label {
-  margin: 0 0 0.3rem;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.footer-contact {
-  margin: 0;
-}
-
-.footer-contact a {
-  color: var(--accent);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-.footer-contact a:hover {
-  color: var(--accent-hover);
-}
-
-.footer-thanks {
-  margin: 0 0 0.4rem;
-  color: var(--text-dim);
-}
-
-.footer-who {
-  font-style: italic;
-}
-
-.landing-version {
-  margin: 1.2rem 0 0;
-  text-align: left;
-  color: var(--text-dim);
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
 }
 
 @media (max-width: 600px) {
