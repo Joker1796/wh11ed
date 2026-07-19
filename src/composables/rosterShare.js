@@ -6,7 +6,7 @@
 // Only the fields needed to rebuild a roster travel; `summary` is recomputed on open, and the
 // roster/unit ids are preserved so leaderOf references stay valid after import.
 
-const PICK = ['name', 'faction', 'detachment', 'battleSize', 'units']
+const PICK = ['name', 'faction', 'detachments', 'battleSize', 'customPoints', 'units']
 
 function toPayload(roster) {
   const o = {}

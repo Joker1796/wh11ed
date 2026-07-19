@@ -12,16 +12,18 @@ export function toTrackerBattleSize(id) {
   return BATTLE_SIZE_MAP[id] || id
 }
 
-// Write a minimal setup draft from a roster. `detachmentName` is the tracker/mfm detachment name
-// (the roster stores an appdata sid; the editor resolves it to the name before calling).
-export function prefillDraftFromRoster(roster, detachmentName) {
+// Write a minimal setup draft from a roster. The roster already stores detachments by name
+// (like the tracker), so they carry over directly. A 'custom' battle size falls back to Strike
+// Force in the tracker (which has no custom size).
+export function prefillDraftFromRoster(roster) {
   const { setupDraft } = useTracker()
+  const battleSize = roster?.battleSize === 'custom' ? 'strikeForce' : toTrackerBattleSize(roster?.battleSize)
   setupDraft.value = {
     step: 1,
     players: [
-      { factionSlug: roster?.faction || null, detachments: detachmentName ? [detachmentName] : [] },
+      { factionSlug: roster?.faction || null, detachments: [...(roster?.detachments || [])] },
       {},
     ],
-    settings: { battleSize: toTrackerBattleSize(roster?.battleSize) },
+    settings: { battleSize },
   }
 }

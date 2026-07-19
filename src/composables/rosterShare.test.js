@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { encodeRoster, decodeRoster, shareUrl } from './rosterShare.js'
 
 const roster = {
-  id: 'orig', name: 'My List', faction: 'space-marines', detachment: 'det-1', battleSize: 'strike-force',
+  id: 'orig', name: 'My List', faction: 'space-marines', detachments: ['Gladius'], battleSize: 'strike-force', customPoints: 2000,
   summary: { points: 500, unitCount: 3, issues: 0 },
   units: [
     { uid: 'a', id: 'captain', size: 0, warlord: true, enh: 'Artificer Armour' },
@@ -19,7 +19,7 @@ describe('rosterShare', () => {
     // Only the shareable fields survive (summary is recomputed on import); ids/uids preserved.
     expect(back.name).toBe('My List')
     expect(back.faction).toBe('space-marines')
-    expect(back.detachment).toBe('det-1')
+    expect(back.detachments).toEqual(['Gladius'])
     expect(back.battleSize).toBe('strike-force')
     expect(back.units).toEqual(roster.units)
     expect(back.summary).toBeUndefined()

@@ -37,7 +37,7 @@
       </button>
       <button class="choice" :disabled="!roster.faction" @click="detachmentPickerOpen = true">
         <span class="ch-label">{{ labels.rosterDetachmentLabel }}</span>
-        <span class="ch-value">{{ detachmentName || labels.rosterChoose }}</span>
+        <span class="ch-value">{{ detachmentSummary || labels.rosterChoose }}</span>
         <i class="bi bi-chevron-down"></i>
       </button>
       <div class="choice bsize">
@@ -50,6 +50,16 @@
             :class="{ on: roster.battleSize === b.id }"
             @click="setBattleSize(b.id)"
           >{{ b.points }}</button>
+          <button class="bsize-btn" :class="{ on: roster.battleSize === 'custom' }" @click="setBattleSize('custom')">{{ labels.rosterCustom }}</button>
+          <input
+            v-if="roster.battleSize === 'custom'"
+            class="bsize-input"
+            type="number"
+            min="0"
+            step="5"
+            :value="roster.customPoints"
+            @input="setCustomPoints($event.target.value)"
+          />
         </div>
       </div>
     </div>
@@ -102,12 +112,13 @@
       @pick="pickFaction"
       @close="factionPickerOpen = false"
     />
-    <FactionDetachmentPickerModal
+    <DetachmentPickerModal
       v-if="detachmentPickerOpen"
-      :title="labels.rosterPickDetachment"
       :detachments="detachmentOptions"
-      :active-id="roster.detachment"
-      @pick="pickDetachment"
+      :selected="roster.detachments"
+      :max-dp="effBattle.dp"
+      :dp-spent="dpSpent"
+      @toggle="toggleDetachment"
       @close="detachmentPickerOpen = false"
     />
     <RosterUnitPickerModal
@@ -124,7 +135,7 @@
       :texts="rosterItems.texts"
       :faction-slug="roster.faction"
       :copy-index="entryMeta.get(editingUid)?.copyIndex || 1"
-      :detachment="curDetachment"
+      :detachments="curDetachments"
       :can-warlord="editCanWarlord"
       :is-warlord="editingEntry.warlord === true"
       :enh-options="editEnhOptions"
@@ -153,6 +164,7 @@
 import { computed, ref, watch, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import FactionDetachmentPickerModal from '../../components/FactionDetachmentPickerModal.vue'
+import DetachmentPickerModal from '../../components/tracker/DetachmentPickerModal.vue'
 import RosterUnitPickerModal from '../../components/roster/RosterUnitPickerModal.vue'
 import UnitEditorSheet from '../../components/roster/UnitEditorSheet.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
@@ -163,7 +175,7 @@ import { useRosters, uid } from '../../composables/useRosters.js'
 import rosterCore from '../../data/roster/core.js'
 import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
-import { UNIT_GROUPS, bucketOf, unitPoints, rosterPoints, canBeWarlord, enhEligible } from '../../composables/rosterEngine.js'
+import { UNIT_GROUPS, bucketOf, unitPoints, rosterPoints, canBeWarlord, enhEligible, effectiveBattle } from '../../composables/rosterEngine.js'
 import { validateRoster } from '../../composables/rosterValidation.js'
 import { prefillDraftFromRoster } from '../../composables/rosterHandoff.js'
 import { useTracker } from '../../composables/useTracker.js'
@@ -178,7 +190,7 @@ const { current: trackerCurrent } = useTracker()
 // Hand the roster to the tracker: pre-fill the setup draft, then go to the wizard (or the
 // tracker home if a live game is in progress, so we never clobber it).
 function useInTracker() {
-  prefillDraftFromRoster(roster.value, curDetachment.value?.name)
+  prefillDraftFromRoster(roster.value)
   router.push(trackerCurrent.value ? '/tracker' : '/tracker/game')
 }
 
@@ -221,14 +233,20 @@ const accentStyle = computed(() => factionColor.value
   ? { '--fa-light': factionColor.value.light, '--fa-dark': factionColor.value.dark }
   : {})
 
+// Detachment options for the tracker's DP-budget-aware multi-select picker.
 const detachmentOptions = computed(() =>
-  (factionData.value?.detachments || []).map((d) => ({ id: d.sid, name: d.name, dp: d.dp || null })))
-const curDetachment = computed(() =>
-  (factionData.value?.detachments || []).find((d) => d.sid === roster.value?.detachment) || null)
-const detachmentName = computed(() => curDetachment.value?.name || '')
+  (factionData.value?.detachments || []).map((d) => ({ name: d.name, dp: d.dp || 0, forceDisposition: '' })))
+// The selected detachments' data objects (roster stores names).
+const curDetachments = computed(() =>
+  (roster.value?.detachments || [])
+    .map((name) => (factionData.value?.detachments || []).find((d) => d.name === name))
+    .filter(Boolean))
+const detachmentSummary = computed(() => (roster.value?.detachments || []).join(', '))
+const dpSpent = computed(() => curDetachments.value.reduce((s, d) => s + (d.dp || 0), 0))
 
 const battleSizes = rosterCore.battleSizes
-const limit = computed(() => battleSizes.find((b) => b.id === roster.value?.battleSize)?.points || 2000)
+const effBattle = computed(() => effectiveBattle(roster.value || {}, rosterCore))
+const limit = computed(() => effBattle.value.points)
 
 function touch() { if (roster.value) roster.value.updatedAt = Date.now() }
 
@@ -236,19 +254,25 @@ function pickFaction(slug) {
   factionPickerOpen.value = false
   if (roster.value.faction === slug) return
   roster.value.faction = slug
-  roster.value.detachment = null
+  roster.value.detachments = []
   roster.value.units = [] // units belong to a faction — changing it invalidates them
   touch()
 }
-function pickDetachment(id) {
-  detachmentPickerOpen.value = false
-  if (roster.value.detachment === id) return
-  roster.value.detachment = id
-  // Enhancements belong to a detachment — clear them when it changes.
-  for (const u of roster.value.units) delete u.enh
+// Multi-select: toggle a detachment name in/out (DP budget enforced by the picker's disabling).
+function toggleDetachment(d) {
+  const list = roster.value.detachments
+  const at = list.indexOf(d.name)
+  if (at >= 0) list.splice(at, 1)
+  else list.push(d.name)
+  // Enhancements belong to a detachment — clear any that no longer resolve.
+  const names = new Set(roster.value.detachments)
+  for (const u of roster.value.units) {
+    if (u.enh && !curDetachments.value.some((det) => names.has(det.name) && det.enhancements.some((e) => e.name === u.enh))) delete u.enh
+  }
   touch()
 }
 function setBattleSize(id) { roster.value.battleSize = id; touch() }
+function setCustomPoints(v) { roster.value.customPoints = Math.max(0, Number(v) || 0); touch() }
 
 // ── Units ──
 const factionPickerOpen = ref(false)
@@ -291,16 +315,21 @@ function toggleWarlord() {
   touch()
 }
 const editEnhOptions = computed(() => {
-  const det = curDetachment.value
   const def = editingDef.value
-  if (!det || !def) return []
+  if (!curDetachments.value.length || !def) return []
   const usedElsewhere = new Set(
     roster.value.units.filter((u) => u.uid !== editingUid.value && u.enh).map((u) => u.enh))
-  return det.enhancements.map((e) => ({
-    name: e.name, pts: e.pts,
-    eligible: enhEligible(e, def),
-    used: usedElsewhere.has(e.name),
-  }))
+  // Aggregate enhancements across every selected detachment (dedupe by name).
+  const seen = new Set()
+  const out = []
+  for (const det of curDetachments.value) {
+    for (const e of det.enhancements) {
+      if (seen.has(e.name)) continue
+      seen.add(e.name)
+      out.push({ name: e.name, pts: e.pts, eligible: enhEligible(e, def), used: usedElsewhere.has(e.name) })
+    }
+  }
+  return out
 })
 const editLeaderTargets = computed(() => {
   const def = editingDef.value
@@ -332,11 +361,11 @@ const entryMeta = computed(() => {
   for (const e of roster.value?.units || []) {
     const copyIndex = (seen.get(e.id) || 0) + 1
     seen.set(e.id, copyIndex)
-    m.set(e.uid, { points: unitPoints(defOf(e.id), e, copyIndex, curDetachment.value), copyIndex })
+    m.set(e.uid, { points: unitPoints(defOf(e.id), e, copyIndex, curDetachments.value), copyIndex })
   }
   return m
 })
-const points = computed(() => rosterPoints(roster.value?.units, defOf, curDetachment.value))
+const points = computed(() => rosterPoints(roster.value?.units, defOf, curDetachments.value))
 
 // Live validation — never blocks, just reports (see rosterValidation.js).
 const issuesOpen = ref(false)
@@ -454,6 +483,17 @@ function rename(name) {
   cursor: pointer;
 }
 .bsize-btn.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+.bsize-input {
+  width: 5rem;
+  padding: 0.2rem 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+.bsize-input:focus { outline: none; }
 
 .red-hint, .red-empty { color: var(--text-muted); font-style: italic; text-align: center; padding: 1.5rem 0; }
 .rug-head {

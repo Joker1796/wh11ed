@@ -1,6 +1,6 @@
 // Plain-text roster export — a shareable army list in the style of the official app. English
 // names throughout (unit / detachment / wargear names are EN by convention). Pure function.
-import { UNIT_GROUPS, bucketOf, enhancementPoints, unitPoints, rosterPoints } from './rosterEngine.js'
+import { UNIT_GROUPS, bucketOf, enhancementPoints, unitPoints, rosterPoints, effectiveBattle } from './rosterEngine.js'
 
 const GROUP_TITLES = {
   epic: 'EPIC HEROES', characters: 'CHARACTERS', battleline: 'BATTLELINE',
@@ -21,16 +21,18 @@ function wargearNames(def, entry, items) {
 export function buildRosterText(roster, { faction, core, items } = {}) {
   const defMap = new Map((faction?.units || []).map((u) => [u.id, u]))
   const defOf = (id) => defMap.get(id)
-  const detachment = (faction?.detachments || []).find((d) => d.sid === roster?.detachment) || null
-  const battleSize = core?.battleSizes?.find((b) => b.id === roster?.battleSize) || null
-  const total = rosterPoints(roster?.units, defOf, detachment)
+  const detachments = (roster?.detachments || [])
+    .map((name) => (faction?.detachments || []).find((d) => d.name === name))
+    .filter(Boolean)
+  const battle = effectiveBattle(roster, core)
+  const total = rosterPoints(roster?.units, defOf, detachments)
 
   const lines = []
   lines.push(roster?.name || 'Roster')
-  const header = [faction?.name, detachment?.name].filter(Boolean).join(' — ')
+  const header = [faction?.name, ...(roster?.detachments || [])].filter(Boolean).join(' — ')
   if (header) lines.push(header)
-  if (battleSize) lines.push(`${battleSize.name} (${total}/${battleSize.points} pts)`)
-  else lines.push(`${total} pts`)
+  const sizeName = battle.custom ? 'Custom' : (core?.battleSizes?.find((b) => b.id === roster?.battleSize)?.name || '')
+  lines.push(`${sizeName ? `${sizeName} ` : ''}(${total}/${battle.points} pts)`)
 
   // Copy index per datasheet id (for the copy tax), matching how points are summed.
   const seen = new Map()
@@ -47,13 +49,13 @@ export function buildRosterText(roster, { faction, core, items } = {}) {
     lines.push('', GROUP_TITLES[gid])
     for (const e of entries) {
       const def = defOf(e.id)
-      const pts = unitPoints(def, e, copyIdx.get(e.uid), detachment)
+      const pts = unitPoints(def, e, copyIdx.get(e.uid), detachments)
       const size = def.sizes[e.size ?? 0] || def.sizes[0]
       const models = e.count ?? size.per[0]
       const sizeStr = size.per[1] > 1 ? ` (${models})` : ''
       lines.push(`  ${def.name}${sizeStr} — ${pts} pts`)
       if (e.warlord) lines.push('    • Warlord')
-      if (e.enh) lines.push(`    • Enhancement: ${e.enh} (+${enhancementPoints(detachment, e)})`)
+      if (e.enh) lines.push(`    • Enhancement: ${e.enh} (+${enhancementPoints(detachments, e)})`)
       for (const wn of wargearNames(def, e, items)) lines.push(`    • ${wn}`)
       if (e.leaderOf) {
         const target = (roster.units || []).find((x) => x.uid === e.leaderOf)
@@ -63,6 +65,6 @@ export function buildRosterText(roster, { faction, core, items } = {}) {
     }
   }
 
-  lines.push('', `Total: ${total}${battleSize ? ` / ${battleSize.points}` : ''} pts`)
+  lines.push('', `Total: ${total} / ${battle.points} pts`)
   return lines.join('\n')
 }

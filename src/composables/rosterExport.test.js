@@ -15,7 +15,7 @@ const detachment = { sid: 'det-1', name: 'Gladius', enhancements: [{ name: 'Arti
 const faction = { name: 'Space Marines', units: [captain, lt, intercessor], detachments: [detachment] }
 
 const roster = {
-  name: 'Strike Force Alpha', faction: 'space-marines', detachment: 'det-1', battleSize: 'strike-force',
+  name: 'Strike Force Alpha', faction: 'space-marines', detachments: ['Gladius'], battleSize: 'strike-force',
   units: [
     { uid: 'a', id: 'captain', size: 0, warlord: true, enh: 'Artificer Armour' },
     { uid: 'b', id: 'intercessor-squad', size: 1, count: 8, wg: [[0, 1, 1]] }, // power fist +10

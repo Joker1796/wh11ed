@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { bucketOf, unitBasePoints, unitWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhancementPoints } from './rosterEngine.js'
+import { bucketOf, unitBasePoints, unitWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhancementPoints, findEnhancement, effectiveBattle } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -88,11 +88,32 @@ describe('enhEligible', () => {
 })
 
 describe('enhancementPoints / unitPoints with enhancement', () => {
-  const det = { enhancements: [{ name: 'Artificer Armour', pts: 15 }, { name: 'Free', pts: 0 }] }
-  it('adds the chosen enhancement cost', () => {
-    expect(enhancementPoints(det, { enh: 'Artificer Armour' })).toBe(15)
-    expect(enhancementPoints(det, {})).toBe(0)
-    expect(unitPoints(captain, { size: 0, enh: 'Artificer Armour' }, 1, det)).toBe(100)
+  const dets = [
+    { name: 'A', enhancements: [{ name: 'Artificer Armour', pts: 15 }, { name: 'Free', pts: 0 }] },
+    { name: 'B', enhancements: [{ name: 'Master-crafted', pts: 20 }] },
+  ]
+  it('finds and costs an enhancement across selected detachments', () => {
+    expect(findEnhancement(dets, 'Master-crafted')?.pts).toBe(20)
+    expect(enhancementPoints(dets, { enh: 'Artificer Armour' })).toBe(15)
+    expect(enhancementPoints(dets, { enh: 'Master-crafted' })).toBe(20)
+    expect(enhancementPoints(dets, {})).toBe(0)
+    expect(unitPoints(captain, { size: 0, enh: 'Master-crafted' }, 1, dets)).toBe(105)
+  })
+})
+
+describe('effectiveBattle', () => {
+  const core = { battleSizes: [
+    { id: 'incursion', points: 1000, dp: 2, enhLimit: 2, dupLimit: 2 },
+    { id: 'strike-force', points: 2000, dp: 3, enhLimit: 4, dupLimit: 3 },
+    { id: 'onslaught', points: 3000, dp: 3, enhLimit: 4, dupLimit: 3 },
+  ] }
+  it('returns the standard bracket', () => {
+    expect(effectiveBattle({ battleSize: 'incursion' }, core)).toMatchObject({ points: 1000, dupLimit: 2, custom: false })
+  })
+  it('derives custom limits from the bracket the points fall into', () => {
+    expect(effectiveBattle({ battleSize: 'custom', customPoints: 1500 }, core)).toMatchObject({ points: 1500, enhLimit: 4, dupLimit: 3, custom: true })
+    expect(effectiveBattle({ battleSize: 'custom', customPoints: 800 }, core)).toMatchObject({ points: 800, dupLimit: 2, custom: true })
+    expect(effectiveBattle({ battleSize: 'custom', customPoints: 5000 }, core)).toMatchObject({ points: 5000, dupLimit: 3, custom: true })
   })
 })
 

@@ -29,8 +29,11 @@ export function makeRoster(name = 'New roster') {
     createdAt: now,
     updatedAt: now,
     faction: null,
-    detachment: null,
+    // An army may field several detachments (up to its DP budget) — stored by name, like the
+    // tracker. `battleSize` is a standard id or 'custom' with `customPoints`.
+    detachments: [],
     battleSize: 'strike-force',
+    customPoints: 2000,
     units: [],
     // Denormalised by the editor so the list never has to load faction data to show a total.
     summary: { points: 0, unitCount: 0, issues: 0 },
@@ -50,8 +53,13 @@ export function isValidRoster(r) {
 
 function migrate(env) {
   // env is the parsed { v, rosters } envelope (or something older/broken). Future schema
-  // bumps branch on env.v here. For now just coerce to the current shape.
+  // bumps branch on env.v here.
   const rosters = Array.isArray(env?.rosters) ? env.rosters.filter(isValidRoster) : []
+  for (const r of rosters) {
+    // Single `detachment` → `detachments` array (pre-multi-detachment rosters).
+    if (!Array.isArray(r.detachments)) r.detachments = r.detachment ? [r.detachment] : []
+    delete r.detachment
+  }
   return rosters
 }
 

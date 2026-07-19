@@ -60,10 +60,10 @@ describe('UnitEditorSheet', () => {
 
   it('emits toggle-warlord and picks an enhancement into the total', async () => {
     const entry = reactive({ uid: 'u', id: 'squad', size: 0 })
-    const det = { enhancements: [{ name: 'Master-crafted', pts: 20 }] }
+    const det = { name: 'D', enhancements: [{ name: 'Master-crafted', pts: 20 }] }
     const w = mount(UnitEditorSheet, {
       props: {
-        entry, def, items, texts, detachment: det, copyIndex: 1,
+        entry, def, items, texts, detachments: [det], copyIndex: 1,
         canWarlord: true, isWarlord: false,
         enhOptions: [{ name: 'Master-crafted', pts: 20, eligible: true, used: false }],
         leaderTargets: [{ uid: 'x', name: 'Bodyguard Squad' }],

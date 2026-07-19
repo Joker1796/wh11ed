@@ -148,7 +148,7 @@ const props = defineProps({
   texts: { type: Object, required: true },
   factionSlug: { type: String, default: '' },
   copyIndex: { type: Number, default: 1 },
-  detachment: { type: Object, default: null },
+  detachments: { type: Array, default: () => [] },
   canWarlord: { type: Boolean, default: false },
   isWarlord: { type: Boolean, default: false },
   enhOptions: { type: Array, default: () => [] },
@@ -221,7 +221,7 @@ function stepMax(g) {
 function setEnh(name) { if (name) props.entry.enh = name; else delete props.entry.enh }
 function setLeader(uid) { if (uid) props.entry.leaderOf = uid; else delete props.entry.leaderOf }
 
-const unitTotal = computed(() => unitPoints(props.def, props.entry, props.copyIndex, props.detachment))
+const unitTotal = computed(() => unitPoints(props.def, props.entry, props.copyIndex, props.detachments))
 </script>
 
 <style scoped>
