@@ -19,7 +19,9 @@ import { join } from 'node:path'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
 const DIST = join(ROOT, 'dist')
-const ORIGIN = 'https://wh11ed.ru'
+// Mirror src/config.js's SITE_ORIGIN. This is a Node build script (no import.meta.env), so it
+// reads the same VITE_SITE_ORIGIN var deploy.sh exports; default keeps parity with config.js.
+const ORIGIN = process.env.VITE_SITE_ORIGIN || 'https://wh11ed.ru'
 
 const STATIC_ROUTES = [
   '/',
