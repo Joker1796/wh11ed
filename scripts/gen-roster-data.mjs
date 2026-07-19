@@ -162,6 +162,17 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [] }
 
+// Global intern dictionaries: wargear item names and group instruction texts repeat heavily
+// ACROSS factions, and — crucially — the SM-Chapter fold pulls space-marines units into a
+// Chapter file, so their interned ids must be meaningful there too. One shared dict (emitted
+// as src/data/roster/items.js) keeps ids stable everywhere and folds for free.
+const itemIds = new Map() // wargear_item UUID -> int
+const textIds = new Map() // instruction text -> int
+const fx = {
+  item: (uuid) => { if (!itemIds.has(uuid)) itemIds.set(uuid, itemIds.size + 1); return itemIds.get(uuid) },
+  text: (s) => { if (!textIds.has(s)) textIds.set(s, textIds.size + 1); return textIds.get(s) },
+}
+
 // Invert sourceIds.json for a faction: appdata datasheet UUID -> wh11ed datasheet slug.
 function unitIdMap(slug) {
   const all = loadJson(path.join(ROOT, 'src/data/sourceIds.json')) || {}
@@ -324,15 +335,6 @@ async function genFaction(slug) {
     if (!(d.points && d.points.length)) { report.noPoints.push(`${slug}: ${d.name}`); return false }
     return true
   })
-  // Per-faction intern dictionaries: wargear item names and group instruction texts repeat
-  // heavily across a faction's units, so store each once (int id) and reference it.
-  const itemIds = new Map() // wargear_item UUID -> int
-  const textIds = new Map() // instruction text -> int
-  const fx = {
-    item: (uuid) => { if (!itemIds.has(uuid)) itemIds.set(uuid, itemIds.size + 1); return itemIds.get(uuid) },
-    text: (s) => { if (!textIds.has(s)) textIds.set(s, textIds.size + 1); return textIds.get(s) },
-  }
-
   const units = bundleUnits.map((bd) => buildUnit(bd, idMap, fx)).sort((a, b) => a.name.localeCompare(b.name))
   const detachments = (bundle.detachments || [])
     .filter((d) => !d.isCombatPatrol && !cpDatasheetIds.has(d.id))
@@ -343,13 +345,27 @@ async function genFaction(slug) {
   report.units += units.length
   for (const u of units) { if (u.linked) report.linked++; else report.unlinked.push(`${slug}: ${u.name}`) }
 
+  const data = { slug, name: enOf(bundle.faction).name || bundle.faction?.name || slug, units, detachments }
+  // SM-Chapter fold: a Chapter's bundle lists only its own units; the shared Adeptus Astartes
+  // pool lives in space-marines.js. Reuse the exact `sharedUnitIds` the datasheet layer already
+  // computed (data/datasheets/<chapter>.js) so the roster shows the same unit list as the rules
+  // pages. loadRosterFaction() folds them in at load time.
+  if (isChapter(slug)) {
+    const dsMod = await loadModule(path.join(ROOT, 'src/data/datasheets', `${slug}.js`))
+    const shared = dsMod?.sharedUnitIds || []
+    if (shared.length) data.sharedUnitIds = shared
+  }
+  const body = `${HEAD}export default ${stableJson(data)}\n`
+  fs.writeFileSync(path.join(OUT, `${slug}.js`), body)
+}
+
+function genItems() {
   const items = {}
   for (const [uuid, id] of itemIds) items[id] = wgItemName.get(uuid) || ''
   const texts = {}
   for (const [s, id] of textIds) texts[id] = s
-  const data = { slug, name: enOf(bundle.faction).name || bundle.faction?.name || slug, items, texts, units, detachments }
-  const body = `${HEAD}export default ${stableJson(data)}\n`
-  fs.writeFileSync(path.join(OUT, `${slug}.js`), body)
+  const data = { items, texts }
+  fs.writeFileSync(path.join(OUT, 'items.js'), `${HEAD}// Shared wargear item names + group instruction texts, interned across all factions.\nexport default ${stableJson(data)}\n`)
 }
 
 function genCore() {
@@ -360,34 +376,49 @@ function genCore() {
   fs.writeFileSync(path.join(OUT, 'core.js'), `${HEAD}export default ${stableJson(data)}\n`)
 }
 
-function genIndex(slugs) {
-  const body = `${HEAD}// Lazy per-faction roster data. Each file is a chunk of its own so the roster editor
-// only pulls the faction being built (PWA entry-chunk stays clean — see CLAUDE.md).
+function genIndex() {
+  const body = `${HEAD}// Lazy per-faction roster data. Each faction file is a chunk of its own so the roster
+// editor only pulls the faction being built (PWA entry-chunk stays clean — see CLAUDE.md).
 const loaders = import.meta.glob('./*.js', { import: 'default' })
 
-export function loadRosterFaction(slug) {
+const load = (slug) => {
   const loader = loaders[\`./\${slug}.js\`]
   return loader ? loader() : Promise.resolve(null)
 }
 
+// Load a faction's roster data, folding the shared Adeptus Astartes pool into an SM Chapter
+// (data.sharedUnitIds → space-marines units), so callers see one flat unit list. Folded units
+// keep their own ids and resolve against the shared items/texts dicts (see ./items.js).
+export async function loadRosterFaction(slug) {
+  const data = await load(slug)
+  if (!data) return null
+  if (!data.sharedUnitIds?.length) return data
+  const sm = await load('space-marines')
+  const idSet = new Set(data.sharedUnitIds)
+  const shared = (sm?.units || []).filter((u) => idSet.has(u.id)).map((u) => ({ ...u, shared: 1 }))
+  const units = [...data.units, ...shared].sort((a, b) => a.name.localeCompare(b.name))
+  return { ...data, units }
+}
+
 export { default as rosterCore } from './core.js'
+export { default as rosterItems } from './items.js'
 `
   fs.writeFileSync(path.join(OUT, 'index.js'), body)
 }
 
 // ---- Run -------------------------------------------------------------------------------
 
-const args = process.argv.slice(2)
-let slugs = args
-if (!slugs.length) {
-  slugs = fs.readdirSync(path.join(ROOT, 'src/data/factions'))
-    .filter((f) => f.endsWith('.js') && f !== 'index.js')
-    .map((f) => f.replace(/\.js$/, ''))
-}
+// Always regenerate every faction: the intern dictionaries (items.js) are global and their
+// ids are assigned in iteration order, so a partial run would desync them from the faction
+// files. This is fast (~1s) and keeps ids stable.
+const slugs = fs.readdirSync(path.join(ROOT, 'src/data/factions'))
+  .filter((f) => f.endsWith('.js') && f !== 'index.js')
+  .map((f) => f.replace(/\.js$/, ''))
 fs.mkdirSync(OUT, { recursive: true })
 genCore()
 for (const slug of slugs) await genFaction(slug)
-genIndex(slugs.filter((s) => !report.missingBundle.includes(s)))
+genItems() // after all factions — the intern dicts are complete
+genIndex()
 
 console.log(`\nroster data: ${report.factions} factions, ${report.units} units (${report.linked} linked, ${report.unlinked.length} unlinked)`)
 if (report.missingBundle.length) console.log(`  no appdata bundle (skipped): ${report.missingBundle.join(', ')}`)
