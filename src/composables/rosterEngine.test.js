@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { bucketOf, unitBasePoints, unitWargearPoints, unitPoints, rosterPoints } from './rosterEngine.js'
+import { bucketOf, unitBasePoints, unitWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhancementPoints } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -53,6 +53,46 @@ describe('unitWargearPoints', () => {
   })
   it('folds wargear into unitPoints', () => {
     expect(unitPoints(crisis, { size: 0, wg: [[0, 0, 1]] }, 1)).toBe(135)
+  })
+})
+
+describe('canBeWarlord', () => {
+  it('allows characters, bars flagged units and non-characters', () => {
+    expect(canBeWarlord(captain)).toBe(true)
+    expect(canBeWarlord(epic)).toBe(true)
+    expect(canBeWarlord(intercessor)).toBe(false)
+    expect(canBeWarlord({ flags: { char: 1, noWarlord: 1 } })).toBe(false)
+    expect(canBeWarlord({ flags: { nonCharWarlordOk: 1 } })).toBe(true)
+  })
+})
+
+describe('enhEligible', () => {
+  const officerInf = { flags: { char: 1 }, kws: ['Officer', 'Infantry'] }
+  it('requires a character unless flagged non-character', () => {
+    const enh = { name: 'E' }
+    expect(enhEligible(enh, officerInf)).toBe(true)
+    expect(enhEligible(enh, intercessor)).toBe(false)
+    expect(enhEligible({ name: 'E', nonCharOk: 1 }, intercessor)).toBe(true)
+  })
+  it('bars epic heroes and enhancement-excluded units unless flagged', () => {
+    expect(enhEligible({ name: 'E' }, epic)).toBe(false)
+    expect(enhEligible({ name: 'E', epicOk: 1 }, epic)).toBe(true)
+    expect(enhEligible({ name: 'E' }, { flags: { char: 1, noEnh: 1 } })).toBe(false)
+  })
+  it('honours required-keyword OR-groups and excluded keywords', () => {
+    expect(enhEligible({ name: 'E', req: [{ kw: ['Officer', 'Infantry'] }] }, officerInf)).toBe(true)
+    expect(enhEligible({ name: 'E', req: [{ kw: ['Mounted'] }] }, officerInf)).toBe(false)
+    expect(enhEligible({ name: 'E', req: [{ fac: ['Adeptus Astartes'] }] }, officerInf)).toBe(true) // faction gate ok
+    expect(enhEligible({ name: 'E', exclKw: ['Infantry'] }, officerInf)).toBe(false)
+  })
+})
+
+describe('enhancementPoints / unitPoints with enhancement', () => {
+  const det = { enhancements: [{ name: 'Artificer Armour', pts: 15 }, { name: 'Free', pts: 0 }] }
+  it('adds the chosen enhancement cost', () => {
+    expect(enhancementPoints(det, { enh: 'Artificer Armour' })).toBe(15)
+    expect(enhancementPoints(det, {})).toBe(0)
+    expect(unitPoints(captain, { size: 0, enh: 'Artificer Armour' }, 1, det)).toBe(100)
   })
 })
 

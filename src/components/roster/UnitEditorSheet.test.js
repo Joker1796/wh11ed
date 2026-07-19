@@ -57,4 +57,32 @@ describe('UnitEditorSheet', () => {
     expect(entry.wg).toEqual([[1, 0, 2]])
     expect(w.text()).toContain('110') // 100 + 2×5
   })
+
+  it('emits toggle-warlord and picks an enhancement into the total', async () => {
+    const entry = reactive({ uid: 'u', id: 'squad', size: 0 })
+    const det = { enhancements: [{ name: 'Master-crafted', pts: 20 }] }
+    const w = mount(UnitEditorSheet, {
+      props: {
+        entry, def, items, texts, detachment: det, copyIndex: 1,
+        canWarlord: true, isWarlord: false,
+        enhOptions: [{ name: 'Master-crafted', pts: 20, eligible: true, used: false }],
+        leaderTargets: [{ uid: 'x', name: 'Bodyguard Squad' }],
+      },
+      global: { stubs },
+    })
+    // Warlord toggle just emits (parent enforces single warlord).
+    await w.find('input[type="checkbox"]').setValue(true)
+    expect(w.emitted('toggle-warlord')).toBeTruthy()
+
+    // Enhancement adds its points.
+    const enh = w.findAll('.opt').find((b) => b.text().includes('Master-crafted'))
+    await enh.trigger('click')
+    expect(entry.enh).toBe('Master-crafted')
+    expect(w.text()).toContain('120') // 100 base + 20 enhancement
+
+    // Leader attachment records the target uid.
+    const tgt = w.findAll('.opt').find((b) => b.text().includes('Bodyguard Squad'))
+    await tgt.trigger('click')
+    expect(entry.leaderOf).toBe('x')
+  })
 })

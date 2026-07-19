@@ -112,6 +112,12 @@
       :texts="rosterItems.texts"
       :faction-slug="roster.faction"
       :copy-index="entryMeta.get(editingUid)?.copyIndex || 1"
+      :detachment="curDetachment"
+      :can-warlord="editCanWarlord"
+      :is-warlord="editingEntry.warlord === true"
+      :enh-options="editEnhOptions"
+      :leader-targets="editLeaderTargets"
+      @toggle-warlord="toggleWarlord"
       @close="editingUid = null"
     />
   </div>
@@ -129,7 +135,7 @@ import { useRosters, uid } from '../../composables/useRosters.js'
 import rosterCore from '../../data/roster/core.js'
 import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
-import { UNIT_GROUPS, bucketOf, unitPoints, rosterPoints } from '../../composables/rosterEngine.js'
+import { UNIT_GROUPS, bucketOf, unitPoints, rosterPoints, canBeWarlord, enhEligible } from '../../composables/rosterEngine.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -178,8 +184,9 @@ const accentStyle = computed(() => factionColor.value
 
 const detachmentOptions = computed(() =>
   (factionData.value?.detachments || []).map((d) => ({ id: d.sid, name: d.name, dp: d.dp || null })))
-const detachmentName = computed(() =>
-  (factionData.value?.detachments || []).find((d) => d.sid === roster.value?.detachment)?.name || '')
+const curDetachment = computed(() =>
+  (factionData.value?.detachments || []).find((d) => d.sid === roster.value?.detachment) || null)
+const detachmentName = computed(() => curDetachment.value?.name || '')
 
 const battleSizes = rosterCore.battleSizes
 const limit = computed(() => battleSizes.find((b) => b.id === roster.value?.battleSize)?.points || 2000)
@@ -196,7 +203,10 @@ function pickFaction(slug) {
 }
 function pickDetachment(id) {
   detachmentPickerOpen.value = false
+  if (roster.value.detachment === id) return
   roster.value.detachment = id
+  // Enhancements belong to a detachment — clear them when it changes.
+  for (const u of roster.value.units) delete u.enh
   touch()
 }
 function setBattleSize(id) { roster.value.battleSize = id; touch() }
@@ -219,6 +229,9 @@ function addUnit(unitId) {
 }
 function removeUnit(entryUid) {
   roster.value.units = roster.value.units.filter((e) => e.uid !== entryUid)
+  // Drop any leader attachment that pointed at the removed unit.
+  for (const u of roster.value.units) if (u.leaderOf === entryUid) delete u.leaderOf
+  if (editingUid.value === entryUid) editingUid.value = null
   touch()
 }
 // ── Per-unit editor sheet ──
@@ -227,6 +240,38 @@ function openEditor(entryUid) { editingUid.value = entryUid }
 const editingEntry = computed(() => roster.value?.units.find((e) => e.uid === editingUid.value) || null)
 const editingDef = computed(() => editingEntry.value && defOf(editingEntry.value.id))
 
+// Editing context passed to the sheet: warlord eligibility, enhancement options (eligible +
+// not-already-used elsewhere), and — for a leader unit — the roster units it can join.
+const editCanWarlord = computed(() => !!(editingDef.value && canBeWarlord(editingDef.value)))
+function toggleWarlord() {
+  const e = editingEntry.value
+  if (!e) return
+  const on = e.warlord === true
+  for (const u of roster.value.units) delete u.warlord // exactly one warlord per army
+  if (!on) e.warlord = true
+  touch()
+}
+const editEnhOptions = computed(() => {
+  const det = curDetachment.value
+  const def = editingDef.value
+  if (!det || !def) return []
+  const usedElsewhere = new Set(
+    roster.value.units.filter((u) => u.uid !== editingUid.value && u.enh).map((u) => u.enh))
+  return det.enhancements.map((e) => ({
+    name: e.name, pts: e.pts,
+    eligible: enhEligible(e, def),
+    used: usedElsewhere.has(e.name),
+  }))
+})
+const editLeaderTargets = computed(() => {
+  const def = editingDef.value
+  if (!def?.leads?.length) return []
+  const targetIds = new Set(def.leads.map((l) => l.to))
+  return (roster.value?.units || [])
+    .filter((u) => u.uid !== editingUid.value && targetIds.has(u.id))
+    .map((u) => ({ uid: u.uid, name: defOf(u.id)?.name || u.id }))
+})
+
 // A one-line summary of an entry's current size + upgrade count for its list row.
 function summaryLine(e) {
   const def = defOf(e.id)
@@ -234,8 +279,10 @@ function summaryLine(e) {
   const size = def.sizes[e.size ?? 0] || def.sizes[0]
   const n = e.count ?? size.per[0]
   const parts = []
+  if (e.warlord) parts.push('★')
   if (size.per[1] > 1) parts.push(`${n} ${labels.value.rosterModelsLabel}`)
   if (e.wg?.length) parts.push(`${e.wg.length} ${labels.value.rosterUpgradesLabel}`)
+  if (e.enh) parts.push(e.enh)
   return parts.join(' · ')
 }
 
@@ -246,11 +293,11 @@ const entryMeta = computed(() => {
   for (const e of roster.value?.units || []) {
     const copyIndex = (seen.get(e.id) || 0) + 1
     seen.set(e.id, copyIndex)
-    m.set(e.uid, { points: unitPoints(defOf(e.id), e, copyIndex), copyIndex })
+    m.set(e.uid, { points: unitPoints(defOf(e.id), e, copyIndex, curDetachment.value), copyIndex })
   }
   return m
 })
-const points = computed(() => rosterPoints(roster.value?.units, defOf))
+const points = computed(() => rosterPoints(roster.value?.units, defOf, curDetachment.value))
 
 const groupedUnits = computed(() =>
   UNIT_GROUPS.map((id) => ({
