@@ -75,6 +75,7 @@ import { loadDatasheetsRu, localizeSheet } from '../../data/datasheets/ru/index.
 import { ui } from '../../i18n/ui.js'
 import { useFactionPage } from '../../composables/useFactionPage.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { setDatasheetName } from '../../composables/useSeoMeta.js'
 import { formatBaseSize } from '../../utils/baseSize.js'
 
 const route = useRoute()
@@ -121,6 +122,10 @@ const sheet = computed(() => {
   if (!mod) return en
   return localizeSheet(en, mod.default?.[en.id], mod.abilityNamesRu)
 })
+
+// Push the precise unit name into the SEO title/description (the route-level meta only has the
+// slug until the datasheet loads). Unit names aren't translated, so the EN name is fine.
+watch(sheet, (s) => { if (s?.name) setDatasheetName(route.path, s.name) }, { immediate: true })
 
 // Name → id lookup so DatasheetCard can link Leader/Attached-unit references (e.g. the
 // bodyguard units listed under a Character's "Leader" ability) to their own datasheet
