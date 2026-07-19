@@ -2,6 +2,104 @@
 export default {
   "slug": "adeptus-custodes",
   "name": "Adeptus Custodes",
+  "items": {
+    "1": "Lastrum bolt cannon",
+    "2": "Interceptor lance",
+    "3": "Adrathic devastator",
+    "4": "Twin las-pulsar",
+    "5": "Somnus",
+    "6": "Lastrum storm bolter",
+    "7": "Solerite power gauntlet",
+    "8": "Solerite power talon",
+    "9": "Infernus firepike",
+    "10": "Twin adrathic destructor",
+    "11": "Guardian spear",
+    "12": "Balistus grenade launcher",
+    "13": "Castellan axe",
+    "14": "Vexilla",
+    "15": "Misericordia",
+    "16": "Arachnus magna-blaze cannon",
+    "17": "Arachnus heavy blaze cannon",
+    "18": "Armoured hull",
+    "19": "Storm bolter",
+    "20": "Armoured tracks",
+    "21": "Hunter-killer missile",
+    "22": "Armoured hull",
+    "23": "Twin lastrum bolt cannon",
+    "24": "Twin iliastus accelerator cannon",
+    "25": "Twin arachnus heavy blaze cannon",
+    "26": "Vaultswords",
+    "27": "Achillus dreadspear",
+    "28": "Infernus incinerator",
+    "29": "Sentinel blade",
+    "30": "Praesidium Shield",
+    "31": "Galatus warblade",
+    "32": "Armoured hull",
+    "33": "Twin arachnus blaze cannon",
+    "34": "Executioner greatblade",
+    "35": "Master-crafted boltgun",
+    "36": "Witchseeker flamer",
+    "37": "Close combat weapon",
+    "38": "Adrasite spear",
+    "39": "Pyrithite spear",
+    "40": "Close combat weapon",
+    "41": "Boltgun",
+    "42": "Spiculus heavy bolt launcher",
+    "43": "Guardian spear",
+    "44": "Castellan axe",
+    "45": "Sentinel blade",
+    "46": "Pyrithite spear",
+    "47": "Armoured hull",
+    "48": "Misericordia",
+    "49": "Adrastus bolt caliver",
+    "50": "Interceptor lance",
+    "51": "Salvo launcher",
+    "52": "Vertus hurricane bolter",
+    "53": "Iliastus accelerator culverin",
+    "54": "Armoured feet",
+    "55": "Spiculus bolt launcher",
+    "56": "Arachnus storm cannon",
+    "57": "Telemon caestus",
+    "58": "Twin plasma projector",
+    "59": "Eagle’s Scream",
+    "60": "Watcher’s Axe",
+    "61": "Venatari lance",
+    "62": "Kinetic destroyer",
+    "63": "Tarsis buckler",
+    "64": "Gnosis",
+    "65": "Multi-melta",
+    "66": "Contemptor combat weapon",
+    "67": "Combi-bolter",
+    "68": "Kheres-pattern assault cannon",
+    "69": "Twin heavy bolter",
+    "70": "Godhammer lascannon",
+    "71": "Armoured tracks",
+    "72": "Storm bolter",
+    "73": "Executioner greatblade"
+  },
+  "texts": {
+    "1": "Any number of models can each have their lastrum bolt cannon replaced with one of the following:",
+    "2": "Any number of models can each have their solerite power gauntlet replaced with 1 solerite power talon.",
+    "3": "Any number of models can each have their lastrum storm bolter replaced with one of the following:",
+    "4": "Any number of models can each have their guardian spear replaced with 1 castellan axe.",
+    "5": "1 model’s guardian spear can be replaced with 1 vexilla and 1 misericordia.",
+    "6": "This model can be equipped with 1 hunter-killer missile.",
+    "7": "This model’s twin iliastus accelerator cannon can be replaced with 1 twin arachnus heavy blaze cannon.",
+    "8": "This model’s 2 lastrum storm bolters can be replaced with one of the following:\n◦ 2 infernus incinerators\n◦ 2 twin adrathic destructors\n◦ 1 lastrum storm bolter and 1 infernus incinerator\n◦ 1 lastrum storm bolter and 1 twin adrathic destructor\n◦ 1 infernus incinerator and 1 twin adrathic destructor",
+    "9": "Any number of models can each have their guardian spear replaced with 1 sentinel blade and 1 praesidium shield.",
+    "10": "1 model’s guardian spear can be replaced with 1 vexilla, 1 misericordia and 1 praesidium shield.",
+    "11": "1 model can be equipped with 1 vexilla.",
+    "12": "This model’s executioner greatblade can be replaced with one of the following:\n◦ 1 master-crafted boltgun and 1 close combat weapon\n◦ 1 Witchseeker flamer and 1 close combat weapon",
+    "13": "Any number of models can each have their adrasite spear replaced with 1 pyrithite spear.",
+    "14": "This model’s guardian spear can be replaced with one of the following:\n◦ 1 castellan axe\n◦ 1 sentinel blade\n◦ 1 sentinel blade and 1 praesidium shield\n◦ 1 pyrithite spear and 1 praesidium shield",
+    "15": "This model’s guardian spear can be replaced with 1 castellan axe.",
+    "16": "This model’s salvo launcher can be replaced with 1 Vertus hurricane bolter.",
+    "17": "This model’s 2 iliastus accelerator culverins can be replaced with one of the following:\n◦ 2 arachnus storm cannons\n◦ 2 Telemon caestus and 2 twin plasma projectors\n◦ 1 iliastus accelerator culverin and 1 arachnus storm cannon\n◦ 1 iliastus accelerator culverin, 1 Telemon caestus and 1 twin plasma projector\n◦ 1 arachnus storm cannon, 1 Telemon caestus and 1 twin plasma projector",
+    "18": "Any number of models can each have their Venatari lance replaced with 1 kinetic destroyer and 1 tarsus buckler.",
+    "19": "This model’s multi-melta can be replaced with 1 Kheres-pattern assault cannon.",
+    "20": "This model can be equipped with 1 storm bolter.",
+    "21": "Any number of models can each have their salvo launcher replaced with 1 Vertus hurricane bolter."
+  },
   "units": [
     {
       "id": "agamatus-custodians",
@@ -32,7 +130,37 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1,
+          "in": "stepper",
+          "o": [
+            [
+              3
+            ],
+            [
+              4
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "aleya",
@@ -74,6 +202,17 @@ export default {
           "to": "prosecutors",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              5,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -118,7 +257,47 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              11,
+              1
+            ],
+            [
+              12,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 4,
+          "in": "stepper",
+          "o": [
+            [
+              13
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 5,
+          "in": "checkbox",
+          "o": [
+            [
+              14
+            ],
+            [
+              15
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "anathema-psykana-rhino",
@@ -145,7 +324,34 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              19,
+              1
+            ],
+            [
+              20,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              21
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "aquilon-custodians",
@@ -175,7 +381,47 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              6,
+              1
+            ],
+            [
+              7,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 2,
+          "in": "stepper",
+          "o": [
+            [
+              8
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 3,
+          "in": "stepper",
+          "o": [
+            [
+              9
+            ],
+            [
+              10
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "ares-gunship",
@@ -204,7 +450,26 @@ export default {
       "step": {
         "at": 2,
         "pts": 30
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              16,
+              1
+            ],
+            [
+              17,
+              2
+            ],
+            [
+              18,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "blade-champion",
@@ -251,6 +516,17 @@ export default {
           "to": "sagittarum-custodians",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              26,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -279,7 +555,39 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              22,
+              1
+            ],
+            [
+              23,
+              1
+            ],
+            [
+              24,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              25,
+              15
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "contemptor-achillus-dreadnought",
@@ -306,7 +614,40 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              27,
+              1
+            ],
+            [
+              6,
+              2
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 8,
+          "in": "stepper",
+          "o": [
+            [
+              28
+            ],
+            [
+              10
+            ],
+            [
+              6
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "contemptor-galatus-dreadnought",
@@ -333,7 +674,18 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              31,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "coronus-grav-carrier",
@@ -362,7 +714,26 @@ export default {
       "step": {
         "at": 3,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              23,
+              1
+            ],
+            [
+              32,
+              1
+            ],
+            [
+              33,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "custodian-guard",
@@ -396,7 +767,49 @@ export default {
       "step": {
         "at": 4,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              11,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 9,
+          "in": "stepper",
+          "o": [
+            [
+              29
+            ],
+            [
+              30
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 10,
+          "in": "checkbox",
+          "o": [
+            [
+              14
+            ],
+            [
+              15
+            ],
+            [
+              30
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "custodian-guard-with-adrasite-and-pyrithite-spears",
@@ -422,7 +835,30 @@ export default {
       "step": {
         "at": 4,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              38,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 13,
+          "in": "stepper",
+          "o": [
+            [
+              39
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "custodian-wardens",
@@ -455,7 +891,40 @@ export default {
       "step": {
         "at": 2,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              11,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 4,
+          "in": "stepper",
+          "o": [
+            [
+              13
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              14
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "knight-centura",
@@ -495,6 +964,35 @@ export default {
           "to": "vigilators",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              34,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              35
+            ],
+            [
+              36
+            ],
+            [
+              37
+            ]
+          ]
+        }
       ]
     },
     {
@@ -524,7 +1022,30 @@ export default {
       "step": {
         "at": 2,
         "pts": 50
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              18,
+              1
+            ],
+            [
+              42,
+              2
+            ],
+            [
+              17,
+              2
+            ],
+            [
+              23,
+              2
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "pallas-grav-attack",
@@ -548,7 +1069,22 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              33,
+              1
+            ],
+            [
+              47,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "prosecutors",
@@ -593,7 +1129,43 @@ export default {
         }
       ],
       "linked": 1,
-      "condBattleline": 1
+      "condBattleline": 1,
+      "minis": [
+        {
+          "n": "Prosecutor Sister Superior"
+        },
+        {
+          "n": "Prosecutor"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              40,
+              1
+            ],
+            [
+              41,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              41,
+              1
+            ],
+            [
+              40,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "sagittarum-custodians",
@@ -615,7 +1187,22 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              48,
+              1
+            ],
+            [
+              49,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "shield-captain",
@@ -658,6 +1245,38 @@ export default {
           "to": "custodian-guard-with-adrasite-and-pyrithite-spears",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              43,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 14,
+          "in": "checkbox",
+          "o": [
+            [
+              44
+            ],
+            [
+              45
+            ],
+            [
+              30
+            ],
+            [
+              46
+            ]
+          ]
+        }
       ]
     },
     {
@@ -693,6 +1312,33 @@ export default {
         {
           "to": "allarus-custodians",
           "type": "leader"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              43,
+              1
+            ],
+            [
+              12,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 15,
+          "in": "checkbox",
+          "o": [
+            [
+              44
+            ]
+          ]
         }
       ]
     },
@@ -732,6 +1378,33 @@ export default {
           "to": "vertus-praetors",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              50,
+              1
+            ],
+            [
+              51,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 16,
+          "in": "checkbox",
+          "o": [
+            [
+              52
+            ]
+          ]
+        }
       ]
     },
     {
@@ -759,7 +1432,47 @@ export default {
       "step": {
         "at": 2,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              53,
+              2
+            ],
+            [
+              54,
+              1
+            ],
+            [
+              55,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 17,
+          "in": "stepper",
+          "o": [
+            [
+              56
+            ],
+            [
+              57
+            ],
+            [
+              58
+            ],
+            [
+              53
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "trajann-valoris",
@@ -805,6 +1518,21 @@ export default {
           "to": "custodian-guard-with-adrasite-and-pyrithite-spears",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              59,
+              1
+            ],
+            [
+              60,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -851,6 +1579,17 @@ export default {
           "to": "custodian-wardens",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              64,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -882,7 +1621,33 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              61,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 18,
+          "in": "stepper",
+          "o": [
+            [
+              62
+            ],
+            [
+              63
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "venerable-contemptor-dreadnought",
@@ -909,7 +1674,38 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              65,
+              1
+            ],
+            [
+              66,
+              1
+            ],
+            [
+              67,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 19,
+          "in": "checkbox",
+          "o": [
+            [
+              68
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "venerable-land-raider",
@@ -938,7 +1734,48 @@ export default {
       "step": {
         "at": 2,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              69,
+              1
+            ],
+            [
+              70,
+              2
+            ],
+            [
+              71,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              21
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 20,
+          "in": "checkbox",
+          "o": [
+            [
+              72
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "vertus-praetors",
@@ -969,7 +1806,34 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2,
+              1
+            ],
+            [
+              51,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 21,
+          "in": "stepper",
+          "o": [
+            [
+              52
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "vigilators",
@@ -1013,7 +1877,35 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Vigilator Sister Superior"
+        },
+        {
+          "n": "Vigilator"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              73,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              73,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "witchseekers",
@@ -1057,7 +1949,43 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Witchseeker Sister Superior"
+        },
+        {
+          "n": "Witchseeker"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              36,
+              1
+            ],
+            [
+              40,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              40,
+              1
+            ],
+            [
+              36,
+              1
+            ]
+          ]
+        ]
+      ]
     }
   ],
   "detachments": [

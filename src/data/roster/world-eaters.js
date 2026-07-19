@@ -2,6 +2,138 @@
 export default {
   "slug": "world-eaters",
   "name": "World Eaters",
+  "items": {
+    "1": "Samni’arius and Spinegrinder",
+    "2": "Juggernaut’s bladed horn",
+    "3": "Hellblade",
+    "4": "Instrument of Chaos",
+    "5": "Daemonic Icon",
+    "6": "Hellfire breath",
+    "7": "Great axe of Khorne",
+    "8": "Axe of Khorne",
+    "9": "Bloodflail",
+    "10": "Lash of Khorne",
+    "11": "Twin heavy bolter",
+    "12": "Soulshatter lascannon",
+    "13": "Armoured tracks",
+    "14": "Combi-bolter",
+    "15": "Combi-weapon",
+    "16": "Havoc launcher",
+    "17": "Predator twin lascannon",
+    "18": "Armoured tracks",
+    "19": "Heavy bolter",
+    "20": "Lascannon",
+    "21": "Predator autocannon",
+    "22": "Hideous mutations",
+    "23": "Accursed weapon",
+    "24": "Paired accursed weapons",
+    "25": "Heavy flamer",
+    "26": "Reaper autocannon",
+    "27": "Power fist",
+    "28": "Chainfist",
+    "29": "Infernal cannon",
+    "30": "Hellforged weapons",
+    "31": "Excruciator cannon",
+    "32": "Hades battle cannon",
+    "33": "Heavy baleflamer",
+    "34": "Heavy missile launcher",
+    "35": "Shearing claws",
+    "36": "Ectoplasma destructor",
+    "37": "Hades lascannon",
+    "38": "Heavy reaper autocannon",
+    "39": "Electroscourge",
+    "40": "Magma cutters",
+    "41": "Chainblades",
+    "42": "Chainblades",
+    "43": "Gore-drenched fangs",
+    "44": "Collar of Khorne",
+    "45": "Burning roar",
+    "46": "Forgefiend jaws",
+    "47": "Hades autocannon",
+    "48": "Ectoplasma cannon",
+    "49": "Forgefiend claws",
+    "50": "Autopistol",
+    "51": "Chainblade",
+    "52": "Close combat weapon",
+    "53": "Blood harpoon",
+    "54": "Close combat weapon",
+    "55": "Multi-melta",
+    "56": "Missile launcher",
+    "57": "Helbrute fist",
+    "58": "Helbrute hammer",
+    "59": "Power scourge",
+    "60": "Plasma cannon",
+    "61": "Twin autocannon",
+    "62": "Twin lascannon",
+    "63": "Heldrake claws",
+    "64": "Baleflamer",
+    "65": "Chainblades",
+    "66": "Paired manglers",
+    "67": "Skullsmasher and mangler",
+    "68": "Icon of Khorne",
+    "69": "Mauler chainblade",
+    "70": "Plasma pistol",
+    "71": "Gorechild",
+    "72": "Chainblade",
+    "73": "Bolt pistol",
+    "74": "Plasma pistol",
+    "75": "Khornate eviscerator",
+    "76": "Hades gatling cannon",
+    "77": "Great cleaver of Khorne",
+    "78": "Gorestorm cannon",
+    "79": "Daemongore cannon",
+    "80": "Ichor cannon",
+    "81": "Skullhurler",
+    "82": "Bolt pistol",
+    "83": "Coward’s Bane",
+    "84": "Bladed horn",
+    "85": "Exalted chainblade",
+    "86": "Axe of dismemberment",
+    "87": "Maulerfiend fists",
+    "88": "Lasher tendrils",
+    "89": "Magma cutter",
+    "90": "Bellow of endless fury",
+    "91": "Slaughter and Carnage"
+  },
+  "texts": {
+    "1": "1 Bloodcrusher that is not equipped with a daemonic icon can be equipped with 1 instrument of Chaos.",
+    "2": "1 Bloodcrusher that is not equipped with an instrument of Chaos can be equipped with 1 daemonic icon.",
+    "3": "1 Bloodletter that is not equipped with an instrument of Chaos can be equipped with 1 daemonic icon.",
+    "4": "1 Bloodletter that is not equipped with a daemonic icon can be equipped with 1 instrument of Chaos.",
+    "5": "This model’s great axe of Khorne can be replaced with 1 axe of Khorne and one of the following:\n◦ 1 bloodflail\n◦ 1 lash of Khorne",
+    "6": "This model can be equipped with one of the following:",
+    "7": "This model can be equipped with 1 havoc launcher.",
+    "8": "This model can be equipped with one of the following:\n◦ 2 heavy bolters\n◦ 2 lascannons",
+    "9": "This model can be equipped with 1 havoc launcher or can replace 1 combi-bolter with 1 havoc launcher.",
+    "10": "This model can be equipped with one of the following:\n◦ 1 additional combi-bolter\n◦ 1 combi-weapon",
+    "11": "Any number of models can each have their combi-bolter replaced with 1 combi-weapon.",
+    "12": "For every 5 models in this unit, 1 model’s combi-bolter and accursed weapon can be replaced with 1 paired accursed weapons.",
+    "13": "For every 5 models in this unit, 1 Chaos Terminator’s combi-bolter can be replaced with one of the following:",
+    "14": "For every 5 models in this unit, up to 3 models can each have their accursed weapon replaced with 1 power fist.",
+    "15": "For every 5 models in this unit, 1 model’s accursed weapon can be replaced with 1 chainfist.",
+    "16": "This model’s Hades battle cannon can be replaced with 1 ectoplasma destructor",
+    "17": "■ This model’s heavy baleflamer can be replaced with one of the following:\n◦ 1 Hades lascannon\n◦ 1 heavy reaper autocannon\n◦ 1 electroscourge (a model cannot be equipped with more than one electroscourge)",
+    "18": "■ This model’s heavy missile launcher can be replaced with one of the following:\n◦ 1 Hades lascannon\n◦ 1 heavy reaper autocannon\n◦ 1 electroscourge (a model cannot be equipped with more than one electroscourge)",
+    "19": "This model’s excruciator cannons can be replaced with 2 magma cutters.",
+    "20": "This model’s 2 Hades autocannons can be replaced with 2 ectoplasma cannons.",
+    "21": "This model’s Forgefiend jaws can be replaced with 1 ectoplasma cannon and 1 Forgefiend claws.",
+    "22": "1 Goremonger’s chainblade can be replaced with 1 autopistol.",
+    "23": "1 Goremonger’s chainblade can be replaced with 1 blood harpoon.",
+    "24": "For each Helbrute fist this model is equipped with, it can be equipped with one of the following:",
+    "25": "This model’s missile launcher can be replaced with one of the following:",
+    "26": "This model’s multi-melta can be replaced with one of the following:",
+    "27": "This model’s Hades autocannon can be replaced with 1 baleflamer.",
+    "28": "Any number of Dishonoured models can each have their paired manglers replaced with 1 skullsmasher and mangler.",
+    "29": "For every 10 models in this unit, 1 Jakhal can be equipped with 1 icon of Khorne.",
+    "30": "For every 10 models in this unit, 1 Jakhal’s chainblades can be replaced with 1 mauler chainblade.",
+    "31": "1 model can be equipped with 1 icon of Khorne.",
+    "32": "The Khorne Berzerker Champion’s bolt pistol can be replaced with 1 plasma pistol.",
+    "33": "For every 5 models in this unit, 1 Khorne Berzerker’s bolt pistol can be replaced with 1 plasma pistol.",
+    "34": "For every 5 models in this unit, 1 Khorne Berzerker’s chainblade can be replaced with 1 Khornate eviscerator.",
+    "35": "This model’s gorestorm cannon can be replaced with one of the following:",
+    "36": "This model’s Hades gatling cannon can be replaced with 1 skullhurler.",
+    "37": "This model’s lasher tendrils can be replaced with 2 magma cutters."
+  },
   "units": [
     {
       "id": "angron",
@@ -33,7 +165,18 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "bloodcrushers",
@@ -69,7 +212,65 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Bloodhunter"
+        },
+        {
+          "n": "Bloodcrusher"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              3,
+              1
+            ],
+            [
+              2,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              4
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              5
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "bloodletters",
@@ -95,7 +296,57 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Bloodreaper"
+        },
+        {
+          "n": "Bloodletter"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              3,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              3,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 3,
+          "in": "checkbox",
+          "o": [
+            [
+              5
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 4,
+          "in": "checkbox",
+          "o": [
+            [
+              4
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "bloodthirster",
@@ -129,7 +380,40 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              6,
+              1
+            ],
+            [
+              7,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 5,
+          "in": "checkbox",
+          "o": [
+            [
+              8
+            ],
+            [
+              9
+            ],
+            [
+              10
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "chaos-land-raider",
@@ -159,7 +443,51 @@ export default {
       "step": {
         "at": 3,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              11,
+              1
+            ],
+            [
+              12,
+              2
+            ],
+            [
+              13,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              14
+            ],
+            [
+              15
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              16
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "chaos-predator-annihilator",
@@ -188,7 +516,60 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              17,
+              1
+            ],
+            [
+              18,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              16
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              14
+            ],
+            [
+              15
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 8,
+          "in": "stepper",
+          "o": [
+            [
+              19
+            ],
+            [
+              20
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "chaos-predator-destructor",
@@ -217,7 +598,60 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              18,
+              1
+            ],
+            [
+              21,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 8,
+          "in": "stepper",
+          "o": [
+            [
+              19
+            ],
+            [
+              20
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              14
+            ],
+            [
+              15
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              16
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "chaos-rhino",
@@ -244,7 +678,47 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              14,
+              1
+            ],
+            [
+              18,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 9,
+          "in": "checkbox",
+          "o": [
+            [
+              16
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 10,
+          "in": "checkbox",
+          "o": [
+            [
+              14
+            ],
+            [
+              15
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "chaos-spawn",
@@ -267,7 +741,18 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              22,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "chaos-terminators",
@@ -302,7 +787,138 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "World Eaters Terminator Champion"
+        },
+        {
+          "n": "World Eaters Terminator"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              14,
+              1
+            ],
+            [
+              23,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              14,
+              1
+            ],
+            [
+              23,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              15
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 12,
+          "in": "stepper",
+          "o": [
+            [
+              24
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 13,
+          "in": "stepper",
+          "o": [
+            [
+              25
+            ],
+            [
+              26
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 14,
+          "in": "stepper",
+          "o": [
+            [
+              27
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 14,
+          "in": "checkbox",
+          "o": [
+            [
+              27
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 11,
+          "in": "stepper",
+          "o": [
+            [
+              15
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 15,
+          "in": "stepper",
+          "o": [
+            [
+              28
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 15,
+          "in": "checkbox",
+          "o": [
+            [
+              28
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              24
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "daemon-prince-of-khorne",
@@ -329,7 +945,22 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              29,
+              1
+            ],
+            [
+              30,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "daemon-prince-of-khorne-with-wings",
@@ -357,7 +988,22 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              29,
+              1
+            ],
+            [
+              30,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "defiler",
@@ -386,7 +1032,92 @@ export default {
       "step": {
         "at": 2,
         "pts": 30
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              31,
+              1
+            ],
+            [
+              32,
+              1
+            ],
+            [
+              33,
+              1
+            ],
+            [
+              34,
+              1
+            ],
+            [
+              35,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 16,
+          "in": "checkbox",
+          "o": [
+            [
+              36
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 17,
+          "in": "checkbox",
+          "o": [
+            [
+              37,
+              10
+            ],
+            [
+              38,
+              10
+            ],
+            [
+              39
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 18,
+          "in": "checkbox",
+          "o": [
+            [
+              37,
+              10
+            ],
+            [
+              38,
+              10
+            ],
+            [
+              39
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 19,
+          "in": "stepper",
+          "o": [
+            [
+              40
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "eightbound",
@@ -422,7 +1153,35 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Eightbound Champion"
+        },
+        {
+          "n": "Eightbound"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              41,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              41,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "exalted-eightbound",
@@ -458,7 +1217,35 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Exalted Eightbound Champion"
+        },
+        {
+          "n": "Exalted Eightbound"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              42,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              42,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "flesh-hounds",
@@ -490,7 +1277,47 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Gore Hound"
+        },
+        {
+          "n": "Flesh Hound"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              43,
+              1
+            ],
+            [
+              44,
+              1
+            ],
+            [
+              45,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              44,
+              1
+            ],
+            [
+              43,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "forgefiend",
@@ -519,7 +1346,47 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              46,
+              1
+            ],
+            [
+              47,
+              2
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 20,
+          "in": "stepper",
+          "o": [
+            [
+              48
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 21,
+          "in": "checkbox",
+          "o": [
+            [
+              48
+            ],
+            [
+              49
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "goremongers",
@@ -544,7 +1411,73 @@ export default {
         }
       ],
       "linked": 1,
-      "condBattleline": 1
+      "condBattleline": 1,
+      "minis": [
+        {
+          "n": "Blood Herald"
+        },
+        {
+          "n": "Goremongers"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              50,
+              1
+            ],
+            [
+              51,
+              1
+            ],
+            [
+              52,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              50,
+              1
+            ],
+            [
+              51,
+              1
+            ],
+            [
+              52,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 22,
+          "in": "checkbox",
+          "o": [
+            [
+              50
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 23,
+          "in": "checkbox",
+          "o": [
+            [
+              53
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "helbrute",
@@ -568,7 +1501,79 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              54,
+              1
+            ],
+            [
+              55,
+              1
+            ],
+            [
+              56,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 24,
+          "in": "stepper",
+          "o": [
+            [
+              14
+            ],
+            [
+              25
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 25,
+          "in": "checkbox",
+          "o": [
+            [
+              57
+            ],
+            [
+              58
+            ],
+            [
+              59
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 26,
+          "in": "checkbox",
+          "o": [
+            [
+              60
+            ],
+            [
+              61
+            ],
+            [
+              11
+            ],
+            [
+              62
+            ],
+            [
+              57
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "heldrake",
@@ -593,7 +1598,34 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              63,
+              1
+            ],
+            [
+              47,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 27,
+          "in": "checkbox",
+          "o": [
+            [
+              64
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "jakhals",
@@ -625,7 +1657,87 @@ export default {
         }
       ],
       "linked": 1,
-      "condBattleline": 1
+      "condBattleline": 1,
+      "minis": [
+        {
+          "n": "Jakhal Pack Leader"
+        },
+        {
+          "n": "Dishonoured"
+        },
+        {
+          "n": "Jakhal"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              65,
+              1
+            ],
+            [
+              50,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              50,
+              1
+            ],
+            [
+              65,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              66,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 28,
+          "in": "stepper",
+          "o": [
+            [
+              67
+            ]
+          ]
+        },
+        {
+          "m": 2,
+          "t": 29,
+          "in": "stepper",
+          "o": [
+            [
+              68
+            ]
+          ]
+        },
+        {
+          "m": 2,
+          "t": 30,
+          "in": "stepper",
+          "o": [
+            [
+              69
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "kh-rn-the-betrayer",
@@ -660,6 +1772,21 @@ export default {
           "to": "khorne-berzerkers",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              70,
+              1
+            ],
+            [
+              71,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -692,7 +1819,95 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Khorne Berzerker Champion"
+        },
+        {
+          "n": "Khorne Berzerker"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              72,
+              1
+            ],
+            [
+              73,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              72,
+              1
+            ],
+            [
+              73,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 31,
+          "in": "checkbox",
+          "o": [
+            [
+              68
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 32,
+          "in": "checkbox",
+          "o": [
+            [
+              74
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 33,
+          "in": "stepper",
+          "o": [
+            [
+              74
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 31,
+          "in": "checkbox",
+          "o": [
+            [
+              68
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 34,
+          "in": "stepper",
+          "o": [
+            [
+              75
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "khorne-lord-of-skulls",
@@ -723,7 +1938,51 @@ export default {
       "step": {
         "at": 2,
         "pts": 30
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              76,
+              1
+            ],
+            [
+              77,
+              1
+            ],
+            [
+              78,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 35,
+          "in": "checkbox",
+          "o": [
+            [
+              79
+            ],
+            [
+              80
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 36,
+          "in": "checkbox",
+          "o": [
+            [
+              81
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "lord-invocatus",
@@ -765,6 +2024,25 @@ export default {
           "to": "khorne-berzerkers",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              82,
+              1
+            ],
+            [
+              83,
+              1
+            ],
+            [
+              84,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -805,6 +2083,25 @@ export default {
           "to": "khorne-berzerkers",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              84,
+              1
+            ],
+            [
+              70,
+              1
+            ],
+            [
+              85,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -837,6 +2134,21 @@ export default {
           "to": "khorne-berzerkers",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              82,
+              1
+            ],
+            [
+              86,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -866,7 +2178,34 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              87,
+              1
+            ],
+            [
+              88,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 37,
+          "in": "stepper",
+          "o": [
+            [
+              89
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "skarbrand",
@@ -897,7 +2236,22 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              90,
+              1
+            ],
+            [
+              91,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "slaughterbound",

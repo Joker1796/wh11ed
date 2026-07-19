@@ -2,6 +2,132 @@
 export default {
   "slug": "drukhari",
   "name": "Drukhari",
+  "items": {
+    "1": "Huskblade",
+    "2": "Splinter pistol",
+    "3": "Soul Trap",
+    "4": "Blast pistol",
+    "5": "Agoniser",
+    "6": "Master‑crafted power weapon",
+    "7": "Spirit-leech tentacles",
+    "8": "Spirit syphon",
+    "9": "Spirit vortex",
+    "10": "Executioner’s demiklaives",
+    "11": "Haemonculus tools and scissorhands",
+    "12": "Stinger pistol",
+    "13": "Close combat weapon",
+    "14": "Splinter rifle",
+    "15": "Dark lance",
+    "16": "Splinter cannon",
+    "17": "Stimm-needler",
+    "18": "Stinger pistol",
+    "19": "Power weapon",
+    "20": "Splinter pistol",
+    "21": "Razorflail",
+    "22": "Blaster",
+    "23": "Shredder",
+    "24": "Kabalite Icon",
+    "25": "Phantasm Grenade Launcher",
+    "26": "Blast pistol",
+    "27": "Pain sculptors",
+    "28": "Shardcarbine",
+    "29": "Hellglaive",
+    "30": "Splinter pods",
+    "31": "Phantasm Grenade Launcher",
+    "32": "Stunclaw",
+    "33": "Power weapon",
+    "34": "Klaive",
+    "35": "Demiklaives",
+    "36": "Incubi Shrine Token",
+    "37": "Power weapon",
+    "38": "Lelith’s blades",
+    "39": "Baleblast",
+    "40": "Glimmersteel blade",
+    "41": "Dark lance",
+    "42": "Bladevanes and chainsnares",
+    "43": "Disintegrator cannon",
+    "44": "Bladevanes",
+    "45": "Bladed wings",
+    "46": "Twin splinter rifle",
+    "47": "Razorwing missiles",
+    "48": "Splinter cannon",
+    "49": "Bladevanes",
+    "50": "Cluster caltrops",
+    "51": "Grav-talon",
+    "52": "Heat lance",
+    "53": "Haywire blaster",
+    "54": "Heat lance",
+    "55": "Archite glaive and agoniser",
+    "56": "Macro-scalpel",
+    "57": "Twin splinter cannon",
+    "58": "Twin haywire blaster",
+    "59": "Twin heat lance",
+    "60": "Stinger pod",
+    "61": "Talos ichor injector",
+    "62": "Twin liquifier gun",
+    "63": "Chain flails",
+    "64": "Talos gauntlet",
+    "65": "Bladevanes",
+    "66": "Void lance",
+    "67": "Dark scythe",
+    "68": "Voidraven missiles",
+    "69": "Twin torturer’s tools",
+    "70": "Power weapon",
+    "71": "Torturer’s tool",
+    "72": "Hexrifle",
+    "73": "Liquifier gun",
+    "74": "Ossefactor",
+    "75": "Stinger pistol",
+    "76": "Hekatarii blade",
+    "77": "Blast pistol",
+    "78": "Gladiatorial weapons",
+    "79": "Power weapon"
+  },
+  "texts": {
+    "1": "This model’s splinter pistol can be replaced with one of the following:",
+    "2": "This model’s huskblade can be replaced with one of the following:",
+    "3": "Any number of models can each be equipped with 1 spirit vortex.",
+    "4": "1 Kabalite Agent’s splinter rifle can be replaced with one of the following:",
+    "5": "1 Kabalite Agent equipped with a splinter rifle can be equipped with 1 stimm‑needler. This model’s splinter rifle cannot be replaced.",
+    "6": "1 Kabalite Agent’s splinter rifle can be replaced with 1 stinger pistol.",
+    "7": "The Kabalite Archsybarite’s close combat weapon can be replaced with 1 power weapon.",
+    "8": "1 Kabalite Agent’s splinter rifle can be replaced with 1 splinter pistol and 1 razorflail.",
+    "9": "The Kabalite Archsybarite can be equipped with one of the following:",
+    "10": "The Kabalite Archsybarite’s splinter rifle can be replaced with one of the following:",
+    "11": "1 Kabalite Agent’s splinter rifle can be replaced with 1 pain sculptors.",
+    "12": "1 Kabalite Agent’s splinter rifle can be replaced with 1 shardcarbine.",
+    "13": "If the Helliarch is equipped with 1 splinter pistol, it can be equipped with 1 hellglaive (that model’s hellglaive cannot be replaced).",
+    "14": "The Helliarch can be equipped with 1 phantasm grenade launcher.",
+    "15": "The Helliarch’s hellglaive can be replaced with one of the following:\n◦ 1 splinter pistol and 1 power weapon.\n◦ 1 splinter pistol and 1 stunclaw.",
+    "16": "The Klaivex’s klaive can be replaced with 1 demiklaives",
+    "17": "For every 5 models in this unit, it can be equipped with 1 Incubi Shrine token.",
+    "18": "1 Kabalite Warrior’s splinter rifle can be replaced with 1 dark lance.",
+    "19": "1 Kabalite Warrior’s splinter rifle can be replaced with 1 shredder.",
+    "20": "The Sybarite can be equipped with one of the following:",
+    "21": "1 Kabalite Warrior’s splinter rifle can be replaced with 1 blaster.",
+    "22": "1 Kabalite Warrior’s splinter rifle can be replaced with 1 splinter cannon.",
+    "23": "The Sybarite’s close combat weapon can be replaced with 1 power weapon.",
+    "24": "The Sybarite’s splinter rifle can be replaced with one of the following:",
+    "25": "This model’s dark lance can be replaced with 1 disintegrator cannon.",
+    "26": "Any number of this model’s dark lances can each be replaced with 1 disintegrator cannon.",
+    "27": "This model’s twin splinter rifle can be replaced with 1 splinter cannon.",
+    "28": "This model’s 2 dark lances can be replaced with 2 disintegrator cannons.",
+    "29": "For every 3 models in this unit, 1 model can be equipped with one of the following:",
+    "30": "For every 3 models in this unit, 1 model’s splinter rifle can be replaced with one of the following:",
+    "31": "The Solarite’s shardcarbine can be replaced with one of the following:\n◦ 1 blast pistol and 1 power weapon\n◦ 1 splinter pistol and 1 power weapon",
+    "32": "Any number of Scourges can each replace their splinter cannon with one of the following:",
+    "33": "1 Scourge’s shardcarbine can be replaced with one of the following:",
+    "34": "Any number of models can each replace their twin splinter cannon with one of the following:",
+    "35": "Any number of models can each replace one of their macro-scalpels with one of the following:",
+    "36": "The model’s 2 void lances can be replaced with 2 dark scythes.",
+    "37": "This model can be equipped with 1 Voidraven missiles.",
+    "38": "The Acothyst’s twin torturer’s tools can be replaced with 1 power weapon and 1 torturer’s tool.",
+    "39": "If the Acothyst is not equipped with a power weapon, its torturer’s tool can be replaced with 1 power weapon.",
+    "40": "For every 5 models in the unit:\n◦ 1 model’s twin torturer’s tools can be replaced with 1 hexrifle and 1 torturer’s tool\n◦ 1 model’s twin torturer’s tools can be replaced with 1 liquifier gun and 1 torturer’s tool\n◦ 1 model’s twin torturer’s tools can be replaced with 1 ossefactor and 1 torturer’s tool\n◦ 1 model’s twin torturer’s tools can be replaced with 1 stinger pistol and 1 torturer’s tool",
+    "41": "The Hekatrix’s splinter pistol can be replaced with 1 blast pistol.",
+    "42": "Up to 3 Wyches can each have their splinter pistol and Hekatarii blade replaced with 1 gladiatorial weapons.",
+    "43": "The Hekatrix’s Hekatarii blade can be replaced with 1 power weapon."
+  },
   "units": [
     {
       "id": "archon",
@@ -41,6 +167,49 @@ export default {
           "to": "kabalite-warriors",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              3
+            ],
+            [
+              4
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              5
+            ],
+            [
+              6
+            ]
+          ]
+        }
       ]
     },
     {
@@ -72,7 +241,34 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              7,
+              1
+            ],
+            [
+              8,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 3,
+          "in": "stepper",
+          "o": [
+            [
+              9
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "drazhar",
@@ -106,6 +302,17 @@ export default {
           "to": "incubi",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              10,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -138,6 +345,21 @@ export default {
           "to": "wracks",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              11,
+              1
+            ],
+            [
+              12,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -162,7 +384,160 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Kabalite Archsybarite"
+        },
+        {
+          "n": "Kabalite Agents"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              13,
+              1
+            ],
+            [
+              14,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              13,
+              1
+            ],
+            [
+              14,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 4,
+          "in": "checkbox",
+          "o": [
+            [
+              15
+            ],
+            [
+              16
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 5,
+          "in": "checkbox",
+          "o": [
+            [
+              17
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              18
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              19
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 8,
+          "in": "checkbox",
+          "o": [
+            [
+              20
+            ],
+            [
+              21
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 4,
+          "in": "checkbox",
+          "o": [
+            [
+              22
+            ],
+            [
+              23
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 9,
+          "in": "checkbox",
+          "o": [
+            [
+              24
+            ],
+            [
+              25
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 10,
+          "in": "checkbox",
+          "o": [
+            [
+              26
+            ],
+            [
+              20
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              27
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              28
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "hellions",
@@ -197,7 +572,81 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Helliarch"
+        },
+        {
+          "n": "Hellion"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              29,
+              1
+            ],
+            [
+              30,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              30,
+              1
+            ],
+            [
+              29,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 13,
+          "in": "checkbox",
+          "o": [
+            [
+              29
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 14,
+          "in": "checkbox",
+          "o": [
+            [
+              31
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 15,
+          "in": "checkbox",
+          "o": [
+            [
+              32
+            ],
+            [
+              20
+            ],
+            [
+              33
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "incubi",
@@ -231,7 +680,57 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Klaivex"
+        },
+        {
+          "n": "Incubi"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              34,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              34,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 16,
+          "in": "checkbox",
+          "o": [
+            [
+              35
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 17,
+          "in": "stepper",
+          "o": [
+            [
+              36
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "kabalite-warriors",
@@ -255,7 +754,121 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Sybarite"
+        },
+        {
+          "n": "Kabalite Warrior"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              14,
+              1
+            ],
+            [
+              13,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              13,
+              1
+            ],
+            [
+              14,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 18,
+          "in": "checkbox",
+          "o": [
+            [
+              15
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 19,
+          "in": "checkbox",
+          "o": [
+            [
+              23
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 20,
+          "in": "checkbox",
+          "o": [
+            [
+              24
+            ],
+            [
+              31
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 21,
+          "in": "checkbox",
+          "o": [
+            [
+              22
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 22,
+          "in": "checkbox",
+          "o": [
+            [
+              16
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 23,
+          "in": "checkbox",
+          "o": [
+            [
+              37
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 24,
+          "in": "checkbox",
+          "o": [
+            [
+              26
+            ],
+            [
+              20
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "lady-malys",
@@ -333,6 +946,17 @@ export default {
           "to": "wyches",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              38,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -367,7 +991,43 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Nightfiend"
+        },
+        {
+          "n": "Mandrake"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              39,
+              1
+            ],
+            [
+              40,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              40,
+              1
+            ],
+            [
+              39,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "raider",
@@ -393,7 +1053,34 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              41,
+              1
+            ],
+            [
+              42,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 25,
+          "in": "checkbox",
+          "o": [
+            [
+              43
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "ravager",
@@ -422,7 +1109,34 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              44,
+              1
+            ],
+            [
+              41,
+              3
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 26,
+          "in": "stepper",
+          "o": [
+            [
+              43
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "razorwing-jetfighter",
@@ -447,7 +1161,52 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              45,
+              1
+            ],
+            [
+              46,
+              1
+            ],
+            [
+              41,
+              2
+            ],
+            [
+              47,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 27,
+          "in": "checkbox",
+          "o": [
+            [
+              48
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 28,
+          "in": "stepper",
+          "o": [
+            [
+              43
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "reavers",
@@ -482,7 +1241,105 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Arena Champion"
+        },
+        {
+          "n": "Reaver"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              20,
+              1
+            ],
+            [
+              49,
+              1
+            ],
+            [
+              14,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              14,
+              1
+            ],
+            [
+              49,
+              1
+            ],
+            [
+              20,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 29,
+          "in": "stepper",
+          "o": [
+            [
+              50
+            ],
+            [
+              51
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 30,
+          "in": "checkbox",
+          "o": [
+            [
+              22
+            ],
+            [
+              52
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 29,
+          "in": "checkbox",
+          "o": [
+            [
+              50
+            ],
+            [
+              51
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 30,
+          "in": "stepper",
+          "o": [
+            [
+              22
+            ],
+            [
+              52
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "scourges-with-heavy-weapons",
@@ -513,7 +1370,85 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Solarite"
+        },
+        {
+          "n": "Scourge"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              13,
+              1
+            ],
+            [
+              28,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              16,
+              1
+            ],
+            [
+              13,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 31,
+          "in": "checkbox",
+          "o": [
+            [
+              26
+            ],
+            [
+              20
+            ],
+            [
+              37
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 32,
+          "in": "stepper",
+          "o": [
+            [
+              22
+            ],
+            [
+              15,
+              5
+            ],
+            [
+              53,
+              5
+            ],
+            [
+              54
+            ],
+            [
+              23
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "scourges-with-shardcarbines",
@@ -544,7 +1479,74 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Solarite"
+        },
+        {
+          "n": "Scourge"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              28,
+              1
+            ],
+            [
+              13,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              13,
+              1
+            ],
+            [
+              28,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 31,
+          "in": "checkbox",
+          "o": [
+            [
+              37
+            ],
+            [
+              26
+            ],
+            [
+              20
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 33,
+          "in": "checkbox",
+          "o": [
+            [
+              22
+            ],
+            [
+              23
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "succubus",
@@ -576,6 +1578,17 @@ export default {
           "to": "wyches",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              55,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -611,7 +1624,67 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              56,
+              2
+            ],
+            [
+              57,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 34,
+          "in": "stepper",
+          "o": [
+            [
+              58,
+              5
+            ],
+            [
+              59
+            ],
+            [
+              60
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 35,
+          "in": "stepper",
+          "o": [
+            [
+              61
+            ],
+            [
+              62
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 35,
+          "in": "stepper",
+          "o": [
+            [
+              63
+            ],
+            [
+              64
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "venom",
@@ -637,7 +1710,38 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              65,
+              1
+            ],
+            [
+              46,
+              1
+            ],
+            [
+              48,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 27,
+          "in": "checkbox",
+          "o": [
+            [
+              48
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "voidraven-bomber",
@@ -662,7 +1766,44 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              45,
+              1
+            ],
+            [
+              66,
+              2
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 36,
+          "in": "stepper",
+          "o": [
+            [
+              67
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 37,
+          "in": "checkbox",
+          "o": [
+            [
+              68
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "wracks",
@@ -700,7 +1841,104 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Acothyst"
+        },
+        {
+          "n": "Wrack"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              69,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              69,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 38,
+          "in": "checkbox",
+          "o": [
+            [
+              70
+            ],
+            [
+              71
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 39,
+          "in": "checkbox",
+          "o": [
+            [
+              70
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 40,
+          "in": "stepper",
+          "o": [
+            [
+              71
+            ],
+            [
+              72
+            ],
+            [
+              73
+            ],
+            [
+              74
+            ],
+            [
+              75
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 40,
+          "in": "checkbox",
+          "o": [
+            [
+              71
+            ],
+            [
+              72
+            ],
+            [
+              73
+            ],
+            [
+              74
+            ],
+            [
+              75
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "wyches",
@@ -725,7 +1963,75 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Hekatrix"
+        },
+        {
+          "n": "Wych"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              76,
+              1
+            ],
+            [
+              20,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              20,
+              1
+            ],
+            [
+              76,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 41,
+          "in": "checkbox",
+          "o": [
+            [
+              77
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 42,
+          "in": "stepper",
+          "o": [
+            [
+              78
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 43,
+          "in": "checkbox",
+          "o": [
+            [
+              79
+            ]
+          ]
+        }
+      ]
     }
   ],
   "detachments": [

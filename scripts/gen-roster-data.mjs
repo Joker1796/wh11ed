@@ -127,6 +127,37 @@ for (const r of table('detachment_linked_datasheet')) {
 const detMandWarlord = new Map(table('detachment_mandatory_warlord_miniature').map((r) => [r.detachmentId, r.miniatureId]))
 const miniToDs = new Map(table('miniature').map((m) => [m.id, m.datasheetId]))
 
+// ---- Wargear (the loadout constructor) -------------------------------------------------
+// 1134/1142 datasheets express weapon choices through `wargear_option_group` + `wargear_option`
+// (the atomic "replace X with one of {A,B,C}" form); the other appdata mechanisms
+// (loadout_choice_set / limited / all_model) are redundant enumerations we don't need. Base
+// loadouts (what each miniature starts with) come from `base_miniature_loadout`. Points live
+// on individual options (only ~83 options are non-zero — most wargear is a free swap).
+const wgItemName = new Map(table('wargear_item').map((w) => [w.id, enOf(w).name]))
+const woById = new Map(table('wargear_option').map((o) => [o.id, o]))
+const woByGroup = new Map()
+for (const o of table('wargear_option')) {
+  if (!woByGroup.has(o.wargearOptionGroupId)) woByGroup.set(o.wargearOptionGroupId, [])
+  woByGroup.get(o.wargearOptionGroupId).push(o)
+}
+const wogByDs = new Map()
+for (const g of table('wargear_option_group')) {
+  if (!wogByDs.has(g.datasheetId)) wogByDs.set(g.datasheetId, [])
+  wogByDs.get(g.datasheetId).push(g)
+}
+const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionId,count}]}]
+{
+  const bmlOpts = new Map()
+  for (const o of table('base_miniature_loadout_wargear_option')) {
+    if (!bmlOpts.has(o.baseMiniatureLoadoutId)) bmlOpts.set(o.baseMiniatureLoadoutId, [])
+    bmlOpts.get(o.baseMiniatureLoadoutId).push(o)
+  }
+  for (const b of table('base_miniature_loadout')) {
+    if (!bmlByDs.has(b.datasheetId)) bmlByDs.set(b.datasheetId, [])
+    bmlByDs.get(b.datasheetId).push({ miniatureId: b.miniatureId, opts: bmlOpts.get(b.id) || [] })
+  }
+}
+
 // ---- Per-faction generation ------------------------------------------------------------
 
 const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [] }
@@ -148,9 +179,9 @@ function keyword(kws, name) {
   return (kws || []).some((k) => k.toLowerCase() === n)
 }
 
-function buildUnit(bd, idMap) {
-  const ds = dsById.get(bd.id)
-  const minis = minisByDs.get(bd.id) || []
+function buildUnit(bd, idMap, fx) {
+  const minis = (minisByDs.get(bd.id) || []).slice().sort((a, b) => a.displayOrder - b.displayOrder)
+  const miniIdx = new Map(minis.map((m, i) => [m.id, i]))
   const kws = bd.keywords || []
   const linkedId = idMap.get(bd.id)
   const flags = {}
@@ -196,6 +227,38 @@ function buildUnit(bd, idMap) {
     }
   }
   if (leads.length) unit.leads = leads
+
+  // Miniatures (for labelling gear/loadout groups). A single-profile unit needs no list.
+  if (minis.length > 1) unit.minis = minis.map((m) => ({ n: enOf(m).name }))
+
+  // Default loadout: what each miniature starts equipped with.
+  const defaults = []
+  for (const b of bmlByDs.get(bd.id) || []) {
+    const items = b.opts
+      .map((o) => [woById.get(o.wargearOptionId)?.wargearItemId, o.count])
+      .filter(([uuid]) => uuid)
+      .map(([uuid, count]) => [fx.item(uuid), count])
+    if (items.length) defaults.push([miniIdx.get(b.miniatureId) ?? 0, items])
+  }
+  if (defaults.length) unit.defaults = defaults
+
+  // Wargear option groups: the atomic "replace/add one of {…}" choices. Drop the redundant
+  // "Default Wargear" groups (base loadout already carries those) — keep real choices, with
+  // their per-option points (0 when free) and default flag.
+  const gear = []
+  for (const g of wogByDs.get(bd.id) || []) {
+    const text = (enOf(g).instructionText || '').trim()
+    if (!text || text.toLowerCase() === 'default wargear') continue
+    const opts = (woByGroup.get(g.id) || []).sort((a, b) => a.displayOrder - b.displayOrder).map((o) => {
+      const e = [fx.item(o.wargearItemId), o.points || 0, o.defaultValue || 0]
+      while (e.length > 1 && e[e.length - 1] === 0) e.pop() // trim trailing zeros
+      return e
+    })
+    if (!opts.length) continue
+    const grp = { m: miniIdx.get(g.miniatureId) ?? 0, t: fx.text(text), in: (woByGroup.get(g.id) || [])[0]?.inputType || 'checkbox', o: opts }
+    gear.push(grp)
+  }
+  if (gear.length) unit.gear = gear
   return unit
 }
 
@@ -261,7 +324,16 @@ async function genFaction(slug) {
     if (!(d.points && d.points.length)) { report.noPoints.push(`${slug}: ${d.name}`); return false }
     return true
   })
-  const units = bundleUnits.map((bd) => buildUnit(bd, idMap)).sort((a, b) => a.name.localeCompare(b.name))
+  // Per-faction intern dictionaries: wargear item names and group instruction texts repeat
+  // heavily across a faction's units, so store each once (int id) and reference it.
+  const itemIds = new Map() // wargear_item UUID -> int
+  const textIds = new Map() // instruction text -> int
+  const fx = {
+    item: (uuid) => { if (!itemIds.has(uuid)) itemIds.set(uuid, itemIds.size + 1); return itemIds.get(uuid) },
+    text: (s) => { if (!textIds.has(s)) textIds.set(s, textIds.size + 1); return textIds.get(s) },
+  }
+
+  const units = bundleUnits.map((bd) => buildUnit(bd, idMap, fx)).sort((a, b) => a.name.localeCompare(b.name))
   const detachments = (bundle.detachments || [])
     .filter((d) => !d.isCombatPatrol && !cpDatasheetIds.has(d.id))
     .map((bdet) => buildDetachment(bdet, idMap))
@@ -271,7 +343,11 @@ async function genFaction(slug) {
   report.units += units.length
   for (const u of units) { if (u.linked) report.linked++; else report.unlinked.push(`${slug}: ${u.name}`) }
 
-  const data = { slug, name: enOf(bundle.faction).name || bundle.faction?.name || slug, units, detachments }
+  const items = {}
+  for (const [uuid, id] of itemIds) items[id] = wgItemName.get(uuid) || ''
+  const texts = {}
+  for (const [s, id] of textIds) texts[id] = s
+  const data = { slug, name: enOf(bundle.faction).name || bundle.faction?.name || slug, items, texts, units, detachments }
   const body = `${HEAD}export default ${stableJson(data)}\n`
   fs.writeFileSync(path.join(OUT, `${slug}.js`), body)
 }

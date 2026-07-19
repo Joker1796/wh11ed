@@ -2,6 +2,148 @@
 export default {
   "slug": "death-guard",
   "name": "Death Guard",
+  "items": {
+    "1": "Putrid appendages",
+    "2": "Plague knives",
+    "3": "Hyper blight grenades",
+    "4": "Injector pistol",
+    "5": "Bubotic blade",
+    "6": "Combi-bolter",
+    "7": "Reaper autocannon",
+    "8": "Combi-weapon",
+    "9": "Flail of corruption",
+    "10": "Plague spewer",
+    "11": "Close combat weapon",
+    "12": "Blight launcher",
+    "13": "Armoured tracks",
+    "14": "Soulshatter lascannon",
+    "15": "Twin heavy bolter",
+    "16": "Havoc launcher",
+    "17": "Armoured tracks",
+    "18": "Predator twin lascannon",
+    "19": "Lascannon",
+    "20": "Heavy bolter",
+    "21": "Predator autocannon",
+    "22": "Hideous mutations",
+    "23": "Hellforged weapons",
+    "24": "Infernal cannon",
+    "25": "Infernal cannon",
+    "26": "Plaguespurt gauntlet",
+    "27": "Manreaper",
+    "28": "Icon of Despair (Aura)",
+    "29": "Excruciator cannon",
+    "30": "Hades battle cannon",
+    "31": "Heavy baleflamer",
+    "32": "Heavy missile launcher",
+    "33": "Shearing claws",
+    "34": "Ectoplasma destructor",
+    "35": "Magma cutters",
+    "36": "Hades lascannon",
+    "37": "Heavy reaper autocannon",
+    "38": "Electroscourge",
+    "39": "Fleshmower",
+    "40": "Plague probe",
+    "41": "Plaguespitter",
+    "42": "Heavy blight launcher",
+    "43": "Close combat weapon",
+    "44": "Plague sprayer",
+    "45": "Putrid vomit",
+    "46": "Plague flail",
+    "47": "Bilesword",
+    "48": "Doomsday bell",
+    "49": "Bileblade",
+    "50": "Multi-melta",
+    "51": "Close combat weapon",
+    "52": "Helbrute fist",
+    "53": "Heavy flamer",
+    "54": "Helbrute hammer",
+    "55": "Power scourge",
+    "56": "Missile launcher",
+    "57": "Plasma cannon",
+    "58": "Twin autocannon",
+    "59": "Twin lascannon",
+    "60": "Plague knife",
+    "61": "Boltgun",
+    "62": "Manreaper",
+    "63": "Plasma pistol",
+    "64": "Great plague blade",
+    "65": "Power fist",
+    "66": "Twin plague spewer",
+    "67": "Plague Wind",
+    "68": "Bolt pistol",
+    "69": "Corrupted staff",
+    "70": "Miasmic gouts",
+    "71": "Lantern",
+    "72": "Rotwind",
+    "73": "Silence",
+    "74": "Gnashing maw",
+    "75": "Bile spurt",
+    "76": "Plasma pistol",
+    "77": "Cursed plague bell",
+    "78": "Diseased claws and teeth",
+    "79": "Plaguesword",
+    "80": "Instrument of Chaos",
+    "81": "Daemonic Icon",
+    "82": "Foul mouthparts",
+    "83": "Death’s heads",
+    "84": "Plagueburst mortar",
+    "85": "Entropy cannon",
+    "86": "Heavy slugger",
+    "87": "Rothail volley gun",
+    "88": "Plague knives",
+    "89": "Bolt pistol",
+    "90": "Plasma gun",
+    "91": "Bubotic weapons",
+    "92": "Power fist",
+    "93": "Heavy plague weapon",
+    "94": "Meltagun",
+    "95": "Plague belcher",
+    "96": "Balesword",
+    "97": "Improvised weapon",
+    "98": "Streams of brackish filth",
+    "99": "Gnarlrod",
+    "100": "Lakrimae"
+  },
+  "texts": {
+    "1": "For every 5 models in this unit, 1 Blightlord Terminator’s combi-bolter can be replaced with 1 reaper autocannon.",
+    "2": "For every 5 models in this unit, up to 3 models’ combi-bolters can each be replaced with 1 combi-weapon.",
+    "3": "For every 5 models in this unit, 1 Blightlord Terminator’s plague combi-bolter and bubotic blade can be replaced with 1 flail of corruption.",
+    "4": "If this unit contains only 3 models, 1 Blightlord Terminator’s combi-bolter and bubotic blade can be replaced with 1 plague spewer and 1 close combat weapon.",
+    "5": "For every 5 models in this unit, 1 Blightlord Terminator’s combi-bolter can be replaced with 1 blight launcher.",
+    "6": "For every 5 models in this unit, 1 Blightlord Terminator’s plague combi-bolter can be replaced with 1 plague spewer.",
+    "7": "This model can be equipped with 1 havoc launcher.",
+    "8": "This model can be equipped with one of the following:",
+    "9": "This model can be equipped with one of the following:\n◦ 2 lascannons\n◦ 2 heavy bolters",
+    "10": "This model can be equipped with 1 havoc launcher or can replace 1 combi-bolter with 1 havoc launcher.",
+    "11": "This model can be equipped with one of the following:\n◦ 1 additional combi-bolter\n◦ 1 combi-weapon",
+    "12": "The Deathshroud Champion can be equipped with 1 additional plaguespurt gauntlet.",
+    "13": "The Deathshroud Champion can be equipped with 1 icon of despair.",
+    "14": "This model’s Hades battle cannon can be replaced with 1 ectoplasma destructor",
+    "15": "This model’s excruciator cannons can be replaced with 2 magma cutters",
+    "16": "This model’s heavy baleflamer can be replaced with one of the following:\n◦ 1 Hades lascannon\n◦ 1 heavy reaper autocannon\n◦ 1 electroscourge (a model cannot be equipped with more than one electroscourge)",
+    "17": "This model’s heavy missile launcher can be replaced with one of the following:\n◦ 1 Hades lascannon\n◦ 1 heavy reaper autocannon\n◦ 1 electroscourge (a model cannot be equipped with more than one electroscourge)",
+    "18": "This model’s fleshmower can be replaced with 2 plaguespitters.",
+    "19": "This model’s bilesword can be replaced with 1 doomsday bell.",
+    "20": "This model’s plague flail can be replaced with 1 bileblade.",
+    "21": "For each Helbrute fist* this model is equipped with, it can be equipped with one of the following:\n\n* That Helbrute fist cannot then be replaced.",
+    "22": "1 of this model’s Helbrute fists can be replaced with one of the following:",
+    "23": "1 of this model’s Helbrute fists can be replaced with 1 missile launcher.",
+    "24": "This model’s multi-melta can be replaced with one of the following:",
+    "25": "1 Plaguebearer that is not equipped with a daemonic icon can be equipped with 1 instrument of Chaos.",
+    "26": "1 Plaguebearer that is not equipped with an instrument of Chaos can be equipped with 1 daemonic icon.",
+    "27": "1 Plague Drone that is not equipped with a daemonic icon can be equipped with 1 instrument of Chaos.",
+    "28": "1 Plague Drone that is not equipped with an instrument of Chaos can be equipped with 1 daemonic icon.",
+    "29": "This model’s 2 entropy cannons can be replaced with 2 plaguespitters.",
+    "30": "This model’s heavy slugger can be replaced with 1 rothail volley gun.",
+    "31": "For every 5 models in this unit, 1 Plague Marine’s boltgun can be replaced with 1 blight launcher.",
+    "32": "The Plague Champion’s boltgun can be replaced with one of the following:",
+    "33": "The Plague Champion’s plague knives can be replaced with one of the following:",
+    "34": "For every 5 models in this unit, up to 2 Plague Marines can each have their boltgun replaced with 1 heavy plague weapon.",
+    "35": "For every 5 models in this unit, 1 Plague Marine’s boltgun can be replaced with 1 plague spewer.",
+    "36": "One Plague Marine equipped with a boltgun can be equipped with 1 icon of despair. This model’s boltgun cannot be replaced.",
+    "37": "For every 5 models in this unit, 1 Plague Marine’s boltgun can be replaced with one of the following:",
+    "38": "For every 5 models in this unit, up to 2 Plague Marines can each have their boltgun replaced with 1 bubotic weapons."
+  },
   "units": [
     {
       "id": "beasts-of-nurgle",
@@ -33,7 +175,18 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "biologus-putrifier",
@@ -66,6 +219,25 @@ export default {
           "to": "plague-marines",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              4,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -104,7 +276,118 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Blightlord Champion"
+        },
+        {
+          "n": "Blightlord Terminator"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              5,
+              1
+            ],
+            [
+              6,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              6,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 1,
+          "in": "stepper",
+          "o": [
+            [
+              7
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              8
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 3,
+          "in": "stepper",
+          "o": [
+            [
+              9
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 4,
+          "in": "checkbox",
+          "o": [
+            [
+              10
+            ],
+            [
+              11
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 2,
+          "in": "stepper",
+          "o": [
+            [
+              8
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 5,
+          "in": "stepper",
+          "o": [
+            [
+              12
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 6,
+          "in": "stepper",
+          "o": [
+            [
+              10
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "chaos-land-raider",
@@ -134,7 +417,51 @@ export default {
       "step": {
         "at": 3,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              13,
+              1
+            ],
+            [
+              14,
+              2
+            ],
+            [
+              15,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              16
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 8,
+          "in": "checkbox",
+          "o": [
+            [
+              6
+            ],
+            [
+              8
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "chaos-predator-annihilator",
@@ -163,7 +490,60 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              17,
+              1
+            ],
+            [
+              18,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 8,
+          "in": "checkbox",
+          "o": [
+            [
+              8
+            ],
+            [
+              6
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 9,
+          "in": "stepper",
+          "o": [
+            [
+              19
+            ],
+            [
+              20
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              16
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "chaos-predator-destructor",
@@ -192,7 +572,60 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              21,
+              1
+            ],
+            [
+              17,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 8,
+          "in": "checkbox",
+          "o": [
+            [
+              6
+            ],
+            [
+              8
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 9,
+          "in": "stepper",
+          "o": [
+            [
+              19
+            ],
+            [
+              20
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              16
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "chaos-rhino",
@@ -219,7 +652,47 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              6,
+              1
+            ],
+            [
+              17,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 10,
+          "in": "checkbox",
+          "o": [
+            [
+              16
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              6
+            ],
+            [
+              8
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "chaos-spawn",
@@ -242,7 +715,18 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              22,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "daemon-prince-of-nurgle",
@@ -269,7 +753,22 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              23,
+              1
+            ],
+            [
+              24,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "daemon-prince-of-nurgle-with-wings",
@@ -297,7 +796,22 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              25,
+              1
+            ],
+            [
+              23,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "deathshroud-terminators",
@@ -332,7 +846,65 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Deathshroud Champion"
+        },
+        {
+          "n": "Deathshroud Terminator"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              26,
+              1
+            ],
+            [
+              27,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              26,
+              1
+            ],
+            [
+              27,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              26
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 13,
+          "in": "checkbox",
+          "o": [
+            [
+              28
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "defiler",
@@ -361,7 +933,92 @@ export default {
       "step": {
         "at": 2,
         "pts": 30
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              29,
+              2
+            ],
+            [
+              30,
+              1
+            ],
+            [
+              31,
+              1
+            ],
+            [
+              32,
+              1
+            ],
+            [
+              33,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 14,
+          "in": "checkbox",
+          "o": [
+            [
+              34
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 15,
+          "in": "stepper",
+          "o": [
+            [
+              35
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 16,
+          "in": "checkbox",
+          "o": [
+            [
+              36,
+              10
+            ],
+            [
+              37,
+              10
+            ],
+            [
+              38
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 17,
+          "in": "checkbox",
+          "o": [
+            [
+              36,
+              10
+            ],
+            [
+              37,
+              10
+            ],
+            [
+              38
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "foetid-bloat-drone",
@@ -390,7 +1047,34 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              39,
+              1
+            ],
+            [
+              40,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 18,
+          "in": "stepper",
+          "o": [
+            [
+              41
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "foetid-bloat-drone-with-heavy-blight-launcher",
@@ -419,7 +1103,22 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              42,
+              1
+            ],
+            [
+              40,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "foul-blightspawn",
@@ -452,6 +1151,21 @@ export default {
           "to": "plague-marines",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              43,
+              1
+            ],
+            [
+              44,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -486,7 +1200,48 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              45,
+              1
+            ],
+            [
+              46,
+              1
+            ],
+            [
+              47,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 19,
+          "in": "checkbox",
+          "o": [
+            [
+              48
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 20,
+          "in": "checkbox",
+          "o": [
+            [
+              49
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "helbrute",
@@ -510,7 +1265,86 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              50,
+              1
+            ],
+            [
+              51,
+              1
+            ],
+            [
+              52,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 21,
+          "in": "stepper",
+          "o": [
+            [
+              6
+            ],
+            [
+              53
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 22,
+          "in": "checkbox",
+          "o": [
+            [
+              54
+            ],
+            [
+              55
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 23,
+          "in": "checkbox",
+          "o": [
+            [
+              56
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 24,
+          "in": "checkbox",
+          "o": [
+            [
+              57
+            ],
+            [
+              58
+            ],
+            [
+              59
+            ],
+            [
+              15
+            ],
+            [
+              52
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "icon-bearer",
@@ -543,6 +1377,21 @@ export default {
           "to": "plague-marines",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              60,
+              1
+            ],
+            [
+              61,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -581,6 +1430,17 @@ export default {
           "to": "deathshroud-terminators",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              62,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -614,6 +1474,21 @@ export default {
           "to": "plague-marines",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              63,
+              1
+            ],
+            [
+              64,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -651,6 +1526,21 @@ export default {
           "to": "deathshroud-terminators",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              65,
+              1
+            ],
+            [
+              66,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -688,6 +1578,25 @@ export default {
           "to": "poxwalkers",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              67,
+              1
+            ],
+            [
+              68,
+              1
+            ],
+            [
+              69,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -712,7 +1621,18 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              70,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "mortarion",
@@ -746,7 +1666,26 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              71,
+              1
+            ],
+            [
+              72,
+              1
+            ],
+            [
+              73,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "myphitic-blight-hauler",
@@ -778,7 +1717,30 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              74,
+              1
+            ],
+            [
+              75,
+              1
+            ],
+            [
+              56,
+              1
+            ],
+            [
+              50,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "noxious-blightbringer",
@@ -814,6 +1776,21 @@ export default {
           "to": "poxwalkers",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              76,
+              1
+            ],
+            [
+              77,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -846,7 +1823,18 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              78,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "plague-drones",
@@ -879,7 +1867,73 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Plaguebringer"
+        },
+        {
+          "n": "Plague Drone"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              79,
+              1
+            ],
+            [
+              82,
+              1
+            ],
+            [
+              83,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              79,
+              1
+            ],
+            [
+              83,
+              1
+            ],
+            [
+              82,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 27,
+          "in": "checkbox",
+          "o": [
+            [
+              80
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 28,
+          "in": "checkbox",
+          "o": [
+            [
+              81
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "plague-marines",
@@ -918,7 +1972,140 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Plague Champion"
+        },
+        {
+          "n": "Plague Marine"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              88,
+              1
+            ],
+            [
+              61,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              88,
+              1
+            ],
+            [
+              61,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 31,
+          "in": "stepper",
+          "o": [
+            [
+              12
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 32,
+          "in": "checkbox",
+          "o": [
+            [
+              89
+            ],
+            [
+              90
+            ],
+            [
+              76
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 33,
+          "in": "checkbox",
+          "o": [
+            [
+              91
+            ],
+            [
+              92
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 34,
+          "in": "stepper",
+          "o": [
+            [
+              93
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 35,
+          "in": "stepper",
+          "o": [
+            [
+              10
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 36,
+          "in": "checkbox",
+          "o": [
+            [
+              28
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 37,
+          "in": "stepper",
+          "o": [
+            [
+              94
+            ],
+            [
+              95
+            ],
+            [
+              90
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 38,
+          "in": "stepper",
+          "o": [
+            [
+              91
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "plague-surgeon",
@@ -950,6 +2137,21 @@ export default {
           "to": "plague-marines",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              68,
+              1
+            ],
+            [
+              96,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -976,7 +2178,57 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Plagueridden"
+        },
+        {
+          "n": "Plaguebearer"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              79,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              79,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 25,
+          "in": "checkbox",
+          "o": [
+            [
+              80
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 26,
+          "in": "checkbox",
+          "o": [
+            [
+              81
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "plagueburst-crawler",
@@ -1005,7 +2257,52 @@ export default {
       "step": {
         "at": 2,
         "pts": 25
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              17,
+              1
+            ],
+            [
+              84,
+              1
+            ],
+            [
+              85,
+              2
+            ],
+            [
+              86,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 29,
+          "in": "stepper",
+          "o": [
+            [
+              41
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 30,
+          "in": "checkbox",
+          "o": [
+            [
+              87
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "poxwalkers",
@@ -1036,7 +2333,18 @@ export default {
         }
       ],
       "linked": 1,
-      "condBattleline": 1
+      "condBattleline": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              97,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "rotigus",
@@ -1068,7 +2376,22 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              98,
+              1
+            ],
+            [
+              99,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "tallyman",
@@ -1100,6 +2423,21 @@ export default {
           "to": "plague-marines",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              76,
+              1
+            ],
+            [
+              43,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -1144,6 +2482,17 @@ export default {
           "to": "poxwalkers",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              100,
+              1
+            ]
+          ]
+        ]
       ]
     }
   ],

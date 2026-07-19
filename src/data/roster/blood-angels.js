@@ -2,6 +2,76 @@
 export default {
   "slug": "blood-angels",
   "name": "Blood Angels",
+  "items": {
+    "1": "The Executioner’s Axe",
+    "2": "Armoured tracks",
+    "3": "Twin assault cannon",
+    "4": "Hunter-killer missile",
+    "5": "Heavy bolter",
+    "6": "Heavy flamer",
+    "7": "Baal flamestorm cannon",
+    "8": "Storm bolter",
+    "9": "Power fist",
+    "10": "Relic weapon",
+    "11": "Inferno pistol",
+    "12": "Plasma pistol",
+    "13": "Fury of the Ancients",
+    "14": "Vitarus",
+    "15": "The Axe Mortalis",
+    "16": "Perdition Pistol",
+    "17": "Hand flamer",
+    "18": "Twin heavy bolter",
+    "19": "Brutalis fists",
+    "20": "Twin Icarus ironhail heavy stubber",
+    "21": "Brutalis bolt rifles",
+    "22": "Blood talons",
+    "23": "Twin multi-melta",
+    "24": "Heavy bolt pistol",
+    "25": "Astartes chainsword",
+    "26": "Inferno pistol",
+    "27": "Plasma pistol",
+    "28": "Power fist",
+    "29": "Power weapon",
+    "30": "Thunder hammer",
+    "31": "Eviscerator",
+    "32": "Close combat weapon",
+    "33": "Bolt pistol",
+    "34": "Bolt rifle",
+    "35": "Astartes grenade launcher",
+    "36": "Absolvor bolt pistol",
+    "37": "The Blood Crozius",
+    "38": "Encarmine blade",
+    "39": "Angelus boltgun",
+    "40": "Sanguinary Banner",
+    "41": "Encarmine spear",
+    "42": "Absolvor bolt pistol",
+    "43": "Astartes chainsword",
+    "44": "Encarmine broadsword"
+  },
+  "texts": {
+    "1": "This model can be equipped with 1 hunter-killer missile.",
+    "2": "This model can be equipped with one of the following: \n◦ 2 heavy bolters \n◦ 2 heavy flamers",
+    "3": "This model’s twin assault cannon can be replaced with 1 Baal flamestorm cannon.",
+    "4": "This model can be equipped with 1 storm bolter.",
+    "5": "This model’s master‐crafted chainsword can be replaced with one of the following:",
+    "6": "This model’s heavy bolt pistol can be replaced with 1 inferno pistol.",
+    "7": "This model’s Astartes chainsword can be replaced with one of the following:",
+    "8": "This model’s heavy bolt pistol can be replaced with one of the following:",
+    "9": "This model’s blood fists and blood fist bolt rifles can be replaced with 1 blood talons.",
+    "10": "This model’s twin heavy bolter can be replaced with 1 twin multi-melta.",
+    "11": "1 model’s heavy bolt pistol can be replaced with one of the following:",
+    "12": "1 model’s Astartes chainsword can be replaced with one of the following:",
+    "13": "For every 5 models in this unit, 1 model’s Astartes chainsword can be replaced with 1 eviscerator.",
+    "14": "For every 5 models in this unit, 1 model’s bolt rifle and close combat weapon can be replaced with 1 eviscerator.",
+    "15": "For every 5 models in this unit, 1 model equipped with a bolt rifle can be equipped with 1 Astartes grenade launcher.",
+    "16": "1 model’s close combat weapon can be replaced with one of the following:",
+    "17": "1 model’s bolt rifle can be replaced with one of the following:",
+    "18": "For every 5 models in this unit, 1 model’s heavy bolt pistol and Astartes chainsword can be replaced with one of the following:\n◦ 1 hand flamer and 1 Astartes chainsword\n◦ 1 hand flamer and 1 power fist\n◦ 1 hand flamer and 1 power weapon\n◦ 1 heavy bolt pistol and 1 power fist\n◦ 1 heavy bolt pistol and 1 power weapon\n◦ 1 inferno pistol and 1 Astartes chainsword\n◦ 1 inferno pistol and 1 power fist\n◦ 1 inferno pistol and 1 power weapon\n◦ 1 plasma pistol and 1 Astartes chainsword\n◦ 1 plasma pistol and 1 power fist\n◦ 1 plasma pistol and 1 power weapon",
+    "19": "For every 5 models in this unit, 1 model’s heavy bolt pistol can be replaced with 1 plasma pistol.",
+    "20": "One model can be equipped with 1 Sanguinary banner.",
+    "21": "For every 3 models in this unit, 1 model’s Angelus boltgun can be replaced with 1 inferno pistol.",
+    "22": "Any number of models can each have their encarmine blade replaced with 1 encarmine spear."
+  },
   "units": [
     {
       "id": "astorath",
@@ -38,6 +108,17 @@ export default {
           "to": "death-company-marines-with-jump-packs",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -66,7 +147,67 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              4
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 2,
+          "in": "stepper",
+          "o": [
+            [
+              5
+            ],
+            [
+              6
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 3,
+          "in": "checkbox",
+          "o": [
+            [
+              7
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 4,
+          "in": "checkbox",
+          "o": [
+            [
+              8
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "blood-angels-captain",
@@ -119,6 +260,31 @@ export default {
           "to": "tactical-squad",
           "type": "leader"
         }
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 5,
+          "in": "checkbox",
+          "o": [
+            [
+              9
+            ],
+            [
+              10
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              11
+            ]
+          ]
+        }
       ]
     },
     {
@@ -149,7 +315,26 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              12,
+              1
+            ],
+            [
+              13,
+              1
+            ],
+            [
+              14,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "commander-dante",
@@ -195,6 +380,21 @@ export default {
           "to": "vanguard-veteran-squad-with-jump-packs",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              15,
+              1
+            ],
+            [
+              16,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -233,6 +433,31 @@ export default {
           "to": "death-company-marines-with-bolt-rifles",
           "type": "leader"
         }
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 5,
+          "in": "checkbox",
+          "o": [
+            [
+              9
+            ],
+            [
+              10
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              11
+            ]
+          ]
+        }
       ]
     },
     {
@@ -269,6 +494,34 @@ export default {
           "to": "death-company-marines-with-jump-packs",
           "type": "leader"
         }
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              9
+            ],
+            [
+              10
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 8,
+          "in": "checkbox",
+          "o": [
+            [
+              12
+            ],
+            [
+              17
+            ]
+          ]
+        }
       ]
     },
     {
@@ -298,7 +551,52 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              18,
+              1
+            ],
+            [
+              19,
+              1
+            ],
+            [
+              20,
+              1
+            ],
+            [
+              21,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 9,
+          "in": "checkbox",
+          "o": [
+            [
+              22
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 10,
+          "in": "checkbox",
+          "o": [
+            [
+              23
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "death-company-marines",
@@ -335,7 +633,66 @@ export default {
         "at": 3,
         "pts": 10
       },
-      "condBattleline": 1
+      "condBattleline": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              24,
+              1
+            ],
+            [
+              25,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              17
+            ],
+            [
+              26
+            ],
+            [
+              27
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              28
+            ],
+            [
+              29
+            ],
+            [
+              30
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 13,
+          "in": "stepper",
+          "o": [
+            [
+              31
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "death-company-marines-with-bolt-rifles",
@@ -372,7 +729,86 @@ export default {
         "at": 3,
         "pts": 10
       },
-      "condBattleline": 1
+      "condBattleline": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              32,
+              1
+            ],
+            [
+              33,
+              1
+            ],
+            [
+              34,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 14,
+          "in": "stepper",
+          "o": [
+            [
+              31
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 15,
+          "in": "stepper",
+          "o": [
+            [
+              35
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 16,
+          "in": "checkbox",
+          "o": [
+            [
+              25
+            ],
+            [
+              28
+            ],
+            [
+              29
+            ],
+            [
+              30
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 17,
+          "in": "checkbox",
+          "o": [
+            [
+              25
+            ],
+            [
+              17
+            ],
+            [
+              26
+            ],
+            [
+              27
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "death-company-marines-with-jump-packs",
@@ -410,7 +846,82 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              24,
+              1
+            ],
+            [
+              25,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 18,
+          "in": "stepper",
+          "o": [
+            [
+              17
+            ],
+            [
+              26
+            ],
+            [
+              27
+            ],
+            [
+              25
+            ],
+            [
+              28
+            ],
+            [
+              29
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              29
+            ],
+            [
+              28
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 19,
+          "in": "stepper",
+          "o": [
+            [
+              27
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 13,
+          "in": "stepper",
+          "o": [
+            [
+              31
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "lemartes",
@@ -448,6 +959,21 @@ export default {
           "to": "death-company-marines-with-jump-packs",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              36,
+              1
+            ],
+            [
+              37,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -485,7 +1011,54 @@ export default {
       "step": {
         "at": 3,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              38,
+              1
+            ],
+            [
+              39,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 20,
+          "in": "checkbox",
+          "o": [
+            [
+              40
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 21,
+          "in": "stepper",
+          "o": [
+            [
+              26
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 22,
+          "in": "stepper",
+          "o": [
+            [
+              41
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "sanguinary-priest",
@@ -554,6 +1127,21 @@ export default {
           "to": "bladeguard-veteran-squad",
           "type": "support"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              42,
+              1
+            ],
+            [
+              43,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -584,7 +1172,18 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              44,
+              1
+            ]
+          ]
+        ]
+      ]
     }
   ],
   "detachments": [

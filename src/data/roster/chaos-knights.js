@@ -2,6 +2,93 @@
 export default {
   "slug": "chaos-knights",
   "name": "Chaos Knights",
+  "items": {
+    "1": "Karacnos mortar battery",
+    "2": "Twin conversion beam cannon",
+    "3": "Titanic feet",
+    "4": "Asterius volkite culverin",
+    "5": "Volkite combustor",
+    "6": "Diabolus heavy stubber",
+    "7": "Balemace",
+    "8": "Electroscourge",
+    "9": "Twin magna lascannon",
+    "10": "Acastus autocannon",
+    "11": "Acastus ironstorm missile pod",
+    "12": "Lascannon",
+    "13": "Helios defence missiles",
+    "14": "Desecrator laser destructor",
+    "15": "Diabolus heavy stubber",
+    "16": "Reaper chainsword",
+    "17": "Warpstrike claw",
+    "18": "Twin heavy bolter",
+    "19": "Acheron flame cannon",
+    "20": "Reaper chainfist",
+    "21": "Daemonbreath meltagun",
+    "22": "Titanic feet",
+    "23": "Havoc missile pod",
+    "24": "Ruinspear rocket pod",
+    "25": "Hellstorm autocannons",
+    "26": "Daemonbreath thermal cannon",
+    "27": "Despoiler gatling cannon",
+    "28": "Heavy darkflamer",
+    "29": "Despoiler battle cannon",
+    "30": "Atrapos lascutter",
+    "31": "Graviton singularity cannon",
+    "32": "Reaper chainsword",
+    "33": "Warpstrike claw",
+    "34": "Castigator bolt cannon",
+    "35": "Tempest warblade",
+    "36": "Fellbore",
+    "37": "Darkflame lance",
+    "38": "Terrorpulse missiles",
+    "39": "Cerastus shock lance",
+    "40": "Twin daemonbreath meltagun",
+    "41": "Twin Desecrator cannon",
+    "42": "Gheiststrike missile launcher",
+    "43": "Ectoplasma decimator",
+    "44": "Brimstone volcano lance",
+    "45": "Darkflame cannon",
+    "46": "Warpshock harpoon",
+    "47": "Phased plasma-fusil",
+    "48": "Lightning cannon",
+    "49": "Hekaton siege claw",
+    "50": "Twin rad cleanser",
+    "51": "Avenger chaincannon",
+    "52": "Armoured feet",
+    "53": "Daemonbreath spear",
+    "54": "Havoc multi-launcher",
+    "55": "Volkite chierovile",
+    "56": "Graviton crusher",
+    "57": "War Dog autocannon",
+    "58": "Reaper chaintalon",
+    "59": "Reaper chaintalon",
+    "60": "Slaughterclaw",
+    "61": "Slaughterclaw",
+    "62": "Volkite veuglaire",
+    "63": "Graviton pulsar",
+    "64": "Siege claw",
+    "65": "Rad cleanser",
+    "66": "Lightning lock",
+    "67": "Conversion beam cannon"
+  },
+  "texts": {
+    "1": "This model’s 2 Acastus autocannons can be replaced with one of the following:\n◦ 2 lascannons\n◦ 1 Acastus autocannon and 1 lascannon",
+    "2": "This model’s Acastus ironstorm missile pod can be replaced with 1 helios defence missiles.",
+    "3": "This model’s reaper chainsword can be replaced with 1 warpstrike claw.",
+    "4": "This model can be equipped with one of the following:",
+    "5": "This model’s reaper chainsword can be replaced with 1 of the following:\n◦ 1 daemonbreath thermal cannon\n◦ 1 despoiler gatling cannon and 1 heavy darkflamer\n◦ 1 despoiler battle cannon and 1 diabolus heavy stubber",
+    "6": "This model’s warpstrike claw can be replaced with 1 of the following:\n◦ 1 daemonbreath thermal cannon\n◦ 1 despoiler gatling cannon and 1 heavy darkflamer\n◦ 1 despoiler battle cannon and 1 diabolus heavy stubber",
+    "7": "This model’s daemonbreath meltagun can be replaced with 1 diabolus heavy stubber.",
+    "8": "This model’s brimstone volcano lance and ectoplasma decimator can be replaced with 1 darkflame cannon and 1 warpshock harpoon.",
+    "9": "This model’s 2 gheiststrike missile launchers and twin Desecrator cannon can be replaced with 1 gheiststrike missile launcher and 2 twin desecrator cannons.",
+    "10": "This model’s reaper chainsword can be replaced with 1 hekaton siege claw and 1 twin rad cleanser.",
+    "11": "This model’s diabolus heavy stubber can be replaced with 1 havoc multi-launcher.",
+    "12": "This model’s diabolus heavy stubber can be replaced with 1 daemonbreath meltagun.",
+    "13": "This model’s avenger chaincannon can be replaced with 1 daemonbreath spear.",
+    "14": "This model’s slaughterclaw can be replaced with 1 reaper chaintalon.",
+    "15": "This model’s graviton pulsar can be replaced with one of the following;\n◦ 1 siege claw and 1 rad cleanser\n◦ 1 lightning lock\n◦ 1 conversion beam cannon\n◦ 1 volkite veuglaire",
+    "16": "This model’s volkite veuglaire can be replaced with one of the following:\n◦ 1 siege claw and 1 rad cleanser\n◦ 1 graviton pulsar\n◦ 1 lightning lock\n◦ 1 conversion beam cannon"
+  },
   "units": [
     {
       "id": "chaos-acastus-knight-asterius",
@@ -32,7 +119,30 @@ export default {
       "step": {
         "at": 2,
         "pts": 75
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              2
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              4,
+              2
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "chaos-acastus-knight-porphyrion",
@@ -63,7 +173,55 @@ export default {
       "step": {
         "at": 2,
         "pts": 75
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              3,
+              1
+            ],
+            [
+              9,
+              2
+            ],
+            [
+              10,
+              2
+            ],
+            [
+              11,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1,
+          "in": "stepper",
+          "o": [
+            [
+              12
+            ],
+            [
+              10
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              13
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "chaos-cerastus-knight-acheron",
@@ -96,7 +254,26 @@ export default {
       "step": {
         "at": 2,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              18,
+              1
+            ],
+            [
+              19,
+              1
+            ],
+            [
+              20,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "chaos-cerastus-knight-atrapos",
@@ -129,7 +306,22 @@ export default {
       "step": {
         "at": 2,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              30,
+              1
+            ],
+            [
+              31,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "chaos-cerastus-knight-castigator",
@@ -162,7 +354,22 @@ export default {
       "step": {
         "at": 2,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              34,
+              1
+            ],
+            [
+              35,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "chaos-cerastus-knight-lancer",
@@ -195,7 +402,18 @@ export default {
       "step": {
         "at": 2,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              39,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "chaos-questoris-knight-magaera",
@@ -228,7 +446,41 @@ export default {
       "step": {
         "at": 2,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              47,
+              1
+            ],
+            [
+              16,
+              1
+            ],
+            [
+              48,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 10,
+          "in": "checkbox",
+          "o": [
+            [
+              49
+            ],
+            [
+              50
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "chaos-questoris-knight-styrix",
@@ -261,7 +513,41 @@ export default {
       "step": {
         "at": 2,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              55,
+              1
+            ],
+            [
+              16,
+              1
+            ],
+            [
+              56,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 10,
+          "in": "checkbox",
+          "o": [
+            [
+              49
+            ],
+            [
+              50
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "knight-abominant",
@@ -295,7 +581,30 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              5,
+              1
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              7,
+              1
+            ],
+            [
+              8,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "knight-desecrator",
@@ -328,7 +637,38 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              14,
+              1
+            ],
+            [
+              15,
+              1
+            ],
+            [
+              16,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 3,
+          "in": "checkbox",
+          "o": [
+            [
+              17
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "knight-despoiler",
@@ -361,7 +701,106 @@ export default {
       "step": {
         "at": 2,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              17,
+              1
+            ],
+            [
+              21,
+              1
+            ],
+            [
+              16,
+              1
+            ],
+            [
+              22,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 4,
+          "in": "checkbox",
+          "o": [
+            [
+              23
+            ],
+            [
+              24
+            ],
+            [
+              25
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 5,
+          "in": "checkbox",
+          "o": [
+            [
+              26
+            ],
+            [
+              27,
+              25
+            ],
+            [
+              28
+            ],
+            [
+              29,
+              15
+            ],
+            [
+              6
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              26
+            ],
+            [
+              27,
+              25
+            ],
+            [
+              28
+            ],
+            [
+              29,
+              15
+            ],
+            [
+              6
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              6
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "knight-rampager",
@@ -394,7 +833,26 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              32,
+              1
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              33,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "knight-ruinator",
@@ -427,7 +885,26 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              36,
+              1
+            ],
+            [
+              37,
+              1
+            ],
+            [
+              38,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "knight-tyrant",
@@ -459,7 +936,66 @@ export default {
       "step": {
         "at": 2,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              40,
+              2
+            ],
+            [
+              41,
+              1
+            ],
+            [
+              42,
+              2
+            ],
+            [
+              43,
+              1
+            ],
+            [
+              22,
+              1
+            ],
+            [
+              44,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 8,
+          "in": "checkbox",
+          "o": [
+            [
+              45
+            ],
+            [
+              46
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 9,
+          "in": "checkbox",
+          "o": [
+            [
+              42
+            ],
+            [
+              41
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "war-dog-brigand",
@@ -484,7 +1020,42 @@ export default {
         }
       ],
       "linked": 1,
-      "condBattleline": 1
+      "condBattleline": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              51,
+              1
+            ],
+            [
+              52,
+              1
+            ],
+            [
+              53,
+              1
+            ],
+            [
+              6,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              54
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "war-dog-executioner",
@@ -509,7 +1080,38 @@ export default {
         }
       ],
       "linked": 1,
-      "condBattleline": 1
+      "condBattleline": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              57,
+              2
+            ],
+            [
+              52,
+              1
+            ],
+            [
+              6,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              21
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "war-dog-huntsman",
@@ -534,7 +1136,38 @@ export default {
         }
       ],
       "linked": 1,
-      "condBattleline": 1
+      "condBattleline": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              6,
+              1
+            ],
+            [
+              53,
+              1
+            ],
+            [
+              58,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              21
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "war-dog-karnivore",
@@ -559,7 +1192,38 @@ export default {
         }
       ],
       "linked": 1,
-      "condBattleline": 1
+      "condBattleline": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              59,
+              1
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              60,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              54
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "war-dog-moirax",
@@ -588,7 +1252,72 @@ export default {
         "at": 3,
         "pts": 10
       },
-      "condBattleline": 1
+      "condBattleline": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              52,
+              1
+            ],
+            [
+              62,
+              1
+            ],
+            [
+              63,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 15,
+          "in": "checkbox",
+          "o": [
+            [
+              64
+            ],
+            [
+              65
+            ],
+            [
+              66
+            ],
+            [
+              67
+            ],
+            [
+              62
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 16,
+          "in": "checkbox",
+          "o": [
+            [
+              64
+            ],
+            [
+              65
+            ],
+            [
+              63
+            ],
+            [
+              66
+            ],
+            [
+              67
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "war-dog-stalker",
@@ -613,7 +1342,58 @@ export default {
         }
       ],
       "linked": 1,
-      "condBattleline": 1
+      "condBattleline": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              61,
+              1
+            ],
+            [
+              51,
+              1
+            ],
+            [
+              6,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 13,
+          "in": "checkbox",
+          "o": [
+            [
+              53
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 14,
+          "in": "checkbox",
+          "o": [
+            [
+              58
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              54
+            ]
+          ]
+        }
+      ]
     }
   ],
   "detachments": [

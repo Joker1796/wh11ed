@@ -2,6 +2,216 @@
 export default {
   "slug": "tau-empire",
   "name": "T’au Empire",
+  "items": {
+    "1": "Close combat weapon",
+    "2": "Pulse pistol",
+    "3": "Pulse blaster",
+    "4": "Guardian Drone",
+    "5": "Gun Drone",
+    "6": "Marker Drone",
+    "7": "Shield Drone",
+    "8": "Crushing bulk",
+    "9": "Heavy rail rifle",
+    "10": "High-yield missile pods",
+    "11": "Seeker missile",
+    "12": "Twin plasma rifle",
+    "13": "Twin smart missile system",
+    "14": "Weapon Support System",
+    "15": "Missile Drone",
+    "16": "Twin heavy rail cannon",
+    "17": "Burst cannon",
+    "18": "Armoured hull",
+    "19": "Missile pod",
+    "20": "Cyclic ion blaster",
+    "21": "Close combat weapon",
+    "22": "Fireblade pulse rifle",
+    "23": "High-intensity plasma rifle",
+    "24": "Dawn Blade",
+    "25": "Battlesuit fists",
+    "26": "High-output burst cannon",
+    "27": "Airbursting fragmentation projector",
+    "28": "Battlesuit Support System",
+    "29": "Burst cannon",
+    "30": "Cyclic ion blaster",
+    "31": "Fusion blaster",
+    "32": "Missile pod",
+    "33": "Plasma rifle",
+    "34": "Shield Generator",
+    "35": "T’au flamer",
+    "36": "Advanced Guardian Drone",
+    "37": "Pulse pistol",
+    "38": "High-energy fusion blaster",
+    "39": "Command-link Drone (Aura)",
+    "40": "Flechette launcher",
+    "41": "Light missile pod",
+    "42": "Missile pod",
+    "43": "Plasma rifle",
+    "44": "Battlesuit fists",
+    "45": "Fusion blaster",
+    "46": "Shade",
+    "47": "Twin pulse carbine",
+    "48": "Accelerator burst cannon",
+    "49": "Armoured hull",
+    "50": "Smart missile system",
+    "51": "Honour stave",
+    "52": "Hover Drone",
+    "53": "Close combat weapons",
+    "54": "Longshot pulse rifles",
+    "55": "Fusion collider",
+    "56": "Twin T’au flamer",
+    "57": "Ghostkeel fists",
+    "58": "Battlesuit Support System",
+    "59": "Cyclic ion raker",
+    "60": "Twin fusion blaster",
+    "61": "Twin burst cannon",
+    "62": "Railgun",
+    "63": "Twin pulse carbine",
+    "64": "Ion cannon",
+    "65": "Close combat weapon",
+    "66": "Kroot rifle",
+    "67": "Kroot pistol",
+    "68": "Tanglebomb launcher",
+    "69": "Kroot carbine",
+    "70": "Ripping fangs",
+    "71": "Farstalker firearm",
+    "72": "Ritual blade",
+    "73": "T’au-tech rifle",
+    "74": "Dvorgite skinner",
+    "75": "Londaxi tribalest",
+    "76": "Pech’ra",
+    "77": "Twin ritualistic blades",
+    "78": "Kroot scattergun",
+    "79": "Kalamandra’s bite",
+    "80": "Kroot long gun",
+    "81": "Close combat weapon",
+    "82": "Blast javelin",
+    "83": "Hunting javelin",
+    "84": "Hunting blades",
+    "85": "Kroot pistol and hunting javelins",
+    "86": "Rampager fists",
+    "87": "Krootox fists",
+    "88": "Repeater cannon",
+    "89": "Tanglecannon",
+    "90": "Shaper’s blade",
+    "91": "Dart-bow and tri-blade",
+    "92": "Bladestave and prey-hook",
+    "93": "Armoured hull",
+    "94": "Long-barrelled burst cannon array",
+    "95": "Heavy rail cannon",
+    "96": "Pulse carbine",
+    "97": "Ion rifle",
+    "98": "Rail rifle",
+    "99": "Semi-automatic grenade launcher",
+    "100": "Grav-inhibitor Drone",
+    "101": "Pulse Accelerator Drone",
+    "102": "Recon Drone",
+    "103": "Armoured hull",
+    "104": "Piranha burst cannon",
+    "105": "Piranha fusion blaster",
+    "106": "Quad ion turret",
+    "107": "Riptide fists",
+    "108": "Heavy burst cannon",
+    "109": "Ion accelerator",
+    "110": "Twin smart missile system",
+    "111": "Seeker missile rack",
+    "112": "Battlesuit fists",
+    "113": "Homing Beacon",
+    "114": "Pulse driver cannon",
+    "115": "Destroyer missiles",
+    "116": "Cluster rocket system",
+    "117": "Thunderous footfalls",
+    "118": "Twin smart missile system",
+    "119": "Pulse blast cannon",
+    "120": "Twin airbursting fragmentation projector",
+    "121": "Twin burst cannon",
+    "122": "Pulse rifle",
+    "123": "Twin ion rifle",
+    "124": "Twin missile pod",
+    "125": "Fusion eliminator",
+    "126": "Shardstorm burst system",
+    "127": "MV15 Gun Drone",
+    "128": "XV pulse pistol",
+    "129": "Ion scattercannon",
+    "130": "Drone defenders",
+    "131": "Supremacy railgun",
+    "132": "Pulse ordnance driver",
+    "133": "Fusion eradicator",
+    "134": "Tri-axis ion cannon",
+    "135": "Crushing feet",
+    "136": "Nexus missile launcher",
+    "137": "Heavy rail cannon array",
+    "138": "Fragmentation cluster shell launcher",
+    "139": "Stingwing claws",
+    "140": "Neutron blaster",
+    "141": "Neutron grenade launcher",
+    "142": "Neutron rail rifle",
+    "143": "Oversight Drone",
+    "144": "Transport Bay",
+    "145": "Cyclic ion blaster",
+    "146": "Swiftstrike burst cannon",
+    "147": "Swiftstrike railgun",
+    "148": "Skyspear missile rack"
+  },
+  "texts": {
+    "1": "The Breacher Fire Warrior Shas’ui can be equipped with up to two of the following, and can take duplicates:\n◦ 1 guardian drone (it cannot take duplicates of this piece of wargear)\n◦ 1 gun drone\n◦ 1 marker drone\n◦ 1 shield drone",
+    "2": "Any number of models can each have their heavy rail rifle replaced with 1 high-yield missile pods.",
+    "3": "Any number of models can each be equipped with up to two of the following, but cannot take duplicates*:\n\n* No model can be equipped with both a twin plasma rifle and twin smart missile system.",
+    "4": "Any number of models can each be equipped with up to two of the following, and can take duplicates:",
+    "5": "This model can be equipped with up to 6 seeker missiles.",
+    "6": "This model’s 2 burst cannons can be replaced with 2 cyclic ion blasters.",
+    "7": "This model can be equipped with up to two of the following, and can take duplicates:",
+    "8": "This model can be equipped with up to three of the following, and can take duplicates:\n◦ 1 airbursting fragmentation projector*\n◦ 1 battlesuit support system*\n◦ 1 burst cannon\n◦ 1 cyclic ion blaster*\n◦ 1 fusion blaster\n◦ 1 missile pod\n◦ 1 plasma rifle\n◦ 1 shield generator*\n◦ 1 T’au flamer\n◦ 1 weapon support system*\n\n* This model cannot have duplicates of these pieces of wargear.",
+    "9": "This model’s high-output burst cannon can be replaced with one of the following:\n◦ 1 airbursting fragmentation projector*\n◦ 1 battlesuit support system*\n◦ 1 burst cannon\n◦ 1 cyclic ion blaster*\n◦ 1 fusion blaster\n◦ 1 missile pod\n◦ 1 plasma rifle\n◦ 1 shield generator*\n◦ 1 T’au flamer\n◦ 1 weapon support system*\n\n* This model cannot have duplicates of these pieces of wargear.",
+    "10": "This model’s burst cannon can be replaced with one of the following:\n◦ 1 airbursting fragmentation projector*\n◦ 1 battlesuit support system*\n◦ 1 cyclic ion blaster*\n◦ 1 fusion blaster\n◦ 1 missile pod\n◦ 1 plasma rifle\n◦ 1 shield generator*\n◦ 1 T’au flamer\n◦ 1 weapon support system*\n\n* This model cannot have duplicates of these pieces of wargear.",
+    "11": "Any number of models can each have their plasma rifle replaced with 1 missile pod.",
+    "12": "Any number of models can each have their missile pod replaced with 1 plasma rifle.",
+    "13": "Any number of models can be equipped with up to two of the following, but cannot take duplicates:",
+    "14": "Any number of models can each have their burst cannon replaced with 1 T’au flamer.",
+    "15": "Any number of models can each have their T’au flamer replaced with 1 burst cannon.",
+    "16": "Any number of models can each be equipped with up to two of the following, but cannot take duplicates:",
+    "17": "This model can be equipped with up to 2 seeker missiles.",
+    "18": "This model’s 2 twin pulse carbines can be replaced with 2 smart missile systems.",
+    "19": "This model can be equipped with 1 hover drone.",
+    "20": "This model can be equipped with one battlesuit support system.",
+    "21": "This model’s fusion collider can be replaced with 1 cyclic ion raker.",
+    "22": "This model’s twin T’au flamer can be replaced with one of the following:",
+    "23": "This model’s railgun can be replaced with 1 ion cannon.",
+    "24": "This model’s 2 twin pulse carbines can be replaced with one of the following:\n◦ 2 accelerator burst cannons\n◦ 2 smart missile systems",
+    "25": "For every 10 models in this unit, one Kroot Carnivore’s Kroot rifle can be replaced with 1 Tanglebomb launcher.",
+    "26": "The Long-quill’s Kroot rifle can be replaced with 1 Kroot carbine.",
+    "27": "The Kroot Kill-broker’s Farstalker firearm can be replaced with 1 T’au-tech rifle.",
+    "28": "1 Kroot Farstalker’s Farstalker firearm can be replaced with one of the following:",
+    "29": "1 Kroot Farstalker equipped with a Farstalker firearm can be equipped with 1 Pech’ra.",
+    "30": "This model’s Kroot long gun can be replaced with 1 blast javelin and 1 hunting javelin.",
+    "31": "Any number of models can each have their repeater cannon replaced with 1 tanglecannon.",
+    "32": "This model’s dart-bow and tri-blade can be replaced with 1 bladestave and prey-hook.",
+    "33": "Up to 3 Pathfinders can each have their pulse carbine replaced with one of the following:",
+    "34": "1 model in this unit equipped with a pulse carbine can be equipped with 1 semi-automatic grenade launcher. That model’s pulse carbine cannot be replaced.",
+    "35": "The Pathfinder Shas’ui can be equipped with up to two of the following, and can take duplicates:",
+    "36": "The Pathfinder Shas’ui can be equipped with one of the following:",
+    "37": "Any number of models can each have their Piranha burst cannon can be replaced with 1 Piranha fusion blaster.",
+    "38": "Any number of models can each be equipped with up to 2 seeker missiles.",
+    "39": "This model’s accelerator burst cannon can be replaced with 1 missile pod.",
+    "40": "This model’s heavy burst cannon can be replaced with 1 ion accelerator.",
+    "41": "This model’s twin plasma rifles can be replaced with one of the following:",
+    "42": "This model can be equipped with up to 2 missile drones.",
+    "43": "1 Stealth Shas’ui can be equipped with 1 homing beacon.",
+    "44": "The Stealth Shas’vre can be equipped with 1 gun drone.",
+    "45": "The Stealth Shas’vre can be equipped with 1 marker drone.",
+    "46": "2 models can each have their burst cannon replaced with 1 fusion blaster.",
+    "47": "The Stealth Shas’vre can be equipped with 1 pulse pistol.",
+    "48": "This model’s pulse driver cannon can be replaced with 1 pulse blast cannon.",
+    "49": "Any number of Fire Warrior models can each have their pulse rifle replaced with 1 pulse carbine.",
+    "50": "The Fire Warrior Shas’ui can be equipped with up to two of the following, and can take duplicates:\n◦ 1 guardian drone (it cannot take duplicates of this piece of wargear)\n◦ 1 gun drone\n◦ 1 marker drone\n◦ 1 shield drone",
+    "51": "This model’s missile pod can be replaced with 1 twin missile pod.",
+    "52": "This model’s fusion eradicator can be replaced with 1 tri-axis ion cannon.",
+    "53": "This model’s tri-axis ion cannon can be replaced with 1 fusion eradicator.",
+    "54": "This model’s 3 pulse ordnance drivers can be replaced with one of the following:\n◦ 2 nexus missile launchers\n◦ 1 heavy rail cannon array and 1 fragmentation cluster shell launcher",
+    "55": "If this unit contains 10 models:\n◦ 1 Vespid Stingwing can replace its neutron blaster with 1 T’au flamer.\n◦ 1 Vespid Stingwing can replace its neutron blaster with 1 neutron grenade launcher.\n◦ 1 Vespid Stingwing can replace its neutron blaster with 1 neutron rail rifle.",
+    "56": "If this unit contains 10 models:\n◦ The Vespid Strain Leader can be equipped with 1 Oversight Drone.",
+    "57": "This model’s 2 ion cannons can be replaced with one of the following:\n◦ 2 swiftstrike burst cannons\n◦ 2 swiftstrike railguns",
+    "58": "This model’s transport bay can be replaced with 2 skyspear missile racks."
+  },
   "units": [
     {
       "id": "ax-1-0-tiger-shark",
@@ -29,7 +239,52 @@ export default {
       "step": {
         "at": 2,
         "pts": 60
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              16,
+              1
+            ],
+            [
+              17,
+              2
+            ],
+            [
+              18,
+              1
+            ],
+            [
+              19,
+              2
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 5,
+          "in": "stepper",
+          "o": [
+            [
+              11
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 6,
+          "in": "stepper",
+          "o": [
+            [
+              20
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "breacher-team",
@@ -54,7 +309,72 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Breacher Fire Warrior Shas’ui"
+        },
+        {
+          "n": "Breacher Fire Warrior"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              3,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              4
+            ],
+            [
+              5
+            ],
+            [
+              6
+            ],
+            [
+              7
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "broadside-battlesuits",
@@ -95,7 +415,143 @@ export default {
       "step": {
         "at": 3,
         "pts": 20
-      }
+      },
+      "minis": [
+        {
+          "n": "Broadside Shas’vre"
+        },
+        {
+          "n": "Broadside Shas’ui"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              8,
+              1
+            ],
+            [
+              9,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              8,
+              1
+            ],
+            [
+              9,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 2,
+          "in": "stepper",
+          "o": [
+            [
+              10,
+              5
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              10,
+              5
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 3,
+          "in": "checkbox",
+          "o": [
+            [
+              11
+            ],
+            [
+              12
+            ],
+            [
+              13
+            ],
+            [
+              14
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 3,
+          "in": "checkbox",
+          "o": [
+            [
+              11
+            ],
+            [
+              12
+            ],
+            [
+              13
+            ],
+            [
+              14
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 4,
+          "in": "stepper",
+          "o": [
+            [
+              5
+            ],
+            [
+              6
+            ],
+            [
+              15
+            ],
+            [
+              7
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 4,
+          "in": "stepper",
+          "o": [
+            [
+              5
+            ],
+            [
+              6
+            ],
+            [
+              15
+            ],
+            [
+              7
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "cadre-fireblade",
@@ -129,6 +585,39 @@ export default {
         {
           "to": "strike-team",
           "type": "leader"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              21,
+              1
+            ],
+            [
+              22,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 7,
+          "in": "stepper",
+          "o": [
+            [
+              5
+            ],
+            [
+              6
+            ],
+            [
+              7
+            ]
+          ]
         }
       ]
     },
@@ -173,6 +662,21 @@ export default {
           "to": "crisis-sunforge-battlesuits",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              23,
+              1
+            ],
+            [
+              24,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -213,6 +717,113 @@ export default {
         {
           "to": "crisis-sunforge-battlesuits",
           "type": "leader"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              25,
+              1
+            ],
+            [
+              26,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 7,
+          "in": "stepper",
+          "o": [
+            [
+              5
+            ],
+            [
+              6
+            ],
+            [
+              7
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 8,
+          "in": "checkbox",
+          "o": [
+            [
+              27
+            ],
+            [
+              28
+            ],
+            [
+              29
+            ],
+            [
+              30
+            ],
+            [
+              31
+            ],
+            [
+              32
+            ],
+            [
+              33
+            ],
+            [
+              34
+            ],
+            [
+              35
+            ],
+            [
+              14
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 9,
+          "in": "checkbox",
+          "o": [
+            [
+              27
+            ],
+            [
+              28
+            ],
+            [
+              29
+            ],
+            [
+              30
+            ],
+            [
+              31
+            ],
+            [
+              32
+            ],
+            [
+              33
+            ],
+            [
+              34
+            ],
+            [
+              35
+            ],
+            [
+              14
+            ]
+          ]
         }
       ]
     },
@@ -255,6 +866,107 @@ export default {
           "to": "crisis-sunforge-battlesuits",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              29,
+              1
+            ],
+            [
+              25,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 8,
+          "in": "checkbox",
+          "o": [
+            [
+              28
+            ],
+            [
+              29
+            ],
+            [
+              30
+            ],
+            [
+              31
+            ],
+            [
+              32
+            ],
+            [
+              33
+            ],
+            [
+              34
+            ],
+            [
+              35
+            ],
+            [
+              14
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 10,
+          "in": "checkbox",
+          "o": [
+            [
+              27
+            ],
+            [
+              28
+            ],
+            [
+              30
+            ],
+            [
+              31
+            ],
+            [
+              32
+            ],
+            [
+              33
+            ],
+            [
+              34
+            ],
+            [
+              35
+            ],
+            [
+              14
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 7,
+          "in": "stepper",
+          "o": [
+            [
+              5
+            ],
+            [
+              6
+            ],
+            [
+              7
+            ]
+          ]
+        }
       ]
     },
     {
@@ -284,7 +996,42 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              36,
+              1
+            ],
+            [
+              37,
+              1
+            ],
+            [
+              25,
+              1
+            ],
+            [
+              38,
+              2
+            ],
+            [
+              39,
+              1
+            ],
+            [
+              40,
+              1
+            ],
+            [
+              41,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "crisis-fireknife-battlesuits",
@@ -313,7 +1060,127 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Crisis Fireknife Shas’vre"
+        },
+        {
+          "n": "Crisis Fireknife Shas’ui"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              42,
+              1
+            ],
+            [
+              43,
+              1
+            ],
+            [
+              44,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              44,
+              1
+            ],
+            [
+              42,
+              1
+            ],
+            [
+              43,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              42,
+              5
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              43
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 12,
+          "in": "stepper",
+          "o": [
+            [
+              43
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 13,
+          "in": "stepper",
+          "o": [
+            [
+              5
+            ],
+            [
+              6
+            ],
+            [
+              7
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 13,
+          "in": "checkbox",
+          "o": [
+            [
+              5
+            ],
+            [
+              6
+            ],
+            [
+              7
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 11,
+          "in": "stepper",
+          "o": [
+            [
+              42,
+              5
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "crisis-starscythe-battlesuits",
@@ -342,7 +1209,91 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Crisis Starscythe Shas’vre"
+        },
+        {
+          "n": "Crisis Starscythe Shas’ui"
+        }
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 14,
+          "in": "checkbox",
+          "o": [
+            [
+              35,
+              5
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 13,
+          "in": "checkbox",
+          "o": [
+            [
+              5
+            ],
+            [
+              6
+            ],
+            [
+              7
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 13,
+          "in": "stepper",
+          "o": [
+            [
+              5
+            ],
+            [
+              6
+            ],
+            [
+              7
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 15,
+          "in": "stepper",
+          "o": [
+            [
+              17
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 14,
+          "in": "stepper",
+          "o": [
+            [
+              35,
+              5
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 15,
+          "in": "checkbox",
+          "o": [
+            [
+              17
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "crisis-sunforge-battlesuits",
@@ -371,7 +1322,77 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Crisis Sunforge Shas’vre"
+        },
+        {
+          "n": "Crisis Sunforge Shas’ui"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              45,
+              2
+            ],
+            [
+              44,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              44,
+              1
+            ],
+            [
+              45,
+              2
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 16,
+          "in": "stepper",
+          "o": [
+            [
+              5
+            ],
+            [
+              6
+            ],
+            [
+              7
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 16,
+          "in": "stepper",
+          "o": [
+            [
+              5
+            ],
+            [
+              6
+            ],
+            [
+              7
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "darkstrider",
@@ -404,6 +1425,21 @@ export default {
           "to": "pathfinder-team",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              21,
+              1
+            ],
+            [
+              46,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -429,7 +1465,48 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              47,
+              2
+            ],
+            [
+              48,
+              1
+            ],
+            [
+              49,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 17,
+          "in": "stepper",
+          "o": [
+            [
+              11
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 18,
+          "in": "stepper",
+          "o": [
+            [
+              50
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "ethereal",
@@ -463,6 +1540,45 @@ export default {
           "to": "strike-team",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              51,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 19,
+          "in": "checkbox",
+          "o": [
+            [
+              52
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 7,
+          "in": "stepper",
+          "o": [
+            [
+              5
+            ],
+            [
+              6
+            ],
+            [
+              7
+            ]
+          ]
+        }
       ]
     },
     {
@@ -488,7 +1604,26 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              53,
+              1
+            ],
+            [
+              54,
+              1
+            ],
+            [
+              37,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "ghostkeel-battlesuit",
@@ -517,7 +1652,62 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              55,
+              1
+            ],
+            [
+              56,
+              1
+            ],
+            [
+              57,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 20,
+          "in": "checkbox",
+          "o": [
+            [
+              58
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 21,
+          "in": "checkbox",
+          "o": [
+            [
+              59,
+              10
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 22,
+          "in": "checkbox",
+          "o": [
+            [
+              60
+            ],
+            [
+              61
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "hammerhead-gunship",
@@ -544,7 +1734,61 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              62,
+              1
+            ],
+            [
+              49,
+              1
+            ],
+            [
+              63,
+              2
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 23,
+          "in": "checkbox",
+          "o": [
+            [
+              64
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 24,
+          "in": "stepper",
+          "o": [
+            [
+              48
+            ],
+            [
+              50
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 17,
+          "in": "stepper",
+          "o": [
+            [
+              11
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "kroot-carnivores",
@@ -575,7 +1819,69 @@ export default {
         }
       ],
       "linked": 1,
-      "condBattleline": 1
+      "condBattleline": 1,
+      "minis": [
+        {
+          "n": "Long-quill"
+        },
+        {
+          "n": "Kroot Carnivore"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              65,
+              1
+            ],
+            [
+              66,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              66,
+              1
+            ],
+            [
+              65,
+              1
+            ],
+            [
+              67,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 25,
+          "in": "stepper",
+          "o": [
+            [
+              68
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 26,
+          "in": "checkbox",
+          "o": [
+            [
+              69
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "kroot-farstalkers",
@@ -602,7 +1908,98 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Kroot Kill-broker"
+        },
+        {
+          "n": "Kroot Farstalker"
+        },
+        {
+          "n": "Kroot Hound"
+        }
+      ],
+      "defaults": [
+        [
+          2,
+          [
+            [
+              70,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              71,
+              1
+            ],
+            [
+              67,
+              1
+            ],
+            [
+              72,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              71,
+              1
+            ],
+            [
+              65,
+              1
+            ],
+            [
+              67,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 27,
+          "in": "checkbox",
+          "o": [
+            [
+              73
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 28,
+          "in": "checkbox",
+          "o": [
+            [
+              74
+            ],
+            [
+              75
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 29,
+          "in": "checkbox",
+          "o": [
+            [
+              76
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "kroot-flesh-shaper",
@@ -638,6 +2035,21 @@ export default {
           "to": "kroot-farstalkers",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              77,
+              1
+            ],
+            [
+              78,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -667,7 +2079,18 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              70,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "kroot-lone-spear",
@@ -692,7 +2115,41 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              79,
+              1
+            ],
+            [
+              80,
+              1
+            ],
+            [
+              81,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 30,
+          "in": "checkbox",
+          "o": [
+            [
+              82
+            ],
+            [
+              83
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "kroot-trail-shaper",
@@ -728,6 +2185,21 @@ export default {
           "to": "kroot-farstalkers",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              66,
+              1
+            ],
+            [
+              90,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -764,6 +2236,37 @@ export default {
           "to": "kroot-farstalkers",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              67,
+              1
+            ],
+            [
+              90,
+              1
+            ],
+            [
+              91,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 32,
+          "in": "checkbox",
+          "o": [
+            [
+              92
+            ]
+          ]
+        }
       ]
     },
     {
@@ -798,7 +2301,26 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              84,
+              1
+            ],
+            [
+              85,
+              1
+            ],
+            [
+              86,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "krootox-riders",
@@ -835,7 +2357,38 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              65,
+              1
+            ],
+            [
+              87,
+              1
+            ],
+            [
+              88,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 31,
+          "in": "stepper",
+          "o": [
+            [
+              89
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "manta",
@@ -862,7 +2415,38 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              93,
+              1
+            ],
+            [
+              11,
+              10
+            ],
+            [
+              19,
+              2
+            ],
+            [
+              94,
+              2
+            ],
+            [
+              95,
+              2
+            ],
+            [
+              64,
+              6
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "pathfinder-team",
@@ -885,7 +2469,119 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Pathfinder Shas’ui"
+        },
+        {
+          "n": "Pathfinder"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              96,
+              1
+            ],
+            [
+              2,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              2,
+              1
+            ],
+            [
+              96,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 33,
+          "in": "stepper",
+          "o": [
+            [
+              97,
+              5
+            ],
+            [
+              98
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 34,
+          "in": "checkbox",
+          "o": [
+            [
+              99
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 34,
+          "in": "checkbox",
+          "o": [
+            [
+              99
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 35,
+          "in": "stepper",
+          "o": [
+            [
+              5
+            ],
+            [
+              6
+            ],
+            [
+              7
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 36,
+          "in": "checkbox",
+          "o": [
+            [
+              100
+            ],
+            [
+              101
+            ],
+            [
+              102
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "piranhas",
@@ -926,7 +2622,48 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              47,
+              2
+            ],
+            [
+              103,
+              1
+            ],
+            [
+              104,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 37,
+          "in": "stepper",
+          "o": [
+            [
+              105
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 38,
+          "in": "stepper",
+          "o": [
+            [
+              11
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "razorshark-strike-fighter",
@@ -950,7 +2687,42 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              48,
+              1
+            ],
+            [
+              11,
+              2
+            ],
+            [
+              106,
+              1
+            ],
+            [
+              49,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 39,
+          "in": "checkbox",
+          "o": [
+            [
+              19
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "riptide-battlesuit",
@@ -978,7 +2750,62 @@ export default {
       "step": {
         "at": 3,
         "pts": 30
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              12,
+              1
+            ],
+            [
+              107,
+              1
+            ],
+            [
+              108,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 40,
+          "in": "checkbox",
+          "o": [
+            [
+              109,
+              20
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 41,
+          "in": "checkbox",
+          "o": [
+            [
+              60
+            ],
+            [
+              110
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 42,
+          "in": "stepper",
+          "o": [
+            [
+              15
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "sky-ray-gunship",
@@ -1002,7 +2829,41 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              49,
+              1
+            ],
+            [
+              47,
+              2
+            ],
+            [
+              111,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 24,
+          "in": "stepper",
+          "o": [
+            [
+              48
+            ],
+            [
+              50
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "stealth-battlesuits",
@@ -1031,7 +2892,105 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Stealth Shas’vre"
+        },
+        {
+          "n": "Stealth Shas’ui"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              17,
+              1
+            ],
+            [
+              112,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              112,
+              1
+            ],
+            [
+              17,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 43,
+          "in": "checkbox",
+          "o": [
+            [
+              113
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 44,
+          "in": "checkbox",
+          "o": [
+            [
+              5
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 45,
+          "in": "checkbox",
+          "o": [
+            [
+              6
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 46,
+          "in": "checkbox",
+          "o": [
+            [
+              45
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 47,
+          "in": "checkbox",
+          "o": [
+            [
+              2
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 46,
+          "in": "stepper",
+          "o": [
+            [
+              45
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "stormsurge",
@@ -1059,7 +3018,63 @@ export default {
       "step": {
         "at": 2,
         "pts": 25
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              56,
+              1
+            ],
+            [
+              114,
+              1
+            ],
+            [
+              115,
+              1
+            ],
+            [
+              116,
+              1
+            ],
+            [
+              117,
+              1
+            ],
+            [
+              118,
+              2
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 48,
+          "in": "checkbox",
+          "o": [
+            [
+              119
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 22,
+          "in": "checkbox",
+          "o": [
+            [
+              120
+            ],
+            [
+              121
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "strike-team",
@@ -1084,7 +3099,82 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Fire Warrior Shas’ui"
+        },
+        {
+          "n": "Fire Warrior"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              122,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              2,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              122,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 49,
+          "in": "stepper",
+          "o": [
+            [
+              96
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 50,
+          "in": "checkbox",
+          "o": [
+            [
+              4
+            ],
+            [
+              5
+            ],
+            [
+              6
+            ],
+            [
+              7
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "sun-shark-bomber",
@@ -1108,7 +3198,42 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              11,
+              2
+            ],
+            [
+              49,
+              1
+            ],
+            [
+              42,
+              1
+            ],
+            [
+              123,
+              2
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 51,
+          "in": "checkbox",
+          "o": [
+            [
+              124
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "taunar-supremacy-armour",
@@ -1137,7 +3262,76 @@ export default {
       "step": {
         "at": 2,
         "pts": 100
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              132,
+              3
+            ],
+            [
+              50,
+              4
+            ],
+            [
+              133,
+              1
+            ],
+            [
+              134,
+              1
+            ],
+            [
+              17,
+              4
+            ],
+            [
+              135,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 52,
+          "in": "checkbox",
+          "o": [
+            [
+              134
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 53,
+          "in": "checkbox",
+          "o": [
+            [
+              133
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 54,
+          "in": "stepper",
+          "o": [
+            [
+              136
+            ],
+            [
+              137
+            ],
+            [
+              138
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "the-twin-lance",
@@ -1166,7 +3360,59 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Ri’Lantar"
+        },
+        {
+          "n": "Ri’Locai"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              125,
+              1
+            ],
+            [
+              126,
+              1
+            ],
+            [
+              127,
+              1
+            ],
+            [
+              128,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              129,
+              1
+            ],
+            [
+              126,
+              1
+            ],
+            [
+              127,
+              1
+            ],
+            [
+              128,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "tidewall-droneport",
@@ -1191,7 +3437,18 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              130,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "tidewall-gunrig",
@@ -1216,7 +3473,18 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              131,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "tidewall-shieldline",
@@ -1248,7 +3516,15 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Tidewall Defence Platform"
+        },
+        {
+          "n": "Tidewall Shieldline"
+        }
+      ]
     },
     {
       "id": "tiger-shark",
@@ -1276,7 +3552,79 @@ export default {
       "step": {
         "at": 2,
         "pts": 50
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              144,
+              1
+            ],
+            [
+              64,
+              2
+            ],
+            [
+              17,
+              2
+            ],
+            [
+              19,
+              2
+            ],
+            [
+              18,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 6,
+          "in": "stepper",
+          "o": [
+            [
+              145
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 57,
+          "in": "stepper",
+          "o": [
+            [
+              146
+            ],
+            [
+              147
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 58,
+          "in": "stepper",
+          "o": [
+            [
+              148
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 5,
+          "in": "stepper",
+          "o": [
+            [
+              11
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "vespid-stingwings",
@@ -1305,7 +3653,71 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Vespid Strain Leader"
+        },
+        {
+          "n": "Vespid Stingwing"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              139,
+              1
+            ],
+            [
+              140,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              139,
+              1
+            ],
+            [
+              140,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 55,
+          "in": "checkbox",
+          "o": [
+            [
+              35
+            ],
+            [
+              141
+            ],
+            [
+              142
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 56,
+          "in": "checkbox",
+          "o": [
+            [
+              143
+            ]
+          ]
+        }
+      ]
     }
   ],
   "detachments": [

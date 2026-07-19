@@ -2,6 +2,149 @@
 export default {
   "slug": "adeptus-mechanicus",
   "name": "Adeptus Mechanicus",
+  "items": {
+    "1": "Armoured hull",
+    "2": "Command Uplink",
+    "3": "Cognis heavy stubber array",
+    "4": "Chaff Launcher",
+    "5": "Heavy phosphor blaster",
+    "6": "Twin cognis lascannon",
+    "7": "Cognis heavy stubber",
+    "8": "Arc scourge",
+    "9": "Solar atomiser",
+    "10": "Mechadendrite hive",
+    "11": "Cawl’s Omnissian axe",
+    "12": "Electrostatic gauntlets",
+    "13": "Power fist",
+    "14": "Mechanicus pistol",
+    "15": "Electroleech stave",
+    "16": "Eradication caster",
+    "17": "Hastarii arc blaster",
+    "18": "Power weapon",
+    "19": "Close combat weapon",
+    "20": "Hastarii phosphor blaster",
+    "21": "Neutron fusil",
+    "22": "Twin cognis autocannon",
+    "23": "Ironstrider feet",
+    "24": "Twin cognis lascannon",
+    "25": "Incendine combustor",
+    "26": "Twin Kastelan fist",
+    "27": "Kastelan phosphor blaster",
+    "28": "Kastelan fist",
+    "29": "Twin Kastelan phosphor blaster",
+    "30": "Close combat weapon",
+    "31": "Arc claw",
+    "32": "Heavy arc rifle",
+    "33": "Hydraulic claw",
+    "34": "Torsion cannon",
+    "35": "Heavy grav-cannon",
+    "36": "Close combat weapon",
+    "37": "Phosphor blaster",
+    "38": "Kataphron plasma culverin",
+    "39": "Cognis flamer",
+    "40": "Eradication beamer",
+    "41": "Dunecrawler legs",
+    "42": "Broad spectrum data-tether",
+    "43": "Daedalus missile launcher",
+    "44": "Icarus array",
+    "45": "Neutron laser",
+    "46": "Twin Onager heavy phosphor blaster",
+    "47": "Flechette blaster",
+    "48": "Taser goad",
+    "49": "Flechette carbine",
+    "50": "Close combat weapon",
+    "51": "Phosphor torch",
+    "52": "Pteraxii talons",
+    "53": "Galvanic carbine",
+    "54": "Mechanicus pistol",
+    "55": "Cavalry sabre and clawed limbs",
+    "56": "Enhanced data-tether",
+    "57": "Clawed limbs",
+    "58": "Sulphur breath",
+    "59": "Phosphor pistol",
+    "60": "Cavalry arc maul",
+    "61": "Phosphor blast carbine",
+    "62": "Dataspikes",
+    "63": "Servo-claw",
+    "64": "Phosphor blaster",
+    "65": "Meltagun",
+    "66": "Incendine igniter",
+    "67": "Stubcarbine",
+    "68": "Power weapon",
+    "69": "Taser goad",
+    "70": "Transonic razor and chordclaw",
+    "71": "Transonic blades",
+    "72": "Transonic blades and chordclaw",
+    "73": "Control stave",
+    "74": "Close combat weapon",
+    "75": "Galvanic rifle",
+    "76": "Alpha combat weapon",
+    "77": "Transuranic arquebus",
+    "78": "Plasma caliver",
+    "79": "Omnispex",
+    "80": "Arc rifle",
+    "81": "Radium carbine",
+    "82": "Disruptor missile launcher",
+    "83": "Belleros energy cannon",
+    "84": "Ferrumite cannon",
+    "85": "Radium jezzail",
+    "86": "Phosphor serpenta",
+    "87": "Taser lance",
+    "88": "Sydonian feet",
+    "89": "Radium jezzail",
+    "90": "Skatros transuranic arquebus",
+    "91": "Servo-arc claw",
+    "92": "Volkite blaster",
+    "93": "Macrostubber",
+    "94": "Omnissian axe",
+    "95": "Phosphor serpenta",
+    "96": "Eradication ray",
+    "97": "Omnissian axe",
+    "98": "Servo-arm",
+    "99": "Magnarail lance",
+    "100": "Omnissian staff",
+    "101": "Transonic cannon",
+    "102": "Jericho‑class conversion resonator",
+    "103": "Rod of the War Forge"
+  },
+  "texts": {
+    "1": "This model’s command uplink can be replaced with 1 chaff launcher.",
+    "2": "Any number of models can each have their twin cognis autocannon replaced with 1 twin cognis lascannon.",
+    "3": "Any number of models can each have their twin Kastelan fist replaced with one of the following: \n◦ 1 Kastelan phosphor blaster and 1 Kastelan fist \n◦ 1 twin Kastelan phosphor blaster and 1 close combat weapon",
+    "4": "Any number of models can each have their incendine combustor replaced with 1 heavy phosphor blaster.",
+    "5": "Any number of models can each have their arc claw replaced with 1 hydraulic claw.",
+    "6": "Any number of models can each have their heavy arc rifle replaced with 1 torsion cannon.",
+    "7": "Any number of models can each have their heavy grav-cannon replaced with 1 Kataphron plasma culverin.",
+    "8": "Any number of models can each have their phosphor blaster replaced with 1 cognis flamer.",
+    "9": "This model can be equipped with 1 broad spectrum data-tether.",
+    "10": "This model can be equipped with 1 additional cognis heavy stubber.",
+    "11": "This model’s eradication beamer can be replaced with one of the following: \n\n◦ 1 daedalus missile launcher and 1 Icarus array \n◦ 1 neutron laser and 1 cognis heavy stubber \n◦ 1 twin Onager heavy phosphor blaster",
+    "12": "1 Serberys Raider can be equipped with 1 enhanced data-tether.",
+    "13": "For every 3 models in this unit, 1 Serberys Sulphurhound’s 2 phosphor pistols can be replaced with 1 phosphor blast carbine and 1 phosphor pistol.",
+    "14": "1 Combat Servitor model can have its 1 phosphor blaster replaced with 1 meltagun.",
+    "15": "Up to 3 Combat Servitor models can each have their 1 phosphor blaster replaced with 1 incendine igniter.",
+    "16": "Any number of models can each have their stubcarbine and power weapon replaced with 1 flechette blaster and 1 taser goad.",
+    "17": "Any number of Sicarian Ruststalkers can each have their transonic razor and chordclaw replaced with 1 transonic blades.",
+    "18": "The Sicarian Ruststalker Princeps’ transonic razor and chordclaw can be replaced with 1 transonic blades and chordclaw.",
+    "19": "The Skitarii Ranger Alpha can be equipped with 1 Alpha combat weapon.",
+    "20": "1 Skitarii Ranger’s galvanic rifle can be replaced with 1 transuranic arquebus.",
+    "21": "1 Skitarii Ranger’s galvanic rifle can be replaced with 1 plasma caliver.",
+    "22": "1 Skitarii Ranger equipped with a galvanic rifle can be equipped with one of the following:\n◦ 1 enhanced data-tether*\n◦ 1 omnispex*\n\n* That model’s galvanic rifle cannot be replaced.",
+    "23": "The Skitarii Ranger Alpha’s galvanic rifle can be replaced with 1 Mechanicus pistol.",
+    "24": "1 Skitarii Ranger’s galvanic rifle can be replaced with 1 arc rifle.",
+    "25": "1 Skitarii Vanguard equipped with a radium carbine can be equipped with one of the following: \n\n◦ 1 enhanced data-tether* \n◦ 1 omnispex* \n\n* That model’s radium carbine cannot be replaced.",
+    "26": "1 Skitarii Vanguard’s radium carbine can be replaced with 1 transuranic arquebus.",
+    "27": "1 Skitarii Vanguard’s radium carbine can be replaced with 1 arc rifle.",
+    "28": "1 Skitarii Vanguard’s radium carbine can be replaced with 1 plasma caliver.",
+    "29": "The Skitarii Vanguard Alpha’s radium carbine can be replaced with 1 Mechanicus pistol.",
+    "30": "The Skitarii Vanguard Alpha can be equipped with 1 Alpha combat weapon.",
+    "31": "This model’s belleros energy cannon can be replaced with 1 ferrumite cannon.",
+    "32": "Defualt Wargear",
+    "33": "This model’s radium jezzail can be replaced with 1 Skatros transuranic arquebus.",
+    "34": "This model’s macrostubber can be replaced with 1 phosphor serpenta.",
+    "35": "This model’s volkite blaster can be replaced with 1 eradication ray.",
+    "36": "This model’s magnarail lance can be replaced with 1 transonic cannon."
+  },
   "units": [
     {
       "id": "archaeopter-fusilave",
@@ -26,7 +169,38 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              4
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "archaeopter-stratoraptor",
@@ -51,7 +225,46 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2,
+              1
+            ],
+            [
+              5,
+              2
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              7,
+              2
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              4
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "archaeopter-transvector",
@@ -76,7 +289,38 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              3,
+              1
+            ],
+            [
+              2,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              4
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "belisarius-cawl",
@@ -106,7 +350,30 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              8,
+              1
+            ],
+            [
+              9,
+              1
+            ],
+            [
+              10,
+              1
+            ],
+            [
+              11,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "corpuscarii-electro-priests",
@@ -137,7 +404,18 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              12,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "cybernetica-datasmith",
@@ -170,6 +448,21 @@ export default {
           "to": "kastelan-robots",
           "type": "support"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              13,
+              1
+            ],
+            [
+              14,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -201,7 +494,18 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              15,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "hastarii-exterminators",
@@ -229,7 +533,51 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "minis": [
+        {
+          "n": "Hastarii Exterminator Alpha"
+        },
+        {
+          "n": "Hastarii Exterminator"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              16,
+              1
+            ],
+            [
+              17,
+              1
+            ],
+            [
+              18,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              19,
+              1
+            ],
+            [
+              16,
+              1
+            ],
+            [
+              17,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "hastarii-fusiliers",
@@ -257,7 +605,51 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "minis": [
+        {
+          "n": "Hastarii Fusilier Alpha"
+        },
+        {
+          "n": "Hastarii Fusilier"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              20,
+              1
+            ],
+            [
+              21,
+              1
+            ],
+            [
+              18,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              19,
+              1
+            ],
+            [
+              20,
+              1
+            ],
+            [
+              21,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "ironstrider-ballistarii",
@@ -300,7 +692,35 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              22,
+              1
+            ],
+            [
+              23,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 2,
+          "in": "stepper",
+          "o": [
+            [
+              24,
+              10
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "kastelan-robots",
@@ -335,7 +755,53 @@ export default {
       "step": {
         "at": 2,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              25,
+              1
+            ],
+            [
+              26,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 3,
+          "in": "stepper",
+          "o": [
+            [
+              27
+            ],
+            [
+              28
+            ],
+            [
+              29
+            ],
+            [
+              30
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 4,
+          "in": "stepper",
+          "o": [
+            [
+              5
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "kataphron-breachers",
@@ -366,7 +832,44 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              31,
+              1
+            ],
+            [
+              32,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 5,
+          "in": "stepper",
+          "o": [
+            [
+              33
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 6,
+          "in": "stepper",
+          "o": [
+            [
+              34
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "kataphron-destroyers",
@@ -397,7 +900,48 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              35,
+              1
+            ],
+            [
+              36,
+              1
+            ],
+            [
+              37,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 7,
+          "in": "stepper",
+          "o": [
+            [
+              38
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 8,
+          "in": "stepper",
+          "o": [
+            [
+              39
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "onager-dunecrawler",
@@ -422,7 +966,66 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              40,
+              1
+            ],
+            [
+              41,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 9,
+          "in": "checkbox",
+          "o": [
+            [
+              42
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 10,
+          "in": "checkbox",
+          "o": [
+            [
+              7
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              43
+            ],
+            [
+              44
+            ],
+            [
+              45
+            ],
+            [
+              7
+            ],
+            [
+              46
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "pteraxii-skystalkers",
@@ -460,7 +1063,43 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Pteraxii Skystalker Alpha"
+        },
+        {
+          "n": "Pteraxii Skystalker"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              47,
+              1
+            ],
+            [
+              48,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              49,
+              1
+            ],
+            [
+              50,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "pteraxii-sterylizors",
@@ -497,7 +1136,47 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Pteraxii Sterylizor Alpha"
+        },
+        {
+          "n": "Pteraxii Sterylizor"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              51,
+              1
+            ],
+            [
+              52,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              47,
+              1
+            ],
+            [
+              48,
+              1
+            ],
+            [
+              52,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "serberys-raiders",
@@ -527,7 +1206,59 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Serberys Raider Alpha"
+        },
+        {
+          "n": "Serberys Raider"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              53,
+              1
+            ],
+            [
+              54,
+              1
+            ],
+            [
+              55,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              55,
+              1
+            ],
+            [
+              53,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              56
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "serberys-sulphurhounds",
@@ -557,7 +1288,70 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Serberys Sulphurhound Alpha"
+        },
+        {
+          "n": "Serberys Sulphurhound"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              57,
+              1
+            ],
+            [
+              58,
+              1
+            ],
+            [
+              59,
+              2
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              60,
+              1
+            ],
+            [
+              58,
+              1
+            ],
+            [
+              57,
+              1
+            ],
+            [
+              54,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 13,
+          "in": "stepper",
+          "o": [
+            [
+              61
+            ],
+            [
+              59
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "servitor-battleclade",
@@ -581,7 +1375,77 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Servitor Underseer"
+        },
+        {
+          "n": "Gun Servitor"
+        },
+        {
+          "n": "Combat Servitor"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              62,
+              1
+            ],
+            [
+              54,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              63,
+              1
+            ],
+            [
+              64,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              63,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 2,
+          "t": 14,
+          "in": "checkbox",
+          "o": [
+            [
+              65
+            ]
+          ]
+        },
+        {
+          "m": 2,
+          "t": 15,
+          "in": "stepper",
+          "o": [
+            [
+              66
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "sicarian-infiltrators",
@@ -616,7 +1480,71 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Sicarian Infiltrator Princeps"
+        },
+        {
+          "n": "Sicarian Infiltrator"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              67,
+              1
+            ],
+            [
+              68,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              67,
+              1
+            ],
+            [
+              68,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 16,
+          "in": "checkbox",
+          "o": [
+            [
+              47
+            ],
+            [
+              69
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 16,
+          "in": "stepper",
+          "o": [
+            [
+              47
+            ],
+            [
+              69
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "sicarian-ruststalkers",
@@ -651,7 +1579,57 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Sicarian Ruststalker Princeps"
+        },
+        {
+          "n": "Sicarian Ruststalker"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              70,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              70,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 17,
+          "in": "stepper",
+          "o": [
+            [
+              71
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 18,
+          "in": "checkbox",
+          "o": [
+            [
+              72
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "skitarii-marshal",
@@ -695,6 +1673,21 @@ export default {
           "to": "hastarii-fusiliers",
           "type": "support"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              73,
+              1
+            ],
+            [
+              14,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -719,7 +1712,108 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Skitarii Ranger Alpha"
+        },
+        {
+          "n": "Skitarii Ranger"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              74,
+              1
+            ],
+            [
+              75,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              74,
+              1
+            ],
+            [
+              75,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 19,
+          "in": "checkbox",
+          "o": [
+            [
+              76
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 20,
+          "in": "checkbox",
+          "o": [
+            [
+              77
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 21,
+          "in": "checkbox",
+          "o": [
+            [
+              78
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 22,
+          "in": "checkbox",
+          "o": [
+            [
+              56
+            ],
+            [
+              79
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 23,
+          "in": "checkbox",
+          "o": [
+            [
+              54
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 24,
+          "in": "checkbox",
+          "o": [
+            [
+              80
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "skitarii-vanguard",
@@ -743,7 +1837,108 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Skitarii Vanguard Alpha"
+        },
+        {
+          "n": "Skitarii Vanguard"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              81,
+              1
+            ],
+            [
+              74,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              81,
+              1
+            ],
+            [
+              74,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 25,
+          "in": "checkbox",
+          "o": [
+            [
+              56
+            ],
+            [
+              79
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 26,
+          "in": "checkbox",
+          "o": [
+            [
+              77
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 27,
+          "in": "checkbox",
+          "o": [
+            [
+              80
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 28,
+          "in": "checkbox",
+          "o": [
+            [
+              78
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 29,
+          "in": "checkbox",
+          "o": [
+            [
+              54
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 30,
+          "in": "checkbox",
+          "o": [
+            [
+              76
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "skorpius-disintegrator",
@@ -768,7 +1963,43 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              82,
+              1
+            ],
+            [
+              7,
+              3
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              83,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 31,
+          "in": "checkbox",
+          "o": [
+            [
+              84,
+              10
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "skorpius-dunerider",
@@ -795,7 +2026,22 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              3,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "sydonian-dragoons-with-radium-jezzails",
@@ -835,7 +2081,26 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              23,
+              1
+            ],
+            [
+              85,
+              1
+            ],
+            [
+              86,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "sydonian-dragoons-with-taser-lances",
@@ -875,7 +2140,22 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              87,
+              1
+            ],
+            [
+              86,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "sydonian-skatros",
@@ -903,7 +2183,60 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              88,
+              1
+            ],
+            [
+              14,
+              1
+            ],
+            [
+              89,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 32,
+          "in": "checkbox",
+          "o": [
+            [
+              14,
+              0,
+              1
+            ],
+            [
+              89,
+              0,
+              1
+            ],
+            [
+              88,
+              0,
+              1
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 33,
+          "in": "checkbox",
+          "o": [
+            [
+              90
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "tech-priest-dominus",
@@ -968,6 +2301,47 @@ export default {
           "to": "servitor-battleclade",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              92,
+              1
+            ],
+            [
+              93,
+              1
+            ],
+            [
+              94,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 34,
+          "in": "checkbox",
+          "o": [
+            [
+              95
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 35,
+          "in": "checkbox",
+          "o": [
+            [
+              96
+            ]
+          ]
+        }
       ]
     },
     {
@@ -1021,6 +2395,25 @@ export default {
           "to": "skitarii-vanguard",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              14,
+              1
+            ],
+            [
+              97,
+              1
+            ],
+            [
+              98,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -1085,6 +2478,33 @@ export default {
         {
           "to": "kataphron-destroyers",
           "type": "leader"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              99,
+              1
+            ],
+            [
+              100,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 36,
+          "in": "checkbox",
+          "o": [
+            [
+              101
+            ]
+          ]
         }
       ]
     },
@@ -1151,6 +2571,21 @@ export default {
           "to": "servitor-battleclade",
           "type": "support"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              14,
+              1
+            ],
+            [
+              91,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -1181,7 +2616,22 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              102,
+              1
+            ],
+            [
+              103,
+              1
+            ]
+          ]
+        ]
+      ]
     }
   ],
   "detachments": [

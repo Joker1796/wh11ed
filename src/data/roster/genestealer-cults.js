@@ -2,6 +2,90 @@
 export default {
   "slug": "genestealer-cults",
   "name": "Genestealer Cults",
+  "items": {
+    "1": "Aberrant weapons",
+    "2": "Power sledgehammer",
+    "3": "Armoured hull",
+    "4": "Flare launcher",
+    "5": "Heavy mining laser",
+    "6": "Twin heavy stubber",
+    "7": "Achilles missile launcher",
+    "8": "Heavy mortar",
+    "9": "Spotter",
+    "10": "Survey Augur",
+    "11": "Cult claws and knife",
+    "12": "Autopistol",
+    "13": "Leader’s bio-weapons",
+    "14": "Cult Icon",
+    "15": "Heavy mining tool",
+    "16": "Hand flamer",
+    "17": "Demolition charges",
+    "18": "Cult claws",
+    "19": "Autopistol",
+    "20": "Atalan small arms",
+    "21": "Close combat weapon",
+    "22": "Heavy stubber",
+    "23": "Atalan power weapon",
+    "24": "Grenade launcher",
+    "25": "Atalan incinerator",
+    "26": "Mining laser",
+    "27": "Alchemicus Familiar",
+    "28": "Injector goad",
+    "29": "Chemical vials",
+    "30": "Close combat weapon",
+    "31": "Demolition charge cache",
+    "32": "Drilldozer blade",
+    "33": "Heavy stubber",
+    "34": "Clearance incinerator",
+    "35": "Heavy seismic cannon",
+    "36": "Armoured hull",
+    "37": "Twin autocannon",
+    "38": "Leader’s cult weapons",
+    "39": "Metamorph mutations",
+    "40": "Cult sniper rifle",
+    "41": "Close combat weapon",
+    "42": "Liberator autostubs",
+    "43": "Locus blades",
+    "44": "Force stave",
+    "45": "Hybrid firearm",
+    "46": "Close combat weapon",
+    "47": "Mining laser",
+    "48": "Seismic cannon",
+    "49": "Flamer",
+    "50": "Webber",
+    "51": "Anointed pistol",
+    "52": "Chainsword",
+    "53": "Power weapon",
+    "54": "Cult Icon",
+    "55": "Patriarch’s claws",
+    "56": "Scoped needle pistol",
+    "57": "Cult bonesword",
+    "58": "Toxin injector claw",
+    "59": "Cult claws and talons",
+    "60": "Demolition charges",
+    "61": "Remote explosives",
+    "62": "Sanctus bio-dagger",
+    "63": "Cult sniper rifle"
+  },
+  "texts": {
+    "1": "Any number of models can each have their heavy mining laser replaced with one of the following:",
+    "2": "Any number of models can each have their flare launcher replaced with one of the following:",
+    "3": "The Acolyte Leader’s cult claws and knife can be replaced with 1 Leader’s bio-weapons.",
+    "4": "One Acolyte Hybrid’s autopistol can be replaced with 1 cult icon.",
+    "5": "For every 5 models in this unit, up to 3 Acolyte Hybrids can each have their autopistol and cult claws and knife replaced with 1 heavy mining tool.",
+    "6": "For every 5 models in this unit, up to 2 Acolyte Hybrids can each have their hand flamer replaced with 1 demolition charges.",
+    "7": "One Acolyte Hybrid’s hand flamer can be replaced with 1 cult icon.",
+    "8": "For every 4 Atalan Jackals in this unit, up to 2 Atalan Jackals’ close combat weapons can each be replaced with 1 Atalan power weapon.",
+    "9": "For every 4 Atalan Jackals in this unit, 1 Atalan Jackal’s Atalan small arms can be replaced with 1 grenade launcher.",
+    "10": "Any number of Atalan Wolfquads can each have their heavy stubber replaced with one of the following:",
+    "11": "This model’s heavy mining laser can be replaced with one of the following:",
+    "12": "One Hybrid Metamorph’s autopistol can be replaced with 1 cult icon.",
+    "13": "Any number of models can each have their autopistol replaced with 1 hand flamer.",
+    "14": "For every 10 models in this unit, up to 2 Neophyte Hybrids can each have their Hybrid firearm replaced with one of the following*:\n\n* To a maximum of 1 per 10 models in this unit.",
+    "15": "The Neophyte Leader’s Hybrid firearm and close combat weapon can be replaced with 1 of the following:\n◦ 1 anointed pistol and 1 chainsword\n◦ 1 anointed pistol and 1 power weapon",
+    "16": "One Neophyte Hybrid equipped with a Hybrid firearm can be equipped with 1 cult icon.",
+    "17": "This model’s Sanctus bio-dagger can be replaced with 1 cult sniper rifle and 1 close combat weapon."
+  },
   "units": [
     {
       "id": "aberrants",
@@ -34,7 +118,35 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Aberrant Hypermorph"
+        },
+        {
+          "n": "Aberrant"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              1,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "abominant",
@@ -69,6 +181,17 @@ export default {
           "to": "aberrants",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -102,7 +225,58 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              3,
+              1
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              5,
+              1
+            ],
+            [
+              6,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 1,
+          "in": "stepper",
+          "o": [
+            [
+              7
+            ],
+            [
+              8
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 2,
+          "in": "stepper",
+          "o": [
+            [
+              9
+            ],
+            [
+              10
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "acolyte-hybrids-with-autopistols",
@@ -134,7 +308,75 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Acolyte Leader"
+        },
+        {
+          "n": "Acolyte Hybrid"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              11,
+              1
+            ],
+            [
+              12,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              11,
+              1
+            ],
+            [
+              12,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 3,
+          "in": "checkbox",
+          "o": [
+            [
+              13
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 4,
+          "in": "checkbox",
+          "o": [
+            [
+              14
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 5,
+          "in": "stepper",
+          "o": [
+            [
+              15
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "acolyte-hybrids-with-hand-flamers",
@@ -166,7 +408,75 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Acolyte Leader"
+        },
+        {
+          "n": "Acolyte Hybrid"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              16,
+              1
+            ],
+            [
+              11,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              16,
+              1
+            ],
+            [
+              11,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 3,
+          "in": "checkbox",
+          "o": [
+            [
+              13
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 6,
+          "in": "stepper",
+          "o": [
+            [
+              17
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              14
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "acolyte-iconward",
@@ -210,6 +520,21 @@ export default {
           "to": "neophyte-hybrids",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              18,
+              1
+            ],
+            [
+              19,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -251,7 +576,82 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Atalan Jackal"
+        },
+        {
+          "n": "Atalan Wolfquad"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              20,
+              1
+            ],
+            [
+              21,
+              1
+            ],
+            [
+              22,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              21,
+              1
+            ],
+            [
+              20,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 8,
+          "in": "stepper",
+          "o": [
+            [
+              23
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 9,
+          "in": "stepper",
+          "o": [
+            [
+              24
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 10,
+          "in": "stepper",
+          "o": [
+            [
+              25
+            ],
+            [
+              26
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "benefictus",
@@ -342,6 +742,29 @@ export default {
           "to": "aberrants",
           "type": "support"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              27,
+              1
+            ],
+            [
+              28,
+              1
+            ],
+            [
+              29,
+              1
+            ],
+            [
+              19,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -385,6 +808,21 @@ export default {
           "to": "neophyte-hybrids",
           "type": "support"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              30,
+              1
+            ],
+            [
+              19,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -413,7 +851,45 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              5,
+              1
+            ],
+            [
+              31,
+              1
+            ],
+            [
+              32,
+              1
+            ],
+            [
+              33,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              34
+            ],
+            [
+              35
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "goliath-truck",
@@ -438,7 +914,30 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              31,
+              1
+            ],
+            [
+              33,
+              1
+            ],
+            [
+              36,
+              1
+            ],
+            [
+              37,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "hybrid-metamorphs",
@@ -472,7 +971,75 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Metamorph Leader"
+        },
+        {
+          "n": "Hybrid Metamorph"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              12,
+              1
+            ],
+            [
+              38,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              12,
+              1
+            ],
+            [
+              39,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              14
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 13,
+          "in": "checkbox",
+          "o": [
+            [
+              16
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 13,
+          "in": "stepper",
+          "o": [
+            [
+              16
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "jackal-alphus",
@@ -504,6 +1071,25 @@ export default {
           "to": "atalan-jackals",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              40,
+              1
+            ],
+            [
+              19,
+              1
+            ],
+            [
+              41,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -529,7 +1115,22 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              41,
+              1
+            ],
+            [
+              42,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "locus",
@@ -572,6 +1173,17 @@ export default {
           "to": "neophyte-hybrids",
           "type": "support"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              43,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -616,6 +1228,21 @@ export default {
           "to": "neophyte-hybrids",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              44,
+              1
+            ],
+            [
+              19,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -647,7 +1274,111 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Neophyte Leader"
+        },
+        {
+          "n": "Neophyte Hybrid"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              45,
+              1
+            ],
+            [
+              46,
+              1
+            ],
+            [
+              12,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              12,
+              1
+            ],
+            [
+              45,
+              1
+            ],
+            [
+              46,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 14,
+          "in": "stepper",
+          "o": [
+            [
+              33
+            ],
+            [
+              47
+            ],
+            [
+              48
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 14,
+          "in": "stepper",
+          "o": [
+            [
+              49
+            ],
+            [
+              24
+            ],
+            [
+              50
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 15,
+          "in": "checkbox",
+          "o": [
+            [
+              51
+            ],
+            [
+              52
+            ],
+            [
+              53
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 16,
+          "in": "checkbox",
+          "o": [
+            [
+              54
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "nexos",
@@ -690,6 +1421,21 @@ export default {
           "to": "hybrid-metamorphs",
           "type": "support"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              30,
+              1
+            ],
+            [
+              19,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -723,6 +1469,17 @@ export default {
           "to": "purestrain-genestealers",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              55,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -766,6 +1523,25 @@ export default {
           "to": "hybrid-metamorphs",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              56,
+              1
+            ],
+            [
+              57,
+              1
+            ],
+            [
+              58,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -799,7 +1575,18 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              59,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "reductus-saboteur",
@@ -825,7 +1612,30 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              30,
+              1
+            ],
+            [
+              60,
+              1
+            ],
+            [
+              61,
+              1
+            ],
+            [
+              19,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "sanctus",
@@ -850,7 +1660,33 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              62,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 17,
+          "in": "checkbox",
+          "o": [
+            [
+              63
+            ],
+            [
+              30
+            ]
+          ]
+        }
+      ]
     }
   ],
   "detachments": [

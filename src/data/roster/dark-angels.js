@@ -2,6 +2,65 @@
 export default {
   "slug": "dark-angels",
   "name": "Dark Angels",
+  "items": {
+    "1": "Crozius arcanum and power weapon",
+    "2": "Heavy bolt pistol",
+    "3": "The Lion Helm",
+    "4": "The Sword of Secrets",
+    "5": "Lion’s Wrath",
+    "6": "The Sword of Silence",
+    "7": "Master-crafted storm bolter",
+    "8": "Mace of absolution",
+    "9": "Great weapon of the Unforgiven",
+    "10": "Power weapon",
+    "11": "Relic weapon",
+    "12": "Watcher in the Dark",
+    "13": "Power fist",
+    "14": "Storm bolter",
+    "15": "Power weapon",
+    "16": "Assault cannon",
+    "17": "Heavy flamer",
+    "18": "Plasma cannon",
+    "19": "Cyclone missile launcher",
+    "20": "Chainfist",
+    "21": "Traitor’s Bane",
+    "22": "The Deliverer",
+    "23": "Book of Salvation",
+    "24": "Mind Wipe",
+    "25": "Calibanite greatsword",
+    "26": "Enmity’s Edge",
+    "27": "Bolt Pistol",
+    "28": "Close combat weapon",
+    "29": "Plasma storm battery",
+    "30": "Heavy bolter",
+    "31": "Arma Luminis",
+    "32": "Fealty",
+    "33": "Armoured hull",
+    "34": "Twin heavy bolter",
+    "35": "Avenger mega bolter",
+    "36": "Blacksword missiles",
+    "37": "Nephilim lascannons",
+    "38": "Bolt pistol",
+    "39": "Plasma talon",
+    "40": "Black Knight combat weapon",
+    "41": "Astartes grenade launcher",
+    "42": "Master-crafted power weapon",
+    "43": "Rift cannon",
+    "44": "Hurricane bolter",
+    "45": "Twin storm bolter",
+    "46": "The Raven Sword",
+    "47": "Master-crafted plasma cannon"
+  },
+  "texts": {
+    "1": "All Deathwing Knights in this unit can each have their mace of absolution replaced with 1 power weapon.",
+    "2": "The Knight Master’s great weapon of the Unforgiven can be replaced with 1 relic weapon.",
+    "3": "This unit can be equipped with 1 Watcher in the Dark.",
+    "4": "For every 5 models in the unit, 1 Deathwing Terminator can replace its storm bolter with one of the following: \n◦ 1 assault cannon \n◦ 1 heavy flamer \n◦ 1 plasma cannon \n◦ 1 storm bolter and 1 cyclone missile launcher (this model’s storm bolter cannot be replaced)",
+    "5": "Any number of Deathwing Terminators can each have their power fist replaced with 1 chainfist",
+    "6": "This model’s heavy bolter can be replaced with 1 assault cannon.",
+    "7": "This model’s avenger mega bolter can be replaced with 1 Nephilim lascannons.",
+    "8": "For every 3 models in this unit, 1 model’s plasma talon can be replaced with 1 Astartes grenade."
+  },
   "units": [
     {
       "id": "asmodai",
@@ -66,6 +125,21 @@ export default {
           "to": "tactical-squad",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -131,6 +205,25 @@ export default {
           "to": "tactical-squad",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              3,
+              1
+            ],
+            [
+              4,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -179,6 +272,21 @@ export default {
           "to": "terminator-squad",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              6,
+              1
+            ],
+            [
+              7,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -207,7 +315,67 @@ export default {
       "step": {
         "at": 2,
         "pts": 20
-      }
+      },
+      "minis": [
+        {
+          "n": "Knight Master"
+        },
+        {
+          "n": "Deathwing Knight"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              8,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              9,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 1,
+          "in": "stepper",
+          "o": [
+            [
+              10
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              11
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 3,
+          "in": "checkbox",
+          "o": [
+            [
+              12
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "deathwing-terminator-squad",
@@ -238,7 +406,87 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Deathwing Sergeant"
+        },
+        {
+          "n": "Deathwing Terminator"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              13,
+              1
+            ],
+            [
+              14,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              14,
+              1
+            ],
+            [
+              15,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 3,
+          "in": "checkbox",
+          "o": [
+            [
+              12
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 4,
+          "in": "stepper",
+          "o": [
+            [
+              16
+            ],
+            [
+              17
+            ],
+            [
+              18
+            ],
+            [
+              14
+            ],
+            [
+              19
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 5,
+          "in": "stepper",
+          "o": [
+            [
+              20
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "ezekiel",
@@ -303,6 +551,29 @@ export default {
           "to": "tactical-squad",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              21,
+              1
+            ],
+            [
+              22,
+              1
+            ],
+            [
+              23,
+              1
+            ],
+            [
+              24,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -338,7 +609,22 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2,
+              1
+            ],
+            [
+              25,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "land-speeder-vengeance",
@@ -367,7 +653,38 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              28,
+              1
+            ],
+            [
+              29,
+              1
+            ],
+            [
+              30,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              16
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "lazarus",
@@ -428,6 +745,21 @@ export default {
           "to": "tactical-squad",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              26,
+              1
+            ],
+            [
+              27,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -457,7 +789,22 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              31,
+              1
+            ],
+            [
+              32,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "nephilim-jetfighter",
@@ -482,7 +829,42 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              33,
+              1
+            ],
+            [
+              34,
+              1
+            ],
+            [
+              35,
+              1
+            ],
+            [
+              36,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              37
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "ravenwing-black-knights",
@@ -517,7 +899,73 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Ravenwing Huntmaster"
+        },
+        {
+          "n": "Ravenwing Black Knight"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              38,
+              1
+            ],
+            [
+              39,
+              1
+            ],
+            [
+              40,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              40,
+              1
+            ],
+            [
+              38,
+              1
+            ],
+            [
+              39,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 8,
+          "in": "stepper",
+          "o": [
+            [
+              41
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 8,
+          "in": "checkbox",
+          "o": [
+            [
+              41
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "ravenwing-command-squad",
@@ -558,6 +1006,102 @@ export default {
           "to": "ravenwing-black-knights",
           "type": "leader"
         }
+      ],
+      "minis": [
+        {
+          "n": "Ravenwing Champion"
+        },
+        {
+          "n": "Ravenwing Apothecary"
+        },
+        {
+          "n": "Ravenwing Ancient"
+        }
+      ],
+      "defaults": [
+        [
+          2,
+          [
+            [
+              39,
+              1
+            ],
+            [
+              38,
+              1
+            ],
+            [
+              40,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              40,
+              1
+            ],
+            [
+              39,
+              1
+            ],
+            [
+              38,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              39,
+              1
+            ],
+            [
+              38,
+              1
+            ],
+            [
+              42,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 8,
+          "in": "checkbox",
+          "o": [
+            [
+              41
+            ]
+          ]
+        },
+        {
+          "m": 2,
+          "t": 8,
+          "in": "checkbox",
+          "o": [
+            [
+              41
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 8,
+          "in": "checkbox",
+          "o": [
+            [
+              41
+            ]
+          ]
+        }
       ]
     },
     {
@@ -583,7 +1127,26 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              43,
+              1
+            ],
+            [
+              44,
+              2
+            ],
+            [
+              33,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "ravenwing-darkshroud",
@@ -608,7 +1171,34 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              30,
+              1
+            ],
+            [
+              28,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              16
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "sammael",
@@ -650,6 +1240,29 @@ export default {
           "to": "ravenwing-black-knights",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              45,
+              1
+            ],
+            [
+              27,
+              1
+            ],
+            [
+              46,
+              1
+            ],
+            [
+              47,
+              1
+            ]
+          ]
+        ]
       ]
     }
   ],

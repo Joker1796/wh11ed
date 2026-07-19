@@ -66,6 +66,28 @@ describe('roster factions', () => {
         }
       })
 
+      it('wargear defaults/gear reference existing interned items and texts', () => {
+        const { items, texts } = data
+        expect(typeof items).toBe('object')
+        expect(typeof texts).toBe('object')
+        for (const u of data.units) {
+          for (const [, list] of u.defaults || []) {
+            for (const [itemId] of list) expect(items[itemId], `${u.name} default item ${itemId}`).toBeTruthy()
+          }
+          for (const g of u.gear || []) {
+            expect(texts[g.t], `${u.name} gear text ${g.t}`).toBeTruthy()
+            expect(g.o.length).toBeGreaterThan(0)
+            for (const o of g.o) {
+              expect(items[o[0]], `${u.name} gear item ${o[0]}`).toBeTruthy()
+              if (o.length > 1) expect(typeof o[1]).toBe('number') // points
+            }
+            // gear group targets a valid miniature index
+            const miniCount = u.minis?.length || 1
+            expect(g.m).toBeLessThan(miniCount)
+          }
+        }
+      })
+
       it('every detachment has a name, sid and an enhancements array', () => {
         for (const d of data.detachments) {
           expect(d.name).toBeTruthy()

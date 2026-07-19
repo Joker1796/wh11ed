@@ -2,6 +2,128 @@
 export default {
   "slug": "chaos-daemons",
   "name": "Legiones Daemonica",
+  "items": {
+    "1": "Putrid appendages",
+    "2": "The Blade of Shadows",
+    "3": "Betraying Shades",
+    "4": "Hellblade",
+    "5": "Juggernaut’s bladed horn",
+    "6": "Instrument of Chaos",
+    "7": "Daemonic Icon",
+    "8": "Blade of blood",
+    "9": "Hellfire breath",
+    "10": "Great axe of Khorne",
+    "11": "Axe of Khorne",
+    "12": "Bloodflail",
+    "13": "Lash of Khorne",
+    "14": "Coruscating yellow flames",
+    "15": "Yellow claws",
+    "16": "Blue claws",
+    "17": "Coruscating blue flames",
+    "18": "Fire of Tzeentch",
+    "19": "Screamer bites",
+    "20": "Flamer mouths",
+    "21": "Herald combat weapon",
+    "22": "Arcane Fireball",
+    "23": "Ravaging claws",
+    "24": "Coiled tentacles",
+    "25": "Slashing claws",
+    "26": "Infernal cannon",
+    "27": "Hellforged weapons",
+    "28": "Balesword and Nurgling attendants",
+    "29": "Flamer mouths",
+    "30": "Barbed tail and dissecting claws",
+    "31": "Flickering flames",
+    "32": "Flamer mouths",
+    "33": "Collar of Khorne",
+    "34": "Gore-drenched fangs",
+    "35": "Burning roar",
+    "36": "Plague flail",
+    "37": "Bilesword",
+    "38": "Putrid vomit",
+    "39": "Doomsday bell",
+    "40": "Bileblade",
+    "41": "Slashing claws",
+    "42": "Seeker tongues",
+    "43": "Lashes of torment",
+    "44": "Lopping shears",
+    "45": "Acidic maw",
+    "46": "Heartstring lyre",
+    "47": "Ravaging claws",
+    "48": "Infernal Gateway",
+    "49": "Staff of Tomorrow",
+    "50": "Snapping claws",
+    "51": "Witstealer sword",
+    "52": "Phantasmagoria",
+    "53": "Living whip",
+    "54": "Ritual knife",
+    "55": "Shining Aegis",
+    "56": "Staff of Tzeentch",
+    "57": "Bolt of Change",
+    "58": "Rod of sorcery",
+    "59": "Baleful sword",
+    "60": "Diseased claws and teeth",
+    "61": "Coruscating pink flames",
+    "62": "Pink claws",
+    "63": "Plaguesword",
+    "64": "Death’s heads",
+    "65": "Foul mouthparts",
+    "66": "Foul balesword",
+    "67": "Attendants’ hellblades",
+    "68": "Streams of brackish filth",
+    "69": "Gnarlrod",
+    "70": "Lamprey bite",
+    "71": "Lashing tongue",
+    "72": "Lash of Slaanesh",
+    "73": "Pavane of Slaanesh",
+    "74": "Soulpiercer",
+    "75": "Slaughter and Carnage",
+    "76": "Bellow of endless fury",
+    "77": "Skull cannon",
+    "78": "Biting maw",
+    "79": "The Slayer Sword",
+    "80": "Marotter",
+    "81": "Warpsword",
+    "82": "Iron claw",
+    "83": "Harvester cannon",
+    "84": "Warpclaw",
+    "85": "Torrent of burning blood",
+    "86": "Warp gaze",
+    "87": "Phlegm bombardment",
+    "88": "Scream of despair",
+    "89": "Disgusting sneezes",
+    "90": "Plaguesword and distended maw",
+    "91": "Scourging whip",
+    "92": "Axe of Dominion",
+    "93": "Cacophonic choir",
+    "94": "Sharp quills",
+    "95": "The Trickster’s Staff",
+    "96": "Infernal Flames",
+    "97": "Serrated claws",
+    "98": "Ravaging claws"
+  },
+  "texts": {
+    "1": "1 Bloodcrusher that is not equipped with a daemonic icon can be equipped with 1 instrument of Chaos.",
+    "2": "1 Bloodcrusher that is not equipped with an instrument of Chaos can be equipped with 1 daemonic icon.",
+    "3": "1 Bloodletter that is not equipped with an instrument of Chaos can be equipped with 1 daemonic icon.",
+    "4": "1 Bloodletter that is not equipped with a daemonic icon can be equipped with 1 instrument of Chaos.",
+    "5": "This model’s great axe of Khorne can be replaced with 1 axe of Khorne and one of the following: \n◦ 1 bloodflail\n◦ 1 lash of Khorne",
+    "6": "1 Daemonette that is not equipped with an instrument of Chaos can be equipped with 1 daemonic icon.",
+    "7": "1 Daemonette that is not equipped with a daemonic icon can be equipped with 1 instrument of Chaos.",
+    "8": "This model’s bilesword can be replaced with 1 doomsday bell.",
+    "9": "This model’s plague flail can be replaced with 1 bileblade.",
+    "10": "This model can be equipped with one of the following:",
+    "11": "1 Pink Horror that is not equipped with an instrument of Chaos can be equipped with 1 daemonic icon.",
+    "12": "1 Pink Horror that is not equipped with a daemonic icon can be equipped with 1 instrument of Chaos.",
+    "13": "1 Plaguebearer that is not equipped with a daemonic icon can be equipped with 1 instrument of Chaos.",
+    "14": "1 Plaguebearer that is not equipped with an instrument of Chaos can be equipped with 1 daemonic icon.",
+    "15": "1 Plague Drone that is not equipped with a daemonic icon can be equipped with 1 instrument of Chaos.",
+    "16": "1 Plague Drone that is not equipped with an instrument of Chaos can be equipped with 1 daemonic icon.",
+    "17": "1 Seeker that is not equipped with a daemonic icon can be equipped with 1 instrument of Chaos.",
+    "18": "1 Seeker that is not equipped with an instrument of Chaos can be equipped with 1 daemonic icon.",
+    "19": "This model’s warpsword can be replaced with 1 warpclaw.",
+    "20": "Daemonic Allegiance Additional Wargear"
+  },
   "units": [
     {
       "id": "belakor",
@@ -32,7 +154,22 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "beasts-of-nurgle",
@@ -63,7 +200,18 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              1,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "bloodcrushers",
@@ -98,7 +246,65 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
-      }
+      },
+      "minis": [
+        {
+          "n": "Bloodhunter"
+        },
+        {
+          "n": "Bloodcrusher"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              4,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              4,
+              1
+            ],
+            [
+              5,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 1,
+          "in": "checkbox",
+          "o": [
+            [
+              6
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 2,
+          "in": "checkbox",
+          "o": [
+            [
+              7
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "bloodletters",
@@ -123,7 +329,57 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Bloodreaper"
+        },
+        {
+          "n": "Bloodletter"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              4,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              4,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 3,
+          "in": "checkbox",
+          "o": [
+            [
+              7
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 4,
+          "in": "checkbox",
+          "o": [
+            [
+              6
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "bloodmaster",
@@ -156,6 +412,17 @@ export default {
           "to": "bloodletters",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              8,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -188,7 +455,40 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              9,
+              1
+            ],
+            [
+              10,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 5,
+          "in": "checkbox",
+          "o": [
+            [
+              11
+            ],
+            [
+              12
+            ],
+            [
+              13
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "blue-horrors",
@@ -215,7 +515,43 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Blue Horror"
+        },
+        {
+          "n": "Brimstone Horror"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              14,
+              1
+            ],
+            [
+              15,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              16,
+              1
+            ],
+            [
+              17,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "burning-chariot",
@@ -240,7 +576,26 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              18,
+              1
+            ],
+            [
+              19,
+              1
+            ],
+            [
+              20,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "changecaster",
@@ -278,6 +633,21 @@ export default {
           "to": "pink-horrors",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              21,
+              1
+            ],
+            [
+              22,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -311,6 +681,21 @@ export default {
           "to": "daemonettes",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              23,
+              1
+            ],
+            [
+              24,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -337,7 +722,22 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              26,
+              1
+            ],
+            [
+              27,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "daemon-prince-of-chaos-with-wings",
@@ -364,7 +764,22 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              27,
+              1
+            ],
+            [
+              26,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "daemonettes",
@@ -389,7 +804,57 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Alluress"
+        },
+        {
+          "n": "Daemonette"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              25,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              25,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 6,
+          "in": "checkbox",
+          "o": [
+            [
+              7
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 7,
+          "in": "checkbox",
+          "o": [
+            [
+              6
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "epidemius",
@@ -424,6 +889,17 @@ export default {
           "to": "plaguebearers",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              28,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -460,6 +936,21 @@ export default {
           "to": "flamers",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              18,
+              1
+            ],
+            [
+              29,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -495,6 +986,25 @@ export default {
           "to": "screamers",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              22,
+              1
+            ],
+            [
+              21,
+              1
+            ],
+            [
+              19,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -551,7 +1061,35 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Blissbringer"
+        },
+        {
+          "n": "Fiend"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              30,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              30,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "flamers",
@@ -583,7 +1121,43 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Pyrocaster"
+        },
+        {
+          "n": "Flamer"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              31,
+              1
+            ],
+            [
+              32,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              31,
+              1
+            ],
+            [
+              32,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "flesh-hounds",
@@ -614,7 +1188,47 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Gore Hound"
+        },
+        {
+          "n": "Flesh Hound"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              33,
+              1
+            ],
+            [
+              34,
+              1
+            ],
+            [
+              35,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              33,
+              1
+            ],
+            [
+              34,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "fluxmaster",
@@ -653,6 +1267,21 @@ export default {
           "to": "pink-horrors",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              21,
+              1
+            ],
+            [
+              22,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -685,7 +1314,48 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              36,
+              1
+            ],
+            [
+              37,
+              1
+            ],
+            [
+              38,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 8,
+          "in": "checkbox",
+          "o": [
+            [
+              39
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 9,
+          "in": "checkbox",
+          "o": [
+            [
+              40
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "hellflayers",
@@ -716,7 +1386,26 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              41,
+              1
+            ],
+            [
+              42,
+              1
+            ],
+            [
+              43,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "horticulous-slimux",
@@ -751,6 +1440,21 @@ export default {
           "to": "beasts-of-nurgle",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              44,
+              1
+            ],
+            [
+              45,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -784,6 +1488,21 @@ export default {
           "to": "daemonettes",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              46,
+              1
+            ],
+            [
+              47,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -815,7 +1534,22 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              48,
+              1
+            ],
+            [
+              49,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "karanak",
@@ -882,7 +1616,44 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              50,
+              1
+            ],
+            [
+              51,
+              1
+            ],
+            [
+              52,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 10,
+          "in": "checkbox",
+          "o": [
+            [
+              53
+            ],
+            [
+              54
+            ],
+            [
+              55
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "lord-of-change",
@@ -915,7 +1686,37 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              56,
+              1
+            ],
+            [
+              57,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 10,
+          "in": "checkbox",
+          "o": [
+            [
+              58
+            ],
+            [
+              59
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "nurglings",
@@ -947,7 +1748,18 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              60,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "pink-horrors",
@@ -975,7 +1787,81 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Pink Horror"
+        },
+        {
+          "n": "Blue Horror"
+        },
+        {
+          "n": "Brimstone Horror"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              17,
+              1
+            ],
+            [
+              16,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              61,
+              1
+            ],
+            [
+              62,
+              1
+            ]
+          ]
+        ],
+        [
+          2,
+          [
+            [
+              15,
+              1
+            ],
+            [
+              14,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 11,
+          "in": "checkbox",
+          "o": [
+            [
+              7
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 12,
+          "in": "checkbox",
+          "o": [
+            [
+              6
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "plague-drones",
@@ -1007,7 +1893,73 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Plaguebringer"
+        },
+        {
+          "n": "Plague Drone"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              63,
+              1
+            ],
+            [
+              64,
+              1
+            ],
+            [
+              65,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              65,
+              1
+            ],
+            [
+              63,
+              1
+            ],
+            [
+              64,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 15,
+          "in": "checkbox",
+          "o": [
+            [
+              6
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 16,
+          "in": "checkbox",
+          "o": [
+            [
+              7
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "plaguebearers",
@@ -1032,7 +1984,57 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Plagueridden"
+        },
+        {
+          "n": "Plaguebearer"
+        }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              63,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
+          [
+            [
+              63,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 13,
+          "in": "checkbox",
+          "o": [
+            [
+              6
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 14,
+          "in": "checkbox",
+          "o": [
+            [
+              7
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "poxbringer",
@@ -1066,6 +2068,17 @@ export default {
           "to": "plaguebearers",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              66,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -1097,7 +2110,22 @@ export default {
       "step": {
         "at": 3,
         "pts": 20
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              67,
+              1
+            ],
+            [
+              8,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "rotigus",
@@ -1127,7 +2155,22 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              68,
+              1
+            ],
+            [
+              69,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "screamers",
@@ -1160,7 +2203,18 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              70,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "seekers",
@@ -1191,7 +2245,65 @@ export default {
           ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "minis": [
+        {
+          "n": "Heartseeker"
+        },
+        {
+          "n": "Seeker"
+        }
+      ],
+      "defaults": [
+        [
+          1,
+          [
+            [
+              71,
+              1
+            ],
+            [
+              25,
+              1
+            ]
+          ]
+        ],
+        [
+          0,
+          [
+            [
+              71,
+              1
+            ],
+            [
+              25,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 1,
+          "t": 17,
+          "in": "checkbox",
+          "o": [
+            [
+              6
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 18,
+          "in": "checkbox",
+          "o": [
+            [
+              7
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "shalaxi-helbane",
@@ -1221,7 +2333,30 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              72,
+              1
+            ],
+            [
+              73,
+              1
+            ],
+            [
+              74,
+              1
+            ],
+            [
+              50,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "skarbrand",
@@ -1250,7 +2385,22 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              75,
+              1
+            ],
+            [
+              76,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "skull-altar",
@@ -1299,7 +2449,26 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              77,
+              1
+            ],
+            [
+              78,
+              1
+            ],
+            [
+              67,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "skullmaster",
@@ -1332,6 +2501,21 @@ export default {
           "to": "bloodcrushers",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              5,
+              1
+            ],
+            [
+              8,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -1367,6 +2551,17 @@ export default {
           "to": "bloodletters",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              79,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -1400,6 +2595,17 @@ export default {
           "to": "plaguebearers",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              80,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -1428,7 +2634,57 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
-      }
+      },
+      "defaults": [
+        [
+          0,
+          [
+            [
+              81,
+              1
+            ],
+            [
+              82,
+              1
+            ],
+            [
+              83,
+              1
+            ]
+          ]
+        ]
+      ],
+      "gear": [
+        {
+          "m": 0,
+          "t": 19,
+          "in": "checkbox",
+          "o": [
+            [
+              84
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 20,
+          "in": "checkbox",
+          "o": [
+            [
+              85
+            ],
+            [
+              86
+            ],
+            [
+              87
+            ],
+            [
+              88
+            ]
+          ]
+        }
+      ]
     },
     {
       "id": "spoilpox-scrivener",
@@ -1461,6 +2717,21 @@ export default {
           "to": "plaguebearers",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              89,
+              1
+            ],
+            [
+              90,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -1497,6 +2768,25 @@ export default {
           "to": "daemonettes",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              91,
+              1
+            ],
+            [
+              92,
+              1
+            ],
+            [
+              93,
+              1
+            ]
+          ]
+        ]
       ]
     },
     {
@@ -1527,7 +2817,18 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              94,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "the-changeling",
@@ -1557,7 +2858,22 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              95,
+              1
+            ],
+            [
+              96,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "the-masque-of-slaanesh",
@@ -1587,7 +2903,18 @@ export default {
           "default": 1
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "defaults": [
+        [
+          0,
+          [
+            [
+              97,
+              1
+            ]
+          ]
+        ]
+      ]
     },
     {
       "id": "tormentbringer",
@@ -1655,6 +2982,17 @@ export default {
           "to": "daemonettes",
           "type": "leader"
         }
+      ],
+      "defaults": [
+        [
+          0,
+          [
+            [
+              98,
+              1
+            ]
+          ]
+        ]
       ]
     }
   ],
