@@ -46,7 +46,7 @@
           <RouterLink
             to="/tracker"
             class="nav-link"
-            :class="{ active: isTrackerRoute }"
+            :class="{ active: isTrackerRoute || isRosterRoute }"
           >{{ labels.navTracker }}</RouterLink>
         </nav>
 
@@ -196,7 +196,7 @@
         <i class="bi bi-lightning-charge"></i>
         <span>{{ labels.navStratagemsShort }}</span>
       </RouterLink>
-      <RouterLink to="/tracker" class="bn-item" :class="{ active: isTrackerRoute }">
+      <RouterLink to="/tracker" class="bn-item" :class="{ active: isTrackerRoute || isRosterRoute }">
         <i class="bi bi-clipboard-data"></i>
         <span>{{ labels.navTracker }}</span>
       </RouterLink>
@@ -322,6 +322,8 @@ const unitsNavPath = computed(() => {
 const isEventRoute = computed(() => route.path.startsWith('/event-companion'))
 const isStratagemsRoute = computed(() => route.path === '/stratagems')
 const isTrackerRoute = computed(() => route.path.startsWith('/tracker'))
+// The roster builder rides with the Tracker section (subnav + top/bottom-nav highlight).
+const isRosterRoute = computed(() => route.path.startsWith('/roster'))
 
 // "Back to game" bar: only when a game is actively in progress and the user is reading something
 // outside the tracker. Hidden while a full-screen modal/drawer is open so it never overlaps them.
@@ -366,6 +368,7 @@ const trackerSubNavItems = computed(() => {
   return [
     { path: '/tracker', label: l.subNavTrackerHome },
     { path: '/tracker/game', label: l.subNavTrackerGame },
+    { path: '/roster', label: l.subNavRosters },
     { path: '/stratagems', label: l.navStratagemsShort },
   ]
 })
@@ -409,7 +412,7 @@ const unitsMenuList = computed(() => {
 const subNavItems = computed(() => {
   // /stratagems rides with the tracker subnav so reaching it from there keeps the
   // Game Tracker / Current Game tabs in view (desktop has no "Back to game" bar).
-  if (isTrackerRoute.value || isStratagemsRoute.value) return trackerSubNavItems.value
+  if (isTrackerRoute.value || isStratagemsRoute.value || isRosterRoute.value) return trackerSubNavItems.value
   if (isEventRoute.value) return eventSubNavItems.value
   if (isFactionDetailRoute.value) return factionSubNavItems.value
   return coreSubNavItems.value
