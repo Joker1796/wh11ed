@@ -51,7 +51,7 @@
           <span>
             {{ labels.rosterDetachmentLabel }}
             <em v-if="factionSlug" class="dp-count" :class="{ over: dpSpent > effBattle.dp && !dpOverAllowed }">{{ dpSpent }} / {{ effBattle.dp }} DP</em>
-            <button v-if="dpOverAllowed" type="button" class="help-btn" @click="dpHelpOpen = true" :aria-label="labels.rosterDpOverHelp">
+            <button v-if="dpOverAllowed" type="button" class="help-btn" @click="dpHelpOpen = true" :aria-label="labels.trackerDpOverHelp">
               <i class="bi bi-question-circle"></i>
             </button>
           </span>
@@ -102,9 +102,9 @@
       @toggle="toggleDetachment"
       @close="detachmentPickerOpen = false"
     />
-    <BaseModal v-if="dpHelpOpen" :title="labels.rosterDpOverTitle" max-width="380px" @close="dpHelpOpen = false">
+    <BaseModal v-if="dpHelpOpen" :title="labels.trackerDpOverTitle" max-width="380px" @close="dpHelpOpen = false">
       <div class="modal-body">
-        <p class="dp-help-text">{{ labels.rosterDpOverText }}</p>
+        <p class="dp-help-text">{{ labels.trackerDpOverText }}</p>
       </div>
     </BaseModal>
   </div>

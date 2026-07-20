@@ -51,7 +51,12 @@
           </div>
 
           <div class="field">
-            <span>{{ labels.trackerDpBudget }} <em class="dp-count" :class="{ over: dpSpent(p) > maxDp && p.detachments.length !== 1 }">{{ dpSpent(p) }} / {{ maxDp }} DP</em></span>
+            <span>
+              {{ labels.trackerDpBudget }} <em class="dp-count" :class="{ over: dpSpent(p) > maxDp && p.detachments.length !== 1 }">{{ dpSpent(p) }} / {{ maxDp }} DP</em>
+              <button v-if="p.detachments.length === 1 && dpSpent(p) > maxDp" type="button" class="help-btn" @click="dpHelpOpen = true" :aria-label="labels.trackerDpOverHelp">
+                <i class="bi bi-question-circle"></i>
+              </button>
+            </span>
             <button
               v-if="p.factionSlug && detachmentsFor(p.factionSlug).length"
               class="btn-choose-twist"
@@ -269,11 +274,18 @@
       @pick="onPickLayout"
       @close="layoutPickerOpen = false"
     />
+
+    <BaseModal v-if="dpHelpOpen" :title="labels.trackerDpOverTitle" max-width="380px" @close="dpHelpOpen = false">
+      <div class="modal-body">
+        <p class="dp-help-text">{{ labels.trackerDpOverText }}</p>
+      </div>
+    </BaseModal>
   </div>
 </template>
 
 <script setup>
 import { reactive, ref, computed, watch, nextTick } from 'vue'
+import BaseModal from '../BaseModal.vue'
 import LayoutCard from '../event/LayoutCard.vue'
 import MissionCard from '../event/MissionCard.vue'
 import RuleBody from '../RuleBody.vue'
@@ -367,6 +379,7 @@ function randomTwist() {
 }
 
 const scoreHelpOpen = ref(false)
+const dpHelpOpen = ref(false)
 
 // Twist picker modal (full-screen on mobile).
 const twistPickerOpen = ref(false)
@@ -802,6 +815,8 @@ function cancel() {
   vertical-align: middle;
 }
 .help-btn:hover { color: var(--accent); }
+.modal-body { padding: 0.9rem; }
+.dp-help-text { margin: 0; font-size: 0.88rem; line-height: 1.5; color: var(--text-muted); }
 .det-empty { font-size: 0.82rem; color: var(--text-dim); font-style: italic; margin: 0.25rem 0 0; }
 .chips { display: flex; flex-wrap: wrap; gap: 0.3rem; }
 .chip {
