@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://wh11ed.ru/sitemap.xml
+Sitemap: https://wh-rules.ru/sitemap.xml
