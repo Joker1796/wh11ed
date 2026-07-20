@@ -529,6 +529,20 @@ export function useTracker() {
     if (current.value) current.value.phase = 'playing'
   }
 
+  // Edit setup fields on a game already in progress — only the ones that don't feed
+  // scoring (primarySlug, secondary deck/hand, rounds, cp are never touched here), so a
+  // mid-game correction can't orphan anything already recorded.
+  function updateSetup({ settings, players } = {}) {
+    if (!current.value) return
+    if (settings) Object.assign(current.value.settings, settings)
+    if (players) players.forEach((p, i) => {
+      const pl = current.value.players[i]
+      if (!p || !pl) return
+      if (p.name !== undefined) pl.name = p.name
+      if (p.battleReady !== undefined) pl.battleReady = !!p.battleReady
+    })
+  }
+
   // Pull a finished game back out of history into active play (used for games that ended
   // early). Strips the finished metadata; the caller guards against overwriting a live game.
   function resumeFromHistory(id) {
@@ -579,7 +593,7 @@ export function useTracker() {
 
   return {
     current, history, setupDraft,
-    newGame, setRoundPrimary, setCp,
+    newGame, updateSetup, setRoundPrimary, setCp,
     setPrimaryRow, primaryRowCount,
     drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,
     restoreSecondaryToHand, redrawSecondary,
