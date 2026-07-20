@@ -38,9 +38,9 @@ describe('RosterCreateView', () => {
 
     // Step 1: pick a faction.
     const choices = w.findAll('.choice')
-    await choices[0].trigger('click') // opens FactionDetachmentPickerModal
+    await choices[0].trigger('click') // opens the tracker's FactionPickerModal
     await waitFor(w, 'Space Marines')
-    const smBtn = w.findAll('.fdp-item').find((b) => b.text().includes('Space Marines'))
+    const smBtn = w.findAll('.fac').find((b) => b.text().includes('Space Marines'))
     await smBtn.trigger('click')
     expect(w.find('.ch-value').text()).toBe('Space Marines')
 

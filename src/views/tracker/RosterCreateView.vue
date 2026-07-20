@@ -73,11 +73,9 @@
       </div>
     </div>
 
-    <FactionDetachmentPickerModal
+    <FactionPickerModal
       v-if="factionPickerOpen"
-      :title="labels.rosterPickFaction"
-      :detachments="factionOptions"
-      :active-id="factionSlug"
+      :selected="factionSlug"
       @pick="pickFaction"
       @close="factionPickerOpen = false"
     />
@@ -96,7 +94,7 @@
 <script setup>
 import { computed, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import FactionDetachmentPickerModal from '../../components/FactionDetachmentPickerModal.vue'
+import FactionPickerModal from '../../components/tracker/FactionPickerModal.vue'
 import DetachmentPickerModal from '../../components/tracker/DetachmentPickerModal.vue'
 import RosterUnitBrowser from '../../components/roster/RosterUnitBrowser.vue'
 import { ui } from '../../i18n/ui.js'
@@ -126,7 +124,6 @@ const factionColor = computed(() => allFactions.find((f) => f.slug === factionSl
 const accentStyle = computed(() => factionColor.value
   ? { '--fa-light': factionColor.value.light, '--fa-dark': factionColor.value.dark }
   : {})
-const factionOptions = allFactions.map((f) => ({ id: f.slug, name: f.name }))
 const factionName = computed(() => allFactions.find((f) => f.slug === factionSlug.value)?.name || '')
 
 // ── Faction data (dynamic-imported, same lazy source the editor uses) ──

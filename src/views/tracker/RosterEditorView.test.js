@@ -22,7 +22,7 @@ beforeEach(async () => {
 })
 
 const stubs = {
-  FactionDetachmentPickerModal: true,
+  FactionPickerModal: true,
   RosterUnitPickerModal: true,
   NumberStepper: true,
   RouterLink: { props: ['to'], template: '<a><slot /></a>' },
