@@ -124,6 +124,8 @@
     <RosterUnitPickerModal
       v-if="unitPickerOpen && factionData"
       :units="factionData.units"
+      :faction-slug="roster.faction"
+      :added-ids="roster.units.map((u) => u.id)"
       @pick="addUnit"
       @close="unitPickerOpen = false"
     />

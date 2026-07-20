@@ -24,6 +24,8 @@ const TrackerGameView   = () => import('../views/tracker/TrackerGameView.vue')
 const AuthCallbackView  = () => import('../views/tracker/AuthCallbackView.vue')
 const TrackerHistoryView = () => import('../views/tracker/TrackerHistoryView.vue')
 const RosterListView    = () => import('../views/tracker/RosterListView.vue')
+const RosterCreateView  = () => import('../views/tracker/RosterCreateView.vue')
+const RosterViewView    = () => import('../views/tracker/RosterViewView.vue')
 const RosterEditorView  = () => import('../views/tracker/RosterEditorView.vue')
 const RosterSharedView  = () => import('../views/tracker/RosterSharedView.vue')
 const LinksView         = () => import('../views/LinksView.vue')
@@ -259,7 +261,7 @@ export const trackerGroups = [
 export const trackerGroupsRu = [
   { label: 'Трекер игры',   path: '/tracker',      sections: [] },
   { label: 'Текущая игра',  path: '/tracker/game', sections: [] },
-  { label: 'Ростеры',       path: '/roster',       sections: [] },
+  { label: 'Листы армий',   path: '/roster',       sections: [] },
   { label: 'Стратагемы',    path: '/stratagems',   sections: [] },
 ]
 
@@ -298,11 +300,14 @@ export const router = createRouter({
     { path: '/event-companion/faq',      component: EventFaqView },
     { path: '/tracker',      component: TrackerHomeView },
     { path: '/tracker/game', component: TrackerGameView },
-    // Roster builder: public list (/roster, indexable) + private per-roster editor
-    // (/roster/:id, not in STATIC_ROUTES — like /tracker/game).
+    // Roster builder: public list (/roster, indexable) + private creation wizard, read-only
+    // view and editor (/roster/new, /roster/:id/view, /roster/:id — none in STATIC_ROUTES,
+    // like /tracker/game). Static /roster/new and /roster/shared must precede the :id route
+    // so neither is captured as an id.
     { path: '/roster',        component: RosterListView },
-    // Static /roster/shared must precede the :id route so it isn't captured as an id.
+    { path: '/roster/new',    component: RosterCreateView },
     { path: '/roster/shared', component: RosterSharedView },
+    { path: '/roster/:id/view', component: RosterViewView },
     { path: '/roster/:id',    component: RosterEditorView },
     { path: '/tracker/history/:id', component: TrackerHistoryView },
     { path: '/tracker/auth-callback', component: AuthCallbackView },
