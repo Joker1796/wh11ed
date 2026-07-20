@@ -19,26 +19,6 @@
         </label>
 
         <div class="field">
-          <span>{{ labels.rosterFactionLabel }}</span>
-          <button class="btn-choose" @click="factionPickerOpen = true">
-            <span class="ct-name" :class="{ placeholder: !factionSlug }">{{ factionName || labels.rosterChoose }}</span>
-            <i class="bi bi-chevron-right ct-chev"></i>
-          </button>
-        </div>
-
-        <div class="field">
-          <span>
-            {{ labels.rosterDetachmentLabel }}
-            <em v-if="factionSlug" class="dp-count" :class="{ over: dpSpent > effBattle.dp }">{{ dpSpent }} / {{ effBattle.dp }} DP</em>
-          </span>
-          <button v-if="factionSlug" class="btn-choose" @click="detachmentPickerOpen = true">
-            <span class="ct-name" :class="{ placeholder: !detachments.length }">{{ detachmentSummary || labels.rosterChoose }}</span>
-            <i class="bi bi-chevron-right ct-chev"></i>
-          </button>
-          <p v-else class="det-empty">{{ labels.rosterPickFaction }}</p>
-        </div>
-
-        <div class="field">
           <span>{{ labels.rosterBattleSizeLabel }}</span>
           <div class="seg">
             <button
@@ -57,6 +37,26 @@
             min="0"
             step="5"
           />
+        </div>
+
+        <div class="field">
+          <span>{{ labels.rosterFactionLabel }}</span>
+          <button class="btn-choose" @click="factionPickerOpen = true">
+            <span class="ct-name" :class="{ placeholder: !factionSlug }">{{ factionName || labels.rosterChoose }}</span>
+            <i class="bi bi-chevron-right ct-chev"></i>
+          </button>
+        </div>
+
+        <div class="field">
+          <span>
+            {{ labels.rosterDetachmentLabel }}
+            <em v-if="factionSlug" class="dp-count" :class="{ over: dpSpent > effBattle.dp }">{{ dpSpent }} / {{ effBattle.dp }} DP</em>
+          </span>
+          <button v-if="factionSlug" class="btn-choose" @click="detachmentPickerOpen = true">
+            <span class="ct-name" :class="{ placeholder: !detachments.length }">{{ detachmentSummary || labels.rosterChoose }}</span>
+            <i class="bi bi-chevron-right ct-chev"></i>
+          </button>
+          <p v-else class="det-empty">{{ labels.rosterPickFaction }}</p>
         </div>
       </div>
 
