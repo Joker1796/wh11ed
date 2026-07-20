@@ -104,11 +104,9 @@
       </button>
     </div>
 
-    <FactionDetachmentPickerModal
+    <FactionPickerModal
       v-if="factionPickerOpen"
-      :title="labels.rosterPickFaction"
-      :detachments="factionOptions"
-      :active-id="roster.faction"
+      :selected="roster.faction"
       @pick="pickFaction"
       @close="factionPickerOpen = false"
     />
@@ -165,7 +163,7 @@
 <script setup>
 import { computed, ref, watch, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import FactionDetachmentPickerModal from '../../components/FactionDetachmentPickerModal.vue'
+import FactionPickerModal from '../../components/tracker/FactionPickerModal.vue'
 import DetachmentPickerModal from '../../components/tracker/DetachmentPickerModal.vue'
 import RosterUnitPickerModal from '../../components/roster/RosterUnitPickerModal.vue'
 import UnitEditorSheet from '../../components/roster/UnitEditorSheet.vue'
@@ -228,7 +226,6 @@ function defOf(id) { return unitMap.value.get(id) }
 
 // ── Army choices ──
 const allFactions = factionGroups.flatMap((g) => g.factions)
-const factionOptions = allFactions.map((f) => ({ id: f.slug, name: f.name }))
 const factionName = computed(() => allFactions.find((f) => f.slug === roster.value?.faction)?.name || '')
 const factionColor = computed(() => allFactions.find((f) => f.slug === roster.value?.faction)?.color)
 const accentStyle = computed(() => factionColor.value
