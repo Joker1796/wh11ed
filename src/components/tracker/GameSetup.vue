@@ -51,7 +51,7 @@
           </div>
 
           <div class="field">
-            <span>{{ labels.trackerDpBudget }} <em class="dp-count" :class="{ over: dpSpent(p) > maxDp }">{{ dpSpent(p) }} / {{ maxDp }} DP</em></span>
+            <span>{{ labels.trackerDpBudget }} <em class="dp-count" :class="{ over: dpSpent(p) > maxDp && p.detachments.length !== 1 }">{{ dpSpent(p) }} / {{ maxDp }} DP</em></span>
             <button
               v-if="p.factionSlug && detachmentsFor(p.factionSlug).length"
               class="btn-choose-twist"
