@@ -58,6 +58,37 @@ describe('newGame', () => {
   })
 })
 
+describe('updateSetup', () => {
+  it('patches names, battleReady and safe settings without touching scoring state', () => {
+    tracker.newGame(setupGame())
+    tracker.setRoundPrimary(0, 0, 12)
+    tracker.setCp(0, 3)
+    const primarySlugBefore = tracker.current.value.players[0].primarySlug
+
+    tracker.updateSetup({
+      settings: { trackCP: false, firstTurn: 2, scoreMode: 'bp', layout: 'B' },
+      players: [{ name: 'Renamed', battleReady: true }, { name: 'Opp2' }],
+    })
+
+    const g = tracker.current.value
+    expect(g.players[0].name).toBe('Renamed')
+    expect(g.players[0].battleReady).toBe(true)
+    expect(g.players[1].name).toBe('Opp2')
+    expect(g.settings.trackCP).toBe(false)
+    expect(g.settings.firstTurn).toBe(2)
+    expect(g.settings.scoreMode).toBe('bp')
+    expect(g.settings.layout).toBe('B')
+    // Untouched: recorded rounds/CP and the mission already resolved for this player.
+    expect(g.players[0].rounds[0].primary).toBe(12)
+    expect(g.players[0].cp).toBe(3)
+    expect(g.players[0].primarySlug).toBe(primarySlugBefore)
+  })
+
+  it('is a no-op with no active game', () => {
+    expect(() => tracker.updateSetup({ settings: { trackCP: false } })).not.toThrow()
+  })
+})
+
 describe('twists at game creation', () => {
   it('Mirrored World with no chosen mission resolves a random shared one for both players', () => {
     tracker.newGame(setupGame({ settings: { twist: 'mirrored-world', twistMission: null } }))

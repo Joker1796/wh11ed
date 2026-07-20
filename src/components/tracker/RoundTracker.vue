@@ -70,7 +70,10 @@
     />
 
     <div class="actions">
-      <button class="btn-ghost" @click="endModalOpen = true">{{ labels.trackerFinish }}</button>
+      <div class="actions-left">
+        <button class="btn-ghost" @click="editSetupOpen = true">{{ labels.trackerEditSetup }}</button>
+        <button class="btn-ghost" @click="endModalOpen = true">{{ labels.trackerFinish }}</button>
+      </div>
       <button
         v-if="current.currentRound < ROUND_COUNT"
         class="btn-primary"
@@ -79,6 +82,7 @@
     </div>
 
     <GameEndModal v-if="endModalOpen" @confirm="onEndBattle" @close="endModalOpen = false" />
+    <EditSetupModal v-if="editSetupOpen" @close="editSetupOpen = false" />
   </div>
 </template>
 
@@ -89,6 +93,7 @@ import SecondaryDeck from './SecondaryDeck.vue'
 import ScoreBoard from './ScoreBoard.vue'
 import ScoringModal from './ScoringModal.vue'
 import GameEndModal from './GameEndModal.vue'
+import EditSetupModal from './EditSetupModal.vue'
 import RuleBody from '../RuleBody.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -101,6 +106,7 @@ const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, goToRou
 
 const openPrimary = ref(-1)   // index of the player whose primary scoring modal is open
 const endModalOpen = ref(false)
+const editSetupOpen = ref(false)
 
 // Active twist (if any) — shown as a collapsible reminder; its mission effect (Mirrored
 // World / Scrambled Communications) is already baked into each player's primarySlug.
@@ -232,6 +238,7 @@ function onEndBattle(reason) {
 }
 .sr-sub { font-size: 0.72rem; color: var(--text-dim); }
 .actions { display: flex; justify-content: space-between; gap: 0.6rem; margin-top: 1.25rem; }
+.actions-left { display: flex; gap: 0.6rem; }
 .btn-primary {
   padding: 0.6rem 1.4rem; background: var(--accent); color: #fff;
   border: none; border-radius: 4px; font-weight: 600; font-size: 0.9rem; cursor: pointer;
@@ -242,5 +249,8 @@ function onEndBattle(reason) {
 }
 @media (max-width: 700px) {
   .players { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .actions { flex-wrap: wrap; }
 }
 </style>
