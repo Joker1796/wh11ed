@@ -37,16 +37,16 @@ describe('RosterCreateView', () => {
     const w = mount(RosterCreateView, { global: { stubs } })
 
     // Step 1: pick a faction.
-    const choices = w.findAll('.choice')
+    const choices = w.findAll('.btn-choose')
     await choices[0].trigger('click') // opens the tracker's FactionPickerModal
     await waitFor(w, 'Space Marines')
     const smBtn = w.findAll('.fac').find((b) => b.text().includes('Space Marines'))
     await smBtn.trigger('click')
-    expect(w.find('.ch-value').text()).toBe('Space Marines')
+    expect(w.find('.ct-name').text()).toBe('Space Marines')
 
     // Detachment picker only becomes usable once a faction is chosen; wait for its data.
     await waitFor(w, '1st Company Task Force')
-    await w.findAll('.choice')[1].trigger('click') // opens DetachmentPickerModal
+    await w.findAll('.btn-choose')[1].trigger('click') // opens DetachmentPickerModal
     const detBtn = w.findAll('.det').find((b) => b.text().includes('1st Company Task Force'))
     await detBtn.trigger('click')
     expect(w.text()).toContain('1st Company Task Force')
@@ -70,7 +70,7 @@ describe('RosterCreateView', () => {
 
   it('supports a custom battle size, using the matching bracket to show the points limit', async () => {
     const w = mount(RosterCreateView, { global: { stubs } })
-    const custom = w.findAll('.bsize-btn').find((b) => b.text() === 'Custom')
+    const custom = w.findAll('.seg button').find((b) => b.text() === 'Custom')
     await custom.trigger('click')
     await w.find('.bsize-input').setValue(500)
     expect(w.find('.rc-points').text()).toContain('/ 500')

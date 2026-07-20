@@ -8,44 +8,55 @@
       <span class="rc-step" :class="{ on: step === 2 }">2 · {{ labels.rosterViewTabUnits }}</span>
     </div>
 
-    <!-- Step 1: name, battle size, faction, detachment -->
+    <!-- Step 1: name, faction, detachment, battle size — same card/field language as the
+         tracker's GameSetup (see .field/.btn-choose below), so the two setup flows read as
+         one consistent pattern. -->
     <div v-show="step === 1" class="rc-panel">
-      <label class="rc-field">
-        <span class="rc-label">{{ labels.rosterNameLabel }}</span>
-        <input v-model="name" class="rc-input" :placeholder="labels.rosterNewName" />
-      </label>
+      <div class="rc-card">
+        <label class="field">
+          <span>{{ labels.rosterNameLabel }}</span>
+          <input v-model="name" type="text" :placeholder="labels.rosterNewName" />
+        </label>
 
-      <div class="rc-choices">
-        <button class="choice" @click="factionPickerOpen = true">
-          <span class="ch-label">{{ labels.rosterFactionLabel }}</span>
-          <span class="ch-value">{{ factionName || labels.rosterChoose }}</span>
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <button class="choice" :disabled="!factionSlug" @click="detachmentPickerOpen = true">
-          <span class="ch-label">{{ labels.rosterDetachmentLabel }}</span>
-          <span class="ch-value">{{ detachmentSummary || labels.rosterChoose }}</span>
-          <i class="bi bi-chevron-down"></i>
-        </button>
-        <div class="choice bsize">
-          <span class="ch-label">{{ labels.rosterBattleSizeLabel }}</span>
-          <div class="bsize-opts">
+        <div class="field">
+          <span>{{ labels.rosterFactionLabel }}</span>
+          <button class="btn-choose" @click="factionPickerOpen = true">
+            <span class="ct-name" :class="{ placeholder: !factionSlug }">{{ factionName || labels.rosterChoose }}</span>
+            <i class="bi bi-chevron-right ct-chev"></i>
+          </button>
+        </div>
+
+        <div class="field">
+          <span>
+            {{ labels.rosterDetachmentLabel }}
+            <em v-if="factionSlug" class="dp-count" :class="{ over: dpSpent > effBattle.dp }">{{ dpSpent }} / {{ effBattle.dp }} DP</em>
+          </span>
+          <button v-if="factionSlug" class="btn-choose" @click="detachmentPickerOpen = true">
+            <span class="ct-name" :class="{ placeholder: !detachments.length }">{{ detachmentSummary || labels.rosterChoose }}</span>
+            <i class="bi bi-chevron-right ct-chev"></i>
+          </button>
+          <p v-else class="det-empty">{{ labels.rosterPickFaction }}</p>
+        </div>
+
+        <div class="field">
+          <span>{{ labels.rosterBattleSizeLabel }}</span>
+          <div class="seg">
             <button
               v-for="b in battleSizes"
               :key="b.id"
-              class="bsize-btn"
               :class="{ on: battleSize === b.id }"
               @click="battleSize = b.id"
             >{{ b.points }}</button>
-            <button class="bsize-btn" :class="{ on: battleSize === 'custom' }" @click="battleSize = 'custom'">{{ labels.rosterCustom }}</button>
-            <input
-              v-if="battleSize === 'custom'"
-              v-model.number="customPoints"
-              class="bsize-input"
-              type="number"
-              min="0"
-              step="5"
-            />
+            <button :class="{ on: battleSize === 'custom' }" @click="battleSize = 'custom'">{{ labels.rosterCustom }}</button>
           </div>
+          <input
+            v-if="battleSize === 'custom'"
+            v-model.number="customPoints"
+            class="bsize-input"
+            type="number"
+            min="0"
+            step="5"
+          />
         </div>
       </div>
 
@@ -220,55 +231,99 @@ function finish() {
 @media (max-width: 900px) {
   .rc-panel:has(.rc-sticky) { padding-bottom: calc(4.5rem + 4.5rem + var(--safe-bottom, 0px)); }
 }
-.rc-field { display: flex; flex-direction: column; gap: 0.3rem; }
-.rc-label { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dim); }
-.rc-input {
-  padding: 0.6rem 0.75rem;
-  border: 1px solid var(--border);
-  border-radius: 5px;
-  background: var(--bg-card);
-  color: var(--text-primary);
-  font-size: 1rem;
-}
-.rc-input:focus { outline: none; border-color: var(--accent); }
-
-.rc-choices { display: flex; flex-wrap: wrap; gap: 0.6rem; }
-.choice {
+/* Card + field language copied from the tracker's GameSetup (.player-card/.settings,
+   .field, .btn-choose-twist, .seg, .dp-count) so the two setup flows read as one pattern. */
+.rc-card {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 0.15rem;
-  padding: 0.5rem 0.75rem;
+  gap: 0.7rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  min-width: 8rem;
+  padding: 1rem;
 }
-.choice:not(.bsize):hover { border-color: var(--accent); }
-.choice:disabled { opacity: 0.5; cursor: not-allowed; }
-.choice .bi { position: absolute; right: 0.6rem; top: 0.6rem; color: var(--text-dim); font-size: 0.7rem; }
-.ch-label { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dim); }
-.ch-value { font-size: 0.9rem; font-weight: 600; color: var(--text-primary); padding-right: 0.9rem; }
-.bsize-opts { display: inline-flex; gap: 0.25rem; margin-top: 0.1rem; }
-.bsize-btn {
-  padding: 0.2rem 0.5rem;
-  font-family: var(--font-mono);
+.field { display: flex; flex-direction: column; gap: 0.3rem; }
+.field > span {
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.field input[type="text"],
+.field input[type="number"] {
+  padding: 0.5rem 0.6rem;
   border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+.field input:focus { outline: none; border-color: var(--accent); }
+@media (pointer: coarse) {
+  .field input[type="text"], .field input[type="number"] { font-size: 16px; }
+}
+
+.btn-choose {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  width: 100%;
+  min-height: 44px;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: border-color 0.15s;
+}
+.btn-choose:hover { border-color: var(--accent); }
+.btn-choose:disabled { opacity: 0.5; cursor: not-allowed; }
+.ct-name.placeholder { color: var(--text-muted); font-weight: 500; }
+.ct-chev { color: var(--text-dim); }
+
+.dp-count {
+  font-style: normal;
+  font-family: var(--font-mono);
+  color: var(--accent);
+  font-weight: 700;
+  margin-left: 0.3rem;
+}
+.dp-count.over { color: #c0392b; }
+.det-empty { font-size: 0.82rem; color: var(--text-dim); font-style: italic; margin: 0.25rem 0 0; }
+
+.seg {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  width: fit-content;
+}
+.seg button {
+  padding: 0.45rem 0.8rem;
   background: var(--bg-secondary);
   color: var(--text-muted);
-  border-radius: 4px;
+  border: none;
   cursor: pointer;
-}
-.bsize-btn.on { background: var(--accent); color: #fff; border-color: var(--accent); }
-.bsize-input {
-  width: 5rem;
-  padding: 0.2rem 0.4rem;
   font-family: var(--font-mono);
+  font-weight: 700;
   font-size: 0.78rem;
+  transition: background 0.15s, color 0.15s;
+}
+.seg button + button { border-left: 1px solid var(--border); }
+.seg button.on { background: var(--accent); color: #fff; }
+
+.bsize-input {
+  margin-top: 0.4rem;
+  width: 8rem;
+  padding: 0.4rem 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
   border: 1px solid var(--accent);
   border-radius: 4px;
   background: var(--bg-secondary);
