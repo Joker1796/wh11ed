@@ -95,14 +95,17 @@ const game = current.value
 const players = reactive(game.players.map(p => ({ name: p.name, battleReady: p.battleReady })))
 const settings = reactive({
   trackCP: game.settings.trackCP,
-  firstTurn: game.settings.firstTurn,
+  // game.settings.firstTurn is always normalized to 1 post-creation (see newGame) — the
+  // actual "who's first" lives in player order, so derive the toggle from that instead.
+  firstTurn: (game.players[0].isYou ?? true) ? 1 : 2,
   scoreMode: game.settings.scoreMode,
   layout: game.settings.layout,
   customLayout: game.settings.customLayout,
 })
 
-function playerLabel(i) { return i === 0 ? labels.value.trackerYou : labels.value.trackerOpponent }
-function namePlaceholder(i) { return i === 0 ? labels.value.trackerYourName : labels.value.trackerOpponentName }
+function isYou(i) { return game.players[i].isYou ?? i === 0 }
+function playerLabel(i) { return isYou(i) ? labels.value.trackerYou : labels.value.trackerOpponent }
+function namePlaceholder(i) { return isYou(i) ? labels.value.trackerYourName : labels.value.trackerOpponentName }
 
 // Dispositions are fixed for the rest of the game, so the recommended-layout matchup
 // (same lookup as GameSetup step 3) can't change here — only the A/B/C/custom pick can.

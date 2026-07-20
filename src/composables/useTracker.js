@@ -534,13 +534,23 @@ export function useTracker() {
   // mid-game correction can't orphan anything already recorded.
   function updateSetup({ settings, players } = {}) {
     if (!current.value) return
-    if (settings) Object.assign(current.value.settings, settings)
     if (players) players.forEach((p, i) => {
       const pl = current.value.players[i]
       if (!p || !pl) return
       if (p.name !== undefined) pl.name = p.name
       if (p.battleReady !== undefined) pl.battleReady = !!p.battleReady
     })
+    if (settings) {
+      // players[0] is always the first-turn player (see newGame) and firstTurn itself
+      // stays normalized to 1. settings.firstTurn here is the desired state (1=You,
+      // 2=Opponent) — swap the two player objects in place if that differs from who's
+      // currently first, so each player's already-recorded rounds/scores travel with them.
+      if (settings.firstTurn !== undefined) {
+        const wantsYouFirst = settings.firstTurn === 1
+        if (wantsYouFirst !== current.value.players[0].isYou) current.value.players.reverse()
+      }
+      Object.assign(current.value.settings, settings, { firstTurn: 1 })
+    }
   }
 
   // Pull a finished game back out of history into active play (used for games that ended
