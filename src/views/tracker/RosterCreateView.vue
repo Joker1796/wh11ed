@@ -50,7 +50,10 @@
         <div class="field">
           <span>
             {{ labels.rosterDetachmentLabel }}
-            <em v-if="factionSlug" class="dp-count" :class="{ over: dpSpent > effBattle.dp }">{{ dpSpent }} / {{ effBattle.dp }} DP</em>
+            <em v-if="factionSlug" class="dp-count" :class="{ over: dpSpent > effBattle.dp && !dpOverAllowed }">{{ dpSpent }} / {{ effBattle.dp }} DP</em>
+            <button v-if="dpOverAllowed" type="button" class="help-btn" @click="dpHelpOpen = true" :aria-label="labels.rosterDpOverHelp">
+              <i class="bi bi-question-circle"></i>
+            </button>
           </span>
           <button v-if="factionSlug" class="btn-choose" @click="detachmentPickerOpen = true">
             <span class="ct-name" :class="{ placeholder: !detachments.length }">{{ detachmentSummary || labels.rosterChoose }}</span>
@@ -99,12 +102,18 @@
       @toggle="toggleDetachment"
       @close="detachmentPickerOpen = false"
     />
+    <BaseModal v-if="dpHelpOpen" :title="labels.rosterDpOverTitle" max-width="380px" @close="dpHelpOpen = false">
+      <div class="modal-body">
+        <p class="dp-help-text">{{ labels.rosterDpOverText }}</p>
+      </div>
+    </BaseModal>
   </div>
 </template>
 
 <script setup>
 import { computed, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import BaseModal from '../../components/BaseModal.vue'
 import FactionPickerModal from '../../components/tracker/FactionPickerModal.vue'
 import DetachmentPickerModal from '../../components/tracker/DetachmentPickerModal.vue'
 import RosterUnitBrowser from '../../components/roster/RosterUnitBrowser.vue'
@@ -185,6 +194,11 @@ function toggleDetachment(d) {
   if (at >= 0) detachments.value.splice(at, 1)
   else detachments.value.push(d.name)
 }
+// A single Detachment is always allowed even over budget (DetachmentPickerModal never
+// disables the first pick) — not official yet, but GW has said it's fine as long as it's
+// the only one taken. Show that as a "?" explainer instead of an error.
+const dpOverAllowed = computed(() => detachments.value.length === 1 && dpSpent.value > effBattle.value.dp)
+const dpHelpOpen = ref(false)
 
 const battleSizes = rosterCore.battleSizes
 const effBattle = computed(() => effectiveBattle({ battleSize: battleSize.value, customPoints: customPoints.value }, rosterCore))
@@ -295,6 +309,19 @@ function finish() {
 }
 .dp-count.over { color: #c0392b; }
 .det-empty { font-size: 0.82rem; color: var(--text-dim); font-style: italic; margin: 0.25rem 0 0; }
+.help-btn {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  padding: 0 0.2rem;
+  font-size: 0.9rem;
+  line-height: 1;
+  vertical-align: middle;
+}
+.help-btn:hover { color: var(--accent); }
+.dp-help-text { margin: 0; font-size: 0.88rem; line-height: 1.5; color: var(--text-muted); }
+.modal-body { padding: 0.9rem; }
 
 .seg {
   display: flex;

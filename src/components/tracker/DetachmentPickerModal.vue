@@ -4,7 +4,7 @@
       <header class="modal-head">
         <h3 class="mh-title">{{ labels.trackerDpBudget }}</h3>
         <div class="mh-right">
-          <em class="dp-modal-count" :class="{ over: dpSpent > maxDp }">{{ dpSpent }} / {{ maxDp }} DP</em>
+          <em class="dp-modal-count" :class="{ over: dpSpent > maxDp && !overAllowed }">{{ dpSpent }} / {{ maxDp }} DP</em>
           <button class="mh-close" @click="$emit('close')" :aria-label="labels.modalClose">✕</button>
         </div>
       </header>
@@ -32,7 +32,7 @@ import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 
-defineProps({
+const props = defineProps({
   detachments: { type: Array, required: true },
   selected:    { type: Array, required: true },
   maxDp:       { type: Number, required: true },
@@ -42,6 +42,11 @@ defineEmits(['toggle', 'close'])
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+
+// A single Detachment is always allowed even over budget (see the toggle-disable rule
+// below) — not official yet, but GW has said it's fine as long as it's the only one taken.
+// Don't flag that legal case as an error.
+const overAllowed = computed(() => props.selected.length === 1 && props.dpSpent > props.maxDp)
 </script>
 
 <style scoped>
