@@ -18,8 +18,9 @@
 // into the entry chunk); the precise unit name is pushed in by FactionDatasheetView via
 // setDatasheetName once its datasheet has loaded (the heavy per-faction file never rides here).
 import { factionIndexBySlug } from '../data/factionsIndex.js'
+import { SITE_ORIGIN } from '../config.js'
 
-const ORIGIN = 'https://wh11ed.ru'
+const ORIGIN = SITE_ORIGIN
 
 const SITE = { en: 'Warhammer 40,000 11th Ed', ru: 'Warhammer 40,000' }
 
