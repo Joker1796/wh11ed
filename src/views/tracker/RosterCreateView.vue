@@ -64,7 +64,7 @@
       </div>
 
       <div class="rc-actions">
-        <button class="btn-primary" :disabled="!factionSlug" @click="step = 2">{{ labels.trackerNextStep }} →</button>
+        <button class="btn-primary" :disabled="!factionSlug" @click="goToUnits">{{ labels.trackerNextStep }} →</button>
       </div>
     </div>
 
@@ -212,17 +212,33 @@ function addUnit(unitId) {
 }
 const points = computed(() => rosterPoints(units.value, defOf, curDetachments.value))
 
-// ── Finish: create the roster with everything collected, then hand off to the full editor ──
-function finish() {
-  const r = createRoster(name.value.trim() || labels.value.rosterNewName)
-  updateRoster(r.id, {
+// ── Save point: the roster only becomes real — and shows up on /roster — once step 1 is
+// filled in and the user moves on to picking units. Abandoning step 1 leaves no trace. ──
+const rosterId = ref(null)
+function step1Patch() {
+  return {
+    name: name.value.trim() || labels.value.rosterNewName,
     faction: factionSlug.value,
     detachments: detachments.value,
     battleSize: battleSize.value,
     customPoints: customPoints.value,
-    units: units.value,
-  })
-  router.push(`/roster/${r.id}`)
+  }
+}
+function goToUnits() {
+  if (rosterId.value) {
+    updateRoster(rosterId.value, step1Patch())
+  } else {
+    const r = createRoster(step1Patch().name)
+    rosterId.value = r.id
+    updateRoster(r.id, step1Patch())
+  }
+  step.value = 2
+}
+
+// ── Finish: write the collected units, then hand off to the full editor ──
+function finish() {
+  updateRoster(rosterId.value, { ...step1Patch(), units: units.value })
+  router.push(`/roster/${rosterId.value}`)
 }
 </script>
 

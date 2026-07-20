@@ -80,4 +80,35 @@ describe('RosterCreateView', () => {
     const w = mount(RosterCreateView, { global: { stubs } })
     expect(w.find('.rc-actions .btn-primary').attributes('disabled')).toBeDefined()
   })
+
+  it('does not create a roster until step 1 is submitted, and reuses it on Back/Next', async () => {
+    const store = useRosters()
+    const w = mount(RosterCreateView, { global: { stubs } })
+    expect(store.rosters.value).toHaveLength(0)
+
+    await w.findAll('.btn-choose')[0].trigger('click')
+    await waitFor(w, 'Space Marines')
+    await w.findAll('.fac').find((b) => b.text().includes('Space Marines')).trigger('click')
+    expect(store.rosters.value).toHaveLength(0) // picking a faction alone doesn't save it
+
+    await waitFor(w, '1st Company Task Force')
+    await w.findAll('.btn-choose')[1].trigger('click')
+    await w.findAll('.det').find((b) => b.text().includes('1st Company Task Force')).trigger('click')
+    expect(store.rosters.value).toHaveLength(0) // nor does picking a detachment
+
+    await w.find('.rc-actions .btn-primary').trigger('click') // Next → now it exists
+    expect(store.rosters.value).toHaveLength(1)
+    const savedId = store.rosters.value[0].id
+
+    // Back to step 1, change the battle size, forward again — same roster, not a duplicate.
+    await w.find('.rc-sticky-actions .btn-ghost').trigger('click')
+    await w.findAll('.seg button').find((b) => b.text() === 'Custom').trigger('click')
+    await w.find('.bsize-input').setValue(750)
+    await w.find('.rc-actions .btn-primary').trigger('click')
+
+    expect(store.rosters.value).toHaveLength(1)
+    expect(store.rosters.value[0].id).toBe(savedId)
+    expect(store.rosters.value[0].battleSize).toBe('custom')
+    expect(store.rosters.value[0].customPoints).toBe(750)
+  })
 })
