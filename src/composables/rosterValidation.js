@@ -97,6 +97,24 @@ export function validateRoster(roster, { faction, core } = {}) {
     if (!target || !canJoin.has(target.id)) add('leaderTargetInvalid', 'warn', { uid: u.uid })
   }
 
+  // A Bodyguard unit takes one Leader AND one Support at a time (the two are independent slots —
+  // see rosterEngine.js leaderTargetsFor), so group by (target, type) rather than target alone.
+  // The picker already disables an occupied target of the same type; this catches it anyway for
+  // data that predates that guard (or a detachment swap that left two of the same type attached).
+  {
+    const byTargetType = new Map()
+    for (const u of units) {
+      if (!u.leaderOf) continue
+      const type = defOf(u.id)?.leads?.find((l) => l.to === units.find((x) => x.uid === u.leaderOf)?.id)?.type || ''
+      const key = `${u.leaderOf}:${type}`
+      if (!byTargetType.has(key)) byTargetType.set(key, [])
+      byTargetType.get(key).push(u)
+    }
+    for (const leaders of byTargetType.values()) {
+      if (leaders.length > 1) for (const u of leaders.slice(1)) add('manyLeaders', 'error', { uid: u.uid })
+    }
+  }
+
   // Detachment-excluded datasheets (union across the selected detachments).
   const excl = new Set(detachments.flatMap((d) => d.excludedUnits || []))
   if (excl.size) {

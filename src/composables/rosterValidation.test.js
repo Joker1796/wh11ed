@@ -10,8 +10,10 @@ const core = {
 }
 
 const captain = { id: 'captain', name: 'Captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
-const lt = { id: 'lieutenant', name: 'Lieutenant', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 70, per: [1, 1], default: 1 }], leads: [{ to: 'intercessor-squad' }] }
-const chaplain = { id: 'chaplain', name: 'Chaplain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 75, per: [1, 1], default: 1 }] }
+const lt = { id: 'lieutenant', name: 'Lieutenant', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 70, per: [1, 1], default: 1 }], leads: [{ to: 'intercessor-squad', type: 'leader' }] }
+// A Character whose own core ability is titled "Support" rather than "Leader" — an independent
+// attachment slot alongside a Leader on the same target (see rosterEngine.js leaderTargetsFor).
+const chaplain = { id: 'chaplain', name: 'Chaplain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 75, per: [1, 1], default: 1 }], leads: [{ to: 'intercessor-squad', type: 'support' }] }
 const marneus = { id: 'marneus', name: 'Marneus Calgar', kws: ['Character', 'Epic Hero'], flags: { char: 1, epic: 1 }, sizes: [{ pts: 185, per: [1, 1], default: 1 }] }
 const intercessor = { id: 'intercessor-squad', name: 'Intercessor Squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }] }
 const dread = { id: 'ballistus-dreadnought', name: 'Ballistus Dreadnought', kws: ['Vehicle'], flags: {}, sizes: [{ pts: 140, per: [1, 1], default: 1 }] }
@@ -152,6 +154,24 @@ describe('validateRoster — leaders', () => {
     const squad = U('intercessor-squad')
     const leader = U('lieutenant', { leaderOf: squad.uid })
     expect(codes(roster({ units: [U('captain', { warlord: true }), squad, leader] }))).not.toContain('leaderTargetInvalid')
+  })
+  it('flags a second leader attached to a unit that already has one', () => {
+    const squad = U('intercessor-squad')
+    const leader1 = U('lieutenant', { leaderOf: squad.uid })
+    const leader2 = U('lieutenant', { leaderOf: squad.uid })
+    expect(codes(roster({ units: [U('captain', { warlord: true }), squad, leader1, leader2] }))).toContain('manyLeaders')
+  })
+  it('does not flag a Leader and a Support both attached to the same unit — independent slots', () => {
+    const squad = U('intercessor-squad')
+    const leader = U('lieutenant', { leaderOf: squad.uid })
+    const support = U('chaplain', { leaderOf: squad.uid })
+    expect(codes(roster({ units: [U('captain', { warlord: true }), squad, leader, support] }))).not.toContain('manyLeaders')
+  })
+  it('flags a second Support attached to a unit that already has one', () => {
+    const squad = U('intercessor-squad')
+    const support1 = U('chaplain', { leaderOf: squad.uid })
+    const support2 = U('chaplain', { leaderOf: squad.uid })
+    expect(codes(roster({ units: [U('captain', { warlord: true }), squad, support1, support2] }))).toContain('manyLeaders')
   })
 })
 

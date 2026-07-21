@@ -116,8 +116,8 @@
                   <span v-if="attachedToName(e)" class="rcunit-tag">
                     {{ labels.rosterAttachedTo }} <strong>{{ attachedToName(e) }}</strong>
                   </span>
-                  <span v-for="s in supportersOf(e)" :key="s.uid" class="rcunit-tag">
-                    <strong>{{ s.name }}</strong> ({{ labels.rosterLeaderSupport }})
+                  <span v-for="s in attachedLeadersOf(e)" :key="s.uid" class="rcunit-tag">
+                    <strong>{{ s.name }}</strong> ({{ s.type === 'support' ? labels.rosterSupportTag : labels.rosterLeaderTag }})
                   </span>
                   <span v-for="(line, i) in loadoutLines(e)" :key="i" class="rcunit-loadout">{{ line }}</span>
                 </span>
@@ -314,19 +314,19 @@ function toggleWarlord(entryUid) {
 function loadoutLines(e) {
   const def = defOf(e.id)
   if (!def) return []
-  const defaults = defaultLoadoutLines(def, rosterItems.items).map((l) => (l.mini ? `${l.mini}: ${l.items}` : l.items))
+  const defaults = defaultLoadoutLines(def, rosterItems.items, e).map((l) => (l.mini ? `${l.mini}: ${l.items}` : l.items))
   return [...defaults, ...wargearNames(def, e, rosterItems.items)]
 }
-// Leader/bodyguard relationship, shown both directions: a leader's tile says who it's attached
-// to; the bodyguard unit it joined lists it back as a "Support".
+// Leader/bodyguard relationship, shown both directions: a leader's tile says which unit it's
+// attached to; the bodyguard unit it joined lists the Leader back on its own tile.
 function attachedToName(e) {
   const target = e.leaderOf && units.value.find((u) => u.uid === e.leaderOf)
   return target ? (defOf(target.id)?.name || target.id) : ''
 }
-function supportersOf(e) {
+function attachedLeadersOf(e) {
   return units.value
     .filter((u) => u.leaderOf === e.uid)
-    .map((u) => ({ uid: u.uid, name: defOf(u.id)?.name || u.id }))
+    .map((u) => ({ uid: u.uid, name: defOf(u.id)?.name || u.id, type: defOf(u.id)?.leads?.find((l) => l.to === e.id)?.type }))
 }
 // Per-entry points + copy index (copy tax assigned in list order), for the row + the fields.
 const entryMeta = computed(() => {

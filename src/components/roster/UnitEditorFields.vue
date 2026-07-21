@@ -1,12 +1,19 @@
 <template>
   <div class="ues">
-    <RouterLink
-      v-if="def.linked && factionSlug"
-      :to="`/factions/${factionSlug}/datasheets/${def.id}`"
-      class="ues-sheet-link"
-    >
+    <button v-if="def.linked && factionSlug" type="button" class="ues-sheet-link" @click="rulesOpen = true">
       <i class="bi bi-file-earmark-text"></i> {{ labels.factionDatasheets }}
-    </RouterLink>
+    </button>
+    <!-- Teleported to <body>: this component can render inside an accordion wrapped by
+         CollapseTransition, whose `contain: layout paint` makes it a containing block for
+         `position: fixed` descendants — without the teleport, BaseModal's fixed overlay would
+         be clipped to the (collapsed-height) accordion row instead of covering the viewport. -->
+    <Teleport v-if="rulesOpen" to="body">
+      <RosterUnitRulesModal
+        :unit-id="def.id"
+        :faction-slug="factionSlug"
+        @close="rulesOpen = false"
+      />
+    </Teleport>
 
     <!-- Unit size -->
     <section v-if="def.sizes.length > 1" class="ues-sec">
@@ -34,8 +41,11 @@
       </p>
     </section>
 
-    <!-- Wargear choices -->
-    <section v-for="(g, gi) in def.gear || []" :key="gi" class="ues-sec">
+    <!-- Wargear choices — a group with `cond` (see rosterEngine.js wargearGroupLive) only shows
+         once its sibling group has (or hasn't) been changed from default, e.g. Necron Overlord's
+         Resurrection Orb is only on offer after giving up the default tachyon arrow. -->
+    <template v-for="(g, gi) in def.gear || []" :key="gi">
+    <section v-if="wargearGroupLive(def, entry, gi)" class="ues-sec">
       <h4 class="ues-h">
         <span v-if="miniName(g.m)" class="ues-mini">{{ miniName(g.m) }}</span>
         {{ texts[g.t] }}
@@ -75,6 +85,7 @@
         </div>
       </div>
     </section>
+    </template>
 
     <!-- Warlord -->
     <section v-if="canWarlord" class="ues-sec">
@@ -125,10 +136,15 @@
           v-for="t in leaderTargets"
           :key="t.uid"
           class="opt"
-          :class="{ on: entry.leaderOf === t.uid }"
+          :class="{ on: entry.leaderOf === t.uid, disabled: t.used && entry.leaderOf !== t.uid }"
+          :disabled="t.used && entry.leaderOf !== t.uid"
           @click="setLeader(t.uid)"
         >
-          <span class="opt-name">{{ t.name }}</span>
+          <span class="opt-name">
+            {{ t.name }}
+            <span v-if="t.type === 'support'" class="opt-tag">{{ labels.rosterSupportTag }}</span>
+            <span v-if="t.used && entry.leaderOf !== t.uid" class="opt-tag">{{ labels.rosterEnhUsed }}</span>
+          </span>
         </button>
       </div>
     </section>
@@ -137,14 +153,14 @@
 
 <script setup>
 // The unit-configuration fields (size, wargear, warlord, enhancement, leader attachment) —
-// split out of UnitEditorSheet so the roster-creation wizard's step 3 can render the same
-// fields inline inside a per-unit accordion instead of a modal. UnitEditorSheet wraps this in
-// BaseModal + its own points-total footer; this component owns no chrome of its own.
-import { computed } from 'vue'
+// shared by the creation wizard's step 3 and the roster editor's Loadout tab, each rendering it
+// inline inside a per-unit accordion. This component owns no chrome of its own.
+import { computed, ref } from 'vue'
 import NumberStepper from '../tracker/NumberStepper.vue'
+import RosterUnitRulesModal from './RosterUnitRulesModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { defaultLoadoutLines } from '../../composables/rosterEngine.js'
+import { defaultLoadoutLines, wargearGroupLive } from '../../composables/rosterEngine.js'
 
 const props = defineProps({
   entry: { type: Object, required: true },
@@ -161,6 +177,8 @@ defineEmits(['toggle-warlord'])
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+
+const rulesOpen = ref(false)
 
 // A mandatory enhancement (see rosterEngine.js mandatoryEnhancementFor) is never a player pick —
 // suppresses "No enhancement"'s own highlight/click so the section reads as locked, not as if
@@ -185,7 +203,7 @@ function setCount(n) { props.entry.count = n }
 function miniName(m) { return props.def.minis?.[m]?.n || '' }
 
 // ── Default loadout summary ──
-const defaultLines = computed(() => defaultLoadoutLines(props.def, props.items))
+const defaultLines = computed(() => defaultLoadoutLines(props.def, props.items, props.entry))
 
 // ── Wargear selection: entry.wg = [[groupIdx, optIdx, count], …] (deviations only) ──
 function wg() { return props.entry.wg || [] }
@@ -235,7 +253,7 @@ function setLeader(uid) { if (uid) props.entry.leaderOf = uid; else delete props
 
 <style scoped>
 .ues { display: flex; flex-direction: column; gap: 0; }
-.ues-sheet-link { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.8rem; color: var(--text-muted); text-decoration: none; margin-bottom: 0.5rem; }
+.ues-sheet-link { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.8rem; color: var(--text-muted); text-decoration: none; margin-bottom: 0.5rem; background: none; border: none; padding: 0; cursor: pointer; font-family: inherit; }
 .ues-sheet-link:hover { color: var(--accent); }
 .ues-sec { padding: 0.6rem 0; border-top: 1px solid var(--border); }
 .ues-sec:first-of-type { border-top: none; }

@@ -28,80 +28,127 @@
       </button>
     </header>
 
-    <!-- Army choices -->
-    <div class="red-choices">
-      <button class="choice" @click="factionPickerOpen = true">
-        <span class="ch-label">{{ labels.rosterFactionLabel }}</span>
-        <span class="ch-value">{{ factionName || labels.rosterChoose }}</span>
-        <i class="bi bi-chevron-down"></i>
-      </button>
-      <button class="choice" :disabled="!roster.faction" @click="detachmentPickerOpen = true">
-        <span class="ch-label">{{ labels.rosterDetachmentLabel }}</span>
-        <span class="ch-value">{{ detachmentSummary || labels.rosterChoose }}</span>
-        <i class="bi bi-chevron-down"></i>
-      </button>
-      <div class="choice bsize">
-        <span class="ch-label">{{ labels.rosterBattleSizeLabel }}</span>
-        <div class="bsize-opts">
-          <button
-            v-for="b in battleSizes"
-            :key="b.id"
-            class="bsize-btn"
-            :class="{ on: roster.battleSize === b.id }"
-            @click="setBattleSize(b.id)"
-          >{{ b.points }}</button>
-          <button class="bsize-btn" :class="{ on: roster.battleSize === 'custom' }" @click="setBattleSize('custom')">{{ labels.rosterCustom }}</button>
-          <input
-            v-if="roster.battleSize === 'custom'"
-            class="bsize-input"
-            type="number"
-            min="0"
-            step="5"
-            :value="roster.customPoints"
-            @input="setCustomPoints($event.target.value)"
-          />
+    <!-- Three switchable panels (not a sequential flow like the creation wizard — any panel can
+         be reopened at any time while editing an existing roster). -->
+    <div class="red-tabs" role="tablist">
+      <button class="red-tab" :class="{ on: tab === 'settings' }" role="tab" :aria-selected="tab === 'settings'" @click="tab = 'settings'">{{ labels.rosterCreateStep1 }}</button>
+      <button class="red-tab" :class="{ on: tab === 'units' }" role="tab" :aria-selected="tab === 'units'" @click="tab = 'units'">{{ labels.rosterViewTabUnits }}</button>
+      <button class="red-tab" :class="{ on: tab === 'loadout' }" role="tab" :aria-selected="tab === 'loadout'" @click="tab = 'loadout'">{{ labels.rosterCreateStep3 }}</button>
+    </div>
+
+    <!-- Settings: faction, detachment(s), battle size -->
+    <div v-if="tab === 'settings'" class="red-panel">
+      <div class="red-choices">
+        <button class="choice" @click="factionPickerOpen = true">
+          <span class="ch-label">{{ labels.rosterFactionLabel }}</span>
+          <span class="ch-value">{{ factionName || labels.rosterChoose }}</span>
+          <i class="bi bi-chevron-down"></i>
+        </button>
+        <button class="choice" :disabled="!roster.faction" @click="detachmentPickerOpen = true">
+          <span class="ch-label">{{ labels.rosterDetachmentLabel }}</span>
+          <span class="ch-value">{{ detachmentSummary || labels.rosterChoose }}</span>
+          <i class="bi bi-chevron-down"></i>
+        </button>
+        <div class="choice bsize">
+          <span class="ch-label">{{ labels.rosterBattleSizeLabel }}</span>
+          <div class="bsize-opts">
+            <button
+              v-for="b in battleSizes"
+              :key="b.id"
+              class="bsize-btn"
+              :class="{ on: roster.battleSize === b.id }"
+              @click="setBattleSize(b.id)"
+            >{{ b.points }}</button>
+            <button class="bsize-btn" :class="{ on: roster.battleSize === 'custom' }" @click="setBattleSize('custom')">{{ labels.rosterCustom }}</button>
+            <input
+              v-if="roster.battleSize === 'custom'"
+              class="bsize-input"
+              type="number"
+              min="0"
+              step="5"
+              :value="roster.customPoints"
+              @input="setCustomPoints($event.target.value)"
+            />
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Units -->
-    <div v-if="!roster.faction" class="red-hint">{{ labels.rosterPickFaction }}</div>
-    <template v-else>
-      <p v-if="!roster.units.length" class="red-empty">{{ labels.rosterUnitsEmpty }}</p>
-      <div v-else class="red-units">
-        <template v-for="g in groupedUnits" :key="g.id">
-          <template v-if="g.entries.length">
-            <h3 class="rug-head">{{ labels[GROUP_LABEL_KEYS[g.id]] }}</h3>
-            <div v-for="e in g.entries" :key="e.uid" class="runit">
-              <button class="runit-row" @click="openEditor(e.uid)">
-                <span class="runit-text">
-                  <span class="runit-name">{{ defOf(e.id)?.name || e.id }}</span>
-                  <span class="runit-sub">{{ summaryLine(e) }}</span>
-                </span>
-                <span class="runit-pts">{{ entryMeta.get(e.uid)?.points }}</span>
-                <i class="bi bi-chevron-right runit-chev"></i>
-              </button>
-              <button class="runit-del" :aria-label="labels.rosterRemove" @click="removeUnit(e.uid)">
-                <i class="bi bi-x-lg"></i>
-              </button>
-            </div>
-          </template>
-        </template>
-      </div>
+    <!-- Units: browse the faction catalogue, add/remove copies -->
+    <div v-else-if="tab === 'units'" class="red-panel">
+      <div v-if="!roster.faction" class="red-hint">{{ labels.rosterPickFaction }}</div>
+      <RosterUnitBrowser
+        v-else-if="factionData"
+        :units="factionData.units"
+        :faction-slug="roster.faction"
+        :added-ids="roster.units.map((u) => u.id)"
+        :detachments="curDetachments"
+        @add="addUnit"
+        @remove="removeUnit"
+      />
+    </div>
 
-      <div class="red-add">
-        <button class="btn-add" :disabled="loadingFaction || !factionData" @click="unitPickerOpen = true">
-          <i class="bi bi-plus-lg"></i> {{ labels.rosterAddUnit }}
-        </button>
-      </div>
-    </template>
+    <!-- Loadout ("Комплектация"): per-unit configuration — size, wargear, warlord, enhancement,
+         leader attachment — the same inline accordion as the creation wizard's step 3, one unit
+         open at a time. Units are added/removed on the Units tab, not here. -->
+    <div v-else class="red-panel">
+      <div v-if="!roster.faction" class="red-hint">{{ labels.rosterPickFaction }}</div>
+      <template v-else>
+        <p v-if="!roster.units.length" class="red-empty">{{ labels.rosterUnitsEmpty }}</p>
+        <div v-else class="redu-list">
+          <template v-for="g in groupedUnits" :key="g.id">
+            <template v-if="g.entries.length">
+              <h3 class="rug-head">{{ labels[GROUP_LABEL_KEYS[g.id]] }}</h3>
+              <div v-for="e in g.entries" :key="e.uid" class="redu-unit">
+                <button
+                  type="button"
+                  class="redu-row"
+                  :aria-expanded="openUid === e.uid"
+                  @click="toggleOpen(e.uid)"
+                >
+                  <span class="redu-text">
+                    <span class="redu-name">
+                      <i v-if="e.warlord" class="bi bi-star-fill redu-star"></i>
+                      {{ defOf(e.id)?.name || e.id }}
+                    </span>
+                    <span v-if="attachedToName(e)" class="redu-tag">
+                      {{ labels.rosterAttachedTo }} <strong>{{ attachedToName(e) }}</strong>
+                    </span>
+                    <span v-for="s in attachedLeadersOf(e)" :key="s.uid" class="redu-tag">
+                      <strong>{{ s.name }}</strong> ({{ s.type === 'support' ? labels.rosterSupportTag : labels.rosterLeaderTag }})
+                    </span>
+                    <span v-for="(line, i) in loadoutLines(e)" :key="i" class="redu-loadout">{{ line }}</span>
+                  </span>
+                  <span class="redu-pts">{{ entryMeta.get(e.uid)?.points }}</span>
+                  <i class="bi redu-chev" :class="openUid === e.uid ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+                </button>
+                <CollapseTransition :show="openUid === e.uid">
+                  <div class="redu-fields">
+                    <UnitEditorFields
+                      v-if="defOf(e.id)"
+                      :entry="e"
+                      :def="defOf(e.id)"
+                      :items="rosterItems.items"
+                      :texts="rosterItems.texts"
+                      :faction-slug="roster.faction"
+                      :can-warlord="canBeWarlord(defOf(e.id))"
+                      :is-warlord="e.warlord === true"
+                      :enh-options="enhOptionsFor(defOf(e.id), curDetachments, roster.units, e.uid)"
+                      :leader-targets="leaderTargetsFor(defOf(e.id), roster.units, e.uid, defOf)"
+                      @toggle-warlord="toggleWarlord(e.uid)"
+                    />
+                  </div>
+                </CollapseTransition>
+              </div>
+            </template>
+          </template>
+        </div>
+      </template>
+    </div>
 
     <!-- Sticky mobile total -->
     <div class="red-sticky">
       <span class="st-points" :class="{ over: points > limit }">{{ points }} / {{ limit }}</span>
-      <button v-if="roster.faction" class="st-add" :disabled="loadingFaction || !factionData" @click="unitPickerOpen = true">
-        <i class="bi bi-plus-lg"></i> {{ labels.rosterAddUnit }}
-      </button>
     </div>
 
     <FactionPickerModal
@@ -119,35 +166,10 @@
       @toggle="toggleDetachment"
       @close="detachmentPickerOpen = false"
     />
-    <RosterUnitPickerModal
-      v-if="unitPickerOpen && factionData"
-      :units="factionData.units"
-      :faction-slug="roster.faction"
-      :added-ids="roster.units.map((u) => u.id)"
-      :detachments="curDetachments"
-      @pick="addUnit"
-      @close="unitPickerOpen = false"
-    />
-    <UnitEditorSheet
-      v-if="editingEntry && editingDef"
-      :entry="editingEntry"
-      :def="editingDef"
-      :items="rosterItems.items"
-      :texts="rosterItems.texts"
-      :faction-slug="roster.faction"
-      :copy-index="entryMeta.get(editingUid)?.copyIndex || 1"
-      :detachments="curDetachments"
-      :can-warlord="editCanWarlord"
-      :is-warlord="editingEntry.warlord === true"
-      :enh-options="editEnhOptions"
-      :leader-targets="editLeaderTargets"
-      @toggle-warlord="toggleWarlord"
-      @close="editingUid = null"
-    />
     <RosterIssuesModal
       v-if="issuesOpen"
       :issues="validation.issues"
-      @goto="(uid) => { issuesOpen = false; openEditor(uid) }"
+      @goto="(uid) => { issuesOpen = false; tab = 'loadout'; openUid = uid }"
       @close="issuesOpen = false"
     />
     <RosterExportModal
@@ -164,10 +186,11 @@
 <script setup>
 import { computed, ref, watch, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import CollapseTransition from '../../components/CollapseTransition.vue'
 import FactionPickerModal from '../../components/tracker/FactionPickerModal.vue'
 import DetachmentPickerModal from '../../components/tracker/DetachmentPickerModal.vue'
-import RosterUnitPickerModal from '../../components/roster/RosterUnitPickerModal.vue'
-import UnitEditorSheet from '../../components/roster/UnitEditorSheet.vue'
+import RosterUnitBrowser from '../../components/roster/RosterUnitBrowser.vue'
+import UnitEditorFields from '../../components/roster/UnitEditorFields.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
 import RosterExportModal from '../../components/roster/RosterExportModal.vue'
 import { ui } from '../../i18n/ui.js'
@@ -176,7 +199,10 @@ import { useRosters, uid } from '../../composables/useRosters.js'
 import rosterCore from '../../data/roster/core.js'
 import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
-import { UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints, entrySummary, canBeWarlord, enhOptionsFor, leaderTargetsFor, effectiveBattle } from '../../composables/rosterEngine.js'
+import {
+  UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints,
+  canBeWarlord, enhOptionsFor, leaderTargetsFor, defaultLoadoutLines, wargearNames, effectiveBattle,
+} from '../../composables/rosterEngine.js'
 import { validateRoster } from '../../composables/rosterValidation.js'
 import { prefillDraftFromRoster } from '../../composables/rosterHandoff.js'
 import { useTracker } from '../../composables/useTracker.js'
@@ -187,6 +213,8 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { rosterById } = useRosters()
 const { current: trackerCurrent } = useTracker()
+
+const tab = ref('units')
 
 // Hand the roster to the tracker: pre-fill the setup draft, then go to the wizard (or the
 // tracker home if a live game is in progress, so we never clobber it).
@@ -252,6 +280,7 @@ function pickFaction(slug) {
   roster.value.faction = slug
   roster.value.detachments = []
   roster.value.units = [] // units belong to a faction — changing it invalidates them
+  openUid.value = null
   touch()
 }
 // Multi-select: toggle a detachment name in/out (DP budget enforced by the picker's disabling).
@@ -270,57 +299,69 @@ function toggleDetachment(d) {
 function setBattleSize(id) { roster.value.battleSize = id; touch() }
 function setCustomPoints(v) { roster.value.customPoints = Math.max(0, Number(v) || 0); touch() }
 
-// ── Units ──
+// ── Units (added/removed on the Units tab) ──
 const factionPickerOpen = ref(false)
 const detachmentPickerOpen = ref(false)
-const unitPickerOpen = ref(false)
 
 function defaultSize(def) {
   const i = def.sizes.findIndex((s) => s.default)
   return i >= 0 ? i : 0
 }
 function addUnit(unitId) {
-  unitPickerOpen.value = false
   const def = defOf(unitId)
   if (!def) return
   roster.value.units.push({ uid: uid(), id: unitId, size: defaultSize(def) })
   touch()
 }
-function removeUnit(entryUid) {
-  roster.value.units = roster.value.units.filter((e) => e.uid !== entryUid)
-  // Drop any leader attachment that pointed at the removed unit.
-  for (const u of roster.value.units) if (u.leaderOf === entryUid) delete u.leaderOf
-  if (editingUid.value === entryUid) editingUid.value = null
-  touch()
+// Removes the most recently added copy of this unit — pairs with the browser's "-" button,
+// which only shows once at least one copy is in the list.
+function removeUnit(unitId) {
+  for (let i = roster.value.units.length - 1; i >= 0; i--) {
+    if (roster.value.units[i].id === unitId) {
+      const [removed] = roster.value.units.splice(i, 1)
+      // Drop any leader attachment that pointed at the removed unit, and close its accordion.
+      for (const u of roster.value.units) if (u.leaderOf === removed.uid) delete u.leaderOf
+      if (openUid.value === removed.uid) openUid.value = null
+      touch()
+      return
+    }
+  }
 }
-// ── Per-unit editor sheet ──
-const editingUid = ref(null)
-function openEditor(entryUid) { editingUid.value = entryUid }
-const editingEntry = computed(() => roster.value?.units.find((e) => e.uid === editingUid.value) || null)
-const editingDef = computed(() => editingEntry.value && defOf(editingEntry.value.id))
 
-// Editing context passed to the sheet: warlord eligibility, enhancement options (eligible +
-// not-already-used elsewhere), and — for a leader unit — the roster units it can join.
-const editCanWarlord = computed(() => !!(editingDef.value && canBeWarlord(editingDef.value)))
-function toggleWarlord() {
-  const e = editingEntry.value
+// ── Loadout tab: only one tile's fields open at a time (classic accordion) ──
+const openUid = ref(null)
+function toggleOpen(entryUid) {
+  openUid.value = openUid.value === entryUid ? null : entryUid
+}
+function toggleWarlord(entryUid) {
+  const e = roster.value.units.find((u) => u.uid === entryUid)
   if (!e) return
   const on = e.warlord === true
   for (const u of roster.value.units) delete u.warlord // exactly one warlord per army
   if (!on) e.warlord = true
   touch()
 }
-const editEnhOptions = computed(() =>
-  enhOptionsFor(editingDef.value, curDetachments.value, roster.value?.units, editingUid.value))
-const editLeaderTargets = computed(() =>
-  leaderTargetsFor(editingDef.value, roster.value?.units, editingUid.value, defOf))
-
-// A one-line summary of an entry's current size + upgrade count for its list row.
-function summaryLine(e) {
-  return entrySummary(e, defOf(e.id), labels.value.rosterModelsLabel, labels.value.rosterUpgradesLabel)
+// Read-only loadout preview for the collapsed tile — default wargear (per mini) plus any
+// deviations, so a customised unit doesn't just say "N upgrades".
+function loadoutLines(e) {
+  const def = defOf(e.id)
+  if (!def) return []
+  const defaults = defaultLoadoutLines(def, rosterItems.items, e).map((l) => (l.mini ? `${l.mini}: ${l.items}` : l.items))
+  return [...defaults, ...wargearNames(def, e, rosterItems.items)]
+}
+// Leader/bodyguard relationship, shown both directions: a leader's tile says which unit it's
+// attached to; the bodyguard unit it joined lists the Leader back on its own tile.
+function attachedToName(e) {
+  const target = e.leaderOf && roster.value.units.find((u) => u.uid === e.leaderOf)
+  return target ? (defOf(target.id)?.name || target.id) : ''
+}
+function attachedLeadersOf(e) {
+  return roster.value.units
+    .filter((u) => u.leaderOf === e.uid)
+    .map((u) => ({ uid: u.uid, name: defOf(u.id)?.name || u.id, type: defOf(u.id)?.leads?.find((l) => l.to === e.id)?.type }))
 }
 
-// Per-entry points + copy index (copy tax assigned in list order), for row display and the sheet.
+// Per-entry points + copy index (copy tax assigned in list order), for row display and the fields.
 const entryMeta = computed(() => {
   const seen = new Map()
   const m = new Map()
@@ -417,7 +458,24 @@ function rename(name) {
 }
 .hdr-icon:hover { border-color: var(--accent); color: var(--accent); }
 
-.red-choices { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 1.25rem; }
+/* Tab bar — same visual language as RosterViewView's read-only tabs. */
+.red-tabs { display: flex; gap: 0.4rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); }
+.red-tab {
+  padding: 0.5rem 1rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-bottom: -1px;
+}
+.red-tab.on { color: var(--accent); border-bottom-color: var(--accent); }
+
+.red-panel { display: flex; flex-direction: column; gap: 1.1rem; }
+
+.red-choices { display: flex; flex-wrap: wrap; gap: 0.6rem; }
 .choice {
   display: flex;
   flex-direction: column;
@@ -471,68 +529,45 @@ function rename(name) {
   padding-bottom: 0.2rem;
   border-bottom: 1px solid var(--border);
 }
-.runit {
-  display: flex;
-  align-items: stretch;
+.rug-head:first-child { margin-top: 0; }
+
+/* Loadout accordion — same card/row language as the creation wizard's step 3. */
+.redu-unit {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 6px;
   margin-bottom: 0.5rem;
   overflow: hidden;
 }
-.runit:hover { border-color: var(--accent); }
-.runit-row {
-  flex: 1;
-  min-width: 0;
+.redu-unit:hover { border-color: var(--accent); }
+.redu-row {
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  padding: 0.6rem 0.5rem 0.6rem 0.75rem;
+  padding: 0.6rem 0.75rem;
   background: none;
   border: none;
   cursor: pointer;
   text-align: left;
 }
-.runit-text { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 0.1rem; }
-.runit-name { font-weight: 600; color: var(--text-primary); font-size: 0.92rem; }
-.runit-sub { font-size: 0.74rem; color: var(--text-dim); }
-.runit-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); }
-.runit-chev { color: var(--text-dim); font-size: 0.7rem; }
-.runit-del {
-  background: none;
-  border: none;
-  border-left: 1px solid var(--border);
-  color: var(--text-dim);
-  cursor: pointer;
-  padding: 0 0.7rem;
-  font-size: 0.8rem;
-}
-.runit-del:hover { color: #c0392b; }
+.redu-text { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 0.15rem; text-align: left; }
+.redu-name { font-weight: 600; color: var(--text-primary); font-size: 0.92rem; }
+.redu-star { color: #e3b341; font-size: 0.8rem; margin-right: 0.15rem; }
+.redu-tag { font-size: 0.74rem; color: var(--accent); }
+.redu-tag strong { font-weight: 700; }
+.redu-loadout { font-size: 0.74rem; color: var(--text-dim); line-height: 1.4; }
+.redu-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); flex-shrink: 0; }
+.redu-chev { color: var(--text-dim); font-size: 0.7rem; flex-shrink: 0; }
+.redu-fields { padding: 0.6rem 0.75rem 0.75rem; border-top: 1px solid var(--border); }
 
-.red-add { margin-top: 1rem; }
-.btn-add, .st-add {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.6rem 1.3rem;
-  background: var(--accent);
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-}
-.btn-add:disabled, .st-add:disabled { opacity: 0.5; cursor: not-allowed; }
-
-/* Sticky bottom total — shown on phones; the inline Add button hides there. */
+/* Sticky bottom total — shown on phones. */
 .red-sticky {
   display: none;
   position: sticky;
   bottom: 0;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
+  justify-content: flex-end;
   margin: 0 -1rem;
   padding: 0.6rem 1rem;
   background: var(--bg-primary);
@@ -541,7 +576,6 @@ function rename(name) {
 .st-points { font-family: var(--font-mono); font-weight: 700; }
 .st-points.over { color: #c0392b; }
 @media (max-width: 640px) {
-  .red-add { display: none; }
   .red-sticky { display: flex; }
 }
 
