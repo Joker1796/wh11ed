@@ -61,6 +61,16 @@ export function canBeWarlord(def) {
   return !def?.flags?.noWarlord && !!(def?.flags?.char || def?.flags?.nonCharWarlordOk)
 }
 
+// A tiny handful of enhancements (Necrons' Pantheon of Woe, Imperial Agents' Veiled Blade Elim.
+// Force — see gen-roster-data.mjs ENH_REQ_FIXES) are locked to one exact datasheet by name
+// ("X model only" in their rules text) rather than a general Character/Epic-Hero pool. Naming one
+// specific unit is already maximally restrictive, so it overrides that unit's general noEnh/
+// epic-without-epicOk gates below — those exist to keep *generic* enhancements off units that
+// can't normally take them, not to block a unit from its own dedicated option.
+function lockedToExactUnit(enh, def) {
+  return enh.req?.length === 1 && enh.req[0].kw?.length === 1 && enh.req[0].kw[0] === def.name
+}
+
 // Is an enhancement legal on this unit? Enhancements go on Characters (unless the enhancement is
 // flagged for non-characters), never on Epic Heroes unless flagged, never on enhancement-barred
 // units. Then the keyword gates: any excluded keyword disqualifies; the OR-groups of required
@@ -68,6 +78,7 @@ export function canBeWarlord(def) {
 // being in the faction, so only the per-unit keywords are checked here).
 export function enhEligible(enh, def) {
   if (!enh || !def) return false
+  if (lockedToExactUnit(enh, def)) return !enh.exclKw?.some((k) => hasKeyword(def, k))
   if (def.flags?.noEnh) return false
   if (!def.flags?.char && !enh.nonCharOk) return false
   if (def.flags?.epic && !enh.epicOk) return false

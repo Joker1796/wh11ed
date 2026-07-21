@@ -3299,11 +3299,8 @@ export default {
           "uncounted": 1,
           "req": [
             {
-              "fac": [
-                "Agents of the Imperium"
-              ],
               "kw": [
-                "DNU"
+                "Callidus Assassin"
               ]
             }
           ]
@@ -3315,11 +3312,8 @@ export default {
           "uncounted": 1,
           "req": [
             {
-              "fac": [
-                "Agents of the Imperium"
-              ],
               "kw": [
-                "DNU"
+                "Culexus Assassin"
               ]
             }
           ]
