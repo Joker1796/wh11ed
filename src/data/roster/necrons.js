@@ -81,13 +81,6 @@ export default {
             1
           ],
           "default": 1
-        },
-        {
-          "pts": 375,
-          "per": [
-            1,
-            1
-          ]
         }
       ],
       "linked": 1,
@@ -131,13 +124,6 @@ export default {
             1
           ],
           "default": 1
-        },
-        {
-          "pts": 405,
-          "per": [
-            1,
-            1
-          ]
         }
       ],
       "linked": 1,
@@ -181,13 +167,6 @@ export default {
             1
           ],
           "default": 1
-        },
-        {
-          "pts": 380,
-          "per": [
-            1,
-            1
-          ]
         }
       ],
       "linked": 1,
@@ -2612,13 +2591,6 @@ export default {
             1
           ],
           "default": 1
-        },
-        {
-          "pts": 380,
-          "per": [
-            1,
-            1
-          ]
         }
       ],
       "linked": 1,
@@ -3257,7 +3229,7 @@ export default {
           "req": [
             {
               "kw": [
-                "C'tan Shard of the Deceiver"
+                "C’tan Shard of the Deceiver"
               ]
             }
           ],
@@ -3271,7 +3243,7 @@ export default {
           "req": [
             {
               "kw": [
-                "C'tan Shard of the Nightbringer"
+                "C’tan Shard of the Nightbringer"
               ]
             }
           ],
@@ -3284,7 +3256,7 @@ export default {
           "req": [
             {
               "kw": [
-                "C'tan Shard of the Void Dragon"
+                "C’tan Shard of the Void Dragon"
               ]
             }
           ],
@@ -3298,7 +3270,7 @@ export default {
           "req": [
             {
               "kw": [
-                "Transcendent C'tan"
+                "Transcendent C’tan"
               ]
             }
           ],

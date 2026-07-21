@@ -248,13 +248,6 @@ export default {
             1,
             1
           ]
-        },
-        {
-          "pts": 140,
-          "per": [
-            1,
-            1
-          ]
         }
       ],
       "linked": 1,
@@ -402,13 +395,6 @@ export default {
         },
         {
           "pts": 85,
-          "per": [
-            1,
-            1
-          ]
-        },
-        {
-          "pts": 125,
           "per": [
             1,
             1

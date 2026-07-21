@@ -90,12 +90,12 @@ describe('enhEligible', () => {
   // rather than a general Character/Epic-Hero pool, so they should be pickable on that unit
   // even when it's otherwise noEnh/epic-without-epicOk-gated — but only THAT unit.
   it('lets a unit-locked enhancement override noEnh/epic gates, but only for the named unit', () => {
-    const ctan = { name: "Transcendent C'tan", kws: ["Transcendent C'tan", 'Character'], flags: { char: 1, noEnh: 1 } }
+    const ctan = { name: 'Transcendent C’tan', kws: ['Transcendent C’tan', 'Character'], flags: { char: 1, noEnh: 1 } }
     const namedShard = { name: 'C’tan Shard of the Deceiver', kws: ['Character', 'Epic Hero'], flags: { char: 1, epic: 1 } }
-    const lockedEnh = { name: 'Reletavistic Tether', req: [{ kw: ["Transcendent C'tan"] }] }
+    const lockedEnh = { name: 'Reletavistic Tether', req: [{ kw: ['Transcendent C’tan'] }] }
     expect(enhEligible(lockedEnh, ctan)).toBe(true) // bypasses noEnh
     expect(enhEligible(lockedEnh, namedShard)).toBe(false) // not this unit — normal gates apply, and fail
-    expect(enhEligible({ ...lockedEnh, exclKw: ["Transcendent C'tan"] }, ctan)).toBe(false) // still honours exclKw
+    expect(enhEligible({ ...lockedEnh, exclKw: ['Transcendent C’tan'] }, ctan)).toBe(false) // still honours exclKw
   })
 })
 
@@ -117,10 +117,10 @@ describe('enhancementPoints / unitPoints with enhancement', () => {
 // relevant ability ... you must increase the points cost" — automatic and non-optional, not a
 // once-per-army pick (see gen-roster-data.mjs ENH_REQ_FIXES, rosterEngine.js mandatoryEnhancementFor).
 describe('mandatory enhancements', () => {
-  const ctan = { name: "Transcendent C'tan", kws: ["Transcendent C'tan", 'Character'], flags: { char: 1, noEnh: 1 }, sizes: [{ pts: 340, per: [1, 1] }] }
+  const ctan = { name: 'Transcendent C’tan', kws: ['Transcendent C’tan', 'Character'], flags: { char: 1, noEnh: 1 }, sizes: [{ pts: 340, per: [1, 1] }] }
   const otherShard = { name: 'C’tan Shard of the Deceiver', kws: ['Character', 'Epic Hero'], flags: { char: 1, epic: 1 }, sizes: [{ pts: 330, per: [1, 1] }] }
   const dets = [{ name: 'Pantheon of Woe', enhancements: [
-    { name: 'Reletavistic Tether', pts: 40, mandatory: 1, req: [{ kw: ["Transcendent C'tan"] }] },
+    { name: 'Reletavistic Tether', pts: 40, mandatory: 1, req: [{ kw: ['Transcendent C’tan'] }] },
   ] }]
 
   it('mandatoryEnhancementFor finds the one locked to this exact unit, not any other', () => {
