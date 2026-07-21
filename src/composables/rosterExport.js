@@ -1,21 +1,10 @@
 // Plain-text roster export — a shareable army list in the style of the official app. English
 // names throughout (unit / detachment / wargear names are EN by convention). Pure function.
-import { UNIT_GROUPS, bucketOf, enhancementPoints, mandatoryEnhancementFor, unitPoints, rosterPoints, effectiveBattle } from './rosterEngine.js'
+import { UNIT_GROUPS, bucketOf, enhancementPoints, mandatoryEnhancementFor, unitPoints, rosterPoints, wargearNames, effectiveBattle } from './rosterEngine.js'
 
 const GROUP_TITLES = {
   epic: 'EPIC HEROES', characters: 'CHARACTERS', battleline: 'BATTLELINE',
   transports: 'DEDICATED TRANSPORTS', other: 'OTHER',
-}
-
-// Names of the wargear items a unit entry has swapped/added, for the export line.
-function wargearNames(def, entry, items) {
-  if (!entry.wg?.length) return []
-  return entry.wg.map(([gi, oi, n]) => {
-    const opt = def.gear?.[gi]?.o?.[oi]
-    if (!opt) return null
-    const name = items?.[opt[0]] || ''
-    return n > 1 ? `${name} ×${n}` : name
-  }).filter(Boolean)
 }
 
 export function buildRosterText(roster, { faction, core, items } = {}) {

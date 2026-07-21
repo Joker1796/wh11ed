@@ -179,6 +179,30 @@ export function entrySummary(e, def, modelsLabel, upgradesLabel) {
   return parts.join(' · ')
 }
 
+// An entry's default (unmodified) loadout, one line per mini in the datasheet's composition —
+// e.g. [{ mini: 'Sergeant', items: 'Bolt rifle' }, { mini: '', items: 'Close combat weapon, Tesla carbine ×10' }].
+// `mini` is blank when the datasheet only has one mini (nothing to disambiguate). Pure function of
+// def + the interned item dictionary — same for every entry of this datasheet, so callers that
+// only need it once per unit (not per roster entry) can skip re-deriving it inline.
+export function defaultLoadoutLines(def, items) {
+  return (def?.defaults || []).map(([m, list]) => ({
+    mini: def.minis?.length > 1 ? (def.minis[m]?.n || '') : '',
+    items: list.map(([id, c]) => `${items[id]}${c > 1 ? ` ×${c}` : ''}`).join(', '),
+  }))
+}
+
+// Names of the wargear items a unit entry has swapped/added on top of its default loadout
+// (entry.wg deviations only — see UnitEditorFields/rosterExport.js for the same shape).
+export function wargearNames(def, entry, items) {
+  if (!entry?.wg?.length) return []
+  return entry.wg.map(([gi, oi, n]) => {
+    const opt = def?.gear?.[gi]?.o?.[oi]
+    if (!opt) return null
+    const name = items?.[opt[0]] || ''
+    return n > 1 ? `${name} ×${n}` : name
+  }).filter(Boolean)
+}
+
 // The effective battle-size limits for a roster. A 'custom' size carries its own points total
 // and borrows the duplicate / enhancement / DP limits of the standard bracket it falls within.
 export function effectiveBattle(roster, core) {
