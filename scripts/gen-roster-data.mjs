@@ -273,8 +273,26 @@ function buildUnit(bd, idMap, fx) {
   return unit
 }
 
+// A handful of enhancements ship with a broken requirement: the source's
+// enhancement_required_keyword_group_keyword table points at "DNU" ("do not use"), an orphaned
+// internal GW keyword that's never actually attached to any datasheet — so as generated, these
+// can never legally be taken by anyone. Each one is actually locked to one exact datasheet ("X
+// model only" in its rules text), which already carries a matching name keyword — substitute the
+// real requirement here. (rosterEngine.js's enhEligible treats an exact-name-keyword requirement
+// as an override for the unit's general noEnh/epic-without-epicOk gates, since being locked to
+// one specific datasheet is already maximally restrictive.)
+const ENH_REQ_FIXES = {
+  'Singularity Matrix': ["C'tan Shard of the Deceiver"],
+  'Quantum Goad': ["C'tan Shard of the Nightbringer"],
+  'Animus Damper': ["C'tan Shard of the Void Dragon"],
+  'Reletavistic Tether': ["Transcendent C'tan"],
+  'Decoy Targets': ['Callidus Assassin'],
+  'Esoteric Explosives': ['Culexus Assassin'],
+}
+
 function buildEnhancement(e) {
-  const enh = { name: enOf(e).name, pts: e.basePointsCost, type: e.enhancementType }
+  const name = enOf(e).name
+  const enh = { name, pts: e.basePointsCost, type: e.enhancementType }
   if (e.cannotBeWarlord) enh.notWarlord = 1
   if (!e.isIncludedInEnhancementLimit) enh.uncounted = 1
   if (e.isEquipableByEpicHero) enh.epicOk = 1
@@ -293,6 +311,7 @@ function buildEnhancement(e) {
   if (req.length) enh.req = req
   const excl = (exclKwByEnh.get(e.id) || []).filter(Boolean)
   if (excl.length) enh.exclKw = excl
+  if (ENH_REQ_FIXES[name]) enh.req = [{ kw: ENH_REQ_FIXES[name] }]
   return enh
 }
 

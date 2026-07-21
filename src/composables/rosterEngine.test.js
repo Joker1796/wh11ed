@@ -85,6 +85,18 @@ describe('enhEligible', () => {
     expect(enhEligible({ name: 'E', req: [{ fac: ['Adeptus Astartes'] }] }, officerInf)).toBe(true) // faction gate ok
     expect(enhEligible({ name: 'E', exclKw: ['Infantry'] }, officerInf)).toBe(false)
   })
+  // A tiny few enhancements (Necrons' Pantheon of Woe, Imperial Agents' Veiled Blade Elim.
+  // Force — see gen-roster-data.mjs ENH_REQ_FIXES) are locked to one exact datasheet by name
+  // rather than a general Character/Epic-Hero pool, so they should be pickable on that unit
+  // even when it's otherwise noEnh/epic-without-epicOk-gated — but only THAT unit.
+  it('lets a unit-locked enhancement override noEnh/epic gates, but only for the named unit', () => {
+    const ctan = { name: "Transcendent C'tan", kws: ["Transcendent C'tan", 'Character'], flags: { char: 1, noEnh: 1 } }
+    const namedShard = { name: 'C’tan Shard of the Deceiver', kws: ['Character', 'Epic Hero'], flags: { char: 1, epic: 1 } }
+    const lockedEnh = { name: 'Reletavistic Tether', req: [{ kw: ["Transcendent C'tan"] }] }
+    expect(enhEligible(lockedEnh, ctan)).toBe(true) // bypasses noEnh
+    expect(enhEligible(lockedEnh, namedShard)).toBe(false) // not this unit — normal gates apply, and fail
+    expect(enhEligible({ ...lockedEnh, exclKw: ["Transcendent C'tan"] }, ctan)).toBe(false) // still honours exclKw
+  })
 })
 
 describe('enhancementPoints / unitPoints with enhancement', () => {

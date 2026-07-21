@@ -3256,11 +3256,8 @@ export default {
           "uncounted": 1,
           "req": [
             {
-              "fac": [
-                "Necrons"
-              ],
               "kw": [
-                "DNU"
+                "C'tan Shard of the Deceiver"
               ]
             }
           ]
@@ -3272,11 +3269,8 @@ export default {
           "uncounted": 1,
           "req": [
             {
-              "fac": [
-                "Necrons"
-              ],
               "kw": [
-                "DNU"
+                "C'tan Shard of the Nightbringer"
               ]
             }
           ]
@@ -3287,11 +3281,8 @@ export default {
           "type": "miniature",
           "req": [
             {
-              "fac": [
-                "Necrons"
-              ],
               "kw": [
-                "DNU"
+                "C'tan Shard of the Void Dragon"
               ]
             }
           ]
@@ -3303,11 +3294,8 @@ export default {
           "uncounted": 1,
           "req": [
             {
-              "fac": [
-                "Necrons"
-              ],
               "kw": [
-                "DNU"
+                "Transcendent C'tan"
               ]
             }
           ]
