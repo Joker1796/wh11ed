@@ -6,6 +6,24 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 const pkgVersion = JSON.parse(readFileSync('./package.json', 'utf8')).version
 
+// Canonical origin baked into index.html's static SEO tags (og/twitter/JSON-LD) via the
+// %SITE_ORIGIN% placeholder. Same var + fallback as src/config.js and scripts/gen-seo-routes.mjs,
+// so a single VITE_SITE_ORIGIN drives runtime canonical, the sitemap, robots.txt AND the static
+// tags — no hand-editing index.html/robots at the domain cutover.
+const SITE_ORIGIN = process.env.VITE_SITE_ORIGIN || 'https://wh11ed.ru'
+
+// Replace the %SITE_ORIGIN% placeholder in index.html at build time. Not Vite's built-in
+// %VITE_*% mechanism, so we control the fallback (a bare `npm run build` with no env still emits
+// a valid absolute origin instead of an empty string).
+function injectSiteOrigin() {
+  return {
+    name: 'wh11ed-site-origin',
+    transformIndexHtml(html) {
+      return html.replaceAll('%SITE_ORIGIN%', SITE_ORIGIN)
+    },
+  }
+}
+
 // Emit `image-manifest.json` (the list of every `/images/**` URL) into the build.
 // Images are NOT precached anymore (they're runtime-cached, CacheFirst — see the PWA
 // config below); the installed app reads this manifest to "warm" the offline cache after
@@ -38,6 +56,7 @@ export default defineConfig({
   },
   plugins: [
     vue(),
+    injectSiteOrigin(),
     imageManifest(),
     VitePWA({
       // 'prompt' (not 'autoUpdate'): a new version is downloaded in the background
