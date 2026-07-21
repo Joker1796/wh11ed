@@ -91,7 +91,10 @@
 | `.env.deploy.wh-rules` | `s3://wh-rules.ru` | `bc8r6sdaw3f64oi3hbdo` | `https://wh11ed.ru`¹ | `https://api.wh-rules.ru`² |
 
 ¹ **Грейс-период:** `wh-rules.ru` печёт canonical → `wh11ed.ru`, чтобы не дробить SEO (дубль-контент).
-На Фазе 3 флипается на `https://wh-rules.ru`.
+На Фазе 3 флипается на `https://wh-rules.ru`. `VITE_SITE_ORIGIN` — единственный рубильник домена:
+он гонит runtime canonical/hreflang (`useSeoMeta`), sitemap, `robots.txt` (генерится в
+`gen-seo-routes.mjs`) И статические теги `index.html` (og/twitter/JSON-LD, через плейсхолдер
+`%SITE_ORIGIN%` + плагин в `vite.config.js`). Ручных правок index.html/robots на катовере НЕТ.
 ² `wh-rules.ru` печёт свой api заранее — после бэк-катовера логин там заработает без пересборки.
 До Фазы 3 логин на `wh-rules.ru` не работает (кука выставится на `api.wh11ed.ru`), но
 правила/трекер/просмотр — полностью рабочие.
