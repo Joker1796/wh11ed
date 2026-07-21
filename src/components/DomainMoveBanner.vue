@@ -6,7 +6,7 @@
     </button>
     <p class="db-title">
       {{ labels.domainMoveTitle }}
-      <a :href="SITE_ORIGIN" class="db-link">{{ newHost }}</a>
+      <a :href="MOVED_TO_ORIGIN" class="db-link">{{ newHost }}</a>
     </p>
     <p class="db-note">{{ labels.domainMoveNote }}</p>
   </div>
@@ -16,20 +16,21 @@
 import { computed, ref } from 'vue'
 import { useLocale } from '../composables/useLocale.js'
 import { ui } from '../i18n/ui.js'
-import { SITE_ORIGIN } from '../config.js'
+import { MOVED_TO_ORIGIN, ANNOUNCE_MOVE } from '../config.js'
 import { getItem, setItem } from '../composables/safeStorage.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
-const newHost = SITE_ORIGIN.replace(/^https?:\/\//, '')
+const newHost = MOVED_TO_ORIGIN.replace(/^https?:\/\//, '')
 
-// The same build is deployed to both the retired and the new domain (a single backend
-// can only be configured for one at a time), so this only makes sense on the old one —
-// gate at runtime on the actual hostname rather than needing a separate build.
+// Gate on the actual hostname (not a separate build): the same bundle can ship anywhere, and
+// this only shows on the retired domain. Also requires VITE_ANNOUNCE_MOVE — while the backend
+// still lives on the old domain, pointing people at the new one (where login doesn't work yet)
+// would be misleading, so the announcement stays off until that flips.
 const onOldDomain = typeof window !== 'undefined' && /(^|\.)wh11ed\.ru$/.test(window.location.hostname)
 const dismissed = ref(getItem('wh11ed-domain-move-dismissed') === 'true')
-const visible = computed(() => onOldDomain && !dismissed.value)
+const visible = computed(() => ANNOUNCE_MOVE && onOldDomain && !dismissed.value)
 
 function dismiss() {
   dismissed.value = true

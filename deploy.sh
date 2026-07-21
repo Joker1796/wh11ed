@@ -14,7 +14,10 @@ set -euo pipefail
 
 # Local, gitignored deploy config (CDN_RESOURCE_ID, optional BUCKET/AWS_PROFILE/…).
 # Copy .env.deploy.example → .env.deploy and fill it in. Existing env vars win.
-if [ -f .env.deploy ]; then set -a; . ./.env.deploy; set +a; fi
+# ENVFILE overrides the source (used by deploy-both.sh to ship each domain's own bucket/
+# CDN/API base in one run).
+ENVFILE="${ENVFILE:-.env.deploy}"
+if [ -f "$ENVFILE" ]; then set -a; . "./$ENVFILE"; set +a; fi
 
 BUCKET="${BUCKET:-s3://wh11ed.ru}"
 ENDPOINT="https://storage.yandexcloud.net"
