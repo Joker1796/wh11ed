@@ -88,18 +88,25 @@
     <section v-if="enhOptions.length" class="ues-sec">
       <h4 class="ues-h">{{ labels.rosterEnhancement }}</h4>
       <div class="opt-col">
-        <button class="opt" :class="{ on: !entry.enh }" @click="setEnh(null)">
+        <button class="opt" :class="{ on: !entry.enh && !hasMandatoryEnh }" :disabled="hasMandatoryEnh" @click="setEnh(null)">
           <span class="opt-name">{{ labels.rosterEnhNone }}</span>
         </button>
         <button
           v-for="e in enhOptions"
           :key="e.name"
           class="opt"
-          :class="{ on: entry.enh === e.name, disabled: (!e.eligible || e.used) && entry.enh !== e.name }"
-          :disabled="(!e.eligible || e.used) && entry.enh !== e.name"
+          :class="{
+            on: e.mandatory ? e.eligible : entry.enh === e.name,
+            disabled: e.mandatory ? true : (!e.eligible || e.used) && entry.enh !== e.name,
+          }"
+          :disabled="e.mandatory || (!e.eligible || e.used) && entry.enh !== e.name"
           @click="setEnh(e.name)"
         >
-          <span class="opt-name">{{ e.name }}<span v-if="e.used" class="opt-tag">{{ labels.rosterEnhUsed }}</span></span>
+          <span class="opt-name">
+            {{ e.name }}
+            <span v-if="e.mandatory && e.eligible" class="opt-tag">{{ labels.rosterEnhMandatory }}</span>
+            <span v-else-if="e.used" class="opt-tag">{{ labels.rosterEnhUsed }}</span>
+          </span>
           <span v-if="e.pts" class="opt-pts">+{{ e.pts }}</span>
         </button>
       </div>
@@ -151,6 +158,11 @@ defineEmits(['toggle-warlord'])
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+
+// A mandatory enhancement (see rosterEngine.js mandatoryEnhancementFor) is never a player pick —
+// suppresses "No enhancement"'s own highlight/click so the section reads as locked, not as if
+// nothing were selected.
+const hasMandatoryEnh = computed(() => props.enhOptions.some((e) => e.mandatory && e.eligible))
 
 // ── Size / model count ──
 const curSize = computed(() => props.def.sizes[props.entry.size ?? 0] || props.def.sizes[0])

@@ -3260,7 +3260,8 @@ export default {
                 "C'tan Shard of the Deceiver"
               ]
             }
-          ]
+          ],
+          "mandatory": 1
         },
         {
           "name": "Quantum Goad",
@@ -3273,7 +3274,8 @@ export default {
                 "C'tan Shard of the Nightbringer"
               ]
             }
-          ]
+          ],
+          "mandatory": 1
         },
         {
           "name": "Animus Damper",
@@ -3285,7 +3287,8 @@ export default {
                 "C'tan Shard of the Void Dragon"
               ]
             }
-          ]
+          ],
+          "mandatory": 1
         },
         {
           "name": "Reletavistic Tether",
@@ -3298,7 +3301,8 @@ export default {
                 "Transcendent C'tan"
               ]
             }
-          ]
+          ],
+          "mandatory": 1
         }
       ]
     },

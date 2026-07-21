@@ -1,6 +1,6 @@
 // Plain-text roster export — a shareable army list in the style of the official app. English
 // names throughout (unit / detachment / wargear names are EN by convention). Pure function.
-import { UNIT_GROUPS, bucketOf, enhancementPoints, unitPoints, rosterPoints, effectiveBattle } from './rosterEngine.js'
+import { UNIT_GROUPS, bucketOf, enhancementPoints, mandatoryEnhancementFor, unitPoints, rosterPoints, effectiveBattle } from './rosterEngine.js'
 
 const GROUP_TITLES = {
   epic: 'EPIC HEROES', characters: 'CHARACTERS', battleline: 'BATTLELINE',
@@ -55,7 +55,9 @@ export function buildRosterText(roster, { faction, core, items } = {}) {
       const sizeStr = size.per[1] > 1 ? ` (${models})` : ''
       lines.push(`  ${def.name}${sizeStr} — ${pts} pts`)
       if (e.warlord) lines.push('    • Warlord')
-      if (e.enh) lines.push(`    • Enhancement: ${e.enh} (+${enhancementPoints(detachments, e)})`)
+      if (e.enh) lines.push(`    • Enhancement: ${e.enh} (+${enhancementPoints(detachments, e, def)})`)
+      const mandEnh = !e.enh && mandatoryEnhancementFor(def, detachments)
+      if (mandEnh) lines.push(`    • ${mandEnh.name} (+${mandEnh.pts}, mandatory)`)
       for (const wn of wargearNames(def, e, items)) lines.push(`    • ${wn}`)
       if (e.leaderOf) {
         const target = (roster.units || []).find((x) => x.uid === e.leaderOf)

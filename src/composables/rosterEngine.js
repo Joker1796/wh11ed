@@ -106,6 +106,9 @@ export function findEnhancement(detachments, name) {
 // enhancement can only be taken once per roster). Shared by the editor's single-sheet modal and
 // the creation wizard's per-unit accordion, so eligibility/used-elsewhere logic lives in one
 // place. `excludeUid` is the entry being edited — it must not count against its own "used" flag.
+// `mandatory` enhancements still show (so the list explains why the unit costs more) but are
+// never a player pick — the caller renders them locked "on" when `eligible` (see
+// mandatoryEnhancementFor for the same eligible one, used to drive the actual points).
 export function enhOptionsFor(def, detachments, units, excludeUid) {
   if (!detachments?.length || !def) return []
   const usedElsewhere = new Set((units || []).filter((u) => u.uid !== excludeUid && u.enh).map((u) => u.enh))
@@ -115,10 +118,25 @@ export function enhOptionsFor(def, detachments, units, excludeUid) {
     for (const e of det.enhancements) {
       if (seen.has(e.name)) continue
       seen.add(e.name)
-      out.push({ name: e.name, pts: e.pts, eligible: enhEligible(e, def), used: usedElsewhere.has(e.name) })
+      out.push({ name: e.name, pts: e.pts, eligible: enhEligible(e, def), used: usedElsewhere.has(e.name), mandatory: !!e.mandatory })
     }
   }
   return out
+}
+
+// The mandatory, automatic enhancement for this exact unit (Necrons' Pantheon of Woe, Imperial
+// Agents' Veiled Blade Elimination Force — see gen-roster-data.mjs ENH_REQ_FIXES), if any of the
+// roster's selected detachments grants one. Not a player pick: applied to every eligible unit
+// unconditionally, so unlike a normal enhancement it isn't tracked on the entry (no entry.enh,
+// no "used elsewhere" bookkeeping) — it's recomputed from def + detachments every time.
+export function mandatoryEnhancementFor(def, detachments) {
+  if (!def || !detachments?.length) return null
+  for (const det of detachments) {
+    for (const e of det.enhancements) {
+      if (e.mandatory && lockedToExactUnit(e, def)) return e
+    }
+  }
+  return null
 }
 
 // Roster units a Leader entry can attach to, per its datasheet's `leads` list — every other
@@ -131,15 +149,18 @@ export function leaderTargetsFor(def, units, excludeUid, defOf) {
     .map((u) => ({ uid: u.uid, name: defOf(u.id)?.name || u.id }))
 }
 
-// Points added by a unit's chosen enhancement (entry.enh = enhancement name).
-export function enhancementPoints(detachments, entry) {
-  if (!entry?.enh) return 0
-  return findEnhancement(detachments, entry.enh)?.pts || 0
+// Points added by a unit's enhancement: its chosen one (entry.enh), or — absent a choice — a
+// mandatory one it's automatically stuck with regardless of entry.enh (`def` is only needed for
+// that fallback; existing callers that never pass it just skip the mandatory check).
+export function enhancementPoints(detachments, entry, def) {
+  if (entry?.enh) return findEnhancement(detachments, entry.enh)?.pts || 0
+  return mandatoryEnhancementFor(def, detachments)?.pts || 0
 }
 
-// Full points for one unit entry: base bracket (+ copy tax), selected wargear, and enhancement.
+// Full points for one unit entry: base bracket (+ copy tax), selected wargear, and enhancement
+// (chosen or mandatory).
 export function unitPoints(def, entry, copyIndex = 1, detachments = null) {
-  return unitBasePoints(def, entry?.size ?? 0, copyIndex) + unitWargearPoints(def, entry) + enhancementPoints(detachments, entry)
+  return unitBasePoints(def, entry?.size ?? 0, copyIndex) + unitWargearPoints(def, entry) + enhancementPoints(detachments, entry, def)
 }
 
 // A one-line summary of an entry's current size/upgrades/enhancement for its list row —

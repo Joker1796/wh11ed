@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { bucketOf, unitBasePoints, unitWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhancementPoints, findEnhancement, effectiveBattle } from './rosterEngine.js'
+import { bucketOf, unitBasePoints, unitWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -110,6 +110,41 @@ describe('enhancementPoints / unitPoints with enhancement', () => {
     expect(enhancementPoints(dets, { enh: 'Master-crafted' })).toBe(20)
     expect(enhancementPoints(dets, {})).toBe(0)
     expect(unitPoints(captain, { size: 0, enh: 'Master-crafted' }, 1, dets)).toBe(105)
+  })
+})
+
+// Necrons' Pantheon of Woe / Imperial Agents' Veiled Blade Elim. Force: "each <unit> ... has the
+// relevant ability ... you must increase the points cost" — automatic and non-optional, not a
+// once-per-army pick (see gen-roster-data.mjs ENH_REQ_FIXES, rosterEngine.js mandatoryEnhancementFor).
+describe('mandatory enhancements', () => {
+  const ctan = { name: "Transcendent C'tan", kws: ["Transcendent C'tan", 'Character'], flags: { char: 1, noEnh: 1 }, sizes: [{ pts: 340, per: [1, 1] }] }
+  const otherShard = { name: 'C’tan Shard of the Deceiver', kws: ['Character', 'Epic Hero'], flags: { char: 1, epic: 1 }, sizes: [{ pts: 330, per: [1, 1] }] }
+  const dets = [{ name: 'Pantheon of Woe', enhancements: [
+    { name: 'Reletavistic Tether', pts: 40, mandatory: 1, req: [{ kw: ["Transcendent C'tan"] }] },
+  ] }]
+
+  it('mandatoryEnhancementFor finds the one locked to this exact unit, not any other', () => {
+    expect(mandatoryEnhancementFor(ctan, dets)?.name).toBe('Reletavistic Tether')
+    expect(mandatoryEnhancementFor(otherShard, dets)).toBeNull()
+    expect(mandatoryEnhancementFor(ctan, [])).toBeNull()
+  })
+
+  it('enhancementPoints/unitPoints apply it automatically, without entry.enh', () => {
+    expect(enhancementPoints(dets, {}, ctan)).toBe(40)
+    expect(enhancementPoints(dets, {}, otherShard)).toBe(0)
+    expect(unitPoints(ctan, { size: 0 }, 1, dets)).toBe(380) // 340 base + 40 mandatory
+  })
+
+  it('an explicit entry.enh still wins over the mandatory fallback', () => {
+    const detsWithChoice = [...dets, { name: 'Other', enhancements: [{ name: 'Free', pts: 0 }] }]
+    expect(enhancementPoints(detsWithChoice, { enh: 'Free' }, ctan)).toBe(0)
+  })
+
+  it('enhOptionsFor still lists a mandatory enhancement (flagged, not filtered out)', () => {
+    const opts = enhOptionsFor(ctan, dets, [], null)
+    expect(opts).toEqual([{ name: 'Reletavistic Tether', pts: 40, eligible: true, used: false, mandatory: true }])
+    // For a unit it isn't locked to, it still appears but ineligible.
+    expect(enhOptionsFor(otherShard, dets, [], null)[0].eligible).toBe(false)
   })
 })
 
