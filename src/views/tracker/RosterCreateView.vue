@@ -78,6 +78,7 @@
         :units="factionData.units"
         :faction-slug="factionSlug"
         :added-ids="units.map((u) => u.id)"
+        :detachments="curDetachments"
         @add="addUnit"
         @remove="removeUnit"
       />

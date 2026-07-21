@@ -5,6 +5,7 @@
         :units="units"
         :faction-slug="factionSlug"
         :added-ids="addedIds"
+        :detachments="detachments"
         @add="$emit('pick', $event)"
       />
     </div>
@@ -22,6 +23,7 @@ defineProps({
   units: { type: Array, required: true },
   factionSlug: { type: String, default: '' },
   addedIds: { type: Array, default: () => [] },
+  detachments: { type: Array, default: () => [] },
 })
 defineEmits(['pick', 'close'])
 

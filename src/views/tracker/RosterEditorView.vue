@@ -124,6 +124,7 @@
       :units="factionData.units"
       :faction-slug="roster.faction"
       :added-ids="roster.units.map((u) => u.id)"
+      :detachments="curDetachments"
       @pick="addUnit"
       @close="unitPickerOpen = false"
     />
