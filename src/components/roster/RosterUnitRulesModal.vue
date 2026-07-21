@@ -69,4 +69,12 @@ const sheet = computed(() => {
 <style scoped>
 .modal-body { padding: 0.9rem; overflow-y: auto; }
 .rum-missing { color: var(--text-muted); font-size: 0.95rem; text-align: center; padding: 1rem 0; }
+
+/* Small phones: the modal is already full-width (BaseModal's ≤560px bottom-sheet), so its own
+   padding is the last thing standing between DatasheetCard's tables and the screen edge —
+   DatasheetCard already bleeds its weapon table/ability groups to ITS OWN edges at ≤480px, so a
+   generous outer padding here would just re-add the margin that treatment removes. */
+@media (max-width: 480px) {
+  .modal-body { padding: 0.6rem 0.35rem; }
+}
 </style>
