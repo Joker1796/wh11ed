@@ -51,10 +51,15 @@ describe('RosterCreateView', () => {
     await detBtn.trigger('click')
     expect(w.text()).toContain('1st Company Task Force')
 
-    // Step 2: add a unit, then finish.
+    // Step 2: add a unit, remove it via the "-" button that appears once added, then re-add
+    // and finish.
     await w.find('.rc-actions .btn-primary').trigger('click')
     await waitFor(w, 'Intercessor Squad')
     const row = w.findAll('.rub-item').find((r) => r.text().includes('Intercessor Squad'))
+    await row.find('.rub-add').trigger('click')
+    expect(row.find('.rub-remove').exists()).toBe(true)
+    await row.find('.rub-remove').trigger('click')
+    expect(row.find('.rub-remove').exists()).toBe(false)
     await row.find('.rub-add').trigger('click')
 
     await w.find('.rc-sticky .btn-primary').trigger('click')
