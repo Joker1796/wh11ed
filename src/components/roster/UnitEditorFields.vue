@@ -144,6 +144,7 @@ import { computed } from 'vue'
 import NumberStepper from '../tracker/NumberStepper.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { defaultLoadoutLines } from '../../composables/rosterEngine.js'
 
 const props = defineProps({
   entry: { type: Object, required: true },
@@ -184,11 +185,7 @@ function setCount(n) { props.entry.count = n }
 function miniName(m) { return props.def.minis?.[m]?.n || '' }
 
 // ── Default loadout summary ──
-const defaultLines = computed(() =>
-  (props.def.defaults || []).map(([m, list]) => ({
-    mini: props.def.minis?.length > 1 ? (props.def.minis[m]?.n || '') : '',
-    items: list.map(([id, c]) => `${props.items[id]}${c > 1 ? ` ×${c}` : ''}`).join(', '),
-  })))
+const defaultLines = computed(() => defaultLoadoutLines(props.def, props.items))
 
 // ── Wargear selection: entry.wg = [[groupIdx, optIdx, count], …] (deviations only) ──
 function wg() { return props.entry.wg || [] }

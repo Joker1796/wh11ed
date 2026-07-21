@@ -105,17 +105,26 @@
               <button
                 type="button"
                 class="rcunit-row"
-                :aria-expanded="openUids.has(e.uid)"
+                :aria-expanded="openUid === e.uid"
                 @click="toggleOpen(e.uid)"
               >
                 <span class="rcunit-text">
-                  <span class="rcunit-name">{{ defOf(e.id)?.name || e.id }}</span>
-                  <span class="rcunit-sub">{{ summaryLine(e) }}</span>
+                  <span class="rcunit-name">
+                    <i v-if="e.warlord" class="bi bi-star-fill rcunit-star"></i>
+                    {{ defOf(e.id)?.name || e.id }}
+                  </span>
+                  <span v-if="attachedToName(e)" class="rcunit-tag">
+                    {{ labels.rosterAttachedTo }} <strong>{{ attachedToName(e) }}</strong>
+                  </span>
+                  <span v-for="s in supportersOf(e)" :key="s.uid" class="rcunit-tag">
+                    <strong>{{ s.name }}</strong> ({{ labels.rosterLeaderSupport }})
+                  </span>
+                  <span v-for="(line, i) in loadoutLines(e)" :key="i" class="rcunit-loadout">{{ line }}</span>
                 </span>
                 <span class="rcunit-pts">{{ entryMeta.get(e.uid)?.points }}</span>
-                <i class="bi rcunit-chev" :class="openUids.has(e.uid) ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+                <i class="bi rcunit-chev" :class="openUid === e.uid ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
               </button>
-              <CollapseTransition :show="openUids.has(e.uid)">
+              <CollapseTransition :show="openUid === e.uid">
                 <div class="rcunit-fields">
                   <UnitEditorFields
                     v-if="defOf(e.id)"
@@ -184,8 +193,8 @@ import rosterCore from '../../data/roster/core.js'
 import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import {
-  UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints, entrySummary,
-  canBeWarlord, enhOptionsFor, leaderTargetsFor, effectiveBattle,
+  UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints,
+  canBeWarlord, enhOptionsFor, leaderTargetsFor, defaultLoadoutLines, wargearNames, effectiveBattle,
 } from '../../composables/rosterEngine.js'
 
 const router = useRouter()
@@ -286,11 +295,11 @@ function removeUnit(unitId) {
 const points = computed(() => rosterPoints(units.value, defOf, curDetachments.value))
 
 // ── Per-unit configuration (step 3) ──
-const openUids = ref(new Set())
+// Only one tile's fields open at a time — opening another closes whichever was open, same as a
+// classic accordion (not the independently-toggled group accordions on step 2).
+const openUid = ref(null)
 function toggleOpen(entryUid) {
-  const next = new Set(openUids.value)
-  next.has(entryUid) ? next.delete(entryUid) : next.add(entryUid)
-  openUids.value = next
+  openUid.value = openUid.value === entryUid ? null : entryUid
 }
 function toggleWarlord(entryUid) {
   const e = units.value.find((u) => u.uid === entryUid)
@@ -299,8 +308,25 @@ function toggleWarlord(entryUid) {
   for (const u of units.value) delete u.warlord // exactly one warlord per army
   if (!on) e.warlord = true
 }
-function summaryLine(e) {
-  return entrySummary(e, defOf(e.id), labels.value.rosterModelsLabel, labels.value.rosterUpgradesLabel)
+// Read-only loadout preview for the collapsed tile — default wargear (per mini) plus any
+// deviations, so a customised unit doesn't just say "N upgrades" (see the official app's own
+// unit cards, which list the actual items).
+function loadoutLines(e) {
+  const def = defOf(e.id)
+  if (!def) return []
+  const defaults = defaultLoadoutLines(def, rosterItems.items).map((l) => (l.mini ? `${l.mini}: ${l.items}` : l.items))
+  return [...defaults, ...wargearNames(def, e, rosterItems.items)]
+}
+// Leader/bodyguard relationship, shown both directions: a leader's tile says who it's attached
+// to; the bodyguard unit it joined lists it back as a "Support".
+function attachedToName(e) {
+  const target = e.leaderOf && units.value.find((u) => u.uid === e.leaderOf)
+  return target ? (defOf(target.id)?.name || target.id) : ''
+}
+function supportersOf(e) {
+  return units.value
+    .filter((u) => u.leaderOf === e.uid)
+    .map((u) => ({ uid: u.uid, name: defOf(u.id)?.name || u.id }))
 }
 // Per-entry points + copy index (copy tax assigned in list order), for the row + the fields.
 const entryMeta = computed(() => {
@@ -522,9 +548,12 @@ function finish() {
   cursor: pointer;
   text-align: left;
 }
-.rcunit-text { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 0.1rem; }
+.rcunit-text { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 0.15rem; text-align: left; }
 .rcunit-name { font-weight: 600; color: var(--text-primary); font-size: 0.92rem; }
-.rcunit-sub { font-size: 0.74rem; color: var(--text-dim); }
+.rcunit-star { color: #e3b341; font-size: 0.8rem; margin-right: 0.15rem; }
+.rcunit-tag { font-size: 0.74rem; color: var(--accent); }
+.rcunit-tag strong { font-weight: 700; }
+.rcunit-loadout { font-size: 0.74rem; color: var(--text-dim); line-height: 1.4; }
 .rcunit-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); flex-shrink: 0; }
 .rcunit-chev { color: var(--text-dim); font-size: 0.7rem; flex-shrink: 0; }
 .rcunit-fields { padding: 0.6rem 0.75rem 0.75rem; border-top: 1px solid var(--border); }

@@ -91,6 +91,57 @@ describe('RosterCreateView', () => {
     expect(push).toHaveBeenCalledWith(`/roster/${r.id}`)
   })
 
+  it('step 3 keeps only one unit tile open at a time', async () => {
+    const w = mount(RosterCreateView, { global: { stubs } })
+    await w.findAll('.btn-choose')[0].trigger('click')
+    await waitFor(w, 'Space Marines')
+    await w.findAll('.fac-link').find((b) => b.text().includes('Space Marines')).trigger('click')
+    await waitFor(w, '1st Company Task Force')
+    await w.findAll('.btn-choose')[1].trigger('click')
+    await w.findAll('.det').find((b) => b.text().includes('1st Company Task Force')).trigger('click')
+
+    await w.find('.rc-actions .btn-primary').trigger('click') // → step 2
+    await waitFor(w, 'Intercessor Squad')
+    const row = w.findAll('.rub-item').find((r) => r.text().includes('Intercessor Squad'))
+    await row.find('.rub-add').trigger('click')
+    await row.find('.rub-add').trigger('click') // a 2nd copy, so step 3 has two tiles
+
+    const panels = w.findAll('.rc-panel')
+    await panels[1].find('.rc-sticky .btn-primary').trigger('click') // → step 3
+
+    const tiles = panels[2].findAll('.rcunit-row')
+    expect(tiles).toHaveLength(2)
+    await tiles[0].trigger('click')
+    expect(tiles[0].attributes('aria-expanded')).toBe('true')
+    expect(tiles[1].attributes('aria-expanded')).toBe('false')
+
+    await tiles[1].trigger('click')
+    expect(tiles[0].attributes('aria-expanded')).toBe('false') // opening the 2nd closed the 1st
+    expect(tiles[1].attributes('aria-expanded')).toBe('true')
+  })
+
+  it('step 3 shows the default loadout right on the (collapsed) tile', async () => {
+    const w = mount(RosterCreateView, { global: { stubs } })
+    await w.findAll('.btn-choose')[0].trigger('click')
+    await waitFor(w, 'Space Marines')
+    await w.findAll('.fac-link').find((b) => b.text().includes('Space Marines')).trigger('click')
+    await waitFor(w, '1st Company Task Force')
+    await w.findAll('.btn-choose')[1].trigger('click')
+    await w.findAll('.det').find((b) => b.text().includes('1st Company Task Force')).trigger('click')
+
+    await w.find('.rc-actions .btn-primary').trigger('click') // → step 2
+    await waitFor(w, 'Intercessor Squad')
+    // Exact match — "Intercessor Squad" is also a substring of "Assault Intercessor Squad".
+    const row = w.findAll('.rub-item').find((r) => r.find('.rub-name').text() === 'Intercessor Squad')
+    await row.find('.rub-add').trigger('click')
+
+    const panels = w.findAll('.rc-panel')
+    await panels[1].find('.rc-sticky .btn-primary').trigger('click') // → step 3
+    const tile = panels[2].findAll('.rcunit-row').find((b) => b.find('.rcunit-name').text() === 'Intercessor Squad')
+    expect(tile.find('.rcunit-loadout').exists()).toBe(true)
+    expect(tile.text()).toContain('Bolt rifle') // its default loadout, not just an upgrade count
+  })
+
   it('supports a custom battle size, using the matching bracket to show the points limit', async () => {
     const w = mount(RosterCreateView, { global: { stubs } })
     const custom = w.findAll('.seg button').find((b) => b.text() === 'Custom')
