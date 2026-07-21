@@ -18,8 +18,9 @@
 // into the entry chunk); the precise unit name is pushed in by FactionDatasheetView via
 // setDatasheetName once its datasheet has loaded (the heavy per-faction file never rides here).
 import { factionIndexBySlug } from '../data/factionsIndex.js'
+import { SITE_ORIGIN } from '../config.js'
 
-const ORIGIN = 'https://wh11ed.ru'
+const ORIGIN = SITE_ORIGIN
 
 const SITE = { en: 'Warhammer 40,000 11th Ed', ru: 'Warhammer 40,000' }
 
@@ -172,6 +173,13 @@ const ROUTES = {
     description: {
       en: 'Official Warhammer Community source PDFs for Warhammer 40,000 11th edition — Core Rules, Event Companion, Teams Event Companion and Terrain Area Footprints.',
       ru: 'Официальные исходные PDF Warhammer Community для Warhammer 40,000 11-й редакции — Core Rules, Event Companion, Teams Event Companion и Terrain Area Footprints.',
+    },
+  },
+  '/disclaimer': {
+    title: { en: 'Legal & Disclaimer', ru: 'Правовая информация' },
+    description: {
+      en: 'Legal disclaimer: this is an unofficial fan project, not affiliated with or endorsed by Games Workshop; all Warhammer 40,000 names, rules and imagery belong to Games Workshop.',
+      ru: 'Отказ от ответственности: неофициальный фан-проект, не связанный с Games Workshop; все названия, правила и изображения Warhammer 40,000 принадлежат Games Workshop.',
     },
   },
   '/tracker/game': {

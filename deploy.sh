@@ -14,7 +14,10 @@ set -euo pipefail
 
 # Local, gitignored deploy config (CDN_RESOURCE_ID, optional BUCKET/AWS_PROFILE/…).
 # Copy .env.deploy.example → .env.deploy and fill it in. Existing env vars win.
-if [ -f .env.deploy ]; then set -a; . ./.env.deploy; set +a; fi
+# ENVFILE overrides the source (used by deploy-both.sh to ship each domain's own bucket/
+# CDN/API base in one run).
+ENVFILE="${ENVFILE:-.env.deploy}"
+if [ -f "$ENVFILE" ]; then set -a; . "./$ENVFILE"; set +a; fi
 
 BUCKET="${BUCKET:-s3://wh11ed.ru}"
 ENDPOINT="https://storage.yandexcloud.net"
@@ -30,12 +33,24 @@ aws() { command aws --endpoint-url="$ENDPOINT" --profile "$AWS_PROFILE" "$@"; }
 
 # 0) Bump the patch version (package.json) before building, so each deploy ships a
 #    new version number. Override the segment with BUMP=minor|major ./deploy.sh.
-#    --no-git-tag-version: this dir isn't a git repo, so don't commit/tag.
 #    Use BUMP=none to deploy the current version as-is (e.g. when it was set in the commit).
+#    Otherwise the bump is committed (`chore: release vX.Y.Z`) and pushed to origin main
+#    once the deploy succeeds (see step 5) — so run this from main with a clean tree.
 BUMP="${BUMP:-patch}"
 if [ "$BUMP" = "none" ]; then
   echo "▶ Skipping version bump (BUMP=none); shipping v$(node -p "require('./package.json').version")"
 else
+  BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+  if [ "$BRANCH" != "main" ]; then
+    echo "✗ Refusing to bump+commit the version: not on main (on '$BRANCH')." >&2
+    echo "  Switch to main, or run with BUMP=none to deploy without touching git." >&2
+    exit 1
+  fi
+  if [ -n "$(git status --porcelain -- . ':!package.json' ':!package-lock.json')" ]; then
+    echo "✗ Refusing to bump+commit the version: working tree has unrelated uncommitted changes:" >&2
+    git status --short -- . ':!package.json' ':!package-lock.json' >&2
+    exit 1
+  fi
   echo "▶ Bumping version ($BUMP)…"
   NEW_VERSION="$(npm version "$BUMP" --no-git-tag-version)"
   echo "  → $NEW_VERSION"
@@ -178,6 +193,15 @@ if [ -n "$CDN_RESOURCE_ID" ]; then
   fi
 else
   echo "⚠ CDN_RESOURCE_ID empty — skipping purge; do it manually for / and /index.html"
+fi
+
+# 5) Commit + push the version bump, now that the deploy actually succeeded (the branch/
+#    clean-tree check already happened in step 0, so this is just recording what shipped).
+if [ "$BUMP" != "none" ]; then
+  echo "▶ Committing + pushing version bump…"
+  git add package.json package-lock.json
+  git commit -m "chore: release v$(node -p "require('./package.json').version")"
+  git push origin main
 fi
 
 echo "✔ Done."

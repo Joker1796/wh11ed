@@ -40,7 +40,7 @@ describe('RosterCreateView', () => {
     const choices = w.findAll('.btn-choose')
     await choices[0].trigger('click') // opens the tracker's FactionPickerModal
     await waitFor(w, 'Space Marines')
-    const smBtn = w.findAll('.fac').find((b) => b.text().includes('Space Marines'))
+    const smBtn = w.findAll('.fac-link').find((b) => b.text().includes('Space Marines'))
     await smBtn.trigger('click')
     expect(w.find('.ct-name').text()).toBe('Space Marines')
 
@@ -88,7 +88,7 @@ describe('RosterCreateView', () => {
 
     await w.findAll('.btn-choose')[0].trigger('click')
     await waitFor(w, 'Space Marines')
-    await w.findAll('.fac').find((b) => b.text().includes('Space Marines')).trigger('click')
+    await w.findAll('.fac-link').find((b) => b.text().includes('Space Marines')).trigger('click')
     expect(store.rosters.value).toHaveLength(0) // picking a faction alone doesn't save it
 
     await waitFor(w, '1st Company Task Force')

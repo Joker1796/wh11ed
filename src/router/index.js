@@ -29,6 +29,7 @@ const RosterViewView    = () => import('../views/tracker/RosterViewView.vue')
 const RosterEditorView  = () => import('../views/tracker/RosterEditorView.vue')
 const RosterSharedView  = () => import('../views/tracker/RosterSharedView.vue')
 const LinksView         = () => import('../views/LinksView.vue')
+const DisclaimerView    = () => import('../views/DisclaimerView.vue')
 const StratagemsView    = () => import('../views/StratagemsView.vue')
 const FactionsListView  = () => import('../views/FactionsListView.vue')
 const FactionRuleView        = () => import('../views/faction/FactionRuleView.vue')
@@ -312,6 +313,7 @@ export const router = createRouter({
     { path: '/tracker/history/:id', component: TrackerHistoryView },
     { path: '/tracker/auth-callback', component: AuthCallbackView },
     { path: '/links', component: LinksView },
+    { path: '/disclaimer', component: DisclaimerView },
     { path: '/factions',       component: FactionsListView },
     { path: '/factions/:slug',             component: FactionRuleView },
     // Merged into /factions/:slug — redirect old bookmarks/links to the combined page.

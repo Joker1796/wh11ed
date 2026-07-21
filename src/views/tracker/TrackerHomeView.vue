@@ -147,7 +147,6 @@ const { status, user, login, logout, ensureSession, dev, mockSignIn, mockSignOut
 const {
   init: initCloudSync,
   syncNow,
-  refreshCloudList,
   isBackedUp,
   deleteGame,
   syncing,
@@ -167,15 +166,8 @@ function onDeleteGame(id) {
   }
 }
 
-const SYNC_AFTER_LOGIN = 'wh11ed-sync-after-login'
-
 function onSignIn() {
-  // Remember intent so onMounted auto-syncs (upload local + restore cloud) once we return authed.
-  try {
-    sessionStorage.setItem(SYNC_AFTER_LOGIN, '1')
-  } catch {
-    /* ignore */
-  }
+  // On return, onMounted auto-syncs (upload backlog + restore cloud) as soon as we're authed.
   login('yandex')
 }
 
@@ -206,20 +198,13 @@ function openGame(id) {
 onMounted(async () => {
   initCloudSync()
   await ensureSession()
-  // Finish a "Save to cloud" that triggered an OAuth redirect: once back and authenticated,
-  // push the data the user intended to save.
-  let pending = false
-  try {
-    pending = sessionStorage.getItem(SYNC_AFTER_LOGIN) === '1'
-    if (pending) sessionStorage.removeItem(SYNC_AFTER_LOGIN)
-  } catch {
-    /* ignore */
-  }
   if (status.value !== 'authed') return
-  // Pending "sync after login" → full sync (uploads + refreshes cloud state). Otherwise just a
-  // read-only cloud check to drive the "backed up" icons and the in-sync status.
-  if (pending) syncNow()
-  else refreshCloudList()
+  // Auto-sync on entry: the init() watcher already auto-uploads games finished during this authed
+  // session, but the pre-existing backlog (games from before login / earlier sessions) only went
+  // up on a manual "Sync". Run a full syncNow instead — push the backlog and pull any cloud games
+  // missing locally — so a signed-in user never has to press Sync and their games follow them
+  // across devices and (crucially for the domain move) onto the new domain after login.
+  syncNow()
 })
 
 // Pending-action confirmation. Holds the message and the action so one ConfirmModal
