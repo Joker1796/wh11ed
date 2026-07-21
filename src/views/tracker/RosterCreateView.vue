@@ -77,6 +77,7 @@
         :faction-slug="factionSlug"
         :added-ids="units.map((u) => u.id)"
         @add="addUnit"
+        @remove="removeUnit"
       />
       <div class="rc-sticky">
         <span class="rc-points" :class="{ over: points > limit }">{{ points }} / {{ limit }}</span>
@@ -210,6 +211,16 @@ function addUnit(unitId) {
   if (!def) return
   units.value.push({ uid: uid(), id: unitId, size: defaultSize(def) })
 }
+// Removes the most recently added copy of this unit — pairs with the browser's "-" button,
+// which only shows once at least one copy is in the list.
+function removeUnit(unitId) {
+  for (let i = units.value.length - 1; i >= 0; i--) {
+    if (units.value[i].id === unitId) {
+      units.value.splice(i, 1)
+      return
+    }
+  }
+}
 const points = computed(() => rosterPoints(units.value, defOf, curDetachments.value))
 
 // ── Save point: the roster only becomes real — and shows up on /roster — once step 1 is
@@ -259,7 +270,7 @@ function finish() {
    bottom-nav reservation in App.vue). */
 .rc-panel:has(.rc-sticky) { padding-bottom: 4.5rem; }
 @media (max-width: 900px) {
-  .rc-panel:has(.rc-sticky) { padding-bottom: calc(4.5rem + 4.5rem + var(--safe-bottom, 0px)); }
+  .rc-panel:has(.rc-sticky) { padding-bottom: calc(4.5rem + 52px + var(--safe-bottom, 0px) + var(--resume-bar-h, 0px)); }
 }
 /* Card + field language copied from the tracker's GameSetup (.player-card/.settings,
    .field, .btn-choose-twist, .seg, .dp-count) so the two setup flows read as one pattern. */
@@ -392,8 +403,12 @@ function finish() {
 .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
 
 /* Fixed (not sticky) — the unit list can run to 90+ rows, far taller than the viewport, so a
-   flow-sticky footer would only engage once scrolled all the way to the list's end. Sits above
-   the mobile bottom-nav (App.vue's own 4.5rem + safe-area reservation) via the media query. */
+   flow-sticky footer would only engage once scrolled all the way to the list's end. Glued
+   flush to the mobile bottom-nav (its real height is 52px — .bn-item's min-height in App.vue —
+   not the 4.5rem used elsewhere as a rough content-padding buffer). When the "back to game" bar
+   is also showing (App.vue's --resume-bar-h, set whenever a game is in progress — /roster isn't
+   excluded from it, same as any non-tracker route), this stacks above it instead of overlapping,
+   the same way .main-content's own bottom padding does. */
 .rc-sticky {
   position: fixed;
   left: 0;
@@ -409,7 +424,10 @@ function finish() {
   border-top: 1px solid var(--border);
 }
 @media (max-width: 900px) {
-  .rc-sticky { bottom: calc(4.5rem + var(--safe-bottom, 0px)); padding-bottom: 0.6rem; }
+  .rc-sticky {
+    bottom: calc(52px + var(--safe-bottom, 0px) + var(--resume-bar-h, 0px));
+    padding-bottom: 0.6rem;
+  }
 }
 .rc-points { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); }
 .rc-points.over { color: #c0392b; }
