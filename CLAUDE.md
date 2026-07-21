@@ -9,6 +9,12 @@ offline tracker for a game in progress — live at [wh11ed.ru](https://wh11ed.ru
 wh-rules.ru. This repo is the frontend, and the frontend is ~99% of the product: every rule, every
 page and the tracker all live here, with no backend involved.
 
+> **🚚 АКТИВНЫЙ КУРС — миграция домена `wh11ed.ru` → `wh-rules.ru`.** Идёт фазовый переезд
+> (автосинк → грейс → баннер → грейс → катовер с 301). **`MIGRATION.md` — источник правды**,
+> читать его в начале любой сессии на любой машине (память Claude между машинами не
+> синхронизируется). Финал = один домен, `wh11ed.ru` → 301. Сейчас: **Фаза 1 (грейс, ждём)** —
+> Фаза 0 (автосинк + SEO) задеплоена (v2.0.19) на оба домена; живой прод остаётся `wh11ed.ru`.
+
 The audience is players at a table — someone looking a rule up mid-game, usually on a phone, often
 on bad reception. That shapes most of the decisions below.
 
@@ -311,6 +317,6 @@ Hosted at **wh11ed.ru** on a **Yandex Object Storage** bucket (`wh11ed.ru`) behi
 - `index.html` → `public, max-age=3600` (1 hour) — uploaded via `aws s3 cp`, **not** `sync` (sync silently skips it: stable name + constant size defeats its size/mtime check, leaving a stale entry point that points at `--delete`d assets → broken site after purge). Don't change it back to `sync`.
 - **SEO route keys** (step 3b) — an `index.html` copy under every path from `dist/.seo-routes.txt` (1 h, forced `text/html`), so deep links return 200 (see Architecture). These keys exist only in the bucket, not in `dist/` — step 2 derives `--exclude`s for their top-level segments so its `--delete` never removes them. Removed routes leave stale keys; harmless (SPA shows its noindex 404).
 
-`deploy.sh` **auto-bumps `package.json` (`BUMP=patch` by default)** before building — use `BUMP=none npm run deploy` to ship the current version as-is, or `BUMP=minor`/`major`.
+`deploy.sh` **auto-bumps `package.json` (`BUMP=patch` by default)** before building — use `BUMP=none npm run deploy` to ship the current version as-is, or `BUMP=minor`/`major`. When it bumps (`BUMP` ≠ `none`), it also **commits + pushes** the bump (`chore: release vX.Y.Z`) to `origin main` once the deploy succeeds — so deploy from `main` with a clean tree (uncommitted changes outside `package.json`/`package-lock.json`, or being on another branch, aborts the deploy before it builds anything).
 
 Uploads via the S3-compatible API (endpoint `storage.yandexcloud.net`, AWS CLI profile `yc`). **The CDN purge now runs automatically** at the end of `deploy.sh`: `CDN_RESOURCE_ID` is read from the gitignored `.env.deploy` (copy `.env.deploy.example`) and `yc` is resolved even off-PATH (`~/yandex-cloud/bin/yc`); a purge failure warns instead of aborting (upload is already done). Override with another id, or run `CDN_RESOURCE_ID= npm run deploy` to skip. Manual fallback: `yc cdn cache purge --resource-id <cdn-resource-id> --path '/*'`. The CDN resource must cache **according to origin headers** (honor-origin) or it overrides per-file `Cache-Control` with a single TTL. Because images are cached a year under stable names, **rename a file when you change an image** (or the browser keeps the old one). Full runbook: `DEPLOY.md`.

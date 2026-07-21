@@ -70,15 +70,30 @@
     />
 
     <div class="actions">
-      <button class="btn-ghost" @click="endModalOpen = true">{{ labels.trackerFinish }}</button>
+      <div class="actions-left">
+        <button
+          class="btn-ghost btn-icon"
+          :aria-label="labels.trackerEditSetup"
+          :title="labels.trackerEditSetup"
+          @click="editSetupOpen = true"
+        >
+          <i class="bi bi-chevron-left"></i>
+          <i class="bi bi-gear"></i>
+        </button>
+        <button class="btn-ghost" @click="endModalOpen = true">{{ labels.trackerFinish }}</button>
+      </div>
       <button
         v-if="current.currentRound < ROUND_COUNT"
-        class="btn-primary"
+        class="btn-primary btn-next"
         @click="goToRound(current.currentRound + 1)"
-      >{{ labels.trackerNext }}</button>
+      >
+        <span class="next-full">{{ labels.trackerNext }}</span>
+        <span class="next-short">{{ labels.trackerRoundShort }} {{ current.currentRound + 1 }}</span>
+      </button>
     </div>
 
     <GameEndModal v-if="endModalOpen" @confirm="onEndBattle" @close="endModalOpen = false" />
+    <EditSetupModal v-if="editSetupOpen" @close="editSetupOpen = false" />
   </div>
 </template>
 
@@ -89,6 +104,7 @@ import SecondaryDeck from './SecondaryDeck.vue'
 import ScoreBoard from './ScoreBoard.vue'
 import ScoringModal from './ScoringModal.vue'
 import GameEndModal from './GameEndModal.vue'
+import EditSetupModal from './EditSetupModal.vue'
 import RuleBody from '../RuleBody.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -101,6 +117,7 @@ const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, goToRou
 
 const openPrimary = ref(-1)   // index of the player whose primary scoring modal is open
 const endModalOpen = ref(false)
+const editSetupOpen = ref(false)
 
 // Active twist (if any) — shown as a collapsible reminder; its mission effect (Mirrored
 // World / Scrambled Communications) is already baked into each player's primarySlug.
@@ -232,6 +249,7 @@ function onEndBattle(reason) {
 }
 .sr-sub { font-size: 0.72rem; color: var(--text-dim); }
 .actions { display: flex; justify-content: space-between; gap: 0.6rem; margin-top: 1.25rem; }
+.actions-left { display: flex; gap: 0.6rem; }
 .btn-primary {
   padding: 0.6rem 1.4rem; background: var(--accent); color: #fff;
   border: none; border-radius: 4px; font-weight: 600; font-size: 0.9rem; cursor: pointer;
@@ -240,7 +258,27 @@ function onEndBattle(reason) {
   padding: 0.6rem 1.1rem; background: none; color: var(--text-muted);
   border: 1px solid var(--border); border-radius: 4px; font-size: 0.9rem; cursor: pointer;
 }
+.btn-icon {
+  display: inline-flex; align-items: center; gap: 0.25rem;
+  padding: 0.6rem 0.7rem; font-size: 1rem; line-height: 1;
+}
 @media (max-width: 700px) {
   .players { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .actions { flex-wrap: wrap; }
+}
+/* Small phones: shrink the finish/next buttons so the row stays on one line. Kicks in before
+   full-size buttons would start wrapping (~418px) — otherwise "Next round" drops to a 2nd line. */
+@media (max-width: 430px) {
+  .actions .btn-primary, .actions .btn-ghost { padding: 0.45rem 0.7rem; font-size: 0.8rem; }
+  .actions .btn-icon { padding: 0.45rem 0.55rem; font-size: 0.9rem; }
+}
+/* Smallest phones (~320–360px): the full "Next round" label no longer fits — swap it for the
+   compact "Round N" (the round it advances to). */
+.btn-next .next-short { display: none; }
+@media (max-width: 360px) {
+  .btn-next .next-full { display: none; }
+  .btn-next .next-short { display: inline; }
 }
 </style>

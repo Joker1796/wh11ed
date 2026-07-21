@@ -19,7 +19,9 @@ import { join } from 'node:path'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
 const DIST = join(ROOT, 'dist')
-const ORIGIN = 'https://wh11ed.ru'
+// Mirror src/config.js's SITE_ORIGIN. This is a Node build script (no import.meta.env), so it
+// reads the same VITE_SITE_ORIGIN var deploy.sh exports; default keeps parity with config.js.
+const ORIGIN = process.env.VITE_SITE_ORIGIN || 'https://wh11ed.ru'
 
 const STATIC_ROUTES = [
   '/',
@@ -41,6 +43,7 @@ const STATIC_ROUTES = [
   '/roster',
   '/stratagems',
   '/links',
+  '/disclaimer',
 ]
 
 // The 5 SM-Chapter codex files don't duplicate datasheets identical to space-marines.js —
@@ -124,11 +127,15 @@ ${entries.join('\n')}
 `
   writeFileSync(join(DIST, 'sitemap.xml'), sitemap)
 
+  // robots.txt is generated (not static in public/) so its Sitemap URL tracks ORIGIN — same
+  // domain as the site, otherwise search engines distrust a cross-host Sitemap directive.
+  writeFileSync(join(DIST, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${ORIGIN}/sitemap.xml\n`)
+
   // "/" is excluded: the bucket's IndexDocument already serves index.html at the root.
   const keyRoutes = routes.filter((p) => p !== '/')
   writeFileSync(join(DIST, '.seo-routes.txt'), keyRoutes.join('\n') + '\n')
 
-  console.log(`gen-seo-routes: ${routes.length} routes → sitemap.xml (${entries.length} URLs), .seo-routes.txt (${keyRoutes.length} keys)`)
+  console.log(`gen-seo-routes: ${routes.length} routes → sitemap.xml (${entries.length} URLs), robots.txt, .seo-routes.txt (${keyRoutes.length} keys)`)
 }
 
 await main()
