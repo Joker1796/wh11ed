@@ -12,8 +12,8 @@ page and the tracker all live here, with no backend involved.
 > **🚚 АКТИВНЫЙ КУРС — миграция домена `wh11ed.ru` → `wh-rules.ru`.** Идёт фазовый переезд
 > (автосинк → грейс → баннер → грейс → катовер с 301). **`MIGRATION.md` — источник правды**,
 > читать его в начале любой сессии на любой машине (память Claude между машинами не
-> синхронизируется). Финал = один домен, `wh11ed.ru` → 301. Сейчас: **Фаза 0 (автосинк)**, живой
-> прод остаётся `wh11ed.ru`.
+> синхронизируется). Финал = один домен, `wh11ed.ru` → 301. Сейчас: **Фаза 1 (грейс, ждём)** —
+> Фаза 0 (автосинк + SEO) задеплоена (v2.0.19) на оба домена; живой прод остаётся `wh11ed.ru`.
 
 The audience is players at a table — someone looking a rule up mid-game, usually on a phone, often
 on bad reception. That shapes most of the decisions below.
