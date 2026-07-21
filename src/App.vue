@@ -177,6 +177,7 @@
           <component :is="Component" :key="$route.path" />
         </Transition>
       </RouterView>
+      <AppFooter />
     </main>
 
     <!-- Mobile bottom nav — quick switch between the global sections -->
@@ -229,6 +230,7 @@ import UpdateToast from './components/UpdateToast.vue'
 import OfflineWarmupToast from './components/OfflineWarmupToast.vue'
 import ResumeGameButton from './components/ResumeGameButton.vue'
 import DomainMoveBanner from './components/DomainMoveBanner.vue'
+import AppFooter from './components/AppFooter.vue'
 import { useLocale } from './composables/useLocale.js'
 import { useTheme } from './composables/useTheme.js'
 import { useLoreVisibility } from './composables/useLoreVisibility.js'
