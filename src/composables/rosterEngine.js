@@ -47,12 +47,30 @@ export function unitWargearPoints(def, entry) {
   let pts = 0
   for (const [gi, oi, n] of entry.wg) {
     const opt = def.gear[gi]?.o?.[oi]
-    if (!opt) continue
+    if (!opt || !wargearGroupLive(def, entry, gi)) continue
     const p = opt[1] || 0
     const isDefault = opt[2] || 0
     if (p && !isDefault) pts += p * (n || 1)
   }
   return pts
+}
+
+// A handful of wargear groups are only on offer depending on whether a SIBLING group on the same
+// datasheet has been changed from its default — e.g. Necron Overlord's Resurrection Orb requires
+// giving up its default tachyon arrow first, and several Chaos Daemon units offer an instrument-
+// of-Chaos/daemonic-icon pair that are mutually exclusive. wh40k-appdata has no structural field
+// linking two `wargear_option_group` rows — the dependency exists only in prose ("if [not]
+// equipped with X") — so gen-roster-data.mjs parses it at generation time into `cond: [siblingGi,
+// activeFlag]` on the dependent group. A group stays selectable in storage even while its
+// condition isn't met (so re-enabling it restores the previous pick), but every point/loadout
+// reader must skip it while inert — this is the one place that decides "live or not", so callers
+// never duplicate the check.
+export function wargearGroupLive(def, entry, gi) {
+  const cond = def?.gear?.[gi]?.cond
+  if (!cond) return true
+  const [sibGi, wantActive] = cond
+  const sibActive = (entry?.wg || []).some(([g]) => g === sibGi)
+  return sibActive === !!wantActive
 }
 
 // Can this unit be the army's Warlord? Characters (and the rare non-character unit GW flags)
@@ -140,13 +158,27 @@ export function mandatoryEnhancementFor(def, detachments) {
 }
 
 // Roster units a Leader entry can attach to, per its datasheet's `leads` list — every other
-// entry in the roster whose id is a valid target, excluding the leader itself.
+// entry in the roster whose id is a valid target, excluding the leader itself. Each `leads` entry
+// carries a `type` — 'leader' for the ordinary case, 'support' for the (much rarer) Characters
+// whose own core ability is actually titled "Support" instead of "Leader" (see DatasheetCard's
+// dsSupport/dsLeader) — and a Bodyguard unit can carry ONE of each kind at once (a Leader AND a
+// Support attached simultaneously is legal; two Leaders, or two Supports, is not). A target
+// already claimed by a DIFFERENT entry of the SAME type is flagged `used` so the picker can
+// disable it, the same "eligible but already spoken for" treatment enhOptionsFor gives a used
+// enhancement — this entry's own current target is never "used" against itself.
 export function leaderTargetsFor(def, units, excludeUid, defOf) {
   if (!def?.leads?.length) return []
-  const targetIds = new Set(def.leads.map((l) => l.to))
+  const typeByTarget = new Map(def.leads.map((l) => [l.to, l.type]))
   return (units || [])
-    .filter((u) => u.uid !== excludeUid && targetIds.has(u.id))
-    .map((u) => ({ uid: u.uid, name: defOf(u.id)?.name || u.id }))
+    .filter((u) => u.uid !== excludeUid && typeByTarget.has(u.id))
+    .map((u) => {
+      const type = typeByTarget.get(u.id)
+      const used = (units || []).some((o) => {
+        if (o.uid === excludeUid || o.uid === u.uid || o.leaderOf !== u.uid) return false
+        return defOf(o.id)?.leads?.find((l) => l.to === u.id)?.type === type
+      })
+      return { uid: u.uid, name: defOf(u.id)?.name || u.id, used, type }
+    })
 }
 
 // Points added by a unit's enhancement: its chosen one (entry.enh), or — absent a choice — a
@@ -181,14 +213,44 @@ export function entrySummary(e, def, modelsLabel, upgradesLabel) {
 
 // An entry's default (unmodified) loadout, one line per mini in the datasheet's composition —
 // e.g. [{ mini: 'Sergeant', items: 'Bolt rifle' }, { mini: '', items: 'Close combat weapon, Tesla carbine ×10' }].
-// `mini` is blank when the datasheet only has one mini (nothing to disambiguate). Pure function of
-// def + the interned item dictionary — same for every entry of this datasheet, so callers that
-// only need it once per unit (not per roster entry) can skip re-deriving it inline.
-export function defaultLoadoutLines(def, items) {
-  return (def?.defaults || []).map(([m, list]) => ({
-    mini: def.minis?.length > 1 ? (def.minis[m]?.n || '') : '',
-    items: list.map(([id, c]) => `${items[id]}${c > 1 ? ` ×${c}` : ''}`).join(', '),
-  }))
+// `mini` is blank when the datasheet only has one mini (nothing to disambiguate).
+//
+// `entry` is optional — omit it for a generic per-unit preview (no live picks to subtract, e.g.
+// a datasheet browser). When given, any live deviation whose group `rep`s (replaces) one of these
+// defaults reduces its shown count, so a partial per-model swap (e.g. "3 of 10 Necron Warriors
+// take a gauss reaper instead of their gauss flayer") reads as "Gauss flayer ×7" + "Gauss reaper
+// ×3" instead of both the untouched default AND the swap appearing at full strength. `rep` is
+// generated (gen-roster-data.mjs parses "…can be replaced with…" against the item dictionary) and
+// only trustworthy for a single-mini unit (`def.minis` unset) — a multi-mini squad has no per-mini
+// model count anywhere in the data to divide the swap against, so those are left exactly as
+// generated (full default + the addition layered on top, same as before this).
+export function defaultLoadoutLines(def, items, entry) {
+  const removed = new Map() // itemId -> model count whose copy of it was swapped away
+  let squadCount = null
+  if (entry && def && !(def.minis?.length > 0)) {
+    const size = def.sizes?.[entry.size ?? 0] || def.sizes?.[0]
+    squadCount = entry.count ?? size?.per?.[0] ?? 1
+    for (const [gi, , n] of entry.wg || []) {
+      const g = def.gear?.[gi]
+      if (!g?.rep?.length || !wargearGroupLive(def, entry, gi)) continue
+      const consumed = g.in === 'stepper' ? (n || 1) : squadCount
+      for (const itemId of g.rep) removed.set(itemId, (removed.get(itemId) || 0) + consumed)
+    }
+  }
+
+  return (def?.defaults || []).flatMap(([m, list]) => {
+    const parts = []
+    for (const [id, c] of list) {
+      const take = removed.get(id) || 0
+      if (!take) { parts.push(`${items[id]}${c > 1 ? ` ×${c}` : ''}`); continue }
+      // take is a MODEL count (how many models swapped this item away); c is the item's
+      // per-model quantity, so the surviving item total scales by both.
+      const remaining = c * Math.max(0, squadCount - take)
+      if (remaining > 0) parts.push(`${items[id]} ×${remaining}`)
+    }
+    if (!parts.length) return []
+    return [{ mini: def.minis?.length > 1 ? (def.minis[m]?.n || '') : '', items: parts.join(', ') }]
+  })
 }
 
 // Names of the wargear items a unit entry has swapped/added on top of its default loadout
@@ -197,7 +259,7 @@ export function wargearNames(def, entry, items) {
   if (!entry?.wg?.length) return []
   return entry.wg.map(([gi, oi, n]) => {
     const opt = def?.gear?.[gi]?.o?.[oi]
-    if (!opt) return null
+    if (!opt || !wargearGroupLive(def, entry, gi)) return null
     const name = items?.[opt[0]] || ''
     return n > 1 ? `${name} ×${n}` : name
   }).filter(Boolean)

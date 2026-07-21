@@ -190,6 +190,64 @@ function keyword(kws, name) {
   return (kws || []).some((k) => k.toLowerCase() === n)
 }
 
+// A handful of wargear groups depend on ANOTHER group on the same datasheet+miniature — e.g.
+// Necron Overlord's Resurrection Orb is only on offer after giving up the default tachyon arrow,
+// and several Chaos Daemon units offer a daemonic-icon/instrument-of-Chaos pair that are
+// mutually exclusive. wh40k-appdata has no structural field linking two `wargear_option_group`
+// rows for this — the relationship lives only in prose ("if [not] equipped with X", "…can be
+// replaced with…") — so this parses it conservatively: an unresolved phrase or an ambiguous
+// sibling match just leaves the group unconstrained (today's already-correct behaviour for the
+// ~1100 other datasheets), never a wrong link. Mutates `drafts` in place, adding `rep`
+// (item UUIDs this group replaces, for defaultLoadoutLines' default-vs-swap accounting) and
+// `cond` (`{ sibling: <draft>, active }` — this group is only live once the sibling's own
+// "has a deviation recorded" state matches `active`; see rosterEngine.js wargearGroupLive) to
+// whichever drafts resolve.
+function linkWargearConditions(datasheetId, drafts) {
+  if (!drafts.length) return
+
+  // Item names known to THIS datasheet only — defaults plus every draft's own options — so a
+  // same-named item belonging to some unrelated unit elsewhere can never match.
+  const nameToUuid = new Map()
+  for (const b of bmlByDs.get(datasheetId) || []) {
+    for (const o of b.opts) {
+      const uuid = woById.get(o.wargearOptionId)?.wargearItemId
+      if (uuid) nameToUuid.set((wgItemName.get(uuid) || '').toLowerCase(), uuid)
+    }
+  }
+  for (const d of drafts) for (const o of d.opts) nameToUuid.set((wgItemName.get(o.uuid) || '').toLowerCase(), o.uuid)
+
+  // What each draft REPLACES, from its own "…'s X[, Y and Z] can be replaced with…" prose.
+  const REP_RE = /(?:'s|’s|\bhis\b|\bher\b|\btheir\b|\bits\b)\s+([a-z][a-z' ’,-]*?)\s*(?:can\s+be\s+|be\s+)?replaced with/i
+  for (const d of drafts) {
+    const m = d.text.match(REP_RE)
+    if (!m) continue
+    const parts = m[1].split(/\s*,\s*|\s+and\s+/i).map((s) => s.trim()).filter(Boolean)
+    const uuids = parts.map((p) => nameToUuid.get(p.toLowerCase()))
+    if (parts.length && uuids.every(Boolean)) d.rep = uuids
+  }
+
+  // What each draft is CONDITIONED on, from "[if …] not equipped with X" / "equipped with X".
+  const NOT_EQ_RE = /\bnot equipped with (?:a |an |1 |one )?([a-z][a-z' ’-]*?)(?:[,.]|\s+(?:it|its|can)\b)/i
+  const EQ_RE = /\bequipped with (?:a |an |1 |one )?([a-z][a-z' ’-]*?)(?:[,.]|\s+(?:it|its|can)\b)/i
+  for (const d of drafts) {
+    let negated = true
+    let m = d.text.match(NOT_EQ_RE)
+    if (!m) { negated = false; m = d.text.match(EQ_RE) }
+    if (!m) continue
+    const uuid = nameToUuid.get(m[1].trim().toLowerCase())
+    if (!uuid) continue
+
+    // Case (a): the item is exactly another group's sole toggle option — mutual exclusion.
+    const toggleSibling = drafts.find((s) => s !== d && s.m === d.m && s.opts.length === 1 && s.opts[0].uuid === uuid)
+    if (toggleSibling) { d.cond = { sibling: toggleSibling, active: !negated }; continue }
+
+    // Case (b): a sibling group's own `rep` shows it replaces this exact item — this group is
+    // only live once that sibling has actually been picked away from its default.
+    const repSibling = drafts.find((s) => s !== d && s.m === d.m && s.rep?.includes(uuid))
+    if (repSibling) d.cond = { sibling: repSibling, active: negated }
+  }
+}
+
 function buildUnit(bd, idMap, fx) {
   const minis = (minisByDs.get(bd.id) || []).slice().sort((a, b) => a.displayOrder - b.displayOrder)
   const miniIdx = new Map(minis.map((m, i) => [m.id, i]))
@@ -255,18 +313,39 @@ function buildUnit(bd, idMap, fx) {
 
   // Wargear option groups: the atomic "replace/add one of {…}" choices. Drop the redundant
   // "Default Wargear" groups (base loadout already carries those) — keep real choices, with
-  // their per-option points (0 when free) and default flag.
-  const gear = []
+  // their per-option points (0 when free) and default flag. Built as raw drafts first (original
+  // instructionText + item UUIDs kept around) because the cross-group linking pass below needs
+  // to read prose and resolve item names *before* everything gets interned to ints.
+  const drafts = []
   for (const g of wogByDs.get(bd.id) || []) {
     const text = (enOf(g).instructionText || '').trim()
     if (!text || text.toLowerCase() === 'default wargear') continue
-    const opts = (woByGroup.get(g.id) || []).sort((a, b) => a.displayOrder - b.displayOrder).map((o) => {
-      const e = [fx.item(o.wargearItemId), o.points || 0, o.defaultValue || 0]
-      while (e.length > 1 && e[e.length - 1] === 0) e.pop() // trim trailing zeros
-      return e
+    const rawOpts = (woByGroup.get(g.id) || []).sort((a, b) => a.displayOrder - b.displayOrder)
+    if (!rawOpts.length) continue
+    drafts.push({
+      m: miniIdx.get(g.miniatureId) ?? 0,
+      text,
+      in: rawOpts[0]?.inputType || 'checkbox',
+      opts: rawOpts.map((o) => ({ uuid: o.wargearItemId, pts: o.points || 0, def: o.defaultValue || 0 })),
     })
-    if (!opts.length) continue
-    const grp = { m: miniIdx.get(g.miniatureId) ?? 0, t: fx.text(text), in: (woByGroup.get(g.id) || [])[0]?.inputType || 'checkbox', o: opts }
+  }
+  linkWargearConditions(bd.id, drafts)
+  const gear = []
+  const gearIndex = new Map() // draft -> its final index in `gear`
+  drafts.forEach((d, i) => gearIndex.set(d, i))
+  for (const d of drafts) {
+    const grp = {
+      m: d.m,
+      t: fx.text(d.text),
+      in: d.in,
+      o: d.opts.map((o) => {
+        const e = [fx.item(o.uuid), o.pts, o.def]
+        while (e.length > 1 && e[e.length - 1] === 0) e.pop() // trim trailing zeros
+        return e
+      }),
+    }
+    if (d.rep?.length) grp.rep = d.rep.map((uuid) => fx.item(uuid))
+    if (d.cond) grp.cond = [gearIndex.get(d.cond.sibling), d.cond.active ? 1 : 0]
     gear.push(grp)
   }
   if (gear.length) unit.gear = gear

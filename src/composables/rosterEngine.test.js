@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { bucketOf, unitBasePoints, unitWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle } from './rosterEngine.js'
+import { bucketOf, unitBasePoints, unitWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, defaultLoadoutLines } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -53,6 +53,61 @@ describe('unitWargearPoints', () => {
   })
   it('folds wargear into unitPoints', () => {
     expect(unitPoints(crisis, { size: 0, wg: [[0, 0, 1]] }, 1)).toBe(135)
+  })
+})
+
+describe('wargearGroupLive + defaultLoadoutLines with cond/rep', () => {
+  // Necron Overlord shape: group 0 (Resurrection Orb, toggle) only on offer once group 1 (the
+  // tachyon arrow/blade radio swap) has actually been picked — cond: [siblingGi, activeFlag].
+  // Group 1 itself `rep`s both defaults it replaces once chosen.
+  const overlord = {
+    minis: undefined,
+    sizes: [{ pts: 90, per: [1, 1], default: 1 }],
+    defaults: [[0, [[1, 1], [2, 1]]]], // [tachyon arrow, overlord's blade]
+    gear: [
+      { m: 0, t: 1, in: 'checkbox', o: [[3, 15]], cond: [1, 1] }, // orb, +15pts
+      { m: 0, t: 2, in: 'checkbox', o: [[4], [5]], rep: [1, 2] }, // staff / voidscythe
+    ],
+  }
+  const items = { 1: 'Tachyon arrow', 2: 'Overlord’s blade', 3: 'Resurrection orb', 4: 'Staff of light', 5: 'Voidscythe' }
+
+  it('gates the dependent group on the sibling having a live deviation', () => {
+    expect(wargearGroupLive(overlord, {}, 0)).toBe(false) // no weapon swap yet → orb not on offer
+    expect(wargearGroupLive(overlord, { wg: [[1, 0, 1]] }, 0)).toBe(true) // swapped → orb available
+    expect(wargearGroupLive(overlord, {}, 1)).toBe(true) // ungated group always live
+  })
+
+  it('drops a fully-replaced default from the loadout summary', () => {
+    expect(defaultLoadoutLines(overlord, items, { wg: [] })).toEqual([{ mini: '', items: 'Tachyon arrow, Overlord’s blade' }])
+    expect(defaultLoadoutLines(overlord, items, { wg: [[1, 0, 1]] })).toEqual([]) // both defaults swapped away
+  })
+
+  it('reduces (not just adds to) a partially-replaced per-model default', () => {
+    // Necron Warriors shape: 10-model single-mini squad, gauss flayer default, a stepper swap
+    // to gauss reaper for N models should read "flayer ×(10-N)", not the untouched default.
+    const warriors = {
+      minis: undefined,
+      sizes: [{ pts: 80, per: [10, 10], default: 1 }],
+      defaults: [[0, [[10, 1], [11, 1]]]], // [close combat weapon, gauss flayer]
+      gear: [{ m: 0, t: 1, in: 'stepper', o: [[12]], rep: [11] }], // gauss reaper
+    }
+    const wItems = { 10: 'Close combat weapon', 11: 'Gauss flayer', 12: 'Gauss reaper' }
+    expect(defaultLoadoutLines(warriors, wItems, { size: 0, wg: [[0, 0, 3]] }))
+      .toEqual([{ mini: '', items: 'Close combat weapon, Gauss flayer ×7' }])
+  })
+
+  it('an inert (condition unmet) deviation counts for nothing', () => {
+    // Toggle the orb on (group 0), then swap the weapon back to default (drop group 1's entry) —
+    // the orb's own wg entry is left in storage but must not count toward points/loadout while
+    // its condition is unmet.
+    const entry = { wg: [[0, 0, 1]] } // orb "on" with no live weapon swap → cond unmet
+    expect(unitWargearPoints(overlord, entry)).toBe(0)
+    expect(defaultLoadoutLines(overlord, items, entry)).toEqual([{ mini: '', items: 'Tachyon arrow, Overlord’s blade' }])
+  })
+
+  it('counts the same deviation once its condition is met', () => {
+    const entry = { wg: [[1, 0, 1], [0, 0, 1]] } // weapon swapped (group 1 live) + orb on
+    expect(unitWargearPoints(overlord, entry)).toBe(15)
   })
 })
 
@@ -180,5 +235,50 @@ describe('rosterPoints', () => {
   it('is empty-safe', () => {
     expect(rosterPoints([], defOf)).toBe(0)
     expect(rosterPoints(null, defOf)).toBe(0)
+  })
+})
+
+describe('leaderTargetsFor', () => {
+  const squad = { id: 'intercessor-squad', name: 'Intercessor Squad' }
+  const leader = { id: 'captain', leads: [{ to: 'intercessor-squad', type: 'leader' }] }
+  // A Character whose own core ability is titled "Support" rather than "Leader" — a separate,
+  // independent attachment slot on the same target (see DatasheetCard's dsSupport/dsLeader).
+  const supporter = { id: 'chronomancer', leads: [{ to: 'intercessor-squad', type: 'support' }] }
+  const defs = { 'intercessor-squad': squad, captain: leader, chronomancer: supporter }
+  const defOf = (id) => defs[id]
+
+  it('lists roster units this leader can join, excluding itself', () => {
+    const units = [
+      { uid: 'a', id: 'captain' },
+      { uid: 'b', id: 'intercessor-squad' },
+    ]
+    expect(leaderTargetsFor(leader, units, 'a', defOf)).toEqual([{ uid: 'b', name: 'Intercessor Squad', used: false, type: 'leader' }])
+  })
+
+  it('flags a target already claimed by a different entry of the SAME type as used', () => {
+    const units = [
+      { uid: 'a', id: 'captain' }, // this entry — being edited
+      { uid: 'b', id: 'captain', leaderOf: 'c' }, // another leader already attached to the squad
+      { uid: 'c', id: 'intercessor-squad' },
+    ]
+    expect(leaderTargetsFor(leader, units, 'a', defOf)).toEqual([{ uid: 'c', name: 'Intercessor Squad', used: true, type: 'leader' }])
+  })
+
+  it('does not flag a target as used against the entry\'s own current attachment', () => {
+    const units = [
+      { uid: 'a', id: 'captain', leaderOf: 'c' },
+      { uid: 'c', id: 'intercessor-squad' },
+    ]
+    expect(leaderTargetsFor(leader, units, 'a', defOf)).toEqual([{ uid: 'c', name: 'Intercessor Squad', used: false, type: 'leader' }])
+  })
+
+  it('a Leader and a Support can both target the same unit without colliding', () => {
+    const units = [
+      { uid: 'a', id: 'captain' }, // editing this leader entry
+      { uid: 'b', id: 'chronomancer', leaderOf: 'c' }, // support already attached
+      { uid: 'c', id: 'intercessor-squad' },
+    ]
+    // The leader-type slot is still free — a support occupying the unit doesn't block a leader.
+    expect(leaderTargetsFor(leader, units, 'a', defOf)).toEqual([{ uid: 'c', name: 'Intercessor Squad', used: false, type: 'leader' }])
   })
 })
