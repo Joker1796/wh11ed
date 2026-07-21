@@ -62,7 +62,25 @@ describe('RosterCreateView', () => {
     expect(row.find('.rub-remove').exists()).toBe(false)
     await row.find('.rub-add').trigger('click')
 
-    await w.find('.rc-sticky .btn-primary').trigger('click')
+    // Step 2 → 3 ("Next"). Every step's .rc-panel stays in the DOM at once (v-show, not v-if) —
+    // index into .rc-panel (1 = step 2, 2 = step 3) rather than a bare .rc-sticky query, which
+    // would match step 2's regardless of which is shown.
+    const panels = w.findAll('.rc-panel')
+    await panels[1].find('.rc-sticky .btn-primary').trigger('click')
+
+    // Step 3: the added unit's tile expands into its config fields (size/wargear/etc.) on click
+    // — CollapseTransition always renders the slot, so open state shows via aria-expanded/the
+    // "is-open" class it toggles, not the fields' presence in the DOM.
+    const tile = panels[2].findAll('.rcunit-row').find((b) => b.text().includes('Intercessor Squad'))
+    const collapse = tile.element.parentElement.querySelector('.collapse')
+    expect(tile.attributes('aria-expanded')).toBe('false')
+    expect(collapse.classList.contains('is-open')).toBe(false)
+    await tile.trigger('click')
+    expect(tile.attributes('aria-expanded')).toBe('true')
+    expect(collapse.classList.contains('is-open')).toBe(true)
+    expect(panels[2].find('.rcunit-fields .ues-h').exists()).toBe(true) // fields did render
+
+    await panels[2].find('.rc-sticky .btn-primary').trigger('click') // Done
 
     const store = useRosters()
     expect(store.rosters.value).toHaveLength(1)

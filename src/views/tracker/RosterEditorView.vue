@@ -175,7 +175,7 @@ import { useRosters, uid } from '../../composables/useRosters.js'
 import rosterCore from '../../data/roster/core.js'
 import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
-import { UNIT_GROUPS, bucketOf, unitPoints, rosterPoints, canBeWarlord, enhEligible, effectiveBattle } from '../../composables/rosterEngine.js'
+import { UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints, entrySummary, canBeWarlord, enhOptionsFor, leaderTargetsFor, effectiveBattle } from '../../composables/rosterEngine.js'
 import { validateRoster } from '../../composables/rosterValidation.js'
 import { prefillDraftFromRoster } from '../../composables/rosterHandoff.js'
 import { useTracker } from '../../composables/useTracker.js'
@@ -197,11 +197,6 @@ function useInTracker() {
 const roster = computed(() => rosterById(route.params.id))
 // A missing/deleted id → back to the list (no broken editor shell).
 watch(roster, (r) => { if (!r) router.replace('/roster') }, { immediate: true })
-
-const GROUP_LABEL_KEYS = {
-  epic: 'rosterGroupEpic', characters: 'rosterGroupCharacters', battleline: 'rosterGroupBattleline',
-  transports: 'rosterGroupTransports', other: 'rosterGroupOther',
-}
 
 // ── Faction data (dynamic-imported so the heavy roster data only rides the editor chunk) ──
 const factionData = ref(null)
@@ -314,44 +309,14 @@ function toggleWarlord() {
   if (!on) e.warlord = true
   touch()
 }
-const editEnhOptions = computed(() => {
-  const def = editingDef.value
-  if (!curDetachments.value.length || !def) return []
-  const usedElsewhere = new Set(
-    roster.value.units.filter((u) => u.uid !== editingUid.value && u.enh).map((u) => u.enh))
-  // Aggregate enhancements across every selected detachment (dedupe by name).
-  const seen = new Set()
-  const out = []
-  for (const det of curDetachments.value) {
-    for (const e of det.enhancements) {
-      if (seen.has(e.name)) continue
-      seen.add(e.name)
-      out.push({ name: e.name, pts: e.pts, eligible: enhEligible(e, def), used: usedElsewhere.has(e.name) })
-    }
-  }
-  return out
-})
-const editLeaderTargets = computed(() => {
-  const def = editingDef.value
-  if (!def?.leads?.length) return []
-  const targetIds = new Set(def.leads.map((l) => l.to))
-  return (roster.value?.units || [])
-    .filter((u) => u.uid !== editingUid.value && targetIds.has(u.id))
-    .map((u) => ({ uid: u.uid, name: defOf(u.id)?.name || u.id }))
-})
+const editEnhOptions = computed(() =>
+  enhOptionsFor(editingDef.value, curDetachments.value, roster.value?.units, editingUid.value))
+const editLeaderTargets = computed(() =>
+  leaderTargetsFor(editingDef.value, roster.value?.units, editingUid.value, defOf))
 
 // A one-line summary of an entry's current size + upgrade count for its list row.
 function summaryLine(e) {
-  const def = defOf(e.id)
-  if (!def) return ''
-  const size = def.sizes[e.size ?? 0] || def.sizes[0]
-  const n = e.count ?? size.per[0]
-  const parts = []
-  if (e.warlord) parts.push('★')
-  if (size.per[1] > 1) parts.push(`${n} ${labels.value.rosterModelsLabel}`)
-  if (e.wg?.length) parts.push(`${e.wg.length} ${labels.value.rosterUpgradesLabel}`)
-  if (e.enh) parts.push(e.enh)
-  return parts.join(' · ')
+  return entrySummary(e, defOf(e.id), labels.value.rosterModelsLabel, labels.value.rosterUpgradesLabel)
 }
 
 // Per-entry points + copy index (copy tax assigned in list order), for row display and the sheet.

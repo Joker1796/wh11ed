@@ -94,7 +94,7 @@ import rosterCore from '../../data/roster/core.js'
 import { loadRosterFaction } from '../../data/roster/index.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
-import { UNIT_GROUPS, bucketOf, unitPoints, rosterPoints, effectiveBattle } from '../../composables/rosterEngine.js'
+import { UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints, entrySummary, effectiveBattle } from '../../composables/rosterEngine.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -104,11 +104,6 @@ const { rosterById } = useRosters()
 
 const roster = computed(() => rosterById(route.params.id))
 watch(roster, (r) => { if (!r) router.replace('/roster') }, { immediate: true })
-
-const GROUP_LABEL_KEYS = {
-  epic: 'rosterGroupEpic', characters: 'rosterGroupCharacters', battleline: 'rosterGroupBattleline',
-  transports: 'rosterGroupTransports', other: 'rosterGroupOther',
-}
 
 const tab = ref('units')
 
@@ -179,16 +174,7 @@ const groupedUnits = computed(() =>
   })))
 
 function summaryLine(e) {
-  const def = defOf(e.id)
-  if (!def) return ''
-  const size = def.sizes[e.size ?? 0] || def.sizes[0]
-  const n = e.count ?? size.per[0]
-  const parts = []
-  if (e.warlord) parts.push('★')
-  if (size.per[1] > 1) parts.push(`${n} ${labels.value.rosterModelsLabel}`)
-  if (e.wg?.length) parts.push(`${e.wg.length} ${labels.value.rosterUpgradesLabel}`)
-  if (e.enh) parts.push(e.enh)
-  return parts.join(' · ')
+  return entrySummary(e, defOf(e.id), labels.value.rosterModelsLabel, labels.value.rosterUpgradesLabel)
 }
 
 // ── Unit rules modal ──

@@ -6,6 +6,13 @@
 // first because those carry the tightest army-building limits.
 export const UNIT_GROUPS = ['epic', 'characters', 'battleline', 'transports', 'other']
 
+// The i18n key for each group's heading — shared by every screen that lists units grouped by
+// UNIT_GROUPS (the editor, the read-only view, the creation wizard's unit browser/config step).
+export const GROUP_LABEL_KEYS = {
+  epic: 'rosterGroupEpic', characters: 'rosterGroupCharacters', battleline: 'rosterGroupBattleline',
+  transports: 'rosterGroupTransports', other: 'rosterGroupOther',
+}
+
 export function hasKeyword(unit, name) {
   const n = name.toLowerCase()
   return (unit.kws || []).some((k) => k.toLowerCase() === n)
@@ -82,6 +89,37 @@ export function findEnhancement(detachments, name) {
   return null
 }
 
+// Enhancement options for one roster entry: every enhancement across the roster's selected
+// detachments (deduped by name — the same enhancement can be offered by more than one
+// detachment), each flagged eligible for this unit and/or already used by ANOTHER entry (an
+// enhancement can only be taken once per roster). Shared by the editor's single-sheet modal and
+// the creation wizard's per-unit accordion, so eligibility/used-elsewhere logic lives in one
+// place. `excludeUid` is the entry being edited — it must not count against its own "used" flag.
+export function enhOptionsFor(def, detachments, units, excludeUid) {
+  if (!detachments?.length || !def) return []
+  const usedElsewhere = new Set((units || []).filter((u) => u.uid !== excludeUid && u.enh).map((u) => u.enh))
+  const seen = new Set()
+  const out = []
+  for (const det of detachments) {
+    for (const e of det.enhancements) {
+      if (seen.has(e.name)) continue
+      seen.add(e.name)
+      out.push({ name: e.name, pts: e.pts, eligible: enhEligible(e, def), used: usedElsewhere.has(e.name) })
+    }
+  }
+  return out
+}
+
+// Roster units a Leader entry can attach to, per its datasheet's `leads` list — every other
+// entry in the roster whose id is a valid target, excluding the leader itself.
+export function leaderTargetsFor(def, units, excludeUid, defOf) {
+  if (!def?.leads?.length) return []
+  const targetIds = new Set(def.leads.map((l) => l.to))
+  return (units || [])
+    .filter((u) => u.uid !== excludeUid && targetIds.has(u.id))
+    .map((u) => ({ uid: u.uid, name: defOf(u.id)?.name || u.id }))
+}
+
 // Points added by a unit's chosen enhancement (entry.enh = enhancement name).
 export function enhancementPoints(detachments, entry) {
   if (!entry?.enh) return 0
@@ -91,6 +129,22 @@ export function enhancementPoints(detachments, entry) {
 // Full points for one unit entry: base bracket (+ copy tax), selected wargear, and enhancement.
 export function unitPoints(def, entry, copyIndex = 1, detachments = null) {
   return unitBasePoints(def, entry?.size ?? 0, copyIndex) + unitWargearPoints(def, entry) + enhancementPoints(detachments, entry)
+}
+
+// A one-line summary of an entry's current size/upgrades/enhancement for its list row —
+// shared by the editor, the read-only view, and the creation wizard's config step. Model-count
+// and upgrade-count nouns are passed in (not imported) so this stays a pure, Vue-free module;
+// callers pass their current locale's `rosterModelsLabel`/`rosterUpgradesLabel`.
+export function entrySummary(e, def, modelsLabel, upgradesLabel) {
+  if (!def) return ''
+  const size = def.sizes[e.size ?? 0] || def.sizes[0]
+  const n = e.count ?? size.per[0]
+  const parts = []
+  if (e.warlord) parts.push('★')
+  if (size.per[1] > 1) parts.push(`${n} ${modelsLabel}`)
+  if (e.wg?.length) parts.push(`${e.wg.length} ${upgradesLabel}`)
+  if (e.enh) parts.push(e.enh)
+  return parts.join(' · ')
 }
 
 // The effective battle-size limits for a roster. A 'custom' size carries its own points total
