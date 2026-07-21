@@ -432,6 +432,16 @@ function finish() {
 .rc-points { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); }
 .rc-points.over { color: #c0392b; }
 .rc-sticky-actions { display: flex; gap: 0.5rem; }
+/* Small phones, down to a 320px viewport: shrink the sticky bar's padding/gaps and the
+   Back/Done buttons themselves (same treatment as RoundTracker's round-actions row) so the
+   points readout + both buttons keep to one line instead of wrapping or overflowing. */
+@media (max-width: 400px) {
+  .rc-sticky { padding: 0.5rem 0.6rem calc(0.5rem + var(--safe-bottom, 0px)); gap: 0.5rem; }
+  .rc-points { font-size: 0.85rem; }
+  .rc-sticky-actions { gap: 0.35rem; }
+  .rc-sticky-actions .btn-primary,
+  .rc-sticky-actions .btn-ghost { padding: 0.45rem 0.7rem; font-size: 0.8rem; }
+}
 
 /* Per-faction accent — mirrors RosterEditorView / FactionLayout's three-step theme resolution. */
 .roster-create.themed {
