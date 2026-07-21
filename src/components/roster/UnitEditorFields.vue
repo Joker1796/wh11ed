@@ -84,22 +84,24 @@
       </label>
     </section>
 
-    <!-- Enhancement -->
-    <section v-if="enhOptions.length" class="ues-sec">
+    <!-- Enhancement — only ones this unit could actually take (ineligible-for-this-unit options
+         from the detachment's full list are hidden, not just disabled; an eligible one already
+         used by another entry still shows, disabled, so it's clear why it can't be picked here). -->
+    <section v-if="visibleEnhOptions.length" class="ues-sec">
       <h4 class="ues-h">{{ labels.rosterEnhancement }}</h4>
       <div class="opt-col">
         <button class="opt" :class="{ on: !entry.enh && !hasMandatoryEnh }" :disabled="hasMandatoryEnh" @click="setEnh(null)">
           <span class="opt-name">{{ labels.rosterEnhNone }}</span>
         </button>
         <button
-          v-for="e in enhOptions"
+          v-for="e in visibleEnhOptions"
           :key="e.name"
           class="opt"
           :class="{
             on: e.mandatory ? e.eligible : entry.enh === e.name,
-            disabled: e.mandatory ? true : (!e.eligible || e.used) && entry.enh !== e.name,
+            disabled: e.mandatory ? true : e.used && entry.enh !== e.name,
           }"
-          :disabled="e.mandatory || (!e.eligible || e.used) && entry.enh !== e.name"
+          :disabled="e.mandatory || (e.used && entry.enh !== e.name)"
           @click="setEnh(e.name)"
         >
           <span class="opt-name">
@@ -163,6 +165,13 @@ const labels = computed(() => ui[locale.value])
 // suppresses "No enhancement"'s own highlight/click so the section reads as locked, not as if
 // nothing were selected.
 const hasMandatoryEnh = computed(() => props.enhOptions.some((e) => e.mandatory && e.eligible))
+// Only what this unit could actually take — enhOptionsFor lists every enhancement across the
+// selected detachments (so the editor can compute eligibility per unit), but a unit that's
+// ineligible for one entirely (wrong unit type) shouldn't clutter its own picker with it. Kept
+// visible: anything eligible, plus whatever's currently selected even if it's since become
+// ineligible (e.g. a detachment swap) so the user can still see/clear it.
+const visibleEnhOptions = computed(() =>
+  props.enhOptions.filter((e) => e.eligible || e.name === props.entry.enh))
 
 // ── Size / model count ──
 const curSize = computed(() => props.def.sizes[props.entry.size ?? 0] || props.def.sizes[0])

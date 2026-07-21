@@ -86,6 +86,22 @@ describe('UnitEditorSheet', () => {
     expect(entry.leaderOf).toBe('x')
   })
 
+  it('only lists enhancements this unit is actually eligible for, not the whole detachment', () => {
+    const entry = reactive({ uid: 'u', id: 'squad', size: 0 })
+    const w = mount(UnitEditorSheet, {
+      props: {
+        entry, def, items, texts, copyIndex: 1,
+        enhOptions: [
+          { name: 'Master-crafted', pts: 20, eligible: true, used: false },
+          { name: "Character-only Relic", pts: 25, eligible: false, used: false },
+        ],
+      },
+      global: { stubs },
+    })
+    expect(w.text()).toContain('Master-crafted')
+    expect(w.text()).not.toContain('Character-only Relic')
+  })
+
   it('shows a mandatory enhancement locked "on" — priced automatically, not clickable, "No enhancement" suppressed', async () => {
     const entry = reactive({ uid: 'u', id: 'squad', size: 0 })
     const det = { name: 'Pantheon of Woe', enhancements: [{ name: 'Reletavistic Tether', pts: 40, mandatory: 1, req: [{ kw: ['Test Squad'] }] }] }
