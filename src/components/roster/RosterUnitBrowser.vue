@@ -75,7 +75,7 @@ import CollapseTransition from '../CollapseTransition.vue'
 import RosterUnitRulesModal from './RosterUnitRulesModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { UNIT_GROUPS, bucketOf } from '../../composables/rosterEngine.js'
+import { UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, mandatoryEnhancementFor } from '../../composables/rosterEngine.js'
 
 const props = defineProps({
   units: { type: Array, required: true },
@@ -83,6 +83,11 @@ const props = defineProps({
   // ids currently in the roster/pending list (may repeat for multiple copies) — shown as a
   // small ×N badge so it's clear what's already been added while browsing.
   addedIds: { type: Array, default: () => [] },
+  // The roster's selected detachments — a unit locked to one of Necrons' Pantheon of Woe /
+  // Imperial Agents' Veiled Blade Elim. Force's mandatory enhancements (rosterEngine.js
+  // mandatoryEnhancementFor) shows that surcharge already baked into its browse price, not just
+  // once its config accordion is opened on step 3.
+  detachments: { type: Array, default: () => [] },
 })
 defineEmits(['add', 'remove'])
 
@@ -111,10 +116,6 @@ const filtered = computed(() => {
   return props.units.filter((u) => u.name.toLowerCase().includes(q))
 })
 
-const GROUP_LABEL_KEYS = {
-  epic: 'rosterGroupEpic', characters: 'rosterGroupCharacters', battleline: 'rosterGroupBattleline',
-  transports: 'rosterGroupTransports', other: 'rosterGroupOther',
-}
 function groupLabel(id) { return labels.value[GROUP_LABEL_KEYS[id]] || '' }
 
 const groups = computed(() =>
@@ -131,9 +132,12 @@ const addedCounts = computed(() => {
 })
 function countOf(id) { return addedCounts.value.get(id) || 0 }
 
-// Cheapest bracket, so the list shows the "from" price.
+// Cheapest bracket (the "from" price) plus any mandatory enhancement this exact unit is stuck
+// with under the roster's selected detachments — so the browse price already matches what
+// step 3's config screen (and the final total) will show, not just the bare datasheet cost.
 function minPoints(u) {
-  return Math.min(...(u.sizes || []).map((s) => s.pts))
+  const base = Math.min(...(u.sizes || []).map((s) => s.pts))
+  return base + (mandatoryEnhancementFor(u, props.detachments)?.pts || 0)
 }
 
 const previewId = ref(null)

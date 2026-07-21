@@ -104,4 +104,15 @@ describe('RosterUnitBrowser', () => {
     expect(alpha.classes()).toContain('added')
     expect(bravo.classes()).not.toContain('added')
   })
+
+  it('bakes a mandatory enhancement into the browse price, for the unit it applies to only', () => {
+    const detachments = [{ name: 'Pantheon of Woe', enhancements: [
+      { name: 'Reletavistic Tether', pts: 40, mandatory: 1, req: [{ kw: ['Bravo Character'] }] },
+    ] }]
+    const w = mountBrowser({ detachments })
+    const bravo = w.findAll('.rub-item').find((r) => r.text().includes('Bravo Character'))
+    const alpha = w.findAll('.rub-item').find((r) => r.text().includes('Alpha Battleline'))
+    expect(bravo.text()).toContain('140') // 100 base + 40 mandatory
+    expect(alpha.text()).toContain('80') // unaffected — not this enhancement's unit
+  })
 })
