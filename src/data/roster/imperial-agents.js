@@ -3303,7 +3303,8 @@ export default {
                 "Callidus Assassin"
               ]
             }
-          ]
+          ],
+          "mandatory": 1
         },
         {
           "name": "Esoteric Explosives",
@@ -3316,7 +3317,8 @@ export default {
                 "Culexus Assassin"
               ]
             }
-          ]
+          ],
+          "mandatory": 1
         },
         {
           "name": "Intraneural Biotech",

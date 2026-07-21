@@ -273,14 +273,19 @@ function buildUnit(bd, idMap, fx) {
   return unit
 }
 
-// A handful of enhancements ship with a broken requirement: the source's
-// enhancement_required_keyword_group_keyword table points at "DNU" ("do not use"), an orphaned
-// internal GW keyword that's never actually attached to any datasheet — so as generated, these
-// can never legally be taken by anyone. Each one is actually locked to one exact datasheet ("X
-// model only" in its rules text), which already carries a matching name keyword — substitute the
-// real requirement here. (rosterEngine.js's enhEligible treats an exact-name-keyword requirement
-// as an override for the unit's general noEnh/epic-without-epicOk gates, since being locked to
-// one specific datasheet is already maximally restrictive.)
+// A handful of "enhancements" are, per their own rules text, not a player pick at all: Necrons'
+// Pantheon of Woe and Imperial Agents' Veiled Blade Elimination Force both read "each <unit> from
+// your army has the relevant <ability>... and you must increase the points cost of each of those
+// units" — automatic and mandatory for every eligible datasheet, not a once-per-army slot. The
+// source data still models them as detachment enhancements (that's how the card is laid out), but
+// with a broken requirement: enhancement_required_keyword_group_keyword points at "DNU" ("do not
+// use"), an orphaned internal GW keyword attached to no datasheet, so as generated these can never
+// legally be taken by anyone. Each is actually locked to one exact datasheet ("X model only" in
+// its rules text), which already carries a matching name keyword — substitute the real
+// requirement and flag it mandatory here. (rosterEngine.js's enhEligible treats an exact-name-
+// keyword requirement as an override for the unit's general noEnh/epic-without-epicOk gates,
+// since being locked to one specific datasheet is already maximally restrictive; enhancementPoints
+// applies a mandatory enhancement automatically instead of waiting for entry.enh.)
 const ENH_REQ_FIXES = {
   'Singularity Matrix': ["C'tan Shard of the Deceiver"],
   'Quantum Goad': ["C'tan Shard of the Nightbringer"],
@@ -311,7 +316,10 @@ function buildEnhancement(e) {
   if (req.length) enh.req = req
   const excl = (exclKwByEnh.get(e.id) || []).filter(Boolean)
   if (excl.length) enh.exclKw = excl
-  if (ENH_REQ_FIXES[name]) enh.req = [{ kw: ENH_REQ_FIXES[name] }]
+  if (ENH_REQ_FIXES[name]) {
+    enh.req = [{ kw: ENH_REQ_FIXES[name] }]
+    enh.mandatory = 1
+  }
   return enh
 }
 

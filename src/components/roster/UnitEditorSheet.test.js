@@ -85,4 +85,25 @@ describe('UnitEditorSheet', () => {
     await tgt.trigger('click')
     expect(entry.leaderOf).toBe('x')
   })
+
+  it('shows a mandatory enhancement locked "on" — priced automatically, not clickable, "No enhancement" suppressed', async () => {
+    const entry = reactive({ uid: 'u', id: 'squad', size: 0 })
+    const det = { name: 'Pantheon of Woe', enhancements: [{ name: 'Reletavistic Tether', pts: 40, mandatory: 1, req: [{ kw: ['Test Squad'] }] }] }
+    const w = mount(UnitEditorSheet, {
+      props: {
+        entry, def, items, texts, detachments: [det], copyIndex: 1,
+        enhOptions: [{ name: 'Reletavistic Tether', pts: 40, eligible: true, used: false, mandatory: true }],
+      },
+      global: { stubs },
+    })
+    expect(w.text()).toContain('140') // 100 base + 40 mandatory, with no entry.enh set
+    const none = w.findAll('.opt').find((b) => b.text().includes('No enhancement'))
+    expect(none.classes()).not.toContain('on') // suppressed — a mandatory ability applies instead
+    expect(none.attributes('disabled')).toBeDefined()
+    const mand = w.findAll('.opt').find((b) => b.text().includes('Reletavistic Tether'))
+    expect(mand.classes()).toContain('on')
+    expect(mand.text()).toContain('mandatory')
+    expect(mand.attributes('disabled')).toBeDefined() // locked — can't be clicked off
+    expect(entry.enh).toBeUndefined() // never written to the entry; it's not a stored choice
+  })
 })
