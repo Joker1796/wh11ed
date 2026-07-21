@@ -177,7 +177,7 @@
           <component :is="Component" :key="$route.path" />
         </Transition>
       </RouterView>
-      <AppFooter />
+      <AppFooter v-if="!hideFooter" />
     </main>
 
     <!-- Mobile bottom nav — quick switch between the global sections -->
@@ -328,6 +328,19 @@ const isStratagemsRoute = computed(() => route.path === '/stratagems')
 const isTrackerRoute = computed(() => route.path.startsWith('/tracker'))
 // The roster builder rides with the Tracker section (subnav + top/bottom-nav highlight).
 const isRosterRoute = computed(() => route.path.startsWith('/roster'))
+
+// The footer is a tall multi-column block — fine on content/browsing pages, but it just eats
+// scarce mobile viewport below a dense, task-focused screen. Hidden on the tracker's own setup
+// + live-game screen and on the roster builder's creation wizard / editor (not the roster list,
+// the shared-link landing, or a roster's read-only view — those are browsing, not configuring).
+const isTrackerGameRoute = computed(() => route.path === '/tracker/game')
+const isRosterEditRoute = computed(() =>
+  isRosterRoute.value &&
+  route.path !== '/roster' &&
+  route.path !== '/roster/shared' &&
+  !route.path.endsWith('/view')
+)
+const hideFooter = computed(() => isTrackerGameRoute.value || isRosterEditRoute.value)
 
 // "Back to game" bar: only when a game is actively in progress and the user is reading something
 // outside the tracker. Hidden while a full-screen modal/drawer is open so it never overlaps them.
