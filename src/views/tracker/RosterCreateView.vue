@@ -3,9 +3,11 @@
     <RouterLink to="/roster" class="back"><i class="bi bi-chevron-left"></i> {{ labels.rosterBackToList }}</RouterLink>
 
     <div class="rc-steps">
-      <span class="rc-step" :class="{ on: step === 1, done: step > 1 }">1 · {{ labels.rosterCreateStep1 }}</span>
+      <span class="rc-step" :class="{ on: step === 1, done: step > 1 }">1<span class="rc-step-label"> · {{ labels.rosterCreateStep1 }}</span></span>
       <span class="rc-step-sep">→</span>
-      <span class="rc-step" :class="{ on: step === 2 }">2 · {{ labels.rosterViewTabUnits }}</span>
+      <span class="rc-step" :class="{ on: step === 2, done: step > 2 }">2<span class="rc-step-label"> · {{ labels.rosterViewTabUnits }}</span></span>
+      <span class="rc-step-sep">→</span>
+      <span class="rc-step" :class="{ on: step === 3 }">3<span class="rc-step-label"> · {{ labels.rosterCreateStep3 }}</span></span>
     </div>
 
     <!-- Step 1: name, faction, detachment, battle size — same card/field language as the
@@ -83,6 +85,60 @@
         <span class="rc-points" :class="{ over: points > limit }">{{ points }} / {{ limit }}</span>
         <div class="rc-sticky-actions">
           <button class="btn-ghost" @click="step = 1">← {{ labels.trackerBack }}</button>
+          <button class="btn-primary" @click="step = 3">{{ labels.trackerNextStep }} →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3: per-unit configuration — same type grouping as the editor/read-only view;
+         tapping a unit's tile opens an inline accordion (size, wargear, warlord, enhancement,
+         leader attachment) instead of the editor's modal sheet, since every added unit can be
+         worth a look before finishing. -->
+    <div v-show="step === 3" class="rc-panel">
+      <div v-if="!units.length" class="rc-cfg-empty">{{ labels.rosterUnitsEmpty }}</div>
+      <div v-else class="rc-cfg">
+        <template v-for="g in groupedUnits" :key="g.id">
+          <template v-if="g.entries.length">
+            <h3 class="rcg-head">{{ labels[GROUP_LABEL_KEYS[g.id]] }}</h3>
+            <div v-for="e in g.entries" :key="e.uid" class="rcunit">
+              <button
+                type="button"
+                class="rcunit-row"
+                :aria-expanded="openUids.has(e.uid)"
+                @click="toggleOpen(e.uid)"
+              >
+                <span class="rcunit-text">
+                  <span class="rcunit-name">{{ defOf(e.id)?.name || e.id }}</span>
+                  <span class="rcunit-sub">{{ summaryLine(e) }}</span>
+                </span>
+                <span class="rcunit-pts">{{ entryMeta.get(e.uid)?.points }}</span>
+                <i class="bi rcunit-chev" :class="openUids.has(e.uid) ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+              </button>
+              <CollapseTransition :show="openUids.has(e.uid)">
+                <div class="rcunit-fields">
+                  <UnitEditorFields
+                    v-if="defOf(e.id)"
+                    :entry="e"
+                    :def="defOf(e.id)"
+                    :items="rosterItems.items"
+                    :texts="rosterItems.texts"
+                    :faction-slug="factionSlug"
+                    :can-warlord="canBeWarlord(defOf(e.id))"
+                    :is-warlord="e.warlord === true"
+                    :enh-options="enhOptionsFor(defOf(e.id), curDetachments, units, e.uid)"
+                    :leader-targets="leaderTargetsFor(defOf(e.id), units, e.uid, defOf)"
+                    @toggle-warlord="toggleWarlord(e.uid)"
+                  />
+                </div>
+              </CollapseTransition>
+            </div>
+          </template>
+        </template>
+      </div>
+      <div class="rc-sticky">
+        <span class="rc-points" :class="{ over: points > limit }">{{ points }} / {{ limit }}</span>
+        <div class="rc-sticky-actions">
+          <button class="btn-ghost" @click="step = 2">← {{ labels.trackerBack }}</button>
           <button class="btn-primary" @click="finish">{{ labels.rosterDone }}</button>
         </div>
       </div>
@@ -115,16 +171,21 @@
 import { computed, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import BaseModal from '../../components/BaseModal.vue'
+import CollapseTransition from '../../components/CollapseTransition.vue'
 import FactionPickerModal from '../../components/tracker/FactionPickerModal.vue'
 import DetachmentPickerModal from '../../components/tracker/DetachmentPickerModal.vue'
 import RosterUnitBrowser from '../../components/roster/RosterUnitBrowser.vue'
+import UnitEditorFields from '../../components/roster/UnitEditorFields.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosters, uid } from '../../composables/useRosters.js'
 import rosterCore from '../../data/roster/core.js'
-import { loadRosterFaction } from '../../data/roster/index.js'
+import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
-import { rosterPoints, effectiveBattle } from '../../composables/rosterEngine.js'
+import {
+  UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints, entrySummary,
+  canBeWarlord, enhOptionsFor, leaderTargetsFor, effectiveBattle,
+} from '../../composables/rosterEngine.js'
 
 const router = useRouter()
 const { locale } = useLocale()
@@ -223,6 +284,40 @@ function removeUnit(unitId) {
 }
 const points = computed(() => rosterPoints(units.value, defOf, curDetachments.value))
 
+// ── Per-unit configuration (step 3) ──
+const openUids = ref(new Set())
+function toggleOpen(entryUid) {
+  const next = new Set(openUids.value)
+  next.has(entryUid) ? next.delete(entryUid) : next.add(entryUid)
+  openUids.value = next
+}
+function toggleWarlord(entryUid) {
+  const e = units.value.find((u) => u.uid === entryUid)
+  if (!e) return
+  const on = e.warlord === true
+  for (const u of units.value) delete u.warlord // exactly one warlord per army
+  if (!on) e.warlord = true
+}
+function summaryLine(e) {
+  return entrySummary(e, defOf(e.id), labels.value.rosterModelsLabel, labels.value.rosterUpgradesLabel)
+}
+// Per-entry points + copy index (copy tax assigned in list order), for the row + the fields.
+const entryMeta = computed(() => {
+  const seen = new Map()
+  const m = new Map()
+  for (const e of units.value) {
+    const copyIndex = (seen.get(e.id) || 0) + 1
+    seen.set(e.id, copyIndex)
+    m.set(e.uid, { points: unitPoints(defOf(e.id), e, copyIndex, curDetachments.value), copyIndex })
+  }
+  return m
+})
+const groupedUnits = computed(() =>
+  UNIT_GROUPS.map((id) => ({
+    id,
+    entries: units.value.filter((e) => { const d = defOf(e.id); return d && bucketOf(d) === id }),
+  })))
+
 // ── Save point: the roster only becomes real — and shows up on /roster — once step 1 is
 // filled in and the user moves on to picking units. Abandoning step 1 leaves no trace. ──
 const rosterId = ref(null)
@@ -263,6 +358,15 @@ function finish() {
 .rc-step.on { color: var(--accent); }
 .rc-step.done { color: var(--text-muted); }
 .rc-step-sep { color: var(--text-dim); font-size: 0.75rem; }
+/* Small phones: three steps + arrows is a lot to fit on one line. Shrink first; on the
+   smallest phones, drop the text label for every step but the current one — same idea as
+   RoundTracker's short/full label swap — so the row stays compact instead of wrapping. */
+@media (max-width: 480px) {
+  .rc-steps { gap: 0.35rem; font-size: 0.78rem; }
+}
+@media (max-width: 360px) {
+  .rc-step:not(.on) .rc-step-label { display: none; }
+}
 
 .rc-panel { display: flex; flex-direction: column; gap: 1.1rem; }
 /* The unit-selection panel has a fixed footer overlaying the bottom of the viewport — reserve
@@ -384,6 +488,45 @@ function finish() {
   color: var(--text-primary);
 }
 .bsize-input:focus { outline: none; }
+
+/* Step 3: per-unit accordion — same card/row language as RosterEditorView's .runit, minus its
+   delete button (units are added/removed on step 2), plus the collapsible fields panel. */
+.rc-cfg-empty { color: var(--text-muted); font-style: italic; text-align: center; padding: 1.5rem 0; }
+.rcg-head {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 1.1rem 0 0.5rem;
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid var(--border);
+}
+.rcg-head:first-child { margin-top: 0; }
+.rcunit {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+}
+.rcunit:hover { border-color: var(--accent); }
+.rcunit-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.75rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+.rcunit-text { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 0.1rem; }
+.rcunit-name { font-weight: 600; color: var(--text-primary); font-size: 0.92rem; }
+.rcunit-sub { font-size: 0.74rem; color: var(--text-dim); }
+.rcunit-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); flex-shrink: 0; }
+.rcunit-chev { color: var(--text-dim); font-size: 0.7rem; flex-shrink: 0; }
+.rcunit-fields { padding: 0.6rem 0.75rem 0.75rem; border-top: 1px solid var(--border); }
 
 .rc-actions { display: flex; justify-content: flex-end; }
 .btn-primary, .btn-ghost {
