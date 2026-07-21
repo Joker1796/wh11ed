@@ -168,6 +168,13 @@ const ROUTES = {
       ru: 'Официальные исходные PDF Warhammer Community для Warhammer 40,000 11-й редакции — Core Rules, Event Companion, Teams Event Companion и Terrain Area Footprints.',
     },
   },
+  '/disclaimer': {
+    title: { en: 'Legal & Disclaimer', ru: 'Правовая информация' },
+    description: {
+      en: 'Legal disclaimer: this is an unofficial fan project, not affiliated with or endorsed by Games Workshop; all Warhammer 40,000 names, rules and imagery belong to Games Workshop.',
+      ru: 'Отказ от ответственности: неофициальный фан-проект, не связанный с Games Workshop; все названия, правила и изображения Warhammer 40,000 принадлежат Games Workshop.',
+    },
+  },
   '/tracker/game': {
     title: { en: 'Current Game — Tracker', ru: 'Текущая игра — Трекер' },
     description: {
