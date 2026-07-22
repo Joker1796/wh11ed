@@ -47,6 +47,25 @@ const { locale } = useLocale()
 const { renderInline } = useRenderInline()
 const labels = computed(() => ui[locale.value])
 
+// The roster layer's own enhancement name (src/data/roster/<slug>.js, from wh40k-appdata via
+// gen-roster-data.mjs) and this hand-authored faction file disagree on two things for a real
+// chunk of enhancements (audited: 132 of 898 names, zero of which are an actual missing-content
+// gap — see the session notes): (a) apostrophe/hyphen glyph — wh40k-appdata's own typographic
+// ’/non-ASCII hyphens vs this file's plain ASCII, and a few pure case differences; (b)
+// wh40k-appdata bakes "(Upgrade)"/"(Aura)" into the enhancement's own NAME for detachment-wide
+// upgrades, while this file represents the same thing as a bare name + `upgrade`/`aura` boolean
+// (which the template already renders as its own tag) — one enhancement even carries both tags
+// stacked ("X (Aura) (Upgrade)"), so the strip is global, not a single replace.
+function norm(s) {
+  return (s || '')
+    .replace(/\s*\((?:Upgrade|Aura)\)\s*/gi, ' ')
+    .toLowerCase()
+    .replace(/[‘’‚‛]/g, "'")
+    .replace(/[‐‑‒–—―]/g, '-')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
 const enh = ref(null)
 const loaded = ref(false)
 watch(
@@ -67,9 +86,10 @@ watch(
       if (props.factionSlug !== slug || locale.value !== 'ru') return
       if (mod) fac = deepOverlay(fac, mod.default)
     }
+    const target = norm(name)
     let found = null
     for (const d of fac?.detachments || []) {
-      found = d.enhancements?.find((e) => e.name === name)
+      found = d.enhancements?.find((e) => norm(e.name) === target)
       if (found) break
     }
     enh.value = found || null
