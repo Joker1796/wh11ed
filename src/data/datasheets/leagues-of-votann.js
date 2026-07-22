@@ -107,7 +107,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 95
+        "points": 85
       }
     ],
     "flavor": "Wielding the mighty pick-hammer Kromlôk’s Revenge, Berehk Stornbröw leads his hand-chosen Cthonian Beserks – known as Berehk’s Breakers – into the heart of battle. Able to shrug off almost any punishment his enemies level against him and keep on fighting, Berehk is an unstoppable force of destruction who specialises in laying low the enemy’s champions.",
@@ -200,7 +200,7 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 75
+        "points": 70
       }
     ],
     "flavor": "Iron-masters are the most accomplished Brôkhyrs of their Kindred. In battle, they take on the duty of maintaining damaged Kin war engines, often aided by Ironkin and COG repair crews. These veteran Brôkhyrs also bring their most powerful personal creations to war, taking satisfaction in unleashing them upon the foe.",
@@ -471,7 +471,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 95
+        "points": 85
       }
     ],
     "flavor": "Buri Aegnirssen surges into the foe with the ferocious abandon of one with nothing left to lose. With sweeps of his adaptable darkstar glaive, Bane, this inveterate survivor carves a bloody path through the enemy. Not even the most monstrous prey can evade the colossal reach of the Thrice-devoured’s vengeance.",
@@ -2126,7 +2126,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 70
       }
     ],
     "flavor": "A variant of the adaptable Kapricus design, the Carrier provides elite teams of Hernkyn Yaegirs with the means to penetrate enemy lines at speed. The transport’s quad magna-coils grant it the manoeuvrability to traverse almost any frontier terrain. At the same time, its banks of scanner uplinks enable it to lay down withering hails of accurate, suppressive fire to purge claim sites.",

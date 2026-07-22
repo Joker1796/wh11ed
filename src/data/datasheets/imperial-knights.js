@@ -1263,7 +1263,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 400,
+        "points": 425,
         "note": "1st"
       },
       {

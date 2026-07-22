@@ -601,7 +601,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 75
       }
     ],
     "flavor": "Canoptek Reanimators prowl the Necron lines, shooting out ethereal beams swarming with nanoscarabs. Necrons touched by these eerie lights stagger to their feet, resurrected, repaired and ready to fight again. Foes are less fortunate, wailing in agony as their atoms are torn apart and recombined in a hideous, gory fashion.",
@@ -1136,7 +1136,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 80,
+        "points": 70,
         "note": "1st"
       },
       {
@@ -1544,7 +1544,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 200,
+        "points": 210,
         "note": "1st-2nd"
       },
       {
@@ -2231,7 +2231,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 160,
+        "points": 170,
         "note": "1st-2nd"
       },
       {
@@ -2330,7 +2330,7 @@ export default [
       },
       {
         "models": 3,
-        "points": 150,
+        "points": 160,
         "note": "1st-2nd"
       },
       {
@@ -2810,7 +2810,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 175
+        "points": 185
       }
     ],
     "flavor": "Death made manifest, Nekrosor Ammentar is a figure of horror even to other Necrons. Destroyer madness radiates from the Nekrosor like religious fervour, driving its legions to murderous ferocity. Yet none kill with the sheer relentless fury of the Nekrosor, whose Unmaker Gauntlet and enmitic disintegrators leave ruin in the monster’s wake.",
@@ -4027,7 +4027,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 445,
+        "points": 465,
         "note": "1st"
       },
       {
@@ -4154,7 +4154,7 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 400
+        "points": 420
       }
     ],
     "flavor": "The Silent King rides to war aboard his dais of dominion, flanked by the phaerons of his Triarch and orbited by crackling noctilith menhirs. He unleashes god-like powers of annihilation upon his dismayed foes, even as his absolute authority radiates out to empower the Necron legions and drive them to inevitable victory.",

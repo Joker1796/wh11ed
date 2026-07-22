@@ -8,7 +8,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 350
+        "points": 330
       }
     ],
     "flavor": "Angron is rage given immortal form. An engine of destruction, he possesses the strength to tear apart Imperial bastions with his bare hands and stop Titans in their tracks. Armed with the sword Samni’arius and the axe Spinegrinder, he is capable of carving his way through entire armies of foes in a whirlwind of apocalyptic bloodshed.",
@@ -121,7 +121,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 180,
+        "points": 190,
         "note": "1st-2nd"
       },
       {
@@ -575,7 +575,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 135,
+        "points": 130,
         "note": "1st-2nd"
       },
       {
@@ -724,7 +724,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 135,
+        "points": 130,
         "note": "1st-2nd"
       },
       {
@@ -872,7 +872,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 85
+        "points": 75
       }
     ],
     "flavor": "Rhinos are well-adapted for battlefield transportation. Even when corrupted by the Warp and encrusted with dried blood, they remain as reliable as ever, safely carrying their passengers overfire-swept terrain. Many of these vehicles are adorned with blades and have machine spirits just as bloodthirsty as their occupants.",
@@ -1033,12 +1033,12 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 175,
+        "points": 165,
         "note": "1st-2nd"
       },
       {
         "models": 10,
-        "points": 350,
+        "points": 330,
         "note": "1st-2nd"
       },
       {
@@ -1595,12 +1595,12 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 135,
+        "points": 125,
         "note": "1st-2nd"
       },
       {
         "models": 6,
-        "points": 270,
+        "points": 255,
         "note": "1st-2nd"
       },
       {
@@ -1671,12 +1671,12 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 140,
+        "points": 130,
         "note": "1st-2nd"
       },
       {
         "models": 6,
-        "points": 280,
+        "points": 265,
         "note": "1st-2nd"
       },
       {
@@ -1838,7 +1838,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 160,
+        "points": 140,
         "note": "1st-2nd"
       },
       {
@@ -2570,11 +2570,11 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 180
+        "points": 170
       },
       {
         "models": 20,
-        "points": 345
+        "points": 330
       }
     ],
     "flavor": "Berzerkers of Khorne relish their role as the Blood God’s sacred destroyers, and are fanatical in the extreme. The warp-fuelled anger of these psychopathic warriors drives them into an endless frenzy of action. Those who face them in battle disappear under a rain of heavy blows, each potent enough to shear limbs and shatter shields.",
@@ -2846,7 +2846,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 110
+        "points": 100
       }
     ],
     "flavor": "A master of swift raiding, devastating counter-attacks and hit-and-run strategies, Lord Invocatus seeks to shed more blood and take more skulls for Khorne by moving from one war zone to another at great speed, leading his hosts as they smash into enemy battle lines while mounted upon his mighty Juggernaut, Khal’guruth.",
@@ -2945,7 +2945,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 105
+        "points": 95
       }
     ],
     "flavor": "Lords of the World Eaters have spent countless mortal lifetimes leading their warriors. Some have achieved such feats of greatness that their bloody patron has seen fit to reward them with a Juggernaut. These savage daemonic steeds crush all in their path when they stampede forward.",
@@ -3138,7 +3138,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 145,
+        "points": 140,
         "note": "1st-2nd"
       },
       {

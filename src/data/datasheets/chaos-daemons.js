@@ -149,7 +149,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 75
       },
       {
         "models": 2,
@@ -221,7 +221,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 180,
+        "points": 190,
         "note": "1st-2nd"
       },
       {
@@ -1922,7 +1922,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 80
+        "points": 70
       }
     ],
     "flavor": "Fluxmasters are Heralds of Tzeentch gifted with daemonic Discs as steeds. They streak through the air like scintillating comets, trailing a wake of altered reality behind them in which fate turns in the favour of Tzeentch’s servants and all their endeavours are rendered especially successful and potent.",
@@ -2464,7 +2464,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 295
+        "points": 305
       }
     ],
     "flavor": "Wielding the warp-forged Staff of Tomorrow, and with the ability to predict all that may come to pass while knowing all that has already transpired, Kairos Fateweaver is amongst the galaxy’s most canny strategists. What the daemon lacks in physical and martial prowess, it more than makes up for in pure Tzeentchian cunning.",
@@ -2820,7 +2820,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 300,
+        "points": 320,
         "note": "1st-2nd"
       },
       {
@@ -3781,7 +3781,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 340
+        "points": 315
       }
     ],
     "flavor": "Cloven hooves pounding against broken earth, Shalaxi Helbane bears down upon its doomed quarry with the Soulpiercer gleaming in its grip. No prey can evade the Monarch of the Hunt, for the daemon’s obsession with its victim is so singular and so powerful that no mortal means of flight could ever escape it.",

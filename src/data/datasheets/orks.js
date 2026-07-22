@@ -700,7 +700,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 100,
+        "points": 115,
         "note": "1st-2nd"
       },
       {
@@ -1483,7 +1483,7 @@ export default [
       },
       {
         "models": 20,
-        "points": 150
+        "points": 160
       }
     ],
     "flavor": "Ork Boyz surge into battle in huge, unruly mobs dotted with crude special weapons and led by foul-tempered Boss Nobz. Most simply stampede towards the enemy lines, relying on their numbers and natural hardiness to carry the charge home, while others hitch a ride on Trukks and Battlewagons so as to get stuck in all the faster.",
@@ -4008,7 +4008,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 45
+        "points": 55
       }
     ],
     "flavor": "Any Mekboy worth his spanners knows how to patch and repair greenskin vehicles, artillery pieces and the like even amidst the fury of combat. Meks are also handy for a spot of good old-fashioned dakka and close-quarters violence, taking to the field armed to the teeth with kustom weaponry that they invented themselves.",
@@ -4624,7 +4624,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 60
+        "points": 70
       }
     ],
     "flavor": "The Painboss specialises in both the surgical care and cyber-augmentation of squigs, and of those suffering squig-related injuries. So as to provide their services ‘on the hoof’, Painbosses augment themselves with piston-driven soopa-legz, monowheels and the like – the better to deliver high-speed doktorin’.",
@@ -4701,7 +4701,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 80
+        "points": 90
       }
     ],
     "flavor": "The traditional tools of the Painboy help them to patch up even the most mangled Orks and send them back into the fight. Helpfully, all these gruesome surgical klaws, rippy saws and fat syringes also serve as an expedient means of dismembering the enemy with – if not surgical precision – at least a great deal of enthusiasm!",
@@ -5491,7 +5491,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 55
       }
     ],
     "flavor": "Trukks are ramshackle assemblages of hastily welded and riveted scrap metal bolted to overpowered engine blocks and rusty chassis. Rolling on fat, armoured tyres, they bear mobs of Orks into battle at high speed, shrugging off enemy fire by the simple expedient of shedding ablative panels and plates.",
@@ -5707,7 +5707,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 85
       }
     ],
     "flavor": "A towering slab of muscle, fangs and bad attitude, the Warboss leads the charge from the very front. With klaw, fist and dakka the green behemoth bulldozes a bloody path through the enemy. Meanwhile, his window-rattling war cry and weapons-grade glower motivate his ladz to ever more gratuitous violence.",

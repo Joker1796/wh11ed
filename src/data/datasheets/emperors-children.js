@@ -144,7 +144,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 80
+        "points": 70
       }
     ],
     "profiles": [
@@ -713,7 +713,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 290,
+        "points": 300,
         "note": "1st"
       },
       {
@@ -1061,7 +1061,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 350
+        "points": 340
       }
     ],
     "profiles": [
@@ -1849,7 +1849,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 130
+        "points": 120
       }
     ],
     "profiles": [
@@ -1930,7 +1930,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 130,
+        "points": 120,
         "note": "1st-2nd"
       },
       {
@@ -2245,7 +2245,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 340
+        "points": 315
       }
     ],
     "flavor": "Cloven hooves pounding against broken earth, Shalaxi Helbane bears down upon its doomed quarry with the Soulpiercer gleaming in its grip. No prey can evade the Monarch of the Hunt, for the daemon’s obsession with its victim is so singular and so powerful that no mortal means of flight could ever escape it.",
@@ -2371,7 +2371,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 60
+        "points": 55
       }
     ],
     "profiles": [

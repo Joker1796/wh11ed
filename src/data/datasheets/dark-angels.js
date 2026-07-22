@@ -880,7 +880,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 170,
+        "points": 160,
         "note": "1st-2nd"
       },
       {
@@ -984,7 +984,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 120,
+        "points": 130,
         "note": "1st-2nd"
       },
       {
@@ -1209,7 +1209,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 285
+        "points": 265
       }
     ],
     "flavor": "Lion El’Jonson stalks from mist-wreathed shadow realms like an ancient questing knight hunting down the galaxy’s terrors. With the immense blade, Fealty, the Primarch cleaves apart the most heinous of monstrosities, while the Emperor’s Shield erupts in blazes of light and force in response to his foes’ savage blows.",
@@ -1338,7 +1338,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 195
+        "points": 180
       }
     ],
     "flavor": "Sleek air-to-air interceptors, Nephilim Jetfighters perform lightning-fast manoeuvres in high-speed warfare. These pilots continually push the Techmarines for enhancements and modification to their craft to make them faster and deadlier – the results have proven truly substantial.",
@@ -1599,7 +1599,7 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 115,
+        "points": 105,
         "note": "1st-2nd"
       },
       {
@@ -1849,7 +1849,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 80
+        "points": 70
       }
     ],
     "flavor": "Mounted upon each Darkshroud is a mysterious statue that survived Caliban’s destruction and became imbued with the energies released by that cataclysmic event. Through the artifi ce of the Dark Angels, these energies are amplified and used to obscure those battle-brothers near to the Darkshroud from enemy sight.",
@@ -1937,7 +1937,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 105
+        "points": 95
       }
     ],
     "flavor": "Sammael rides to war on the jetbike Corvex, a relic from the Dark Age of Technology. Upon this ancient mount, the Ravenwing’s commander charges into the fray, storm bolters and plasma cannon causing hideous damage before he moves in for the kill with the Raven Sword, an heirloom with a razor edge that can never dull.",

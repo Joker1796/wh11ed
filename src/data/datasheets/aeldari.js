@@ -96,7 +96,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 85
+        "points": 75
       }
     ],
     "flavor": "Autarchs are legendary for their strategic brilliance, sublime martial skill and indomitable strength of will. Long have they trodden the Path of the Warrior, never once slipping into the trap of obsession. Instead, they apply all that they have learned and mastered to their command of the Asuryani warhosts.",
@@ -283,7 +283,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 80
+        "points": 70
       }
     ],
     "flavor": "With wargear such as a winged pack or warp jump generator, an Autarch becomes an incredibly manoeuvrable war leader. So equipped, they can appear wherever their war host needs them in the blink of an eye, bringing graceful weaponry and consummate strategy to bear before vanishing out of the foe’s reach.",
@@ -461,7 +461,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 265
+        "points": 250
       }
     ],
     "flavor": "The Avatar of Khaine is an ancient war deity incarnate, whose mere presence incites merciless rage in the Asuryani around him. In battle, the Avatar marches through enemy fire without breaking stride, laughing cruelly as his weapon – the Wailing Doom – tastes hot flesh and spurting lifeblood with each swing and thrust.",
@@ -641,12 +641,12 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 80,
+        "points": 75,
         "note": "1st-2nd"
       },
       {
         "models": 10,
-        "points": 150,
+        "points": 140,
         "note": "1st-2nd"
       },
       {
@@ -999,11 +999,11 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 80
+        "points": 70
       },
       {
         "models": 10,
-        "points": 160
+        "points": 140
       }
     ],
     "flavor": "The Void scarred are veterans hardened by a life of piracy. These Corsairs have travelled the stars for centuries and have seen the worst and the best the galaxy has to offer. Many have developed unique skills and fighting styles and carry specialist wargear into battle over the years.",
@@ -1605,7 +1605,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 80
+        "points": 70
       }
     ],
     "flavor": "A hissing storm of shrieker cannon fire announces the arrival of a Death Jester upon the battlefield. Enemy infantry are torn apart in sprays of blood and scalded flesh as the weapon’s gene-toxins cause them to combust horrifically from within. Adding insult to injury, the Death Jester ensures every demise is as cruelly ironic as possible.",
@@ -2085,7 +2085,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 65
       }
     ],
     "flavor": "The Asuryani look to their Farseers for leadership in battle. These psykers can uncover the foe’s intentions and calculate the effects of attacks. Their minds are their true weapons; with a thought, they can obliterate the memories of enemy commanders, hurl battle tanks into the air or summon terrifying storms of coruscating eldritch energy.",
@@ -2213,7 +2213,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 60
       }
     ],
     "flavor": "Farseers are expert combatants as well as battle seers. Their semi-sentient witchblades and singing spears are embedded with crystals that transmit the destructive potential of their bearer’s psyche. In battle, they flow around weapon blasts and blade thrusts with a natural grace that makes their foes seem predictable and slow.",
@@ -4155,7 +4155,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 60
+        "points": 50
       }
     ],
     "flavor": "Shadowseers can blind their enemies and drive them mad with their psychic powers. They shield their allies with veils of illusion, and crush bones in close combat with strikes from their miststaves – which also scramble the perceptions of those they hit.",
@@ -4270,11 +4270,11 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 105
+        "points": 100
       },
       {
         "models": 6,
-        "points": 210
+        "points": 200
       }
     ],
     "flavor": "Shining Spears live to joust, which they do at breathtaking speeds upon their jetbike steeds. Their chosen weapon is the long and formidable laser lance, which burns an opening in the target with a powerful energy blast an instant before the bulk of the weapon slams home with a devastating, piercing impact.",
@@ -4431,7 +4431,7 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 95
+        "points": 90
       },
       {
         "models": 6,
@@ -4532,11 +4532,11 @@ export default [
     "points": [
       {
         "models": 2,
-        "points": 105
+        "points": 95
       },
       {
         "models": 4,
-        "points": 210
+        "points": 190
       }
     ],
     "flavor": "Skyweavers shoot through the air in a prismatic storm of hallucinatory colour and light. While the riders known as Skyborne Princes pilot each jetbike and operate its guns, those called Great Falcons ride pillion, poised to cut down the foe with their star bolas or bisect them with their sweeping zephyrglaives.",
@@ -4896,7 +4896,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 80
+        "points": 70
       }
     ],
     "flavor": "These agile and nimble anti-grav transport craft swoop and spiral effortlessly through incoming fire, their flickering holo-fields giving them polychromatic camouflage. Armed with multiple heavy weapons, they provide great volumes of supporting fire for the troops they carry, scything down the foe with withering hails of shurikens.",
@@ -5251,7 +5251,7 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 100,
+        "points": 95,
         "note": "1st-2nd"
       },
       {
@@ -6247,7 +6247,7 @@ export default [
       },
       {
         "models": 2,
-        "points": 170
+        "points": 160
       }
     ],
     "flavor": "The graceful, bipedal War Walkers often take to the field in the vanguard of Asuryani armies. Highly agile, they are also heavily armed, carrying two heavy weapons to eliminate foes before they can strike back. A formidable power field of invisible energy protects each War Walker, blurring and distorting its outline and shielding the pilot.",
@@ -6632,7 +6632,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 45
+        "points": 55
       },
       {
         "models": 2,
@@ -6776,7 +6776,7 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 115,
+        "points": 105,
         "note": "1st-2nd"
       },
       {
@@ -6952,7 +6952,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 125
+        "points": 115
       }
     ],
     "flavor": "The leading troop carriers in a craftworld’s arsenal, Wave Serpents transport warriors to any part of the battlefield at immense speeds. These troops are protected by a powerful energy field and receive covering fire from the vehicle’s powerful array of heavy weapons.",
@@ -7126,7 +7126,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 160
+        "points": 170
       }
     ],
     "flavor": "The jetbikes ridden by the Windriders can cross leagues in the space of a few heartbeats, and to master such incredible machines takes great skill. Windriders are expected to do this and more, for in battle they must be able to shred what resistance they encounter with devastating bursts of fire from their jetbikes’ attached weapons.",
@@ -7385,7 +7385,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 415,
+        "points": 385,
         "note": "1st"
       },
       {
@@ -7529,7 +7529,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 405,
+        "points": 380,
         "note": "1st"
       },
       {
@@ -8231,7 +8231,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 80
+        "points": 70
       }
     ],
     "flavor": "Skimming low over the battlefield on screaming thrusters, Raiders bear murderous bands of Drukhari into battle with blistering speed. They are much favoured by the fanatical worshippers of Ynnead, allowing them to plunge into the heart of the foe’s lines and unleash a veritable hurricane of death and devastation before swiftly relocating to strike again elsewhere.",
@@ -8557,7 +8557,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 65
       }
     ],
     "flavor": "When the Drukhari fight alongside their Asuryani cousins in the cause of Ynnead, some ride into battle aboard needle-swift Venoms. Similar to the Vyper, these upscaled jetbikes serve more like airborne chariots that bear small bands of murderous Drukhari into the fight. So mounted, the worshippers of Ynnead are all but inescapable, pouncing swiftly upon their luckless prey.",

@@ -260,7 +260,7 @@ export default [
       },
       {
         "models": 3,
-        "points": 240,
+        "points": 255,
         "note": "1st-2nd"
       },
       {
@@ -490,7 +490,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 80
+        "points": 70
       }
     ],
     "flavor": "Aggressive and rebellious, Commander O’Shova is the master of the Mont’ka, the Killing Blow. Piloting his crimson battlesuit he carves a bloody path into the enemy, leading his separatist Fire Caste forces and wielding the enigmatic Dawn Blade with such strength and skill that no foe can stand against him.",
@@ -1431,7 +1431,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 85
+        "points": 75
       }
     ],
     "flavor": "The ubiquitous armoured transport of the Fire Caste, the Devilfish is an iconic symbol of T’au military expansion. Tough and surprisingly agile, it bears Fire Warriors safely into battle with impressive speed. Once there, its burst cannons and detachable drones or missile systems provide its passengers with additional fire support.",
@@ -1856,7 +1856,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 140,
+        "points": 150,
         "note": "1st-2nd"
       },
       {
@@ -3085,7 +3085,7 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 80
+        "points": 85
       }
     ],
     "flavor": "Pathfinder Teams wreak havoc behind enemy lines. Their firepower is formidable, especially when sniping with potent rail rifles, and their drones can optimise the team’s pulse fire or drive the enemy back with gravitic waves. Yet their deadliest ability is painting priority targets with massed markerlights for heavier T’au units to annihilate.",
@@ -3512,7 +3512,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 180,
+        "points": 190,
         "note": "1st-2nd"
       },
       {
@@ -3893,7 +3893,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 360,
+        "points": 375,
         "note": "1st"
       },
       {
@@ -4514,7 +4514,7 @@ export default [
     "points": [
       {
         "models": 2,
-        "points": 205
+        "points": 220
       }
     ],
     "flavor": "Shas’ri Locai and Shas’ri Lantar fight with an aggression rarely seen amongst the Fire caste. There is a focus to their ferocity, however, leaping close to their foes in jet-assisted bounds and unleashing punishing firepower before discharging kinetic shock waves built up by their neocapacitor shields and retreating again amidst the resultant carnage.",
@@ -4903,7 +4903,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 325,
+        "points": 375,
         "note": "1st"
       },
       {

@@ -2119,7 +2119,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 140
+        "points": 135
       }
     ],
     "flavor": "Like hounds on the scent, Huntsmen often pursue hulking enemies, hunting them down as prey. Their daemonbreath spears melt through the thickest armour while chaintalons are employed to drive deeply into gushing innards, tearing through organs and crew alike.",
@@ -2483,7 +2483,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 140
+        "points": 135
       }
     ],
     "flavor": "Only the most strong-willed of minor nobility have the mental fortitude to pilot a Stalker. Like pack alphas, they often lead other War Dogs in carefully planned attacks, harrying the foe’s flanks, butchering reinforcements and hunting down lone threats. They unleash salvoes of fire at range or in the heart of combat with deadly claw strikes.",
