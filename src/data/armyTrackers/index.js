@@ -13,11 +13,13 @@
 
 import drukhari from './drukhari.js'
 import leaguesOfVotann from './leagues-of-votann.js'
+import adeptusMechanicus from './adeptus-mechanicus.js'
 
 // Registry — add a faction by dropping its spec here.
 const REGISTRY = {
   drukhari,
   'leagues-of-votann': leaguesOfVotann,
+  'adeptus-mechanicus': adeptusMechanicus,
 }
 
 // Detachment names come from the MFM dataset (player.detachments) and must line up with the
@@ -40,8 +42,10 @@ export function resolveArmyTracker(slug, detachments = []) {
 }
 
 // Shallow-merge an override onto a spec. Most fields replace; array fields that make sense to
-// extend (extra gain reminders / notes / options) accumulate instead of overwrite.
-function applyOverride(spec, ov) {
+// extend (extra gain reminders, selectable options) accumulate instead of overwrite. Exported for
+// direct unit testing — a detachment that genuinely changes the mechanic (extra selectable options,
+// extra gain triggers) is rarer than it looks, so this path can lack a real in-registry user.
+export function applyOverride(spec, ov) {
   const out = { ...spec, ...ov }
   if (ov.gains) out.gains = [...(spec.gains || []), ...ov.gains]
   if (ov.options) out.options = [...(spec.options || []), ...ov.options]
@@ -79,5 +83,7 @@ export function localizeArmyTracker(spec, locale) {
           atOrAbove: locAbility(spec.threshold.atOrAbove, locale),
         }
       : null,
+    // Selection options (e.g. AdMech's Doctrina Imperatives): each is an ability (id + name + text).
+    options: spec.options ? spec.options.map((o) => ({ id: o.id, ...locAbility(o, locale) })) : null,
   }
 }

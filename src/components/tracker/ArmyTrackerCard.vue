@@ -6,27 +6,39 @@
         <span v-if="view.ruleName" class="army-rule-name">{{ view.ruleName }}</span>
       </div>
       <NumberStepper
+        v-if="view.kind === 'counter'"
         :modelValue="counter"
         :min="view.min ?? 0"
         @update:modelValue="v => setArmyCounter(pi, v)"
       />
     </div>
 
-    <!-- Threshold-driven active ability (e.g. Votann: <7YP Hostile Acquisition, 7+ Fortify
-         Takeover). The header shows which is active now; its rule text expands on demand. -->
-    <div v-if="activeAbility" class="army-acc">
+    <!-- Selection primitive (e.g. AdMech Doctrina): pick one option for this battle round. -->
+    <div v-if="view.kind === 'selection' && view.options" class="army-options">
       <button
-        v-if="activeAbility.body"
+        v-for="o in view.options"
+        :key="o.id"
+        class="army-opt"
+        :class="{ on: o.id === selectedId }"
+        @click="setArmySelection(pi, currentRound, o.id)"
+      >{{ o.name }}</button>
+    </div>
+
+    <!-- The active rule right now — a counter threshold's state (Votann) or the picked option
+         (AdMech). The header shows its name; its rule text expands on demand, collapsed by default. -->
+    <div v-if="activeRule" class="army-acc">
+      <button
+        v-if="activeRule.body"
         class="army-acc-head"
         :aria-expanded="showActive"
         @click="showActive = !showActive"
       >
         <i class="bi army-acc-chev" :class="showActive ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
-        <span class="army-acc-title">{{ labels.trackerArmyActive }}: <strong>{{ activeAbility.name }}</strong></span>
+        <span class="army-acc-title">{{ labels.trackerArmyActive }}: <strong>{{ activeRule.name }}</strong></span>
       </button>
-      <p v-else class="army-acc-static">{{ labels.trackerArmyActive }}: <strong>{{ activeAbility.name }}</strong></p>
-      <CollapseTransition v-if="activeAbility.body" :show="showActive">
-        <div class="army-acc-body"><RuleBody :body="activeAbility.body" /></div>
+      <p v-else class="army-acc-static">{{ labels.trackerArmyActive }}: <strong>{{ activeRule.name }}</strong></p>
+      <CollapseTransition v-if="activeRule.body" :show="showActive">
+        <div class="army-acc-body"><RuleBody :body="activeRule.body" /></div>
       </CollapseTransition>
     </div>
 
@@ -71,22 +83,27 @@ const props = defineProps({
   pi: { type: Number, required: true },
 })
 
-const { current, setArmyCounter } = useTracker()
+const { current, setArmyCounter, setArmySelection } = useTracker()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
 const player = computed(() => current.value?.players?.[props.pi] || null)
 const counter = computed(() => player.value?.army?.counter ?? 0)
+const currentRound = computed(() => current.value?.currentRound ?? 1)
+// Selection primitive: the option picked for the current round (the choice resets each round).
+const selectedId = computed(() => player.value?.army?.selectionByRound?.[currentRound.value] ?? null)
 
 // Accordions — both collapsed by default.
 const showActive = ref(false)
 const showHowto = ref(false)
 
-// For counters with a threshold, the ability ({ name, body }) active at the current value.
-const activeAbility = computed(() => {
-  const t = view.value?.threshold
-  if (!t) return null
-  return counter.value >= t.at ? t.atOrAbove : t.below
+// The rule active right now ({ name, body }): a counter threshold's state, or the picked option.
+const activeRule = computed(() => {
+  const v = view.value
+  if (!v) return null
+  if (v.threshold) return counter.value >= v.threshold.at ? v.threshold.atOrAbove : v.threshold.below
+  if (v.kind === 'selection') return v.options?.find((o) => o.id === selectedId.value) || null
+  return null
 })
 
 // Raw (un-localized) resolved spec; null for unsupported factions.
@@ -148,6 +165,39 @@ watch([spec, locale], async ([s, loc]) => {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: var(--text-muted);
+}
+
+/* ── Selection chips (pick one option for the round) ── */
+.army-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.55rem;
+}
+
+.army-opt {
+  flex: 1 1 auto;
+  padding: 0.35rem 0.6rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.army-opt:hover {
+  border-color: var(--accent);
+}
+
+.army-opt.on {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
 }
 
 /* ── Accordions (active ability, how it works) ── */
