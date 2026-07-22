@@ -637,7 +637,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 450,
+        "points": 415,
         "note": "1st"
       },
       {
@@ -792,7 +792,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 420,
+        "points": 385,
         "note": "1st"
       },
       {
@@ -915,7 +915,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 450,
+        "points": 415,
         "note": "1st"
       },
       {
@@ -1438,7 +1438,7 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 65
+        "points": 60
       }
     ],
     "flavor": "Cadia’s officers are exceptional leaders of Humanity. Trained to be the best, they expect no less from their troops. They are as inspiring as the standards carried in their wake, and as motivational as the orders issued by their vox-operators.",
@@ -2821,7 +2821,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 65
       }
     ],
     "flavor": "Transport compartment loaded with a full squad of Astra Militarum infantry, the Centaur Rapid Strike Vehicle accelerates hard into battle. Rugged and simple, these transports eschew heavy firepower in favour of focusing on their primary role: to ferry their passengers to their destination unharmed and with the greatest possible haste.",
@@ -2896,7 +2896,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 85
+        "points": 75
       }
     ],
     "flavor": "A workhorse armoured troop carrier, the Chimera is a durable and practical tank, employed to ferry infantry into the harshest war zones. While embarked, its passengers operate the tank’s in-built lasgun arrays in safety; once they dismount, the Chimera provides fire support with its versatile heavy weapons.",
@@ -3402,7 +3402,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 130
+        "points": 120
       }
     ],
     "flavor": "Few champions of the Imperium inspire the common soldiery as does Commissar Sebastian Yarrick. He can also tear a swathe through his enemies, delivering thunderous blows with his trophy power klaw, mowing them down with his storm bolter, and delivering laser blasts from his ocular augmetic, the so-called Bale Eye.",
@@ -4102,7 +4102,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 415,
+        "points": 380,
         "note": "1st"
       },
       {
@@ -4527,7 +4527,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 420,
+        "points": 385,
         "note": "1st"
       },
       {
@@ -5101,7 +5101,7 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 115,
+        "points": 105,
         "note": "1st-2nd"
       },
       {
@@ -5554,7 +5554,7 @@ export default [
     "points": [
       {
         "models": 6,
-        "points": 65
+        "points": 60
       }
     ],
     "flavor": "The Death Korps of Krieg’s officer korps are brave bordering on reckless. Their casualtg rates are such that it is not uncommon for a representative of the Officio Prefectus, most commonly a high-ranking Commissar, to step into their place and take command, ably assisted by a retinue of veterans and junior officers.",
@@ -6166,7 +6166,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 235,
+        "points": 215,
         "note": "1st-2nd"
       },
       {
@@ -6434,7 +6434,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 190,
+        "points": 180,
         "note": "1st-2nd"
       },
       {
@@ -9371,7 +9371,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 410,
+        "points": 375,
         "note": "1st"
       },
       {
@@ -9579,7 +9579,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 430,
+        "points": 395,
         "note": "1st"
       },
       {
@@ -9714,7 +9714,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 465,
+        "points": 430,
         "note": "1st"
       },
       {
@@ -9836,7 +9836,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 65
       }
     ],
     "flavor": "Designed to exploit gaps in the enemy battle line or plug holes torn in the Astra Militarum’s own, the Taurox is a swift armoured transport, its rugged tracks enabling it to cross difficult terrain with ease. The Taurox’s autocannons mow down the foe as it roars forward, eliminating threats to its passengers as they rapidly deploy.",
@@ -9923,7 +9923,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 85
+        "points": 75
       }
     ],
     "flavor": "The Taurox Prime incorporates arcane technologies not available to the wider Astra Militarum, enabling it and its Tempestus Scion cargo to operate in the most hazardous of war zones. More heavily armed than its namesake, it fulfils a tactical support role, with an adaptability suited to the Tempestus Scions.",
@@ -10177,7 +10177,7 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 100
+        "points": 95
       }
     ],
     "flavor": "Hand-picked for their aggression and violent natures, Tempestus Aquilons deploy exclusively by grav-drop, descending from the skies to land precisely where their destructive firepower is most keenly required. They are accompanied in these actions by automaton servo-sentries that provide additional firepower as the assault is pressed home.",
@@ -10407,7 +10407,7 @@ export default [
       },
       {
         "models": 10,
-        "points": 155,
+        "points": 150,
         "note": "1st-2nd"
       },
       {

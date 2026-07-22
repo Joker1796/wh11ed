@@ -243,6 +243,13 @@ Unless otherwise stated, the combined points value of all of your **strategic re
               fromApp: true,
               body: `The term 'Reserves' is the same as **strategic reserves**.`,
             },
+            {
+              id: 'section-20-01-02',
+              sectionNum: '20.01.02',
+              title: 'Strategic Reserves at the End of the Battle',
+              fromApp: true,
+              body: `At the end of the final turn, units in **strategic reserves** are **destroyed**, but they do not trigger rules that apply when a model is **destroyed**.`,
+            },
           ],
         },
         {
@@ -654,6 +661,10 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
             {
               title: 'Резервы (Reserves)',
               body: `Термин «Резервы» (Reserves) — это то же самое, что **[gloss:strategic-reserves:стратегические резервы]**.`,
+            },
+            {
+              title: 'Стратегический резерв в конце битвы (Strategic Reserves at the End of the Battle)',
+              body: `В конце последнего хода отряды в **стратегическом резерве** считаются **[gloss:destroyed:уничтоженными]**, но это не вызывает срабатывания правил, применяемых при **уничтожении** модели.`,
             },
           ],
         },

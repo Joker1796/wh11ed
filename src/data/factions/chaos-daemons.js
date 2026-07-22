@@ -555,19 +555,19 @@ If every model from your army has the CHAOS KNIGHTS or HERETIC ASTARTES keyword,
       enhancements: [
         {
           name: "Inescapable Eye",
-          points: 10,
+          points: 15,
           flavor: "This gem reveals the myriad paths of the future.",
           body: "Legiones Daemonica Tzeentch model only. In your Command phase, if the bearer is on the battlefield, if your opponent has one or more Flux tokens, you gain one additional Flux token.",
         },
         {
           name: "Infernal Puppeteer",
-          points: 25,
+          points: 20,
           flavor: "To this mighty entity, lesser daemons are but prisms through which its power shines.",
           body: "Legiones Daemonica Tzeentch Monster model only. In your Shooting phase, the bearer can use this Enhancement. If it does, until the end of the phase, you can select one other friendly visible Legiones Daemonica Tzeentch unit within 9\" of the bearer. If you do, when selecting targets for ranged weapons equipped by the bearer, you can measure range and determine visibility from one model of your choice in the selected unit instead.\n\n**Designer’s Note:** When determining if a unit with the Lone Operative ability can be selected as the target, the range is determined from the model of your choice in the selected unit.",
         },
         {
           name: "Neverblade",
-          points: 20,
+          points: 25,
           flavor: "This bizarre daemon weapon makes a mockery of even the most determined defence.",
           body: "Legiones Daemonica Tzeentch Monster model only. Improve the Strength characteristic of melee weapons equipped by the bearer by 2, improve the Attacks and Armour Penetration characteristics of melee weapons equipped by the bearer by 1, and each time the bearer makes a melee attack, add 1 to the Hit roll.",
         },

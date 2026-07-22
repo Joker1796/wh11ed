@@ -880,11 +880,11 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 110
+        "points": 100
       },
       {
         "models": 1,
-        "points": 120,
+        "points": 110,
         "note": "Agents of the Imperium (allied)"
       }
     ],
@@ -1165,11 +1165,11 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 190
+        "points": 175
       },
       {
         "models": 5,
-        "points": 210,
+        "points": 190,
         "note": "Agents of the Imperium (allied)"
       }
     ],
@@ -1528,7 +1528,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 65
       }
     ],
     "flavor": "Amongst the most iconic and ubiquitous of the Imperium’s armoured infantry transports, the Rhino is as redoubtable as it is resilient. Boasting a capacious troop compartment, j .-I self-repairing capabilities and weapon mounts for storm bolters and hunter-killer missiles, it has earned its reputation as the workhorse of Imperial armies.",
@@ -2547,7 +2547,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 60
       }
     ],
     "flavor": "The Chimera is a blend of armoured personnel carrier and light tank, easy to produce en masse and extremely versatile. Those deployed by Imperial agents boast a wealth of varied armament options, transporting their passengers swiftly into battle then providing heavy covering fire while they complete their missions.",
@@ -3264,11 +3264,11 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 100
+        "points": 90
       },
       {
         "models": 1,
-        "points": 115,
+        "points": 105,
         "note": "Agents of the Imperium (allied)"
       }
     ],
@@ -3403,7 +3403,7 @@ export default [
       },
       {
         "models": 10,
-        "points": 115,
+        "points": 110,
         "note": "Agents of the Imperium (allied)"
       }
     ],

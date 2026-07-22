@@ -94,7 +94,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 105
+        "points": 95
       }
     ],
     "flavor": "Arjac Rockfist is a towering mass of muscle and a taciturn anvil of endurance. Wielding the enormous Foehammer – recalling his former role as an Iron Priest of the forge – Arjac crushes his foes with pulverising strength. As personal champion of the Great Wolf, Arjac upholds the honour of the Chapter.",
@@ -633,7 +633,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 55
+        "points": 50
       }
     ],
     "flavor": "Space Wolves Techmarines – the Iron Priests – are holders of arcane technological lore that they use to repair the Chapter’s damaged war engines and soothe their affronted machine spirits. Warriors of Fenris first and foremost, Iron Priests will not hesitate to bring their own esoteric weapons to bear on the foe if needed.",
@@ -733,7 +733,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 110
+        "points": 100
       }
     ],
     "flavor": "Logan Grimnar – Great Wolf and High King of Fenris – is one of the longest serving Chapter Masters. Waging war against any who threaten the Space Wolves or the Imperium, Grimnar’s charisma and centuries of heroic victories have immortalised him as one of the most lauded warriors in the galaxy.",
@@ -943,7 +943,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 85
+        "points": 75
       }
     ],
     "flavor": "Summoning ice-toothed blizzards to scatter his foes, Njal Stormcaller is an elemental focus of psychic fury. He is High Rune Priest of the Space Wolves and wields a crackling staff by which he nullifies enemy sorceries.",
@@ -1059,7 +1059,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 100
+        "points": 90
       }
     ],
     "flavor": "Supremely confident and eager always to be first into the fray, Wolf Lord Ragnar Blackmane regularly leads his Great Company in devastating planetary invasions. No longer as headstrong as in his youth, Ragnar’s berserk rages are still furious hurricanes of violence, and his terrifying howls freeze the blood of his foes.",
@@ -2072,12 +2072,12 @@ export default [
     "points": [
       {
         "models": 6,
-        "points": 95,
+        "points": 90,
         "note": "1st-2nd"
       },
       {
         "models": 12,
-        "points": 190,
+        "points": 180,
         "note": "1st-2nd"
       },
       {

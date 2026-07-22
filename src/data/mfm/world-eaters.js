@@ -8,8 +8,8 @@ export default {
   sourceUrl: 'https://mfm.warhammer-community.com/en/world-eaters',
   detachments: [
     { name: 'Berzerker Warband', dp: 3, forceDisposition: 'Purge the Foe', enhancements: [{ name: 'Battle-lust', points: 20 }, { name: 'Berzerker Glaive', points: 35 }, { name: 'Favoured of Khorne', points: 20 }, { name: 'Helm of Brazen Ire', points: 30 }] },
-    { name: 'Brazen Engines', dp: 1, forceDisposition: 'Purge the Foe', unique: 'ONSLAUGHT', enhancements: [{ name: 'Murder-forged Entity (Upgrade)', points: 15 }, { name: 'Talons of Butchery (Upgrade)', points: 20 }] },
-    { name: 'Butchers of Khorne', dp: 1, forceDisposition: 'Disruption', enhancements: [{ name: 'Gore-stained Veterans (Upgrade)', points: 25 }, { name: 'Sanctified in Slaughter (Upgrade)', points: 15 }] },
+    { name: 'Brazen Engines', dp: 1, forceDisposition: 'Disruption', unique: 'ONSLAUGHT', enhancements: [{ name: 'Murder-forged Entity (Upgrade)', points: 15 }, { name: 'Talons of Butchery (Upgrade)', points: 20 }] },
+    { name: 'Butchers of Khorne', dp: 1, forceDisposition: 'Take and Hold', enhancements: [{ name: 'Gore-stained Veterans (Upgrade)', points: 25 }, { name: 'Sanctified in Slaughter (Upgrade)', points: 15 }] },
     { name: 'Cult of Blood', dp: 2, forceDisposition: 'Priority Assets', enhancements: [{ name: 'Brazen Form', points: 25 }, { name: 'Butcher Lord', points: 10 }, { name: 'Chosen of the Blood God', points: 15 }, { name: 'Strategic Slaughter', points: 20 }] },
     { name: 'Goretrack Onslaught', dp: 2, forceDisposition: 'Take and Hold', unique: 'ONSLAUGHT', enhancements: [{ name: 'Aggressive Deployment', points: 20 }, { name: 'Infernal Infusion', points: 25 }, { name: 'Murderous Onslaught', points: 5 }, { name: 'Unleash Hell', points: 10 }] },
     { name: 'Khorne Daemonkin', dp: 2, forceDisposition: 'Reconnaissance', enhancements: [{ name: 'Blade of Endless Bloodshed', points: 30 }, { name: 'Blood-Forged Armour', points: 20 }, { name: 'Disciple of Khorne', points: 15 }, { name: 'Icon of War', points: 25 }] },

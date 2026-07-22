@@ -146,7 +146,7 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
         },
         {
           name: 'Artificer Armour',
-          points: 10,
+          points: 20,
           flavor: "Crafted by the Chapter's finest artificers, this suit of armour provides superior protection.",
           body: `Adeptus Astartes model only. The [gloss:bearer:bearer] has a [gloss:save:Save] characteristic of 2+ and the Feel No Pain 5+ ability.`,
         },
@@ -359,7 +359,7 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
         },
         {
           name: 'The Flesh Is Weak',
-          points: 10,
+          points: 20,
           flavor: 'The injuries of past battles have seen this warrior heavily rebuilt with ultra-durable cybernetic limbs and organs that render them extremely difficult to kill.',
           body: `Adeptus Astartes model only. The [gloss:bearer:bearer] has the Feel No Pain 4+ ability.`,
         },
@@ -870,13 +870,13 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
         },
         {
           name: 'Temporal Corridor',
-          points: 15,
+          points: 25,
           flavor: 'Folding existence around an invisible path along which time is altered, the Librarian propels his allies across the battlefield with supernatural swiftness.',
           body: `Adeptus Astartes [gloss:psyker:Psyker] model only. At the end of your opponent's Fight phase, you can place this unit into [gloss:strategic-reserves:strategic reserves]. If this unit has the Telekinesis [gloss:sm-psychic-discipline:Discipline] ability, this unit has Deep Strike.`,
         },
         {
           name: 'Fusillade',
-          points: 20,
+          points: 25,
           flavor: 'The Librarian wreathes the ammunition of his allies in armour-eroding halos of azure fire.',
           body: `Adeptus Astartes [gloss:psyker:Psyker] model only. This unit's [gloss:ranged-attacks:ranged attacks] have [ANTI-MONSTER/VEHICLE 5+]. If this unit has the Pyromancy [gloss:sm-psychic-discipline:Discipline] ability, [SUSTAINED HITS 1].`,
         },
@@ -1341,7 +1341,7 @@ Restrictions: Your army can include Ultramarines units, but it cannot include an
       enhancements: [
         {
           name: 'Armour of Antoninus',
-          points: 10,
+          points: 20,
           flavor: "Originally worn by a storied Captain of the Ultramarines' First Company, this artificer armour is bestowed by the Chapter Master himself upon a worthy wearer.",
           body: `Adeptus Astartes model only. The bearer has a Save characteristic of 2+ and the Feel No Pain 5+ ability.`,
         },
@@ -2222,6 +2222,74 @@ Restrictions: Your army can include Ultramarines units, but it cannot include an
           points: 20,
           flavor: 'These precious seals are manufactured on Konor, and contain micro shield generators that help to safeguard battle-brothers while they fulfil their oaths of duty.',
           body: `Adeptus Astartes model only. Models in the bearer's unit have a 5+ invulnerable save.`,
+        },
+      ],
+    },
+
+    // Added in the App v2.2.0 (data_version 909) dataslate. appdata's own `category` field for
+    // all 3 of its stratagems is null (a gap in that dataslate's data, not specific to this
+    // detachment) — sublabel categories below are inferred from the effect/timing pattern
+    // against existing stratagems of the same shape, not read directly from source; re-verify
+    // against the physical card/PDF if one becomes available.
+    {
+      id: 'vengeful-hosts',
+      name: 'Vengeful Hosts',
+      source: 'codex',
+      dp: 1,
+      forceDisposition: 'Take and Hold',
+      rule: {
+        name: 'Imperator Unleashed',
+        flavor: 'The warrior hosts deployed in Operation Imperator know they must strike with decisive fury if they are to break their foes.',
+        body: `In a turn a friendly Adeptus Astartes Fly Infantry unit made an ingress/charge move, that unit's attacks can re-roll Hit rolls of 1.`,
+      },
+      stratagems: [
+        {
+          name: 'Meteoric Onslaught',
+          sublabel: 'Vengeful Hosts – Battle Tactic Stratagem',
+          cp: '1CP',
+          turn: 'either',
+          flavor: 'Jump jets blazing, these Space Marine shock troops slam into their foes with bone-breaking force.',
+          when: 'Fight phase, when a friendly Adeptus Astartes Fly Infantry unit that made a charge move this turn is selected to attack.',
+          target: 'That friendly Adeptus Astartes Fly Infantry unit.',
+          effect: "Your unit's melee attacks have +1 Strength.",
+          restrictions: '',
+        },
+        {
+          name: 'Know No Fear',
+          sublabel: 'Vengeful Hosts – Battle Tactic Stratagem',
+          cp: '1CP',
+          turn: 'your',
+          flavor: 'Inspired by duty, these warriors reject dismay and fight on with renewed fury.',
+          when: 'Your Command phase.',
+          target: "One friendly Battle-shocked Adeptus Astartes unit. You can target that unit with this Stratagem even though it is Battle-shocked.",
+          effect: 'Your unit is no longer Battle-shocked.',
+          restrictions: '',
+        },
+        {
+          name: 'Purge by Sectors',
+          sublabel: 'Vengeful Hosts – Strategic Ploy Stratagem',
+          cp: '1CP',
+          turn: 'either',
+          flavor: 'Focused on sweeping the Ork threat from Armageddon, if these warriors find themselves unengaged, they press swiftly onward.',
+          when: 'End of the Fight phase.',
+          target: 'One friendly unengaged Adeptus Astartes Fly Infantry unit that was eligible to fight this phase.',
+          effect: 'Your unit can make a Normal move of up to D3+3".',
+          restrictions: '',
+        },
+      ],
+      enhancements: [
+        {
+          name: 'Avenging Angel',
+          points: 20,
+          flavor: 'Descending on wings of fire, this warrior spreads terror of Imperial vengeance through the ranks of the foe.',
+          body: `Adeptus Astartes Fly Infantry model only. When this unit ends an ingress move, select up to one enemy unit within 9" of this unit. That enemy unit makes a Battle-shock test, with -1 to that Battle-shock test.`,
+        },
+        {
+          name: 'Orksbane',
+          points: 20,
+          flavor: 'The machine spirit of this ancient relic weapon is said to hate Orks with a vehemence that kills them on contact.',
+          body: `Adeptus Astartes Fly Infantry model only. This model has the following weapon:
+▪ **Orksbane** [CLEAVE 2] — Melee, A 4, WS 2+, S 8, AP -2, D 3.`,
         },
       ],
     },
