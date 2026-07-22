@@ -60,11 +60,27 @@ export function validateRoster(roster, { faction, core } = {}) {
   if (warlords.length > 1) add('manyWarlords', 'error', { uid: warlords[1].uid })
   for (const w of warlords) {
     const def = defOf(w.id)
-    if (def && !canBeWarlord(def)) add('warlordIneligible', 'error', { uid: w.uid, params: { name: def.name } })
+    if (def && !canBeWarlord(def, detachments)) add('warlordIneligible', 'error', { uid: w.uid, params: { name: def.name } })
   }
-  const mandWarlords = detachments.map((d) => d.mandWarlord).filter(Boolean)
+  // A detachment can name MORE THAN ONE candidate (Aeldari's "Devoted of Ynnead": Yvraine OR The
+  // Yncarne) — every detachment's own list is an OR-alternative, flattened across all selected
+  // detachments (gen-roster-data.mjs's detMandWarlord already collects every row per detachment).
+  const mandWarlords = detachments.flatMap((d) => d.mandWarlord || [])
   if (mandWarlords.length && warlords.length === 1 && !mandWarlords.includes(warlords[0].id)) {
     add('mandatoryWarlord', 'warn', { uid: warlords[0].uid })
+  }
+  // Supreme Commander ("if this model is in your army, it must be your Warlord" — a hard RAW
+  // rule, unlike the detachment-level mandatory pick above): 17 datasheets in the game carry this
+  // (Guilliman, Ghazghkull, Abaddon, …). Two of them (Belisarius Cawl / Thulia Ghuld) can legally
+  // be fielded in the SAME army — nothing in wh40k-appdata prevents it — which makes the rule
+  // impossible to satisfy for both at once, so that combination is flagged as its own conflict
+  // rather than silently picking a winner.
+  const supremeUnits = units.filter((u) => defOf(u.id)?.flags?.supreme)
+  const supremeIds = new Set(supremeUnits.map((u) => u.id))
+  if (supremeIds.size > 1) {
+    for (const u of supremeUnits) add('supremeCommanderConflict', 'error', { uid: u.uid, params: { name: defOf(u.id)?.name } })
+  } else if (supremeUnits.length === 1 && !supremeUnits[0].warlord) {
+    add('supremeCommanderNotWarlord', 'error', { uid: supremeUnits[0].uid, params: { name: defOf(supremeUnits[0].id)?.name } })
   }
 
   // Enhancements: each up to its own per-name cap (an "(Upgrade)" enhancement — see

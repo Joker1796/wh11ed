@@ -109,10 +109,39 @@ describe('validateRoster — warlord', () => {
     expect(codes(roster({ units: [U('intercessor-squad', { warlord: true })] }))).toContain('warlordIneligible')
   })
   it('warns when a mandatory warlord is not the chosen one', () => {
-    const det = { ...detachment, mandWarlord: 'marneus' }
+    const det = { ...detachment, mandWarlord: ['marneus'] }
     const f = { ...faction, detachments: [det] }
     const r = roster({ units: [U('captain', { warlord: true })] })
     expect(validateRoster(r, { faction: f, core }).issues.map((i) => i.code)).toContain('mandatoryWarlord')
+  })
+  it('accepts either of a detachment\'s several mandatory-warlord candidates (Aeldari-style OR)', () => {
+    const det = { ...detachment, mandWarlord: ['marneus', 'lieutenant'] }
+    const f = { ...faction, detachments: [det] }
+    // Neither candidate chosen (captain is warlord instead) — still flagged.
+    expect(validateRoster(roster({ units: [U('captain', { warlord: true }), U('lieutenant')] }), { faction: f, core }).issues.map((i) => i.code)).toContain('mandatoryWarlord')
+    // The SECOND candidate (lieutenant) chosen — no longer flagged, since it's a valid alternative.
+    expect(validateRoster(roster({ units: [U('lieutenant', { warlord: true }), U('captain')] }), { faction: f, core }).issues.map((i) => i.code)).not.toContain('mandatoryWarlord')
+  })
+
+  // Supreme Commander: "if this model is in your army, it must be your Warlord" — a hard rule,
+  // distinct from the detachment-level mandatory pick above. Two Supreme-Commander-flagged units
+  // in the same roster (e.g. Belisarius Cawl + Thulia Ghuld) can never both be satisfied.
+  it('requires a Supreme Commander unit to be the Warlord', () => {
+    const supreme = { id: 'marneus-supreme', name: 'Roboute Guilliman', kws: ['Character', 'Epic Hero'], flags: { char: 1, epic: 1, supreme: 1 }, sizes: [{ pts: 195, per: [1, 1] }] }
+    const f = { ...faction, units: [...faction.units, supreme] }
+    // Present but not warlord — flagged even though a (different) warlord is set.
+    const r1 = roster({ units: [U('captain', { warlord: true }), U('marneus-supreme')] })
+    expect(validateRoster(r1, { faction: f, core }).issues.map((i) => i.code)).toContain('supremeCommanderNotWarlord')
+    // Present AND warlord — not flagged.
+    const r2 = roster({ units: [U('marneus-supreme', { warlord: true })] })
+    expect(validateRoster(r2, { faction: f, core }).issues.map((i) => i.code)).not.toContain('supremeCommanderNotWarlord')
+  })
+  it('flags two different Supreme Commander units as an unresolvable conflict', () => {
+    const s1 = { id: 's1', name: 'Belisarius Cawl', kws: ['Character'], flags: { char: 1, supreme: 1 }, sizes: [{ pts: 195, per: [1, 1] }] }
+    const s2 = { id: 's2', name: 'Thulia Ghuld', kws: ['Character'], flags: { char: 1, supreme: 1 }, sizes: [{ pts: 90, per: [1, 1] }] }
+    const f = { ...faction, units: [...faction.units, s1, s2] }
+    const r = roster({ units: [U('s1', { warlord: true }), U('s2')] })
+    expect(validateRoster(r, { faction: f, core }).issues.map((i) => i.code)).toContain('supremeCommanderConflict')
   })
 })
 

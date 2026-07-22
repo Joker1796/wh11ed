@@ -5789,7 +5789,10 @@ export default {
       "sid": "3b0ed811-f339-4f72-ba0b-532a04a18089",
       "dp": 2,
       "fd": "Priority Assets",
-      "mandWarlord": "the-yncarne",
+      "mandWarlord": [
+        "yvraine",
+        "the-yncarne"
+      ],
       "enhancements": [
         {
           "name": "Gaze of Ynnead",

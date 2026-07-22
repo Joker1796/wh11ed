@@ -133,7 +133,7 @@
                     :items="rosterItems.items"
                     :texts="rosterItems.texts"
                     :faction-slug="factionSlug"
-                    :can-warlord="canBeWarlord(defOf(e.id))"
+                    :can-warlord="canBeWarlord(defOf(e.id), curDetachments)"
                     :is-warlord="e.warlord === true"
                     :enh-options="enhOptionsFor(defOf(e.id), curDetachments, units, e.uid)"
                     :leader-targets="leaderTargetsFor(defOf(e.id), units, e.uid, defOf)"
