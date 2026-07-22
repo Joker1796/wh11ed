@@ -52,12 +52,12 @@
           <NumberStepper :modelValue="pl.cp" :min="0" @update:modelValue="v => setCp(i, v)" />
         </div>
 
-        <!-- Army-rule tracker (Pain tokens, etc.) — opt-in (settings.trackArmyRule, defaults on),
-             and renders only for factions with a spec. Missing on games saved before the setting
-             existed → treat as on. -->
-        <ArmyTrackerCard v-if="current.settings.trackArmyRule !== false" :pi="i" />
-
         <SecondaryDeck :pi="i" />
+
+        <!-- Army-rule tracker (Pain tokens, etc.) — at the bottom of the card, under the
+             secondaries. Opt-in (settings.trackArmyRule, defaults on) and renders only for factions
+             with a spec. Missing on games saved before the setting existed → treat as on. -->
+        <ArmyTrackerCard v-if="current.settings.trackArmyRule !== false" :pi="i" />
       </div>
     </div>
 

@@ -36,6 +36,27 @@ describe('resolveArmyTracker', () => {
     expect(spec.kind).toBe('selection')
     expect(spec.options.map((o) => o.id)).toEqual(['protector', 'conqueror'])
   })
+
+  it('resolves the Orks toggle spec (base = once per battle)', () => {
+    const en = localizeArmyTracker(resolveArmyTracker('orks'), 'en')
+    expect(en.kind).toBe('toggle')
+    expect(en.effect.name).toBe('Waaagh! active')
+    expect(en.effect.body).toMatch(/invulnerable save/)
+    expect(en.maxUses).toBe(1)
+    expect(en.againLabel).toBeNull()
+  })
+
+  it('applies the Bully Boyz detachment override for the second Waaagh!', () => {
+    // The second Waaagh! is a Detachment rule (Da Boss Is Watchin'), so it's auto-detected from the
+    // active detachment — the real detachment-override path in production.
+    const en = localizeArmyTracker(resolveArmyTracker('orks', ['Bully Boyz']), 'en')
+    expect(en.maxUses).toBe(2)
+    expect(en.againLabel).toBe('Second Waaagh!')
+    expect(en.note).toMatch(/Bully Boyz/)
+    expect(localizeArmyTracker(resolveArmyTracker('orks', ['Bully Boyz']), 'ru').againLabel).toBe('Второй Waaagh!')
+    // A different detachment leaves the base spec untouched.
+    expect(localizeArmyTracker(resolveArmyTracker('orks', ['War Horde']), 'en').maxUses).toBe(1)
+  })
 })
 
 describe('applyOverride (detachment overrides)', () => {

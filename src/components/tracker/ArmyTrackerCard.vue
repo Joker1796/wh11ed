@@ -11,6 +11,16 @@
         :min="view.min ?? 0"
         @update:modelValue="v => setArmyCounter(pi, v)"
       />
+      <!-- Toggle reset lives top-right (compact) once fired, instead of a full-width row. -->
+      <button
+        v-else-if="view.kind === 'toggle' && usedCount > 0"
+        class="army-head-reset"
+        :aria-label="labels.trackerArmyReset"
+        :title="labels.trackerArmyReset"
+        @click="undoArmyToggle(pi)"
+      >
+        <i class="bi bi-arrow-counterclockwise"></i>
+      </button>
     </div>
 
     <!-- Selection primitive (e.g. AdMech Doctrina): pick one option for this battle round. -->
@@ -22,6 +32,37 @@
         :class="{ on: o.id === selectedId }"
         @click="setArmySelection(pi, currentRound, o.id)"
       >{{ o.name }}</button>
+    </div>
+
+    <!-- Toggle primitive (e.g. Orks Waaagh!): a once-per-battle fire (some detachments allow a
+         second — see maxUses), with an undo. The effect applies only the round it was called; on a
+         later round with no uses left it reads as spent. -->
+    <div v-if="view.kind === 'toggle'" class="army-toggle">
+      <!-- Not fired yet -->
+      <button v-if="usedCount === 0" class="army-call" @click="fireArmyToggle(pi, currentRound)">
+        {{ labels.trackerArmyCall }} {{ view.label }}
+      </button>
+
+      <template v-else>
+        <!-- Active this round: reveal the effect -->
+        <div v-if="activeThisRound && view.effect" class="army-acc">
+          <button class="army-acc-head" :aria-expanded="showActive" @click="showActive = !showActive">
+            <i class="bi army-acc-chev" :class="showActive ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+            <span class="army-acc-title">
+              <strong>{{ labels.trackerArmyActive }}</strong> · {{ labels.trackerRoundShort }} {{ currentRound }}
+            </span>
+          </button>
+          <CollapseTransition :show="showActive">
+            <div class="army-acc-body"><RuleBody :body="view.effect.body" /></div>
+          </CollapseTransition>
+        </div>
+        <!-- Fired, but not active this round → spent (or awaiting a further use) -->
+        <p v-else class="army-used">{{ toggleUsedText }}</p>
+
+        <button v-if="canCallAgain" class="army-again" @click="fireArmyToggle(pi, currentRound)">
+          {{ view.againLabel || labels.trackerArmyCallAgain }}
+        </button>
+      </template>
     </div>
 
     <!-- The active rule right now — a counter threshold's state (Votann) or the picked option
@@ -83,7 +124,7 @@ const props = defineProps({
   pi: { type: Number, required: true },
 })
 
-const { current, setArmyCounter, setArmySelection } = useTracker()
+const { current, setArmyCounter, setArmySelection, fireArmyToggle, undoArmyToggle } = useTracker()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
@@ -92,12 +133,39 @@ const counter = computed(() => player.value?.army?.counter ?? 0)
 const currentRound = computed(() => current.value?.currentRound ?? 1)
 // Selection primitive: the option picked for the current round (the choice resets each round).
 const selectedId = computed(() => player.value?.army?.selectionByRound?.[currentRound.value] ?? null)
+// Toggle primitive: the round(s) the ability was fired in (empty = not yet). Some abilities allow
+// more than one fire per battle (view.maxUses) — e.g. the Ork Bully Boyz second Waaagh!.
+const calledRounds = computed(() => player.value?.army?.toggleRounds ?? [])
+const usedCount = computed(() => calledRounds.value.length)
+const toggleMax = computed(() => view.value?.maxUses ?? 1)
+// The effect only applies the round it was called; on later rounds it's spent, not active.
+const activeThisRound = computed(() => calledRounds.value.includes(currentRound.value))
+// A further use (e.g. Bully Boyz' second Waaagh!) is "a second time this battle" — it must come in a
+// round STRICTLY AFTER the previous call (never the same turn, never an earlier round if you scroll
+// back), so only offer it once the current round is past every round already fired in.
+const canCallAgain = computed(
+  () =>
+    usedCount.value > 0 &&
+    usedCount.value < toggleMax.value &&
+    currentRound.value > Math.max(...calledRounds.value),
+)
+
+// The "spent" status line. When the ability can be used more than once (e.g. Bully Boyz' 2), show
+// an explicit "used N/max" so it's clear a further use remains; otherwise just "used · Round N".
+const toggleUsedText = computed(() => {
+  const v = view.value
+  if (!v) return ''
+  const l = labels.value
+  const count = toggleMax.value > 1 ? ` ${usedCount.value}/${toggleMax.value}` : ''
+  return `${v.label} · ${l.trackerArmyUsed}${count} · ${l.trackerRoundShort} ${calledRounds.value.join(', ')}`
+})
 
 // Accordions — both collapsed by default.
 const showActive = ref(false)
 const showHowto = ref(false)
 
-// The rule active right now ({ name, body }): a counter threshold's state, or the picked option.
+// The rule active right now ({ name, body }): a counter threshold's state or the picked option.
+// (The toggle effect is handled separately — it's only "active" the round it was called.)
 const activeRule = computed(() => {
   const v = view.value
   if (!v) return null
@@ -198,6 +266,73 @@ watch([spec, locale], async ([s, loc]) => {
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
+}
+
+/* ── Toggle (once-per-battle: call / active / spent + reset) ── */
+.army-toggle {
+  margin-top: 0.55rem;
+}
+
+.army-call {
+  width: 100%;
+  padding: 0.45rem 0.7rem;
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.army-call:hover {
+  background: var(--accent-hover);
+}
+
+.army-used {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+.army-again {
+  margin-top: 0.5rem;
+  padding: 0.35rem 0.7rem;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.army-again:hover {
+  background: color-mix(in srgb, var(--accent) 24%, transparent);
+}
+
+/* Compact reset in the header's top-right corner (icon-only). */
+.army-head-reset {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1;
+}
+
+.army-head-reset:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
 }
 
 /* ── Accordions (active ability, how it works) ── */
