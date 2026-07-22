@@ -64,7 +64,7 @@
         :key="o.id"
         class="army-opt"
         :class="{ on: o.id === selectedId }"
-        @click="setArmySelection(pi, currentRound, o.id)"
+        @click="pickOption(o.id)"
       >{{ o.name }}</button>
     </div>
 
@@ -159,8 +159,8 @@ const props = defineProps({
 })
 
 const {
-  current, setArmyCounter, setArmySelection, fireArmyToggle, undoArmyToggle, addArmyDie, removeArmyDie,
-  setArmyPool,
+  current, setArmyCounter, setArmySelection, setArmyChoice, fireArmyToggle, undoArmyToggle,
+  addArmyDie, removeArmyDie, setArmyPool,
 } = useTracker()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -188,8 +188,18 @@ const roundStart = computed(() => {
 const poolRemaining = computed(
   () => player.value?.army?.poolByRound?.[currentRound.value] ?? roundStart.value,
 )
-// Selection primitive: the option picked for the current round (the choice resets each round).
-const selectedId = computed(() => player.value?.army?.selectionByRound?.[currentRound.value] ?? null)
+// Selection primitive: the picked option. A per-round choice (AdMech Doctrina — resets each round,
+// keyed by round) unless the spec is `once` (Black Templars' Templar Vows — one battle-long pick).
+const selectedId = computed(() =>
+  view.value?.once
+    ? player.value?.army?.choice ?? null
+    : player.value?.army?.selectionByRound?.[currentRound.value] ?? null,
+)
+// Pick (or clear) the option — battle-long for `once` specs, per-round otherwise.
+function pickOption(id) {
+  if (view.value?.once) setArmyChoice(props.pi, id)
+  else setArmySelection(props.pi, currentRound.value, id)
+}
 // Toggle primitive: the round(s) the ability was fired in (empty = not yet). Some abilities allow
 // more than one fire per battle (view.maxUses) — e.g. the Ork Bully Boyz second Waaagh!.
 const calledRounds = computed(() => player.value?.army?.toggleRounds ?? [])

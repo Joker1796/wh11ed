@@ -18,6 +18,7 @@ import orks from './orks.js'
 import adeptaSororitas from './adepta-sororitas.js'
 import aeldari from './aeldari.js'
 import genestealerCults from './genestealer-cults.js'
+import blackTemplars from './black-templars.js'
 
 // Registry — add a faction by dropping its spec here.
 const REGISTRY = {
@@ -28,6 +29,7 @@ const REGISTRY = {
   'adepta-sororitas': adeptaSororitas,
   aeldari,
   'genestealer-cults': genestealerCults,
+  'black-templars': blackTemplars,
 }
 
 // Detachment names come from the MFM dataset (player.detachments) and must line up with the
@@ -91,7 +93,8 @@ export function localizeArmyTracker(spec, locale) {
           atOrAbove: locAbility(spec.threshold.atOrAbove, locale),
         }
       : null,
-    // Selection options (e.g. AdMech's Doctrina Imperatives): each is an ability (id + name + text).
+    // Selection options (e.g. AdMech's Doctrina Imperatives, Black Templars' Templar Vows): each is
+    // an ability (id + name + text). The `once` flag (battle-long vs per-round pick) rides the spread.
     options: spec.options ? spec.options.map((o) => ({ id: o.id, ...locAbility(o, locale) })) : null,
     // Toggle effect (e.g. Orks' Waaagh!): the ability that applies once it's called.
     effect: spec.effect ? locAbility(spec.effect, locale) : null,

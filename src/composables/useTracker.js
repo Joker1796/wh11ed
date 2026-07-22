@@ -397,6 +397,16 @@ export function useTracker() {
     else pl.army.selectionByRound[round] = id
   }
 
+  // Army-rule battle-long selection (Templar Vows, Death Guard Plague) — a single pick made once for
+  // the whole battle (unlike setArmySelection's per-round choice, so it's not keyed by round).
+  // Clicking the active option again clears it.
+  function setArmyChoice(pi, id) {
+    const pl = current.value.players[pi]
+    if (!pl.army) pl.army = {}
+    if (pl.army.choice === id) delete pl.army.choice
+    else pl.army.choice = id
+  }
+
   // Army-rule once-per-battle toggle (Waaagh!, etc.) — records the round(s) it was fired in. It's a
   // list because a few abilities can be fired more than once a battle (e.g. an Ork Warboss with the
   // Raucous Warcaller enhancement gets a second Waaagh!); the widget caps how many via the spec.
@@ -669,7 +679,7 @@ export function useTracker() {
 
   return {
     current, history, setupDraft,
-    newGame, updateSetup, setRoundPrimary, setCp, setArmyCounter, setArmySelection,
+    newGame, updateSetup, setRoundPrimary, setCp, setArmyCounter, setArmySelection, setArmyChoice,
     fireArmyToggle, undoArmyToggle, addArmyDie, removeArmyDie, setArmyPool,
     setPrimaryRow, primaryRowCount,
     drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,
