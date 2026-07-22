@@ -11,6 +11,15 @@
         :min="view.min ?? 0"
         @update:modelValue="v => setArmyCounter(pi, v)"
       />
+      <!-- Pool primitive (e.g. Aeldari Battle Focus): a per-round allotment you step DOWN as you
+           spend; it refills to `roundStart` at the start of each battle round (max caps it there). -->
+      <NumberStepper
+        v-else-if="view.kind === 'pool'"
+        :modelValue="poolRemaining"
+        :min="0"
+        :max="roundStart"
+        @update:modelValue="v => setArmyPool(pi, currentRound, v)"
+      />
       <!-- Toggle reset lives top-right (compact) once fired, instead of a full-width row. -->
       <button
         v-else-if="view.kind === 'toggle' && usedCount > 0"
@@ -22,6 +31,11 @@
         <i class="bi bi-arrow-counterclockwise"></i>
       </button>
     </div>
+
+    <!-- Pool: a one-line reminder that the tokens refill each round (to the battle-size allotment). -->
+    <p v-if="view.kind === 'pool'" class="army-pool-hint">
+      <i class="bi bi-arrow-repeat"></i> {{ roundStart }} · {{ labels.trackerPoolRefill }}
+    </p>
 
     <!-- Dice-pool primitive (e.g. Sororitas Miracle dice): a bank of D6 values. Tap a die to spend
          it; add one by the value you rolled. -->
@@ -146,6 +160,7 @@ const props = defineProps({
 
 const {
   current, setArmyCounter, setArmySelection, fireArmyToggle, undoArmyToggle, addArmyDie, removeArmyDie,
+  setArmyPool,
 } = useTracker()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -155,6 +170,17 @@ const counter = computed(() => player.value?.army?.counter ?? 0)
 const currentRound = computed(() => current.value?.currentRound ?? 1)
 // Dice-pool primitive: the bank of D6 values.
 const dice = computed(() => player.value?.army?.dice ?? [])
+// Pool primitive (Battle Focus): tokens refill each round to the battle-size allotment plus any
+// detachment bonus. An untouched round has no stored value → it starts full.
+const battleSize = computed(() => current.value?.settings?.battleSize || 'strikeForce')
+const roundStart = computed(() => {
+  const v = view.value
+  if (!v || v.kind !== 'pool') return 0
+  return (v.perRound?.[battleSize.value] ?? 0) + (v.bonus || 0)
+})
+const poolRemaining = computed(
+  () => player.value?.army?.poolByRound?.[currentRound.value] ?? roundStart.value,
+)
 // Selection primitive: the option picked for the current round (the choice resets each round).
 const selectedId = computed(() => player.value?.army?.selectionByRound?.[currentRound.value] ?? null)
 // Toggle primitive: the round(s) the ability was fired in (empty = not yet). Some abilities allow
@@ -290,6 +316,18 @@ watch([spec, locale], async ([s, loc]) => {
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
+}
+
+/* ── Pool refill hint (Battle Focus: tokens refill each round) ── */
+.army-pool-hint {
+  margin: 0.4rem 0 0;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.army-pool-hint .bi {
+  font-size: 0.68rem;
 }
 
 /* ── Dice pool (Miracle dice: bank of D6 values; tap a die to spend) ── */

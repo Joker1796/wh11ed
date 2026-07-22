@@ -16,6 +16,7 @@ import leaguesOfVotann from './leagues-of-votann.js'
 import adeptusMechanicus from './adeptus-mechanicus.js'
 import orks from './orks.js'
 import adeptaSororitas from './adepta-sororitas.js'
+import aeldari from './aeldari.js'
 
 // Registry — add a faction by dropping its spec here.
 const REGISTRY = {
@@ -24,6 +25,7 @@ const REGISTRY = {
   'adeptus-mechanicus': adeptusMechanicus,
   orks,
   'adepta-sororitas': adeptaSororitas,
+  aeldari,
 }
 
 // Detachment names come from the MFM dataset (player.detachments) and must line up with the
@@ -94,5 +96,7 @@ export function localizeArmyTracker(spec, locale) {
     // Toggle: how many times it can be fired per battle (default 1) + the label for a repeat fire.
     maxUses: spec.maxUses ?? 1,
     againLabel: spec.againLabel ? locStr(spec.againLabel, locale) : null,
+    // Pool primitive (Aeldari Battle Focus): per-round allotment by battle size + detachment bonus
+    // are plain numbers — they ride through the `...spec` spread untouched (nothing to localize).
   }
 }

@@ -430,6 +430,17 @@ export function useTracker() {
     if (!pl.army.dice.length) delete pl.army.dice
   }
 
+  // Army-rule pool primitive (Battle Focus, …) — a per-round resource that REFILLS each battle round
+  // (unspent tokens are lost at round's end), so the remaining count is stored per round, keyed like
+  // selectionByRound. An untouched round has no entry; the widget defaults it to the battle-size
+  // allotment (+ any detachment bonus) and this records the explicit remaining after a spend. ≥ 0.
+  function setArmyPool(pi, round, value) {
+    const pl = current.value.players[pi]
+    if (!pl.army) pl.army = {}
+    if (!pl.army.poolByRound) pl.army.poolByRound = {}
+    pl.army.poolByRound[round] = Math.max(0, value)
+  }
+
   function drawSecondary(pi) {
     const s = current.value.players[pi].secondary
     if (!s.deck.length) return
@@ -659,7 +670,7 @@ export function useTracker() {
   return {
     current, history, setupDraft,
     newGame, updateSetup, setRoundPrimary, setCp, setArmyCounter, setArmySelection,
-    fireArmyToggle, undoArmyToggle, addArmyDie, removeArmyDie,
+    fireArmyToggle, undoArmyToggle, addArmyDie, removeArmyDie, setArmyPool,
     setPrimaryRow, primaryRowCount,
     drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,
     restoreSecondaryToHand, redrawSecondary,
