@@ -5,7 +5,7 @@
            is available to this component's caller for a future pass that overlays live
            stat/ability modifiers (e.g. an enhancement like Cursed Legion changing a profile)
            on top of the base sheet. Not implemented yet: this just renders the base rules. -->
-      <DatasheetCard v-if="sheet" :sheet="sheet" :faction-slug="factionSlug" />
+      <DatasheetCard v-if="sheet" :sheet="sheet" :faction-slug="factionSlug" collapsible />
       <p v-else-if="loaded" class="rum-missing">{{ labels.factionsSoon }}</p>
     </div>
   </BaseModal>

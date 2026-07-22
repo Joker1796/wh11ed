@@ -8,11 +8,22 @@
          `position: fixed` descendants — without the teleport, BaseModal's fixed overlay would
          be clipped to the (collapsed-height) accordion row instead of covering the viewport. -->
     <Teleport v-if="rulesOpen" to="body">
-      <RosterUnitRulesModal
-        :unit-id="def.id"
-        :faction-slug="factionSlug"
-        @close="rulesOpen = false"
-      />
+      <FactionAccentScope :faction-slug="factionSlug">
+        <RosterUnitRulesModal
+          :unit-id="def.id"
+          :faction-slug="factionSlug"
+          @close="rulesOpen = false"
+        />
+      </FactionAccentScope>
+    </Teleport>
+    <Teleport v-if="enhInfoName" to="body">
+      <FactionAccentScope :faction-slug="factionSlug">
+        <EnhancementRuleModal
+          :name="enhInfoName"
+          :faction-slug="factionSlug"
+          @close="enhInfoName = null"
+        />
+      </FactionAccentScope>
     </Teleport>
 
     <!-- Unit size -->
@@ -51,37 +62,52 @@
         {{ texts[g.t] }}
       </h4>
 
-      <!-- radio: replace with one of… (plus keep-default) -->
+      <!-- radio: replace with one of… — the default loadout is itself a real option (its own
+           name, from the group's `rep`), not a separate pseudo "keep default" pill. Each row is
+           a tracker-style checkbox (select); the separate trailing button (same idiom as
+           RosterUnitBrowser's "+" add button) opens that row's weapon profile. -->
       <div v-if="mode(g) === 'radio'" class="opt-col">
-        <button class="opt" :class="{ on: !radioSel(gi) }" @click="setRadio(gi, null)">
-          <span class="opt-name">{{ labels.rosterKeepDefault }}</span>
-        </button>
-        <button
-          v-for="(o, oi) in g.o"
-          :key="oi"
-          class="opt"
-          :class="{ on: radioSel(gi) === oi }"
-          @click="setRadio(gi, oi)"
+        <div
+          v-for="opt in radioRows(g)"
+          :key="opt.oi ?? 'default'"
+          class="opt-tile"
+          :class="{ on: radioSel(gi) === opt.oi }"
         >
-          <span class="opt-name">{{ items[o[0]] }}</span>
-          <span v-if="o[1]" class="opt-pts">+{{ o[1] }}</span>
-        </button>
+          <label class="opt-select">
+            <input type="checkbox" :checked="radioSel(gi) === opt.oi" @change="setRadio(gi, opt.oi)" />
+            <span class="opt-name">{{ opt.name }}</span>
+            <span v-if="opt.pts" class="opt-pts">+{{ opt.pts }}</span>
+          </label>
+          <button type="button" class="opt-info" :aria-label="labels.rosterViewInfo" @click="rulesOpen = true">
+            <i class="bi bi-info-circle"></i>
+          </button>
+        </div>
       </div>
 
       <!-- toggle: single optional item -->
       <div v-else-if="mode(g) === 'toggle'" class="opt-col">
-        <label class="opt opt-check" :class="{ on: toggleOn(gi) }">
-          <input type="checkbox" :checked="toggleOn(gi)" @change="toggle(gi)" />
-          <span class="opt-name">{{ items[g.o[0][0]] }}</span>
-          <span v-if="g.o[0][1]" class="opt-pts">+{{ g.o[0][1] }}</span>
-        </label>
+        <div class="opt-tile" :class="{ on: toggleOn(gi) }">
+          <label class="opt-select">
+            <input type="checkbox" :checked="toggleOn(gi)" @change="toggle(gi)" />
+            <span class="opt-name">{{ items[g.o[0][0]] }}</span>
+            <span v-if="g.o[0][1]" class="opt-pts">+{{ g.o[0][1] }}</span>
+          </label>
+          <button type="button" class="opt-info" :aria-label="labels.rosterViewInfo" @click="rulesOpen = true">
+            <i class="bi bi-info-circle"></i>
+          </button>
+        </div>
       </div>
 
       <!-- stepper: N models take X -->
       <div v-else class="opt-col">
-        <div v-for="(o, oi) in g.o" :key="oi" class="opt opt-step">
-          <span class="opt-name">{{ items[o[0]] }}<span v-if="o[1]" class="opt-pts"> +{{ o[1] }}</span></span>
-          <NumberStepper :model-value="stepCount(gi, oi)" :min="0" :max="stepMax(g)" @update:model-value="setStep(gi, oi, $event)" />
+        <div v-for="(o, oi) in g.o" :key="oi" class="opt-tile">
+          <div class="opt-step-body">
+            <span class="opt-name">{{ items[o[0]] }}<span v-if="o[1]" class="opt-pts"> +{{ o[1] }}</span></span>
+            <NumberStepper :model-value="stepCount(gi, oi)" :min="0" :max="stepMax(g)" @update:model-value="setStep(gi, oi, $event)" />
+          </div>
+          <button type="button" class="opt-info" :aria-label="labels.rosterViewInfo" @click="rulesOpen = true">
+            <i class="bi bi-info-circle"></i>
+          </button>
         </div>
       </div>
     </section>
@@ -89,10 +115,12 @@
 
     <!-- Warlord -->
     <section v-if="canWarlord" class="ues-sec">
-      <label class="opt opt-check" :class="{ on: isWarlord }">
-        <input type="checkbox" :checked="isWarlord" @change="$emit('toggle-warlord')" />
-        <span class="opt-name"><i class="bi bi-star-fill wl-star"></i> {{ labels.rosterWarlord }}</span>
-      </label>
+      <div class="opt-tile" :class="{ on: isWarlord }">
+        <label class="opt-select">
+          <input type="checkbox" :checked="isWarlord" @change="$emit('toggle-warlord')" />
+          <span class="opt-name"><i class="bi bi-star-fill wl-star"></i> {{ labels.rosterWarlord }}</span>
+        </label>
+      </div>
     </section>
 
     <!-- Enhancement — only ones this unit could actually take (ineligible-for-this-unit options
@@ -101,27 +129,39 @@
     <section v-if="visibleEnhOptions.length" class="ues-sec">
       <h4 class="ues-h">{{ labels.rosterEnhancement }}</h4>
       <div class="opt-col">
-        <button class="opt" :class="{ on: !entry.enh && !hasMandatoryEnh }" :disabled="hasMandatoryEnh" @click="setEnh(null)">
-          <span class="opt-name">{{ labels.rosterEnhNone }}</span>
-        </button>
-        <button
+        <div class="opt-tile" :class="{ on: !entry.enh && !hasMandatoryEnh }">
+          <label class="opt-select">
+            <input type="checkbox" :checked="!entry.enh && !hasMandatoryEnh" :disabled="hasMandatoryEnh" @change="setEnh(null)" />
+            <span class="opt-name">{{ labels.rosterEnhNone }}</span>
+          </label>
+        </div>
+        <div
           v-for="e in visibleEnhOptions"
           :key="e.name"
-          class="opt"
+          class="opt-tile"
           :class="{
             on: e.mandatory ? e.eligible : entry.enh === e.name,
             disabled: e.mandatory ? true : e.used && entry.enh !== e.name,
           }"
-          :disabled="e.mandatory || (e.used && entry.enh !== e.name)"
-          @click="setEnh(e.name)"
         >
-          <span class="opt-name">
-            {{ e.name }}
-            <span v-if="e.mandatory && e.eligible" class="opt-tag">{{ labels.rosterEnhMandatory }}</span>
-            <span v-else-if="e.used" class="opt-tag">{{ labels.rosterEnhUsed }}</span>
-          </span>
-          <span v-if="e.pts" class="opt-pts">+{{ e.pts }}</span>
-        </button>
+          <label class="opt-select">
+            <input
+              type="checkbox"
+              :checked="e.mandatory ? e.eligible : entry.enh === e.name"
+              :disabled="e.mandatory || (e.used && entry.enh !== e.name)"
+              @change="setEnh(e.name)"
+            />
+            <span class="opt-name">
+              {{ e.name }}
+              <span v-if="e.mandatory && e.eligible" class="opt-tag">{{ labels.rosterEnhMandatory }}</span>
+              <span v-else-if="e.used" class="opt-tag">{{ labels.rosterEnhUsed }}</span>
+            </span>
+            <span v-if="e.pts" class="opt-pts">+{{ e.pts }}</span>
+          </label>
+          <button type="button" class="opt-info" :aria-label="labels.rosterViewInfo" @click="openEnhInfo(e.name)">
+            <i class="bi bi-info-circle"></i>
+          </button>
+        </div>
       </div>
     </section>
 
@@ -158,6 +198,8 @@
 import { computed, ref } from 'vue'
 import NumberStepper from '../tracker/NumberStepper.vue'
 import RosterUnitRulesModal from './RosterUnitRulesModal.vue'
+import EnhancementRuleModal from './EnhancementRuleModal.vue'
+import FactionAccentScope from './FactionAccentScope.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { defaultLoadoutLines, wargearGroupLive } from '../../composables/rosterEngine.js'
@@ -178,7 +220,13 @@ defineEmits(['toggle-warlord'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
+// Every wargear row is a checkbox (selection) plus a separate trailing button; the button opens
+// the SAME unit-card modal as the "Show datasheet" link (RosterUnitRulesModal, now collapsible —
+// see DatasheetCard.vue) rather than a one-weapon-only view, since weapons are never collapsed in
+// it (always visible), so there's nothing a narrower per-weapon modal would add.
 const rulesOpen = ref(false)
+const enhInfoName = ref(null)
+function openEnhInfo(name) { enhInfoName.value = name }
 
 // A mandatory enhancement (see rosterEngine.js mandatoryEnhancementFor) is never a player pick —
 // suppresses "No enhancement"'s own highlight/click so the section reads as locked, not as if
@@ -214,7 +262,8 @@ function mode(g) {
   return g.o.length > 1 ? 'radio' : 'toggle'
 }
 
-// radio (one-of): a single selection per group.
+// radio (one-of): a single selection per group. `null` means "the default loadout" — shown as
+// its own named row (from the group's `rep`, the item(s) it replaces), never a special pill.
 function radioSel(gi) {
   const s = wg().find((x) => x[0] === gi)
   return s ? s[1] : null
@@ -223,6 +272,19 @@ function setRadio(gi, oi) {
   const next = wg().filter((x) => x[0] !== gi)
   if (oi != null) next.push([gi, oi, 1])
   setWg(next)
+}
+// One row per selectable state of a radio group: index 0 is always the default (oi: null),
+// falling back to rosterKeepDefault's generic wording only on the rare group whose instruction
+// text didn't parse a `rep` (see gen-roster-data.mjs's linkWargearConditions) — everywhere else
+// it shows the actual default item name(s), so there's never an unnamed "keep default" pseudo-option.
+function radioRows(g) {
+  const rows = [{
+    oi: null,
+    name: g.rep?.length ? g.rep.map((id) => props.items[id]).join(', ') : labels.value.rosterKeepDefault,
+    pts: 0,
+  }]
+  g.o.forEach((o, oi) => rows.push({ oi, name: props.items[o[0]], pts: o[1] || 0 }))
+  return rows
 }
 
 // toggle (single optional item at option 0).
@@ -296,11 +358,60 @@ function setLeader(uid) { if (uid) props.entry.leaderOf = uid; else delete props
   font-size: 0.85rem;
 }
 .opt.on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); }
-.opt-check input { margin-right: 0.2rem; accent-color: var(--accent); }
 .opt-name { color: var(--text-primary); }
 .opt-pts { font-family: var(--font-mono); font-weight: 700; color: var(--accent); }
-.opt-step { cursor: default; }
 .opt.disabled { opacity: 0.45; cursor: not-allowed; }
 .opt-tag { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-dim); margin-left: 0.4rem; }
 .wl-star { color: #e3b341; margin-right: 0.3rem; }
+
+/* Checkbox tiles (wargear picks, enhancements, warlord) — same look as the tracker's
+   ScoringModal checkbox rows (.m-cond/.m-check), so a "select" control reads the same
+   everywhere in the app, themed by the faction accent already scoped in by the parent view.
+   The tile is a row of two independent controls, not one big clickable button: the label
+   toggles the checkbox, and the trailing button (same idiom as RosterUnitBrowser's "+" add
+   button) opens the option's profile/rule — no chevron, no accordion look. */
+.opt-tile {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  border-radius: 5px;
+}
+.opt-tile.on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.opt-tile.disabled { opacity: 0.45; }
+.opt-select {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  min-width: 0;
+  padding: 0.5rem 0.6rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.opt-select input { width: 20px; height: 20px; margin-top: 1px; flex-shrink: 0; accent-color: var(--accent); cursor: pointer; }
+.opt-tile.disabled .opt-select { cursor: not-allowed; }
+.opt-info {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.6rem;
+  background: none;
+  border: none;
+  border-left: 1px solid var(--border);
+  font-size: 1.1rem;
+  color: var(--accent);
+  cursor: pointer;
+}
+.opt-info:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.opt-step-body {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  min-width: 0;
+  padding: 0.5rem 0.6rem;
+}
 </style>
