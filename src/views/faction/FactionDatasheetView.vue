@@ -355,6 +355,12 @@ async function copyName() {
    header instead of a floating card. Horizontal padding drops to .ds-card's own 0.4rem so
    both line up, and the action buttons shrink to leave the (often long) unit name more room. */
 @media (max-width: 480px) {
+  /* Cancel FactionLayout's .faction-view top padding (0.5rem) so the full-bleed card sits
+     flush under the subnav, with no gap above the name plate — matching the edge-to-edge
+     treatment on the sides. */
+  .fsection {
+    margin-top: -0.5rem;
+  }
   .ds-head {
     width: 100vw;
     margin-left: calc(50% - 50vw);
