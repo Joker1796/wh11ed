@@ -597,9 +597,16 @@ function statCells(p) {
   .ds-cardhead { margin: -0.9rem -0.4rem 0.8rem; padding: 0.75rem 0.4rem 0.7rem; }
   .ds-points { margin: 0.8rem -0.4rem -0.6rem; padding: 0.55rem 0.4rem 0.75rem; }
 
-  /* The weapon table stays inset within the card's own 0.4rem padding (unlike
-     .ds-cardhead/.ds-points above) — its cell text needs a real edge gutter of its own,
-     now that the card sits flush against the true screen edge. */
+  /* Bleed the weapon table to the card's edges too, same as .ds-cardhead/.ds-points above —
+     the gutter comes from the cells' own padding, not from staying inset. */
+  .ds-weapons {
+    margin-left: -0.4rem;
+    margin-right: -0.4rem;
+  }
+  .ds-weapons th:first-child,
+  .ds-weapons th:last-child {
+    border-radius: 0;
+  }
   .ds-weapons table,
   .ds-points table {
     font-size: 0.72rem;
