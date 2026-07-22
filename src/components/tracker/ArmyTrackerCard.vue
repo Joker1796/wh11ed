@@ -37,6 +37,21 @@
       <i class="bi bi-arrow-repeat"></i> {{ roundStart }} · {{ labels.trackerPoolRefill }}
     </p>
 
+    <!-- Counter spend buttons (GSC resurrect costs): tap to subtract a fixed cost from the pool;
+         disabled when the pool can't afford it. The header stepper handles start + manual edits. -->
+    <div v-if="view.spends" class="army-spends">
+      <span class="army-spends-label">{{ labels.trackerArmySpend }}</span>
+      <div class="army-spends-grid">
+        <button
+          v-for="(s, i) in view.spends"
+          :key="i"
+          class="army-spend"
+          :disabled="counter < s.cost"
+          @click="setArmyCounter(pi, counter - s.cost)"
+        >{{ s.label }} <span class="army-spend-cost">{{ s.cost }}</span></button>
+      </div>
+    </div>
+
     <!-- Round-gated readout (Death Guard Contagion Range): a value that escalates with the round. -->
     <div v-if="view.roundReadout" class="army-readout">
       <span class="army-readout-label">{{ view.roundReadout.label }}</span>
@@ -358,6 +373,67 @@ watch([spec, locale], async ([s, loc]) => {
 
 .army-pool-hint .bi {
   font-size: 0.68rem;
+}
+
+/* ── Counter spend buttons (GSC resurrect costs: tap to subtract) ── */
+.army-spends {
+  margin-top: 0.55rem;
+}
+
+.army-spends-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-muted);
+  margin-bottom: 0.35rem;
+}
+
+.army-spends-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.army-spend {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  transition: border-color 0.15s, opacity 0.15s;
+}
+
+.army-spend:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+.army-spend:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.army-spend-cost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.15rem;
+  height: 1.15rem;
+  padding: 0 0.25rem;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
 }
 
 /* ── Round-gated readout (Contagion Range: value escalates with the battle round) ── */
