@@ -66,6 +66,27 @@ describe('resolveArmyTracker', () => {
     // A different detachment leaves the base spec untouched.
     expect(localizeArmyTracker(resolveArmyTracker('orks', ['War Horde']), 'en').maxUses).toBe(1)
   })
+
+  it('resolves the Aeldari pool spec (per-round allotment by battle size)', () => {
+    const spec = resolveArmyTracker('aeldari')
+    expect(spec.kind).toBe('pool')
+    expect(spec.label).toBe('Battle Focus')
+    expect(spec.perRound).toEqual({ incursion: 2, strikeForce: 4, onslaught: 6 })
+    expect(spec.bonus).toBe(0)
+  })
+
+  it('applies the Warhost detachment override (+1 token per round)', () => {
+    const base = resolveArmyTracker('aeldari')
+    const warhost = resolveArmyTracker('aeldari', ['Warhost'])
+    expect(warhost.bonus).toBe(1)
+    // The extra reminder accumulates onto the base two; the base spec is not mutated.
+    expect(warhost.gains).toHaveLength(3)
+    expect(localizeArmyTracker(warhost, 'en').gains[2]).toMatch(/Warhost/)
+    expect(base.gains).toHaveLength(2)
+    expect(base.bonus).toBe(0)
+    // A different detachment leaves the base allotment untouched.
+    expect(resolveArmyTracker('aeldari', ['Windrider Host']).bonus).toBe(0)
+  })
 })
 
 describe('applyOverride (detachment overrides)', () => {
