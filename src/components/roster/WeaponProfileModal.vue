@@ -85,15 +85,26 @@ watch(
   { immediate: true },
 )
 
-const wanted = computed(() => new Set(props.names.map((n) => (n || '').toLowerCase())))
+// items.js (generated from wh40k-appdata's wargear_item names) and the datasheet files
+// (transcribed separately) sometimes disagree on the exact glyph for an apostrophe or hyphen —
+// "Sergeant's autogun" vs "Sergeant’s autogun", "Tome-skull" vs "Tome‐skull" (U+2010) — visually
+// identical, byte-different, so a plain case-insensitive match silently misses them. Normalize
+// both sides to a plain ' and - before comparing.
+function norm(s) {
+  return (s || '')
+    .toLowerCase()
+    .replace(/[‘’‚‛]/g, "'")
+    .replace(/[‐‑‒–—―]/g, '-')
+}
+const wanted = computed(() => new Set(props.names.map(norm)))
 function matching(list) {
-  return withGroupPos((list || []).filter((w) => wanted.value.has(weaponBase(w.name).toLowerCase())))
+  return withGroupPos((list || []).filter((w) => wanted.value.has(norm(weaponBase(w.name)))))
 }
 const rangedRows = computed(() => matching(sheet.value?.ranged))
 const meleeRows = computed(() => matching(sheet.value?.melee))
 
 function abilityMatching(list) {
-  return (list || []).filter((a) => wanted.value.has((a.name || '').toLowerCase()))
+  return (list || []).filter((a) => wanted.value.has(norm(a.name)))
 }
 // Checked in this order since a wargear-granted ability (Resurrection Orb) is the common
 // non-weapon case; the other two lists are checked too so nothing that happens to share a name
@@ -106,7 +117,10 @@ const abilityRows = computed(() => [
 </script>
 
 <style scoped>
-.modal-body { padding: 0.9rem; overflow-y: auto; }
+/* --bg-row-hover is a hardcoded brand-red rgba on :root and doesn't follow the faction accent
+   (see DatasheetCard.vue's own override for the same reason) — table row-hover here would
+   otherwise flash the global red instead of the faction colour FactionAccentScope sets up. */
+.modal-body { padding: 0.9rem; overflow-y: auto; --bg-row-hover: color-mix(in srgb, var(--accent) 14%, transparent); }
 .wpm-missing { color: var(--text-muted); font-size: 0.95rem; text-align: center; padding: 1rem 0; }
 .wpm-abilities { font-size: 0.85rem; line-height: 1.5; color: var(--text-primary); }
 .wpm-ability { margin-bottom: 0.45rem; }

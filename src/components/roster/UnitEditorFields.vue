@@ -1,7 +1,7 @@
 <template>
   <div class="ues">
     <button v-if="def.linked && factionSlug" type="button" class="ues-sheet-link" @click="rulesOpen = true">
-      <i class="bi bi-file-earmark-text"></i> {{ labels.factionDatasheets }}
+      <i class="bi bi-file-earmark-text"></i> {{ labels.rosterShowDatasheet }}
     </button>
     <!-- Teleported to <body>: this component can render inside an accordion wrapped by
          CollapseTransition, whose `contain: layout paint` makes it a containing block for
@@ -169,27 +169,31 @@
       </div>
     </section>
 
-    <!-- Leader attachment -->
+    <!-- Leader attachment — no separate "not attached" tile: unticking the selected checkbox
+         already means that (same logic as the enhancement list above). -->
     <section v-if="leaderTargets.length" class="ues-sec">
       <h4 class="ues-h">{{ labels.rosterAttachTo }}</h4>
       <div class="opt-col">
-        <button class="opt" :class="{ on: !entry.leaderOf }" @click="setLeader(null)">
-          <span class="opt-name">{{ labels.rosterLeaderNone }}</span>
-        </button>
-        <button
+        <div
           v-for="t in leaderTargets"
           :key="t.uid"
-          class="opt"
+          class="opt-tile"
           :class="{ on: entry.leaderOf === t.uid, disabled: t.used && entry.leaderOf !== t.uid }"
-          :disabled="t.used && entry.leaderOf !== t.uid"
-          @click="setLeader(t.uid)"
         >
-          <span class="opt-name">
-            {{ t.name }}
-            <span v-if="t.type === 'support'" class="opt-tag">{{ labels.rosterSupportTag }}</span>
-            <span v-if="t.used && entry.leaderOf !== t.uid" class="opt-tag">{{ labels.rosterEnhUsed }}</span>
-          </span>
-        </button>
+          <label class="opt-select">
+            <input
+              type="checkbox"
+              :checked="entry.leaderOf === t.uid"
+              :disabled="t.used && entry.leaderOf !== t.uid"
+              @change="toggleLeader(t.uid)"
+            />
+            <span class="opt-name">
+              {{ t.name }}
+              <span v-if="t.type === 'support'" class="opt-tag">{{ labels.rosterSupportTag }}</span>
+              <span v-if="t.used && entry.leaderOf !== t.uid" class="opt-tag">{{ labels.rosterEnhUsed }}</span>
+            </span>
+          </label>
+        </div>
       </div>
     </section>
   </div>
@@ -321,6 +325,9 @@ function setEnh(name) { if (name) props.entry.enh = name; else delete props.entr
 // a different one already implies the same thing without needing an explicit toggle).
 function toggleEnh(name) { setEnh(props.entry.enh === name ? null : name) }
 function setLeader(uid) { if (uid) props.entry.leaderOf = uid; else delete props.entry.leaderOf }
+// Same mutual-exclusivity toggle as enhancements: unticking the currently-attached target IS
+// "not attached", so there's no separate pseudo-option for it.
+function toggleLeader(uid) { setLeader(props.entry.leaderOf === uid ? null : uid) }
 </script>
 
 <style scoped>
@@ -353,24 +360,8 @@ function setLeader(uid) { if (uid) props.entry.leaderOf = uid; else delete props
   cursor: pointer;
 }
 .pill.on { background: color-mix(in srgb, var(--accent) 16%, transparent); border-color: var(--accent); color: var(--text-primary); }
-.opt {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  width: 100%;
-  text-align: left;
-  padding: 0.5rem 0.6rem;
-  border: 1px solid var(--border);
-  background: var(--bg-secondary);
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.85rem;
-}
-.opt.on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); }
 .opt-name { color: var(--text-primary); }
 .opt-pts { font-family: var(--font-mono); font-weight: 700; color: var(--accent); }
-.opt.disabled { opacity: 0.45; cursor: not-allowed; }
 .opt-tag { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-dim); margin-left: 0.4rem; }
 .wl-star { color: #e3b341; margin-right: 0.3rem; }
 
