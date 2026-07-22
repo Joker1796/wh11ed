@@ -1,5 +1,5 @@
 <template>
-  <article class="mcard" :class="{ collapsible }" :id="`mission-${mission.slug}`">
+  <article class="mcard" :class="{ collapsible, 'is-open': open }" :id="`mission-${mission.slug}`">
     <!-- When collapsible, the header is a toggle (chevron) that folds the body into an accordion. -->
     <component
       :is="collapsible ? 'button' : 'header'"
@@ -85,22 +85,35 @@ function isPerEach(text) {
   margin-bottom: 0.3rem;
   border-bottom: 1px solid var(--border);
 }
-/* Collapsible mode: the header is a full-width chevron toggle (native button chrome stripped,
-   the bottom divider kept). */
+/* Collapsible mode: the header is a full-width chevron toggle, styled as a distinct tinted bar so
+   it clearly reads as a clickable accordion (native button chrome stripped). */
 .mcard.collapsible > .mcard-head {
   width: 100%;
   align-items: center;
-  background: none;
+  gap: 0.5rem;
+  background: var(--bg-secondary);
   border: none;
-  border-bottom: 1px solid var(--border);
-  border-radius: 0;
+  border-radius: 5px;
+  padding: 0.5rem 0.6rem;
+  margin-bottom: 0.7rem;
   font: inherit;
   color: inherit;
   text-align: left;
   cursor: pointer;
+  transition: background 0.15s;
 }
-.mcard.collapsible > .mcard-head:hover .mcard-name {
+.mcard.collapsible > .mcard-head:hover {
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg-secondary));
+}
+/* Collapsed: the bar is the whole card — no trailing gap. */
+.mcard.collapsible:not(.is-open) > .mcard-head {
+  margin-bottom: 0;
+}
+/* Accent chevron draws the eye to the expand/collapse affordance. */
+.mcard.collapsible .mcard-chev {
   color: var(--accent);
+  margin-left: auto;
+  order: 2;
 }
 .mcard-chev {
   font-size: 0.8rem;

@@ -139,7 +139,7 @@
           </div>
 
           <div class="primary-card" v-if="primaryCards[i]">
-            <MissionCard :mission="primaryCards[i]" :subtitle="labels.trackerPrimaryPreview" :show-lore="false" collapsible />
+            <MissionCard :mission="primaryCards[i]" :subtitle="labels.trackerPrimaryPreview" :show-lore="false" collapsible :default-open="false" />
           </div>
         </div>
       </div>
