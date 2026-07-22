@@ -269,7 +269,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
       rule: {
         name: "Miasmic Bombardment",
         flavor: "In the wake of preparatory bombardment by artillery weapons both forbidden and foul, the surviving foe are left reeling amidst clouds of plague smog. With their flesh running like tallow and their weapons rusting in their hands, they will be hard-pressed to fight back.",
-        body: "At the start of the battle round, select a number of enemy units more than 12\" away from every model from your army that is on the battlefield. Until the end of the battle round, those enemy units are Afflicted. The maximum number of units you can select in this way depends on the battle size, as shown below.\n\n**BATTLE SIZEUNITS**Incursion**1**Strike Force**2**Onslaught**3**",
+        body: "At the start of the battle round, select a number of enemy units more than 12\" away from every model from your army that is on the battlefield. Until the end of the battle round, those enemy units are Afflicted. The maximum number of units you can select in this way depends on the battle size, as shown below.\n▪ **Incursion:** 1 unit.\n▪ **Strike Force:** 2 units.\n▪ **Onslaught:** 3 units.",
       },
       stratagems: [
         {
@@ -376,7 +376,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
       rule: {
         name: "Numberless Horde",
         flavor: "No matter how many Poxwalkers the enemy gun down or tear limb-from-limb at close quarters, more groaning mutants keep coming from every side.",
-        body: "In your Command phase in each of the following battle rounds, depending on your chosen battle size, add a new Poxwalkers unit with a Starting Strength of 10 to your army, in Strategic Reserves.\n\n**BATTLE SIZEBATTLE ROUNDS**Incursion**2,3**Strike Force**2, 3, 4**Onslaught**2, 3, 4, 5**\nKEYWORDS\nPOXWALKERS units from your army gain the BATTLELINE keyword.",
+        body: "In your Command phase in each of the following battle rounds, depending on your chosen battle size, add a new Poxwalkers unit with a Starting Strength of 10 to your army, in Strategic Reserves.\n\nBATTLE ROUNDS\n▪ **Incursion:** 2, 3.\n▪ **Strike Force:** 2, 3, 4.\n▪ **Onslaught:** 2, 3, 4, 5.\n\nKEYWORDS\nPOXWALKERS units from your army gain the BATTLELINE keyword.",
       },
       stratagems: [
         {

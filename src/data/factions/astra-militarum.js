@@ -24,11 +24,11 @@ const en = {
     name: 'Voice of Command',
     flavor:
       'Raised and trained to instil unwavering obedience, officers of the Imperial Guard command authority and respect, and issue orders with imperious bellows that cut through the clamour of war.',
-    body: `If your Army Faction is ASTRA MILITARUM, OFFICER models with this ability can issue Orders. Each OFFICER's datasheet will specify how many Orders it can issue in a battle round and which units are eligible to receive those Orders. Each time an Officer model issues an Order, select one of the Orders below, then select one eligible friendly unit within 6" of that Officer model to issue it to.
+    body: `If your Army Faction is **ASTRA MILITARUM**, **OFFICER** models with this ability can issue [gloss:am-order:**Orders**]. Each **OFFICER**'s datasheet will specify how many **Orders** it can issue in a battle round and which units are eligible to receive those **Orders**. Each time an **Officer** model issues an **Order**, select one of the **Orders** below, then select one eligible friendly unit within 6" of that **Officer** model to issue it to.
 
-OFFICER models can issue Orders in your Command phase and at the end of a phase in which they disembarked from a TRANSPORT or were set up on the battlefield.
+**OFFICER** models can issue **Orders** in your Command phase and at the end of a phase in which they disembarked from a TRANSPORT or were set up on the battlefield.
 
-Until the start of your next Command phase, the unit you selected is affected by that Order. Unless otherwise stated, a unit can only be affected by one Order at a time (any Order subsequently issued to that unit replaces the current one). Orders cannot be issued to Battle-shocked units, and if a unit being affected by an Order becomes Battle-shocked, that Order ceases to affect that unit. Only ASTRA MILITARUM models gain the benefit of an Order issued to their unit.
+Until the start of your next Command phase, the unit you selected is affected by that **Order**. Unless otherwise stated, a unit can only be affected by one **Order** at a time (any **Order** subsequently issued to that unit replaces the current one). **Orders** cannot be issued to Battle-shocked units, and if a unit being affected by an **Order** becomes Battle-shocked, that **Order** ceases to affect that unit. Only **ASTRA MILITARUM** models gain the benefit of an **Order** issued to their unit.
 
 ### The Orders
 ▪ **Move! Move! Move!** — Add 3" to the Move characteristic of models in this unit.
@@ -50,7 +50,7 @@ Until the start of your next Command phase, the unit you selected is affected by
       rule: {
         name: "Squadron Command",
         flavor: "Officers in charge of motorised formations are as well versed in armoured combat as in infantry operations.",
-        body: "Add Squadron to the list of units each Officer unit from your army can issue Orders to. Add the Order below to those listed in the Voice of Command ability.\n\nON MY SIGNAL\n\nThe most effective commanders know how and when to make use of their armoured fighting vehicles’ speed.\nThis Order can only be issued to Armoured Skirmisher units (see below). Each time an enemy unit ends a Normal or Advance move within 9\" of this unit, this unit can make a Normal move of up to D6\". Each unit can only move in this way once per turn.\n\nKEYWORDS\nAstra Militarum Squadron units from your army have the ARMOURED SKIRMISHER keyword (excluding Artillery units and units containing one or more models with a Wounds characteristic of 13 or higher).",
+        body: "Add Squadron to the list of units each **Officer** unit from your army can issue [gloss:am-order:**Orders**] to. Add the **Order** below to those listed in the Voice of Command ability.\n\nON MY SIGNAL\n\nThe most effective commanders know how and when to make use of their armoured fighting vehicles’ speed.\nThis **Order** can only be issued to Armoured Skirmisher units (see below). Each time an enemy unit ends a Normal or Advance move within 9\" of this unit, this unit can make a Normal move of up to D6\". Each unit can only move in this way once per turn.\n\nKEYWORDS\nAstra Militarum Squadron units from your army have the ARMOURED SKIRMISHER keyword (excluding Artillery units and units containing one or more models with a Wounds characteristic of 13 or higher).",
       },
       stratagems: [
         {
@@ -60,7 +60,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           turn: "your",
           flavor: "Emerging from their armoured transports, heavily armed soldiers open fire before enemies can dive for cover or angle their stoutest armour towards the fusillade.",
           when: "Your Shooting phase.",
-          target: "One ASTRA MILITARUM unit from your army that disembarked from a Transport this turn and has not been selected to shoot this phase.",
+          target: "One **ASTRA MILITARUM** unit from your army that disembarked from a Transport this turn and has not been selected to shoot this phase.",
           effect: "Until the end of the phase, each time a model in your unit makes an attack, add 1 to the Wound roll.",
           restrictions: "",
         },
@@ -71,8 +71,8 @@ Until the start of your next Command phase, the unit you selected is affected by
           turn: "your",
           flavor: "At a barked order, armour and infantry surge forward as one, utilising speed and aggression to close with objectives and the enemy.",
           when: "Start of your Movement phase.",
-          target: "One Astra Militarum Officer unit from your army.",
-          effect: "Select one or more friendly ASTRA MILITARUM units within 6\" of your unit; until the end of the phase, you can re-roll Advance rolls made for those units.",
+          target: "One Astra Militarum **Officer** unit from your army.",
+          effect: "Select one or more friendly **ASTRA MILITARUM** units within 6\" of your unit; until the end of the phase, you can re-roll Advance rolls made for those units.",
           restrictions: "",
         },
         {
@@ -115,7 +115,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           turn: "your",
           flavor: "Pushing bodies or engines to the limit, these warriors continue their swift advance.",
           when: "End of your Movement phase.",
-          target: "One ASTRA MILITARUM unit from your army that did not Remain Stationary or arrive from Reserves this phase.",
+          target: "One **ASTRA MILITARUM** unit from your army that did not Remain Stationary or arrive from Reserves this phase.",
           effect: "Your unit can make a Normal move of up to D6\".",
           restrictions: "",
         },
@@ -125,13 +125,13 @@ Until the start of your next Command phase, the unit you selected is affected by
           name: "Exemplary Officer",
           points: 20,
           flavor: "Possessed of great initiative and authority, this officer marshals surrounding assets with great efficiency.",
-          body: "Infantry Officer model only. Each time the bearer issues an Order to its own unit, you can select up to two other Platoon units within 3\" of the bearer’s unit. That Order is also issued to each of those units.",
+          body: "Infantry **Officer** model only. Each time the bearer issues an **Order** to its own unit, you can select up to two other Platoon units within 3\" of the bearer’s unit. That **Order** is also issued to each of those units.",
         },
         {
           name: "Master Manoeuvrist",
           points: 15,
           flavor: "Academy training and battlefield experience have instilled in this officer a mastery of mobile warfare. At their barked orders, soldiers and armoured vehicles work in well-drilled unison.",
-          body: "Infantry Officer model only. At the end of your opponent’s Fight phase, if the bearer’s unit is not within Engagement Range of one or more enemy units and every model in that unit is within 3\" of an Astra Militarum Transport from your army, it can embark within that TRANSPORT.",
+          body: "Infantry **Officer** model only. At the end of your opponent’s Fight phase, if the bearer’s unit is not within Engagement Range of one or more enemy units and every model in that unit is within 3\" of an Astra Militarum Transport from your army, it can embark within that TRANSPORT.",
         },
         {
           name: "Omnissian Unguents",
@@ -144,7 +144,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           name: "Grand Strategist",
           points: 25,
           flavor: "Able to see the broader strategic picture, this experienced officer deploys their assets sparingly and with practised precision.",
-          body: "Officer model only. After both players have deployed their armies, if the bearer’s unit (or any Transport it is embarked within) is on the battlefield, select up to two units with the Regiment or Squadron keywords from your army and redeploy them. When doing so, you can set those units up in Strategic Reserves, regardless of how many units are already in Strategic Reserves.",
+          body: "**Officer** model only. After both players have deployed their armies, if the bearer’s unit (or any Transport it is embarked within) is on the battlefield, select up to two units with the Regiment or Squadron keywords from your army and redeploy them. When doing so, you can set those units up in Strategic Reserves, regardless of how many units are already in Strategic Reserves.",
         },
       ],
     },
@@ -169,7 +169,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           flavor: "The potency of armour and infantry is greatly enhanced when both work in close concert.",
           when: "Start of any phase.",
           target: "One Regiment unit from your army and one Squadron unit from your army within 6\" of and visible to that REGIMENT unit.",
-          effect: "Until the end of the phase, Orders affecting one of your units affect the other, and vice versa.",
+          effect: "Until the end of the phase, [gloss:am-order:**Orders**] affecting one of your units affect the other, and vice versa.",
           restrictions: "",
         },
         {
@@ -201,8 +201,8 @@ Until the start of your next Command phase, the unit you selected is affected by
           turn: "opponent",
           flavor: "The greatest officers make their voices heard at the critical moment, their orders swift and decisive.",
           when: "Your opponent’s Command phase.",
-          target: "One Astra Militarum Officer unit from your army.",
-          effect: "Your OFFICER can issue one Order as if it were your Command phase.",
+          target: "One Astra Militarum **Officer** unit from your army.",
+          effect: "Your **OFFICER** can issue one **Order** as if it were your Command phase.",
           restrictions: "",
         },
         {
@@ -223,8 +223,8 @@ Until the start of your next Command phase, the unit you selected is affected by
           turn: "your",
           flavor: "Some Astra Militarum officers have served with infantry and armour, and are equally adept at commanding either.",
           when: "Your Command phase.",
-          target: "Any number of Astra Militarum Officer units from your army.",
-          effect: "Until the end of the phase, your Officers can issue Orders to Regiment units and Squadron units.",
+          target: "Any number of Astra Militarum **Officer** units from your army.",
+          effect: "Until the end of the phase, your Officers can issue **Orders** to Regiment units and Squadron units.",
           restrictions: "",
         },
       ],
@@ -233,25 +233,25 @@ Until the start of your next Command phase, the unit you selected is affected by
           name: "Death Mask of Ollanius",
           points: 10,
           flavor: "This mask depicts in obsidian and void-fired bronze the agonised visage of Saint Ollanius. Soldiers in the ancient artefacts presence are gifted the determination and endurance of the famous martyr himself.",
-          body: "Officer model only. While the bearer’s unit is Battle-shocked, subtract 1 from the Objective Control characteristic of models in that unit, instead of changing it to 0.",
+          body: "**Officer** model only. While the bearer’s unit is Battle-shocked, subtract 1 from the Objective Control characteristic of models in that unit, instead of changing it to 0.",
         },
         {
           name: "Drill Commander",
           points: 20,
           flavor: "This officer has spent countless hours putting their soldiers through ceaseless firing drills. In the heat of combat, the worth of this training reveals itself.",
-          body: "Officer model only. While the bearer is leading a unit, each time a model in that unit makes a ranged attack, if that unit Remained Stationary this turn, a Critical Hit is scored on a successful unmodified Hit roll of 5+.",
+          body: "**Officer** model only. While the bearer is leading a unit, each time a model in that unit makes a ranged attack, if that unit Remained Stationary this turn, a Critical Hit is scored on a successful unmodified Hit roll of 5+.",
         },
         {
           name: "Grand Strategist",
           points: 15,
           flavor: "This commander can precisely anticipate the ebb and flow of war, their seemingly reactive tactics often prepared far in advance.",
-          body: "Officer model only. In your Command phase, the bearer can issue one additional Order.",
+          body: "**Officer** model only. In your Command phase, the bearer can issue one additional **Order**.",
         },
         {
           name: "Reactive Command",
           points: 15,
           flavor: "A natural tactician, this officer responds to their opponent’s manoeuvres in swift and decisive fashion, never allowing the foe to dictate the battle.",
-          body: "Officer model only. Each time an enemy unit is set up within 9\" of the bearer’s unit, the bearer can issue one Order. This is not counted towards the number of Orders the bearer can issue in a battle round.",
+          body: "**Officer** model only. Each time an enemy unit is set up within 9\" of the bearer’s unit, the bearer can issue one **Order**. This is not counted towards the number of **Orders** the bearer can issue in a battle round.",
         },
       ],
     },
@@ -266,7 +266,7 @@ Until the start of your next Command phase, the unit you selected is affected by
       rule: {
         name: "Ruthless Discipline",
         flavor: "The officers of this company are wily, iron-willed veterans both respected and feared by the troops under their command. At their barked orders, even the weariest soldiers redouble their efforts.",
-        body: "Add 1 to the number of Orders each Astra Militarum Officer model from your army can issue, as stated on their datasheet.\n\nWhile an ASTRA MILITARUM unit from your army is affected by an Order, each time a model in that unit makes an attack, re-roll a Hit roll of 1.",
+        body: "Add 1 to the number of [gloss:am-order:**Orders**] each Astra Militarum **Officer** model from your army can issue, as stated on their datasheet.\n\nWhile an **ASTRA MILITARUM** unit from your army is affected by an **Order**, each time a model in that unit makes an attack, re-roll a Hit roll of 1.",
       },
       stratagems: [
         {
@@ -276,8 +276,8 @@ Until the start of your next Command phase, the unit you selected is affected by
           turn: "either",
           flavor: "Reading the flow of battle and reacting in accordance, this officer expects their barked orders to be followed post-haste.",
           when: "Start of any phase.",
-          target: "One Astra Militarum Officer unit from your army.",
-          effect: "Your unit’s OFFICER model can issue 1 Order as if it were your Command phase.",
+          target: "One Astra Militarum **Officer** unit from your army.",
+          effect: "Your unit’s **OFFICER** model can issue 1 **Order** as if it were your Command phase.",
           restrictions: "",
         },
         {
@@ -287,7 +287,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           turn: "your",
           flavor: "Marksmanship is a skill that only increases with experience.",
           when: "Your Shooting phase.",
-          target: "One ASTRA MILITARUM unit from your army that has not been selected to shoot this phase.",
+          target: "One **ASTRA MILITARUM** unit from your army that has not been selected to shoot this phase.",
           effect: "Until the end of the phase, ranged weapons equipped by models in your unit have the [IGNORES COVER] ability.",
           restrictions: "",
         },
@@ -298,7 +298,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           turn: "your",
           flavor: "Battle-hardened and zealous, the company’s grizzled elites will gladly give their lives to honour the Emperor.",
           when: "Your Command phase.",
-          target: "One ASTRA MILITARUM unit from your army affected by the Duty and Honour! Order.",
+          target: "One **ASTRA MILITARUM** unit from your army affected by the Duty and Honour! **Order**.",
           effect: "If your unit is within range of an objective marker you control, that objective marker remains under your control, even if you have no models within range of it, until your opponent controls it at the start or end of a phase.",
           restrictions: "",
         },
@@ -309,7 +309,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           turn: "your",
           flavor: "Clear the area and defend your objectives. Take no prisoners.",
           when: "Your Shooting phase.",
-          target: "One ASTRA MILITARUM unit from your army affected by an Order that has not been selected to shoot this phase.",
+          target: "One **ASTRA MILITARUM** unit from your army affected by an **Order** that has not been selected to shoot this phase.",
           effect: "If your unit is within range of an objective marker, until the end of the phase, ranged weapons equipped by models in your unit have the [LETHAL HITS] ability.",
           restrictions: "",
         },
@@ -320,7 +320,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           turn: "your",
           flavor: "Named for the soldiers of Mordian, this rapid-fire drill requires exceptional accuracy and coordination, but renders even the humble lasgun highly lethal.",
           when: "Your Shooting phase.",
-          target: "One Astra Militarum Infantry unit from your army affected by the First Rank, Fire! Second Rank, Fire! Order.",
+          target: "One Astra Militarum Infantry unit from your army affected by the First Rank, Fire! Second Rank, Fire! **Order**.",
           effect: "Until the end of the phase, each time a model in your unit makes an attack, improve the Strength characteristic of that attack by 1.",
           restrictions: "",
         },
@@ -331,7 +331,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           turn: "opponent",
           flavor: "Veteran soldiers know the value of additional protection, whether welded to vehicles or worn under flak armour.",
           when: "Your opponent’s Shooting phase, just after an enemy unit has selected its targets.",
-          target: "One ASTRA MILITARUM unit from your army that was selected as the target of one or more of the attacking unit’s attacks.",
+          target: "One **ASTRA MILITARUM** unit from your army that was selected as the target of one or more of the attacking unit’s attacks.",
           effect: "Until the attacking unit has finished making its attacks, each time an attack targets your unit, worsen the Armour Penetration characteristic of that attack by 1.",
           restrictions: "",
         },
@@ -341,25 +341,25 @@ Until the start of your next Command phase, the unit you selected is affected by
           name: "Abhuman Detail",
           points: 20,
           flavor: "Ogryns respond well to this Commissar’s stern discipline and are even known to accompany them as a personal bodyguard.",
-          body: "Commissar model only. Add the Ogryn keyword to the list of units this model can issue Orders too (as stated on its datasheet).\n\nIn the Declare Battle Formations step, the bearer can be attached to an Ogryn Squad or Bullgryn squad unit.",
+          body: "Commissar model only. Add the Ogryn keyword to the list of units this model can issue **Orders** too (as stated on its datasheet).\n\nIn the Declare Battle Formations step, the bearer can be attached to an Ogryn Squad or Bullgryn squad unit.",
         },
         {
           name: "Aquilan Eye",
           points: 20,
           flavor: "This bionic lens contains a miniaturised auspex capable of detecting the slightest flaws in enemy defences.",
-          body: "Astra Militarum officer model only. Each time you select an Order for the bearer to issue, you can select the Order below:\n\n**Target Weak Spot (Order):** Each time a model in this unit makes a ranged attack that targets an enemy unit within 12\", improve the Armour Penetration characteristic of that attack by 1.",
+          body: "Astra Militarum officer model only. Each time you select an **Order** for the bearer to issue, you can select the **Order** below:\n\n**Target Weak Spot (Order):** Each time a model in this unit makes a ranged attack that targets an enemy unit within 12\", improve the Armour Penetration characteristic of that attack by 1.",
         },
         {
           name: "Spec Ops Veteran",
           points: 15,
           flavor: "This veteran commando officer imparts their experience in clandestine warfare to the rank and file.",
-          body: "Astra Militarum Infantry officer model only. Each time you select an Order for the bearer to issue, you can select the Order below:\n\n**Move to the Shadows (Order):** Each time a ranged attack targets this unit, until those attacks are resolved, models in this unit have the Stealth ability.",
+          body: "Astra Militarum Infantry officer model only. Each time you select an **Order** for the bearer to issue, you can select the **Order** below:\n\n**Move to the Shadows (Order):** Each time a ranged attack targets this unit, until those attacks are resolved, models in this unit have the Stealth ability.",
         },
         {
           name: "Laud Hailer",
           points: 10,
           flavor: "This device amplifies the bearer’s voice, enabling their orders to cut through the din of battle.",
-          body: "Astra Militarum officer model only. Each time you select a unit for this OFFICER model to issue an Order to, that unit can be within 12\" instead of within 6\".",
+          body: "Astra Militarum officer model only. Each time you select a unit for this **OFFICER** model to issue an **Order** to, that unit can be within 12\" instead of within 6\".",
         },
       ],
     },
@@ -405,7 +405,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           turn: "your",
           flavor: "Even with flames licking through the interior of their vehicle, this crew refuse to abandon their positions, regardless of the risk to their lives.",
           when: "Your Command phase.",
-          target: "One Squadron unit from your army that is Below Half-strength (excluding Officer units).",
+          target: "One Squadron unit from your army that is Below Half-strength (excluding **Officer** units).",
           effect: "Until the end of the battle round, ranged weapons equipped by models in your unit (excluding [ONE SHOT] weapons) have the [HAZARDOUS] ability, and each time a model in your unit makes a ranged attack, you can ignore any or all modifiers to that attack’s Ballistic Skill characteristic and to the Hit roll.",
           restrictions: "",
         },
@@ -448,25 +448,25 @@ Until the start of your next Command phase, the unit you selected is affected by
           name: "Calm Under Fire",
           points: 15,
           flavor: "In clipped tones, this officer issues clear and precise orders to the vehicles under their command - regardless of the bloodshed.",
-          body: "Vehicle Officer model only. Once per turn, after the bearer issues an Order to a Squadron unit from your army, it can issue the same Order to another SQUADRON unit from your army.",
+          body: "Vehicle **Officer** model only. Once per turn, after the bearer issues an [gloss:am-order:**Order**] to a Squadron unit from your army, it can issue the same **Order** to another SQUADRON unit from your army.",
         },
         {
           name: "Indomitable Steed",
           points: 15,
           flavor: "This officer goes to war in a favoured vehicle that - whether by fortune or apparent divine intervention - has survived dozens of battles despite suffering heavy damage on multiple occasions.",
-          body: "Vehicle Officer model only. The bearer has the Feel No Pain 6+ ability.",
+          body: "Vehicle **Officer** model only. The bearer has the Feel No Pain 6+ ability.",
         },
         {
           name: "Regimental Banner",
           points: 20,
           flavor: "A regimental banner flies from this command vehicle, its colours displaying the might of the Astra Militarum for all to see.",
-          body: "Vehicle Officer model only. Add 3 to the bearer’s Objective Control characteristic.",
+          body: "Vehicle **Officer** model only. Add 3 to the bearer’s Objective Control characteristic.",
         },
         {
           name: "Veteran Crew",
           points: 20,
           flavor: "Drilled endlessly by the officer in command, the crew of this tank are crack shots who know how to make every shell count.",
-          body: "Vehicle Officer model only. Each time a model in the bearer’s unit makes a ranged attack, re-roll a Hit roll of 1.",
+          body: "Vehicle **Officer** model only. Each time a model in the bearer’s unit makes a ranged attack, re-roll a Hit roll of 1.",
         },
       ],
     },
@@ -480,7 +480,7 @@ Until the start of your next Command phase, the unit you selected is affected by
       rule: {
         name: "Armoured Fist",
         flavor: "Astra Militarum mechanised forces combine heavy armour with elite infantry. Reliant on speed and short-ranged firepower, the armoured spearhead hurtles through the enemy line and deploys its cargo of shock troops to cut the enemy down with volleys of lasgun fire.",
-        body: "Each time an ASTRA MILITARUM model from your army makes a ranged attack in a turn in which it disembarked from a Transport, add 1 to the Wound roll.",
+        body: "Each time an **ASTRA MILITARUM** model from your army makes a ranged attack in a turn in which it disembarked from a Transport, add 1 to the Wound roll.",
       },
       stratagems: [
         {
@@ -490,7 +490,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           turn: "your",
           flavor: "Mechanised charges rely upon shock, awe and speed to secure ground. Any enemies that block the path must be obliterated swiftly.",
           when: "Your Shooting phase.",
-          target: "One ASTRA MILITARUM unit from your army that disembarked from a Transport this turn and has not been selected to shoot this phase.",
+          target: "One **ASTRA MILITARUM** unit from your army that disembarked from a Transport this turn and has not been selected to shoot this phase.",
           effect: "Until the end of the phase, each time a model in your unit makes an attack that targets a unit within range of an objective marker, you can re-roll the Hit roll and you can re-roll the Wound roll.",
           restrictions: "",
         },
@@ -534,7 +534,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           turn: "opponent",
           flavor: "High command’s priorities have shifted. Swift embarkation and redeployment is required.",
           when: "End of your opponent’s turn.",
-          target: "One ASTRA MILITARUM unit from your army.",
+          target: "One **ASTRA MILITARUM** unit from your army.",
           effect: "Provided your unit is not within Engagement Range of one or more enemy units and every model in your unit is within 3\" of an Astra Militarum Transport from your army, it can embark within that TRANSPORT.",
           restrictions: "",
         },
@@ -545,8 +545,8 @@ Until the start of your next Command phase, the unit you selected is affected by
           turn: "your",
           flavor: "This armoured transport has been modified to house a tactical command suite and vox-relay, enabling embarked officers to give orders from relative safety.",
           when: "Your Command phase.",
-          target: "One Infantry Officer unit from your army embarked within a Transport. You can use this Stratagem on that unit even though it is embarked within a TRANSPORT.",
-          effect: "Until the end of the phase, your unit can issue Orders even though it is not on the battlefield, and it can issue Orders to Astra Militarum Transport units from your army [excluding TITANIC units) regardless of the distance to and from your unit’s TRANSPORT.",
+          target: "One Infantry **Officer** unit from your army embarked within a Transport. You can use this Stratagem on that unit even though it is embarked within a TRANSPORT.",
+          effect: "Until the end of the phase, your unit can issue [gloss:am-order:**Orders**] even though it is not on the battlefield, and it can issue **Orders** to Astra Militarum Transport units from your army [excluding TITANIC units) regardless of the distance to and from your unit’s TRANSPORT.",
           restrictions: "",
         },
       ],
@@ -555,7 +555,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           name: "Bold Leadership",
           points: 25,
           flavor: "This officer’s aggressive command style sees them lead the advance personally, planting the regiment’s colours on seized objectives and leaving following troops to defend the ground they have gained.",
-          body: "Infantry Officer model only. If you control an objective marker at the end of your Command phase, and the bearer’s unit (or any Transport it is embarked within) is within range of that objective marker, that objective marker remains under you control, even if you have no models within range of it, until your opponent controls it at the start or end of any turn.",
+          body: "Infantry **Officer** model only. If you control an objective marker at the end of your Command phase, and the bearer’s unit (or any Transport it is embarked within) is within range of that objective marker, that objective marker remains under you control, even if you have no models within range of it, until your opponent controls it at the start or end of any turn.",
         },
         {
           name: "Sacred Unguents",
@@ -567,13 +567,13 @@ Until the start of your next Command phase, the unit you selected is affected by
           name: "Smoke Grenades",
           points: 10,
           flavor: "Smokescreens provide cover for the infantry advance and enable troops to disembark safely.",
-          body: "Infantry Officer model only. The bearer’s unit has the Benefit of Cover and the Stealth ability while the bearer’s unit is wholly within 3\" of one or more friendly TRANSPORT models.",
+          body: "Infantry **Officer** model only. The bearer’s unit has the Benefit of Cover and the Stealth ability while the bearer’s unit is wholly within 3\" of one or more friendly TRANSPORT models.",
         },
         {
           name: "Vanguard Honours",
           points: 15,
           flavor: "Decorated veteran officers know when and where to press home the assault, ensuring their squad disembarks in the optimum position.",
-          body: "Infantry Officer model only. The bearer’s unit can disembark from a Transport after it has Advanced. If it does, it counts as having made a Normal move that phase, and cannot declare a charge in the same turn, but can otherwise act normally in the remainder of the turn.",
+          body: "Infantry **Officer** model only. The bearer’s unit can disembark from a Transport after it has Advanced. If it does, it counts as having made a Normal move that phase, and cannot declare a charge in the same turn, but can otherwise act normally in the remainder of the turn.",
         },
       ],
     },
@@ -663,7 +663,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           name: "Guerrilla Honours",
           points: 25,
           flavor: "This officer is a specialist in covert warfare, their experience ensuring they know exactly when to redeploy their forces and close the jaws of their pre-prepared trap.",
-          body: "Infantry Officer model only. After both players have deployed their armies, if the bearer is on the battlefield, select up to three other Astra Militarum Infantry units from your army and redeploy them. When doing so, you can set those units up in Strategic Reserves if you wish, regardless of how many units are already in Strategic Reserves.",
+          body: "Infantry **Officer** model only. After both players have deployed their armies, if the bearer is on the battlefield, select up to three other Astra Militarum Infantry units from your army and redeploy them. When doing so, you can set those units up in Strategic Reserves if you wish, regardless of how many units are already in Strategic Reserves.",
         },
         {
           name: "Scare Gas Grenades",
@@ -695,7 +695,7 @@ Until the start of your next Command phase, the unit you selected is affected by
       rule: {
         name: "Artillery Support",
         flavor: "Artillery barrages lay the ground for the assault to come.",
-        body: "At the start of the battle round, select one of the following types of artillery support.\n▪ **Creeping Barrage:** Roll one D6 for each enemy unit that is more than 12\" from every model from your army that is on the battlefield: On a 5+, until the end of the battle round, that unit is shaken. While a unit is shaken, subtract 2\" from its Move characteristic and subtract 2 from Charge rolls made for it. The maximum number of units that can be shaken by this rule in each battle round depends on the battle size, as shown below.\n▪ **Incendiary Bombardment:** Select a number of enemy units more than 12\" from every model from your army that is on the battlefield. Until the end of the battle round, those enemy units are scattered. While a unit is scattered, it cannot have the Benefit of Cover. The maximum number of units you can select in this way depends on the battle size, as shown below.\n▪ **Smoke Shells:** Select a number of units from your army. Until the end of the battle round, those units have the Stealth ability.\n\n**BATTLE SIZEMAXIMUM NUMBER OF UNITS**Incursion2Strike Force3Onslaught4",
+        body: "At the start of the battle round, select one of the following types of artillery support.\n▪ **Creeping Barrage:** Roll one D6 for each enemy unit that is more than 12\" from every model from your army that is on the battlefield: On a 5+, until the end of the battle round, that unit is shaken. While a unit is shaken, subtract 2\" from its Move characteristic and subtract 2 from Charge rolls made for it. The maximum number of units that can be shaken by this rule in each battle round depends on the battle size, as shown below.\n▪ **Incendiary Bombardment:** Select a number of enemy units more than 12\" from every model from your army that is on the battlefield. Until the end of the battle round, those enemy units are scattered. While a unit is scattered, it cannot have the Benefit of Cover. The maximum number of units you can select in this way depends on the battle size, as shown below.\n▪ **Smoke Shells:** Select a number of units from your army. Until the end of the battle round, those units have the Stealth ability.\n\nMAXIMUM NUMBER OF UNITS\n▪ **Incursion:** 2\n▪ **Strike Force:** 3\n▪ **Onslaught:** 4",
       },
       stratagems: [
         {
@@ -738,8 +738,8 @@ Until the start of your next Command phase, the unit you selected is affected by
           turn: "your",
           flavor: "The whistle blows to signal the attack. Waves of infantry emerge from cover to advance upon the foe.",
           when: "Start of your Command phase.",
-          target: "One Infantry Officer model from your army.",
-          effect: "Until the end of the phase, when your model issues the Move! Move! Move! Order, it can issue that Order to any number of eligible friendly Infantry Regiment units, regardless of range to your model.",
+          target: "One Infantry **Officer** model from your army.",
+          effect: "Until the end of the phase, when your model issues the Move! Move! Move! [gloss:am-order:**Order**], it can issue that **Order** to any number of eligible friendly Infantry Regiment units, regardless of range to your model.",
           restrictions: "",
         },
         {
@@ -770,25 +770,25 @@ Until the start of your next Command phase, the unit you selected is affected by
           name: "Eager Advance",
           points: 20,
           flavor: "This officer relishes serving in the vanguard and seeks to take up a forward position to be closer to the foe when the firing begins.",
-          body: "Infantry Officer model only. While the bearer is leading a Regiment unit, that unit has the Scouts 6\" ability.",
+          body: "Infantry **Officer** model only. While the bearer is leading a Regiment unit, that unit has the Scouts 6\" ability.",
         },
         {
           name: "Flash Grenades",
           points: 20,
           flavor: "These grenades emit loud bangs and bright flashes of light, disorienting defenders and allowing the officer and their bodyguard to press home their assault.",
-          body: "Infantry Officer model only. Enemy units cannot use the Fire Overwatch Stratagem to shoot at the bearer’s unit.",
+          body: "Infantry **Officer** model only. Enemy units cannot use the Fire Overwatch Stratagem to shoot at the bearer’s unit.",
         },
         {
           name: "Legacy Sidearm",
           points: 10,
           flavor: "Handed down by a mentor, this officer’s pistol is an artificer-crafted example of its type, and is all the deadlier for it.",
-          body: "Infantry Officer model only. Add 2 to the Attacks characteristics of the bearers Pistols.",
+          body: "Infantry **Officer** model only. Add 2 to the Attacks characteristics of the bearers Pistols.",
         },
         {
           name: "Stalwart’s Honours",
           points: 15,
           flavor: "Such is this officer’s aura of confidence that the soldiers under their command march into battle heedless of incoming fire, trusting in that old adage of the faithful - the Emperor protects.",
-          body: "Officer model only. While the bearer is leading a unit, when that unit is issued an Order, it is also affected by the Take Cover! Order.",
+          body: "**Officer** model only. While the bearer is leading a unit, when that unit is issued an **Order**, it is also affected by the Take Cover! **Order**.",
         },
       ],
     },
@@ -802,7 +802,7 @@ Until the start of your next Command phase, the unit you selected is affected by
       rule: {
         name: "Ceaseless Cannonade",
         flavor: "The heaviest Astra Militarum vehicles are adamantine behemoths whose armour is almost impenetrable. The crews of these colossal war engines need have no concern for the integrity of their vehicles, unleashing even the most violently destructive ordnance at point-blank range.",
-        body: "Each time an Astra Militarum Titanic or Astra Militarum Squadron unit from your army is selected to shoot, models in that unit can target enemy units within Engagement Range of that unit (including with Blast weapons), provided no other friendly units are also within Engagement Range of that enemy unit. When doing so, such models do not suffer the penalty to their Hit rolls for being within Engagement Range of one or more enemy units (excluding attacks made with Indirect Fire weapons).\n\nKEYWORDS\nIn the Muster Armies step, you can select one or more ASTRA MILITARUM TITANIC units from your army to gain the CHARACTER keyword.\n\n**Designer’s Note:** This means that the selected units can be given Enhancements, and one of them can be selected as your WARLORD.",
+        body: "Each time an Astra Militarum Titanic or Astra Militarum Squadron unit from your army is selected to shoot, models in that unit can target enemy units within Engagement Range of that unit (including with Blast weapons), provided no other friendly units are also within Engagement Range of that enemy unit. When doing so, such models do not suffer the penalty to their Hit rolls for being within Engagement Range of one or more enemy units (excluding attacks made with Indirect Fire weapons).\n\nKEYWORDS\nIn the Muster Armies step, you can select one or more **ASTRA MILITARUM** TITANIC units from your army to gain the CHARACTER keyword.\n\n**Designer’s Note:** This means that the selected units can be given Enhancements, and one of them can be selected as your WARLORD.",
       },
       stratagems: [
         {
@@ -812,7 +812,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           turn: "your",
           flavor: "Only the most disciplined soldiers and vehicle crews can maintain accuracy in the deafening confusion of an armoured clash.",
           when: "Your Shooting phase.",
-          target: "One ASTRA MILITARUM unit from your army that has not been selected to shoot this phase.",
+          target: "One **ASTRA MILITARUM** unit from your army that has not been selected to shoot this phase.",
           effect: "Until the end of the phase, each time a model in your unit makes an attack, you can re-roll the Hit roll.",
           restrictions: "",
         },
@@ -834,7 +834,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           turn: "your",
           flavor: "Subjected to a thunderous volley of explosive shells and bullets, enemies begin to waver.",
           when: "Your Shooting phase, just after an Astra Militarum Vehicle unit from your army has shot.",
-          target: "That ASTRA MILITARUM VEHICLE unit.",
+          target: "That **ASTRA MILITARUM** VEHICLE unit.",
           effect: "Select one enemy unit hit by one or more of those attacks. That enemy unit must take a Battle-shock test, subtracting 1 from that test.",
           restrictions: "",
         },
@@ -845,7 +845,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           turn: "your",
           flavor: "Turrets and sponsons unleash a tempest of fury, toppling fortifications and leaving stunned and wounded enemies exposed to incoming fire.",
           when: "Your Shooting phase, just after an Astra Militarum Titanic unit from your army has shot.",
-          target: "That ASTRA MILITARUM TITANIC unit.",
+          target: "That **ASTRA MILITARUM** TITANIC unit.",
           effect: "Select one enemy unit hit by one or more of those attacks. Until the end of the phase, that enemy unit cannot have the Benefit of Cover.",
           restrictions: "",
         },
@@ -877,7 +877,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           name: "Battalion Commander",
           points: 30,
           flavor: "High-ranking officers of armoured regiments may operate super-heavy tanks as command vehicles, their orders blaring from hull-mounted laud hailers or crackling over internal vox-channels.",
-          body: "Astra Militarum Titanic Character model only. The bearer has the Voice of Command ability and the Officer keyword, and can issue up to 2 Orders to Astra Militarum Titanic and Squadron units.",
+          body: "Astra Militarum Titanic Character model only. The bearer has the Voice of Command ability and the **Officer** keyword, and can issue up to 2 [gloss:am-order:**Orders**] to Astra Militarum Titanic and Squadron units.",
         },
         {
           name: "Titan Killer",
@@ -911,7 +911,7 @@ Until the start of your next Command phase, the unit you selected is affected by
       rule: {
         name: "Absolutist Principles",
         flavor: "Commissars with experience overseeing auxiliary platoons display the ferocious strength of will and fearsome levels of scrutiny needed to ensure the most thick-skulled or rebelliously larcenous of soldiers — no matter what their size or shape — do their duty.",
-        body: "▪ Friendly BULLGRYN SQUAD/OGRYN SQUAD/RATLINGS units have **ABHUMAN**.\n▪ Friendly COMMISSAR models can issue the Take Aim! Order, and can issue 1 Order to a friendly ABHUMAN unit.\n\nThis detachment has the **ABHUMAN** tag and cannot be taken with another **ABHUMAN** detachment.",
+        body: "▪ Friendly BULLGRYN SQUAD/OGRYN SQUAD/RATLINGS units have **ABHUMAN**.\n▪ Friendly COMMISSAR models can issue the Take Aim! [gloss:am-order:**Order**], and can issue 1 **Order** to a friendly ABHUMAN unit.\n\nThis detachment has the **ABHUMAN** tag and cannot be taken with another **ABHUMAN** detachment.",
       },
       stratagems: [
         {
@@ -977,7 +977,7 @@ Until the start of your next Command phase, the unit you selected is affected by
       rule: {
         name: "Fire Zone Purge",
         flavor: "Key to this force\u2019s mission is the swift purgation of local enemy forces through sudden deployment and focused firefights. As such, whether they hit the ground from a low-altitude drop or deploy from armoured transports, the soldiers of this formation are trained to find targets and start shooting the instant the foe is in sight.",
-        body: "▪ If a friendly MILITARUM TEMPESTUS OFFICER model is your WARLORD, friendly TEMPESTUS SCIONS units have BATTLELINE and +1 Objective Control.\n▪ When a friendly MILITARUM TEMPESTUS unit is selected to shoot, if that unit was set up this turn, that unit\u2019s ranged attacks have +1 to Hit rolls.",
+        body: "▪ If a friendly MILITARUM TEMPESTUS **OFFICER** model is your WARLORD, friendly TEMPESTUS SCIONS units have BATTLELINE and +1 Objective Control.\n▪ When a friendly MILITARUM TEMPESTUS unit is selected to shoot, if that unit was set up this turn, that unit\u2019s ranged attacks have +1 to Hit rolls.",
       },
       stratagems: [
         {
@@ -1019,13 +1019,13 @@ Until the start of your next Command phase, the unit you selected is affected by
           name: "Bombast-class Vox-array",
           points: 15,
           flavor: "Carried by an officer\u2019s comms specialist, this device is a precious example of an omnifrequency master vox-array manufactured on the long-lost forge world of Urvax. It facilitates the rapid dissemination of orders throughout the entire strike force.",
-          body: "MILITARUM TEMPESTUS OFFICER model only. When this model issues an Order, if this unit has the Master Vox wargear ability, this model can issue that Order to up to three different REGIMENT units, instead of only one.",
+          body: "MILITARUM TEMPESTUS **OFFICER** model only. When this model issues an [gloss:am-order:**Order**], if this unit has the Master Vox wargear ability, this model can issue that **Order** to up to three different REGIMENT units, instead of only one.",
         },
         {
           name: "Priority Drop Beacon",
           points: 25,
           flavor: "Locked to the designator runes of this officer\u2019s dropship and heavily warded against interference, this pre-deployed beacon ensures they and their elite soldiers land swiftly and on target.",
-          body: "MILITARUM TEMPESTUS OFFICER model only. In your first Movement phase, this unit can make an ingress move.",
+          body: "MILITARUM TEMPESTUS **OFFICER** model only. In your first Movement phase, this unit can make an ingress move.",
         },
       ],
     },
@@ -1040,7 +1040,7 @@ Until the start of your next Command phase, the unit you selected is affected by
       rule: {
         name: "Designated Targets",
         flavor: "A regiment\u2019s resilient and often unconventional scouts are deployed to provide forward intelligence on enemy dispositions. With a combination of regimental issue scopes and guerrilla instincts hard-won through survival at the forefronts of war zones, they can draw massed firepower down on lurking threats.",
-        body: "Friendly SCOUT SENTINEL/ASTRA MILITARUM INFANTRY SMOKE units have the following ability:\n▪ **Signal Flares:** In your Shooting phase, this unit can select one visible enemy unit within 12\". That enemy unit is designated: while a unit is designated, that unit has +3\" detection range.\n\nThis detachment has the **RECON** tag and cannot be taken with another **RECON** detachment.",
+        body: "Friendly SCOUT SENTINEL/**ASTRA MILITARUM** INFANTRY SMOKE units have the following ability:\n▪ **Signal Flares:** In your Shooting phase, this unit can select one visible enemy unit within 12\". That enemy unit is designated: while a unit is designated, that unit has +3\" detection range.\n\nThis detachment has the **RECON** tag and cannot be taken with another **RECON** detachment.",
       },
       stratagems: [
         {
@@ -1050,7 +1050,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           turn: "your",
           flavor: "With a daring reconnaissance dangerously close to the hiding enemy, soldiers can provide more accurate reports of their location.",
           when: "Start of your Shooting phase.",
-          target: "One friendly SCOUT SENTINEL/ASTRA MILITARUM INFANTRY unit.",
+          target: "One friendly SCOUT SENTINEL/**ASTRA MILITARUM** INFANTRY unit.",
           effect: "While a visible enemy unit is within 6\" of your unit, that unit has +3\" detection range.",
           restrictions: "",
         },
@@ -1060,8 +1060,8 @@ Until the start of your next Command phase, the unit you selected is affected by
           cp: "1CP",
           turn: "opponent",
           flavor: "Alerted by proximity snares set up by recon teams, readied soldiers can evade their prowling foes to prepare new firing lines.",
-          when: "Your opponent\u2019s Movement phase, when an enemy unit ends a move within 8\" of a friendly unengaged ASTRA MILITARUM INFANTRY unit.",
-          target: "That ASTRA MILITARUM INFANTRY unit.",
+          when: "Your opponent\u2019s Movement phase, when an enemy unit ends a move within 8\" of a friendly unengaged **ASTRA MILITARUM** INFANTRY unit.",
+          target: "That **ASTRA MILITARUM** INFANTRY unit.",
           effect: "Your unit can make a Normal move of up to D3+3\".",
           restrictions: "",
         },
@@ -1072,7 +1072,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           turn: "opponent",
           flavor: "Named for the density and reek of their concealing smoke, varied packs of foul chemicals are carried by elite scouts that can be ignited to foul the enemy\u2019s aim.",
           when: "Start of your opponent\u2019s Shooting phase.",
-          target: "One friendly ASTRA MILITARUM INFANTRY SMOKE unit.",
+          target: "One friendly **ASTRA MILITARUM** INFANTRY SMOKE unit.",
           effect: "When an attack targets either your unit, or a unit that is not fully visible to the attacking model because of one or more models in your unit, the target has the Benefit of Cover against that attack.",
           restrictions: "",
         },
@@ -1090,7 +1090,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           points: 10,
           upgrade: true,
           flavor: "Those soldiers who have earned this commendation have earned their skills stealthily trekking through dangerous no man\u2019s land far in advance of the main push, striking behind enemy lines on missions of sabotage, or laying flanking ambushes.",
-          body: "ASTRA MILITARUM INFANTRY PLATOON unit only. In your first Movement phase, this unit can make an ingress move.",
+          body: "**ASTRA MILITARUM** INFANTRY PLATOON unit only. In your first Movement phase, this unit can make an ingress move.",
         },
       ],
     },
