@@ -22,20 +22,20 @@ export default {
   // card defaults an untouched counter to this (see ArmyTrackerCard `counterStart`).
   start: { incursion: 6, strikeForce: 10, onslaught: 14 },
 
-  // For GSC this "how it works" list is the SPEND cost to resurrect a destroyed unit, by its
-  // Starting Strength (points per 5/10/20 models) — not a gain trigger. Unit names stay English.
-  gains: [
-    { en: 'Aberrants — 5 models: 4 · 10 models: 8', ru: 'Aberrants — 5 моделей: 4 · 10 моделей: 8' },
-    {
-      en: 'Acolyte Hybrids / Hybrid Metamorphs — 5 models: 2 · 10 models: 4',
-      ru: 'Acolyte Hybrids / Hybrid Metamorphs — 5 моделей: 2 · 10 моделей: 4',
-    },
-    { en: 'Atalan Jackals — 5 models: 2 · 10 models: 6', ru: 'Atalan Jackals — 5 моделей: 2 · 10 моделей: 6' },
-    { en: 'Neophyte Hybrids — 10 models: 3 · 20 models: 6', ru: 'Neophyte Hybrids — 10 моделей: 3 · 20 моделей: 6' },
-    {
-      en: 'Purestrain Genestealers — 5 models: 2 · 10 models: 6',
-      ru: 'Purestrain Genestealers — 5 моделей: 2 · 10 моделей: 6',
-    },
+  // One-tap resurrect costs: each entry subtracts `cost` Resurgence points from the pool when a unit
+  // of that type + Starting Strength is destroyed. Labels are unit names (kept English) + the model
+  // count, language-agnostic. The card disables an entry the pool can't afford.
+  spends: [
+    { label: 'Aberrants ×5', cost: 4 },
+    { label: 'Aberrants ×10', cost: 8 },
+    { label: 'Acolytes / Metamorphs ×5', cost: 2 },
+    { label: 'Acolytes / Metamorphs ×10', cost: 4 },
+    { label: 'Atalan Jackals ×5', cost: 2 },
+    { label: 'Atalan Jackals ×10', cost: 6 },
+    { label: 'Neophytes ×10', cost: 3 },
+    { label: 'Neophytes ×20', cost: 6 },
+    { label: 'Purestrains ×5', cost: 2 },
+    { label: 'Purestrains ×10', cost: 6 },
   ],
 
   note: {

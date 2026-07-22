@@ -98,6 +98,9 @@ export function localizeArmyTracker(spec, locale) {
     // Selection options (e.g. AdMech's Doctrina Imperatives, Black Templars' Templar Vows): each is
     // an ability (id + name + text). The `once` flag (battle-long vs per-round pick) rides the spread.
     options: spec.options ? spec.options.map((o) => ({ id: o.id, ...locAbility(o, locale) })) : null,
+    // Counter spend buttons (GSC resurrect costs): one-tap subtractions ({ label, cost }); the label
+    // localizes (unit names stay English), the numeric cost rides through.
+    spends: spec.spends ? spec.spends.map((s) => ({ ...s, label: locStr(s.label, locale) })) : null,
     // Toggle effect (e.g. Orks' Waaagh!): the ability that applies once it's called.
     effect: spec.effect ? locAbility(spec.effect, locale) : null,
     // Round-gated readout (Death Guard's Contagion Range): label + optional note localize; the

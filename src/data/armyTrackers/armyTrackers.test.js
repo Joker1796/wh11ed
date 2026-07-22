@@ -93,9 +93,13 @@ describe('resolveArmyTracker', () => {
     expect(spec.kind).toBe('counter')
     expect(spec.label).toBe('Resurgence points')
     expect(spec.start).toEqual({ incursion: 6, strikeForce: 10, onslaught: 14 })
-    // Spend-cost reference + note localize; unit names stay English inside RU text.
+    // One-tap resurrect spends: 5 unit types × 2 Starting Strengths = 10 costed buttons.
+    const en = localizeArmyTracker(spec, 'en')
+    expect(en.spends).toHaveLength(10)
+    expect(en.spends[0]).toMatchObject({ label: 'Aberrants ×5', cost: 4 })
+    // Unit-name labels are language-agnostic (English) and note localizes.
     const ru = localizeArmyTracker(spec, 'ru')
-    expect(ru.gains[0]).toMatch(/Aberrants/)
+    expect(ru.spends[0].label).toBe('Aberrants ×5')
     expect(ru.note).toMatch(/Cult Ambush/)
   })
 
