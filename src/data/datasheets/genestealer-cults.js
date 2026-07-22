@@ -588,12 +588,12 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 90,
+        "points": 85,
         "note": "1st-2nd"
       },
       {
         "models": 10,
-        "points": 160,
+        "points": 150,
         "note": "1st-2nd"
       },
       {
