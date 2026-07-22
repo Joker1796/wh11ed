@@ -8,12 +8,12 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 150,
+        "points": 140,
         "note": "1st-2nd"
       },
       {
         "models": 10,
-        "points": 300,
+        "points": 280,
         "note": "1st-2nd"
       },
       {
@@ -397,7 +397,7 @@ export default [
       },
       {
         "models": 10,
-        "points": 150
+        "points": 140
       }
     ],
     "flavor": "Equipped with hand flamers and using their hulking strength andxenos dexterity to wield pilfered explosive charges, Acolyte Hybrids excel in bold missions of arson and ruination. Denying the oppressors any opportunity of a foothold, their destructive acts are often so wholesale that few witnesses survive their operations.",
@@ -1175,7 +1175,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 85
+        "points": 75
       }
     ],
     "flavor": "Robust and versatile, the Goliath Truck is the armoured transport of choice for the Genestealer Cults. These vehicles boast thick armour and capacious holds, and their heavy stubber and twin autocannon allow the crew to lay down a hail of supporting fire as the broodkin passengers disembark into battle.",
@@ -1277,7 +1277,7 @@ export default [
       },
       {
         "models": 10,
-        "points": 150,
+        "points": 140,
         "note": "1st-2nd"
       },
       {
@@ -1727,7 +1727,7 @@ export default [
       },
       {
         "models": 20,
-        "points": 145
+        "points": 135
       }
     ],
     "flavor": "Making up the bulk of their cult’s ranks, Neophyte Hybrids are the least alien in appearance of all the Patriarch’s brood. They are no less dangerous for this, however, and what they lack in weaponised bio-adaptations they make up for in numbers, massed firepower and zealous revolutionary fanaticism.",
@@ -2194,7 +2194,7 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 80,
+        "points": 75,
         "note": "1st-2nd"
       },
       {

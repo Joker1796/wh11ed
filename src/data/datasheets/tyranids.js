@@ -1643,7 +1643,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 180,
+        "points": 190,
         "note": "1st-2nd"
       },
       {
@@ -2003,7 +2003,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 115
+        "points": 130
       }
     ],
     "flavor": "The Shadow in the Warp radiating from this immensely powerful psyker-analogue creeps in all directions, driving even non-psychic prey organisms to screaming madness. As its foes writhe in agony, the Neurotyrant guides the swarms around it to slaughter with brutal efficiency.",
@@ -3411,7 +3411,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 135
+        "points": 120
       }
     ],
     "flavor": "The semi-sentient spores spewed by the Toxicrene can penetrate even sealed armour and enviro-suits before multiplying within the victim’s body to burst their organs and dissolve their flesh. Prey not slain in this horrible manner soon fall to the Toxicrene’s monstrous bulk and vast, lashing tendrils as it rampages ever onwards.",
@@ -3836,7 +3836,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 90
+        "points": 80
       }
     ],
     "flavor": "Tyrannocytes are huge spores, heat-resistant to endure atmospheric re-entry and with wet, pulsing interior chambers within which broods of organisms can ride down to a world’s surface. Once its passengers spill forth into battle, the Tyrannocyte drifts skyward again and goes hunting for its own prey.",
@@ -4165,11 +4165,11 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 60
+        "points": 55
       },
       {
         "models": 6,
-        "points": 120
+        "points": 105
       }
     ],
     "flavor": "Stealthy hunters and expert ambushers, Von Ryan’s Leapers are swift, agile and especially lethal when fighting in dense terrain. Akin to living mines, they lie still at the optimum locations to cause as much damage as possible. When they sense the perfect time to strike, they butcher all around in a murderous frenzy.",
@@ -4414,7 +4414,7 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 100
+        "points": 90
       },
       {
         "models": 6,

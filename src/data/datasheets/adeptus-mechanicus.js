@@ -642,7 +642,7 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 115,
+        "points": 105,
         "note": "1st-2nd"
       },
       {
@@ -877,7 +877,7 @@ export default [
       },
       {
         "models": 3,
-        "points": 240,
+        "points": 250,
         "note": "1st-2nd"
       },
       {
@@ -1143,7 +1143,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 320
+        "points": 310
       }
     ],
     "flavor": "Kataphron Breachers are large battle servitors that grind forward on heavy tracks. They are ideal tools for smashing open enemy battle lines and bastions with blasts from heavy weapons and blows from combat attachments, while any enemy firepower is deflected by thick armour and absorbed by layered bionics.",
@@ -1246,7 +1246,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 210
+        "points": 200
       }
     ],
     "flavor": "These biomechanical constructs operate as mobile heavy weapons platforms, bearing large esoteric cannons as well as close defence armaments. Their ballistic subroutines can be directed to operate independently of preprogrammed battle protocols, making them flexible tools of destruction.",
@@ -1766,7 +1766,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 120
+        "points": 110
       }
     ],
     "flavor": "Long-range scouts and outriders, Raiders of the Serberys Corps employ advanced suites of sensors within their cybercanid mounts to identify enemy interlopers. They maintain punishing rates of carbine fire while moving at high speed, and when their prey can run no more, Raiders draw their sabres and charge into the fray.",
@@ -1863,7 +1863,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 110
+        "points": 100
       }
     ],
     "flavor": "Sulphurhound cavalry squadrons are aggressive shock troops and line-breakers. The loping, mechanical beasts breathe gouts of incinerating phosphor and disembowel the foe with slashing claws, while the elite Skitarii riders unload incandescent pistol fire as they smash through defence lines, before circling back for survivors.",
@@ -2626,7 +2626,7 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 90
+        "points": 85
       }
     ],
     "flavor": "The hyper-irradiated shot unleashed by the Skitarii Vanguard’s carbines ensure those that would otherwise survive the injury still sicken and die. Vanguard are infused with this radiation, emitting a debilitating aura they themselves are inured to. This hardens them to fight in the most toxic war zones to defend the Tech-Priests’ interests.",
@@ -2905,7 +2905,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 85
+        "points": 75
       }
     ],
     "flavor": "Skorpius Duneriders enable forge lords to ferry squads of their cyborg infantry onto the front lines, overwhelming the foe through swiftly redeployed weight of numbers. Duneriders sweep onto enemy defences in a cloud of chemical smoke, saturating the area with heavy calibre shot as their payload of warriors disembarks.",

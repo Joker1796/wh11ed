@@ -550,7 +550,7 @@ export default [
       },
       {
         "models": 10,
-        "points": 375,
+        "points": 360,
         "note": "1st-3rd"
       },
       {
@@ -1131,7 +1131,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 140
+        "points": 125
       }
     ],
     "flavor": "Grand Master Aldrik Voldus wields the mighty Malleus Argyrum, a daemon hammer whose head dances with sorcerous flame fewfoes can withstand. One of the most potent psykers his Chapter has known in years, he also possesses the power to unleash waves of soulfire against his enemies and to conjure sanctuaries of dancing psychic luminescence that shield his brothers from harm.",
@@ -2524,7 +2524,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 85
+        "points": 75
       }
     ],
     "flavor": "The Razorback is an adaptation of the Rhino that sacrifices some transport capacity for a hull-mounted heavy weapon’s ammunition and power cells, ideal for rapidly transporting elite teams of power-armoured Grey Knights into battle. Razorbacks are thus able to lay down coordinated covering fire as their passengers disembark.",
@@ -2638,7 +2638,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 80
+        "points": 70
       }
     ],
     "flavor": "Dauntless, durable and ruggedly resilient, Rhinos have been the ubiquitous armoured transport of the Space Marines for millennia. Those fielded by the Grey Knights are heavily warded, their hulls shot through with truesilver psychocircuitry that redoubles the protection of the Aegis in their vicinity.",
@@ -3201,11 +3201,11 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 120
+        "points": 115
       },
       {
         "models": 10,
-        "points": 240
+        "points": 230
       }
     ],
     "flavor": "Strike Squads act as vanguard forces, employing teleport technologies and sorcery to manifest deep within the enemy lines. Once in position, they launch devastating shock assaults against unprepared foes, wielding an arsenal of Nemesis force weaponry, heavy firepower and psychic fury to capture and sorcerously ward vital tactical locations.",
