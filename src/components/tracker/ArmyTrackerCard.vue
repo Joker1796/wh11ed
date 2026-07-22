@@ -37,6 +37,13 @@
       <i class="bi bi-arrow-repeat"></i> {{ roundStart }} · {{ labels.trackerPoolRefill }}
     </p>
 
+    <!-- Round-gated readout (Death Guard Contagion Range): a value that escalates with the round. -->
+    <div v-if="view.roundReadout" class="army-readout">
+      <span class="army-readout-label">{{ view.roundReadout.label }}</span>
+      <span class="army-readout-val">{{ roundReadoutValue }}</span>
+      <span v-if="view.roundReadout.note" class="army-readout-note">{{ view.roundReadout.note }}</span>
+    </div>
+
     <!-- Dice-pool primitive (e.g. Sororitas Miracle dice): a bank of D6 values. Tap a die to spend
          it; add one by the value you rolled. -->
     <div v-if="view.kind === 'dice'" class="army-dice">
@@ -200,6 +207,12 @@ function pickOption(id) {
   if (view.value?.once) setArmyChoice(props.pi, id)
   else setArmySelection(props.pi, currentRound.value, id)
 }
+// Round-gated readout (Contagion Range): the listed round's value, else the fallback.
+const roundReadoutValue = computed(() => {
+  const r = view.value?.roundReadout
+  if (!r) return null
+  return r.byRound?.[currentRound.value] ?? r.fallback
+})
 // Toggle primitive: the round(s) the ability was fired in (empty = not yet). Some abilities allow
 // more than one fire per battle (view.maxUses) — e.g. the Ork Bully Boyz second Waaagh!.
 const calledRounds = computed(() => player.value?.army?.toggleRounds ?? [])
@@ -345,6 +358,33 @@ watch([spec, locale], async ([s, loc]) => {
 
 .army-pool-hint .bi {
   font-size: 0.68rem;
+}
+
+/* ── Round-gated readout (Contagion Range: value escalates with the battle round) ── */
+.army-readout {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+
+.army-readout-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.army-readout-val {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.army-readout-note {
+  font-size: 0.7rem;
+  color: var(--text-muted);
 }
 
 /* ── Dice pool (Miracle dice: bank of D6 values; tap a die to spend) ── */
