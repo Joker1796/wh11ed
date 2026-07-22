@@ -93,10 +93,15 @@ function lockedToExactUnit(enh, def) {
 // flagged for non-characters), never on Epic Heroes unless flagged, never on enhancement-barred
 // units. Then the keyword gates: any excluded keyword disqualifies; the OR-groups of required
 // keywords must have at least one group fully satisfied (faction-keyword parts are satisfied by
-// being in the faction, so only the per-unit keywords are checked here).
+// being in the faction, so only the per-unit keywords are checked here). `lockDs` (gen-roster-
+// data.mjs's enhancement_bodyguard_group read — a STRUCTURAL "this exact datasheet only"
+// restriction some enhancements carry alongside a much broader keyword requirement that would
+// otherwise make them look eligible army-wide) narrows to those specific datasheets by `sid`,
+// same override rationale as lockedToExactUnit.
 export function enhEligible(enh, def) {
   if (!enh || !def) return false
   if (lockedToExactUnit(enh, def)) return !enh.exclKw?.some((k) => hasKeyword(def, k))
+  if (enh.lockDs?.length) return enh.lockDs.includes(def.sid) && !enh.exclKw?.some((k) => hasKeyword(def, k))
   if (def.flags?.noEnh) return false
   if (!def.flags?.char && !enh.nonCharOk) return false
   if (def.flags?.epic && !enh.epicOk) return false
@@ -120,23 +125,32 @@ export function findEnhancement(detachments, name) {
 
 // Enhancement options for one roster entry: every enhancement across the roster's selected
 // detachments (deduped by name — the same enhancement can be offered by more than one
-// detachment), each flagged eligible for this unit and/or already used by ANOTHER entry (an
-// enhancement can only be taken once per roster). Shared by the editor's single-sheet modal and
-// the creation wizard's per-unit accordion, so eligibility/used-elsewhere logic lives in one
-// place. `excludeUid` is the entry being edited — it must not count against its own "used" flag.
-// `mandatory` enhancements still show (so the list explains why the unit costs more) but are
-// never a player pick — the caller renders them locked "on" when `eligible` (see
-// mandatoryEnhancementFor for the same eligible one, used to drive the actual points).
+// detachment), each flagged eligible for this unit and/or already at its per-name cap on OTHER
+// entries. Most enhancements (`enhancementType: 'miniature'`, appdata's ordinary per-model kind)
+// cap at 1 per roster (`e.limit` unset), but a detachment-wide "(Upgrade)" enhancement
+// (`enhancementType: 'upgrade'`) explicitly allows several units to take the SAME one —
+// `e.limit` (from wh40k-appdata's own `enhancement.limit` field, via gen-roster-data.mjs's
+// buildEnhancement) is 3 for the large majority of these, occasionally 1. Shared by the editor's
+// single-sheet modal and the creation wizard's per-unit accordion, so eligibility/used-elsewhere
+// logic lives in one place. `excludeUid` is the entry being edited — it must not count against
+// its own "used" flag. `mandatory` enhancements still show (so the list explains why the unit
+// costs more) but are never a player pick — the caller renders them locked "on" when `eligible`
+// (see mandatoryEnhancementFor for the same eligible one, used to drive the actual points).
 export function enhOptionsFor(def, detachments, units, excludeUid) {
   if (!detachments?.length || !def) return []
-  const usedElsewhere = new Set((units || []).filter((u) => u.uid !== excludeUid && u.enh).map((u) => u.enh))
+  const countElsewhere = new Map()
+  for (const u of units || []) {
+    if (u.uid === excludeUid || !u.enh) continue
+    countElsewhere.set(u.enh, (countElsewhere.get(u.enh) || 0) + 1)
+  }
   const seen = new Set()
   const out = []
   for (const det of detachments) {
     for (const e of det.enhancements) {
       if (seen.has(e.name)) continue
       seen.add(e.name)
-      out.push({ name: e.name, pts: e.pts, eligible: enhEligible(e, def), used: usedElsewhere.has(e.name), mandatory: !!e.mandatory })
+      const used = (countElsewhere.get(e.name) || 0) >= (e.limit || 1)
+      out.push({ name: e.name, pts: e.pts, eligible: enhEligible(e, def), used, mandatory: !!e.mandatory })
     }
   }
   return out

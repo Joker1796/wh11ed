@@ -112,6 +112,24 @@ for (const r of table('enhancement_excluded_keyword')) {
   if (!exclKwByEnh.has(r.enhancementId)) exclKwByEnh.set(r.enhancementId, [])
   exclKwByEnh.get(r.enhancementId).push(kwName.get(r.keywordId))
 }
+// A handful of enhancements (mostly "(Upgrade)"-type ones) are restricted to one or a few SPECIFIC
+// datasheets ("Chaos Lord with Jump Pack model only") rather than a keyword — same idea as leader
+// bodyguard groups above, but for enhancement eligibility. This is the STRUCTURAL restriction (not
+// just prose): every one of these 13 enhancements also carries a much broader keyword-group
+// requirement (e.g. just the faction keyword) that would otherwise make it look army-wide eligible
+// — the bodyguard link is what actually narrows it down. Keep the raw datasheet UUID (not a
+// slugified/linked id — some targets aren't linked to a wh11ed page) so eligibility can compare
+// directly against a unit's own `sid`, no name-matching involved.
+const enhBgDsByGroup = new Map() // groupId -> [datasheetId]
+for (const r of table('enhancement_bodyguard_group_datasheet')) {
+  if (!enhBgDsByGroup.has(r.enhancementBodyguardGroupId)) enhBgDsByGroup.set(r.enhancementBodyguardGroupId, [])
+  enhBgDsByGroup.get(r.enhancementBodyguardGroupId).push(r.datasheetId)
+}
+const enhLockDsByEnh = new Map() // enhancementId -> [datasheetId] (flattened across its groups)
+for (const g of table('enhancement_bodyguard_group')) {
+  if (!enhLockDsByEnh.has(g.enhancementId)) enhLockDsByEnh.set(g.enhancementId, [])
+  enhLockDsByEnh.get(g.enhancementId).push(...(enhBgDsByGroup.get(g.id) || []))
+}
 
 // detachment structural constraints.
 const detExcluded = new Map() // detachmentId -> [datasheetId]
@@ -315,9 +333,14 @@ function buildUnit(bd, idMap, fx) {
   // "Default Wargear" groups (base loadout already carries those) — keep real choices, with
   // their per-option points (0 when free) and default flag. Built as raw drafts first (original
   // instructionText + item UUIDs kept around) because the cross-group linking pass below needs
-  // to read prose and resolve item names *before* everything gets interned to ints.
+  // to read prose and resolve item names *before* everything gets interned to ints. Sorted by
+  // the group's own displayOrder (same field already used for the group's OPTIONS below) — was
+  // previously left in raw table order, which doesn't match wh40k-appdata's own intended
+  // presentation: e.g. Necron Overlord's Resurrection Orb toggle (a non-weapon add-on) has a
+  // higher displayOrder than its tachyon-arrow-replacement weapon group, so it should render
+  // BELOW that weapon choice, not above it.
   const drafts = []
-  for (const g of wogByDs.get(bd.id) || []) {
+  for (const g of (wogByDs.get(bd.id) || []).slice().sort((a, b) => a.displayOrder - b.displayOrder)) {
     const text = (enOf(g).instructionText || '').trim()
     if (!text || text.toLowerCase() === 'default wargear') continue
     const rawOpts = (woByGroup.get(g.id) || []).sort((a, b) => a.displayOrder - b.displayOrder)
@@ -376,7 +399,62 @@ const ENH_REQ_FIXES = {
   'Esoteric Explosives': ['Culexus Assassin'],
 }
 
-function buildEnhancement(e) {
+// Distinct from both of the above: a chunk of "(Upgrade)"-type enhancements (an optional pick,
+// unlike the automatic ENH_REQ_FIXES ones — and NOT the same 10 covered by the
+// enhancement_bodyguard_group structural link above, which are all `type: 'miniature'`) read
+// "<unit> unit/model only" in their own rules text, but their ONLY structured requirement in
+// wh40k-appdata is the faction keyword — audited: 36 of 71 non-Combat-Patrol upgrade-type
+// enhancements have no unit-specific keyword AND no bodyguard link, so as generated they look
+// eligible on any Character of the right faction instead of the one unit actually named (e.g.
+// Necrons' "Enlivened Sentinels" — Necron Warriors only — showed up selectable on Immortals too).
+// Resolved to the CURRENT faction's own datasheet id (see nameToDsId in genFaction) rather than a
+// hardcoded UUID, so a codex sharing a unit name across sub-factions (Helbrute, Maulerfiend — one
+// datasheet per Chaos Legion book) still resolves to the right copy. Keyed by the enhancement's
+// own `name` (post-suffix, matching ENH_REQ_FIXES's convention); values are the exact appdata
+// datasheet name(s) from its own rules text (curly apostrophes/hyphens where the datasheet uses
+// them — see genFaction's apostrophe-normalized lookup).
+const ENH_LOCK_FIXES = {
+  'Mark of the Star Children (Upgrade)': ['Purestrain Genestealers'],
+  'Insectile Murmuration (Upgrade)': ['Plague Marines'],
+  'Enlivened Sentinels (Upgrade)': ['Necron Warriors'],
+  'Recursive Reanimation (Upgrade)': ['Tomb Blades'],
+  'Devious Disguises (Upgrade)': ['Neophyte Hybrids'],
+  'Cryptophotaic Camouflage (Upgrade)': ['Von Ryan’s Leapers'],
+  'Encircling Horrors (Upgrade)': ['Neurolictor', 'Lictor', 'Von Ryan’s Leapers'],
+  'Plagueveil (Upgrade)': ['Plague Marines'],
+  'Fierce Example (Upgrade)': ['Wolf Guard Terminators'],
+  'Precognicient Volleys (Upgrade)': ['Purgation Squad'],
+  'Predestined Coordinates (Upgrade)': ['Interceptor Squad'],
+  'Boons of Deimos (Upgrade)': ['Purgation Squad'],
+  'Symphonic Payload (Upgrade)': ['Exorcist'],
+  "Assassins' Eye (Upgrade)": ['Rangers', 'Shroud Runners'],
+  'Sharp Eyes (Upgrade)': ['Ratlings'],
+  'Shadowfall Masks (Upgrade)': ['Troupe'],
+  'Camouflaged Snipers (Upgrade)': ['Rangers'],
+  'Destabilising Predation (Upgrade)': ['Norn Emissary'],
+  'Astral Overlap (Upgrade)': ['Interceptor Squad'],
+  'Fervent Exemplars (Upgrade)': ['Sword Brethren Squad'],
+  'Long-range Scout (Upgrade)': ['Scout Sentinels'],
+  'Optimised Attack Lines (Upgrade)': ['Sagitaur'],
+  'Inheritors of Sigismund (Upgrade)': ['Sword Brethren Squad'],
+  'Lancet of the Worldsore (Upgrade)': ['Helbrute', 'Myphitic Blight-haulers'],
+  'Nightforged Battery (Upgrade)': ['Land Speeder Vengeance'],
+  'Tools of Dominion (Upgrade)': ['Immortals'],
+  'Beguiling Grotesquerie (Upgrade)': ['Flawless Blades'],
+  'Talons of Butchery (Upgrade)': ['Maulerfiend'],
+  'Eager Patrons (Upgrade)': ['Flawless Blades'],
+  'Entreaty of Perpetual Ardour (Upgrade)': ['Hellblaster Squad'],
+  'Mortality Shroud (Aura) (Upgrade)': ['Obelisk'],
+  'Writ of Compunction (Upgrade)': ['Celestian Sacresants'],
+  'Negation Emitters (Upgrade)': ['Stealth Battlesuits'],
+  'Elixir of the Corpse Courts (Upgrade)': ['Cronos', 'Talos'],
+  'Saturation Rounds (Upgrade)': ['Sagitaur'],
+  'Stealth-screened Cybercanids (Upgrade)': ['Serberys Raiders'],
+  'Synaptoprescience (Upgrade)': ['Norn Assimilator'],
+}
+const normApost = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'")
+
+function buildEnhancement(e, nameToDsId) {
   const name = enOf(e).name
   const enh = { name, pts: e.basePointsCost, type: e.enhancementType }
   if (e.cannotBeWarlord) enh.notWarlord = 1
@@ -397,6 +475,15 @@ function buildEnhancement(e) {
   if (req.length) enh.req = req
   const excl = (exclKwByEnh.get(e.id) || []).filter(Boolean)
   if (excl.length) enh.exclKw = excl
+  const lockDs = enhLockDsByEnh.get(e.id)
+  if (lockDs?.length) enh.lockDs = lockDs
+  if (ENH_LOCK_FIXES[name]) {
+    const ids = ENH_LOCK_FIXES[name].map((n) => nameToDsId.get(normApost(n))).filter(Boolean)
+    // Conservative: only apply if EVERY named target resolved — a partial/failed resolution
+    // (e.g. a future appdata rename) falls back to the existing (too-broad) faction-keyword
+    // req rather than silently locking to the wrong subset.
+    if (ids.length === ENH_LOCK_FIXES[name].length) enh.lockDs = [...(enh.lockDs || []), ...ids]
+  }
   if (ENH_REQ_FIXES[name]) {
     enh.req = [{ kw: ENH_REQ_FIXES[name] }]
     enh.mandatory = 1
@@ -404,7 +491,7 @@ function buildEnhancement(e) {
   return enh
 }
 
-function buildDetachment(bdet, idMap, mfmDet) {
+function buildDetachment(bdet, idMap, mfmDet, nameToDsId) {
   // The Detachment-Points cost + Force Disposition come from mfm (what the tracker shows), not
   // appdata's detachmentPointsCost — those disagree (appdata is 0 for standard detachments).
   const mfm = mfmDet.get(norm(bdet.name))
@@ -426,7 +513,7 @@ function buildDetachment(bdet, idMap, mfmDet) {
   const enhancements = (enhByDet.get(bdet.id) || [])
     .filter((e) => !e.isCombatPatrol)
     .sort((a, b) => a.displayOrder - b.displayOrder)
-    .map(buildEnhancement)
+    .map((e) => buildEnhancement(e, nameToDsId))
   det.enhancements = enhancements
   return det
 }
@@ -468,6 +555,22 @@ async function genFaction(slug) {
   const mfmFaction = mfmMod?.default
   const mfmDet = new Map((mfmFaction?.detachments || []).map((d) => [norm(d.name), d]))
 
+  // Name -> datasheet id, scoped to THIS faction's own bundle (before the points-filter below —
+  // an ENH_LOCK_FIXES target should resolve even if the unit itself isn't a buildable line entry)
+  // so a name shared across sub-factions (Helbrute/Maulerfiend — one datasheet per Chaos Legion
+  // codex) resolves to the copy this faction actually has, not some other book's. A Chapter's own
+  // bundle doesn't repeat the Codex: Space Marines units it shares (see the SM-Chapter dedup in
+  // CLAUDE.md) — seed from the SM bundle first so a Chapter-specific enhancement targeting a
+  // plain shared unit (Dark Angels' "Entreaty of Perpetual Ardour" → "Hellblaster Squad", not the
+  // Chapter's own boxed-set-exclusive "Vengeful Brethren Hellblaster Squad") still resolves; the
+  // Chapter's own entries are added after, so a name it DOES override still wins.
+  const nameToDsId = new Map()
+  if (isChapter(slug)) {
+    const smBundle = loadJson(path.join(APPDATA, 'factions', `${SLUG_MAP['space-marines']}.json`))
+    for (const d of smBundle?.datasheets || []) nameToDsId.set(normApost(d.name), d.id)
+  }
+  for (const d of bundle.datasheets || []) nameToDsId.set(normApost(d.name), d.id)
+
   // A handful of datasheets carry no points/composition (special epic heroes or
   // detachment-only variants) — not buildable matched-play line entries, so drop them.
   const bundleUnits = (bundle.datasheets || []).filter((d) => {
@@ -478,7 +581,7 @@ async function genFaction(slug) {
   const units = bundleUnits.map((bd) => buildUnit(bd, idMap, fx)).sort((a, b) => a.name.localeCompare(b.name))
   const detachments = (bundle.detachments || [])
     .filter((d) => !d.isCombatPatrol && !cpDatasheetIds.has(d.id))
-    .map((bdet) => buildDetachment(bdet, idMap, mfmDet))
+    .map((bdet) => buildDetachment(bdet, idMap, mfmDet, nameToDsId))
     .sort((a, b) => a.name.localeCompare(b.name))
   stripMandatoryPriceBrackets(units, detachments)
 

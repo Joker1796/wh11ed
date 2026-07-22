@@ -337,7 +337,7 @@ function toggleLeader(uid) { setLeader(props.entry.leaderOf === uid ? null : uid
 .ues-sec { padding: 0.6rem 0; border-top: 1px solid var(--border); }
 .ues-sec:first-of-type { border-top: none; }
 .ues-h {
-  font-size: 0.82rem;
+  font-size: 0.98rem;
   font-weight: 600;
   color: var(--text-primary);
   margin: 0 0 0.5rem;
@@ -414,5 +414,20 @@ function toggleLeader(uid) { setLeader(props.entry.leaderOf === uid ? null : uid
   gap: 0.5rem;
   min-width: 0;
   padding: 0.5rem 0.6rem;
+}
+
+/* Smallest phones (down to 320px) — the section headings (.ues-h) stay full-size, everything
+   else shrinks a step so the checkbox tiles/info button/pill row don't force horizontal
+   crowding or wrap awkwardly at this width. */
+@media (max-width: 360px) {
+  .ues-default { font-size: 0.76rem; }
+  .pill { padding: 0.22rem 0.45rem; font-size: 0.72rem; }
+  .opt-select { padding: 0.4rem 0.45rem; gap: 0.4rem; font-size: 0.78rem; }
+  .opt-select input { width: 16px; height: 16px; }
+  .opt-name { font-size: 0.78rem; }
+  .opt-pts { font-size: 0.78rem; }
+  .opt-tag { font-size: 0.56rem; margin-left: 0.25rem; }
+  .opt-info { width: 2.15rem; font-size: 0.95rem; }
+  .opt-step-body { padding: 0.4rem 0.45rem; gap: 0.35rem; }
 }
 </style>

@@ -67,12 +67,19 @@ export function validateRoster(roster, { faction, core } = {}) {
     add('mandatoryWarlord', 'warn', { uid: warlords[0].uid })
   }
 
-  // Enhancements: each once, within the limit (counted ones only), on a legal unit.
+  // Enhancements: each up to its own per-name cap (an "(Upgrade)" enhancement — see
+  // rosterEngine.js's enhOptionsFor — explicitly allows several units to share the same one,
+  // ordinary enhancements cap at 1), within the army-wide enhancement-slot limit (counted ones
+  // only), on a legal unit.
   const enhUnits = units.filter((u) => u.enh)
-  const enhSeen = new Set()
+  const byEnhName = new Map()
   for (const u of enhUnits) {
-    if (enhSeen.has(u.enh)) add('dupEnh', 'error', { uid: u.uid, params: { enh: u.enh } })
-    enhSeen.add(u.enh)
+    if (!byEnhName.has(u.enh)) byEnhName.set(u.enh, [])
+    byEnhName.get(u.enh).push(u)
+  }
+  for (const [name, list] of byEnhName) {
+    const limit = findEnhancement(detachments, name)?.limit || 1
+    for (const u of list.slice(limit)) add('dupEnh', 'error', { uid: u.uid, params: { enh: name } })
   }
   if (detachments.length) {
     const counted = enhUnits.filter((u) => {

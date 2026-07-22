@@ -136,6 +136,24 @@ describe('validateRoster — enhancements', () => {
       U('chaplain', { enh: 'Adept of the Codex' }),
     ])).toContain('overEnhLimit')
   })
+  it('allows an "(Upgrade)" enhancement on several units, up to its own limit', () => {
+    const det2 = { ...detachment, enhancements: [...detachment.enhancements, { name: 'Enlivened Sentinels', pts: 20, type: 'upgrade', limit: 3, req: [{ kw: ['Infantry'] }] }] }
+    const f = { ...faction, detachments: [det2] }
+    const withDet2 = (units) => validateRoster(roster({ units }), { faction: f, core }).issues.map((i) => i.code)
+    // 3 units sharing the same "(Upgrade)" enhancement — within its own limit of 3.
+    expect(withDet2([
+      U('captain', { warlord: true, enh: 'Enlivened Sentinels' }),
+      U('lieutenant', { enh: 'Enlivened Sentinels' }),
+      U('chaplain', { enh: 'Enlivened Sentinels' }),
+    ])).not.toContain('dupEnh')
+    // A 4th unit with it exceeds the limit of 3.
+    expect(withDet2([
+      U('captain', { warlord: true, enh: 'Enlivened Sentinels' }),
+      U('lieutenant', { enh: 'Enlivened Sentinels' }),
+      U('chaplain', { enh: 'Enlivened Sentinels' }),
+      U('marneus', { enh: 'Enlivened Sentinels' }),
+    ])).toContain('dupEnh')
+  })
   it('flags an enhancement on an ineligible unit', () => {
     // Ballistus Dreadnought is not a Character → ineligible for a character enhancement.
     const units = [U('captain', { warlord: true }), U('ballistus-dreadnought', { enh: 'Artificer Armour' })]
