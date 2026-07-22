@@ -3222,6 +3222,9 @@ export default {
       "sid": "c8d42dc3-5901-4e96-90e8-254a8af33252",
       "dp": 2,
       "fd": "Reconnaissance",
+      "grantedWarlord": [
+        "deathleaper"
+      ],
       "enhancements": [
         {
           "name": "Hunting Grounds",

@@ -74,8 +74,13 @@ export function wargearGroupLive(def, entry, gi) {
 }
 
 // Can this unit be the army's Warlord? Characters (and the rare non-character unit GW flags)
-// unless explicitly barred.
-export function canBeWarlord(def) {
+// unless explicitly barred — EXCEPT a detachment can grant a specific unit an exception to its
+// own usual bar (`det.grantedWarlord`, from wh40k-appdata's detachment_granted_warlord_miniature —
+// currently just Tyranids' "Vanguard Onslaught" lifting Deathleaper's normal `cannotBeWarlord`).
+// `detachments` is optional so existing callers that don't have it handy (or a def with no id,
+// e.g. a plain test fixture) fall back to the ordinary flag check.
+export function canBeWarlord(def, detachments) {
+  if (def?.id && (detachments || []).some((d) => d.grantedWarlord?.includes(def.id))) return true
   return !def?.flags?.noWarlord && !!(def?.flags?.char || def?.flags?.nonCharWarlordOk)
 }
 

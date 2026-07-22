@@ -62,6 +62,16 @@
       </p>
     </section>
 
+    <!-- Warlord -->
+    <section v-if="canWarlord" class="ues-sec">
+      <div class="opt-tile" :class="{ on: isWarlord }">
+        <label class="opt-select">
+          <input type="checkbox" :checked="isWarlord" @change="$emit('toggle-warlord')" />
+          <span class="opt-name"><i class="bi bi-star-fill wl-star"></i> {{ labels.rosterWarlord }}</span>
+        </label>
+      </div>
+    </section>
+
     <!-- Wargear choices — a group with `cond` (see rosterEngine.js wargearGroupLive) only shows
          once its sibling group has (or hasn't) been changed from default, e.g. Necron Overlord's
          Resurrection Orb is only on offer after giving up the default tachyon arrow. -->
@@ -122,16 +132,6 @@
       </div>
     </section>
     </template>
-
-    <!-- Warlord -->
-    <section v-if="canWarlord" class="ues-sec">
-      <div class="opt-tile" :class="{ on: isWarlord }">
-        <label class="opt-select">
-          <input type="checkbox" :checked="isWarlord" @change="$emit('toggle-warlord')" />
-          <span class="opt-name"><i class="bi bi-star-fill wl-star"></i> {{ labels.rosterWarlord }}</span>
-        </label>
-      </div>
-    </section>
 
     <!-- Enhancement — only ones this unit could actually take (ineligible-for-this-unit options
          from the detachment's full list are hidden, not just disabled; an eligible one already

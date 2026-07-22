@@ -119,6 +119,16 @@ describe('canBeWarlord', () => {
     expect(canBeWarlord({ flags: { char: 1, noWarlord: 1 } })).toBe(false)
     expect(canBeWarlord({ flags: { nonCharWarlordOk: 1 } })).toBe(true)
   })
+
+  // Tyranids' "Vanguard Onslaught" detachment lifts Deathleaper's usual cannotBeWarlord bar (see
+  // gen-roster-data.mjs's detachment_granted_warlord_miniature read) — a detachment-scoped
+  // exception, so it must not apply when that detachment isn't actually selected.
+  it('honors a detachment-granted exception to an otherwise-barred unit', () => {
+    const deathleaper = { id: 'deathleaper', flags: { noWarlord: 1 } }
+    expect(canBeWarlord(deathleaper)).toBe(false)
+    expect(canBeWarlord(deathleaper, [{ name: 'Other Detachment' }])).toBe(false)
+    expect(canBeWarlord(deathleaper, [{ name: 'Vanguard Onslaught', grantedWarlord: ['deathleaper'] }])).toBe(true)
+  })
 })
 
 describe('enhEligible', () => {

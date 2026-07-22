@@ -142,7 +142,26 @@ for (const r of table('detachment_linked_datasheet')) {
   if (!detLinked.has(r.detachmentId)) detLinked.set(r.detachmentId, [])
   detLinked.get(r.detachmentId).push(r)
 }
-const detMandWarlord = new Map(table('detachment_mandatory_warlord_miniature').map((r) => [r.detachmentId, r.miniatureId]))
+// A detachment can name MORE THAN ONE mandatory-Warlord candidate — Aeldari's "Devoted of Ynnead"
+// requires the Warlord be Yvraine OR The Yncarne, two separate rows on this table for the same
+// detachmentId. A plain `Map(rows.map(...))` silently drops all but the last row per detachment;
+// collect every candidate instead (rosterValidation.js's mandatoryWarlord check already treats
+// its list as an OR via `.includes`, it just never got more than one candidate to check against).
+const detMandWarlord = new Map()
+for (const r of table('detachment_mandatory_warlord_miniature')) {
+  if (!detMandWarlord.has(r.detachmentId)) detMandWarlord.set(r.detachmentId, [])
+  detMandWarlord.get(r.detachmentId).push(r.miniatureId)
+}
+// The much rarer inverse: a detachment can GRANT warlord eligibility to a unit that's normally
+// barred (`miniature.cannotBeWarlord`) — the only case in the game right now is Tyranids'
+// "Vanguard Onslaught" detachment lifting Deathleaper's usual restriction. Not Combat-Patrol
+// content (unlike detachment_linked_datasheet's 24 isWarlord rows, which all turned out to be
+// CP-exclusive named-character boxes already out of scope — see the CLAUDE.md decision).
+const detGrantedWarlord = new Map()
+for (const r of table('detachment_granted_warlord_miniature')) {
+  if (!detGrantedWarlord.has(r.detachmentId)) detGrantedWarlord.set(r.detachmentId, [])
+  detGrantedWarlord.get(r.detachmentId).push(r.miniatureId)
+}
 const miniToDs = new Map(table('miniature').map((m) => [m.id, m.datasheetId]))
 
 // ---- Wargear (the loadout constructor) -------------------------------------------------
@@ -505,11 +524,13 @@ function buildDetachment(bdet, idMap, mfmDet, nameToDsId) {
     return l
   })
   if (linked.length) det.linkedUnits = linked
-  const mandMini = detMandWarlord.get(bdet.id)
-  if (mandMini) {
-    const mandDs = miniToDs.get(mandMini)
-    if (mandDs) det.mandWarlord = idMap.get(mandDs) || slugify(enOf(dsById.get(mandDs)).name || '')
-  }
+  const resolveMinis = (miniIds) => miniIds
+    .map((mm) => { const ds = miniToDs.get(mm); return ds ? (idMap.get(ds) || slugify(enOf(dsById.get(ds)).name || '')) : null })
+    .filter(Boolean)
+  const mandUnits = resolveMinis(detMandWarlord.get(bdet.id) || [])
+  if (mandUnits.length) det.mandWarlord = mandUnits
+  const grantedUnits = resolveMinis(detGrantedWarlord.get(bdet.id) || [])
+  if (grantedUnits.length) det.grantedWarlord = grantedUnits
   const enhancements = (enhByDet.get(bdet.id) || [])
     .filter((e) => !e.isCombatPatrol)
     .sort((a, b) => a.displayOrder - b.displayOrder)
