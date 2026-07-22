@@ -166,13 +166,20 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
 const player = computed(() => current.value?.players?.[props.pi] || null)
-const counter = computed(() => player.value?.army?.counter ?? 0)
+const battleSize = computed(() => current.value?.settings?.battleSize || 'strikeForce')
+// A counter may declare a battle-size `start` (GSC Resurgence points begin full and are spent down);
+// an untouched counter defaults to that, else to its min (Drukhari/Votann start at 0).
+const counterStart = computed(() => {
+  const v = view.value
+  if (v?.kind === 'counter' && v.start) return v.start[battleSize.value] ?? (v.min ?? 0)
+  return v?.min ?? 0
+})
+const counter = computed(() => player.value?.army?.counter ?? counterStart.value)
 const currentRound = computed(() => current.value?.currentRound ?? 1)
 // Dice-pool primitive: the bank of D6 values.
 const dice = computed(() => player.value?.army?.dice ?? [])
 // Pool primitive (Battle Focus): tokens refill each round to the battle-size allotment plus any
 // detachment bonus. An untouched round has no stored value → it starts full.
-const battleSize = computed(() => current.value?.settings?.battleSize || 'strikeForce')
 const roundStart = computed(() => {
   const v = view.value
   if (!v || v.kind !== 'pool') return 0
