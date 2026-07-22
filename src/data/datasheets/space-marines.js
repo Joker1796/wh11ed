@@ -9666,7 +9666,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 240,
+        "points": 230,
         "note": "1st-2nd"
       },
       {
@@ -12439,12 +12439,12 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 100,
+        "points": 105,
         "note": "1st-2nd"
       },
       {
         "models": 10,
-        "points": 200,
+        "points": 210,
         "note": "1st-2nd"
       },
       {
