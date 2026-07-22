@@ -1,11 +1,19 @@
 <template>
-  <BaseModal :title="enh?.name || name" max-width="640px" max-height="85vh" @close="$emit('close')">
+  <BaseModal max-width="640px" max-height="85vh" @close="$emit('close')">
+    <template #header="{ close }">
+      <header class="modal-head">
+        <h3 class="mh-title">{{ enh?.name || name }}</h3>
+        <div class="mh-right">
+          <span v-if="enh?.points != null" class="erm-head-pts">+{{ enh.points }}</span>
+          <button class="mh-close" @click="close" :aria-label="labels.modalClose">✕</button>
+        </div>
+      </header>
+    </template>
     <div class="modal-body">
       <template v-if="enh">
-        <div class="erm-head">
+        <div v-if="enh.aura || enh.upgrade" class="erm-head">
           <span v-if="enh.aura" class="erm-tag">{{ labels.factionAura }}</span>
           <span v-if="enh.upgrade" class="erm-tag">Upgrade</span>
-          <span v-if="enh.points != null" class="erm-pts">{{ enh.points }} pts</span>
         </div>
         <p v-if="enh.flavor" class="erm-flavor">{{ enh.flavor }}</p>
         <div class="erm-body" v-html="renderInline(enh.body)"></div>
@@ -72,6 +80,26 @@ watch(
 </script>
 
 <style scoped>
+/* Custom header (BaseModal's default #header slot only takes a plain title string — this needs
+   the points badge alongside it), duplicating BaseModal's own header look, same as every other
+   custom-header modal in the app (e.g. DetachmentPickerModal.vue). */
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.8rem 0.9rem;
+  border-bottom: 1px solid var(--border);
+}
+.mh-title { font-family: var(--font-display); font-size: 1.49rem; font-weight: 500; color: var(--text-primary); margin: 0; }
+.mh-right { display: flex; align-items: center; gap: 0.6rem; flex-shrink: 0; }
+.mh-close {
+  background: none; border: none; color: var(--text-muted);
+  font-size: 1.1rem; cursor: pointer; min-width: 36px; min-height: 36px; border-radius: 4px;
+}
+.mh-close:hover { background: color-mix(in srgb, var(--text-primary) 8%, transparent); color: var(--text-primary); }
+.erm-head-pts { font-family: var(--font-mono); font-weight: 700; font-size: 0.95rem; color: var(--accent); }
+
 .modal-body { padding: 0.9rem; overflow-y: auto; font-size: 0.85rem; line-height: 1.5; color: var(--text-primary); }
 .erm-head { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.4rem; }
 .erm-tag {
@@ -84,7 +112,6 @@ watch(
   border-radius: 3px;
   padding: 0.1rem 0.4rem;
 }
-.erm-pts { margin-left: auto; font-family: var(--font-mono); font-weight: 700; color: var(--accent); }
 .erm-flavor { font-style: italic; color: var(--text-muted); margin: 0 0 0.5rem; }
 .erm-note { margin-top: 0.5rem; font-size: 0.8rem; color: var(--text-muted); }
 .erm-missing { color: var(--text-muted); font-size: 0.95rem; text-align: center; padding: 1rem 0; }

@@ -16,6 +16,16 @@
         />
       </FactionAccentScope>
     </Teleport>
+    <Teleport v-if="weaponInfoNames" to="body">
+      <FactionAccentScope :faction-slug="factionSlug">
+        <WeaponProfileModal
+          :unit-id="def.id"
+          :faction-slug="factionSlug"
+          :names="weaponInfoNames"
+          @close="weaponInfoNames = null"
+        />
+      </FactionAccentScope>
+    </Teleport>
     <Teleport v-if="enhInfoName" to="body">
       <FactionAccentScope :faction-slug="factionSlug">
         <EnhancementRuleModal
@@ -78,7 +88,7 @@
             <span class="opt-name">{{ opt.name }}</span>
             <span v-if="opt.pts" class="opt-pts">+{{ opt.pts }}</span>
           </label>
-          <button type="button" class="opt-info" :aria-label="labels.rosterViewInfo" @click="rulesOpen = true">
+          <button type="button" class="opt-info" :aria-label="labels.rosterViewInfo" @click="openWeaponInfo(opt.names)">
             <i class="bi bi-info-circle"></i>
           </button>
         </div>
@@ -92,7 +102,7 @@
             <span class="opt-name">{{ items[g.o[0][0]] }}</span>
             <span v-if="g.o[0][1]" class="opt-pts">+{{ g.o[0][1] }}</span>
           </label>
-          <button type="button" class="opt-info" :aria-label="labels.rosterViewInfo" @click="rulesOpen = true">
+          <button type="button" class="opt-info" :aria-label="labels.rosterViewInfo" @click="openWeaponInfo([items[g.o[0][0]]])">
             <i class="bi bi-info-circle"></i>
           </button>
         </div>
@@ -105,7 +115,7 @@
             <span class="opt-name">{{ items[o[0]] }}<span v-if="o[1]" class="opt-pts"> +{{ o[1] }}</span></span>
             <NumberStepper :model-value="stepCount(gi, oi)" :min="0" :max="stepMax(g)" @update:model-value="setStep(gi, oi, $event)" />
           </div>
-          <button type="button" class="opt-info" :aria-label="labels.rosterViewInfo" @click="rulesOpen = true">
+          <button type="button" class="opt-info" :aria-label="labels.rosterViewInfo" @click="openWeaponInfo([items[o[0]]])">
             <i class="bi bi-info-circle"></i>
           </button>
         </div>
@@ -129,12 +139,6 @@
     <section v-if="visibleEnhOptions.length" class="ues-sec">
       <h4 class="ues-h">{{ labels.rosterEnhancement }}</h4>
       <div class="opt-col">
-        <div class="opt-tile" :class="{ on: !entry.enh && !hasMandatoryEnh }">
-          <label class="opt-select">
-            <input type="checkbox" :checked="!entry.enh && !hasMandatoryEnh" :disabled="hasMandatoryEnh" @change="setEnh(null)" />
-            <span class="opt-name">{{ labels.rosterEnhNone }}</span>
-          </label>
-        </div>
         <div
           v-for="e in visibleEnhOptions"
           :key="e.name"
@@ -149,7 +153,7 @@
               type="checkbox"
               :checked="e.mandatory ? e.eligible : entry.enh === e.name"
               :disabled="e.mandatory || (e.used && entry.enh !== e.name)"
-              @change="setEnh(e.name)"
+              @change="toggleEnh(e.name)"
             />
             <span class="opt-name">
               {{ e.name }}
@@ -198,6 +202,7 @@
 import { computed, ref } from 'vue'
 import NumberStepper from '../tracker/NumberStepper.vue'
 import RosterUnitRulesModal from './RosterUnitRulesModal.vue'
+import WeaponProfileModal from './WeaponProfileModal.vue'
 import EnhancementRuleModal from './EnhancementRuleModal.vue'
 import FactionAccentScope from './FactionAccentScope.vue'
 import { ui } from '../../i18n/ui.js'
@@ -220,18 +225,18 @@ defineEmits(['toggle-warlord'])
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
-// Every wargear row is a checkbox (selection) plus a separate trailing button; the button opens
-// the SAME unit-card modal as the "Show datasheet" link (RosterUnitRulesModal, now collapsible —
-// see DatasheetCard.vue) rather than a one-weapon-only view, since weapons are never collapsed in
-// it (always visible), so there's nothing a narrower per-weapon modal would add.
+// Every wargear row is a checkbox (selection) plus a separate trailing button; the button opens a
+// FOCUSED profile modal for just that item (WeaponProfileModal) — never the whole unit sheet,
+// which is what "Show datasheet" (RosterUnitRulesModal, with its accordions) is for.
 const rulesOpen = ref(false)
+const weaponInfoNames = ref(null)
+function openWeaponInfo(names) {
+  const list = (names || []).filter(Boolean)
+  if (list.length) weaponInfoNames.value = list
+}
 const enhInfoName = ref(null)
 function openEnhInfo(name) { enhInfoName.value = name }
 
-// A mandatory enhancement (see rosterEngine.js mandatoryEnhancementFor) is never a player pick —
-// suppresses "No enhancement"'s own highlight/click so the section reads as locked, not as if
-// nothing were selected.
-const hasMandatoryEnh = computed(() => props.enhOptions.some((e) => e.mandatory && e.eligible))
 // Only what this unit could actually take — enhOptionsFor lists every enhancement across the
 // selected detachments (so the editor can compute eligibility per unit), but a unit that's
 // ineligible for one entirely (wrong unit type) shouldn't clutter its own picker with it. Kept
@@ -281,9 +286,10 @@ function radioRows(g) {
   const rows = [{
     oi: null,
     name: g.rep?.length ? g.rep.map((id) => props.items[id]).join(', ') : labels.value.rosterKeepDefault,
+    names: (g.rep || []).map((id) => props.items[id]),
     pts: 0,
   }]
-  g.o.forEach((o, oi) => rows.push({ oi, name: props.items[o[0]], pts: o[1] || 0 }))
+  g.o.forEach((o, oi) => rows.push({ oi, name: props.items[o[0]], names: [props.items[o[0]]], pts: o[1] || 0 }))
   return rows
 }
 
@@ -310,6 +316,10 @@ function stepMax(g) {
 }
 
 function setEnh(name) { if (name) props.entry.enh = name; else delete props.entry.enh }
+// There's no separate "No enhancement" option — unticking the currently-selected checkbox IS
+// "no enhancement" (mutual exclusivity means only one can ever be checked at a time, so ticking
+// a different one already implies the same thing without needing an explicit toggle).
+function toggleEnh(name) { setEnh(props.entry.enh === name ? null : name) }
 function setLeader(uid) { if (uid) props.entry.leaderOf = uid; else delete props.entry.leaderOf }
 </script>
 
