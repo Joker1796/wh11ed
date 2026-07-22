@@ -37,6 +37,15 @@ describe('resolveArmyTracker', () => {
     expect(spec.options.map((o) => o.id)).toEqual(['protector', 'conqueror'])
   })
 
+  it('resolves the Sororitas dice-pool spec', () => {
+    const spec = resolveArmyTracker('adepta-sororitas')
+    expect(spec.kind).toBe('dice')
+    const view = localizeArmyTracker(spec, 'en')
+    expect(view.label).toBe('Miracle dice')
+    expect(view.gains.length).toBeGreaterThan(0)
+    expect(view.note).toMatch(/substitute/)
+  })
+
   it('resolves the Orks toggle spec (base = once per battle)', () => {
     const en = localizeArmyTracker(resolveArmyTracker('orks'), 'en')
     expect(en.kind).toBe('toggle')

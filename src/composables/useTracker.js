@@ -414,6 +414,22 @@ export function useTracker() {
     if (!pl.army.toggleRounds.length) delete pl.army.toggleRounds
   }
 
+  // Army-rule dice-pool primitive (Miracle dice, …) — a bank of D6 values. Add records a rolled
+  // value; remove spends one die by index. (A Miracle die's value can't change once rolled, so
+  // there's no in-place edit — a wrong one is removed and re-added.)
+  function addArmyDie(pi, value) {
+    const pl = current.value.players[pi]
+    if (!pl.army) pl.army = {}
+    if (!pl.army.dice) pl.army.dice = []
+    pl.army.dice.push(value)
+  }
+  function removeArmyDie(pi, index) {
+    const pl = current.value.players[pi]
+    if (!pl.army?.dice) return
+    pl.army.dice.splice(index, 1)
+    if (!pl.army.dice.length) delete pl.army.dice
+  }
+
   function drawSecondary(pi) {
     const s = current.value.players[pi].secondary
     if (!s.deck.length) return
@@ -643,7 +659,7 @@ export function useTracker() {
   return {
     current, history, setupDraft,
     newGame, updateSetup, setRoundPrimary, setCp, setArmyCounter, setArmySelection,
-    fireArmyToggle, undoArmyToggle,
+    fireArmyToggle, undoArmyToggle, addArmyDie, removeArmyDie,
     setPrimaryRow, primaryRowCount,
     drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,
     restoreSecondaryToHand, redrawSecondary,

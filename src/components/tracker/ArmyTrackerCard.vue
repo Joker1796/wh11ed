@@ -23,6 +23,26 @@
       </button>
     </div>
 
+    <!-- Dice-pool primitive (e.g. Sororitas Miracle dice): a bank of D6 values. Tap a die to spend
+         it; add one by the value you rolled. -->
+    <div v-if="view.kind === 'dice'" class="army-dice">
+      <div v-if="dice.length" class="army-dice-pool">
+        <button
+          v-for="(d, di) in dice"
+          :key="di"
+          class="army-die"
+          :aria-label="labels.trackerDiceSpend"
+          :title="labels.trackerDiceSpend"
+          @click="removeArmyDie(pi, di)"
+        >{{ d }}</button>
+      </div>
+      <p v-else class="army-dice-empty">{{ labels.trackerDiceEmpty }}</p>
+      <div class="army-dice-add">
+        <span class="army-dice-add-label">{{ labels.trackerDiceAdd }}</span>
+        <button v-for="v in 6" :key="v" class="army-die-add" @click="addArmyDie(pi, v)">{{ v }}</button>
+      </div>
+    </div>
+
     <!-- Selection primitive (e.g. AdMech Doctrina): pick one option for this battle round. -->
     <div v-if="view.kind === 'selection' && view.options" class="army-options">
       <button
@@ -124,13 +144,17 @@ const props = defineProps({
   pi: { type: Number, required: true },
 })
 
-const { current, setArmyCounter, setArmySelection, fireArmyToggle, undoArmyToggle } = useTracker()
+const {
+  current, setArmyCounter, setArmySelection, fireArmyToggle, undoArmyToggle, addArmyDie, removeArmyDie,
+} = useTracker()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
 const player = computed(() => current.value?.players?.[props.pi] || null)
 const counter = computed(() => player.value?.army?.counter ?? 0)
 const currentRound = computed(() => current.value?.currentRound ?? 1)
+// Dice-pool primitive: the bank of D6 values.
+const dice = computed(() => player.value?.army?.dice ?? [])
 // Selection primitive: the option picked for the current round (the choice resets each round).
 const selectedId = computed(() => player.value?.army?.selectionByRound?.[currentRound.value] ?? null)
 // Toggle primitive: the round(s) the ability was fired in (empty = not yet). Some abilities allow
@@ -266,6 +290,87 @@ watch([spec, locale], async ([s, loc]) => {
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
+}
+
+/* ── Dice pool (Miracle dice: bank of D6 values; tap a die to spend) ── */
+.army-dice {
+  margin-top: 0.55rem;
+}
+
+.army-dice-pool {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.5rem;
+}
+
+.army-die {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-card);
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  transition: background 0.15s, transform 0.1s;
+}
+
+.army-die:hover {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.army-die:active {
+  transform: scale(0.92);
+}
+
+.army-dice-empty {
+  margin: 0 0 0.5rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.army-dice-add {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.army-dice-add-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-muted);
+  margin-right: 0.15rem;
+}
+
+.army-die-add {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.army-die-add:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
 }
 
 /* ── Toggle (once-per-battle: call / active / spent + reset) ── */
