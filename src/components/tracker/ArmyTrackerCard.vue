@@ -67,15 +67,21 @@
           v-for="(d, di) in dice"
           :key="di"
           class="army-die"
-          :aria-label="labels.trackerDiceSpend"
+          :aria-label="`${labels.trackerDiceSpend} (${d})`"
           :title="labels.trackerDiceSpend"
-          @click="removeArmyDie(pi, di)"
-        >{{ d }}</button>
+          @click="pendingDie = di"
+        ><i class="bi" :class="`bi-dice-${d}-fill`"></i></button>
       </div>
       <p v-else class="army-dice-empty">{{ labels.trackerDiceEmpty }}</p>
       <div class="army-dice-add">
         <span class="army-dice-add-label">{{ labels.trackerDiceAdd }}</span>
-        <button v-for="v in 6" :key="v" class="army-die-add" @click="addArmyDie(pi, v)">{{ v }}</button>
+        <button
+          v-for="v in 6"
+          :key="v"
+          class="army-die-add"
+          :aria-label="`${labels.trackerDiceAdd} ${v}`"
+          @click="addArmyDie(pi, v)"
+        ><i class="bi" :class="`bi-dice-${v}-fill`"></i></button>
       </div>
     </div>
 
@@ -158,6 +164,17 @@
         </div>
       </CollapseTransition>
     </div>
+
+    <!-- Spending a Miracle die is easy to mis-tap and costs a scarce resource, so it's confirmed. -->
+    <ConfirmModal
+      v-if="pendingDie !== null"
+      :title="labels.trackerDiceSpendTitle"
+      :message="labels.trackerDiceSpendConfirm"
+      :confirmLabel="labels.trackerArmySpend"
+      :cancelLabel="labels.trackerCancel"
+      @confirm="confirmSpendDie"
+      @close="pendingDie = null"
+    />
   </div>
 </template>
 
@@ -171,6 +188,7 @@
 import { ref, computed, watch } from 'vue'
 import NumberStepper from './NumberStepper.vue'
 import CollapseTransition from '../CollapseTransition.vue'
+import ConfirmModal from '../ConfirmModal.vue'
 import RuleBody from '../RuleBody.vue'
 import { useTracker } from '../../composables/useTracker.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -198,8 +216,14 @@ const counterStart = computed(() => {
 })
 const counter = computed(() => player.value?.army?.counter ?? counterStart.value)
 const currentRound = computed(() => current.value?.currentRound ?? 1)
-// Dice-pool primitive: the bank of D6 values.
+// Dice-pool primitive: the bank of D6 values. Spending one is confirmed (scarce, easy to mis-tap):
+// tapping a die stages its index here; confirming removes it.
 const dice = computed(() => player.value?.army?.dice ?? [])
+const pendingDie = ref(null)
+function confirmSpendDie() {
+  if (pendingDie.value !== null) removeArmyDie(props.pi, pendingDie.value)
+  pendingDie.value = null
+}
 // Pool primitive (Battle Focus): tokens refill each round to the battle-size allotment plus any
 // detachment bonus. An untouched round has no stored value → it starts full.
 const roundStart = computed(() => {
@@ -475,29 +499,31 @@ watch([spec, locale], async ([s, loc]) => {
   margin-bottom: 0.5rem;
 }
 
+/* The dice face IS the button — no box/border; transparent padding keeps a comfortable tap target. */
 .army-die {
-  width: 34px;
-  height: 34px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg-card);
-  border: 1px solid var(--accent);
-  border-radius: 6px;
+  padding: 0.1rem;
+  background: none;
+  border: none;
   cursor: pointer;
-  font-family: var(--font-mono);
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  transition: background 0.15s, transform 0.1s;
+  color: var(--accent);
+  line-height: 1;
+  transition: transform 0.1s, color 0.15s;
+}
+
+.army-die .bi {
+  font-size: 2rem;
+  line-height: 1;
 }
 
 .army-die:hover {
-  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  color: var(--accent-hover);
 }
 
 .army-die:active {
-  transform: scale(0.92);
+  transform: scale(0.88);
 }
 
 .army-dice-empty {
@@ -522,26 +548,31 @@ watch([spec, locale], async ([s, loc]) => {
   margin-right: 0.15rem;
 }
 
+/* Add row: the same bare-icon buttons, muted and smaller to read as "roll to add", not your pool. */
 .army-die-add {
-  width: 28px;
-  height: 28px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  padding: 0.1rem;
   background: none;
-  border: 1px solid var(--border);
-  border-radius: 5px;
+  border: none;
   cursor: pointer;
-  font-family: var(--font-mono);
-  font-size: 0.82rem;
-  font-weight: 700;
   color: var(--text-muted);
-  transition: border-color 0.15s, color 0.15s;
+  line-height: 1;
+  transition: color 0.15s, transform 0.1s;
+}
+
+.army-die-add .bi {
+  font-size: 1.4rem;
+  line-height: 1;
 }
 
 .army-die-add:hover {
-  border-color: var(--accent);
-  color: var(--text-primary);
+  color: var(--accent);
+}
+
+.army-die-add:active {
+  transform: scale(0.88);
 }
 
 /* ── Toggle (once-per-battle: call / active / spent + reset) ── */
