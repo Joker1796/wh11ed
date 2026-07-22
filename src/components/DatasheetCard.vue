@@ -617,9 +617,24 @@ function statCells(p) {
   .ds-points table {
     font-size: 0.72rem;
   }
+  /* Wider horizontal cell padding than the ≤480 default so the stat columns claim a bit
+     more of the table's width (auto layout: a column's used width includes its padding,
+     so more padding = wider stat columns, drawn from the slack the wrapping name column
+     would otherwise absorb). */
   .ds-weapons th,
   .ds-weapons td {
-    padding: 0.2rem 0.15rem;
+    padding: 0.2rem 0.28rem;
+  }
+  /* The table bleeds edge-to-edge, so the first/last columns' content would otherwise sit
+     flush against the screen edge — inset just those two so the text clears the edge while
+     the header band still spans full width. */
+  .ds-weapons th:first-child,
+  .ds-weapons td:first-child {
+    padding-left: 0.5rem;
+  }
+  .ds-weapons th:last-child,
+  .ds-weapons td:last-child {
+    padding-right: 0.5rem;
   }
   /* Header labels stay a single small uppercase size across all columns. */
   .ds-weapons th {
