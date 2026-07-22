@@ -68,88 +68,163 @@
       <p v-if="sheet.faction" class="ds-ability-line">
         <strong>{{ labels.dsFaction }}:</strong> <span class="ds-faction-rule">{{ sheet.faction }}</span>
       </p>
-      <template v-if="sheet.abilities">
-        <div class="ds-ability-group">
-          <h5 class="ds-group-title">{{ labels.dsAbilities }}</h5>
+      <!-- Every block below (Abilities, Wargear/Special Abilities, ability sets, named rules,
+           Damaged) collapses into an accordion when shown in a modal (`collapsible`) — stats,
+           weapons and keywords never do (see the sections above/below). DsAccordion is headless
+           (no markup/CSS of its own): the header slot keeps writing the exact same
+           `.ds-group-title` element this always had, so none of this block's own styling moved. -->
+      <div v-if="sheet.abilities" class="ds-ability-group">
+        <DsAccordion :collapsible="collapsible">
+          <template #header="{ open, toggle }">
+            <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
+              <span>{{ labels.dsAbilities }}</span>
+              <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+            </button>
+            <h5 v-else class="ds-group-title">{{ labels.dsAbilities }}</h5>
+          </template>
           <div v-for="a in sheet.abilities" :key="a.name" class="ds-ability">
             <strong>{{ a.name }}:</strong> <span v-html="dsText(a.text)"></span>
           </div>
-        </div>
-      </template>
-      <template v-if="sheet.wargearAbilities">
-        <div class="ds-ability-group">
-          <h5 class="ds-group-title">{{ labels.dsWargearAbilities }}</h5>
+        </DsAccordion>
+      </div>
+      <div v-if="sheet.wargearAbilities" class="ds-ability-group">
+        <DsAccordion :collapsible="collapsible">
+          <template #header="{ open, toggle }">
+            <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
+              <span>{{ labels.dsWargearAbilities }}</span>
+              <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+            </button>
+            <h5 v-else class="ds-group-title">{{ labels.dsWargearAbilities }}</h5>
+          </template>
           <div v-for="a in sheet.wargearAbilities" :key="a.name" class="ds-ability">
             <strong>{{ a.name }}:</strong> <span v-html="dsText(a.text)"></span>
           </div>
-        </div>
-      </template>
-      <template v-if="sheet.specialAbilities">
-        <div class="ds-ability-group">
-          <h5 class="ds-group-title">{{ labels.dsSpecialAbilities }}</h5>
+        </DsAccordion>
+      </div>
+      <div v-if="sheet.specialAbilities" class="ds-ability-group">
+        <DsAccordion :collapsible="collapsible">
+          <template #header="{ open, toggle }">
+            <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
+              <span>{{ labels.dsSpecialAbilities }}</span>
+              <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+            </button>
+            <h5 v-else class="ds-group-title">{{ labels.dsSpecialAbilities }}</h5>
+          </template>
           <div v-for="a in sheet.specialAbilities" :key="a.name" class="ds-ability">
             <strong>{{ a.name }}:</strong> <span v-html="dsText(a.text)"></span>
           </div>
-        </div>
-      </template>
+        </DsAccordion>
+      </div>
       <!-- Selectable ability sets (Primarch/named-character "pick one" groups). The heading is
            the parent ability's name, so its "(see below)" reference resolves to this block. -->
-      <template v-if="sheet.abilitySets">
-        <div v-for="set in sheet.abilitySets" :key="set.name" class="ds-ability-group">
-          <h5 class="ds-group-title">{{ set.name }}</h5>
+      <div v-for="set in sheet.abilitySets" :key="set.name" class="ds-ability-group">
+        <DsAccordion :collapsible="collapsible">
+          <template #header="{ open, toggle }">
+            <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
+              <span>{{ set.name }}</span>
+              <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+            </button>
+            <h5 v-else class="ds-group-title">{{ set.name }}</h5>
+          </template>
           <div v-for="a in set.options" :key="a.name" class="ds-ability">
             <strong>{{ a.name }}:</strong> <span v-html="dsText(a.text)"></span>
           </div>
-        </div>
-      </template>
-      <template v-if="sheet.rules">
-        <div v-for="r in sheet.rules" :key="r.name" class="ds-ability-group">
-          <h5 class="ds-group-title">{{ r.name }}</h5>
+        </DsAccordion>
+      </div>
+      <div v-for="r in sheet.rules" :key="r.name" class="ds-ability-group">
+        <DsAccordion :collapsible="collapsible">
+          <template #header="{ open, toggle }">
+            <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
+              <span>{{ r.name }}</span>
+              <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+            </button>
+            <h5 v-else class="ds-group-title">{{ r.name }}</h5>
+          </template>
           <div class="ds-ability">
             <span v-html="dsText(r.text)"></span>
           </div>
-        </div>
-      </template>
+        </DsAccordion>
+      </div>
       <div v-if="sheet.damaged" class="ds-damaged">
-        <strong>{{ labels.dsDamaged }}: {{ sheet.damaged.note }}</strong>
-        <div v-html="dsText(sheet.damaged.text)"></div>
+        <DsAccordion :collapsible="collapsible">
+          <template #header="{ open, toggle }">
+            <button v-if="collapsible" type="button" class="ds-damaged-title ds-group-btn" :aria-expanded="open" @click="toggle">
+              <span>{{ labels.dsDamaged }}: {{ sheet.damaged.note }}</span>
+              <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+            </button>
+            <strong v-else>{{ labels.dsDamaged }}: {{ sheet.damaged.note }}</strong>
+          </template>
+          <div v-html="dsText(sheet.damaged.text)"></div>
+        </DsAccordion>
       </div>
     </div>
 
     <!-- Transport / Leader -->
     <div v-if="sheet.transport" class="ds-block">
-      <h5 class="ds-group-title">{{ labels.dsTransport }}</h5>
-      <div v-html="dsText(sheet.transport)"></div>
+      <DsAccordion :collapsible="collapsible">
+        <template #header="{ open, toggle }">
+          <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
+            <span>{{ labels.dsTransport }}</span>
+            <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+          </button>
+          <h5 v-else class="ds-group-title">{{ labels.dsTransport }}</h5>
+        </template>
+        <div v-html="dsText(sheet.transport)"></div>
+      </DsAccordion>
     </div>
     <div v-if="sheet.leader" class="ds-ability-group">
-      <h5 class="ds-group-title">{{ leaderGroupLabel }}</h5>
-      <div class="ds-ability">
-        <div v-html="dsText(sheet.leader.text)"></div>
-        <ul class="ds-list">
-          <li v-for="u in sheet.leader.units" :key="u">
-            <RouterLink v-if="unitIndex?.get(u)" :to="`/factions/${factionSlug}/datasheets/${unitIndex.get(u)}`">{{ u }}</RouterLink>
-            <template v-else>{{ u }}</template>
-          </li>
-        </ul>
-        <div v-if="sheet.leader.footer" v-html="dsText(sheet.leader.footer)"></div>
-      </div>
+      <DsAccordion :collapsible="collapsible">
+        <template #header="{ open, toggle }">
+          <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
+            <span>{{ leaderGroupLabel }}</span>
+            <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+          </button>
+          <h5 v-else class="ds-group-title">{{ leaderGroupLabel }}</h5>
+        </template>
+        <div class="ds-ability">
+          <div v-html="dsText(sheet.leader.text)"></div>
+          <ul class="ds-list">
+            <li v-for="u in sheet.leader.units" :key="u">
+              <RouterLink v-if="unitIndex?.get(u)" :to="`/factions/${factionSlug}/datasheets/${unitIndex.get(u)}`">{{ u }}</RouterLink>
+              <template v-else>{{ u }}</template>
+            </li>
+          </ul>
+          <div v-if="sheet.leader.footer" v-html="dsText(sheet.leader.footer)"></div>
+        </div>
+      </DsAccordion>
     </div>
 
     <!-- Composition / loadout / options -->
     <div v-if="sheet.composition || sheet.loadout" class="ds-ability-group">
-      <h5 class="ds-group-title">{{ labels.dsComposition }}</h5>
-      <div class="ds-ability">
-        <ul v-if="sheet.composition" class="ds-list">
-          <li v-for="c in sheet.composition" :key="c" v-html="dsText(c)"></li>
-        </ul>
-        <div v-if="sheet.loadout" class="ds-loadout" v-html="dsText(sheet.loadout)"></div>
-      </div>
+      <DsAccordion :collapsible="collapsible">
+        <template #header="{ open, toggle }">
+          <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
+            <span>{{ labels.dsComposition }}</span>
+            <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+          </button>
+          <h5 v-else class="ds-group-title">{{ labels.dsComposition }}</h5>
+        </template>
+        <div class="ds-ability">
+          <ul v-if="sheet.composition" class="ds-list">
+            <li v-for="c in sheet.composition" :key="c" v-html="dsText(c)"></li>
+          </ul>
+          <div v-if="sheet.loadout" class="ds-loadout" v-html="dsText(sheet.loadout)"></div>
+        </div>
+      </DsAccordion>
     </div>
     <div v-if="sheet.options" class="ds-ability-group">
-      <h5 class="ds-group-title">{{ labels.dsOptions }}</h5>
-      <div class="ds-ability">
-        <div v-for="(o, i) in sheet.options" :key="i" class="ds-option" v-html="dsText(o)"></div>
-      </div>
+      <DsAccordion :collapsible="collapsible">
+        <template #header="{ open, toggle }">
+          <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
+            <span>{{ labels.dsOptions }}</span>
+            <i class="bi ds-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+          </button>
+          <h5 v-else class="ds-group-title">{{ labels.dsOptions }}</h5>
+        </template>
+        <div class="ds-ability">
+          <div v-for="(o, i) in sheet.options" :key="i" class="ds-option" v-html="dsText(o)"></div>
+        </div>
+      </DsAccordion>
     </div>
 
     <!-- Keywords -->
@@ -172,7 +247,7 @@
          Always the LAST section of the card (mirrors the source books: costs live at the
          bottom of a datasheet, never in its header) — an accent-tinted band like the
          statline zone at the top, so the card is framed by the faction colour. -->
-    <div v-if="pointsTable" class="ds-points">
+    <div v-if="pointsTable && !collapsible" class="ds-points">
       <h5 class="ds-points-title">{{ labels.dsPoints }}</h5>
       <table>
         <thead>
@@ -199,6 +274,8 @@ import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useRenderInline } from '../composables/useRenderInline.js'
 import { formatBaseSize } from '../utils/baseSize.js'
+import { withGroupPos } from '../utils/weaponGroups.js'
+import DsAccordion from './DsAccordion.vue'
 
 const props = defineProps({
   sheet: { type: Object, required: true },
@@ -208,6 +285,12 @@ const props = defineProps({
   // just render as plain text then, same as before this feature existed.
   unitIndex: { type: Object, default: null },
   factionSlug: { type: String, default: '' },
+  // Modal usage (RosterUnitRulesModal — the roster builder's single "show this unit in a
+  // modal" component): every info block except stats/weapons/keywords collapses into an
+  // accordion, and Points is hidden outright (the unit's tile in the roster editor already
+  // shows its points). The standalone datasheet page never sets this — full page, nothing to
+  // save space on, so everything renders exactly as it always has.
+  collapsible: { type: Boolean, default: false },
 })
 
 const { locale } = useLocale()
@@ -233,25 +316,6 @@ const keywordGroups = computed(() =>
   props.sheet.keywordsByModel ? props.sheet.keywordsByModel : [{ model: null, list: props.sheet.keywords || [] }],
 )
 
-// Multi-profile weapons are stored as adjacent rows sharing a base name with a spaced-dash
-// suffix ("Scythe of the Nightbringer – strike" / "– sweep"). The data is inconsistent about
-// the dash — some entries use an en-dash "–", others a plain hyphen "-" (e.g. Ghazghkull's
-// "Gork's Klaw - strike") — so split on a SPACED dash of any kind (hyphen / en / em). The
-// surrounding spaces keep AP values like "-3" (a separate field anyway) from ever matching.
-function weaponBase(name) { return (name || '').split(/ [-–—] /)[0].trim() }
-function withGroupPos(list) {
-  const rows = list || []
-  return rows.map((w, i) => {
-    const base = weaponBase(w.name)
-    const prevSame = i > 0 && weaponBase(rows[i - 1].name) === base
-    const nextSame = i < rows.length - 1 && weaponBase(rows[i + 1].name) === base
-    let gpos = 'single'
-    if (prevSame && nextSame) gpos = 'mid'
-    else if (nextSame) gpos = 'start'
-    else if (prevSame) gpos = 'end'
-    return { ...w, gpos }
-  })
-}
 const rangedRows = computed(() => withGroupPos(props.sheet.ranged))
 const meleeRows = computed(() => withGroupPos(props.sheet.melee))
 
@@ -532,6 +596,10 @@ function statCells(p) {
 
 /* Weapons */
 .ds-weapons { overflow-x: auto; margin-bottom: 0.7rem; }
+/* Ranged immediately followed by melee: tighten the gap between the two tables — the 0.7rem
+   above is for what comes after the LAST weapons table (abilities/keywords/points), which still
+   wants the fuller gap. */
+.ds-weapons:has(+ .ds-weapons) { margin-bottom: 0.05rem; }
 .ds-weapons table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
 .ds-weapons th {
   text-align: center;
@@ -630,6 +698,39 @@ function statCells(p) {
   letter-spacing: 1px;
   color: var(--accent);
   margin: 0.7rem 0 0.3rem;
+}
+/* Accordion header variant (collapsible/modal mode only) — same `.ds-group-title` look, reset to
+   a full-width clickable row with the chevron at the end. Non-collapsible callers never render
+   this class (see the h5 fallback in the template), so the plain page is untouched. */
+.ds-group-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  border: none;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+.ds-chev { font-size: 0.7rem; flex-shrink: 0; }
+/* Damaged's own header isn't a `.ds-group-title` (no uppercase/accent styling — it's the same
+   bold inline label the box always had); the accordion button variant just adds the chevron row
+   layout on top of that, using the surrounding red instead of the accent colour. */
+.ds-damaged-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  border: none;
+  background: none;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
 }
 /* Plain and special abilities each sit in a faction-accent-tinted card with a solid-fill
    header bar (same idiom as the weapon table headers), so the two categories read as
