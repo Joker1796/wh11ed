@@ -56,7 +56,11 @@ function flattenWh11ed(sections, file, out) {
   const walk = (node) => {
     const num = node.sectionNum || node.num
     // Section-level nodes keep their intro prose in `description`; subsections use `body`.
-    if (num) out.set(num, { title: node.title || '', body: node.body || node.description || '', file })
+    // A `note` (Designer's Note / aside) is a genuinely separate field from `body`, but appdata
+    // inlines it into the SAME container text — without folding it in here, an already-correct
+    // note (e.g. 13.02/13.11's) reads as a content gap purely because of where wh11ed happens to
+    // store it (same false-positive class fixed for coreAbilities' `note` above).
+    if (num) out.set(num, { title: node.title || '', body: [node.body || node.description, node.note].filter(Boolean).join('\n\n'), file })
     for (const c of node.subsections || []) walk(c)
     for (const c of node.children || []) walk(c)
   }
