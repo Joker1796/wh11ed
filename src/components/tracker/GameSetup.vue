@@ -122,6 +122,13 @@
             <p v-else class="det-empty">{{ labels.trackerPickDetachmentFirst }}</p>
           </label>
 
+          <div class="primary-block" v-if="primaryCards[i]">
+            <span class="primary-label">{{ labels.trackerPrimaryPreview }}</span>
+            <div class="primary-card">
+              <MissionCard :mission="primaryCards[i]" :show-lore="false" collapsible :default-open="false" />
+            </div>
+          </div>
+
           <label class="field">
             <span>{{ labels.trackerSecondaryMode }}</span>
             <div class="seg">
@@ -136,10 +143,6 @@
               <span class="ct-name" :class="{ placeholder: !p.fixedSecondaries.length }">{{ fixedSummary(p) }}</span>
               <i class="bi bi-chevron-right ct-chev"></i>
             </button>
-          </div>
-
-          <div class="primary-card" v-if="primaryCards[i]">
-            <MissionCard :mission="primaryCards[i]" :subtitle="labels.trackerPrimaryPreview" :show-lore="false" collapsible :default-open="false" />
           </div>
         </div>
       </div>
@@ -657,10 +660,13 @@ function cancel() {
 }
 .player-card,
 .settings {
+  /* --pc-pad drives the padding AND the negative margin the mission preview uses to bleed
+     full-width (see .primary-card) — keep them in lockstep across the breakpoints below. */
+  --pc-pad: 1rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 6px;
-  padding: 1rem;
+  padding: var(--pc-pad);
 }
 .settings {
   margin-top: 1rem;
@@ -677,11 +683,11 @@ function cancel() {
 @media (max-width: 560px) {
   .players { gap: 0.55rem; }
   .player-card,
-  .settings { padding: 0.6rem; }
+  .settings { --pc-pad: 0.6rem; }
 }
 @media (max-width: 380px) {
   .player-card,
-  .settings { padding: 0.5rem; }
+  .settings { --pc-pad: 0.5rem; }
 }
 /* Step 4 (Deployment): stack the options vertically, each on its own line. */
 .deploy-opts {
@@ -909,7 +915,38 @@ function cancel() {
   cursor: pointer;
 }
 .br-check { margin-top: 0.2rem; }
-.primary-card { margin-top: 0.7rem; }
+/* Primary mission: an inset label (matching the field labels, like the secondary section) over a
+   full-bleed accordion. The accordion spans the player-card's whole content width; its tinted
+   header bar runs edge to edge, and a bottom separator closes the section before the secondaries. */
+.primary-block {
+  margin-bottom: 0.7rem;
+}
+.primary-label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.primary-card {
+  margin: 0 calc(-1 * var(--pc-pad));
+}
+.primary-card :deep(.mcard) {
+  border: none;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  padding: 0 0 0.7rem;
+}
+/* Header bar runs edge to edge (no rounded corners against the card sides). */
+.primary-card :deep(.mcard.collapsible > .mcard-head) {
+  border-radius: 0;
+}
+/* Small inset for the expanded content so the scoring rows don't collide with the card border. */
+.primary-card :deep(.mcard-body) {
+  padding: 0 0.35rem;
+}
 
 /* Layout A/B/C tabs (mirror the Event Companion layout viewer). */
 .tabs {

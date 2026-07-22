@@ -8,9 +8,11 @@
       :aria-expanded="collapsible ? open : undefined"
       @click="collapsible && (open = !open)"
     >
-      <i v-if="collapsible" class="bi mcard-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
       <h3 class="mcard-name">{{ mission.name }}</h3>
       <span v-if="subtitle" class="mcard-sub">{{ subtitle }}</span>
+      <!-- Affordance that the header expands (collapsed state only). -->
+      <span v-if="collapsible && !open" class="mcard-hint">{{ labels.missionExpand }}</span>
+      <i v-if="collapsible" class="bi mcard-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
     </component>
 
     <CollapseTransition :show="collapsible ? open : true">
@@ -109,11 +111,24 @@ function isPerEach(text) {
 .mcard.collapsible:not(.is-open) > .mcard-head {
   margin-bottom: 0;
 }
-/* Accent chevron draws the eye to the expand/collapse affordance. */
+/* Right-aligned "expand" hint + accent chevron draw the eye to the toggle affordance. The hint
+   carries the margin-left:auto when collapsed; when open (no hint) the chevron carries it. */
+.mcard-hint {
+  order: 2;
+  margin-left: auto;
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  white-space: nowrap;
+}
 .mcard.collapsible .mcard-chev {
   color: var(--accent);
+  order: 3;
+}
+.mcard.collapsible.is-open .mcard-chev {
   margin-left: auto;
-  order: 2;
 }
 .mcard-chev {
   font-size: 0.8rem;
@@ -168,4 +183,18 @@ function isPerEach(text) {
 .m-text { font-size: 0.84rem; color: var(--text-muted); line-height: 1.45; }
 .m-text strong { color: var(--text-primary); white-space: nowrap; }
 .or { font-style: normal; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; color: var(--text-dim); margin-right: 0.2rem; }
+
+/* Narrow screens: the card sits inside other padded containers (e.g. the game-setup player card),
+   so its own padding — plus each scoring row's — eats too much of the limited width. Tighten it. */
+@media (max-width: 560px) {
+  .mcard { padding: 0.55rem 0.6rem 0.6rem; }
+  .mcard.collapsible > .mcard-head { padding: 0.45rem 0.5rem; }
+  .mcard-name { font-size: 1.25rem; }
+  .m-cond { padding: 0.4rem 0.45rem; }
+  .m-block { margin-top: 0.5rem; }
+}
+@media (max-width: 380px) {
+  .mcard { padding: 0.45rem 0.5rem 0.5rem; }
+  .m-cond { padding: 0.35rem 0.4rem; }
+}
 </style>
