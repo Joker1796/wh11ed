@@ -52,6 +52,11 @@
           <NumberStepper :modelValue="pl.cp" :min="0" @update:modelValue="v => setCp(i, v)" />
         </div>
 
+        <!-- Army-rule tracker (Pain tokens, etc.) — opt-in (settings.trackArmyRule, defaults on),
+             and renders only for factions with a spec. Missing on games saved before the setting
+             existed → treat as on. -->
+        <ArmyTrackerCard v-if="current.settings.trackArmyRule !== false" :pi="i" />
+
         <SecondaryDeck :pi="i" />
       </div>
     </div>
@@ -101,6 +106,7 @@
 import { ref, computed } from 'vue'
 import NumberStepper from './NumberStepper.vue'
 import SecondaryDeck from './SecondaryDeck.vue'
+import ArmyTrackerCard from './ArmyTrackerCard.vue'
 import ScoreBoard from './ScoreBoard.vue'
 import ScoringModal from './ScoringModal.vue'
 import GameEndModal from './GameEndModal.vue'

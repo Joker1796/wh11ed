@@ -203,6 +203,11 @@
           <input type="checkbox" v-model="settings.trackCP" />
           <span>{{ labels.trackerTrackCp }}</span>
         </label>
+
+        <label v-if="armyRuleTrackable" class="check" :class="{ on: settings.trackArmyRule }">
+          <input type="checkbox" v-model="settings.trackArmyRule" />
+          <span>{{ labels.trackerTrackArmy }}</span>
+        </label>
       </div>
 
       <!-- Twist: optional pre-game modifier — chosen via a full-screen picker -->
@@ -306,6 +311,8 @@ const lastYouName = lastGame
 const lastScoreMode = history.value[0]?.settings?.scoreMode === 'bp' ? 'bp' : 'vp'
 // Remember the Track CP toggle from the last game (older games lack it → default on).
 const lastTrackCP = history.value[0]?.settings?.trackCP ?? true
+// Same for the army-rule tracker toggle.
+const lastTrackArmy = history.value[0]?.settings?.trackArmyRule ?? true
 function playerLabel(i) {
   return i === 0 ? labels.value.trackerYou : labels.value.trackerOpponent
 }
@@ -321,7 +328,7 @@ const MAX_FIXED = 2   // Fixed secondaries: choose 2, kept for the whole game.
 function defaultPlayer(role, name = '') {
   return { name, factionSlug: null, detachments: [], disposition: null, role, secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false }
 }
-const defaultSettings = { trackCP: lastTrackCP, firstTurn: 1, layout: 'A', customLayout: null, battleSize: 'strikeForce', twist: null, twistMission: null, scoreMode: lastScoreMode }
+const defaultSettings = { trackCP: lastTrackCP, trackArmyRule: lastTrackArmy, firstTurn: 1, layout: 'A', customLayout: null, battleSize: 'strikeForce', twist: null, twistMission: null, scoreMode: lastScoreMode }
 
 // Restore an in-progress draft if present, else start fresh (with the pre-filled name).
 // Read once, BEFORE the reset watchers are registered, so restoring a faction/detachments
@@ -333,6 +340,21 @@ const players = reactive([
   { ...defaultPlayer('defender'), ...(draft?.players?.[1]) },
 ])
 const settings = reactive({ ...defaultSettings, ...(draft?.settings) })
+
+// The "Track army rule" toggle only makes sense if at least one chosen faction actually has an
+// army-rule tracker spec — otherwise it'd be a dead option. Resolve that lazily (the registry is
+// dynamic-imported, same as the in-game card) whenever the picked factions change.
+const armyRuleTrackable = ref(false)
+watch(
+  () => players.map(p => p.factionSlug).join('|'),
+  async () => {
+    const slugs = players.map(p => p.factionSlug).filter(Boolean)
+    if (!slugs.length) { armyRuleTrackable.value = false; return }
+    const { resolveArmyTracker } = await import('../../data/armyTrackers/index.js')
+    armyRuleTrackable.value = slugs.some(s => resolveArmyTracker(s))
+  },
+  { immediate: true },
+)
 
 const battleSizes = BATTLE_SIZES
 const maxDp = computed(() => BATTLE_SIZES.find(b => b.id === settings.battleSize)?.maxDp ?? 3)

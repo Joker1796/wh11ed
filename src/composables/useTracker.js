@@ -296,6 +296,10 @@ function makePlayer(p, opponent, settings, isYou = false) {
     battleReady: !!p.battleReady,              // +10 VP if the army is battle-ready
     primarySlug: primary ? primary.slug : null,
     cp: 0,
+    // Army-rule tracker state (Pain tokens, Battle Focus, etc.) — a free-form per-faction blob
+    // interpreted by src/data/armyTrackers. Empty until a widget writes to it; absent on games
+    // saved before this existed, so readers/mutations must default it (see setArmyCounter).
+    army: {},
     rounds: Array.from({ length: ROUND_COUNT }, () => ({ primary: 0, picks: {} })),
     secondary: {
       // tactical: draw from a shuffled deck each round; fixed: the set chosen at setup is locked in.
@@ -373,6 +377,14 @@ export function useTracker() {
 
   function setCp(pi, value) {
     current.value.players[pi].cp = Math.max(0, value)
+  }
+
+  // Army-rule counter primitive (Pain tokens, Yield Points, …). `army` may be absent on games
+  // saved before it existed, so initialize it lazily. Clamped ≥ 0; pools have no fixed max.
+  function setArmyCounter(pi, value) {
+    const pl = current.value.players[pi]
+    if (!pl.army) pl.army = {}
+    pl.army.counter = Math.max(0, value)
   }
 
   function drawSecondary(pi) {
@@ -603,7 +615,7 @@ export function useTracker() {
 
   return {
     current, history, setupDraft,
-    newGame, updateSetup, setRoundPrimary, setCp,
+    newGame, updateSetup, setRoundPrimary, setCp, setArmyCounter,
     setPrimaryRow, primaryRowCount,
     drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,
     restoreSecondaryToHand, redrawSecondary,

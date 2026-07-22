@@ -40,6 +40,11 @@
           <input type="checkbox" v-model="settings.trackCP" />
           <span>{{ labels.trackerTrackCp }}</span>
         </label>
+
+        <label v-if="armyRuleTrackable" class="check" :class="{ on: settings.trackArmyRule }">
+          <input type="checkbox" v-model="settings.trackArmyRule" />
+          <span>{{ labels.trackerTrackArmy }}</span>
+        </label>
       </div>
 
       <div class="settings layout-block" v-if="layouts.length">
@@ -95,6 +100,8 @@ const game = current.value
 const players = reactive(game.players.map(p => ({ name: p.name, battleReady: p.battleReady })))
 const settings = reactive({
   trackCP: game.settings.trackCP,
+  // Older games lack the flag → default on (matches the in-game "missing = on" fallback).
+  trackArmyRule: game.settings.trackArmyRule ?? true,
   // game.settings.firstTurn is always normalized to 1 post-creation (see newGame) — the
   // actual "who's first" lives in player order, so derive the toggle from that instead.
   firstTurn: (game.players[0].isYou ?? true) ? 1 : 2,
@@ -122,6 +129,16 @@ function selectLayout(id) { settings.layout = id; settings.customLayout = null }
 function onPickLayout(l) { settings.layout = 'custom'; settings.customLayout = l; layoutPickerOpen.value = false }
 
 const scoreHelpOpen = ref(false)
+
+// Show the "Track army rule" toggle only if a chosen faction has a tracker spec (factions are
+// fixed once a game starts, so resolve once). Same lazy registry import as the in-game card.
+const armyRuleTrackable = ref(false)
+;(async () => {
+  const slugs = game.players.map(p => p.factionSlug).filter(Boolean)
+  if (!slugs.length) return
+  const { resolveArmyTracker } = await import('../../data/armyTrackers/index.js')
+  armyRuleTrackable.value = slugs.some(s => resolveArmyTracker(s))
+})()
 
 function save() {
   updateSetup({
