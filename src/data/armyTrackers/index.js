@@ -12,10 +12,12 @@
 // This module is dynamic-imported by the tracker so the specs never ride in its critical bundle.
 
 import drukhari from './drukhari.js'
+import leaguesOfVotann from './leagues-of-votann.js'
 
 // Registry — add a faction by dropping its spec here.
 const REGISTRY = {
   drukhari,
+  'leagues-of-votann': leaguesOfVotann,
 }
 
 // Detachment names come from the MFM dataset (player.detachments) and must line up with the
@@ -54,6 +56,13 @@ function locStr(v, locale) {
   return v
 }
 
+// A threshold state (Votann's Hostile Acquisition / Fortify Takeover): a game-term `name` plus
+// optional `body` rules text.
+function locAbility(a, locale) {
+  if (!a) return null
+  return { name: locStr(a.name, locale), body: a.body ? locStr(a.body, locale) : null }
+}
+
 // Produce a fully-localized, display-ready copy of a resolved spec.
 export function localizeArmyTracker(spec, locale) {
   if (!spec) return null
@@ -62,5 +71,13 @@ export function localizeArmyTracker(spec, locale) {
     label: locStr(spec.label, locale),
     note: spec.note ? locStr(spec.note, locale) : null,
     gains: (spec.gains || []).map((g) => locStr(g, locale)),
+    // Counter threshold (e.g. Votann's 7YP): each state is an ability (name + optional rule text).
+    threshold: spec.threshold
+      ? {
+          at: spec.threshold.at,
+          below: locAbility(spec.threshold.below, locale),
+          atOrAbove: locAbility(spec.threshold.atOrAbove, locale),
+        }
+      : null,
   }
 }
