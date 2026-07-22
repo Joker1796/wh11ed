@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { resolveArmyTracker, localizeArmyTracker } from './index.js'
+import { resolveArmyTracker, localizeArmyTracker, applyOverride } from './index.js'
 
 describe('resolveArmyTracker', () => {
   it('returns null for a faction without a spec', () => {
@@ -29,6 +29,32 @@ describe('resolveArmyTracker', () => {
       below: { name: 'Hostile Acquisition' },
       atOrAbove: { name: 'Fortify Takeover' },
     })
+  })
+
+  it('resolves the AdMech selection spec with its base options', () => {
+    const spec = resolveArmyTracker('adeptus-mechanicus')
+    expect(spec.kind).toBe('selection')
+    expect(spec.options.map((o) => o.id)).toEqual(['protector', 'conqueror'])
+  })
+})
+
+describe('applyOverride (detachment overrides)', () => {
+  it('accumulates gains and selectable options, and replaces scalars', () => {
+    const base = {
+      kind: 'selection',
+      min: 0,
+      gains: [{ en: 'a' }],
+      options: [{ id: 'x' }],
+    }
+    const merged = applyOverride(base, {
+      min: 2,
+      gains: [{ en: 'b' }],
+      options: [{ id: 'y' }],
+    })
+    expect(merged.min).toBe(2) // scalar replaced
+    expect(merged.gains.map((g) => g.en)).toEqual(['a', 'b']) // accumulated
+    expect(merged.options.map((o) => o.id)).toEqual(['x', 'y']) // accumulated
+    expect(base.options).toHaveLength(1) // base not mutated
   })
 })
 

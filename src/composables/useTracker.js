@@ -387,6 +387,16 @@ export function useTracker() {
     pl.army.counter = Math.max(0, value)
   }
 
+  // Army-rule selection primitive (Doctrina Imperative, etc.) — a per-round pick (the choice resets
+  // each battle round, so it's keyed by round). Clicking the active option again clears it.
+  function setArmySelection(pi, round, id) {
+    const pl = current.value.players[pi]
+    if (!pl.army) pl.army = {}
+    if (!pl.army.selectionByRound) pl.army.selectionByRound = {}
+    if (pl.army.selectionByRound[round] === id) delete pl.army.selectionByRound[round]
+    else pl.army.selectionByRound[round] = id
+  }
+
   function drawSecondary(pi) {
     const s = current.value.players[pi].secondary
     if (!s.deck.length) return
@@ -615,7 +625,7 @@ export function useTracker() {
 
   return {
     current, history, setupDraft,
-    newGame, updateSetup, setRoundPrimary, setCp, setArmyCounter,
+    newGame, updateSetup, setRoundPrimary, setCp, setArmyCounter, setArmySelection,
     setPrimaryRow, primaryRowCount,
     drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,
     restoreSecondaryToHand, redrawSecondary,
