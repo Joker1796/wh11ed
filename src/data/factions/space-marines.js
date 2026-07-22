@@ -146,7 +146,7 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
         },
         {
           name: 'Artificer Armour',
-          points: 10,
+          points: 20,
           flavor: "Crafted by the Chapter's finest artificers, this suit of armour provides superior protection.",
           body: `Adeptus Astartes model only. The [gloss:bearer:bearer] has a [gloss:save:Save] characteristic of 2+ and the Feel No Pain 5+ ability.`,
         },
@@ -359,7 +359,7 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
         },
         {
           name: 'The Flesh Is Weak',
-          points: 10,
+          points: 20,
           flavor: 'The injuries of past battles have seen this warrior heavily rebuilt with ultra-durable cybernetic limbs and organs that render them extremely difficult to kill.',
           body: `Adeptus Astartes model only. The [gloss:bearer:bearer] has the Feel No Pain 4+ ability.`,
         },
@@ -870,13 +870,13 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
         },
         {
           name: 'Temporal Corridor',
-          points: 15,
+          points: 25,
           flavor: 'Folding existence around an invisible path along which time is altered, the Librarian propels his allies across the battlefield with supernatural swiftness.',
           body: `Adeptus Astartes [gloss:psyker:Psyker] model only. At the end of your opponent's Fight phase, you can place this unit into [gloss:strategic-reserves:strategic reserves]. If this unit has the Telekinesis [gloss:sm-psychic-discipline:Discipline] ability, this unit has Deep Strike.`,
         },
         {
           name: 'Fusillade',
-          points: 20,
+          points: 25,
           flavor: 'The Librarian wreathes the ammunition of his allies in armour-eroding halos of azure fire.',
           body: `Adeptus Astartes [gloss:psyker:Psyker] model only. This unit's [gloss:ranged-attacks:ranged attacks] have [ANTI-MONSTER/VEHICLE 5+]. If this unit has the Pyromancy [gloss:sm-psychic-discipline:Discipline] ability, [SUSTAINED HITS 1].`,
         },
@@ -1341,7 +1341,7 @@ Restrictions: Your army can include Ultramarines units, but it cannot include an
       enhancements: [
         {
           name: 'Armour of Antoninus',
-          points: 10,
+          points: 20,
           flavor: "Originally worn by a storied Captain of the Ultramarines' First Company, this artificer armour is bestowed by the Chapter Master himself upon a worthy wearer.",
           body: `Adeptus Astartes model only. The bearer has a Save characteristic of 2+ and the Feel No Pain 5+ ability.`,
         },

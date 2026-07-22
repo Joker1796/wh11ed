@@ -681,7 +681,7 @@ Outrider Squad units from your army gain the Battleline keyword.`,
         },
         {
           name: 'Stalwart Champion',
-          points: 25,
+          points: 15,
           flavor: 'Possessed of obdurate will, this warrior champion instils an indomitable resolve and absolute refusal to cede ground within his brothers.',
           body: `Captain, Chaplain or Lieutenant model only. While the bearer's unit is not Battle-shocked, add 1 to the Objective Control characteristic of models in the bearer's unit.`,
         },

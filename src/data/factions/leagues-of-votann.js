@@ -849,7 +849,7 @@ In your turn, YP gained in this way are always gained before checking which abil
       enhancements: [
         {
           name: "Saturation Rounds",
-          points: 10,
+          points: 15,
           upgrade: true,
           flavor: "To aid Sagitaurs in spearheading rapid armoured assaults, specialist ammunition is issued that allows them to flush the foe from cover.",
           body: "SAGITAUR unit only. This unit\u2019s ranged attacks have the [IGNORES COVER] ability.",

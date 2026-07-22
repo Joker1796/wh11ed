@@ -558,7 +558,7 @@ Before making a dice roll for a model or unit from your army with the Acts of Fa
       enhancements: [
         {
           name: "Psalm of Righteous Judgement",
-          points: 30,
+          points: 20,
           flavor: "Invoking the strength of the God-Emperor, this warrior bellows psalms, which roar above the din of battle. Incited by these fire and brimstone recitations, the penitent warriors carve apart their enemies, every kill bringing them closer to redemption.",
           body: "ADEPTA SORORITAS model only. While the bearer is on the battlefield, each time an enemy unit is destroyed by a penitent unit from you army, you can discard 1 Miracle dice then gain 1 Miracle dice showing a value of 6.",
         },
@@ -570,13 +570,13 @@ Before making a dice roll for a model or unit from your army with the Acts of Fa
         },
         {
           name: "Refrain of Enduring Faith",
-          points: 25,
+          points: 15,
           flavor: "Faith is the shield of the righteous. The passionate benedictions of the pious may bestow the blessings of the God-Emperor.",
           body: "PENITENT model only. While the bearer is leading a unit, models in that unit have a 5+ invulnerable save.",
         },
         {
           name: "Catechism of Divine Penitence",
-          points: 20,
+          points: 15,
           flavor: "To share in the agonies of the penitent and guide them to redemption is a most holy undertaking. Thus do many of the Adepta Sororitas’ commanders willingly fight by the side of those cast out by the Sisterhood.",
           body: "CANONESS, PALATINE or MINISTORUM PRIEST model only. The bearer gains the PENITENT keyword and, during the Declare Battle Formations step, can be attached to a REPENTIA SOUAD unit.",
         },
