@@ -621,7 +621,7 @@ Deathleaper loses the Hunter Organism rule and can be your Warlord.`,
       enhancements: [
         {
           name: 'Hunting Grounds',
-          points: 20,
+          points: 30,
           flavor:
             'This warrior organism has identified installations and routes of communication and supply vital to the prey. As the Tyranid invasion commences so the beast orchestrates ambushes and terror raids against these priority targets, ensuring that those enemy reinforcements who do reach the battlefield do so in bloodied disarray.',
           body: `Tyranids model only. While the bearer is on the battlefield, each time your opponent sets up a Reserves unit on the battlefield, roll one D6: on a 2+, that unit must take a Battle-shock test.`,
