@@ -85,8 +85,9 @@
       </div>
     </div>
 
-    <!-- Selection primitive (e.g. AdMech Doctrina): pick one option for this battle round. -->
-    <div v-if="view.kind === 'selection' && view.options" class="army-options">
+    <!-- Selection primitive (e.g. AdMech Doctrina): pick one option for this battle round. A
+         battle-long (`once`) pick locks after round 1 — the picker gives way to just its rule. -->
+    <div v-if="view.kind === 'selection' && view.options && !choiceLocked" class="army-options">
       <button
         v-for="o in view.options"
         :key="o.id"
@@ -263,6 +264,12 @@ function pickOption(id) {
   if (view.value?.once) setArmyChoice(props.pi, id)
   else setArmySelection(props.pi, currentRound.value, id)
 }
+// A battle-long (`once`) pick is chosen at the start of the first battle round and committed for the
+// rest of the game (Templar Vows, Death Guard's Plague). Once made, from round 2 on the picker is
+// hidden and only the chosen option's rule is shown; round 1 stays editable (scroll back to change).
+const choiceLocked = computed(
+  () => !!view.value?.once && currentRound.value !== 1 && selectedId.value != null,
+)
 // Round-gated readout (Contagion Range): the listed round's value, else the fallback.
 const roundReadoutValue = computed(() => {
   const r = view.value?.roundReadout
@@ -334,6 +341,11 @@ watch([spec, locale], async ([s, loc]) => {
   const { localizeArmyTracker } = await import('../../data/armyTrackers/index.js')
   view.value = localizeArmyTracker(s, loc)
 }, { immediate: true })
+
+// Once a battle-long pick locks (round 2+), surface its rule expanded — it's the card's main content
+// then, with the picker gone. The user can still collapse it. Declared after `view` (which
+// choiceLocked reads) so the immediate run doesn't touch it before initialization.
+watch(choiceLocked, (locked) => { if (locked) showActive.value = true }, { immediate: true })
 </script>
 
 <style scoped>
