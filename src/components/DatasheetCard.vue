@@ -607,26 +607,26 @@ function statCells(p) {
   .ds-weapons th:last-child {
     border-radius: 0;
   }
-  .ds-weapons table,
+  /* One uniform body font for every cell — name and stats alike — bumped up from the old
+     0.68rem. The extra room for the stats comes from the narrower .wname floor below (the
+     name wraps), NOT from a bigger font on the stat columns only, which read as ragged
+     mismatched sizes within one table. */
+  .ds-weapons table {
+    font-size: 0.82rem;
+  }
   .ds-points table {
     font-size: 0.72rem;
   }
   .ds-weapons th,
   .ds-weapons td {
-    padding: 0.2rem 0.12rem;
+    padding: 0.2rem 0.15rem;
   }
+  /* Header labels stay a single small uppercase size across all columns. */
   .ds-weapons th {
     font-size: 0.56rem;
   }
   .ds-weapons .wname {
     min-width: 4rem;
-  }
-  /* Stat columns (everything but the name): a bigger, easier-to-read font now that
-     shrinking .wname's floor above freed up width for them. */
-  .ds-weapons th:not(.wname),
-  .ds-weapons td:not(.wname) {
-    font-size: 0.85rem;
-    padding: 0.2rem 0.18rem;
   }
   .ds-points th,
   .ds-points td {
