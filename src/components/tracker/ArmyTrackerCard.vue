@@ -12,13 +12,43 @@
       />
     </div>
 
-    <details v-if="view.gains.length || view.note" class="army-howto">
-      <summary>{{ labels.trackerArmyHowto }}</summary>
-      <ul v-if="view.gains.length" class="army-gains">
-        <li v-for="(g, i) in view.gains" :key="i">{{ g }}</li>
-      </ul>
-      <p v-if="view.note" class="army-note">{{ view.note }}</p>
-    </details>
+    <!-- Threshold-driven active ability (e.g. Votann: <7YP Hostile Acquisition, 7+ Fortify
+         Takeover). The header shows which is active now; its rule text expands on demand. -->
+    <div v-if="activeAbility" class="army-acc">
+      <button
+        v-if="activeAbility.body"
+        class="army-acc-head"
+        :aria-expanded="showActive"
+        @click="showActive = !showActive"
+      >
+        <i class="bi army-acc-chev" :class="showActive ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+        <span class="army-acc-title">{{ labels.trackerArmyActive }}: <strong>{{ activeAbility.name }}</strong></span>
+      </button>
+      <p v-else class="army-acc-static">{{ labels.trackerArmyActive }}: <strong>{{ activeAbility.name }}</strong></p>
+      <CollapseTransition v-if="activeAbility.body" :show="showActive">
+        <div class="army-acc-body"><RuleBody :body="activeAbility.body" /></div>
+      </CollapseTransition>
+    </div>
+
+    <!-- How the mechanic works (gain triggers + note) — collapsed by default. -->
+    <div v-if="view.gains.length || view.note" class="army-acc">
+      <button
+        class="army-acc-head"
+        :aria-expanded="showHowto"
+        @click="showHowto = !showHowto"
+      >
+        <i class="bi army-acc-chev" :class="showHowto ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+        <span class="army-acc-title">{{ labels.trackerArmyHowto }}</span>
+      </button>
+      <CollapseTransition :show="showHowto">
+        <div class="army-acc-body">
+          <ul v-if="view.gains.length" class="army-gains">
+            <li v-for="(g, i) in view.gains" :key="i">{{ g }}</li>
+          </ul>
+          <p v-if="view.note" class="army-note">{{ view.note }}</p>
+        </div>
+      </CollapseTransition>
+    </div>
   </div>
 </template>
 
@@ -31,6 +61,8 @@
 // for the (currently many) factions without a spec.
 import { ref, computed, watch } from 'vue'
 import NumberStepper from './NumberStepper.vue'
+import CollapseTransition from '../CollapseTransition.vue'
+import RuleBody from '../RuleBody.vue'
 import { useTracker } from '../../composables/useTracker.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { ui } from '../../i18n/ui.js'
@@ -45,6 +77,17 @@ const labels = computed(() => ui[locale.value])
 
 const player = computed(() => current.value?.players?.[props.pi] || null)
 const counter = computed(() => player.value?.army?.counter ?? 0)
+
+// Accordions — both collapsed by default.
+const showActive = ref(false)
+const showHowto = ref(false)
+
+// For counters with a threshold, the ability ({ name, body }) active at the current value.
+const activeAbility = computed(() => {
+  const t = view.value?.threshold
+  if (!t) return null
+  return counter.value >= t.at ? t.atOrAbove : t.below
+})
 
 // Raw (un-localized) resolved spec; null for unsupported factions.
 const spec = ref(null)
@@ -107,32 +150,63 @@ watch([spec, locale], async ([s, loc]) => {
   color: var(--text-muted);
 }
 
-.army-howto {
+/* ── Accordions (active ability, how it works) ── */
+.army-acc {
   margin-top: 0.5rem;
+  border-top: 1px solid var(--border);
+  padding-top: 0.4rem;
 }
 
-.army-howto > summary {
+.army-acc-head {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+  padding: 0.15rem 0;
+  background: none;
+  border: none;
   cursor: pointer;
-  font-size: 0.78rem;
+  font-family: inherit;
+  font-size: 0.8rem;
   font-weight: 600;
   color: var(--accent);
-  list-style: none;
+  text-align: left;
 }
 
-.army-howto > summary::-webkit-details-marker {
-  display: none;
+.army-acc-chev {
+  font-size: 0.7rem;
+  flex-shrink: 0;
 }
 
-.army-howto > summary::before {
-  content: '▸ ';
+.army-acc-title {
+  min-width: 0;
 }
 
-.army-howto[open] > summary::before {
-  content: '▾ ';
+.army-acc-title strong {
+  color: var(--text-primary);
+}
+
+.army-acc-static {
+  margin: 0;
+  padding: 0.15rem 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.army-acc-static strong {
+  color: var(--text-primary);
+}
+
+.army-acc-body {
+  padding: 0.35rem 0 0.15rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--text-primary);
 }
 
 .army-gains {
-  margin: 0.5rem 0 0;
+  margin: 0;
   padding-left: 1.1rem;
   font-size: 0.82rem;
   line-height: 1.5;
