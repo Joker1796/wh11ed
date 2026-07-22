@@ -87,6 +87,17 @@ describe('resolveArmyTracker', () => {
     // A different detachment leaves the base allotment untouched.
     expect(resolveArmyTracker('aeldari', ['Windrider Host']).bonus).toBe(0)
   })
+
+  it('resolves the Genestealer Cults counter spec with a battle-size start pool', () => {
+    const spec = resolveArmyTracker('genestealer-cults')
+    expect(spec.kind).toBe('counter')
+    expect(spec.label).toBe('Resurgence points')
+    expect(spec.start).toEqual({ incursion: 6, strikeForce: 10, onslaught: 14 })
+    // Spend-cost reference + note localize; unit names stay English inside RU text.
+    const ru = localizeArmyTracker(spec, 'ru')
+    expect(ru.gains[0]).toMatch(/Aberrants/)
+    expect(ru.note).toMatch(/Cult Ambush/)
+  })
 })
 
 describe('applyOverride (detachment overrides)', () => {
