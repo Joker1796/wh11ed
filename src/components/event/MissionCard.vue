@@ -1,44 +1,63 @@
 <template>
-  <article class="mcard" :id="`mission-${mission.slug}`">
-    <header class="mcard-head">
+  <article class="mcard" :class="{ collapsible }" :id="`mission-${mission.slug}`">
+    <!-- When collapsible, the header is a toggle (chevron) that folds the body into an accordion. -->
+    <component
+      :is="collapsible ? 'button' : 'header'"
+      class="mcard-head"
+      :type="collapsible ? 'button' : undefined"
+      :aria-expanded="collapsible ? open : undefined"
+      @click="collapsible && (open = !open)"
+    >
+      <i v-if="collapsible" class="bi mcard-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
       <h3 class="mcard-name">{{ mission.name }}</h3>
       <span v-if="subtitle" class="mcard-sub">{{ subtitle }}</span>
-    </header>
+    </component>
 
-    <p v-if="mission.lore && showLore" class="mcard-lore">{{ mission.lore }}</p>
+    <CollapseTransition :show="collapsible ? open : true">
+      <div class="mcard-body">
+        <p v-if="mission.lore && showLore" class="mcard-lore">{{ mission.lore }}</p>
 
-    <MissionBriefing :briefing="mission.briefing" />
+        <MissionBriefing :briefing="mission.briefing" />
 
-    <div v-for="(b, bi) in mission.blocks" :key="bi" class="m-block">
-      <div class="m-bhead">
-        <span v-if="b.kind" class="kind" :class="b.kind">{{ b.kind }}</span>
-        <span class="m-heading">{{ b.heading }}</span>
-        <span v-if="b.when" class="m-when">{{ b.when }}</span>
+        <div v-for="(b, bi) in mission.blocks" :key="bi" class="m-block">
+          <div class="m-bhead">
+            <span v-if="b.kind" class="kind" :class="b.kind">{{ b.kind }}</span>
+            <span class="m-heading">{{ b.heading }}</span>
+            <span v-if="b.when" class="m-when">{{ b.when }}</span>
+          </div>
+          <div v-for="(r, ri) in b.rows" :key="ri" class="m-cond">
+            <span class="m-text">
+              <em v-if="r.modifier === 'or'" class="or">{{ labels.trackerOr }}</em>
+              {{ r.text }}
+              <strong>{{ r.vp }} VP{{ isPerEach(r.text) ? ' ' + labels.trackerEach : '' }}</strong>
+            </span>
+          </div>
+        </div>
       </div>
-      <div v-for="(r, ri) in b.rows" :key="ri" class="m-cond">
-        <span class="m-text">
-          <em v-if="r.modifier === 'or'" class="or">{{ labels.trackerOr }}</em>
-          {{ r.text }}
-          <strong>{{ r.vp }} VP{{ isPerEach(r.text) ? ' ' + labels.trackerEach : '' }}</strong>
-        </span>
-      </div>
-    </div>
+    </CollapseTransition>
   </article>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import MissionBriefing from '../MissionBriefing.vue'
+import CollapseTransition from '../CollapseTransition.vue'
 
-defineProps({
+const props = defineProps({
   mission: { type: Object, required: true }, // { slug, name, lore?, briefing?:[{label?,text}|{action,rows:[{label,text}]}], blocks:[{ kind?, heading, when?, rows:[{text,vp,modifier?}] }] }
   subtitle: { type: String, default: '' },
   // Flavour lore is shown on the Event Companion Missions catalogue, but hidden in the
   // tracker (setup preview / pickers) — there only the rules info (briefing + blocks) is useful.
   showLore: { type: Boolean, default: true },
+  // When true, the header becomes a chevron toggle that folds the body into an accordion (used to
+  // save vertical space in the tight game-setup Mission step). Default off → catalogue unchanged.
+  collapsible: { type: Boolean, default: false },
+  defaultOpen: { type: Boolean, default: true },
 })
+
+const open = ref(props.defaultOpen)
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
@@ -65,6 +84,28 @@ function isPerEach(text) {
   padding-bottom: 0.5rem;
   margin-bottom: 0.3rem;
   border-bottom: 1px solid var(--border);
+}
+/* Collapsible mode: the header is a full-width chevron toggle (native button chrome stripped,
+   the bottom divider kept). */
+.mcard.collapsible > .mcard-head {
+  width: 100%;
+  align-items: center;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.mcard.collapsible > .mcard-head:hover .mcard-name {
+  color: var(--accent);
+}
+.mcard-chev {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
 }
 .mcard-name {
   font-family: var(--font-display);

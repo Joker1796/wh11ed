@@ -139,7 +139,7 @@
           </div>
 
           <div class="primary-card" v-if="primaryCards[i]">
-            <MissionCard :mission="primaryCards[i]" :subtitle="labels.trackerPrimaryPreview" :show-lore="false" />
+            <MissionCard :mission="primaryCards[i]" :subtitle="labels.trackerPrimaryPreview" :show-lore="false" collapsible />
           </div>
         </div>
       </div>
@@ -672,6 +672,17 @@ function cancel() {
 /* Drop the field's bottom margin here so the First Turn control and the Track CP
    checkbox card sit on the same baseline (no vertical offset). */
 .settings .field { margin-bottom: 0; }
+/* Narrow screens: the container padding (especially with the nested MissionCard in the Mission
+   step) wastes a lot of the limited width — tighten it and the inter-card gap. */
+@media (max-width: 560px) {
+  .players { gap: 0.55rem; }
+  .player-card,
+  .settings { padding: 0.6rem; }
+}
+@media (max-width: 380px) {
+  .player-card,
+  .settings { padding: 0.5rem; }
+}
 /* Step 4 (Deployment): stack the options vertically, each on its own line. */
 .deploy-opts {
   flex-direction: column;
