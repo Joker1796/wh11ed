@@ -14,12 +14,14 @@
 import drukhari from './drukhari.js'
 import leaguesOfVotann from './leagues-of-votann.js'
 import adeptusMechanicus from './adeptus-mechanicus.js'
+import orks from './orks.js'
 
 // Registry — add a faction by dropping its spec here.
 const REGISTRY = {
   drukhari,
   'leagues-of-votann': leaguesOfVotann,
   'adeptus-mechanicus': adeptusMechanicus,
+  orks,
 }
 
 // Detachment names come from the MFM dataset (player.detachments) and must line up with the
@@ -85,5 +87,10 @@ export function localizeArmyTracker(spec, locale) {
       : null,
     // Selection options (e.g. AdMech's Doctrina Imperatives): each is an ability (id + name + text).
     options: spec.options ? spec.options.map((o) => ({ id: o.id, ...locAbility(o, locale) })) : null,
+    // Toggle effect (e.g. Orks' Waaagh!): the ability that applies once it's called.
+    effect: spec.effect ? locAbility(spec.effect, locale) : null,
+    // Toggle: how many times it can be fired per battle (default 1) + the label for a repeat fire.
+    maxUses: spec.maxUses ?? 1,
+    againLabel: spec.againLabel ? locStr(spec.againLabel, locale) : null,
   }
 }

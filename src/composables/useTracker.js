@@ -397,6 +397,23 @@ export function useTracker() {
     else pl.army.selectionByRound[round] = id
   }
 
+  // Army-rule once-per-battle toggle (Waaagh!, etc.) — records the round(s) it was fired in. It's a
+  // list because a few abilities can be fired more than once a battle (e.g. an Ork Warboss with the
+  // Raucous Warcaller enhancement gets a second Waaagh!); the widget caps how many via the spec.
+  function fireArmyToggle(pi, round) {
+    const pl = current.value.players[pi]
+    if (!pl.army) pl.army = {}
+    if (!pl.army.toggleRounds) pl.army.toggleRounds = []
+    pl.army.toggleRounds.push(round)
+  }
+  // Undo the most recent fire (reset / correct a mis-tap).
+  function undoArmyToggle(pi) {
+    const pl = current.value.players[pi]
+    if (!pl.army?.toggleRounds?.length) return
+    pl.army.toggleRounds.pop()
+    if (!pl.army.toggleRounds.length) delete pl.army.toggleRounds
+  }
+
   function drawSecondary(pi) {
     const s = current.value.players[pi].secondary
     if (!s.deck.length) return
@@ -626,6 +643,7 @@ export function useTracker() {
   return {
     current, history, setupDraft,
     newGame, updateSetup, setRoundPrimary, setCp, setArmyCounter, setArmySelection,
+    fireArmyToggle, undoArmyToggle,
     setPrimaryRow, primaryRowCount,
     drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,
     restoreSecondaryToHand, redrawSecondary,
