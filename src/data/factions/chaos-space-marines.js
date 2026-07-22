@@ -369,7 +369,7 @@ The combined points value of such units you can include in your army depends on 
       rule: {
         name: "Masters of Misdirection",
         flavor: "There are those warbands that number amongst their ranks liars, schemers and infiltrators of far more prodigious skill than most heretics. Employing labyrinthine ploys, they unnerve their enemies and force them to chase ghosts and shadows. They embed themselves within combat zones long before showing their hand, seeding Chaos cults, identifying key targets and feeding misinformation to their foes.",
-        body: "In the Declare Battle Formations step, you can select a number of LEGIONARIES and CULTIST MOB units from your army:\nuntil the end of the battle, those units, and any CHARACTER units attached to them (excluding EPIC HEROES), have the Infiltrators ability. The maximum number of units you can select in this way depends on the battle size, as shown below.\n**BATTLE SIZENUMBER OF UNITSLEGIONARIESCULTIST MOBS**Incursion **Up to 2 units Up to 2 units **Strike Force**Up to 3 units Up to 3 units **Onslaught**Up to 4 units Up to 4 units **",
+        body: "In the Declare Battle Formations step, you can select a number of LEGIONARIES and CULTIST MOB units from your army:\nuntil the end of the battle, those units, and any CHARACTER units attached to them (excluding EPIC HEROES), have the Infiltrators ability. The maximum number of units you can select in this way depends on the battle size, as shown below.\n▪ **Incursion:** Up to 2 units of each.\n▪ **Strike Force:** Up to 3 units of each.\n▪ **Onslaught:** Up to 4 units of each.",
       },
       stratagems: [
         {
@@ -1440,7 +1440,7 @@ The combined points value of such units you can include in your army depends on 
       rule: {
         name: "Warp Portals",
         flavor: "Conjured warp portals flicker across the battlefield, tearing through the fabric of reality according to arcane designs. They are a means, however perilous and unnatural, for the warband’s most elite warriors to traverse the battlefield in a matter of strides and strike again at new locations.",
-        body: "At the end of your opponent’s turn, you can select a number of Heretic Astartes Terminator, Obliterators and Mutilators units from your army (excluding units that are within Engagement Range of one or more enemy units). The maximum number of units you can select depends on the battle size, as follows:\n\n**BATTLE SIZENUMBER OF UNITS**IncursionUp to 1 unitStrike ForceUp to 2 unitsOnslaughtUp to 3 units\nOnce you have made your selections, remove those units from the battlefield and place them into Strategic Reserves.",
+        body: "At the end of your opponent’s turn, you can select a number of Heretic Astartes Terminator, Obliterators and Mutilators units from your army (excluding units that are within Engagement Range of one or more enemy units). The maximum number of units you can select depends on the battle size, as follows:\n▪ **Incursion:** Up to 1 unit.\n▪ **Strike Force:** Up to 2 units.\n▪ **Onslaught:** Up to 3 units.\n\nOnce you have made your selections, remove those units from the battlefield and place them into Strategic Reserves.",
       },
       stratagems: [
         {
