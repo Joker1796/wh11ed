@@ -29,6 +29,7 @@ export default {
     { name: 'Stormlance Task Force', dp: 3, forceDisposition: 'Disruption', enhancements: [{ name: 'Feinting Withdrawal', points: 10 }, { name: 'Fury of the Storm', points: 25 }, { name: 'Hunter’s Instincts', points: 25 }, { name: 'Portents of Wisdom', points: 15 }] },
     { name: 'Subversion Assets', dp: 1, forceDisposition: 'Disruption', enhancements: [{ name: 'Death in the Dark (Upgrade)', points: 15 }, { name: 'Shroud Field', points: 20 }] },
     { name: 'Vanguard Spearhead', dp: 2, forceDisposition: 'Reconnaissance', enhancements: [{ name: 'Execute and Redeploy', points: 20 }, { name: 'Ghostweave Cloak', points: 15 }, { name: 'Shadow War Veteran', points: 30 }, { name: 'The Blade Driven Deep', points: 25 }] },
+    { name: 'Vengeful Hosts', dp: 1, forceDisposition: 'Take and Hold', enhancements: [{ name: 'Avenging Angel', points: 20 }, { name: 'Orksbane', points: 20 }] },
   ],
   units: [
     { name: 'Aggressor Squad', options: [{ models: 3, points: 90, note: '1st-2nd' }, { models: 6, points: 180, note: '1st-2nd' }, { models: 3, points: 100, note: '3rd+' }, { models: 6, points: 190, note: '3rd+' }] },
