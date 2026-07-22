@@ -7,9 +7,9 @@ export default {
   slug: 'drukhari',
   sourceUrl: 'https://mfm.warhammer-community.com/en/drukhari',
   detachments: [
-    { name: 'Covenite Coterie', dp: 2, forceDisposition: 'Purge the Foe', unique: 'COVENS', enhancements: [{ name: 'Master Artisan', points: 20 }, { name: 'Master Nemesine', points: 5 }, { name: 'Master Regenesist', points: 25 }, { name: 'Master Repugnomancer', points: 15 }] },
-    { name: 'Exhibition of Slaughter', dp: 1, forceDisposition: 'Disruption', unique: 'WYCH CULT', enhancements: [{ name: 'Hyperstimm Trafficker', points: 20 }, { name: 'Periapt of Torments', points: 20 }] },
-    { name: 'Kabalite Agonysts', dp: 1, forceDisposition: 'Purge the Foe', unique: 'KABAL', enhancements: [{ name: 'Contempt for Rivals', points: 20 }, { name: 'Towering Arrogance', points: 15 }] },
+    { name: 'Covenite Coterie', dp: 2, forceDisposition: 'Take and Hold', unique: 'COVENS', enhancements: [{ name: 'Master Artisan', points: 20 }, { name: 'Master Nemesine', points: 5 }, { name: 'Master Regenesist', points: 25 }, { name: 'Master Repugnomancer', points: 15 }] },
+    { name: 'Exhibition of Slaughter', dp: 1, forceDisposition: 'Reconnaissance', unique: 'WYCH CULT', enhancements: [{ name: 'Hyperstimm Trafficker', points: 20 }, { name: 'Periapt of Torments', points: 20 }] },
+    { name: 'Kabalite Agonysts', dp: 1, forceDisposition: 'Disruption', unique: 'KABAL', enhancements: [{ name: 'Contempt for Rivals', points: 20 }, { name: 'Towering Arrogance', points: 15 }] },
     { name: 'Kabalite Cartel', dp: 2, forceDisposition: 'Disruption', unique: 'KABAL', enhancements: [{ name: 'Informant Network', points: 30 }, { name: 'Leechbite Plate', points: 5 }, { name: 'Towering Arrogance', points: 20 }, { name: 'Webway Awl', points: 25 }] },
     { name: 'Realspace Raiders', dp: 2, forceDisposition: 'Priority Assets', enhancements: [{ name: 'Crucible of Malediction', points: 15 }, { name: 'Dark Vitality', points: 20 }, { name: 'Eye of Spite', points: 15 }, { name: 'Labyrinthine Cunning', points: 25 }] },
     { name: 'Reaper’s Wager', dp: 3, forceDisposition: 'Purge the Foe', enhancements: [{ name: 'Archraider', points: 15 }, { name: 'Conductor of Torment', points: 20 }, { name: 'Reaper’s Cowl', points: 25 }, { name: 'Webway Walker', points: 15 }] },

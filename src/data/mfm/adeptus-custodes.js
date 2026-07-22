@@ -9,7 +9,7 @@ export default {
   detachments: [
     { name: 'Auric Champions', dp: 2, forceDisposition: 'Priority Assets', enhancements: [{ name: 'Blade Imperator', points: 25 }, { name: 'Inspirational Exemplar', points: 10 }, { name: 'Martial Philosopher', points: 30 }, { name: 'Veiled Blade', points: 25 }] },
     { name: 'Lions of the Emperor', dp: 2, forceDisposition: 'Disruption', unique: 'LIONS', enhancements: [{ name: 'Admonimortis', points: 20 }, { name: 'Fierce Conqueror', points: 15 }, { name: 'Praesidius', points: 25 }, { name: 'Superior Creation', points: 25 }] },
-    { name: 'Might of the Moritoi', dp: 1, forceDisposition: 'Purge the Foe', unique: 'ARMOURY', enhancements: [{ name: 'Auramite Sarcophagus (Upgrade)', points: 15 }, { name: 'Interred Expertise (Upgrade)', points: 25 }] },
+    { name: 'Might of the Moritoi', dp: 1, forceDisposition: 'Take and Hold', unique: 'ARMOURY', enhancements: [{ name: 'Auramite Sarcophagus (Upgrade)', points: 15 }, { name: 'Interred Expertise (Upgrade)', points: 25 }] },
     { name: 'Null Maiden Vigil', dp: 2, forceDisposition: 'Reconnaissance', enhancements: [{ name: 'Enhanced Voidsheen Cloak', points: 10 }, { name: 'Huntress’ Eye', points: 15 }, { name: 'Oblivion Knight', points: 25 }, { name: 'Raptor Blade', points: 5 }] },
     { name: 'Shield Host', dp: 2, forceDisposition: 'Purge the Foe', enhancements: [{ name: 'Auric Mantle', points: 15 }, { name: 'Castellan’s Mark', points: 20 }, { name: 'From the Hall of Armouries', points: 25 }, { name: 'Panoptispex', points: 5 }] },
     { name: 'Silent Hunters', dp: 1, forceDisposition: 'Reconnaissance', enhancements: [{ name: 'Encircling Hunter', points: 15 }, { name: 'Psyk-out Grenades (Upgrade)', points: 10 }] },
