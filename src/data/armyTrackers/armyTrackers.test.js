@@ -111,6 +111,24 @@ describe('resolveArmyTracker', () => {
     expect(ru.options[0].name).toBe('Abhor the Witch, Destroy the Witch')
     expect(en.options[0].body).not.toEqual(ru.options[0].body)
   })
+
+  it('resolves the Death Guard once-selection with a round-gated Contagion Range readout', () => {
+    const spec = resolveArmyTracker('death-guard')
+    expect(spec.kind).toBe('selection')
+    expect(spec.once).toBe(true)
+    expect(spec.options).toHaveLength(3)
+    const en = localizeArmyTracker(spec, 'en')
+    const ru = localizeArmyTracker(spec, 'ru')
+    // The readout label is an English game term; its note is translated. Round 1 = 3", later = 6".
+    expect(en.roundReadout.label).toBe('Contagion Range')
+    expect(ru.roundReadout.label).toBe('Contagion Range')
+    expect(en.roundReadout.byRound[1]).toBe('3"')
+    expect(en.roundReadout.fallback).toBe('6"')
+    expect(en.roundReadout.note).not.toEqual(ru.roundReadout.note)
+    // Plague names stay English in both locales; the effect text is translated.
+    expect(ru.options[0].name).toBe('Skullsquirm Blight')
+    expect(en.options[0].body).not.toEqual(ru.options[0].body)
+  })
 })
 
 describe('applyOverride (detachment overrides)', () => {

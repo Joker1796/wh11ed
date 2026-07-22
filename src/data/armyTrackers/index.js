@@ -19,6 +19,7 @@ import adeptaSororitas from './adepta-sororitas.js'
 import aeldari from './aeldari.js'
 import genestealerCults from './genestealer-cults.js'
 import blackTemplars from './black-templars.js'
+import deathGuard from './death-guard.js'
 
 // Registry — add a faction by dropping its spec here.
 const REGISTRY = {
@@ -30,6 +31,7 @@ const REGISTRY = {
   aeldari,
   'genestealer-cults': genestealerCults,
   'black-templars': blackTemplars,
+  'death-guard': deathGuard,
 }
 
 // Detachment names come from the MFM dataset (player.detachments) and must line up with the
@@ -98,6 +100,15 @@ export function localizeArmyTracker(spec, locale) {
     options: spec.options ? spec.options.map((o) => ({ id: o.id, ...locAbility(o, locale) })) : null,
     // Toggle effect (e.g. Orks' Waaagh!): the ability that applies once it's called.
     effect: spec.effect ? locAbility(spec.effect, locale) : null,
+    // Round-gated readout (Death Guard's Contagion Range): label + optional note localize; the
+    // byRound/fallback display values are language-agnostic strings and ride the spread.
+    roundReadout: spec.roundReadout
+      ? {
+          ...spec.roundReadout,
+          label: locStr(spec.roundReadout.label, locale),
+          note: spec.roundReadout.note ? locStr(spec.roundReadout.note, locale) : null,
+        }
+      : null,
     // Toggle: how many times it can be fired per battle (default 1) + the label for a repeat fire.
     maxUses: spec.maxUses ?? 1,
     againLabel: spec.againLabel ? locStr(spec.againLabel, locale) : null,
