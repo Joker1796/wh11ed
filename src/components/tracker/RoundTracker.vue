@@ -55,9 +55,9 @@
         <SecondaryDeck :pi="i" />
 
         <!-- Army-rule tracker (Pain tokens, etc.) — at the bottom of the card, under the
-             secondaries. Opt-in (settings.trackArmyRule, defaults on) and renders only for factions
-             with a spec. Missing on games saved before the setting existed → treat as on. -->
-        <ArmyTrackerCard v-if="current.settings.trackArmyRule !== false" :pi="i" />
+             secondaries. Opt-in per player (settings.trackArmyYou / trackArmyOpp, default on) and
+             renders only for factions with a spec. -->
+        <ArmyTrackerCard v-if="armyRuleOn(pl)" :pi="i" />
       </div>
     </div>
 
@@ -124,6 +124,15 @@ const { current, setRoundPrimary, setPrimaryRow, primaryRowCount, setCp, goToRou
 const openPrimary = ref(-1)   // index of the player whose primary scoring modal is open
 const endModalOpen = ref(false)
 const editSetupOpen = ref(false)
+
+// Show a player's army-rule card per the split you/opponent toggles (mapped by isYou, not index,
+// since players are reordered by first turn). Back-compat: games saved with the old single
+// `trackArmyRule` flag, and any missing flag, default to on.
+function armyRuleOn(pl) {
+  const s = current.value.settings
+  const key = (pl.isYou ?? false) ? s.trackArmyYou : s.trackArmyOpp
+  return (key ?? s.trackArmyRule ?? true) !== false
+}
 
 // Active twist (if any) — shown as a collapsible reminder; its mission effect (Mirrored
 // World / Scrambled Communications) is already baked into each player's primarySlug.
