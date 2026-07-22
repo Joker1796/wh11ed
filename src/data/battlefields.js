@@ -209,6 +209,15 @@ While one or more units from a player's army are within range of an **objective*
 
 [img:/images/terrain/controlling-a-terrain-objective.jpg|Controlling a terrain objective — OC and control range]`,
           note: 'Hold at All Costs: Some units have abilities that are triggered when they control an **objective**, or when they **[gloss:secured-objective:secure]** an **objective** for your army.',
+          children: [
+            {
+              id: 'section-14-02-01',
+              sectionNum: '14.02.01',
+              title: 'Controlling an Objective at the End of a Phase',
+              fromApp: true,
+              body: `At the end of each phase and turn, the first thing players do (before any other 'at the end of the phase/end of the turn' rules or abilities) is determine which **objectives** are controlled by which player.`,
+            },
+          ],
         },
         {
           id: 'section-14-03',
@@ -667,6 +676,14 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
 
 [img:/images/terrain/controlling-a-terrain-objective-ru.jpg|Захват цели у укрытия — диаграмма контроля]`,
           note: 'Удержать любой ценой: Некоторые юниты имеют способности, которые срабатывают, когда они контролируют **[gloss:objective:цель]**, или когда они **[gloss:secured-objective:закрепляют]** **цель** для вашей армии.',
+          children: [
+            {
+              id: 'section-14-02-01',
+              sectionNum: '14.02.01',
+              title: 'Определение контроля над целью в конце фазы (Controlling an Objective at the End of a Phase)',
+              body: `В конце каждой фазы и хода первое, что делают игроки (раньше любых других правил или способностей «в конце фазы/в конце хода»), — это определяют, какие **цели** контролирует каждый из игроков.`,
+            },
+          ],
         },
         {
           id: 'section-14-03',

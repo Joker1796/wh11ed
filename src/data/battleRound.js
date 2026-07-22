@@ -282,6 +282,18 @@ Many **move types** state conditions you must meet while/after moving. Those tha
 ▪ Until the end of the turn, unless otherwise stated, your unit is not **eligible to declare a charge** or **start an action**.
 ▪ **Desperate Escape:** If your unit is not **battle-shocked**, you must make a **battle-shock roll** for your unit (01.07).`,
         note: '**SELECTING MODES**\nSome rules instruct you to select a mode, such as **fall-back moves** (09.07). Modes are mutually exclusive, and you must assess each one in the order presented. When making a move, if your unit does not meet the conditions of any of the modes, it cannot make that move.\n\nSometimes a mode will be mandatory if applicable (e.g. **consolidation modes** (12.08)), but in the case of **fall-back moves**, **ordered retreat** is not mandatory, so you could select **desperate escape** instead.\n\nMany **move types** state conditions you must meet while/after moving. Those that are labelled with a mode name only apply if you selected that mode; those not labelled with a mode name always apply.',
+        children: [
+          {
+            id: 'section-09-07-01',
+            sectionNum: '09.07.01',
+            title: 'Desperate Escape Test',
+            fromApp: true,
+            body: `Some rules may reference the term 'Desperate Escape test'. In all instances this means the **hazard rolls** made for the **desperate escape** mode of a **fall-back move**.
+
+Abilities that subtract from a unit's Desperate Escape test instead subtract from those **hazard rolls**.`,
+            example: `A **battle-shocked** unit makes a **fall-back move** away from a unit of Bloodletters that have the Bane of Cowards ability. As a result of Bane of Cowards, because the unit making the **fall-back move** is **battle-shocked**, the **hazard rolls** they make as part of their **desperate escape** will be at -1.`,
+          },
+        ],
       },
     ],
   },
@@ -843,6 +855,15 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 ▪ До конца хода, если не указано иное, ваш юнит **не имеет права объявлять нападение** и **начинать [gloss:action:действие]**.
 ▪ **Отчаянный побег:** Если ваш юнит не подвержен **боевому шоку**, вы должны сделать **[gloss:battle-shock-test:проверку боевого шока]** для вашего юнита (01.07).`,
         note: '**ВЫБОР РЕЖИМОВ**\nНекоторые правила предписывают вам выбирать режим, например, [gloss:fall-back-move:для отступления] (09.07). Режимы взаимоисключающие, и вы должны оценивать каждый в представленном порядке. При совершении манёвра, если ваш юнит не соответствует условиям ни одного из режимов, он не может совершить этот манёвр.\n\nИногда режим является обязательным, если применим (например, [gloss:consolidation:режимы консолидации] (12.08)), но в [gloss:fall-back-move:случае отступления] [gloss:ordered-retreat:упорядоченное отступление] не является обязательным, поэтому вы можете вместо него выбрать [gloss:desperate-escape:отчаянный побег].\n\nМногие [gloss:move-type:типы манёвров] указывают условия, которые должны быть соблюдены во время/после манёвра. Те, которые помечены названием режима, применяются только если вы выбрали этот режим; те, которые не помечены названием режима, применяются всегда.',
+        children: [
+          {
+            title: 'Проверка отчаянного побега (Desperate Escape Test)',
+            body: `Некоторые правила могут ссылаться на термин «проверка отчаянного побега» (Desperate Escape test). Во всех случаях это означает **[gloss:hazard-roll:проверки опасности]**, совершаемые для режима **[gloss:desperate-escape:отчаянного побега]** при **[gloss:fall-back-move:отступлении]**.
+
+Способности, вычитающие значение из проверки отчаянного побега юнита, вместо этого вычитаются из этих **проверок опасности**.`,
+            example: `Юнит, подверженный **боевому шоку**, совершает **отступление**, отходя от юнита Bloodletters, обладающего способностью Bane of Cowards. Из-за Bane of Cowards, поскольку юнит, совершающий отступление, подвержен **боевому шоку**, **проверки опасности**, которые он делает в рамках отчаянного побега, будут иметь штраф -1.`,
+          },
+        ],
       },
     ],
   },

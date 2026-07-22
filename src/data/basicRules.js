@@ -257,6 +257,13 @@ When moving a model from your army into base contact with an enemy model during 
 ▪ The models are as close as possible together.
 ▪ Any part of one model is within 1" of any part of the other model.`,
             },
+            {
+              id: 'section-01-04-05',
+              sectionNum: '01.04.05',
+              title: 'Table Quarters',
+              fromApp: true,
+              body: `When a rule refers to a **table quarter**, or table quarters, divide the battlefield with imaginary lines 1mm thick drawn lengthwise and widthwise through the centre of the battlefield to create four equal rectangles. These rectangles are the **table quarters**.`,
+            },
           ],
         },
         {
@@ -1647,6 +1654,10 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ▪ Дистанции, на которую ваша модель могла переместиться, было достаточно, чтобы привести её в контакт баз с вражеской моделью, если бы не было нависания.
 ▪ Модели находятся как можно ближе друг к другу.
 ▪ Любая часть одной модели находится в пределах 1" от любой части другой модели.`,
+            },
+            {
+              title: 'Четверти стола (Table Quarters)',
+              body: `Когда правило ссылается на **четверть стола** или четверти стола, разделите поле боя воображаемыми линиями толщиной 1 мм, проведёнными вдоль и поперёк через центр поля боя, чтобы получить четыре равных прямоугольника. Эти прямоугольники и есть **четверти стола**.`,
             },
           ],
         },
