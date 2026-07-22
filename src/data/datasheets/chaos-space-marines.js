@@ -8,7 +8,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 285
+        "points": 295
       }
     ],
     "flavor": "The Warmaster of Chaos is the greatest threat to the Imperium. He rules his Black Legion with an iron-taloned fist and stands as the embodiment of the Long War. Clad in Terminator armour and wielding his howling daemon sword, Drach’nyen, Abaddon slays any weakling champions sent to challenge him.",
@@ -831,7 +831,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 90
+        "points": 80
       }
     ],
     "flavor": "Some Chaos Lords go to war equipped with jump packs, favouring the mobility these devices provide. Leading packs of Raptors, these cruel hunters descend upon their victims with savage hunger before bringing to bear an array of accursed weapons as they relentlessly pursue their quarry across the battlefield.",
@@ -964,7 +964,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 135,
+        "points": 145,
         "note": "1st-2nd"
       },
       {
@@ -1109,7 +1109,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 140,
+        "points": 150,
         "note": "1st-2nd"
       },
       {
@@ -1254,7 +1254,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 65
       }
     ],
     "flavor": "Based upon ancient workhorse vehicles that have served Humanity for millennia, Chaos Rhinos are well adapted for battlefield transportation. Though encrusted with heretical icons and corrupted by the warp, they remain as rugged and reliable as ever, safely carrying their passengers over fire-swept battlefields.",
@@ -1414,11 +1414,11 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 180
+        "points": 175
       },
       {
         "models": 10,
-        "points": 360
+        "points": 350
       }
     ],
     "flavor": "Clad in hulking, corrupted Terminator plate, each of these murderous brutes is akin to a walking tank. Spikes and horns give them a monstrous appearance, and their powerful array of heavy firepower and brutal melee weapons can tear through elite squads and war engines alike.",
@@ -1689,12 +1689,12 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 125,
+        "points": 135,
         "note": "1st"
       },
       {
         "models": 10,
-        "points": 250,
+        "points": 270,
         "note": "1st"
       },
       {
@@ -3840,7 +3840,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 120
+        "points": 130
       }
     ],
     "flavor": "Reviled as the Tyrant of Badab, Huron directs the pitiless reaving of his Red Corsairs with the ruthlessness of a pirate king, while accompanied by his esoteric Hamadrya. His Tyrant’s Claw is a bionic relic whose crackling talons tear through armour before the inbuilt incineration unit unleashes gouts of sulphurous fire.",
@@ -4819,7 +4819,7 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 135
+        "points": 145
       }
     ],
     "flavor": "These lieutenants of Huron Blackheart stand within the circle of their master’s trust, a position both privileged and dangerous. When they gather to fight in their lord’s shadow, they epitomise the cruelty, cunning and piratical tactics that have made the Red Corsairs such a mighty power in the Maelstrom and beyond.",
@@ -5097,7 +5097,7 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 180,
+        "points": 165,
         "note": "1st-2nd"
       },
       {
@@ -5180,11 +5180,11 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 110
+        "points": 100
       },
       {
         "models": 10,
-        "points": 190
+        "points": 180
       }
     ],
     "flavor": "Nemesis Claws are squads of Night Lords consumed by murderlust and sadism that are employed as terror troops by Chaos warlords the galaxy over. These psychopathic killers use an array of dread weaponry and ghoulish equipment to inflict fear, misery and violent death upon their foes.",
@@ -6056,7 +6056,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 60
       }
     ],
     "flavor": "Renegade warlords and lieutenants, the Reave Captains of the Red Corsairs are masters of underhanded warfare. Combining the strategic nous of loyalist Space Marine commanders with the viciousness of the Heretic Astartes, these merciless war leaders exploit their foes’ every weakness and leave none alive.",
@@ -6733,7 +6733,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 205
+        "points": 220
       }
     ],
     "flavor": "Vashtorr is a horror of pallid flesh stretched over infernal mechanisms. He soars to battle amidst a cloud of dark lightning and smog, dealing destruction and unleashing techno-gheist curses upon the foe even as he fashions enhancements for his indentured Daemon Engines from the raw stuff of realspace.",
@@ -6834,7 +6834,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 110,
+        "points": 120,
         "note": "1st-2nd"
       },
       {

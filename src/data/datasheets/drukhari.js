@@ -1372,7 +1372,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 85
+        "points": 75
       }
     ],
     "flavor": "These swift anti-grav transport barques are employed by kabals, wych cults and haemonculus covens alike for their realspace raids. Streaking through skies like poisoned arrows, Raiders deliver their cargoes of vicious Drukhari into the very heart of the foe before their victims have time to react, providing vicious covering fire as the fighting intensifies.",
@@ -1484,7 +1484,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 100,
+        "points": 110,
         "note": "1st-2nd"
       },
       {
@@ -2496,7 +2496,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 65
       }
     ],
     "flavor": "Raw speed delivers countless Venom transports to the heart of the enemy’s defence and sees them chase down stragglers and encircle the foe’s outriders. For the clique of warriors on board, Venoms are mobile firebases and gore-splashed chariots in one, with flickering shields that confound attempts to bring them down.",

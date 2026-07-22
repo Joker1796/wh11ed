@@ -696,7 +696,7 @@ const en = {
         },
         {
           name: "Gore-stained Veterans",
-          points: 25,
+          points: 20,
           upgrade: true,
           flavor: "Countless fields of bloody battle have honed these warriors\u2019 martial skills to the keenest killing edge.",
           body: "TERMINATOR SQUAD unit only. This unit\u2019s melee attacks have +1 Weapon Skill.",
@@ -755,7 +755,7 @@ const en = {
       enhancements: [
         {
           name: "Archslaughterer",
-          points: 40,
+          points: 30,
           flavor: "This gifted killer channels the fullness of his rage into every weapon swing — doubly so in that fleeting moment when he believes the Blood God\u2019s gaze has fallen upon him.",
           body: "WORLD EATERS model only. (Once per battle, per army) In your Command phase, you can use this ability. If you do, every Blessing of Khorne is active for this unit until the start of your next turn.",
         },

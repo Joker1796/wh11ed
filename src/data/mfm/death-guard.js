@@ -8,7 +8,7 @@ export default {
   sourceUrl: 'https://mfm.warhammer-community.com/en/death-guard',
   detachments: [
     { name: 'Champions of Contagion', dp: 2, forceDisposition: 'Take and Hold', unique: 'FLYBLOWN', enhancements: [{ name: 'Cornucophagus', points: 35 }, { name: 'Final Ingredient', points: 20 }, { name: 'Needle of Nurgle', points: 25 }, { name: 'Visions of Virulence', points: 15 }] },
-    { name: 'Contagion Engines', dp: 1, forceDisposition: 'Purge the Foe', unique: 'ENGINES', enhancements: [{ name: 'Lancet of the Worldsore (Upgrade)', points: 15 }, { name: 'Parasitic Woe‑reaper (Upgrade)', points: 15 }] },
+    { name: 'Contagion Engines', dp: 1, forceDisposition: 'Reconnaissance', unique: 'ENGINES', enhancements: [{ name: 'Lancet of the Worldsore (Upgrade)', points: 15 }, { name: 'Parasitic Woe‑reaper (Upgrade)', points: 15 }] },
     { name: 'Death Lord’s Chosen', dp: 2, forceDisposition: 'Priority Assets', enhancements: [{ name: 'Face of Death', points: 10 }, { name: 'Helm of The Fly King', points: 20 }, { name: 'Vile Vigour', points: 15 }, { name: 'Warprot Talisman', points: 30 }] },
     { name: 'Flyblown Host', dp: 1, forceDisposition: 'Reconnaissance', unique: 'FLYBLOWN', enhancements: [{ name: 'Insectile Murmuration (Upgrade)', points: 15 }, { name: 'Plagueveil (Upgrade)', points: 15 }] },
     { name: 'Mortarion’s Hammer', dp: 2, forceDisposition: 'Purge the Foe', unique: 'ENGINES', enhancements: [{ name: 'Bilemaw Blight', points: 10 }, { name: 'Eye of Affliction', points: 20 }, { name: 'Shriekworm Familiar', points: 15 }, { name: 'Tendrilous Emissions', points: 30 }] },

@@ -547,25 +547,25 @@ Note that you can include AGENTS OF THE IMPERIUM DEDICATED TRANSPORT units in su
       enhancements: [
         {
           name: "Decoy Targets",
-          points: 40,
+          points: 15,
           flavor: "The agents of the Callidus Temple are known to utilise vat-grown doubles to confound their foes.",
           body: "Callidus Assassin models only. Twice per battle, in your Movement phase, you can select one other friendly Infantry model that is on the battlefield and not within Engagement Range of one or more enemy units. The selected model is destroyed (ignoring any rules that are triggered when a model is destroyed) and this model is removed from the battlefield and set up again as close as possible to where that destroyed model was and not within Engagement Range of one or more enemy units. This ability cannot be used more than once in the same battle round.",
         },
         {
           name: "Esoteric Explosives",
-          points: 40,
+          points: 10,
           flavor: "This Culexus operative has been outfitted with various grenades tailored to destroy their assigned targets.",
           body: "Culexus Assassin models only. Each time this model is targeted with the Grenades Stratagem, 1 mortal wound is inflicted for each D6 roll of 3+ instead of for each 4+.",
         },
         {
           name: "Intraneural Biotech", // MFM spells this "Introneural Biotech"
-          points: 35,
+          points: 15,
           flavor: "This Eversor agent’s neurons have been surgically spliced to enhance awareness and speed of thought.",
           body: "Eversor Assassin models only. Once per battle round, you can target this model with the Heroic Intervention or Counter-offensive Stratagem for 0CP, and can do so even if you have already used that Stratagem on a different unit this phase.",
         },
         {
           name: "Micromelta Rounds",
-          points: 45,
+          points: 20,
           flavor: "These projectiles are tipped with miniaturised melta charges that detonate on impact.",
           body: "Vindicare Assassin models only. This model’s exitus rifle has the [ANTI-MONSTER 4+] and [ANTI-VEHICLE 4+] abilities.",
         },

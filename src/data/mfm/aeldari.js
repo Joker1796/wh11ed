@@ -11,7 +11,7 @@ export default {
     { name: 'Aspect Host', dp: 3, forceDisposition: 'Disruption', enhancements: [{ name: 'Aspect of Murder', points: 15 }, { name: 'Mantle of Wisdom', points: 20 }, { name: 'Shimmerstone', points: 10 }, { name: 'Strategic Savant', points: 10 }] },
     { name: 'Corsair Coterie', dp: 2, forceDisposition: 'Priority Assets', enhancements: [{ name: 'Archraider', points: 35 }, { name: 'Infamy', points: 25 }, { name: 'Voidstone', points: 15 }, { name: 'Webway Pathstone', points: 25 }] },
     { name: 'Devoted of Ynnead', dp: 2, forceDisposition: 'Priority Assets', enhancements: [{ name: 'Borrowed Vigour', points: 10 }, { name: 'Gaze of Ynnead', points: 15 }, { name: 'Morbid Might', points: 15 }, { name: 'Storm of Whispers', points: 10 }] },
-    { name: 'Eldritch Raiders', dp: 2, forceDisposition: 'Disruption', enhancements: [{ name: 'Adrenal Infusions', points: 20 }, { name: 'Alacritous Assault', points: 20 }, { name: 'Exotic Munitions', points: 15 }, { name: 'Pirate Prince', points: 15 }] },
+    { name: 'Eldritch Raiders', dp: 2, forceDisposition: 'Purge the Foe', enhancements: [{ name: 'Adrenal Infusions', points: 20 }, { name: 'Alacritous Assault', points: 20 }, { name: 'Exotic Munitions', points: 15 }, { name: 'Pirate Prince', points: 15 }] },
     { name: 'Fateful Performance', dp: 1, forceDisposition: 'Disruption', unique: 'ACROBATIC', enhancements: [{ name: 'A Foot in the Future', points: 15 }, { name: 'Mistweave', points: 20 }] },
     { name: 'Ghosts of the Webway', dp: 2, forceDisposition: 'Disruption', unique: 'ACROBATIC', enhancements: [{ name: 'Cegorach’s Coil', points: 25 }, { name: 'Mask of Secrets', points: 15 }, { name: 'Mistweave', points: 15 }, { name: 'Murder’s Jest', points: 20 }] },
     { name: 'Guardian Battlehost', dp: 2, forceDisposition: 'Take and Hold', enhancements: [{ name: 'Breath of Vaul', points: 10 }, { name: 'Craftworld’s Champion', points: 25 }, { name: 'Ethereal Pathway', points: 30 }, { name: 'Protector of the Paths', points: 20 }] },
@@ -20,7 +20,7 @@ export default {
     { name: 'Serpent’s Brood', dp: 2, forceDisposition: 'Purge the Foe', unique: 'ACROBATIC', enhancements: [{ name: 'Fanged Leer', points: 10 }, { name: 'Key of Ghosts', points: 20 }, { name: 'Shedskin Raiment', points: 25 }, { name: 'Weavers\' Wail', points: 20 }] },
     { name: 'Spirit Conclave', dp: 2, forceDisposition: 'Take and Hold', enhancements: [{ name: 'Higher Duty', points: 25 }, { name: 'Light of Clarity', points: 30 }, { name: 'Rune of Mists', points: 10 }, { name: 'Stave of Kurnous', points: 15 }] },
     { name: 'Twilight Flickers', dp: 1, forceDisposition: 'Take and Hold', unique: 'ACROBATIC', enhancements: [{ name: 'Prelude Performer', points: 20 }, { name: 'Shadowfall Masks (Upgrade)', points: 15 }] },
-    { name: 'Warhost', dp: 3, forceDisposition: 'Purge the Foe', enhancements: [{ name: 'Gift of Foresight', points: 15 }, { name: 'Phoenix Gem', points: 35 }, { name: 'Psychic Destroyer', points: 30 }, { name: 'Timeless Strategist', points: 15 }] },
+    { name: 'Warhost', dp: 3, forceDisposition: 'Reconnaissance', enhancements: [{ name: 'Gift of Foresight', points: 15 }, { name: 'Phoenix Gem', points: 35 }, { name: 'Psychic Destroyer', points: 30 }, { name: 'Timeless Strategist', points: 15 }] },
     { name: 'Windrider Host', dp: 2, forceDisposition: 'Disruption', enhancements: [{ name: 'Echoes of Ulthanesh', points: 20 }, { name: 'Firstdrawn Blade', points: 10 }, { name: 'Mirage Field', points: 25 }, { name: 'Seersight Strike', points: 15 }] },
   ],
   units: [

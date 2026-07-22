@@ -1482,7 +1482,7 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 100,
+        "points": 90,
         "note": "1st-2nd"
       },
       {
@@ -1856,7 +1856,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75,
+        "points": 65,
         "note": "1st"
       },
       {
@@ -1948,7 +1948,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 55
       }
     ],
     "flavor": "It is the most sacred role of the Imagifier to extol the virtues of fallen Sisters and preach tales of their saintly deeds. Imagifiers bear aloft great stanchions in the image of a martyr inscribed with holy texts, and go wherever the fighting is thickest to recite litanies and inspire their fellow Sisters.",
@@ -2046,7 +2046,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 110,
+        "points": 100,
         "note": "1st-3rd"
       },
       {
@@ -2181,7 +2181,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 150
+        "points": 135
       }
     ],
     "flavor": "Riding into battle atop her Throne of Blame, Intranzia Fraye smites the unclean while bellowing vox-amplified condemnations. Enemies singled out for her judgement become the focus of her sisters’ ire, the Adepta Sororitas striving furiously to purge these heretics lest they themselves be judged and punished by their intolerant Dogmata Superior.",
@@ -2299,7 +2299,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 115
+        "points": 105
       }
     ],
     "flavor": "Junith Eruita sweeps to battle wreathed in holy fire. She hovers above the battlefield upon thrumming waves of energy within the pulpit of Saint Holline’s Basilica. Her presence and voice inspire all around her, filling them with faith, while her heavy flamers douse her foes in purging fire.",
@@ -2644,7 +2644,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 185
+        "points": 200
       }
     ],
     "flavor": "Aggressive, brash and taciturn, Morvenn Vahl leads the Adepta Sororitas from the front. Taking to the field in an ancient Paragon Warsuit, she smites foe after foe with deafening bursts from Fidelis, devastating salvoes of missiles and pinpoint thrusts with the Lance of Illumination.",
@@ -3153,11 +3153,11 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 75
+        "points": 70
       },
       {
         "models": 10,
-        "points": 160
+        "points": 140
       }
     ],
     "flavor": "Sisters Repentia charge across the battlefield howling prayers, filled with the need for atonement for past misdeeds. Overseen by a stern taskmaster in the form of a Repentia Superior who is ever vigilant for sinfulness, Repentia now exist only to slaughter the enemies of the Emperor, and so rush forward without heed for their own safety. Each seeks to redeem herself with acts of selfless bravery and violent devotion.",
@@ -3809,12 +3809,12 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 85,
+        "points": 75,
         "note": "1st-2nd"
       },
       {
         "models": 10,
-        "points": 160,
+        "points": 150,
         "note": "1st-2nd"
       },
       {
@@ -3972,7 +3972,7 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 100
+        "points": 90
       }
     ],
     "flavor": "Sisters Novitiate are young recruits to the Adepta Sororitas. Trained by the Drill Abbots of the Schola Progenium, they are assigned to an Order Militant to gain combat experience and prove their mettle in the crucible of war.",
@@ -4163,7 +4163,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 65
       }
     ],
     "flavor": "Rhinos are the mainstay transport of the Adepta Sororitas, and before battle are blessed by Enginseers and Ministorum priests. They are durable, robust and easy to operate. Thanks to their indomitable machine spirits they rarely break down, and speed the warriors inside them across the battlefield wherever they are needed.",
@@ -4370,11 +4370,11 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 80
+        "points": 75
       },
       {
         "models": 10,
-        "points": 160
+        "points": 150
       }
     ],
     "flavor": "Only those who experience a direct and persistent connection with the Emperor become Zephyrim. They are divine destroyers, figures of fathomless passion and integrity. On the battlefield they strike down their foes with ruthless precision, while their angelic singing drowns out the screams of the dying.",

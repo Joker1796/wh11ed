@@ -460,7 +460,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 85
+        "points": 70
       }
     ],
     "flavor": "Equipped with vectored thrusters that make it faster than any other gravitic tank in the Space Marines’ armouries, the Impulsor is a highly adaptable transport used by all Primaris Space Marines for rapid insertion and flanking manoeuvres. It is particularly favoured by Vanguard forces.",
@@ -746,7 +746,7 @@ export default [
     "points": [
       {
         "models": 4,
-        "points": 110
+        "points": 100
       }
     ],
     "flavor": "High Chaplain Grimaldus is a beacon of Imperial faith. His fortitude is such that many of his brothers believe him invincible. His will is singular, his zeal coldly furious, and his martial skill attested by the trail of broken foes laid at his heels. His Cenobyte Servitors lurch to war at his side, bearing with them holy relics of the faith.",
@@ -892,7 +892,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 45
+        "points": 40
       }
     ],
     "flavor": "Carrying their crusade’s icons and sacred standards, these veteran wardens are honoured warriors of exceptional resolve and determination. They raise high the tapestries depicting the crusade’s victories and the God-Emperor’s glory, exhorting their fellow Black Templars to greater heights of weaponised hate.",
@@ -1173,7 +1173,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 100
+        "points": 90
       }
     ],
     "flavor": "A humble warrior touched by greatness, the Emperor’s Champion strides to battle wreathed in divine light. The furious blows of the enemy ring from his nigh-impenetrable Armour of Faith. In return, the Emperor’s Champion seeks out the leaders of the foe and, with sweeping blows from his Black Sword, strikes them down.",
@@ -1287,7 +1287,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 60
+        "points": 50
       }
     ],
     "flavor": "Execrators are living exemplars of their battle-brothers’ oaths, ferocious warrior priests who lead the Black Templars in lethal rampages. They teach that waris the most worthy chapel for warriors, every bludgeoning blow of their crozius arcanum punctuated with zealous invective and roared sermons.",
@@ -1403,7 +1403,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 120
+        "points": 110
       }
     ],
     "flavor": "Helbrecht is the living embodiment of his Chapter’s warrior spirit. Wielding the Sword of the High Marshals, he storms into the fray, bellowing oaths of vengeance as he leads the unstoppable charge. His battle-brothers follow him without question, for they believe where High Marshal Helbrecht treads, so too walks the Emperor himself.",
@@ -1932,7 +1932,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 245,
+        "points": 255,
         "note": "1st-2nd"
       },
       {

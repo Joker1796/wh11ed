@@ -56,7 +56,11 @@ function flattenWh11ed(sections, file, out) {
   const walk = (node) => {
     const num = node.sectionNum || node.num
     // Section-level nodes keep their intro prose in `description`; subsections use `body`.
-    if (num) out.set(num, { title: node.title || '', body: node.body || node.description || '', file })
+    // A `note` (Designer's Note / aside) is a genuinely separate field from `body`, but appdata
+    // inlines it into the SAME container text — without folding it in here, an already-correct
+    // note (e.g. 13.02/13.11's) reads as a content gap purely because of where wh11ed happens to
+    // store it (same false-positive class fixed for coreAbilities' `note` above).
+    if (num) out.set(num, { title: node.title || '', body: [node.body || node.description, node.note].filter(Boolean).join('\n\n'), file })
     for (const c of node.subsections || []) walk(c)
     for (const c of node.children || []) walk(c)
   }
@@ -75,9 +79,18 @@ for (const f of FILES) {
 // Section 24 Core Abilities lives in reference.js across two exports: `abilityIntro` (the
 // framework subsections 24.01/24.02, section-tree shape) and `coreAbilities` (the flat list
 // of individual abilities, each already carrying its `num` "24.03" and full text in `fullText`).
+// appdata sometimes folds a "Designer's Note" into the SAME container text that wh11ed splits
+// into a separate `note` field (e.g. [LETHAL HITS]/[PISTOL]) — include it in the comparison
+// body so an already-correct note doesn't read as a content gap. Likewise appdata sometimes
+// numbers a clarification as its own child container (e.g. 24.11.01) that wh11ed already
+// nests under the parent ability's own `children[]` — walk those too, or they show up as
+// permanently "missing" even when transcribed.
 const ref = await loadModule(path.join(ROOT, 'src', 'data', 'reference.js'))
 flattenWh11ed(ref.abilityIntro.en, 'reference', wh)
-for (const a of ref.coreAbilities.en) if (a.num) wh.set(a.num, { title: a.name || '', body: a.fullText || '', file: 'reference' })
+for (const a of ref.coreAbilities.en) {
+  if (a.num) wh.set(a.num, { title: a.name || '', body: [a.fullText, a.note].filter(Boolean).join('\n\n'), file: 'reference' })
+  for (const c of a.children || []) if (c.sectionNum) wh.set(c.sectionNum, { title: c.title || '', body: c.body || '', file: 'reference' })
+}
 
 const { rules, dataVersion } = loadJson(path.join(APPDATA, 'factions', '_core-rules.json'))
 // appdata numbers a section's intro container "NN.00"; wh11ed carries that intro on the bare

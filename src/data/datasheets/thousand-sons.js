@@ -354,7 +354,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 130,
+        "points": 140,
         "note": "1st-2nd"
       },
       {
@@ -500,7 +500,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 130,
+        "points": 140,
         "note": "1st-2nd"
       },
       {
@@ -646,7 +646,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 90
+        "points": 80
       }
     ],
     "flavor": "Many of the Rhinos employed by the Thousand Sons are ancient vehicles, their once-noble machine spirits safuratedby the malice of the Warp, their hulls mutated and discoloured by the energies of unfettered change. Still, they bear the foot soldiers of Tzeentch swiftly into battle, guns hammering as they go.",
@@ -1151,7 +1151,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 290,
+        "points": 300,
         "note": "1st"
       },
       {
@@ -2180,7 +2180,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 295
+        "points": 305
       }
     ],
     "flavor": "Wielding the warp-forged Staff of Tomorrow, and with the ability to predict all that may come to pass while knowing all that has already transpired, Kairos Fateweaver is amongst the galaxy’s most canny strategists. What the daemon lacks in physical and martial prowess, it more than makes up for in pure Tzeentchian cunning.",
@@ -2284,7 +2284,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 300,
+        "points": 320,
         "note": "1st-2nd"
       },
       {
@@ -3114,7 +3114,7 @@ export default [
       },
       {
         "models": 10,
-        "points": 370,
+        "points": 385,
         "note": "1st-2nd"
       },
       {
@@ -3343,11 +3343,11 @@ export default [
     "points": [
       {
         "models": 2,
-        "points": 80
+        "points": 85
       },
       {
         "models": 4,
-        "points": 160
+        "points": 175
       }
     ],
     "flavor": "Sekhetar Robots are often employed by their sorcerous masters as prophetic sentinels to guard sites of power or stalk unwary interlopers. Inscribed with spells of illusion and obfuscation, Sekhetar Robots can be hidden, awaiting the moment to activate and turn their arcane weapons on the foe in gouts of empyric energy and sorcerous missiles.",
@@ -3701,7 +3701,7 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 45
+        "points": 50
       },
       {
         "models": 6,
@@ -3873,7 +3873,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 60
+        "points": 65
       }
     ],
     "flavor": "Tzaangor Shamans possess prodigious sorcerous abilities stemming from their faith in Tzeentch and can unleash ferocious psgchic bombardments against the foe as they soar high upon their daemonic Discs. The mere presence of these bestial champions inspires the herds they lead to ever greater heights of violence.",

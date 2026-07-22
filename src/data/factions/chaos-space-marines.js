@@ -1311,7 +1311,7 @@ The combined points value of such units you can include in your army depends on 
         },
         {
           name: "Tempting Addendum",
-          points: 25,
+          points: 40,
           flavor: "The Arkifane’s contracts are malleable by design. More power can be offered should the supplicant be willing to bear the debt in souls.",
           body: "HERETIC ASTARTES model only. Each time a HERETIC ASTARTES DAEMON VEHICLE unit from your army invokes its contract while within 3\" of the bearer:\n▪ If it suffers one or more mortal wounds as a result  of that Dark Pact, add 1 to the number of mortal wounds it suffers.\n▪ Until the end of the phase, each time a model in that unit makes an attack, you can re-roll the Hit roll.",
         },

@@ -13,7 +13,7 @@ export const APPDATA = process.env.WH40K_APPDATA_PATH || path.join(ROOT, '..', '
 // same commit that lands a re-sync so `npm run sync` can tell you when appdata has moved ahead
 // (a newer app dump) and the audit needs re-running. Read appdata's current version from its
 // tables/_meta.json.
-export const SYNCED_DATA_VERSION = 895
+export const SYNCED_DATA_VERSION = 909
 export function appdataDataVersion() {
   const meta = path.join(APPDATA, 'tables', '_meta.json')
   return fs.existsSync(meta) ? JSON.parse(fs.readFileSync(meta, 'utf8')).data_version : null

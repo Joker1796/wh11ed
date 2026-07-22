@@ -118,7 +118,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 55
       }
     ],
     "flavor": "Aleya is a veteran of her order and is a ferocious and dedicated hunter of witches and sorcerers. Over many years she has developed incredible tactical perception, as well as a deep knowledge of her quarry. She employs these skills to seek out rogue psykers, cutting them down with sweeps of her blade, Somnus.",
@@ -332,7 +332,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 65
       }
     ],
     "flavor": "The Rhinos of the Silent Sisterhood are more than just armoured personnel carriers. Many have served the Imperium for hundreds, if not thousands of years. Highly rugged vehicles, their spacious capacity and powerful engines help them to safely carry their deadly cargo of Sisters into the fiercest of battles.",
@@ -1380,12 +1380,12 @@ export default [
     "points": [
       {
         "models": 4,
-        "points": 210,
+        "points": 200,
         "note": "1st"
       },
       {
         "models": 5,
-        "points": 260,
+        "points": 250,
         "note": "1st"
       },
       {
@@ -2636,11 +2636,11 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 160
+        "points": 150
       },
       {
         "models": 6,
-        "points": 320
+        "points": 300
       }
     ],
     "flavor": "The role of Venatari Custodian is vaunted as a high honour within the Adeptus Custodes, bestowed upon those with the most aquiline combat senses. These airborne hunting squads make masterful use of their archeotech jump packs to strike from the skies, swooping into the enemy’s midst to deliver swift ruin with their pistols and polearms.",

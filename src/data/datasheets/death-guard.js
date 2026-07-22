@@ -777,7 +777,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 85
+        "points": 75
       }
     ],
     "flavor": "Clad in a cocoon of slime-smeared armour plating, Death Guard Rhinos are ubiquitous and versatile armoured transports. They can move Death Guard squads rapidly across the battlefield in their festering holds, taking them to new battlefronts, bearing them through hostile terrain or supporting armoured offensives.",
@@ -1129,7 +1129,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 320,
+        "points": 305,
         "note": "1st-2nd"
       },
       {
@@ -1243,7 +1243,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 290,
+        "points": 300,
         "note": "1st"
       },
       {
@@ -2624,7 +2624,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 400
+        "points": 390
       }
     ],
     "flavor": "To stand in Mortarion’s presence is lethal, such is the pestilential aura that surrounds him. Wielding his gigantic scythe, Silence, he cuts apart entire enemy squads in seconds. With furious blasts of Lantern, his devastating sidearm of unknown provenance, he disintegrates heavy infantry and armour alike.",
@@ -3159,7 +3159,7 @@ export default [
       },
       {
         "models": 10,
-        "points": 190
+        "points": 180
       }
     ],
     "flavor": "The mainstay of vectoriums, Plague Marines excel in gruelling firefights and relentless assaults that grind the enemy down. They are tactically astute, deploying plague spewers to drown hordes of enemies in toxic slime and blight launchers to release crippling ironblight into armoured vehicles.",

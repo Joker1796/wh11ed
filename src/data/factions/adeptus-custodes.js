@@ -243,7 +243,7 @@ All other Adeptus Custodes units from your army gain the following ability:
       enhancements: [
         {
           name: 'From the Hall of Armouries',
-          points: 25,
+          points: 20,
           flavor: "The racks of the Adeptus Custodes' armouries yield up some of the most finely crafted close-quarters weaponry borne by any soldiers of the Imperium.",
           body: `Shield-Captain model only. Add 1 to the Strength and Damage characteristics of the bearer's melee weapons.`,
         },
@@ -803,7 +803,7 @@ This detachment has the LIONS tag and cannot be taken with another LIONS detachm
         },
         {
           name: 'Admonimortis',
-          points: 20,
+          points: 30,
           flavor: 'A relic of the Dread Host, this towering blade was wrought to make a bloody example of those who dare to set themselves against the might of Terra.',
           body: `Shield-Captain model only. Improve the Strength characteristic of melee weapons equipped by the bearer by 3, and improve the Armour Penetration and Damage characteristics of those weapons by 1.`,
         },

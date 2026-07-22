@@ -7,13 +7,13 @@ export default {
   slug: 'chaos-knights',
   sourceUrl: 'https://mfm.warhammer-community.com/en/chaos-knights',
   detachments: [
-    { name: 'Bastions of Tyranny', dp: 1, forceDisposition: 'Disruption', enhancements: [{ name: 'Hate-filled Dominion', points: 20 }, { name: 'Pterrorshade Rookery', points: 20 }] },
+    { name: 'Bastions of Tyranny', dp: 1, forceDisposition: 'Priority Assets', enhancements: [{ name: 'Hate-filled Dominion', points: 20 }, { name: 'Pterrorshade Rookery', points: 20 }] },
     { name: 'Helhunt Lance', dp: 2, forceDisposition: 'Disruption', enhancements: [{ name: 'Aspect of the Beast', points: 30 }, { name: 'Hunter’s Helm', points: 15 }, { name: 'Octagram of Conjuration', points: 40 }, { name: 'Throne Tyrannicus', points: 25 }] },
     { name: 'Houndpack Lance', dp: 2, forceDisposition: 'Reconnaissance', unique: 'WAR DOGS', enhancements: [{ name: 'Final Howl', points: 20 }, { name: 'Loping Predator', points: 10 }, { name: 'Panoply of the Cursed Knights', points: 15 }, { name: 'Preyslayer’s Mantle', points: 15 }] },
     { name: 'Hunting Warpack', dp: 1, forceDisposition: 'Reconnaissance', unique: 'WAR DOGS', enhancements: [{ name: 'Snarling Rivalry (Upgrade)', points: 10 }, { name: 'Soul-spoor Auspicator (Upgrade)', points: 15 }] },
     { name: 'Iconoclast Fiefdom', dp: 1, forceDisposition: 'Take and Hold', enhancements: [{ name: 'Cruel Lashmaster (Aura)', points: 25 }, { name: 'Iconoclast Idol (Aura)', points: 20 }] },
-    { name: 'Infernal Lance', dp: 3, forceDisposition: 'Purge the Foe', enhancements: [{ name: 'Bestial Aspect', points: 30 }, { name: 'Blasphemous Engine', points: 35 }, { name: 'Fleshmetal Fusion', points: 35 }, { name: 'Knight Diabolus', points: 25 }] },
-    { name: 'Lords of Dread', dp: 2, forceDisposition: 'Priority Assets', enhancements: [{ name: 'Blade of Celerity', points: 35 }, { name: 'Blessing of the Dark Master', points: 20 }, { name: 'Mirror of Fates', points: 30 }, { name: 'Putrid Carapace', points: 30 }, { name: 'Throne Mechanicum of Skulls', points: 25 }, { name: 'Warp-borne Stalker', points: 25 }] },
+    { name: 'Infernal Lance', dp: 3, forceDisposition: 'Priority Assets', enhancements: [{ name: 'Bestial Aspect', points: 30 }, { name: 'Blasphemous Engine', points: 35 }, { name: 'Fleshmetal Fusion', points: 35 }, { name: 'Knight Diabolus', points: 25 }] },
+    { name: 'Lords of Dread', dp: 2, forceDisposition: 'Take and Hold', enhancements: [{ name: 'Blade of Celerity', points: 35 }, { name: 'Blessing of the Dark Master', points: 20 }, { name: 'Mirror of Fates', points: 30 }, { name: 'Putrid Carapace', points: 30 }, { name: 'Throne Mechanicum of Skulls', points: 25 }, { name: 'Warp-borne Stalker', points: 25 }] },
     { name: 'Traitoris Lance', dp: 2, forceDisposition: 'Purge the Foe', enhancements: [{ name: 'Malevolent Heraldry', points: 30 }, { name: 'Nightmare’s Master', points: 20 }, { name: 'Tyrant’s Shadow', points: 25 }, { name: 'Veil of Medrengard', points: 35 }] },
   ],
   units: [

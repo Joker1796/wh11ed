@@ -202,12 +202,12 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 90,
+        "points": 80,
         "note": "1st-2nd"
       },
       {
         "models": 6,
-        "points": 180,
+        "points": 165,
         "note": "1st-2nd"
       },
       {
@@ -2379,7 +2379,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 90
+        "points": 100
       }
     ],
     "flavor": "A relentless champion of Ultramar with a will of unyielding adamant, Captain Demetrian Titus has won countless battles against seemingly impossible odds. While possessed of lauded command abilities, Titus is truly at home in the press of battle where he fights relentlessly and refuses to yield even to grievous wounds.",
@@ -2674,7 +2674,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 95
+        "points": 105
       }
     ],
     "flavor": "A noble scion of Talassar, Cato Sicarius is amongst the most accomplished of the Ultramarines champions. As Captain of the Victrix Honour Guard, Sicarius demonstrates superior swordsmanship and is a true master of the lightning assault, deploying his warriors with a decisiveness and speed born of absolute confidence.",
@@ -3521,7 +3521,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 95
+        "points": 85
       }
     ],
     "flavor": "As Tigurius charges into battle, he assails the enemy with a tempest of psychic fury. Blasts of energy leap from his staff, hurling foes through the air and burning their souls to ash. It is the Chief Librarian’s acute foresight that is most valuable to his Chapter – his merest intuition is worth more than the predictions of an army of strategists and spies.",
@@ -4481,7 +4481,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 60
       }
     ],
     "flavor": "Launched from ships in low orbit, Drop Pods full of Space Marines slam into the battlefield, their hatches blowing open upon the violent impact. Within seconds, the squad bursts out with weapons firing. Such deadly strikes send the foe into disarray as their lines are torn apart in the furious assault.",
@@ -4778,7 +4778,7 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 70,
+        "points": 80,
         "note": "1st-2nd"
       },
       {
@@ -5677,7 +5677,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 80
+        "points": 70
       }
     ],
     "flavor": "Equipped with vectored thrusters that make it faster than any other gravitic tank in the Space Marines’ armouries, the Impulsor is a highly adaptable transport used by all Primaris Space Marines for rapid insertion and flanking manoeuvres. It is particularly favoured by Vanguard forces.",
@@ -5835,12 +5835,12 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 120,
+        "points": 125,
         "note": "1st-2nd"
       },
       {
         "models": 6,
-        "points": 240,
+        "points": 250,
         "note": "1st-2nd"
       },
       {
@@ -6074,7 +6074,7 @@ export default [
       },
       {
         "models": 10,
-        "points": 170
+        "points": 180
       }
     ],
     "flavor": "Infernus Squads purge swathes of the enemy ranks with the incandescent firestorms they unleash from their pyreblasters. They are close assault specialists, sending jets of burning promethium into enemy trench lines and bunkers and through dense ruins and concealing vegetation, ensuring no foe escapes their fiery wrath.",
@@ -7546,7 +7546,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 95,
+        "points": 105,
         "note": "1st-2nd"
       },
       {
@@ -7637,7 +7637,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 60
+        "points": 70
       }
     ],
     "flavor": "Librarians are the Space Marines’ battle-psykers and keepers of lore. Wielding terrifying empyric energies, with but a thought they can crush a foe’s skull, throw up force shields to protect their brethren from incoming fire, and hurl blasts of psychic power.",
@@ -8389,7 +8389,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 85
+        "points": 95
       }
     ],
     "flavor": "Some Lieutenants in Phobos armour are tasked with operating behind enemy lines, acting as skilled assassins and intelligence gatherers. By the time the main Space Marine task force has arrived they have cast the enemy into disarray and collected incredible tactical data that will all but guarantee the assault’s success.",
@@ -8476,7 +8476,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 140
+        "points": 155
       }
     ],
     "flavor": "Inspiring leader and superlative warrior both, Marneus Calgar goes to battle clad in the Armour of Antilochus. Obliterating swathes of enemies with volleys of bolt shells from the Gauntlets of Ultramar and tearing apart any foes foolish enough to stand before him, he is an architect of destruction whose gift for grand strategy is without question.",
@@ -9113,7 +9113,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 95
+        "points": 85
       }
     ],
     "flavor": "The Razorback replaces some of the Rhino’s transport capacity with a heavy weapon turret, and provides fire support for armoured infantry assaults while delivering its own cargo of warriors to battle. Such is its success that for many Chapters it performs additional functions, notably as a mobile command centre.",
@@ -9666,7 +9666,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 240,
+        "points": 230,
         "note": "1st-2nd"
       },
       {
@@ -9851,7 +9851,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 65
       }
     ],
     "flavor": "The Rhino transport has served the Space Marines for ten thousand years, and forms a part of many of their strike forces. With robust self-repair systems, the Rhino is a rugged vehicle that can swiftly navigate nightmare battlefields to deliver its deadly cargo of Space Marines into the heart of battle.",
@@ -9939,7 +9939,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 340
+        "points": 355
       }
     ],
     "flavor": "In one of Guilliman’s hands blazes the burning Emperor’s Sword. The other is clad in the Hand of Dominion, a gauntlet with which Guilliman can tear apart tanks. The Primarch’s strategic brilliance is his greatest weapon however, his enemies outmanoeuvred and out-thought before the battle has even begun.",
@@ -10245,7 +10245,7 @@ export default [
       },
       {
         "models": 10,
-        "points": 190
+        "points": 200
       }
     ],
     "flavor": "Sternguard Veterans are possessed of an unshakeable calm, and are renowned amongst their brothers for their exemplary marksmanship in the fiercest battles. Proficient in all of the Chapter’s ranged weaponry, they can always be found where their pinpoint volleys will best shatter the foe.",
@@ -10507,7 +10507,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 130,
+        "points": 140,
         "note": "1st-2nd"
       },
       {
@@ -11184,7 +11184,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 100
+        "points": 90
       }
     ],
     "flavor": "A true son of Chogoris, Suboden Khan commands the White Scars First Brotherhood from the saddle of his grav bike, Thunder. A master of cavalry warfare, he leads his forces in epic hunts and sweeping advances, smashing through enemy lines and ruthlessly running down fleeing foes.",
@@ -11296,7 +11296,7 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 75
+        "points": 85
       }
     ],
     "flavor": "Girded in armour that can tolerate the vicious recoil of their weapons and the terrible stresses of grav-drops, Suppressors rapidly take up key positions on the battlefield. From there, they unleash deluges of armour-piercing rounds that decimate enemy infantry and force the survivors to dive for cover.",
@@ -12325,7 +12325,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 95
+        "points": 105
       }
     ],
     "flavor": "Skilled warrior and masterful leader, Uriel Ventris is one of the Ultramarines’ most capable commanders – if a maverick one. Having served in the Deathwatch before becoming Captain, he has absorbed the strategies of battle-brothers from a host of other Chapters, giving him a breadth of tactical insight exceeding that of many of his peers.",
@@ -12439,12 +12439,12 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 100,
+        "points": 105,
         "note": "1st-2nd"
       },
       {
         "models": 10,
-        "points": 200,
+        "points": 210,
         "note": "1st-2nd"
       },
       {
@@ -12607,7 +12607,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 220,
+        "points": 230,
         "note": "1st"
       },
       {
@@ -12946,7 +12946,7 @@ export default [
     "points": [
       {
         "models": 6,
-        "points": 110
+        "points": 120
       }
     ],
     "flavor": "Though usually seeded through the leadership strata of Captain Titus’ armies, his closest counsellors and comrades fight by his side as one when the situation demands. At such times they combine transhuman might, inspirational magnificence, martial excellence, psychic might and sheer cunning in a potent alloy greater than the sum of its parts.",
