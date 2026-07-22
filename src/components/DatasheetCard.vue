@@ -380,14 +380,14 @@ function statCells(p) {
   position: relative;
   isolation: isolate;
   display: block;
-  min-width: 3rem;
+  min-width: 3.1rem;
   text-align: center;
   background: var(--border);
   clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px);
   padding: 0.28rem 0.3rem;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.55rem;
+  font-size: 1.65rem;
   line-height: 1.1;
   color: var(--text-primary);
 }
@@ -453,8 +453,8 @@ function statCells(p) {
 
 @media (max-width: 480px) {
   .ds-stat-box {
-    min-width: 2.55rem;
-    font-size: 1.3rem;
+    min-width: 2.7rem;
+    font-size: 1.4rem;
     padding: 0.24rem;
     clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
   }

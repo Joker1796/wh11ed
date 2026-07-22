@@ -227,7 +227,14 @@ async function copyName() {
    language as the weapon-table headers in DatasheetCard — --ds-th-bg is the accent in
    light theme and the faction's dark variant in dark theme, where the plain accent is
    too light to carry white text). It sits flush on top of the card (radius 0 0 6 6). */
+/* Sticky under the navbar (and, on desktop, the faction subnav below it — same z-index
+   tier as FactionPickerBar's .fpb) so the unit name stays visible while scrolling a long
+   datasheet. The subnav is hidden ≤900px, so the sticky offset drops to just the navbar
+   there (see the media query below). */
 .ds-head {
+  position: sticky;
+  top: calc(var(--navbar-height) + var(--safe-top) + var(--subnav-height));
+  z-index: 150;
   display: flex;
   align-items: baseline;
   flex-wrap: wrap;
@@ -237,6 +244,9 @@ async function copyName() {
   background: var(--ds-th-bg, var(--accent));
   border-radius: 6px 6px 0 0;
   --ds-th-bg: var(--accent);
+}
+@media (max-width: 900px) {
+  .ds-head { top: calc(var(--navbar-height) + var(--safe-top)); }
 }
 @media (prefers-color-scheme: dark) {
   .ds-head { --ds-th-bg: var(--fa-light, color-mix(in srgb, var(--accent) 55%, black)); }
