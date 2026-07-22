@@ -380,14 +380,14 @@ function statCells(p) {
   position: relative;
   isolation: isolate;
   display: block;
-  min-width: 3rem;
+  min-width: 3.1rem;
   text-align: center;
   background: var(--border);
   clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px);
   padding: 0.28rem 0.3rem;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.55rem;
+  font-size: 1.65rem;
   line-height: 1.1;
   color: var(--text-primary);
 }
@@ -453,8 +453,8 @@ function statCells(p) {
 
 @media (max-width: 480px) {
   .ds-stat-box {
-    min-width: 2.55rem;
-    font-size: 1.3rem;
+    min-width: 2.7rem;
+    font-size: 1.4rem;
     padding: 0.24rem;
     clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
   }
@@ -578,18 +578,27 @@ function statCells(p) {
 /* Very narrow phones (≤480px): placed after the base .ds-card/.ds-cardhead/.ds-points/
    .ds-weapons rules above so it wins the cascade at equal specificity (a same-specificity
    override defined earlier in the file, e.g. inside the .ds-stat-box media block, loses to
-   these later unconditional rules regardless of the media query matching). The card's own
-   1rem gutter stacks on top of .main-content's — shrink it here, re-bleed the header/points
-   bands (their negative margins key off this padding), and tighten the weapon/points tables,
-   which otherwise have no responsive treatment at all: .wname's 10rem floor plus nowrap on
-   every other cell forces horizontal scroll well before this. */
+   these later unconditional rules regardless of the media query matching). The card bleeds
+   past .main-content's own gutter to the true viewport edge (same 100vw trick as
+   FactionPickerBar's .fpb) and loses its rounding — a full-bleed native-feeling section
+   flush under the header, not a floating card with two stacked gutters. Its own small
+   0.4rem padding is what's left to keep content off the screen edge; the header/points
+   bands re-bleed to the CARD's edge (their negative margins key off that 0.4rem), and
+   tighten the weapon/points tables, which otherwise have no responsive treatment at all:
+   .wname's 10rem floor plus nowrap on every other cell forces horizontal scroll well
+   before this. */
 @media (max-width: 480px) {
-  .ds-card { padding: 0.9rem 0.4rem 0.6rem; }
+  .ds-card {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    padding: 0.9rem 0.4rem 0.6rem;
+    border-radius: 0;
+  }
   .ds-cardhead { margin: -0.9rem -0.4rem 0.8rem; padding: 0.75rem 0.4rem 0.7rem; }
   .ds-points { margin: 0.8rem -0.4rem -0.6rem; padding: 0.55rem 0.4rem 0.75rem; }
 
-  /* Bleed the weapon table to the card's edges too, like .ds-cardhead/.ds-points —
-     square corners since it's no longer inset, not floating mid-card. */
+  /* Bleed the weapon table to the card's edges too, same as .ds-cardhead/.ds-points above —
+     the gutter comes from the cells' own padding, not from staying inset. */
   .ds-weapons {
     margin-left: -0.4rem;
     margin-right: -0.4rem;
@@ -598,19 +607,41 @@ function statCells(p) {
   .ds-weapons th:last-child {
     border-radius: 0;
   }
-  .ds-weapons table,
-  .ds-points table {
-    font-size: 0.68rem;
+  /* One uniform body font for every cell — name and stats alike — bumped up from the old
+     0.68rem. The extra room for the stats comes from the narrower .wname floor below (the
+     name wraps), NOT from a bigger font on the stat columns only, which read as ragged
+     mismatched sizes within one table. */
+  .ds-weapons table {
+    font-size: 0.82rem;
   }
+  .ds-points table {
+    font-size: 0.72rem;
+  }
+  /* Wider horizontal cell padding than the ≤480 default so the stat columns claim a bit
+     more of the table's width (auto layout: a column's used width includes its padding,
+     so more padding = wider stat columns, drawn from the slack the wrapping name column
+     would otherwise absorb). */
   .ds-weapons th,
   .ds-weapons td {
-    padding: 0.18rem 0.1rem;
+    padding: 0.2rem 0.28rem;
   }
+  /* The table bleeds edge-to-edge, so the first/last columns' content would otherwise sit
+     flush against the screen edge — inset just those two so the text clears the edge while
+     the header band still spans full width. */
+  .ds-weapons th:first-child,
+  .ds-weapons td:first-child {
+    padding-left: 0.5rem;
+  }
+  .ds-weapons th:last-child,
+  .ds-weapons td:last-child {
+    padding-right: 0.5rem;
+  }
+  /* Header labels stay a single small uppercase size across all columns. */
   .ds-weapons th {
-    font-size: 0.54rem;
+    font-size: 0.56rem;
   }
   .ds-weapons .wname {
-    min-width: 4.5rem;
+    min-width: 4rem;
   }
   .ds-points th,
   .ds-points td {

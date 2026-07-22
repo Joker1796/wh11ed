@@ -348,4 +348,29 @@ async function copyName() {
 @media (max-width: 640px) {
   .ds-title { font-size: 1.5rem; }
 }
+
+/* Very narrow phones (≤480px): bleed the name plate past .main-content's gutter to the
+   true viewport edge and square its top corners, matching DatasheetCard's .ds-card below
+   it (same 100vw trick as FactionPickerBar's .fpb) — the two read as one flush, edge-to-edge
+   header instead of a floating card. Horizontal padding drops to .ds-card's own 0.4rem so
+   both line up, and the action buttons shrink to leave the (often long) unit name more room. */
+@media (max-width: 480px) {
+  /* Cancel FactionLayout's .faction-view top padding (0.5rem) so the full-bleed card sits
+     flush under the subnav, with no gap above the name plate — matching the edge-to-edge
+     treatment on the sides. */
+  .fsection {
+    margin-top: -0.5rem;
+  }
+  .ds-head {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    padding: 0.5rem 0.4rem 0.45rem;
+    border-radius: 0;
+  }
+  .ds-btn {
+    min-width: 30px;
+    min-height: 30px;
+    font-size: 0.85rem;
+  }
+}
 </style>
