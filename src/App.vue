@@ -177,7 +177,7 @@
           <component :is="Component" :key="$route.path" />
         </Transition>
       </RouterView>
-      <AppFooter />
+      <AppFooter v-if="!isTrackerGameRoute" />
     </main>
 
     <!-- Mobile bottom nav — quick switch between the global sections -->
@@ -326,6 +326,9 @@ const unitsNavPath = computed(() => {
 const isEventRoute = computed(() => route.path.startsWith('/event-companion'))
 const isStratagemsRoute = computed(() => route.path === '/stratagems')
 const isTrackerRoute = computed(() => route.path.startsWith('/tracker'))
+// GameSetup (wizard) and the active/finished game screen both render on this one route —
+// the footer would otherwise push below the fold under the fixed "Back to game" bar / bottom nav.
+const isTrackerGameRoute = computed(() => route.path === '/tracker/game')
 
 // "Back to game" bar: only when a game is actively in progress and the user is reading something
 // outside the tracker. Hidden while a full-screen modal/drawer is open so it never overlaps them.
