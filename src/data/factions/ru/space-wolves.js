@@ -366,7 +366,10 @@ Saga of the Hunter
 
 Когда ваш счёт Добычи становится равен числу из таблицы ниже (в зависимости от размера битвы) или превышает его, ваша Сага завершена.
 
-**BATTLE SIZEQUARRY TALLY**Incursion**2**Strike Force**3**Onslaught**4**`,
+СЧЁТ ДОБЫЧИ
+▪ **Incursion:** 2.
+▪ **Strike Force:** 3.
+▪ **Onslaught:** 4.`,
       },
       stratagems: [
         {

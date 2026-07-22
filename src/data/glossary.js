@@ -1307,6 +1307,13 @@ export const glossary = {
     ru: 'Правило детачмента Librarius Conclave. В начале каждого раунда боя вы выбираете одну из пяти дисциплин — Biomancy, Divination, Pyromancy, Telekinesis или Telepathy, — и каждый дружественный юнит Adeptus Astartes Psyker получает эту способность до конца раунда. Некоторые улучшения детачмента усиливаются, когда активна определённая дисциплина.',
   },
 
+  // — Faction rules: Astra Militarum (Voice of Command) —
+  'am-order': {
+    term: 'Order',
+    en: 'A battlefield order an OFFICER model issues to an eligible friendly unit within range, per the Voice of Command ability (or a similar ability): **Move! Move! Move!**, **Fix Bayonets!**, **Take Aim!**, **First Rank, Fire! Second Rank, Fire!**, **Take Cover!** or **Duty and Honour!**. A unit can only be affected by one Order at a time, and Orders cannot be issued to Battle-shocked units.',
+    ru: 'Боевой приказ, который модель OFFICER отдаёт подходящему дружественному юниту в пределах дистанции по способности Voice of Command (или похожей способности): **Move! Move! Move!**, **Fix Bayonets!**, **Take Aim!**, **First Rank, Fire! Second Rank, Fire!**, **Take Cover!** или **Duty and Honour!**. Юнит одновременно может быть затронут только одним приказом, а юнитам в боевом шоке приказы отдавать нельзя.',
+  },
+
   // Translation-only glosses: popover shows just the English original, no definition body.
   'controlling-player': {
     term: 'Controlling Player',
