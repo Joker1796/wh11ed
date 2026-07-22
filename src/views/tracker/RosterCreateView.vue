@@ -556,7 +556,16 @@ function finish() {
 .rcunit-loadout { font-size: 0.74rem; color: var(--text-dim); line-height: 1.4; }
 .rcunit-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); flex-shrink: 0; }
 .rcunit-chev { color: var(--text-dim); font-size: 0.7rem; flex-shrink: 0; }
-.rcunit-fields { padding: 0.6rem 0.75rem 0.75rem; border-top: 1px solid var(--border); }
+/* Distinct from the header's plain --bg-card: an accent-tinted wash (same idiom as DatasheetCard's
+   header/points bands). In LIGHT theme this reads fine against a selected checkbox tile
+   (UnitEditorFields.vue's .opt-tile.on, itself a `color-mix(accent, transparent)` fill) — but in
+   DARK theme the two accent tints sit too close in value and blended together, so dark mode drops
+   the accent hue entirely for a plain darker-than-card shade instead (see the data-theme override
+   below for the explicit-toggle case; this is the OS-preference default). */
+.rcunit-fields { padding: 0.6rem 0.75rem 0.75rem; background: color-mix(in srgb, var(--accent) 10%, var(--bg-card)); border-top: 1px solid var(--border); }
+@media (prefers-color-scheme: dark) {
+  .rcunit-fields { background: color-mix(in srgb, var(--bg-card) 80%, black); }
+}
 
 .rc-actions { display: flex; justify-content: flex-end; }
 .btn-primary, .btn-ghost {
@@ -630,4 +639,6 @@ function finish() {
 <style>
 :root[data-theme='light'] .roster-create.themed { --accent: var(--fa-light, #8b2a33); --accent-hover: color-mix(in srgb, var(--fa-light) 80%, black); }
 :root[data-theme='dark'] .roster-create.themed { --accent: var(--fa-dark, #c8585e); --accent-hover: color-mix(in srgb, var(--fa-dark) 80%, white); }
+:root[data-theme='light'] .rcunit-fields { background: color-mix(in srgb, var(--accent) 10%, var(--bg-card)); }
+:root[data-theme='dark'] .rcunit-fields { background: color-mix(in srgb, var(--bg-card) 80%, black); }
 </style>

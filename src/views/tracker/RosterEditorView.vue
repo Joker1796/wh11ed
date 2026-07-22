@@ -459,7 +459,11 @@ function rename(name) {
 .hdr-icon:hover { border-color: var(--accent); color: var(--accent); }
 
 /* Tab bar — same visual language as RosterViewView's read-only tabs. */
-.red-tabs { display: flex; gap: 0.4rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); }
+/* overflow-x is a safety net (so a too-narrow viewport scrolls the bar instead of wrapping/
+   clipping it); the ≤360px media query below aims to avoid needing it at all at the sizes it's
+   actually meant to fit. flex-shrink:0 keeps a tab's own text from being squeezed mid-word by
+   the scroll container before it. */
+.red-tabs { display: flex; gap: 0.4rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); overflow-x: auto; }
 .red-tab {
   padding: 0.5rem 1rem;
   background: none;
@@ -470,8 +474,13 @@ function rename(name) {
   font-size: 0.9rem;
   cursor: pointer;
   margin-bottom: -1px;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 .red-tab.on { color: var(--accent); border-bottom-color: var(--accent); }
+@media (max-width: 360px) {
+  .red-tab { padding: 0.45rem 0.6rem; font-size: 0.8rem; }
+}
 
 .red-panel { display: flex; flex-direction: column; gap: 1.1rem; }
 
@@ -559,7 +568,16 @@ function rename(name) {
 .redu-loadout { font-size: 0.74rem; color: var(--text-dim); line-height: 1.4; }
 .redu-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); flex-shrink: 0; }
 .redu-chev { color: var(--text-dim); font-size: 0.7rem; flex-shrink: 0; }
-.redu-fields { padding: 0.6rem 0.75rem 0.75rem; border-top: 1px solid var(--border); }
+/* Distinct from the header's plain --bg-card: an accent-tinted wash (same idiom as DatasheetCard's
+   header/points bands). In LIGHT theme this reads fine against a selected checkbox tile
+   (UnitEditorFields.vue's .opt-tile.on, itself a `color-mix(accent, transparent)` fill) — but in
+   DARK theme the two accent tints sit too close in value and blended together, so dark mode drops
+   the accent hue entirely for a plain darker-than-card shade instead (see the data-theme override
+   below for the explicit-toggle case; this is the OS-preference default). */
+.redu-fields { padding: 0.6rem 0.75rem 0.75rem; background: color-mix(in srgb, var(--accent) 10%, var(--bg-card)); border-top: 1px solid var(--border); }
+@media (prefers-color-scheme: dark) {
+  .redu-fields { background: color-mix(in srgb, var(--bg-card) 80%, black); }
+}
 
 /* Sticky bottom total — shown on phones. */
 .red-sticky {
@@ -593,4 +611,6 @@ function rename(name) {
 <style>
 :root[data-theme='light'] .roster-editor.themed { --accent: var(--fa-light, #8b2a33); --accent-hover: color-mix(in srgb, var(--fa-light) 80%, black); }
 :root[data-theme='dark'] .roster-editor.themed { --accent: var(--fa-dark, #c8585e); --accent-hover: color-mix(in srgb, var(--fa-dark) 80%, white); }
+:root[data-theme='light'] .redu-fields { background: color-mix(in srgb, var(--accent) 10%, var(--bg-card)); }
+:root[data-theme='dark'] .redu-fields { background: color-mix(in srgb, var(--bg-card) 80%, black); }
 </style>

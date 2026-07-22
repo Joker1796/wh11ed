@@ -169,6 +169,35 @@ describe('enhancementPoints / unitPoints with enhancement', () => {
 })
 
 // Necrons' Pantheon of Woe / Imperial Agents' Veiled Blade Elim. Force: "each <unit> ... has the
+// A handful of enhancements are restricted to one or a few SPECIFIC datasheets structurally
+// (enhancement_bodyguard_group in wh40k-appdata, see gen-roster-data.mjs's `lockDs`) even though
+// their keyword requirement alone would look far broader (e.g. just the faction keyword) — the
+// bodyguard link is what actually narrows eligibility down.
+describe('enhEligible — lockDs (structural "specific datasheet only" restriction)', () => {
+  const warpTalons = { sid: 'ds-warp-talons', name: 'Warp Talons', kws: ['Character'], flags: { char: 1 } }
+  const otherUnit = { sid: 'ds-other', name: 'Chaos Terminator Squad', kws: ['Character'], flags: { char: 1 } }
+  // Broad keyword req (just the faction) would make this look eligible on ANY Character —
+  // lockDs is what actually restricts it to the one named datasheet.
+  const enh = { name: 'Pact of Cursed Pinions', pts: 20, req: [{ fac: ['Heretic Astartes'] }], lockDs: ['ds-warp-talons'] }
+
+  it('is eligible on the locked datasheet, ineligible elsewhere, despite a broad keyword req', () => {
+    expect(enhEligible(enh, warpTalons)).toBe(true)
+    expect(enhEligible(enh, otherUnit)).toBe(false)
+  })
+
+  it('still respects an excluded keyword on the locked datasheet', () => {
+    const excluded = { ...warpTalons, kws: ['Character', 'Vehicle'] }
+    expect(enhEligible({ ...enh, exclKw: ['Vehicle'] }, excluded)).toBe(false)
+  })
+
+  it('allows any one of several locked datasheets', () => {
+    const multiEnh = { ...enh, lockDs: ['ds-warp-talons', 'ds-other'] }
+    expect(enhEligible(multiEnh, warpTalons)).toBe(true)
+    expect(enhEligible(multiEnh, otherUnit)).toBe(true)
+  })
+})
+
+// Necrons' Pantheon of Woe / Imperial Agents' Veiled Blade Elim. Force: "each <unit> ... has the
 // relevant ability ... you must increase the points cost" — automatic and non-optional, not a
 // once-per-army pick (see gen-roster-data.mjs ENH_REQ_FIXES, rosterEngine.js mandatoryEnhancementFor).
 describe('mandatory enhancements', () => {
@@ -200,6 +229,32 @@ describe('mandatory enhancements', () => {
     expect(opts).toEqual([{ name: 'Reletavistic Tether', pts: 40, eligible: true, used: false, mandatory: true }])
     // For a unit it isn't locked to, it still appears but ineligible.
     expect(enhOptionsFor(otherShard, dets, [], null)[0].eligible).toBe(false)
+  })
+})
+
+// "(Upgrade)"-type enhancements (appdata's enhancementType: 'upgrade') explicitly allow several
+// units to take the SAME enhancement, per its own `limit` field (gen-roster-data.mjs's
+// buildEnhancement carries it through when it's not the default 1) — unlike an ordinary
+// enhancement, which caps at 1 per roster.
+describe('enhOptionsFor — multi-unit "(Upgrade)" allowance', () => {
+  const unitA = { name: 'A', kws: [], flags: {}, sizes: [{ pts: 10, per: [1, 1] }] }
+  const dets = [{ name: 'Det', enhancements: [
+    { name: 'Enlivened Sentinels', pts: 20, type: 'upgrade', limit: 3 },
+    { name: 'Artificer Armour', pts: 15, type: 'miniature' },
+  ] }]
+
+  it('stays selectable up to its limit, then flags used', () => {
+    const units = [{ uid: 'x', enh: 'Enlivened Sentinels' }, { uid: 'y', enh: 'Enlivened Sentinels' }]
+    // 2 other units already have it (limit 3) — a 3rd is still allowed.
+    expect(enhOptionsFor(unitA, dets, units, 'z').find((e) => e.name === 'Enlivened Sentinels').used).toBe(false)
+    units.push({ uid: 'z2', enh: 'Enlivened Sentinels' })
+    // Now 3 other units have it — the limit is reached.
+    expect(enhOptionsFor(unitA, dets, units, 'z').find((e) => e.name === 'Enlivened Sentinels').used).toBe(true)
+  })
+
+  it('an ordinary enhancement (no limit field) still caps at 1', () => {
+    const units = [{ uid: 'x', enh: 'Artificer Armour' }]
+    expect(enhOptionsFor(unitA, dets, units, 'z').find((e) => e.name === 'Artificer Armour').used).toBe(true)
   })
 })
 
