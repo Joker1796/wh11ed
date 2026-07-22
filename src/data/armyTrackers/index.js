@@ -15,6 +15,7 @@ import drukhari from './drukhari.js'
 import leaguesOfVotann from './leagues-of-votann.js'
 import adeptusMechanicus from './adeptus-mechanicus.js'
 import orks from './orks.js'
+import adeptaSororitas from './adepta-sororitas.js'
 
 // Registry — add a faction by dropping its spec here.
 const REGISTRY = {
@@ -22,6 +23,7 @@ const REGISTRY = {
   'leagues-of-votann': leaguesOfVotann,
   'adeptus-mechanicus': adeptusMechanicus,
   orks,
+  'adepta-sororitas': adeptaSororitas,
 }
 
 // Detachment names come from the MFM dataset (player.detachments) and must line up with the
