@@ -98,6 +98,19 @@ describe('resolveArmyTracker', () => {
     expect(ru.gains[0]).toMatch(/Aberrants/)
     expect(ru.note).toMatch(/Cult Ambush/)
   })
+
+  it('resolves the Black Templars selection spec as a battle-long (once) pick', () => {
+    const spec = resolveArmyTracker('black-templars')
+    expect(spec.kind).toBe('selection')
+    expect(spec.once).toBe(true)
+    expect(spec.options).toHaveLength(4)
+    const en = localizeArmyTracker(spec, 'en')
+    const ru = localizeArmyTracker(spec, 'ru')
+    // Vow names are proper names — English in both locales; the effect text is translated.
+    expect(en.options[0].name).toBe('Abhor the Witch, Destroy the Witch')
+    expect(ru.options[0].name).toBe('Abhor the Witch, Destroy the Witch')
+    expect(en.options[0].body).not.toEqual(ru.options[0].body)
+  })
 })
 
 describe('applyOverride (detachment overrides)', () => {
