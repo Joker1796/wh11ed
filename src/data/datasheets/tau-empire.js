@@ -3066,14 +3066,15 @@ export default [
     ],
     "transport": "This model has a transport capacity of all of the following:\n▪ 200 T’au Empire Infantry or TACTICAL DRONE models\n▪ 4 Devilfish, Sky Ray Gunship or Hammerhead models\n▪ 8 Battlesuit models with a Wounds characteristic of 9 or less",
     "keywords": [
+      "Aircraft",
       "Fly",
-      "Titanic",
-      "Transport",
+      "Frame",
       "Manta",
       "Markerlight",
-      "Aircraft",
+      "Titanic",
+      "Transport",
       "Vehicle"
-    ],
+        ],
     "factionKeywords": [
       "T’au Empire"
     ],
@@ -3495,12 +3496,11 @@ export default [
       "This model’s accelerator burst cannon can be replaced with 1 missile pod."
     ],
     "keywords": [
-      "Razorshark Strike Fighter",
-      "Fly",
       "Aircraft",
-      "Vehicle",
-      "Frame"
-    ],
+      "Fly",
+      "Razorshark Strike Fighter",
+      "Vehicle"
+        ],
     "factionKeywords": [
       "T’au Empire"
     ],
@@ -4313,12 +4313,11 @@ export default [
       "This model’s missile pod can be replaced with 1 twin missile pod."
     ],
     "keywords": [
-      "Fly",
       "Aircraft",
-      "Vehicle",
+      "Fly",
       "Sun Shark Bomber",
-      "Frame"
-    ],
+      "Vehicle"
+        ],
     "factionKeywords": [
       "T’au Empire"
     ],
@@ -4497,12 +4496,13 @@ export default [
       "This model’s 3 pulse ordnance drivers can be replaced with one of the following:\n▪ 2 nexus missile launchers\n▪ 1 heavy rail cannon array and 1 fragmentation cluster shell launcher"
     ],
     "keywords": [
-      "Towering",
-      "Walker",
+      "Frame",
       "Ta’unar Supremacy Armour",
+      "Titanic",
+      "Towering",
       "Vehicle",
-      "Titanic"
-    ],
+      "Walker"
+        ],
     "factionKeywords": [
       "T’au Empire"
     ],

@@ -1350,14 +1350,13 @@ export default [
     ],
     "transport": "This model has a transport capacity of 30 Grey Knights Infantry models. Each Terminator model takes up the space of 2 models.",
     "keywords": [
-      "Titanic",
-      "Vehicle",
-      "Aircraft",
-      "Transport",
-      "Imperium",
       "Fly",
-      "Thunderhawk Gunship"
-    ],
+      "Imperium",
+      "Thunderhawk Gunship",
+      "Titanic",
+      "Transport",
+      "Vehicle"
+        ],
     "factionKeywords": [
       "Grey Knights"
     ],
@@ -2852,14 +2851,13 @@ export default [
       "This model’s skyhammer missile launcher can be replaced with one of the following:\n▪ 1 twin heavy bolter\n▪ 1 typhoon missile launcher"
     ],
     "keywords": [
-      "Vehicle",
       "Aircraft",
       "Fly",
+      "Imperium",
       "Smoke",
       "Stormhawk Interceptor",
-      "Imperium",
-      "Frame"
-    ],
+      "Vehicle"
+        ],
     "factionKeywords": [
       "Grey Knights"
     ],
@@ -3053,10 +3051,9 @@ export default [
       "Fly",
       "Imperium",
       "Stormraven Gunship",
-      "Vehicle",
       "Transport",
-      "Frame"
-    ],
+      "Vehicle"
+        ],
     "factionKeywords": [
       "Grey Knights"
     ],
@@ -3185,11 +3182,10 @@ export default [
     "keywords": [
       "Aircraft",
       "Fly",
-      "Vehicle",
       "Imperium",
       "Stormtalon Gunship",
-      "Frame"
-    ],
+      "Vehicle"
+        ],
     "factionKeywords": [
       "Grey Knights"
     ],

@@ -861,14 +861,14 @@ export default [
     ],
     "transport": "This model has a transport capacity of 20 Gargoyles models and 1 Winged Tyranid Prime model.",
     "keywords": [
-      "Titanic",
       "Fly",
-      "Transport",
+      "Frame",
       "Great Devourer",
       "Harridan",
-      "Aircraft",
-      "Monster"
-    ],
+      "Monster",
+      "Titanic",
+      "Transport"
+        ],
     "factionKeywords": [
       "Tyranids"
     ],
@@ -1066,13 +1066,14 @@ export default [
     ],
     "transport": "This model has a transport capacity of 20 Tyranids Infantry models. Each model with a Wounds characteristic of more than 1 takes up the space of 3 models. This model cannot transport models that can Fly.",
     "keywords": [
+      "Frame",
       "Great Devourer",
       "Hierophant",
-      "Titanic",
       "Monster",
+      "Titanic",
       "Towering",
       "Transport"
-    ],
+        ],
     "factionKeywords": [
       "Tyranids"
     ],
@@ -1564,14 +1565,14 @@ export default [
       ]
     },
     "keywords": [
+      "Burrower",
+      "Character",
       "Great Devourer",
-      "Vanguard Invader",
-      "Burrowers",
       "Hyperadapted Raveners",
       "Infantry",
-      "Character",
-      "Synapse"
-    ],
+      "Synapse",
+      "Vanguard Invader"
+        ],
     "factionKeywords": [
       "Tyranids"
     ]
@@ -1790,12 +1791,11 @@ export default [
     ],
     "loadout": "**This model is equipped with:** distensible jaw; Mawloc scything talons.",
     "keywords": [
-      "Monster",
-      "Mawloc",
-      "Burrower",
       "Great Devourer",
+      "Mawloc",
+      "Monster",
       "Vanguard Invader"
-    ],
+        ],
     "factionKeywords": [
       "Tyranids"
     ],
@@ -2689,11 +2689,11 @@ export default [
       "None"
     ],
     "keywords": [
-      "Burrowers",
-      "Vanguard Invader",
+      "Burrower",
       "Great Devourer",
       "Infantry",
-      "Raveners"
+      "Raveners",
+      "Vanguard Invader"
     ],
     "factionKeywords": [
       "Tyranids"
@@ -3301,14 +3301,15 @@ export default [
       "None."
     ],
     "keywords": [
+      "Burrower",
       "Character",
       "Epic Hero",
       "Great Devourer",
+      "Mobile",
       "Monster",
-      "Burrower",
-      "Vanguard Invader",
-      "The Red Terror"
-    ],
+      "The Red Terror",
+      "Vanguard Invader"
+        ],
     "factionKeywords": [
       "Tyranids"
     ],
@@ -3470,10 +3471,11 @@ export default [
     ],
     "loadout": "**This model is equipped with:** massive toxic lashes.",
     "keywords": [
-      "Toxicrene",
+      "Frame",
       "Great Devourer",
-      "Monster"
-    ],
+      "Monster",
+      "Toxicrene"
+        ],
     "factionKeywords": [
       "Tyranids"
     ],
@@ -3542,12 +3544,11 @@ export default [
     ],
     "loadout": "**This model is equipped with:** bio-electric pulse; Trygon scything talons.",
     "keywords": [
-      "Trygon",
-      "Burrower",
-      "Vanguard Invader",
       "Great Devourer",
-      "Monster"
-    ],
+      "Monster",
+      "Trygon",
+      "Vanguard Invader"
+        ],
     "factionKeywords": [
       "Tyranids"
     ],
@@ -3888,14 +3889,15 @@ export default [
     "loadout": "**This model is equipped with:** Tyrannocyte bio-weapons; flensing whips.",
     "transport": "This model has a transport capacity of 20 Tyranids Infantry models, or 1 Tyranids Monster model with a Wounds characteristic of 12 or less. Each INFANTRY model with a Wounds characteristic of more than 1 takes up the space of 3 models.",
     "keywords": [
-      "Tyrannocyte",
-      "Vanguard Invader",
-      "Great Devourer",
-      "Transport",
+      "Dedicated Transport",
       "Fly",
+      "Frame",
+      "Great Devourer",
       "Monster",
-      "Dedicated Transport"
-    ],
+      "Transport",
+      "Tyrannocyte",
+      "Vanguard Invader"
+        ],
     "factionKeywords": [
       "Tyranids"
     ],
@@ -4009,10 +4011,11 @@ export default [
       "This model’s fleshborer hive can be replaced with one of the following:\n▪ 1 acid spray\n▪ 1 rupture cannon"
     ],
     "keywords": [
-      "Tyrannofex",
+      "Frame",
+      "Great Devourer",
       "Monster",
-      "Great Devourer"
-    ],
+      "Tyrannofex"
+        ],
     "factionKeywords": [
       "Tyranids"
     ],
