@@ -25,22 +25,15 @@
       <RouterLink v-if="current" to="/tracker/game" class="btn-primary">{{ labels.trackerResume }}</RouterLink>
       <RouterLink v-if="setupDraft && !current" to="/tracker/game" class="btn-primary">{{ labels.trackerContinueSetup }}</RouterLink>
       <button class="btn-primary" :class="{ ghost: current || setupDraft }" @click="startNew">{{ labels.trackerNewGame }}</button>
-      <button
-        v-if="status === 'authed'"
-        class="btn-primary ghost"
-        :disabled="syncing"
-        @click="syncNow"
-      >
-        <i class="bi" :class="syncing ? 'bi-arrow-repeat' : 'bi-cloud-arrow-up-fill'"></i>
-        {{ syncing ? labels.cloudSyncing : labels.cloudSync }}
-      </button>
-      <button v-else-if="status === 'anon'" class="ya-btn" @click="onSignIn">
+      <!-- No manual "Sync" button: onMounted runs a full syncNow on every entry and init()'s watcher
+           auto-uploads games as they finish, so cloud backup stays current on its own. -->
+      <button v-if="status === 'anon'" class="ya-btn" @click="onSignIn">
         <span class="ya-btn-logo" aria-hidden="true">Я</span>
         {{ labels.cloudSignInYandex }}
       </button>
       <!-- status === 'idle': silent ensureSession() is still in flight — show a disabled
            placeholder so the user can't fire a redundant OAuth redirect mid-restore. -->
-      <button v-else class="ya-btn" disabled>
+      <button v-else-if="status === 'idle'" class="ya-btn" disabled>
         <i class="bi bi-arrow-repeat spin"></i>
       </button>
     </div>
@@ -51,6 +44,18 @@
         <span v-if="inSync" class="in-sync">
           <i class="bi" :class="cloudEmpty ? 'bi-cloud' : 'bi-cloud-check-fill'"></i>
           {{ cloudEmpty ? labels.cloudEmpty : labels.cloudInSync }}
+          <!-- Force a full push+pull now (auto-sync already runs on entry) — for pulling changes
+               from another device without leaving the page. -->
+          <button
+            class="sync-icon"
+            :class="{ spinning: syncing }"
+            :disabled="syncing"
+            :title="labels.cloudSync"
+            :aria-label="labels.cloudSync"
+            @click="syncNow"
+          >
+            <i class="bi bi-arrow-clockwise"></i>
+          </button>
         </span>
       </div>
       <p v-if="!history.length" class="empty">{{ labels.trackerNoGames }}</p>
@@ -427,6 +432,22 @@ function footLine(g) {
   color: var(--text-dim);
 }
 .in-sync .bi { color: var(--accent); }
+/* Small "force sync" icon button next to the status — muted, highlights on hover, spins while syncing. */
+.in-sync .sync-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.05rem;
+  padding: 0.1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  line-height: 1;
+}
+.in-sync .sync-icon .bi { color: var(--text-dim); font-size: 0.9rem; }
+.in-sync .sync-icon:hover .bi { color: var(--accent); }
+.in-sync .sync-icon:disabled { cursor: default; }
+.in-sync .sync-icon.spinning .bi { animation: spin 0.8s linear infinite; color: var(--accent); }
 .empty { color: var(--text-muted); font-style: italic; }
 .games { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.6rem; position: relative; }
 .game {
@@ -500,6 +521,14 @@ function footLine(g) {
 .res-draw .gc-result { color: var(--text-dim); }
 
 .gc-foot { text-align: center; margin-top: 0.4rem; font-size: 0.74rem; color: var(--text-dim); }
+
+/* Narrowest phones (same threshold as the unit cards): shrink the player names, and the faction a
+   touch, so long names + the centre score still fit the three-column row. */
+@media (max-width: 480px) {
+  .gc-name { font-size: 0.88rem; }
+  .gc-faction { font-size: 0.74rem; }
+}
+
 .show-more {
   display: block;
   margin: 0.8rem auto 0;
