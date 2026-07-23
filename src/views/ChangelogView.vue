@@ -12,7 +12,9 @@
           <time class="cl-date" :datetime="e.date">{{ formatDate(e.date) }}</time>
         </header>
         <ul class="cl-list">
-          <li v-for="(note, i) in (e[locale] || e.en)" :key="i">{{ note }}</li>
+          <li v-for="(note, i) in (e[locale] || e.en)" :key="i" :class="{ 'cl-h': note.h }">
+            {{ note.h || note }}
+          </li>
         </ul>
       </section>
     </div>
@@ -102,5 +104,18 @@ useUpdateNotice().markSeen()
   color: var(--text-primary);
   font-size: 0.92rem;
   line-height: 1.5;
+}
+
+/* A section heading within an entry (note is `{ h }`): no bullet, pulled back to the left edge. */
+.cl-list li.cl-h {
+  list-style: none;
+  margin-left: -1.2rem;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+.cl-list li.cl-h:not(:first-child) {
+  margin-top: 0.55rem;
 }
 </style>
