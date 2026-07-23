@@ -60,10 +60,36 @@ blood-angels, chaos-knights, dark-angels, death-guard, deathwatch, drukhari, emp
 Known SKIP you'll hit: `tyranids/Raveners` (two Ravener datasheets collide) — fix by hand.
 Necrons `Catacomb Command Barge` (+Noble) is already done by machine 1 on `sync/appdata-912`.
 
-## Layer 2 — datasheet ability text · Layer 3 — faction rule text
+## Layer 2 — datasheet ability text · Layer 3 — faction rule text (UNLOCKED)
 
-Tooling for these (full-text diff) is **not built yet** — machine 1 is adding it. **Do not start
-layers 2–3** until machine 1 pushes the diff tool and updates this file. Stick to Layer 1 keywords.
+Tool: `scripts/appdata-text-diff.mjs` (report-only; fixes are manual, EN + RU).
+
+```bash
+node scripts/appdata-text-diff.mjs --datasheets --faction <slugs> --full   # Layer 2
+node scripts/appdata-text-diff.mjs --factions   --faction <slugs> --full   # Layer 3
+```
+
+It compares SEMANTIC text (glosses/markup normalized away), so every reported line is a real
+wording difference. Worst-similarity first; `--full` prints appdata's text already converted to
+wh11ed markup (`**bold**`, CAPS keywords, `▪`) — use it as the new EN wording **verbatim**, with
+these touch-ups only:
+- Normalize appdata's exotic hyphen `‐` to `-`; keep our `\n▪ ` line form for bullets.
+- Keep an existing `[gloss:…]` token only if the surrounding wording is unchanged; don't add new ones.
+- Old "intentional divergence" comments (e.g. Necrons header re Faction-Pack/wahapedia) are
+  OBSOLETE where appdata now differs — appdata wins; update the comment.
+- RU: retranslate to mirror the new EN (block parity, balanced `**`, ALL-CAPS keywords and
+  unit/detachment/stratagem names stay English).
+
+Scope today: ~230 datasheet-ability + ~656 faction-rule mismatches, most ≥95% (small drift).
+Work faction by faction, commit per faction, `npm run build` + `npm test` after each.
+
+### Layer 2–3 slices (full coverage)
+
+- **Machine 2:** grey-knights, imperial-knights, necrons, orks, space-marines, tau-empire,
+  tyranids, space-wolves, thousand-sons, world-eaters, genestealer-cults
+- **Machine 1:** adeptus-custodes, adeptus-mechanicus, adepta-sororitas, astra-militarum,
+  black-templars, blood-angels, chaos-daemons, chaos-knights, chaos-space-marines, dark-angels,
+  death-guard, deathwatch, drukhari, emperors-children, leagues-of-votann, aeldari
 
 ## Workflow
 
