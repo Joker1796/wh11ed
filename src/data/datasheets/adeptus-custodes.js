@@ -161,7 +161,7 @@ export default [
       },
       {
         "name": "Daughter of the Abyss",
-        "text": "This model has the Feel No Pain 3+ ability against Psychic Attacks and mortal wounds."
+        "text": "This model has the Feel No Pain 3+ ability against Psychic Attack and mortal wounds."
       }
     ],
     "composition": [
@@ -607,7 +607,7 @@ export default [
     "abilities": [
       {
         "name": "Infernus Firebombs",
-        "text": "Each time this model ends a Normal move, you can select one enemy unit it moved over during that move. Until the end of the turn, models in that unit cannot have the Benefit of Cover. In addition, roll one D6 for each model in that unit: for each 6, that unit suffers 1 mortal wound."
+        "text": "At the end of your Movement phase, select one **visible** enemy unit (excluding **AIRCRAFT**/**Lone Operative** units) within 24\" of this unit: • That enemy unit cannot have the **benefit of cover** until the end of your next Shooting phase. • Roll one D6 for each model in that enemy unit: for each 6, that enemy unit suffers 1 **mortal wound**."
       }
     ],
     "damaged": {
@@ -701,11 +701,11 @@ export default [
     "abilities": [
       {
         "name": "Swift Onslaught",
-        "text": "While this model is leading a unit, you can re-roll Charge rolls made for that unit"
+        "text": "While this model is leading a unit, you can re‑roll Charge rolls made for that unit."
       },
       {
         "name": "Martial Inspiration",
-        "text": "Once per battle, in your Charge phase, this model’s unit is eligible to declare a charge in a turn which it Advanced."
+        "text": "Once per battle, in your Charge phase, this model’s unit is eligible to declare a charge in a turn in which it Advanced."
       }
     ],
     "composition": [
@@ -1107,7 +1107,7 @@ export default [
     "abilities": [
       {
         "name": "Fire Support",
-        "text": "In your Shooting phase, after this model has shot, select one enemy unit hit by one or more of those attacks. Until the end of the phase, each time a friendly model that disembarked from this TRANSPORT this turn makes an attack that targets that enemy unit, you can re-roll the Wound roll."
+        "text": "In your Shooting phase, after this model has shot, select one enemy unit that was hit by one or more of those attacks. Until the end of the phase, each time a friendly model that disembarked from this **TRANSPORT** this turn makes an attack that targets that enemy unit, you can re-roll the Wound roll."
       }
     ],
     "damaged": {
@@ -1466,7 +1466,7 @@ export default [
     "abilities": [
       {
         "name": "Resolute Will",
-        "text": "While a CHARACTER is leading this unit, each time an attack targets this unit, if the Strength characteristic of that attack is greater than the Toughness characteristic of this unit, subtract 1 from the Wound roll."
+        "text": "While a **CHARACTER** model is leading this unit, each time an attack targets this unit, if the Strength characteristic of that attack is greater than the Toughness characteristic of this unit, subtract 1 from the Wound roll."
       },
       {
         "name": "Living Fortress",
@@ -1577,7 +1577,7 @@ export default [
       },
       {
         "name": "Daughter of the Abyss",
-        "text": "This model has the Feel No Pain 3+ ability against Psychic Attacks and mortal wounds."
+        "text": "This model has the Feel No Pain 3+ ability against Psychic Attack and mortal wounds."
       },
       {
         "name": "Corner the Quarry",
@@ -2075,11 +2075,11 @@ export default [
     "abilities": [
       {
         "name": "Master of the Stances",
-        "text": "Once per battle, when this models unit is selected to fight, it can use this ability. if it does until that fight is resolved, both Ka’tah Stances are active for that unit, instead of only one."
+        "text": "Once per battle, when this model’s unit is selected to fight, it can use this ability. If it does, until that fight is resolved, both Ka’tah Stances are active for that unit, instead of only one."
       },
       {
         "name": "Strategic Mastery",
-        "text": "Once per battle round, you can select one model from your army with this ability. That model’s unit can be targeted with a Stratagem. If it does, reduce the CP cost of that use of that Stratagem by 1CP."
+        "text": "Once per battle round, one unit from your army with this ability can use it when it is targeted with a Stratagem. If it does, reduce the CP cost of that usage of that Stratagem by 1CP."
       }
     ],
     "wargearAbilities": [
@@ -2198,11 +2198,11 @@ export default [
     "abilities": [
       {
         "name": "Auramite and Adamantine",
-        "text": "Once per battle, at the start of any phase, this model can use this ability If it does, until the end of the phase, each time an attack is allocated to this model, change the Damage characteristic of that attack to 1."
+        "text": "Once per battle, at the start of any phase, this model can use this ability. If it does, until the end of the phase, each time an attack is allocated to this model, change the Damage characteristic of that attack to 1."
       },
       {
         "name": "Strategic Mastery",
-        "text": "Once per battle round, you can select one model from your army with this ability and target that model’s unit with a Stratagem. If it does, reduce the CP cost of that use of that Stratagem by 1CP."
+        "text": "Once per battle round, one unit from your army with this ability can use it when it is targeted with a Stratagem. If it does, reduce the CP cost of that usage of that Stratagem by 1CP."
       }
     ],
     "composition": [
@@ -2297,11 +2297,11 @@ export default [
     "abilities": [
       {
         "name": "Sweeping Advance",
-        "text": "Once per battle, at the end of the Fight phase, if this model’s unit has fought this phase, if it is within Engagement Range of one or more enemy units, it can make a Fall Back move or, if it is not within Engagement Range of one or more enemy units, it can make a Normal move"
+        "text": "Once per battle, at the end of the Fight phase, if this model’s unit has fought this phase, if it is within Engagement Range of one or more enemy units, it can make a Fall Back move or, if it is not within Engagement Range of one or more enemy units, it can make a Normal move."
       },
       {
         "name": "Strategic Mastery",
-        "text": "Once per battle round, you can select one model from your army with this ability and target that model’s unit with a Stratagem. If it does, reduce the CP cost of that use of that Stratagem by 1CP."
+        "text": "Once per battle round, one unit from your army with this ability can use it when it is targeted with a Stratagem. If it does, reduce the CP cost of that usage of that Stratagem by 1CP."
       }
     ],
     "composition": [
@@ -2513,7 +2513,7 @@ export default [
     "abilities": [
       {
         "name": "Captain-General",
-        "text": "While this model is leading a unit, each time a model in this unit makes an attack, you can ignore any or all modifiers to that attack’s Ballistic skill or Weapon skill characteristics and/or all modifiers to the Hit roll"
+        "text": "While this model is leading a unit, each time a model in this unit makes an attack, you can ignore any or all modifiers to that attack’s Ballistic skill or Weapon skill characteristics and/or all modifiers to the Hit roll."
       },
       {
         "name": "Moment Shackle",
@@ -3048,7 +3048,7 @@ export default [
       },
       {
         "name": "Quicksilver Execution",
-        "text": "Once per battle, after this unit ends a Normal Move or Advance move, you can select one enemy unit (excluding MONSTER and VEHICLE units) that it moved over during that move, then roll one D6 for each model in this unit: for each 2+, that enemy unit suffers 2 mortal wounds."
+        "text": "Once per battle, after this unit ends a Normal or Advance move, you can select one enemy unit (excluding **MONSTERS** and **VEHICLES**) that it moved over during that move, then roll one D6 for each model in this unit: for each 2+, that enemy unit suffers 2 mortal wounds."
       }
     ],
     "composition": [
