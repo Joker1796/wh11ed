@@ -274,13 +274,12 @@ export default [
     "transport": "This model has a transport capacity of 11 Skitarii Infantry or Tech-Priest Infantry models. It cannot transport Jump Pack or Kataphron models.",
     "keywords": [
       "Archaeopter Transvector",
-      "Skitarii",
-      "Imperium",
       "Fly",
+      "Imperium",
+      "Skitarii",
       "Transport",
-      "Aircraft",
       "Vehicle"
-    ],
+        ],
     "factionKeywords": [
       "Adeptus Mechanicus"
     ],
@@ -377,14 +376,15 @@ export default [
     ],
     "loadout": "**This model is equipped with:** solar atomiser; arc scourge; Cawl’s Omnissian axe; mechadendrite hive.",
     "keywords": [
-      "Monster",
       "Belisarius Cawl",
+      "Character",
       "Cult Mechanicus",
-      "Tech-Priest",
-      "Imperium",
       "Epic Hero",
-      "Character"
-    ],
+      "Imperium",
+      "Mobile",
+      "Monster",
+      "Tech-Priest"
+        ],
     "factionKeywords": [
       "Adeptus Mechanicus"
     ],
@@ -3823,13 +3823,14 @@ export default [
     "loadout": "**This model is equipped with:** Jericho-class conversion resonator; Rod of the War Forge.",
     "keywords": [
       "Character",
-      "Imperium",
-      "Monster",
-      "Epic Hero",
       "Cult Mechanicus",
+      "Epic Hero",
+      "Imperium",
+      "Mobile",
+      "Monster",
       "Tech-Priest",
       "Thulia Ghuld"
-    ],
+        ],
     "factionKeywords": [
       "Adeptus Mechanicus"
     ],

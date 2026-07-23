@@ -105,14 +105,15 @@ export default [
       "None"
     ],
     "keywords": [
-      "Titanic",
-      "Knight Asterius",
+      "Acastus",
       "Chaos",
+      "Frame",
+      "Knight Asterius",
+      "Titanic",
       "Towering",
-      "Walker",
       "Vehicle",
-      "Acastus"
-    ],
+      "Walker"
+        ],
     "factionKeywords": [
       "Chaos Knights"
     ],
@@ -241,14 +242,15 @@ export default [
       "This model’s Acastus ironstorm missile pod can be replaced with 1 helios defence missiles."
     ],
     "keywords": [
-      "Vehicle",
-      "Walker",
+      "Acastus",
+      "Chaos",
+      "Frame",
+      "Knight Porphyrion",
       "Titanic",
       "Towering",
-      "Knight Porphyrion",
-      "Acastus",
-      "Chaos"
-    ],
+      "Vehicle",
+      "Walker"
+        ],
     "factionKeywords": [
       "Chaos Knights"
     ],
