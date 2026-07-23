@@ -8,20 +8,34 @@
 //
 // RELEASE PROCESS: when a deploy carries user-facing changes worth announcing, add a new entry at the
 // TOP with the version it ships as (deploy.sh auto-bumps patch, so it's the next patch unless you
-// bump manually) and a short EN/RU bullet list. Trivial/无-note deploys need no entry — they pass
-// silently (the stored version advances without a banner). Keep bullets short and player-facing.
+// bump manually) and a short EN/RU note list. Trivial/无-note deploys need no entry — they pass
+// silently (the stored version advances without a banner). Keep notes short and player-facing.
+//
+// NOTE SHAPE: each `en`/`ru` item is either a plain string (a bullet) or `{ h: 'text' }` (a section
+// heading, rendered without a bullet by ChangelogView). Keep the two locales structurally parallel —
+// a heading at position i in `en` must be a heading at position i in `ru`.
 
 export const changelog = [
   {
-    version: '2.0.24',
+    version: '2.1.0',
     date: '2026-07-23',
     en: [
-      'Army-rule trackers: follow your faction’s army mechanic right in the game tracker — Blessings, Pain tokens, Rituals, Waaagh! and more, for 11 factions.',
-      'Update notices: this “What’s New” page, with a banner that points here when a new version ships.',
+      { h: 'Army-rule trackers' },
+      'Game setup now has “Track your army rule” and “Track opponent’s army rule” checkboxes, right next to Track CP — available for 11 factions. Turn one on and each player gets an in-game card for their faction’s mechanic: Sisters of Battle Miracle dice, Leagues of Votann Yield points, Drukhari Pain tokens, Orks’ Waaagh!, Aeldari Battle Focus, and more.',
+      'The card is tinted in the faction’s colour; tap through resources and picks as you play. When the game ends, the results screen recaps it all — picks by round, tokens or dice left, when the Waaagh! was called.',
+      { h: 'Game history' },
+      'Finished games in the tracker now read like a scoreboard card — you vs your opponent, each side’s faction, the result, and whether it was scored by Victory or Battle Points. Tap a card to reopen the full breakdown.',
+      { h: 'Update notices' },
+      'When a newer version ships, a banner now points you to this “What’s New” page — and you can open it any time from the version number in the footer.',
     ],
     ru: [
-      'Трекеры правил армии: отслеживайте механику своей фракции прямо в трекере партии — благословения, Pain tokens, ритуалы, Waaagh! и другое, для 11 фракций.',
-      'Оповещения об обновлениях: эта страница «Что нового» и плашка, которая ведёт сюда при выходе новой версии.',
+      { h: 'Трекеры правил армии' },
+      'В настройках партии, рядом с «Считать CP», появились галочки «Следить за своим правилом армии» и «Следить за правилом оппонента» — для 11 фракций. Включите — и во время игры у каждого игрока будет карточка механики своей фракции: Miracle dice у Sisters of Battle, Yield points у Leagues of Votann, Pain tokens у Drukhari, Waaagh! у Orks, Battle Focus у Aeldari и другие.',
+      'Карточка окрашена в цвет фракции; отмечайте на ней ресурсы и выборы по ходу партии. По завершении игры экран результатов покажет итог — выбор по раундам, остаток жетонов или кубов, когда был вызван Waaagh!.',
+      { h: 'История партий' },
+      'Завершённые игры в трекере теперь выглядят как карточка-табло — вы против оппонента, фракция каждой стороны, результат и по каким очкам был счёт (Victory или Battle Points). Тап по карточке открывает полную детализацию.',
+      { h: 'Оповещения об обновлениях' },
+      'При выходе новой версии сверху появляется плашка со ссылкой на эту страницу «Что нового» — а открыть её можно в любой момент по номеру версии в подвале.',
     ],
   },
 ]
