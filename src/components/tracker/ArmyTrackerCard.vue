@@ -97,11 +97,11 @@
       >{{ o.name }}</button>
     </div>
 
-    <!-- Multi-selection primitive (World Eaters Blessings of Khorne): activate UP TO `max` options
-         this battle round, reset each round. The full option list would take a lot of room (six
-         Blessings), so it lives behind a compact field that opens the picker; the chosen options'
-         rules show below. The player rolls the dice on the table — each option's `req` (e.g.
-         "Double 3+") is only a reminder of what it needs. -->
+    <!-- Multi-selection primitive (World Eaters Blessings, Thousand Sons Rituals): activate UP TO
+         `max` options this battle round, reset each round. The full option list would take a lot of
+         room, so it lives behind a compact field that opens the picker; the chosen options' rules
+         surface in the shared "Active" block below (same as the single-pick primitives). Each
+         option's `req` (e.g. "Double 3+", "WC 7") is a reminder shown in the picker. -->
     <div v-if="view.kind === 'multi' && view.options" class="army-multi">
       <button class="army-field" @click="showBlessingPicker = true">
         <span class="army-field-val" :class="{ placeholder: !multiSelected.length }">
@@ -110,12 +110,6 @@
         <span class="army-field-count">{{ multiIds.length }}/{{ view.max }}</span>
         <i class="bi bi-chevron-down army-field-chev"></i>
       </button>
-      <div v-if="multiSelected.length" class="army-multi-rules">
-        <div v-for="o in multiSelected" :key="o.id" class="army-multi-rule">
-          <span class="army-multi-rule-name">{{ o.name }}</span>
-          <RuleBody :body="o.body" />
-        </div>
-      </div>
     </div>
 
     <!-- Toggle primitive (e.g. Orks Waaagh!): a once-per-battle fire (some detachments allow a
@@ -170,21 +164,32 @@
       </CollapseTransition>
     </div>
 
-    <!-- The active rule right now — a counter threshold's state (Votann) or the picked option
-         (AdMech). The header shows its name; its rule text expands on demand, collapsed by default. -->
-    <div v-if="activeRule" class="army-acc">
+    <!-- The active rule(s) right now — a counter threshold's state (Votann), the picked option
+         (AdMech), or the activated Blessings/Rituals (multi). One entry → its name sits in the
+         header; several → the header is just "Active" and each rule is listed with its name. Rule
+         text expands on demand. -->
+    <div v-if="activeRules.length" class="army-acc">
       <button
-        v-if="activeRule.body"
+        v-if="hasActiveBody"
         class="army-acc-head"
         :aria-expanded="showActive"
         @click="showActive = !showActive"
       >
         <i class="bi army-acc-chev" :class="showActive ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
-        <span class="army-acc-title">{{ labels.trackerArmyActive }}: <strong>{{ activeRule.name }}</strong></span>
+        <span class="army-acc-title">
+          {{ labels.trackerArmyActive }}<template v-if="activeRules.length === 1 && activeRules[0].name">: <strong>{{ activeRules[0].name }}</strong></template>
+        </span>
       </button>
-      <p v-else class="army-acc-static">{{ labels.trackerArmyActive }}: <strong>{{ activeRule.name }}</strong></p>
-      <CollapseTransition v-if="activeRule.body" :show="showActive">
-        <div class="army-acc-body"><RuleBody :body="activeRule.body" /></div>
+      <p v-else class="army-acc-static">
+        {{ labels.trackerArmyActive }}<template v-if="activeRules[0].name">: <strong>{{ activeRules[0].name }}</strong></template>
+      </p>
+      <CollapseTransition v-if="hasActiveBody" :show="showActive">
+        <div class="army-acc-body">
+          <div v-for="r in activeRules" :key="r.id || r.name" class="army-active-rule">
+            <span v-if="activeRules.length > 1" class="army-active-name">{{ r.name }}</span>
+            <RuleBody v-if="r.body" :body="r.body" />
+          </div>
+        </div>
       </CollapseTransition>
     </div>
 
@@ -359,6 +364,15 @@ const activeRule = computed(() => {
   return null
 })
 
+// The active-rule list shown in the shared "Active" block: the multi primitive's activated options
+// (Blessings/Rituals) or, for the single-pick primitives, the one active rule. Each entry is
+// { name, body[, id, req] }. (The toggle effect is handled separately — only "active" its round.)
+const activeRules = computed(() => {
+  if (view.value?.kind === 'multi') return multiSelected.value
+  return activeRule.value ? [activeRule.value] : []
+})
+const hasActiveBody = computed(() => activeRules.value.some((r) => r.body))
+
 // Raw (un-localized) resolved spec; null for unsupported factions.
 const spec = ref(null)
 let token = 0
@@ -517,21 +531,13 @@ watch(choiceLocked, (locked) => { if (locked) showActive.value = true }, { immed
   color: var(--text-muted);
 }
 
-/* Rules of the activated Blessings, listed below the field. */
-.army-multi-rules {
-  margin-top: 0.55rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
+/* Several active rules (multi: activated Blessings/Rituals) stacked inside the "Active" block body,
+   each labelled with its own name. A single active rule needs no label (its name is in the header). */
+.army-active-rule + .army-active-rule {
+  margin-top: 0.5rem;
 }
 
-.army-multi-rule {
-  font-size: 0.82rem;
-  line-height: 1.45;
-  color: var(--text-primary);
-}
-
-.army-multi-rule-name {
+.army-active-name {
   display: block;
   font-weight: 700;
   color: var(--accent);
