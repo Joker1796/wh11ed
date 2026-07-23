@@ -1260,7 +1260,7 @@ export default [
       },
       {
         "name": "Devastating Assault",
-        "text": "Each time this model makes a Charge move, until the end of the turn, its melee weapons have the [DEVASTATING WOUNDS] ability."
+        "text": "Each time this model makes a Charge move, until the end of the turn, its hellforged weapons have the [DEVASTATING WOUNDS] ability."
       },
       {
         "name": "Direct the Slaughter",
@@ -1350,7 +1350,7 @@ export default [
       },
       {
         "name": "Swooping Predator",
-        "text": "Each time this model ends a Normal or Advance move, you can select one enemy unit that it moved over during that move and roll six D6: for each 4+, that enemy unit suffers 1 mortal wound."
+        "text": "Each time this model ends a Normal move, you can select one enemy unit that it moved over during that move and roll six D6: for each 4+, that enemy unit suffers 1 mortal wound."
       }
     ],
     "composition": [
@@ -1558,7 +1558,7 @@ export default [
       },
       {
         "name": "Unleash Wrath",
-        "text": "At the end of your opponent’s Movement phase, you can select one enemy unit that was set up on the battlefield within 12\" of this model; this model can then either:\n▪ Shoot at that unit, but only if it is an eligible target.\n▪ Declare a charge against that unit (note that even if this charge is successful, this model does not receive any Charge bonus this turn)."
+        "text": "At the end of your opponent’s Movement phase, you can select one enemy unit that was set up on the battlefield within 12\" of this model; this model can then either:\n▪ Shoot at that unit, but only if it is an eligible target.\n▪ Declare a charge. This unit must end that charge move engaged with the enemy unit you selected (note that even if this charge is successful, this unit does not receive any Charge bonus this turn)."
       }
     ],
     "damaged": {
@@ -3202,7 +3202,7 @@ export default [
     "abilities": [
       {
         "name": "The Scent of Blood",
-        "text": "In the Charge phase, when this unit declares a charge: if an enemy unit below Starting Strength is within 9\" of this unit, this unit has +1 to Charge rolls; or, if an enemy unit Below Half-strength is within 9\" of this unit, this unit has +2 to Charge rolls."
+        "text": "In the Charge phase, when this unit declares a charge:\n▪ If an enemy unit below starting strength is within 9\" of this unit, this unit has +1 to Charge rolls.\n▪ __Or__: If an enemy unit below half strength is within 9\" of this unit, this unit has +2 to Charge rolls."
       },
       {
         "name": "Savage Exaltation",
