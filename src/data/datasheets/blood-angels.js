@@ -1710,15 +1710,15 @@ export default [
       "For every 5 models in this unit, 1 model’s heavy bolt pistol and Astartes chainsword can be replaced with one of the following:\n▪ 1 hand flamer and 1 Astartes chainsword\n▪ 1 hand flamer and 1 power fist\n▪ 1 hand flamer and 1 power weapon\n▪ 1 heavy bolt pistol and 1 power fist\n▪ 1 heavy bolt pistol and 1 power weapon\n▪ 1 inferno pistol and 1 Astartes chainsword\n▪ 1 inferno pistol and 1 power fist\n▪ 1 inferno pistol and 1 power weapon\n▪ 1 plasma pistol and 1 Astartes chainsword\n▪ 1 plasma pistol and 1 power fist\n▪ 1 plasma pistol and 1 power weapon"
     ],
     "keywords": [
-      "Jump Pack",
-      "Infantry",
+      "Death Company",
+      "Death Company Marines",
       "Fly",
       "Grenades",
       "Imperium",
-      "Tacticus",
-      "Death Company",
-      "Death Company Marines with Jump Packs"
-    ],
+      "Infantry",
+      "Jump Pack",
+      "Tacticus"
+        ],
     "factionKeywords": [
       "Adeptus Astartes",
       "Blood Angels"

@@ -216,12 +216,12 @@ export default [
     "transport": "This model has a transport capacity of 12 Adeptus Astartes Infantry or Kill Team models. Each Jump Pack, Gravis or Terminator model takes up the space of 2 models and each Centurion model takes up the space of 3 models.",
     "keywords": [
       "Corvus Blackstar",
-      "Vehicle",
+      "Fly",
+      "Frame",
       "Imperium",
       "Transport",
-      "Aircraft",
-      "Fly"
-    ],
+      "Vehicle"
+        ],
     "factionKeywords": [
       "Deathwatch",
       "Adeptus Astartes"

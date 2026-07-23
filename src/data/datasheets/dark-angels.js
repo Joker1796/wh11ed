@@ -1313,13 +1313,14 @@ export default [
       "None"
     ],
     "keywords": [
-      "Lion El’Jonson",
-      "Epic Hero",
       "Character",
-      "Primarch",
+      "Epic Hero",
       "Imperium",
-      "Monster"
-    ],
+      "Lion El’Jonson",
+      "Mobile",
+      "Monster",
+      "Primarch"
+        ],
     "factionKeywords": [
       "Adeptus Astartes",
       "Dark Angels"
@@ -1918,13 +1919,13 @@ export default [
       "This model’s heavy bolter can be replaced with 1 assault cannon."
     ],
     "keywords": [
-      "Ravenwing",
-      "Imperium",
+      "Darkshroud",
       "Fly",
-      "Vehicle",
-      "Ravenwing Darkshroud",
-      "Frame"
-    ],
+      "Frame",
+      "Imperium",
+      "Ravenwing",
+      "Vehicle"
+        ],
     "factionKeywords": [
       "Adeptus Astartes",
       "Dark Angels"

@@ -96,11 +96,12 @@ export default [
       "Any number of models can each have their lastrum bolt cannon replaced with one of the following:\n▪ 1 adrathic devastator\n▪ 1 twin las-pulsar"
     ],
     "keywords": [
-      "Mounted",
+      "Agamatus Custodians",
       "Fly",
+      "Frame",
       "Imperium",
-      "Agamatus Custodians"
-    ],
+      "Mounted"
+        ],
     "factionKeywords": [
       "Adeptus Custodes"
     ],
@@ -829,9 +830,10 @@ export default [
     "keywords": [
       "Caladius Grav-tank",
       "Fly",
+      "Frame",
       "Imperium",
       "Vehicle"
-    ],
+        ],
     "factionKeywords": [
       "Adeptus Custodes"
     ],
@@ -1121,12 +1123,13 @@ export default [
     ],
     "transport": "This model has a transport capacity of 8 Adeptus Custodes Infantry models.",
     "keywords": [
-      "Vehicle",
-      "Transport",
+      "Coronus Grav-carrier",
       "Fly",
+      "Frame",
       "Imperium",
-      "Coronus Grav-carrier"
-    ],
+      "Transport",
+      "Vehicle"
+        ],
     "factionKeywords": [
       "Adeptus Custodes"
     ],
@@ -1704,13 +1707,12 @@ export default [
     ],
     "transport": "This model has a transport capacity of 12 Adeptus Custodes Infantry models. This model can also transport 1 Venerable Contemptor Dreadnought, 1 Contemptor-Achillus Dreadnought or 1 Contemptor Galatus-Dreadnought; while doing so, its transport capacity is reduced to 6 ADEPTUS CUSTODES INFANTRY models.",
     "keywords": [
-      "Imperium",
       "Fly",
-      "Transport",
-      "Vehicle",
+      "Imperium",
       "Orion Assault Dropship",
-      "Aircraft"
-    ],
+      "Transport",
+      "Vehicle"
+        ],
     "factionKeywords": [
       "Adeptus Custodes"
     ],
@@ -1780,11 +1782,12 @@ export default [
       "None"
     ],
     "keywords": [
-      "Vehicle",
       "Fly",
+      "Frame",
       "Imperium",
-      "Pallas Grav-attack"
-    ],
+      "Pallas Grav-attack",
+      "Vehicle"
+        ],
     "factionKeywords": [
       "Adeptus Custodes"
     ],
@@ -2315,14 +2318,13 @@ export default [
       ]
     },
     "keywords": [
-      "Imperium",
       "Character",
-      "Mounted",
       "Dawneagle Jetbike",
       "Fly",
-      "Shield-Captain",
-      "Frame"
-    ],
+      "Imperium",
+      "Mounted",
+      "Shield-Captain"
+        ],
     "factionKeywords": [
       "Adeptus Custodes"
     ],
@@ -3057,12 +3059,11 @@ export default [
       "Any number of models can each have their salvo launcher replaced with 1 Vertus hurricane bolter."
     ],
     "keywords": [
-      "Vertus Praetors",
+      "Fly",
       "Imperium",
       "Mounted",
-      "Fly",
-      "Frame"
-    ],
+      "Vertus Praetors"
+        ],
     "factionKeywords": [
       "Adeptus Custodes"
     ],
