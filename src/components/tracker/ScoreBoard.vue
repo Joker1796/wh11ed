@@ -8,7 +8,7 @@
     >
       <div class="col-head">
         <span class="pname">{{ pl.name || ((pl.isYou ?? i === 0) ? labels.trackerYou : labels.trackerOpponent) }}</span>
-        <span v-if="leaderIdx === i" class="lead-tag">{{ finished ? labels.trackerWinner : labels.trackerLeader }}</span>
+        <span v-if="leaderIdx === i && !finished" class="lead-tag">{{ labels.trackerLeader }}</span>
       </div>
       <div class="grand" :ref="el => (grandEls[i] = el)">
         <template v-if="bpMode">
@@ -132,8 +132,9 @@ useFlashOnChange(() => grandTotal(1), () => grandEls[1])
   .board { gap: 0.4rem; }
   .col { padding: 0.55rem 0.35rem; }
   .col-head { flex-direction: column; gap: 0.15rem; }
-  /* Hide the leader tag ("Leading"/"Winner") on phones so both score columns stay aligned;
-     the accent top-border already marks the leader. Desktop keeps the tag. */
+  /* Hide the "Leading" tag on phones so both score columns stay aligned; the accent top-border
+     already marks the leader. Desktop keeps it. (On a finished game no tag shows at all — the
+     gold top-border marks the winner.) */
   .lead-tag { display: none; }
   .pname { font-size: 1.05rem; word-break: break-word; }
   .grand { font-size: 1.7rem; }
