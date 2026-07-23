@@ -1626,8 +1626,9 @@ export default [
     "keywords": [
       "Doomsday Ark",
       "Fly",
+      "Frame",
       "Vehicle"
-    ],
+        ],
     "factionKeywords": [
       "Necrons"
     ],
