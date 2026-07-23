@@ -25,6 +25,7 @@ const AuthCallbackView  = () => import('../views/tracker/AuthCallbackView.vue')
 const TrackerHistoryView = () => import('../views/tracker/TrackerHistoryView.vue')
 const LinksView         = () => import('../views/LinksView.vue')
 const DisclaimerView    = () => import('../views/DisclaimerView.vue')
+const ChangelogView     = () => import('../views/ChangelogView.vue')
 const StratagemsView    = () => import('../views/StratagemsView.vue')
 const FactionsListView  = () => import('../views/FactionsListView.vue')
 const FactionRuleView        = () => import('../views/faction/FactionRuleView.vue')
@@ -298,6 +299,7 @@ export const router = createRouter({
     { path: '/tracker/auth-callback', component: AuthCallbackView },
     { path: '/links', component: LinksView },
     { path: '/disclaimer', component: DisclaimerView },
+    { path: '/changelog', component: ChangelogView },
     { path: '/factions',       component: FactionsListView },
     { path: '/factions/:slug',             component: FactionRuleView },
     // Merged into /factions/:slug — redirect old bookmarks/links to the combined page.

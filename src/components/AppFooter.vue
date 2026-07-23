@@ -5,7 +5,7 @@
         <p class="footer-col-label">{{ t.footer.contactLabel }}</p>
         <p class="footer-contact"><a :href="'mailto:' + contactEmail">{{ contactEmail }}</a></p>
         <p class="footer-contact"><RouterLink to="/disclaimer">{{ t.footer.disclaimerLink }}</RouterLink></p>
-        <p class="footer-version">v{{ version }}</p>
+        <p class="footer-version"><RouterLink to="/changelog">v{{ version }}</RouterLink></p>
       </div>
 
       <!-- Mobile-only: acknowledgements + open-source are secondary info, collapsed by
@@ -116,6 +116,16 @@ const showDetails = ref(false)
   color: var(--text-dim);
   font-family: var(--font-mono);
   font-size: 0.75rem;
+}
+
+.footer-version a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.footer-version a:hover {
+  color: var(--accent);
 }
 
 /* Desktop: three columns in a row, always fully shown — no toggle. */
