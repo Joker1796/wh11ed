@@ -14,6 +14,7 @@
         <p v-if="endReasonLabel" class="gs-reason">{{ endReasonLabel }}</p>
         <ScoreBoard :game="game" :finished="true" />
         <ScoreBreakdown :game="game" />
+        <ArmyRuleSummary :game="game" />
       </div>
 
       <footer class="modal-foot">
@@ -27,6 +28,7 @@ import { computed } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import ScoreBoard from './ScoreBoard.vue'
 import ScoreBreakdown from './ScoreBreakdown.vue'
+import ArmyRuleSummary from './ArmyRuleSummary.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useFormatDate } from '../../composables/useFormatDate.js'

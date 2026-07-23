@@ -8,6 +8,7 @@
       <p v-if="endReasonLabel" class="finished-reason">{{ endReasonLabel }}</p>
       <ScoreBoard :finished="true" />
       <ScoreBreakdown />
+      <ArmyRuleSummary />
       <div class="finished-actions">
         <button class="btn-ghost" @click="resume">{{ labels.trackerResume }}</button>
         <button class="btn-primary" @click="backToTracker">{{ labels.trackerBackToTracker }}</button>
@@ -32,6 +33,7 @@ const GameSetup = defineAsyncComponent({
 import RoundTracker from '../../components/tracker/RoundTracker.vue'
 import ScoreBoard from '../../components/tracker/ScoreBoard.vue'
 import ScoreBreakdown from '../../components/tracker/ScoreBreakdown.vue'
+import ArmyRuleSummary from '../../components/tracker/ArmyRuleSummary.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTracker } from '../../composables/useTracker.js'

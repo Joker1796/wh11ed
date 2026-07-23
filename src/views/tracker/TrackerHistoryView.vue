@@ -11,6 +11,7 @@
 
     <ScoreBoard :game="game" :finished="true" />
     <ScoreBreakdown :game="game" />
+    <ArmyRuleSummary :game="game" />
 
     <section v-if="layout" class="hv-layout">
       <h2>{{ labels.trackerLayout }} {{ layout.id }}</h2>
@@ -24,6 +25,7 @@ import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ScoreBoard from '../../components/tracker/ScoreBoard.vue'
 import ScoreBreakdown from '../../components/tracker/ScoreBreakdown.vue'
+import ArmyRuleSummary from '../../components/tracker/ArmyRuleSummary.vue'
 import LayoutCard from '../../components/event/LayoutCard.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
