@@ -53,6 +53,7 @@ export const landing = {
       openSourceText: 'This project is free and open source.',
       repoLinkLabel: 'GitHub',
       disclaimerLink: 'Legal & disclaimer',
+      dataVersionLabel: 'Data version',
       detailsShow: 'More',
       detailsHide: 'Less',
       disclaimer:
@@ -112,6 +113,7 @@ export const landing = {
       openSourceText: 'Проект бесплатный, с открытым исходным кодом.',
       repoLinkLabel: 'GitHub',
       disclaimerLink: 'Правовая информация',
+      dataVersionLabel: 'Версия данных',
       detailsShow: 'Ещё',
       detailsHide: 'Скрыть',
       disclaimer:

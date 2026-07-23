@@ -37,19 +37,14 @@
       <i class="bi bi-arrow-repeat"></i> {{ roundStart }} · {{ labels.trackerPoolRefill }}
     </p>
 
-    <!-- Counter spend buttons (GSC resurrect costs): tap to subtract a fixed cost from the pool;
-         disabled when the pool can't afford it. The header stepper handles start + manual edits. -->
-    <div v-if="view.spends" class="army-spends">
-      <span class="army-spends-label">{{ labels.trackerArmySpend }}</span>
-      <div class="army-spends-grid">
-        <button
-          v-for="(s, i) in view.spends"
-          :key="i"
-          class="army-spend"
-          :disabled="counter < s.cost"
-          @click="setArmyCounter(pi, counter - s.cost)"
-        >{{ s.label }} <span class="army-spend-cost">{{ s.cost }}</span></button>
-      </div>
+    <!-- Counter spend options (GSC resurrect costs) live behind a compact field → modal, so the ~10
+         unit costs don't crowd the card. The header stepper still sets the start pool + the manual +2
+         (Resurgence points are never replenished mid-game — only spent down). -->
+    <div v-if="view.spends" class="army-multi">
+      <button class="army-field" @click="showSpendPicker = true">
+        <span class="army-field-val">{{ labels.trackerArmySpend }}</span>
+        <i class="bi bi-chevron-down army-field-chev"></i>
+      </button>
     </div>
 
     <!-- Round-gated readout (Death Guard Contagion Range): a value that escalates with the round. -->
@@ -204,6 +199,17 @@
       @close="showBlessingPicker = false"
     />
 
+    <!-- Resurrect/spend picker (GSC): the ~10 unit costs, kept off the card. `remaining` = the live
+         pool, so entries re-disable as you spend and you can bring back several without closing. -->
+    <ArmySpendModal
+      v-if="showSpendPicker && view.spends"
+      :title="view.label"
+      :spends="view.spends"
+      :remaining="counter"
+      @spend="(cost) => setArmyCounter(pi, counter - cost)"
+      @close="showSpendPicker = false"
+    />
+
     <!-- Spending a Miracle die is easy to mis-tap and costs a scarce resource, so it's confirmed. -->
     <ConfirmModal
       v-if="pendingDie !== null"
@@ -227,6 +233,7 @@
 import { ref, computed, watch } from 'vue'
 import NumberStepper from './NumberStepper.vue'
 import ArmyMultiPickerModal from './ArmyMultiPickerModal.vue'
+import ArmySpendModal from './ArmySpendModal.vue'
 import CollapseTransition from '../CollapseTransition.vue'
 import ConfirmModal from '../ConfirmModal.vue'
 import RuleBody from '../RuleBody.vue'
@@ -279,6 +286,8 @@ const dice = computed(() => player.value?.army?.dice ?? [])
 const pendingDie = ref(null)
 // World Eaters Blessings picker (the capped multi-select list, kept out of the card to save room).
 const showBlessingPicker = ref(false)
+// GSC resurrect/spend picker (the ~10 unit costs, kept off the card).
+const showSpendPicker = ref(false)
 function confirmSpendDie() {
   if (pendingDie.value !== null) removeArmyDie(props.pi, pendingDie.value)
   pendingDie.value = null
@@ -557,66 +566,6 @@ watch(choiceLocked, (locked) => { if (locked) showActive.value = true }, { immed
   font-size: 0.68rem;
 }
 
-/* ── Counter spend buttons (GSC resurrect costs: tap to subtract) ── */
-.army-spends {
-  margin-top: 0.55rem;
-}
-
-.army-spends-label {
-  display: block;
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  color: var(--text-muted);
-  margin-bottom: 0.35rem;
-}
-
-.army-spends-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
-}
-
-.army-spend {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  padding: 0.3rem 0.5rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 5px;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  transition: border-color 0.15s, opacity 0.15s;
-}
-
-.army-spend:hover:not(:disabled) {
-  border-color: var(--accent);
-}
-
-.army-spend:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-
-.army-spend-cost {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 1.15rem;
-  height: 1.15rem;
-  padding: 0 0.25rem;
-  border-radius: 3px;
-  background: color-mix(in srgb, var(--accent) 16%, transparent);
-  color: var(--accent);
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 700;
-}
 
 /* ── Round-gated readout (Contagion Range: value escalates with the battle round) ── */
 .army-readout {
