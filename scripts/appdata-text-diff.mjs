@@ -52,6 +52,7 @@ function sem(s) {
     .replace(/[-‐‑–—]/g, '-')
     .toLowerCase()
     .replace(/[^\p{L}\p{N}"'+%/.\-]+/gu, ' ')
+    .replace(/\.(?=\s|$)/g, '') // sentence-final periods — punctuation, not wording (keeps decimals)
     .replace(/\s+/g, ' ')
     .replace(/ \/ /g, ' ') // bodyText's block separator — never a wording difference
     .trim()
