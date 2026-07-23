@@ -21,6 +21,7 @@ import genestealerCults from './genestealer-cults.js'
 import blackTemplars from './black-templars.js'
 import deathGuard from './death-guard.js'
 import worldEaters from './world-eaters.js'
+import thousandSons from './thousand-sons.js'
 
 // Registry — add a faction by dropping its spec here.
 const REGISTRY = {
@@ -34,6 +35,7 @@ const REGISTRY = {
   'black-templars': blackTemplars,
   'death-guard': deathGuard,
   'world-eaters': worldEaters,
+  'thousand-sons': thousandSons,
 }
 
 // Detachment names come from the MFM dataset (player.detachments) and must line up with the

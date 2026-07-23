@@ -151,6 +151,23 @@ describe('resolveArmyTracker', () => {
     expect(en.note).toMatch(/eight D6/)
     expect(ru.note).toMatch(/восемь D6/)
   })
+
+  it('resolves the Thousand Sons multi spec (the four Rituals, keyed by Warp Charge)', () => {
+    const spec = resolveArmyTracker('thousand-sons')
+    expect(spec.kind).toBe('multi')
+    expect(spec.max).toBe(4)
+    expect(spec.options.map((o) => o.id)).toEqual(['destinys-ruin', 'temporal-surge', 'doombolt', 'twist-of-fate'])
+    const en = localizeArmyTracker(spec, 'en')
+    const ru = localizeArmyTracker(spec, 'ru')
+    // Ritual names are proper names — English in both locales; the Warp Charge rides in `req`.
+    expect(en.options[0].name).toBe("Destiny's Ruin")
+    expect(ru.options[0].name).toBe("Destiny's Ruin")
+    expect(en.options.map((o) => o.req)).toEqual(['WC 5', 'WC 6', 'WC 7', 'WC 9'])
+    // Rules text is translated; the Psychic-test note carries the mechanic.
+    expect(en.options[0].body).not.toEqual(ru.options[0].body)
+    expect(en.note).toMatch(/Psychic test/)
+    expect(ru.note).toMatch(/Psychic test/)
+  })
 })
 
 describe('applyOverride (detachment overrides)', () => {
