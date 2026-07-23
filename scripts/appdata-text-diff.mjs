@@ -54,6 +54,7 @@ function sem(s) {
     .replace(/[^\p{L}\p{N}"'+%/.\-]+/gu, ' ')
     .replace(/(?<![\p{L}\p{N}])'|'(?![\p{L}\p{N}])/gu, '') // quote marks (keeps in-word apostrophes)
     .replace(/\.(?=\s|$)/g, '') // sentence-final periods — punctuation, not wording (keeps decimals)
+    .replace(/(?<=\p{L})\.(?=\p{L})/gu, ' ') // missing space after a period ("phase.just") — appdata artifact
     .replace(/\s+/g, ' ')
     .replace(/ \/ /g, ' ') // bodyText's block separator — never a wording difference
     .replace(/\s*\/\s*/g, '/') // stray spaces around "/" in slashed keyword pairs (appdata artifact)
