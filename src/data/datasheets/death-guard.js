@@ -922,11 +922,11 @@ export default [
     ],
     "loadout": "**Every model is equipped with:** hideous mutations.",
     "keywords": [
-      "Chaos Spawn",
-      "Nurgle",
+      "Beast",
       "Chaos",
-      "Beast"
-    ],
+      "Nurgle",
+      "Spawn"
+        ],
     "factionKeywords": [
       "",
       "Death Guard"

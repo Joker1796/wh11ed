@@ -1716,13 +1716,12 @@ export default [
       "This model’s twin splinter rifle can be replaced with 1 splinter cannon."
     ],
     "keywords": [
-      "Razorwing Jetfighter",
       "Aeldari",
       "Aircraft",
       "Fly",
-      "Vehicle",
-      "Frame"
-    ],
+      "Razorwing Jetfighter",
+      "Vehicle"
+        ],
     "factionKeywords": [
       "Drukhari"
     ],
@@ -2691,13 +2690,12 @@ export default [
       "This model’s 2 void lances can be replaced with 2 dark scythes."
     ],
     "keywords": [
-      "Voidraven Bomber",
-      "Vehicle",
-      "Aircraft",
       "Aeldari",
+      "Aircraft",
       "Fly",
-      "Frame"
-    ],
+      "Vehicle",
+      "Voidraven Bomber"
+        ],
     "factionKeywords": [
       "Drukhari"
     ],

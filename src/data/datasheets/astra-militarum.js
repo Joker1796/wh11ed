@@ -2229,15 +2229,14 @@ export default [
       "* You cannot select the same weapon more than once per unit unless it contains 20 models, in which case you cannot select the same weapon more than twice per unit."
     ],
     "keywords": [
-      "Cadian Shock Troops",
-      "Infantry",
       "Battleline",
-      "Platoon",
+      "Cadian Shock Troops",
       "Grenades",
-      "Cadian",
       "Imperium",
+      "Infantry",
+      "Platoon",
       "Regiment"
-    ],
+        ],
     "factionKeywords": [
       "Astra Militarum"
     ],
@@ -9818,13 +9817,12 @@ export default [
       "This model can be equipped with one of the following:\n▪ 2 lascannons and 2 twin heavy bolters\n▪ 2 lascannons and 2 twin heavy flamers"
     ],
     "keywords": [
-      "Titanic",
       "Imperium",
-      "Stormsword",
-      "Vehicle",
       "Smoke",
-      "Frame"
-    ],
+      "Stormsword",
+      "Titanic",
+      "Vehicle"
+        ],
     "factionKeywords": [
       "Astra Militarum"
     ],
@@ -10864,13 +10862,11 @@ export default [
     "transport": "This model has a transport capacity of 12 Astra Militarum Infantry models. Each Ogryn model takes up the space of 3 models. It cannot transport Artillery models.",
     "keywords": [
       "Fly",
-      "Aircraft",
+      "Imperium",
       "Transport",
       "Valkyrie",
-      "Imperium",
-      "Vehicle",
-      "Frame"
-    ],
+      "Vehicle"
+        ],
     "factionKeywords": [
       "Astra Militarum"
     ],

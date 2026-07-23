@@ -854,14 +854,15 @@ export default [
       ]
     },
     "keywords": [
-      "Infantry",
-      "Chaplain Grimaldus",
-      "Grenades",
-      "Epic Hero",
+      "Chaplain",
       "Character",
-      "Tacticus",
-      "Imperium"
-    ],
+      "Epic Hero",
+      "Grenades",
+      "Grimaldus",
+      "Imperium",
+      "Infantry",
+      "Tacticus"
+        ],
     "factionKeywords": [
       "Black Templars",
       "Adeptus Astartes"
