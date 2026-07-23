@@ -5,7 +5,10 @@
         <p class="footer-col-label">{{ t.footer.contactLabel }}</p>
         <p class="footer-contact"><a :href="'mailto:' + contactEmail">{{ contactEmail }}</a></p>
         <p class="footer-contact"><RouterLink to="/disclaimer">{{ t.footer.disclaimerLink }}</RouterLink></p>
-        <p class="footer-version"><RouterLink to="/changelog">v{{ version }}</RouterLink></p>
+        <p class="footer-version">
+          <RouterLink to="/changelog">v{{ version }}</RouterLink>
+          <span class="footer-data-version">{{ t.footer.dataVersionLabel }} {{ dataVersion }}</span>
+        </p>
       </div>
 
       <!-- Mobile-only: acknowledgements + open-source are secondary info, collapsed by
@@ -42,6 +45,7 @@
 // Content is the bilingual landing.js `footer` object.
 import { ref, computed } from 'vue'
 import { landing } from '../data/landing.js'
+import { APP_DATA_VERSION } from '../data/appDataVersion.js'
 import { useLocale } from '../composables/useLocale.js'
 import CollapseTransition from './CollapseTransition.vue'
 
@@ -52,6 +56,8 @@ const contactEmail = 'gorlovevgeni9617@gmail.com'
 // The umbrella repo (not this one): explains how the frontend, API and glossary fit together.
 const repoUrl = 'https://github.com/Joker1796/wh-rules.ru'
 const version = __APP_VERSION__
+// The GW app data_version the rules were reconciled against (shown under the app version).
+const dataVersion = APP_DATA_VERSION
 
 // Mobile-only disclosure state; ignored on desktop (see the ≥901px override below).
 const showDetails = ref(false)
@@ -126,6 +132,13 @@ const showDetails = ref(false)
 
 .footer-version a:hover {
   color: var(--accent);
+}
+
+.footer-data-version {
+  display: block;
+  margin-top: 0.15rem;
+  color: var(--text-muted);
+  font-size: 0.68rem;
 }
 
 /* Desktop: three columns in a row, always fully shown — no toggle. */
