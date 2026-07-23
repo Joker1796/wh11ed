@@ -5898,12 +5898,12 @@ export default [
     ],
     "keywords": [
       "Chaos",
-      "Raptors",
-      "Grenades",
       "Fly",
+      "Grenades",
       "Infantry",
-      "Jump Packs"
-    ],
+      "Jump Pack",
+      "Raptors"
+        ],
     "factionKeywords": [
       "Heretic Astartes"
     ],
@@ -6971,14 +6971,14 @@ export default [
       "None"
     ],
     "keywords": [
-      "Fly",
-      "Infantry",
-      "Warp Talons",
-      "Daemon",
       "Chaos",
+      "Daemon",
+      "Fly",
       "Grenades",
-      "Jump Packs"
-    ],
+      "Infantry",
+      "Jump Pack",
+      "Warp Talons"
+        ],
     "factionKeywords": [
       "Heretic Astartes"
     ],

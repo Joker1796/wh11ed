@@ -1830,7 +1830,6 @@ export default [
       "Headtakers",
       "Wolf Guard",
       "Tacticus",
-      "Imperium",
       "Infantry",
       "Hunting Wolves"
     ],
