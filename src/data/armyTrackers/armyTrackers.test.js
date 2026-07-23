@@ -133,6 +133,24 @@ describe('resolveArmyTracker', () => {
     expect(ru.options[0].name).toBe('Skullsquirm Blight')
     expect(en.options[0].body).not.toEqual(ru.options[0].body)
   })
+
+  it('resolves the World Eaters multi spec (activate up to two Blessings)', () => {
+    const spec = resolveArmyTracker('world-eaters')
+    expect(spec.kind).toBe('multi')
+    expect(spec.max).toBe(2)
+    expect(spec.options).toHaveLength(6)
+    const en = localizeArmyTracker(spec, 'en')
+    const ru = localizeArmyTracker(spec, 'ru')
+    // Blessing names are proper names — English in both locales; the dice requirement rides in `req`.
+    expect(en.options[0].name).toBe('Unbridled Bloodlust')
+    expect(ru.options[0].name).toBe('Unbridled Bloodlust')
+    expect(en.options[0].req).toBe('Double 1+')
+    expect(en.options[5].req).toBe('Double 6')
+    // Rules text is translated; the eight-dice/two-blessing note carries the mechanic.
+    expect(en.options[0].body).not.toEqual(ru.options[0].body)
+    expect(en.note).toMatch(/eight D6/)
+    expect(ru.note).toMatch(/восемь D6/)
+  })
 })
 
 describe('applyOverride (detachment overrides)', () => {

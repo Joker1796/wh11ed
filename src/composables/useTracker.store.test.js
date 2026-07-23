@@ -282,3 +282,36 @@ describe('localStorage hydration', () => {
     expect(fresh.current.value.currentRound).toBe(2)
   })
 })
+
+describe('toggleArmyMulti (World Eaters Blessings — up to N per round)', () => {
+  beforeEach(() => tracker.newGame(setupGame()))
+
+  it('adds, caps at max, and toggles off per round', () => {
+    const p = () => tracker.current.value.players[0].army?.multiByRound
+
+    tracker.toggleArmyMulti(0, 1, 'a', 2)
+    tracker.toggleArmyMulti(0, 1, 'b', 2)
+    expect(p()[1]).toEqual(['a', 'b'])
+
+    // At the cap, a third pick is ignored.
+    tracker.toggleArmyMulti(0, 1, 'c', 2)
+    expect(p()[1]).toEqual(['a', 'b'])
+
+    // Tapping an active option removes it, freeing a slot.
+    tracker.toggleArmyMulti(0, 1, 'a', 2)
+    expect(p()[1]).toEqual(['b'])
+    tracker.toggleArmyMulti(0, 1, 'c', 2)
+    expect(p()[1]).toEqual(['b', 'c'])
+
+    // Choices are per-round; a later round starts empty.
+    tracker.toggleArmyMulti(0, 2, 'a', 2)
+    expect(p()[2]).toEqual(['a'])
+    expect(p()[1]).toEqual(['b', 'c'])
+  })
+
+  it('drops a round key once its last pick is removed', () => {
+    tracker.toggleArmyMulti(0, 1, 'a', 2)
+    tracker.toggleArmyMulti(0, 1, 'a', 2)
+    expect(tracker.current.value.players[0].army.multiByRound[1]).toBeUndefined()
+  })
+})

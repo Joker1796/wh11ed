@@ -397,6 +397,24 @@ export function useTracker() {
     else pl.army.selectionByRound[round] = id
   }
 
+  // Army-rule multi-selection primitive (World Eaters' Blessings of Khorne) — pick UP TO `max`
+  // options per battle round (unlike setArmySelection's single per-round pick), reset each round.
+  // Stored as a per-round array of ids. Tapping an active option removes it; a new pick is ignored
+  // once the round is at its cap (the widget also disables the chips then).
+  function toggleArmyMulti(pi, round, id, max) {
+    const pl = current.value.players[pi]
+    if (!pl.army) pl.army = {}
+    if (!pl.army.multiByRound) pl.army.multiByRound = {}
+    const cur = pl.army.multiByRound[round] || []
+    if (cur.includes(id)) {
+      const next = cur.filter((x) => x !== id)
+      if (next.length) pl.army.multiByRound[round] = next
+      else delete pl.army.multiByRound[round]
+    } else if (cur.length < max) {
+      pl.army.multiByRound[round] = [...cur, id]
+    }
+  }
+
   // Army-rule battle-long selection (Templar Vows, Death Guard Plague) — a single pick made once for
   // the whole battle (unlike setArmySelection's per-round choice, so it's not keyed by round).
   // Clicking the active option again clears it.
@@ -679,8 +697,8 @@ export function useTracker() {
 
   return {
     current, history, setupDraft,
-    newGame, updateSetup, setRoundPrimary, setCp, setArmyCounter, setArmySelection, setArmyChoice,
-    fireArmyToggle, undoArmyToggle, addArmyDie, removeArmyDie, setArmyPool,
+    newGame, updateSetup, setRoundPrimary, setCp, setArmyCounter, setArmySelection, toggleArmyMulti,
+    setArmyChoice, fireArmyToggle, undoArmyToggle, addArmyDie, removeArmyDie, setArmyPool,
     setPrimaryRow, primaryRowCount,
     drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,
     restoreSecondaryToHand, redrawSecondary,
