@@ -40,6 +40,16 @@
           <input type="checkbox" v-model="settings.trackCP" />
           <span>{{ labels.trackerTrackCp }}</span>
         </label>
+
+        <label v-if="armyYouTrackable" class="check" :class="{ on: settings.trackArmyYou }">
+          <input type="checkbox" v-model="settings.trackArmyYou" />
+          <span>{{ labels.trackerTrackArmyYou }}</span>
+        </label>
+
+        <label v-if="armyOppTrackable" class="check" :class="{ on: settings.trackArmyOpp }">
+          <input type="checkbox" v-model="settings.trackArmyOpp" />
+          <span>{{ labels.trackerTrackArmyOpp }}</span>
+        </label>
       </div>
 
       <div class="settings layout-block" v-if="layouts.length">
@@ -95,6 +105,10 @@ const game = current.value
 const players = reactive(game.players.map(p => ({ name: p.name, battleReady: p.battleReady })))
 const settings = reactive({
   trackCP: game.settings.trackCP,
+  // Split you/opponent army-rule toggles; older games lack them → fall back to the old single flag,
+  // then default on (matches the in-game "missing = on" fallback).
+  trackArmyYou: game.settings.trackArmyYou ?? game.settings.trackArmyRule ?? true,
+  trackArmyOpp: game.settings.trackArmyOpp ?? game.settings.trackArmyRule ?? true,
   // game.settings.firstTurn is always normalized to 1 post-creation (see newGame) — the
   // actual "who's first" lives in player order, so derive the toggle from that instead.
   firstTurn: (game.players[0].isYou ?? true) ? 1 : 2,
@@ -122,6 +136,19 @@ function selectLayout(id) { settings.layout = id; settings.customLayout = null }
 function onPickLayout(l) { settings.layout = 'custom'; settings.customLayout = l; layoutPickerOpen.value = false }
 
 const scoreHelpOpen = ref(false)
+
+// Show each "Track army rule" toggle only if that player's faction has a tracker spec (factions are
+// fixed once a game starts, so resolve once). Mapped by isYou, since players are reordered by first
+// turn. Same lazy registry import as the in-game card.
+const armyYouTrackable = ref(false)
+const armyOppTrackable = ref(false)
+;(async () => {
+  const { resolveArmyTracker } = await import('../../data/armyTrackers/index.js')
+  const you = game.players.find(p => p.isYou) ?? game.players[0]
+  const opp = game.players.find(p => !p.isYou) ?? game.players[1]
+  armyYouTrackable.value = !!(you?.factionSlug && resolveArmyTracker(you.factionSlug))
+  armyOppTrackable.value = !!(opp?.factionSlug && resolveArmyTracker(opp.factionSlug))
+})()
 
 function save() {
   updateSetup({
