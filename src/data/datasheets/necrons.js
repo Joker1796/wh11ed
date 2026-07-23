@@ -8,9 +8,10 @@
 // core ("Support", not "Leader"), Monolith's Eternity Gate text (old ingress-move/
 // strategic-reserves wording), Night Scythe's "Invasion Beams" ability (name + the
 // re-embark sentence), and the 8" distances on Ophydian Destroyers' Tunnelling
-// Horrors and Transcendent C'tan's Transdimensional Displacement — wahapedia had not
-// picked up this Faction Pack as of 2026-07-15. Don't "fix" these back to wahapedia's
-// wording without checking whether wahapedia has since caught up.
+// Horrors — wahapedia had not picked up this Faction Pack as of 2026-07-15. Don't "fix"
+// these back to wahapedia's wording without checking whether wahapedia has since caught up.
+// (Transcendent C'tan's Transdimensional Displacement was reconciled to appdata 912 on
+// 2026-07-23 — the Faction-Pack text is now the advance-move/move-through-models version.)
 export default [
   {
     "id": "annihilation-barge",
@@ -1123,7 +1124,8 @@ export default [
       "Character",
       "Catacomb Command Barge",
       "Fly",
-      "Frame"
+      "Frame",
+      "Noble"
     ],
     "factionKeywords": [
       "Necrons"
@@ -1188,7 +1190,7 @@ export default [
     "abilities": [
       {
         "name": "Timesplinter Mantle",
-        "text": "While this model is leading a unit, each time an attack targets that unit, subtract 1 from the Hit roll."
+        "text": "This unit has the Stealth ability.\n▪ Each time a melee attack targets this unit, subtract 1 from the Hit roll."
       },
       {
         "name": "Chronometron",
@@ -4510,7 +4512,7 @@ export default [
     "abilities": [
       {
         "name": "Transdimensional Displacement",
-        "text": "Each time this model is selected to Advance, you can remove it from the battlefield and set it up again anywhere on the battlefield that is more than 8\" horizontally away from all enemy units."
+        "text": "In your Movement phase, when this model is selected to Advance, you can use this ability. If you do:\n▪ That Advance move has no maximum distance.\n▪ This model can move through all types of model (including enemy models and MONSTER and VEHICLE models).\n▪ After moving, this model must be more than 8\" horizontally away from all enemy units."
       },
       {
         "name": "Necrodermis",

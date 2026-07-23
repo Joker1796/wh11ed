@@ -95,7 +95,7 @@ Before making a dice roll for a model or unit from your army with the Acts of Fa
         {
           name: "Light of the Emperor",
           sublabel: "Army of Faith – Battle Tactic Stratagem",
-          cp: "1CP",
+          cp: "2CP",
           turn: "either",
           flavor: "The Emperor’s radiance shines upon his warriors, magnifying their purity in their darkest hour.",
           when: "Command phase.",
