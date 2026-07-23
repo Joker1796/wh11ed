@@ -97,6 +97,27 @@
       >{{ o.name }}</button>
     </div>
 
+    <!-- Multi-selection primitive (World Eaters Blessings of Khorne): activate UP TO `max` options
+         this battle round, reset each round. The full option list would take a lot of room (six
+         Blessings), so it lives behind a compact field that opens the picker; the chosen options'
+         rules show below. The player rolls the dice on the table — each option's `req` (e.g.
+         "Double 3+") is only a reminder of what it needs. -->
+    <div v-if="view.kind === 'multi' && view.options" class="army-multi">
+      <button class="army-field" @click="showBlessingPicker = true">
+        <span class="army-field-val" :class="{ placeholder: !multiSelected.length }">
+          {{ multiSelected.length ? multiSelected.map((o) => o.name).join(', ') : `${labels.trackerArmyActivate} ${view.max}` }}
+        </span>
+        <span class="army-field-count">{{ multiIds.length }}/{{ view.max }}</span>
+        <i class="bi bi-chevron-down army-field-chev"></i>
+      </button>
+      <div v-if="multiSelected.length" class="army-multi-rules">
+        <div v-for="o in multiSelected" :key="o.id" class="army-multi-rule">
+          <span class="army-multi-rule-name">{{ o.name }}</span>
+          <RuleBody :body="o.body" />
+        </div>
+      </div>
+    </div>
+
     <!-- Toggle primitive (e.g. Orks Waaagh!): a once-per-battle fire (some detachments allow a
          second — see maxUses), with an undo. The effect applies only the round it was called; on a
          later round with no uses left it reads as spent. -->
@@ -128,25 +149,8 @@
       </template>
     </div>
 
-    <!-- The active rule right now — a counter threshold's state (Votann) or the picked option
-         (AdMech). The header shows its name; its rule text expands on demand, collapsed by default. -->
-    <div v-if="activeRule" class="army-acc">
-      <button
-        v-if="activeRule.body"
-        class="army-acc-head"
-        :aria-expanded="showActive"
-        @click="showActive = !showActive"
-      >
-        <i class="bi army-acc-chev" :class="showActive ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
-        <span class="army-acc-title">{{ labels.trackerArmyActive }}: <strong>{{ activeRule.name }}</strong></span>
-      </button>
-      <p v-else class="army-acc-static">{{ labels.trackerArmyActive }}: <strong>{{ activeRule.name }}</strong></p>
-      <CollapseTransition v-if="activeRule.body" :show="showActive">
-        <div class="army-acc-body"><RuleBody :body="activeRule.body" /></div>
-      </CollapseTransition>
-    </div>
-
-    <!-- How the mechanic works (gain triggers + note) — collapsed by default. -->
+    <!-- How the mechanic works (gain triggers + note) — collapsed by default. Kept ABOVE the active
+         rule so the "what right now" state reads last, closest to the controls above it. -->
     <div v-if="view.gains.length || view.note" class="army-acc">
       <button
         class="army-acc-head"
@@ -165,6 +169,35 @@
         </div>
       </CollapseTransition>
     </div>
+
+    <!-- The active rule right now — a counter threshold's state (Votann) or the picked option
+         (AdMech). The header shows its name; its rule text expands on demand, collapsed by default. -->
+    <div v-if="activeRule" class="army-acc">
+      <button
+        v-if="activeRule.body"
+        class="army-acc-head"
+        :aria-expanded="showActive"
+        @click="showActive = !showActive"
+      >
+        <i class="bi army-acc-chev" :class="showActive ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+        <span class="army-acc-title">{{ labels.trackerArmyActive }}: <strong>{{ activeRule.name }}</strong></span>
+      </button>
+      <p v-else class="army-acc-static">{{ labels.trackerArmyActive }}: <strong>{{ activeRule.name }}</strong></p>
+      <CollapseTransition v-if="activeRule.body" :show="showActive">
+        <div class="army-acc-body"><RuleBody :body="activeRule.body" /></div>
+      </CollapseTransition>
+    </div>
+
+    <!-- Blessings picker (World Eaters): the full capped multi-select list, kept out of the card. -->
+    <ArmyMultiPickerModal
+      v-if="showBlessingPicker && view.kind === 'multi'"
+      :title="view.ruleName || view.label"
+      :options="view.options"
+      :selected="multiIds"
+      :max="view.max"
+      @toggle="(id) => toggleArmyMulti(pi, currentRound, id, view.max)"
+      @close="showBlessingPicker = false"
+    />
 
     <!-- Spending a Miracle die is easy to mis-tap and costs a scarce resource, so it's confirmed. -->
     <ConfirmModal
@@ -188,6 +221,7 @@
 // for the (currently many) factions without a spec.
 import { ref, computed, watch } from 'vue'
 import NumberStepper from './NumberStepper.vue'
+import ArmyMultiPickerModal from './ArmyMultiPickerModal.vue'
 import CollapseTransition from '../CollapseTransition.vue'
 import ConfirmModal from '../ConfirmModal.vue'
 import RuleBody from '../RuleBody.vue'
@@ -202,8 +236,8 @@ const props = defineProps({
 })
 
 const {
-  current, setArmyCounter, setArmySelection, setArmyChoice, fireArmyToggle, undoArmyToggle,
-  addArmyDie, removeArmyDie, setArmyPool,
+  current, setArmyCounter, setArmySelection, toggleArmyMulti, setArmyChoice, fireArmyToggle,
+  undoArmyToggle, addArmyDie, removeArmyDie, setArmyPool,
 } = useTracker()
 const { locale } = useLocale()
 const { theme } = useTheme()
@@ -238,6 +272,8 @@ const currentRound = computed(() => current.value?.currentRound ?? 1)
 // tapping a die stages its index here; confirming removes it.
 const dice = computed(() => player.value?.army?.dice ?? [])
 const pendingDie = ref(null)
+// World Eaters Blessings picker (the capped multi-select list, kept out of the card to save room).
+const showBlessingPicker = ref(false)
 function confirmSpendDie() {
   if (pendingDie.value !== null) removeArmyDie(props.pi, pendingDie.value)
   pendingDie.value = null
@@ -258,6 +294,12 @@ const selectedId = computed(() =>
   view.value?.once
     ? player.value?.army?.choice ?? null
     : player.value?.army?.selectionByRound?.[currentRound.value] ?? null,
+)
+// Multi-selection primitive (World Eaters Blessings): the up-to-`max` ids activated this round
+// (reset each round). `multiSelected` is the chosen options in spec order, for showing their rules.
+const multiIds = computed(() => player.value?.army?.multiByRound?.[currentRound.value] ?? [])
+const multiSelected = computed(() =>
+  view.value?.kind === 'multi' ? (view.value.options || []).filter((o) => multiIds.value.includes(o.id)) : [],
 )
 // Pick (or clear) the option — battle-long for `once` specs, per-round otherwise.
 function pickOption(id) {
@@ -417,6 +459,84 @@ watch(choiceLocked, (locked) => { if (locked) showActive.value = true }, { immed
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
+}
+
+/* ── Multi-select (World Eaters Blessings: activate up to N per round) ──
+   A compact field opens the picker modal, so the six options don't crowd the card. */
+.army-multi {
+  margin-top: 0.55rem;
+}
+
+.army-field {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  color: var(--text-primary);
+  transition: border-color 0.15s;
+}
+
+.army-field:hover {
+  border-color: var(--accent);
+}
+
+/* Selected Blessing names as plain wrapping text — wraps instead of a single nowrap line, so two
+   long names still fit a 320px screen without overflowing the card. */
+.army-field-val {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  overflow-wrap: anywhere;
+}
+
+.army-field-val.placeholder {
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.army-field-count {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.army-field-chev {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+/* Rules of the activated Blessings, listed below the field. */
+.army-multi-rules {
+  margin-top: 0.55rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.army-multi-rule {
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--text-primary);
+}
+
+.army-multi-rule-name {
+  display: block;
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 0.8rem;
+  margin-bottom: 0.1rem;
 }
 
 /* ── Pool refill hint (Battle Focus: tokens refill each round) ── */
