@@ -1156,16 +1156,17 @@ export default [
     ],
     "loadout": "**This model is equipped with:** malefic lash; daemonic blades; serpentine tail.",
     "keywords": [
-      "Monster",
-      "Character",
-      "Fly",
-      "Daemon",
       "Chaos",
-      "Slaanesh",
-      "Primarch",
+      "Character",
+      "Daemon",
       "Epic Hero",
-      "Fulgrim"
-    ],
+      "Fly",
+      "Fulgrim",
+      "Mobile",
+      "Monster",
+      "Primarch",
+      "Slaanesh"
+        ],
     "factionKeywords": [
       "",
       "Emperor’s Children"
