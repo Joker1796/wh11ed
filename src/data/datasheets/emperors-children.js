@@ -214,7 +214,7 @@ export default [
     "abilities": [
       {
         "name": "Assault Vehicle",
-        "text": "Units can disembark from this TRANSPORT after it has Advanced. Units that do so count as having made a Normal move that phase, and cannot declare a charge in the same turn, but can otherwise act normally."
+        "text": "Units can disembark from this **TRANSPORT** after it has Advanced. Units that do so count as having made a Normal move, and cannot declare a charge that turn."
       }
     ],
     "composition": [
@@ -419,7 +419,7 @@ export default [
     "abilities": [
       {
         "name": "Lethal Obsession",
-        "text": "In your Shooting phase, after this unit has shot, you can use this ability. If you do, select one enemy unit hit by those ranged attacks. Until the end of the turn, when this unit declares a charge: this unit can re-roll that charge roll; this unit must end that charge move engaged with that enemy unit."
+        "text": "In your Shooting phase, after this unit has shot, you can use this ability. If you do, select one enemy unit hit by those ranged attacks. Until the end of the turn, when this unit **declares a charge**: ■ This unit can re-roll that **charge roll**. ■ This unit __must__ end that **charge move engaged** with that enemy unit."
       }
     ],
     "composition": [
@@ -884,7 +884,7 @@ export default [
       },
       {
         "name": "Revel in Desecration",
-        "text": "Each time this model makes an attack that targets an enemy unit that is not below Half-strength, add 1 to the Hit roll."
+        "text": "Each time this model makes an attack that targets an enemy unit that is not below Half-strength, add 1 to the Hit roll"
       }
     ],
     "damaged": {
@@ -1134,7 +1134,7 @@ export default [
       },
       {
         "name": "Daemon Primarch of Slaanesh",
-        "text": "At the start of your opponent’s Command phase, select one of the abilities in the Daemon Primarch of Slaanesh section. Until the start of your opponent’s next Command phase, this model has that ability."
+        "text": "At the start of your opponent’s Command phase, select one of the abilities in the Daemon Primarch of Slaanesh section (see below). Until the start of your opponent’s next Command phase, this model has that ability."
       },
       {
         "name": "Serpentine",

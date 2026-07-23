@@ -67,7 +67,7 @@ export default [
     "abilities": [
       {
         "name": "Warmaster",
-        "text": "In your Command phase, select one Warmaster ability (see below). Until the start of your next Command phase, this model has that ability."
+        "text": "In your Command phase, select one Warmaster ability. Until the start of your next Command phase, this model has that ability."
       },
       {
         "name": "Dark Destiny",
@@ -657,7 +657,7 @@ export default [
     "abilities": [
       {
         "name": "Lord of Chaos",
-        "text": "Once per battle round, one unit from your army with this ability can use it when its unit is targeted with a Stratagem. If it does, reduce the CP cost of that use of that Stratagem by 1CP."
+        "text": "Once per battle round, one unit from your army with this ability can use it when it is targeted with a Stratagem. If it does, reduce the CP cost of that usage of that Stratagem by 1CP."
       },
       {
         "name": "Chance for Glory",
@@ -790,7 +790,7 @@ export default [
     "abilities": [
       {
         "name": "Lord of Chaos",
-        "text": "Once per battle round, one unit from your army with this ability can use it when its unit is targeted with a Stratagem. If it does, reduce the CP cost of that use of that Stratagem by 1CP."
+        "text": "Once per battle round, one unit from your army with this ability can use it when it is targeted with a Stratagem. If it does, reduce the CP cost of that usage of that Stratagem by 1CP."
       },
       {
         "name": "Formidably Resilient",
@@ -922,7 +922,7 @@ export default [
     "abilities": [
       {
         "name": "Lord of Chaos",
-        "text": "Once per battle round, one unit from your army with this ability can use it when its unit is targeted with a Stratagem. If it does, reduce the CP cost of that use of that Stratagem by 1CP."
+        "text": "Once per battle round, one unit from your army with this ability can use it when it is targeted with a Stratagem. If it does, reduce the CP cost of that usage of that Stratagem by 1CP."
       },
       {
         "name": "Cruel Hunter",
@@ -2005,7 +2005,7 @@ export default [
     "abilities": [
       {
         "name": "For the Dark Gods",
-        "text": "At the end of your Command phase, if this unit is within range of an objective marker you control, that objective marker remains under your control, even if you have no models within range of it, until your opponent controls it at the start or end of any turn."
+        "text": "At the end of your Command phase, if this unit is within range of an objective marker you control, that objective marker remains under your control until your opponent’s Level of Control over that objective marker is greater than yours at the end of a phase."
       }
     ],
     "composition": [
@@ -2575,7 +2575,7 @@ export default [
       },
       {
         "name": "Daemonforge",
-        "text": "Each time this unit makes a Dark Pact, until the end of the phase, each time this model makes an attack, re-roll a Wound roll of 1. In addition, once per battle, when this unit makes a Dark Pact, before making the resulting Leadership test, you can declare it will overcharge its daemonforge. If it does:\n▪ If the resulting Leadership test is failed, this model suffers 3 mortal wounds instead of D3 mortal wounds.\n▪ Until the end of the phase, each time this model makes an attack, you can re-roll the Wound roll."
+        "text": "Each time this unit makes a Dark Pact, until the end of the phase, each time this model makes an attack, re-roll a Wound roll of 1."
       }
     ],
     "damaged": {
@@ -3052,7 +3052,7 @@ export default [
     "abilities": [
       {
         "name": "Head Taker",
-        "text": "While this model is leading a unit, each time this model’s unit ends a Charge move, select one enemy unit within Engagement Range of this model’s unit and roll one D6 for each model in this models unit that is within Engagement Range of that enemy unit: for each 4+, that enemy unit suffers 1 mortal wound."
+        "text": "While this model is leading a unit, each time this model’s unit ends a Charge move, select one enemy unit within Engagement Range of this model’s unit and roll one D6 for each model in this model’s unit that is within Engagement Range of that enemy unit: for each 4+, that enemy unit suffers 1 mortal wound."
       },
       {
         "name": "Herald of the Apocalypse (Aura)",
@@ -3892,7 +3892,7 @@ export default [
       },
       {
         "name": "Hamadrya’s Knowledge (Psychic)",
-        "text": "Once per battle round, when an enemy unit ends a Normal, Advance or Fall Back move within 9\" of this model’s unit, if this model’s unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to D3+3\"."
+        "text": "Once per battle round, when an enemy unit ends a Normal, Advance or Fall Back move within 8\" of this model’s unit, if this model’s unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to D3+3\"."
       }
     ],
     "composition": [
@@ -4585,7 +4585,7 @@ export default [
       },
       {
         "name": "Spirit Thief",
-        "text": "At the start of your Shooting phase, select one visible enemy VEHICLE unit. Until the end of the phase, each time a friendly HERETIC ASTARTES model makes an attack that targets that unit, re-roll a Wound roll of 1."
+        "text": "At the start of your Shooting phase, select one visible enemy **VEHICLE** unit. Until the end of the phase, each time a friendly **HERETIC ASTARTES** model makes an attack that targets that unit, re-roll a Wound roll of 1."
       }
     ],
     "composition": [
@@ -5490,7 +5490,7 @@ export default [
     "abilities": [
       {
         "name": "Malevolent Locus (Aura)",
-        "text": "While a friendly HERETIC ASTARTES model is wholly within 9\" of this FORTIFICATION, improve that unit’s Leadership characteristic by 1."
+        "text": "While a friendly **HERETIC ASTARTES** unit is within 9\" of this **FORTIFICATION**, improve that unit’s Leadership characteristic by 1."
       },
       {
         "name": "Malign Cover",
@@ -5498,7 +5498,7 @@ export default [
       },
       {
         "name": "Fortification",
-        "text": "While an enemy unit is only within Engagement Range of one or more FORTIFICATIONS from your army:\n▪ That unit can still be selected as the target of ranged attacks, but each time such an attack is made, unless it is made with a Pistol weapon, subtract 1 from the Hit roll.\n▪ Models in that unit do not need to take Desperate Escape tests due to Falling Back while Battle-shocked, except for those that will move over enemy models when doing so."
+        "text": "While an enemy unit is only within Engagement Range of one or more **FORTIFICATIONS** from your army: ■ That unit can still be selected as the target of ranged attacks, but each time such an attack is made, unless it is made with a Pistol, subtract 1 from the Hit roll. ■ Models in that unit do not need to take Desperate Escape tests due to Falling Back while Battle-shocked, except for those that will move over enemy models when doing so."
       }
     ],
     "composition": [
@@ -5598,7 +5598,7 @@ export default [
     "abilities": [
       {
         "name": "Warp Rift Firepower",
-        "text": "(Once per battle, per unit) In your Shooting phase, when this unit is selected to shoot, you can use this ability. If you do, this unit’s ranged attacks have the [INDIRECT FIRE] ability."
+        "text": "Once per battle, during the shooting phase, this unit can use this ability. If it does, until the end of the phase, ranged weapons models in this unit are equipped with have the **[INDIRECT FIRE]** ability."
       }
     ],
     "composition": [
@@ -6142,7 +6142,7 @@ export default [
       },
       {
         "name": "Raider’s Due",
-        "text": "Each time this unit declares a Charge that targets one or more units that are within range of one or more objective markers, you can re-roll the Charge roll."
+        "text": "When this unit **declares a charge**, If an enemy unit within range of an **objective** is within 12\" of this unit, you can use this ability. If you do: This unit can re-roll that **charge roll**. This unit must end that **charge move engaged** with one or more of those enemy units."
       }
     ],
     "composition": [

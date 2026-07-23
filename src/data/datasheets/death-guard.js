@@ -1206,7 +1206,7 @@ export default [
       },
       {
         "name": "Death Approaches",
-        "text": "Each time this unit is set up on the battlefield using the Deep Strike ability, it can be set up anywhere on the battlefield that is more than 6\" horizontally away from all Afflicted enemy units, and more than 8\" horizontally away from all other enemy units."
+        "text": "In your movement phase, each time this unit is set up on the battlefield using the Deep Strike ability, it can be set up anywhere on the battlefield that is more than 6\" horizontally away from all Afflicted enemy units, and more than 8\" horizontally away from all other enemy units."
       }
     ],
     "wargearAbilities": [
@@ -2309,7 +2309,7 @@ export default [
     "abilities": [
       {
         "name": "Gift of Poxes",
-        "text": "Add 3\" to the range of this model’s Contagion Range."
+        "text": "Add 3\" to the range of this model’s Contagion Range"
       },
       {
         "name": "Shroud of Disease",
@@ -2588,7 +2588,7 @@ export default [
       },
       {
         "name": "Diseased Cover",
-        "text": "Each time a ranged attack is allocated to a model, if that model is not fully visible to the attacking unit because of this Fortification, that model has the Benefit of Cover against that attack."
+        "text": "Each time a ranged attack is allocated to a model, if that model is not fully visible to every model in the attacking unit because of this **FORTIFICATION**, that model has the Benefit of Cover against that attack."
       },
       {
         "name": "Fortification",
@@ -3016,7 +3016,7 @@ export default [
     "abilities": [
       {
         "name": "Mischief Makers",
-        "text": "Each time an enemy unit (excluding TITAN units) within Engagement Range of one or more units with this ability is selected to fight, until the end of the phase, each time a model in that enemy unit makes a melee attack, subtract 1 from the Hit roll."
+        "text": "Each time an enemy unit (excluding **TITANIC** units) within Engagement Range of one or more units with this ability is selected to fight, until the end of the phase, each time a model in that enemy unit makes a melee attack, subtract 1 from the Hit roll."
       }
     ],
     "composition": [
@@ -3736,7 +3736,7 @@ export default [
     "abilities": [
       {
         "name": "Curse of the Walking Pox",
-        "text": "Each time a POXWALKER model in this unit makes an attack that destroys an enemy model (excluding MONSTER and VEHICLE models), after this unit has resolved its attacks, you can return one destroyed POXWALKER model to this unit.\n\nWhile Typhus is leading this unit, enemy models destroyed as a result of TYPHUS’ Eater Plague ability count as enemy models destroyed by an attack made by a POXWALKER model in this unit for the purposes of this ability."
+        "text": "Each time a **POXWALKER** model in this unit makes an attack that destroys an enemy model (excluding **MONSTER** and **VEHICLE** models). after this unit has resolved its attacks, you can return one destroyed **POXWALKER** model to this unit. While **TYPHUS** is leading this unit, enemy models destroyed as a result of **TYPHUS**’ Eater Plague ability count as enemy models destroyed by an attack made by a **POXWALKER** model in this unit for the purposes of this ability."
       }
     ],
     "composition": [
