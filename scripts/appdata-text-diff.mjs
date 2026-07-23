@@ -55,6 +55,7 @@ function sem(s) {
     .replace(/\.(?=\s|$)/g, '') // sentence-final periods — punctuation, not wording (keeps decimals)
     .replace(/\s+/g, ' ')
     .replace(/ \/ /g, ' ') // bodyText's block separator — never a wording difference
+    .replace(/\s*\/\s*/g, '/') // stray spaces around "/" in slashed keyword pairs (appdata artifact)
     .trim()
 }
 // Dice coefficient over word arrays — same "overlap" idea sync-core uses for its report.
