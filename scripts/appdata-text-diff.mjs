@@ -52,6 +52,7 @@ function sem(s) {
     .replace(/[-‐‑–—]/g, '-')
     .toLowerCase()
     .replace(/[^\p{L}\p{N}"'+%/.\-]+/gu, ' ')
+    .replace(/(?<![\p{L}\p{N}])'|'(?![\p{L}\p{N}])/gu, '') // quote marks (keeps in-word apostrophes)
     .replace(/\.(?=\s|$)/g, '') // sentence-final periods — punctuation, not wording (keeps decimals)
     .replace(/\s+/g, ' ')
     .replace(/ \/ /g, ' ') // bodyText's block separator — never a wording difference
@@ -109,10 +110,23 @@ for (const slug of slugs) {
     const mod = await loadModule(path.join(facDir, `${slug}.js`))
     const fac = (Object.values(mod).find((v) => v && v.en) || {}).en
     if (!fac) continue
-    // Army rule: match by name among appdata's armyRules.
+    // Army rule: wh11ed sometimes folds all army rules into one body (### headings), so accept a
+    // match against either the same-named appdata rule alone or all of them joined (name + body).
     if (fac.armyRule) {
-      const appAr = (app.armyRules || []).find((r) => norm(r.name) === norm(fac.armyRule.name))
-      if (appAr) compare(`${slug} · army rule "${fac.armyRule.name}"`, fac.armyRule.body, bodyText(appAr.body))
+      // appdata sometimes lists the same army rule twice — dedupe by name for the joined candidate.
+      const seen = new Set()
+      const ars = (app.armyRules || []).filter((r) => !seen.has(norm(r.name)) && seen.add(norm(r.name)))
+      const appAr = ars.find((r) => norm(r.name) === norm(fac.armyRule.name))
+      const candidates = [
+        appAr && bodyText(appAr.body),
+        ars.length > 1 && ars.map((r) => `${r.name} / ${bodyText(r.body)}`).join(' / '),
+      ].filter(Boolean)
+      if (candidates.length && !candidates.some((c) => sem(c) === sem(fac.armyRule.body))) {
+        const best = candidates
+          .map((c) => [similarity(fac.armyRule.body, c), c])
+          .sort((x, y) => y[0] - x[0])[0][1]
+        compare(`${slug} · army rule "${fac.armyRule.name}"`, fac.armyRule.body, best)
+      }
     }
     const appDet = new Map((app.detachments || []).map((d) => [norm(d.name), d]))
     for (const det of fac.detachments || []) {
