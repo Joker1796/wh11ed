@@ -83,13 +83,40 @@ these touch-ups only:
 Scope today: ~230 datasheet-ability + ~656 faction-rule mismatches, most ≥95% (small drift).
 Work faction by faction, commit per faction, `npm run build` + `npm test` after each.
 
-### Layer 2–3 slices (full coverage)
+### Machine-2 task list (updated 2026-07-23 EOD — machine 1 is out of budget; EVERYTHING below
+### is yours now. Machine 1 only reviews/merges PRs and runs the deploy.)
 
-- **Machine 2:** grey-knights, imperial-knights, necrons, orks, space-marines, tau-empire,
-  tyranids, space-wolves, thousand-sons, world-eaters, genestealer-cults
-- **Machine 1:** adeptus-custodes, adeptus-mechanicus, adepta-sororitas, astra-militarum,
-  black-templars, blood-angels, chaos-daemons, chaos-knights, chaos-space-marines, dark-angels,
-  death-guard, deathwatch, drukhari, emperors-children, leagues-of-votann, aeldari
+**Status:** Layer 1 (keywords) DONE everywhere (dry-run 0). Layer 2 done for the old machine-1
+slice (PR #245). Remaining, in order:
+
+1. **Layer 2, your slice:** grey-knights, imperial-knights, necrons, orks, space-marines,
+   tau-empire, tyranids, space-wolves, thousand-sons, world-eaters, genestealer-cults.
+   `--apply-en` handles EN; RU by hand for material changes only (cosmetic EN rephrases with an
+   already-accurate RU stay). Reusable RU patterns from PR #245: CP-refund «…может задействовать
+   её, когда он выбирается целью стратагемы…», objective-control «…пока Уровень контроля (Level of
+   Control) вашего оппонента… не окажется больше вашего в конце какой-либо фазы», Stealth+melee
+   «Этот юнит имеет Stealth… имеют -1 к броскам попадания», ingress move — англ. термин.
+2. **Missing abilities (add, EN+RU):** Cybernetica Datasmith «Data-severed» (adeptus-mechanicus),
+   Intercessor Squad «Hail of Bolts» replacing «Target Elimination» (space-marines; check the five
+   Chapter files' shared pool — see CLAUDE.md on SM dedup).
+3. **Layer 3, ALL factions (both former slices):** `--factions --full`, fixes by hand EN+RU.
+   No `--apply-en` for factions (faction files carry glosses/RU objects) — manual, or extend the
+   tool carefully first if that pays off.
+4. **Changelog:** add ONE bullet to the 2.1.0 entry (src/data/changelog.js, keep EN/RU heading
+   positions aligned): rules data updated to the latest GW app version (data version 912) — e.g.
+   under a «Данные правил» heading or appended to an existing section.
+5. **GSC army tracker rework** (src/data/armyTrackers/genestealer-cults.js +
+   ArmyTrackerCard/ArmySpendModal + useTracker `player.army`):
+   - «+2» button for the Deeds That Speak to the Masses enhancement — visible/usable ONLY in
+     battle round 1 (it's a starting-pool bonus).
+   - Spending points must RECORD the resurrected unit: e.g. `army.resurrected: [{label, cost}]`
+     (keep it `.passthrough()`-compatible with the backend envelope).
+   - New accordion BELOW «Как работает» (same `army-acc` + CollapseTransition design): list of
+     resurrected units + an undo button per entry (refunds the cost, removes the entry).
+   - Show the resurrected list in the results recap (ArmyRuleSummary) for GSC.
+
+Branch per task, PR to main, do NOT merge — machine 1 merges. After everything lands: machine 1
+deploys 2.1.0 with `BUMP=minor npm run deploy` (both domains, per MIGRATION.md).
 
 ## Workflow
 
