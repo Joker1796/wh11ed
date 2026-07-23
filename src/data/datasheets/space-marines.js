@@ -1241,11 +1241,12 @@ export default [
       "This model can be equipped with 1 ironhail heavy stubber."
     ],
     "keywords": [
-      "Titanic",
-      "Vehicle",
       "Astraeus",
-      "Imperium"
-    ],
+      "Frame",
+      "Imperium",
+      "Titanic",
+      "Vehicle"
+        ],
     "factionKeywords": [
       "Adeptus Astartes"
     ],
@@ -3301,13 +3302,12 @@ export default [
       ]
     },
     "keywords": [
-      "Ravenwing",
-      "Mounted",
       "Chaplain",
-      "Imperium",
+      "Character",
       "Grenades",
-      "Character"
-    ],
+      "Imperium",
+      "Mounted"
+        ],
     "factionKeywords": [
       "Adeptus Astartes"
     ],
@@ -6559,13 +6559,12 @@ export default [
       "This model’s onslaught gatling cannon can be replaced with 1 multi-melta."
     ],
     "keywords": [
-      "Ravenwing",
+      "Frame",
       "Grenades",
       "Imperium",
       "Invader ATV",
-      "Mounted",
-      "Frame"
-    ],
+      "Mounted"
+        ],
     "factionKeywords": [
       "Adeptus Astartes"
     ],
@@ -7620,12 +7619,12 @@ export default [
       "This model’s heavy bolter can be replaced with 1 multi-melta."
     ],
     "keywords": [
-      "Vehicle",
       "Fly",
+      "Frame",
       "Imperium",
       "Land Speeder",
-      "Ravenwing"
-    ],
+      "Vehicle"
+        ],
     "factionKeywords": [
       "Adeptus Astartes"
     ],
@@ -8726,12 +8725,11 @@ export default [
       "An Invader ATV’s onslaught gatling cannon can be replaced with 1 multi-melta."
     ],
     "keywords": [
+      "Grenades",
       "Imperium",
-      "Outrider Squad",
-      "Ravenwing",
       "Mounted",
-      "Grenades"
-    ],
+      "Outrider Squad"
+        ],
     "factionKeywords": [
       "Adeptus Astartes"
     ]
@@ -10016,10 +10014,11 @@ export default [
       "Character",
       "Epic Hero",
       "Imperium",
-      "Roboute Guilliman",
+      "Mobile",
+      "Monster",
       "Primarch",
-      "Monster"
-    ],
+      "Roboute Guilliman"
+        ],
     "factionKeywords": [
       "Adeptus Astartes",
       "Ultramarines"
@@ -10489,13 +10488,12 @@ export default [
     ],
     "loadout": "**This model is equipped with:** 2 fragstorm grenade launchers; onslaught gatling cannon; twin ironhail heavy stubber; close combat weapon.",
     "keywords": [
-      "Imperium",
       "Fly",
+      "Frame",
+      "Imperium",
       "Storm Speeder Hailstrike",
-      "Ravenwing",
-      "Vehicle",
-      "Frame"
-    ],
+      "Vehicle"
+        ],
     "factionKeywords": [
       "Adeptus Astartes"
     ],
@@ -10586,13 +10584,12 @@ export default [
     ],
     "loadout": "**This model is equipped with:** Hammerstrike missile launcher; 2 krakstorm grenade launchers; melta destroyer; close combat weapon.",
     "keywords": [
-      "Storm Speeder Hammerstrike",
-      "Vehicle",
-      "Imperium",
-      "Ravenwing",
       "Fly",
-      "Frame"
-    ],
+      "Frame",
+      "Imperium",
+      "Storm Speeder Hammerstrike",
+      "Vehicle"
+        ],
     "factionKeywords": [
       "Adeptus Astartes"
     ],
@@ -10684,13 +10681,12 @@ export default [
     ],
     "loadout": "**This model is equipped with:** stormfury missiles; Thunderstrike las-talon; twin Icarus rocket pod; close combat weapon.",
     "keywords": [
-      "Imperium",
-      "Ravenwing",
-      "Storm Speeder Thunderstrike",
-      "Vehicle",
       "Fly",
-      "Frame"
-    ],
+      "Frame",
+      "Imperium",
+      "Storm Speeder Thunderstrike",
+      "Vehicle"
+        ],
     "factionKeywords": [
       "Adeptus Astartes"
     ],
@@ -10829,15 +10825,13 @@ export default [
       "This model’s las-talon can be replaced with 1 Icarus stormcannon."
     ],
     "keywords": [
-      "Fly",
       "Aircraft",
+      "Fly",
+      "Imperium",
       "Smoke",
       "Stormhawk Interceptor",
-      "Ravenwing",
-      "Vehicle",
-      "Imperium",
-      "Frame"
-    ],
+      "Vehicle"
+        ],
     "factionKeywords": [
       "Adeptus Astartes"
     ],
@@ -11030,13 +11024,11 @@ export default [
     "transport": "This model has a transport capacity of 12 Adeptus Astartes Infantry models and 1 Dreadnought model. Each Jump Pack, Wulfen, Gravis or Terminator model takes up the space of 2 models and each Centurion model takes up the space of 3 models.",
     "keywords": [
       "Fly",
-      "Vehicle",
-      "Ravenwing",
-      "Stormraven Gunship",
       "Imperium",
+      "Stormraven Gunship",
       "Transport",
-      "Frame"
-    ],
+      "Vehicle"
+        ],
     "factionKeywords": [
       "Adeptus Astartes"
     ],
@@ -11165,14 +11157,12 @@ export default [
       "This model’s skyhammer missile launcher can be replaced with one of the following:\n▪ 1 twin heavy bolter\n▪ 1 twin lascannon\n▪ 1 typhoon missile launcher"
     ],
     "keywords": [
-      "Fly",
-      "Vehicle",
-      "Imperium",
-      "Ravenwing",
       "Aircraft",
+      "Fly",
+      "Imperium",
       "Stormtalon Gunship",
-      "Frame"
-    ],
+      "Vehicle"
+        ],
     "factionKeywords": [
       "Adeptus Astartes"
     ],
@@ -11935,11 +11925,11 @@ export default [
       "Any number of models can each have their thunder hammer and storm shield replaced with 1 twin lightning claws."
     ],
     "keywords": [
-      "Terminator Assault Squad",
-      "Infantry",
       "Imperium",
-      "Terminators"
-    ],
+      "Infantry",
+      "Terminator",
+      "Terminator Assault Squad"
+        ],
     "factionKeywords": [
       "Adeptus Astartes"
     ],
@@ -12218,15 +12208,13 @@ export default [
     ],
     "transport": "This model has a transport capacity of 30 Adeptus Astartes Infantry or Adeptus Astartes Mounted models. Each Jump Pack, Wulfen, Gravis or Terminator model takes up the space of 2 models. Each Centurion model takes up the space of 3 models. Each MOUNTED model takes up the space of 4 models.",
     "keywords": [
-      "Thunderhawk Gunship",
-      "Ravenwing",
-      "Vehicle",
-      "Titanic",
       "Fly",
-      "Aircraft",
+      "Imperium",
+      "Thunderhawk Gunship",
+      "Titanic",
       "Transport",
-      "Imperium"
-    ],
+      "Vehicle"
+        ],
     "factionKeywords": [
       "Adeptus Astartes"
     ],
@@ -12698,15 +12686,14 @@ export default [
     ],
     "loadout": "**The Chapter Ancient is equipped with:** 1 master-crafted power weapon; banner of Macragge.\n\n**The Chapter Champion is equipped with:** 1 blades of honour.\n\n**Each Victrix Honour Guard model is equipped with:** 1 master-crafted bolt carbine; 1 master-crafted power weapon.",
     "keywords": [
+      "Ancient",
+      "Champion",
       "Epic Hero",
       "Imperium",
       "Infantry",
-      "Champion",
-      "Epic Hero",
-      "Ancient",
-      "Victrix Honour Guard",
-      "Tacticus"
-    ],
+      "Tacticus",
+      "Victrix Honour Guard"
+        ],
     "factionKeywords": [
       "Ultramarines",
       "Adeptus Astartes"
