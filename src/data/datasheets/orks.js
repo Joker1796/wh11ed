@@ -772,11 +772,10 @@ export default [
     ],
     "loadout": "This model is equipped with: 1 blitzkannon; 1 rokkit launcha; 1 stompy feet.",
     "keywords": [
-      "Vehicle",
-      "Walker",
       "Big Mek",
-      "Dakkarig"
-    ],
+      "Dakkarig",
+      "Walker"
+        ],
     "factionKeywords": [
       "Orks"
     ],
@@ -1280,13 +1279,12 @@ export default [
     ],
     "loadout": "**This model is equipped with:** big shoota; twin supa-shoota; armoured hull.",
     "keywords": [
-      "Fly",
-      "Blitza-bommer",
       "Aircraft",
+      "Blitza-bommer",
+      "Fly",
       "Speed Freeks",
-      "Vehicle",
-      "Frame"
-    ],
+      "Vehicle"
+        ],
     "factionKeywords": [
       "Orks"
     ],
@@ -1989,13 +1987,12 @@ export default [
       "This model can be equipped with 1 skorcha missile rack."
     ],
     "keywords": [
+      "Aircraft",
       "Burna-bommer",
       "Fly",
-      "Aircraft",
       "Speed Freeks",
-      "Vehicle",
-      "Frame"
-    ],
+      "Vehicle"
+        ],
     "factionKeywords": [
       "Orks"
     ],
@@ -2070,13 +2067,12 @@ export default [
       "This model can be equipped with 1 additional twin supa-shoota."
     ],
     "keywords": [
-      "Vehicle",
-      "Fly",
       "Aircraft",
       "Dakkajet",
+      "Fly",
       "Speed Freeks",
-      "Frame"
-    ],
+      "Vehicle"
+        ],
     "factionKeywords": [
       "Orks"
     ],
@@ -2622,12 +2618,13 @@ export default [
     ],
     "transport": "This model has a transport capacity of 20 Orks Infantry models. Each Mega Armour or Jump Pack model takes up the space of 2 models. Ghazghkull Thraka takes up the space of 18 models. If this model is equipped with a supa-kannon, it has a transport capacity of 15 ORKS INFANTRY models.",
     "keywords": [
+      "Frame",
+      "Gargantuan Squiggoth",
       "Monster",
       "Titanic",
-      "Transport",
       "Towering",
-      "Gargantuan Squiggoth"
-    ],
+      "Transport"
+        ],
     "factionKeywords": [
       "Orks"
     ],
@@ -2740,12 +2737,12 @@ export default [
       "footer": "If this unit’s Bodyguard unit is destroyed, Ghazkghull Thraka and Makari become a single unit with their original Starting Strength."
     },
     "keywords": [
-      "Warboss",
       "Character",
-      "Ghazghkull Thraka",
       "Epic Hero",
-      "Infantry"
-    ],
+      "Ghazgkull Thraka",
+      "Infantry",
+      "Warboss"
+        ],
     "factionKeywords": [
       "Orks"
     ],
@@ -3102,12 +3099,11 @@ export default [
     "loadout": "**This model is equipped with:** ’eavy lobba; stikka kannon; butcha boyz; savage horns and hooves; saw blades.",
     "transport": "This model has a transport capacity of 21 Beast Snagga Infantry models.",
     "keywords": [
-      "Transport",
       "Beast Snagga",
-      "Monster",
       "Hunta Rig",
-      "Frame"
-    ],
+      "Monster",
+      "Transport"
+        ],
     "factionKeywords": [
       "Orks"
     ],
@@ -3231,13 +3227,12 @@ export default [
     "loadout": "**This model is equipped with:** ’eavy lobba; stikka kannon; wurrtower; butcha boyz; savage horns and hooves; saw blades.",
     "transport": "This model has a transport capacity of 11 Beast Snagga Infantry models.",
     "keywords": [
-      "Transport",
-      "Monster",
       "Beast Snagga",
       "Kill Rig",
+      "Monster",
       "Psyker",
-      "Frame"
-    ],
+      "Transport"
+        ],
     "factionKeywords": [
       "Orks"
     ],
@@ -3636,11 +3631,11 @@ export default [
     ],
     "loadout": "**This model is equipped with:** burna exhausts; grot blasta; rivet kannon; spiked ram..",
     "keywords": [
-      "Vehicle",
       "Grenades",
-      "Kustom Boosta-blasta",
-      "Speed Freeks"
-    ],
+      "Kustom Boost-blasta",
+      "Speed Freeks",
+      "Vehicle"
+        ],
     "factionKeywords": [
       "Orks"
     ],
