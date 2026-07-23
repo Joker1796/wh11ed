@@ -2000,7 +2000,7 @@ export default [
     "abilities": [
       {
         "name": "Independent Operatives",
-        "text": "Each time an Order is issued to this unit, that Order affects this unit until a new Order is issued to this unit, or until this unit becomes Battle-shocked, or until the battle ends (whichever happens first)."
+        "text": "Each time an Order is issued to this unit, that Order affects this unit until a new Order is issued to this unit, or until this unit become Battle‑shocked, or until the battle ends (whichever happens first)."
       }
     ],
     "wargearAbilities": [
@@ -2206,7 +2206,7 @@ export default [
     "abilities": [
       {
         "name": "Shock Troops",
-        "text": "At the end of your Command phase, if this unit is within range of an objective marker you control, that objective marker remains under your control, even if you have no models within range of it, until your opponent controls it at the start or end of any turn."
+        "text": "At the end of your Command phase, if this unit is within range of an objective marker you control, that objective marker remains under your control until your opponent’s Level of Control over that objective marker is greater than yours at the end of a phase."
       }
     ],
     "wargearAbilities": [
@@ -2674,7 +2674,7 @@ export default [
     "abilities": [
       {
         "name": "Bring it Down!",
-        "text": "Each time a model in this unit makes a ranged attack that targets a MONSTER of VEHICLE unit, re-roll a Hit roll of 1 and re-roll a Wound roll of 1."
+        "text": "Each time a model in this unit makes a ranged attack that targets a **MONSTER** or **VEHICLE** unit, re-roll a Hit roll of 1 and re-roll a Wound roll of 1."
       }
     ],
     "composition": [
@@ -3484,7 +3484,7 @@ export default [
       },
       {
         "name": "Hero of Hades Hive",
-        "text": "In your Command phase, you can select one of the abilities in the Hero of Hades Hive section (see below). Until the start of your next Command phase, this model has that ability."
+        "text": "In your Command phase, you can select one of the abilities in the Hero of Hades Hive section. Until the start of your next Command phase, this model has that ability."
       }
     ],
     "specialAbilities": [
@@ -3951,7 +3951,7 @@ export default [
     "abilities": [
       {
         "name": "Screening Line",
-        "text": "Once per turn, when an enemy unit ends a Normal, Advance or Fall Back move within 9\" of this unit, if this unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 6\"."
+        "text": "In your opponent's Movement phase, if an enemy unit ends a move within 8” of this unit, if this unit is not within Engagement Range of one or more enemy units, this unit can make a Normal move of up to 6”."
       }
     ],
     "composition": [
@@ -4189,7 +4189,7 @@ export default [
     "abilities": [
       {
         "name": "Close-range Titan Killer",
-        "text": "Each time this model’s magma cannon targets a MONSTER or VEHICLE unit, that target is always considered to be within half range of that weapon."
+        "text": "Each time this model’s magma cannon targets an enemy **MONSTER** or **VEHICLE** unit, that target is always considered to be within half range of that weapon."
       }
     ],
     "damaged": {
@@ -4493,7 +4493,7 @@ export default [
       },
       {
         "name": "Covert Stealth Team",
-        "text": "At the end of your opponent’s turn, if this unit is not within Engagement Range of one or more enemy units, you can remove this unit from the battlefield. In your next Movement phase, set it up anywhere on the battlefield that is more than 8\" horizontally away from all enemy models."
+        "text": "At the end of your opponent’s turn, if this unit is **unengaged**, you can use this ability. If you do: • Place this unit in **strategic reserves**. • This unit has **Deep Strike** until the start of your next Shooting phase. • This unit must make an **ingress move** in your next Movement phase (including in your first turn)."
       }
     ],
     "composition": [
@@ -6388,7 +6388,7 @@ export default [
       },
       {
         "name": "Death Befitting An Officer",
-        "text": "When this model is destroyed, roll one D6: on a 2+, do not remove it from play - it can, after the attacking model’s unit has finished making its attacks, shoot as if it were your Shooting phase and as if it had its full wounds remaining. This model is then removed from play."
+        "text": "In your opponent’s Shooting phase, when this unit is **destroyed**, before this unit’s **deadly demise** roll, roll one D6: • On a 2+, do not remove this unit from the battlefield. After the attacking unit has shot, this unit can shoot using **normal shooting**, but while doing so this unit can only target that enemy unit. When this unit has shot, or at the end of the phase (whichever comes first), resolve this unit’s **deadly demise** roll, then this unit is removed from the battlefield."
       }
     ],
     "damaged": {
@@ -10363,7 +10363,7 @@ export default [
       },
       {
         "name": "Servo-sentry",
-        "text": "When this unit is set up on the battlefield using the Deep Strike ability, the Tempestor Aquilon can shoot with its sentry weapon (its sentry flamer, sentry grenade launcher or sentry hot-shot volley gun)."
+        "text": "When this unit is set up on the battlefield using the Deep Strike ability, the Tempestor Aquilon can shoot with its sentry weapon (its sentry flamer, sentry grenade launcher or sentry hot-shot volley gun). **Designer’s Note:** *Place a servo-sentry token next to this unit to remind you.*"
       }
     ],
     "composition": [
@@ -10710,7 +10710,7 @@ export default [
       },
       {
         "name": "Tactical Genius",
-        "text": "Once per battle round, one friendly Regiment unit within 12\" of this model can be targeted with a Stratagem. If it does, reduce the CP cost of that use of that Stratagem by 1CP."
+        "text": "Once per battle round, one unit from your army with this ability can use it when a friendly **REGIMENT** unit within 12\" of that model is targeted with a Stratagem. If it does, reduce the CP cost of that usage of that Stratagem by 1CP."
       }
     ],
     "composition": [

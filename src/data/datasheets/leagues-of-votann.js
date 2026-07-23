@@ -162,11 +162,11 @@ export default [
     "abilities": [
       {
         "name": "Break the Foe",
-        "text": "Melee weapons equipped by models in this model’s unit have the [SUSTAINED HITS 1] ability."
+        "text": "Melee weapons equipped by models in this model’s unit have the **[SUSTAINED HITS 1]** ability"
       },
       {
         "name": "Relentless Avalanche",
-        "text": "You can target this model’s unit with the Heroic Intervention Stratagem for 0CP, and can do so even if you have already targeted a different unit with that Stratagem this phase."
+        "text": "You can target this unit with the **Heroic Intervention stratagem**, regardless of any other uses of that **stratagem** this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that **stratagem** on other units this phase."
       }
     ],
     "composition": [
@@ -1304,7 +1304,7 @@ export default [
     "abilities": [
       {
         "name": "Luck Has. Need Keeps. Toil Earns.",
-        "text": "At the end of your Command phase, if this unit is within range of an objective marker you control, that objective marker remains under your control until your opponent’s Level of Control over that objective markers greater than yours at the end of a phase."
+        "text": "At the end of your Command phase, if this unit is within range of an objective marker you control, that objective marker remains under your control until your opponent’s Level of Control over that objective marker is greater than yours at the end of a phase."
       },
       {
         "name": "Panspectral Scanning",
@@ -2376,7 +2376,7 @@ export default [
       },
       {
         "name": "Predictive Guidance",
-        "text": "Once per battle round, when you target this unit with the Fire Overwatch or Heroic Intervention Stratagem, you can use this ability. If you do, that use of that Stratagem is -1 CP."
+        "text": "Once per battle round, when you target this unit with the **Fire Overwatch**/**Heroic Intervention stratagem**, you can use this ability. If you do, that use of that **stratagem** is -1 CP."
       }
     ],
     "composition": [
