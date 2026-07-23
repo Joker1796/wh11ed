@@ -18,6 +18,14 @@ describe('useUpdateNotice', () => {
     expect(localStorage.getItem(KEY)).toBe(latestEntry.version)
   })
 
+  it('shows the banner to a returning visitor (other wh11ed-* state, no last-seen yet)', async () => {
+    // e.g. a device that used the tracker before this mechanism ever shipped.
+    localStorage.setItem('wh11ed-tracker-history', '[]')
+    const n = await fresh()
+    expect(n.visible.value).toBe(true)
+    expect(localStorage.getItem(KEY)).toBe(null) // not seeded — stays until markSeen
+  })
+
   it('shows the banner (for the latest entry) when the stored version is older', async () => {
     localStorage.setItem(KEY, '0.0.0')
     const n = await fresh()
