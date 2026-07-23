@@ -830,7 +830,7 @@ export default [
       },
       {
         "name": "Temple Relics",
-        "text": "In your Command phase, if this unit contains one or more Cenobyte Servitor models, select one Temple Relics ability (see below). Until the start of your next Command phase, this unit’s Chaplain Grimaldus model has that ability."
+        "text": "In your Command phase, if this unit contains one or more Cenobyte Servitor models, select one Temple Relics ability (see Temple Relics section). Until the start of your next Command phase, this unit’s Chaplain Grimaldus model has that ability."
       }
     ],
     "composition": [
@@ -1236,7 +1236,7 @@ export default [
       },
       {
         "name": "Sigismund’s Heir",
-        "text": "Each time this model’s unit declares a charge, if an enemy CHARACTER unit is within 12\" of this unit, you can use this part of this ability. If you do: this unit can re-roll that charge roll; this unit must end that charge move engaged with one or more of those enemy CHARACTER units. (Once per battle, per army) In the Fight phase, when this unit is selected to fight, if this unit is engaged with a CHARACTER unit, you can use this part of this ability. If you do, this unit’s melee attacks have [DEVASTATING WOUNDS]."
+        "text": "▪ When this unit declares a charge, If an enemy **CHARACTER** unit is within 12\" of this unit, you can use this part of this ability. If you do:\n▪ This unit can re-roll that charge roll.\n▪ This unit __must__ end that charge move engaged with one or more of those enemy **CHARACTER** units.\n▪ (Once per battle, per army) In the Fight phase, when this unit is selected to fight, if this unit is engaged with a **CHARACTER** unit, you can use this part of this ability. If you do, this unit's melee attacks have **[DEVASTATING WOUNDS]**."
       }
     ],
     "specialAbilities": [
@@ -1460,7 +1460,7 @@ export default [
     "abilities": [
       {
         "name": "Crusade of Wrath",
-        "text": "While this model is leading a unit, add 1 to the Attacks and Strength characteristics of melee weapons equipped by models in that unit."
+        "text": "While this model is leading a unit, add 1 to the Attacks and Strength characteristic of melee weapons equipped by models in that unit."
       },
       {
         "name": "High Marshal",
@@ -2592,7 +2592,7 @@ export default [
     "abilities": [
       {
         "name": "Teleport Homer",
-        "text": "At the start of the battle, you can set up one Teleport Homer token for this unit anywhere on the battlefield that is not in your opponent’s deployment zone. If you do, once per battle, you can target this unit with the Rapid Ingress Stratagem for 0CP, but when resolving that Stratagem, you must set this unit up within 3\" of that token and not within 8\" of any enemy models. That token is then removed."
+        "text": "At the start of the battle, you can set up one Teleport Homer token for this unit anywhere on the battlefield that is not in your opponent’s deployment zone. If you do, once per battle, you can target this unit with the Rapid Ingress Stratagem for 0CP, but when resolving that Stratagem, you must set this unit up within 3\" horizontally of that token and not within 8\" horizontally of any enemy models. That token is then removed."
       },
       {
         "name": "Judgement of the Weak",

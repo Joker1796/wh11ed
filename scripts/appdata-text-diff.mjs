@@ -29,6 +29,12 @@ const args = process.argv.slice(2)
 const MODE_DS = args.includes('--datasheets')
 const MODE_FAC = args.includes('--factions')
 const FULL = args.includes('--full')
+// --apply-en (datasheets mode only): rewrite each mismatched ability's EN text in place with
+// appdata's converted text — safe because datasheet files carry no gloss tokens (checked), so the
+// converted markup IS the target wording verbatim. RU stays manual.
+const APPLY_EN = args.includes('--apply-en')
+// appdata flattens bullets to " ▪ " — restore wh11ed's newline-bullet form; normalize U+2010.
+const toEnText = (s) => s.replace(/‐/g, '-').replace(/\s*▪ /g, '\n▪ ').replace(/^\n/, '')
 const only = (() => {
   const i = args.indexOf('--faction')
   return i >= 0 && args[i + 1] ? new Set(args[i + 1].split(',')) : null
@@ -86,9 +92,12 @@ for (const slug of slugs) {
   const app = JSON.parse(fs.readFileSync(appFile, 'utf8'))
 
   if (MODE_DS) {
-    const mod = await loadModule(path.join(dsDir, `${slug}.js`))
+    const file = path.join(dsDir, `${slug}.js`)
+    const mod = await loadModule(file)
     const units = Array.isArray(mod.default) ? mod.default : []
     const appDs = new Map((app.datasheets || []).map((d) => [norm(d.name), d]))
+    let txt = APPLY_EN ? fs.readFileSync(file, 'utf8') : null
+    let fileChanged = false
     for (const u of units) {
       const a = appDs.get(norm(u.name))
       if (!a) continue
@@ -98,8 +107,23 @@ for (const slug of slugs) {
         if (!match) continue // name presence is sync-appdata's job
         const appText = appdataToMarkup(match.rules) + (match.restriction ? ' ' + appdataToMarkup(match.restriction) : '')
         compare(`${slug} · ${u.name} · ability "${ab.name}"`, ab.text, appText)
+        if (APPLY_EN && sem(ab.text) !== sem(appText)) {
+          // Locate: datasheet-level name (4-space) → this ability's name → its "text" JSON string.
+          const di = txt.indexOf(`    "name": ${JSON.stringify(u.name)}`)
+          const ai = di >= 0 ? txt.indexOf(`"name": ${JSON.stringify(ab.name)}`, di) : -1
+          const ti = ai >= 0 ? txt.indexOf('"text": ', ai) : -1
+          if (ti < 0) { console.log(`  SKIP apply ${u.name}/${ab.name}: not located`); continue }
+          const vs = ti + '"text": '.length
+          let ve = vs + 1 // scan the JSON string for its unescaped closing quote
+          while (ve < txt.length && !(txt[ve] === '"' && txt[ve - 1] !== '\\')) ve++
+          const cur = JSON.parse(txt.slice(vs, ve + 1))
+          if (sem(cur) !== sem(ab.text)) { console.log(`  SKIP apply ${u.name}/${ab.name}: file text unexpected`); continue }
+          txt = txt.slice(0, vs) + JSON.stringify(toEnText(appText)) + txt.slice(ve + 1)
+          fileChanged = true
+        }
       }
     }
+    if (APPLY_EN && fileChanged) fs.writeFileSync(file, txt)
   }
 
   if (MODE_FAC) {

@@ -379,7 +379,7 @@ export default [
       },
       {
         "name": "Strikes of Retribution",
-        "text": "Each time a melee attack is allocated to this model, after the attacking model’s unit has finished making its attacks, roll one D6 (to a maximum of six D6 per attacking unit): for each 4+, the attacking unit suffers 1 mortal wound."
+        "text": "Each time a melee attack is allocated to this model, after the attacking unit has finished making its attacks, roll one D6 (to a maximum of six D6 per attacking unit): for each 4+, the attacking unit suffers 1 mortal wound."
       }
     ],
     "composition": [
@@ -688,7 +688,7 @@ export default [
       },
       {
         "name": "Deathwing",
-        "text": "Each time a model in this unit makes an attack, you can ignore any or all modifiers to that attack’s Ballistic Skill or Weapon Skill characteristics and/or to the Hit roll. In addition, each time a model in this unit makes an attack that targets the enemy unit you selected at the start of your Command phase for the Oath of Moment ability, add 1 to the Hit roll."
+        "text": "Each time a model in this unit makes an attack, you can ignore any or all modifiers to that attack’s Ballistic Skill or Weapon Skill characteristics and/or to the Hit roll. In addition, each time a model in this unit makes an attack that targets your Oath of Moment target (see Codex: Space Marines), add 1 to the Hit roll."
       }
     ],
     "wargearAbilities": [
@@ -948,7 +948,7 @@ export default [
     "abilities": [
       {
         "name": "Braziers of Judgement",
-        "text": "While a Character model is leading this unit, each time an attack targets this unit, subtract 1 from the Hit roll."
+        "text": "• This unit has **Stealth**. • Melee attacks that target this unit have -1 to **hit rolls**."
       },
       {
         "name": "Enmity for the Unworthy",
@@ -1075,7 +1075,7 @@ export default [
     "abilities": [
       {
         "name": "Storm of Vengeance",
-        "text": "Once per turn, in your opponent’s Shooting phase, when a friendly **Adeptus Astartes** unit within 6\" of this model is destroyed, this model can use this ability (it cannot use this ability when it is itself destroyed). If it does, after the attacking unit has finished making its attacks, this model can shoot as if it were your Shooting phase, but when resolving those attacks it can only target that enemy unit (and only if it is an eligible target)."
+        "text": "Once per turn, in your opponent’s Shooting phase, when another friendly **ADEPTUS ASTARTES** unit within 6\" of this model is destroyed, one model from your army with this ability can use it. If it does, after the attacking unit has finished making its attacks, that model can shoot as if it were your Shooting phase, but when resolving those attacks it can only target that enemy unit (and only if it is an eligible target)."
       }
     ],
     "composition": [
@@ -1153,7 +1153,7 @@ export default [
     "abilities": [
       {
         "name": "Intractable Will",
-        "text": "While this model is leading a unit, each time a model in that unit is destroyed by a melee attack, if that model has not fought this phase, roll one D6. On a 4+, do not remove it from play; that destroyed model can fight after the attacking model’s unit has finished making its attacks, and is then removed from play."
+        "text": "While this model is leading a unit, each time a model in that unit is destroyed by a melee attack, if that model has not fought this phase, roll one D6. On a 4+, do not remove it from play; that destroyed model can fight after the attacking unit has finished making its attacks, and is then removed from play."
       },
       {
         "name": "The Spiritshield Helm",
@@ -1284,7 +1284,7 @@ export default [
       },
       {
         "name": "The Emperor’s Shield",
-        "text": "Each time an attack is allocated to this model, if the Strength characteristic of that attack is greater than the Toughness characteristic of this model, subtract 1 from the Wound roll."
+        "text": "Each time an attack targets this model, if the Strength characteristic of that attack is greater than the Toughness characteristic of this model, subtract 1 from the Wound roll."
       },
       {
         "name": "Dark Angels Bodyguard",
@@ -1420,7 +1420,7 @@ export default [
     "abilities": [
       {
         "name": "Lightning-fast Manoeuvres",
-        "text": "Each time a ranged attack targets this model, subtract 1 from the Hit roll. If that attack was made by a model that can Fly, subtract 1 from the Wound roll as well."
+        "text": "Ranged attacks that target this unit have -1 to **wound rolls**."
       }
     ],
     "damaged": {
@@ -1714,7 +1714,7 @@ export default [
       },
       {
         "name": "Astartes Banner",
-        "text": "While this unit contains an Ravenwing Ancient, add 1 to the Objective Control characteristic of models in this unit."
+        "text": "While this unit contains a Ravenwing Ancient, add 1 to the Objective Control characteristic of models in this unit."
       },
       {
         "name": "Honour or Death",
@@ -1819,7 +1819,7 @@ export default [
     "abilities": [
       {
         "name": "Stasis Bomb",
-        "text": "Once per turn, one model from your army with this ability can use it after it ends a Normal move. If it does, you can select one enemy unit (excluding AIRCRAFT) that model moved over this phase. That unit suffers D3 mortal wounds and you must roll one D6: on a 1-3, that unit cannot Advance or Fall Back in your opponent’s next Movement phase; on a 4-6, that unit must Remain Stationary in your opponent’s next Movement phase. Each model can only use this ability once per battle."
+        "text": "At the end of your opponent’s Fight phase, select one **visible** enemy unit (excluding **AIRCRAFT**/**Lone Operative** units) within 24\" of this unit. That enemy unit is **slowed** until the end of your opponent’s next Movement phase: • While a unit is **slowed**, in your opponent’s Movement phase, when that unit is **selected to move**, unless that unit **remains stationary**, roll one D6: • On a 1-4, that unit suffers D3 **mortal wounds** and that unit has -2\" **M**. • On a 5-6, that unit suffers 2D3 **mortal wounds** and that unit has -3\" **M**.’"
       }
     ],
     "damaged": {
@@ -1908,7 +1908,7 @@ export default [
     "abilities": [
       {
         "name": "Icon of Old Caliban (Aura)",
-        "text": "While a friendly ADEPTUS ASTARTES unit is within 6\" of this model, models in that unit have the Stealth ability and each time a ranged attack targets that unit, that unit has the Benefit of Cover against that attack."
+        "text": "Friendly **ADEPTUS ASTARTES** units within 6\" of this unit have **Stealth**."
       }
     ],
     "composition": [
@@ -2011,7 +2011,7 @@ export default [
     "abilities": [
       {
         "name": "Grand Master of the Ravenwing",
-        "text": "While this model is leading a unit, that unit is eligible to shoot and declare a charge in a turn in which it Advanced. If that unit is already eligible to shoot and declare a charge in a turn in which it Advanced, add 1 to Advance and Charge rolls made for that unit instead."
+        "text": "▪ This unit’s ranged attacks have **[ASSAULT]**.\n▪ When this unit is selected to make an **advance move**, that **advance** **move** does not prevent this unit from being **eligible to declare a charge**.\n▪ This unit has **MOBILE**."
       },
       {
         "name": "Cut Off Their Escape",

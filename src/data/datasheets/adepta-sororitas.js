@@ -75,11 +75,11 @@ export default [
     "abilities": [
       {
         "name": "Auto-Tapestry of the Emperor’s Judgement",
-        "text": "While this unit is leading a unit and contains an Aestred Thurga model, weapons equipped by models in that unit have the [DEVASTATING WOUNDS] ability"
+        "text": "While this unit is leading a unit and contains an Aestred Thurga model, weapons equipped by models in that unit have the **[DEVASTATING WOUNDS]** ability."
       },
       {
         "name": "Recount the Deeds of the Saints",
-        "text": "While this unit is leading a unit and contains an Agathae Dolan model, each time that unit destroys an enemy unit, you gain 1 Miracle dice. When that Agathae Dolan model is destroyed, you gain D3 Miracle dice."
+        "text": "While this unit is leading a unit and contains an Agathe Dolan model, each time that unit destroys an enemy unit, you gain 1 Miracle dice. When that Agathae Dolan model is destroyed, you gain D3 Miracle dice."
       }
     ],
     "composition": [
@@ -156,7 +156,7 @@ export default [
     "abilities": [
       {
         "name": "Extremis Trigger Word",
-        "text": "Each time this unit is selected to fight, you can choose to invoke its extremis trigger word. If you do, then until the end of the phase, arco-flails equipped by models in this unit have an Attacks characteristic of 6 and the [HAZARDOUS] ability."
+        "text": "Each time this unit is selected to fight, you can choose to invoke its extremis trigger word. If you do, until the end of the phase, arco-flails equipped by models in this unit have an Attacks characteristic of 6 and the **[HAZARDOUS]** ability."
       }
     ],
     "composition": [
@@ -416,7 +416,7 @@ export default [
       },
       {
         "name": "Defenders of the Faith",
-        "text": "At the end of your Command phase, if this unit is within range of an objective marker you control, that objective marker remains under your control, even if you have no models within range of it, until your opponent controls it at the start or end of any turn."
+        "text": "At the end of your Command phase, if this unit is within range of an objective marker you control, that objective marker remains under your control until your opponent’s Level of Control over that objective marker is greater than yours at the end of a phase."
       }
     ],
     "wargearAbilities": [
@@ -588,7 +588,7 @@ export default [
     "abilities": [
       {
         "name": "Sacred Command",
-        "text": "Once per battle round, one unit from your army with this ability can use it when its unit is targeted with a Stratagem. If it does, reduce the CP cost of that use of that Stratagem by 1CP."
+        "text": "Once per battle round, one unit from your army with this ability can use it when it is targeted with a Stratagem. If it does, reduce the CP cost of that usage of that Stratagem by 1CP."
       },
       {
         "name": "The Emperor’s Grace",
@@ -713,7 +713,7 @@ export default [
     "abilities": [
       {
         "name": "Sacred Command",
-        "text": "Once per battle round, one unit from your army with this ability can use it when its unit is targeted with a Stratagem. If it does, reduce the CP cost of that use of that Stratagem by 1CP."
+        "text": "Once per battle round, one unit from your army with this ability can use it when it is targeted with a Stratagem. If it does, reduce the CP cost of that usage of that Stratagem by 1CP."
       },
       {
         "name": "Divine Deliverance",
@@ -1360,7 +1360,7 @@ export default [
       },
       {
         "name": "Stirring Rhetoric",
-        "text": "While this model is leading a unit, each time this model’s unit performs an Act of Faith, the value of one of the Miracle dice used in that Act of Faith is first changed to a 6."
+        "text": "While this model is leading a unit, each time that unit performs an Act of Faith, the value of one of the Miracle dice used in that Act of Faith is first changed to a 6."
       }
     ],
     "composition": [
@@ -1823,7 +1823,7 @@ export default [
     "abilities": [
       {
         "name": "Devastating Refrain",
-        "text": "In your Shooting phase, after this model has shot, if one or more of those attacks made with an Indirect Fire weapon scored a hit against an enemy unit, that unit must take a Battle-shock test. Each time such an attack destroys an enemy model that has the Deadly Demise ability, that model’s Deadly Demise ability inflicts mortal wounds on a D6 roll of 5+ instead of on a 6."
+        "text": "In your Shooting phase, after this model has shot, if one or more of those attacks made with an Indirect Fire weapon scored a hit against an enemy unit, that unit must take a Battle-shock test. Each time such an attack destroys an enemy model that has the Deadly Demise ability, that models Deadly Demise ability inflicts mortal wounds on a D6 roll of 5+ instead of on a 6."
       }
     ],
     "damaged": {
@@ -2347,7 +2347,7 @@ export default [
     "abilities": [
       {
         "name": "The Pulpit of Saint Holline’s Basilica",
-        "text": "While this model is leading a unit, each time an attack targets that unit, subtract 1 from the Hit roll."
+        "text": "This unit has **STEALTH** Melee attacks that target this unit have -1 to **hit rolls**"
       },
       {
         "name": "Fiery Conviction",
@@ -2461,7 +2461,7 @@ export default [
       },
       {
         "name": "Zealot",
-        "text": "Once per battle, in the Fight phase, this model can use this ability. If it does, until the end of the phase, improve the Strength and Attacks characteristics of melee weapons equipped by this model by 3."
+        "text": "Once per battle, in the Fight phase, this model can use this ability. If it does, until the end of the phase, improve the Attacks and Strength characteristics of melee weapons equipped by this model by 3."
       }
     ],
     "composition": [
@@ -2842,7 +2842,7 @@ export default [
       },
       {
         "name": "Rapturous Blows",
-        "text": "Each time this model’s unit is selected to fight, you can discard 1 Miracle dice. If you do, then until the end of the phase, each time a melee attack made by this model scores a wound, the target of that attack suffers 1 mortal wound in addition to any normal damage."
+        "text": "Each time this model’s unit is selected to fight, you can discard 1 Miracle dice. If you do, until the end of the phase, each time a melee attack made by this model scores a wound, the target of that attack suffers 1 mortal wound in addition to any normal damage."
       }
     ],
     "composition": [
@@ -3458,7 +3458,7 @@ export default [
       },
       {
         "name": "Storm of Retribution",
-        "text": "Each time a model in this unit makes a ranged attack, re-roll a Hit roll of 1 and re-roll a Wound roll of 1. If such an attack targets an enemy unit that has destroyed one or more Adepta Sororitas units from your army during the battle, add 1 to the Hit roll and add 1 to the Wound roll as well."
+        "text": "Each time a model in this unit makes a ranged attack, that model can re‑roll a Hit roll of 1 and re‑roll a Wound roll of 1. If such an attack targets an enemy unit that has destroyed one or more ADEPTA SORORITAS units from your army during the battle, add 1 to the Hit roll and add 1 to the Wound roll as well."
       }
     ],
     "composition": [
@@ -4298,7 +4298,7 @@ export default [
     "abilities": [
       {
         "name": "Relics of the Matriarchs",
-        "text": "At the start of the battle round, select up to two of the abilities in the Relics of the Matriarchs section (see below). Until the start of the next battle round, this model has those abilities."
+        "text": "At the start of the battle round, select up to two of the abilities in the Relics of the Matriarchs section. Until the start of the next battle round, this model has those abilities."
       },
       {
         "name": "Solemn Procession",

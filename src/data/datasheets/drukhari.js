@@ -2201,7 +2201,7 @@ export default [
     "abilities": [
       {
         "name": "Swooping Descent (Pain)",
-        "text": "In your Movement phase, you can spend 1 Pain token to Empower this unit. While Empowered, each time a model in this unit is set up on the battlefield using the Deep Strike ability, it can be set up anywhere on the battlefield that is more than 6\" horizontally away from all enemy units. When doing so, if this unit is set up within 9\" of one or more enemy units, until the end of the turn, it is not eligible to declare a charge."
+        "text": "In your Movement phase, you can spend 1 Pain token to Empower this unit. While Empowered, each time a model in this unit is set up on the battlefield using the Deep Strike ability, it can be set up anywhere on the battlefield that is more than 6\" horizontally away from all enemy units. When doing so, if this unit is set up within 8\" of one or more enemy units, until the end of the turn, it is not eligible to declare a charge."
       },
       {
         "name": "Murderous Crossfire",
@@ -2674,7 +2674,7 @@ export default [
       },
       {
         "name": "Void Mine",
-        "text": "At the end of your opponent’s Fight phase, select one visible enemy model (excluding Lone Operative units) within 24\" of this unit, and roll one D6 for each enemy unit within D6\" of that model: for each 4+, that enemy unit suffers D6 mortal wounds."
+        "text": "At the end of your opponent’s Fight phase, select one visible enemy model (excluding Lone Operative units) within 24\" of this unit, and roll one D6 for each enemy unit within D6\" of that model: For each 4+, that unit suffers D6 mortal wounds."
       }
     ],
     "damaged": {

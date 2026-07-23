@@ -405,7 +405,7 @@ export default [
     "abilities": [
       {
         "name": "Rites of Battle",
-        "text": "Once per battle round, one unit from your army with this ability can use it when its unit is targeted with a Stratagem. If it does, reduce the CP cost of that use of that Stratagem by 1CP."
+        "text": "Once per battle round, one unit from your army with this ability can use it when it is targeted with a Stratagem. If it does, reduce the CP cost of that usage of that Stratagem by 1CP."
       },
       {
         "name": "Finest Hour",
@@ -771,7 +771,7 @@ export default [
       },
       {
         "name": "Death Vision of Sanguinius",
-        "text": "If this model is destroyed by a melee attack, after the attacking unit has finished making its attacks, you can roll one D6, adding 2 to the result if the attacking unit contains the enemy WARLORD: on a 2-3, that enemy unit suffers D3 mortal wounds; on a 4-5, that enemy unit suffers 3 mortal wounds; on a 6+, that enemy unit suffers D3+3 mortal wounds."
+        "text": "If this model is destroyed by a melee attack, after the attacking unit has finished making its attacks, you can roll one D6, adding 2 to the result if the attacking unit contains the enemy **WARLORD**: on a 2-3, that enemy unit suffers D3 mortal wounds; on a 4 5, that enemy unit suffers 3 mortal wounds; on a 6+, that enemy unit suffers D3+3 mortal wounds."
       }
     ],
     "composition": [
@@ -921,7 +921,7 @@ export default [
       },
       {
         "name": "Death Vision of Sanguinius",
-        "text": "If this model is destroyed by a melee attack, after the attacking unit has finished making its attacks, you can roll one D6, adding 2 to the result if the attacking unit contains the enemy WARLORD: on a 2-3, that enemy unit suffers D3 mortal wounds; on a 4-5, that enemy unit suffers 3 mortal wounds; on a 6+, that enemy unit suffers D3+3 mortal wounds."
+        "text": "If this model is destroyed by a melee attack, after the attacking unit has finished making its attacks, you can roll one D6, adding 2 to the result if the attacking unit contains the enemy **WARLORD**: on a 2-3, that enemy unit suffers D3 mortal wounds; on a 4 5, that enemy unit suffers 3 mortal wounds; on a 6+, that enemy unit suffers D3+3 mortal wounds."
       }
     ],
     "composition": [
@@ -1511,7 +1511,7 @@ export default [
       },
       {
         "name": "Visions of Heresy",
-        "text": "This unit can re-roll charge rolls. When you target this unit with the Fire Overwatch or Heroic Intervention Stratagem, that use is -1 CP."
+        "text": "■ This unit can re-roll charge rolls. ■ When you target this unit with the Fire Overwatch/Heroic Intervention stratagem, that use is -1 CP."
       }
     ],
     "composition": [
@@ -1789,7 +1789,7 @@ export default [
       },
       {
         "name": "Fury Unbound",
-        "text": "While this model is leading a unit, melee weapons equipped by models in that unit have the [LETHAL HITS] ability"
+        "text": "While this model is leading a unit, melee weapons equipped by models in that unit have the **[LETHAL HITS]** ability."
       }
     ],
     "composition": [
@@ -2108,7 +2108,7 @@ export default [
       },
       {
         "name": "Miraculous Saviour",
-        "text": "(Once per battle, per army) At the end of your opponent’s Charge phase (excluding the first battle round), you can select one enemy unit that made a charge move this phase. This unit can make an ingress move and must be set up engaged with that enemy unit."
+        "text": "(Once per battle, per army) At the end of your opponent's Charge phase (excluding the first battle round), you can select one enemy unit that made a **charge move** this phase. This unit can make an **ingress move** and must be set up **engaged** with that enemy unit. That move does not prevent this unit from being **eligible to move**."
       }
     ],
     "composition": [

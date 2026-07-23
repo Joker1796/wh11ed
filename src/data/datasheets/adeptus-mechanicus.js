@@ -55,7 +55,7 @@ export default [
     "abilities": [
       {
         "name": "Bomb Rack",
-        "text": "Each time this model ends a Normal move, you can select one enemy unit it moved across during that move and roll six D6: for each 4+, that unit suffers 1 mortal wound."
+        "text": "At the end of your opponent’s Fight phase, select one visible enemy unit (excluding Lone Operative units) within 24\" of this unit, and roll six D6 for that unit: for each 4+, that unit suffers 1 mortal wound."
       }
     ],
     "wargearAbilities": [
@@ -165,7 +165,7 @@ export default [
     "abilities": [
       {
         "name": "Strafing Run",
-        "text": "Each time this model makes a ranged attack that targets an enemy unit (excluding units that can FLY), add 1 to the Hit roll."
+        "text": "Each time this model makes a ranged attack that targets a unit that cannot **FLY**, add 1 to the Hit roll."
       }
     ],
     "wargearAbilities": [
@@ -251,7 +251,7 @@ export default [
     "abilities": [
       {
         "name": "Aerial Deployment",
-        "text": "If this model starts the game in Hover mode and in Strategic Reserves, it can be set up in the Reinforcements step of your first, second or third Movement phase, regardless of any mission rules."
+        "text": "In your first Movement phase, this unit can make an **ingress move**."
       }
     ],
     "wargearAbilities": [
@@ -957,7 +957,7 @@ export default [
       },
       {
         "name": "Broad Spectrum Data-tether",
-        "text": "Each time you target this unit with a Stratagem, roll one D6: on a 5+, you gain 1CP."
+        "text": "Each time you select this unit as the target of a Stratagem, roll one D6: on a 5+, you gain 1CP."
       }
     ],
     "composition": [
@@ -1110,7 +1110,7 @@ export default [
       },
       {
         "name": "Repulsor Grid",
-        "text": "Each time a ranged attack is allocated to a KASTELAN ROBOT model in this unit, on an unmodified saving throw of 6, the attacking unit suffers 1 mortal wound after it has finished making its attacks."
+        "text": "When an enemy unit targets this unit with ranged attacks, until that enemy unit has shot, when this unit makes a **save roll**: • On an unmodified 6, that enemy unit suffers 1 **mortal wound** after that enemy unit has shot."
       }
     ],
     "composition": [
@@ -1825,7 +1825,7 @@ export default [
     "abilities": [
       {
         "name": "Tactica Obliqua",
-        "text": "In your opponent's Movement phase, if an enemy unit ends a move within 8\" of this unit, if this unit is not within Engagement Range of one or more enemy units, it can do one of the following:\n▪ Make a Normal move of up to D6\".\n▪ Make a Normal move of up to 6\", provided every model in this unit ends that move wholly within 6\" of one or more friendly Adeptus Mechanicus Battleline units."
+        "text": "In your opponent's Movement phase, if an enemy unit ends a move within 8” of this unit, if this unit is not within Engagement Range of one or more enemy units, it can do one of the following: ■ Make a Normal move of up to D6\" ■ Make a Normal move of up to 6\" provided every model in this unit ends that move wholly within 6\" of one or more friendly **ADEPTUS MECHANICUS BATTLELINE** units."
       }
     ],
     "wargearAbilities": [
@@ -2581,7 +2581,7 @@ export default [
     "abilities": [
       {
         "name": "Objective Scouted",
-        "text": "At the end of your Command phase, if this unit is within range of an objective marker you control, that objective marker remains under your control, even if you have no models within range of it, until your opponent controls it at the start or end of any turn."
+        "text": "At the end of your Command phase, if this unit is within range of an objective marker you control, that objective marker remains under your control until your opponent’s Level of Control over that objective marker is greater than yours at the end of a phase."
       }
     ],
     "wargearAbilities": [
@@ -2868,7 +2868,7 @@ export default [
     "abilities": [
       {
         "name": "Broad Spectrum Data-tether",
-        "text": "Each time you target this unit with a Stratagem, roll one D6: on a 5+, you gain 1CP."
+        "text": "Each time you select this model as the target of a Stratagem, roll one D6: on a 5+, you gain 1CP."
       },
       {
         "name": "Blistering Salvoes",
@@ -2952,7 +2952,7 @@ export default [
     "abilities": [
       {
         "name": "Broad Spectrum Data-tether",
-        "text": "Each time you target this unit with a Stratagem, roll one D6: on a 5+, you gain 1CP."
+        "text": "Each time you select this model as the target of a Stratagem, roll one D6: on a 5+, you gain 1CP."
       },
       {
         "name": "Fire Support",
@@ -3058,7 +3058,7 @@ export default [
       },
       {
         "name": "Broad Spectrum Data-tether",
-        "text": "Each time you target this unit with a Stratagem, roll one D6: on a 5+, you gain 1CP."
+        "text": "Each time you select this unit as the target of a Stratagem, roll one D6: on a 5+, you gain 1CP."
       }
     ],
     "composition": [
@@ -3148,7 +3148,7 @@ export default [
       },
       {
         "name": "Broad Spectrum Data-tether",
-        "text": "Each time you target this unit with a Stratagem, roll one D6: on a 5+, you gain 1CP."
+        "text": "Each time you select this unit as the target of a Stratagem, roll one D6: on a 5+, you gain 1CP."
       }
     ],
     "composition": [
@@ -3491,7 +3491,7 @@ export default [
       },
       {
         "name": "Omnissiah’s Blessing",
-        "text": "In your Command phase, select one friendly ADEPTUS MECHANICUS model within 3\" of this model. That model regains up to D3 lost wounds and, if it is a VEHICLE model, until the start of your next Command phase, that model has the Feel No Pain 5+ ability. Each model can only be selected for this ability once per Command phase."
+        "text": "In your Command phase, select one friendly **ADEPTUS MECHANICUS** model within 3\" of this model. That model regains up to D3 lost wounds and, if it is a **VEHICLE** model, until the start of your next Command phase, that model has the Feel No Pain 5+ ability. Each model can only be selected for this ability once per Command phase"
       },
       {
         "name": "Vengeance for the Omnissiah",
@@ -3598,7 +3598,7 @@ export default [
       },
       {
         "name": "Defend the Divine Work",
-        "text": "Once per battle, at the start of any phase, this model can use this ability. If it does, until the end of the phase, all models in this model’s unit have a 4+ invulnerable save."
+        "text": "Once per battle, at the start of any phase, this model can use this ability. If it does, until the end of the phase, models in this model’s unit have a 4+ invulnerable save."
       }
     ],
     "composition": [
@@ -3802,7 +3802,7 @@ export default [
     "abilities": [
       {
         "name": "Rod of the War Forge",
-        "text": "In your Command phase, select one of the abilities in the Icon of War section (see next page). Until the start of your next Command phase, this model has that ability."
+        "text": "In your Command phase, select one of the abilities in the Icon of War section. Until the start of your next Command phase, this model has that ability."
       },
       {
         "name": "Mechanicus Bodyguard",

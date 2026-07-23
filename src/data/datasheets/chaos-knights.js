@@ -1219,7 +1219,7 @@ export default [
     "abilities": [
       {
         "name": "Obsessive Ruthlessness",
-        "text": "Each time this model makes a ranged attack that targets a MONSTER or VEHICLE unit, that attack has the [DEVASTATING WOUNDS] ability."
+        "text": "This unit’s ranged attacks that target a **MONSTER/VEHICLE** unit can ignore modifiers to this unit’s: • **BS**. • **Hit rolls** and **wound rolls**."
       },
       {
         "name": "Taskmaster (Aura)",
@@ -1448,7 +1448,7 @@ export default [
       },
       {
         "name": "Seething Hatred",
-        "text": "Each time this model is selected to shoot or fight, you can re-roll one Hit roll or you can re-roll one Wound roll when resolving those attacks."
+        "text": "Each time this unit is selected to shoot or fight, you can re‑roll one Hit roll or you can re‑roll one Wound roll when resolving those attacks."
       }
     ],
     "damaged": {
@@ -1692,7 +1692,7 @@ export default [
       },
       {
         "name": "Close-range Killers (Aura)",
-        "text": "While a friendly War Dog model is within 9\" of this model, each time that WAR DOG model makes an attack that targets the closest enemy unit, improve the Armour Penetration characteristic of that attack by 1."
+        "text": "While a friendly **WAR DOG** model is within 9\" of this model, each time that **WAR DOG** model makes an attack that targets the closest eligible target, improve the Armour Penetration characteristic of that attack by 1."
       }
     ],
     "damaged": {
@@ -1867,7 +1867,7 @@ export default [
     "abilities": [
       {
         "name": "Infernal Aegis (Aura)",
-        "text": "While a friendly War Dog model is within 6\" of this model, that WAR DOG model has the Benefit of Cover."
+        "text": "While a friendly **WAR DOG** unit is within 6\" of this model, each time an attack targets that **WAR DOG** unit, models in it have the Benefit of Cover against that attack."
       },
       {
         "name": "Bastion of Corruption",
@@ -2089,7 +2089,7 @@ export default [
     "abilities": [
       {
         "name": "Executioner",
-        "text": "Each time this model makes an attack that targets a unit Below Half-strength, add 1 to the Hit roll. Each time an enemy unit is destroyed as the result of this model’s attacks, before removing the last model in that unit from the battlefield, each unit from your opponent’s army that is within 3\" of it must take a Battle-shock test."
+        "text": "Each time this model makes an attack that targets a unit Below Half‑strength, add 1 to the Hit roll. Each time an enemy unit is destroyed as the result of this model’s attacks, before removing the last model in that unit from the battlefield, each other unit from your opponent’s army that is within 3\" of it must take a Battle‑shock test."
       }
     ],
     "damaged": {
@@ -2306,7 +2306,7 @@ export default [
     "abilities": [
       {
         "name": "Karnivore",
-        "text": "You can re-roll Advance and Charge rolls made for this model."
+        "text": "You can re‑roll Advance and Charge rolls made for this unit."
       }
     ],
     "damaged": {
@@ -2452,7 +2452,7 @@ export default [
     "abilities": [
       {
         "name": "Protection Protocols",
-        "text": "You can target this unit with the Heroic Intervention Stratagem for 0CP, and can do so even if you have already targeted a different unit with that Stratagem this phase."
+        "text": "You can target this unit with the **Heroic Intervention stratagem**, regardless of any other uses of that **stratagem** this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that stratagem on other units this phase."
       }
     ],
     "damaged": {

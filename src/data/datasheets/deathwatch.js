@@ -402,7 +402,7 @@ export default [
       },
       {
         "name": "Teleport Homer",
-        "text": "At the start of the battle, you can set up one Teleport Homer token for this unit anywhere on the battlefield that is not within your opponent’s deployment zone. If you do, once per battle, you can target this unit with the Rapid Ingress Stratagem for 0CP, but when resolving that Stratagem, you must set this unit up within 3\" of that token and not within 9\" horizontally of one or more enemy units. That token is then removed."
+        "text": "At the start of the battle, you can set up one Teleport Homer token for this unit anywhere on the battlefield that is not in your opponent’s deployment zone. If you do, once per battle, you can target this unit with the Rapid Ingress Stratagem for 0CP, but when resolving that Stratagem, you must set this unit up within 3\" horizontally of that token and not within 8\" horizontally of any enemy models. That token is then removed."
       }
     ],
     "wargearAbilities": [
@@ -1889,7 +1889,7 @@ export default [
     "abilities": [
       {
         "name": "Talonstrike Doctrines",
-        "text": "Each time this unit is set up on the battlefield, until the end of the turn:\n▪ Improve the Armour Penetration characteristic of weapons equipped by models in this unit by 1.\n▪ Melee weapons equipped by models in this unit have the [LANCE] ability."
+        "text": "Each time this unit is set up on the battlefield, until the end of the turn: ■ Improve the Armour Penetration characteristic of weapons equipped by models in this unit by 1. ■ Melee weapons equipped by models in this unit have the [**LANCE**] ability"
       }
     ],
     "specialAbilities": [
