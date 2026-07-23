@@ -799,7 +799,7 @@ export default [
     "abilities": [
       {
         "name": "High King of Fenris",
-        "text": "Once per battle round, in your Movement phase, you can select one friendly Space Wolves unit that is in Strategic Reserves. If you do, until the end of the phase, for the purpose of setting up that unit on the battlefield, treat the current battle round number as being one higher than it actually is."
+        "text": "Once per battle round, in your Movement phase, you can select one friendly Space Wolves unit that is in Reserves. If you do, until the end of the phase, for the purpose of setting up that unit on the battlefield, treat the current battle round number as being one higher than it actually is."
       },
       {
         "name": "Guile of the Wolf",
@@ -1355,7 +1355,7 @@ export default [
       },
       {
         "name": "Oathbound",
-        "text": "While this model is leading a unit, each time a model in that unit makes a melee attack, add 1 to the Hit roll. If that attack targets a unit that has this model’s Slayer’s Oath keyword (see above), add 1 to the Wound roll as well."
+        "text": "While this model is leading a unit, each time a model in that unit makes a melee attack, add 1 to the Hit roll. If that attack targets a unit that has this model’s Slayer’s Oath keyword (see Slayer’s Oath), add 1 to the Wound roll as well."
       }
     ],
     "composition": [
