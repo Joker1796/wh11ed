@@ -16,3 +16,18 @@ Object.defineProperty(globalThis, 'localStorage', {
   writable: true,
   configurable: true,
 })
+
+// jsdom has no matchMedia; components that read it at import time (e.g. useTheme's
+// prefers-color-scheme probe) would throw. A minimal no-match stub is enough for tests.
+if (typeof window !== 'undefined' && !window.matchMedia) {
+  window.matchMedia = (query) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addEventListener() {},
+    removeEventListener() {},
+    addListener() {},
+    removeListener() {},
+    dispatchEvent() { return false },
+  })
+}

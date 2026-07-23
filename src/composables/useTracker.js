@@ -296,6 +296,10 @@ function makePlayer(p, opponent, settings, isYou = false) {
     battleReady: !!p.battleReady,              // +10 VP if the army is battle-ready
     primarySlug: primary ? primary.slug : null,
     cp: 0,
+    // Army-rule tracker state (Pain tokens, Battle Focus, etc.) — a free-form per-faction blob
+    // interpreted by src/data/armyTrackers. Empty until a widget writes to it; absent on games
+    // saved before this existed, so readers/mutations must default it (see setArmyCounter).
+    army: {},
     rounds: Array.from({ length: ROUND_COUNT }, () => ({ primary: 0, picks: {} })),
     secondary: {
       // tactical: draw from a shuffled deck each round; fixed: the set chosen at setup is locked in.
@@ -373,6 +377,96 @@ export function useTracker() {
 
   function setCp(pi, value) {
     current.value.players[pi].cp = Math.max(0, value)
+  }
+
+  // Army-rule counter primitive (Pain tokens, Yield Points, …). `army` may be absent on games
+  // saved before it existed, so initialize it lazily. Clamped ≥ 0; pools have no fixed max.
+  function setArmyCounter(pi, value) {
+    const pl = current.value.players[pi]
+    if (!pl.army) pl.army = {}
+    pl.army.counter = Math.max(0, value)
+  }
+
+  // Army-rule selection primitive (Doctrina Imperative, etc.) — a per-round pick (the choice resets
+  // each battle round, so it's keyed by round). Clicking the active option again clears it.
+  function setArmySelection(pi, round, id) {
+    const pl = current.value.players[pi]
+    if (!pl.army) pl.army = {}
+    if (!pl.army.selectionByRound) pl.army.selectionByRound = {}
+    if (pl.army.selectionByRound[round] === id) delete pl.army.selectionByRound[round]
+    else pl.army.selectionByRound[round] = id
+  }
+
+  // Army-rule multi-selection primitive (World Eaters' Blessings of Khorne) — pick UP TO `max`
+  // options per battle round (unlike setArmySelection's single per-round pick), reset each round.
+  // Stored as a per-round array of ids. Tapping an active option removes it; a new pick is ignored
+  // once the round is at its cap (the widget also disables the chips then).
+  function toggleArmyMulti(pi, round, id, max) {
+    const pl = current.value.players[pi]
+    if (!pl.army) pl.army = {}
+    if (!pl.army.multiByRound) pl.army.multiByRound = {}
+    const cur = pl.army.multiByRound[round] || []
+    if (cur.includes(id)) {
+      const next = cur.filter((x) => x !== id)
+      if (next.length) pl.army.multiByRound[round] = next
+      else delete pl.army.multiByRound[round]
+    } else if (cur.length < max) {
+      pl.army.multiByRound[round] = [...cur, id]
+    }
+  }
+
+  // Army-rule battle-long selection (Templar Vows, Death Guard Plague) — a single pick made once for
+  // the whole battle (unlike setArmySelection's per-round choice, so it's not keyed by round).
+  // Clicking the active option again clears it.
+  function setArmyChoice(pi, id) {
+    const pl = current.value.players[pi]
+    if (!pl.army) pl.army = {}
+    if (pl.army.choice === id) delete pl.army.choice
+    else pl.army.choice = id
+  }
+
+  // Army-rule once-per-battle toggle (Waaagh!, etc.) — records the round(s) it was fired in. It's a
+  // list because a few abilities can be fired more than once a battle (e.g. an Ork Warboss with the
+  // Raucous Warcaller enhancement gets a second Waaagh!); the widget caps how many via the spec.
+  function fireArmyToggle(pi, round) {
+    const pl = current.value.players[pi]
+    if (!pl.army) pl.army = {}
+    if (!pl.army.toggleRounds) pl.army.toggleRounds = []
+    pl.army.toggleRounds.push(round)
+  }
+  // Undo the most recent fire (reset / correct a mis-tap).
+  function undoArmyToggle(pi) {
+    const pl = current.value.players[pi]
+    if (!pl.army?.toggleRounds?.length) return
+    pl.army.toggleRounds.pop()
+    if (!pl.army.toggleRounds.length) delete pl.army.toggleRounds
+  }
+
+  // Army-rule dice-pool primitive (Miracle dice, …) — a bank of D6 values. Add records a rolled
+  // value; remove spends one die by index. (A Miracle die's value can't change once rolled, so
+  // there's no in-place edit — a wrong one is removed and re-added.)
+  function addArmyDie(pi, value) {
+    const pl = current.value.players[pi]
+    if (!pl.army) pl.army = {}
+    if (!pl.army.dice) pl.army.dice = []
+    pl.army.dice.push(value)
+  }
+  function removeArmyDie(pi, index) {
+    const pl = current.value.players[pi]
+    if (!pl.army?.dice) return
+    pl.army.dice.splice(index, 1)
+    if (!pl.army.dice.length) delete pl.army.dice
+  }
+
+  // Army-rule pool primitive (Battle Focus, …) — a per-round resource that REFILLS each battle round
+  // (unspent tokens are lost at round's end), so the remaining count is stored per round, keyed like
+  // selectionByRound. An untouched round has no entry; the widget defaults it to the battle-size
+  // allotment (+ any detachment bonus) and this records the explicit remaining after a spend. ≥ 0.
+  function setArmyPool(pi, round, value) {
+    const pl = current.value.players[pi]
+    if (!pl.army) pl.army = {}
+    if (!pl.army.poolByRound) pl.army.poolByRound = {}
+    pl.army.poolByRound[round] = Math.max(0, value)
   }
 
   function drawSecondary(pi) {
@@ -603,7 +697,8 @@ export function useTracker() {
 
   return {
     current, history, setupDraft,
-    newGame, updateSetup, setRoundPrimary, setCp,
+    newGame, updateSetup, setRoundPrimary, setCp, setArmyCounter, setArmySelection, toggleArmyMulti,
+    setArmyChoice, fireArmyToggle, undoArmyToggle, addArmyDie, removeArmyDie, setArmyPool,
     setPrimaryRow, primaryRowCount,
     drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,
     restoreSecondaryToHand, redrawSecondary,
