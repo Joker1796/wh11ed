@@ -37,9 +37,11 @@ export function appdataToMarkup(text) {
 }
 
 // A detachment/army rule's `body` is appdata's array of typed text blocks — flatten to one
-// converted string for the report.
+// converted string for the report. Flavour blocks (loreAccordion/quote) are skipped: wh11ed
+// stores flavour in a separate `flavor` field, so including them would flag every rule.
 export function bodyText(body) {
   return (body || [])
+    .filter((b) => b.type !== 'loreAccordion' && b.type !== 'quote' && b.type !== 'image')
     .map((b) => appdataToMarkup(b.text || b.trigger || b.effect || ''))
     .filter(Boolean)
     .join(' / ')

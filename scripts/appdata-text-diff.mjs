@@ -53,6 +53,7 @@ function sem(s) {
     .toLowerCase()
     .replace(/[^\p{L}\p{N}"'+%/.\-]+/gu, ' ')
     .replace(/\s+/g, ' ')
+    .replace(/ \/ /g, ' ') // bodyText's block separator — never a wording difference
     .trim()
 }
 // Dice coefficient over word arrays — same "overlap" idea sync-core uses for its report.
@@ -116,8 +117,13 @@ for (const slug of slugs) {
       const a = appDet.get(norm(det.name))
       if (!a) continue
       if (det.rule) {
-        const appRule = (a.rules || []).find((r) => norm(r.name) === norm(det.rule.name)) || (a.rules || [])[0]
-        if (appRule) compare(`${slug} · ${det.name} · rule "${det.rule.name}"`, det.rule.body, bodyText(appRule.body))
+        // wh11ed folds a det's rules into one body ("Rule A & Rule B" with ### headings), so when
+        // no single appdata rule matches by name, compare against all of them joined (name + body).
+        const appRule = (a.rules || []).find((r) => norm(r.name) === norm(det.rule.name))
+        const appText = appRule
+          ? bodyText(appRule.body)
+          : (a.rules || []).map((r) => `${r.name} / ${bodyText(r.body)}`).join(' / ')
+        if (appText) compare(`${slug} · ${det.name} · rule "${det.rule.name}"`, det.rule.body, appText)
       }
       const appStrat = new Map((a.stratagems || []).map((s) => [norm(s.name), s]))
       for (const st of det.stratagems || []) {
