@@ -43,6 +43,7 @@ const STATIC_ROUTES = [
   '/stratagems',
   '/links',
   '/disclaimer',
+  '/changelog',
 ]
 
 // The 5 SM-Chapter codex files don't duplicate datasheets identical to space-marines.js —
