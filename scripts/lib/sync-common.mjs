@@ -32,6 +32,7 @@ export function appdataToMarkup(text) {
   s = s.replace(/<k>(.*?)<\/k>/gis, (_, inner) => inner.toUpperCase())
   s = s.replace(/<b>(.*?)<\/b>/gis, '**$1**')
   s = s.replace(/<[^>]+>/g, '')
+  s = s.replace(/&#x?[0-9a-f]+;/gi, ' ') // stray numeric HTML entities (e.g. &#x20;) in appdata text
   s = s.split('\n').map((l) => l.trim()).join(' ').replace(/\s{2,}/g, ' ')
   return s.trim()
 }
