@@ -469,6 +469,47 @@ export function useTracker() {
     pl.army.poolByRound[round] = Math.max(0, value)
   }
 
+  // Army-rule spend log (GSC's Resurgence-point resurrects) — records what a `spends` entry bought,
+  // on top of the counter change itself, so the spend has a visible history instead of just a number
+  // going down. The component computes the new counter value (current effective value − cost), same
+  // convention as setArmyCounter, so this stays a generic "counter + its spend log" primitive.
+  function resurrectArmyUnit(pi, newCounterValue, label, cost) {
+    const pl = current.value.players[pi]
+    if (!pl.army) pl.army = {}
+    pl.army.counter = Math.max(0, newCounterValue)
+    if (!pl.army.resurrected) pl.army.resurrected = []
+    pl.army.resurrected.push({ label, cost })
+  }
+  // Undo one spend-log entry (a mis-tap in the picker) — refunds its cost back onto the counter and
+  // drops the entry.
+  function undoArmyResurrect(pi, index) {
+    const pl = current.value.players[pi]
+    const entry = pl.army?.resurrected?.[index]
+    if (!entry) return
+    pl.army.resurrected.splice(index, 1)
+    if (!pl.army.resurrected.length) delete pl.army.resurrected
+    pl.army.counter = Math.max(0, (pl.army.counter ?? 0) + entry.cost)
+  }
+
+  // Army-rule one-time start-of-battle bonus (GSC's Deeds That Speak to the Masses enhancement) —
+  // the tracker doesn't record enhancement picks, so this is a manual bump gated to round 1 (it's a
+  // STARTING-pool bonus, meaningless once the battle is under way). `bonusApplied` guards against
+  // double-tapping; the component computes the new counter value, same convention as setArmyCounter.
+  function applyArmyBonus(pi, newCounterValue) {
+    const pl = current.value.players[pi]
+    if (!pl.army) pl.army = {}
+    if (pl.army.bonusApplied) return
+    pl.army.counter = Math.max(0, newCounterValue)
+    pl.army.bonusApplied = true
+  }
+  // Undo the bonus (mis-tap) — the component passes the counter value with it subtracted back out.
+  function undoArmyBonus(pi, newCounterValue) {
+    const pl = current.value.players[pi]
+    if (!pl.army?.bonusApplied) return
+    pl.army.counter = Math.max(0, newCounterValue)
+    delete pl.army.bonusApplied
+  }
+
   function drawSecondary(pi) {
     const s = current.value.players[pi].secondary
     if (!s.deck.length) return
@@ -699,6 +740,7 @@ export function useTracker() {
     current, history, setupDraft,
     newGame, updateSetup, setRoundPrimary, setCp, setArmyCounter, setArmySelection, toggleArmyMulti,
     setArmyChoice, fireArmyToggle, undoArmyToggle, addArmyDie, removeArmyDie, setArmyPool,
+    resurrectArmyUnit, undoArmyResurrect, applyArmyBonus, undoArmyBonus,
     setPrimaryRow, primaryRowCount,
     drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,
     restoreSecondaryToHand, redrawSecondary,

@@ -18,7 +18,7 @@
         :key="i"
         class="opt"
         :disabled="remaining < s.cost"
-        @click="$emit('spend', s.cost)"
+        @click="$emit('spend', s)"
       >
         <span class="opt-name">{{ s.label }}</span>
         <span class="opt-cost">−{{ s.cost }}</span>
@@ -29,8 +29,9 @@
 
 <script setup>
 // Spend picker for the `counter` primitive's `spends` (Genestealer Cults' resurrect costs). Tapping
-// an entry emits `spend(cost)`; the parent subtracts it from the pool. `remaining` is the live pool
-// so entries re-disable as it drops. Structure/tokens mirror ArmyMultiPickerModal.
+// an entry emits `spend(s)` with the whole `{ label, cost }` — the parent both subtracts the cost
+// from the pool and records the entry (see resurrectArmyUnit in useTracker.js). `remaining` is the
+// live pool so entries re-disable as it drops. Structure/tokens mirror ArmyMultiPickerModal.
 import { computed } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
