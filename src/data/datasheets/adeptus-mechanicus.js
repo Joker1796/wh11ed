@@ -547,6 +547,10 @@ export default [
       {
         "name": "Battle Protocols",
         "text": "At the start of the battle, if this model is leading a KASTELAN ROBOTS unit, that unit enters Aegis Protocols (see below). In your Command phase, if this model is leading a KASTELAN ROBOTS unit, you can select one protocol from those listed below for that unit to enter. Once a unit enters a protocol, it remains in that protocol until it enters a different one.\n▪ **Protector Protocol:** Add 2 to the Attacks characteristic of ranged weapons equipped by KASTELAN ROBOT models in that unit.\n▪ **Conqueror Protocol:** Add 2 to the Attacks characteristic of melee weapons equipped by KASTELAN ROBOT models in that unit.\n▪ **Aegis Protocol:** Add 1 to the Toughness characteristic of KASTELAN ROBOT models in that unit."
+      },
+      {
+        "name": "Data-severed",
+        "text": "If there are no KASTELAN ROBOT models in this unit:\n▪ This unit loses VEHICLE.\n▪ This unit has INFANTRY."
       }
     ],
     "composition": [

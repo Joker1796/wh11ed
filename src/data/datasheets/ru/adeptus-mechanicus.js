@@ -108,6 +108,8 @@ export default {
     abilities: {
       'Battle Protocols':
         'В начале битвы, если эта модель возглавляет юнит KASTELAN ROBOTS, этот юнит входит в Aegis Protocols (см. ниже). В вашей фазе командования, если эта модель возглавляет юнит KASTELAN ROBOTS, вы можете выбрать один протокол из перечисленных ниже, в который этот юнит войдёт. Как только юнит входит в протокол, он остаётся в нём, пока не войдёт в другой.\n▪ **Protector Protocol:** Прибавьте 2 к характеристике Атак (Attacks) дальнобойного оружия моделей KASTELAN ROBOT в этом юните.\n▪ **Conqueror Protocol:** Прибавьте 2 к характеристике Атак (Attacks) оружия ближнего боя моделей KASTELAN ROBOT в этом юните.\n▪ **Aegis Protocol:** Прибавьте 1 к характеристике Стойкости (Toughness) моделей KASTELAN ROBOT в этом юните.',
+      'Data-severed':
+        'Если в этом юните нет моделей KASTELAN ROBOT:\n▪ Этот юнит теряет VEHICLE.\n▪ Этот юнит имеет INFANTRY.',
     },
     loadout: `${EQUIP_THIS} Mechanicus pistol; power fist.`,
     leader: { text: LEADER_TEXT },
@@ -588,6 +590,7 @@ export const abilityNamesRu = {
   'Shroudpsalm (Aura)': 'Псалом-покров (Аура)',
   'Electro-shock': 'Электрошок',
   'Battle Protocols': 'Боевые протоколы',
+  'Data-severed': 'Разрыв данных',
   'Electro-infusion': 'Электро-вливание',
   'Broad-spectrum Targeting Augurs': 'Широкоспектральные авгуры наведения',
   'Monocular Targeting Helms': 'Моноокулярные шлемы наведения',
