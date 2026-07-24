@@ -8,6 +8,17 @@
             <button
               type="button"
               class="ds-btn"
+              :class="{ 'ds-btn-pin-on': fav }"
+              :title="fav ? labels.dsFavRemove : labels.dsFavAdd"
+              :aria-label="fav ? labels.dsFavRemove : labels.dsFavAdd"
+              :aria-pressed="fav"
+              @click="toggleUnitFavorite(route.params.slug, sheet.id)"
+            >
+              <i :class="fav ? 'bi bi-pin-angle-fill' : 'bi bi-pin-angle'"></i>
+            </button>
+            <button
+              type="button"
+              class="ds-btn"
               :class="{ copied }"
               :title="copied ? labels.dsCopied : labels.dsCopyName"
               :aria-label="copied ? labels.dsCopied : labels.dsCopyName"
@@ -75,6 +86,7 @@ import { loadDatasheetsRu, localizeSheet } from '../../data/datasheets/ru/index.
 import { ui } from '../../i18n/ui.js'
 import { useFactionPage } from '../../composables/useFactionPage.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { useFavorites } from '../../composables/useFavorites.js'
 import { setDatasheetName } from '../../composables/useSeoMeta.js'
 import { formatBaseSize } from '../../utils/baseSize.js'
 
@@ -126,6 +138,10 @@ const sheet = computed(() => {
 // Push the precise unit name into the SEO title/description (the route-level meta only has the
 // slug until the datasheet loads). Unit names aren't translated, so the EN name is fine.
 watch(sheet, (s) => { if (s?.name) setDatasheetName(route.path, s.name) }, { immediate: true })
+
+// Favourite toggle (shared store with the datasheets list's "Favorites" group).
+const { isUnitFavorite, toggleUnitFavorite } = useFavorites()
+const fav = computed(() => !!sheet.value && isUnitFavorite(route.params.slug, sheet.value.id))
 
 // Name → id lookup so DatasheetCard can link Leader/Attached-unit references (e.g. the
 // bodyguard units listed under a Character's "Leader" ability) to their own datasheet
@@ -229,8 +245,8 @@ async function copyName() {
    too light to carry white text). It sits flush on top of the card (radius 0 0 6 6). */
 .ds-head {
   display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
+  align-items: flex-start;
+  flex-wrap: nowrap;
   gap: 0.3rem 0.8rem;
   margin-bottom: 0;
   padding: 0.5rem 1rem 0.45rem;
@@ -245,6 +261,9 @@ async function copyName() {
 :root[data-theme='dark'] .ds-head { --ds-th-bg: var(--fa-light, color-mix(in srgb, var(--accent) 55%, black)); }
 
 .ds-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: break-word;
   font-family: var(--font-display);
   font-size: 2rem;
   font-weight: 400;
@@ -272,6 +291,7 @@ async function copyName() {
   gap: 0.15rem;
   margin-left: auto;
   align-self: center;
+  flex-shrink: 0;
 }
 
 .ds-btn {
@@ -301,6 +321,13 @@ async function copyName() {
   color: #fff;
   border-color: #fff;
   background: rgba(255, 255, 255, 0.18);
+}
+
+/* Pin toggle deliberately skips the .copied border/background treatment shared by the
+   other action buttons — pinned state is signalled only by the outline→filled icon swap
+   (see the template) plus going fully opaque, no colored highlight. */
+.ds-btn-pin-on {
+  color: #fff;
 }
 
 /* Anchored lore popover (teleported to body — scoped styles still apply to it). */

@@ -40,11 +40,12 @@ const labels = computed(() => ui[locale.value])
   border: none;
   background: none;
   color: var(--text-dim);
+  opacity: 0.55;
   font-size: 0.95rem;
   border-radius: 4px;
   cursor: pointer;
-  transition: color 0.15s, background 0.15s;
+  transition: opacity 0.15s, background 0.15s;
 }
-.fav-star:hover { color: var(--accent); background: var(--bg-tertiary, rgba(128, 128, 128, 0.12)); }
-.fav-star.on { color: var(--accent); }
+.fav-star:hover { opacity: 1; background: var(--bg-tertiary, rgba(128, 128, 128, 0.12)); }
+.fav-star.on { opacity: 1; }
 </style>
