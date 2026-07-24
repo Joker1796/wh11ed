@@ -6,6 +6,11 @@ import { getItem, setItem } from './safeStorage.js'
 // localStorage, same pattern as useFactionChoice/useLocale. Pins are stored as arrays of
 // stable ids in pick order, so the "Pinned" group lists newest-pinned first.
 //
+// Two independent layers under one key:
+//   • factions — pinned faction slugs (the faction picker's "Pinned" group).
+//   • units    — per-faction favourite datasheet ids ({ slug: [id,…] }), surfaced as the
+//                "Favorites" group + the star on each chip / the unit page header.
+//
 // NOT a roster: this only reorders existing pickers, it never adds army-list semantics
 // (counts, points, wargear) — that's the roster builder's territory.
 const STORAGE_KEY = 'wh11ed-favorites'
@@ -13,7 +18,9 @@ const STORAGE_KEY = 'wh11ed-favorites'
 function load() {
   let saved
   try { saved = JSON.parse(getItem(STORAGE_KEY) || '{}') || {} } catch { saved = {} }
-  return { factions: Array.isArray(saved.factions) ? saved.factions : [] }
+  const units = saved.units && typeof saved.units === 'object' ? saved.units : {}
+  for (const k of Object.keys(units)) if (!Array.isArray(units[k])) delete units[k]
+  return { factions: Array.isArray(saved.factions) ? saved.factions : [], units }
 }
 
 const favorites = reactive(load())
@@ -40,5 +47,27 @@ export function useFavorites() {
     return favorites.factions.map((s) => bySlug[s]).filter(Boolean)
   }
 
-  return { favorites, isFactionPinned, toggleFaction, pinnedFactionsFrom }
+  // Per-faction favourite datasheets.
+  const favoriteUnitIds = (slug) => favorites.units[slug] || []
+  const isUnitFavorite = (slug, id) => (favorites.units[slug] || []).includes(id)
+
+  function toggleUnitFavorite(slug, id) {
+    if (!slug || !id) return
+    const list = favorites.units[slug] || (favorites.units[slug] = [])
+    const i = list.indexOf(id)
+    if (i === -1) list.unshift(id)
+    else list.splice(i, 1)
+    if (!list.length) delete favorites.units[slug]
+    persist()
+  }
+
+  return {
+    favorites,
+    isFactionPinned,
+    toggleFaction,
+    pinnedFactionsFrom,
+    favoriteUnitIds,
+    isUnitFavorite,
+    toggleUnitFavorite,
+  }
 }
