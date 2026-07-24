@@ -27,6 +27,8 @@ export const changelog = [
       'Finished games in the tracker now read like a scoreboard card — you vs your opponent, each side’s faction, the result, and whether it was scored by Victory or Battle Points. Tap a card to reopen the full breakdown.',
       { h: 'Update notices' },
       'When a newer version ships, a banner now points you to this “What’s New” page — and you can open it any time from the version number in the footer.',
+      { h: 'Rules data' },
+      'Every faction’s rules, datasheet abilities and keywords have been reconciled against the latest GW app release (data version 912) — corrected wording, missing abilities and keyword lists, in both English and Russian.',
     ],
     ru: [
       { h: 'Трекеры правил армии' },
@@ -36,6 +38,8 @@ export const changelog = [
       'Завершённые игры в трекере теперь выглядят как карточка-табло — вы против оппонента, фракция каждой стороны, результат и по каким очкам был счёт (Victory или Battle Points). Тап по карточке открывает полную детализацию.',
       { h: 'Оповещения об обновлениях' },
       'При выходе новой версии сверху появляется плашка со ссылкой на эту страницу «Что нового» — а открыть её можно в любой момент по номеру версии в подвале.',
+      { h: 'Данные правил' },
+      'Правила всех фракций, способности листов данных и ключевые слова сверены с последней версией приложения GW (data version 912) — исправлены формулировки, добавлены недостающие способности и списки ключевых слов, на английском и русском.',
     ],
   },
 ]
