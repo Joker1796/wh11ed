@@ -123,7 +123,9 @@ export function localizeArmyTracker(spec, locale) {
     // Toggle: how many times it can be fired per battle (default 1) + the label for a repeat fire.
     maxUses: spec.maxUses ?? 1,
     againLabel: spec.againLabel ? locStr(spec.againLabel, locale) : null,
-    // Numeric shape fields — the Aeldari pool's `perRound`/`bonus` and the GSC counter's `start`
-    // (battle-size starting pool) — ride through the `...spec` spread untouched (nothing to localize).
+    // Numeric shape fields — the Aeldari pool's `perRound`/`bonus`, the GSC counter's `start`
+    // (battle-size starting pool) and `startBonus` (round-1-only enhancement bump; its `label` is a
+    // language-agnostic enhancement name, like the spend labels) — ride through the `...spec` spread
+    // untouched (nothing to localize).
   }
 }

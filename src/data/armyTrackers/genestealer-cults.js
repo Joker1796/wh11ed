@@ -7,9 +7,11 @@
 // `start[battleSize]` instead of 0, and you step it DOWN as you resurrect destroyed units.
 //
 // The "Deeds That Speak to the Masses" enhancement grants +2 starting points, but the tracker
-// doesn't record enhancement picks (only detachments), so that can't be a `start` override — it's a
-// manual +2 the player bumps, called out in the note. No detachment changes the starting pool, so
-// detachmentOverrides is empty. Unit/keyword names stay English; rules text is translated.
+// doesn't record enhancement picks (only detachments), so that can't be a `start` override — it's the
+// `startBonus` primitive: a manual bump the player fires if they took the enhancement, gated to round
+// 1 (a starting-pool bonus is meaningless once the battle is under way). No detachment changes the
+// starting pool, so detachmentOverrides is empty. Unit/keyword names stay English; rules text is
+// translated.
 export default {
   slug: 'genestealer-cults',
   kind: 'counter',
@@ -24,7 +26,9 @@ export default {
 
   // One-tap resurrect costs: each entry subtracts `cost` Resurgence points from the pool when a unit
   // of that type + Starting Strength is destroyed. Labels are unit names (kept English) + the model
-  // count, language-agnostic. The card disables an entry the pool can't afford.
+  // count, language-agnostic. The card disables an entry the pool can't afford, and records each tap
+  // in `player.army.resurrected` (see resurrectArmyUnit in useTracker.js) so the spend has a visible,
+  // undoable history instead of just a number going down.
   spends: [
     { label: 'Aberrants ×5', cost: 4 },
     { label: 'Aberrants ×10', cost: 8 },
@@ -37,6 +41,10 @@ export default {
     { label: 'Purestrains ×5', cost: 2 },
     { label: 'Purestrains ×10', cost: 6 },
   ],
+
+  // One-time round-1 bonus (Deeds That Speak to the Masses enhancement) — see the file comment.
+  // `label` is the enhancement's own name, kept English like the spend labels above.
+  startBonus: { label: 'Deeds That Speak to the Masses', amount: 2 },
 
   note: {
     en: 'When a unit whose every model has Cult Ambush is destroyed, spend the points above to return it in Cult Ambush at Starting Strength and place a Cult Ambush marker. Points are set at the start of battle and are not replenished. The Deeds That Speak to the Masses enhancement starts you with +2.',

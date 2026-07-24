@@ -1,7 +1,11 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { mount, flushPromises } from '@vue/test-utils'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+import { mount, flushPromises, DOMWrapper } from '@vue/test-utils'
 import ArmyTrackerCard from './ArmyTrackerCard.vue'
 import { useTracker, DISPOSITIONS } from '../../composables/useTracker.js'
+
+// ArmySpendModal (like every BaseModal) renders via <Teleport to="body">, so its content lands
+// outside the mounted component's own tree — search the body directly, same as modals.test.js.
+const body = () => new DOMWrapper(document.body)
 
 // The card resolves + localizes its spec via two chained dynamic imports; settle them then flush
 // reactivity so `view` (and the render) are ready.
@@ -30,6 +34,7 @@ function newGame(youFaction) {
 
 describe('ArmyTrackerCard', () => {
   beforeEach(() => localStorage.clear())
+  afterEach(() => { document.body.innerHTML = '' })
 
   it('renders a Death Guard card with a locked Plague past round 1 without throwing', async () => {
     const tracker = newGame('death-guard')
@@ -50,5 +55,55 @@ describe('ArmyTrackerCard', () => {
     const wrapper = mount(ArmyTrackerCard, { props: { pi: 0 } })
     await settle()
     expect(wrapper.find('.army-options').exists()).toBe(true)
+  })
+
+  describe('Genestealer Cults (round-1 start bonus + resurrect spend log)', () => {
+    it('applies the round-1 start bonus once, then hides it', async () => {
+      newGame('genestealer-cults')
+      const wrapper = mount(ArmyTrackerCard, { props: { pi: 0 } })
+      await settle()
+
+      // strikeForce start = 10.
+      expect(wrapper.find('.army-counter-readonly').text()).toBe('10')
+      const bonusBtn = wrapper.find('.army-bonus-btn')
+      expect(bonusBtn.exists()).toBe(true)
+
+      await bonusBtn.trigger('click')
+      expect(wrapper.find('.army-counter-readonly').text()).toBe('12')
+      expect(wrapper.find('.army-bonus-btn').exists()).toBe(false)
+      expect(wrapper.find('.army-bonus-done').exists()).toBe(true)
+
+      // Undoing restores the pre-bonus value and brings the button back.
+      await wrapper.find('.army-bonus-done .army-head-reset').trigger('click')
+      expect(wrapper.find('.army-counter-readonly').text()).toBe('10')
+      expect(wrapper.find('.army-bonus-btn').exists()).toBe(true)
+    })
+
+    it('hides the start bonus entirely from round 2 onwards', async () => {
+      const tracker = newGame('genestealer-cults')
+      tracker.current.value.currentRound = 2
+      const wrapper = mount(ArmyTrackerCard, { props: { pi: 0 } })
+      await settle()
+      expect(wrapper.find('.army-bonus').exists()).toBe(false)
+    })
+
+    it('records a resurrect spend and can undo it', async () => {
+      newGame('genestealer-cults')
+      const wrapper = mount(ArmyTrackerCard, { props: { pi: 0 } })
+      await settle()
+
+      await wrapper.find('.army-field').trigger('click') // open the spend picker
+      const opt = body().findAll('.opt').find((b) => b.text().includes('Aberrants ×5'))
+      await opt.trigger('click')
+
+      // Cost 4 came off the strikeForce start of 10.
+      expect(wrapper.find('.army-counter-readonly').text()).toBe('6')
+      expect(wrapper.find('.army-resurrect-row').text()).toContain('Aberrants ×5')
+      expect(wrapper.find('.army-resurrect-cost').text()).toBe('−4')
+
+      await wrapper.find('.army-resurrect-undo').trigger('click')
+      expect(wrapper.find('.army-counter-readonly').text()).toBe('10')
+      expect(wrapper.find('.army-resurrect-row').exists()).toBe(false)
+    })
   })
 })
