@@ -8,13 +8,13 @@
             <button
               type="button"
               class="ds-btn"
-              :class="{ copied: fav }"
+              :class="{ 'ds-btn-pin-on': fav }"
               :title="fav ? labels.dsFavRemove : labels.dsFavAdd"
               :aria-label="fav ? labels.dsFavRemove : labels.dsFavAdd"
               :aria-pressed="fav"
               @click="toggleUnitFavorite(route.params.slug, sheet.id)"
             >
-              <i :class="fav ? 'bi bi-star-fill' : 'bi bi-star'"></i>
+              <i :class="fav ? 'bi bi-pin-angle-fill' : 'bi bi-pin-angle'"></i>
             </button>
             <button
               type="button"
@@ -245,8 +245,8 @@ async function copyName() {
    too light to carry white text). It sits flush on top of the card (radius 0 0 6 6). */
 .ds-head {
   display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
+  align-items: flex-start;
+  flex-wrap: nowrap;
   gap: 0.3rem 0.8rem;
   margin-bottom: 0;
   padding: 0.5rem 1rem 0.45rem;
@@ -261,6 +261,9 @@ async function copyName() {
 :root[data-theme='dark'] .ds-head { --ds-th-bg: var(--fa-light, color-mix(in srgb, var(--accent) 55%, black)); }
 
 .ds-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: break-word;
   font-family: var(--font-display);
   font-size: 2rem;
   font-weight: 400;
@@ -288,6 +291,7 @@ async function copyName() {
   gap: 0.15rem;
   margin-left: auto;
   align-self: center;
+  flex-shrink: 0;
 }
 
 .ds-btn {
@@ -317,6 +321,13 @@ async function copyName() {
   color: #fff;
   border-color: #fff;
   background: rgba(255, 255, 255, 0.18);
+}
+
+/* Pin toggle deliberately skips the .copied border/background treatment shared by the
+   other action buttons — pinned state is signalled only by the outline→filled icon swap
+   (see the template) plus going fully opaque, no colored highlight. */
+.ds-btn-pin-on {
+  color: #fff;
 }
 
 /* Anchored lore popover (teleported to body — scoped styles still apply to it). */

@@ -39,7 +39,7 @@
                 :aria-pressed="isUnitFavorite(slug, s.id)"
                 @click.stop.prevent="toggleUnitFavorite(slug, s.id)"
               >
-                <i :class="isUnitFavorite(slug, s.id) ? 'bi bi-star-fill' : 'bi bi-star'"></i>
+                <i :class="isUnitFavorite(slug, s.id) ? 'bi bi-pin-angle-fill' : 'bi bi-pin-angle'"></i>
               </button>
               <span class="ds-chip-name">{{ s.name }}</span>
               <span v-if="chapters.length && !chapter && chapterOf(s)" class="ds-chip-chapter">{{ chapterOf(s) }}</span>
@@ -259,7 +259,6 @@ const groupedDatasheets = computed(() => {
 }
 
 .ds-fav.on {
-  color: #e8b923;
   opacity: 1;
 }
 
