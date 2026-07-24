@@ -8,6 +8,17 @@
             <button
               type="button"
               class="ds-btn"
+              :class="{ copied: fav }"
+              :title="fav ? labels.dsFavRemove : labels.dsFavAdd"
+              :aria-label="fav ? labels.dsFavRemove : labels.dsFavAdd"
+              :aria-pressed="fav"
+              @click="toggleUnitFavorite(route.params.slug, sheet.id)"
+            >
+              <i :class="fav ? 'bi bi-star-fill' : 'bi bi-star'"></i>
+            </button>
+            <button
+              type="button"
+              class="ds-btn"
               :class="{ copied }"
               :title="copied ? labels.dsCopied : labels.dsCopyName"
               :aria-label="copied ? labels.dsCopied : labels.dsCopyName"
@@ -75,6 +86,7 @@ import { loadDatasheetsRu, localizeSheet } from '../../data/datasheets/ru/index.
 import { ui } from '../../i18n/ui.js'
 import { useFactionPage } from '../../composables/useFactionPage.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { useFavorites } from '../../composables/useFavorites.js'
 import { setDatasheetName } from '../../composables/useSeoMeta.js'
 import { formatBaseSize } from '../../utils/baseSize.js'
 
@@ -126,6 +138,10 @@ const sheet = computed(() => {
 // Push the precise unit name into the SEO title/description (the route-level meta only has the
 // slug until the datasheet loads). Unit names aren't translated, so the EN name is fine.
 watch(sheet, (s) => { if (s?.name) setDatasheetName(route.path, s.name) }, { immediate: true })
+
+// Favourite toggle (shared store with the datasheets list's "Favorites" group).
+const { isUnitFavorite, toggleUnitFavorite } = useFavorites()
+const fav = computed(() => !!sheet.value && isUnitFavorite(route.params.slug, sheet.value.id))
 
 // Name → id lookup so DatasheetCard can link Leader/Attached-unit references (e.g. the
 // bodyguard units listed under a Character's "Leader" ability) to their own datasheet

@@ -30,6 +30,17 @@
               :to="`/factions/${slug}/datasheets/${s.id}`"
               class="ds-chip"
             >
+              <button
+                type="button"
+                class="ds-fav"
+                :class="{ on: isUnitFavorite(slug, s.id) }"
+                :title="isUnitFavorite(slug, s.id) ? labels.dsFavRemove : labels.dsFavAdd"
+                :aria-label="isUnitFavorite(slug, s.id) ? labels.dsFavRemove : labels.dsFavAdd"
+                :aria-pressed="isUnitFavorite(slug, s.id)"
+                @click.stop.prevent="toggleUnitFavorite(slug, s.id)"
+              >
+                <i :class="isUnitFavorite(slug, s.id) ? 'bi bi-star-fill' : 'bi bi-star'"></i>
+              </button>
               <span class="ds-chip-name">{{ s.name }}</span>
               <span v-if="chapters.length && !chapter && chapterOf(s)" class="ds-chip-chapter">{{ chapterOf(s) }}</span>
               <span v-if="s.points" class="ds-chip-pts">{{ ptsSummary(s.points) }}</span>
@@ -52,6 +63,7 @@ import { ui } from '../../i18n/ui.js'
 import { useFactionPage } from '../../composables/useFactionPage.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useFactionChoice } from '../../composables/useFactionChoice.js'
+import { useFavorites } from '../../composables/useFavorites.js'
 
 const route = useRoute()
 const { slug, faction } = useFactionPage()
@@ -95,6 +107,8 @@ const detachments = computed(() => {
 const { activeChapter } = useFactionChoice()
 const chapter = computed(() => activeChapter(slug.value, chapters.value))
 
+const { isUnitFavorite, toggleUnitFavorite } = useFavorites()
+
 // A unit's Chapter = the second Faction keyword on its datasheet. Order in
 // factionKeywords[] is not stable (Pedro Kantor lists Adeptus Astartes first),
 // so find the non-umbrella keyword instead of taking [0].
@@ -134,7 +148,13 @@ const groupedDatasheets = computed(() => {
   for (const s of filteredDatasheets.value) {
     buckets.find((b) => !b.kw || (s.keywords || []).includes(b.kw)).sheets.push(s)
   }
-  return buckets.filter((b) => b.sheets.length)
+  const groups = buckets.filter((b) => b.sheets.length)
+  // "Favorites" — a quick-access group pinned to the top; the units also stay in their
+  // real type group below. Built from the filtered list so search / chapter still apply,
+  // and only shown when at least one favourite survives the filter.
+  const favs = filteredDatasheets.value.filter((s) => isUnitFavorite(slug.value, s.id))
+  if (favs.length) groups.unshift({ key: 'favorites', label: l.dsGroupFavorites, sheets: favs })
+  return groups
 })
 
 </script>
@@ -195,18 +215,52 @@ const groupedDatasheets = computed(() => {
 }
 
 .ds-chip {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 0.05rem;
   text-align: left;
-  padding: 0.35rem 0.55rem;
+  padding: 0.35rem 1.9rem 0.35rem 0.55rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 4px;
   cursor: pointer;
   text-decoration: none;
   transition: background var(--motion-fast), border-color var(--motion-fast);
+}
+
+/* Favourite toggle pinned to the chip's top-right corner. It sits inside the RouterLink,
+   so the click handler stops propagation / prevents navigation. */
+.ds-fav {
+  position: absolute;
+  top: 0.2rem;
+  right: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.55rem;
+  height: 1.55rem;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: 4px;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: color var(--motion-fast), opacity var(--motion-fast), background var(--motion-fast);
+}
+
+.ds-fav:hover {
+  opacity: 1;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.ds-fav.on {
+  color: #e8b923;
+  opacity: 1;
 }
 
 .ds-chip:hover { text-decoration: none; }
