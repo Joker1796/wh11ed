@@ -136,19 +136,29 @@ for (const slug of slugs) {
       const a = appDet.get(norm(det.name))
       if (!a) continue
       if (det.rule) {
-        // wh11ed folds a det's rules into one body ("Rule A & Rule B" with ### headings), so when
-        // no single appdata rule matches by name, compare against all of them joined (name + body).
-        const appRule = (a.rules || []).find((r) => norm(r.name) === norm(det.rule.name))
+        // wh11ed often folds all of a detachment's rules (+ the chapter Restrictions line) into one
+        // body with ### headings, while appdata lists them as separate rules. So build candidates:
+        // the same-named appdata rule alone AND all the detachment's rules joined (name + body), then
+        // diff against whichever matches best.
+        const rules = a.rules || []
         // Some appdata rules open with a header block that just repeats the rule's own name — wh11ed
         // carries the name separately (det.rule.name), so drop that leading header before comparing.
         const ownBody = (r) => (r.body || []).filter((b, i) => !(i === 0 && b.type === 'header' && norm(b.text) === norm(r.name)))
-        const rules = a.rules || []
-        const appText = appRule
-          ? bodyText(ownBody(appRule))
-          : rules.length === 1
-            ? bodyText(rules[0].body) // single rule, name lives in det.rule.name — don't prepend it
-            : rules.map((r) => `${r.name}\n${bodyText(r.body)}`).join('\n')
-        if (appText) compare(`${slug} · ${det.name} · rule "${det.rule.name}"`, det.rule.body, appText)
+        const appRule = rules.find((r) => norm(r.name) === norm(det.rule.name))
+        // In the joined form, the rule whose name == det.rule.name contributes only its body (wh11ed
+        // keeps that name as the folded rule's title, not inside the body); the rest add name + body.
+        const joined = rules
+          .map((r) => (norm(r.name) === norm(det.rule.name) ? bodyText(ownBody(r)) : `${r.name}\n${bodyText(r.body)}`))
+          .join('\n')
+        const candidates = [
+          appRule && bodyText(ownBody(appRule)),
+          rules.length === 1 && bodyText(rules[0].body),
+          rules.length > 1 && joined,
+        ].filter(Boolean)
+        if (candidates.length && !candidates.some((c) => sem(c) === sem(det.rule.body))) {
+          const best = candidates.map((c) => [similarity(det.rule.body, c), c]).sort((x, y) => y[0] - x[0])[0][1]
+          compare(`${slug} · ${det.name} · rule "${det.rule.name}"`, det.rule.body, best)
+        }
       }
       const appStrat = new Map((a.stratagems || []).map((s) => [norm(s.name), s]))
       for (const st of det.stratagems || []) {
