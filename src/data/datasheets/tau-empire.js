@@ -220,7 +220,7 @@ export default [
       },
       {
         "name": "DS8 Support Turret",
-        "text": "In your Movement phase, if this unit Remains Stationary, until the start of your next Movement phase, its Fire Warrior Shas’ui model is equipped with the support turret missile system weapon.\n\n**Designer’s Note:** Place a Support Turret token next to this unit to remind you."
+        "text": "In your Movement phase, if this unit Remains Stationary, until the start of your next turn, its Shas’ui model is equipped with the support turret weapon.\n\n**Designer’s Note:** Place a Support Turret token next to this unit to remind you."
       }
     ],
     "composition": [
@@ -547,7 +547,7 @@ export default [
       },
       {
         "name": "Puretide's Teachings",
-        "text": "Once per battle round, you can target this model’s unit with a Stratagem. If it does, reduce the CP cost of that use of that Stratagem by 1CP."
+        "text": "Once per battle round, one unit from your army with this ability can use it when it is targeted with a Stratagem. If it does, reduce the CP cost of that usage of that Stratagem by 1CP."
       }
     ],
     "composition": [
@@ -2098,7 +2098,7 @@ export default [
     "abilities": [
       {
         "name": "Fieldcraft",
-        "text": "At the end of your Command phase, if this unit is within range of an objective marker you control, that objective marker remains under your control, even if you have no models within range of it, until your opponent controls it at the start or end of any turn."
+        "text": "At the end of your Command phase, if this unit is within range of an objective marker you control, that objective marker remains under your control until your opponent’s Level of Control over that objective marker is greater than yours at the end of a phase."
       }
     ],
     "composition": [
@@ -2702,7 +2702,7 @@ export default [
     "abilities": [
       {
         "name": "War Leader",
-        "text": "Once per battle round, one unit from your army with this ability can use it when its unit is targeted with a Stratagem. If it does, reduce the CP cost of that use of that Stratagem by 1CP."
+        "text": "Once per battle round, one unit from your army with this ability can use it when it is targeted with a Stratagem. If it does, reduce the CP cost of that usage of that Stratagem by 1CP."
       },
       {
         "name": "Root of Honour",
@@ -3622,7 +3622,7 @@ export default [
     "abilities": [
       {
         "name": "Battlesuit Support System",
-        "text": "The bearer is eligible to shoot in a turn in which it Fell Back."
+        "text": "This model is eligible to shoot in a turn in which it Fell Back."
       },
       {
         "name": "Nova Charge",
@@ -3630,7 +3630,7 @@ export default [
       },
       {
         "name": "Weapon Support System",
-        "text": "Each time the bearer makes a ranged attack, you can ignore any or all modifiers to the Hit roll."
+        "text": "Each time this model makes a ranged attack, you can ignore any or all modifiers to the Hit roll."
       }
     ],
     "damaged": {
@@ -3748,7 +3748,7 @@ export default [
       },
       {
         "name": "Targeting Array",
-        "text": "Each time this unit is selected to shoot, you can re-roll one Hit roll or you can re-roll one Wound roll when resolving those attacks."
+        "text": "Each time this model is selected to shoot, you can re-roll one Hit roll or you can re-roll one Wound roll when resolving those attacks."
       }
     ],
     "damaged": {
@@ -4175,7 +4175,7 @@ export default [
       },
       {
         "name": "DS8 Support Turret",
-        "text": "In your Movement phase, if this unit Remains Stationary, until the start of your next Movement phase, its Fire Warrior Shas’ui model is equipped with the support turret missile system weapon.\n\n**Designer’s Note:** Place a Support Turret token next to this unit to remind you."
+        "text": "In your Movement phase, if this unit Remains Stationary, until the start of your next turn, its Shas’ui model is equipped with the support turret weapon.\n\n**Designer’s Note:** Place a Support Turret token next to this unit to remind you."
       }
     ],
     "composition": [
@@ -4298,7 +4298,7 @@ export default [
     "abilities": [
       {
         "name": "Pulse Bombs",
-        "text": "Each time this model ends a Normal move, you can select one enemy unit it moved over during that move and roll six D6: for each 4+, that unit suffers 1 mortal wound."
+        "text": "At the end of your opponent’s Fight phase, select one visible enemy unit (excluding Lone Operative units) within 24\" of this unit, and roll six D6 for that unit: For each 4+, that unit suffers 1 mortal wound."
       }
     ],
     "damaged": {
@@ -4648,7 +4648,7 @@ export default [
       },
       {
         "name": "Neocapacitor Shields",
-        "text": "At the start of your opponent’s Charge phase, you can select one enemy unit (excluding MONSTER and VEHICLE units) within 12\" of this unit. That unit must take a Battle-shock test and, until the end of the turn, subtract 1 from Charge rolls made for that unit."
+        "text": "At the start of your opponent’s Charge phase, you can select one visible enemy unit (excluding MONSTER and VEHICLE units) within 12\" of this unit. That unit must take a Battle-shock test and, until the end of the turn, subtract 1 from Charge rolls made for that unit."
       },
       {
         "name": "Retro-thrusters",
@@ -4723,7 +4723,7 @@ export default [
     "abilities": [
       {
         "name": "Droneport",
-        "text": "Each time this FORTIFICATION is selected to shoot, its drone defender’s weapon will target and resolve attacks against every enemy unit that is an eligible target to this FORTIFICATION."
+        "text": "Each time this FORTIFICATION is selected to shoot, its drone defenders weapon will target and resolve attacks against every enemy unit that is an eligible target to this FORTIFICATION."
       },
       {
         "name": "Fortification",
