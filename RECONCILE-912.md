@@ -83,29 +83,22 @@ these touch-ups only:
 Scope today: ~230 datasheet-ability + ~656 faction-rule mismatches, most ≥95% (small drift).
 Work faction by faction, commit per faction, `npm run build` + `npm test` after each.
 
-### Machine-2 task list (updated 2026-07-23 EOD — machine 1 is out of budget; EVERYTHING below
-### is yours now. Machine 1 only reviews/merges PRs and runs the deploy.)
+### Status 2026-07-25 — Layers 1-4 DONE and merged to main. Only task 5 (GSC) is left.
 
-**Status:** Layer 1 (keywords) DONE everywhere (dry-run 0). Layer 2 done for the old machine-1
-slice (PR #245). Remaining, in order:
+Tasks 1-4 below are **complete and merged** (machine 1 reviewed + merged #246, #247, #251 — the
+last one recreated from #250 after its stacked base branch got deleted on #246's merge and
+auto-closed it, same content — and #248). `main` is green: `npm run build` clean, `npx vitest run`
+194/194, `npm run parity` 0 errors (2 pre-existing informational notes untouched by this
+reconciliation, not blockers: `titan-legions` armyRule `**` count EN 24 vs RU 0, and drukhari
+`Kabalite Agonysts`/`Reaper's Wager` enhancement `**` count EN 4 vs RU 8 — worth a follow-up pass
+but out of scope for 912).
 
-1. **Layer 2, your slice:** grey-knights, imperial-knights, necrons, orks, space-marines,
-   tau-empire, tyranids, space-wolves, thousand-sons, world-eaters, genestealer-cults.
-   `--apply-en` handles EN; RU by hand for material changes only (cosmetic EN rephrases with an
-   already-accurate RU stay). Reusable RU patterns from PR #245: CP-refund «…может задействовать
-   её, когда он выбирается целью стратагемы…», objective-control «…пока Уровень контроля (Level of
-   Control) вашего оппонента… не окажется больше вашего в конце какой-либо фазы», Stealth+melee
-   «Этот юнит имеет Stealth… имеют -1 к броскам попадания», ingress move — англ. термин.
-2. **Missing abilities (add, EN+RU):** Cybernetica Datasmith «Data-severed» (adeptus-mechanicus),
-   Intercessor Squad «Hail of Bolts» replacing «Target Elimination» (space-marines; check the five
-   Chapter files' shared pool — see CLAUDE.md on SM dedup).
-3. **Layer 3, ALL factions (both former slices):** `--factions --full`, fixes by hand EN+RU.
-   No `--apply-en` for factions (faction files carry glosses/RU objects) — manual, or extend the
-   tool carefully first if that pays off.
-4. **Changelog:** add ONE bullet to the 2.1.0 entry (src/data/changelog.js, keep EN/RU heading
-   positions aligned): rules data updated to the latest GW app version (data version 912) — e.g.
-   under a «Данные правил» heading or appended to an existing section.
-5. **GSC army tracker rework** (src/data/armyTrackers/genestealer-cults.js +
+~~1. Layer 2, machine-2 slice~~ — done (#246).
+~~2. Missing abilities (Data-severed, Hail of Bolts)~~ — done (#247).
+~~3. Layer 3, all factions~~ — done (#246 + #251).
+~~4. Changelog bullet~~ — done (#248).
+
+**5. GSC army tracker rework — still open, this is now the only remaining item** (src/data/armyTrackers/genestealer-cults.js +
    ArmyTrackerCard/ArmySpendModal + useTracker `player.army`):
    - «+2» button for the Deeds That Speak to the Masses enhancement — visible/usable ONLY in
      battle round 1 (it's a starting-pool bonus).
@@ -114,9 +107,15 @@ slice (PR #245). Remaining, in order:
    - New accordion BELOW «Как работает» (same `army-acc` + CollapseTransition design): list of
      resurrected units + an undo button per entry (refunds the cost, removes the entry).
    - Show the resurrected list in the results recap (ArmyRuleSummary) for GSC.
+   - When done, add ONE more changelog bullet for it (same 2.1.0 entry, EN+RU aligned) — don't
+     reopen/re-edit the already-merged 912 bullet, append a new line.
 
-Branch per task, PR to main, do NOT merge — machine 1 merges. After everything lands: machine 1
-deploys 2.1.0 with `BUMP=minor npm run deploy` (both domains, per MIGRATION.md).
+Branch off current `main`, PR titled e.g. `feat/gsc-tracker-rework`, do NOT merge — machine 1
+merges. **Important: base the PR on `main`, not on another open PR's branch** — a stacked base
+branch gets deleted (and the PR auto-closed by GitHub, unrecoverable — has to be recreated) the
+moment the PR it stacks on gets merged with `--delete-branch`. After this lands: machine 1 deploys
+2.1.0 with `BUMP=minor npm run deploy` (both domains, per MIGRATION.md) — this is now the only
+remaining thing before that deploy.
 
 ## Workflow
 
