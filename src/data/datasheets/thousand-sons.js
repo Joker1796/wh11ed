@@ -1319,7 +1319,7 @@ export default [
       },
       {
         "name": "Destroyer of Futures",
-        "text": "Each time you target this unit with the Fire Overwatch Stratagem, hits are scored on unmodified Hit rolls of 5+ when resolving that Stratagem. For each of those attacks that targets an enemy unit within 9\" of one or more Thousand Sons Psyker units from your army, a hit is scored on an unmodified Hit roll of 4+ instead."
+        "text": "You can target this unit with the Counteroffensive Stratagem, regardless of any other uses of that Stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that Stratagem on other units this phase."
       }
     ],
     "damaged": {
@@ -1735,7 +1735,7 @@ export default [
     "abilities": [
       {
         "name": "Blazing Salvoes",
-        "text": "In your Shooting phase, after this model has shot, select one enemy unit hit by one or more of those attacks. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll."
+        "text": "In your Shooting phase, after this model has shot, select one enemy unit that was hit by one or more of those attacks. Until the start of your next turn, that enemy unit is suppressed. While a unit is suppressed, each time a model in that unit makes an attack, subtract 1 from the Hit roll."
       }
     ],
     "damaged": {
@@ -2033,7 +2033,7 @@ export default [
     "abilities": [
       {
         "name": "Flame-wreathed",
-        "text": "Each time this model ends a Normal move, select one enemy unit it moved over during that move. Until the end of the turn, models in that unit cannot have the Benefit of Cover."
+        "text": "Each time this model ends a Normal move, you can select one enemy unit it moved over during that move. Until the end of the turn, models in that unit cannot have the Benefit of Cover."
       }
     ],
     "damaged": {
@@ -2490,7 +2490,7 @@ export default [
     "abilities": [
       {
         "name": "Unearthly Power",
-        "text": "At the start of the battle round, select one of the abilities in the Crimson King section (see below). Until the start of the next battle round, this model has that ability."
+        "text": "At the start of the battle round, select one of the abilities in the Crimson King section. Until the start of the next battle round, this model has that ability."
       },
       {
         "name": "Lord of the Planet of the Sorcerers (Psychic)",
@@ -2616,7 +2616,7 @@ export default [
     "abilities": [
       {
         "name": "Snarling Protector",
-        "text": "You can target this unit with the Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do: that use is -1 CP; that use does not prevent any uses of that Stratagem on other units this phase; when this unit declares a charge, if a friendly engaged PSYKER unit is within 12\" of this unit, you can use this part of this ability. If you do, this unit can re-roll that charge roll and this unit must end that charge move engaged with an enemy unit engaged with that friendly PSYKER unit."
+        "text": "▪ You can target this unit with the Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that Stratagem on other units this phase.\n▪ When this unit declares a charge, if a friendly engaged PSYKER unit is within 12\" of this unit, you can use this part of this ability. If you do:\n▪ This unit can re-roll that charge roll.\n▪ This unit __must__ end that charge move engaged with an enemy unit engaged with that friendly PSYKER unit."
       }
     ],
     "damaged": {
@@ -3437,7 +3437,7 @@ export default [
     "abilities": [
       {
         "name": "Prophetic Sentinels",
-        "text": "Once per turn, when you target this unit with the Fire Overwatch or Heroic Intervention Stratagem, that use is -1 CP."
+        "text": "Once per turn, when you target this unit with the Fire Overwatch/Heroic Intervention Stratagem, that use is -1 CP."
       }
     ],
     "composition": [

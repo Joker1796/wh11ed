@@ -32,17 +32,20 @@ export function appdataToMarkup(text) {
   s = s.replace(/<k>(.*?)<\/k>/gis, (_, inner) => inner.toUpperCase())
   s = s.replace(/<b>(.*?)<\/b>/gis, '**$1**')
   s = s.replace(/<[^>]+>/g, '')
+  s = s.replace(/&#x?[0-9a-f]+;/gi, ' ') // stray numeric HTML entities (e.g. &#x20;) in appdata text
   s = s.split('\n').map((l) => l.trim()).join(' ').replace(/\s{2,}/g, ' ')
   return s.trim()
 }
 
 // A detachment/army rule's `body` is appdata's array of typed text blocks — flatten to one
-// converted string for the report.
+// converted string for the report. Flavour blocks (loreAccordion/quote) are skipped: wh11ed
+// stores flavour in a separate `flavor` field, so including them would flag every rule.
 export function bodyText(body) {
   return (body || [])
+    .filter((b) => b.type !== 'loreAccordion' && b.type !== 'quote' && b.type !== 'image')
     .map((b) => appdataToMarkup(b.text || b.trigger || b.effect || ''))
     .filter(Boolean)
-    .join(' / ')
+    .join('\n')
 }
 
 export function loadJson(file) {
