@@ -56,8 +56,7 @@ function sem(s) {
     .replace(/\.(?=\s|$)/g, '') // sentence-final periods — punctuation, not wording (keeps decimals)
     .replace(/(?<=\p{L})\.(?=\p{L})/gu, ' ') // missing space after a period ("phase.just") — appdata artifact
     .replace(/\s+/g, ' ')
-    .replace(/ \/ /g, ' ') // bodyText's block separator — never a wording difference
-    .replace(/\s*\/\s*/g, '/') // stray spaces around "/" in slashed keyword pairs (appdata artifact)
+    .replace(/\s*\/\s*/g, '/') // stray spaces around "/" in slashed keyword pairs
     .trim()
 }
 // Dice coefficient over word arrays — same "overlap" idea sync-core uses for its report.
@@ -120,7 +119,7 @@ for (const slug of slugs) {
       const appAr = ars.find((r) => norm(r.name) === norm(fac.armyRule.name))
       const candidates = [
         appAr && bodyText(appAr.body),
-        ars.length > 1 && ars.map((r) => `${r.name} / ${bodyText(r.body)}`).join(' / '),
+        ars.length > 1 && ars.map((r) => `${r.name}\n${bodyText(r.body)}`).join('\n'),
       ].filter(Boolean)
       if (candidates.length && !candidates.some((c) => sem(c) === sem(fac.armyRule.body))) {
         const best = candidates
@@ -139,7 +138,7 @@ for (const slug of slugs) {
         const appRule = (a.rules || []).find((r) => norm(r.name) === norm(det.rule.name))
         const appText = appRule
           ? bodyText(appRule.body)
-          : (a.rules || []).map((r) => `${r.name} / ${bodyText(r.body)}`).join(' / ')
+          : (a.rules || []).map((r) => `${r.name}\n${bodyText(r.body)}`).join('\n')
         if (appText) compare(`${slug} · ${det.name} · rule "${det.rule.name}"`, det.rule.body, appText)
       }
       const appStrat = new Map((a.stratagems || []).map((s) => [norm(s.name), s]))
