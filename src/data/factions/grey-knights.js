@@ -149,7 +149,7 @@ Once you have made your selections, remove those units from the battlefield and 
       rule: {
         name: "Channelled Force",
         flavor: "So potent is the interwoven mind-choir of this strike force that each individual can syphon off a portion of its gestalt might to empower their weapons of war without diminishing the whole. The result is Nemesis force weapons that blaze like caged psychic stars, leaving trails of witchfire blazing behind every swing and blasting victims into nothing with a single strike.",
-        body: "Each time a Grey Knights unit from your army is selected to fight, that unit can take a Leadership test. If that test is passed, select one of the following rules. Until the end of the phase, that unit has that rule.\n▪ Melee weapons equipped by models in this unit with the [psychic] ability also have the [sustained hits 1] ability.\n▪ Melee weapons equipped by models in this unit with the [psychic] ability also have the [LETHAL HITS] ability.",
+        body: "Each time a Grey Knights unit from your army is selected to fight, that unit can take a Leadership test. If that test is passed, select one of the following rules. Until the end of the phase, that unit has that rule.\n▪ Melee weapons equipped by models in this unit with the [PSYCHIC] ability also have the [SUSTAINED HITS 1] ability.\n▪ Melee weapons equipped by models in this unit with the [PSYCHIC] ability also have the [LETHAL HITS] ability.",
       },
       stratagems: [
         {

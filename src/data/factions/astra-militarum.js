@@ -50,7 +50,7 @@ Until the start of your next Command phase, the unit you selected is affected by
       rule: {
         name: "Squadron Command",
         flavor: "Officers in charge of motorised formations are as well versed in armoured combat as in infantry operations.",
-        body: "Add Squadron to the list of units each **Officer** unit from your army can issue [gloss:am-order:**Orders**] to. Add the **Order** below to those listed in the Voice of Command ability.\n\nON MY SIGNAL\n\nThe most effective commanders know how and when to make use of their armoured fighting vehicles’ speed.\nThis **Order** can only be issued to Armoured Skirmisher units (see below). Each time an enemy unit ends a Normal or Advance move within 9\" of this unit, this unit can make a Normal move of up to D6\". Each unit can only move in this way once per turn.\n\nKEYWORDS\nAstra Militarum Squadron units from your army have the ARMOURED SKIRMISHER keyword (excluding Artillery units and units containing one or more models with a Wounds characteristic of 13 or higher).",
+        body: "Add Squadron to the list of units each **Officer** unit from your army can issue [gloss:am-order:**Orders**] to. Add the **Order** below to those listed in the Voice of Command ability.\n\nON MY SIGNAL\n\nThe most effective commanders know how and when to make use of their armoured fighting vehicles’ speed.\nThis **Order** can only be issued to Armoured Skirmisher units (see below). Each time an enemy unit ends a Normal or Advance move within 8\" of this unit, this unit can make a Normal move of up to D6\". Each unit can only move in this way once per turn.\n\nKEYWORDS\nAstra Militarum Squadron units from your army have the ARMOURED SKIRMISHER keyword (excluding Artillery units and units containing one or more models with a Wounds characteristic of 13 or higher).",
       },
       stratagems: [
         {
@@ -212,7 +212,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           turn: "either",
           flavor: "So numerous are the infantry of the Astra Militarum that fresh reserves can be called up at a moment’s notice.",
           when: "Any phase.",
-          target: "One Infantry Regiment unit from your army that was just destroyed. You can target that unit with this Stratagem even though it was just destroyed.",
+          target: "One Infantry Regiment unit from your army that was just destroyed. You can use this Stratagem on that unit even though it was just destroyed.",
           effect: "Add a new unit to your army identical to your destroyed unit, in Strategic Reserves, at its Starting Strength and with all of its wounds remaining.",
           restrictions: "This Stratagem cannot be used to return destroyed CHARACTER units to Attached units. You can only use this Stratagem once per battle.",
         },
@@ -251,7 +251,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           name: "Reactive Command",
           points: 15,
           flavor: "A natural tactician, this officer responds to their opponent’s manoeuvres in swift and decisive fashion, never allowing the foe to dictate the battle.",
-          body: "**Officer** model only. Each time an enemy unit is set up within 9\" of the bearer’s unit, the bearer can issue one **Order**. This is not counted towards the number of **Orders** the bearer can issue in a battle round.",
+          body: "**Officer** model only. Each time an enemy unit is set up within 8\" of the bearer’s unit, the bearer can issue one **Order**. This is not counted towards the number of **Orders** the bearer can issue in a battle round.",
         },
       ],
     },
@@ -588,7 +588,7 @@ Until the start of your next Command phase, the unit you selected is affected by
       rule: {
         name: "Masters of Camouflage",
         flavor: "Reconnaissance infantry use face paint, camo-pattern fatigues, ghillie suits and more to conceal themselves from the foe. Vehicles are camouflaged using netting and disruptive camo patterns, enabling them to blend into surrounding terrain. Suitably outfitted, recon forces need only rely upon stealth and concealment rather than heavy armour for protection.",
-        body: "Astra Militarum Walker and Regiment models from your army have the Benefit of Cover. While such a model has the Benefit of Cover for any other reason (e.g. because it is wholly within a RUIN), improve the Save characteristic of that model by 1 (to a maximum of 3+).",
+        body: "Astra Militarum Walker and Regiment units from your army have the Benefit of Cover. While such a unit has the Benefit of Cover for any other reason, improve the Save characteristic of that unit by 1 (to a maximum of 3+).",
       },
       stratagems: [
         {
@@ -681,7 +681,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           name: "Tripwires",
           points: 20,
           flavor: "Carefully placed tripwires detonate booby traps as the enemy advance, the resulting explosions causing the foe to halt in their tracks.",
-          body: "Astra Militarum Infantry model only. Each time an enemy INFANTRY or MOUNTED unit ends a Normal, Advance, Charge or Fall Back move within 9\" of the bearer’s unit, roll one D6: on a 4+, until the start of your next turn, that enemy unit is stunned. While a unit is stunned, each time a model in that unit makes an attack, subtract 1 from the Hit roll.",
+          body: "Astra Militarum Infantry model only. Each time an enemy INFANTRY or MOUNTED unit ends a Normal, Advance, Charge or Fall Back move within 8\" of the bearer’s unit, roll one D6: on a 4+, until the start of your next turn, that enemy unit is stunned. While a unit is stunned, each time a model in that unit makes an attack, subtract 1 from the Hit roll.",
         },
       ],
     },
@@ -695,7 +695,7 @@ Until the start of your next Command phase, the unit you selected is affected by
       rule: {
         name: "Artillery Support",
         flavor: "Artillery barrages lay the ground for the assault to come.",
-        body: "At the start of the battle round, select one of the following types of artillery support.\n▪ **Creeping Barrage:** Roll one D6 for each enemy unit that is more than 12\" from every model from your army that is on the battlefield: On a 5+, until the end of the battle round, that unit is shaken. While a unit is shaken, subtract 2\" from its Move characteristic and subtract 2 from Charge rolls made for it. The maximum number of units that can be shaken by this rule in each battle round depends on the battle size, as shown below.\n▪ **Incendiary Bombardment:** Select a number of enemy units more than 12\" from every model from your army that is on the battlefield. Until the end of the battle round, those enemy units are scattered. While a unit is scattered, it cannot have the Benefit of Cover. The maximum number of units you can select in this way depends on the battle size, as shown below.\n▪ **Smoke Shells:** Select a number of units from your army. Until the end of the battle round, those units have the Stealth ability.\n\nMAXIMUM NUMBER OF UNITS\n▪ **Incursion:** 2\n▪ **Strike Force:** 3\n▪ **Onslaught:** 4",
+        body: "At the start of the battle round, select one of the following types of artillery support.\n▪ **Creeping Barrage:** Roll one D6 for each enemy unit that is more than 12\" from every model from your army that is on the battlefield: On a 5+, until the end of the battle round, that unit is shaken. While a unit is shaken, subtract 2\" from its Move characteristic and subtract 2 from Charge rolls made for it. The maximum number of units that can be shaken by this rule in each battle round depends on the battle size, as shown below.\n▪ **Incendiary Bombardment:** Select a number of enemy units more than 12\" from every model from your army that is on the battlefield. Until the end of the battle round, those enemy units are scattered. While a unit is scattered, it cannot have the Benefit of Cover. The maximum number of units you can select in this way depends on the battle size, as shown below.\n▪ **Smoke Shells:** Select a number of units from your army. Until the end of the battle round, those units have the Stealth ability. The maximum number of units you can select in this way depends on the battle size, as shown below.\n\nMAXIMUM NUMBER OF UNITS\n▪ **Incursion:** 2\n▪ **Strike Force:** 3\n▪ **Onslaught:** 4",
       },
       stratagems: [
         {
@@ -782,7 +782,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           name: "Legacy Sidearm",
           points: 10,
           flavor: "Handed down by a mentor, this officer’s pistol is an artificer-crafted example of its type, and is all the deadlier for it.",
-          body: "Infantry **Officer** model only. Add 2 to the Attacks characteristics of the bearers Pistols.",
+          body: "Infantry **Officer** model only. Add 2 to the Attacks characteristics of the bearer’s Pistols.",
         },
         {
           name: "Stalwart’s Honours",
@@ -911,7 +911,7 @@ Until the start of your next Command phase, the unit you selected is affected by
       rule: {
         name: "Absolutist Principles",
         flavor: "Commissars with experience overseeing auxiliary platoons display the ferocious strength of will and fearsome levels of scrutiny needed to ensure the most thick-skulled or rebelliously larcenous of soldiers — no matter what their size or shape — do their duty.",
-        body: "▪ Friendly BULLGRYN SQUAD/OGRYN SQUAD/RATLINGS units have **ABHUMAN**.\n▪ Friendly COMMISSAR models can issue the Take Aim! [gloss:am-order:**Order**], and can issue 1 **Order** to a friendly ABHUMAN unit.\n\nThis detachment has the **ABHUMAN** tag and cannot be taken with another **ABHUMAN** detachment.",
+        body: "▪ Friendly BULLGRYN SQUAD/OGRYN SQUAD/RATLINGS units have **ABHUMAN**.\n▪ Friendly COMMISSAR models can:\n▪ Issue the Take Aim! [gloss:am-order:**Order**].\n▪ Issue 1 **Order** to a friendly ABHUMAN unit.\n\nThis detachment has the **ABHUMAN** tag and cannot be taken with another **ABHUMAN** detachment.",
       },
       stratagems: [
         {
@@ -922,7 +922,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           flavor: "With an order to hold the line, Ogryn auxilia will devotedly — and stubbornly — endure the most extreme firepower to see their duty done.",
           when: "Your opponent\u2019s Shooting phase or the Fight phase, when an enemy unit targets a friendly BULLGRYN SQUAD/OGRYN SQUAD unit that is within range of an objective.",
           target: "That BULLGRYN SQUAD/OGRYN SQUAD unit.",
-          effect: "Attacks that target your unit have -1 Armour Penetration until that enemy unit has attacked.",
+          effect: "Attacks that target your unit have -1 AP until that enemy unit has attacked.",
           restrictions: "",
         },
         {
@@ -977,7 +977,7 @@ Until the start of your next Command phase, the unit you selected is affected by
       rule: {
         name: "Fire Zone Purge",
         flavor: "Key to this force\u2019s mission is the swift purgation of local enemy forces through sudden deployment and focused firefights. As such, whether they hit the ground from a low-altitude drop or deploy from armoured transports, the soldiers of this formation are trained to find targets and start shooting the instant the foe is in sight.",
-        body: "▪ If a friendly MILITARUM TEMPESTUS **OFFICER** model is your WARLORD, friendly TEMPESTUS SCIONS units have BATTLELINE and +1 Objective Control.\n▪ When a friendly MILITARUM TEMPESTUS unit is selected to shoot, if that unit was set up this turn, that unit\u2019s ranged attacks have +1 to Hit rolls.",
+        body: "▪ If a friendly MILITARUM TEMPESTUS **OFFICER** model is your WARLORD, friendly TEMPESTUS SCIONS units have BATTLELINE and +1 OC.\n▪ When a friendly MILITARUM TEMPESTUS unit is selected to shoot, if that unit was set up this turn, that unit\u2019s ranged attacks have +1 to Hit rolls.",
       },
       stratagems: [
         {
@@ -999,7 +999,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           flavor: "At the risk of permanently burning out power packs, hotshot weaponry can be temporarily overcharged to provide additional punch at the crucial moment.",
           when: "Your Shooting phase, when a friendly MILITARUM TEMPESTUS/KASRKIN unit is selected to shoot.",
           target: "That MILITARUM TEMPESTUS/KASRKIN unit.",
-          effect: "Your unit\u2019s Hotshot Lascarbines, Hotshot Lasguns, Hotshot Laspistols, Hotshot Marksman Rifles, Hotshot Volley Guns and Sentry Hotshot Volley Guns weapons that targeted an enemy unit within 12\" have +1 Strength and Armour Penetration.",
+          effect: "Your unit\u2019s Hot-shot Lascarbines, Hot-shot Lasguns, Hot-shot Laspistols, Hot-shot Marksman Rifles, Hot-shot Volley Guns and Sentry Hot-shot Volley Guns weapons that targeted an enemy unit within 12\" have +1 S and AP.",
           restrictions: "",
         },
         {
@@ -1010,7 +1010,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           flavor: "Released in a swarm from a modified Valkyrie gunship, high-altitude servo-skulls analyse targeting data from the ongoing fight and then provide updated firing solutions to the troops on the ground.",
           when: "Your Shooting phase, when a friendly MILITARUM TEMPESTUS unit has shot.",
           target: "That MILITARUM TEMPESTUS unit.",
-          effect: "Select one enemy unit hit by those ranged attacks. Friendly MILITARUM TEMPESTUS units\u2019 ranged attacks that target that enemy unit have the [IGNORES COVER] ability.",
+          effect: "Select one enemy unit hit by those ranged attacks. Friendly MILITARUM TEMPESTUS units\u2019 ranged attacks that target that enemy unit have [IGNORES COVER].",
           restrictions: "",
         },
       ],

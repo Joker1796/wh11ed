@@ -40,7 +40,7 @@ const en = {
     body: `If your [gloss:army-faction:Army Faction] is Adeptus Astartes, at the start of the first [gloss:battle-round:battle round], select one of the following [gloss:bt-templar-vow:Vows] to be active for Adeptus Astartes units from your army. While a Vow is active for a unit from your army, that unit has the associated ability shown below.
 
 ### Abhor the Witch, Destroy the Witch
-This unit's [gloss:melee-attacks:melee attacks] that target a [gloss:psyker:Psyker] unit have the [PRECISION] ability. In addition, when this unit [gloss:declare-charge:declares a charge], if an enemy Psyker unit is [gloss:within:within] 12" of this unit, you can [gloss:re-roll:re-roll] that [gloss:charge-roll:Charge roll]; if you do, this unit must end that [gloss:charge-move:charge move] [gloss:engaged:engaged] with one or more of those enemy Psyker units.
+This unit's [gloss:melee-attacks:melee attacks] that target a [gloss:psyker:Psyker] unit have [PRECISION]. In addition, when this unit [gloss:declare-charge:declares a charge], if an enemy Psyker unit is [gloss:within:within] 12" of this unit, you can [gloss:re-roll:re-roll] that [gloss:charge-roll:Charge roll]; if you do, this unit must end that [gloss:charge-move:charge move] [gloss:engaged:engaged] with one or more of those enemy Psyker units.
 
 ### Accept Any Challenge, No Matter the Odds
 Each time a model in this unit makes a melee attack, if the [gloss:strength:Strength] characteristic of that attack is less than or equal to the [gloss:toughness:Toughness] characteristic of the target, add 1 to the [gloss:wound-roll:Wound roll].
@@ -123,7 +123,7 @@ If this unit has the Infantry keyword: At the end of your Command phase, if this
           turn: 'opponent',
           flavor: "Where enemies dare threaten the warriors of the God-Emperor or seek to escape their deserved death, there must be swift retribution.",
           when: "Your opponent's Movement phase, just after an enemy unit ends a [gloss:normal-move:Normal], [gloss:advance-move:Advance] or [gloss:fall-back-move:Fall Back] move.",
-          target: 'One Chaplain or Judiciar unit from your army that is [gloss:within:within] 9" of that enemy unit and is not within [gloss:engagement-range:Engagement Range] of one or more enemy units.',
+          target: 'One Chaplain or Judiciar unit from your army that is [gloss:within:within] 8" of that enemy unit and is not within [gloss:engagement-range:Engagement Range] of one or more enemy units.',
           // Faction-Pack Rules Update rewrote the Effect (was a longer "Retribution move").
           effect: 'Your unit can make a [gloss:surge-move:surge move] of up to D6".',
           restrictions: '',
@@ -398,7 +398,7 @@ If this unit has the Infantry keyword: At the end of your Command phase, if this
         name: 'Faith-Fuelled Resolve',
         flavor:
           "Uncompromising in their faith, a crusade's Sword Brethren are blazing beacons of intolerant resolve capable of holding back hordes of blasphemous foes from sites sacred to the Black Templars.",
-        body: `[gloss:friendly:Friendly] Sword Brethren Squad units have +1 [gloss:objective-control:Objective Control].${chapterLock}`,
+        body: `[gloss:friendly:Friendly] Sword Brethren Squad units have +1 [gloss:objective-control:OC].${chapterLock}`,
       },
       stratagems: [
         {
@@ -409,7 +409,7 @@ If this unit has the Infantry keyword: At the end of your Command phase, if this
           flavor: "The largest manifestations of the foe's sin are branded unholy abominations, challenges which a crusade's champions gladly meet to drive their sanctified weapons deeply beneath their hides.",
           when: 'Fight phase, when a [gloss:friendly:friendly] Sword Brethren Squad unit is [gloss:selected-to-fight:selected to fight].',
           target: 'That Sword Brethren Squad unit.',
-          effect: "Your unit's [gloss:melee-attacks:melee attacks] that target a Monster or Vehicle unit have +2 [gloss:strength:Strength].",
+          effect: "Your unit's [gloss:melee-attacks:melee attacks] that target a Monster or Vehicle unit have +2 [gloss:strength:S].",
           restrictions: '',
         },
         {
@@ -429,9 +429,9 @@ If this unit has the Infantry keyword: At the end of your Command phase, if this
           cp: '1CP',
           turn: 'opponent',
           flavor: "Those who attempt to flee their rightful death only stoke their executioners' hatred all the hotter. None can be spared the God-Emperor's wrath.",
-          when: "Your opponent's Movement phase, when a unit is selected to make a [gloss:fall-back-move:Fall Back] move, if that unit is [gloss:engaged:engaged] with a [gloss:friendly:friendly] Sword Brethren Squad unit.",
+          when: "Your opponent's Movement phase, when a unit is selected to make a [gloss:fall-back-move:fall-back] move, if that unit is [gloss:engaged:engaged] with a [gloss:friendly:friendly] Sword Brethren Squad unit.",
           target: 'That Sword Brethren Squad unit.',
-          effect: 'When an enemy unit engaged with your unit is selected to make a Fall Back move, that enemy unit must use the [gloss:desperate-escape:Desperate Escape] mode, subtracting 1 from those Desperate Escape tests if that enemy unit is [gloss:battle-shocked:Battle-shocked].',
+          effect: 'When an enemy unit engaged with your unit is selected to make a fall-back move, that enemy unit must use the [gloss:desperate-escape:Desperate Escape] mode, with -1 to those hazard rolls if that enemy unit is [gloss:battle-shocked:Battle-shocked].',
           restrictions: '',
         },
       ],
@@ -473,12 +473,12 @@ If this unit has the Infantry keyword: At the end of your Command phase, if this
           points: 15,
           flavor: "The holy visions which fill the mind of the Emperor's Champion on the eve of battle are clear to those of unwavering faith: they tell of the foes he will strike down, of the pious deeds he must commit, and the paths to be bloodily carved in his merciless crusade, all in the God-Emperor's name.",
           body: `Emperor's Champion model only. At the start of the first [gloss:battle-round:battle round], you can select up to three of the following abilities. This model has those abilities until the end of the battle:
-▪ **Instrument of the God-Emperor (Once per battle, per army):** In the Fight phase, when this unit is [gloss:selected-to-fight:selected to fight], if this unit is [gloss:engaged:engaged] with an enemy [gloss:character:Character] unit, you can use this ability. If you do, this model's [gloss:melee-attacks:melee attacks] have the [DEVASTATING WOUNDS] ability.
-▪ **Foreseen Paths of the Unholy:** This unit has 3" [gloss:detection-range:detection range].
-▪ **Vision of Momentous Brutality:** This model's melee attacks have +2 Attacks.
-▪ **Augury of Retribution:** Melee attacks that target this unit have the [HAZARDOUS] ability.
-▪ **Omen of Sacred Intervention:** When you target this unit with the Heroic Intervention [gloss:stratagem:Stratagem], that use is 1CP.
-▪ **Harbinger of Judgement:** When an enemy unit (excluding Monster or Vehicle units) engaged with this model is selected to make a [gloss:fall-back-move:Fall Back] move, roll one D6: on a 2+, that enemy unit suffers D6 [gloss:mortal-wound:mortal wounds].`,
+▪ **Instrument of the God-Emperor (Once per battle, per army):** In the Fight phase, when this unit is [gloss:selected-to-fight:selected to fight], if this unit is [gloss:engaged:engaged] with an enemy [gloss:character:Character] unit, you can use this ability. If you do, this model's [gloss:melee-attacks:melee attacks] have [DEVASTATING WOUNDS].
+▪ **Foreseen Paths of the Unholy:** This unit has -3" [gloss:detection-range:detection range].
+▪ **Vision of Momentous Brutality:** This model's melee attacks have +2 A.
+▪ **Augury of Retribution:** Melee attacks that target this unit have [HAZARDOUS].
+▪ **Omen of Sacred Intervention:** When you target this unit with the Heroic Intervention [gloss:stratagem:Stratagem], that use is -1 CP.
+▪ **Harbinger of Judgement:** When an enemy unit (excluding Monster or Vehicle units) engaged with this model is selected to make a [gloss:fall-back-move:fall-back] move, roll one D6: on a 2+, that enemy unit suffers D6 [gloss:mortal-wound:mortal wounds].`,
         },
       ],
     },
@@ -493,7 +493,7 @@ If this unit has the Infantry keyword: At the end of your Command phase, if this
         name: 'Chant of Deathless Devotion',
         flavor:
           "With wrathful litanies, a crusade's Chaplains rouse the ardent souls of their battle-brothers, calling upon their faith in the God-Emperor to shield them from the blasphemy of the unbeliever.",
-        body: `[gloss:friendly:Friendly] Chaplain units have a 5+ [gloss:invulnerable-save:invulnerable save] against [gloss:ranged-attacks:ranged attacks].${chapterLock}`,
+        body: `[gloss:friendly:Friendly] Chaplain units have 5+ [gloss:invulnerable-save:InSv] against [gloss:ranged-attacks:ranged attacks].${chapterLock}`,
       },
       stratagems: [
         {
@@ -515,7 +515,7 @@ If this unit has the Infantry keyword: At the end of your Command phase, if this
           flavor: 'There is nowhere that the architects of heresy can hide from the righteous judgement of the Black Templars.',
           when: 'Fight phase, when a [gloss:friendly:friendly] Chaplain unit is [gloss:selected-to-fight:selected to fight].',
           target: 'That Chaplain unit.',
-          effect: "Your unit's [gloss:melee-attacks:melee attacks] have the [PRECISION] ability.",
+          effect: "Your unit's [gloss:melee-attacks:melee attacks] have [PRECISION].",
           restrictions: '',
         },
         {
@@ -526,7 +526,7 @@ If this unit has the Infantry keyword: At the end of your Command phase, if this
           flavor: "With a bellowed oath to Rogal Dorn, Chaplains lead their warriors plunging into the foe's midst, shattering armour and crushing skulls with blows granted the strength of their devotion.",
           when: 'Fight phase, when a [gloss:friendly:friendly] Chaplain unit is [gloss:selected-to-fight:selected to fight].',
           target: 'That Chaplain unit.',
-          effect: "Your unit's [gloss:melee-attacks:melee attacks] have +1 [gloss:strength:Strength].",
+          effect: "Your unit's [gloss:melee-attacks:melee attacks] have +1 [gloss:strength:S].",
           restrictions: '',
         },
       ],
@@ -535,13 +535,15 @@ If this unit has the Infantry keyword: At the end of your Command phase, if this
           name: 'Adaptable Executioner',
           points: 20,
           flavor: "No blasphemous tyrant is safe from this zealot's wrath, no matter the numbers or the qualities of the deluded guardians they throw in his path.",
-          body: `Execrator model only. When this unit is [gloss:selected-to-fight:selected to fight], this model's [gloss:melee-attacks:melee attacks] have the [CLEAVE 1] ability, or the [PRECISION] ability.`,
+          body: `Execrator model only. When this unit is [gloss:selected-to-fight:selected to fight], this model's [gloss:melee-attacks:melee attacks] have:
+▪ [CLEAVE 1].
+▪ __Or:__ [PRECISION].`,
         },
         {
           name: 'Benediction of Fury',
           points: 15,
           flavor: "Borne through a dozen bloody and hard-fought crusades, this crozius arcanum's unique empathokinetic circuitry has absorbed the bellicosity and righteous wrath of every Chaplain who has ever wielded it. As a result, it now strikes with the force of a thunderbolt.",
-          body: `Chaplain model only. This model's [gloss:melee-attacks:melee attacks] have the [DEVASTATING WOUNDS] ability.`,
+          body: `Chaplain model only. This model's [gloss:melee-attacks:melee attacks] have [DEVASTATING WOUNDS].`,
         },
       ],
     },
