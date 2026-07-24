@@ -113,13 +113,16 @@ for (const slug of slugs) {
     // Army rule: wh11ed sometimes folds all army rules into one body (### headings), so accept a
     // match against either the same-named appdata rule alone or all of them joined (name + body).
     if (fac.armyRule) {
-      // appdata sometimes lists the same army rule twice — dedupe by name for the joined candidate.
+      // appdata sometimes lists the same-named army rule twice (a stale edition + the current one),
+      // so a candidate is EVERY same-named rule's body, plus all distinct rules joined (name + body)
+      // for the folded-body case; the best-matching candidate is the one we diff against.
+      const allArs = app.armyRules || []
+      const sameName = allArs.filter((r) => norm(r.name) === norm(fac.armyRule.name))
       const seen = new Set()
-      const ars = (app.armyRules || []).filter((r) => !seen.has(norm(r.name)) && seen.add(norm(r.name)))
-      const appAr = ars.find((r) => norm(r.name) === norm(fac.armyRule.name))
+      const distinct = allArs.filter((r) => !seen.has(norm(r.name)) && seen.add(norm(r.name)))
       const candidates = [
-        appAr && bodyText(appAr.body),
-        ars.length > 1 && ars.map((r) => `${r.name}\n${bodyText(r.body)}`).join('\n'),
+        ...sameName.map((r) => bodyText(r.body)),
+        distinct.length > 1 && distinct.map((r) => `${r.name}\n${bodyText(r.body)}`).join('\n'),
       ].filter(Boolean)
       if (candidates.length && !candidates.some((c) => sem(c) === sem(fac.armyRule.body))) {
         const best = candidates
@@ -136,9 +139,15 @@ for (const slug of slugs) {
         // wh11ed folds a det's rules into one body ("Rule A & Rule B" with ### headings), so when
         // no single appdata rule matches by name, compare against all of them joined (name + body).
         const appRule = (a.rules || []).find((r) => norm(r.name) === norm(det.rule.name))
+        // Some appdata rules open with a header block that just repeats the rule's own name — wh11ed
+        // carries the name separately (det.rule.name), so drop that leading header before comparing.
+        const ownBody = (r) => (r.body || []).filter((b, i) => !(i === 0 && b.type === 'header' && norm(b.text) === norm(r.name)))
+        const rules = a.rules || []
         const appText = appRule
-          ? bodyText(appRule.body)
-          : (a.rules || []).map((r) => `${r.name}\n${bodyText(r.body)}`).join('\n')
+          ? bodyText(ownBody(appRule))
+          : rules.length === 1
+            ? bodyText(rules[0].body) // single rule, name lives in det.rule.name — don't prepend it
+            : rules.map((r) => `${r.name}\n${bodyText(r.body)}`).join('\n')
         if (appText) compare(`${slug} · ${det.name} · rule "${det.rule.name}"`, det.rule.body, appText)
       }
       const appStrat = new Map((a.stratagems || []).map((s) => [norm(s.name), s]))
