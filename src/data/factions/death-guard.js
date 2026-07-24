@@ -35,7 +35,7 @@ Contagion Range changes over the course of the battle:
 
 ### Afflicted
 During the Declare Battle Formations step, select one of the Plagues below. Until the end of the battle, while an enemy unit is Afflicted, subtract 1 from the Toughness characteristic of models in that unit, and that unit has the effect of your chosen Plague.
-▪ **Skullsquirm Blight:** Each time a model in this unit makes a melee attack, subtract 1 from the Hit roll.
+▪ **Skullsquirm Blight:** Each time a model in this unit makes an attack, subtract 1 from the Hit roll.
 ▪ **Rattlejoint Ague:** Worsen the Save characteristic of models in this unit by 1.
 ▪ **Scabrous Soulrot:** Worsen the Move, Leadership and Objective Control characteristics of models in this unit by 1 (this rule can only worsen a model's Objective Control characteristic to a minimum of 1).
 
@@ -129,7 +129,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
           name: "Final Ingredient",
           points: 20,
           flavor: "Be it the eye of a Kroot or a Space Marine’s hearts, ground Ork tusk, or something unnameable wrenched from within a Tyranid’s corpse, this champion needs just one more ingredient to perfect a powerful new plague.",
-          body: "Biologus Putrifier only. Once per battle, after the bearers unit has fought, if one or more CHARACTER models were destroyed as a result of those attacks, select one Plague. Until the end of the battle, while an enemy unit is Afflicted, that unit has the effect of the selected Plague in addition to any other.",
+          body: "Biologus Putrifier only. Once per battle, after the bearer’s unit has fought, if one or more CHARACTER models were destroyed as a result of those attacks, select one Plague. Until the end of the battle, while an enemy unit is Afflicted, that unit has the effect of the selected Plague in addition to any other.",
         },
         {
           name: "Visions of Virulence",
@@ -506,7 +506,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
           when: "Any phase.",
           target: "One Nurglings unit from your army that was just destroyed. You can target that unit with this Stratagem even though it was just destroyed.",
           effect: "Add a new unit to your army identical to your destroyed unit, in Strategic Reserves, at its Starting Strength and with its full wounds remaining.",
-          restrictions: "You can only use this Stratagem once per battle.",
+          restrictions: "",
         },
         {
           name: "All is Rot",
@@ -590,7 +590,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
       rule: {
         name: "Worldblight",
         flavor: "As the foul tendrils of the Death Guard quest further across the battlefield, they infest even the most secure, holy and heavily warded sites with supernatural disease. To fight amidst such foulness is a virtual death sentence to the foe, win or lose.",
-        body: "If you control an objective marker at the end of your Command phase and a Death Guard unit from your army (excluding Battle-shocked units) is within range of that objective marker, that objective marker remains under your control until your opponent’s Level of Control over that objective marker is greater than yours at the end of a phase. In addition, until you lose control of that objective marker, it has the Nurgle’s Gift ability as if it were a DEATH GUARD model from your army.",
+        body: "At the end of your Command phase, if a friendly DEATH GUARD unit is controlling an objective, that objective is secured. Until you lose control of that objective, while an enemy unit is within range of that objective, that enemy unit is Afflicted.",
       },
       stratagems: [
         {
@@ -671,7 +671,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
           name: "Furnace of Plagues",
           points: 25,
           flavor: "This champion’s body blazes with fever as a cornucopia of supernatural diseases churn and roil within. Mere proximity to them is enough to trigger an infectious outbreak of daemonic viruses.",
-          body: "DEATH GUARD model only. Add 1 to the Strength and Attacks characteristics of the bearers melee weapons, and the bearer’s melee weapons have the [DEVASTATING WOUNDS] ability.",
+          body: "DEATH GUARD model only. Add 1 to the Strength and Attacks characteristics of the bearer’s melee weapons, and the bearer’s melee weapons have the [DEVASTATING WOUNDS] ability.",
         },
         {
           name: "Arch Contaminator",
@@ -699,7 +699,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
       rule: {
         name: "Warped and Rusted Animus",
         flavor: "For all their slow degeneration, many of the Death Guard\u2019s war machines are augmented with a fevered and inexorable urgency that brings their corrupted weapons to bear upon the foe all too quickly.",
-        body: "▪ Friendly FOETID BLOAT-DRONE/FOETID BLOAT-DRONE WITH HEAVY BLIGHT LAUNCHER/HELBRUTE/MYPHITIC BLIGHT-HAULER units have **CONTAGION ENGINE**.\n▪ Friendly CONTAGION ENGINE units\u2019 ranged attacks have the [ASSAULT] ability.\n\nThis detachment has the **ENGINES** tag and cannot be taken with another **ENGINES** detachment.",
+        body: "▪ Friendly FOETID BLOAT-DRONE/FOETID BLOAT-DRONE WITH HEAVY BLIGHT LAUNCHER/HELBRUTE/MYPHITIC BLIGHT-HAULER units have CONTAGION ENGINE.\n▪ Friendly CONTAGION ENGINE units\u2019 ranged attacks have [ASSAULT].\n\nThis detachment has the **ENGINES** tag and cannot be taken with another **ENGINES** detachment.",
       },
       stratagems: [
         {
@@ -730,9 +730,9 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
           cp: "1CP",
           turn: "opponent",
           flavor: "As courage crumbles in the face of mechanised abhorrence, then does the bloom of soulrot find purchase to spread its cyclic infection.",
-          when: "Your opponent\u2019s Movement phase, when an enemy unit is selected to make a Fall Back move, if that enemy unit is engaged with a friendly CONTAGION ENGINE unit.",
+          when: "Your opponent\u2019s Movement phase, when an enemy unit is selected to make a fall-back move, if that enemy unit is engaged with a friendly CONTAGION ENGINE unit.",
           target: "That CONTAGION ENGINE unit.",
-          effect: "When an enemy unit engaged with your unit is selected to make a Fall Back move, roll one D6:\n▪ On a 1, that enemy unit suffers 1 mortal wound.\n▪ On a 2-5, that enemy unit suffers D3 mortal wounds.\n▪ On a 6, that enemy unit suffers 3 mortal wounds.",
+          effect: "When an enemy unit engaged with your unit is selected to make a fall-back move, roll one D6:\n▪ On a 1, that enemy unit suffers 1 mortal wound.\n▪ On a 2-5, that enemy unit suffers D3 mortal wounds.\n▪ On a 6, that enemy unit suffers 3 mortal wounds.",
           restrictions: "",
         },
       ],
@@ -841,7 +841,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
           flavor: "The intensive contagions that flow in abundance from this champion taint everything around them, making taking ground from them a repulsive prospect for the enemy.",
           when: "Start of the Command phase.",
           target: "One friendly DEATH GUARD CHARACTER unit.",
-          effect: "Your unit has +1 Objective Control until the end of the turn.",
+          effect: "Your unit has +1 OC until the end of the turn.",
           restrictions: "",
         },
         {
@@ -872,13 +872,13 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
           name: "Rejuvenating Swarm",
           points: 20,
           flavor: "With a hacking prayer to Nurgle, this warrior can call upon a swarm of plague mites. Buzzing clumps of diseased flies and writhing waves of squirming things settle upon the bloated forms of the Death Guard and vomit streams of rejuvenating contagion into festering wounds.",
-          body: "DEATH GUARD INFANTRY model only (excluding TERMINATOR models). Attacks that target this unit with a Strength greater than this unit\u2019s Toughness have -1 to Wound rolls.",
+          body: "DEATH GUARD INFANTRY model only (excluding TERMINATOR models). Attacks that target this unit with a S greater than this unit\u2019s T have -1 to wound rolls.",
         },
         {
           name: "Host of the Hybridised Pox",
           points: 40,
           flavor: "One plague is never enough for this champion, and their repulsive form is a vessel for a mutated and semi-sentient disease capable of manifesting in varied contagious forms.",
-          body: "DEATH GUARD INFANTRY model only. (Once per battle, per army) In your Command phase, you can use this ability. If you do, select one of the Plagues listed in Nurgle's Gift. Enemy units within Contagion Range of this unit also have the effect of that Plague in addition to your army's chosen Plague until the end of the battle.",
+          body: "DEATH GUARD INFANTRY model only. (Once per battle, per army) In your Command phase, you can use this ability. If you do, select one of the Plagues listed in Nurgle's Gift (see Codex: Death Guard). Enemy units within Contagion Range of this unit also have the effect of that Plague __in addition__ to your army's chosen Plague until the end of the battle.",
         },
       ],
     },
