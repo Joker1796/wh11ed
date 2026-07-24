@@ -74,7 +74,9 @@ If your Army Faction is Adeptus Astartes, at the start of your Command phase, se
 ▪ Terminator units
 ▪ Bladeguard Ancient, Bladeguard Veteran Squad, Sternguard Veteran Squad and Vanguard Veteran Squad with Jump Packs units
 ▪ Land Raider, Land Raider Crusader, Land Raider Redeemer, Repulsor and Repulsor Executioner units
-▪ Dreadnought units`,
+▪ Dreadnought units
+
+**Designer's Note:** The rules presented in this section assume that the Adeptus Astartes units in your army are from the Dark Angels Chapter, but they can also be used to represent any Dark Angels successor Chapter, such as one described in the background section of this book, or even one of your own invention. However, players who wish to faithfully recreate the Dark Angels Chapter on the tabletop should only include Dark Angels Epic Heroes if their collection is intended to represent the First Founding Chapter itself; Ezekiel is the Chief Librarian of the Dark Angels, for example, and not of any of their successors.`,
   },
 
   detachments: [
@@ -91,9 +93,9 @@ If your Army Faction is Adeptus Astartes, at the start of your Command phase, se
           'The Dark Angels are renowned for their unshakeable resolve, enduring tenacity and strict discipline in battle. They are tactically astute, able to prosecute their wars on any front. On the offence, they strike with all the martial pride of the Lion, while in defence they are stalwart, determined to accomplish their mission no matter the cost.',
         // Faction-Pack Rules Update rewrote this rule — added the "1 instead of '-'" wording
         // and the Command-phase +1 OC clause.
-        body: `While an Adeptus Astartes unit from your army is Battle-shocked, change the Objective Control characteristic of models in that unit to 1, instead of '-'.
+        body: `While an Adeptus Astartes unit from your army is Battle-shocked, change the Objective Control characteristic of models in that unit to 1, instead of 0.
 
-In your Command phase, you can select one Adeptus Astartes unit from your army. Until the start of your next Command phase, add 1 to the Objective Control characteristic of models in that unit.`,
+In your Command phase, select one Adeptus Astartes unit from your army. Until the start of your next Command phase, add 1 to the Objective Control characteristic of models in that unit.`,
       },
       stratagems: [
         armourOfContempt('Unforgiven Task Force'),
@@ -158,7 +160,7 @@ In your Command phase, you can select one Adeptus Astartes unit from your army. 
           name: 'Shroud of Heroes',
           points: 25,
           flavor: "Formed from the death shrouds of some of the Chapter's greatest warriors, this robe inspires its wearer with the might and selflessness of those who came before.",
-          body: `Adeptus Astartes model only. The first time the bearer is destroyed, roll one D6 at the end of the phase. On a 2+, set the bearer back up on the battlefield as close as possible to where it was destroyed and not within Engagement Range of any enemy units, with 3 wounds remaining (if the bearer was Battle-shocked when it was destroyed, it is instead returned with its full wounds remaining).`,
+          body: `Adeptus Astartes model only. Once per battle, per army, when the bearer is destroyed, roll one D6 at the end of the phase. On a 2+, set up the bearer on the battlefield, unengaged and as close as possible to where it was destroyed. The bearer is not part of an attached unit and its unit has a Starting Strength of 1. The bearer has 3 wounds remaining, or its full wounds remaining if the bearer was Battle-shocked when it was destroyed.`,
         },
         {
           name: 'Stubborn Tenacity',
@@ -193,8 +195,8 @@ In your Command phase, you can select one Adeptus Astartes unit from your army. 
           'Whether its true significance is kept a secret or not, there is a singular prize here that the Inner Circle have come to either secure or destroy. They will pursue this strategic objective with cold ferocity.',
         // Faction-Pack Rules Update rewrote this rule around Defensive Footing / Aggressive Push.
         body: `At the start of your Movement phase, select one of the following:
-▪ **Defensive Footing:** Select one objective marker you control. Until the start of your next Movement phase, that objective marker is your Vowed objective.
-▪ **Aggressive Push:** Select one or more objective markers you do not control. Until the start of your next Movement phase, each of those objective markers is one of your Vowed objectives.
+▪ **Defensive Footing:** Select one objective you control. Until the start of your next Movement phase, that objective is your Vowed objective.
+▪ **Aggressive Push:** Select one or more objectives you do not control. Until the start of your next Movement phase, each of those objectives is one of your Vowed objectives.
 
 If a rule refers to a unit or model being within range of your Vowed objective, that rule takes effect if that unit or model is within range of one or more of your Vowed objectives. Each time a Deathwing Infantry unit from your army makes an attack that targets a unit within range of one or more of your Vowed objectives, add 1 to the Wound roll.`,
       },
@@ -296,7 +298,14 @@ If a rule refers to a unit or model being within range of your Vowed objective, 
         flavor:
           'The Ravenwing are fearsome and daring hunters, relentless in pursuit and furious on the assault. When they lead the Dark Angels to war they inspire their battle-brothers with their strategic and tactical mastery of high-speed warfare, knightly bike-mounted venators leading every charge and rapidly outmanoeuvring the foe.',
         // Faction-Pack Rules Update rewrote both the rule and the Keywords section.
-        body: `Adeptus Astartes units from your army are eligible to shoot in a turn in which they Advanced or Fell Back. Adeptus Astartes Mounted units from your army are eligible to shoot and declare a charge in a turn in which they Advanced or Fell Back.
+        body: `Friendly Adeptus Astartes units have:
+▪ This unit's ranged attacks have [ASSAULT].
+▪ When this unit is selected to make a fall-back move, that fall-back move does not prevent this unit from being eligible to shoot.
+
+Friendly Adeptus Astartes Mounted units have:
+▪ This unit's ranged attacks have [ASSAULT].
+▪ When this unit is selected to make an advance move, that advance move does not prevent this unit from being eligible to declare a charge.
+▪ When this unit is selected to make a fall-back move, that fall-back move does not prevent this unit from being eligible to shoot and eligible to declare a charge.
 
 ### Keywords
 Outrider Squad units from your army gain the Battleline keyword.`,
@@ -310,7 +319,7 @@ Outrider Squad units from your army gain the Battleline keyword.`,
           flavor: 'Using augur beacons, servo-skulls and the like, the Ravenwing mark locations they have passed through and cleansed of foes, laying a trail their fellows can follow on the hunt.',
           when: 'Command phase.',
           target: 'One Ravenwing Mounted unit from your army that is within range of an objective marker you control.',
-          effect: 'That objective marker remains under your control, even if you have no models within range of it, until your opponent controls it at the start or end of any turn.',
+          effect: "That objective marker remains under your control until your opponent's Level of Control over that objective marker is greater than yours at the end of a phase.",
           restrictions: '',
         },
         {
@@ -319,9 +328,9 @@ Outrider Squad units from your army gain the Battleline keyword.`,
           cp: '1CP',
           turn: 'your',
           flavor: 'The Ravenwing employ shock tactics and focussed firepower to tear bloody paths through the enemy ranks, shattering resistance and clearing the way to their true quarry.',
-          when: 'Your Shooting phase.',
-          target: 'One Ravenwing unit from your army that has just shot.',
-          effect: 'Select one enemy unit that was hit by one or more of those attacks. That unit must take a Battle-shock test. When doing so, if one or more Ravenwing units from your army are within 6" of that enemy unit, subtract 1 from the test.',
+          when: 'Your Movement phase, when a friendly Adeptus Astartes unit ends an advance move.',
+          target: 'That Adeptus Astartes unit.',
+          effect: 'That advance move does not prevent your unit from being eligible to declare a charge.',
           restrictions: '',
         },
         armourOfContempt('Company of Hunters'),
@@ -342,9 +351,9 @@ Outrider Squad units from your army gain the Battleline keyword.`,
           cp: '1CP',
           turn: 'either',
           flavor: 'Be it their true quarry or simply one who possesses knowledge that will lead them to their apprehension, when the Ravenwing strike at a priority target they do so with unmerciful surety.',
-          when: 'Your Shooting phase or the Fight phase.',
-          target: 'One Ravenwing Mounted unit from your army that has not been selected to shoot or fight this phase.',
-          effect: 'Until the end of the phase, each time a model in your unit makes an attack that targets an Infantry Character or Mounted Character unit, add 1 to the Wound roll.',
+          when: 'Fight phase, when a friendly Adeptus Astartes unit is selected to fight.',
+          target: 'That Adeptus Astartes unit.',
+          effect: "Your unit's melee attacks have [LANCE].",
           restrictions: '',
         },
         {
@@ -400,7 +409,7 @@ Outrider Squad units from your army gain the Battleline keyword.`,
         flavor:
           'Amongst the ancient mysteries that the Dark Angels keep is knowledge of potent invocations to the most esoteric and mercurial of weapon spirits. With these, their battle-brothers are able to rouse their plasma weaponry to a destructive power that burns like the fiery hearts of stars.',
         body: `▪ Friendly Adeptus Astartes units' weapon profiles with 'Plasma' in their names are plasma weapon profiles.
-▪ Plasma weapon profiles have +1 Strength.
+▪ Plasma weapon profiles have +1 S.
 
 **Restrictions:** ${daOnly}`,
       },
@@ -413,7 +422,7 @@ Outrider Squad units from your army gain the Battleline keyword.`,
           flavor: 'When correctly calibrated and respectfully invoked, a plasma incinerator can fire blinding bolts that burst with searing energy. Those not killed are scorched and blistered by near misses.',
           when: 'Your Shooting phase, when a friendly Hellblaster Squad unit has shot.',
           target: 'That Hellblaster Squad unit.',
-          effect: "Select one enemy unit hit by your unit's plasma ranged attacks. That enemy unit is seared until the start of your next turn:\n▪ While a unit is seared, that unit has 2\" Move.",
+          effect: "Select one enemy unit hit by your unit's plasma ranged attacks. That enemy unit is seared until the start of your next turn:\n▪ While a unit is seared, that unit has -2\" M.",
           restrictions: '',
         },
         {
@@ -424,7 +433,7 @@ Outrider Squad units from your army gain the Battleline keyword.`,
           flavor: "In extremis, the invoking of plasma coils' output may be pushed past even the tolerances proscribed by Mars. The price is one the Chapter is prepared to make.",
           when: 'Your Shooting phase, when a friendly Adeptus Astartes unit is selected to shoot.',
           target: 'That Adeptus Astartes unit.',
-          effect: "Your unit's [HAZARDOUS] plasma ranged attacks have +1 Strength.",
+          effect: "Your unit's [HAZARDOUS] plasma ranged attacks have +1 S.",
           restrictions: '',
         },
         {
@@ -445,7 +454,7 @@ Outrider Squad units from your army gain the Battleline keyword.`,
           points: 15,
           upgrade: true,
           flavor: "With the correct runic activation sequence — and whispered appeals to the plasma coils' stability matrix — the effective reach of a weapon's killing power can be extended.",
-          body: `Adeptus Astartes unit only. This unit's plasma attacks have +6" Range.`,
+          body: `Adeptus Astartes unit only. This unit's plasma attacks have +6" R.`,
         },
         {
           name: 'Entreaty of Perpetual Ardour',
@@ -520,7 +529,7 @@ Outrider Squad units from your army gain the Battleline keyword.`,
           upgrade: true,
           flavor: 'Use of these relic plasma storm batteries is granted only by dispensation of the Master of the Rock. They unleash devastating toroids of searing plasma, while their venting subsystems are known to be especially vigilant.',
           body: `Land Speeder Vengeance unit only. This unit can re-roll:
-▪ Rolls to determine the Attacks of a weapon.
+▪ Rolls to determine the A of a weapon.
 ▪ Hazard rolls.`,
         },
       ],
@@ -538,7 +547,7 @@ Outrider Squad units from your army gain the Battleline keyword.`,
           "When the Chapter's pitiless and dedicated Interrogator-Chaplains mark a foe, they are the target for a torturous and precise excruciation. Matters of truth are kept to the hidden cells of the Rock; these instead are matters of painful battlefield castigation to sow dread and fear in the enemies of the Dark Angels.",
         body: `▪ In the Fight phase, when a friendly Chaplain unit destroys an enemy unit, enemy units within 6" of that Chaplain unit make a Battle-shock roll.
 ▪ Friendly Chaplain units have the following ability:
-▪ **Sower of Dread (Aura):** While an enemy unit is within 6" of this unit, that enemy unit has -1 Leadership.
+▪ **Sower of Dread (Aura):** While an enemy unit is within 6" of this unit, that enemy unit has -1 Ld.
 
 **Restrictions:** ${daOnly}`,
       },
@@ -571,7 +580,7 @@ Outrider Squad units from your army gain the Battleline keyword.`,
           cp: '1CP',
           turn: 'opponent',
           flavor: 'The spiritual leaders of the Dark Angels are ever watchful for lapses of conviction, and when displayed by the foe, they are the first to fervently capitalise on them.',
-          when: "Your opponent's Movement phase, when an enemy unit that was engaged with a friendly Chaplain unit ends a Fall Back move, if that Chaplain unit is unengaged.",
+          when: "Your opponent's Movement phase, when an enemy unit that was engaged with a friendly Chaplain unit ends a fall-back move, if that Chaplain unit is unengaged.",
           target: 'That Chaplain unit.',
           effect: 'Your unit can make a Normal move of up to D3+3".',
           restrictions: '',
