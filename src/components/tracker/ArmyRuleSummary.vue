@@ -18,6 +18,14 @@
             </li>
           </ul>
           <div v-else class="as-line">{{ s.line }}</div>
+
+          <!-- Resurrect spend log (GSC): read-only here, no undo. -->
+          <ul v-if="s.items.length" class="as-items">
+            <li v-for="(it, i) in s.items" :key="i">
+              <span class="as-item-label">{{ it.label }}</span>
+              <span class="as-item-cost">−{{ it.cost }}</span>
+            </li>
+          </ul>
         </div>
       </div>
     </CollapseTransition>
@@ -64,6 +72,7 @@ function hasArmyData(pl) {
     || !!(a.selectionByRound && Object.keys(a.selectionByRound).length)
     || !!(a.multiByRound && Object.values(a.multiByRound).some((x) => x?.length))
     || !!(a.poolByRound && Object.keys(a.poolByRound).length)
+    || !!a.resurrected?.length
 }
 
 function playerName(g, pl, pi) {
@@ -93,6 +102,7 @@ function buildSummary(g, pl, pi, view) {
     mechanic: view.label,
     rounds: [],
     line: '',
+    items: [],
   }
 
   if (view.kind === 'counter') {
@@ -101,7 +111,8 @@ function buildSummary(g, pl, pi, view) {
       const st = (a.counter ?? 0) >= view.threshold.at ? view.threshold.atOrAbove : view.threshold.below
       if (st?.name) line += ` · ${st.name}`
     }
-    return { ...base, line }
+    // Resurrect spend log (GSC): what the counter's final value was spent on, read-only here.
+    return { ...base, line, items: a.resurrected || [] }
   }
   if (view.kind === 'dice') {
     return { ...base, line: (a.dice || []).join(', ') || '—' }
@@ -177,4 +188,17 @@ watch([game, locale], build, { immediate: true })
   text-align: center;
 }
 .as-pick { font-size: 0.9rem; color: var(--text-primary); overflow-wrap: anywhere; }
+
+.as-items {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0.5rem 0 0;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.as-items li { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+.as-item-label { font-size: 0.85rem; color: var(--text-primary); overflow-wrap: anywhere; }
+.as-item-cost { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700; color: var(--accent); }
 </style>
