@@ -53,7 +53,7 @@ export default [
     "abilities": [
       {
         "name": "Waaagh! Banner",
-        "text": "▪ This unit has a 5+ invulnerable save.\n▪ While the Waaagh! is active for this unit, this unit has +1 Toughness."
+        "text": "▪ This unit has a 5+ InSv.\n▪ While the Waaagh! is active for this unit, this unit has +1 T."
       }
     ],
     "leader": {
@@ -764,7 +764,7 @@ export default [
     "abilities": [
       {
         "name": "Dakkablitz",
-        "text": "In your Shooting phase, while making attacks with this unit, if its blitzkannon targeted a non-MONSTER/VEHICLE unit, that weapon has +6 Attacks."
+        "text": "In your Shooting phase, while making attacks with this unit, if its blitzkannon targeted a non-MONSTER/VEHICLE unit, that weapon has +6 A."
       }
     ],
     "composition": [
@@ -1368,7 +1368,7 @@ export default [
     "abilities": [
       {
         "name": "Billowing Fumes (Aura)",
-        "text": "While an enemy unit (excluding MONSTERS and VEHICLES) is within 6\" of this model, each time a model in that unit makes an attack, subtract 1 from the Hit roll."
+        "text": "While an enemy unit (excluding MONSTER/VEHICLE units) is within 6\" of this unit, when that enemy unit is selected to shoot, that unit’s targets have the Benefit of Cover until that unit has shot."
       }
     ],
     "composition": [
@@ -1445,7 +1445,7 @@ export default [
       },
       {
         "name": "Kunnin’ Infiltrator",
-        "text": "Kunnin’ Infiltrator (Once per battle, per army): In your Movement phase, if this unit is unengaged, you can use this ability. If you do:\n▪ Place this unit in strategic reserves.\n▪ This unit has Deep Strike until the end of the phase."
+        "text": "In your Movement phase, if this unit is unengaged, you can use this ability. If you do:\n▪ Place this unit in strategic reserves.\n▪ This unit has Deep Strike.\n▪ This unit must make an ingress move this phase (including in your first turn)."
       }
     ],
     "composition": [
@@ -1613,7 +1613,7 @@ export default [
     "abilities": [
       {
         "name": "Get Da Good Bitz",
-        "text": "At the end of your Command phase, if this unit is within range of an objective marker you control, that objective marker remains under your control, even if you have no models within range of it, until your opponent controls it at the start or end of any turn."
+        "text": "At the end of your Command phase, if this unit is within range of an objective marker you control, that objective marker remains under your control until your opponent’s Level of Control over that objective marker is greater than yours at the end of a phase."
       }
     ],
     "composition": [
@@ -2286,7 +2286,7 @@ export default [
       },
       {
         "name": "Fuel-mixa Grot",
-        "text": "Each time this model’s unit Advances, do not make an Advance roll for it. Instead, until the end of the phase, add 6\" to the Move characteristic of models in this model’s unit."
+        "text": "Each time this model’s unit Advances, do not make an Advance roll for it. Instead, until the end of the phase, add 6\" to the Move characteristic of models in that unit."
       }
     ],
     "composition": [
@@ -2858,7 +2858,7 @@ export default [
     "abilities": [
       {
         "name": "Clankin’ Forward",
-        "text": "Each time this model makes a Normal, Advance or Fall Back move, it can move over enemy models (excluding MONSTER and VEHICLE models) and terrain features that are 4\" or less in height as if they were not there."
+        "text": "Each time this model makes a Normal, Advance or Fall Back move, it can move over enemy models (excluding MONSTERS and VEHICLES) and terrain features that are 4\" or less in height as if they were not there."
       },
       {
         "name": "Big an’ Stompy",
@@ -2973,7 +2973,7 @@ export default [
     "abilities": [
       {
         "name": "Runtherd",
-        "text": "While this unit contains one or more Gretchin models, each time an attack targets this unit, Runtherd models in this unit have a Toughness characteristic of 2."
+        "text": "Each time an attack targets this unit, if it contains one or more Gretchin models, until that attack is resolved, Runtherd models in this unit have a Toughness characteristic of 2."
       },
       {
         "name": "Thievin’ Scavengers",
@@ -3086,7 +3086,7 @@ export default [
     "abilities": [
       {
         "name": "On Da Hunt",
-        "text": "For each model embarked within this TRANSPORT, add 1 to the Attacks characteristic of this model’s butcha boyz weapon (to a maximum of +6). The Attacks characteristic of that weapon can be modified even though it is an Extra Attacks weapon."
+        "text": "For each model embarked within this TRANSPORT, add 1 to the Attacks characteristic of this model’s butcha boyz weapon (to a maximum of +6)."
       }
     ],
     "damaged": {
@@ -4360,7 +4360,7 @@ export default [
     "abilities": [
       {
         "name": "Clankin’ Forward",
-        "text": "Each time this model makes a Normal, Advance or Fall Back move, it can move over enemy models (excluding MONSTER and VEHICLE models) and terrain features that are 4\" or less in height as if they were not there."
+        "text": "Each time this model makes a Normal, Advance or Fall Back move, it can move over enemy models (excluding MONSTERS and VEHICLES) and terrain features that are 4\" or less in height as if they were not there."
       },
       {
         "name": "Big an’ Shooty",
@@ -4934,7 +4934,7 @@ export default [
     "abilities": [
       {
         "name": "Shokk Tunnel",
-        "text": "Each time this model is selected to Advance, you can remove it from the battlefield and set it up again anywhere on the battlefield that is more than 9\" horizontally away from all enemy models instead of making an Advance move (this model is still considered to have Advanced this turn)."
+        "text": "In your Movement phase, when this unit is selected to make an Advance move, you can use this ability. If you do:\n▪ That move has no maximum distance.\n▪ This unit can move through all types of model (including enemy models and MONSTER/VEHICLE models).\n▪ After moving, your unit must be more than 8\" horizontally from all enemy units."
       }
     ],
     "composition": [
@@ -6198,7 +6198,7 @@ export default [
       },
       {
         "name": "Throttlerokkit Shokka Engine",
-        "text": "In your Command phase, select one of the abilities in the Throttlerokkit Shokka Engine section (see below). Until the start of your next Command phase, this model has that ability."
+        "text": "In your Command phase, select one of the abilities in the Throttlerokkit Shokka Engine section. Until the start of your next Command phase, this model has that ability."
       }
     ],
     "composition": [
@@ -6302,7 +6302,7 @@ export default [
       },
       {
         "name": "Da Jump (Psychic)",
-        "text": "Once per turn, at the end of your Movement phase, one WEIRDBOY from your army can use this ability. If it does, roll one D6: on a 1, that WEIRDBOY’s unit suffers D6 mortal wounds; on a 2+, remove this WEIRDBOY’s unit from the battlefield and set it up again anywhere on the battlefield that is more than 9\" horizontally away from all enemy models."
+        "text": "Once per turn, at the end of your Movement phase, one WEIRDBOY from your army can use this ability. If it does, roll one D6: on a 1, that WEIRDBOY’s unit suffers D6 mortal wounds; on a 2+, remove that WEIRDBOY’s unit from the battlefield and set it up again anywhere on the battlefield that is more than 8\" horizontally away from all enemy models."
       }
     ],
     "composition": [
