@@ -68,6 +68,12 @@ const { entry, visible, markSeen } = useUpdateNotice()
   font-weight: 600;
 }
 
+@media (min-width: 900px) {
+  .ub-text {
+    text-align: center;
+  }
+}
+
 .ub-ver {
   font-family: var(--font-mono);
   font-weight: 700;
