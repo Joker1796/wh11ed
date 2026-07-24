@@ -6,11 +6,19 @@
         <span v-if="view.ruleName" class="army-rule-name">{{ view.ruleName }}</span>
       </div>
       <NumberStepper
-        v-if="view.kind === 'counter'"
+        v-if="view.kind === 'counter' && !view.spends"
         :modelValue="counter"
         :min="view.min ?? 0"
         @update:modelValue="v => setArmyCounter(pi, v)"
       />
+      <!-- A counter with dedicated spend buttons (GSC): the spend picker + the round-1 bonus now
+           cover every way the value changes, so manual +/- would just risk drifting from the actual
+           spend log — read-only, flashing on change like the stepper did. -->
+      <span
+        v-else-if="view.kind === 'counter' && view.spends"
+        ref="counterEl"
+        class="army-counter-readonly"
+      >{{ counter }}</span>
       <!-- Pool primitive (e.g. Aeldari Battle Focus): a per-round allotment you step DOWN as you
            spend; it refills to `roundStart` at the start of each battle round (max caps it there). -->
       <NumberStepper
@@ -287,6 +295,7 @@ import RuleBody from '../RuleBody.vue'
 import { useTracker } from '../../composables/useTracker.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useTheme } from '../../composables/useTheme.js'
+import { useFlashOnChange } from '../../composables/useFlashOnChange.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
 import { ui } from '../../i18n/ui.js'
 
@@ -327,6 +336,9 @@ const counterStart = computed(() => {
   return v?.min ?? 0
 })
 const counter = computed(() => player.value?.army?.counter ?? counterStart.value)
+// Read-only display for a `spends`-driven counter (GSC) — no stepper to flash it for us anymore
+// (wired up below, after `view` is declared — see the comment on the choiceLocked watcher).
+const counterEl = ref(null)
 const currentRound = computed(() => current.value?.currentRound ?? 1)
 // GSC resurrect spend log (see resurrectArmyUnit) — what the spend picker bought, undoable per entry.
 const resurrected = computed(() => player.value?.army?.resurrected ?? [])
@@ -470,6 +482,12 @@ watch([spec, locale], async ([s, loc]) => {
 // then, with the picker gone. The user can still collapse it. Declared after `view` (which
 // choiceLocked reads) so the immediate run doesn't touch it before initialization.
 watch(choiceLocked, (locked) => { if (locked) showActive.value = true }, { immediate: true })
+
+// Wired up here (not next to `counter`'s own declaration) for the same reason as the watcher just
+// above: `counter` reads `counterStart`, which reads `view.value`, and `watch()` evaluates its
+// source once immediately (even without `{ immediate: true }`) to capture the baseline — doing that
+// before `view` exists throws.
+useFlashOnChange(counter, counterEl)
 </script>
 
 <style scoped>
@@ -508,6 +526,17 @@ watch(choiceLocked, (locked) => { if (locked) showActive.value = true }, { immed
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: var(--text-muted);
+}
+
+/* Read-only counter (a `spends`-driven counter like GSC's — no manual +/-, see NumberStepper's
+   .step-val for the sibling styling this mirrors). */
+.army-counter-readonly {
+  min-width: 2.2ch;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text-primary);
 }
 
 /* ── Selection chips (pick one option for the round) ── */

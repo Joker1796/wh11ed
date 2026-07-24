@@ -64,18 +64,18 @@ describe('ArmyTrackerCard', () => {
       await settle()
 
       // strikeForce start = 10.
-      expect(wrapper.find('.step-val').text()).toBe('10')
+      expect(wrapper.find('.army-counter-readonly').text()).toBe('10')
       const bonusBtn = wrapper.find('.army-bonus-btn')
       expect(bonusBtn.exists()).toBe(true)
 
       await bonusBtn.trigger('click')
-      expect(wrapper.find('.step-val').text()).toBe('12')
+      expect(wrapper.find('.army-counter-readonly').text()).toBe('12')
       expect(wrapper.find('.army-bonus-btn').exists()).toBe(false)
       expect(wrapper.find('.army-bonus-done').exists()).toBe(true)
 
       // Undoing restores the pre-bonus value and brings the button back.
       await wrapper.find('.army-bonus-done .army-head-reset').trigger('click')
-      expect(wrapper.find('.step-val').text()).toBe('10')
+      expect(wrapper.find('.army-counter-readonly').text()).toBe('10')
       expect(wrapper.find('.army-bonus-btn').exists()).toBe(true)
     })
 
@@ -97,12 +97,12 @@ describe('ArmyTrackerCard', () => {
       await opt.trigger('click')
 
       // Cost 4 came off the strikeForce start of 10.
-      expect(wrapper.find('.step-val').text()).toBe('6')
+      expect(wrapper.find('.army-counter-readonly').text()).toBe('6')
       expect(wrapper.find('.army-resurrect-row').text()).toContain('Aberrants ×5')
       expect(wrapper.find('.army-resurrect-cost').text()).toBe('−4')
 
       await wrapper.find('.army-resurrect-undo').trigger('click')
-      expect(wrapper.find('.step-val').text()).toBe('10')
+      expect(wrapper.find('.army-counter-readonly').text()).toBe('10')
       expect(wrapper.find('.army-resurrect-row').exists()).toBe(false)
     })
   })
