@@ -13,6 +13,7 @@
     "datasheets:index": "node scripts/gen-datasheet-index.mjs",
     "sourceids": "node scripts/gen-source-ids.mjs",
     "sync": "node scripts/sync.mjs",
+    "parity": "node scripts/parity-check.mjs",
     "images:dims": "node scripts/gen-image-dims.mjs",
     "icons": "node scripts/gen-pwa-icons.mjs",
     "screenshots": "node scripts/gen-pwa-screenshots.mjs",
