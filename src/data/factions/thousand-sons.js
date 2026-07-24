@@ -80,7 +80,7 @@ Select one enemy unit within 24" of and visible to the manifesting model. Until 
           flavor: "To pit one's psychic prowess against the sorcerous might of the Thousand Sons is to be trapped, helpless and screaming, within one's mind.",
           when: 'Any phase, just after an enemy unit has selected its targets.',
           target: "One Thousand Sons unit from your army that was selected as the target of one or more of the attacking unit's attacks.",
-          effect: 'Until the end of the phase, Psychic weapons equipped by models in the attacking unit have the [HAZARDOUS] ability, and models in your unit have the Feel No Pain 4+ ability against Psychic Attacks.',
+          effect: 'Until the end of the phase, all attacks made against your unit with Psychic weapons have the [HAZARDOUS] ability and all models in your unit have the Feel No Pain 4+ ability against Psychic Attacks.',
           restrictions: '',
         },
         {
@@ -124,7 +124,7 @@ Select one enemy unit within 24" of and visible to the manifesting model. Until 
           flavor: 'Drawing on the accumulating empyric energies, one devoted to Tzeentch will willingly syphon the swelling power to fuel their selfish ploys.',
           when: 'Your Command phase.',
           target: 'One Thousand Sons Psyker unit from your army.',
-          effect: 'Select the Imbued Manifestation, Psychic Maelstrom or Wrath of the Immaterium ability (see the Kindred Sorcery Detachment rule). Until the start of your next Command phase, that ability applies to your unit instead of any other Kindred Sorcery ability, even if you have already selected that ability this battle.',
+          effect: 'Select the Imbued Manifestation, Psychic Maelstrom or Wrath of the Immaterium ability (see Kindred Sorcery). Until the start of your next Command phase, that ability applies to your unit instead of any other Kindred Sorcery ability, even if you have already selected that ability this battle.',
           restrictions: '',
         },
         {
@@ -158,7 +158,10 @@ Select one enemy unit within 24" of and visible to the manifesting model. Until 
           name: 'Umbralefic Crystal',
           points: 20,
           flavor: 'One in command of this powerful relic – coalesced from the cursed gloom of Mangel III – can use its energies to temporarily fold space, creating a gate of sorcerous translocation through which they can step.',
-          body: `Thousand Sons model only. Once per battle, in your Command phase, if the bearer's unit is not within Engagement Range of one or more enemy units, you can remove that unit from the battlefield and place it into Strategic Reserves. In the Reinforcements step of your next Movement phase, set that unit back up anywhere on the battlefield that is more than 9" horizontally away from all enemy units.`,
+          body: `Thousand Sons model only. (Once per battle, per army) In your Command phase, if this unit is unengaged, you can use this ability. If you do:
+▪ Place this unit in strategic reserves.
+▪ This unit has Deep Strike until the start of your next Shooting phase.
+▪ This unit must make an ingress move in your next Movement phase (including in your first turn).`,
         },
         {
           name: "Eldritch Vortex of E'Taph",
@@ -179,10 +182,10 @@ Select one enemy unit within 24" of and visible to the manifesting model. Until 
         name: 'Infernal Pacts',
         flavor:
           "The otherworldly auras of Tzeentch's daemons and the empowering arcane sigils carried by his mortal servants wear away at the fragile skein of reality.",
-        body: `Scintillating Legions units from your army gain the following ability:
+        body: `Scintillating Legions units from your army have the following ability:
 ▪ **Daemonic Illusions (Aura):** While a friendly Thousand Sons Psyker unit is within 6" of and visible to this unit, models in that unit have a 4+ invulnerable save against ranged attacks.
 
-Thousand Sons units from your army gain the following ability:
+Thousand Sons units from your army have the following ability:
 ▪ **Mortal Sorcery (Aura):** While a friendly Scintillating Legions Psyker unit is within 6" of and visible to this unit, that Scintillating Legions unit has the Cabal of Sorcerers ability.
 
 **Restrictions:** You can include Scintillating Legions units in your army, even though they do not have the Thousand Sons Faction keyword. The combined points cost of such units you can include is: Incursion — up to 500 pts; Strike Force — up to 1000 pts; Onslaught — up to 1500 pts. No Scintillating Legions models from your army can be your Warlord.`,
@@ -372,7 +375,7 @@ This detachment has the MUTANT tag and cannot be taken with another MUTANT detac
           when: 'Reinforcements step of your Movement phase.',
           target: 'One Tzeentch Mutant unit from your army that is arriving from Strategic Reserves this phase.',
           // Faction-Pack Rules Update: 3" → 6".
-          effect: 'Your unit can be set up anywhere on the battlefield that is more than 6" horizontally away from all enemy units, or anywhere on the battlefield that is more than 9" horizontally away from all enemy units if it is a Monster unit. In either case, until the end of the turn, it is not eligible to declare a charge.',
+          effect: 'Your unit can be set up anywhere on the battlefield that is more than 6" horizontally away from all enemy units, or anywhere on the battlefield that is more than 8" horizontally away from all enemy units if it is a Monster unit. In either case, until the end of the turn, it is not eligible to declare a charge.',
           restrictions: '',
         },
       ],
@@ -393,7 +396,7 @@ This detachment has the MUTANT tag and cannot be taken with another MUTANT detac
           name: 'Bray Lord',
           points: 15,
           flavor: "There are those amongst Magnus' gene-sons that revel in dominating the twisted mutants of Sortiarius, setting themselves up as demigods over their shrieking flocks.",
-          body: `Sorcerer or Infernal Master model only. The bearer has the Scouts 6" ability. During the Declare Battle Formations step, the bearer can be attached to a Tzaangors unit.`,
+          body: `Sorcerer or Infernal Master model only. The bearer has the Scouts 6" ability.`,
         },
         {
           name: 'Flowing Flesh',
@@ -681,7 +684,8 @@ Each time a Thousand Sons Vehicle model from your army with the Deadly Demise ab
           name: 'Eruption of Vitality',
           points: 35,
           flavor: 'Their carcass consumed in a sudden pyre of warpflame, this champion of Tzeentch steps from the blaze as a mutant parody of their former self.',
-          body: `Infantry / Mounted Thousand Sons Psyker model only. The first time this model is destroyed, at the end of the phase, roll one D6: on a 2+, set this model back up on the battlefield as close as possible to where it was destroyed, unengaged, with 3 wounds remaining.`,
+          body: `Infantry / Mounted Thousand Sons Psyker model only. (Once per battle, per army) When this model is destroyed, at the end of the phase, roll one D6:
+▪ On a 2+, set up this model on the battlefield, unengaged and as close as possible to where it was destroyed. This model is not part of an attached unit and its unit has a starting strength of 1. This model has 3 wounds remaining.`,
         },
         {
           name: 'Curse of Life',
@@ -702,9 +706,9 @@ Each time a Thousand Sons Vehicle model from your army with the Deadly Demise ab
         name: 'Ensorcelled Animus',
         flavor:
           'Some amongst the sorcerers of the Thousand Sons have learned to channel their wills through the mechanical bodies of Sekhetar Robots, rendering the constructs extensions of their own subtle bodies.',
-        body: `▪ Friendly Sekhetar Robots units' attacks have [PSYCHIC].
+        body: `▪ Friendly Sekhetar Robots unit’s attacks have [PSYCHIC].
 ▪ Friendly Thousand Sons Psyker units have the following ability:
-▪ **Infusion (Aura):** While a friendly Sekhetar Robots unit is within 12" of this unit, that unit's melee attacks have +1 Weapon Skill.`,
+▪ **Infusion (Aura):** While a friendly Sekhetar Robots unit is within 12" of this unit, that unit's melee attacks have +1 WS.`,
       },
       stratagems: [
         {
@@ -737,7 +741,7 @@ Each time a Thousand Sons Vehicle model from your army with the Deadly Demise ab
           flavor: 'Weaving sorcery into a shimmering shield, the sorcerer protects his enslaved automata from harm.',
           when: "Your opponent's Shooting phase, when an enemy unit targets a friendly Sekhetar Robots unit within 12\" of a friendly Thousand Sons Psyker unit.",
           target: 'That Sekhetar Robots unit.',
-          effect: "Ranged attacks that target your unit with a Strength greater than your unit's Toughness have -1 to wound rolls.",
+          effect: "Ranged attacks that target your unit with a S greater than your unit's T have -1 to wound rolls.",
           restrictions: '',
         },
       ],
@@ -748,13 +752,13 @@ Each time a Thousand Sons Vehicle model from your army with the Deadly Demise ab
           flavor: 'This Sorcerer callously employs the Sekhetar Robots as a mobile fortification, pouring sorcery into them to repair their battered forms and maintain his ambulatory shield.',
           body: `Sorcerer / Exalted Sorcerer model only. This model has the following abilities:
 ▪ **Soul Bound:** In your Movement phase, at the start or end of this unit's move, you can select one friendly Sekhetar Robots unit within 3" of this model. That Sekhetar Robots unit heals D3+1 wounds.
-▪ **Kineshielded Guardians:** While this model is within 3" of a friendly Sekhetar Robots unit, this model has Lone Operative.`,
+▪ **Kine-shielded Guardians:** While this model is within 3" of a friendly Sekhetar Robots unit, this model has Lone Operative.`,
         },
         {
           name: 'Occulus Infernum',
           points: 20,
           flavor: 'It may be the Sekhetar Robots that fire upon the foe, but it is their sorcerous master that aims through their stolen senses.',
-          body: `Sorcerer / Exalted Sorcerer model only. In your Movement phase, at the start or end of this unit's move, you can select one friendly Sekhetar Robots unit within 6" of this unit. That unit's ranged attacks have +1 Ballistic Skill until the start of your next turn.`,
+          body: `Sorcerer / Exalted Sorcerer model only. In your Movement phase, at the start or end of this unit's move, you can select one friendly Sekhetar Robots unit within 6" of this unit. That unit's ranged attacks have +1 BS until the start of your next turn.`,
         },
       ],
     },
@@ -784,7 +788,7 @@ This detachment has the MUTANT tag and cannot be taken with another MUTANT detac
           flavor: 'Flickering light like cast through a many-faceted gem, the skyborne warriors of Tzeentch seem to manifest and fade, then leap back into sharp relief elsewhere with sudden violence.',
           when: 'Your Movement phase, when a friendly Infantry / Mounted Mutant unit is selected to make an advance / fall back move.',
           target: 'That Infantry / Mounted Mutant unit.',
-          effect: "Your unit's ranged attacks have [ASSAULT] until the end of the turn, and that move does not prevent your unit from being eligible to shoot / declare a charge.",
+          effect: "▪ Your unit's ranged attacks have [ASSAULT] until the end of the turn.\n▪ That move does not prevent your unit from being eligible to shoot / declare a charge.",
           restrictions: '',
         },
         {
@@ -910,7 +914,7 @@ Each time a Thousand Sons model from your army makes a Psychic Attack, re-roll a
           flavor: 'As the Thousand Sons solidify their control over sites of magical power, the Immaterium spills into reality in searing torrents, blossoming into a multispectral storm of arcane energy that obscures mortal senses and mechanical augury.',
           when: "Your opponent's Shooting phase, just after an enemy unit has selected its targets.",
           target: "One Thousand Sons Psyker unit from your army that was selected as the target of one or more of the attacking unit's attacks.",
-          effect: "Until the end of the phase, your unit has the Stealth ability, and, if your unit is wholly within your army's Flow of Magic, each time an attack targets your unit, it has the Benefit of Cover against that attack.",
+          effect: "▪ Your unit has Stealth.\n▪ If your unit is wholly within your army's Flow of Magic, your unit has -3 detection range.",
           restrictions: '',
         },
       ],

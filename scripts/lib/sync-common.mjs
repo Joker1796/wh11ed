@@ -45,7 +45,7 @@ export function bodyText(body) {
     .filter((b) => b.type !== 'loreAccordion' && b.type !== 'quote' && b.type !== 'image')
     .map((b) => appdataToMarkup(b.text || b.trigger || b.effect || ''))
     .filter(Boolean)
-    .join(' / ')
+    .join('\n')
 }
 
 export function loadJson(file) {
