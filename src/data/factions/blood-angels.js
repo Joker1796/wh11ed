@@ -448,7 +448,7 @@ const en = {
           name: "Archangel’s Shard",
           points: 15,
           flavor: "When Sanguinius battled Horus, his magnificent blade was tragically shattered against the Warmasters profane battle plate. The shards were gathered up and new swords forged to incorporate them, each one gifted to a different successor Chapter.",
-          body: "Adeptus Astartes Jump Pack model only. The bearer’s melee weapons have the [Anti-Chaos 5+] and [Lance] abilities.",
+          body: "Adeptus Astartes Jump Pack model only. The bearer’s melee weapons have the [ANTI-CHAOS 5+] and [LANCE] abilities.",
         },
         {
           name: "Gleaming Pinions",

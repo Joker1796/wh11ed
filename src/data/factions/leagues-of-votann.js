@@ -58,7 +58,7 @@ In your turn, YP gained in this way are always gained before checking which abil
       rule: {
         name: "Mobile Sensor Relays",
         flavor: "The massed armoured transports of a brandfast oathband connect to an encrypted data network shared by squads of Kin. Their robust sensor webs broadcast various targeting information and extrapolated judgements on enemy movements. Nearby warriors can tap into this wealth of data, enabling them to unleash salvoes of lethal efficiency.",
-        body: "Leagues of Votann Transport units from your army have the following ability:\n\n**Firebase Control (Aura):** While a friendly Leagues of Votann Infantry unit is wholly within 6\" of this TRANSPORT, ranged weapons equipped by models in that INFANTRY unit have the [sustained hits 1] ability.",
+        body: "Leagues of Votann Transport units from your army have the following ability:\n\n**Firebase Control (Aura):** While a friendly Leagues of Votann Infantry unit is wholly within 6\" of this TRANSPORT, ranged weapons equipped by models in that INFANTRY unit have the [SUSTAINED HITS 1] ability.",
       },
       stratagems: [
         {
@@ -139,7 +139,7 @@ In your turn, YP gained in this way are always gained before checking which abil
           name: "Trivärg Cyber Implant",
           points: 40,
           flavor: "A neural artefact of the famed - but tragically extinct - Trivärg Fisculate Guild of Brôkhyr, this implant enables its host to coordinate fire patterns with exemplary skill and extraordinary speed, directly accessing vehicular systems to triangulate overlapping attack angles.",
-          body: "LEAGUES OF VOTANN model only. In your Shooting phase, each time the bearer’s unit is selected to shoot, if it disembarked from a Transport this turn, or if you spend 2YP, until the end of the phase, ranged weapons equipped by models in that unit have the [sustained HITS 2] ability.",
+          body: "LEAGUES OF VOTANN model only. In your Shooting phase, each time the bearer’s unit is selected to shoot, if it disembarked from a Transport this turn, or if you spend 2YP, until the end of the phase, ranged weapons equipped by models in that unit have the [SUSTAINED HITS 2] ability.",
         },
         {
           name: "Precursive Judgement",

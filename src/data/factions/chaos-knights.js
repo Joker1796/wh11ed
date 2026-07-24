@@ -254,7 +254,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           name: "Loping Predator",
           points: 10,
           flavor: "This swift attacker is adept at firing on the move, trusting the predatory senses of their War Dogs machine spirit to single out targets of opportunity.",
-          body: "War Dog model only. The bearer’s ranged weapons have the [assault] ability.",
+          body: "War Dog model only. The bearer’s ranged weapons have the [ASSAULT] ability.",
         },
         {
           name: "Panoply of the Cursed Knights",
@@ -367,7 +367,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           name: "Bestial Aspect",
           points: 30,
           flavor: "The machine spirit of this Knight suit has become so ferocious and blood-hungry that it now moves and hunts like a monstrous beast.",
-          body: "CHAOS KNIGHTS model only. The bearer’s ranged weapons have the [assault] ability. While the bearer is using the Unholy Hunger ability, it can ignore any or all modifiers to its Move characteristic and/or to Advance rolls made for its unit.",
+          body: "CHAOS KNIGHTS model only. The bearer’s ranged weapons have the [ASSAULT] ability. While the bearer is using the Unholy Hunger ability, it can ignore any or all modifiers to its Move characteristic and/or to Advance rolls made for its unit.",
         },
       ],
     },

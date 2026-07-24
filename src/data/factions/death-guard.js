@@ -344,7 +344,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
           name: "Eye of Affliction",
           points: 20,
           flavor: "Peering at the world through this bloated yellow orb, the bearer of this vile gift sees the souls of the sickened burning bright as targeting flares no matter how their victims try to hide.",
-          body: "DEATH GUARD model only. Ranged weapons equipped by models in the bearer’s unit have the [ignores cover] ability while targeting an Afflicted enemy unit.",
+          body: "DEATH GUARD model only. Ranged weapons equipped by models in the bearer’s unit have the [IGNORES COVER] ability while targeting an Afflicted enemy unit.",
         },
         {
           name: "Bilemaw Blight",

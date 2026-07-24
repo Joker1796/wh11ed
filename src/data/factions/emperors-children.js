@@ -40,7 +40,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
       rule: {
         name: "Daemonic Empowerment",
         flavor: "Where the Emperor’s Children indulge their obsession, the power ofSlaanesh empowers those in his thrall.",
-        body: "▪ While an Emperor’s Children unit from your army is within 6\" of one or more friendly Legions of Excess units, it is Empowered.\n▪ While a LEGIONS OF EXCESS unit from your army is within 6\" of one or more friendly EMPEROR’S CHILDREN units, it is Empowered.\n\nWhile a unit from your army is Empowered, weapons equipped by models in that unit have the [sustained hits 1] ability. If such a weapon already has that ability, each time an attack is made with that weapon, an unmodified Hit roll of 5+ scores a Critical Hit.\n\nLEGIONS OF EXCESS\nYou can include Legions of Excess units in your army, even though they do not have the EMPEROR’S CHILDREN Faction keyword. The combined points cost of such units you can include in your army is:\n▪ **Incursion:** Up to 500 pts\n▪ **Strike Force:** Up to 1000 pts\n▪ **Onslaught:** Up to 1500 pts\nNo LEGIONS OF EXCESS models from your army can be your WARLORD.",
+        body: "▪ While an Emperor’s Children unit from your army is within 6\" of one or more friendly Legions of Excess units, it is Empowered.\n▪ While a LEGIONS OF EXCESS unit from your army is within 6\" of one or more friendly EMPEROR’S CHILDREN units, it is Empowered.\n\nWhile a unit from your army is Empowered, weapons equipped by models in that unit have the [SUSTAINED HITS 1] ability. If such a weapon already has that ability, each time an attack is made with that weapon, an unmodified Hit roll of 5+ scores a Critical Hit.\n\nLEGIONS OF EXCESS\nYou can include Legions of Excess units in your army, even though they do not have the EMPEROR’S CHILDREN Faction keyword. The combined points cost of such units you can include in your army is:\n▪ **Incursion:** Up to 500 pts\n▪ **Strike Force:** Up to 1000 pts\n▪ **Onslaught:** Up to 1500 pts\nNo LEGIONS OF EXCESS models from your army can be your WARLORD.",
       },
       stratagems: [
         {
@@ -127,7 +127,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           name: "Possessed Blade",
           points: 25,
           flavor: "The martial grace that this daemon weapon bestows upon its bearer comes at a price.",
-          body: "Emperor’s Children model only. At the start of the battle, select one melee weapon equipped by the bearer; add 1 to the Attacks characteristic of that weapon. In addition, each time the bearer is selected to fight, it can use this Enhancement. If it does, while resolving those attacks, add 1 to the Damage characteristic of that weapon and that weapon has the [devastating wounds] and [hazardous] abilities.",
+          body: "Emperor’s Children model only. At the start of the battle, select one melee weapon equipped by the bearer; add 1 to the Attacks characteristic of that weapon. In addition, each time the bearer is selected to fight, it can use this Enhancement. If it does, while resolving those attacks, add 1 to the Damage characteristic of that weapon and that weapon has the [DEVASTATING WOUNDS] and [HAZARDOUS] abilities.",
         },
         {
           name: "Warp Walker",
