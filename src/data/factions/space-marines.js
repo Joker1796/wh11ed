@@ -47,7 +47,7 @@ const en = {
     // Faction-Pack Rules Update adds the "add 1 to the Wound roll" clause for Codex SM detachments.
     body: `If your [gloss:army-faction:Army Faction] is Adeptus Astartes, at the start of your Command phase, select one unit from your opponent's army. Until the start of your next Command phase, that enemy unit is your [gloss:sm-oath-of-moment:Oath of Moment target]. Each time a model with this ability makes an attack that targets your Oath of Moment target:
 ▪ You can [gloss:re-roll:re-roll] the [gloss:hit-roll:Hit roll].
-▪ If you are using a Codex: Space Marines [gloss:detachments:Detachment] and your army does not include one or more units with the Blood Angels, Dark Angels, Deathwatch or Space Wolves [gloss:keywords:keywords], add 1 to the [gloss:wound-roll:Wound roll] as well.
+▪ If you are using a Codex: Space Marines [gloss:detachments:Detachment] and your army does not include one or more units with the Black Templars, Blood Angels, Dark Angels, Deathwatch or Space Wolves [gloss:keywords:keywords], or one or more units from those factions' Munitorum Field Manual sections, add 1 to the [gloss:wound-roll:Wound roll] as well.
 
 **Space Marine Chapters:**
 ▪ If an Adeptus Astartes unit has a second [gloss:faction-keyword:Faction keyword] on its [gloss:datasheet:datasheet], that Faction keyword is the name of that unit's Chapter. For example, Marneus Calgar has both the Adeptus Astartes and Ultramarines Faction keywords, and is therefore from the Ultramarines Chapter.
@@ -485,9 +485,9 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
           cp: '1CP',
           turn: 'your',
           flavor: 'The Adeptus Astartes are elite troops who strike with all the speed and fury of a searing thunderbolt.',
-          when: 'Your Charge phase.',
-          target: 'One Adeptus Astartes Mounted unit from your army that has not [gloss:declare-charge:declared a charge] this phase.',
-          effect: 'Until the end of the turn, you can [gloss:re-roll:re-roll] [gloss:charge-roll:Charge rolls] made for your unit and [gloss:melee-weapons:melee weapons] equipped by models in that unit have the [LANCE] ability.',
+          when: 'Fight phase, when a friendly ADEPTUS ASTARTES unit is [gloss:selected-to-fight:selected to fight].',
+          target: 'That ADEPTUS ASTARTES unit.',
+          effect: 'Your unit’s [gloss:melee-attacks:melee attacks] have [LANCE].',
           restrictions: '',
         },
         {
@@ -520,7 +520,7 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
           flavor: 'Like zephyrs dancing across wide horizons, Space Marine riders and pilots can weave lithely around incoming fire with incredible skill.',
           when: "Your opponent's Shooting phase, just after an enemy unit has [gloss:select-targets:selected its targets].",
           target: "One Adeptus Astartes Mounted or Adeptus Astartes Fly Vehicle unit from your army that was selected as the target of one or more of the attacking unit's attacks.",
-          effect: 'Until the end of the phase, each time an attack targets your unit, subtract 1 from the [gloss:hit-roll:Hit roll] and subtract 1 from the [gloss:wound-roll:Wound roll].',
+          effect: 'Until the end of the phase, each time an attack targets your unit, subtract 1 from the [gloss:wound-roll:Wound roll].',
           restrictions: '',
         },
         {
@@ -709,7 +709,7 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
           flavor: "Adeptus Astartes veterans claim critical objectives in daring strikes, annihilating resistance in their Chapter's name before sweeping onto their next target.",
           when: 'Your Movement phase.',
           target: 'One Adeptus Astartes Terminator, Bladeguard Veteran Squad, Sternguard Veteran Squad or Vanguard Veteran Squad unit from your army within range of an [gloss:objective-marker:objective marker] you control.',
-          effect: 'That objective marker remains under your control, even if you have no models within range of it, until your opponent controls it at the start or end of any turn.',
+          effect: 'That objective marker remains under your control until your opponent’s Level of Control over that objective marker is greater than yours at the end of a phase.',
           restrictions: '',
         },
         {
@@ -819,7 +819,7 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
           points: 15,
           upgrade: true,
           flavor: "Entreated by veteran gunners, this skimmer's potent weapons unleash their spirits' wrath in bursts of excoriating destruction.",
-          body: `Speeder unit only. This unit can [gloss:re-roll:re-roll] [gloss:damage-roll:Damage rolls] and rolls to determine the Attacks characteristic of a weapon.`,
+          body: `Speeder unit only. This unit can re-roll:\n▪ [gloss:damage-roll:Damage rolls].\n▪ Rolls to determine the A of a weapon.`,
         },
         {
           name: 'Raptorial Cogitator Core',
@@ -843,10 +843,10 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
           'Librarians spend their lives mastering psychic disciplines, learning how to manipulate the energies of the Immaterium to confound their foes and embolden their battle-brothers.',
         body: `At the start of the [gloss:battle-round:battle round], select one of the following [gloss:sm-psychic-discipline:Psychic Disciplines] abilities. [gloss:friendly:Friendly] Adeptus Astartes [gloss:psyker:Psyker] units have that ability until the end of the battle round.
 ▪ Biomancy Discipline: This unit has +2" M.
-▪ Divination Discipline: This unit's attacks can [gloss:re-roll:re-roll] [gloss:hit-roll:Hit rolls] of 1 and re-roll [gloss:wound-roll:Wound rolls] of 1.
+▪ Divination Discipline: This unit's attacks can:\n▪ Re-roll [gloss:hit-roll:Hit rolls] of 1.\n▪ Re-roll [gloss:wound-roll:Wound rolls] of 1.
 ▪ Pyromancy Discipline: This unit's [gloss:ranged-attacks:ranged attacks] that target an enemy unit [gloss:within:within] 12" of this unit have +1 AP.
-▪ Telekinesis Discipline: Ranged attacks that target this unit have -1 [gloss:strength:Strength].
-▪ Telepathy Discipline: This unit's attacks can ignore [gloss:modifier:modifiers] to [gloss:ballistic-skill:Ballistic Skill], [gloss:weapon-skill:Weapon Skill] and Hit rolls.`,
+▪ Telekinesis Discipline: Ranged attacks that target this unit have -1 [gloss:strength:S].
+▪ Telepathy Discipline: This unit's attacks can ignore modifiers to BS, WS and hit rolls.`,
       },
       stratagems: [],
       enhancements: [
@@ -854,7 +854,7 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
           name: 'Celerity',
           points: 35,
           flavor: 'The powers of the Immaterium flow through the psyker, heightening his speed and that of his battle-brothers.',
-          body: `Adeptus Astartes [gloss:psyker:Psyker] model only. When this unit is selected to make an [gloss:advance-move:advance move], that move does not prevent this unit from being [gloss:eligible-to-charge:eligible to declare a charge]. When this unit is selected to make a [gloss:fall-back-move:fallback move], if this unit has the Biomancy [gloss:sm-psychic-discipline:Discipline] ability, that move does not prevent this unit from being eligible to declare a charge.`,
+          body: `Adeptus Astartes [gloss:psyker:Psyker] model only.\n▪ When this unit is selected to make an [gloss:advance-move:advance move], that move does not prevent this unit from being [gloss:eligible-to-charge:eligible to declare a charge].\n▪ When this unit is selected to make a [gloss:fall-back-move:fall-back move], if this unit has the Biomancy [gloss:sm-psychic-discipline:Discipline] ability, that move does not prevent this unit from being eligible to declare a charge.`,
         },
         {
           name: 'Prescience',
@@ -872,13 +872,13 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
           name: 'Temporal Corridor',
           points: 25,
           flavor: 'Folding existence around an invisible path along which time is altered, the Librarian propels his allies across the battlefield with supernatural swiftness.',
-          body: `Adeptus Astartes [gloss:psyker:Psyker] model only. At the end of your opponent's Fight phase, you can place this unit into [gloss:strategic-reserves:strategic reserves]. If this unit has the Telekinesis [gloss:sm-psychic-discipline:Discipline] ability, this unit has Deep Strike.`,
+          body: `Adeptus Astartes [gloss:psyker:Psyker] model only.\n▪ If this unit has the Telekinesis [gloss:sm-psychic-discipline:Discipline] ability, this unit has Deep Strike.\n▪ At the end of your opponent's Fight phase, if this unit is [gloss:unengaged:unengaged], you can use this ability. If you do:\n▪ Place this unit in [gloss:strategic-reserves:strategic reserves].\n▪ This unit can make an [gloss:ingress-move:ingress move] in your next Movement phase (including in your first turn).`,
         },
         {
           name: 'Fusillade',
           points: 25,
           flavor: 'The Librarian wreathes the ammunition of his allies in armour-eroding halos of azure fire.',
-          body: `Adeptus Astartes [gloss:psyker:Psyker] model only. This unit's [gloss:ranged-attacks:ranged attacks] have [ANTI-MONSTER/VEHICLE 5+]. If this unit has the Pyromancy [gloss:sm-psychic-discipline:Discipline] ability, [SUSTAINED HITS 1].`,
+          body: `Adeptus Astartes [gloss:psyker:Psyker] model only. This unit's [gloss:ranged-attacks:ranged attacks] have:\n▪ [LETHAL HITS].\n▪ If this unit has the Pyromancy [gloss:sm-psychic-discipline:Discipline] ability, [SUSTAINED HITS 1].`,
         },
       ],
     },
@@ -936,7 +936,7 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
           name: 'Shroud Field',
           points: 20,
           flavor: 'This camouflaging field projector employs a chameleonic twisting of emissions whose secrets the Techmarines cannot reproduce.',
-          body: `Phobos model only. This model has [gloss:lone-operative:Lone Operative] and Stealth.`,
+          body: `Phobos model only. This model has:\n▪ [gloss:lone-operative:Lone Operative].\n▪ Stealth.`,
         },
         {
           name: 'Death in the Dark',
@@ -1233,7 +1233,7 @@ Adeptus Astartes units from your army gain the Entrenched keyword while all of t
           name: 'Castellum Omnivox',
           points: 20,
           flavor: 'This unique vox-and-augur augmetic provides the bearer with unparalleled tactical data vital to coordinating an aggressive defence in battle.',
-          body: `Adeptus Astartes model only. Each time the bearer's unit makes a Fall Back move, select one of the following to apply to that unit until the end of the turn: that unit is eligible to perform an Action in a turn in which it Fell Back; or that unit is eligible to shoot and declare a charge in a turn in which it Fell Back.`,
+          body: `Adeptus Astartes model only. Each time the bearer's unit makes a Fall Back move, select one of the following to apply to that unit until the end of the turn:\n▪ That unit is eligible to perform an Action in a turn in which it Fell Back.\n▪ That unit is eligible to shoot and declare a charge in a turn in which it Fell Back.`,
         },
         {
           name: 'Defensive Mastery',
@@ -1532,7 +1532,7 @@ Restrictions: Your army can include White Scars units, but it cannot include any
           flavor: 'Battle-brothers of the White Scars Chapter are born and raised in the saddle. Expert pilots and riders all, they weave through incoming fire with instinctive skill.',
           when: "Your opponent's Shooting phase, just after an enemy unit has selected its targets.",
           target: "One Adeptus Astartes Mounted or Adeptus Astartes Fly Vehicle unit from your army that was selected as the target of one or more of the attacking unit's attacks.",
-          effect: 'Until the end of the phase, each time an attack targets your unit, subtract 1 from the Hit roll and subtract 1 from the Wound roll.',
+          effect: 'Until the end of the phase, each time an attack targets your unit, subtract 1 from the Wound roll.',
           restrictions: '',
         },
         {
@@ -1708,7 +1708,7 @@ Restrictions: Your army can include Imperial Fists units, but it cannot include 
           flavor: 'The battle-brothers of the Imperial Fists 1st Company advance with merciless efficiency, eliminating all resistance and staking the Emperor\'s claim.',
           when: 'Your Movement phase.',
           target: 'One Adeptus Astartes Terminator, Bladeguard Veteran Squad, Sternguard Veteran Squad or Vanguard Veteran Squad unit from your army within range of an objective marker you control.',
-          effect: 'That objective marker remains under your control, even if you have no models within range of it, until your opponent controls it at the start or end of any phase.',
+          effect: 'That objective marker remains under your control until your opponent’s Level of Control over that objective marker is greater than yours at the end of a phase.',
           restrictions: '',
         },
         {
@@ -1795,7 +1795,7 @@ Restrictions: Your army can include Imperial Fists units, but it cannot include 
         name: 'Masters of Shadow',
         flavor:
           'The Raven Guard are renowned for their uncanny ability to move unseen, cloaking themselves in darkness as they close in upon their prey.',
-        body: `Each time a ranged attack targets an Adeptus Astartes unit from your army, unless the attacking model is within 12", the target has the Benefit of Cover against that attack.
+        body: `Each time a ranged attack targets an Adeptus Astartes unit from your army, unless the attacking model is within 12", the target has the Benefit of Cover.
 
 ### Unparalleled Tactician
 A master of manoeuvre warfare, Aethon Shaan orchestrates battles with absolute precision. Once per battle round, if an Aethon Shaan model from your army is on the battlefield, you can use the Into Darkness Stratagem for 0CP.
@@ -1833,7 +1833,7 @@ Restrictions: Your army can include Raven Guard units, but it cannot include any
           turn: 'opponent',
           flavor: 'The Raven Guard are swift to exploit the movements of their foes, whether to pursue their prey and complete the kill or to make use of an opportunity to fade once more from sight.',
           when: "Your opponent's Movement phase, just after an enemy unit ends a Normal, Advance or Fall Back move.",
-          target: 'One Adeptus Astartes Infantry or Adeptus Astartes Mounted unit from your army that is within 9" of the enemy unit that just ended that move. You cannot target a unit that is within Engagement Range of one or more enemy units.',
+          target: 'One Adeptus Astartes Infantry or Adeptus Astartes Mounted unit from your army that is within 8" of the enemy unit that just ended that move. You cannot target a unit that is within Engagement Range of one or more enemy units.',
           effect: 'Your unit can make a Normal move of up to D6", or up to 6" instead if it is a Phobos or Scout Squad unit.',
           restrictions: '',
         },
@@ -2215,7 +2215,7 @@ Restrictions: Your army can include Ultramarines units, but it cannot include an
           name: 'Scroll of Proclamation',
           points: 15,
           flavor: "Finely scribed on vellum and tightly bound in an armoured scroll case, the words of Roboute Guilliman's Consilias Imperitus Ultimar prove a constant source of inspiration.",
-          body: `Adeptus Astartes model only. When this unit declares a charge, if an enemy unit within range of an objective is within 12" of this unit, you can use this Enhancement. If you do, this unit can re-roll that charge roll, and this unit must end that charge move engaged with one or more of those enemy units.`,
+          body: `Adeptus Astartes model only. When this unit declares a charge, if an enemy unit within range of an objective is within 12" of this unit, you can use this Enhancement. If you do:\n▪ This unit can re-roll that charge roll.\n▪ This unit __must__ end that charge move engaged with one or more of those enemy units.`,
         },
         {
           name: 'Seals of Reconquest',
@@ -2251,7 +2251,7 @@ Restrictions: Your army can include Ultramarines units, but it cannot include an
           flavor: 'Jump jets blazing, these Space Marine shock troops slam into their foes with bone-breaking force.',
           when: 'Fight phase, when a friendly Adeptus Astartes Fly Infantry unit that made a charge move this turn is selected to attack.',
           target: 'That friendly Adeptus Astartes Fly Infantry unit.',
-          effect: "Your unit's melee attacks have +1 Strength.",
+          effect: "Your unit's melee attacks have +1 S.",
           restrictions: '',
         },
         {
@@ -2282,7 +2282,7 @@ Restrictions: Your army can include Ultramarines units, but it cannot include an
           name: 'Avenging Angel',
           points: 20,
           flavor: 'Descending on wings of fire, this warrior spreads terror of Imperial vengeance through the ranks of the foe.',
-          body: `Adeptus Astartes Fly Infantry model only. When this unit ends an ingress move, select up to one enemy unit within 9" of this unit. That enemy unit makes a Battle-shock test, with -1 to that Battle-shock test.`,
+          body: `Adeptus Astartes Fly Infantry model only. When this unit ends an ingress move, select up to one enemy unit within 9" of this unit. That enemy unit makes a battle-shock roll, with -1 to that battle-shock roll.`,
         },
         {
           name: 'Orksbane',
