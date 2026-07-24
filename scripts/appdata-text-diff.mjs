@@ -58,7 +58,11 @@ function sem(s) {
     .replace(/[-‐‑–—]/g, '-')
     .toLowerCase()
     .replace(/[^\p{L}\p{N}"'+%/.\-]+/gu, ' ')
+    .replace(/(?<![\p{L}\p{N}])'|'(?![\p{L}\p{N}])/gu, '') // quote marks (keeps in-word apostrophes)
+    .replace(/\.(?=\s|$)/g, '') // sentence-final periods — punctuation, not wording (keeps decimals)
+    .replace(/(?<=\p{L})\.(?=\p{L})/gu, ' ') // missing space after a period ("phase.just") — appdata artifact
     .replace(/\s+/g, ' ')
+    .replace(/\s*\/\s*/g, '/') // stray spaces around "/" in slashed keyword pairs
     .trim()
 }
 // Dice coefficient over word arrays — same "overlap" idea sync-core uses for its report.
@@ -130,18 +134,55 @@ for (const slug of slugs) {
     const mod = await loadModule(path.join(facDir, `${slug}.js`))
     const fac = (Object.values(mod).find((v) => v && v.en) || {}).en
     if (!fac) continue
-    // Army rule: match by name among appdata's armyRules.
+    // Army rule: wh11ed sometimes folds all army rules into one body (### headings), so accept a
+    // match against either the same-named appdata rule alone or all of them joined (name + body).
     if (fac.armyRule) {
-      const appAr = (app.armyRules || []).find((r) => norm(r.name) === norm(fac.armyRule.name))
-      if (appAr) compare(`${slug} · army rule "${fac.armyRule.name}"`, fac.armyRule.body, bodyText(appAr.body))
+      // appdata sometimes lists the same-named army rule twice (a stale edition + the current one),
+      // so a candidate is EVERY same-named rule's body, plus all distinct rules joined (name + body)
+      // for the folded-body case; the best-matching candidate is the one we diff against.
+      const allArs = app.armyRules || []
+      const sameName = allArs.filter((r) => norm(r.name) === norm(fac.armyRule.name))
+      const seen = new Set()
+      const distinct = allArs.filter((r) => !seen.has(norm(r.name)) && seen.add(norm(r.name)))
+      const candidates = [
+        ...sameName.map((r) => bodyText(r.body)),
+        distinct.length > 1 && distinct.map((r) => `${r.name}\n${bodyText(r.body)}`).join('\n'),
+      ].filter(Boolean)
+      if (candidates.length && !candidates.some((c) => sem(c) === sem(fac.armyRule.body))) {
+        const best = candidates
+          .map((c) => [similarity(fac.armyRule.body, c), c])
+          .sort((x, y) => y[0] - x[0])[0][1]
+        compare(`${slug} · army rule "${fac.armyRule.name}"`, fac.armyRule.body, best)
+      }
     }
     const appDet = new Map((app.detachments || []).map((d) => [norm(d.name), d]))
     for (const det of fac.detachments || []) {
       const a = appDet.get(norm(det.name))
       if (!a) continue
       if (det.rule) {
-        const appRule = (a.rules || []).find((r) => norm(r.name) === norm(det.rule.name)) || (a.rules || [])[0]
-        if (appRule) compare(`${slug} · ${det.name} · rule "${det.rule.name}"`, det.rule.body, bodyText(appRule.body))
+        // wh11ed often folds all of a detachment's rules (+ the chapter Restrictions line) into one
+        // body with ### headings, while appdata lists them as separate rules. So build candidates:
+        // the same-named appdata rule alone AND all the detachment's rules joined (name + body), then
+        // diff against whichever matches best.
+        const rules = a.rules || []
+        // Some appdata rules open with a header block that just repeats the rule's own name — wh11ed
+        // carries the name separately (det.rule.name), so drop that leading header before comparing.
+        const ownBody = (r) => (r.body || []).filter((b, i) => !(i === 0 && b.type === 'header' && norm(b.text) === norm(r.name)))
+        const appRule = rules.find((r) => norm(r.name) === norm(det.rule.name))
+        // In the joined form, the rule whose name == det.rule.name contributes only its body (wh11ed
+        // keeps that name as the folded rule's title, not inside the body); the rest add name + body.
+        const joined = rules
+          .map((r) => (norm(r.name) === norm(det.rule.name) ? bodyText(ownBody(r)) : `${r.name}\n${bodyText(r.body)}`))
+          .join('\n')
+        const candidates = [
+          appRule && bodyText(ownBody(appRule)),
+          rules.length === 1 && bodyText(rules[0].body),
+          rules.length > 1 && joined,
+        ].filter(Boolean)
+        if (candidates.length && !candidates.some((c) => sem(c) === sem(det.rule.body))) {
+          const best = candidates.map((c) => [similarity(det.rule.body, c), c]).sort((x, y) => y[0] - x[0])[0][1]
+          compare(`${slug} · ${det.name} · rule "${det.rule.name}"`, det.rule.body, best)
+        }
       }
       const appStrat = new Map((a.stratagems || []).map((s) => [norm(s.name), s]))
       for (const st of det.stratagems || []) {

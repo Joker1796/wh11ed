@@ -1268,7 +1268,7 @@ export default [
     "abilities": [
       {
         "name": "Defensive Stance",
-        "text": "Each time you target this unit with the Fire Overwatch Stratagem, while resolving that Stratagem, hits are scored on unmodified Hit rolls of 5+, or unmodified Hit rolls of 4+ instead if this unit is within range of an objective marker."
+        "text": "Each time you target this unit with the Fire Overwatch Stratagem, while resolving that Stratagem, hits are scored on unmodified Hit rolls of 5+, or unmodified Hit rolls of 4+ instead if this unit is within range of an objective marker that you control."
       }
     ],
     "composition": [
@@ -1550,7 +1550,7 @@ export default [
       },
       {
         "name": "Hypersensory Array",
-        "text": "Once per battle round, you can target this unit with the Rapid Ingress or Heroic Intervention Stratagem for 0CP, and can do so even if you have already targeted a different unit with that Stratagem this turn."
+        "text": "Once per battle round, you can target this unit with the Rapid Ingress/Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that Stratagem on other units this phase."
       }
     ],
     "composition": [
@@ -2055,7 +2055,7 @@ export default [
       },
       {
         "name": "Psychic Terror (Psychic)",
-        "text": "If one or more models from your army with this ability are on the battlefield when you unleash the Shadow in the Warp, subtract 1 from the Battle-shock test each enemy unit on the battlefield must take as a result."
+        "text": "If one or more Neurotyrants from your army are on the battlefield when you unleash the Shadow in the Warp, subtract 1 from the Battle-shock test each enemy unit on the battlefield must take as a result."
       },
       {
         "name": "Neuroloids",
@@ -2840,7 +2840,7 @@ export default [
     "abilities": [
       {
         "name": "Death Scream",
-        "text": "In your Shooting phase, after this model has shot, select one unit hit by one or more of those attacks. That unit must take a Battle-shock test, subtracting 1 from that test."
+        "text": "In your Shooting phase, after this model has shot, select one enemy unit hit by one or more of those attacks. That unit must take a Battle-shock test, subtracting 1 from that test."
       }
     ],
     "composition": [
@@ -3374,7 +3374,7 @@ export default [
       },
       {
         "name": "Malign Presence (Aura)",
-        "text": "If this model is your WARLORD, each time your opponent targets a unit from their army with a Stratagem, if that unit is within 12\" of this model, increase the cost of that use of that Stratagem by 1CP.\n\n**Designer’s Note:** This ability takes precedence over the Lord of Deceit ability presented in the Balance Dataslate June 2024."
+        "text": "Once per turn, when your opponent targets a unit from their army within 12\" of this model with a Stratagem, you can use this ability. If you do increase the CP cost of that use of that Stratagem by 1CP."
       },
       {
         "name": "Domination of the Hive Mind (Aura)",
@@ -3615,7 +3615,7 @@ export default [
       },
       {
         "name": "Aggressive Leader-beast",
-        "text": "In your opponent’s Shooting phase, each time an enemy unit has shot, if any models from this unit were destroyed as a result of those attacks, this unit can make a Surge move. To do so, roll one D6: models in this unit move a number of inches up to this result, but this unit must end that move as close as possible to the closest enemy unit (excluding AIRCRAFT). When doing so, those models can be moved within Engagement Range of that enemy unit. This unit cannot make a Surge move while it is Battle-shocked or within Engagement Range of one or more enemy units, and can only make one Surge move per phase."
+        "text": "In your opponent’s Shooting phase, when an enemy unit has shot, if a model in this unit was destroyed by those attacks, this unit can make a surge move of up to D6\"."
       }
     ],
     "composition": [
@@ -3688,7 +3688,7 @@ export default [
     "abilities": [
       {
         "name": "Adaptive Instincts",
-        "text": "At the start of the Fight phase, select one of the following:\n▪ **Aggression Imperative:** Until the end of the phase, each time a model in this unit makes an attack, re-roll a Hit roll of 1.\n▪ **Bioregeneration:** Until the end of the phase, each time a saving throw is made for a model in this unit, re-roll a saving throw of 1."
+        "text": "In the Fight phase, when this unit is selected to fight or when an enemy unit targets this unit, you can select one of the following:\n▪ This unit’s melee attacks have +1 S.\n▪ Or: This unit has +1 T."
       }
     ],
     "composition": [
@@ -3880,7 +3880,7 @@ export default [
     "abilities": [
       {
         "name": "Aerial Seeding",
-        "text": "This model must start the battle in Reserves, but neither it nor any units embarked within it are counted towards any limits placed on the maximum number of Reserves units you can start the battle with. This model can be set up in the Reinforcements step of your first, second or third Movement phase, regardless of any mission rules. Any units embarked within this model must immediately disembark after it has been set up on the battlefield, and they must be set up more than 9\" away from all enemy models. After this model has been set up on the battlefield, no units can embark within it."
+        "text": "This model must start the battle in Reserves, but neither it nor any units embarked within it are counted towards any limits placed on the maximum number of Reserves units you can start the battle with. This model can be set up in the Reinforcements step of your first, second or third Movement phase, regardless of any mission rules. Any units embarked within this model must immediately disembark after it has been set up on the battlefield, and they must be set up more than 8\" away from all enemy models. After this model has been set up on the battlefield, no units can embark within it."
       }
     ],
     "composition": [
@@ -4081,7 +4081,7 @@ export default [
     "abilities": [
       {
         "name": "Guardian Organism",
-        "text": "While a Character model is leading this unit, that CHARACTER has the Feel No Pain 5+ ability."
+        "text": "While a CHARACTER model is leading this unit, that CHARACTER model has the Feel No Pain 5+ ability."
       }
     ],
     "composition": [
@@ -4144,7 +4144,7 @@ export default [
     "abilities": [
       {
         "name": "Foul Spores (Aura)",
-        "text": "While a friendly TYRANIDS unit is within 6\" of this unit, each time a ranged attack targets that unit, models in that unit have the Benefit of Cover against that attack. In addition, while a friendly TYRANIDS unit (excluding Monsters) is within 6\" of this unit, models in that unit have the Stealth ability."
+        "text": "Friendly TYRANIDS units within 6\" of this unit have Stealth."
       }
     ],
     "composition": [
@@ -4204,7 +4204,7 @@ export default [
     "abilities": [
       {
         "name": "Pouncing Leap",
-        "text": "You can target this unit with the Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do: that use is -1 CP; that use does not prevent any uses of that Stratagem on other units this phase."
+        "text": "You can target this unit with the Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that Stratagem on other units this phase."
       }
     ],
     "composition": [

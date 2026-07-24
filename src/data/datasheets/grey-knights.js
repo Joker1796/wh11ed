@@ -390,7 +390,7 @@ export default [
       },
       {
         "name": "Haloed in Soulfire (Psychic)",
-        "text": "While this model is leading a unit, that unit can only be selected as the target of a ranged attack if the attacking model is within 18\"."
+        "text": "While this model is leading a unit, that unit can only be selected as the target of an attack if the attacking model is within 18\"."
       }
     ],
     "composition": [
@@ -1192,11 +1192,11 @@ export default [
     "abilities": [
       {
         "name": "Sanctuary (Psychic)",
-        "text": "While this model is leading a unit, each time an attack targets that unit, subtract 1 from the Hit roll."
+        "text": "▪ This unit has Stealth.\n▪ Melee attacks that target this unit have -1 to hit rolls."
       },
       {
         "name": "Hammer Aflame (Psychic)",
-        "text": "Each time this model’s unit is selected to fight, you can select one enemy unit within Engagement Range of this model’s unit and roll one D6: on a 2-3, that enemy unit suffers 1 mortal wound; on a 4-5, that enemy unit suffers D3 mortal wounds; on a 6, that enemy unit suffers D3+3 mortal wounds."
+        "text": "Each time this model’s unit fights, you can select one enemy unit within Engagement Range of this model’s unit and roll one D6: on a 2-3, that enemy unit suffers 1 mortal wound; on a 4-5, that enemy unit suffers D3 mortal wounds; on a 6, that enemy unit suffers D3+3 mortal wounds."
       }
     ],
     "composition": [
@@ -1479,7 +1479,7 @@ export default [
     "abilities": [
       {
         "name": "Personal Teleporters",
-        "text": "In your Shooting phase, after this unit has shot, if it is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 6\". If it does, until the end of the turn, this unit is not eligible to declare a charge."
+        "text": "In your Shooting phase, after this unit has shot, if it is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 6\" as if it were your Movement phase. If it does, until the end of the turn, this unit is not eligible to declare a charge."
       }
     ],
     "composition": [
