@@ -258,7 +258,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           name: "Augury Halo",
           points: 20,
           flavor: "This web of neuro-couplings has been worked into a richly ornamented helmet. Through it, the Noble pilot can access nearby hidden augur nodes deployed by servitor clades of the Sacristans, inloading targeting data to pick out the locations of shrouded besiegers.",
-          body: "IMPERIAL KNIGHTS model only. Each time the bearer makes a ranged attack, while the bearer is on your defensive line, weapons equipped by the bearer have the [ignores cover] ability.",
+          body: "IMPERIAL KNIGHTS model only. Each time the bearer makes a ranged attack, while the bearer is on your defensive line, weapons equipped by the bearer have the [IGNORES COVER] ability.",
         },
         {
           name: "Vengeful Tread",
@@ -365,7 +365,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           name: "Pennant of Silvered Fury",
           points: 15,
           flavor: "This circuit-etched pennant marks a slayer of hordes and is linked to a glowing electoo beneath the pilot’s skin.",
-          body: "IMPERIAL KNIGHTS model only. When the bearer is selected to fight, it can use this Enhancement. If it does, this Enhancement is expended, then until the end of the phase, melee weapons equipped by the bearer have the [sustained hits 2] ability.",
+          body: "IMPERIAL KNIGHTS model only. When the bearer is selected to fight, it can use this Enhancement. If it does, this Enhancement is expended, then until the end of the phase, melee weapons equipped by the bearer have the [SUSTAINED HITS 2] ability.",
         },
         {
           name: "Crushing Condemnation",
@@ -467,7 +467,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           name: "Fables of Nightmare",
           points: 10,
           flavor: "Many are the fiends and unnamed dooms that lead hosts of darkness in the oldest tales. Their retelling spurs this Noble’s Bondsmen to seek out the lurking commanders of the foe and cut them down, so that they may end the spread of their evil.",
-          body: "IMPERIAL KNIGHTS model only. While two or more Armiger models are under the effects of the bearer’s Bondsman ability, melee weapons equipped by those ARMIGER models have the [precision] ability.",
+          body: "IMPERIAL KNIGHTS model only. While two or more Armiger models are under the effects of the bearer’s Bondsman ability, melee weapons equipped by those ARMIGER models have the [PRECISION] ability.",
         },
         {
           name: "Tales of Heroism",
@@ -580,7 +580,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           name: "Bearer of the Judicant’s Helm",
           points: 25,
           flavor: "A courtly counsellor against deception and a visionary hunter of lurking prey, this Noble’s sage advice unmasks the contemptible before their companions.",
-          body: "IMPERIAL KNIGHTS model only. At the start of your Shooting phase, select one other IMPERIAL KNIGHTS model from your army that is within 12\" of and visible to the bearer. Until the end of the phase, ranged weapons equipped by that selected model have the [ignores cover] ability.",
+          body: "IMPERIAL KNIGHTS model only. At the start of your Shooting phase, select one other IMPERIAL KNIGHTS model from your army that is within 12\" of and visible to the bearer. Until the end of the phase, ranged weapons equipped by that selected model have the [IGNORES COVER] ability.",
         },
         {
           name: "Bearer of the Lancer’s Sigil",
