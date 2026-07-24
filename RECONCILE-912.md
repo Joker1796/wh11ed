@@ -1,5 +1,9 @@
 # Appdata reconciliation (912) — handoff for machine 2
 
+> **DONE (2026-07-25).** All 5 tasks (Layers 1-4 + GSC tracker rework, PR #252) are merged to
+> `main`. Nothing left from this brief — kept here as a historical record of the reconciliation
+> policy/conventions. Next step is machine 1's `BUMP=minor npm run deploy` (2.1.0, both domains).
+
 You are **machine 2**. Machine 1 is the coordinator. This file is your full brief — read it after
 `git pull` and work only your assigned slice. When in doubt, do NOT guess: skip and note it.
 
