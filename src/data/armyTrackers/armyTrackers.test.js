@@ -101,6 +101,10 @@ describe('resolveArmyTracker', () => {
     const ru = localizeArmyTracker(spec, 'ru')
     expect(ru.spends[0].label).toBe('Aberrants ×5')
     expect(ru.note).toMatch(/Cult Ambush/)
+    // Round-1 start bonus (Deeds That Speak to the Masses): a language-agnostic enhancement name,
+    // rides through localization untouched like the spend labels.
+    expect(en.startBonus).toEqual({ label: 'Deeds That Speak to the Masses', amount: 2 })
+    expect(ru.startBonus.label).toBe('Deeds That Speak to the Masses')
   })
 
   it('resolves the Black Templars selection spec as a battle-long (once) pick', () => {

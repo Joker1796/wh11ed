@@ -37,9 +37,28 @@
       <i class="bi bi-arrow-repeat"></i> {{ roundStart }} · {{ labels.trackerPoolRefill }}
     </p>
 
+    <!-- One-time round-1 bonus (GSC's Deeds That Speak to the Masses enhancement): the tracker
+         doesn't record enhancement picks, so this is a manual bump the player fires if they took it.
+         It's a STARTING-pool bonus — meaningless once the battle is under way — so it's gated to
+         round 1 entirely: applied or not, it's gone from round 2 onwards. -->
+    <div v-if="view.startBonus && currentRound === 1" class="army-bonus">
+      <button v-if="!bonusApplied" class="army-bonus-btn" @click="applyBonus">
+        <i class="bi bi-plus-circle"></i> +{{ view.startBonus.amount }} {{ view.startBonus.label }}
+      </button>
+      <div v-else class="army-bonus-done">
+        <span><i class="bi bi-check-circle-fill"></i> +{{ view.startBonus.amount }} {{ view.startBonus.label }}</span>
+        <button
+          class="army-head-reset"
+          :aria-label="labels.trackerArmyReset"
+          :title="labels.trackerArmyReset"
+          @click="undoBonus"
+        ><i class="bi bi-arrow-counterclockwise"></i></button>
+      </div>
+    </div>
+
     <!-- Counter spend options (GSC resurrect costs) live behind a compact field → modal, so the ~10
-         unit costs don't crowd the card. The header stepper still sets the start pool + the manual +2
-         (Resurgence points are never replenished mid-game — only spent down). -->
+         unit costs don't crowd the card. The header stepper still sets the start pool + the round-1
+         bonus above (Resurgence points are never replenished mid-game — only spent down). -->
     <div v-if="view.spends" class="army-multi">
       <button class="army-field" @click="showSpendPicker = true">
         <span class="army-field-val">{{ labels.trackerArmySpend }}</span>
@@ -159,6 +178,34 @@
       </CollapseTransition>
     </div>
 
+    <!-- Resurrected units (GSC): a running log of what the spend picker bought, so the Resurgence
+         pool's history is visible instead of just a number going down. Each entry is undoable (refunds
+         the cost, removes the entry) — e.g. a mis-tap in the picker. -->
+    <div v-if="resurrected.length" class="army-acc">
+      <button
+        class="army-acc-head"
+        :aria-expanded="showResurrected"
+        @click="showResurrected = !showResurrected"
+      >
+        <i class="bi army-acc-chev" :class="showResurrected ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+        <span class="army-acc-title">{{ labels.trackerArmyResurrected }} · {{ resurrected.length }}</span>
+      </button>
+      <CollapseTransition :show="showResurrected">
+        <ul class="army-acc-body army-resurrect-list">
+          <li v-for="(r, i) in resurrected" :key="i" class="army-resurrect-row">
+            <span class="army-resurrect-label">{{ r.label }}</span>
+            <span class="army-resurrect-cost">−{{ r.cost }}</span>
+            <button
+              class="army-resurrect-undo"
+              :aria-label="labels.trackerArmyReset"
+              :title="labels.trackerArmyReset"
+              @click="undoArmyResurrect(pi, i)"
+            ><i class="bi bi-arrow-counterclockwise"></i></button>
+          </li>
+        </ul>
+      </CollapseTransition>
+    </div>
+
     <!-- The active rule(s) right now — a counter threshold's state (Votann), the picked option
          (AdMech), or the activated Blessings/Rituals (multi). One entry → its name sits in the
          header; several → the header is just "Active" and each rule is listed with its name. Rule
@@ -206,7 +253,7 @@
       :title="view.label"
       :spends="view.spends"
       :remaining="counter"
-      @spend="(cost) => setArmyCounter(pi, counter - cost)"
+      @spend="(s) => resurrectArmyUnit(pi, counter - s.cost, s.label, s.cost)"
       @close="showSpendPicker = false"
     />
 
@@ -250,6 +297,7 @@ const props = defineProps({
 const {
   current, setArmyCounter, setArmySelection, toggleArmyMulti, setArmyChoice, fireArmyToggle,
   undoArmyToggle, addArmyDie, removeArmyDie, setArmyPool,
+  resurrectArmyUnit, undoArmyResurrect, applyArmyBonus, undoArmyBonus,
 } = useTracker()
 const { locale } = useLocale()
 const { theme } = useTheme()
@@ -280,6 +328,17 @@ const counterStart = computed(() => {
 })
 const counter = computed(() => player.value?.army?.counter ?? counterStart.value)
 const currentRound = computed(() => current.value?.currentRound ?? 1)
+// GSC resurrect spend log (see resurrectArmyUnit) — what the spend picker bought, undoable per entry.
+const resurrected = computed(() => player.value?.army?.resurrected ?? [])
+const showResurrected = ref(false)
+// GSC round-1 start-bonus (Deeds That Speak to the Masses) — applied at most once per game.
+const bonusApplied = computed(() => player.value?.army?.bonusApplied ?? false)
+function applyBonus() {
+  applyArmyBonus(props.pi, counter.value + view.value.startBonus.amount)
+}
+function undoBonus() {
+  undoArmyBonus(props.pi, counter.value - view.value.startBonus.amount)
+}
 // Dice-pool primitive: the bank of D6 values. Spending one is confirmed (scarce, easy to mis-tap):
 // tapping a die stages its index here; confirming removes it.
 const dice = computed(() => player.value?.army?.dice ?? [])
@@ -566,6 +625,93 @@ watch(choiceLocked, (locked) => { if (locked) showActive.value = true }, { immed
   font-size: 0.68rem;
 }
 
+
+/* ── Round-1 start bonus (GSC's Deeds That Speak to the Masses) ── */
+.army-bonus {
+  margin-top: 0.55rem;
+}
+
+.army-bonus-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 100%;
+  padding: 0.4rem 0.7rem;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.army-bonus-btn:hover {
+  background: color-mix(in srgb, var(--accent) 24%, transparent);
+}
+
+.army-bonus-done {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* ── Resurrected units (GSC): the spend log, undoable per entry ── */
+.army-resurrect-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.army-resurrect-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.army-resurrect-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: var(--text-primary);
+}
+
+.army-resurrect-cost {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.army-resurrect-undo {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.army-resurrect-undo:hover {
+  border-color: var(--accent);
+  color: var(--text-primary);
+}
 
 /* ── Round-gated readout (Contagion Range: value escalates with the battle round) ── */
 .army-readout {
