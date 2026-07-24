@@ -58,7 +58,7 @@ Once such a unit is at its Starting Strength and all of its models have their st
           target:
             'One Necrons Infantry Character model from your army that was just destroyed. You can use this Stratagem on that model even though it was just destroyed.',
           effect:
-            'At the end of the phase, set your model back up on the battlefield as close as possible to where it was destroyed and not within Engagement Range of any enemy units, with half of its starting number of wounds remaining.',
+            'At the end of the phase, set up the destroyed model on the battlefield, unengaged and as close as possible to where it was destroyed. That model is not part of an attached unit and its unit has a starting strength of 1. That model has half of its starting number of wounds remaining.',
           restrictions: 'Each model can only be targeted with this Stratagem once per battle.',
         },
         {
@@ -84,7 +84,7 @@ Once such a unit is at its Starting Strength and all of its models have their st
           when: 'Fight phase.',
           target: 'One Necrons unit from your army that has not been selected to fight this phase.',
           effect:
-            'Until the end of the phase, add 1 to the Strength characteristic of melee weapons equipped by models in your unit. In addition, if a Necrons Character is leading your unit, improve the Armour Penetration characteristic of melee weapons equipped by models in your unit by 1 (this is not cumulative with any other modifiers that improve Armour Penetration).',
+            'Until the end of the phase, add 1 to the Strength characteristic of melee weapons equipped by models in your unit. In addition, if a Necrons Character is leading your unit, until the end of the phase, improve the Armour Penetration characteristic of melee weapons equipped by models in your unit by 1 (this is not cumulative with any other modifiers that improve Armour Penetration).',
           restrictions: '',
         },
         {
@@ -133,7 +133,7 @@ Once such a unit is at its Starting Strength and all of its models have their st
           points: 20,
           flavor:
             'With this device the bearer can twist space and time about them, enfolding them in a swirling darkness. When it fades, they have vanished, rematerialising elsewhere through a miracle of arcane science.',
-          body: `Necrons model only. Once per battle, at the end of your opponent's turn, if the bearer's unit is not within Engagement Range of one or more enemy units, the bearer can use this Enhancement. If it does, remove that unit from the battlefield. Then, in the Reinforcements step of your next Movement phase, set up that unit anywhere on the battlefield that is more than 9" horizontally away from all enemy models.`,
+          body: `Necrons model only. (Once per battle, per army) At the end of your opponent's turn, if this unit is unengaged, you can use this ability. If you do:\n▪ Place this unit in strategic reserves.\n▪ This unit has Deep Strike until the start of your next Shooting phase.\n▪ This unit must make an ingress move in your next Movement phase (including in your first turn).`,
         },
         {
           name: 'Nether-realm Casket',
@@ -247,10 +247,9 @@ Each time a Destroyer Cult unit from your army makes a ranged attack that target
           cp: '1CP',
           turn: 'opponent',
           flavor: "To strike down one horror is merely to draw the rest of the pack's insane and murderous focus.",
-          when: "Your opponent's Shooting phase, just after an enemy unit has shot.",
-          target:
-            "One Destroyer Cult or Flayed Ones unit from your army that had one or more of its models destroyed by the attacking unit's attacks.",
-          effect: 'Your unit can make a Normal move, but must end that move as close as possible to that enemy unit.',
+          when: "Your opponent's Shooting phase, when an enemy unit that targeted a friendly unengaged DESTROYER CULT/FLAYED ONES unit this phase has shot.",
+          target: 'That DESTROYER CULT/FLAYED ONES unit.',
+          effect: 'Your unit can make a surge move of up to D6".',
           restrictions: '',
         },
       ],
@@ -364,7 +363,7 @@ Each time a model in a Cryptek or Canoptek unit from your army makes an attack, 
           target:
             "One Canoptek unit from your army that was selected as the target of one or more of the attacking unit's attacks.",
           effect:
-            'Until the end of the phase, your unit can only be selected as the target of a ranged attack if the attacking model is within 12".',
+            'Until the end of the phase, your unit can only be selected as the target of a ranged attack if the attacking model is within 18".',
           restrictions: '',
         },
         {
@@ -478,7 +477,7 @@ Once you have made your selections, remove those units from the battlefield and 
           target:
             'One Necrons unit from your army (excluding Monster units) that is arriving using the Deep Strike or Hyperphasing abilities this phase.',
           effect:
-            'Your unit can be set up anywhere on the battlefield that is more than 3" horizontally away from all enemy models.',
+            'Your unit can be set up anywhere on the battlefield that is more than 6" horizontally away from all enemy models.',
           restrictions: 'A unit targeted with this Stratagem is not eligible to declare a charge in the same turn.',
         },
         {
@@ -566,7 +565,7 @@ Once you have made your selections, remove those units from the battlefield and 
           turn: 'your',
           flavor: 'It is not only android soldiery that be compelled to serve. With a command, prized war engines and ornate weapons are empowered to hyperlethality.',
           when: 'Your Shooting phase or the Fight phase.',
-          target: 'One Necrons unit (excluding Titanic units) from your army that has not been selected to shoot or fight this phase.',
+          target: 'One Necrons unit from your army (excluding Titanic units) that has not been selected to shoot or fight this phase.',
           effect: 'Until the end of the phase, each time a model in your unit makes an attack, an unmodified Hit roll of 5+ scores a Critical Hit.',
           restrictions: '',
         },
@@ -738,7 +737,7 @@ This detachment has the Dynasty tag and cannot be taken with another Dynasty det
           cp: '1CP',
           turn: 'your',
           flavor: 'Once their targeting imperatives are locked in place, these hurtling Necron killers keep hammering their targets with fire even as they spiral and swoop back and forth across the enemy lines.',
-          when: 'Your Movement phase, when a friendly Necrons Mounted unit is selected to make a fallback move.',
+          when: 'Your Movement phase, when a friendly Necrons Mounted unit is selected to make a fall-back move.',
           target: 'That Necrons Mounted unit.',
           effect: 'That move does not prevent your unit from being eligible to shoot.',
           restrictions: '',
@@ -762,7 +761,7 @@ This detachment has the Dynasty tag and cannot be taken with another Dynasty det
           flavor: 'So rapidly and seemingly randomly does this skyborne unit jink through incoming fire that it is almost impossible for foes to land a solid direct hit.',
           when: "Your opponent's Shooting phase, when an enemy unit targets a friendly Necrons Mounted unit.",
           target: 'That Necrons Mounted unit.',
-          effect: "Ranged attacks that target your unit with a Strength greater than your unit's Toughness have -1 to wound rolls.",
+          effect: "Ranged attacks that target your unit with a S greater than your unit's T have -1 to wound rolls.",
           restrictions: '',
         },
       ],
@@ -808,7 +807,7 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
           flavor: "The layers of this war machine's armour are interspersed with molecule-thin webs of additional quantum shielding to absorb and localise impacts.",
           when: "Your opponent's Shooting phase or the Fight phase, when an enemy unit targets a friendly Necrons Titanic Fly unit.",
           target: 'That Necrons Titanic Fly unit.',
-          effect: 'Until that enemy unit has attacked, each time an attack targets your unit, worsen the Armour Penetration characteristic of that attack by 1.',
+          effect: 'Attacks that target your unit have -1 AP until that enemy unit has attacked.',
           restrictions: '',
         },
         {
@@ -1053,7 +1052,7 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
           name: 'Atomic Disintegrators',
           points: 10,
           flavor: 'Energy lenses project in a web from a central node borne by the Cryptek, coalescing about Necron weapon systems and focusing their power still further.',
-          body: `Cryptek model only. In your Shooting phase, each time the bearer's unit is selected to shoot, when selecting an ability for the Techno-sorcerous Augmentations Detachment rule, you can also select from the following abilities: [ANTI-MONSTER 5+], [ANTI-VEHICLE 5+].`,
+          body: `Cryptek model only. In your Shooting phase, each time the bearer's unit is selected to shoot, when selecting an ability for the Technosorcerous Augmentations Detachment rule, you can also select from the following abilities: [ANTI-MONSTER 5+], [ANTI-VEHICLE 5+].`,
         },
         {
           name: 'Gauntlet of Compression',
@@ -1162,7 +1161,7 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
           name: 'Murdermind',
           points: 15,
           flavor: "Consumed by the Destroyer madness, this Cryptek's powerful intellect is turned entirely toward killing.",
-          body: `Cryptek model only. The bearer has the Destroyer Cult keyword and during the Declare Battle Formations step, the bearer can be attached to a Destroyer Cult unit (excluding Character units). If you do, the bearer's unit cannot contain any models without the Destroyer Cult keyword. Add 3" to the Move characteristic of the bearer.`,
+          body: `Cryptek model only. The bearer has the DESTROYER CULT keyword. Add 3" to the Move characteristic of the bearer.`,
         },
         {
           name: 'Mark of the Nekrosor',
@@ -1241,7 +1240,7 @@ When mustering your army, each Necrons Monster unit from your army has the relev
           flavor: "Necrons' android senses can target the foe by reading the exotic radiation signatures wreathed about them by the C'tan shards' onslaught.",
           when: 'Your Shooting phase or the Fight phase.',
           target: 'One Necrons unit (excluding Monsters) from your army that has not been selected to shoot or fight this phase.',
-          effect: 'Until the end of the phase, each time a model in your unit makes an attack that targets an enemy unit, reroll a Hit roll of 1. If the target of that attack is unravelling, reroll a Wound roll of 1 as well.',
+          effect: 'Until the end of the phase, each time a model in your unit makes an attack that targets an enemy unit, re-roll a Hit roll of 1. If the target of that attack is unravelling, re-roll a Wound roll of 1 as well.',
           restrictions: '',
         },
         {
@@ -1294,7 +1293,7 @@ When mustering your army, each Necrons Monster unit from your army has the relev
           points: 40,
           binding: true,
           flavor: 'This binding uses atomic resonance magnetism to compel the shard into the midst of the foe.',
-          body: `Transcendent C'tan model only. In your turn, each time this model is set up on the battlefield using the Deep Strike or Transdimensional Displacement abilities, it can be set up anywhere on the battlefield that is more than 6" horizontally away from all enemy units. When doing so, if this model is set up within 9" of one or more enemy units, until the end of the turn, it is not eligible to declare a charge.`,
+          body: `TRANSCENDENT C'TAN model only. In your turn, when this unit makes an ingress/advance move using its Transdimensional Displacement ability, this unit can end that move more than 6" horizontally from all enemy units (instead of more than 8"). When this unit ends that move within 8" of an enemy unit, this unit is not eligible to declare a charge until the end of the turn.`,
         },
       ],
     },

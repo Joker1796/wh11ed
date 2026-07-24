@@ -165,7 +165,7 @@ export default [
     "abilities": [
       {
         "name": "Grand Illusion",
-        "text": "If your army includes this model, after both players have deployed their armies, select up to three NECRONS units from your army and redeploy them. When doing so, any of those units can be placed into Strategic Reserves, regardless of how many units are already in Strategic Reserves."
+        "text": "If your army includes this model, after both players have deployed their armies, select up to three NECRONS units from your army and redeploy them. When doing so, you can set those units up in Strategic Reserves if you wish, regardless of how many units are already in Strategic Reserves."
       },
       {
         "name": "Necrodermis",
@@ -645,7 +645,7 @@ export default [
     "abilities": [
       {
         "name": "Nanoscarab Reanimation Beam (Aura)",
-        "text": "While a friendly NECRONS unit is within 3\" of this model, each time that unit’s Reanimation Protocols activate, that unit reanimates an additional D3 wounds."
+        "text": "While a friendly NECRONS unit is within 3\" of this model, each time that unit’s Reanimation Protocols activate, that unit heals an additional D3 wounds."
       }
     ],
     "composition": [
@@ -1190,11 +1190,11 @@ export default [
     "abilities": [
       {
         "name": "Timesplinter Mantle",
-        "text": "This unit has the Stealth ability.\n▪ Each time a melee attack targets this unit, subtract 1 from the Hit roll."
+        "text": "▪ This unit has Stealth.\n▪ Melee attacks that target this unit have -1 to hit rolls."
       },
       {
         "name": "Chronometron",
-        "text": "In your Shooting phase, after this model’s unit has shot, if it is not within Engagement Range of any enemy units, that unit can make a Normal move of up to 5\" as if it were your Movement phase. If it does, until the end of the turn, that unit is not eligible to declare a charge."
+        "text": "In your Shooting phase, after this model’s unit has shot, if it is not within Engagement Range of any enemy units, that unit can make a Normal move of up to 5\". If it does, until the end of the turn, that unit is not eligible to declare a charge."
       }
     ],
     "composition": [
@@ -1264,7 +1264,7 @@ export default [
     "abilities": [
       {
         "name": "Reanimation Nodes (Aura)",
-        "text": "While a friendly Necrons Infantry unit is within 6\" of this Fortification, models in that unit have Feel No Pain 6+ ability."
+        "text": "While a friendly NECRONS INFANTRY unit is within 6\" of this FORTIFICATION, models in that unit have the Feel No Pain 6+ ability."
       },
       {
         "name": "Ancient Cover",
@@ -1348,7 +1348,7 @@ export default [
       },
       {
         "name": "Systematic Vigour",
-        "text": "Each time a CRYPTOTHRALL model in this unit is destroyed by a melee attack, if that model has not fought this phase, roll one D6: on a 2+, do not remove it from play.  The destroyed model can fight after the attacking model’s unit has finished making its attacks, and it is then removed from play."
+        "text": "Each time a CRYPTOTHRALL model in this unit is destroyed by a melee attack, if that model has not fought this phase, roll one D6: on a 2+, do not remove it from play. The destroyed model can fight after the attacking model’s unit has finished making its attacks, and is then removed from play."
       }
     ],
     "rules": [
@@ -2011,7 +2011,7 @@ export default [
       },
       {
         "name": "Atomic Energy Manipulator",
-        "text": "At the end of the Fight phase, if this model destroyed one or more models this phase, until the end of the battle, add 3\" to the range of its Mechanical Augmentation ability to a max of 12."
+        "text": "At the end of the Fight phase, if this model destroyed one or more models this phase, until the end of the battle, add 3\" to the range of its Mechanical Augmentation ability (to a maximum of 12\")."
       }
     ],
     "composition": [
@@ -2097,7 +2097,7 @@ export default [
     "abilities": [
       {
         "name": "Implacable Eradication",
-        "text": "Each time a model in this unit makes an attack, re-roll a Wound roll of 1. If the target of that attack is an enemy unit within range of an objective marker, you can re-roll the Wound roll instead."
+        "text": "Each time a model in this unit makes an attack, re-roll a Wound roll of 1. If the target of that attack is within range of an objective marker, you can re-roll the Wound roll instead."
       }
     ],
     "composition": [
@@ -2299,7 +2299,7 @@ export default [
     "abilities": [
       {
         "name": "Hard-wired for Destruction",
-        "text": "Each time a model in this unit makes a ranged attack that targets the closest eligible enemy unit, re-roll a Hit roll of 1. If the target of that attack is within range of an objective marker your opponent controls, you can re-roll the Hit roll instead."
+        "text": "Each time a model in this unit makes a ranged attack that targets the closest eligible target, re-roll a Hit roll of 1. If the target of that attack is within range of an objective marker your opponent controls, you can re-roll the Hit roll instead."
       }
     ],
     "composition": [
@@ -2585,7 +2585,7 @@ export default [
     "abilities": [
       {
         "name": "Guardian Protocols",
-        "text": "While a Noble model is leading this unit, each time an attack targets this unit, if the Strength characteristic of that attack is greater than this unit’s Toughness characteristic, subtract 1 from the Wound roll."
+        "text": "While a NOBLE model is leading this unit, each time an attack targets this unit, if the Strength characteristic of that attack is greater than the Toughness characteristic of this unit, subtract 1 from the Wound roll."
       }
     ],
     "wargearAbilities": [
@@ -2880,7 +2880,7 @@ export default [
       },
       {
         "name": "Prophet of Destruction",
-        "text": "Each time this model destroys an enemy unit, select one other friendly Destroyer Cult unit within 9\" of it. Until the end of the phase, each time a model in that unit makes an attack, re-roll a Wound roll of 1."
+        "text": "Each time this model destroys an enemy unit, select one other friendly DESTROYER CULT unit within 9\" of this model. Until the end of the phase, each time a model in that unit makes an attack, re-roll a Wound roll of 1."
       }
     ],
     "wargearAbilities": [
@@ -3120,7 +3120,7 @@ export default [
     "abilities": [
       {
         "name": "Tunnelling Horrors",
-        "text": "At the end of your opponent’s turn, if this unit is not within Engagement Range of one or more enemy units, you can remove this unit from the battlefield. In the Reinforcements step of your next Movement phase, set it up anywhere on the battlefield that is more than 8\" horizontally away from all enemy models."
+        "text": "At the end of your opponent’s turn, if this unit is unengaged, you can use this ability. If you do:\n▪ Place this unit in strategic reserves.\n▪ This unit must make an ingress move in your next Movement phase (including in your first turn)."
       }
     ],
     "wargearAbilities": [
@@ -3301,11 +3301,11 @@ export default [
     "abilities": [
       {
         "name": "My Will Be Done",
-        "text": "Once per battle round, one unit from your army with this ability can use it when its unit is targeted with a Stratagem. If it does, reduce the CP cost of that use of that Stratagem by 1CP."
+        "text": "Once per battle round, one unit from your army with this ability can use it when it is targeted with a Stratagem. If it does, reduce the CP cost of that usage of that Stratagem by 1CP."
       },
       {
         "name": "Implacable Resilience",
-        "text": "Each time an attack is allocated to this model, subtract 1 from that attack’s Damage characteristic."
+        "text": "Each time an attack is allocated to this model, subtract 1 from the Damage characteristic of that attack."
       }
     ],
     "wargearAbilities": [
@@ -3381,7 +3381,7 @@ export default [
     "abilities": [
       {
         "name": "My Will Be Done",
-        "text": "Once per battle round, one unit from your army with this ability can use it when its unit is targeted with a Stratagem. If it does, reduce the CP cost of that use of that Stratagem by 1CP."
+        "text": "Once per battle round, one unit from your army with this ability can use it when it is targeted with a Stratagem. If it does, reduce the CP cost of that usage of that Stratagem by 1CP."
       },
       {
         "name": "Translocation Shroud",
@@ -4127,7 +4127,7 @@ export default [
     "abilities": [
       {
         "name": "Powers of the C’tan",
-        "text": "In your Shooting phase, when this model is selected to shoot, first select up to two different C’tan Powers weapons (see left). Until the end of the phase, this model is equipped with those weapons in addition to its other weapons (this model cannot make attacks with any other C’tan Powers weapon you did not select in this way this phase)."
+        "text": "In your Shooting phase, when this model is selected to shoot, first select up to two different C’tan Powers weapons. Until the end of the phase, this model is equipped with those weapons in addition to its other weapons (this model cannot make attacks with any other C’tan Powers weapon you did not select in this way this phase)."
       }
     ],
     "damaged": {
@@ -4248,7 +4248,7 @@ export default [
     "abilities": [
       {
         "name": "Triarch Abilities",
-        "text": "At the start of the battle round, select one Triarch ability (see below). Until the start of the next battle round, this unit has that ability."
+        "text": "At the start of the battle round, select one Triarch ability. Until the start of the next battle round, this unit has that ability."
       },
       {
         "name": "The Silent King",
@@ -4513,7 +4513,7 @@ export default [
     "abilities": [
       {
         "name": "Transdimensional Displacement",
-        "text": "In your Movement phase, when this model is selected to Advance, you can use this ability. If you do:\n▪ That Advance move has no maximum distance.\n▪ This model can move through all types of model (including enemy models and MONSTER and VEHICLE models).\n▪ After moving, this model must be more than 8\" horizontally away from all enemy units."
+        "text": "In your Movement phase, when this unit is selected to make an Advance move, you can use this ability. If you do:\n▪ That Advance move has no maximum distance.\n▪ This unit can move through all types of model (including enemy models and MONSTER/VEHICLE models).\n▪ After moving, this unit must be more than 8\" horizontally from all enemy units."
       },
       {
         "name": "Necrodermis",
@@ -4585,11 +4585,11 @@ export default [
     "abilities": [
       {
         "name": "Ancient Collector",
-        "text": "While this model is leading a unit, at the end of your Command phase, if that unit is within range of an objective marker you control, it remains under your control, even if you have no models within range of it, until your opponent controls it at start or end of any turn."
+        "text": "While this model is leading a unit, at the end of your Command phase, if this unit is within range of an objective marker you control, that objective marker remains under your control until your opponent’s Level of Control over that objective marker is greater than yours at the end of a phase."
       },
       {
         "name": "Surrogate Hosts",
-        "text": "At the start of your Command phase, if this model is on the battlefield, you can select one other friendly Necrons Infantry Character model on the battlefield (excluding Skorpekh Lord or Epic Hero models). The selected model is destroyed (ignoring any rules that are triggered when a model is destroyed) and this model is put in its place, with all of its wounds remaining (if the selected model was leading a unit, this model now attaches to that unit as its Leader)."
+        "text": "At the start of your Command phase, if this model is on the battlefield, you can select one other friendly NECRONS INFANTRY CHARACTER model on the battlefield (excluding SKORPEKH LORD and EPIC HERO models). The selected model is destroyed (ignoring any rules that are triggered when a model is destroyed) and this model is put in its place, with all of its wounds remaining (if the selected model was leading a unit, this model now attaches to that unit as its Leader)."
       }
     ],
     "composition": [
@@ -4808,7 +4808,7 @@ export default [
     "abilities": [
       {
         "name": "Targeting Relay",
-        "text": "In your Shooting phase, each time this model is selected to shoot, after resolving its attacks, select one enemy unit that was hit by one or more of those attacks. Until the end of the phase, that unit cannot have the Benefit of Cover."
+        "text": "In your Shooting phase, after this model has shot, select one enemy unit hit by one or more of those attacks. Until the end of the phase, that unit cannot have the Benefit of Cover."
       }
     ],
     "composition": [

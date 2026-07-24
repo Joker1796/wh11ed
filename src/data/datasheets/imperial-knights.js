@@ -477,7 +477,7 @@ export default [
     "abilities": [
       {
         "name": "Protection Protocols",
-        "text": "You can target this unit with the Heroic Intervention Stratagem for 0CP, and can do so even if you have already targeted a different unit with that Stratagem this phase."
+        "text": "You can target this unit with the Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that Stratagem on other units this phase."
       }
     ],
     "damaged": {
@@ -708,7 +708,7 @@ export default [
     "abilities": [
       {
         "name": "Legendary Freeblade",
-        "text": "Once per turn, when you target this model with a stratagem, you may reduce the CP cost of that use of that stratagem by 1CP."
+        "text": "Once per turn, you can target this model with a Stratagem for 0CP, and can do so even if you have already targeted a different unit with that Stratagem in the same phase."
       },
       {
         "name": "Chainbreaker",
@@ -3251,7 +3251,7 @@ export default [
     "abilities": [
       {
         "name": "Styrix’s Duty (Bondsman)",
-        "text": "While a model is affected by this ability, each time that model is selected to shoot or fight, after it has resolved all of its attacks, select one enemy unit hit by one or more of those attacks; that unit must take a Battle-shock test, subtracting one from the test when doing so."
+        "text": "While a model is affected by this ability, each time that model is selected to shoot or fight, after it has resolved all of its attacks, select one enemy unit hit by one or more of those attacks - that unit must take a Battle-shock test, subtracting one from the test when doing so."
       },
       {
         "name": "Grav-pinned",

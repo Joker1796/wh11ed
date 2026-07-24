@@ -101,7 +101,7 @@ Until the end of the phase, each time a model from your army in a Guided unit ma
           when: "Your opponent’s Charge phase, just after an enemy unit has selected its [gloss:charge-target:charge target].",
           target: "One T’au Empire Grenades unit from your army that was selected as one of the targets of that charge.",
           effect: "That enemy unit must immediately take a [gloss:battle-shock-test:Battle-shock test], and until the end of the phase, subtract 2 from [gloss:charge-roll:Charge rolls] made for that enemy unit.",
-          restrictions: "",
+          restrictions: "You cannot target a unit that is within Engagement Range of one or more enemy units.",
         },
         {
           name: "Combat Embarkation",
@@ -111,8 +111,8 @@ Until the end of the phase, each time a model from your army in a Guided unit ma
           flavor: "Those who act as the lure in the Kauyon must be ready to make a hasty withdrawal once the enemy closes into killing range, lest they be trapped.",
           when: "Your opponent’s Charge phase, just after an enemy unit has [gloss:declare-charge:declared a charge].",
           target: "One T’au Empire Infantry unit from your army that was selected as one of the targets of that charge, and one [gloss:friendly:friendly] Transport.",
-          effect: "Your unit can [gloss:embark:embark] within that TRANSPORT. If it does, your opponent can select new targets for that charge.",
-          restrictions: "Every model in your T’AU EMPIRE INFANTRY unit must be within 3\" of that TRANSPORT and there must be sufficient [gloss:transport-capacity:transport capacity] to embark the entire unit.",
+          effect: "Your unit [gloss:embark:embarks] within that TRANSPORT.",
+          restrictions: "Every model in your INFANTRY unit must be within 3\" of that TRANSPORT and there must be sufficient [gloss:transport-capacity:transport capacity] to embark the entire unit.",
         },
       ],
       enhancements: [
@@ -260,7 +260,7 @@ Until the end of the phase, each time a model from your army in a Guided unit ma
       rule: {
         name: "Killing Blow",
         flavor: "Mont’ka is the most aggressive style of T’au warfare. Its singular focus is the art of identifying a target of opportunity and attacking it swiftly with an overwhelming application of force.",
-        body: "During the first, second and third [gloss:battle-round:battle rounds], [gloss:ranged-weapons:ranged weapons] equipped by T’AU EMPIRE models from your army have the [ASSAULT] ability. During the first, second and third battle rounds, while a unit is a [gloss:tau-guided:Guided] unit, its ranged weapons have the [LETHAL HITS] ability.",
+        body: "During the first, second and third [gloss:battle-round:battle rounds], [gloss:ranged-weapons:ranged weapons] equipped by T’AU EMPIRE models from your army have the [ASSAULT] ability. During the first, second and third battle rounds, while a unit is a [gloss:tau-guided:Guided] unit (see For the Greater Good), its ranged weapons have the [LETHAL HITS] ability.",
       },
       stratagems: [
         {
@@ -510,7 +510,7 @@ Until the end of the phase, each time a model from your army in a Guided unit ma
           flavor: "An experimental new form of portable electro-camouflage generators, these small devices interweave active energy shielding with passive sensor damping to further protect T’au soldiery in hiding.",
           when: "Your opponent’s Shooting phase, when an enemy unit targets a [gloss:friendly:friendly] PATHFINDER TEAM/STEALTH BATTLESUITS unit, if that friendly unit is [gloss:hidden:hidden].",
           target: "That PATHFINDER TEAM/STEALTH BATTLESUITS unit.",
-          effect: "Your unit has +1 [gloss:save:Save].",
+          effect: "Your unit has +1 [gloss:save:Sv].",
           restrictions: "",
         },
       ],
@@ -555,7 +555,7 @@ Until the end of the phase, each time a model from your army in a Guided unit ma
           flavor: "These experimental Earth caste weapon upgrades can only activate for short bursts at a time, but the extra stopping power they provide is formidable.",
           when: "Your Shooting phase or the Fight phase, when a [gloss:friendly:friendly] KROOT/VESPID STINGWINGS unit is selected to attack.",
           target: "That KROOT/VESPID STINGWINGS unit.",
-          effect: "Your unit’s attacks have +1 [gloss:armour-penetration:Armour Penetration].",
+          effect: "Your unit’s attacks have +1 [gloss:armour-penetration:AP].",
           restrictions: "",
         },
         {
@@ -577,7 +577,7 @@ Until the end of the phase, each time a model from your army in a Guided unit ma
           flavor: "Firing on coordinates provided by selfless alien auxiliaries, the T’au are able to scythe down their targets with pinpoint precision.",
           when: "Your Shooting phase, when a [gloss:friendly:friendly] T’AU EMPIRE unit (excluding KROOT/VESPID STINGWINGS units) is [gloss:selected-to-shoot:selected to shoot].",
           target: "That T’AU EMPIRE unit.",
-          effect: "Your unit’s [gloss:ranged-attacks:ranged attacks] that target a unit [gloss:within:within] 9\" of a friendly KROOT/VESPID STINGWINGS unit have the [LETHAL HITS] ability.",
+          effect: "Your unit’s [gloss:ranged-attacks:ranged attacks] that target a unit [gloss:within:within] 9\" of a friendly KROOT/VESPID STINGWINGS unit have [LETHAL HITS].",
           restrictions: "",
         },
       ],
@@ -592,7 +592,7 @@ Until the end of the phase, each time a model from your army in a Guided unit ma
           name: "Admired Leader",
           points: 20,
           flavor: "Having proven themselves to their alien charges, this T’au has won their fierce loyalty and become an iconic folk hero to them.",
-          body: "T’AU EMPIRE model only (excluding KROOT models). In your Command phase, you can select one KROOT/VESPID STINGWINGS unit [gloss:within:within] 12\" of this model. If you do, that unit has +1 [gloss:leadership:Leadership] and [gloss:objective-control:Objective Control] until the start of your next Command phase.",
+          body: "T’AU EMPIRE model only (excluding KROOT models). In your Command phase, you can select one KROOT/VESPID STINGWINGS unit [gloss:within:within] 12\" of this model. If you do, that unit has +1 [gloss:leadership:Ld] and [gloss:objective-control:OC] until the start of your next Command phase.",
         },
       ],
     },
@@ -609,7 +609,7 @@ Until the end of the phase, each time a model from your army in a Guided unit ma
       rule: {
         name: "Superior Craftsmanship",
         flavor: "The applied science divisions of the Earth caste labour endlessly to provide frontline units with superior weapons systems with which to destroy the foe from afar.",
-        body: "[gloss:friendly:Friendly] BATTLESUIT CHARACTER units’ [gloss:ranged-attacks:ranged attacks] have +6\" [gloss:range:Range].\n\nThis detachment has the **RETALIATION** tag and cannot be taken with another **RETALIATION** detachment.",
+        body: "[gloss:friendly:Friendly] BATTLESUIT CHARACTER units’ [gloss:ranged-attacks:ranged attacks] have +6\" [gloss:range:R].\n\nThis detachment has the **RETALIATION** tag and cannot be taken with another **RETALIATION** detachment.",
       },
       stratagems: [
         {
@@ -620,7 +620,7 @@ Until the end of the phase, each time a model from your army in a Guided unit ma
           flavor: "From hardened warheads and amplified ion capacitors, to hyper-accelerated pulse fields and refined fusion cores, the T’au are forever innovating improvements to improve the lethality of their ammunition.",
           when: "Your Shooting phase, when a [gloss:friendly:friendly] BATTLESUIT CHARACTER unit is [gloss:selected-to-shoot:selected to shoot].",
           target: "That BATTLESUIT CHARACTER unit.",
-          effect: "Your unit’s [gloss:ranged-attacks:ranged attacks] have:\n▪ +1 [gloss:strength:Strength].\n▪ Or: +1 Strength and [gloss:armour-penetration:Armour Penetration], and [HAZARDOUS].",
+          effect: "Your unit’s [gloss:ranged-attacks:ranged attacks] have:\n▪ +1 [gloss:strength:S].\n▪ __Or:__ +1 S, AP and [HAZARDOUS].",
           restrictions: "",
         },
       ],
@@ -629,19 +629,19 @@ Until the end of the phase, each time a model from your army in a Guided unit ma
           name: "Thermoneutronic Projector",
           points: 15,
           flavor: "The thermoneutronic projector uses volatile gases siphoned from the coronas of neutron stars to expel a flame capable of searing through the armour plating of a battle tank.",
-          body: "BATTLESUIT model only. In the [gloss:declare-battle-formations:Declare Battle Formations] step, select one of this model’s T’au Flamer weapons. That weapon’s attacks have:\n▪ +2 [gloss:strength:Strength].\n▪ +1 [gloss:armour-penetration:Armour Penetration] and Damage.",
+          body: "BATTLESUIT model only. In the [gloss:declare-battle-formations:Declare Battle Formations] step, select one of this model’s T’au Flamer weapons. That weapon’s attacks have:\n▪ +2 [gloss:strength:S].\n▪ +1 [gloss:armour-penetration:AP] and D.",
         },
         {
           name: "Plasma Accelerator Rifle",
           points: 20,
           flavor: "The plasma accelerator rifle blends pulse-induction technology with a high-yield plasma generator, rendering it highly effective against both infantry and light vehicles.",
-          body: "BATTLESUIT model only. In the [gloss:declare-battle-formations:Declare Battle Formations] step, select one of this model’s Plasma Rifle weapons. That weapon’s attacks have:\n▪ +2 [gloss:strength:Strength].\n▪ +1 Attacks, [gloss:armour-penetration:Armour Penetration] and Damage.",
+          body: "BATTLESUIT model only. In the [gloss:declare-battle-formations:Declare Battle Formations] step, select one of this model’s Plasma Rifle weapons. That weapon’s attacks have:\n▪ +2 [gloss:strength:S].\n▪ +1 A, [gloss:armour-penetration:AP] and D.",
         },
         {
           name: "Supernova Launcher",
           points: 15,
           flavor: "Adapted from standard-issue fragmentation projectors, this weapon enables the bearer to fire explosive plasma charges on parabolic trajectories. These projectiles drop amongst the enemy and explode in a coruscating fireball that evaporates metal and flesh alike.",
-          body: "BATTLESUIT model only. In the [gloss:declare-battle-formations:Declare Battle Formations] step, select one of this model’s Airbursting Fragmentation Projector weapons. That weapon’s attacks have:\n▪ +3 [gloss:strength:Strength].\n▪ +1 [gloss:armour-penetration:Armour Penetration] and Damage.",
+          body: "BATTLESUIT model only. In the [gloss:declare-battle-formations:Declare Battle Formations] step, select one of this model’s Airbursting Fragmentation Projector weapons. That weapon’s attacks have:\n▪ +3 [gloss:strength:S].\n▪ +1 [gloss:armour-penetration:AP] and D.",
         },
       ],
     },

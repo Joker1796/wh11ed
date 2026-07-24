@@ -198,7 +198,7 @@ const en = {
           when: "Any phase.",
           target: "One Jakhals unit from your army that was just destroyed. You can use this Stratagem on that unit even though it was just destroyed.",
           effect: "Add a new unit to your army identical to your destroyed unit, in Strategic Reserves, at its Starting Strength.",
-          restrictions: "This Stratagem cannot be used to return destroyed Character units to Attached units. You can only use this Stratagem once per battle.",
+          restrictions: "This Stratagem cannot be used to return destroyed Character units to Attached units.",
         },
         {
           name: "In the Shadow of Brass Idols",
@@ -228,13 +228,13 @@ const en = {
           name: "Chosen of the Blood God",
           points: 15,
           flavor: "This immortal being has earned the favour of the Blood God, and its monstrous form is redolent with Khorne’s unholy power.",
-          body: "World Eaters Monster model only. Add 3\" to the range of the bearers Aura abilities.",
+          body: "World Eaters Monster model only. Add 3\" to the range of the bearer’s Aura abilities.",
         },
         {
           name: "Butcher Lord",
           points: 10,
           flavor: "Some World Eaters lead packs of cultists into battle, inspiring the masses with their inhuman savagery.",
-          body: "World Eaters Infantry model only. During the Declare Battle Formations step, the bearer can be attached to a Jakhals or Goremongers unit. If attached to a GOREMONGERS unit, the bearer has the Infiltrators ability.",
+          body: "World Eaters Infantry model only. The bearer has the Infiltrators ability.",
         },
         {
           name: "Brazen Form",
@@ -261,7 +261,7 @@ const en = {
       rule: {
         name: "Rush to the Fray",
         flavor: "The World Eaters use their vehicles to drive into the heart of the enemy before piling out of their transports and hurling themselves into the fighting.",
-        body: "Each time a World Eaters unit from your army disembarks from a Transport, until the end of the turn, add 1 to Charge rolls made for that unit and that unit’s melee weapons have the [lance] ability.",
+        body: "Each time a World Eaters unit from your army disembarks from a Transport, until the end of the turn, add 1 to Charge rolls made for that unit and that unit’s melee weapons have the [LANCE] ability.",
       },
       stratagems: [
         {
@@ -455,13 +455,13 @@ const en = {
           name: "Disciple of Khorne",
           points: 15,
           flavor: "This puissant master of carnage has earned the right to lead Khornes immortal legions to war.",
-          body: "Lord on Juggernaut model only. During the Declare Battle Formations step, the bearer can be attached to a Bloodcrushers or Flesh Hounds unit. While leading one of these units, the bearer has the Deep Strike ability, and it has the BLOOD LEGIONS Faction keyword instead of the WORLD EATERS Faction keyword.",
+          body: "Lord on Juggernaut model only. The bearer has the Deep Strike ability and it has the BLOOD LEGIONS Faction keyword instead of the WORLD EATERS Faction keyword.",
         },
         {
           name: "Blade of Endless Bloodshed",
           points: 30,
           flavor: "This possessed weapon is ever stained with gore and eternally thirsts to taste the blood of fresh victims, empowering the bearer with its endless hunger.",
-          body: "World Eaters model only. Add 1 to the Attacks, Strength and Damage characteristics of the bearers melee weapons. Each time the bearer’s unit destroys an enemy unit with a melee attack, do not roll to gain a Blood Tithe point, you automatically gain 1 Blood Tithe point instead.",
+          body: "World Eaters model only. Add 1 to the Attacks, Strength and Damage characteristics of the bearer’s melee weapons. Each time the bearer’s unit destroys an enemy unit with a melee attack, do not roll to gain a Blood Tithe point, you automatically gain 1 Blood Tithe point instead.",
         },
       ],
     },
@@ -475,7 +475,7 @@ const en = {
       rule: {
         name: "Brazen Fury",
         flavor: "Incoming fire serves only to fan the flames of daemonic fury, driving Khorne’s possessed into a malicious rage.",
-        body: "World Eaters Possessed units from your army have the following ability:\n\n**Brazen Fury:** In your opponent’s Shooting phase, each time an enemy unit has shot, if any models from this unit were destroyed as a result of those attacks, this unit can make a Brazen Fury move. To do so, roll one D6: models in this unit move a number of inches up to this result, but this unit must end that move as close as possible to the closest enemy unit (excluding AIRCRAFT). When doing so, those models can be moved within Engagement Range of that enemy unit. This unit cannot make a Brazen Fury move while it is Battle-shocked or within Engagement Range of one or more enemy units, and can only make one Brazen Fury move per phase.",
+        body: "World Eaters Possessed units from your army have the following ability:\n\n**Brazen Fury:** In your opponent’s Shooting phase, when an enemy unit has shot, if a model in this unit was destroyed as a result of those attacks, this unit can make a surge move of up to D6\". That surge move is a Brazen Fury move.",
       },
       stratagems: [
         {
@@ -596,7 +596,7 @@ const en = {
           flavor: "So perfect a state of supernatural rage does this ironclad entity exist in that nothing can distract it from its single-minded slaughter.",
           when: "Your Shooting phase or the Fight phase, when a friendly DAEMON VEHICLE unit is selected to attack.",
           target: "That DAEMON VEHICLE unit.",
-          effect: "Your unit\u2019s attacks can ignore modifiers to:\n▪ Ballistic Skill.\n▪ Weapon Skill.\n▪ Hit rolls and Wound rolls.",
+          effect: "Your unit\u2019s attacks can ignore modifiers to:\n▪ BS.\n▪ WS.\n▪ Hit rolls and Wound rolls.",
           restrictions: "",
         },
         {
@@ -660,7 +660,7 @@ const en = {
           flavor: "Fighting with lunatic fierceness, these elite killers hack their victims limb from limb in a blizzard of blows.",
           when: "Fight phase, when a friendly TERMINATOR SQUAD unit is selected to fight.",
           target: "That TERMINATOR SQUAD unit.",
-          effect: "Your unit\u2019s melee attacks have +1 Attacks.",
+          effect: "Your unit\u2019s melee attacks have +1 A.",
           restrictions: "",
         },
         {
@@ -682,7 +682,7 @@ const en = {
           flavor: "So seized by furious bloodlust are these killers that they fight on through even the most grievous mortal wounds.",
           when: "Your opponent\u2019s Shooting phase, when an enemy unit targets a friendly TERMINATOR SQUAD unit.",
           target: "That TERMINATOR SQUAD unit.",
-          effect: "Ranged attacks that target your unit have -1 Damage until that enemy unit has attacked.",
+          effect: "Ranged attacks that target your unit have -1 D until that enemy unit has attacked.",
           restrictions: "",
         },
       ],
@@ -692,14 +692,14 @@ const en = {
           points: 15,
           upgrade: true,
           flavor: "These Terminator-armoured butchers soak the battlefield in gore, and in so doing consecrate it in the name of Khorne.",
-          body: "TERMINATOR SQUAD unit only. This unit has +1 Objective Control.",
+          body: "TERMINATOR SQUAD unit only. This unit has +1 OC.",
         },
         {
           name: "Gore-stained Veterans",
           points: 20,
           upgrade: true,
           flavor: "Countless fields of bloody battle have honed these warriors\u2019 martial skills to the keenest killing edge.",
-          body: "TERMINATOR SQUAD unit only. This unit\u2019s melee attacks have +1 Weapon Skill.",
+          body: "TERMINATOR SQUAD unit only. This unit\u2019s melee attacks have +1 WS.",
         },
       ],
     },
@@ -715,7 +715,7 @@ const en = {
       rule: {
         name: "Wrath of Khorne",
         flavor: "Every Khornate champion treads a personal Path to Glory. Through carnage and bloodshed, they earn empowering boons of martial might.",
-        body: "When a friendly WORLD EATERS CHARACTER unit (excluding EPIC HERO units) is selected to fight, that unit\u2019s CHARACTER models\u2019 melee attacks can have:\n▪ [CLEAVE 1].\n▪ Or: +1 Armour Penetration.",
+        body: "When a friendly WORLD EATERS CHARACTER unit (excluding EPIC HERO units) is selected to fight, that unit\u2019s CHARACTER models\u2019 melee attacks can have:\n▪ [CLEAVE 1].\n▪ __Or:__ +1 AP.",
       },
       stratagems: [
         {
@@ -737,7 +737,7 @@ const en = {
           flavor: "Feeling that the Blood God\u2019s eye must surely be sweeping the field of war, his champions strive with wild ferocity to prove themselves.",
           when: "Fight phase, when a friendly WORLD EATERS CHARACTER unit (excluding EPIC HERO units) is selected to fight.",
           target: "That WORLD EATERS CHARACTER unit.",
-          effect: "Your unit\u2019s CHARACTER models\u2019 melee attacks have:\n▪ +1 Attacks.\n▪ +2 Strength.",
+          effect: "Your unit\u2019s CHARACTER models\u2019 melee attacks have:\n▪ +1 A.\n▪ +2 S.",
           restrictions: "",
         },
         {
@@ -746,9 +746,9 @@ const en = {
           cp: "1CP",
           turn: "opponent",
           flavor: "The Blood God is said to detest cowards. Meting out punishment to such degenerates is believed to be a sure way to win his favour.",
-          when: "Your opponent\u2019s Movement phase, when a unit is selected to make a Fall Back move, if that unit is engaged with a friendly WORLD EATERS CHARACTER unit.",
+          when: "Your opponent\u2019s Movement phase, when a unit is selected to make a fall-back move, if that unit is engaged with a friendly WORLD EATERS CHARACTER unit.",
           target: "That WORLD EATERS CHARACTER unit.",
-          effect: "When an enemy unit engaged with your unit is selected to make a Fall Back move, that enemy unit must use the Desperate Escape mode. If that enemy unit is Battle-shocked, subtract 1 from those Desperate Escape tests.",
+          effect: "When an enemy unit engaged with your unit is selected to make a fall-back move, that enemy unit must use the Desperate Escape mode. If that enemy unit is Battle-shocked, -1 from those hazard rolls.",
           restrictions: "",
         },
       ],

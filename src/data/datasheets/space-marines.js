@@ -166,7 +166,7 @@ export default [
       },
       {
         "name": "Blackwing Mantle",
-        "text": "You can target this model’s unit with the Rapid Ingress and Heroic Intervention Stratagems for 0CP, even if you have already used that Stratagem on a different unit this phase."
+        "text": "You can target this unit with the Rapid Ingress/Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that Stratagem on other units this phase."
       }
     ],
     "specialAbilities": [
@@ -1954,7 +1954,7 @@ export default [
     "abilities": [
       {
         "name": "Rites of Battle",
-        "text": "Once per battle round, one unit from your army with this ability can use it when its unit is targeted with a Stratagem. If it does, reduce the CP cost of that use of that Stratagem by 1CP."
+        "text": "Once per battle round, one unit from your army with this ability can use it when it is targeted with a Stratagem. If it does, reduce the CP cost of that usage of that Stratagem by 1CP."
       },
       {
         "name": "Finest Hour",
@@ -2122,7 +2122,7 @@ export default [
     "abilities": [
       {
         "name": "Rites of Battle",
-        "text": "Once per battle round, one unit from your army with this ability can use it when its unit is targeted with a Stratagem. If it does, reduce the CP cost of that use of that Stratagem by 1CP."
+        "text": "Once per battle round, one unit from your army with this ability can use it when it is targeted with a Stratagem. If it does, reduce the CP cost of that usage of that Stratagem by 1CP."
       },
       {
         "name": "Refuse to Yield",
@@ -2222,7 +2222,7 @@ export default [
     "abilities": [
       {
         "name": "Rites of Battle",
-        "text": "Once per battle round, one unit from your army with this ability can use it when its unit is targeted with a Stratagem. If it does, reduce the CP cost of that use of that Stratagem by 1CP."
+        "text": "Once per battle round, one unit from your army with this ability can use it when it is targeted with a Stratagem. If it does, reduce the CP cost of that usage of that Stratagem by 1CP."
       },
       {
         "name": "Master of Deceit",
@@ -2334,7 +2334,7 @@ export default [
     "abilities": [
       {
         "name": "Rites of Battle",
-        "text": "Once per battle round, one unit from your army with this ability can use it when its unit is targeted with a Stratagem. If it does, reduce the CP cost of that use of that Stratagem by 1CP."
+        "text": "Once per battle round, one unit from your army with this ability can use it when it is targeted with a Stratagem. If it does, reduce the CP cost of that usage of that Stratagem by 1CP."
       },
       {
         "name": "Unstoppable Valour",
@@ -2623,7 +2623,7 @@ export default [
       },
       {
         "name": "Rites of Battle",
-        "text": "Once per battle round, one unit from your army with this ability can use it when its unit is targeted with a Stratagem. If it does, reduce the CP cost of that use of that Stratagem by 1CP."
+        "text": "Once per battle round, one unit from your army with this ability can use it when it is targeted with a Stratagem. If it does, reduce the CP cost of that usage of that Stratagem by 1CP."
       }
     ],
     "wargearAbilities": [
@@ -2745,11 +2745,11 @@ export default [
     "abilities": [
       {
         "name": "Knight Champion of Macragge",
-        "text": "Once per turn, when an enemy unit ends a Normal, Advance or Fall Back move within 9\" of this model’s unit, if this unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to 6\"."
+        "text": "In your opponent's Movement phase, if an enemy unit ends a move within 8\" of this unit, if this unit is not within Engagement Range of one or more enemy units, this unit can make a Normal move of up to 6\"."
       },
       {
         "name": "Honour or Death",
-        "text": "You can target this unit with the Heroic Intervention Stratagem for 0CP, even if you have already used that Stratagem on a different unit this phase."
+        "text": "You can target this unit with the Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that Stratagem on other units this phase."
       }
     ],
     "composition": [
@@ -3600,7 +3600,7 @@ export default [
       },
       {
         "name": "Master of Prescience (Psychic)",
-        "text": "While this model is leading a unit, each time an attack targets that unit, subtract 1 from the Hit roll. In addition, once per battle round, when you target that unit with the Counteroffensive, Fire Overwatch or Heroic Intervention Stratagem, that use is -1 CP."
+        "text": "▪ This unit has Stealth.\n▪ Melee attacks that target this unit have -1 to hit rolls.\n▪ (Once per battle round, per army) When you target this unit with the Counteroffensive/Fire Overwatch/Heroic Intervention Stratagem, that use is -1 CP."
       }
     ],
     "composition": [
@@ -4268,11 +4268,7 @@ export default [
       },
       {
         "name": "Armorium Cherub",
-        "text": "Once per battle, after making a Hit roll for a model in this unit, you can change that roll to an unmodified 6."
-      },
-      {
-        "name": "Designer’s Note",
-        "text": "Place an Armorium Cherub token next to the unit, removing it once this ability has been used."
+        "text": "Once per battle, after making a Hit roll for a model in this unit, you can change that roll to an unmodified 6.\n\n**Designer’s Note:** Place an Armorium Cherub token next to the unit, removing it once this ability has been used."
       }
     ],
     "composition": [
@@ -4513,7 +4509,7 @@ export default [
     "abilities": [
       {
         "name": "Drop Pod Assault",
-        "text": "This model must start the battle in Reserves and can be set up in the Reinforcements step of your first, second or third Movement phase, regardless of any mission rules. Any units embarked within this model must immediately disembark after it has been set up on the battlefield, and they must be set up more than 9\" away from all enemy models."
+        "text": "This model must start the battle in Reserves and can be set up in the Reinforcements step of your first, second or third Movement phase, regardless of any mission rules. Any units embarked within this model must immediately disembark after it has been set up on the battlefield, and they must be set up more than 8\" away from all enemy models."
       },
       {
         "name": "Combat Disembarkation",
@@ -5644,7 +5640,7 @@ export default [
     "abilities": [
       {
         "name": "For the Chapter!",
-        "text": "Each time a model in this unit is destroyed, roll one D6: on a 3+, do not remove it from play. The destroyed model can shoot after the attacking model’s unit has finished making its attacks, and is then removed from play. When resolving these attacks, any Hazardous tests taken for that attack are automatically passed."
+        "text": "Each time a model in this unit is destroyed, roll one D6: on a 3+, do not remove it from play. The destroyed model can shoot after the attacking model’s unit has finished making its attacks, and is then removed from play. When resolving these attacks, any Hazardous tests taken for that attack are automatically passed.\n\n**Designer’s Note:** This ability is triggered even when a model in this unit is destroyed as the result of failing a Hazardous test, meaning such a model may be able to shoot twice in the same phase."
       },
       {
         "name": "Designer’s Note",
@@ -6034,7 +6030,7 @@ export default [
     "abilities": [
       {
         "name": "Multi-spectrum Array",
-        "text": "In your Shooting phase, after this unit has shot, select one enemy unit that was hit by one or more attacks made by this unit this phase. Until the end of the phase, each time a friendly ADEPTUS ASTARTES unit makes an attack that targets that enemy unit, add 1 to the Hit roll."
+        "text": "Each time this unit has shot, select one enemy unit hit by one or more of those attacks. Until the end of the phase, each time a friendly ADEPTUS ASTARTES unit makes an attack that targets that enemy unit, add 1 to the Hit roll."
       }
     ],
     "wargearAbilities": [
@@ -6432,7 +6428,7 @@ export default [
     "abilities": [
       {
         "name": "Objective Secured",
-        "text": "If you control an objective marker at the end of your Command phase and this unit is within range of that objective marker, that objective marker remains under your control, even if you have no models within range of it, until your opponent controls it at the start or end of any turn."
+        "text": "At the end of your Command phase, if this unit is within range of an objective marker you control, that objective marker remains under your control until your opponent’s Level of Control over that objective marker is greater than yours at the end of a phase."
       },
       {
         "name": "Hail of Bolts",
@@ -6671,7 +6667,7 @@ export default [
     "abilities": [
       {
         "name": "Vanguard Support",
-        "text": "Once per turn, in your opponent’s Shooting phase, when a friendly Adeptus Astartes Phobos Infantry unit within 6\" of this model is selected as the target of an attack, one model from your army with this ability can use it. If it does, after that enemy unit has finished making its attacks, that model can shoot as if it were your Shooting phase, but when resolving those attacks it can only target that enemy unit [and only if it is an eligible target)."
+        "text": "Once per turn, in your opponent’s Shooting phase, when a friendly ADEPTUS ASTARTES PHOBOS INFANTRY unit within 6\" of this model is selected as the target of an attack, this model can use this ability. If it does, after that enemy model’s unit has finished making its attacks, this model can shoot as if it were your Shooting phase, but when resolving those attacks it can only target that enemy unit (and only if it is an eligible target)."
       }
     ],
     "damaged": {
@@ -6980,11 +6976,11 @@ export default [
       },
       {
         "name": "Trifold Path of Shadow",
-        "text": "While this model is leading a unit, models in this unit cannot be targeted by ranged attacks unless the attacking model is within 12\"."
+        "text": "While this model is leading a unit, that unit cannot be targeted by ranged attacks unless the attacking model is within 12\"."
       },
       {
         "name": "Echo of the Ravenspire",
-        "text": "At the end of your opponent’s turn, if this model’s unit is not within Engagement Range of any enemy models, you can remove it from the battlefield and place it into Strategic Reserves."
+        "text": "At the end of your opponent’s turn, if this model’s unit is not within Engagement Range of one or more enemy units, you can remove that unit from the battlefield and place it into Strategic Reserves."
       }
     ],
     "specialAbilities": [
@@ -9629,7 +9625,7 @@ export default [
     "abilities": [
       {
         "name": "Emergency Combat Embarkation",
-        "text": "Once per turn, in your opponent’s Charge phase, after an enemy unit has selected targets for its charge but before it makes a Charge move, you can select one ADEPTUS ASTARTES unit from your army that was selected as a target of that charge. Provided that unit is not within Engagement Range of one or more enemy units and every model in that unit is within 3\" of this TRANSPORT, it can embark within this TRANSPORT. The charging unit can then select new targets for its charge."
+        "text": "Once per turn, in your opponent’s Charge phase, after an enemy unit has selected targets for its charge but before it makes a Charge move, you can select one ADEPTUS ASTARTES unit from your army that was selected as a target of that charge. Provided that unit is not within Engagement Range of any enemy units and every model in that unit is within 3\" of this TRANSPORT, it can embark within this TRANSPORT. The charging unit can then select new targets for its charge."
       }
     ],
     "damaged": {
@@ -9813,7 +9809,7 @@ export default [
     "abilities": [
       {
         "name": "Executioner",
-        "text": "Each time this model makes an attack that targets a unit that is Below Half-strength, add 1 to the Hit roll."
+        "text": "Each time this model makes an attack that targets a unit Below Half-strength, add 1 to the Hit roll."
       }
     ],
     "damaged": {
@@ -9995,7 +9991,7 @@ export default [
     "abilities": [
       {
         "name": "Author of the Codex",
-        "text": "At the Start of your Command phase, select two Author of the Codex abilities (see below). Until the start of your next Command phase, this model has those abilities."
+        "text": "At the Start of your Command phase, select two Author of the Codex abilities. Until the start of your next Command phase, this model has those abilities."
       },
       {
         "name": "Ultramarines Bodyguard",
@@ -10003,7 +9999,7 @@ export default [
       },
       {
         "name": "Armour of Fate",
-        "text": "The first time this model is destroyed, roll one D6 at the end of the phase: on a 3+, set this model back up on the battlefield as close as possible to where it was destroyed and not within Engagement Range of any enemy models, with 6 wounds remaining."
+        "text": "The first time this model is destroyed, roll one D6 at the end of the phase: on a 3+, set this model back up on the battlefield as close as possible to where it was destroyed and not within Engagement Range of any enemy units, with 6 wounds remaining."
       }
     ],
     "composition": [
@@ -10576,7 +10572,7 @@ export default [
     "abilities": [
       {
         "name": "Hammerstrike",
-        "text": "Each time this model has shot, select one enemy unit that was hit by one or more attacks made by this model this phase. Until the end of the phase, that enemy unit cannot have the Benefit of Cover."
+        "text": "Each time this model has shot, select one enemy unit hit by one or more of those attacks. Until the end of the phase, that enemy unit cannot have the Benefit of Cover."
       }
     ],
     "composition": [
@@ -10673,7 +10669,7 @@ export default [
     "abilities": [
       {
         "name": "Thunderstrike",
-        "text": "Each time this model has shot, select one enemy MONSTER or VEHICLE unit that was hit by one or more attacks made by this model this phase. Until the end of the phase, each time a friendly ADEPTUS ASTARTES unit makes a ranged attack that targets that enemy unit, add 1 to the Wound roll."
+        "text": "Each time this model has shot, select one enemy MONSTER or VEHICLE unit hit by one or more of those attacks. Until the end of the phase, each time a friendly ADEPTUS ASTARTES unit makes a ranged attack that targets that enemy unit, add 1 to the Wound roll."
       }
     ],
     "composition": [
@@ -12058,7 +12054,7 @@ export default [
     "abilities": [
       {
         "name": "Teleport Homer",
-        "text": "At the start of the battle, you can set up one Teleport Homer token for this unit anywhere on the battlefield that is not in your opponent’s deployment zone. If you do, once per battle, you can target this unit with the Rapid Ingress Stratagem for 0CP, but when resolving that Stratagem, you must set this unit up within 3\" of that token and not within 8\" of any enemy models. That token is then removed."
+        "text": "At the start of the battle, you can set up one Teleport Homer token for this unit anywhere on the battlefield that is not in your opponent’s deployment zone. If you do, once per battle, you can target this unit with the Rapid Ingress Stratagem for 0CP, but when resolving that Stratagem, you must set this unit up within 3\" horizontally of that token and not within 8\" horizontally of any enemy models. That token is then removed."
       },
       {
         "name": "Fury of the First",
@@ -12375,7 +12371,7 @@ export default [
       },
       {
         "name": "Master of the Fleet",
-        "text": "During the Declare Battle Formations step, if your army includes this model, select one Phobos, Gravis or Adeptus Astartes Tacticus Infantry unit from your army. That unit gains the Deep Strike ability."
+        "text": "During the Declare Battle Formations step, if your army includes this model, select one PHOBOS, GRAVIS or TACTICUS ADEPTUS ASTARTES INFANTRY unit from your army. That unit gains the Deep Strike ability."
       }
     ],
     "composition": [
@@ -12664,7 +12660,7 @@ export default [
       },
       {
         "name": "Glory of Ultramar",
-        "text": "In your opponent’s Shooting phase, each time an enemy unit has shot, if any models from this unit were destroyed as a result of those attacks, this unit can make a Surge move. To do so, roll one D6: models in this unit move a number of inches up to the result, but this unit must end that move as close as possible to the closest enemy unit (excluding AIRCRAFT). When doing so, those models can be moved within Engagement Range of that enemy unit. This unit cannot make a Surge move while it is Battle-shocked or within Engagement Range of one or more enemy units, and can only make one Surge move per phase."
+        "text": "In your opponent’s Shooting phase, when an enemy unit has shot, if a model in this unit was destroyed by those attacks, this unit can make a surge move of up to D6\"."
       }
     ],
     "wargearAbilities": [
