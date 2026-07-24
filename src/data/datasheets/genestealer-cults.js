@@ -727,7 +727,7 @@ export default [
     "abilities": [
       {
         "name": "Outrider Gangs",
-        "text": "Each time you use the Cult Ambush ability to set this unit back upon the battlefield, in addition to the normal rules, all of its models must be set up wholly within 9\" of a battlefield edge and at least one of its models must be touching one of your Cult Ambush markers (that marker is then removed from the battlefield). If this cannot be done, this unit cannot be set back up."
+        "text": "Each time you use the Cult Ambush ability to set this unit back up on the battlefield, in addition to the normal rules, all of its models must be set up wholly within 9\" of a battlefield edge and at least one of its models must be touching one of your Cult Ambush markers (that marker is then removed from the battlefield). If this cannot be done, this unit cannot be set back up."
       },
       {
         "name": "Demolition Run",
@@ -1689,7 +1689,7 @@ export default [
       },
       {
         "name": "Psychic Familiar",
-        "text": "Once per battle, at the start of your opponent’s Shooting phase, this model can use its psychic familiar. If it does, until the end of the phase, add 6 ” to the range of its Mind Control ability.\n\n**Designer’s Note:** Place a Psychic Familiar token next to the model, removing it once this ability has been used."
+        "text": "Once per battle, at the start of your opponent’s Shooting phase, this model can use its psychic familiar. If it does, until the end of the phase, add 6\" to the range of its Mind Control ability.\n\n**Designer’s Note:** Place a Psychic Familiar token next to the model, removing it once this ability has been used."
       }
     ],
     "composition": [
@@ -1899,7 +1899,7 @@ export default [
     "abilities": [
       {
         "name": "A Plan Generations in the Making",
-        "text": "At the end of your Command phase, if this unit is within range of an objective marker you control, that objective marker remains under your control, even if you have no models within range of it, until your opponent controls it at the start or end of any turn."
+        "text": "At the end of your Command phase, if this unit is within range of an objective marker you control, that objective marker remains under your control until your opponent’s Level of Control over that objective marker is greater than yours at the end of a phase."
       }
     ],
     "wargearAbilities": [
@@ -2429,7 +2429,7 @@ export default [
       },
       {
         "name": "Cloaked Assassin",
-        "text": "If this model is equipped with a Sanctus bio-dagger, enemy units cannot target this unit with snap shooting attacks."
+        "text": "Enemy units cannot target this unit with snap shooting attacks."
       },
       {
         "name": "Psychic Spoor",
