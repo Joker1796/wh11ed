@@ -62,7 +62,7 @@
             <span v-if="e.points != null" class="enh-pts">{{ e.points }} pts</span>
           </div>
           <p v-if="e.flavor" class="faction-flavor">{{ e.flavor }}</p>
-          <div class="enh-body" v-html="renderInline(e.body)"></div>
+          <div class="enh-body" v-html="renderRichText(e.body)"></div>
           <div v-if="e.note" class="enh-note" v-html="renderInline(e.note)"></div>
         </article>
       </div>
@@ -84,7 +84,7 @@ import { useFactionChoice } from '../../composables/useFactionChoice.js'
 
 const { slug, faction } = useFactionPage()
 const { locale } = useLocale()
-const { renderInline } = useRenderInline()
+const { renderInline, renderRichText } = useRenderInline()
 const labels = computed(() => ui[locale.value])
 
 // Detachments: support the multi-detachment `detachments[]` shape, falling back to the
@@ -246,6 +246,16 @@ const det = computed(() => activeDetachment(slug.value, detachments.value))
   font-size: 0.9rem;
   line-height: 1.5;
   color: var(--text-primary);
+}
+
+.enh-body :deep(ul),
+.enh-body :deep(ol) {
+  margin: 0.35rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.enh-body :deep(li) {
+  margin-bottom: 0.2rem;
 }
 
 .enh-note {
