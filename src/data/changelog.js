@@ -17,6 +17,18 @@
 
 export const changelog = [
   {
+    version: '2.1.3',
+    date: '2026-07-25',
+    en: [
+      'Datasheets now show keywords a unit gains from its army or detachment rule (e.g. Deathwing/Ravenwing from The Unforgiven, detachment-granted Battleline) alongside its printed keywords.',
+      'Fixed the update-notice banner rendering under the iOS status bar on the installed app.',
+    ],
+    ru: [
+      'Листы данных теперь показывают ключевые слова, которые юнит получает от правила армии или детачмента (например, Deathwing/Ravenwing от The Unforgiven, Battleline от детачмента), вместе с напечатанными.',
+      'Исправлена плашка об обновлении — она больше не наезжает на строку состояния iOS в установленном приложении.',
+    ],
+  },
+  {
     version: '2.1.2',
     date: '2026-07-25',
     en: [
