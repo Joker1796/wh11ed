@@ -30,7 +30,7 @@
         <button
           v-if="!tabsInView"
           type="button"
-          class="faction-fab faction-top-fab"
+          class="fab-btn"
           :title="labels.backToTop"
           :aria-label="labels.backToTop"
           @click="scrollToTop"
@@ -42,7 +42,7 @@
         <RouterLink
           v-if="otherTab && !tabsInView"
           :to="otherTab.path"
-          class="faction-fab faction-tab-fab"
+          class="fab-btn"
           :title="otherTab.label"
           :aria-label="otherTab.label"
         >
@@ -242,64 +242,6 @@ onBeforeUnmount(() => tabsObserver?.disconnect())
   z-index: 195; /* below drawer-overlay (299) and modals (400–500), same tier as ResumeGameButton */
   flex-direction: column;
   gap: 0.75rem;
-}
-
-.faction-fab {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 60px;
-  height: 60px;
-  /* Ghost/outline look: surface-coloured fill, faction-accent frame + icon. Fills in on
-     hover (see below). The frame is an inset box-shadow, not a border: these FABs are
-     promoted to a GPU layer by their transform animation, where a rounded `border`
-     rasterises with jagged (un-antialiased) corners — a box-shadow ring stays clean. */
-  border: none;
-  border-radius: 12px;
-  background: var(--bg-primary);
-  color: var(--accent);
-  font-size: 1.6rem;
-  cursor: pointer;
-  text-decoration: none;
-  box-shadow: inset 0 0 0 1.5px var(--accent), 0 2px 8px rgba(0, 0, 0, 0.15);
-  /* Only transform + colours animate; the shadow stays put on purpose (animating
-     box-shadow per-frame is the janky part). */
-  transition: transform var(--motion-fast), background var(--motion-fast), color var(--motion-fast);
-}
-
-.faction-fab:hover {
-  background: var(--accent);
-  color: #fff;
-  transform: translateY(-2px);
-  text-decoration: none;
-}
-
-.faction-fab:active {
-  transform: scale(0.94);
-}
-
-/* Back-to-top arrow gives a little upward nudge on hover (transform only). */
-.faction-top-fab i {
-  transition: transform var(--motion-fast);
-}
-
-.faction-top-fab:hover i {
-  transform: translateY(-2px);
-}
-
-/* Pop the FABs in/out — scale + fade from the corner, no layout properties animated. */
-.fab-enter-active {
-  transition: opacity var(--motion-med), transform var(--motion-med);
-}
-
-.fab-leave-active {
-  transition: opacity var(--motion-fast), transform var(--motion-fast);
-}
-
-.fab-enter-from,
-.fab-leave-to {
-  opacity: 0;
-  transform: scale(0.6);
 }
 
 @media (min-width: 901px) {
