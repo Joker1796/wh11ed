@@ -234,7 +234,7 @@ const en = {
           name: "Butcher Lord",
           points: 10,
           flavor: "Some World Eaters lead packs of cultists into battle, inspiring the masses with their inhuman savagery.",
-          body: "World Eaters Infantry model only. The bearer has the Infiltrators ability.",
+          body: "World Eaters Infantry model only. The bearer has the Infiltrators ability.\n\nIn the Declare Battle Formations step, the bearer can be attached to a Goremongers or Jakhals unit.",
         },
         {
           name: "Brazen Form",
@@ -455,7 +455,7 @@ const en = {
           name: "Disciple of Khorne",
           points: 15,
           flavor: "This puissant master of carnage has earned the right to lead Khornes immortal legions to war.",
-          body: "Lord on Juggernaut model only. The bearer has the Deep Strike ability and it has the BLOOD LEGIONS Faction keyword instead of the WORLD EATERS Faction keyword.",
+          body: "Lord on Juggernaut model only. The bearer has the Deep Strike ability and it has the BLOOD LEGIONS Faction keyword instead of the WORLD EATERS Faction keyword.\n\nIn the Declare Battle Formations step, the bearer can be attached to a Bloodcrushers or Flesh Hounds unit.",
         },
         {
           name: "Blade of Endless Bloodshed",
