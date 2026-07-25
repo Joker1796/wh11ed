@@ -17,6 +17,16 @@
 
 export const changelog = [
   {
+    version: '2.1.4',
+    date: '2026-07-25',
+    en: [
+      'Fixed the “This model can be attached to the following units” list on Character datasheets — many Characters were showing units they can’t actually lead (and a stray duplicate entry). Every attach list is now reconciled against the official app’s data.',
+    ],
+    ru: [
+      'Исправлен список «Эту модель можно присоединить к следующим юнитам» на листах данных персонажей — у многих персонажей отображались юниты, которых они не могут возглавлять (и лишний повтор). Все списки присоединения сверены с данными официального приложения.',
+    ],
+  },
+  {
     version: '2.1.3',
     date: '2026-07-25',
     en: [

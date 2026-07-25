@@ -4166,7 +4166,6 @@ export default [
       "units": [
         "Chaos Terminator Squad",
         "Mutilators",
-        "Mutilators (Legendary)",
         "Obliterators"
       ]
     },
@@ -4676,9 +4675,9 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Nemesis Claw",
-        "Legionaries",
         "Chosen",
+        "Legionaries",
+        "Nemesis Claw",
         "Red Corsairs Raiders"
       ],
     },
@@ -6266,9 +6265,9 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
+        "Chosen",
         "Legionaries",
         "Nemesis Claw",
-        "Chosen",
         "Red Corsairs Raiders"
       ]
     },

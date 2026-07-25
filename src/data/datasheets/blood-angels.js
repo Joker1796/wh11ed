@@ -423,25 +423,12 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Infernus Squad",
-        "Inner Circle Companions",
-        "Intercessor Squad",
-        "Command Squad",
         "Assault Intercessor Squad",
-        "Deathwatch Veterans",
-        "Tactical Squad",
-        "Sternguard Veteran Squad",
-        "Wolf Guard",
-        "Fortis Kill Team",
-        "Vanguard Veteran Squad",
-        "Decimus Kill Team",
-        "Crusader Squad",
         "Company Heroes",
-        "Assault Squad",
+        "Infernus Squad",
+        "Intercessor Squad",
         "Sternguard Veteran Squad",
-        "Victrix Honour Guard",
-        "Sword Brethren Squad",
-        "Crusader Squad (Legendary)"
+        "Tactical Squad"
       ]
     },
     "keywords": [
@@ -652,13 +639,8 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Sanguinary Guard",
-        "Assault Squad with Jump Packs",
-        "Wolf Guard",
-        "Talonstrike Kill Team",
         "Assault Intercessors With Jump Packs",
-        "Vanguard Veteran Squad",
-        "Skyclaws",
+        "Sanguinary Guard",
         "Vanguard Veteran Squad With Jump Packs"
       ]
     },
@@ -2027,27 +2009,15 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Desolation Squad",
         "Assault Intercessor Squad",
-        "Crusader Squad",
-        "Tactical Squad",
-        "Crusader Squad (Legendary)",
-        "Vanguard Veteran Squad",
-        "Infernus Squad",
-        "Wolf Guard",
-        "Sternguard Veteran Squad",
-        "Deathwatch Veterans",
-        "Sternguard Veteran Squad",
-        "Inner Circle Companions",
-        "Long Fangs",
-        "Sword Brethren Squad",
-        "Intercessor Squad",
-        "Assault Squad",
-        "Fortis Kill Team",
-        "Decimus Kill Team",
-        "Devastator Squad",
         "Bladeguard Veteran Squad",
-        "Hellblaster Squad"
+        "Desolation Squad",
+        "Devastator Squad",
+        "Hellblaster Squad",
+        "Infernus Squad",
+        "Intercessor Squad",
+        "Sternguard Veteran Squad",
+        "Tactical Squad"
       ]
     },
     "keywords": [

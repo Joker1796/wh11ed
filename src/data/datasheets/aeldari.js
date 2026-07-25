@@ -2330,6 +2330,7 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
+        "Warlock Skyrunners",
         "Windriders"
       ]
     },
@@ -5506,9 +5507,10 @@ export default [
         "Corsair Voidscarred",
         "Guardian Defenders",
         "Storm Guardians",
+        "Ynnari Incubi",
         "Ynnari Kabalite Warriors",
         "Ynnari Wyches",
-        "Ynnari Incubi"
+        "Yvraine"
       ],
     },
     "keywords": [
