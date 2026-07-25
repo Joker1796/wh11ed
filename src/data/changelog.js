@@ -17,6 +17,16 @@
 
 export const changelog = [
   {
+    version: '2.1.5',
+    date: '2026-07-25',
+    en: [
+      'Added a “back to top” button on the rules pages and faction pages (desktop) for a quick jump to the top of long pages.',
+    ],
+    ru: [
+      'Добавлена кнопка «наверх» на страницах правил и фракций (десктоп) — быстрый возврат к началу длинных страниц.',
+    ],
+  },
+  {
     version: '2.1.4',
     date: '2026-07-25',
     en: [
