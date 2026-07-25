@@ -34,18 +34,7 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
-import { ROOT, APPDATA, norm, appdataToMarkup, bodyText, loadJson, loadModule, byNormName, diffByName } from './lib/sync-common.mjs'
-
-// wh11ed slug → wh40k-appdata slug, wherever the two disagree.
-const SLUG_MAP = {
-  'space-marines': 'adeptus-astartes',
-  'chaos-space-marines': 'heretic-astartes',
-  'imperial-agents': 'agents-of-the-imperium',
-  'aeldari': 'asuryani',
-  'chaos-daemons': 'legiones-daemonica',
-  'titan-legions': 'adeptus-titanicus',
-  'chaos-titan-legions': 'titanicus-traitoris',
-}
+import { ROOT, APPDATA, SLUG_MAP, norm, appdataToMarkup, bodyText, loadJson, loadModule, byNormName, diffByName } from './lib/sync-common.mjs'
 
 // Combat Patrol publications (`isCombatPatrol`) are a separate boxed game mode with fixed
 // 0-point rosters and detachment-name-prefixed unit variants; wh11ed is matched-play only

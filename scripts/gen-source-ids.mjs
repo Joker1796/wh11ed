@@ -19,17 +19,7 @@
 //   node scripts/gen-source-ids.mjs --check    # report only; non-zero exit if it would change
 import fs from 'node:fs'
 import path from 'node:path'
-import { ROOT, APPDATA, norm, loadJson, loadModule, byNormName } from './lib/sync-common.mjs'
-
-const SLUG_MAP = {
-  'space-marines': 'adeptus-astartes',
-  'chaos-space-marines': 'heretic-astartes',
-  'imperial-agents': 'agents-of-the-imperium',
-  aeldari: 'asuryani',
-  'chaos-daemons': 'legiones-daemonica',
-  'titan-legions': 'adeptus-titanicus',
-  'chaos-titan-legions': 'titanicus-traitoris',
-}
+import { ROOT, APPDATA, SLUG_MAP, norm, loadJson, loadModule, byNormName } from './lib/sync-common.mjs'
 
 // Combat Patrol content (separate boxed mode) is not in wh11ed — drop it before matching, same
 // as sync-appdata.mjs.
