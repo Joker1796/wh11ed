@@ -607,7 +607,7 @@ export default [
     "abilities": [
       {
         "name": "Infernus Firebombs",
-        "text": "At the end of your Movement phase, select one **visible** enemy unit (excluding **AIRCRAFT**/**Lone Operative** units) within 24\" of this unit: • That enemy unit cannot have the **benefit of cover** until the end of your next Shooting phase. • Roll one D6 for each model in that enemy unit: for each 6, that enemy unit suffers 1 **mortal wound**."
+        "text": "At the end of your Movement phase, select one **visible** enemy unit (excluding **AIRCRAFT**/**Lone Operative** units) within 24\" of this unit:\n▪ That enemy unit cannot have the **benefit of cover** until the end of your next Shooting phase.\n▪ Roll one D6 for each model in that enemy unit: for each 6, that enemy unit suffers 1 **mortal wound**."
       }
     ],
     "damaged": {
