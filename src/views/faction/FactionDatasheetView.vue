@@ -51,7 +51,7 @@
             </a>
           </div>
         </div>
-        <DatasheetCard :sheet="sheet" :unit-index="unitIndex" :faction-slug="route.params.slug" />
+        <DatasheetCard :sheet="sheet" :unit-index="unitIndex" :faction-slug="route.params.slug" :granted-keywords="grantedKeywords" />
       </template>
       <p v-else-if="loaded" class="ds-missing">{{ labels.factionsSoon }}</p>
     </section>
@@ -85,6 +85,8 @@ import { loadDatasheets } from '../../data/datasheets/index.js'
 import { loadDatasheetsRu, localizeSheet } from '../../data/datasheets/ru/index.js'
 import { ui } from '../../i18n/ui.js'
 import { useFactionPage } from '../../composables/useFactionPage.js'
+import { useFactionChoice } from '../../composables/useFactionChoice.js'
+import conditionalKeywords from '../../data/conditionalKeywords.json'
 import { useLocale } from '../../composables/useLocale.js'
 import { useFavorites } from '../../composables/useFavorites.js'
 import { setDatasheetName } from '../../composables/useSeoMeta.js'
@@ -151,6 +153,18 @@ const unitIndex = computed(() => {
   const map = new Map()
   for (const d of datasheets.value) map.set(d.name, d.id)
   return map
+})
+
+// Keywords this unit gains from an army/detachment rule (conditionalKeywords.json) — merged into
+// the card's keyword line. Roster-wide grants (no `det`) always apply on this faction's page;
+// detachment-gated grants only while that detachment is the active pick (shared with the rules
+// page via useFactionChoice, defaulting to the faction's first detachment).
+const { activeDetachment } = useFactionChoice()
+const grantedKeywords = computed(() => {
+  const grants = conditionalKeywords[route.params.slug]?.[sheet.value?.id]
+  if (!grants) return []
+  const activeDet = activeDetachment(route.params.slug, faction.value?.detachments || [])?.id
+  return grants.filter((g) => !g.det || g.det === activeDet).map((g) => g.kw)
 })
 
 // Same query Wahapedia uses for its "Search for model's image on the Internet" icon.
