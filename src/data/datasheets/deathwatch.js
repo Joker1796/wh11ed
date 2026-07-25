@@ -1998,6 +1998,7 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Deathwatch Veterans",
+        "Decimus Kill Team",
         "Fortis Kill Team"
       ]
     },
@@ -2086,6 +2087,7 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Deathwatch Veterans",
+        "Decimus Kill Team",
         "Fortis Kill Team"
       ]
     },

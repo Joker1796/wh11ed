@@ -2474,12 +2474,11 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Sanctifiers",
-        "Celestian Insidiants",
-        "Crusaders",
         "Arco-flagellants",
         "Battle Sisters Squad",
+        "Celestian Insidiants",
         "Dominion Squad",
+        "Sanctifiers",
         "Sisters Novitiate Squad"
       ]
     },

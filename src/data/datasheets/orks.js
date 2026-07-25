@@ -2730,9 +2730,10 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Nobz",
+        "Boyz",
+        "Breaka Boyz",
         "Meganobz",
-        "Boyz"
+        "Nobz"
       ],
       "footer": "If this unit’s Bodyguard unit is destroyed, Ghazkghull Thraka and Makari become a single unit with their original Starting Strength."
     },
@@ -4075,12 +4076,11 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Nobz",
         "Boyz",
         "Lootas",
-        "Tankbustas",
-        "Breaka Boyz",
-        "Mek Gunz"
+        "Mek Gunz",
+        "Nobz",
+        "Tankbustas"
       ]
     },
     "keywords": [
