@@ -716,7 +716,9 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Custodian Guard",
-        "Custodian Wardens"
+        "Custodian Guard With Adrasite And Pyrithite Spears",
+        "Custodian Wardens",
+        "Sagittarum Custodians"
       ]
     },
     "keywords": [
@@ -2098,8 +2100,10 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
+        "Custodian Guard",
+        "Custodian Guard With Adrasite And Pyrithite Spears",
         "Custodian Wardens",
-        "Custodian Guard"
+        "Sagittarum Custodians"
       ]
     },
     "keywords": [
@@ -2215,7 +2219,8 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Allarus Custodians"
+        "Allarus Custodians",
+        "Aquilon Custodians"
       ]
     },
     "keywords": [
@@ -2314,6 +2319,7 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
+        "Agamatus Custodians",
         "Vertus Praetors"
       ]
     },
@@ -2527,8 +2533,10 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
+        "Custodian Guard",
+        "Custodian Guard With Adrasite And Pyrithite Spears",
         "Custodian Wardens",
-        "Custodian Guard"
+        "Sagittarum Custodians"
       ]
     },
     "keywords": [
@@ -2615,8 +2623,10 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
+        "Custodian Guard",
+        "Custodian Guard With Adrasite And Pyrithite Spears",
         "Custodian Wardens",
-        "Custodian Guard"
+        "Sagittarum Custodians"
       ]
     },
     "keywords": [

@@ -2458,9 +2458,9 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Tormentors",
         "Infractors",
-        "Noise Marines"
+        "Noise Marines",
+        "Tormentors"
       ]
     },
     "keywords": [

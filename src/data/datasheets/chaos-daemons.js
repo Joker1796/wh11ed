@@ -2341,6 +2341,7 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
+        "Beasts of Nurgle",
         "Beasts Of Nurgle"
       ]
     },
@@ -5108,7 +5109,6 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Hellflayer",
         "Hellflayers"
       ]
     },

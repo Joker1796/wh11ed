@@ -3509,15 +3509,12 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Hastarii Fusiliers",
-        "Skitarii Rangers",
-        "Skitarii Vanguard",
-        "Kataphron Destroyers",
-        "Kataphron Breachers",
-        "Servitor Battleclade",
-        "Hastarii Exterminators",
         "Corpuscarii Electro-priests",
-        "Fulgurite Electro-priests"
+        "Fulgurite Electro-priests",
+        "Kataphron Breachers",
+        "Kataphron Destroyers",
+        "Skitarii Rangers",
+        "Skitarii Vanguard"
       ]
     },
     "keywords": [
