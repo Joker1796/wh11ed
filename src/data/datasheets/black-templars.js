@@ -708,21 +708,12 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
+        "Assault Intercessor Squad",
+        "Crusader Squad",
+        "Infernus Squad",
         "Intercessor Squad",
         "Sternguard Veteran Squad",
-        "Vanguard Veteran Squad",
-        "Fortis Kill Team",
-        "Sword Brethren Squad",
-        "Deathwatch Veterans",
-        "Assault Squad",
-        "Crusader Squad (Legendary)",
-        "Sternguard Veteran Squad",
-        "Assault Intercessor Squad",
-        "Infernus Squad",
-        "Crusader Squad",
-        "Inner Circle Companions",
-        "Decimus Kill Team",
-        "Wolf Guard"
+        "Sword Brethren Squad"
       ]
     },
     "keywords": [
@@ -841,16 +832,11 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Sword Brethren Squad",
-        "Infernus Squad",
-        "Crusader Squad (Legendary)",
-        "Decimus Kill Team",
-        "Vanguard Veteran Squad",
-        "Intercessor Squad",
-        "Fortis Kill Team",
-        "Assault Squad",
+        "Assault Intercessor Squad",
         "Crusader Squad",
-        "Assault Intercessor Squad"
+        "Infernus Squad",
+        "Intercessor Squad",
+        "Sword Brethren Squad"
       ]
     },
     "keywords": [
@@ -955,7 +941,6 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Crusader Squad",
-        "Crusader Squad (Legendary)",
         "Sword Brethren Squad"
       ]
     },
@@ -1252,20 +1237,11 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Fortis Kill Team",
-        "Wolf Guard",
-        "Sternguard Veteran Squad",
-        "Intercessor Squad",
-        "Crusader Squad (Legendary)",
-        "Decimus Kill Team",
-        "Sword Brethren Squad",
-        "Inner Circle Companions",
-        "Sternguard Veteran Squad",
-        "Vanguard Veteran Squad",
-        "Deathwatch Veterans",
         "Assault Intercessor Squad",
-        "Assault Squad",
-        "Crusader Squad"
+        "Crusader Squad",
+        "Intercessor Squad",
+        "Sternguard Veteran Squad",
+        "Sword Brethren Squad"
       ]
     },
     "keywords": [
@@ -1379,7 +1355,6 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Crusader Squad",
-        "Crusader Squad (Legendary)",
         "Sword Brethren Squad"
       ]
     },
@@ -1477,14 +1452,9 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Crusader Squad (Legendary)",
-        "Assault Squad",
-        "Decimus Kill Team",
-        "Intercessor Squad",
-        "Crusader Squad",
         "Assault Intercessor Squad",
-        "Fortis Kill Team",
-        "Vanguard Veteran Squad",
+        "Crusader Squad",
+        "Intercessor Squad",
         "Sword Brethren Squad"
       ]
     },
@@ -1751,21 +1721,12 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Inner Circle Companions",
-        "Sword Brethren Squad",
-        "Infernus Squad",
-        "Sternguard Veteran Squad",
-        "Assault Squad",
-        "Fortis Kill Team",
-        "Crusader Squad (Legendary)",
         "Assault Intercessor Squad",
-        "Deathwatch Veterans",
-        "Vanguard Veteran Squad",
-        "Intercessor Squad",
         "Crusader Squad",
+        "Infernus Squad",
+        "Intercessor Squad",
         "Sternguard Veteran Squad",
-        "Decimus Kill Team",
-        "Wolf Guard"
+        "Sword Brethren Squad"
       ]
     },
     "keywords": [
