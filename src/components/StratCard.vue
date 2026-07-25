@@ -72,7 +72,7 @@ import { useRenderInline } from '../composables/useRenderInline.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 
-const { renderInline } = useRenderInline()
+const { renderInline, renderRichText } = useRenderInline()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
@@ -81,36 +81,9 @@ defineProps({
   sublabel: { type: String, default: null },
 })
 
-function renderField(text) {
-  if (!text) return ''
-  const lines = text.split('\n')
-  let html = ''
-  let inUl = false
-  let inOl = false
-
-  for (const line of lines) {
-    const trimmed = line.trim()
-    if (trimmed.startsWith('▪ ')) {
-      if (inOl) { html += '</ol>'; inOl = false }
-      if (!inUl) { html += '<ul>'; inUl = true }
-      html += `<li>${renderInline(trimmed.slice(2))}</li>`
-    } else if (/^\d+\. /.test(trimmed)) {
-      if (inUl) { html += '</ul>'; inUl = false }
-      if (!inOl) { html += '<ol>'; inOl = true }
-      html += `<li>${renderInline(trimmed.replace(/^\d+\. /, ''))}</li>`
-    } else {
-      if (inUl) { html += '</ul>'; inUl = false }
-      if (inOl) { html += '</ol>'; inOl = false }
-      if (trimmed) {
-        if (html) html += '<br>'
-        html += renderInline(trimmed)
-      }
-    }
-  }
-  if (inUl) html += '</ul>'
-  if (inOl) html += '</ol>'
-  return html
-}
+// When/Target/Effect (and subRule/extraCost) bodies mix paragraphs with `▪ `/`1. ` lists —
+// shared block renderer (see useRenderInline). `restrictions` stays plain inline.
+const renderField = text => (text ? renderRichText(text) : '')
 </script>
 
 <style scoped>

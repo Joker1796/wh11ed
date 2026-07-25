@@ -211,7 +211,7 @@ const props = defineProps({
 })
 
 const { locale } = useLocale()
-const { renderInline } = useRenderInline()
+const { renderInline, renderRichText } = useRenderInline()
 const labels = computed(() => ui[locale.value])
 const fmtBase = (raw) => formatBaseSize(raw, labels.value)
 
@@ -323,40 +323,14 @@ function dsText(text) {
   return renderInline(markFactionKw(text))
 }
 
-// Ability/rule bodies are transcribed with the same `▪ ` bullet-list convention as the
-// core rules body markup (see wh11ed/CLAUDE.md's body-markup table) but never went through
-// RuleBody's block parser — dsText() alone just inlined the literal "▪" characters and the
-// `\n`s collapsed under normal white-space, running every item onto one line. This splits
-// on bullet lines and renders a real <ul>, same as RuleBody's 'ul' block type (no sub-bullet
-// support: datasheet text never uses '▫', unlike core rules).
+// Ability/rule bodies are transcribed with the same `▪ ` bullet-list convention as the core
+// rules body markup (see wh11ed/CLAUDE.md's body-markup table) but never went through RuleBody's
+// block parser — dsText() alone just inlined the literal "▪" characters and the `\n`s collapsed
+// under normal white-space, running every item onto one line. renderRichText renders real
+// <ul>/<ol> like RuleBody; markFactionKw bolds this sheet's faction keywords first, and the
+// generated lists reuse the sheet's existing `.ds-list` styling.
 function dsRichText(text) {
-  if (!text) return text
-  const marked = markFactionKw(text)
-  const parts = []
-  let para = []
-  let items = []
-  const flushPara = () => {
-    if (para.length) parts.push(renderInline(para.join(' ')))
-    para = []
-  }
-  const flushList = () => {
-    if (items.length) parts.push('<ul class="ds-list">' + items.map((i) => `<li>${renderInline(i)}</li>`).join('') + '</ul>')
-    items = []
-  }
-  for (const raw of marked.split('\n')) {
-    const line = raw.trim()
-    if (!line) continue
-    if (/^[▪•]\s*/.test(line)) {
-      flushPara()
-      items.push(line.replace(/^[▪•]\s*/, ''))
-    } else {
-      flushList()
-      para.push(line)
-    }
-  }
-  flushPara()
-  flushList()
-  return parts.join(' ')
+  return renderRichText(text, { pre: markFactionKw, listClass: 'ds-list' })
 }
 
 function statCells(p) {
