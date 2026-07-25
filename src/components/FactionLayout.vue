@@ -19,23 +19,37 @@
     <slot v-if="faction" />
     <p v-else class="fsoon">{{ labels.factionsSoon }}</p>
 
-    <!-- Desktop-only floating jump to the other tab: the hero tabs scroll away on these
-         long pages and >900px has no bottom nav, so switching Rules ↔ Units meant
-         scrolling back to the top. A single icon FAB (the tab you can go to, named by
-         its tooltip), bottom-right, shown only while the hero tabs are scrolled out of
-         view. Hidden on the per-unit page (hero=false) — the top subnav with the same
-         links stays visible there (see App.vue isFactionUnitPage). -->
-    <Transition name="fade">
-      <RouterLink
-        v-if="faction && hero && otherTab && !tabsInView"
-        :to="otherTab.path"
-        class="faction-tab-fab"
-        :title="otherTab.label"
-        :aria-label="otherTab.label"
-      >
-        <i :class="otherTab.icon"></i>
-      </RouterLink>
-    </Transition>
+    <!-- Desktop-only floating controls, bottom-right, shown only while the hero tabs are
+         scrolled out of view (>900px has no bottom nav). Stacked in a column: a "back to
+         top" button on top, and below it a jump to the other tab (the tab you can go to,
+         named by its tooltip) — switching Rules ↔ Units without scrolling back up. Hidden
+         on the per-unit page (hero=false) — the top subnav with the same links stays
+         visible there (see App.vue isFactionUnitPage). -->
+    <div v-if="faction && hero" class="faction-fabs">
+      <Transition name="fab">
+        <button
+          v-if="!tabsInView"
+          type="button"
+          class="faction-fab faction-top-fab"
+          :title="labels.backToTop"
+          :aria-label="labels.backToTop"
+          @click="scrollToTop"
+        >
+          <i class="bi bi-arrow-up"></i>
+        </button>
+      </Transition>
+      <Transition name="fab">
+        <RouterLink
+          v-if="otherTab && !tabsInView"
+          :to="otherTab.path"
+          class="faction-fab faction-tab-fab"
+          :title="otherTab.label"
+          :aria-label="otherTab.label"
+        >
+          <i :class="otherTab.icon"></i>
+        </RouterLink>
+      </Transition>
+    </div>
   </div>
 </template>
 
@@ -77,8 +91,15 @@ const tabs = computed(() => {
 
 const isTabActive = (t) => route.path === t.path || (t.prefix && route.path.startsWith(t.path + '/'))
 
-// The FAB links to the tab you're NOT on.
+// The tab FAB links to the tab you're NOT on.
 const otherTab = computed(() => tabs.value.find((t) => !isTabActive(t)))
+
+// Back-to-top FAB: honour prefers-reduced-motion (the app zeroes all CSS motion there,
+// so a smooth JS scroll would be the odd one out).
+const scrollToTop = () => {
+  const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+  window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' })
+}
 
 // Show the FAB only while the hero tabs are scrolled out of view — with them on
 // screen it would just duplicate what's already in front of the user.
@@ -209,37 +230,80 @@ onBeforeUnmount(() => tabsObserver?.disconnect())
   font-size: 1rem;
 }
 
-/* Floating jump to the other tab — hidden by default, shown only >900px (the exact
-   inverse of App.vue's bottom-nav breakpoint). A round icon FAB in the bottom-right
-   corner; sits inside .faction-view.themed so it picks up the faction accent. The
-   tab name rides in the native title tooltip. */
-.faction-tab-fab {
+/* Floating controls column — hidden by default, shown only >900px (the exact inverse of
+   App.vue's bottom-nav breakpoint). Fixed in the bottom-right corner; sits inside
+   .faction-view.themed so the FABs pick up the faction accent. Stacks the back-to-top
+   button above the tab-jump FAB; both names ride in the native title tooltip. */
+.faction-fabs {
   display: none;
   position: fixed;
   right: 1.5rem;
   bottom: 1.5rem;
   z-index: 195; /* below drawer-overlay (299) and modals (400–500), same tier as ResumeGameButton */
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: var(--accent);
-  color: #fff;
-  font-size: 1.25rem;
-  text-decoration: none;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
-  transition: filter var(--motion-fast);
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
-.faction-tab-fab:hover {
-  filter: brightness(1.1);
+.faction-fab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  /* Ghost/outline look: surface-coloured fill, faction-accent frame + icon. Fills in on
+     hover (see below). The frame is an inset box-shadow, not a border: these FABs are
+     promoted to a GPU layer by their transform animation, where a rounded `border`
+     rasterises with jagged (un-antialiased) corners — a box-shadow ring stays clean. */
+  border: none;
+  border-radius: 12px;
+  background: var(--bg-primary);
+  color: var(--accent);
+  font-size: 1.6rem;
+  cursor: pointer;
   text-decoration: none;
+  box-shadow: inset 0 0 0 1.5px var(--accent), 0 2px 8px rgba(0, 0, 0, 0.15);
+  /* Only transform + colours animate; the shadow stays put on purpose (animating
+     box-shadow per-frame is the janky part). */
+  transition: transform var(--motion-fast), background var(--motion-fast), color var(--motion-fast);
+}
+
+.faction-fab:hover {
+  background: var(--accent);
   color: #fff;
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+
+.faction-fab:active {
+  transform: scale(0.94);
+}
+
+/* Back-to-top arrow gives a little upward nudge on hover (transform only). */
+.faction-top-fab i {
+  transition: transform var(--motion-fast);
+}
+
+.faction-top-fab:hover i {
+  transform: translateY(-2px);
+}
+
+/* Pop the FABs in/out — scale + fade from the corner, no layout properties animated. */
+.fab-enter-active {
+  transition: opacity var(--motion-med), transform var(--motion-med);
+}
+
+.fab-leave-active {
+  transition: opacity var(--motion-fast), transform var(--motion-fast);
+}
+
+.fab-enter-from,
+.fab-leave-to {
+  opacity: 0;
+  transform: scale(0.6);
 }
 
 @media (min-width: 901px) {
-  .faction-tab-fab { display: flex; }
+  .faction-fabs { display: flex; }
 }
 
 @media (max-width: 640px) {
