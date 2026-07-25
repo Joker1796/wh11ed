@@ -1725,7 +1725,7 @@ The combined points value of such units you can include in your army depends on 
           name: "Pact of Cursed Pinions",
           points: 20,
           flavor: "Sharing their mortal frame with a predatory possessor daemon lends this dark champion additional might and swiftness, though it may yet damn them for eternity.",
-          body: "CHAOS LORD WITH JUMP PACK model only.\n▪ This model has DAEMON.\n▪ This model\u2019s melee attacks have +1 A.",
+          body: "CHAOS LORD WITH JUMP PACK model only.\n▪ This model has DAEMON.\n▪ This model\u2019s melee attacks have +1 A.\n▪ In the Declare Battle Formations step, the bearer can be attached to a Warp Talons unit.",
         },
       ],
     },

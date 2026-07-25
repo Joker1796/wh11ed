@@ -961,7 +961,7 @@ Until the start of your next Command phase, the unit you selected is affected by
           points: 10,
           upgrade: true,
           flavor: "The whine of hidden bionics, webs of ugly scars, or the rattle of abraded lungs with every barked order signals a grizzled veteran whose devotion to duty has seen them survive not only the enemy but also proximity to the most overly muscled soldiers.",
-          body: "COMMISSAR model only. This model has Feel No Pain 4+.",
+          body: "COMMISSAR model only. This model has Feel No Pain 4+.\n\nIn the Declare Battle Formations step, the bearer can be attached to an Ogryn Squad or Bullgryn Squad unit.",
         },
       ],
     },

@@ -743,7 +743,9 @@ export default {
         },
         {
           flavor: 'Этот варбосс столь глубоко впитал коварные повадки клана Blood Axe, что способен даже прокрасться в бой во главе оравы Kommandos.',
-          body: `Только модель Infantry Warboss (кроме моделей Mega Armour). Эта модель обладает Infiltrators и Stealth.`,
+          body: `Только модель Infantry Warboss (кроме моделей Mega Armour). Эта модель обладает Infiltrators и Stealth.
+
+В шаге объявления боевых построений носитель может быть прикреплён к юниту Kommandos.`,
         },
       ],
     },

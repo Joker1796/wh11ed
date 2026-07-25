@@ -5,6 +5,7 @@
 //   - sync-appdata     — faction/datasheet structure, scalars, renames (all factions)
 //   - sync-tracker     — Game Tracker rule content (missions, twists, battle sizes, …)
 //   - sync-core        — core rulebook prose (sections 01-25)
+//   - sync-enh-bodyguards — enhancements that grant an attach must carry the attach note
 //
 // Report only — nothing is written (except that you may want to run `gen-source-ids.mjs` if the
 // bridge is stale). Usage: `npm run sync` (or `node scripts/sync.mjs`).
@@ -33,6 +34,7 @@ const idsStale = run('sourceIds bridge (--check)', 'gen-source-ids.mjs', ['--che
 run('sync-appdata (all factions)', 'sync-appdata.mjs', ['--all'])
 run('sync-tracker', 'sync-tracker.mjs')
 run('sync-core', 'sync-core.mjs')
+run('sync-enh-bodyguards', 'sync-enh-bodyguards.mjs')
 
 console.log(`\n${'═'.repeat(72)}`)
 if (idsStale) console.log('⚠ src/data/sourceIds.json is stale — run `node scripts/gen-source-ids.mjs`.')

@@ -1161,7 +1161,9 @@ This detachment has the Hypercrypt tag and cannot be taken with another Hypercry
           name: 'Murdermind',
           points: 15,
           flavor: "Consumed by the Destroyer madness, this Cryptek's powerful intellect is turned entirely toward killing.",
-          body: `Cryptek model only. The bearer has the DESTROYER CULT keyword. Add 3" to the Move characteristic of the bearer.`,
+          body: `Cryptek model only. The bearer has the DESTROYER CULT keyword. Add 3" to the Move characteristic of the bearer.
+
+In the Declare Battle Formations step, the bearer can be attached to a Lokhust Destroyers, Lokhust Heavy Destroyers, Ophydian Destroyers or Skorpekh Destroyers unit.`,
         },
         {
           name: 'Mark of the Nekrosor',
