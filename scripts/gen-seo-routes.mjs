@@ -13,7 +13,7 @@
 // feature branch), /factions, per-faction pages and per-unit datasheet pages are
 // enumerated from the data files, so this script needs no changes when factions land.
 
-import { existsSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { join } from 'node:path'
 
@@ -59,12 +59,16 @@ async function factionRoutes() {
   const indexFile = join(ROOT, 'src/data/factionsIndex.js')
   if (!existsSync(indexFile)) return []
   const { factionGroups } = await import(pathToFileURL(indexFile))
+  // Which factions have an FAQ/errata tab (src/data/factionFaq.json, generated from appdata).
+  const faqFile = join(ROOT, 'src/data/factionFaq.json')
+  const faqSlugs = existsSync(faqFile) ? new Set(Object.keys(JSON.parse(readFileSync(faqFile, 'utf8')))) : new Set()
   const routes = ['/factions']
   for (const group of factionGroups) {
     for (const f of group.factions) {
       // Same gate FactionsListView uses: only `ready` factions with a data file link through.
       if (!f.ready || !existsSync(join(ROOT, `src/data/factions/${f.slug}.js`))) continue
       routes.push(`/factions/${f.slug}`)
+      if (faqSlugs.has(f.slug)) routes.push(`/factions/${f.slug}/faq`)
       const sheetsFile = join(ROOT, `src/data/datasheets/${f.slug}.js`)
       if (!existsSync(sheetsFile)) continue
       routes.push(`/factions/${f.slug}/datasheets`)

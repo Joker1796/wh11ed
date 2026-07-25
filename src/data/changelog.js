@@ -17,6 +17,16 @@
 
 export const changelog = [
   {
+    version: '2.1.6',
+    date: '2026-07-25',
+    en: [
+      'Faction pages now have an FAQ tab — the official Games Workshop FAQ and errata for that faction, with an Errata / FAQ switch. (In English, as GW publishes them.) Space Marine Chapters also show the shared Codex: Space Marines entries.',
+    ],
+    ru: [
+      'На страницах фракций появилась вкладка FAQ — официальные FAQ и errata Games Workshop по этой фракции, с переключателем Errata / FAQ. (На английском, как их публикует GW.) У чаптеров Space Marines показываются и общие записи из Codex: Space Marines.',
+    ],
+  },
+  {
     version: '2.1.5',
     date: '2026-07-25',
     en: [
