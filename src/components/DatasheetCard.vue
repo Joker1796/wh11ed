@@ -161,6 +161,7 @@
           <template v-if="g.model">{{ ' ' + g.model + ' -' }}</template>
           <template v-for="(k, i) in g.list" :key="k">{{ i ? ', ' : ' ' }}<span class="ds-kw">{{ k }}</span></template>
         </template>
+        <template v-for="k in extraKeywords" :key="'g:' + k">{{ ', ' }}<span class="ds-kw">{{ k }}</span></template>
       </div>
       <div>
         <strong>{{ labels.dsFactionKeywords }}:</strong>
@@ -208,6 +209,12 @@ const props = defineProps({
   // just render as plain text then, same as before this feature existed.
   unitIndex: { type: Object, default: null },
   factionSlug: { type: String, default: '' },
+  // Keywords this unit GAINS from an army/detachment rule rather than having printed on its
+  // sheet (e.g. Deathwing/Ravenwing via Dark Angels' The Unforgiven, or Battleline granted by a
+  // detachment) — computed by the caller from the active army choice and merged into the keyword
+  // line here, indistinguishable from the printed ones (see conditionalKeywords.json). Optional,
+  // so callers without a faction/detachment context just render the printed keywords as before.
+  grantedKeywords: { type: Array, default: () => [] },
 })
 
 const { locale } = useLocale()
@@ -232,6 +239,13 @@ const leaderGroupLabel = computed(() =>
 const keywordGroups = computed(() =>
   props.sheet.keywordsByModel ? props.sheet.keywordsByModel : [{ model: null, list: props.sheet.keywords || [] }],
 )
+
+// Rule-granted keywords (grantedKeywords prop) appended after the printed ones, minus any the
+// sheet already prints in any model group — so a grant never doubles a printed keyword.
+const extraKeywords = computed(() => {
+  const printed = new Set(keywordGroups.value.flatMap((g) => g.list))
+  return props.grantedKeywords.filter((k) => !printed.has(k))
+})
 
 // Multi-profile weapons are stored as adjacent rows sharing a base name with a spaced-dash
 // suffix ("Scythe of the Nightbringer – strike" / "– sweep"). The data is inconsistent about

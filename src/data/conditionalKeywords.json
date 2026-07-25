@@ -1,0 +1,437 @@
+{
+  "adeptus-custodes": {
+    "prosecutors": [
+      {
+        "kw": "Battleline",
+        "det": "null-maiden-vigil"
+      }
+    ]
+  },
+  "aeldari": {
+    "troupe": [
+      {
+        "kw": "Battleline",
+        "det": "ghosts-of-the-webway"
+      },
+      {
+        "kw": "Battleline",
+        "det": "serpents-brood"
+      }
+    ],
+    "windriders": [
+      {
+        "kw": "Battleline",
+        "det": "windrider-host"
+      }
+    ],
+    "wraithblades": [
+      {
+        "kw": "Battleline",
+        "det": "spirit-conclave"
+      }
+    ],
+    "wraithguard": [
+      {
+        "kw": "Battleline",
+        "det": "spirit-conclave"
+      }
+    ]
+  },
+  "astra-militarum": {
+    "tempestus-scions": [
+      {
+        "kw": "Battleline",
+        "det": "bridgehead-strike"
+      }
+    ]
+  },
+  "blood-angels": {
+    "death-company-marines": [
+      {
+        "kw": "Battleline",
+        "det": "the-lost-brethren"
+      }
+    ],
+    "death-company-marines-with-bolt-rifles": [
+      {
+        "kw": "Battleline",
+        "det": "the-lost-brethren"
+      }
+    ]
+  },
+  "chaos-knights": {
+    "war-dog-brigand": [
+      {
+        "kw": "Battleline",
+        "det": "houndpack-lance"
+      }
+    ],
+    "war-dog-executioner": [
+      {
+        "kw": "Battleline",
+        "det": "houndpack-lance"
+      }
+    ],
+    "war-dog-huntsman": [
+      {
+        "kw": "Battleline",
+        "det": "houndpack-lance"
+      }
+    ],
+    "war-dog-karnivore": [
+      {
+        "kw": "Battleline",
+        "det": "houndpack-lance"
+      }
+    ],
+    "war-dog-moirax": [
+      {
+        "kw": "Battleline",
+        "det": "houndpack-lance"
+      }
+    ],
+    "war-dog-stalker": [
+      {
+        "kw": "Battleline",
+        "det": "houndpack-lance"
+      }
+    ]
+  },
+  "chaos-space-marines": {
+    "traitor-guardsmen-squad": [
+      {
+        "kw": "Battleline",
+        "det": "chaos-cult"
+      }
+    ]
+  },
+  "dark-angels": {
+    "ancient-in-terminator-armour": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "ballistus-dreadnought": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "bladeguard-ancient": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "bladeguard-veteran-squad": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "brutalis-dreadnought": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "captain-in-terminator-armour": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "chaplain-in-terminator-armour": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "chaplain-on-bike": [
+      {
+        "kw": "Ravenwing"
+      }
+    ],
+    "dreadnought": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "invader-atv": [
+      {
+        "kw": "Ravenwing"
+      }
+    ],
+    "land-raider": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "land-raider-crusader": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "land-raider-redeemer": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "land-speeder": [
+      {
+        "kw": "Ravenwing"
+      }
+    ],
+    "librarian-in-terminator-armour": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "outrider-squad": [
+      {
+        "kw": "Battleline",
+        "det": "company-of-hunters"
+      },
+      {
+        "kw": "Ravenwing"
+      }
+    ],
+    "redemptor-dreadnought": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "repulsor": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "repulsor-executioner": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "sternguard-veteran-squad": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "storm-speeder-hailstrike": [
+      {
+        "kw": "Ravenwing"
+      }
+    ],
+    "storm-speeder-hammerstrike": [
+      {
+        "kw": "Ravenwing"
+      }
+    ],
+    "storm-speeder-thunderstrike": [
+      {
+        "kw": "Ravenwing"
+      }
+    ],
+    "stormhawk-interceptor": [
+      {
+        "kw": "Ravenwing"
+      }
+    ],
+    "stormraven-gunship": [
+      {
+        "kw": "Ravenwing"
+      }
+    ],
+    "stormtalon-gunship": [
+      {
+        "kw": "Ravenwing"
+      }
+    ],
+    "terminator-assault-squad": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "terminator-squad": [
+      {
+        "kw": "Deathwing"
+      }
+    ],
+    "vanguard-veteran-squad-with-jump-packs": [
+      {
+        "kw": "Deathwing"
+      }
+    ]
+  },
+  "death-guard": {
+    "foetid-bloat-drone": [
+      {
+        "kw": "Contagion Engines",
+        "det": "contagion-engines"
+      }
+    ],
+    "foetid-bloat-drone-with-heavy-blight-launcher": [
+      {
+        "kw": "Contagion Engines",
+        "det": "contagion-engines"
+      }
+    ],
+    "helbrute": [
+      {
+        "kw": "Contagion Engines",
+        "det": "contagion-engines"
+      }
+    ],
+    "myphitic-blight-hauler": [
+      {
+        "kw": "Contagion Engines",
+        "det": "contagion-engines"
+      }
+    ],
+    "poxwalkers": [
+      {
+        "kw": "Battleline",
+        "det": "shamblerot-vectorium"
+      }
+    ]
+  },
+  "imperial-knights": {
+    "armiger-helverin": [
+      {
+        "kw": "Battleline",
+        "det": "spearhead-at-arms"
+      }
+    ],
+    "armiger-moirax": [
+      {
+        "kw": "Battleline",
+        "det": "spearhead-at-arms"
+      }
+    ],
+    "armiger-warglaive": [
+      {
+        "kw": "Battleline",
+        "det": "spearhead-at-arms"
+      }
+    ]
+  },
+  "leagues-of-votann": {
+    "cthonian-beserks": [
+      {
+        "kw": "Battleline",
+        "det": "delve-assault-shift"
+      }
+    ]
+  },
+  "orks": {
+    "battlewagon": [
+      {
+        "kw": "Wagon",
+        "det": "rollin-deff"
+      }
+    ],
+    "gretchin": [
+      {
+        "kw": "Battleline",
+        "det": "dread-mob"
+      }
+    ],
+    "hunta-rig": [
+      {
+        "kw": "Wagon",
+        "det": "rollin-deff"
+      }
+    ],
+    "kill-rig": [
+      {
+        "kw": "Wagon",
+        "det": "rollin-deff"
+      }
+    ],
+    "stormboyz": [
+      {
+        "kw": "Battleline",
+        "det": "taktikal-brigade"
+      }
+    ]
+  },
+  "space-marines": {
+    "land-speeder": [
+      {
+        "kw": "Speeder",
+        "det": "fulguris-task-force"
+      }
+    ],
+    "storm-speeder-hailstrike": [
+      {
+        "kw": "Speeder",
+        "det": "fulguris-task-force"
+      }
+    ],
+    "storm-speeder-hammerstrike": [
+      {
+        "kw": "Speeder",
+        "det": "fulguris-task-force"
+      }
+    ],
+    "storm-speeder-thunderstrike": [
+      {
+        "kw": "Speeder",
+        "det": "fulguris-task-force"
+      }
+    ]
+  },
+  "tau-empire": {
+    "kroot-carnivores": [
+      {
+        "kw": "Battleline",
+        "det": "kroot-hunting-pack"
+      }
+    ]
+  },
+  "thousand-sons": {
+    "tzaangors": [
+      {
+        "kw": "Battleline",
+        "det": "servants-of-change"
+      },
+      {
+        "kw": "Battleline",
+        "det": "warpmeld-pact"
+      }
+    ]
+  },
+  "tyranids": {
+    "mawloc": [
+      {
+        "kw": "Burrower",
+        "det": "subterranean-assault"
+      }
+    ],
+    "trygon": [
+      {
+        "kw": "Burrower",
+        "det": "subterranean-assault"
+      }
+    ],
+    "tyranid-warriors-with-melee-bio-weapons": [
+      {
+        "kw": "Battleline",
+        "det": "warrior-bioform-onslaught"
+      }
+    ],
+    "tyranid-warriors-with-ranged-bio-weapons": [
+      {
+        "kw": "Battleline",
+        "det": "warrior-bioform-onslaught"
+      }
+    ]
+  },
+  "world-eaters": {
+    "goremongers": [
+      {
+        "kw": "Battleline",
+        "det": "cult-of-blood"
+      }
+    ],
+    "jakhals": [
+      {
+        "kw": "Battleline",
+        "det": "cult-of-blood"
+      }
+    ]
+  }
+}

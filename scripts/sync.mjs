@@ -2,6 +2,7 @@
 // report-only reconciliation script in turn and prints a single consolidated report:
 //   - version check   — is appdata newer than what this repo was last synced against?
 //   - sourceIds        — is the stable-id bridge (src/data/sourceIds.json) up to date?
+//   - conditionalKeywords — is the rule-granted-keywords sidecar (Deathwing/Battleline/…) fresh?
 //   - sync-appdata     — faction/datasheet structure, scalars, renames (all factions)
 //   - sync-tracker     — Game Tracker rule content (missions, twists, battle sizes, …)
 //   - sync-core        — core rulebook prose (sections 01-25)
@@ -31,6 +32,7 @@ if (current == null) {
 }
 
 const idsStale = run('sourceIds bridge (--check)', 'gen-source-ids.mjs', ['--check'])
+const condKwStale = run('conditionalKeywords sidecar (--check)', 'gen-conditional-keywords.mjs', ['--check'])
 run('sync-appdata (all factions)', 'sync-appdata.mjs', ['--all'])
 run('sync-tracker', 'sync-tracker.mjs')
 run('sync-core', 'sync-core.mjs')
@@ -38,4 +40,5 @@ run('sync-enh-bodyguards', 'sync-enh-bodyguards.mjs')
 
 console.log(`\n${'═'.repeat(72)}`)
 if (idsStale) console.log('⚠ src/data/sourceIds.json is stale — run `node scripts/gen-source-ids.mjs`.')
+if (condKwStale) console.log('⚠ src/data/conditionalKeywords.json is stale — run `node scripts/gen-conditional-keywords.mjs`.')
 console.log('Done. Every section above is report-only; read the flagged lines and fix by hand.')
