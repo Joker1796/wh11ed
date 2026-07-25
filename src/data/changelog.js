@@ -17,23 +17,17 @@
 
 export const changelog = [
   {
-    version: '2.1.5',
-    date: '2026-07-25',
-    en: [
-      'Added a “back to top” button on the rules pages and faction pages (desktop) for a quick jump to the top of long pages.',
-    ],
-    ru: [
-      'Добавлена кнопка «наверх» на страницах правил и фракций (десктоп) — быстрый возврат к началу длинных страниц.',
-    ],
-  },
-  {
     version: '2.1.4',
     date: '2026-07-25',
     en: [
+      'Faction pages now have an FAQ tab — the official Games Workshop FAQ and errata for that faction, with an Errata / FAQ switch. (In English, as GW publishes them.) Space Marine Chapters also show the shared Codex: Space Marines entries.',
       'Fixed the “This model can be attached to the following units” list on Character datasheets — many Characters were showing units they can’t actually lead (and a stray duplicate entry). Every attach list is now reconciled against the official app’s data.',
+      'Added a “back to top” button on the rules pages and faction pages (desktop) for a quick jump to the top of long pages.',
     ],
     ru: [
+      'На страницах фракций появилась вкладка FAQ — официальные FAQ и errata Games Workshop по этой фракции, с переключателем Errata / FAQ. (На английском, как их публикует GW.) У чаптеров Space Marines показываются и общие записи из Codex: Space Marines.',
       'Исправлен список «Эту модель можно присоединить к следующим юнитам» на листах данных персонажей — у многих персонажей отображались юниты, которых они не могут возглавлять (и лишний повтор). Все списки присоединения сверены с данными официального приложения.',
+      'Добавлена кнопка «наверх» на страницах правил и фракций (десктоп) — быстрый возврат к началу длинных страниц.',
     ],
   },
   {

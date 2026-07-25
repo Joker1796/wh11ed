@@ -21,10 +21,10 @@
 
     <!-- Desktop-only floating controls, bottom-right, shown only while the hero tabs are
          scrolled out of view (>900px has no bottom nav). Stacked in a column: a "back to
-         top" button on top, and below it a jump to the other tab (the tab you can go to,
-         named by its tooltip) — switching Rules ↔ Units without scrolling back up. Hidden
-         on the per-unit page (hero=false) — the top subnav with the same links stays
-         visible there (see App.vue isFactionUnitPage). -->
+         top" button on top, and below it a button cycling to the next tab (Rules → Units →
+         FAQ, named by its tooltip) — switching pages without scrolling back up. Hidden on
+         the per-unit page (hero=false) — the top subnav with the same links stays visible
+         there (see App.vue isFactionUnitPage). -->
     <div v-if="faction && hero" class="faction-fabs">
       <Transition name="fab">
         <button
@@ -40,13 +40,13 @@
       </Transition>
       <Transition name="fab">
         <RouterLink
-          v-if="otherTab && !tabsInView"
-          :to="otherTab.path"
+          v-if="nextTab && !tabsInView"
+          :to="nextTab.path"
           class="fab-btn"
-          :title="otherTab.label"
-          :aria-label="otherTab.label"
+          :title="nextTab.label"
+          :aria-label="nextTab.label"
         >
-          <i :class="otherTab.icon"></i>
+          <i :class="nextTab.icon"></i>
         </RouterLink>
       </Transition>
     </div>
@@ -86,13 +86,20 @@ const tabs = computed(() => {
     { path: base, label: l.factionRules, icon: 'bi bi-shield-shaded' },
     // prefix: the per-unit pages (/datasheets/:unit) keep this tab highlighted
     { path: `${base}/datasheets`, label: l.factionDatasheets, prefix: true, icon: 'bi bi-people-fill' },
+    // Official GW FAQ & errata for the faction (src/data/factionFaq.json).
+    { path: `${base}/faq`, label: l.factionFaq, icon: 'bi bi-patch-question' },
   ]
 })
 
 const isTabActive = (t) => route.path === t.path || (t.prefix && route.path.startsWith(t.path + '/'))
 
-// The tab FAB links to the tab you're NOT on.
-const otherTab = computed(() => tabs.value.find((t) => !isTabActive(t)))
+// The tab FAB cycles to the NEXT tab (Rules → Units → FAQ → Rules) so it stays unambiguous
+// with three tabs.
+const nextTab = computed(() => {
+  const i = tabs.value.findIndex(isTabActive)
+  if (i === -1) return null
+  return tabs.value[(i + 1) % tabs.value.length]
+})
 
 // Back-to-top FAB: honour prefers-reduced-motion (the app zeroes all CSS motion there,
 // so a smooth JS scroll would be the odd one out).
@@ -250,6 +257,14 @@ onBeforeUnmount(() => tabsObserver?.disconnect())
 
 @media (max-width: 640px) {
   .hero-title { font-size: 2.2rem; }
+  /* Three tabs now share the row — tighten them so they fit on a phone without scrolling. */
+  .faction-tab {
+    flex: 1 1 0;
+    justify-content: center;
+    gap: 0.35rem;
+    font-size: 1rem;
+    padding: 0.5rem 0.4rem;
+  }
 }
 </style>
 

@@ -392,6 +392,7 @@ const factionSubNavItems = computed(() => {
     // (see preloadUnitsMenu/unitsMenuList below) — it only ever renders on a
     // per-unit page, since the subnav itself is hidden on the other faction pages.
     { path: `${base}/datasheets`, label: l.factionDatasheets, prefix: true, unitsMenu: true },
+    { path: `${base}/faq`, label: l.factionFaq },
   ]
 })
 
