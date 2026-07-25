@@ -13,6 +13,7 @@
     "datasheets:index": "node scripts/gen-datasheet-index.mjs",
     "sourceids": "node scripts/gen-source-ids.mjs",
     "condkeywords": "node scripts/gen-conditional-keywords.mjs",
+    "faq": "node scripts/gen-faction-faq.mjs",
     "sync": "node scripts/sync.mjs",
     "parity": "node scripts/parity-check.mjs",
     "images:dims": "node scripts/gen-image-dims.mjs",

@@ -9,6 +9,20 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
 export const APPDATA = process.env.WH40K_APPDATA_PATH || path.join(ROOT, '..', 'wh40k-appdata')
 
+// wh11ed faction slug → wh40k-appdata bundle/faction-keyword slug, for the 7 factions GW renamed
+// between the app dump and wh11ed's own filenames. Every other faction shares the same slug in both.
+// Single source of truth — imported by the reconciliation scripts (gen-source-ids, sync-appdata,
+// sync-tracker, gen-faction-faq). Invert it (appdata slug → wh11ed slug) when going the other way.
+export const SLUG_MAP = {
+  'space-marines': 'adeptus-astartes',
+  'chaos-space-marines': 'heretic-astartes',
+  'imperial-agents': 'agents-of-the-imperium',
+  aeldari: 'asuryani',
+  'chaos-daemons': 'legiones-daemonica',
+  'titan-legions': 'adeptus-titanicus',
+  'chaos-titan-legions': 'titanicus-traitoris',
+}
+
 // The wh40k-appdata `data_version` this repo was last fully reconciled against. Bump this in the
 // same commit that lands a re-sync so `npm run sync` can tell you when appdata has moved ahead
 // (a newer app dump) and the audit needs re-running. Single source of truth is the shipped
