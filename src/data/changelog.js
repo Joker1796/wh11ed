@@ -17,6 +17,20 @@
 
 export const changelog = [
   {
+    version: '2.1.2',
+    date: '2026-07-25',
+    en: [
+      { h: 'Rules readability' },
+      'Bulleted rules text now renders as a proper list everywhere it appears — faction enhancements, stratagems, datasheet abilities and the keyword pop-ups — instead of collapsing every point onto one run-on line.',
+      'Enhancements that attach the bearer to a specific unit now spell that attachment out, so you can see the condition at a glance.',
+    ],
+    ru: [
+      { h: 'Читаемость правил' },
+      'Маркированные списки в тексте правил теперь отображаются настоящим списком везде, где встречаются — в улучшениях фракций, стратагемах, способностях листов данных и всплывающих подсказках ключевых слов, — а не сливаются в одну строку.',
+      'Улучшения, прикрепляющие носителя к конкретному юниту, теперь явно показывают это — условие прикрепления видно сразу.',
+    ],
+  },
+  {
     version: '2.1.0',
     date: '2026-07-23',
     en: [
