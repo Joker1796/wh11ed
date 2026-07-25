@@ -72,7 +72,7 @@
         <div class="ds-ability-group">
           <h5 class="ds-group-title">{{ labels.dsAbilities }}</h5>
           <div v-for="a in sheet.abilities" :key="a.name" class="ds-ability">
-            <strong>{{ a.name }}:</strong> <span v-html="dsText(a.text)"></span>
+            <strong>{{ a.name }}:</strong> <span v-html="dsRichText(a.text)"></span>
           </div>
         </div>
       </template>
@@ -80,7 +80,7 @@
         <div class="ds-ability-group">
           <h5 class="ds-group-title">{{ labels.dsWargearAbilities }}</h5>
           <div v-for="a in sheet.wargearAbilities" :key="a.name" class="ds-ability">
-            <strong>{{ a.name }}:</strong> <span v-html="dsText(a.text)"></span>
+            <strong>{{ a.name }}:</strong> <span v-html="dsRichText(a.text)"></span>
           </div>
         </div>
       </template>
@@ -88,7 +88,7 @@
         <div class="ds-ability-group">
           <h5 class="ds-group-title">{{ labels.dsSpecialAbilities }}</h5>
           <div v-for="a in sheet.specialAbilities" :key="a.name" class="ds-ability">
-            <strong>{{ a.name }}:</strong> <span v-html="dsText(a.text)"></span>
+            <strong>{{ a.name }}:</strong> <span v-html="dsRichText(a.text)"></span>
           </div>
         </div>
       </template>
@@ -98,7 +98,7 @@
         <div v-for="set in sheet.abilitySets" :key="set.name" class="ds-ability-group">
           <h5 class="ds-group-title">{{ set.name }}</h5>
           <div v-for="a in set.options" :key="a.name" class="ds-ability">
-            <strong>{{ a.name }}:</strong> <span v-html="dsText(a.text)"></span>
+            <strong>{{ a.name }}:</strong> <span v-html="dsRichText(a.text)"></span>
           </div>
         </div>
       </template>
@@ -106,32 +106,32 @@
         <div v-for="r in sheet.rules" :key="r.name" class="ds-ability-group">
           <h5 class="ds-group-title">{{ r.name }}</h5>
           <div class="ds-ability">
-            <span v-html="dsText(r.text)"></span>
+            <span v-html="dsRichText(r.text)"></span>
           </div>
         </div>
       </template>
       <div v-if="sheet.damaged" class="ds-damaged">
         <strong>{{ labels.dsDamaged }}: {{ sheet.damaged.note }}</strong>
-        <div v-html="dsText(sheet.damaged.text)"></div>
+        <div v-html="dsRichText(sheet.damaged.text)"></div>
       </div>
     </div>
 
     <!-- Transport / Leader -->
     <div v-if="sheet.transport" class="ds-block">
       <h5 class="ds-group-title">{{ labels.dsTransport }}</h5>
-      <div v-html="dsText(sheet.transport)"></div>
+      <div v-html="dsRichText(sheet.transport)"></div>
     </div>
     <div v-if="sheet.leader" class="ds-ability-group">
       <h5 class="ds-group-title">{{ leaderGroupLabel }}</h5>
       <div class="ds-ability">
-        <div v-html="dsText(sheet.leader.text)"></div>
+        <div v-html="dsRichText(sheet.leader.text)"></div>
         <ul class="ds-list">
           <li v-for="u in sheet.leader.units" :key="u">
             <RouterLink v-if="unitIndex?.get(u)" :to="`/factions/${factionSlug}/datasheets/${unitIndex.get(u)}`">{{ u }}</RouterLink>
             <template v-else>{{ u }}</template>
           </li>
         </ul>
-        <div v-if="sheet.leader.footer" v-html="dsText(sheet.leader.footer)"></div>
+        <div v-if="sheet.leader.footer" v-html="dsRichText(sheet.leader.footer)"></div>
       </div>
     </div>
 
@@ -314,10 +314,49 @@ const factionKwRegex = computed(() => {
   return kws.length ? new RegExp(`\\[[^\\]]*\\]|\\*\\*.*?\\*\\*|\\b(${kws.join('|')})\\b`, 'g') : null
 })
 
-function dsText(text) {
+function markFactionKw(text) {
   const re = factionKwRegex.value
-  const marked = re ? text.replace(re, (m, kw) => (kw ? `**${kw}**` : m)) : text
-  return renderInline(marked)
+  return re ? text.replace(re, (m, kw) => (kw ? `**${kw}**` : m)) : text
+}
+
+function dsText(text) {
+  return renderInline(markFactionKw(text))
+}
+
+// Ability/rule bodies are transcribed with the same `▪ ` bullet-list convention as the
+// core rules body markup (see wh11ed/CLAUDE.md's body-markup table) but never went through
+// RuleBody's block parser — dsText() alone just inlined the literal "▪" characters and the
+// `\n`s collapsed under normal white-space, running every item onto one line. This splits
+// on bullet lines and renders a real <ul>, same as RuleBody's 'ul' block type (no sub-bullet
+// support: datasheet text never uses '▫', unlike core rules).
+function dsRichText(text) {
+  if (!text) return text
+  const marked = markFactionKw(text)
+  const parts = []
+  let para = []
+  let items = []
+  const flushPara = () => {
+    if (para.length) parts.push(renderInline(para.join(' ')))
+    para = []
+  }
+  const flushList = () => {
+    if (items.length) parts.push('<ul class="ds-list">' + items.map((i) => `<li>${renderInline(i)}</li>`).join('') + '</ul>')
+    items = []
+  }
+  for (const raw of marked.split('\n')) {
+    const line = raw.trim()
+    if (!line) continue
+    if (/^[▪•]\s*/.test(line)) {
+      flushPara()
+      items.push(line.replace(/^[▪•]\s*/, ''))
+    } else {
+      flushList()
+      para.push(line)
+    }
+  }
+  flushPara()
+  flushList()
+  return parts.join(' ')
 }
 
 function statCells(p) {

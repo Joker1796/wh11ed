@@ -948,7 +948,7 @@ export default [
     "abilities": [
       {
         "name": "Braziers of Judgement",
-        "text": "• This unit has **Stealth**. • Melee attacks that target this unit have -1 to **hit rolls**."
+        "text": "▪ This unit has **Stealth**.\n▪ Melee attacks that target this unit have -1 to **hit rolls**."
       },
       {
         "name": "Enmity for the Unworthy",
@@ -1819,7 +1819,7 @@ export default [
     "abilities": [
       {
         "name": "Stasis Bomb",
-        "text": "At the end of your opponent’s Fight phase, select one **visible** enemy unit (excluding **AIRCRAFT**/**Lone Operative** units) within 24\" of this unit. That enemy unit is **slowed** until the end of your opponent’s next Movement phase: • While a unit is **slowed**, in your opponent’s Movement phase, when that unit is **selected to move**, unless that unit **remains stationary**, roll one D6: • On a 1-4, that unit suffers D3 **mortal wounds** and that unit has -2\" **M**. • On a 5-6, that unit suffers 2D3 **mortal wounds** and that unit has -3\" **M**.’"
+        "text": "At the end of your opponent’s Fight phase, select one **visible** enemy unit (excluding **AIRCRAFT**/**Lone Operative** units) within 24\" of this unit. That enemy unit is **slowed** until the end of your opponent’s next Movement phase:\n▪ While a unit is **slowed**, in your opponent’s Movement phase, when that unit is **selected to move**, unless that unit **remains stationary**, roll one D6:\n▪ On a 1-4, that unit suffers D3 **mortal wounds** and that unit has -2\" **M**.\n▪ On a 5-6, that unit suffers 2D3 **mortal wounds** and that unit has -3\" **M**."
       }
     ],
     "damaged": {
