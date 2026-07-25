@@ -121,6 +121,56 @@
   transform: translateY(100%);
 }
 
+/* Pop for floating action buttons (scale + fade from the corner). */
+.fab-enter-active {
+  transition: opacity var(--motion-med) ease, transform var(--motion-med) ease;
+}
+.fab-leave-active {
+  transition: opacity var(--motion-fast) ease, transform var(--motion-fast) ease;
+}
+.fab-enter-from, .fab-leave-to {
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+/* Round-square floating action buttons — the faction hero-page FABs and the back-to-top
+   button. Outline/ghost look (surface fill, accent frame + icon) that fills with the accent
+   on hover; picks up the local --accent, so faction pages get their faction colour for free.
+   Only transform + colours animate (GPU-cheap); the frame is an inset box-shadow, not a
+   border, so its rounded corners stay antialiased on the transform-promoted GPU layer
+   (a `border` rasterises jagged there). */
+.fab-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border: none;
+  border-radius: 12px;
+  background: var(--bg-primary);
+  color: var(--accent);
+  font-size: 1.6rem;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: inset 0 0 0 1.5px var(--accent), 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: transform var(--motion-fast), background var(--motion-fast), color var(--motion-fast);
+}
+.fab-btn i {
+  transition: transform var(--motion-fast);
+}
+.fab-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+.fab-btn:hover i {
+  transform: translateY(-2px);
+}
+.fab-btn:active {
+  transform: scale(0.94);
+}
+
 /* Mobile shrink for the two largest heading levels (shared scale). */
 @media (max-width: 900px) {
   :root {

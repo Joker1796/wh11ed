@@ -212,6 +212,7 @@
     <Transition name="slide-up">
       <ResumeGameButton v-if="showResumeGame" />
     </Transition>
+    <BackToTopButton v-if="isCoreRoute" />
     <UpdateToast />
     <OfflineWarmupToast />
   </div>
@@ -230,6 +231,7 @@ import NavSidebar from './components/NavSidebar.vue'
 import UpdateToast from './components/UpdateToast.vue'
 import OfflineWarmupToast from './components/OfflineWarmupToast.vue'
 import ResumeGameButton from './components/ResumeGameButton.vue'
+import BackToTopButton from './components/BackToTopButton.vue'
 import DomainMoveBanner from './components/DomainMoveBanner.vue'
 import UpdateNoticeBar from './components/UpdateNoticeBar.vue'
 import AppFooter from './components/AppFooter.vue'
