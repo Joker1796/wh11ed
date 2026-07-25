@@ -166,6 +166,23 @@ built by name-matching wh11ed↔appdata, so run it while names still agree. On t
 spurious missing+extra pair. Datasheets map 1:1 (100%); a residue of strat/enh name-variants stays
 unmapped and is the same set the name-diff already surfaces.
 
+**Rule-granted keywords (`src/data/conditionalKeywords.json`)** — a generated **sidecar** listing
+keywords a unit *gains from an army/detachment rule* rather than having printed on its datasheet
+(Dark Angels' Deathwing/Ravenwing via **The Unforgiven**, Battleline granted inside a detachment,
+etc.). GW/appdata never print these on the sheet — they're conditional grants — so `DatasheetCard`
+merges them into the keyword line at render time, indistinguishable from the printed ones (via its
+optional `grantedKeywords` prop; `FactionDatasheetView` computes it from the faction slug + the
+active detachment in `useFactionChoice`). Source of truth is appdata's structural
+`conditional_keyword` table; the generator (`scripts/gen-conditional-keywords.mjs`, `npm run
+condkeywords`, `--check` in `npm run sync`) imports only the **roster-faction-keyword** grants
+(always-on for that Chapter's page) and **detachment** grants (gated on the active pick), and skips
+the per-unit **allegiance/Mark-of-Chaos** grants (KHORNE/TZEENTCH/… — a per-model army-list choice
+the static page doesn't model). appdata datasheet/detachment UUIDs are translated to wh11ed ids by
+**inverting `sourceIds.json`**, so it stays automatic across bumps: regenerate and new grants land
+themselves. Shape: `{ "<slug>": { "<unit-id>": [{ "kw": "Deathwing" }, { "kw": "Battleline", "det":
+"company-of-hunters" }] } }` (no `det` = unconditional on that faction). Already-printed / off-page
+grants are dropped at generation (render de-dupes too).
+
 **SM-Chapter datasheet dedup** — the 5 Chapter codex files (`black-templars.js`, `blood-angels.js`,
 `dark-angels.js`, `deathwatch.js`, `space-wolves.js`) don't duplicate datasheets that are identical
 to their `space-marines.js` counterpart; each instead exports a `sharedUnitIds: string[]` alongside
