@@ -578,7 +578,7 @@ Before making a dice roll for a model or unit from your army with the Acts of Fa
           name: "Catechism of Divine Penitence",
           points: 15,
           flavor: "To share in the agonies of the penitent and guide them to redemption is a most holy undertaking. Thus do many of the Adepta Sororitas’ commanders willingly fight by the side of those cast out by the Sisterhood.",
-          body: "CANONESS, PALATINE or MINISTORUM PRIEST model only. The bearer gains the PENITENT keyword.",
+          body: "CANONESS, PALATINE or MINISTORUM PRIEST model only. The bearer gains the PENITENT keyword.\n\nIn the Declare Battle Formations step, the bearer can be attached to a Repentia Squad unit.",
         },
       ],
     },

@@ -911,7 +911,9 @@ This detachment has the WAGONS tag and cannot be taken with another WAGONS detac
           name: 'Slippery Git',
           points: 15,
           flavor: 'So steeped in the devious ways of the Blood Axe Clan is this Warboss that he can even sneak into battle at the head of a mob of Kommandos.',
-          body: `Infantry Warboss model only (excluding Mega Armour models). This model has Infiltrators and Stealth.`,
+          body: `Infantry Warboss model only (excluding Mega Armour models). This model has Infiltrators and Stealth.
+
+In the Declare Battle Formations step, the bearer can be attached to a Kommandos unit.`,
         },
       ],
     },

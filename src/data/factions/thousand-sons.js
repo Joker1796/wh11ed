@@ -396,7 +396,9 @@ This detachment has the MUTANT tag and cannot be taken with another MUTANT detac
           name: 'Bray Lord',
           points: 15,
           flavor: "There are those amongst Magnus' gene-sons that revel in dominating the twisted mutants of Sortiarius, setting themselves up as demigods over their shrieking flocks.",
-          body: `Sorcerer or Infernal Master model only. The bearer has the Scouts 6" ability.`,
+          body: `Sorcerer or Infernal Master model only. The bearer has the Scouts 6" ability.
+
+In the Declare Battle Formations step, the bearer can be attached to a Tzaangors unit.`,
         },
         {
           name: 'Flowing Flesh',
