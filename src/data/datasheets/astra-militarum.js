@@ -4493,7 +4493,7 @@ export default [
       },
       {
         "name": "Covert Stealth Team",
-        "text": "At the end of your opponent’s turn, if this unit is **unengaged**, you can use this ability. If you do: • Place this unit in **strategic reserves**. • This unit has **Deep Strike** until the start of your next Shooting phase. • This unit must make an **ingress move** in your next Movement phase (including in your first turn)."
+        "text": "At the end of your opponent’s turn, if this unit is **unengaged**, you can use this ability. If you do:\n▪ Place this unit in **strategic reserves**.\n▪ This unit has **Deep Strike** until the start of your next Shooting phase.\n▪ This unit must make an **ingress move** in your next Movement phase (including in your first turn)."
       }
     ],
     "composition": [
@@ -6388,7 +6388,7 @@ export default [
       },
       {
         "name": "Death Befitting An Officer",
-        "text": "In your opponent’s Shooting phase, when this unit is **destroyed**, before this unit’s **deadly demise** roll, roll one D6: • On a 2+, do not remove this unit from the battlefield. After the attacking unit has shot, this unit can shoot using **normal shooting**, but while doing so this unit can only target that enemy unit. When this unit has shot, or at the end of the phase (whichever comes first), resolve this unit’s **deadly demise** roll, then this unit is removed from the battlefield."
+        "text": "In your opponent’s Shooting phase, when this unit is **destroyed**, before this unit’s **deadly demise** roll, roll one D6:\n▪ On a 2+, do not remove this unit from the battlefield. After the attacking unit has shot, this unit can shoot using **normal shooting**, but while doing so this unit can only target that enemy unit. When this unit has shot, or at the end of the phase (whichever comes first), resolve this unit’s **deadly demise** roll, then this unit is removed from the battlefield."
       }
     ],
     "damaged": {

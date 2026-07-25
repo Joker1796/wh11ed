@@ -1114,7 +1114,7 @@ export default [
       },
       {
         "name": "Repulsor Grid",
-        "text": "When an enemy unit targets this unit with ranged attacks, until that enemy unit has shot, when this unit makes a **save roll**: • On an unmodified 6, that enemy unit suffers 1 **mortal wound** after that enemy unit has shot."
+        "text": "When an enemy unit targets this unit with ranged attacks, until that enemy unit has shot, when this unit makes a **save roll**: On an unmodified 6, that enemy unit suffers 1 **mortal wound** after that enemy unit has shot."
       }
     ],
     "composition": [

@@ -1219,7 +1219,7 @@ export default [
     "abilities": [
       {
         "name": "Obsessive Ruthlessness",
-        "text": "This unit’s ranged attacks that target a **MONSTER/VEHICLE** unit can ignore modifiers to this unit’s: • **BS**. • **Hit rolls** and **wound rolls**."
+        "text": "This unit’s ranged attacks that target a **MONSTER/VEHICLE** unit can ignore modifiers to this unit’s:\n▪ **BS**.\n▪ **Hit rolls** and **wound rolls**."
       },
       {
         "name": "Taskmaster (Aura)",
