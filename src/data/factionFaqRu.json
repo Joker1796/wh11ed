@@ -4642,5 +4642,504 @@
         "a": "Нет. Только после того как все атаки того юнита будут разрешены, выбор второй цели Oath of Moment станет активным."
       }
     ]
+  },
+  "space-wolves": {
+    "entries": [
+      {
+        "type": "errata",
+        "header": "Saga of the Great Wolf Detachment, улучшение Grimnar's Mark",
+        "body": "Измените на: «Только модель **ADEPTUS ASTARTES TERMINATOR CAPTAIN**. Один раз за раунд боя вы можете выбрать этот юнит целью стратагемы **Rapid Ingress**/**Heroic Intervention**, независимо от любых других применений этой **стратагемы** в этой фазе. Если вы это делаете:\n▪ Это применение стоит -1 CP.\n▪ Это применение не препятствует никаким другим применениям этой **стратагемы** на других юнитах в этой фазе.»"
+      },
+      {
+        "type": "errata",
+        "header": "Saga of the Beastslayer Detachment, правило детачмента Legendary Slayers",
+        "body": "Измените на: «В начале первого раунда боя ваш счёт Звереубийцы равен 0, а свою цель Звереубийцы вы определяете, разделив пополам (округляя вверх) число юнитов из армии вашего оппонента (включая погруженные в **TRANSPORTS**), имеющих одно или более из следующих ключевых слов: **CHARACTER**, **MONSTER**, **VEHICLE**.»"
+      },
+      {
+        "type": "errata",
+        "header": "Saga of the Beastslayer Detachment, улучшение Wolf-touched",
+        "body": "Измените на: «Только модель **SPACE WOLVES**. Добавьте 2\" к характеристике Move носителя.»"
+      },
+      {
+        "type": "errata",
+        "header": "Saga of the Beastslayer Detachment, стратагема Impetuosity, секция «Эффект»",
+        "body": "Измените на: «**КОГДА**: фаза стрельбы вашего оппонента, когда вражеский юнит, нацелившийся в этой фазе на дружественный не связанный боем юнит **WULFEN INFANTRY/BLOOD CLAWS**, отстрелялся. **ЦЕЛЬ**: тот юнит **WULFEN INFANTRY/BLOOD CLAWS**. **ЭФФЕКТ**: ваш юнит может совершить рывок на величину до D6\".»"
+      },
+      {
+        "type": "errata",
+        "header": "Saga of the Beastslayer Detachment, стратагема Thunderous Pursuit, секция «Цель»",
+        "body": "Измените 9\" на 8\"."
+      },
+      {
+        "type": "errata",
+        "header": "Fenrisian Wolves, способность Predatory Instinct",
+        "body": "Измените на: «В фазе перемещения вашего оппонента, если вражеский юнит заканчивает манёвр в пределах 8\" от этого юнита, если этот юнит не в радиусе связывания одного или более вражеских юнитов, этот юнит может совершить обычный манёвр на величину до D6\".»"
+      },
+      {
+        "type": "errata",
+        "header": "Logan Grimnar",
+        "body": "▪ **Способность High King of Fenris**: измените на: «Один раз за раунд боя, в вашу фазу перемещения, вы можете выбрать один дружественный юнит **SPACE WOLVES**, который в стратегическом резерве. Если вы это делаете, до конца фазы, для целей развёртывания этого юнита на поле боя, считайте текущий номер раунда боя на 1 больше, чем он есть на самом деле.»\n▪ **Способность Guile of the Wolf**: измените на: «Один раз за ход, когда ваш оппонент нацеливает стратагему на юнит своей армии в пределах 12\" от этой модели, вы можете использовать эту способность. Если вы это делаете, увеличьте стоимость в CP этого применения той стратагемы на 1CP.»"
+      },
+      {
+        "type": "errata",
+        "header": "Iron Priest, способность Gift of the Iron Wolf",
+        "body": "Измените на: «В вашу фазу командования вы можете выбрать одну дружественную модель **ADEPTUS ASTARTES VEHICLE** в пределах 3\" от этой модели. Та модель восстанавливает до D3 потерянных ран, и, до начала вашей следующей фазы командования, выберите одно дальнобойное оружие, которым оснащена та модель, чтобы оно получило способность **[RAPID FIRE 1]**. Каждая модель может быть выбрана для этой способности или способности Blessing of the Omnissiah только один раз за ход.»"
+      },
+      {
+        "type": "errata",
+        "header": "Wolf Guard Headtakers, способность Headhunters",
+        "body": "Измените на: «В начале битвы выберите один юнит из армии вашего оппонента в качестве добычи этого юнита. Оружие, которым оснащены модели **HEADTAKERS** этого юнита, имеет способности **[DEVASTATING WOUNDS]** и **[PRECISION]** при нацеливании на его добычу. Каждый раз, когда добыча этого юнита уничтожается, выберите новый вражеский юнит в качестве добычи этого юнита. Эту способность можно использовать, даже если этот юнит погружён в **TRANSPORT**.»"
+      },
+      {
+        "type": "errata",
+        "header": "Wulfen Dreadnought, способность Bestial Rage",
+        "body": "Измените на: «В фазе стрельбы вашего оппонента, когда вражеский юнит отстрелялся, если эта модель потеряла рану в результате тех атак, этот юнит может совершить рывок на величину до D6+2\".»"
+      },
+      {
+        "type": "errata",
+        "header": "Saga of the Bold Detachment, улучшение Thunderwolf's Fortitude",
+        "body": "Измените на: «Только модель **ADEPTUS ASTARTES**. (Один раз за битву, за армию) Когда эта модель уничтожена, в конце фазы бросьте один D6:\n▪ На 2+, установите эту модель на поле боя, не связанной боем и как можно ближе к месту, где она была уничтожена. Эта модель не является частью составного юнита, и её юнит имеет начальную численность 1. У этой модели остаётся 3 раны.»"
+      },
+      {
+        "type": "errata",
+        "header": "Space Marine Chapters, правила армии",
+        "body": "Добавьте следующие пункты: «• Если ваша армия включает один или более юнитов **BLACK TEMPLARS**, она не может включать модели **ADEPTUS ASTARTES PSYKER**, а также не может включать любые из следующих моделей, что не имеют ключевого слова **BLACK TEMPLARS**: **GLADIATOR LANCER**; **GLADIATOR REAPER**; **GLADIATOR VALIANT**; **IMPULSOR**; **REPULSOR**; **REPULSOR EXECUTIONER**. • Если ваша армия включает один или более юнитов **SPACE WOLVES**, она не может включать любые из следующих юнитов: **APOTHECARY**; **DEVASTATOR SQUAD**; **TACTICAL SQUAD**.» Добавьте новый подзаголовок и пункты: «**DEATHWATCH**\n▪ Ваша армия может включать юниты **ADEPTUS ASTARTES DEATHWATCH**, но не может включать любые юниты **ADEPTUS ASTARTES**, взятые из любого другого ордена.\n▪ За исключением **Kill Team Cassius** (см. Legends: Agents of the Imperium), ваша армия не может включать любые юниты **AGENTS OF THE IMPERIUM DEATHWATCH**.\n▪ Ваша армия не может включать любые из следующих юнитов: **ASSAULT SQUAD**; **ASSAULT SQUAD WITH JUMP PACKS**; **ATTACK BIKE SQUAD**; **DEVASTATOR SQUAD**; **LAND SPEEDER STORM**; **RELIC TERMINATOR SQUAD**; **SCOUT BIKE SQUAD**; **SCOUT SQUAD**; **SCOUT SNIPER SQUAD**; **TACTICAL SQUAD**; **TERMINATOR ASSAULT SQUAD**; **TERMINATOR SQUAD**.»"
+      },
+      {
+        "type": "errata",
+        "header": "Oath of Moment, правила армии",
+        "body": "Измените на: «Если фракция вашей армии — **ADEPTUS ASTARTES**, в начале вашей фазы командования выберите один юнит из армии оппонента. До начала вашей следующей фазы командования тот вражеский юнит — ваша цель Oath of Moment. Каждый раз, когда модель с этой способностью совершает атаку, нацеленную на вашу цель Oath of Moment:\n▪ Вы можете перебросить бросок попадания.\n▪ Если вы используете детачмент Codex: Space Marines, и в вашей армии нет одного или более юнитов с ключевыми словами **BLOOD ANGELS**, **DARK ANGELS**, **DEATHWATCH** или **SPACE WOLVES**, либо одного или более юнитов из секций Munitorum Field Manual тех фракций, также добавьте 1 к броску ранения.»"
+      },
+      {
+        "type": "errata",
+        "header": "Emperor's Shield, Forgefather's Seekers, Hammer of Avernii, Armoured Speartip, Ceramite Sentinels, Headhunter Task Force, Spearpoint Task Force, Shadowmark Talon, Blade of Ultramar, Anvil Siege Force, 1st Company Task Force, Firestorm Assault Force, Gladius Task Force, Ironstorm Spearhead, Stormlance Task Force, Vanguard Spearhead Detachments, стратагема Armour of Contempt, секция «Эффект»",
+        "body": "Измените на: Эффект: «Пока атакующий юнит не завершил свои атаки, каждый раз, когда атака нацеливается на ваш юнит, ухудшите характеристику Armour Penetration той атаки на 1.»"
+      },
+      {
+        "type": "errata",
+        "header": "Headhunter Task Force Detachment, стратагема Reactive Positioning, секция «Цель»",
+        "body": "Измените 9\" на 8\"."
+      },
+      {
+        "type": "errata",
+        "header": "Orbital Assault Force, стратагема Suppression Strafing, секция «Эффект»",
+        "body": "Измените на: «Выберите один вражеский юнит, видимый вашему юниту и находящийся в пределах 18\" от него. Тот вражеский юнит проходит проверку боевого шока. При этом вычтите 1 из той проверки, и если та проверка провалена, до начала вашего следующего хода тот вражеский юнит подавлен. Пока юнит подавлен, каждый раз, когда модель того юнита совершает атаку, вычтите 1 из броска попадания.»"
+      },
+      {
+        "type": "errata",
+        "header": "Reclamation Force Detachment, улучшение Scroll of Proclamation",
+        "body": "Только модель **ADEPTUS ASTARTES**. Когда этот юнит объявляет нападение, если вражеский юнит в пределах досягаемости цели находится в пределах 12\" от этого юнита, вы можете использовать это улучшение. Если вы это делаете:\n• Этот юнит может перебросить тот бросок на нападение.\n• Этот юнит обязан закончить тот манёвр нападения в сцеплении с одним или более из тех вражеских юнитов."
+      },
+      {
+        "type": "errata",
+        "header": "Blades of Ultramar Detachment, стратагема Practical Tactics, секция «Цель»",
+        "body": "Измените 9\" на 8\"."
+      },
+      {
+        "type": "errata",
+        "header": "Firestorm Assault Force Detachment, улучшение Forged in Battle",
+        "body": "Измените на: «Только модель **ADEPTUS ASTARTES**. Пока носитель возглавляет юнит, один раз за ход, после броска попадания или спас-броска для модели того юнита, вы можете изменить результат того броска на немодифицированный 6.»"
+      },
+      {
+        "type": "errata",
+        "header": "Gladius Task Force Detachment, улучшение Fire Discipline",
+        "body": "Измените на: «Только модель **ADEPTUS ASTARTES**. Пока носитель возглавляет юнит, оружие дальнего боя, которым оснащены модели того юнита, имеет способность **[SUSTAINED HITS 1]**. Кроме того, пока юнит носителя находится под действием Devastator Doctrine, вы можете перебрасывать броски продвижения, совершаемые за тот юнит.»"
+      },
+      {
+        "type": "errata",
+        "header": "Gladius Task Force Detachment, стратагема Storm of Fire, секция «Цель»",
+        "body": "Измените на: «Один юнит **ADEPTUS ASTARTES** вашей армии, что не был выбран для стрельбы в этой фазе.»"
+      },
+      {
+        "type": "errata",
+        "header": "Gladius Task Force Detachment, стратагема Squad Tactics, секция «Цель»",
+        "body": "Измените 9\" на 8\"."
+      },
+      {
+        "type": "errata",
+        "header": "Ironstorm Spearhead Detachment, улучшение Target Augury Web",
+        "body": "Удалите «Aura» из этого улучшения и измените на: «Только модель **TECHMARINE**. В вашей фазе командования выберите одну модель **ADEPTUS ASTARTES VEHICLE** в пределах 6\" от носителя. До начала вашей следующей фазы командования оружие, которым оснащена та модель **VEHICLE**, имеет способность **[LETHAL HITS]**.»"
+      },
+      {
+        "type": "errata",
+        "header": "Ironstorm Spearhead Detachment, улучшение Master of Machine War",
+        "body": "Удалите «Aura» из этого улучшения и измените на: «Только модель **ADEPTUS ASTARTES**. В вашей фазе командования выберите одну модель **ADEPTUS ASTARTES VEHICLE** в пределах 6\" от носителя. До начала вашей следующей фазы командования та модель **VEHICLE** имеет право стрелять, даже если она отступила или совершила продвижение в этот ход.»"
+      },
+      {
+        "type": "errata",
+        "header": "Ironstorm Spearhead Detachment, стратагема Mercy is Weakness, стоимость в CP",
+        "body": "Измените на «2CP»."
+      },
+      {
+        "type": "errata",
+        "header": "Ironstorm Spearhead Detachment, стратагема Ancient Fury, секция «Эффект»",
+        "body": "Измените на: «До начала вашей следующей фазы командования улучшите характеристики Move, Toughness, Leadership и Objective Control вашей модели на 1, и каждый раз, когда ваша модель совершает атаку, добавьте 1 к броску попадания.»"
+      },
+      {
+        "type": "errata",
+        "header": "Shadowmark Talon Detachment, правило детачмента Masters of Shadow",
+        "body": "Измените на: «Каждый раз, когда дальнобойная атака нацеливается на юнит **ADEPTUS ASTARTES** вашей армии, если атакующая модель не находится в пределах 12\", цель имеет преимущество укрытия.»"
+      },
+      {
+        "type": "errata",
+        "header": "Shadowmark Talon Detachment, улучшение Coronal Susurrant, способность Lord of Deceit",
+        "body": "Измените на: «Один раз за ход, когда ваш оппонент нацеливает стратагему на юнит своей армии в пределах 12\" от этой модели, вы можете использовать эту способность. Если вы это делаете, увеличьте стоимость в CP этого применения той стратагемы на 1CP.»"
+      },
+      {
+        "type": "errata",
+        "header": "Shadowmark Talon Detachment, стратагема Raptorial Vigilance, секция «Цель»",
+        "body": "Измените 9\" на 8\"."
+      },
+      {
+        "type": "errata",
+        "header": "Spearpoint Task Force Detachment, стратагема Hunter's Instincts, секция «Цель»",
+        "body": "Измените 9\" на 8\"."
+      },
+      {
+        "type": "errata",
+        "header": "Stormlance Task Force Detachment, стратагема Wind-swift Evasion, секция «Цель»",
+        "body": "Измените на: «Один юнит **ADEPTUS ASTARTES INFANTRY** или **ADEPTUS ASTARTES MOUNTED** вашей армии в пределах 8\" от того вражеского юнита.»"
+      },
+      {
+        "type": "errata",
+        "header": "Vanguard Spearhead Detachment, правило детачмента Shadow Masters",
+        "body": "Измените на: «Каждый раз, когда дальнобойная атака нацеливается на юнит **ADEPTUS ASTARTES** вашей армии, если атакующая модель не находится в пределах 12\", цель имеет преимущество укрытия.»"
+      },
+      {
+        "type": "errata",
+        "header": "Vanguard Spearhead Detachment, стратагема Calculated Feint, секция «Цель»",
+        "body": "Измените на: «**ЦЕЛЬ**: один дружественный юнит **ADEPTUS ASTARTES INFANTRY** в пределах 12\" от того вражеского юнита.»"
+      },
+      {
+        "type": "errata",
+        "header": "Vanguard Spearhead Detachment, улучшение Shadow War Veteran",
+        "body": "Измените на: «Один раз за ход, когда ваш оппонент нацеливает стратагему на юнит своей армии в пределах 12\" от этой модели, вы можете использовать эту способность. Если вы это делаете, увеличьте стоимость в CP этого применения той стратагемы на 1CP.»"
+      },
+      {
+        "type": "errata",
+        "header": "Aethon Shaan, способность Blackwing Mantle",
+        "body": "Измените на: «Вы можете выбрать этот юнит целью стратагемы **Heroic Intervention**, независимо от любых других применений этой **стратагемы** в этой фазе. Если вы это делаете:\n▪ Это применение стоит -1 CP.\n▪ Это применение не препятствует никаким другим применениям этой **стратагемы** на других юнитах в этой фазе.»"
+      },
+      {
+        "type": "errata",
+        "header": "Ancient, Ancient in Terminator Armour, Apothecary, Apothecary Biologis, Bladeguard Ancient, Lieutenant, Lieutenant in Phobos Armour, Lieutenant in Reiver Armour, Wardens of Ultramar, секция «Базовые способности»",
+        "body": "Удалите «Leader», добавьте «Support»."
+      },
+      {
+        "type": "errata",
+        "header": "Captain in Gravis Armour, профиль Master-crafted heavy bolt rifle",
+        "body": "Измените на: «**[ASSAULT, HEAVY]**». Range - 30\" A - 2 BS - 2+ S - 5 AP - -1 D - 3"
+      },
+      {
+        "type": "errata",
+        "header": "Captain in Phobos Armour, способность Master of Deceit",
+        "body": "Измените на: «После того как оба игрока развернули свои армии, если ваша армия включает одну или более моделей с этой способностью, вы можете выбрать до трёх дружественных юнитов **ADEPTUS ASTARTES INFANTRY** и заново развернуть все эти юниты. При этом любой из этих юнитов может быть помещён в стратегический резерв, независимо от того, сколько юнитов уже находится в стратегическом резерве.»"
+      },
+      {
+        "type": "errata",
+        "header": "Captain in Phobos Armour, Lieutenant in Reiver Armour, Reiver Squad, Scout Squad, оружие Combat Knife",
+        "body": "Измените **AP** на «-1»."
+      },
+      {
+        "type": "errata",
+        "header": "Captain with Jump Pack, опции снаряжения",
+        "body": "Добавьте следующий пункт: «• Если эта модель оснащена heavy bolt pistol и Astartes chainsword, она может быть оснащена 1 relic shield. Heavy bolt pistol и Astartes chainsword этой модели нельзя заменить."
+      },
+      {
+        "type": "errata",
+        "header": "Cato Sicarius, секция «Базовые способности»",
+        "body": "Удалите «Leader», добавьте «Support»."
+      },
+      {
+        "type": "errata",
+        "header": "Cato Sicarius, способность Knight Champion of Macragge",
+        "body": "Измените на: «В фазе перемещения вашего оппонента, если вражеский юнит заканчивает манёвр в пределах 8\" от этого юнита, если этот юнит не в радиусе связывания одного или более вражеских юнитов, этот юнит может совершить обычный манёвр на величину до 6\".»"
+      },
+      {
+        "type": "errata",
+        "header": "Cato Sicarius, способность Honour or Death",
+        "body": "Измените на: «Вы можете выбрать этот юнит целью стратагемы **Heroic Intervention**, независимо от любых других применений этой **стратагемы** в этой фазе. Если вы это делаете:\n▪ Это применение стоит -1 CP.\n▪ Это применение не препятствует никаким другим применениям этой **стратагемы** на других юнитах в этой фазе.»"
+      },
+      {
+        "type": "errata",
+        "header": "Chief Librarian Tigurius, способность Master of Prescience",
+        "body": "Измените на:\n▪ Этот юнит имеет **Stealth**.\n▪ Атаки ближнего боя, нацеленные на этот юнит, получают -1 к **броскам попадания**.\n▪ (Один раз за раунд боя, за армию) когда вы выбираете этот юнит целью стратагемы **Counteroffensive**/**Fire Overwatch**/**Heroic Intervention**, это применение стоит -1 CP."
+      },
+      {
+        "type": "errata",
+        "header": "Company Heroes",
+        "body": "▪ **Правило Company Heroes**: удалите это правило.\n▪ **Ключевые слова**: измените на: «KEYWORDS – ALL MODELS: INFANTRY, GRENADES, IMPERIUM, TACTICUS, COMPANY HEROES | ANCIENT: ANCIENT»"
+      },
+      {
+        "type": "errata",
+        "header": "Darnath Lysander",
+        "body": "Добавьте новую секцию «**Inspiring Commander**»: «Если вы включаете эту модель в свою армию, до конца битвы модели без ключевого слова **CHARACTER** в юнитах **TERMINATOR ASSAULT SQUAD** и **TERMINATOR SQUAD** из вашей армии имеют характеристику Objective Control (OC) 2, пока они не подвержены боевому шоку.»"
+      },
+      {
+        "type": "errata",
+        "header": "Desolation Squad",
+        "body": "▪ **Способность Targeter Optics**: измените на «Каждый раз, когда этот юнит остаётся неподвижным, до начала вашей следующей фазы перемещения, оружие дальнего боя, которым оснащены модели этого юнита, имеет способность **[IGNORES COVER]**.»\n▪ **Состав отряда**: измените пункты на: «• 1 Desolation Sergeant • 4 Desolation Marines»"
+      },
+      {
+        "type": "errata",
+        "header": "Drop Pod, способность Drop Pod Assault",
+        "body": "Измените 9\" на 8\"."
+      },
+      {
+        "type": "errata",
+        "header": "Drop Pod, Gladiator Lancer, Gladiator Reaper, Gladiator Valiant, Hammerfall Bunker, Impulsor, Invader ATV, Land Raider, Land Raider Crusader, Land Raider Redeemer, Predator Annihilator, Predator Destructor, Razorback, Repulsor, Repulsor Executioner, Rhino, Storm Speeder Hailstrike, Storm Speeder Hammerstrike, Storm Speeder Thunderstrike, Vindicator, Whirlwind, секция «Ключевые слова»",
+        "body": "Добавьте «FRAME»."
+      },
+      {
+        "type": "errata",
+        "header": "Heavy Intercessor Squad, Ranged Weapons, heavy bolt rifle and heavy bolter profiles",
+        "body": "Измените на: **Heavy bolt rifle** [ASSAULT, HEAVY] Range - 30\" A - 2 BS - 3+ S - 5 AP - -1 D - 2 **Heavy bolter** [ASSAULT, HEAVY, SUSTAINED HITS 1] Range - 36\" A - 3 BS - 3+ S - 5 AP - -1 D - 2"
+      },
+      {
+        "type": "errata",
+        "header": "Impulsor, секция «Транспорт»",
+        "body": "Измените на: «Эта модель имеет транспортную вместимость 7 моделей **TACTICUS** или **PHOBOS INFANTRY**. Она не может перевозить модели **JUMP PACK**.»"
+      },
+      {
+        "type": "errata",
+        "header": "Inceptor Squad, способность Meteoric Descent",
+        "body": "Измените на: «В вашей фазе перемещения, когда этот юнит выставляется на поле боя с помощью способности Deep Strike, он может совершить метеоритный спуск. Если он это делает, этот юнит может быть выставлен где угодно на поле боя дальше 6\" по горизонтали от всех вражеских юнитов, но до конца хода он не имеет права объявлять нападение.»"
+      },
+      {
+        "type": "errata",
+        "header": "Incursor Squad, Lieutenant in Phobos Armour, Lieutenant with Combi-weapon, оружие Paired Combat Blades",
+        "body": "Измените **AP** на «-1»."
+      },
+      {
+        "type": "errata",
+        "header": "Infernus Squad, Ranged Weapons, pyreblaster profile",
+        "body": "Измените на: **Pyreblaster** [IGNORES COVER, TORRENT] Range - 12\" A - D6 BS - N/A S - 5 AP - -1 D - 1"
+      },
+      {
+        "type": "errata",
+        "header": "Infernus Squad, способность Incendiary Terror",
+        "body": "Измените на: «В вашей фазе стрельбы, после того как этот юнит отстрелялся, вы можете выбрать один вражеский юнит **INFANTRY**, по которому попала одна или более из тех атак, совершённых pyreblaster. Тот вражеский юнит обязан пройти проверку боевого шока, вычитая 1 из той проверки.»"
+      },
+      {
+        "type": "errata",
+        "header": "Intercessor Squad, способности",
+        "body": "Замените ранее добавленную способность Target Elimination на следующую новую способность: «**Hail of Bolts**: в вашей фазе стрельбы, когда этот юнит выбран для стрельбы, выберите до одного **видимого** вражеского юнита. При совершении тех атак, атаки Bolt Rifle этого юнита, нацеленные на тот вражеский юнит, получают +2 к **A**.»"
+      },
+      {
+        "type": "errata",
+        "header": "Iron Father Feirros",
+        "body": "Добавьте новую секцию «**Inspiring Commander**»: «Если вы включаете эту модель в свою армию, до конца битвы модели без ключевого слова **CHARACTER** в юнитах **HEAVY INTERCESSOR SQUAD** из вашей армии имеют характеристику Objective Control (OC) 3, пока они не подвержены боевому шоку.»"
+      },
+      {
+        "type": "errata",
+        "header": "Kayvaan Shrike",
+        "body": "Добавьте новую секцию «**Inspiring Commander**»: «Если вы включаете эту модель в свою армию, до конца битвы модели без ключевого слова **CHARACTER** в юнитах **ASSAULT INTERCESSORS WITH JUMP PACKS** из вашей армии имеют характеристику Objective Control (OC) 2, пока они не подвержены боевому шоку.»"
+      },
+      {
+        "type": "errata",
+        "header": "Kor'sarro Khan",
+        "body": "▪ Добавьте новую секцию «**Inspiring Commander**»: «Если вы включаете эту модель в свою армию, до конца битвы модели без ключевого слова **CHARACTER** в юнитах **OUTRIDER SQUAD** из вашей армии имеют характеристику Objective Control (OC) 3, пока они не подвержены боевому шоку.»\n▪ **Секция «Лидер»**: измените на: «Эту модель можно присоединить к следующим юнитам: **ASSAULT INTERCESSOR SQUAD**, **BLADEGUARD VETERAN SQUAD**, **COMPANY HEROES**, **INTERCESSOR SQUAD**, **STERNGUARD VETERAN SQUAD**, **TACTICAL SQUAD**»"
+      },
+      {
+        "type": "errata",
+        "header": "Land Raider Crusader, Land Raider Redeemer, секция «Ключевые слова»",
+        "body": "Добавьте «LAND RAIDER»."
+      },
+      {
+        "type": "errata",
+        "header": "Land Speeder, секция «Ключевые слова»",
+        "body": "Добавьте «FRAME»."
+      },
+      {
+        "type": "errata",
+        "header": "Lieutenant with Combi-Weapon, способность Evade and Survive",
+        "body": "Измените на: «В фазе перемещения вашего оппонента, если вражеский юнит заканчивает манёвр в пределах 8\" от этого юнита, если этот юнит не в радиусе связывания одного или более вражеских юнитов, этот юнит может совершить обычный манёвр на величину до 6\".»"
+      },
+      {
+        "type": "errata",
+        "header": "Lieutenant in Phobos Armour, способность Strategic Dispersal",
+        "body": "Измените на: «В вашей фазе стрельбы, после того как юнит этой модели отстрелялся, если он не в радиусе связывания одного или более вражеских юнитов, он может совершить обычный манёвр на величину до 6\". Если он это делает, до конца хода тот юнит не имеет права объявлять нападение.»"
+      },
+      {
+        "type": "errata",
+        "header": "Lieutenant in Reiver Armour, master-crafted special issue bolt pistol",
+        "body": "Измените **AP** на «-1»."
+      },
+      {
+        "type": "errata",
+        "header": "Outrider Squad, способности",
+        "body": "Удалите способность Turbo-boost и добавьте следующую способность: «**Thunderous Impact**: каждый раз, когда модель этого юнита совершает атаку ближнего боя, если этот юнит совершил манёвр нападения в этот ход, улучшите характеристики Strength и Damage той атаки на 1.»"
+      },
+      {
+        "type": "errata",
+        "header": "Pedro Kantor",
+        "body": "Добавьте новую секцию «**Inspiring Commander**»: «Если вы включаете эту модель в свою армию, до конца битвы модели без ключевого слова **CHARACTER** в юнитах **STERNGUARD VETERAN SQUAD** из вашей армии имеют характеристику Objective Control (OC) 2, пока они не подвержены боевому шоку.»"
+      },
+      {
+        "type": "errata",
+        "header": "Predator Annihilator, способность Annihilator",
+        "body": "Измените на: «Каждый раз, когда дальнобойная атака, совершённая этой моделью, распределяется на модель **MONSTER** или **VEHICLE**, вы можете перебросить бросок урона.»"
+      },
+      {
+        "type": "errata",
+        "header": "Reiver Squad",
+        "body": "▪ **Способность Fearsome Assault**: измените на: «В начале фазы ближнего боя каждый вражеский юнит в радиусе связывания одного или более юнитов с этой способностью обязан пройти проверку боевого шока, вычитая 1 из той проверки.»\n▪ **Способность Terror Troops**: измените на: «Пока вражеский юнит (за исключением **MONSTERS** и **VEHICLES**) находится в пределах 3\" от одного или более юнитов с этой способностью, вычитайте 1 из характеристики Objective Control (OC) моделей того вражеского юнита.»"
+      },
+      {
+        "type": "errata",
+        "header": "Repulsor, секция «Транспорт»",
+        "body": "Измените на: «Эта модель имеет транспортную вместимость 14 моделей **ADEPTUS ASTARTES INFANTRY**. Каждая модель **JUMP PACK**, **WULFEN**, **GRAVIS** или **TERMINATOR** занимает место 2 моделей, а каждая модель **CENTURION** занимает место 3 моделей.»"
+      },
+      {
+        "type": "errata",
+        "header": "Repulsor Executioner, секция «Транспорт»",
+        "body": "Измените на: «Эта модель имеет транспортную вместимость 7 моделей **ADEPTUS ASTARTES INFANTRY**. Каждая модель **JUMP PACK**, **WULFEN**, **GRAVIS** или **TERMINATOR** занимает место 2 моделей, а каждая модель **CENTURION** занимает место 3 моделей.»"
+      },
+      {
+        "type": "errata",
+        "header": "Roboute Guilliman",
+        "body": "▪ **Ключевые слова**: добавьте «MOBILE»\n▪ **Способность Author of the Codex**: измените на: «В начале вашей фазы командования выберите две способности Author of the Codex (см. слева). До начала вашей следующей фазы командования эта модель имеет эти способности.»\n▪ **Способность Supreme Strategist**: измените на: «Один раз за раунд боя одна модель вашей армии с этой способностью может использовать её, когда дружественный юнит **ADEPTUS ASTARTES** в пределах 12\" от той модели становится целью стратагемы. Если она это делает, уменьшите стоимость этого применения той стратагемы на 1CP.»"
+      },
+      {
+        "type": "errata",
+        "header": "Sternguard Veteran Squad, способность Sternguard Focus",
+        "body": "Измените на: «Каждый раз, когда модель этого юнита совершает атаку, нацеленную на вашу цель Oath of Moment, вы можете перебросить бросок ранения.»"
+      },
+      {
+        "type": "errata",
+        "header": "Stormhawk Interceptor, Stormtalon Gunship",
+        "body": "▪ **Базовые способности**: удалите «Hover».\n▪ **Профиль**: измените **M** и **OC** на «-»."
+      },
+      {
+        "type": "errata",
+        "header": "Stormraven Gunship",
+        "body": "**Профиль**: измените **M** на 14\". **Ключевые слова**: удалите «AIRCRAFT»."
+      },
+      {
+        "type": "errata",
+        "header": "Terminator Assault Squad, способность Teleport Homer",
+        "body": "Измените 9\" на 8\"."
+      },
+      {
+        "type": "errata",
+        "header": "Terminator Squad, способность Teleport Homer",
+        "body": "Измените 9\" на 8\"."
+      },
+      {
+        "type": "errata",
+        "header": "Uriel Ventris",
+        "body": "▪ **Способность Unorthodox Strategist**: измените на: «Один раз за ход, когда ваш оппонент нацеливает стратагему на юнит своей армии в пределах 12\" от этой модели, эта модель может использовать эту способность. Если вы это делаете, увеличьте стоимость в CP этого применения той стратагемы на 1CP.»\n▪ **Способность Master of the Fleet**: измените на: «Во время шага Declare Battle Formations, если ваша армия включает эту модель, выберите один юнит **PHOBOS**, **GRAVIS** или **ADEPTUS ASTARTES TACTICUS INFANTRY** вашей армии. Тот юнит получает способность Deep Strike.»"
+      },
+      {
+        "type": "errata",
+        "header": "Victrix Honour Guard, способность Glory of Ultramar",
+        "body": "Измените на: в фазе стрельбы вашего оппонента, когда вражеский юнит отстрелялся, если модель этого юнита была уничтожена в результате тех атак, этот юнит может совершить рывок на величину до D6\"."
+      },
+      {
+        "type": "errata",
+        "header": "Vulkan He'stan",
+        "body": "Добавьте новую секцию «**Inspiring Commander**»: «Если вы включаете эту модель в свою армию, до конца битвы модели без ключевого слова **CHARACTER** в юнитах **INFERNUS SQUAD** из вашей армии имеют характеристику Objective Control (OC) 2, пока они не подвержены боевому шоку.»"
+      },
+      {
+        "type": "errata",
+        "header": "Stormlance Task Force Detachment, стратагема Shock Assault",
+        "body": "Измените на: «**КОГДА**: фаза ближнего боя, когда дружественный юнит **ADEPTUS ASTARTES** выбран для боя. **ЦЕЛЬ**: тот юнит **ADEPTUS ASTARTES**. **ЭФФЕКТ**: атаки ближнего боя вашего юнита получают **[LANCE]**.»"
+      },
+      {
+        "type": "errata",
+        "header": "Stormlance Task Force Detachment, стратагема Ride Hard, Ride Fast, секция «Эффект»",
+        "body": "Измените на: «До конца фазы каждый раз, когда атака нацеливается на ваш юнит, вычтите 1 из броска ранения.»"
+      },
+      {
+        "type": "errata",
+        "header": "Bladeguard Veteran Squad, способность Bladeguard",
+        "body": "Измените на: «(Один раз за ход, за юнит): в фазе ближнего боя, когда этот юнит выбран для боя или когда вражеский юнит нацеливается на этот юнит, вы можете выбрать один из следующих вариантов:\n▪ Атаки ближнего боя этого юнита получают +1 к **броскам попадания**.\n▪ Или: атаки, нацеленные на этот юнит, получают -1 к **броскам попадания**.»"
+      },
+      {
+        "type": "errata",
+        "header": "Captain, секция «Лидер»",
+        "body": "Удалите следующее: «Эту модель нельзя присоединить к юниту **BLADEGUARD VETERAN SQUAD**, если эта модель не оснащена relic shield, и нельзя присоединить к юниту **HELLBLASTER SQUAD**, если эта модель не оснащена plasma pistol.»"
+      },
+      {
+        "type": "errata",
+        "header": "Chaplain with Jump Pack",
+        "body": "**Ranged Weapons**: добавьте следующий профиль: **Absolvor Bolt Pistol** RANGE 18\" A1 BS3+ S5 AP-1 D2 **[CLOSE-QUARTERS]** **Опции снаряжения**: добавьте следующий пункт: «• 1 Absolvor Bolt Pistol»"
+      },
+      {
+        "type": "errata",
+        "header": "Vanguard Veteran Squad with Jump Packs",
+        "body": "▪ **Ranged Weapons**: добавьте следующий профиль: **Heavy Bolt Pistol** RANGE 18\" A1 BS3+ S4 AP-1 D1 **[CLOSE-QUARTERS]**\n▪ **Melee Weapons**: добавьте следующий профиль: **Master-crafted Power Weapon** RANGE Melee A3 WS3+ S5 AP-2 D2\n▪ **Опции снаряжения**: добавьте следующее: ▫ Любая модель может заменить свои Bolt Pistol и Vanguard Veteran Weapon на: ▫ 1 Heavy Bolt Pistol и 1 Master-crafted Power Weapon ▫ За каждые 5 моделей в этом юните, 1 модель может заменить свой Heavy Bolt Pistol на 1 Plasma Pistol."
+      },
+      {
+        "type": "qa",
+        "q": "Какие детачменты считаются детачментами Codex: Space Marines?",
+        "a": "Каждый детачмент, напечатанный в Codex: Space Marines, и каждый детачмент, включённый в Space Marines Faction Pack."
+      },
+      {
+        "type": "qa",
+        "q": "При использовании Gladius Task Force Detachment, должна ли Combat Doctrine быть активна для вашей армии, чтобы использовать стратагему Adaptive Strategy?",
+        "a": "Нет."
+      },
+      {
+        "type": "qa",
+        "q": "Если Hellblaster уничтожен чем-либо, кроме атаки или теста Hazardous, может ли та модель использовать свою способность For the Chapter!?",
+        "a": "Нет."
+      },
+      {
+        "type": "qa",
+        "q": "Могу ли я использовать способность Rites of Battle у Captain, чтобы нацелиться на юнит того Captain, если он в резерве или стратегическом резерве?",
+        "a": "Да."
+      },
+      {
+        "type": "qa",
+        "q": "Остаётся ли маркер цели, который был Sabotaged вашей армией с помощью стратагемы A Deadly Prize, в состоянии Sabotaged, если ваш оппонент контролирует его в начале или конце любого хода?",
+        "a": "Да. Однако пока ваш оппонент контролирует тот маркер цели, его способность наносить смертельные раны не активна."
+      },
+      {
+        "type": "qa",
+        "q": "Пока составной юнит погружен в **TRANSPORT**, получают ли оружия, из которых тот **TRANSPORT** стреляет с помощью способности Firing Deck, преимущество от способностей присоединённого Leader (например, способности Tactical Precision у Lieutenant, что даёт оружию его юнита способность [LETHAL HITS])?",
+        "a": "Нет. Firing Deck позволяет **TRANSPORT** быть оснащённым некоторым числом оружия, которым оснащены его пассажиры (Core Rules), но сам **TRANSPORT** не является частью того составного юнита."
+      },
+      {
+        "type": "qa",
+        "q": "Может ли юнит, погруженный в **TRANSPORT**, быть выбран целью Oath of Moment?",
+        "a": "Да."
+      },
+      {
+        "type": "qa",
+        "q": "Может ли юнит в резерве быть выбран целью Oath of Moment?",
+        "a": "Да."
+      },
+      {
+        "type": "qa",
+        "q": "Может ли юнит в резерве использовать улучшение (соблюдая все ограничения, указанные в том улучшении)?",
+        "a": "Да."
+      },
+      {
+        "type": "qa",
+        "q": "Если у меня два или более Impulsor в пределах 6\" от юнита, на который я нацеливаю стратагему, срабатывает ли способность снаряжения Orbital Comms Array у каждого из них?",
+        "a": "Нет, это способности Aura, и потому они не суммируются."
+      },
+      {
+        "type": "qa",
+        "q": "Если я использую стратагему на юните в пределах 6\" от Impulsor с Orbital Comms Array, но не выбрасываю достаточно высокий результат, чтобы получить 1CP благодаря тому снаряжению, и тот же юнит находится в пределах 6\" от другого Impulsor, что также имеет Orbital Comms Array, могу ли я попытаться бросить ещё один D6, чтобы попробовать получить 1CP?",
+        "a": "Нет."
+      },
+      {
+        "type": "qa",
+        "q": "Суммируются ли несколько экземпляров способности Astartes Banner?",
+        "a": "Да."
+      },
+      {
+        "type": "qa",
+        "q": "Если я выбираю один юнит **MONSTER** или **VEHICLE** целью всего дальнобойного оружия Stormspeeder Thunderstrike, и первое оружие, которым та модель совершает атаки, наносит одно или более попаданий, добавляю ли я 1 к броскам ранения атак остальным оружием?",
+        "a": "Нет. Только после того как вы разрешили атаки всем оружием, которым эта модель стреляет в этой фазе, эта модель считается выстрелившей (см. «Выстрелил» в Rules Appendix, 04.03.04)."
+      },
+      {
+        "type": "qa",
+        "q": "Совершая атаки юнитом моей армии, я делю свои атаки между первой целью Oath of Moment, выбранной согласно моему правилу армии, и второй целью Oath of Moment, выбранной с помощью способности Master of Battle Author of the Codex у Roboute Guilliman. Если я уничтожаю первую цель Oath of Moment до разрешения моих атак по второй цели Oath of Moment, получат ли те атаки по второй цели Oath of Moment преимущество от переброса бросков попадания?",
+        "a": "Нет. Только после того как все атаки того юнита будут разрешены, выбор второй цели Oath of Moment станет активным."
+      }
+    ]
   }
 }
