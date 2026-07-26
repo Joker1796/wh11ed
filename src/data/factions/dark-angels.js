@@ -196,7 +196,7 @@ In your Command phase, select one Adeptus Astartes unit from your army. Until th
         // Faction-Pack Rules Update rewrote this rule around Defensive Footing / Aggressive Push.
         body: `At the start of your Movement phase, select one of the following:
 ▪ **Defensive Footing:** Select one objective you control. Until the start of your next Movement phase, that objective is your Vowed objective.
-▪ **Aggressive Push:** Select one or more objectives you do not control. Until the start of your next Movement phase, each of those objectives is one of your Vowed objectives.
+▪ **Aggressive Push:** Select one or more objective you do not control. Until the start of your next Movement phase, each of those objectives is one of your Vowed objectives.
 
 If a rule refers to a unit or model being within range of your Vowed objective, that rule takes effect if that unit or model is within range of one or more of your Vowed objectives. Each time a Deathwing Infantry unit from your army makes an attack that targets a unit within range of one or more of your Vowed objectives, add 1 to the Wound roll.`,
       },

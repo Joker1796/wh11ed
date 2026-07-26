@@ -227,7 +227,7 @@ const en = {
           turn: 'opponent',
           flavor: "With a keen eye for tracking their prey, especially kunnin' Beast Snaggas will circle round the hunt site to ambush the luckless gitz from another angle.",
           when: "End of your opponent's Fight phase.",
-          target: 'One Beast Snagga unit from your army that is not within Engagement Range of one or more enemy units.',
+          target: 'One Beast Snagga unit from your army that is not within Engagement Range of one or more enemy unit.',
           effect: 'Remove your unit from the battlefield and place it into Strategic Reserves.',
           restrictions: '',
         },

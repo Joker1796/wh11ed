@@ -791,7 +791,7 @@ export default [
     "abilities": [
       {
         "name": "Raid and Run",
-        "text": "At the end of the Fight phase, if this unit was eligible to fight this phase, and is not within Engagement Range of one or more enemy units, it can make a Normal move of up to D3+3\". Otherwise, if this unit was eligible to fight this phase, this unit can make a Fall Back move of up to D3+3\"."
+        "text": "At the end of the Fight phase, if this unit was eligible to fight this phase, if this unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to D3+3\". Otherwise, if this unit was eligible to fight this phase, this unit can make a Fall Back move of up to D3+3\"."
       }
     ],
     "composition": [
@@ -8418,7 +8418,7 @@ export default [
     "abilities": [
       {
         "name": "Eviscerating Fly-by",
-        "text": "Each time this unit ends a Normal move, you can select one enemy unit (excluding MONSTERS and VEHICLES) that it moved over during that move. If you do, roll one D6 for each model in this unit: for each 4+, that enemy unit suffers 1 mortal wound."
+        "text": "Each time this unit ends a Normal move, you can select one enemy unit (excluding MONSTER and VEHICLE units) that it moved over during that move. If you do, roll one D6 for each model in this unit: for each 4+, that enemy unit suffers 1 mortal wound."
       }
     ],
     "wargearAbilities": [

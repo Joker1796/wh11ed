@@ -1008,7 +1008,7 @@ Each time you use one of the Stratagems opposite, if your Fate dice pool contain
         name: 'Skilled Crews',
         flavor:
           "Asuryani vehicle crews are amongst the galaxy's most naturally gifted pilots and gunners. They can coax every last iota of performance from the formidable machines and weapon systems under their control.",
-        body: `Friendly AELDARI VEHICLE units' ranged attacks have the [ASSAULT] ability.`,
+        body: `Friendly AELDARI VEHICLE units' ranged attacks have [ASSAULT].`,
       },
       stratagems: [
         {
@@ -1222,7 +1222,7 @@ This detachment has the **ACROBATIC** tag and cannot be taken with another **ACR
           flavor: 'Amongst the performances of a saedath is the climactic sundering of monstrous foes or the enemy’s hateful barques, acts the Harlequins have long mastered.',
           when: 'Fight phase, when a friendly TROUPE unit is selected to fight.',
           target: 'That TROUPE unit.',
-          effect: "Your unit's melee attacks have the [LANCE] ability.",
+          effect: "Your unit's melee attacks have [LANCE].",
           restrictions: '',
         },
         {
