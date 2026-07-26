@@ -17,11 +17,11 @@
 // data files. A future --write mode can use this same name-matching to backfill sourceId
 // for id-based matching on every later run.
 //
-// Known limitation: rule/ability BODY TEXT is not diffed. wh11ed's prose is enriched with
-// gloss tokens, cross-references and hand-fixed wording appdata doesn't have, so an exact
-// or even normalized text comparison would be almost all noise. This reports structural
-// presence/absence and scalar fields (cp/cost/points) only — read the flagged entities'
-// full text yourself.
+// Scope: this script reports structural presence/absence and scalar fields (cp/cost/points)
+// only. Rule/ability BODY TEXT is diffed by its sibling, sync-faction-text.mjs — that one
+// strips wh11ed's enrichment layer (gloss tokens, cross-references, extra bold, bracket
+// ability names) off both sides before comparing, so the prose diff stays high-signal instead
+// of the all-noise it would be raw. Run both (npm run sync runs them back to back).
 //
 // For the 5 SM-Chapter factions (deathwatch, black-templars, blood-angels, dark-angels,
 // space-wolves): wh11ed's datasheet list already folds in units shared with
@@ -34,36 +34,7 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
-import { ROOT, APPDATA, SLUG_MAP, norm, appdataToMarkup, bodyText, loadJson, loadModule, byNormName, diffByName } from './lib/sync-common.mjs'
-
-// Combat Patrol publications (`isCombatPatrol`) are a separate boxed game mode with fixed
-// 0-point rosters and detachment-name-prefixed unit variants; wh11ed is matched-play only
-// and deliberately carries none of it. The faction bundle flags detachments but not
-// datasheets, so derive both name sets straight from the raw appdata tables and drop them
-// before diffing (self-contained — no bundle regeneration needed). Computed once.
-let _combatPatrol = null
-function combatPatrolNames() {
-  if (_combatPatrol) return _combatPatrol
-  const T = path.join(APPDATA, 'tables')
-  const read = (f) => (fs.existsSync(path.join(T, f)) ? JSON.parse(fs.readFileSync(path.join(T, f), 'utf8')) : [])
-  const cpPubIds = new Set(read('publication.json').filter((p) => p.isCombatPatrol).map((p) => p.id))
-  const namesUnder = (f) => new Set(read(f).filter((r) => cpPubIds.has(r.publicationId)).map((r) => norm(r?.localisations?.en?.name || '')).filter(Boolean))
-  _combatPatrol = { datasheets: namesUnder('datasheet.json'), detachments: namesUnder('detachment.json') }
-  return _combatPatrol
-}
-
-// Fold a Chapter's shared space-marines.js units back in, mirroring
-// src/data/datasheets/index.js's loadDatasheets, so the comparison sees what the site
-// actually shows.
-async function loadWh11edDatasheets(slug) {
-  const mod = await loadModule(path.join(ROOT, 'src/data/datasheets', `${slug}.js`))
-  if (!mod) return []
-  const own = mod.default || []
-  if (!mod.sharedUnitIds?.length) return own
-  const smMod = await loadModule(path.join(ROOT, 'src/data/datasheets/space-marines.js'))
-  const idSet = new Set(mod.sharedUnitIds)
-  return [...own, ...(smMod?.default || []).filter((d) => idSet.has(d.id))]
-}
+import { ROOT, APPDATA, SLUG_MAP, norm, appdataToMarkup, bodyText, loadJson, loadModule, byNormName, diffByName, combatPatrolNames, loadWh11edDatasheets } from './lib/sync-common.mjs'
 
 async function syncFaction(slug) {
   const appSlug = SLUG_MAP[slug] || slug

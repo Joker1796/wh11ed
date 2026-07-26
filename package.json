@@ -15,6 +15,7 @@
     "condkeywords": "node scripts/gen-conditional-keywords.mjs",
     "faq": "node scripts/gen-faction-faq.mjs",
     "sync": "node scripts/sync.mjs",
+    "sync:text": "node scripts/sync-faction-text.mjs",
     "parity": "node scripts/parity-check.mjs",
     "images:dims": "node scripts/gen-image-dims.mjs",
     "icons": "node scripts/gen-pwa-icons.mjs",
