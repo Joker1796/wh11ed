@@ -5,6 +5,7 @@
 //   - conditionalKeywords — is the rule-granted-keywords sidecar (Deathwing/Battleline/…) fresh?
 //   - factionFaq       — is the per-faction FAQ/errata sidecar (src/data/factionFaq.json) fresh?
 //   - sync-appdata     — faction/datasheet structure, scalars, renames (all factions)
+//   - sync-faction-text — faction rule/stratagem/enhancement/ability PROSE vs the canon (errata drift)
 //   - sync-tracker     — Game Tracker rule content (missions, twists, battle sizes, …)
 //   - sync-core        — core rulebook prose (sections 01-25)
 //   - sync-enh-bodyguards — enhancements that grant an attach must carry the attach note
@@ -37,6 +38,7 @@ const idsStale = run('sourceIds bridge (--check)', 'gen-source-ids.mjs', ['--che
 const condKwStale = run('conditionalKeywords sidecar (--check)', 'gen-conditional-keywords.mjs', ['--check'])
 const faqStale = run('factionFaq sidecar (--check)', 'gen-faction-faq.mjs', ['--check'])
 run('sync-appdata (all factions)', 'sync-appdata.mjs', ['--all'])
+run('sync-faction-text (all factions)', 'sync-faction-text.mjs', ['--all'])
 run('sync-tracker', 'sync-tracker.mjs')
 run('sync-core', 'sync-core.mjs')
 run('sync-enh-bodyguards', 'sync-enh-bodyguards.mjs')
