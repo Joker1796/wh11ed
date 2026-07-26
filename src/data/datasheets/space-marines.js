@@ -9573,12 +9573,12 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 230,
+        "points": 255,
         "note": "1st-2nd"
       },
       {
         "models": 1,
-        "points": 260,
+        "points": 275,
         "note": "3rd+"
       }
     ],
@@ -12334,12 +12334,12 @@ export default [
       },
       {
         "models": 5,
-        "points": 110,
+        "points": 115,
         "note": "3rd+"
       },
       {
         "models": 10,
-        "points": 210,
+        "points": 220,
         "note": "3rd+"
       }
     ],

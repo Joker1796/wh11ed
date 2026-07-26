@@ -339,6 +339,11 @@ export default [
       {
         "models": 1,
         "points": 100
+      },
+      {
+        "models": 1,
+        "points": 140,
+        "note": "Agents of the Imperium (allied)"
       }
     ],
     "flavor": "Anarchy flourishes in the wake of a Callidus Assassin’s deployment. They use the shape-shifting drug polymorphine to insinuate themselves close to their target, sabotaging systems and seeding misinformation before closing on their victim with blasts of their mind-destroying sidearm and flicks of their mysterious blade.",
@@ -569,6 +574,11 @@ export default [
       {
         "models": 1,
         "points": 85
+      },
+      {
+        "models": 1,
+        "points": 125,
+        "note": "Agents of the Imperium (allied)"
       }
     ],
     "flavor": "A Culexus Assassin projects an aura of unsettling fear all around them. Their primary targets are psykers, who are wracked with agony from these soulless assassins’ mere presence, and against the arcane blasts of a Culexus’ animus speculum, no witch long survives.",
