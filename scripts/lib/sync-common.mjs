@@ -47,7 +47,25 @@ export function appdataToMarkup(text) {
   s = s.replace(/<b>(.*?)<\/b>/gis, '**$1**')
   s = s.replace(/<[^>]+>/g, '')
   s = s.replace(/&#x?[0-9a-f]+;/gi, ' ') // stray numeric HTML entities (e.g. &#x20;) in appdata text
-  s = s.split('\n').map((l) => l.trim()).join(' ').replace(/\s{2,}/g, ' ')
+  // Collapse incidental line-wraps into flowing prose, but keep a real `\n` before each bullet
+  // line so it survives as a genuine list item — matching the hand-authored body convention (see
+  // e.g. factions/grey-knights.js's "One Foot in the Future") — rather than being flattened into
+  // an inline "▪ text ▪ text" run that renders as plain text. appdata sometimes hand-types the
+  // bullet *inside* a `**bold**`/`__underline__` run ("**▪ Company Heroes Rule:**") or right after
+  // an opening quote ("'■ Ranged weapons…") and sometimes uses `■` instead of `▪` — normalize all
+  // of that so the bullet is always the line's leading char and buildRich's `^[▪•]` list-item
+  // check (useRenderInline.js) recognizes it.
+  const BULLET_LEAD = /^(\*{1,2}|__|['’‘"«])?[▪■][ \t]*/
+  const normalizeBullet = (l) => {
+    const m = l.match(BULLET_LEAD)
+    return m ? `▪ ${m[1] || ''}${l.slice(m[0].length)}` : l
+  }
+  s = s
+    .split('\n')
+    .map((l) => l.trim())
+    .filter(Boolean)
+    .reduce((acc, l) => (!acc ? normalizeBullet(l) : BULLET_LEAD.test(l) ? `${acc}\n${normalizeBullet(l)}` : `${acc} ${l}`), '')
+    .replace(/[ \t]{2,}/g, ' ')
   return s.trim()
 }
 
