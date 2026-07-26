@@ -245,8 +245,9 @@ In addition, at the end of your opponent's turn, you can select a number of **As
           flavor: 'Some of the Windrider Hosts are especially aggressive, unable to restrain the fierce joy of racing perilously close to the foe while strafing them with fire.',
           when: 'The Reinforcements step of your Movement phase.',
           target: 'One Asuryani Mounted or Vyper unit from your army in Reserves.',
-          // Faction-Pack Rules Update changed the Effect's 9" to 8".
-          effect: 'Until the end of the phase, when setting up your unit on the battlefield from Reserves, it can be set up anywhere on the battlefield that is more than 3" horizontally away from all enemy units. When doing so, if your unit is set up within 8" horizontally of one or more enemy units, until the end of the turn, it is not eligible to declare a charge.',
+          // Faction-Pack Rules Update changed the Effect's 9" to 8" (the "within 8"" clause).
+          // The set-up distance is 6" per appdata (was mis-transcribed as 3").
+          effect: 'Until the end of the phase, when setting up your unit on the battlefield from Reserves, it can be set up anywhere on the battlefield that is more than 6" horizontally away from all enemy units. When doing so, if your unit is set up within 8" horizontally of one or more enemy units, until the end of the turn, it is not eligible to declare a charge.',
           restrictions: '',
         },
         {
@@ -815,9 +816,12 @@ Each time you use one of the Stratagems opposite, if your Fate dice pool contain
           turn: 'your',
           flavor: 'Dispelling the psychosomatic mirage that has so far beguiled and assailed the foe, the seer reveals the true location of the warriors it was masquerading as.',
           when: 'Your Movement phase.',
-          // Faction-Pack Rules Update rewrote the Target section.
-          target: 'One Asuryani Infantry unit from your army (excluding WRAITH CONSTRUCT units) that has not been selected to move this phase, was not set up on the battlefield this phase, and is within 8" of one or more friendly Asuryani Psyker models.',
-          effect: 'Remove your unit from the battlefield and set it up again anywhere on the battlefield that is more than 9" horizontally away from all enemy models.',
+          // Faction-Pack Rules Update rewrote the Target and Effect sections (errata): the target
+          // range is 9" and the effect now moves the unit via strategic reserves + ingress.
+          target: 'One Asuryani Infantry unit from your army (excluding WRAITH CONSTRUCT units) that has not been selected to move this phase, was not set up on the battlefield this phase, and is within 9" of one or more friendly Asuryani Psyker models.',
+          effect: `▪ Place your unit in strategic reserves.
+▪ Your unit has Deep Strike.
+▪ Your unit must make an ingress move this phase.`,
           restrictions: 'Until the end of the phase, your unit is not eligible to be selected to move.',
         },
         {

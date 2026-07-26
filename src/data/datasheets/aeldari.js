@@ -4614,7 +4614,7 @@ export default [
     "abilities": [
       {
         "name": "Acrobatic Grace",
-        "text": "Each time an attack targets this unit, subtract 1 from the Hit roll."
+        "text": "▪ This unit has Stealth.\n▪ Melee attacks that target this unit have -1 to Hit rolls."
       }
     ],
     "composition": [
@@ -5483,7 +5483,7 @@ export default [
     "abilities": [
       {
         "name": "Way of the Blade",
-        "text": "While this model is leadings unit, models in that unit have the Fights First ability."
+        "text": "While this model is leading a unit, models in that unit have the Fights First ability."
       },
       {
         "name": "Yvraine’s Champion",
@@ -8712,7 +8712,7 @@ export default [
     "abilities": [
       {
         "name": "No Escape",
-        "text": "Each time an enemy unit (excluding MONSTERS and VEHICLES) within Engagement Range of one or more units from your army with this ability is selected to Fall Back, all models in that enemy unit must take a Desperate Escape test. When doing so, if that enemy unit is Battle-shocked, subtract 1 from each of those tests."
+        "text": "Each time an enemy unit (excluding MONSTERS and VEHICLES) within Engagement Range of one or more units from your army with this ability is selected to Fall Back, models in that enemy unit must take Desperate Escape tests as if their unit was Battle-shocked. When doing so, if that enemy unit is also Battle-shocked by other means, subtract 1 from each of those Desperate Escape tests."
       }
     ],
     "composition": [
