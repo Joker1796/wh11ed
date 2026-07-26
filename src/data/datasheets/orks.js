@@ -2893,12 +2893,29 @@ export default [
     "name": "Gretchin",
     "points": [
       {
+        "models": 10,
+        "points": 45,
+        "note": "10 Gretchin"
+      },
+      {
         "models": 11,
-        "points": 45
+        "points": 45,
+        "note": "10 Gretchin, 1 Runtherd"
+      },
+      {
+        "models": 20,
+        "points": 80,
+        "note": "20 Gretchin"
+      },
+      {
+        "models": 21,
+        "points": 85,
+        "note": "20 Gretchin, 1 Runtherd"
       },
       {
         "models": 22,
-        "points": 80
+        "points": 90,
+        "note": "20 Gretchin, 2 Runtherd"
       }
     ],
     "flavor": "What Gretchin – also called grots – lack in stature, courage, resilience, discipline, motivation, loyalty, aggression and personal hygiene, they allegedly make up for in numbers. They are at least reasonable shots with their underpowered firearms, and if all else fails, the Orks find that grots make excellent bullet-stops.",
@@ -2982,9 +2999,9 @@ export default [
       }
     ],
     "composition": [
-      "1 Runtherd and 10 Gretchin",
+      "0-1 Runtherd and 10 Gretchin",
       "OR",
-      "2 Runtherds and 20 Gretchin"
+      "0-2 Runtherds and 20 Gretchin"
     ],
     "loadout": "**Every Runtherd is equipped with:** slugga; Runtherd tools.\n\n**Every Gretchin is equipped with:** grot blasta; close combat weapon.",
     "keywords": [
