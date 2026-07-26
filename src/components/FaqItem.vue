@@ -6,7 +6,7 @@
     </div>
     <div class="faq-a">
       <span class="faq-badge ans">{{ aLabel }}</span>
-      <span v-html="renderInline(a)" />
+      <span v-html="renderRichText(a)" />
     </div>
   </div>
 </template>
@@ -16,6 +16,8 @@ import { useRenderInline } from '../composables/useRenderInline.js'
 
 // Shared Q/A card for FAQ entries — used by RuleBody's inline `**Q:**/**A:**` blocks
 // and the standalone Reference/Event Companion FAQ pages, so all three share one look.
+// The answer uses renderRichText (not plain renderInline) so a `▪ ` bullet-list answer
+// (see wh11ed/CLAUDE.md's body-markup table) renders as a real <ul>, not literal "▪" text.
 defineProps({
   q: { type: String, required: true },
   a: { type: String, required: true },
@@ -23,7 +25,7 @@ defineProps({
   aLabel: { type: String, default: 'A' },
 })
 
-const { renderInline } = useRenderInline()
+const { renderInline, renderRichText } = useRenderInline()
 </script>
 
 <style scoped>
@@ -51,6 +53,12 @@ const { renderInline } = useRenderInline()
 
 .faq-a {
   color: var(--text-muted);
+}
+
+.faq-a :deep(ul),
+.faq-a :deep(ol) {
+  margin: 0.2rem 0 0.3rem 1.1rem;
+  padding: 0;
 }
 
 .faq-badge {
