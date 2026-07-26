@@ -368,5 +368,277 @@
         "body": "Следующие юниты имеют ключевое слово **FRAME**: Chaos Reaver Titan, Chaos Warbringer Nemesis Titan, Chaos Warhound Titan и Chaos Warlord Titan."
       }
     ]
+  },
+  "grey-knights": {
+    "entries": [
+      {
+        "type": "errata",
+        "header": "Grey Knights Thunderhawk Gunship",
+        "body": "■ **Профиль**: измените **M** на 20\". ■ **Ключевые слова**: удалите «**AIRCRAFT**», добавьте «**FRAME**»."
+      },
+      {
+        "type": "errata",
+        "header": "Правила армии, правило армии Gate of Infinity, последний абзац",
+        "body": "Измените на: ▪ Поместите те юниты в **стратегические резервы**. ▪ Те юниты могут совершить **манёвр прибытия** в вашей следующей фазе движения (включая ваш первый ход)."
+      },
+      {
+        "type": "errata",
+        "header": "Augurium Task Force, улучшение One Foot in the Future",
+        "body": "Измените на: «Только модель **GREY KNIGHTS**. Когда этот юнит заканчивает **манёвр прибытия**, вы можете использовать эту способность. Если вы это делаете: ▪ Этот юнит может совершить **обычный манёвр** до D6\". ▪ До конца хода этот юнит не может **объявлять нападение**»."
+      },
+      {
+        "type": "errata",
+        "header": "Augurium Task Force, стратагема Aggressive Anticipation, секция «Эффект»",
+        "body": "Измените на: «Атаки вашего юнита могут перебрасывать броски на попадание»."
+      },
+      {
+        "type": "errata",
+        "header": "Banishers Detachment, стратагема Shadow of Anarch, секция «Цель»",
+        "body": "Измените 9\" на 8\"."
+      },
+      {
+        "type": "errata",
+        "header": "Brotherhood Strike Detachment, стратагема Combat Manifestation, секция «Эффект»",
+        "body": "Измените 3\" на 6\"."
+      },
+      {
+        "type": "errata",
+        "header": "Hallowed Conclave Detachment, улучшение Eye of the Augurium",
+        "body": "Измените на: «Только модель **GREY KNIGHTS**. Вы можете выбрать этот юнит целью **стратагемы Heroic Intervention**, независимо от любых других применений этой **стратагемы** в этой фазе. Если вы это делаете: ▪ Это применение стоит -1 CP. ▪ Это применение не препятствует никаким другим применениям этой **стратагемы** на других юнитах в этой фазе»."
+      },
+      {
+        "type": "errata",
+        "header": "Sanctic Spearhead Detachment, улучшение Sigil of Exigence",
+        "body": "Измените 9\" на 8\"."
+      },
+      {
+        "type": "errata",
+        "header": "Hallowed Conclave Detachment, стратагема Precognitive Strategies, секция «Цель»",
+        "body": "Измените 9\" на 8\"."
+      },
+      {
+        "type": "errata",
+        "header": "Land Raider, Land Raider Crusader, Land Raider Redeemer, Razorback, Rhino, секция «Ключевые слова»",
+        "body": "Добавьте «**FRAME**»."
+      },
+      {
+        "type": "errata",
+        "header": "Stormtalon Gunship, Stormhawk Interceptor",
+        "body": "■ **Базовые способности**: удалите «Hover». ■ **Профиль**: измените **M** и **OC** на «-»."
+      },
+      {
+        "type": "errata",
+        "header": "Stormraven Gunship",
+        "body": "■ **Профиль**: измените **M** на 14\". ■ **Ключевые слова**: удалите «**AIRCRAFT**»."
+      },
+      {
+        "type": "errata",
+        "header": "Brotherhood Chaplain, способности, базовые способности",
+        "body": "Добавьте «Leader»."
+      },
+      {
+        "type": "errata",
+        "header": "Brotherhood Techmarine, способность Guardians of the Machine",
+        "body": "Измените на: «Каждый раз, когда вражеский юнит заканчивает манёвр нападения, связанный боем с одним или более дружественными юнитами **GREY KNIGHTS VEHICLE** и в пределах 6\" от этого юнита, вы можете выбрать этот юнит целью **стратагемы Heroic Intervention**, независимо от любых других применений этой **стратагемы** в этой фазе. Если вы это делаете: ▪ Это применение стоит -1 CP. ▪ Это применение не препятствует никаким другим применениям этой **стратагемы** на других юнитах в этой фазе»."
+      },
+      {
+        "type": "errata",
+        "header": "Grand Master Voldus, способность Sanctuary",
+        "body": "Измените на: ▪ Этот юнит имеет **Stealth**. ▪ Атаки ближнего боя, нацеленные на этот юнит, имеют -1 к **броскам на попадание**."
+      },
+      {
+        "type": "qa",
+        "q": "Может ли юнит с улучшением Sigil of Exigence использовать эту способность в первый ход моего оппонента?",
+        "a": "Да."
+      }
+    ]
+  },
+  "imperial-agents": {
+    "entries": [
+      {
+        "type": "errata",
+        "header": "Veiled Blade Elimination Force Detachment, улучшение Intraneural Biotech",
+        "body": "Измените на: «Только модель **EVERSOR ASSASSIN**. Вы можете выбрать этот юнит целью **стратагемы Heroic Intervention**, независимо от любых других применений этой **стратагемы** в этой фазе. Если вы это делаете: ▪ Это применение стоит -1 CP. ▪ Это применение не препятствует никаким другим применениям этой **стратагемы** на других юнитах в этой фазе»."
+      },
+      {
+        "type": "errata",
+        "header": "Ordo Malleus Daemon Hunters Detachment, стратагема Truesilver Armour, секция «Эффект»",
+        "body": "Измените на: «Пока атакующий юнит не закончил совершать свои атаки, каждый раз, когда атака нацелена на ваш юнит, ухудшайте характеристику бронепробития этой атаки на 1»."
+      },
+      {
+        "type": "errata",
+        "header": "Ordo Malleus Daemon Hunters Detachment, улучшение Gift of the Prescient",
+        "body": "Измените 3\" на 6\"."
+      },
+      {
+        "type": "errata",
+        "header": "Ordo Xenos Alien Hunters Detachment, стратагема Armour of Contempt, секция «Эффект»",
+        "body": "Измените на: «Пока атакующий юнит не закончил совершать свои атаки, каждый раз, когда атака нацелена на ваш юнит, ухудшайте характеристику бронепробития этой атаки на 1»."
+      },
+      {
+        "type": "errata",
+        "header": "Order Xenos Alien Hunters Detachment, стратагема Rapid Tactical Relocation, секция «Эффект»",
+        "body": "Измените 9\" на 8\"."
+      },
+      {
+        "type": "errata",
+        "header": "Ministorum Priest, секция «Базовые способности»",
+        "body": "Удалите «Leader», добавьте «Support»."
+      },
+      {
+        "type": "errata",
+        "header": "Imperial Rhino, Inquisitorial Chimera и Sisters of Battle Immolator, секция «Ключевые слова»",
+        "body": "Добавьте «FRAME»."
+      },
+      {
+        "type": "errata",
+        "header": "Corvus Blackstar",
+        "body": "■ **Профиль**: измените **M** на 14\". ■ **Ключевые слова**: удалите «**AIRCRAFT**»."
+      },
+      {
+        "type": "errata",
+        "header": "Callidus Assassin",
+        "body": "■ **Способность Acrobatic Escape**: измените на: ▫ В конце фазы ближнего боя, если этот юнит **связан боем**, этот юнит может совершить **манёвр отступления** до D6\". ▫ В конце хода вашего оппонента, если этот юнит на расстоянии более 3\" от всех вражеских юнитов, вы можете использовать эту способность. Если вы это делаете: ▫ Поместите этот юнит в **стратегические резервы**. ▫ Этот юнит должен совершить **манёвр прибытия** в вашей следующей фазе движения (включая ваш первый ход). ■ **Способность Reign of Confusion**: измените на: «Один раз за ход, когда ваш оппонент выбирает целью юнит из своей армии в пределах 12\" от этой модели **стратагемой**, эта модель может использовать эту способность. Если вы это делаете, увеличьте стоимость CP этого применения той **стратагемы** на 1 CP»."
+      },
+      {
+        "type": "errata",
+        "header": "Culexus Assassin, способность Etheric Emergence",
+        "body": "Измените на: «В вашей фазе движения, когда эта модель выставляется на поле боя способностью Deep Strike, она может совершить эфирное явление. Если она это делает, эта модель может быть выставлена где угодно на поле боя на расстоянии более 6\" по горизонтали от всех вражеских юнитов, но до конца хода она не может объявлять нападение»."
+      },
+      {
+        "type": "errata",
+        "header": "Imperial Rhino, секция «Транспорт»",
+        "body": "Измените на: «Эта модель имеет вместимость транспорта 12 моделей **AGENTS OF THE IMPERIUM INFANTRY**. Она не может перевозить модели **TERMINATOR** или **OFFICIO ASSASSINORUM**»."
+      },
+      {
+        "type": "errata",
+        "header": "Inquisitor, секция «Лидер»",
+        "body": "Удалите «**DEATHWATCH KILL TEAM**»."
+      },
+      {
+        "type": "errata",
+        "header": "Inquisitorial Agents, секция Inquisitorial Henchmen",
+        "body": "Измените на: «Если фракция вашей армии не **AGENTS OF THE IMPERIUM**, то за каждый юнит **INQUISITOR**, включённый в вашу армию, вы можете включить в свою армию один юнит **INQUISITORIAL AGENTS**, что не учитывается в числе юнитов **RETINUE**, которые может включать ваша армия (см. Assigned Agents)»."
+      },
+      {
+        "type": "errata",
+        "header": "Inquisitor Draxus, секция «Лидер»",
+        "body": "Удалите «**DEATHWATCH KILL TEAM**»."
+      },
+      {
+        "type": "errata",
+        "header": "Sisters of Battle Immolator, неуязвимый спас-бросок",
+        "body": "Удалите звёздочку."
+      },
+      {
+        "type": "errata",
+        "header": "Vindicare Assassin, способность Dead Shot",
+        "body": "Измените на: «Когда этот юнит **выбран для стрельбы**, пока этот юнит не отстрелялся: ■ Вражеские юниты не имеют **Lone Operative**. ■ **Скрытые** вражеские юниты имеют +15\" к **радиусу обнаружения**»."
+      },
+      {
+        "type": "errata",
+        "header": "Voidsmen-at-Arms, секция Navy Bodyguard",
+        "body": "Измените на: «Если фракция вашей армии не **AGENTS OF THE IMPERIUM**, то за каждый юнит **VOIDFARERS CHARACTER**, включённый в вашу армию, вы можете включить в свою армию один юнит **VOIDSMEN-AT-ARMS**, что не учитывается в числе юнитов **RETINUE**, которые может включать ваша армия (см. Assigned Agents)»."
+      },
+      {
+        "type": "qa",
+        "q": "Используя Imperialis Fleet Detachment, если я придаю **CHARACTER** юниту, выбранному улучшением Clandestine Operation или Combat Landers, получает ли этот **CHARACTER** также способность, дарованную этим улучшением (то есть Infiltrators или Deep Strike соответственно)?",
+        "a": "Да."
+      }
+    ]
+  },
+  "chaos-knights": {
+    "entries": [
+      {
+        "type": "errata",
+        "header": "Chaos Acastus Knight Asterius и Chaos Acastus Knight Porphyrion, секция «Ключевые слова»",
+        "body": "Добавьте «FRAME»."
+      },
+      {
+        "type": "errata",
+        "header": "War Dog Moirax, способность Protection Protocols",
+        "body": "Измените на: «Вы можете выбрать этот юнит целью **стратагемы Heroic Intervention**, независимо от любых других применений этой **стратагемы** в этой фазе. Если вы это делаете: ▪ Это применение стоит -1 CP. ▪ Это применение не препятствует никаким другим применениям этой стратагемы на других юнитах в этой фазе»."
+      },
+      {
+        "type": "errata",
+        "header": "Helhunt Lance Detachment, стратагема Goaded Beast, секция «Эффект»",
+        "body": "Измените на: «**ЭФФЕКТ**: ваш юнит может совершить рывок до D6\"."
+      },
+      {
+        "type": "errata",
+        "header": "Helhunt Lance Detachment, стратагема Beasthide Manifestation, секция «Эффект»",
+        "body": "Измените на: «Пока атакующий юнит не закончил совершать свои атаки, каждый раз, когда атака нацелена на ваш юнит, ухудшайте характеристику бронепробития этой атаки на 1»."
+      },
+      {
+        "type": "errata",
+        "header": "Iconoclast Fiefdom Detachment, стратагема Preserve the Idols, секция «Цель»",
+        "body": "Измените 9\" на 8\"."
+      },
+      {
+        "type": "errata",
+        "header": "Harbingers of Dread, способность Dread «Darkness»",
+        "body": "Измените на: «Эта модель имеет **Stealth**»."
+      },
+      {
+        "type": "errata",
+        "header": "Infernal Lance Detachment, стратагема Hellforged Construction, секция «Эффект»",
+        "body": "Измените на: «Пока атакующий юнит не закончил совершать свои атаки, каждый раз, когда атака нацелена на ваш юнит, ухудшайте характеристику бронепробития этой атаки на 1»."
+      },
+      {
+        "type": "errata",
+        "header": "Houndpack Lance Detachment, стратагема Animalistic Rage, секция «Когда»",
+        "body": "Измените на: «Фаза стрельбы вашего оппонента или фаза ближнего боя, сразу после того как юнит WAR DOG из вашей армии, что не был выбран для атаки в этой фазе, уничтожен»."
+      },
+      {
+        "type": "errata",
+        "header": "Houndpack Lance Detachment, стратагема Harrying Hounds, секция «Цель»",
+        "body": "Измените 9\" на 8\"."
+      },
+      {
+        "type": "errata",
+        "header": "Infernal Lance Detachment, правило детачмента Malefic Surge",
+        "body": "Измените Unnatural Fortitude на: «Когда этот юнит выбран целью атаки, выберите одно из следующего, действующее до конца фазы: ■ Модели этого юнита имеют неуязвимый спас-бросок 5+. ■ Модели этого юнита имеют способность Feel No Pain 6+»."
+      },
+      {
+        "type": "errata",
+        "header": "Lords of Dread Detachment, улучшение Mirror of Fates",
+        "body": "Измените на: «Только модель **CHAOS KNIGHTS**. Один раз за ход, когда ваш оппонент выбирает целью юнит из своей армии в пределах 12\" от этой модели стратагемой, вы можете использовать эту способность. Если вы это делаете, увеличьте стоимость CP этого применения той стратагемы на 1 CP»."
+      },
+      {
+        "type": "errata",
+        "header": "Traitoris Lance Detachment, стратагема Storm of Darkness, секция «Эффект»",
+        "body": "Измените на: ▪ Ваш юнит имеет **Stealth**. ▪ Атаки ближнего боя, нацеленные на ваш юнит, имеют -1 к **броскам на попадание**."
+      },
+      {
+        "type": "errata",
+        "header": "Lords of Dread Detachment, стратагема Claimed for the Dark Gods, секция «Когда»",
+        "body": "Измените на: «Начало вашей фазы командования»."
+      },
+      {
+        "type": "errata",
+        "header": "Traitoris Lance Detachment, стратагема Imperious Advance, секция «Эффект»",
+        "body": "Измените на: «До конца фазы каждый раз, когда модель одного из ваших юнитов совершает обычный манёвр, продвижение, манёвр отступления или манёвр нападения, она может двигаться сквозь модели и элементы ландшафта. При этом она может двигаться в пределах радиуса связывания таких моделей, но, если она не совершала манёвр нападения, не может закончить этот манёвр в пределах радиуса связывания них, и любая проверка отчаянного побега автоматически считается пройденной (способность Super-heavy Walker не применяется при использовании этой стратагемы)»."
+      },
+      {
+        "type": "errata",
+        "header": "Knight Abominant, оружие Volkite Combustor",
+        "body": "Измените на: **[IGNORES COVER]**"
+      },
+      {
+        "type": "errata",
+        "header": "Knight Abominant, способность Warp Storms",
+        "body": "Измените на: «В конце вашей фазы движения бросьте один D6 за каждый вражеский юнит в пределах 9\" от одной или более моделей с этой способностью: на 3+ тот вражеский юнит получает D3 смертельные раны»."
+      },
+      {
+        "type": "errata",
+        "header": "Knight Desecrator",
+        "body": "▪ Оружие Desecrator Laser Destructor: измените на **[DEVASTATING WOUNDS: MONSTER/VEHICLE]** **▪ Способность Obsessive Ruthlessness**: измените на: «Атаки дальнего боя этого юнита, нацеленные на юнит **MONSTER/VEHICLE**, могут игнорировать модификаторы к: ▫ **BS** этого юнита. ▫ **Броскам на попадание** и **броскам на ранение**»."
+      },
+      {
+        "type": "errata",
+        "header": "Knight Ruinator",
+        "body": "▪ **Оружие Darkflame Lance**: измените на: A D6+6 ▪ **Оружие Terrorpulse Missiles**: измените на: A D6+6"
+      }
+    ]
   }
 }
