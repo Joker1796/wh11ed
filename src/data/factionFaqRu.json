@@ -286,5 +286,87 @@
         "body": "Измените на: «Один раз за ход вы можете потратить 1 YP, чтобы изменить один бросок на попадание, один бросок на ранение или один спас-бросок, совершённый за эту модель, на немодифицированную 6»."
       }
     ]
+  },
+  "imperial-knights": {
+    "entries": [
+      {
+        "type": "errata",
+        "header": "Acastus Knight Asterius и Acastus Knight Porphyrion, секция «Ключевые слова»",
+        "body": "Добавьте «**FRAME**»."
+      },
+      {
+        "type": "errata",
+        "header": "Armiger Moirax, способность Protection Protocols",
+        "body": "Измените на: «Вы можете выбрать этот юнит целью **стратагемы Heroic Intervention**, независимо от любых других применений этой **стратагемы** в этой фазе. Если вы это делаете: ▪ Это применение стоит -1 CP. ▪ Это применение не препятствует никаким другим применениям этой **стратагемы** на других юнитах в этой фазе»."
+      },
+      {
+        "type": "errata",
+        "header": "Code Chivalric, Deed «We pledge to reap a great tally»",
+        "body": "Измените на: «Этот Deed выполнен в конце раунда боя, если число вражеских юнитов, уничтоженных в этом раунде боя, больше номера раунда боя, даже если те юниты впоследствии возвращены на поле боя (например, два уничтоженных вражеских юнита в первом раунде боя)»."
+      },
+      {
+        "type": "errata",
+        "header": "Gate Warden Lance Detachment, правило детачмента Dauntless Defenders",
+        "body": "Измените на: «В начале первого раунда боя выберите две цели своими опорами. Поместите круглый маркер опоры в каждую из них. Когда вы проводите линию от ближайшей части одного маркера опоры к ближайшей части другого, если любая часть базы модели (или любая часть корпуса модели, для модели без базы) пересекает эту линию, говорится, что юнит той модели на вашей оборонительной линии. Пока юнит **IMPERIAL KNIGHTS** вашей армии на вашей оборонительной линии, тот юнит имеет следующую способность: **Against the Horde:** Каждый раз, когда модель этого юнита совершает атаку по видимому вражескому юниту, вы можете игнорировать любые или все модификаторы к броску на попадание, и оружие моделей этого юнита имеет способность **[SUSTAINED HITS 1]**»."
+      },
+      {
+        "type": "errata",
+        "header": "Valourstrike Lance Detachment, стратагема Tactical Foil, секция «Цель»",
+        "body": "Измените 9\" на 8\"."
+      },
+      {
+        "type": "errata",
+        "header": "Valourstrike Lance Detachment, правило детачмента Bold Gallantry",
+        "body": "Измените на: «Каждый раз, когда юнит **IMPERIAL KNIGHTS** вашей армии совершает продвижение, до конца хода оружие дальнего боя моделей **IMPERIAL KNIGHTS** вашей армии имеет способность **[ASSAULT]**»."
+      },
+      {
+        "type": "errata",
+        "header": "Valourstrike Lance Detachment, стратагема Run Them Through!, секция «Цель»",
+        "body": "Измените на: «Один юнит **IMPERIAL KNIGHTS** вашей армии, ещё не выбранный сражаться в этой фазе»."
+      },
+      {
+        "type": "errata",
+        "header": "Valourstrike Lance Detachment, стратагема Full Tilt, секция «Цель»",
+        "body": "Измените на: «Один юнит **IMPERIAL KNIGHTS** вашей армии, ещё не выбранный для движения в этой фазе»."
+      },
+      {
+        "type": "errata",
+        "header": "Canis Rex, Knight Castellan, Knight Crusader, Knight Defender, Knight Errant, Knight Gallant, Knight Paladin, Knight Preceptor, Knight Valiant, Knight Warden, секция «Профили»",
+        "body": "Измените характеристику **OC** на «10»."
+      },
+      {
+        "type": "errata",
+        "header": "Canis Rex, Knight Crusader, Knight Defender, Knight Errant, Knight Gallant, Knight Paladin, Knight Preceptor, Knight Warden, секция Damaged",
+        "body": "Измените на: «Пока у этой модели осталось 1–9 ран, вычтите 5 из характеристики Контроля целей (OC) этой модели, и каждый раз, когда эта модель совершает атаку, вычтите 1 из броска попадания»."
+      },
+      {
+        "type": "errata",
+        "header": "Knight Castellan, Knight Valiant, секция Damaged",
+        "body": "Измените на: «Пока у этой модели осталось 1–10 ран, вычтите 5 из характеристики Контроля целей (OC) этой модели, и каждый раз, когда эта модель совершает атаку, вычтите 1 из броска попадания»."
+      },
+      {
+        "type": "qa",
+        "q": "Могут ли юниты Adeptus Mechanicus использовать способность Doctrina Imperatives, если взяты как часть Questor Forgepact Detachment?",
+        "a": "Нет."
+      }
+    ]
+  },
+  "titan-legions": {
+    "entries": [
+      {
+        "type": "errata",
+        "header": "Reaver Titan, Warbringer Nemesis Titan, Warhound Titan и Warlord Titan, секция «Ключевые слова»",
+        "body": "Следующие юниты имеют ключевое слово **FRAME**: Reaver Titan, Warbringer Nemesis Titan, Warhound Titan и Warlord Titan."
+      }
+    ]
+  },
+  "chaos-titan-legions": {
+    "entries": [
+      {
+        "type": "errata",
+        "header": "Chaos Reaver Titan, Chaos Warbringer Nemesis Titan, Chaos Warhound Titan и Chaos Warlord Titan, секция «Ключевые слова»",
+        "body": "Следующие юниты имеют ключевое слово **FRAME**: Chaos Reaver Titan, Chaos Warbringer Nemesis Titan, Chaos Warhound Titan и Chaos Warlord Titan."
+      }
+    ]
   }
 }
