@@ -23,7 +23,7 @@ const en = {
     name: 'Assigned Agents',
     flavor:
       'Throughout the Imperium there exist numerous martial organisations and shadowy institutions. Bodies of armed warriors or solitary agents from these groups possess specialist skills, unusual equipment and vested interests that lead them to be attached to larger Imperial armies. Some are requisitioned by the army\u2019s commander for their particular abilities, others are assigned by their hidden masters to achieve singular agendas.',
-    body: `If your Army Faction is AGENTS OF THE IMPERIUM, then in the Select Detachment Rules step, you can select one of the available Detachments from this book as normal.
+    body: `If your Army Faction is AGENTS OF THE IMPERIUM, then in the Select Detachment Rules step, you can select one of the available Detachments from this publication as normal.
 
 If your Army Faction is not AGENTS OF THE IMPERIUM, but every model in your army has the IMPERIUM keyword, you can include AGENTS OF THE IMPERIUM units in your army even if they do not have the Faction keyword you selected in the Select Army Faction step. In this case, the maximum number of AGENTS OF THE IMPERIUM units you can include in your army depends on the battle size:
 ▪ **Incursion:** 1 Retinue unit, 1 Character unit, 1 Requisitioned unit.
@@ -64,9 +64,9 @@ Note that you can include AGENTS OF THE IMPERIUM DEDICATED TRANSPORT units in su
           cp: "1CP",
           turn: "your",
           flavor: "With command of the orbital engagement zone comes the ability to strike at the enemy from unexpected angles.",
-          when: "",
-          target: "",
-          effect: "WHEN: Your Movement phase.\n\nTARGET: One VOIDFARERS CHARACTER unit from your army.\n\nEFFECT: Until the end of the phase, each AGENTS OF THE IMPERIUM unit from your army that is arriving from Strategic Reserves this turn can be set up within your opponent’s deployment zone (all other restrictions still apply).",
+          when: "Your Movement phase.",
+          target: "One VOIDFARERS CHARACTER unit from your army.",
+          effect: "Until the end of the phase, each AGENTS OF THE IMPERIUM unit from your army that is arriving from Strategic Reserves this turn can be set up within your opponent’s deployment zone (all other restrictions still apply).",
           restrictions: "",
         },
         {
@@ -323,7 +323,7 @@ Note that you can include AGENTS OF THE IMPERIUM DEDICATED TRANSPORT units in su
           cp: "1CP",
           turn: "either",
           flavor: "Grey Knights battle plate incorporates litanies of purity, strands of sanctified silver and other sacred wards, whose defences can be further empowered by ritual mantras.",
-          when: "Your opponent’s Shooting phase orthe Fight phase, just after an enemy unit has selected its targets.",
+          when: "Your opponent’s Shooting phase or the Fight phase, just after an enemy unit has selected its targets.",
           target: "One GREY KNIGHTS TERMINATOR SQUAD unit from your army that was selected as the target of one or more of the attacking unit’s attacks.",
           effect: "Until the attacking unit has finished making its attacks, each time an attack targets your unit, worsen the Armour Penetration characteristic of that attack by 1.",
           restrictions: "",

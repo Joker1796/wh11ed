@@ -389,7 +389,7 @@ export default [
     "abilities": [
       {
         "name": "Acrobatic Escape",
-        "text": "At the end of the Fight phase, if this model is within Engagement Range of one or more enemy units, it can make a Fall Back move of up to D6\". In addition, at the end of your opponent’s turn, if this model is not within 3\" of one or more enemy units, you can remove it from the battlefield and then, in the Reinforcements step of your next Movement phase, set it up anywhere on the battlefield that is more than 8\" horizontally away from all enemy models. If the battle ends and this model is not on the battlefield, it is destroyed."
+        "text": "▪ At the end of the Fight phase, if this unit is engaged, this unit can make a fall-back move of up to D6\".\n▪ At the end of your opponent's turn, if this unit is more than 3\" from all enemy units, you can use this ability. If you do:\n▪ Place this unit in strategic reserves.\n▪ This unit must make an ingress move in your next Movement phase (including in your first turn)."
       },
       {
         "name": "Reign of Confusion",
@@ -1478,7 +1478,7 @@ export default [
     "abilities": [
       {
         "name": "Breaching Team",
-        "text": "Each time a model in this unit makes an attack, re-roll a Wound roll of 1. If the target is within range of an objective marker, you can re-roll the Wound roll instead."
+        "text": "Each time a model in this unit makes an attack, re-roll a Wound roll of 1. If the target of that attack is an enemy unit within range of an objective marker, you can re-roll the Wound roll instead."
       },
       {
         "name": "Gheistskull",
@@ -1585,7 +1585,7 @@ export default [
     "abilities": [
       {
         "name": "Self Repair",
-        "text": "At the end of your Command phase, this model regains 1 lost wound."
+        "text": "At the start of your Command phase, this model regains 1 lost wound."
       }
     ],
     "composition": [
@@ -2377,7 +2377,7 @@ export default [
     "abilities": [
       {
         "name": "Loyal Henchmen",
-        "text": "While an Inquisitor model is leading this unit, each time an attack is made against this unit, subtract 1 from the Wound roll."
+        "text": "While an Inquisitor model is leading this unit, each time an attack targets this unit, subtract 1 from the Wound roll."
       }
     ],
     "wargearAbilities": [
@@ -2645,7 +2645,7 @@ export default [
       },
       {
         "name": "Zealot",
-        "text": "Once per battle, in the Fight phase, this model can use this ability. If it does, until the end of the phase, improve the Strength and Attacks characteristics of melee weapons equipped by this model by 3."
+        "text": "Once per battle, in the Fight phase, this model can use this ability. If it does, until the end of the phase, improve the Attacks and Strength characteristics of melee weapons equipped by this model by 3."
       }
     ],
     "composition": [
@@ -2902,7 +2902,7 @@ export default [
       },
       {
         "name": "Warrant of Trade",
-        "text": "If your army includes one or more units with this ability, after both players have deployed their armies, select upto D3 IMPERIUM BATTLELINE units from your army and redeploy them. When doing so, you can set those units up in Strategic Reserves, regardless of how many units are already in Strategic Reserves."
+        "text": "If your army includes one or more units with this ability, after both players have deployed their armies, select up to D3 IMPERIUM BATTLELINE units from your army and redeploy them. When doing so, you can set those units up in Strategic Reserves, regardless of how many units are already in Strategic Reserves."
       }
     ],
     "wargearAbilities": [
@@ -3512,7 +3512,7 @@ export default [
     "abilities": [
       {
         "name": "Defenders of the Faith",
-        "text": "If you control an objective marker at the end of your Command phase and this unit is within range of that objective marker, that objective marker remains under your control, even if you have no models within range of it, until your opponent controls it at the start or end of any turn."
+        "text": "At the end of your Command phase, if this unit is within range of an objective marker you control, that objective marker remains under your control until your opponent's Level of Control over that objective marker is greater than yours at the end of a phase."
       },
       {
         "name": "Incensor Cherub",
