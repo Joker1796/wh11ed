@@ -287,7 +287,7 @@ export default [
       "1 Aggressor Sergeant",
       "2-5 Aggressors"
     ],
-    "loadout": "**Every model is equipped with:** flamestorm gauntlets; twin power fist.",
+    "loadout": "**Every model is equipped with:** flamestorm gauntlets; twin power fists.",
     "options": [
       "All models in this unit can each have their flamestorm gauntlets replaced with 1 auto boltstorm gauntlets and 1 fragstorm grenade launcher."
     ],
@@ -1015,8 +1015,8 @@ export default [
       {
         "name": "Power weapon",
         "tags": [],
-        "a": "5",
-        "ws": "2+",
+        "a": "4",
+        "ws": "3+",
         "s": "5",
         "ap": "-2",
         "d": "1"
@@ -2378,7 +2378,7 @@ export default [
         ],
         "range": "12\"",
         "a": "1",
-        "bs": "3+",
+        "bs": "2+",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -3299,6 +3299,18 @@ export default [
     ],
     "ranged": [
       {
+        "name": "Absolvor bolt pistol",
+        "tags": [
+          "CLOSE-QUARTERS"
+        ],
+        "range": "18\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "5",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
         "name": "Bolt pistol",
         "tags": [
           "PISTOL"
@@ -3449,7 +3461,7 @@ export default [
     ],
     "loadout": "**This model is equipped with:** bolt pistol; crozius arcanum.",
     "options": [
-      "This model’s bolt pistol can be replaced with one of the following:\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 hand flamer\n▪ 1 inferno pistol\n▪ 1 plasma pistol\n▪ 1 storm bolter\n▪ 1 power fist"
+      "This model’s bolt pistol can be replaced with one of the following:\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 hand flamer\n▪ 1 inferno pistol\n▪ 1 plasma pistol\n▪ 1 storm bolter\n▪ 1 power fist\n▪ 1 Absolvor bolt pistol"
     ],
     "leader": {
       "text": "This model can be attached to the following units:",
@@ -3633,7 +3645,10 @@ export default [
       },
       {
         "name": "Bolt rifle",
-        "tags": [],
+        "tags": [
+          "ASSAULT",
+          "HEAVY"
+        ],
         "range": "24\"",
         "a": "2",
         "bs": "3+",
@@ -4143,18 +4158,6 @@ export default [
         "s": "8",
         "ap": "-3",
         "d": "2"
-      },
-      {
-        "name": "Storm bolter",
-        "tags": [
-          "RAPID FIRE 2"
-        ],
-        "range": "24\"",
-        "a": "2",
-        "bs": "3+",
-        "s": "4",
-        "ap": "0",
-        "d": "1"
       }
     ],
     "melee": [
@@ -4224,7 +4227,7 @@ export default [
     "loadout": "**Every model is equipped with:** bolt pistol; boltgun; close combat weapon.",
     "options": [
       "Up to 4 Devastator Marines can each have their boltgun replaced with one of the following:\n▪ 1 grav-cannon\n▪ 1 heavy bolter\n▪ 1 lascannon\n▪ 1 missile launcher\n▪ 1 multi-melta\n▪ 1 plasma cannon",
-      "The Devastator Sergeant’s bolt pistol and boltgun can be replaced with two different weapons from the following list:*\n▪ 1 Astartes chain sword\n▪ 1 bolt pistol\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 plasma pistol\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer",
+      "The Devastator Sergeant’s bolt pistol and boltgun can be replaced with two different weapons from the following list:*\n▪ 1 Astartes chainsword\n▪ 1 bolt pistol\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 plasma pistol\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer",
       "* This model can only be equipped with two ranged weapons if one of them is a Pistol (and it can only have one Pistol)"
     ],
     "keywords": [
@@ -4438,18 +4441,7 @@ export default [
         "oc": "0"
       }
     ],
-    "ranged": [
-      {
-        "name": "",
-        "tags": [],
-        "range": "",
-        "a": "0",
-        "bs": "-",
-        "s": "-",
-        "ap": "0",
-        "d": "-"
-      }
-    ],
+    "ranged": [],
     "core": "Deadly Demise 1, Deep Strike",
     "faction": "Oath of Moment",
     "abilities": [
@@ -4745,7 +4737,7 @@ export default [
       {
         "name": "Bolt pistol",
         "tags": [
-          "CLOSE-QUARTERS"
+          "PISTOL"
         ],
         "range": "12\"",
         "a": "1",
@@ -5587,10 +5579,6 @@ export default [
       {
         "name": "For the Chapter!",
         "text": "Each time a model in this unit is destroyed, roll one D6: on a 3+, do not remove it from play. The destroyed model can shoot after the attacking model’s unit has finished making its attacks, and is then removed from play. When resolving these attacks, any Hazardous tests taken for that attack are automatically passed.\n\n**Designer’s Note:** This ability is triggered even when a model in this unit is destroyed as the result of failing a Hazardous test, meaning such a model may be able to shoot twice in the same phase."
-      },
-      {
-        "name": "Designer’s Note",
-        "text": "This ability is triggered even when a model in this unit is destroyed as the result of failing a Hazardous test, meaning such a model may be able to shoot twice in the same phase"
       }
     ],
     "composition": [
@@ -7490,30 +7478,30 @@ export default [
         "note": "3rd+"
       }
     ],
-    "flavor": "The remarkable grav-drives utilised by Land Speeders enable them to perform seemingly impossible feats of manoeuvrability even as they strike against the enemy. Such adaptability makes them ideal for a variety of tasks, including scouting and counter-reconnaissance.",
+    "flavor": "Streaking over the battlefield on humming anti-grav engines, the Land Speeder performs blistering attack runs to rake the enemy with shots then darts away before the foe can respond. It is a valuable rapid reconnaissance asset for Space Marine forces in the field and excels in providing highly mobile fire support.",
     "profiles": [
       {
         "name": "Land Speeder",
         "m": "14\"",
-        "t": "7",
+        "t": "8",
         "sv": "3+",
-        "w": "6",
+        "w": "9",
         "ld": "6+",
-        "oc": "2"
+        "oc": "3"
       }
     ],
     "ranged": [
       {
-        "name": "Heavy bolter",
+        "name": "Onslaught gatling cannon",
         "tags": [
-          "SUSTAINED HITS 1"
+          "DEVASTATING WOUNDS"
         ],
-        "range": "36\"",
-        "a": "3",
+        "range": "24\"",
+        "a": "8",
         "bs": "3+",
         "s": "5",
-        "ap": "-1",
-        "d": "2"
+        "ap": "0",
+        "d": "1"
       },
       {
         "name": "Multi-melta",
@@ -7526,13 +7514,36 @@ export default [
         "s": "9",
         "ap": "-4",
         "d": "D6"
+      },
+      {
+        "name": "Stormfury missile launcher",
+        "tags": [],
+        "range": "48\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "12",
+        "ap": "-3",
+        "d": "D6+1"
+      },
+      {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
       }
     ],
     "melee": [
       {
         "name": "Close combat weapon",
         "tags": [],
-        "a": "3",
+        "a": "4",
         "ws": "3+",
         "s": "4",
         "ap": "0",
@@ -7550,9 +7561,9 @@ export default [
     "composition": [
       "1 Land Speeder"
     ],
-    "loadout": "**This model is equipped with:** heavy bolter; close combat weapon.",
+    "loadout": "**This model is equipped with:** multi-melta; onslaught gatling cannon; stormfury missile launcher; close combat weapon.",
     "options": [
-      "This model’s heavy bolter can be replaced with 1 multi-melta."
+      "This model’s onslaught gatling cannon can be replaced with 1 heavy flamer."
     ],
     "keywords": [
       "Fly",
@@ -7980,7 +7991,7 @@ export default [
         ],
         "range": "18\"",
         "a": "1",
-        "bs": "3+",
+        "bs": "2+",
         "s": "4",
         "ap": "-1",
         "d": "1"
@@ -8162,7 +8173,7 @@ export default [
         "d": "1"
       },
       {
-        "name": "Master-crafted scoped bolt carbine",
+        "name": "Master-crafted bolt carbine",
         "tags": [],
         "range": "24\"",
         "a": "2",
@@ -8200,7 +8211,7 @@ export default [
     "composition": [
       "1 Lieutenant in Phobos Armour"
     ],
-    "loadout": "**This model is equipped with:** bolt pistol; master-crafted scoped bolt carbine; paired combat blades.",
+    "loadout": "**This model is equipped with:** bolt pistol; master-crafted bolt carbine; paired combat blades.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
@@ -10243,7 +10254,7 @@ export default [
       {
         "name": "Astartes chainsword",
         "tags": [],
-        "a": "4",
+        "a": "6",
         "ws": "3+",
         "s": "4",
         "ap": "-1",
@@ -10262,7 +10273,7 @@ export default [
         "name": "Power weapon",
         "tags": [],
         "a": "5",
-        "ws": "2+",
+        "ws": "3+",
         "s": "5",
         "ap": "-2",
         "d": "1"
@@ -10270,7 +10281,7 @@ export default [
       {
         "name": "Power fist",
         "tags": [],
-        "a": "3",
+        "a": "4",
         "ws": "3+",
         "s": "8",
         "ap": "-2",
@@ -12379,7 +12390,7 @@ export default [
         "bs": "3+",
         "s": "4",
         "ap": "-1",
-        "d": "1"
+        "d": "2"
       },
       {
         "name": "Hand flamer",
@@ -12393,6 +12404,18 @@ export default [
         "bs": "N/A",
         "s": "3",
         "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Heavy Bolt Pistol",
+        "tags": [
+          "CLOSE-QUARTERS"
+        ],
+        "range": "18\"",
+        "a": "1",
+        "bs": "3+",
+        "s": "4",
+        "ap": "-1",
         "d": "1"
       },
       {
@@ -12443,6 +12466,15 @@ export default [
         "s": "5",
         "ap": "-1",
         "d": "1"
+      },
+      {
+        "name": "Master-crafted Power Weapon",
+        "tags": [],
+        "a": "3",
+        "ws": "3+",
+        "s": "5",
+        "ap": "-2",
+        "d": "2"
       }
     ],
     "core": "Deep Strike",
@@ -12465,7 +12497,9 @@ export default [
     ],
     "loadout": "**Every model is equipped with:** bolt pistol; Vanguard Veteran weapon.",
     "options": [
-      "Any number of models can each have their bolt pistol replaced one of the following:\n▪ 1 storm shield\n▪ 1 grav-pistol\n▪ 1 hand flamer\n▪ 1 inferno pistol\n▪ 1 plasma pistol"
+      "Any number of models can each have their bolt pistol replaced one of the following:\n▪ 1 storm shield\n▪ 1 grav-pistol\n▪ 1 hand flamer\n▪ 1 inferno pistol\n▪ 1 plasma pistol",
+      "All models can each have their bolt pistol and Vanguard Veteran weapon replaced with 1 Heavy Bolt Pistol and 1 Master-crafted Power Weapon.",
+      "For every 5 models in this unit, 1 model can replace their Heavy Bolt Pistol with 1 plasma pistol."
     ],
     "keywords": [
       "Fly",
@@ -12968,12 +13002,18 @@ export default [
         "text": "The bearer has a 4+ invulnerable save."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "HEROES OF ULTRAMAR",
-        "text": "At the start of the Declare Battle Formations step, this unit can join one of the following units. This unit then counts as part of that unit for the rest of the battle, and that unit’s Starting Strength is increased accordingly.\n▪ Assault intercessor Squad, Bladeguard Veteran Squad, Intercessor Squad, Sternguard Veteran Squad\n\nThis unit cannot join an Attached unit, and only Captain Titus can join a unit this unit has joined."
-      }
-    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Assault Intercessor Squad",
+        "Assault Squad",
+        "Bladeguard Veteran Squad",
+        "Intercessor Squad",
+        "Sternguard Veteran Squad",
+        "Vanguard Veteran Squad"
+      ],
+      "footer": "* This unit cannot join an Attached unit, and only CAPTAIN TITUS can join a unit this unit has joined."
+    },
     "composition": [
       "1 Ancient Gadriel – EPIC HERO",
       "1 Veteran Sergeant Metaurus – EPIC HERO",
