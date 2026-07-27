@@ -24,11 +24,12 @@ const en = {
     name: 'Reanimation Protocols',
     flavor:
       'The Necron dynasties benefit from the nigh-on supernatural technologies that once saw them dominate the galaxy, perhaps the most unsettling of which are their reanimation protocols. Should a Necron be slain, its body becomes wreathed in an eerie glow. Crawling limbs reattach. Sundered torsos and smashed skulls reform amidst emerald sparks. Witchlights flare back to life within dead eye-lenses and the Necron rises again, shambling back into their battle line. Those Necrons too catastrophically damaged to reform vanish instead, teleported away to their tombs for repair.',
-    body: `If your Army Faction is Necrons, at the end of your Command phase, each unit from your army with this ability that is on the battlefield activates its Reanimation Protocols and reanimates D3 wounds. Each time such a unit reanimates a wound:
-▪ If that unit contains one or more models with fewer than their starting number of wounds remaining, select one of those models; that model regains one lost wound.
-▪ If all models in that unit have their starting number of wounds, but that unit is not at its Starting Strength, one destroyed model is returned to that unit with one wound remaining.
-
-Once such a unit is at its Starting Strength and all of its models have their starting number of wounds, nothing further happens.`,
+    // Faction-Pack Rules Update / Codex errata: the old "reanimates D3 wounds" wound-by-wound
+    // model was simplified to a flat "heals D3 wounds" (appdata Codex army rule; the pre-errata
+    // wording survives only in the Combat Patrol box). The example below is kept as-is — appdata
+    // itself retains it under the new wording.
+    body: `If your Army Faction is Necrons, at the end of your Command phase, each friendly unit with this ability that is on the battlefield activates its Reanimation Protocols:
+▪ When a unit's Reanimation Protocols activate, that unit heals D3 wounds.`,
     example: `A unit of Lokhust Destroyers (which have a Wounds characteristic of 3) activates its Reanimation Protocols. The unit had a Starting Strength of 3, but currently contains 2 models, and one of those models has lost 1 wound. A 3 is rolled to see how many wounds are reanimated. The first of these reanimated wounds restores the wounded Lokhust Destroyer back to 3 wounds. The second of these reanimated wounds returns the destroyed Lokhust Destroyer to the battlefield with 1 wound remaining. The third of these reanimated wounds restores one of the remaining lost wounds to the same Lokhust Destroyer that was just returned. The unit now contains 3 models, two of which have 3 wounds remaining and one of which has 2 wounds remaining.`,
   },
 

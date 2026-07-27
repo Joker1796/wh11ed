@@ -1670,7 +1670,7 @@ Restrictions: Your army can include Salamanders units, but it cannot include any
           name: 'Immolator',
           points: 10,
           flavor: 'Steeped in the Promethean Cult, this battle-brother wields the flamer with unparalleled mastery, turning the battlefield into a burning pyre for the corpses of his foes.',
-          body: `Adeptus Astartes model only. Add 1 to the Attacks characteristic of Torrent weapons equipped by models in the bearer's unit.`,
+          body: `Adeptus Astartes model only. Add 1 to the Attacks characteristics of Torrent weapons equipped by models in the bearer's unit.`,
         },
         {
           name: 'War-tempered Artifice',

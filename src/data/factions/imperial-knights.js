@@ -696,7 +696,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           cp: "1CP",
           turn: "your",
           flavor: "With the enemy distracted by battling the mighty Knights, the servants of the Omnissiah are free to complete crucial missions unimpeded.",
-          when: "Your Movement phase, when a friendly ADEPTUS MECHANICUS unit is selected to make an Advance or Fall Back move.",
+          when: "Your Movement phase, when a friendly ADEPTUS MECHANICUS unit is selected to make an Advance/Fall Back move.",
           target: "That ADEPTUS MECHANICUS unit.",
           effect: "That move does not prevent your unit from being eligible to start an Action.",
           restrictions: "",
