@@ -356,8 +356,8 @@ death-guard, grey-knights, world-eaters).
 
 **Группа B — остальные, по одной, от большей к меньшей:** ~~astra-militarum (10999)~~,
 ~~aeldari (8838)~~, ~~orks (6507)~~, ~~tau-empire (5213)~~, ~~chaos-daemons (5205)~~,
-~~necrons (4833)~~, ~~tyranids (4508)~~ **семь закрыты**, next → **adepta-sororitas (4478)**,
-дальше imperial-agents (4220), adeptus-mechanicus (3865), imperial-knights (3287),
+~~necrons (4833)~~, ~~tyranids (4508)~~, ~~adepta-sororitas (4478)~~ **восемь закрыты**,
+next → **imperial-agents (4220)**, дальше adeptus-mechanicus (3865), imperial-knights (3287),
 adeptus-custodes (3244).
 
 tyranids: appdata = `tyranids`. Harridan M "20+\""→"14\"" — реальный баг: в отличие от Hive
@@ -464,6 +464,36 @@ Pact" под одним заголовком с `### `; детачменты "Bl
 оставлено как есть, текст внутренне непротиворечив (конкретные юниты/пункты по battle size).
 `npm test` — та же известная летучая ошибка `StratagemsView.test.js` (не воспроизводится
 изолированно/при перезапуске, фикстуры на space-marines, не относится к правкам).
+
+adepta-sororitas: appdata = `adepta-sororitas`. Структурный баг — **"Crusaders"** (юнит из
+прошлых редакций, давно вырезан) висел мёртвой ссылкой в `leader.units[]` у 9 датащитов
+(Aestred Thurga and Agathae Dolan, Canoness, Dialogus, Dogmata, Hospitaller, Imagifier, Junith
+Eruita, Palatine, Triumph Of Saint Katherine) — appdata не знает такого юнита вообще, и
+собственного датащита "Crusaders" в wh11ed тоже нет (ни одного) — все 9 записей удалены.
+Repentia Squad profile "SISTERS REPENTIA" (appdata: "Sister Repentia", ед. число) — известный
+паттерн pluralized-merged-profile-label, статы совпадают 1:1, ложное срабатывание. Ministorum
+Priest — реальный мелкий баг: и профиль-статлайн, и `composition`, и EN/RU flavor звали юнита
+"Preacher" вместо appdata'шного "Ministorum Priest" (устаревшее прозвище вместо актуального
+имени датащита) — переименовано везде (EN+RU). Celestian Insidiants wargear-опция — appdata
+хранит все 6 пунктов как отдельные `wargearRules[]` записи 1:1 с wh11ed `options[]`
+(sync-скрипт сравнил не те индексы между собой) — контент идентичен, ложное срабатывание. Army
+rule "Acts of Faith" ("apart of the dice roll") и stratagem "Angelic Descent" ("place to into
+Strategic Reserves") — оба появdata-опечатки (грамматически бессмысленные), wh11ed уже пишет
+грамматически верно ("a part of"/"place it into") — урок 2, не трогать. "Desperate for
+Redemption" — appdata структурно разносит lore-вставки (`loreAccordion`) отдельно от
+механического текста между заголовками Vow'ов, wh11ed сливает их инлайн в одну строку — контент
+1:1, тот же порядок, ложное срабатывание. Две находки **не тронуты, хотя appdata молчит
+полностью** (не только в prose, но и во всех проверенных structural-таблицах): detachment
+"Champions of Faith" · rule "Righteous Purpose" несёт доп. абзац "Keywords: while a CELESTIAN
+SACRESANTS unit… OC +1" (EN+RU в полном согласии друг с другом, специфичный и правдоподобный
+для этой редакции паттерн, аналоги такого рода OC-бонуса за "не в Battle-shock" есть у других
+детачментов других фракций) и enhancement "Catechism of Divine Penitence" несёт доп. фразу про
+"can be attached to a Repentia Squad unit" (механически необходима — без неё усиление не
+имело бы смысла: Canoness/Palatine/Ministorum Priest в своих `leader.units[]` НЕ включают
+Repentia Squad, то есть без этого гранта усиление физически неприменимо к заявленной механике).
+Оба трактованы как appdata-пробелы (структурный экспорт просто не долетел до этих кусков), а не
+как дрейф wh11ed — как и necrons "Cosmic Distortion" в прошлом цикле. `npm test` — 207/207
+чисто с первого раза.
 
 **Группа B — остальные, разбирать ПОСЛЕ группы A, по одной, от большей к меньшей:**
 astra-militarum (10999), aeldari (8838), orks (6507), tau-empire (5213), chaos-daemons (5205),
