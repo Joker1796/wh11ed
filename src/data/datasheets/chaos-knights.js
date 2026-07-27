@@ -238,7 +238,7 @@ export default [
     ],
     "loadout": "**This model is equipped with:** 2 Acastus autocannons; Acastus ironstorm missile pod; 2 twin magna lascannons; titanic feet.",
     "options": [
-      "This model’s 2 Acastus autocannons can each be replaced with one of the following:\n▪ 2 lascannons\n▪ 1 Acastus autocannon and 1 lascannon",
+      "This model’s 2 Acastus autocannons can be replaced with one of the following:\n▪ 2 lascannons\n▪ 1 Acastus autocannon and 1 lascannon",
       "This model’s Acastus ironstorm missile pod can be replaced with 1 helios defence missiles."
     ],
     "keywords": [
@@ -1053,7 +1053,8 @@ export default [
       {
         "name": "Volkite combustor",
         "tags": [
-          "DEVASTATING WOUNDS"
+          "DEVASTATING WOUNDS",
+          "IGNORES COVER"
         ],
         "range": "30\"",
         "a": "12",
@@ -1155,7 +1156,9 @@ export default [
     "ranged": [
       {
         "name": "Desecrator laser destructor",
-        "tags": [],
+        "tags": [
+          "DEVASTATING WOUNDS: MONSTER/VEHICLE"
+        ],
         "range": "72\"",
         "a": "3",
         "bs": "2+",
@@ -1582,8 +1585,8 @@ export default [
       }
     ],
     "damaged": {
-      "note": "1-7 wounds remaining",
-      "text": "While this model has 1-7 wounds remaining, subtract 5 from this model’s Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
+      "note": "1-9 wounds remaining",
+      "text": "While this model has 1-9 wounds remaining, subtract 5 from this model’s Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
     },
     "composition": [
       "1 Knight Rampager"
@@ -1641,7 +1644,7 @@ export default [
           "TORRENT"
         ],
         "range": "18\"",
-        "a": "2D6",
+        "a": "D6+6",
         "bs": "N/A",
         "s": "8",
         "ap": "-1",
@@ -1653,7 +1656,7 @@ export default [
           "BLAST"
         ],
         "range": "36\"",
-        "a": "2D6",
+        "a": "D6+6",
         "bs": "3+",
         "s": "8",
         "ap": "-2",
@@ -2352,11 +2355,11 @@ export default [
       {
         "name": "War Dog Moirax",
         "m": "12\"",
-        "t": "10",
+        "t": "9",
         "sv": "3+",
-        "w": "12",
+        "w": "14",
         "ld": "7+",
-        "oc": "8",
+        "oc": "6",
         "inv": "5+",
         "invNote": "* Against ranged attacks only"
       }
