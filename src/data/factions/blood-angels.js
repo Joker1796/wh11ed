@@ -38,7 +38,7 @@ const en = {
       rule: {
         name: "Legacy of the Angel",
         flavor: "Never do the Blood Angels stand taller or strive harder than when faced with seemingly impossible odds. At such times, the Sons of Sanguinius delve deep into their souls for preternatural reserves of determination, fury and focus. Sometimes, they even touch upon the uncertain gift of prophecy that was said to be their gene-sire’s boon and his curse.",
-        body: "At the start of the first battle round, select two of the Angelic Legacy abilities listed below. Until the end of the battle, those Angelic Legacy abilities are active and their effects apply to all ADEPTUS ASTARTES CHARACTER units from your army.\n\n**Sanguinary Grace:** This unit is eligible to shoot and declare a charge in a turn in which it Fell Back.\n\n**Carmine Wrath:** Each time a model in this unit makes an attack, re-roll a Hit roll of 1 and re-roll a Wound roll of 1.\n\n**Their Appointed Hour:** You can re-roll Advance and Charge rolls made for this unit.",
+        body: "At the start of the first battle round, select two of the Angelic Legacy abilities listed below. Until the end of the battle, those Angelic Legacy abilities are active and their effects apply to all ADEPTUS ASTARTES CHARACTER units from your army.\n\n**Sanguinary Grace:** This unit is eligible to shoot and declare a charge in a turn in which it Fell Back.\n\n**Carmine Wrath:** Each time a model in this unit makes an attack, re-roll a Hit roll of 1 and re-roll a Wound roll of 1.\n\n**Their Appointed Hour:** You can re-roll Advance and Charge rolls made for this unit.\n\n**Restrictions:** Your army can include BLOOD ANGELS units, but it cannot include ADEPTUS ASTARTES units drawn from any other Chapter.",
       },
       stratagems: [
         {
@@ -145,7 +145,7 @@ const en = {
       rule: {
         name: "Red Thirst",
         flavor: "Though they strive to restrain it, the murderous ferocity of the Blood Angels simmers beneath the surface of their thoughts. In battle, this rage drives them towards the foe and lends great strength to their blows.",
-        body: "Each time an ADEPTUS ASTARTES unit from your army is selected to fight, if that unit made a Charge move this turn, until the end of the phase, add 1 to the Attacks characteristic and add 2 to the Strength characteristic of melee weapons equipped by models in that unit.",
+        body: "Each time an ADEPTUS ASTARTES unit from your army is selected to fight, if that unit made a Charge move this turn, until the end of the phase, add 1 to the Attacks characteristic and add 2 to the Strength characteristic of melee weapons equipped by models in that unit.\n\n**Restrictions:** Your army can include BLOOD ANGELS units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
       },
       stratagems: [
         {
@@ -253,7 +253,7 @@ const en = {
       rule: {
         name: "Maddened Ferocity",
         flavor: "With every passing moment, every savage wounding and crunching blow, the Red Thirst takes a firmer grip upon the Blood Angels. As their control slips, so near-animalistic rage takes its place. The foe will not live long enough to regret their error in goading the beast which lurks within every gene-son of Sanguinius.",
-        body: "Each time an ADEPTUS ASTARTES model from your army makes a melee attack, re-roll a Wound roll of 1.\n\nEach time an ADEPTUS ASTARTES unit from your army is selected to fight, if that unit made a Charge move this turn, until the end of the phase, add 1 to the Attacks characteristic of melee weapons equipped by models in that unit. If your unit is Battle-shocked, add 2 to the Attacks characteristic of melee weapons equipped by models in that unit instead.",
+        body: "Each time an ADEPTUS ASTARTES model from your army makes a melee attack, re-roll a Wound roll of 1.\n\nEach time an ADEPTUS ASTARTES unit from your army is selected to fight, if that unit made a Charge move this turn, until the end of the phase, add 1 to the Attacks characteristic of melee weapons equipped by models in that unit. If your unit is Battle-shocked, add 2 to the Attacks characteristic of melee weapons equipped by models in that unit instead.\n\n**Restrictions:** Your army can include BLOOD ANGELS units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
       },
       stratagems: [
         {
@@ -361,7 +361,7 @@ const en = {
       rule: {
         name: "Upon Wings of Fire",
         flavor: "The Blood Angels soar high above the battlefield before plummeting to strike their foes with bone-shattering force. They are true masters of the war-torn skies.",
-        body: "At the end of your opponent's turn, you can select a number of ADEPTUS ASTARTES JUMP PACK units from your army (excluding units that are within Engagement Range of one or more enemy units). The maximum number of units you can select depends on the battle size, as follows:\n▪ **Incursion:** Up to 1 unit.\n▪ **Strike Force:** Up to 2 units.\n▪ **Onslaught:** Up to 3 units.\n\nOnce you have made your selections, place those units in Strategic Reserves. Those units must make an ingress move in your next Movement phase (including in your first turn).",
+        body: "At the end of your opponent's turn, you can select a number of ADEPTUS ASTARTES JUMP PACK units from your army (excluding units that are within Engagement Range of one or more enemy units). The maximum number of units you can select depends on the battle size, as follows:\n▪ **Incursion:** Up to 1 unit.\n▪ **Strike Force:** Up to 2 units.\n▪ **Onslaught:** Up to 3 units.\n\nOnce you have made your selections, place those units in Strategic Reserves. Those units must make an ingress move in your next Movement phase (including in your first turn).\n\n**Restrictions:** Your army can include BLOOD ANGELS units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
       },
       stratagems: [
         {
@@ -469,7 +469,7 @@ const en = {
       rule: {
         name: "A Noble Death in Combat",
         flavor: "For the lost brothers of the Death Company one final battle remains. The sacrifice of each fallen warrior inspires his surviving brothers to ever greater acts of savage violence.",
-        body: "Each time a DEATH COMPANY model from your army makes a melee attack, re-roll a Wound roll of 1 if that model’s unit is below its Starting Strength; if that model’s unit is Below Half-strength, you can re-roll the Wound roll instead.",
+        body: "Each time a DEATH COMPANY model from your army makes a melee attack, re-roll a Wound roll of 1 if that model’s unit is below its Starting Strength; if that model’s unit is Below Half-strength, you can re-roll the Wound roll instead.\n\n**Keywords:** If you select this Detachment, DEATH COMPANY MARINES and DEATH COMPANY MARINES WITH BOLT RIFLES units from your army have the BATTLELINE keyword.\n\n**Restrictions:** Your army can include BLOOD ANGELS units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
       },
       stratagems: [
         {
