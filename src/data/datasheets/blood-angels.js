@@ -418,7 +418,7 @@ export default [
     "loadout": "**This model is equipped with:** heavy bolt pistol; master-crafted chainsword.",
     "options": [
       "This model's heavy bolt pistol can be replaced with 1 inferno pistol.",
-      "This model’s master-crafted chainsword can be replaced with one of the following:\n▪ 1 relic weapon\n▪ 1 power fist"
+      "This model’s master-crafted chainsword can be replaced with one of the following:\n▪ 1 power fist\n▪ 1 relic weapon"
     ],
     "leader": {
       "text": "This model can be attached to the following units:",
@@ -635,7 +635,7 @@ export default [
     "composition": [
       "1 Commander Dante – EPIC HERO"
     ],
-    "loadout": "**This model is equipped with:** Perdition; the Axe Mortalis.",
+    "loadout": "**This model is equipped with:** Perdition Pistol; the Axe Mortalis.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
@@ -762,7 +762,7 @@ export default [
     "loadout": "**This model is equipped with:** heavy bolt pistol; master-crafted chainsword.",
     "options": [
       "This model’s heavy bolt pistol can be replaced with 1 inferno pistol.",
-      "This model’s master-crafted chainsword can be replaced with one of the following:\n▪ 1 relic weapon\n▪ 1 power fist"
+      "This model’s master-crafted chainsword can be replaced with one of the following:\n▪ 1 power fist\n▪ 1 relic weapon"
     ],
     "leader": {
       "text": "This model can be attached to the following units:",
@@ -912,7 +912,7 @@ export default [
     "loadout": "**This model is equipped with:** heavy bolt pistol; Astartes chainsword.",
     "options": [
       "This model’s heavy bolt pistol can be replaced with one of the following:\n▪ 1 plasma pistol\n▪ 1 hand flamer",
-      "This model’s Astartes chainsword can be replaced with one of the following:\n▪ 1 relic weapon\n▪ 1 power fist"
+      "This model’s Astartes chainsword can be replaced with one of the following:\n▪ 1 power fist\n▪ 1 relic weapon"
     ],
     "leader": {
       "text": "This model can be attached to the following units:",
@@ -1263,7 +1263,7 @@ export default [
     "loadout": "**Every model is equipped with:** heavy bolt pistol; Astartes chainsword.",
     "options": [
       "1 model's heavy bolt pistol can be replaced with one of the following:\n▪ 1 hand flamer\n▪ 1 inferno pistol\n▪ 1 plasma pistol",
-      "For every 5 models in this unit, 1 model's Astartes chainsword can be replaced with equipped with 1 eviscerator.",
+      "For every 5 models in this unit, 1 model's Astartes chainsword can be replaced with 1 eviscerator.",
       "1 model’s Astartes chainsword can be replaced with one of the following:\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer"
     ],
     "keywords": [
@@ -1343,7 +1343,7 @@ export default [
         "a": "1",
         "bs": "3+",
         "s": "9",
-        "ap": "-1",
+        "ap": "-2",
         "d": "D3"
       },
       {
@@ -1449,7 +1449,7 @@ export default [
           "SUSTAINED HITS 1"
         ],
         "a": "3",
-        "ws": "3+",
+        "ws": "4+",
         "s": "7",
         "ap": "-2",
         "d": "2"
@@ -1709,7 +1709,7 @@ export default [
     "rules": [
       {
         "name": "ATTACHED UNIT",
-        "text": "If a Chaplain model from your army with the Leader ability can be attached to Assault Intercessors with Jump Packs, it can be attached to this unit instead."
+        "text": "If a Chaplain model from your army with the Leader ability can be attached to an Assault Intercessors with Jump Packs unit, it can be attached to this unit instead."
       }
     ]
   },
