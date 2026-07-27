@@ -100,39 +100,63 @@ aeldari, astra-militarum, space-marines (обработать последним
     кого может брать союзником и по какому очковому порогу — таблицы `allied_faction`,
     `allied_faction_required_detachment`, `allied_faction_points_limit`,
     `allied_faction_parent_faction_keyword`, `allied_faction_keyword`), enhancement-attach/
-    bodyguard-группы (`enhancement_bodyguard_group`, `_datasheet`, `_keyword`), и часть keyword-
-    грантов сверх того, что уже попало в `conditionalKeywords.json` (`conditional_keyword.json`
-    сам по себе полнее, чем то немногое, что генератор `gen-conditional-keywords.mjs` из него
-    выбирает — см. его комментарий в CLAUDE.md: он берёт только roster-faction-keyword и
-    detachment-грант, пропуская per-unit allegiance-гранты). Общий метод: найти id сущности
-    (`factions/<slug>.json` даёт detachment/datasheet/enhancement id), затем грепать `tables/`
-    по этому id как FK (`detachmentId`, `enhancementId`, `datasheetId`), резолвить связанные id
-    через `keyword.json`/`faction_keyword.json`/`battle_size.json` и т.п.
-    **Прецедент (эта же правка, дважды исправленная в одном коммите):** сначала ошибочно удалил
-    Legions of Excess ally-текст в emperors-children "Daemonic Empowerment" и attach-фразу в
-    "Exalted Patron" как "неподтверждённые" (не нашёл в `factions/emperors-children.json`) — оба
-    оказались чётко подтверждены в `tables/`: Legions of Excess — через `allied_faction` (id
-    `e94941b5-...`) → `allied_faction_points_limit` (500/1000/1500 по `battleSizeId`) →
-    `allied_faction_parent_faction_keyword` → `faction_keyword.json` = "Legions of Excess";
-    Exalted Patron attach — через `enhancement_bodyguard_group` (`bodyguardType:'leader'`) →
-    `enhancement_bodyguard_group_datasheet` → datasheet id = "Flawless Blades". Оба возвращены.
-    Fulgrim "Serpentine" ability — проверил и `datasheet_datasheet_ability` join (все 5 abilities
-    датащита перечислены явно, Serpentine среди них нет) — этот кусок остался удалён, реально
-    нигде не найден. Единственное законное основание оставить контент без явного появления в
-    плоском `factions/<slug>.json` — либо corroboration САМИМ appdata (урок 3 — `type:'image'` в
-    том же месте; урок 10 — текст под отдельной карточкой того же JSON; урок 13 — найдено в
-    `tables/`), либо (в крайнем случае) дословное совпадение с ТОЛЬКО ЧТО скачанным (не
-    локальным!) официальным PDF — см. урок 14.
-14. **Если контент не находится ни в плоском JSON, ни в `tables/`, и вопрос достаточно важен
-    (например, правило легальности ростера) — можно скачать актуальный Faction Pack/Index/Codex
-    PDF прямо с `warhammer-community.com` (см. ссылки на странице `/en-gb/downloads/warhammer-40000/`,
-    искать через WebSearch по `<faction> Faction Pack pdf warhammer-community.com`, скачивать в
-    scratchpad через `curl`, читать `pdftotext -layout`) и свериться с ним напрямую.** Это НЕ то же
+    bodyguard-группы (`enhancement_bodyguard_group`, `_datasheet`, `_keyword`), roster-состав
+    ограничения по keyword (`restriction_group_detachment_limit` — `minRosterLimit`/
+    `maxRosterLimit` привязаны к `keyword_restriction_group`/`keyword_restriction_group_keyword`
+    — вот где живёт «армия должна включать 3+ юнита с keyword X»), датащит-исключения
+    (`detachment_excluded_datasheet` — «нельзя включать датащиты Y/Z»), и часть keyword-грантов
+    сверх того, что уже попало в `conditionalKeywords.json` (`conditional_keyword.json` сам по
+    себе полнее, чем то немногое, что генератор `gen-conditional-keywords.mjs` из него выбирает —
+    см. его комментарий в CLAUDE.md: он берёт только roster-faction-keyword и detachment-грант,
+    пропуская per-unit allegiance-гранты). Общий метод: найти id сущности (`factions/<slug>.json`
+    даёт detachment/datasheet/enhancement id), затем грепать `tables/` по этому id как FK
+    (`detachmentId`, `enhancementId`, `datasheetId`), резолвить связанные id через
+    `keyword.json`/`faction_keyword.json`/`battle_size.json` и т.п. **Не останавливаться на первой
+    непустой/пустой таблице** — сущность может быть размазана по нескольким таблицам сразу (см.
+    прецедент Houndpack Lance ниже, где я сначала проверил не ту таблицу и решил, что "не
+    нашлось").
+    **Прецедент (эта же правка, трижды уточнялась в одном коммите):**
+    - emperors-children: сначала ошибочно удалил Legions of Excess ally-текст в "Daemonic
+      Empowerment" и attach-фразу в "Exalted Patron" как "неподтверждённые" (не нашёл в
+      `factions/emperors-children.json`) — оба оказались чётко подтверждены в `tables/`: Legions
+      of Excess — через `allied_faction` (id `e94941b5-...`) → `allied_faction_points_limit`
+      (500/1000/1500 по `battleSizeId`) → `allied_faction_parent_faction_keyword` →
+      `faction_keyword.json` = "Legions of Excess"; Exalted Patron attach — через
+      `enhancement_bodyguard_group` (`bodyguardType:'leader'`) → `enhancement_bodyguard_group_datasheet`
+      → datasheet id = "Flawless Blades". Оба возвращены. Fulgrim "Serpentine" ability — проверил
+      и `datasheet_datasheet_ability` join (все 5 abilities датащита перечислены явно, Serpentine
+      среди них нет) — этот кусок остался удалён, реально нигде не найден.
+    - chaos-knights "Houndpack Lance" · KEYWORDS-блок (3+ War Dog юнита обязательны, они получают
+      Battleline; 3 выбранных получают Character) — Battleline-грант сразу нашёлся через
+      `conditional_keyword` (6 строк, `requiredDetachmentId` = Houndpack Lance, `keywordId` =
+      "Battleline"). Требование "3+ War Dog" **сначала не нашёл** (проверил только
+      `detachment_required_datasheet` — пусто) и чуть не оставил как "частично неподтверждённое";
+      при более внимательной проверке нашлась ЕЩЁ одна таблица —
+      `restriction_group_detachment_limit` (`minRosterLimit: 3`, `detachmentId` = Houndpack Lance)
+      → `keyword_restriction_group` → `keyword_restriction_group_keyword` = "War Dog". Весь блок
+      подтверждён appdata полностью, никакого внешнего источника не потребовалось.
+    Единственное законное основание оставить контент без явного появления в плоском
+    `factions/<slug>.json` — либо corroboration САМИМ appdata (урок 3 — `type:'image'` в том же
+    месте; урок 10 — текст под отдельной карточкой того же JSON; этот урок — найдено в `tables/`,
+    но проверить НЕСКОЛЬКО кандидатных таблиц, не одну), либо (в крайнем случае, когда appdata
+    правда молчит) дословное совпадение с ТОЛЬКО ЧТО скачанным (не локальным!) официальным PDF —
+    см. урок 14.
+14. **Если контент не находится ни в плоском JSON, ни в `tables/` (после честной попытки — см.
+    урок 13) — можно скачать актуальный Faction Pack/Index/Codex PDF прямо с
+    `warhammer-community.com`** (ссылки на странице `/en-gb/downloads/warhammer-40000/`, искать
+    через WebSearch по `<faction> Faction Pack pdf warhammer-community.com`, скачивать в
+    scratchpad через `curl`, читать `pdftotext -layout`) и свериться с ним напрямую. Это НЕ то же
     самое, что урок 12 (там — локальный, потенциально устаревший файл); свежая закачка с
     официального сайта — валидный источник, дополняющий appdata, а не заменяющий его как канон.
-    Прецедент: deathwatch "Black Spear Task Force" · Mission Tactics `Restrictions:` блок — не
-    нашёлся ни в `factions/deathwatch.json`, ни очевидным образом в `tables/`, но дословно совпал
-    со свежескачанным `eng_08-06_..._faction_pack_deathwatch...pdf` — оставлен без изменений.
+    Прецедент: deathwatch "Black Spear Task Force" · Mission Tactics `Restrictions:` блок —
+    appdata подтверждает ЧАСТЬ структурно (`detachment_excluded_datasheet`: 9 исключённых
+    датащитов — 5 резолвятся в Tactical/Terminator/Devastator/Scout Squad + Terminator Assault
+    Squad, ещё 4 в `agents-of-the-imperium.json` = Watch Master/Watch Captain Artemis/Corvus
+    Blackstar/Deathwatch Kill Team, т.е. структурная реализация "нельзя Agents of the Imperium
+    Deathwatch юниты"), но не всё (моно-Chapter ограничение и ~7 других запрещённых юнитов —
+    Assault Squad, Attack Bike Squad, Land Speeder Storm и т.д. — в appdata не нашлись вообще);
+    дословно совпал со свежескачанным `eng_08-06_..._faction_pack_deathwatch...pdf` — оставлен без
+    изменений.
 
 ## Что делать дальше
 
