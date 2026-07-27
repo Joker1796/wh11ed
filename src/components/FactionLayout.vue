@@ -60,10 +60,12 @@ import { factionIndexBySlug } from '../data/factionsIndex.js'
 import { useFactionPage } from '../composables/useFactionPage.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
+import { scrollToTop } from '../composables/useBackToTop.js'
+import { useContributeMobileActions } from '../composables/useMobileActionBar.js'
 
 // hero=false hides the whole faction header (name + "All factions" + mobile tabs) —
 // used by the per-unit datasheet page for a clean, chrome-free sheet.
-defineProps({ hero: { type: Boolean, default: true } })
+const props = defineProps({ hero: { type: Boolean, default: true } })
 
 const route = useRoute()
 const { slug, faction } = useFactionPage()
@@ -97,13 +99,6 @@ const isTabActive = (t) => route.path === t.path || (t.prefix && route.path.star
 // minus the active one, in their original order) — one tap to any other page, no cycling.
 const otherTabs = computed(() => tabs.value.filter((t) => !isTabActive(t)))
 
-// Back-to-top FAB: honour prefers-reduced-motion (the app zeroes all CSS motion there,
-// so a smooth JS scroll would be the odd one out).
-const scrollToTop = () => {
-  const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-  window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' })
-}
-
 // Show the FAB only while the hero tabs are scrolled out of view — with them on
 // screen it would just duplicate what's already in front of the user.
 const tabsEl = ref(null)
@@ -117,6 +112,14 @@ watch(tabsEl, (el) => {
   tabsObserver.observe(el)
 })
 onBeforeUnmount(() => tabsObserver?.disconnect())
+
+// Mobile equivalent of the desktop FAB column above: contribute the same "other tabs" links to
+// the shared MobileUtilityBar (App.vue) whenever the hero tabs are scrolled out of view.
+useContributeMobileActions('faction-tabs', () =>
+  faction.value && props.hero && !tabsInView.value
+    ? otherTabs.value.map((t) => ({ key: t.path, to: t.path, icon: t.icon, label: t.label }))
+    : [],
+)
 </script>
 
 <style scoped>
@@ -242,7 +245,7 @@ onBeforeUnmount(() => tabsObserver?.disconnect())
   position: fixed;
   right: 1.5rem;
   bottom: 1.5rem;
-  z-index: 195; /* below drawer-overlay (299) and modals (400–500), same tier as ResumeGameButton */
+  z-index: 195; /* below drawer-overlay (299) and modals (400–500), same tier as MobileUtilityBar */
   flex-direction: column;
   gap: 0.75rem;
 }

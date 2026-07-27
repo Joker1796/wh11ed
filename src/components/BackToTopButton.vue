@@ -17,38 +17,15 @@
 </template>
 
 <script setup>
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { computed } from 'vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
+import { useBackToTop } from '../composables/useBackToTop.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
-// Show once the reader is roughly a screen down. rAF-throttled so the scroll handler never
-// does layout work per event.
-const visible = ref(false)
-let ticking = false
-const onScroll = () => {
-  if (ticking) return
-  ticking = true
-  requestAnimationFrame(() => {
-    visible.value = window.scrollY > 500
-    ticking = false
-  })
-}
-
-const scrollToTop = () => {
-  // Honour prefers-reduced-motion (the app zeroes all CSS motion there, so a smooth JS
-  // scroll would be the odd one out).
-  const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-  window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' })
-}
-
-onMounted(() => {
-  window.addEventListener('scroll', onScroll, { passive: true })
-  onScroll()
-})
-onUnmounted(() => window.removeEventListener('scroll', onScroll))
+const { visible, scrollToTop } = useBackToTop()
 </script>
 
 <style scoped>
@@ -57,7 +34,7 @@ onUnmounted(() => window.removeEventListener('scroll', onScroll))
   position: fixed;
   right: 1.5rem;
   bottom: 1.5rem;
-  z-index: 195; /* same tier as ResumeGameButton / the faction FABs */
+  z-index: 195; /* same tier as MobileUtilityBar / the faction FABs */
 }
 
 @media (min-width: 901px) {
