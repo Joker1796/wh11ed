@@ -153,7 +153,7 @@ Until the end of the phase, each time a model from your army in a Guided unit ma
       rule: {
         name: "Hunter’s Instincts & Skirmish Fighters",
         flavor: "The Kroot naturally predate upon weakened foes, drawn by the scent of spilled blood and viscera.",
-        body: "### Hunter’s Instincts\nEach time a Kroot model from your army makes an attack, add 1 to the [gloss:hit-roll:Hit roll] if the target of that attack is [gloss:below-starting-strength:below its Starting Strength], and add 1 to the [gloss:wound-roll:Wound roll] as well if the target of that attack is [gloss:half-strength:Below Half-strength].\n\n### Skirmish Fighters\nKroot models from your army have a 6+ [gloss:invulnerable-save:invulnerable save] against [gloss:melee-attacks:melee attacks] and a 5+ invulnerable save against [gloss:ranged-attacks:ranged attacks].\n\n### KEYWORDS\nIf you select this [gloss:detachments:Detachment], Kroot Carnivore units from your army have the Battleline [gloss:keywords:keyword].",
+        body: "### Hunter’s Instincts\nEach time a Kroot model from your army makes an attack, add 1 to the [gloss:hit-roll:Hit roll] if the target of that attack is [gloss:below-starting-strength:below its Starting Strength], and add 1 to the [gloss:wound-roll:Wound roll] as well if the target of that attack is [gloss:half-strength:Below Half-strength].\n\n### Skirmish Fighters\nKroot models from your army have a 6+ [gloss:invulnerable-save:invulnerable save] against [gloss:melee-attacks:melee attacks] and a 5+ invulnerable save against [gloss:ranged-attacks:ranged attacks].",
       },
       stratagems: [
         {
