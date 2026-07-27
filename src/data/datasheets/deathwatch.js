@@ -100,7 +100,7 @@ export default [
     "profiles": [
       {
         "name": "Corvus Blackstar",
-        "m": "20+\"",
+        "m": "14\"",
         "t": "10",
         "sv": "3+",
         "w": "14",
@@ -494,7 +494,7 @@ export default [
         "tags": [
           "ASSAULT"
         ],
-        "range": "24\"",
+        "range": "18\"",
         "a": "2",
         "bs": "3+",
         "s": "4",
@@ -627,9 +627,9 @@ export default [
     ],
     "loadout": "**Every model is equipped with:** boltgun; power weapon.",
     "options": [
-      "For every 5 models in this unit, up to 2 models can each have their boltgun and power weapon replaced with one of the following:\n▪ 1 boltgun, 1 Astartes shield and 1 close combat weapon\n▪ 1 power weapon and 1 Astartes shield",
+      "For every 5 models in this unit, up to 2 models can each have their boltgun and power weapon replaced with one of the following:\n▪ 1 boltgun and 1 Astartes shield\n▪ 1 power weapon and 1 Astartes shield",
       "For every 5 models in this unit, up to 2 models can each have their boltgun and power weapon replaced with 1 Deathwatch thunder hammer.",
-      "For every 5 models in this unit, 1 model can have its boltgun and power weapon replaced with 1 stalker-pattern boltgun and 1 close combat weapon.",
+      "For every 5 models in this unit, 1 model can have their boltgun and power weapon replaced with 1 stalker-pattern boltgun and 1 close combat weapon.",
       "For every 5 models in this unit, up to 2 models can each have their boltgun and power weapon replaced with 1 Deathwatch shotgun and 1 close combat weapon.",
       "For every 5 models in this unit, 1 model can have its boltgun and power weapon replaced with 1 frag cannon and 1 close combat weapon.",
       "For every 5 models in this unit, 1 model can have its boltgun and power weapon replaced with 1 infernus heavy bolter and 1 close combat weapon.",
@@ -653,7 +653,7 @@ export default [
     "rules": [
       {
         "name": "ATTACHED UNIT",
-        "text": "If a Character from your army with the Leader ability can be attached to a Sternguard Veteran Squad, it can be attached to this unit instead."
+        "text": "If a Character unit from your army with the Leader ability can be attached to a Sternguard Veteran Squad, it can be attached to this unit instead."
       }
     ]
   },
@@ -954,7 +954,7 @@ export default [
       "2 Gravis Veterans",
       "7 Deathwatch Veterans"
     ],
-    "loadout": "**The Kill Team Sergeant is equipped with:** plasma pistol; power weapon.\n\n**Each Gravis Veteran is equipped with:** infernus heavy bolter; bolt pistol; close combat weapon.\n\n**For every 5 models in the unit, 1 Deathwatch Veteran is equipped with:** stalker bolt rifle; bolt pistol; close combat weapon.\n\n**For every 5 models in the unit, 1 Deathwatch Veteran is equipped with:** bolt pistol; heavy thunder hammer.\n\n**For every 5 models in the unit, 1 Deathwatch Veteran is equipped with:** Deathwatch marksman bolt carbine; special-issue bolt pistol; close combat weapon.\n\n**If the unit contains 10 models, 1 Deathwatch Veteran is equipped with:** special-issue bolt pistol; xenophase blade.",
+    "loadout": "**Each Kill Team Sergeant is equipped with:** plasma pistol; power weapon.\n\n**Each Gravis Veteran is equipped with:** infernus heavy bolter; bolt pistol; close combat weapon.\n\n**For every 5 models in the unit, 1 Deathwatch Veteran is equipped with:** stalker bolt rifle; bolt pistol; close combat weapon.\n\n**For every 5 models in the unit, 1 Deathwatch Veteran is equipped with:** bolt pistol; heavy thunder hammer.\n\n**For every 5 models in the unit, 1 Deathwatch Veteran is equipped with:** Deathwatch marksman bolt carbine; special-issue bolt pistol; close combat weapon.\n\n**If the unit contains 10 models, 1 Deathwatch Veteran is equipped with:** special-issue bolt pistol; xenophase blade.",
     "options": [
       "For every 5 models in the unit, up to 1 model’s infernus heavy bolter can be replaced with one of the following:\n▪ 1 frag cannon.\n▪ 1 hellstorm bolt rifle and 1 Astartes grenade launcher.",
       "For every 5 models in the unit, up to 1 model’s heavy thunder hammer can be replaced with 1 power weapon and 1 Astartes shield.",
@@ -978,7 +978,7 @@ export default [
     "rules": [
       {
         "name": "ATTACHED UNIT",
-        "text": "If a Character from your army with the Leader ability can be attached to an Intercessor Squad, it can be attached to this unit instead."
+        "text": "If a Character unit from your army can be attached to a Fortis Kill Team unit, it can be attached to this unit instead."
       }
     ]
   },
@@ -1703,7 +1703,7 @@ export default [
       "Adeptus Astartes",
       "Deathwatch"
     ],
-    "baseSize": "32mm",
+    "baseSize": "32mm / 40mm",
     "rules": [
       {
         "name": "ATTACHED UNIT",
