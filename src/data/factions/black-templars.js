@@ -74,7 +74,7 @@ If this unit has the Infantry keyword:
         name: 'Righteous Fervour',
         flavor:
           "With their zealous hatred stoked red-hot by furious sermons and inflammatory prayers, Companions of Vehemence are filled with a wrathful vigour. Only the deaths of the God-Emperor's enemies can assuage their fury, and they will let nothing delay them from unleashing it.",
-        body: `You can [gloss:re-roll:re-roll] [gloss:advance-roll:Advance] and [gloss:charge-roll:Charge rolls] made for Adeptus Astartes units from your army.${chapterLock}`,
+        body: `You can [gloss:re-roll:re-roll] [gloss:advance-roll:Advance] and [gloss:charge-roll:Charge rolls] made for Adeptus Astartes units from your army.`,
       },
       stratagems: [
         {
@@ -185,7 +185,7 @@ If this unit has the Infantry keyword:
           "As the battle-brothers of a Vindication Task Force purge the Emperor's domain in fire and blood, they see their holy quest as recovering Humanity's rightful dominion. They scour the stain of the unclean, topple false idols, breach strongholds of unholy faith and plant the crusades' standards in their place, branding such sites with the sacred icons of their brotherhood.",
         // Faction-Pack Rules Update rewrote the second bullet point.
         body: `▪ Each time an attack targets an Ancient unit from your army, if that unit is within range of one or more [gloss:objective-marker:objective markers] and the [gloss:strength:Strength] characteristic of that attack is greater than the [gloss:toughness:Toughness] characteristic of that unit, subtract 1 from the [gloss:wound-roll:Wound roll].
-▪ Each time a [gloss:friendly:friendly] Crusader Squad unit makes a [gloss:surge-move:surge move], instead of selecting a [gloss:surge-target:surge target], you can select the closest [gloss:objective:objective] to that unit. When that unit makes that surge move, each model in that unit must end that surge move as close as possible to that objective instead.${chapterLock}`,
+▪ Each time a [gloss:friendly:friendly] Crusader Squad unit makes a [gloss:surge-move:surge move], instead of selecting a [gloss:surge-target:surge target], you can select the closest [gloss:objective:objective] to that unit. When that unit makes that surge move, each model in that unit must end that surge move as close as possible to that objective instead.`,
       },
       stratagems: [
         {
@@ -294,7 +294,7 @@ If this unit has the Infantry keyword:
         flavor:
           "An armoured assault by the crusaders of the Emperor is terrifying to behold. The doomed enemy are pummelled by heavy weapons fire and deafened by the roar of engine spirits in the moments before the strike falls, their comrades crushed by heavy treads. When the assault ramps slam down and the Black Templars storm forth, what little cohesion their foes retain melts away before the crusaders' holy wrath.",
         body: `▪ Each time an Adeptus Astartes unit from your army [gloss:declare-charge:declares a charge], if it [gloss:disembark:disembarked] from a [gloss:transport:Transport] this turn, after selecting the targets of that charge, select one of those targets; that enemy unit must take a [gloss:battle-shock-test:Battle-shock test].
-▪ Each time a model in an Adeptus Astartes unit from your army makes a [gloss:melee-attacks:melee attack], if it disembarked from a Transport this turn, add 1 to the [gloss:hit-roll:Hit roll].${chapterLock}`,
+▪ Each time a model in an Adeptus Astartes unit from your army makes a [gloss:melee-attacks:melee attack], if it disembarked from a Transport this turn, add 1 to the [gloss:hit-roll:Hit roll].`,
       },
       stratagems: [
         {
@@ -468,7 +468,9 @@ If this unit has the Infantry keyword:
         name: 'Anointed Champion',
         flavor:
           "The warrior anointed as Emperor's Champion by a crusade's Chaplains is marked as such by the divine omens which assail him. With these visions as a guide, and having devoted what remains of his existence to the rigorous perfection of the blade, the Emperor's Champion becomes a force of righteous and unerring destruction.",
-        body: `▪ When a [gloss:friendly:friendly] Emperor's Champion unit is [gloss:selected-to-fight:selected to fight], that model's [gloss:melee-attacks:melee attacks] can [gloss:re-roll:re-roll] one [gloss:hit-roll:Hit roll] and re-roll one [gloss:wound-roll:Wound roll].
+        body: `▪ When a [gloss:friendly:friendly] Emperor's Champion unit is [gloss:selected-to-fight:selected to fight], that model's [gloss:melee-attacks:melee attacks] can:
+▪ Re-roll one [gloss:hit-roll:Hit roll].
+▪ Re-roll one [gloss:wound-roll:Wound roll].
 ▪ [gloss:enhancement:Enhancements] selected from this detachment do not count towards the total number of enhancements in your army.${chapterLock}`,
       },
       stratagems: [],
