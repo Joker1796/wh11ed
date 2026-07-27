@@ -55,6 +55,13 @@ function plainText(s) {
   return t
 }
 
+// Count how many of `wordSet` appear in `plain` — used to rank many-to-one text-block candidates
+// (wargear options vs appdata's wargearRules) by similarity before the best-effort match in
+// syncFaction()'s datasheet loop, so a no-exact-match fallback diff shows the closest block.
+function overlap(plain, wordSet) {
+  return plain.split(' ').filter((w) => wordSet.has(w)).length
+}
+
 // Compact word-level diff: trim the common leading/trailing words and show only the divergent
 // middle of each side, so an errata edit stands out instead of reprinting the whole paragraph.
 function wordDiff(whPlain, appPlain) {
@@ -169,6 +176,75 @@ async function syncFaction(slug) {
       const a = appAbilityByName.get(norm(ab.name))
       if (!a) continue
       compare(out, `datasheet "${d.name}" · ability "${ab.name}"`, ab.text, [a.rules])
+    }
+
+    // wargearAbilities — a wargear item's own passive rule text (e.g. Storm Shield's invulnerable
+    // save grant) lives on appdata's wargear[].ruleText, not in abilities[].
+    const appWgByName = byNormName(appDs.wargear || [], (w) => w.name)
+    for (const wa of d.wargearAbilities || []) {
+      const w = appWgByName.get(norm(wa.name))
+      if (!w?.ruleText) continue
+      compare(out, `datasheet "${d.name}" · wargear ability "${wa.name}"`, wa.text, [w.ruleText])
+    }
+
+    // rules[] (BODYGUARD/ATTACHED UNIT/etc structural plates) — appdata buckets these, PLUS the
+    // prose form of Leader/Support and a vehicle's Transport capacity, under one generic named
+    // `rules[]` list (see sync-appdata.mjs's structural leader/bodyguard-units diff for the
+    // separate, id-independent cross-check of the unit list itself).
+    const appRulesByName = byNormName(appDs.rules || [], (r) => r.name)
+    for (const r of d.rules || []) {
+      const a = appRulesByName.get(norm(r.name))
+      if (!a) continue
+      compare(out, `datasheet "${d.name}" · rule "${r.name}"`, r.text, [a.rules])
+    }
+    if (d.leader?.text) {
+      // appdata's "Leader"/"Support" rules[] entry is ONE combined text (intro sentence + the
+      // full bulleted unit list + any footer) — wh11ed splits that same content across
+      // leader.text/leader.units[]/leader.footer. The unit LIST itself is already diffed
+      // order-independently in sync-appdata.mjs (a set compare, immune to each side's own
+      // ordering); comparing it again here as flat prose would flag every reordering as a false
+      // "differs" (this file's compare() is word-order sensitive, meant for paragraphs, not
+      // enumerable lists) — so strip appdata's bullet lines and compare only the intro/footer
+      // prose against wh11ed's own intro/footer.
+      const whLeaderProse = [d.leader.text, d.leader.footer || ''].filter(Boolean).join('\n')
+      const stripUnitBullets = (s) => (s || '').split('\n').filter((l) => !/^[▪■•]/.test(l.trim())).join('\n')
+      const cands = [appRulesByName.get('leader'), appRulesByName.get('support')].filter(Boolean).map((r) => stripUnitBullets(r.rules))
+      if (cands.length) compare(out, `datasheet "${d.name}" · leader`, whLeaderProse, cands)
+    }
+    if (d.transport) {
+      const t = appRulesByName.get('transport')
+      if (t) compare(out, `datasheet "${d.name}" · transport`, d.transport, [t.rules])
+    }
+
+    // damaged — the wounds-threshold band. appdata may carry more than one damageAbility entry
+    // (multi-threshold superheavies); no drift is reported if wh11ed's text matches ANY of them.
+    if (d.damaged?.text) {
+      const cands = (appDs.damageAbility || []).map((r) => r.rules).filter(Boolean)
+      if (cands.length) compare(out, `datasheet "${d.name}" · damaged`, d.damaged.text, cands)
+    }
+
+    // composition + loadout vs appdata's single unitComposition string — reconstruct wh11ed's
+    // side in the same bullet-list-then-prose shape so plainText() sees comparable text.
+    if ((d.composition?.length || d.loadout) && appDs.unitComposition) {
+      const whComp = [...(d.composition || []).map((c) => `▪ ${c}`), d.loadout || ''].filter(Boolean).join('\n')
+      compare(out, `datasheet "${d.name}" · composition`, whComp, [appDs.unitComposition])
+    }
+
+    // options vs wargearRules — both are independent "replace X with Y" blocks with no guaranteed
+    // 1:1 order/count between sides, so this is a best-effort many-to-one match: for each wh11ed
+    // option, no drift is reported if it matches ANY appdata wargearRules entry (compare()'s usual
+    // "matches ANY candidate" rule); candidates are pre-sorted by word overlap with the option so
+    // that when nothing matches exactly, the word-diff shown is against the closest block, not an
+    // arbitrary one. This won't catch a wh11ed option block missing entirely (nothing to anchor
+    // the comparison to) or a whole appdata block wh11ed never picked up — a known heuristic gap,
+    // likely to need tuning once run against real data.
+    const wgRulesTexts = (appDs.wargearRules || []).map((r) => r.rules).filter(Boolean)
+    if (wgRulesTexts.length) {
+      for (const opt of d.options || []) {
+        const optWords = new Set(plainText(opt).split(' '))
+        const ranked = [...wgRulesTexts].sort((a, b) => overlap(plainText(appMarkup(b)), optWords) - overlap(plainText(appMarkup(a)), optWords))
+        compare(out, `datasheet "${d.name}" · wargear option`, opt, ranked)
+      }
     }
   }
 
