@@ -20,12 +20,23 @@
     <p v-else class="fsoon">{{ labels.factionsSoon }}</p>
 
     <!-- Desktop-only floating controls, bottom-right, shown only while the hero tabs are
-         scrolled out of view (>900px has no bottom nav). Stacked in a column: a "back to
-         top" button on top, and below it a button cycling to the next tab (Rules → Units →
-         FAQ, named by its tooltip) — switching pages without scrolling back up. Hidden on
-         the per-unit page (hero=false) — the top subnav with the same links stays visible
-         there (see App.vue isFactionUnitPage). -->
+         scrolled out of view (>900px has no bottom nav). Stacked in a column: a button for
+         each of the two OTHER tabs (jump straight to either without cycling), then a "back
+         to top" button at the bottom. Hidden on the per-unit page (hero=false) — the top
+         subnav with the same links stays visible there (see App.vue isFactionUnitPage). -->
     <div v-if="faction && hero" class="faction-fabs">
+      <TransitionGroup v-if="!tabsInView" name="fab">
+        <RouterLink
+          v-for="t in otherTabs"
+          :key="t.path"
+          :to="t.path"
+          class="fab-btn"
+          :title="t.label"
+          :aria-label="t.label"
+        >
+          <i :class="t.icon"></i>
+        </RouterLink>
+      </TransitionGroup>
       <Transition name="fab">
         <button
           v-if="!tabsInView"
@@ -38,17 +49,6 @@
           <i class="bi bi-arrow-up"></i>
         </button>
       </Transition>
-      <Transition name="fab">
-        <RouterLink
-          v-if="nextTab && !tabsInView"
-          :to="nextTab.path"
-          class="fab-btn"
-          :title="nextTab.label"
-          :aria-label="nextTab.label"
-        >
-          <i :class="nextTab.icon"></i>
-        </RouterLink>
-      </Transition>
     </div>
   </div>
 </template>
@@ -60,10 +60,12 @@ import { factionIndexBySlug } from '../data/factionsIndex.js'
 import { useFactionPage } from '../composables/useFactionPage.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
+import { scrollToTop } from '../composables/useBackToTop.js'
+import { useContributeMobileActions } from '../composables/useMobileActionBar.js'
 
 // hero=false hides the whole faction header (name + "All factions" + mobile tabs) —
 // used by the per-unit datasheet page for a clean, chrome-free sheet.
-defineProps({ hero: { type: Boolean, default: true } })
+const props = defineProps({ hero: { type: Boolean, default: true } })
 
 const route = useRoute()
 const { slug, faction } = useFactionPage()
@@ -93,20 +95,9 @@ const tabs = computed(() => {
 
 const isTabActive = (t) => route.path === t.path || (t.prefix && route.path.startsWith(t.path + '/'))
 
-// The tab FAB cycles to the NEXT tab (Rules → Units → FAQ → Rules) so it stays unambiguous
-// with three tabs.
-const nextTab = computed(() => {
-  const i = tabs.value.findIndex(isTabActive)
-  if (i === -1) return null
-  return tabs.value[(i + 1) % tabs.value.length]
-})
-
-// Back-to-top FAB: honour prefers-reduced-motion (the app zeroes all CSS motion there,
-// so a smooth JS scroll would be the odd one out).
-const scrollToTop = () => {
-  const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
-  window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' })
-}
+// The tab FABs jump straight to either of the two tabs NOT currently open (Rules/Units/FAQ
+// minus the active one, in their original order) — one tap to any other page, no cycling.
+const otherTabs = computed(() => tabs.value.filter((t) => !isTabActive(t)))
 
 // Show the FAB only while the hero tabs are scrolled out of view — with them on
 // screen it would just duplicate what's already in front of the user.
@@ -121,6 +112,14 @@ watch(tabsEl, (el) => {
   tabsObserver.observe(el)
 })
 onBeforeUnmount(() => tabsObserver?.disconnect())
+
+// Mobile equivalent of the desktop FAB column above: contribute the same "other tabs" links to
+// the shared MobileUtilityBar (App.vue) whenever the hero tabs are scrolled out of view.
+useContributeMobileActions('faction-tabs', () =>
+  faction.value && props.hero && !tabsInView.value
+    ? otherTabs.value.map((t) => ({ key: t.path, to: t.path, icon: t.icon, label: t.label }))
+    : [],
+)
 </script>
 
 <style scoped>
@@ -239,14 +238,14 @@ onBeforeUnmount(() => tabsObserver?.disconnect())
 
 /* Floating controls column — hidden by default, shown only >900px (the exact inverse of
    App.vue's bottom-nav breakpoint). Fixed in the bottom-right corner; sits inside
-   .faction-view.themed so the FABs pick up the faction accent. Stacks the back-to-top
-   button above the tab-jump FAB; both names ride in the native title tooltip. */
+   .faction-view.themed so the FABs pick up the faction accent. Stacks the two tab-jump
+   FABs above the back-to-top button; all names ride in the native title tooltip. */
 .faction-fabs {
   display: none;
   position: fixed;
   right: 1.5rem;
   bottom: 1.5rem;
-  z-index: 195; /* below drawer-overlay (299) and modals (400–500), same tier as ResumeGameButton */
+  z-index: 195; /* below drawer-overlay (299) and modals (400–500), same tier as MobileUtilityBar */
   flex-direction: column;
   gap: 0.75rem;
 }

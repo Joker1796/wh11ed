@@ -96,7 +96,7 @@ watch(status, (s) => {
 /* On mobile the fixed bottom-nav (~4.5rem) is shown — lift the toast above it. */
 @media (max-width: 900px) {
   .warmup-toast {
-    bottom: calc(5.25rem + var(--safe-bottom, 0px) + var(--resume-bar-h, 0px));
+    bottom: calc(5.25rem + var(--safe-bottom, 0px) + var(--mobile-bar-h, 0px));
   }
 }
 </style>

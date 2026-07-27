@@ -17,6 +17,18 @@
 
 export const changelog = [
   {
+    version: '2.1.6',
+    date: '2026-07-27',
+    en: [
+      'On a faction page, the floating buttons (desktop) and the new floating bar above the bottom navigation (mobile) now jump straight to either other tab (Rules/Units/FAQ) instead of cycling through them one at a time.',
+      'Mobile gained its own version of those floating buttons — a back-to-top button, plus a compact "To game" button whenever a game is in progress — all shown together above the bottom navigation only when relevant, so they never get in the way of reading.',
+    ],
+    ru: [
+      'На странице фракции плавающие кнопки (десктоп) и новая плавающая панель над нижней навигацией (мобильные) теперь ведут сразу на нужный таб (Правила/Юниты/FAQ), а не переключают их по кругу.',
+      'На мобильных появился свой аналог этих кнопок — кнопка «наверх», а также компактная кнопка «К партии», когда партия активна — все они показываются над нижней навигацией только когда это уместно, не мешая чтению.',
+    ],
+  },
+  {
     version: '2.1.5',
     date: '2026-07-27',
     en: [
