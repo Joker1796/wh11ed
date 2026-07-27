@@ -139,6 +139,12 @@ const TYPE_GROUPS = [
   { key: 'battleline', kw: 'Battleline',          label: 'dsGroupBattleline' },
   { key: 'transport',  kw: 'Dedicated Transport', label: 'dsGroupTransports' },
   { key: 'fortification', kw: 'Fortification',    label: 'dsGroupFortifications' },
+  // Split out of "Other" — these two Unit Type keywords alone cover 82% of what used to
+  // land there (Vehicle 229, Infantry 195 across all factions' datasheets); the remaining
+  // Unit Types (Monster/Aircraft/Mounted/Beast) are each too small to earn their own
+  // section and stay lumped into "Other" below.
+  { key: 'vehicle',    kw: 'Vehicle',             label: 'dsGroupVehicles' },
+  { key: 'infantry',   kw: 'Infantry',            label: 'dsGroupInfantry' },
   { key: 'other',      kw: null,                  label: 'dsGroupOther' },
 ]
 
