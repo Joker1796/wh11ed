@@ -356,9 +356,41 @@ death-guard, grey-knights, world-eaters).
 
 **Группа B — остальные, по одной, от большей к меньшей:** ~~astra-militarum (10999)~~,
 ~~aeldari (8838)~~, ~~orks (6507)~~, ~~tau-empire (5213)~~, ~~chaos-daemons (5205)~~,
-~~necrons (4833)~~ **шесть закрыты**, next → **tyranids (4508)**, дальше adepta-sororitas
-(4478), imperial-agents (4220), adeptus-mechanicus (3865), imperial-knights (3287),
+~~necrons (4833)~~, ~~tyranids (4508)~~ **семь закрыты**, next → **adepta-sororitas (4478)**,
+дальше imperial-agents (4220), adeptus-mechanicus (3865), imperial-knights (3287),
 adeptus-custodes (3244).
+
+tyranids: appdata = `tyranids`. Harridan M "20+\""→"14\"" — реальный баг: в отличие от Hive
+Crone (у неё есть ключевое слово Aircraft, appdata честно даёт "-" для M/OC — конвенция
+20+"/минимальный ход применима), у Harridan НЕТ ключевого слова Aircraft (Fly/Monster/
+Titanic/Transport), а appdata даёт конкретное однозначное число 14" — то есть это не
+экстракшн-пробел, а настоящий copy-paste баг (как Valkyrie в astra-militarum ранее). Hive
+Crone OC 0→"-" (тот же паттерн, что 4 самолёта Tau). Genestealers: оружие "Genestealer claws
+and talons"→"Genestealers claws and talons" (appdata даёт множественное число в структурном
+`wargear[].name`, при этом её же собственный prose `unitComposition` пишет единственное —
+классическое appdata-самопротиворечие, урок 1: верить структурному полю). Neurogaunts
+baseSize "25mm"→"25mm / 28.5mm" (Neurogaunt Nodebeast крупнее). Mucolid Spores/Spore Mines —
+тот же паттерн empty-placeholder-оружия (`ranged:[]`). The Red Terror: пустое имя профиля ""→
+"The Red Terror" (реальный баг); способность "Serpentine Fiend" появдата не знает вообще —
+контент внутренне непротиворечив (терраформ-механика в тему флейвора burrowing-твари),
+оставлено как appdata-пробел. Крупных текстовых дрейфов не найдено — почти весь repoted diff
+оказался знакомым шумом: army rule "Synapse & Shadow in the Warp" честно объединяет appdata'шные
+ДВА отдельных armyRules с одинаковыми именами-дублями (уже знакомый паттерн: appdata дублирует
+имена армии-правил, но здесь действительно 2 РАЗНЫХ по контенту правила, слитых в одну карточку
+— урок 10); "Vanguard Onslaught" · "Questing Tendrils" аналогично объединяет "Questing Tendrils"
++ "Vanguard Prime" (Deathleaper) — 2 appdata rule-объекта под одной карточкой, контент 1:1;
+"Subterranean Assault" · "Surprise Assault" несёт доп. "### Keywords" (Burrower для Mawloc/
+Trygon + опция Character для 2 Trygon) — appdata не даёт эту часть в prose `rules[]`, НО
+Burrower-грант подтверждён отдельно в `conditionalKeywords.json` (сгенерирован из структурной
+`conditional_keyword` таблицы) — контент реальный, просто appdata не помещает его в тот же
+текстовый блок (урок 8b); "Parasitic Payload" стратагем — appdata пишет "[IGNORE COVER]"
+(единственное число), но wh11ed's `reference.js`/`coreAbilities` канонически используют
+"[IGNORES COVER]" (множественное, с этим именем работает KeywordPopover) — appdata здесь
+просто непоследовательна с собственной остальной книгой, трогать нельзя, сломает попап; Hive
+Tyrant wargear-опция — список+сноска слиты appdata в одну строку, wh11ed разбивает на два
+`options[]` элемента (уже известный false-positive паттерн). The Swarmlord composition "1
+Swarmlord"→"1 The Swarmlord" (сам датащит называется "The Swarmlord", реальная мелкая правка).
+`npm test` — 207/207 чисто с первого раза.
 
 necrons: appdata = `necrons`. Canoptek Reanimator Ld 7+→8+ (стат-дрейф). Chronomancer:
 оружие называлось "Aeonstave" (выдуманное/устаревшее имя) — appdata однозначно даёт
