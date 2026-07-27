@@ -86,7 +86,6 @@ export default [
       "Fly"
     ],
     "factionKeywords": [
-      "",
       "World Eaters"
     ],
     "baseSize": "100mm",
@@ -159,7 +158,7 @@ export default [
         "d": "2"
       },
       {
-        "name": "Bladed horn",
+        "name": "Juggernaut’s bladed horn",
         "tags": [
           "EXTRA ATTACKS",
           "LANCE"
@@ -193,7 +192,7 @@ export default [
       "1 Bloodhunter",
       "2-5 Bloodcrushers"
     ],
-    "loadout": "**Every model is equipped with:** hellblade; bladed horn.",
+    "loadout": "**Every model is equipped with:** hellblade; Juggernaut’s bladed horn.",
     "options": [
       "1 Bloodcrusher that is not equipped with a daemonic icon can be equipped with 1 instrument of Chaos.",
       "1 Bloodcrusher that is not equipped with an instrument of Chaos can be equipped with 1 daemonic icon."
@@ -207,7 +206,6 @@ export default [
       "Bloodcrushers"
     ],
     "factionKeywords": [
-      "",
       "Blood Legions"
     ],
     "baseSize": "90x52.5mm Oval Base"
@@ -282,7 +280,6 @@ export default [
       "Bloodletters"
     ],
     "factionKeywords": [
-      "",
       "Blood Legions"
     ],
     "baseSize": "32mm"
@@ -424,7 +421,6 @@ export default [
       "Bloodthirster"
     ],
     "factionKeywords": [
-      "",
       "Blood Legions"
     ],
     "baseSize": "120x92mm Oval Base"
@@ -564,7 +560,6 @@ export default [
       "Frame"
     ],
     "factionKeywords": [
-      "",
       "World Eaters"
     ],
     "baseSize": "Hull"
@@ -713,8 +708,7 @@ export default [
       "Frame"
     ],
     "factionKeywords": [
-      "World Eaters",
-      ""
+      "World Eaters"
     ],
     "baseSize": "Hull"
   },
@@ -861,7 +855,6 @@ export default [
       "Frame"
     ],
     "factionKeywords": [
-      "",
       "World Eaters"
     ],
     "baseSize": "Hull"
@@ -949,7 +942,7 @@ export default [
     "composition": [
       "1 Chaos Rhino"
     ],
-    "loadout": "**This model is equipped with:** 1 combi-bolter; armoured tracks.",
+    "loadout": "**This model is equipped with:** combi-bolter; armoured tracks.",
     "options": [
       "This model can be equipped with one of the following:\n▪ 1 additional combi-bolter\n▪ 1 combi-weapon",
       "This model can be equipped with 1 havoc launcher or can replace 1 combi-bolter with 1 havoc launcher."
@@ -966,8 +959,7 @@ export default [
       "Frame"
     ],
     "factionKeywords": [
-      "World Eaters",
-      ""
+      "World Eaters"
     ],
     "baseSize": "Hull"
   },
@@ -1022,8 +1014,7 @@ export default [
       "Beast"
     ],
     "factionKeywords": [
-      "World Eaters",
-      ""
+      "World Eaters"
     ],
     "baseSize": "50mm"
   },
@@ -1190,8 +1181,7 @@ export default [
       "Infantry"
     ],
     "factionKeywords": [
-      "World Eaters",
-      ""
+      "World Eaters"
     ],
     "baseSize": "40mm"
   },
@@ -1280,7 +1270,6 @@ export default [
       "Daemon"
     ],
     "factionKeywords": [
-      "",
       "World Eaters"
     ],
     "baseSize": "60mm"
@@ -1367,8 +1356,7 @@ export default [
       "Chaos"
     ],
     "factionKeywords": [
-      "World Eaters",
-      ""
+      "World Eaters"
     ],
     "baseSize": "60mm"
   },
@@ -1472,7 +1460,7 @@ export default [
         "range": "48\"",
         "a": "2",
         "bs": "4+",
-        "s": "10",
+        "s": "12",
         "ap": "-2",
         "d": "D6+1"
       },
@@ -1584,8 +1572,7 @@ export default [
       "Vehicle"
     ],
     "factionKeywords": [
-      "World Eaters",
-      ""
+      "World Eaters"
     ],
     "baseSize": "160mm"
   },
@@ -1660,7 +1647,6 @@ export default [
       "Infantry"
     ],
     "factionKeywords": [
-      "",
       "World Eaters"
     ],
     "baseSize": "40mm"
@@ -1739,7 +1725,6 @@ export default [
       "Possessed"
     ],
     "factionKeywords": [
-      "",
       "World Eaters"
     ],
     "baseSize": "40mm"
@@ -1827,7 +1812,6 @@ export default [
       "Beast"
     ],
     "factionKeywords": [
-      "",
       "Blood Legions"
     ],
     "baseSize": "60x35.5mm Oval Base"
@@ -1936,7 +1920,6 @@ export default [
       "Vehicle"
     ],
     "factionKeywords": [
-      "",
       "World Eaters"
     ],
     "baseSize": "120x92mm Oval Base"
@@ -2036,7 +2019,6 @@ export default [
       "Infantry"
     ],
     "factionKeywords": [
-      "",
       "World Eaters"
     ],
     "baseSize": "32mm"
@@ -2248,7 +2230,6 @@ export default [
       "Khorne"
     ],
     "factionKeywords": [
-      "",
       "World Eaters"
     ],
     "baseSize": "60mm"
@@ -2329,7 +2310,7 @@ export default [
       "text": "While this model has 1-4 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
     },
     "composition": [
-      "1 Heldrake"
+      "1 Chaos Heldrake"
     ],
     "loadout": "**This model is equipped with:** Hades autocannon; Heldrake claws.",
     "options": [
@@ -2344,7 +2325,6 @@ export default [
       "Chaos"
     ],
     "factionKeywords": [
-      "",
       "World Eaters"
     ],
     "baseSize": "120x92mm Oval Base"
@@ -2458,10 +2438,9 @@ export default [
       "Grenades"
     ],
     "factionKeywords": [
-      "World Eaters",
-      ""
+      "World Eaters"
     ],
-    "baseSize": "28.5mm"
+    "baseSize": "28.5mm / 40mm"
   },
   {
     "id": "kh-rn-the-betrayer",
@@ -2559,8 +2538,7 @@ export default [
       "Character"
     ],
     "factionKeywords": [
-      "World Eaters",
-      ""
+      "World Eaters"
     ],
     "baseSize": "40mm"
   },
@@ -2681,8 +2659,7 @@ export default [
       "Battleline"
     ],
     "factionKeywords": [
-      "World Eaters",
-      ""
+      "World Eaters"
     ],
     "baseSize": "32mm"
   },
@@ -2835,8 +2812,7 @@ export default [
       "Frame"
     ],
     "factionKeywords": [
-      "World Eaters",
-      ""
+      "World Eaters"
     ],
     "baseSize": "Hull"
   },
@@ -2934,8 +2910,7 @@ export default [
       "Khorne"
     ],
     "factionKeywords": [
-      "World Eaters",
-      ""
+      "World Eaters"
     ],
     "baseSize": "90x52.5mm Oval Base"
   },
@@ -3024,7 +2999,7 @@ export default [
       }
     ],
     "composition": [
-      "1 Lord on Juggernaut"
+      "1 World Eaters Lord on Juggernaut"
     ],
     "loadout": "**This model is equipped with:** plasma pistol; exalted chainblade; bladed horn.",
     "leader": {
@@ -3043,7 +3018,6 @@ export default [
       "Mounted"
     ],
     "factionKeywords": [
-      "",
       "World Eaters"
     ],
     "baseSize": "90x52.5mm Oval Base"
@@ -3127,8 +3101,7 @@ export default [
       "Master of Executions"
     ],
     "factionKeywords": [
-      "World Eaters",
-      ""
+      "World Eaters"
     ],
     "baseSize": "40mm"
   },
@@ -3229,8 +3202,7 @@ export default [
       "Walker"
     ],
     "factionKeywords": [
-      "World Eaters",
-      ""
+      "World Eaters"
     ],
     "baseSize": "120x92mm Oval Base"
   },
@@ -3305,7 +3277,7 @@ export default [
     ],
     "damaged": {
       "note": "1-7 wounds remaining",
-      "text": "While this model has 1-7 wounds remaining, add 2 to the Attacks characteristic of this model’s melee weapons."
+      "text": "While this model has 1-7 wounds remaining, add 2 to the Attacks characteristic of this model’s Slaughter and Carnage."
     },
     "composition": [
       "1 Skarbrand – EPIC HERO"
@@ -3322,7 +3294,6 @@ export default [
       "Monster"
     ],
     "factionKeywords": [
-      "",
       "Blood Legions"
     ],
     "baseSize": "100mm"
@@ -3399,7 +3370,6 @@ export default [
       "Character"
     ],
     "factionKeywords": [
-      "",
       "World Eaters"
     ],
     "baseSize": "50mm"
