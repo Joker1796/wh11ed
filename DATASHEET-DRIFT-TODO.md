@@ -356,8 +356,8 @@ death-guard, grey-knights, world-eaters).
 
 **Группа B — остальные, по одной, от большей к меньшей:** ~~astra-militarum (10999)~~,
 ~~aeldari (8838)~~, ~~orks (6507)~~, ~~tau-empire (5213)~~, ~~chaos-daemons (5205)~~,
-~~necrons (4833)~~, ~~tyranids (4508)~~, ~~adepta-sororitas (4478)~~ **восемь закрыты**,
-next → **imperial-agents (4220)**, дальше adeptus-mechanicus (3865), imperial-knights (3287),
+~~necrons (4833)~~, ~~tyranids (4508)~~, ~~adepta-sororitas (4478)~~, ~~imperial-agents (4220)~~
+**девять закрыты**, next → **adeptus-mechanicus (3865)**, дальше imperial-knights (3287),
 adeptus-custodes (3244).
 
 tyranids: appdata = `tyranids`. Harridan M "20+\""→"14\"" — реальный баг: в отличие от Hive
@@ -494,6 +494,50 @@ Repentia Squad, то есть без этого гранта усиление ф
 Оба трактованы как appdata-пробелы (структурный экспорт просто не долетел до этих кусков), а не
 как дрейф wh11ed — как и necrons "Cosmic Distortion" в прошлом цикле. `npm test` — 207/207
 чисто с первого раза.
+
+imperial-agents: appdata = `agents-of-the-imperium`. Тот же "Crusaders"-паттерн повторился —
+**мёртвая ссылка на несуществующий юнит** в `leader.units[]`: Watch Captain Artemis и Watch
+Master оба несли "Deathwatch Terminator Squad", "Fortis Kill Team", "Indomitor Kill Team",
+"Spectrus Kill Team" — appdata знает только "Aquila Kill Team"/"Deathwatch Kill Team" для этих
+лидеров, и ни один из 4 лишних юнитов не существует как собственный датащит в этом же файле —
+удалены у обоих персонажей. Corvus Blackstar — лишнее ключевое слово `Frame` (аппдата не даёт;
+в отличие от гусеничных Rhino/Chimera/Immolator того же файла, у которых Frame подтверждён —
+Blackstar на оval-базе, не подходит под 17.02). Sisters of Battle Immolator — само-ссылочное
+ключевое слово `"Immolator"` → `"Sisters of Battle Immolator"` (полное имя датащита, тот же
+паттерн, что Tormentbringer в chaos-daemons); заодно `composition` несла ту же усечённую форму
+"1 Immolator" → "1 Sisters of Battle Immolator". Grey Knights Terminator Squad: Psilencer — не
+хватало тега `PRECISION` (сверено с "родным" профилем Psilencer в `grey-knights.js` — там тег
+есть); `composition` "Grey Knights Terminators" → "Grey Knight Terminators" (appdata даёт
+единственное число прилагательного); wargear-опция несла лишний "For every 5 models in this
+unit," префикс для юнита с фиксированным составом в 5 моделей без масштабирования (appdata его
+не даёт вообще) — убран. Ministorum Priest (тот же самый баг, что в adepta-sororitas, но задел
+другой файл) — нет, не подтвердилось здесь. Аквила Килл-Тим "The Kill Team Sergeant" → "Each
+Kill Team Sergeant" (appdata последовательно даёт "each" для всех ролей лоадаута, даже
+count-1). Inquisitor "Blessed Wardings" (wargearAbility) — "this model"/"have the" → "the
+bearer"/"have a" (сверено с соседней записью "Psychic Gifts" той же датащит-секции — там уже
+"the bearer"). Inquisitor Draxus composition "1 Inquisitor Draxus" → "1 Lord Inquisitor Kyria
+Draxus" (полный титул по appdata, тот же паттерн что The Swarmlord/Silent King ранее).
+Inquisitor Greyfax loadout — опечатка "master-crafter power sword" → "master-crafted power
+sword" (сверено с именем самого оружейного профиля на этом же датащите). Inquisitorial Agents
+— опечатка "The some model" → "The same model" (footnote). Inquisitorial Chimera — сноска
+"*This weapon cannot be replaced." была отдельным элементом `options[]`, оторванным от своего
+referent (multi-laser опции) — слита в тот же пункт, откуда и растёт `*`. Exaction Squad —
+"their Arbites combat shotgun" → "shotguns" (appdata даёт множественное число для этого
+конкретного юнита; проверено, что у почти идентичного Vigilant Squad appdata сама даёт
+единственное число — то есть это не общий шаблонный баг, а точечное отличие двух почти
+одинаковых юнитов в самой книге). Точки (Callidus/Culexus/Vindicare Assassin "points differ")
+— вне контракта, не тронуты. baseSize compound-формат (Exaction/Subductor/Vigilant Squad,
+Imperial Navy Breachers, Inquisitorial Agents) и identical-stat merged-profile (Aquila Kill
+Team, Rogue Trader Entourage) — оба уже известных ложных срабатывания, подтверждены и не
+тронуты. Крупная находка — **detachment "Veiled Blade Elimination Force" · rule "Extremis
+Sanction"**: тело правила обрывалось на "...you cannot include that unit in your army" и
+целиком отсутствовал раздел "Extremis Abilities" — 4 именованные способности для конкретных
+моделей Officio Assassinorum (Callidus/Culexus/Eversor/Vindicare Assassin), включая механику
+[ANTI-MONSTER 4+]/[ANTI-VEHICLE 4+] у Vindicare. Раздел добавлен целиком (EN+RU) по appdata
+(с исправлением appdata-опечатки "utilisevat-grown" → "utilise vat-grown", урок 2). Две мелкие
+appdata-опечатки НЕ тронуты: army rule "Assigned Agents"/"Deathwatch Mission Tactics" (та же
+lore-inline-merge ложная тревога, что уже видели у Penitent Host), stratagem target "INQUISTOR"
+(опечатка appdata, у wh11ed уже верно "INQUISITOR"). `npm test` — 207/207 чисто с первого раза.
 
 **Группа B — остальные, разбирать ПОСЛЕ группы A, по одной, от большей к меньшей:**
 astra-militarum (10999), aeldari (8838), orks (6507), tau-empire (5213), chaos-daemons (5205),
