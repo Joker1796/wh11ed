@@ -21,14 +21,48 @@
 - После фиксов — прогнать оба скрипта повторно (убедиться, что остался только известный шум),
   `npm run build`, закоммитить (`git add -A -- <явные пути>`, не бланково).
 
-## Прогресс (20 фракций закрыты — группа A ПОЛНОСТЬЮ ЗАКРЫТА, группа B в процессе)
+## Прогресс (21 фракция закрыта — группа A ПОЛНОСТЬЮ ЗАКРЫТА, группа B в процессе)
 
 ✅ leagues-of-votann, dark-angels, blood-angels, deathwatch, genestealer-cults, black-templars,
 space-wolves, titan-legions, chaos-knights, emperors-children, drukhari, space-marines,
 chaos-space-marines, thousand-sons, death-guard, grey-knights, world-eaters, astra-militarum,
-aeldari, orks — все закоммичены (см. `git log feat/datasheet-drift-fixes`). chaos-titan-legions
-тоже **проверена и чиста** (без коммита — дрейфа не найдено). **Группа A («SM-семья») полностью
-закрыта.**
+aeldari, orks, tau-empire — все закоммичены (см. `git log feat/datasheet-drift-fixes`).
+chaos-titan-legions тоже **проверена и чиста** (без коммита — дрейфа не найдено). **Группа A
+(«SM-семья») полностью закрыта.**
+
+tau-empire (appdata source: `tau-empire.json`): выявлен новый систематический класс
+ложных срабатываний — **урок 18**: дроны (`Gun Drone`/`Missile Drone`/`Recon Drone`/`MV15 Gun
+Drone`) в appdata — это wargear-контейнеры, чьё "имя" никогда не совпадает с именем оружия,
+которое они дают (`Gun Drone` даёт `Twin pulse carbine`, `Missile Drone` — `Missile pod`, `MV15
+Gun Drone` — `Twin pulse blaster`); sync-скрипт сравнивает по буквальному имени контейнера и
+поэтому вечно кричит "missing: Gun Drone" даже когда `Twin pulse carbine` уже заведён правильно.
+Реальных находок тоже было много: (1) **11 юнитов не имели оружия дрона вообще** (Breacher
+Team, Cadre Fireblade, Commander in Coldstar/Enforcer Battlesuit, Crisis Fireknife/Starscythe/
+Sunforge Battlesuits, Ethereal, Pathfinder Team, Stealth Battlesuits, Strike Team) — добавлен
+`Twin pulse carbine` (A2/BS5+/S5/AP0/D1/ASSAULT+TWIN-LINKED, единый профиль для всех) +
+`Missile pod` Broadside/Riptide Battlesuits — оба тоже отсутствовали, хотя упомянуты в options;
+(2) Riptide Battlesuit "Ion accelerator – supercharge" на самом деле "overcharge" (appdata
+использует другое слово специально для Tau ion-оружия, стата совпадала 1-в-1, ошибалось только
+имя); (3) **транспортный M/OC мистери**: 4 самолёта (AX-1-0/обычный Tiger Shark, Razorshark
+Strike Fighter, Sun Shark Bomber) показывают appdata M="-" — учитывая, что это боевые
+штурмовики, которым в принципе нужно двигаться, и что OC="-" для НИХ ЖЕ appdata подтверждает
+осмысленно (соответствует прецеденту Valkyrie у astra-militarum), решили: OC 0→"-" внести
+(реальное значение), а M оставить `20+"` (правдоподобный minimum-move для тяжёлых летунов,
+appdata тут скорее всего потеряла значение при экстракции — то же самое видели у Thunderhawk).
+Manta — другое дело: appdata даёт РЕАЛЬНОЕ число `40"` (не "-"), доверились, M 20+"→40", OC
+0→"-"; (4) Krootox Rampagers — "Close combat weapon"/"Krootox fists" → "Hunting blades"/"Rampager
+fists" (сам loadout-текст УЖЕ называл их правильно, ошибались только имена профилей оружия); (5)
+Ta'unar Supremacy Armour — "Super-heavy Walker" была задвоена: и в `core` (appdata подтверждает
+type:'core'), и отдельной способностью с текстом — убрали дубль (EN+RU); (6) три
+пустышки-оружия с пустым именем (Tidewall Shieldline — тот же паттерн, что Drop Pod/Aegis
+Defence Line/Cyclops Demolition Vehicle у других фракций), удалены; (7) по мелочи — Firesight
+Team designer's note называл модель "Farsight Marksman" вместо "Firesight Marksman" (спутали с
+известным персонажем Commander Farsight); Kroot Carnivores/War Shaper — по одной опечатке
+("The 1 Long-quill", "tri-bade"); Kroot Carnivores/Tau'nar — не хватало стандартной клаузы
+"Leader units become separate units if Bodyguard destroyed"; Stealth Battlesuits "Homing Beacon"
+9"→8". Убран 1 чистый KEYWORDS-дубль (Kroot Hunting Pack, подтверждён в
+conditionalKeywords.json). Kroot Farstalkers merged-profile и куча wargear-option list-split —
+известные ложные срабатывания, не тронуты.
 
 orks: большой разнообразный список. Реальные находки: (1) **Boyz** — в опциях полностью
 отсутствовал вариант "Boss Nob может заменить big choppa на big choppa+kustom shoota ИЛИ
@@ -321,9 +355,10 @@ Prince" (слипшийся `**PACT POINTSBONUS1+**...` без переносо�
 death-guard, grey-knights, world-eaters).
 
 **Группа B — остальные, по одной, от большей к меньшей:** ~~astra-militarum (10999)~~,
-~~aeldari (8838)~~, ~~orks (6507)~~ **все три закрыты**, next → **tau-empire (5213)**, дальше
-chaos-daemons (5205), necrons (4833), tyranids (4508), adepta-sororitas (4478), imperial-agents
-(4220), adeptus-mechanicus (3865), imperial-knights (3287), adeptus-custodes (3244).
+~~aeldari (8838)~~, ~~orks (6507)~~, ~~tau-empire (5213)~~ **все четыре закрыты**, next →
+**chaos-daemons (5205)**, дальше necrons (4833), tyranids (4508), adepta-sororitas (4478),
+imperial-agents (4220), adeptus-mechanicus (3865), imperial-knights (3287), adeptus-custodes
+(3244).
 
 **Группа B — остальные, разбирать ПОСЛЕ группы A, по одной, от большей к меньшей:**
 astra-militarum (10999), aeldari (8838), orks (6507), tau-empire (5213), chaos-daemons (5205),
@@ -503,6 +538,18 @@ drukhari (2973) уже закрыта (взята 2026-07-27 до переигр
     заполнила поле), тут другая природа пробела — источник целиком не охватывает фракцию-союзника.
     Проверить `ls wh40k-appdata/factions/` на будущее, если сомнение — есть ли у этой
     фракции-союзника вообще свой файл, прежде чем удалять что-то похожее.
+
+18. **Wargear-«контейнеры», чьё собственное имя НИКОГДА не совпадает с именем оружия, которое они
+    дают — sync-appdata.mjs вечно репортит их как ложную пару extra/missing.** Прецедент: tau-empire
+    дроны — `Gun Drone` (имя wargear-итема) даёт оружие `Twin pulse carbine` (совсем другое имя),
+    `Missile Drone` → `Missile pod`, `Recon Drone` → `Drone burst cannon`, `MV15 Gun Drone` →
+    `Twin pulse blaster`. appdata хранит это как `wargear[].ruleText: "The bearer is equipped with
+    the following ranged weapon:"` + вложенный `profiles[]` с другим именем. Скрипт сравнивает по
+    буквальному верхнеуровневому имени контейнера, поэтому даже когда всё заведено правильно (по
+    имени вложенного профиля), он будет вечно кричать "missing: Gun Drone" / "extra: Twin pulse
+    carbine". Проверять вручную: если у юнита в `options[]` упомянут дрон, а в `ranged[]` есть
+    похожее по статам оружие под другим именем — сверять через `ds.wargear.find(w=>w.name==="Gun
+    Drone").profiles` в appdata, не доверять голому имени в диффе.
 
 ## Что делать дальше
 
