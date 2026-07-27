@@ -21,13 +21,52 @@
 - После фиксов — прогнать оба скрипта повторно (убедиться, что остался только известный шум),
   `npm run build`, закоммитить (`git add -A -- <явные пути>`, не бланково).
 
-## Прогресс (17 фракций закрыты — группа A ПОЛНОСТЬЮ ЗАКРЫТА)
+## Прогресс (18 фракций закрыты — группа A ПОЛНОСТЬЮ ЗАКРЫТА, группа B начата)
 
 ✅ leagues-of-votann, dark-angels, blood-angels, deathwatch, genestealer-cults, black-templars,
 space-wolves, titan-legions, chaos-knights, emperors-children, drukhari, space-marines,
-chaos-space-marines, thousand-sons, death-guard, grey-knights, world-eaters — все закоммичены (см.
-`git log feat/datasheet-drift-fixes`). chaos-titan-legions тоже **проверена и чиста** (без коммита
-— дрейфа не найдено). **Группа A («SM-семья») полностью закрыта, дальше — группа B (см. ниже).**
+chaos-space-marines, thousand-sons, death-guard, grey-knights, world-eaters, astra-militarum —
+все закоммичены (см. `git log feat/datasheet-drift-fixes`). chaos-titan-legions тоже **проверена
+и чиста** (без коммита — дрейфа не найдено). **Группа A («SM-семья») полностью закрыта.**
+
+astra-militarum (самая большая в группе B, ~11k строк): много находок, самая крупная категория —
+**4 пехотных полка (Cadian Shock Troops, Catachan Jungle Fighters, Death Korps Of Krieg,
+Tempestus Scions) потеряли одну и ту же клаузу** в конце описания attach-механики Command Squad:
+"...If it does, and this Bodyguard unit is destroyed, the Leader units attached to it become
+separate units, with their original Starting Strengths" — дописано во всех четырёх (общая RU
+константа `TWO_LEADERS_NOTE` тоже обновлена один раз). Точечные находки: (1) Aegis Defence
+Line/Cyclops Demolition Vehicle — пустышки-оружия с пустым именем (как Drop Pod у space-marines),
+удалены; (2) Attilan Rough Riders baseSize `60x35.5mm`→`60x35mm` (Death Riders' собственные
+`60x35.5mm` — другой, действительно больший размер базы, appdata подтверждает разными числами
+для двух юнитов, не трогали); (3) Cadian Castellan Close combat weapon WS `4+`→`3+`; (4) Death
+Riders "Steed's savage claws"→"Savage claws" (у appdata и по стату полностью совпадает); (5)
+Kasrkin — Bolt pistol/оба профиля Plasma pistol BS `4+`→`3+` (втроём), плюс не хватало whole
+melee-профиля "Power weapon" (уже упомянут в options, но не заведён как оружие) — добавлен; (6)
+Leman Russ Commander и Rogal Dorn Commander — не хватало Plasma cannon (оба профиля)/Meltagun
+соответственно, тоже уже упомянутых в options, но не заведённых как оружие; (7) **Ratlings
+baseSize** — как Jakhals у world-eaters: один плоский `25mm`, хотя Tankstopper-Rifle-вариант
+отдельно 28.5mm — переписано в `25mm / 28.5mm`; (8) Valkyrie M/OC — `20+"`/`0` оказались один в
+один статами **Avenger Strike Fighter** того же файла (перепроверено по appdata — Avenger
+Strike Fighter ДЕЙСТВИТЕЛЬНО 20+"/OC0, а вот Valkyrie сама по appdata 14"/OC"-") — похоже на
+скопированный по ошибке шаблон другого летуна, поправлено на 14"/"-"; (9) по мелочи —
+"Cadian Castellan can issue 2 Orders" → "can issue **up to** 2 Orders" (все 7 других officer-юнитов
+файла используют "up to N", это единственное исключение оказалось опечаткой); "1 Ibram Gaunt"
+потерял суффикс "– EPIC HERO" в Gaunt's Ghosts; "1 Rogal Dorn Tank Commander" → "1 Rogal Dorn
+Commander" (лишнее "Tank"); Death Korps Of Krieg — 3 опции были в активном залоге ("can each
+replace their X with Y"), а весь остальной файл (20 других мест) — в пассивном ("can each have
+their X replaced with Y") — унифицировано; Catachan Command Squad — два пункта потеряли "1 "
+перед "Veteran Guardsman" (EN+RU). Проверено и НЕ тронуто: Voice of Command / Armoured Infantry
+"Squadron Command" / Siege Regiment / Steel Hammer — все KEYWORDS-хвосты либо `type:'image'`-таблицы
+(урок 3), либо conditional-грант с исключениями по статам/произвольным выбором юнита, который
+`gen-conditional-keywords.mjs` в принципе не умеет генерировать (per-unit choice, см. его
+комментарий в CLAUDE.md) — не дубли, оставлены; Abhuman Auxiliaries "Exemplar of Duty"
+(→Ogryn/Bullgryn Squad) — attach подтверждён через `enhancement_bodyguard_group` (урок 13);
+множество "wargear option"/"composition" diff'ов — знакомый список+сноска-одной-строкой
+(Chimera/Kasrkin/Militarum Tempestus Command Squad/Death Korps/Tempestus Scions — весь контент
+на месте); "coaxial"/"co axial"/"co-axial" (Baneblade/Rogal Dorn Battle Tank) и "Militarum
+multi-laser" (Valkyrie composition prose vs собственный же плоский wargear appdata, где просто
+"Multi-laser") — оба случая appdata сама себе противоречит, доверились структуре/собственной
+внутренней консистентности wh11ed.
 
 world-eaters: структурно был почти чист, зато нашёлся **реальный content-гэп на уровне
 данных**: 30 записей стрей-бага в `factionKeywords[]` по всему файлу — пустая строка `""` рядом
@@ -213,10 +252,13 @@ Prince" (слипшийся `**PACT POINTSBONUS1+**...` без переносо�
 **Остались 19 фракций.** Разбиты на две группы, порядок между группами уточнён 2026-07-27
 (переиграно в тот же день — сначала SM-семья, потом остальное по убыванию объёма):
 
-**Группа A — «SM-семья»** — ~~space-marines~~, ~~chaos-space-marines~~, ~~thousand-sons~~,
-~~death-guard~~, ~~grey-knights~~, ~~world-eaters~~ — **ВСЯ ГРУППА ЗАКРЫТА.** Дальше — только
-группа B, по одной, от большей к меньшей (следующая по плану — **astra-militarum**, 10999 строк,
-самая большая в группе B).
+**Группа A — «SM-семья»** — вся закрыта (space-marines, chaos-space-marines, thousand-sons,
+death-guard, grey-knights, world-eaters).
+
+**Группа B — остальные, по одной, от большей к меньшей:** ~~astra-militarum (10999)~~
+**закрыта**, next → **aeldari (8838)**, дальше orks (6507), tau-empire (5213), chaos-daemons
+(5205), necrons (4833), tyranids (4508), adepta-sororitas (4478), imperial-agents (4220),
+adeptus-mechanicus (3865), imperial-knights (3287), adeptus-custodes (3244).
 
 **Группа B — остальные, разбирать ПОСЛЕ группы A, по одной, от большей к меньшей:**
 astra-militarum (10999), aeldari (8838), orks (6507), tau-empire (5213), chaos-daemons (5205),
