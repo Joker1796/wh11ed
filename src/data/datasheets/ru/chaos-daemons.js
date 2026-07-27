@@ -45,7 +45,7 @@ export default {
       'The Dark Master (Aura)':
         'Участок поля боя в пределах 6" от этой модели находится в Shadow of Chaos вашей армии.',
       'Shadow Form Abilities':
-        'В начале раунда боя выберите одну способность Shadow Form (см. ниже). До конца раунда боя эта модель имеет эту способность.',
+        'В начале раунда боя выберите одну способность Shadow Form. До конца раунда боя эта модель имеет эту способность.',
     },
     special: {
       'Wreathed in Shadows (Aura, Psychic)':
@@ -57,7 +57,7 @@ export default {
     },
     loadout: `${EQUIP_THIS} Betraying Shades; the Blade of Shadows.`,
     options: ['Нет.'],
-    damaged: { note: 'осталось 1–6 ран', text: dmgHitMinus('1–6') },
+    damaged: { note: 'осталось 1–7 ран', text: dmgHitMinus('1–7') },
   },
 
   'beasts-of-nurgle': {

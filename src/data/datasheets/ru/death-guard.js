@@ -97,7 +97,7 @@ export default {
     },
     loadout: `${EQUIP_THIS} predator autocannon; armoured tracks.`,
     options: [
-      'Эту модель можно снабдить одним из следующего:\n▪ 2 heavy bolters\n▪ 2 lascannons',
+      'Эту модель можно снабдить одним из следующего:\n▪ 2 lascannons\n▪ 2 heavy bolters',
       'Эту модель можно снабдить одним из следующего:\n▪ 1 combi-bolter\n▪ 1 combi-weapon',
       'Эту модель можно снабдить 1 havoc launcher.',
     ],

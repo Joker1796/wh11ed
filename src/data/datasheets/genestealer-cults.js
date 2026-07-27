@@ -62,7 +62,7 @@ export default [
       "1 Aberrant Hypermorph",
       "4-9 Aberrants"
     ],
-    "loadout": "**Every Aberrant is equipped with:** Aberrant weapons.",
+    "loadout": "**Every model is equipped with:** Aberrant weapons.",
     "keywords": [
       "Aberrants",
       "Infantry",
@@ -627,7 +627,7 @@ export default [
         "w": "2",
         "ld": "7+",
         "oc": "1",
-        "baseSize": "60x35.5mm Oval Base"
+        "baseSize": "60x35.5mm"
       },
       {
         "name": "ATALAN WOLFQUAD",
@@ -1343,7 +1343,7 @@ export default [
     ],
     "melee": [
       {
-        "name": "Leader’s bio-weapons",
+        "name": "Leader’s cult weapons",
         "tags": [],
         "a": "5",
         "ws": "3+",
@@ -1388,7 +1388,7 @@ export default [
       "1 Metamorph Leader",
       "4-9 Hybrid Metamorphs"
     ],
-    "loadout": "**The Metamorph Leader is equipped with:** autopistol; Leader’s bio-weapons.\n\n**Every Hybrid Metamorph is equipped with:** autopistol; Metamorph mutations.",
+    "loadout": "**The Metamorph Leader is equipped with:** autopistol; Leader’s cult weapons.\n\n**Every Hybrid Metamorph is equipped with:** autopistol; Metamorph mutations.",
     "options": [
       "Any number of models can each have their autopistol replaced with 1 hand flamer.",
       "One Hybrid Metamorph’s autopistol can be replaced with 1 cult icon."
@@ -1676,7 +1676,7 @@ export default [
     ],
     "melee": [
       {
-        "name": "Magus stave",
+        "name": "Force stave",
         "tags": [
           "PSYCHIC"
         ],
@@ -1705,7 +1705,7 @@ export default [
     "composition": [
       "1 Magus"
     ],
-    "loadout": "**This model is equipped with:** autopistol; Magus stave.",
+    "loadout": "**This model is equipped with:** autopistol; Force stave.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
@@ -1940,7 +1940,7 @@ export default [
     "factionKeywords": [
       "Genestealer Cults"
     ],
-    "baseSize": "25mm"
+    "baseSize": "25mm / 32mm"
   },
   {
     "id": "nexos",

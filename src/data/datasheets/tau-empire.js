@@ -26,7 +26,7 @@ export default [
         "sv": "3+",
         "w": "18",
         "ld": "7+",
-        "oc": "0",
+        "oc": "-",
         "inv": "5+"
       }
     ],
@@ -123,7 +123,7 @@ export default [
       "text": "While this model has 1-6 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
     },
     "composition": [
-      "1 AX-1-0 Tiger Shark"
+      "1 Tiger Shark"
     ],
     "loadout": "**This model is equipped with:** 2 burst cannons; 2 missile pods; twin heavy rail cannon; armoured hull.",
     "options": [
@@ -163,6 +163,19 @@ export default [
       }
     ],
     "ranged": [
+      {
+        "name": "Twin pulse carbine",
+        "tags": [
+          "ASSAULT",
+          "TWIN-LINKED"
+        ],
+        "range": "20\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
       {
         "name": "Pulse blaster",
         "tags": [
@@ -306,6 +319,29 @@ export default [
         "d": "D6+1"
       },
       {
+        "name": "Missile pod",
+        "tags": [],
+        "range": "30\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "7",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Twin pulse carbine",
+        "tags": [
+          "ASSAULT",
+          "TWIN-LINKED"
+        ],
+        "range": "20\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
         "name": "High-yield missile pods",
         "tags": [
           "TWIN-LINKED"
@@ -423,6 +459,19 @@ export default [
       }
     ],
     "ranged": [
+      {
+        "name": "Twin pulse carbine",
+        "tags": [
+          "ASSAULT",
+          "TWIN-LINKED"
+        ],
+        "range": "20\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
       {
         "name": "Fireblade pulse rifle",
         "tags": [
@@ -604,6 +653,19 @@ export default [
       }
     ],
     "ranged": [
+      {
+        "name": "Twin pulse carbine",
+        "tags": [
+          "ASSAULT",
+          "TWIN-LINKED"
+        ],
+        "range": "20\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
       {
         "name": "Airbursting fragmentation projector",
         "tags": [
@@ -791,6 +853,19 @@ export default [
       }
     ],
     "ranged": [
+      {
+        "name": "Twin pulse carbine",
+        "tags": [
+          "ASSAULT",
+          "TWIN-LINKED"
+        ],
+        "range": "20\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
       {
         "name": "Airbursting fragmentation projector",
         "tags": [
@@ -1099,6 +1174,19 @@ export default [
     ],
     "ranged": [
       {
+        "name": "Twin pulse carbine",
+        "tags": [
+          "ASSAULT",
+          "TWIN-LINKED"
+        ],
+        "range": "20\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
         "name": "Missile pod",
         "tags": [],
         "range": "30\"",
@@ -1193,6 +1281,19 @@ export default [
       }
     ],
     "ranged": [
+      {
+        "name": "Twin pulse carbine",
+        "tags": [
+          "ASSAULT",
+          "TWIN-LINKED"
+        ],
+        "range": "20\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
       {
         "name": "Burst cannon",
         "tags": [],
@@ -1292,6 +1393,19 @@ export default [
       }
     ],
     "ranged": [
+      {
+        "name": "Twin pulse carbine",
+        "tags": [
+          "ASSAULT",
+          "TWIN-LINKED"
+        ],
+        "range": "20\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
       {
         "name": "Fusion blaster",
         "tags": [
@@ -1558,6 +1672,21 @@ export default [
         "inv": "5+"
       }
     ],
+    "ranged": [
+      {
+        "name": "Twin pulse carbine",
+        "tags": [
+          "ASSAULT",
+          "TWIN-LINKED"
+        ],
+        "range": "20\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      }
+    ],
     "melee": [
       {
         "name": "Honour stave",
@@ -1682,7 +1811,7 @@ export default [
     "composition": [
       "1 Firesight Marksman"
     ],
-    "loadout": "**This model is equipped with:** longshot pulse rifles; pulse pistol; close combat weapons.\n\n**Designer’s Note:** The Firesight Marksman model and sniper drone models are treated as a single model for all rules purposes. All distances are measured to and from the Farsight Marksman model. The sniper drone models do not count as models for any rules purposes.",
+    "loadout": "**This model is equipped with:** longshot pulse rifles; pulse pistol; close combat weapons.\n\n**Designer’s Note:** The Firesight Marksman model and sniper drone models are treated as a single model for all rules purposes. All distances are measured to and from the Firesight Marksman model. The sniper drone models do not count as models for any rules purposes.",
     "options": [
       "None"
     ],
@@ -2105,7 +2234,7 @@ export default [
       "1 Long-quill",
       "9-19 Kroot Carnivores"
     ],
-    "loadout": "**The 1 Long-quill is equipped with:** Kroot pistol; Kroot rifle; close combat weapon.\n\n**Every Kroot Carnivore is equipped with:** Kroot rifle; close combat weapon.",
+    "loadout": "**The Long-quill is equipped with:** Kroot pistol; Kroot rifle; close combat weapon.\n\n**Every Kroot Carnivore is equipped with:** Kroot rifle; close combat weapon.",
     "options": [
       "The Long-quill’s Kroot rifle can be replaced with 1 Kroot carbine.",
       "For every 10 models in this unit, one Kroot Carnivore’s Kroot rifle can be replaced with 1 Tanglebomb launcher."
@@ -2123,7 +2252,7 @@ export default [
     "rules": [
       {
         "name": "BODYGUARD",
-        "text": "If this unit has a Starting Strength of 20, you can attach up to two Leader units to it instead of one, provided those Leaders are not duplicates (e.g. you cannot attach two WAR SHAPERS to this unit)."
+        "text": "If this unit has a Starting Strength of 20, you can attach up to two Leader units to it instead of one, provided those Leaders are not duplicates (e.g. you cannot attach two WAR SHAPERS to this unit). If you do, and this unit is destroyed, the Leader units attached to it become separate units with their original Starting Strengths."
       }
     ]
   },
@@ -2714,7 +2843,7 @@ export default [
     ],
     "loadout": "**This model is equipped with:** dart-bow and tri-blade; Kroot pistol; Shaper’s blade.",
     "options": [
-      "This model’s dart-bow and tri-bade can be replaced with 1 bladestave and prey-hook."
+      "This model’s dart-bow and tri-blade can be replaced with 1 bladestave and prey-hook."
     ],
     "leader": {
       "text": "This model can be attached to the following units:",
@@ -2789,7 +2918,7 @@ export default [
     ],
     "melee": [
       {
-        "name": "Close combat weapon",
+        "name": "Hunting blades",
         "tags": [
           "LANCE"
         ],
@@ -2800,7 +2929,7 @@ export default [
         "d": "1"
       },
       {
-        "name": "Krootox fists",
+        "name": "Rampager fists",
         "tags": [
           "EXTRA ATTACKS",
           "SUSTAINED HITS 1"
@@ -2950,12 +3079,12 @@ export default [
     "profiles": [
       {
         "name": "Manta",
-        "m": "20+\"",
+        "m": "40\"",
         "t": "14",
         "sv": "2+",
         "w": "60",
         "ld": "7+",
-        "oc": "0",
+        "oc": "-",
         "inv": "5+"
       }
     ],
@@ -3103,6 +3232,19 @@ export default [
     ],
     "ranged": [
       {
+        "name": "Twin pulse carbine",
+        "tags": [
+          "ASSAULT",
+          "TWIN-LINKED"
+        ],
+        "range": "20\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
         "name": "Drone burst cannon",
         "tags": [],
         "range": "18\"",
@@ -3218,7 +3360,7 @@ export default [
     "wargearAbilities": [
       {
         "name": "Grav-inhibitor Drone",
-        "text": "Subtract 2 from Charge rolls made for any enemy unit that declares a charge against the bearer’s unit (this is not cumulative with any other reductions to that Charge roll)."
+        "text": "Each time an enemy unit selects the bearer’s unit as the target of a charge, subtract 2 from the Charge roll (this is not cumulative with any other negative modifiers to that Charge roll)."
       },
       {
         "name": "Pulse Accelerator Drone",
@@ -3403,7 +3545,7 @@ export default [
         "sv": "3+",
         "w": "12",
         "ld": "7+",
-        "oc": "0"
+        "oc": "-"
       }
     ],
     "ranged": [
@@ -3556,7 +3698,17 @@ export default [
         "d": "3"
       },
       {
-        "name": "Ion accelerator – supercharge",
+        "name": "Missile pod",
+        "tags": [],
+        "range": "30\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "7",
+        "ap": "-1",
+        "d": "2"
+      },
+      {
+        "name": "Ion accelerator – overcharge",
         "tags": [
           "HAZARDOUS"
         ],
@@ -3803,6 +3955,19 @@ export default [
     ],
     "ranged": [
       {
+        "name": "Twin pulse carbine",
+        "tags": [
+          "ASSAULT",
+          "TWIN-LINKED"
+        ],
+        "range": "20\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
         "name": "Burst cannon",
         "tags": [],
         "range": "18\"",
@@ -3859,7 +4024,7 @@ export default [
     "wargearAbilities": [
       {
         "name": "Homing Beacon",
-        "text": "Once per battle, you can use the Rapid Ingress Stratagem for 0CP. The target must be set up within 3\" of the bearer’s unit and more than 9\" away from all enemy units.\n\n**Designer’s Note:** Place a Homing Beacon token next to this unit, removing it once this ability is used."
+        "text": "Once per battle, you can use the Rapid Ingress Stratagem for 0CP. The target must be set up within 3\" of the bearer’s unit and more than 8\" away from all enemy units.\n\n**Designer’s Note:** Place a Homing Beacon token next to this unit, removing it once this ability is used."
       }
     ],
     "composition": [
@@ -4109,6 +4274,19 @@ export default [
     ],
     "ranged": [
       {
+        "name": "Twin pulse carbine",
+        "tags": [
+          "ASSAULT",
+          "TWIN-LINKED"
+        ],
+        "range": "20\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "5",
+        "ap": "0",
+        "d": "1"
+      },
+      {
         "name": "Pulse carbine",
         "tags": [],
         "range": "20\"",
@@ -4218,7 +4396,7 @@ export default [
         "sv": "3+",
         "w": "12",
         "ld": "7+",
-        "oc": "0"
+        "oc": "-"
       }
     ],
     "ranged": [
@@ -4476,10 +4654,6 @@ export default [
       {
         "name": "Coordinated Strike",
         "text": "While this model is a Guided unit, each time it makes an attack that targets its Spotted unit, re-roll a Hit roll of 1."
-      },
-      {
-        "name": "Super-heavy Walker",
-        "text": "Each time this model makes a Normal, Advance or Fall Back move, it can move over models (excluding TITANIC models) and terrain features that are 4\" or less in height as if they were not there."
       }
     ],
     "damaged": {
@@ -4849,18 +5023,7 @@ export default [
         "inv": "5+"
       }
     ],
-    "ranged": [
-      {
-        "name": "",
-        "tags": [],
-        "range": "",
-        "a": "0",
-        "bs": "-",
-        "s": "-",
-        "ap": "0",
-        "d": "-"
-      }
-    ],
+    "ranged": [],
     "core": "Deadly Demise D3, Firing Deck 20",
     "abilities": [
       {
@@ -4921,7 +5084,7 @@ export default [
         "sv": "3+",
         "w": "18",
         "ld": "7+",
-        "oc": "0",
+        "oc": "-",
         "inv": "5+"
       }
     ],

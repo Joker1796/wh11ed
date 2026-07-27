@@ -22,7 +22,7 @@ const REINFORCED_COVER =
   'Каждый раз, когда дальнобойная атака распределяется по модели, если эта модель не полностью видима каждой модели атакующего юнита из-за этого FORTIFICATION, эта модель имеет Benefit of Cover против этой атаки.'
 // Общая сноска Leader-юнитов у пехотных полков (Shock Troops / Jungle Fighters / Krieg и т.п.)
 const TWO_LEADERS_NOTE =
-  'К этому юниту можно присоединить до двух юнитов Leader, при условии, что не более одного из них — юнит Command Squad.'
+  'К этому юниту можно присоединить до двух юнитов Leader, при условии, что не более одного из них — юнит Command Squad. Если это происходит и этот юнит Bodyguard уничтожается, присоединённые к нему юниты Leader становятся отдельными юнитами со своей исходной численностью.'
 const dmgHitMinus = (range) =>
   `Пока у этой модели осталось ${range} ран, каждый раз, когда эта модель совершает атаку, вычтите 1 из броска попадания.`
 const dmgHitOcMinus = (range) =>
@@ -299,8 +299,8 @@ export default {
     options: [
       'Любому числу Veteran Guardsman их lasgun можно заменить на одно из следующего*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 heavy flamer\n▪ 1 meltagun\n▪ 1 plasma gun\n▪ 1 sniper rifle',
       '* Нельзя выбрать одно и то же оружие из этого списка более раза на юнит.',
-      'Veteran Guardsman, вооружённого lasgun, можно снабдить 1 master vox.**',
-      'Veteran Guardsman, вооружённого lasgun, можно снабдить 1 medi-pack.**',
+      '1 Veteran Guardsman, вооружённого lasgun, можно снабдить 1 master vox.**',
+      '1 Veteran Guardsman, вооружённого lasgun, можно снабдить 1 medi-pack.**',
       '1 Veteran Guardsman, вооружённого lasgun, можно снабдить 1 regimental standard.**',
       '** Модель может взять только одну из этих опций.',
       'laspistol у Catachan Commander можно заменить на одно из следующего:\n▪ 1 bolt pistol\n▪ 1 plasma pistol',
@@ -515,7 +515,7 @@ export default {
       'Deathstrike Missile':
         'В вашей фазе стрельбы, каждый раз, когда эта модель выбирается для стрельбы, если она ещё не стреляла своей Deathstrike missile в эту битву, вы можете сделать одно из следующего в дополнение к отыгрышу дальнобойных атак этой модели:\n▪ **Designate Target:** Если у этой модели нет маркера Deathstrike Target на поле боя, поместите уникальный маркер Deathstrike Target для этой модели где угодно на поле боя.\n▪ **Adjust Target:** Если у этой модели есть маркер Deathstrike Target на поле боя, переместите этот маркер в любое другое место на поле боя.',
     },
-    loadout: `${EQUIP_THIS} heavy bolter; Deathstrike missile; armoured tracks.`,
+    loadout: `${EQUIP_THIS} Deathstrike missile; heavy bolter; armoured tracks.`,
     options: [
       'heavy bolter этой модели можно заменить на 1 heavy flamer.',
       'Эту модель можно снабдить 1 hunter-killer missile.',
@@ -606,7 +606,7 @@ export default {
     loadout: `${EQUIP_EVERY} 1 vigilator cannon; 1 heavy stubber; 1 armoured hull.`,
     options: [
       'Любому числу моделей их heavy stubber можно заменить на 1 meltagun.',
-      'Любому числу моделей их vigilator cannon можно заменить на одно из следующего:\n▪ 1 chiron gatling cannon\n▪ 1 lascannon\n▪ 1 melta cannon',
+      'Любому числу моделей их vigilator cannon можно заменить на одно из следующего:\n▪ 1 chiron gatling cannon\n▪ 1 melta cannon\n▪ 1 lascannon',
     ],
   },
 

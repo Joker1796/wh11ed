@@ -55,7 +55,7 @@ export default {
       'Daemonic Icon': DAEMONIC_ICON,
       'Instrument of Chaos': INSTRUMENT_OF_CHAOS,
     },
-    loadout: `${EQUIP_EVERY} hellblade; bladed horn.`,
+    loadout: `${EQUIP_EVERY} hellblade; Juggernaut’s bladed horn.`,
     options: [
       '1 Bloodcrusher, не вооружённого daemonic icon, можно снабдить 1 instrument of Chaos.',
       '1 Bloodcrusher, не вооружённого instrument of Chaos, можно снабдить 1 daemonic icon.',
@@ -151,7 +151,7 @@ export default {
       'Meet Any Challenge':
         'В фазе перемещения вашего оппонента, каждый раз, когда вражеский юнит развёртывается или завершает обычный манёвр, продвижение или отступление в пределах 8" от этой модели, любые юниты, погружённые в неё, могут высадиться.',
     },
-    loadout: `${EQUIP_THIS} 1 combi-bolter; armoured tracks.`,
+    loadout: `${EQUIP_THIS} combi-bolter; armoured tracks.`,
     options: [
       'Эту модель можно снабдить одним из следующего:\n▪ 1 дополнительный combi-bolter\n▪ 1 combi-weapon',
       'Эту модель можно снабдить 1 havoc launcher или заменить 1 combi-bolter на 1 havoc launcher.',

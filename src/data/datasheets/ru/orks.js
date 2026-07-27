@@ -99,7 +99,7 @@ export default {
       'Shokk-boosta':
         'Вы можете перебрасывать броски продвижения для юнита этой модели. Вдобавок каждый раз, когда юнит этой модели совершает обычный манёвр, продвижение или отступление, модели этого юнита могут проходить сквозь модели и элементы террейна. При этом они могут проходить в дистанции ввязывания таких моделей, но не могут закончить этот манёвр в дистанции ввязывания от них, и любой тест отчаянного побега проходится автоматически.',
     },
-    loadout: `${EQUIP_THIS} kustom-mega blaster; power klaw.`,
+    loadout: `${EQUIP_THIS} kustom mega-blasta; power klaw.`,
     options: [
       'kustom mega-blasta этой модели можно заменить на 1 traktor blasta.',
       'power klaw этой модели можно заменить на 1 drilla.',
@@ -129,7 +129,7 @@ export default {
       'Kustom Force Field': KFF_LEADER,
       'Grot Oiler': GROT_OILER,
     },
-    loadout: `${EQUIP_THIS} kustom-mega blaster; power klaw.`,
+    loadout: `${EQUIP_THIS} kustom mega-blasta; power klaw.`,
     options: [
       'kustom-mega blasta этой модели можно заменить на одно из следующего:\n▪ 1 killsaw\n▪ 1 kombi-weapon\n▪ 1 kustom shoota',
       'Эту модель можно снабдить одним из следующего:\n▪ 1 tellyport blasta\n▪ 1 kustom force field',
@@ -169,7 +169,7 @@ export default {
     loadout: `${EQUIP_THIS} big shoota; Gaze of Gork.`,
     options: ['Эту модель можно снабдить до 3 дополнительными big shootas.'],
     transport:
-      'Эта модель имеет транспортную вместимость 11 моделей Orks Infantry (исключая Ghazghkull Thraka). Каждая модель Mega Armour или Jump Pack занимает место 2 моделей.',
+      'Эта модель имеет транспортную вместимость 11 моделей Orks Infantry. Каждая модель Mega Armour или Jump Pack занимает место 2 моделей.',
   },
 
   bigboss: {
@@ -227,8 +227,9 @@ export default {
     options: [
       'big choppa у Boss Nob можно заменить на 1 power klaw.',
       'big choppa и slugga у Boss Nob можно заменить на 1 kombi-weapon и 1 close combat weapon.',
-      'Любое число Boyz может заменить свои slugga и choppa на 1 shoota и 1 close combat weapon.',
-      'За каждые 10 моделей в этом юните у 1 Boy его choppa и slugga можно заменить на одно из следующего:\n▪ 1 big shoota и 1 close combat weapon\n▪ 1 rokkit launcha и 1 close combat weapon',
+      'big choppa у Boss Nob можно заменить на одно из следующего (после этого big choppa этой модели заменить нельзя):\n▪ 1 big choppa и 1 kustom shoota\n▪ 1 big choppa, 1 kombi-rokkit и 1 kombi-shoota',
+      'Любое число Boyz может снабдить себя 1 shoota.',
+      'За каждые 10 моделей в этом юните 1 Boy, не снабжённый 1 shoota, может заменить свои choppa и slugga на одно из следующего:\n▪ 1 big shoota и 1 close combat weapon\n▪ 1 rokkit launcha и 1 close combat weapon',
     ],
   },
 
@@ -310,7 +311,7 @@ export default {
       'Fuel-mixa Grot':
         'Каждый раз, когда юнит этой модели продвигается, не делайте для него бросок продвижения. Вместо этого до конца фазы прибавьте 6" к характеристике Движения (Move) моделей того юнита.',
     },
-    loadout: `${EQUIP_THIS} defkilla boomsticks; killajet; snagga klaw.`,
+    loadout: `${EQUIP_THIS} boomstikks; killa jet; snagga klaw.`,
     leader: { text: LEADER_TEXT },
   },
 
@@ -393,7 +394,7 @@ export default {
       text: 'Пока у этой модели осталось 1–7 ран, вычтите 4 из характеристики Контроля целей (OC) этой модели, и каждый раз, когда эта модель совершает атаку, вычтите 1 из броска попадания.',
     },
     transport:
-      'Эта модель имеет транспортную вместимость 12 моделей Orks Infantry (исключая Ghazghkull Thraka). Каждая модель Mega Armour или Jump Pack занимает место 2 моделей.',
+      'Эта модель имеет транспортную вместимость 12 моделей Orks Infantry. Каждая модель Mega Armour или Jump Pack занимает место 2 моделей. Она не может перевозить Ghazghkull Thraka.',
   },
 
   gretchin: {
@@ -465,7 +466,7 @@ export default {
     loadout: `${EQUIP_EVERY} slugga; choppa.`,
     options: [
       'choppa у Boss Nob можно заменить на одно из следующего:\n▪ 1 big choppa\n▪ 1 power klaw',
-      'У до 2 Kommandos их slugga и choppa можно заменить на 1 speshul Kommando shoota и 1 close combat weapon.',
+      'У до 2 Kommandos их slugga и choppa можно заменить на 1 kustom shoota и 1 close combat weapon.',
       'У 1 Kommando его slugga и choppa можно заменить на 1 breacha ram.',
       'У 1 Kommando его slugga и choppa можно заменить на 1 burna и 1 close combat weapon.',
       'У 1 Kommando его slugga и choppa можно заменить на 1 rokkit launcha и 1 close combat weapon.',
@@ -506,7 +507,7 @@ export default {
     },
     loadout: `${EQUIP_EVERY} kustom shoota; power klaw.`,
     options: [
-      'Любое число моделей может заменить свои kustom shoota и power klaw на одно из следующего:\n▪ 1 kombi-weapon и 1 power klaw\n▪ 1 kombi-weapon и 1 killsaw\n▪ 1 kustom shoota и 1 killsaw\n▪ 1 killsaw и 1 power klaw\n▪ 1 twin killsaw',
+      'Любое число моделей может заменить свои kustom shoota и power klaw на одно из следующего:\n▪ 1 kombi-weapon и 1 power klaw\n▪ 1 kombi-weapon и 1 killsaw\n▪ 1 kustom shoota и 1 killsaw\n▪ 1 killsaw и 1 power klaw\n▪ 1 twin killsaws',
     ],
   },
 
@@ -529,8 +530,8 @@ export default {
       Mekaniak:
         'В конце вашей фазы движения вы можете выбрать одну дружественную модель Orks Vehicle в пределах 3" от этой модели. Эта модель VEHICLE восстанавливает до D3 потерянных ран, и до начала вашей следующей фазы движения каждый раз, когда эта модель VEHICLE совершает атаку, прибавьте 1 к броску попадания. Каждую модель можно выбирать для этой способности только один раз за ход.',
     },
-    loadout: `${EQUIP_THIS} kustom mega-slugga; wrench.`,
-    options: ['wrench этой модели можно заменить на 1 killsaw.'],
+    loadout: `${EQUIP_THIS} kustom mega-slugga; close combat weapon.`,
+    options: ['close combat weapon этой модели можно заменить на 1 killsaw.'],
     leader: { text: LEADER_TEXT },
   },
 
@@ -651,7 +652,7 @@ export default {
       'Shokk Tunnel':
         'В вашей фазе движения, когда эта модель выбрана совершить манёвр продвижения, вы можете задействовать эту способность. Если вы это делаете:\n▪ У этого манёвра нет максимальной дистанции.\n▪ Эта модель может двигаться сквозь все типы моделей (включая вражеские модели и модели MONSTER/VEHICLE).\n▪ После движения ваш юнит обязан оказаться более чем в 8" по горизонтали от всех вражеских юнитов.',
     },
-    loadout: `${EQUIP_THIS} kustom shokk rifle; rokkit launcha; saw blades.`,
+    loadout: `${EQUIP_THIS} kustom shokk rifle; rokkits; saw blades.`,
   },
 
   'squighog-boyz': {
@@ -685,7 +686,7 @@ export default {
       text: 'Пока у этой модели осталось 1–10 ран, вычтите 6 из характеристики Контроля целей (OC) этой модели, и каждый раз, когда эта модель совершает атаку, вычтите 1 из броска попадания.',
     },
     transport:
-      'Эта модель имеет транспортную вместимость 22 моделей Orks Infantry. Каждая модель Mega Armour или Jump Pack занимает место 2 моделей. Модель Ghazghkull Thraka занимает место 15 моделей.',
+      'Эта модель имеет транспортную вместимость 22 моделей Orks Infantry. Каждая модель Mega Armour или Jump Pack занимает место 2 моделей. Модель Ghazghkull Thraka занимает место 4 моделей.',
   },
 
   stormboyz: {
@@ -758,10 +759,11 @@ export default {
       'Da Biggest and da Best':
         'Пока Вааагх! активен для вашей армии, прибавьте 4 к характеристике Атак (Attacks) оружия ближнего боя этой модели.',
     },
-    loadout: `${EQUIP_THIS} kombi-weapon; twin slugga; big choppa.`,
+    loadout: `${EQUIP_THIS} kombi-weapon; twin sluggas; big choppa.`,
     options: [
       'big choppa этой модели можно заменить на 1 power klaw.',
       'Эту модель можно снабдить 1 attack squig.',
+      'kombi-weapon, twin sluggas и big choppa этой модели можно заменить на 1 kustom choppa и 1 kustom shoota.',
     ],
     leader: { text: LEADER_TEXT },
   },
@@ -860,7 +862,7 @@ export default {
       'Special Dose':
         'Пока Вааагх! активен для вашей армии, прибавьте 6" к характеристике Движения (Move) моделей юнита этой модели.',
     },
-    loadout: `${EQUIP_THIS} Da Grabzappa; slugga.`,
+    loadout: `${EQUIP_THIS} Squigstoppa; Da Grabzappa.`,
     leader: { text: LEADER_TEXT },
   },
 }

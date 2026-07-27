@@ -674,7 +674,7 @@ export default [
         "d": "2"
       },
       {
-        "name": "Vaultswords – Hurricanus",
+        "name": "Vaultswords – Hurricanis",
         "tags": [
           "SUSTAINED HITS 1"
         ],
@@ -1259,7 +1259,7 @@ export default [
     "loadout": "**Every model is equipped with:** guardian spear.",
     "options": [
       "Any number of models can each have their guardian spear replaced with 1 sentinel blade and 1 praesidium shield.",
-      "1 model’s guardian spear can be replaced with one of the following:\n▪ 1 vexilla and 1 misericordia\n▪ 1 vexilla, 1 misericordia and 1 praesidium shield"
+      "1 model’s guardian spear can be replaced with 1 vexilla, 1 misericordia and 1 praesidium shield."
     ],
     "keywords": [
       "Imperium",
@@ -1632,7 +1632,7 @@ export default [
     "profiles": [
       {
         "name": "Orion Assault Dropship",
-        "m": "20+\"",
+        "m": "14\"",
         "t": "12",
         "sv": "2+",
         "w": "22",
@@ -2491,7 +2491,7 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Eagle's Scream",
+        "name": "Eagle’s Scream",
         "tags": [
           "ASSAULT"
         ],
@@ -2529,7 +2529,7 @@ export default [
     "composition": [
       "1 Trajann Valoris – EPIC HERO"
     ],
-    "loadout": "**This model is equipped with:** Watcher’s Axe.",
+    "loadout": "**This model is equipped with:** Eagle’s Scream; Watcher’s Axe.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [

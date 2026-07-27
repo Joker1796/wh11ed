@@ -51,7 +51,14 @@ const en = {
 
 **Space Marine Chapters:**
 ▪ If an Adeptus Astartes unit has a second [gloss:faction-keyword:Faction keyword] on its [gloss:datasheet:datasheet], that Faction keyword is the name of that unit's Chapter. For example, Marneus Calgar has both the Adeptus Astartes and Ultramarines Faction keywords, and is therefore from the Ultramarines Chapter.
-▪ You cannot include units from more than one Chapter in your army.`,
+▪ You cannot include units from more than one Chapter in your army.
+▪ If your army includes one or more Black Templars units, it cannot include any Adeptus Astartes Psyker models, and cannot include any of the following models that do not have the Black Templars keyword: Gladiator Lancer; Gladiator Reaper; Gladiator Valiant; Impulsor; Repulsor; Repulsor Executioner.
+▪ If your army includes one or more Space Wolves units, it cannot include any of the following units: Apothecary; Devastator Squad; Tactical Squad.
+
+### Deathwatch
+▪ Your army can include Adeptus Astartes Deathwatch units, but it cannot include any Adeptus Astartes units drawn from any other Chapter.
+▪ With the exception of Kill Team Cassius (see Legends: Agents of the Imperium), your army cannot include any Agents of the Imperium Deathwatch units.
+▪ Your army cannot include any of the following units: Assault Squad; Assault Squad with Jump Packs; Attack Bike Squad; Devastator Squad; Land Speeder Storm; Relic Terminator Squad; Scout Bike Squad; Scout Squad; Scout Sniper Squad; Tactical Squad; Terminator Assault Squad; Terminator Squad.`,
   },
 
   detachments: [
@@ -654,7 +661,7 @@ This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn i
           points: 30,
           flavor: 'By the time the enemy believes battle has begun, their rear lines have already been attacked at this warrior\'s command.',
           // Faction-Pack Rules Update: reworded to "once per turn" / stratagem-cost increase.
-          body: `Phobos model only. Once per turn, when your opponent targets a unit from their army [gloss:within:within] 12" of this model with a [gloss:stratagem:Stratagem], you can use this ability. If you do, increase the CP cost of that use of that Stratagem by 1CP.`,
+          body: `Phobos model only. The bearer has the following ability — Lord of Deceit (Aura): Once per turn, when your opponent targets a unit from their army [gloss:within:within] 12" of this model with a [gloss:stratagem:Stratagem], you can use this ability. If you do, increase the CP cost of that use of that Stratagem by 1CP.`,
         },
         {
           name: 'The Blade Driven Deep',
@@ -1064,7 +1071,9 @@ Adeptus Astartes Transport units from your army (excluding Fly) that have a [glo
 Each time a Tank Ace unit from your army shoots in your Shooting phase, if that unit did not Advance this turn, you can [gloss:re-roll:re-roll] the [gloss:damage-roll:Damage roll].
 
 ### Keywords
-Adeptus Astartes Vehicle units from your army (excluding Fortifications, Drop Pods, Walkers and units that can Fly) have the Tank Ace [gloss:keywords:keyword]. In the [gloss:muster-armies:Muster Armies] step, you can select up to three Tank Ace units from your army to gain the Character keyword.`,
+Adeptus Astartes Vehicle units from your army (excluding Fortifications, Drop Pods, Walkers and units that can Fly) have the Tank Ace [gloss:keywords:keyword]. In the [gloss:muster-armies:Muster Armies] step, you can select up to three Tank Ace units from your army to gain the Character keyword.
+
+**Designer's Note:** This means that the selected units can be given Enhancements, and one of them can be selected as your Warlord.`,
       },
       stratagems: [
         armourOfContempt('Headhunter Task Force'),
@@ -1520,7 +1529,7 @@ Restrictions: Your army can include White Scars units, but it cannot include any
           turn: 'opponent',
           flavor: "The White Scars read the ebb and flow of battle with the hungry cunning of raptorial predators, reacting to the enemy's movements with exceptional rapidity.",
           when: "Your opponent's Movement phase, just after an enemy unit ends a Normal, Advance or Fall Back move.",
-          target: 'One Adeptus Astartes Infantry or Adeptus Astartes Mounted unit from your army that is within 8" of that enemy unit. You cannot target a unit that is within Engagement Range of one or more enemy units.',
+          target: 'One Adeptus Astartes Infantry unit or Adeptus Astartes Mounted unit from your army that is within 8" of that enemy unit. You cannot target a unit that is within Engagement Range of one or more enemy units.',
           effect: 'Your unit can make a Normal move of up to 6".',
           restrictions: '',
         },
@@ -2215,7 +2224,7 @@ Restrictions: Your army can include Ultramarines units, but it cannot include an
           name: 'Scroll of Proclamation',
           points: 15,
           flavor: "Finely scribed on vellum and tightly bound in an armoured scroll case, the words of Roboute Guilliman's Consilias Imperitus Ultimar prove a constant source of inspiration.",
-          body: `Adeptus Astartes model only. When this unit declares a charge, if an enemy unit within range of an objective is within 12" of this unit, you can use this Enhancement. If you do:\n▪ This unit can re-roll that charge roll.\n▪ This unit __must__ end that charge move engaged with one or more of those enemy units.`,
+          body: `When this unit declares a charge, if an enemy unit within range of an objective is within 12" of this unit, you can use this Enhancement. If you do:\n▪ This unit can re-roll that charge roll.\n▪ This unit __must__ end that charge move engaged with one or more of those enemy units.`,
         },
         {
           name: 'Seals of Reconquest',

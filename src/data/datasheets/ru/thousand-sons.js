@@ -148,7 +148,7 @@ export default {
       'Glamour of Tzeentch (Aura, Psychic)':
         'Пока дружественный юнит Thousand Sons Infantry находится в пределах 6" от этой модели, модели этого юнита имеют способность Stealth.',
     },
-    loadout: `${EQUIP_THIS} Dark Blessing; infernal cannon; heliforged weapons.`,
+    loadout: `${EQUIP_THIS} Dark Blessing; infernal cannon; hellforged weapons.`,
   },
 
   'daemon-prince-of-tzeentch-with-wings': {
@@ -160,7 +160,7 @@ export default {
       'Aetherstride (Psychic)':
         'В вашей фазе перемещения, когда эта модель развёртывается на поле боя с помощью способности Deep Strike, она может совершить aetherstride. Если она это делает:\n▪ Её можно развернуть где угодно на поле боя дальше 6" по горизонтали от всех вражеских юнитов.\n▪ До конца хода её Dark Blessing имеет способность [SUSTAINED HITS D3].\n▪ До конца хода она не может объявить нападение.',
     },
-    loadout: `${EQUIP_THIS} Dark Blessing; infernal cannon; heliforged weapons.`,
+    loadout: `${EQUIP_THIS} Dark Blessing; infernal cannon; hellforged weapons.`,
   },
 
   defiler: {

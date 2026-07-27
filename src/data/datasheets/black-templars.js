@@ -554,6 +554,18 @@ export default [
         "d": "1"
       },
       {
+        "name": "Multi-melta",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
+      },
+      {
         "name": "Storm bolter",
         "tags": [
           "RAPID FIRE 2"
@@ -600,7 +612,7 @@ export default [
     ],
     "loadout": "**This model is equipped with:** 2 storm bolters; armoured hull.",
     "options": [
-      "This model can be equipped with 1 ironhail heavy stubber.",
+      "This model can be equipped with one of the following:\n▪ 1 ironhail heavy stubber\n▪ 1 multi-melta",
       "This model’s 2 storm bolters can be replaced with 2 fragstorm grenade launchers.",
       "This model can be equipped with one of the following:\n▪ 1 bellicatus missile array\n▪ 1 ironhail skytalon array\n▪ 1 orbital comms array\n▪ 1 shield dome"
     ],
@@ -749,7 +761,7 @@ export default [
     "flavor": "High Chaplain Grimaldus is a beacon of Imperial faith. His fortitude is such that many of his brothers believe him invincible. His will is singular, his zeal coldly furious, and his martial skill attested by the trail of broken foes laid at his heels. His Cenobyte Servitors lurch to war at his side, bearing with them holy relics of the faith.",
     "profiles": [
       {
-        "name": "GRIMALDUS",
+        "name": "CHAPLAIN GRIMALDUS",
         "m": "6\"",
         "t": "4",
         "sv": "3+",
@@ -1607,7 +1619,7 @@ export default [
       "This model can be equipped with 1 multi-melta.",
       "This model can be equipped with 1 storm bolter."
     ],
-    "transport": "This model has a transport capacity of 16 Adeptus Astartes Infantry models. Each Jump Pack, Wulfen, Gravis or Terminator model takes up the space of 2 models and each Centurion model takes up the space of 3 models.",
+    "transport": "This model has a transport capacity of 16 Adeptus Astartes Infantry models. Each Jump Pack, Gravis or Terminator model takes up the space of 2 models and each Centurion model takes up the space of 3 models.",
     "keywords": [
       "Land Raider Crusader",
       "Land Raider",
@@ -1811,7 +1823,19 @@ export default [
         "bs": "3+",
         "s": "10",
         "ap": "-3",
-        "d": "D6+1"
+        "d": "D6"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
       },
       {
         "name": "Repulsor defensive array",
@@ -1878,9 +1902,10 @@ export default [
     "loadout": "**This model is equipped with:** heavy onslaught gatling cannon; hunter-slayer missile; Repulsor defensive array; twin heavy bolter; armoured hull.",
     "options": [
       "This model’s twin heavy bolter can be replaced with 1 twin lascannon.",
-      "This model’s heavy onslaught gatling cannon can be replaced with 1 las-talon."
+      "This model’s heavy onslaught gatling cannon can be replaced with 1 las-talon.",
+      "This model can be equipped with 1 multi-melta."
     ],
-    "transport": "This model has a transport capacity of 14 Adeptus Astartes Infantry models. Each Jump Pack, Wulfen, Gravis or Terminator model takes up the space of 2 models and each Centurion model takes up the space of 3 models.",
+    "transport": "This model has a transport capacity of 14 Adeptus Astartes Infantry models. Each Jump Pack, Gravis or Terminator model takes up the space of 2 models and each Centurion model takes up the space of 3 models.",
     "keywords": [
       "Transport",
       "Vehicle",
@@ -1969,6 +1994,18 @@ export default [
         "s": "4",
         "ap": "0",
         "d": "1"
+      },
+      {
+        "name": "Multi-melta",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "18\"",
+        "a": "2",
+        "bs": "3+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
       },
       {
         "name": "Macro plasma incinerator – standard",
@@ -2062,10 +2099,10 @@ export default [
     "loadout": "**This model is equipped with:** heavy onslaught gatling cannon; macro plasma incinerator; Repulsor Executioner defensive array; twin heavy bolter; twin Icarus ironhail heavy stubber; armoured hull.",
     "options": [
       "This model’s macro plasma incinerator can be replaced with 1 heavy laser destroyer.",
-      "This model can be equipped with 1 ironhail heavy stubber.",
+      "This model can be equipped with one of the following:\n▪ 1 ironhail heavy stubber\n▪ 1 multi-melta",
       "This model can be equipped with 1 Icarus rocket pod."
     ],
-    "transport": "This model has a transport capacity of 7 Adeptus Astartes Infantry models. Each Jump Pack, Wulfen, Gravis or Terminator model takes up the space of 2 models and each Centurion model takes up the space of 3 models.",
+    "transport": "This model has a transport capacity of 7 Adeptus Astartes Infantry models. Each Jump Pack, Gravis or Terminator model takes up the space of 2 models and each Centurion model takes up the space of 3 models.",
     "keywords": [
       "Repulsor Executioner",
       "Imperium",
@@ -2179,7 +2216,7 @@ export default [
       {
         "name": "Astartes chainsword",
         "tags": [],
-        "a": "4",
+        "a": "6",
         "ws": "3+",
         "s": "4",
         "ap": "-1",
@@ -2198,7 +2235,7 @@ export default [
         "name": "Power weapon",
         "tags": [],
         "a": "5",
-        "ws": "2+",
+        "ws": "3+",
         "s": "5",
         "ap": "-2",
         "d": "1"
@@ -2206,7 +2243,7 @@ export default [
       {
         "name": "Power fist",
         "tags": [],
-        "a": "3",
+        "a": "4",
         "ws": "3+",
         "s": "8",
         "ap": "-2",
@@ -2567,14 +2604,14 @@ export default [
       }
     ],
     "composition": [
-      "1 Terminator Sergeant",
+      "1 Terminator Squad Leader",
       "4-9 Terminators"
     ],
     "loadout": "**Every model is equipped with:** storm bolter; power fist.",
     "options": [
       "For every 5 models in this unit, 1 Terminator’s storm bolter can be replaced with one of the following:\n▪ 1 assault cannon\n▪ 1 heavy flamer\n▪ 1 cyclone missile launcher and 1 storm bolter.*",
       "Any number of models can each have their power fist replaced with 1 chainfist.",
-      "The Terminator Sergeant’s power fist can be replaced with 1 power weapon.",
+      "The Terminator Squad Leader’s power fist can be replaced with 1 power weapon.",
       "* This model’s storm bolter cannot be replaced."
     ],
     "keywords": [

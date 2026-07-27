@@ -95,7 +95,9 @@ If your Army Faction is Adeptus Astartes, at the start of your Command phase, se
         // and the Command-phase +1 OC clause.
         body: `While an Adeptus Astartes unit from your army is Battle-shocked, change the Objective Control characteristic of models in that unit to 1, instead of 0.
 
-In your Command phase, select one Adeptus Astartes unit from your army. Until the start of your next Command phase, add 1 to the Objective Control characteristic of models in that unit.`,
+In your Command phase, select one Adeptus Astartes unit from your army. Until the start of your next Command phase, add 1 to the Objective Control characteristic of models in that unit.
+
+**Restrictions:** ${daOnly}`,
       },
       stratagems: [
         armourOfContempt('Unforgiven Task Force'),
@@ -160,7 +162,7 @@ In your Command phase, select one Adeptus Astartes unit from your army. Until th
           name: 'Shroud of Heroes',
           points: 25,
           flavor: "Formed from the death shrouds of some of the Chapter's greatest warriors, this robe inspires its wearer with the might and selflessness of those who came before.",
-          body: `Adeptus Astartes model only. Once per battle, per army, when the bearer is destroyed, roll one D6 at the end of the phase. On a 2+, set up the bearer on the battlefield, unengaged and as close as possible to where it was destroyed. The bearer is not part of an attached unit and its unit has a Starting Strength of 1. The bearer has 3 wounds remaining, or its full wounds remaining if the bearer was Battle-shocked when it was destroyed.`,
+          body: `Adeptus Astartes model only. Once per battle, per army, when this model is destroyed, at the end of the phase, roll one D6. On a 2+, set up this model on the battlefield, unengaged and as close as possible to where it was destroyed. This model is not part of an attached unit and its unit has a Starting Strength of 1. This model has 3 wounds remaining, or its full wounds remaining if this model was Battle-shocked when it was destroyed.`,
         },
         {
           name: 'Stubborn Tenacity',
@@ -198,7 +200,9 @@ In your Command phase, select one Adeptus Astartes unit from your army. Until th
 ▪ **Defensive Footing:** Select one objective you control. Until the start of your next Movement phase, that objective is your Vowed objective.
 ▪ **Aggressive Push:** Select one or more objective you do not control. Until the start of your next Movement phase, each of those objectives is one of your Vowed objectives.
 
-If a rule refers to a unit or model being within range of your Vowed objective, that rule takes effect if that unit or model is within range of one or more of your Vowed objectives. Each time a Deathwing Infantry unit from your army makes an attack that targets a unit within range of one or more of your Vowed objectives, add 1 to the Wound roll.`,
+If a rule refers to a unit or model being within range of your Vowed objective, that rule takes effect if that unit or model is within range of one or more of your Vowed objectives. Each time a Deathwing Infantry unit from your army makes an attack that targets a unit within range of one or more of your Vowed objectives, add 1 to the Wound roll.
+
+**Restrictions:** ${daOnly}`,
       },
       stratagems: [
         armourOfContempt('Inner Circle Task Force'),
@@ -298,17 +302,18 @@ If a rule refers to a unit or model being within range of your Vowed objective, 
         flavor:
           'The Ravenwing are fearsome and daring hunters, relentless in pursuit and furious on the assault. When they lead the Dark Angels to war they inspire their battle-brothers with their strategic and tactical mastery of high-speed warfare, knightly bike-mounted venators leading every charge and rapidly outmanoeuvring the foe.',
         // Faction-Pack Rules Update rewrote both the rule and the Keywords section.
-        body: `Friendly Adeptus Astartes units have:
+        body: `Friendly Adeptus Astartes have:
 ▪ This unit's ranged attacks have [ASSAULT].
 ▪ When this unit is selected to make a fall-back move, that fall-back move does not prevent this unit from being eligible to shoot.
 
-Friendly Adeptus Astartes Mounted units have:
+Friendly Adeptus Astartes Mounted have:
 ▪ This unit's ranged attacks have [ASSAULT].
 ▪ When this unit is selected to make an advance move, that advance move does not prevent this unit from being eligible to declare a charge.
 ▪ When this unit is selected to make a fall-back move, that fall-back move does not prevent this unit from being eligible to shoot and eligible to declare a charge.
 
-### Keywords
-Outrider Squad units from your army gain the Battleline keyword.`,
+**Keywords:** Outrider Squad units from your army gain the Battleline keyword.
+
+**Restrictions:** ${daOnly}`,
       },
       stratagems: [
         {
@@ -713,7 +718,9 @@ Outrider Squad units from your army gain the Battleline keyword.`,
         name: 'Dutiful Tenacity',
         flavor:
           'Even amongst the Adeptus Astartes, the battle-brothers of the Dark Angels are renowned for their tenacity and resilience on the battlefield. When ordered to war, they are utterly relentless in pursuing their objectives, wading into fields of withering fire and shrugging off blows that would slay mortal warriors outright.',
-        body: `Each time an attack targets an Adeptus Astartes Infantry or Adeptus Astartes Mounted unit from your army, if the Strength characteristic of that attack is greater than the Toughness characteristic of that unit, subtract 1 from the Wound roll.`,
+        body: `Each time an attack targets an Adeptus Astartes Infantry or Adeptus Astartes Mounted unit from your army, if the Strength characteristic of that attack is greater than the Toughness characteristic of that unit, subtract 1 from the Wound roll.
+
+**Restrictions:** ${daOnly}`,
       },
       stratagems: [
         {

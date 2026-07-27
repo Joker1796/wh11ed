@@ -35,6 +35,8 @@ const en = {
     body: `### Pain Abilities
 All **Drukhari** units have a Pain ability, tagged with the word 'Pain'. Pain abilities only apply to a unit while it is **Empowered**. If your Army Faction is Drukhari, you can Empower units from your army with Pain abilities by spending Pain tokens (see below).
 
+**Designer's Note:** You can also spend Pain tokens to activate additional effects in certain other rules such as Enhancements and Stratagems.
+
 ### Gaining Pain Tokens
 If your Army Faction is Drukhari, you gain Pain tokens as follows:
 ▪ **1 Pain token** at the start of your Command phase.
@@ -45,8 +47,6 @@ Each time you gain a Pain token, keep it to one side — this is your Pain token
 
 ### Empowered Through Pain
 Each Pain ability will state when you can spend Pain tokens to Empower that unit. When you do, until the end of the phase, that unit is Empowered and all Pain abilities it has take effect. While an Attached unit is Empowered, the Pain abilities of all Leader and Bodyguard units in that unit take effect — you do not need to spend additional Pain tokens to activate each of those Pain abilities.
-
-**Designer's Note:** You can also spend Pain tokens to activate additional effects in certain other rules such as Enhancements and Stratagems.
 
 ### Corsairs and Travelling Players
 If your Army Faction is Drukhari, you can include **Harlequins** and **Anhrathe** units in your army, even though they do not have the Drukhari Faction keyword. The combined points value of Harlequins and/or Anhrathe units you can include depends on the battle size: Incursion — up to 250 pts; Strike Force — up to 500 pts; Onslaught — up to 750 pts. No Harlequins or Anhrathe models included in your army in this way can be your **Warlord**, and they cannot be given Enhancements.`,

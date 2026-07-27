@@ -32,7 +32,7 @@ export default {
         'Если юнит Character вашей армии можно присоединить к юниту Deathwatch Kill Team, вместо этого его можно присоединить к этому юниту.',
     },
     loadout:
-      '**Kill Team Sergeant вооружён:** plasma pistol; power weapon.\n\n**Каждый Gravis Veteran вооружён:** infernus heavy bolter; bolt pistol; close combat weapon.\n\n**За каждые 5 моделей в юните 1 Deathwatch Veteran вооружён:** stalker bolt rifle; bolt pistol; close combat weapon.\n\n**За каждые 5 моделей в юните 1 Deathwatch Veteran вооружён:** bolt pistol; heavy thunder hammer.\n\n**За каждые 5 моделей в юните 1 Deathwatch Veteran вооружён:** Deathwatch marksman bolt carbine; special-issue bolt pistol; close combat weapon.\n\n**Если юнит содержит 10 моделей, 1 Deathwatch Veteran вооружён:** special-issue bolt pistol; xenophase blade.',
+      '**Каждый Kill Team Sergeant вооружён:** plasma pistol; power weapon.\n\n**Каждый Gravis Veteran вооружён:** infernus heavy bolter; bolt pistol; close combat weapon.\n\n**За каждые 5 моделей в юните 1 Deathwatch Veteran вооружён:** stalker bolt rifle; bolt pistol; close combat weapon.\n\n**За каждые 5 моделей в юните 1 Deathwatch Veteran вооружён:** bolt pistol; heavy thunder hammer.\n\n**За каждые 5 моделей в юните 1 Deathwatch Veteran вооружён:** Deathwatch marksman bolt carbine; special-issue bolt pistol; close combat weapon.\n\n**Если юнит содержит 10 моделей, 1 Deathwatch Veteran вооружён:** special-issue bolt pistol; xenophase blade.',
     options: [
       'За каждые 5 моделей в юните у до 1 модели её infernus heavy bolter можно заменить на одно из следующего:\n▪ 1 frag cannon.\n▪ 1 hellstorm bolt rifle и 1 Astartes grenade launcher.',
       'За каждые 5 моделей в юните у до 1 модели её heavy thunder hammer можно заменить на 1 power weapon и 1 Astartes shield.',
@@ -156,7 +156,7 @@ export default {
     },
     loadout: '**Каждая модель вооружена:** storm bolter; Nemesis force weapon.',
     options: [
-      'За каждые 5 моделей в этом юните у 1 Grey Knights Terminator его storm bolter можно заменить на одно из следующего:\n▪ 1 incinerator\n▪ 1 psilencer\n▪ 1 psycannon',
+      '1 Grey Knights Terminator его storm bolter можно заменить на одно из следующего:\n▪ 1 incinerator\n▪ 1 psilencer\n▪ 1 psycannon',
       '1 Grey Knights Terminator, вооружённого storm bolter, можно снабдить 1 Ancient’s banner.*',
       'У 1 Grey Knights Terminator его storm bolter можно заменить на 1 narthecium.*',
       '* Нельзя выбрать обе эти опции для одной и той же модели.',
@@ -207,7 +207,7 @@ export default {
         'Каждый раз, когда вы выбираете юнит этой модели целью стратагемы, бросьте один D6: на 3+ вы получаете 1 CP.',
     },
     wargearAbilities: {
-      'Blessed Wardings': 'Пока эта модель возглавляет юнит, модели этого юнита имеют инвулевый спас-бросок 6+.',
+      'Blessed Wardings': 'Пока носитель возглавляет юнит, модели этого юнита имеют инвулевый спас-бросок 6+.',
       'Psychic Gifts': 'Носитель имеет ключевое слово PSYKER.',
     },
     loadout: `${EQUIP_THIS} bolt pistol; Inquisitorial melee weapon; blessed wardings.`,
@@ -261,7 +261,7 @@ export default {
       'No Mercy':
         'Пока эта модель возглавляет юнит, каждый раз, когда модель этого юнита совершает атаку по юниту, что ниже половинной численности, прибавьте 1 к броску попадания.',
     },
-    loadout: `${EQUIP_THIS} Castigation; condemnor stake; master-crafter power sword.`,
+    loadout: `${EQUIP_THIS} Castigation; condemnor stake; master-crafted power sword.`,
     leader: { text: LEADER_TEXT },
   },
 
@@ -311,10 +311,9 @@ export default {
     loadout: `${EQUIP_THIS} multi-laser; heavy bolter; lasgun array; armoured tracks.`,
     options: [
       'heavy bolter этой модели можно заменить на 1 heavy flamer.',
-      'multi-laser этой модели можно заменить на одно из следующего:\n▪ 1 heavy bolter*\n▪ 1 heavy flamer*',
+      'multi-laser этой модели можно заменить на одно из следующего:\n▪ 1 heavy bolter*\n▪ 1 heavy flamer*\n\n* Это оружие заменить нельзя.',
       'Эту модель можно снабдить одним из следующего:\n▪ 1 heavy stubber\n▪ 1 storm bolter',
       'Эту модель можно снабдить 1 hunter-killer missile.',
-      '* Это оружие заменить нельзя.',
     ],
     transport:
       'Эта модель имеет транспортную вместимость 13 моделей INQUISITOR INFANTRY и INQUISITORIAL AGENT. Она не может перевозить модели TERMINATOR.',

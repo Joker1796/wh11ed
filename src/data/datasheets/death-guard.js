@@ -152,6 +152,7 @@ export default [
       "units": [
         "Plague Marines"
       ],
+      "footer": "* This model can be attached to a Plague Marines unit even if one other Leader unit has already been attached to it (it cannot attach more than one of the same Leader to the same unit). If it does, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Chaos",
@@ -753,7 +754,7 @@ export default [
     ],
     "loadout": "**This model is equipped with:** predator autocannon; armoured tracks.",
     "options": [
-      "This model can be equipped with one of the following:\n▪ 2 heavy bolters\n▪ 2 lascannons",
+      "This model can be equipped with one of the following:\n▪ 2 lascannons\n▪ 2 heavy bolters",
       "This model can be equipped with one of the following:\n▪ 1 combi-bolter\n▪ 1 combi-weapon",
       "This model can be equipped with 1 havoc launcher."
     ],
@@ -1010,7 +1011,7 @@ export default [
       }
     ],
     "composition": [
-      "1 Daemon Prince of Nurgle"
+      "1 Death Guard Daemon Prince"
     ],
     "loadout": "**This model is equipped with:** infernal cannon; hellforged weapons.",
     "keywords": [
@@ -1706,6 +1707,7 @@ export default [
       "units": [
         "Plague Marines"
       ],
+      "footer": "* This model can be attached to a Plague Marines unit even if one other Leader unit has already been attached to it (it cannot attach more than one of the same Leader to the same unit). If it does, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Chaos",
@@ -2142,6 +2144,7 @@ export default [
       "units": [
         "Plague Marines"
       ],
+      "footer": "* This model can be attached to a Plague Marines unit even if one other Leader unit has already been attached to it (it cannot attach more than one of the same Leader to the same unit). If it does, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Chaos",
@@ -2857,7 +2860,7 @@ export default [
       }
     ],
     "composition": [
-      "1-2 Myphitic Blight-hulers"
+      "1-2 Myphitic Blight-haulers"
     ],
     "loadout": "**Every model is equipped with:** bile spurt; missile launcher; multi-melta; gnashing maw.",
     "keywords": [
@@ -2958,6 +2961,7 @@ export default [
         "Poxwalkers",
         "Plague Marines"
       ],
+      "footer": "* This model can be attached to a Plague Marines or Poxwalkers unit even if one other Leader unit has already been attached to it (it cannot attach more than one of the same Leader to the same unit). If it does, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Character",
@@ -3462,6 +3466,7 @@ export default [
       "units": [
         "Plague Marines"
       ],
+      "footer": "* This model can be attached to a Plague Marines unit even if one other Leader unit has already been attached to it (it cannot attach more than one of the same Leader to the same unit). If it does, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Plague Surgeon",
@@ -3936,6 +3941,7 @@ export default [
       "units": [
         "Plague Marines"
       ],
+      "footer": "* This model can be attached to a Plague Marines unit even if one other Leader unit has already been attached to it (it cannot attach more than one of the same Leader to the same unit). If it does, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Tallyman",
