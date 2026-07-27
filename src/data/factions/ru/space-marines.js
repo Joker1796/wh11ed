@@ -951,7 +951,9 @@ export default {
 Каждый раз, когда юнит Tank Ace вашей армии стреляет в вашей фазе стрельбы, если тот юнит не продвигался в этом ходу, вы можете [gloss:re-roll:перебросить] [gloss:damage-roll:бросок урона].
 
 ### Keywords | Ключевые слова
-Юниты Adeptus Astartes Vehicle вашей армии (исключая Fortifications, Drop Pods, Walkers и юниты, которые могут Fly) имеют [gloss:keywords:ключевое слово] Tank Ace. На шаге [gloss:muster-armies:Muster Armies] вы можете выбрать до трёх юнитов Tank Ace вашей армии, чтобы они получили ключевое слово Character.`,
+Юниты Adeptus Astartes Vehicle вашей армии (исключая Fortifications, Drop Pods, Walkers и юниты, которые могут Fly) имеют [gloss:keywords:ключевое слово] Tank Ace. На шаге [gloss:muster-armies:Muster Armies] вы можете выбрать до трёх юнитов Tank Ace вашей армии, чтобы они получили ключевое слово Character.
+
+**Примечание разработчика:** это значит, что выбранным юнитам можно дать улучшения, а один из них может быть выбран вашим Warlord.`,
       },
       stratagems: [
         armourOfContempt,

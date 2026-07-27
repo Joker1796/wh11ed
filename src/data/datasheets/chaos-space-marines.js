@@ -623,7 +623,7 @@ export default [
         "d": "1"
       },
       {
-        "name": "Astartes chainblade",
+        "name": "Astartes chainsword",
         "tags": [],
         "a": "7",
         "ws": "2+",
@@ -930,7 +930,7 @@ export default [
       }
     ],
     "composition": [
-      "1 Chaos Lord"
+      "1 Chaos Lord with Jump Pack"
     ],
     "loadout": "**This model is equipped with:** bolt pistol; accursed weapon.",
     "options": [
@@ -1899,7 +1899,7 @@ export default [
         "a": "4",
         "ws": "4+",
         "s": "4",
-        "ap": "-1",
+        "ap": "0",
         "d": "1"
       }
     ],
@@ -3898,7 +3898,7 @@ export default [
     "composition": [
       "1 Huron Blackheart – EPIC HERO"
     ],
-    "loadout": "**This model is equipped with:**  Tyrant’s Claw heavy flamer; Tyrant’s Claw and exalted power weapon.",
+    "loadout": "**This model is equipped with:** Tyrant’s Claw heavy flamer; Tyrant’s Claw and exalted power weapon.",
     "options": [
       "None"
     ],
@@ -4959,6 +4959,7 @@ export default [
         "d": "1"
       }
     ],
+    "core": "Support",
     "faction": "Dark Pacts",
     "abilities": [
       {
@@ -4974,12 +4975,15 @@ export default [
         "text": "Once per battle, after this unit ends a Normal move, you can select one visible enemy unit within 12\" of it and roll one D6: on a 2+, that enemy unit suffers D3+1 mortal wounds."
       }
     ],
-    "specialAbilities": [
-      {
-        "name": "MASTERS OF THE MAELSTROM",
-        "text": "At the start of the Declare Battle Formations step, this unit can join one of the following units. This unit then counts as part of that unit for the rest of the battle, and that unit’s Starting Strength is increased accordingly.\n▪ Chosen, Legionaries, Red Corsairs Raiders\nThis unit cannot join an Attached unit, and only Huron Blackheart can join a unit this unit has joined."
-      }
-    ],
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Chosen",
+        "Legionaries",
+        "Red Corsairs Raiders"
+      ],
+      "footer": "* This unit cannot join an Attached unit, and only HURON BLACKHEART can join a unit this unit has joined."
+    },
     "composition": [
       "1 Garreon the Corpsemaster – EPIC HERO",
       "1 Garlon Souleater – EPIC HERO",
@@ -6047,7 +6051,7 @@ export default [
     "factionKeywords": [
       "Heretic Astartes"
     ],
-    "baseSize": "40mm"
+    "baseSize": "32mm"
   },
   {
     "id": "red-corsairs-reave-captain",
@@ -6170,7 +6174,7 @@ export default [
     "factionKeywords": [
       "Heretic Astartes"
     ],
-    "baseSize": "32mm"
+    "baseSize": "40mm"
   },
   {
     "id": "sorcerer",

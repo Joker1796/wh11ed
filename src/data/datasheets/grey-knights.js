@@ -477,7 +477,7 @@ export default [
         "d": "2"
       },
       {
-        "name": "Servo-arms",
+        "name": "Servo-arm",
         "tags": [
           "EXTRA ATTACKS"
         ],
@@ -527,7 +527,7 @@ export default [
     "factionKeywords": [
       "Grey Knights"
     ],
-    "baseSize": "32mm"
+    "baseSize": "40mm"
   },
   {
     "id": "brotherhood-terminator-squad",

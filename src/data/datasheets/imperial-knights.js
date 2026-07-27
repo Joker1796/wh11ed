@@ -784,10 +784,9 @@ export default [
     "faction": "",
     "abilities": [],
     "composition": [
-      "1 Sir Hekhtur",
-      "Set up when Canis Rex is destroyed (see Canis Rex)."
+      "1 Sir Hekhtur – EPIC HERO"
     ],
-    "loadout": "**This model is equipped with:** Hekhtur’s pistol; close combat weapon.",
+    "loadout": "**Sir Hekhtur is equipped with:** Hekhtur’s pistol; close combat weapon.",
     "keywords": [
       "Character",
       "Epic Hero",
@@ -1864,7 +1863,7 @@ export default [
         "tags": [],
         "a": "4",
         "ws": "4+",
-        "s": "7",
+        "s": "8",
         "ap": "-1",
         "d": "2"
       }
@@ -1890,13 +1889,12 @@ export default [
       "text": "While this model has 1-6 wounds remaining, subtract 4 from this model’s Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
     },
     "composition": [
-      "1 Knight Defender"
+      "1 Knight Destrier"
     ],
     "loadout": "**This model is equipped with:** 1 chastiser gatling cannon;\n1 frag bombard; 1 Questoris heavy stubber; 1 titanic feet.",
     "options": [
       "This model’s chastiser gatling cannon can be replaced with one of the following:\n▪ 1 bellatus reaper chainsword*\n▪ 1 thundershock spear*",
-      "This model’s frag bombard can be replaced with one of the following:\n▪ 1 bellatus reaper chainsword*\n▪ 1 thundershock spear*",
-      "* A model cannot be equipped with more than one bellatus reaper chainsword or more than one thundershock spear."
+      "This model’s frag bombard can be replaced with one of the following:\n▪ 1 bellatus reaper chainsword*\n▪ 1 thundershock spear*\n\n* A model cannot be equipped with more than one bellatus reaper chainsword or more than one thundershock spear."
     ],
     "keywords": [
       "Imperium",
@@ -1911,7 +1909,7 @@ export default [
     "factionKeywords": [
       "Imperial Knights"
     ],
-    "baseSize": "150x95mm Oval Base"
+    "baseSize": "150mm Oval Base"
   },
   {
     "id": "knight-errant",
@@ -2432,7 +2430,7 @@ export default [
     "composition": [
       "1 Knight Paladin"
     ],
-    "loadout": "**This model is equipped with:** meltagun; Questoris heavy stubber; rapid-fire battlecannon; reaper chainsword.",
+    "loadout": "**This model is equipped with:** meltagun; Questoris heavy stubber; rapid-fire battle cannon; reaper chainsword.",
     "options": [
       "This model’s meltagun can be replaced with 1 Questoris heavy stubber.",
       "This model’s reaper chainsword can be replaced with 1 thunderstrike gauntlet.",
@@ -2635,7 +2633,7 @@ export default [
     "composition": [
       "1 Knight Preceptor"
     ],
-    "loadout": "**This model is equipped with:** las-impulsor; Preceptor multi-laser; reaper chainsword.",
+    "loadout": "**This model is equipped with:** las-impulsor; Questoris multi-laser; reaper chainsword.",
     "options": [
       "This model’s Questoris multi-laser can be replaced with one of the following\n▪ 1 meltagun\n▪ 1 Questoris heavy stubber",
       "This model’s reaper chainsword can be replaced with 1 thunderstrike gauntlet.",

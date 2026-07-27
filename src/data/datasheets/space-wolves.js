@@ -1433,7 +1433,7 @@ export default [
         ],
         "range": "12\"",
         "a": "D6",
-        "bs": "3+",
+        "bs": "N/A",
         "s": "5",
         "ap": "-1",
         "d": "1"
@@ -1496,7 +1496,7 @@ export default [
         "d": "3"
       },
       {
-        "name": "Fenrisian greataxe – strike",
+        "name": "Fenrisian great axe – strike",
         "tags": [],
         "a": "6",
         "ws": "3+",
@@ -1505,7 +1505,7 @@ export default [
         "d": "D6+1"
       },
       {
-        "name": "Fenrisian greataxe – sweep",
+        "name": "Fenrisian great axe – sweep",
         "tags": [],
         "a": "12",
         "ws": "3+",
@@ -1535,7 +1535,7 @@ export default [
     "options": [
       "This model’s assault cannon can be replaced with one of the following:\n▪ 1 helfrost cannon\n▪ 1 multi-melta",
       "This model’s storm bolter can be replaced with 1 heavy flamer.",
-      "This model’s assault cannon, storm bolter and Dreadnought combat weapon can be replaced with one of the following:\n▪ 1 Fenrisian greataxe, 1 blizzard shield and 1 storm bolter\n▪ 1 Fenrisian greataxe, 1 blizzard shield and 1 heavy flamer"
+      "This model’s assault cannon, storm bolter and Dreadnought combat weapon can be replaced with one of the following:\n▪ 1 Fenrisian great axe, 1 blizzard shield and 1 storm bolter\n▪ 1 Fenrisian great axe, 1 blizzard shield and 1 heavy flamer"
     ],
     "keywords": [
       "Venerable Dreadnought",
@@ -1732,7 +1732,7 @@ export default [
     "flavor": "It is the duty of Wolf Guard Headtakers to break through the enemy line and hunt down commanders and champions. In this task, they are aided by packs of Fenrisian hunting wolves. These cunning beasts scatter enemy formations and harry the Headtakers’ prey, enabling their handlers to close in and dispense the Allfather’s justice with their master-crafted weapons.",
     "profiles": [
       {
-        "name": "Wolf Guard Headtakers",
+        "name": "Wolf Guard Headtaker",
         "m": "7\"",
         "t": "4",
         "sv": "3+",
@@ -1749,7 +1749,7 @@ export default [
         "w": "1",
         "ld": "8+",
         "oc": "0",
-        "baseSize": "60x35.5mm Oval Base"
+        "baseSize": "60x35.5mm"
       }
     ],
     "ranged": [
@@ -1965,7 +1965,7 @@ export default [
     "loadout": "**The Wolf Guard Terminator Pack Leader is equipped with:** storm bolter; master-crafted power weapon.\n\n**Every Wolf Guard Terminator is equipped with:** storm bolter; master-crafted power weapon.",
     "options": [
       "Any number of models can each have their storm bolter replaced with 1 storm shield.",
-      "For every 5 models in this unit, 1 Wolf Guard Terminator can replace its storm bolter and master-crafted power weapon with 1 assault cannon and 1 powerfist.",
+      "For every 5 models in this unit, 1 Wolf Guard Terminator can replace its storm bolter and master-crafted power weapon with 1 assault cannon and 1 power fist.",
       "The Wolf Guard Terminator Pack Leader’s storm bolter and master-crafted power weapon can be replaced with 1 of the following:\n▪ 1 relic greataxe\n▪ 1 twin lightning claws"
     ],
     "keywords": [
@@ -2110,7 +2110,7 @@ export default [
         "w": "1",
         "ld": "8+",
         "oc": "0",
-        "baseSize": "60x35.5mm Oval Base"
+        "baseSize": "60x35.5mm"
       }
     ],
     "ranged": [
@@ -2441,7 +2441,7 @@ export default [
     ],
     "melee": [
       {
-        "name": "Fenrisian greataxe – strike",
+        "name": "Fenrisian great axe – strike",
         "tags": [],
         "a": "6",
         "ws": "3+",
@@ -2450,7 +2450,7 @@ export default [
         "d": "D6+1"
       },
       {
-        "name": "Fenrisian greataxe – sweep",
+        "name": "Fenrisian great axe – sweep",
         "tags": [],
         "a": "12",
         "ws": "3+",
@@ -2489,9 +2489,9 @@ export default [
     "composition": [
       "1 Wulfen Dreadnought"
     ],
-    "loadout": "**This model is equipped with:** storm bolter; Fenrisian greataxe; great wolf claw.",
+    "loadout": "**This model is equipped with:** storm bolter; Fenrisian great axe; great wolf claw.",
     "options": [
-      "This model’s Fenrisian greataxe or great wolf claw and storm bolter can be replaced with 1 blizzard shield and 1 heavy flamer.",
+      "This model’s Fenrisian great axe or great wolf claw and storm bolter can be replaced with 1 blizzard shield and 1 heavy flamer.",
       "If this model is not equipped with a storm bolter, its heavy flamer can be replaced with 1 storm bolter."
     ],
     "keywords": [

@@ -198,9 +198,7 @@ Each time one of the triggers shown in the Agile Manoeuvres section below occurs
 In addition, at the end of your opponent's turn, you can select a number of **Asuryani Mounted** or **Vyper** units from your army (excluding units within Engagement Range of one or more enemy units), then remove those units from the battlefield and place them into Strategic Reserves. The maximum number of units you can select depends on the battle size:
 ▪ **Incursion:** 1 unit.
 ▪ **Strike Force:** 2 units.
-▪ **Onslaught:** 3 units.
-
-**Keywords:** Windriders units from your army gain the **Battleline** keyword.`,
+▪ **Onslaught:** 3 units.`,
       },
       stratagems: [
         {
@@ -314,9 +312,7 @@ In addition, at the end of your opponent's turn, you can select a number of **As
         body: `Each time an **Asuryani Psyker** model from your army is destroyed by an enemy unit, that enemy unit gains a Vengeful Dead token. Each time a **Wraith Construct** model from your army makes an attack that targets a unit with one or more Vengeful Dead tokens, add 1 to the Hit roll and add 1 to the Wound roll.
 
 Asuryani Psyker models from your army have the following ability:
-▪ **Spirit Guides (Aura):** While a Wraithblades, Wraithguard or Wraithlord unit from your army is within 12" of this model, that unit has the Battle Focus ability.
-
-**Keywords:** Wraithblades and Wraithguard units from your army gain the **Battleline** keyword.`,
+▪ **Spirit Guides (Aura):** While a Wraithblades, Wraithguard or Wraithlord unit from your army is within 12" of this model, that unit has the Battle Focus ability.`,
       },
       stratagems: [
         {

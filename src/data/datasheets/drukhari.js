@@ -105,7 +105,7 @@ export default [
     "wargearAbilities": [
       {
         "name": "Shadowfield",
-        "text": "You cannot re-roll invulnerable saving throws made for the bearer. The first time an invulnerable saving throw made for the bearer is failed, until the end of the battle, the bearer has no invulnerable save."
+        "text": "While this model has an InSv, this unit cannot re-roll **save rolls**. When this model loses a wound (excluding from **mortal wounds**), this model has no InSv until the end of the battle."
       },
       {
         "name": "Soul Trap",
@@ -867,9 +867,7 @@ export default [
       },
       {
         "name": "Demiklaives – dual blades",
-        "tags": [
-          "TWIN-LINKED"
-        ],
+        "tags": [],
         "a": "6",
         "ws": "3+",
         "s": "4",
@@ -2212,7 +2210,7 @@ export default [
       "1 Solarite",
       "4 Scourges"
     ],
-    "loadout": "**The Solarite is equipped with:** shardcarbine; close combat weapon.",
+    "loadout": "**Every model is equipped with:** shardcarbine; close combat weapon.",
     "options": [
       "The Solarite’s shardcarbine can be replaced with one of the following:\n▪ 1 blast pistol and 1 power weapon\n▪ 1 splinter pistol and 1 power weapon",
       "1 Scourge’s shardcarbine can be replaced with one of the following:\n▪ 1 blaster\n▪ 1 shredder"
@@ -2650,7 +2648,7 @@ export default [
         "a": "D6",
         "bs": "3+",
         "s": "7",
-        "ap": "-2",
+        "ap": "-1",
         "d": "1"
       }
     ],
@@ -2798,7 +2796,7 @@ export default [
         "d": "1"
       },
       {
-        "name": "Torturer’s tools",
+        "name": "Torturer’s tool",
         "tags": [
           "ANTI-INFANTRY 4+"
         ],

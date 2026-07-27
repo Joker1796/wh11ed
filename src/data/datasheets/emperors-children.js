@@ -1135,10 +1135,6 @@ export default [
       {
         "name": "Daemon Primarch of Slaanesh",
         "text": "At the start of your opponent’s Command phase, select one of the abilities in the Daemon Primarch of Slaanesh section (see below). Until the start of your opponent’s next Command phase, this model has that ability."
-      },
-      {
-        "name": "Serpentine",
-        "text": "Each time this model makes a Normal, Advance or Fall Back move, it can move over sections of terrain features that are 4\" or less in height."
       }
     ],
     "specialAbilities": [

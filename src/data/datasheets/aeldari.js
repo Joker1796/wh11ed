@@ -85,7 +85,6 @@ export default [
       "Aspect Warrior"
     ],
     "factionKeywords": [
-      "",
       "Asuryani"
     ],
     "baseSize": "40mm"
@@ -272,7 +271,6 @@ export default [
       "Autarch"
     ],
     "factionKeywords": [
-      "",
       "Asuryani"
     ],
     "baseSize": "32mm"
@@ -450,7 +448,6 @@ export default [
       "Autarch Wayleaper"
     ],
     "factionKeywords": [
-      "",
       "Asuryani"
     ],
     "baseSize": "32mm"
@@ -540,7 +537,6 @@ export default [
       "Avatar of Khaine"
     ],
     "factionKeywords": [
-      "",
       "Asuryani"
     ],
     "baseSize": "80mm"
@@ -630,8 +626,7 @@ export default [
       "Baharroth"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ],
     "baseSize": "40mm"
   },
@@ -800,7 +795,7 @@ export default [
     ],
     "loadout": "**Every model is equipped with:** shuriken pistol; Corsair blade.",
     "options": [
-      "The Skyreaver Felarch can replace its shuriken pistol with one of the following:\n▪ 1  blast pistol\n▪ 1 neuro disruptor",
+      "The Skyreaver Felarch can replace its shuriken pistol with one of the following:\n▪ 1 blast pistol\n▪ 1 neuro disruptor",
       "For every 5 models in the unit, up to 2 Skyreaver models can each have their shuriken pistol and Corsair blade replaced with one of the following*:\n▪ 1 blaster and 1 close combat weapon\n▪ 1 flamer and 1 close combat weapon\n▪ 1 fusion gun and 1 close combat weapon\n▪ 1 shredder and 1 close combat weapon",
       "* You cannot select the same option more than once per unit unless it contains 10 models, in which case you cannot select the same weapon more than twice per unit."
     ],
@@ -814,7 +809,6 @@ export default [
       "Corsair Skyreavers"
     ],
     "factionKeywords": [
-      "",
       "Asuryani"
     ],
     "baseSize": "28.5mm"
@@ -988,8 +982,7 @@ export default [
       "Aeldari"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ],
     "baseSize": "28.5mm"
   },
@@ -1220,7 +1213,7 @@ export default [
       "0-1 Soul Weaver",
       "0-1 Way Seeker"
     ],
-    "loadout": "**Every Corsair Voidscarred and Voidscarred Felarch is equipped with:** shuriken pistol; power sword; close combat weapon.\n\n**A Shade Runner is equipped with:** shuriken pistol; paired Hekatarii blades.\n\n**A Soul Weaver is equipped with:** shuriken pistol; power sword; channeller stones.\n\n**A Way Seeker is equipped with:** shuriken pistol; Executioner; witch staff.",
+    "loadout": "**Every Corsair Voidscarred and Voidscarred Felarch is equipped with:** shuriken pistol; power sword; close combat weapon.\n\n**A Shade Runner is equipped with:** shuriken pistol; close combat weapon; paired Hekatarii blades.\n\n**A Soul Weaver is equipped with:** shuriken pistol; power sword; close combat weapon; channeller stones.\n\n**A Way Seeker is equipped with:** shuriken pistol; Executioner; close combat weapon; witch staff.",
     "options": [
       "Any number of Corsair Voidscarred can each have their shuriken pistol and power sword replaced with 1 shuriken rifle.",
       "The Voidscarred Felarch’s shuriken pistol can be replaced with one of the following:\n▪ 1 neuro disruptor\n▪ 1 shuriken rifle",
@@ -1240,7 +1233,6 @@ export default [
       "Anhrathe"
     ],
     "factionKeywords": [
-      "",
       "Asuryani"
     ],
     "baseSize": "28.5mm"
@@ -1337,8 +1329,7 @@ export default [
       "Frame"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ],
     "baseSize": "120x92mm Oval Base"
   },
@@ -1432,11 +1423,11 @@ export default [
       "D-cannon Platform",
       "Infantry",
       "Aeldari",
-      "Support Weapon"
+      "Support Weapon",
+      "Frame"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ],
     "baseSize": "40mm"
   },
@@ -1570,7 +1561,7 @@ export default [
     "abilities": [
       {
         "name": "Inescapable Accuracy",
-        "text": "Each time a model in this unit makes a ranged attack, you can ignore any or all modifiers to that attack’s Ballistic Skill characteristic and any or all modifiers to the Hit roll."
+        "text": "Each time a model in this unit makes a ranged attack, you can ignore any or all modifiers to that attack’s Ballistic Skill characteristic and to the Hit roll."
       }
     ],
     "wargearAbilities": [
@@ -1595,8 +1586,7 @@ export default [
       "Aeldari"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ]
   },
   {
@@ -1679,8 +1669,7 @@ export default [
       "Death Jester"
     ],
     "factionKeywords": [
-      "Harlequins",
-      ""
+      "Harlequins"
     ],
     "baseSize": "25mm"
   },
@@ -1814,7 +1803,6 @@ export default [
       "Aeldari"
     ],
     "factionKeywords": [
-      "",
       "Asuryani"
     ]
   },
@@ -1871,7 +1859,7 @@ export default [
     ],
     "melee": [
       {
-        "name": "Staff of Ulthamar and witchblade",
+        "name": "The Staff of Ulthamar and witchblade",
         "tags": [
           "ANTI-INFANTRY 2+",
           "PSYCHIC"
@@ -1906,6 +1894,7 @@ export default [
         "Storm Guardians",
         "Guardian Defenders"
       ],
+      "footer": "* If this model is not already attached to a unit, you can attach this model to a unit even if one Warlocks unit has already been attached to it."
     },
     "keywords": [
       "Infantry",
@@ -1917,8 +1906,7 @@ export default [
       "Character"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ],
     "baseSize": "32mm"
   },
@@ -2071,11 +2059,11 @@ export default [
       "Fly",
       "Falcon",
       "Vehicle",
-      "Aeldari"
+      "Aeldari",
+      "Frame"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ],
     "baseSize": "Large Flying Base"
   },
@@ -2202,8 +2190,7 @@ export default [
       "Farseer"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ],
     "baseSize": "25mm"
   },
@@ -2344,8 +2331,7 @@ export default [
       "Farseer"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ],
     "baseSize": "Small Flying Base"
   },
@@ -2518,7 +2504,6 @@ export default [
       "Aspect Warriors"
     ],
     "factionKeywords": [
-      "",
       "Asuryani"
     ]
   },
@@ -2628,11 +2613,11 @@ export default [
       "Vehicle",
       "Aeldari",
       "Fire Prism",
-      "Fly"
+      "Fly",
+      "Frame"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ],
     "baseSize": "Large Flying Base"
   },
@@ -2731,7 +2716,6 @@ export default [
       "Fuegan"
     ],
     "factionKeywords": [
-      "",
       "Asuryani"
     ],
     "baseSize": "40mm"
@@ -2887,8 +2871,7 @@ export default [
       "Grenades"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ]
   },
   {
@@ -2962,8 +2945,7 @@ export default [
       "Frame"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ],
     "baseSize": "120x92mm Oval Base"
   },
@@ -3112,7 +3094,6 @@ export default [
       "Howling Banshees"
     ],
     "factionKeywords": [
-      "",
       "Asuryani"
     ]
   },
@@ -3197,7 +3178,6 @@ export default [
       "Phoenix Lord"
     ],
     "factionKeywords": [
-      "",
       "Asuryani"
     ],
     "baseSize": "40mm"
@@ -3292,7 +3272,6 @@ export default [
       "Kharseth"
     ],
     "factionKeywords": [
-      "",
       "Asuryani"
     ],
     "baseSize": "32mm"
@@ -3394,7 +3373,6 @@ export default [
       "Lhykhis"
     ],
     "factionKeywords": [
-      "",
       "Asuryani"
     ],
     "baseSize": "40mm"
@@ -3462,7 +3440,7 @@ export default [
     "composition": [
       "1 Maugan Ra"
     ],
-    "loadout": "**This model is equipped with:** Maugetar.",
+    "loadout": "**This model is equipped with:** the Maugetar.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
@@ -3479,8 +3457,7 @@ export default [
       "Infantry"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ],
     "baseSize": "40mm"
   },
@@ -3586,11 +3563,11 @@ export default [
       "Aeldari",
       "Night Spinner",
       "Vehicle",
-      "Fly"
+      "Fly",
+      "Frame"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ],
     "baseSize": "Large Flying Base"
   },
@@ -3740,8 +3717,7 @@ export default [
       "Towering"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ],
     "baseSize": "Hull"
   },
@@ -3817,7 +3793,7 @@ export default [
       },
       {
         "name": "Prince of Corsairs",
-        "text": "After both players have deployed their armies, if this unit is on the battlefield (or any Transport it is embarked within is on the battlefield), select up to three AELDARI units from your army and redeploy them. When doing so, you can set those units up in Strategic Reserves, regardless of how many units are already in Strategic Reserves."
+        "text": "After both players have deployed their armies, if this unit is on the battlefield (or any Transport it is embarked within is on the battlefield), select up to three AELDARI units from your army and redeploy them. When doing so, you can set those units up in Strategic Reserves if you wish, regardless of how many units are already in Strategic Reserves."
       }
     ],
     "composition": [
@@ -3843,7 +3819,6 @@ export default [
       "Prince Yriel"
     ],
     "factionKeywords": [
-      "",
       "Asuryani"
     ],
     "baseSize": "40mm"
@@ -3935,7 +3910,6 @@ export default [
       "Infantry"
     ],
     "factionKeywords": [
-      "",
       "Asuryani"
     ],
     "baseSize": "28.5mm"
@@ -4054,7 +4028,6 @@ export default [
       "Towering"
     ],
     "factionKeywords": [
-      "",
       "Asuryani"
     ],
     "baseSize": "Hull"
@@ -4142,11 +4115,11 @@ export default [
       "Support Weapon",
       "Infantry",
       "Aeldari",
-      "Shadow Weaver Platform"
+      "Shadow Weaver Platform",
+      "Frame"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ],
     "baseSize": "40mm"
   },
@@ -4260,8 +4233,7 @@ export default [
       "Grenades"
     ],
     "factionKeywords": [
-      "Harlequins",
-      ""
+      "Harlequins"
     ],
     "baseSize": "25mm"
   },
@@ -4422,8 +4394,7 @@ export default [
       "Aspect Warriors"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ]
   },
   {
@@ -4522,7 +4493,6 @@ export default [
       "Aeldari"
     ],
     "factionKeywords": [
-      "",
       "Asuryani"
     ],
     "baseSize": "Large Flying Base"
@@ -4633,7 +4603,6 @@ export default [
       "Aeldari"
     ],
     "factionKeywords": [
-      "",
       "Harlequins"
     ],
     "baseSize": "Large Flying Base"
@@ -4709,8 +4678,7 @@ export default [
       "Character"
     ],
     "factionKeywords": [
-      "Harlequins",
-      ""
+      "Harlequins"
     ],
     "baseSize": "25mm"
   },
@@ -4793,8 +4761,7 @@ export default [
       "Psyker"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ],
     "baseSize": "25mm"
   },
@@ -4883,10 +4850,9 @@ export default [
       "Fly",
       "Smoke",
       "Grenades",
-      "Starfangs"
+      "Starfang"
     ],
     "factionKeywords": [
-      "",
       "Asuryani"
     ],
     "baseSize": "105x70mm Oval Base"
@@ -4958,10 +4924,10 @@ export default [
       "Starweaver",
       "Vehicle",
       "Aeldari",
-      "Transport"
+      "Transport",
+      "Frame"
     ],
     "factionKeywords": [
-      "",
       "Harlequins"
     ],
     "baseSize": "Large Flying Base"
@@ -5096,8 +5062,7 @@ export default [
       "Grenades"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ]
   },
   {
@@ -5242,7 +5207,6 @@ export default [
       "Aeldari"
     ],
     "factionKeywords": [
-      "",
       "Asuryani"
     ]
   },
@@ -5415,8 +5379,7 @@ export default [
       "Infantry"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ]
   },
   {
@@ -5512,6 +5475,7 @@ export default [
         "Ynnari Wyches",
         "Yvraine"
       ],
+      "footer": "* You can attach this unit to one of the above units, even if Yvraine has already been attached to it. If you do, and that Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths."
     },
     "keywords": [
       "Character",
@@ -5521,8 +5485,7 @@ export default [
       "The Visarch"
     ],
     "factionKeywords": [
-      "Ynnari",
-      ""
+      "Ynnari"
     ],
     "baseSize": "32mm"
   },
@@ -5589,7 +5552,7 @@ export default [
     "abilities": [
       {
         "name": "Inevitable Death",
-        "text": "Once in each of your opponent’s turns, if this model is on the battlefield when another friendly AELDARI unit is destroyed, just after removing the last model in that unit, you can remove this model from the battlefield and set it up as close as possible to where that destroyed model was destroyed and not within Engagement Range of one or more enemy units."
+        "text": "Once in each of your opponent’s turns, if this model is on the battlefield when another friendly AELDARI unit is destroyed, just after removing the last model in that unit, you can remove this model from the battlefield and set it up as close as possible to where that destroyed model was destroyed and not within Engagement Range of one or more enemy units. Doing so does not prevent this model from being eligible to move."
       },
       {
         "name": "Ethereal Form",
@@ -5617,8 +5580,7 @@ export default [
       "Psyker"
     ],
     "factionKeywords": [
-      "Ynnari",
-      ""
+      "Ynnari"
     ],
     "baseSize": "80mm"
   },
@@ -5765,7 +5727,6 @@ export default [
       "Troupe"
     ],
     "factionKeywords": [
-      "",
       "Harlequins"
     ],
     "baseSize": "25mm"
@@ -5905,8 +5866,7 @@ export default [
       "Aeldari"
     ],
     "factionKeywords": [
-      "Harlequins",
-      ""
+      "Harlequins"
     ],
     "baseSize": "25mm"
   },
@@ -5990,11 +5950,11 @@ export default [
       "Infantry",
       "Aeldari",
       "Support Weapon",
-      "Vibro Cannon Platform"
+      "Vibro Cannon Platform",
+      "Frame"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ],
     "baseSize": "40mm"
   },
@@ -6099,11 +6059,11 @@ export default [
       "Vehicle",
       "Aeldari",
       "Fly",
-      "Voidweaver"
+      "Voidweaver",
+      "Frame"
     ],
     "factionKeywords": [
-      "Harlequins",
-      ""
+      "Harlequins"
     ],
     "baseSize": "Large Flying Base"
   },
@@ -6234,8 +6194,7 @@ export default [
       "Fly"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ],
     "baseSize": "105x70mm Oval Base"
   },
@@ -6366,8 +6325,7 @@ export default [
       "Walker"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ],
     "baseSize": "60mm"
   },
@@ -6493,8 +6451,7 @@ export default [
       "Psyker"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ],
     "baseSize": "32mm"
   },
@@ -6617,16 +6574,17 @@ export default [
       "Warlock Conclave"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ],
     "baseSize": "32mm",
-    "rules": [
-      {
-        "name": "ATTACHMENT",
-        "text": "At the start of the Declare Battle Formations step, if this unit is not an Attached unit, this unit can join one GUARDIAN DEFENDERS or STORM GUARDIANS unit from your army (a unit cannot have more than one WARLOCK CONCLAVE unit joined to it). If it does, until the end of the battle, every model in this unit counts as being part of that Bodyguard unit, and that Bodyguard unit’s Starting Strength is increased accordingly."
-      }
-    ]
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Guardian Defenders",
+        "Storm Guardians"
+      ],
+      "footer": "* At the start of the Declare Battle Formations step, if this unit is not an Attached unit, this unit can join one Guardian Defenders or Storm Guardians unit from your army (a unit cannot have more than one Warlock Conclave unit joined to it). If it does, until the end of the battle, every model in this unit counts as being part of that Bodyguard unit, and that Bodyguard unit’s Starting Strength is increased accordingly."
+    }
   },
   {
     "id": "warlock-skyrunners",
@@ -6757,20 +6715,21 @@ export default [
       "Mounted",
       "Warlocks",
       "Warlock Skyrunners",
+      "Warlock Skyrunner Conclave",
       "Psyker",
       "Fly"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ],
     "baseSize": "Small Flying Base",
-    "rules": [
-      {
-        "name": "ATTACHMENT",
-        "text": "At the start of the Declare Battle Formations step, if this unit is not an Attached unit, this unit can join one WINDRIDERS unit from your army (a unit cannot have more than one WARLOCK SKYRUNNERS unit joined to it). If it does, until the end of the battle, every model in this unit counts as being part of that Bodyguard unit, and that Bodyguard unit’s Starting Strength is increased accordingly."
-      }
-    ]
+    "leader": {
+      "text": "This model can be attached to the following units:",
+      "units": [
+        "Windriders"
+      ],
+      "footer": "* At the start of the Declare Battle Formations step, if this unit is not an Attached unit, this unit can join one Windriders unit from your army (a unit cannot have more than one Warlock Skyrunners unit joined to it). If it does, until the end of the battle, every model in this unit counts as being part of that Bodyguard unit, and that Bodyguard unit’s Starting Strength is increased accordingly."
+    }
   },
   {
     "id": "warp-spiders",
@@ -6944,8 +6903,7 @@ export default [
       "Fly"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ]
   },
   {
@@ -7110,11 +7068,11 @@ export default [
       "Transport",
       "Dedicated Transport",
       "Fly",
-      "Wave Serpent"
+      "Wave Serpent",
+      "Frame"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ],
     "baseSize": "Large Flying Base"
   },
@@ -7215,8 +7173,7 @@ export default [
       "Mounted"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ],
     "baseSize": "Small Flying Base"
   },
@@ -7264,7 +7221,7 @@ export default [
     "abilities": [
       {
         "name": "Malevolent Souls",
-        "text": "Each time a model in this unit is destroyed by a melee attack, if that model has not fought this phase, roll one D6. On a 3+, do not remove it from play; that destroyed model can fight after the attacking unit has finished making its attacks, and is then removed from play."
+        "text": "Each time a model in this unit is destroyed by a melee attack, if that model has not fought this phase, roll one D6. On a 3+, do not remove it from play; that destroyed model can fight after the attacking model’s unit has finished making its attacks, and is then removed from play."
       },
       {
         "name": "Psychic Guidance",
@@ -7291,8 +7248,7 @@ export default [
       "Infantry"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ],
     "baseSize": "40mm"
   },
@@ -7376,8 +7332,7 @@ export default [
       "Wraithguard"
     ],
     "factionKeywords": [
-      "Asuryani",
-      ""
+      "Asuryani"
     ],
     "baseSize": "40mm"
   },
@@ -7520,7 +7475,6 @@ export default [
       "Monster"
     ],
     "factionKeywords": [
-      "",
       "Asuryani"
     ],
     "baseSize": "120x92mm Oval Base"
@@ -7639,7 +7593,7 @@ export default [
       "text": "While this model has 1-6 wounds remaining, subtract 5 from this model’s Objective Control characteristic and each time this model makes an attack, subtract 1 from the Hit roll."
     },
     "composition": [
-      "1 Wraithknight with Ghostglaive"
+      "1 Wraithknight"
     ],
     "loadout": "**This model is equipped with:** titanic ghostglaive; scattershield.",
     "options": [
@@ -7656,7 +7610,6 @@ export default [
       "Towering"
     ],
     "factionKeywords": [
-      "",
       "Asuryani"
     ],
     "baseSize": "120x92mm Oval Base"
@@ -7833,7 +7786,6 @@ export default [
       "Aeldari"
     ],
     "factionKeywords": [
-      "",
       "Asuryani"
     ],
     "baseSize": "60mm"
@@ -7941,7 +7893,6 @@ export default [
       "Archon"
     ],
     "factionKeywords": [
-      "",
       "Ynnari"
     ],
     "baseSize": "32mm"
@@ -8031,7 +7982,7 @@ export default [
     "abilities": [
       {
         "name": "Tormentors",
-        "text": "At the start of the Fight phase, each enemy unit within Engagement Range of one or more units from your army with this ability must take a Battle-shock test."
+        "text": "At the start of the Fight phase, each enemy unit within Engagement Range of one or more units with this ability must take a Battle-shock test."
       }
     ],
     "composition": [
@@ -8040,7 +7991,7 @@ export default [
     ],
     "loadout": "**Every model is equipped with:** klaive.",
     "options": [
-      "The Klaivex’s klaive can be replaced with 1 demilklaives."
+      "The Klaivex’s klaive can be replaced with 1 demiklaives."
     ],
     "keywords": [
       "Incubi",
@@ -8048,7 +7999,6 @@ export default [
       "Infantry"
     ],
     "factionKeywords": [
-      "",
       "Ynnari"
     ]
   },
@@ -8222,8 +8172,7 @@ export default [
       "Aeldari"
     ],
     "factionKeywords": [
-      "Ynnari",
-      ""
+      "Ynnari"
     ],
     "baseSize": "25mm"
   },
@@ -8304,11 +8253,11 @@ export default [
       "Raider",
       "Aeldari",
       "Transport",
-      "Vehicle"
+      "Vehicle",
+      "Frame"
     ],
     "factionKeywords": [
-      "Ynnari",
-      ""
+      "Ynnari"
     ],
     "baseSize": "Large Flying Base"
   },
@@ -8424,7 +8373,7 @@ export default [
     "wargearAbilities": [
       {
         "name": "Cluster Caltrops",
-        "text": "Each time you roll a D6 for the bearer while resolving this unit’s Eviscerating Fly-by ability, you can re-roll the result."
+        "text": "Each time you roll to inflict wounds using this unit’s Eviscerating Fly-by ability, you can re-roll one D6 for each model in this unit equipped with cluster caltrops."
       },
       {
         "name": "Grav-talon",
@@ -8448,7 +8397,6 @@ export default [
       "Fly"
     ],
     "factionKeywords": [
-      "",
       "Ynnari"
     ],
     "baseSize": "Small Flying Base"
@@ -8548,7 +8496,6 @@ export default [
       "Infantry"
     ],
     "factionKeywords": [
-      "",
       "Ynnari"
     ],
     "baseSize": "25mm"
@@ -8638,11 +8585,11 @@ export default [
       "Aeldari",
       "Vehicle",
       "Venom",
-      "Fly"
+      "Fly",
+      "Frame"
     ],
     "factionKeywords": [
-      "Ynnari",
-      ""
+      "Ynnari"
     ],
     "baseSize": "Large Flying Base"
   },
@@ -8731,7 +8678,6 @@ export default [
       "Battleline"
     ],
     "factionKeywords": [
-      "",
       "Ynnari"
     ],
     "baseSize": "25mm"
@@ -8830,9 +8776,8 @@ export default [
       "Epic Hero"
     ],
     "factionKeywords": [
-      "Ynnari",
-      ""
+      "Ynnari"
     ],
-    "baseSize": "75x42mm Oval Base"
+    "baseSize": "74x42mm Oval Base"
   }
 ]

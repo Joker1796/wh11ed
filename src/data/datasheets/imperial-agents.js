@@ -309,7 +309,7 @@ export default [
       "2 Gravis Veterans",
       "7 Deathwatch Veterans"
     ],
-    "loadout": "**The Kill Team Sergeant is equipped with:** plasma pistol; power weapon.\n\n**Each Gravis Veteran is equipped with:** infernus heavy bolter; bolt pistol; close combat weapon.\n\n**For every 5 models in the unit, 1 Deathwatch Veteran is equipped with:** stalker bolt rifle; bolt pistol; close combat weapon.\n\n**For every 5 models in the unit, 1 Deathwatch Veteran is equipped with:** bolt pistol; heavy thunder hammer.\n\n**For every 5 models in the unit, 1 Deathwatch Veteran is equipped with:** Deathwatch marksman bolt carbine; special-issue bolt pistol; close combat weapon.\n\n**If the unit contains 10 models, 1 Deathwatch Veteran is equipped with:** special-issue bolt pistol; xenophase blade.",
+    "loadout": "**Each Kill Team Sergeant is equipped with:** plasma pistol; power weapon.\n\n**Each Gravis Veteran is equipped with:** infernus heavy bolter; bolt pistol; close combat weapon.\n\n**For every 5 models in the unit, 1 Deathwatch Veteran is equipped with:** stalker bolt rifle; bolt pistol; close combat weapon.\n\n**For every 5 models in the unit, 1 Deathwatch Veteran is equipped with:** bolt pistol; heavy thunder hammer.\n\n**For every 5 models in the unit, 1 Deathwatch Veteran is equipped with:** Deathwatch marksman bolt carbine; special-issue bolt pistol; close combat weapon.\n\n**If the unit contains 10 models, 1 Deathwatch Veteran is equipped with:** special-issue bolt pistol; xenophase blade.",
     "options": [
       "For every 5 models in the unit, up to 1 model’s infernus heavy bolter can be replaced with one of the following:\n▪ 1 frag cannon.\n▪ 1 hellstorm bolt rifle and 1 Astartes grenade launcher.",
       "For every 5 models in the unit, up to 1 model’s heavy thunder hammer can be replaced with 1 power weapon and 1 Astartes shield.",
@@ -554,8 +554,7 @@ export default [
       "Transport",
       "Imperium",
       "Ordo Xenos",
-      "Retinue",
-      "Frame"
+      "Retinue"
     ],
     "factionKeywords": [
       "Agents of the Imperium"
@@ -1134,7 +1133,7 @@ export default [
     ],
     "loadout": "**Every Proctor-Exactant and Exaction Vigilant is equipped with:** Arbites combat shotgun; Arbites shotpistol; close combat weapon.\n\n**The Cyber-mastiff is equipped with:** mechanical bite.",
     "options": [
-      "Up to 2 Exaction Vigilants can each have their Arbites combat shotgun replaced with one of the following (duplicates are not allowed):\n▪ 1 executioner shotgun\n▪ 1 Arbites grenade launcher\n▪ 1 heavy stubber\n▪ 1 webber",
+      "Up to 2 Exaction Vigilants can each have their Arbites combat shotguns replaced with one of the following (duplicates are not allowed):\n▪ 1 executioner shotgun\n▪ 1 Arbites grenade launcher\n▪ 1 heavy stubber\n▪ 1 webber",
       "1 Exaction Vigilant that is equipped with an Arbites combat shotgun can be equipped with 1 excruciator maul.*",
       "1 other Exaction Vigilant that is equipped with an Arbites combat shotgun can be equipped with 1 Arbites medi-kit.*",
       "1 other Exaction Vigilant that is equipped with an Arbites combat shotgun can be equipped with 1 soulguilt scanner.*",
@@ -1198,6 +1197,7 @@ export default [
       {
         "name": "Psilencer",
         "tags": [
+          "PRECISION",
           "PSYCHIC",
           "SUSTAINED HITS 1"
         ],
@@ -1266,11 +1266,11 @@ export default [
     ],
     "composition": [
       "1 Terminator Justicar",
-      "4 Grey Knights Terminators"
+      "4 Grey Knight Terminators"
     ],
     "loadout": "**Every model is equipped with:** storm bolter; Nemesis force weapon.",
     "options": [
-      "For every 5 models in this unit, 1 Grey Knights Terminator's storm bolter can be replaced with one of the following:\n▪ 1 incinerator\n▪ 1 psilencer\n▪ 1 psycannon",
+      "1 Grey Knights Terminator's storm bolter can be replaced with one of the following:\n▪ 1 incinerator\n▪ 1 psilencer\n▪ 1 psycannon",
       "1 Grey Knights Terminator equipped with a storm bolter can be equipped with 1 Ancient’s banner.*",
       "1 Grey Knights Terminator can have its storm bolter replaced with 1 narthecium.*",
       "* You cannot select both of these options for the same model."
@@ -1711,7 +1711,7 @@ export default [
     "wargearAbilities": [
       {
         "name": "Blessed Wardings",
-        "text": "While this model is leading a unit, models in that unit have the 6+ invulnerable save."
+        "text": "While the bearer is leading a unit, models in that unit have a 6+ invulnerable save."
       },
       {
         "name": "Psychic Gifts",
@@ -1958,7 +1958,7 @@ export default [
       }
     ],
     "composition": [
-      "1 Inquisitor Draxus – EPIC HERO"
+      "1 Lord Inquisitor Kyria Draxus – EPIC HERO"
     ],
     "loadout": "**This model is equipped with:** Dirgesinger; Psychic Tempest; power fist.",
     "leader": {
@@ -2072,7 +2072,7 @@ export default [
     "composition": [
       "1 Inquisitor Greyfax – EPIC HERO"
     ],
-    "loadout": "**This model is equipped with:** Castigation; condemnor stake; master-crafter power sword.",
+    "loadout": "**This model is equipped with:** Castigation; condemnor stake; master-crafted power sword.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
@@ -2392,7 +2392,7 @@ export default [
       "For every 5 Inquisitorial Agents in this unit, 1 Inquisitorial Agent can be equipped with 1 eviscerator.**",
       "For every 5 Inquisitorial Agents in this unit, 1 Inquisitorial Agent can be equipped with 1 mystic stave.**",
       "Any number of Gun Servitors can each have their heavy bolter replaced with one of the following:\n▪ 1 multi-melta\n▪ 1 plasma cannon",
-      "**The some model cannot be equipped with more than one of these wargear options."
+      "**The same model cannot be equipped with more than one of these wargear options."
     ],
     "keywords": [
       "Retinue",
@@ -2543,10 +2543,9 @@ export default [
     "loadout": "**This model is equipped with:** multi-laser; heavy bolter; lasgun array; armoured tracks.",
     "options": [
       "This model’s heavy bolter can be replaced with 1 heavy flamer.",
-      "This model’s multi-laser can be replaced with one of the following:\n▪ 1 Heavy bolter*\n▪ 1 Heavy flamer*",
+      "This model’s multi-laser can be replaced with one of the following:\n▪ 1 Heavy bolter*\n▪ 1 Heavy flamer*\n\n*This weapon cannot be replaced.",
       "This model can be equipped with one of the following:\n▪ 1 heavy stubber\n▪ 1 storm bolter",
-      "This model can be equipped with 1 hunter-killer missile.",
-      "This weapon cannot be replaced."
+      "This model can be equipped with 1 hunter-killer missile."
     ],
     "transport": "This model has a transport capacity of 13 INQUISITOR INFANTRY and INQUISITORIAL AGENT models. It cannot transport TERMINATOR models.",
     "keywords": [
@@ -3241,7 +3240,7 @@ export default [
       }
     ],
     "composition": [
-      "1 Immolator"
+      "1 Sisters of Battle Immolator"
     ],
     "loadout": "**This model is equipped with:** heavy bolter; immolation flamers; armoured tracks.",
     "options": [
@@ -3256,7 +3255,7 @@ export default [
       "Dedicated Transport",
       "Imperium",
       "Ordo Hereticus",
-      "Immolator",
+      "Sisters of Battle Immolator",
       "Frame"
     ],
     "factionKeywords": [
@@ -4107,11 +4106,7 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Aquila Kill Team",
-        "Deathwatch Kill Team",
-        "Deathwatch Terminator Squad",
-        "Fortis Kill Team",
-        "Indomitor Kill Team",
-        "Spectrus Kill Team"
+        "Deathwatch Kill Team"
       ]
     },
     "keywords": [
@@ -4196,11 +4191,7 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Aquila Kill Team",
-        "Deathwatch Kill Team",
-        "Deathwatch Terminator Squad",
-        "Fortis Kill Team",
-        "Indomitor Kill Team",
-        "Spectrus Kill Team"
+        "Deathwatch Kill Team"
       ]
     },
     "keywords": [

@@ -468,7 +468,9 @@ If this unit has the Infantry keyword:
         name: 'Anointed Champion',
         flavor:
           "The warrior anointed as Emperor's Champion by a crusade's Chaplains is marked as such by the divine omens which assail him. With these visions as a guide, and having devoted what remains of his existence to the rigorous perfection of the blade, the Emperor's Champion becomes a force of righteous and unerring destruction.",
-        body: `▪ When a [gloss:friendly:friendly] Emperor's Champion unit is [gloss:selected-to-fight:selected to fight], that model's [gloss:melee-attacks:melee attacks] can [gloss:re-roll:re-roll] one [gloss:hit-roll:Hit roll] and re-roll one [gloss:wound-roll:Wound roll].
+        body: `▪ When a [gloss:friendly:friendly] Emperor's Champion unit is [gloss:selected-to-fight:selected to fight], that model's [gloss:melee-attacks:melee attacks] can:
+▪ Re-roll one [gloss:hit-roll:Hit roll].
+▪ Re-roll one [gloss:wound-roll:Wound roll].
 ▪ [gloss:enhancement:Enhancements] selected from this detachment do not count towards the total number of enhancements in your army.${chapterLock}`,
       },
       stratagems: [],

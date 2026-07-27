@@ -666,7 +666,7 @@ export default [
     "composition": [
       "1 Big Mek"
     ],
-    "loadout": "**This model is equipped with:** kustom-mega blaster; power klaw.",
+    "loadout": "**This model is equipped with:** kustom mega-blasta; power klaw.",
     "options": [
       "This model’s kustom mega-blasta can be replaced with 1 traktor blasta.",
       "This model’s power klaw can be replaced with 1 drilla."
@@ -899,7 +899,7 @@ export default [
     "composition": [
       "1 Big Mek in Mega Armour"
     ],
-    "loadout": "**This model is equipped with:** kustom-mega blaster; power klaw.",
+    "loadout": "**This model is equipped with:** kustom mega-blasta; power klaw.",
     "options": [
       "This model’s kustom-mega blasta can be replaced with one of the following:\n▪ 1 killsaw\n▪ 1 kombi-weapon\n▪ 1 kustom shoota",
       "This model can be equipped with one of the following:\n▪ 1 tellyport blasta\n▪ 1 kustom force field",
@@ -1107,7 +1107,7 @@ export default [
     "options": [
       "This model can be equipped with up to 3 additional big shootas."
     ],
-    "transport": "This model has a transport capacity of 11 Orks Infantry models (excluding Ghazghkull Thraka). Each Mega Armour or Jump Pack model takes up the space of 2 models.",
+    "transport": "This model has a transport capacity of 11 Orks Infantry models. Each Mega Armour or Jump Pack model takes up the space of 2 models.",
     "keywords": [
       "Big’ed Bossbunka",
       "Transport",
@@ -1521,6 +1521,26 @@ export default [
         "d": "1"
       },
       {
+        "name": "Kombi-rokkit",
+        "tags": [],
+        "range": "24\"",
+        "a": "1",
+        "bs": "5+",
+        "s": "10",
+        "ap": "-2",
+        "d": "3"
+      },
+      {
+        "name": "Kombi-shoota",
+        "tags": [],
+        "range": "24\"",
+        "a": "2",
+        "bs": "5+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
         "name": "Kombi-weapon",
         "tags": [
           "ANTI-INFANTRY 4+",
@@ -1529,6 +1549,18 @@ export default [
         ],
         "range": "24\"",
         "a": "1",
+        "bs": "5+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Kustom shoota",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "18\"",
+        "a": "4",
         "bs": "5+",
         "s": "4",
         "ap": "0",
@@ -1624,8 +1656,9 @@ export default [
     "options": [
       "The Boss Nob’s big choppa can be replaced with 1 power klaw.",
       "The Boss Nob’s big choppa and slugga can be replaced with 1 kombi-weapon and 1 close combat weapon.",
-      "Any number of Boyz can each have their slugga and choppa replaced with 1 shoota and 1 close combat weapon.",
-      "For every 10 models in this unit, 1 Boy’s choppa and slugga can be replaced with one of the following:\n▪ 1 big shoota and 1 close combat weapon\n▪ 1 rokkit launcha and 1 close combat weapon"
+      "The Boss Nob can have its big choppa replaced with one of the following (this model’s big choppa cannot then be replaced):\n▪ 1 big choppa and 1 kustom shoota\n▪ 1 big choppa, 1 kombi-rokkit and 1 kombi-shoota",
+      "Any number of Boyz can each be equipped with 1 shoota.",
+      "For every 10 models in this unit, 1 Boy not equipped with 1 shoota can have its choppa and slugga replaced with one of the following:\n▪ 1 big shoota and 1 close combat weapon\n▪ 1 rokkit launcha and 1 close combat weapon"
     ],
     "keywords": [
       "Infantry",
@@ -1764,7 +1797,7 @@ export default [
     "factionKeywords": [
       "Orks"
     ],
-    "baseSize": "32mm",
+    "baseSize": "32mm / 40mm",
     "rules": [
       {
         "name": "ATTACHED UNIT",
@@ -1876,8 +1909,9 @@ export default [
       }
     ],
     "composition": [
-      "1-2 Spanners",
-      "4-8 Burna Boyz"
+      "1 Spanner and 4 Burna Boyz",
+      "OR",
+      "2 Spanners and 8 Burna Boyz"
     ],
     "loadout": "**Every Spanner is equipped with:** close combat weapon; big shoota.\n\n**Every Burna Boy is equipped with:** burna; cuttin’ flames.",
     "options": [
@@ -2292,7 +2326,7 @@ export default [
     "composition": [
       "1 Defkilla Wartrike"
     ],
-    "loadout": "**This model is equipped with:** defkilla boomsticks; killajet; snagga klaw.",
+    "loadout": "**This model is equipped with:** boomstikks; killa jet; snagga klaw.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
@@ -2874,7 +2908,7 @@ export default [
       "1 Gorkanaut"
     ],
     "loadout": "**This model is equipped with:** deffstorm mega-shoota; 2 rokkit launchas; skorcha; 2 twin big shootas; klaw of Gork.",
-    "transport": "This model has a transport capacity of 12 Orks Infantry models (excluding Ghazghkull Thraka). Each Mega Armour or Jump Pack model takes up the space of 2 models.",
+    "transport": "This model has a transport capacity of 12 Orks Infantry models. Each Mega Armour or Jump Pack model takes up the space of 2 models. It cannot transport Ghazghkull Thraka.",
     "keywords": [
       "Vehicle",
       "Titanic",
@@ -2933,7 +2967,7 @@ export default [
       {
         "name": "RUNTHERD",
         "m": "6\"",
-        "t": "5*",
+        "t": "5",
         "sv": "5+",
         "w": "2",
         "ld": "7+",
@@ -3431,7 +3465,7 @@ export default [
         "d": "1"
       },
       {
-        "name": "Speshul Kommando shoota",
+        "name": "Kustom shoota",
         "tags": [
           "RAPID FIRE 2"
         ],
@@ -3545,7 +3579,7 @@ export default [
     "loadout": "**Every model is equipped with:** slugga; choppa.",
     "options": [
       "The Boss Nob’s choppa can be replaced with one of the following:\n▪ 1 big choppa\n▪ 1 power klaw",
-      "Up to 2 Kommandos can each have their slugga and choppa replaced with 1 speshul Kommando shoota and 1 close combat weapon.",
+      "Up to 2 Kommandos can each have their slugga and choppa replaced with 1 kustom shoota and 1 close combat weapon.",
       "1 Kommando’s slugga and choppa can be replaced with 1 breacha ram.",
       "1 Kommando’s slugga and choppa can be replaced with 1 burna and 1 close combat weapon.",
       "1 Kommando’s slugga and choppa can be replaced with 1 rokkit launcha and 1 close combat weapon.",
@@ -3766,8 +3800,9 @@ export default [
       }
     ],
     "composition": [
-      "1-2 Spanners",
-      "4-8 Lootas"
+      "1 Spanner and 4 Lootas",
+      "OR",
+      "2 Spanners and 8 Lootas"
     ],
     "loadout": "**Every Spanner is equipped with:** big shoota; close combat weapon.\n\n**Every Loota is equipped with:** deffgun; close combat weapon.",
     "options": [
@@ -3910,7 +3945,7 @@ export default [
     ],
     "loadout": "**Every model is equipped with:** kustom shoota; power klaw.",
     "options": [
-      "Any number of models can each have their kustom shoota and power klaw replaced with one of the following:\n▪ 1 kombi-weapon and 1 power klaw\n▪ 1 kombi-weapon and 1 killsaw\n▪ 1 kustom shoota and 1 killsaw\n▪ 1 killsaw and 1 power klaw\n▪ 1 twin killsaw"
+      "Any number of models can each have their kustom shoota and power klaw replaced with one of the following:\n▪ 1 kombi-weapon and 1 power klaw\n▪ 1 kombi-weapon and 1 killsaw\n▪ 1 kustom shoota and 1 killsaw\n▪ 1 killsaw and 1 power klaw\n▪ 1 twin killsaws"
     ],
     "keywords": [
       "Meganobz",
@@ -4062,7 +4097,7 @@ export default [
         "d": "2"
       },
       {
-        "name": "Wrench",
+        "name": "Close combat weapon",
         "tags": [],
         "a": "3",
         "ws": "3+",
@@ -4086,9 +4121,9 @@ export default [
     "composition": [
       "1 Mek"
     ],
-    "loadout": "**This model is equipped with:** kustom mega-slugga; wrench.",
+    "loadout": "**This model is equipped with:** kustom mega-slugga; close combat weapon.",
     "options": [
-      "This model’s wrench can be replaced with 1 killsaw."
+      "This model’s close combat weapon can be replaced with 1 killsaw."
     ],
     "leader": {
       "text": "This model can be attached to the following units:",
@@ -4834,7 +4869,7 @@ export default [
         "d": "1"
       },
       {
-        "name": "Squig launchas",
+        "name": "Squig-launchas",
         "tags": [
           "BLAST",
           "IGNORES COVER",
@@ -4923,7 +4958,7 @@ export default [
         "d": "D6+1"
       },
       {
-        "name": "Rokkit launcha",
+        "name": "Rokkits",
         "tags": [
           "BLAST"
         ],
@@ -4957,7 +4992,7 @@ export default [
     "composition": [
       "1 Shokkjump Dragsta"
     ],
-    "loadout": "**This model is equipped with:** kustom shokk rifle; rokkit launcha; saw blades.",
+    "loadout": "**This model is equipped with:** kustom shokk rifle; rokkits; saw blades.",
     "keywords": [
       "Vehicle",
       "Speed Freeks",
@@ -5036,7 +5071,7 @@ export default [
           "ANTI-MONSTER 4+",
           "ANTI-VEHICLE 4+"
         ],
-        "range": "9\"",
+        "range": "12\"",
         "a": "1",
         "bs": "5+",
         "s": "5",
@@ -5097,12 +5132,13 @@ export default [
       }
     ],
     "composition": [
-      "1-2 Nob On Smasha Squig",
-      "3-6 Squighog Boyz"
+      "1 Nob on Smasha Squig and 3 Squighog Boyz",
+      "OR",
+      "2 Nobz on Smasha Squigs and 6 Squighog Boyz"
     ],
     "loadout": "**Every Nob on Smasha Squig is equipped with:** slugga; big choppa; squig jaws.\n\n**Every Squighog Boy is equipped with:** saddlegit weapons; stikka; squig jaws.",
     "options": [
-      "For every 3 models in this unit, this unit can be equipped with 1 bomb squig."
+      "For every 4 models in this unit, this unit can be equipped with 1 bomb squig."
     ],
     "keywords": [
       "Squighog Boyz",
@@ -5258,7 +5294,7 @@ export default [
       "1 Stompa"
     ],
     "loadout": "**This model is equipped with:** 3 big shootas; deffkannon; skorcha; supa-gatler; supa-rokkits; twin big shoota; mega-choppa.",
-    "transport": "This model has a transport capacity of 22 Orks Infantry models. Each Mega Armour or Jump Pack model takes up the space of 2 models. The Ghazghkull Thraka model takes up the space of 15 models.",
+    "transport": "This model has a transport capacity of 22 Orks Infantry models. Each Mega Armour or Jump Pack model takes up the space of 2 models. The Ghazghkull Thraka model takes up the space of 4 models.",
     "keywords": [
       "Towering",
       "Transport",
@@ -5495,7 +5531,7 @@ export default [
     "factionKeywords": [
       "Orks"
     ],
-    "baseSize": "32mm"
+    "baseSize": "32mm / 40mm"
   },
   {
     "id": "trukk",
@@ -5751,7 +5787,19 @@ export default [
         "d": "1"
       },
       {
-        "name": "Twin slugga",
+        "name": "Kustom shoota",
+        "tags": [
+          "RAPID FIRE 2"
+        ],
+        "range": "18\"",
+        "a": "4",
+        "bs": "5+",
+        "s": "4",
+        "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Twin sluggas",
         "tags": [
           "PISTOL",
           "TWIN-LINKED"
@@ -5786,6 +5834,17 @@ export default [
         "d": "2"
       },
       {
+        "name": "Kustom Choppa",
+        "tags": [
+          "CLEAVE 1"
+        ],
+        "a": "6",
+        "ws": "2+",
+        "s": "8",
+        "ap": "-2",
+        "d": "2"
+      },
+      {
         "name": "Power klaw",
         "tags": [],
         "a": "4",
@@ -5810,10 +5869,11 @@ export default [
     "composition": [
       "1 Warboss"
     ],
-    "loadout": "**This model is equipped with:** kombi-weapon; twin slugga; big choppa.",
+    "loadout": "**This model is equipped with:** kombi-weapon; twin sluggas; big choppa.",
     "options": [
       "This model’s big choppa can be replaced with 1 power klaw.",
-      "This model can be equipped with 1 attack squig."
+      "This model can be equipped with 1 attack squig.",
+      "This model can have its kombi-weapon, twin sluggas and big choppa replaced with 1 kustom choppa and 1 kustom shoota."
     ],
     "leader": {
       "text": "This model can be attached to the following units:",
@@ -6447,7 +6507,7 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Slugga",
+        "name": "Squigstoppa",
         "tags": [
           "ANTI-MONSTER 4+",
           "PISTOL"
@@ -6486,7 +6546,7 @@ export default [
     "composition": [
       "1 Zodgrod Wortsnagga – EPIC HERO"
     ],
-    "loadout": "**This model is equipped with:** Da Grabzappa; slugga.",
+    "loadout": "**This model is equipped with:** Squigstoppa; Da Grabzappa.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [

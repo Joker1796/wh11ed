@@ -72,7 +72,7 @@ export default {
       'Close-quarters Firepower':
         'Каждый раз, когда модель этого юнита совершает дальнобойную атаку по ближайшей допустимой цели, улучшите характеристику Пробития брони (Armour Penetration) этой атаки на 1.',
     },
-    loadout: `${EQUIP_EVERY} flamestorm gauntlets; twin power fist.`,
+    loadout: `${EQUIP_EVERY} flamestorm gauntlets; twin power fists.`,
     options: [
       'Всем моделям этого юнита их flamestorm gauntlets можно заменить на 1 auto boltstorm gauntlets и 1 fragstorm grenade launcher.',
     ],
@@ -438,7 +438,7 @@ export default {
     },
     loadout: `${EQUIP_THIS} bolt pistol; crozius arcanum.`,
     options: [
-      'bolt pistol этой модели можно заменить на одно из следующего:\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 hand flamer\n▪ 1 inferno pistol\n▪ 1 plasma pistol\n▪ 1 storm bolter\n▪ 1 power fist',
+      'bolt pistol этой модели можно заменить на одно из следующего:\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 hand flamer\n▪ 1 inferno pistol\n▪ 1 plasma pistol\n▪ 1 storm bolter\n▪ 1 power fist\n▪ 1 Absolvor bolt pistol',
     ],
     leader: { text: LEADER_TEXT },
   },
@@ -512,7 +512,7 @@ export default {
     loadout: `${EQUIP_EVERY} bolt pistol; boltgun; close combat weapon.`,
     options: [
       'До 4 Devastator Marine их boltgun можно заменить на одно из следующего:\n▪ 1 grav-cannon\n▪ 1 heavy bolter\n▪ 1 lascannon\n▪ 1 missile launcher\n▪ 1 multi-melta\n▪ 1 plasma cannon',
-      'bolt pistol и boltgun у Devastator Sergeant можно заменить на два разных оружия из следующего списка:*\n▪ 1 Astartes chain sword\n▪ 1 bolt pistol\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 plasma pistol\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer',
+      'bolt pistol и boltgun у Devastator Sergeant можно заменить на два разных оружия из следующего списка:*\n▪ 1 Astartes chainsword\n▪ 1 bolt pistol\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 plasma pistol\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer',
       '* Эта модель может быть вооружена двумя дальнобойными оружиями, только если одно из них — Pistol (и у неё может быть лишь один Pistol).',
     ],
   },
@@ -682,8 +682,6 @@ export default {
     abilities: {
       'For the Chapter!':
         'Каждый раз, когда модель этого юнита уничтожается, бросьте один D6: на 3+ не убирайте её из игры. Уничтоженная модель может стрелять после того, как юнит атакующей модели закончил свои атаки, а затем убирается из игры. При отыгрыше этих атак любые проверки Hazardous для этой атаки автоматически проходятся.\n\n**Примечание разработчика:** эта способность срабатывает, даже когда модель этого юнита уничтожена в результате провала проверки Hazardous, — а значит, такая модель может выстрелить дважды в одной фазе.',
-      'Designer’s Note':
-        'Эта способность срабатывает даже когда модель этого юнита уничтожена в результате провала проверки Hazardous — то есть такая модель может выстрелить дважды в одной фазе.',
     },
     loadout: `${EQUIP_EVERY} bolt pistol; plasma incinerator; close combat weapon.`,
     options: ['bolt pistol у Hellblaster Sergeant можно заменить на 1 plasma pistol.'],
@@ -935,13 +933,13 @@ export default {
 
   'land-speeder': {
     flavor:
-      'Замечательные грави-двигатели, что используют Land Speeder, позволяют им совершать, казалось бы, невозможные манёвры даже во время удара по врагу. Такая приспособляемость делает их идеальными для самых разных задач, включая разведку и контрразведку.',
+      'Проносясь над полем боя на гудящих грави-двигателях, Land Speeder совершает стремительные штурмовые заходы, обрушивая на врага шквал огня, а затем уносится прочь, прежде чем противник успеет ответить. Это ценный ресурс быстрой разведки для сил космодесанта на поле боя, превосходно обеспечивающий высокомобильную огневую поддержку.',
     abilities: {
       'Purgation Run':
         'В вашей фазе стрельбы, после того как этот юнит отстрелялся, он может совершить обычный манёвр до D6". Если он это делает, до конца хода этот юнит не имеет права объявлять нападение.',
     },
-    loadout: `${EQUIP_THIS} heavy bolter; close combat weapon.`,
-    options: ['heavy bolter этой модели можно заменить на 1 multi-melta.'],
+    loadout: `${EQUIP_THIS} multi-melta; onslaught gatling cannon; stormfury missile launcher; close combat weapon.`,
+    options: ['onslaught gatling cannon этой модели можно заменить на 1 heavy flamer.'],
   },
 
   librarian: {
@@ -1010,7 +1008,7 @@ export default {
       'Strategic Dispersal':
         'В вашей фазе стрельбы, после того как юнит этой модели отстрелялся, если он не находится в дистанции ввязывания одного или более вражеских юнитов, он может совершить обычный манёвр до 6". Если он это делает, до конца хода этот юнит не может объявить нападение.',
     },
-    loadout: `${EQUIP_THIS} bolt pistol; master-crafted scoped bolt carbine; paired combat blades.`,
+    loadout: `${EQUIP_THIS} bolt pistol; master-crafted bolt carbine; paired combat blades.`,
     leader: { text: LEADER_TEXT },
   },
 
@@ -1498,6 +1496,8 @@ export default {
     loadout: `${EQUIP_EVERY} bolt pistol; Vanguard Veteran weapon.`,
     options: [
       'Любому числу моделей их bolt pistol можно заменить на одно из следующего:\n▪ 1 storm shield\n▪ 1 grav-pistol\n▪ 1 hand flamer\n▪ 1 inferno pistol\n▪ 1 plasma pistol',
+      'Всем моделям их bolt pistol и Vanguard Veteran weapon можно заменить на 1 Heavy Bolt Pistol и 1 Master-crafted Power Weapon.',
+      'За каждые 5 моделей этого юнита 1 модель может заменить свой Heavy Bolt Pistol на 1 plasma pistol.',
     ],
   },
 

@@ -23,18 +23,7 @@ export default [
         "oc": "0"
       }
     ],
-    "ranged": [
-      {
-        "name": "",
-        "tags": [],
-        "range": "",
-        "a": "0",
-        "bs": "-",
-        "s": "-",
-        "ap": "0",
-        "d": "-"
-      }
-    ],
+    "ranged": [],
     "abilities": [
       {
         "name": "Emplacement Platform",
@@ -531,7 +520,7 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
-    "baseSize": "60x35.5mm Oval Base"
+    "baseSize": "60x35mm Oval Base"
   },
   {
     "id": "avenger-strike-fighter",
@@ -1362,7 +1351,7 @@ export default [
         "name": "Close combat weapon",
         "tags": [],
         "a": "3",
-        "ws": "4+",
+        "ws": "3+",
         "s": "3",
         "ap": "0",
         "d": "1"
@@ -1428,7 +1417,7 @@ export default [
     "rules": [
       {
         "name": "ORDERS",
-        "text": "This OFFICER can issue 2 Orders to Regiment units."
+        "text": "This OFFICER can issue up to 2 Orders to Regiment units."
       }
     ]
   },
@@ -2220,7 +2209,7 @@ export default [
       "OR",
       "2 Shock Trooper Sergeants and 18 Shock Troopers"
     ],
-    "loadout": "**Every Shock Trooper Sergeant is equipped with:** laspistol; chainsword.\n\n**Every Shock Trooper is equipped with:** lasgun; close combat weapon.\n\nThis unit can have up to two Leader units attached to it, provided no more than one of those units is a Command Squad unit.",
+    "loadout": "**Every Shock Trooper Sergeant is equipped with:** laspistol; chainsword.\n\n**Every Shock Trooper is equipped with:** lasgun; close combat weapon.\n\nThis unit can have up to two Leader units attached to it, provided no more than one of those units is a Command Squad unit. If it does, and this Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths.",
     "options": [
       "For every 10 models in this unit, up to 2 Shock Troopers can each have their lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 meltagun\n▪ 1 plasma gun",
       "For every 10 models in this unit, 1 Shock Trooper equipped with a lasgun can be equipped with 1 vox-caster (that model’s lasgun cannot be replaced).",
@@ -2515,8 +2504,8 @@ export default [
     "options": [
       "Any number of Veteran Guardsmen can each have their lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 heavy flamer\n▪ 1 meltagun\n▪ 1 plasma gun\n▪ 1 sniper rifle",
       "* You cannot select the same weapon from this list more than once per unit.",
-      "Veteran Guardsman equipped with a lasgun can be equipped with 1 master vox.**",
-      "Veteran Guardsman equipped with a lasgun can be equipped 1 medi-pack.**",
+      "1 Veteran Guardsman equipped with a lasgun can be equipped with 1 master vox.**",
+      "1 Veteran Guardsman equipped with a lasgun can be equipped with 1 medi-pack.**",
       "1 Veteran Guardsman equipped with a lasgun can be equipped with 1 regimental standard.**",
       "** A model can only take one of these options.",
       "The Catachan Commander’s laspistol can be replaced with one of the following:\n▪ 1 bolt pistol\n▪ 1 plasma pistol",
@@ -2795,7 +2784,7 @@ export default [
       "OR",
       "2 Jungle Fighter Sergeants and 18 Jungle Fighters"
     ],
-    "loadout": "**Every Jungle Fighter Sergeant is equipped with:** laspistol; close combat weapon.\n\n**Every Jungle Fighter is equipped with:** lasgun; close combat weapon.\n\nThis unit can have up to two Leader units attached to it, provided no more than one of those units is a Command Squad unit.",
+    "loadout": "**Every Jungle Fighter Sergeant is equipped with:** laspistol; close combat weapon.\n\n**Every Jungle Fighter is equipped with:** lasgun; close combat weapon.\n\nThis unit can have up to two Leader units attached to it, provided no more than one of those units is a Command Squad unit. If it does, and this Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths.",
     "options": [
       "For every 5 models in this unit, 1 Jungle Fighter’s lasgun can be replaced with 1 flamer.",
       "For every 10 models in this unit, 1 Jungle Fighter equipped with a lasgun can be equipped with 1 vox-caster (that model’s lasgun cannot be replaced)."
@@ -3570,18 +3559,7 @@ export default [
         "oc": "0"
       }
     ],
-    "ranged": [
-      {
-        "name": "",
-        "tags": [],
-        "range": "",
-        "a": "0",
-        "bs": "-",
-        "s": "-",
-        "ap": "0",
-        "d": "-"
-      }
-    ],
+    "ranged": [],
     "core": "Deadly Demise 1",
     "abilities": [
       {
@@ -3851,14 +3829,14 @@ export default [
       "OR",
       "2 Death Korps Watchmasters and 18 Death Korps Troopers"
     ],
-    "loadout": "**Every Death Korps Watchmaster is equipped with:** laspistol; chainsword.\n\n**Every Death Korps Trooper is equipped with: lasgun;** close combat weapon.\n\nThis unit can have up to two Leader units attached to it, provided no more than one of those units is a Command Squad unit.",
+    "loadout": "**Every Death Korps Watchmaster is equipped with:** laspistol; chainsword.\n\n**Every Death Korps Trooper is equipped with: lasgun;** close combat weapon.\n\nThis unit can have up to two Leader units attached to it, provided no more than one of those units is a Command Squad unit. If it does, and this Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths.",
     "options": [
       "For every 10 models in this unit, up to 2 Death Korps Troopers can each have their lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 long-las\n▪ 1 meltagun\n▪ 1 plasma gun",
       "For every 10 models in this unit, 1 Death Korps Trooper equipped with a lasgun can be equipped with 1 Death Korps medi-pack (that model’s lasgun cannot be replaced)**.",
       "For every 10 models in this unit, 1 Death Korps Trooper equipped with a lasgun can be equipped with 1 vox-caster (that model’s lasgun cannot be replaced).**",
-      "Any number of Death Korps Watchmasters can each replace their laspistol and chainsword with 1 boltgun and 1 close combat weapon.",
-      "Any number of Death Korps Watchmasters can each replace their chainsword with 1 power weapon.",
-      "Any number of Death Korps Watchmasters can each replace their laspistol with one of the following:\n▪ 1 bolt pistol\n▪ 1 plasma pistol",
+      "Any number of Death Korps Watchmasters can each have their laspistol and chainsword replaced with 1 boltgun and 1 close combat weapon.",
+      "Any number of Death Korps Watchmasters can each have their chainsword replaced with 1 power weapon.",
+      "Any number of Death Korps Watchmasters can each have their laspistol replaced with one of the following:\n▪ 1 bolt pistol\n▪ 1 plasma pistol",
       "*  You cannot select the same option more than once per unit unless it contains 20 models, in which case you cannot select the same option more than twice per unit.",
       "** A model can only take one of these options."
     ],
@@ -3937,7 +3915,7 @@ export default [
         "d": "1"
       },
       {
-        "name": "Steed's savage claws",
+        "name": "Savage claws",
         "tags": [
           "EXTRA ATTACKS"
         ],
@@ -4076,7 +4054,7 @@ export default [
     "composition": [
       "1 Deathstrike"
     ],
-    "loadout": "**This model is equipped with:** heavy bolter; Deathstrike missile; armoured tracks.",
+    "loadout": "**This model is equipped with:** Deathstrike missile; heavy bolter; armoured tracks.",
     "options": [
       "This model’s heavy bolter can be replaced with 1 heavy flamer.",
       "This model can be equipped with 1 hunter-killer missile."
@@ -4497,7 +4475,7 @@ export default [
       }
     ],
     "composition": [
-      "1 Ibram Gaunt",
+      "1 Ibram Gaunt – EPIC HERO",
       "5 Tanith Ghosts"
     ],
     "loadout": "**Ibram Gaunt is equipped with:** bolt pistol; Gaunt’s chainsword.\n\n**1 Tanith Ghost is equipped with:** Corbec’s hot-shot lascarbine; straight silver knife.\n\n**1 Tanith Ghost is equipped with:** Rawne’s lascarbine; straight silver knife.\n\n**1 Tanith Ghost is equipped with:** Larkin’s long-las; straight silver knife.\n\n**1 Tanith Ghost is equipped with:** Bragg’s autocannon; straight silver knife.\n\n**1 Tanith Ghost is equipped with:** lascarbine; Mkoll’s straight silver knife.",
@@ -4964,7 +4942,7 @@ export default [
     "loadout": "**Every model is equipped with:** 1 vigilator cannon; 1 heavy stubber; 1 armoured hull.",
     "options": [
       "Any number of models can each have their heavy stubber replaced with 1 meltagun.",
-      "Any number of models can each have their vigilator cannon replaced with one of the following:\n▪ 1 chiron gatling cannon\n▪ 1 lascannon\n▪ 1 melta cannon"
+      "Any number of models can each have their vigilator cannon replaced with one of the following:\n▪ 1 chiron gatling cannon\n▪ 1 melta cannon\n▪ 1 lascannon"
     ],
     "keywords": [
       "Vehicle",
@@ -5129,7 +5107,7 @@ export default [
         ],
         "range": "12\"",
         "a": "1",
-        "bs": "4+",
+        "bs": "3+",
         "s": "4",
         "ap": "0",
         "d": "1"
@@ -5262,7 +5240,7 @@ export default [
         ],
         "range": "12\"",
         "a": "1",
-        "bs": "4+",
+        "bs": "3+",
         "s": "7",
         "ap": "-2",
         "d": "1"
@@ -5275,7 +5253,7 @@ export default [
         ],
         "range": "12\"",
         "a": "1",
-        "bs": "4+",
+        "bs": "3+",
         "s": "8",
         "ap": "-3",
         "d": "2"
@@ -5298,6 +5276,15 @@ export default [
         "ws": "4+",
         "s": "3",
         "ap": "0",
+        "d": "1"
+      },
+      {
+        "name": "Power weapon",
+        "tags": [],
+        "a": "3",
+        "ws": "4+",
+        "s": "4",
+        "ap": "-2",
         "d": "1"
       }
     ],
@@ -6366,6 +6353,31 @@ export default [
         "s": "18",
         "ap": "-4",
         "d": "D6+6"
+      },
+      {
+        "name": "Plasma cannon – standard",
+        "tags": [
+          "BLAST"
+        ],
+        "range": "36\"",
+        "a": "D3",
+        "bs": "4+",
+        "s": "7",
+        "ap": "-2",
+        "d": "1"
+      },
+      {
+        "name": "Plasma cannon – supercharge",
+        "tags": [
+          "BLAST",
+          "HAZARDOUS"
+        ],
+        "range": "36\"",
+        "a": "D3",
+        "bs": "4+",
+        "s": "8",
+        "ap": "-3",
+        "d": "2"
       }
     ],
     "melee": [
@@ -8821,7 +8833,7 @@ export default [
     "factionKeywords": [
       "Astra Militarum"
     ],
-    "baseSize": "25mm"
+    "baseSize": "25mm / 28.5mm"
   },
   {
     "id": "rogal-dorn-battle-tank",
@@ -9122,6 +9134,18 @@ export default [
         "s": "10",
         "ap": "-1",
         "d": "3"
+      },
+      {
+        "name": "Meltagun",
+        "tags": [
+          "MELTA 2"
+        ],
+        "range": "12\"",
+        "a": "1",
+        "bs": "4+",
+        "s": "9",
+        "ap": "-4",
+        "d": "D6"
       }
     ],
     "melee": [
@@ -9152,7 +9176,7 @@ export default [
       "text": "While this model has 1-6 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
     },
     "composition": [
-      "1 Rogal Dorn Tank Commander"
+      "1 Rogal Dorn Commander"
     ],
     "loadout": "**This model is equipped with:** castigator gatling cannon; heavy stubber; twin battle cannon; armoured tracks.",
     "options": [
@@ -10633,7 +10657,7 @@ export default [
       "1 Tempestor",
       "4-9 Tempestus Scions"
     ],
-    "loadout": "**The Tempestor is equipped with:** hot-shot laspistol; chainsword.\n\n**Every Tempestus Scion is equipped with:** hot-shot lasgun; close combat weapon.\n\nThis unit can have up to two Leader units attached to it, provided no more than one of those units is a Command Squad unit.",
+    "loadout": "**The Tempestor is equipped with:** hot-shot laspistol; chainsword.\n\n**Every Tempestus Scion is equipped with:** hot-shot lasgun; close combat weapon.\n\nThis unit can have up to two Leader units attached to it, provided no more than one of those units is a Command Squad unit. If it does, and this Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths.",
     "options": [
       "For every 5 models in this unit, up to two Tempestus Scions can each have their hot-shot lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 hot-shot volley gun\n▪ 1 meltagun\n▪ 1 plasma gun",
       "1 Tempestus Scion’s hot-shot lasgun can be replaced with 1 hot-shot laspistol and 1 vox-caster.",
@@ -10762,12 +10786,12 @@ export default [
     "profiles": [
       {
         "name": "Valkyrie",
-        "m": "20+\"",
+        "m": "14\"",
         "t": "10",
         "sv": "2+",
         "w": "14",
         "ld": "7+",
-        "oc": "0"
+        "oc": "-"
       }
     ],
     "ranged": [
