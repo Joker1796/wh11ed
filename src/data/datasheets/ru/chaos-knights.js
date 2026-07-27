@@ -34,7 +34,7 @@ export default {
     loadout:
       '**Эта модель вооружена:** 2 Acastus autocannons; Acastus ironstorm missile pod; 2 twin magna lascannons; titanic feet.',
     options: [
-      'Каждый из 2 Acastus autocannons этой модели можно заменить на одно из следующего:\n▪ 2 lascannons\n▪ 1 Acastus autocannon и 1 lascannon',
+      '2 Acastus autocannons этой модели можно заменить на одно из следующего:\n▪ 2 lascannons\n▪ 1 Acastus autocannon и 1 lascannon',
       'Acastus ironstorm missile pod этой модели можно заменить на 1 helios defence missiles.',
     ],
   },
@@ -191,7 +191,7 @@ export default {
       'Frenzied Rampage (Aura)':
         'Пока дружественная модель War Dog находится в пределах 9" от этой модели, каждый раз, когда эта модель War Dog совершает атаку ближнего боя, перебросьте бросок попадания 1.',
     },
-    damaged: { note: 'осталось 1–7 ран', text: dmg('1–7', 5) },
+    damaged: { note: 'осталось 1–9 ран', text: dmg('1–9', 5) },
     loadout:
       '**Эта модель вооружена:** diabolus heavy stubber; reaper chainsword; warpstrike claw.',
   },
