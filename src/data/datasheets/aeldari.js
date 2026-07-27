@@ -791,7 +791,7 @@ export default [
     "abilities": [
       {
         "name": "Raid and Run",
-        "text": "At the end of the Fight phase, if this unit was eligible to fight this phase, and is not within Engagement Range of one or more enemy units, it can make a Normal move of up to D3+3\". Otherwise, if this unit was eligible to fight this phase, this unit can make a Fall Back move of up to D3+3\"."
+        "text": "At the end of the Fight phase, if this unit was eligible to fight this phase, if this unit is not within Engagement Range of one or more enemy units, it can make a Normal move of up to D3+3\". Otherwise, if this unit was eligible to fight this phase, this unit can make a Fall Back move of up to D3+3\"."
       }
     ],
     "composition": [
@@ -4614,7 +4614,7 @@ export default [
     "abilities": [
       {
         "name": "Acrobatic Grace",
-        "text": "Each time an attack targets this unit, subtract 1 from the Hit roll."
+        "text": "▪ This unit has Stealth.\n▪ Melee attacks that target this unit have -1 to Hit rolls."
       }
     ],
     "composition": [
@@ -5483,7 +5483,7 @@ export default [
     "abilities": [
       {
         "name": "Way of the Blade",
-        "text": "While this model is leadings unit, models in that unit have the Fights First ability."
+        "text": "While this model is leading a unit, models in that unit have the Fights First ability."
       },
       {
         "name": "Yvraine’s Champion",
@@ -8418,7 +8418,7 @@ export default [
     "abilities": [
       {
         "name": "Eviscerating Fly-by",
-        "text": "Each time this unit ends a Normal move, you can select one enemy unit (excluding MONSTERS and VEHICLES) that it moved over during that move. If you do, roll one D6 for each model in this unit: for each 4+, that enemy unit suffers 1 mortal wound."
+        "text": "Each time this unit ends a Normal move, you can select one enemy unit (excluding MONSTER and VEHICLE units) that it moved over during that move. If you do, roll one D6 for each model in this unit: for each 4+, that enemy unit suffers 1 mortal wound."
       }
     ],
     "wargearAbilities": [
@@ -8712,7 +8712,7 @@ export default [
     "abilities": [
       {
         "name": "No Escape",
-        "text": "Each time an enemy unit (excluding MONSTERS and VEHICLES) within Engagement Range of one or more units from your army with this ability is selected to Fall Back, all models in that enemy unit must take a Desperate Escape test. When doing so, if that enemy unit is Battle-shocked, subtract 1 from each of those tests."
+        "text": "Each time an enemy unit (excluding MONSTERS and VEHICLES) within Engagement Range of one or more units from your army with this ability is selected to Fall Back, models in that enemy unit must take Desperate Escape tests as if their unit was Battle-shocked. When doing so, if that enemy unit is also Battle-shocked by other means, subtract 1 from each of those Desperate Escape tests."
       }
     ],
     "composition": [

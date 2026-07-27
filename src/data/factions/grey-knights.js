@@ -28,7 +28,8 @@ const en = {
 ▪ **Strike Force:** Up to 3 units.
 ▪ **Onslaught:** Up to 4 units.
 
-Once you have made your selections, remove those units from the battlefield and place them into Strategic Reserves.`,
+▪ Place those units in Strategic Reserves.
+▪ Those units can make an ingress move in your next Movement phase (including in your first turn).`,
   },
 
   detachments: [

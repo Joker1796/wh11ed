@@ -3,11 +3,11 @@
     <section class="fsection" id="faq">
       <h2 class="fsection-title">{{ labels.factionFaq }}</h2>
 
-      <!-- appdata FAQ/errata are EN-only; tell RU readers until a translation overlay lands. -->
-      <p v-if="locale === 'ru' && !ruAvailable" class="faq-notice">{{ labels.factionFaqEnOnly }}</p>
-
       <template v-if="loaded">
-        <p v-if="updatedText" class="faq-updated">{{ labels.factionFaqUpdated }}: {{ updatedText }}</p>
+        <div v-if="updated.length" class="faq-updated">
+          <div>{{ labels.factionFaqUpdated }}:</div>
+          <div v-for="(u, i) in updated" :key="i">{{ u.pub }} ({{ u.date }})</div>
+        </div>
 
         <!-- Segmented switch between Errata and FAQ — only when both groups have entries;
              otherwise the single populated group is shown on its own. -->
@@ -37,7 +37,7 @@
         <div v-if="activeView === 'errata' && errataEntries.length" class="errata-list">
           <div v-for="(e, i) in errataEntries" :key="'e' + i" class="errata-block">
             <h4 v-if="e.header" class="errata-title" v-html="renderInline(e.header)" />
-            <p class="errata-body" v-html="renderInline(e.body)" />
+            <div class="errata-body" v-html="renderRichText(e.body)" />
           </div>
         </div>
 
@@ -66,13 +66,12 @@ const route = useRoute()
 const { slug } = useFactionPage()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { renderInline } = useRenderInline()
+const { renderInline, renderRichText } = useRenderInline()
 
 // Optional RU translation overlay (drop-in, mirrors src/data/datasheets/ru). import.meta.glob
 // resolves to {} when the file doesn't exist yet, so this stays warning-free until it does.
 const ruGlob = import.meta.glob('../../data/factionFaqRu.json', { import: 'default' })
 const ruLoader = ruGlob['../../data/factionFaqRu.json'] || null
-const ruAvailable = ref(false)
 
 const entries = ref([])
 const updated = ref([])
@@ -91,7 +90,6 @@ watch(
     entries.value = []
     updated.value = []
     loaded.value = false
-    ruAvailable.value = false
     if (!s) return
     const all = (await import('../../data/factionFaq.json')).default
     const en = all[s]
@@ -101,7 +99,6 @@ watch(
       try { ru = (await ruLoader())?.[s] || null } catch { ru = null }
     }
     if (route.params.slug !== s) return // stale resolve after a fast route change
-    ruAvailable.value = !!ru
     updated.value = en?.updated || []
     entries.value = (en?.entries || []).map((e, i) => mergeEntry(e, ru?.entries?.[i]))
     loaded.value = true
@@ -111,7 +108,6 @@ watch(
 
 const errataEntries = computed(() => entries.value.filter((e) => e.type === 'errata'))
 const qaEntries = computed(() => entries.value.filter((e) => e.type === 'qa'))
-const updatedText = computed(() => updated.value.map((u) => `${u.pub} (${u.date})`).join('; '))
 
 // Errata | FAQ switch, persisted. Defaults to FAQ. The active view falls back to whichever
 // group actually has entries, so a faction with only one type never lands on an empty pane.
@@ -139,17 +135,14 @@ const activeView = computed(() => {
   margin-bottom: 0.8rem;
 }
 
-.faq-notice {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  font-style: italic;
-  margin-bottom: 0.8rem;
-}
-
 .faq-updated {
   font-size: 0.8rem;
   color: var(--text-muted);
   margin-bottom: 1rem;
+}
+
+.faq-updated div + div {
+  margin-top: 0.15rem;
 }
 
 /* Errata | FAQ segmented switch (pill buttons, same look as the stratagems filters). */
@@ -212,6 +205,12 @@ const activeView = computed(() => {
   font-size: 0.9rem;
   line-height: 1.55;
   color: var(--text-muted);
+}
+
+.errata-body :deep(ul),
+.errata-body :deep(ol) {
+  margin: 0.2rem 0 0.3rem 1.1rem;
+  padding: 0;
 }
 
 .faq-list {

@@ -1984,11 +1984,11 @@ export default [
     "abilities": [
       {
         "name": "Fluxmaster",
-        "text": "While this model is leading a unit, each time an attack is made against that unit, subtract 1 form the Hit roll."
+        "text": "▪ This unit has Stealth.\n▪ Melee attacks that target this unit have -1 to Hit rolls."
       },
       {
         "name": "Altered Reality (Psychic)",
-        "text": "Once per battle round, after a Hit roll, a Wound roll, or a saving throw is made for this model, you can change the result of that roll to a 6."
+        "text": "Once per battle round, after a Hit roll, a Wound roll, or a saving throw is made for this model, you can change the result of that roll to an unmodified 6."
       }
     ],
     "composition": [
@@ -2324,7 +2324,7 @@ export default [
     "abilities": [
       {
         "name": "Beast Handler",
-        "text": "While this model is leading a unit, you can re-roll Charge rolls made for that unit. In addition, once per battle, you can target that unit with the Heroic Intervention Stratagem for 0CP, and can do so even if you have already used that Stratagem on a different unit this phase."
+        "text": "While this model is leading a unit, you can re-roll Charge rolls made for that unit. In addition, once per battle, you can target this unit with the Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that Stratagem on other units this phase."
       },
       {
         "name": "Seed the Garden of Nurgle",
@@ -2538,7 +2538,7 @@ export default [
       },
       {
         "name": "One Head Looks Back (Aura)",
-        "text": "Each time your opponent targets a unit from their army with a Stratagem, if that unit is within 12\" of this model, increase the cost of that use of that Stratagem by 1CP (this is not cumulative with any other rules that would increase the CP cost of that Stratagem)."
+        "text": "Once per turn, when your opponent targets a unit from their army within 12\" of this model with a Stratagem, you can use this ability. If you do, increase the CP cost of the use of that Stratagem by 1CP."
       }
     ],
     "damaged": {
@@ -3316,7 +3316,7 @@ export default [
     "abilities": [
       {
         "name": "Infected Outbreak",
-        "text": "If you control an objective marker at the end of your Command phase and this unit is within range of that objective marker, that objective marker remains under your control, even if you have no models within range of it, until your opponent controls it at the start or end of any turn."
+        "text": "At the end of your Command phase, if this unit is within range of an objective marker you control, that objective marker remains under your control until your opponent's Level of Control over that objective marker is greater than yours at the end of a phase."
       }
     ],
     "wargearAbilities": [

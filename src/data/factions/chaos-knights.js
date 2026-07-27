@@ -274,7 +274,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
       rule: {
         name: "Malefic Surge",
         flavor: "Calling upon heretical - often supernatural - powers, these Knights are infused with strange and terrible might.",
-        body: "In your Command phase, one or more Chaos Knights units from your army can make a Malefic Surge. Each one that does must first take a Leadership test; if that test is failed, that unit suffers D3 mortal wounds. Then, until the start of your next Command phase, that unit is Empowered. While a unit is Empowered it can use one of the Malefic Surge abilities below. Once that unit has used a Malefic Surge ability, it is no longer Empowered.\n▪ **Unholy Hunger:** When a model in this unit makes a Normal, Advance or Fall Back move, until the end of the phase, add 3\" to its Move characteristic.\n▪ **Diabolic Power:** When this unit is selected to shoot or fight, select either the [LETHAL HITS] or [SUSTAINED HITS 1] ability. Until the end of the phase, weapons equipped by models in this unit have the selected ability.\n▪ **Unnatural Fortitude:** When this unit is selected as the target of an attack, until the end of the phase, select one of the following:\n▪ Models in this unit have a 5+ invulnerable save.\n▪ Models in this unit have the Feel No Pain 6+ ability.\n\n**Designer’s Note:** We recommend placing a token next to Chaos Knights models that are Empowered, removing it once they have used a Malefic Surge ability, and removing all unused tokens at the start of your Command phase.",
+        body: "In your Command phase, one or more Chaos Knights units from your army can make a Malefic Surge. Each one that does must first take a Leadership test; if that test is failed, that unit suffers D3 mortal wounds. Then, until the start of your next Command phase, that unit is Empowered. While a unit is Empowered it can use one of the Malefic Surge abilities below. Once that unit has used a Malefic Surge ability, it is no longer Empowered.\n▪ **Unholy Hunger:** When a model in this unit makes a Normal, Advance or Fall Back move, until the end of the phase, add 3\" to its Move characteristic.\n▪ **Diabolic Power:** When this unit is selected to shoot or fight, select either the [LETHAL HITS] or [SUSTAINED HITS 1] ability. Until the end of the phase, weapons equipped by models in this unit have the selected ability.\n▪ **Unnatural Fortitude:** When this unit is selected as the target of an attack, select one of the following to apply until the end of the phase:\n▪ Models in this unit have a 5+ invulnerable save.\n▪ Models in this unit have the Feel No Pain 6+ ability.\n\n**Designer’s Note:** We recommend placing a token next to Chaos Knights models that are Empowered, removing it once they have used a Malefic Surge ability, and removing all unused tokens at the start of your Command phase.",
       },
       stratagems: [
         {
@@ -533,7 +533,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           flavor: "Fallen Nobles sneer at the pathetic efforts of their foes, doubly so in the case of those who fear them.",
           when: "Fight phase, just after an enemy unit has selected its targets.",
           target: "One Chaos Knights unit from your army that was selected as the target of one or more of the attacking unit’s attacks.",
-          effect: "Until the end of the phase, models in your unit have the Feel No Pain 6+ ability, and the Feel No Pain 5+ ability against attacks made by Battle-shocked models.",
+          effect: "Until the end of the phase, your model has the Feel No Pain 6+ ability, and the Feel No Pain 5+ ability against attacks made by Battle-shocked models.",
           restrictions: "",
         },
         {
@@ -544,7 +544,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           flavor: "Through dark rituals and dread pacts, the Chaos Knights draw upon the fear and despair of their foes and bind it into a curse upon the land itself, wreathing themselves in a shrouding pall.",
           when: "Your opponent’s Shooting phase, just after an enemy unit has selected its targets.",
           target: "One Chaos Knights unit from your army that was selected as the target of one or more of the attacking unit’s attacks.",
-          effect: "Until the end of the phase, your unit has Stealth, and melee attacks that target your unit have -1 to Hit rolls.",
+          effect: "▪ Your unit has Stealth.\n▪ Melee attacks that target your unit have -1 to Hit rolls.",
           restrictions: "",
         },
         {

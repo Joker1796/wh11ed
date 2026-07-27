@@ -47,7 +47,25 @@ export function appdataToMarkup(text) {
   s = s.replace(/<b>(.*?)<\/b>/gis, '**$1**')
   s = s.replace(/<[^>]+>/g, '')
   s = s.replace(/&#x?[0-9a-f]+;/gi, ' ') // stray numeric HTML entities (e.g. &#x20;) in appdata text
-  s = s.split('\n').map((l) => l.trim()).join(' ').replace(/\s{2,}/g, ' ')
+  // Collapse incidental line-wraps into flowing prose, but keep a real `\n` before each bullet
+  // line so it survives as a genuine list item — matching the hand-authored body convention (see
+  // e.g. factions/grey-knights.js's "One Foot in the Future") — rather than being flattened into
+  // an inline "▪ text ▪ text" run that renders as plain text. appdata sometimes hand-types the
+  // bullet *inside* a `**bold**`/`__underline__` run ("**▪ Company Heroes Rule:**") or right after
+  // an opening quote ("'■ Ranged weapons…") and sometimes uses `■` instead of `▪` — normalize all
+  // of that so the bullet is always the line's leading char and buildRich's `^[▪•]` list-item
+  // check (useRenderInline.js) recognizes it.
+  const BULLET_LEAD = /^(\*{1,2}|__|['’‘"«])?[▪■][ \t]*/
+  const normalizeBullet = (l) => {
+    const m = l.match(BULLET_LEAD)
+    return m ? `▪ ${m[1] || ''}${l.slice(m[0].length)}` : l
+  }
+  s = s
+    .split('\n')
+    .map((l) => l.trim())
+    .filter(Boolean)
+    .reduce((acc, l) => (!acc ? normalizeBullet(l) : BULLET_LEAD.test(l) ? `${acc}\n${normalizeBullet(l)}` : `${acc} ${l}`), '')
+    .replace(/[ \t]{2,}/g, ' ')
   return s.trim()
 }
 
@@ -62,11 +80,50 @@ export function bodyText(body) {
     .join('\n')
 }
 
+// Combat Patrol publications (`isCombatPatrol`) are a separate boxed game mode with fixed
+// 0-point rosters, detachment-name-prefixed unit variants, AND their own copies of the army
+// rule(s) — the CP copies are often the pre-errata wording (e.g. Necrons' Reanimation Protocols
+// still reads "reanimates D3" in the Combat Patrol box while the Codex has been errata'd to
+// "heals D3"). wh11ed is matched-play only and carries none of it, so every reconciliation
+// script must drop CP content before diffing. The faction bundle flags detachments but not
+// datasheets/army-rules, so derive the name/id sets straight from the raw appdata tables
+// (self-contained — no bundle regeneration needed). Computed once. Shared by sync-appdata.mjs
+// and sync-faction-text.mjs so both treat CP content identically.
+let _combatPatrol = null
+export function combatPatrolNames() {
+  if (_combatPatrol) return _combatPatrol
+  const T = path.join(APPDATA, 'tables')
+  const read = (f) => (fs.existsSync(path.join(T, f)) ? JSON.parse(fs.readFileSync(path.join(T, f), 'utf8')) : [])
+  const cpPubIds = new Set(read('publication.json').filter((p) => p.isCombatPatrol).map((p) => p.id))
+  const namesUnder = (f) => new Set(read(f).filter((r) => cpPubIds.has(r.publicationId)).map((r) => norm(r?.localisations?.en?.name || '')).filter(Boolean))
+  const idsUnder = (f) => new Set(read(f).filter((r) => cpPubIds.has(r.publicationId)).map((r) => r.id))
+  _combatPatrol = {
+    datasheets: namesUnder('datasheet.json'),
+    detachments: namesUnder('detachment.json'),
+    armyRuleIds: idsUnder('army_rule.json'),
+  }
+  return _combatPatrol
+}
+
 export function loadJson(file) {
   return fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : null
 }
 export async function loadModule(file) {
   return fs.existsSync(file) ? import(pathToFileURL(file)) : null
+}
+
+// Load a faction's wh11ed datasheets AS THE SITE SHOWS THEM: for the 5 Codex-sharing Chapters,
+// fold the referenced space-marines.js units back in (mirroring src/data/datasheets/index.js's
+// loadDatasheets via `sharedUnitIds`), so a comparison sees the same flat per-faction list every
+// view does. Shared by sync-appdata.mjs and sync-faction-text.mjs.
+export async function loadWh11edDatasheets(slug) {
+  const mod = await loadModule(path.join(ROOT, 'src/data/datasheets', `${slug}.js`))
+  if (!mod) return []
+  const own = mod.default || []
+  if (!mod.sharedUnitIds?.length) return own
+  const smMod = await loadModule(path.join(ROOT, 'src/data/datasheets/space-marines.js'))
+  const idSet = new Set(mod.sharedUnitIds)
+  return [...own, ...(smMod?.default || []).filter((d) => idSet.has(d.id))]
 }
 
 export function byNormName(list, nameOf) {

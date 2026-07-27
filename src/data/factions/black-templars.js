@@ -40,7 +40,10 @@ const en = {
     body: `If your [gloss:army-faction:Army Faction] is Adeptus Astartes, at the start of the first [gloss:battle-round:battle round], select one of the following [gloss:bt-templar-vow:Vows] to be active for Adeptus Astartes units from your army. While a Vow is active for a unit from your army, that unit has the associated ability shown below.
 
 ### Abhor the Witch, Destroy the Witch
-This unit's [gloss:melee-attacks:melee attacks] that target a [gloss:psyker:Psyker] unit have [PRECISION]. In addition, when this unit [gloss:declare-charge:declares a charge], if an enemy Psyker unit is [gloss:within:within] 12" of this unit, you can [gloss:re-roll:re-roll] that [gloss:charge-roll:Charge roll]; if you do, this unit must end that [gloss:charge-move:charge move] [gloss:engaged:engaged] with one or more of those enemy Psyker units.
+This unit's [gloss:melee-attacks:melee attacks] that target a [gloss:psyker:Psyker] unit have [PRECISION].
+▪ When this unit [gloss:declare-charge:declares a charge], if an enemy Psyker unit is [gloss:within:within] 12" of this unit, you can use this part of this ability. If you do:
+▪ This unit can [gloss:re-roll:re-roll] that [gloss:charge-roll:Charge roll].
+▪ This unit must end that [gloss:charge-move:charge move] [gloss:engaged:engaged] with one or more of those enemy Psyker units.
 
 ### Accept Any Challenge, No Matter the Odds
 Each time a model in this unit makes a melee attack, if the [gloss:strength:Strength] characteristic of that attack is less than or equal to the [gloss:toughness:Toughness] characteristic of the target, add 1 to the [gloss:wound-roll:Wound roll].
@@ -49,7 +52,9 @@ Each time a model in this unit makes a melee attack, if the [gloss:strength:Stre
 This unit is [gloss:eligible-to-charge:eligible to declare a charge] in a turn in which it [gloss:fall-back-move:Fell Back], and each time a model in this unit makes a [gloss:pile-in:Pile-in] or [gloss:consolidation:Consolidation] move, it does not need to end that move closer to the closest enemy model, provided it ends that move as close as possible to the closest enemy unit.
 
 ### Uphold the Honour of the Emperor
-If this unit has the Infantry keyword: At the end of your Command phase, if this unit is within range of an [gloss:objective-marker:objective marker] you control, that objective marker remains under your control until your opponent's [gloss:level-of-control:Level of Control] over that objective marker is greater than yours at the end of a phase. In addition, if the mission you are playing features [gloss:action:Actions], this unit is eligible to start to perform an Action in a turn in which it [gloss:advance:Advanced].
+If this unit has the Infantry keyword:
+▪ At the end of your Command phase, if this unit is within range of an [gloss:objective-marker:objective marker] you control, that objective marker remains under your control until your opponent's [gloss:level-of-control:Level of Control] over that objective marker is greater than yours at the end of a phase.
+▪ If the mission you are playing features [gloss:action:Actions], this unit is eligible to start to perform an Action in a turn in which it [gloss:advance:Advanced].
 
 **Heirs of Sigismund:**
 ▪ If an Adeptus Astartes unit has a second [gloss:faction-keyword:Faction keyword] on its [gloss:datasheet:datasheet], that Faction keyword is the name of that unit's Chapter (e.g. High Marshal Helbrecht has both the Adeptus Astartes and Black Templars keywords, and is from the Black Templars Chapter).
@@ -409,7 +414,7 @@ If this unit has the Infantry keyword: At the end of your Command phase, if this
           flavor: "The largest manifestations of the foe's sin are branded unholy abominations, challenges which a crusade's champions gladly meet to drive their sanctified weapons deeply beneath their hides.",
           when: 'Fight phase, when a [gloss:friendly:friendly] Sword Brethren Squad unit is [gloss:selected-to-fight:selected to fight].',
           target: 'That Sword Brethren Squad unit.',
-          effect: "Your unit's [gloss:melee-attacks:melee attacks] that target a Monster or Vehicle unit have +2 [gloss:strength:S].",
+          effect: "Your unit's [gloss:melee-attacks:melee attacks] that target a Monster/Vehicle unit have +2 [gloss:strength:S].",
           restrictions: '',
         },
         {
@@ -478,7 +483,7 @@ If this unit has the Infantry keyword: At the end of your Command phase, if this
 ▪ **Vision of Momentous Brutality:** This model's melee attacks have +2 A.
 ▪ **Augury of Retribution:** Melee attacks that target this unit have [HAZARDOUS].
 ▪ **Omen of Sacred Intervention:** When you target this unit with the Heroic Intervention [gloss:stratagem:Stratagem], that use is -1 CP.
-▪ **Harbinger of Judgement:** When an enemy unit (excluding Monster or Vehicle units) engaged with this model is selected to make a [gloss:fall-back-move:fall-back] move, roll one D6: on a 2+, that enemy unit suffers D6 [gloss:mortal-wound:mortal wounds].`,
+▪ **Harbinger of Judgement:** When an enemy unit (excluding Monster/Vehicle units) engaged with this model is selected to make a [gloss:fall-back-move:fall-back] move, roll one D6: on a 2+, that enemy unit suffers D6 [gloss:mortal-wound:mortal wounds].`,
         },
       ],
     },

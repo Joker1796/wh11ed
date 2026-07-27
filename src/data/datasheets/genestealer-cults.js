@@ -597,12 +597,22 @@ export default [
         "note": "1st-2nd"
       },
       {
+        "models": 9,
+        "points": 160,
+        "note": "1st-2nd"
+      },
+      {
         "models": 5,
-        "points": 100,
+        "points": 95,
         "note": "3rd+"
       },
       {
         "models": 10,
+        "points": 160,
+        "note": "3rd+"
+      },
+      {
+        "models": 9,
         "points": 170,
         "note": "3rd+"
       }

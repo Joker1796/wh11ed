@@ -28,7 +28,7 @@ const en = {
 ▪ **Strike Force:** 10 Resurgence points.
 ▪ **Onslaught:** 14 Resurgence points.
 
-Each time a unit from your army is destroyed, if every model in that unit has this ability, you can spend the relevant number of Resurgence points shown below based on that unit's Starting Strength:
+Each time a unit from your army is destroyed, if every model (excluding CHARACTER models) in that unit has this ability, you can spend the relevant number of Resurgence points shown below based on that unit's Starting Strength (not including attached CHARACTER models):
 ▪ **Aberrants:** 5 models — 4 Resurgence points; 10 models — 8 Resurgence points.
 ▪ **Acolyte Hybrids with Autopistols, Acolyte Hybrids with Hand Flamers, Hybrid Metamorphs:** 5 models — 2 Resurgence points; 10 models — 4 Resurgence points.
 ▪ **Atalan Jackals:** 5 models — 2 Resurgence points; 10 models — 6 Resurgence points.
@@ -36,7 +36,7 @@ Each time a unit from your army is destroyed, if every model in that unit has th
 ▪ **Purestrain Genestealers:** 5 models — 2 Resurgence points; 10 models — 6 Resurgence points.
 
 If you do:
-▪ Add a new unit to your army identical to your destroyed unit, in Cult Ambush, at its Starting Strength, with all of its wounds remaining and any [ONE SHOT] weapons those models are equipped with considered as not having been shot.
+▪ Add a new unit to your army identical to your destroyed unit (excluding CHARACTER models), in Cult Ambush, at its Starting Strength, with all of its wounds remaining and any [ONE SHOT] weapons those models are equipped with considered as not having been shot.
 ▪ Place one Cult Ambush marker (see below) anywhere on the battlefield that is more than 9" horizontally away from all enemy units (if this is not possible, no marker is placed).
 
 ### Units in Cult Ambush
@@ -487,7 +487,7 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
       rule: {
         name: "Rapid Takeover",
         flavor: "Whether forming loose clans of wandering nomads or militarised rapid-reaction corps, the cultists of Outlander Claws use their experience to launch assaults on prominent targets. Swiftly exploiting or rigging them with proximity charges, they can deny resources to the enemy without yoking themselves to a static defence.",
-        body: "While a Genestealer Cults Mounted or Genestealer Cults Vehicle model from your army is not Battle-shocked, add 1 to its Objective Control characteristic. In addition, at the end of your Command phase, if one or more Atalan Jackals units from your army are within range of an objective you control, that objective remains under your control until your opponent’s Level of Control over that objective marker is greater than yours at the end of a phase.",
+        body: "While a Genestealer Cults Mounted/Vehicle model from your army is not Battle-shocked, add 1 to its Objective Control characteristic. In addition, at the end of your Command phase, if one or more Atalan Jackals units from your army are within range of an objective you control, that objective remains under your control until your opponent’s Level of Control over that objective marker is greater than yours at the end of a phase.",
       },
       stratagems: [
         {
