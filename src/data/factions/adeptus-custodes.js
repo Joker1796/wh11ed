@@ -830,7 +830,9 @@ This detachment has the LIONS tag and cannot be taken with another LIONS detachm
 Add 2" to the Move characteristic of models in Adeptus Custodes Walker units from your army and add 1 to Advance and Charge rolls made for such units.
 
 ### Keywords
-In the Muster Armies step, you can select up to 2 Adeptus Custodes Walker models from your army. The selected units gain the Character keyword. (This means the selected models can be given Enhancements and one of them can be selected as your Warlord.)
+In the Muster Armies step, you can select up to 2 Adeptus Custodes Walker models from your army. The selected units gain the Character keyword.
+
+**Designer's Note:** This means the selected models can be given Enhancements and one of them can be selected as your Warlord.
 
 This detachment has the ARMOURY tag and cannot be taken with another ARMOURY detachment.`,
       },

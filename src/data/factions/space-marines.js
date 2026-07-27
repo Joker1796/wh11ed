@@ -1071,7 +1071,9 @@ Adeptus Astartes Transport units from your army (excluding Fly) that have a [glo
 Each time a Tank Ace unit from your army shoots in your Shooting phase, if that unit did not Advance this turn, you can [gloss:re-roll:re-roll] the [gloss:damage-roll:Damage roll].
 
 ### Keywords
-Adeptus Astartes Vehicle units from your army (excluding Fortifications, Drop Pods, Walkers and units that can Fly) have the Tank Ace [gloss:keywords:keyword]. In the [gloss:muster-armies:Muster Armies] step, you can select up to three Tank Ace units from your army to gain the Character keyword.`,
+Adeptus Astartes Vehicle units from your army (excluding Fortifications, Drop Pods, Walkers and units that can Fly) have the Tank Ace [gloss:keywords:keyword]. In the [gloss:muster-armies:Muster Armies] step, you can select up to three Tank Ace units from your army to gain the Character keyword.
+
+**Designer's Note:** This means that the selected units can be given Enhancements, and one of them can be selected as your Warlord.`,
       },
       stratagems: [
         armourOfContempt('Headhunter Task Force'),

@@ -95,7 +95,9 @@ If your Army Faction is Adeptus Astartes, at the start of your Command phase, se
         // and the Command-phase +1 OC clause.
         body: `While an Adeptus Astartes unit from your army is Battle-shocked, change the Objective Control characteristic of models in that unit to 1, instead of 0.
 
-In your Command phase, select one Adeptus Astartes unit from your army. Until the start of your next Command phase, add 1 to the Objective Control characteristic of models in that unit.`,
+In your Command phase, select one Adeptus Astartes unit from your army. Until the start of your next Command phase, add 1 to the Objective Control characteristic of models in that unit.
+
+**Restrictions:** ${daOnly}`,
       },
       stratagems: [
         armourOfContempt('Unforgiven Task Force'),
@@ -198,7 +200,9 @@ In your Command phase, select one Adeptus Astartes unit from your army. Until th
 ▪ **Defensive Footing:** Select one objective you control. Until the start of your next Movement phase, that objective is your Vowed objective.
 ▪ **Aggressive Push:** Select one or more objective you do not control. Until the start of your next Movement phase, each of those objectives is one of your Vowed objectives.
 
-If a rule refers to a unit or model being within range of your Vowed objective, that rule takes effect if that unit or model is within range of one or more of your Vowed objectives. Each time a Deathwing Infantry unit from your army makes an attack that targets a unit within range of one or more of your Vowed objectives, add 1 to the Wound roll.`,
+If a rule refers to a unit or model being within range of your Vowed objective, that rule takes effect if that unit or model is within range of one or more of your Vowed objectives. Each time a Deathwing Infantry unit from your army makes an attack that targets a unit within range of one or more of your Vowed objectives, add 1 to the Wound roll.
+
+**Restrictions:** ${daOnly}`,
       },
       stratagems: [
         armourOfContempt('Inner Circle Task Force'),
@@ -305,7 +309,11 @@ If a rule refers to a unit or model being within range of your Vowed objective, 
 Friendly Adeptus Astartes Mounted have:
 ▪ This unit's ranged attacks have [ASSAULT].
 ▪ When this unit is selected to make an advance move, that advance move does not prevent this unit from being eligible to declare a charge.
-▪ When this unit is selected to make a fall-back move, that fall-back move does not prevent this unit from being eligible to shoot and eligible to declare a charge.`,
+▪ When this unit is selected to make a fall-back move, that fall-back move does not prevent this unit from being eligible to shoot and eligible to declare a charge.
+
+**Keywords:** Outrider Squad units from your army gain the Battleline keyword.
+
+**Restrictions:** ${daOnly}`,
       },
       stratagems: [
         {
@@ -610,7 +618,9 @@ Friendly Adeptus Astartes Mounted have:
         flavor:
           "There is no more significant duty to the Dark Angels' Inner Circle than the pursuit and capture of the Fallen. A Lion's Blade Task Force combines the speed, manoeuvrability and firepower of the Ravenwing with the obdurate might of the Deathwing. Those unfortunate enough to be caught between the devastating speed of the Ravenwing and the adamantine might of the Deathwing are pinned in place and torn to shreds by their combined fury.",
         body: `▪ Each time an enemy unit (excluding Monsters and Vehicles) within Engagement Range of one or more Ravenwing units from your army Falls Back, all models in that enemy unit must take a Desperate Escape test. When doing so, if that enemy unit is Battle-shocked, subtract 1 from each of those tests.
-▪ Each time a Deathwing unit from your army declares a charge, if one or more targets of that charge are within Engagement Range of one or more Ravenwing units from your army, add 2 to the Charge roll.`,
+▪ Each time a Deathwing unit from your army declares a charge, if one or more targets of that charge are within Engagement Range of one or more Ravenwing units from your army, add 2 to the Charge roll.
+
+**Restrictions:** ${daOnly}`,
       },
       stratagems: [
         {
@@ -708,7 +718,9 @@ Friendly Adeptus Astartes Mounted have:
         name: 'Dutiful Tenacity',
         flavor:
           'Even amongst the Adeptus Astartes, the battle-brothers of the Dark Angels are renowned for their tenacity and resilience on the battlefield. When ordered to war, they are utterly relentless in pursuing their objectives, wading into fields of withering fire and shrugging off blows that would slay mortal warriors outright.',
-        body: `Each time an attack targets an Adeptus Astartes Infantry or Adeptus Astartes Mounted unit from your army, if the Strength characteristic of that attack is greater than the Toughness characteristic of that unit, subtract 1 from the Wound roll.`,
+        body: `Each time an attack targets an Adeptus Astartes Infantry or Adeptus Astartes Mounted unit from your army, if the Strength characteristic of that attack is greater than the Toughness characteristic of that unit, subtract 1 from the Wound roll.
+
+**Restrictions:** ${daOnly}`,
       },
       stratagems: [
         {
