@@ -376,7 +376,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
       rule: {
         name: "Numberless Horde",
         flavor: "No matter how many Poxwalkers the enemy gun down or tear limb-from-limb at close quarters, more groaning mutants keep coming from every side.",
-        body: "In your Command phase in each of the following battle rounds, depending on your chosen battle size, add a new Poxwalkers unit with a Starting Strength of 10 to your army, in Strategic Reserves.\n\nBATTLE ROUNDS\n▪ **Incursion:** 2, 3.\n▪ **Strike Force:** 2, 3, 4.\n▪ **Onslaught:** 2, 3, 4, 5.\n\nKEYWORDS\nPOXWALKERS units from your army gain the BATTLELINE keyword.",
+        body: "In your Command phase in each of the following battle rounds, depending on your chosen battle size, add a new Poxwalkers unit with a Starting Strength of 10 to your army, in Strategic Reserves.\n\nBATTLE ROUNDS\n▪ **Incursion:** 2, 3.\n▪ **Strike Force:** 2, 3, 4.\n▪ **Onslaught:** 2, 3, 4, 5.",
       },
       stratagems: [
         {

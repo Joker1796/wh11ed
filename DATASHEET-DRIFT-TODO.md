@@ -21,12 +21,37 @@
 - После фиксов — прогнать оба скрипта повторно (убедиться, что остался только известный шум),
   `npm run build`, закоммитить (`git add -A -- <явные пути>`, не бланково).
 
-## Прогресс (14 фракций закрыты)
+## Прогресс (15 фракций закрыты)
 
 ✅ leagues-of-votann, dark-angels, blood-angels, deathwatch, genestealer-cults, black-templars,
 space-wolves, titan-legions, chaos-knights, emperors-children, drukhari, space-marines,
-chaos-space-marines, thousand-sons — все закоммичены (см. `git log feat/datasheet-drift-fixes`).
-chaos-titan-legions тоже **проверена и чиста** (без коммита — дрейфа не найдено).
+chaos-space-marines, thousand-sons, death-guard — все закоммичены (см. `git log
+feat/datasheet-drift-fixes`). chaos-titan-legions тоже **проверена и чиста** (без коммита —
+дрейфа не найдено).
+
+death-guard: структурно был полностью чист (`sync-appdata.mjs` — «no structural differences
+found», впервые за всю фракцию). Текстовые находки: (1) **6 Character-датащитов (Biologus
+Putrifier, Foul Blightspawn, Icon Bearer, Noxious Blightbringer, Plague Surgeon, Tallyman) не
+хватало footer-клаузы** у `leader` — «этой модели можно приделать ещё одного Leader к тому же
+Plague Marines/Poxwalkers юниту, даже если другой Leader уже прикреплён» — appdata подтверждает
+дословно для всех шести; Lord of Poxes (седьмой Plague Marines-attach) **специально не трогали** —
+у него в appdata такой клаузы нет вообще, это не пропуск, а реальное отличие между юнитами; (2)
+Shamblerot Vectorium "Numberless Horde & KEYWORDS" — хвост "Poxwalkers gain Battleline" оказался
+чистым дублем `conditionalKeywords.json` (`poxwalkers`→Battleline при `shamblerot-vectorium`),
+убран целиком (без остатка, в отличие от thousand-sons — здесь никакого другого контента в хвосте
+не было); (3) Chaos Predator Destructor — порядок опций в списке заменён на appdata (`2
+lascannons` перед `2 heavy bolters`), чисто косметика, EN+RU; (4) Daemon Prince of Nurgle
+composition — "1 Daemon Prince of Nurgle" → "1 Death Guard Daemon Prince" (совпадает с appdata;
+у "with Wings"-варианта такого расхождения нет — это, похоже, реальная особенность конкретно
+безкрылого датащита, а не опечатка appdata); (5) "Myphitic Blight-hulers" → "Myphitic
+Blight-haulers" (опечатка в `composition`, сам датащит уже называется правильно). Проверено и НЕ
+тронуто: Tallyband Summoners ally-допуск Plague Legions 500/1000/1500 — подтверждён через
+`allied_faction_points_limit` (урок 13); Nurgle's Gift (Aura) — смёрженная карта Pact of Decay
+(урок 10) + `accordion`-подписи трёх Plague (Skullsquirm Blight/Rattlejoint Ague/Scabrous
+Soulrot); Mortarion's Hammer/Miasmic Bombardment — таблица `type:'image'` (урок 3); Helbrute
+wargear options — весь контент уже на месте, просто appdata хранит список+сноску одной строкой
+против нескольких элементов `options[]` у wh11ed (тот же класс шума, что Devastator/Sternguard
+Squad у space-marines).
 
 thousand-sons: небольшой список. Реальные находки: (1) Defiler `core` содержал лишний
 "Feel No Pain 6+" — appdata его не подтверждает нигде среди способностей, убран; (2) Kairos
@@ -144,8 +169,8 @@ Prince" (слипшийся `**PACT POINTSBONUS1+**...` без переносо�
 
 **Группа A — «SM-семья» (общий Adeptus/Heretic Astartes датащит-пул, много общих юнитов и
 паттернов с уже закрытыми SM-Chapter фракциями) — разбирать ПЕРВОЙ, по одной, от большей к
-меньшей:** ~~space-marines (13109)~~, ~~chaos-space-marines (7116)~~, ~~thousand-sons (4062)~~
-**все три закрыты**, next → death-guard (4039), grey-knights (3467), world-eaters (3407).
+меньшей:** ~~space-marines (13109)~~, ~~chaos-space-marines (7116)~~, ~~thousand-sons (4062)~~,
+~~death-guard (4039)~~ **все четыре закрыты**, next → grey-knights (3467), world-eaters (3407).
 
 **Группа B — остальные, разбирать ПОСЛЕ группы A, по одной, от большей к меньшей:**
 astra-militarum (10999), aeldari (8838), orks (6507), tau-empire (5213), chaos-daemons (5205),
