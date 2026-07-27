@@ -1,5 +1,5 @@
 <template>
-  <div class="app-layout" :style="{ '--resume-bar-h': showResumeGame ? '3.5rem' : '0px' }">
+  <div class="app-layout" :style="{ '--mobile-bar-h': mobileBarVisible ? '3.5rem' : '0px' }">
     <DomainMoveBanner />
     <UpdateNoticeBar />
     <!-- Top navbar: brand + action buttons -->
@@ -209,9 +209,7 @@
     <InstallHintModal v-if="installHintOpen" @close="installHintOpen = false" />
     <FactionsNavModal v-if="showFactions" @close="showFactions = false" />
     <KeywordPopover />
-    <Transition name="slide-up">
-      <ResumeGameButton v-if="showResumeGame" />
-    </Transition>
+    <MobileUtilityBar ref="mobileBarRef" :show-resume-game="showResumeGame" />
     <BackToTopButton v-if="isCoreRoute" />
     <UpdateToast />
     <OfflineWarmupToast />
@@ -230,7 +228,7 @@ import KeywordPopover from './components/KeywordPopover.vue'
 import NavSidebar from './components/NavSidebar.vue'
 import UpdateToast from './components/UpdateToast.vue'
 import OfflineWarmupToast from './components/OfflineWarmupToast.vue'
-import ResumeGameButton from './components/ResumeGameButton.vue'
+import MobileUtilityBar from './components/MobileUtilityBar.vue'
 import BackToTopButton from './components/BackToTopButton.vue'
 import DomainMoveBanner from './components/DomainMoveBanner.vue'
 import UpdateNoticeBar from './components/UpdateNoticeBar.vue'
@@ -345,6 +343,11 @@ const showResumeGame = computed(() =>
   !installHintOpen.value &&
   !mobileNavOpen.value
 )
+// MobileUtilityBar decides its own visibility (resume / faction tabs / scroll-to-top, any
+// combination); this just mirrors that via the template ref so --mobile-bar-h stays in sync
+// without duplicating the logic.
+const mobileBarRef = ref(null)
+const mobileBarVisible = computed(() => !!mobileBarRef.value?.visible)
 const isCoreRoute = computed(() => !isEventRoute.value && !isTrackerRoute.value && coreRoutes.includes(route.path))
 
 const coreSubNavItems = computed(() => {
@@ -1069,7 +1072,7 @@ a.nd-link:hover {
   }
 
   .main-content {
-    padding: 0 calc(1rem + var(--safe-right)) calc(4.5rem + var(--safe-bottom) + var(--resume-bar-h, 0px)) calc(1rem + var(--safe-left));
+    padding: 0 calc(1rem + var(--safe-right)) calc(4.5rem + var(--safe-bottom) + var(--mobile-bar-h, 0px)) calc(1rem + var(--safe-left));
   }
 
   .bottom-nav {
@@ -1131,7 +1134,7 @@ a.nd-link:hover {
    of a 320-375px viewport, so shrink it further here — almost-zero but not edge-to-edge. */
 @media (max-width: 480px) {
   .main-content {
-    padding: 0 calc(0.5rem + var(--safe-right)) calc(4.5rem + var(--safe-bottom) + var(--resume-bar-h, 0px)) calc(0.5rem + var(--safe-left));
+    padding: 0 calc(0.5rem + var(--safe-right)) calc(4.5rem + var(--safe-bottom) + var(--mobile-bar-h, 0px)) calc(0.5rem + var(--safe-left));
   }
 }
 </style>
