@@ -21,14 +21,44 @@
 - После фиксов — прогнать оба скрипта повторно (убедиться, что остался только известный шум),
   `npm run build`, закоммитить (`git add -A -- <явные пути>`, не бланково).
 
-## Прогресс (19 фракций закрыты — группа A ПОЛНОСТЬЮ ЗАКРЫТА, группа B в процессе)
+## Прогресс (20 фракций закрыты — группа A ПОЛНОСТЬЮ ЗАКРЫТА, группа B в процессе)
 
 ✅ leagues-of-votann, dark-angels, blood-angels, deathwatch, genestealer-cults, black-templars,
 space-wolves, titan-legions, chaos-knights, emperors-children, drukhari, space-marines,
 chaos-space-marines, thousand-sons, death-guard, grey-knights, world-eaters, astra-militarum,
-aeldari — все закоммичены (см. `git log feat/datasheet-drift-fixes`). chaos-titan-legions тоже
-**проверена и чиста** (без коммита — дрейфа не найдено). **Группа A («SM-семья») полностью
+aeldari, orks — все закоммичены (см. `git log feat/datasheet-drift-fixes`). chaos-titan-legions
+тоже **проверена и чиста** (без коммита — дрейфа не найдено). **Группа A («SM-семья») полностью
 закрыта.**
+
+orks: большой разнообразный список. Реальные находки: (1) **Boyz** — в опциях полностью
+отсутствовал вариант "Boss Nob может заменить big choppa на big choppa+kustom shoota ИЛИ
+big choppa+kombi-rokkit+kombi-shoota" (все три оружия не заводились вообще) — добавлены оружия
+и опция; заодно оказалось, что "Any number of Boyz can have slugga+choppa replaced with 1 shoota
++1 close combat weapon" неверно по механике — appdata: это просто "can each be EQUIPPED WITH 1
+shoota" (не замена обоих, без отдельного CCW), а 10-модельная опция должна исключать тех, кто уже
+взял shoota ("1 Boy NOT EQUIPPED WITH 1 shoota") — переписано; (2) Warboss — почти то же самое:
+не хватало целых 2 оружий (Kustom Choppa, Kustom shoota) и опции "kombi-weapon+twin sluggas+big
+choppa → 1 kustom choppa+1 kustom shoota", плюс "Twin slugga"→"Twin sluggas" (appdata plural);
+(3) Mek — оружие "Wrench" → "Close combat weapon" (appdata подтверждает generic-профиль, EN+RU);
+(4) Gretchin RUNTHERD T `5*`→`5` (звёздочка без объяснения нигде в датащите — явный мусор); (5)
+Kommandos — "Speshul Kommando shoota"→"Kustom shoota" (тот же общий орочий профиль, что у Boyz);
+(6) Squighog Boyz Stikka range `9"`→`12"`, композиция переписана в OR-пару, "for every 3
+models"→"for every 4 models" для bomb squig; (7) Zodgrod Wortsnagga "Slugga"→"Squigstoppa"
+(RU-текст самого юнита уже называет его "Сквигостоп", подтверждает; EN оружие раньше называлось
+неправильно); (8) **транспортная вместимость трёх Ork-гигантов была перепутана/сбита**:
+Big'ed Bossbunka ошибочно нёс "(excluding Ghazghkull Thraka)" — у него такого ограничения в
+appdata нет вообще; Gorkanaut наоборот НЕ имел этого ограничения, хотя должен ("It cannot
+transport Ghazghkull Thraka" отдельным предложением, не в скобках — своя формулировка, отличная
+от Morkanaut, у которого "(excluding...)" в скобках ПРАВИЛЬНО, не трогали); Stompa — "Ghazghkull
+Thraka takes up the space of 15 models" → "4 models" (числовая опечатка); (9) Burna
+Boyz/Lootas/Squighog Boyz composition переписаны из "diapason-shorthand" (`1-2 X`, `4-8 Y`) в
+парную OR-структуру (appdata: это жёстко связанные пары 1+4 или 2+8, не независимые диапазоны);
+(10) по мелочи — Attilan Rough Riders-стиль baseSize-компаунды для Breaka Boyz/Tankbustas (Boss
+Nob 40mm/рядовые 32mm), опечатки в loadout-строках (kustom-mega blaster→blasta,
+defkilla boomsticks/killajet→boomstikks/killa jet, Meganobz "twin killsaw"→"twin killsaws").
+Убран 1 чистый KEYWORDS-дубль (Dread Mob "Gretchin→Battleline", подтверждён в
+conditionalKeywords.json). Blitzkannon (не Blitzcannon) и профильные naming-варианты, где appdata
+сама себе противоречит прозой/структурой — оставлены, structura побеждает.
 
 aeldari (appdata source: `asuryani.json`): структурно было много находок — **11 транспортов/
 платформ потеряли служебный keyword `Frame`** (D-cannon Platform, Falcon, Fire Prism, Night
@@ -291,7 +321,7 @@ Prince" (слипшийся `**PACT POINTSBONUS1+**...` без переносо�
 death-guard, grey-knights, world-eaters).
 
 **Группа B — остальные, по одной, от большей к меньшей:** ~~astra-militarum (10999)~~,
-~~aeldari (8838)~~ **обе закрыты**, next → **orks (6507)**, дальше tau-empire (5213),
+~~aeldari (8838)~~, ~~orks (6507)~~ **все три закрыты**, next → **tau-empire (5213)**, дальше
 chaos-daemons (5205), necrons (4833), tyranids (4508), adepta-sororitas (4478), imperial-agents
 (4220), adeptus-mechanicus (3865), imperial-knights (3287), adeptus-custodes (3244).
 
