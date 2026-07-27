@@ -1043,7 +1043,7 @@ export default [
       }
     ],
     "composition": [
-      "1 Land Speeder Vengeance"
+      "1 Ravenwing Land Speeder Vengeance"
     ],
     "loadout": "**This model is equipped with:** heavy bolter; plasma storm battery; close combat weapon.",
     "options": [
@@ -1659,7 +1659,7 @@ export default [
         "d": "2"
       }
     ],
-    "core": "Leader",
+    "core": "Support",
     "faction": "Oath of Moment",
     "abilities": [
       {
