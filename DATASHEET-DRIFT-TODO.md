@@ -39,12 +39,20 @@ Prince" (слипшийся `**PACT POINTSBONUS1+**...` без переносо�
 но 2 из 3 оказались **подтверждены глубже, в `tables/` реляционной БД** (см. урок 13) и возвращены
 обратно; только Fulgrim "Serpentine" реально нигде не найден и остался удалён.
 
-**Остались 20 фракций** (по возрастанию строк в `src/data/datasheets/*.js`, ориентир для выбора
-следующей "любой" фракции): drukhari, adeptus-custodes, imperial-knights,
-world-eaters, grey-knights, adeptus-mechanicus, death-guard, thousand-sons, imperial-agents,
-adepta-sororitas, tyranids, necrons, chaos-daemons, tau-empire, orks, chaos-space-marines,
-aeldari, astra-militarum, space-marines (обработать последним — самый большой, 13k строк, и на
-него завязаны все 5 SM-Chapter фракций через `sharedUnitIds[]`, уже проверенные).
+**Остались 19 фракций.** Разбиты на две группы (уточнено 2026-07-27 — «SM-семью» разбираем
+последней одним блоком, чтобы не терять контекст переключением между ней и остальными):
+
+**Группа A — разбирать сейчас, по одной, по возрастанию строк в `src/data/datasheets/*.js`
+(ориентир для выбора следующей "любой" фракции):** drukhari (2973), adeptus-custodes (3244),
+imperial-knights (3287), adeptus-mechanicus (3865), imperial-agents (4220), adepta-sororitas
+(4478), tyranids (4508), necrons (4833), chaos-daemons (5205), tau-empire (5213), orks (6507),
+aeldari (8838), astra-militarum (10999).
+
+**Группа B — «SM-семья» (общий Adeptus/Heretic Astartes датащит-пул, много общих юнитов и
+паттернов с уже закрытыми SM-Chapter фракциями) — делать ПОСЛЕ группы A, одним заходом,
+от большей к меньшей:** space-marines (13109, на нём завязаны 5 уже проверенных SM-Chapter
+фракций через `sharedUnitIds[]`), chaos-space-marines (7116), thousand-sons (4062), death-guard
+(4039), grey-knights (3467), world-eaters (3407).
 
 ## Ключевые уроки инструмента (не переоткрывать как новый баг)
 
