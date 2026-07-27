@@ -654,7 +654,7 @@ export default [
     ],
     "melee": [
       {
-        "name": "Genestealer claws and talons",
+        "name": "Genestealers claws and talons",
         "tags": [],
         "a": "4",
         "ws": "2+",
@@ -674,7 +674,7 @@ export default [
     "composition": [
       "5-10 Genestealers"
     ],
-    "loadout": "**Every model is equipped with:** Genestealer claws and talons.",
+    "loadout": "**Every model is equipped with:** Genestealers claws and talons.",
     "keywords": [
       "Infantry",
       "Genestealers",
@@ -807,7 +807,7 @@ export default [
     "profiles": [
       {
         "name": "Harridan",
-        "m": "20+\"",
+        "m": "14\"",
         "t": "10",
         "sv": "3+",
         "w": "30",
@@ -1097,7 +1097,7 @@ export default [
         "sv": "3+",
         "w": "12",
         "ld": "8+",
-        "oc": "0"
+        "oc": "-"
       }
     ],
     "ranged": [
@@ -1826,18 +1826,7 @@ export default [
         "oc": "0"
       }
     ],
-    "ranged": [
-      {
-        "name": "",
-        "tags": [],
-        "range": "",
-        "a": "0",
-        "bs": "-",
-        "s": "-",
-        "ap": "0",
-        "d": "-"
-      }
-    ],
+    "ranged": [],
     "core": "Deep Strike",
     "faction": "Synapse",
     "abilities": [
@@ -1922,7 +1911,7 @@ export default [
     "factionKeywords": [
       "Tyranids"
     ],
-    "baseSize": "25mm"
+    "baseSize": "25mm / 28.5mm"
   },
   {
     "id": "neurolictor",
@@ -2882,18 +2871,7 @@ export default [
         "oc": "0"
       }
     ],
-    "ranged": [
-      {
-        "name": "",
-        "tags": [],
-        "range": "",
-        "a": "0",
-        "bs": "-",
-        "s": "-",
-        "ap": "0",
-        "d": "-"
-      }
-    ],
+    "ranged": [],
     "core": "Deep Strike",
     "faction": "Synapse",
     "abilities": [
@@ -3244,7 +3222,7 @@ export default [
     "flavor": "A serpentine fiend that tunnels beneath the battlefield to strike at unsuspecting prey, the Red Terror is a rare bioform spawned to sow disruption deep behind enemy lines. Able to distend its jaws to swallow prey whole, the beast is further able to rapidly absorb their biomass to regenerate its injuries.",
     "profiles": [
       {
-        "name": "",
+        "name": "The Red Terror",
         "m": "10\"",
         "t": "8",
         "sv": "3+",
@@ -3382,7 +3360,7 @@ export default [
       }
     ],
     "composition": [
-      "1 Swarmlord – EPIC HERO"
+      "1 The Swarmlord – EPIC HERO"
     ],
     "loadout": "**This model is equipped with:** Synaptic pulse; bone sabres.",
     "leader": {
