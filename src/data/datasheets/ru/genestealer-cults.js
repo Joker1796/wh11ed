@@ -20,7 +20,7 @@ export default {
       'Hulking Bodyguards':
         'Пока Character возглавляет этот юнит, каждый раз, когда атака нацеливается на этот юнит, если характеристика Силы (Strength) этой атаки больше характеристики Прочности (Toughness) этого юнита, вычтите 1 из броска ранения.',
     },
-    loadout: '**Каждый Aberrant вооружён:** Aberrant weapons.',
+    loadout: '**Каждая модель вооружена:** Aberrant weapons.',
   },
 
   abominant: {
@@ -208,7 +208,7 @@ export default {
     },
     wargearAbilities: { 'Cult Icon': CULT_ICON },
     loadout:
-      '**Metamorph Leader вооружён:** autopistol; Leader’s bio-weapons.\n\n**Каждый Hybrid Metamorph вооружён:** autopistol; Metamorph mutations.',
+      '**Metamorph Leader вооружён:** autopistol; Leader’s cult weapons.\n\n**Каждый Hybrid Metamorph вооружён:** autopistol; Metamorph mutations.',
     options: [
       'Любое число моделей может заменить свой autopistol на 1 hand flamer.',
       'autopistol одного Hybrid Metamorph можно заменить на 1 cult icon.',
@@ -266,7 +266,7 @@ export default {
         'Один раз за битву, в начале фазы стрельбы вашего противника, эта модель может задействовать свой psychic familiar. Если она это делает, до конца фазы прибавьте 6" к дальности её способности Mind Control.\n\n**Примечание разработчика:** положите рядом с моделью жетон Psychic Familiar и уберите его, как только эта способность будет использована.',
     },
     leader: { text: LEADER_TEXT },
-    loadout: '**Эта модель вооружена:** autopistol; Magus stave.',
+    loadout: '**Эта модель вооружена:** autopistol; Force stave.',
   },
 
   'neophyte-hybrids': {
