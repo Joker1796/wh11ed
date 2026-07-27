@@ -21,13 +21,39 @@
 - После фиксов — прогнать оба скрипта повторно (убедиться, что остался только известный шум),
   `npm run build`, закоммитить (`git add -A -- <явные пути>`, не бланково).
 
-## Прогресс (16 фракций закрыты)
+## Прогресс (17 фракций закрыты — группа A ПОЛНОСТЬЮ ЗАКРЫТА)
 
 ✅ leagues-of-votann, dark-angels, blood-angels, deathwatch, genestealer-cults, black-templars,
 space-wolves, titan-legions, chaos-knights, emperors-children, drukhari, space-marines,
-chaos-space-marines, thousand-sons, death-guard, grey-knights — все закоммичены (см. `git log
-feat/datasheet-drift-fixes`). chaos-titan-legions тоже **проверена и чиста** (без коммита —
-дрейфа не найдено).
+chaos-space-marines, thousand-sons, death-guard, grey-knights, world-eaters — все закоммичены (см.
+`git log feat/datasheet-drift-fixes`). chaos-titan-legions тоже **проверена и чиста** (без коммита
+— дрейфа не найдено). **Группа A («SM-семья») полностью закрыта, дальше — группа B (см. ниже).**
+
+world-eaters: структурно был почти чист, зато нашёлся **реальный content-гэп на уровне
+данных**: 30 записей стрей-бага в `factionKeywords[]` по всему файлу — пустая строка `""` рядом
+с "World Eaters"/"Blood Legions" (то до, то после) в 30 датащитах, вычищено целиком regex'ом (не
+влияет на appdata-сверку, appdata для части этих юнитов сама даёт `factionKeywords: []`, но пустая
+строка — чисто вх11ed-шный мусор, воспроизводился и до, и после конкретной находки, попутная
+уборка). Точечные находки: (1) Bloodcrushers оружие "Bladed horn" → "Juggernaut's bladed horn"
+(два ДРУГИХ юнита, Lord Invocatus/Lord on Juggernaut, используют настоящее "Bladed horn" без
+приставки с другим D — их не тронули, appdata подтверждает разные id); (2) Defiler "Heavy missile
+launcher – krak" S `10`→`12`; (3) **Jakhals — датащит был неполным**: `baseSize` только `28.5mm`
+для мёрженного профиля, где на самом деле два разных размера базы (Jakhals/Pack Leader 28.5mm,
+Dishonoured-модели 40mm) — appdata хранит это как двухстрочный baseSize; переписано в
+уже принятый по прецеденту (Dark Commune/Masters of the Maelstrom) формат `"28.5mm / 40mm"`; сам
+контент (композиция, paired manglers, способности) уже был на месте, ошибался только baseSize;
+(4) Chaos Rhino/Heldrake/Lord on Juggernaut — по мелочи в `composition`/`loadout`: лишняя "1" у
+combi-bolter, потерянное "Chaos" в "Chaos Heldrake", потерянное "World Eaters" в "World Eaters
+Lord on Juggernaut"; (5) Skarbrand `damaged` — "add 2 to this model's melee weapons" (общо) →
+"...Slaughter and Carnage" (правильное имя его единственного оружия ближнего боя, appdata
+подтверждает). Проверено и НЕ тронуто: Cult of Blood "Idols of Khorne & KEYWORDS" — хвост
+"Jakhals/Goremongers gain Battleline" чистый дубль `conditionalKeywords.json`, убран; Butcher Lord
+(→Goremongers/Jakhals) и Disciple of Khorne (→Bloodcrushers/Flesh Hounds) attach-клаузы и Khorne
+Daemonkin ally-допуск Blood Legions 500/1000/1500 — все подтверждены через
+`enhancement_bodyguard_group`/`allied_faction_points_limit` (урок 13); Blessings of Khorne — те
+же "числа не в тексте appdata, но подтверждаются частично" (Warp Blades "double 5+" сходится с
+примером-`quote` в appdata) — третий случай подряд (после Cabal of Sorcerers/Gate of Infinity)
+такого пропуска бэйджа-номинала при экстракции appdata, не дрейф wh11ed.
 
 grey-knights: короткий список, 2 реальные находки: (1) Brotherhood Techmarine — оружие
 "Servo-arms" (множественное) → "Servo-arm" (единственное; собственный loadout-текст датащита уже
@@ -187,11 +213,10 @@ Prince" (слипшийся `**PACT POINTSBONUS1+**...` без переносо�
 **Остались 19 фракций.** Разбиты на две группы, порядок между группами уточнён 2026-07-27
 (переиграно в тот же день — сначала SM-семья, потом остальное по убыванию объёма):
 
-**Группа A — «SM-семья» (общий Adeptus/Heretic Astartes датащит-пул, много общих юнитов и
-паттернов с уже закрытыми SM-Chapter фракциями) — разбирать ПЕРВОЙ, по одной, от большей к
-меньшей:** ~~space-marines (13109)~~, ~~chaos-space-marines (7116)~~, ~~thousand-sons (4062)~~,
-~~death-guard (4039)~~, ~~grey-knights (3467)~~ **все пять закрыты**, next → **world-eaters
-(3407)** — последняя в группе A.
+**Группа A — «SM-семья»** — ~~space-marines~~, ~~chaos-space-marines~~, ~~thousand-sons~~,
+~~death-guard~~, ~~grey-knights~~, ~~world-eaters~~ — **ВСЯ ГРУППА ЗАКРЫТА.** Дальше — только
+группа B, по одной, от большей к меньшей (следующая по плану — **astra-militarum**, 10999 строк,
+самая большая в группе B).
 
 **Группа B — остальные, разбирать ПОСЛЕ группы A, по одной, от большей к меньшей:**
 astra-militarum (10999), aeldari (8838), orks (6507), tau-empire (5213), chaos-daemons (5205),
@@ -337,6 +362,23 @@ drukhari (2973) уже закрыта (взята 2026-07-27 до переигр
     даже если знаем, что юнит существует в правилах GW. Restrictions-текст, ПРОСТО упоминающий
     Legends-юнит по имени (как у Deathwatch выше), можно оставлять как прозу — это не то же самое,
     что заводить сам датащит.
+
+16. **Числовые «бэйджи» (пороги/лимиты), которые печатаются на карте отдельным значком/цифрой, а
+    не обычным текстом предложения — систематически пропадают при экстракции appdata, даже когда
+    остальной текст того же правила извлечён полностью.** Три независимых прецедента подряд:
+    thousand-sons "Cabal of Sorcerers" (Warp Charge 5/6/7/9 у четырёх ритуалов — appdata знает
+    только сам ритуал текстом, чисел нет вообще); grey-knights "Gate of Infinity" (таблица
+    "сколько юнитов по battle size" — 2/3/4 — отсутствует целиком, даже как `type:'image'`); world-
+    eaters "Blessings of Khorne" (double 1+/2+/3+/4+/5+/6 у шести Blessing — appdata знает
+    названия и эффекты, но не пороги). Отличать от урока 3 (`type:'image'` — appdata честно
+    отмечает, что там таблица, просто не оцифровала) — здесь чаще всего appdata **вообще не
+    оставляет следа**, что там было число, ни как `image`-блок, ни как текст. Проверять по
+    возможности хотя бы один пункт через побочные данные (Warp Blades "double 5+" подтвердился
+    примером внутри `type:'quote'` того же правила) — если хоть один пункт совпадает и остальные
+    выстроены в логичную возрастающую/понятную последовательность, лишний повод для паники нет.
+    **Не удалять и не обнулять** такие числа только на основании отсутствия в appdata — без них
+    способность нефункциональна, а сама последовательность (не единичное число) обычно достаточно
+    показательна, чтобы не быть выдумкой wh11ed.
 
 ## Что делать дальше
 
