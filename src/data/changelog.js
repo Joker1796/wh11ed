@@ -17,6 +17,30 @@
 
 export const changelog = [
   {
+    version: '2.1.5',
+    date: '2026-07-27',
+    en: [
+      { h: 'FAQ & errata' },
+      'The per-faction FAQ tab (added last release) is now available in Russian for all 30 factions, not just English.',
+      'Fixed bulleted FAQ/errata answers rendering as one run-on line instead of a proper list.',
+      { h: 'Points & rules corrections' },
+      'Corrected several stale Munitorum Field Manual points values: Black Templars’ Impulsor, Space Marines’ Repulsor Executioner and Vanguard Veteran Squad With Jump Packs, and Genestealer Cults’ Atalan Jackals (which also gained a missing 9-model price tier).',
+      'Fixed Gretchin’s unit composition text (a missing “0-” prefix had made 3 of its 5 legal squad sizes look unavailable).',
+      'Removed an “Agents of the Imperium (allied)” price line from several Imperial Agents/Assassins units that doesn’t appear on the live MFM.',
+      'Corrected rules-text drift against the latest errata across many factions (Aeldari, Necrons, Chaos Daemons, Grey Knights, Imperial Agents, Genestealer Cults, Black Templars, Chaos Knights, Dark Angels, Imperial Knights, Orks, Space Marines) — army rules, stratagems, enhancements and datasheet abilities.',
+    ],
+    ru: [
+      { h: 'FAQ и эррата' },
+      'Вкладка FAQ по фракциям (добавленная в прошлом релизе) теперь доступна на русском для всех 30 фракций, а не только на английском.',
+      'Исправлены маркированные списки в ответах FAQ/эрраты — раньше они сливались в одну строку вместо настоящего списка.',
+      { h: 'Исправления очков и правил' },
+      'Исправлены устаревшие значения очков (Munitorum Field Manual): Impulsor у Black Templars, Repulsor Executioner и Vanguard Veteran Squad With Jump Packs у Space Marines, Atalan Jackals у Genestealer Cults — у последних также добавлен недостающий вариант отряда на 9 моделей.',
+      'Исправлен текст состава отряда Gretchin (не хватало префикса «0-»), из-за чего 3 из 5 легальных размеров отряда выглядели недоступными.',
+      'Убрана строка цены «Agents of the Imperium (allied)» у нескольких юнитов Imperial Agents/ассасинов — в актуальном MFM её нет.',
+      'Исправлены расхождения текста правил с последними эрратами у множества фракций (Aeldari, Necrons, Chaos Daemons, Grey Knights, Imperial Agents, Genestealer Cults, Black Templars, Chaos Knights, Dark Angels, Imperial Knights, Orks, Space Marines) — армейские правила, стратагемы, улучшения и способности листов данных.',
+    ],
+  },
+  {
     version: '2.1.4',
     date: '2026-07-25',
     en: [
