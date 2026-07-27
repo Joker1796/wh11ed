@@ -569,7 +569,7 @@ export default [
     "wargearAbilities": [
       {
         "name": "Accelerator Mandible",
-        "text": "At the start of the Fight phase, select one friendly Canoptek unit within 3\" of the bearer’s unit. Until the end of the phase, improve the Weapon Skill characteristic of weapons equipped by models in that unit by 1."
+        "text": "At the start of the Fight phase, select one friendly Canoptek unit within 3\" of the bearer’s unit. Until the end of the phase, improve the Weapon Skill characteristic of models in that unit by 1."
       },
       {
         "name": "Nanoscarab Projector",
@@ -613,7 +613,7 @@ export default [
         "t": "6",
         "sv": "3+",
         "w": "6",
-        "ld": "7+",
+        "ld": "8+",
         "oc": "3"
       }
     ],
@@ -789,7 +789,7 @@ export default [
     "wargearAbilities": [
       {
         "name": "Fabricator Claw Array (Aura)",
-        "text": "While a friendly Necrons Vehicle unit is within 6\" of the bearer, that unit has the Feel No Pain 6+ ability."
+        "text": "While a friendly Necrons Vehicle unit is within 6\" of the bearer, models in that unit have the Feel No Pain 6+ ability."
       },
       {
         "name": "Gloom Prism (Aura)",
@@ -1147,7 +1147,7 @@ export default [
         "note": "2nd+"
       }
     ],
-    "flavor": "Chronomancers are Crypteks who harness temporal energies, their aeonstaves slowing down or speeding up weaponised time. Their timesplinter mantles use crystallised moments to confound enemy blows, while their chronometrons hasten allies through time itself.",
+    "flavor": "Chronomancers are Crypteks who harness temporal energies, their Chronomancer’s staves slowing down or speeding up weaponised time. Their timesplinter mantles use crystallised moments to confound enemy blows, while their chronometrons hasten allies through time itself.",
     "profiles": [
       {
         "name": "Chronomancer",
@@ -1162,7 +1162,7 @@ export default [
     ],
     "ranged": [
       {
-        "name": "Aeonstave",
+        "name": "Chronomancer’s stave",
         "tags": [
           "BLAST"
         ],
@@ -1176,7 +1176,7 @@ export default [
     ],
     "melee": [
       {
-        "name": "Aeonstave",
+        "name": "Chronomancer’s stave",
         "tags": [],
         "a": "3",
         "ws": "4+",
@@ -1200,7 +1200,7 @@ export default [
     "composition": [
       "1 Chronomancer"
     ],
-    "loadout": "**This model is equipped with:** aeonstave.",
+    "loadout": "**This model is equipped with:** Chronomancer’s stave.",
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
@@ -1354,7 +1354,7 @@ export default [
     "rules": [
       {
         "name": "CRYPTEK RETINUE",
-        "text": "At the start of the Declare Battle Formations step, this unit can join one other unit from your army that is being led by a Cryptek Infantry model (a unit cannot have more than one Cryptothralls unit joined to it). If it does, until the end of the battle, every model in this unit counts as being part of that Bodyguard unit, and that Bodyguard unit’s Starting Strength is increased accordingly."
+        "text": "At the start of the Declare Battle Formations step, this unit can join one other unit from your army that is being led by a Cryptek model (a unit cannot have more than one Cryptothralls unit joined to it). If it does, until the end of the battle, every model in this unit counts as being part of that Bodyguard unit, and that Bodyguard unit’s Starting Strength is increased accordingly."
       }
     ],
     "composition": [
@@ -1930,7 +1930,7 @@ export default [
     "composition": [
       "1 Hexmark Destroyer"
     ],
-    "loadout": "**Every model is equipped with:** enmitic disintegrator pistols; close combat weapon.",
+    "loadout": "**This model is equipped with:** enmitic disintegrator pistols; close combat weapon.",
     "keywords": [
       "Infantry",
       "Character",
@@ -4270,7 +4270,7 @@ export default [
       "text": "While this unit’s Szarekh model has 1-6 wounds remaining, halve the Attacks characteristic of that model’s weapons, and each time this unit makes an attack, subtract 1 from the Hit roll."
     },
     "composition": [
-      "1 Szarekh – CHARACTER",
+      "1 Szarekh – EPIC HERO",
       "2 Triarchal Menhirs"
     ],
     "loadout": "**Szarekh is equipped with:** Sceptre of Eternal Glory; Staff of Stars; Weapons of the Final Triarch.\n\n**Every Triarchal Menhir is equipped with:** annihilator beam; armoured bulk.",
