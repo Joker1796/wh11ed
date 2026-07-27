@@ -14,18 +14,33 @@
   `node scripts/sync-faction-text.mjs <slug>` (оба report-only). Структурный вывод обычно стоит
   пропускать через `grep -v "extra in wh11ed (not in appdata): datasheet \""` — гасит известный
   шум SM-Chapter общего пула (см. ниже).
+- **Прежде чем удалять любой кусок текста как "нет в appdata" — проверить `../wh40k-appdata/tables/*.json`
+  (полная реляционная БД), не только `../wh40k-appdata/factions/<slug>.json` (плоский экспорт).**
+  Плоский JSON НЕ содержит ally-инклюзию, bodyguard/attach-группы и часть keyword-грантов — они
+  только в `tables/`. См. урок 13 ниже — это отменяет часть урока 12.
 - После фиксов — прогнать оба скрипта повторно (убедиться, что остался только известный шум),
   `npm run build`, закоммитить (`git add -A -- <явные пути>`, не бланково).
 
-## Прогресс (9 фракций закрыты)
+## Прогресс (10 фракций закрыты)
 
 ✅ leagues-of-votann, dark-angels, blood-angels, deathwatch, genestealer-cults, black-templars,
-space-wolves, titan-legions, chaos-knights — все закоммичены (см. `git log
+space-wolves, titan-legions, chaos-knights, emperors-children — все закоммичены (см. `git log
 feat/datasheet-drift-fixes`). chaos-titan-legions тоже **проверена и чиста** (без коммита —
 дрейфа не найдено).
 
-**Остались 21 фракция** (по возрастанию строк в `src/data/datasheets/*.js`, ориентир для выбора
-следующей "любой" фракции): emperors-children, drukhari, adeptus-custodes, imperial-knights,
+emperors-children: почти весь репортed diff оказался известным шумом (merged-armyRule/merged-
+detachment-rule `###`-паттерн ×2 — оба куска подтверждены как отдельные карточки внутри самого
+appdata JSON, не выдумка; image-table пересказ текстом — тоже подтверждён appdata `type:'image'`
+блоком на том же месте). Единственный реальный баг — сломанное форматирование "Pledges to the Dark
+Prince" (слипшийся `**PACT POINTSBONUS1+**...` без переносов строк и без буллетов), переформатировано
+в `▪ **N+:** текст`. Три куска текста без видимого подтверждения в плоском `factions/<slug>.json`
+(Legions of Excess ally-допуск в "Daemonic Empowerment", attach-фраза в "Exalted Patron", Fulgrim
+"Serpentine" ability) сначала были ошибочно удалены (решили, что раз appdata молчит — это дрейф),
+но 2 из 3 оказались **подтверждены глубже, в `tables/` реляционной БД** (см. урок 13) и возвращены
+обратно; только Fulgrim "Serpentine" реально нигде не найден и остался удалён.
+
+**Остались 20 фракций** (по возрастанию строк в `src/data/datasheets/*.js`, ориентир для выбора
+следующей "любой" фракции): drukhari, adeptus-custodes, imperial-knights,
 world-eaters, grey-knights, adeptus-mechanicus, death-guard, thousand-sons, imperial-agents,
 adepta-sororitas, tyranids, necrons, chaos-daemons, tau-empire, orks, chaos-space-marines,
 aeldari, astra-militarum, space-marines (обработать последним — самый большой, 13k строк, и на
@@ -73,6 +88,51 @@ aeldari, astra-militarum, space-marines (обработать последним
     вручную по exact appdata JSON, не доверять диффу на глаз.
 11. **`sourceIds.json`** — стабильный uuid-мост wh11ed↔appdata (`kind: armyrule|det|strat|enh|
     ds|wg`), регенерируется `node scripts/gen-source-ids.mjs`. Не трогать вручную.
+12. **`sources/Faction pack 11 ed/*.pdf` — локальные файлы могут быть УСТАРЕВШИМИ версиями.**
+    Дословное совпадение с локальным PDF из `sources/` ничего не доказывает про текущие правила —
+    сам файл может быть старой редакцией. **appdata — канон** по формулировкам правил (MFM вторичен,
+    только очки/DP/disposition). Если нужно свериться с официальным источником напрямую — качать
+    СВЕЖИЙ Faction Pack с `warhammer-community.com/en-gb/downloads/warhammer-40000/` (см. урок 14),
+    не читать локальный `sources/*.pdf` как истину.
+13. **Перед тем как объявить кусок текста "дрейфом, которого нет в appdata" — проверить
+    `../wh40k-appdata/tables/*.json` (полная реляционная БД appdata), а не только плоский
+    `../wh40k-appdata/factions/<slug>.json`.** Плоский экспорт НЕ включает: ally-инклюзию (кто
+    кого может брать союзником и по какому очковому порогу — таблицы `allied_faction`,
+    `allied_faction_required_detachment`, `allied_faction_points_limit`,
+    `allied_faction_parent_faction_keyword`, `allied_faction_keyword`), enhancement-attach/
+    bodyguard-группы (`enhancement_bodyguard_group`, `_datasheet`, `_keyword`), и часть keyword-
+    грантов сверх того, что уже попало в `conditionalKeywords.json` (`conditional_keyword.json`
+    сам по себе полнее, чем то немногое, что генератор `gen-conditional-keywords.mjs` из него
+    выбирает — см. его комментарий в CLAUDE.md: он берёт только roster-faction-keyword и
+    detachment-грант, пропуская per-unit allegiance-гранты). Общий метод: найти id сущности
+    (`factions/<slug>.json` даёт detachment/datasheet/enhancement id), затем грепать `tables/`
+    по этому id как FK (`detachmentId`, `enhancementId`, `datasheetId`), резолвить связанные id
+    через `keyword.json`/`faction_keyword.json`/`battle_size.json` и т.п.
+    **Прецедент (эта же правка, дважды исправленная в одном коммите):** сначала ошибочно удалил
+    Legions of Excess ally-текст в emperors-children "Daemonic Empowerment" и attach-фразу в
+    "Exalted Patron" как "неподтверждённые" (не нашёл в `factions/emperors-children.json`) — оба
+    оказались чётко подтверждены в `tables/`: Legions of Excess — через `allied_faction` (id
+    `e94941b5-...`) → `allied_faction_points_limit` (500/1000/1500 по `battleSizeId`) →
+    `allied_faction_parent_faction_keyword` → `faction_keyword.json` = "Legions of Excess";
+    Exalted Patron attach — через `enhancement_bodyguard_group` (`bodyguardType:'leader'`) →
+    `enhancement_bodyguard_group_datasheet` → datasheet id = "Flawless Blades". Оба возвращены.
+    Fulgrim "Serpentine" ability — проверил и `datasheet_datasheet_ability` join (все 5 abilities
+    датащита перечислены явно, Serpentine среди них нет) — этот кусок остался удалён, реально
+    нигде не найден. Единственное законное основание оставить контент без явного появления в
+    плоском `factions/<slug>.json` — либо corroboration САМИМ appdata (урок 3 — `type:'image'` в
+    том же месте; урок 10 — текст под отдельной карточкой того же JSON; урок 13 — найдено в
+    `tables/`), либо (в крайнем случае) дословное совпадение с ТОЛЬКО ЧТО скачанным (не
+    локальным!) официальным PDF — см. урок 14.
+14. **Если контент не находится ни в плоском JSON, ни в `tables/`, и вопрос достаточно важен
+    (например, правило легальности ростера) — можно скачать актуальный Faction Pack/Index/Codex
+    PDF прямо с `warhammer-community.com` (см. ссылки на странице `/en-gb/downloads/warhammer-40000/`,
+    искать через WebSearch по `<faction> Faction Pack pdf warhammer-community.com`, скачивать в
+    scratchpad через `curl`, читать `pdftotext -layout`) и свериться с ним напрямую.** Это НЕ то же
+    самое, что урок 12 (там — локальный, потенциально устаревший файл); свежая закачка с
+    официального сайта — валидный источник, дополняющий appdata, а не заменяющий его как канон.
+    Прецедент: deathwatch "Black Spear Task Force" · Mission Tactics `Restrictions:` блок — не
+    нашёлся ни в `factions/deathwatch.json`, ни очевидным образом в `tables/`, но дословно совпал
+    со свежескачанным `eng_08-06_..._faction_pack_deathwatch...pdf` — оставлен без изменений.
 
 ## Что делать дальше
 
