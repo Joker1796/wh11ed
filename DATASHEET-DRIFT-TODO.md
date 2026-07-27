@@ -21,12 +21,46 @@
 - После фиксов — прогнать оба скрипта повторно (убедиться, что остался только известный шум),
   `npm run build`, закоммитить (`git add -A -- <явные пути>`, не бланково).
 
-## Прогресс (11 фракций закрыты)
+## Прогресс (12 фракций закрыты)
 
 ✅ leagues-of-votann, dark-angels, blood-angels, deathwatch, genestealer-cults, black-templars,
-space-wolves, titan-legions, chaos-knights, emperors-children, drukhari — все закоммичены (см.
-`git log feat/datasheet-drift-fixes`). chaos-titan-legions тоже **проверена и чиста** (без
-коммита — дрейфа не найдено).
+space-wolves, titan-legions, chaos-knights, emperors-children, drukhari, space-marines — все
+закоммичены (см. `git log feat/datasheet-drift-fixes`). chaos-titan-legions тоже **проверена и
+чиста** (без коммита — дрейфа не найдено).
+
+space-marines (appdata source: `adeptus-astartes.json`, самая большая фракция — 13k строк):
+находок много, самая заметная — **Land Speeder был полностью переиздан** (новый профиль
+T8/W9/OC3 вместо T7/W6/OC2, новая штатная тройка оружия — multi-melta + onslaught gatling
+cannon + stormfury missile launcher вместо heavy bolter/multi-melta на выбор), источник —
+appdata `publicationId` = Codex: Space Marines с `errataDate: 22 July 2026` (буквально на этой
+неделе), т.е. это реальный, очень свежий рулбук-апдейт, а не шум. Кроме этого: несколько точечных
+стат-дрейфов (Assault Intercessors WJP Power weapon A/WS, Captain Titus/Lieutenant Bolt(-crafted)
+pistol BS, Sternguard chainsword/power weapon/power fist A/WS, Company Heroes Bolt rifle
+ASSAULT+HEAVY тег, Eradicator Bolt pistol PISTOL вместо CLOSE-QUARTERS), несколько мусорных
+записей (Devastator Squad лишний нигде не используемый "Storm bolter", Drop Pod пустышка-оружие
+с пустым именем, Hellblaster Squad задвоенная "Designer's Note" как отдельная способность) и один
+структурный пробел — **Wardens of Ultramar** оформлен как `specialAbilities`-прозой вместо
+стандартного структурного поля `"leader": {text, units, footer}` (как у всех остальных
+Leader/Support юнитов файла); appdata подтверждает через `rules[0].rules` полный список из 6
+юнитов (Assault Intercessor/Assault/Bladeguard Veteran/Intercessor/Sternguard Veteran/Vanguard
+Veteran Squad) — структурное поле `leaderOf` в appdata само по себе неполное/битое (только 3 из
+6, четвёртая запись вообще пустая) — доверились прозе appdata как более полной, не структурному
+полю (обратный случай урока 1 — здесь сломана именно структура, не проза). Vanguard Veteran Squad
+WJP донабрал недостающий вариант замены (Heavy Bolt Pistol + Master-crafted Power Weapon на
+sergeant, плюс plasma pistol за каждые 5 моделей) — вообще отсутствовал в wh11ed. **Отдельно
+нашёлся крупный пробел в армейском правиле Oath of Moment**: смёрженная карта appdata "Space
+Marine Chapters" оказалась вдвое длиннее, чем то, что было в wh11ed — не хватало ограничений по
+чаптерам (Black Templars запрет ADEPTUS ASTARTES PSYKER + список техники без чаптер-кийворда;
+Space Wolves запрет на Apothecary/Devastator/Tactical Squad; весь блок Deathwatch — mono-chapter
+запрет + список исключённых юнитов, включая Legends через "see Legends: Agents of the Imperium"
+прозой, без завода отдельного датащита — см. урок 15). Дописано полностью. Множество "differs"
+из sync-скриптов оказались известным шумом: очки (MFM, вне скоупа), naming-варианты аппдаты
+(dual blade/blades-типа Chain-flails/Close-combat weapon, Master-crafted bolter/bolt rifle
+внутри одного и того же датащита — структурное поле говорит "bolter", проза "bolt rifle": верим
+структуре), merged-профили (Wardens of Ultramar 6 избранных → 2 строки статов, все числа
+совпадают) и списки-с-сноской, которые appdata хранит одной строкой, а wh11ed — несколькими
+элементами массива `options[]` (Devastator/Sternguard/Tactical/Terminator Squad — весь контент
+на месте, просто по-другому разбит на элементы, сверено вручную построчно).
 
 drukhari: реальных находок 5 — (1) Voidraven Bomber «Voidraven missiles – shatterfield missiles»
 AP `-2`→`-1` (Razorwing использует одноимённое, но отдельное оружие с другим AP — не спутать);
@@ -62,9 +96,8 @@ Prince" (слипшийся `**PACT POINTSBONUS1+**...` без переносо�
 
 **Группа A — «SM-семья» (общий Adeptus/Heretic Astartes датащит-пул, много общих юнитов и
 паттернов с уже закрытыми SM-Chapter фракциями) — разбирать ПЕРВОЙ, по одной, от большей к
-меньшей:** space-marines (13109, на нём завязаны 5 уже проверенных SM-Chapter фракций через
-`sharedUnitIds[]`), chaos-space-marines (7116), thousand-sons (4062), death-guard (4039),
-grey-knights (3467), world-eaters (3407).
+меньшей:** ~~space-marines (13109)~~ **закрыта**, next → chaos-space-marines (7116),
+thousand-sons (4062), death-guard (4039), grey-knights (3467), world-eaters (3407).
 
 **Группа B — остальные, разбирать ПОСЛЕ группы A, по одной, от большей к меньшей:**
 astra-militarum (10999), aeldari (8838), orks (6507), tau-empire (5213), chaos-daemons (5205),
