@@ -1017,7 +1017,7 @@ export default [
     "composition": [
       "1 Daemon Prince of Tzeentch"
     ],
-    "loadout": "**This model is equipped with:** Dark Blessing; infernal cannon; heliforged weapons.",
+    "loadout": "**This model is equipped with:** Dark Blessing; infernal cannon; hellforged weapons.",
     "keywords": [
       "Tzeentch",
       "Chaos",
@@ -1128,7 +1128,7 @@ export default [
     "composition": [
       "1 Daemon Prince of Tzeentch with Wings"
     ],
-    "loadout": "**This model is equipped with:** Dark Blessing; infernal cannon; heliforged weapons.",
+    "loadout": "**This model is equipped with:** Dark Blessing; infernal cannon; hellforged weapons.",
     "keywords": [
       "Daemon",
       "Psyker",
@@ -1311,7 +1311,7 @@ export default [
         "d": "1"
       }
     ],
-    "core": "Deadly Demise D6, Feel No Pain 6+",
+    "core": "Deadly Demise D6",
     "abilities": [
       {
         "name": "Scuttling Walker",
@@ -2220,7 +2220,7 @@ export default [
           "PSYCHIC"
         ],
         "range": "24\"",
-        "a": "D6+6",
+        "a": "D3+6",
         "bs": "2+",
         "s": "9",
         "ap": "-2",
@@ -2383,7 +2383,7 @@ export default [
     ],
     "damaged": {
       "note": "1-7 wounds remaining",
-      "text": "While this model has 1-6 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+      "text": "While this model has 1-7 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
     },
     "composition": [
       "1 Lord of Change"

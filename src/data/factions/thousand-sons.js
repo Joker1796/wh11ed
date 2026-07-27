@@ -305,8 +305,7 @@ Thousand Sons units from your army have the following ability:
 
 Each time a Tzeentch Mutant Infantry or Tzeentch Mutant Mounted unit from your army is selected to shoot or fight, before selecting its targets, that unit can make a Warpmeld Sacrifice. If it does, until the end of the phase, each time a model in that unit makes an attack, add 1 to the Wound roll. At the end of the phase, that Tzeentch Mutant unit suffers D3 mortal wounds.
 
-### Keywords
-Tzaangors units from your army have the Battleline keyword, and while such a unit is not Battle-shocked, add 1 to the Objective Control characteristic of Tzaangor models in that unit.
+While a Tzaangors unit from your army is not Battle-shocked, add 1 to the Objective Control characteristic of Tzaangor models in that unit.
 
 This detachment has the MUTANT tag and cannot be taken with another MUTANT detachment.`,
       },
