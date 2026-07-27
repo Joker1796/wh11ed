@@ -4,10 +4,14 @@
 // external map keeps the hand-written data untouched and fully regenerable.
 //
 // Shape: { "<faction-slug>": { "<kind>:<key>": "<appdata-uuid>", ... }, ... }
-//   kind   = armyrule | det | strat | enh | ds
+//   kind   = armyrule | det | strat | enh | ds | wg
 //   key    = the entity's own wh11ed id where it has one (datasheets `ds:<id>`, detachments
 //            `det:<id||normName>`), else its normalized name; strat/enh are scoped under their
-//            detachment key so same-named stratagems in different detachments don't collide.
+//            detachment key, wg (a datasheet's ranged[]/melee[] weapon row) under its datasheet id
+//            (`wg:<ds-id>:<normName>`) — so same-named entities under different parents don't
+//            collide. wg's uuid identifies the appdata **wargear item**, not a single profile —
+//            a multi-mode weapon (e.g. plasma) has one item with several profiles, so several wh11ed
+//            rows ("Plasma gun – standard"/"– supercharge") legitimately share the same wg uuid.
 //
 // Built by matching wh11ed↔appdata by normalized NAME (they agree today) — the same matching
 // sync-appdata.mjs does. Once committed, the map is the stable bridge: on a later data_version
@@ -19,7 +23,7 @@
 //   node scripts/gen-source-ids.mjs --check    # report only; non-zero exit if it would change
 import fs from 'node:fs'
 import path from 'node:path'
-import { ROOT, APPDATA, SLUG_MAP, norm, loadJson, loadModule, byNormName } from './lib/sync-common.mjs'
+import { ROOT, APPDATA, SLUG_MAP, norm, loadJson, loadModule, byNormName, matchWeapon } from './lib/sync-common.mjs'
 
 // Combat Patrol content (separate boxed mode) is not in wh11ed — drop it before matching, same
 // as sync-appdata.mjs.
@@ -80,7 +84,13 @@ async function mapFaction(slug, cp, stats) {
   // Datasheets (keyed by wh11ed's stable slug id — survives an appdata rename).
   const appDatasheets = (bundle.datasheets || []).filter((d) => !cp.datasheets.has(norm(d.name)))
   const appDsByName = byNormName(appDatasheets, (d) => d.name)
-  for (const d of await loadWh11edDatasheets(slug)) record(`ds:${d.id}`, appDsByName.get(norm(d.name))?.id)
+  for (const d of await loadWh11edDatasheets(slug)) {
+    const appDs = appDsByName.get(norm(d.name))
+    record(`ds:${d.id}`, appDs?.id)
+    if (!appDs) { stats.unmatched += (d.ranged?.length || 0) + (d.melee?.length || 0); continue }
+    for (const w of d.ranged || []) record(`wg:${d.id}:${norm(w.name)}`, matchWeapon(w.name, true, appDs.wargear)?.id)
+    for (const w of d.melee || []) record(`wg:${d.id}:${norm(w.name)}`, matchWeapon(w.name, false, appDs.wargear)?.id)
+  }
 
   return Object.fromEntries(Object.entries(out).sort(([a], [b]) => a.localeCompare(b)))
 }
