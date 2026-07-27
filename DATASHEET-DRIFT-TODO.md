@@ -355,18 +355,57 @@ Prince" (слипшийся `**PACT POINTSBONUS1+**...` без переносо�
 death-guard, grey-knights, world-eaters).
 
 **Группа B — остальные, по одной, от большей к меньшей:** ~~astra-militarum (10999)~~,
-~~aeldari (8838)~~, ~~orks (6507)~~, ~~tau-empire (5213)~~ **все четыре закрыты**, next →
-**chaos-daemons (5205)**, дальше necrons (4833), tyranids (4508), adepta-sororitas (4478),
+~~aeldari (8838)~~, ~~orks (6507)~~, ~~tau-empire (5213)~~, ~~chaos-daemons (5205)~~ **пять
+закрыты**, next → **necrons (4833)**, дальше tyranids (4508), adepta-sororitas (4478),
 imperial-agents (4220), adeptus-mechanicus (3865), imperial-knights (3287), adeptus-custodes
 (3244).
+
+chaos-daemons: appdata = `legiones-daemonica`. Основной баг — **41 датащит** (буквально
+почти все юниты в файле) несли статичное ключевое слово `"Shadow Legion"` в `keywords[]`,
+которого appdata не знает вообще; при этом в RU-файле того же ключевого слова не было ни
+разу (0 из 41) — явный EN/RU parity-разрыв сам по себе. Причина нашлась в тексте: детач­мент
+"Shadow Legion" (Be'lakor) сам явно гласит "Legiones Daemonica units from your army gain the
+SHADOW LEGION keyword" — то есть это условный грант **только при выборе этого детачмента**,
+а не постоянное ключевое слово юнита; кто-то в прошлом впечатал его статично во все датащиты.
+Удалено везде (см. урок 19). Дальше: Feculent Gnarlmaw/Skull Altar — тот же паттерн
+empty-placeholder-оружия (`ranged:[]`) + отсутствующее ключевое слово `Frame` (Fortification
+юниты, не только vehicle-платформы — см. урок 16/aeldari, оказывается шире). Hellflayers inv
+4+→5+ (реальный дрейф). Tormentbringer keyword → "Tormentbringer on Exalted Seeker Chariot"
+(appdata своё уникальное самоссылочное имя, как у "Lord on Juggernaut" в world-eaters).
+Poxbringer core/faction-diff и Pink Horrors "BLUE HORROR/BRIMSTONE HORROR" — оба подтверждены
+как известные ложные срабатывания (appdata просто не экстрактировала faction-ability для этого
+конкретного датащита; Blue/Brimstone Horror — identical-stat merge, урок про KOMMANDOS).
+Крупная находка — **enhancement "Infernal Puppeteer"**: весь текст в wh11ed описывал
+LOS/range-подмену через другую модель, но appdata (и структурно похожий паттерн "+N\"
+detection range" у Grey Knights/Adepta Sororitas/Tau в этом же своде правил) даёт совершенно
+другую механику — debuff +9" detection range вражескому юниту. Заменено полностью на
+appdata-текст (EN+RU) — это не мелкая правка формулировки, а замена содержания способности.
+"Foetid Resurgence" стратагем — не хватало двух `(excluding CHARACTER models)` клауз (EN+RU).
+"Inescapable Manifestations" — "Desperate Escape tests" (несуществующий термин) → "hazard
+rolls" / «броски на опасность» (EN+RU, правильный термин по `advancedRules.js`/glossary).
+Be'lakor: "Shadow Form Abilities (see below)" → убрано (структурный `abilitySets` и так рядом
+на странице); damaged-порог 1-6→1-7 wounds (EN+RU). Daemon Prince of Chaos (+ with Wings)
+"DAEMONIC ALLEGIANCE" — "as stated overleaf" (бумажная реплика "см. на обороте", бессмысленная
+в цифровом виде) → "as stated below" (контент реально рядом в `specialAbilities`, не
+дублировался). Отдельно подтверждено НЕ дрейфом (merge-паттерн, урок 10): армия-правило "The
+Shadow of Chaos" честно объединяет appdata'шные `armyRules` "The Shadow of Chaos" + "Daemonic
+Pact" под одним заголовком с `### `; детачменты "Blood Legion" (Murdercall + Blood Tainted) и
+"Legion of Excess" (Beguiling Aura + Seductive Gambit) — тот же паттерн, два appdata rule
+объекта под одной карточкой. "Thralls of the First Prince & First Prince of Chaos" — appdata
+вообще не содержит "Thralls of the First Prince" ни в `legiones-daemonica.json`, ни в
+`heretic-astartes.json`/`adeptus-astartes.json` (проверено) — категориальный appdata-пробел
+на уровне ОДНОГО правила внутри детачмента (не всего файла союзника, как урок 17, но похоже) —
+оставлено как есть, текст внутренне непротиворечив (конкретные юниты/пункты по battle size).
+`npm test` — та же известная летучая ошибка `StratagemsView.test.js` (не воспроизводится
+изолированно/при перезапуске, фикстуры на space-marines, не относится к правкам).
 
 **Группа B — остальные, разбирать ПОСЛЕ группы A, по одной, от большей к меньшей:**
 astra-militarum (10999), aeldari (8838), orks (6507), tau-empire (5213), chaos-daemons (5205),
 necrons (4833), tyranids (4508), adepta-sororitas (4478), imperial-agents (4220),
 adeptus-mechanicus (3865), imperial-knights (3287), adeptus-custodes (3244).
 drukhari (2973) уже закрыта (взята 2026-07-27 до переигрывания порядка, добита по факту —
-см. прогресс выше) — из группы B вычеркнута. **Следующей фракцией по плану берём space-marines
-из группы A.**
+см. прогресс выше) — из группы B вычеркнута. Группа A с тех пор полностью закрыта; актуальный
+указатель "next →" — в прогрессе выше.
 
 ## Ключевые уроки инструмента (не переоткрывать как новый баг)
 
@@ -550,6 +589,19 @@ drukhari (2973) уже закрыта (взята 2026-07-27 до переигр
     carbine". Проверять вручную: если у юнита в `options[]` упомянут дрон, а в `ranged[]` есть
     похожее по статам оружие под другим именем — сверять через `ds.wargear.find(w=>w.name==="Gun
     Drone").profiles` в appdata, не доверять голому имени в диффе.
+
+19. **Статично впечатанное условно-грантованное ключевое слово — реальный баг, не ложное
+    срабатывание, и его стоит искать по EN/RU parity, а не только по appdata-диффу.**
+    Прецедент: chaos-daemons — `"Shadow Legion"` сидело в `keywords[]` **41 датащита** (почти
+    весь файл), appdata его там не знает вообще ни у одного юнита, а сам детачмент "Shadow
+    Legion" в тексте прямо говорит "Legiones Daemonica units from your army gain the SHADOW
+    LEGION keyword" — то есть грант условный (только при выборе этого детачмента), как
+    `conditionalKeywords.json`-паттерн, но появился как жёстко вшитая строка на КАЖДОМ юните.
+    Килл-сигнал, который сразу выдал баг ещё до чтения appdata: RU-файл того же слова не
+    содержал ни разу (0 из 41) — статичный дрейф такого масштаба почти всегда либо ломает
+    EN/RU parity, либо появился одним неаккуратным bulk-add. Если `sync-appdata.mjs` репортит
+    один и тот же "extra keyword" у ДЕСЯТКОВ датащитов сразу — это не шум, это copy-paste баг,
+    проверить count в RU-файле первым делом.
 
 ## Что делать дальше
 

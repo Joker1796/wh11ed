@@ -88,12 +88,12 @@ export default [
       },
       {
         "name": "Shadow Form Abilities",
-        "text": "At the start of the battle round, select one Shadow Form ability (see below). Until the end of the battle round, this model has that ability."
+        "text": "At the start of the battle round, select one Shadow Form ability. Until the end of the battle round, this model has that ability."
       }
     ],
     "damaged": {
-      "note": "1-6 wounds remaining",
-      "text": "While this model has 1-6 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
+      "note": "1-7 wounds remaining",
+      "text": "While this model has 1-7 wounds remaining, each time this model makes an attack, subtract 1 from the Hit roll."
     },
     "composition": [
       "1 Be’lakor – EPIC HERO"
@@ -108,7 +108,6 @@ export default [
       "Epic Hero",
       "Fly",
       "Monster",
-      "Shadow Legion",
       "Be’lakor",
       "Daemon",
       "Chaos"
@@ -199,7 +198,6 @@ export default [
     ],
     "keywords": [
       "Beasts of Nurgle",
-      "Shadow Legion",
       "Daemon",
       "Beast",
       "Chaos",
@@ -299,7 +297,6 @@ export default [
       "1 Bloodcrusher that is not equipped with an instrument of Chaos can be equipped with 1 daemonic icon."
     ],
     "keywords": [
-      "Shadow Legion",
       "Bloodcrushers",
       "Daemon",
       "Mounted",
@@ -377,7 +374,6 @@ export default [
       "Chaos",
       "Daemon",
       "Bloodletters",
-      "Shadow Legion",
       "Khorne"
     ],
     "factionKeywords": [
@@ -445,7 +441,6 @@ export default [
     },
     "keywords": [
       "Character",
-      "Shadow Legion",
       "Bloodmaster",
       "Khorne",
       "Daemon",
@@ -590,7 +585,6 @@ export default [
     "keywords": [
       "Daemon",
       "Bloodthirster",
-      "Shadow Legion",
       "Fly",
       "Khorne",
       "Chaos",
@@ -696,7 +690,6 @@ export default [
       "None"
     ],
     "keywords": [
-      "Shadow Legion",
       "Battleline",
       "Infantry",
       "Daemon",
@@ -807,8 +800,7 @@ export default [
       "Chaos",
       "Daemon",
       "Tzeentch",
-      "Burning Chariot",
-      "Shadow Legion"
+      "Burning Chariot"
     ],
     "factionKeywords": [
       "Legiones Daemonica"
@@ -908,7 +900,6 @@ export default [
       "Psyker",
       "Infantry",
       "Character",
-      "Shadow Legion",
       "Changecaster",
       "Tzeentch",
       "Daemon",
@@ -993,7 +984,6 @@ export default [
     "keywords": [
       "Slaanesh",
       "Contorted Epitome",
-      "Shadow Legion",
       "Character",
       "Infantry",
       "Psyker",
@@ -1102,7 +1092,6 @@ export default [
     "keywords": [
       "Character",
       "Monster",
-      "Shadow Legion",
       "Daemon Prince of Chaos",
       "Daemon",
       "Chaos"
@@ -1114,7 +1103,7 @@ export default [
     "rules": [
       {
         "name": "DAEMONIC ALLEGIANCE",
-        "text": "When you select this model to include in your army, you must select one of the following keywords for it to gain:\n▪ KHORNE\n▪ TZEENTCH\n▪ NURGLE\n▪ SLAANESH\nThe keyword you select will also affect some of this model’s characteristics, as stated overleaf."
+        "text": "When you select this model to include in your army, you must select one of the following keywords for it to gain:\n▪ KHORNE\n▪ TZEENTCH\n▪ NURGLE\n▪ SLAANESH\nThe keyword you select will also affect some of this model’s characteristics, as stated below."
       }
     ]
   },
@@ -1193,7 +1182,6 @@ export default [
     ],
     "keywords": [
       "Monster",
-      "Shadow Legion",
       "Daemon Prince of Chaos with Wings",
       "Daemon",
       "Fly",
@@ -1207,7 +1195,7 @@ export default [
     "rules": [
       {
         "name": "DAEMONIC ALLEGIANCE",
-        "text": "When you select this model to include in your army, you must select one of the following keywords for it to gain:\n▪ KHORNE\n▪ TZEENTCH\n▪ NURGLE\n▪ SLAANESH\nThe keyword you select will also affect some of this model’s characteristics, as stated overleaf."
+        "text": "When you select this model to include in your army, you must select one of the following keywords for it to gain:\n▪ KHORNE\n▪ TZEENTCH\n▪ NURGLE\n▪ SLAANESH\nThe keyword you select will also affect some of this model’s characteristics, as stated below."
       }
     ],
     "abilitySets": [
@@ -1302,7 +1290,6 @@ export default [
       "Chaos",
       "Daemon",
       "Daemonettes",
-      "Shadow Legion",
       "Slaanesh"
     ],
     "factionKeywords": [
@@ -1474,7 +1461,6 @@ export default [
     "keywords": [
       "Exalted Flamer",
       "Fly",
-      "Shadow Legion",
       "Character",
       "Infantry",
       "Chaos",
@@ -1597,7 +1583,6 @@ export default [
       "Daemon",
       "Character",
       "Mounted",
-      "Shadow Legion",
       "Fateskimmer",
       "Tzeentch",
       "Chaos",
@@ -1630,18 +1615,7 @@ export default [
         "oc": "0"
       }
     ],
-    "ranged": [
-      {
-        "name": "",
-        "tags": [],
-        "range": "",
-        "a": "0",
-        "bs": "-",
-        "s": "-",
-        "ap": "0",
-        "d": "-"
-      }
-    ],
+    "ranged": [],
     "core": "Infiltrators",
     "faction": "The Shadow of Chaos",
     "abilities": [
@@ -1668,9 +1642,9 @@ export default [
     "keywords": [
       "Daemon",
       "Fortification",
-      "Shadow Legion",
       "Chaos",
       "Feculent Gnarlmaw",
+      "Frame",
       "Nurgle"
     ],
     "factionKeywords": [
@@ -1738,8 +1712,7 @@ export default [
       "Slaanesh",
       "Daemon",
       "Chaos",
-      "Beast",
-      "Shadow Legion"
+      "Beast"
     ],
     "factionKeywords": [
       "Legiones Daemonica"
@@ -1816,7 +1789,6 @@ export default [
       "None"
     ],
     "keywords": [
-      "Shadow Legion",
       "Tzeentch",
       "Daemon",
       "Chaos",
@@ -1908,7 +1880,6 @@ export default [
       "Daemon",
       "Khorne",
       "Flesh Hounds",
-      "Shadow Legion",
       "Beast"
     ],
     "factionKeywords": [
@@ -2011,7 +1982,6 @@ export default [
       "Character",
       "Mounted",
       "Tzeentch",
-      "Shadow Legion",
       "Fluxmaster",
       "Daemon",
       "Chaos"
@@ -2156,7 +2126,6 @@ export default [
       "Chaos",
       "Psyker",
       "Character",
-      "Shadow Legion",
       "Great Unclean One",
       "Monster"
     ],
@@ -2188,7 +2157,7 @@ export default [
         "w": "7",
         "ld": "7+",
         "oc": "3",
-        "inv": "4+"
+        "inv": "5+"
       }
     ],
     "ranged": [
@@ -2262,7 +2231,6 @@ export default [
     "keywords": [
       "Chaos",
       "Daemon",
-      "Shadow Legion",
       "Hellflayers",
       "Slaanesh",
       "Mounted"
@@ -2446,7 +2414,6 @@ export default [
       ]
     },
     "keywords": [
-      "Shadow Legion",
       "Infantry",
       "Character",
       "Daemon",
@@ -2804,7 +2771,6 @@ export default [
       "Psyker",
       "Monster",
       "Character",
-      "Shadow Legion",
       "Keeper of Secrets",
       "Slaanesh",
       "Daemon",
@@ -2938,7 +2904,6 @@ export default [
       "Monster",
       "Tzeentch",
       "Lord of Change",
-      "Shadow Legion",
       "Psyker",
       "Fly",
       "Chaos",
@@ -3009,7 +2974,6 @@ export default [
       "Daemon",
       "Chaos",
       "Battleline",
-      "Shadow Legion",
       "Nurglings"
     ],
     "factionKeywords": [
@@ -3153,7 +3117,6 @@ export default [
       "Pink",
       "Brimstone",
       "Infantry",
-      "Shadow Legion",
       "Battleline",
       "Chaos",
       "Daemon",
@@ -3268,7 +3231,6 @@ export default [
       "Chaos",
       "Nurgle",
       "Plague Drones",
-      "Shadow Legion",
       "Daemon"
     ],
     "factionKeywords": [
@@ -3344,8 +3306,7 @@ export default [
       "Chaos",
       "Daemon",
       "Nurgle",
-      "Plaguebearers",
-      "Shadow Legion"
+      "Plaguebearers"
     ],
     "factionKeywords": [
       "Legiones Daemonica"
@@ -3413,7 +3374,6 @@ export default [
       ]
     },
     "keywords": [
-      "Shadow Legion",
       "Poxbringer",
       "Nurgle",
       "Daemon",
@@ -3501,7 +3461,6 @@ export default [
       "Daemon",
       "Khorne",
       "Rendmaster on Blood throne",
-      "Shadow Legion",
       "Chaos",
       "Mounted"
     ],
@@ -3677,8 +3636,7 @@ export default [
       "Chaos",
       "Daemon",
       "Tzeentch",
-      "Screamers",
-      "Shadow Legion"
+      "Screamers"
     ],
     "factionKeywords": [
       "Legiones Daemonica"
@@ -3765,7 +3723,6 @@ export default [
     ],
     "keywords": [
       "Mounted",
-      "Shadow Legion",
       "Seekers",
       "Slaanesh",
       "Daemon",
@@ -4026,18 +3983,7 @@ export default [
         "oc": "0"
       }
     ],
-    "ranged": [
-      {
-        "name": "",
-        "tags": [],
-        "range": "",
-        "a": "0",
-        "bs": "-",
-        "s": "-",
-        "ap": "0",
-        "d": "-"
-      }
-    ],
+    "ranged": [],
     "core": "Infiltrators",
     "faction": "The Shadow of Chaos",
     "abilities": [
@@ -4065,9 +4011,9 @@ export default [
       "Chaos",
       "Fortification",
       "Daemon",
+      "Frame",
       "Khorne",
-      "Skull Altar",
-      "Shadow Legion"
+      "Skull Altar"
     ],
     "factionKeywords": [
       "Legiones Daemonica"
@@ -4150,7 +4096,6 @@ export default [
     "keywords": [
       "Khorne",
       "Daemon",
-      "Shadow Legion",
       "Mounted",
       "Skull Cannon",
       "Chaos"
@@ -4236,7 +4181,6 @@ export default [
       "Chaos",
       "Daemon",
       "Skullmaster",
-      "Shadow Legion",
       "Khorne"
     ],
     "factionKeywords": [
@@ -4385,7 +4329,6 @@ export default [
       "Daemon",
       "Nurgle",
       "Sloppity Bilepiper",
-      "Shadow Legion",
       "Character"
     ],
     "factionKeywords": [
@@ -4548,8 +4491,7 @@ export default [
       "Chaos",
       "Daemon",
       "Soul Grinder",
-      "Vehicle",
-      "Shadow Legion"
+      "Vehicle"
     ],
     "factionKeywords": [
       "Legiones Daemonica"
@@ -4637,7 +4579,6 @@ export default [
       "Character",
       "Infantry",
       "Chaos",
-      "Shadow Legion",
       "Spoilpox Scrivener"
     ],
     "factionKeywords": [
@@ -5113,10 +5054,9 @@ export default [
       ]
     },
     "keywords": [
-      "Shadow Legion",
       "Mounted",
       "Character",
-      "Tormentbringer",
+      "Tormentbringer on Exalted Seeker Chariot",
       "Chaos",
       "Psyker",
       "Daemon",
@@ -5191,7 +5131,6 @@ export default [
       "Infantry",
       "Daemon",
       "Chaos",
-      "Shadow Legion",
       "Tranceweaver",
       "Slaanesh",
       "Character",
