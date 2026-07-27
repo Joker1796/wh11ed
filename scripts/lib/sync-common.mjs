@@ -126,10 +126,47 @@ export async function loadWh11edDatasheets(slug) {
   return [...own, ...(smMod?.default || []).filter((d) => idSet.has(d.id))]
 }
 
+// Match one wh11ed ranged[]/melee[] row to its appdata wargear[] item. appdata's own multi-mode
+// weapons (e.g. a plasma weapon) carry ONE wargear item with several `profiles[]`, where each
+// profile's `name` is the mode label ("Standard"/"Supercharge"), not the weapon name — wh11ed
+// flattens those into separate rows named "<weapon> – <mode>" (dash character is inconsistent in
+// the data, hence routing through `norm()` which already folds dash variants). A single-profile
+// item must match the row name exactly; a multi-profile item only needs the row name to start
+// with the item's own name (the mode-label suffix wording isn't required to agree). Used both to
+// build the `wg:` sourceId bridge (gen-source-ids.mjs) and, at sync time, as the fallback for
+// weapon rows not yet in that bridge (sync-appdata.mjs) — one shared heuristic, not two that could
+// silently drift apart and disagree about which appdata entry a row corresponds to.
+export function matchWeapon(rowName, isRanged, appWargear) {
+  const rn = norm(rowName)
+  for (const item of appWargear || []) {
+    const profiles = (item.profiles || []).filter((p) => (p.type === 'ranged') === isRanged)
+    if (!profiles.length) continue
+    if (profiles.length === 1 ? norm(item.name) === rn : rn.startsWith(norm(item.name))) return item
+  }
+  return null
+}
+
 export function byNormName(list, nameOf) {
   const m = new Map()
   for (const item of list) m.set(norm(nameOf(item)), item)
   return m
+}
+
+// Presence-only set diff between two plain string lists (already-normalized-by-norm() equality),
+// e.g. keywords or a Character's bodyguard-unit names. `norm()` already folds dash/quote variants
+// and case, so this is the same equality `byNormName`/`diffByName` use — just for bare strings
+// instead of named objects.
+export function diffSet(label, whList, appList) {
+  const wh = new Map((whList || []).map((s) => [norm(s), s]))
+  const app = new Map((appList || []).map((s) => [norm(s), s]))
+  const lines = []
+  for (const [key, name] of app) {
+    if (!wh.has(key)) lines.push(`  + missing in wh11ed: ${label} "${name}"`)
+  }
+  for (const [key, name] of wh) {
+    if (!app.has(key)) lines.push(`  - extra in wh11ed (not in appdata): ${label} "${name}"`)
+  }
+  return lines
 }
 
 // Compare two same-named lists. `scalarFields` are compared as digits-only exact-value

@@ -157,8 +157,11 @@ external file, **not** an inline field: the faction data files (`src/data/factio
 hand-authored — helper-generated stratagems, name-only entities, comments — so an id can't be
 safely written into them; the datasheet files could carry it inline but the map keeps one uniform,
 regenerable mechanism. Shape: `{ "<slug>": { "<kind>:<key>": "<uuid>" } }` where `kind` is
-`armyrule|det|strat|enh|ds` and `key` is the entity's own wh11ed `id` (datasheets `ds:<id>`,
-detachments `det:<id>`) or its normalized name (strat/enh scoped under their detachment). `id` is
+`armyrule|det|strat|enh|ds|wg` and `key` is the entity's own wh11ed `id` (datasheets `ds:<id>`,
+detachments `det:<id>`) or its normalized name (strat/enh scoped under their detachment; `wg` — a
+datasheet's `ranged[]`/`melee[]` weapon row — scoped under its datasheet id, `wg:<ds-id>:<name>`;
+the uuid identifies the appdata **wargear item**, not one profile, so several wh11ed rows of a
+multi-mode weapon legitimately share it). `id` is
 load-bearing (URLs, `RouterLink`s) and never changes; the map exists purely so `sync-appdata.mjs`
 can match an entity across a `data_version` bump even after GW renames it — a stable-id bridge, not
 read by any view. Regenerate with `node scripts/gen-source-ids.mjs` (`--check` fails if stale);

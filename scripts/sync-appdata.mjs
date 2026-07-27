@@ -34,7 +34,14 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
-import { ROOT, APPDATA, SLUG_MAP, norm, appdataToMarkup, bodyText, loadJson, loadModule, byNormName, diffByName, combatPatrolNames, loadWh11edDatasheets } from './lib/sync-common.mjs'
+import { ROOT, APPDATA, SLUG_MAP, norm, appdataToMarkup, bodyText, loadJson, loadModule, byNormName, diffByName, diffSet, matchWeapon, combatPatrolNames, loadWh11edDatasheets } from './lib/sync-common.mjs'
+
+// Scalar field maps for statline/weapon-profile comparisons: [wh11ed key, appdata key].
+const STAT_FIELDS = [['m', 'M'], ['t', 'T'], ['sv', 'Sv'], ['w', 'W'], ['ld', 'Ld'], ['oc', 'OC']]
+const WEAPON_FIELDS = {
+  ranged: [['a', 'A'], ['bs', 'BS'], ['s', 'S'], ['ap', 'AP'], ['d', 'D']],
+  melee: [['a', 'A'], ['ws', 'WS'], ['s', 'S'], ['ap', 'AP'], ['d', 'D']],
+}
 
 async function syncFaction(slug) {
   const appSlug = SLUG_MAP[slug] || slug
@@ -125,6 +132,112 @@ async function syncFaction(slug) {
     const extraCF = whCoreFaction.filter((n) => !appCoreFaction.includes(n))
     if (missingCF.length || extraCF.length) {
       lines.push(`  ~ datasheet "${d.name}" core/faction differ: wh11ed=${JSON.stringify([d.core, d.faction].filter(Boolean))} appdata=${JSON.stringify(appCoreFaction)}`)
+    }
+
+    // Stats: match wh11ed's profiles[] to appdata's statlines[] by name; if unmatched AND wh11ed
+    // collapsed the unit to a single representative profile row (the common squad case — appdata
+    // gives one statline per named model even when every model is identical), accept a match
+    // against ANY statline whose values agree instead. Only flag when neither path finds one.
+    const appStatByName = byNormName(appDs.statlines || [], (s) => s.name)
+    for (const p of d.profiles || []) {
+      let appStat = appStatByName.get(norm(p.name))
+      if (!appStat && d.profiles.length === 1) {
+        appStat = (appDs.statlines || []).find((s) => STAT_FIELDS.every(([wf, af]) => String(p[wf] ?? '') === String(s[af] ?? '')))
+      }
+      if (!appStat) { lines.push(`  ~ datasheet "${d.name}" profile "${p.name}" has no matching appdata statline`); continue }
+      for (const [wf, af] of STAT_FIELDS) {
+        if (String(p[wf] ?? '') !== String(appStat[af] ?? '')) {
+          lines.push(`  ~ datasheet "${d.name}" profile "${p.name}" ${wf.toUpperCase()} differs: wh11ed=${JSON.stringify(p[wf])} appdata=${JSON.stringify(appStat[af])}`)
+        }
+      }
+    }
+
+    // Invulnerable saves: only compared when unambiguous (wh11ed has at most one `inv` value
+    // across its profiles, appdata has exactly one invulnerableSaves entry with no miniatureId
+    // scoping it to one model of a multi-model unit) — appdata's miniatureId doesn't resolve to a
+    // wh11ed profile name without an extra join, so ambiguous cases are silently skipped rather
+    // than guessed at.
+    const whInv = [...new Set((d.profiles || []).map((p) => p.inv).filter(Boolean))]
+    const appInvList = appDs.invulnerableSaves || []
+    if (whInv.length <= 1 && appInvList.length === 1 && !appInvList[0].miniatureId) {
+      const appInv = appInvList[0].save || appInvList[0].rangedSave
+      if ((whInv[0] || null) !== (appInv || null) && (whInv[0] || appInv)) {
+        lines.push(`  ~ datasheet "${d.name}" invulnerable save differs: wh11ed=${JSON.stringify(whInv[0] || null)} appdata=${JSON.stringify(appInv || null)}`)
+      }
+    } else if (whInv.length && !appInvList.length) {
+      lines.push(`  ~ datasheet "${d.name}" has an invulnerable save (${whInv.join('/')}) not found in appdata`)
+    } else if (!whInv.length && appInvList.length === 1 && !appInvList[0].miniatureId && (appInvList[0].save || appInvList[0].rangedSave)) {
+      lines.push(`  + datasheet "${d.name}" missing invulnerable save: appdata has ${appInvList[0].save || `${appInvList[0].rangedSave}/${appInvList[0].meleeSave}`}`)
+    }
+
+    // Weapons: resolve each wh11ed ranged[]/melee[] row to its appdata wargear item, id-first via
+    // the sourceIds `wg:` bridge (immune to later name drift), falling back to matchWeapon() for
+    // rows the bridge doesn't cover yet. Presence and field comparisons share this ONE resolution
+    // per row, so they can never disagree about which appdata entry a row corresponds to.
+    const appWgById = new Map((appDs.wargear || []).map((w) => [w.id, w]))
+    const claimedProfiles = new Set()
+    for (const kind of ['ranged', 'melee']) {
+      const isRanged = kind === 'ranged'
+      for (const w of d[kind] || []) {
+        const wgId = smap[`wg:${d.id}:${norm(w.name)}`]
+        const item = (wgId && appWgById.get(wgId)) || matchWeapon(w.name, isRanged, appDs.wargear)
+        if (!item) { lines.push(`  - datasheet "${d.name}" extra ${kind} weapon (not in appdata): "${w.name}"`); continue }
+        const profiles = (item.profiles || []).filter((p) => (p.type === 'ranged') === isRanged)
+        // A profile's own mode label can be a substring of another's within the same item (e.g.
+        // "witchfire" vs "focused witchfire") — endsWith() would match BOTH, so among all
+        // candidates take the longest (most specific) match, not the first in array order.
+        const profile = profiles.length <= 1 ? profiles[0]
+          : profiles.filter((p) => norm(w.name).endsWith(norm(p.name))).sort((a, b) => b.name.length - a.name.length)[0] || profiles[0]
+        if (!profile) continue
+        claimedProfiles.add(`${item.id}|${profile.type}|${profile.name}`)
+        for (const [wf, af] of WEAPON_FIELDS[kind]) {
+          if (String(w[wf] ?? '') !== String(profile[af] ?? '')) {
+            lines.push(`  ~ datasheet "${d.name}" weapon "${w.name}" ${wf.toUpperCase()} differs: wh11ed=${JSON.stringify(w[wf])} appdata=${JSON.stringify(profile[af])}`)
+          }
+        }
+        if (isRanged && String(w.range ?? '') !== String(profile.range ?? '')) {
+          lines.push(`  ~ datasheet "${d.name}" weapon "${w.name}" range differs: wh11ed=${JSON.stringify(w.range)} appdata=${JSON.stringify(profile.range)}`)
+        }
+        const whTags = [...(w.tags || [])].map((t) => t.toUpperCase()).sort()
+        const appTags = [...(profile.tags || [])].map((t) => t.toUpperCase()).sort()
+        if (JSON.stringify(whTags) !== JSON.stringify(appTags)) {
+          lines.push(`  ~ datasheet "${d.name}" weapon "${w.name}" tags differ: wh11ed=${JSON.stringify(whTags)} appdata=${JSON.stringify(appTags)}`)
+        }
+      }
+    }
+    for (const item of appDs.wargear || []) {
+      for (const p of item.profiles || []) {
+        if (claimedProfiles.has(`${item.id}|${p.type}|${p.name}`)) continue
+        const sameType = item.profiles.filter((pp) => pp.type === p.type)
+        const label = sameType.length > 1 ? `${item.name} (${p.name})` : item.name
+        lines.push(`  + datasheet "${d.name}" missing ${p.type} weapon: "${label}"`)
+      }
+    }
+
+    // Keywords: full set diff for every matched datasheet (previously only shown as a text
+    // pointer when the whole datasheet was missing). appdata's per-datasheet `factionKeywords` is
+    // always empty in this bundle shape (the faction keyword is implied by which faction bundle
+    // you're reading, not repeated per-sheet) — comparing it would be 100% noise, so only
+    // `keywords[]` is diffed; wh11ed's own `factionKeywords` isn't checked here.
+    lines.push(...diffSet(`datasheet "${d.name}" · keyword`, d.keywords || [], appDs.keywords || []))
+
+    // baseSize: exact scalar (both sides are short strings like "32mm") — appdata always spaces
+    // out "170 x 109mm", wh11ed always writes "170x109mm", so fold out ALL whitespace (not just
+    // norm()'s collapse-to-one-space) before comparing to avoid 100% spurious noise on every
+    // oval-base unit.
+    const foldBaseSize = (s) => norm(s).replace(/\s+/g, '')
+    if (d.baseSize && appDs.baseSize && foldBaseSize(d.baseSize) !== foldBaseSize(appDs.baseSize)) {
+      lines.push(`  ~ datasheet "${d.name}" baseSize differs: wh11ed=${JSON.stringify(d.baseSize)} appdata=${JSON.stringify(appDs.baseSize)}`)
+    }
+
+    // Leader/bodyguards: structural units-list diff (independent of the prose leader.text diffed
+    // in sync-faction-text.mjs). NOTE: appdata's leaderOf[] doesn't carry detachment-gating
+    // (requiredDetachmentId/excludedDetachmentId only exist in the raw tables/
+    // datasheet_bodyguard_group.json, not in this bundle) — a clean match here doesn't confirm any
+    // detachment restriction is right, only that the unconditional unit list agrees.
+    const appLeaderUnits = (appDs.leaderOf || []).flatMap((l) => l.units || [])
+    if (d.leader?.units?.length || appLeaderUnits.length) {
+      lines.push(...diffSet(`datasheet "${d.name}" · bodyguard unit`, d.leader?.units || [], appLeaderUnits))
     }
   }
 
