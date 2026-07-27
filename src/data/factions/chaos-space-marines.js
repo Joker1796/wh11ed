@@ -46,9 +46,9 @@ The combined points value of such units you can include in your army depends on 
       dp: 2,
       forceDisposition: "Priority Assets",
       rule: {
-        name: "Desperate Devotion & KEYWORDS",
+        name: "Desperate Devotion",
         flavor: "Utterly dedicated to the worship of the Dark Gods, thronging mortal cultists and regiments of Traitor Guardsmen are more than willing to make bloody sacrifices and take desperate actions in the hope of attaining favour.",
-        body: "### Desperate Devotion\nEach time a DAMNED unit from your army with the Dark Pacts ability is selected to make a Normal or Advance move or declare a charge (excluding units that arrived from Reserves this turn), it can make a Desperate Pact (see below). If it does, until the end of the phase, add 2\" to the Move characteristic of models in that unit and add 2 to Charge rolls made for that unit.\n\nDesperate Pacts\nEach time a unit makes a Desperate Pact, it must first take a Leadership test; if that test is failed, that unit suffers D3 mortal wounds before any effects of that Desperate Pact are resolved.\n\n### KEYWORDS\nTRAITOR GUARDSMEN SQUAD units from your army gain the BATTLELINE keyword.",
+        body: "Each time a DAMNED unit from your army with the Dark Pacts ability is selected to make a Normal or Advance move or declare a charge (excluding units that arrived from Reserves this turn), it can make a Desperate Pact (see below). If it does, until the end of the phase, add 2\" to the Move characteristic of models in that unit and add 2 to Charge rolls made for that unit.\n\nDesperate Pacts\nEach time a unit makes a Desperate Pact, it must first take a Leadership test; if that test is failed, that unit suffers D3 mortal wounds before any effects of that Desperate Pact are resolved.",
       },
       stratagems: [
         {

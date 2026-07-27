@@ -21,12 +21,41 @@
 - После фиксов — прогнать оба скрипта повторно (убедиться, что остался только известный шум),
   `npm run build`, закоммитить (`git add -A -- <явные пути>`, не бланково).
 
-## Прогресс (12 фракций закрыты)
+## Прогресс (13 фракций закрыты)
 
 ✅ leagues-of-votann, dark-angels, blood-angels, deathwatch, genestealer-cults, black-templars,
-space-wolves, titan-legions, chaos-knights, emperors-children, drukhari, space-marines — все
-закоммичены (см. `git log feat/datasheet-drift-fixes`). chaos-titan-legions тоже **проверена и
-чиста** (без коммита — дрейфа не найдено).
+space-wolves, titan-legions, chaos-knights, emperors-children, drukhari, space-marines,
+chaos-space-marines — все закоммичены (см. `git log feat/datasheet-drift-fixes`).
+chaos-titan-legions тоже **проверена и чиста** (без коммита — дрейфа не найдено).
+
+chaos-space-marines (appdata source: `heretic-astartes.json`): небольшой, но разнообразный
+список. Реальные находки: (1) Chaos Lord "Astartes chainblade" → "Astartes chainsword"
+(изолированная опечатка, ничего похожего больше в файле нет); (2) Cultist Firebrand Close combat
+weapon AP `-1`→`0` (обычный generic-профиль); (3) **Red Corsairs Raiders/Reave-Captain — базы
+были перепутаны местами** (32mm/40mm свап — Raiders должны быть 32mm рядовой пехотой,
+Reave-Captain 40mm персонажем, было наоборот); (4) Masters of the Maelstrom — тот же паттерн, что
+Wardens of Ultramar у space-marines: `specialAbilities`-прозой вместо структурного `"leader"`
+(text/units/footer) + отсутствовал `"core": "Support"`; appdata `rules[0].rules` даёт полный и
+рабочий список из 3 юнитов (Chosen/Legionaries/Red Corsairs Raiders) — тут, в отличие от Wardens,
+структурный `leaderOf` тоже оказался полным, но он подтверждает то же самое; (5) Chaos Cult
+"Desperate Devotion & KEYWORDS" — хвостовой блок KEYWORDS оказался чистым дублем
+`conditionalKeywords.json` (`traitor-guardsmen-squad`→Battleline при chaos-cult) — убран по
+прецеденту урока 8(a); (6) Chaos Lord with Jump Pack composition — потерялось "with Jump Pack" в
+названии модели; (7) Huron Blackheart loadout — лишний двойной пробел (косметика). Один
+attach-clause (Murdertalon Raiders "Pact of Cursed Pinions" → Warp Talons) заново подтверждён
+через `enhancement_bodyguard_group`/`_datasheet` по методике урока 13, трогать не стали. Одна
+находка осталась НЕ проверена до конца и оставлена как есть: Pactbound Zealots "Marks of Chaos"
+несёт ограничительный хвост (нельзя Khorne-психайкеру, attach/embark только при совпадении
+keyword) — не нашёлся ни в плоском JSON, ни в `tables/` (`allegiance_ability`/`_group` не содержат
+такого ограничения), но и явных признаков, что это придумано, а не настоящее правило, тоже нет —
+решили не удалять непроверенное, при случае можно сверить со свежим Faction Pack (урок 14).
+Остальной большой список "differs" из обоих sync-скриптов — знакомые классы шума: merged-профили
+(Dark Commune "OTHER MODELS", Masters of the Maelstrom 2 строки), несколько appdata-карт,
+слитых в одно поле wh11ed (Cults of the Dark Gods+Dark Pacts; Slaves to None+Vendetta+Twisted
+Doctrine), `type:'image'`-таблицы, пересказанные текстом (Masters of Misdirection, Warp Portals),
+`loreAccordion`-подписи внутри правила (Tyrannical Motivation) и списки+сноска, которые appdata
+хранит одной строкой, а wh11ed — несколькими элементами `options[]` (Legionaries, Raptors — весь
+контент на месте, сверено построчно).
 
 space-marines (appdata source: `adeptus-astartes.json`, самая большая фракция — 13k строк):
 находок много, самая заметная — **Land Speeder был полностью переиздан** (новый профиль
@@ -96,7 +125,7 @@ Prince" (слипшийся `**PACT POINTSBONUS1+**...` без переносо�
 
 **Группа A — «SM-семья» (общий Adeptus/Heretic Astartes датащит-пул, много общих юнитов и
 паттернов с уже закрытыми SM-Chapter фракциями) — разбирать ПЕРВОЙ, по одной, от большей к
-меньшей:** ~~space-marines (13109)~~ **закрыта**, next → chaos-space-marines (7116),
+меньшей:** ~~space-marines (13109)~~, ~~chaos-space-marines (7116)~~ **обе закрыты**, next →
 thousand-sons (4062), death-guard (4039), grey-knights (3467), world-eaters (3407).
 
 **Группа B — остальные, разбирать ПОСЛЕ группы A, по одной, от большей к меньшей:**
