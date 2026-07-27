@@ -355,10 +355,44 @@ Prince" (слипшийся `**PACT POINTSBONUS1+**...` без переносо�
 death-guard, grey-knights, world-eaters).
 
 **Группа B — остальные, по одной, от большей к меньшей:** ~~astra-militarum (10999)~~,
-~~aeldari (8838)~~, ~~orks (6507)~~, ~~tau-empire (5213)~~, ~~chaos-daemons (5205)~~ **пять
-закрыты**, next → **necrons (4833)**, дальше tyranids (4508), adepta-sororitas (4478),
-imperial-agents (4220), adeptus-mechanicus (3865), imperial-knights (3287), adeptus-custodes
-(3244).
+~~aeldari (8838)~~, ~~orks (6507)~~, ~~tau-empire (5213)~~, ~~chaos-daemons (5205)~~,
+~~necrons (4833)~~ **шесть закрыты**, next → **tyranids (4508)**, дальше adepta-sororitas
+(4478), imperial-agents (4220), adeptus-mechanicus (3865), imperial-knights (3287),
+adeptus-custodes (3244).
+
+necrons: appdata = `necrons`. Canoptek Reanimator Ld 7+→8+ (стат-дрейф). Chronomancer:
+оружие называлось "Aeonstave" (выдуманное/устаревшее имя) — appdata однозначно даёт
+"Chronomancer's stave" и для ranged, и для melee профиля; переименовано везде (EN+RU,
+включая flavor/loadout), заодно это почини­ло одну ранее сломанную запись в `sourceIds.json`
+(8610→8612 mapped). The Silent King composition "1 Szarekh – CHARACTER"→"– EPIC HERO"
+(в keywords Epic Hero уже был, суффикс просто не совпадал). Cryptothralls "CRYPTEK RETINUE" —
+лишнее слово "Infantry" после "Cryptek model" (все крипотеки в книге и так Infantry, но текст
+должен буквально совпадать с appdata) — убрано EN+RU. Hexmark Destroyer (1-моделный юнит)
+loadout "Every model"→"This model" (грамматика). Canoptek Macrocytes "Accelerator Mandible" —
+реальный баг: буст WS был написан как "characteristic of weapons equipped by models" вместо
+"characteristic of models" (WS — характеристика модели, не оружия) — EN+RU. Canoptek Spyders
+"Fabricator Claw Array" — "that unit has FNP"→"models in that unit have FNP" (per-модельная,
+не per-юнитная формулировка, matches appdata точно) — EN+RU. Крупная находка —
+**"Pantheon of Woe" · "Cosmic Distortion"**: правило обрывалось на выдуманном предложении
+про "increase points cost… Munitorum Field Manual" и НЕ содержало реальный раздел
+"Necrodermal Binding Abilities" — 4 именованных способности (Lord of Deceit/Quantum
+Goad/Animus Damper/Reletavistic Tether), автоматически дающиеся четырём конкретным
+C'tan-моделям. Раздел добавлен целиком (EN+RU) по appdata; отдельно подтверждено, что
+это НЕ дублирует одноимённые платные enhancement'ы того же детачмента (те уже были в
+wh11ed правильно и остаются — это две параллельные вещи: бесплатный грант через правило
+детачмента vs платное усиление). "Murdermind" enhancement — доп. фраза про attach на
+Lokhust/Ophydian/Skorpekh Destroyers, которой нет в плоском `factions/necrons.json`, но
+подтверждена глубже в `tables/enhancement_bodyguard_group(_datasheet).json` (4 связи, ровно
+эти 4 юнита) — оставлено, урок 13 снова сработал. "Veil of Darkness" enhancement — appdata
+пропустила "NECRONS model only" префикс у ЭТОЙ ОДНОЙ записи, хотя у всех соседних
+enhancement'ов он есть — трактовано как точечный appdata-пробел, не как баг wh11ed, префикс
+оставлен. C'tan Shard × 3 и Transcendent C'tan "points differ" (appdata даёт вторую
+points-бракету — какой-то доп. вариант) и Tesseract Vault ranged/ctanpowers
+categorization — **вне контракта** (points) либо известный категоризационный шум
+(ctanpowers weapons у wh11ed заведены как обычные `ranged` записи с тегом `C'TAN POWER`
+вместо отдельного массива — appdata ожидает отдельную категорию, контента не теряется).
+`npm test` — впервые за много фракций подряд все 207/207 прошли с первого раза (без
+известной летучей ошибки StratagemsView).
 
 chaos-daemons: appdata = `legiones-daemonica`. Основной баг — **41 датащит** (буквально
 почти все юниты в файле) несли статичное ключевое слово `"Shadow Legion"` в `keywords[]`,

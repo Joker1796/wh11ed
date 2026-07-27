@@ -139,7 +139,7 @@ export default {
     wargearAbilities: {
       'Accelerator Mandible': {
         name: 'Ускоряющая жвала',
-        text: 'В начале фазы ближнего боя выберите один дружественный юнит Canoptek в пределах 3" от юнита носителя. До конца фазы улучшите характеристику Навыка ближнего боя (WS) оружия моделей этого юнита на 1.',
+        text: 'В начале фазы ближнего боя выберите один дружественный юнит Canoptek в пределах 3" от юнита носителя. До конца фазы улучшите характеристику Навыка ближнего боя (WS) моделей этого юнита на 1.',
       },
       'Nanoscarab Projector': {
         name: 'Проектор наноскарабов',
@@ -191,7 +191,7 @@ export default {
     wargearAbilities: {
       'Fabricator Claw Array (Aura)': {
         name: 'Массив клешней-фабрикаторов (Аура)',
-        text: 'Пока дружественный юнит Necrons Vehicle находится в пределах 6" от носителя, этот юнит имеет способность Feel No Pain 6+.',
+        text: 'Пока дружественный юнит Necrons Vehicle находится в пределах 6" от носителя, модели этого юнита имеют способность Feel No Pain 6+.',
       },
       'Gloom Prism (Aura)': {
         name: 'Призма мрака (Аура)',
@@ -268,7 +268,7 @@ export default {
   },
   chronomancer: {
     flavor:
-      'Chronomancer — крипотеки, обуздывающие темпоральные энергии; их aeonstave замедляют или ускоряют оружейное время. Их timesplinter mantle используют кристаллизованные мгновения, чтобы отклонять вражеские удары, а их chronometron проносят союзников сквозь само время.',
+      'Chronomancer — крипотеки, обуздывающие темпоральные энергии; их Chronomancer’s stave замедляют или ускоряют оружейное время. Их timesplinter mantle используют кристаллизованные мгновения, чтобы отклонять вражеские удары, а их chronometron проносят союзников сквозь само время.',
     abilities: {
       'Timesplinter Mantle': {
         name: 'Мантия из осколков времени',
@@ -282,7 +282,7 @@ export default {
     leader: {
       text: LEADER_TEXT,
     },
-    loadout: '**Эта модель вооружена:** aeonstave.',
+    loadout: '**Эта модель вооружена:** Chronomancer’s stave.',
   },
   'convergence-of-dominion': {
     flavor:
@@ -325,7 +325,7 @@ export default {
     rules: {
       'CRYPTEK RETINUE': {
         name: 'СВИТА CRYPTEK',
-        text: 'В начале шага Declare Battle Formations этот юнит может присоединиться к одному другому юниту вашей армии, который возглавляет модель Cryptek Infantry (к юниту нельзя присоединить больше одного юнита Cryptothralls). Если он это делает, до конца битвы каждая модель этого юнита считается частью того юнита-Bodyguard, и начальная численность того юнита-Bodyguard соответственно увеличивается.',
+        text: 'В начале шага Declare Battle Formations этот юнит может присоединиться к одному другому юниту вашей армии, который возглавляет модель Cryptek (к юниту нельзя присоединить больше одного юнита Cryptothralls). Если он это делает, до конца битвы каждая модель этого юнита считается частью того юнита-Bodyguard, и начальная численность того юнита-Bodyguard соответственно увеличивается.',
       },
     },
     loadout: '**Каждая модель вооружена:** scouring eye; scythed limbs.',
@@ -436,7 +436,7 @@ export default {
       },
     },
     loadout:
-      '**Каждая модель вооружена:** enmitic disintegrator pistols; close combat weapon.',
+      '**Эта модель вооружена:** enmitic disintegrator pistols; close combat weapon.',
   },
   'illuminor-szeras': {
     flavor:

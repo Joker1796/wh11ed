@@ -1199,7 +1199,17 @@ At the start of each phase, for each Necrons Monster unit from your army, that u
 
 Designer's Note: If your army contains more than one Transcendent C'tan unit, each of those units must take the Reletavistic Tether ability.
 
-When mustering your army, each Necrons Monster unit from your army has the relevant Necrodermal Binding ability shown below, and you must increase the points cost of each of those units by the amount shown in the Munitorum Field Manual. If this causes your army to exceed the points limit for the battle you are playing, you cannot include that unit in your army.`,
+When mustering your army, each Necrons Monster unit from your army has the relevant Necrodermal Binding ability shown below, and you must increase the points cost of each of those units by the amount shown in the Munitorum Field Manual. If this causes your army to exceed the points limit for the battle you are playing, you cannot include that unit in your army.
+
+Necrodermal Binding Abilities
+
+C'tan Shard of the Deceiver model only. This model has the following ability: Lord of Deceit (Aura): Each time your opponent targets a unit from their army with a Stratagem, if that unit is within 12" of this model, increase the cost of that use of that Stratagem by 1CP.
+
+C'tan Shard of the Nightbringer model only. This model is eligible to declare a charge in a turn in which it Advanced.
+
+C'tan Shard of the Void Dragon model only. Once per turn, at the start of your opponent's Shooting phase, select one enemy Vehicle unit visible to the bearer. That unit must take a Leadership test. Until the end of the phase, each time a model in that unit makes an attack, subtract 1 from the Hit roll and, if that Leadership test was failed, subtract 1 from the Wound roll as well.
+
+Transcendent C'tan model only. In your turn, when this unit makes an ingress/advance move using its Transdimensional Displacement ability, this unit can end that move more than 6" horizontally from all enemy units (instead of more than 8"). When this unit ends that move within 8" of an enemy unit, this unit is not eligible to declare a charge until the end of the turn.`,
       },
       stratagems: [
         {
