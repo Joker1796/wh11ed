@@ -149,14 +149,24 @@ aeldari, astra-militarum, space-marines (обработать последним
     самое, что урок 12 (там — локальный, потенциально устаревший файл); свежая закачка с
     официального сайта — валидный источник, дополняющий appdata, а не заменяющий его как канон.
     Прецедент: deathwatch "Black Spear Task Force" · Mission Tactics `Restrictions:` блок —
-    appdata подтверждает ЧАСТЬ структурно (`detachment_excluded_datasheet`: 9 исключённых
-    датащитов — 5 резолвятся в Tactical/Terminator/Devastator/Scout Squad + Terminator Assault
-    Squad, ещё 4 в `agents-of-the-imperium.json` = Watch Master/Watch Captain Artemis/Corvus
-    Blackstar/Deathwatch Kill Team, т.е. структурная реализация "нельзя Agents of the Imperium
-    Deathwatch юниты"), но не всё (моно-Chapter ограничение и ~7 других запрещённых юнитов —
-    Assault Squad, Attack Bike Squad, Land Speeder Storm и т.д. — в appdata не нашлись вообще);
-    дословно совпал со свежескачанным `eng_08-06_..._faction_pack_deathwatch...pdf` — оставлен без
-    изменений.
+    appdata подтверждает ЧАСТЬ структурно (`detachment_excluded_datasheet` + дублирующая
+    `faction_keyword_excluded_datasheet`: 9 исключённых датащитов — 5 резолвятся в
+    Tactical/Terminator/Devastator/Scout Squad + Terminator Assault Squad, ещё 4 в
+    `agents-of-the-imperium.json` = Watch Master/Watch Captain Artemis/Corvus Blackstar/Deathwatch
+    Kill Team, т.е. структурная реализация "нельзя Agents of the Imperium Deathwatch юниты"). **Не
+    всё — но не потому, что плохо искал, а потому что появилась КАТЕГОРИАЛЬНАЯ граница
+    источника:** оставшиеся ~7 запрещённых юнитов (Assault Squad, Attack Bike Squad, Land Speeder
+    Storm, Relic Terminator Squad, Scout Bike Squad, Scout Sniper Squad) — это **Legends**-юниты;
+    в схеме есть поле `datasheet.isLegends`, но в сыром `tables/datasheet.json` (1142 записей)
+    **оно `false` у ВСЕХ без исключения** — этот срез appdata в принципе не содержит Legends-
+    контент ни для одной фракции, значит структурно исключить несуществующий датащит нельзя. Так
+    же не нашлось моно-Chapter ограничение — проверил все 16 строк `keyword_restriction_group`
+    целиком, ни одна не ссылается на faction_keyword "Deathwatch"; похоже, это неявное правило
+    (Army Faction = Deathwatch и так ограничивает выбор датащитов), просто явно проговорённое в
+    тексте, а не отдельная запись в БД. **Итог:** для Legends-юнитов и implicit-правил дальше в
+    `tables/` копать бессмысленно — это не "ещё одна таблица", категория отсутствует целиком;
+    здесь свежескачанный официальный PDF — единственный практичный способ проверки. Текст сверен
+    дословно с `eng_08-06_..._faction_pack_deathwatch...pdf`, оставлен без изменений.
 
 ## Что делать дальше
 
