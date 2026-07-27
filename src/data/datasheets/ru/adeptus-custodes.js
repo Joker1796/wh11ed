@@ -193,7 +193,7 @@ export default {
     loadout: `${EQUIP_EVERY} guardian spear.`,
     options: [
       'Любому числу моделей их guardian spear можно заменить на 1 sentinel blade и 1 praesidium shield.',
-      'guardian spear у 1 модели можно заменить на одно из следующего:\n▪ 1 vexilla и 1 misericordia\n▪ 1 vexilla, 1 misericordia и 1 praesidium shield',
+      'guardian spear у 1 модели можно заменить на 1 vexilla, 1 misericordia и 1 praesidium shield.',
     ],
   },
 
@@ -368,7 +368,7 @@ export default {
       'Moment Shackle':
         'Один раз за битву, в начале фазы ближнего боя, вы можете выбрать одно из следующего, что действует до конца фазы:\n▪ Оружие ближнего боя Watcher’s Axe этой модели имеет характеристику Атак (Attacks) 12.\n▪ Эта модель имеет инвулевый спас-бросок 2+.',
     },
-    loadout: `${EQUIP_THIS} Watcher’s Axe.`,
+    loadout: `${EQUIP_THIS} Eagle’s Scream; Watcher’s Axe.`,
     leader: { text: LEADER_TEXT },
   },
 

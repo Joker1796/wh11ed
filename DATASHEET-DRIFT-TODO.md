@@ -357,8 +357,9 @@ death-guard, grey-knights, world-eaters).
 **Группа B — остальные, по одной, от большей к меньшей:** ~~astra-militarum (10999)~~,
 ~~aeldari (8838)~~, ~~orks (6507)~~, ~~tau-empire (5213)~~, ~~chaos-daemons (5205)~~,
 ~~necrons (4833)~~, ~~tyranids (4508)~~, ~~adepta-sororitas (4478)~~, ~~imperial-agents (4220)~~
-~~adeptus-mechanicus (3865)~~, ~~imperial-knights (3287)~~ **одиннадцать закрыты**, next →
-**adeptus-custodes (3244)** — последняя фракция группы B.
+~~adeptus-mechanicus (3865)~~, ~~imperial-knights (3287)~~, ~~adeptus-custodes (3244)~~ —
+**группа B ПОЛНОСТЬЮ ЗАКРЫТА.** Все 30 фракций из `sourceIds.json` пройдены (группа A + drukhari
++ chaos-titan-legions чиста-без-коммита + вся группа B) — проект реконсиляции завершён.
 
 tyranids: appdata = `tyranids`. Harridan M "20+\""→"14\"" — реальный баг: в отличие от Hive
 Crone (у неё есть ключевое слово Aircraft, appdata честно даёт "-" для M/OC — конвенция
@@ -602,6 +603,46 @@ rules Heroes of Legend + Valour's Reward слиты) — уже знакомый
 контент реальный. `npm test` — известная летучая `StratagemsView.test.js` ошибка при полном
 прогоне (проходит чисто изолированно и на повторном полном прогоне, фикстуры на space-marines,
 не относится к правкам).
+
+adeptus-custodes: appdata = `adeptus-custodes`. Orion Assault Dropship M "20+\""→"14\"" (тот же
+Aircraft-конвенция паттерн: у него нет ключевого слова Aircraft, в отличие от Ares Gunship,
+которая есть, оставлена как 20+"/OC "-"). Blade Champion "Vaultswords – Hurricanus" — опечатка
+в имени оружия ("Hurricanus"→"Hurricanis", появdata однозначно даёт "Hurricanis"); из-за этой
+опечатки структурная сверка **сама** давала недостоверный полный дифф статов (сравнивала не с
+тем профилем appdata по имени) — как только имя поправлено, все "различия" статов исчезли (они
+и были совпадающими всё это время, просто под неверным именем). Custodian Guard wargear-опция —
+лишний вариант "1 vexilla and 1 misericordia" (без praesidium shield) не существует в appdata:
+там только один комбинированный вариант "1 vexilla, 1 misericordia and 1 praesidium shield" —
+убран лишний вариант (EN+RU; соседний "1 vexilla and 1 misericordia" у ДРУГОГО юнита, Allarus
+Custodians, не трогался — appdata его не флагует, там всё верно). Trajann Valoris loadout не
+хватало оружия "Eagle's Scream" целиком (ranged-профиль на датащите уже был, просто не упомянут
+в loadout) — добавлено (EN+RU), заодно исправлена опечатка с прямым апострофом на типографский
+в имени профиля. Detachment "Solar Spearhead" · "Auric Armour" (2 appdata rules Auric Armour +
+Moritoi Ancients слиты, плюс доп. "### Keywords" про Custodes Walker → CHARACTER — appdata нигде
+не содержит этот кусок ни как отдельное правило, ни в `conditionalKeywords.json`, но текст
+внутренне непротиворечив и структурно совпадает с уже подтверждённым ARMOURY tag-паттерном того
+же файла — оставлено как appdata-пробел) и "Null Maiden Vigil" · "Creeping Dread" (доп.
+"Keywords: Prosecutors gain BATTLELINE" — подтверждено `conditionalKeywords.json`) — оба уже
+знакомые паттерны, не баги. Три appdata-опечатки не тронуты: "gain the following THE ability"
+(двойное the), "attack that TARGET" (пропущено s), "Revered Companions" — все внутренне
+бессмысленны, у wh11ed уже грамматически верно. `npm test` — известная летучая
+`StratagemsView.test.js` ошибка при одном из прогонов (не воспроизводится изолированно и на
+повторном полном прогоне, не относится к правкам).
+
+## Проект завершён (2026-07-27)
+
+Все 30 фракций из `src/data/sourceIds.json` пройдены: группа A (SM-семья, 6 фракций) + 15
+факций, закрытых до переигрывания порядка (leagues-of-votann, dark-angels, blood-angels,
+deathwatch, genestealer-cults, black-templars, space-wolves, titan-legions, chaos-knights,
+emperors-children, drukhari, space-marines — из группы A техничеки; chaos-titan-legions
+проверена чистой без коммита) + вся группа B (astra-militarum, aeldari, orks, tau-empire,
+chaos-daemons, necrons, tyranids, adepta-sororitas, imperial-agents, adeptus-mechanicus,
+imperial-knights, adeptus-custodes). Каждый коммит — отдельная фракция в ветке
+`feat/datasheet-drift-fixes` (см. `git log`), PR не открыт.
+
+**Следующий шаг:** спросить пользователя, пушить ли ветку и открывать ли PR — не делать этого
+самостоятельно. После ответа — удалить этот файл в финальном коммите (по прецеденту
+`DATA-909-TODO.md`).
 
 **Группа B — остальные, разбирать ПОСЛЕ группы A, по одной, от большей к меньшей:**
 astra-militarum (10999), aeldari (8838), orks (6507), tau-empire (5213), chaos-daemons (5205),
