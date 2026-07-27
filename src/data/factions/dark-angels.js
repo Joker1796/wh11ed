@@ -160,7 +160,7 @@ In your Command phase, select one Adeptus Astartes unit from your army. Until th
           name: 'Shroud of Heroes',
           points: 25,
           flavor: "Formed from the death shrouds of some of the Chapter's greatest warriors, this robe inspires its wearer with the might and selflessness of those who came before.",
-          body: `Adeptus Astartes model only. Once per battle, per army, when the bearer is destroyed, roll one D6 at the end of the phase. On a 2+, set up the bearer on the battlefield, unengaged and as close as possible to where it was destroyed. The bearer is not part of an attached unit and its unit has a Starting Strength of 1. The bearer has 3 wounds remaining, or its full wounds remaining if the bearer was Battle-shocked when it was destroyed.`,
+          body: `Adeptus Astartes model only. Once per battle, per army, when this model is destroyed, at the end of the phase, roll one D6. On a 2+, set up this model on the battlefield, unengaged and as close as possible to where it was destroyed. This model is not part of an attached unit and its unit has a Starting Strength of 1. This model has 3 wounds remaining, or its full wounds remaining if this model was Battle-shocked when it was destroyed.`,
         },
         {
           name: 'Stubborn Tenacity',
@@ -298,17 +298,14 @@ If a rule refers to a unit or model being within range of your Vowed objective, 
         flavor:
           'The Ravenwing are fearsome and daring hunters, relentless in pursuit and furious on the assault. When they lead the Dark Angels to war they inspire their battle-brothers with their strategic and tactical mastery of high-speed warfare, knightly bike-mounted venators leading every charge and rapidly outmanoeuvring the foe.',
         // Faction-Pack Rules Update rewrote both the rule and the Keywords section.
-        body: `Friendly Adeptus Astartes units have:
+        body: `Friendly Adeptus Astartes have:
 ▪ This unit's ranged attacks have [ASSAULT].
 ▪ When this unit is selected to make a fall-back move, that fall-back move does not prevent this unit from being eligible to shoot.
 
-Friendly Adeptus Astartes Mounted units have:
+Friendly Adeptus Astartes Mounted have:
 ▪ This unit's ranged attacks have [ASSAULT].
 ▪ When this unit is selected to make an advance move, that advance move does not prevent this unit from being eligible to declare a charge.
-▪ When this unit is selected to make a fall-back move, that fall-back move does not prevent this unit from being eligible to shoot and eligible to declare a charge.
-
-### Keywords
-Outrider Squad units from your army gain the Battleline keyword.`,
+▪ When this unit is selected to make a fall-back move, that fall-back move does not prevent this unit from being eligible to shoot and eligible to declare a charge.`,
       },
       stratagems: [
         {
@@ -613,9 +610,7 @@ Outrider Squad units from your army gain the Battleline keyword.`,
         flavor:
           "There is no more significant duty to the Dark Angels' Inner Circle than the pursuit and capture of the Fallen. A Lion's Blade Task Force combines the speed, manoeuvrability and firepower of the Ravenwing with the obdurate might of the Deathwing. Those unfortunate enough to be caught between the devastating speed of the Ravenwing and the adamantine might of the Deathwing are pinned in place and torn to shreds by their combined fury.",
         body: `▪ Each time an enemy unit (excluding Monsters and Vehicles) within Engagement Range of one or more Ravenwing units from your army Falls Back, all models in that enemy unit must take a Desperate Escape test. When doing so, if that enemy unit is Battle-shocked, subtract 1 from each of those tests.
-▪ Each time a Deathwing unit from your army declares a charge, if one or more targets of that charge are within Engagement Range of one or more Ravenwing units from your army, add 2 to the Charge roll.
-
-**Restrictions:** ${daOnly}`,
+▪ Each time a Deathwing unit from your army declares a charge, if one or more targets of that charge are within Engagement Range of one or more Ravenwing units from your army, add 2 to the Charge roll.`,
       },
       stratagems: [
         {
