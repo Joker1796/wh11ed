@@ -102,12 +102,24 @@ defineExpose({ visible })
   flex-shrink: 0;
   border: none;
   border-radius: 7px;
-  background: var(--bg-primary);
-  color: var(--accent);
+  /* Light theme: a light chip (--bg-card) with a dark border/icon (--bg-insert, the
+     bottom-nav's own always-dark tone — used here as an outline instead of a fill). Dark
+     theme: back to plain --bg-primary + the app accent, as before. --mb-icon-bg/--mb-icon-tint
+     flip below, mirroring the app's 3-step theme resolution (FactionLayout.vue has the same
+     pattern): prefers-color-scheme is the default signal, an explicit :root[data-theme] wins
+     in both directions (see the unscoped block below). */
+  --mb-icon-bg: var(--bg-card);
+  --mb-icon-tint: var(--bg-insert);
+  background: var(--mb-icon-bg);
+  color: var(--mb-icon-tint);
   font-size: 0.85rem;
   cursor: pointer;
   text-decoration: none;
-  box-shadow: inset 0 0 0 1.5px var(--accent), 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: inset 0 0 0 1.5px var(--mb-icon-tint), 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+@media (prefers-color-scheme: dark) {
+  .mb-icon { --mb-icon-bg: var(--bg-primary); --mb-icon-tint: var(--accent); }
 }
 
 /* Separates the back-to-top button from whatever precedes it (the resume/tab-jump group)
@@ -126,4 +138,12 @@ defineExpose({ visible })
   font-weight: 600;
   white-space: nowrap;
 }
+</style>
+
+<!-- Unscoped on purpose: an explicit data-theme on :root must win over the
+     prefers-color-scheme fallback above in BOTH directions (same reasoning/pattern as
+     FactionLayout.vue's equivalent block). -->
+<style>
+:root[data-theme='light'] .mb-icon { --mb-icon-bg: var(--bg-card); --mb-icon-tint: var(--bg-insert); }
+:root[data-theme='dark'] .mb-icon { --mb-icon-bg: var(--bg-primary); --mb-icon-tint: var(--accent); }
 </style>
