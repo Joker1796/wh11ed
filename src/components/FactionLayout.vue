@@ -20,12 +20,23 @@
     <p v-else class="fsoon">{{ labels.factionsSoon }}</p>
 
     <!-- Desktop-only floating controls, bottom-right, shown only while the hero tabs are
-         scrolled out of view (>900px has no bottom nav). Stacked in a column: a "back to
-         top" button on top, and below it a button cycling to the next tab (Rules → Units →
-         FAQ, named by its tooltip) — switching pages without scrolling back up. Hidden on
-         the per-unit page (hero=false) — the top subnav with the same links stays visible
-         there (see App.vue isFactionUnitPage). -->
+         scrolled out of view (>900px has no bottom nav). Stacked in a column: a button for
+         each of the two OTHER tabs (jump straight to either without cycling), then a "back
+         to top" button at the bottom. Hidden on the per-unit page (hero=false) — the top
+         subnav with the same links stays visible there (see App.vue isFactionUnitPage). -->
     <div v-if="faction && hero" class="faction-fabs">
+      <TransitionGroup v-if="!tabsInView" name="fab">
+        <RouterLink
+          v-for="t in otherTabs"
+          :key="t.path"
+          :to="t.path"
+          class="fab-btn"
+          :title="t.label"
+          :aria-label="t.label"
+        >
+          <i :class="t.icon"></i>
+        </RouterLink>
+      </TransitionGroup>
       <Transition name="fab">
         <button
           v-if="!tabsInView"
@@ -37,17 +48,6 @@
         >
           <i class="bi bi-arrow-up"></i>
         </button>
-      </Transition>
-      <Transition name="fab">
-        <RouterLink
-          v-if="nextTab && !tabsInView"
-          :to="nextTab.path"
-          class="fab-btn"
-          :title="nextTab.label"
-          :aria-label="nextTab.label"
-        >
-          <i :class="nextTab.icon"></i>
-        </RouterLink>
       </Transition>
     </div>
   </div>
@@ -93,13 +93,9 @@ const tabs = computed(() => {
 
 const isTabActive = (t) => route.path === t.path || (t.prefix && route.path.startsWith(t.path + '/'))
 
-// The tab FAB cycles to the NEXT tab (Rules → Units → FAQ → Rules) so it stays unambiguous
-// with three tabs.
-const nextTab = computed(() => {
-  const i = tabs.value.findIndex(isTabActive)
-  if (i === -1) return null
-  return tabs.value[(i + 1) % tabs.value.length]
-})
+// The tab FABs jump straight to either of the two tabs NOT currently open (Rules/Units/FAQ
+// minus the active one, in their original order) — one tap to any other page, no cycling.
+const otherTabs = computed(() => tabs.value.filter((t) => !isTabActive(t)))
 
 // Back-to-top FAB: honour prefers-reduced-motion (the app zeroes all CSS motion there,
 // so a smooth JS scroll would be the odd one out).
@@ -239,8 +235,8 @@ onBeforeUnmount(() => tabsObserver?.disconnect())
 
 /* Floating controls column — hidden by default, shown only >900px (the exact inverse of
    App.vue's bottom-nav breakpoint). Fixed in the bottom-right corner; sits inside
-   .faction-view.themed so the FABs pick up the faction accent. Stacks the back-to-top
-   button above the tab-jump FAB; both names ride in the native title tooltip. */
+   .faction-view.themed so the FABs pick up the faction accent. Stacks the two tab-jump
+   FABs above the back-to-top button; all names ride in the native title tooltip. */
 .faction-fabs {
   display: none;
   position: fixed;
