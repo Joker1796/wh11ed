@@ -21,12 +21,31 @@
 - После фиксов — прогнать оба скрипта повторно (убедиться, что остался только известный шум),
   `npm run build`, закоммитить (`git add -A -- <явные пути>`, не бланково).
 
-## Прогресс (13 фракций закрыты)
+## Прогресс (14 фракций закрыты)
 
 ✅ leagues-of-votann, dark-angels, blood-angels, deathwatch, genestealer-cults, black-templars,
 space-wolves, titan-legions, chaos-knights, emperors-children, drukhari, space-marines,
-chaos-space-marines — все закоммичены (см. `git log feat/datasheet-drift-fixes`).
+chaos-space-marines, thousand-sons — все закоммичены (см. `git log feat/datasheet-drift-fixes`).
 chaos-titan-legions тоже **проверена и чиста** (без коммита — дрейфа не найдено).
+
+thousand-sons: небольшой список. Реальные находки: (1) Defiler `core` содержал лишний
+"Feel No Pain 6+" — appdata его не подтверждает нигде среди способностей, убран; (2) Kairos
+Fateweaver "Infernal Gateway – focused witchfire" A `D6+6`→`D3+6`; (3) Lord of Change `damaged` —
+внутреннее рассогласование: `note` уже верно говорил "1-7 wounds remaining", а `text` внутри
+ошибочно писал "1-6" (appdata подтверждает W18/1-7); (4) "heliforged weapons" → "hellforged
+weapons" (опечатка в loadout Daemon Prince/Daemon Prince with Wings — собственный профиль оружия
+в датащите уже назывался правильно, "Hellforged weapons"), EN+RU; (5) Warpmeld Pact detachment
+rule "Warpmeld Sacrifice & KEYWORDS" — смешанный хвостовой блок (урок 8б, как Houndpack Lance):
+"Tzaangors gain Battleline" — чистый дубль `conditionalKeywords.json` (`tzaangors`→Battleline при
+`warpmeld-pact`), убран; но "+1 OC пока не Battle-shocked" и "detachment has MUTANT tag" — не
+дублируются нигде, оставлены (переформулировал первую фразу, чтобы не терять антецедент "such a
+unit" после вырезки). Проверено и НЕ тронуто (уже верно): Changehost of Deceit ally-допуск
+Scintillating Legions 500/1000/1500 — подтверждён через `allied_faction_points_limit` (урок 13);
+Warpmeld Pact enhancement "Bray Lord" attach к Tzaangors — подтверждён через
+`enhancement_bodyguard_group`/`_datasheet` (урок 13); Cabal of Sorcerers — смёрженная карта
+Pact of Sorcery (урок 10) + `accordion`-подписи ритуалов, Warp Charge номиналы (5/6/7/9) в самой
+appdata нигде не найдены (ни в тексте, ни в `tables/`) — оставлены как есть, без них способность
+нефункциональна, это похоже на пропуск при экстракции значка/бэйджа с карты, а не дрейф wh11ed.
 
 chaos-space-marines (appdata source: `heretic-astartes.json`): небольшой, но разнообразный
 список. Реальные находки: (1) Chaos Lord "Astartes chainblade" → "Astartes chainsword"
@@ -125,8 +144,8 @@ Prince" (слипшийся `**PACT POINTSBONUS1+**...` без переносо�
 
 **Группа A — «SM-семья» (общий Adeptus/Heretic Astartes датащит-пул, много общих юнитов и
 паттернов с уже закрытыми SM-Chapter фракциями) — разбирать ПЕРВОЙ, по одной, от большей к
-меньшей:** ~~space-marines (13109)~~, ~~chaos-space-marines (7116)~~ **обе закрыты**, next →
-thousand-sons (4062), death-guard (4039), grey-knights (3467), world-eaters (3407).
+меньшей:** ~~space-marines (13109)~~, ~~chaos-space-marines (7116)~~, ~~thousand-sons (4062)~~
+**все три закрыты**, next → death-guard (4039), grey-knights (3467), world-eaters (3407).
 
 **Группа B — остальные, разбирать ПОСЛЕ группы A, по одной, от большей к меньшей:**
 astra-militarum (10999), aeldari (8838), orks (6507), tau-empire (5213), chaos-daemons (5205),
