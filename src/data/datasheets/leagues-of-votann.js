@@ -654,7 +654,7 @@ export default [
     "factionKeywords": [
       "Leagues of Votann"
     ],
-    "baseSize": "28.5mm"
+    "baseSize": "28.5mm / 50mm"
   },
   {
     "id": "cthonian-earthshakers",
@@ -2091,7 +2091,7 @@ export default [
       },
       {
         "name": "Teleport Crest",
-        "text": "While the bearer is leading a unit, models in that unit have the Deep Strike ability."
+        "text": "While this model is leading a unit, models in that unit have the Deep Strike ability."
       }
     ],
     "composition": [
@@ -2099,7 +2099,7 @@ export default [
     ],
     "loadout": "**This model is equipped with:** Autoch-pattern combi-bolter; forgewrought plasma axe; rampart crest.",
     "options": [
-      "This model’s Autoch-pattem combi-bolter can be replaced with 1 volkanite disintegrator.",
+      "This model’s Autoch-pattern combi-bolter can be replaced with 1 volkanite disintegrator.",
       "This model’s forgewrought plasma axe can be replaced with 1 mass gauntlet.",
       "This model’s rampart crest can be replaced with 1 teleport crest."
     ],
@@ -2210,7 +2210,7 @@ export default [
     "factionKeywords": [
       "Leagues of Votann"
     ],
-    "baseSize": "105x70mm Oval Base"
+    "baseSize": "105x70mm"
   },
   {
     "id": "kapricus-defenders",
@@ -2319,7 +2319,7 @@ export default [
     "factionKeywords": [
       "Leagues of Votann"
     ],
-    "baseSize": "105x70mm Oval Base"
+    "baseSize": "105x70mm"
   },
   {
     "id": "memnyr-strategist",

@@ -165,7 +165,7 @@ In your turn, YP gained in this way are always gained before checking which abil
       rule: {
         name: "Fury From The Dêlve",
         flavor: "Efficiency and practicality are ingrained in all Kin. Thus, the most meagre of Cthonian dêlves are well-equipped networks of passages, accessways and teleport nodes that enable a guild's bionically altered elites to appear where the foe least expects them. They emerge saturated with cyberstimulants and full of fury, ready to smash asunder those who dare trespass amongst their guild’s operations.",
-        body: "Cthonian Beserks units from your army have the Deep Strike ability.\n\nKEYWORDS\nCTHONIAN BESERKS units from your army gain the BATTLELINE keyword.",
+        body: "Cthonian Beserks units from your army have the Deep Strike ability.",
       },
       stratagems: [
         {

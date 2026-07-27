@@ -150,6 +150,17 @@ async function syncFaction(slug) {
           lines.push(`  ~ datasheet "${d.name}" profile "${p.name}" ${wf.toUpperCase()} differs: wh11ed=${JSON.stringify(p[wf])} appdata=${JSON.stringify(appStat[af])}`)
         }
       }
+      // A composite multi-model unit (e.g. a Character with named bodyguard-type models sharing
+      // one datasheet) may carry baseSize per PROFILE instead of the single top-level d.baseSize —
+      // appdata has no per-statline baseSize field either, only the same top-level string with one
+      // "<model name>: <size>" line per component, so find this profile's own line by name.
+      if (p.baseSize && appDs.baseSize) {
+        const line = appDs.baseSize.split('\n').find((l) => norm(l).includes(norm(p.name)))
+        const appSize = line && (line.match(/\d[\d.]*(?:\s*x\s*\d[\d.]*)?\s*mm|hull|unique/i) || [])[0]
+        if (appSize && appSize.toLowerCase().replace(/\s+/g, '') !== p.baseSize.toLowerCase().replace(/\s+/g, '')) {
+          lines.push(`  ~ datasheet "${d.name}" profile "${p.name}" baseSize differs: wh11ed=${JSON.stringify(p.baseSize)} appdata=${JSON.stringify(appSize)}`)
+        }
+      }
     }
 
     // Invulnerable saves: only compared when unambiguous (wh11ed has at most one `inv` value
@@ -222,10 +233,19 @@ async function syncFaction(slug) {
     lines.push(...diffSet(`datasheet "${d.name}" · keyword`, d.keywords || [], appDs.keywords || []))
 
     // baseSize: exact scalar (both sides are short strings like "32mm") — appdata always spaces
-    // out "170 x 109mm", wh11ed always writes "170x109mm", so fold out ALL whitespace (not just
-    // norm()'s collapse-to-one-space) before comparing to avoid 100% spurious noise on every
-    // oval-base unit.
-    const foldBaseSize = (s) => norm(s).replace(/\s+/g, '')
+    // out "170 x 109mm", wh11ed always writes "170x109mm" — and for a mixed-base unit (a wargear
+    // variant on its own base, e.g. Cthonian Beserks' Mole grenade launcher) appdata spells out
+    // "<Model name>: <size>" per line while wh11ed's own convention (see e.g.
+    // adeptus-mechanicus.js) is a bare "<size> / <size>" list with no names at all. So extract
+    // just the size tokens in order from both sides (ignoring any per-line name prefix) instead
+    // of a literal string compare — this also makes the whitespace-only fold below redundant, but
+    // subsumes it (a plain "170 x 109mm" line still yields just "170x109mm").
+    const foldBaseSize = (s) => (s || '')
+      .split(/[\n/]/)
+      .map((part) => (part.match(/\d[\d.]*(?:\s*x\s*\d[\d.]*)?\s*mm|hull|unique|large flying base|small flying base/i) || [])[0])
+      .filter(Boolean)
+      .map((tok) => tok.toLowerCase().replace(/\s+/g, ''))
+      .join('/')
     if (d.baseSize && appDs.baseSize && foldBaseSize(d.baseSize) !== foldBaseSize(appDs.baseSize)) {
       lines.push(`  ~ datasheet "${d.name}" baseSize differs: wh11ed=${JSON.stringify(d.baseSize)} appdata=${JSON.stringify(appDs.baseSize)}`)
     }
