@@ -357,8 +357,8 @@ death-guard, grey-knights, world-eaters).
 **Группа B — остальные, по одной, от большей к меньшей:** ~~astra-militarum (10999)~~,
 ~~aeldari (8838)~~, ~~orks (6507)~~, ~~tau-empire (5213)~~, ~~chaos-daemons (5205)~~,
 ~~necrons (4833)~~, ~~tyranids (4508)~~, ~~adepta-sororitas (4478)~~, ~~imperial-agents (4220)~~
-~~adeptus-mechanicus (3865)~~ **десять закрыты**, next → **imperial-knights (3287)**, дальше
-adeptus-custodes (3244).
+~~adeptus-mechanicus (3865)~~, ~~imperial-knights (3287)~~ **одиннадцать закрыты**, next →
+**adeptus-custodes (3244)** — последняя фракция группы B.
 
 tyranids: appdata = `tyranids`. Harridan M "20+\""→"14\"" — реальный баг: в отличие от Hive
 Crone (у неё есть ключевое слово Aircraft, appdata честно даёт "-" для M/OC — конвенция
@@ -575,6 +575,33 @@ phosphor pistols" — appdata сама себе противоречит меж�
 не тронуто. Две appdata-опечатки не тронуты: "SKITARlI" (строчная L вместо I) и "On 2+"
 (потерян артикль во втором bullet того же правила, где первый bullet той же appdata верно
 пишет "On a 2+"). `npm test` — 207/207 чисто с первого раза.
+
+imperial-knights: appdata = `imperial-knights`. Knight Destrier — S оружия "Titanic feet" 7→8
+(единственный выброс среди 7 датащитов этого файла с тем же профилем — все остальные либо
+a=6/s=10 (Armiger), либо a=4/s=8 (полноразмерные Knight); Destrier ошибочно стоял на s=7).
+baseSize "150x95mm Oval Base"→"150mm Oval Base" (appdata последовательно даёт "170 x 109mm" для
+всех полноразмерных Knight, но именно для Destrier — одно число без второго измерения; формат
+воспроизведён точно, не общий шаблон). Composition — тот же copy-paste баг дважды: Knight
+Destrier нёс "1 Knight Defender" (чужое имя), Sir Hekhtur нёс придуманную вторую строку "Set up
+when Canis Rex is destroyed (see Canis Rex)" — ни в датащите Canis Rex, ни в Sir Hekhtur appdata
+не знает такой механики вообще (проверено оба датащита целиком) — убрано, заодно добавлен
+недостающий суффикс "– EPIC HERO" (Sir Hekhtur действительно Epic Hero, как и его "загадочный"
+столбец в keywords); loadout Sir Hekhtur заодно поправлен на именной "Sir Hekhtur is equipped
+with" (конвенция уникальных Epic Hero персонажей в этом же файле — сверено с Canis Rex "Canis
+Rex is equipped with", а не generic "This model"). Knight Paladin/Preceptor loadout — опечатки
+"battlecannon"→"battle cannon", "Preceptor multi-laser"→"Questoris multi-laser" (сверено с
+собственным оружейным профилем "Questoris multi-laser" тут же на датащите). Knight Destrier
+wargear-сноска про bellatus reaper chainsword/thundershock spear — та же "оторванная сноска"
+проблема, что чинили в adeptus-mechanicus/imperial-agents в этом же цикле, слита обратно (EN+RU).
+Army rule "Code Chivalric" (4 appdata armyRules — Code Chivalric/Bondsman/Super-heavy
+Walker/Freeblades слиты в одну карточку, включая мотто-подзаголовки "We vow to lay low the
+tyrant..." — проверены дословно, содержание 1:1), detachment "Questoris Companions" (2 appdata
+rules Heroes of Legend + Valour's Reward слиты) — уже знакомый merge-паттерн (урок 10), не баг.
+"Spearhead-At-Arms" · "Knightly Teachings" доп. "Keywords: ARMIGER models gain BATTLELINE" —
+подтверждено `conditionalKeywords.json` (структурная `conditional_keyword` таблица appdata),
+контент реальный. `npm test` — известная летучая `StratagemsView.test.js` ошибка при полном
+прогоне (проходит чисто изолированно и на повторном полном прогоне, фикстуры на space-marines,
+не относится к правкам).
 
 **Группа B — остальные, разбирать ПОСЛЕ группы A, по одной, от большей к меньшей:**
 astra-militarum (10999), aeldari (8838), orks (6507), tau-empire (5213), chaos-daemons (5205),

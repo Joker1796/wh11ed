@@ -39,8 +39,8 @@ export default {
     flavor:
       'Некогда пленник Iron Warriors, Sir Hekhtur выстоял под мучительными пытками и спасся лишь благодаря несокрушимой вере, решимости и чести. Ныне он странствует по галактике, освобождая имперских граждан, порабощённых силами Архиврага.',
     loadout:
-      '**Эта модель вооружена:** Hekhtur’s pistol; close combat weapon.',
-    composition: ['1 Sir Hekhtur', 'Выставляется при уничтожении Canis Rex (см. Canis Rex).'],
+      '**Sir Hekhtur вооружён:** Hekhtur’s pistol; close combat weapon.',
+    composition: ['1 Sir Hekhtur – EPIC HERO'],
     options: NONE,
   },
 
@@ -239,8 +239,7 @@ export default {
       '**Эта модель вооружена:** 1 chastiser gatling cannon;\n1 frag bombard; 1 Questoris heavy stubber; 1 titanic feet.',
     options: [
       'chastiser gatling cannon этой модели можно заменить на одно из следующего:\n▪ 1 bellatus reaper chainsword*\n▪ 1 thundershock spear*',
-      'frag bombard этой модели можно заменить на одно из следующего:\n▪ 1 bellatus reaper chainsword*\n▪ 1 thundershock spear*',
-      '* Модель не может быть снаряжена более чем одним bellatus reaper chainsword или более чем одним thundershock spear.',
+      'frag bombard этой модели можно заменить на одно из следующего:\n▪ 1 bellatus reaper chainsword*\n▪ 1 thundershock spear*\n\n* Модель не может быть снаряжена более чем одним bellatus reaper chainsword или более чем одним thundershock spear.',
     ],
   },
 
@@ -292,7 +291,7 @@ export default {
     },
     damaged: { note: 'осталось 1–9 ран', text: dmg('1–9', 5) },
     loadout:
-      '**Эта модель вооружена:** meltagun; Questoris heavy stubber; rapid-fire battlecannon; reaper chainsword.',
+      '**Эта модель вооружена:** meltagun; Questoris heavy stubber; rapid-fire battle cannon; reaper chainsword.',
     options: [
       'meltagun этой модели можно заменить на 1 Questoris heavy stubber.',
       'reaper chainsword этой модели можно заменить на 1 thunderstrike gauntlet.',
@@ -311,7 +310,7 @@ export default {
     },
     damaged: { note: 'осталось 1–9 ран', text: dmg('1–9', 5) },
     loadout:
-      '**Эта модель вооружена:** las-impulsor; Preceptor multi-laser; reaper chainsword.',
+      '**Эта модель вооружена:** las-impulsor; Questoris multi-laser; reaper chainsword.',
     options: [
       'Questoris multi-laser этой модели можно заменить на одно из следующего:\n▪ 1 meltagun\n▪ 1 Questoris heavy stubber',
       'reaper chainsword этой модели можно заменить на 1 thunderstrike gauntlet.',
