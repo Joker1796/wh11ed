@@ -21,13 +21,48 @@
 - После фиксов — прогнать оба скрипта повторно (убедиться, что остался только известный шум),
   `npm run build`, закоммитить (`git add -A -- <явные пути>`, не бланково).
 
-## Прогресс (18 фракций закрыты — группа A ПОЛНОСТЬЮ ЗАКРЫТА, группа B начата)
+## Прогресс (19 фракций закрыты — группа A ПОЛНОСТЬЮ ЗАКРЫТА, группа B в процессе)
 
 ✅ leagues-of-votann, dark-angels, blood-angels, deathwatch, genestealer-cults, black-templars,
 space-wolves, titan-legions, chaos-knights, emperors-children, drukhari, space-marines,
-chaos-space-marines, thousand-sons, death-guard, grey-knights, world-eaters, astra-militarum —
-все закоммичены (см. `git log feat/datasheet-drift-fixes`). chaos-titan-legions тоже **проверена
-и чиста** (без коммита — дрейфа не найдено). **Группа A («SM-семья») полностью закрыта.**
+chaos-space-marines, thousand-sons, death-guard, grey-knights, world-eaters, astra-militarum,
+aeldari — все закоммичены (см. `git log feat/datasheet-drift-fixes`). chaos-titan-legions тоже
+**проверена и чиста** (без коммита — дрейфа не найдено). **Группа A («SM-семья») полностью
+закрыта.**
+
+aeldari (appdata source: `asuryani.json`): структурно было много находок — **11 транспортов/
+платформ потеряли служебный keyword `Frame`** (D-cannon Platform, Falcon, Fire Prism, Night
+Spinner, Shadow Weaver Platform, Starweaver, Vibro Cannon Platform, Voidweaver, Wave Serpent,
+Ynnari Raider, Ynnari Venom — добавлен всем), плюс попутно вычищено **72 стрей-пустые строки** в
+`factionKeywords[]` по всему файлу (тот же баг, что у world-eaters, только втрое больше — видимо,
+общий генератор/скрипт когда-то давно оставлял этот мусор системно). Точечные структурные находки:
+Eldrad Ulthran оружие "Staff of Ulthamar and witchblade" → "The Staff..." (профиль оружия так
+называется в appdata, а вот в прозе loadout/composition текста — без "The", появдата сама себе
+противоречит, оставили профиль с "The", прозу без); Starfangs keyword "Starfangs"→"Starfang"
+(appdata использует единственное число для кийворда при множественном имени юнита — заменили,
+не добавили вторым); Yvraine baseSize `75x42mm`→`74x42mm`. **Warlock Conclave и Warlock
+Skyrunners** — тот же паттерн, что Wardens of Ultramar (space-marines)/Masters of the Maelstrom
+(chaos-space-marines): attach-механика была в кастомном `"rules":[{"name":"ATTACHMENT"}]` вместо
+стандартного `"leader"` (text/units/footer) — конвертированы; заодно нашлись реально недостающие
+юниты в списке attach (Guardian Defenders/Storm Guardians у Conclave; Windriders у Skyrunners) и
+недостающий keyword "Warlock Skyrunner Conclave". Текстовые находки: 2 чистых KEYWORDS-дубля
+(Windrider Host "Windriders→Battleline", Spirit Conclave "Wraithblades/Wraithguard→Battleline",
+оба подтверждены в `conditionalKeywords.json`, убраны); реальные пропуски прозы — Corsair
+Voidscarred loadout потерял "close combat weapon" у 3 из 5 моделей (Shade Runner/Soul
+Weaver/Way Seeker), EN+RU; Eldrad Ulthran/The Visarch — недоставало footer-клаузы про гибкий
+attach (Eldrad — "even if a Warlocks unit already attached"; Visarch — "even if Yvraine already
+attached" + стандартная Bodyguard-destroyed клауза); Wraithknight with Ghostglaive composition
+лишний суффикс "with Ghostglaive"; Ynnari Reavers "Cluster Caltrops" — **реально другая механика**
+(было "reroll THE result for the bearer", стало "reroll one D6 for each model equipped with
+cluster caltrops" — не косметика, appdata подтверждает дословно), EN+RU; плюс россыпь мелких
+опечаток (Ynnari Incubi "demilklaives"→"demiklaives"; Dark Reapers/Wraithblades/Prince Yriel/
+Maugan Ra/Ynnari Incubi — по одному-два потерянных слова каждое). **Впервые встретилась
+категориальная дыра уровня целой фракции-союзника** (не отдельного поля, как Legends) — записано
+как **урок 17**: appdata вообще не хранит Harlequins/Ynnari/Corsairs отдельными файлами, поэтому
+детачменты, что описывают эти союзные механики (Ghosts of the Webway, Serpent's Brood, Devoted of
+Ynnead, Eldritch Raiders, Corsair Coterie), не могут быть перепроверены в принципе — оставлены не
+тронутыми. Также подтверждён третий подряд случай "числового бэйджа" (урок 16) — battle-size
+таблицы в Battle Focus/Seer Council без цифр в appdata.
 
 astra-militarum (самая большая в группе B, ~11k строк): много находок, самая крупная категория —
 **4 пехотных полка (Cadian Shock Troops, Catachan Jungle Fighters, Death Korps Of Krieg,
@@ -255,10 +290,10 @@ Prince" (слипшийся `**PACT POINTSBONUS1+**...` без переносо�
 **Группа A — «SM-семья»** — вся закрыта (space-marines, chaos-space-marines, thousand-sons,
 death-guard, grey-knights, world-eaters).
 
-**Группа B — остальные, по одной, от большей к меньшей:** ~~astra-militarum (10999)~~
-**закрыта**, next → **aeldari (8838)**, дальше orks (6507), tau-empire (5213), chaos-daemons
-(5205), necrons (4833), tyranids (4508), adepta-sororitas (4478), imperial-agents (4220),
-adeptus-mechanicus (3865), imperial-knights (3287), adeptus-custodes (3244).
+**Группа B — остальные, по одной, от большей к меньшей:** ~~astra-militarum (10999)~~,
+~~aeldari (8838)~~ **обе закрыты**, next → **orks (6507)**, дальше tau-empire (5213),
+chaos-daemons (5205), necrons (4833), tyranids (4508), adepta-sororitas (4478), imperial-agents
+(4220), adeptus-mechanicus (3865), imperial-knights (3287), adeptus-custodes (3244).
 
 **Группа B — остальные, разбирать ПОСЛЕ группы A, по одной, от большей к меньшей:**
 astra-militarum (10999), aeldari (8838), orks (6507), tau-empire (5213), chaos-daemons (5205),
@@ -421,6 +456,23 @@ drukhari (2973) уже закрыта (взята 2026-07-27 до переигр
     **Не удалять и не обнулять** такие числа только на основании отсутствия в appdata — без них
     способность нефункциональна, а сама последовательность (не единичное число) обычно достаточно
     показательна, чтобы не быть выдумкой wh11ed.
+
+17. **appdata трекает не все дружественные/союзные фракции как отдельные файлы — если такого файла
+    нет вообще, весь контент про эту фракцию-союзника, что появляется в детачментах основной
+    фракции, невозможно перепроверить в принципе** (не «плохо искал», а категориальный пробел, как
+    урок 14 про Legends, но на уровне целой фракции, а не одного поля). Прецедент: aeldari —
+    `wh40k-appdata/factions/` не содержит ни `harlequins.json`, ни `ynnari.json`, ни отдельного
+    файла про Corsairs/Anhrathe (при этом `asuryani.json`, т.е. основная aeldari-фракция, есть).
+    Детачменты, что описывают механики этих союзников (Ghosts of the Webway/Serpent's Brood —
+    Harlequins Troupe Battleline+OC2+лимит уникальных моделей+ACROBATIC-тег; Devoted of Ynnead —
+    обязательное включение Yvraine/The Yncarne+warlord; Eldritch Raiders/Corsair Coterie —
+    Corsair Enhancement points-надбавка), показывают этот контент как «wh11ed adds, appdata молчит»
+    — но appdata и не может знать про фракцию, которую вообще не хранит. Раз контент содержательный,
+    внутренне согласованный и не выглядит придуманным — не трогать; в отличие от Legends (где
+    "не в appdata — не у нас" всё ещё действует, потому что appdata ЗНАЕТ о категории и просто не
+    заполнила поле), тут другая природа пробела — источник целиком не охватывает фракцию-союзника.
+    Проверить `ls wh40k-appdata/factions/` на будущее, если сомнение — есть ли у этой
+    фракции-союзника вообще свой файл, прежде чем удалять что-то похожее.
 
 ## Что делать дальше
 
