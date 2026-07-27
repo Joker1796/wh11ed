@@ -94,7 +94,6 @@ export default [
         "Celestian Sacresants",
         "Sisters Novitiate Squad",
         "Battle Sisters Squad",
-        "Crusaders",
         "Dominion Squad",
         "Retributor Squad"
       ]
@@ -618,7 +617,6 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Crusaders",
         "Celestian Sacresants",
         "Sisters Novitiate Squad",
         "Battle Sisters Squad",
@@ -1371,7 +1369,6 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Retributor Squad",
-        "Crusaders",
         "Celestian Sacresants",
         "Sisters Novitiate Squad",
         "Battle Sisters Squad",
@@ -1457,7 +1454,6 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Celestian Insidiants",
-        "Crusaders",
         "Battle Sisters Squad",
         "Retributor Squad",
         "Dominion Squad",
@@ -1923,7 +1919,6 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Retributor Squad",
-        "Crusaders",
         "Celestian Sacresants",
         "Sisters Novitiate Squad",
         "Battle Sisters Squad",
@@ -2021,7 +2016,6 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Celestian Sacresants",
-        "Crusaders",
         "Celestian Insidiants",
         "Battle Sisters Squad",
         "Retributor Squad",
@@ -2365,7 +2359,6 @@ export default [
         "Celestian Sacresants",
         "Sisters Novitiate Squad",
         "Battle Sisters Squad",
-        "Crusaders",
         "Dominion Squad",
         "Retributor Squad"
       ]
@@ -2392,10 +2385,10 @@ export default [
         "points": 50
       }
     ],
-    "flavor": "It is the role of Ministorum Priests to harness the faith of Imperial warriors in battle. Often they join Wars of Faith – though it is not unheard of for a Preacher to lead one. They are filled with a fearsome religious fervour that incites the faithful as they bellow catechisms of hatred.",
+    "flavor": "It is the role of Ministorum Priests to harness the faith of Imperial warriors in battle. Often they join Wars of Faith – though it is not unheard of for a Ministorum Priest to lead one. They are filled with a fearsome religious fervour that incites the faithful as they bellow catechisms of hatred.",
     "profiles": [
       {
-        "name": "Preacher",
+        "name": "Ministorum Priest",
         "m": "6\"",
         "t": "3",
         "sv": "6+",
@@ -2465,7 +2458,7 @@ export default [
       }
     ],
     "composition": [
-      "1 Preacher"
+      "1 Ministorum Priest"
     ],
     "loadout": "**This model is equipped with:** zealot’s vindictor.",
     "options": [
@@ -2858,7 +2851,6 @@ export default [
         "Celestian Sacresants",
         "Sisters Novitiate Squad",
         "Battle Sisters Squad",
-        "Crusaders",
         "Dominion Squad",
         "Retributor Squad"
       ]
@@ -4315,7 +4307,6 @@ export default [
     "leader": {
       "text": "This model can be attached to the following units:",
       "units": [
-        "Crusaders",
         "Battle Sisters Squad"
       ]
     },
