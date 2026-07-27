@@ -89,7 +89,7 @@ export default {
     loadout: `${EQUIP_THIS} heavy bolt pistol; master-crafted chainsword.`,
     options: [
       'heavy bolt pistol этой модели можно заменить на 1 inferno pistol.',
-      'master-crafted chainsword этой модели можно заменить на одно из следующего:\n▪ 1 relic weapon\n▪ 1 power fist',
+      'master-crafted chainsword этой модели можно заменить на одно из следующего:\n▪ 1 power fist\n▪ 1 relic weapon',
     ],
     leader: { text: LEADER_TEXT },
   },
@@ -115,7 +115,7 @@ export default {
       'Death Mask of Sanguinius':
         'В начале фазы ближнего боя каждый вражеский юнит в пределах 6" от этой модели обязан пройти проверку боевого шока, вычтя 1 из этой проверки.',
     },
-    loadout: `${EQUIP_THIS} Perdition; the Axe Mortalis.`,
+    loadout: `${EQUIP_THIS} Perdition Pistol; the Axe Mortalis.`,
     leader: { text: LEADER_TEXT },
   },
 
@@ -131,7 +131,7 @@ export default {
     loadout: `${EQUIP_THIS} heavy bolt pistol; master-crafted chainsword.`,
     options: [
       'heavy bolt pistol этой модели можно заменить на 1 inferno pistol.',
-      'master-crafted chainsword этой модели можно заменить на одно из следующего:\n▪ 1 relic weapon\n▪ 1 power fist',
+      'master-crafted chainsword этой модели можно заменить на одно из следующего:\n▪ 1 power fist\n▪ 1 relic weapon',
     ],
     leader: { text: LEADER_TEXT },
   },
@@ -148,7 +148,7 @@ export default {
     loadout: `${EQUIP_THIS} heavy bolt pistol; Astartes chainsword.`,
     options: [
       'heavy bolt pistol этой модели можно заменить на одно из следующего:\n▪ 1 plasma pistol\n▪ 1 hand flamer',
-      'Astartes chainsword этой модели можно заменить на одно из следующего:\n▪ 1 relic weapon\n▪ 1 power fist',
+      'Astartes chainsword этой модели можно заменить на одно из следующего:\n▪ 1 power fist\n▪ 1 relic weapon',
     ],
     leader: { text: LEADER_TEXT },
   },
