@@ -21,12 +21,30 @@
 - После фиксов — прогнать оба скрипта повторно (убедиться, что остался только известный шум),
   `npm run build`, закоммитить (`git add -A -- <явные пути>`, не бланково).
 
-## Прогресс (10 фракций закрыты)
+## Прогресс (11 фракций закрыты)
 
 ✅ leagues-of-votann, dark-angels, blood-angels, deathwatch, genestealer-cults, black-templars,
-space-wolves, titan-legions, chaos-knights, emperors-children — все закоммичены (см. `git log
-feat/datasheet-drift-fixes`). chaos-titan-legions тоже **проверена и чиста** (без коммита —
-дрейфа не найдено).
+space-wolves, titan-legions, chaos-knights, emperors-children, drukhari — все закоммичены (см.
+`git log feat/datasheet-drift-fixes`). chaos-titan-legions тоже **проверена и чиста** (без
+коммита — дрейфа не найдено).
+
+drukhari: реальных находок 5 — (1) Voidraven Bomber «Voidraven missiles – shatterfield missiles»
+AP `-2`→`-1` (Razorwing использует одноимённое, но отдельное оружие с другим AP — не спутать);
+(2) Incubi «Demiklaives – dual blades» лишний тег `TWIN-LINKED`, которого нет ни в appdata, ни у
+аналогичного оружия Drazhar; (3) Archon «Shadowfield» — текст был по смыслу устаревшим
+(привязан к провалу конкретно INV-спаса) вместо appdata-формулировки (привязан к потере раны,
+шире по охвату — `не может перебрасывать save rolls`/`теряет InSv при потере раны, не считая
+mortal wounds`), обновлён EN+RU; (4) Scourges with Shardcarbines loadout — «The Solarite is
+equipped with» исправлено на «Every model is equipped with» (весь юнит, не только Solarite),
+EN+RU; (5) армейское правило Power From Pain — параграф Designer's Note был не на своём месте
+(после «Empowered Through Pain» вместо после «Pain Abilities», как в appdata) — переставлен.
+Плюс мелкий naming-фикс `wg:wracks:torturer's tool` (appdata — единственное число, что заодно
+чинит sourceId-маппинг этого оружия, ранее вообще не матчившегося; `gen-source-ids.mjs`
+перезапущен, заодно подтянул несколько несвязанных давно ожидавших матчей у других фракций).
+Осталось необъяснённых ложных срабатываний немало (naming: dual blade/blades, neurotoxin/
+necrotoxin, Chain-flails/Chain flails — везде это, похоже, опечатка/непоследовательность самой
+appdata, а не дрейф wh11ed, см. урок 2; core/faction comma-join — известный формат-шум) — не
+трогать, см. диагностику в коммите.
 
 emperors-children: почти весь репортed diff оказался известным шумом (merged-armyRule/merged-
 detachment-rule `###`-паттерн ×2 — оба куска подтверждены как отдельные карточки внутри самого
@@ -51,9 +69,10 @@ grey-knights (3467), world-eaters (3407).
 **Группа B — остальные, разбирать ПОСЛЕ группы A, по одной, от большей к меньшей:**
 astra-militarum (10999), aeldari (8838), orks (6507), tau-empire (5213), chaos-daemons (5205),
 necrons (4833), tyranids (4508), adepta-sororitas (4478), imperial-agents (4220),
-adeptus-mechanicus (3865), imperial-knights (3287), adeptus-custodes (3244), drukhari (2973 —
-**уже взята в работу 2026-07-27 до этого переигрывания порядка, доделывается сейчас**, после чего
-следующей фракцией берём **space-marines** из группы A).
+adeptus-mechanicus (3865), imperial-knights (3287), adeptus-custodes (3244).
+drukhari (2973) уже закрыта (взята 2026-07-27 до переигрывания порядка, добита по факту —
+см. прогресс выше) — из группы B вычеркнута. **Следующей фракцией по плану берём space-marines
+из группы A.**
 
 ## Ключевые уроки инструмента (не переоткрывать как новый баг)
 
