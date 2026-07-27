@@ -114,7 +114,7 @@ const en = {
           name: "Wolf-touched",
           points: 15,
           flavor: "Whilst the Canis Helix has yet to overcome this champion fully, it is stirred to life by the thrill of battle and the scent of blood.",
-          body: "SPACE WOLVES model only. Add 2\" to the Move characteristic of the bearer.\n\nIn the Declare Battle Formations step, the bearer can be attached to a Wulfen or Wulfen with Storm Shields unit.",
+          body: "SPACE WOLVES model only. Add 2\" to the Move characteristic of the bearer.",
         },
         {
           name: "Hunter’s Guile",
@@ -251,9 +251,9 @@ const en = {
       dp: 2,
       forceDisposition: "Take and Hold",
       rule: {
-        name: "Master of Wolves & Howling Onslaught & Restrictions",
+        name: "Master of Wolves & Howling Onslaught",
         flavor: "With Logan Grimnar commanding them, the hunting packs of the Space Wolves fight at peak efficiency.",
-        body: "### Master of Wolves\nAt the start of your Command phase, you can select one of the Hunting Packs listed below. Until the start of your next Command phase, that Hunting Pack is active and its effects apply to all ADEPTUS ASTARTES units from your army. You can only select each Hunting Pack once per battle.\n▪ **Encircling Jaws:** This unit can re-roll Advance rolls and Charge rolls.\n▪ **Hunter’s Eye:** Each time a model in this unit makes a ranged attack, add 1 to the Hit roll.\n▪ **Ferocious Strike:** Each time this unit is selected to fight, select either the [LETHAL HITS] or [SUSTAINED HITS 1] ability. Until the end of the phase, weapons equipped by models in this unit have the selected ability.\n\n### Howling Onslaught\nOnce per battle, when selecting a Hunting Pack for the Master of Wolves Detachment rule (see above), if a LOGAN GRIMNAR model from your army is on the battlefield, you can select a Hunting Pack you have already selected this battle.\n\n### Restrictions\nYour army can include Space Wolves units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
+        body: "### Master of Wolves\nAt the start of your Command phase, you can select one of the Hunting Packs listed below. Until the start of your next Command phase, that Hunting Pack is active and its effects apply to all ADEPTUS ASTARTES units from your army. You can only select each Hunting Pack once per battle.\n▪ **Encircling Jaws:** This unit can re-roll Advance rolls and Charge rolls.\n▪ **Hunter’s Eye:** Each time a model in this unit makes a ranged attack, add 1 to the Hit roll.\n▪ **Ferocious Strike:** Each time this unit is selected to fight, select either the [LETHAL HITS] or [SUSTAINED HITS 1] ability. Until the end of the phase, weapons equipped by models in this unit have the selected ability.\n\n### Howling Onslaught\nOnce per battle, when selecting a Hunting Pack for the Master of Wolves Detachment rule (see above), if a LOGAN GRIMNAR model from your army is on the battlefield, you can select a Hunting Pack you have already selected this battle.",
       },
       stratagems: [
         {
@@ -328,7 +328,7 @@ const en = {
           name: "Grimnar’s Mark",
           points: 20,
           flavor: "This moonsilver wolf-talisman is bestowed by the Great Wolf himself before battle, a mark of favour that fills the bearer with an eagerness to slay the foe.",
-          body: "ADEPTUS ASTARTES TERMINATOR CAPTAIN model only. Once per battle round, you can target this unit with the Rapid Ingress/Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that Stratagem on other units this phase.\n\nIn the Declare Battle Formations step, the bearer can be attached to a Wolf Guard Terminators unit.",
+          body: "ADEPTUS ASTARTES TERMINATOR CAPTAIN model only. Once per battle round, you can target this unit with the Rapid Ingress/Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that Stratagem on other units this phase.",
         },
         {
           name: "Howlmaw",

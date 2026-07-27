@@ -227,7 +227,7 @@ export default {
     options: [
       'assault cannon этой модели можно заменить на одно из следующего:\n▪ 1 helfrost cannon\n▪ 1 multi-melta',
       'storm bolter этой модели можно заменить на 1 heavy flamer.',
-      'assault cannon, storm bolter и Dreadnought combat weapon этой модели можно заменить на одно из следующего:\n▪ 1 Fenrisian greataxe, 1 blizzard shield и 1 storm bolter\n▪ 1 Fenrisian greataxe, 1 blizzard shield и 1 heavy flamer',
+      'assault cannon, storm bolter и Dreadnought combat weapon этой модели можно заменить на одно из следующего:\n▪ 1 Fenrisian great axe, 1 blizzard shield и 1 storm bolter\n▪ 1 Fenrisian great axe, 1 blizzard shield и 1 heavy flamer',
     ],
   },
 
@@ -285,7 +285,7 @@ export default {
       '**Wolf Guard Terminator Pack Leader вооружён:** storm bolter; master-crafted power weapon.\n\n**Каждый Wolf Guard Terminator вооружён:** storm bolter; master-crafted power weapon.',
     options: [
       'Любому числу моделей их storm bolter можно заменить на 1 storm shield.',
-      'За каждые 5 моделей в этом юните 1 Wolf Guard Terminator может заменить свои storm bolter и master-crafted power weapon на 1 assault cannon и 1 powerfist.',
+      'За каждые 5 моделей в этом юните 1 Wolf Guard Terminator может заменить свои storm bolter и master-crafted power weapon на 1 assault cannon и 1 power fist.',
       'storm bolter и master-crafted power weapon у Wolf Guard Terminator Pack Leader можно заменить на одно из следующего:\n▪ 1 relic greataxe\n▪ 1 twin lightning claws',
     ],
   },
@@ -351,9 +351,9 @@ export default {
     wargear: {
       'Blizzard Shield': INV4,
     },
-    loadout: `${EQUIP_THIS} storm bolter; Fenrisian greataxe; great wolf claw.`,
+    loadout: `${EQUIP_THIS} storm bolter; Fenrisian great axe; great wolf claw.`,
     options: [
-      'Fenrisian greataxe или great wolf claw и storm bolter этой модели можно заменить на 1 blizzard shield и 1 heavy flamer.',
+      'Fenrisian great axe или great wolf claw и storm bolter этой модели можно заменить на 1 blizzard shield и 1 heavy flamer.',
       'Если эта модель не вооружена storm bolter, её heavy flamer можно заменить на 1 storm bolter.',
     ],
   },

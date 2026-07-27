@@ -54,7 +54,7 @@ export const detNamesRu = {
 export const detRuleNamesRu = {
   'Legendary Slayers': 'Легендарные истребители',
   'Heroes All': 'Все — герои',
-  'Master of Wolves & Howling Onslaught & Restrictions': 'Повелитель волков и Воющий натиск и Ограничения',
+  'Master of Wolves & Howling Onslaught': 'Повелитель волков и Воющий натиск',
   'Pack’s Quarry': 'Добыча стаи',
   'The Great Wolf Watches': 'Великий Волк наблюдает',
   'Loping Charge': 'Размашистый бросок',
@@ -274,10 +274,7 @@ Saga of the Bold
 ▪ **Ferocious Strike:** каждый раз, когда этот юнит выбирается для боя, выберите способность [LETHAL HITS] или [SUSTAINED HITS 1]. До конца фазы оружие моделей этого юнита имеет выбранную способность.
 
 ### Howling Onslaught | Воющий натиск
-Один раз за битву, при выборе Охотничьей Стаи для правила детачмента Master of Wolves (см. выше), если модель LOGAN GRIMNAR вашей армии на поле боя, вы можете выбрать Охотничью Стаю, которую уже выбирали в этой битве.
-
-### Ограничения
-Ваша армия может включать юниты Space Wolves, но не может включать юниты ADEPTUS ASTARTES любого другого ордена.`,
+Один раз за битву, при выборе Охотничьей Стаи для правила детачмента Master of Wolves (см. выше), если модель LOGAN GRIMNAR вашей армии на поле боя, вы можете выбрать Охотничью Стаю, которую уже выбирали в этой битве.`,
       },
       stratagems: [
         {
