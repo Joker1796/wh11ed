@@ -211,7 +211,7 @@ export default [
     "profiles": [
       {
         "name": "Archaeopter Transvector",
-        "m": "20+\"",
+        "m": "14\"",
         "t": "9",
         "sv": "3+",
         "w": "10",
@@ -271,7 +271,7 @@ export default [
     "options": [
       "This model’s command uplink can be replaced with 1 chaff launcher."
     ],
-    "transport": "This model has a transport capacity of 11 Skitarii Infantry or Tech-Priest Infantry models. It cannot transport Jump Pack or Kataphron models.",
+    "transport": "This model has a transport capacity of 11 Skitarii Infantry or Tech-Priest Infantry models. It cannot transport Jump Pack, Kataphron or Sydonian Skatros models.",
     "keywords": [
       "Archaeopter Transvector",
       "Fly",
@@ -709,7 +709,7 @@ export default [
     ],
     "melee": [
       {
-        "name": "Close-combat weapon",
+        "name": "Close combat weapon",
         "tags": [],
         "a": "1",
         "ws": "4+",
@@ -814,7 +814,7 @@ export default [
     ],
     "melee": [
       {
-        "name": "Close-combat weapon",
+        "name": "Close combat weapon",
         "tags": [],
         "a": "1",
         "ws": "4+",
@@ -2609,8 +2609,7 @@ export default [
       "1 Skitarii Ranger’s galvanic rifle can be replaced with 1 arc rifle.",
       "1 Skitarii Ranger’s galvanic rifle can be replaced with 1 plasma caliver.",
       "1 Skitarii Ranger’s galvanic rifle can be replaced with 1 transuranic arquebus.",
-      "1 Skitarii Ranger equipped with a galvanic rifle can be equipped with one of the following:\n▪ 1 enhanced data-tether*\n▪ 1 omnispex*",
-      "* That model’s galvanic rifle cannot be replaced."
+      "1 Skitarii Ranger equipped with a galvanic rifle can be equipped with one of the following:\n▪ 1 enhanced data-tether*\n▪ 1 omnispex*\n\n* That model’s galvanic rifle cannot be replaced."
     ],
     "keywords": [
       "Infantry",
@@ -2770,8 +2769,7 @@ export default [
       "1 Skitarii Vanguard’s radium carbine can be replaced with 1 arc rifle.",
       "1 Skitarii Vanguard’s radium carbine can be replaced with 1 plasma caliver.",
       "1 Skitarii Vanguard’s radium carbine can be replaced with 1 transuranic arquebus.",
-      "1 Skitarii Vanguard equipped with a radium carbine can be equipped with one of the following:\n▪ 1 enhanced data-tether*\n▪ 1 omnispex*",
-      "* That model’s radium carbine cannot be replaced."
+      "1 Skitarii Vanguard equipped with a radium carbine can be equipped with one of the following:\n▪ 1 enhanced data-tether*\n▪ 1 omnispex*\n\n* That model’s radium carbine cannot be replaced."
     ],
     "keywords": [
       "Infantry",

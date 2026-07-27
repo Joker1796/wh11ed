@@ -67,7 +67,7 @@ export default {
     loadout: `${EQUIP_THIS} cognis heavy stubber array; armoured hull; command uplink.`,
     options: ['command uplink этой модели можно заменить на 1 chaff launcher.'],
     transport:
-      'Эта модель имеет транспортную вместимость 11 моделей Skitarii Infantry или Tech-Priest Infantry. Она не может перевозить модели Jump Pack или Kataphron.',
+      'Эта модель имеет транспортную вместимость 11 моделей Skitarii Infantry или Tech-Priest Infantry. Она не может перевозить модели Jump Pack, Kataphron или Sydonian Skatros.',
   },
 
   'belisarius-cawl': {
@@ -365,8 +365,7 @@ export default {
       'galvanic rifle у 1 Skitarii Ranger можно заменить на 1 arc rifle.',
       'galvanic rifle у 1 Skitarii Ranger можно заменить на 1 plasma caliver.',
       'galvanic rifle у 1 Skitarii Ranger можно заменить на 1 transuranic arquebus.',
-      '1 Skitarii Ranger, вооружённого galvanic rifle, можно снабдить одним из следующего:\n▪ 1 enhanced data-tether*\n▪ 1 omnispex*',
-      '* galvanic rifle этой модели заменить нельзя.',
+      '1 Skitarii Ranger, вооружённого galvanic rifle, можно снабдить одним из следующего:\n▪ 1 enhanced data-tether*\n▪ 1 omnispex*\n\n* galvanic rifle этой модели заменить нельзя.',
     ],
   },
 
@@ -388,8 +387,7 @@ export default {
       'radium carbine у 1 Skitarii Vanguard можно заменить на 1 arc rifle.',
       'radium carbine у 1 Skitarii Vanguard можно заменить на 1 plasma caliver.',
       'radium carbine у 1 Skitarii Vanguard можно заменить на 1 transuranic arquebus.',
-      '1 Skitarii Vanguard, вооружённого radium carbine, можно снабдить одним из следующего:\n▪ 1 enhanced data-tether*\n▪ 1 omnispex*',
-      '* radium carbine этой модели заменить нельзя.',
+      '1 Skitarii Vanguard, вооружённого radium carbine, можно снабдить одним из следующего:\n▪ 1 enhanced data-tether*\n▪ 1 omnispex*\n\n* radium carbine этой модели заменить нельзя.',
     ],
   },
 

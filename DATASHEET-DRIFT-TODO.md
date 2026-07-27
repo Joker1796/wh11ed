@@ -357,7 +357,7 @@ death-guard, grey-knights, world-eaters).
 **Группа B — остальные, по одной, от большей к меньшей:** ~~astra-militarum (10999)~~,
 ~~aeldari (8838)~~, ~~orks (6507)~~, ~~tau-empire (5213)~~, ~~chaos-daemons (5205)~~,
 ~~necrons (4833)~~, ~~tyranids (4508)~~, ~~adepta-sororitas (4478)~~, ~~imperial-agents (4220)~~
-**девять закрыты**, next → **adeptus-mechanicus (3865)**, дальше imperial-knights (3287),
+~~adeptus-mechanicus (3865)~~ **десять закрыты**, next → **imperial-knights (3287)**, дальше
 adeptus-custodes (3244).
 
 tyranids: appdata = `tyranids`. Harridan M "20+\""→"14\"" — реальный баг: в отличие от Hive
@@ -538,6 +538,43 @@ Sanction"**: тело правила обрывалось на "...you cannot in
 appdata-опечатки НЕ тронуты: army rule "Assigned Agents"/"Deathwatch Mission Tactics" (та же
 lore-inline-merge ложная тревога, что уже видели у Penitent Host), stratagem target "INQUISTOR"
 (опечатка appdata, у wh11ed уже верно "INQUISITOR"). `npm test` — 207/207 чисто с первого раза.
+
+adeptus-mechanicus: appdata = `adeptus-mechanicus`. Archaeopter Transvector M "20+\""→"14\""
+(тот же Aircraft-конвенция паттерн, что Harridan у tyranids — у Transvector НЕТ ключевого слова
+Aircraft, в отличие от Fusilave/Stratoraptor, у которых оно есть и 20+"/OC "-" оставлены как
+есть). Hastarii Exterminators/Fusiliers — опечатка "Close-combat weapon" (с дефисом) → "Close
+combat weapon" (без, сверено — 5 других вхождений в этом же файле уже без дефиса). Archaeopter
+Transvector transport — не хватало "Sydonian Skatros" в списке запрещённых пассажиров (EN+RU).
+Skitarii Rangers/Vanguard — сноска "* That model's galvanic rifle/radium carbine cannot be
+replaced" была оторвана в отдельный элемент `options[]` вместо продолжения того пункта, откуда
+растёт `*` — слито обратно (EN+RU), тот же паттерн что Inquisitorial Chimera в imperial-agents.
+Servitor Battleclade merged-profile (Gun/Combat Servitor identical stats) и Skitarii
+Rangers/Vanguard compound baseSize (Transuranic Arquebus отдельная база) — оба уже известных
+ложных срабатывания. Крупный спорный случай, оставлен как есть: Thulia Ghuld несёт способность
+"Cybernetic Augmentation" (движение сквозь террейн, посадка на любом этаже RUINS), которой
+appdata не знает вообще ни в одном поле — но её ключевые слова буквально MOBILE + MONSTER, а
+базовые правила 13.06 дают ИМЕННО этот набор допущений этим двум ключевым словам напрямую;
+трактовано как редакторское разъяснение уже-имеющихся keyword-прав, встречающееся в реальных
+датащитах для необычных моделей, а не как выдумка — appdata просто не завела это отдельным
+`ability`-объектом. Detachment "Data-Psalm Conclave"/"Luminen Auto-choir" — доп. клауза "This
+detachment has the DATA-PSALM tag and cannot be taken with another DATA-PSALM detachment"
+подтверждена структурным `unique: 'DATA-PSALM'` полем в самом же файле (два детачмента реально
+делят тег, комментарий в шапке файла уже это документирует) — appdata-пробел, не баг.
+Cybernetica Datasmith leader — доп. mandatory-attach параграф ("must attach... cannot be
+deployed... counts as destroyed... loses INFANTRY while attached") нигде не сыскался в appdata
+дословно, но (а) appdata's "Data-severed" ability для этого же датащита независимо описывает
+тот же INFANTRY↔VEHICLE keyword-свитч с противоположной стороны условия, и (б) точно такая же
+"cannot be deployed and counts as having been destroyed during the first battle round" идиома
+уже встретилась в этой же сессии дословно в другой фракции (imperial-agents "Assigned Agents" —
+это стандартная книжная формулировка для DEDICATED TRANSPORT/support-моделей) — оставлено.
+Lords of the Forge enhancement "TL-4ø9" — appdata-текст просто урезан до вступления, вес
+оружия в теле — уже знакомый table-в-prose паттерн (appdata хранит статы оружия в отдельном
+структурном поле, не в тексте энхансмента). Serberys Sulphurhounds "2 phosphor pistols"/"twin
+phosphor pistols" — appdata сама себе противоречит между `unitComposition` ("2") и wargear-rule
+("twin") для одного и того же оружия; wh11ed совпадает с её же `unitComposition` — самосогласованно,
+не тронуто. Две appdata-опечатки не тронуты: "SKITARlI" (строчная L вместо I) и "On 2+"
+(потерян артикль во втором bullet того же правила, где первый bullet той же appdata верно
+пишет "On a 2+"). `npm test` — 207/207 чисто с первого раза.
 
 **Группа B — остальные, разбирать ПОСЛЕ группы A, по одной, от большей к меньшей:**
 astra-militarum (10999), aeldari (8838), orks (6507), tau-empire (5213), chaos-daemons (5205),
