@@ -21,13 +21,33 @@
 - После фиксов — прогнать оба скрипта повторно (убедиться, что остался только известный шум),
   `npm run build`, закоммитить (`git add -A -- <явные пути>`, не бланково).
 
-## Прогресс (15 фракций закрыты)
+## Прогресс (16 фракций закрыты)
 
 ✅ leagues-of-votann, dark-angels, blood-angels, deathwatch, genestealer-cults, black-templars,
 space-wolves, titan-legions, chaos-knights, emperors-children, drukhari, space-marines,
-chaos-space-marines, thousand-sons, death-guard — все закоммичены (см. `git log
+chaos-space-marines, thousand-sons, death-guard, grey-knights — все закоммичены (см. `git log
 feat/datasheet-drift-fixes`). chaos-titan-legions тоже **проверена и чиста** (без коммита —
 дрейфа не найдено).
+
+grey-knights: короткий список, 2 реальные находки: (1) Brotherhood Techmarine — оружие
+"Servo-arms" (множественное) → "Servo-arm" (единственное; собственный loadout-текст датащита уже
+писал "servo-arm" в единственном, appdata подтверждает), и baseSize `32mm`→`40mm`; (2) ничего
+больше по сути — весь остальной шум объяснён. Интересные НЕ-находки (проверено и намеренно НЕ
+тронуто): Grey Knights Thunderhawk Gunship M `20+"` vs appdata `20"` — тот же паттерн
+"минимальное движение 20+" уже встречается у adeptus-custodes.js (собственного Thunderhawk-типа
+юнита), похоже appdata просто потеряла символ `+` при OCR; Stormhawk Interceptor Las-talon range
+`36"` (wh11ed) vs `24"` (appdata) — при перепроверке через appdata же: **у Space Marines** тот же
+самый датащит "Stormhawk Interceptor" использует ОБЩИЙ id оружия с Repulsor и **36"**, а вот у
+Grey Knights appdata почему-то присвоила другой id с 24" — учитывая, что это буквально одна и та
+же модель техники, доступная всем Chapter-фракциям, скорее ошибка привязки данных в самой appdata
+именно для grey-knights, чем реальное отличие; Paladin Squad composition `3-9 Paladins` (wh11ed)
+vs `4-9` (appdata) — appdata тут сама себе противоречит: `points[]` начинается с `models:4` (это
+ИТОГО, Paragon+Paladins), что соответствует минимум 3 Paladins + 1 Paragon = 4, как у wh11ed, а
+не с "4 Paladins + 1 Paragon = 5" по prose-тексту (урок 1 — верить структуре, не прозе); Gate of
+Infinity — таблица числа юнитов по battle size (2/3/4) отсутствует в appdata вообще, даже как
+`type:'image'`-заглушка (не только в тексте, но и в структуре карты её нет) — то же самое, что
+"Warp Charge" у thousand-sons: похоже на реальный пропуск при экстракции, а не дрейф wh11ed,
+без этих чисел способность нефункциональна, оставлено как есть.
 
 death-guard: структурно был полностью чист (`sync-appdata.mjs` — «no structural differences
 found», впервые за всю фракцию). Текстовые находки: (1) **6 Character-датащитов (Biologus
@@ -170,7 +190,8 @@ Prince" (слипшийся `**PACT POINTSBONUS1+**...` без переносо�
 **Группа A — «SM-семья» (общий Adeptus/Heretic Astartes датащит-пул, много общих юнитов и
 паттернов с уже закрытыми SM-Chapter фракциями) — разбирать ПЕРВОЙ, по одной, от большей к
 меньшей:** ~~space-marines (13109)~~, ~~chaos-space-marines (7116)~~, ~~thousand-sons (4062)~~,
-~~death-guard (4039)~~ **все четыре закрыты**, next → grey-knights (3467), world-eaters (3407).
+~~death-guard (4039)~~, ~~grey-knights (3467)~~ **все пять закрыты**, next → **world-eaters
+(3407)** — последняя в группе A.
 
 **Группа B — остальные, разбирать ПОСЛЕ группы A, по одной, от большей к меньшей:**
 astra-militarum (10999), aeldari (8838), orks (6507), tau-empire (5213), chaos-daemons (5205),
