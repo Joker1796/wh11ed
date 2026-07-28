@@ -35,6 +35,20 @@ machine** — memory doesn't sync between them (see `[[reference_nested_git_repo
 - Leader/Support prose bullet lists — `sync-leader-units.mjs` (deliberately uses prose, not
   `datasheet_bodyguard_group*`, because that table has coverage gaps — see its own header comment).
 - `faq` + `faq_config` — `gen-faction-faq.mjs` → `src/data/factionFaq.json`.
+- Event Companion publication (`rule_container`+`rule_container_component` under the "Event
+  Companion" publication, id `085bb508-…`) + `mission_twist` (the 6 Twists) — `sync-event-
+  companion.mjs` (added 2026-07-28, resolves the "Event Companion vs appdata" investigation task
+  below). appdata HAS full prose for this — 180 rule_containers across 4 editions (main, Teams,
+  Doubles, Dominatus); wh11ed implements only main+Teams (Doubles/Dominatus are a deliberate
+  product-scope gap, inventoried only, not diffed). Full-text diff (not a title/number check —
+  the user specifically wanted whole-body comparison so a reworded or newly-added rule can't hide
+  behind a same-named stale entry), matched per-container by normalized title with a word-overlap
+  fallback for spelling drift (appdata's own "LEAVES THE BATTELEFIELD" typo). First run surfaced
+  real gaps: wh11ed is entirely missing the "Generating Command Points" rule (max 1 CP/round from
+  non-Core sources, excluding Core CP) in both the main and Teams editions, plus several wording
+  drifts (rewordings, not errata — appdata's prose was revised since wh11ed's transcription) across
+  Mission Sequence steps, Terrain Layouts intro, and Pairings/Rankings. Not yet applied to the data
+  files — that's a follow-up hand-edit pass, same as any other sync-*.mjs finding.
 - `loadout_choice(_set/_wargear_item)`, `limited_wargear_choice(_set/_wargear_item)` + `wargear_limit`,
   `all_model_wargear_choice(_set/_wargear_item)`, `base_miniature_loadout(_wargear_option)` —
   `sync-wargear-options.mjs` (added 2026-07-28). Presence-only (not a structural 1:1 match — see
@@ -307,12 +321,6 @@ above. All 5 planned scripts are now built.
 
 ## Investigation tasks (do BEFORE deciding whether points 6-7 below are even buildable)
 
-- **Event Companion vs appdata.** Nothing currently checks `eventCompanion.js` (Introduction/
-  Sequence/Pairings prose, or the Terrain & Layouts page) against appdata at all. First question:
-  does `wh40k-appdata`'s `publication` table even have an Event Companion entry? (`isCoreRules`/
-  `isLegends`/`isCombatPatrol` flags on `publication` suggest a few known categories — check if
-  there's a 4th kind, or if Event Companion simply isn't tracked, in which case this is a lesson-17-
-  style categorical gap, not a missed table.)
 - **Terrain & Layouts / mission_layout family.** `mission_layout` + `mission_layout_linked_deployment`
   + `mission_deployment` + `mission_preset` + `force_disposition_mission_recommended_preset` +
   `mission_pack_briefing(+_narrative_point)` + `mission_pack_location(+_location_bonus/_warzone_rule)`
