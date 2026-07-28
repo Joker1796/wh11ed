@@ -113,6 +113,48 @@ machine** — memory doesn't sync between them (see `[[reference_nested_git_repo
   Angels-required row is simply a Blood Angels-only datasheet, already correctly filed under
   `blood-angels.js` and nowhere else). Reported as a plain count, not hard-flagged; worth a closer
   look only if picked up as its own investigation later.
+- `enhancement_required_keyword_group(+_faction_keyword/_keyword)`, `enhancement_excluded_keyword`,
+  `enhancement_required_wargear_item`, `enhancement_datasheet_ability` —
+  `sync-enhancement-restrictions.mjs` (added 2026-07-28). An enhancement's leading "X model/unit
+  only[, excluding Y models]" clause. First version reconstructed the expected wording purely from
+  the structural join (fk + kw names, unioned across a multi-group "X or Y" row) and produced **26
+  false positives out of 28 flags** on the first run — the join and appdata's own prose routinely
+  disagree in ways that are not wh11ed bugs: a redundant containing-faction name omitted when the
+  keyword is already faction-exclusive ("Tech-Priest model only", no "Adeptus Mechanicus"; same for
+  Militarum Tempestus Officer, Watch Master/Captain/Techmarine, Kâhl, Thousand Sons Psyker), a
+  different-but-equally-valid keyword the same single datasheet also carries (Brôkhyr Iron-master's
+  enhancement is grouped under keyword "Brôkhyr" in appdata but its own prose says "IRON-MASTER"),
+  redundant OR-alternatives already implied by a broader one (Bladeguard Ancient ⊂ Ancient), a
+  singular/plural mismatch between the keyword catalog and the sentence ("Monster" vs "excluding
+  MONSTERS models"; "Scout Sentinels" the datasheet name vs "SCOUT SENTINEL unit only"), and a
+  stray placeholder keyword "DNU" ("Do Not Use") sitting in appdata's own catalog, joined to 8
+  otherwise-unrelated rows across Necrons' C'Tan Shards and Imperial Agents' Assassins — an appdata
+  data-quality artifact, not a real eligibility name. **Rebuilt as a two-tier check** instead: (1)
+  when appdata's OWN rules prose already states an "only" clause, compare wh11ed's clause against
+  THAT TEXT directly (significant-word overlap) — sidesteps every disagreement above; (2) only when
+  appdata's prose is genuinely silent (states no restriction anywhere) does it fall back to the
+  structural reconstruction — this silent case is the entire reason the script exists (see next
+  paragraph), so it's still checked, just not the default path. After the rebuild: 909 of 912
+  bridged enhancements checked against appdata's own prose, 3 against structural data, **0 flagged**
+  (one remaining false positive — Necrons' "Animus Damper" reads appdata's own "VOIDDRAGON" missing
+  a space vs the datasheet's correctly-spaced catalog name "Void Dragon", matching wh11ed and every
+  other reference — allowlisted as a confirmed appdata prose typo, same class as the Nuncio-acquila
+  precedent).
+  **This is the whole reason the script exists:** appdata's own prose is sometimes completely
+  silent about an eligibility restriction that only the structural join states — found twice this
+  session. Necrons' "Veil of Darkness" (found once already, before this script existed, by luck of
+  asking the right follow-up question — the original motivating precedent for this script) was
+  already fixed. Building this script found a second, previously-unknown instance: space-marines.js's
+  "Scroll of Proclamation" was missing "Adeptus Astartes model only." in EN — and RU
+  (`ru/space-marines.js`) already had "Только модель Adeptus Astartes." in the equivalent position, so
+  this was a **one-sided EN gap**, not a missing translation; fixed 2026-07-28. `enhancement_excluded_
+  keyword` (32 rows) and `enhancement_required_wargear_item` (1 row) were checked by hand — every row's
+  own appdata prose already states its exclusion/required-wargear clause inline in the same "only"
+  sentence, so tier 1 covers them with no separate logic needed. `enhancement_datasheet_ability` (6
+  rows, all the same "Deep Strike" core ability) also always has an "only" sentence in prose, covered
+  by tier 1. `enhancement_wargear_item_profile` (2 rows — enhancements that grant a specific weapon
+  profile, a different question from eligibility) checked by hand, already correct, left out of the
+  automated check.
 - `allied_faction(+_datasheet/_keyword/_parent_faction_keyword/_points_limit/_required_detachment)`,
   `faction_keyword_allied_faction` — `sync-ally-inclusion.mjs` (added 2026-07-28). 21 total
   `allied_faction` rows; 13 gate on ≥1 detachment (checked, 32 detachment-checks total since a row
@@ -208,20 +250,8 @@ header comment for the list of repeat names across factions).
 
 **Done:** `sync-wargear-options.mjs` (wargear/loadout structural options), `sync-ally-inclusion.mjs`
 (allied-faction inclusion clauses), `sync-roster-restrictions.mjs` (roster-composition
-requirements/exclusions) — see the "Already covered" list above.
-
-### 4. `sync-enhancement-restrictions.mjs` — enhancement eligibility constraints
-**Tables:** `enhancement_required_keyword_group` + `_faction_keyword` + `_keyword`,
-`enhancement_excluded_keyword`, `enhancement_required_wargear_item`,
-`enhancement_datasheet_ability`, `enhancement_wargear_item_profile`.
-**Why:** the "X model only" / "excluding Y models" prefix on an enhancement's body — found missing
-once already this session (necrons' "Veil of Darkness", confirmed via
-`enhancement_required_keyword_group_faction_keyword` → "Necrons"), fixed by luck of asking the
-right follow-up question rather than a standing check.
-**Approach:** for each wh11ed enhancement, bridge via `sourceIds.json`'s `enh:` key (check it
-exists — if not, may need adding to `gen-source-ids.mjs` first), resolve the required faction
-keyword/keyword name(s), check the enhancement body's leading restriction clause names it. Same for
-`enhancement_excluded_keyword` ("excluding DAMNED models" style exclusions).
+requirements/exclusions), `sync-enhancement-restrictions.mjs` (enhancement eligibility clauses) —
+see the "Already covered" list above.
 
 ### 5. `sync-army-rule-exclusions.mjs` — army-rule-level Chapter/faction exclusions
 **Tables:** `army_rule_faction_keyword`, `army_rule_excluded_from_command_bunker_faction_keyword`.
