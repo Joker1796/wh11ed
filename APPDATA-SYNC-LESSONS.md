@@ -536,3 +536,21 @@ and appdata state fresh; a data model can change between now and when this is ne
     up terrain on a real table; swapping to the visually nicer version would have been a silent
     functional regression. Checking for a second, differently-named variant (`ic_measurement_layout_*`)
     before concluding "this is the replacement" is what caught it.
+36. **First real end-to-end test of the whole sync pipeline against a genuine appdata bump (app
+    v2.3.0 → v2.3.1, data_version 912 → 913): re-ran everything built this session and it held up.**
+    `sync-core.mjs` (274 findings, identical set — 0 new), `sync-tracker.mjs` (missions/stratagems/
+    twists/battle sizes/dispositions/detachments — 0 new findings), and `scripts/extract-layout-
+    images.mjs` (re-run against the new `.xapk`, all 90 images extracted, resulting webp byte-
+    identical to what's already committed — confirmed via `git status` showing zero changes after
+    the full pipeline, not just "the script ran without erroring") all confirmed clean. Found one
+    real thing worth fixing: `sync-event-companion.mjs`'s title-fuzzy-matching (word-overlap ≥0.5)
+    had no plural/singular normalization, so appdata's "TEAM RANKINGS" vs wh11ed's "Ranking Teams"
+    — same two words, different inflection each side — scored 0% overlap and false-flagged as
+    "missing in wh11ed" even though the content was already there verbatim (just a title-wording
+    difference, not unmatched). Fixed by stripping a trailing 's' from each word before computing
+    overlap. **General principle for future appdata bumps:** the fact that 0 new findings appeared
+    across 3 separate diff scripts on the FIRST real re-run is itself weak evidence the frameworks
+    generalize rather than just having been tuned to that one appdata snapshot — but "the script
+    exits 0" is not the same claim as "the output is byte-identical"; always diff the actual
+    artifact (git status on regenerated images, not just script exit code) before calling something
+    unchanged.
