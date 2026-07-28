@@ -87,6 +87,16 @@ export const sharedUnitIds = [
   "whirlwind"
 ]
 
+// appdata prices this shared unit lower for Space Wolves specifically
+// (unit_composition_required_faction_keyword: 'Space Wolves') than the space-marines.js base
+// price — see src/data/datasheets/blood-angels.js's pointsOverrides for the full mechanism.
+export const pointsOverrides = {
+  "repulsor-executioner": [
+    { models: 1, points: 230, note: "1st-2nd" },
+    { models: 1, points: 250, note: "3rd+" },
+  ],
+}
+
 export default [
   {
     "id": "arjac-rockfist",

@@ -21,13 +21,22 @@ export async function sharedIdsFor(slug) {
 export async function loadDatasheets(slug) {
   const loader = modules[`./${slug}.js`]
   if (!loader) return null
-  const own = (await loader()).default
+  const mod = await loader()
+  const own = mod.default
   const sharedIds = await sharedIdsFor(slug)
   if (!sharedIds) return own
   const smLoader = modules['./space-marines.js']
   const sm = smLoader ? (await smLoader()).default : []
   const idSet = new Set(sharedIds)
-  return [...own, ...sm.filter((d) => idSet.has(d.id))]
+  // A handful of shared units cost this Chapter more/less than the space-marines.js
+  // price (appdata prices them per-Chapter, e.g. Blood Angels' Bladeguard Veteran Squad) —
+  // an optional `pointsOverrides` export (id -> replacement `points` array) swaps just
+  // that field on the folded-in entry, everything else still comes from space-marines.js.
+  const overrides = mod.pointsOverrides || {}
+  const shared = sm
+    .filter((d) => idSet.has(d.id))
+    .map((d) => (overrides[d.id] ? { ...d, points: overrides[d.id] } : d))
+  return [...own, ...shared]
 }
 
 // Compact points summary (flat cost or min–max range) shared by the list chips and the

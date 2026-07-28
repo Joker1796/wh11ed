@@ -91,6 +91,51 @@ export const sharedUnitIds = [
   "whirlwind"
 ]
 
+// appdata prices these 8 shared units higher for Blood Angels specifically
+// (unit_composition_required_faction_keyword: 'Blood Angels') than the space-marines.js
+// base price — src/data/datasheets/index.js's loadDatasheets swaps in this `points` array
+// on the folded-in entry, id -> replacement array (same shape/notes convention as the
+// space-marines.js original: 1st-2nd/3rd+ is the per-Detachment-copy points-step).
+export const pointsOverrides = {
+  "assault-intercessor-squad": [
+    { models: 5, points: 80 },
+    { models: 10, points: 150 },
+  ],
+  "assault-intercessors-with-jump-packs": [
+    { models: 5, points: 95, note: "1st-2nd" },
+    { models: 10, points: 180, note: "1st-2nd" },
+    { models: 5, points: 105, note: "3rd+" },
+    { models: 10, points: 190, note: "3rd+" },
+  ],
+  "bladeguard-veteran-squad": [
+    { models: 3, points: 85, note: "1st-2nd" },
+    { models: 6, points: 170, note: "1st-2nd" },
+    { models: 3, points: 95, note: "3rd+" },
+    { models: 6, points: 180, note: "3rd+" },
+  ],
+  "captain-with-jump-pack": [
+    { models: 1, points: 80 },
+  ],
+  "chaplain-with-jump-pack": [
+    { models: 1, points: 80 },
+  ],
+  "outrider-squad": [
+    { models: 3, points: 75 },
+    { models: 6, points: 140 },
+    { points: 60 },
+  ],
+  "repulsor-executioner": [
+    { models: 1, points: 230, note: "1st-2nd" },
+    { models: 1, points: 250, note: "3rd+" },
+  ],
+  "vanguard-veteran-squad-with-jump-packs": [
+    { models: 5, points: 110, note: "1st-2nd" },
+    { models: 10, points: 220, note: "1st-2nd" },
+    { models: 5, points: 120, note: "3rd+" },
+    { models: 10, points: 230, note: "3rd+" },
+  ],
+}
+
 export default [
   {
     "id": "astorath",

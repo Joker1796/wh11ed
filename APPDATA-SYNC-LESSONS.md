@@ -554,3 +554,30 @@ and appdata state fresh; a data model can change between now and when this is ne
     exits 0" is not the same claim as "the output is byte-identical"; always diff the actual
     artifact (git status on regenerated images, not just script exit code) before calling something
     unchanged.
+37. **A datasheet's points array can legitimately vary by which faction is taking it — appdata
+    models this per-row, not per-datasheet.** Doing the full "everything changed in 913" pass on
+    the 5 touched factions surfaced a real, pre-existing gap in two shapes:
+    (a) `unit_composition_required_detachment` — Callidus/Culexus/Eversor/Vindicare Assassin and
+    Necron's 4 C'tan datasheets each cost more in a specific detachment (Veiled Blade Elimination
+    Force / Pantheon of Woe) — wh11ed only had the base price. Fixed by adding the missing tier
+    with a `note` (matching the convention Eversor Assassin already used for its "Agents of the
+    Imperium (allied)" tier).
+    (b) `unit_composition_required_faction_keyword` — 8 units shared between space-marines.js and
+    a Chapter file via `sharedUnitIds` (Assault Intercessor Squad, Assault Intercessors/Vanguard
+    Veteran Squad/Bladeguard Veteran Squad With Jump Packs, Captain/Chaplain With Jump Pack,
+    Outrider Squad, Repulsor Executioner) cost a *different* amount specifically for Blood Angels
+    (and, for Repulsor Executioner, also Deathwatch/Space Wolves/Dark Angels) — the shared-fold
+    architecture had no way to express "same unit, different price for this one Chapter" at all.
+    Fixed by adding an optional `pointsOverrides` export (id → replacement `points` array) to the
+    Chapter file, applied by `loadDatasheets` (`src/data/datasheets/index.js`) when folding that id
+    in — everything else about the entry still comes from space-marines.js, only `points` swaps.
+    Verified via a throwaway vitest file calling `loadDatasheets` directly (not just "it compiles")
+    before committing, then deleted it.
+    **Residual false positive, now documented in `sync-appdata.mjs`'s header:** the guardrail still
+    flags space-marines.js's own entry as "points differ" for these 8, because appdata's per-
+    datasheet points list is keyword-unfiltered — it merges the generic price with every Chapter-
+    specific variant into one flat set, and the script has no concept of "this value only applies
+    under condition X" to attribute it correctly. Same shape as class (a): check
+    `unit_composition_required_faction_keyword`/`_required_detachment` by hand on any future
+    "points differ" finding before concluding wh11ed is simply missing a value — it might already be
+    modeled, just correctly placed somewhere the flat diff can't see.
