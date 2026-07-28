@@ -22,10 +22,12 @@ export const changelog = [
     en: [
       'Assassins (Callidus, Culexus, Eversor, Vindicare) and the Necron C’tan Shards/Transcendent C’tan were missing their higher points cost when taken in the Veiled Blade Elimination Force / Pantheon of Woe detachment — added.',
       'Several units shared with the Space Marines Chapters (Assault Intercessor Squad, Assault Intercessors/Vanguard Veterans/Bladeguard Veterans With Jump Packs, Captain/Chaplain With Jump Pack, Outrider Squad, Repulsor Executioner) now show the correct, higher points cost for Blood Angels (and, for the Repulsor Executioner, Deathwatch/Space Wolves/Dark Angels too) instead of the generic Space Marines price.',
+      'Necrons\' "Pantheon of Woe" detachment rule was missing the short flavour line for each of its 4 Necrodermal Binding abilities (Singularity Matrix, Quantum Goad, Animus Damper, Reletavistic Tether) — added.',
     ],
     ru: [
       'У Ассасинов (Callidus, Culexus, Eversor, Vindicare) и C’tan Shard/Transcendent C’tan (Necrons) не хватало повышенной стоимости очков при взятии в детачмент Veiled Blade Elimination Force / Pantheon of Woe — добавлено.',
       'Несколько юнитов, общих с Орденами Space Marines (Assault Intercessor Squad, Assault Intercessors/Vanguard Veterans/Bladeguard Veterans With Jump Packs, Captain/Chaplain With Jump Pack, Outrider Squad, Repulsor Executioner), теперь показывают верную, более высокую стоимость очков для Blood Angels (а для Repulsor Executioner — ещё и для Deathwatch/Space Wolves/Dark Angels) вместо общей цены Space Marines.',
+      'В правиле детачмента Necrons «Pantheon of Woe» не хватало короткой фразы-флейвора для каждой из 4 способностей Necrodermal Binding (Singularity Matrix, Quantum Goad, Animus Damper, Reletavistic Tether) — добавлено.',
     ],
   },
   {
