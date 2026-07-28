@@ -60,12 +60,17 @@ machine** — memory doesn't sync between them (see `[[reference_nested_git_repo
   not a clean double) — corrected the base count to "up to 2 models"; the 10-model→3 nuance is left
   unstated (same "why fabricate an uncertain ratio" reasoning as the structural-noise cases above).
 
-  **Still open, NOT edited — could not settle from appdata alone**: Inquisitorial Agents' Tome-skull
-  scales at appdata's 6/11-model brackets (a `miniatureId: null`, whole-unit-size basis) while the
-  other 3 brackets on the same unit (and the current prose) use 5/10 (the "Inquisitorial Agent"
-  sub-count basis, composition is 5-10 agents + 1-2 Gun Servitors) — these may be two genuinely
-  different counting bases (total unit size vs one sub-type), not a contradiction, but distinguishing
-  which the real card means needs the actual rulebook/Wahapedia text, not just appdata's table shape.
+  **Resolved 2026-07-28 (no wh11ed change needed):** Inquisitorial Agents' Tome-skull structural
+  bracket (`wargear_limit`, `miniatureId: null`) reads 6/11-model, disagreeing with the other 3
+  brackets on the same unit (5/10). Checked against the printed 10th-ed card (11th patches over it,
+  doesn't replace it) plus appdata's own flat faction bundle (`agents-of-the-imperium.json`
+  `wargearRules`, the prose `sync-faction-text.mjs` actually diffs): the bundle's prose says "for
+  every 5" for **all four** brackets, verbatim-matching wh11ed's current text already. So the 6/11
+  is a one-off inconsistency inside appdata itself (structural table vs its own prose bundle), not
+  a real gap — same category as the Nuncio-acquila spelling quirk above. The printed card also
+  confirmed the composition (5-10 Agents, 1-2 Gun Servitors — no Ogryns, no Auspex/Cloaking/Personal
+  Teleporter options, different ability set) already changed since 10th ed in a way wh11ed and
+  current appdata both already reflect correctly — nothing to backport from the old card.
 
 **Confirmed out of scope by design (don't build anything here):**
 - `datasheet_points_step`, `detachment_faction_detachment_points_cost` — points are MFM territory,
