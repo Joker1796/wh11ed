@@ -1491,7 +1491,7 @@ export default [
     "composition": [
       "1 Hekaton Land Fortress"
     ],
-    "loadout": "**This model is equipped with:** cyclic ion cannon; MATR autocannon; 2 twin bolt cannons; armoured wheels; pan spectral scanner.",
+    "loadout": "**This model is equipped with:** cyclic ion cannon; MATR autocannon; 2 twin bolt cannons; armoured wheels; Panspectral Scanner.",
     "options": [
       "This model’s 2 twin bolt cannons can be replaced with one of the following:\n▪ 1 twin bolt cannon and 1 twin ion beamer\n▪ 2 twin ion beamers",
       "This model’s cyclic ion cannon can be replaced with one of the following:\n▪ 1 SP heavy conversion beamer\n▪ 1 heavy magna-rail cannon",
