@@ -41,14 +41,36 @@ machine** — memory doesn't sync between them (see `[[reference_nested_git_repo
   (curly-quote/hyphen normalization, word-form numbers ("twice"/"up to two"), redundant whole-unit
   scaling caps — both the family-1 `miniatureId: null` case AND family-2 sets that duplicate a
   family-1 set's items (Tau Crisis suit drones), leading articles, irregular -y→-ies plurals, the 5
-  SM-Chapter sourceIds fallback). Down to **11 flags, all confirmed noise** (not real gaps): naming/
-  spelling variants — Death Company Dreadnought's "Brutalis fists/bolt rifles" (Blood Angels
-  flavour-renames them "blood fists"/"blood fist bolt rifles"), Hekaton Land Fortress's "Panspectral
-  Scanner" (wh11ed: "pan spectral scanner", two words), imperial-agents' "Nuncio-acquila" ×3
-  (appdata's own spelling — wh11ed's "Nuncio Aquila" matches GW's actual spelling) — and structural
-  per-hardpoint splits (War Dog Moirax/Armiger Moirax/Chaos Warhound Titan/Warhound Titan's "2",
-  Battlewagon's "3", Deff Dread's "4" — wh11ed states each weapon-mount swap as its own sentence
-  instead of a combined "up to N").
+  SM-Chapter sourceIds fallback). Down to **10 flags, every one individually verified** (not just
+  pattern-matched) — see `APPDATA-SYNC-LESSONS.md` lesson 23 for the full re-verification pass
+  (2026-07-28, prompted by a sanity-check request — the first write-up of this list called two of
+  these "plausible naming variants" without actually checking, which was too hasty):
+  - **imperial-agents' "Nuncio-acquila" ×3** — CONFIRMED appdata self-contradiction: the
+    `wargear_item` catalog name has a typo ("Nuncio-**acquila**"), but that same item's OWN ability
+    ruleText (`agents-of-the-imperium.json`'s `wargear[].ruleText`, the Designer's Note) spells it
+    "Nuncio‐**aquila**" — matching wh11ed exactly. wh11ed is right; the catalog name is the typo.
+  - **blood-angels' Death Company Dreadnought "Brutalis fists/bolt rifles"** — CONFIRMED appdata
+    self-contradiction, a **new failure mode**: the structural `base_miniature_loadout_wargear_option`
+    row for this datasheet points at the *generic* `wargear_item` ids ("Brutalis fists"/"Brutalis
+    bolt rifles", shared with the plain `Brutalis Dreadnought` chassis) instead of this datasheet's
+    own Blood-Angels-renamed ids ("Blood fists"/"Blood fist bolt rifles") — while the SAME
+    datasheet's flat bundle (`blood-angels.json`'s `wargear[]` array, generated from a different
+    appdata pipeline stage) correctly has "Blood fists"/"Blood fist bolt rifles". wh11ed already
+    says "blood fists" — matches the correct (flat-bundle) side, not the buggy join.
+  - **leagues-of-votann's Hekaton Land Fortress "Panspectral Scanner"** — this one WAS a real
+    wh11ed typo (not appdata's fault this time — its flat bundle agrees with itself, one word):
+    the datasheet's own wargear-ability name was already correctly "Panspectral Scanner" elsewhere
+    in the same file, only the `loadout` string's inline mention had drifted to "pan spectral
+    scanner" (two words, lowercase). **Fixed**, EN+RU.
+  - **Structural per-hardpoint splits, individually re-traced against wh11ed's own `loadout`/
+    `options` text (not just categorized by pattern)**: Battlewagon's "3" — the appdata set's 3
+    items (`'Ard Case`/`Grabbin' klaw`/`Wreckin' ball`) are exactly the 3 bullets under "any of the
+    following," so the cap is self-evident from the list length, no digit needed. Deff Dread's "4"
+    — `loadout` literally states "2 big shootas; 2 dread klaws" = 4 independently-swappable
+    mounts, matching appdata's limit=4 exactly. War Dog Moirax/Armiger Moirax/Chaos Warhound
+    Titan/Warhound Titan's "2" — each states its 2 weapon-mount swaps as two separate full
+    sentences ("This model's X can be replaced with…" / "…Y can be replaced with…"), so "2" is the
+    count of sentences, not an omitted total.
 
   **Real gaps found and fixed 2026-07-28** (appdata is canon — see `[[feedback_appdata_canon]]`):
   Devastator Squad was missing the "heavy flamer" weapon-swap option entirely (no `ranged[]` profile,
