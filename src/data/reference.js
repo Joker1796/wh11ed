@@ -89,7 +89,7 @@ export const coreAbilities = {
       name: '[BLAST]',
       type: 'weapon',
       flavor: 'High-explosive rounds can fell several warriors in a single blast, but firing them too close to comrades is unwise.',
-      fullText: `Each time you gather **[gloss:attack-dice:attack dice]** for a **[BLAST]** weapon, add one additional **attack die** for every five models that were in the target unit in the [gloss:select-targets:Select Targets] step (rounding down).
+      fullText: `Each time you gather **[gloss:attack-dice:attack dice]** for a **[BLAST]** weapon, add one additional **attack dice** for every five models that were in the target unit in the [gloss:select-targets:Select Targets] step (rounding down).
 
 If this ability takes the form **[BLAST X]**, each time you gather **attack dice** for such a weapon, add **X** additional **attack dice** for every five models that were in the target unit in the Select Targets step (rounding down) instead.`,
       example: 'If a **[BLAST 2]** weapon with an **A** characteristic of 3 targets a unit containing 12 models, you would gather four additional **attack dice** for that weapon (for a total of seven for that weapon).',
@@ -345,7 +345,7 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
       type: 'weapon',
       flavor: 'Rapid fire weapons are capable of long-ranged precision shots or controlled bursts at nearby targets.',
       fullText: `This ability always takes the form **[RAPID FIRE X]**. Each time you gather **[gloss:attack-dice:attack dice]** for a **[RAPID FIRE]** weapon, add **X** additional **attack dice** if the target unit was within half range of that weapon in the Select Targets step.`,
-      example: 'If a **[RAPID FIRE 1]** weapon with an **A** characteristic of 1 targets a unit that is within half range, you would gather one additional **attack die** for that weapon (for a total of two for that weapon).',
+      example: 'If a **[RAPID FIRE 1]** weapon with an **A** characteristic of 1 targets a unit that is within half range, you would gather one additional **attack dice** for that weapon (for a total of two for that weapon).',
     },
     {
       num: '24.31',
