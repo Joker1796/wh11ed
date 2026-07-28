@@ -34,6 +34,29 @@ machine** — memory doesn't sync between them (see `[[reference_nested_git_repo
 - Leader/Support prose bullet lists — `sync-leader-units.mjs` (deliberately uses prose, not
   `datasheet_bodyguard_group*`, because that table has coverage gaps — see its own header comment).
 - `faq` + `faq_config` — `gen-faction-faq.mjs` → `src/data/factionFaq.json`.
+- `loadout_choice(_set/_wargear_item)`, `limited_wargear_choice(_set/_wargear_item)` + `wargear_limit`,
+  `all_model_wargear_choice(_set/_wargear_item)`, `base_miniature_loadout(_wargear_option)` —
+  `sync-wargear-options.mjs` (added 2026-07-28). Presence-only (not a structural 1:1 match — see
+  its own header); first run against all 30 factions flagged 20 datasheets after tuning out several
+  false-positive classes (curly-quote/hyphen normalization, word-form numbers ("twice"/"up to two"),
+  redundant whole-unit scaling caps, leading articles, irregular -y→-ies plurals, the 5 SM-Chapter
+  sourceIds fallback). Triaged 2026-07-28: **naming/spelling variants, not real gaps** — Death
+  Company Dreadnought's "Brutalis fists/bolt rifles" (Blood Angels flavour-renames them "blood
+  fists"/"blood fist bolt rifles"), Hekaton Land Fortress's "Panspectral Scanner" (wh11ed: "pan
+  spectral scanner", two words), imperial-agents' "Nuncio-acquila" ×3 (appdata's own spelling —
+  wh11ed's "Nuncio Aquila" matches GW's actual spelling). **Structural splits, not real gaps**
+  (same category as the header's "merged-profile" note) — War Dog Moirax/Armiger Moirax/Chaos
+  Warhound Titan/Warhound Titan's "2" (wh11ed states each hardpoint's swap as its own sentence
+  instead of "up to 2"), Battlewagon's "3" (an "any of the following" 3-item list, no digit needed),
+  Deff Dread's "4". **Plausible real gaps, NOT auto-fixed — need primary-source verification before
+  editing rule text**: Devastator Squad missing a "heavy flamer" weapon-swap option (present in
+  appdata across all 4 factions that share the unit, absent from wh11ed's `ranged[]` and `options`
+  entirely — would need a full new weapon profile, not just a text tweak); Death Company Marines
+  with Jump Packs' power fist/power weapon swap has no "for every 5 models" scaling prefix unlike
+  its sibling options, but appdata's bracket data (2 at 5 models, 3 at 10) suggests it should;
+  Inquisitorial Agents' Tome-skull scales at appdata's 6/11-model brackets while the prose says
+  "for every 5"; the three Crisis suit variants' drone options say "up to two... cannot take
+  duplicates" while appdata's per-drone-type brackets suggest 3.
 
 **Confirmed out of scope by design (don't build anything here):**
 - `datasheet_points_step`, `detachment_faction_detachment_points_cost` — points are MFM territory,
@@ -42,7 +65,7 @@ machine** — memory doesn't sync between them (see `[[reference_nested_git_repo
   `scripts/lib/sync-common.mjs`; wh11ed carries none of it (see the Combat Patrol section below for
   the one thing that might change here later).
 
-## Tomorrow: 5 new guardrail scripts, in this order (ranked by how often this exact category
+## Tomorrow: 4 more guardrail scripts, in this order (ranked by how often this exact category
 produced a real bug during the 30-faction reconciliation — see `APPDATA-SYNC-LESSONS.md`)
 
 Each follows the established pattern: report-only, wired into `scripts/sync.mjs` (add a `run(...)`
@@ -50,25 +73,8 @@ line) + this repo's `npm run sync`, bridged via `src/data/sourceIds.json` where 
 exists (never match by bare name alone — collisions are common, see `sync-leader-units.mjs`'s
 header comment for the list of repeat names across factions).
 
-### 1. `sync-wargear-options.mjs` — wargear/loadout structural options
-**Tables:** `loadout_choice` + `loadout_choice_set` + `loadout_choice_wargear_item`,
-`limited_wargear_choice` + `limited_wargear_choice_set` + `limited_wargear_choice_wargear_item`,
-`all_model_wargear_choice` + `all_model_wargear_choice_set` + `all_model_wargear_choice_wargear_item`,
-`base_miniature_loadout` + `base_miniature_loadout_wargear_option`, `wargear_limit`.
-**Why first:** by far the largest source of past manual fixes (detached footnotes, wrong option
-counts, missing options entirely — Boyz/Warboss/Kasrkin/Skitarii Rangers etc, repeated across
-nearly every faction commit on the closed branch). Currently only checked via
-`sync-faction-text.mjs`'s best-effort fuzzy word-overlap against `wargearRules` prose — never
-against the actual structural choice/limit data.
-**Approach:** for each wh11ed datasheet's `options[]` entries, resolve the datasheet via
-`sourceIds.json`'s `ds:<id>` bridge, then reconstruct appdata's choice sets for that datasheet/
-miniature and check (a) every choice set has *some* matching wh11ed option (not necessarily 1:1 —
-appdata sometimes splits what wh11ed presents as one option, and vice versa; a presence/count check
-per wargear item is more robust than trying to match option-block boundaries), (b) `count`/limit
-fields (how many models can take it, `wargear_limit.limitedWargearChoiceSetId`/`modelCount`/
-`choiceLimit`/`duplicateLimit`) agree with wh11ed's stated numbers ("for every 5 models…", "up to
-3…"). Expect noise from merged-profile datasheets (see lesson 5/6) — may need the same manual
-`node -e` fallback those already require.
+**Done:** `sync-wargear-options.mjs` (wargear/loadout structural options) — see the "Already
+covered" list above.
 
 ### 2. `sync-ally-inclusion.mjs` — allied-faction inclusion clauses
 **Tables:** `allied_faction` + `allied_faction_datasheet` + `allied_faction_keyword`
