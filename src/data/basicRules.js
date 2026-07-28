@@ -554,7 +554,7 @@ Where a **[gloss:damage-roll:D]** characteristic includes an operator (e.g. a '+
               fromApp: true,
               body: `When a unit **[gloss:heal:heals]** or regains a number of wounds, it regains up to that number of lost wounds. For each wound healed or regained, consult the following:
 ▪ If that unit has one or more models that does not have its full wounds remaining, select one of those models; that model regains one lost wound.
-▪ If all models in that unit have their starting number of wounds, but one or more models from that unit are currently **destroyed**, **[gloss:revive:revive]** one of those **destroyed** models, with one wound remaining.
+▪ If all models in that unit have their starting number of wounds, but one or more models from that unit are currently **destroyed**, **[gloss:revive:revive]** one of those **destroyed** models (excluding **[gloss:character:CHARACTER]** models), with one wound remaining.
 This cannot cause a model to have more wounds remaining than it started the battle with.
 
 If a rule states that a model **heals** or regains a number of wounds, only that model can regain wounds up to its starting number of wounds. Any excess regained wounds are lost and do not cause a **destroyed** model from that unit to **revive**.`,
@@ -799,7 +799,7 @@ If you cannot set up all of the models in a unit, remove that unit from the batt
 ▪ Make any attacks with ranged weapons.
 Some large models, typically [gloss:aircraft:AIRCRAFT], have wings and other parts that extend significantly beyond their base. Such models can overhang a deployment zone if it is not possible to set them up otherwise, but when setting them up, their base must still be wholly within that deployment zone.
 
-**[gloss:strategic-reserves:From Strategic Reserves]:** If a model is so large that its base cannot physically be set up wholly within the distance required of the battlefield edge, it must be set up so that it is touching a battlefield edge. During a turn in which such a large model is set up on the battlefield, that model's unit cannot do any of the following:
+**[gloss:strategic-reserves:From Strategic Reserves]:** If a model is so large that its base cannot physically be set up wholly within the distance required of the battlefield edge, it must be set up so that it is touching a battlefield edge. During a turn in which such a large model is set up on the battlefield (excluding [gloss:aircraft:AIRCRAFT] models), that model's unit cannot do any of the following:
 ▪ **normal/advance/fall-back/charge move**.
 ▪ Make any attacks with ranged weapons.
 Some large models, typically [gloss:aircraft:AIRCRAFT], have wings and other parts that extend significantly beyond their base. Such models can overhang a battlefield edge if it is not possible to set them up otherwise, but when setting them up, they must still be more than 8" away from all enemy units.
@@ -1886,7 +1886,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
               title: 'Исцеление или восстановление потерянных ран',
               body: `Когда юнит **[gloss:heal:исцеляет]** или восстанавливает некоторое количество ран, он восстанавливает до этого количества потерянных ран. За каждую исцелённую или восстановленную рану действуйте следующим образом:
 ▪ Если в этом юните есть одна или несколько моделей, у которых не полное количество оставшихся ран, выберите одну из этих моделей; эта модель восстанавливает одну потерянную рану.
-▪ Если все модели в этом юните имеют своё начальное количество ран, но одна или несколько моделей из этого юнита в данный момент **[gloss:destroyed:уничтожены]**, **[gloss:revive:возродите]** одну из этих **уничтоженных** моделей с одной оставшейся раной.
+▪ Если все модели в этом юните имеют своё начальное количество ран, но одна или несколько моделей из этого юнита в данный момент **[gloss:destroyed:уничтожены]**, **[gloss:revive:возродите]** одну из этих **уничтоженных** моделей (кроме моделей **[gloss:character:CHARACTER]**) с одной оставшейся раной.
 Это не может привести к тому, что у модели останется больше ран, чем было в начале битвы.
 
 Если правило указывает, что модель **исцеляет** или восстанавливает некоторое количество ран, только эта модель может восстанавливать раны до своего начального количества. Любые избыточные восстановленные раны теряются и не приводят к **возрождению** **уничтоженной** модели из этого юнита.`,
@@ -2052,7 +2052,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ▪ Совершать какие-либо атаки дистанционным оружием.
 Некоторые крупные модели, обычно [gloss:aircraft:AIRCRAFT], имеют крылья и другие части, значительно выходящие за пределы их базы. Такие модели могут нависать над зоной развёртывания, если иначе их невозможно установить, но при установке их база всё равно должна быть полностью в пределах этой зоны развёртывания.
 
-**[gloss:strategic-reserves:Из стратегических резервов]:** Если модель настолько большая, что её база не может физически быть установлена полностью в пределах расстояния, требуемого от края поля боя, она должна быть установлена так, чтобы касаться края поля боя. В течение хода, в котором такая крупная модель устанавливается на поле боя, юнит этой модели не может выполнять ничего из следующего:
+**[gloss:strategic-reserves:Из стратегических резервов]:** Если модель настолько большая, что её база не может физически быть установлена полностью в пределах расстояния, требуемого от края поля боя, она должна быть установлена так, чтобы касаться края поля боя. В течение хода, в котором такая крупная модель устанавливается на поле боя (кроме моделей [gloss:aircraft:AIRCRAFT]), юнит этой модели не может выполнять ничего из следующего:
 ▪ **обычный/продвигающий/отступающий/нападающий манёвр** (normal/advance/fall-back/charge move).
 ▪ Совершать какие-либо атаки дистанционным оружием.
 Некоторые крупные модели, обычно [gloss:aircraft:AIRCRAFT], имеют крылья и другие части, значительно выходящие за пределы их базы. Такие модели могут нависать над краем поля боя, если иначе их невозможно установить, но при установке они всё равно должны находиться более чем в 8" от всех вражеских юнитов.
