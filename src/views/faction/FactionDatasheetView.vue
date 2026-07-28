@@ -158,13 +158,16 @@ const unitIndex = computed(() => {
 // Keywords this unit gains from an army/detachment rule (conditionalKeywords.json) — merged into
 // the card's keyword line. Roster-wide grants (no `det`) always apply on this faction's page;
 // detachment-gated grants only while that detachment is the active pick (shared with the rules
-// page via useFactionChoice, defaulting to the faction's first detachment).
+// page via useFactionChoice, defaulting to the faction's first detachment). `detName` carries the
+// active detachment's display name through to DatasheetCard so it can footnote where a gated
+// grant comes from; roster-wide grants pass `detName: null` (DatasheetCard attributes those to
+// "this faction's own rules" instead).
 const { activeDetachment } = useFactionChoice()
 const grantedKeywords = computed(() => {
   const grants = conditionalKeywords[route.params.slug]?.[sheet.value?.id]
   if (!grants) return []
-  const activeDet = activeDetachment(route.params.slug, faction.value?.detachments || [])?.id
-  return grants.filter((g) => !g.det || g.det === activeDet).map((g) => g.kw)
+  const activeDet = activeDetachment(route.params.slug, faction.value?.detachments || [])
+  return grants.filter((g) => !g.det || g.det === activeDet?.id).map((g) => ({ kw: g.kw, detName: g.det ? activeDet?.name || null : null }))
 })
 
 // Same query Wahapedia uses for its "Search for model's image on the Internet" icon.
