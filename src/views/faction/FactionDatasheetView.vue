@@ -51,7 +51,13 @@
             </a>
           </div>
         </div>
-        <DatasheetCard :sheet="sheet" :unit-index="unitIndex" :faction-slug="route.params.slug" :granted-keywords="grantedKeywords" />
+        <DatasheetCard
+          :sheet="sheet"
+          :unit-index="unitIndex"
+          :faction-slug="route.params.slug"
+          :granted-keywords="grantedKeywords"
+          :other-faction-units="otherFactionUnits"
+        />
       </template>
       <p v-else-if="loaded" class="ds-missing">{{ labels.factionsSoon }}</p>
     </section>
@@ -86,6 +92,7 @@ import { loadDatasheetsRu, localizeSheet } from '../../data/datasheets/ru/index.
 import { ui } from '../../i18n/ui.js'
 import { useFactionPage } from '../../composables/useFactionPage.js'
 import { useFactionChoice } from '../../composables/useFactionChoice.js'
+import { getDatasheetIndex } from '../../composables/useSearch.js'
 import conditionalKeywords from '../../data/conditionalKeywords.json'
 import { useLocale } from '../../composables/useLocale.js'
 import { useFavorites } from '../../composables/useFavorites.js'
@@ -155,16 +162,45 @@ const unitIndex = computed(() => {
   return map
 })
 
+// Names in sheet.leader.units that resolve to a REAL datasheet on a DIFFERENT faction's page
+// (not just unresolved anywhere) — passed to DatasheetCard so it can hide them instead of
+// rendering a dead name. Navigation is always within one faction's context (there's no "browse
+// units across all factions" mode), and the underlying rule text is faction-agnostic — appdata
+// lists every unit a Character could ever attach to, across whichever army actually fields it
+// (e.g. a Chapter-agnostic "Ancient in Terminator Armour" can lead a Deathwatch Terminator Squad
+// via THAT squad's own ATTACHED UNIT rule, in a Deathwatch army — never a valid target while
+// building the Dark Angels army this page is showing). See datasheetIndex.js's own header for
+// why this is a dynamic import (a global compact name index, same chunk the search palette uses).
+const globalDsIndex = ref(null)
+getDatasheetIndex().then((idx) => { globalDsIndex.value = idx })
+const otherFactionUnits = computed(() => {
+  const units = sheet.value?.leader?.units
+  if (!units?.length || !globalDsIndex.value) return []
+  const mySlug = route.params.slug
+  return units.filter((u) => {
+    if (unitIndex.value.has(u)) return false // already resolves on this faction's own page
+    return globalDsIndex.value.some(([slug, , list]) => slug !== mySlug && list.some(([, name]) => name === u))
+  })
+})
+
 // Keywords this unit gains from an army/detachment rule (conditionalKeywords.json) — merged into
 // the card's keyword line. Roster-wide grants (no `det`) always apply on this faction's page;
 // detachment-gated grants only while that detachment is the active pick (shared with the rules
-// page via useFactionChoice, defaulting to the faction's first detachment).
+// page via useFactionChoice, defaulting to the faction's first detachment). `detName` carries the
+// active detachment's display name through to DatasheetCard so it can footnote where a gated
+// grant comes from; roster-wide grants pass `detName: null` (DatasheetCard attributes those to
+// "this faction's own rules" instead). `extra` passes through gen-conditional-keywords.mjs's flag
+// for a grant that also depends on an un-modelled condition (currently always a Warlord
+// requirement — see that script's header comment) — DatasheetCard adds a caveat to the footnote
+// rather than implying the detachment/faction alone is the whole story.
 const { activeDetachment } = useFactionChoice()
 const grantedKeywords = computed(() => {
   const grants = conditionalKeywords[route.params.slug]?.[sheet.value?.id]
   if (!grants) return []
-  const activeDet = activeDetachment(route.params.slug, faction.value?.detachments || [])?.id
-  return grants.filter((g) => !g.det || g.det === activeDet).map((g) => g.kw)
+  const activeDet = activeDetachment(route.params.slug, faction.value?.detachments || [])
+  return grants
+    .filter((g) => !g.det || g.det === activeDet?.id)
+    .map((g) => ({ kw: g.kw, detName: g.det ? activeDet?.name || null : null, extra: !!g.extra }))
 })
 
 // Same query Wahapedia uses for its "Search for model's image on the Internet" icon.

@@ -402,6 +402,15 @@ export function preloadDatasheetIndex() {
   return dsPromise
 }
 
+// Same cached index, for callers that need the resolved data itself rather than just a
+// prefetch trigger (e.g. DatasheetCard's cross-faction Leader/Support name resolution — see
+// FactionDatasheetView.vue). Awaits the same shared promise, so a search-palette open and a
+// datasheet-page visit never fetch the chunk twice.
+export async function getDatasheetIndex() {
+  await preloadDatasheetIndex()
+  return dsIndex
+}
+
 function searchDatasheets(q, locale) {
   if (!dsIndex) return []
   const L = ui[locale] || ui.en
