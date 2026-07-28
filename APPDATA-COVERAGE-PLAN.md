@@ -72,6 +72,47 @@ machine** — memory doesn't sync between them (see `[[reference_nested_git_repo
     Titan/Warhound Titan's "2" — each states its 2 weapon-mount swaps as two separate full
     sentences ("This model's X can be replaced with…" / "…Y can be replaced with…"), so "2" is the
     count of sentences, not an omitted total.
+- `keyword_restriction_group(+_keyword)`, `restriction_group_detachment_limit`,
+  `detachment_excluded_datasheet`, `faction_keyword_excluded_datasheet` —
+  `sync-roster-restrictions.mjs` (added 2026-07-28). Before writing any checking logic, all 16
+  `keyword_restriction_group` rows were read by hand against the actual wh11ed files — every one
+  was already present, correctly worded: Patriarch's "SUPREME COMMANDER" ("You cannot include more
+  than one PATRIARCH model…"), Emperor's Champion's "CHOSEN OF THE EMPEROR", Death Jester/
+  Shadowseer/Troupe Master's self-referential "TRAVELLING PLAYERS" ("…you cannot include more than
+  one of this model…", including both detachment overrides — Ghosts of the Webway/Serpent's Brood's
+  "up to three of each"), Commander Farsight↔Ethereal's and The Yncarne/Yvraine/The Visarch's
+  mutual-exclusion text, Houndpack Lance's "three or more WAR DOG units", and Sicarius/Marneus
+  Calgar/Commissar Graves already covered by the core EPIC HERO limit footnote (`muster.js` 25.04's
+  battleSizeTable footnote — no per-unit text needed or expected). **No content debt at all** —
+  same pattern as script #2's ally-inclusion rows (see [[feedback_appdata_canon]] /
+  [[feedback_verify_dont_assert]]). The script itself needed several false-positive fixes once
+  built (self-referential "this model" phrasing, spelled-out numbers ("three" not "3"), a fuzzy
+  substring fallback for named-character keywords that don't equal the datasheet's exact title —
+  "Sicarius" → "Cato Sicarius").
+  The excluded-datasheet tables (23+23 rows) initially looked like they'd surfaced one genuine gap
+  — Black Spear Task Force's own rule body never explicitly bans Watch Master/Corvus Blackstar/
+  Watch Captain Artemis/Deathwatch Kill Team, unlike appdata's row for it — but tracing those
+  specific datasheet ids back to `wh40k-appdata/tables/datasheet.json` showed they're the
+  **Codex: Imperial Agents**-printed versions of those same-named units (different ids from the
+  Index: Deathwatch versions already in `deathwatch.js`), already banned wholesale by this
+  faction's own armyRule ("cannot include any Agents of the Imperium Deathwatch units"). A 4th
+  false "missing" report in this same investigation, caught the same way as the previous 3 — see
+  [[feedback_verify_dont_assert]]. 4 other faction-level exclusions similarly resolve to a category
+  ban (Black Templars' Psyker ban covers its 3 excluded Librarian variants; Chaos Daemons' Shadow
+  Legion "Thralls of the First Prince" Daemon Prince/Epic Hero ban covers its 14 named exclusions)
+  or a pre-existing structural equivalent (Imperial Knights' Sir Hekhtur already carries no
+  factionKeywords/points in wh11ed — an ejected-pilot model, not independently includable; Emperor's
+  Children's Khorne Lord of Skulls exists only in `world-eaters.js`; Space Wolves' 4 excluded Codex:
+  Space Marines units are simply absent from its `sharedUnitIds` Chapter-fold list — see CLAUDE.md's
+  "SM-Chapter datasheet dedup"). All 6 are encoded as a `KNOWN_EQUIVALENT` allowlist in the script
+  (with the specific verification each one needed) so they don't false-flag every run.
+  **Not covered:** `unit_composition_required_detachment`/`_required_faction_keyword` (83 rows) —
+  structural "which faction/detachment can field this points bracket at all" data, closer to the
+  datasheet-filing question `sync-appdata.mjs`/the datasheet-drift reconciliation already cover
+  than to a prose restriction (confirmed by spot-checking a few resolved rows — e.g. every Blood
+  Angels-required row is simply a Blood Angels-only datasheet, already correctly filed under
+  `blood-angels.js` and nowhere else). Reported as a plain count, not hard-flagged; worth a closer
+  look only if picked up as its own investigation later.
 - `allied_faction(+_datasheet/_keyword/_parent_faction_keyword/_points_limit/_required_detachment)`,
   `faction_keyword_allied_faction` — `sync-ally-inclusion.mjs` (added 2026-07-28). 21 total
   `allied_faction` rows; 13 gate on ≥1 detachment (checked, 32 detachment-checks total since a row
@@ -166,23 +207,8 @@ exists (never match by bare name alone — collisions are common, see `sync-lead
 header comment for the list of repeat names across factions).
 
 **Done:** `sync-wargear-options.mjs` (wargear/loadout structural options), `sync-ally-inclusion.mjs`
-(allied-faction inclusion clauses) — see the "Already covered" list above.
-
-### 3. `sync-roster-restrictions.mjs` — roster-composition requirements/exclusions
-**Tables:** `restriction_group_detachment_limit` + `keyword_restriction_group` +
-`keyword_restriction_group_keyword`, `detachment_excluded_datasheet`,
-`faction_keyword_excluded_datasheet`, `unit_composition_required_detachment`,
-`unit_composition_required_faction_keyword`.
-**Why:** "army must include 3+ X" (Houndpack Lance) and "cannot include datasheet Y" (Black Spear
-Task Force's Legends exclusions, minus the Legends ones themselves per lesson 14/15) are exactly
-this. Small table (7 rows in `restriction_group_detachment_limit`, 16 in
-`keyword_restriction_group`) but each row is high-signal.
-**Approach:** for each `restriction_group_detachment_limit` row, resolve
-`keyword_restriction_group_keyword` → `keyword.json` name, check the bridged wh11ed detachment's
-rule body states the same min/max count for that keyword. For `detachment_excluded_datasheet` /
-`faction_keyword_excluded_datasheet`, resolve the datasheet name and check it's named in a
-Restrictions-style paragraph — expect the Legends exception (lesson 14) to need an explicit
-allow-list of "known-excluded-because-Legends" names so it doesn't get flagged every run.
+(allied-faction inclusion clauses), `sync-roster-restrictions.mjs` (roster-composition
+requirements/exclusions) — see the "Already covered" list above.
 
 ### 4. `sync-enhancement-restrictions.mjs` — enhancement eligibility constraints
 **Tables:** `enhancement_required_keyword_group` + `_faction_keyword` + `_keyword`,
