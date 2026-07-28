@@ -17,6 +17,16 @@
 
 export const changelog = [
   {
+    version: '2.1.8',
+    date: '2026-07-28',
+    en: [
+      'Assassins (Callidus, Culexus, Eversor, Vindicare) and the Necron C’tan Shards/Transcendent C’tan were missing their higher points cost when taken in the Veiled Blade Elimination Force / Pantheon of Woe detachment — added.',
+    ],
+    ru: [
+      'У Ассасинов (Callidus, Culexus, Eversor, Vindicare) и C’tan Shard/Transcendent C’tan (Necrons) не хватало повышенной стоимости очков при взятии в детачмент Veiled Blade Elimination Force / Pantheon of Woe — добавлено.',
+    ],
+  },
+  {
     version: '2.1.7',
     date: '2026-07-28',
     en: [

@@ -4205,11 +4205,6 @@
       },
       {
         "type": "qa",
-        "q": "When a model ‘fights on death’, can that model’s unit make a Dark Pact?",
-        "a": "No, as the unit is not selected to fight."
-      },
-      {
-        "type": "qa",
         "q": "If I am using the Deceptors Detachment, when I use the Scrambled Coordinates Stratagem, can my opponent sequence one or more of their ‘end of your Movement phase’ abilities (e.g. Da Jump) to happen after that Stratagem’s effect ends?",
         "a": "Yes."
       },
@@ -5614,11 +5609,6 @@
       },
       {
         "type": "errata",
-        "body": "▪ **Invasion Beams Ability**: Add 'That unit can embark within this **TRANSPORT** in a turn it disembarked from this **TRANSPORT**.'\n▪ **Core Abilities**: Add ‘Deep Strike’.",
-        "header": "Night Scythe"
-      },
-      {
-        "type": "errata",
         "body": "Change to: 'In your movement phase (excluding the first battle round), you can select one friendly **NECRONS INFANTRY** unit that is either in **strategic reserves** or on the battlefield (if you select a unit on the battlefield, remove that unit from the battlefield and place it into **strategic reserves**). That unit can make an **ingress move**, and must be set up wholly within 6\" of this unit and not **engaged** with any enemy units. That unit cannot make a **charge move** this turn.'",
         "header": "Monolith, Eternity Gate Ability"
       },
@@ -6387,7 +6377,7 @@
       },
       {
         "type": "errata",
-        "body": "Change to: ‘Friendly **TYRANIDS** units within 6' of this unit have **Stealth**.'",
+        "body": "Change to: ‘Friendly **TYRANIDS** units within 6\" of this unit have **Stealth**.'",
         "header": "Venomthropes, Foul Spores ability"
       },
       {

@@ -118,6 +118,11 @@ export default [
       {
         "models": 1,
         "points": 330
+      },
+      {
+        "models": 1,
+        "points": 375,
+        "note": "Pantheon of Woe"
       }
     ],
     "flavor": "Mephet’ran the Deceiver was ever the most duplicitous of his monstrous brood. Even shattered and bound within a restraining necrodermis, each Shard of the Deceiver still radiates a potent blend of deadly truths and bewildering lies against which the fallible senses of mortal beings possess no defence.",
@@ -201,6 +206,11 @@ export default [
       {
         "models": 1,
         "points": 360
+      },
+      {
+        "models": 1,
+        "points": 405,
+        "note": "Pantheon of Woe"
       }
     ],
     "flavor": "The very essence of life bleeds away when exposed to a Shard of the C’tan known as the Nightbringer. Aza’gorod he was, the Inevitable Blade; his spectral form, cowl of shadows and flashing scythe are said to have spawned countless avatars of death in the legends of primitive cultures the entire galaxy over.",
@@ -291,6 +301,11 @@ export default [
       {
         "models": 1,
         "points": 345
+      },
+      {
+        "models": 1,
+        "points": 380,
+        "note": "Pantheon of Woe"
       }
     ],
     "flavor": "Shards of the Void Dragon fill the air around them with a searing scream of distorted static. With a gesture they can unmake the war engines of lesser beings, dragging the resultant disintegrating matter into themselves like the gravity well of a black hole and using it to replenish their own, ever flickering forms.",
@@ -4465,6 +4480,11 @@ export default [
         "models": 1,
         "points": 360,
         "note": "2nd+"
+      },
+      {
+        "models": 1,
+        "points": 380,
+        "note": "Pantheon of Woe"
       }
     ],
     "flavor": "Shards of the C’tan serve the Necrons as enslaved living weapons. Greatest amongst them are the Transcendent C’tan, whose fury and power are so terrifying that they must be trammelled using the full might of Necron technology. When their cosmic powers are unleashed, reality itself is torn asunder.",
