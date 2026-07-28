@@ -384,6 +384,7 @@ export const ui = {
     eventLayout: 'Layout',
     eventLayoutMeasurementsOn: 'Measurements',
     eventLayoutMeasurementsOff: 'Clean',
+    eventLayoutViewFull: 'View full size',
   },
   ru: {
     introHeading: 'Введение',
@@ -770,5 +771,6 @@ export const ui = {
     eventLayout: 'Расстановка',
     eventLayoutMeasurementsOn: 'С размерами',
     eventLayoutMeasurementsOff: 'Без размеров',
+    eventLayoutViewFull: 'Посмотреть в полный размер',
   },
 }
