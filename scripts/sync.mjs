@@ -12,6 +12,8 @@
 //   - sync-leader-units — a Character's leader.units must match appdata's Leader/Support list
 //   - sync-detachment-details — a detachment's Restrictions/Keywords card-box text (a table pair
 //     none of the above ever reads) must be reflected in its wh11ed rule body
+//   - sync-wargear-options — a datasheet's structural wargear choices/limits (loadout/limited/
+//     all-model choice families + base loadout) must be reflected in its options/loadout text
 //
 // Report only — nothing is written (except that you may want to run `gen-source-ids.mjs` if the
 // bridge is stale). Usage: `npm run sync` (or `node scripts/sync.mjs`).
@@ -46,6 +48,7 @@ run('sync-core', 'sync-core.mjs')
 run('sync-enh-bodyguards', 'sync-enh-bodyguards.mjs')
 run('sync-leader-units', 'sync-leader-units.mjs')
 run('sync-detachment-details', 'sync-detachment-details.mjs')
+run('sync-wargear-options', 'sync-wargear-options.mjs')
 
 console.log(`\n${'═'.repeat(72)}`)
 if (idsStale) console.log('⚠ src/data/sourceIds.json is stale — run `node scripts/gen-source-ids.mjs`.')
