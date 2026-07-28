@@ -37,26 +37,35 @@ machine** — memory doesn't sync between them (see `[[reference_nested_git_repo
 - `loadout_choice(_set/_wargear_item)`, `limited_wargear_choice(_set/_wargear_item)` + `wargear_limit`,
   `all_model_wargear_choice(_set/_wargear_item)`, `base_miniature_loadout(_wargear_option)` —
   `sync-wargear-options.mjs` (added 2026-07-28). Presence-only (not a structural 1:1 match — see
-  its own header); first run against all 30 factions flagged 20 datasheets after tuning out several
-  false-positive classes (curly-quote/hyphen normalization, word-form numbers ("twice"/"up to two"),
-  redundant whole-unit scaling caps, leading articles, irregular -y→-ies plurals, the 5 SM-Chapter
-  sourceIds fallback). Triaged 2026-07-28: **naming/spelling variants, not real gaps** — Death
-  Company Dreadnought's "Brutalis fists/bolt rifles" (Blood Angels flavour-renames them "blood
-  fists"/"blood fist bolt rifles"), Hekaton Land Fortress's "Panspectral Scanner" (wh11ed: "pan
-  spectral scanner", two words), imperial-agents' "Nuncio-acquila" ×3 (appdata's own spelling —
-  wh11ed's "Nuncio Aquila" matches GW's actual spelling). **Structural splits, not real gaps**
-  (same category as the header's "merged-profile" note) — War Dog Moirax/Armiger Moirax/Chaos
-  Warhound Titan/Warhound Titan's "2" (wh11ed states each hardpoint's swap as its own sentence
-  instead of "up to 2"), Battlewagon's "3" (an "any of the following" 3-item list, no digit needed),
-  Deff Dread's "4". **Plausible real gaps, NOT auto-fixed — need primary-source verification before
-  editing rule text**: Devastator Squad missing a "heavy flamer" weapon-swap option (present in
-  appdata across all 4 factions that share the unit, absent from wh11ed's `ranged[]` and `options`
-  entirely — would need a full new weapon profile, not just a text tweak); Death Company Marines
-  with Jump Packs' power fist/power weapon swap has no "for every 5 models" scaling prefix unlike
-  its sibling options, but appdata's bracket data (2 at 5 models, 3 at 10) suggests it should;
-  Inquisitorial Agents' Tome-skull scales at appdata's 6/11-model brackets while the prose says
-  "for every 5"; the three Crisis suit variants' drone options say "up to two... cannot take
-  duplicates" while appdata's per-drone-type brackets suggest 3.
+  its own header). Tuned out several false-positive classes across two triage passes
+  (curly-quote/hyphen normalization, word-form numbers ("twice"/"up to two"), redundant whole-unit
+  scaling caps — both the family-1 `miniatureId: null` case AND family-2 sets that duplicate a
+  family-1 set's items (Tau Crisis suit drones), leading articles, irregular -y→-ies plurals, the 5
+  SM-Chapter sourceIds fallback). Down to **11 flags, all confirmed noise** (not real gaps): naming/
+  spelling variants — Death Company Dreadnought's "Brutalis fists/bolt rifles" (Blood Angels
+  flavour-renames them "blood fists"/"blood fist bolt rifles"), Hekaton Land Fortress's "Panspectral
+  Scanner" (wh11ed: "pan spectral scanner", two words), imperial-agents' "Nuncio-acquila" ×3
+  (appdata's own spelling — wh11ed's "Nuncio Aquila" matches GW's actual spelling) — and structural
+  per-hardpoint splits (War Dog Moirax/Armiger Moirax/Chaos Warhound Titan/Warhound Titan's "2",
+  Battlewagon's "3", Deff Dread's "4" — wh11ed states each weapon-mount swap as its own sentence
+  instead of a combined "up to N").
+
+  **Real gaps found and fixed 2026-07-28** (appdata is canon — see `[[feedback_appdata_canon]]`):
+  Devastator Squad was missing the "heavy flamer" weapon-swap option entirely (no `ranged[]` profile,
+  no `options` mention) despite appdata carrying it structurally across all 4 factions that share
+  the unit — added the profile (12", D6, N/A, S5, AP-1, D1, [TORRENT]/[IGNORES COVER], reusing the
+  identical profile already used elsewhere in `space-marines.js`) and the option line, EN+RU, fixed
+  once in the shared pool. Death Company Marines with Jump Packs' power fist/power weapon swap said
+  "1 model" but appdata's bracket is 2 at the unit's 5-model minimum (irregular scaling — 3 at 10,
+  not a clean double) — corrected the base count to "up to 2 models"; the 10-model→3 nuance is left
+  unstated (same "why fabricate an uncertain ratio" reasoning as the structural-noise cases above).
+
+  **Still open, NOT edited — could not settle from appdata alone**: Inquisitorial Agents' Tome-skull
+  scales at appdata's 6/11-model brackets (a `miniatureId: null`, whole-unit-size basis) while the
+  other 3 brackets on the same unit (and the current prose) use 5/10 (the "Inquisitorial Agent"
+  sub-count basis, composition is 5-10 agents + 1-2 Gun Servitors) — these may be two genuinely
+  different counting bases (total unit size vs one sub-type), not a contradiction, but distinguishing
+  which the real card means needs the actual rulebook/Wahapedia text, not just appdata's table shape.
 
 **Confirmed out of scope by design (don't build anything here):**
 - `datasheet_points_step`, `detachment_faction_detachment_points_cost` — points are MFM territory,

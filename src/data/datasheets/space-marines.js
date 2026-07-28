@@ -4058,6 +4058,19 @@ export default [
         "d": "2"
       },
       {
+        "name": "Heavy flamer",
+        "tags": [
+          "IGNORES COVER",
+          "TORRENT"
+        ],
+        "range": "12\"",
+        "a": "D6",
+        "bs": "N/A",
+        "s": "5",
+        "ap": "-1",
+        "d": "1"
+      },
+      {
         "name": "Lascannon",
         "tags": [
           "HEAVY"
@@ -4226,7 +4239,7 @@ export default [
     ],
     "loadout": "**Every model is equipped with:** bolt pistol; boltgun; close combat weapon.",
     "options": [
-      "Up to 4 Devastator Marines can each have their boltgun replaced with one of the following:\n▪ 1 grav-cannon\n▪ 1 heavy bolter\n▪ 1 lascannon\n▪ 1 missile launcher\n▪ 1 multi-melta\n▪ 1 plasma cannon",
+      "Up to 4 Devastator Marines can each have their boltgun replaced with one of the following:\n▪ 1 grav-cannon\n▪ 1 heavy bolter\n▪ 1 heavy flamer\n▪ 1 lascannon\n▪ 1 missile launcher\n▪ 1 multi-melta\n▪ 1 plasma cannon",
       "The Devastator Sergeant’s bolt pistol and boltgun can be replaced with two different weapons from the following list:*\n▪ 1 Astartes chainsword\n▪ 1 bolt pistol\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 plasma pistol\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer",
       "* This model can only be equipped with two ranged weapons if one of them is a Pistol (and it can only have one Pistol)"
     ],
