@@ -24,10 +24,17 @@ machine** — memory doesn't sync between them (see `[[reference_nested_git_repo
   `sync-appdata.mjs` (structure) and `sync-faction-text.mjs` (prose).
 - `_core-content.json` (battle sizes, force dispositions, primary/secondary missions, twists, core
   stratagems) — read by `sync-tracker.mjs`.
-- `_core-rules.json` (Core Rules publication, sections 01-23 + 25) — read by `sync-core.mjs`.
-  Section 24 (Core Abilities/`reference.js`) is "wired separately" per that script's own header
-  comment — **verify this actually runs**, the comment reads slightly ambiguous about whether it's
-  done or still a stated follow-up.
+- `_core-rules.json` (Core Rules publication, sections 01-25, incl. 24 Core Abilities/`reference.js`
+  — confirmed it DOES run, resolving the "sync-core.mjs section 24" investigation task below) —
+  read by `sync-core.mjs`. Upgraded 2026-07-28 from a word-overlap ratio (triage-only, per its own
+  original header) to a real word-level diff (same recipe as `sync-faction-text.mjs`/`sync-event-
+  companion.mjs`) — the user specifically wanted whole-body comparison, and the ratio had already
+  been shown to both under- and over-report elsewhere. Also fixed a systematic false-positive class:
+  appdata's own `<b>Example:</b>` inline label was flagging as "missing" against every wh11ed
+  `example` field, which never carries that label (it's CSS-generated, `.example-block::before`).
+  First full run: 337 findings across sections 01-25 (296 numbered appdata rules) — NOT yet
+  triaged/applied, unlike the Event Companion pass; this is core-rulebook-wide in scope and was
+  left for a follow-up review pass rather than bulk-applied.
 - `conditional_keyword` — `gen-conditional-keywords.mjs` (`src/data/conditionalKeywords.json`).
 - `detachment_detail` + `detachment_detail_bullet_point` — `sync-detachment-details.mjs` (added
   2026-07-27, see `APPDATA-SYNC-LESSONS.md` lesson 21).
@@ -330,9 +337,6 @@ above. All 5 planned scripts are now built.
   layout↔deployment↔matchup pairings appdata-side, and if so whether they're rich enough to become
   a genuine source of truth (or at least a guardrail) instead of/alongside the current PDF-vector
   extraction pipeline. Don't assume yes or no — actually read a few rows first.
-- **`sync-core.mjs` section 24.** Confirm whether Core Abilities (`reference.js`) is actually diffed
-  anywhere, per the ambiguity in that script's own header comment ("is a follow-up" vs "wired
-  separately below" — these read as contradictory on a second look).
 
 ## Future scope (not scheduled — flag for later, needs a product decision first)
 

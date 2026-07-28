@@ -439,3 +439,19 @@ and appdata state fresh; a data model can change between now and when this is ne
     structural join can be satisfied by the option being selectable while the actual rules text for
     what it does is absent, and those are two different questions a checker (or a human) can
     conflate.
+31. **A word-overlap ratio is a triage signal that a real word-diff strictly obsoletes — build the
+    diff, not the ratio, once you know the normalization recipe works.** `sync-core.mjs` originally
+    gated on a Jaccard overlap ratio (`< 0.55` → flag) the same way `sync-army-rule-coverage.mjs` did
+    (see lesson 29) — cheap to write, but only ever a "go read both" pointer, never the actual
+    content. Once `sync-faction-text.mjs`/`sync-event-companion.mjs` had already proven the
+    `plainText`+word-diff recipe scales to whole-document comparison without excess noise, there was
+    no remaining reason to keep the weaker ratio version around for core rules — upgraded it to a
+    real diff (337 findings across sections 01-25, none pre-triaged). While doing this, found a
+    systematic false-positive class worth naming: appdata's own `<b>Example:</b>` inline label was
+    flagging as "missing in wh11ed" against every single one of wh11ed's `example` fields, because
+    that label is **CSS-generated** on wh11ed's side (`.example-block::before { content: 'Example:'
+    }`, `src/style.css`) rather than stored in the data — so of course it never appears in the text
+    being compared. **General principle:** before trusting a bulk diff's noise floor, check whether
+    a repeated substring shows up as the ENTIRE diff on many otherwise-unrelated entries — that
+    pattern (not a scattering of different words) is the signature of a rendering convention on one
+    side that the other side's normalizer doesn't yet know about, not real content drift.
