@@ -377,3 +377,41 @@ and appdata state fresh; a data model can change between now and when this is ne
     **General principle:** when a checker's fallback path (structural-only, no prose to confirm
     against) flags something, check BOTH locale files before writing anything — if one locale
     already has the correct text, the fix is a one-line addition to the other, not new content.
+28. **A faction with multiple distinctly-named army rules can have one of them silently
+    unrepresented, because the existing text-diff script only matches candidates by NAME.**
+    `sync-faction-text.mjs`'s army-rule comparison gathers appdata candidates via
+    `nameRelated(en.armyRule.name, r.name)` (substring containment either direction) — this works
+    fine when wh11ed's single combined `armyRule.name` is a superset string ("Oath of Moment & The
+    Unforgiven" contains both "Oath of Moment" and "The Unforgiven"), but 19 factions carry a
+    SEPARATE, differently-named army rule that isn't folded into wh11ed's combined name at all if
+    it was ever missed during authoring. Building `sync-army-rule-coverage.mjs` to check for this
+    found exactly that, twice: `space-wolves.js` was completely missing "Curse of the Wulfen" (a
+    real +1/+3 Objective Control passive ability, not a wording nit — the whole ability was absent),
+    and `blood-angels.js` was completely missing "The Sons of Sanguinius" (the mono-Chapter
+    restriction + Designer's Note that every other Space-Marine-Chapter book has some form of).
+    Neither gap had ever been flagged by any existing script, because `sync-faction-text.mjs` only
+    ever compared wh11ed's whole combined body against ONE name-matched candidate at a time, and a
+    completely-absent SECOND rule just never entered the comparison. **General principle:** when a
+    source entity can have multiple named sub-parts that get merged into one combined field on the
+    target side, a name-based comparison can silently ignore an entire sub-part if authoring simply
+    never included it — check "does entity X exist somewhere in the combined field," not just
+    "does the combined field match candidate X," and do it by ENUMERATING the source's sub-parts
+    (not by trusting the target's own claimed structure) so a fully-missing sub-part is still
+    visible.
+29. **A crude word-overlap heuristic can badly under- and over-report on free-text prose, in
+    opposite directions depending on vocabulary distinctiveness — treat it as a triage signal, not
+    a verdict.** Building `sync-army-rule-coverage.mjs`'s check surfaced this twice in the same
+    investigation. Under-report (false negative): Space Wolves' "Curse of the Wulfen" scored 78%
+    word overlap against wh11ed's WHOLE faction file despite being completely absent, because its
+    vocabulary ("unit", "objective", "infantry", "vehicle", "character") is common enough that most
+    of those words appear elsewhere in the file for unrelated reasons — only a targeted grep for a
+    distinctive multi-word phrase ("Objective Control characteristic", "Wolf Priest") actually
+    proved absence. Over-report (false positive): Death Guard's "Nurgle's Gift (Aura)" scored only
+    54% despite being present and correct, because each Plague's flowery italic flavour description
+    ("Limbs shuddering with fever palsy, bones turned brittle as glass...") was reworded/shortened in
+    wh11ed while the mechanical content matched exactly. **General principle:** a word-overlap
+    percentage on free prose is a reasonable way to generate a short list of candidates worth a
+    human's attention, but neither a high score proves presence (could be surrounded by unrelated
+    generic vocabulary) nor a low score proves absence (could be legitimately reworded flavour text)
+    — every flagged candidate still needs an actual read of both sides before a verdict, the same
+    discipline `[[feedback_verify_dont_assert]]` already establishes for structural-join mismatches.

@@ -19,11 +19,18 @@ const en = {
   name: "Blood Angels",
 
   armyRule: {
-    id: 'oath-of-moment',
-    name: 'Oath of Moment',
+    id: 'oath-of-moment-the-sons-of-sanguinius',
+    name: 'Oath of Moment & The Sons of Sanguinius',
     flavor:
       'In battle, Space Marines swear mighty oaths to destroy the enemies of the Emperor and uphold the honour of their Chapter, and such vows are sacrosanct. When the Angels of Death strike, they do so with the precision of a surgeon and the force of a thunderbolt.',
-    body: `If your Army Faction is Adeptus Astartes, at the start of your Command phase, select one unit from your opponent's army. Until the start of your next Command phase, that enemy unit is your Oath of Moment target. Each time a model with this ability makes an attack that targets your Oath of Moment target, you can re-roll the Hit roll.`,
+    body: `### Oath of Moment
+If your Army Faction is Adeptus Astartes, at the start of your Command phase, select one unit from your opponent's army. Until the start of your next Command phase, that enemy unit is your Oath of Moment target. Each time a model with this ability makes an attack that targets your Oath of Moment target, you can re-roll the Hit roll.
+
+### The Sons of Sanguinius
+▪ If an Adeptus Astartes unit has a second Faction keyword on its datasheet, that Faction keyword is the name of that unit's Chapter. For example, Lemartes has both the Adeptus Astartes and Blood Angels Faction keywords, and is therefore from the Blood Angels Chapter.
+▪ You cannot include units from more than one Chapter in your army.
+
+**Designer's Note:** The rules presented in this section assume that the Adeptus Astartes units in your army are from the Blood Angels Chapter, but they can also be used to represent any Blood Angels successor Chapter, such as one described in the background section of this book, or even one of your own invention. However, players who wish to faithfully recreate the Blood Angels Chapter on the tabletop should only include Blood Angels Epic Heroes if their collection is intended to represent the First Founding Chapter itself; Mephiston is the Chief Librarian of the Blood Angels, for example, and not of any of their successors.`,
   },
 
   detachments: [
