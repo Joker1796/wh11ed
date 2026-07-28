@@ -6,7 +6,8 @@
 but the Game Tracker's mission data, the core rulebook, and the Event Companion. Anything we render
 that appdata also encodes should have a report-only sync script watching it, the same way
 `sync-appdata.mjs`/`sync-faction-text.mjs`/`sync-core.mjs`/`sync-tracker.mjs`/
-`sync-enh-bodyguards.mjs`/`sync-leader-units.mjs`/`sync-detachment-details.mjs` already do.
+`sync-enh-bodyguards.mjs`/`sync-leader-units.mjs`/`sync-detachment-details.mjs`/
+`sync-wargear-options.mjs`/`sync-ally-inclusion.mjs` already do.
 
 This file lives in the repo (not assistant memory) specifically so it's readable from **either
 machine** — memory doesn't sync between them (see `[[reference_nested_git_repos]]`,
@@ -71,6 +72,21 @@ machine** — memory doesn't sync between them (see `[[reference_nested_git_repo
     Titan/Warhound Titan's "2" — each states its 2 weapon-mount swaps as two separate full
     sentences ("This model's X can be replaced with…" / "…Y can be replaced with…"), so "2" is the
     count of sentences, not an omitted total.
+- `allied_faction(+_datasheet/_keyword/_parent_faction_keyword/_points_limit/_required_detachment)`,
+  `faction_keyword_allied_faction` — `sync-ally-inclusion.mjs` (added 2026-07-28). 21 total
+  `allied_faction` rows; 13 gate on ≥1 detachment (checked, 32 detachment-checks total since a row
+  can span several), 8 are universal (no gating detachment at all — surfaced for human review, not
+  hard-flagged, since deciding whether/where wh11ed should carry a codex-wide "any detachment of
+  this faction can include Titans/Knights/Agents of the Imperium" rule is a product question).
+  **Found along the way:** a detachment's ally clause can legitimately live in the *faction's*
+  `armyRule.body` instead of the detachment's own `rule.body` — Drukhari's "Corsairs and Travelling
+  Players" and chaos-space-marines' "Cults of the Dark Gods" are both Faction-Pack additions (per
+  their own inline source comments) that turned an older per-detachment restriction appdata's
+  `allied_faction_required_detachment` table still lists into a blanket army-wide rule; the script
+  checks both locations. Of the 5 flags that remain (all Drukhari, "Asuryani" not found): confirmed
+  non-issue — Corsairs/Anhrathe have no `faction_keyword` of their own in appdata (only a plain
+  `keyword`), so appdata approximates their identity as "Asuryani" (the nearest umbrella), while
+  wh11ed's actual text correctly says "Harlequins and Anhrathe" (more precise than appdata's tag).
 
   **Real gaps found and fixed 2026-07-28** (appdata is canon — see `[[feedback_appdata_canon]]`):
   Devastator Squad was missing the "heavy flamer" weapon-swap option entirely (no `ranged[]` profile,
@@ -109,7 +125,7 @@ machine** — memory doesn't sync between them (see `[[reference_nested_git_repo
   `scripts/lib/sync-common.mjs`; wh11ed carries none of it (see the Combat Patrol section below for
   the one thing that might change here later).
 
-## Tomorrow: 4 more guardrail scripts, in this order (ranked by how often this exact category
+## Tomorrow: 3 more guardrail scripts, in this order (ranked by how often this exact category
 produced a real bug during the 30-faction reconciliation — see `APPDATA-SYNC-LESSONS.md`)
 
 Each follows the established pattern: report-only, wired into `scripts/sync.mjs` (add a `run(...)`
@@ -117,27 +133,8 @@ line) + this repo's `npm run sync`, bridged via `src/data/sourceIds.json` where 
 exists (never match by bare name alone — collisions are common, see `sync-leader-units.mjs`'s
 header comment for the list of repeat names across factions).
 
-**Done:** `sync-wargear-options.mjs` (wargear/loadout structural options) — see the "Already
-covered" list above.
-
-### 2. `sync-ally-inclusion.mjs` — allied-faction inclusion clauses
-**Tables:** `allied_faction` + `allied_faction_datasheet` + `allied_faction_keyword`
-(+`_slotless_keyword_group`+`_donor_keyword`+`_receiver_keyword`) + `allied_faction_points_limit` +
-`allied_faction_parent_faction_keyword` + `allied_faction_required_detachment`,
-`faction_keyword_allied_faction`.
-**Why:** every "ally-inclusion" prose block found this whole project (Blood Legions, Scintillating
-Legions, Plague Legions, Legions of Excess, Harlequins in Reaper's Wager, Devoted of Ynnead's
-Yvraine/Yncarne requirement) needed a manual multi-table grep (lesson 13). This is exactly the
-pattern a script should do once and remember.
-**Approach:** bridge each wh11ed detachment via `sourceIds.json`, find its `allied_faction` row(s)
-via `allied_faction_required_detachment`, resolve the points brackets via
-`allied_faction_points_limit` × `battle_size`, resolve the ally faction's display name via
-`allied_faction_parent_faction_keyword` → `faction_keyword`, and check the wh11ed detachment rule
-body contains the points brackets and ally-faction name. Also worth surfacing (not necessarily
-flagging as a hard miss, since lesson 17 says some ally factions have literally no appdata file at
-all): which `allied_faction` rows exist with **no** corresponding wh11ed prose at all — that's
-either a real gap or a lesson-17 categorical one, needs human judgment either way, but currently
-nobody is even listing them.
+**Done:** `sync-wargear-options.mjs` (wargear/loadout structural options), `sync-ally-inclusion.mjs`
+(allied-faction inclusion clauses) — see the "Already covered" list above.
 
 ### 3. `sync-roster-restrictions.mjs` — roster-composition requirements/exclusions
 **Tables:** `restriction_group_detachment_limit` + `keyword_restriction_group` +
