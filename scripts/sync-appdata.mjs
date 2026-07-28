@@ -31,6 +31,20 @@
 // So an "extra in wh11ed" datasheet for a Chapter may legitimately belong to that shared
 // pool rather than being wrong — cross-check space-marines vs adeptus-astartes separately
 // before treating a Chapter's "extra" list as actionable.
+//
+// Related false-positive: a "points differ" finding under the base "space-marines" section
+// for a handful of shared units (Assault Intercessor Squad, Bladeguard Veteran Squad,
+// Captain/Chaplain With Jump Pack, Outrider Squad, Repulsor Executioner, Vanguard Veteran
+// Squad With Jump Packs) will persist even after fixing the actual gap. appdata's per-
+// datasheet points list is unfiltered by unit_composition_required_faction_keyword, so it
+// merges the generic price with every Chapter-specific variant (e.g. Blood Angels pays more
+// for Bladeguard Veteran Squad) into one flat set — space-marines.js correctly shows only
+// the generic price, the Chapter-specific one lives in that Chapter's own `pointsOverrides`
+// export (see blood-angels.js), applied at runtime by loadDatasheets. This script diffs
+// space-marines.js as a flat list and has no way to attribute a value to "generic" vs "only
+// when this faction keyword applies", so it will keep reporting the merged set as a mismatch
+// — check unit_composition_required_faction_keyword by hand before treating this class as a
+// real gap (see APPDATA-SYNC-LESSONS.md for the full mechanism).
 
 import fs from 'node:fs'
 import path from 'node:path'
