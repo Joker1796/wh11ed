@@ -27,6 +27,7 @@ export const changelog = [
       'Space Wolves was missing the "Curse of the Wulfen" army rule (bonus Objective Control near a Space Wolves Character or Wolf Priest) — added.',
       'Blood Angels was missing "The Sons of Sanguinius" (the rule limiting an army to a single Chapter) — added.',
       'Several T’au Empire units (Breacher Team, Strike Team, Ethereal, Pathfinder Team, Broadside Battlesuits, Cadre Fireblade, both Commander battlesuits, all 3 Crisis Battlesuit variants) let you equip a Guardian/Marker/Shield Drone without explaining what it does — added the missing ability text for each.',
+      'Chaos Daemons: Be’lakor, the Greater Daemons and the God-specific Daemon Heralds were not showing the SHADOW LEGION keyword their own datasheet grants when the Shadow Legion detachment is active.',
     ],
     ru: [
       'У Devastator Squad (Space Marines и Ордена, использующие этот же юнит) не хватало варианта вооружения «heavy flamer» — добавлен.',
@@ -36,6 +37,7 @@ export const changelog = [
       'У Space Wolves не хватало армейского правила «Curse of the Wulfen» (бонус к контролю над целью рядом с Space Wolves Character или Wolf Priest) — добавлено.',
       'У Blood Angels не хватало правила «The Sons of Sanguinius» (ограничение армии одним орденом) — добавлено.',
       'У нескольких юнитов T’au Empire (Breacher Team, Strike Team, Ethereal, Pathfinder Team, Broadside Battlesuits, Cadre Fireblade, оба Commander battlesuit, все 3 варианта Crisis Battlesuit) можно было снарядить Guardian/Marker/Shield Drone без объяснения, что они делают — добавлен недостающий текст способностей.',
+      'Chaos Daemons: Be’lakor, Greater Daemons и специфичные для богов Daemon Heralds не показывали ключевое слово SHADOW LEGION, которое им даёт собственный датащит при активном детачменте Shadow Legion.',
     ],
   },
   {
