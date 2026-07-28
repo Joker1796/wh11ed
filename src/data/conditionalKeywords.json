@@ -59,6 +59,122 @@
       }
     ]
   },
+  "chaos-daemons": {
+    "belakor": [
+      {
+        "kw": "Shadow Legion",
+        "det": "shadow-legion"
+      }
+    ],
+    "bloodmaster": [
+      {
+        "kw": "Shadow Legion",
+        "det": "shadow-legion"
+      }
+    ],
+    "bloodthirster": [
+      {
+        "kw": "Shadow Legion",
+        "det": "shadow-legion"
+      }
+    ],
+    "changecaster": [
+      {
+        "kw": "Shadow Legion",
+        "det": "shadow-legion"
+      }
+    ],
+    "contorted-epitome": [
+      {
+        "kw": "Shadow Legion",
+        "det": "shadow-legion"
+      }
+    ],
+    "exalted-flamer": [
+      {
+        "kw": "Shadow Legion",
+        "det": "shadow-legion"
+      }
+    ],
+    "fateskimmer": [
+      {
+        "kw": "Shadow Legion",
+        "det": "shadow-legion"
+      }
+    ],
+    "fluxmaster": [
+      {
+        "kw": "Shadow Legion",
+        "det": "shadow-legion"
+      }
+    ],
+    "great-unclean-one": [
+      {
+        "kw": "Shadow Legion",
+        "det": "shadow-legion"
+      }
+    ],
+    "infernal-enrapturess": [
+      {
+        "kw": "Shadow Legion",
+        "det": "shadow-legion"
+      }
+    ],
+    "keeper-of-secrets": [
+      {
+        "kw": "Shadow Legion",
+        "det": "shadow-legion"
+      }
+    ],
+    "lord-of-change": [
+      {
+        "kw": "Shadow Legion",
+        "det": "shadow-legion"
+      }
+    ],
+    "poxbringer": [
+      {
+        "kw": "Shadow Legion",
+        "det": "shadow-legion"
+      }
+    ],
+    "rendmaster-on-blood-throne": [
+      {
+        "kw": "Shadow Legion",
+        "det": "shadow-legion"
+      }
+    ],
+    "skullmaster": [
+      {
+        "kw": "Shadow Legion",
+        "det": "shadow-legion"
+      }
+    ],
+    "sloppity-bilepiper": [
+      {
+        "kw": "Shadow Legion",
+        "det": "shadow-legion"
+      }
+    ],
+    "spoilpox-scrivener": [
+      {
+        "kw": "Shadow Legion",
+        "det": "shadow-legion"
+      }
+    ],
+    "tormentbringer": [
+      {
+        "kw": "Shadow Legion",
+        "det": "shadow-legion"
+      }
+    ],
+    "tranceweaver": [
+      {
+        "kw": "Shadow Legion",
+        "det": "shadow-legion"
+      }
+    ]
+  },
   "chaos-knights": {
     "war-dog-brigand": [
       {
