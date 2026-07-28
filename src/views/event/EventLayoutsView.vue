@@ -113,17 +113,27 @@
         </div>
       </div>
 
-      <div class="tabs">
+      <div class="tabs-row">
+        <div class="tabs">
+          <button
+            v-for="l in matchup.layouts"
+            :key="l.id"
+            class="tab"
+            :class="{ active: activeLayout === l.id }"
+            @click="activeLayout = l.id"
+          ><span class="tab-word">{{ labels.eventLayout }}</span> {{ l.id }}</button>
+        </div>
         <button
-          v-for="l in matchup.layouts"
-          :key="l.id"
-          class="tab"
-          :class="{ active: activeLayout === l.id }"
-          @click="activeLayout = l.id"
-        ><span class="tab-word">{{ labels.eventLayout }}</span> {{ l.id }}</button>
+          class="measurements-toggle"
+          :aria-pressed="showMeasurements"
+          @click="toggleMeasurements"
+        >
+          <i class="bi bi-rulers"></i>
+          <span>{{ showMeasurements ? labels.eventLayoutMeasurementsOn : labels.eventLayoutMeasurementsOff }}</span>
+        </button>
       </div>
 
-      <LayoutCard v-if="currentLayout" :layout="currentLayout" />
+      <LayoutCard v-if="currentLayout" :layout="currentLayout" :show-measurements="showMeasurements" />
     </div>
 
     <PageNav />
@@ -177,6 +187,14 @@ const zoneLegend = computed(() =>
 
 const selected = ref({ you: ec.value.dispositions[0].id, opp: ec.value.dispositions[0].id })
 const activeLayout = ref('A')
+
+// Show/hide the inch-measurement callouts on the layout diagram; preference persisted.
+const MEASUREMENTS_STORAGE = 'wh11ed-event-layout-measurements'
+const showMeasurements = ref(getItem(MEASUREMENTS_STORAGE) !== 'false')
+function toggleMeasurements() {
+  showMeasurements.value = !showMeasurements.value
+  setItem(MEASUREMENTS_STORAGE, String(showMeasurements.value))
+}
 
 function selectCell({ you, opp }) {
   selected.value = { you, opp }
@@ -450,11 +468,40 @@ const currentLayout = computed(() =>
   color: var(--text-dim);
 }
 
+.tabs-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+}
 .tabs {
   display: flex;
   justify-content: center;
   gap: 0.4rem;
-  margin-bottom: 1rem;
+}
+.measurements-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+  padding: 0.35rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.82rem;
+  transition: color 0.15s, border-color 0.15s;
+}
+.measurements-toggle:hover {
+  color: var(--text-primary);
+  border-color: var(--accent);
+}
+.measurements-toggle[aria-pressed="true"] {
+  color: var(--accent);
+  border-color: var(--accent);
 }
 .tab {
   padding: 0.4rem 1.1rem;

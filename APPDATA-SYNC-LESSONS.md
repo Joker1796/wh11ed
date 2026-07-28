@@ -516,3 +516,23 @@ and appdata state fresh; a data model can change between now and when this is ne
     against appdata's explicit per-objective `scorablePeriods` field — 0 mismatches, which is itself
     useful evidence (a hardcoded lookup table having zero drift from source data is exactly the kind
     of thing that's easy to assume and expensive to be wrong about).
+35. **"No field for X in the exported data dump" is not the same claim as "X isn't in the app" — a
+    compiled app can address an asset by a pure naming convention that never appears in any table.**
+    Investigating whether Terrain Layout diagrams could be pulled from appdata, `mission_layout.json`
+    has only `id`/`missionPackId`/`name` (confirmed against the FULL schema in `SCHEMA.md`, not just a
+    sample row) — concluded from that "appdata doesn't carry the image, stays PDF-only." The user
+    pushed back and asked to check the **APK itself** rather than stop at the already-exported JSON
+    dump — and the pictures were there: `res/drawable/ic_layout_<uuid>.webp` /
+    `ic_measurement_layout_<uuid>.webp`, where `<uuid>` is that row's own `id` with dashes swapped for
+    underscores. Nothing in the JSON ever points at these files — Android just resolves
+    `R.drawable.ic_layout_<uuid>` by name at runtime, so no "imageUrl" column was ever going to exist
+    for a script to find. **General principle:** when a schema/dump genuinely has zero trace of an
+    asset you're confident should exist somewhere, that's grounds to go check the next layer down
+    (the compiled app/APK, not just its already-exported data), not to conclude the asset doesn't
+    exist — especially when the confidence come from a person who's used the actual app and seen it.
+    Second lesson from the same investigation: don't assume two variants are interchangeable just
+    because one looks cleaner — the app's "clean" `ic_layout_*` variant is missing the inch-measurement
+    callouts that wh11ed's current (PDF-sourced) images have and that a player actually needs to set
+    up terrain on a real table; swapping to the visually nicer version would have been a silent
+    functional regression. Checking for a second, differently-named variant (`ic_measurement_layout_*`)
+    before concluding "this is the replacement" is what caught it.
