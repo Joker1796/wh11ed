@@ -60,17 +60,25 @@ machine** — memory doesn't sync between them (see `[[reference_nested_git_repo
   not a clean double) — corrected the base count to "up to 2 models"; the 10-model→3 nuance is left
   unstated (same "why fabricate an uncertain ratio" reasoning as the structural-noise cases above).
 
-  **Resolved 2026-07-28 (no wh11ed change needed):** Inquisitorial Agents' Tome-skull structural
-  bracket (`wargear_limit`, `miniatureId: null`) reads 6/11-model, disagreeing with the other 3
-  brackets on the same unit (5/10). Checked against the printed 10th-ed card (11th patches over it,
-  doesn't replace it) plus appdata's own flat faction bundle (`agents-of-the-imperium.json`
-  `wargearRules`, the prose `sync-faction-text.mjs` actually diffs): the bundle's prose says "for
-  every 5" for **all four** brackets, verbatim-matching wh11ed's current text already. So the 6/11
-  is a one-off inconsistency inside appdata itself (structural table vs its own prose bundle), not
-  a real gap — same category as the Nuncio-acquila spelling quirk above. The printed card also
-  confirmed the composition (5-10 Agents, 1-2 Gun Servitors — no Ogryns, no Auspex/Cloaking/Personal
-  Teleporter options, different ability set) already changed since 10th ed in a way wh11ed and
-  current appdata both already reflect correctly — nothing to backport from the old card.
+  **Resolved 2026-07-28 (no wh11ed change needed) — verified, not just dismissed:** Inquisitorial
+  Agents' Tome-skull structural bracket (`wargear_limit`) reads 6/11-model where the other 3
+  brackets on the same unit read 5/10 — first glance called this an appdata inconsistency, but that
+  was wrong; re-derived it properly instead. The 3 "5/10" sets are scoped to `miniatureId` = the
+  **Inquisitorial Agent** miniature specifically (checked against `miniature.json`), so their
+  `modelCount` counts *that sub-type only*. Tome-skull's set is the sole one with
+  `miniatureId: null` — not scoped to one miniature — so its `modelCount` counts the **whole unit**
+  (Agents + Gun Servitors) instead, a different but equally valid basis, not a typo. Checked whether
+  the two bases actually agree given this datasheet's composition (5–10 Agents, 1–2 Gun Servitors,
+  *2 Servitors only allowed with 10 Agents*): every legal roster is either 5–9 Agents+1 Servitor (6–10
+  models total) or 10 Agents+1–2 Servitors (11–12 total) — so ⌊agents/5⌋ and the ≥6/≥11 total-model
+  thresholds produce the identical Tome-skull count in **every** valid composition (the Servitor cap
+  being locked to 10 Agents is exactly what makes "total ≥ 11" and "agents = 10" coincide). appdata
+  is encoding the same "for every 5 Agents" rule via a total-model proxy that only works because of
+  that composition constraint — confirmed self-consistent, not a data quirk. wh11ed's prose already
+  matches (verbatim, cross-checked against `agents-of-the-imperium.json`'s `wargearRules`). The
+  printed 10th-ed card (user-provided) additionally confirmed the composition itself (no Ogryns, no
+  Auspex/Cloaking/Personal Teleporter options, different ability set) changed since 10th ed in a way
+  wh11ed and current appdata both already reflect correctly — nothing to backport from the old card.
 
 **Confirmed out of scope by design (don't build anything here):**
 - `datasheet_points_step`, `detachment_faction_detachment_points_cost` — points are MFM territory,
