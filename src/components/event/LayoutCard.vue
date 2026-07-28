@@ -37,14 +37,10 @@ const imageSrc = computed(() => (props.showMeasurements ? props.layout.image : (
   background: var(--bg-card);
 }
 
-/* Constrain to the table's display width (table aspect ≈ 0.737, so at a ~520px tall
-   table the width is ~384px). */
 .layout-card :deep(.layout-img) {
   display: block;
   width: 100%;
-  max-width: 384px;
   height: auto;
-  margin: 0 auto;
 }
 
 .layout-caption {
