@@ -373,42 +373,55 @@ above. All 5 planned scripts are now built.
   a genuine source of truth (or at least a guardrail) instead of/alongside the current PDF-vector
   extraction pipeline. Don't assume yes or no — actually read a few rows first.
 
-## NEXT TASK (queued, not started): sync-layouts.mjs — structural guardrail, NOT a data-source swap
+## DONE (2026-07-28): Layout diagrams now pulled from the app's APK, not PDF-cropped
 
-Investigated 2026-07-28: read every table in the `mission_layout` family directly (not just the
-schema). Verdict — **appdata does NOT carry the visual layout geometry**, so this cannot become a
-"pull the layouts from appdata" data-source swap the way core-rules/Event-Companion prose was. What
-it actually has:
-- `mission_layout` (48 rows: the 45 real A/B/C layouts + 3 unused generic placeholders) — **name
-  only** ("Take and Hold / Purge the Foe - Layout A"), no image, no coordinates.
-- `mission_deployment` (9 rows: the 6 standard core-rulebook deployment maps — Hammer and Anvil,
-  Crucible of Battle, Sweeping Engagement, Dawn of War, Tipping Point, Search and Destroy — + 3
-  Combat Patrol ones, out of scope) — again name only.
-- `mission_layout_linked_deployment` — which of the 6 deployment-zone TYPES each layout uses.
-- `mission_preset` + `force_disposition_mission_recommended_preset` (75 rows = 25 ordered
-  disposition-pairs × 3) — the **official A/B/C recommendation** per pair. Verified symmetric
-  (Take-and-Hold-vs-Purge-the-Foe gives the identical 3 layouts as Purge-the-Foe-vs-Take-and-Hold),
-  confirming wh11ed's unordered-`matchups[]` design is correct.
-- **No terrain table exists at all** — grepped `SCHEMA.md` and every file in `tables/`, zero hits for
-  "terrain". The actual terrain-feature placement (dense/light letters AB/CD/EF/GH, footprint
-  positions, objective markers) that's baked into wh11ed's cropped JPGs is pure PDF/raster art with
-  no structured appdata equivalent — re-extraction stays the existing pymupdf recipe (`CLAUDE.md`'s
-  "Image/vector extraction (Event Companion assets)" section), there's nothing to swap it for.
+**Correction to an earlier (wrong) conclusion in this same file.** The first pass concluded
+"appdata does NOT carry the visual layout geometry" based on `wh40k-appdata`'s JSON tables (`tables/
+mission_layout.json` etc. — name-only rows, no image field, confirmed via `SCHEMA.md`). That's true
+of the JSON *data dump*, but the user correctly pushed back and asked to check the **APK itself**
+(`sources/apk/*.xapk`) rather than stop at the dump — and the pictures ARE there, just not
+data-referenced: the app's compiled Android resources carry them as `res/drawable/ic_layout_<uuid>.
+webp` / `res/drawable/ic_measurement_layout_<uuid>.webp`, where `<uuid>` is that row's own
+`mission_layout.id` with dashes replaced by underscores (a naming convention, not a JSON field — so
+`grep`-ing the schema for "image" legitimately found nothing). **Lesson: "no field for X in the data
+dump" is not the same claim as "X isn't in the app" — a compiled app can carry an asset addressed
+purely by a resource-name convention that never appears in any exported table.**
 
-**The plan:** build `scripts/sync-layouts.mjs` (report-only, wired into `npm run sync` like every
-other guardrail) checking only what appdata actually encodes:
-1. Layout names/count — 45 expected, matched against `mission_layout`'s real (non-placeholder) rows.
-2. A/B/C assignment per matchup — wh11ed's `layoutImages`/`layoutEdges` keys vs appdata's
-   `force_disposition_mission_recommended_preset` → `mission_preset` chain, matched by the "- Layout
-   X" name suffix.
-3. (Informational, not yet rendered anywhere) which of the 6 deployment types each layout links to —
-   surfaced in the script output as a future-enrichment hook (a "Deployment: Hammer and Anvil" label
-   on `LayoutCard`), not acted on now since wh11ed doesn't describe those 6 named maps anywhere yet
-   — that would be new content, not a sync gap.
+What's actually in the base APK (`com.gamesworkshop.w40k.apk` inside the `.xapk`), verified against
+all 45 real matchup/letter combos (100% match, 0 missing):
+- `ic_layout_<id>.webp` — clean diagram, no measurements, 1535×1961, alpha channel.
+- `ic_measurement_layout_<id>.webp` — same diagram + inch callouts, confirmed **pixel-identical** to
+  wh11ed's existing PDF-cropped images (same numbers, same layout) but at native higher resolution
+  (wh11ed's PDF crops were 1040×1414).
+- (+3 unused generic "Mission Layout A/B/C" placeholders, +3 Combat Patrol deployment diagrams under
+  `mission_deployment.id` instead — neither used.)
 
-This gives an early-warning signal if a future appdata refresh adds/removes/renames a layout or
-reshuffles A/B/C — at which point a human re-runs the existing PDF-extraction recipe for whatever
-specifically changed, rather than re-doing all 45 blind.
+Built `scripts/extract-layout-images.mjs`: reads `mission_layout.json`, parses each row's `"X / Y -
+Layout Z"` name against the 5 dispositions to recover `(a, b, letter)`, unzips both webp variants
+for all 45 real layouts out of the `.xapk`, converts to PNG (via `sharp`, preserving alpha) into
+`public/images/event/layout-<a>-<b>-<letter>.png` (measurement, replaces the old asset) and
+`...-clean.png` (new). Run manually (`node scripts/extract-layout-images.mjs [xapk-path]`, defaults
+to the newest `*.xapk` in `../sources/apk/`) whenever the app updates, then `npm run images:webp`.
+
+**Gotcha found mid-build:** `gen-webp.mjs` forces PNG sources to lossless — fine for the other two
+PNG cases (`turn/*.png`, `intro/datasheet.png`, which are flat vector-style graphics) but these
+layout diagrams have a noisy/textured background, so lossless bloated them to ~1MB each (vs the old
+JPG-sourced ~128KB). Fixed by excluding `event/layout-*.png` from the lossless branch — lossy WebP
+still carries a lossy-compressed alpha channel just fine, landing back at ~100-130KB per image
+despite the higher resolution.
+
+**New feature, not just a refresh:** since the app ships both variants, added a "Measurements /
+Clean" toggle to `EventLayoutsView.vue` (persisted `wh11ed-event-layout-measurements`), wired through
+`LayoutCard.vue`'s new `showMeasurements` prop and `matchups[].layouts[].imageClean`. `layoutEdges`
+(hand-read attacker/defender bar orientation) is unchanged — still needed since `LayoutCard` overlays
+its own edge-marker bars on top of either image variant, same as before.
+
+**Structural guardrail still not built** (the original plan item): `scripts/sync-layouts.mjs`
+comparing wh11ed's 45 `layoutImages` keys / A-B-C assignment against `mission_preset` +
+`force_disposition_mission_recommended_preset` (verified by hand this session to be symmetric and
+correctly ordered) would catch a future rename/reshuffle/add before someone notices the pictures
+look wrong. Not scheduled — the extraction script's own "0 missing" count already catches an
+add/remove; a silent rename or A/B/C reshuffle is the remaining unguarded case.
 
 ## Future task (queued, not started): verify tracker VP-cap constants against `mission_pack.json`
 

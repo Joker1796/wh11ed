@@ -4,7 +4,7 @@
       <span class="edge-marker em-attacker">
         <img :src="attackerSrc" alt="Attacker's battlefield edge" loading="lazy" decoding="async" />
       </span>
-      <AppImage :src="layout.image" :alt="`Layout ${layout.id}`" class="layout-img" />
+      <AppImage :src="imageSrc" :alt="`Layout ${layout.id}`" class="layout-img" />
       <span class="edge-marker em-defender">
         <img :src="defenderSrc" alt="Defender's battlefield edge" loading="lazy" decoding="async" />
       </span>
@@ -21,10 +21,17 @@ import AppImage from '../AppImage.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 
-const props = defineProps({ layout: { type: Object, required: true } })
+const props = defineProps({
+  layout: { type: Object, required: true },
+  showMeasurements: { type: Boolean, default: true },
+})
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+
+// `imageClean` (no inch callouts) falls back to `image` for any layout that somehow
+// lacks it, so the toggle never renders a blank card.
+const imageSrc = computed(() => (props.showMeasurements ? props.layout.image : (props.layout.imageClean || props.layout.image)))
 
 // Which battlefield edges the attacker/defender markers sit on, read from the source
 // PDF (see layoutEdges in eventCompanion.js): 'h' = attacker top / defender bottom
