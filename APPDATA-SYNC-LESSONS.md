@@ -261,3 +261,32 @@ and appdata state fresh; a data model can change between now and when this is ne
     suppression path doesn't apply: before treating a `miniatureId: null` set's numbers as wrong,
     check whether it's counting the whole unit rather than one sub-type, and whether the
     datasheet's own composition constraints make that equivalent to the sub-type-scoped siblings.
+23. **"Plausible naming variant" is not the same as "verified" — a first-pass triage that assumes
+    instead of checking will sometimes get the *direction* of the fix backwards, and always misses
+    the actually-useful evidence.** `sync-wargear-options.mjs`'s first triage pass (2026-07-28)
+    called two flags "plausible naming variants" (Death Company Dreadnought's Brutalis/blood fists,
+    imperial-agents' Nuncio-acquila) purely from pattern-matching ("Blood Angels reflavor things",
+    "appdata sometimes has typos") without actually cross-checking either claim. Asked to verify
+    properly, both turned out to be **appdata contradicting itself**, not just "a plausible
+    explanation" — and the exact mechanism differs, which matters for spotting the pattern again:
+    - **Nuncio-acquila**: the `wargear_item` **catalog name** has the typo ("Nuncio-**acquila**"),
+      but that same item's own **ruleText** (the Designer's Note, `agents-of-the-imperium.json`
+      `wargear[].ruleText`) spells it correctly ("Nuncio‐**aquila**"). Same failure mode as lesson
+      2 (OCR/typo defects), just isolated to one field instead of the whole entry — check ALL of an
+      item's own text fields against each other, not just its bare name, before trusting the name.
+    - **Death Company Dreadnought's Brutalis fists/bolt rifles**: a **structural cross-reference**
+      bug, not a spelling one — `base_miniature_loadout_wargear_option` for this datasheet points at
+      the *generic* `Brutalis Dreadnought` chassis' `wargear_item` ids instead of this datasheet's
+      own Blood-Angels-renamed ones, while the SAME datasheet's flat bundle (`wargear[]`, built by a
+      different pipeline stage from the same source data) has the renamed ids correctly. **New
+      failure class for `sync-wargear-options.mjs` specifically**: when a base-loadout item flags as
+      missing on a Chapter/faction-specific *reskin* of a shared vehicle chassis, check the generic
+      chassis' own datasheet in appdata for the SAME item family before assuming wh11ed is wrong —
+      the join table may be pointing at the un-reskinned original.
+    - Contrast with **Hekaton Land Fortress's "Panspectral Scanner"** (checked in the same pass):
+      here appdata's flat bundle agreed with itself (one word) and wh11ed had the actual typo
+      ("pan spectral scanner", inline in `loadout` only — the item's own name elsewhere in the same
+      file was already correct) — **fixed** in wh11ed. Same surface symptom (a spelling mismatch
+      flagged by the script) had two completely different resolutions on the two sides of the same
+      pass — don't apply one verdict ("it's probably appdata's fault") to the whole flagged list
+      without checking each one individually.
