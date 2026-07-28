@@ -90,6 +90,13 @@ const en = {
       'Event battle is then waged by completing the steps below.',
     blocks: [
       {
+        id: 'generating-cp',
+        title: 'Generating Command Points',
+        body:
+          'Excluding Core CP, each player can gain a maximum of 1CP per battle round ' +
+          '(including the CP gained when a player discards an active Secondary Mission card).',
+      },
+      {
         id: 'step-1',
         title: '1 · Muster Armies',
         body:
@@ -195,8 +202,8 @@ const en = {
         title: '13 · End the Battle',
         body:
           'The battle ends after five battle rounds (07) have been completed. Even if you ' +
-          'have no models remaining at the start of your turn, players continue to play out ' +
-          'their turns until the battle ends.',
+          'have no models remaining in your army at the start of your turn, players continue ' +
+          'to play out their turns until the battle ends.',
       },
       {
         id: 'step-14',
@@ -467,7 +474,14 @@ const en = {
         note:
           "A player's '[gloss:win-path:win path]' refers not to their number of wins and losses, but to the " +
           'timing of those wins and losses. Pairing by win path tends to pair players based ' +
-          'on shared recent experience, improving the enjoyment of both.',
+          'on shared recent experience, improving the enjoyment of both.\n\n' +
+          "**Example:** Take two 3-1 players. One of them lost their first game; they likely " +
+          'lowered their expectations for winning the whole event after this, but are probably ' +
+          'in a great mood after three consecutive victories. The other won their first three ' +
+          'games then lost their fourth — a sharp disappointment after a 3-0 start. Should ' +
+          'these players face off, their shared enjoyment may be at odds, as they are in very ' +
+          'different emotional places. Win path ensures players enter their match with recent ' +
+          'common experiences to build on.',
       },
       {
         id: 'ranking-players',
@@ -901,6 +915,12 @@ const ru = {
       'Warhammer Event ведётся выполнением шагов ниже.',
     blocks: [
       {
+        title: 'Начисление командных очков',
+        body:
+          'Не считая базовых CP, каждый игрок может получить не более 1CP за раунд боя ' +
+          '(включая CP, полученное за сброс активной карты Secondary Mission).',
+      },
+      {
         title: '1 · Сбор армий',
         body:
           'Соберите армии, как описано в приложении Warhammer 40,000, со следующим ' +
@@ -994,8 +1014,8 @@ const ru = {
         title: '13 · Окончание битвы',
         body:
           'Битва заканчивается после того, как сыграно пять раундов боя (07). Даже если у ' +
-          'вас не осталось моделей в начале вашего хода, игроки продолжают разыгрывать свои ' +
-          'ходы до конца битвы.',
+          'вас не осталось моделей в армии в начале вашего хода, игроки продолжают разыгрывать ' +
+          'свои ходы до конца битвы.',
       },
       {
         title: '14 · Определение победителя',
@@ -1167,7 +1187,15 @@ const ru = {
         note:
           '«[gloss:win-path:Путь побед]» игрока — это не число его побед и поражений, а их тайминг. ' +
           'Составление пар по пути побед склонно объединять игроков со схожим недавним ' +
-          'опытом, повышая удовольствие обоих.',
+          'опытом, повышая удовольствие обоих.\n\n' +
+          '**Пример:** возьмём двух игроков с результатом 3-1. Один из них проиграл первую ' +
+          'партию — после этого он, вероятно, снизил ожидания от всего турнира, но, скорее ' +
+          'всего, находится в отличном настроении после трёх побед подряд. Другой выиграл ' +
+          'первые три партии, а затем проиграл четвёртую — резкое разочарование после старта ' +
+          '3-0. Если этих игроков сведут друг с другом, их удовольствие от партии может не ' +
+          'совпасть, ведь они находятся в очень разном эмоциональном состоянии. Путь побед ' +
+          'гарантирует, что игроки вступают в партию со схожим недавним опытом, на который ' +
+          'можно опереться.',
       },
       {
         title: 'Ранжирование игроков',
