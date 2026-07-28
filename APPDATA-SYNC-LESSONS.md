@@ -330,3 +330,50 @@ and appdata state fresh; a data model can change between now and when this is ne
     excluded datasheet's OWN `publicationId`/faction bundle before concluding wh11ed is missing
     something — it may be a same-named sibling from a different codex, already covered by an
     existing broader restriction.
+26. **When reconstructing expected wording from a structural join, prefer diffing against the
+    source's OWN prose first — the join and the prose routinely disagree without either being
+    wrong.** `sync-enhancement-restrictions.mjs`'s first version reconstructed an enhancement's
+    expected "X model only" wording purely from `enhancement_required_keyword_group`'s
+    `_faction_keyword`/`_keyword` join, and got **26 false positives out of 28 flags** on the first
+    run. Every disagreement had an innocent explanation: GW's prose omits a keyword's containing
+    faction once the keyword is already faction-exclusive ("Tech-Priest model only", no "Adeptus
+    Mechanicus" — Tech-Priest doesn't exist outside that faction); the prose sometimes names a
+    *different* keyword the same single datasheet also carries (Brôkhyr Iron-master's enhancement is
+    grouped under keyword "Brôkhyr" in appdata, but its own prose says "IRON-MASTER" — both
+    keywords sit on that one datasheet, so either identifies it); an OR-alternative group can be
+    redundant because it's a strict subset of another already-listed group (Bladeguard Ancient ⊂
+    Ancient — every Bladeguard Ancient already carries the Ancient keyword too); the keyword catalog
+    and the prose sentence don't always agree on singular/plural ("Monster" the keyword vs "excluding
+    MONSTERS models" in the prose, "Scout Sentinels" the datasheet name vs "SCOUT SENTINEL unit only"
+    in the prose); and appdata's own keyword catalog carries a stray placeholder entry literally
+    named "DNU" ("Do Not Use"), joined to 8 otherwise-unrelated rows across two unconnected factions
+    (Necrons' C'Tan Shards, Imperial Agents' Assassins) — a data-quality artifact with no bearing on
+    what the rules actually say. None of these are wh11ed bugs, and none of them are appdata bugs
+    either — they're just places where the *structural join* (built for filtering/querying) and the
+    *human-readable prose* (built for reading) encode the same restriction slightly differently.
+    Rebuilt as a two-tier check instead: when appdata's own rules prose already states an "only"
+    clause, diff wh11ed against THAT TEXT (a simple word-overlap check) rather than against the
+    reconstructed join — sidesteps every disagreement above in one move, because both sides are now
+    the same kind of thing (prose vs prose). Only fall back to the structural join when appdata's
+    prose is *silent* about the restriction entirely (states no "only" clause anywhere) — which is
+    the genuinely valuable, hard-to-find case this script exists for in the first place (see lesson
+    below and `Veil of Darkness`/`Scroll of Proclamation`). **General principle:** a structural join
+    table and a human-authored prose field describing the "same" fact are not guaranteed to phrase it
+    identically — when both exist, diff prose-to-prose and reserve the structural reconstruction for
+    when the prose has nothing to diff against at all.
+27. **appdata's own prose can be completely silent about a real, structurally-encoded restriction —
+    and this is genuinely rare enough that finding one is worth writing down, not assuming it's the
+    only one.** Necrons' "Veil of Darkness" enhancement's `rules` text never says "NECRONS model
+    only" anywhere; only the structural `enhancement_required_keyword_group_faction_keyword` row
+    says so. wh11ed had been missing the prefix until an earlier session fixed it by luck (asking a
+    good follow-up question, not a standing check) — the discovery that motivated building
+    `sync-enhancement-restrictions.mjs` at all. Building the script surfaced a second, previously-
+    unknown instance the same way: space-marines.js's "Scroll of Proclamation" was missing "Adeptus
+    Astartes model only." in EN — and critically, `ru/space-marines.js`'s translation of the SAME
+    enhancement already had "Только модель Adeptus Astartes." in the equivalent position. That
+    means this wasn't a translation gap (RU correctly reflects the structural restriction) — it was
+    a one-sided EN regression/oversight, the EN and RU copies of the same fact had drifted apart in
+    exactly the direction CLAUDE.md warns is the project's most common bug class. Fixed 2026-07-28.
+    **General principle:** when a checker's fallback path (structural-only, no prose to confirm
+    against) flags something, check BOTH locale files before writing anything — if one locale
+    already has the correct text, the fix is a one-line addition to the other, not new content.

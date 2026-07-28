@@ -21,6 +21,8 @@
 //     Jester/Shadowseer/Troupe Master, …), a detachment override of that cap (Houndpack Lance,
 //     Ghosts of the Webway, …), and detachment-/faction-scoped excluded datasheets (Black
 //     Templars, Deathwatch, Shadow Legion, …) must be reflected in wh11ed's text
+//   - sync-enhancement-restrictions — an enhancement's leading "X model/unit only[, excluding Y]"
+//     eligibility clause must be reflected in wh11ed's enhancement body
 //
 // Report only — nothing is written (except that you may want to run `gen-source-ids.mjs` if the
 // bridge is stale). Usage: `npm run sync` (or `node scripts/sync.mjs`).
@@ -58,6 +60,7 @@ run('sync-detachment-details', 'sync-detachment-details.mjs')
 run('sync-wargear-options', 'sync-wargear-options.mjs')
 run('sync-ally-inclusion', 'sync-ally-inclusion.mjs')
 run('sync-roster-restrictions', 'sync-roster-restrictions.mjs')
+run('sync-enhancement-restrictions', 'sync-enhancement-restrictions.mjs')
 
 console.log(`\n${'═'.repeat(72)}`)
 if (idsStale) console.log('⚠ src/data/sourceIds.json is stale — run `node scripts/gen-source-ids.mjs`.')
