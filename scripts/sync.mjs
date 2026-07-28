@@ -17,6 +17,10 @@
 //   - sync-ally-inclusion — a detachment's allied-faction clause (Blood Legions, Harlequins in
 //     Reaper's Wager, Scintillating Legions, …) must be reflected in its rule body or the
 //     faction's armyRule, with the right points brackets
+//   - sync-roster-restrictions — a named unit's default roster-wide cap (Patriarch, Death
+//     Jester/Shadowseer/Troupe Master, …), a detachment override of that cap (Houndpack Lance,
+//     Ghosts of the Webway, …), and detachment-/faction-scoped excluded datasheets (Black
+//     Templars, Deathwatch, Shadow Legion, …) must be reflected in wh11ed's text
 //
 // Report only — nothing is written (except that you may want to run `gen-source-ids.mjs` if the
 // bridge is stale). Usage: `npm run sync` (or `node scripts/sync.mjs`).
@@ -53,6 +57,7 @@ run('sync-leader-units', 'sync-leader-units.mjs')
 run('sync-detachment-details', 'sync-detachment-details.mjs')
 run('sync-wargear-options', 'sync-wargear-options.mjs')
 run('sync-ally-inclusion', 'sync-ally-inclusion.mjs')
+run('sync-roster-restrictions', 'sync-roster-restrictions.mjs')
 
 console.log(`\n${'═'.repeat(72)}`)
 if (idsStale) console.log('⚠ src/data/sourceIds.json is stale — run `node scripts/gen-source-ids.mjs`.')

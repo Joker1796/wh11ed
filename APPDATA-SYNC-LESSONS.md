@@ -311,3 +311,22 @@ and appdata state fresh; a data model can change between now and when this is ne
     one-way search only proves absence on the side actually searched. Fixed by adding a
     `resolvedOnOwnPage` pass that checks the ally's own page (resolved via `allied_faction_parent_
     faction_keyword`) before falling back to the per-receiving-faction search.
+25. **Two appdata datasheets can share the same printed name but be genuinely different rows** —
+    resolving an exclusion by NAME alone can silently match the wrong one. `sync-roster-
+    restrictions.mjs`'s `detachment_excluded_datasheet` check for Deathwatch's "Black Spear Task
+    Force" flagged 4 excluded units (Watch Master, Corvus Blackstar, Watch Captain Artemis,
+    Deathwatch Kill Team) as missing from that detachment's own rule body — but `deathwatch.js`
+    already has units by all 4 of those exact names. Tracing the specific `datasheetId`s back to
+    `wh40k-appdata/tables/datasheet.json` (not just the per-faction bundle export) showed each one's
+    `publicationId` resolves to **Codex: Imperial Agents**, not Index: Deathwatch — they're a
+    different, same-named datasheet from a different codex (Imperial Agents also prints its own
+    "Watch Master"/"Corvus Blackstar"/etc. for armies that ally them in), already banned wholesale
+    by Deathwatch's own armyRule text ("cannot include any Agents of the Imperium Deathwatch
+    units"). A literal name match across two different appdata publications produced a false
+    "missing" exactly the way lesson 24's one-directional search did — a 4th false positive in the
+    same investigation, all caught by re-verifying against the raw table instead of trusting the
+    first plausible read (see `[[feedback_verify_dont_assert]]`). **General principle:** when a
+    same-named datasheet exclusion doesn't match wh11ed's text on the expected page, check the
+    excluded datasheet's OWN `publicationId`/faction bundle before concluding wh11ed is missing
+    something — it may be a same-named sibling from a different codex, already covered by an
+    existing broader restriction.
