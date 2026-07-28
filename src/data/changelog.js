@@ -17,6 +17,20 @@
 
 export const changelog = [
   {
+    version: '2.1.7',
+    date: '2026-07-28',
+    en: [
+      'Devastator Squad (Space Marines and the Chapters that share it) was missing "heavy flamer" as a weapon option — added.',
+      'Corrected how many Death Company Marines with Jump Packs (Blood Angels) can swap their chainsword for a power fist or power weapon.',
+      'Fixed a "Panspectral Scanner" typo on the Leagues of Votann Hekaton Land Fortress.',
+    ],
+    ru: [
+      'У Devastator Squad (Space Marines и Ордена, использующие этот же юнит) не хватало варианта вооружения «heavy flamer» — добавлен.',
+      'Исправлено количество моделей Death Company Marines with Jump Packs (Blood Angels), которым можно заменить chainsword на power fist или power weapon.',
+      'Исправлена опечатка «Panspectral Scanner» у Hekaton Land Fortress (Leagues of Votann).',
+    ],
+  },
+  {
     version: '2.1.6',
     date: '2026-07-27',
     en: [
