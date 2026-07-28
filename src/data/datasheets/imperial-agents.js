@@ -4131,7 +4131,11 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Aquila Kill Team",
-        "Deathwatch Kill Team"
+        "Deathwatch Kill Team",
+        "Deathwatch Terminator Squad",
+        "Fortis Kill Team",
+        "Indomitor Kill Team",
+        "Spectrus Kill Team"
       ]
     },
     "keywords": [
@@ -4216,7 +4220,11 @@ export default [
       "text": "This model can be attached to the following units:",
       "units": [
         "Aquila Kill Team",
-        "Deathwatch Kill Team"
+        "Deathwatch Kill Team",
+        "Deathwatch Terminator Squad",
+        "Fortis Kill Team",
+        "Indomitor Kill Team",
+        "Spectrus Kill Team"
       ]
     },
     "keywords": [
