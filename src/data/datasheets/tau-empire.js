@@ -236,6 +236,20 @@ export default [
         "text": "In your Movement phase, if this unit Remains Stationary, until the start of your next turn, its Shas’ui model is equipped with the support turret weapon.\n\n**Designer’s Note:** Place a Support Turret token next to this unit to remind you."
       }
     ],
+    "wargearAbilities": [
+      {
+        "name": "Guardian Drone",
+        "text": "Each time a model makes a ranged attack that targets the bearer’s unit, subtract 1 from the Wound roll."
+      },
+      {
+        "name": "Marker Drone",
+        "text": "The bearer’s unit has the Markerlight keyword and can act as an Observer unit for another unit even if it Advanced this turn."
+      },
+      {
+        "name": "Shield Drone",
+        "text": "Add 1 to the bearer’s Wounds characteristic."
+      }
+    ],
     "composition": [
       "1 Breacher Fire Warrior Shas’ui",
       "9 Breacher Fire Warriors"
@@ -413,6 +427,14 @@ export default [
       {
         "name": "Weapon Support System",
         "text": "Each time the bearer makes a ranged attack, you can ignore any or all modifiers to the Hit roll."
+      },
+      {
+        "name": "Marker Drone",
+        "text": "The bearer’s unit has the Markerlight keyword and can act as an Observer unit for another unit even if it Advanced this turn."
+      },
+      {
+        "name": "Shield Drone",
+        "text": "Add 1 to the bearer’s Wounds characteristic."
       }
     ],
     "composition": [
@@ -506,6 +528,16 @@ export default [
       {
         "name": "Crack Shot",
         "text": "Each time this model makes a ranged attack, on a Critical Wound, that attack has an Armour Penetration characteristic of -3."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Marker Drone",
+        "text": "The bearer’s unit has the Markerlight keyword and can act as an Observer unit for another unit even if it Advanced this turn."
+      },
+      {
+        "name": "Shield Drone",
+        "text": "Add 1 to the bearer’s Wounds characteristic."
       }
     ],
     "composition": [
@@ -798,6 +830,14 @@ export default [
       {
         "name": "Weapon Support System",
         "text": "Each time the bearer makes a ranged attack, you can ignore any or all modifiers to the Hit roll."
+      },
+      {
+        "name": "Marker Drone",
+        "text": "The bearer’s unit has the Markerlight keyword and can act as an Observer unit for another unit even if it Advanced this turn."
+      },
+      {
+        "name": "Shield Drone",
+        "text": "Add 1 to the bearer’s Wounds characteristic."
       }
     ],
     "composition": [
@@ -988,6 +1028,14 @@ export default [
       {
         "name": "Weapon Support System",
         "text": "Each time the bearer makes a ranged attack, you can ignore any or all modifiers to the Hit roll."
+      },
+      {
+        "name": "Marker Drone",
+        "text": "The bearer’s unit has the Markerlight keyword and can act as an Observer unit for another unit even if it Advanced this turn."
+      },
+      {
+        "name": "Shield Drone",
+        "text": "Add 1 to the bearer’s Wounds characteristic."
       }
     ],
     "composition": [
@@ -1230,6 +1278,16 @@ export default [
         "text": "Each time a model in this unit makes a ranged attack, you can ignore any or all modifiers to the Hit roll."
       }
     ],
+    "wargearAbilities": [
+      {
+        "name": "Marker Drone",
+        "text": "The bearer’s unit has the Markerlight keyword and can act as an Observer unit for another unit even if it Advanced this turn."
+      },
+      {
+        "name": "Shield Drone",
+        "text": "Add 1 to the bearer’s Wounds characteristic."
+      }
+    ],
     "composition": [
       "1 Crisis Fireknife Shas’vre",
       "2 Crisis Fireknife Shas’ui"
@@ -1341,6 +1399,16 @@ export default [
         "text": "This unit is eligible to shoot in a turn in which it Fell Back."
       }
     ],
+    "wargearAbilities": [
+      {
+        "name": "Marker Drone",
+        "text": "The bearer’s unit has the Markerlight keyword and can act as an Observer unit for another unit even if it Advanced this turn."
+      },
+      {
+        "name": "Shield Drone",
+        "text": "Add 1 to the bearer’s Wounds characteristic."
+      }
+    ],
     "composition": [
       "1 Crisis Starscythe Shas’vre",
       "2 Crisis Starscythe Shas’ui"
@@ -1436,6 +1504,16 @@ export default [
       {
         "name": "Sunforge",
         "text": "Each time a model in this unit makes a ranged attack that targets a MONSTER or VEHICLE unit, you can re-roll the Wound roll and you can re-roll the Damage roll."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Marker Drone",
+        "text": "The bearer’s unit has the Markerlight keyword and can act as an Observer unit for another unit even if it Advanced this turn."
+      },
+      {
+        "name": "Shield Drone",
+        "text": "Add 1 to the bearer’s Wounds characteristic."
       }
     ],
     "composition": [
@@ -1714,6 +1792,14 @@ export default [
       {
         "name": "Hover Drone",
         "text": "The bearer can FLY and has a Move characteristic of 10\"."
+      },
+      {
+        "name": "Marker Drone",
+        "text": "The bearer’s unit has the Markerlight keyword and can act as an Observer unit for another unit even if it Advanced this turn."
+      },
+      {
+        "name": "Shield Drone",
+        "text": "Add 1 to the bearer’s Wounds characteristic."
       }
     ],
     "composition": [
@@ -3369,6 +3455,14 @@ export default [
       {
         "name": "Recon Drone",
         "text": "The bearer is equipped with 1 drone burst cannon and the bearer’s unit has the Infiltrators ability."
+      },
+      {
+        "name": "Marker Drone",
+        "text": "The bearer’s unit has the Markerlight keyword and can act as an Observer unit for another unit even if it Advanced this turn."
+      },
+      {
+        "name": "Shield Drone",
+        "text": "Add 1 to the bearer’s Wounds characteristic."
       }
     ],
     "composition": [
@@ -4354,6 +4448,20 @@ export default [
       {
         "name": "DS8 Support Turret",
         "text": "In your Movement phase, if this unit Remains Stationary, until the start of your next turn, its Shas’ui model is equipped with the support turret weapon.\n\n**Designer’s Note:** Place a Support Turret token next to this unit to remind you."
+      }
+    ],
+    "wargearAbilities": [
+      {
+        "name": "Guardian Drone",
+        "text": "Each time a model makes a ranged attack that targets the bearer’s unit, subtract 1 from the Wound roll."
+      },
+      {
+        "name": "Marker Drone",
+        "text": "The bearer’s unit has the Markerlight keyword and can act as an Observer unit for another unit even if it Advanced this turn."
+      },
+      {
+        "name": "Shield Drone",
+        "text": "Add 1 to the bearer’s Wounds characteristic."
       }
     ],
     "composition": [
