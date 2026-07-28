@@ -55,7 +55,9 @@ Each time a model makes a ranged attack that targets such a unit, subtract 1 fro
           title: 'Transport Capacity',
           body: `TRANSPORT models have a **[gloss:transport-capacity:transport capacity]** listed on their datasheet. This determines the type and maximum number of friendly models that are **[gloss:eligible-to-embark:eligible to embark]** within them. More than one unit can be embarked within the same TRANSPORT model at the same time, provided it has sufficient **transport capacity**.
 
-Before the battle, in the [gloss:declare-battle-formations:Declare Battle Formations] step, your units can start embarked within any friendly TRANSPORT model that has sufficient **transport capacity** remaining for the whole unit.`,
+Before the battle, in the [gloss:declare-battle-formations:Declare Battle Formations] step, your units can start embarked within any friendly TRANSPORT model that has sufficient **transport capacity** remaining for the whole unit.
+
+A friendly unit must be embarked within each friendly DEDICATED TRANSPORT model. At the end of this step, each friendly DEDICATED TRANSPORT model without an embarked unit is **[gloss:destroyed:destroyed]**, but they do not trigger rules that are triggered when a model is **destroyed**.`,
         },
         {
           id: 'section-18-02',
@@ -67,7 +69,7 @@ Before the battle, in the [gloss:declare-battle-formations:Declare Battle Format
 ▪ That unit is **eligible to embark** within that TRANSPORT, as described on that TRANSPORT's datasheet.
 ▪ That TRANSPORT has sufficient remaining **transport capacity** for each model in that unit.
 
-When a unit embarks, the active player removes that unit from the battlefield — it is now embarked within that TRANSPORT and is not on the battlefield.`,
+When a unit embarks, the active player removes that unit from the battlefield and places it to one side — it is now embarked within that TRANSPORT and is not on the battlefield.`,
           children: [
             {
               id: 'section-18-02-01',
@@ -163,7 +165,7 @@ Unless otherwise stated, each **bodyguard** unit can only have one **leader** un
               sectionNum: '19.01.01',
               title: 'Attached Units After Their Bodyguard Unit is Destroyed',
               fromApp: true,
-              body: `Some units have rules stating that when the unit in an **attached** unit is **destroyed**, **leader/support** units that were attached to them become separate units with their original **[gloss:starting-strength:starting strengths]**.
+              body: `Some units have rules stating that when the **bodyguard** unit in an **attached** unit is **destroyed**, **leader/support** units that were attached to them become separate units with their original **[gloss:starting-strength:starting strengths]**.
 
 When the **bodyguard** unit in an **attached** unit affected by such a rule is **destroyed**, all of those **leader/support** units remain a single unit for all rules purposes.`,
             },
@@ -493,7 +495,9 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
           title: 'Вместимость транспорта',
           body: `Модели [gloss:transport:TRANSPORT] имеют **[gloss:transport-capacity:вместимость транспорта]**, указанную на их карточке данных. Это определяет тип и максимальное количество дружественных моделей, **[gloss:eligible-to-embark:которые могут погрузиться]** в них. Более одного отряда может быть погружено в одну модель TRANSPORT одновременно при наличии достаточной **вместимости транспорта**.
 
-До битвы, на шаге «[gloss:declare-battle-formations:Объявление боевых построений]», ваши отряды могут начать погружёнными в любую дружественную модель TRANSPORT с достаточной оставшейся **вместимостью транспорта** для всего отряда.`,
+До битвы, на шаге «[gloss:declare-battle-formations:Объявление боевых построений]», ваши отряды могут начать погружёнными в любую дружественную модель TRANSPORT с достаточной оставшейся **вместимостью транспорта** для всего отряда.
+
+Дружественный отряд должен быть погружён в каждую дружественную модель DEDICATED TRANSPORT. В конце этого шага каждая дружественная модель DEDICATED TRANSPORT без погруженного в неё отряда **[gloss:destroyed:уничтожается]**, но это не активирует правила, срабатывающие при **уничтожении** модели.`,
         },
         {
           id: 'section-18-02',
@@ -505,7 +509,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
 ▪ Этот отряд **[gloss:eligible-to-embark:может погрузиться]** в этот TRANSPORT, как описано на его карточке данных.
 ▪ В этом TRANSPORT достаточно оставшейся **[gloss:transport-capacity:вместимости транспорта]** для каждой модели этого отряда.
 
-Когда отряд грузится, активный игрок убирает его с поля боя — теперь он погружён в этот TRANSPORT и не находится на поле боя.`,
+Когда отряд грузится, активный игрок убирает его с поля боя и откладывает в сторону — теперь он погружён в этот TRANSPORT и не находится на поле боя.`,
           children: [
             {
               title: 'Может погрузиться',
@@ -593,7 +597,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
           children: [
             {
               title: 'Объединённые отряды после уничтожения отряда телохранителей',
-              body: `Некоторые отряды имеют правила, гласящие, что когда отряд в **[gloss:attached-unit:объединённом]** отряде **[gloss:destroyed:уничтожен]**, отряды **лидера/поддержки** (leader/support), присоединённые к ним, становятся отдельными отрядами со своей изначальной **[gloss:starting-strength:начальной численностью]**.
+              body: `Некоторые отряды имеют правила, гласящие, что когда отряд **[gloss:bodyguard:телохранителей]** в **[gloss:attached-unit:объединённом]** отряде **[gloss:destroyed:уничтожен]**, отряды **лидера/поддержки** (leader/support), присоединённые к ним, становятся отдельными отрядами со своей изначальной **[gloss:starting-strength:начальной численностью]**.
 
 Когда отряд **[gloss:bodyguard:телохранителей]** в **объединённом** отряде, на который влияет такое правило, **уничтожен**, все эти отряды **лидера/поддержки** остаются единым отрядом для всех игровых целей.`,
             },

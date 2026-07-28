@@ -32,9 +32,16 @@ machine** — memory doesn't sync between them (see `[[reference_nested_git_repo
   been shown to both under- and over-report elsewhere. Also fixed a systematic false-positive class:
   appdata's own `<b>Example:</b>` inline label was flagging as "missing" against every wh11ed
   `example` field, which never carries that label (it's CSS-generated, `.example-block::before`).
-  First full run: 337 findings across sections 01-25 (296 numbered appdata rules) — NOT yet
-  triaged/applied, unlike the Event Companion pass; this is core-rulebook-wide in scope and was
-  left for a follow-up review pass rather than bulk-applied.
+  First full run: 337 findings across sections 01-25 (296 numbered appdata rules). Triaged
+  2026-07-28: fixed 4 more script bugs (missing `coreAbilities` `example` field, "Designer's Note:"
+  CSS-label false positive same as "Example:", `muster.js`'s oddly-placed `battleSizeTable`, stray
+  HTML entities/`<k>` tags) — see `APPDATA-SYNC-LESSONS.md` lesson 32 — dropping the count to 277,
+  plus applied ~5 real content fixes (CHARACTER can't be revived via healing, AIRCRAFT exception on
+  large-model Strategic Reserves set-up, empty DEDICATED TRANSPORT destruction, a "bodyguard"
+  wording gap, plus [ANTI]/[BLAST]/etc. wording nits). **Not fully exhausted** — 277 findings
+  remain, mostly confirmed-safe noise (diagram-based worked examples wh11ed already shows as an
+  image, procedural step-summaries redundant with wh11ed's own subsection navigation) but not
+  every single one has been read individually; a further pass could still find something.
 - `conditional_keyword` — `gen-conditional-keywords.mjs` (`src/data/conditionalKeywords.json`).
 - `detachment_detail` + `detachment_detail_bullet_point` — `sync-detachment-details.mjs` (added
   2026-07-27, see `APPDATA-SYNC-LESSONS.md` lesson 21).
