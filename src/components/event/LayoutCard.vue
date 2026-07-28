@@ -16,14 +16,29 @@
 
   <BaseModal
     v-if="showFull"
-    :title="`${labels.eventLayout} ${layout.id}`"
     max-width="min(96vw, 900px)"
     max-height="94vh"
     :z-index="410"
     @close="showFull = false"
   >
+    <template #header>
+      <header class="modal-head">
+        <h3 class="mh-title">{{ labels.eventLayout }} {{ layout.id }}</h3>
+        <div class="mh-right">
+          <button
+            class="measurements-toggle"
+            :aria-pressed="modalMeasurements"
+            @click="modalMeasurements = !modalMeasurements"
+          >
+            <i class="bi bi-rulers"></i>
+            <span>{{ modalMeasurements ? labels.eventLayoutMeasurementsOn : labels.eventLayoutMeasurementsOff }}</span>
+          </button>
+          <button class="mh-close" @click="showFull = false" :aria-label="labels.modalClose">✕</button>
+        </div>
+      </header>
+    </template>
     <div class="modal-body layout-modal-body">
-      <AppImage :src="imageSrc" :alt="`Layout ${layout.id}`" class="layout-img-full" />
+      <AppImage :src="modalImageSrc" :alt="`Layout ${layout.id}`" class="layout-img-full" />
     </div>
   </BaseModal>
 </template>
@@ -50,6 +65,11 @@ const labels = computed(() => ui[locale.value])
 const imageSrc = computed(() => (props.showMeasurements ? props.layout.image : (props.layout.imageClean || props.layout.image)))
 
 const showFull = ref(false)
+// The full-size view has its own measurements/clean toggle, independent of the card's
+// (some callers — GameSetup, LayoutPickerModal, etc. — don't expose one at all), seeded
+// from whatever the card was already showing.
+const modalMeasurements = ref(props.showMeasurements)
+const modalImageSrc = computed(() => (modalMeasurements.value ? props.layout.image : (props.layout.imageClean || props.layout.image)))
 </script>
 
 <style scoped>
@@ -128,5 +148,69 @@ const showFull = ref(false)
   max-height: calc(94vh - 60px);
   width: auto;
   height: auto;
+}
+
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.8rem 0.9rem;
+  border-bottom: 1px solid var(--border);
+}
+.mh-title {
+  font-family: var(--font-display);
+  font-size: 1.49rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 0;
+}
+.mh-right {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+.mh-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  min-width: 32px;
+  min-height: 32px;
+  border-radius: 4px;
+}
+.mh-close:hover {
+  background: color-mix(in srgb, var(--text-primary) 8%, transparent);
+  color: var(--text-primary);
+}
+
+.measurements-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+  padding: 0.35rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.82rem;
+  transition: color 0.15s, border-color 0.15s;
+}
+.measurements-toggle:hover {
+  color: var(--text-primary);
+  border-color: var(--accent);
+}
+.measurements-toggle[aria-pressed="true"] {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+@media (max-width: 420px) {
+  .mh-title { font-size: 1.2rem; }
+  .measurements-toggle { padding: 0.35rem 0.55rem; }
+  .measurements-toggle span { display: none; }
 }
 </style>
