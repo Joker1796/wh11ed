@@ -118,7 +118,7 @@ While this unit is within 6" of one or more friendly Space Wolves Character mode
           name: "Wolf-touched",
           points: 15,
           flavor: "Whilst the Canis Helix has yet to overcome this champion fully, it is stirred to life by the thrill of battle and the scent of blood.",
-          body: "SPACE WOLVES model only. Add 2\" to the Move characteristic of the bearer.",
+          body: "SPACE WOLVES model only. Add 2\" to the Move characteristic of the bearer.\n\nIn the Declare Battle Formations step, the bearer can be attached to a Wulfen or Wulfen with Storm Shields unit.",
         },
         {
           name: "Hunter’s Guile",
@@ -332,7 +332,7 @@ While this unit is within 6" of one or more friendly Space Wolves Character mode
           name: "Grimnar’s Mark",
           points: 20,
           flavor: "This moonsilver wolf-talisman is bestowed by the Great Wolf himself before battle, a mark of favour that fills the bearer with an eagerness to slay the foe.",
-          body: "ADEPTUS ASTARTES TERMINATOR CAPTAIN model only. Once per battle round, you can target this unit with the Rapid Ingress/Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that Stratagem on other units this phase.",
+          body: "ADEPTUS ASTARTES TERMINATOR CAPTAIN model only. Once per battle round, you can target this unit with the Rapid Ingress/Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that Stratagem on other units this phase.\n\nIn the Declare Battle Formations step, the bearer can be attached to a Wolf Guard Terminators unit.",
         },
         {
           name: "Howlmaw",

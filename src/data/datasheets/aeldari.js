@@ -1325,8 +1325,7 @@ export default [
       "Aircraft",
       "Aspect Warrior",
       "Crimson Hunter",
-      "Vehicle",
-      "Frame"
+      "Vehicle"
     ],
     "factionKeywords": [
       "Asuryani"
@@ -2941,8 +2940,7 @@ export default [
       "Wraith Construct",
       "Fly",
       "Hemlock Wraithfighter",
-      "Aeldari",
-      "Frame"
+      "Aeldari"
     ],
     "factionKeywords": [
       "Asuryani"
@@ -6714,7 +6712,6 @@ export default [
       "Aeldari",
       "Mounted",
       "Warlocks",
-      "Warlock Skyrunners",
       "Warlock Skyrunner Conclave",
       "Psyker",
       "Fly"

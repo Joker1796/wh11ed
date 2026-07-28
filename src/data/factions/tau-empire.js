@@ -30,7 +30,14 @@ During your Shooting phase, for each Observer unit from your army that has not b
 
 Units from your army with the For the Greater Good ability (excluding Observer units) are **[gloss:tau-guided:Guided]** units while targeting one or more Spotted units.
 
-Until the end of the phase, each time a model from your army in a Guided unit makes an attack that targets a Spotted unit, improve the [gloss:ballistic-skill:Ballistic Skill] characteristic of that attack by 1 and, if the Spotted unit was marked by an Observer unit that has the Markerlight keyword, that attack has the [IGNORES COVER] ability.`,
+Until the end of the phase, each time a model from your army in a Guided unit makes an attack that targets a Spotted unit, improve the [gloss:ballistic-skill:Ballistic Skill] characteristic of that attack by 1 and, if the Spotted unit was marked by an Observer unit that has the Markerlight keyword, that attack has the [IGNORES COVER] ability.
+
+### Drones
+If you have upgraded a model to have a drone, place a Drone token next to your model as a reminder. These do not count as models for any rules purposes.
+▪ **Guardian Drone:** Each time a model makes a ranged attack that targets the bearer’s unit, subtract 1 from the Wound roll.
+▪ **Marker Drone:** The bearer’s unit has the Markerlight keyword and can act as an Observer unit for another unit even if it Advanced this turn.
+▪ **Shield Drone:** Add 1 to the bearer’s Wounds characteristic.
+▪ **Gun Drone / Missile Drone:** The bearer is equipped with the drone’s ranged weapon (see that model’s own wargear).`,
   },
 
   detachments: [
