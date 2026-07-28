@@ -75,9 +75,7 @@ machine** — memory doesn't sync between them (see `[[reference_nested_git_repo
 - `allied_faction(+_datasheet/_keyword/_parent_faction_keyword/_points_limit/_required_detachment)`,
   `faction_keyword_allied_faction` — `sync-ally-inclusion.mjs` (added 2026-07-28). 21 total
   `allied_faction` rows; 13 gate on ≥1 detachment (checked, 32 detachment-checks total since a row
-  can span several), 8 are universal (no gating detachment at all — surfaced for human review, not
-  hard-flagged, since deciding whether/where wh11ed should carry a codex-wide "any detachment of
-  this faction can include Titans/Knights/Agents of the Imperium" rule is a product question).
+  can span several), 8 are universal (no gating detachment at all).
   **Found along the way:** a detachment's ally clause can legitimately live in the *faction's*
   `armyRule.body` instead of the detachment's own `rule.body` — Drukhari's "Corsairs and Travelling
   Players" and chaos-space-marines' "Cults of the Dark Gods" are both Faction-Pack additions (per
@@ -87,6 +85,33 @@ machine** — memory doesn't sync between them (see `[[reference_nested_git_repo
   non-issue — Corsairs/Anhrathe have no `faction_keyword` of their own in appdata (only a plain
   `keyword`), so appdata approximates their identity as "Asuryani" (the nearest umbrella), while
   wh11ed's actual text correctly says "Harlequins and Anhrathe" (more precise than appdata's tag).
+  **Self-review pass (same day) fixed 3 real bugs in the universal-rule check**, found by asking
+  "what's still not certain here" rather than accepting the first clean run: (a) the shared-keyword
+  fallback accepted generic words ("Chaos"/"Infantry", 24-55% of all datasheets in the game) as an
+  ally-identity signal — now filtered by game-wide frequency (>2% = too generic); (b) the points
+  regex only matched "pts", not "points" (Questor Forgepact/Iconoclast Fiefdom both write "points"
+  in full — false-flagged until fixed); (c) most seriously, bare name-presence when searching a
+  whole faction file counted a **restriction** ("your army cannot include any Agents of the
+  Imperium Deathwatch units") and a faction's own **self-reference** (searching aeldari.js for
+  "Asuryani" — its own name, used constantly in targeting text) as false "found"s. Replaced with a
+  `bodyGrantsInclusion` check requiring the established idiom "can include … <ally>" with no
+  "cannot" in between.
+  **After the fix, a real (if bigger) finding survived:** only **1 of the 8** universal rows is
+  actually present in wh11ed — Harlequins→Asuryani, in aeldari's own armyRule ("Disparate Paths").
+  The other **7 are confirmed genuinely missing** (searched every applicable faction's whole file,
+  not found anywhere) — see the new task below.
+
+- **New task, not yet scheduled:** author the 7 missing universal ally-inclusion rules found above:
+  Adeptus Titanicus/Imperial Knights as allies for ~19 Space Marine-adjacent factions (Titan/Knight
+  units, keyword-slot limits e.g. "up to 1 Titanic unit"/"up to 3 Armiger units" per battle size —
+  not a flat points bracket, see `allied_faction_keyword` for the exact numbers), Chaos Knights and
+  Legiones Daemonica as allies across the Chaos factions, and Agents of the Imperium as allies for
+  most Imperium factions. This is real content authoring (right wording, right location — likely
+  each faction's `armyRule.body`, matching the Drukhari/CSM precedent above — right ~20-30 files,
+  EN+RU), not a guardrail-script fix, and deliberately scoped separately from
+  `sync-ally-inclusion.mjs` itself. `sync-ally-inclusion.mjs`'s "Universal rules" report section
+  already lists, per row, which factions have it and which don't — start there instead of
+  re-deriving the list.
 
   **Real gaps found and fixed 2026-07-28** (appdata is canon — see `[[feedback_appdata_canon]]`):
   Devastator Squad was missing the "heavy flamer" weapon-swap option entirely (no `ranged[]` profile,
