@@ -382,6 +382,8 @@ export const ui = {
     eventMatrixYou: 'You',
     eventMatrixOpponent: 'Opponent',
     eventLayout: 'Layout',
+    eventLayoutMeasurementsOn: 'Measurements',
+    eventLayoutMeasurementsOff: 'Clean',
   },
   ru: {
     introHeading: 'Введение',
@@ -766,5 +768,7 @@ export const ui = {
     eventMatrixYou: 'Вы',
     eventMatrixOpponent: 'Соперник',
     eventLayout: 'Расстановка',
+    eventLayoutMeasurementsOn: 'С размерами',
+    eventLayoutMeasurementsOff: 'Без размеров',
   },
 }

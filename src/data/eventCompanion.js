@@ -5,25 +5,45 @@
 // The Layouts page is data-driven: 5 Force Dispositions form a 5×5 matrix; each
 // unordered pairing is a `matchup` giving each side's Primary Mission + 3 layouts.
 
-// Layout diagrams (extracted from the source PDF), keyed by `${a}|${b}` then layout
-// id. The `a|b` key uses the same ordering as the `matchups` array literal below
-// (that order is fixed).
+// Layout diagrams — extracted directly from the official app's APK
+// (scripts/extract-layout-images.mjs), keyed by `${a}|${b}` then layout id. The
+// `a|b` key uses the same ordering as the `matchups` array literal below (fixed order).
+// `layoutImages` = the measurement/inch-callout variant (default, matches the physical
+// Chapter Approved page); `layoutImagesClean` = the no-measurement variant (toggle).
 const layoutImages = {
-  'take-and-hold|take-and-hold': { A: '/images/event/layout-take-and-hold-take-and-hold-a.jpg', B: '/images/event/layout-take-and-hold-take-and-hold-b.jpg', C: '/images/event/layout-take-and-hold-take-and-hold-c.jpg' },
-  'take-and-hold|purge-the-foe': { A: '/images/event/layout-take-and-hold-purge-the-foe-a.jpg', B: '/images/event/layout-take-and-hold-purge-the-foe-b.jpg', C: '/images/event/layout-take-and-hold-purge-the-foe-c.jpg' },
-  'take-and-hold|disruption': { A: '/images/event/layout-take-and-hold-disruption-a.jpg', B: '/images/event/layout-take-and-hold-disruption-b.jpg', C: '/images/event/layout-take-and-hold-disruption-c.jpg' },
-  'take-and-hold|reconnaissance': { A: '/images/event/layout-take-and-hold-reconnaissance-a.jpg', B: '/images/event/layout-take-and-hold-reconnaissance-b.jpg', C: '/images/event/layout-take-and-hold-reconnaissance-c.jpg' },
-  'take-and-hold|priority-assets': { A: '/images/event/layout-take-and-hold-priority-assets-a.jpg', B: '/images/event/layout-take-and-hold-priority-assets-b.jpg', C: '/images/event/layout-take-and-hold-priority-assets-c.jpg' },
-  'purge-the-foe|purge-the-foe': { A: '/images/event/layout-purge-the-foe-purge-the-foe-a.jpg', B: '/images/event/layout-purge-the-foe-purge-the-foe-b.jpg', C: '/images/event/layout-purge-the-foe-purge-the-foe-c.jpg' },
-  'purge-the-foe|disruption': { A: '/images/event/layout-purge-the-foe-disruption-a.jpg', B: '/images/event/layout-purge-the-foe-disruption-b.jpg', C: '/images/event/layout-purge-the-foe-disruption-c.jpg' },
-  'purge-the-foe|reconnaissance': { A: '/images/event/layout-purge-the-foe-reconnaissance-a.jpg', B: '/images/event/layout-purge-the-foe-reconnaissance-b.jpg', C: '/images/event/layout-purge-the-foe-reconnaissance-c.jpg' },
-  'purge-the-foe|priority-assets': { A: '/images/event/layout-purge-the-foe-priority-assets-a.jpg', B: '/images/event/layout-purge-the-foe-priority-assets-b.jpg', C: '/images/event/layout-purge-the-foe-priority-assets-c.jpg' },
-  'disruption|disruption': { A: '/images/event/layout-disruption-disruption-a.jpg', B: '/images/event/layout-disruption-disruption-b.jpg', C: '/images/event/layout-disruption-disruption-c.jpg' },
-  'disruption|reconnaissance': { A: '/images/event/layout-disruption-reconnaissance-a.jpg', B: '/images/event/layout-disruption-reconnaissance-b.jpg', C: '/images/event/layout-disruption-reconnaissance-c.jpg' },
-  'disruption|priority-assets': { A: '/images/event/layout-disruption-priority-assets-a.jpg', B: '/images/event/layout-disruption-priority-assets-b.jpg', C: '/images/event/layout-disruption-priority-assets-c.jpg' },
-  'reconnaissance|reconnaissance': { A: '/images/event/layout-reconnaissance-reconnaissance-a.jpg', B: '/images/event/layout-reconnaissance-reconnaissance-b.jpg', C: '/images/event/layout-reconnaissance-reconnaissance-c.jpg' },
-  'reconnaissance|priority-assets': { A: '/images/event/layout-reconnaissance-priority-assets-a.jpg', B: '/images/event/layout-reconnaissance-priority-assets-b.jpg', C: '/images/event/layout-reconnaissance-priority-assets-c.jpg' },
-  'priority-assets|priority-assets': { A: '/images/event/layout-priority-assets-priority-assets-a.jpg', B: '/images/event/layout-priority-assets-priority-assets-b.jpg', C: '/images/event/layout-priority-assets-priority-assets-c.jpg' },
+  'take-and-hold|take-and-hold': { A: '/images/event/layout-take-and-hold-take-and-hold-a.png', B: '/images/event/layout-take-and-hold-take-and-hold-b.png', C: '/images/event/layout-take-and-hold-take-and-hold-c.png' },
+  'take-and-hold|purge-the-foe': { A: '/images/event/layout-take-and-hold-purge-the-foe-a.png', B: '/images/event/layout-take-and-hold-purge-the-foe-b.png', C: '/images/event/layout-take-and-hold-purge-the-foe-c.png' },
+  'take-and-hold|disruption': { A: '/images/event/layout-take-and-hold-disruption-a.png', B: '/images/event/layout-take-and-hold-disruption-b.png', C: '/images/event/layout-take-and-hold-disruption-c.png' },
+  'take-and-hold|reconnaissance': { A: '/images/event/layout-take-and-hold-reconnaissance-a.png', B: '/images/event/layout-take-and-hold-reconnaissance-b.png', C: '/images/event/layout-take-and-hold-reconnaissance-c.png' },
+  'take-and-hold|priority-assets': { A: '/images/event/layout-take-and-hold-priority-assets-a.png', B: '/images/event/layout-take-and-hold-priority-assets-b.png', C: '/images/event/layout-take-and-hold-priority-assets-c.png' },
+  'purge-the-foe|purge-the-foe': { A: '/images/event/layout-purge-the-foe-purge-the-foe-a.png', B: '/images/event/layout-purge-the-foe-purge-the-foe-b.png', C: '/images/event/layout-purge-the-foe-purge-the-foe-c.png' },
+  'purge-the-foe|disruption': { A: '/images/event/layout-purge-the-foe-disruption-a.png', B: '/images/event/layout-purge-the-foe-disruption-b.png', C: '/images/event/layout-purge-the-foe-disruption-c.png' },
+  'purge-the-foe|reconnaissance': { A: '/images/event/layout-purge-the-foe-reconnaissance-a.png', B: '/images/event/layout-purge-the-foe-reconnaissance-b.png', C: '/images/event/layout-purge-the-foe-reconnaissance-c.png' },
+  'purge-the-foe|priority-assets': { A: '/images/event/layout-purge-the-foe-priority-assets-a.png', B: '/images/event/layout-purge-the-foe-priority-assets-b.png', C: '/images/event/layout-purge-the-foe-priority-assets-c.png' },
+  'disruption|disruption': { A: '/images/event/layout-disruption-disruption-a.png', B: '/images/event/layout-disruption-disruption-b.png', C: '/images/event/layout-disruption-disruption-c.png' },
+  'disruption|reconnaissance': { A: '/images/event/layout-disruption-reconnaissance-a.png', B: '/images/event/layout-disruption-reconnaissance-b.png', C: '/images/event/layout-disruption-reconnaissance-c.png' },
+  'disruption|priority-assets': { A: '/images/event/layout-disruption-priority-assets-a.png', B: '/images/event/layout-disruption-priority-assets-b.png', C: '/images/event/layout-disruption-priority-assets-c.png' },
+  'reconnaissance|reconnaissance': { A: '/images/event/layout-reconnaissance-reconnaissance-a.png', B: '/images/event/layout-reconnaissance-reconnaissance-b.png', C: '/images/event/layout-reconnaissance-reconnaissance-c.png' },
+  'reconnaissance|priority-assets': { A: '/images/event/layout-reconnaissance-priority-assets-a.png', B: '/images/event/layout-reconnaissance-priority-assets-b.png', C: '/images/event/layout-reconnaissance-priority-assets-c.png' },
+  'priority-assets|priority-assets': { A: '/images/event/layout-priority-assets-priority-assets-a.png', B: '/images/event/layout-priority-assets-priority-assets-b.png', C: '/images/event/layout-priority-assets-priority-assets-c.png' },
+}
+
+const layoutImagesClean = {
+  'take-and-hold|take-and-hold': { A: '/images/event/layout-take-and-hold-take-and-hold-a-clean.png', B: '/images/event/layout-take-and-hold-take-and-hold-b-clean.png', C: '/images/event/layout-take-and-hold-take-and-hold-c-clean.png' },
+  'take-and-hold|purge-the-foe': { A: '/images/event/layout-take-and-hold-purge-the-foe-a-clean.png', B: '/images/event/layout-take-and-hold-purge-the-foe-b-clean.png', C: '/images/event/layout-take-and-hold-purge-the-foe-c-clean.png' },
+  'take-and-hold|disruption': { A: '/images/event/layout-take-and-hold-disruption-a-clean.png', B: '/images/event/layout-take-and-hold-disruption-b-clean.png', C: '/images/event/layout-take-and-hold-disruption-c-clean.png' },
+  'take-and-hold|reconnaissance': { A: '/images/event/layout-take-and-hold-reconnaissance-a-clean.png', B: '/images/event/layout-take-and-hold-reconnaissance-b-clean.png', C: '/images/event/layout-take-and-hold-reconnaissance-c-clean.png' },
+  'take-and-hold|priority-assets': { A: '/images/event/layout-take-and-hold-priority-assets-a-clean.png', B: '/images/event/layout-take-and-hold-priority-assets-b-clean.png', C: '/images/event/layout-take-and-hold-priority-assets-c-clean.png' },
+  'purge-the-foe|purge-the-foe': { A: '/images/event/layout-purge-the-foe-purge-the-foe-a-clean.png', B: '/images/event/layout-purge-the-foe-purge-the-foe-b-clean.png', C: '/images/event/layout-purge-the-foe-purge-the-foe-c-clean.png' },
+  'purge-the-foe|disruption': { A: '/images/event/layout-purge-the-foe-disruption-a-clean.png', B: '/images/event/layout-purge-the-foe-disruption-b-clean.png', C: '/images/event/layout-purge-the-foe-disruption-c-clean.png' },
+  'purge-the-foe|reconnaissance': { A: '/images/event/layout-purge-the-foe-reconnaissance-a-clean.png', B: '/images/event/layout-purge-the-foe-reconnaissance-b-clean.png', C: '/images/event/layout-purge-the-foe-reconnaissance-c-clean.png' },
+  'purge-the-foe|priority-assets': { A: '/images/event/layout-purge-the-foe-priority-assets-a-clean.png', B: '/images/event/layout-purge-the-foe-priority-assets-b-clean.png', C: '/images/event/layout-purge-the-foe-priority-assets-c-clean.png' },
+  'disruption|disruption': { A: '/images/event/layout-disruption-disruption-a-clean.png', B: '/images/event/layout-disruption-disruption-b-clean.png', C: '/images/event/layout-disruption-disruption-c-clean.png' },
+  'disruption|reconnaissance': { A: '/images/event/layout-disruption-reconnaissance-a-clean.png', B: '/images/event/layout-disruption-reconnaissance-b-clean.png', C: '/images/event/layout-disruption-reconnaissance-c-clean.png' },
+  'disruption|priority-assets': { A: '/images/event/layout-disruption-priority-assets-a-clean.png', B: '/images/event/layout-disruption-priority-assets-b-clean.png', C: '/images/event/layout-disruption-priority-assets-c-clean.png' },
+  'reconnaissance|reconnaissance': { A: '/images/event/layout-reconnaissance-reconnaissance-a-clean.png', B: '/images/event/layout-reconnaissance-reconnaissance-b-clean.png', C: '/images/event/layout-reconnaissance-reconnaissance-c-clean.png' },
+  'reconnaissance|priority-assets': { A: '/images/event/layout-reconnaissance-priority-assets-a-clean.png', B: '/images/event/layout-reconnaissance-priority-assets-b-clean.png', C: '/images/event/layout-reconnaissance-priority-assets-c-clean.png' },
+  'priority-assets|priority-assets': { A: '/images/event/layout-priority-assets-priority-assets-a-clean.png', B: '/images/event/layout-priority-assets-priority-assets-b-clean.png', C: '/images/event/layout-priority-assets-priority-assets-c-clean.png' },
 }
 
 // Battlefield-edge orientation per layout, read from the source PDF's marker lines
@@ -386,6 +406,7 @@ const en = {
     layouts: ['A', 'B', 'C'].map(id => ({
       id,
       image: layoutImages[`${m.a}|${m.b}`]?.[id],
+      imageClean: layoutImagesClean[`${m.a}|${m.b}`]?.[id],
       edge: layoutEdges[`${m.a}|${m.b}`]?.[id] || 'h',
     })),
   })),
