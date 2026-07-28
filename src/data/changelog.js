@@ -27,7 +27,7 @@ export const changelog = [
       'T\'au Empire\'s army rule page was missing the "Drones" reference section (Guardian/Marker/Shield/Gun/Missile Drone) — added.',
       'Space Wolves\' "Wolf-touched" and "Grimnar\'s Mark" enhancements were missing their "can be attached to" note (Wulfen/Wulfen with Storm Shields, and Wolf Guard Terminators respectively) — added.',
       'Watch Captain Artemis and Watch Master (Imperial Agents) could only lead an Aquila or Deathwatch Kill Team — added the Deathwatch Terminator Squad, Fortis, Indomitor and Spectrus Kill Teams they can also lead.',
-      'Updated all Game Tracker detachment/enhancement points to Munitorum Field Manual v1.1 (the points-scraper had broken against a site layout change and was fixed).',
+      'Updated all Game Tracker detachment and enhancement points to Munitorum Field Manual v1.1.',
     ],
     ru: [
       'У Ассасинов (Callidus, Culexus, Eversor, Vindicare) и C’tan Shard/Transcendent C’tan (Necrons) не хватало повышенной стоимости очков при взятии в детачмент Veiled Blade Elimination Force / Pantheon of Woe — добавлено.',
@@ -37,7 +37,7 @@ export const changelog = [
       'На странице армейского правила T\'au Empire не хватало раздела-справочника «Drones» (Guardian/Marker/Shield/Gun/Missile Drone) — добавлено.',
       'У усилений Space Wolves «Wolf-touched» и «Grimnar\'s Mark» не хватало пометки «может быть присоединён к» (Wulfen/Wulfen with Storm Shields и Wolf Guard Terminators соответственно) — добавлено.',
       'Watch Captain Artemis и Watch Master (Imperial Agents) могли возглавлять только Aquila или Deathwatch Kill Team — добавлены Deathwatch Terminator Squad, Fortis, Indomitor и Spectrus Kill Team, которые они также могут возглавлять.',
-      'Обновлены очки детачментов/усилений в Трекере партии до Munitorum Field Manual v1.1 (скрапер очков был сломан из-за изменения вёрстки сайта и теперь починен).',
+      'Обновлены очки детачментов и усилений в Трекере партии до Munitorum Field Manual v1.1.',
     ],
   },
   {
