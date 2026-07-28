@@ -212,7 +212,7 @@ export default {
     transport:
       'Эта модель имеет вместимость транспорта 14 моделей Leagues of Votann Infantry. Каждая модель Exoarmour, Exoframe или Ironkin Steeljacks занимает место 2 моделей. Она не может перевозить модели Artillery.',
     loadout:
-      '**Эта модель вооружена:** cyclic ion cannon; MATR autocannon; 2 twin bolt cannons; armoured wheels; pan spectral scanner.',
+      '**Эта модель вооружена:** cyclic ion cannon; MATR autocannon; 2 twin bolt cannons; armoured wheels; Panspectral Scanner.',
     options: [
       '2 twin bolt cannons этой модели можно заменить на одно из следующего:\n▪ 1 twin bolt cannon и 1 twin ion beamer\n▪ 2 twin ion beamers',
       'cyclic ion cannon этой модели можно заменить на одно из следующего:\n▪ 1 SP heavy conversion beamer\n▪ 1 heavy magna-rail cannon',
