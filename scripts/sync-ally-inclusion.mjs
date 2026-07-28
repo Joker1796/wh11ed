@@ -14,16 +14,20 @@
 // e.g. 16 for the "every Chaos Space Marines detachment can include one signature unit from another
 // Chaos Legion" rule, is just checked once per detachment). The other 8 are universal — a codex-wide
 // "any detachment of this faction can include Titans/Knights/Agents of the Imperium" rule not tied
-// to any one detachment — these can't be bridged to one detachment, so every faction the rule
-// `faction_keyword_allied_faction` says it applies to gets its WHOLE file (armyRule + every
-// detachment) searched instead (see `bodyGrantsInclusion` below for why bare name-presence isn't
-// safe there). Still not hard-flagged either way — deciding whether/where wh11ed should carry that
-// content is a product question (and lesson 17 — appdata doesn't even have a file for every ally
-// faction, e.g. no harlequins.json/ynnari.json) — but "not found anywhere, in any applicable
-// faction's file" is a strong signal, not just "unchecked": of the 8, only 1 (Harlequins→Asuryani)
-// turned out to actually be present; the other 7 are a confirmed real gap, tracked separately
-// (see APPDATA-COVERAGE-PLAN.md's "New task" entry — authoring that content is a much bigger job
-// than this guardrail script, deliberately out of scope here).
+// to any one detachment.
+//
+// IMPORTANT (lesson learned the hard way — see APPDATA-SYNC-LESSONS.md lesson 24): GW actually
+// publishes this kind of clause as a single named army rule on the ALLY's own codex page (e.g.
+// Chaos Daemons' "Daemonic Pact", Imperial Knights' "Freeblades", Titan Legions'/Chaos Titan
+// Legions' "Titanic Support", Imperial Agents' "Assigned Agents"), not copy-pasted into every
+// receiving faction's book. wh11ed follows that same convention (all 8 turned out to already be
+// present, verbatim, on the ally's own `src/data/factions/<ally-slug>.js`). So the check below
+// looks at the ally's own file FIRST (resolved via `allied_faction_parent_faction_keyword`); only
+// if that comes up empty does it fall back to searching every receiving faction's whole file
+// (armyRule + every detachment — see `bodyGrantsInclusion` below for why bare name-presence isn't
+// safe there) as a genuine-gap signal. An earlier version of this script skipped the ally's-own-page
+// check entirely and reported all 7 non-Harlequins rows as "missing" — a false positive verified and
+// corrected 2026-07-28 (nothing in wh11ed was actually missing).
 //
 // Matching: bridged via src/data/sourceIds.json's `det:<wh11ed-id>` → appdata detachment uuid
 // (inverted here: appdata uuid → {slug, wh11ed detachment}, since we start from the appdata side).
@@ -176,6 +180,7 @@ function bodyGrantsInclusion(body, name) {
 
 const flagged = []
 const needsReview = []
+const resolvedOnOwnPage = []
 let checked = 0
 
 for (const af of read('allied_faction.json')) {
@@ -199,6 +204,29 @@ for (const af of read('allied_faction.json')) {
     const shared = commonKeywords((alliedDsByAF.get(af.id) || []).map((r) => r.datasheetId))
     const applyNames = (appliesFkByAF.get(af.id) || []).map((r) => factionKeywordName.get(r.factionKeywordId)).filter(Boolean)
     const distinctPts = [...new Set((pointsLimitByAF.get(af.id) || []).map((r) => r.pointsLimit))]
+
+    // Check the ally's own faction page first (see the note above the class 8 handling) — that's
+    // where wh11ed actually puts this content, per GW's own convention.
+    let foundOnOwnPage = null
+    for (const ownName of allyNames) {
+      const ownSlug = wh11edSlugFor(ownName)
+      if (!ownSlug) continue
+      const ownBody = await factionWideBody(ownSlug)
+      if (ownBody == null) continue
+      const hasName = allyNames.some((n) => bodyGrantsInclusion(ownBody, n)) || shared.some((k) => bodyGrantsInclusion(ownBody, k))
+      if (!hasName) continue
+      const hasPts = !distinctPts.length || distinctPts.every((pts) => bodyHasPoints(ownBody, pts))
+      const hasKw = !kwLimits.length || kwLimits.every(({ limit }) => limit <= 1 || bodyHasNumber(ownBody, limit))
+      if (hasPts && hasKw) {
+        foundOnOwnPage = ownSlug
+        break
+      }
+    }
+    if (foundOnOwnPage) {
+      resolvedOnOwnPage.push({ af, allyNames, slug: foundOnOwnPage })
+      continue
+    }
+
     const perFaction = []
     for (const applyName of applyNames) {
       const slug = wh11edSlugFor(applyName)
@@ -260,8 +288,14 @@ for (const af of read('allied_faction.json')) {
 }
 
 console.log(
-  `ally-inclusion clauses: ${checked} detachments checked, ${flagged.length} FLAGGED, ${needsReview.length} need manual review (universal rules with no gating detachment, or a bridging gap).`,
+  `ally-inclusion clauses: ${checked} detachments checked, ${flagged.length} FLAGGED, ${resolvedOnOwnPage.length} universal rules found on the ally's own page, ${needsReview.length} need manual review (universal rules with no gating detachment, or a bridging gap).`,
 )
+if (resolvedOnOwnPage.length) {
+  console.log('\n  ✓ Universal rules found on the ally\'s own faction page (GW/wh11ed convention — not a gap):')
+  for (const r of resolvedOnOwnPage) {
+    console.log(`    allies: ${r.allyNames.join(', ')} → src/data/factions/${r.slug}.js`)
+  }
+}
 if (flagged.length) {
   console.log('\n  ✗ appdata carries an ally-inclusion detail this detachment\'s wh11ed rule body appears to be missing:')
   for (const r of flagged) {
