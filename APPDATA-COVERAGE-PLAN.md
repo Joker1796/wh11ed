@@ -191,12 +191,21 @@ machine** — memory doesn't sync between them (see `[[reference_nested_git_repo
   boilerplate on every detachment, only the soft Designer's Note is omitted, deliberately); World
   Eaters' "Pact of Blood" (a muster-time note that Blood Legions isn't independently selectable —
   wh11ed has no standalone page for it either, for the same reason, already covered by script #2's
-  ally-inclusion work). **One confirmed real gap left deliberately unfixed, out of scope for THIS
-  script:** Tau Empire's "Drones" rule includes "Shield Drone: Add 1 to the bearer's Wounds
-  characteristic" — a real wargear-level mechanic (the `wargear_item` exists in appdata) that
-  appears nowhere in `tau-empire.js`'s datasheets. That's `sync-wargear-options.mjs`'s domain (which
-  Tau units should carry it), not army-rule prose — reported here as a plain flag, needs its own
-  follow-up investigation.
+  ally-inclusion work). **One confirmed real gap, out of scope for THIS script but investigated and
+  fixed the same day:** Tau Empire's "Drones" rule includes "Shield Drone: Add 1 to the bearer's
+  Wounds characteristic" — a real wargear-level mechanic that appeared nowhere in `tau-empire.js`'s
+  datasheets. Traced structurally (`loadout_choice`/`limited_wargear_choice` joined to the "Shield
+  Drone" `wargear_item`) to **11 datasheets** that offer it as an equip option (Breacher Team, Strike
+  Team, Ethereal, Pathfinder Team, Broadside Battlesuits, Cadre Fireblade, both Commander battlesuit
+  variants, all 3 Crisis Battlesuit variants) — every one of them was missing the plain-English
+  explanation of what "Marker Drone" (Markerlight keyword + Observer even after Advancing) and
+  "Shield Drone" (+1 Wounds) actually grant, and Breacher Team/Strike Team were also missing
+  "Guardian Drone" (-1 to enemy Wound rolls targeting the unit). The "Gun Drone"/"Missile Drone"
+  weapon-granting options were confirmed ALREADY correct — every affected unit's `ranged[]` already
+  lists the drone's weapon profile (Twin pulse carbine/Missile pod), just not accompanied by a named
+  ability explaining why. Added a `wargearAbilities` entry for Guardian/Marker/Shield Drone to each
+  of the 11 datasheets, EN+RU (shared RU constants `GUARDIAN_DRONE`/`MARKER_DRONE`/`SHIELD_DRONE` in
+  `ru/tau-empire.js`, matching the file's existing shared-constant convention).
 - `allied_faction(+_datasheet/_keyword/_parent_faction_keyword/_points_limit/_required_detachment)`,
   `faction_keyword_allied_faction` — `sync-ally-inclusion.mjs` (added 2026-07-28). 21 total
   `allied_faction` rows; 13 gate on ≥1 detachment (checked, 32 detachment-checks total since a row
@@ -298,12 +307,6 @@ above. All 5 planned scripts are now built.
 
 ## Investigation tasks (do BEFORE deciding whether points 6-7 below are even buildable)
 
-- **Tau Empire "Shield Drone" wargear gap.** Found by `sync-army-rule-coverage.mjs` (2026-07-28):
-  the "Drones" army rule's "Shield Drone: Add 1 to the bearer's Wounds characteristic" doesn't
-  appear anywhere in `tau-empire.js`'s datasheets, despite the `wargear_item` existing in appdata.
-  Needs a `sync-wargear-options.mjs`-style investigation: which Tau units structurally offer it
-  (`loadout_choice`/`limited_wargear_choice`/etc.) and whether it's missing from their `options`/
-  wargear text or missing more fundamentally (no Drone-upgrade option modelled for them at all).
 - **Event Companion vs appdata.** Nothing currently checks `eventCompanion.js` (Introduction/
   Sequence/Pairings prose, or the Terrain & Layouts page) against appdata at all. First question:
   does `wh40k-appdata`'s `publication` table even have an Event Companion entry? (`isCoreRules`/
