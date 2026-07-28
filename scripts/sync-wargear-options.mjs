@@ -122,12 +122,19 @@ for (const set of read('limited_wargear_choice_set.json')) {
   // rather than spelling out "10"/"4" too, so only the smallest-modelCount row's numbers are
   // checked (the larger brackets would otherwise false-flag on every scaling squad).
   const base = limits.reduce((min, l) => (min == null || l.modelCount < min.modelCount ? l : min), null)
-  // Tau Crisis suits (and similar) state a drone choice as a per-model loadout_choice_set on each
-  // miniature slot ("up to two of the following, but cannot take duplicates") — the SAME items
-  // *also* get a redundant `miniatureId: null` whole-unit cap here (e.g. modelCount 3/choiceLimit 3
-  // for a fixed 3-model unit — just "at most 1 of this type per model" restated as a unit total).
-  // Only check this set's number when it's NOT that kind of duplicate — i.e. skip it when this is
-  // a null-miniature set whose items are already covered by a family-1 set for the same datasheet.
+  // A `miniatureId: null` set here isn't scoped to one miniature type, so its modelCount can count
+  // the WHOLE unit (all sub-types combined) rather than one sub-type — a different, legitimate
+  // basis, not an error by itself (see APPDATA-SYNC-LESSONS.md lesson 22). Two confirmed cases so
+  // far both happen to also carry a `miniatureId: null` loadout_choice_set (family 1) for the exact
+  // same items, so skipping the number check when that's true is a safe, cheap way to avoid
+  // false-flagging both: (a) Tau Crisis suits' drones — a per-model cap ("up to two… cannot take
+  // duplicates") on each real miniature slot, where this set's modelCount 3/choiceLimit 3 for a
+  // fixed 3-model unit is just "at most 1 of this type per model" restated as a redundant unit
+  // total; (b) imperial-agents' Inquisitorial Agents' Tome-skull — modelCount 6/11 here counts
+  // Agents+Gun Servitors combined, which only *happens* to equal the sibling brackets' 5/10
+  // Agent-only count because of that datasheet's own composition constraint (a 2nd Gun Servitor
+  // requires exactly 10 Agents) — verified by hand, not assumed; don't extend this specific
+  // equivalence to a new datasheet without re-deriving it from that datasheet's own composition.
   const family1Names = family1ItemNamesByDatasheet.get(set.datasheetId)
   const isDuplicateOfFamily1 = !set.miniatureId && items.length && items.every((i) => family1Names?.has(i.name))
   const numbers = base && !isDuplicateOfFamily1 ? [base.modelCount, base.choiceLimit, base.duplicateLimit] : []

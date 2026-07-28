@@ -235,3 +235,29 @@ and appdata state fresh; a data model can change between now and when this is ne
     "appdata gap, kept because it seemed necessary" — e.g. adepta-sororitas' "Catechism of Divine
     Penitence" Repentia-attach clause and necrons' "Veil of Darkness" NECRONS-model-only prefix both
     resolved this way, upgrading their status from "plausible" to "structurally confirmed."
+22. **A `limited_wargear_choice_set` with `miniatureId: null` may count the WHOLE unit instead of
+    one sub-type — a different numeric bracket than its siblings is not automatically a mismatch,
+    verify the equivalence before calling it one.** Found via `sync-wargear-options.mjs`
+    (imperial-agents' Inquisitorial Agents, 2026-07-28): 3 sibling `limited_wargear_choice_set` rows
+    for Eviscerator/Plasma pistol/Mystic stave are scoped to `miniatureId` = the **Inquisitorial
+    Agent** miniature specifically (check `miniature.json`), so their `modelCount` brackets (0/5,
+    0/10) count that sub-type only — matching the prose "for every 5 Inquisitorial Agents…". The
+    Tome-skull set is the only one with `miniatureId: null` (not scoped to one miniature), so its
+    `modelCount` brackets (6/11) count the **whole unit** (Agents + Gun Servitors) instead — first
+    glance called this "an inconsistency inside appdata," which was wrong and unverified. Checked
+    properly: given this datasheet's composition constraint (a 2nd Gun Servitor is only legal with
+    10 Agents), every valid roster is either 5–9 Agents+1 Servitor (6–10 total models) or 10
+    Agents+1–2 Servitors (11–12 total) — so ⌊agents/5⌋ and the "total ≥ 6 / ≥ 11" thresholds produce
+    the **identical** result in every legal composition. appdata is encoding the same "for every 5
+    Agents" rule via a total-model proxy that only works *because* of that specific composition
+    constraint — confirmed self-consistent, not a data quirk, once actually derived instead of
+    asserted. **Handling this going forward:** `sync-wargear-options.mjs` already treats a
+    `miniatureId: null` `limited_wargear_choice_set` as non-erroring when the same items already
+    appear in a `loadout_choice_set` for the same datasheet (see that script's own comment on the
+    Tau Crisis-suit drone case it was written for) — this Inquisitorial Agents case happens to hit
+    the same suppression path (Tome-skull *also* has a `miniatureId: null` `loadout_choice_set`
+    entry, limit 2/dup-true, alongside the scaled `limited_wargear_choice_set`), so it already
+    doesn't get flagged as an error. The general principle to remember even where that specific
+    suppression path doesn't apply: before treating a `miniatureId: null` set's numbers as wrong,
+    check whether it's counting the whole unit rather than one sub-type, and whether the
+    datasheet's own composition constraints make that equivalent to the sub-type-scoped siblings.
