@@ -91,7 +91,7 @@ const BLOCK_ROUNDS = {
   'Fifth Battle Round': [5],
   'End of Battle': [5],
 }
-function blockRounds(headingEn) {
+export function blockRounds(headingEn) {
   return BLOCK_ROUNDS[headingEn] || [1, 2, 3, 4, 5]
 }
 

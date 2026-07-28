@@ -484,3 +484,35 @@ and appdata state fresh; a data model can change between now and when this is ne
     a bulk diff first runs, budget time to debug the SCRIPT before triaging the DATA — a missing
     field or an unhandled tag produces findings that look exactly like real content gaps until
     you've checked the source on both sides for the specific case.
+33. **A `Map` keyed by normalized text is only safe when that text is actually unique — a handful of
+    missions legitimately have two rows with identical text.** `sync-tracker.mjs`'s mission row-diff
+    built `new Map(rows.map(r => [r.text, r]))` on both sides; when appdata genuinely has two scoring
+    rows with the exact same normalized text (A Grievous Blow/Bring It Down: a 4vp uncapped stepper
+    and a textually-identical 5vp `vpCap`'d stepper; Engage On All Fronts: two such pairs), the `Map`
+    silently kept only the last one — the other was never compared against anything, so a future
+    appdata vp change to it would have been invisible. Worse, for Engage On All Fronts the collapse
+    happened *identically* on both sides (both kept their own last-duplicate), so the two survivors
+    still matched each other by coincidence and the script reported "no structural differences found"
+    while having actually verified only 2 of 4 rows — a false-positive silence, the most dangerous
+    kind since there's no findings text to make you suspicious. Fixed by grouping into arrays and
+    pairing same-text rows by vp-sorted position instead of collapsing to one. **General principle:**
+    before keying a comparison Map by "normalized content," check whether that content can legitimately
+    repeat within the same collection — if it can, a plain Map hides the collision instead of erroring
+    on it, and a coincidental match on both sides is silent, not loud.
+34. **A full-text diff category doesn't have to be a from-scratch script — checking if appdata's
+    fields are already sitting unread next to a scalar-only check is often enough.** `sync-tracker.mjs`
+    already loaded `core.coreStratagems`/`core.twists` for name/CP presence checks, but their
+    `when`/`target`/`effect`/`restriction`/`rules` prose fields were sitting right there, unread —
+    upgrading meant adding ~15 lines that reuse the already-imported `appdataToMarkup`, not a new
+    normalizer. This surfaced a real, gameplay-affecting rules bug that a structural-only check could
+    never have caught: Crushing Impact (15.06) told players to roll a number of D6 equal to the
+    **enemy** model's T characteristic, when the actual rule (per appdata's `effect` field, confirmed
+    against the source PDF as an arbiter since the pronoun "that model" is genuinely ambiguous without
+    it — appdata stays the primary comparison source, the PDF is only consulted to break a tie) rolls
+    against **your own** MONSTER/VEHICLE's T instead — a wrong-source-of-dice bug with a real
+    probability-distribution difference at the table (RU was already correct; only EN had drifted).
+    Also added a genuinely new check with no prior equivalent: primary missions' block round-gating
+    (`useTracker.js`'s hardcoded `BLOCK_ROUNDS` heading→rounds table, now exported) cross-referenced
+    against appdata's explicit per-objective `scorablePeriods` field — 0 mismatches, which is itself
+    useful evidence (a hardcoded lookup table having zero drift from source data is exactly the kind
+    of thing that's easy to assume and expensive to be wrong about).

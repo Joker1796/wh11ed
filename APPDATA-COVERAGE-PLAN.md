@@ -23,7 +23,26 @@ machine** — memory doesn't sync between them (see `[[reference_nested_git_repo
   saves, army rules, detachment rules/stratagems/enhancements, unit composition) — read by
   `sync-appdata.mjs` (structure) and `sync-faction-text.mjs` (prose).
 - `_core-content.json` (battle sizes, force dispositions, primary/secondary missions, twists, core
-  stratagems) — read by `sync-tracker.mjs`.
+  stratagems) — read by `sync-tracker.mjs`. Full audit 2026-07-28: battle sizes/dispositions/
+  disposition-map/detachments (341 checked) all clean. Found and fixed one real script bug — the
+  mission-row comparison keyed a `Map` by normalized row text, which silently drops a row whenever
+  two rows share identical text (A Grievous Blow/Bring It Down/Engage On All Fronts legitimately do:
+  same condition, fixed-tier vs tactical-tier vp) — a future appdata vp change to the dropped row
+  would have been invisible. Fixed by grouping into arrays and pairing by vp-sorted position instead
+  of a single-key Map. Added two checks that never existed before: (1) primary-mission round-gating
+  — cross-referenced every block's heading-derived `BLOCK_ROUNDS` (useTracker.js, now exported) against
+  appdata's explicit per-objective `scorablePeriods` field; 0 mismatches across all primary missions
+  (secondary missions carry no `scorablePeriods`, gated by heading text alone, already heading-
+  checked). (2) Full-text diff of core stratagems' `when`/`target`/`effect`/`restrictions` (previously
+  only name+CP were compared) and twists' body+note vs `rules` — found a real rules bug: Crushing
+  Impact (15.06) said to roll dice equal to the **enemy** model's T characteristic, when the correct
+  rule (confirmed against appdata AND the source PDF as arbiter, `sources/WH40k_11ed_CORE-
+  Rules_01-06-2026.pdf`) rolls against **your own** MONSTER/VEHICLE's T — fixed in `battlefields.js`
+  (EN only; the RU translation was already correct). All other stratagem/twist findings confirmed
+  cosmetic paraphrase (also fixed a `normText()` bug: stray single `*` italic markers from appdata's
+  Designer's Note weren't stripped, causing 5 of 6 twists to false-positive). All mission-content
+  findings (primary + secondary) reconfirmed as the documented paraphrase/vpCap-collapse/cumulative-
+  bonus false-positive classes, same VP both sides — zero scoring bugs found in mission data itself.
 - `_core-rules.json` (Core Rules publication, sections 01-25, incl. 24 Core Abilities/`reference.js`
   — confirmed it DOES run, resolving the "sync-core.mjs section 24" investigation task below) —
   read by `sync-core.mjs`. Upgraded 2026-07-28 from a word-overlap ratio (triage-only, per its own
@@ -353,6 +372,16 @@ above. All 5 planned scripts are now built.
   layout↔deployment↔matchup pairings appdata-side, and if so whether they're rich enough to become
   a genuine source of truth (or at least a guardrail) instead of/alongside the current PDF-vector
   extraction pipeline. Don't assume yes or no — actually read a few rows first.
+
+## NEXT TASK (queued, not started): pull Layouts from appdata, reformat to wh11ed style
+
+Separate from the tracker data audit above. Extract the Terrain & Layouts content
+(`mission_layout`/`mission_layout_linked_deployment`/`mission_deployment` etc., see the
+investigation task right above this one) from wh40k-appdata as the source of truth, then
+reformat/re-render it to match wh11ed's existing presentation (`EventLayoutsView.vue`,
+`LayoutCard.vue` — the 45 A/B/C matchup diagrams + LAYOUTS KEY legend). Do the investigation task
+first to confirm appdata's tables actually carry the same layout↔deployment↔matchup pairings before
+committing to this as a data-source swap rather than just another guardrail script.
 
 ## Future scope (not scheduled — flag for later, needs a product decision first)
 
