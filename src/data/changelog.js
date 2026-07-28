@@ -31,6 +31,7 @@ export const changelog = [
       'A keyword a unit gains from an army/detachment rule (rather than having it printed) is now marked with a `*` on the datasheet page, with a footnote naming where it comes from.',
       'A Character\'s "can be attached to" list no longer shows a dead (unclickable) name when that unit only exists on a different faction\'s page — it\'s hidden there instead, since you\'d never actually take it while building this faction\'s army.',
       'A remaining unlinked name in that same list (e.g. Dark Angels\' "Deathwing Command Squad", or "Relic Terminator Squad") is a Warhammer Legends unit — those aren\'t covered by this site yet, but will get their own page once they\'re available in GW\'s own app data.',
+      'The Event Companion was missing the "Generating Command Points" rule (max 1CP per battle round from non-Core sources) — added, plus an example illustrating "win path" in the Pairing Players rule.',
     ],
     ru: [
       'У Devastator Squad (Space Marines и Ордена, использующие этот же юнит) не хватало варианта вооружения «heavy flamer» — добавлен.',
@@ -44,6 +45,7 @@ export const changelog = [
       'Ключевое слово, которое юнит получает от армейского правила или детачмента (а не напечатано на листе), теперь помечено «*» на странице датащита, со сноской о том, откуда оно взялось.',
       'Список «можно присоединить к» у персонажа больше не показывает мёртвые (некликабельные) названия юнитов, которые существуют только на странице другой фракции — теперь они скрыты, раз их всё равно нельзя взять при сборке армии этой фракции.',
       'Оставшееся название без ссылки в этом же списке (например, «Deathwing Command Squad» у Dark Angels или «Relic Terminator Squad») — это юнит Warhammer Legends. Такие юниты пока не охвачены сайтом, но получат свою страницу, как только появятся в данных приложения GW.',
+      'В Event Companion не хватало правила «Начисление командных очков» (не более 1CP за раунд боя не из базовых источников) — добавлено, плюс пример к «пути побед» в правиле Pairing Players.',
     ],
   },
   {

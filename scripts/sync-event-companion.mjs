@@ -177,7 +177,6 @@ function flattenMain(en) {
     if (title) out.push({ title, text })
   }
   push('Introduction', en.sequence.introduction.body, en.sequence.introduction.note)
-  push('Generating Command Points') // known appdata-only entry (see APPDATA-COVERAGE-PLAN.md) — placeholder so it's reported, not silently dropped
   push('Warhammer Event Mission Sequence', en.sequence.intro)
   for (const b of en.sequence.blocks) push(b.title, b.body, tableText(b.table), b.tableNote)
   for (const s of en.sequence.secondary) push(s.title, s.body)
@@ -198,7 +197,9 @@ function flattenTeams(en) {
     if (title) out.push({ title, text })
   }
   push('Introduction', en.teams.intro, en.teams.blocks[0]?.body)
-  push('Generating Command Points')
+  // Teams deliberately doesn't repeat "Generating Command Points" — it's the same rule as the
+  // main Event Companion's, and the Teams sequence explicitly refers back to it (see
+  // 'teams-sequence-note'). Reported as a container-inventory gap below, not a real one.
   for (const b of en.teams.blocks.slice(1)) push(b.title, b.body, tableText(b.table), b.tableNote, b.note)
   return out
 }
