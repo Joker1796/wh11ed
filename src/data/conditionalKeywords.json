@@ -41,7 +41,8 @@
     "tempestus-scions": [
       {
         "kw": "Battleline",
-        "det": "bridgehead-strike"
+        "det": "bridgehead-strike",
+        "extra": true
       }
     ]
   },

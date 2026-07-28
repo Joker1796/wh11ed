@@ -11,16 +11,25 @@
 //     faction's page)               → emit unconditionally under that faction slug
 //   - requiredDetachmentId          → only while that detachment is the active pick
 //     → emit with a `det` gate (the wh11ed detachment id)
-// The allegiance-ability grants (Mark of Chaos: KHORNE/TZEENTCH/… per unit) and the two
-// warlord-specific ones are a different, per-unit army-list choice not modelled by the static
-// datasheet page, so they're skipped here (counted in the report as a reminder).
+// The allegiance-ability grants (Mark of Chaos: KHORNE/TZEENTCH/… per unit) and rows with ONLY a
+// warlord condition (no det/roster gate at all) are a different, per-unit army-list choice not
+// modelled by the static datasheet page, so they're skipped here entirely (counted in the report
+// as a reminder). A row can also carry `requiredWarlordMiniatureId` ON TOP OF an already-modelled
+// det/roster gate (exactly 1 case game-wide as of writing: Astra Militarum's Tempestus Scions
+// gaining Battleline in Bridgehead Strike, but ONLY while a Militarum Tempestus Officer model is
+// Warlord) — that additional condition isn't itself modelled (no wh11ed-side warlord-miniature
+// mapping to translate it into), but dropping it silently would make the grant look
+// unconditional on just the detachment/roster, which overstates it. Flagged instead via `extra`.
 //
 // The appdata datasheet/detachment UUIDs are translated to wh11ed ids by INVERTING
 // src/data/sourceIds.json (the same stable-id bridge gen-source-ids.mjs builds), so this stays
 // automatic across appdata bumps: regenerate after a bump and new grants land themselves.
 //
 // Shape: { "<faction-slug>": { "<unit-id>": [ { "kw": "Deathwing" }, { "kw": "Battleline",
-//         "det": "company-of-hunters" }, ... ] } }  (no `det` = unconditional on that faction).
+//         "det": "company-of-hunters" }, { "kw": "Battleline", "det": "bridgehead-strike",
+//         "extra": true }, ... ] } }  (no `det` = unconditional on that faction; `extra: true` =
+//         an additional un-modelled condition — currently always a Warlord requirement — also
+//         gates this grant, so the det/roster context alone isn't the whole story).
 //
 // Usage:
 //   node scripts/gen-conditional-keywords.mjs           # write the sidecar + report
@@ -71,7 +80,8 @@ const factionSlugs = new Set(
 
 const ck = T('conditional_keyword.json')
 const skipped = { allegiance: 0, warlord: 0, unmappedDatasheet: 0, unmappedDetachment: 0, notAFaction: 0 }
-// pending[] before per-faction datasheet verification: { slug, unitId, kw, det|null }
+let extraCondition = 0
+// pending[] before per-faction datasheet verification: { slug, unitId, kw, det|null, extra? }
 const pending = []
 for (const r of ck) {
   const kw = kwName[r.keywordId]
@@ -96,7 +106,16 @@ for (const r of ck) {
   }
 
   if (!factionSlugs.has(slug)) { skipped.notAFaction++; continue }
-  pending.push({ slug, unitId: unit.id, kw, det })
+  // A row can ALSO carry requiredWarlordMiniatureId on top of the det/roster gate already
+  // modelled above (exactly 1 row game-wide as of this writing — Astra Militarum's Tempestus
+  // Scions gaining Battleline in Bridgehead Strike, ONLY while a Militarum Tempestus Officer
+  // model is Warlord). That extra condition isn't itself modelled (no wh11ed-side warlord-
+  // miniature mapping), but dropping it silently would make the grant look unconditional on
+  // just the detachment — flag it instead so the render can say "additional conditions apply"
+  // rather than quietly overstating what the detachment alone grants.
+  const extra = !!r.requiredWarlordMiniatureId
+  if (extra) extraCondition++
+  pending.push({ slug, unitId: unit.id, kw, det, extra })
 }
 
 // Verify each grant's unit actually renders on that faction page (own or folded-in shared), and
@@ -116,7 +135,9 @@ for (const slug of Object.keys(bySlug)) {
     const list = (unitMap[p.unitId] ||= [])
     // de-dupe identical (kw, det) grants (appdata sometimes has duplicate datasheet rows)
     if (!list.some((g) => g.kw === p.kw && (g.det || null) === p.det)) {
-      list.push(p.det ? { kw: p.kw, det: p.det } : { kw: p.kw })
+      const g = p.det ? { kw: p.kw, det: p.det } : { kw: p.kw }
+      if (p.extra) g.extra = true
+      list.push(g)
     }
   }
 }
@@ -139,7 +160,8 @@ console.log(
   `conditionalKeywords: ${grantCount} grants across ${Object.keys(sorted).length} factions ` +
     `(skipped ${skipped.allegiance} Mark-of-Chaos/allegiance, ${skipped.warlord} warlord-only; ` +
     `${skipped.unmappedDatasheet} datasheet / ${skipped.unmappedDetachment} detachment unmapped, ` +
-    `${skipped.notAFaction} non-wh11ed faction, ${dropped} already-printed/off-page).`,
+    `${skipped.notAFaction} non-wh11ed faction, ${dropped} already-printed/off-page, ` +
+    `${extraCondition} flagged with an extra un-modelled warlord condition).`,
 )
 
 const check = process.argv.includes('--check')

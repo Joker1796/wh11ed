@@ -28,6 +28,8 @@ export const changelog = [
       'Blood Angels was missing "The Sons of Sanguinius" (the rule limiting an army to a single Chapter) — added.',
       'Several T’au Empire units (Breacher Team, Strike Team, Ethereal, Pathfinder Team, Broadside Battlesuits, Cadre Fireblade, both Commander battlesuits, all 3 Crisis Battlesuit variants) let you equip a Guardian/Marker/Shield Drone without explaining what it does — added the missing ability text for each.',
       'Chaos Daemons: Be’lakor, the Greater Daemons and the God-specific Daemon Heralds were not showing the SHADOW LEGION keyword their own datasheet grants when the Shadow Legion detachment is active.',
+      'A keyword a unit gains from an army/detachment rule (rather than having it printed) is now marked with a `*` on the datasheet page, with a footnote naming where it comes from.',
+      'A Character\'s "can be attached to" list no longer shows a dead (unclickable) name when that unit only exists on a different faction\'s page — it\'s hidden there instead, since you\'d never actually take it while building this faction\'s army.',
     ],
     ru: [
       'У Devastator Squad (Space Marines и Ордена, использующие этот же юнит) не хватало варианта вооружения «heavy flamer» — добавлен.',
@@ -38,6 +40,8 @@ export const changelog = [
       'У Blood Angels не хватало правила «The Sons of Sanguinius» (ограничение армии одним орденом) — добавлено.',
       'У нескольких юнитов T’au Empire (Breacher Team, Strike Team, Ethereal, Pathfinder Team, Broadside Battlesuits, Cadre Fireblade, оба Commander battlesuit, все 3 варианта Crisis Battlesuit) можно было снарядить Guardian/Marker/Shield Drone без объяснения, что они делают — добавлен недостающий текст способностей.',
       'Chaos Daemons: Be’lakor, Greater Daemons и специфичные для богов Daemon Heralds не показывали ключевое слово SHADOW LEGION, которое им даёт собственный датащит при активном детачменте Shadow Legion.',
+      'Ключевое слово, которое юнит получает от армейского правила или детачмента (а не напечатано на листе), теперь помечено «*» на странице датащита, со сноской о том, откуда оно взялось.',
+      'Список «можно присоединить к» у персонажа больше не показывает мёртвые (некликабельные) названия юнитов, которые существуют только на странице другой фракции — теперь они скрыты, раз их всё равно нельзя взять при сборке армии этой фракции.',
     ],
   },
   {
