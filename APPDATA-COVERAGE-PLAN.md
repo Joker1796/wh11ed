@@ -109,6 +109,16 @@ machine** — memory doesn't sync between them (see `[[reference_nested_git_repo
   per-receiving-faction search; a clean run now reports all 8 as either found on the ally's own page
   (7) or found via the pre-existing per-faction search (Harlequins→Asuryani). **There is no missing
   ally-inclusion content and no content-authoring task here** — script #2 is fully done and verified.
+  **One more thing checked before calling it closed:** why does `allied_faction` carry two separate
+  rows for "Agents of the Imperium" (`dc938d45…`, applying to ~12 generic Imperium factions, and
+  `be1bdcb9…`, applying to Deathwatch only) with identical battle-size numbers, if it's the same
+  rule? Confirmed via `wh40k-appdata/factions/deathwatch.json`: Deathwatch is its own top-level
+  appdata faction bundle (own `publications` entry, "Index: Deathwatch") — but its own `armyRules`
+  list does **not** include an "Assigned Agents"-style rule at all. So the duplicate row isn't a
+  different text, it's a structural artifact of Deathwatch being a separate selectable Army Faction
+  in appdata's schema even though the actual entitlement text (imperial-agents.js's "Assigned
+  Agents", gated on "every model has the IMPERIUM keyword") already covers it — Deathwatch units
+  have IMPERIUM keyword too. No separate wh11ed text is needed for `be1bdcb9`.
 
   **Real gaps found and fixed 2026-07-28** (appdata is canon — see `[[feedback_appdata_canon]]`):
   Devastator Squad was missing the "heavy flamer" weapon-swap option entirely (no `ranged[]` profile,
