@@ -47,12 +47,10 @@ function appdataMarkup(text) {
     .replace(/<br\s*\/?>/gi, '\n')
     .replace(/<u>(.*?)<\/u>/gis, '__$1__')
     .replace(/<b>(.*?)<\/b>/gis, '**$1**')
+    .replace(/<k>(.*?)<\/k>/gis, (_, inner) => inner.toUpperCase())
     .replace(/<i>(.*?)<\/i>/gis, '$1')
     .replace(/<[^>]+>/g, '')
-    // wh11ed's `example` field never carries an "Example:" label — it's CSS-generated
-    // (`.example-block::before { content: 'Example:' }`, src/style.css) — so appdata's own
-    // inline "**Example:**" lead-in is redundant with wh11ed's rendering, not missing content.
-    .replace(/\*\*Example:?\*\*:?\s*/gi, '')
+    .replace(/&#x?[0-9a-f]+;/gi, ' ') // stray numeric HTML entities (e.g. &#x20;) in appdata text
 }
 
 // Strip wh11ed's enrichment layer (and appdata's residual markup, once run through appdataMarkup
@@ -63,6 +61,15 @@ function plainText(s) {
   t = t.replace(/\[img:[^\]]*\]/g, ' ')
   t = t.replace(/\[(?:gloss|def):[^:\]]*:([^\]]*)\]/g, '$1') // [gloss:id:label] / [def:id:label] → label
   t = t.replace(/\{[a-z]+:([^}]*)\}/gi, '$1') // {red:TEXT} → TEXT
+  // "Example:" label — sometimes a CSS-generated lead-in on wh11ed's side (.example-block::before,
+  // not stored data) with no equivalent stored text, sometimes literal inline text on both sides
+  // (e.g. 01.05.01's two inline "**Example:**" paragraphs) — strip on BOTH sides symmetrically so
+  // the label token itself is never what a diff hinges on, only the content under it.
+  // Same deal for "Designer's Note:" — reference.js's coreAbilities `note` field is rendered via
+  // ReferenceView.vue with a CSS-generated "Designer's Note" label (`.note-box::before` there),
+  // so appdata's own inline label is redundant, not missing content.
+  t = t.replace(/\*\*Example:?\*\*:?\s*/gi, '').replace(/(^|\n)\s*Example:\s*/gi, '$1')
+  t = t.replace(/\*\*Designer.s Note:?\*\*:?\s*/gi, '').replace(/(^|\n)\s*Designer.s Note:\s*/gi, '$1')
   t = t.replace(/\*\*/g, '').replace(/__/g, '')
   t = t.replace(/\s*\((?:\d+\.)*\d+(?:\.\d+)*\)/g, '') // (NN) / (NN.NN) cross-refs
   t = t.replace(/[[\]]/g, '') // [KEYWORD] / [ABILITY] bracket markers — both sides have them
@@ -136,6 +143,14 @@ for (const f of FILES) {
   const mod = await loadModule(path.join(ROOT, 'src', 'data', `${f}.js`))
   const data = mod[Object.keys(mod)[0]]
   flattenWh11ed(data.en, f, wh)
+  // muster.js's Select Battle Size table is a one-off oddly-placed field: `battleSizeTable` lives
+  // on the top-level section-25 node (rendered after 25.03 by MusterView), not as `table` on the
+  // 25.03 subsection node itself like every other section-level table in this repo — fold it into
+  // 25.03's compared body or it permanently reads as a content gap.
+  if (f === 'muster') {
+    const bst = data.en[0]?.battleSizeTable
+    if (bst && wh.has('25.03')) wh.get('25.03').body += '\n\n' + tableText(bst)
+  }
 }
 // Section 24 Core Abilities lives in reference.js across two exports: `abilityIntro` (the
 // framework subsections 24.01/24.02, section-tree shape) and `coreAbilities` (the flat list
@@ -146,7 +161,7 @@ for (const f of FILES) {
 const ref = await loadModule(path.join(ROOT, 'src', 'data', 'reference.js'))
 flattenWh11ed(ref.abilityIntro.en, 'reference', wh)
 for (const a of ref.coreAbilities.en) {
-  if (a.num) wh.set(a.num, { title: a.name || '', body: [a.fullText, a.note].filter(Boolean).join('\n\n'), file: 'reference' })
+  if (a.num) wh.set(a.num, { title: a.name || '', body: [a.fullText, a.note, a.example].filter(Boolean).join('\n\n'), file: 'reference' })
   for (const c of a.children || []) if (c.sectionNum) wh.set(c.sectionNum, { title: c.title || '', body: c.body || '', file: 'reference' })
 }
 

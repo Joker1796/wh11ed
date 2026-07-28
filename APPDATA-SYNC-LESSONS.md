@@ -455,3 +455,32 @@ and appdata state fresh; a data model can change between now and when this is ne
     a repeated substring shows up as the ENTIRE diff on many otherwise-unrelated entries — that
     pattern (not a scattering of different words) is the signature of a rendering convention on one
     side that the other side's normalizer doesn't yet know about, not real content drift.
+32. **Triaging `sync-core.mjs`'s 337 findings surfaced 4 more script bugs before any real content
+    gap could be trusted, plus a handful of genuine ones once the noise was gone.** Bugs, in the
+    order found: (a) `wh.set()` for `coreAbilities` folded in `fullText`/`note` but forgot `example`
+    — every ability with a numeric worked example (`[BLAST]`, `[CLEAVE]`, `[MELTA]`, …) showed its
+    own correct, already-transcribed example as "missing in wh11ed" simply because the script never
+    read the field. (b) The same CSS-label pattern as lesson 31's "Example:" also applies to
+    "Designer's Note:" — `reference.js`'s `note` field is rendered by `ReferenceView.vue` with a
+    `.note-box::before { content: "Designer's Note" }` label ***of its own***, so appdata's inline
+    label needed the identical symmetric strip. (c) `muster.js`'s Select Battle Size table is a
+    one-off oddly-placed field, `battleSizeTable` on the top-level section-25 node (rendered after
+    25.03 by `MusterView.vue`), not `table` on the 25.03 subsection node like every other
+    section-level table in this repo — invisible to the generic `node.table` check, so the whole
+    table read as absent. (d) appdata's raw text carries stray `&#x20;` HTML entities and `<k>…</k>`
+    keyword-caps tags that the generic `<[^>]+>` tag-strip doesn't decode/handle, producing a
+    literal `"x20"` token or wrongly-cased keyword text that occasionally survived into a diff as a
+    phantom single-word mismatch. Once all four were fixed (findings dropped 337 → 277), the
+    remaining "appdata has (missing in wh11ed)" bucket sorted cleanly into: worked examples that
+    wh11ed already shows as an **image** (the Core Rules PDF's own RED/BLUE-lettered diagrams —
+    Battle-Shock, Fight Phase, Terrain, Objective Control examples — genuinely redundant, not a
+    gap), procedural step-summaries ("The Command phase is resolved by following these steps: 1…
+    2… 3…") that are structurally redundant with wh11ed's own numbered-subsection navigation, and a
+    small number of REAL missing clauses: Healing/Regaining Wounds can't revive a **CHARACTER**
+    model (01/02.02.04), a large model set up from Strategic Reserves has an **AIRCRAFT** exception
+    the Deployment-phase version already had (03.02.02), an empty **DEDICATED TRANSPORT** is
+    destroyed at the end of the Declare Battle Formations step (18.01), and one attached-unit rule
+    (19.01.01) said "the unit" where it meant "the **bodyguard** unit". **General principle:** when
+    a bulk diff first runs, budget time to debug the SCRIPT before triaging the DATA — a missing
+    field or an unhandled tag produces findings that look exactly like real content gaps until
+    you've checked the source on both sides for the specific case.
