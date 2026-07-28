@@ -217,9 +217,12 @@ const props = defineProps({
   // below) so it still reads as printed-card-accurate at a glance but a curious reader can tell
   // it's a rule grant, not ink on the card. Optional, so callers without a faction/detachment
   // context just render the printed keywords as before.
-  // Shape: [{ kw: 'Shadow Legion', detName: 'Shadow Legion' | null }] — `detName` is the active
-  // detachment's display name when the grant is gated on one, or null for a roster-wide/Chapter
-  // grant that applies regardless of detachment.
+  // Shape: [{ kw: 'Shadow Legion', detName: 'Shadow Legion' | null, extra?: boolean }] — `detName`
+  // is the active detachment's display name when the grant is gated on one, or null for a
+  // roster-wide/Chapter grant that applies regardless of detachment. `extra: true` means the
+  // grant ALSO depends on something beyond the detachment/faction context (currently always a
+  // Warlord requirement) that isn't itself modelled — the footnote adds a caveat instead of
+  // implying that context is the whole story.
   grantedKeywords: { type: Array, default: () => [] },
 })
 
@@ -261,9 +264,15 @@ const extraKeywords = computed(() => {
 const extraKeywordNotes = computed(() => {
   const groups = new Map()
   for (const g of extraKeywords.value) {
-    const note = g.detName
+    let note = g.detName
       ? labels.value.dsKeywordGrantedByDetachment.replace('{det}', g.detName)
       : labels.value.dsKeywordGrantedByFaction
+    // A grant can depend on more than just the detachment/faction context shown above (currently
+    // always a Warlord requirement — see gen-conditional-keywords.mjs's header comment) — say so
+    // rather than implying that context alone is the whole condition. Folded into the same
+    // string (not a separate flag on the group) so an `extra` grant never silently merges with a
+    // plain one that happens to share the same base sentence.
+    if (g.extra) note += ' ' + labels.value.dsKeywordExtraCondition
     const kws = groups.get(note) || []
     kws.push(g.kw)
     groups.set(note, kws)
