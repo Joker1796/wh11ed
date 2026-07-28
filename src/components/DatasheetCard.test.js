@@ -52,4 +52,24 @@ describe('DatasheetCard granted keywords', () => {
     })
     expect(w.findAll('.ds-kw-footnote')).toHaveLength(1)
   })
+
+  it('adds a caveat when the grant depends on an extra un-modelled condition (e.g. Warlord)', () => {
+    const w = mount(DatasheetCard, {
+      props: { sheet: sheet(), grantedKeywords: [{ kw: 'Battleline', detName: 'Bridgehead Strike', extra: true }] },
+    })
+    expect(w.find('.ds-kw-footnote').text()).toContain('additional conditions apply')
+  })
+
+  it('keeps an extra-condition grant in its own footnote line even if the base source matches another grant', () => {
+    const w = mount(DatasheetCard, {
+      props: {
+        sheet: sheet(),
+        grantedKeywords: [
+          { kw: 'Battleline', detName: 'Bridgehead Strike', extra: true },
+          { kw: 'Battleline Bonus', detName: 'Bridgehead Strike' },
+        ],
+      },
+    })
+    expect(w.findAll('.ds-kw-footnote')).toHaveLength(2)
+  })
 })
