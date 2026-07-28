@@ -90,6 +90,17 @@ function addChoiceSet(datasheetId, items, numbers = []) {
   choiceSetsByDatasheet.set(datasheetId, arr)
 }
 
+// Tracks every item name any loadout_choice_set (family 1) references, per datasheet — used below
+// to recognize when a limited_wargear_choice_set (family 2) duplicates a family-1 set for the
+// exact same items (see the Tau Crisis-suit drone note).
+const family1ItemNamesByDatasheet = new Map()
+function noteFamily1Items(datasheetId, items) {
+  if (!items.length) return
+  const set = family1ItemNamesByDatasheet.get(datasheetId) || new Set()
+  for (const i of items) set.add(i.name)
+  family1ItemNamesByDatasheet.set(datasheetId, set)
+}
+
 for (const set of read('loadout_choice_set.json')) {
   const choices = loadoutChoicesBySet.get(set.id) || []
   const items = choices.flatMap((c) => itemsOf(loadoutItemsByChoice.get(c.id) || []))
@@ -99,6 +110,7 @@ for (const set of read('loadout_choice_set.json')) {
   // wh11ed states the scaling ratio and leaves this redundant whole-unit total unstated, so don't
   // check this set's number (the item name itself is still checked).
   addChoiceSet(set.datasheetId, items, set.miniatureId ? [set.limit] : [])
+  noteFamily1Items(set.datasheetId, items)
 }
 for (const set of read('limited_wargear_choice_set.json')) {
   const choices = limitedChoicesBySet.get(set.id) || []
@@ -110,7 +122,15 @@ for (const set of read('limited_wargear_choice_set.json')) {
   // rather than spelling out "10"/"4" too, so only the smallest-modelCount row's numbers are
   // checked (the larger brackets would otherwise false-flag on every scaling squad).
   const base = limits.reduce((min, l) => (min == null || l.modelCount < min.modelCount ? l : min), null)
-  const numbers = base ? [base.modelCount, base.choiceLimit, base.duplicateLimit] : []
+  // Tau Crisis suits (and similar) state a drone choice as a per-model loadout_choice_set on each
+  // miniature slot ("up to two of the following, but cannot take duplicates") — the SAME items
+  // *also* get a redundant `miniatureId: null` whole-unit cap here (e.g. modelCount 3/choiceLimit 3
+  // for a fixed 3-model unit — just "at most 1 of this type per model" restated as a unit total).
+  // Only check this set's number when it's NOT that kind of duplicate — i.e. skip it when this is
+  // a null-miniature set whose items are already covered by a family-1 set for the same datasheet.
+  const family1Names = family1ItemNamesByDatasheet.get(set.datasheetId)
+  const isDuplicateOfFamily1 = !set.miniatureId && items.length && items.every((i) => family1Names?.has(i.name))
+  const numbers = base && !isDuplicateOfFamily1 ? [base.modelCount, base.choiceLimit, base.duplicateLimit] : []
   addChoiceSet(set.datasheetId, items, numbers)
 }
 for (const set of read('all_model_wargear_choice_set.json')) {
