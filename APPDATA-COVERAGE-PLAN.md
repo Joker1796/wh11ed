@@ -32,12 +32,26 @@ necrons; notably `primary_mission_objective_scoring.json`, `rule_container_compo
 - `sync-event-companion.mjs`: found and fixed a real script bug (title-fuzzy-match had no plural/
   singular normalization — see `APPDATA-SYNC-LESSONS.md` lesson 36), no actual content gap.
 
+**Also reviewed** (scoped to just the 5 changed faction bundles, per user direction — not the full
+30-faction suite): `sync-appdata`/`sync-faction-text` structural+prose diffs for adepta-sororitas,
+space-marines (adeptus-astartes), imperial-agents (agents-of-the-imperium), emperors-children,
+necrons. Found and fixed two real, pre-existing points gaps (see `APPDATA-SYNC-LESSONS.md` lesson
+37): (a) Assassins + Necron C'tan missing their higher price in a specific detachment (Veiled Blade
+Elimination Force / Pantheon of Woe) — added the missing tier. (b) 8 units shared between
+space-marines.js and a Chapter file (Assault Intercessor Squad, Assault Intercessors/Vanguard
+Veteran Squad/Bladeguard Veteran Squad With Jump Packs, Captain/Chaplain With Jump Pack, Outrider
+Squad, Repulsor Executioner) cost more for Blood Angels specifically (Repulsor Executioner also for
+Deathwatch/Space Wolves/Dark Angels) — added a new `pointsOverrides` mechanism (id → replacement
+`points` array, exported per-Chapter-file, applied by `loadDatasheets`) since the shared-fold
+architecture had no way to express a per-Chapter price override before this.
+
 **Not re-verified this round** (pre-existing, ongoing, separate from this session's work — flagged
 here since data_version did bump and 5 faction bundles changed, not investigated further): the
-30-faction `sync-appdata`/`sync-faction-text`/`sync-ally-inclusion`/`sync-army-rule-coverage` suite
-surfaced its usual mix of already-known/resolved findings plus one new one — Tau Empire's "Drones"
-army rule (9% word overlap, appears to be missing wh11ed content about placing a Drone token +
-Shield Drone's +1W). Worth a look next time faction content is being triaged.
+remaining 25 factions in the `sync-appdata`/`sync-faction-text`/`sync-ally-inclusion`/
+`sync-army-rule-coverage` suite surfaced its usual mix of already-known/resolved findings plus one
+new one — Tau Empire's "Drones" army rule (9% word overlap, appears to be missing wh11ed content
+about placing a Drone token + Shield Drone's +1W). Worth a look next time faction content is being
+triaged.
 
 ## Audit of current coverage (done 2026-07-27, cross-referenced against wh40k-appdata's
 `SCHEMA.md`, 141 tables total)
