@@ -155,6 +155,48 @@ machine** — memory doesn't sync between them (see `[[reference_nested_git_repo
   by tier 1. `enhancement_wargear_item_profile` (2 rows — enhancements that grant a specific weapon
   profile, a different question from eligibility) checked by hand, already correct, left out of the
   automated check.
+- `army_rule` (via each faction's flat `armyRules[]` bundle export, not the raw `army_rule_
+  faction_keyword`/`army_rule_excluded_from_command_bunker_faction_keyword` tables originally
+  planned for this slot) — `sync-army-rule-coverage.mjs` (added 2026-07-28). Reading the raw rows by
+  hand first (per this file's own standing advice) showed those two tables are Command-Bunker-app UI
+  bookkeeping — which of a Chapter's OWN factions can select a given army-rule ROW, and whether that
+  row is hidden from a digital army-builder's selectable list — not roster restrictions or excluded-
+  content. `army_rule` itself has no body/`rules` field at all (see `SCHEMA.md`); the actual prose is
+  in each faction's flat bundle `armyRules[]`, where **19 factions carry 2+ distinctly-named army
+  rules** (e.g. adeptus-astartes: "Oath of Moment" + "Space Marine Chapters"; dark-angels: "Oath of
+  Moment" + "The Deathwing" + "The Ravenwing" + "The Unforgiven"). wh11ed deliberately merges these
+  into one combined `armyRule.body` per faction (`### ` subheadings), but `sync-faction-text.mjs`'s
+  army-rule comparison only gathers candidates whose NAME fuzzy-matches wh11ed's single
+  `armyRule.name` — so a second, differently-named rule can go completely unrepresented with nothing
+  ever flagging it. Built a new check instead: for every distinctly-named, non-stub army rule (a pure
+  cross-reference like "described in full on the Army Rules page of Codex: Space Marines" carries no
+  content of its own to check), does its distinctive vocabulary appear somewhere in the faction's
+  whole text (armyRule + every detachment rule, since Deathwatch/Space Wolves place a mono-Chapter
+  restriction on each detachment rather than the top-level armyRule)?
+  **2 real, previously-unknown gaps found and fixed 2026-07-28:** `space-wolves.js` was completely
+  missing **"Curse of the Wulfen"** — not a phrasing nit, a genuine passive ability (+1/+3 Objective
+  Control on Infantry/Vehicle models near a friendly Space Wolves Character (excluding Wulfen) or Wolf
+  Priest) was absent from the entire file. `blood-angels.js` was completely missing **"The Sons of
+  Sanguinius"** (the mono-Chapter restriction + Designer's Note) — every other Chapter book had SOME
+  form of this (Dark Angels' "The Unforgiven" in full, Space Wolves' "Sons of Russ" partially,
+  Deathwatch's own detachment text), Blood Angels had none at all. Both merged into their faction's
+  combined `armyRule.body` the same way Dark Angels already does it. Both are EN-only factions
+  (`ru: en`), so no RU parity work was needed.
+  A crude word-overlap check is a blunt instrument here — free-text prose, not a closed keyword
+  vocabulary — so it's deliberately loose (flag under 85%) and produced several more candidates that
+  were each read by hand and confirmed NOT gaps (encoded as a `KNOWN_EQUIVALENT` allowlist): Death
+  Guard's "Nurgle's Gift (Aura)" (present verbatim, low score is from reworded per-Plague flavour
+  italics); Space Wolves' "Sagas" (a framing sentence only — every detachment already implements its
+  own named Saga mechanic under its own heading) and "Sons of Russ" (the hard restriction is already
+  boilerplate on every detachment, only the soft Designer's Note is omitted, deliberately); World
+  Eaters' "Pact of Blood" (a muster-time note that Blood Legions isn't independently selectable —
+  wh11ed has no standalone page for it either, for the same reason, already covered by script #2's
+  ally-inclusion work). **One confirmed real gap left deliberately unfixed, out of scope for THIS
+  script:** Tau Empire's "Drones" rule includes "Shield Drone: Add 1 to the bearer's Wounds
+  characteristic" — a real wargear-level mechanic (the `wargear_item` exists in appdata) that
+  appears nowhere in `tau-empire.js`'s datasheets. That's `sync-wargear-options.mjs`'s domain (which
+  Tau units should carry it), not army-rule prose — reported here as a plain flag, needs its own
+  follow-up investigation.
 - `allied_faction(+_datasheet/_keyword/_parent_faction_keyword/_points_limit/_required_detachment)`,
   `faction_keyword_allied_faction` — `sync-ally-inclusion.mjs` (added 2026-07-28). 21 total
   `allied_faction` rows; 13 gate on ≥1 detachment (checked, 32 detachment-checks total since a row
@@ -250,22 +292,18 @@ header comment for the list of repeat names across factions).
 
 **Done:** `sync-wargear-options.mjs` (wargear/loadout structural options), `sync-ally-inclusion.mjs`
 (allied-faction inclusion clauses), `sync-roster-restrictions.mjs` (roster-composition
-requirements/exclusions), `sync-enhancement-restrictions.mjs` (enhancement eligibility clauses) —
-see the "Already covered" list above.
-
-### 5. `sync-army-rule-exclusions.mjs` — army-rule-level Chapter/faction exclusions
-**Tables:** `army_rule_faction_keyword`, `army_rule_excluded_from_command_bunker_faction_keyword`.
-**Why:** suspected structural home of things like Oath of Moment's "Space Marine Chapters"
-merged-card exclusion list (Black Templars ADEPTUS ASTARTES PSYKER ban + vehicle list, Space Wolves
-Apothecary/Devastator/Tactical ban, Deathwatch mono-Chapter + excluded-unit list) — found and fixed
-by hand during the original space-marines commit, never re-checked structurally since.
-**Approach:** unverified how cleanly these two tables map to that specific prose block — **spend
-the first 30 minutes on this one just reading the raw rows for `adeptus-astartes`'s army rule and
-comparing to the actual wh11ed text**, before writing the comparison logic. May turn out to be a
-smaller/different shape than the other four scripts.
+requirements/exclusions), `sync-enhancement-restrictions.mjs` (enhancement eligibility clauses),
+`sync-army-rule-coverage.mjs` (multi-army-rule faction coverage) — see the "Already covered" list
+above. All 5 planned scripts are now built.
 
 ## Investigation tasks (do BEFORE deciding whether points 6-7 below are even buildable)
 
+- **Tau Empire "Shield Drone" wargear gap.** Found by `sync-army-rule-coverage.mjs` (2026-07-28):
+  the "Drones" army rule's "Shield Drone: Add 1 to the bearer's Wounds characteristic" doesn't
+  appear anywhere in `tau-empire.js`'s datasheets, despite the `wargear_item` existing in appdata.
+  Needs a `sync-wargear-options.mjs`-style investigation: which Tau units structurally offer it
+  (`loadout_choice`/`limited_wargear_choice`/etc.) and whether it's missing from their `options`/
+  wargear text or missing more fundamentally (no Drone-upgrade option modelled for them at all).
 - **Event Companion vs appdata.** Nothing currently checks `eventCompanion.js` (Introduction/
   Sequence/Pairings prose, or the Terrain & Layouts page) against appdata at all. First question:
   does `wh40k-appdata`'s `publication` table even have an Event Companion entry? (`isCoreRules`/
