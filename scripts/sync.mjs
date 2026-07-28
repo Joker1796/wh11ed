@@ -8,6 +8,8 @@
 //   - sync-faction-text — faction rule/stratagem/enhancement/ability PROSE vs the canon (errata drift)
 //   - sync-tracker     — Game Tracker rule content (missions, twists, battle sizes, …)
 //   - sync-core        — core rulebook prose (sections 01-25)
+//   - sync-event-companion — Event Companion + Teams supplement prose (Doubles/Dominatus are out
+//     of scope by product decision, inventoried only) and the 6 Twists (mission_twist.json)
 //   - sync-enh-bodyguards — enhancements that grant an attach must carry the attach note
 //   - sync-leader-units — a Character's leader.units must match appdata's Leader/Support list
 //   - sync-detachment-details — a detachment's Restrictions/Keywords card-box text (a table pair
@@ -57,6 +59,7 @@ run('sync-appdata (all factions)', 'sync-appdata.mjs', ['--all'])
 run('sync-faction-text (all factions)', 'sync-faction-text.mjs', ['--all'])
 run('sync-tracker', 'sync-tracker.mjs')
 run('sync-core', 'sync-core.mjs')
+run('sync-event-companion', 'sync-event-companion.mjs')
 run('sync-enh-bodyguards', 'sync-enh-bodyguards.mjs')
 run('sync-leader-units', 'sync-leader-units.mjs')
 run('sync-detachment-details', 'sync-detachment-details.mjs')
