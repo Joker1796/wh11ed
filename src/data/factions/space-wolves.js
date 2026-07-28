@@ -21,11 +21,15 @@ const en = {
   name: "Space Wolves",
 
   armyRule: {
-    id: 'oath-of-moment',
-    name: 'Oath of Moment',
+    id: 'oath-of-moment-curse-of-the-wulfen',
+    name: 'Oath of Moment & Curse of the Wulfen',
     flavor:
-      'In battle, Space Marines swear mighty oaths to destroy the enemies of the Emperor and uphold the honour of their Chapter, and such vows are sacrosanct. When the Angels of Death strike, they do so with the precision of a surgeon and the force of a thunderbolt.',
-    body: `If your Army Faction is Adeptus Astartes, at the start of your Command phase, select one unit from your opponent's army. Until the start of your next Command phase, that enemy unit is your Oath of Moment target. Each time a model with this ability makes an attack that targets your Oath of Moment target, you can re-roll the Hit roll.`,
+      'In battle, Space Marines swear mighty oaths to destroy the enemies of the Emperor and uphold the honour of their Chapter, and such vows are sacrosanct. When the Angels of Death strike, they do so with the precision of a surgeon and the force of a thunderbolt. Only while fighting at the side of their battle-brothers can the feral Wulfen control their frenzied aggression.',
+    body: `### Oath of Moment
+If your Army Faction is Adeptus Astartes, at the start of your Command phase, select one unit from your opponent's army. Until the start of your next Command phase, that enemy unit is your Oath of Moment target. Each time a model with this ability makes an attack that targets your Oath of Moment target, you can re-roll the Hit roll.
+
+### Curse of the Wulfen
+While this unit is within 6" of one or more friendly Space Wolves Character models (excluding Wulfen models) or within 12" of one or more friendly Wolf Priest models, if it is not Battle-shocked, add 1 to the Objective Control characteristic of Infantry models in it and add 3 to the Objective Control characteristic of Vehicle models in it.`,
   },
 
   detachments: [
