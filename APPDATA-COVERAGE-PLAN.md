@@ -14,6 +14,31 @@ machine** — memory doesn't sync between them (see `[[reference_nested_git_repo
 `[[feedback_git_stash_safety]]`). Delete/trim sections as they're completed, same convention as
 `DATASHEET-DRIFT-TODO.md` (now gone) and `MIGRATION.md`.
 
+## Re-verified against app v2.3.1 (data_version 913, 2026-07-28) — clean
+
+wh40k-appdata refreshed from v2.3.0 (912) to v2.3.1 (913) — a small, targeted diff (33 tables, 5
+faction bundles: adepta-sororitas/adeptus-astartes/agents-of-the-imperium/emperors-children/
+necrons; notably `primary_mission_objective_scoring.json`, `rule_container_component.json`,
+`faq.json`/`faq_config.json`, `stratagem.json`). Re-ran everything this session touched:
+
+- `sync-core.mjs`: 274 findings, identical set to the already-fully-triaged one — 0 new.
+- `sync-tracker.mjs`: 0 new findings across missions/stratagems/twists/battle sizes/dispositions/
+  detachments. (The one changed scoring row, `primary_mission_objective_scoring.json`'s
+  stepper→checkbox fix, belongs to "Uphold Your Vows" — not one of the 25 Chapter Approved primary
+  missions in `_core-content.json`, out of scope.)
+- `scripts/extract-layout-images.mjs`: re-run against the new `.xapk` — all 90 images extracted,
+  resulting webp **byte-identical** to what's committed (`git status` showed zero changes after the
+  full `images:webp` pipeline) — the app didn't touch these assets in this point release.
+- `sync-event-companion.mjs`: found and fixed a real script bug (title-fuzzy-match had no plural/
+  singular normalization — see `APPDATA-SYNC-LESSONS.md` lesson 36), no actual content gap.
+
+**Not re-verified this round** (pre-existing, ongoing, separate from this session's work — flagged
+here since data_version did bump and 5 faction bundles changed, not investigated further): the
+30-faction `sync-appdata`/`sync-faction-text`/`sync-ally-inclusion`/`sync-army-rule-coverage` suite
+surfaced its usual mix of already-known/resolved findings plus one new one — Tau Empire's "Drones"
+army rule (9% word overlap, appears to be missing wh11ed content about placing a Drone token +
+Shield Drone's +1W). Worth a look next time faction content is being triaged.
+
 ## Audit of current coverage (done 2026-07-27, cross-referenced against wh40k-appdata's
 `SCHEMA.md`, 141 tables total)
 
