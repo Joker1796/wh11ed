@@ -126,7 +126,7 @@
       <div class="ds-ability">
         <div v-html="dsRichText(sheet.leader.text)"></div>
         <ul class="ds-list">
-          <li v-for="u in sheet.leader.units" :key="u">
+          <li v-for="u in visibleLeaderUnits" :key="u">
             <RouterLink v-if="unitIndex?.get(u)" :to="`/factions/${factionSlug}/datasheets/${unitIndex.get(u)}`">{{ u }}</RouterLink>
             <template v-else>{{ u }}</template>
           </li>
@@ -224,6 +224,16 @@ const props = defineProps({
   // Warlord requirement) that isn't itself modelled — the footnote adds a caveat instead of
   // implying that context is the whole story.
   grantedKeywords: { type: Array, default: () => [] },
+  // Leader/Attached-unit bodyguard-unit names to hide from `sheet.leader.units` entirely,
+  // rather than render as a dead (unlinked) name — used for a name that resolves to a REAL
+  // datasheet, just on a different faction's page (e.g. Dark Angels' shared "Ancient in
+  // Terminator Armour" can attach to Deathwatch's own "Deathwatch Terminator Squad" via that
+  // squad's own ATTACHED UNIT rule, but navigation is always within one faction's context, and
+  // that target was never a valid attachment while THIS faction's army is what you're building —
+  // see the raw ability text for the full, faction-agnostic list). A name with no datasheet
+  // anywhere (a stale/Legends reference in the source rule text) is left as plain text, not
+  // hidden — there's nothing to disambiguate there, it's just not a link target.
+  otherFactionUnits: { type: Array, default: () => [] },
 })
 
 const { locale } = useLocale()
@@ -241,6 +251,13 @@ const coreParts = computed(() => (props.sheet.core ? props.sheet.core.split(/,\s
 const leaderGroupLabel = computed(() =>
   /\bSupport\b/.test(props.sheet.core || '') ? labels.value.dsSupport : labels.value.dsLeader,
 )
+
+// See the otherFactionUnits prop doc above — drop those names entirely rather than list a
+// bodyguard target the current faction's army could never actually take.
+const visibleLeaderUnits = computed(() => {
+  const hidden = new Set(props.otherFactionUnits)
+  return (props.sheet.leader?.units || []).filter((u) => !hidden.has(u))
+})
 
 // Per-model keyword split (e.g. The Silent King: keywords shared by every model in the
 // unit vs ones that only apply to a specific named model) — sheet.keywordsByModel is

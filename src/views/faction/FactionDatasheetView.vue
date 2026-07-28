@@ -51,7 +51,13 @@
             </a>
           </div>
         </div>
-        <DatasheetCard :sheet="sheet" :unit-index="unitIndex" :faction-slug="route.params.slug" :granted-keywords="grantedKeywords" />
+        <DatasheetCard
+          :sheet="sheet"
+          :unit-index="unitIndex"
+          :faction-slug="route.params.slug"
+          :granted-keywords="grantedKeywords"
+          :other-faction-units="otherFactionUnits"
+        />
       </template>
       <p v-else-if="loaded" class="ds-missing">{{ labels.factionsSoon }}</p>
     </section>
@@ -86,6 +92,7 @@ import { loadDatasheetsRu, localizeSheet } from '../../data/datasheets/ru/index.
 import { ui } from '../../i18n/ui.js'
 import { useFactionPage } from '../../composables/useFactionPage.js'
 import { useFactionChoice } from '../../composables/useFactionChoice.js'
+import { getDatasheetIndex } from '../../composables/useSearch.js'
 import conditionalKeywords from '../../data/conditionalKeywords.json'
 import { useLocale } from '../../composables/useLocale.js'
 import { useFavorites } from '../../composables/useFavorites.js'
@@ -153,6 +160,27 @@ const unitIndex = computed(() => {
   const map = new Map()
   for (const d of datasheets.value) map.set(d.name, d.id)
   return map
+})
+
+// Names in sheet.leader.units that resolve to a REAL datasheet on a DIFFERENT faction's page
+// (not just unresolved anywhere) — passed to DatasheetCard so it can hide them instead of
+// rendering a dead name. Navigation is always within one faction's context (there's no "browse
+// units across all factions" mode), and the underlying rule text is faction-agnostic — appdata
+// lists every unit a Character could ever attach to, across whichever army actually fields it
+// (e.g. a Chapter-agnostic "Ancient in Terminator Armour" can lead a Deathwatch Terminator Squad
+// via THAT squad's own ATTACHED UNIT rule, in a Deathwatch army — never a valid target while
+// building the Dark Angels army this page is showing). See datasheetIndex.js's own header for
+// why this is a dynamic import (a global compact name index, same chunk the search palette uses).
+const globalDsIndex = ref(null)
+getDatasheetIndex().then((idx) => { globalDsIndex.value = idx })
+const otherFactionUnits = computed(() => {
+  const units = sheet.value?.leader?.units
+  if (!units?.length || !globalDsIndex.value) return []
+  const mySlug = route.params.slug
+  return units.filter((u) => {
+    if (unitIndex.value.has(u)) return false // already resolves on this faction's own page
+    return globalDsIndex.value.some(([slug, , list]) => slug !== mySlug && list.some(([, name]) => name === u))
+  })
 })
 
 // Keywords this unit gains from an army/detachment rule (conditionalKeywords.json) — merged into
