@@ -359,7 +359,7 @@ Each time you use a **stratagem**, resolve the following sequence:
           flavor: 'In extremis, armoured vehicles and rampaging monsters can use their sheer size as a weapon, ramming and crushing enemies beneath their colossal bulk, though doing so risks sustaining damage in return.',
           when: 'Your Charge phase, just after a friendly MONSTER or VEHICLE unit ends a **[gloss:charge-move:charge move]**',
           target: 'That MONSTER or VEHICLE unit',
-          effect: 'Resolve the following sequence:\n1. Select one enemy model **[gloss:engaged:engaged]** with your unit.\n2. Select one model in your unit that is **engaged** with that enemy model.\n3. Roll a number of D6 equal to the **T** characteristic of that enemy model: for each result of 1, your unit suffers 1 **mortal wound**; for each result of 5+, that enemy model\'s unit suffers 1 **mortal wound** (to a maximum of 6 **mortal wounds** per unit).',
+          effect: 'Resolve the following sequence:\n1. Select one enemy unit **[gloss:engaged:engaged]** with your unit.\n2. Select one model in your unit that is **engaged** with that enemy unit.\n3. Roll a number of D6 equal to the **T** characteristic of that model: for each result of 1, your unit suffers 1 **mortal wound**; for each result of 5+, that enemy unit suffers 1 **mortal wound** (to a maximum of 6 **mortal wounds** per unit).',
           restrictions: '',
           extraCost: [],
         },
