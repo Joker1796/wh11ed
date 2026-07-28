@@ -1,14 +1,6 @@
 <template>
   <figure class="layout-card">
-    <div class="layout-stack" :class="orient === 'v' ? 'is-vertical' : 'is-horizontal'">
-      <span class="edge-marker em-attacker">
-        <img :src="attackerSrc" alt="Attacker's battlefield edge" loading="lazy" decoding="async" />
-      </span>
-      <AppImage :src="imageSrc" :alt="`Layout ${layout.id}`" class="layout-img" />
-      <span class="edge-marker em-defender">
-        <img :src="defenderSrc" alt="Defender's battlefield edge" loading="lazy" decoding="async" />
-      </span>
-    </div>
+    <AppImage :src="imageSrc" :alt="`Layout ${layout.id}`" class="layout-img" />
     <figcaption class="layout-caption">
       <span class="layout-badge">{{ labels.eventLayout }} {{ layout.id }}</span>
     </figcaption>
@@ -30,19 +22,10 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
 // `imageClean` (no inch callouts) falls back to `image` for any layout that somehow
-// lacks it, so the toggle never renders a blank card.
+// lacks it, so the toggle never renders a blank card. Both variants already have the
+// attacker's/defender's battlefield-edge markers baked in by the source app — no
+// separate overlay bar needed (the old PDF crops didn't have them, hence the overlay).
 const imageSrc = computed(() => (props.showMeasurements ? props.layout.image : (props.layout.imageClean || props.layout.image)))
-
-// Which battlefield edges the attacker/defender markers sit on, read from the source
-// PDF (see layoutEdges in eventCompanion.js): 'h' = attacker top / defender bottom
-// (horizontal bars); 'v' = attacker left / defender right (vertical bars).
-const orient = computed(() => (props.layout?.edge === 'v' ? 'v' : 'h'))
-const attackerSrc = computed(() =>
-  orient.value === 'v' ? '/images/event/marker-attacker-v.webp' : '/images/event/marker-attacker.webp'
-)
-const defenderSrc = computed(() =>
-  orient.value === 'v' ? '/images/event/marker-defender-v.webp' : '/images/event/marker-defender.webp'
-)
 </script>
 
 <style scoped>
@@ -54,70 +37,15 @@ const defenderSrc = computed(() =>
   background: var(--bg-card);
 }
 
-/* Constrain the stack to the table's display width (table aspect ≈ 0.737, so at a
-   ~520px tall table the width is ~384px) so the full-width edge markers line up
-   exactly with the table's left/right edges. */
-.layout-stack {
-  max-width: min(100%, 384px);
+/* Constrain to the table's display width (table aspect ≈ 0.737, so at a ~520px tall
+   table the width is ~384px). */
+.layout-card :deep(.layout-img) {
+  display: block;
+  width: 100%;
+  max-width: 384px;
+  height: auto;
   margin: 0 auto;
-  /* Side gutters (held equal in both orientations) reserve room for the vertical edge
-     bars so the image footprint doesn't jump when switching A/B/C tabs. No vertical
-     padding — the horizontal top/bottom bars sit flush against the card edges. */
-  padding: 0 1rem;
 }
-
-/* Horizontal layouts — attacker bar on top, defender on the bottom (full width). */
-.layout-stack.is-horizontal {
-  display: flex;
-  flex-direction: column;
-  /* No gap — the top/bottom bars sit flush against the layout image's edges. */
-  gap: 0;
-}
-.layout-stack.is-horizontal :deep(.layout-img),
-.layout-stack.is-horizontal .edge-marker {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-.layout-stack.is-horizontal .edge-marker img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-/* Overlap the image by half the bar's height. The bar is 800×48 (height = 6% of width),
-   so a -3% margin (margins resolve against the container width) pulls it in by half its
-   height; z-index keeps the bar painted over the image. */
-.layout-stack.is-horizontal .edge-marker { position: relative; z-index: 1; }
-.layout-stack.is-horizontal .em-attacker { margin-bottom: -3%; }
-.layout-stack.is-horizontal .em-defender { margin-top: -3%; }
-
-/* Vertical layouts — attacker bar on the left, defender on the right (full height).
-   The side bars are absolutely positioned so their height tracks the image height
-   without distorting the line/emblem aspect. */
-.layout-stack.is-vertical {
-  position: relative;
-  display: flex;
-  justify-content: center;
-}
-.layout-stack.is-vertical :deep(.layout-img) {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-.layout-stack.is-vertical .edge-marker {
-  position: absolute;
-  /* Match the stack's vertical padding (0) so the bars span exactly the image's height. */
-  top: 0;
-  bottom: 0;
-  display: block;
-}
-.layout-stack.is-vertical .edge-marker img {
-  display: block;
-  height: 100%;
-  width: auto;
-}
-.layout-stack.is-vertical .em-attacker { left: 0.45rem; }
-.layout-stack.is-vertical .em-defender { right: 0.45rem; }
 
 .layout-caption {
   display: flex;
