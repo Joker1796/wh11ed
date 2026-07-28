@@ -161,12 +161,13 @@
           <template v-if="g.model">{{ ' ' + g.model + ' -' }}</template>
           <template v-for="(k, i) in g.list" :key="k">{{ i ? ', ' : ' ' }}<span class="ds-kw">{{ k }}</span></template>
         </template>
-        <template v-for="k in extraKeywords" :key="'g:' + k">{{ ', ' }}<span class="ds-kw">{{ k }}</span></template>
+        <template v-for="g in extraKeywords" :key="'g:' + g.kw">{{ ', ' }}<span class="ds-kw">{{ g.kw }}</span><sup class="ds-kw-star" aria-hidden="true">*</sup></template>
       </div>
       <div>
         <strong>{{ labels.dsFactionKeywords }}:</strong>
         <template v-for="(k, i) in sheet.factionKeywords" :key="k">{{ i ? ', ' : ' ' }}<span class="ds-kw">{{ k }}</span></template>
       </div>
+      <p v-for="n in extraKeywordNotes" :key="n.note" class="ds-kw-footnote">* {{ n.kws.join(', ') }} — {{ n.note }}</p>
     </div>
 
     <!-- Points: unit sizes × MFM copy tiers (1st-2nd / 3rd+ copy of this datasheet).
@@ -212,8 +213,13 @@ const props = defineProps({
   // Keywords this unit GAINS from an army/detachment rule rather than having printed on its
   // sheet (e.g. Deathwing/Ravenwing via Dark Angels' The Unforgiven, or Battleline granted by a
   // detachment) — computed by the caller from the active army choice and merged into the keyword
-  // line here, indistinguishable from the printed ones (see conditionalKeywords.json). Optional,
-  // so callers without a faction/detachment context just render the printed keywords as before.
+  // line here, each flagged with a `*` and a footnote naming its source (see extraKeywordNotes
+  // below) so it still reads as printed-card-accurate at a glance but a curious reader can tell
+  // it's a rule grant, not ink on the card. Optional, so callers without a faction/detachment
+  // context just render the printed keywords as before.
+  // Shape: [{ kw: 'Shadow Legion', detName: 'Shadow Legion' | null }] — `detName` is the active
+  // detachment's display name when the grant is gated on one, or null for a roster-wide/Chapter
+  // grant that applies regardless of detachment.
   grantedKeywords: { type: Array, default: () => [] },
 })
 
@@ -244,7 +250,25 @@ const keywordGroups = computed(() =>
 // sheet already prints in any model group — so a grant never doubles a printed keyword.
 const extraKeywords = computed(() => {
   const printed = new Set(keywordGroups.value.flatMap((g) => g.list))
-  return props.grantedKeywords.filter((k) => !printed.has(k))
+  return props.grantedKeywords.filter((g) => !printed.has(g.kw))
+})
+
+// One footnote line per distinct source (usually just one — either "this faction's own rules"
+// for every roster-wide grant, or the single currently-active detachment for every gated one —
+// but a unit could carry both kinds at once), grouping every keyword that shares it so e.g.
+// Deathwing/Ravenwing (both roster-wide, no detachment) collapse into a single line instead of
+// repeating the same source sentence twice.
+const extraKeywordNotes = computed(() => {
+  const groups = new Map()
+  for (const g of extraKeywords.value) {
+    const note = g.detName
+      ? labels.value.dsKeywordGrantedByDetachment.replace('{det}', g.detName)
+      : labels.value.dsKeywordGrantedByFaction
+    const kws = groups.get(note) || []
+    kws.push(g.kw)
+    groups.set(note, kws)
+  }
+  return [...groups.entries()].map(([note, kws]) => ({ note, kws }))
 })
 
 // Multi-profile weapons are stored as adjacent rows sharing a base name with a spaced-dash
@@ -750,6 +774,18 @@ function statCells(p) {
   font-weight: 600;
   text-transform: uppercase;
   color: var(--text-primary);
+}
+
+.ds-kw-star {
+  color: var(--accent);
+  margin-left: 1px;
+}
+
+.ds-kw-footnote {
+  margin: 0.2rem 0 0;
+  font-size: 0.72rem;
+  font-style: italic;
+  color: var(--text-muted);
 }
 
 </style>
