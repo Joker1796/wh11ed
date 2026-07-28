@@ -2224,7 +2224,7 @@ Restrictions: Your army can include Ultramarines units, but it cannot include an
           name: 'Scroll of Proclamation',
           points: 15,
           flavor: "Finely scribed on vellum and tightly bound in an armoured scroll case, the words of Roboute Guilliman's Consilias Imperitus Ultimar prove a constant source of inspiration.",
-          body: `When this unit declares a charge, if an enemy unit within range of an objective is within 12" of this unit, you can use this Enhancement. If you do:\n▪ This unit can re-roll that charge roll.\n▪ This unit __must__ end that charge move engaged with one or more of those enemy units.`,
+          body: `Adeptus Astartes model only. When this unit declares a charge, if an enemy unit within range of an objective is within 12" of this unit, you can use this Enhancement. If you do:\n▪ This unit can re-roll that charge roll.\n▪ This unit __must__ end that charge move engaged with one or more of those enemy units.`,
         },
         {
           name: 'Seals of Reconquest',
