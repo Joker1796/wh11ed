@@ -290,3 +290,24 @@ and appdata state fresh; a data model can change between now and when this is ne
       flagged by the script) had two completely different resolutions on the two sides of the same
       pass — don't apply one verdict ("it's probably appdata's fault") to the whole flagged list
       without checking each one individually.
+24. **A checker that only searches the RECEIVING side of a relationship can report a real thing as
+    missing when the source material actually documents it on the OTHER side.** `sync-ally-inclusion
+    .mjs`'s first version of the universal-rule check (2026-07-28) searched every faction that could
+    *take* an ally (Space Marines, Black Templars, Astra Militarum, …) for a "can include <ally>"
+    clause, found nothing in 7 of 8 cases, and concluded that content was genuinely absent from
+    wh11ed — a conclusion accepted and written into the coverage plan as a real, separately-tracked
+    content-authoring task ("~20-30 files, EN+RU"). It was **completely wrong**: GW publishes this
+    exact kind of rule as a single named army rule on the ALLY's own codex page (Chaos Daemons'
+    "Daemonic Pact", Imperial Knights' "Freeblades", Titan Legions'/Chaos Titan Legions' "Titanic
+    Support", Imperial Agents' "Assigned Agents") — not copy-pasted into every book that can take it
+    — and wh11ed already had all 8, verbatim, sitting on exactly those ally pages the whole time.
+    Caught only because the user pushed back on taking on a large content task without first
+    double-checking it was real ("исправь что из этого можешь исправить сам... подумай"), which led
+    to actually opening `chaos-daemons.js`/`imperial-knights.js`/`titan-legions.js`/`imperial-agents
+    .js` before writing a single line of new content — and finding the "missing" text already there.
+    **General principle:** when a checker walks a directed relationship (A can include B), and the
+    obvious place to look (A's file) comes up empty, check whether the *source material's own
+    convention* puts the clause on the other end (B's file) before concluding it's absent — a
+    one-way search only proves absence on the side actually searched. Fixed by adding a
+    `resolvedOnOwnPage` pass that checks the ally's own page (resolved via `allied_faction_parent_
+    faction_keyword`) before falling back to the per-receiving-faction search.
