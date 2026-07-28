@@ -96,22 +96,19 @@ machine** — memory doesn't sync between them (see `[[reference_nested_git_repo
   "Asuryani" — its own name, used constantly in targeting text) as false "found"s. Replaced with a
   `bodyGrantsInclusion` check requiring the established idiom "can include … <ally>" with no
   "cannot" in between.
-  **After the fix, a real (if bigger) finding survived:** only **1 of the 8** universal rows is
-  actually present in wh11ed — Harlequins→Asuryani, in aeldari's own armyRule ("Disparate Paths").
-  The other **7 are confirmed genuinely missing** (searched every applicable faction's whole file,
-  not found anywhere) — see the new task below.
-
-- **New task, not yet scheduled:** author the 7 missing universal ally-inclusion rules found above:
-  Adeptus Titanicus/Imperial Knights as allies for ~19 Space Marine-adjacent factions (Titan/Knight
-  units, keyword-slot limits e.g. "up to 1 Titanic unit"/"up to 3 Armiger units" per battle size —
-  not a flat points bracket, see `allied_faction_keyword` for the exact numbers), Chaos Knights and
-  Legiones Daemonica as allies across the Chaos factions, and Agents of the Imperium as allies for
-  most Imperium factions. This is real content authoring (right wording, right location — likely
-  each faction's `armyRule.body`, matching the Drukhari/CSM precedent above — right ~20-30 files,
-  EN+RU), not a guardrail-script fix, and deliberately scoped separately from
-  `sync-ally-inclusion.mjs` itself. `sync-ally-inclusion.mjs`'s "Universal rules" report section
-  already lists, per row, which factions have it and which don't — start there instead of
-  re-deriving the list.
+  **Correction, same day (2026-07-28):** the "only 1 of 8 present, 7 missing" conclusion above was
+  itself wrong — a false positive in the checker, not a real content gap. The check searched every
+  RECEIVING faction's whole file for the clause, but GW actually publishes this kind of rule as a
+  single named army rule on the ALLY's own codex page (Chaos Daemons' "Daemonic Pact", Imperial
+  Knights' "Freeblades", Titan Legions'/Chaos Titan Legions' "Titanic Support", Imperial Agents'
+  "Assigned Agents") — not copy-pasted into every faction that can take it. wh11ed already follows
+  that same convention for **all 8** universal rows, verbatim (verified word-for-word against
+  Wahapedia's 10th-edition transcriptions, cross-checked against appdata's own battle-size/keyword
+  numbers — see APPDATA-SYNC-LESSONS.md lesson 24). `sync-ally-inclusion.mjs` was fixed to check the
+  ally's own page first (`resolvedOnOwnPage` in the script) before falling back to the
+  per-receiving-faction search; a clean run now reports all 8 as either found on the ally's own page
+  (7) or found via the pre-existing per-faction search (Harlequins→Asuryani). **There is no missing
+  ally-inclusion content and no content-authoring task here** — script #2 is fully done and verified.
 
   **Real gaps found and fixed 2026-07-28** (appdata is canon — see `[[feedback_appdata_canon]]`):
   Devastator Squad was missing the "heavy flamer" weapon-swap option entirely (no `ranged[]` profile,
