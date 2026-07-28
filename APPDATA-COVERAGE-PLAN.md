@@ -373,15 +373,57 @@ above. All 5 planned scripts are now built.
   a genuine source of truth (or at least a guardrail) instead of/alongside the current PDF-vector
   extraction pipeline. Don't assume yes or no — actually read a few rows first.
 
-## NEXT TASK (queued, not started): pull Layouts from appdata, reformat to wh11ed style
+## NEXT TASK (queued, not started): sync-layouts.mjs — structural guardrail, NOT a data-source swap
 
-Separate from the tracker data audit above. Extract the Terrain & Layouts content
-(`mission_layout`/`mission_layout_linked_deployment`/`mission_deployment` etc., see the
-investigation task right above this one) from wh40k-appdata as the source of truth, then
-reformat/re-render it to match wh11ed's existing presentation (`EventLayoutsView.vue`,
-`LayoutCard.vue` — the 45 A/B/C matchup diagrams + LAYOUTS KEY legend). Do the investigation task
-first to confirm appdata's tables actually carry the same layout↔deployment↔matchup pairings before
-committing to this as a data-source swap rather than just another guardrail script.
+Investigated 2026-07-28: read every table in the `mission_layout` family directly (not just the
+schema). Verdict — **appdata does NOT carry the visual layout geometry**, so this cannot become a
+"pull the layouts from appdata" data-source swap the way core-rules/Event-Companion prose was. What
+it actually has:
+- `mission_layout` (48 rows: the 45 real A/B/C layouts + 3 unused generic placeholders) — **name
+  only** ("Take and Hold / Purge the Foe - Layout A"), no image, no coordinates.
+- `mission_deployment` (9 rows: the 6 standard core-rulebook deployment maps — Hammer and Anvil,
+  Crucible of Battle, Sweeping Engagement, Dawn of War, Tipping Point, Search and Destroy — + 3
+  Combat Patrol ones, out of scope) — again name only.
+- `mission_layout_linked_deployment` — which of the 6 deployment-zone TYPES each layout uses.
+- `mission_preset` + `force_disposition_mission_recommended_preset` (75 rows = 25 ordered
+  disposition-pairs × 3) — the **official A/B/C recommendation** per pair. Verified symmetric
+  (Take-and-Hold-vs-Purge-the-Foe gives the identical 3 layouts as Purge-the-Foe-vs-Take-and-Hold),
+  confirming wh11ed's unordered-`matchups[]` design is correct.
+- **No terrain table exists at all** — grepped `SCHEMA.md` and every file in `tables/`, zero hits for
+  "terrain". The actual terrain-feature placement (dense/light letters AB/CD/EF/GH, footprint
+  positions, objective markers) that's baked into wh11ed's cropped JPGs is pure PDF/raster art with
+  no structured appdata equivalent — re-extraction stays the existing pymupdf recipe (`CLAUDE.md`'s
+  "Image/vector extraction (Event Companion assets)" section), there's nothing to swap it for.
+
+**The plan:** build `scripts/sync-layouts.mjs` (report-only, wired into `npm run sync` like every
+other guardrail) checking only what appdata actually encodes:
+1. Layout names/count — 45 expected, matched against `mission_layout`'s real (non-placeholder) rows.
+2. A/B/C assignment per matchup — wh11ed's `layoutImages`/`layoutEdges` keys vs appdata's
+   `force_disposition_mission_recommended_preset` → `mission_preset` chain, matched by the "- Layout
+   X" name suffix.
+3. (Informational, not yet rendered anywhere) which of the 6 deployment types each layout links to —
+   surfaced in the script output as a future-enrichment hook (a "Deployment: Hammer and Anvil" label
+   on `LayoutCard`), not acted on now since wh11ed doesn't describe those 6 named maps anywhere yet
+   — that would be new content, not a sync gap.
+
+This gives an early-warning signal if a future appdata refresh adds/removes/renames a layout or
+reshuffles A/B/C — at which point a human re-runs the existing PDF-extraction recipe for whatever
+specifically changed, rather than re-doing all 45 blind.
+
+## Future task (queued, not started): verify tracker VP-cap constants against `mission_pack.json`
+
+Side-discovery while investigating the layout tables 2026-07-28: `wh40k-appdata/tables/
+mission_pack.json`'s "Chapter Approved 2026-2027" row carries explicit numeric fields —
+`primaryMissionScoreGameLimit: 45`, `primaryMissionScoreBattleRoundLimit: 15`,
+`secondaryMissionScoreGameLimit: 45`, `fixedSecondaryMissionCapLimit: 20`,
+`battleReadyArmyPointModifier: 10` — a direct structured source for the hardcoded constants in
+`src/composables/gameScoring.js` (`PRIMARY_GAME_CAP`, `FIXED_SECONDARY_CAP`, `SECONDARY_GAME_CAP`,
+`BATTLE_READY_VP`), all of which already match. One field has **no corresponding check in code at
+all**: `primaryMissionScoreBattleRoundLimit: 15` — a per-round primary VP cap. Worth checking whether
+any current primary mission's per-round rows can actually sum above 15 (if the mission design itself
+never allows it, the cap is moot; if some combination of stepper rows theoretically could, the
+tracker may be missing an explicit clamp `RoundTracker.vue`/`gameScoring.js` needs). Not investigated
+yet — a follow-up, not part of the layouts task above.
 
 ## Future scope (not scheduled — flag for later, needs a product decision first)
 
