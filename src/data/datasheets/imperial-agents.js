@@ -339,6 +339,11 @@ export default [
       {
         "models": 1,
         "points": 100
+      },
+      {
+        "models": 1,
+        "points": 115,
+        "note": "Veiled Blade Elimination Force"
       }
     ],
     "flavor": "Anarchy flourishes in the wake of a Callidus Assassin’s deployment. They use the shape-shifting drug polymorphine to insinuate themselves close to their target, sabotaging systems and seeding misinformation before closing on their victim with blasts of their mind-destroying sidearm and flicks of their mysterious blade.",
@@ -568,6 +573,11 @@ export default [
       {
         "models": 1,
         "points": 85
+      },
+      {
+        "models": 1,
+        "points": 95,
+        "note": "Veiled Blade Elimination Force"
       }
     ],
     "flavor": "A Culexus Assassin projects an aura of unsettling fear all around them. Their primary targets are psykers, who are wracked with agony from these soulless assassins’ mere presence, and against the arcane blasts of a Culexus’ animus speculum, no witch long survives.",
@@ -880,6 +890,11 @@ export default [
         "models": 1,
         "points": 110,
         "note": "Agents of the Imperium (allied)"
+      },
+      {
+        "models": 1,
+        "points": 115,
+        "note": "Veiled Blade Elimination Force"
       }
     ],
     "flavor": "Berserk killers fuelled by unstable chemical stimms, Eversor Assassins are hurricanes of bladed and clawed destruction. They are unleashed as weapons of terror and annihilation, set loose to murder not only their intended target but anyone around them as well.",
@@ -3813,6 +3828,16 @@ export default [
       {
         "models": 1,
         "points": 110
+      },
+      {
+        "models": 1,
+        "points": 125,
+        "note": "Agents of the Imperium (allied)"
+      },
+      {
+        "models": 1,
+        "points": 130,
+        "note": "Veiled Blade Elimination Force"
       }
     ],
     "flavor": "The muffled crack of a Vindicare Assassin’s exitus rifle is all that most ever detect of its presence – that, and the spray of their victim’s brain matter. They are lethal marksmen who find the perfect firing position from which to pinpoint their quarry, while against more numerous foes they swiftly rack up high body counts with shot after expert shot.",
