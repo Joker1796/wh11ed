@@ -527,6 +527,12 @@ const currentLayout = computed(() =>
   .matchup-sides { gap: 0.75rem; }
   .side-mission { font-size: 1rem; }
   .layouts-key { padding: 1rem; }
+  .measurements-toggle {
+    padding: 0.35rem 0.55rem;
+  }
+  .measurements-toggle span {
+    display: none;
+  }
   .key-header {
     flex-direction: column;
     align-items: center;
