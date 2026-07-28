@@ -14,6 +14,9 @@
 //     none of the above ever reads) must be reflected in its wh11ed rule body
 //   - sync-wargear-options — a datasheet's structural wargear choices/limits (loadout/limited/
 //     all-model choice families + base loadout) must be reflected in its options/loadout text
+//   - sync-ally-inclusion — a detachment's allied-faction clause (Blood Legions, Harlequins in
+//     Reaper's Wager, Scintillating Legions, …) must be reflected in its rule body or the
+//     faction's armyRule, with the right points brackets
 //
 // Report only — nothing is written (except that you may want to run `gen-source-ids.mjs` if the
 // bridge is stale). Usage: `npm run sync` (or `node scripts/sync.mjs`).
@@ -49,6 +52,7 @@ run('sync-enh-bodyguards', 'sync-enh-bodyguards.mjs')
 run('sync-leader-units', 'sync-leader-units.mjs')
 run('sync-detachment-details', 'sync-detachment-details.mjs')
 run('sync-wargear-options', 'sync-wargear-options.mjs')
+run('sync-ally-inclusion', 'sync-ally-inclusion.mjs')
 
 console.log(`\n${'═'.repeat(72)}`)
 if (idsStale) console.log('⚠ src/data/sourceIds.json is stale — run `node scripts/gen-source-ids.mjs`.')
