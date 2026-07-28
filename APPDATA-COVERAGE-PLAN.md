@@ -38,10 +38,19 @@ machine** — memory doesn't sync between them (see `[[reference_nested_git_repo
   HTML entities/`<k>` tags) — see `APPDATA-SYNC-LESSONS.md` lesson 32 — dropping the count to 277,
   plus applied ~5 real content fixes (CHARACTER can't be revived via healing, AIRCRAFT exception on
   large-model Strategic Reserves set-up, empty DEDICATED TRANSPORT destruction, a "bodyguard"
-  wording gap, plus [ANTI]/[BLAST]/etc. wording nits). **Not fully exhausted** — 277 findings
-  remain, mostly confirmed-safe noise (diagram-based worked examples wh11ed already shows as an
-  image, procedural step-summaries redundant with wh11ed's own subsection navigation) but not
-  every single one has been read individually; a further pass could still find something.
+  wording gap, plus [ANTI]/[BLAST]/etc. wording nits). Second triage pass 2026-07-28 read all ~78
+  distinct diffing sections individually (01-25) and found 2 more real gaps: reviving a model into
+  an embarked unit was missing the Transport Capacity check (01.02.03), and Fill Your Army Roster
+  (25.04) was missing the exception letting an Incursion battle take a single 3DP detachment. The
+  rest confirmed harmless: appdata-side extraction artifacts (missing spaces/stray HTML entities
+  from its own raw text), diagram-based worked examples wh11ed already shows as an image (Surge
+  Moves/Taking to the Skies/Battle-Shock/Fight Phase/Terrain/Plunging Fire/etc.), procedural
+  step-summaries redundant with wh11ed's own subsection navigation, wh11ed-only FAQ additions and
+  hand-written section intros/descriptions that legitimately don't match appdata's literal wording,
+  and the already-verified Onslaught battle-size row (25.03, confirmed against `useTracker.js`'s
+  `BATTLE_SIZES`). **Now exhausted** for this `data_version` (912) — a re-run after the next appdata
+  bump would need a fresh read since wording nits like "cannot have" vs "cannot be given" were left
+  as-is (cosmetic, not fixed).
 - `conditional_keyword` — `gen-conditional-keywords.mjs` (`src/data/conditionalKeywords.json`).
 - `detachment_detail` + `detachment_detail_bullet_point` — `sync-detachment-details.mjs` (added
   2026-07-27, see `APPDATA-SYNC-LESSONS.md` lesson 21).

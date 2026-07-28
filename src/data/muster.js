@@ -65,7 +65,9 @@ Unless otherwise stated:
 
 **[gloss:upgrade:Upgrades]:** Some **enhancements** are tagged with 'Upgrade'. Unlike other **enhancements**:
 ▪ These can be given to non-CHARACTER units.
-▪ You can include up to three of the same Upgrade in your army (the second and third instances of the same Upgrade do not count towards the total number of **enhancements** in your army, but you must still spend the stated points cost each time).`,
+▪ You can include up to three of the same Upgrade in your army (the second and third instances of the same Upgrade do not count towards the total number of **enhancements** in your army, but you must still spend the stated points cost each time).
+
+If you are playing an Incursion battle, you can select a 3DP **detachment** as your only **detachment**.`,
         },
       ],
       battleSizeTable: {
@@ -142,7 +144,9 @@ Unless otherwise stated:
 
 **[gloss:upgrade:Улучшения-апгрейды]:** Некоторые **улучшения** помечены тегом «Upgrade». В отличие от других **улучшений**:
 ▪ Их можно давать отрядам, не являющимся CHARACTER.
-▪ Вы можете включить до трёх одинаковых Upgrade в свою армию (второй и третий экземпляры одного и того же Upgrade не учитываются в общем количестве **улучшений** в вашей армии, но вы всё равно должны каждый раз платить указанную стоимость в очках).`,
+▪ Вы можете включить до трёх одинаковых Upgrade в свою армию (второй и третий экземпляры одного и того же Upgrade не учитываются в общем количестве **улучшений** в вашей армии, но вы всё равно должны каждый раз платить указанную стоимость в очках).
+
+Если вы играете битву Incursion, вы можете выбрать один **детачмент** на 3DP в качестве своего единственного **детачмента**.`,
         },
       ],
       battleSizeTable: {
