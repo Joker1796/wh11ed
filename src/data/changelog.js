@@ -34,6 +34,7 @@ export const changelog = [
       'The Event Companion was missing the "Generating Command Points" rule (max 1CP per battle round from non-Core sources) — added, plus an example illustrating "win path" in the Pairing Players rule.',
       'Core Rules: fixed several small gaps found by re-checking the whole rulebook against the source data — Healing/Regaining Wounds now notes Character models can\'t be revived that way, large models set up from Strategic Reserves note the Aircraft exception, embarking now covers Dedicated Transports being destroyed if left empty, and "bodyguard" was missing from one attached-unit rule\'s wording.',
       'Core Rules: two more gaps found in the same pass — reviving a model into an embarked unit was missing the check for remaining Transport Capacity, and Fill Your Army Roster was missing the exception that lets an Incursion battle use a single 3DP detachment.',
+      'Fixed the "Crushing Impact" core stratagem: it said to roll dice equal to the enemy model\'s Toughness, when the rule actually uses your own MONSTER/VEHICLE\'s Toughness.',
     ],
     ru: [
       'У Devastator Squad (Space Marines и Ордена, использующие этот же юнит) не хватало варианта вооружения «heavy flamer» — добавлен.',
@@ -50,6 +51,7 @@ export const changelog = [
       'В Event Companion не хватало правила «Начисление командных очков» (не более 1CP за раунд боя не из базовых источников) — добавлено, плюс пример к «пути побед» в правиле Pairing Players.',
       'Основные правила: исправлено несколько мелких пробелов, найденных при повторной сверке всего свода правил с исходными данными — в разделе про исцеление/восстановление ран уточнено, что модели CHARACTER так возродить нельзя, у установки крупных моделей из стратегических резервов добавлено исключение для AIRCRAFT, погрузка теперь учитывает уничтожение пустого DEDICATED TRANSPORT, и в одном правиле про объединённые юниты не хватало слова «телохранителей».',
       'Основные правила: ещё два пробела, найденные в той же сверке — при возрождении модели в юнит на транспорте не хватало проверки оставшейся вместимости транспорта, а в разделе «Заполнение ростера армии» не хватало исключения, разрешающего в битве Incursion взять один детачмент на 3DP.',
+      'Исправлена базовая стратагема «Crushing Impact»: было указано бросать кубы по стойкости вражеской модели, хотя по правилам используется стойкость своей модели MONSTER/VEHICLE.',
     ],
   },
   {
