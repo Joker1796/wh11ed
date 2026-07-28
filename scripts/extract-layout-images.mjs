@@ -11,10 +11,20 @@
 //
 // Usage: node scripts/extract-layout-images.mjs [path/to/App.xapk]
 //   Defaults to the newest *.xapk in ../sources/apk/ (the hub-level sources folder, gitignored).
-// Writes public/images/event/layout-<a>-<b>-<letter>.png (measurement, replaces the current
-// asset) and layout-<a>-<b>-<letter>-clean.png (new: the no-measurement variant, for a future
-// "hide measurements" toggle). Run `npm run images:webp` afterwards to finish the pipeline
-// (resize + webp + delete the .png originals), same as any other illustration.
+// Writes public/images/event/layout-<a>-<b>-<letter>-v2.png (measurement) and
+// layout-<a>-<b>-<letter>-clean.png (no-measurement variant, for the "hide measurements" toggle).
+// Run `npm run images:webp` afterwards to finish the pipeline (resize + webp + delete the .png
+// originals), same as any other illustration.
+//
+// The "-v2" suffix on the measurement variant is a cache-bust: the first run of this script
+// (2026-07-28) silently overwrote the old PDF-cropped `layout-<a>-<b>-<letter>.png` under its own
+// stable name, and since these are cached a year under stable names (see CLAUDE.md's Deployment
+// section), that left already-visited browsers/installed PWAs stuck showing the old crop
+// indefinitely. Fixed by renaming to `-v2` and updating every reference (`eventCompanion.js`'s
+// `layoutImages`, `imageDimensions.js`). If you ever need to replace these images again for a
+// reason OTHER than a genuine visual change (i.e. content is identical, just re-extracted), you
+// can keep `-v2`; if the actual artwork changes, bump to `-v3` and update those two files again —
+// do NOT silently overwrite `-v2` in place.
 
 import { execFileSync } from 'node:child_process'
 import { readFileSync, mkdtempSync, rmSync, readdirSync, statSync } from 'node:fs'
@@ -90,7 +100,7 @@ async function main() {
       const id = idByKey.get(`${a}|${b}|${letter}`)
       if (!id) { console.log(`  ! no appdata mission_layout match for ${a}/${b} Layout ${letter}`); missing++; continue }
       const uuid = id.replace(/-/g, '_')
-      for (const [resPrefix, outSuffix] of [['ic_measurement_layout_', ''], ['ic_layout_', '-clean']]) {
+      for (const [resPrefix, outSuffix] of [['ic_measurement_layout_', '-v2'], ['ic_layout_', '-clean']]) {
         const resPath = `res/drawable/${resPrefix}${uuid}.webp`
         try {
           execFileSync('unzip', ['-o', '-q', apkPath, resPath, '-d', work])

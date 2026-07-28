@@ -18,7 +18,7 @@
 export const changelog = [
   {
     version: '2.1.8',
-    date: '2026-07-28',
+    date: '2026-07-29',
     en: [
       'Assassins (Callidus, Culexus, Eversor, Vindicare) and the Necron C’tan Shards/Transcendent C’tan were missing their higher points cost when taken in the Veiled Blade Elimination Force / Pantheon of Woe detachment — added.',
       'Several units shared with the Space Marines Chapters (Assault Intercessor Squad, Assault Intercessors/Vanguard Veterans/Bladeguard Veterans With Jump Packs, Captain/Chaplain With Jump Pack, Outrider Squad, Repulsor Executioner) now show the correct, higher points cost for Blood Angels (and, for the Repulsor Executioner, Deathwatch/Space Wolves/Dark Angels too) instead of the generic Space Marines price.',
