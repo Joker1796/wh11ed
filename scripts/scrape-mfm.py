@@ -5,9 +5,10 @@
 #   python3 scripts/scrape-mfm.py --cache    # reuse already-downloaded pages in /tmp cache
 #
 # Source: https://mfm.warhammer-community.com/en  (English-only points reference).
-# Run this when a new MFM version drops; bump MFM_VERSION below and re-run.
+# Run this whenever a new MFM version drops — the version number itself is scraped from the
+# page (see detect_version()), no manual bump needed.
 #
-# WHY THIS IS NOT A SIMPLE SCRAPE — two gotchas, both handled here:
+# WHY THIS IS NOT A SIMPLE SCRAPE — three gotchas, all handled here:
 #   1. The site is a Next.js app that streams points via React Suspense. Each unit's
 #      price renders as <template id="P:x"></template> and is filled at runtime by a
 #      `$RS("S:x","P:x")` script that copies the matching hidden <div id="S:x">…pts…</div>
@@ -18,10 +19,14 @@
 #      (A generic HTML-to-text summarizer CANNOT read these numbers and will hallucinate.)
 #   2. Over HTTP/2, curl intermittently truncates the response to exactly 16 KB.
 #      We force --http1.1, which returns the full page reliably.
+#   3. As of MFM v1.1 the site highlights units/detachments whose points changed since the
+#      previous version with a coloured header + an inline "▲ (+10)"/"▼ (-10)" delta before the
+#      actual points (see UNIT_SPLIT_RE and the points regex in parse_units for the fallout).
 
 import re, html as H, json, sys, os, subprocess, time
 
-MFM_VERSION = '1.0'
+MFM_VERSION_FALLBACK = '1.0'  # used only if detect_version() can't find a version string
+MFM_VERSION = MFM_VERSION_FALLBACK  # overwritten from the first successfully-fetched page
 HERE = os.path.dirname(os.path.abspath(__file__))
 DATA = os.path.normpath(os.path.join(HERE, '..', 'src', 'data'))
 MFM_DIR = os.path.join(DATA, 'mfm')              # per-faction modules
@@ -37,7 +42,28 @@ SLUGS = ["adepta-sororitas","adeptus-custodes","adeptus-mechanicus","aeldari","a
 
 SMALL = {"of","the","a","an","and","or","to","in","on","with","for","from","at","by"}
 ACRO  = {"Atv":"ATV","Rsv":"RSV","Afv":"AFV"}
+# Unit-name header markup. As of MFM v1.1 the site highlights units whose points changed since the
+# previous version: an unchanged unit still uses the original plain slate header (name as bare text
+# right after the class attribute), but a changed one switches to a colour keyed to the direction of
+# the change (bg-red-500 = went up, bg-emerald-600 = went down, bg-amber-500 = mixed across tiers,
+# each usually wrapping the name in a nested `<span class="text-xl keep-all">` — though at least one
+# unit (Orks' Gretchin) has been seen keeping the old plain-text layout with just the colour swapped).
+# Rather than enumerate every colour, match on the two layout SHAPES instead — old (`…font-bold
+# text-xl text-white">NAME<`) and new (`…font-bold text-white"><span class="text-xl keep-all">NAME<`)
+# — whatever bg-* colour precedes either is irrelevant. Splitting right after either opening sequence
+# leaves the name as the plain text up to the next `<`, so the rest of parse_units (which just looks
+# for `([^<]+)<`) doesn't need to care which variant/colour it is. (Detachment-name headers use a
+# different inner span class, `text-xl break-all`, so they never collide with the "new" branch here.)
 UNAME = 'bg-slate-500 dark:bg-slate-800 font-bold text-xl text-white'
+UNIT_SPLIT_RE = re.compile(
+    r'font-bold text-xl text-white">'
+    r'|font-bold text-white"><span class="text-xl keep-all">'
+)
+# A points span (unit option or enhancement) is plain (`<span>100 pts</span>`) when unchanged since
+# the last MFM version, or coloured with an optional leading "▲ (+10)"/"▼ (-10)" delta when changed
+# (`<span class="text-red-500 dark:text-red-400">▲ (+10) 100 pts</span>`) — either way the number
+# immediately before "pts" is the current price we want.
+PTS_RE = r'<span[^>]*>\s*(?:[▲▼]\s*(?:\([+-]?[\d,]+\)\s*)?)?([\d,]+)\s*pts\s*</span>'
 SPECIAL_NAMES = {"tau-empire":"T’au Empire","leagues-of-votann":"Leagues of Votann",
                  "emperors-children":"Emperor’s Children"}
 
@@ -59,8 +85,14 @@ def download(slug):
     return path
 
 def has_units(raw):
-    # Titan factions legitimately have no detachments, so key on unit-name divs.
-    return UNAME in raw
+    # Titan factions legitimately have no detachments, so key on unit-name divs. Check both the
+    # unchanged (UNAME) and the changed/highlighted (UNIT_SPLIT_RE) header forms — a page where
+    # every unit's points changed this version would have zero UNAME matches on its own.
+    return UNAME in raw or UNIT_SPLIT_RE.search(raw) is not None
+
+def detect_version(raw):
+    m = re.search(r'<h2 class="text-xl font-semibold">v([\d.]+)</h2>', raw)
+    return m.group(1) if m else None
 
 # ---- DOM reconstruction (replay the $RS reveal) --------------------------
 def reconstruct(raw):
@@ -110,12 +142,19 @@ def note_for(label):
 
 def parse_detachments(region):
     dets = []
-    for chunk in re.split(r'class="text-xl break-all">', region)[1:]:
+    # A detachment whose DP/Force Disposition/enhancements changed since the last MFM version gets
+    # the same header-recolour treatment as units (see UNIT_SPLIT_RE) — its name switches from a
+    # plain `<span class="text-xl break-all">` to `<span class="text-xl keep-all">` on a coloured
+    # header div. Split on either.
+    for chunk in re.split(r'class="text-xl (?:break|keep)-all">', region)[1:]:
         nm = re.match(r'([^<]+)<', chunk)
         if not nm: continue
         det = {"name": titlecase(nm.group(1))}
-        # DP cost (every detachment has one): <span class="text-sm self-end pl-2">2DP</span>
-        dp = re.search(r'<span class="text-sm self-end pl-2">(\d+)DP</span>', chunk)
+        # DP cost (every detachment has one): <span class="text-sm self-end pl-2">2DP</span> — a
+        # changed detachment gets an extra "text-nowrap" class, and the number is sometimes followed
+        # inside the SAME span by a hydration comment + a "▲"/"▼"/"▲▼" delta arrow before the closing
+        # tag (`3DP<!-- --> ▲`), so don't require `</span>` to immediately follow the digits.
+        dp = re.search(r'<span class="text-sm self-end pl-2(?: text-nowrap)?">(\d+)DP', chunk)
         if dp: det["dp"] = int(dp.group(1))
         # Force Disposition — the first colored banner div after the name.
         fd = re.search(r'style="background-color:#[0-9A-Fa-f]+">([^<]+)</div>', chunk)
@@ -123,24 +162,24 @@ def parse_detachments(region):
         # UNIQUE keyword lock (optional), kept uppercase like a game keyword.
         uq = re.search(r'>UNIQUE:\s*([^<]+)</span>', chunk)
         if uq: det["unique"] = H.unescape(uq.group(1)).strip()
-        det["enhancements"] = [{"name": H.unescape(e.group(1)).strip(), "points": int(e.group(2))}
-                               for e in re.finditer(r'<span>([^<]+?)</span><span>(\d+)\s*pts</span>', chunk)]
+        det["enhancements"] = [{"name": H.unescape(e.group(1)).strip(), "points": int(e.group(2).replace(',', ''))}
+                               for e in re.finditer(r'<span>([^<]+?)</span>' + PTS_RE, chunk)]
         dets.append(det)
     return dets
 
 def parse_units(region):
     units = []
-    for chunk in re.split(re.escape(UNAME) + r'">', region)[1:]:
+    for chunk in UNIT_SPLIT_RE.split(region)[1:]:
         nm = re.match(r'([^<]+)<', chunk)
         if not nm: continue
         opts = []
         for sm in re.finditer(r'font-bold text-black dark:text-white">(YOUR[^<]*)</div>(.*?)'
                               r'(?=font-bold text-black dark:text-white">YOUR|WARGEAR OPTIONS|'
-                              + re.escape(UNAME) + r'|$)', chunk, re.S):
+                              + UNIT_SPLIT_RE.pattern + r'|$)', chunk, re.S):
             note = note_for(sm.group(1))
             for li in re.finditer(r'<li>(.*?)</li>', sm.group(2), re.S):
                 lic = li.group(1)
-                pm = re.search(r'<span>\s*([\d,]+)\s*pts\s*</span>', lic)
+                pm = re.search(PTS_RE, lic)
                 if not pm: continue
                 spans = re.findall(r'<span>([^<]*)</span>', lic)
                 mdl, lblnote = None, None
@@ -260,7 +299,11 @@ if __name__ == "__main__":
     factions = []
     for slug in SLUGS:
         path = download(slug)
-        f = parse_faction(slug, open(path, encoding="utf-8").read())
+        raw = open(path, encoding="utf-8").read()
+        if MFM_VERSION == MFM_VERSION_FALLBACK:  # not yet detected from a page this run
+            v = detect_version(raw)
+            if v: MFM_VERSION = v
+        f = parse_faction(slug, raw)
         sub = sum(len(s['units']) for s in f['subfactions'])
         print(f"  {slug:22s} det={len(f['detachments']):2d} units={len(f['units']):3d}"
               + (f" +{sub} {[s['name'] for s in f['subfactions']]}" if f['subfactions'] else ""),
