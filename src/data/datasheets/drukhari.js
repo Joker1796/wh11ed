@@ -1629,7 +1629,7 @@ export default [
         "d": "2"
       },
       {
-        "name": "Razorwing missiles – neurotoxin missiles",
+        "name": "Razorwing missiles – necrotoxin missiles",
         "tags": [
           "ANTI-INFANTRY 2+",
           "BLAST"
@@ -2412,7 +2412,7 @@ export default [
     ],
     "melee": [
       {
-        "name": "Chain-flails",
+        "name": "Chain flails",
         "tags": [],
         "a": "8",
         "ws": "3+",

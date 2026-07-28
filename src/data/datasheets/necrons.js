@@ -2992,8 +2992,7 @@ export default [
       "Night Scythe",
       "Fly",
       "Vehicle",
-      "Transport",
-      "Frame"
+      "Transport"
     ],
     "factionKeywords": [
       "Necrons"

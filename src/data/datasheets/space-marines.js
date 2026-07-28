@@ -1536,7 +1536,7 @@ export default [
     "abilities": [
       {
         "name": "Bladeguard",
-        "text": "At the start of the Fight phase, you can select one of the following abilities to apply to models in this unit until the end of the phase:\n▪ **Swords of the Chapter:** Each time a model in this unit makes a melee attack, re-roll a Hit roll of 1.\n▪ **Shields of the Chapter:** Each time an invulnerable saving throw is made for a model in this unit, re-roll a saving throw of 1."
+        "text": "In the Fight phase, when this unit is selected to fight or when an enemy unit targets this unit, you can select one of the following:\n▪ This unit’s melee attacks have +1 to hit rolls.\n▪ Or: Attacks that target this unit have -1 to hit rolls."
       }
     ],
     "composition": [

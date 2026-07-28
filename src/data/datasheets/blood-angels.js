@@ -1542,7 +1542,7 @@ export default [
       }
     ],
     "composition": [
-      "5-10 Death Company Marines with Bolt Rifles"
+      "5-10 Death Company Intercessors with Bolt Rifles"
     ],
     "loadout": "**Every model is equipped with:** bolt pistol; bolt rifle; close combat weapon.",
     "options": [

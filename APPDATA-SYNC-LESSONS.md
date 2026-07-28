@@ -581,3 +581,56 @@ and appdata state fresh; a data model can change between now and when this is ne
     `unit_composition_required_faction_keyword`/`_required_detachment` by hand on any future
     "points differ" finding before concluding wh11ed is simply missing a value — it might already be
     modeled, just correctly placed somewhere the flat diff can't see.
+38. **Full 30-faction pass (all 12 `npm run sync` stages, not just the 5 touched factions) on the
+    913 bump — most raw findings were noise, but a handful were real, high-value catches.** Real
+    fixes: Necrons' Night Scythe carried an erroneous "Frame" keyword (same class as lesson-adjacent
+    Crimson Hunter/Hemlock Wraithfighter — cross-checking appdata confirmed `Frame` is only ever
+    used for Falcon-chassis/Barge-chassis ground vehicles, never `AIRCRAFT`-type flyers, in every
+    faction that has both); Blood Angels' "Death Company Marines with Bolt Rifles" composition line
+    said "Marines" where appdata says "Intercessors" (the Primaris-armed variant is canonically
+    named differently in the unit-composition line even though the datasheet title isn't); Space
+    Marines' **Bladeguard** ability was on stale pre-errata wording (old: pick Swords/Shields of the
+    Chapter, re-roll a 1; current: once per turn per unit, +1 to hit **or** -1 to hit against it) —
+    this is exactly the "silent errata drift" class `sync-faction-text.mjs` exists to catch, and it
+    propagates to all 5 Chapter pages for free via the `sharedUnitIds` fold; T'au Empire's army-rule
+    page was missing the entire "Drones" reference section (`sync-army-rule-coverage.mjs`) — added
+    as a `### Drones` subsection following the death-guard "Nurgle's Gift" multi-part-rule template
+    (one **bold name:** bullet per drone, skipping Gun/Missile Drone's non-fixed weapon text since
+    that's already correctly modeled per-datasheet, see lesson 30); two Space Wolves enhancements
+    and Imperial Agents' two Watch Captain/Watch Master leader-unit lists were each missing entries
+    (`sync-enh-bodyguards.mjs` / `sync-leader-units.mjs`) — added by hand from appdata's structural
+    tables (these two scripts read structural join tables, not rule prose, so the fix has no
+    appdata "canonical text" to paste — read the unit/keyword list straight off the script's own
+    "missing (add): …" line).
+
+    **New false-positive classes confirmed this pass (don't re-investigate these blind next bump):**
+    - `sync-wargear-options.mjs`'s "number N (set limit/model-count) not found": for several units
+      this number turned out to be the **item count of the appdata choice-set itself** (e.g. Battlewagon's
+      3-item 'ard case/grabbin' klaw/wreckin' ball choice flagged "3"; War Dog Moirax/Armiger
+      Moirax/both Warhound Titans flagged "2" — a structural artifact of their twin-weapon-mount
+      schema, not a number ever meant to appear in prose). Also saw a same-chassis **sourceIds
+      bridging mixup** (Blood Angels' Death Company Dreadnought flagged missing appdata's "Brutalis
+      fists"/"Brutalis bolt rifles" — those belong to the *separate* Brutalis Dreadnought datasheet)
+      and a hyphenation-only miss (imperial-agents' "Nuncio-acquila" vs appdata's "nuncio aquila" —
+      content already fully present under both spellings' worth of the wording). Always check the
+      referenced appdata `wargearRules` entry directly before trusting this script's flag.
+    - `sync-leader-units.mjs` extracts "bullets" via a naive `**bold**` regex over the whole Leader/
+      Support rule text — when the prose's own exclusivity clause bolds the unit's own name (e.g.
+      "…a unit cannot have more than one **WARLOCK CONCLAVE** unit joined to it…"), that self-mention
+      is misread as a missing bodyguard target. Aeldari's Warlock Conclave/Warlock Skyrunners both
+      hit this; both are confirmed non-bugs.
+    - `sync-faction-text.mjs` noise clusters, none needing a fix: (1) wh11ed inlines battle-size
+      tables into prose ("Incursion 2 tokens, Strike Force 4, Onslaught 6…") where appdata just says
+      "as shown below" / "in the table below" — a deliberate, necessary transcription choice, not a
+      gap; (2) every Chapter/Legion detachment's "Restrictions: your army can include X units but
+      not any other Chapter" clause reads as "wh11ed adds" — it's real content already correctly
+      present, just sourced from a different appdata field than the one rule string the script
+      diffs; (3) appdata itself has scattered OCR-grade typos (`grimaidus`, `af`/`lf` for `all`/`if`,
+      `cenabyte`, `absolver` for `absolvor`, `co axial`, `skitarli`, `onl` for `only`, `utilisevat`)
+      — wh11ed's hand-transcribed text is already correct on every one of these; appdata is the one
+      that's wrong.
+    - Drukhari's 5 "ally name 'Asuryani' not found" detachments (`sync-ally-inclusion.mjs`) remain an
+      open, deliberately-deferred question, not a confirmed bug: appdata's `allied_faction*` tables
+      are purely structural (booleans/ids, no rules-text field at all) — there is no appdata prose to
+      paste even if wh11ed should carry this, making it a product/authoring decision rather than a
+      transcription gap. Left as-is pending that decision.
