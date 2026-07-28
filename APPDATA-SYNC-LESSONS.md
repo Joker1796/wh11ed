@@ -415,3 +415,27 @@ and appdata state fresh; a data model can change between now and when this is ne
     generic vocabulary) nor a low score proves absence (could be legitimately reworded flavour text)
     — every flagged candidate still needs an actual read of both sides before a verdict, the same
     discipline `[[feedback_verify_dont_assert]]` already establishes for structural-join mismatches.
+30. **A generic wargear option ("1 marker drone") can be structurally correct while the effect it
+    grants is nowhere in the text — and this can hide behind a case-sensitive grep giving a false
+    "already covered."** `sync-army-rule-coverage.mjs` flagged Tau Empire's "Drones" army rule
+    (Shield Drone: +1 Wounds) as apparently missing from `tau-empire.js`. The first check for it —
+    `grep -n "Shield Drone"` — found nothing and was briefly taken as confirmation. It was wrong:
+    wh11ed writes the option in lowercase ("1 shield drone", matching how bullet-list wargear names
+    are conventionally cased throughout this file), so a case-sensitive search for the capitalized
+    form missed 11 real occurrences. Re-running case-insensitively (`grep -in`) found the option
+    bullet present on every affected unit — but the option bullet only ever lists the drone by name
+    ("1 gun drone / 1 marker drone / 1 shield drone"), never explains what any of them actually DO.
+    Tracing the structural join (`loadout_choice`/`limited_wargear_choice` → `wargear_item`) to all
+    11 datasheets that offer it confirmed: the "Gun Drone"/"Missile Drone" options were already fully
+    correct in effect (their granted weapon — Twin pulse carbine/Missile pod — was already present in
+    every affected unit's `ranged[]`, just not narrated), but "Marker Drone" (Markerlight keyword +
+    Observer-even-after-Advancing) and "Shield Drone" (+1 Wounds) — and "Guardian Drone" (-1 to enemy
+    Wound rolls) on the 2 units that offer it — were genuinely unexplained anywhere. Fixed by adding
+    a `wargearAbilities` entry per drone type to each of the 11 datasheets (EN+RU, reusing shared RU
+    constants matching this file's existing convention for repeated wargear text). **General
+    principle:** (a) grep case-sensitivity is a real, easy-to-miss failure mode — default to
+    case-insensitive when checking "is X mentioned anywhere," especially for lowercase-conventional
+    wargear names; (b) an option existing in a bullet list doesn't mean its EFFECT is documented — a
+    structural join can be satisfied by the option being selectable while the actual rules text for
+    what it does is absent, and those are two different questions a checker (or a human) can
+    conflate.

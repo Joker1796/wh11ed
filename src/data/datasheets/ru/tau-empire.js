@@ -29,6 +29,15 @@ const FORTIFICATION =
 const TIDEWALL_COVER =
   'Каждый раз, когда атака дальнего боя распределяется по модели, если эта модель не полностью видна каждой модели атакующего юнита из-за этого Fortification, эта модель имеет преимущество укрытия против этой атаки.'
 
+// Generic drone attachments repeated across most T'au units' options (Gun Drone/Missile Drone
+// just grant an extra ranged weapon, already reflected in the datasheet's own weapon list —
+// only the non-weapon effects need a wargearAbilities entry).
+const GUARDIAN_DRONE =
+  'Каждый раз, когда модель совершает атаку дальнего боя, нацеленную на юнит носителя, вычтите 1 из броска ранения.'
+const MARKER_DRONE =
+  'Юнит носителя имеет ключевое слово Markerlight и может выступать в роли юнита-наблюдателя (Observer) для другого юнита, даже если в этом ходу продвигался.'
+const SHIELD_DRONE = 'Прибавьте 1 к характеристике Ран (Wounds) носителя.'
+
 export default {
   'ax-1-0-tiger-shark': {
     flavor:
@@ -52,6 +61,11 @@ export default {
         'Каждый раз, когда модель этого юнита совершает атаку дальнего боя, нацеленную на вражеский юнит в пределах дальности маркера цели, вы можете перебросить бросок ранения.',
       'DS8 Support Turret': DS8_SUPPORT_TURRET,
     },
+    wargearAbilities: {
+      'Guardian Drone': GUARDIAN_DRONE,
+      'Marker Drone': MARKER_DRONE,
+      'Shield Drone': SHIELD_DRONE,
+    },
     options: [
       'Breacher Fire Warrior Shas’ui может быть снаряжён до двух из следующего, допускаются дубликаты:\n▪ 1 guardian drone (дубликаты этого снаряжения недопустимы)\n▪ 1 gun drone\n▪ 1 marker drone\n▪ 1 shield drone',
     ],
@@ -64,7 +78,11 @@ export default {
       'Advanced Armour':
         'Модели этого юнита имеют способность Feel No Pain 4+ против смертельных ран.',
     },
-    wargearAbilities: { 'Weapon Support System': WSS_BEARER },
+    wargearAbilities: {
+      'Weapon Support System': WSS_BEARER,
+      'Marker Drone': MARKER_DRONE,
+      'Shield Drone': SHIELD_DRONE,
+    },
     options: [
       'Любое число моделей может заменить свой heavy rail rifle на 1 high-yield missile pods каждая.',
       'Любое число моделей может быть снаряжено до двух из следующего, но без дубликатов:\n▪ 1 seeker missile\n▪ 1 twin plasma rifle*\n▪ 1 twin smart missile system*\n▪ 1 weapon support system',
@@ -81,6 +99,10 @@ export default {
         'Пока эта модель возглавляет юнит, добавьте 1 к характеристике Атак (Attacks) оружия дальнего боя моделей этого юнита.',
       'Crack Shot':
         'Каждый раз, когда эта модель совершает атаку дальнего боя, при критическом ранении эта атака имеет характеристику Бронепробития (AP) -3.',
+    },
+    wargearAbilities: {
+      'Marker Drone': MARKER_DRONE,
+      'Shield Drone': SHIELD_DRONE,
     },
     leader: { text: LEADER_TEXT },
     options: [
@@ -111,6 +133,8 @@ export default {
       'Battlesuit Support System': BSS_BEARER,
       'Shield Generator': SHIELD_GENERATOR,
       'Weapon Support System': WSS_BEARER,
+      'Marker Drone': MARKER_DRONE,
+      'Shield Drone': SHIELD_DRONE,
     },
     leader: { text: LEADER_TEXT },
     options: [
@@ -132,6 +156,8 @@ export default {
       'Battlesuit Support System': BSS_BEARER,
       'Shield Generator': SHIELD_GENERATOR,
       'Weapon Support System': WSS_BEARER,
+      'Marker Drone': MARKER_DRONE,
+      'Shield Drone': SHIELD_DRONE,
     },
     leader: { text: LEADER_TEXT },
     options: [
@@ -168,6 +194,10 @@ export default {
       'Weapon Support Systems':
         'Каждый раз, когда модель этого юнита совершает атаку дальнего боя, вы можете игнорировать любые или все модификаторы броска попадания.',
     },
+    wargearAbilities: {
+      'Marker Drone': MARKER_DRONE,
+      'Shield Drone': SHIELD_DRONE,
+    },
     options: [
       'Любое число моделей может заменить свой plasma rifle на 1 missile pod каждая.',
       'Любое число моделей может заменить свой missile pod на 1 plasma rifle каждая.',
@@ -184,6 +214,10 @@ export default {
       'Battlesuit Support Systems':
         'Этот юнит может стрелять в ход, в который он отступил.',
     },
+    wargearAbilities: {
+      'Marker Drone': MARKER_DRONE,
+      'Shield Drone': SHIELD_DRONE,
+    },
     options: [
       'Любое число моделей может заменить свой burst cannon на 1 T’au flamer каждая.',
       'Любое число моделей может заменить свой T’au flamer на 1 burst cannon каждая.',
@@ -197,6 +231,10 @@ export default {
     abilities: {
       Sunforge:
         'Каждый раз, когда модель этого юнита совершает атаку дальнего боя, нацеленную на юнит Monster или Vehicle, вы можете перебросить бросок ранения и можете перебросить бросок урона.',
+    },
+    wargearAbilities: {
+      'Marker Drone': MARKER_DRONE,
+      'Shield Drone': SHIELD_DRONE,
     },
     options: [
       'Любое число моделей может быть снаряжено до двух из следующего, но без дубликатов:\n▪ 1 gun drone\n▪ 1 marker drone\n▪ 1 shield drone',
@@ -242,6 +280,8 @@ export default {
     wargearAbilities: {
       'Hover Drone':
         'Носитель имеет ключевое слово Fly и характеристику Движения (Move) 10".',
+      'Marker Drone': MARKER_DRONE,
+      'Shield Drone': SHIELD_DRONE,
     },
     leader: { text: LEADER_TEXT },
     options: [
@@ -438,6 +478,8 @@ export default {
         'Добавьте 6" к характеристике Дальности (Range) pulse carbine, снаряжённых моделями юнита носителя.',
       'Recon Drone':
         'Носитель снаряжён 1 drone burst cannon, и юнит носителя имеет способность Infiltrators.',
+      'Marker Drone': MARKER_DRONE,
+      'Shield Drone': SHIELD_DRONE,
     },
     options: [
       'Pathfinder Shas’ui может быть снаряжён одним из следующего:\n▪ 1 grav-inhibitor drone\n▪ 1 pulse accelerator drone\n▪ 1 recon drone',
@@ -552,6 +594,11 @@ export default {
       'Suppression Volley':
         'В вашей фазе стрельбы, после того как этот юнит отстрелялся, выберите один вражеский юнит Infantry, поражённый одной или более из этих атак. До начала вашего следующего хода, пока этот юнит на поле боя, тот вражеский юнит подавлен. Пока юнит подавлен, каждый раз, когда его модель совершает атаку, вычтите 1 из броска попадания.',
       'DS8 Support Turret': DS8_SUPPORT_TURRET,
+    },
+    wargearAbilities: {
+      'Guardian Drone': GUARDIAN_DRONE,
+      'Marker Drone': MARKER_DRONE,
+      'Shield Drone': SHIELD_DRONE,
     },
     options: [
       'Fire Warrior Shas’ui может быть снаряжён до двух из следующего, допускаются дубликаты:\n▪ 1 guardian drone (дубликаты этого снаряжения недопустимы)\n▪ 1 gun drone\n▪ 1 marker drone\n▪ 1 shield drone',
