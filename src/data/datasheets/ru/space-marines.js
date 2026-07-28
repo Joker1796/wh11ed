@@ -511,7 +511,7 @@ export default {
     },
     loadout: `${EQUIP_EVERY} bolt pistol; boltgun; close combat weapon.`,
     options: [
-      'До 4 Devastator Marine их boltgun можно заменить на одно из следующего:\n▪ 1 grav-cannon\n▪ 1 heavy bolter\n▪ 1 lascannon\n▪ 1 missile launcher\n▪ 1 multi-melta\n▪ 1 plasma cannon',
+      'До 4 Devastator Marine их boltgun можно заменить на одно из следующего:\n▪ 1 grav-cannon\n▪ 1 heavy bolter\n▪ 1 heavy flamer\n▪ 1 lascannon\n▪ 1 missile launcher\n▪ 1 multi-melta\n▪ 1 plasma cannon',
       'bolt pistol и boltgun у Devastator Sergeant можно заменить на два разных оружия из следующего списка:*\n▪ 1 Astartes chainsword\n▪ 1 bolt pistol\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 plasma pistol\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer',
       '* Эта модель может быть вооружена двумя дальнобойными оружиями, только если одно из них — Pistol (и у неё может быть лишь один Pistol).',
     ],
