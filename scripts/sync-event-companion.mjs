@@ -102,7 +102,11 @@ const normTitle = (s) =>
     .replace(/[’‘“”"'.,]/g, '')
     .replace(/\s+/g, ' ')
     .trim()
-const titleWords = (s) => new Set(normTitle(s).split(' ').filter(Boolean))
+// Strip a trailing 's' so plural/singular variants overlap (e.g. appdata "TEAM RANKINGS"
+// vs wh11ed "Ranking Teams" — same two words, different inflection each side, 0% overlap
+// without this — found while investigating a false "missing in wh11ed" on a data refresh).
+const singularize = (w) => (w.length > 3 && w.endsWith('s') ? w.slice(0, -1) : w)
+const titleWords = (s) => new Set(normTitle(s).split(' ').filter(Boolean).map(singularize))
 function titleOverlap(a, b) {
   const wa = titleWords(a)
   const wb = titleWords(b)
@@ -199,7 +203,11 @@ function flattenTeams(en) {
   push('Introduction', en.teams.intro, en.teams.blocks[0]?.body)
   // Teams deliberately doesn't repeat "Generating Command Points" — it's the same rule as the
   // main Event Companion's, and the Teams sequence explicitly refers back to it (see
-  // 'teams-sequence-note'). Reported as a container-inventory gap below, not a real one.
+  // 'teams-sequence-note'). Same story for the 5 "CUMULATIVE/OR CONDITIONS", "LEAVES THE
+  // BATTLEFIELD", "ONE", "VP UP TO A LIMIT", "WHEN DRAWN" glossary containers (identical text
+  // to Main's own designerNotes) and "PAIRINGS AND RANKINGS" (Teams' copy of the same generic
+  // framing paragraph as Main's `en.pairings.intro`) — all reported as container-inventory
+  // gaps below, none of them real ones.
   for (const b of en.teams.blocks.slice(1)) push(b.title, b.body, tableText(b.table), b.tableNote, b.note)
   return out
 }
