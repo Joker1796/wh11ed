@@ -73,3 +73,33 @@ describe('DatasheetCard granted keywords', () => {
     expect(w.findAll('.ds-kw-footnote')).toHaveLength(2)
   })
 })
+
+describe('DatasheetCard leader/attached-unit list', () => {
+  const withLeader = (units) => sheet({ core: 'Leader', leader: { text: 'This model can be attached to the following units:', units } })
+  const leaderNames = (w) => w.find('.ds-list').findAll('li').map((li) => li.text())
+
+  it('links a bodyguard name found in the local unitIndex', () => {
+    const w = mount(DatasheetCard, {
+      props: { sheet: withLeader(['Terminator Squad']), unitIndex: new Map([['Terminator Squad', 'terminator-squad']]), factionSlug: 'dark-angels' },
+      global: { stubs: { RouterLink: { template: '<a><slot/></a>' } } },
+    })
+    expect(w.find('a').text()).toBe('Terminator Squad')
+  })
+
+  it('renders a name found nowhere as plain (unlinked) text', () => {
+    const w = mount(DatasheetCard, { props: { sheet: withLeader(['Deathwing Command Squad']), unitIndex: new Map() } })
+    expect(leaderNames(w)).toEqual(['Deathwing Command Squad'])
+    expect(w.find('a').exists()).toBe(false)
+  })
+
+  it('hides a name flagged as belonging to another faction instead of rendering it unlinked', () => {
+    const w = mount(DatasheetCard, {
+      props: {
+        sheet: withLeader(['Terminator Squad', 'Deathwatch Terminator Squad']),
+        unitIndex: new Map([['Terminator Squad', 'terminator-squad']]),
+        otherFactionUnits: ['Deathwatch Terminator Squad'],
+      },
+    })
+    expect(leaderNames(w)).toEqual(['Terminator Squad'])
+  })
+})
