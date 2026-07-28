@@ -81,7 +81,9 @@ Models returned to a unit on the battlefield must be set up as follows:
 
 ▪ They must be set up in **[gloss:coherency:coherency]** with models in that unit that started that phase on the battlefield.
 ▪ They can be set up **[gloss:engaged:engaged]** with one or more enemy units, but only if those enemy units were already **engaged** with the unit that model is being returned to.
-If a **[gloss:leader:leader]** or **[gloss:support:support]** model in an **attached** unit is **destroyed** and subsequently revived, they are still part of that **attached** unit and they must be returned to it if possible.`,
+If a **[gloss:leader:leader]** or **[gloss:support:support]** model in an **attached** unit is **destroyed** and subsequently revived, they are still part of that **attached** unit and they must be returned to it if possible.
+
+When a model revives, resurrects, returns or is added to an embarked unit, if that TRANSPORT has sufficient remaining **[gloss:transport-capacity:transport capacity]** for that model, that model is returned to that unit and is embarked. Otherwise, that model is **destroyed**, but it does not trigger rules that apply when a model is **destroyed**.`,
             },
             {
               id: 'section-01-02-04',
@@ -1525,7 +1527,9 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 
 ▪ Они должны быть размещены в **[gloss:coherency:боевом построении]** с моделями этого юнита, которые начали эту фазу на поле боя.
 ▪ Они могут быть размещены **[gloss:engaged:в ближнем бою]** с одним или несколькими вражескими юнитами, но только если эти вражеские юниты уже были **[gloss:engaged:в ближнем бою]** с юнитом, в который возвращается модель.
-Если модель **[gloss:leader:лидера]** или **[gloss:support:поддержки]** в **составном юните** **[gloss:destroyed:уничтожена]** и впоследствии возрождена, она всё ещё является частью этого **составного юнита** и должна быть возвращена в него, если возможно.`,
+Если модель **[gloss:leader:лидера]** или **[gloss:support:поддержки]** в **составном юните** **[gloss:destroyed:уничтожена]** и впоследствии возрождена, она всё ещё является частью этого **составного юнита** и должна быть возвращена в него, если возможно.
+
+Когда модель возрождается, воскрешается, возвращается или добавляется в юнит, находящийся внутри транспорта, если у этого TRANSPORT достаточно оставшейся **[gloss:transport-capacity:вместимости транспорта]** для этой модели, эта модель возвращается в юнит и садится в транспорт. В противном случае эта модель **уничтожается**, но это не запускает правила, которые применяются, когда модель **уничтожена**.`,
             },
             {
               title: 'Не на поле боя',
