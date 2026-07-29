@@ -499,6 +499,16 @@ never allows it, the cap is moot; if some combination of stepper rows theoretica
 tracker may be missing an explicit clamp `RoundTracker.vue`/`gameScoring.js` needs). Not investigated
 yet — a follow-up, not part of the layouts task above.
 
+**RESOLVED 2026-07-29 — false alarm, already implemented (just not in the file this note pointed
+at).** `PRIMARY_ROUND_CAP = 15` already exists in `src/composables/useTracker.js` (not
+`gameScoring.js`, which is why the original search here missed it) and is already fully wired up:
+`setPrimaryRow` clamps `round.primary = Math.min(raw, PRIMARY_ROUND_CAP)`, `setRoundPrimary`
+clamps the same way for the no-card fallback path, `primaryTotal`'s remaining-budget calc
+(`Math.min(PRIMARY_ROUND_CAP, PRIMARY_GAME_CAP - others)`) accounts for it, and `RoundTracker.vue`
+both displays "X / 15 VP" per round and caps the `NumberStepper`'s max at it. Covered by
+`useTracker.scoring.test.js` (24 tests, incl. dedicated over-cap clamping cases). No content or
+code gap — the value matches appdata's `primaryMissionScoreBattleRoundLimit: 15` exactly.
+
 ## Future scope (not scheduled — flag for later, needs a product decision first)
 
 **Combat Patrol support.** Every `isCombatPatrol` detachment/datasheet/enhancement/publication is
