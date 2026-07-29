@@ -69,6 +69,30 @@ const layoutEdges = {
   'priority-assets|priority-assets':{ A: 'v', B: 'h', C: 'h' },
 }
 
+// Each layout's named "Deployment Map" (one of 6 standard zone-shape templates) — a
+// mission-pack-internal label, not core rules text (the shape is already fully visible in the
+// diagram itself). Not in the source PDF at all; read from wh40k-appdata's structural
+// mission_deployment/mission_preset/force_disposition_mission_recommended_preset tables (see
+// scripts/sync-layouts.mjs, which regenerates this exact mapping — paste its output here if
+// appdata ever reassigns one).
+const layoutDeploymentMaps = {
+  'take-and-hold|take-and-hold': { A: 'Tipping Point', B: 'Dawn of War', C: 'Search and Destroy' },
+  'take-and-hold|purge-the-foe': { A: 'Sweeping Engagement', B: 'Search and Destroy', C: 'Hammer and Anvil' },
+  'take-and-hold|disruption': { A: 'Sweeping Engagement', B: 'Crucible of Battle', C: 'Hammer and Anvil' },
+  'take-and-hold|reconnaissance': { A: 'Sweeping Engagement', B: 'Crucible of Battle', C: 'Tipping Point' },
+  'take-and-hold|priority-assets': { A: 'Crucible of Battle', B: 'Hammer and Anvil', C: 'Dawn of War' },
+  'purge-the-foe|purge-the-foe': { A: 'Search and Destroy', B: 'Tipping Point', C: 'Sweeping Engagement' },
+  'purge-the-foe|disruption': { A: 'Search and Destroy', B: 'Tipping Point', C: 'Sweeping Engagement' },
+  'purge-the-foe|reconnaissance': { A: 'Hammer and Anvil', B: 'Dawn of War', C: 'Crucible of Battle' },
+  'purge-the-foe|priority-assets': { A: 'Dawn of War', B: 'Search and Destroy', C: 'Hammer and Anvil' },
+  'disruption|disruption': { A: 'Crucible of Battle', B: 'Tipping Point', C: 'Sweeping Engagement' },
+  'disruption|reconnaissance': { A: 'Tipping Point', B: 'Search and Destroy', C: 'Dawn of War' },
+  'disruption|priority-assets': { A: 'Sweeping Engagement', B: 'Tipping Point', C: 'Search and Destroy' },
+  'reconnaissance|reconnaissance': { A: 'Sweeping Engagement', B: 'Crucible of Battle', C: 'Tipping Point' },
+  'reconnaissance|priority-assets': { A: 'Crucible of Battle', B: 'Tipping Point', C: 'Sweeping Engagement' },
+  'priority-assets|priority-assets': { A: 'Sweeping Engagement', B: 'Crucible of Battle', C: 'Tipping Point' },
+}
+
 const en = {
   // ── Page 1: Mission Sequence ───────────────────────────────────────────────
   sequence: {
@@ -408,6 +432,7 @@ const en = {
       image: layoutImages[`${m.a}|${m.b}`]?.[id],
       imageClean: layoutImagesClean[`${m.a}|${m.b}`]?.[id],
       edge: layoutEdges[`${m.a}|${m.b}`]?.[id] || 'h',
+      deploymentMap: layoutDeploymentMaps[`${m.a}|${m.b}`]?.[id],
     })),
   })),
 
