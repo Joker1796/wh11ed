@@ -415,15 +415,27 @@ above. All 5 planned scripts are now built.
 
 ## Investigation tasks (do BEFORE deciding whether points 6-7 below are even buildable)
 
-- **Terrain & Layouts / mission_layout family.** `mission_layout` + `mission_layout_linked_deployment`
-  + `mission_deployment` + `mission_preset` + `force_disposition_mission_recommended_preset` +
-  `mission_pack_briefing(+_narrative_point)` + `mission_pack_location(+_location_bonus/_warzone_rule)`
-  are NOT in `_core-content.json`, so `sync-tracker.mjs` never sees them. wh11ed's own 45-layout
-  A/B/C matchup data (`EventLayoutsView.vue`, `LayoutCard.vue`) was hand-extracted from the PDF via
-  pymupdf per `CLAUDE.md` — check whether these tables actually encode the same
-  layout↔deployment↔matchup pairings appdata-side, and if so whether they're rich enough to become
-  a genuine source of truth (or at least a guardrail) instead of/alongside the current PDF-vector
-  extraction pipeline. Don't assume yes or no — actually read a few rows first.
+- **Terrain & Layouts / mission_layout family — RESOLVED 2026-07-29, guardrail built.**
+  `mission_pack_briefing(+_narrative_point)` and `mission_pack_location(+_location_bonus/
+  _warzone_rule)` are all **empty** (0 rows each in this data_version) — not part of this
+  investigation in practice. The rest — `mission_layout` (48 rows: 45 real "X / Y - Layout Z" + 3
+  unused generic placeholders), `force_disposition_mission` (25 ordered friendly/opposition pairs),
+  `force_disposition_mission_recommended_preset` (75 rows, 3 per pair) + `mission_preset` +
+  `mission_deployment` — DOES fully encode the same layout↔matchup↔A/B/C pairing wh11ed already
+  has, confirmed two independent ways: (1) `mission_layout`'s own row names (already what
+  `extract-layout-images.mjs` parses) match all 45 of wh11ed's matchup/letter combos with zero
+  gaps; (2) the recommended-preset chain, read fresh (friendly/opposition → 3 presets → layout +
+  deployment), is self-consistent — every ordered pair's 3 recommended presets resolve to distinct
+  A/B/C letters whose own layout name is for that same disposition pair. **Not rich enough to
+  replace the APK-extraction pipeline** (no image field, confirmed via `SCHEMA.md` same as the
+  2026-07-28 note below) but plenty rich for a standing guardrail — built `sync-layouts.mjs`
+  (wired into `npm run sync`), first clean run: 0 issues. One thing appdata carries that wh11ed's
+  UI doesn't currently show: each layout's named "Deployment Map" (Hammer and Anvil, Crucible of
+  Battle, Sweeping Engagement, Search and Destroy, Dawn of War, Tipping Point — the standard named
+  core-rulebook deployment shapes; +3 Combat-Patrol-only ones, out of scope per usual convention).
+  Printed informationally by the new script; NOT added to the UI — that's a product decision
+  (would mean labelling each `LayoutCard` with its deployment-map name), not a sync-guardrail
+  question, so left for the user to decide separately.
 
 ## DONE (2026-07-28): Layout diagrams now pulled from the app's APK, not PDF-cropped
 
@@ -468,12 +480,9 @@ Clean" toggle to `EventLayoutsView.vue` (persisted `wh11ed-event-layout-measurem
 (hand-read attacker/defender bar orientation) is unchanged — still needed since `LayoutCard` overlays
 its own edge-marker bars on top of either image variant, same as before.
 
-**Structural guardrail still not built** (the original plan item): `scripts/sync-layouts.mjs`
-comparing wh11ed's 45 `layoutImages` keys / A-B-C assignment against `mission_preset` +
-`force_disposition_mission_recommended_preset` (verified by hand this session to be symmetric and
-correctly ordered) would catch a future rename/reshuffle/add before someone notices the pictures
-look wrong. Not scheduled — the extraction script's own "0 missing" count already catches an
-add/remove; a silent rename or A/B/C reshuffle is the remaining unguarded case.
+**Structural guardrail — BUILT 2026-07-29.** `scripts/sync-layouts.mjs` compares wh11ed's 45
+`layoutImages` keys / A-B-C assignment against `mission_layout` + `mission_preset` +
+`force_disposition_mission_recommended_preset`, wired into `npm run sync`. First run: 0 issues.
 
 ## Future task (queued, not started): verify tracker VP-cap constants against `mission_pack.json`
 
