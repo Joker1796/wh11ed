@@ -943,5 +943,114 @@ export const combatPatrolRu = {
         },
       ],
     },
+    {
+      name: 'Imperial Agents',
+      rule: {
+        flavor: 'Главные цели представляют собой явную и непосредственную угрозу для дальнейшего существования человечества. Их нужно выследить и уничтожить, какой бы ценой это ни обошлось.',
+        body: `В вашей фазе командования вы можете выбрать один вражеский юнит. Атаки дружественных юнитов Inquisitor's Hand, направленные на этот вражеский юнит, получают:
+▪ [IGNORES COVER].
+▪ [LETHAL HITS].
+▪ [PRECISION].`,
+      },
+      armyRule: {
+        flavor: 'По всему Империуму существуют многочисленные боевые организации и теневые структуры. Вооружённые отряды или одинокие агенты из этих групп обладают специализированными навыками, необычным снаряжением и личными интересами, которые приводят их к прикомандированию к более крупным имперским армиям. Одних реквизируют командиры армии за их особые способности, других назначают их скрытые хозяева для достижения узких целей. Самые могущественные обладают авторитетом и репутацией, достаточными, чтобы навязать своё присутствие на поле боя.',
+        body: `Если ваша армия относится к фракции Agents of the Imperium, то на этапе выбора детачмента вы можете как обычно выбрать один из доступных детачментов из этой публикации.
+
+Если ваша армия не относится к фракции Agents of the Imperium, но каждая модель в вашей армии имеет ключевое слово Imperium, вы можете включить в свою армию юниты Agents of the Imperium даже если они не имеют выбранного вами ключевого слова фракции на этапе выбора армии. В этом случае максимальное число юнитов Agents of the Imperium, которое можно включить в армию, зависит от размера битвы, как показано ниже.
+
+Обратите внимание, что в такую армию можно как обычно включать Dedicated Transport юниты Agents of the Imperium, но каждый такой юнит должен начинать битву с одним или более юнитом внутри него, иначе он не может быть развернут для этой битвы и считается уничтоженным в первом раунде битвы.`,
+      },
+      stratagems: [
+        {
+          name: 'Urban Enforcers',
+          flavor: 'Многие агенты Инквизиции происходят из глубин густонаселённых хабов и иных городских сред. Будь то бывшие гангстеры, эскортные силы, охотники за головами или агенты закона, все они — мастера боя в тесных городских условиях.',
+          when: 'Фаза стрельбы вашего противника или фаза боя, когда вражеский юнит выбирает дружественный юнит Inquisitor\'s Hand целью, находясь в пределах областиTerrain, при этом все модели внутри этой области.',
+          target: 'Этот юнит Inquisitor\'s Hand.',
+          effect: 'Атаки, направленные на ваш юнит, получают -1 AP.',
+        },
+        {
+          name: 'Superior Weaponry',
+          flavor: 'Инквизиторы известны тем, что собирают огромные арсеналы эзотерического оружия и снаряжения, которые при необходимости могут быть выданы их агентам в поле.',
+          when: 'Ваша фаза стрельбы или фаза боя, когда дружественный юнит Inquisitor\'s Hand (за исключением юнитов Eversor Assassin) выбран для атаки.',
+          target: 'Этот юнит Inquisitor\'s Hand.',
+          effect: 'Атаки вашего юнита получают +1 AP.',
+        },
+        {
+          name: 'Inquisitorial Mandate',
+          flavor: 'Агенты Инквизиции обладают полномочиями реквизировать и заявлять всё, что им кажется нужным. Достаточно просто вспыхнуть инквизиторской печатью, чтобы закрепить за собой право на чужую территорию.',
+          when: 'В конце вашей фазы перемещения.',
+          target: 'Один дружественный юнит Inquisitor\'s Hand (за исключением юнитов Eversor Assassin).',
+          effect: 'Выберите один объект, который контролирует ваш юнит. Этот объект будет secured.',
+        },
+      ],
+      enhancements: [
+        {
+          name: 'Sanctic Slayers',
+          flavor: 'Получив благословение проповедника Тегуэна и усиленные специализированной подготовкой Инквизиции, воины Inquisitor\'s Hand способны с равной эффективностью вступать в бой даже с, казалось бы, гораздо более могущественными противниками.',
+          body: 'Только модель Inquisitor\'s Hand Ministorum Priest. (Один раз за ход, на юнит) Когда дружественный юнит Inquisitor\'s Hand выбран для атаки, вы можете использовать эту способность. Если делаете это, атаки этого юнита, направленные на цель с T, равным или большим, чем S этой атаки, получают +1 к броскам ран.',
+        },
+        {
+          name: 'Killer Reflexes',
+          flavor: 'Ассасины храмов Эверсора — живые инструменты разрушения, не знающие боли, страха и сдержанности. Они неустанны в стремлении убивать и отмахиваются от смертельных ран на пути к своим жертвам.',
+          body: 'Только модель Inquisitor\'s Hand Eversor Assassin. В фазе боя, когда эта модель уничтожена, если этот юнит ещё не был выбран для боя в этой фазе, бросьте один D6: на 2+ эту модель не убирают с поля боя. Когда этот юнит уже сражался, или в конце фазы (что наступит раньше), эту модель убирают с поля боя.',
+        },
+      ],
+      datasheets: [
+        {
+          id: 'preacher-teguen',
+          abilities: [
+            { name: 'Zealot (Once per battle per unit)', text: 'Когда этот юнит выбран для боя, вы можете использовать эту способность. Если делаете это, атаки этой модели в ближнем бою получают +3 A и S.' },
+            { name: 'Holy Hatred', text: 'Если это прикреплённый юнит, атаки этого юнита в ближнем бою получают [SUSTAINED HITS 1].' },
+          ],
+          composition: ['1 модель Preacher Teguen'],
+          loadout: '**Эта модель вооружена:** Zealot\'s Vindictor.',
+          leader: { text: 'Эта модель может быть прикреплена к следующим юнитам:' },
+        },
+        {
+          id: 'inquisitors-hand-vigilant-squad',
+          abilities: [
+            { name: 'Merciless Judgement', text: 'Атаки этого юнита на расстоянии, направленные на юнит ниже половины боевой численности, получают +1 к броскам ран.' },
+            { name: 'Nuncio-Aquila', text: 'В начале фазы командования вы можете использовать эту способность. Если делаете это, выберите один объект в пределах 6" от этой модели, который ещё не был выбран для этой способности в этот ход. Вражеские юниты (за исключением Monster/Vehicle) в пределах досягаемости этого объекта должны пройти проверку морального духа.' },
+          ],
+          composition: [
+            '1 модель Cyber-Mastiff',
+            '1 модель Proctor-Vigilant',
+            '1 модель Vigilant с Grenade Launcher, Shotpistol и Gun Stocks',
+            '1 модель Vigilant с Shotpistol, Webber и Gun Stocks',
+            '6 моделей Vigilant с Combat Shotgun, Shotpistol и Gun Stocks',
+          ],
+          loadout: `**Cyber-Mastiff вооружён:** Mechanical Bite.
+**Proctor-Vigilant вооружён:** Combat Shotgun; Gun Stocks; Nuncio-Aquila; Shotpistol.
+**Vigilant с Grenade Launcher, Shotpistol и Gun Stocks вооружён:** Grenade Launcher; Gun Stocks; Shotpistol.
+**Vigilant с Shotpistol, Webber и Gun Stocks вооружён:** Gun Stocks; Shotpistol; Webber.
+**Каждый Vigilant с Combat Shotgun, Shotpistol и Gun Stocks вооружён:** Combat Shotgun; Gun Stocks; Shotpistol.`,
+        },
+        {
+          id: 'inquisitors-hand-eversor-assassin',
+          abilities: [
+            { name: 'Overkill (Once per battle per unit)', text: 'Когда этот юнит выбран для атаки, вы можете использовать эту способность. Если делаете это, атаки этого юнита в ближнем бою получают -4 AP.' },
+          ],
+          composition: ['1 модель Eversor Assassin'],
+          loadout: '**Эта модель вооружена:** Executioner Pistol; Power Sword and Neuro-Gauntlet.',
+        },
+        {
+          id: 'inquisitors-hand-inquisitorial-agents',
+          abilities: [
+            { name: 'Tome Skull (Once per battle per unit)', text: 'В начале любой фазы вы можете выбрать один дружественный battle-shocked юнит Agents of the Imperium в пределах 6" от этого юнита или один вражеский в пределах 6" от этого юнита. Если выбираете дружественный юнит, он больше не находится в состоянии Battle-shocked. Если выбираете вражеский юнит, он должен пройти проверку морального духа.' },
+            { name: 'Loyal To The Cause', text: 'Когда вражеский юнит выбирает этот юнит целью, если этот юнит находится в пределах досягаемости цели, атаки, направленные на этот юнит, получают -1 к броскам ран.' },
+          ],
+          composition: [
+            '1 модель Gun Servitor',
+            '1 модель Inquisitorial Agent с Agent\'s Firearm, Agent\'s Implement и Mystic Stave',
+            '1 модель Inquisitorial Agent с Agent\'s Firearm, Plasma Pistol и Agent\'s Implement',
+            '3 модели Inquisitorial Agent с Agent\'s Firearm и Agent\'s Implement',
+          ],
+          loadout: `**Gun Servitor вооружён:** Agent's Implement; Heavy Bolter.
+**Inquisitorial Agent с Agent's Firearm, Agent's Implement и Mystic Stave вооружён:** Agent's Firearm; Agent's Implement; Mystic Stave; Tome Skull.
+**Inquisitorial Agent с Agent's Firearm, Plasma Pistol и Agent's Implement вооружён:** Agent's Firearm; Agent's Implement; Plasma Pistol.
+**Каждый Inquisitorial Agent с Agent's Firearm и Agent's Implement вооружён:** Agent's Firearm; Agent's Implement.`,
+        },
+      ],
+    },
   ],
 }
