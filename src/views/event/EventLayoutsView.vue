@@ -121,7 +121,10 @@
             class="tab"
             :class="{ active: activeLayout === l.id }"
             @click="activeLayout = l.id"
-          ><span class="tab-word">{{ labels.eventLayout }}</span> {{ l.id }}</button>
+          >
+            <span class="tab-main"><span class="tab-word">{{ labels.eventLayout }}</span> {{ l.id }}</span>
+            <span v-if="l.deploymentMap" class="tab-map">{{ l.deploymentMap }}</span>
+          </button>
         </div>
         <button
           class="measurements-toggle"
@@ -504,15 +507,26 @@ const currentLayout = computed(() =>
   border-color: var(--accent);
 }
 .tab {
-  padding: 0.4rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  padding: 0.35rem 1.1rem;
   border: 1px solid var(--border);
-  border-radius: 999px;
+  border-radius: 14px;
   background: transparent;
   color: var(--text-primary);
   cursor: pointer;
+  transition: background 0.12s, border-color 0.12s;
+}
+.tab-main {
   font-family: var(--font-display);
   font-size: 1.04rem;
-  transition: background 0.12s, border-color 0.12s;
+}
+.tab-map {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  white-space: nowrap;
 }
 .tab:hover {
   border-color: var(--accent);
@@ -521,6 +535,10 @@ const currentLayout = computed(() =>
   background: var(--accent);
   color: var(--text-on-accent);
   border-color: var(--accent);
+}
+.tab.active .tab-map {
+  color: var(--text-on-accent);
+  opacity: 0.85;
 }
 
 @media (max-width: 600px) {
@@ -546,8 +564,9 @@ const currentLayout = computed(() =>
   }
   .legend-objectives { gap: 1.25rem 1.5rem; }
 
-  /* Layout tabs: drop the word, leave square A/B/C buttons. */
+  /* Layout tabs: drop the word and the deployment-map subtitle, leave square A/B/C buttons. */
   .tab-word { display: none; }
+  .tab-map { display: none; }
   .tabs { gap: 0.85rem; }
   .tab {
     min-width: 44px;
@@ -556,5 +575,6 @@ const currentLayout = computed(() =>
     border-radius: 8px;
     font-size: 1.1rem;
   }
+  .tab-main { font-size: 1.1rem; }
 }
 </style>
