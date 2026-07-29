@@ -34,35 +34,40 @@
           <div class="nav-section-body">
             <div
               v-for="group in section.groups"
-              :key="group.path"
+              :key="group.path || group.label"
               class="nav-group"
               :class="{ active: isActive(group) }"
             >
-              <div class="nav-group-label">
-                <button class="nav-group-link" @click="goToGroup(group)">{{ group.label }}</button>
-                <button
-                  v-if="group.sections.length"
-                  class="nav-group-toggle"
-                  :class="{ expanded: expandedPath === group.path }"
-                  @click="toggleGroupExpand(group)"
-                  :aria-expanded="expandedPath === group.path"
-                  :aria-label="labels.ariaToggleSubsections"
-                >
-                  <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </button>
-              </div>
+              <!-- Non-clickable subheading — separates the "rules" section's merged
+                   Core Rules / Event Companion / Combat Patrol group lists. -->
+              <div v-if="group.isDivider" class="nav-group-divider">{{ group.label }}</div>
+              <template v-else>
+                <div class="nav-group-label">
+                  <button class="nav-group-link" @click="goToGroup(group)">{{ group.label }}</button>
+                  <button
+                    v-if="group.sections.length"
+                    class="nav-group-toggle"
+                    :class="{ expanded: expandedPath === group.path }"
+                    @click="toggleGroupExpand(group)"
+                    :aria-expanded="expandedPath === group.path"
+                    :aria-label="labels.ariaToggleSubsections"
+                  >
+                    <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
 
-              <CollapseTransition :show="expandedPath === group.path && group.sections.length > 0">
-                <ul class="nav-sub">
-                  <li v-for="sec in group.sections" :key="sec.label">
-                    <a href="#" class="nav-sub-link" @click.prevent="handleAnchorClick(group.path, sec.id, sec.filter)">
-                      {{ sec.label.replace(/^\d+\s+/, '') }}
-                    </a>
-                  </li>
-                </ul>
-              </CollapseTransition>
+                <CollapseTransition :show="expandedPath === group.path && group.sections.length > 0">
+                  <ul class="nav-sub">
+                    <li v-for="sec in group.sections" :key="sec.label">
+                      <a href="#" class="nav-sub-link" @click.prevent="handleAnchorClick(group.path, sec.id, sec.filter)">
+                        {{ sec.label.replace(/^\d+\s+/, '') }}
+                      </a>
+                    </li>
+                  </ul>
+                </CollapseTransition>
+              </template>
             </div>
           </div>
         </CollapseTransition>
@@ -74,7 +79,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { navGroups, navGroupsRu, eventGroups, eventGroupsRu, trackerGroups, trackerGroupsRu, factionGroups, factionGroupsRu } from '../router/index.js'
+import { navGroups, navGroupsRu, eventGroups, eventGroupsRu, trackerGroups, trackerGroupsRu, factionGroups, factionGroupsRu, combatPatrolGroups, combatPatrolGroupsRu } from '../router/index.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useAbilityFilter } from '../composables/useAbilityFilter.js'
@@ -91,6 +96,21 @@ const labels = computed(() => ui[locale.value])
 const localizedGroups = computed(() => locale.value === 'ru' ? navGroupsRu : navGroups)
 const localizedEventGroups = computed(() => locale.value === 'ru' ? eventGroupsRu : eventGroups)
 const localizedTrackerGroups = computed(() => locale.value === 'ru' ? trackerGroupsRu : trackerGroups)
+const localizedCombatPatrolGroups = computed(() => locale.value === 'ru' ? combatPatrolGroupsRu : combatPatrolGroups)
+// "Rules" is Core Rules + Event Companion + Combat Patrol flattened into one accordion,
+// each run preceded by a non-clickable subheading divider (see the template's `group.isDivider`
+// branch) rather than a 3rd level of nesting.
+const localizedRulesGroups = computed(() => {
+  const l = labels.value
+  return [
+    { label: l.navCoreRules, isDivider: true },
+    ...localizedGroups.value,
+    { label: l.navEventCompanion, isDivider: true },
+    ...localizedEventGroups.value,
+    { label: l.cpHeading, isDivider: true },
+    ...localizedCombatPatrolGroups.value,
+  ]
+})
 // When a faction is open, the drawer's Factions section also lists that faction's two
 // pages (rules — army rule + detachments merged — / datasheets) — the desktop subnav is
 // hidden on mobile.
@@ -107,8 +127,7 @@ const localizedFactionGroups = computed(() => {
   ]
 })
 const navSections = computed(() => [
-  { key: 'core',    label: labels.value.navCoreRules,      groups: localizedGroups.value },
-  { key: 'event',   label: labels.value.navEventCompanion, groups: localizedEventGroups.value },
+  { key: 'rules',    label: labels.value.navRules,         groups: localizedRulesGroups.value },
   { key: 'factions', label: labels.value.navFactions,      groups: localizedFactionGroups.value },
   { key: 'tracker', label: labels.value.navTracker,        groups: localizedTrackerGroups.value },
 ])
@@ -116,9 +135,10 @@ const navSections = computed(() => [
 const currentSection = computed(() => {
   const p = route.path
   if (p.startsWith('/tracker')) return 'tracker'
-  if (p.startsWith('/event-companion')) return 'event'
   if (p.startsWith('/factions')) return 'factions'
-  return 'core'
+  // Core Rules, Event Companion, Combat Patrol, /rules itself, and everything else
+  // (landing, links, disclaimer, …) all fall under the merged "rules" section.
+  return 'rules'
 })
 
 // Which group's subsections are open (one at a time), and which top-level
@@ -148,7 +168,9 @@ function isDirect(section) {
 // Tap a section label → go to that section's main page (its first group). Tap a group label →
 // go to that page. The square chevron buttons handle expand/collapse without navigating.
 function goToSection(section) {
-  const path = section.groups[0]?.path
+  // Skip divider rows (`isDivider`, no `path`) — the "rules" section's groups list now
+  // leads with a subheading, not a navigable page.
+  const path = section.groups.find((g) => g.path)?.path
   if (!path) return
   if (route.path !== path) router.push(path)
   emit('close')
@@ -337,6 +359,18 @@ async function handleAnchorClick(path, id, filter) {
 .nav-group-label {
   display: flex;
   align-items: stretch;
+}
+
+/* Non-clickable subheading — separates Core Rules / Event Companion / Combat Patrol
+   within the merged "rules" section's group list. */
+.nav-group-divider {
+  padding: 0.6rem 1rem 0.3rem;
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
 }
 
 .nav-group-link {

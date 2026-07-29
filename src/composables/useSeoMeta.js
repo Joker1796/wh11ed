@@ -18,6 +18,7 @@
 // into the entry chunk); the precise unit name is pushed in by FactionDatasheetView via
 // setDatasheetName once its datasheet has loaded (the heavy per-faction file never rides here).
 import { factionIndexBySlug } from '../data/factionsIndex.js'
+import { combatPatrolIndex } from '../data/combatPatrolIndex.js'
 import { SITE_ORIGIN } from '../config.js'
 
 const ORIGIN = SITE_ORIGIN
@@ -103,6 +104,20 @@ const ROUTES = {
     description: {
       en: 'Muster your army: battle sizes, detachments, enhancements and points — army-building rules for Warhammer 40,000 11th edition.',
       ru: 'Сбор армии: размеры битвы, детачменты, улучшения и очки — правила построения армии Warhammer 40,000 11-й редакции.',
+    },
+  },
+  '/rules': {
+    title: { en: 'Rules', ru: 'Правила' },
+    description: {
+      en: 'Core Rules, Event Companion and Combat Patrol — all the rules content for Warhammer 40,000 11th edition, in one place.',
+      ru: 'Основные правила, Event Companion и Combat Patrol — весь контент правил Warhammer 40,000 11-й редакции в одном месте.',
+    },
+  },
+  '/combat-patrol': {
+    title: { en: 'Combat Patrol', ru: 'Combat Patrol' },
+    description: {
+      en: 'Combat Patrol starter boxes for Warhammer 40,000 11th edition — detachment rule, stratagems, enhancements and datasheets for each faction\'s fixed-roster box.',
+      ru: 'Стартовые наборы Combat Patrol для Warhammer 40,000 11-й редакции — правило детачмента, стратагемы, улучшения и датащиты для каждой фракции.',
     },
   },
   '/event-companion': {
@@ -194,6 +209,10 @@ const DATASHEETS_RE = /^\/factions\/([^/]+)\/datasheets$/
 const DATASHEET_RE = /^\/factions\/([^/]+)\/datasheets\/([^/]+)$/
 export const isFactionPath = (path) => FACTION_RE.test(path) || DATASHEETS_RE.test(path) || DATASHEET_RE.test(path)
 
+// /combat-patrol/:slug — one page per faction's Combat Patrol box (src/data/combatPatrol.js).
+const COMBAT_PATROL_RE = /^\/combat-patrol\/([^/]+)$/
+export const isCombatPatrolPath = (path) => COMBAT_PATROL_RE.test(path)
+
 // Precise unit names supplied by FactionDatasheetView (keyed by path, so a locale switch that
 // re-runs applyRouteMeta keeps the real name). Faction/unit NAMES stay English in both locales
 // (project convention) — only the surrounding phrasing is localized.
@@ -202,7 +221,16 @@ const prettifySlug = (s) => s.split('-').map((w) => (w ? w[0].toUpperCase() + w.
 const factionName = (slug) => factionIndexBySlug(slug)?.name || prettifySlug(slug)
 
 function dynamicMetaFor(path, loc) {
-  let m = path.match(DATASHEET_RE)
+  let m = path.match(COMBAT_PATROL_RE)
+  if (m) {
+    const f = combatPatrolIndex.find((x) => x.slug === m[1])
+    const name = f?.name || factionName(m[1])
+    const box = f?.boxName || ''
+    return loc === 'ru'
+      ? { title: `${name} — Combat Patrol «${box}» — ${SITE.ru}`, description: `Combat Patrol «${box}» (${name}) для Warhammer 40,000 11-й редакции: правило детачмента, стратагемы, улучшения и датащиты стартового набора.` }
+      : { title: `${name} — Combat Patrol "${box}" — ${SITE.en}`, description: `Combat Patrol "${box}" (${name}) for Warhammer 40,000 11th edition: detachment rule, stratagems, enhancements and starter-box datasheets.` }
+  }
+  m = path.match(DATASHEET_RE)
   if (m) {
     const faction = factionName(m[1])
     const unit = unitNames.get(path) || prettifySlug(m[2])
@@ -275,7 +303,7 @@ function removeCanonicalTags() {
 // (tracker game/history/auth-callback, unknown → NotFoundView with its noindex) get the
 // canonical trio removed instead of pointing somewhere misleading.
 function applyCanonical(path, loc) {
-  const indexable = path === '/' || (!!ROUTES[path] && path !== '/tracker/game') || isFactionPath(path)
+  const indexable = path === '/' || (!!ROUTES[path] && path !== '/tracker/game') || isFactionPath(path) || isCombatPatrolPath(path)
   if (!indexable) {
     removeCanonicalTags()
     return
