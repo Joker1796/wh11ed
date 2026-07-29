@@ -1717,6 +1717,7 @@ export default [
       "Aeldari",
       "Aircraft",
       "Fly",
+      "Frame",
       "Razorwing Jetfighter",
       "Vehicle"
         ],
@@ -2672,7 +2673,7 @@ export default [
       },
       {
         "name": "Void Mine",
-        "text": "At the end of your opponent’s Fight phase, select one visible enemy model (excluding Lone Operative units) within 24\" of this unit, and roll one D6 for each enemy unit within D6\" of that model: For each 4+, that unit suffers D6 mortal wounds."
+        "text": "At the end of your opponent’s Fight phase, select one visible enemy model (excluding Lone Operative units) within 24\" of this unit, and roll one D6 for each enemy unit within D6\" of that model: For each 4+, that enemy unit suffers D6 mortal wounds."
       }
     ],
     "damaged": {
@@ -2691,6 +2692,7 @@ export default [
       "Aeldari",
       "Aircraft",
       "Fly",
+      "Frame",
       "Vehicle",
       "Voidraven Bomber"
         ],
