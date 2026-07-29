@@ -128,8 +128,21 @@ triaged.
   real gaps: wh11ed is entirely missing the "Generating Command Points" rule (max 1 CP/round from
   non-Core sources, excluding Core CP) in both the main and Teams editions, plus several wording
   drifts (rewordings, not errata — appdata's prose was revised since wh11ed's transcription) across
-  Mission Sequence steps, Terrain Layouts intro, and Pairings/Rankings. Not yet applied to the data
-  files — that's a follow-up hand-edit pass, same as any other sync-*.mjs finding.
+  Mission Sequence steps, Terrain Layouts intro, and Pairings/Rankings.
+
+  **RESOLVED 2026-07-29.** "Generating Command Points" was already added to `eventCompanion.js`'s
+  Main edition (`id: 'generating-cp'`) in an earlier session — this paragraph's "not yet applied"
+  note was stale. Re-ran the script fresh and triaged every remaining flag by hand: the ~15
+  Main-edition "text differs" entries (Mission Sequence steps, Terrain Layouts intro,
+  Pairings/Rankings) are all cosmetic paraphrase or redundant connective filler ("that is", "note
+  that", a transition sentence the page's own step-by-step layout already implies) — none drop
+  actual rules content. The Teams edition's ~20 "+ missing in wh11ed" flags (steps 3-13, the
+  sequence-intro heading, "14. TEAM SCORING", the 5 glossary containers, "Pairings and Rankings")
+  are also all confirmed non-issues: Teams deliberately condenses identical-to-Main content into one
+  summary paragraph (`teams-sequence-note`, cross-refs back to Main) instead of re-transcribing it,
+  and "14. TEAM SCORING" is a title-matching artifact (wh11ed splits it across two differently-titled
+  sections that do cover the content). Extended the script's own header comment with this finding so
+  a future run doesn't need to re-derive it. **No content changes needed — this item is closed.**
 - `loadout_choice(_set/_wargear_item)`, `limited_wargear_choice(_set/_wargear_item)` + `wargear_limit`,
   `all_model_wargear_choice(_set/_wargear_item)`, `base_miniature_loadout(_wargear_option)` —
   `sync-wargear-options.mjs` (added 2026-07-28). Presence-only (not a structural 1:1 match — see
