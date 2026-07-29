@@ -509,22 +509,81 @@ both displays "X / 15 VP" per round and caps the `NumberStepper`'s max at it. Co
 `useTracker.scoring.test.js` (24 tests, incl. dedicated over-cap clamping cases). No content or
 code gap — the value matches appdata's `primaryMissionScoreBattleRoundLimit: 15` exactly.
 
-## Future scope (not scheduled — flag for later, needs a product decision first)
+## PLANNED (2026-07-29): Combat Patrol support + "Rules" nav umbrella
 
-**Combat Patrol support.** Every `isCombatPatrol` detachment/datasheet/enhancement/publication is
-currently filtered out everywhere (`combatPatrolNames()` in `scripts/lib/sync-common.mjs`) and
-wh11ed carries zero Combat Patrol content. Adding it would be a genuinely new product surface, not
-a sync-guardrail — open questions to settle before scoping real work:
-- Combat Patrol boxes have their OWN copy of shared rules, sometimes **pre-errata** (documented
-  precedent: Necrons' Reanimation Protocols reads "reanimates D3" in the CP box vs the Codex's
-  errata'd "heals D3" — see `sync-common.mjs`'s own comment). Would CP content need its own,
-  separately-maintained pre-errata text, or would we intentionally show the Codex-errata'd version
-  even in a CP context (diverging from what the physical/app CP box says)?
-  - Combat Patrol rosters are fixed, 0-point army lists with detachment-name-prefixed unit variants
-  — this doesn't fit the existing per-faction `datasheets`/`factions` data shape (which assumes
-  normal matched-play army building) without new fields/UI, not just new data rows.
-  - Scope size: 30 factions × 1 Combat Patrol detachment/publication each (confirmed count from this
-    session's audit) — worth a rough size estimate once the shape question above is answered.
+Product decisions are now made — this replaces the old "needs a product decision first" note below
+with a concrete implementation plan, not yet started (next session picks this up).
+
+**What & why.** wh40k-appdata carries a full ruleset for ~24 factions' Combat Patrol boxes
+(`isCombatPatrol` detachment/datasheets/enhancements/stratagems/army-rule, currently filtered out
+everywhere via `combatPatrolNames()` in `scripts/lib/sync-common.mjs`). Adding it as real content,
+alongside a navigation restructure: a new top-level umbrella **"Rules"** («Правила») grouping **Core
+Rules** + **Event Companion** (already labelled «Путеводитель по ивентам» in RU — no rename, that's
+just what the feature is) + the new **Combat Patrol**, replacing today's two separate "Core Rules" /
+"Event Companion" navbar links. Desktop: hover reveals the 3 choices exactly like the existing
+Factions mega-menu, clicking the umbrella link goes to a new `/rules` landing page with 3 clickable
+summary cards. Mobile bottom nav: opens a modal to choose between the 3 (mirrors
+`FactionsNavModal.vue`). Combat Patrol's own data is **hand-authored** (matching every other
+faction's convention — see `titan-legions.js`, the smallest existing hand-authored faction file,
+not machine-generated prose) and checked against appdata by a new report-only
+`scripts/sync-combat-patrol.mjs`, exactly like every other faction, so it stays easy to keep in sync
+on future appdata bumps.
+
+**Confirmed design decisions:**
+- **One combined page per Combat Patrol faction** (detachment/army rule + stratagems + enhancements
+  + the fixed roster's datasheets all on one page, not split rules/datasheets pages like normal
+  factions) — content per box is small (1 detachment rule, 2-3 stratagems, 1-2 enhancements, 4-5
+  fixed-composition datasheets).
+- **Drawer (mobile hamburger) nests Core Rules / Event Companion / Combat Patrol under one "Rules"
+  parent accordion** — achieved by flattening `navSections` to `[rules, factions, tracker]` where
+  "rules"' `groups` is the concatenation of `navGroups`+`eventGroups`+a new `combatPatrolGroups`,
+  each preceded by a non-clickable subheading divider (`{label, isDivider:true}`, no `path`) — no new
+  recursion depth needed in `NavSidebar.vue`, just a template branch for divider rows.
+- **`/` landing page collapses its "Core Rules" + "Event Companion" cards into one "Rules" card**
+  pointing at `/rules`.
+- **Combat Patrol rule text is transcribed verbatim from the CP box's own appdata rows**, even where
+  that's pre-errata relative to the normal Codex (confirmed precedent: Necrons' CP-box "Reanimation
+  Protocols" reads "reanimates D3" vs the errata'd Codex "heals D3" — different appdata `army_rule`
+  ids entirely). Matches the project's "mirror the primary source verbatim" convention.
+
+**Research already done (2026-07-29), don't re-derive:**
+- appdata shape confirmed via `publication.json`'s `isCombatPatrol:true` rows (24, not 30 — not
+  every faction has a CP box) → linked `detachment`/`army_rule`/`enhancement`/`stratagem`/`datasheet`
+  rows, checked in depth for Necrons ("Amonhotekh's Guard": detachment rule "Territorial
+  Imperatives", army rule "Reanimation Protocols" pre-errata, 3 stratagems, 2 enhancements — one
+  `isCombatPatrolDefault`, 5 datasheets: Necron Warriors/Skorpekh Destroyers/Canoptek
+  Doomstalker/Canoptek Scarab Swarms/Overlord Amonhotekh), Orks ("'Ardmob"), Space Marines ("Assault
+  Force") — pattern consistent across all 3: 1 publication → 1 detachment (dp:1, one
+  forceDisposition) → 1 detachment rule → 2 enhancements → 3 stratagems → 4-5 fixed, name-prefixed,
+  `points: null` datasheets (no `options`/loadout-choice structures — genuinely fixed loadouts).
+- CP is confirmed **not** in MFM at all (checked `mfm/leagues-of-votann.js` — no CP entry) — CP
+  rosters are points-free by design, don't try to plug into the MFM/points pipeline.
+- wh11ed's existing faction/datasheet shape (`armyRule`/`detachments[].{rule,stratagems,enhancements}`,
+  datasheet `profiles`/`ranged`/`melee`/`core`/`faction`/`abilities`/`composition`/`loadout`/
+  `keywords`/`factionKeywords`/`baseSize`) maps directly onto CP content — reuse `DatasheetCard.vue`/
+  `StratCard.vue`/`RuleBlock` unmodified, just omit `points`/`options`.
+- Nav mechanics fully traced: `App.vue`'s Factions `.nav-dropdown` (lines ~24-47, CSS-only
+  hover/`:focus-within` reveal + `nd-suppressed` click-fix) and `FactionsNavModal.vue` are the exact
+  templates to copy. `subNavItems` computed (lines ~424-431) needs a new Combat Patrol exclusion
+  (like the existing `isLinksRoute` one) since its 2 page types need no subnav bar.
+  `scripts/gen-seo-routes.mjs`'s `STATIC_ROUTES` and `src/composables/useSeoMeta.js`'s `ROUTES` map
+  are two **separate** hardcoded lists (neither auto-derives from router config) — both need new
+  entries, easy to forget one.
+- `gen-source-ids.mjs` has its own local `combatPatrolNames()` copy instead of importing the shared
+  one from `sync-common.mjs` — worth unifying while touching this file for the new `cpdet:`/
+  `cpstrat:`/`cpenh:`/`cpds:`/`cparmyrule:` id-bridge kinds.
+
+**Phasing (full plan with exact file-by-file steps in the session transcript, 2026-07-29):**
+1. **Phase 1** — `src/data/combatPatrol.js` (one file, all factions, bilingual `{en, ru:en}`), 2 new
+   views (`CombatPatrolIndexView.vue`/`CombatPatrolFactionView.vue`) + routes, **not yet linked from
+   nav** (direct-URL only), `scripts/sync-combat-patrol.mjs` + `sync.mjs` wiring, `gen-source-ids.mjs`
+   CP kinds. Author only **Necrons** by hand as the pilot (fully researched above).
+2. **Phase 2** — the "Rules" nav umbrella: `/rules` landing (`RulesLandingView.vue` +
+   `src/data/rulesLanding.js`), navbar dropdown swap, bottom-nav button + `RulesNavModal.vue`,
+   `NavSidebar.vue` flatten-with-dividers, SEO routes in both hardcoded lists, `landing.js` card
+   collapse, new `navRules` i18n label. Only start once Phase 1's Necrons pilot renders correctly.
+3. **Phase 3** — author the remaining ~23 factions' CP content in batches, each verified by
+   `sync-combat-patrol.mjs` + a small PR, same incremental pattern as the rest of this dataset.
 
 ## Deploy log
 - 2026-07-27 — v2.1.6 deployed: floating faction buttons (desktop) + mobile utility bar,
