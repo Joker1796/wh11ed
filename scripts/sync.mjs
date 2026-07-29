@@ -28,6 +28,9 @@
 //   - sync-army-rule-coverage — every distinctly-named appdata army rule for a faction (not just
 //     the one wh11ed's single armyRule is named after) must be represented somewhere in that
 //     faction's data
+//   - sync-layouts — the Event Companion's 45 Terrain Layout diagrams (matchup + A/B/C) must
+//     still match appdata's mission_layout family (catches a rename/reshuffle/add without needing
+//     to re-download and re-extract the app .xapk)
 //
 // Report only — nothing is written (except that you may want to run `gen-source-ids.mjs` if the
 // bridge is stale). Usage: `npm run sync` (or `node scripts/sync.mjs`).
@@ -68,6 +71,7 @@ run('sync-ally-inclusion', 'sync-ally-inclusion.mjs')
 run('sync-roster-restrictions', 'sync-roster-restrictions.mjs')
 run('sync-enhancement-restrictions', 'sync-enhancement-restrictions.mjs')
 run('sync-army-rule-coverage', 'sync-army-rule-coverage.mjs')
+run('sync-layouts', 'sync-layouts.mjs')
 
 console.log(`\n${'═'.repeat(72)}`)
 if (idsStale) console.log('⚠ src/data/sourceIds.json is stale — run `node scripts/gen-source-ids.mjs`.')
