@@ -16,6 +16,13 @@
 // scored — so both fields are omitted rather than set to null/empty.
 //
 // Verify against appdata with `node scripts/sync-combat-patrol.mjs` after editing.
+//
+// RU is a sparse translation overlay (combatPatrolRu.js) deep-merged over `en` — see that
+// file's header for the mechanism and COMBAT-PATROL-RU-TRANSLATION-TASK.md (repo root) for the
+// translation brief. Untranslated factions transparently fall back to the EN text.
+import { deepOverlay } from './deepOverlay.js'
+import { combatPatrolRu } from './combatPatrolRu.js'
+
 const en = {
   factions: [
     {
@@ -4954,4 +4961,4 @@ If your Army Faction is Tyranids, once per battle, in either player's Command ph
   ],
 }
 
-export const combatPatrol = { en, ru: en }
+export const combatPatrol = { en, ru: deepOverlay(en, combatPatrolRu) }
