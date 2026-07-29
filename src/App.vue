@@ -11,16 +11,30 @@
         </RouterLink>
 
         <nav class="navbar-links">
-          <RouterLink
-            to="/introduction"
-            class="nav-link"
-            :class="{ active: isCoreRoute }"
-          >{{ labels.navCoreRules }}</RouterLink>
-          <RouterLink
-            to="/event-companion"
-            class="nav-link"
-            :class="{ active: isEventRoute }"
-          >{{ labels.navEventCompanion }}</RouterLink>
+          <div
+            class="nav-dropdown"
+            :class="{ 'nd-suppressed': rulesMenuSuppressed }"
+            @mouseleave="rulesMenuSuppressed = false"
+          >
+            <RouterLink
+              to="/rules"
+              class="nav-link"
+              :class="{ active: isRulesRoute }"
+              aria-haspopup="true"
+              @click="closeRulesMenu"
+            >{{ labels.navRules }}</RouterLink>
+            <div class="nav-dropdown-menu">
+              <div class="nav-dropdown-panel nav-dropdown-panel-simple">
+                <RouterLink
+                  v-for="s in rulesLanding[locale].sections"
+                  :key="s.key"
+                  :to="s.path"
+                  class="nd-link"
+                  @click="closeRulesMenu"
+                >{{ s.label }}</RouterLink>
+              </div>
+            </div>
+          </div>
           <div
             class="nav-dropdown"
             :class="{ 'nd-suppressed': factionMenuSuppressed }"
@@ -132,7 +146,7 @@
 
     <!-- Subnav: core rules links (hidden on the section-less landing & links pages) -->
     <Transition name="fade">
-      <nav v-if="!isLanding && !isLinksRoute && (!isFactionRoute || isFactionUnitPage)" class="subnav">
+      <nav v-if="!isLanding && !isLinksRoute && !isRulesLandingRoute && !isCombatPatrolRoute && (!isFactionRoute || isFactionUnitPage)" class="subnav">
         <div class="subnav-inner" :class="{ 'subnav-inner--overflow-visible': isFactionUnitPage }">
           <template v-for="item in subNavItems" :key="item.path">
             <!-- "Units" on a per-unit datasheet page: hover/focus reveals a compact
@@ -183,10 +197,10 @@
 
     <!-- Mobile bottom nav — quick switch between the global sections -->
     <nav class="bottom-nav">
-      <RouterLink to="/basic-rules" class="bn-item" :class="{ active: isCoreRoute }">
+      <button type="button" class="bn-item" :class="{ active: isRulesRoute }" @click="showRules = true">
         <i class="bi bi-book-half"></i>
-        <span>{{ labels.navCoreRulesShort }}</span>
-      </RouterLink>
+        <span>{{ labels.navRules }}</span>
+      </button>
       <button type="button" class="bn-item" :class="{ active: isFactionRoute && !isUnitsRoute }" @click="showFactions = true">
         <i class="bi bi-shield-shaded"></i>
         <span>{{ labels.navFactions }}</span>
@@ -208,6 +222,7 @@
     <SearchModal v-if="searchOpen" @close="searchOpen = false" />
     <InstallHintModal v-if="installHintOpen" @close="installHintOpen = false" />
     <FactionsNavModal v-if="showFactions" @close="showFactions = false" />
+    <RulesNavModal v-if="showRules" @close="showRules = false" />
     <KeywordPopover />
     <MobileUtilityBar ref="mobileBarRef" :show-resume-game="showResumeGame" />
     <BackToTopButton v-if="isCoreRoute" />
@@ -224,6 +239,7 @@ import { useRoute } from 'vue-router'
 const SearchModal = defineAsyncComponent(() => import('./components/SearchModal.vue'))
 const InstallHintModal = defineAsyncComponent(() => import('./components/InstallHintModal.vue'))
 const FactionsNavModal = defineAsyncComponent(() => import('./components/FactionsNavModal.vue'))
+const RulesNavModal = defineAsyncComponent(() => import('./components/RulesNavModal.vue'))
 import KeywordPopover from './components/KeywordPopover.vue'
 import NavSidebar from './components/NavSidebar.vue'
 import UpdateToast from './components/UpdateToast.vue'
@@ -244,6 +260,7 @@ import { useViewRestore } from './composables/useViewRestore.js'
 import { applyRouteMeta } from './composables/useSeoMeta.js'
 import { ui } from './i18n/ui.js'
 import { factionGroups } from './data/factionsIndex.js'
+import { rulesLanding } from './data/rulesLanding.js'
 
 const route = useRoute()
 useViewRestore() // PWA-only: remember & restore the last page + in-view section
@@ -252,6 +269,7 @@ const searchOpen = ref(false)
 const settingsOpen = ref(false)
 const installHintOpen = ref(false)
 const showFactions = ref(false)
+const showRules = ref(false)
 
 function toggleSettings() {
   settingsOpen.value = !settingsOpen.value
@@ -299,6 +317,13 @@ function closeFactionMenu() {
   if (document.activeElement instanceof HTMLElement) document.activeElement.blur()
 }
 
+// Same click-then-still-hovering fix as the Factions dropdown above, for the "Rules" one.
+const rulesMenuSuppressed = ref(false)
+function closeRulesMenu() {
+  rulesMenuSuppressed.value = true
+  if (document.activeElement instanceof HTMLElement) document.activeElement.blur()
+}
+
 const coreRoutes = ['/introduction', '/basic-rules', '/battle-round', '/battlefields', '/advanced-rules', '/reference', '/muster']
 const isLanding = computed(() => route.path === '/')
 const isLinksRoute = computed(() => route.path === '/links')
@@ -326,6 +351,8 @@ const unitsNavPath = computed(() => {
   return null
 })
 const isEventRoute = computed(() => route.path.startsWith('/event-companion'))
+const isCombatPatrolRoute = computed(() => route.path.startsWith('/combat-patrol'))
+const isRulesLandingRoute = computed(() => route.path === '/rules')
 const isStratagemsRoute = computed(() => route.path === '/stratagems')
 const isTrackerRoute = computed(() => route.path.startsWith('/tracker'))
 // GameSetup (wizard) and the active/finished game screen both render on this one route —
@@ -349,6 +376,11 @@ const showResumeGame = computed(() =>
 const mobileBarRef = ref(null)
 const mobileBarVisible = computed(() => !!mobileBarRef.value?.visible)
 const isCoreRoute = computed(() => !isEventRoute.value && !isTrackerRoute.value && coreRoutes.includes(route.path))
+// The "Rules" umbrella (navbar dropdown / bottom-nav button) is active on its own landing
+// page and on any of the 3 sections it groups — Core Rules, Event Companion, Combat Patrol.
+const isRulesRoute = computed(() =>
+  isRulesLandingRoute.value || isCoreRoute.value || isEventRoute.value || isCombatPatrolRoute.value
+)
 
 const coreSubNavItems = computed(() => {
   const l = labels.value
@@ -606,6 +638,13 @@ onUnmounted(() => {
   border: 1px solid var(--border);
   border-radius: 6px;
   box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+}
+
+/* "Rules" dropdown — 3 flat links, no grouped grid needed. */
+.nav-dropdown-panel-simple {
+  grid-template-columns: 1fr;
+  min-width: 200px;
+  gap: 0.3rem;
 }
 
 .nd-group-title {

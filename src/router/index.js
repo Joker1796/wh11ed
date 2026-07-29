@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LandingView from '../views/LandingView.vue'
 import HomeView from '../views/HomeView.vue'
 import { isStandaloneDisplay } from '../composables/standalone.js'
+import { combatPatrolIndex } from '../data/combatPatrolIndex.js'
 
 // Route views are lazy-loaded so each page (and its data file) ships in its own
 // chunk, keeping the initial bundle small. LandingView (the project landing at "/")
@@ -32,6 +33,9 @@ const FactionRuleView        = () => import('../views/faction/FactionRuleView.vu
 const FactionDatasheetsView  = () => import('../views/faction/FactionDatasheetsView.vue')
 const FactionDatasheetView   = () => import('../views/faction/FactionDatasheetView.vue')
 const FactionFaqView         = () => import('../views/faction/FactionFaqView.vue')
+const RulesLandingView  = () => import('../views/RulesLandingView.vue')
+const CombatPatrolIndexView  = () => import('../views/combat-patrol/CombatPatrolIndexView.vue')
+const CombatPatrolFactionView = () => import('../views/combat-patrol/CombatPatrolFactionView.vue')
 const NotFoundView      = () => import('../views/NotFoundView.vue')
 
 export const navGroups = [
@@ -273,6 +277,17 @@ export const factionGroupsRu = [
   { label: 'Фракции', path: '/factions', sections: [] },
 ]
 
+// Combat Patrol — one group per authored faction, sourced from the lightweight
+// combatPatrolIndex.js (not the full src/data/combatPatrol.js, which also carries every box's
+// rule text and datasheets — too heavy to statically import into the router, which sits in the
+// module graph of virtually every page). RU is `ru: en` today, so both exports read the same list.
+export const combatPatrolGroups = combatPatrolIndex.map((f) => ({
+  label: f.name, path: `/combat-patrol/${f.slug}`, sections: [],
+}))
+export const combatPatrolGroupsRu = combatPatrolIndex.map((f) => ({
+  label: f.name, path: `/combat-patrol/${f.slug}`, sections: [],
+}))
+
 // The Links page (/links, external source PDFs) is deliberately NOT in the navbar or
 // the drawer — it's reachable only from its card on the landing page (src/data/landing.js).
 
@@ -308,6 +323,11 @@ export const router = createRouter({
     { path: '/factions/:slug/datasheets',  component: FactionDatasheetsView },
     { path: '/factions/:slug/datasheets/:unit', component: FactionDatasheetView },
     { path: '/factions/:slug/faq',         component: FactionFaqView },
+    // "Rules" umbrella landing (Core Rules / Event Companion / Combat Patrol summary cards).
+    { path: '/rules', component: RulesLandingView },
+    // Combat Patrol.
+    { path: '/combat-patrol',       component: CombatPatrolIndexView },
+    { path: '/combat-patrol/:slug', component: CombatPatrolFactionView },
     // Game-time stratagem reference. Reachable only via the mobile bottom-nav (and direct
     // URL on desktop) — intentionally not in navGroups / NavSidebar / the top navbar.
     { path: '/stratagems', component: StratagemsView },

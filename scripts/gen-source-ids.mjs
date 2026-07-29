@@ -4,7 +4,7 @@
 // external map keeps the hand-written data untouched and fully regenerable.
 //
 // Shape: { "<faction-slug>": { "<kind>:<key>": "<appdata-uuid>", ... }, ... }
-//   kind   = armyrule | det | strat | enh | ds | wg
+//   kind   = armyrule | det | strat | enh | ds | wg | cparmyrule | cpdet | cpstrat | cpenh | cpds
 //   key    = the entity's own wh11ed id where it has one (datasheets `ds:<id>`, detachments
 //            `det:<id||normName>`), else its normalized name; strat/enh are scoped under their
 //            detachment key, wg (a datasheet's ranged[]/melee[] weapon row) under its datasheet id
@@ -12,6 +12,11 @@
 //            collide. wg's uuid identifies the appdata **wargear item**, not a single profile —
 //            a multi-mode weapon (e.g. plasma) has one item with several profiles, so several wh11ed
 //            rows ("Plasma gun – standard"/"– supercharge") legitimately share the same wg uuid.
+//            The `cp*` kinds bridge src/data/combatPatrol.js (a separate hand-authored dataset,
+//            not src/data/factions/*.js) the same way, scoped under the same faction-slug bucket:
+//            cparmyrule/cpdet are keyed by normalized rule name (one box detachment per faction,
+//            no wh11ed id of its own), cpstrat/cpenh by normalized name, cpds by the datasheet's
+//            own wh11ed id.
 //
 // Built by matching wh11ed↔appdata by normalized NAME (they agree today) — the same matching
 // sync-appdata.mjs does. Once committed, the map is the stable bridge: on a later data_version
@@ -23,17 +28,10 @@
 //   node scripts/gen-source-ids.mjs --check    # report only; non-zero exit if it would change
 import fs from 'node:fs'
 import path from 'node:path'
-import { ROOT, APPDATA, SLUG_MAP, norm, loadJson, loadModule, byNormName, matchWeapon } from './lib/sync-common.mjs'
+import { ROOT, APPDATA, SLUG_MAP, norm, loadJson, loadModule, byNormName, matchWeapon, combatPatrolNames } from './lib/sync-common.mjs'
+import { combatPatrol } from '../src/data/combatPatrol.js'
 
-// Combat Patrol content (separate boxed mode) is not in wh11ed — drop it before matching, same
-// as sync-appdata.mjs.
-function combatPatrolNames() {
-  const T = path.join(APPDATA, 'tables')
-  const read = (f) => (fs.existsSync(path.join(T, f)) ? JSON.parse(fs.readFileSync(path.join(T, f), 'utf8')) : [])
-  const cpPubIds = new Set(read('publication.json').filter((p) => p.isCombatPatrol).map((p) => p.id))
-  const namesUnder = (f) => new Set(read(f).filter((r) => cpPubIds.has(r.publicationId)).map((r) => norm(r?.localisations?.en?.name || '')).filter(Boolean))
-  return { datasheets: namesUnder('datasheet.json'), detachments: namesUnder('detachment.json') }
-}
+const cpFactionBySlug = new Map(combatPatrol.en.factions.map((f) => [f.slug, f]))
 
 // Fold a Chapter's shared space-marines.js datasheets back in, mirroring
 // src/data/datasheets/index.js's loadDatasheets.
@@ -90,6 +88,25 @@ async function mapFaction(slug, cp, stats) {
     if (!appDs) { stats.unmatched += (d.ranged?.length || 0) + (d.melee?.length || 0); continue }
     for (const w of d.ranged || []) record(`wg:${d.id}:${norm(w.name)}`, matchWeapon(w.name, true, appDs.wargear)?.id)
     for (const w of d.melee || []) record(`wg:${d.id}:${norm(w.name)}`, matchWeapon(w.name, false, appDs.wargear)?.id)
+  }
+
+  // Combat Patrol bridge (src/data/combatPatrol.js) — same faction-slug bucket, `cp`-prefixed
+  // kinds. Matches against the appdata rows THIS TIME INCLUDED (isCombatPatrol true), the inverse
+  // of the `cp.detachments`/`cp.datasheets` exclusion used above.
+  const cpFaction = cpFactionBySlug.get(slug)
+  if (cpFaction) {
+    const cpDet = (bundle.detachments || []).find((d) => d.isCombatPatrol)
+    if (cpDet) {
+      record(`cpdet:${norm(cpFaction.rule.name)}`, cpDet.id)
+      const cpStratById = byNormName(cpDet.stratagems || [], (s) => s.name)
+      for (const s of cpFaction.stratagems || []) record(`cpstrat:${norm(s.name)}`, cpStratById.get(norm(s.name))?.id)
+      const cpEnhById = byNormName(cpDet.enhancements || [], (e) => e.name)
+      for (const e of cpFaction.enhancements || []) record(`cpenh:${norm(e.name)}`, cpEnhById.get(norm(e.name))?.id)
+    }
+    const cpArmyRule = (bundle.armyRules || []).find((a) => cp.armyRuleIds.has(a.id))
+    if (cpArmyRule) record(`cparmyrule:${norm(cpFaction.armyRule.name)}`, cpArmyRule.id)
+    const cpDsByName = byNormName((bundle.datasheets || []).filter((d) => d.isCombatPatrol), (d) => d.name)
+    for (const d of cpFaction.datasheets || []) record(`cpds:${d.id}`, cpDsByName.get(norm(d.name))?.id)
   }
 
   return Object.fromEntries(Object.entries(out).sort(([a], [b]) => a.localeCompare(b)))

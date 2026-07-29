@@ -7,18 +7,11 @@ export const landing = {
       'A bilingual (EN/RU), searchable reference for Warhammer 40,000 11th Edition — the Core Rules, the Event Companion and a game tracker. Installable as an app and works fully offline, free.',
     sections: [
       {
-        key: 'core',
-        label: 'Core Rules',
-        path: '/introduction',
-        badge: '24 sections',
-        desc: 'The complete 11th Edition Core Rules — basic concepts, the battle round and its phases, battlefields, advanced rules and the reference glossary.',
-      },
-      {
-        key: 'event',
-        label: 'Event Companion',
-        path: '/event-companion',
-        badge: 'Missions · Terrain · Pairings',
-        desc: 'The matched-play tournament rules — the 25 primary and 18 secondary missions, terrain layouts and the mission matrix, pairings and FAQs.',
+        key: 'rules',
+        label: 'Rules',
+        path: '/rules',
+        badge: 'Core · Event · Combat Patrol',
+        desc: 'The complete 11th Edition Core Rules, the matched-play Event Companion (missions, terrain layouts, pairings) and Combat Patrol starter-box content.',
       },
       {
         key: 'factions',
@@ -67,18 +60,11 @@ export const landing = {
       'Двуязычный (EN/RU) справочник по правилам Warhammer 40 000 (Вархаммер) 11-й редакции на русском — основные правила, миссии и стратагемы, Event Companion и трекер игры. Устанавливается как приложение и работает полностью офлайн, бесплатно.',
     sections: [
       {
-        key: 'core',
-        label: 'Основные правила',
-        path: '/introduction',
-        badge: '24 раздела',
-        desc: 'Полные основные правила 11-й редакции — базовые концепции, раунд боя и его фазы, поля сражений, продвинутые правила и справочный раздел.',
-      },
-      {
-        key: 'event',
-        label: 'Путеводитель по ивентам',
-        path: '/event-companion',
-        badge: 'Миссии · Террейн · Паринги',
-        desc: 'Турнирные правила matched play — 25 основных и 18 вторичных миссий, раскладки террейна и матрица миссий, паринги и FAQ.',
+        key: 'rules',
+        label: 'Правила',
+        path: '/rules',
+        badge: 'Основные · Ивенты · Комбат патруль',
+        desc: 'Полные основные правила 11-й редакции, турнирный Event Companion (миссии, раскладки террейна, паринги) и контент стартовых наборов Combat Patrol.',
       },
       {
         key: 'factions',

@@ -39,6 +39,7 @@ const STATIC_ROUTES = [
   '/event-companion/pairings',
   '/event-companion/teams',
   '/event-companion/faq',
+  '/rules',
   '/tracker',
   '/stratagems',
   '/links',
@@ -85,6 +86,16 @@ async function factionRoutes() {
   return routes
 }
 
+// Combat Patrol routes are auto-detected from src/data/combatPatrol.js the same way faction
+// routes are above — this list grows on its own as Phase 3 authors more boxes, no changes
+// needed here (see APPDATA-COVERAGE-PLAN.md's "Combat Patrol support" plan).
+async function combatPatrolRoutes() {
+  const file = join(ROOT, 'src/data/combatPatrol.js')
+  if (!existsSync(file)) return []
+  const { combatPatrol } = await import(pathToFileURL(file))
+  return ['/combat-patrol', ...combatPatrol.en.factions.map((f) => `/combat-patrol/${f.slug}`)]
+}
+
 // Depth-based priority hint (crawlers mostly ignore it, but it costs nothing).
 function priority(path) {
   if (path === '/') return '1.0'
@@ -112,7 +123,7 @@ async function main() {
     process.exit(1)
   }
 
-  const routes = [...STATIC_ROUTES, ...(await factionRoutes())]
+  const routes = [...STATIC_ROUTES, ...(await factionRoutes()), ...(await combatPatrolRoutes())]
   const lastmod = new Date().toISOString().slice(0, 10)
 
   // Each language variant is its own sitemap entry (both carry the same hreflang pair),

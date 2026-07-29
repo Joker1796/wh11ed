@@ -509,10 +509,19 @@ both displays "X / 15 VP" per round and caps the `NumberStepper`'s max at it. Co
 `useTracker.scoring.test.js` (24 tests, incl. dedicated over-cap clamping cases). No content or
 code gap — the value matches appdata's `primaryMissionScoreBattleRoundLimit: 15` exactly.
 
-## PLANNED (2026-07-29): Combat Patrol support + "Rules" nav umbrella
+## Combat Patrol support + "Rules" nav umbrella — ALL 3 PHASES DONE (2026-07-29)
 
-Product decisions are now made — this replaces the old "needs a product decision first" note below
-with a concrete implementation plan, not yet started (next session picks this up).
+Phases 1-3 are all implemented and verified: `npm test` 215/215 (4/4 consecutive clean full-suite
+runs after the bundle-weight fix below), `npm run build` clean, `node scripts/sync-combat-patrol.mjs`
+reports all **24/24 factions clean** (full Phase 3 faction list — see batches 1-6 below). The
+feature is complete end to end: data, both CP views, nav umbrella, SEO, and all faction content.
+
+Live now: `/rules` landing page (3 cards), navbar "Rules" hover-dropdown replacing the separate
+Core Rules/Event Companion links, mobile bottom-nav "Rules" button → `RulesNavModal.vue`, drawer's
+merged "Rules" accordion (Core Rules / Event Companion / Combat Patrol with divider subheadings),
+`/combat-patrol` + `/combat-patrol/necrons` pages, SEO wired (both `gen-seo-routes.mjs` and
+`useSeoMeta.js`, Combat Patrol routes auto-derived from `combatPatrol.js` so Phase 3 needs no
+further SEO changes), `landing.js`'s Core+Event cards collapsed into one "Rules" card.
 
 **What & why.** wh40k-appdata carries a full ruleset for ~24 factions' Combat Patrol boxes
 (`isCombatPatrol` detachment/datasheets/enhancements/stratagems/army-rule, currently filtered out
@@ -573,17 +582,113 @@ on future appdata bumps.
   one from `sync-common.mjs` — worth unifying while touching this file for the new `cpdet:`/
   `cpstrat:`/`cpenh:`/`cpds:`/`cparmyrule:` id-bridge kinds.
 
-**Phasing (full plan with exact file-by-file steps in the session transcript, 2026-07-29):**
-1. **Phase 1** — `src/data/combatPatrol.js` (one file, all factions, bilingual `{en, ru:en}`), 2 new
-   views (`CombatPatrolIndexView.vue`/`CombatPatrolFactionView.vue`) + routes, **not yet linked from
-   nav** (direct-URL only), `scripts/sync-combat-patrol.mjs` + `sync.mjs` wiring, `gen-source-ids.mjs`
-   CP kinds. Author only **Necrons** by hand as the pilot (fully researched above).
-2. **Phase 2** — the "Rules" nav umbrella: `/rules` landing (`RulesLandingView.vue` +
-   `src/data/rulesLanding.js`), navbar dropdown swap, bottom-nav button + `RulesNavModal.vue`,
-   `NavSidebar.vue` flatten-with-dividers, SEO routes in both hardcoded lists, `landing.js` card
-   collapse, new `navRules` i18n label. Only start once Phase 1's Necrons pilot renders correctly.
-3. **Phase 3** — author the remaining ~23 factions' CP content in batches, each verified by
-   `sync-combat-patrol.mjs` + a small PR, same incremental pattern as the rest of this dataset.
+**Phasing:**
+1. ~~**Phase 1**~~ — DONE. `src/data/combatPatrol.js` (Necrons "Amonhotekh's Guard" pilot),
+   `CombatPatrolIndexView.vue`/`CombatPatrolFactionView.vue` + routes, `scripts/sync-combat-patrol.mjs`
+   (+ `sync.mjs` wiring), `gen-source-ids.mjs` CP kinds (`cpdet:`/`cpstrat:`/`cpenh:`/`cpds:`/
+   `cparmyrule:`, local `combatPatrolNames()` copy unified with the shared one).
+2. ~~**Phase 2**~~ — DONE. "Rules" nav umbrella live everywhere (navbar/bottom-nav/drawer/landing),
+   see above.
+3. **Phase 3 — IN PROGRESS.** Author the remaining factions' CP content in batches, each verified by
+   `node scripts/sync-combat-patrol.mjs` (prints the exact not-yet-authored faction list already) + a
+   small PR, same incremental pattern as the rest of this dataset. SEO routes and the drawer's
+   Combat Patrol group list both auto-grow from `combatPatrol.js` — no extra steps needed per faction.
+   - **Batch 1 (2026-07-29) — DONE:** Space Marines ("Assault Force"), Orks ("'Ardmob"), T'au Empire
+     ("Sudden Dawn Cadre"), Astra Militarum ("Drayden's Lance"). All report clean via
+     `sync-combat-patrol.mjs`; `sourceIds.json` regenerated (57 new `cp*` keys, all matched — no
+     unmapped entries). Notable one-off cases handled: Space Marines' CP army rule ("Combat
+     Doctrines") is a genuinely different ability from the Codex's "Oath of Moment", not a reworded
+     copy; T'au's box links **two** CP-only army rules (Drones + For the Greater Good) merged into
+     one `armyRule` via a `###` subheading, same convention as `titan-legions.js`; Orks' 'Ardmob Boyz
+     had two appdata datasheet rows for a Boss Nob weapon swap, merged into one wh11ed datasheet with
+     an `options` line (the one documented exception to "CP has no options" — a genuine in-box loadout
+     choice, not a missing-data gap); Astra Militarum had a duplicate near-identical "Attilan Rough
+     Riders" appdata row (an inconsistent Goad Lance LANCE tag) — picked the internally-consistent one.
+   - **Batch 2 (2026-07-29) — DONE:** Adepta Sororitas ("Sanctuary Guardians"), Adeptus Custodes
+     ("Tristraen's Gilded Blades"), Adeptus Mechanicus ("Purge Corps Deltic-9"), Imperial Agents
+     ("Inquisitor's Hand" — appdata slug `agents-of-the-imperium`, wh11ed slug `imperial-agents`,
+     via `SLUG_MAP`). All clean via `sync-combat-patrol.mjs`; `sourceIds.json` regenerated (103 new
+     `cp*` keys, all matched). 3 of these 4 CP army rules turned out **verbatim identical** to the
+     faction's normal Codex armyRule text (Acts of Faith, Doctrina Imperatives, and Assigned Agents
+     minus its battle-size table) — copied straight from `src/data/factions/*.js` instead of
+     re-transcribing from appdata by hand. One more near-duplicate datasheet row resolved the same
+     way as the Rough Riders case in batch 1: Imperial Agents' "Inquisitor's Hand Vigilant Squad"
+     had two appdata rows differing only in a couple of missing weapon tags — kept the more complete one.
+   - **Batch 3 (2026-07-29) — DONE:** Aeldari ("Kygharil's Protectors" — appdata slug `asuryani`,
+     wh11ed slug `aeldari`, via `SLUG_MAP`), Black Templars ("Vow-Sworn of Vedrenn"), Blood Angels
+     ("Sanguinary Spearhead"), Dark Angels ("The Vengeful Brethren"). All clean via
+     `sync-combat-patrol.mjs`; `sourceIds.json` regenerated (146 new `cp*` keys, all matched).
+     Surfaced a real gap in the sync script itself: 3 of these 4 factions link **more than one**
+     CP army rule (Dark Angels links all 4 of Oath of Moment/Deathwing/Ravenwing/Unforgiven; Black
+     Templars and Blood Angels link 2 each), which wh11ed correctly combines into one `armyRule`
+     (same convention as the normal Codex files, e.g. `dark-angels.js`'s "Oath of Moment & The
+     Unforgiven") — the script's original army-rule check only compared against a single found
+     row and false-flagged all 3. Fixed: it now checks that every CP-linked row's name is
+     represented in the combined wh11ed name (mirrors `sync-army-rule-coverage.mjs`'s existing
+     approach to the same multi-rule pattern for normal content). All 4 of this batch's CP army
+     rules also turned out **verbatim identical** to the Codex ones (same discovery as batch 2) —
+     copied straight from `src/data/factions/{aeldari,black-templars,blood-angels,dark-angels}.js`.
+     One garbled appdata text block hand-reconstructed (Dark Angels' Bladeguard Veteran Squad
+     "Bladeguard" ability — broken mid-sentence HTML tags in the source, but the intended game text
+     was unambiguous from context). Two more appdata near-duplicate datasheet rows resolved the
+     same way as batches 1-2 (Aeldari's "Kygharil's Protectors Dire Avengers", Blood Angels'
+     "Sanguinary Spearhead Sanguinary Guard" — both exact duplicates this time, not just near-miss
+     tag differences).
+   - **Batch 4 (2026-07-29) — DONE:** Death Guard ("Maggot Lords"), Drukhari ("Coven of Agonies"),
+     Emperor's Children ("Callous Blades"), Genestealer Cults ("Claw of Ascension"). All clean via
+     `sync-combat-patrol.mjs`; `sourceIds.json` regenerated (190 new `cp*` keys, all matched).
+     Death Guard, Drukhari and Emperor's Children each link 2 CP army rules — same "combined
+     armyRule.name" pattern as batch 3, and (same discovery again) all verbatim-identical to the
+     Codex text, copied from the existing faction files. Genestealer Cults' "Cult Ambush" is the
+     first CP army rule this project that is **genuinely CP-specific** rather than a Codex copy —
+     it hardcodes "Combat Patrol: 2 Resurgence points" and this box's own unit reincarnation costs,
+     unlike the normal Codex version's battle-size-scaled table; transcribed from appdata as
+     printed (with its "Atalal Jackals" typo corrected to match the real datasheet name, "Atalan
+     Jackals"). 3 more appdata near-duplicate datasheet rows resolved the same way as previous
+     batches (Aeldari-style exact duplicates for Drukhari's "Coven of Agonies Wracks" and Emperor's
+     Children's "Callous Blades Flawless Blades"; a mixed-completeness duplicate for Genestealer
+     Cults' "Claw of Ascension Hybrid Metamorphs", resolved by merging the more-complete weapon
+     tags from each of the two rows rather than picking one wholesale).
+   - **Batch 5 (2026-07-29) — DONE:** Grey Knights ("Crowe's Sanctifiers"), Chaos Space Marines
+     ("Zarkan's Daemonkin" — appdata slug `heretic-astartes`, wh11ed slug `chaos-space-marines`),
+     Leagues of Votann ("Bane-slayer's Bulwark"), Space Wolves ("Askar's Wolfpack"). All clean via
+     `sync-combat-patrol.mjs`; `sourceIds.json` regenerated (234 new `cp*` keys, all matched).
+     Grey Knights' "Gate of Infinity" is the second genuinely CP-specific army rule found (after
+     Genestealer Cults in batch 4) — the box's own copy omits the Codex's battle-size unit-count
+     table and its "can make an ingress move next Movement phase" acceleration clause entirely,
+     not just a formatting difference. Space Wolves links all 4 of its Codex army rules (Oath of
+     Moment/Curse of the Wulfen/Sagas/Sons of Russ, all 4 confirmed verbatim-identical to Codex) —
+     same multi-rule combining as Dark Angels in batch 3. One more appdata cosmetic-naming quirk
+     hit the sync script directly this time: Leagues of Votann's own datasheet.json literally
+     spells one of its 4 units "Bane Slayer's Bulwark Brokhyr Thunderkyn" (no hyphen) while the
+     other 3 use "Bane-Slayer's Bulwark" (hyphenated) — initially authored hyphenated for
+     consistency with its siblings, `sync-combat-patrol.mjs` caught the exact-name mismatch, fixed
+     by matching appdata's literal (inconsistent) spelling for that one datasheet.
+   - **Batch 6 (2026-07-29) — DONE, Phase 3 COMPLETE (24/24):** Thousand Sons ("Prism of
+     Zadophon"), Tyranids ("The Vardenghast Swarm"), World Eaters ("Frenzied Reavers"). All clean
+     via `sync-combat-patrol.mjs`; `sourceIds.json` regenerated (8,882 entities across 30
+     factions, 0 unmatched `cp*` keys). Kaa'skrek (Thousand Sons) needed a `faction:` field for
+     both its CP-linked abilities ("Cabal of Sorcerers" + "Pact of Sorcery") — caught and fixed
+     before the sync run. Every faction with an appdata Combat Patrol box now has hand-authored,
+     sync-verified content in `combatPatrol.js` — Phase 3 of the plan is finished.
+   - **Bundle-weight fix (2026-07-29):** once `combatPatrol.js` reached its full 24-faction size
+     (~4,400+ lines), `StratagemsView.test.js`'s timing-sensitive `settle()` helper started failing
+     4/4 full-suite runs (previously an occasional flake) while still passing 100% in isolation.
+     Root cause: `router/index.js` and `useSeoMeta.js` **statically** imported the full
+     `combatPatrol.js` (to build `combatPatrolGroups`/`combatPatrolGroupsRu` and the CP SEO meta) —
+     both files sit in the module graph of virtually every page/test, so the whole 24-faction data
+     file (rule text + all fixed-roster datasheets) was riding in the app's root bundle, violating
+     the project's own "dynamic import of heavy data files" convention. Fixed by extracting a new
+     lightweight `src/data/combatPatrolIndex.js` (slug/name/boxName only, ~24 lines) that
+     `router/index.js`/`useSeoMeta.js`/`CombatPatrolIndexView.vue` now read instead;
+     `CombatPatrolFactionView.vue` (the only place that needs the full box content) switched from a
+     static import to a dynamic `await import('../../data/combatPatrol.js')` in a `watchEffect`,
+     matching the pattern already used by `StratagemsView.vue`/`FactionFaqView.vue` for other heavy
+     data files. `sync-combat-patrol.mjs` gained a drift check verifying `combatPatrolIndex.js`
+     stays in sync with `combatPatrol.js`. Result: `combatPatrol.js` now builds as its own ~240 KB
+     chunk instead of bloating the root entry chunk (confirmed via `npm run build`'s chunk-size
+     output — the previously-inflated root `index-*.js` dropped back to its normal ~413 KB); `npm
+     test` passed 4/4 consecutive full-suite runs afterward (was 4/4 failing before).
 
 ## Deploy log
 - 2026-07-27 — v2.1.6 deployed: floating faction buttons (desktop) + mobile utility bar,

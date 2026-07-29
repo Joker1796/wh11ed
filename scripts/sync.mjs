@@ -31,6 +31,9 @@
 //   - sync-layouts — the Event Companion's 45 Terrain Layout diagrams (matchup + A/B/C) must
 //     still match appdata's mission_layout family (catches a rename/reshuffle/add without needing
 //     to re-download and re-extract the app .xapk)
+//   - sync-combat-patrol — src/data/combatPatrol.js (hand-authored Combat Patrol box content) vs
+//     appdata's isCombatPatrol-flagged rows, faction-by-faction, plus a punch list of factions
+//     with a CP box not yet authored
 //
 // Report only — nothing is written (except that you may want to run `gen-source-ids.mjs` if the
 // bridge is stale). Usage: `npm run sync` (or `node scripts/sync.mjs`).
@@ -72,6 +75,7 @@ run('sync-roster-restrictions', 'sync-roster-restrictions.mjs')
 run('sync-enhancement-restrictions', 'sync-enhancement-restrictions.mjs')
 run('sync-army-rule-coverage', 'sync-army-rule-coverage.mjs')
 run('sync-layouts', 'sync-layouts.mjs')
+run('sync-combat-patrol', 'sync-combat-patrol.mjs')
 
 console.log(`\n${'═'.repeat(72)}`)
 if (idsStale) console.log('⚠ src/data/sourceIds.json is stale — run `node scripts/gen-source-ids.mjs`.')
