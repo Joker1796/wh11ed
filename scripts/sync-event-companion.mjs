@@ -208,6 +208,16 @@ function flattenTeams(en) {
   // to Main's own designerNotes) and "PAIRINGS AND RANKINGS" (Teams' copy of the same generic
   // framing paragraph as Main's `en.pairings.intro`) — all reported as container-inventory
   // gaps below, none of them real ones.
+  //
+  // Same non-issue for the numbered step containers ("WARHAMMER TEAMS EVENT MISSION SEQUENCE"
+  // intro heading, "3. CREATE THE BATTLEFIELD" through "13. DETERMINE VICTOR"): `en.teams.blocks`
+  // condenses all of these into one 'teams-sequence-note' paragraph ("...are unchanged from the
+  // standard sequence", `seeAlso: ['Mission Sequence EC:sequence']`) instead of re-transcribing
+  // each step — confirmed 2026-07-29, no content gap. "14. TEAM SCORING" is a title-matching
+  // artifact, not a real gap either: wh11ed splits that single appdata container across two
+  // entries with different titles ('14 · Team Scoring — Battle Points' + 'Team Scoring — Match
+  // Result'), so the title matcher can't pair either one to it — the BP table, differential
+  // table and TP scoring are all present, just not under a title this matcher can find.
   for (const b of en.teams.blocks.slice(1)) push(b.title, b.body, tableText(b.table), b.tableNote, b.note)
   return out
 }
