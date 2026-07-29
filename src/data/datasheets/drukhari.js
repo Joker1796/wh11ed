@@ -1717,7 +1717,6 @@ export default [
       "Aeldari",
       "Aircraft",
       "Fly",
-      "Frame",
       "Razorwing Jetfighter",
       "Vehicle"
         ],
@@ -2692,7 +2691,6 @@ export default [
       "Aeldari",
       "Aircraft",
       "Fly",
-      "Frame",
       "Vehicle",
       "Voidraven Bomber"
         ],
