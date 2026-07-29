@@ -507,13 +507,9 @@ const currentLayout = computed(() =>
   border-color: var(--accent);
 }
 .tab {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.1rem;
-  padding: 0.35rem 1.1rem;
+  padding: 0.4rem 1.1rem;
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 999px;
   background: transparent;
   color: var(--text-primary);
   cursor: pointer;
@@ -539,6 +535,19 @@ const currentLayout = computed(() =>
 .tab.active .tab-map {
   color: var(--text-on-accent);
   opacity: 0.85;
+}
+/* The Deployment Map subtitle only fits the wider full-word "Layout A" tab — scope the
+   two-line layout to that state so mobile's compact square buttons (below) are completely
+   unaffected by it (display:none on .tab-map alone isn't enough: flex-direction:column + gap
+   on .tab was adding height even with one child hidden). */
+@media (min-width: 601px) {
+  .tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.1rem;
+    border-radius: 14px;
+  }
 }
 
 @media (max-width: 600px) {
