@@ -7,20 +7,19 @@
 
     <!-- Detachment rule -->
     <section class="fsection" id="rule">
-      <h2 class="fsection-title">{{ faction.rule.name }}</h2>
       <div v-if="faction.dp || faction.forceDisposition" class="det-meta">
         <span v-if="faction.dp" class="det-meta-item">{{ faction.dp }} DP</span>
         <span v-if="faction.forceDisposition" class="det-meta-item">{{ faction.forceDisposition }}</span>
       </div>
       <p v-if="faction.rule.flavor" class="faction-flavor">{{ faction.rule.flavor }}</p>
-      <RuleBlock :title="faction.rule.name" :body="faction.rule.body" />
+      <RuleBlock :title="faction.rule.name" :subtitle="faction.rule.nameRu" :body="faction.rule.body" />
     </section>
 
     <!-- Army rule -->
     <section class="fsection" id="army-rule">
       <h2 class="fsection-title">{{ labels.factionArmyRule }}</h2>
       <p v-if="faction.armyRule.flavor" class="faction-flavor">{{ faction.armyRule.flavor }}</p>
-      <RuleBlock :title="faction.armyRule.name" :body="faction.armyRule.body" :example="faction.armyRule.example" />
+      <RuleBlock :title="faction.armyRule.name" :subtitle="faction.armyRule.nameRu" :body="faction.armyRule.body" :example="faction.armyRule.example" />
     </section>
 
     <!-- Stratagems -->
@@ -37,7 +36,10 @@
       <div class="enh-grid">
         <article v-for="e in faction.enhancements" :key="e.name" class="enh-card">
           <div class="enh-head">
-            <span class="enh-name">{{ e.name }}</span>
+            <div class="enh-heading">
+              <span class="enh-name">{{ e.name }}</span>
+              <span v-if="e.nameRu" class="enh-name-ru">{{ e.nameRu }}</span>
+            </div>
             <div class="enh-tags">
               <span v-if="e.upgrade" class="enh-tag">Upgrade</span>
               <span v-if="e.isDefault" class="enh-tag enh-tag-default">{{ labels.cpDefaultEnh }}</span>
@@ -196,9 +198,16 @@ const faction = computed(() =>
 
 .enh-head {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
   gap: 0.5rem;
   margin-bottom: 0.5rem;
+}
+
+.enh-heading {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 
 .enh-name {
@@ -210,12 +219,24 @@ const faction = computed(() =>
   color: var(--text-primary);
 }
 
+.enh-name-ru {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  opacity: 0.8;
+  line-height: 1.15;
+}
+
 .enh-tags {
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  margin-left: auto;
   flex-shrink: 0;
+  /* Always its own full-width row under the name (not just on narrow screens) — the badges
+     fighting the name for space on one shared row squeezes/wraps the name awkwardly even in a
+     fixed-width card column on wide screens, not just on phones. */
+  width: 100%;
+  justify-content: flex-start;
 }
 
 .enh-tag {
@@ -290,17 +311,6 @@ const faction = computed(() =>
 @media (max-width: 640px) {
   .fsection-title { font-size: 1.6rem; }
   .hero-title { font-size: 2rem; }
-
-  /* The Upgrade + Auto-applied badges fighting the enhancement name for space on one row
-     squeezes the name (RU "Применяется автоматически" is long). Let the row wrap instead of
-     forcing the badges into a narrow right-hand column: .enh-tags drops to its own full-width
-     row below the name, where there's plenty of room for both badges side by side on one line. */
-  .enh-head { flex-wrap: wrap; }
-  .enh-tags {
-    width: 100%;
-    justify-content: flex-start;
-    margin-left: 0;
-  }
 }
 
 /* Very narrow phones (≤480px): bleed the unit name plate to the true viewport edge and
