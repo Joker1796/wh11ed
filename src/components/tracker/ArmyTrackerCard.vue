@@ -517,8 +517,8 @@ async function loadReferenceView(slug, loc) {
       example: f.armyRule.example,
     }
   }
-  const { getFaction } = await import('../../data/factions/index.js')
-  const data = getFaction(slug)
+  const { loadFaction } = await import('../../data/factions/index.js')
+  const data = await loadFaction(slug)
   if (!data) return null
   let armyRule = data.en.armyRule
   let nameRu

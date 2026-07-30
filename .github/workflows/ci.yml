@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# A new push to the same branch supersedes the previous run.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Every step below runs even if an earlier one failed (`!cancelled()`), so one push
+      # reports every problem at once instead of hiding the data errors behind a test failure.
+      # This repo's centre of gravity is the bilingual rule data, and a text edit tends to break
+      # the parity gate and a test together.
+
+      # The EN↔RU parity gate. It is the reason this workflow exists: the script has always
+      # exited non-zero on error, but nothing ran it, so 11 real errors sat on main unnoticed
+      # until an audit went looking.
+      - name: EN↔RU parity
+        if: ${{ !cancelled() }}
+        run: npm run parity
+
+      - name: Tests
+        if: ${{ !cancelled() }}
+        run: npm test
+
+      - name: Build
+        if: ${{ !cancelled() }}
+        run: npm run build
+
+# Deliberately NOT run here: `npm run sync` and the scripts/sync-*.mjs guardrails. They diff this
+# repo against wh40k-appdata, a PRIVATE sibling repo that is not checked out in CI (see
+# scripts/lib/sync-common.mjs's APPDATA / WH40K_APPDATA_PATH). They stay a local, maintainer-run
+# audit. The three steps above were each verified to run with no appdata present.

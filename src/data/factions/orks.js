@@ -388,7 +388,10 @@ const en = {
 
 Alternatively, when such a unit is selected to shoot or fight, you can select one of the abilities above instead of rolling the D6. If you do, until the end of the phase, weapons equipped by models in that unit have the [HAZARDOUS] ability as well.
 
-If a weapon equipped by a model from your army has the [HAZARDOUS] ability from multiple sources, each time you take a Hazardous test for that weapon, it is failed on a roll of a 1-3.`,
+If a weapon equipped by a model from your army has the [HAZARDOUS] ability from multiple sources, each time you take a Hazardous test for that weapon, it is failed on a roll of a 1-3.
+
+### Keywords
+Gretchin units from your army gain the Battleline [gloss:keywords:keyword].`,
       },
       stratagems: [
         {

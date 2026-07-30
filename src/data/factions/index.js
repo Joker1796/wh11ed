@@ -1,70 +1,29 @@
-// Registry of implemented faction rule datasets, keyed by slug. The faction views resolve
-// `:slug` here; only factions present in this map have a rules page (others show
-// "coming soon" on the /factions list). Add a faction by importing its data module here.
-import { adeptaSororitas } from './adepta-sororitas.js'
-import { adeptusCustodes } from './adeptus-custodes.js'
-import { adeptusMechanicus } from './adeptus-mechanicus.js'
-import { aeldari } from './aeldari.js'
-import { astraMilitarum } from './astra-militarum.js'
-import { blackTemplars } from './black-templars.js'
-import { bloodAngels } from './blood-angels.js'
-import { chaosDaemons } from './chaos-daemons.js'
-import { chaosKnights } from './chaos-knights.js'
-import { chaosSpaceMarines } from './chaos-space-marines.js'
-import { chaosTitanLegions } from './chaos-titan-legions.js'
-import { darkAngels } from './dark-angels.js'
-import { deathwatch } from './deathwatch.js'
-import { deathGuard } from './death-guard.js'
-import { drukhari } from './drukhari.js'
-import { emperorsChildren } from './emperors-children.js'
-import { genestealerCults } from './genestealer-cults.js'
-import { greyKnights } from './grey-knights.js'
-import { imperialAgents } from './imperial-agents.js'
-import { imperialKnights } from './imperial-knights.js'
-import { leaguesOfVotann } from './leagues-of-votann.js'
-import { necrons } from './necrons.js'
-import { orks } from './orks.js'
-import { spaceMarines } from './space-marines.js'
-import { spaceWolves } from './space-wolves.js'
-import { tauEmpire } from './tau-empire.js'
-import { thousandSons } from './thousand-sons.js'
-import { titanLegions } from './titan-legions.js'
-import { tyranids } from './tyranids.js'
-import { worldEaters } from './world-eaters.js'
+// Lazy per-faction rule data (army rule, detachments, stratagems, enhancements). Each
+// src/data/factions/<slug>.js is code-split into its own chunk via import.meta.glob and only
+// fetched when a page actually asks for that faction — the same shape data/factions/ru/index.js
+// already uses for the RU overlays and data/datasheets/index.js for the datasheets.
+//
+// This module used to statically import all 30 factions into one `factionData` map, so rollup
+// rolled them into a single ~1.5MB (366KB gzip) chunk and opening ONE faction's rules page
+// downloaded all thirty. **Never reintroduce a static import here** — that regression is
+// invisible locally and only shows up as a fat chunk in the build output.
+//
+// Build scripts are unaffected: scripts/*.mjs never import this file, they read
+// src/data/factions/<slug>.js directly through sync-common.mjs's loadModule (import.meta.glob
+// is a Vite transform and would not resolve under plain Node).
+const modules = import.meta.glob(['./*.js', '!./index.js'])
 
-export const factionData = {
-  'adepta-sororitas': adeptaSororitas,
-  'adeptus-custodes': adeptusCustodes,
-  'adeptus-mechanicus': adeptusMechanicus,
-  aeldari,
-  'astra-militarum': astraMilitarum,
-  'black-templars': blackTemplars,
-  'blood-angels': bloodAngels,
-  'chaos-daemons': chaosDaemons,
-  'chaos-knights': chaosKnights,
-  'chaos-space-marines': chaosSpaceMarines,
-  'chaos-titan-legions': chaosTitanLegions,
-  'dark-angels': darkAngels,
-  deathwatch,
-  'death-guard': deathGuard,
-  drukhari,
-  'emperors-children': emperorsChildren,
-  'genestealer-cults': genestealerCults,
-  'grey-knights': greyKnights,
-  'imperial-agents': imperialAgents,
-  'imperial-knights': imperialKnights,
-  'leagues-of-votann': leaguesOfVotann,
-  necrons,
-  orks,
-  'space-marines': spaceMarines,
-  'space-wolves': spaceWolves,
-  'tau-empire': tauEmpire,
-  'thousand-sons': thousandSons,
-  'titan-legions': titanLegions,
-  tyranids,
-  'world-eaters': worldEaters,
-}
+// Every faction file has exactly one named export, the camelCase of its slug
+// ('space-marines' → `spaceMarines`). Resolve by that name and fall back to the module's first
+// value, so adding a helper export can't silently turn the lookup into undefined.
+const exportName = (slug) => slug.replace(/-([a-z])/g, (_, c) => c.toUpperCase())
 
-export function getFaction(slug) {
-  return factionData[slug] || null
+// Resolves one faction's `{ en, ru }` data object, or null for a slug with no rules file
+// (the /factions list shows those as "coming soon"). Async by nature — callers that used the
+// old synchronous getFaction() must treat "not loaded yet" the same as "no such faction".
+export async function loadFaction(slug) {
+  const loader = modules[`./${slug}.js`]
+  if (!loader) return null
+  const mod = await loader()
+  return mod[exportName(slug)] ?? Object.values(mod)[0] ?? null
 }
