@@ -9,6 +9,7 @@
       @click="collapsible && (open = !open)"
     >
       <h3 class="mcard-name">{{ mission.name }}</h3>
+      <span v-if="mission.nameRu" class="mcard-name-ru">{{ mission.nameRu }}</span>
       <span v-if="subtitle" class="mcard-sub">{{ subtitle }}</span>
       <!-- Affordance that the header expands (collapsed state only). -->
       <span v-if="collapsible && !open" class="mcard-hint">{{ labels.missionExpand }}</span>
@@ -147,6 +148,16 @@ function isPerEach(text) {
   text-transform: uppercase;
   letter-spacing: 0.03em;
   color: var(--text-muted);
+}
+/* Forces its own row right under the name in the wrapping .mcard-head flex row (a 100%-width
+   flex item can't share a line with anything, so it always starts fresh under .mcard-name). */
+.mcard-name-ru {
+  flex-basis: 100%;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  opacity: 0.8;
+  line-height: 1.15;
 }
 /* Flavour text (lore), shown right after the title — matches the project's
    .flavor-quote convention; hidden by the global "hide lore" toggle. */

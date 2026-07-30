@@ -2,6 +2,7 @@
   <article class="tcard" :id="`twist-${twist.id}`">
     <header class="tcard-head">
       <h3 class="tcard-name">{{ twist.title }}</h3>
+      <div v-if="twist.titleRu" class="tcard-name-ru">{{ twist.titleRu }}</div>
     </header>
 
     <!-- Lore/flavour right after the heading, project convention (cf. .strat-flavor);
@@ -21,7 +22,7 @@ import RuleBody from '../RuleBody.vue'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 
 defineProps({
-  twist: { type: Object, required: true }, // { id, title, body, note?, example? }
+  twist: { type: Object, required: true }, // { id, title, titleRu?, body, note?, example? }
 })
 
 const { renderInline } = useRenderInline()
@@ -45,6 +46,13 @@ const { renderInline } = useRenderInline()
   font-weight: 500;
   color: var(--text-primary);
   margin: 0;
+}
+.tcard-name-ru {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  opacity: 0.8;
+  line-height: 1.15;
 }
 .tcard-flavor {
   font-style: italic;

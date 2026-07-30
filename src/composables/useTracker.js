@@ -50,13 +50,15 @@ export function dispositionName(id) {
 // Faction / detachment data (FACTIONS, FACTION_GROUPS, detachmentsFor, …) lives in
 // trackerFactions.js so the heavy mfmFactions.js dataset only loads with the setup wizard.
 // Overlay the RU block text (heading/when/rows.text) onto the EN mission. Name and all
-// logic fields (slug/vp/modifier/kind/…) stay English; mission names are intentionally EN.
+// logic fields (slug/vp/modifier/kind/…) stay English; mission names are intentionally EN
+// (an optional nameRu adds a translated display subline, same convention as stratagems).
 function localize(m, role) {
   if (!m) return null
   const tr = role ? missionsRu.secondary[`${m.slug}|${role}`] : missionsRu.primary[m.slug]
   if (!tr) return m
   return {
     ...m,
+    ...(tr.nameRu ? { nameRu: tr.nameRu } : {}),
     // briefing is replaced wholesale (RU mirrors the EN structure, maintained in lockstep).
     ...(tr.briefing ? { briefing: tr.briefing } : {}),
     ...(tr.lore ? { lore: tr.lore } : {}),

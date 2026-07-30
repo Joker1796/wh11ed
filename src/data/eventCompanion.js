@@ -1507,6 +1507,7 @@ const ru = {
       'всю игру.',
     blocks: [
       {
+        titleRu: 'Воинская гордость',
         body:
           'Юнит **BATTLELINE** может **начать [gloss:action:действие]** в ходу, в котором он ' +
           'совершил **[gloss:advance-move:продвижение]**. Юнит **BATTLELINE** может **стрелять ' +
@@ -1517,6 +1518,7 @@ const ru = {
           'продвигаясь к назначенным целям и поддерживая беспощадный темп стрельбы.',
       },
       {
+        titleRu: 'Зеркальный мир',
         body:
           'Оба игрока заменяют свою карту **[gloss:primary-mission:основной миссии]** на одну и ' +
           'ту же из следующих карт. Если игроки договорились об одной из них, используйте ' +
@@ -1537,6 +1539,7 @@ const ru = {
           'путях, состязаясь за почти одинаковые цели и результаты.',
       },
       {
+        titleRu: 'Ночной бой',
         body:
           'Каждый юнит **[gloss:not-visible:не виден]** вражеским моделям, если они не находятся в ' +
           'пределах 18" от этого юнита, и каждый юнит нельзя выбрать целью оружия ' +
@@ -1549,6 +1552,7 @@ const ru = {
           'укрытие, под которым можно продвигаться.',
       },
       {
+        titleRu: 'Нарушенная связь',
         body: 'Игроки обмениваются своими картами **[gloss:primary-mission:основной миссии]**.',
         note:
           "Designer's Note: Отличный твист, чтобы встряхнуть привычную партию, или для тех, " +
@@ -1558,6 +1562,7 @@ const ru = {
           'сделав ваши приказы и цели неясными.',
       },
       {
+        titleRu: 'Руинный ландшафт',
         body:
           'Когда юнит совершает **[gloss:normal-move:обычный манёвр]** или **[gloss:advance-move:продвижение]**, ' +
           'модели в этом юните получают ключевое слово MOBILE до конца ' +
@@ -1571,6 +1576,7 @@ const ru = {
           'к врагам.',
       },
       {
+        titleRu: 'Негде спрятаться',
         body: '**[gloss:terrain-feature:Участки укрытий]** не обладают правилом **Solid**.',
         note:
           "Designer's Note: Этот твист позволяет моделям проводить **[gloss:line-of-sight:линию видимости]** " +
@@ -1620,8 +1626,10 @@ function mergeLocale(enNode, ruNode) {
     return enNode.map((item, i) => mergeLocale(item, ruNode[i]))
   }
   if (enNode && typeof enNode === 'object') {
-    const out = {}
-    for (const key of Object.keys(enNode)) out[key] = mergeLocale(enNode[key], ruNode[key])
+    const out = { ...enNode }
+    // Union of both sides' keys — lets a RU node add a field EN doesn't have (e.g. `titleRu`,
+    // a translated-name subline alongside a name that otherwise stays English by convention).
+    for (const key of Object.keys(ruNode)) out[key] = mergeLocale(enNode[key], ruNode[key])
     return out
   }
   return ruNode

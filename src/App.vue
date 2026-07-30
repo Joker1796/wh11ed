@@ -225,7 +225,7 @@
     <RulesNavModal v-if="showRules" @close="showRules = false" />
     <KeywordPopover />
     <MobileUtilityBar ref="mobileBarRef" :show-resume-game="showResumeGame" />
-    <BackToTopButton v-if="isCoreRoute || isCombatPatrolFactionRoute" />
+    <BackToTopButton v-if="isCoreRoute || isEventRoute || isCombatPatrolFactionRoute" />
     <UpdateToast />
     <OfflineWarmupToast />
   </div>
