@@ -1,5 +1,5 @@
 <template>
-  <div v-if="faction" class="cp-faction-view">
+  <div v-if="faction" class="cp-faction-view" :class="{ themed: !!color }" :style="colorVars">
     <div class="hero">
       <h1 class="hero-title">{{ faction.name }}</h1>
       <div class="hero-subtitle">{{ faction.boxName }}</div>
@@ -62,7 +62,7 @@
       </div>
     </section>
   </div>
-  <div v-else class="cp-faction-view">
+  <div v-else class="cp-faction-view" :class="{ themed: !!color }" :style="colorVars">
     <p class="cp-empty">{{ labels.factionsSoon }}</p>
   </div>
 </template>
@@ -77,12 +77,21 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 import { formatBaseSize } from '../../utils/baseSize.js'
+import { factionIndexBySlug } from '../../data/factionsIndex.js'
 
 const route = useRoute()
 const { locale } = useLocale()
 const { renderRichText } = useRenderInline()
 const labels = computed(() => ui[locale.value])
 const fmtBase = (raw) => formatBaseSize(raw, labels.value)
+
+// Same Wahapedia-style per-faction accent as the normal faction pages (FactionLayout.vue) —
+// factionsIndex.js's palette exposed as two private custom props, folded into --accent per
+// theme by the .cp-faction-view.themed rules below.
+const color = computed(() => factionIndexBySlug(route.params.slug)?.color || null)
+const colorVars = computed(() =>
+  color.value ? { '--fa-light': color.value.light, '--fa-dark': color.value.dark } : undefined,
+)
 
 // combatPatrol.js carries every box's rule text + fixed-roster datasheets for all 24 factions —
 // dynamically imported here (not statically) so it stays out of the app's root bundle; only a
@@ -305,5 +314,45 @@ const faction = computed(() =>
     padding: 0.5rem 0.4rem 0.45rem;
     border-radius: 0;
   }
+}
+
+/* ── Per-faction accent (--fa-light / --fa-dark set inline from factionsIndex.js) ──
+   Same mechanism as FactionLayout.vue's .faction-view.themed: prefers-color-scheme is the
+   default signal, an explicit :root[data-theme] wins in both directions (see the unscoped
+   block below). --link-accent is re-declared locally since :root's is var(--accent) and
+   would otherwise inherit the already-computed app-wide red. */
+.cp-faction-view.themed {
+  --accent: var(--fa-light);
+  --accent-hover: color-mix(in srgb, var(--fa-light) 80%, black);
+  --link-accent: var(--accent);
+  --link-accent-hover: var(--accent-hover);
+}
+@media (prefers-color-scheme: dark) {
+  .cp-faction-view.themed {
+    --accent: var(--fa-dark);
+    --accent-hover: color-mix(in srgb, var(--fa-dark) 80%, white);
+    --link-accent: #e8c96a;
+    --link-accent-hover: #f0d98a;
+  }
+}
+</style>
+
+<!-- Unscoped on purpose: an explicit data-theme on :root must win over the prefers-color-scheme
+     fallback above in BOTH directions. Written without :global() because Vue's scoped compiler
+     mishandles a descendant after it (see FactionLayout.vue for the same note); the
+     .cp-faction-view.themed class keeps these rules from touching anything else. -->
+<style>
+:root[data-theme='light'] .cp-faction-view.themed {
+  --accent: var(--fa-light);
+  --accent-hover: color-mix(in srgb, var(--fa-light) 80%, black);
+  --link-accent: var(--accent);
+  --link-accent-hover: var(--accent-hover);
+}
+
+:root[data-theme='dark'] .cp-faction-view.themed {
+  --accent: var(--fa-dark);
+  --accent-hover: color-mix(in srgb, var(--fa-dark) 80%, white);
+  --link-accent: #e8c96a;
+  --link-accent-hover: #f0d98a;
 }
 </style>
