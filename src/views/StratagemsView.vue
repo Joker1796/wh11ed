@@ -124,8 +124,8 @@ async function loadCombatPatrolFaction(slug, loc) {
 
 // Resolve one faction's localized detachment list + its RU stratagem-name map.
 async function loadFactionSource(slug, loc) {
-  const { getFaction } = await import('../data/factions/index.js')
-  const data = getFaction(slug)
+  const { loadFaction } = await import('../data/factions/index.js')
+  const data = await loadFaction(slug)
   if (!data) return null
   // Tag each stratagem with `_phase` derived from its ENGLISH `when` (data.en, aligned by
   // detachment+stratagem index with the localized faction) so phase grouping matches EN/RU.
