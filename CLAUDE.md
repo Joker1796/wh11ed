@@ -140,7 +140,7 @@ A `Section` has `{ id, num, title, page, description, subsections[] }`. A subsec
 
 **Cross-references** (`seeAlso: ['Rule Name NN.NN']`) are resolved by `useRefNavigation.js` and rendered by `SeeAlsoBlock`. Click navigates to `#section-NN-NN`.
 
-**Search** (`Ctrl+K`) — `useSearch.js` builds a flat index lazily (per locale) from all data files. Searches `title`, `sectionNum`, `body`, `note` fields. **Datasheet units are searchable by name** via `src/data/datasheetIndex.js` — a compact generated name-only index (`npm run datasheets:index`, re-run after re-importing datasheets), dynamic-imported when the palette opens so the heavy per-faction datasheet files never ride in the search bundle.
+**Search** (`Ctrl+K`) — `useSearch.js` builds a flat index lazily (per locale) from all data files. Searches `title`, `sectionNum`, `body`, `note` fields. **Datasheet units are searchable by name** via `src/data/datasheetIndex.js` — a compact generated name-only index (`npm run datasheets:index`, re-run after adding or renaming a unit), dynamic-imported when the palette opens so the heavy per-faction datasheet files never ride in the search bundle.
 
 **Keyword popover** — `useKeywordPopover.js` is a singleton; any click on `.keyword` span opens `KeywordPopover.vue` with the ability text looked up from `reference.js` (`coreAbilities`) / the Event Companion glossary. **Perf:** those two big data files are **dynamically `import()`ed on first keyword click** (not statically), so they stay out of the entry chunk that loads on every page — `open()` is async. Keep it that way (don't re-add a static import).
 

@@ -1,7 +1,7 @@
 // Imperial Knights — faction rules. Resolved from the same source priority as the other
 // factions (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: imported from the Wahapedia CSV exports via scripts/import-wahapedia.mjs →
+//   Codex layer: originally imported from the Wahapedia CSV exports (importer since retired) →
 //     5 detachments (Freeblade Company, Gate Warden Lance, Questoris Companions,
 //     Spearhead-At-Arms, Valourstrike Lance). Wahapedia already carries most pack updates;
 //     the remaining diff (Tactical Foil 9"→8") is folded in below. Freeblade Company is

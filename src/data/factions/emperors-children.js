@@ -1,7 +1,7 @@
 // Emperor's Children — faction rules. Resolved from the same source priority as the other
 // factions (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: imported from the Wahapedia CSV exports via scripts/import-wahapedia.mjs →
+//   Codex layer: originally imported from the Wahapedia CSV exports (importer since retired) →
 //     7 detachments. Wahapedia already carries some pack updates; the remaining diffs are
 //     folded in below (inline notes). Court of the Phoenician is also printed in the
 //     Faction Pack (identical text) — marked source: 'faction-pack'.
