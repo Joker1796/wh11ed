@@ -10,6 +10,14 @@
 // The Warhost detachment ("Martial Grace") grants +1 token at the start of each battle round — the
 // one real per-detachment change to the maths, so it's a `bonus` override (mirrors how the Ork Bully
 // Boyz change Waaagh!'s maxUses). Keywords stay English; rules text is translated.
+//
+// Combat Patrol's own copy of Battle Focus (combatPatrol.js) is verbatim-identical to the Codex —
+// it never lists a Combat Patrol figure, only Incursion/Strike Force/Onslaught (confirmed against
+// wh40k-appdata directly: the actual per-battle-size numbers aren't machine-readable text in either
+// publication's row, just an "as shown in the table below" reference to an image — and the Combat
+// Patrol row's copy of that image placeholder is missing entirely, unlike the Codex row's). No
+// source available gives a real Combat Patrol number, so `combatPatrol` below is deliberately set
+// to the Incursion value — the lowest defined tier — as a conservative floor, not a transcribed rule.
 export default {
   slug: 'aeldari',
   kind: 'pool',
@@ -21,7 +29,7 @@ export default {
 
   // Tokens received at the start of each battle round, keyed by the tracker's battleSize id
   // (src/composables/useTracker.js BATTLE_SIZES). A detachment `bonus` is added on top.
-  perRound: { incursion: 2, strikeForce: 4, onslaught: 6 },
+  perRound: { combatPatrol: 2, incursion: 2, strikeForce: 4, onslaught: 6 },
   bonus: 0,
 
   gains: [

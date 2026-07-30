@@ -71,7 +71,7 @@ describe('resolveArmyTracker', () => {
     const spec = resolveArmyTracker('aeldari')
     expect(spec.kind).toBe('pool')
     expect(spec.label).toBe('Battle Focus')
-    expect(spec.perRound).toEqual({ incursion: 2, strikeForce: 4, onslaught: 6 })
+    expect(spec.perRound).toEqual({ combatPatrol: 2, incursion: 2, strikeForce: 4, onslaught: 6 })
     expect(spec.bonus).toBe(0)
   })
 
@@ -92,7 +92,7 @@ describe('resolveArmyTracker', () => {
     const spec = resolveArmyTracker('genestealer-cults')
     expect(spec.kind).toBe('counter')
     expect(spec.label).toBe('Resurgence points')
-    expect(spec.start).toEqual({ incursion: 6, strikeForce: 10, onslaught: 14 })
+    expect(spec.start).toEqual({ combatPatrol: 2, incursion: 6, strikeForce: 10, onslaught: 14 })
     // One-tap resurrect spends: 5 unit types × 2 Starting Strengths = 10 costed buttons.
     const en = localizeArmyTracker(spec, 'en')
     expect(en.spends).toHaveLength(10)

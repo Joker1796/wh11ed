@@ -1,10 +1,12 @@
 // Genestealer Cults — army-rule tracker spec: Cult Ambush / the Resurgence-point pool.
 //
 // A `counter` primitive with a battle-size `start`: unlike Drukhari's Pain tokens (which begin at 0
-// and grow), you START the battle with a pool of Resurgence points fixed by battle size (Incursion 6
-// / Strike Force 10 / Onslaught 14) and spend down over the whole game — the pool does NOT refresh
-// each round (that's the Aeldari `pool` primitive). So the widget defaults an untouched counter to
-// `start[battleSize]` instead of 0, and you step it DOWN as you resurrect destroyed units.
+// and grow), you START the battle with a pool of Resurgence points fixed by battle size (Combat
+// Patrol 2 / Incursion 6 / Strike Force 10 / Onslaught 14 — Combat Patrol's own value is spelled
+// out explicitly in the Cult Ambush rule text, see combatPatrol.js) and spend down over the whole
+// game — the pool does NOT refresh each round (that's the Aeldari `pool` primitive). So the widget
+// defaults an untouched counter to `start[battleSize]` instead of 0, and you step it DOWN as you
+// resurrect destroyed units.
 //
 // The "Deeds That Speak to the Masses" enhancement grants +2 starting points, but the tracker
 // doesn't record enhancement picks (only detachments), so that can't be a `start` override — it's the
@@ -22,7 +24,7 @@ export default {
 
   // Starting pool by the tracker's battleSize id (src/composables/useTracker.js BATTLE_SIZES). The
   // card defaults an untouched counter to this (see ArmyTrackerCard `counterStart`).
-  start: { incursion: 6, strikeForce: 10, onslaught: 14 },
+  start: { combatPatrol: 2, incursion: 6, strikeForce: 10, onslaught: 14 },
 
   // One-tap resurrect costs: each entry subtracts `cost` Resurgence points from the pool when a unit
   // of that type + Starting Strength is destroyed. Labels are unit names (kept English) + the model
