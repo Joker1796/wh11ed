@@ -17,6 +17,32 @@
 
 export const changelog = [
   {
+    version: '2.1.10',
+    date: '2026-07-30',
+    en: [
+      { h: 'Faction rules' },
+      'The Russian text of several army rules stopped short of the English: Space Marines\' Oath of Moment was missing the Chapter restrictions and the whole Deathwatch section, T\'au Empire\'s was missing the Drones reference, Blood Angels\' was missing The Sons of Sanguinius, and Space Wolves\' was missing Curse of the Wulfen — all now translated in full.',
+      'Four detachments were missing their "Keywords" section in English, so the Battleline keyword each grants was invisible there: Chaos Cult (Traitor Guardsmen Squad), Dread Mob (Gretchin), Kroot Hunting Pack (Kroot Carnivore) and Warpmeld Pact (Tzaangors) — added.',
+      'Emperor\'s Children\'s "Coterie of the Conceited" showed its Pact points table as one unreadable run of text in Russian, and Chaos Knights\' "Storm of Darkness" had its two effects merged into a single sentence with a duration the rule does not have — both fixed.',
+      'Black Templars\' vow abilities ran as flowing prose in Russian where the English lists them as bullets — restored.',
+      'Chaos Titan Legions\' army rule was missing the line giving the army\'s Force Disposition (Take and Hold) — added.',
+      { h: 'Presentation' },
+      'Faction keywords (ADEPTUS ASTARTES, HERETIC ASTARTES, ASTRA MILITARUM, …) are now bold everywhere they appear, the way the rulebooks print them — and identically in both languages.',
+      'A faction\'s rules page now loads only that faction\'s data instead of all thirty, so it opens noticeably faster on a slow connection.',
+    ],
+    ru: [
+      { h: 'Правила фракций' },
+      'Русский текст нескольких армейских правил обрывался раньше английского: у Space Marines в Oath of Moment не хватало ограничений по орденам и целого раздела Deathwatch, у T\'au Empire — справочника Drones, у Blood Angels — The Sons of Sanguinius, у Space Wolves — Curse of the Wulfen. Всё переведено полностью.',
+      'У четырёх детачментов в английской версии не было раздела «Keywords», из-за чего не было видно выдаваемое им ключевое слово Battleline: Chaos Cult (Traitor Guardsmen Squad), Dread Mob (Gretchin), Kroot Hunting Pack (Kroot Carnivore) и Warpmeld Pact (Tzaangors) — добавлено.',
+      'У Emperor\'s Children в «Coterie of the Conceited» таблица Pact points показывалась одним нечитаемым куском текста, а у Chaos Knights в «Storm of Darkness» два эффекта были слиты в одно предложение и получили длительность, которой в правиле нет — исправлено.',
+      'Способности обетов Black Templars в русской версии шли сплошным текстом там, где в английской они идут списком — восстановлено.',
+      'В армейском правиле Chaos Titan Legions не хватало строки о Force Disposition армии (Take and Hold) — добавлено.',
+      { h: 'Оформление' },
+      'Ключевые слова фракций (ADEPTUS ASTARTES, HERETIC ASTARTES, ASTRA MILITARUM, …) теперь везде выделены жирным, как они печатаются в правилах, — и одинаково в обоих языках.',
+      'Страница правил фракции теперь загружает данные только этой фракции вместо всех тридцати, поэтому заметно быстрее открывается на медленном соединении.',
+    ],
+  },
+  {
     version: '2.1.9',
     date: '2026-07-30',
     en: [
