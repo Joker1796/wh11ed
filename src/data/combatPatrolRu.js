@@ -1178,5 +1178,1533 @@ export const combatPatrolRu = {
         },
       ],
     },
+    {
+      name: 'Black Templars',
+      rule: {
+        flavor: 'Чёрные Храмовники наслаждаются ближним боем. Они бросаются на врага волнами атак, каждая из которых яростнее и кровожаднее предыдущей.',
+        body: `▪ Атаки дружественных юнитов Vow-Sworn of Vedrenn, направленные на юнит в пределах 12", могут игнорировать модификаторы к BS, WS и броскам попадания.
+▪ При игре в битве Combat Patrol следующие дружественные юниты должны начинать битву в стратегическом резерве и не могут быть выставлены на поле боя до указанного раунда битвы, а когда это произойдёт, должны быть выставлены целиком в вашей зоне развертывания: Emperor's Champion (раунд битвы 2).`,
+      },
+      armyRule: {
+        flavor: 'Накануне битвы Чёрные Храмовники собираются, чтобы их поборники повели их в молитве и размышлении. Единые в ненависти к врагу, они приносят великий обет, который сдержат в грядущем бою.',
+        body: `Если ваша армия относится к фракции Adeptus Astartes, в начале первого раунда битвы выберите один из следующих Обетов, который будет активен для юнитов Adeptus Astartes вашей армии. Пока Обет активен для юнита вашей армии, этот юнит имеет соответствующую способность, показанную ниже.
+
+### Abhor the Witch, Destroy the Witch
+Атаки ближнего боя этого юнита, нацеленные на юнит Psyker, имеют [PRECISION]. Когда этот юнит объявляет атаку, если вражеский юнит Psyker находится в пределах 12" от этого юнита, вы можете перебросить этот бросок на рывок; если вы это делаете, этот юнит обязан закончить рывок в атаку связанным с одним или более из этих вражеских юнитов Psyker.
+
+### Accept Any Challenge, No Matter the Odds
+Каждый раз, когда модель этого юнита совершает атаку в ближнем бою, если сила этой атаки меньше или равна стойкости цели, добавляйте 1 к броску ранения.
+
+### Suffer Not the Unclean to Live
+Этот юнит может объявить атаку в том ходу, в котором он отступал, и каждый раз, когда модель этого юнита совершает манёвр Pile-in или консолидацию, ей не обязательно заканчивать этот манёвр ближе к ближайшей вражеской модели — при условии, что она заканчивает его как можно ближе к ближайшему вражескому юниту.
+
+### Uphold the Honour of the Emperor
+Если у этого юнита есть ключевое слово Infantry: в конце вашей фазы командования, если этот юнит в пределах досягаемости контролируемого вами объекта, этот объект остаётся под вашим контролем до тех пор, пока уровень контроля вашего оппонента над этим объектом не окажется выше вашего в конце фазы. Вдобавок, если в разыгрываемой миссии есть Actions, этот юнит может начинать выполнение Action в том ходу, в котором он продвигался.
+
+**Heirs of Sigismund:**
+▪ Если у юнита Adeptus Astartes на датащите есть второе фракционное ключевое слово, это ключевое слово — название ордена этого юнита (например, у High Marshal Helbrecht есть ключевые слова Adeptus Astartes и Black Templars, и он из ордена Black Templars).
+▪ Вы не можете включать в свою армию юниты более чем одного ордена.`,
+      },
+      stratagems: [
+        {
+          name: 'Come To Their Aid',
+          flavor: 'Узы братства крепки среди Vow-sworn. Когда союзники увязают в гуще вражеских полчищ, их братья по оружию спешат к ним на помощь, с готовностью врываясь в гущу боя.',
+          when: 'Ваша фаза атаки, когда дружественный юнит Vow-Sworn of Vedrenn сделал бросок на рывок.',
+          target: 'Этот юнит Vow-Sworn of Vedrenn.',
+          effect: `▪ Добавьте 2 к броску на рывок.
+▪ При выборе целей для атаки ваш юнит может выбирать только вражеские юниты, находящиеся в рукопашной с дружественными юнитами Vow-Sworn of Vedrenn.`,
+        },
+        {
+          name: 'Heavy Strikes',
+          flavor: 'Величайший дар Бога-Императора — ненависть. Чёрные Храмовники умеют направлять её с наибольшей пользой, поднимая свою трансчеловеческую силу до новых высот.',
+          when: 'Фаза боя, когда дружественный юнит Vow-Sworn Sword Brethren Squad/Bladeguard Veteran Squad выбран для боя.',
+          target: 'Этот юнит Vow-Sworn Sword Brethren Squad/Bladeguard Veteran Squad.',
+          effect: 'Атаки вашего юнита в ближнем бою, направленные на юнит Monster/Vehicle, получают +1 D.',
+        },
+        {
+          name: 'Blessed Aura',
+          flavor: 'Пока множатся потери и множатся раны, вера подвергается испытанию. Стойкие в своём рвении вознаграждаются: на них снисходит благословение Бога-Императора, пока они продвигаются всё глубже в бой.',
+          when: 'Ваша фаза командования, когда дружественный юнит Vow-Sworn of Vedrenn проходит проверку морального духа.',
+          target: 'Этот юнит Vow-Sworn of Vedrenn.',
+          effect: 'Атаки в ближнем бою, направленные на ваш юнит, получают -1 к броскам попадания до начала вашего следующего хода.',
+        },
+      ],
+      enhancements: [
+        {
+          name: 'Divine Endurance',
+          flavor: 'Преследуя священные цели, Чёрные Храмовники непоколебимы и неутомимы, веря, что Император защитит их от вреда, пока они пробиваются к своим целям.',
+          body: `Только модель Vow-Sworn of Vedrenn Emperor's Champion. В начале вашей фазы перемещения вы можете выбрать один дружественный юнит Vow-Sworn of Vedrenn, видимый для этой модели и находящийся в пределах 12" от неё. Если делаете это, когда этот юнит в этом ходу выбран для продвижения/отступления:
+▪ Если этот юнит использует режим desperate escape, он автоматически проходит любые броски hazard.
+▪ Это перемещение не мешает юниту быть подходящим для начала action.`,
+        },
+        {
+          name: 'Divine Protection',
+          flavor: 'Чёрные Храмовники непоколебимы в вере, что Бог-Император направляет и защищает самых верных из своей паствы.',
+          body: 'Улучшение: только юнит Vow-Sworn Sword Brethren. (Один раз за битву, на юнит) Когда вражеский юнит выбирает этот юнит целью, вы можете использовать эту способность. Если делаете это, у этого юнита будет 4+ InSv.',
+        },
+      ],
+      datasheets: [
+        {
+          id: 'emperors-champion-vedrenn',
+          abilities: [
+            { name: 'Deft Riposte', text: 'Атаки в ближнем бою, направленные на этот юнит, получают [HAZARDOUS].' },
+          ],
+          composition: ["1 модель Emperor's Champion Vedrenn"],
+          loadout: '**Эта модель вооружена:** Black Sword; Bolt Pistol.',
+        },
+        {
+          id: 'vow-sworn-sword-brethren-squad',
+          abilities: [
+            { name: 'Exploit Their Cowardice', text: 'Когда вражеский юнит, находящийся в рукопашной с этим юнитом, выбран для отступления, после того как этот вражеский юнит завершит отступление, если этот юнит не вовлечён в бой, этот юнит может совершить обычное перемещение.' },
+          ],
+          composition: [
+            '1 модель Sword Brother Castellan',
+            '1 модель Sword Brother with Heavy Bolt Pistol and Chainsword',
+            '1 модель Sword Brother with Plasma Pistol and Master-crafted Power Weapon',
+            '1 модель Sword Brother with Pyre Pistol and Master-crafted Power Weapon',
+            '1 модель Sword Brother with Twin Lightning Claws',
+          ],
+          loadout: `**Sword Brother Castellan вооружён:** Combi-Weapon; Master-Crafted Power Weapon.
+**Sword Brother with Heavy Bolt Pistol and Chainsword вооружён:** Chainsword; Heavy Bolt Pistol.
+**Sword Brother with Plasma Pistol and Master-crafted Power Weapon вооружён:** Master-Crafted Power Weapon; Plasma Pistol.
+**Sword Brother with Pyre Pistol and Master-crafted Power Weapon вооружён:** Master-Crafted Power Weapon; Pyre Pistol.
+**Sword Brother with Twin Lightning Claws вооружён:** Twin Lightning Claws.`,
+        },
+        {
+          id: 'vow-sworn-crusader-squad',
+          abilities: [
+            { name: 'Righteous Zeal (Once per turn, per unit)', text: 'В фазе стрельбы вашего противника, когда вражеский юнит произвёл выстрел, если эти атаки уничтожили модель в этом юните и этот юнит не вовлечён в бой, этот юнит может совершить рывок на до D6+2".' },
+          ],
+          composition: [
+            '1 модель Initiate with Pyreblaster, Bolt Pistol and Knives and Fists',
+            '1 модель Sword Brother',
+            '2 модели Initiate with Bolt Pistol, Bolt Rifle and Knives and Fists',
+            '2 модели Initiate with Heavy Bolt Pistol and Chainsword',
+            '2 модели Neophyte with Bolt Pistol and Chainsword',
+            '2 модели Neophyte with Neophyte Firearm and Knives and Fists',
+          ],
+          loadout: `**Initiate with Pyreblaster, Bolt Pistol and Knives and Fists вооружён:** Bolt Pistol; Knives and Fists; Pyreblaster.
+**Sword Brother вооружён:** Heavy Bolt Pistol; Master-crafted Power Weapon.
+**Каждый Initiate with Bolt Pistol, Bolt Rifle and Knives and Fists вооружён:** Bolt Pistol; Bolt Rifle; Knives and Fists.
+**Каждый Initiate with Heavy Bolt Pistol and Chainsword вооружён:** Chainsword; Heavy Bolt Pistol.
+**Каждый Neophyte with Bolt Pistol and Chainsword вооружён:** Bolt Pistol; Chainsword.
+**Каждый Neophyte with Neophyte Firearm and Knives and Fists вооружён:** Knives and Fists; Neophyte Firearm.`,
+        },
+        {
+          id: 'vow-sworn-bladeguard-veteran-squad',
+          abilities: [
+            { name: 'Bladeguard (Once per turn per unit)', text: `В фазе боя, когда этот юнит выбран для боя, или когда вражеский юнит выбирает этот юнит целью, вы можете выбрать один из следующих вариантов:
+▪ Атаки этого юнита в ближнем бою могут перебрасывать броски попадания 1.
+▪ Или: этот юнит может перебрасывать спас-броски 1.` },
+          ],
+          composition: ['1 модель Bladeguard Veteran Sergeant', '2 модели Bladeguard Veteran'],
+          loadout: `**Bladeguard Veteran Sergeant вооружён:** Master-crafted Power Weapon; Neo-Volkite Pistol.
+**Каждый Bladeguard Veteran вооружён:** Heavy Bolt Pistol; Master-crafted Power Weapon.`,
+        },
+      ],
+    },
+    {
+      name: 'Blood Angels',
+      rule: {
+        flavor: 'Пренебрегая дальним боем ради почётной битвы на ближней дистанции, Sanguinary Spearhead стремится сойтись с врагом как можно быстрее.',
+        body: 'Дружественные юниты Sanguinary Spearhead могут перебрасывать броски на продвижение.',
+      },
+      armyRule: {
+        flavor: 'В бою космодесантники приносят могучие клятвы уничтожить врагов Императора и отстоять честь своего ордена, и такие обеты священны. Когда Ангелы Смерти наносят удар, они делают это с точностью хирурга и мощью молнии.',
+        body: `### Oath of Moment
+Если фракция вашей армии — Adeptus Astartes, в начале вашей фазы командования выберите один юнит из армии оппонента. До начала вашей следующей фазы командования этот вражеский юнит — ваша цель Oath of Moment. Каждый раз, когда модель с этой способностью совершает атаку по вашей цели Oath of Moment, вы можете перебросить бросок на попадание.
+
+### The Sons of Sanguinius
+▪ Если у юнита Adeptus Astartes на датащите есть второе фракционное ключевое слово, это ключевое слово — название ордена этого юнита. Например, у Lemartes есть ключевые слова Adeptus Astartes и Blood Angels, и поэтому он из ордена Blood Angels.
+▪ Вы не можете включать в свою армию юниты более чем одного ордена.`,
+      },
+      stratagems: [
+        {
+          name: 'Angelic Terror',
+          flavor: 'Облачённая в сверкающее золото, Sanguinary Guard обрушивается с небес подобно мстительным ангелам, вселяя страх в сердца врагов.',
+          when: 'Ваша фаза командования.',
+          target: 'Один дружественный юнит Sanguinary Spearhead Sanguinary Guard.',
+          effect: 'Выберите один вражеский юнит в пределах 3" от вашего юнита. Этот вражеский юнит проходит проверку морального духа с -1 к этой проверке.',
+        },
+        {
+          name: 'Dauntless Bravery',
+          flavor: 'Воплощая храбрость своего павшего Примарха, Sanguinary Spearhead без страха смотрит в лицо верной смерти и отмахивается от ударов, что свалили бы менее стойких воинов.',
+          when: 'Фаза стрельбы вашего противника или фаза боя, когда вражеский юнит выбирает дружественный юнит Sanguinary Spearhead целью, находящийся в пределах 3" от центра поля боя.',
+          target: 'Этот юнит Sanguinary Spearhead.',
+          effect: 'Атаки, направленные на ваш юнит, с S больше, чем T вашего юнита, получают -1 к броскам ран.',
+        },
+        {
+          name: 'Show No Mercy',
+          flavor: 'Blood Angels не дают пощады врагам. Трусов, что пытаются бежать с поля боя, преследуют и вырезают до последнего.',
+          when: 'Фаза перемещения вашего противника, когда юнит выбран для отступления, если этот юнит находится в рукопашной с дружественным юнитом Sanguinary Spearhead.',
+          target: 'Этот юнит Sanguinary Spearhead.',
+          effect: 'Когда вражеский юнит, находящийся в рукопашной с вашим юнитом, выбран для отступления, этот вражеский юнит обязан использовать режим desperate escape, с -1 к этим броскам hazard, если этот вражеский юнит battle-shocked.',
+        },
+      ],
+      enhancements: [
+        {
+          name: 'Masterful Fighter',
+          flavor: 'Капитаны ордена Blood Angels балансируют на тонкой грани между порядком и яростью, сражаясь с непревзойдённым мастерством и свирепостью, рождённой ненавистью.',
+          body: `Только модель Sanguinary Spearhead Captain. Атаки этой модели в ближнем бою получают:
+▪ +2 S.
+▪ +1 AP.`,
+        },
+        {
+          name: 'Overwhelming Charge',
+          flavor: 'Скорость и напор — отличительные черты атаки Blood Angels. Врагу нельзя давать времени на перегруппировку.',
+          body: 'Улучшение: только юнит Sanguinary Spearhead Assault Intercessor Squad. Когда этот юнит выбран для совершения манёвра pile-in, он может переместиться на до D3+3".',
+        },
+      ],
+      datasheets: [
+        {
+          id: 'sanguinary-spearhead-assault-intercessor-squad',
+          abilities: [
+            { name: 'Targeted Intercession', text: `Атаки этого юнита в ближнем бою:
+▪ Могут перебрасывать броски ран 1.
+▪ Или: направленные на юнит в пределах досягаемости цели могут перебрасывать броски ран.` },
+          ],
+          composition: ['1 модель Assault Intercessor Sergeant', '9 моделей Assault Intercessor'],
+          loadout: `**Assault Intercessor Sergeant вооружён:** Chainsword; Plasma Pistol.
+**Каждый Assault Intercessor вооружён:** Chainsword; Heavy Bolt Pistol.`,
+        },
+        {
+          id: 'sanguinary-spearhead-sanguinary-guard',
+          abilities: [
+            { name: 'Born To Fight', text: 'Пока этот юнит находится в рукопашной, у него +2 OC.' },
+          ],
+          composition: ['1 модель Sanguinary Guard with Encarmine Blade', '2 модели Sanguinary Guard with Encarmine Spear'],
+          loadout: `**Sanguinary Guard with Encarmine Blade вооружён:** Angelus Boltgun; Encarmine Blade.
+**Каждый Sanguinary Guard with Encarmine Spear вооружён:** Angelus Boltgun; Encarmine Spear.`,
+        },
+        {
+          id: 'captain-raldeo',
+          abilities: [
+            { name: 'Targeted Intercession', text: `Атаки этого юнита в ближнем бою:
+▪ Могут перебрасывать броски ран 1.
+▪ Или: направленные на юнит в пределах досягаемости цели могут перебрасывать броски ран.` },
+          ],
+          composition: ['1 модель Captain Raldeo'],
+          loadout: '**Эта модель вооружена:** Inferno Pistol; Master-crafted Chainsword.',
+          leader: {
+            text: 'Эта модель может быть прикреплена к следующим юнитам:',
+          },
+        },
+      ],
+    },
+    {
+      name: 'Dark Angels',
+      rule: {
+        flavor: 'Dark Angels славятся непоколебимой верностью своим командирам и преданностью долгу и чести. Дикость своих врагов они встречают дисциплинированной обороной, непоколебимой стойкостью и виртуозным владением клинком.',
+        body: `Когда вражеский юнит завершает рывок в атаку, дружественные юниты Vengeful Brethren, находящиеся в рукопашной с этим вражеским юнитом, переходят в defence stance до конца хода:
+▪ Пока юнит в defence stance, атаки, направленные на этот юнит, с S больше, чем T этого юнита, получают -1 к броскам ран.`,
+      },
+      armyRule: {
+        flavor: 'Никто не сражается с более мрачной решимостью, чем сыны Льва, а их особые роты — известные у Dark Angels как Deathwing и Ravenwing — являются проклятием для их устрашённых врагов.',
+        body: `### Oath of Moment
+Если фракция вашей армии — Adeptus Astartes, в начале вашей фазы командования выберите один юнит армии вашего оппонента. До начала вашей следующей фазы командования этот вражеский юнит — ваша цель Oath of Moment. Каждый раз, когда модель с этой способностью совершает атаку по вашей цели Oath of Moment, вы можете перебросить бросок на попадание.
+
+### The Unforgiven
+▪ Если у юнита Adeptus Astartes на датащите есть второе фракционное ключевое слово, это ключевое слово — название ордена этого юнита. Например, у Asmodai есть фракционные ключевые слова Adeptus Astartes и Dark Angels, а значит, он из ордена Dark Angels.
+▪ Вы не можете включать в армию юниты более чем одного ордена.
+
+**The Ravenwing** — следующие юниты Adeptus Astartes получают ключевое слово Ravenwing, если они из ордена Dark Angels:
+▪ Юниты Mounted
+▪ Юниты Vehicle, способные летать (Fly)
+
+**The Deathwing** — следующие юниты Adeptus Astartes получают ключевое слово Deathwing, если они из ордена Dark Angels:
+▪ Юниты Terminator
+▪ Юниты Bladeguard Ancient, Bladeguard Veteran Squad, Sternguard Veteran Squad и Vanguard Veteran Squad with Jump Packs
+▪ Юниты Land Raider, Land Raider Crusader, Land Raider Redeemer, Repulsor и Repulsor Executioner
+▪ Юниты Dreadnought`,
+      },
+      stratagems: [
+        {
+          name: 'For the Lion',
+          flavor: 'Взывая к имени своего восставшего Примарха, эти воины смело шагают к своим целям, не оставляя врагу никаких сомнений в своей мощи.',
+          when: 'Фаза командования.',
+          target: 'Один дружественный юнит Vengeful Brethren.',
+          effect: 'Ваш юнит получает +1 OC до конца хода.',
+        },
+        {
+          name: 'Mission Focus',
+          flavor: 'Dark Angels полны решимости достичь своих целей и потратят всю свою силу без остатка, чтобы обеспечить победу. Тех, кто пытается остановить их на пути, вырезают без пощады.',
+          when: 'Ваша фаза стрельбы или фаза боя, когда дружественный юнит Vengeful Brethren в пределах досягаемости цели выбран для атаки.',
+          target: 'Этот юнит Vengeful Brethren.',
+          effect: 'Атаки вашего юнита получают +1 к броскам попадания.',
+        },
+        {
+          name: 'Determined to the Last',
+          flavor: 'Bladeguard Veterans — одни из самых умелых воинов своего ордена — непоколебимы перед лицом врага, сражаясь сквозь самые тяжёлые раны, чтобы исполнить свой долг.',
+          when: 'Фаза боя, когда вражеский юнит выбирает дружественный юнит Vengeful Brethren Bladeguard Veteran Squad целью.',
+          target: 'Этот юнит Vengeful Brethren Bladeguard Veteran Squad.',
+          effect: `Когда модель в вашем юните уничтожена, если ваш юнит ещё не был выбран для боя в этой фазе, бросьте один D6:
+▪ На 2+ эту модель не убирают с поля боя. Когда ваш юнит уже сражался, или в конце фазы (что наступит раньше), эту модель убирают с поля боя.`,
+        },
+      ],
+      enhancements: [
+        {
+          name: 'Supreme Combatant',
+          flavor: 'Образец неустанной преданности долгу Dark Angels, этот воин не уклоняется ни от одного боя, демонстрируя мастерство и силу, достаточные, чтобы свалить почти любого противника.',
+          body: `Только модель Vengeful Brethren Gravis Captain. Когда этот юнит выбран для атаки, атаки этого юнита получают:
+▪ [LETHAL HITS].
+▪ Или: [SUSTAINED HITS 1].`,
+        },
+        {
+          name: 'Dutiful Defenders',
+          flavor: 'Обязанные защищать своих братьев от вреда, эти закалённые ветераны бросаются в бой и рубят любого, кто угрожает их братьям по оружию.',
+          body: 'Улучшение: только юнит Vengeful Brethren Bladeguard Veteran Squad. (Один раз за раунд битвы, на армию) Когда вы выбираете этот юнит целью стратагемы Heroic Intervention, это применение стоит на -1 CP дешевле.',
+        },
+      ],
+      datasheets: [
+        {
+          id: 'vengeful-brethren-bladeguard-veteran-squad',
+          abilities: [
+            { name: 'Bladeguard (Once per turn per unit)', text: `В фазе боя, когда этот юнит выбран для боя, или когда вражеский юнит выбирает этот юнит целью, вы можете выбрать один из следующих вариантов:
+▪ Атаки этого юнита в ближнем бою получают +1 к броскам попадания.
+▪ Или: атаки, направленные на этот юнит, получают -1 к броскам попадания.` },
+          ],
+          composition: ['1 модель Bladeguard Veteran Sergeant', '2 модели Bladeguard Veteran'],
+          loadout: '**Каждая модель вооружена:** Heavy Bolt Pistol; Master-crafted Power Weapon.',
+        },
+        {
+          id: 'master-zacharial',
+          abilities: [
+            { name: 'Gravis Protection', text: 'Атаки, направленные на этот юнит, получают -1 D.' },
+          ],
+          composition: ['1 модель Master Zacharial'],
+          loadout: '**Эта модель вооружена:** Boltstorm Gauntlet; Power Fist; Relic Chainsword.',
+        },
+        {
+          id: 'vengeful-brethren-hellblaster-squad',
+          abilities: [
+            { name: 'Punishing Volley', text: 'В вашей фазе стрельбы, когда этот юнит выстрелил, выберите один вражеский юнит, по которому пришлись эти атаки. Этот юнит проходит проверку морального духа.' },
+          ],
+          composition: ['1 модель Hellblaster Sergeant', '4 модели Hellblaster'],
+          loadout: '**Каждая модель вооружена:** Bolt Pistol; Knives and Fists; Plasma Incinerator.',
+        },
+        {
+          id: 'vengeful-brethren-intercessor-squad',
+          abilities: [
+            { name: 'Objective Secured', text: 'В конце вашей фазы командования, если этот юнит контролирует цель, эта цель считается захваченной.' },
+          ],
+          composition: ['1 модель Intercessor Sergeant', '9 моделей Intercessor'],
+          loadout: '**Каждая модель вооружена:** Bolt Pistol; Bolt Rifle; Knives and Fists.',
+        },
+      ],
+    },
+    {
+      name: 'Death Guard',
+      rule: {
+        flavor: 'Волна заразы предшествует Maggot Lords. Из этого зловонного миазма нечистот они выступают, надвигаясь всё ближе, пока враг силится подавить свой ужас и собрать оборону.',
+        body: 'Дружественные юниты Maggot Lords Terminator имеют Scouts 3".',
+      },
+      armyRule: {
+        flavor: 'Death Guard — воины Бога Чумы Нургла. Их раздутые тела изъедены порчей, и одно их присутствие заставляет врага болеть и увядать в хватке сверхъестественных недугов, пока поле боя вокруг них обращается в гниль и руины.',
+        body: `Если ваша армия относится к фракции Death Guard, пока вражеский юнит находится в пределах Contagion Range одной или более моделей Death Guard вашей армии, он — Afflicted (см. ниже).
+
+### Contagion Range
+Contagion Range меняется по ходу битвы:
+▪ В течение первого раунда битвы: Contagion Range 3".
+▪ Начиная со второго раунда битвы: Contagion Range 6".
+▪ Contagion Range не может быть больше 12" после модификаторов.
+
+### Afflicted
+На шаге «Объявление боевых построений» выберите один из Plagues ниже. До конца битвы, пока вражеский юнит — Afflicted, вычитайте 1 из характеристики Toughness моделей этого юнита, и этот юнит получает эффект выбранного вами Plague.
+▪ Skullsquirm Blight: Каждый раз, когда модель в этом юните совершает атаку, вычитайте 1 из броска попадания.
+▪ Rattlejoint Ague: Ухудшите характеристику Save моделей этого юнита на 1.
+▪ Scabrous Soulrot: Ухудшите характеристики Move, Leadership и Objective Control моделей этого юнита на 1 (это правило может ухудшить характеристику Objective Control модели лишь до минимума 1).
+
+**Pact of Decay:** При сборе армии, если специально не указано иное, вы не можете выбрать Plague Legions фракцией вашей армии.`,
+      },
+      stratagems: [
+        {
+          name: 'Inexorable Executioners',
+          flavor: 'Как бы медлительно ни выглядели Deathshroud, они неумолимы в преследовании врага. Тех, кто преграждает им путь, сметают прочь, будто это не более чем ползающие паразиты.',
+          when: 'Ваша фаза атаки, когда дружественный юнит Maggot Lords Deathshroud Terminators начинает рывок в атаку.',
+          target: 'Этот юнит Maggot Lords Deathshroud Terminators.',
+          effect: 'Ваш юнит может перемещаться сквозь модели (за исключением моделей Monster/Vehicle).',
+        },
+        {
+          name: 'Vomitous Salvoes',
+          flavor: 'Содрогаясь и харкая, будто живые твари, оружие Death Guard извергает сокрушительный град снарядов, гнилостной заразной массы и визжащих паразитов, насквозь пропитывающий ряды врага.',
+          when: 'Ваша фаза стрельбы, когда дружественный юнит Maggot Lords Plague Marines выбран для стрельбы.',
+          target: 'Этот юнит Maggot Lords Plague Marines.',
+          effect: 'Дальнобойные атаки вашего юнита с Lethal Hits получают [RAPID FIRE 1].',
+        },
+        {
+          name: 'Sickening Horror',
+          flavor: 'Волна сверхъестественного ужаса и вполне естественного отвращения захлёстывает врага, когда приближаются Death Guard.',
+          when: 'Начало фазы боя.',
+          target: 'Один дружественный юнит Maggot Lords Infantry.',
+          effect: 'Выберите один вражеский юнит, находящийся в рукопашной с вашим юнитом. Этот вражеский юнит проходит проверку морального духа.',
+        },
+      ],
+      enhancements: [
+        {
+          name: 'Noisome Veil',
+          flavor: 'Вокруг Tallyman поднимается ядовитая пелена, скрывающая его фигуру, пока он неуклюже бредёт по полю боя, а из его vox-излучателя всё так же гудят монотонные заклинания и нескончаемые подсчёты.',
+          body: 'Только модель Maggot Lords Tallyman. (Один раз за битву, на армию) В фазе стрельбы вашего противника, когда вражеский юнит выбирает этот юнит целью, вы можете использовать эту способность. Если делаете это, у этого юнита будет Stealth.',
+        },
+        {
+          name: 'Bountiful Regeneration',
+          flavor: 'Какой бы вред ни был нанесён этому воину, нечистая жизненная сила, бурлящая в его теле, непрестанно восстанавливает повреждения свежими слоями прогорклого жира, пузырящихся бубонов и мутировавшей плоти.',
+          body: 'Только модель Maggot Lords Lord of Virulence. В вашей фазе командования эта модель восстанавливает 1 рану.',
+        },
+      ],
+      datasheets: [
+        {
+          id: 'sholgor-the-putrid',
+          abilities: [
+            { name: 'Enemy Spotted', text: 'В начале вашей фазы стрельбы вы можете выбрать один вражеский юнит в пределах 18" от этой модели. У этого юнита +6" к дальности обнаружения.' },
+          ],
+          composition: ['1 модель Sholgor the Putrid'],
+          loadout: '**Эта модель вооружена:** Power Fist; Twin Plague Spewer.',
+          leader: {
+            text: 'Эта модель может быть прикреплена к следующим юнитам:',
+          },
+        },
+        {
+          id: 'maggot-lords-chaos-rhino',
+          transport: 'У этой модели транспортная вместимость 12 моделей Death Guard. Она не может перевозить модели Terminator.',
+          composition: ['1 модель Chaos Rhino'],
+          loadout: '**Эта модель вооружена:** Armoured Tracks; Havoc Launcher.',
+        },
+        {
+          id: 'maggot-lords-deathshroud-terminators',
+          abilities: [
+            { name: 'Obstinate Resistance', text: 'Пока этот юнит находится в рукопашной, у него +1 OC.' },
+          ],
+          composition: ['1 модель Deathshroud Champion', '2 модели Deathshroud Terminator'],
+          loadout: '**Каждая модель вооружена:** Manreaper; Plaguespurt Gauntlet.',
+        },
+        {
+          id: 'septimol-fulg-maggot-lords-tallyman',
+          abilities: [
+            { name: 'Sevenfold Chant', text: `В вашей фазе командования, если эта модель на поле боя, бросьте 2D6:
+▪ На 7+ вы получаете 1 CP.` },
+            { name: 'Malicious Calculations', text: `Атаки этого юнита могут игнорировать модификаторы к:
+▪ BS.
+▪ WS.
+▪ Броскам попадания.` },
+          ],
+          composition: ['1 модель Septimol Fulg'],
+          loadout: '**Эта модель вооружена:** Numerological Artefacts; Plasma Pistol.',
+        },
+        {
+          id: 'maggot-lords-plague-marines',
+          abilities: [
+            { name: 'Infused with the Blessings of Nurgle', text: 'В вашей фазе стрельбы, когда этот юнит выстрелил, вы можете выбрать один вражеский юнит, по которому пришлись эти дальнобойные атаки. Если делаете это, этот вражеский юнит — Afflicted до начала вашего следующего хода.' },
+          ],
+          composition: [
+            '1 модель Plague Champion',
+            '1 модель Plague Marine with Blight Launcher',
+            '1 модель Plague Marine with Plague Spewer',
+            '4 модели Plague Marine',
+          ],
+          loadout: `**Plague Champion вооружён:** Plasma Pistol; Power Fist.
+**Plague Marine with Blight Launcher вооружён:** Blight Launcher; Plague Knives.
+**Plague Marine with Plague Spewer вооружён:** Plague Knives; Plague Spewer.
+**Каждый Plague Marine вооружён:** Boltgun; Plague Knives.`,
+        },
+      ],
+    },
+    {
+      name: 'Drukhari',
+      rule: {
+        flavor: 'Любая боль питает души находящихся рядом Drukhari — даже страдания их собственных сородичей.',
+        body: 'Когда дружественный юнит Coven of Agonies уничтожен, вы получаете 1 токен Pain.',
+      },
+      armyRule: {
+        flavor: 'Drukhari питаются страданием и ужасом. Каждая струя крови, что бьёт из рассечённой клинком артерии, каждый вопль мучительного ужаса, каждый головокружительный миг шока или отчаяния их добычи вливается в Drukhari, как дурман. Пока бушует битва, обитатели Тёмного Города пьют вдоволь из прилива боли.',
+        body: `### Pain Abilities
+Все юниты Drukhari имеют способность Pain, помеченную словом «Pain». Способности Pain применяются к юниту, только пока он Empowered. Если ваша армия относится к фракции Drukhari, вы можете делать юниты вашей армии со способностями Pain Empowered, тратя токены Pain (см. ниже).
+
+### Gaining Pain Tokens
+Если ваша армия относится к фракции Drukhari, вы получаете токены Pain так:
+▪ 1 токен Pain в начале вашей фазы командования.
+▪ 1 токен Pain каждый раз, когда вражеский юнит уничтожен.
+▪ 1 токен Pain каждый раз, когда вражеский юнит проваливает проверку морального духа.
+
+Каждый раз, когда вы получаете токен Pain, держите его отдельно — это ваш запас токенов Pain. Каждый раз, когда вы тратите токен Pain, уменьшайте свой запас токенов Pain на ту же величину.
+
+### Empowered Through Pain
+Каждая способность Pain указывает, когда вы можете потратить токены Pain, чтобы сделать этот юнит Empowered. Когда вы это делаете, до конца фазы этот юнит — Empowered, и все его способности Pain вступают в силу. Пока прикреплённый юнит — Empowered, способности Pain всех юнитов Leader и Bodyguard в этом юните вступают в силу — вам не нужно тратить дополнительные токены Pain, чтобы активировать каждую из этих способностей Pain.
+
+### Corsairs and Travelling Players
+Если ваша армия относится к фракции Drukhari, вы можете включать юниты Harlequins и Anhrathe в свою армию, хотя они не имеют ключевого слова фракции Drukhari. Ни одна модель Harlequins или Anhrathe, включённая в вашу армию таким образом, не может быть вашим Warlord, и им нельзя давать улучшения.`,
+      },
+      stratagems: [
+        {
+          name: 'Hardened Physiology',
+          flavor: 'Изысканное плотьеваяние и алхимические ухищрения Нуула наделили его Wracks грозной, задубевшей кожей, вполне способной поглощать пули и отражать клинки.',
+          when: 'Фаза стрельбы вашего противника или фаза боя, когда вражеский юнит выбирает дружественный юнит Coven of Agonies Wracks целью.',
+          target: 'Этот юнит Coven of Agonies Wracks.',
+          effect: 'Атаки, направленные на ваш юнит, получают -1 к броскам ран.',
+        },
+        {
+          name: 'Powerful Creations',
+          flavor: 'Черпая алхимическую мощь тёмных наук, что создали его, этот Pain Engine неистовствует на поле боя с кошмарной жизненной силой.',
+          when: 'Фаза боя, когда дружественный юнит Coven of Agonies Monster выбран для боя.',
+          target: 'Этот юнит Coven of Agonies Monster.',
+          effect: `▪ Атаки вашего юнита, направленные на юнит Monster/Vehicle, получают +1 к броскам ран.
+▪ Атаки вашего юнита, направленные на юнит Monster/Vehicle, получают +1 AP.`,
+        },
+        {
+          name: 'Agonising Onslaught',
+          flavor: 'Стремясь причинить своим жертвам максимум мучений, зверинец Нуула обрушивает беспощадные залпы или шквалы свирепых ударов, направляя собранную боль, чтобы усилить свои старания.',
+          when: 'Ваша фаза стрельбы или фаза боя, когда дружественный юнит Coven of Agonies выбран для атаки.',
+          target: 'Этот юнит Coven of Agonies.',
+          effect: `▪ Атаки вашего юнита могут перебрасывать броски попадания 1.
+▪ Или: если вы тратите 1 токен Pain, атаки вашего юнита могут перебрасывать броски попадания.`,
+        },
+      ],
+      enhancements: [
+        {
+          name: 'Toxin-laced Blades',
+          flavor: 'Мастера алхимии и тёмной науки, Haemonculi непревзойдённо создают мощные яды, чьи эффекты почти всегда гротескны и смертоносны. Перед битвой они покрывают свои клинки этими ядами и с наслаждением испытывают их на враге.',
+          body: 'Только модель Coven of Agonies Haemonculus. Атаки этого юнита в ближнем бою получают +1 AP.',
+        },
+        {
+          name: 'Superior Soulcraft',
+          flavor: 'Созданное собственноручно Xatrophos Nuul, высасывающее душу оружие этого Cronos было усовершенствовано Haemonculus, отчего его мучительные эффекты стали ещё более выраженными и жуткими.',
+          body: 'Улучшение: только юнит Coven of Agonies Cronos. Этот юнит может перебрасывать броски, чтобы определить A оружия.',
+        },
+      ],
+      datasheets: [
+        {
+          id: 'coven-of-agonies-wracks',
+          abilities: [
+            { name: 'Torturer’s Craft', text: 'В вашей фазе стрельбы или фазе боя, после того как этот юнит атаковал, вы можете выбрать один вражеский юнит (за исключением юнитов Vehicle), по которому пришлись эти атаки. Этот юнит проходит проверку морального духа.' },
+            { name: 'Experimental Enhancements (Pain)', text: `В фазе боя, когда этот юнит выбран для боя, вы можете потратить 1 токен Pain, чтобы сделать этот юнит Empowered. Если делаете это:
+▪ Атаки этого юнита в ближнем бою (за исключением атак моделей Character) получают 3 A.
+▪ Или: атаки этого юнита в ближнем бою (за исключением атак моделей Character) получают 4 A и [HAZARDOUS].` },
+          ],
+          composition: ['1 модель Acothyst', '1 модель Wrack with Ossefactor', '3 модели Wrack'],
+          loadout: `**Acothyst вооружён:** Hexrifle; Torturer's Tool.
+**Wrack with Ossefactor вооружён:** Ossefactor; Torturer's Tool.
+**Каждый Wrack вооружён:** Twin Torturer's Tools.`,
+        },
+        {
+          id: 'coven-of-agonies-talos',
+          abilities: [
+            { name: 'Mindless Killing Machines (Pain)', text: 'В начале фазы боя вы можете потратить 1 токен Pain, чтобы сделать этот юнит Empowered. Если делаете это, когда модель в этом юните уничтожена, если этот юнит ещё не был выбран для боя в этой фазе, бросьте один D6: на 2+ эту модель не убирают с поля боя. Когда этот юнит уже сражался, или в конце фазы (что наступит раньше), эту модель убирают с поля боя.' },
+            { name: 'Torture Device', text: 'Когда этот юнит уничтожает вражеский юнит, вы получаете 1 токен Pain.' },
+          ],
+          composition: ['1 модель Talos'],
+          loadout: '**Эта модель вооружена:** Chain-flails; Twin Liquifier Gun; Twin Splinter Cannon.',
+        },
+        {
+          id: 'coven-of-agonies-cronos',
+          abilities: [
+            { name: 'Empowered Engines (Pain)', text: 'Когда этот юнит выбран для обычного перемещения/продвижения/отступления, вы можете потратить 1 токен Pain, чтобы сделать этот юнит Empowered. Если делаете это, у этого юнита +2" M.' },
+            { name: 'Pain Engine (Aura)', text: `Пока дружественный юнит находится в пределах 9" от этого юнита, когда вы тратите 1 токен Pain, чтобы сделать этот дружественный юнит Empowered, бросьте один D6, добавив 1 к результату, если модель в этом юните не вооружена spirit vortex:
+▪ На 5+ вы получаете 1 токен Pain.` },
+          ],
+          composition: ['1 модель Cronos'],
+          loadout: '**Эта модель вооружена:** Spirit Leech tentacles; Spirit Syphon; Spirit Vortex.',
+        },
+        {
+          id: 'xatrophos-nuul',
+          abilities: [
+            { name: 'Pain Adept', text: `В вашей фазе командования, если модель с этой способностью на поле боя, бросьте один D6:
+▪ На 4+ вы получаете 1 токен Pain.` },
+            { name: 'Fear Incarnate (Aura)', text: `Пока вражеский юнит находится в пределах 6" от этой модели:
+▪ У этого вражеского юнита -1 Ld.
+▪ В шаге Battle-shock фазы командования вашего противника, если этот вражеский юнит ниже начальной численности, он проходит проверку морального духа.` },
+            { name: 'Vile Weaponry (Pain)', text: 'В фазе боя, когда этот юнит выбран для боя, вы можете потратить 1 токен Pain, чтобы сделать этот юнит Empowered. Если делаете это, атаки этой модели получают 3 D.' },
+          ],
+          composition: ['1 модель Xatrophos Nuul'],
+          loadout: '**Эта модель вооружена:** Haemonculus Tools and Scissorhands; Stinger Pistol.',
+          leader: {
+            text: 'Эта модель может быть прикреплена к следующим юнитам:',
+          },
+        },
+      ],
+    },
+    {
+      name: 'Emperor’s Children',
+      rule: {
+        flavor: 'Callous Blades сражаются с непревзойдённым мастерством и изяществом, кружа между союзниками и врагами, чтобы нанести смертельный удар избранной жертве.',
+        body: 'Когда дружественные юниты Callous Blades начинают обычное перемещение/продвижение/рывок в атаку, эти юниты могут перемещаться сквозь модели (за исключением моделей Monster/Vehicle).',
+      },
+      armyRule: {
+        flavor: 'Emperor’s Children — все искусные воины, и их трансчеловеческая мощь усилена жизнью непрестанного конфликта. Их врождённое желание ощущений во всех формах гонит их стремительно двигаться по полю боя, порхая между целями в попытке утолить свой нескончаемый голод по новому опыту.',
+        body: `Если ваша армия относится к фракции Emperor's Children, этот юнит может стрелять и объявить атаку в том ходу, в котором он продвигался или отступал, но при этом:
+▪ Он не может выбирать целью юнит, в пределах Engagement Range которого он находился в начале хода.
+▪ Он не может выбирать целью юнит, который уже был целью рывка в атаку или атаки другого юнита в этой фазе.
+
+### Pact of Excess
+При сборе армии, если специально не указано иное, вы не можете выбрать Legions of Excess фракцией вашей армии.`,
+      },
+      stratagems: [
+        {
+          name: 'Duellist’s Death',
+          flavor: 'Emperor’s Children — перфекционисты до конца. Даже в смерти они стремятся утолить свои неистовые одержимости.',
+          when: 'Фаза боя, когда вражеский юнит выбирает дружественный юнит Callous Blades целью.',
+          target: 'Этот юнит Callous Blades.',
+          effect: `Когда модель в вашем юните уничтожена, если ваш юнит ещё не был выбран для боя в этой фазе, бросьте один D6, добавив 1 к результату, если у вашего юнита есть Flawless Blades:
+▪ На 4+ эту модель не убирают с поля боя. Когда ваш юнит уже сражался, или в конце фазы (что наступит раньше), эту модель убирают с поля боя.`,
+        },
+        {
+          name: 'Shatter Strike',
+          flavor: 'Соединяя силу с изяществом, Flawless Blades валят врагов несколькими жестоко эффективными ударами.',
+          when: 'Фаза боя, когда дружественный юнит Callous Blades Flawless Blades выбран для боя.',
+          target: 'Этот юнит Callous Blades Flawless Blades.',
+          effect: 'Атаки вашего юнита в ближнем бою получают +1 D.',
+        },
+        {
+          name: 'Profane Desecration',
+          flavor: 'Посредством жутких ритуалов, эмпирических обрядов и гротескных знамён из извивающейся плоти последователи Slaanesh заявляют свои права на поле боя.',
+          when: 'Конец вашей фазы перемещения.',
+          target: 'Один дружественный юнит Callous Blades.',
+          effect: 'Выберите один объект, который контролирует ваш юнит. Этот объект будет secured.',
+        },
+      ],
+      enhancements: [
+        {
+          name: 'Invigorating Agonies',
+          flavor: 'Emperor’s Children ищут опыта и ощущений во всех формах. Удары пуль и обжигающих энергетических залпов лишь подстёгивают этих порочных воинов к новым вершинам экстаза.',
+          body: 'Только модель Callous Blades Lord Exultant. (Один раз за битву, на армию) В фазе стрельбы вашего противника, когда вражеский юнит выстрелил, если этот юнит был поражён этими атаками, вы можете использовать эту способность. Если делаете это, этот юнит может совершить рывок на до D3+1".',
+        },
+        {
+          name: 'Martial Perfection',
+          flavor: 'Callous Blades владеют своим оружием со сверхъестественным мастерством и изяществом, с презрительной лёгкостью отражая удары противника.',
+          body: 'Улучшение: только юнит Callous Blades Infractors. (Один раз за битву, на армию) В фазе боя, когда вражеский юнит выбирает этот юнит целью, вы можете использовать эту способность. Если делаете это, атаки, направленные на ваш юнит, получают -1 к броскам попадания.',
+        },
+      ],
+      datasheets: [
+        {
+          id: 'callous-blades-flawless-blades',
+          abilities: [
+            { name: 'Daemonic Patrons', text: `Когда этот юнит выбран для боя, вы можете использовать эту способность. Если делаете это:
+▪ Атаки этого юнита в ближнем бою засчитывают критическое ранение при не модифицированном броске 3+.
+▪ Когда этот юнит уже сражался, если эти атаки не уничтожили вражескую модель, одна модель в этом юните уничтожается.` },
+          ],
+          composition: ['3 модели Flawless Blades'],
+          loadout: '**Каждая модель вооружена:** Blissblade; Bolt Pistol.',
+        },
+        {
+          id: 'lord-kaphrael-of-the-callous-blades',
+          abilities: [
+            { name: 'Peerless Killer', text: 'Атаки этого юнита получают [LETHAL HITS].' },
+          ],
+          composition: ['1 модель Lord Kaphrael'],
+          loadout: '**Эта модель вооружена:** Phoenix Power Spear; Power Fist.',
+          leader: {
+            text: 'Эта модель может быть прикреплена к следующим юнитам:',
+          },
+        },
+        {
+          id: 'callous-blades-infractors',
+          abilities: [
+            { name: 'Icon of Excess', text: `В конце вашей фазы стрельбы или фазы боя, если этот юнит уничтожил вражеский юнит в этой фазе, этот юнит делает бросок лидерства:
+▪ При успехе вы получаете 1 CP.` },
+            { name: 'Excessive Assault', text: `Атаки этого юнита в ближнем бою:
+▪ Могут перебрасывать броски ран 1.
+▪ Или: направленные на юнит в пределах досягаемости цели могут перебрасывать броски ран.` },
+          ],
+          composition: ['1 модель Obsessionist', '9 моделей Infractor'],
+          loadout: `**Obsessionist вооружён:** Bolt Pistol; Power Sword.
+**Каждый Infractor вооружён:** Bolt Pistol; Duelling Sabre.`,
+        },
+      ],
+    },
+    {
+      name: 'Chaos Space Marines',
+      rule: {
+        flavor: 'Взглянуть на Zarkan и его daemonkin — значит познать истинный ужас.',
+        body: `Дружественные юниты Zarkan's Daemonkin имеют следующую способность:
+▪ Terrifying Presence (Aura): пока вражеский юнит находится в пределах 3" от этого юнита, у этого вражеского юнита -1 Ld.`,
+      },
+      armyRule: {
+        flavor: 'Взывая к Богам Хаоса с фанатичным пылом, нечестивые чемпионы Heretic Astartes молят о дьявольских дарах, обещая гнуснейшие подношения взамен на дарованную мощь.',
+        body: `Если ваша армия относится к фракции Heretic Astartes, каждый раз, когда юнит с этой способностью выбран для стрельбы или боя, он может заключить Dark Pact. Если заключает, он сперва обязан пройти проверку лидерства, прежде чем будут отыграны какие-либо эффекты этого Dark Pact; если эта проверка провалена, этот юнит получает D3 смертельных ран. Затем выберите одну из следующих способностей, которую оружие этого юнита получает до конца фазы:
+▪ [LETHAL HITS]
+▪ [SUSTAINED HITS 1]
+
+### Cults of the Dark Gods
+Если ваша армия относится к фракции Heretic Astartes, вы можете включить в свою армию любые из следующих юнитов, и при этом их ключевые слова фракции заменяются на Heretic Astartes:
+▪ Khorne Berzerkers (см. World Eaters)
+▪ Rubric Marines (см. Thousand Sons)
+▪ Plague Marines (см. Death Guard)
+▪ Noise Marines (см. Emperor's Children)
+
+Суммарная стоимость в очках таких юнитов, которые вы можете включить в свою армию, зависит от размера битвы: Incursion — до 250 очков; Strike Force — до 500 очков; Onslaught — до 750 очков.`,
+      },
+      stratagems: [
+        {
+          name: 'Vindictive Strategy',
+          flavor: 'Legionaries Zarkan не дают пощады слабым, преследуя съёжившихся врагов с неослабевающей жестокостью.',
+          when: 'Ваша фаза стрельбы или фаза боя, когда дружественный юнит Zarkan\'s Daemonkin Legionaries выбран для атаки.',
+          target: 'Этот юнит Zarkan\'s Daemonkin Legionaries.',
+          effect: `▪ Атаки вашего юнита могут перебрасывать броски попадания 1.
+▪ Атаки вашего юнита могут перебрасывать броски ран 1.`,
+        },
+        {
+          name: 'Daemonic Frenzy',
+          flavor: 'Охваченных жаждой крови и дикостью Possessed почти невозможно избежать. Тех, кто бежит из боя, хватают цепкие когти или рубят в кровавые лохмотья клинки и когти.',
+          when: 'Фаза перемещения вашего противника, когда вражеский юнит выбран для отступления, если этот юнит находится в рукопашной с дружественным юнитом Zarkan\'s Daemonkin Possessed.',
+          target: 'Этот юнит Zarkan\'s Daemonkin Possessed.',
+          effect: 'Когда вражеский юнит, находящийся в рукопашной с вашим юнитом, выбран для отступления, этот вражеский юнит обязан использовать режим desperate escape, с -1 к этим броскам hazard, если этот вражеский юнит battle-shocked.',
+        },
+        {
+          name: 'Alert to Danger',
+          flavor: 'Служить рядом с Zarkan и оставаться в живых сколько-нибудь долго требует бдительности и хитрости. Его смертные рабы демонстрируют оба этих качества, стараясь держаться подальше от когтей врага и извлекать выгоду из его манёвров.',
+          when: 'Фаза перемещения вашего противника, когда вражеский юнит завершает перемещение в пределах 8" от дружественного не вовлечённого в бой юнита Zarkan\'s Daemonkin Cultist Mob.',
+          target: 'Этот юнит Zarkan\'s Daemonkin Cultist Mob.',
+          effect: 'Ваш юнит может совершить обычное перемещение на до D3+1".',
+        },
+      ],
+      enhancements: [
+        {
+          name: 'Prey on the Weak',
+          flavor: 'Жаждущие рвать плоть и проливать кровь во имя своих демонических покровителей, одержимые легионеры устремляются вперёд, сокращая дистанцию до съёжившихся жертв.',
+          body: 'Улучшение: только юнит Zarkan\'s Daemonkin Possessed. У этого юнита Scouts 6".',
+        },
+        {
+          name: 'Infernal Infusion',
+          flavor: 'Направляя мощь связанных демонических сущностей, Master of Possession наполняет свою смертную форму дьявольской силой.',
+          body: 'Только модель Zarkan\'s Daemonkin Master of Possession. Атаки этого юнита получают +1 S.',
+        },
+      ],
+      datasheets: [
+        {
+          id: 'aranis-zarkan',
+          abilities: [
+            { name: 'Sacrificial Dagger (Once per phase, per unit)', text: `Когда этот юнит выбран для атаки, вы можете использовать эту способность. Если делаете это:
+▪ Этот юнит получает 1 смертельную рану.
+▪ Атаки этого юнита Psychic получают +1 к броскам попадания и +1 к броскам ран.` },
+            { name: 'Daemonkin (Psychic)', text: 'Пока у этого юнита есть модель Bodyguard, у него +1 к броскам на продвижение и броскам на рывок.' },
+          ],
+          composition: ['1 модель Aranis Zarkan'],
+          loadout: '**Эта модель вооружена:** Bolt Pistol; Rite of Possession; Staff of Possession.',
+          leader: {
+            text: 'Эта модель может быть прикреплена к следующим юнитам:',
+          },
+        },
+        {
+          id: 'zarkans-daemonkin-legionaries',
+          abilities: [
+            { name: 'Combat Squad', text: 'В начале шага «Объявление боевых построений» вы можете разделить этот юнит на два отдельных юнита по пять моделей в каждом.' },
+            { name: 'Chaos Icon', text: 'Когда этот юнит заключает Dark Pact, он может перебросить проверку лидерства.' },
+            { name: 'Veterans of the Long War', text: `Атаки этого юнита в ближнем бою:
+▪ Могут перебрасывать броски ран 1.
+▪ Или: направленные на юнит в пределах досягаемости цели могут перебрасывать броски ран.` },
+          ],
+          composition: [
+            '1 модель Aspiring Champion',
+            '1 модель Legionary with Heavy Bolter',
+            '1 модель Legionary with Meltagun',
+            '7 моделей Legionary',
+          ],
+          loadout: `**Aspiring Champion вооружён:** Accursed Weapon; Plasma Pistol.
+**Legionary with Heavy Bolter вооружён:** Bolt Pistol; Fists and Knives; Heavy Bolter.
+**Legionary with Meltagun вооружён:** Bolt Pistol; Fists and Knives; Meltagun.
+**Каждый Legionary вооружён:** Boltgun; Bolt Pistol; Fists and Knives.`,
+        },
+        {
+          id: 'zarkans-daemonkin-cultist-mob',
+          abilities: [
+            { name: 'For the Dark Gods', text: 'В конце вашей фазы командования, если этот юнит контролирует цель, эта цель считается захваченной.' },
+          ],
+          composition: ['1 модель Cultist Champion', '9 моделей Chaos Cultist'],
+          loadout: `**Cultist Champion вооружён:** Blades and Cudgels; Bolt Pistol.
+**Каждый Chaos Cultist вооружён:** Autopistol; Blades and Cudgels.`,
+        },
+        {
+          id: 'zarkans-daemonkin-possessed',
+          abilities: [
+            { name: 'Chaos Icon', text: 'Когда этот юнит заключает Dark Pact, он может перебросить бросок лидерства.' },
+            { name: 'Unholy Bloodshed (Once per battle, per unit)', text: 'Когда этот юнит заключает Dark Pact, вы можете использовать эту способность. Если делаете это, атаки этого юнита получают [DEVASTATING WOUNDS].' },
+          ],
+          composition: ['1 модель Possessed Champion', '4 модели Possessed'],
+          loadout: '**Каждая модель вооружена:** Hideous Mutations.',
+        },
+      ],
+    },
+    {
+      name: 'Leagues of Votann',
+      rule: {
+        flavor: 'Заявляя права на богатую ресурсами землю, Кин продвигаются вперёд, чтобы закрепить за собой новую территорию.',
+        body: 'В конце вашей фазы перемещения, если дружественный юнит Bane-slayer\'s Bulwark контролирует цель, эта цель считается захваченной.',
+      },
+      armyRule: {
+        flavor: 'Как гласит истина Кин: «Удача — есть. Нужда — хранит. Труд — зарабатывает». Способность кинхоста действенно менять стратегическую опору воплощает эту мудрость. Она — результат быстрой оценки владений врага, того, как лучше захватить их для нужды родичей, а затем упрямо трудиться, чтобы удержать их против контратак.',
+        body: `Если ваша армия относится к фракции Leagues of Votann, юниты Leagues of Votann вашей армии имеют одну из двух способностей: Hostile Acquisition или Fortify Takeover (см. ниже). В течение битвы то, какой способностью обладают эти юниты Leagues of Votann, меняется в зависимости от того, сколько у вас сейчас Yield points (YP):
+▪ В начале битвы ваши юниты имеют Hostile Acquisition до начала вашей следующей фазы командования.
+▪ В конце вашей фазы командования, если у вас меньше 7 YP, ваши юниты имеют Hostile Acquisition до начала вашей следующей фазы командования.
+▪ В конце вашей фазы командования, если у вас 7 YP или больше, ваши юниты имеют Fortify Takeover до начала вашей следующей фазы командования.
+
+### Hostile Acquisition
+▪ Каждый раз, когда модель этого юнита совершает атаку по вражескому юниту в пределах досягаемости одного или более объектов, добавляйте 1 к броску попадания.
+▪ Вы можете перебрасывать броски продвижения и броски на рывок этого юнита.
+
+### Fortify Takeover
+▪ Каждый раз, когда модель этого юнита совершает атаку по вражескому юниту, если этот юнит находится в пределах досягаемости одного или более контролируемых вами объектов, добавляйте 1 к броску попадания.
+▪ Каждый раз, когда атака нацелена на этот юнит, если характеристика Strength этой атаки больше характеристики Toughness этого юнита и этот юнит не Vehicle, вычитайте 1 из броска ранения.
+
+### Yield Points
+В конце фазы командования каждого игрока вы получаете 1 YP, если контролируете один или более объектов в своей зоне развёртывания, а начиная со второго раунда битвы вы получаете 1 дополнительный YP за каждое из следующих условий, которое выполняете:
+▪ Вы контролируете один или более объектов вне своей зоны развёртывания.
+▪ Вы контролируете два или более объектов вне своей зоны развёртывания.
+▪ Вы контролируете больше объектов, чем ваш оппонент.
+
+В ваш ход YP, полученные таким образом, всегда получаются до проверки того, какой способностью обладают юниты Leagues of Votann вашей армии. Всякий раз, когда правило позволяет вам потратить YP, уменьшайте число ваших YP на эту величину (ваши YP не могут опуститься ниже 0); в противном случае вы не можете использовать это правило.`,
+      },
+      stratagems: [
+        {
+          name: 'Opportune Advance',
+          flavor: 'Пока противники открывают огонь, эти воины пользуются моментом, чтобы рвануть вперёд, отвоёвывая территорию, пока враги перезаряжают опустевшее оружие.',
+          when: 'Фаза стрельбы вашего противника, когда вражеский юнит, который выбрал целью дружественный не вовлечённый в бой юнит Bane-slayer\'s Bulwark Einhyr Hearthguard, выстрелил.',
+          target: 'Этот юнит Bane-slayer\'s Bulwark Einhyr Hearthguard.',
+          effect: 'Ваш юнит может совершить рывок на до D6+1".',
+        },
+        {
+          name: 'Point-blank Fusillade',
+          flavor: 'Кин настолько решительны и непоколебимы, что их воины продолжают целиться и стрелять даже в разгар ближнего боя.',
+          when: 'Ваша фаза стрельбы, когда дружественный юнит Bane-slayer\'s Bulwark выбран для стрельбы.',
+          target: 'Этот юнит Bane-slayer\'s Bulwark.',
+          effect: 'Дальнобойные атаки вашего юнита получают [CLOSE-QUARTERS].',
+        },
+        {
+          name: 'Claimed for the Kindred',
+          flavor: 'Заявив свои права на спорную территорию, Кин стоят и сражаются с новой решимостью.',
+          when: 'Фаза командования.',
+          target: 'Один дружественный юнит Bane-slayer\'s Bulwark Hearthkyn Warriors.',
+          effect: 'Ваш юнит получает +1 OC до конца хода.',
+        },
+      ],
+      enhancements: [
+        {
+          name: 'Indomitable Exemplar',
+          flavor: 'Этот военный вождь — живое воплощение неустанного стремления сокрушить врагов своих родичей. Своими деяниями он призывает воинов не тратить даже последний вздох ни на что, кроме мстительного возмездия.',
+          body: 'Только модель Bane-slayer\'s Bulwark Einhyr Champion. В фазе боя, когда эта модель уничтожена, если этот юнит ещё не был выбран для боя в этой фазе, бросьте один D6: на 2+ эту модель не убирают с поля боя. Когда этот юнит уже сражался, или в конце фазы (что наступит раньше), эту модель убирают с поля боя.',
+        },
+        {
+          name: 'Brôkhyr Barrage',
+          flavor: 'Сливая свой огонь в сосредоточенный залп, Brôkhyr Thunderkyn уничтожают врагов вместе с укрытиями, за которыми те спрятались. Такова свирепость этого натиска, что даже самые смелые воины дрогнут.',
+          body: `Улучшение: только юнит Bane-slayer's Bulwark Brôkhyr Thunderkyn.
+▪ Дальнобойные атаки этого юнита получают [IGNORES COVER].
+▪ В вашей фазе стрельбы, когда этот юнит выстрелил, вы можете выбрать один вражеский юнит, по которому пришлись эти дальнобойные атаки. Если делаете это, этот вражеский юнит проходит проверку морального духа.`,
+        },
+      ],
+      datasheets: [
+        {
+          id: 'bane-slayers-bulwark-einhyr-hearthguard',
+          abilities: [
+            { name: 'Decisive Destruction', text: 'Дальнобойные атаки этого юнита, направленные на ближайшую допустимую цель, могут перебрасывать броски попадания 1.' },
+            { name: 'Weavefield Crest', text: 'У этого юнита 5+ InSv.' },
+          ],
+          composition: ['1 модель Hesyr', '4 модели Einhyr Hearthguard'],
+          loadout: `**Hesyr вооружён:** Exoarmour Grenade Launcher; Graviton Hammer; Volkanite Disintegrator.
+**Каждый Einhyr Hearthguard вооружён:** Exoarmour Grenade Launcher; Plasma Blade Gauntlet; Volkanite Disintegrator.`,
+        },
+        {
+          id: 'bane-slayers-bulwark-hearthkyn-warriors',
+          abilities: [
+            { name: 'Weavefield Crest', text: 'У этого юнита 5+ InSv.' },
+            { name: 'Panspectral Scanning', text: 'Дальнобойные атаки этого юнита могут перебрасывать броски попадания 1.' },
+          ],
+          composition: [
+            '1 модель Hearthkyn Warrior with Autoch-pattern Bolt Pistol and Plasma Knife',
+            '1 модель Hearthkyn Warrior with Autoch-pattern Bolt Pistol, HYLas Auto Rifle and Armoured Fists',
+            '1 модель Hearthkyn Warrior with Autoch-pattern Bolt Pistol, Magna-Rail Rifle and Armoured Fists',
+            '1 модель Theyn',
+            '6 моделей Hearthkyn Warrior with Autoch-pattern Bolt Pistol, Ion Blaster and Armoured Fists',
+          ],
+          loadout: `**Hearthkyn Warrior with Autoch-pattern Bolt Pistol and Plasma Knife вооружён:** Autoch-pattern Bolt Pistol; Plasma Knife.
+**Hearthkyn Warrior with Autoch-pattern Bolt Pistol, HYLas Auto Rifle and Armoured Fists вооружён:** Armoured Fists; Autoch-pattern Bolt Pistol; HYLas Auto Rifle.
+**Hearthkyn Warrior with Autoch-pattern Bolt Pistol, Magna-Rail Rifle and Armoured Fists вооружён:** Armoured Fists; Autoch-pattern Bolt Pistol; Magna-rail Rifle.
+**Theyn вооружён:** Autoch-pattern Bolt Pistol; Theyn's Armaments; Theyn's Pistol.
+**Каждый Hearthkyn Warrior with Autoch-pattern Bolt Pistol, Ion Blaster and Armoured Fists вооружён:** Armoured Fists; Autoch-pattern Bolt Pistol; Ion Blaster.`,
+        },
+        {
+          id: 'bane-slayers-bulwark-brokhyr-thunderkyn',
+          abilities: [
+            { name: 'Breaching Fire', text: 'В вашей фазе стрельбы, когда этот юнит выстрелил, вы можете выбрать один вражеский юнит, по которому пришлись эти атаки. Если делаете это, дальнобойные атаки дружественных юнитов Leagues of Votann, направленные на этот вражеский юнит, получают [IGNORES COVER].' },
+          ],
+          composition: ['3 модели Brokhyr Thunderkyn'],
+          loadout: '**Каждая модель вооружена:** Powered Strikes; SP Conversion Beamer.',
+        },
+        {
+          id: 'vynn-bane-slayer',
+          abilities: [
+            { name: 'Weavefield Crest', text: 'У этой модели 4+ InSv.' },
+            { name: 'Fast-firing Targeters', text: 'Дальнобойные атаки этого юнита получают [ASSAULT].' },
+          ],
+          composition: ['1 модель Vynn Bane-Slayer'],
+          loadout: '**Эта модель вооружена:** Autoch-pattern Combi-bolter; Mass Hammer.',
+          leader: {
+            text: 'Эта модель может быть прикреплена к следующим юнитам:',
+          },
+        },
+      ],
+    },
+    {
+      name: 'Space Wolves',
+      rule: {
+        flavor: 'Хитрый, как волчьи хищники его родного мира, Fyrri Askar предпочитает тактику засад. Его воины рыщут по периметру поля боя, нанося удар лишь в самый благоприятный момент.',
+        body: 'У дружественных юнитов Askar\'s Wolfpack -3" к дальности обнаружения.',
+      },
+      armyRule: {
+        flavor: 'В бою космодесантники приносят великие клятвы уничтожать врагов Императора и блюсти честь своего ордена, и такие обеты священны. Когда Ангелы Смерти наносят удар, они делают это с точностью хирурга и силой удара молнии. Только сражаясь плечом к плечу со своими братьями по оружию, дикие Wulfen способны обуздать свою неистовую агрессию.',
+        body: `### Oath of Moment
+Если фракция вашей армии — Adeptus Astartes, в начале вашей фазы командования выберите один юнит армии вашего оппонента. До начала вашей следующей фазы командования этот вражеский юнит — ваша цель Oath of Moment. Каждый раз, когда модель с этой способностью совершает атаку по вашей цели Oath of Moment, вы можете перебросить бросок на попадание.
+
+### Curse of the Wulfen
+Пока этот юнит находится в пределах 6" от одной или более дружественных моделей Space Wolves Character (за исключением моделей Wulfen) или в пределах 12" от одной или более дружественных моделей Wolf Priest, если он не Battle-shocked, добавьте 1 к характеристике Objective Control моделей Infantry в нём и добавьте 3 к характеристике Objective Control моделей Vehicle в нём.
+
+### Sagas
+Каждое правило детачмента в Codex Supplement: Space Wolves включает Saga, которую можно выполнить, с дополнительными эффектами, вступающими в силу после этого.
+
+### Sons of Russ
+▪ Если у юнита Adeptus Astartes на датащите есть второе фракционное ключевое слово, это ключевое слово — название ордена этого юнита. Например, у Ragnar Blackmane есть фракционные ключевые слова Adeptus Astartes и Space Wolves, и поэтому он из ордена Space Wolves.
+▪ Вы не можете включать в свою армию юниты более чем одного ордена.`,
+      },
+      stratagems: [
+        {
+          name: 'Born Hunters',
+          flavor: 'Space Wolves преследуют свою добычу, как дикие хищники, молниеносно реагируя на каждое движение жертвы.',
+          when: 'Фаза перемещения вашего противника, когда вражеский юнит, находившийся в рукопашной с дружественным юнитом Askar\'s Wolfpack (за исключением юнитов Terminator), завершает отступление, если этот юнит Askar\'s Wolfpack не вовлечён в бой.',
+          target: 'Этот юнит Askar\'s Wolfpack.',
+          effect: 'Ваш юнит может совершить обычное перемещение на до D3+1".',
+        },
+        {
+          name: 'Bestial Dominance',
+          flavor: 'Стоя над растерзанными телами врагов, с бронёй, забрызганной кровью, эти воины не оставляют никаких сомнений в своём превосходстве.',
+          when: 'Ваша фаза стрельбы или фаза боя, когда вражеский юнит уничтожен дружественным юнитом Askar\'s Wolfpack Wulfen.',
+          target: 'Этот юнит Askar\'s Wolfpack Wulfen.',
+          effect: 'Ваш юнит получает +1 OC до конца битвы.',
+        },
+        {
+          name: 'Bring It Down',
+          flavor: 'Даже исполинские враги, укрытые тяжёлой бронёй, не защищены от гнева Wolfpack. Их вооружённая ярость достаточно велика, чтобы разрывать танки и чудовищ на части.',
+          when: 'Фаза боя, когда дружественный юнит Askar\'s Wolfpack выбран для боя.',
+          target: 'Этот юнит Askar\'s Wolfpack.',
+          effect: 'Атаки вашего юнита в ближнем бою получают [ANTI-MONSTER/VEHICLE 4+].',
+        },
+      ],
+      enhancements: [
+        {
+          name: 'Lone Hunter',
+          flavor: 'Fyrri Askar часто предпочитает охотиться в одиночку, выслеживая добычу из тени, наблюдая за разворачивающейся битвой и бросаясь в бой лишь тогда, когда сочтёт это необходимым.',
+          body: `Только модель Askar's Wolfpack Battle Leader. У этой модели:
+▪ Lone Operative 9".
+▪ Stealth.
+▪ +1 T.`,
+        },
+        {
+          name: 'Aggressive Response',
+          flavor: 'Попав под вражеский огонь, стая отвечает немедленной агрессией, бросаясь на нападающих с оскаленными клыками.',
+          body: 'Улучшение: только юнит Askar\'s Wolfpack Wolf Guard Terminators. (Один раз за ход, на юнит) В фазе стрельбы вашего противника, когда вражеский юнит выстрелил, если этот юнит был поражён этими атаками, этот юнит может совершить рывок на до D3+1".',
+        },
+      ],
+      datasheets: [
+        {
+          id: 'askars-wolfpack-blood-claws',
+          abilities: [
+            { name: 'Berserk Charge', text: 'Когда этот юнит совершает продвижение, это продвижение не мешает юниту быть подходящим для объявления атаки.' },
+          ],
+          composition: ['1 модель Blood Claw Pack Leader', '9 моделей Blood Claw'],
+          loadout: `**Blood Claw Pack Leader вооружён:** Plasma Pistol; Power Weapon.
+**Каждый Blood Claw вооружён:** Bolt Pistol; Chainsword.`,
+        },
+        {
+          id: 'askars-wolfpack-wolf-guard-terminators',
+          abilities: [
+            { name: 'Rugged Resilience', text: 'Атаки, направленные на этот юнит, с S больше, чем T этого юнита, получают -1 к броскам ран.' },
+          ],
+          composition: [
+            '1 модель Wolf Guard Terminator Pack Leader',
+            '1 модель Wolf Guard Terminator with Assault Cannon and Power Fist',
+            '3 модели Wolf Guard Terminator with Storm Bolter and Master-crafted Power Weapon',
+          ],
+          loadout: `**Wolf Guard Terminator Pack Leader вооружён:** Relic Greataxe.
+**Wolf Guard Terminator with Assault Cannon and Power Fist вооружён:** Assault Cannon; Power Fist.
+**Каждый Wolf Guard Terminator with Storm Bolter and Master-crafted Power Weapon вооружён:** Master-crafted Power Weapon; Storm Bolter.`,
+        },
+        {
+          id: 'fyrri-askar',
+          abilities: [
+            { name: 'Storm Shield', text: 'У этой модели 6 W.' },
+            { name: 'Heroic Last Stand', text: 'В фазе боя, когда эта модель уничтожена, если этот юнит ещё не был выбран для боя в этой фазе, бросьте один D6: на 2+ эту модель не убирают с поля боя. Когда этот юнит уже сражался, или в конце фазы (что наступит раньше), эту модель убирают с поля боя.' },
+          ],
+          composition: ['1 модель Fyrri Askar'],
+          loadout: '**Эта модель вооружена:** Master-crafted Power Weapon.',
+          leader: {
+            text: 'Эта модель может быть прикреплена к следующим юнитам:',
+          },
+        },
+        {
+          id: 'askars-wolfpack-wulfen',
+          abilities: [
+            { name: 'Death Totem', text: 'Атаки этой модели в ближнем бою могут перебрасывать броски попадания 1.' },
+            { name: 'Savage Frenzy', text: `Когда вражеский юнит (за исключением юнитов Monster/Vehicle), находящийся в рукопашной с этим юнитом, выбран для отступления:
+▪ Этот вражеский юнит обязан выбрать режим desperate escape.
+▪ Если этот вражеский юнит battle-shocked, у него -1 к броскам hazard, совершаемым для этого desperate escape.` },
+          ],
+          composition: ['2 модели Wulfen with Feral Claws and Stormfrag Auto-launcher', '3 модели Wulfen with Feral Claws'],
+          loadout: `**Каждый Wulfen with Feral Claws and Stormfrag Auto-launcher вооружён:** Death Totem; Feral Claws; Stormfrag Auto-launcher.
+**Каждый Wulfen with Feral Claws вооружён:** Death Totem; Feral Claws.`,
+        },
+      ],
+    },
+    {
+      name: 'Thousand Sons',
+      rule: {
+        flavor: 'Эмпирические ритуалы Zadophon искривляют нити судьбы, чтобы лучше служить замыслам его Тёмного Бога. Его рабы всецело преданы их завершению и не отступятся от своей роли в этих магиях, какая бы мощь ни была брошена против них.',
+        body: `▪ Дружественные юниты Prism of Zadophon получают +1 Ld, пока находятся в пределах досягаемости цели.
+▪ Binding Ritual (Один раз за ход, на армию): при игре в битве Combat Patrol, когда дружественная модель в пределах досягаемости цели проявляет Ritual со значением Warp Charge 7 или больше, вы можете решить, что ваша армия связала этот Ritual с этой целью (см. Cult Ritual Objective). Если делаете это, не отыгрывайте эффекты этого Ritual.
+▪ При игре в битве Combat Patrol следующие дружественные юниты должны начинать битву в стратегическом резерве и не могут быть выставлены на поле боя до указанного раунда битвы, а когда это произойдёт, должны быть выставлены целиком в вашей зоне развертывания: Daemon Prince (раунд битвы 3).`,
+      },
+      armyRule: {
+        flavor: 'Thousand Sons окутаны энергиями Варпа. Дар их колдовских предводителей — направлять эту мощь боевым ритуалом, прозревать запретное знание, плести иллюзорные магии или терзать врагов эмпирическим огнём и мутацией.',
+        body: `Если ваша армия относится к фракции Thousand Sons, в начале вашей фазы стрельбы одна или более моделей вашей армии с этой способностью могут попытаться совершить Rituals из перечисленных ниже. Для этого выберите одну модель вашей армии с этой способностью, что ещё не пыталась совершить Ritual в этом ходу, и выберите один Ritual, что ни одна модель вашей армии не пыталась проявить в этом ходу, затем пройдите психический тест для этой модели, следуя приведённой ниже последовательности.
+
+**Последовательность психического теста:** Бросьте 2D6. (Опционально — Channel the Warp: добавьте один D6; затем, если во время этого теста выпали один или более дублей или троек, юнит этой модели получает D3 смертельные раны.) Если эта модель не уничтожена, суммарный итог всех кубиков, брошенных во время этого теста, — результат психического теста. Если он равен или превышает значение Warp Charge совершаемого Ritual, эта модель проявляет этот Ritual, и вы отыгрываете его эффекты.
+
+### Destiny's Ruin (Psychic) — Warp Charge 5
+Выберите один вражеский юнит в пределах 24" от проявляющей модели и видимый ей. До конца фазы каждый раз, когда модель Thousand Sons или Scintillating Legions вашей армии совершает атаку по этому юниту, перебрасывайте бросок попадания 1. Если результат психического теста для этого Ritual был 10+, вы можете перебросить бросок попадания вместо этого.
+
+### Temporal Surge (Psychic) — Warp Charge 6
+Выберите один дружественный юнит Thousand Sons или Scintillating Legions, не находящийся в пределах Engagement Range одного или более вражеских юнитов и находящийся в пределах 24" от проявляющей модели и видимый ей. Этот юнит может совершить обычное перемещение на до D6". Если результат психического теста для этого Ritual был 10+, этот юнит может совершить обычное перемещение на до 6" вместо этого. В любом случае до конца хода этот юнит не может объявить атаку.
+
+### Doombolt (Psychic) — Warp Charge 7
+Выберите один вражеский юнит в пределах 24" от проявляющей модели и видимый ей (за исключением юнитов со способностью Lone Operative, что не входят в состав прикреплённого юнита и не находятся в пределах 12" от проявляющей модели); этот юнит получает D3 смертельные раны. Если результат психического теста для этого Ritual был 11+, этот юнит получает D3+3 смертельные раны вместо этого.
+
+### Twist of Fate (Psychic) — Warp Charge 9
+Выберите один вражеский юнит в пределах 24" от проявляющей модели и видимый ей. До конца фазы каждый раз, когда модель Thousand Sons или Scintillating Legions вашей армии совершает атаку по этому юниту, улучшайте характеристику Armour Penetration этой атаки на 1. Если результат психического теста для этого Ritual был 12+, улучшайте характеристику Armour Penetration этой атаки на 2 вместо этого.
+
+**Pact of Sorcery:** При сборе армии, если специально не указано иное, вы не можете выбрать Scintillating Legions фракцией вашей армии.`,
+      },
+      stratagems: [
+        {
+          name: 'Twist of Fate',
+          flavor: 'Мерцающие эмпирические энергии окружают фигуру этого мутанта-культиста. Возможно, этому существу суждено сыграть решающую роль в бесконечных замыслах Изменяющего Пути?',
+          when: 'Фаза стрельбы вашего противника или фаза боя, когда вражеский юнит выбирает дружественный юнит Prism of Zadophon Mutant целью.',
+          target: 'Этот юнит Prism of Zadophon Mutant.',
+          effect: 'У вашего юнита 4+ InSv.',
+        },
+        {
+          name: 'Spell-warded Armour',
+          flavor: 'Усиленная колдовскими оберегами и порчами, броня Rubric Marines поразительно стойка к вражескому огню.',
+          when: 'Фаза стрельбы вашего противника, когда вражеский юнит выбирает дружественный юнит Prism of Zadophon Rubric Marines целью.',
+          target: 'Этот юнит Prism of Zadophon Rubric Marines.',
+          effect: 'Дальнобойные атаки, направленные на ваш юнит, с S больше, чем T вашего юнита, получают -1 к броскам ран.',
+        },
+        {
+          name: 'Embroiling Energies',
+          flavor: 'Sorcerers, что ведут Rubricae в бою, предпочитают разрушительные магии, обращая warpflame даже в тесноте и сумятице рукопашной схватки.',
+          when: 'Ваша фаза стрельбы, когда дружественный юнит Prism of Zadophon Rubric Marines выбран для стрельбы.',
+          target: 'Этот юнит Prism of Zadophon Rubric Marines.',
+          effect: `▪ Оружие malefic curse этого юнита получает [CLOSE-QUARTERS].
+▪ Оружие malefic curse этого юнита получает +1 к броскам попадания.`,
+        },
+      ],
+      enhancements: [
+        {
+          name: 'Foresight of the Changer',
+          flavor: 'Верные Tzeentch могут воспользоваться его прозорливостью и тем самым избежать верной гибели.',
+          body: 'Только модель Prism of Zadophon Tzaangor Shaman. (Один раз за ход, на юнит) В фазе перемещения вашего противника, когда вражеский юнит завершает перемещение в пределах 8" от этого юнита, если этот юнит не вовлечён в бой, этот юнит может совершить обычное перемещение на до D3+1".',
+        },
+        {
+          name: 'Warp-tainted Shells',
+          flavor: 'Искажённая злокозненным колдовством, infernal cannon Zadophon изрыгает искажённые Варпом снаряды, которые при попадании выжигают душу так же страшно, как уничтожают плоть.',
+          body: 'Только модель Prism of Zadophon Daemon Prince. Оружие infernal cannon этой модели получает [PSYCHIC].',
+        },
+      ],
+      datasheets: [
+        {
+          id: 'kaaskrek',
+          abilities: [
+            { name: 'Bestial Prophet', text: 'Если этот юнит — прикреплённый юнит, атаки этого юнита получают +1 к броскам попадания.' },
+            { name: 'Sacrificial Blessing', text: `В вашей фазе стрельбы и фазе боя, когда этот юнит выбран для атаки, если в этом юните есть одна или более моделей Bodyguard, вы можете использовать эту способность. Если делаете это:
+▪ Одна модель Bodyguard в этом юните уничтожается.
+▪ Атаки этой модели получают +D3 A и S.` },
+          ],
+          composition: ["1 модель Kaa'skrek"],
+          loadout: '**Эта модель вооружена:** Baleful Devolution; Force Stave.',
+          leader: {
+            text: 'Эта модель может быть прикреплена к следующим юнитам:',
+          },
+        },
+        {
+          id: 'zadophon-the-soul-eater',
+          abilities: [
+            { name: 'Spirit Snare', text: 'Когда дружественная модель Thousand Sons Psyker со способностью Cabal of Sorcerers уничтожена, если эта модель находилась в пределах 9" от модели с этой способностью, вы можете выбрать одну из таких моделей с этой способностью. Когда выбранная модель пытается совершить Ritual, у неё +1 к результату психического теста (максимум +2).' },
+            { name: 'Glamour of Tzeentch (Aura, Psychic)', text: 'Пока дружественный юнит Thousand Sons Infantry находится в пределах 6" от этой модели, этот юнит имеет Stealth.' },
+          ],
+          composition: ['1 модель Zadophon the Soul Eater'],
+          loadout: '**Эта модель вооружена:** Hellforged Weapons; Infernal Cannon.',
+        },
+        {
+          id: 'prism-of-zadophon-tzaangor-enlightened',
+          abilities: [
+            { name: 'Prophesied Doom', text: `Когда этот юнит завершает рывок в атаку, вы можете выбрать один вражеский юнит, находящийся в рукопашной с этим юнитом. За каждую модель в этом юните, находящуюся в рукопашной с этим вражеским юнитом, бросьте один D6:
+▪ На 4+ этот вражеский юнит получает 1 смертельную рану.` },
+          ],
+          composition: ['3 модели Tzaangor Enlightened'],
+          loadout: '**Каждая модель вооружена:** Divining Spear.',
+        },
+        {
+          id: 'prism-of-zadophon-rubric-marines',
+          abilities: [
+            { name: 'Icon of Flame', text: 'Дальнобойные атаки этого юнита (за исключением атак моделей Character) получают [IGNORES COVER].' },
+            { name: 'Bringers of Change', text: `Дальнобойные атаки этого юнита:
+▪ Могут перебрасывать броски ран 1.
+▪ Или: направленные на юнит в пределах досягаемости цели могут перебрасывать броски ран.` },
+          ],
+          composition: [
+            '1 модель Aspiring Sorcerer',
+            '1 модель Rubric Marine with Soulreaper Cannon and Stocks and Fists',
+            '3 модели Rubric Marine with Inferno Boltgun and Stocks and Fists',
+            '5 моделей Rubric Marine with Warpflamer and Stocks and Fists',
+          ],
+          loadout: `**Aspiring Sorcerer вооружён:** Force Weapon; Inferno Bolt Pistol; Malefic Curse.
+**Rubric Marine with Soulreaper Cannon and Stocks and Fists вооружён:** Soulreaper Cannon; Stocks and Fists.
+**Каждый Rubric Marine with Inferno Boltgun and Stocks and Fists вооружён:** Inferno Boltgun; Stocks and Fists.
+**Каждый Rubric Marine with Warpflamer and Stocks and Fists вооружён:** Stocks and Fists; Warpflamer.`,
+        },
+      ],
+    },
+    {
+      name: 'Tyranids',
+      rule: {
+        flavor: 'Кишащие организмы Vardenghast Swarm столь многочисленны и ужасны, что смертный разум с трудом способен выбрать цель среди мельтешащих масс.',
+        body: 'Дальнобойные атаки вражеских юнитов, направленные на дружественный юнит Vardenghast Swarm Infantry, не находящийся в пределах 12", получают -1 к броскам попадания.',
+      },
+      armyRule: {
+        flavor: 'Кишащие выводки флота-улья не мыслят сами по себе. Ими управляет гештальт-сознание Разума Улья, чья железная воля направляется сквозь синапс-тварей и накрывает поле боя ледяным, чужеродным ужасом, что грызёт разумы добычи.',
+        body: `### Synapse
+Некоторые Tyranids служат синаптическими проводниками или узловыми ретрансляторами, сквозь которые течёт часть железной воли Разума Улья, переопределяя природные инстинкты роя, чтобы направить кишащих воинов-тварей действовать как единый гештальт-организм на поле боя.
+
+Если ваша армия относится к фракции Tyranids, пока юнит Tyranids вашей армии находится в пределах 6" от одной или более дружественных моделей Synapse, этот юнит Tyranids считается находящимся в пределах Synapse Range этой модели и вашей армии. Пока юнит Tyranids вашей армии находится в пределах Synapse Range вашей армии:
+▪ Каждый раз, когда этот юнит проходит проверку морального духа, проходите эту проверку на 3D6 вместо 2D6.
+▪ Каждый раз, когда модель этого юнита совершает атаку в ближнем бою, добавляйте 1 к характеристике Strength этой атаки.
+
+### Shadow in the Warp
+Tyranids наводняют поле боя психической сигнатурой флота-улья — ледяным, чужеродным ужасом, что грызёт разумы их добычи и душит даже стойчайшее мужество. Столкнувшись с таким непостижимым ужасом, многие сходят с ума или получают катастрофические неврологические повреждения.
+
+Если ваша армия относится к фракции Tyranids, один раз за битву, в фазе командования любого игрока, если один или более юнитов вашей армии с этой способностью на поле боя, вы можете выпустить Shadow in the Warp. Когда вы это делаете, каждый вражеский юнит на поле боя должен пройти проверку морального духа. Каждый раз, когда вражеский юнит проходит такую проверку морального духа, если он находится в пределах 6" от одного или более юнитов Synapse вашей армии, вычитайте 1 из этой проверки.`,
+      },
+      stratagems: [
+        {
+          name: 'Swarm-marked',
+          flavor: 'Богатые биомассой позиции пропитываются феромонами и ядовитыми спорами воинов-тварей Vardenghast Swarm, помечая их для следующих волн, чтобы те захлестнули и пожрали их.',
+          when: 'Конец вашей фазы перемещения.',
+          target: 'Один дружественный юнит Vardenghast Swarm Termagants.',
+          effect: 'Выберите один объект, который контролирует ваш юнит. Этот объект будет secured.',
+        },
+        {
+          name: 'Skulking Hunters',
+          flavor: 'Обладая обострёнными инстинктами истинных хищников, воины-твари Vardenghast Swarm способны на скрытность, шныряя сквозь тени и укрытия, чтобы скрыть своё приближение от настороженных врагов.',
+          when: 'Начало фазы стрельбы вашего противника.',
+          target: 'Один дружественный юнит Vardenghast Swarm Infantry.',
+          effect: 'У вашего юнита -6" к дальности обнаружения.',
+        },
+        {
+          name: 'Brute Speed',
+          flavor: 'Vardenghast Swarm устремляется к добыче с пугающей скоростью, скачками пересекая открытую местность и разрушенные руины, чтобы настичь дрогнувшую жертву.',
+          when: 'Ваша фаза перемещения, когда дружественный юнит Vardenghast Swarm выбран для продвижения.',
+          target: 'Этот юнит Vardenghast Swarm.',
+          effect: 'Ваш юнит может изменить этот бросок на продвижение на 6.',
+        },
+      ],
+      enhancements: [
+        {
+          name: 'Adapted Organism',
+          flavor: 'Выкованный Разумом Улья как специализированный убийца, этот воин-тварь обладает сверхчуткими рефлексами, обильными быстросокращающимися мышечными волокнами и дополнительными, абляционными слоями хитиновой пластины.',
+          body: `Только модель Vardenghast Swarm Winged Tyranid Prime.
+▪ У этой модели 4+ InSv.
+▪ Атаки этой модели в ближнем бою получают +2 AP.`,
+        },
+        {
+          name: 'Psychoclastic Overload',
+          flavor: 'Когда удерживающие мешки Psychophage достигают предела вместимости, это существо способно извергнуть поток психоразъедающих частиц, достаточный, чтобы разъесть разум и тела целого отряда вражеских солдат.',
+          body: 'Улучшение: только юнит Vardenghast Swarm Psychophage. Этот юнит может перебрасывать броски, чтобы определить A оружия.',
+        },
+      ],
+      datasheets: [
+        {
+          id: 'vardenghast-swarm-psychophage',
+          abilities: [
+            { name: 'Feeding Frenzy', text: `Атаки этой модели в ближнем бою, направленные на:
+▪ Юнит ниже начальной численности, получают +1 к броскам попадания.
+▪ Юнит ниже половины боевой численности, получают +1 к броскам ран.` },
+            { name: 'Bio-stimulus (Aura)', text: 'Пока дружественный юнит Tyranids находится в пределах 6" от этой модели, этот юнит имеет Feel No Pain 6+.' },
+          ],
+          composition: ['1 модель Psychophage'],
+          loadout: '**Эта модель вооружена:** Psychoclastic Torrent; Talons and Betentacled Maw.',
+        },
+        {
+          id: 'vardenghast-swarm-barbgaunts',
+          abilities: [
+            { name: 'Disruption Bombardment', text: `В вашей фазе стрельбы, когда этот юнит выстрелил, вы можете выбрать один вражеский юнит, по которому пришлись эти атаки. Если делаете это, этот вражеский юнит будет pinned до начала вашего следующего хода:
+▪ Пока юнит pinned, у него:
+▪ -2" M.
+▪ -2 к броскам на продвижение и броскам на рывок.` },
+          ],
+          composition: ['5 моделей Barbgaunt'],
+          loadout: '**Каждая модель вооружена:** Barblauncher; Chitinous Claws and Teeth.',
+        },
+        {
+          id: 'terror-of-vardenghast',
+          abilities: [
+            { name: 'Death Blow', text: `В фазе боя, когда эта модель уничтожена, если этот юнит ещё не был выбран для боя в этой фазе, бросьте один D6:
+▪ На 4+ эту модель не убирают с поля боя. Когда ваш юнит уже сражался, или в конце фазы (что наступит раньше), эту модель убирают с поля боя.` },
+            { name: 'Bio-Reserves (Once per battle per unit)', text: `В начале или в конце вашей фазы перемещения вы можете использовать эту способность. Если делаете это:
+▪ Выберите один дружественный не вовлечённый в бой юнит Vardenghast Swarm Termagants. Этот юнит восстанавливает 2D6 ран.
+▪ Или: выберите один дружественный уничтоженный юнит Vardenghast Swarm Termagants. Этот юнит восстанавливает 10 ран и помещается в стратегический резерв.` },
+          ],
+          composition: ['1 модель Terror of Vardenghast'],
+          loadout: '**Эта модель вооружена:** Prime Talons.',
+        },
+        {
+          id: 'vardenghast-swarm-termagants',
+          abilities: [
+            { name: 'Skulking Horrors (Once per phase per unit)', text: 'В фазе перемещения вашего противника, когда вражеский юнит завершает перемещение в пределах 8" от этого юнита, если этот юнит не вовлечён в бой, этот юнит может совершить обычное перемещение на до D6".' },
+          ],
+          composition: ['10 моделей Termagant'],
+          loadout: '**Каждая модель вооружена:** Chitinous Claws and Teeth; Fleshborer.',
+        },
+        {
+          id: 'vardenghast-swarm-von-ryans-leapers',
+          abilities: [
+            { name: 'Pouncing Leap (Once per turn per unit)', text: `Вы можете выбрать этот юнит целью стратагемы Heroic Intervention, независимо от любых других применений этой стратагемы в этой фазе. Если делаете это:
+▪ Это применение стоит на -1 CP дешевле.
+▪ Это применение не мешает другим применениям этой стратагемы на другие юниты в этой фазе.` },
+          ],
+          composition: ["3 модели Von Ryan's Leaper"],
+          loadout: '**Каждая модель вооружена:** Chitinous Talons.',
+        },
+      ],
+    },
+    {
+      name: 'World Eaters',
+      rule: {
+        flavor: 'World Eaters атакуют беспощадными волнами ярости, каждая из которых столь же неистова и кровожадна, как предыдущая.',
+        body: `▪ Когда дружественный юнит Frenzied Reavers выбран для боя, если этот юнит в этом ходу совершил рывок в атаку, его атаки в ближнем бою получают +1 S.
+▪ При игре в битве Combat Patrol следующие дружественные юниты должны начинать битву в стратегическом резерве и не могут быть выставлены на поле боя до указанного раунда битвы, а когда это произойдёт, должны быть выставлены целиком в вашей зоне развертывания: Daemon Prince (раунд битвы 2).`,
+      },
+      armyRule: {
+        flavor: 'Khorne — бог Хаоса войны и резни, которому преданы все World Eaters. Он благословляет тех, кто проливает кровь и берёт черепа во имя его.',
+        body: `Если ваша армия относится к фракции World Eaters, в начале раунда битвы вы можете сделать бросок Blessings of Khorne. Для этого бросьте восемь D6. Затем вы можете использовать эти кубики для активации до двух Благословений Кхорна (см. ниже). Каждое Благословение Кхорна указывает требуемые результаты кубиков (если указано число, требуется дубль или трипл этого значения или выше). Каждое Благословение Кхорна можно активировать только один раз за раунд битвы. Все неиспользованные кубики броска Blessings of Khorne затем сбрасываются. После активации каждое Благословение Кхорна применяется ко всем юнитам вашей армии с этой способностью до конца раунда битвы.
+
+### The Blessings
+▪ **Unbridled Bloodlust (дубль 1+):** у этого юнита +1 к броскам на рывок.
+▪ **Rage-Fuelled Invigoration (дубль 2+):** каждый раз, когда модель этого юнита совершает манёвр Pile-in или консолидацию, она может переместиться на до 6" вместо до 3".
+▪ **Total Carnage (дубль 3+):** каждый раз, когда модель этого юнита уничтожается атакой в ближнем бою, если она ещё не сражалась в этой фазе, бросьте один D6: на 4+ не убирайте её из игры. Уничтоженная модель может сразиться после того, как атакующий юнит закончит свои атаки, и затем убирается из игры.
+▪ **Martial Excellence (дубль 4+):** оружие ближнего боя, которым вооружены модели этого юнита, получает способность [SUSTAINED HITS 1].
+▪ **Warp Blades (дубль 5+):** оружие ближнего боя, которым вооружены модели этого юнита, получает способность [LETHAL HITS].
+▪ **Decapitating Strikes (дубль 6):** каждый раз, когда модель этого юнита совершает атаку в ближнем бою по юниту Infantry, эта атака получает способность [DEVASTATING WOUNDS].`,
+      },
+      stratagems: [
+        {
+          name: 'Horrifying Butchery',
+          flavor: 'Топором-цепом, сапогом и кулаком Khorne Berzerkers прорубают и проламывают себе путь вперёд, а пропитанное кровью насилие их наступления наполняет смертные сердца парализующим ужасом.',
+          when: 'Начало фазы боя.',
+          target: 'Один дружественный вовлечённый в бой юнит Frenzied Reavers Khorne Berzerkers.',
+          effect: 'Выберите один вражеский юнит, находящийся в рукопашной с вашим юнитом. Этот вражеский юнит проходит проверку морального духа с -1 к этой проверке.',
+        },
+        {
+          name: 'Berserk Resilience',
+          flavor: 'Потерявшись в экстазе резни, последователи Khorne становятся почти невосприимчивы к ранениям.',
+          when: 'Фаза стрельбы вашего противника, когда вражеский юнит выбирает дружественный юнит Frenzied Reavers Infantry целью.',
+          target: 'Этот юнит Frenzied Reavers Infantry.',
+          effect: 'Дальнобойные атаки, направленные на ваш юнит, с S больше, чем T вашего юнита, получают -1 к броскам ран.',
+        },
+        {
+          name: 'Rabid Response',
+          flavor: 'Со стимулянтами и порочной кровью, текущими по артериям и венам, Jakhals пребывают в постоянном состоянии судорожного неистовства, реагируя на вражеский огонь тем, что бросаются всем телом на нападающих.',
+          when: 'Фаза стрельбы вашего противника, когда вражеский юнит выстрелил, если этот юнит выбирал целью дружественный не вовлечённый в бой юнит Frenzied Reavers Jakhals.',
+          target: 'Этот юнит Frenzied Reavers Jakhals.',
+          effect: 'Ваш юнит может совершить обычное перемещение на до D6".',
+        },
+      ],
+      enhancements: [
+        {
+          name: 'Bane of the Craven',
+          flavor: 'Daemon Princes of Khorne приберегают самую свирепую ненависть для трусов, безудержно вырезая всех, кто бежит с поля боя.',
+          body: `Только модель Frenzied Reavers Master of Executions. Когда вражеский юнит, находящийся в рукопашной с этим юнитом, выбран для отступления:
+▪ Этот вражеский юнит обязан выбрать режим desperate escape.
+▪ Если этот вражеский юнит battle-shocked, у него -1 к броскам hazard, совершаемым для этого desperate escape.`,
+        },
+        {
+          name: 'Fearsome Presence',
+          flavor: 'Возвышающиеся адские чудовища, Daemon Princes of Khorne властвуют над полем боя, вселяя беспросветный ужас во всех, кто стоит перед ними.',
+          body: 'Только модель Frenzied Reavers Daemon Prince. У этой модели OC 5.',
+        },
+      ],
+      datasheets: [
+        {
+          id: 'frenzied-reavers-khorne-berzerkers',
+          abilities: [
+            { name: 'Icon of Khorne', text: `Когда этот юнит уничтожает вражеский юнит, вы получаете 1 Bloodshed Point. При броске Blessings of Khorne:
+▪ Бросайте один дополнительный D6 за каждое имеющееся у вас Bloodshed Point.
+▪ Затем вы теряете свои Bloodshed Points.` },
+            { name: 'Blood Surge (Once per turn, per unit)', text: 'В фазе стрельбы вашего противника, когда вражеский юнит выстрелил, если эти атаки уничтожили модель в этом юните и этот юнит не вовлечён в бой, этот юнит может совершить рывок на до D6+2".' },
+          ],
+          composition: [
+            '1 модель Khorne Berzerker Champion',
+            '2 модели Khorne Berzerker with Bolt Pistol and Khornate Eviscerator',
+            '2 модели Khorne Berzerker with Plasma Pistol and Chainblade',
+            '5 моделей Khorne Berzerker with Bolt Pistol and Chainblade',
+          ],
+          loadout: `**Khorne Berzerker Champion вооружён:** Chainblade; Plasma Pistol.
+**Каждый Khorne Berzerker with Bolt Pistol and Khornate Eviscerator вооружён:** Bolt Pistol; Khornate Eviscerator.
+**Каждый Khorne Berzerker with Plasma Pistol and Chainblade вооружён:** Chainblade; Plasma Pistol.
+**Каждый Khorne Berzerker with Bolt Pistol and Chainblade вооружён:** Bolt Pistol; Chainblade.`,
+        },
+        {
+          id: 'frenzied-reavers-master-of-executions',
+          abilities: [
+            { name: 'A Worthy Skull', text: `▪ Атаки этой модели в ближнем бою, направленные на юнит Character, могут перебрасывать броски попадания и броски ран.
+▪ Когда этот юнит уничтожает модель Character, вы получаете 1 CP.` },
+          ],
+          composition: ['1 модель Master of Executions'],
+          loadout: '**Эта модель вооружена:** Axe of Dismemberment; Bolt Pistol.',
+          leader: {
+            text: 'Эта модель может быть прикреплена к следующим юнитам:',
+          },
+        },
+        {
+          id: 'frenzied-reavers-jakhals',
+          abilities: [
+            { name: 'Icon of Khorne', text: `Когда этот юнит уничтожает вражеский юнит, вы получаете 1 Bloodshed Point. При броске Blessings of Khorne:
+▪ Бросайте один дополнительный D6 за каждое имеющееся у вас Bloodshed Point.
+▪ Затем вы теряете свои Bloodshed Points.` },
+            { name: 'Objective Ravaged', text: 'В конце вашей фазы командования, если этот юнит контролирует цель, эта цель считается захваченной.' },
+          ],
+          composition: [
+            '1 модель Dishonoured',
+            '1 модель Jakhal Pack Leader',
+            '1 модель Jakhal with Autopistol and Mauler Chainblade',
+            '7 моделей Jakhal with Autopistol and Chainblade',
+          ],
+          loadout: `**Dishonoured вооружён:** Skullsmasher and Mangler.
+**Jakhal Pack Leader вооружён:** Autopistol; Chainblade.
+**Jakhal with Autopistol and Mauler Chainblade вооружён:** Autopistol; Mauler Chainblade.
+**Каждый Jakhal with Autopistol and Chainblade вооружён:** Autopistol; Chainblade.`,
+        },
+        {
+          id: 'vorrakh-lord-of-the-frenzied-reavers',
+          abilities: [
+            { name: 'Lord of Murder', text: 'Пока эта модель находится в пределах 3" от дружественного юнита Frenzied Reavers Infantry, этот юнит имеет Lone Operative.' },
+            { name: 'Direct the Slaughter', text: '(Один раз за раунд битвы, на армию) Когда дружественный юнит Frenzied Reavers в пределах 12" от этой модели выбирается целью стратагемы, вы можете использовать эту способность. Если делаете это, это применение стоит на -1 CP дешевле.' },
+            { name: 'Devastating Assault', text: 'Если этот юнит в этом ходу совершил рывок в атаку, атаки этого юнита в ближнем бою получают [DEVASTATING WOUNDS].' },
+          ],
+          composition: ['1 модель Vorrakh'],
+          loadout: '**Эта модель вооружена:** Hellforged Weapons; Infernal Cannon.',
+        },
+      ],
+    },
+    {
+      name: 'Genestealer Cults',
+      rule: {
+        flavor: 'Какими бы человечными они ни выглядели, все Genestealer Cultists — генетические химеры. Слияние человеческой и ксеносской генетики часто приводит к более прочной коже, росту хитиновых пластин и другим мутациям, обеспечивающим значительную защиту от вражеского огня.',
+        body: 'Дальнобойные атаки, направленные на дружественные юниты Claw of Ascension, с S больше, чем T этого юнита, получают -1 к броскам ран.',
+      },
+      armyRule: {
+        flavor: 'Genestealer Cults тщательно скрывают свою боевую мощь от угнетателей до наступления славного Дня Вознесения. Пока основные силы поднимаются в разгар яростной битвы, подкрепления выскальзывают из теней или выплёскиваются из тёмных глубин, призванные на войну Broodmind.',
+        body: `Если ваша армия относится к фракции Genestealer Cults, вы начинаете битву с определённым числом Resurgence points, зависящим от размера битвы, как показано ниже.
+▪ Combat Patrol: 2 Resurgence points
+▪ Incursion: 6 Resurgence points
+▪ Strike Force: 10 Resurgence points
+▪ Onslaught: 14 Resurgence points
+
+Каждый раз, когда юнит вашей армии уничтожен, если каждая модель в этом юните имеет эту способность, вы можете потратить соответствующее число Resurgence points, указанное ниже, в зависимости от начальной численности этого юнита.
+▪ Claw of Ascension Hybrid Metamorphs (5 моделей): 2 Resurgence points
+▪ Claw of Ascension Atalan Jackals (5 моделей): 2 Resurgence points
+
+Если делаете это:
+▪ Добавьте в свою армию новый юнит, идентичный вашему уничтоженному юниту, в Cult Ambush, с начальной численностью, со всеми оставшимися ранами и с любым оружием [ONE SHOT], которым вооружены эти модели, считающимся не использованным.
+▪ Поместите один маркер Cult Ambush (см. ниже) в любом месте поля боя, находящемся более чем в 9" по горизонтали от всех вражеских юнитов (если это невозможно, маркер не размещается).
+
+### Units in Cult Ambush
+Cult Ambush — разновидность стратегического резерва. Юниты в Cult Ambush не могут быть выбраны целью стратагемы Rapid Ingress, но могут быть выставлены на поле боя с помощью маркера Cult Ambush, как описано ниже, либо по правилам стратегического резерва в последующем ходу. Юниты в Cult Ambush не уничтожаются автоматически в конце третьего раунда битвы.
+
+### Cult Ambush Markers
+Используйте круглый маркер диаметром 32 мм для маркеров Cult Ambush. Если вражеская модель (за исключением Aircraft) заканчивает любое перемещение в пределах 8" от размещённого вами маркера Cult Ambush, этот маркер Cult Ambush убирается с поля боя. В конце следующей фазы перемещения вашего противника, за каждый ваш маркер Cult Ambush, всё ещё находящийся на поле боя, вы можете выбрать один юнит вашей армии, находящийся в Cult Ambush, чтобы совершить ingress move. Для этого ingress move выставьте этот юнит так, чтобы как минимум одна модель в этом юните находилась в контакте баз с этим маркером Cult Ambush, а все остальные модели были размещены целиком в пределах 3" от этого маркера Cult Ambush (после этого маркер Cult Ambush убирается с поля боя). Юниты в Cult Ambush могут совершить ingress move в первом раунде битвы по этому правилу.`,
+      },
+      stratagems: [
+        {
+          name: 'Cult Zealotry',
+          flavor: 'Одержимые своим делом, Genestealer Cultists всех форм и фаз сражаются с дикой решимостью, чтобы обрести свободу и обеспечить славное прибытие своих рождённых звёздами спасителей.',
+          when: 'Фаза боя, когда дружественный юнит Claw of Ascension выбран для боя.',
+          target: 'Этот юнит Claw of Ascension.',
+          effect: 'Атаки вашего юнита в ближнем бою могут перебрасывать броски ран.',
+        },
+        {
+          name: 'Dedicated to the End',
+          flavor: 'Культисты Claw of Ascension не боятся смерти. Но и не принимают её покорно. Они сражаются до последнего вздоха, чтобы истребить угнетателей и обеспечить свободу будущим поколениям.',
+          when: 'Фаза боя, когда вражеский юнит выбирает дружественный юнит Claw of Ascension целью.',
+          target: 'Этот юнит Claw of Ascension.',
+          effect: `Когда модель в вашем юните уничтожена, если ваш юнит ещё не был выбран для боя в этой фазе, бросьте один D6:
+▪ На 3+ эту модель не убирают с поля боя. Когда ваш юнит уже сражался, или в конце фазы (что наступит раньше), эту модель убирают с поля боя.`,
+        },
+        {
+          name: 'Guerrilla Warriors',
+          flavor: 'Привыкшие сражаться против превосходящих противников, Genestealer Cults используют тактику удара и отхода, а также другие шоковые приёмы, чтобы уравнять шансы.',
+          when: 'Ваша фаза перемещения, когда дружественный юнит Claw of Ascension выбран для отступления.',
+          target: 'Этот юнит Claw of Ascension.',
+          effect: 'Это перемещение не мешает вашему юниту быть подходящим для стрельбы/объявления атаки.',
+        },
+      ],
+      enhancements: [
+        {
+          name: 'Heavy Munitions',
+          flavor: 'Запасы высококачественных боеприпасов, захваченных со вражеских складов снабжения, дают Claw of Ascension огневую мощь, необходимую для борьбы с тяжелобронированными целями.',
+          body: 'Улучшение: только юнит Claw of Ascension Achilles Ridgerunners. Оружие Achilles missile launcher этого юнита получает +1 A, S и AP.',
+        },
+        {
+          name: 'Practiced Eye',
+          flavor: 'Мастерство Shanus Daskovian как снайпера легендарно среди её культа, и она столь же искусна в наведении огня партизан культа под её командованием.',
+          body: 'Только модель Claw of Ascension Jackal Alphus. В начале вашей фазы стрельбы вы можете выбрать один вражеский юнит. Атаки дружественных юнитов Claw of Ascension, направленные на этот вражеский юнит, получают +1 к броскам попадания.',
+        },
+      ],
+      datasheets: [
+        {
+          id: 'claw-of-ascension-hybrid-metamorphs',
+          abilities: [
+            { name: 'Brood Claim', text: 'В конце вашей фазы перемещения, если этот юнит контролирует цель, эта цель считается захваченной.' },
+          ],
+          composition: ['1 модель Metamorph', '1 модель Metamorph Leader', '3 модели Metamorph with Hand Flamer'],
+          loadout: `**Metamorph вооружён:** Metamorph Mutations.
+**Metamorph Leader вооружён:** Autopistol; Leader's Weapon Symbiote.
+**Каждый Metamorph with Hand Flamer вооружён:** Hand Flamer; Metamorph Mutations.`,
+        },
+        {
+          id: 'shanus-daskovian',
+          abilities: [
+            { name: 'Priority Target', text: 'В вашей фазе стрельбы, когда этот юнит выстрелил, вы можете выбрать один вражеский юнит, по которому пришлись эти атаки cult sniper rifle. Атаки дружественных юнитов Genestealer Cults, направленные на этот вражеский юнит, могут перебрасывать броски попадания 1.' },
+            { name: 'Master Outrider', text: `В вашей фазе стрельбы, когда этот юнит выстрелил, вы можете использовать эту способность. Если делаете это:
+▪ Этот юнит может совершить обычное перемещение на до 6".
+▪ Этот юнит не может объявить атаку до конца хода.` },
+          ],
+          composition: ['1 модель Shanus Daskovian'],
+          loadout: '**Эта модель вооружена:** Autopistol; Cult Sniper Rifle; Stolen Blade.',
+          leader: {
+            text: 'Эта модель может быть прикреплена к следующим юнитам:',
+          },
+        },
+        {
+          id: 'claw-of-ascension-atalan-jackals',
+          abilities: [
+            { name: 'Adaptable Fighters', text: `Когда этот юнит выбран для атаки, его атаки получают:
+▪ [SUSTAINED HITS 1].
+▪ Или: [LETHAL HITS].` },
+          ],
+          composition: ['1 модель Atalan Jackal with Power Weapon', '1 модель Atalan Wolfquad', '3 модели Atalan Jackal'],
+          loadout: `**Atalan Jackal with Power Weapon вооружён:** Power Weapon; Stolen Firearms.
+**Atalan Wolfquad вооружён:** Mining Laser; Stolen Blade; Stolen Firearms.
+**Каждый Atalan Jackal вооружён:** Stolen Blade; Stolen Firearms.`,
+        },
+        {
+          id: 'claw-of-ascension-achilles-ridgerunner',
+          abilities: [
+            { name: 'Survey Augur', text: 'В вашей фазе стрельбы, когда этот юнит выстрелил, вы можете выбрать один вражеский юнит, по которому пришлись эти атаки. Атаки дружественных юнитов Genestealer Cults, направленные на этот вражеский юнит, получают [IGNORES COVER].' },
+            { name: 'Crossfire', text: 'В вашей фазе стрельбы, когда этот юнит выстрелил, вы можете выбрать один вражеский юнит, по которому пришлись эти атаки и который ещё не был выбран для этой способности в этом ходу. Атаки дружественных юнитов Genestealer Cults, направленные на этот вражеский юнит, получают +1 AP до конца хода.' },
+          ],
+          composition: ['1 модель Achilles Ridgerunner'],
+          loadout: '**Эта модель вооружена:** Armoured Hull; Missile Launcher; Survey Augur; Twin Heavy Stubber.',
+        },
+      ],
+    },
+    {
+      name: 'Grey Knights',
+      rule: {
+        flavor: 'Мастера технологии телепортации и прочего варп-ремесла, Grey Knights часто держат воинов в резерве, готовых вступить в бой в любой момент. Когда их призывают к битве, эти воины наносят удар будто из ниоткуда, атакуя ошеломлённых врагов прежде, чем те успеют поднять оружие в ответ.',
+        body: `▪ Когда дружественный юнит Crowe's Sanctifiers завершает рывок в атаку, если этот юнит в этом ходу совершил ingress move, вы можете выбрать один вражеский юнит, находящийся в рукопашной с этим дружественным юнитом. Если делаете это, этот вражеский юнит проходит проверку морального духа.
+▪ При игре в битве Combat Patrol следующие дружественные юниты должны начинать битву в стратегическом резерве и не могут быть выставлены на поле боя до указанного раунда битвы, а когда это произойдёт, должны быть выставлены целиком в вашей зоне развертывания: Brotherhood Terminator Squad (раунд битвы 2), Venerable Dreadnought (раунд битвы 3).`,
+      },
+      armyRule: {
+        flavor: 'Немногие способны повелевать силами Варпа со сравнимым мастерством и контролем, как Grey Knights. Их колдовство настолько совершенно, что они могут вызывать светящиеся эмпирические врата, чтобы шагнуть за пределы реальности и обратно. Так они стремительно обходят врагов с фланга и перебрасывают свои силы навстречу угрозам, оставаясь невредимыми во время мгновенного варп-перехода благодаря замысловатым оберегам, вплетённым в их снаряжение.',
+        body: 'Если ваша армия относится к фракции Grey Knights, в конце фазы боя вашего противника вы можете выбрать некоторое число юнитов вашей армии, находящихся на поле боя (за исключением юнитов, находящихся в пределах Engagement Range одного или более вражеских юнитов), при условии что каждая модель в этих юнитах имеет эту способность. Как только вы сделали свой выбор, уберите эти юниты с поля боя и поместите их в стратегический резерв.',
+      },
+      stratagems: [
+        {
+          name: 'Exigent Assignments',
+          flavor: 'Когда на кону судьба Империума, время всегда имеет значение. Оставляя за собой сломленные тела своих жертв, Crowe\'s Sanctifiers продвигаются к назначенным целям.',
+          when: 'Фаза боя, когда дружественный юнит Crowe\'s Sanctifiers выбран для совершения консолидации.',
+          target: 'Этот юнит Crowe\'s Sanctifiers.',
+          effect: 'При совершении этой консолидации ваш юнит может переместиться на до D3+3".',
+        },
+        {
+          name: 'Refusal to Yield',
+          flavor: 'От Grey Knights Strike Squads ожидают, что они выстоят перед величайшими эмпирическими угрозами и никогда не дрогнут. С несокрушимой решимостью они отмахиваются от всех ударов, кроме самых сокрушительных.',
+          when: 'Фаза стрельбы вашего противника, когда вражеский юнит выбирает дружественный юнит Crowe\'s Sanctifiers Strike Squad целью.',
+          target: 'Этот юнит Crowe\'s Sanctifiers Strike Squad.',
+          effect: 'Дальнобойные атаки, направленные на ваш юнит, с S больше, чем T вашего юнита, получают -1 к броскам ран.',
+        },
+        {
+          name: 'Psi-reactive Ammunition',
+          flavor: 'Пропитанные отрицательной психической энергией, эти боеприпасы смертоносно эффективны против чародеев, демонов и прочих, кто черпает свою силу из Варпа.',
+          when: 'Ваша фаза стрельбы, когда дружественный юнит Crowe\'s Sanctifiers выбран для стрельбы.',
+          target: 'Этот юнит Crowe\'s Sanctifiers.',
+          effect: 'Оружие storm bolter вашего юнита получает [PSYCHIC].',
+        },
+      ],
+      enhancements: [
+        {
+          name: 'Sanctified Auspexes',
+          flavor: 'Древние, ритуально очищенные и благословлённые Техножрецами ордена, сверхчувствительные ауспики наведения обеспечивают исключительно точное целеуказание.',
+          body: 'Улучшение: только юнит Crowe\'s Sanctifiers Venerable Dreadnought. Дальнобойные атаки этого юнита могут перебросить один бросок попадания.',
+        },
+        {
+          name: 'Purifying Force',
+          flavor: 'Терминаторы Purifiers часто сталкиваются с чудовищными противниками. Сочетая физическую, механическую и духовную мощь, они наносят удары, достаточно сильные, чтобы дробить броню, раскалывать панцири и изгонять нечестивое.',
+          body: 'Улучшение: только юнит Crowe\'s Sanctifiers Brotherhood Terminator Squad. (Один раз за битву, на армию) Когда этот юнит выбран для боя, если он в этом ходу совершил рывок в атаку, вы можете использовать эту способность. Если делаете это, атаки этого юнита в ближнем бою получают [LETHAL HITS].',
+        },
+      ],
+      datasheets: [
+        {
+          id: 'crowes-sanctifiers-strike-squad',
+          abilities: [
+            { name: 'Sanctifying Ritual (Psychic)', text: 'В конце вашей фазы командования, если этот юнит контролирует цель, эта цель считается захваченной.' },
+            { name: 'Combat Squad', text: 'В начале шага «Объявление боевых построений» вы можете разделить этот юнит на два отдельных юнита по пять моделей в каждом.' },
+          ],
+          composition: [
+            '1 модель Grey Knight with Incinerator and Ceramite Fists',
+            '1 модель Grey Knight with Psycannon and Ceramite Fists',
+            '1 модель Justicar',
+            '7 моделей Grey Knight with Storm Bolter and Nemesis Force Weapon',
+          ],
+          loadout: `**Grey Knight with Incinerator and Ceramite Fists вооружён:** Ceramite Fists; Incinerator.
+**Grey Knight with Psycannon and Ceramite Fists вооружён:** Ceramite Fists; Psycannon.
+**Justicar вооружён:** Nemesis Force Weapon; Storm Bolter.
+**Каждый Grey Knight with Storm Bolter and Nemesis Force Weapon вооружён:** Nemesis Force Weapon; Storm Bolter.`,
+        },
+        {
+          id: 'crowes-sanctifiers-venerable-dreadnought',
+          abilities: [
+            { name: 'Guidance of the Ancients (Psychic)', text: 'В вашей фазе стрельбы, когда этот юнит выстрелил, вы можете выбрать один вражеский юнит, по которому пришлись эти дальнобойные атаки. Если делаете это, дальнобойные атаки дружественных моделей Grey Knights, направленные на этот вражеский юнит, получают +1 к броскам попадания.' },
+          ],
+          composition: ['1 модель Venerable Dreadnought'],
+          loadout: '**Эта модель вооружена:** Dreadnought Fist; Storm Bolter; Twin Lascannon.',
+        },
+        {
+          id: 'crowes-sanctifiers-brotherhood-terminator-squad',
+          abilities: [
+            { name: 'Force Edge (Psychic)', text: 'Атаки этого юнита в ближнем бою, направленные на юнит (за исключением юнитов Monster/Vehicle), получают +1 AP.' },
+          ],
+          composition: [
+            '1 модель Brotherhood Terminator Justicar',
+            '1 модель Brotherhood Terminator with Psycannon and Nemesis Force Weapon',
+            '3 модели Brotherhood Terminator with Storm Bolter and Nemesis Force Weapon',
+          ],
+          loadout: `**Brotherhood Terminator Justicar вооружён:** Nemesis Force Weapon; Storm Bolter.
+**Brotherhood Terminator with Psycannon and Nemesis Force Weapon вооружён:** Nemesis Force Weapon; Psycannon.
+**Каждый Brotherhood Terminator with Storm Bolter and Nemesis Force Weapon вооружён:** Nemesis Force Weapon; Storm Bolter.`,
+        },
+        {
+          id: 'sanctifiers-castellan-crowe',
+          abilities: [
+            { name: 'Foesight (Psychic)', text: 'Атаки этого юнита, направленные на юнит Character, могут перебрасывать броски попадания.' },
+          ],
+          composition: ['1 модель Castellan Crowe'],
+          loadout: '**Эта модель вооружена:** Black Blade of Antwyr; Purifying Flame; Storm Bolter.',
+        },
+      ],
+    },
   ],
 }
