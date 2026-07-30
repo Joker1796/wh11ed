@@ -3,7 +3,7 @@
 // Angels armies can ALSO field the Codex: Space Marines detachments (they live in
 // space-marines.js and are not duplicated).
 //
-//   Codex layer: 5 detachments imported from the Wahapedia CSV exports (they live under
+//   Codex layer: 5 detachments imported from the codex (filed under
 //     the Space Marines faction id there) with the remaining pack Rules Update folded in
 //     (Gleaming Pinions rewrite). Angelic Inheritors and Rage-Cursed Onslaught are also
 //     printed in the Faction Pack (identical text) — marked source: 'faction-pack'.
@@ -34,11 +34,11 @@ If your Army Faction is Adeptus Astartes, at the start of your Command phase, se
   },
 
   detachments: [
-    // ─────────────── CODEX DETACHMENTS (via Wahapedia import) ───────────────
+    // ─────────────── CODEX DETACHMENTS ───────────────
     {
       id: "angelic-inheritors",
       name: "Angelic Inheritors",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 3,
       forceDisposition: "Priority Assets",
       unique: "GRACE",
@@ -253,7 +253,7 @@ If your Army Faction is Adeptus Astartes, at the start of your Command phase, se
     {
       id: "rage-cursed-onslaught",
       name: "Rage-Cursed Onslaught",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 3,
       forceDisposition: "Purge the Foe",
       unique: "DOOMED",

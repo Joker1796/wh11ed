@@ -1,9 +1,9 @@
 // Adepta Sororitas — faction rules. Resolved from the same source priority as the other
 // factions (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: originally imported from the Wahapedia CSV exports (importer since retired) →
+//   Codex layer: imported from the codex →
 //     5 detachments (Army of Faith, Bringers of Flame, Champions of Faith, Hallowed
-//     Martyrs, Penitent Host). Wahapedia already carries most pack updates; the remaining
+//     Martyrs, Penitent Host). The codex text already carries most pack updates; the remaining
 //     diff (Devout Fanaticism) is folded in below. Champions of Faith is also printed in
 //     the Faction Pack (identical text) — marked source: 'faction-pack'.
 //   Faction Pack v1.0 (sources/Faction pack 11 ed/imperium/AdeptaSororitas.pdf) → 3 pack
@@ -19,7 +19,7 @@ const en = {
   name: "Adepta Sororitas",
 
   // Faction-Pack Rules Update rewrote the Gaining Miracle Dice section (already reflected
-  // in the Wahapedia text below).
+  // in the codex text below).
   armyRule: {
     id: 'acts-of-faith',
     name: 'Acts of Faith',
@@ -46,7 +46,7 @@ Before making a dice roll for a model or unit from your army with the Acts of Fa
   },
 
   detachments: [
-    // ─────────────── CODEX DETACHMENTS (via Wahapedia import) ───────────────
+    // ─────────────── CODEX DETACHMENTS ───────────────
     {
       id: "army-of-faith",
       name: "Army of Faith",
@@ -264,7 +264,7 @@ Before making a dice roll for a model or unit from your army with the Acts of Fa
     {
       id: "champions-of-faith",
       name: "Champions of Faith",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 2,
       forceDisposition: "Disruption",
       unique: "REVEREND",

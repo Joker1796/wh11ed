@@ -1,8 +1,8 @@
 // T'au Empire — faction rules. Resolved from the same source priority as the other factions
 // (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: originally imported from the Wahapedia CSV exports (importer since retired)
-//     (Wahapedia carries the 10ed codex text with most pack updates already applied) →
+//   Codex layer: imported from the codex
+//     (the 10ed codex text already carries most pack updates) →
 //     4 codex detachments (Kauyon, Kroot Hunting Pack, Mont'ka, Retaliation Cadre).
 //   Faction Pack v1.0 (sources/Faction pack 11 ed/xenos/Tau.pdf) → army rule rewrite
 //     (For the Greater Good), 3 pack detachments (Advanced Acquisition Cadre + rewritten
@@ -41,7 +41,7 @@ If you have upgraded a model to have a drone, place a Drone token next to your m
   },
 
   detachments: [
-    // ───────────────────────── CODEX DETACHMENTS (via Wahapedia import) ─────────────────────────
+    // ───────────────────────── CODEX DETACHMENTS ─────────────────────────
     {
       id: "kauyon",
       name: "Kauyon",

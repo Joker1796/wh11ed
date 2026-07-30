@@ -1,8 +1,8 @@
 // Chaos Space Marines — faction rules. Resolved from the same source priority as the other
 // factions (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: originally imported from the Wahapedia CSV exports (importer since retired) →
-//     14 detachments. Wahapedia already carries most pack updates; the remaining diffs are
+//   Codex layer: imported from the codex →
+//     14 detachments. The codex text already carries most pack updates; the remaining diffs are
 //     folded in below (inline notes). Warpstrike Champions, Cult of the Arkifane, Creations
 //     of Bile, Nightmare Hunt, Huron's Marauders and Renegade Warband are also printed in
 //     the Faction Pack (identical text) — marked source: 'faction-pack'.
@@ -38,7 +38,7 @@ The combined points value of such units you can include in your army depends on 
   },
 
   detachments: [
-    // ─────────────── CODEX DETACHMENTS (via Wahapedia import) ───────────────
+    // ─────────────── CODEX DETACHMENTS ───────────────
     {
       id: "chaos-cult",
       name: "Chaos Cult",
@@ -149,7 +149,7 @@ The combined points value of such units you can include in your army depends on 
     {
       id: "creations-of-bile",
       name: "Creations of Bile",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 3,
       forceDisposition: "Purge the Foe",
       rule: {
@@ -256,7 +256,7 @@ The combined points value of such units you can include in your army depends on 
     {
       id: "cult-of-the-arkifane",
       name: "Cult of the Arkifane",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 2,
       forceDisposition: "Priority Assets",
       rule: {
@@ -684,7 +684,7 @@ The combined points value of such units you can include in your army depends on 
     {
       id: "hurons-marauders",
       name: "Huron’s Marauders",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 3,
       forceDisposition: "Disruption",
       rule: {
@@ -792,7 +792,7 @@ The combined points value of such units you can include in your army depends on 
     {
       id: "nightmare-hunt",
       name: "Nightmare Hunt",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 2,
       forceDisposition: "Disruption",
       unique: "NIGHTMARE",
@@ -1114,7 +1114,7 @@ The combined points value of such units you can include in your army depends on 
     {
       id: "renegade-warband",
       name: "Renegade Warband",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 2,
       forceDisposition: "Priority Assets",
       rule: {
@@ -1435,7 +1435,7 @@ The combined points value of such units you can include in your army depends on 
     {
       id: "warpstrike-champions",
       name: "Warpstrike Champions",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 2,
       forceDisposition: "Disruption",
       rule: {
