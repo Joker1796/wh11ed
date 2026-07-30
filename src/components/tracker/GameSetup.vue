@@ -222,14 +222,20 @@
           <span>{{ labels.trackerTrackCp }}</span>
         </label>
 
-        <label v-if="armyYouTrackable" class="check" :class="{ on: settings.trackArmyYou }">
+        <label v-if="players[0].factionSlug" class="check" :class="{ on: settings.trackArmyYou }">
           <input type="checkbox" v-model="settings.trackArmyYou" />
-          <span>{{ labels.trackerTrackArmyYou }}</span>
+          <span>
+            {{ labels.trackerTrackArmyYou }}
+            <em v-if="!armyYouTrackable" class="check-note">{{ labels.trackerArmyReferenceOnly }}</em>
+          </span>
         </label>
 
-        <label v-if="armyOppTrackable" class="check" :class="{ on: settings.trackArmyOpp }">
+        <label v-if="players[1].factionSlug" class="check" :class="{ on: settings.trackArmyOpp }">
           <input type="checkbox" v-model="settings.trackArmyOpp" />
-          <span>{{ labels.trackerTrackArmyOpp }}</span>
+          <span>
+            {{ labels.trackerTrackArmyOpp }}
+            <em v-if="!armyOppTrackable" class="check-note">{{ labels.trackerArmyReferenceOnly }}</em>
+          </span>
         </label>
       </div>
 
@@ -368,9 +374,12 @@ const players = reactive([
 ])
 const settings = reactive({ ...defaultSettings, ...(draft?.settings) })
 
-// Each "Track army rule" toggle only makes sense if that player's faction actually has an army-rule
-// tracker spec — otherwise it'd be a dead option. Resolve per player, lazily (the registry is
-// dynamic-imported, same as the in-game card), whenever the picked factions change.
+// Every faction now gets SOME form of the army-rule card during the game — an interactive
+// counter/toggle/etc. for the ~11 factions with a registered spec, or a read-only reference
+// (just the rule's own text) for the rest (see ArmyTrackerCard.vue's `kind: 'reference'`
+// fallback). These two flags only control the setup checkbox's caption ("reference only, no
+// counter" vs nothing extra) — resolved per player, lazily (the registry is dynamic-imported,
+// same as the in-game card), whenever the picked factions change.
 const armyYouTrackable = ref(false)
 const armyOppTrackable = ref(false)
 watch(
@@ -980,6 +989,12 @@ function cancel() {
   background: color-mix(in srgb, var(--accent) 10%, transparent);
 }
 .check.on span { color: var(--text-primary); }
+.check-note {
+  display: block;
+  font-style: normal;
+  font-size: 0.72rem;
+  color: var(--text-dim);
+}
 .check input[type="checkbox"] {
   width: 20px;
   height: 20px;
