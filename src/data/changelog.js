@@ -23,11 +23,13 @@ export const changelog = [
       { h: 'Combat Patrol' },
       'Added a full Combat Patrol section — hand-written rules for all 24 factions\' starter-box content (detachment rule, army rule, stratagems, enhancements and the fixed roster\'s datasheets), reachable under the new "Rules" menu alongside Core Rules and the Event Companion.',
       'The Game Tracker can now score a Combat Patrol game: a "Game Type" toggle at the start of setup restricts army/detachment selection to the box\'s own content, auto-fills its fixed Force Disposition, and shows its stratagems during the game instead of a normal detachment\'s.',
+      'The Game Tracker\'s army-rule card now shows for every faction, not just the ones with a live counter — factions without one get a read-only "How it works" reference to their army rule\'s text instead.',
     ],
     ru: [
       { h: 'Combat Patrol' },
       'Добавлен полноценный раздел Combat Patrol — авторские правила стартовых наборов для всех 24 фракций (правило детачмента, армейское правило, стратагемы, улучшения и датащиты фиксированного состава), доступен в новом меню «Правила» рядом с Основными правилами и Путеводителем по ивентам.',
       'Трекер партии теперь умеет считать игру Combat Patrol: переключатель «Тип игры» в начале настройки ограничивает выбор армии/детачмента содержимым коробки, сам подставляет её фиксированную Force Disposition и показывает её стратагемы во время игры вместо обычного детачмента.',
+      'Карточка армейского правила в Трекере партии теперь показывается для всех фракций, а не только для тех, где есть живой счётчик — у остальных вместо него справка «Как работает» с текстом самого правила.',
     ],
   },
   {
