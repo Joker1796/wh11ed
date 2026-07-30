@@ -166,8 +166,10 @@
     </div>
 
     <!-- How the mechanic works (gain triggers + note) — collapsed by default. Kept ABOVE the active
-         rule so the "what right now" state reads last, closest to the controls above it. -->
-    <div v-if="view.gains.length || view.note" class="army-acc">
+         rule so the "what right now" state reads last, closest to the controls above it. Only for
+         interactive specs — the reference view (no counter) has its own "How it works" below,
+         showing the rule's actual text instead of a hand-written gains/note summary. -->
+    <div v-if="view.kind !== 'reference' && (view.gains.length || view.note)" class="army-acc">
       <button
         class="army-acc-head"
         :aria-expanded="showHowto"
@@ -185,6 +187,25 @@
         </div>
       </CollapseTransition>
     </div>
+
+    <!-- Reference-only view (no interactive spec for this faction): the army rule's own text,
+         collapsed behind the same "How it works" accordion. Sourced from the Combat Patrol box's
+         copy during a CP game, the normal Codex otherwise (see loadReferenceView). No flavor/lore
+         text — this is a mid-game rules lookup, not a reference page. -->
+    <template v-if="view.kind === 'reference'">
+      <div class="army-acc">
+        <button class="army-acc-head" :aria-expanded="showHowto" @click="showHowto = !showHowto">
+          <i class="bi army-acc-chev" :class="showHowto ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+          <span class="army-acc-title">{{ labels.trackerArmyHowto }}</span>
+        </button>
+        <CollapseTransition :show="showHowto">
+          <div class="army-acc-body">
+            <RuleBody :body="view.body" />
+            <p v-if="view.example" class="army-ref-example">{{ view.example }}</p>
+          </div>
+        </CollapseTransition>
+      </div>
+    </template>
 
     <!-- Resurrected units (GSC): a running log of what the spend picker bought, so the Resurgence
          pool's history is visible instead of just a number going down. Each entry is undoable (refunds
@@ -476,13 +497,73 @@ watch(
   { immediate: true },
 )
 
-// Localized, display-ready view of the spec (recomputes on locale change).
+// Read-only reference view for factions with no interactive spec: just the army rule's own
+// text (name/body/example — no flavor/lore, this is a mid-game rules lookup), sourced from the
+// Combat Patrol box's copy during a CP game (a few boxes' copies genuinely differ from the Codex
+// — Necrons/GSC/Grey Knights — the rest are verbatim-identical, so reading from there
+// unconditionally in CP mode is always correct) or from the normal faction data otherwise. Unlike
+// the interactive specs this needs no detachment resolution — every faction has exactly one army
+// rule.
+async function loadReferenceView(slug, loc) {
+  if (current.value?.settings?.combatPatrol) {
+    const { combatPatrol } = await import('../../data/combatPatrol.js')
+    const f = combatPatrol[loc]?.factions?.find((x) => x.slug === slug)
+    if (!f) return null
+    return {
+      kind: 'reference',
+      label: labels.value.trackerArmyRule,
+      ruleName: f.armyRule.name,
+      body: f.armyRule.body,
+      example: f.armyRule.example,
+    }
+  }
+  const { getFaction } = await import('../../data/factions/index.js')
+  const data = getFaction(slug)
+  if (!data) return null
+  let armyRule = data.en.armyRule
+  let nameRu
+  if (loc === 'ru') {
+    const { loadFactionRu, deepOverlay } = await import('../../data/factions/ru/index.js')
+    const mod = await loadFactionRu(slug)
+    if (mod) {
+      armyRule = deepOverlay(data.en.armyRule, mod.default?.armyRule)
+      nameRu = mod.armyRuleNameRu
+    }
+  }
+  return {
+    kind: 'reference',
+    label: labels.value.trackerArmyRule,
+    ruleName: nameRu || armyRule.name,
+    body: armyRule.body,
+    example: armyRule.example,
+  }
+}
+
+// Localized, display-ready view of the spec (recomputes on locale change) — or, for factions
+// with no interactive spec, the read-only reference view above. Guarded with a token (same
+// pattern as `resolve()`): on mount, `spec` is still null while resolve()'s own dynamic import is
+// in flight, so this watcher's first (immediate) run takes the reference-view branch — if that
+// branch's async work (up to 2 chained imports for RU) finishes AFTER a later run that resolved
+// the real tracked spec, it would silently overwrite the correct counter view with stale
+// reference text. The token makes only the most recent run's result apply.
 const view = ref(null)
-watch([spec, locale], async ([s, loc]) => {
-  if (!s) { view.value = null; return }
-  const { localizeArmyTracker } = await import('../../data/armyTrackers/index.js')
-  view.value = localizeArmyTracker(s, loc)
-}, { immediate: true })
+let viewToken = 0
+watch(
+  [spec, locale, () => player.value?.factionSlug, () => current.value?.settings?.combatPatrol],
+  async ([s, loc, slug]) => {
+    const t = ++viewToken
+    let next
+    if (s) {
+      const { localizeArmyTracker } = await import('../../data/armyTrackers/index.js')
+      next = localizeArmyTracker(s, loc)
+    } else {
+      next = slug ? await loadReferenceView(slug, loc) : null
+    }
+    if (t !== viewToken) return // a newer run superseded this one
+    view.value = next
+  },
+  { immediate: true },
+)
 
 // Once a battle-long pick locks (round 2+), surface its rule expanded — it's the card's main content
 // then, with the picker gone. The user can still collapse it. Declared after `view` (which
@@ -997,6 +1078,16 @@ useFlashOnChange(counter, counterEl)
   margin: 0.5rem 0 0;
   font-size: 0.8rem;
   line-height: 1.45;
+  color: var(--text-muted);
+}
+
+.army-ref-example {
+  margin: 0.5rem 0 0;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  font-style: italic;
   color: var(--text-muted);
 }
 </style>
