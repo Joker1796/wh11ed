@@ -1,6 +1,6 @@
 // Chaos Titan Legions — datasheets. Source: wh40k-appdata (../wh40k-appdata/factions/titanicus-traitoris.json,
-// "Imperial Armour: Chaos Titan Legions"), the official GW app data dump — not a Wahapedia
-// import. Lazy-loaded per faction via src/data/datasheets/index.js — do not import statically.
+// "Imperial Armour: Chaos Titan Legions"), the official GW app data dump.
+// Lazy-loaded per faction via src/data/datasheets/index.js — do not import statically.
 // A Titan has no detachment of its own (see src/data/factions/chaos-titan-legions.js): it is
 // an ally slot addable to any all-CHAOS army via the Titanic Support army rule.
 export default [

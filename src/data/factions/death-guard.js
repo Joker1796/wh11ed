@@ -1,9 +1,9 @@
 // Death Guard — faction rules. Resolved from the same source priority as the other
 // factions (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: originally imported from the Wahapedia CSV exports (importer since retired) →
+//   Codex layer: imported from the codex →
 //     6 detachments (Champions of Contagion, Death Lord's Chosen, Mortarion's Hammer,
-//     Shamblerot Vectorium, Tallyband Summoners, Virulent Vectorium). Wahapedia already
+//     Shamblerot Vectorium, Tallyband Summoners, Virulent Vectorium). The codex text already
 //     carries most pack updates; the remaining diffs are folded in below (inline notes).
 //   Faction Pack v1.0 (sources/Faction pack 11 ed/chaos/DG.pdf) → 2 pack detachments
 //     (Contagion Engines, Paragons of Putrescence), a full rewrite of Flyblown Host
@@ -43,7 +43,7 @@ During the Declare Battle Formations step, select one of the Plagues below. Unti
   },
 
   detachments: [
-    // ─────────────── CODEX DETACHMENTS (via Wahapedia import) ───────────────
+    // ─────────────── CODEX DETACHMENTS ───────────────
     {
       id: "champions-of-contagion",
       name: "Champions of Contagion",

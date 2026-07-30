@@ -1,9 +1,9 @@
 // Astra Militarum — faction rules. Resolved from the same source priority as the other
 // factions (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: originally imported from the Wahapedia CSV exports (importer since retired) →
+//   Codex layer: imported from the codex →
 //     8 detachments (Armoured Infantry, Combined Arms, Grizzled Company, Hammer of the
-//     Emperor, Mechanised Assault, Recon Element, Siege Regiment, Steel Hammer). Wahapedia
+//     Emperor, Mechanised Assault, Recon Element, Siege Regiment, Steel Hammer).
 //     already carries most pack updates; the remaining diffs are folded in (inline notes).
 //     Armoured Infantry, Grizzled Company and Steel Hammer are also printed in the Faction
 //     Pack (identical text) — marked source: 'faction-pack'.
@@ -40,11 +40,11 @@ Until the start of your next Command phase, the unit you selected is affected by
   },
 
   detachments: [
-    // ─────────────── CODEX DETACHMENTS (via Wahapedia import) ───────────────
+    // ─────────────── CODEX DETACHMENTS ───────────────
     {
       id: "armoured-infantry",
       name: "Armoured Infantry",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 2,
       forceDisposition: "Take and Hold",
       rule: {
@@ -259,7 +259,7 @@ Until the start of your next Command phase, the unit you selected is affected by
     {
       id: "grizzled-company",
       name: "Grizzled Company",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 3,
       forceDisposition: "Priority Assets",
       unique: "ABHUMAN",
@@ -796,7 +796,7 @@ Until the start of your next Command phase, the unit you selected is affected by
     {
       id: "steel-hammer",
       name: "Steel Hammer",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 2,
       forceDisposition: "Purge the Foe",
       rule: {

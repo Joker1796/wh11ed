@@ -3,7 +3,7 @@
 // can ALSO field the Codex: Space Marines detachments (they live in space-marines.js and
 // are not duplicated).
 //
-//   Codex layer: the four Sagas imported from the Wahapedia CSV exports (they live under
+//   Codex layer: the four Sagas imported from the codex (filed under
 //     the Space Marines faction id there) with remaining pack Rules Updates folded in.
 //     Saga of the Great Wolf is also printed in the Faction Pack (identical text) —
 //     marked source: 'faction-pack'.
@@ -33,7 +33,7 @@ While this unit is within 6" of one or more friendly Space Wolves Character mode
   },
 
   detachments: [
-    // ─────────────── CODEX DETACHMENTS (via Wahapedia import) ───────────────
+    // ─────────────── CODEX DETACHMENTS ───────────────
     {
       id: "saga-of-the-beastslayer",
       name: "Saga of the Beastslayer",
@@ -251,7 +251,7 @@ While this unit is within 6" of one or more friendly Space Wolves Character mode
     {
       id: "saga-of-the-great-wolf",
       name: "Saga of the Great Wolf",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 2,
       forceDisposition: "Take and Hold",
       rule: {

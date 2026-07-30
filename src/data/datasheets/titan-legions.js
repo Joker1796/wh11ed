@@ -1,5 +1,5 @@
 // Titan Legions — datasheets. Source: wh40k-appdata (../wh40k-appdata/factions/adeptus-titanicus.json,
-// "Imperial Armour: Titan Legions"), the official GW app data dump — not a Wahapedia import.
+// "Imperial Armour: Titan Legions"), the official GW app data dump.
 // Lazy-loaded per faction via src/data/datasheets/index.js — do not import statically.
 // A Titan has no detachment of its own (see src/data/factions/titan-legions.js): it is an
 // ally slot addable to any all-IMPERIUM army via the Titanic Support army rule.

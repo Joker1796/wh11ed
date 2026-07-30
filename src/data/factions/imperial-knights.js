@@ -1,9 +1,9 @@
 // Imperial Knights — faction rules. Resolved from the same source priority as the other
 // factions (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: originally imported from the Wahapedia CSV exports (importer since retired) →
+//   Codex layer: imported from the codex →
 //     5 detachments (Freeblade Company, Gate Warden Lance, Questoris Companions,
-//     Spearhead-At-Arms, Valourstrike Lance). Wahapedia already carries most pack updates;
+//     Spearhead-At-Arms, Valourstrike Lance). The codex text already carries most pack updates;
 //     the remaining diff (Tactical Foil 9"→8") is folded in below. Freeblade Company is
 //     also printed in the Faction Pack (identical text) — marked source: 'faction-pack'.
 //   Faction Pack v1.0 (sources/Faction pack 11 ed/imperium/IK.pdf) → 2 pack detachments
@@ -19,7 +19,7 @@ const en = {
   name: "Imperial Knights",
 
   // Faction-Pack Rules Update reworded the "We pledge to reap a great tally" Deed
-  // (already reflected in the Wahapedia text below).
+  // (already reflected in the codex text below).
   armyRule: {
     id: 'code-chivalric',
     name: 'Code Chivalric',
@@ -54,11 +54,11 @@ If every model in your army has the IMPERIUM keyword, you can include either one
   },
 
   detachments: [
-    // ─────────────── CODEX DETACHMENTS (via Wahapedia import) ───────────────
+    // ─────────────── CODEX DETACHMENTS ───────────────
     {
       id: "freeblade-company",
       name: "Freeblade Company",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 3,
       forceDisposition: "Purge the Foe",
       rule: {
