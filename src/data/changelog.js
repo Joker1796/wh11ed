@@ -17,6 +17,28 @@
 
 export const changelog = [
   {
+    version: '2.1.9',
+    date: '2026-07-30',
+    en: [
+      { h: 'Combat Patrol' },
+      'Added a full Combat Patrol section — hand-written rules for all 24 factions\' starter-box content (detachment rule, army rule, stratagems, enhancements and the fixed roster\'s datasheets), reachable under the new "Rules" menu alongside Core Rules and the Event Companion.',
+      'The Game Tracker can now score a Combat Patrol game: a "Game Type" toggle at the start of setup restricts army/detachment selection to the box\'s own content, auto-fills its fixed Force Disposition, and shows its stratagems during the game instead of a normal detachment\'s.',
+      { h: 'Other fixes' },
+      'Terrain & Layouts: some diagrams re-extracted from the app could show a stale cached image — fixed.',
+      'Terrain & Layouts: each A/B/C tab now shows its Deployment Map name.',
+      'Event Companion: the mobile A/B/C layout tabs no longer grow taller when a longer Deployment Map name is shown.',
+    ],
+    ru: [
+      { h: 'Combat Patrol' },
+      'Добавлен полноценный раздел Combat Patrol — авторские правила стартовых наборов для всех 24 фракций (правило детачмента, армейское правило, стратагемы, улучшения и датащиты фиксированного состава), доступен в новом меню «Правила» рядом с Основными правилами и Путеводителем по ивентам.',
+      'Трекер партии теперь умеет считать игру Combat Patrol: переключатель «Тип игры» в начале настройки ограничивает выбор армии/детачмента содержимым коробки, сам подставляет её фиксированную Force Disposition и показывает её стратагемы во время игры вместо обычного детачмента.',
+      { h: 'Прочие исправления' },
+      'Terrain & Layouts: некоторые диаграммы, заново извлечённые из приложения, могли показывать устаревшую закэшированную картинку — исправлено.',
+      'Terrain & Layouts: под каждой вкладкой A/B/C теперь показано название Deployment Map.',
+      'Путеводитель по ивентам: мобильные вкладки раскладки A/B/C больше не растут по высоте при длинном названии Deployment Map.',
+    ],
+  },
+  {
     version: '2.1.8',
     date: '2026-07-29',
     en: [
