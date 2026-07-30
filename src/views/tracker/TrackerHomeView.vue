@@ -292,6 +292,7 @@ function resultClass(g) { const r = winnerSide(g); return r === 'win' ? 'res-win
 function resultLabel(g) { const r = winnerSide(g); return r === 'win' ? 'VICTORY' : r === 'loss' ? 'DEFEAT' : 'DRAW' }
 
 function battleSizeName(g) {
+  if (g.settings?.combatPatrol) return labels.value.trackerGameTypeCombatPatrol
   return BATTLE_SIZES.find(b => b.id === g.settings?.battleSize)?.name || ''
 }
 // Footer: battle size + scoring basis. BP mode names "Battle Points" and shows the raw VP alongside
