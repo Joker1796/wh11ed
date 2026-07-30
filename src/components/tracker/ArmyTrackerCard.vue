@@ -313,7 +313,13 @@ const { theme } = useTheme()
 const labels = computed(() => ui[locale.value])
 
 const player = computed(() => current.value?.players?.[props.pi] || null)
-const battleSize = computed(() => current.value?.settings?.battleSize || 'strikeForce')
+// Combat Patrol isn't one of the normal battle sizes (settings.battleSize is left at whatever
+// it was before the "Тип игры" toggle was switched) — resolve to a dedicated id so specs with a
+// battle-size-keyed `start`/`perRound` (GSC, Aeldari) can carry a `combatPatrol` entry instead of
+// silently reading the wrong (or a stale) battle size's numbers.
+const battleSize = computed(() =>
+  current.value?.settings?.combatPatrol ? 'combatPatrol' : (current.value?.settings?.battleSize || 'strikeForce')
+)
 // Tint the whole card in the faction's own colour (the same palette FactionLayout applies to the
 // faction pages): resolve light/dark against the active theme and override --accent for the subtree,
 // so every accent-coloured element (dice, chips, spend badges, readout, rule name, stepper) follows.
