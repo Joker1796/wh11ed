@@ -16,7 +16,15 @@
 
     <!-- ───────── Step 1 — Armies ───────── -->
     <div v-show="step === 1" :ref="el => (panelEls[0] = el)" class="step-panel">
-      <div class="field battle-size">
+      <div class="field game-type">
+        <span>{{ labels.trackerGameType }}</span>
+        <div class="seg seg-wrap">
+          <button :class="{ on: !settings.combatPatrol }" @click="setCombatPatrol(false)">{{ labels.trackerGameTypeCompetitive }}</button>
+          <button :class="{ on: settings.combatPatrol }" @click="setCombatPatrol(true)">{{ labels.trackerGameTypeCombatPatrol }}</button>
+        </div>
+      </div>
+
+      <div v-if="!settings.combatPatrol" class="field battle-size">
         <span>{{ labels.trackerBattleSize }}</span>
         <div class="seg">
           <button
@@ -45,12 +53,13 @@
             <FactionPickerModal
               v-if="factionPickerIdx === i"
               :selected="p.factionSlug"
+              :combat-patrol-only="settings.combatPatrol"
               @pick="slug => selectFaction(p, slug)"
               @close="factionPickerIdx = -1"
             />
           </div>
 
-          <div class="field">
+          <div v-if="!settings.combatPatrol" class="field">
             <span>{{ labels.trackerDpBudget }} <em class="dp-count" :class="{ over: dpSpent(p) > maxDp }">{{ dpSpent(p) }} / {{ maxDp }} DP</em></span>
             <button
               v-if="p.factionSlug && detachmentsFor(p.factionSlug).length"
@@ -70,6 +79,12 @@
               @toggle="d => toggleDetachment(p, d)"
               @close="detPickerIdx = -1"
             />
+          </div>
+          <div v-else class="field">
+            <span>{{ labels.trackerCpBox }}</span>
+            <p v-if="!p.factionSlug" class="det-empty">{{ labels.trackerSelectFaction }}</p>
+            <p v-else-if="cpFactionFor(p)" class="ro cp-box-line">{{ cpFactionFor(p).boxName }} · {{ cpFactionFor(p).dp }} DP</p>
+            <p v-else class="det-empty">{{ labels.trackerNoDetachments }}</p>
           </div>
 
           <label class="field">
@@ -218,8 +233,10 @@
         </label>
       </div>
 
-      <!-- Twist: optional pre-game modifier — chosen via a full-screen picker -->
-      <div class="settings twist-block">
+      <!-- Twist: optional pre-game modifier — chosen via a full-screen picker. Not offered for
+           Combat Patrol (the box's own rules don't mention it either way; keeping this step
+           simple, matching how basic-box play works). -->
+      <div v-if="!settings.combatPatrol" class="settings twist-block">
         <h3 class="block-head">{{ labels.trackerTwistHeading }}</h3>
         <button class="btn-choose-twist" @click="twistPickerOpen = true">
           <span class="ct-name" :class="{ placeholder: !chosenTwist }">{{ chosenTwist ? chosenTwist.title : labels.trackerChooseTwist }}</span>
@@ -338,7 +355,7 @@ const MAX_FIXED = 2   // Fixed secondaries: choose 2, kept for the whole game.
 function defaultPlayer(role, name = '') {
   return { name, factionSlug: null, detachments: [], disposition: null, role, secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false }
 }
-const defaultSettings = { trackCP: lastTrackCP, trackArmyYou: lastTrackArmyYou, trackArmyOpp: lastTrackArmyOpp, firstTurn: 1, layout: 'A', customLayout: null, battleSize: 'strikeForce', twist: null, twistMission: null, scoreMode: lastScoreMode }
+const defaultSettings = { trackCP: lastTrackCP, trackArmyYou: lastTrackArmyYou, trackArmyOpp: lastTrackArmyOpp, firstTurn: 1, layout: 'A', customLayout: null, battleSize: 'strikeForce', combatPatrol: false, twist: null, twistMission: null, scoreMode: lastScoreMode }
 
 // Restore an in-progress draft if present, else start fresh (with the pre-filled name).
 // Read once, BEFORE the reset watchers are registered, so restoring a faction/detachments
@@ -433,6 +450,45 @@ function factionName(slug) {
   return FACTIONS.find(f => f.slug === slug)?.name || ''
 }
 
+// Combat Patrol box content (rule name, fixed Force Disposition, box name/DP) — dynamically
+// imported (heavy, datasheet-bearing file) only once "Тип игры" is set to Combat Patrol, same
+// "heavy data file, dynamic import" rule as everywhere else in this codebase. `name`/`slug`/
+// `forceDisposition`/`boxName` are locale-agnostic structural fields, so the EN list is enough
+// here regardless of the app's current locale.
+const combatPatrolData = ref(null)
+async function loadCombatPatrolData() {
+  if (combatPatrolData.value) return combatPatrolData.value
+  const { combatPatrol } = await import('../../data/combatPatrol.js')
+  combatPatrolData.value = combatPatrol.en.factions
+  return combatPatrolData.value
+}
+if (settings.combatPatrol) loadCombatPatrolData()   // restored draft already in CP mode
+
+function cpFactionFor(p) {
+  return combatPatrolData.value?.find(f => f.slug === p.factionSlug) || null
+}
+
+// Single source of truth for a player's detachment/disposition, re-derived whenever their
+// faction OR the game type changes: cleared for a normal game (manual pick downstream), or
+// auto-resolved from the CP box's one fixed detachment + Force Disposition — no manual steps.
+async function resolveArmyChoice(p) {
+  p.detachments = []
+  p.disposition = null
+  if (!settings.combatPatrol || !p.factionSlug) return
+  const list = await loadCombatPatrolData()
+  const cp = list.find(f => f.slug === p.factionSlug)
+  if (!cp) return
+  p.detachments = [cp.rule.name]
+  p.disposition = DISPOSITIONS.find(d => d.name === cp.forceDisposition)?.id ?? null
+}
+
+function setCombatPatrol(on) {
+  if (settings.combatPatrol === on) return
+  settings.combatPatrol = on
+  if (on) { settings.twist = null; settings.twistMission = null }
+  players.forEach(p => resolveArmyChoice(p))
+}
+
 function toggleFixed(p, slug) {
   const i = p.fixedSecondaries.indexOf(slug)
   if (i >= 0) p.fixedSecondaries.splice(i, 1)
@@ -469,6 +525,9 @@ function dpSpent(p) {
   return p.detachments.reduce((s, name) => s + (detachmentInfo(p.factionSlug, name)?.dp || 0), 0)
 }
 function candidateDispositions(p) {
+  // Combat Patrol: exactly one, fixed disposition — already resolved onto p.disposition by
+  // resolveArmyChoice, just echo it back in the shape the step-2 template expects.
+  if (settings.combatPatrol) return p.disposition ? [p.disposition] : []
   const ids = p.detachments
     .map(name => detachmentInfo(p.factionSlug, name)?.forceDisposition)
     .filter(Boolean)
@@ -489,8 +548,9 @@ function toggleDetachment(p, d) {
   else if (p.detachments.length === 0 || dpSpent(p) + d.dp <= maxDp.value) p.detachments.push(d.name)
 }
 
-// Changing faction resets its detachment/disposition choices.
-players.forEach(p => watch(() => p.factionSlug, () => { p.detachments = []; p.disposition = null }))
+// Changing faction resets its detachment/disposition choices (or, in Combat Patrol mode,
+// re-resolves them from the newly picked box — see resolveArmyChoice).
+players.forEach(p => watch(() => p.factionSlug, () => resolveArmyChoice(p)))
 
 // Shrinking the battle size (e.g. Strike Force → Incursion) can invalidate the chosen
 // detachments' DP, so clear each player's detachments and disposition for a fresh pick.
@@ -556,7 +616,9 @@ function onPickLayout(l) { settings.layout = 'custom'; settings.customLayout = l
 const canArmies = computed(() =>
   players.every(p =>
     p.factionSlug &&
-    (detachmentsFor(p.factionSlug).length === 0 || p.detachments.length > 0)
+    (settings.combatPatrol
+      ? p.detachments.length > 0
+      : (detachmentsFor(p.factionSlug).length === 0 || p.detachments.length > 0))
   )
 )
 
@@ -770,6 +832,10 @@ function cancel() {
 }
 .dp-count.over { color: #c0392b; }
 :global([data-theme='dark']) .dp-count.over { color: #ef6e60; }
+.game-type {
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
 .battle-size {
   align-items: flex-start;
   margin-bottom: 1rem;
