@@ -2,8 +2,8 @@
 // (Ctrl+K) uses to find datasheets by unit name. Names only (~1500 units), so the chunk
 // stays tiny; the heavy per-faction datasheet files are never imported by the search.
 //
-// Run after (re)importing datasheets:  node scripts/gen-datasheet-index.mjs
-// (import-wahapedia-datasheets.mjs regenerates datasheet data — re-run this after it.)
+// Run whenever a datasheet file changes:  node scripts/gen-datasheet-index.mjs
+// (adding/renaming a unit changes the search index — re-run this after such an edit.)
 //
 // Only `ready` factions with a data file are included, mirroring the gate used by
 // FactionsListView / gen-seo-routes.mjs — units of unpublished factions shouldn't

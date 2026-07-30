@@ -1,7 +1,7 @@
 // Adepta Sororitas — faction rules. Resolved from the same source priority as the other
 // factions (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: imported from the Wahapedia CSV exports via scripts/import-wahapedia.mjs →
+//   Codex layer: originally imported from the Wahapedia CSV exports (importer since retired) →
 //     5 detachments (Army of Faith, Bringers of Flame, Champions of Faith, Hallowed
 //     Martyrs, Penitent Host). Wahapedia already carries most pack updates; the remaining
 //     diff (Devout Fanaticism) is folded in below. Champions of Faith is also printed in
