@@ -1,6 +1,6 @@
 {
   "name": "wh11ed",
-  "version": "2.1.9",
+  "version": "2.1.10",
   "description": "Bilingual (EN/RU) interactive reference for the Warhammer 40,000 11th Edition Core Rules, Event Companion, faction rules and unit datasheets — a fast, searchable Vue 3 SPA hosted at wh11ed.ru.",
   "scripts": {
     "dev": "vite",
