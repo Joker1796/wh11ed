@@ -1,9 +1,9 @@
 // Imperial Agents — faction rules. Resolved from the same source priority as the other
 // factions (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: originally imported from the Wahapedia CSV exports (importer since retired) →
+//   Codex layer: imported from the codex →
 //     all 5 detachments (Imperialis Fleet, Ordo Hereticus Purgation Force, Ordo Malleus
-//     Daemon Hunters, Ordo Xenos Alien Hunters, Veiled Blade Elimination Force). Wahapedia
+//     Daemon Hunters, Ordo Xenos Alien Hunters, Veiled Blade Elimination Force).
 //     already carries most pack updates; the remaining diffs are folded in (inline notes).
 //     Veiled Blade Elimination Force is also printed in the Faction Pack (identical text) —
 //     marked source: 'faction-pack'; its enhancements are the pack's "Extremis Abilities"
@@ -34,7 +34,7 @@ Note that you can include AGENTS OF THE IMPERIUM DEDICATED TRANSPORT units in su
   },
 
   detachments: [
-    // ─────────────── CODEX DETACHMENTS (via Wahapedia import) ───────────────
+    // ─────────────── CODEX DETACHMENTS ───────────────
     {
       id: "imperialis-fleet",
       name: "Imperialis Fleet",
@@ -468,7 +468,7 @@ Note that you can include AGENTS OF THE IMPERIUM DEDICATED TRANSPORT units in su
     {
       id: "veiled-blade-elimination-force",
       name: "Veiled Blade Elimination Force",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 3,
       forceDisposition: "Reconnaissance",
       rule: {

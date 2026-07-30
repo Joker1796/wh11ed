@@ -1,9 +1,9 @@
 // Genestealer Cults — faction rules. Resolved from the same source priority as the other
 // factions (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: originally imported from the Wahapedia CSV exports (importer since retired) →
+//   Codex layer: imported from the codex →
 //     6 detachments (Biosanctic Broodsurge, Brood Brothers Auxilia, Final Day, Host of
-//     Ascension, Outlander Claw, Xenocreed Congregation). Wahapedia already carries many
+//     Ascension, Outlander Claw, Xenocreed Congregation). The codex text already carries many
 //     pack updates; the remaining diffs are folded in below (see inline notes).
 //   Faction Pack v1.0 (sources/Faction pack 11 ed/xenos/GSC.pdf) → army rule rewrite (Cult
 //     Ambush / Resurgence points), 3 pack detachments (Heroes of the Uprising, Purestrain
@@ -47,7 +47,7 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
   },
 
   detachments: [
-    // ─────────────── CODEX DETACHMENTS (via Wahapedia import) ───────────────
+    // ─────────────── CODEX DETACHMENTS ───────────────
     {
       id: "biosanctic-broodsurge",
       name: "Biosanctic Broodsurge",
@@ -266,7 +266,7 @@ Use a circular 32mm diameter marker for Cult Ambush markers. If an enemy model (
     {
       id: "final-day",
       name: "Final Day",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text except Divine Imperative)
+      source: 'faction-pack', // printed in the pack (identical to the codex text except Divine Imperative)
       dp: 2,
       forceDisposition: "Purge the Foe",
       rule: {

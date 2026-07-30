@@ -5,7 +5,7 @@
 //
 //   The Faction Pack v1.0 (sources/Faction pack 11 ed/cm/Deathwatch.pdf) is an index pack:
 //     it prints the Kill Teams army rule and the full Black Spear Task Force. The Black
-//     Spear Task Force text below was imported from the Wahapedia CSV exports (identical
+//     Spear Task Force text below was imported from the codex (identical
 //     to the pack, including its updated Armour of Contempt) — marked
 //     source: 'faction-pack'; the pack's Restrictions section is folded into the rule body.
 //   MFM (src/data/mfm/deathwatch.js) → per-enhancement points, dp / forceDisposition.

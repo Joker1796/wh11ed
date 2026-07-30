@@ -1,6 +1,5 @@
-// Black Templars — datasheets. Originally imported from the Wahapedia CSV exports
-// (unit roster and points from src/data/mfm/black-templars.js); that importer has been retired.
-// wh40k-appdata is the source of truth now — `npm run sync` diffs this file against it.
+// Black Templars — datasheets. Unit roster and points from src/data/mfm/black-templars.js.
+// wh40k-appdata is the source of truth — `npm run sync` diffs this file against it.
 // Lazy-loaded per faction via src/data/datasheets/index.js — do not import statically.
 // 18 chapter-specific/differing datasheets here; 72 units identical
 // to space-marines.js are NOT duplicated — see sharedUnitIds below and

@@ -1,9 +1,9 @@
 // Leagues of Votann — faction rules. Resolved from the same source priority as the other
 // factions (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: originally imported from the Wahapedia CSV exports (importer since retired) →
+//   Codex layer: imported from the codex →
 //     7 detachments (Brandfast Oathband, Dêlve Assault Shift, Hearthband, Hearthfyre
-//     Arsenal, Mercenary Oathband, Needgaârd Oathband, Persecution Prospect). Wahapedia
+//     Arsenal, Mercenary Oathband, Needgaârd Oathband, Persecution Prospect).
 //     already carries most pack updates; the remaining diffs are folded in (inline notes).
 //     Hearthband and Mercenary Oathband are also printed in the Faction Pack (identical
 //     text) — marked source: 'faction-pack'.
@@ -48,7 +48,7 @@ In your turn, YP gained in this way are always gained before checking which abil
   },
 
   detachments: [
-    // ─────────────── CODEX DETACHMENTS (via Wahapedia import) ───────────────
+    // ─────────────── CODEX DETACHMENTS ───────────────
     {
       id: "brandfast-oathband",
       name: "Brandfast Oathband",
@@ -266,7 +266,7 @@ In your turn, YP gained in this way are always gained before checking which abil
     {
       id: "hearthband",
       name: "Hearthband",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 3,
       forceDisposition: "Priority Assets",
       unique: "HEARTHBAND",
@@ -481,7 +481,7 @@ In your turn, YP gained in this way are always gained before checking which abil
     {
       id: "mercenary-oathband",
       name: "Mercenary Oathband",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 2,
       forceDisposition: "Take and Hold",
       rule: {

@@ -1,6 +1,5 @@
-// Space Marines — datasheets. Originally imported from the Wahapedia CSV exports
-// (unit roster and points from src/data/mfm/space-marines.js); that importer has been retired.
-// wh40k-appdata is the source of truth now — `npm run sync` diffs this file against it.
+// Space Marines — datasheets. Unit roster and points from src/data/mfm/space-marines.js.
+// wh40k-appdata is the source of truth — `npm run sync` diffs this file against it.
 // Lazy-loaded per faction via src/data/datasheets/index.js — do not import statically.
 export default [
   {

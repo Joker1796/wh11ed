@@ -1,5 +1,5 @@
 // Titan Legions — faction rules. Source: wh40k-appdata (../wh40k-appdata/factions/
-// adeptus-titanicus.json, "Imperial Armour: Titan Legions") — not a Wahapedia import.
+// adeptus-titanicus.json, "Imperial Armour: Titan Legions").
 //
 // This is an ally-only army: 4 datasheets (see src/data/datasheets/titan-legions.js), no
 // detachment of its own — a Titan is a Lord-of-War-style addition to any all-IMPERIUM army

@@ -1,9 +1,9 @@
 // Grey Knights — faction rules. Resolved from the same source priority as the other
 // factions (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: originally imported from the Wahapedia CSV exports (importer since retired) →
+//   Codex layer: imported from the codex →
 //     6 detachments (Augurium Task Force, Banishers, Brotherhood Strike, Hallowed
-//     Conclave, Sanctic Spearhead, Warpbane Task Force). Wahapedia already carries most
+//     Conclave, Sanctic Spearhead, Warpbane Task Force). The codex text already carries most
 //     pack updates; the remaining diff (Eye of the Augurium) is folded in below. Warpbane
 //     Task Force is also printed in the Faction Pack (identical text) — marked
 //     source: 'faction-pack'.
@@ -33,7 +33,7 @@ const en = {
   },
 
   detachments: [
-    // ─────────────── CODEX DETACHMENTS (via Wahapedia import) ───────────────
+    // ─────────────── CODEX DETACHMENTS ───────────────
     {
       id: "augurium-task-force",
       name: "Augurium Task Force",
@@ -572,7 +572,7 @@ const en = {
     {
       id: "warpbane-task-force",
       name: "Warpbane Task Force",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 3,
       forceDisposition: "Purge the Foe",
       rule: {
