@@ -324,10 +324,12 @@ function closeRulesMenu() {
   if (document.activeElement instanceof HTMLElement) document.activeElement.blur()
 }
 
-const coreRoutes = ['/introduction', '/basic-rules', '/battle-round', '/battlefields', '/advanced-rules', '/reference', '/muster']
-const isLanding = computed(() => route.path === '/')
-const isLinksRoute = computed(() => route.path === '/links')
-const isFactionRoute = computed(() => route.path.startsWith('/factions'))
+// Section flags read off the matched route's `meta.section` (set in router/index.js) rather than
+// guessing from `route.path` at every call site — one definition of "what counts as Core Rules /
+// Event Companion / …" instead of a path-prefix list repeated here.
+const isLanding = computed(() => route.meta.section === 'landing')
+const isLinksRoute = computed(() => route.meta.section === 'links')
+const isFactionRoute = computed(() => route.meta.section === 'faction')
 // A specific faction's pages (/factions/:slug...) get their own subnav; the /factions list doesn't.
 const isFactionDetailRoute = computed(() => isFactionRoute.value && !!route.params.slug)
 // A single unit's datasheet page is chrome-free (FactionLayout hero=false → no in-hero tabs),
@@ -350,15 +352,15 @@ const unitsNavPath = computed(() => {
   }
   return null
 })
-const isEventRoute = computed(() => route.path.startsWith('/event-companion'))
-const isCombatPatrolRoute = computed(() => route.path.startsWith('/combat-patrol'))
+const isEventRoute = computed(() => route.meta.section === 'event')
+const isCombatPatrolRoute = computed(() => route.meta.section === 'combat-patrol')
 // The one combined per-faction page (/combat-patrol/:slug) is a long scroll (rule + army rule +
 // stratagems + enhancements + datasheets) — same "Back to top" FAB as the Core Rules pages.
 // The index list (/combat-patrol) is short, doesn't need it.
-const isCombatPatrolFactionRoute = computed(() => /^\/combat-patrol\/[^/]+$/.test(route.path))
-const isRulesLandingRoute = computed(() => route.path === '/rules')
-const isStratagemsRoute = computed(() => route.path === '/stratagems')
-const isTrackerRoute = computed(() => route.path.startsWith('/tracker'))
+const isCombatPatrolFactionRoute = computed(() => isCombatPatrolRoute.value && !!route.params.slug)
+const isRulesLandingRoute = computed(() => route.meta.section === 'rules-landing')
+const isStratagemsRoute = computed(() => route.meta.section === 'stratagems')
+const isTrackerRoute = computed(() => route.meta.section === 'tracker')
 // GameSetup (wizard) and the active/finished game screen both render on this one route —
 // the footer would otherwise push below the fold under the fixed "Back to game" bar / bottom nav.
 const isTrackerGameRoute = computed(() => route.path === '/tracker/game')
@@ -379,7 +381,7 @@ const showResumeGame = computed(() =>
 // without duplicating the logic.
 const mobileBarRef = ref(null)
 const mobileBarVisible = computed(() => !!mobileBarRef.value?.visible)
-const isCoreRoute = computed(() => !isEventRoute.value && !isTrackerRoute.value && coreRoutes.includes(route.path))
+const isCoreRoute = computed(() => route.meta.section === 'core')
 // The "Rules" umbrella (navbar dropdown / bottom-nav button) is active on its own landing
 // page and on any of the 3 sections it groups — Core Rules, Event Companion, Combat Patrol.
 const isRulesRoute = computed(() =>
