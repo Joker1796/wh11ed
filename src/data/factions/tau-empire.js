@@ -1,7 +1,7 @@
 // T'au Empire — faction rules. Resolved from the same source priority as the other factions
 // (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: imported from the Wahapedia CSV exports via scripts/import-wahapedia.mjs
+//   Codex layer: originally imported from the Wahapedia CSV exports (importer since retired)
 //     (Wahapedia carries the 10ed codex text with most pack updates already applied) →
 //     4 codex detachments (Kauyon, Kroot Hunting Pack, Mont'ka, Retaliation Cadre).
 //   Faction Pack v1.0 (sources/Faction pack 11 ed/xenos/Tau.pdf) → army rule rewrite

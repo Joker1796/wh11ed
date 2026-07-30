@@ -1,7 +1,7 @@
 // Imperial Agents — faction rules. Resolved from the same source priority as the other
 // factions (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: imported from the Wahapedia CSV exports via scripts/import-wahapedia.mjs →
+//   Codex layer: originally imported from the Wahapedia CSV exports (importer since retired) →
 //     all 5 detachments (Imperialis Fleet, Ordo Hereticus Purgation Force, Ordo Malleus
 //     Daemon Hunters, Ordo Xenos Alien Hunters, Veiled Blade Elimination Force). Wahapedia
 //     already carries most pack updates; the remaining diffs are folded in (inline notes).

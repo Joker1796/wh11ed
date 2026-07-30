@@ -1,7 +1,7 @@
 // Chaos Space Marines — faction rules. Resolved from the same source priority as the other
 // factions (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: imported from the Wahapedia CSV exports via scripts/import-wahapedia.mjs →
+//   Codex layer: originally imported from the Wahapedia CSV exports (importer since retired) →
 //     14 detachments. Wahapedia already carries most pack updates; the remaining diffs are
 //     folded in below (inline notes). Warpstrike Champions, Cult of the Arkifane, Creations
 //     of Bile, Nightmare Hunt, Huron's Marauders and Renegade Warband are also printed in

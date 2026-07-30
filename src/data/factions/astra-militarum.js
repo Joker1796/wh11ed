@@ -1,7 +1,7 @@
 // Astra Militarum — faction rules. Resolved from the same source priority as the other
 // factions (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: imported from the Wahapedia CSV exports via scripts/import-wahapedia.mjs →
+//   Codex layer: originally imported from the Wahapedia CSV exports (importer since retired) →
 //     8 detachments (Armoured Infantry, Combined Arms, Grizzled Company, Hammer of the
 //     Emperor, Mechanised Assault, Recon Element, Siege Regiment, Steel Hammer). Wahapedia
 //     already carries most pack updates; the remaining diffs are folded in (inline notes).

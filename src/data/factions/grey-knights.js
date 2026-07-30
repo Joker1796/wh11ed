@@ -1,7 +1,7 @@
 // Grey Knights — faction rules. Resolved from the same source priority as the other
 // factions (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: imported from the Wahapedia CSV exports via scripts/import-wahapedia.mjs →
+//   Codex layer: originally imported from the Wahapedia CSV exports (importer since retired) →
 //     6 detachments (Augurium Task Force, Banishers, Brotherhood Strike, Hallowed
 //     Conclave, Sanctic Spearhead, Warpbane Task Force). Wahapedia already carries most
 //     pack updates; the remaining diff (Eye of the Augurium) is folded in below. Warpbane

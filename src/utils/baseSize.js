@@ -1,4 +1,5 @@
-// Format a raw Base Size Guide value (as stored on datasheets by scripts/base-sizes.mjs)
+// Format a raw Base Size Guide value (as stored on each datasheet's `baseSize`; sourced from
+// wh40k-appdata's datasheet.localisations.en.baseSize and diffed by scripts/sync-appdata.mjs)
 // into a short display label. Round bases get the diameter sign (⌀32mm); oval bases keep
 // their W×H dimensions (75×42mm); Hull / Unique / flying bases are localized words.
 // Mixed-base profiles are joined with " / " in the raw value — format each part.

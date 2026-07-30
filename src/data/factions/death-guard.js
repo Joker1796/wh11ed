@@ -1,7 +1,7 @@
 // Death Guard — faction rules. Resolved from the same source priority as the other
 // factions (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: imported from the Wahapedia CSV exports via scripts/import-wahapedia.mjs →
+//   Codex layer: originally imported from the Wahapedia CSV exports (importer since retired) →
 //     6 detachments (Champions of Contagion, Death Lord's Chosen, Mortarion's Hammer,
 //     Shamblerot Vectorium, Tallyband Summoners, Virulent Vectorium). Wahapedia already
 //     carries most pack updates; the remaining diffs are folded in below (inline notes).

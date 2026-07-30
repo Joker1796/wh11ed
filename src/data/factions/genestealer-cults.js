@@ -1,7 +1,7 @@
 // Genestealer Cults — faction rules. Resolved from the same source priority as the other
 // factions (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: imported from the Wahapedia CSV exports via scripts/import-wahapedia.mjs →
+//   Codex layer: originally imported from the Wahapedia CSV exports (importer since retired) →
 //     6 detachments (Biosanctic Broodsurge, Brood Brothers Auxilia, Final Day, Host of
 //     Ascension, Outlander Claw, Xenocreed Congregation). Wahapedia already carries many
 //     pack updates; the remaining diffs are folded in below (see inline notes).
