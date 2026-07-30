@@ -283,7 +283,14 @@ export default {
 
 **Space Marine Chapters:**
 ▪ Если у юнита Adeptus Astartes на [gloss:datasheet:листе данных] есть второе [gloss:faction-keyword:фракционное ключевое слово], это ключевое слово — название ордена этого юнита. Например, у Marneus Calgar есть ключевые слова Adeptus Astartes и Ultramarines, и он из ордена Ультрамаринов.
-▪ Вы не можете включать в армию юниты более чем одного ордена.`,
+▪ Вы не можете включать в армию юниты более чем одного ордена.
+▪ Если ваша армия включает один или более юнитов Black Templars, она не может включать модели Adeptus Astartes Psyker и не может включать следующие модели, у которых нет ключевого слова Black Templars: Gladiator Lancer; Gladiator Reaper; Gladiator Valiant; Impulsor; Repulsor; Repulsor Executioner.
+▪ Если ваша армия включает один или более юнитов Space Wolves, она не может включать следующие юниты: Apothecary; Devastator Squad; Tactical Squad.
+
+### Deathwatch | Караул Смерти
+▪ Ваша армия может включать юниты Adeptus Astartes Deathwatch, но не может включать юниты Adeptus Astartes любого другого ордена.
+▪ За исключением Kill Team Cassius (см. Legends: Agents of the Imperium), ваша армия не может включать юниты Agents of the Imperium Deathwatch.
+▪ Ваша армия не может включать следующие юниты: Assault Squad; Assault Squad with Jump Packs; Attack Bike Squad; Devastator Squad; Land Speeder Storm; Relic Terminator Squad; Scout Bike Squad; Scout Squad; Scout Sniper Squad; Tactical Squad; Terminator Assault Squad; Terminator Squad.`,
   },
 
   detachments: [

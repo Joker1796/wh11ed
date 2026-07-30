@@ -13,7 +13,7 @@ const en = {
   armyRule: {
     id: 'towering-example',
     name: 'Towering Example',
-    body: `When mustering your army, if your Army Faction is **TITANICUS TRAITORIS**, ignore the Select Detachment Rules step. In the Select Warlord step, select one **TITANICUS TRAITORIS** model from your army to be your **WARLORD**, even though that model does not have the **CHARACTER** keyword.
+    body: `When mustering your army, if your Army Faction is **TITANICUS TRAITORIS**, ignore the Select Detachment Rules step. In the Select Warlord step, select one **TITANICUS TRAITORIS** model from your army to be your **WARLORD**, even though that model does not have the **CHARACTER** keyword. Your army has the Take and Hold force disposition.
 
 ### Titanic Support
 If every model in your army has the **CHAOS** keyword, you can include 1 **TITANICUS TRAITORIS** model in your army, even if it does not have the Faction keyword you selected in the Select Army Faction step.
