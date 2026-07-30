@@ -4,8 +4,7 @@
 // source: 'faction-pack'. Resolution priority as usual: MFM (points, DP / Force
 // Disposition) > Faction Pack.
 //
-//   Text layer: 6 detachments originally imported from the Wahapedia CSV exports (importer
-//     since retired) and reconciled against the pack (Daemonic Incursion was
+//   Text layer: 6 detachments imported from the codex//      and reconciled against the pack (Daemonic Incursion was
 //     trimmed to the pack's 6 stratagems / 4 enhancements and its Warp Rifts distances
 //     updated; the pack dropped the old Unnatural Energies rule row).
 //   From the pack directly: army rule (The Shadow of Chaos + Daemonic Pact) and the 3 new

@@ -1,7 +1,7 @@
 // Combat Patrol — hand-authored content for each faction's fixed-roster Combat Patrol box
 // (detachment rule, army rule as printed IN THE BOX — sometimes pre-errata relative to the
 // Codex, e.g. Necrons' "reanimates D3" vs the Codex's errata'd "heals D3" — stratagems,
-// enhancements, and the box's fixed-composition datasheets). Not a Wahapedia import: source is
+// enhancements, and the box's fixed-composition datasheets). Source is
 // wh40k-appdata's per-faction bundle (factions/<slug>.json), filtered to the rows flagged
 // isCombatPatrol: true (detachment/datasheets/enhancements/stratagems) and the armyRule whose
 // publicationId matches the "Combat Patrol: <box name>" publication.

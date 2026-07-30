@@ -1,9 +1,9 @@
 // World Eaters — faction rules. Resolved from the same source priority as the other
 // factions (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: originally imported from the Wahapedia CSV exports (importer since retired) →
+//   Codex layer: imported from the codex →
 //     5 detachments (Berzerker Warband, Cult of Blood, Goretrack Onslaught, Khorne
-//     Daemonkin, Possessed Slaughterband). Wahapedia already carries most pack updates;
+//     Daemonkin, Possessed Slaughterband). The codex text already carries most pack updates;
 //     the remaining diffs are folded in below (inline notes).
 //   Faction Pack v1.0 (sources/Faction pack 11 ed/chaos/WE.pdf) → 2 pack detachments
 //     (Brazen Engines, Butchers of Khorne), a full rewrite of Vessels of Wrath (replaces
@@ -36,7 +36,7 @@ const en = {
   },
 
   detachments: [
-    // ─────────────── CODEX DETACHMENTS (via Wahapedia import) ───────────────
+    // ─────────────── CODEX DETACHMENTS ───────────────
     {
       id: "berzerker-warband",
       name: "Berzerker Warband",

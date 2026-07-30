@@ -1,8 +1,8 @@
 // Emperor's Children — faction rules. Resolved from the same source priority as the other
 // factions (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: originally imported from the Wahapedia CSV exports (importer since retired) →
-//     7 detachments. Wahapedia already carries some pack updates; the remaining diffs are
+//   Codex layer: imported from the codex →
+//     7 detachments. The codex text already carries some pack updates; the remaining diffs are
 //     folded in below (inline notes). Court of the Phoenician is also printed in the
 //     Faction Pack (identical text) — marked source: 'faction-pack'.
 //   Faction Pack v1.0 (sources/Faction pack 11 ed/chaos/EC.pdf) → 3 pack detachments
@@ -30,7 +30,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
   },
 
   detachments: [
-    // ─────────────── CODEX DETACHMENTS (via Wahapedia import) ───────────────
+    // ─────────────── CODEX DETACHMENTS ───────────────
     {
       id: "carnival-of-excess",
       name: "Carnival of Excess",
@@ -248,7 +248,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
     {
       id: "court-of-the-phoenician",
       name: "Court of the Phoenician",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 2,
       forceDisposition: "Purge the Foe",
       rule: {

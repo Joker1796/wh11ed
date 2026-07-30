@@ -1,9 +1,9 @@
 // Chaos Knights — faction rules. Resolved from the same source priority as the other
 // factions (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: originally imported from the Wahapedia CSV exports (importer since retired) →
+//   Codex layer: imported from the codex →
 //     5 detachments (Helhunt Lance, Houndpack Lance, Infernal Lance, Lords of Dread,
-//     Traitoris Lance). Wahapedia already carries most pack updates; the remaining diffs
+//     Traitoris Lance). The codex text already carries most pack updates; the remaining diffs
 //     are folded in below (inline notes). Helhunt Lance is also printed in the Faction
 //     Pack (identical text) — marked source: 'faction-pack'.
 //   Faction Pack v1.0 (sources/Faction pack 11 ed/chaos/ChaosKnights.pdf) → 2 pack
@@ -48,11 +48,11 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
   },
 
   detachments: [
-    // ─────────────── CODEX DETACHMENTS (via Wahapedia import) ───────────────
+    // ─────────────── CODEX DETACHMENTS ───────────────
     {
       id: "helhunt-lance",
       name: "Helhunt Lance",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 2,
       forceDisposition: "Disruption",
       rule: {
