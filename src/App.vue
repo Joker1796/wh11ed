@@ -225,7 +225,7 @@
     <RulesNavModal v-if="showRules" @close="showRules = false" />
     <KeywordPopover />
     <MobileUtilityBar ref="mobileBarRef" :show-resume-game="showResumeGame" />
-    <BackToTopButton v-if="isCoreRoute" />
+    <BackToTopButton v-if="isCoreRoute || isCombatPatrolFactionRoute" />
     <UpdateToast />
     <OfflineWarmupToast />
   </div>
@@ -352,6 +352,10 @@ const unitsNavPath = computed(() => {
 })
 const isEventRoute = computed(() => route.path.startsWith('/event-companion'))
 const isCombatPatrolRoute = computed(() => route.path.startsWith('/combat-patrol'))
+// The one combined per-faction page (/combat-patrol/:slug) is a long scroll (rule + army rule +
+// stratagems + enhancements + datasheets) — same "Back to top" FAB as the Core Rules pages.
+// The index list (/combat-patrol) is short, doesn't need it.
+const isCombatPatrolFactionRoute = computed(() => /^\/combat-patrol\/[^/]+$/.test(route.path))
 const isRulesLandingRoute = computed(() => route.path === '/rules')
 const isStratagemsRoute = computed(() => route.path === '/stratagems')
 const isTrackerRoute = computed(() => route.path.startsWith('/tracker'))
