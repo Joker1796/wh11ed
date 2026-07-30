@@ -97,22 +97,25 @@ defineExpose({ visible })
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 1.9rem;
-  height: 1.9rem;
+  width: 2.2rem;
+  height: 2.2rem;
   flex-shrink: 0;
   border: none;
-  border-radius: 7px;
+  border-radius: 8px;
   /* Light theme: a light chip (--bg-card) with a dark border/icon (--bg-insert, the
      bottom-nav's own always-dark tone — used here as an outline instead of a fill). Dark
      theme: back to plain --bg-primary + the app accent, as before. --mb-icon-bg/--mb-icon-tint
      flip below, mirroring the app's 3-step theme resolution (FactionLayout.vue has the same
      pattern): prefers-color-scheme is the default signal, an explicit :root[data-theme] wins
-     in both directions (see the unscoped block below). */
+     in both directions (see the unscoped block below). The chip itself is slightly translucent
+     (color-mix against transparent) so it reads as floating over the page rather than an opaque
+     chrome tile — same translucency convention as the rest of the app's accent chips.
+     */
   --mb-icon-bg: var(--bg-card);
   --mb-icon-tint: var(--bg-insert);
-  background: var(--mb-icon-bg);
+  background: color-mix(in srgb, var(--mb-icon-bg) 82%, transparent);
   color: var(--mb-icon-tint);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   cursor: pointer;
   text-decoration: none;
   box-shadow: inset 0 0 0 1.5px var(--mb-icon-tint), 0 2px 8px rgba(0, 0, 0, 0.15);
@@ -132,9 +135,9 @@ defineExpose({ visible })
    as the icon buttons, just auto-width with horizontal padding instead of a fixed square. */
 .mb-text {
   width: auto;
-  padding: 0 0.55rem;
+  padding: 0 0.65rem;
   font-family: inherit;
-  font-size: 0.7rem;
+  font-size: 0.78rem;
   font-weight: 600;
   white-space: nowrap;
 }
