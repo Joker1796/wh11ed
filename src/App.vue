@@ -148,7 +148,7 @@
     <Transition name="fade">
       <nav v-if="!isLanding && !isLinksRoute && !isRulesLandingRoute && !isCombatPatrolRoute && (!isFactionRoute || isFactionUnitPage)" class="subnav">
         <div class="subnav-inner" :class="{ 'subnav-inner--overflow-visible': isFactionUnitPage }">
-          <template v-for="item in subNavItems" :key="item.path">
+          <template v-for="item in subNavItems" :key="item.path || item.hash">
             <!-- "Units" on a per-unit datasheet page: hover/focus reveals a compact
                  multi-column jump-list of the faction's units (desktop only — .subnav
                  itself is hidden on mobile). -->
@@ -170,6 +170,15 @@
                 </div>
               </div>
             </div>
+            <!-- Core Rules: the seven chapters are anchors on one page, not routes. The
+                 highlight follows the scroll-spy, not the URL — scrolling never changes it. -->
+            <a
+              v-else-if="item.hash"
+              :href="item.hash"
+              class="subnav-link"
+              :class="{ active: isCoreChapterActive(item) }"
+              @click.prevent="goToCoreAnchor(item.hash.slice(1))"
+            >{{ item.label }}</a>
             <RouterLink
               v-else
               :to="item.path"
@@ -186,7 +195,7 @@
       <div v-if="mobileNavOpen" class="nav-overlay" @click="mobileNavOpen = false"></div>
     </Transition>
 
-    <main class="main-content">
+    <main class="main-content" :class="{ 'main-content--wide': isCoreRoute }">
       <RouterView v-slot="{ Component }">
         <Transition name="fade" mode="out-in">
           <component :is="Component" :key="$route.path" />
@@ -256,6 +265,8 @@ import { useInstallPrompt } from './composables/useInstallPrompt.js'
 import { useKeywordPopover } from './composables/useKeywordPopover.js'
 import { useTracker } from './composables/useTracker.js'
 import { resolveRef, useRefNavigation } from './composables/useRefNavigation.js'
+import { activeSectionId } from './composables/useActiveSection.js'
+import { navGroups, navGroupsRu, CORE_PATH } from './router/index.js'
 import { useViewRestore } from './composables/useViewRestore.js'
 import { applyRouteMeta } from './composables/useSeoMeta.js'
 import { ui } from './i18n/ui.js'
@@ -388,18 +399,34 @@ const isRulesRoute = computed(() =>
   isRulesLandingRoute.value || isCoreRoute.value || isEventRoute.value || isCombatPatrolRoute.value
 )
 
+// The Core Rules chapters are anchors on one page, so the subnav carries hashes, not paths.
+// Built off navGroups (which owns the anchors) with the subnav's own shorter labels, in the
+// same order.
+const CORE_SUBNAV_LABELS = [
+  'subNavIntro', 'subNavBasicRules', 'subNavBattleRound', 'subNavBattlefields',
+  'subNavAdvanced', 'subNavReference', 'subNavMuster',
+]
+
 const coreSubNavItems = computed(() => {
-  const l = labels.value
-  return [
-    { path: '/introduction', label: l.subNavIntro },
-    { path: '/basic-rules', label: l.subNavBasicRules },
-    { path: '/battle-round', label: l.subNavBattleRound },
-    { path: '/battlefields', label: l.subNavBattlefields },
-    { path: '/advanced-rules', label: l.subNavAdvanced },
-    { path: '/reference', label: l.subNavReference },
-    { path: '/muster', label: l.subNavMuster },
-  ]
+  const groups = locale.value === 'ru' ? navGroupsRu : navGroups
+  return groups.map((g, i) => ({
+    hash: g.hash,
+    label: labels.value[CORE_SUBNAV_LABELS[i]],
+    sectionIds: g.sections.map((s) => s.id),
+  }))
 })
+
+// A chapter tab stays lit for any of its sections, so the highlight tracks reading position
+// rather than the last click.
+function isCoreChapterActive(item) {
+  const id = activeSectionId.value
+  if (!id) return false
+  return item.hash.slice(1) === id || item.sectionIds.includes(id)
+}
+
+function goToCoreAnchor(anchor) {
+  navigateTo({ route: CORE_PATH, anchor })
+}
 
 const eventSubNavItems = computed(() => {
   const l = labels.value
@@ -1056,6 +1083,13 @@ a.nd-link:hover {
   max-width: 860px;
   margin: 0 auto;
   padding: 0 2rem 4rem;
+}
+
+/* Only the single Core Rules page: its rules are laid out in two columns (`.rule-columns`
+   in style.css), which needs room. Every other section stays at the 860px reading measure.
+   Below 900px the mobile padding rules take over and this has no effect. */
+.main-content--wide {
+  max-width: 1280px;
 }
 
 /* ── Mobile ── */

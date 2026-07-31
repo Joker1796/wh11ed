@@ -34,7 +34,7 @@
           <div class="nav-section-body">
             <div
               v-for="group in section.groups"
-              :key="group.path || group.label"
+              :key="groupKey(group) || group.label"
               class="nav-group"
               :class="{ active: isActive(group) }"
             >
@@ -47,9 +47,9 @@
                   <button
                     v-if="group.sections.length"
                     class="nav-group-toggle"
-                    :class="{ expanded: expandedPath === group.path }"
+                    :class="{ expanded: expandedKey === groupKey(group) }"
                     @click="toggleGroupExpand(group)"
-                    :aria-expanded="expandedPath === group.path"
+                    :aria-expanded="expandedKey === groupKey(group)"
                     :aria-label="labels.ariaToggleSubsections"
                   >
                     <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -58,10 +58,10 @@
                   </button>
                 </div>
 
-                <CollapseTransition :show="expandedPath === group.path && group.sections.length > 0">
+                <CollapseTransition :show="expandedKey === groupKey(group) && group.sections.length > 0">
                   <ul class="nav-sub">
                     <li v-for="sec in group.sections" :key="sec.label">
-                      <a href="#" class="nav-sub-link" @click.prevent="handleAnchorClick(group.path, sec.id, sec.filter)">
+                      <a href="#" class="nav-sub-link" @click.prevent="handleAnchorClick(group, sec.id, sec.filter)">
                         {{ sec.label.replace(/^\d+\s+/, '') }}
                       </a>
                     </li>
@@ -83,6 +83,7 @@ import { navGroups, navGroupsRu, eventGroups, eventGroupsRu, trackerGroups, trac
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useAbilityFilter } from '../composables/useAbilityFilter.js'
+import { scrollToAnchor } from '../composables/useRefNavigation.js'
 import CollapseTransition from './CollapseTransition.vue'
 
 defineProps({ mobileOpen: Boolean })
@@ -141,18 +142,27 @@ const currentSection = computed(() => {
   return 'rules'
 })
 
+// The seven Core Rules groups all share one path and differ only by `hash` (they're
+// chapters of the single /core-rules page), so path alone can no longer identify a group.
+function groupKey(group) {
+  return group.path ? group.path + (group.hash || '') : ''
+}
+
 // Which group's subsections are open (one at a time), and which top-level
 // section accordion is expanded (also one at a time). Both follow the route.
-const expandedPath = ref(route.path)
+const expandedKey = ref(route.path + route.hash)
 const openSection = ref(currentSection.value)
 
-watch(() => route.path, (p) => {
-  expandedPath.value = p
+watch(() => route.fullPath, () => {
+  expandedKey.value = route.path + route.hash
   openSection.value = currentSection.value
 })
 
 function isActive(group) {
-  return route.path === group.path
+  if (route.path !== group.path) return false
+  if (!group.hash) return true
+  // Landing on /core-rules with no hash means the top of the page = the first chapter.
+  return (route.hash || navGroups[0].hash) === group.hash
 }
 
 function toggleSection(key) {
@@ -177,27 +187,29 @@ function goToSection(section) {
 }
 
 function goToGroup(group) {
+  // A Core Rules chapter is an anchor on the shared page, not a page of its own.
+  if (group.hash) return handleAnchorClick(group, group.hash.slice(1))
   if (route.path !== group.path) router.push(group.path)
   emit('close')
 }
 
 function toggleGroupExpand(group) {
-  expandedPath.value = expandedPath.value === group.path ? null : group.path
+  const key = groupKey(group)
+  expandedKey.value = expandedKey.value === key ? null : key
 }
 
-async function handleAnchorClick(path, id, filter) {
+async function handleAnchorClick(group, id, filter) {
   emit('close')
   if (filter) activeFilter.value = filter
-  if (route.path !== path) {
-    await router.push(path)
+  // Groups that anchor within a page (Core Rules chapters) put the anchor in the URL so the
+  // position is shareable; the others navigate to the page and scroll inside it.
+  const target = group.hash ? { path: group.path, hash: '#' + id } : group.path
+  if (route.path !== group.path || (group.hash && route.hash !== '#' + id)) {
+    await router.push(target)
   }
-  setTimeout(() => {
-    const el = document.getElementById(id)
-    if (el) {
-      const top = el.getBoundingClientRect().top + window.scrollY - 96
-      window.scrollTo({ top, behavior: 'smooth' })
-    }
-  }, 300)
+  // scrollToAnchor polls for the element rather than guessing a delay — needed on the Core
+  // Rules page, where a chapter that `content-visibility` has skipped isn't laid out yet.
+  scrollToAnchor(id, 96)
 }
 </script>
 

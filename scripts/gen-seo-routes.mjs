@@ -25,13 +25,10 @@ const ORIGIN = process.env.VITE_SITE_ORIGIN || 'https://wh11ed.ru'
 
 const STATIC_ROUTES = [
   '/',
-  '/introduction',
-  '/basic-rules',
-  '/battle-round',
-  '/battlefields',
-  '/advanced-rules',
-  '/reference',
-  '/muster',
+  // The seven former chapter routes are gone from the sitemap — they now redirect to an
+  // anchor on this one page. Their keys stay in the bucket (deploy never deletes keys) and
+  // keep returning 200, so old links still work; they just aren't advertised any more.
+  '/core-rules',
   '/event-companion',
   '/event-companion/sequence',
   '/event-companion/missions',

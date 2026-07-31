@@ -5,6 +5,10 @@ export const ui = {
     contentsHeading: 'Contents',
     creditsHeading: 'About the Project',
     tocNote: 'Each section is marked with a reference number used for internal referencing.',
+    // The single Core Rules page (/core-rules) — all seven chapters on one scroll.
+    coreRulesHeading: 'Core Rules',
+    coreRulesDesc: 'Warhammer 40,000, 11th edition — all seven chapters on one page',
+    openContents: 'Contents',
     basicRulesHeading: 'Basic Rules',
     basicRulesDesc: 'The essential rules concepts of Warhammer 40,000',
     woundTableTitle: 'Wound Roll — Strength vs Toughness',
@@ -402,6 +406,10 @@ export const ui = {
     contentsHeading: 'Содержание',
     creditsHeading: 'О проекте',
     tocNote: 'Каждый раздел отмечен справочным номером, используемым для внутренних ссылок.',
+    // The single Core Rules page (/core-rules) — all seven chapters on one scroll.
+    coreRulesHeading: 'Основные правила',
+    coreRulesDesc: 'Warhammer 40,000, 11-я редакция — все семь глав одной страницей',
+    openContents: 'Содержание',
     basicRulesHeading: 'Базовые правила',
     basicRulesDesc: 'Основные концепции правил Warhammer 40,000',
     woundTableTitle: 'Wound Roll — Сила vs Живучесть',
