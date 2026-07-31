@@ -1,5 +1,8 @@
 <template>
-  <BaseModal :title="labels.contentsHeading" max-width="42rem" @close="$emit('close')">
+  <!-- Wider than a typical dialog on purpose: the tree now goes one level past the
+       chapter/section list (NN.MM rule subsections — see CoreRulesToc's `modal` variant),
+       and it needs the room to lay that out in several columns instead of one long list. -->
+  <BaseModal :title="labels.contentsHeading" max-width="58rem" @close="$emit('close')">
     <!-- `modal-body` is not cosmetic: it carries the global `overscroll-behavior: contain`
          that keeps a scroll past the end of the list from chaining to the page behind. -->
     <div class="modal-body">
