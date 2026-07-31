@@ -1,25 +1,18 @@
 <template>
-  <div class="view">
-    <div class="view-hero">
-      <h1>{{ labels.eventFaqHeading }}</h1>
-      <p class="view-hero-desc">{{ labels.eventFaqDesc }}</p>
-    </div>
+  <h2 class="chapter-heading">{{ labels.eventFaqHeading }}</h2>
+  <p class="chapter-desc">{{ labels.eventFaqDesc }}</p>
 
-    <p class="lead">{{ faq.intro }}</p>
-    <p class="errata" v-html="renderInline(faq.errata)"></p>
+  <p class="lead">{{ faq.intro }}</p>
+  <p class="errata" v-html="renderInline(faq.errata)"></p>
 
-    <div class="faq-list">
-      <FaqItem v-for="(item, i) in faq.items" :key="i" :q="item.q" :a="item.a" />
-    </div>
-
-    <PageNav />
+  <div class="faq-list">
+    <FaqItem v-for="(item, i) in faq.items" :key="i" :q="item.q" :a="item.a" />
   </div>
 </template>
 
 <script setup>
 import { computed } from 'vue'
-import PageNav from '../../components/PageNav.vue'
-import FaqItem from '../../components/FaqItem.vue'
+import FaqItem from '../FaqItem.vue'
 import { getEventContent } from '../../data/eventCompanion.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
