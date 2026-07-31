@@ -1,18 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LandingView from '../views/LandingView.vue'
-import HomeView from '../views/HomeView.vue'
 import { isStandaloneDisplay } from '../composables/standalone.js'
 import { combatPatrolIndex } from '../data/combatPatrolIndex.js'
 
 // Route views are lazy-loaded so each page (and its data file) ships in its own
 // chunk, keeping the initial bundle small. LandingView (the project landing at "/")
-// and HomeView (the Core Rules introduction at "/introduction") stay eager.
-const BasicRulesView    = () => import('../views/BasicRulesView.vue')
-const BattleRoundView   = () => import('../views/BattleRoundView.vue')
-const BattlefieldsView  = () => import('../views/BattlefieldsView.vue')
-const AdvancedRulesView = () => import('../views/AdvancedRulesView.vue')
-const ReferenceView     = () => import('../views/ReferenceView.vue')
-const MusterView        = () => import('../views/MusterView.vue')
+// stays eager.
+const CoreRulesView     = () => import('../views/CoreRulesView.vue')
 const EventIntroView    = () => import('../views/event/EventIntroView.vue')
 const EventSequenceView = () => import('../views/event/EventSequenceView.vue')
 const EventMissionsView = () => import('../views/event/EventMissionsView.vue')
@@ -38,10 +32,24 @@ const CombatPatrolIndexView  = () => import('../views/combat-patrol/CombatPatrol
 const CombatPatrolFactionView = () => import('../views/combat-patrol/CombatPatrolFactionView.vue')
 const NotFoundView      = () => import('../views/NotFoundView.vue')
 
+// The seven Core Rules chapters live on ONE page now; what used to be a route per chapter
+// is an anchor on it. This map is the single registry: it drives the old-URL redirects
+// below, the chapter links inside the Introduction, and the `hash` on each nav group.
+export const CORE_PATH = '/core-rules'
+export const CORE_CHAPTER_ANCHORS = {
+  '/introduction':   'chapter-intro',
+  '/basic-rules':    'section-01',
+  '/battle-round':   'section-07',
+  '/battlefields':   'section-13',
+  '/advanced-rules': 'section-17',
+  '/reference':      'section-24',
+  '/muster':         'section-25',
+}
+
 export const navGroups = [
-  { label: 'Introduction',        path: '/introduction',   sections: [] },
+  { label: 'Introduction',        path: CORE_PATH, hash: '#chapter-intro', sections: [] },
   {
-    label: 'Basic Rules', path: '/basic-rules',
+    label: 'Basic Rules', path: CORE_PATH, hash: '#section-01',
     sections: [
       { id: 'section-01', label: '01 Core Concepts' },
       { id: 'section-02', label: '02 Datasheets' },
@@ -52,7 +60,7 @@ export const navGroups = [
     ],
   },
   {
-    label: 'The Battle Round', path: '/battle-round',
+    label: 'The Battle Round', path: CORE_PATH, hash: '#section-07',
     sections: [
       { id: 'section-07', label: '07 The Battle Round' },
       { id: 'section-08', label: '08 Command Phase' },
@@ -63,7 +71,7 @@ export const navGroups = [
     ],
   },
   {
-    label: 'Battlefields & Tactics', path: '/battlefields',
+    label: 'Battlefields & Tactics', path: CORE_PATH, hash: '#section-13',
     sections: [
       { id: 'section-13', label: '13 Terrain' },
       { id: 'section-14', label: '14 Objectives' },
@@ -72,7 +80,7 @@ export const navGroups = [
     ],
   },
   {
-    label: 'Advanced Rules', path: '/advanced-rules',
+    label: 'Advanced Rules', path: CORE_PATH, hash: '#section-17',
     sections: [
       { id: 'section-17', label: '17 Monsters & Vehicles' },
       { id: 'section-18', label: '18 Transports' },
@@ -84,7 +92,7 @@ export const navGroups = [
     ],
   },
   {
-    label: 'Reference', path: '/reference',
+    label: 'Reference', path: CORE_PATH, hash: '#section-24',
     sections: [
       { id: 'section-24', label: '24 Core Abilities' },
       { id: 'abilities-list', label: 'Unit Abilities',   filter: 'unit' },
@@ -95,7 +103,7 @@ export const navGroups = [
     ],
   },
   {
-    label: 'Muster Your Army', path: '/muster',
+    label: 'Muster Your Army', path: CORE_PATH, hash: '#section-25',
     sections: [
       { id: 'section-25', label: '25 Muster Your Army' },
     ],
@@ -103,9 +111,9 @@ export const navGroups = [
 ]
 
 export const navGroupsRu = [
-  { label: 'Введение',                  path: '/introduction',   sections: [] },
+  { label: 'Введение',                  path: CORE_PATH, hash: '#chapter-intro', sections: [] },
   {
-    label: 'Базовые правила', path: '/basic-rules',
+    label: 'Базовые правила', path: CORE_PATH, hash: '#section-01',
     sections: [
       { id: 'section-01', label: '01 Основные концепции' },
       { id: 'section-02', label: '02 Листы данных' },
@@ -116,7 +124,7 @@ export const navGroupsRu = [
     ],
   },
   {
-    label: 'Раунд боя', path: '/battle-round',
+    label: 'Раунд боя', path: CORE_PATH, hash: '#section-07',
     sections: [
       { id: 'section-07', label: '07 Раунд боя' },
       { id: 'section-08', label: '08 Фаза командования' },
@@ -127,7 +135,7 @@ export const navGroupsRu = [
     ],
   },
   {
-    label: 'Поля сражений и тактика', path: '/battlefields',
+    label: 'Поля сражений и тактика', path: CORE_PATH, hash: '#section-13',
     sections: [
       { id: 'section-13', label: '13 Укрытия' },
       { id: 'section-14', label: '14 Цели' },
@@ -136,7 +144,7 @@ export const navGroupsRu = [
     ],
   },
   {
-    label: 'Продвинутые правила', path: '/advanced-rules',
+    label: 'Продвинутые правила', path: CORE_PATH, hash: '#section-17',
     sections: [
       { id: 'section-17', label: '17 Монстры и техника' },
       { id: 'section-18', label: '18 Транспорты' },
@@ -148,7 +156,7 @@ export const navGroupsRu = [
     ],
   },
   {
-    label: 'Справочный раздел', path: '/reference',
+    label: 'Справочный раздел', path: CORE_PATH, hash: '#section-24',
     sections: [
       { id: 'section-24', label: '24 Базовые способности' },
       { id: 'abilities-list', label: 'Способности юнита',  filter: 'unit' },
@@ -159,7 +167,7 @@ export const navGroupsRu = [
     ],
   },
   {
-    label: 'Сбор армии', path: '/muster',
+    label: 'Сбор армии', path: CORE_PATH, hash: '#section-25',
     sections: [
       { id: 'section-25', label: '25 Сбор армии' },
     ],
@@ -299,13 +307,13 @@ export const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: '/',               component: LandingView, meta: { section: 'landing' } },
-    { path: '/introduction',   component: HomeView, meta: { section: 'core' } },
-    { path: '/basic-rules',    component: BasicRulesView, meta: { section: 'core' } },
-    { path: '/battle-round',   component: BattleRoundView, meta: { section: 'core' } },
-    { path: '/battlefields',   component: BattlefieldsView, meta: { section: 'core' } },
-    { path: '/advanced-rules', component: AdvancedRulesView, meta: { section: 'core' } },
-    { path: '/reference',      component: ReferenceView, meta: { section: 'core' } },
-    { path: '/muster',         component: MusterView, meta: { section: 'core' } },
+    { path: CORE_PATH, component: CoreRulesView, meta: { section: 'core' } },
+    // The seven former chapter routes. They stay valid forever — old bookmarks, shared
+    // links and the stale SEO keys still in the bucket all land on the right chapter.
+    ...Object.entries(CORE_CHAPTER_ANCHORS).map(([path, anchor]) => ({
+      path,
+      redirect: { path: CORE_PATH, hash: '#' + anchor },
+    })),
     { path: '/event-companion',          component: EventIntroView, meta: { section: 'event' } },
     { path: '/event-companion/sequence', component: EventSequenceView, meta: { section: 'event' } },
     { path: '/event-companion/missions', component: EventMissionsView, meta: { section: 'event' } },

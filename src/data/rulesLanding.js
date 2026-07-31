@@ -8,7 +8,7 @@ export const rulesLanding = {
       {
         key: 'core',
         label: 'Core Rules',
-        path: '/introduction',
+        path: '/core-rules',
         badge: '24 sections',
         desc: 'The complete 11th Edition Core Rules — basic concepts, the battle round and its phases, battlefields, advanced rules and the reference glossary.',
       },
@@ -34,7 +34,7 @@ export const rulesLanding = {
       {
         key: 'core',
         label: 'Основные правила',
-        path: '/introduction',
+        path: '/core-rules',
         badge: '24 раздела',
         desc: 'Полные основные правила 11-й редакции — базовые концепции, раунд боя и его фазы, поля сражений, продвинутые правила и справочный раздел.',
       },

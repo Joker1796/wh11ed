@@ -16,14 +16,25 @@
           :aria-label="labels.resumeGameBar"
         >{{ labels.resumeGameShort }}</RouterLink>
 
-        <RouterLink
-          v-for="a in factionActions"
-          :key="a.key"
-          :to="a.to"
-          class="mb-icon"
-          :title="a.label"
-          :aria-label="a.label"
-        ><i :class="a.icon"></i></RouterLink>
+        <!-- A contribution is either a jump (`to`, e.g. the faction hero's tab links) or an
+             action (`onClick`, e.g. the Core Rules contents modal). -->
+        <template v-for="a in actions" :key="a.key">
+          <RouterLink
+            v-if="a.to"
+            :to="a.to"
+            class="mb-icon"
+            :title="a.label"
+            :aria-label="a.label"
+          ><i :class="a.icon"></i></RouterLink>
+          <button
+            v-else
+            type="button"
+            class="mb-icon"
+            :title="a.label"
+            :aria-label="a.label"
+            @click="a.onClick"
+          ><i :class="a.icon"></i></button>
+        </template>
       </TransitionGroup>
 
       <!-- Rightmost slot, always: back-to-top, only once actually scrolled down. -->
@@ -52,10 +63,12 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
 const { contributions } = useMobileActionBar()
-const factionActions = computed(() => contributions['faction-tabs'] || [])
+// Whatever the current view registered, in registration order — the bar doesn't know or
+// care which contributor it came from.
+const actions = computed(() => Object.values(contributions).flat())
 const { visible: scrolledDown, scrollToTop } = useBackToTop()
 
-const visible = computed(() => props.showResumeGame || factionActions.value.length > 0 || scrolledDown.value)
+const visible = computed(() => props.showResumeGame || actions.value.length > 0 || scrolledDown.value)
 
 // App.vue reads this (via template ref) to size --mobile-bar-h without duplicating this logic.
 defineExpose({ visible })

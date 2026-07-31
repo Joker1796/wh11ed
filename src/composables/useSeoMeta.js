@@ -53,29 +53,16 @@ const LANDING = {
 // path → { title:{en,ru}, description:{en,ru} }. `title` here is the page-name prefix;
 // the brand suffix (SITE) is appended below, except for '/' which uses DEFAULT.title.
 const ROUTES = {
-  '/introduction': {
-    title: { en: 'Introduction', ru: 'Введение' },
-    description: DEFAULT.description,
-  },
-  '/basic-rules': {
-    title: { en: 'Basic Rules', ru: 'Основные правила' },
+  // All seven chapters are one page now, so this single entry has to carry the keywords the
+  // seven separate ones used to: basic rules, the battle round and its phases, terrain and
+  // stratagems, advanced rules, core abilities, mustering an army. The old paths still
+  // resolve — they redirect (see router/index.js) — but they render no component, so they
+  // need no entry of their own.
+  '/core-rules': {
+    title: { en: 'Core Rules', ru: 'Основные правила' },
     description: {
-      en: 'Core concepts, datasheets, moving, making attacks and the attack sequence — the foundational rules of Warhammer 40,000 11th edition.',
-      ru: 'Базовые концепции, листы данных, движение, совершение атак и последовательность атаки — основы правил Warhammer 40,000 11-й редакции.',
-    },
-  },
-  '/battle-round': {
-    title: { en: 'The Battle Round', ru: 'Раунд боя' },
-    description: {
-      en: 'The battle round and its five phases — Command, Movement, Shooting, Charge and Fight: turn structure and sequencing for Warhammer 40,000 11th edition.',
-      ru: 'Раунд боя и его пять фаз — командования, движения, стрельбы, нападения и ближнего боя: структура хода в Warhammer 40,000 11-й редакции.',
-    },
-  },
-  '/battlefields': {
-    title: { en: 'Battlefields & Stratagems', ru: 'Поле боя и стратагемы' },
-    description: {
-      en: 'Terrain, objectives, stratagems and actions — battlefield rules and the core stratagems of Warhammer 40,000 11th edition.',
-      ru: 'Террейн, цели, стратагемы и действия — правила поля боя и базовые стратагемы Warhammer 40,000 11-й редакции.',
+      en: 'The complete core rules of Warhammer 40,000 11th edition on one page: core concepts and datasheets, moving and making attacks, the battle round and its five phases, terrain, objectives, stratagems and actions, advanced rules, core abilities and mustering your army.',
+      ru: 'Полные основные правила Warhammer 40,000 (Вархаммер) 11-й редакции одной страницей: базовые концепции и листы данных, движение и атаки, раунд боя и его пять фаз, террейн, цели, стратагемы и действия, продвинутые правила, базовые способности и сбор армии.',
     },
   },
   '/stratagems': {
@@ -83,27 +70,6 @@ const ROUTES = {
     description: {
       en: 'The core stratagems of Warhammer 40,000 11th edition — a quick card reference for use during a game.',
       ru: 'Базовые стратагемы Warhammer 40,000 11-й редакции — быстрый просмотр карточек во время партии.',
-    },
-  },
-  '/advanced-rules': {
-    title: { en: 'Advanced Rules', ru: 'Продвинутые правила' },
-    description: {
-      en: 'Monsters & vehicles, transports, attached units (leaders), strategic reserves, flying and aircraft — advanced rules for Warhammer 40,000 11th edition.',
-      ru: 'Монстры и техника, транспорт, объединённые отряды (лидеры), стратегический резерв, полёт и воздушные суда — продвинутые правила 40k 11-й редакции.',
-    },
-  },
-  '/reference': {
-    title: { en: 'Reference & Abilities', ru: 'Справочник и способности' },
-    description: {
-      en: 'Core abilities, unit and weapon ability keywords, the rules appendix and FAQs — the quick-reference glossary for Warhammer 40,000 11th edition.',
-      ru: 'Базовые способности, ключевые слова способностей юнитов и оружия, приложение правил и FAQ — краткий справочник Warhammer 40,000 11-й редакции.',
-    },
-  },
-  '/muster': {
-    title: { en: 'Muster Your Army', ru: 'Сбор армии' },
-    description: {
-      en: 'Muster your army: battle sizes, detachments, enhancements and points — army-building rules for Warhammer 40,000 11th edition.',
-      ru: 'Сбор армии: размеры битвы, детачменты, улучшения и очки — правила построения армии Warhammer 40,000 11-й редакции.',
     },
   },
   '/rules': {

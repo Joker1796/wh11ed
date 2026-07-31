@@ -62,7 +62,7 @@ describe('search', () => {
     const hit = res.find((r) => r.sectionNum === '01.02')
     expect(hit).toBeTruthy()
     expect(hit.title).toBe('Юниты и модели')
-    expect(hit.route).toBe('/basic-rules')
+    expect(hit.route).toBe('/core-rules')
   })
 
   it('also works the other way: a Russian query in the EN locale finds the EN-displayed result', () => {
@@ -72,7 +72,7 @@ describe('search', () => {
     const hit = res.find((r) => r.sectionNum === '01.02')
     expect(hit).toBeTruthy()
     expect(hit.title).toBe('Units and Models')
-    expect(hit.route).toBe('/basic-rules')
+    expect(hit.route).toBe('/core-rules')
   })
 
   it('does not duplicate a result that matches both natively and cross-lingually', () => {
