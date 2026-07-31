@@ -354,6 +354,28 @@ h4 { font-size: var(--fs-subheading); }
   font-style: italic;
 }
 
+/* Two-column rule flow on the single Core Rules page (`/core-rules`, the only page widened
+   past the usual 860px — see `.main-content--wide`). Same CSS-multicol masonry as the stratagem
+   grid: blocks tile by height instead of stretching to the neighbouring column's block.
+   Global rather than scoped because all seven chapter components in components/core/ use
+   it. What goes into one group is decided in composables/columnChunks.js — `column-span`
+   would only work on a direct child, so wide blocks are lifted out there instead.
+
+   Written mobile-first on purpose: below the threshold `.rule-columns` is an inert wrapper
+   that adds nothing, so narrow screens keep exactly the layout they had when the chapters
+   were still seven pages — no columns, no extra gaps, blocks flush in source order. */
+@media (min-width: 1024px) {
+  .rule-columns {
+    column-count: 2;
+    column-gap: 1.5rem;
+  }
+
+  .rule-columns > * {
+    break-inside: avoid;
+    margin-bottom: 1rem;
+  }
+}
+
 p {
   margin-bottom: 0.8rem;
 }

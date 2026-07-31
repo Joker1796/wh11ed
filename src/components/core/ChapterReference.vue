@@ -1,192 +1,193 @@
 <template>
-  <div class="view">
-    <div class="view-hero">
-      <h1>{{ labels.referenceHeading }}</h1>
-      <p class="view-hero-desc">{{ labels.referenceDesc }}</p>
-    </div>
+  <!-- Section 24: Core Abilities -->
+  <SectionHeader
+    id="section-24"
+    num="24"
+    :title="labels.coreAbilitiesTitle"
+    :description="labels.coreAbilitiesDesc"
+  />
 
-    <TableOfContents :sections="tocSections" />
-
-    <!-- Section 24: Core Abilities -->
-    <SectionHeader
-      id="section-24"
-      num="24"
-      :title="labels.coreAbilitiesTitle"
-      :description="labels.coreAbilitiesDesc"
-    />
-
-    <!-- 24.01 и 24.02 -->
-    <RuleBlock
-      v-for="sub in abilityIntroData"
-      :key="sub.id"
-      :id="sub.id"
-      :sectionNum="sub.sectionNum"
-      :title="sub.title"
-      :body="sub.body"
-      :example="sub.example"
-      :children="sub.children"
-    />
-
-    <!-- Filter buttons -->
-    <div id="abilities-list" class="ability-filters">
-      <button
-        v-for="f in filters"
-        :key="f.value"
-        class="filter-btn"
-        :class="{ active: activeFilter === f.value }"
-        @click="activeFilter = f.value"
-      >
-        {{ f.label }}
-      </button>
-    </div>
-
-    <TransitionGroup tag="div" name="list" class="abilities-list">
-      <div
-        v-for="ability in filteredAbilities"
-        :key="ability.num"
-        class="ability-card"
-        :id="'ability-' + ability.num.replace('.','_')"
-      >
-        <div class="ability-header">
-          <span class="ability-num">{{ ability.num }}</span>
-          <h3 class="ability-name" :class="ability.type">{{ ability.name }}</h3>
-          <span class="ability-type-badge" :class="ability.type">{{ ability.type === 'weapon' ? labels.badgeWeapon : labels.badgeUnit }}</span>
-        </div>
-
-        <div class="ability-body" @click="handleDefClick">
-          <p v-if="ability.flavor" class="ability-flavor" v-html="renderInline(ability.flavor)" />
-
-          <template v-for="(block, bi) in parseBody(ability.fullText)" :key="bi">
-            <ul v-if="block.type === 'ul'" class="ability-list">
-              <li v-for="(item, li) in block.items" :key="li" v-html="renderInline(item)" />
-            </ul>
-            <ol v-else-if="block.type === 'ol'" class="ability-ol">
-              <li v-for="(item, li) in block.items" :key="li" v-html="renderInline(item)" />
-            </ol>
-            <div v-else-if="block.type === 'info-card'" class="info-card">
-              <div v-for="(row, ri) in block.rows" :key="ri" class="info-row">
-                <div class="info-label">{{ row.label }}</div>
-                <div class="info-content" v-html="renderInline(row.content)" />
-              </div>
-            </div>
-            <p v-else v-html="renderInline(block.text)" />
-          </template>
-        </div>
-
-        <div v-if="ability.example" class="example-block" v-html="renderInline(ability.example)" />
-
-        <div v-if="ability.note" class="note-box ability-note-box" v-html="renderNoteHtml(ability.note)" />
-
-        <SubRuleBlock
-          v-for="child in ability.children"
-          :key="child.id"
-          :id="child.id"
-          :section-num="child.sectionNum"
-          :title="child.title"
-          :body="child.body"
-          :note="child.note"
-          :example="child.example"
-          :see-also="child.seeAlso"
-          :table="child.table"
-          :from-app="child.fromApp"
-        />
-      </div>
-    </TransitionGroup>
-
-    <!-- Rules Appendix -->
-    <SectionHeader
-      id="section-appendix"
-      num="—"
-      :title="labels.rulesAppendixTitle"
-      :description="labels.rulesAppendixDesc"
-    />
-
-    <div class="digital-support">
-      <h2 class="digital-support-title">{{ labels.digitalSupportTitle }}</h2>
-      <div class="digital-support-body">
-        <div class="digital-support-qr">
-          <a href="https://warhammer40000.com/" target="_blank" rel="noopener">
-            <img src="/images/wh40k-app-qr.png" alt="QR code — Warhammer 40,000 App" class="qr-img" />
-          </a>
-        </div>
-        <p>{{ labels.digitalSupportText }}</p>
-      </div>
-    </div>
-
-    <div v-for="entry in appendixData" :key="entry.id" :id="entry.id" class="appendix-block">
-      <h3 class="appendix-title">{{ entry.title }}</h3>
-
-      <div @click="handleDefClick">
-        <template v-for="(block, bi) in parseBody(entry.body)" :key="bi">
-          <ul v-if="block.type === 'ul'" class="appendix-list">
-            <li v-for="(item, li) in block.items" :key="li" v-html="renderInline(item)" />
-          </ul>
-          <p v-else v-html="renderInline(block.text)" />
-        </template>
-      </div>
-
-      <DataTable
-        v-if="entry.table"
-        :headers="entry.table.headers"
-        :rows="entry.table.rows"
+  <!-- 24.01 и 24.02 -->
+  <template v-for="grp in chunkSubsections(abilityIntroData)" :key="grp.key">
+    <div v-if="grp.type === 'columns'" class="rule-columns">
+      <RuleBlock
+        v-for="sub in grp.items"
+        :key="sub.id"
+        :id="sub.id"
+        :sectionNum="sub.sectionNum"
+        :title="sub.title"
+        :body="sub.body"
+        :example="sub.example"
+        :children="sub.children"
       />
-
-      <div v-if="entry.example" class="example-block" v-html="renderInline(entry.example)" />
-      <div v-if="entry.note" class="note-box" v-html="renderNoteHtml(entry.note)" />
     </div>
-
-    <!-- Errata -->
-    <SectionHeader
-      id="section-errata"
-      num="—"
-      :title="labels.errataTitle"
-      :description="labels.errataDesc"
+    <RuleBlock
+      v-else
+      :id="grp.item.id"
+      :sectionNum="grp.item.sectionNum"
+      :title="grp.item.title"
+      :body="grp.item.body"
+      :example="grp.item.example"
+      :children="grp.item.children"
     />
+  </template>
 
-    <div v-for="entry in errataData" :key="entry.id" :id="entry.id" class="appendix-block">
-      <h3 class="appendix-title">{{ entry.header }}</h3>
+  <!-- Filter buttons -->
+  <div id="abilities-list" class="ability-filters">
+    <button
+      v-for="f in filters"
+      :key="f.value"
+      class="filter-btn"
+      :class="{ active: activeFilter === f.value }"
+      @click="activeFilter = f.value"
+    >
+      {{ f.label }}
+    </button>
+  </div>
 
-      <div @click="handleDefClick">
-        <template v-for="(block, bi) in parseBody(entry.body)" :key="bi">
-          <ul v-if="block.type === 'ul'" class="appendix-list">
+  <TransitionGroup tag="div" name="list" class="abilities-list">
+    <div
+      v-for="ability in filteredAbilities"
+      :key="ability.num"
+      class="ability-card"
+      :id="'ability-' + ability.num.replace('.','_')"
+    >
+      <div class="ability-header">
+        <span class="ability-num">{{ ability.num }}</span>
+        <h3 class="ability-name" :class="ability.type">{{ ability.name }}</h3>
+        <span class="ability-type-badge" :class="ability.type">{{ ability.type === 'weapon' ? labels.badgeWeapon : labels.badgeUnit }}</span>
+      </div>
+
+      <div class="ability-body" @click="handleDefClick">
+        <p v-if="ability.flavor" class="ability-flavor" v-html="renderInline(ability.flavor)" />
+
+        <template v-for="(block, bi) in parseBody(ability.fullText)" :key="bi">
+          <ul v-if="block.type === 'ul'" class="ability-list">
             <li v-for="(item, li) in block.items" :key="li" v-html="renderInline(item)" />
           </ul>
+          <ol v-else-if="block.type === 'ol'" class="ability-ol">
+            <li v-for="(item, li) in block.items" :key="li" v-html="renderInline(item)" />
+          </ol>
+          <div v-else-if="block.type === 'info-card'" class="info-card">
+            <div v-for="(row, ri) in block.rows" :key="ri" class="info-row">
+              <div class="info-label">{{ row.label }}</div>
+              <div class="info-content" v-html="renderInline(row.content)" />
+            </div>
+          </div>
           <p v-else v-html="renderInline(block.text)" />
         </template>
       </div>
+
+      <div v-if="ability.example" class="example-block" v-html="renderInline(ability.example)" />
+
+      <div v-if="ability.note" class="note-box ability-note-box" v-html="renderNoteHtml(ability.note)" />
+
+      <SubRuleBlock
+        v-for="child in ability.children"
+        :key="child.id"
+        :id="child.id"
+        :section-num="child.sectionNum"
+        :title="child.title"
+        :body="child.body"
+        :note="child.note"
+        :example="child.example"
+        :see-also="child.seeAlso"
+        :table="child.table"
+        :from-app="child.fromApp"
+      />
+    </div>
+  </TransitionGroup>
+
+  <!-- Rules Appendix -->
+  <SectionHeader
+    id="section-appendix"
+    num="—"
+    :title="labels.rulesAppendixTitle"
+    :description="labels.rulesAppendixDesc"
+  />
+
+  <div class="digital-support">
+    <h2 class="digital-support-title">{{ labels.digitalSupportTitle }}</h2>
+    <div class="digital-support-body">
+      <div class="digital-support-qr">
+        <a href="https://warhammer40000.com/" target="_blank" rel="noopener">
+          <img src="/images/wh40k-app-qr.png" alt="QR code — Warhammer 40,000 App" class="qr-img" />
+        </a>
+      </div>
+      <p>{{ labels.digitalSupportText }}</p>
+    </div>
+  </div>
+
+  <div v-for="entry in appendixData" :key="entry.id" :id="entry.id" class="appendix-block">
+    <h3 class="appendix-title">{{ entry.title }}</h3>
+
+    <div @click="handleDefClick">
+      <template v-for="(block, bi) in parseBody(entry.body)" :key="bi">
+        <ul v-if="block.type === 'ul'" class="appendix-list">
+          <li v-for="(item, li) in block.items" :key="li" v-html="renderInline(item)" />
+        </ul>
+        <p v-else v-html="renderInline(block.text)" />
+      </template>
     </div>
 
-    <!-- FAQs -->
-    <SectionHeader
-      id="section-faq"
-      num="—"
-      :title="labels.faqsTitle"
-      :description="labels.faqsDesc"
+    <DataTable
+      v-if="entry.table"
+      :headers="entry.table.headers"
+      :rows="entry.table.rows"
     />
 
-    <div class="faq-list">
-      <FaqItem v-for="(faq, i) in faqsData" :id="'faq-' + i" :key="i" :q="faq.q" :a="faq.a" />
-    </div>
+    <div v-if="entry.example" class="example-block" v-html="renderInline(entry.example)" />
+    <div v-if="entry.note" class="note-box" v-html="renderNoteHtml(entry.note)" />
+  </div>
 
-    <PageNav />
+  <!-- Errata -->
+  <SectionHeader
+    id="section-errata"
+    num="—"
+    :title="labels.errataTitle"
+    :description="labels.errataDesc"
+  />
+
+  <div v-for="entry in errataData" :key="entry.id" :id="entry.id" class="appendix-block">
+    <h3 class="appendix-title">{{ entry.header }}</h3>
+
+    <div @click="handleDefClick">
+      <template v-for="(block, bi) in parseBody(entry.body)" :key="bi">
+        <ul v-if="block.type === 'ul'" class="appendix-list">
+          <li v-for="(item, li) in block.items" :key="li" v-html="renderInline(item)" />
+        </ul>
+        <p v-else v-html="renderInline(block.text)" />
+      </template>
+    </div>
+  </div>
+
+  <!-- FAQs -->
+  <SectionHeader
+    id="section-faq"
+    num="—"
+    :title="labels.faqsTitle"
+    :description="labels.faqsDesc"
+  />
+
+  <div class="faq-list">
+    <FaqItem v-for="(faq, i) in faqsData" :id="'faq-' + i" :key="i" :q="faq.q" :a="faq.a" />
   </div>
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
-import SectionHeader from '../components/SectionHeader.vue'
-import DataTable from '../components/DataTable.vue'
-import TableOfContents from '../components/TableOfContents.vue'
-import RuleBlock from '../components/RuleBlock.vue'
-import SubRuleBlock from '../components/SubRuleBlock.vue'
-import PageNav from '../components/PageNav.vue'
-import FaqItem from '../components/FaqItem.vue'
-import { useRenderInline } from '../composables/useRenderInline.js'
-import { useLocale } from '../composables/useLocale.js'
-import { useAbilityFilter } from '../composables/useAbilityFilter.js'
+import { computed, watch } from 'vue'
+import SectionHeader from '../SectionHeader.vue'
+import DataTable from '../DataTable.vue'
+import RuleBlock from '../RuleBlock.vue'
+import SubRuleBlock from '../SubRuleBlock.vue'
+import FaqItem from '../FaqItem.vue'
+import { useRenderInline } from '../../composables/useRenderInline.js'
+import { useLocale } from '../../composables/useLocale.js'
+import { useAbilityFilter } from '../../composables/useAbilityFilter.js'
 import { useRoute } from 'vue-router'
-import { ui } from '../i18n/ui.js'
-import { abilityIntro, coreAbilities, appendix, errata, faqs } from '../data/reference.js'
+import { ui } from '../../i18n/ui.js'
+import { abilityIntro, coreAbilities, appendix, errata, faqs } from '../../data/reference.js'
+import { chunkSubsections } from '../../composables/columnChunks.js'
 
 const { renderInline } = useRenderInline()
 const { locale } = useLocale()
@@ -231,13 +232,6 @@ const errataData = computed(() =>
 const faqsData = computed(() =>
   locale.value === 'ru' ? faqs.ru : faqs.en
 )
-
-const tocSections = computed(() => [
-  { id: 'section-24', num: '24', label: labels.value.coreAbilitiesTitle },
-  { id: 'section-appendix', num: '—', label: labels.value.rulesAppendixTitle },
-  { id: 'section-errata', num: '—', label: labels.value.errataTitle },
-  { id: 'section-faq', num: '—', label: labels.value.faqsTitle },
-])
 
 const filters = computed(() => [
   { label: labels.value.filterAll, value: 'all' },
@@ -365,6 +359,26 @@ function handleDefClick(e) {
   gap: 0.6rem;
   margin-bottom: 1.25rem;
   position: relative; /* contain the absolute-positioned leaving cards during filter transitions */
+}
+
+/* Two columns on the wide single page — the cards are uniform, so they tile well. Same
+   breakpoint as the global `.rule-columns`. The filter's FLIP move-transition is dropped
+   here: reflowing a multicol mid-animation makes the cards slide through each other. */
+@media (min-width: 1024px) {
+  .abilities-list {
+    display: block;
+    column-count: 2;
+    column-gap: 1.5rem;
+  }
+
+  .abilities-list > * {
+    break-inside: avoid;
+    margin-bottom: 0.6rem;
+  }
+
+  .abilities-list > .list-move {
+    transition: none;
+  }
 }
 
 .ability-card {

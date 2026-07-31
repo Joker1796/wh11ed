@@ -14,7 +14,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { navGroups, navGroupsRu, eventGroups, eventGroupsRu } from '../router/index.js'
+import { eventGroups, eventGroupsRu } from '../router/index.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 
@@ -22,12 +22,9 @@ const { locale } = useLocale()
 const route = useRoute()
 
 const labels = computed(() => ui[locale.value])
-// Pick the group set matching the current section so one component serves both.
-const groups = computed(() => {
-  const ru = locale.value === 'ru'
-  if (route.path.startsWith('/event-companion')) return ru ? eventGroupsRu : eventGroups
-  return ru ? navGroupsRu : navGroups
-})
+// Event Companion only. The Core Rules used to page through here too, but their seven
+// chapters are one scrolling page now — there is nowhere left to page to.
+const groups = computed(() => (locale.value === 'ru' ? eventGroupsRu : eventGroups))
 
 const idx = computed(() => groups.value.findIndex(g => g.path === route.path))
 const prev = computed(() => (idx.value > 0 ? groups.value[idx.value - 1] : null))
