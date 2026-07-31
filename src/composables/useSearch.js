@@ -275,12 +275,11 @@ function indexReferenceExtras(items, locale) {
   })
 }
 
-// The Introduction chapter — the About, App and Contents sections. DOM ids
-// (intro-about/app/contents) live in components/core/ChapterIntro.vue so results scroll there.
+// The Introduction chapter — the About and App sections. DOM ids (intro-about/app) live in
+// components/core/ChapterIntro.vue so results scroll there.
 function indexIntro(items, locale) {
   const t = intro[locale] || intro.en
   const L = ui[locale]
-  const tocText = (t.toc || []).map(c => `${c.label} ${c.desc || ''}`).join('\n')
   const add = (id, title, parts) => {
     items.push({
       id,
@@ -293,7 +292,6 @@ function indexIntro(items, locale) {
   }
   add('intro-about', L.introHeading, [t.lore, ...(t.flavorText || []), t.intro, t.missions])
   add('intro-app', L.appHeading, [t.app])
-  add('intro-contents', L.contentsHeading, [L.tocNote, tocText])
 }
 
 // Event Companion lives in a different data shape ({ en, ru } objects rather than

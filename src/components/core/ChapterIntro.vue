@@ -6,8 +6,14 @@
 
   <section id="intro-about" class="intro-section">
     <h2>{{ labels.introHeading }}</h2>
-    <div v-for="para in introParagraphs" :key="para" class="para" v-html="renderInline(para)"></div>
-    <div v-for="para in missionParagraphs" :key="para" class="para" v-html="renderInline(para)"></div>
+    <!-- The prose itself flows in two columns on desktop (.rule-columns, global in
+         style.css) — the same masonry as the rule chapters, just applied at paragraph
+         granularity: each paragraph is a column item, distributed without splitting one
+         mid-paragraph across the gap. The heading stays outside it, full width. -->
+    <div class="rule-columns">
+      <div v-for="para in introParagraphs" :key="para" class="para" v-html="renderInline(para)"></div>
+      <div v-for="para in missionParagraphs" :key="para" class="para" v-html="renderInline(para)"></div>
+    </div>
   </section>
 
   <section id="intro-app" class="intro-section">
@@ -21,27 +27,6 @@
       <p v-html="renderInline(t.app)"></p>
     </div>
   </section>
-
-  <section id="intro-contents" class="toc-section">
-    <h2>{{ labels.contentsHeading }}</h2>
-    <p class="toc-note">{{ labels.tocNote }}</p>
-
-    <div class="toc-grid">
-      <a
-        v-for="item in tocItems"
-        :key="item.path"
-        :href="'#' + item.anchor"
-        class="toc-card"
-        @click.prevent="jumpTo(item.anchor)"
-      >
-        <div class="toc-card-top">
-          <span class="toc-sections">Sections {{ item.sections }}</span>
-        </div>
-        <h3 class="toc-card-title">{{ item.label }}</h3>
-        <p class="toc-card-desc">{{ item.desc }}</p>
-      </a>
-    </div>
-  </section>
 </template>
 
 <script setup>
@@ -50,30 +35,12 @@ import { intro } from '../../data/intro.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
-import { useRouter } from 'vue-router'
-import { CORE_CHAPTER_ANCHORS, CORE_PATH } from '../../router/index.js'
-import { scrollToAnchor } from '../../composables/useRefNavigation.js'
 
-// The book's own contents pages, with a blurb per chapter — kept as content (it sits
-// several screens below the page's compact CoreRulesToc and does a different job). Its
-// cards used to link to the per-chapter routes; now they jump to those chapters' anchors,
-// the same way SectionTocBlock does.
-
-const router = useRouter()
 const { locale } = useLocale()
 const { renderInline } = useRenderInline()
 
 const t = computed(() => intro[locale.value])
 const labels = computed(() => ui[locale.value])
-
-const tocItems = computed(() =>
-  intro.en.toc.map((item, i) => ({
-    ...item,
-    anchor: CORE_CHAPTER_ANCHORS[item.path],
-    label: locale.value === 'ru' ? intro.ru.toc[i].label : item.label,
-    desc: locale.value === 'ru' ? intro.ru.toc[i].desc : item.desc,
-  }))
-)
 
 const introParagraphs = computed(() =>
   t.value.intro.split('\n\n').filter(p => p.trim())
@@ -82,11 +49,6 @@ const introParagraphs = computed(() =>
 const missionParagraphs = computed(() =>
   t.value.missions.split('\n\n').filter(p => p.trim())
 )
-
-async function jumpTo(anchor) {
-  await router.push({ path: CORE_PATH, hash: '#' + anchor })
-  scrollToAnchor(anchor)
-}
 </script>
 
 <style scoped>
@@ -155,81 +117,5 @@ async function jumpTo(anchor) {
   height: auto;
   display: block;
   border-radius: 4px;
-}
-
-.toc-section h2 {
-  font-family: var(--font-display);
-  font-size: 1.65rem;
-  font-weight: 500;
-  margin-bottom: 0.4rem;
-  padding-bottom: 0.3rem;
-  border-bottom: 2px solid var(--accent);
-  color: var(--text-primary);
-}
-
-.toc-note {
-  color: var(--text-muted);
-  font-size: 0.88rem;
-  margin-bottom: 0.9rem;
-  font-style: italic;
-}
-
-.toc-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1rem;
-}
-
-.toc-card {
-  display: block;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-top: 3px solid var(--border);
-  border-radius: 0 0 6px 6px;
-  padding: 1.1rem 1.25rem;
-  transition: border-top-color 0.15s, box-shadow 0.15s;
-  text-decoration: none;
-}
-
-.toc-card:hover {
-  border-top-color: var(--accent);
-  box-shadow: 0 2px 12px color-mix(in srgb, var(--accent) 18%, transparent);
-  text-decoration: none;
-}
-
-.toc-card-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-
-.toc-sections {
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: var(--accent);
-  font-family: var(--font-mono);
-  background: color-mix(in srgb, var(--accent) 10%, transparent);
-  padding: 2px 7px;
-  border-radius: 2px;
-}
-
-.toc-card-title {
-  font-family: var(--font-display);
-  font-size: var(--fs-subrule);
-  font-weight: 400;
-  color: var(--text-primary);
-  margin-bottom: 0.4rem;
-}
-
-.toc-card-desc {
-  font-size: 0.84rem;
-  color: var(--text-muted);
-  line-height: 1.5;
-  margin: 0;
-}
-
-@media (max-width: 600px) {
-  .toc-grid { grid-template-columns: 1fr; }
 }
 </style>

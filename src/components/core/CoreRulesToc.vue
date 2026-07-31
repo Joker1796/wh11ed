@@ -26,6 +26,22 @@
               <span v-if="sectionNum(sec.label)" class="core-toc-num">{{ sectionNum(sec.label) }}</span>
               {{ sec.label.replace(/^\d+\s+/, '') }}
             </a>
+
+            <!-- One level deeper (e.g. "03.02 Moving Models") — only in the modal, where
+                 there's room for it; the page TOC stays a compact chapter/section jump list. -->
+            <ul v-if="variant === 'modal' && subsectionsFor(sec.id).length" class="core-toc-subs">
+              <li v-for="item in subsectionsFor(sec.id)" :key="item.id">
+                <a
+                  class="core-toc-subs-link"
+                  :class="{ current: item.id === activeId }"
+                  :href="'#' + item.id"
+                  @click.prevent="$emit('select', item.id)"
+                >
+                  <span class="core-toc-subs-num">{{ item.sectionNum }}</span>
+                  {{ item.title }}
+                </a>
+              </li>
+            </ul>
           </li>
         </ul>
       </div>
@@ -38,6 +54,7 @@ import { computed } from 'vue'
 import { navGroups, navGroupsRu } from '../../router/index.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { useCoreRulesSubsections } from '../../composables/useCoreRulesSubsections.js'
 
 // One component, two placements: `page` renders it inline under the page hero, `modal`
 // inside CoreRulesTocModal (no heading of its own — BaseModal supplies one).
@@ -49,12 +66,25 @@ defineEmits(['select'])
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const groups = computed(() => (locale.value === 'ru' ? navGroupsRu : navGroups))
+// Introduction has no sections of its own and sits right above this TOC as page content —
+// listing it here would just be a link to "scroll up a bit". Excluded from the contents
+// list only; it stays a normal chapter everywhere else (subnav, drawer, search).
+const groups = computed(() =>
+  (locale.value === 'ru' ? navGroupsRu : navGroups).filter((g) => g.hash !== '#chapter-intro')
+)
 
 // Section labels carry their reference number ("03 Moving"); split it out so it can be
 // set in the mono/accent style the rest of the app uses for those numbers.
 function sectionNum(label) {
   return label.match(/^(\d+)\s/)?.[1] || ''
+}
+
+// One level deeper than navGroups — the "NN.MM" rule subsections (see
+// useCoreRulesSubsections.js). Only Basic Rules / Battle Round / Battlefields / Advanced
+// Rules / Muster have any; Reference's entries look them up and get an empty list.
+const subsectionsByChapter = useCoreRulesSubsections()
+function subsectionsFor(id) {
+  return subsectionsByChapter.value[id] || []
 }
 
 // The chapter containing the active section — so the whole chapter stays marked while
@@ -162,14 +192,63 @@ const activeChapter = computed(() => {
   flex-shrink: 0;
 }
 
-/* In the modal the list is the whole content, so give the rows finger-sized hit areas. */
+/* In the modal the list is the whole content — fill the modal's width with as many
+   chapter columns as fit (same auto-fill mechanics as the page variant) instead of wasting
+   the right side of a wide dialog on a single left-aligned column. The modal is wider than
+   a typical dialog (see CoreRulesTocModal) specifically to give the NN.MM subsection level
+   below room to sit next to its chapter instead of forcing a single narrow list. Everything
+   here is tightened — small gaps, small type — so the full three-level tree (chapter →
+   section → subsection) fits with as little scrolling as possible. */
 .core-toc--modal .core-toc-grid {
-  grid-template-columns: 1fr;
-  gap: 1.1rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
+  gap: 0.6rem 1.5rem;
+}
+
+.core-toc--modal .core-toc-chapter {
+  margin-bottom: 0.1rem;
+  padding-bottom: 0.15rem;
 }
 
 .core-toc--modal .core-toc-link {
-  font-size: 0.92rem;
-  padding: 0.4rem 0;
+  font-size: 0.86rem;
+  padding: 0.16rem 0;
+  line-height: 1.25;
+}
+
+/* The NN.MM level: indented under its section, small enough that six chapters' worth of
+   subsections don't blow up the modal's height. */
+.core-toc-subs {
+  list-style: none;
+  padding: 0 0 0.2rem 0.85rem;
+  margin: 0;
+}
+
+.core-toc-subs-link {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  padding: 0.08rem 0;
+  line-height: 1.2;
+  transition: color 0.15s;
+  text-decoration: none;
+}
+
+.core-toc-subs-link:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.core-toc-subs-link.current {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.core-toc-subs-num {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  color: var(--text-dim);
+  flex-shrink: 0;
 }
 </style>
