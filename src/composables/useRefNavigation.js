@@ -1,17 +1,16 @@
 import { useRouter } from 'vue-router'
 
-const ROUTE_MAP = {
-  '01': '/basic-rules', '02': '/basic-rules', '03': '/basic-rules',
-  '04': '/basic-rules', '05': '/basic-rules', '06': '/basic-rules',
-  '07': '/battle-round', '08': '/battle-round', '09': '/battle-round',
-  '10': '/battle-round', '11': '/battle-round', '12': '/battle-round',
-  '13': '/battlefields', '14': '/battlefields', '15': '/battlefields',
-  '16': '/battlefields',
-  '17': '/advanced-rules', '18': '/advanced-rules', '19': '/advanced-rules',
-  '20': '/advanced-rules', '21': '/advanced-rules', '22': '/advanced-rules',
-  '23': '/advanced-rules',
-  '24': '/reference',
-  '25': '/muster',
+// Chapters 01–25 all live on the one Core Rules page now, so a numeric ref only ever
+// resolves to an anchor on it. Kept as a lookup (rather than dropped) because `resolveRef`
+// still has to tell a real rule number from arbitrary trailing digits in a label.
+const CORE_PATH = '/core-rules'
+const CORE_CHAPTERS = 25
+
+// The route a rule number belongs to, or null when the number isn't a chapter at all
+// (arbitrary trailing digits in a label must not resolve to a link).
+function chapterRoute(major) {
+  const n = Number(major)
+  return n >= 1 && n <= CORE_CHAPTERS ? CORE_PATH : null
 }
 
 // Within the Event Companion: refs of the form "Label EC:key" or "Label EC:key#anchor".
@@ -38,7 +37,7 @@ export function resolveRef(text) {
   const deep = text.match(/\b(\d{2})\.(\d{2})\.(\d{2})$/)
   if (deep) {
     const label = text.replace(/\s*\d{2}\.\d{2}\.\d{2}$/, '').trim()
-    const route = ROUTE_MAP[deep[1]]
+    const route = chapterRoute(deep[1])
     if (!route) return { label, route: null, anchor: null }
     return { label, route, anchor: `section-${deep[1]}-${deep[2]}-${deep[3]}` }
   }
@@ -48,7 +47,7 @@ export function resolveRef(text) {
   const major = match[1]
   const minor = match[2]
   const label = text.replace(/\s*\d{2}\.\d{2}$/, '').trim()
-  const route = ROUTE_MAP[major]
+  const route = chapterRoute(major)
   if (!route) return { label, route: null, anchor: null }
   let anchor
   if (minor === '00') {

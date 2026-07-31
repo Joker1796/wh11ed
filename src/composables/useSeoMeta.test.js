@@ -31,22 +31,24 @@ describe('applyRouteMeta', () => {
     expect(descContent()).toMatch(/Bilingual/)
   })
 
-  it('gives the Core Rules introduction its own title at /introduction', () => {
-    applyRouteMeta('/introduction', 'en')
-    expect(document.title).toBe('Introduction — Warhammer 40,000 11th Ed')
-    expect(descContent()).toMatch(/Bilingual/)
-  })
-
   it('appends the brand suffix for a plain page name (EN)', () => {
-    applyRouteMeta('/basic-rules', 'en')
-    expect(document.title).toBe('Basic Rules — Warhammer 40,000 11th Ed')
-    expect(descContent()).toMatch(/Core concepts/)
+    applyRouteMeta('/core-rules', 'en')
+    expect(document.title).toBe('Core Rules — Warhammer 40,000 11th Ed')
+    expect(descContent()).toMatch(/core concepts and datasheets/)
   })
 
   it('localizes title and description (RU)', () => {
-    applyRouteMeta('/basic-rules', 'ru')
+    applyRouteMeta('/core-rules', 'ru')
     expect(document.title).toBe('Основные правила — Warhammer 40,000')
-    expect(descContent()).toMatch(/Базовые концепции/)
+    expect(descContent()).toMatch(/базовые концепции и листы данных/)
+  })
+
+  // The seven former chapter routes only redirect now, so they have no meta entry of
+  // their own and fall through to the default.
+  it('falls back to the default for the retired per-chapter routes', () => {
+    applyRouteMeta('/basic-rules', 'en')
+    expect(document.title).toBe('Warhammer 40,000 — Core Rules 11th Edition')
+    expect(canonicalHref()).toBe('')
   })
 
   it('does not double-append a suffix when the title already has an em dash', () => {
@@ -66,25 +68,25 @@ describe('applyRouteMeta', () => {
   })
 
   it('reuses a single <meta name="description"> element across calls', () => {
-    applyRouteMeta('/basic-rules', 'en')
-    applyRouteMeta('/reference', 'ru')
+    applyRouteMeta('/core-rules', 'en')
+    applyRouteMeta('/stratagems', 'ru')
     expect(document.querySelectorAll('meta[name="description"]').length).toBe(1)
-    expect(descContent()).toMatch(/Базовые способности/)
+    expect(descContent()).toMatch(/Базовые стратагемы/)
   })
 
   it('sets a self-referential canonical + og:url + hreflang pair per route (EN)', () => {
-    applyRouteMeta('/basic-rules', 'en')
-    expect(canonicalHref()).toBe('https://wh11ed.ru/basic-rules')
-    expect(ogUrl()).toBe('https://wh11ed.ru/basic-rules')
-    expect(alternateHref('en')).toBe('https://wh11ed.ru/basic-rules')
-    expect(alternateHref('ru')).toBe('https://wh11ed.ru/basic-rules?lang=ru')
-    expect(alternateHref('x-default')).toBe('https://wh11ed.ru/basic-rules')
+    applyRouteMeta('/core-rules', 'en')
+    expect(canonicalHref()).toBe('https://wh11ed.ru/core-rules')
+    expect(ogUrl()).toBe('https://wh11ed.ru/core-rules')
+    expect(alternateHref('en')).toBe('https://wh11ed.ru/core-rules')
+    expect(alternateHref('ru')).toBe('https://wh11ed.ru/core-rules?lang=ru')
+    expect(alternateHref('x-default')).toBe('https://wh11ed.ru/core-rules')
   })
 
   it('canonicalizes the RU variant to itself (?lang=ru), not to the EN URL', () => {
-    applyRouteMeta('/basic-rules', 'ru')
-    expect(canonicalHref()).toBe('https://wh11ed.ru/basic-rules?lang=ru')
-    expect(ogUrl()).toBe('https://wh11ed.ru/basic-rules?lang=ru')
+    applyRouteMeta('/core-rules', 'ru')
+    expect(canonicalHref()).toBe('https://wh11ed.ru/core-rules?lang=ru')
+    expect(ogUrl()).toBe('https://wh11ed.ru/core-rules?lang=ru')
   })
 
   it('uses /?lang=ru (not //?lang=ru) for the home RU alternate', () => {
@@ -94,15 +96,15 @@ describe('applyRouteMeta', () => {
   })
 
   it('reuses single canonical/alternate elements across navigations', () => {
-    applyRouteMeta('/basic-rules', 'en')
-    applyRouteMeta('/reference', 'en')
+    applyRouteMeta('/core-rules', 'en')
+    applyRouteMeta('/stratagems', 'en')
     expect(document.querySelectorAll('link[rel="canonical"]').length).toBe(1)
     expect(document.querySelectorAll('link[rel="alternate"]').length).toBe(3)
-    expect(canonicalHref()).toBe('https://wh11ed.ru/reference')
+    expect(canonicalHref()).toBe('https://wh11ed.ru/stratagems')
   })
 
   it('removes the canonical trio on non-indexable routes', () => {
-    applyRouteMeta('/basic-rules', 'en')
+    applyRouteMeta('/core-rules', 'en')
     applyRouteMeta('/tracker/history/abc123', 'en')
     expect(canonicalHref()).toBe('')
     expect(ogUrl()).toBe('')
@@ -110,7 +112,7 @@ describe('applyRouteMeta', () => {
   })
 
   it('removes the canonical trio on unknown (404) routes', () => {
-    applyRouteMeta('/reference', 'en')
+    applyRouteMeta('/core-rules', 'en')
     applyRouteMeta('/totally-unknown', 'en')
     expect(canonicalHref()).toBe('')
   })

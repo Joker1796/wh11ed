@@ -11,14 +11,9 @@ import { intro } from '../data/intro.js'
 import { ui } from '../i18n/ui.js'
 import { h4AnchorId } from './anchors.js'
 
-const routeMap = {
-  basicRules: '/basic-rules',
-  battleRound: '/battle-round',
-  battlefields: '/battlefields',
-  advancedRules: '/advanced-rules',
-  reference: '/reference',
-  muster: '/muster',
-}
+// Every core-rules chapter lives on one page now, so a hit's `route` is the same for all of
+// them; the anchor (`id`) is what actually distinguishes them.
+const CORE_ROUTE = '/core-rules'
 
 const sectionTitles = {
   en: { reference: 'Core Abilities' },
@@ -95,14 +90,14 @@ function buildIndex(locale) {
   const isRu = locale === 'ru'
   const items = []
   const sources = [
-    { key: 'basicRules', enData: basicRules.en, ruData: basicRules.ru },
-    { key: 'battleRound', enData: battleRound.en, ruData: battleRound.ru },
-    { key: 'battlefields', enData: battlefields.en, ruData: battlefields.ru },
-    { key: 'advancedRules', enData: advancedRules.en, ruData: advancedRules.ru },
-    { key: 'muster', enData: muster.en, ruData: muster.ru },
+    { enData: basicRules.en, ruData: basicRules.ru },
+    { enData: battleRound.en, ruData: battleRound.ru },
+    { enData: battlefields.en, ruData: battlefields.ru },
+    { enData: advancedRules.en, ruData: advancedRules.ru },
+    { enData: muster.en, ruData: muster.ru },
   ]
-  for (const { key, enData, ruData } of sources) {
-    const route = routeMap[key]
+  for (const { enData, ruData } of sources) {
+    const route = CORE_ROUTE
     for (let si = 0; si < enData.length; si++) {
       const enSection = enData[si]
       const ruSection = isRu && ruData ? (ruData[si] || {}) : {}
@@ -195,7 +190,7 @@ function buildIndex(locale) {
       sectionNum: en.num,
       title: en.name,
       body: stripMarkup((merged.fullText || '') + ' ' + (merged.flavor || '')),
-      route: '/reference',
+      route: CORE_ROUTE,
       sectionTitle: sectionTitles[locale].reference,
     })
     const ruChildren = (ru.children) || []
@@ -206,7 +201,7 @@ function buildIndex(locale) {
         sectionNum: enChild.sectionNum,
         title: mc.title || '',
         body: stripMarkup((mc.body || '') + (mc.note ? ' ' + mc.note : '')),
-        route: '/reference',
+        route: CORE_ROUTE,
         sectionTitle: sectionTitles[locale].reference,
       })
     })
@@ -233,11 +228,11 @@ function indexReferenceExtras(items, locale) {
       sectionNum: en.sectionNum || '',
       title: merged.title || '',
       body: stripMarkup((merged.body || '') + (merged.example ? ' ' + merged.example : '')),
-      route: '/reference',
+      route: CORE_ROUTE,
       sectionTitle: refTitle,
     })
     extractH4(merged.body).forEach((heading, hi) => {
-      items.push({ id: h4AnchorId(en.id, hi + 1), sectionNum: en.sectionNum || '', title: heading, body: '', route: '/reference', sectionTitle: refTitle })
+      items.push({ id: h4AnchorId(en.id, hi + 1), sectionNum: en.sectionNum || '', title: heading, body: '', route: CORE_ROUTE, sectionTitle: refTitle })
     })
     const ruChildren = (isRu && abilityIntro.ru?.[i]?.children) || []
     ;(en.children || []).forEach((enChild, ci) => {
@@ -247,7 +242,7 @@ function indexReferenceExtras(items, locale) {
         sectionNum: enChild.sectionNum,
         title: mc.title || '',
         body: stripMarkup((mc.body || '') + (mc.note ? ' ' + mc.note : '')),
-        route: '/reference',
+        route: CORE_ROUTE,
         sectionTitle: refTitle,
       })
     })
@@ -262,7 +257,7 @@ function indexReferenceExtras(items, locale) {
       sectionNum: '',
       title: merged.title || '',
       body: stripMarkup((merged.body || '') + '\n' + table),
-      route: '/reference',
+      route: CORE_ROUTE,
       sectionTitle: L.rulesAppendixTitle,
     })
   }
@@ -274,33 +269,31 @@ function indexReferenceExtras(items, locale) {
       sectionNum: '',
       title: stripMarkup(faq.q),
       body: stripMarkup(faq.a),
-      route: '/reference',
+      route: CORE_ROUTE,
       sectionTitle: L.faqsTitle,
     })
   })
 }
 
-// Intro / Home page (`/`) — the About, App, Contents and Credits sections. DOM ids
-// (intro-about/app/contents/credits) added in HomeView.vue so results scroll there.
+// The Introduction chapter — the About, App and Contents sections. DOM ids
+// (intro-about/app/contents) live in components/core/ChapterIntro.vue so results scroll there.
 function indexIntro(items, locale) {
   const t = intro[locale] || intro.en
   const L = ui[locale]
   const tocText = (t.toc || []).map(c => `${c.label} ${c.desc || ''}`).join('\n')
-  const credits = t.credits || {}
   const add = (id, title, parts) => {
     items.push({
       id,
       sectionNum: '',
       title,
       body: stripMarkup(parts.filter(Boolean).join('\n')),
-      route: '/',
+      route: CORE_ROUTE,
       sectionTitle: L.introHeading,
     })
   }
   add('intro-about', L.introHeading, [t.lore, ...(t.flavorText || []), t.intro, t.missions])
   add('intro-app', L.appHeading, [t.app])
   add('intro-contents', L.contentsHeading, [L.tocNote, tocText])
-  add('intro-credits', L.creditsHeading, [credits.tagline])
 }
 
 // Event Companion lives in a different data shape ({ en, ru } objects rather than
