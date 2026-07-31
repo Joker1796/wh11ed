@@ -354,12 +354,36 @@ h4 { font-size: var(--fs-subheading); }
   font-style: italic;
 }
 
-/* Two-column rule flow on the single Core Rules page (`/core-rules`, the only page widened
-   past the usual 860px — see `.main-content--wide`). Same CSS-multicol masonry as the stratagem
-   grid: blocks tile by height instead of stretching to the neighbouring column's block.
-   Global rather than scoped because all seven chapter components in components/core/ use
-   it. What goes into one group is decided in composables/columnChunks.js — `column-span`
-   would only work on a direct child, so wide blocks are lifted out there instead.
+/* Per-chapter heading on a merged multi-chapter page (Event Companion) — the one page
+   hero (.view-hero) names the page, this marks where each former page's content begins
+   while scrolling. Same look ChapterIntro.vue (Core Rules) already uses for its own
+   "About"/"App" sub-headings, extracted here so the six Event chapter components that
+   need it don't each duplicate the rule. */
+.chapter-heading {
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  font-weight: var(--fw-heading);
+  margin: 0 0 0.4rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 2px solid var(--accent);
+  color: var(--text-primary);
+}
+
+.chapter-desc {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-style: italic;
+  margin: 0 0 1.25rem;
+}
+
+/* Two-column rule flow on the merged Core Rules and Event Companion pages (`/core-rules`,
+   `/event-companion` — the only pages widened past the usual 860px, see
+   `.main-content--wide`). Same CSS-multicol masonry as the stratagem grid: blocks tile by
+   height instead of stretching to the neighbouring column's block. Global rather than
+   scoped because the chapter components in both components/core/ and components/event/
+   use it. What goes into one group is decided in composables/columnChunks.js (Core Rules)
+   or composables/blockColumnChunks.js (Event Companion) — `column-span` would only work
+   on a direct child, so wide blocks are lifted out there instead.
 
    Written mobile-first on purpose: below the threshold `.rule-columns` is an inert wrapper
    that adds nothing, so narrow screens keep exactly the layout they had when the chapters

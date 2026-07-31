@@ -364,6 +364,9 @@ export const ui = {
     trackerDeleteConfirm: 'Delete this game from history? Its cloud backup is removed too.',
     ariaPrevRound: 'Previous battle round',
     ariaNextRound: 'Next battle round',
+    // The single Event Companion page (/event-companion) — all seven sections on one scroll.
+    eventCompanionHeading: 'Event Companion',
+    eventCompanionDesc: 'Warhammer 40,000 matched play — all seven sections on one page',
     eventIntroHeading: 'Introduction',
     eventIntroDesc: 'What the Warhammer Event Companion is and how to use it',
     eventSequenceHeading: 'Mission Sequence',
@@ -513,7 +516,7 @@ export const ui = {
     subNavEventMissions: 'Миссии',
     subNavEventLayouts: 'Террейн',
     subNavEventPairings: 'Паринги',
-    subNavEventTeams: 'Teams',
+    subNavEventTeams: 'Команды',
     subNavEventFaq: 'FAQ',
     navTracker: 'Трекер',
     navFactions: 'Фракции',
@@ -765,6 +768,9 @@ export const ui = {
     trackerDeleteConfirm: 'Удалить эту игру из истории? Резервная копия в облаке тоже будет удалена.',
     ariaPrevRound: 'Предыдущий раунд боя',
     ariaNextRound: 'Следующий раунд боя',
+    // The single Event Companion page (/event-companion) — all seven sections on one scroll.
+    eventCompanionHeading: 'Event Companion',
+    eventCompanionDesc: 'Warhammer 40,000, турнирные правила (matched play) — все семь разделов одной страницей',
     eventIntroHeading: 'Введение',
     eventIntroDesc: 'Что такое Warhammer Event Companion и как им пользоваться',
     eventSequenceHeading: 'Последовательность миссии',

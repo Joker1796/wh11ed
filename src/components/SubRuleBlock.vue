@@ -159,4 +159,10 @@ function handleDefClick(e) {
     margin-bottom: 1rem;
   }
 }
+
+@media (max-width: 480px) {
+  .sub-rule-title {
+    font-size: 1.1rem;
+  }
+}
 </style>

@@ -14,22 +14,29 @@ function chapterRoute(major) {
 }
 
 // Within the Event Companion: refs of the form "Label EC:key" or "Label EC:key#anchor".
-const EVENT_MAP = {
-  intro: '/event-companion',
-  sequence: '/event-companion/sequence',
-  missions: '/event-companion/missions',
-  layouts: '/event-companion/layouts',
-  pairings: '/event-companion/pairings',
-  teams: '/event-companion/teams',
-  faq: '/event-companion/faq',
+// All seven chapters live on the one /event-companion page now, so `key` no longer picks a
+// route — it picks a DEFAULT anchor (the chapter's own), used whenever the ref doesn't name
+// a more specific in-page anchor of its own (`#anchor`). Without this fallback, a ref like
+// "Mission Sequence EC:sequence" (most of them have no explicit `#anchor`) would resolve to
+// no anchor at all and land on the top of the merged page instead of the Sequence chapter.
+const EVENT_PATH = '/event-companion'
+const EVENT_CHAPTER_ANCHORS = {
+  intro: 'ec-chapter-intro',
+  sequence: 'ec-chapter-sequence',
+  missions: 'ec-chapter-missions',
+  layouts: 'ec-chapter-layouts',
+  pairings: 'ec-chapter-pairings',
+  teams: 'ec-chapter-teams',
+  faq: 'ec-chapter-faq',
 }
 
 export function resolveRef(text) {
   const ev = text.match(/EC:([a-z-]+)(?:#([\w-]+))?$/)
   if (ev) {
-    const route = EVENT_MAP[ev[1]] || null
+    const defaultAnchor = EVENT_CHAPTER_ANCHORS[ev[1]] || null
     const label = text.replace(/\s*EC:[a-z-]+(?:#[\w-]+)?$/, '').trim()
-    return { label, route, anchor: route ? (ev[2] || null) : null }
+    if (!defaultAnchor) return { label, route: null, anchor: null }
+    return { label, route: EVENT_PATH, anchor: ev[2] || defaultAnchor }
   }
 
   // Three-level refs (x.x.x → SubRuleBlock anchor section-NN-NN-NN). Checked first so

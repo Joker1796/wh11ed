@@ -1,41 +1,29 @@
 <template>
-  <div class="view">
-    <div class="view-hero">
-      <h1>{{ labels.eventIntroHeading }}</h1>
-      <p class="view-hero-desc">{{ labels.eventIntroDesc }}</p>
+  <aside v-if="intro.authorNote" class="author-note">
+    <i class="bi bi-translate author-note-icon"></i>
+    <div class="author-note-body">
+      <p v-html="renderInline(intro.authorNote)"></p>
+      <a :href="'mailto:' + authorEmail" class="author-note-mail">{{ authorEmail }}</a>
     </div>
+  </aside>
 
-    <aside v-if="intro.authorNote" class="author-note">
-      <i class="bi bi-translate author-note-icon"></i>
-      <div class="author-note-body">
-        <p v-html="renderInline(intro.authorNote)"></p>
-        <a :href="'mailto:' + authorEmail" class="author-note-mail">{{ authorEmail }}</a>
-      </div>
-    </aside>
-
-    <RuleBlock
-      :id="intro.id"
-      :body="intro.body"
-      :note="intro.note"
-      :see-also="intro.seeAlso"
-    />
-
-    <PageNav />
-  </div>
+  <RuleBlock
+    :id="intro.id"
+    :body="intro.body"
+    :note="intro.note"
+    :see-also="intro.seeAlso"
+  />
 </template>
 
 <script setup>
 import { computed } from 'vue'
-import RuleBlock from '../../components/RuleBlock.vue'
-import PageNav from '../../components/PageNav.vue'
+import RuleBlock from '../RuleBlock.vue'
 import { getEventContent } from '../../data/eventCompanion.js'
-import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 
 const { locale } = useLocale()
 const { renderInline } = useRenderInline()
-const labels = computed(() => ui[locale.value])
 const ec = computed(() => getEventContent(locale.value))
 const intro = computed(() => ec.value.sequence.introduction)
 
@@ -43,7 +31,8 @@ const authorEmail = 'gorlovevgeni9617@gmail.com'
 </script>
 
 <style scoped>
-/* Hero already provides the "Introduction" heading; hide the empty rule header. */
+/* The block carries no title of its own — hide the empty rule header rather than show a
+   blank bar above the translator's note / prose. */
 :deep(.rule-block > .rule-header) {
   display: none;
 }

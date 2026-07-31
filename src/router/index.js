@@ -7,13 +7,7 @@ import { combatPatrolIndex } from '../data/combatPatrolIndex.js'
 // chunk, keeping the initial bundle small. LandingView (the project landing at "/")
 // stays eager.
 const CoreRulesView     = () => import('../views/CoreRulesView.vue')
-const EventIntroView    = () => import('../views/event/EventIntroView.vue')
-const EventSequenceView = () => import('../views/event/EventSequenceView.vue')
-const EventMissionsView = () => import('../views/event/EventMissionsView.vue')
-const EventLayoutsView  = () => import('../views/event/EventLayoutsView.vue')
-const EventPairingsView = () => import('../views/event/EventPairingsView.vue')
-const EventTeamsView    = () => import('../views/event/EventTeamsView.vue')
-const EventFaqView      = () => import('../views/event/EventFaqView.vue')
+const EventCompanionView = () => import('../views/EventCompanionView.vue')
 const TrackerHomeView   = () => import('../views/tracker/TrackerHomeView.vue')
 const TrackerGameView   = () => import('../views/tracker/TrackerGameView.vue')
 const AuthCallbackView  = () => import('../views/tracker/AuthCallbackView.vue')
@@ -174,12 +168,25 @@ export const navGroupsRu = [
   },
 ]
 
-// Event Companion — second top-level section. Each entry is its own route
-// (no in-page anchors), so `sections` is empty and the sidebar navigates on click.
+// Event Companion — second top-level section. Like Core Rules, all seven former routes
+// live on the one /event-companion page now; what used to be a route per page is an
+// anchor on it. EVENT_CHAPTER_ANCHORS is the single registry for the old-URL redirects
+// (Introduction itself isn't in there — /event-companion IS the merged page's own path,
+// not a redirect) and for the `hash` on each group below.
+export const EVENT_PATH = '/event-companion'
+export const EVENT_CHAPTER_ANCHORS = {
+  '/event-companion/sequence': 'ec-chapter-sequence',
+  '/event-companion/missions': 'ec-chapter-missions',
+  '/event-companion/layouts':  'ec-chapter-layouts',
+  '/event-companion/pairings': 'ec-chapter-pairings',
+  '/event-companion/teams':    'ec-chapter-teams',
+  '/event-companion/faq':      'ec-chapter-faq',
+}
+
 export const eventGroups = [
-  { label: 'Introduction',     path: '/event-companion',          sections: [] },
+  { label: 'Introduction',     path: EVENT_PATH, hash: '#ec-chapter-intro', sections: [] },
   {
-    label: 'Mission Sequence', path: '/event-companion/sequence',
+    label: 'Mission Sequence', path: EVENT_PATH, hash: '#ec-chapter-sequence',
     sections: [
       { id: 'step-1',  label: 'Muster Armies' },
       { id: 'step-2',  label: 'Determine Mission' },
@@ -190,16 +197,16 @@ export const eventGroups = [
     ],
   },
   {
-    label: 'Missions', path: '/event-companion/missions',
+    label: 'Missions', path: EVENT_PATH, hash: '#ec-chapter-missions',
     sections: [
       { id: 'missions-primary',   label: 'Primary Missions' },
       { id: 'missions-secondary', label: 'Secondary Missions' },
       { id: 'missions-twists',    label: 'Twists' },
     ],
   },
-  { label: 'Terrain & Layouts', path: '/event-companion/layouts', sections: [] },
+  { label: 'Terrain & Layouts', path: EVENT_PATH, hash: '#ec-chapter-layouts', sections: [] },
   {
-    label: 'Pairings & Rankings', path: '/event-companion/pairings',
+    label: 'Pairings & Rankings', path: EVENT_PATH, hash: '#ec-chapter-pairings',
     sections: [
       { id: 'pairing-players', label: 'Pairing Players' },
       { id: 'ranking-players', label: 'Ranking Players' },
@@ -207,7 +214,7 @@ export const eventGroups = [
     ],
   },
   {
-    label: 'Teams', path: '/event-companion/teams',
+    label: 'Teams', path: EVENT_PATH, hash: '#ec-chapter-teams',
     sections: [
       { id: 'team-composition', label: 'Team Composition' },
       { id: 'pairing-system',   label: 'Pairing System' },
@@ -215,13 +222,13 @@ export const eventGroups = [
       { id: 'teams-pairing',    label: 'Pairing Teams' },
     ],
   },
-  { label: 'Errata & FAQs',    path: '/event-companion/faq',      sections: [] },
+  { label: 'Errata & FAQs',    path: EVENT_PATH, hash: '#ec-chapter-faq', sections: [] },
 ]
 
 export const eventGroupsRu = [
-  { label: 'Введение',                  path: '/event-companion',          sections: [] },
+  { label: 'Введение',                  path: EVENT_PATH, hash: '#ec-chapter-intro', sections: [] },
   {
-    label: 'Последовательность миссии', path: '/event-companion/sequence',
+    label: 'Последовательность миссии', path: EVENT_PATH, hash: '#ec-chapter-sequence',
     sections: [
       { id: 'step-1',  label: 'Сбор армий' },
       { id: 'step-2',  label: 'Определение миссии' },
@@ -232,16 +239,16 @@ export const eventGroupsRu = [
     ],
   },
   {
-    label: 'Миссии', path: '/event-companion/missions',
+    label: 'Миссии', path: EVENT_PATH, hash: '#ec-chapter-missions',
     sections: [
       { id: 'missions-primary',   label: 'Основные миссии' },
       { id: 'missions-secondary', label: 'Вторичные миссии' },
       { id: 'missions-twists',    label: 'Твисты' },
     ],
   },
-  { label: 'Террейн и раскладки',       path: '/event-companion/layouts',  sections: [] },
+  { label: 'Террейн и раскладки',       path: EVENT_PATH, hash: '#ec-chapter-layouts', sections: [] },
   {
-    label: 'Паринги и ранжирование',    path: '/event-companion/pairings',
+    label: 'Паринги и ранжирование',    path: EVENT_PATH, hash: '#ec-chapter-pairings',
     sections: [
       { id: 'pairing-players', label: 'Составление пар' },
       { id: 'ranking-players', label: 'Ранжирование игроков' },
@@ -249,7 +256,7 @@ export const eventGroupsRu = [
     ],
   },
   {
-    label: 'Teams', path: '/event-companion/teams',
+    label: 'Команды', path: EVENT_PATH, hash: '#ec-chapter-teams',
     sections: [
       { id: 'team-composition', label: 'Состав команды' },
       { id: 'pairing-system',   label: 'Система паринга' },
@@ -257,7 +264,7 @@ export const eventGroupsRu = [
       { id: 'teams-pairing',    label: 'Составление пар команд' },
     ],
   },
-  { label: 'Эррата и FAQ',              path: '/event-companion/faq',      sections: [] },
+  { label: 'Эррата и FAQ',              path: EVENT_PATH, hash: '#ec-chapter-faq', sections: [] },
 ]
 
 // Game Tracker — third top-level section. Two routes (home + active game), no anchors.
@@ -314,13 +321,13 @@ export const router = createRouter({
       path,
       redirect: { path: CORE_PATH, hash: '#' + anchor },
     })),
-    { path: '/event-companion',          component: EventIntroView, meta: { section: 'event' } },
-    { path: '/event-companion/sequence', component: EventSequenceView, meta: { section: 'event' } },
-    { path: '/event-companion/missions', component: EventMissionsView, meta: { section: 'event' } },
-    { path: '/event-companion/layouts',  component: EventLayoutsView, meta: { section: 'event' } },
-    { path: '/event-companion/pairings', component: EventPairingsView, meta: { section: 'event' } },
-    { path: '/event-companion/teams',    component: EventTeamsView, meta: { section: 'event' } },
-    { path: '/event-companion/faq',      component: EventFaqView, meta: { section: 'event' } },
+    { path: EVENT_PATH, component: EventCompanionView, meta: { section: 'event' } },
+    // The six former chapter routes. They stay valid forever — old bookmarks, shared
+    // links and the stale SEO keys still in the bucket all land on the right chapter.
+    ...Object.entries(EVENT_CHAPTER_ANCHORS).map(([path, anchor]) => ({
+      path,
+      redirect: { path: EVENT_PATH, hash: '#' + anchor },
+    })),
     { path: '/tracker',      component: TrackerHomeView, meta: { section: 'tracker' } },
     { path: '/tracker/game', component: TrackerGameView, meta: { section: 'tracker' } },
     { path: '/tracker/history/:id', component: TrackerHistoryView, meta: { section: 'tracker' } },

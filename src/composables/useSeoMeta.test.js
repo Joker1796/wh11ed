@@ -43,17 +43,32 @@ describe('applyRouteMeta', () => {
     expect(descContent()).toMatch(/базовые концепции и листы данных/)
   })
 
-  // The seven former chapter routes only redirect now, so they have no meta entry of
-  // their own and fall through to the default.
+  // The seven former Core Rules chapter routes and the six former Event Companion chapter
+  // routes only redirect now, so they have no meta entry of their own and fall through to
+  // the default.
   it('falls back to the default for the retired per-chapter routes', () => {
     applyRouteMeta('/basic-rules', 'en')
     expect(document.title).toBe('Warhammer 40,000 — Core Rules 11th Edition')
     expect(canonicalHref()).toBe('')
+
+    applyRouteMeta('/event-companion/missions', 'en')
+    expect(document.title).toBe('Warhammer 40,000 — Core Rules 11th Edition')
+    expect(canonicalHref()).toBe('')
+  })
+
+  it('gives the merged Event Companion page its own title + description (EN/RU)', () => {
+    applyRouteMeta('/event-companion', 'en')
+    expect(document.title).toBe('Event Companion — Warhammer 40,000 11th Ed')
+    expect(descContent()).toMatch(/pre-game mission sequence/)
+
+    applyRouteMeta('/event-companion', 'ru')
+    expect(document.title).toBe('Event Companion — Warhammer 40,000')
+    expect(descContent()).toMatch(/предбоевая последовательность/)
   })
 
   it('does not double-append a suffix when the title already has an em dash', () => {
-    applyRouteMeta('/event-companion/missions', 'en')
-    expect(document.title).toBe('Missions — Event Companion')
+    applyRouteMeta('/tracker/game', 'en')
+    expect(document.title).toBe('Current Game — Tracker')
     expect((document.title.match(/—/g) || []).length).toBe(1)
   })
 

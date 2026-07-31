@@ -1,155 +1,148 @@
 <template>
-  <div class="view">
-    <div class="view-hero">
-      <h1>{{ labels.eventLayoutsHeading }}</h1>
-      <p class="view-hero-desc">{{ labels.eventLayoutsDesc }}</p>
+  <h2 class="chapter-heading">{{ labels.eventLayoutsHeading }}</h2>
+  <p class="chapter-desc">{{ labels.eventLayoutsDesc }}</p>
+
+  <p
+    v-for="(para, i) in introParagraphs"
+    :key="i"
+    class="lead"
+    v-html="renderInline(para)"
+  ></p>
+
+  <DataTable
+    :title="ec.terrain.footprints.title"
+    :headers="ec.terrain.footprints.headers"
+    :rows="ec.terrain.footprints.rows"
+  />
+
+  <p
+    class="footprint-source"
+    v-html="renderInline(ec.terrain.footprints.footnote)"
+  ></p>
+
+  <p class="key-note" v-html="renderInline(ec.terrain.keyNote)"></p>
+
+  <!-- LAYOUTS KEY — collapsible legend (preference persisted) -->
+  <section class="layouts-key">
+    <div class="key-header">
+      <h3 class="legend-heading">{{ labels.eventLayoutsKey }}</h3>
+      <button
+        class="key-toggle"
+        :aria-expanded="showKey"
+        @click="toggleKey"
+      >
+        <i :class="showKey ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i>
+        <span>{{ showKey ? labels.legendHide : labels.legendShow }}</span>
+      </button>
     </div>
 
-    <p
-      v-for="(para, i) in introParagraphs"
-      :key="i"
-      class="lead"
-      v-html="renderInline(para)"
-    ></p>
+    <CollapseTransition :show="showKey">
+    <div class="key-body">
+      <h4 class="legend-subheading">{{ labels.legendMissions }}</h4>
+      <ul class="legend legend-dispositions">
+        <li v-for="d in ec.dispositions" :key="d.id">
+          <img v-if="d.icon" :src="d.icon" :alt="d.name" class="legend-icon" />
+          <div class="legend-text">
+            <span class="legend-label">{{ d.name }}</span>
+          </div>
+        </li>
+      </ul>
 
-    <DataTable
-      :title="ec.terrain.footprints.title"
-      :headers="ec.terrain.footprints.headers"
-      :rows="ec.terrain.footprints.rows"
-    />
-
-    <p
-      class="footprint-source"
-      v-html="renderInline(ec.terrain.footprints.footnote)"
-    ></p>
-
-    <p class="key-note" v-html="renderInline(ec.terrain.keyNote)"></p>
-
-    <!-- LAYOUTS KEY — collapsible legend (preference persisted) -->
-    <section class="layouts-key">
-      <div class="key-header">
-        <h2 class="legend-heading">{{ labels.eventLayoutsKey }}</h2>
-        <button
-          class="key-toggle"
-          :aria-expanded="showKey"
-          @click="toggleKey"
-        >
-          <i :class="showKey ? 'bi bi-chevron-up' : 'bi bi-chevron-down'"></i>
-          <span>{{ showKey ? labels.legendHide : labels.legendShow }}</span>
-        </button>
-      </div>
-
-      <CollapseTransition :show="showKey">
-      <div class="key-body">
-        <h3 class="legend-subheading">{{ labels.legendMissions }}</h3>
-        <ul class="legend legend-dispositions">
-          <li v-for="d in ec.dispositions" :key="d.id">
-            <img v-if="d.icon" :src="d.icon" :alt="d.name" class="legend-icon" />
-            <div class="legend-text">
-              <span class="legend-label">{{ d.name }}</span>
-            </div>
-          </li>
-        </ul>
-
-        <ul class="legend legend-terrain">
-          <li v-for="item in terrainLegend" :key="item.id">
-            <img v-if="item.icon" :src="item.icon" :alt="item.label" class="legend-icon" />
-            <div class="legend-text">
-              <span class="legend-label">{{ item.label }}</span>
-              <span v-if="item.desc" class="legend-desc">{{ item.desc }}</span>
-            </div>
-          </li>
-        </ul>
-
-        <ul class="legend">
-          <li v-for="item in zoneLegend" :key="item.id">
-            <img v-if="item.icon" :src="item.icon" :alt="item.label" class="legend-icon" />
-            <div class="legend-text">
-              <span class="legend-label">{{ item.label }}</span>
-              <span v-if="item.desc" class="legend-desc">{{ item.desc }}</span>
-            </div>
-          </li>
-        </ul>
-
-        <ul class="legend-edges">
-          <li v-for="item in edgeLegend" :key="item.id">
-            <span class="legend-label">{{ item.label }}</span>
-            <img :src="item.icon" :alt="item.label" class="edge-bar" />
-          </li>
-        </ul>
-
-        <ul class="legend-objectives">
-          <li v-for="item in objectiveLegend" :key="item.id">
-            <img :src="item.icon" :alt="item.label" class="legend-icon" />
+      <ul class="legend legend-terrain">
+        <li v-for="item in terrainLegend" :key="item.id">
+          <img v-if="item.icon" :src="item.icon" :alt="item.label" class="legend-icon" />
+          <div class="legend-text">
             <span class="legend-label">{{ item.label }}</span>
             <span v-if="item.desc" class="legend-desc">{{ item.desc }}</span>
-          </li>
-        </ul>
+          </div>
+        </li>
+      </ul>
+
+      <ul class="legend">
+        <li v-for="item in zoneLegend" :key="item.id">
+          <img v-if="item.icon" :src="item.icon" :alt="item.label" class="legend-icon" />
+          <div class="legend-text">
+            <span class="legend-label">{{ item.label }}</span>
+            <span v-if="item.desc" class="legend-desc">{{ item.desc }}</span>
+          </div>
+        </li>
+      </ul>
+
+      <ul class="legend-edges">
+        <li v-for="item in edgeLegend" :key="item.id">
+          <span class="legend-label">{{ item.label }}</span>
+          <img :src="item.icon" :alt="item.label" class="edge-bar" />
+        </li>
+      </ul>
+
+      <ul class="legend-objectives">
+        <li v-for="item in objectiveLegend" :key="item.id">
+          <img :src="item.icon" :alt="item.label" class="legend-icon" />
+          <span class="legend-label">{{ item.label }}</span>
+          <span v-if="item.desc" class="legend-desc">{{ item.desc }}</span>
+        </li>
+      </ul>
+    </div>
+    </CollapseTransition>
+  </section>
+
+  <MissionMatrix
+    :dispositions="ec.dispositions"
+    :selected="selected"
+    @select="selectCell"
+  />
+
+  <!-- Matchup detail -->
+  <div v-if="matchup" class="matchup">
+    <div class="matchup-sides">
+      <div class="side side-you">
+        <span class="side-label">{{ labels.eventMatrixYou }}</span>
+        <img v-if="dispoIcon(selected.you)" :src="dispoIcon(selected.you)" :alt="dispoName(selected.you)" class="side-icon" />
+        <span class="side-dispo">{{ dispoName(selected.you) }}</span>
+        <span class="side-mission">{{ youMission }}</span>
       </div>
-      </CollapseTransition>
-    </section>
-
-    <MissionMatrix
-      :dispositions="ec.dispositions"
-      :selected="selected"
-      @select="selectCell"
-    />
-
-    <!-- Matchup detail -->
-    <div v-if="matchup" class="matchup">
-      <div class="matchup-sides">
-        <div class="side side-you">
-          <span class="side-label">{{ labels.eventMatrixYou }}</span>
-          <img v-if="dispoIcon(selected.you)" :src="dispoIcon(selected.you)" :alt="dispoName(selected.you)" class="side-icon" />
-          <span class="side-dispo">{{ dispoName(selected.you) }}</span>
-          <span class="side-mission">{{ youMission }}</span>
-        </div>
-        <span class="side-vs">VS</span>
-        <div class="side side-opp">
-          <span class="side-label">{{ labels.eventMatrixOpponent }}</span>
-          <img v-if="dispoIcon(selected.opp)" :src="dispoIcon(selected.opp)" :alt="dispoName(selected.opp)" class="side-icon" />
-          <span class="side-dispo">{{ dispoName(selected.opp) }}</span>
-          <span class="side-mission">{{ oppMission }}</span>
-        </div>
+      <span class="side-vs">VS</span>
+      <div class="side side-opp">
+        <span class="side-label">{{ labels.eventMatrixOpponent }}</span>
+        <img v-if="dispoIcon(selected.opp)" :src="dispoIcon(selected.opp)" :alt="dispoName(selected.opp)" class="side-icon" />
+        <span class="side-dispo">{{ dispoName(selected.opp) }}</span>
+        <span class="side-mission">{{ oppMission }}</span>
       </div>
-
-      <div class="tabs-row">
-        <div class="tabs">
-          <button
-            v-for="l in matchup.layouts"
-            :key="l.id"
-            class="tab"
-            :class="{ active: activeLayout === l.id }"
-            @click="activeLayout = l.id"
-          >
-            <span class="tab-main"><span class="tab-word">{{ labels.eventLayout }}</span> {{ l.id }}</span>
-            <span v-if="l.deploymentMap" class="tab-map">{{ l.deploymentMap }}</span>
-          </button>
-        </div>
-        <button
-          class="measurements-toggle"
-          :aria-pressed="showMeasurements"
-          @click="toggleMeasurements"
-        >
-          <i class="bi bi-rulers"></i>
-          <span>{{ showMeasurements ? labels.eventLayoutMeasurementsOn : labels.eventLayoutMeasurementsOff }}</span>
-        </button>
-      </div>
-
-      <LayoutCard v-if="currentLayout" :layout="currentLayout" :show-measurements="showMeasurements" />
     </div>
 
-    <PageNav />
+    <div class="tabs-row">
+      <div class="tabs">
+        <button
+          v-for="l in matchup.layouts"
+          :key="l.id"
+          class="tab"
+          :class="{ active: activeLayout === l.id }"
+          @click="activeLayout = l.id"
+        >
+          <span class="tab-main"><span class="tab-word">{{ labels.eventLayout }}</span> {{ l.id }}</span>
+          <span v-if="l.deploymentMap" class="tab-map">{{ l.deploymentMap }}</span>
+        </button>
+      </div>
+      <button
+        class="measurements-toggle"
+        :aria-pressed="showMeasurements"
+        @click="toggleMeasurements"
+      >
+        <i class="bi bi-rulers"></i>
+        <span>{{ showMeasurements ? labels.eventLayoutMeasurementsOn : labels.eventLayoutMeasurementsOff }}</span>
+      </button>
+    </div>
+
+    <LayoutCard v-if="currentLayout" :layout="currentLayout" :show-measurements="showMeasurements" />
   </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
-import DataTable from '../../components/DataTable.vue'
-import MissionMatrix from '../../components/event/MissionMatrix.vue'
-import LayoutCard from '../../components/event/LayoutCard.vue'
-import PageNav from '../../components/PageNav.vue'
-import CollapseTransition from '../../components/CollapseTransition.vue'
+import DataTable from '../DataTable.vue'
+import MissionMatrix from './MissionMatrix.vue'
+import LayoutCard from './LayoutCard.vue'
+import CollapseTransition from '../CollapseTransition.vue'
 import { getEventContent } from '../../data/eventCompanion.js'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'

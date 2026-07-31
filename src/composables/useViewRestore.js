@@ -11,10 +11,15 @@ import { LAST_ROUTE_KEY, SKIP_RESTORE } from '../router/index.js'
 // robust re-scroll to that section on launch (correcting for late-loading illustrations).
 
 // Section anchors set by the views: rules (`section-NN…`), reference abilities
-// (`ability-NN_MM`), and the Event Companion in-page sections (sequence steps, missions,
-// pairings/rankings). Matches the ids in router/index.js navGroups/eventGroups.
+// (`ability-NN_MM`), and the Event Companion in-page sections — the seven `ec-chapter-*`
+// wrappers (EventCompanionView.vue) as the coarse fallback, plus the finer sequence steps,
+// missions, pairings/rankings and team ids. Matches the ids in router/index.js navGroups/
+// eventGroups. The chapter-level fallback matters for Introduction / Terrain & Layouts /
+// Errata & FAQs, which (unlike the other four chapters) have no finer-grained ids of their
+// own to match otherwise — without it, resuming into one of them couldn't tell it apart
+// from wherever the selector last matched something.
 const SECTION_SELECTOR =
-  '[id^="section-"], [id^="ability-"], [id^="step-"], [id^="missions-"], [id^="pairing-"], [id^="ranking-"]'
+  '[id^="section-"], [id^="ability-"], [id^="ec-chapter-"], [id^="step-"], [id^="missions-"], [id^="pairing-"], [id^="ranking-"], [id^="team"]'
 const HEADER_OFFSET = 110 // ~navbar + subnav; a section counts as "current" once its top passes this line
 
 // The id of the last section whose top is at/above the header line (= the one occupying
