@@ -151,16 +151,18 @@
     :description="labels.errataDesc"
   />
 
-  <div v-for="entry in errataData" :key="entry.id" :id="entry.id" class="appendix-block">
-    <h3 class="appendix-title">{{ entry.header }}</h3>
+  <div class="appendix-columns">
+    <div v-for="entry in errataData" :key="entry.id" :id="entry.id" class="appendix-block">
+      <h3 class="appendix-title">{{ entry.header }}</h3>
 
-    <div @click="handleDefClick">
-      <template v-for="(block, bi) in parseBody(entry.body)" :key="bi">
-        <ul v-if="block.type === 'ul'" class="appendix-list">
-          <li v-for="(item, li) in block.items" :key="li" v-html="renderInline(item)" />
-        </ul>
-        <p v-else v-html="renderInline(block.text)" />
-      </template>
+      <div @click="handleDefClick">
+        <template v-for="(block, bi) in parseBody(entry.body)" :key="bi">
+          <ul v-if="block.type === 'ul'" class="appendix-list">
+            <li v-for="(item, li) in block.items" :key="li" v-html="renderInline(item)" />
+          </ul>
+          <p v-else v-html="renderInline(block.text)" />
+        </template>
+      </div>
     </div>
   </div>
 
@@ -656,11 +658,24 @@ function handleDefClick(e) {
   line-height: 1.6;
 }
 
-/* FAQs */
+/* FAQs — two columns on the wide single page, same breakpoint/recipe as .abilities-list */
 .faq-list {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
   margin-bottom: 1.25rem;
+}
+
+@media (min-width: 1024px) {
+  .faq-list {
+    display: block;
+    column-count: 2;
+    column-gap: 1.5rem;
+  }
+
+  .faq-list > * {
+    break-inside: avoid;
+    margin-bottom: 0.75rem;
+  }
 }
 </style>

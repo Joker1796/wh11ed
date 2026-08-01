@@ -61,16 +61,20 @@ defineProps({
   font-size: 0.74rem;
   padding: 0.3rem 0.55rem;
 }
+/* Stacked label/text rows, like the core-rules info-card (RuleBody.vue's .info-row) — a
+   fixed label column is cramped whenever this renders somewhere narrower than the full
+   viewport (a modal, a card in a multi-column grid), not just on a narrow phone, so this
+   is unconditional rather than a mobile-only media query. */
 .m-action-row {
   display: flex;
-  gap: 0.5rem;
+  flex-direction: column;
+  gap: 0.15rem;
   padding: 0.35rem 0.55rem;
   font-size: 0.82rem;
   line-height: 1.4;
 }
 .m-action-row + .m-action-row { border-top: 1px solid var(--border); }
 .m-action-label {
-  flex: 0 0 5.5rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.02em;
@@ -79,16 +83,4 @@ defineProps({
   padding-top: 0.07rem;
 }
 .m-action-text { color: var(--text-muted); }
-
-@media (max-width: 600px) {
-  /* Stack the OBJECTIVE ACTION rows like the 10.04 info-card does on mobile:
-     label on its own line, text full-width below (instead of a cramped 5.5rem column). */
-  .m-action-row {
-    flex-direction: column;
-    gap: 0.15rem;
-  }
-  .m-action-label {
-    flex: none;
-  }
-}
 </style>
