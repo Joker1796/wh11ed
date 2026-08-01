@@ -27,9 +27,11 @@ When rotating a FRAME model as part of a move, if that model does not have a bas
           title: 'Shooting at Engaged Monsters and Vehicles',
           body: `In your Shooting phase, enemy MONSTER/VEHICLE units that are **[gloss:engaged:engaged]** can be selected as targets of ranged attacks (excluding attacks made with [BLAST] weapons).
 
-Each time a model makes a ranged attack that targets such a unit, subtract 1 from the **[gloss:hit-roll:hit roll]** (excluding attacks made with [CLOSE-QUARTERS] weapons by models in a unit **engaged** with the target).
-
-[img:/images/monsters/engaged-monsters-vehicles-shooting-diagram.jpg|Engaged monsters and vehicles — shooting hit roll penalty]
+Each time a model makes a ranged attack that targets such a unit, subtract 1 from the **[gloss:hit-roll:hit roll]** (excluding attacks made with [CLOSE-QUARTERS] weapons by models in a unit **engaged** with the target).`,
+          // See splitSubsections()/splitBodyEntries() in columnChunks.js — same recipe as
+          // 12.03/12.08/13.06/14.02: split the worked example off the rule text so the
+          // column balancer can place it independently.
+          splitBody: `[img:/images/monsters/engaged-monsters-vehicles-shooting-diagram.jpg|Engaged monsters and vehicles — shooting hit roll penalty]
 
 The VEHICLE can shoot at INFANTRY unit **A** using **close-quarters shooting**. While resolving those attacks, subtract 1 from **hit rolls** (excluding attacks made with [CLOSE-QUARTERS] weapons).
 
@@ -492,9 +494,8 @@ Attacking model **B** is on ground level, but has the TOWERING keyword. The targ
           title: 'Стрельба по связанным монстрам и технике',
           body: `В вашу фазу стрельбы вражеские отряды MONSTER/VEHICLE, находящиеся **[gloss:engaged:в ближнем бою]**, могут быть выбраны целью дальних атак (кроме атак оружием [BLAST]).
 
-Каждый раз, когда модель совершает дальнюю атаку, нацеленную на такой отряд, вычтите 1 из **[gloss:hit-roll:броска на попадание]** (кроме атак оружием [БЛИЖНЯЯ СТРЕЛЬБА] (CLOSE-QUARTERS), совершаемых моделями из отряда, **[gloss:engaged:находящегося в ближнем бою]** с целью).
-
-[img:/images/monsters/engaged-monsters-vehicles-shooting-diagram.jpg|Монстры и техника в контакте — штраф к броску на попадание]
+Каждый раз, когда модель совершает дальнюю атаку, нацеленную на такой отряд, вычтите 1 из **[gloss:hit-roll:броска на попадание]** (кроме атак оружием [БЛИЖНЯЯ СТРЕЛЬБА] (CLOSE-QUARTERS), совершаемых моделями из отряда, **[gloss:engaged:находящегося в ближнем бою]** с целью).`,
+          splitBody: `[img:/images/monsters/engaged-monsters-vehicles-shooting-diagram.jpg|Монстры и техника в контакте — штраф к броску на попадание]
 
 VEHICLE может стрелять по отряду INFANTRY **A**, используя **ближнюю стрельбу**. Разрешая эти атаки, вычтите 1 из **бросков на попадание** (кроме атак оружием [БЛИЖНЯЯ СТРЕЛЬБА] (CLOSE-QUARTERS)).
 

@@ -551,9 +551,12 @@ Because both **RED** units made **charge moves** this turn, they are both **Figh
 ▪ Each model that is moved must end its move closer to the closest **pile-in target**, and **engaged** with it if possible.
 ◈ AFTER MOVING
 ▪ Your unit must be **engaged**.
-▪ Each model that started this move **engaged** with an enemy unit must still be **engaged** with that enemy unit.
-
-[img:/images/fight/pile-in-moves-diagram.jpg|Pile-in moves — engaging with enemy units]
+▪ Each model that started this move **engaged** with an enemy unit must still be **engaged** with that enemy unit.`,
+        // The info-card (◈…) block alone already balances poorly against this section's
+        // neighbours once the image+examples+FAQs tail is glued to it — split the tail into
+        // its own column item, same recipe as 07.02/08.03. See splitSubsections() in
+        // columnChunks.js.
+        splitBody: `[img:/images/fight/pile-in-moves-diagram.jpg|Pile-in moves — engaging with enemy units]
 
 1. The **RED** player makes **pile-in moves** first. Each model moves up to 3".
 
@@ -662,20 +665,23 @@ Players alternate selecting units to fight. **Fights First** units (**A** and **
 ◈ AFTER MOVING
 ▪ **Ongoing Consolidation:** Each model that started this move **engaged** with an enemy unit must still be **engaged** with that enemy unit.
 ▪ **Engaging Consolidation:** Your unit must be **engaged** with all of the selected enemy units. If one or more enemy units **engaged** with your unit have not been **selected to fight** this phase, your opponent must select each of those units, one at a time; when each is selected, it becomes **eligible to fight** and is **selected to fight** (12.04).
-▪ **Objective Consolidation:** Your unit must be within range of the selected objective.
-
-### Ongoing Consolidation
+▪ **Objective Consolidation:** Your unit must be within range of the selected objective.`,
+        note: '**NEW FOES TO FACE**\nWhile using the **engaging consolidation** mode, your unit can end its **consolidation move** **engaged** with enemy units that have not yet fought this phase. If so, each of those enemy units will have an opportunity to fight your unit, so think carefully about how aggressively you want to move your unit using this mode.',
+        // See splitSubsections()/splitBodyEntries() in columnChunks.js — same recipe as
+        // 12.03: split the image+examples tail off the info-card block so the column
+        // balancer can move it independently.
+        splitBodies: [
+          `### Ongoing Consolidation
 [img:/images/fight/ongoing-consolidation-diagram.jpg|Engaging consolidation move diagram]
 
 The **RED** player makes **consolidation moves** first. All **engaged** units and all units that were **eligible to fight** this phase can make a **consolidation move**.
 
-Each model moves up to 3". Models in base-contact with enemy models cannot be moved.
-
-### Objective Consolidation
+Each model moves up to 3". Models in base-contact with enemy models cannot be moved.`,
+          `### Objective Consolidation
 [img:/images/fight/objective-consolidation-diagram.jpg|Objective consolidation move diagram]
 
 No enemy units are within 3" of this MONSTER unit, but an **objective (C)** is within 3", so it moves within range of that **objective**.`,
-        note: '**NEW FOES TO FACE**\nWhile using the **engaging consolidation** mode, your unit can end its **consolidation move** **engaged** with enemy units that have not yet fought this phase. If so, each of those enemy units will have an opportunity to fight your unit, so think carefully about how aggressively you want to move your unit using this mode.',
+        ],
       },
       {
         id: 'section-12-09',
@@ -1114,9 +1120,8 @@ No enemy units are within 3" of this MONSTER unit, but an **objective (C)** is w
 ▪ Каждая перемещаемая модель должна завершить свой манёвр ближе к ближайшей **[gloss:pile-in:цели сближения]** и **[gloss:engaged:связанной боем]** с ней, если возможно.
 ◈ ПОСЛЕ МАНЁВРА
 ▪ Ваш юнит должен быть **[gloss:engaged:связан боем]**.
-▪ Каждая модель, которая начала этот манёвр **[gloss:engaged:связанной боем]** с вражеским юнитом, должна всё ещё быть **[gloss:engaged:связана боем]** с этим вражеским юнитом.
-
-[img:/images/fight/pile-in-moves-diagram.jpg|Манёвр в контакт — вступление в бой с врагом]
+▪ Каждая модель, которая начала этот манёвр **[gloss:engaged:связанной боем]** с вражеским юнитом, должна всё ещё быть **[gloss:engaged:связана боем]** с этим вражеским юнитом.`,
+        splitBody: `[img:/images/fight/pile-in-moves-diagram.jpg|Манёвр в контакт — вступление в бой с врагом]
 
 1. **Красный** игрок совершает **манёвры сближения** первым. Каждая модель перемещается до 3".
 
@@ -1209,20 +1214,20 @@ No enemy units are within 3" of this MONSTER unit, but an **objective (C)** is w
 ◈ ПОСЛЕ МАНЁВРА
 ▪ **Продолжающаяся консолидация:** Каждая модель, которая начала этот манёвр **[gloss:engaged:связанной боем]** с вражеским юнитом, должна всё ещё быть **[gloss:engaged:связана боем]** с этим вражеским юнитом.
 ▪ **Боевая консолидация:** Ваш юнит должен быть **[gloss:engaged:связан боем]** со всеми выбранными вражескими юнитами. Если один или несколько вражеских юнитов, **[gloss:engaged:связанных боем]** с вашим юнитом, ещё не были **[gloss:selected-to-fight:выбраны для боя]** в этой фазе, ваш оппонент должен выбрать каждый из таких юнитов поочерёдно; когда каждый выбран, он **получает [gloss:eligible-to-fight:право сражаться]** и **[gloss:selected-to-fight:выбирается для боя]** (12.04).
-▪ **Консолидация на цели:** Ваш юнит должен находиться в пределах досягаемости выбранной [gloss:objective:цели].
-
-### Продолжающаяся консолидация
+▪ **Консолидация на цели:** Ваш юнит должен находиться в пределах досягаемости выбранной [gloss:objective:цели].`,
+        note: '**НОВЫЕ ВРАГИ ДЛЯ СТОЛКНОВЕНИЯ**\nПри использовании режима **[gloss:consolidation:боевой консолидации]** ваш юнит может завершить свою консолидацию **[gloss:engaged:связанным боем]** с вражескими юнитами, которые ещё не сражались в этой фазе. В таком случае каждый из этих вражеских юнитов получит возможность атаковать ваш юнит, поэтому продумайте, насколько агрессивно вы хотите перемещать свой юнит, используя этот режим.',
+        splitBodies: [
+          `### Продолжающаяся консолидация
 [img:/images/fight/ongoing-consolidation-diagram.jpg|Диаграмма консолидации с вступлением в контакт]
 
 **Красный** игрок совершает **манёвры консолидации** первым. Любой **связанный боем** юнит и любой юнит, имевший **право сражаться** в этой фазе, может совершить **манёвр консолидации**.
 
-Каждая модель перемещается до 3". Модели, находящиеся в базовом контакте с вражескими моделями, не могут быть перемещены.
-
-### Консолидация на цели
+Каждая модель перемещается до 3". Модели, находящиеся в базовом контакте с вражескими моделями, не могут быть перемещены.`,
+          `### Консолидация на цели
 [img:/images/fight/objective-consolidation-diagram.jpg|Диаграмма консолидации к цели]
 
 В пределах 3" от этого юнита MONSTER нет вражеских юнитов, но **[gloss:objective:цель] (C)** находится в пределах 3", поэтому он перемещается в пределы досягаемости этой **[gloss:objective:цели]**.`,
-        note: '**НОВЫЕ ВРАГИ ДЛЯ СТОЛКНОВЕНИЯ**\nПри использовании режима **[gloss:consolidation:боевой консолидации]** ваш юнит может завершить свою консолидацию **[gloss:engaged:связанным боем]** с вражескими юнитами, которые ещё не сражались в этой фазе. В таком случае каждый из этих вражеских юнитов получит возможность атаковать ваш юнит, поэтому продумайте, насколько агрессивно вы хотите перемещать свой юнит, используя этот режим.',
+        ],
       },
       {
         title: 'Конец фазы ближнего боя',

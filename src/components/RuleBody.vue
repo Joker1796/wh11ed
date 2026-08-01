@@ -239,7 +239,7 @@ p {
 
 .rule-list li {
   margin-bottom: 0.3rem;
-  line-height: 1.6;
+  line-height: 1.4;
 }
 
 .rule-ol {
@@ -345,8 +345,7 @@ p {
 }
 
 .info-row {
-  display: grid;
-  grid-template-columns: 9rem 1fr;
+  display: block;
   border-bottom: 1px solid var(--border-light);
 }
 
@@ -360,7 +359,7 @@ p {
   padding: 0.45rem 0.6rem;
   background: var(--bg-card);
   color: var(--text-muted);
-  border-right: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
 }
 
 .info-content {
@@ -424,13 +423,7 @@ p {
     white-space: normal;
   }
 
-  .info-row {
-    display: block;
-  }
-
   .info-label {
-    border-right: none;
-    border-bottom: 1px solid var(--border-light);
     padding: 0.35rem 0.7rem;
   }
 }

@@ -89,22 +89,25 @@ Models can move vertically to ascend or descend **terrain features**. While doin
 ### Setting Up or Ending a Move
 Models can be set up or end a move on the ground level of **terrain features**. Models can also be set up or end a move on any surface of a **terrain feature** that is not on ground level, if all of the following apply:
 ▪ That model has one or more of the following keywords: INFANTRY/BEASTS/SWARM/FLY/MONSTER.
-▪ After ending that move, that model is stable and no part of its base overhangs the outer edge of that surface.
-
-[img:/images/terrain/terrain-and-movement-diagram.jpg|Terrain and movement — models moving across terrain features]
+▪ After ending that move, that model is stable and no part of its base overhangs the outer edge of that surface.`,
+          note: 'Solid Terrain: If a **terrain feature** has the [gloss:solid:Solid] rule (13.11), a model cannot end a move such that any part of it is through any enclosed part of that **terrain feature** that is 3" or less from ground level — not even through small openings such as doors and windows.',
+          // See splitSubsections()/splitBodyEntries() in columnChunks.js — same recipe as
+          // 12.03/12.08: split the two worked-example image groups off the prose so the
+          // column balancer can place each independently.
+          splitBodies: [
+            `[img:/images/terrain/terrain-and-movement-diagram.jpg|Terrain and movement — models moving across terrain features]
 
 All sections of the **dense terrain feature (A)** are more than 2" in height, so the MONSTER model **(B)** cannot move through it and must move around it instead.
 
-The INFANTRY models **(C)** can move through **dense terrain features**, such as the walls of this ruin.
-
-[img:/images/terrain/terrain-and-movement-2-diagram.jpg|Terrain and movement example 2 — base overhang rules]
+The INFANTRY models **(C)** can move through **dense terrain features**, such as the walls of this ruin.`,
+            `[img:/images/terrain/terrain-and-movement-2-diagram.jpg|Terrain and movement example 2 — base overhang rules]
 
 1. This INFANTRY model can move vertically and end its move on the top surface of the **terrain feature (D)**, as it is stable and no part of its base overhangs the outer edge of that surface.
 
 2. This VEHICLE model cannot move through the **dense terrain feature (E)**, but it can move vertically to ascend and descend sections that are more than 2" in height (provided it does not end that move on top of such sections).
 
 3. This INFANTRY model is not being moved over or through any **terrain features**. Its move through the **terrain area** shown is therefore unimpeded.`,
-          note: 'Solid Terrain: If a **terrain feature** has the [gloss:solid:Solid] rule (13.11), a model cannot end a move such that any part of it is through any enclosed part of that **terrain feature** that is 3" or less from ground level — not even through small openings such as doors and windows.',
+          ],
           children: [
             {
               id: 'section-13-06-01',
@@ -234,9 +237,12 @@ At the end of each phase and turn, to determine a player's **[gloss:level-of-con
 ▪ The player who has the highest **level of control** over that **objective** controls that **objective**.
 ▪ If both players have the same **level of control** over that **objective**, unless that **objective** is **[gloss:secured-objective:secured]** (see below), that **objective** is not controlled by either player.
 
-While one or more units from a player's army are within range of an **objective** that player controls, for each of those units that contains one or more models with an **OC** characteristic of 1 or more, that unit is said to be **controlling** that **objective**.
-
-### Controlling a Terrain Objective
+While one or more units from a player's army are within range of an **objective** that player controls, for each of those units that contains one or more models with an **OC** characteristic of 1 or more, that unit is said to be **controlling** that **objective**.`,
+          note: 'Hold at All Costs: Some units have abilities that are triggered when they control an **objective**, or when they **[gloss:secured-objective:secure]** an **objective** for your army.',
+          // See splitSubsections()/splitBodyEntries() in columnChunks.js — same recipe as
+          // 12.03/12.08/13.06: split the worked example off the prose so the column
+          // balancer can place it independently.
+          splitBody: `### Controlling a Terrain Objective
 [img:/images/terrain/controlling-a-terrain-objective-diagram.jpg|Controlling a terrain objective — OC and control range]
 
 VEHICLE **A** has an **OC** characteristic of 3, and it is within the **terrain area**.
@@ -248,7 +254,6 @@ The models in unit **C** each have an **OC** characteristic of 1. Six of its mod
 Unit **D** is currently **battle-shocked**, so the **OC** characteristic of all of its models is '-'.
 
 Both players add together the **OC** characteristics of all their models that are within the **terrain area**. The BLUE player's **level of control** is 5, and the RED player's **level of control** is 6. The RED player therefore controls the **objective**.`,
-          note: 'Hold at All Costs: Some units have abilities that are triggered when they control an **objective**, or when they **[gloss:secured-objective:secure]** an **objective** for your army.',
           children: [
             {
               id: 'section-14-02-01',
@@ -497,25 +502,31 @@ Each time you use a **stratagem**, resolve the following sequence:
 ▪ **UNITS:** Which friendly units can perform it.
 ▪ **USE LIMIT:** How many times friendly units can start it.
 ▪ **COMPLETES:** When it completes.
-▪ **EFFECT:** What the effects of completing it are.
-
-### Starting an Action
+▪ **EFFECT:** What the effects of completing it are.`,
+          note: '**WHERE TO FIND ACTIONS**\n\nThe **actions** players can use can be found in other publications such as mission packs. All players can use **core actions**, while other **actions** may have restrictions such as army faction.',
+          // This chapter has only this one subsection — chunkSubsections() collapses a
+          // lone item back to full width (columnChunks.js), so without a split it never
+          // gets the two-column layout at all. See splitSubsections()/splitBodyEntries().
+          // Split into 3 chunks (not 1) so the balancer has more breakpoints to work
+          // with — a single big "Starting an Action" tail left column 1 much taller than
+          // column 2; breaking its bullet list in two gives a near-even 2/2 balance.
+          splitBodies: [
+            `### Starting an Action
 A unit is **eligible to start an action** unless one or more of the following apply to that unit:
 ▪ It is not on the battlefield.
 ▪ It is an AIRCRAFT/FORTIFICATION unit.
 ▪ It is **[gloss:battle-shocked:battle-shocked]**.
-▪ It has an OC characteristic of 0 or '-'.
-▪ It is **engaged** (unless it is a TITANIC unit).
+▪ It has an OC characteristic of 0 or '-'.`,
+            `▪ It is **engaged** (unless it is a TITANIC unit).
 ▪ It made an **advance** or **[gloss:fall-back-move:fall-back move]** this turn.
 ▪ It started another **action** this turn.
 
 If a unit starts an **action**, until the end of the turn:
 ▪ It is **[gloss:not-eligible-to-shoot:not eligible to shoot]** (excluding TITANIC units).
-▪ It is not **eligible to declare a charge**.
-
-### Completing an Action
+▪ It is not **eligible to declare a charge**.`,
+            `### Completing an Action
 If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile-in]** and **[gloss:consolidation:consolidation moves]**) or leaves the battlefield, that unit does not complete that **action**. Otherwise, when an **action** is completed, its Effect is triggered.`,
-          note: 'WHERE TO FIND ACTIONS\nThe **actions** players can use can be found in other publications such as mission packs. All players can use **core actions**, while other **actions** may have restrictions such as army faction.',
+          ],
         },
       ],
     },
@@ -608,22 +619,22 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
 ### Постановка моделей или завершение манёвра
 Модели могут быть установлены или завершать манёвр на уровне земли **элементов укрытий**. Модели также могут быть установлены или завершать манёвр на любой поверхности **элемента укрытия**, которая не находится на уровне земли, если применяются **все** следующие условия:
 ▪ Эта модель имеет одно или несколько из следующих ключевых слов: INFANTRY/BEASTS/SWARM/FLY/MONSTER (ПЕХОТА/ЗВЕРИ/РОЙ/ЛЕТАЮЩИЙ/MONSTER).
-▪ После завершения этого манёвра эта модель устойчива, и ни одна часть её базы не свешивается за внешний край этой поверхности.
-
-[img:/images/terrain/terrain-and-movement-diagram.jpg|Укрытие и движение — движение моделей через укрытие]
+▪ После завершения этого манёвра эта модель устойчива, и ни одна часть её базы не свешивается за внешний край этой поверхности.`,
+          note: 'Сплошное укрытие: Если **[gloss:terrain-feature:элемент укрытия]** обладает правилом [gloss:solid:Сплошное] (13.11), модель не может завершить манёвр так, чтобы любая её часть оказалась по ту сторону любой закрытой части этого **элемента укрытия**, находящейся на высоте 3" или менее от уровня земли — даже через небольшие проёмы, такие как двери и окна.',
+          splitBodies: [
+            `[img:/images/terrain/terrain-and-movement-diagram.jpg|Укрытие и движение — движение моделей через укрытие]
 
 Все секции **надёжного элемента укрытия (A)** имеют высоту более 2", поэтому модель MONSTER **(B)** не может пройти сквозь него и должна обойти его.
 
-Модели INFANTRY **(C)** могут перемещаться сквозь **надёжные элементы укрытий**, такие как стены этих руин.
-
-[img:/images/terrain/terrain-and-movement-2-diagram.jpg|Укрытие и движение, пример 2 — правила выноса базы]
+Модели INFANTRY **(C)** могут перемещаться сквозь **надёжные элементы укрытий**, такие как стены этих руин.`,
+            `[img:/images/terrain/terrain-and-movement-2-diagram.jpg|Укрытие и движение, пример 2 — правила выноса базы]
 
 1. Эта модель INFANTRY может перемещаться вертикально и завершить манёвр на верхней поверхности **элемента укрытия (D)**, поскольку она устойчива и ни одна часть её базы не свешивается за внешний край этой поверхности.
 
 2. Эта модель VEHICLE не может пройти сквозь **надёжный элемент укрытия (E)**, но может перемещаться вертикально, чтобы подняться или спуститься по секциям высотой более 2" (при условии, что не заканчивает манёвр на вершине таких секций).
 
 3. Эта модель INFANTRY не перемещается над или сквозь какие-либо **элементы укрытий**. Поэтому её манёвр через показанную **область укрытия** ничем не затруднён.`,
-          note: 'Сплошное укрытие: Если **[gloss:terrain-feature:элемент укрытия]** обладает правилом [gloss:solid:Сплошное] (13.11), модель не может завершить манёвр так, чтобы любая её часть оказалась по ту сторону любой закрытой части этого **элемента укрытия**, находящейся на высоте 3" или менее от уровня земли — даже через небольшие проёмы, такие как двери и окна.',
+          ],
           children: [
             {
               title: 'Сплошное укрытие и движение',
@@ -741,9 +752,9 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
 ▪ Игрок, у которого самый высокий **уровень контроля** над этой **целью**, контролирует эту **цель**.
 ▪ Если оба игрока имеют **одинаковый уровень контроля** над этой **целью**, то, если только эта **цель** не является **[gloss:secured-objective:закреплённой]** (см. ниже), эта **цель** не контролируется ни одним из игроков.
 
-Пока одна или несколько **единиц** из армии игрока находятся в пределах досягаемости до **цели**, которую этот игрок контролирует, для каждой из этих единиц, которая содержит одну или несколько моделей с характеристикой OC 1 или более, считается, что эта единица контролирует данную **цель**.
-
-### Захват цели у укрытия
+Пока одна или несколько **единиц** из армии игрока находятся в пределах досягаемости до **цели**, которую этот игрок контролирует, для каждой из этих единиц, которая содержит одну или несколько моделей с характеристикой OC 1 или более, считается, что эта единица контролирует данную **цель**.`,
+          note: 'Удержать любой ценой: Некоторые юниты имеют способности, которые срабатывают, когда они контролируют **[gloss:objective:цель]**, или когда они **[gloss:secured-objective:закрепляют]** **цель** для вашей армии.',
+          splitBody: `### Захват цели у укрытия
 [img:/images/terrain/controlling-a-terrain-objective-diagram.jpg|Захват цели у укрытия — диаграмма контроля]
 
 VEHICLE **A** имеет характеристику **OC** 3 и находится в пределах **области укрытия**.
@@ -755,7 +766,6 @@ VEHICLE **B** имеет характеристику **OC** 2 и находит
 Юнит **D** в настоящее время подвержен **боевому шоку**, поэтому характеристика **OC** всех его моделей равна «—».
 
 Оба игрока складывают вместе характеристики **OC** всех своих моделей, которые находятся в пределах **области укрытия**. **Уровень контроля** синего игрока равен 5, а **уровень контроля** красного игрока равен 6. Поэтому красный игрок контролирует **цель**.`,
-          note: 'Удержать любой ценой: Некоторые юниты имеют способности, которые срабатывают, когда они контролируют **[gloss:objective:цель]**, или когда они **[gloss:secured-objective:закрепляют]** **цель** для вашей армии.',
           children: [
             {
               id: 'section-14-02-01',
@@ -966,25 +976,25 @@ VEHICLE **B** имеет характеристику **OC** 2 и находит
 ▪ **ЮНИТЫ:** Какие дружественные юниты могут его выполнять.
 ▪ **ЛИМИТ ИСПОЛЬЗОВАНИЯ:** Сколько раз дружественные юниты могут его начать.
 ▪ **ЗАВЕРШЕНИЕ:** Когда оно завершается.
-▪ **ЭФФЕКТ:** Каковы эффекты от его завершения.
-
-### Начало действия
+▪ **ЭФФЕКТ:** Каковы эффекты от его завершения.`,
+          note: '**ГДЕ НАЙТИ ДЕЙСТВИЯ**\n\n**[gloss:action:Действия]**, которые могут использовать игроки, можно найти в других публикациях, таких как пакеты миссий. Все игроки могут использовать **[gloss:action:базовые действия]**, тогда как другие **[gloss:action:действия]** могут иметь ограничения, например по фракции армии (army faction).',
+          splitBodies: [
+            `### Начало действия
 Юнит **[gloss:eligible-to-act:может начать действие]**, если к нему **не** применяются одно или несколько из следующих условий:
 ▪ Он не находится на поле боя.
 ▪ Это юнит AIRCRAFT/FORTIFICATION (ЛЕТАТЕЛЬНОГО АППАРАТА/УКРЕПЛЕНИЯ).
 ▪ Он находится в состоянии **[gloss:battle-shocked:боевого шока]**.
-▪ Он имеет характеристику OC 0 или «-».
-▪ Он **[gloss:engaged:связан ближним боем]** (если только это не TITANIC юнит).
+▪ Он имеет характеристику OC 0 или «-».`,
+            `▪ Он **[gloss:engaged:связан ближним боем]** (если только это не TITANIC юнит).
 ▪ Он совершил **[gloss:advance-move:продвижение]** или **[gloss:fall-back-move:отступление]** в этом ходу.
 ▪ Он начал другое **[gloss:action:действие]** в этом ходу.
 
 Если юнит начинает **[gloss:action:действие]**, то до конца хода:
 ▪ Он **[gloss:not-eligible-to-shoot:не может стрелять]** (за исключением TITANIC юнитов).
-▪ Он **[gloss:eligible-to-charge:не может объявлять нападение]**.
-
-### Завершение действия
+▪ Он **[gloss:eligible-to-charge:не может объявлять нападение]**.`,
+            `### Завершение действия
 Если юнит, выполняющий **[gloss:action:действие]**, совершает манёвр (за исключением **[gloss:pile-in:сближения]** и **[gloss:consolidation:консолидации]**) или покидает поле боя, этот юнит не завершает это **[gloss:action:действие]**. В противном случае, когда **[gloss:action:действие]** завершается, срабатывает его раздел «Эффект».`,
-          note: 'ГДЕ НАЙТИ ДЕЙСТВИЯ\n**[gloss:action:Действия]**, которые могут использовать игроки, можно найти в других публикациях, таких как пакеты миссий. Все игроки могут использовать **[gloss:action:базовые действия]**, тогда как другие **[gloss:action:действия]** могут иметь ограничения, например по фракции армии (army faction).',
+          ],
         },
       ],
     },
