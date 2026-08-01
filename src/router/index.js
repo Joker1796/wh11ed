@@ -354,10 +354,15 @@ export const router = createRouter({
     // unknown path, so the SPA must render its own not-found page (with noindex).
     { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFoundView },
   ],
+  // Every `hash` in the app targets /core-rules or /event-companion, and both already
+  // self-handle scrolling via the robust, polling `scrollToAnchor()` (onMounted + a
+  // route.hash watcher in CoreRulesView.vue/EventCompanionView.vue) — it retries for up to
+  // 1.5s and re-corrects after 400ms, which `content-visibility: auto` chapters need since
+  // their layout isn't settled right after navigation. Vue Router's own single-shot `el`
+  // scroll would run concurrently with that and can win the race with a stale position
+  // (landing on the wrong section) before the page has finished laying out. Leave hash
+  // scrolling to scrollToAnchor entirely.
   scrollBehavior(to, from, savedPosition) {
-    if (to.hash) {
-      return { el: to.hash, behavior: 'smooth', top: 80 }
-    }
     if (savedPosition) return savedPosition
     return { top: 0 }
   },
