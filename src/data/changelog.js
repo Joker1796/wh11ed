@@ -17,6 +17,16 @@
 
 export const changelog = [
   {
+    version: '2.2.1',
+    date: '2026-08-02',
+    en: [
+      'Mobile menu: "Rules" now expands into three separate collapsible sections — Core Rules, Event Companion and Combat Patrol — each with its own chapter list, instead of one long combined list.',
+    ],
+    ru: [
+      'Мобильное меню: раздел «Правила» теперь раскрывается на три отдельных сворачиваемых пункта — «Основные правила», «Путеводитель по ивентам» и «Комбат патруль» — каждый со своим списком глав, вместо одного длинного общего списка.',
+    ],
+  },
+  {
     version: '2.2.0',
     date: '2026-08-02',
     en: [
