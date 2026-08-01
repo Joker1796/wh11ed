@@ -34,9 +34,24 @@ const faq = computed(() => ec.value.faq)
   margin: 0 0 1.5rem;
   color: var(--text-muted);
 }
+/* Two columns on the wide single page, same breakpoint/recipe as the core-rules
+   Reference chapter's .faq-list / .appendix-columns. */
 .faq-list {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+}
+
+@media (min-width: 1024px) {
+  .faq-list {
+    display: block;
+    column-count: 2;
+    column-gap: 1.5rem;
+  }
+
+  .faq-list > * {
+    break-inside: avoid;
+    margin-bottom: 0.75rem;
+  }
 }
 </style>

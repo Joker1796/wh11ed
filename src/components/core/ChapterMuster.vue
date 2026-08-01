@@ -8,24 +8,32 @@
       :page="section.page"
     />
 
-    <template v-for="grp in chunkSubsections(section.subsections, hasTableAfter)" :key="grp.key">
+    <template v-for="grp in chunkSubsections(splitSubsections(section.subsections), hasTableAfter)" :key="grp.key">
       <div v-if="grp.type === 'columns'" class="rule-columns">
-        <RuleBlock
-          v-for="sub in grp.items"
-          :key="sub.id"
-          :id="sub.id"
-          :section-num="sub.sectionNum"
-          :title="sub.title"
-          :body="sub.body"
-          :note="sub.note"
-          :example="sub.example"
-          :see-also="sub.seeAlso"
-          :children="sub.children"
-        />
+        <template v-for="sub in grp.items" :key="sub.id">
+          <div v-if="sub.isSplitBlock" :id="sub.id" class="split-block">
+            <RuleBody :id="sub.id" :body="sub.body" />
+          </div>
+          <RuleBlock
+            v-else
+            :id="sub.id"
+            :section-num="sub.sectionNum"
+            :title="sub.title"
+            :body="sub.body"
+            :note="sub.note"
+            :example="sub.example"
+            :see-also="sub.seeAlso"
+            :children="sub.children"
+          />
+        </template>
       </div>
 
       <template v-else>
+        <div v-if="grp.item.isSplitBlock" :id="grp.item.id" class="split-block">
+          <RuleBody :id="grp.item.id" :body="grp.item.body" />
+        </div>
         <RuleBlock
+          v-else
           :id="grp.item.id"
           :section-num="grp.item.sectionNum"
           :title="grp.item.title"
@@ -52,10 +60,11 @@
 <script setup>
 import SectionHeader from '../SectionHeader.vue'
 import RuleBlock from '../RuleBlock.vue'
+import RuleBody from '../RuleBody.vue'
 import DataTable from '../DataTable.vue'
 import { muster } from '../../data/muster.js'
 import { useBilingualSections } from '../../composables/useBilingualMerge.js'
-import { chunkSubsections } from '../../composables/columnChunks.js'
+import { chunkSubsections, splitSubsections } from '../../composables/columnChunks.js'
 
 // 25.03 is followed by the full-width battle-size table, so it can't sit in a column group.
 const hasTableAfter = (sub) => sub.sectionNum === '25.03'
@@ -68,6 +77,11 @@ const sections = useBilingualSections(muster, (section, ruSection) =>
 </script>
 
 <style scoped>
+.split-block {
+  margin-bottom: 1rem;
+  scroll-margin-top: var(--header-total);
+}
+
 .table-block {
   margin: 1rem 0 1.5rem;
 }
