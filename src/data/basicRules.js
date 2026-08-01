@@ -1283,12 +1283,12 @@ When a player has to measure the distance to a **destroyed** unit, they measure 
           id: 'section-05-ex',
           sectionNum: 'EX',
           title: 'Attack Sequence Example — MAKING ATTACKS',
-          sideImage: { src: '/images/attack/making-attacks.jpg', alt: 'Attack Sequence Example diagram' },
+          sideImage: { src: '/images/attack/making-attacks-diagram.jpg', alt: 'Attack Sequence Example diagram', shared: true },
           body: `### 1. SELECT WEAPONS
 The {red:RED} unit is attacking. The following weapons are selected to make attacks with:
-▪ 2 boltguns (B)
-▪ 2 bolt pistols (BP)
-▪ 1 heavy bolter (HB)
+▪ 2 boltguns (A)
+▪ 2 bolt pistols (B)
+▪ 1 heavy bolter (C)
 
 ### 2. SELECT TARGETS
 The {blue:BLUE} unit is selected as the target. The unit is **[gloss:visible:visible]** to all models in the attacking unit. All of the selected weapons are in range, with the exception of one bolt pistol. As a result, that weapon will not make any attacks.
@@ -1302,9 +1302,9 @@ There is only one enemy unit being targeted, so the controlling player now gathe
           id: 'section-05-ex2',
           sectionNum: 'EX',
           title: 'Attack Sequence Example — RESOLVING ATTACK DICE',
-          sideImage: { src: '/images/attack/resolve-attack-dice.jpg', alt: 'Resolve attack dice example' },
+          sideImage: { src: '/images/attack/resolve-attack-dice-diagram.jpg', alt: 'Resolve attack dice example', shared: true },
           body: `### 1. **HIT ROLLS**
-The controlling player chooses to make the five **hit rolls** for the boltguns and bolt pistol first. The **[gloss:ballistic-skill:BS]** characteristic of the weapons is 3+. Four of the attacks hit the target.
+The controlling player chooses to make the five **hit rolls** for the boltguns (A) and bolt pistol (B) first. The **[gloss:ballistic-skill:BS]** characteristic of the weapons is 3+. Four of the attacks hit the target.
 
 ### 2. WOUND ROLLS
 The controlling player makes four **wound rolls**. The weapons have an **[gloss:strength:S]** characteristic of 4 and the target unit has a **[gloss:toughness:T]** characteristic of 3, so rolls of 3+ are required to wound. Three of the attacks wound the target.
@@ -1321,9 +1321,9 @@ The target unit's controlling player makes three **save rolls**.
           id: 'section-05-ex3',
           sectionNum: 'EX',
           title: 'Attack Sequence Example — RESOLVING OTHER ATTACKS',
-          sideImage: { src: '/images/attack/resolve-other-attacks.jpg', alt: 'Resolving other attacks example' },
+          sideImage: { src: '/images/attack/resolve-other-attacks-diagram.jpg', alt: 'Resolving other attacks example', shared: true },
           body: `### 1. **HIT ROLLS**
-The controlling player then makes three **hit rolls** for the heavy bolter. The **[gloss:ballistic-skill:BS]** characteristic of the weapon is 4+. Two of the attacks hit the target.
+The controlling player then makes three **hit rolls** for the heavy bolter (C). The **[gloss:ballistic-skill:BS]** characteristic of the weapon is 4+. Two of the attacks hit the target.
 
 ### 2. WOUND ROLLS
 The controlling player makes two **wound rolls**. The weapon has an **[gloss:strength:S]** characteristic of 5, so rolls of 3+ are required to wound. Both attacks wound the target.
@@ -1339,12 +1339,12 @@ The target unit's controlling player makes two **save rolls**.
           id: 'section-05-ex4',
           sectionNum: 'EX',
           title: 'Attack Sequence Example — ATTACKING ATTACHED UNITS',
-          sideImage: { src: '/images/attached/attacking-attached-units.jpg', alt: 'Attacking attached units example', width: '60%' },
+          sideImage: { src: '/images/attached/attacking-attached-units-diagram.jpg', alt: 'Attacking attached units example', width: '60%', shared: true },
           body: `### 1. SELECT WEAPONS
 The {red:RED} unit is attacking. The following weapons are selected to make attacks with:
-▪ 7 boltguns (B)
-▪ 1 plasma pistol (PP)
-▪ 2 heavy bolters (HB)
+▪ 7 boltguns (A)
+▪ 1 plasma pistol (B)
+▪ 2 heavy bolters (C)
 
 ### 2. SELECT TARGETS
 The {blue:BLUE} unit is selected as the target. It is an attached unit (19) formed from a Seraphim unit and Saint Celestine (with her two Geminae Superia). The unit is **visible** to all models in the attacking unit, and all of the selected weapons are in range.
@@ -1359,9 +1359,9 @@ The **attack dice** for the remaining weapons will be gathered once the heavy bo
           id: 'section-05-ex5',
           sectionNum: 'EX',
           title: 'Attack Sequence Example — ALLOCATION GROUPS',
-          sideImage: { src: '/images/attack/allocation-groups.jpg', alt: 'Allocation groups example', width: '60%' },
+          sideImage: { src: '/images/attack/allocation-groups-diagram.jpg', alt: 'Allocation groups example', width: '60%', shared: true },
           body: `### 1. CREATE GROUPS AND DECLARE ORDER
-The target unit's controlling player divides it into groups: one containing Saint Celestine, one containing the Geminae Superia, and one containing the Seraphim. They then declare the allocation order, choosing the Geminae Superia first (1), hoping their better **[gloss:save-roll:Sv]** and **[gloss:invulnerable-save:InSv]** characteristics will weather the attacks. The Seraphim must be chosen second (2), as Saint Celestine is a **[gloss:character:CHARACTER]** model so must be last in the order (3).
+The target unit's controlling player divides it into groups: one containing Saint Celestine, one containing the Geminae Superia, and one containing the Seraphim. They then declare the allocation order, choosing the Geminae Superia first (E), hoping their better **[gloss:save-roll:Sv]** and **[gloss:invulnerable-save:InSv]** characteristics will weather the attacks. The Seraphim must be chosen second (D), as Saint Celestine is a **[gloss:character:CHARACTER]** model so must be last in the order (F).
 
 ### 2. RESOLVE ATTACK DICE
 The heavy bolters' attacks wound the target five times, so the target unit's controlling player makes five **save rolls**.
@@ -2450,9 +2450,9 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
           title: 'Пример: совершение атак',
           body: `### 1. ВЫБОР ОРУЖИЯ
 {red:КРАСНЫЙ} юнит атакует. Следующее оружие выбрано для атак:
-▪ 2 boltguns (B)
-▪ 2 bolt pistols (BP)
-▪ 1 heavy bolter (HB)
+▪ 2 boltguns (A)
+▪ 2 bolt pistols (B)
+▪ 1 heavy bolter (C)
 
 ### 2. ВЫБОР ЦЕЛЕЙ
 {blue:СИНИЙ} юнит выбран в качестве цели. Юнит **[gloss:visible:видим]** всем моделям в атакующем юните. Все выбранное оружие находится в пределах дальности, за исключением одного болт-пистолета. В результате это оружие не будет совершать атак.
@@ -2465,7 +2465,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
         {
           title: 'Пример: отыгрыш кубиков атаки',
           body: `### 1. HIT ROLLS (**БРОСКИ НА ПОПАДАНИЕ**)
-Контролирующий игрок решает сначала сделать пять **бросков на попадание** для болтганов и болт-пистолета. Характеристика **[gloss:ballistic-skill:BS]** оружия 3+. Четыре атаки попадают в цель.
+Контролирующий игрок решает сначала сделать пять **бросков на попадание** для болтганов (A) и болт-пистолета (B). Характеристика **[gloss:ballistic-skill:BS]** оружия 3+. Четыре атаки попадают в цель.
 
 ### 2. WOUND ROLLS (БРОСКИ НА РАНЕНИЕ)
 Контролирующий игрок делает четыре **броска на ранение**. Оружие имеет характеристику **[gloss:strength:S]** 4, а целевой юнит — характеристику **[gloss:toughness:T]** 3, поэтому для ранения требуются результаты 3+. Три атаки ранят цель.
@@ -2481,7 +2481,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
         {
           title: 'Пример: отыгрыш других атак',
           body: `### 1. HIT ROLLS (**БРОСКИ НА ПОПАДАНИЕ**)
-Затем контролирующий игрок делает три **броска на попадание** для тяжёлого болтера. Характеристика **[gloss:ballistic-skill:BS]** оружия 4+. Две атаки попадают в цель.
+Затем контролирующий игрок делает три **броска на попадание** для тяжёлого болтера (C). Характеристика **[gloss:ballistic-skill:BS]** оружия 4+. Две атаки попадают в цель.
 
 ### 2. WOUND ROLLS (БРОСКИ НА РАНЕНИЕ)
 Контролирующий игрок делает два **броска на ранение**. Оружие имеет характеристику **[gloss:strength:S]** 5, поэтому для ранения требуются результаты 3+. Обе атаки ранят цель.
@@ -2497,9 +2497,9 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
           title: 'Пример: атака присоединённых юнитов',
           body: `### 1. ВЫБОР ОРУЖИЯ
 {red:КРАСНЫЙ} юнит атакует. Следующее оружие выбрано для атак:
-▪ 7 boltguns (B)
-▪ 1 plasma pistol (PP)
-▪ 2 heavy bolters (HB)
+▪ 7 boltguns (A)
+▪ 1 plasma pistol (B)
+▪ 2 heavy bolters (C)
 
 ### 2. ВЫБОР ЦЕЛЕЙ
 {blue:СИНИЙ} юнит выбран в качестве цели. Это присоединённый юнит (19), сформированный из юнита Серафим и Святой Селестины (с двумя её Геминами Суперии). Юнит **видим** всем моделям в атакующем юните, и все выбранное оружие находится в пределах дальности.
@@ -2513,7 +2513,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
         {
           title: 'Пример: группы распределения',
           body: `### 1. СОЗДАТЬ ГРУППЫ И ОБЪЯВИТЬ ПОРЯДОК
-Контролирующий игрок целевого юнита делит его на группы: одну, содержащую Святую Селестину, одну, содержащую Гемин Суперии, и одну, содержащую Серафим. Затем он объявляет порядок распределения, выбирая сначала Гемин Суперию (1), надеясь, что их лучшие характеристики **[gloss:save-roll:Sv]** и **[gloss:invulnerable-save:InSv]** выдержат атаки. Серафим должны быть выбраны вторыми (2), так как Святая Селестина является моделью **[gloss:character:CHARACTER]**, поэтому должна быть последней в порядке (3).
+Контролирующий игрок целевого юнита делит его на группы: одну, содержащую Святую Селестину, одну, содержащую Гемин Суперии, и одну, содержащую Серафим. Затем он объявляет порядок распределения, выбирая сначала Гемин Суперию (E), надеясь, что их лучшие характеристики **[gloss:save-roll:Sv]** и **[gloss:invulnerable-save:InSv]** выдержат атаки. Серафим должны быть выбраны вторыми (D), так как Святая Селестина является моделью **[gloss:character:CHARACTER]**, поэтому должна быть последней в порядке (F).
 
 ### 2. ВЫБОР КУБИКОВ АТАКИ
 Атаки тяжёлых болтеров ранили цель пять раз, поэтому контролирующий игрок целевого юнита делает пять **[gloss:save-roll:спас-бросков]**.
