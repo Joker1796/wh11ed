@@ -29,7 +29,15 @@ When rotating a FRAME model as part of a move, if that model does not have a bas
 
 Each time a model makes a ranged attack that targets such a unit, subtract 1 from the **[gloss:hit-roll:hit roll]** (excluding attacks made with [CLOSE-QUARTERS] weapons by models in a unit **engaged** with the target).
 
-[img:/images/monsters/engaged-monsters_vehicles-shooting.jpg|Engaged monsters and vehicles — shooting hit roll penalty]`,
+[img:/images/monsters/engaged-monsters-vehicles-shooting-diagram.jpg|Engaged monsters and vehicles — shooting hit roll penalty]
+
+The VEHICLE can shoot at INFANTRY unit **A** using **close-quarters shooting**. While resolving those attacks, subtract 1 from **hit rolls** (excluding attacks made with [CLOSE-QUARTERS] weapons).
+
+INFANTRY unit **A** can shoot at the VEHICLE using **normal shooting**. While resolving those attacks, subtract 1 from **hit rolls**. As the VEHICLE is **engaged**, [BLAST] weapons cannot target it, but can target other **unengaged** units.
+
+The VEHICLE can shoot at INFANTRY unit **B** using **close-quarters shooting**. While resolving those attacks, subtract 1 from **hit rolls**. As the INFANTRY unit is **engaged**, [BLAST] weapons cannot target it, but can target other **unengaged** units.
+
+INFANTRY unit **B** is **engaged**, but can shoot at the VEHICLE using **close-quarters shooting**. While doing so, it can only make attacks with its [CLOSE-QUARTERS] weapons and can only target the VEHICLE it is **engaged** with.`,
           children: [
             {
               id: 'section-17-03-01',
@@ -343,7 +351,11 @@ Models with the FLY keyword can **[gloss:take-to-the-skies:take to the skies]** 
 ▫ It can move through all types of model (including enemy models and MONSTER/VEHICLE models).
 ▫ It can move horizontally and vertically through all categories of **[gloss:terrain-feature:terrain feature]**.
 
-[img:/images/surge/taking-to-the-skies.jpg|Taking to the skies — FLY movement through terrain and models]`,
+[img:/images/surge/taking-to-the-skies-diagram.jpg|Taking to the skies — FLY movement through terrain and models]
+
+This Riptide Battlesuit can FLY. It makes an **advance move** with a **maximum distance** of 16".
+
+Before moving the unit, the active player declares that it will **take to the skies**. That move's **maximum distance** is reduced to 14", but while making that move, the Riptide Battlesuit can move through all enemy units (including VEHICLES) and all **terrain features**, ignoring any vertical distance that would normally be counted to ascend and descend **terrain features**.`,
           seeAlso: ['Surge Moves 21.01'],
         },
       ],
@@ -395,7 +407,11 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
 ▪ The attacking model is on a section of a **terrain feature** that is 3" or more in height.
 ▪ The attacking model has the **[gloss:towering:TOWERING]** keyword and the target unit is within 12".
 
-[img:/images/fire/plunging-fire.jpg|Plunging fire — elevation and range requirements]`,
+[img:/images/fire/plunging-fire-diagram.jpg|Plunging fire — elevation and range requirements]
+
+All the attacking models in unit **A** are on a section of **terrain feature** that is 3" or more in height, and the target unit contains models on ground level, so **Plunging Fire** improves the **BS** characteristic of those attacks by 1.
+
+Attacking model **B** is on ground level, but has the TOWERING keyword. The target unit is within 12" and contains models on ground level, so **Plunging Fire** improves the **BS** characteristic of those attacks by 1.`,
           seeAlso: ['Aircraft 23.03'],
         },
       ],
@@ -472,7 +488,15 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
 
 Каждый раз, когда модель совершает дальнюю атаку, нацеленную на такой отряд, вычтите 1 из **[gloss:hit-roll:броска на попадание]** (кроме атак оружием [БЛИЖНЯЯ СТРЕЛЬБА] (CLOSE-QUARTERS), совершаемых моделями из отряда, **[gloss:engaged:находящегося в ближнем бою]** с целью).
 
-[img:/images/monsters/engaged-monsters_vehicles-shooting-ru.jpg|Монстры и техника в контакте — штраф к броску на попадание]`,
+[img:/images/monsters/engaged-monsters-vehicles-shooting-diagram.jpg|Монстры и техника в контакте — штраф к броску на попадание]
+
+VEHICLE может стрелять по отряду INFANTRY **A**, используя **ближнюю стрельбу**. Разрешая эти атаки, вычтите 1 из **бросков на попадание** (кроме атак оружием [БЛИЖНЯЯ СТРЕЛЬБА] (CLOSE-QUARTERS)).
+
+Отряд INFANTRY **A** может стрелять по VEHICLE, используя **обычную стрельбу**. Разрешая эти атаки, вычтите 1 из **бросков на попадание**. Поскольку VEHICLE **находится в ближнем бою**, оружие [BLAST] не может выбрать его целью, но может выбрать целью другие **не связанные боем** отряды.
+
+VEHICLE может стрелять по отряду INFANTRY **B**, используя **ближнюю стрельбу**. Разрешая эти атаки, вычтите 1 из **бросков на попадание**. Поскольку отряд INFANTRY **находится в ближнем бою**, оружие [BLAST] не может выбрать его целью, но может выбрать целью другие **не связанные боем** отряды.
+
+Отряд INFANTRY **B** **находится в ближнем бою**, но может стрелять по VEHICLE, используя **ближнюю стрельбу**. При этом он может атаковать только оружием [БЛИЖНЯЯ СТРЕЛЬБА] (CLOSE-QUARTERS) и может выбрать целью только тот VEHICLE, с которым **находится в ближнем бою**.`,
           children: [
             {
               title: 'Стрельба в ближнем бою с монстрами/техникой',
@@ -758,7 +782,11 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
 ▫ Она может проходить сквозь все типы моделей (включая вражеские модели и модели MONSTER/VEHICLE).
 ▫ Она может двигаться горизонтально и вертикально через все категории **[gloss:terrain-feature:элементов ландшафта]**.
 
-[img:/images/surge/taking-to-the-skies-ru.jpg|Взмыть в небо — движение через укрытия и модели]`,
+[img:/images/surge/taking-to-the-skies-diagram.jpg|Взмыть в небо — движение через укрытия и модели]
+
+Этот Riptide Battlesuit может FLY. Он совершает **продвижение** с **максимальным расстоянием** 16".
+
+Перед перемещением отряда активный игрок объявляет, что он будет **подниматься в небо**. **Максимальное расстояние** этого манёвра уменьшается до 14", но при совершении этого манёвра Riptide Battlesuit может проходить сквозь все вражеские отряды (включая VEHICLES) и все **элементы ландшафта**, игнорируя любое вертикальное расстояние, которое обычно учитывалось бы при подъёме и спуске по **элементам ландшафта**.`,
         },
       ],
     },
@@ -809,7 +837,11 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
 ▪ Атакующая модель находится на участке **[gloss:terrain-feature:элемента ландшафта]** высотой 3" или более.
 ▪ Атакующая модель имеет ключевое слово **[gloss:towering:ИСПОЛИНСКИЙ]** (TOWERING), и целевой отряд находится в пределах 12".
 
-[img:/images/fire/plunging-fire-ru.jpg|Стрельба с возвышения — требования по высоте и дальности]`,
+[img:/images/fire/plunging-fire-diagram.jpg|Стрельба с возвышения — требования по высоте и дальности]
+
+Все атакующие модели отряда **A** находятся на участке **элемента ландшафта** высотой 3" или более, а целевой отряд содержит модели на уровне земли, поэтому **Стрельба с возвышения** улучшает характеристику **BS** этих атак на 1.
+
+Атакующая модель **B** находится на уровне земли, но имеет ключевое слово **ИСПОЛИНСКИЙ**. Целевой отряд находится в пределах 12" и содержит модели на уровне земли, поэтому **Стрельба с возвышения** улучшает характеристику **BS** этих атак на 1.`,
         },
       ],
     },

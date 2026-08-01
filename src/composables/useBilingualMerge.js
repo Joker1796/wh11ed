@@ -24,7 +24,10 @@ function localizeSubImages(sub) {
     const img = out[field]
     if (img?.src) {
       if (out === sub) out = { ...sub }
-      const localized = { ...img, src: localizeImageSrc(img.src) }
+      // `img.shared: true` opts an image out of the `-ru` rewrite — for illustrations sourced
+      // without any baked-in text (see wh11ed-app-illustrations migration), one file already
+      // serves both locales, so a byte-identical `-ru` duplicate would just be dead weight.
+      const localized = img.shared ? { ...img } : { ...img, src: localizeImageSrc(img.src) }
       // Localize the alt too: reuse the (already-translated) RU subsection title so diagram
       // labels carry canonical terminology from the data instead of the English alt. Only
       // for meaningful images (those that had an alt) when a title is available.

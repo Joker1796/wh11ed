@@ -130,10 +130,19 @@ If a unit was battle-shocked at the start of this step and its **battle-shock ro
         // 4-image block was still too tall to balance well against its neighbours; letting
         // each image move on its own gives the column balancer far more to work with.
         splitBodies: [
-          '[img:/images/command/battle-shock-examples.jpg|Battle shock example 1 — failed Battle Shock roll]',
-          '[img:/images/command/battle-shock-examples-2.jpg|Battle shock example 2 — unit with Starting Strength]',
-          '[img:/images/command/battle-shock-examples-3.jpg|Battle shock example 3 — multiple units in range]',
-          '[img:/images/command/battle-shock-examples-4.jpg|Battle shock example 4 — OC reduction]',
+          `### Battle-shock Examples
+[img:/images/command/battle-shock-1-diagram.jpg|Battle shock example 1 — failed Battle Shock roll]
+
+This unit has a **starting strength** of 3 so is not at or **below half-strength**, but it is currently **battle-shocked**, so a **battle-shock roll** must be made for it. If that roll succeeds, the unit will no longer be **battle-shocked**.`,
+          `[img:/images/command/battle-shock-2-diagram.jpg|Battle shock example 2 — unit with Starting Strength]
+
+This unit has a **starting strength** of 10. It has five models remaining, so it is **at half-strength** and a **battle-shock roll** must be made for it.`,
+          `[img:/images/command/battle-shock-3-diagram.jpg|Battle shock example 3 — multiple units in range]
+
+This unit has a **starting strength** of 5. It has two models remaining, so it is **below half-strength** and a **battle-shock roll** must be made for it.`,
+          `[img:/images/command/battle-shock-4-diagram.jpg|Battle shock example 4 — OC reduction]
+
+This VEHICLE has a **starting strength** of 1 and a **W** characteristic of 11. It has 3 wounds remaining, so it is **below half-strength** and a **battle-shock roll** must be made for it.`,
         ],
         seeAlso: ['Battle-Shock Rolls 01.07', 'Half-strength 24.00', 'Multiple Battle-Shock Rolls 24.00'],
         children: [
@@ -508,7 +517,9 @@ A unit is **[gloss:eligible-to-shoot:eligible to shoot]** if it is on the battle
         title: 'Start of Fight Phase',
         body: `Rules that are triggered at the start of the Fight phase are resolved now.
 
-[img:/images/fight/start-of-fight-phase.jpg|Fight phase order — fights first and fights last]`,
+[img:/images/fight/start-of-fight-phase-diagram.jpg|Fight phase order — fights first and fights last]
+
+Because both **RED** units made **charge moves** this turn, they are both **Fights First** units this phase and are both eligible to make **pile-in moves**, even though the MONSTER is **unengaged** as it **destroyed** its **charge target** in the Charge phase using the Crushing Impact stratagem (15.06).`,
       },
       {
         id: 'section-12-02',
@@ -741,10 +752,19 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 
 Если юнит был подвержен **[gloss:battle-shocked:боевому шоку]** в начале этого шага и его проверка **[gloss:battle-shock-test:боевого шока]** во время этого шага успешна, он больше не подвержен **[gloss:battle-shocked:боевому шоку]**.`,
         splitBodies: [
-          '[img:/images/command/battle-shock-examples-ru.jpg|Тест боевого шока, пример 1 — провал броска]',
-          '[img:/images/command/battle-shock-examples-2-ru.jpg|Тест боевого шока, пример 2 — юнит с Starting Strength]',
-          '[img:/images/command/battle-shock-examples-3-ru.jpg|Тест боевого шока, пример 3 — несколько юнитов]',
-          '[img:/images/command/battle-shock-examples-4-ru.jpg|Тест боевого шока, пример 4 — снижение OC]',
+          `### Примеры боевого шока
+[img:/images/command/battle-shock-1-diagram.jpg|Тест боевого шока, пример 1 — провал броска]
+
+Этот юнит имеет **начальную численность** 3, поэтому он не находится на или **ниже половинной численности**, но сейчас он **подвержен боевому шоку**, так что для него нужно выполнить **проверку боевого шока**. Если проверка успешна, юнит больше не будет **подвержен боевому шоку**.`,
+          `[img:/images/command/battle-shock-2-diagram.jpg|Тест боевого шока, пример 2 — юнит с Starting Strength]
+
+Этот юнит имеет **начальную численность** 10. Осталось пять моделей, поэтому он **на половинной численности**, и для него нужно выполнить **проверку боевого шока**.`,
+          `[img:/images/command/battle-shock-3-diagram.jpg|Тест боевого шока, пример 3 — несколько юнитов]
+
+Этот юнит имеет **начальную численность** 5. Осталось две модели, поэтому он **ниже половинной численности**, и для него нужно выполнить **проверку боевого шока**.`,
+          `[img:/images/command/battle-shock-4-diagram.jpg|Тест боевого шока, пример 4 — снижение OC]
+
+Эта модель VEHICLE имеет **начальную численность** 1 и характеристику **W** 11. У неё осталось 3 раны, поэтому она **ниже половинной численности**, и для неё нужно выполнить **проверку боевого шока**.`,
         ],
         children: [
           {
@@ -1036,7 +1056,9 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
         title: 'Начало фазы ближнего боя',
         body: `Правила, срабатывающие в начале фазы ближнего боя, отыгрываются сейчас.
 
-[img:/images/fight/start-of-fight-phase-ru.jpg|Порядок фазы боя — бьёт первым и бьёт последним]`,
+[img:/images/fight/start-of-fight-phase-diagram.jpg|Порядок фазы боя — бьёт первым и бьёт последним]
+
+Поскольку оба **красных** юнита совершили **манёвры нападения** в этом ходу, оба они являются юнитами с **[gloss:fights-first:«Первым ударом»]** в этой фазе и оба имеют право совершить **манёвры сближения**, даже несмотря на то, что MONSTER **не связан боем**, так как он **уничтожил** свою **цель нападения** в фазе нападения с помощью стратагемы «Сокрушительный удар» (Crushing Impact, 15.06).`,
       },
       {
         title: 'Сближение (Pile In)',

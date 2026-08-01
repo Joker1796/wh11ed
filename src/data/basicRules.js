@@ -705,6 +705,13 @@ Each time you move a model in a straight line, move it horizontally across the b
 ### Rotating a Model
 Each time you rotate a model, turn it any amount around the centre of its base, while keeping it upright. Note that rotating a model does not count towards the distance it has moved. Models without a base are rotated around their central axis (see FRAME, 17.02).
 
+This model can move a **maximum distance** of 12". It moves in a series of straight lines and rotations, as follows:
+→ Moves 6" in a straight line
+→ Rotates
+→ Moves 6" in a straight line
+→ Rotates
+This model has moved a total of 12".
+
 ### Ending a Move
 After you have finished setting up all of the models in a unit and/or moving all of the models in a unit that you want to move, check that all of the following apply:
 ▪ If that unit is on the battlefield, it is in **coherency** (03.03).
@@ -714,8 +721,9 @@ After you have finished setting up all of the models in a unit and/or moving all
 If one or more of the above conditions are not met, that unit cannot make that move and its models are returned to their positions at the start of that move. Otherwise, after resolving any additional rules stated in the [gloss:after-moving:'After Moving'] section of that **move type**, that move ends.`,
           seeAlso: ['Monsters and Vehicles 17.00', 'Moving Vertically 13.06', 'Strategic Reserves 20.00', 'Terrain 13.00', 'Transports 18.00'],
           illustration: {
-            src: '/images/moving/moving-straight-line.jpg',
+            src: '/images/moving/moving-straight-line-diagram.jpg',
             alt: 'Moving in a straight line',
+            shared: true,
             seeAlso: {
               title: 'Move Types',
               refs: [
@@ -733,7 +741,7 @@ If one or more of the above conditions are not met, that unit cannot make that m
               ],
             },
           },
-          image: { src: '/images/moving/rotating.jpg', alt: 'Rotating a model' },
+          image: { src: '/images/moving/rotating-diagram.jpg', alt: 'Rotating a model', shared: true },
           children: [
             {
               id: 'section-03-01-01',
@@ -825,6 +833,8 @@ Some large models, typically [gloss:aircraft:AIRCRAFT], have wings and other par
 ▪ Within 2" horizontally and 5" vertically of at least one other model in that unit.
 ▪ Within 9" horizontally and 5" vertically of every other model in that unit.
 
+Every model in this unit is within 2" of at least one other model in its unit, and every model is within 9" of every other model in its unit. This unit is therefore in **coherency**.
+
 ### Regaining Coherency
 In the **[gloss:end-of-turn-step:End of Turn step]** of each player's turn, if one or more units on the battlefield are not in **coherency**, those units' controlling players must remove models from them, one at a time, until they are in **coherency** again. Models removed in this way are **[gloss:destroyed:destroyed]**, but they do not trigger rules that apply when a model is **[gloss:destroyed:destroyed]**.
 
@@ -840,7 +850,7 @@ In the **[gloss:end-of-turn-step:End of Turn step]** of each player's turn, if o
 **Q:** Do models **destroyed** when a unit is out of **coherency** count for mission objectives?
 
 **A:** Yes.`,
-          image: { src: '/images/coherency/coherency.jpg', alt: 'Coherency' },
+          image: { src: '/images/coherency/coherency-diagram.jpg', alt: 'Coherency', shared: true },
           children: [
             {
               id: 'section-03-03-01',
@@ -859,11 +869,13 @@ In the **[gloss:end-of-turn-step:End of Turn step]** of each player's turn, if o
 ▪ While a friendly model is within **engagement range** of one or more enemy models, those models – and the units they belong to – are **engaged** with each other.
 ▪ While a unit contains no **engaged** models, that unit is **unengaged**.
 
+These two units have at least one model within 2" of the opposing unit, and are therefore **engaged** with each other.
+
 ### FAQs
 **Q:** Does my model or unit become **engaged** while moving through an enemy unit's **engagement range** during a move?
 
 **A:** No.`,
-          image: { src: '/images/visibility/engagement.jpg', alt: 'Engagement' },
+          image: { src: '/images/visibility/engagement-diagram.jpg', alt: 'Engagement', shared: true },
           children: [
             {
               id: 'section-03-04-01',
@@ -1387,13 +1399,25 @@ The attacks are resolved one at a time, from lowest **save rolls** to highest:
 
 Other models and units can be either **visible** or **[gloss:fully-visible:fully visible]** to the observing model, as shown below.
 
-[img:/images/visibility/model-visible.jpg|Model visibility — model partially visible]
+### Model Visible
+[img:/images/visibility/model-visible-diagram.jpg|Model visibility — model partially visible]
 
-[img:/images/visibility/model-fully-visible.jpg|Model visibility — model fully visible]
+If any part of another model is **visible** to the observing model, that model is **visible**.
 
-[img:/images/visibility/unit-visible.jpg|Unit visibility — unit visible to observer]
+### Model Fully Visible
+[img:/images/visibility/model-fully-visible-diagram.jpg|Model visibility — model fully visible]
 
-[img:/images/visibility/unit-fully-visible.jpg|Unit visibility — unit fully visible to observer]`,
+If every part of another model that is facing the observing model is **visible** to the observing model (so the only thing blocking visibility to any part of that other model is that model itself), that model is **fully visible**.
+
+### Unit Visible
+[img:/images/visibility/unit-visible-diagram.jpg|Unit visibility — unit visible to observer]
+
+If one or more models in a unit are **visible** to the observing model, that unit is **visible**.
+
+### Unit Fully Visible
+[img:/images/visibility/unit-fully-visible-diagram.jpg|Unit visibility — unit fully visible to observer]
+
+If every model in a unit is **fully visible** to the observing model, that unit is **fully visible**. When determining this, the observing model can see through other models in that unit.`,
           note: 'Terrain applies additional rules to visibility (13.07).',
           children: [
             {
@@ -2002,6 +2026,13 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ### Поворот модели
 Каждый раз, когда вы поворачиваете модель, поверните её на любое количество градусов вокруг центра её базы, удерживая её вертикально. Обратите внимание, что поворот модели не учитывается в пройденном ею расстоянии. Модели без базы поворачиваются вокруг своей центральной оси (см. FRAME, 17.02).
 
+Эта модель может переместиться на **максимальное расстояние** 12". Она перемещается серией прямых линий и поворотов, следующим образом:
+→ Перемещается на 6" по прямой линии
+→ Поворачивается
+→ Перемещается на 6" по прямой линии
+→ Поворачивается
+Эта модель переместилась в общей сложности на 12".
+
 ### Завершение манёвра
 После того как вы закончили устанавливать все модели в юните и/или перемещать все модели в юните, которые вы хотите переместить, проверьте, выполняются ли все следующие условия:
 ▪ Если этот юнит находится на поле боя, он находится в **[gloss:coherency:боевом построении]** (03.03).
@@ -2075,6 +2106,8 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ▪ Находится в пределах 2" по горизонтали и 5" по вертикали от по крайней мере одной другой модели в этом юните.
 ▪ Находится в пределах 9" по горизонтали и 5" по вертикали от каждой другой модели в этом юните.
 
+Каждая модель в этом юните находится в пределах 2" хотя бы от одной другой модели своего юнита, и каждая модель находится в пределах 9" от каждой другой модели своего юнита. Поэтому этот юнит находится в **боевом построении**.
+
 ### Восстановление боевого построения
 На этапе **[gloss:end-of-turn-step:«Конец хода»]** каждого хода игрока, если один или несколько юнитов на поле боя не находятся в **боевом построении**, контролирующие игроки этих юнитов должны удалять модели из них, по одной, пока такой юнит снова не придёт в **боевое построение**. Модели, удалённые таким образом, **[gloss:destroyed:уничтожаются]**, но они не активируют правила, которые срабатывают тогда, когда модель **[gloss:destroyed:уничтожена]**.
 
@@ -2102,6 +2135,8 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
           body: `Радиус связывания модели — это область поля боя в пределах 2" по горизонтали и 5" по вертикали от неё.
 ▪ Пока союзная модель находится в **радиусе связывания** с одной или несколькими вражескими моделями, эти модели — и юниты, к которым они принадлежат, — **связаны боем** друг с другом.
 ▪ Пока юнит не содержит ни одной **связанной** модели, этот юнит считается **не связанным**.
+
+Эти два юнита имеют хотя бы одну модель в пределах 2" от юнита противника, и поэтому **связаны боем** друг с другом.
 
 ### FAQs
 **В:** Становится ли моя модель или юнит **связанным**, проходя через **радиус связывания** вражеского юнита во время манёвра?
@@ -2511,13 +2546,25 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 
 Другие модели и юниты могут быть либо **[gloss:visible:видимыми]**, либо **[gloss:fully-visible:полностью видимыми]** для наблюдающей модели, как показано ниже.
 
-[img:/images/visibility/model-visible-ru.jpg|Диаграмма видимости — модель частично видима]
+### Модель видима
+[img:/images/visibility/model-visible-diagram.jpg|Диаграмма видимости — модель частично видима]
 
-[img:/images/visibility/model-fully-visible-ru.jpg|Диаграмма видимости — модель полностью видима]
+Если хотя бы часть другой модели **видима** для наблюдающей модели, то эта модель **видима**.
 
-[img:/images/visibility/unit-visible-ru.jpg|Диаграмма видимости — юнит видим для наблюдателя]
+### Модель полностью видима
+[img:/images/visibility/model-fully-visible-diagram.jpg|Диаграмма видимости — модель полностью видима]
 
-[img:/images/visibility/unit-fully-visible-ru.jpg|Диаграмма видимости — юнит полностью видим для наблюдателя]`,
+Если каждая часть другой модели, обращённая к наблюдающей модели, **видима** для наблюдающей модели (то есть единственное, что закрывает видимость любой части этой другой модели — она сама), то эта модель **полностью видима**.
+
+### Юнит видим
+[img:/images/visibility/unit-visible-diagram.jpg|Диаграмма видимости — юнит видим для наблюдателя]
+
+Если одна или несколько моделей в юните **видимы** для наблюдающей модели, то этот юнит **видим**.
+
+### Юнит полностью видим
+[img:/images/visibility/unit-fully-visible-diagram.jpg|Диаграмма видимости — юнит полностью видим для наблюдателя]
+
+Если каждая модель в юните **полностью видима** для наблюдающей модели, то этот юнит **полностью видим**. При определении этого наблюдающая модель может видеть сквозь другие модели этого юнита.`,
           note: `Рельеф применяет дополнительные правила к видимости (13.07).`,
           children: [
             {
