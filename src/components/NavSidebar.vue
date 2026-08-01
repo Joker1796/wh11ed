@@ -36,7 +36,7 @@
               v-for="group in section.groups"
               :key="groupKey(group) || group.label"
               class="nav-group"
-              :class="{ active: isActive(group) }"
+              :class="{ active: isActive(group, section.groups) }"
             >
               <!-- Non-clickable subheading — separates the "rules" section's merged
                    Core Rules / Event Companion / Combat Patrol group lists. -->
@@ -158,11 +158,15 @@ watch(() => route.fullPath, () => {
   openSection.value = currentSection.value
 })
 
-function isActive(group) {
+function isActive(group, groups) {
   if (route.path !== group.path) return false
   if (!group.hash) return true
-  // Landing on /core-rules with no hash means the top of the page = the first chapter.
-  return (route.hash || navGroups[0].hash) === group.hash
+  // Landing on a merged page (/core-rules, /event-companion) with no hash means the top of
+  // the page = its first chapter. `groups` is whatever flattened list the caller rendered
+  // this group from (e.g. the combined "rules" section mixes Core Rules / Event Companion /
+  // Combat Patrol) — find the first entry that shares THIS group's path, not just groups[0].
+  const first = groups.find((g) => g.path === group.path)
+  return (route.hash || first?.hash) === group.hash
 }
 
 function toggleSection(key) {

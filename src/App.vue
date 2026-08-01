@@ -170,14 +170,15 @@
                 </div>
               </div>
             </div>
-            <!-- Core Rules: the seven chapters are anchors on one page, not routes. The
-                 highlight follows the scroll-spy, not the URL — scrolling never changes it. -->
+            <!-- Core Rules / Event Companion: the chapters are anchors on one page, not
+                 routes. The highlight follows the scroll-spy, not the URL — scrolling never
+                 changes it. -->
             <a
               v-else-if="item.hash"
               :href="item.hash"
               class="subnav-link"
-              :class="{ active: isCoreChapterActive(item) }"
-              @click.prevent="goToCoreAnchor(item.hash.slice(1))"
+              :class="{ active: isChapterActive(item) }"
+              @click.prevent="goToChapterAnchor(item.hash.slice(1))"
             >{{ item.label }}</a>
             <RouterLink
               v-else
@@ -195,7 +196,7 @@
       <div v-if="mobileNavOpen" class="nav-overlay" @click="mobileNavOpen = false"></div>
     </Transition>
 
-    <main class="main-content" :class="{ 'main-content--wide': isCoreRoute }">
+    <main class="main-content" :class="{ 'main-content--wide': isCoreRoute || isEventRoute }">
       <RouterView v-slot="{ Component }">
         <Transition name="fade" mode="out-in">
           <component :is="Component" :key="$route.path" />
@@ -266,7 +267,7 @@ import { useKeywordPopover } from './composables/useKeywordPopover.js'
 import { useTracker } from './composables/useTracker.js'
 import { resolveRef, useRefNavigation } from './composables/useRefNavigation.js'
 import { activeSectionId } from './composables/useActiveSection.js'
-import { navGroups, navGroupsRu, CORE_PATH } from './router/index.js'
+import { navGroups, navGroupsRu, CORE_PATH, eventGroups, eventGroupsRu, EVENT_PATH } from './router/index.js'
 import { useViewRestore } from './composables/useViewRestore.js'
 import { applyRouteMeta } from './composables/useSeoMeta.js'
 import { ui } from './i18n/ui.js'
@@ -416,29 +417,37 @@ const coreSubNavItems = computed(() => {
   }))
 })
 
+// Event Companion's chapters are anchors on the one /event-companion page too — built off
+// eventGroups the same way, with the subnav's own shorter labels, in the same order
+// (Teams included: since everything's one page now, hiding one of the seven chapters from
+// the subnav would be an arbitrary exception).
+const EVENT_SUBNAV_LABELS = [
+  'subNavEventIntro', 'subNavEventSequence', 'subNavEventMissions', 'subNavEventLayouts',
+  'subNavEventPairings', 'subNavEventTeams', 'subNavEventFaq',
+]
+
+const eventSubNavItems = computed(() => {
+  const groups = locale.value === 'ru' ? eventGroupsRu : eventGroups
+  return groups.map((g, i) => ({
+    hash: g.hash,
+    label: labels.value[EVENT_SUBNAV_LABELS[i]],
+    sectionIds: g.sections.map((s) => s.id),
+  }))
+})
+
 // A chapter tab stays lit for any of its sections, so the highlight tracks reading position
-// rather than the last click.
-function isCoreChapterActive(item) {
+// rather than the last click. Shared by Core Rules and Event Companion — both write the same
+// module-singleton activeSectionId (useActiveSection.js), and only one of the two pages is
+// ever mounted at a time, so there's never a mismatch between item.hash and the active id.
+function isChapterActive(item) {
   const id = activeSectionId.value
   if (!id) return false
   return item.hash.slice(1) === id || item.sectionIds.includes(id)
 }
 
-function goToCoreAnchor(anchor) {
-  navigateTo({ route: CORE_PATH, anchor })
+function goToChapterAnchor(anchor) {
+  navigateTo({ route: isEventRoute.value ? EVENT_PATH : CORE_PATH, anchor })
 }
-
-const eventSubNavItems = computed(() => {
-  const l = labels.value
-  return [
-    { path: '/event-companion', label: l.subNavEventIntro },
-    { path: '/event-companion/sequence', label: l.subNavEventSequence },
-    { path: '/event-companion/missions', label: l.subNavEventMissions },
-    { path: '/event-companion/layouts', label: l.subNavEventLayouts },
-    { path: '/event-companion/pairings', label: l.subNavEventPairings },
-    { path: '/event-companion/faq', label: l.subNavEventFaq },
-  ]
-})
 
 const trackerSubNavItems = computed(() => {
   const l = labels.value
@@ -1085,11 +1094,17 @@ a.nd-link:hover {
   padding: 0 2rem 4rem;
 }
 
-/* Only the single Core Rules page: its rules are laid out in two columns (`.rule-columns`
-   in style.css), which needs room. Every other section stays at the 860px reading measure.
-   Below 900px the mobile padding rules take over and this has no effect. */
+/* Only the merged Core Rules and Event Companion pages: their prose chapters lay out in
+   two columns (`.rule-columns` in style.css), which needs room. Every other section stays
+   at the 860px reading measure. Below 900px the mobile padding rules take over and this
+   has no effect. The background sets these two pages apart as a distinct content panel
+   against the page's own background — `--bg-content` (style.css), a dedicated tone one
+   gentle step up from `--bg-primary`, not `--bg-secondary` (that one is tuned as a
+   *recessed* strip for the subnav and is darker than `--bg-primary` in light mode, which
+   made a full panel look muddy). */
 .main-content--wide {
-  max-width: 1280px;
+  max-width: 1120px;
+  background: var(--bg-content);
 }
 
 /* ── Mobile ── */

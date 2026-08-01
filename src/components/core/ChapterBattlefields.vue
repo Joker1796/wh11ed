@@ -23,6 +23,7 @@
           :note="sub.note"
           :example="sub.example"
           :see-also="sub.seeAlso"
+          :side-image="sub.sideImage"
           :children="sub.children"
         />
       </div>

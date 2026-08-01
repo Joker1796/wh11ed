@@ -9,25 +9,32 @@
       :phase="section.phase"
     />
 
-    <template v-for="grp in chunkSubsections(section.subsections)" :key="grp.key">
+    <template v-for="grp in chunkSubsections(splitSubsections(section.subsections))" :key="grp.key">
       <div v-if="grp.type === 'columns'" class="rule-columns">
-        <RuleBlock
-          v-for="sub in grp.items"
-          :key="sub.id"
-          :id="sub.id"
-          :section-num="sub.sectionNum"
-          :title="sub.title"
-          :body="sub.body"
-          :note="sub.note"
-          :example="sub.example"
-          :see-also="sub.seeAlso"
-          :children="sub.children"
-        />
+        <template v-for="sub in grp.items" :key="sub.id">
+          <div v-if="sub.isSplitBlock" :id="sub.id" class="split-block">
+            <RuleBody :id="sub.id" :body="sub.body" />
+          </div>
+          <RuleBlock
+            v-else
+            :id="sub.id"
+            :section-num="sub.sectionNum"
+            :title="sub.title"
+            :body="sub.body"
+            :note="sub.note"
+            :example="sub.example"
+            :see-also="sub.seeAlso"
+            :children="sub.children"
+          />
+        </template>
       </div>
 
       <template v-else>
+        <div v-if="grp.item.isSplitBlock" :id="grp.item.id" class="split-block">
+          <RuleBody :id="grp.item.id" :body="grp.item.body" />
+        </div>
         <GroupLabelBlock
-          v-if="grp.item.isGroupLabel"
+          v-else-if="grp.item.isGroupLabel"
           :title="grp.item.title"
           :body="grp.item.body"
         />
@@ -56,11 +63,19 @@
 <script setup>
 import SectionHeader from '../SectionHeader.vue'
 import RuleBlock from '../RuleBlock.vue'
+import RuleBody from '../RuleBody.vue'
 import SectionTocBlock from '../SectionTocBlock.vue'
 import GroupLabelBlock from '../GroupLabelBlock.vue'
 import { battleRound } from '../../data/battleRound.js'
 import { useBilingualSections } from '../../composables/useBilingualMerge.js'
-import { chunkSubsections } from '../../composables/columnChunks.js'
+import { chunkSubsections, splitSubsections } from '../../composables/columnChunks.js'
 
 const sections = useBilingualSections(battleRound)
 </script>
+
+<style scoped>
+.split-block {
+  margin-bottom: 1rem;
+  scroll-margin-top: var(--header-total);
+}
+</style>

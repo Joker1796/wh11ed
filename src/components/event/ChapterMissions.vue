@@ -1,97 +1,90 @@
 <template>
-  <div class="view">
-    <div class="view-hero">
-      <h1>{{ labels.eventMissionsHeading }}</h1>
-      <p class="view-hero-desc">{{ labels.eventMissionsDesc }}</p>
+  <h2 class="chapter-heading">{{ labels.eventMissionsHeading }}</h2>
+  <p class="chapter-desc">{{ labels.eventMissionsDesc }}</p>
+
+  <SeeAlsoBlock :refs="introRefs" />
+  <p class="lead">{{ labels.missionsIntro }}</p>
+
+  <!-- Filters: type (all / primary / secondary) + Force Disposition (primary only) -->
+  <div class="filters">
+    <div class="seg">
+      <button :class="{ on: typeFilter === 'all' }" @click="typeFilter = 'all'">{{ labels.filterAll }}</button>
+      <button :class="{ on: typeFilter === 'primary' }" @click="typeFilter = 'primary'">{{ labels.missionsTypePrimary }}</button>
+      <button :class="{ on: typeFilter === 'secondary' }" @click="typeFilter = 'secondary'">{{ labels.missionsTypeSecondary }}</button>
+      <button :class="{ on: typeFilter === 'twists' }" @click="typeFilter = 'twists'">{{ labels.missionsTypeTwists }}</button>
     </div>
-
-    <SeeAlsoBlock :refs="introRefs" />
-    <p class="lead">{{ labels.missionsIntro }}</p>
-
-    <!-- Filters: type (all / primary / secondary) + Force Disposition (primary only) -->
-    <div class="filters">
-      <div class="seg">
-        <button :class="{ on: typeFilter === 'all' }" @click="typeFilter = 'all'">{{ labels.filterAll }}</button>
-        <button :class="{ on: typeFilter === 'primary' }" @click="typeFilter = 'primary'">{{ labels.missionsTypePrimary }}</button>
-        <button :class="{ on: typeFilter === 'secondary' }" @click="typeFilter = 'secondary'">{{ labels.missionsTypeSecondary }}</button>
-        <button :class="{ on: typeFilter === 'twists' }" @click="typeFilter = 'twists'">{{ labels.missionsTypeTwists }}</button>
+    <Transition name="fade">
+      <div v-if="showPrimary" class="dispo-chips">
+        <button class="chip" :class="{ on: dispoFilter === 'all' }" @click="dispoFilter = 'all'">{{ labels.filterAll }}</button>
+        <button
+          v-for="d in dispositions"
+          :key="d.id"
+          class="chip"
+          :class="{ on: dispoFilter === d.id }"
+          @click="dispoFilter = d.id"
+        >
+          <img v-if="d.icon" :src="d.icon" :alt="d.name" class="chip-icon" />
+          {{ d.name }}
+        </button>
       </div>
-      <Transition name="fade">
-        <div v-if="showPrimary" class="dispo-chips">
-          <button class="chip" :class="{ on: dispoFilter === 'all' }" @click="dispoFilter = 'all'">{{ labels.filterAll }}</button>
-          <button
-            v-for="d in dispositions"
-            :key="d.id"
-            class="chip"
-            :class="{ on: dispoFilter === d.id }"
-            @click="dispoFilter = d.id"
-          >
-            <img v-if="d.icon" :src="d.icon" :alt="d.name" class="chip-icon" />
-            {{ d.name }}
-          </button>
-        </div>
-      </Transition>
-    </div>
-
-    <!-- Primary missions — grouped by the five Force Dispositions -->
-    <Transition name="fade">
-      <section v-if="showPrimary" id="missions-primary" class="m-section">
-        <h2 class="section-heading">{{ labels.missionsPrimaryHeading }}</h2>
-        <TransitionGroup tag="div" name="list" class="mgroups">
-          <div v-for="g in filteredPrimaryGroups" :key="g.id" class="mgroup">
-            <h3 class="mgroup-label">
-              <img v-if="g.icon" :src="g.icon" :alt="g.name" class="mgroup-icon" />
-              {{ g.name }}
-            </h3>
-            <div class="mcards">
-              <MissionCard
-                v-for="m in g.missions"
-                :key="m.slug"
-                :mission="m"
-                :subtitle="`${labels.trackerVs} ${m.opponent}`"
-              />
-            </div>
-          </div>
-        </TransitionGroup>
-      </section>
     </Transition>
-
-    <!-- Secondary missions — one shared pool (identical for Attacker and Defender) -->
-    <Transition name="fade">
-      <section v-if="showSecondary" id="missions-secondary" class="m-section">
-        <h2 class="section-heading">{{ labels.missionsSecondaryHeading }}</h2>
-        <div class="mcards">
-          <MissionCard
-            v-for="m in secondaryList"
-            :key="m.slug"
-            :mission="m"
-            :subtitle="m.category"
-          />
-        </div>
-      </section>
-    </Transition>
-
-    <!-- Twists — optional pre-game modifiers (also selectable in the Game Tracker) -->
-    <Transition name="fade">
-      <section v-if="showTwists" id="missions-twists" class="m-section">
-        <h2 class="section-heading">{{ labels.missionsTwistsHeading }}</h2>
-        <p class="lead">{{ twists.intro }}</p>
-        <div class="mcards">
-          <TwistCard v-for="t in twists.blocks" :key="t.id" :twist="t" />
-        </div>
-      </section>
-    </Transition>
-
-    <PageNav />
   </div>
+
+  <!-- Primary missions — grouped by the five Force Dispositions -->
+  <Transition name="fade">
+    <section v-if="showPrimary" id="missions-primary" class="m-section">
+      <h3 class="section-heading">{{ labels.missionsPrimaryHeading }}</h3>
+      <TransitionGroup tag="div" name="list" class="mgroups">
+        <div v-for="g in filteredPrimaryGroups" :key="g.id" class="mgroup">
+          <h4 class="mgroup-label">
+            <img v-if="g.icon" :src="g.icon" :alt="g.name" class="mgroup-icon" />
+            {{ g.name }}
+          </h4>
+          <div class="mcards">
+            <MissionCard
+              v-for="m in g.missions"
+              :key="m.slug"
+              :mission="m"
+              :subtitle="`${labels.trackerVs} ${m.opponent}`"
+            />
+          </div>
+        </div>
+      </TransitionGroup>
+    </section>
+  </Transition>
+
+  <!-- Secondary missions — one shared pool (identical for Attacker and Defender) -->
+  <Transition name="fade">
+    <section v-if="showSecondary" id="missions-secondary" class="m-section">
+      <h3 class="section-heading">{{ labels.missionsSecondaryHeading }}</h3>
+      <div class="mcards">
+        <MissionCard
+          v-for="m in secondaryList"
+          :key="m.slug"
+          :mission="m"
+          :subtitle="m.category"
+        />
+      </div>
+    </section>
+  </Transition>
+
+  <!-- Twists — optional pre-game modifiers (also selectable in the Game Tracker) -->
+  <Transition name="fade">
+    <section v-if="showTwists" id="missions-twists" class="m-section">
+      <h3 class="section-heading">{{ labels.missionsTwistsHeading }}</h3>
+      <p class="lead">{{ twists.intro }}</p>
+      <div class="mcards">
+        <TwistCard v-for="t in twists.blocks" :key="t.id" :twist="t" />
+      </div>
+    </section>
+  </Transition>
 </template>
 
 <script setup>
 import { ref, computed, watch } from 'vue'
-import MissionCard from '../../components/event/MissionCard.vue'
-import TwistCard from '../../components/event/TwistCard.vue'
-import SeeAlsoBlock from '../../components/SeeAlsoBlock.vue'
-import PageNav from '../../components/PageNav.vue'
+import MissionCard from './MissionCard.vue'
+import TwistCard from './TwistCard.vue'
+import SeeAlsoBlock from '../SeeAlsoBlock.vue'
 import { getMissions } from '../../data/missions.js'
 import { eventCompanion, getEventContent } from '../../data/eventCompanion.js'
 import { ui } from '../../i18n/ui.js'
@@ -101,7 +94,7 @@ import { getItem, setItem } from '../../composables/safeStorage.js'
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
-// How a player's Primary is chosen and how scoring works live on the Sequence page;
+// How a player's Primary is chosen and how scoring works live on the Sequence chapter;
 // which Primary applies to each matchup is shown on the Terrain & Layouts matrix.
 const introRefs = computed(() =>
   locale.value === 'ru'

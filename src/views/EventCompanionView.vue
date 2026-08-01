@@ -1,17 +1,17 @@
 <template>
   <div class="view">
     <div class="view-hero">
-      <h1>{{ labels.coreRulesHeading }}</h1>
-      <p class="view-hero-desc">{{ labels.coreRulesDesc }}</p>
+      <h1>{{ labels.eventCompanionHeading }}</h1>
+      <p class="view-hero-desc">{{ labels.eventCompanionDesc }}</p>
     </div>
 
-    <CoreRulesToc :active-id="activeId" @select="goToAnchor" />
+    <EventCompanionToc :active-id="activeId" @select="goToAnchor" />
 
     <section
       v-for="chapter in chapters"
       :key="chapter.id"
       :id="chapter.id"
-      class="core-chapter"
+      class="event-chapter"
     >
       <component :is="chapter.component" />
     </section>
@@ -19,14 +19,12 @@
     <!-- Desktop FAB, stacked above the slot App.vue's BackToTopButton occupies, and shown
          only alongside it (same scroll threshold) — at the top of the page there's nothing
          to jump back up to yet. Mobile gets the same action through MobileUtilityBar
-         (contributed below) — no third floating element fighting for the corner. A plain
-         reactive class (not v-if + Transition) — this view is itself the child of App.vue's
-         routed <Transition mode="out-in">, and a second Transition nested inside it never
-         completed its own leave, so the button got stuck visible instead of unmounting. -->
+         (contributed below) — same recipe as CoreRulesView's own contents button. A plain
+         reactive class (not v-if + Transition) — see CoreRulesView.vue for why. -->
     <button
       type="button"
-      class="fab-btn core-toc-fab"
-      :class="{ 'core-toc-fab--hidden': !backToTopVisible }"
+      class="fab-btn event-toc-fab"
+      :class="{ 'event-toc-fab--hidden': !backToTopVisible }"
       :aria-hidden="!backToTopVisible"
       :tabindex="backToTopVisible ? 0 : -1"
       :title="labels.openContents"
@@ -36,7 +34,7 @@
       <i class="bi bi-list-ul"></i>
     </button>
 
-    <CoreRulesTocModal
+    <EventCompanionTocModal
       v-if="tocOpen"
       :active-id="activeId"
       @close="tocOpen = false"
@@ -48,50 +46,47 @@
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import CoreRulesToc from '../components/core/CoreRulesToc.vue'
-import CoreRulesTocModal from '../components/core/CoreRulesTocModal.vue'
-import ChapterIntro from '../components/core/ChapterIntro.vue'
-import ChapterBasicRules from '../components/core/ChapterBasicRules.vue'
-import ChapterBattleRound from '../components/core/ChapterBattleRound.vue'
-import ChapterBattlefields from '../components/core/ChapterBattlefields.vue'
-import ChapterAdvancedRules from '../components/core/ChapterAdvancedRules.vue'
-import ChapterReference from '../components/core/ChapterReference.vue'
-import ChapterMuster from '../components/core/ChapterMuster.vue'
+import EventCompanionToc from '../components/event/EventCompanionToc.vue'
+import EventCompanionTocModal from '../components/event/EventCompanionTocModal.vue'
+import ChapterIntro from '../components/event/ChapterIntro.vue'
+import ChapterSequence from '../components/event/ChapterSequence.vue'
+import ChapterMissions from '../components/event/ChapterMissions.vue'
+import ChapterLayouts from '../components/event/ChapterLayouts.vue'
+import ChapterPairings from '../components/event/ChapterPairings.vue'
+import ChapterTeams from '../components/event/ChapterTeams.vue'
+import ChapterFaq from '../components/event/ChapterFaq.vue'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
-import { useAbilityFilter } from '../composables/useAbilityFilter.js'
 import { useActiveSection } from '../composables/useActiveSection.js'
 import { useContributeMobileActions } from '../composables/useMobileActionBar.js'
 import { scrollToAnchor } from '../composables/useRefNavigation.js'
 import { useBackToTop } from '../composables/useBackToTop.js'
-import { navGroups, navGroupsRu, CORE_PATH } from '../router/index.js'
+import { eventGroups, eventGroupsRu, EVENT_PATH } from '../router/index.js'
 
 const { locale } = useLocale()
 const route = useRoute()
 const router = useRouter()
 const labels = computed(() => ui[locale.value])
 
-// Every chapter is imported statically and rendered at once — the data files were already
-// all in the precache (useSearch.js imports them), and offscreen chapters cost nothing to
-// lay out thanks to `content-visibility` below. The wrapper <section> lives here, not in
-// the chapter components, so that rule sits in exactly one place.
+// Every chapter is imported statically and rendered at once — the Event Companion data
+// was already one module (`eventCompanion.js` + `missions.js`), not seven separate files,
+// so there's nothing to keep out of the bundle by lazy-loading chapters individually.
 const chapters = [
-  { id: 'chapter-intro', component: ChapterIntro },
-  { id: 'chapter-basic-rules', component: ChapterBasicRules },
-  { id: 'chapter-battle-round', component: ChapterBattleRound },
-  { id: 'chapter-battlefields', component: ChapterBattlefields },
-  { id: 'chapter-advanced-rules', component: ChapterAdvancedRules },
-  { id: 'chapter-reference', component: ChapterReference },
-  { id: 'chapter-muster', component: ChapterMuster },
+  { id: 'ec-chapter-intro', component: ChapterIntro },
+  { id: 'ec-chapter-sequence', component: ChapterSequence },
+  { id: 'ec-chapter-missions', component: ChapterMissions },
+  { id: 'ec-chapter-layouts', component: ChapterLayouts },
+  { id: 'ec-chapter-pairings', component: ChapterPairings },
+  { id: 'ec-chapter-teams', component: ChapterTeams },
+  { id: 'ec-chapter-faq', component: ChapterFaq },
 ]
 
 const tocOpen = ref(false)
-const { activeFilter } = useAbilityFilter()
 const { visible: backToTopVisible } = useBackToTop()
 
 // The anchors the TOC lists, in document order — the scroll-spy walks exactly these.
 const spyIds = computed(() => {
-  const groups = locale.value === 'ru' ? navGroupsRu : navGroups
+  const groups = locale.value === 'ru' ? eventGroupsRu : eventGroups
   const ids = []
   for (const g of groups) {
     ids.push(g.hash.slice(1))
@@ -105,23 +100,22 @@ const { activeId, measure } = useActiveSection(spyIds)
 // so the position is shareable and useViewRestore can remember it; scrollToAnchor does the
 // actual work — it polls for the element, which is what makes a jump into a chapter that
 // `content-visibility` has not laid out yet land in the right place.
-async function goToAnchor(id, filter) {
-  if (filter) activeFilter.value = filter
-  if (route.hash !== '#' + id) await router.push({ path: CORE_PATH, hash: '#' + id })
+async function goToAnchor(id) {
+  if (route.hash !== '#' + id) await router.push({ path: EVENT_PATH, hash: '#' + id })
   scrollToAnchor(id)
 }
 
-function onModalSelect(id, filter) {
+function onModalSelect(id) {
   tocOpen.value = false
-  goToAnchor(id, filter)
+  goToAnchor(id)
 }
 
 // Mobile: the TOC button joins the shared utility strip instead of adding another fixed
 // element above the bottom nav — shown only once scrolled down, same as the desktop FAB and
 // the bar's own back-to-top icon right next to it (both read backToTopVisible/useBackToTop).
-useContributeMobileActions('core-toc', () => !backToTopVisible.value ? [] : [
+useContributeMobileActions('event-toc', () => !backToTopVisible.value ? [] : [
   {
-    key: 'core-toc',
+    key: 'event-toc',
     icon: 'bi bi-list-ul',
     label: labels.value.openContents,
     onClick: () => { tocOpen.value = true },
@@ -141,17 +135,15 @@ watch(() => route.hash, (hash) => {
 </script>
 
 <style scoped>
-/* Skip layout/paint for chapters that are off screen. `auto` in contain-intrinsic-size
-   makes the browser remember each chapter's real height after it has been rendered once,
-   so the scrollbar doesn't jump around as the reader moves through the page. Where it's
-   unsupported the page just renders in full — the behaviour it had as seven pages. */
-.core-chapter {
+/* Skip layout/paint for chapters that are off screen — same treatment as Core Rules'
+   .core-chapter (see CoreRulesView.vue for the full rationale). */
+.event-chapter {
   content-visibility: auto;
   contain-intrinsic-size: auto 3000px;
   scroll-margin-top: var(--header-total);
 }
 
-.core-toc-fab {
+.event-toc-fab {
   display: none;
   position: fixed;
   right: 1.5rem;
@@ -165,13 +157,13 @@ watch(() => route.hash, (hash) => {
   transition: opacity var(--motion-fast) ease, transform var(--motion-fast) ease;
 }
 
-.core-toc-fab--hidden {
+.event-toc-fab--hidden {
   opacity: 0;
   transform: scale(0.6);
   pointer-events: none;
 }
 
 @media (min-width: 901px) {
-  .core-toc-fab { display: flex; }
+  .event-toc-fab { display: flex; }
 }
 </style>

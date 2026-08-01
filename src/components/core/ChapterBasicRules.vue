@@ -15,22 +15,43 @@
       class="section-img section-img--lead"
     />
 
-    <template v-for="grp in chunkSubsections(section.subsections, hasTableAfter)" :key="grp.key">
+    <template v-for="grp in chunkSubsections(section.subsections)" :key="grp.key">
       <div v-if="grp.type === 'columns'" class="rule-columns">
-        <RuleBlock
-          v-for="sub in grp.items"
-          :key="sub.id"
-          :id="sub.id"
-          :section-num="sub.sectionNum"
-          :title="sub.title"
-          :body="sub.body"
-          :note="sub.note"
-          :example="sub.example"
-          :see-also="sub.seeAlso"
-          :children="sub.children"
-        >
-          <DefinitionBlock v-if="sub.definitions" :definitions="sub.definitions" />
-        </RuleBlock>
+        <template v-for="sub in grp.items" :key="sub.id">
+          <RuleBlock
+            :id="sub.id"
+            :section-num="sub.sectionNum"
+            :title="sub.title"
+            :body="sub.body"
+            :note="sub.note"
+            :example="sub.example"
+            :see-also="sub.seeAlso"
+            :side-image="sub.sideImage"
+            :children="sub.children"
+          >
+            <div v-if="sub.illustration" class="section-illustration">
+              <AppImage :src="sub.illustration.src" :alt="sub.illustration.alt" />
+              <SeeAlsoBlock
+                :title="sub.illustration.seeAlso.title"
+                :refs="sub.illustration.seeAlso.refs"
+              />
+            </div>
+            <AppImage
+              v-if="sub.image"
+              :src="sub.image.src"
+              :alt="sub.image.alt"
+              class="section-img"
+            />
+            <DefinitionBlock v-if="sub.definitions" :definitions="sub.definitions" />
+          </RuleBlock>
+          <div v-if="sub.id === 'section-05-02' && section.woundTable" class="table-section">
+            <DataTable
+              :title="labels.woundTableTitle"
+              :headers="section.woundTable.headers"
+              :rows="section.woundTable.rows"
+            />
+          </div>
+        </template>
       </div>
 
       <template v-else>
@@ -96,9 +117,6 @@ import { chunkSubsections } from '../../composables/columnChunks.js'
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-
-// 05.02 is followed by the full-width wound table, so it can't sit in a column group.
-const hasTableAfter = (sub) => sub.id === 'section-05-02'
 
 const sections = useBilingualSections(basicRules, (section, ruSection) =>
   section.woundTable

@@ -86,53 +86,15 @@ const ROUTES = {
       ru: 'Стартовые наборы Combat Patrol для Warhammer 40,000 11-й редакции — правило детачмента, стратагемы, улучшения и датащиты для каждой фракции.',
     },
   },
+  // All seven chapters are one page now, so this single entry has to carry the keywords the
+  // seven separate ones used to: mission sequence, missions and twists, terrain and layouts,
+  // pairings and rankings, teams events, errata and FAQs. The old paths still resolve — they
+  // redirect (see router/index.js) — but they render no component, so they need no entry.
   '/event-companion': {
     title: { en: 'Event Companion', ru: 'Event Companion' },
     description: {
-      en: 'The Warhammer 40,000 Event Companion: matched-play missions, terrain layouts, pairings and FAQs for tournaments.',
-      ru: 'Warhammer 40,000 Event Companion: турнирные миссии, раскладки террейна, паринги и FAQ для matched play.',
-    },
-  },
-  '/event-companion/sequence': {
-    title: { en: 'Mission Sequence — Event Companion', ru: 'Последовательность миссии — Event Companion' },
-    description: {
-      en: 'Pre-game sequence: muster armies, determine the mission, create the battlefield, deploy and begin the battle — Warhammer 40,000 Event Companion.',
-      ru: 'Предбоевая последовательность: сбор армий, определение миссии, создание поля боя, развёртывание и начало битвы — Event Companion.',
-    },
-  },
-  '/event-companion/missions': {
-    title: { en: 'Missions — Event Companion', ru: 'Миссии — Event Companion' },
-    description: {
-      en: 'All 25 primary and 18 secondary missions plus pre-game twists, browsable by Force Disposition — Warhammer 40,000 Event Companion.',
-      ru: 'Все 25 основных и 18 вторичных миссий плюс предбоевые твисты, с фильтром по диспозициям сил — Warhammer 40,000 Event Companion.',
-    },
-  },
-  '/event-companion/layouts': {
-    title: { en: 'Terrain & Layouts — Event Companion', ru: 'Террейн и раскладки — Event Companion' },
-    description: {
-      en: 'Terrain footprints, the layouts key and the 5×5 mission matrix with matchup diagrams — Warhammer 40,000 Event Companion.',
-      ru: 'Footprints террейна, легенда раскладок и матрица миссий 5×5 с диаграммами матчапов — Warhammer 40,000 Event Companion.',
-    },
-  },
-  '/event-companion/pairings': {
-    title: { en: 'Pairings & Rankings — Event Companion', ru: 'Паринги и ранжирование — Event Companion' },
-    description: {
-      en: 'Pairing and ranking players at events, plus the rules appendix, errata and FAQs — Warhammer 40,000 Event Companion.',
-      ru: 'Составление пар и ранжирование игроков на турнирах, приложение правил, эррата и FAQ — Warhammer 40,000 Event Companion.',
-    },
-  },
-  '/event-companion/teams': {
-    title: { en: 'Teams Event — Event Companion', ru: 'Командный ивент — Event Companion' },
-    description: {
-      en: 'Running a Warhammer 40,000 Teams Event: team composition, the pairing system (Initial Skirmish, Main Engagement, Champion System) and team scoring.',
-      ru: 'Проведение командного ивента Warhammer 40,000: состав команды, система паринга (Initial Skirmish, Main Engagement, Champion System) и командный подсчёт.',
-    },
-  },
-  '/event-companion/faq': {
-    title: { en: 'Errata & FAQs — Event Companion', ru: 'Эррата и FAQ — Event Companion' },
-    description: {
-      en: 'Errata and frequently asked questions for the Warhammer 40,000 Event Companion.',
-      ru: 'Эррата и часто задаваемые вопросы по Warhammer 40,000 Event Companion.',
+      en: 'The Warhammer 40,000 Event Companion on one page: pre-game mission sequence, all primary and secondary missions plus twists, terrain layouts and the mission matrix, pairings and rankings, running a Teams Event, and errata & FAQs for tournaments.',
+      ru: 'Warhammer 40,000 Event Companion одной страницей: предбоевая последовательность миссии, все основные и вторичные миссии плюс твисты, раскладки террейна и матрица миссий, паринги и ранжирование, командные ивенты, эррата и FAQ для турниров.',
     },
   },
   '/tracker': {
