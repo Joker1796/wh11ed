@@ -415,7 +415,7 @@ function handleDefClick(e) {
 .ability-name {
   margin: 0;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 1.05rem;
   line-height: 1.3;
   flex: 1;
   color: var(--text-primary);
