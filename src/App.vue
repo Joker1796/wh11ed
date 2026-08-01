@@ -73,8 +73,17 @@
             </svg>
             <span class="search-hint">Ctrl K</span>
           </button>
-          <button class="lang-btn" @click="toggleLocale" :title="locale === 'en' ? labels.langToRu : labels.langToEn" :aria-label="locale === 'en' ? labels.langToRu : labels.langToEn">
-            {{ locale === 'en' ? 'RU' : 'EN' }}
+          <button
+            class="lang-btn"
+            role="switch"
+            :aria-checked="locale === 'ru'"
+            @click="toggleLocale"
+            :title="locale === 'en' ? labels.langToRu : labels.langToEn"
+            :aria-label="locale === 'en' ? labels.langToRu : labels.langToEn"
+          >
+            <span class="lang-thumb" aria-hidden="true"></span>
+            <span class="lang-opt" data-lang="en">EN</span>
+            <span class="lang-opt" data-lang="ru">RU</span>
           </button>
           <button
             class="lore-btn"
@@ -743,21 +752,58 @@ a.nd-link:hover {
 }
 
 .lang-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  height: 2.15rem;
+  width: 2.75rem;
   background: rgba(255,255,255,0.07);
   border: 1px solid rgba(255,255,255,0.14);
-  color: rgba(255,255,255,0.65);
   border-radius: 4px;
-  padding: 0.3rem 0.6rem;
+  padding: 0;
   cursor: pointer;
-  font-size: 0.72rem;
-  font-weight: 700;
-  font-family: var(--font-mono);
-  letter-spacing: 0.5px;
-  transition: background 0.15s, color 0.15s;
+  overflow: hidden;
+  transition: background 0.15s;
 }
 
 .lang-btn:hover {
   background: rgba(255,255,255,0.13);
+}
+
+/* Sliding thumb — sits behind the two labels, ~half the track, and slides to
+   whichever side (EN/RU) is the current locale. */
+.lang-thumb {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 50%;
+  background: color-mix(in srgb, var(--accent) 55%, transparent);
+  border: 1px solid var(--accent);
+  border-radius: 3px;
+  transition: left 0.18s ease;
+}
+
+.lang-btn[aria-checked="true"] .lang-thumb {
+  left: 50%;
+}
+
+.lang-opt {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  letter-spacing: 0.5px;
+  color: rgba(255,255,255,0.55);
+  transition: color 0.15s;
+  pointer-events: none;
+}
+
+.lang-btn[aria-checked="false"] .lang-opt[data-lang="en"],
+.lang-btn[aria-checked="true"] .lang-opt[data-lang="ru"] {
   color: #fff;
 }
 
@@ -765,13 +811,14 @@ a.nd-link:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  height: 2.15rem;
   background: rgba(255,255,255,0.07);
   border: 1px solid rgba(255,255,255,0.14);
   color: rgba(255,255,255,0.65);
   border-radius: 4px;
-  padding: 0.3rem 0.55rem;
+  padding: 0 0.65rem;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 1.05rem;
   line-height: 1;
   transition: background 0.15s, color 0.15s;
 }
@@ -785,13 +832,14 @@ a.nd-link:hover {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  height: 2.15rem;
   background: rgba(255,255,255,0.07);
   border: 1px solid rgba(255,255,255,0.14);
   color: rgba(255,255,255,0.65);
   border-radius: 4px;
-  padding: 0.3rem 0.55rem;
+  padding: 0 0.65rem;
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 1.05rem;
   line-height: 1;
   transition: background 0.15s, color 0.15s;
 }
@@ -895,11 +943,12 @@ a.nd-link:hover {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  height: 2.15rem;
   background: rgba(255,255,255,0.07);
   border: 1px solid rgba(255,255,255,0.14);
   color: rgba(255,255,255,0.7);
   border-radius: 4px;
-  padding: 0.42rem 0.85rem;
+  padding: 0 0.85rem;
   cursor: pointer;
   font-size: 0.88rem;
   transition: background 0.15s, color 0.15s;
