@@ -1097,9 +1097,14 @@ a.nd-link:hover {
 /* Only the merged Core Rules and Event Companion pages: their prose chapters lay out in
    two columns (`.rule-columns` in style.css), which needs room. Every other section stays
    at the 860px reading measure. Below 900px the mobile padding rules take over and this
-   has no effect. */
+   has no effect. The background sets these two pages apart as a distinct content panel
+   against the page's own background — `--bg-content` (style.css), a dedicated tone one
+   gentle step up from `--bg-primary`, not `--bg-secondary` (that one is tuned as a
+   *recessed* strip for the subnav and is darker than `--bg-primary` in light mode, which
+   made a full panel look muddy). */
 .main-content--wide {
-  max-width: 1280px;
+  max-width: 1120px;
+  background: var(--bg-content);
 }
 
 /* ── Mobile ── */

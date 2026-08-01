@@ -7,17 +7,27 @@
     </div>
   </aside>
 
-  <RuleBlock
-    :id="intro.id"
-    :body="intro.body"
-    :note="intro.note"
-    :see-also="intro.seeAlso"
-  />
+  <div class="rule-body-wrap">
+    <SeeAlsoBlock v-if="intro.seeAlso && intro.seeAlso.length" :refs="intro.seeAlso" />
+
+    <div class="rule-body">
+      <!-- Unlike every other chapter's .rule-columns (each item a whole RuleBlock kept
+           together with break-inside: avoid), the intro is a single block — RuleBody's
+           multi-root fragment puts its paragraphs/lists directly under .rule-columns, so the
+           split happens at that granularity instead, same idea as Core Rules' ChapterIntro. -->
+      <div class="rule-columns">
+        <RuleBody :id="intro.id" :body="intro.body" />
+      </div>
+
+      <div v-if="intro.note" class="note-box" v-html="renderParagraphs(intro.note)"></div>
+    </div>
+  </div>
 </template>
 
 <script setup>
 import { computed } from 'vue'
-import RuleBlock from '../RuleBlock.vue'
+import SeeAlsoBlock from '../SeeAlsoBlock.vue'
+import RuleBody from '../RuleBody.vue'
 import { getEventContent } from '../../data/eventCompanion.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
@@ -28,13 +38,21 @@ const ec = computed(() => getEventContent(locale.value))
 const intro = computed(() => ec.value.sequence.introduction)
 
 const authorEmail = 'gorlovevgeni9617@gmail.com'
+
+function renderParagraphs(text) {
+  return text.split('\n\n').map(p => `<p>${renderInline(p.trim().replace(/\n/g, ' '))}</p>`).join('')
+}
 </script>
 
 <style scoped>
-/* The block carries no title of its own — hide the empty rule header rather than show a
-   blank bar above the translator's note / prose. */
-:deep(.rule-block > .rule-header) {
-  display: none;
+.rule-body-wrap {
+  overflow: hidden;
+}
+
+.rule-body {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--text-primary);
 }
 
 .author-note {
