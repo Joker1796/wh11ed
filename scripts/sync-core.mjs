@@ -24,6 +24,7 @@
 // sides paraphrase. Report only; nothing is written.
 import { ROOT, APPDATA, loadJson, loadModule } from './lib/sync-common.mjs'
 import path from 'node:path'
+import { splitBodyEntries } from '../src/composables/columnChunks.js'
 
 // Section-array files (each `{ en: Section[] }` with subsections/children carrying sectionNum):
 // basicRules 01-06, battleRound 07-12, battlefields 13-16, advancedRules 17-23, muster 25.
@@ -126,7 +127,12 @@ function flattenWh11ed(sections, file, out) {
     // already-correct note/example/table reads as a content gap purely because of where wh11ed
     // happens to store it.
     if (num) {
-      const body = [node.body || node.description, tableText(node.table), node.note, node.example].filter(Boolean).join('\n\n')
+      // splitBody/splitBodies (see columnChunks.js) peel a subsection's trailing [img:] + prose
+      // into synthetic sibling column items for two-column balance — the text still logically
+      // belongs to this subsection's body, so fold it back in here or it silently reads as
+      // missing from wh11ed (appdata has no notion of the split, it's a wh11ed layout device).
+      const splitText = splitBodyEntries(node).map((e) => e.body).join('\n\n')
+      const body = [node.body || node.description, tableText(node.table), node.note, node.example, splitText].filter(Boolean).join('\n\n')
       out.set(num, { title: node.title || '', body, file })
     }
     for (const c of node.subsections || []) walk(c)
