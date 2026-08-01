@@ -29,10 +29,10 @@
   --ability-unit: #004a6e;
   --bg-definition: #cfd0c3;
   --bg-definition-border: #b8b9ac;
-  --sub-rule-bg: #fbf1cf;
-  --sub-rule-head-bg: #f3e1a4;
-  --sub-rule-border: #c49a2f;
-  --sub-rule-ink: #4a3a12;
+  --sub-rule-bg: #eef0e5;
+  --sub-rule-head-bg: #dfe2d0;
+  --sub-rule-border: #9a9d87;
+  --sub-rule-ink: #40422f;
   --font-serif: 'EB Garamond', Georgia, serif;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'Courier New', Courier, monospace;
@@ -209,10 +209,10 @@
   --ability-unit: #5fb2dc;
   --bg-definition: #2a2d2c;
   --bg-definition-border: #3a3d3c;
-  --sub-rule-bg: #2e2a19;
-  --sub-rule-head-bg: #272314;
-  --sub-rule-border: #564a27;
-  --sub-rule-ink: #cabd90;
+  --sub-rule-bg: #292b21;
+  --sub-rule-head-bg: #22241b;
+  --sub-rule-border: #565947;
+  --sub-rule-ink: #c7cab5;
 }
 
 * {
