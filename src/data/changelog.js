@@ -17,6 +17,36 @@
 
 export const changelog = [
   {
+    version: '2.2.0',
+    date: '2026-08-02',
+    en: [
+      { h: 'Core Rules & Event Companion' },
+      'Core Rules and the Event Companion are now each a single scrolling page instead of seven separate ones — a table of contents at the top (also reachable any time from a floating button), and on desktop the rules flow in two columns so there\'s less scrolling to read a section.',
+      'The Event Companion\'s "Teams" chapter is now reachable from the navigation and search — previously it only existed as a direct link.',
+      'Core Rules illustrations (attack sequence diagrams, terrain placement, charge/pile-in/fight/consolidation moves and more) were replaced with official artwork from GW\'s own app instead of older PDF crops — noticeably sharper.',
+      { h: 'Presentation' },
+      'Move/Shooting/Charge/Fight/Deploy "type" rule cards (Normal Move, Assault Shooting, Disembark Move, etc.) have a new look — a dark header distinct from stratagem cards, easier to spot at a glance while flipping through a phase.',
+      'The small xx.xx.xx sub-rule blocks changed color from yellow/gold to a muted grey-olive tone.',
+      'Fixed several places where two-column desktop/tablet layout made text overlap or tables/cards too cramped (Battlefields, Advanced Rules, Reference, Muster).',
+      'The search/language/lore/theme buttons in the header are now a consistent size, and the language switch is now a slider instead of a single letter — the current language reads at a glance.',
+      { h: 'Fixes' },
+      'Fixed jumping to a Core Rules section from another page (e.g. a "(NN.NN)" cross-reference or the FAQ) sometimes landing on the wrong section.',
+    ],
+    ru: [
+      { h: 'Core Rules & Event Companion' },
+      'Основные правила и Путеводитель по ивентам теперь каждый — одна длинная прокручиваемая страница вместо семи отдельных: оглавление наверху (и в любой момент — по плавающей кнопке), а на десктопе текст идёт в две колонки, чтобы меньше скроллить.',
+      'Раздел «Teams» в Путеводителе по ивентам теперь виден в навигации и поиске — раньше на него можно было попасть только по прямой ссылке.',
+      'Иллюстрации основных правил (диаграммы боевой последовательности, расстановка террейна, движения при charge/pile-in/fight/consolidation и другие) заменены на официальную графику из приложения ГВ вместо старых кропов PDF — стали заметно чётче.',
+      { h: 'Оформление' },
+      'Карточки правил-«типов» (Normal Move, Assault Shooting, Disembark Move и т.п. в фазах движения/стрельбы/charge/fight/расстановки) получили новый вид — тёмная шапка, визуально отличная от карточек стратагем, чтобы быстрее находить их взглядом.',
+      'Мелкие блоки правил вида xx.xx.xx сменили цвет с жёлто-золотого на приглушённый серо-оливковый.',
+      'Исправлены места, где на десктопе/планшете в двухколоночной раскладке текст налезал друг на друга или таблицы/карточки были слишком тесными (разделы Battlefields, Advanced Rules, Reference, Muster).',
+      'Кнопки поиска/языка/лора/темы в шапке сайта теперь одного размера, а переключатель языка — «свич»-переключатель вместо одной буквы, состояние читается сразу.',
+      { h: 'Исправления' },
+      'Исправлен переход к разделу основных правил с другой страницы (например, по ссылке «(NN.NN)» или из FAQ) — иногда открывался не тот раздел.',
+    ],
+  },
+  {
     version: '2.1.10',
     date: '2026-07-30',
     en: [
