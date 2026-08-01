@@ -6,15 +6,23 @@
 
   <template v-for="grp in chunks" :key="grp.key">
     <div v-if="grp.type === 'columns'" class="rule-columns">
-      <RuleBlock
-        v-for="block in grp.items"
-        :key="block.id"
-        :id="block.id"
-        :title="block.title"
-        :body="block.body"
-        :note="block.note"
-        :see-also="block.seeAlso"
-      />
+      <template v-for="block in grp.items" :key="block.id">
+        <RuleBlock
+          :id="block.id"
+          :title="block.title"
+          :body="block.body"
+          :note="block.note"
+          :see-also="block.seeAlso"
+        />
+        <div v-if="block.table" class="table-section">
+          <DataTable
+            :title="block.table.title"
+            :headers="block.table.headers"
+            :rows="block.table.rows"
+            :footnote="block.tableNote"
+          />
+        </div>
+      </template>
     </div>
     <template v-else>
       <RuleBlock

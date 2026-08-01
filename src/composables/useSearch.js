@@ -125,7 +125,7 @@ function buildIndex(locale) {
           id: enSub.id,
           sectionNum: enSub.sectionNum,
           title: merged.title || '',
-          body: stripMarkup((merged.body || '') + (merged.note ? ' ' + merged.note : '') + (merged.table ? '\n' + tableText(merged.table) : '')),
+          body: stripMarkup((merged.body || '') + (merged.note ? ' ' + merged.note : '') + (merged.table ? '\n' + tableText(merged.table) : '') + (merged.splitBody ? '\n' + merged.splitBody : '')),
           route,
           sectionTitle,
         })
@@ -140,6 +140,20 @@ function buildIndex(locale) {
             sectionTitle,
           })
         })
+        // splitSubsections() (columnChunks.js) renders `splitBody` as its own RuleBody
+        // under id `<enSub.id>-split` — its h4s need the matching anchor.
+        if (merged.splitBody) {
+          extractH4(merged.splitBody).forEach((heading, hi) => {
+            items.push({
+              id: h4AnchorId(enSub.id + '-split', hi + 1),
+              sectionNum: enSub.sectionNum,
+              title: heading,
+              body: '',
+              route,
+              sectionTitle,
+            })
+          })
+        }
         // x.x.x children (SubRuleBlock) — indexed like subsections, incl. their h4s.
         const ruChildren = ruSub.children || []
         ;(enSub.children || []).forEach((enChild, ci) => {
