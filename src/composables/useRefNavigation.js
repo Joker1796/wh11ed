@@ -67,26 +67,60 @@ export function resolveRef(text) {
   return { label, route, anchor }
 }
 
+// Multiple independent callers can each ask to scroll to an anchor for the very same
+// navigation (e.g. navigateTo() right after a router.push, AND the destination page's own
+// onMounted/route.hash watcher reacting to that same push) — their polling loops would
+// otherwise run concurrently and race, each computing a position off `content-visibility:
+// auto` geometry that's still settling, with whichever loop's window.scrollTo happens to
+// fire last "winning" with a possibly stale value. A generation token makes every new
+// scrollToAnchor() call supersede any still-running earlier one instead of fighting it.
+let scrollGeneration = 0
+
 // Robustly scroll the given element id into view below the sticky header. The target
 // view (and its async illustrations) may not be laid out yet right after a route change,
-// so poll up to ~1.5s for the element, then — once it exists — re-scroll after 400ms to
+// so poll up to ~1.5s for the element, then — once it exists — re-check after 400ms to
 // correct for late-loading images shifting it.
 export function scrollToAnchor(anchor, offset = 100) {
-  const doScroll = () => {
-    // Stratagems render as StratCards with `strat-15-XX` ids, but numeric refs like
-    // (15.08) resolve to `section-15-08`; fall back to the strat- id when there's no
-    // matching section- element so those refs still land on the card.
-    const el = document.getElementById(anchor)
-      || (anchor.startsWith('section-') && document.getElementById(anchor.replace(/^section-/, 'strat-')))
+  const token = ++scrollGeneration
+  // Stratagems render as StratCards with `strat-15-XX` ids, but numeric refs like (15.08)
+  // resolve to `section-15-08`; fall back to the strat- id when there's no matching
+  // section- element so those refs still land on the card.
+  const findEl = () => document.getElementById(anchor)
+    || (anchor.startsWith('section-') && document.getElementById(anchor.replace(/^section-/, 'strat-')))
+
+  const align = () => {
+    const el = findEl()
     if (!el) return false
-    const top = el.getBoundingClientRect().top + window.scrollY - offset
-    window.scrollTo({ top, behavior: 'smooth' })
+    // `el.getBoundingClientRect().top + window.scrollY` looks right but isn't: on a fresh
+    // navigation every `.core-chapter` (content-visibility: auto) is still collapsed to its
+    // contain-intrinsic-size placeholder, including chapters that come BEFORE the target —
+    // they're the target's siblings, not its ancestors, so resolving the target's own layout
+    // does nothing for them, and their placeholder height (not their real one) throws the
+    // hand-computed sum off, landing the scroll in an earlier chapter entirely.
+    // scrollIntoView() doesn't have that problem — the browser resolves the true position
+    // itself, correctly walking any still-collapsed content along the way.
+    el.scrollIntoView({ behavior: 'instant', block: 'start' })
+    window.scrollBy({ top: -offset, behavior: 'instant' })
     return true
   }
+  // The 400ms follow-up is only meant to correct a few dozen px of drift from a late-loading
+  // image — NOT to re-resolve the whole page again. Calling scrollIntoView() a second time
+  // makes the browser re-settle content-visibility for every chapter from scratch (the ones
+  // above are now far off-screen), and that second resolve landed WORSE than the first in
+  // practice, jumping several sections backward. A plain getBoundingClientRect() delta is
+  // safe here because the target's own chapter is already genuinely rendered by this point.
+  const nudge = () => {
+    const el = findEl()
+    if (!el) return
+    const drift = el.getBoundingClientRect().top - offset
+    if (Math.abs(drift) > 4) window.scrollBy({ top: drift, behavior: 'smooth' })
+  }
+
   const start = performance.now()
   const tick = () => {
-    if (doScroll()) {
-      setTimeout(doScroll, 400)
+    if (token !== scrollGeneration) return // superseded by a newer scrollToAnchor() call
+    if (align()) {
+      setTimeout(() => { if (token === scrollGeneration) nudge() }, 400)
     } else if (performance.now() - start < 1500) {
       requestAnimationFrame(tick)
     }
