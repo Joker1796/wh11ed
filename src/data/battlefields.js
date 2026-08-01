@@ -18,9 +18,15 @@ export const battlefields = {
 
 In each case, the area of the battlefield occupied by that boundary or **terrain feature** is known as a **[gloss:terrain-area:terrain area]**. A mission's deployment map may define the location and dimensions of each **terrain area**. Otherwise, players must agree on this before the battle.
 
-[img:/images/terrain/terrain-placed-on-a-mat.jpg|Terrain on a mat — terrain area boundary example]
+### Terrain Placed on a Mat
+[img:/images/terrain/terrain-placed-on-a-mat-diagram.jpg|Terrain on a mat — terrain area boundary example]
 
-[img:/images/terrain/terrain-placed-on-the-battlefield.jpg|Terrain on the battlefield — terrain area boundary example]`,
+Two **terrain features** have been placed on a mat. The edges of this mat define the boundary of this **terrain area (A)**. Both **terrain features (B)** are ruins, so use the rules for **dense terrain features**.
+
+### Terrain Placed on a Battlefield
+[img:/images/terrain/terrain-placed-on-the-battlefield-diagram.jpg|Terrain on the battlefield — terrain area boundary example]
+
+Three **terrain features** have been placed directly on the battlefield. The players have agreed on the boundary of the **terrain area (A)** defined by these features (the shaded rectangle). The **BLUE features (B)** are **dense terrain features** and the **RED feature (C)** is a **light terrain feature**.`,
         },
         {
           id: 'section-13-02',
@@ -230,7 +236,18 @@ At the end of each phase and turn, to determine a player's **[gloss:level-of-con
 
 While one or more units from a player's army are within range of an **objective** that player controls, for each of those units that contains one or more models with an **OC** characteristic of 1 or more, that unit is said to be **controlling** that **objective**.
 
-[img:/images/terrain/controlling-a-terrain-objective.jpg|Controlling a terrain objective — OC and control range]`,
+### Controlling a Terrain Objective
+[img:/images/terrain/controlling-a-terrain-objective-diagram.jpg|Controlling a terrain objective — OC and control range]
+
+VEHICLE **A** has an **OC** characteristic of 3, and it is within the **terrain area**.
+
+VEHICLE **B** has an **OC** characteristic of 2, and it is wholly within the **terrain area**.
+
+The models in unit **C** each have an **OC** characteristic of 1. Six of its models are within the **terrain area**.
+
+Unit **D** is currently **battle-shocked**, so the **OC** characteristic of all of its models is '-'.
+
+Both players add together the **OC** characteristics of all their models that are within the **terrain area**. The BLUE player's **level of control** is 5, and the RED player's **level of control** is 6. The RED player therefore controls the **objective**.`,
           note: 'Hold at All Costs: Some units have abilities that are triggered when they control an **objective**, or when they **[gloss:secured-objective:secure]** an **objective** for your army.',
           children: [
             {
@@ -523,9 +540,15 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
 
 В каждом случае область поля боя, занимаемая этой границей или **элементом укрытия**, известна как **[gloss:terrain-area:область укрытия]**. Карта развёртывания миссии может определять местоположение и размеры каждой **области укрытия**. В противном случае игроки должны договориться об этом до начала битвы.
 
-[img:/images/terrain/terrain-placed-on-a-mat-ru.jpg|Укрытия на подложке — пример границы территории]
+### Укрытия на подложке
+[img:/images/terrain/terrain-placed-on-a-mat-diagram.jpg|Укрытия на подложке — пример границы территории]
 
-[img:/images/terrain/terrain-placed-on-the-battlefield-ru.jpg|Укрытия на поле боя — пример границы территории]`,
+Два **элемента укрытий** размещены на подложке. Края этой подложки определяют границу этой **области укрытия (A)**. Оба **элемента укрытий (B)** — руины, поэтому используйте правила для **надёжных элементов укрытий**.
+
+### Укрытия на поле боя
+[img:/images/terrain/terrain-placed-on-the-battlefield-diagram.jpg|Укрытия на поле боя — пример границы территории]
+
+Три **элемента укрытий** размещены непосредственно на поле боя. Игроки договорились о границе **области укрытия (A)**, определяемой этими элементами (заштрихованный прямоугольник). **Синие элементы (B)** являются **надёжными элементами укрытий**, а **красный элемент (C)** — **лёгким элементом укрытия**.`,
         },
         {
           id: 'section-13-02',
@@ -720,7 +743,18 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
 
 Пока одна или несколько **единиц** из армии игрока находятся в пределах досягаемости до **цели**, которую этот игрок контролирует, для каждой из этих единиц, которая содержит одну или несколько моделей с характеристикой OC 1 или более, считается, что эта единица контролирует данную **цель**.
 
-[img:/images/terrain/controlling-a-terrain-objective-ru.jpg|Захват цели у укрытия — диаграмма контроля]`,
+### Захват цели у укрытия
+[img:/images/terrain/controlling-a-terrain-objective-diagram.jpg|Захват цели у укрытия — диаграмма контроля]
+
+VEHICLE **A** имеет характеристику **OC** 3 и находится в пределах **области укрытия**.
+
+VEHICLE **B** имеет характеристику **OC** 2 и находится полностью в пределах **области укрытия**.
+
+Модели юнита **C** имеют характеристику **OC** 1 каждая. Шесть его моделей находятся в пределах **области укрытия**.
+
+Юнит **D** в настоящее время подвержен **боевому шоку**, поэтому характеристика **OC** всех его моделей равна «—».
+
+Оба игрока складывают вместе характеристики **OC** всех своих моделей, которые находятся в пределах **области укрытия**. **Уровень контроля** синего игрока равен 5, а **уровень контроля** красного игрока равен 6. Поэтому красный игрок контролирует **цель**.`,
           note: 'Удержать любой ценой: Некоторые юниты имеют способности, которые срабатывают, когда они контролируют **[gloss:objective:цель]**, или когда они **[gloss:secured-objective:закрепляют]** **цель** для вашей армии.',
           children: [
             {

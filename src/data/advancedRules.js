@@ -337,7 +337,12 @@ At the end of the third battle round, unless otherwise stated, all **strategic r
 ▪ Your unit cannot be **engaged** with one or more enemy units that were not the **surge target**.
 ▪ Your unit cannot move again this phase.
 
-[img:/images/surge/making-a-surge-move.jpg|Making a surge move — valid target and move diagram]`,
+### Making a Surge Move
+[img:/images/surge/making-a-surge-move-diagram.jpg|Making a surge move — valid target and move diagram]
+
+▪ Unit **A** shoots, and **destroys** two models from unit **B**.
+▪ Unit **B** has an ability that allows it to make a **surge move** of D6" after an enemy unit has shot, if one or more of its models were **destroyed** by those attacks. The active player rolls one D6, resulting in a 4.
+▪ Unit **B** makes a **surge move**, each of its surviving models moving up to 4" towards the closest enemy unit (unit **C**). It ends this move **engaged** with that unit.`,
         },
         {
           id: 'section-21-03',
@@ -768,7 +773,12 @@ VEHICLE может стрелять по отряду INFANTRY **B**, испол
 ▪ Ваш отряд не может находиться **в ближнем бою** с одним или несколькими вражескими отрядами, не являвшимися **целью стремительного манёвра**.
 ▪ Ваш отряд не может двигаться снова в эту фазу.
 
-[img:/images/surge/making-a-surge-move-ru.jpg|Выполнение хода рывка — допустимые цели и движение]`,
+### Выполнение стремительного манёвра
+[img:/images/surge/making-a-surge-move-diagram.jpg|Выполнение хода рывка — допустимые цели и движение]
+
+▪ Отряд **A** стреляет и **уничтожает** две модели отряда **B**.
+▪ Отряд **B** имеет способность, позволяющую ему совершить **стремительный манёвр** на D6" после того, как вражеский отряд отстрелялся, если одна или несколько его моделей были **уничтожены** этими атаками. Активный игрок бросает один D6, выпадает 4.
+▪ Отряд **B** совершает **стремительный манёвр**: каждая его уцелевшая модель перемещается до 4" к ближайшему вражескому отряду (отряд **C**). Он завершает этот манёвр **в ближнем бою** с этим отрядом.`,
         },
         {
           id: 'section-21-03',
