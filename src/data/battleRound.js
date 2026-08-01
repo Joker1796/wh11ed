@@ -124,13 +124,17 @@ The battle round then ends and, unless the battle ends, the next battle round st
 ▪ That unit is currently battle-shocked.
 ▪ That unit is at, or below, **[gloss:half-strength:half-strength]**.
 
-If a unit was battle-shocked at the start of this step and its **battle-shock roll** during this step succeeds, it is no longer battle-shocked.
-
-[img:/images/command/battle-shock-examples.jpg|Battle shock example 1 — failed Battle Shock roll]
-[img:/images/command/battle-shock-examples-2.jpg|Battle shock example 2 — unit with Starting Strength]
-[img:/images/command/battle-shock-examples-3.jpg|Battle shock example 3 — multiple units in range]
-[img:/images/command/battle-shock-examples-4.jpg|Battle shock example 4 — OC reduction]
-`,
+If a unit was battle-shocked at the start of this step and its **battle-shock roll** during this step succeeds, it is no longer battle-shocked.`,
+        // Split out of `body` into 4 independent column items (one per image) — see
+        // splitSubsections()/splitBodyEntries() in columnChunks.js. One glued-together
+        // 4-image block was still too tall to balance well against its neighbours; letting
+        // each image move on its own gives the column balancer far more to work with.
+        splitBodies: [
+          '[img:/images/command/battle-shock-examples.jpg|Battle shock example 1 — failed Battle Shock roll]',
+          '[img:/images/command/battle-shock-examples-2.jpg|Battle shock example 2 — unit with Starting Strength]',
+          '[img:/images/command/battle-shock-examples-3.jpg|Battle shock example 3 — multiple units in range]',
+          '[img:/images/command/battle-shock-examples-4.jpg|Battle shock example 4 — OC reduction]',
+        ],
         seeAlso: ['Battle-Shock Rolls 01.07', 'Half-strength 24.00', 'Multiple Battle-Shock Rolls 24.00'],
         children: [
           {
@@ -735,13 +739,13 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 ▪ Этот юнит в настоящее время подвержен **[gloss:battle-shocked:боевому шоку]**.
 ▪ Этот юнит находится на или ниже **[gloss:half-strength:половинной численности]**.
 
-Если юнит был подвержен **[gloss:battle-shocked:боевому шоку]** в начале этого шага и его проверка **[gloss:battle-shock-test:боевого шока]** во время этого шага успешна, он больше не подвержен **[gloss:battle-shocked:боевому шоку]**.
-
-[img:/images/command/battle-shock-examples-ru.jpg|Тест боевого шока, пример 1 — провал броска]
-[img:/images/command/battle-shock-examples-2-ru.jpg|Тест боевого шока, пример 2 — юнит с Starting Strength]
-[img:/images/command/battle-shock-examples-3-ru.jpg|Тест боевого шока, пример 3 — несколько юнитов]
-[img:/images/command/battle-shock-examples-4-ru.jpg|Тест боевого шока, пример 4 — снижение OC]
-`,
+Если юнит был подвержен **[gloss:battle-shocked:боевому шоку]** в начале этого шага и его проверка **[gloss:battle-shock-test:боевого шока]** во время этого шага успешна, он больше не подвержен **[gloss:battle-shocked:боевому шоку]**.`,
+        splitBodies: [
+          '[img:/images/command/battle-shock-examples-ru.jpg|Тест боевого шока, пример 1 — провал броска]',
+          '[img:/images/command/battle-shock-examples-2-ru.jpg|Тест боевого шока, пример 2 — юнит с Starting Strength]',
+          '[img:/images/command/battle-shock-examples-3-ru.jpg|Тест боевого шока, пример 3 — несколько юнитов]',
+          '[img:/images/command/battle-shock-examples-4-ru.jpg|Тест боевого шока, пример 4 — снижение OC]',
+        ],
         children: [
           {
             title: 'Несколько проверок боевого шока',

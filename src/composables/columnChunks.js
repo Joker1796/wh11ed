@@ -16,27 +16,33 @@ export function isWideSubsection(sub) {
   return !!(sub && sub.wide)
 }
 
-// A subsection can carry `splitBody` — a trailing chunk of markup (typically a stacked
-// [img:] group) that reads fine glued to its own body in a single-column page, but as ONE
-// column item it can make that item disproportionately tall next to its neighbours (e.g. a
-// 7-banner illustration stack under a couple of paragraphs), throwing off the two columns'
-// balance. `splitSubsections` peels it into its own synthetic sibling item — same id suffixed
-// `-split`, `isSplitBlock: true`, no title/header of its own — so `chunkSubsections` (and the
-// browser's column-balance algorithm) can place it independently instead of always keeping it
-// welded to the text above it. Chapter templates render `isSplitBlock` items as a bare
-// `RuleBody`, no `RuleBlock` chrome. Call this on `section.subsections` before
-// `chunkSubsections`.
+// A subsection can carry `splitBody` (one trailing chunk of markup, typically a stacked
+// [img:] group) or `splitBodies` (several independent chunks, e.g. one entry per image) —
+// content that reads fine glued to its own body in a single-column page, but as ONE column
+// item can make that item disproportionately tall next to its neighbours (a multi-image
+// stack under a couple of paragraphs), throwing off the two columns' balance. Several
+// smaller tails (`splitBodies`) balance better than one big one: each becomes its OWN
+// column item, so the browser's balance algorithm can interleave them individually instead
+// of moving one tall block as a unit. `splitBodyEntries` computes the `{ id, body }` pairs
+// (shared with useSearch.js, so search results and h4 anchors use the same ids);
+// `splitSubsections` turns them into synthetic sibling items — `isSplitBlock: true`, no
+// title/header of its own — for `chunkSubsections`. Chapter templates render `isSplitBlock`
+// items as a bare `RuleBody`, no `RuleBlock` chrome. Call `splitSubsections` on
+// `section.subsections` before `chunkSubsections`.
+export function splitBodyEntries(sub) {
+  const tails = sub.splitBodies || (sub.splitBody ? [sub.splitBody] : [])
+  return tails.map((body, i) => ({
+    id: sub.id + '-split' + (tails.length > 1 ? i + 1 : ''),
+    body,
+  }))
+}
+
 export function splitSubsections(subs) {
   const out = []
   for (const sub of subs) {
     out.push(sub)
-    if (sub.splitBody) {
-      out.push({
-        id: sub.id + '-split',
-        sectionNum: sub.sectionNum,
-        isSplitBlock: true,
-        body: sub.splitBody,
-      })
+    for (const { id, body } of splitBodyEntries(sub)) {
+      out.push({ id, sectionNum: sub.sectionNum, isSplitBlock: true, body })
     }
   }
   return out

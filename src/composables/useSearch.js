@@ -10,6 +10,7 @@ import { missions } from '../data/missions.js'
 import { intro } from '../data/intro.js'
 import { ui } from '../i18n/ui.js'
 import { h4AnchorId } from './anchors.js'
+import { splitBodyEntries } from './columnChunks.js'
 
 // Every core-rules chapter lives on one page now, so a hit's `route` is the same for all of
 // them; the anchor (`id`) is what actually distinguishes them.
@@ -121,11 +122,12 @@ function buildIndex(locale) {
         if (!enSub.sectionNum) continue
         const ruSub = ruSubs[i] || {}
         const merged = isRu ? { ...enSub, ...ruSub } : enSub
+        const splitTails = splitBodyEntries(merged)
         items.push({
           id: enSub.id,
           sectionNum: enSub.sectionNum,
           title: merged.title || '',
-          body: stripMarkup((merged.body || '') + (merged.note ? ' ' + merged.note : '') + (merged.table ? '\n' + tableText(merged.table) : '') + (merged.splitBody ? '\n' + merged.splitBody : '')),
+          body: stripMarkup((merged.body || '') + (merged.note ? ' ' + merged.note : '') + (merged.table ? '\n' + tableText(merged.table) : '') + splitTails.map((t) => '\n' + t.body).join('')),
           route,
           sectionTitle,
         })
@@ -140,12 +142,12 @@ function buildIndex(locale) {
             sectionTitle,
           })
         })
-        // splitSubsections() (columnChunks.js) renders `splitBody` as its own RuleBody
-        // under id `<enSub.id>-split` — its h4s need the matching anchor.
-        if (merged.splitBody) {
-          extractH4(merged.splitBody).forEach((heading, hi) => {
+        // splitSubsections() (columnChunks.js) renders each splitBody(ies) tail as its own
+        // RuleBody under the ids computed by splitBodyEntries — their h4s need matching anchors.
+        for (const tail of splitTails) {
+          extractH4(tail.body).forEach((heading, hi) => {
             items.push({
-              id: h4AnchorId(enSub.id + '-split', hi + 1),
+              id: h4AnchorId(tail.id, hi + 1),
               sectionNum: enSub.sectionNum,
               title: heading,
               body: '',
