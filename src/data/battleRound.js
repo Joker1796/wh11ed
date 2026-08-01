@@ -28,9 +28,12 @@ export const battleRound = {
         title: 'Player Turns',
         body: `Both players now take one turn each. The same player always takes the first turn in each battle round – the mission you are playing will tell you which player this is. Once that player's turn has ended, their opponent takes their turn.
 
-Each turn consists of seven parts: first the Start of Turn step, then a series of five phases resolved in the order shown below, then the End of Turn step.
-
-### Turn Structure
+Each turn consists of seven parts: first the Start of Turn step, then a series of five phases resolved in the order shown below, then the End of Turn step.`,
+        // Split out of `body` into its own column item — glued to the text above it, this
+        // stack of 7 banners (RU; EN keeps compact icons but is split the same way for
+        // EN↔RU marker-count parity) made the section too tall to balance evenly against
+        // its neighbours across the two columns. See splitSubsections() in columnChunks.js.
+        splitBody: `### Turn Structure
 [img:/images/turn/START-OF-TURN-STEP.png|Phase icon: Start of Turn Step]
 [img:/images/turn/COMMAND-PHASE.png|Phase icon: Command Phase]
 [img:/images/turn/MOVEMENT-PHASE.png|Phase icon: Movement Phase]
@@ -661,9 +664,8 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
         title: 'Ходы игроков',
         body: `Теперь оба игрока делают по одному ходу. Один и тот же игрок всегда делает первый ход в каждом раунде боя — миссия, по которой вы играете, подскажет вам, какой именно игрок. После того как ход этого игрока закончился, его оппонент делает свой ход.
 
-Каждый ход состоит из семи частей: сначала шаг «Начало хода»; затем серия из пяти фаз, отыгрываемых в порядке, показанном ниже, затем шаг «Конец хода».
-
-### Структура хода
+Каждый ход состоит из семи частей: сначала шаг «Начало хода»; затем серия из пяти фаз, отыгрываемых в порядке, показанном ниже, затем шаг «Конец хода».`,
+        splitBody: `### Структура хода
 [img:/images/turn/start-of-turn-step-banner-ru.png|Шаг начала хода]
 [img:/images/turn/command-phase-banner-ru.png|Фаза командования]
 [img:/images/turn/movement-phase-banner-ru.png|Фаза движения]

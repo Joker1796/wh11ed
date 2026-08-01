@@ -5,11 +5,12 @@
 // full") can't be reused as-is: every Event block would come out full-width and columning
 // would silently stay off.
 //
-// A block counts as "wide" when it carries its own DataTable — the same rule Core Rules
-// uses for its wound/battle-size tables, just applied at block level instead of chapter
-// level (Sequence/Teams blocks with `block.table` render a DataTable right after them).
+// A block carrying its own DataTable (`block.table`) is NOT auto-wide by default anymore —
+// it renders inside a column same as plain text (Sequence/Teams' `columns` branch renders
+// the DataTable per-item, not just their `full` branch). `block.wide: true` is the manual
+// opt-out for the cases a visual pass decides genuinely need the full measure.
 
-export function chunkBlocks(blocks, isWide = (b) => !!b.table) {
+export function chunkBlocks(blocks, isWide = (b) => !!b.wide) {
   const out = []
   let run = null
   for (const block of blocks) {
