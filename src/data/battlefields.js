@@ -85,9 +85,19 @@ Models can be set up or end a move on the ground level of **terrain features**. 
 ▪ That model has one or more of the following keywords: INFANTRY/BEASTS/SWARM/FLY/MONSTER.
 ▪ After ending that move, that model is stable and no part of its base overhangs the outer edge of that surface.
 
-[img:/images/terrain/terrain-and-movement.jpg|Terrain and movement — models moving across terrain features]
+[img:/images/terrain/terrain-and-movement-diagram.jpg|Terrain and movement — models moving across terrain features]
 
-[img:/images/terrain/terrain-and-movement-2.jpg|Terrain and movement example 2 — base overhang rules]`,
+All sections of the **dense terrain feature (A)** are more than 2" in height, so the MONSTER model **(B)** cannot move through it and must move around it instead.
+
+The INFANTRY models **(C)** can move through **dense terrain features**, such as the walls of this ruin.
+
+[img:/images/terrain/terrain-and-movement-2-diagram.jpg|Terrain and movement example 2 — base overhang rules]
+
+1. This INFANTRY model can move vertically and end its move on the top surface of the **terrain feature (D)**, as it is stable and no part of its base overhangs the outer edge of that surface.
+
+2. This VEHICLE model cannot move through the **dense terrain feature (E)**, but it can move vertically to ascend and descend sections that are more than 2" in height (provided it does not end that move on top of such sections).
+
+3. This INFANTRY model is not being moved over or through any **terrain features**. Its move through the **terrain area** shown is therefore unimpeded.`,
           note: 'Solid Terrain: If a **terrain feature** has the [gloss:solid:Solid] rule (13.11), a model cannot end a move such that any part of it is through any enclosed part of that **terrain feature** that is 3" or less from ground level — not even through small openings such as doors and windows.',
           children: [
             {
@@ -109,12 +119,18 @@ Models can be set up or end a move on the ground level of **terrain features**. 
           id: 'section-13-08',
           sectionNum: '13.08',
           title: 'Benefit of Cover',
-          sideImage: { src: '/images/terrain/benefit-of-cover.jpg', alt: 'Benefit of Cover diagram', width: '50%' },
+          sideImage: { src: '/images/terrain/benefit-of-cover-diagram.jpg', alt: 'Benefit of Cover diagram', width: '50%', shared: true },
           body: `Each time a ranged attack targets a unit, if **every** model in that unit meets one or more of the following conditions, that unit has the **benefit of cover** against that attack:
 ▪ That model has the INFANTRY/BEASTS/SWARM keyword and is within a **terrain area**.
 ▪ That model is **[gloss:not-fully-visible:not fully visible]** to the attacking model due to one or more intervening **terrain features** and/or one or more intervening **obscuring terrain areas** (see 13.10).
 
-Each time a ranged attack targets a unit that has the **benefit of cover** against it, worsen the **BS** characteristic of that attack by 1.`,
+Each time a ranged attack targets a unit that has the **benefit of cover** against it, worsen the **BS** characteristic of that attack by 1.
+
+When Unit **E** makes ranged attacks:
+▪ Unit **A** is **fully visible** to every model in Unit **E**, so does not have the **benefit of cover**.
+▪ Not all of the models in unit **B** are within a **terrain area**, so unit **B** does not have the **benefit of cover**.
+▪ All of the models in unit **C** are within a **terrain area**, so unit **C** has the **benefit of cover** (-1 BS).
+▪ Unit **D** is not **fully visible** to unit **E** due to an intervening **obscuring terrain area**, so unit **D** has the **benefit of cover** (-1 BS).`,
         },
         {
           id: 'section-13-09',
@@ -139,8 +155,11 @@ While a model is **hidden**, it can only be **[gloss:visible:visible]** to enemy
           id: 'section-13-10',
           sectionNum: '13.10',
           title: 'Obscuring',
-          sideImage: { src: '/images/terrain/hidden-and-obscuring.jpg', alt: 'Hidden and Obscuring diagram', width: '50%' },
-          body: `**Terrain areas** containing one or more **light** or **dense terrain features** are **obscuring terrain areas**. If every **[gloss:line-of-sight:line of sight]** drawn between two models crosses one or more **obscuring terrain areas** (excluding **obscuring terrain areas** that one or both of those models are within), those two models are not **visible** to each other.`,
+          sideImage: { src: '/images/terrain/hidden-and-obscuring-diagram.jpg', alt: 'Hidden and Obscuring diagram', width: '50%', shared: true },
+          body: `**Terrain areas** containing one or more **light** or **dense terrain features** are **obscuring terrain areas**. If every **[gloss:line-of-sight:line of sight]** drawn between two models crosses one or more **obscuring terrain areas** (excluding **obscuring terrain areas** that one or both of those models are within), those two models are not **visible** to each other.
+
+▪ There is an **obscuring terrain area** between all models in units **A** and **D**, so none of them are **visible** to each other.
+▪ All models in units **B** and **C** are within the **terrain area** and are INFANTRY, so are **hidden**. However, unit **D**'s models are within the 15" **detection range** of unit **B**'s models (but not unit **C**'s), so unit **B**'s models are **visible** to unit **D**'s. Unit **D**'s models are also **visible** to the models in units **B** and **C**, since they are not within a **terrain area**.`,
         },
         {
           id: 'section-13-11',
@@ -148,7 +167,11 @@ While a model is **hidden**, it can only be **[gloss:visible:visible]** to enemy
           title: 'Solid',
           body: `**Dense terrain features** have the **Solid** rule. **Line of sight** cannot be drawn across any enclosed gap in the surface of such a **terrain feature** that is 3" or less from ground level.
 
-[img:/images/terrain/solid.jpg|Solid terrain — line of sight blocking diagram]`,
+[img:/images/terrain/solid-diagram.jpg|Solid terrain — line of sight blocking diagram]
+
+Units **A** and **B** are not **visible** to each other, because even though there is a window in this **dense terrain feature**, it has the **Solid** rule, so **line of sight** cannot be drawn through such enclosed gaps that are 3" or less from ground level.
+
+Units **A** and **C** are **visible** to each other, because even though this **dense terrain feature** has the **Solid** rule, **line of sight** can be drawn normally through enclosed gaps that are more than 3" from ground level.`,
           note: "Designer's Note: This rule ensures that models are not **visible** while sheltering in ground-level terrain, irrespective of small openings such as doors, windows or bullet holes, or because of small gaps between adjacent **terrain features**. 3\" is the height of the first floor of many **terrain features**, but some missions may adjust the height at which this rule takes effect.",
           children: [
             {
@@ -564,9 +587,19 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
 ▪ Эта модель имеет одно или несколько из следующих ключевых слов: INFANTRY/BEASTS/SWARM/FLY/MONSTER (ПЕХОТА/ЗВЕРИ/РОЙ/ЛЕТАЮЩИЙ/MONSTER).
 ▪ После завершения этого манёвра эта модель устойчива, и ни одна часть её базы не свешивается за внешний край этой поверхности.
 
-[img:/images/terrain/terrain-and-movement-ru.jpg|Укрытие и движение — движение моделей через укрытие]
+[img:/images/terrain/terrain-and-movement-diagram.jpg|Укрытие и движение — движение моделей через укрытие]
 
-[img:/images/terrain/terrain-and-movement-2-ru.jpg|Укрытие и движение, пример 2 — правила выноса базы]`,
+Все секции **надёжного элемента укрытия (A)** имеют высоту более 2", поэтому модель MONSTER **(B)** не может пройти сквозь него и должна обойти его.
+
+Модели INFANTRY **(C)** могут перемещаться сквозь **надёжные элементы укрытий**, такие как стены этих руин.
+
+[img:/images/terrain/terrain-and-movement-2-diagram.jpg|Укрытие и движение, пример 2 — правила выноса базы]
+
+1. Эта модель INFANTRY может перемещаться вертикально и завершить манёвр на верхней поверхности **элемента укрытия (D)**, поскольку она устойчива и ни одна часть её базы не свешивается за внешний край этой поверхности.
+
+2. Эта модель VEHICLE не может пройти сквозь **надёжный элемент укрытия (E)**, но может перемещаться вертикально, чтобы подняться или спуститься по секциям высотой более 2" (при условии, что не заканчивает манёвр на вершине таких секций).
+
+3. Эта модель INFANTRY не перемещается над или сквозь какие-либо **элементы укрытий**. Поэтому её манёвр через показанную **область укрытия** ничем не затруднён.`,
           note: 'Сплошное укрытие: Если **[gloss:terrain-feature:элемент укрытия]** обладает правилом [gloss:solid:Сплошное] (13.11), модель не может завершить манёвр так, чтобы любая её часть оказалась по ту сторону любой закрытой части этого **элемента укрытия**, находящейся на высоте 3" или менее от уровня земли — даже через небольшие проёмы, такие как двери и окна.',
           children: [
             {
@@ -585,12 +618,18 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
           id: 'section-13-08',
           sectionNum: '13.08',
           title: 'Преимущество от укрытия (Benefit of Cover)',
-          sideImage: { src: '/images/terrain/benefit-of-cover.jpg', alt: 'Benefit of Cover diagram', width: '50%' },
+          sideImage: { src: '/images/terrain/benefit-of-cover-diagram.jpg', alt: 'Benefit of Cover diagram', width: '50%', shared: true },
           body: `Каждый раз, когда дистанционная атака нацелена на юнит, если **каждая** модель в этом юните соответствует одному или нескольким из следующих условий, этот юнит получает **[gloss:benefit-of-cover:преимущество от укрытия]** от этой атаки:
 ▪ Эта модель имеет ключевое слово INFANTRY/BEASTS/SWARM (ПЕХОТА/ЗВЕРИ/РОЙ) и находится в пределах **[gloss:terrain-area:области укрытия]**.
 ▪ Эта модель **[gloss:not-fully-visible:не полностью видна]** атакующей модели из-за одного или нескольких промежуточных **[gloss:terrain-feature:элементов укрытий]** и/или одной или нескольких промежуточных **[gloss:obscuring:загораживающих областей укрытий]** (см. 13.10).
 
-Каждый раз, когда дистанционная атака нацелена на юнит, который имеет **преимущество от укрытия** от этой атаки, ухудшите характеристику **BS** этой атаки на 1.`,
+Каждый раз, когда дистанционная атака нацелена на юнит, который имеет **преимущество от укрытия** от этой атаки, ухудшите характеристику **BS** этой атаки на 1.
+
+Когда юнит **E** совершает дистанционные атаки:
+▪ Юнит **A** **полностью видим** каждой модели юнита **E**, поэтому не получает **преимущество от укрытия**.
+▪ Не все модели юнита **B** находятся в пределах **области укрытия**, поэтому юнит **B** не получает **преимущество от укрытия**.
+▪ Все модели юнита **C** находятся в пределах **области укрытия**, поэтому юнит **C** получает **преимущество от укрытия** (-1 BS).
+▪ Юнит **D** не **полностью видим** юниту **E** из-за промежуточной **загораживающей области укрытия**, поэтому юнит **D** получает **преимущество от укрытия** (-1 BS).`,
         },
         {
           id: 'section-13-09',
@@ -612,8 +651,11 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
           id: 'section-13-10',
           sectionNum: '13.10',
           title: 'Загораживание',
-          sideImage: { src: '/images/terrain/hidden-and-obscuring.jpg', alt: 'Hidden and Obscuring diagram', width: '50%' },
-          body: `**[gloss:terrain-area:Области укрытий]**, содержащие один или несколько **лёгких** или **надёжных элементов укрытий**, являются **[gloss:obscuring:загораживающими областями укрытий]**. Если каждая **[gloss:line-of-sight:линия обзора]**, проведённая между двумя моделями, пересекает одну или несколько **загораживающих областей укрытий** (за исключением **загораживающих областей укрытий**, внутри которых находится одна или обе эти модели), эти две модели **[gloss:visible:не видят]** друг друга.`,
+          sideImage: { src: '/images/terrain/hidden-and-obscuring-diagram.jpg', alt: 'Hidden and Obscuring diagram', width: '50%', shared: true },
+          body: `**[gloss:terrain-area:Области укрытий]**, содержащие один или несколько **лёгких** или **надёжных элементов укрытий**, являются **[gloss:obscuring:загораживающими областями укрытий]**. Если каждая **[gloss:line-of-sight:линия обзора]**, проведённая между двумя моделями, пересекает одну или несколько **загораживающих областей укрытий** (за исключением **загораживающих областей укрытий**, внутри которых находится одна или обе эти модели), эти две модели **[gloss:visible:не видят]** друг друга.
+
+▪ Между всеми моделями юнитов **A** и **D** находится **загораживающая область укрытия**, поэтому они не **видят** друг друга.
+▪ Все модели юнитов **B** и **C** находятся в пределах **области укрытия** и имеют ключевое слово INFANTRY, поэтому находятся в **скрытности**. Однако модели юнита **D** находятся в пределах 15" **радиуса обнаружения** моделей юнита **B** (но не юнита **C**), поэтому модели юнита **B** **видны** юниту **D**. Модели юнита **D** также **видны** моделям юнитов **B** и **C**, поскольку они не находятся в пределах **области укрытия**.`,
         },
         {
           id: 'section-13-11',
@@ -621,7 +663,11 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
           title: 'Сплошное укрытие (Solid)',
           body: `**Надёжные укрытия** (Dense terrain) обладают правилом **Сплошное укрытие** (Solid). **[gloss:line-of-sight:Линию обзора]** нельзя провести через любой закрытый проём в поверхности такого **[gloss:terrain-feature:элемента укрытия]**, который находится на высоте 3" или менее от уровня земли.
 
-[img:/images/terrain/solid-ru.jpg|Монолитное укрытие — диаграмма блокировки линии обзора]`,
+[img:/images/terrain/solid-diagram.jpg|Монолитное укрытие — диаграмма блокировки линии обзора]
+
+Юниты **A** и **B** не видят друг друга: хотя в этом надёжном **элементе укрытия** есть окно, у него есть правило **Сплошное укрытие**, поэтому **линию обзора** нельзя провести через такие закрытые проёмы на высоте 3" или менее от уровня земли.
+
+Юниты **A** и **C** видят друг друга: хотя у этого надёжного **элемента укрытия** есть правило **Сплошное укрытие**, **линию обзора** можно провести как обычно через закрытые проёмы на высоте более 3" от уровня земли.`,
           note: 'Примечание дизайнера: Это правило гарантирует, что модели **[gloss:visible:не видны]**, пока укрываются в укрытиях на уровне земли, независимо от небольших отверстий, таких как двери, окна или нулевые отверстия, или из-за небольших зазоров между соседними **элементами укрытий**. 3" — это высота первого этажа многих **элементов укрытий**, но некоторые миссии могут корректировать высоту, на которой это правило вступает в силу.',
           children: [
             {
