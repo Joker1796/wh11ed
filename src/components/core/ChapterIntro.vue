@@ -12,7 +12,13 @@
          mid-paragraph across the gap. The heading stays outside it, full width. -->
     <div class="rule-columns">
       <div v-for="para in introParagraphs" :key="para" class="para" v-html="renderInline(para)"></div>
-      <div v-for="para in missionParagraphs" :key="para" class="para" v-html="renderInline(para)"></div>
+      <div
+        v-for="(para, i) in missionParagraphs"
+        :key="para"
+        class="para"
+        :class="{ 'para-col-break-after': i === 1 }"
+        v-html="renderInline(para)"
+      ></div>
     </div>
   </section>
 
@@ -93,6 +99,13 @@ const missionParagraphs = computed(() =>
   color: var(--text-primary);
   line-height: 1.75;
   font-size: 0.97rem;
+}
+
+/* Column balancing is otherwise left to the browser — this is the one paragraph ("Missions
+   will instruct players to muster an army...") that reads best kept in the first column
+   rather than wherever auto-balance happens to land it, so force the break right after it. */
+.para-col-break-after {
+  break-after: column;
 }
 
 .app-body {

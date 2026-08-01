@@ -2,6 +2,13 @@
   --bg-primary: #ebede4;
   --bg-secondary: #dfe1d8;
   --bg-card: #f5f5f0;
+  /* A gentle step up from --bg-primary, between it and --bg-card in brightness — for a
+     large content panel (Core Rules / Event Companion) that needs to read as a distinct
+     surface without competing with the --bg-card cards it contains. --bg-secondary isn't
+     right here: it's tuned as a *recessed* strip for the subnav and sits darker than
+     --bg-primary in light mode (the opposite direction from dark mode, where it's
+     lighter) — reusing it made the panel look muddier than the page around it. */
+  --bg-content: #f0f2ea;
   --bg-insert: #2a2828;
   --accent: #8b2a33;
   --accent-hover: #6d1f27;
@@ -183,6 +190,7 @@
   --bg-primary: #242428;
   --bg-secondary: #2c2c30;
   --bg-card: #303035;
+  --bg-content: #2a2a2f;
   --bg-insert: #38383d;
   --accent: #c8585e;
   --accent-hover: #e07078;
