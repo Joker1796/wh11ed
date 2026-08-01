@@ -184,9 +184,10 @@ When the **bodyguard** unit in an **attached** unit affected by such a rule is *
           sectionNum: '19.02',
           title: 'Attacking Attached Units',
           sideImage: {
-            src: '/images/attached/attacking-attached-units.jpg',
+            src: '/images/attached/attacking-attached-units-diagram.jpg',
             alt: 'Attacking Attached Units diagram',
             width: '60%',
+            shared: true,
           },
           body: `Each time an attack targets an **attached** unit, if that unit contains one or more **bodyguard** models, use the highest **T** characteristic of the **bodyguard** models in that unit while resolving that attack, even if a **leader/support** unit in that **attached** unit has a different **T** characteristic. If that unit only contains **leader/support** models, use the highest **T** characteristic of those models while resolving that attack instead.
 

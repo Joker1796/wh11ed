@@ -4,16 +4,11 @@
 // `npm run images:dims`.
 
 export default {
-  '/images/attached/attacking-attached-units-ru.webp': [1014, 1370],
-  '/images/attached/attacking-attached-units.webp': [1014, 1370],
-  '/images/attack/allocation-groups-ru.webp': [1014, 1327],
-  '/images/attack/allocation-groups.webp': [1014, 1327],
-  '/images/attack/making-attacks-ru.webp': [742, 1378],
-  '/images/attack/making-attacks.webp': [742, 1378],
-  '/images/attack/resolve-attack-dice-ru.webp': [744, 1382],
-  '/images/attack/resolve-attack-dice.webp': [744, 1382],
-  '/images/attack/resolve-other-attacks-ru.webp': [744, 1374],
-  '/images/attack/resolve-other-attacks.webp': [744, 1374],
+  '/images/attached/attacking-attached-units-diagram.webp': [1200, 1587],
+  '/images/attack/allocation-groups-diagram.webp': [1200, 1565],
+  '/images/attack/making-attacks-diagram.webp': [777, 1453],
+  '/images/attack/resolve-attack-dice-diagram.webp': [777, 1465],
+  '/images/attack/resolve-other-attacks-diagram.webp': [777, 1465],
   '/images/charge/making-a-charge-move-ru.webp': [1200, 966],
   '/images/charge/making-a-charge-move.webp': [1200, 966],
   '/images/coherency/coherency-diagram.webp': [1200, 1054],
