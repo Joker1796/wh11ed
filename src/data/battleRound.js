@@ -28,9 +28,12 @@ export const battleRound = {
         title: 'Player Turns',
         body: `Both players now take one turn each. The same player always takes the first turn in each battle round – the mission you are playing will tell you which player this is. Once that player's turn has ended, their opponent takes their turn.
 
-Each turn consists of seven parts: first the Start of Turn step, then a series of five phases resolved in the order shown below, then the End of Turn step.
-
-### Turn Structure
+Each turn consists of seven parts: first the Start of Turn step, then a series of five phases resolved in the order shown below, then the End of Turn step.`,
+        // Split out of `body` into its own column item — glued to the text above it, this
+        // stack of 7 banners (RU; EN keeps compact icons but is split the same way for
+        // EN↔RU marker-count parity) made the section too tall to balance evenly against
+        // its neighbours across the two columns. See splitSubsections() in columnChunks.js.
+        splitBody: `### Turn Structure
 [img:/images/turn/START-OF-TURN-STEP.png|Phase icon: Start of Turn Step]
 [img:/images/turn/COMMAND-PHASE.png|Phase icon: Command Phase]
 [img:/images/turn/MOVEMENT-PHASE.png|Phase icon: Movement Phase]
@@ -121,13 +124,17 @@ The battle round then ends and, unless the battle ends, the next battle round st
 ▪ That unit is currently battle-shocked.
 ▪ That unit is at, or below, **[gloss:half-strength:half-strength]**.
 
-If a unit was battle-shocked at the start of this step and its **battle-shock roll** during this step succeeds, it is no longer battle-shocked.
-
-[img:/images/command/battle-shock-examples.jpg|Battle shock example 1 — failed Battle Shock roll]
-[img:/images/command/battle-shock-examples-2.jpg|Battle shock example 2 — unit with Starting Strength]
-[img:/images/command/battle-shock-examples-3.jpg|Battle shock example 3 — multiple units in range]
-[img:/images/command/battle-shock-examples-4.jpg|Battle shock example 4 — OC reduction]
-`,
+If a unit was battle-shocked at the start of this step and its **battle-shock roll** during this step succeeds, it is no longer battle-shocked.`,
+        // Split out of `body` into 4 independent column items (one per image) — see
+        // splitSubsections()/splitBodyEntries() in columnChunks.js. One glued-together
+        // 4-image block was still too tall to balance well against its neighbours; letting
+        // each image move on its own gives the column balancer far more to work with.
+        splitBodies: [
+          '[img:/images/command/battle-shock-examples.jpg|Battle shock example 1 — failed Battle Shock roll]',
+          '[img:/images/command/battle-shock-examples-2.jpg|Battle shock example 2 — unit with Starting Strength]',
+          '[img:/images/command/battle-shock-examples-3.jpg|Battle shock example 3 — multiple units in range]',
+          '[img:/images/command/battle-shock-examples-4.jpg|Battle shock example 4 — OC reduction]',
+        ],
         seeAlso: ['Battle-Shock Rolls 01.07', 'Half-strength 24.00', 'Multiple Battle-Shock Rolls 24.00'],
         children: [
           {
@@ -661,9 +668,8 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
         title: 'Ходы игроков',
         body: `Теперь оба игрока делают по одному ходу. Один и тот же игрок всегда делает первый ход в каждом раунде боя — миссия, по которой вы играете, подскажет вам, какой именно игрок. После того как ход этого игрока закончился, его оппонент делает свой ход.
 
-Каждый ход состоит из семи частей: сначала шаг «Начало хода»; затем серия из пяти фаз, отыгрываемых в порядке, показанном ниже, затем шаг «Конец хода».
-
-### Структура хода
+Каждый ход состоит из семи частей: сначала шаг «Начало хода»; затем серия из пяти фаз, отыгрываемых в порядке, показанном ниже, затем шаг «Конец хода».`,
+        splitBody: `### Структура хода
 [img:/images/turn/start-of-turn-step-banner-ru.png|Шаг начала хода]
 [img:/images/turn/command-phase-banner-ru.png|Фаза командования]
 [img:/images/turn/movement-phase-banner-ru.png|Фаза движения]
@@ -733,13 +739,13 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 ▪ Этот юнит в настоящее время подвержен **[gloss:battle-shocked:боевому шоку]**.
 ▪ Этот юнит находится на или ниже **[gloss:half-strength:половинной численности]**.
 
-Если юнит был подвержен **[gloss:battle-shocked:боевому шоку]** в начале этого шага и его проверка **[gloss:battle-shock-test:боевого шока]** во время этого шага успешна, он больше не подвержен **[gloss:battle-shocked:боевому шоку]**.
-
-[img:/images/command/battle-shock-examples-ru.jpg|Тест боевого шока, пример 1 — провал броска]
-[img:/images/command/battle-shock-examples-2-ru.jpg|Тест боевого шока, пример 2 — юнит с Starting Strength]
-[img:/images/command/battle-shock-examples-3-ru.jpg|Тест боевого шока, пример 3 — несколько юнитов]
-[img:/images/command/battle-shock-examples-4-ru.jpg|Тест боевого шока, пример 4 — снижение OC]
-`,
+Если юнит был подвержен **[gloss:battle-shocked:боевому шоку]** в начале этого шага и его проверка **[gloss:battle-shock-test:боевого шока]** во время этого шага успешна, он больше не подвержен **[gloss:battle-shocked:боевому шоку]**.`,
+        splitBodies: [
+          '[img:/images/command/battle-shock-examples-ru.jpg|Тест боевого шока, пример 1 — провал броска]',
+          '[img:/images/command/battle-shock-examples-2-ru.jpg|Тест боевого шока, пример 2 — юнит с Starting Strength]',
+          '[img:/images/command/battle-shock-examples-3-ru.jpg|Тест боевого шока, пример 3 — несколько юнитов]',
+          '[img:/images/command/battle-shock-examples-4-ru.jpg|Тест боевого шока, пример 4 — снижение OC]',
+        ],
         children: [
           {
             title: 'Несколько проверок боевого шока',

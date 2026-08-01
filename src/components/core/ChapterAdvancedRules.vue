@@ -17,6 +17,7 @@
           :section-num="sub.sectionNum"
           :title="sub.title"
           :body="sub.body"
+          :side-image="sub.sideImage"
           :note="sub.note"
           :example="sub.example"
           :see-also="sub.seeAlso"

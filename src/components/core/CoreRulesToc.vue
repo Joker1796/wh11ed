@@ -127,35 +127,39 @@ const activeChapter = computed(() => {
   margin-bottom: 0.5rem;
 }
 
+/* Multi-column flow, not a grid: the whole thing is one continuous stream that pours into
+   the next column wherever it runs out of room, like a newspaper column — not a grid of
+   boxed cells, and not chapter-sized chunks either (keeping a whole chapter atomic just
+   moved the "boxed" look down a level, leaving ragged gaps at the bottom of a column
+   whenever the next chapter didn't fit). Only the heading is pinned to what follows it
+   (break-after below), so a chapter title never ends up alone at the bottom of a column. */
 .core-toc-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
-  gap: 0.9rem 1.5rem;
-  align-items: start;
+  columns: 220px;
+  column-gap: 1.5rem;
+}
+
+.core-toc-group {
+  margin-bottom: 0.7rem;
 }
 
 .core-toc-chapter {
   display: block;
-  font-family: var(--font-display);
-  font-size: 1.12rem;
-  font-weight: var(--fw-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
   color: var(--text-primary);
   text-decoration: none;
-  padding-bottom: 0.2rem;
-  border-bottom: 1px solid var(--border-light);
   margin-bottom: 0.25rem;
-  transition: color 0.15s, border-color 0.15s;
+  break-after: avoid-column;
+  transition: color 0.15s;
 }
 
 .core-toc-chapter:hover {
   color: var(--accent);
-  border-bottom-color: var(--accent);
   text-decoration: none;
 }
 
 .core-toc-group.current .core-toc-chapter {
   color: var(--accent);
-  border-bottom-color: var(--accent);
 }
 
 .core-toc-list {
@@ -169,8 +173,9 @@ const activeChapter = computed(() => {
   align-items: baseline;
   gap: 0.4rem;
   font-size: 0.82rem;
+  line-height: 1.2;
   color: var(--text-muted);
-  padding: 0.12rem 0;
+  padding: 0.04rem 0;
   transition: color 0.15s;
   text-decoration: none;
 }
@@ -193,26 +198,29 @@ const activeChapter = computed(() => {
 }
 
 /* In the modal the list is the whole content — fill the modal's width with as many
-   chapter columns as fit (same auto-fill mechanics as the page variant) instead of wasting
-   the right side of a wide dialog on a single left-aligned column. The modal is wider than
-   a typical dialog (see CoreRulesTocModal) specifically to give the NN.MM subsection level
-   below room to sit next to its chapter instead of forcing a single narrow list. Everything
-   here is tightened — small gaps, small type — so the full three-level tree (chapter →
-   section → subsection) fits with as little scrolling as possible. */
+   flowing columns as fit (same mechanics as the page variant) instead of wasting the right
+   side of a wide dialog on a single left-aligned column. The modal is wider than a typical
+   dialog (see CoreRulesTocModal) specifically to give the NN.MM subsection level below room
+   to sit next to its chapter instead of forcing a single narrow list. Everything here is
+   tightened — small gaps, small type — so the full three-level tree (chapter → section →
+   subsection) fits with as little scrolling as possible. */
 .core-toc--modal .core-toc-grid {
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
-  gap: 0.6rem 1.5rem;
+  columns: 200px;
+  column-gap: 1.5rem;
+}
+
+.core-toc--modal .core-toc-group {
+  margin-bottom: 0.5rem;
 }
 
 .core-toc--modal .core-toc-chapter {
-  margin-bottom: 0.1rem;
-  padding-bottom: 0.15rem;
+  margin-bottom: 0.15rem;
 }
 
 .core-toc--modal .core-toc-link {
   font-size: 0.86rem;
-  padding: 0.16rem 0;
-  line-height: 1.25;
+  padding: 0.06rem 0;
+  line-height: 1.2;
 }
 
 /* The NN.MM level: indented under its section, small enough that six chapters' worth of
@@ -229,8 +237,8 @@ const activeChapter = computed(() => {
   gap: 0.35rem;
   font-size: 0.72rem;
   color: var(--text-dim);
-  padding: 0.08rem 0;
-  line-height: 1.2;
+  padding: 0.03rem 0;
+  line-height: 1.15;
   transition: color 0.15s;
   text-decoration: none;
 }

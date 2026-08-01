@@ -25,17 +25,12 @@ const ORIGIN = process.env.VITE_SITE_ORIGIN || 'https://wh11ed.ru'
 
 const STATIC_ROUTES = [
   '/',
-  // The seven former chapter routes are gone from the sitemap — they now redirect to an
-  // anchor on this one page. Their keys stay in the bucket (deploy never deletes keys) and
-  // keep returning 200, so old links still work; they just aren't advertised any more.
+  // The former per-chapter routes (Core Rules' seven, Event Companion's six) are gone
+  // from the sitemap — they now redirect to an anchor on their merged page. Their keys
+  // stay in the bucket (deploy never deletes keys) and keep returning 200, so old links
+  // still work; they just aren't advertised any more.
   '/core-rules',
   '/event-companion',
-  '/event-companion/sequence',
-  '/event-companion/missions',
-  '/event-companion/layouts',
-  '/event-companion/pairings',
-  '/event-companion/teams',
-  '/event-companion/faq',
   '/rules',
   '/tracker',
   '/stratagems',
