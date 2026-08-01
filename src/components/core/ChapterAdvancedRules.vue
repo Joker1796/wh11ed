@@ -8,21 +8,37 @@
       :page="section.page"
     />
 
-    <template v-for="grp in chunkSubsections(section.subsections)" :key="grp.key">
+    <template v-for="grp in chunkSubsections(splitSubsections(section.subsections))" :key="grp.key">
       <div v-if="grp.type === 'columns'" class="rule-columns">
-        <RuleBlock
-          v-for="sub in grp.items"
-          :key="sub.id"
-          :id="sub.id"
-          :section-num="sub.sectionNum"
-          :title="sub.title"
-          :body="sub.body"
-          :side-image="sub.sideImage"
-          :note="sub.note"
-          :example="sub.example"
-          :see-also="sub.seeAlso"
-          :children="sub.children"
-        />
+        <template v-for="sub in grp.items" :key="sub.id">
+          <div v-if="sub.isSplitBlock" :id="sub.id" class="split-block">
+            <RuleBody :id="sub.id" :body="sub.body" />
+          </div>
+          <RuleBlock
+            v-else
+            :id="sub.id"
+            :section-num="sub.sectionNum"
+            :title="sub.title"
+            :body="sub.body"
+            :side-image="sub.sideImage"
+            :note="sub.note"
+            :example="sub.example"
+            :see-also="sub.seeAlso"
+            :children="sub.children"
+          >
+            <div v-if="sub.id === 'section-19-04' && section.abilitiesTable" class="table-block">
+              <DataTable
+                :title="section.abilitiesTable.title"
+                :headers="section.abilitiesTable.headers"
+                :rows="section.abilitiesTable.rows"
+              />
+              <p class="table-note">{{ section.abilitiesTable.note }}</p>
+            </div>
+          </RuleBlock>
+        </template>
+      </div>
+      <div v-else-if="grp.item.isSplitBlock" :id="grp.item.id" class="split-block">
+        <RuleBody :id="grp.item.id" :body="grp.item.body" />
       </div>
       <RuleBlock
         v-else
@@ -35,19 +51,16 @@
         :example="grp.item.example"
         :see-also="grp.item.seeAlso"
         :children="grp.item.children"
-      />
-    </template>
-
-    <!-- Attached Units abilities table -->
-    <template v-if="section.id === '19' && section.abilitiesTable">
-      <div class="table-block">
-        <DataTable
-          :title="section.abilitiesTable.title"
-          :headers="section.abilitiesTable.headers"
-          :rows="section.abilitiesTable.rows"
-        />
-        <p class="table-note">{{ section.abilitiesTable.note }}</p>
-      </div>
+      >
+        <div v-if="grp.item.id === 'section-19-04' && section.abilitiesTable" class="table-block">
+          <DataTable
+            :title="section.abilitiesTable.title"
+            :headers="section.abilitiesTable.headers"
+            :rows="section.abilitiesTable.rows"
+          />
+          <p class="table-note">{{ section.abilitiesTable.note }}</p>
+        </div>
+      </RuleBlock>
     </template>
   </template>
 </template>
@@ -55,10 +68,11 @@
 <script setup>
 import SectionHeader from '../SectionHeader.vue'
 import RuleBlock from '../RuleBlock.vue'
+import RuleBody from '../RuleBody.vue'
 import DataTable from '../DataTable.vue'
 import { advancedRules } from '../../data/advancedRules.js'
 import { useBilingualSections } from '../../composables/useBilingualMerge.js'
-import { chunkSubsections } from '../../composables/columnChunks.js'
+import { chunkSubsections, splitSubsections } from '../../composables/columnChunks.js'
 
 const sections = useBilingualSections(advancedRules, (section, ruSection) =>
   section.abilitiesTable && ruSection.abilitiesTable
@@ -68,6 +82,11 @@ const sections = useBilingualSections(advancedRules, (section, ruSection) =>
 </script>
 
 <style scoped>
+.split-block {
+  margin-bottom: 1rem;
+  scroll-margin-top: var(--header-total);
+}
+
 .table-block {
   margin: 1rem 0 1.5rem;
 }

@@ -9,11 +9,16 @@
     </div>
 
     <div class="rule-body-wrap">
-      <SeeAlsoBlock v-if="seeAlso && seeAlso.length" :refs="seeAlso" />
+      <!-- An info-card (◈…) body is a grid of labeled rows, not reflowing prose — floating
+           SeeAlsoBlock beside it (the normal placement) squeezes its rows instead of wrapping
+           cleanly. Render it after the table for those bodies instead. -->
+      <SeeAlsoBlock v-if="seeAlso && seeAlso.length && !bodyIsInfoCard" :refs="seeAlso" />
 
       <div class="rule-body" @click="handleDefClick">
         <AppImage v-if="sideImage" class="side-image" :src="sideImage.src" :alt="sideImage.alt" :style="sideImage.width ? { '--side-image-width': sideImage.width } : undefined" />
         <RuleBody :id="id" :body="body" />
+
+        <SeeAlsoBlock v-if="seeAlso && seeAlso.length && bodyIsInfoCard" :refs="seeAlso" />
 
         <div v-if="note" class="note-box" v-html="renderParagraphs(note)"></div>
 
@@ -40,13 +45,14 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import SeeAlsoBlock from './SeeAlsoBlock.vue'
 import AppImage from './AppImage.vue'
 import RuleBody from './RuleBody.vue'
 import SubRuleBlock from './SubRuleBlock.vue'
 import { useRenderInline } from '../composables/useRenderInline.js'
 
-defineProps({
+const props = defineProps({
   id: String,
   sectionNum: String,
   title: String,
@@ -60,6 +66,8 @@ defineProps({
 })
 
 const { renderInline } = useRenderInline()
+
+const bodyIsInfoCard = computed(() => (props.body || '').trimStart().startsWith('◈'))
 
 function renderParagraphs(text) {
   return text.split('\n\n').map(p => `<p>${renderInline(p.trim().replace(/\n/g, ' '))}</p>`).join('')

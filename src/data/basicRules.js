@@ -52,6 +52,10 @@ Units or models whose **[gloss:wounds:W]** characteristic or **starting strength
                   ['**At Half-Strength**', "Model's remaining wounds are half of its **[gloss:wounds:W]** characteristic.", 'Number of remaining models in the unit is half of its **starting strength**.'],
                   ['**Below Half-Strength**', "Model's remaining wounds are less than half of its **[gloss:wounds:W]** characteristic.", 'Number of remaining models in the unit is less than half of its **starting strength**.'],
                 ],
+                // Cells are full sentences, not short stat values — a 3-column grid doesn't
+                // fit a phone even scrolled. Stack as label/value cards below 700px instead
+                // (see DataTable.vue's `stacked` prop).
+                stacked: true,
               },
               example: 'A Captain (1 model) is attached to a unit of Intercessors (5 models). This **attached** unit has a **starting strength** of 6. If three Intercessors were **[gloss:destroyed:destroyed]**, the unit would be **at half-strength**. If four Intercessors were **destroyed**, the unit would be **below half-strength**. If all of the Intercessors were **destroyed**, the remaining Captain would be **below half-strength**, despite having his full wounds remaining.',
             },
@@ -1528,6 +1532,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
                   ['**На половинной численности**', 'Оставшиеся раны модели составляют **половину** её характеристики **[gloss:wounds:W]**.', 'Количество оставшихся моделей в юните составляет **половину** его начальной численности.'],
                   ['**Ниже половинной численности**', 'Оставшиеся раны модели составляют **менее половины** её характеристики **[gloss:wounds:W]**.', 'Количество оставшихся моделей в юните составляет **менее половины** его начальной численности.'],
                 ],
+                stacked: true,
               },
               example: 'Капитан (1 модель) приписан к отряду Интерцессоров (5 моделей). Этот **составной юнит** имеет **[gloss:starting-strength:начальную численность]** 6. Если три Интерцессора **уничтожены**, юнит находится **на половинной численности**. Если четыре Интерцессора **уничтожены**, юнит находится **ниже половинной численности** (below half-strength). Если все Интерцессоры **уничтожены**, оставшийся Капитан находится **ниже половинной численности**, несмотря на то, что у него осталось полное количество [gloss:wounds:ран].',
             },

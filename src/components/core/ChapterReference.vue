@@ -118,26 +118,29 @@
     </div>
   </div>
 
-  <div v-for="entry in appendixData" :key="entry.id" :id="entry.id" class="appendix-block">
-    <h3 class="appendix-title">{{ entry.title }}</h3>
+  <div class="appendix-columns">
+    <div v-for="entry in appendixData" :key="entry.id" :id="entry.id" class="appendix-block">
+      <h3 class="appendix-title">{{ entry.title }}</h3>
 
-    <div @click="handleDefClick">
-      <template v-for="(block, bi) in parseBody(entry.body)" :key="bi">
-        <ul v-if="block.type === 'ul'" class="appendix-list">
-          <li v-for="(item, li) in block.items" :key="li" v-html="renderInline(item)" />
-        </ul>
-        <p v-else v-html="renderInline(block.text)" />
-      </template>
+      <div @click="handleDefClick">
+        <template v-for="(block, bi) in parseBody(entry.body)" :key="bi">
+          <ul v-if="block.type === 'ul'" class="appendix-list">
+            <li v-for="(item, li) in block.items" :key="li" v-html="renderInline(item)" />
+          </ul>
+          <p v-else v-html="renderInline(block.text)" />
+        </template>
+      </div>
+
+      <DataTable
+        v-if="entry.table"
+        :headers="entry.table.headers"
+        :rows="entry.table.rows"
+        :stacked="entry.table.stacked"
+      />
+
+      <div v-if="entry.example" class="example-block" v-html="renderInline(entry.example)" />
+      <div v-if="entry.note" class="note-box" v-html="renderNoteHtml(entry.note)" />
     </div>
-
-    <DataTable
-      v-if="entry.table"
-      :headers="entry.table.headers"
-      :rows="entry.table.rows"
-    />
-
-    <div v-if="entry.example" class="example-block" v-html="renderInline(entry.example)" />
-    <div v-if="entry.note" class="note-box" v-html="renderNoteHtml(entry.note)" />
   </div>
 
   <!-- Errata -->
@@ -607,7 +610,18 @@ function handleDefClick(e) {
   }
 }
 
-/* Appendix */
+/* Appendix — two columns on the wide single page, same breakpoint/recipe as .abilities-list */
+@media (min-width: 1024px) {
+  .appendix-columns {
+    column-count: 2;
+    column-gap: 1.5rem;
+  }
+
+  .appendix-columns > .appendix-block {
+    break-inside: avoid;
+  }
+}
+
 .appendix-block {
   border-bottom: 1px solid var(--border-light);
   padding: 1.25rem 0;
