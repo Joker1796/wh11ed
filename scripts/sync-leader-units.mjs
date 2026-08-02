@@ -42,13 +42,14 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { ROOT, APPDATA } from './lib/sync-common.mjs'
+import { ROOT, APPDATA, loadJson, sourceIds as sourceIdsMap, allFactionBundles } from './lib/sync-common.mjs'
 
 const norm = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()
 
+export async function run() {
 // appdata datasheet.json: UPPER(name) → uuid[] (for resolving target bullets to our names)
 const appUpperToIds = new Map()
-for (const d of JSON.parse(fs.readFileSync(path.join(APPDATA, 'tables/datasheet.json'), 'utf8'))) {
+for (const d of loadJson(path.join(APPDATA, 'tables/datasheet.json')) || []) {
   const n = d?.localisations?.en?.name
   if (!n) continue
   const key = n.toUpperCase()
@@ -57,10 +58,9 @@ for (const d of JSON.parse(fs.readFileSync(path.join(APPDATA, 'tables/datasheet.
 }
 
 // sourceIds bridge: appdata uuid → { slug, id }, and `${slug}:${id}` → appdata uuid
-const sourceIds = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/data/sourceIds.json'), 'utf8'))
 const byAppdataId = new Map()
 const wh11edToUuid = new Map()
-for (const [slug, entries] of Object.entries(sourceIds)) {
+for (const [slug, entries] of Object.entries(sourceIdsMap() || {})) {
   for (const [key, uuid] of Object.entries(entries)) {
     if (!key.startsWith('ds:')) continue
     byAppdataId.set(uuid, { slug, id: key.slice(3) })
@@ -70,10 +70,8 @@ for (const [slug, entries] of Object.entries(sourceIds)) {
 
 // appdata Leader/Support prose bullets keyed by the OWNER datasheet's uuid (collision-proof)
 const bulletsByUuid = new Map()
-for (const f of fs.readdirSync(path.join(APPDATA, 'factions')).filter((f) => f.endsWith('.json'))) {
-  let d
-  try { d = JSON.parse(fs.readFileSync(path.join(APPDATA, 'factions', f), 'utf8')) } catch { continue }
-  if (!d.datasheets) continue
+for (const { bundle: d } of allFactionBundles()) {
+  if (!d?.datasheets) continue
   for (const ds of d.datasheets) {
     const rule = (ds.rules || []).find((r) => r.name === 'Leader' || r.name === 'Support')
     if (!rule || !ds.id) continue
@@ -152,4 +150,8 @@ if (flagged.length) {
     if (r.unresolvedCount) console.log(`      (+ ${r.unresolvedCount} appdata bullet(s) with no matching datasheet anywhere — likely an appdata data gap, not checked)`)
   }
 }
-process.exitCode = flagged.length ? 1 : 0
+return flagged.length ? 1 : 0
+}
+
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href
+if (isMain) process.exit(await run())

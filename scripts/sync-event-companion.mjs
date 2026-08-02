@@ -32,6 +32,7 @@
 // Usage:
 //   node scripts/sync-event-companion.mjs
 import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { ROOT, APPDATA, loadJson, loadModule } from './lib/sync-common.mjs'
 
 const EC_PUBLICATION_ID = '085bb508-281f-4a92-a99b-801a5c95c165'
@@ -289,13 +290,19 @@ function inventoryOnly(label, ruleSectionId) {
 }
 
 // ── run ──────────────────────────────────────────────────────────────────────────────
-const mod = await loadModule(path.join(ROOT, 'src/data/eventCompanion.js'))
-const en = mod.getEventContent('en')
+export async function run() {
+  const mod = await loadModule(path.join(ROOT, 'src/data/eventCompanion.js'))
+  const en = mod.getEventContent('en')
 
-syncEdition('Main', MAIN_ID, flattenMain(en))
-syncEdition('Teams', TEAMS_ID, flattenTeams(en))
-syncTwists(en)
-for (const rs of ruleSections) {
-  if (rs.id === MAIN_ID || rs.id === TEAMS_ID) continue
-  inventoryOnly(rs.localisations?.en?.name, rs.id)
+  syncEdition('Main', MAIN_ID, flattenMain(en))
+  syncEdition('Teams', TEAMS_ID, flattenTeams(en))
+  syncTwists(en)
+  for (const rs of ruleSections) {
+    if (rs.id === MAIN_ID || rs.id === TEAMS_ID) continue
+    inventoryOnly(rs.localisations?.en?.name, rs.id)
+  }
+  return 0
 }
+
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href
+if (isMain) process.exit(await run())

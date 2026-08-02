@@ -52,10 +52,10 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
-import { ROOT, APPDATA, norm, appdataToMarkup, loadModule } from './lib/sync-common.mjs'
+import { pathToFileURL } from 'node:url'
+import { ROOT, APPDATA, norm, appdataToMarkup, loadJson, loadModule, sourceIds as sourceIdsMap } from './lib/sync-common.mjs'
 
-const T = path.join(APPDATA, 'tables')
-const read = (f) => JSON.parse(fs.readFileSync(path.join(T, f), 'utf8'))
+const read = (f) => loadJson(path.join(APPDATA, 'tables', f)) || []
 const nameOf = (r) => r?.localisations?.en?.name || ''
 const groupBy = (rows, key) => {
   const m = new Map()
@@ -94,7 +94,7 @@ function namesForGroup(g) {
 }
 
 // --- sourceIds bridge, inverted: appdata enhancement uuid → { slug, detKey, enhName } -----------
-const sourceIds = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/data/sourceIds.json'), 'utf8'))
+const sourceIds = sourceIdsMap() || {}
 const enhByUuid = new Map()
 for (const [slug, entries] of Object.entries(sourceIds)) {
   for (const [key, uuid] of Object.entries(entries)) {
@@ -151,6 +151,7 @@ function nameRe(name) {
   return new RegExp(`\\b${words.join('\\s+')}s?\\b`, 'i')
 }
 
+export async function run() {
 const flagged = []
 const needsReview = []
 let checked = 0
@@ -209,4 +210,8 @@ if (needsReview.length) {
   console.log('\n  ⚠ Bridging gaps (sourceIds points somewhere that no longer matches wh11ed\'s current data):')
   for (const r of needsReview) console.log(`    ${r.slug} · ${r.detKey} · "${r.enhName}": ${r.note}`)
 }
-process.exitCode = flagged.length ? 1 : 0
+return flagged.length ? 1 : 0
+}
+
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href
+if (isMain) process.exit(await run())

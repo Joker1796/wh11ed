@@ -26,10 +26,12 @@
 //
 // Usage: node scripts/sync-layouts.mjs
 import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { ROOT, APPDATA, loadJson, loadModule } from './lib/sync-common.mjs'
 
 const T = (f) => loadJson(path.join(APPDATA, 'tables', f)) || []
 
+export async function run() {
 const fdRows = T('force_disposition.json')
 const fdName = Object.fromEntries(fdRows.map((r) => [r.id, r.localisations?.en?.name]))
 
@@ -140,3 +142,8 @@ for (const [a, b] of MATCHUPS) {
   const names = ['A', 'B', 'C'].map((letter) => deploymentInfo.get(unorderedKey(a, b, letter)) || '?')
   console.log(`  ${nameBySlug.get(a)} / ${nameBySlug.get(b)}: A=${names[0]}  B=${names[1]}  C=${names[2]}`)
 }
+return 0
+}
+
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href
+if (isMain) process.exit(await run())

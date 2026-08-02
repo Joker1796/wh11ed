@@ -38,13 +38,10 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
-import { ROOT, APPDATA, SLUG_MAP, norm, loadModule } from './lib/sync-common.mjs'
+import { pathToFileURL } from 'node:url'
+import { ROOT, APPDATA, SLUG_MAP, norm, loadJson, loadModule, allFactionBundles, sourceIds as sourceIdsMap } from './lib/sync-common.mjs'
 
-const T = path.join(APPDATA, 'tables')
-const read = (f) => {
-  const p = path.join(T, f)
-  return fs.existsSync(p) ? JSON.parse(fs.readFileSync(p, 'utf8')) : []
-}
+const read = (f) => loadJson(path.join(APPDATA, 'tables', f)) || []
 const groupBy = (rows, key) => {
   const m = new Map()
   for (const r of rows) {
@@ -80,8 +77,7 @@ let totalDatasheets = 0
 // appdata `faction.name` (e.g. "Agents of the Imperium") → its own bundle slug — used below to
 // resolve a universal ally rule's "applies to" faction keyword back to a wh11ed faction file.
 const appdataNameToSlug = new Map()
-for (const file of fs.readdirSync(path.join(APPDATA, 'factions'))) {
-  const bundle = JSON.parse(fs.readFileSync(path.join(APPDATA, 'factions', file), 'utf8'))
+for (const { bundle } of allFactionBundles()) {
   if (bundle.faction?.name && bundle.faction?.slug) appdataNameToSlug.set(bundle.faction.name, bundle.faction.slug)
   for (const d of bundle.datasheets || []) {
     totalDatasheets++
@@ -115,7 +111,7 @@ function commonKeywords(datasheetIds) {
 }
 
 // --- sourceIds bridge, inverted: appdata detachment uuid → { slug, wh11ed detachment } -----------
-const sourceIds = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/data/sourceIds.json'), 'utf8'))
+const sourceIds = sourceIdsMap() || {}
 const detByUuid = new Map()
 for (const [slug, entries] of Object.entries(sourceIds)) {
   for (const [key, uuid] of Object.entries(entries)) {
@@ -178,6 +174,7 @@ function bodyGrantsInclusion(body, name) {
   return new RegExp(`\\bcan include\\b(?:(?!\\bcannot\\b)[^.])*?\\b${namePattern}\\b`, 'i').test(norm(body))
 }
 
+export async function run() {
 const flagged = []
 const needsReview = []
 const resolvedOnOwnPage = []
@@ -319,4 +316,8 @@ if (needsReview.length) {
     '\n  These are still not hard-flagged — whether/where wh11ed should carry a codex-wide ally rule\n  is a product decision (see APPDATA-SYNC-LESSONS.md lesson 17 — some ally factions have no\n  appdata file of their own either), but "not found anywhere in this faction file" across the\n  board is a strong signal the content is simply missing, not just unchecked.',
   )
 }
-process.exitCode = flagged.length ? 1 : 0
+return flagged.length ? 1 : 0
+}
+
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href
+if (isMain) process.exit(await run())

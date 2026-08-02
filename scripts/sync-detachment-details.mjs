@@ -38,13 +38,10 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
-import { ROOT, APPDATA, loadModule } from './lib/sync-common.mjs'
+import { pathToFileURL } from 'node:url'
+import { ROOT, APPDATA, loadJson, loadModule, sourceIds as sourceIdsMap } from './lib/sync-common.mjs'
 
-const T = path.join(APPDATA, 'tables')
-const read = (f) => {
-  const p = path.join(T, f)
-  return fs.existsSync(p) ? JSON.parse(fs.readFileSync(p, 'utf8')) : []
-}
+const read = (f) => loadJson(path.join(APPDATA, 'tables', f)) || []
 
 // Common words that appear in nearly every detachment rule regardless of content — excluded from
 // the overlap ratio so two unrelated paragraphs sharing "your army unit" don't look like a match.
@@ -87,19 +84,17 @@ for (const r of read('detachment_detail.json')) {
   detailsByDetachment.set(r.detachmentId, arr)
 }
 
+export async function run() {
 // sourceIds bridge: `${slug}:${wh11ed-detachment-id}` → appdata uuid
-const sourceIds = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/data/sourceIds.json'), 'utf8'))
 const wh11edToUuid = new Map()
-for (const [slug, entries] of Object.entries(sourceIds)) {
+for (const [slug, entries] of Object.entries(sourceIdsMap() || {})) {
   for (const [key, uuid] of Object.entries(entries)) {
     if (!key.startsWith('det:')) continue
     wh11edToUuid.set(`${slug}:${key.slice(4)}`, uuid)
   }
 }
 
-const conditionalKeywords = fs.existsSync(path.join(ROOT, 'src/data/conditionalKeywords.json'))
-  ? JSON.parse(fs.readFileSync(path.join(ROOT, 'src/data/conditionalKeywords.json'), 'utf8'))
-  : {}
+const conditionalKeywords = loadJson(path.join(ROOT, 'src/data/conditionalKeywords.json')) || {}
 function hasConditionalGrant(slug, detId) {
   return Object.values(conditionalKeywords[slug] || {}).some((grants) => grants.some((g) => g.det === detId))
 }
@@ -157,4 +152,8 @@ if (flagged.length) {
     "\n  Add to BOTH src/data/factions/<slug>.js and src/data/factions/ru/<slug>.js (this table has no\n  RU translation of its own — translate the bullet by hand, matching the file's existing convention).",
   )
 }
-process.exitCode = flagged.length ? 1 : 0
+return flagged.length ? 1 : 0
+}
+
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href
+if (isMain) process.exit(await run())
