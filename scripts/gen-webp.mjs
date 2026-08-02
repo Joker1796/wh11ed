@@ -45,6 +45,9 @@ function iconSpec(absPath) {
   if (name.startsWith('marker-')) return { maxWidth: 800, lossless: true }
   if (name.startsWith('dispo-')) return { maxWidth: 128, lossless: false }
   if (name.startsWith('legend-')) return { maxWidth: 192, lossless: false }
+  // Battle-round turn-structure icons (see TurnStructureDiagram.vue) — flat monochrome
+  // shapes rendered via CSS mask-image, so they need alpha, not a -sm variant.
+  if (name.startsWith('icon-')) return { maxWidth: 200, lossless: true }
   // wh40k-app-qr.png is left as-is: the original is a tiny (~4KB) crisp b/w PNG;
   // downscaling + webp made it larger and softer (bad for scanning).
   return null
