@@ -93,7 +93,7 @@ let _combatPatrol = null
 export function combatPatrolNames() {
   if (_combatPatrol) return _combatPatrol
   const T = path.join(APPDATA, 'tables')
-  const read = (f) => (fs.existsSync(path.join(T, f)) ? JSON.parse(fs.readFileSync(path.join(T, f), 'utf8')) : [])
+  const read = (f) => loadJson(path.join(T, f)) || []
   const cpPubIds = new Set(read('publication.json').filter((p) => p.isCombatPatrol).map((p) => p.id))
   const namesUnder = (f) => new Set(read(f).filter((r) => cpPubIds.has(r.publicationId)).map((r) => norm(r?.localisations?.en?.name || '')).filter(Boolean))
   const idsUnder = (f) => new Set(read(f).filter((r) => cpPubIds.has(r.publicationId)).map((r) => r.id))
@@ -105,11 +105,48 @@ export function combatPatrolNames() {
   return _combatPatrol
 }
 
+// Memoized by absolute path — once sync.mjs runs every check in one process (instead of a
+// spawnSync per script), this alone collapses the repeated re-parsing of the same
+// tables/<x>.json or factions/<slug>.json across different checks into a single read. Harmless
+// for standalone single-script runs too (just a cache that's never reused).
+const _jsonCache = new Map()
 export function loadJson(file) {
-  return fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : null
+  if (_jsonCache.has(file)) return _jsonCache.get(file)
+  const v = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : null
+  _jsonCache.set(file, v)
+  return v
 }
 export async function loadModule(file) {
   return fs.existsSync(file) ? import(pathToFileURL(file)) : null
+}
+
+// wh11ed's own src/data/sourceIds.json, memoized — several scripts read this directly with
+// fs.readFileSync instead of loadJson(); route them through here so it's parsed once per process
+// instead of once per faction iteration (sync-appdata.mjs used to re-read it inside its --all
+// loop, 30x in a row for no reason).
+export function sourceIds() {
+  return loadJson(path.join(ROOT, 'src/data/sourceIds.json'))
+}
+
+// All 30 wh40k-appdata faction bundles, loaded once. Several scripts (sync-leader-units,
+// sync-ally-inclusion, sync-roster-restrictions, sync-army-rule-coverage, sync-combat-patrol)
+// independently fs.readdirSync(factions/) + loadJson every bundle for their own purposes — same
+// technique as combatPatrolNames() below (module-level cache, computed on first call).
+let _allBundles = null
+export function allFactionBundles() {
+  if (_allBundles) return _allBundles
+  const dir = path.join(APPDATA, 'factions')
+  const out = []
+  if (fs.existsSync(dir)) {
+    for (const f of fs.readdirSync(dir).filter((f) => f.endsWith('.json') && f !== '_index.json')) {
+      // Tolerate a bundle mid-rebuild/corrupt (sync-leader-units.mjs used to guard this per-file
+      // when it scanned the directory itself) — skip it rather than aborting the whole audit, now
+      // that every check shares one process instead of its own isolated one.
+      try { out.push({ appSlug: f.replace(/\.json$/, ''), bundle: loadJson(path.join(dir, f)) }) } catch { /* skip */ }
+    }
+  }
+  _allBundles = out
+  return _allBundles
 }
 
 // Load a faction's wh11ed datasheets AS THE SITE SHOWS THEM: for the 5 Codex-sharing Chapters,

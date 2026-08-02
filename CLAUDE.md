@@ -62,7 +62,7 @@ npm run dev      # dev server at http://localhost:5173
 npm run build    # production build → dist/
 npm run preview  # preview the production build
 npm run deploy   # build + upload to the Yandex Object Storage bucket (see Deployment)
-npm run sync     # audit all data against wh40k-appdata: version check + sourceIds + faction structure/text/tracker/core diffs (report-only)
+npm run sync     # audit all data against wh40k-appdata: version check + sourceIds + faction structure/text/tracker/core diffs (report-only) — see DATA-SYNC.md for the full update procedure
 npm run sync:text    # just the faction rule/stratagem/enhancement/ability PROSE diff vs appdata (errata drift; a slug or --all)
 npm run images:webp  # convert new illustration jpg/png in public/images/ to WebP (see Image organization)
 npm run faction-rules:index  # regenerate the faction-rules name index for search (see Search)

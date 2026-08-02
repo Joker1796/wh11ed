@@ -28,6 +28,7 @@
 //   node scripts/gen-source-ids.mjs --check    # report only; non-zero exit if it would change
 import fs from 'node:fs'
 import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { ROOT, APPDATA, SLUG_MAP, norm, loadJson, loadModule, byNormName, matchWeapon, combatPatrolNames } from './lib/sync-common.mjs'
 import { combatPatrol } from '../src/data/combatPatrol.js'
 
@@ -113,28 +114,35 @@ async function mapFaction(slug, cp, stats) {
 }
 
 const OUT = path.join(ROOT, 'src/data/sourceIds.json')
-const check = process.argv.includes('--check')
-// Iterate wh11ed's own faction slugs (the src/data/factions/*.js filenames) — SLUG_MAP resolves
-// each to its appdata bundle name. Deriving slugs from appdata's _index instead would skip every
-// renamed faction (space-marines↔adeptus-astartes, aeldari↔asuryani, …).
-const slugs = fs.readdirSync(path.join(ROOT, 'src/data/factions')).filter((f) => f.endsWith('.js')).map((f) => f.replace(/\.js$/, ''))
 
-const cp = combatPatrolNames()
-const stats = { matched: 0, unmatched: 0 }
-const map = {}
-for (const slug of slugs.sort()) {
-  const m = await mapFaction(slug, cp, stats)
-  if (m && Object.keys(m).length) map[slug] = m
-}
+export async function run(argv = process.argv.slice(2)) {
+  const check = argv.includes('--check')
+  // Iterate wh11ed's own faction slugs (the src/data/factions/*.js filenames) — SLUG_MAP resolves
+  // each to its appdata bundle name. Deriving slugs from appdata's _index instead would skip every
+  // renamed faction (space-marines↔adeptus-astartes, aeldari↔asuryani, …).
+  const slugs = fs.readdirSync(path.join(ROOT, 'src/data/factions')).filter((f) => f.endsWith('.js')).map((f) => f.replace(/\.js$/, ''))
 
-const json = JSON.stringify(map, null, 2) + '\n'
-const prev = fs.existsSync(OUT) ? fs.readFileSync(OUT, 'utf8') : null
-console.log(`sourceIds: ${stats.matched} entities mapped across ${Object.keys(map).length} factions, ${stats.unmatched} unmatched (new/renamed — see sync-appdata).`)
+  const cp = combatPatrolNames()
+  const stats = { matched: 0, unmatched: 0 }
+  const map = {}
+  for (const slug of slugs.sort()) {
+    const m = await mapFaction(slug, cp, stats)
+    if (m && Object.keys(m).length) map[slug] = m
+  }
 
-if (check) {
-  if (prev !== json) { console.log('  --check: src/data/sourceIds.json is stale; run `node scripts/gen-source-ids.mjs`.'); process.exit(1) }
-  console.log('  --check: up to date.')
-} else {
+  const json = JSON.stringify(map, null, 2) + '\n'
+  const prev = fs.existsSync(OUT) ? fs.readFileSync(OUT, 'utf8') : null
+  console.log(`sourceIds: ${stats.matched} entities mapped across ${Object.keys(map).length} factions, ${stats.unmatched} unmatched (new/renamed — see sync-appdata).`)
+
+  if (check) {
+    if (prev !== json) { console.log('  --check: src/data/sourceIds.json is stale; run `node scripts/gen-source-ids.mjs`.'); return 1 }
+    console.log('  --check: up to date.')
+    return 0
+  }
   fs.writeFileSync(OUT, json)
   console.log(`  wrote ${path.relative(ROOT, OUT)}${prev === json ? ' (unchanged)' : ''}`)
+  return 0
 }
+
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href
+if (isMain) process.exit(await run())

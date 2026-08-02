@@ -43,13 +43,10 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
-import { ROOT, APPDATA, SLUG_MAP, norm, loadModule, loadWh11edDatasheets } from './lib/sync-common.mjs'
+import { pathToFileURL } from 'node:url'
+import { ROOT, APPDATA, SLUG_MAP, norm, loadJson, loadModule, loadWh11edDatasheets, allFactionBundles, sourceIds as sourceIdsMap } from './lib/sync-common.mjs'
 
-const T = path.join(APPDATA, 'tables')
-const read = (f) => {
-  const p = path.join(T, f)
-  return fs.existsSync(p) ? JSON.parse(fs.readFileSync(p, 'utf8')) : []
-}
+const read = (f) => loadJson(path.join(APPDATA, 'tables', f)) || []
 const groupBy = (rows, key) => {
   const m = new Map()
   for (const r of rows) {
@@ -67,7 +64,7 @@ const detachmentName = new Map(read('detachment.json').map((r) => [r.id, nameOf(
 const datasheetName = new Map(read('datasheet.json').map((r) => [r.id, nameOf(r)]))
 
 // --- wh11ed side: load every faction's datasheets/detachments once ------------------------------
-const sourceIds = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/data/sourceIds.json'), 'utf8'))
+const sourceIds = sourceIdsMap() || {}
 const detByUuid = new Map()
 for (const [slug, entries] of Object.entries(sourceIds)) {
   for (const [key, uuid] of Object.entries(entries)) {
@@ -92,8 +89,7 @@ async function factionWideBody(slug) {
 // appdata `faction.name` → its own bundle slug, for faction_keyword_excluded_datasheet's faction
 // side (same approach as sync-ally-inclusion.mjs).
 const appdataNameToSlug = new Map()
-for (const file of fs.readdirSync(path.join(APPDATA, 'factions'))) {
-  const bundle = JSON.parse(fs.readFileSync(path.join(APPDATA, 'factions', file), 'utf8'))
+for (const { bundle } of allFactionBundles()) {
   if (bundle.faction?.name && bundle.faction?.slug) appdataNameToSlug.set(bundle.faction.name, bundle.faction.slug)
 }
 const appdataSlugToWh11edSlug = new Map(Object.entries(SLUG_MAP).map(([wh, app]) => [app, wh]))
@@ -156,6 +152,7 @@ function bodyHasNumber(body, n) {
   return word ? new RegExp(`\\b${word}\\b`, 'i').test(body) : false
 }
 
+export async function run() {
 const flagged = []
 const needsReview = []
 let checked = 0
@@ -370,4 +367,8 @@ if (needsReview.length) {
     console.log(`    [${r.kind}] ${r.subject || r.detachment || r.faction} — ${r.note}`)
   }
 }
-process.exitCode = flagged.length ? 1 : 0
+return flagged.length ? 1 : 0
+}
+
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href
+if (isMain) process.exit(await run())

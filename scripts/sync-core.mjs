@@ -24,6 +24,7 @@
 // sides paraphrase. Report only; nothing is written.
 import { ROOT, APPDATA, loadJson, loadModule } from './lib/sync-common.mjs'
 import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { splitBodyEntries } from '../src/composables/columnChunks.js'
 
 // Section-array files (each `{ en: Section[] }` with subsections/children carrying sectionNum):
@@ -141,7 +142,8 @@ function flattenWh11ed(sections, file, out) {
   for (const s of sections) walk(s)
 }
 
-const prefix = process.argv[2] || ''
+export async function run(argv = process.argv.slice(2)) {
+const prefix = argv[0] || ''
 const inScope = (num) => !prefix || num === prefix || num.startsWith(prefix + '.')
 
 const wh = new Map()
@@ -210,3 +212,8 @@ for (const num of whNums.sort((x, y) => x.localeCompare(y, undefined, { numeric:
 if (!lines.length) console.log('  no text differences found')
 else console.log(lines.join('\n'))
 console.log(`\n  ${lines.length} finding(s).`)
+return 0
+}
+
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href
+if (isMain) process.exit(await run())

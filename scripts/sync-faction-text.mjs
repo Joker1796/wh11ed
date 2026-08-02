@@ -30,6 +30,7 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { ROOT, APPDATA, SLUG_MAP, norm, appdataToMarkup, bodyText, loadJson, loadModule, byNormName, combatPatrolNames, loadWh11edDatasheets } from './lib/sync-common.mjs'
 
 // Strip wh11ed's enrichment layer (and appdata's residual markup) down to bare comparable words.
@@ -253,15 +254,20 @@ async function syncFaction(slug) {
   else out.forEach((l) => console.log(l))
 }
 
-const args = process.argv.slice(2)
-let slugs = args
-if (args[0] === '--all') {
-  slugs = fs.readdirSync(path.join(ROOT, 'src/data/factions'))
-    .filter((f) => f.endsWith('.js') && f !== 'index.js')
-    .map((f) => f.replace(/\.js$/, ''))
+export async function run(argv = process.argv.slice(2)) {
+  let slugs = argv
+  if (argv[0] === '--all') {
+    slugs = fs.readdirSync(path.join(ROOT, 'src/data/factions'))
+      .filter((f) => f.endsWith('.js') && f !== 'index.js')
+      .map((f) => f.replace(/\.js$/, ''))
+  }
+  if (!slugs.length) {
+    console.log('Usage: node scripts/sync-faction-text.mjs <slug> [<slug> ...] | --all')
+    return 1
+  }
+  for (const slug of slugs) await syncFaction(slug)
+  return 0
 }
-if (!slugs.length) {
-  console.log('Usage: node scripts/sync-faction-text.mjs <slug> [<slug> ...] | --all')
-  process.exit(1)
-}
-for (const slug of slugs) await syncFaction(slug)
+
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href
+if (isMain) process.exit(await run())
