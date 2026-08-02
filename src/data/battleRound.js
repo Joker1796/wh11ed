@@ -29,18 +29,15 @@ export const battleRound = {
         body: `Both players now take one turn each. The same player always takes the first turn in each battle round – the mission you are playing will tell you which player this is. Once that player's turn has ended, their opponent takes their turn.
 
 Each turn consists of seven parts: first the Start of Turn step, then a series of five phases resolved in the order shown below, then the End of Turn step.`,
-        // Split out of `body` into its own column item — glued to the text above it, this
-        // stack of 7 banners (RU; EN keeps compact icons but is split the same way for
-        // EN↔RU marker-count parity) made the section too tall to balance evenly against
-        // its neighbours across the two columns. See splitSubsections() in columnChunks.js.
-        splitBody: `### Turn Structure
-[img:/images/turn/START-OF-TURN-STEP.png|Phase icon: Start of Turn Step]
-[img:/images/turn/COMMAND-PHASE.png|Phase icon: Command Phase]
-[img:/images/turn/MOVEMENT-PHASE.png|Phase icon: Movement Phase]
-[img:/images/turn/SHOOTING-PHASE.png|Phase icon: Shooting Phase]
-[img:/images/turn/CHARGE-PHASE.png|Phase icon: Charge Phase]
-[img:/images/turn/FIGHT-PHASE.png|Phase icon: Fight Phase]
-[img:/images/turn/END-OF-TURN-STEP.png|Phase icon: End of Turn Step]`,
+        steps: [
+          { icon: 'turn-step', title: 'START OF TURN STEP', desc: 'Rules that are triggered at the start of a turn are resolved now.' },
+          { icon: 'command', title: 'COMMAND PHASE', desc: 'You marshal strategic resources and check your units’ morale.' },
+          { icon: 'movement', title: 'MOVEMENT PHASE', desc: 'Your units move across the battlefield and strategic reserves arrive.' },
+          { icon: 'shooting', title: 'SHOOTING PHASE', desc: 'Your units make attacks with their ranged weapons.' },
+          { icon: 'charge', title: 'CHARGE PHASE', desc: 'Your units make charge moves to engage the enemy.' },
+          { icon: 'fight', title: 'FIGHT PHASE', desc: 'Both players’ units make attacks with their melee weapons.' },
+          { icon: 'turn-step', title: 'END OF TURN STEP', desc: 'Rules that are triggered at the end of a turn are resolved now, in the following order:\n1. First resolve rules triggered at this point other than mission rules.\n2. Both players then consult their mission; if one or both players have achieved any aspects of their mission that are triggered at this point, resolve them now.' },
+        ],
         example: `Player A won the roll-off and chose to take the first turn. In Battle Round 1, Player A completes their entire turn (Command → Movement → Shooting → Charge → Fight), then Player B takes theirs. In Battle Round 2, Player A again goes first — the order never changes mid-game.`,
         children: [
           {
@@ -714,14 +711,15 @@ No enemy units are within 3" of this MONSTER unit, but an **objective (C)** is w
         body: `Теперь оба игрока делают по одному ходу. Один и тот же игрок всегда делает первый ход в каждом раунде боя — миссия, по которой вы играете, подскажет вам, какой именно игрок. После того как ход этого игрока закончился, его оппонент делает свой ход.
 
 Каждый ход состоит из семи частей: сначала шаг «Начало хода»; затем серия из пяти фаз, отыгрываемых в порядке, показанном ниже, затем шаг «Конец хода».`,
-        splitBody: `### Структура хода
-[img:/images/turn/start-of-turn-step-banner-ru.png|Шаг начала хода]
-[img:/images/turn/command-phase-banner-ru.png|Фаза командования]
-[img:/images/turn/movement-phase-banner-ru.png|Фаза движения]
-[img:/images/turn/shooting-phase-banner-ru.png|Фаза стрельбы]
-[img:/images/turn/charge-phase-banner-ru.png|Фаза нападения]
-[img:/images/turn/fight-phase-banner-ru.png|Фаза ближнего боя]
-[img:/images/turn/end-of-turn-step-banner-ru.png|Шаг конца хода]`,
+        steps: [
+          { icon: 'turn-step', title: 'ШАГ НАЧАЛА ХОДА', desc: 'Правила, срабатывающие в начале хода, выполняются сейчас.' },
+          { icon: 'command', title: 'ФАЗА КОМАНДОВАНИЯ', desc: 'Вы распоряжаетесь стратегическими ресурсами и проверяете боевой дух своих юнитов.' },
+          { icon: 'movement', title: 'ФАЗА ДВИЖЕНИЯ', desc: 'Ваши юниты перемещаются по полю боя, прибывают стратегические резервы.' },
+          { icon: 'shooting', title: 'ФАЗА СТРЕЛЬБЫ', desc: 'Ваши юниты атакуют дальнобойным оружием.' },
+          { icon: 'charge', title: 'ФАЗА НАПАДЕНИЯ', desc: 'Ваши юниты совершают нападения, чтобы вступить в ближний бой с врагом.' },
+          { icon: 'fight', title: 'ФАЗА БЛИЖНЕГО БОЯ', desc: 'Юниты обоих игроков атакуют оружием ближнего боя.' },
+          { icon: 'turn-step', title: 'ШАГ КОНЦА ХОДА', desc: 'Правила, срабатывающие в конце хода, выполняются сейчас, в следующем порядке:\n– Сначала разрешите правила, срабатывающие в этот момент, кроме правил миссии.\n– Затем оба игрока сверяются с миссией; если один или оба игрока выполнили какие-либо аспекты своей миссии, срабатывающие в этот момент, разрешите их сейчас.' },
+        ],
         example: `Игрок А выиграл кубовку и выбрал первый ход. В Раунде боя 1 Игрок А завершает свой полный ход (Командование → Движение → Стрельба → Нападение → Ближний бой), затем Игрок Б делает свой ход. В Раунде боя 2 Игрок А снова ходит первым — порядок не меняется на протяжении всей игры.`,
         children: [
           {
