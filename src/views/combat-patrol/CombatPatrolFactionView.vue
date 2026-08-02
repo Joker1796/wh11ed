@@ -12,21 +12,21 @@
         <span v-if="faction.forceDisposition" class="det-meta-item">{{ faction.forceDisposition }}</span>
       </div>
       <p v-if="faction.rule.flavor" class="faction-flavor">{{ faction.rule.flavor }}</p>
-      <RuleBlock :title="faction.rule.name" :subtitle="faction.rule.nameRu" :body="faction.rule.body" />
+      <RuleBlock :id="`cp-${route.params.slug}-rule`" :title="faction.rule.name" :subtitle="faction.rule.nameRu" :body="faction.rule.body" />
     </section>
 
     <!-- Army rule -->
     <section class="fsection" id="army-rule">
       <h2 class="fsection-title">{{ labels.factionArmyRule }}</h2>
       <p v-if="faction.armyRule.flavor" class="faction-flavor">{{ faction.armyRule.flavor }}</p>
-      <RuleBlock :title="faction.armyRule.name" :subtitle="faction.armyRule.nameRu" :body="faction.armyRule.body" :example="faction.armyRule.example" />
+      <RuleBlock :id="`cp-${route.params.slug}-army-rule`" :title="faction.armyRule.name" :subtitle="faction.armyRule.nameRu" :body="faction.armyRule.body" :example="faction.armyRule.example" />
     </section>
 
     <!-- Stratagems -->
     <section v-if="faction.stratagems?.length" class="fsection" id="stratagems">
       <h2 class="fsection-title">{{ labels.factionStratagems }}</h2>
       <div class="strat-grid">
-        <StratCard v-for="s in faction.stratagems" :key="s.name" :strat="s" :sublabel="s.sublabel" />
+        <StratCard v-for="s in faction.stratagems" :key="s.name" :id="`cp-strat-${route.params.slug}-${slugify(s.name)}`" :strat="s" :sublabel="s.sublabel" />
       </div>
     </section>
 
@@ -34,7 +34,7 @@
     <section v-if="faction.enhancements?.length" class="fsection" id="enhancements">
       <h2 class="fsection-title">{{ labels.factionEnhancements }}</h2>
       <div class="enh-grid">
-        <article v-for="e in faction.enhancements" :key="e.name" class="enh-card">
+        <article v-for="e in faction.enhancements" :key="e.name" :id="`cp-enh-${route.params.slug}-${slugify(e.name)}`" class="enh-card">
           <div class="enh-head">
             <div class="enh-heading">
               <span class="enh-name">{{ e.name }}</span>
@@ -80,6 +80,7 @@ import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 import { formatBaseSize } from '../../utils/baseSize.js'
 import { factionIndexBySlug } from '../../data/factionsIndex.js'
+import { slugify } from '../../data/slugify.js'
 
 const route = useRoute()
 const { locale } = useLocale()

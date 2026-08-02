@@ -36,7 +36,7 @@
         </div>
 
         <p v-if="det.rule.flavor" class="faction-flavor">{{ det.rule.flavor }}</p>
-        <RuleBlock :title="det.rule.name" :subtitle="det.rule.nameRu" :body="det.rule.body" />
+        <RuleBlock :id="`${det.id}-rule`" :title="det.rule.name" :subtitle="det.rule.nameRu" :body="det.rule.body" />
 
         <!-- Stratagems -->
         <template v-if="det.stratagems && det.stratagems.length">
@@ -45,6 +45,7 @@
             <StratCard
               v-for="s in det.stratagems"
               :key="s.name"
+              :id="`strat-${det.id}-${slugify(s.name)}`"
               :strat="s"
               :sublabel="s.sublabel"
             />
@@ -54,7 +55,7 @@
         <!-- Enhancements -->
         <h3 class="fsub-title" id="enhancements">{{ labels.factionEnhancements }}</h3>
         <div class="enh-grid">
-          <article v-for="e in det.enhancements" :key="e.name" class="enh-card">
+          <article v-for="e in det.enhancements" :key="e.name" :id="`enh-${det.id}-${slugify(e.name)}`" class="enh-card">
             <div class="enh-head">
               <div class="enh-heading">
                 <span class="enh-name">{{ e.name }}</span>
@@ -85,6 +86,7 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 import { useFactionChoice } from '../../composables/useFactionChoice.js'
+import { slugify } from '../../data/slugify.js'
 
 const { slug, faction } = useFactionPage()
 const { locale } = useLocale()
