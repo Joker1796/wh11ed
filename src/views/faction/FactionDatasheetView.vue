@@ -3,7 +3,7 @@
     <section class="fsection">
       <template v-if="sheet">
         <div class="ds-head">
-          <h2 class="ds-title">{{ sheet.name }}<span v-if="sheet.baseSize" class="ds-title-base">({{ fmtBase(sheet.baseSize) }})</span></h2>
+          <h2 class="ds-title">{{ sheet.name }} <span v-if="sheet.baseSize" class="ds-title-base">({{ fmtBase(sheet.baseSize) }})</span></h2>
           <div class="ds-actions">
             <button
               type="button"

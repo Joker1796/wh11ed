@@ -15,7 +15,7 @@
             <span v-if="i === 0" class="ds-stat-label">{{ s.label }}</span>
             <span class="ds-stat-box">{{ s.value }}</span>
           </div>
-          <span v-if="sheet.profiles.length > 1" class="ds-prof-name">{{ p.name }}<span v-if="p.baseSize" class="ds-base"> ({{ fmtBase(p.baseSize) }})</span></span>
+          <span v-if="sheet.profiles.length > 1" class="ds-prof-name">{{ p.name }} <span v-if="p.baseSize" class="ds-base">({{ fmtBase(p.baseSize) }})</span></span>
           <template v-if="p.inv">
             <div class="ds-stat ds-inv-box">
               <span class="ds-stat-box">{{ p.inv }}{{ p.invNote ? '*' : '' }}</span>
