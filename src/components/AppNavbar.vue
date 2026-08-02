@@ -410,7 +410,7 @@ a.nd-link:hover {
   display: inline-flex;
   align-items: center;
   height: 2.15rem;
-  width: 2.75rem;
+  width: 3.2rem;
   background: rgba(255,255,255,0.07);
   border: 1px solid rgba(255,255,255,0.14);
   border-radius: 4px;
