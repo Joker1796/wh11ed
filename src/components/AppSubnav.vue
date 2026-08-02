@@ -271,7 +271,7 @@ const subNavItems = computed(() => {
 .subnav-dropdown-panel {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  width: min(46rem, 94vw);
+  width: min(64rem, 96vw);
   gap: 0.1rem 1.25rem;
   max-height: min(70vh, 420px);
   overflow-y: auto;
@@ -306,13 +306,15 @@ a.nd-link:hover {
   font-weight: 700;
 }
 
-/* Some unit names are very long (40-54 chars) — clip with an ellipsis instead of letting
-   nowrap text spill into the next column. */
+/* Some unit names are very long (40-54 chars, e.g. "Overlord with Translocation Shroud")
+   — clip with an ellipsis instead of letting nowrap text spill into the next column. A
+   slightly smaller size than the base .nd-link buys back some of that room too. */
 .subnav-dropdown-panel .nd-link {
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 0.06rem 0;
+  font-size: 0.8rem;
 }
 
 /* ── Mobile ── */
