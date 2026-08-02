@@ -17,6 +17,34 @@
 
 export const changelog = [
   {
+    version: '2.2.2',
+    date: '2026-08-02',
+    en: [
+      { h: 'New' },
+      'Search now finds sub-rule headings inside faction/detachment rules (Vows, Doctrines, Stances and the like) and jumps straight to them, and it now covers Combat Patrol content too (rules, stratagems, enhancements) — previously missing.',
+      'Datasheet keywords are now clickable — tap one to see every other unit in the faction sharing it, linking straight to that unit\'s page.',
+      'The Turn Structure diagram (Battle Round, 07.02) was rebuilt as a lightweight live diagram instead of large per-language image banners — sharper, and much smaller to download.',
+      { h: 'Fixes' },
+      'Long unit names in the "Units" dropdown (e.g. "Overlord with Translocation Shroud") no longer get cut off.',
+      'Tiny, illegible ability/weapon keyword badges on datasheets (e.g. [DEVASTATING WOUNDS], Deep Strike, Leader) are now readable.',
+      'Unit names with a base size (e.g. "(⌀50mm)") no longer wrap awkwardly with the last word of the name dragged onto the base size\'s line.',
+      'The EN/RU language switch is a bit wider, with more breathing room around the labels.',
+      'Fixed a Russian-translation slip: several rules used the word for "permit/allow" where the English said "resolve" (carry out an attack/ability) — it read like the rule granted permission instead of describing an action. Affected the battle round diagram, a Combat Patrol enhancement, and a handful of faction FAQ entries.',
+    ],
+    ru: [
+      { h: 'Новое' },
+      'Поиск теперь находит заголовки под-правил внутри правил фракций/детачментов (Vows, Doctrines, Stances и т.п.) и сразу переходит к нужному месту, а также охватывает контент Combat Patrol (правило, стратагемы, улучшения) — раньше их не было в поиске.',
+      'Ключевые слова на датащитах теперь кликабельны — по клику открывается список всех остальных юнитов фракции с этим ключевым словом со ссылками на их страницы.',
+      'Диаграмма «Структура хода» (боевой раунд, 07.02) переделана в лёгкую живую диаграмму вместо больших картинок-баннеров для каждого языка — стала чётче и заметно легче для загрузки.',
+      { h: 'Исправления' },
+      'Длинные названия юнитов в выпадающем списке «Юниты» (например, «Overlord with Translocation Shroud») больше не обрезаются многоточием.',
+      'Мелкие нечитаемые бейджи способностей/оружия на датащитах (например, [DEVASTATING WOUNDS], Deep Strike, Leader) стали читаемыми.',
+      'Названия юнитов с размером базы (например, «(⌀50mm)») больше не переносятся некрасиво, утаскивая последнее слово названия на строку с размером базы.',
+      'Переключатель языка EN/RU стал чуть шире — больше воздуха вокруг букв.',
+      'Исправлена ошибка перевода: в нескольких местах вместо «разыграть» (совершить атаку/способность) стояло «разрешить» (в смысле «позволить») — из-за этого правило читалось как разрешение, а не как действие. Задело диаграмму боевого раунда, одну из улучшений Combat Patrol и несколько записей FAQ фракций.',
+    ],
+  },
+  {
     version: '2.2.1',
     date: '2026-08-02',
     en: [
