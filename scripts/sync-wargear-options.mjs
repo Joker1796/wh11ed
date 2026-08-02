@@ -40,13 +40,10 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
-import { ROOT, APPDATA, norm, combatPatrolNames, loadWh11edDatasheets } from './lib/sync-common.mjs'
+import { pathToFileURL } from 'node:url'
+import { ROOT, APPDATA, norm, loadJson, combatPatrolNames, loadWh11edDatasheets, sourceIds as sourceIdsMap } from './lib/sync-common.mjs'
 
-const T = path.join(APPDATA, 'tables')
-const read = (f) => {
-  const p = path.join(T, f)
-  return fs.existsSync(p) ? JSON.parse(fs.readFileSync(p, 'utf8')) : []
-}
+const read = (f) => loadJson(path.join(APPDATA, 'tables', f)) || []
 const groupBy = (rows, key) => {
   const m = new Map()
   for (const r of rows) {
@@ -209,8 +206,9 @@ function blobOf(d) {
   )
 }
 
+export async function run() {
 // --- sourceIds bridge (`ds:<wh11ed-id>` → appdata uuid) -----------------------------------------
-const sourceIds = JSON.parse(fs.readFileSync(path.join(ROOT, 'src/data/sourceIds.json'), 'utf8'))
+const sourceIds = sourceIdsMap() || {}
 const cp = combatPatrolNames()
 
 let scanned = 0
@@ -285,4 +283,8 @@ if (flagged.length) {
     '\n  Check src/data/datasheets/<slug>.js `options`/`loadout` — this is presence-only (not a\n  structural match), so also cross-check by hand before editing: merged-profile datasheets and\n  informal Ork-style pluralization are known sources of noise here (see header comment).',
   )
 }
-process.exitCode = flagged.length ? 1 : 0
+return flagged.length ? 1 : 0
+}
+
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href
+if (isMain) process.exit(await run())

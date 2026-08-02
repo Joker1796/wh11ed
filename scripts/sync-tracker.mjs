@@ -26,13 +26,12 @@
 //   sometimes pre-sums these into mutually-exclusive flat tiers (4vp if W≥4, 3vp otherwise).
 //   Check the arithmetic (base + bonus) before treating this as a mismatch.
 import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { ROOT, APPDATA, SLUG_MAP, norm, appdataToMarkup, loadJson, loadModule, byNormName, diffByName } from './lib/sync-common.mjs'
 
-const core = loadJson(path.join(APPDATA, 'factions', '_core-content.json'))
-if (!core) {
-  console.log('no factions/_core-content.json found in wh40k-appdata — run its build-factions.mjs first')
-  process.exit(1)
-}
+// Assigned at the top of run() — the categories below (called only from run(), after that
+// assignment) close over this binding rather than each taking it as a parameter.
+let core
 
 // ---- battle sizes ----------------------------------------------------------------------
 async function checkBattleSizes() {
@@ -331,9 +330,19 @@ const CATEGORIES = {
   'detachments': checkDetachments,
 }
 
-const args = process.argv.slice(2)
-const toRun = args.length ? args : Object.keys(CATEGORIES)
-for (const cat of toRun) {
-  if (!CATEGORIES[cat]) { console.log(`unknown category: ${cat} (known: ${Object.keys(CATEGORIES).join(', ')})`); continue }
-  await CATEGORIES[cat]()
+export async function run(argv = process.argv.slice(2)) {
+  core = loadJson(path.join(APPDATA, 'factions', '_core-content.json'))
+  if (!core) {
+    console.log('no factions/_core-content.json found in wh40k-appdata — run its build-factions.mjs first')
+    return 1
+  }
+  const toRun = argv.length ? argv : Object.keys(CATEGORIES)
+  for (const cat of toRun) {
+    if (!CATEGORIES[cat]) { console.log(`unknown category: ${cat} (known: ${Object.keys(CATEGORIES).join(', ')})`); continue }
+    await CATEGORIES[cat]()
+  }
+  return 0
 }
+
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href
+if (isMain) process.exit(await run())

@@ -20,13 +20,10 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
-import { ROOT, APPDATA, norm, loadModule } from './lib/sync-common.mjs'
+import { pathToFileURL } from 'node:url'
+import { ROOT, APPDATA, norm, loadJson, loadModule } from './lib/sync-common.mjs'
 
-const T = path.join(APPDATA, 'tables')
-const read = (f) => {
-  const p = path.join(T, f)
-  return fs.existsSync(p) ? JSON.parse(fs.readFileSync(p, 'utf8')) : []
-}
+const read = (f) => loadJson(path.join(APPDATA, 'tables', f)) || []
 
 // An attach note, in any wording our data or GW uses.
 const ATTACH_RE = /attached to|attaches to|can be attached/i
@@ -84,27 +81,32 @@ async function wh11edEnhancements() {
   return map
 }
 
-const appEnh = appdataAttachEnhancements()
-const ours = await wh11edEnhancements()
+export async function run() {
+  const appEnh = appdataAttachEnhancements()
+  const ours = await wh11edEnhancements()
 
-const missing = []
-let covered = 0
-let notCarried = 0
-for (const a of appEnh) {
-  const mine = ours.get(norm(a.name))
-  if (!mine) { notCarried++; continue } // faction/detachment not in wh11ed (e.g. not imported yet)
-  if (ATTACH_RE.test(mine.body)) { covered++; continue }
-  missing.push({ ...a, ...mine })
-}
-
-console.log(`enhancement attach-notes: ${appEnh.length} attach-granting enhancements in appdata — ${covered} covered, ${missing.length} MISSING, ${notCarried} not in wh11ed data.`)
-if (missing.length) {
-  console.log('\n  ✗ these enhancements grant an attach in appdata but their wh11ed body has no attach note:')
-  for (const m of missing) {
-    const tgt = [...m.targets].join(', ')
-    console.log(`    ${m.slug} · ${m.det} · ${m.name}  →${[...m.types].join('/')}→ ${tgt}`)
+  const missing = []
+  let covered = 0
+  let notCarried = 0
+  for (const a of appEnh) {
+    const mine = ours.get(norm(a.name))
+    if (!mine) { notCarried++; continue } // faction/detachment not in wh11ed (e.g. not imported yet)
+    if (ATTACH_RE.test(mine.body)) { covered++; continue }
+    missing.push({ ...a, ...mine })
   }
-  console.log('\n  Add to BOTH src/data/factions/<slug>.js and src/data/factions/ru/<slug>.js, e.g.:')
-  console.log('    "In the Declare Battle Formations step, the bearer can be attached to a <UNIT> unit."')
+
+  console.log(`enhancement attach-notes: ${appEnh.length} attach-granting enhancements in appdata — ${covered} covered, ${missing.length} MISSING, ${notCarried} not in wh11ed data.`)
+  if (missing.length) {
+    console.log('\n  ✗ these enhancements grant an attach in appdata but their wh11ed body has no attach note:')
+    for (const m of missing) {
+      const tgt = [...m.targets].join(', ')
+      console.log(`    ${m.slug} · ${m.det} · ${m.name}  →${[...m.types].join('/')}→ ${tgt}`)
+    }
+    console.log('\n  Add to BOTH src/data/factions/<slug>.js and src/data/factions/ru/<slug>.js, e.g.:')
+    console.log('    "In the Declare Battle Formations step, the bearer can be attached to a <UNIT> unit."')
+  }
+  return missing.length ? 1 : 0
 }
-process.exitCode = missing.length ? 1 : 0
+
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href
+if (isMain) process.exit(await run())

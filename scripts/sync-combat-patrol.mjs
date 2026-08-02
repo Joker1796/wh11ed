@@ -17,15 +17,15 @@
 // Report only — nothing is written (combatPatrol.js is hand-authored prose, same rule as every
 // other faction data file). Usage: node scripts/sync-combat-patrol.mjs (also run as part of
 // `npm run sync`).
-import fs from 'node:fs'
 import path from 'node:path'
-import { APPDATA, SLUG_MAP, norm, loadJson, diffSet } from './lib/sync-common.mjs'
+import { pathToFileURL } from 'node:url'
+import { APPDATA, SLUG_MAP, norm, loadJson, diffSet, allFactionBundles } from './lib/sync-common.mjs'
 import { combatPatrol } from '../src/data/combatPatrol.js'
 import { combatPatrolIndex } from '../src/data/combatPatrolIndex.js'
 
-const T = path.join(APPDATA, 'tables')
-const read = (f) => loadJson(path.join(T, f)) || []
+const read = (f) => loadJson(path.join(APPDATA, 'tables', f)) || []
 
+export async function run() {
 const cpPubIds = new Set(read('publication.json').filter((p) => p.isCombatPatrol).map((p) => p.id))
 const enhDefaultById = new Map(read('enhancement.json').map((r) => [r.id, !!r.isCombatPatrolDefault]))
 
@@ -102,10 +102,8 @@ for (const faction of combatPatrol.en.factions) {
 // Phase 3 punch list: every appdata faction with a Combat Patrol box not yet in combatPatrol.js.
 const authoredAppSlugs = new Set(combatPatrol.en.factions.map((f) => SLUG_MAP[f.slug] || f.slug))
 const notYetAuthored = []
-for (const file of fs.readdirSync(path.join(APPDATA, 'factions')).filter((f) => f.endsWith('.json'))) {
-  const appSlug = file.replace(/\.json$/, '')
+for (const { appSlug, bundle } of allFactionBundles()) {
   if (authoredAppSlugs.has(appSlug)) continue
-  const bundle = loadJson(path.join(APPDATA, 'factions', file))
   if (bundle?.detachments?.some((d) => d.isCombatPatrol)) notYetAuthored.push(appSlug)
 }
 if (notYetAuthored.length) {
@@ -135,4 +133,8 @@ if (indexLines.length) {
 }
 
 console.log(`\n${flaggedTotal ? '✗' : '✓'} combat patrol: ${combatPatrol.en.factions.length} faction(s) authored, ${flaggedTotal} issue(s) flagged.`)
-process.exitCode = flaggedTotal ? 1 : 0
+return flaggedTotal ? 1 : 0
+}
+
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href
+if (isMain) process.exit(await run())
