@@ -36,7 +36,8 @@
 //   node scripts/gen-conditional-keywords.mjs --check    # report only; non-zero exit if stale
 import fs from 'node:fs'
 import path from 'node:path'
-import { ROOT, APPDATA, loadJson, loadModule } from './lib/sync-common.mjs'
+import { pathToFileURL } from 'node:url'
+import { ROOT, APPDATA, loadJson, loadModule, sourceIds } from './lib/sync-common.mjs'
 
 const T = (f) => loadJson(path.join(APPDATA, 'tables', f)) || []
 const nm = (r) => r?.localisations?.en?.name
@@ -59,16 +60,17 @@ async function effectiveSheets(slug) {
   return [...own, ...(sm?.default || []).filter((d) => idSet.has(d.id))]
 }
 
+export async function run(argv = process.argv.slice(2)) {
 const kwName = Object.fromEntries(T('keyword.json').map((r) => [r.id, nm(r)]))
 const fkName = Object.fromEntries(T('faction_keyword.json').map((r) => [r.id, nm(r)]))
 
 // Invert sourceIds: appdata UUID → { slug, id } for datasheets and detachments (both keyed by
 // wh11ed's own slug + id in the bridge, which is exactly the display context we need).
-const sourceIds = loadJson(path.join(ROOT, 'src/data/sourceIds.json')) || {}
+const sourceIdsMap = sourceIds() || {}
 const dsInv = {}
 const detInv = {}
-for (const slug of Object.keys(sourceIds)) {
-  for (const [key, uuid] of Object.entries(sourceIds[slug])) {
+for (const slug of Object.keys(sourceIdsMap)) {
+  for (const [key, uuid] of Object.entries(sourceIdsMap[slug])) {
     if (key.startsWith('ds:')) dsInv[uuid] = { slug, id: key.slice(3) }
     else if (key.startsWith('det:')) detInv[uuid] = { slug, id: key.slice(4) }
   }
@@ -164,14 +166,19 @@ console.log(
     `${extraCondition} flagged with an extra un-modelled warlord condition).`,
 )
 
-const check = process.argv.includes('--check')
+const check = argv.includes('--check')
 if (check) {
   if (prev !== json) {
     console.log('  --check: src/data/conditionalKeywords.json is stale; run `node scripts/gen-conditional-keywords.mjs`.')
-    process.exit(1)
+    return 1
   }
   console.log('  --check: up to date.')
-} else {
-  fs.writeFileSync(OUT, json)
-  console.log(`  wrote ${path.relative(ROOT, OUT)}${prev === json ? ' (unchanged)' : ''}`)
+  return 0
 }
+fs.writeFileSync(OUT, json)
+console.log(`  wrote ${path.relative(ROOT, OUT)}${prev === json ? ' (unchanged)' : ''}`)
+return 0
+}
+
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href
+if (isMain) process.exit(await run())

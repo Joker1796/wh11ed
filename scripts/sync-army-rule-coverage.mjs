@@ -51,9 +51,9 @@
 //
 // Usage: node scripts/sync-army-rule-coverage.mjs   (also run as part of `npm run sync`).
 
-import fs from 'node:fs'
 import path from 'node:path'
-import { ROOT, APPDATA, SLUG_MAP, norm, loadModule } from './lib/sync-common.mjs'
+import { pathToFileURL } from 'node:url'
+import { ROOT, SLUG_MAP, norm, loadModule, allFactionBundles } from './lib/sync-common.mjs'
 
 function bodyText(body) {
   return (body || [])
@@ -116,20 +116,16 @@ const KNOWN_EQUIVALENT = new Map([
 // as a plain flag rather than fixed in this pass — needs its own follow-up investigation to find
 // which Tau units should carry it.
 
-async function main() {
-  const dir = path.join(APPDATA, 'factions')
+export async function run() {
   const flagged = []
   const resolved = []
   let checked = 0
 
-  for (const f of fs.readdirSync(dir)) {
-    if (!f.endsWith('.json')) continue
-    const bundle = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'))
+  for (const { appSlug, bundle } of allFactionBundles()) {
     const byName = new Map()
     for (const r of bundle.armyRules || []) if (!byName.has(r.name)) byName.set(r.name, r)
     if (byName.size < 2) continue // a single army rule — nothing for this script to cross-check
 
-    const appSlug = f.replace('.json', '')
     const slug = appdataSlugToWh11edSlug.get(appSlug) || appSlug
     const whBody = await loadFactionWideBody(slug)
     if (whBody == null) continue // no wh11ed data file for this faction at all
@@ -168,7 +164,8 @@ async function main() {
       console.log(`      appdata text: ${r.text.slice(0, 300)}${r.text.length > 300 ? '…' : ''}`)
     }
   }
-  process.exitCode = flagged.length ? 1 : 0
+  return flagged.length ? 1 : 0
 }
 
-await main()
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href
+if (isMain) process.exit(await run())
