@@ -159,9 +159,9 @@
         <template v-for="(g, gi) in keywordGroups" :key="gi">
           <template v-if="gi">{{ ' |' }}</template>
           <template v-if="g.model">{{ ' ' + g.model + ' -' }}</template>
-          <template v-for="(k, i) in g.list" :key="k">{{ i ? ', ' : ' ' }}<span class="ds-kw">{{ k }}</span></template>
+          <template v-for="(k, i) in g.list" :key="k">{{ i ? ', ' : ' ' }}<span class="ds-kw" :class="{ 'ds-kw-link': keywordLinksEnabled }" @click="keywordLinksEnabled && $emit('keyword-click', k)">{{ k }}</span></template>
         </template>
-        <template v-for="g in extraKeywords" :key="'g:' + g.kw">{{ ', ' }}<span class="ds-kw">{{ g.kw }}</span><sup class="ds-kw-star" aria-hidden="true">*</sup></template>
+        <template v-for="g in extraKeywords" :key="'g:' + g.kw">{{ ', ' }}<span class="ds-kw" :class="{ 'ds-kw-link': keywordLinksEnabled }" @click="keywordLinksEnabled && $emit('keyword-click', g.kw)">{{ g.kw }}</span><sup class="ds-kw-star" aria-hidden="true">*</sup></template>
       </div>
       <div>
         <strong>{{ labels.dsFactionKeywords }}:</strong>
@@ -234,7 +234,18 @@ const props = defineProps({
   // anywhere (a stale/Legends reference in the source rule text) is left as plain text, not
   // hidden — there's nothing to disambiguate there, it's just not a link target.
   otherFactionUnits: { type: Array, default: () => [] },
+  // Whether printed/granted keywords open the "units with this keyword" modal. Off by default
+  // for callers with no per-unit route to link to (Combat Patrol's fixed roster renders every
+  // unit inline on one page, not as separate routed datasheets) — keywords there just stay
+  // plain, non-interactive text instead of looking clickable and doing nothing.
+  keywordLinksEnabled: { type: Boolean, default: false },
 })
+// Printed/granted keyword clicked (e.g. "Infantry") — the caller owns finding which other
+// units share it and opening a modal; DatasheetCard has no access to the rest of the
+// faction's roster. Faction keywords (ORKS, ADEPTUS ASTARTES…) deliberately stay plain text:
+// virtually every unit on the page shares those, so a "units with this keyword" list would
+// just be the whole roster.
+defineEmits(['keyword-click'])
 
 const { locale } = useLocale()
 const { renderInline, renderRichText } = useRenderInline()
@@ -800,6 +811,19 @@ function statCells(p) {
   font-weight: 600;
   text-transform: uppercase;
   color: var(--text-primary);
+}
+
+/* Printed/granted unit keywords open a "units with this keyword" modal — signal it the same
+   quiet way .def-link does (dotted underline, no pill/background) rather than a stronger
+   treatment that would fight the plain-printed-card look of the rest of the Keywords line. */
+.ds-kw-link {
+  cursor: pointer;
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+}
+
+.ds-kw-link:hover {
+  color: var(--link-accent-hover);
 }
 
 .ds-kw-star {

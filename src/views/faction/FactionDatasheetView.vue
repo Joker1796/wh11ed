@@ -57,10 +57,20 @@
           :faction-slug="route.params.slug"
           :granted-keywords="grantedKeywords"
           :other-faction-units="otherFactionUnits"
+          keyword-links-enabled
+          @keyword-click="activeKeyword = $event"
         />
       </template>
       <p v-else-if="loaded" class="ds-missing">{{ labels.factionsSoon }}</p>
     </section>
+
+    <KeywordUnitsModal
+      v-if="activeKeyword"
+      :keyword="activeKeyword"
+      :units="keywordUnits"
+      :faction-slug="route.params.slug"
+      @close="activeKeyword = null"
+    />
 
     <Teleport to="body">
       <Transition name="fade">
@@ -87,6 +97,8 @@ import { computed, ref, watch, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import DatasheetCard from '../../components/DatasheetCard.vue'
 import FactionLayout from '../../components/FactionLayout.vue'
+import KeywordUnitsModal from '../../components/KeywordUnitsModal.vue'
+import { unitsWithKeyword } from '../../utils/keywordUnits.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { loadDatasheetsRu, localizeSheet } from '../../data/datasheets/ru/index.js'
 import { ui } from '../../i18n/ui.js'
@@ -147,6 +159,13 @@ const sheet = computed(() => {
 // Push the precise unit name into the SEO title/description (the route-level meta only has the
 // slug until the datasheet loads). Unit names aren't translated, so the EN name is fine.
 watch(sheet, (s) => { if (s?.name) setDatasheetName(route.path, s.name) }, { immediate: true })
+
+// "Units with this keyword" modal (opened from DatasheetCard's Keywords line). Closed on any
+// route change (not just a faction switch — also plain unit-to-unit navigation) so it can't be
+// left open showing a keyword/roster that no longer matches the unit now on screen.
+const activeKeyword = ref(null)
+watch(() => route.fullPath, () => { activeKeyword.value = null })
+const keywordUnits = computed(() => unitsWithKeyword(datasheets.value, activeKeyword.value))
 
 // Favourite toggle (shared store with the datasheets list's "Favorites" group).
 const { isUnitFavorite, toggleUnitFavorite } = useFavorites()
