@@ -74,6 +74,36 @@ describe('DatasheetCard granted keywords', () => {
   })
 })
 
+describe('DatasheetCard keyword clicks', () => {
+  it('does not add the clickable class or emit when keywordLinksEnabled is off (the default)', async () => {
+    const w = mount(DatasheetCard, { props: { sheet: sheet() } })
+    const kw = w.find('.ds-kw')
+    expect(kw.classes()).not.toContain('ds-kw-link')
+    await kw.trigger('click')
+    expect(w.emitted('keyword-click')).toBeUndefined()
+  })
+
+  it('emits keyword-click with the printed keyword when enabled', async () => {
+    const w = mount(DatasheetCard, { props: { sheet: sheet(), keywordLinksEnabled: true } })
+    await w.find('.ds-kw-link').trigger('click')
+    expect(w.emitted('keyword-click')).toEqual([['Infantry']])
+  })
+
+  it('emits keyword-click for a granted (asterisked) keyword too', async () => {
+    const w = mount(DatasheetCard, {
+      props: { sheet: sheet(), keywordLinksEnabled: true, grantedKeywords: [{ kw: 'Deathwing', detName: null }] },
+    })
+    const links = w.findAll('.ds-kw-link').map((n) => n.text())
+    expect(links).toContain('Deathwing')
+  })
+
+  it('never makes faction keywords clickable, even when enabled', () => {
+    const w = mount(DatasheetCard, { props: { sheet: sheet(), keywordLinksEnabled: true } })
+    const factionKw = w.findAll('.ds-kw').find((n) => n.text() === 'Adeptus Astartes')
+    expect(factionKw.classes()).not.toContain('ds-kw-link')
+  })
+})
+
 describe('DatasheetCard leader/attached-unit list', () => {
   const withLeader = (units) => sheet({ core: 'Leader', leader: { text: 'This model can be attached to the following units:', units } })
   const leaderNames = (w) => w.find('.ds-list').findAll('li').map((li) => li.text())
