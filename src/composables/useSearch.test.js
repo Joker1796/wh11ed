@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { search, highlightMatch, preloadDatasheetIndex } from './useSearch.js'
+import { search, highlightMatch, preloadDatasheetIndex, preloadFactionRulesIndex, preloadCombatPatrolIndex } from './useSearch.js'
 
 describe('search', () => {
   it('returns nothing for an empty or sub-2-char query', () => {
@@ -121,6 +121,68 @@ describe('datasheet unit search', () => {
     for (let i = 1; i < res.length; i++) {
       expect(res[i - 1].score).toBeGreaterThanOrEqual(res[i].score)
     }
+  })
+})
+
+describe('faction rules search', () => {
+  it('anchors a stratagem result to its own card, not the detachment heading', async () => {
+    await preloadFactionRulesIndex()
+    const res = search('Wall of Mirrors', 'en')
+    const hit = res.find((r) => r.route === '/factions/tau-empire')
+    expect(hit).toBeTruthy()
+    // Its own card id (strat-<detachment>-<slug>), not just the detachment's id ('kauyon').
+    expect(hit.id).toBe('strat-kauyon-wall-of-mirrors')
+    expect(hit.detSlug).toBe('tau-empire')
+    expect(hit.detId).toBe('kauyon')
+  })
+
+  it('anchors an enhancement result to its own card', async () => {
+    await preloadFactionRulesIndex()
+    const res = search('Adept of the Codex', 'en')
+    const hit = res.find((r) => r.route === '/factions/space-marines')
+    expect(hit).toBeTruthy()
+    expect(hit.id).toBe('enh-gladius-task-force-adept-of-the-codex')
+  })
+
+  it('finds an army-rule h4 subheading (a Templar Vow) and anchors to it, with its RU caption', async () => {
+    await preloadFactionRulesIndex()
+    const res = search('Uphold the Honour of the Emperor', 'ru')
+    const hit = res.find((r) => r.route === '/factions/black-templars')
+    expect(hit).toBeTruthy()
+    expect(hit.id).toBe('templar-vows-h4')
+    expect(hit.titleRu).toBe('Отстоять честь Императора')
+    // No detachment to select first — the army rule is always rendered.
+    expect(hit.detSlug).toBeUndefined()
+  })
+
+  it('finds a detachment-rule h4 subheading and anchors to it, selecting its detachment', async () => {
+    await preloadFactionRulesIndex()
+    const res = search('Fallout', 'ru')
+    const hit = res.find((r) => r.route === '/factions/adeptus-mechanicus')
+    expect(hit).toBeTruthy()
+    expect(hit.id).toBe('rad-zone-corps-rule-h2')
+    expect(hit.titleRu).toBe('Осадки')
+    expect(hit.detSlug).toBe('adeptus-mechanicus')
+    expect(hit.detId).toBe('rad-zone-corps')
+  })
+})
+
+describe('combat patrol search', () => {
+  it('finds a Combat Patrol stratagem by name, with its RU caption, and routes to the box page', async () => {
+    await preloadCombatPatrolIndex()
+    const res = search('Gauss Storm', 'ru')
+    const hit = res.find((r) => r.route === '/combat-patrol/necrons')
+    expect(hit).toBeTruthy()
+    expect(hit.id).toBe('cp-strat-necrons-gauss-storm')
+    expect(hit.titleRu).toBe('Гауссова буря')
+  })
+
+  it('finds the Combat Patrol army rule by name and anchors to its RuleBlock', async () => {
+    await preloadCombatPatrolIndex()
+    const res = search('Reanimation Protocols', 'en')
+    const hit = res.find((r) => r.route === '/combat-patrol/necrons')
+    expect(hit).toBeTruthy()
+    expect(hit.id).toBe('cp-necrons-army-rule')
   })
 })
 

@@ -6,7 +6,7 @@ import { advancedRules } from '../data/advancedRules.js'
 import { muster } from '../data/muster.js'
 import { abilityIntro, coreAbilities, appendix, faqs } from '../data/reference.js'
 import { getEventContent } from '../data/eventCompanion.js'
-import { missions } from '../data/missions.js'
+import { getMissions } from '../data/missions.js'
 import { intro } from '../data/intro.js'
 import { ui } from '../i18n/ui.js'
 import { h4AnchorId } from './anchors.js'
@@ -190,6 +190,7 @@ function buildIndex(locale) {
           id: 'strat-' + enStrat.num.replace('.', '-'),
           sectionNum: enStrat.num,
           title: enStrat.name,
+          titleRu: isRu ? (merged.nameRu || '') : '',
           body: stripMarkup(body),
           route,
           sectionTitle,
@@ -319,10 +320,10 @@ const EVENT_ROUTE = '/event-companion'
 function indexEventCompanion(items, locale) {
   const ec = getEventContent(locale)
   const L = ui[locale]
-  const add = (id, title, parts, sectionTitle) => {
+  const add = (id, title, parts, sectionTitle, titleRu = '') => {
     const body = stripMarkup(parts.filter(Boolean).join('\n'))
     if (!title && !body) return
-    items.push({ id, sectionNum: '', title: title || '', body, route: EVENT_ROUTE, sectionTitle })
+    items.push({ id, sectionNum: '', title: title || '', titleRu, body, route: EVENT_ROUTE, sectionTitle })
   }
   const rowsText = tbl => (tbl && tbl.rows ? tbl.rows.map(r => r.join(' ')).join('\n') : '')
   const t = ec.terrain
@@ -374,9 +375,11 @@ function indexEventCompanion(items, locale) {
     add(b.id, b.title, [b.body, b.note, ...table, b.tableNote], L.eventTeamsHeading)
   }
 
-  // Twists — rendered on the Missions chapter (deep-link to #twist-<id>)
+  // Twists — rendered on the Missions chapter (deep-link to #twist-<id>). titleRu comes
+  // through the ec.twists?.blocks merge (mergeLocale) when locale is 'ru' — name-stays-
+  // English convention, same as stratagems/enhancements.
   for (const b of ec.twists?.blocks || []) {
-    add('twist-' + b.id, b.title, [b.body, b.note, b.example], L.missionsTwistsHeading)
+    add('twist-' + b.id, b.title, [b.body, b.note, b.example], L.missionsTwistsHeading, b.titleRu || '')
   }
 
   // Errata & FAQs (no per-item DOM ids → synthetic)
@@ -385,16 +388,19 @@ function indexEventCompanion(items, locale) {
   })
 
   // Missions — index each mission by name. Names are language-agnostic (kept EN), so the
-  // same set is indexed for both locales. Secondaries share a slug across the two roles;
-  // index once (the card id `mission-<slug>` exists for the default-shown role).
-  for (const m of missions.en.primary) {
-    add('mission-' + m.slug, m.name, [m.opponent], L.eventMissionsHeading)
+  // same set is indexed for both locales; getMissions(locale) adds the optional nameRu
+  // display subline (same convention as stratagems/enhancements) when locale is 'ru'.
+  // Secondaries share a slug across the two roles; index once (the card id `mission-<slug>`
+  // exists for the default-shown role).
+  const localizedMissions = getMissions(locale)
+  for (const m of localizedMissions.primary) {
+    add('mission-' + m.slug, m.name, [m.opponent], L.eventMissionsHeading, m.nameRu || '')
   }
   const seenSecondary = new Set()
-  for (const m of missions.en.secondary) {
+  for (const m of localizedMissions.secondary) {
     if (seenSecondary.has(m.slug)) continue
     seenSecondary.add(m.slug)
-    add('mission-' + m.slug, m.name, [m.category], L.eventMissionsHeading)
+    add('mission-' + m.slug, m.name, [m.category], L.eventMissionsHeading, m.nameRu || '')
   }
 }
 
@@ -441,6 +447,149 @@ function searchDatasheets(q, locale) {
         sectionTitle: `${faction} · ${L.factionDatasheets}`,
         score: 2,
       })
+    }
+  }
+  return results
+}
+
+// Faction rules — army rule, detachments, detachment stratagems/enhancements — found by NAME
+// (find "Armour of Contempt" → its detachment's page). The compact generated index
+// (src/data/factionRulesIndex.js) is dynamic-imported on first search open, same pattern and same
+// reasoning as the datasheet index above: names only, so the chunk stays light (see the
+// generator script's comment for why full rule text was rejected). `frVersion` is a reactive
+// tick, same role as `dsVersion`.
+let frIndex = null
+let frPromise = null
+const frVersion = ref(0)
+export function preloadFactionRulesIndex() {
+  frPromise ??= import('../data/factionRulesIndex.js').then((m) => {
+    frIndex = m.factionRulesIndex
+    frVersion.value++
+  })
+  return frPromise
+}
+
+// True if `q` (already folded/lowercased) is found in any of the given names.
+function anyNameMatches(q, ...names) {
+  return names.some((n) => n && foldYo(n.toLowerCase()).includes(q))
+}
+
+// Names are language-agnostic (kept EN in results, like stratagem/unit names elsewhere) but
+// matched against both the EN and RU display name, so a query in either language finds them.
+// The RU display name is also surfaced as `titleRu` (only in the RU locale) so the result
+// shows the same name + translated-subline pairing as the page itself (StratCard, the
+// enhancement card, RuleBlock's subtitle, the detachment heading).
+function searchFactionRules(q, locale) {
+  if (!frIndex) return []
+  const isRu = locale === 'ru'
+  const results = []
+  // `detSlug`/`detId`/`detChapter` (undefined for the army-rule item) let SearchModal select
+  // the right detachment before navigating — FactionRuleView only renders the ACTIVE detachment
+  // (see useFactionChoice), so its section only exists in the DOM once selected.
+  const push = (title, titleRu, key, id, sectionTitle, det, slug) => {
+    results.push({
+      id, key, sectionNum: '', title, titleRu: isRu ? (titleRu || '') : '', body: '', snippet: '',
+      route: `/factions/${slug}`, sectionTitle, score: 2,
+      ...(det && { detSlug: slug, detId: det.id, detChapter: det.chapter }),
+    })
+  }
+  for (const [slug, faction, data] of frIndex) {
+    if (data.armyRule && anyNameMatches(q, data.armyRule.name, data.armyRule.nameRu)) {
+      push(data.armyRule.name, data.armyRule.nameRu, `fr-${slug}-army`, data.armyRule.id, faction, null, slug)
+    }
+    // Army-rule h4 subheadings (e.g. Black Templars' Vows) — always visible, no detachment
+    // to select first.
+    for (const h of data.armyRule?.subheadings || []) {
+      if (anyNameMatches(q, h.name, h.nameRu)) {
+        push(h.name, h.nameRu, `fr-${slug}-army-${h.id}`, h.id, `${faction} · ${data.armyRule.name}`, null, slug)
+      }
+    }
+    for (const det of data.detachments) {
+      if (anyNameMatches(q, det.name, det.nameRu, det.ruleName, det.ruleNameRu)) {
+        push(det.name, det.nameRu, `fr-${slug}-${det.id}-det`, det.id, faction, det, slug)
+      }
+      // Detachment-rule h4 subheadings (Doctrines/Stances/Imperatives-type sub-rules) — anchor
+      // to their own heading, but still need `det` selected first (FactionRuleView only renders
+      // the active detachment).
+      for (const h of det.ruleSubheadings) {
+        if (anyNameMatches(q, h.name, h.nameRu)) {
+          push(h.name, h.nameRu, `fr-${slug}-${det.id}-h-${h.id}`, h.id, `${faction} · ${det.name}`, det, slug)
+        }
+      }
+      for (const s of det.stratagems) {
+        if (anyNameMatches(q, s.name, s.nameRu)) {
+          push(s.name, s.nameRu, `fr-${slug}-${det.id}-s-${s.name}`, s.id, `${faction} · ${det.name}`, det, slug)
+        }
+      }
+      for (const e of det.enhancements) {
+        if (anyNameMatches(q, e.name, e.nameRu)) {
+          push(e.name, e.nameRu, `fr-${slug}-${det.id}-e-${e.name}`, e.id, `${faction} · ${det.name}`, det, slug)
+        }
+      }
+    }
+  }
+  return results
+}
+
+// Combat Patrol — each box's detachment rule, army rule, stratagems, enhancements (+ h4
+// subheadings) — found by NAME, routing to /combat-patrol/<slug>. The compact generated index
+// (src/data/combatPatrolSearchIndex.js) is dynamic-imported on first search open, same pattern as
+// the two indexes above. No detachment to select first — a CP box has exactly one fixed
+// rule/army-rule/roster, so the page renders it unconditionally once its own (also
+// dynamically-imported) data resolves; scrollToAnchor()'s DOM poll already tolerates that,
+// same as any other async-loaded route.
+let cpIndex = null
+let cpPromise = null
+const cpVersion = ref(0)
+export function preloadCombatPatrolIndex() {
+  cpPromise ??= import('../data/combatPatrolSearchIndex.js').then((m) => {
+    cpIndex = m.combatPatrolSearchIndex
+    cpVersion.value++
+  })
+  return cpPromise
+}
+
+function searchCombatPatrol(q, locale) {
+  if (!cpIndex) return []
+  const isRu = locale === 'ru'
+  const results = []
+  const push = (title, titleRu, key, id, sectionTitle, slug) => {
+    results.push({
+      id, key, sectionNum: '', title, titleRu: isRu ? (titleRu || '') : '', body: '', snippet: '',
+      route: `/combat-patrol/${slug}`, sectionTitle, score: 2,
+    })
+  }
+  for (const [slug, faction, boxName, data] of cpIndex) {
+    // Prefixed with "Combat Patrol" (kept English in both locales — same "names stay English"
+    // convention as everything else in this index) — a CP box's rule/army-rule often shares its
+    // name (sometimes pre-errata wording) with the faction's normal Codex rule, so without this a
+    // CP result and a normal faction-rules result for "Reanimation Protocols" look identical.
+    const sectionTitle = `Combat Patrol · ${faction} · ${boxName}`
+    if (data.rule && anyNameMatches(q, data.rule.name, data.rule.nameRu)) {
+      push(data.rule.name, data.rule.nameRu, `cp-${slug}-rule`, data.rule.id, sectionTitle, slug)
+    }
+    for (const h of data.rule?.subheadings || []) {
+      if (anyNameMatches(q, h.name, h.nameRu)) {
+        push(h.name, h.nameRu, `cp-${slug}-rule-${h.id}`, h.id, sectionTitle, slug)
+      }
+    }
+    if (data.armyRule && anyNameMatches(q, data.armyRule.name, data.armyRule.nameRu)) {
+      push(data.armyRule.name, data.armyRule.nameRu, `cp-${slug}-army`, data.armyRule.id, sectionTitle, slug)
+    }
+    for (const h of data.armyRule?.subheadings || []) {
+      if (anyNameMatches(q, h.name, h.nameRu)) {
+        push(h.name, h.nameRu, `cp-${slug}-army-${h.id}`, h.id, sectionTitle, slug)
+      }
+    }
+    for (const s of data.stratagems) {
+      if (anyNameMatches(q, s.name, s.nameRu)) {
+        push(s.name, s.nameRu, `cp-${slug}-s-${s.name}`, s.id, sectionTitle, slug)
+      }
+    }
+    for (const e of data.enhancements) {
+      if (anyNameMatches(q, e.name, e.nameRu)) {
+        push(e.name, e.nameRu, `cp-${slug}-e-${e.name}`, e.id, sectionTitle, slug)
+      }
     }
   }
   return results
@@ -509,9 +658,12 @@ function searchBySectionNum(index, q) {
 }
 
 export function search(query, locale = 'en') {
-  // Reactive dependency: a caller's computed re-runs when the datasheet index chunk
-  // loads (see preloadDatasheetIndex above).
+  // Reactive dependency: a caller's computed re-runs when the datasheet/faction-rules/combat-
+  // patrol index chunks load (see preloadDatasheetIndex/preloadFactionRulesIndex/
+  // preloadCombatPatrolIndex above).
   void dsVersion.value
+  void frVersion.value
+  void cpVersion.value
   if (!query) return []
   const trimmed = query.trim().toLowerCase()
   const numQuery = normalizeSectionNum(trimmed)
@@ -563,8 +715,11 @@ export function search(query, locale = 'en') {
       matchedIds.add(otherItem.id)
     }
   }
-  // Datasheet unit names go after the rules items: with equal scores the stable sort
-  // keeps rule titles (the app's primary content) above same-scored unit hits.
+  // Faction rules (army rule/detachment/stratagem/enhancement names), Combat Patrol names, and
+  // datasheet unit names go after the core rules items: with equal scores the stable sort keeps
+  // rule-body titles (the app's primary content) above same-scored name-only hits.
+  results.push(...searchFactionRules(q, locale))
+  results.push(...searchCombatPatrol(q, locale))
   results.push(...searchDatasheets(q, locale))
   // Sort the full match set before slicing — capping earlier (in index order) would drop a
   // later high-relevance title hit before it could be ranked.
