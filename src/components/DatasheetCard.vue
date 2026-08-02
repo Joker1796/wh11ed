@@ -644,6 +644,14 @@ function statCells(p) {
 }
 .ds-weapons .wname { text-align: left; white-space: normal; min-width: 10rem; }
 .wtag { font-size: 0.72rem; }
+/* Weapon ability badges ([DEVASTATING WOUNDS]…) — the shared .keyword class (style.css)
+   sizes itself in `em`, so nested in .wtag's already-small 0.72rem it rendered near-illegible
+   (~9px) and the letters ran together. Pin it to a fixed, readable size instead of letting it
+   compound with the ancestor font-size. */
+.wtag :deep(.keyword) {
+  font-size: 0.74rem;
+  letter-spacing: 0.2px;
+}
 
 /* Multi-profile weapons (Wahapedia-style): each profile row carries an accent arrow-pennant
    before the name, and all rows of one weapon share a faint faction-accent background so the
@@ -741,6 +749,12 @@ function statCells(p) {
 .ds-abilities { font-size: 0.85rem; line-height: 1.5; color: var(--text-primary); }
 .ds-faction-rule { font-weight: 600; }
 .ds-ability-line { margin-bottom: 0.3rem; }
+/* Core-ability badges (Deep Strike, Leader…) — same fixed-size fix as .wtag's .keyword
+   above, so they read clearly instead of the shared class's default em-scaled size. */
+.ds-ability-line .keyword {
+  font-size: 0.76rem;
+  letter-spacing: 0.2px;
+}
 .ds-ability { margin-bottom: 0.45rem; }
 .ds-group-title {
   font-size: 0.68rem;
