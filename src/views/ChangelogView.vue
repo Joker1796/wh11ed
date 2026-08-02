@@ -6,7 +6,7 @@
     </div>
 
     <div class="changelog-body">
-      <section v-for="e in changelog" :key="e.version" :id="`v${e.version}`" class="cl-entry">
+      <section v-for="e in visibleEntries" :key="e.version" :id="`v${e.version}`" class="cl-entry">
         <header class="cl-head">
           <span class="cl-ver">v{{ e.version }}</span>
           <time class="cl-date" :datetime="e.date">{{ formatDate(e.date) }}</time>
@@ -17,6 +17,9 @@
           </li>
         </ul>
       </section>
+      <button v-if="changelog.length > visibleCount" class="show-more" @click="showMore">
+        {{ labels.changelogShowMore }}
+      </button>
     </div>
   </div>
 </template>
@@ -24,7 +27,7 @@
 <script setup>
 // Standalone "What's New" page (/changelog). Renders the bilingual changelog.js, newest first.
 // Reachable from the footer version and the update-notice banner. Opening it clears the banner.
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { changelog } from '../data/changelog.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useFormatDate } from '../composables/useFormatDate.js'
@@ -34,6 +37,14 @@ import { ui } from '../i18n/ui.js'
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { formatDate } = useFormatDate()
+
+// Pagination — show 5 versions at a time via "show more" (same recipe as tracker game history).
+const PAGE = 5
+const visibleCount = ref(PAGE)
+const visibleEntries = computed(() => changelog.slice(0, visibleCount.value))
+function showMore() {
+  visibleCount.value += PAGE
+}
 
 // Seeing the changelog means the latest is "seen" — dismiss the banner.
 useUpdateNotice().markSeen()
@@ -118,4 +129,18 @@ useUpdateNotice().markSeen()
 .cl-list li.cl-h:not(:first-child) {
   margin-top: 0.55rem;
 }
+
+.show-more {
+  display: block;
+  margin: 1.2rem auto 0;
+  padding: 0.5rem 1.2rem;
+  background: none;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.show-more:hover { border-color: var(--accent); color: var(--accent); }
 </style>
