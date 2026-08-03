@@ -212,6 +212,8 @@ export default {
   },
 
   'watch-captain-artemis': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Артемис'],
     flavor:
       'Прирождённый выживальщик с дикого мира и бывший член мрачного Ордена Mortifactors, Артемис ведёт Watch Company Таласа-Прайм. Известный своим чутьём на уловки ксеносов, он всё ещё смакует перспективу насилия — будь то клинком, мутагенным кислотным огнём Hellfire Extremis или искажающей время стазис-гранатой.',
     abilities: {

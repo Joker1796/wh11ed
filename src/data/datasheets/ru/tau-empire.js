@@ -111,6 +111,8 @@ export default {
   },
 
   'commander-farsight': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Зоркий Взгляд', 'Фарсайт'],
     flavor:
       'Агрессивный и мятежный, Commander O’Shova — мастер Mont’ka, Убийственного Удара. Пилотируя свой багровый боевой доспех, он прорубает кровавый путь во вражеские ряды, ведя свои сепаратистские силы Огненной касты и владея загадочным Dawn Blade с такой силой и мастерством, что ни один враг не может устоять против него.',
     abilities: {
@@ -169,6 +171,8 @@ export default {
   },
 
   'commander-shadowsun': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Тень Солнца', 'Шедоусан'],
     flavor:
       'В сопровождении продвинутых дронов щита и командования, Commander O’Shaserra динамично врывается в битву. Она — мастер Kauyon, устраивая хитрые засады на врагов и затем разя с беспощадной яростью. O’Shaserra возглавляет эти атаки с передовой, и каждый выстрел её fusion blaster возвещает о новом павшем враге.',
     abilities: {

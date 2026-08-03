@@ -95,6 +95,8 @@ export default {
   },
 
   'chief-librarian-mephiston': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Мефистон'],
     flavor:
       'Мефистон — неимоверно мощный воин и псайкер. Он единственный из Blood Angels, кто, как известно, подавил Чёрную Ярость, воскреснув из состояния близкой смерти с исключительной силой, мощью и скоростью. Многие шепчутся за его спиной, спрашивая, какую цену он заплатил за такое преображение.',
     abilities: {
@@ -107,6 +109,8 @@ export default {
   },
 
   'commander-dante': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Данте'],
     flavor:
       'Данте парит над полем боя, сияя в своей золотой броне, прежде чем с рёвом ринуться в кровавый бой на огненных шлейфах. Оказавшись в гуще, пронзительный взгляд его посмертной маски леденит врагов от ужаса, а безукоризненно выверенные удары Axe Mortalis повергают врага за врагом.',
     abilities: {
@@ -219,6 +223,8 @@ export default {
   },
 
   lemartes: {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Лемартес'],
     flavor:
       'Жизнь Лемарта — непрерывная битва. Воин железной воли, он каким-то образом сохраняет ясность рассудка, хотя и поддался Чёрной Ярости. Он ведёт Death Company Blood Angels как Хранитель Потерянных, владея древним оружием, известным как Blood Crozius. Его вдохновение сделало Death Company ещё грознее.',
     abilities: {
