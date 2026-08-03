@@ -50,6 +50,8 @@ export default {
   },
 
   'aethon-shaan': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Этон Шаан'],
     flavor:
       'Как Магистр Ордена Гвардии Ворона, Этон Шаан воплощает самые терпеливые и коварные черты наследия своего примарха. Когда же он решает ударить из теней, то делает это с внезапной холодной яростью, вырываясь вперёд, и увитые молниями Claws of Severax сверкают среди фонтанов вражеской крови.',
     abilities: {
@@ -234,6 +236,8 @@ export default {
   },
 
   'caanok-var': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Каанок Вар'],
     flavor:
       'Железный капитан клановой роты Аверний, Каанок Вар — непревзойдённый вождь и воин-чемпион. Командуя, он являет холодную, расчётливую точность, но в нём тлеет жгучая ярость, и в бою он крушит врага карающими ударами своего power maul по имени Axiom.',
     abilities: {
@@ -308,6 +312,8 @@ export default {
   },
 
   'captain-titus': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Тит', 'Деметриан Тит', 'Титус'],
     flavor:
       'Неустанный поборник Ультрамара с волей из несгибаемого адаманта, капитан Деметриан Тит одержал бессчётные победы вопреки, казалось бы, невозможному. Обладая прославленными командными талантами, Тит по-настоящему в своей стихии в гуще боя, где сражается без устали и не отступает даже перед тяжкими ранами.',
     abilities: {
@@ -345,6 +351,8 @@ export default {
   },
 
   'cato-sicarius': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Сикарий', 'Като Сикарий'],
     flavor:
       'Благородный отпрыск Талассара, Като Сикарий — один из самых прославленных чемпионов Ультрамаринов. Как капитан Victrix Honour Guard, Сикарий являет высшее фехтовальное искусство и подлинно мастерски владеет молниеносным штурмом, развёртывая своих воинов с решительностью и быстротой, рождёнными абсолютной уверенностью.',
     abilities: {
@@ -444,6 +452,8 @@ export default {
   },
 
   'chief-librarian-tigurius': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Тигурий'],
     flavor:
       'Бросаясь в бой, Тигурий обрушивает на врага бурю психической ярости. Разряды энергии срываются с его посоха, швыряя врагов по воздуху и сжигая их души в пепел. Но ценнее всего для Ордена острое предвидение Верховного Librarian — малейшая его интуиция стоит больше, чем предсказания целой армии стратегов и шпионов.',
     abilities: {
@@ -470,6 +480,8 @@ export default {
   },
 
   'darnath-lysander': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Лисандр', 'Дарнат Лисандр'],
     flavor:
       'Вздымая свой storm shield по имени Rampart и взмахивая Fist of Dorn, Лисандр пробивается сквозь врагов, как военный корабль сквозь штормовое море. Каждый удар молота обращает противников в кровавое месиво, сметая с ног целые шеренги. И всё это время упрямый хмурый оскал Лисандра не дрогнет, а его решимость абсолютна.',
     abilities: {
@@ -810,6 +822,8 @@ export default {
   },
 
   'iron-father-feirros': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Фейррос', 'Малькаан Фейррос'],
     flavor:
       'Малькаан Фейррос — один из старейших и мудрейших Iron Father. Но его радикальные убеждения и колкий юмор смягчают его тайные технологические речи. Он Master of the Forge Железных Рук, что ведёт братьев Ордена и машинные духи его боевых машин к точному разрушению.',
     abilities: {
@@ -843,6 +857,8 @@ export default {
   },
 
   'kayvaan-shrike': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Шрайк', 'Кайваан Шрайк'],
     flavor:
       'Кайваан Шрайк — первейший воин Ордена Гвардии Ворона и образец учения Коракса. Мастер засады, скрытности и бдительности, он ведёт своих воинов в дерзких рейдах, партизанских кампаниях и точечных ударах, бесшумно падая с небес, прежде чем разорвать врагов свирепыми взмахами Raven’s Talons.',
     abilities: {
@@ -1037,6 +1053,8 @@ export default {
   },
 
   'marneus-calgar-in-armour-of-antilochus': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Калгар', 'Марней Калгар'],
     flavor:
       'И вдохновляющий вождь, и непревзойдённый воин, Марней Калгар идёт в бой, облачённый в Armour of Antilochus. Стирая полчища врагов залпами болтерных снарядов из Gauntlets of Ultramar и разрывая всякого, кто по глупости встал перед ним, он — зодчий разрушения, чей дар великой стратегии неоспорим.',
     abilities: {
@@ -1064,6 +1082,8 @@ export default {
   },
 
   'pedro-kantor': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Кантор', 'Педро Кантор'],
     flavor:
       'Педро Кантор — превосходный боец и вдохновляющий вождь. Магистр Ордена Кровавых Кулаков выкашивает вражескую пехоту из Dorn’s Arrow, разрывая её градом масс-реактивных болтов. Тех, кто совершает ошибку, подойдя слишком близко — будь то боевой танк или пехотинец, — он крушит громовыми ударами Fist of Retribution.',
     abilities: {
@@ -1460,6 +1480,8 @@ export default {
   },
 
   'tor-garadon': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Гарадон', 'Тор Гарадон'],
     flavor:
       'Выстрел за выстрелом отскакивают от несокрушимых лат брони Gravis Тора Гарадона, пока он продвигается по полю боя. Остроумный и с талантом к импровизированной войне, Гарадон направляет смертоносный огонь своих воинов сочетанием природного мастерства и передовых данных наведения, что подаёт ему его signum-массив.',
     abilities: {
@@ -1473,6 +1495,8 @@ export default {
   },
 
   'uriel-ventris': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Вентрис', 'Уриэль Вентрис'],
     flavor:
       'Умелый воин и мастерский вождь, Уриэль Вентрис — один из способнейших командиров Ультрамаринов, пусть и вольнодумец. Прослужив в Deathwatch, прежде чем стать капитаном, он впитал стратегии братьев из множества других Орденов, что дало ему широту тактического чутья, превосходящую многих его собратьев.',
     abilities: {
@@ -1540,6 +1564,8 @@ export default {
   },
 
   'vulkan-hestan': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Хестан', 'Вулкан Хестан'],
     flavor:
       'Вступая в бой с оружием своего примарха в руках, Forgefather повергает всех, кто ему противостоит. Искатель утраченных реликвий Вулкана, Хестан неустанен в своих поисках, готов пробиться сквозь любого врага и встретить любую опасность, лишь бы исполнить свои клятвы.',
     abilities: {

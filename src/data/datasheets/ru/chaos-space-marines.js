@@ -285,6 +285,8 @@ export default {
   },
 
   cypher: {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Сайфер'],
     flavor:
       'Cypher — загадочный агент раздора и мятежа, всегда на шаг впереди поимки, и распри расцветают в его следе так же яростно, как детонации его мастерских пистолетов. Он владыка гонимых Fallen, хотя его истинная роль — предатель или лоялист — столь же непостижима, как меч, что он носит, но никогда не обнажает.',
     abilities: {
@@ -349,6 +351,8 @@ export default {
   },
 
   'fabius-bile': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Фабий Байл'],
     flavor:
       'Гений тайной генетики, Фабий Байл улучшает даже усиленную биологию своих последователей Heretic Astartes. С хирургической точностью он держит в одной руке причиняющий боль Rod of Torment, а другой стреляет токсичными дротиками из Xyclos Needler, пока паучьи руки его Chirurgeon залечивают его собственные раны.',
     abilities: {
@@ -482,6 +486,8 @@ export default {
   },
 
   'huron-blackheart': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Гурон'],
     flavor:
       'Ненавидимый как Тиран Бадаба, Хурон направляет беспощадный грабёж своих Red Corsairs с жестокостью пиратского короля, сопровождаемый своей эзотерической Hamadrya. Его Tyrant’s Claw — бионическая реликвия, чьи трещащие когти рвут броню, прежде чем встроенный испепелитель обрушивает потоки серного пламени.',
     abilities: {
@@ -817,6 +823,8 @@ export default {
   },
 
   'vashtorr-the-arkifane': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Ваштор Аркифейн'],
     flavor:
       'Ваштор — ужас из мертвенно-бледной плоти, натянутой на инфернальные механизмы. Он несётся в бой в облаке тёмных молний и смога, сея разрушение и обрушивая на врага техно-гейстовы проклятия, попутно создавая улучшения для своих закабалённых Daemon Engine из первозданной материи реального пространства.',
     abilities: {
