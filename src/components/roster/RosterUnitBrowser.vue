@@ -32,7 +32,7 @@
                 @click="previewId = u.id"
               >
                 <span class="rub-text">
-                  <span class="rub-name">{{ u.name }}<span v-if="countOf(u.id)" class="rub-count"> ×{{ countOf(u.id) }}</span></span>
+                  <span class="rub-name">{{ u.name }}<span v-if="countOf(u.id)" class="rub-count" :class="{ over: isOver(u) }"> {{ countLabel(u) }}</span></span>
                   <span class="rub-pts">{{ minPoints(u) }}{{ labels.rosterPointsLabel }}</span>
                 </span>
                 <button
@@ -47,7 +47,9 @@
                 <button
                   type="button"
                   class="rub-add"
+                  :disabled="atCap(u)"
                   :aria-label="labels.rosterAddUnit"
+                  :title="atCap(u) ? labels.rosterAtDuplicateCap : undefined"
                   @click.stop="$emit('add', u.id)"
                 >
                   <i class="bi bi-plus-lg"></i>
@@ -75,7 +77,8 @@ import CollapseTransition from '../CollapseTransition.vue'
 import RosterUnitRulesModal from './RosterUnitRulesModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, mandatoryEnhancementFor } from '../../composables/rosterEngine.js'
+import { UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, mandatoryEnhancementFor, capKeyOf } from '../../composables/rosterEngine.js'
+import { duplicateLimit } from '../../composables/rosterValidation.js'
 
 const props = defineProps({
   units: { type: Array, required: true },
@@ -88,6 +91,14 @@ const props = defineProps({
   // mandatoryEnhancementFor) shows that surcharge already baked into its browse price, not just
   // once its config accordion is opened on step 3.
   detachments: { type: Array, default: () => [] },
+  // The roster's effective battle size (rosterEngine.js's effectiveBattle) — only `.dupLimit` is
+  // read, to compute each unit's duplicate cap (rosterValidation.js's duplicateLimit). Absent
+  // (e.g. no battle size resolvable yet) means no cap is enforced, same as checkLegality: false.
+  battle: { type: Object, default: null },
+  // "Проверка легитимности" — live-enforces the duplicate cap on the "+" button below instead of
+  // only surfacing it later in the issues list (see rosterValidation.js's validateRoster). Off
+  // restores today's unlimited-add behaviour.
+  checkLegality: { type: Boolean, default: true },
 })
 defineEmits(['add', 'remove'])
 
@@ -125,12 +136,42 @@ const groups = computed(() =>
   })),
 )
 
+const defById = computed(() => new Map(props.units.map((u) => [u.id, u])))
+
+// Grouped by capKeyOf, not raw id, so a future same-character/multiple-datasheets case (see
+// rosterEngine.js's capKeyOf) is counted as one duplicate-cap slot across both ids — mirrors
+// rosterValidation.js's duplicateCounts.
 const addedCounts = computed(() => {
   const m = new Map()
-  for (const id of props.addedIds) m.set(id, (m.get(id) || 0) + 1)
+  for (const id of props.addedIds) {
+    const def = defById.value.get(id)
+    const key = def ? capKeyOf(def) : id
+    m.set(key, (m.get(key) || 0) + 1)
+  }
   return m
 })
-function countOf(id) { return addedCounts.value.get(id) || 0 }
+function countOf(id) {
+  const def = defById.value.get(id)
+  const key = def ? capKeyOf(def) : id
+  return addedCounts.value.get(key) || 0
+}
+// The duplicate cap for this unit (Infinity when no battle size is resolvable, i.e. nothing to
+// cap against), and whether checkLegality is on AND that cap is already reached.
+function limitOf(u) { return props.battle ? duplicateLimit(u, props.battle.dupLimit) : Infinity }
+function atCap(u) { return props.checkLegality && countOf(u.id) >= limitOf(u) }
+// Strictly OVER the cap — not just at it. Unreachable through this browser's own "+" button
+// (atCap already stops that at ==), but reachable from outside: units were added under a
+// bigger battle size, then the size was lowered back on step 1, shrinking everyone's limit
+// out from under counts that already exist. validateRoster's overDuplicate issue (see
+// rosterValidation.js) is the same >, so this and the warnings list never disagree.
+function isOver(u) { return props.checkLegality && countOf(u.id) > limitOf(u) }
+// "1/1", "2/6" while the cap is known and enforced; plain "×N" otherwise (checkLegality off, or
+// no battle size resolvable yet — nothing to show a cap against).
+function countLabel(u) {
+  const n = countOf(u.id)
+  const limit = limitOf(u)
+  return (props.checkLegality && Number.isFinite(limit)) ? `${n}/${limit}` : `×${n}`
+}
 
 // Cheapest bracket (the "from" price) plus any mandatory enhancement this exact unit is stuck
 // with under the roster's selected detachments — so the browse price already matches what
@@ -196,7 +237,8 @@ const previewId = ref(null)
 .rub-item:hover { border-color: var(--accent); }
 .rub-text { flex: 1; min-width: 0; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; padding: 0.55rem 0.7rem; }
 .rub-name { font-size: 0.88rem; font-weight: 600; color: var(--text-primary); }
-.rub-count { font-weight: 700; color: var(--accent); }
+.rub-count { margin-left: 0.3em; font-weight: 700; color: var(--accent); }
+.rub-count.over { color: #c0392b; }
 .rub-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); flex-shrink: 0; font-size: 0.8rem; }
 .rub-remove,
 .rub-add {
@@ -215,5 +257,7 @@ const previewId = ref(null)
 .rub-remove:hover { background: color-mix(in srgb, var(--text-muted) 12%, transparent); }
 .rub-add { color: var(--accent); }
 .rub-add:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.rub-add:disabled { opacity: 0.35; cursor: not-allowed; }
+.rub-add:disabled:hover { background: none; }
 @media (max-width: 560px) { .rub-body { gap: 0.3rem; } }
 </style>

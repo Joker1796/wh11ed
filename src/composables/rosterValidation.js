@@ -3,7 +3,7 @@
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
-import { hasKeyword, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle } from './rosterEngine.js'
+import { hasKeyword, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf } from './rosterEngine.js'
 
 // Per-unit duplicate cap: the battle size's limit, doubled for Battleline / Dedicated Transport,
 // and hard-capped at 1 for every Epic Hero — regardless of battle size (rule 25).
@@ -11,6 +11,21 @@ export function duplicateLimit(def, dupLimit) {
   if (def.flags?.epic) return 1
   if (hasKeyword(def, 'Battleline') || def.condBattleline || hasKeyword(def, 'Dedicated Transport')) return dupLimit * 2
   return dupLimit
+}
+
+// How many roster entries currently occupy each duplicate-cap "slot" (rosterEngine.js's
+// capKeyOf — normally one per datasheet id, but a future same-character/multiple-datasheets
+// case would share a key). Shared by validateRoster's own check below and
+// RosterUnitBrowser.vue's live add-button guard, so the two never disagree about the count.
+export function duplicateCounts(units, defOf) {
+  const m = new Map()
+  for (const u of units || []) {
+    const def = defOf(u.id)
+    if (!def) continue
+    const key = capKeyOf(def)
+    m.set(key, (m.get(key) || 0) + 1)
+  }
+  return m
 }
 
 export function validateRoster(roster, { faction, core } = {}) {
@@ -40,16 +55,23 @@ export function validateRoster(roster, { faction, core } = {}) {
   const dpSpent = detachments.reduce((s, d) => s + (d.dp || 0), 0)
   if (dpSpent > battle.dp) add('overDp', 'error', { params: { spent: dpSpent, limit: battle.dp } })
 
-  // Duplicate datasheet limits.
+  // Duplicate datasheet limits — grouped by capKeyOf, not raw id, so a future same-character/
+  // multiple-datasheets case (see rosterEngine.js's capKeyOf) is capped as one slot.
   {
-    const byId = new Map()
-    for (const u of units) { if (!byId.has(u.id)) byId.set(u.id, []); byId.get(u.id).push(u) }
-    for (const [id, list] of byId) {
-      const def = defOf(id)
+    const byKey = new Map()
+    for (const u of units) {
+      const def = defOf(u.id)
       if (!def) continue
+      const key = capKeyOf(def)
+      if (!byKey.has(key)) byKey.set(key, [])
+      byKey.get(key).push(u)
+    }
+    for (const list of byKey.values()) {
+      const def = defOf(list[0].id)
       const limit = duplicateLimit(def, battle.dupLimit)
       if (list.length > limit) {
-        add('overDuplicate', 'error', { uid: list[limit].uid, params: { name: def.name, count: list.length, limit } })
+        const over = defOf(list[limit].id) || def
+        add('overDuplicate', 'error', { uid: list[limit].uid, params: { name: over.name, count: list.length, limit } })
       }
     }
   }

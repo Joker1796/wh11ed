@@ -5,9 +5,10 @@ import { mount, flushPromises } from '@vue/test-utils'
 // is missing. RouterLink is stubbed to a plain anchor so the template renders.
 let ROSTER_ID = ''
 const replace = vi.fn()
+const push = vi.fn()
 vi.mock('vue-router', () => ({
   useRoute: () => ({ params: { get id() { return ROSTER_ID } } }),
-  useRouter: () => ({ push: vi.fn(), replace }),
+  useRouter: () => ({ push, replace }),
   RouterLink: { name: 'RouterLink', props: ['to'], template: '<a><slot /></a>' },
 }))
 
@@ -17,6 +18,7 @@ beforeEach(async () => {
   localStorage.clear()
   vi.resetModules()
   replace.mockClear()
+  push.mockClear()
   ;({ useRosters } = await import('../../composables/useRosters.js'))
   ;({ default: RosterEditorView } = await import('./RosterEditorView.vue'))
 })
@@ -24,7 +26,7 @@ beforeEach(async () => {
 const stubs = {
   FactionPickerModal: true,
   NumberStepper: true,
-  RouterLink: { props: ['to'], template: '<a><slot /></a>' },
+  RouterLink: { props: ['to'], template: '<a :href="to"><slot /></a>' },
 }
 
 // The editor loads faction data via a dynamic import kicked off from an immediate watch.
@@ -106,5 +108,31 @@ describe('RosterEditorView', () => {
     // A list with units but no Warlord is illegal → at least one error is denormalised.
     expect(store.rosterById(r.id).summary.issues).toBeGreaterThan(0)
     expect(w.find('.issues-badge.has-err').exists()).toBe(true)
+  })
+
+  it('the footer Save button navigates to the read-only view (edits already autosave to the store)', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Test list')
+    r.faction = 'space-marines'
+    r.units.push({ uid: 'u1', id: 'intercessor-squad', size: 0 })
+    ROSTER_ID = r.id
+
+    const w = mount(RosterEditorView, { global: { stubs } })
+    await waitFor(w, 'Intercessor Squad')
+    expect(w.find('.rc-points').text()).toContain('80')
+    await w.find('.rc-sticky .btn-primary').trigger('click')
+    expect(push).toHaveBeenCalledWith(`/roster/${r.id}/view`)
+  })
+
+  it('the footer Cancel button links back to the roster list', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Test list')
+    r.faction = 'space-marines'
+    r.units.push({ uid: 'u1', id: 'intercessor-squad', size: 0 })
+    ROSTER_ID = r.id
+
+    const w = mount(RosterEditorView, { global: { stubs } })
+    await waitFor(w, 'Intercessor Squad')
+    expect(w.find('.rc-sticky .btn-ghost').attributes('href')).toBe('/roster')
   })
 })

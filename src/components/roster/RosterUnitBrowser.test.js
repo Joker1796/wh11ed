@@ -105,6 +105,81 @@ describe('RosterUnitBrowser', () => {
     expect(bravo.classes()).not.toContain('added')
   })
 
+  it('disables the add button once checkLegality is on and the duplicate cap is reached', () => {
+    // battle.dupLimit 2 → Alpha Battleline (doubled) caps at 4; Bravo Character caps at 2;
+    // Charlie Epic Hero always caps at 1, regardless of dupLimit.
+    const battle = { dupLimit: 2 }
+    const w = mountBrowser({ addedIds: ['a', 'a', 'a', 'a', 'b', 'b', 'c'], battle, checkLegality: true })
+    const alpha = w.findAll('.rub-item').find((r) => r.text().includes('Alpha Battleline'))
+    const bravo = w.findAll('.rub-item').find((r) => r.text().includes('Bravo Character'))
+    const charlie = w.findAll('.rub-item').find((r) => r.text().includes('Charlie Epic Hero'))
+    expect(alpha.find('.rub-add').attributes('disabled')).toBeDefined()
+    expect(bravo.find('.rub-add').attributes('disabled')).toBeDefined()
+    expect(charlie.find('.rub-add').attributes('disabled')).toBeDefined()
+  })
+
+  it('badges the count as "current/limit" once the cap is known, with no "at cap" styling', () => {
+    const battle = { dupLimit: 2 }
+    const w = mountBrowser({ addedIds: ['c'], battle, checkLegality: true })
+    const charlie = w.findAll('.rub-item').find((r) => r.text().includes('Charlie Epic Hero'))
+    expect(charlie.text()).toContain('1/1')
+    expect(charlie.find('.rub-count').classes()).not.toContain('at-cap')
+  })
+
+  it('turns the count badge red once it is strictly OVER the cap (e.g. battle size lowered after adding)', () => {
+    // Charlie Epic Hero is capped at 1 regardless of dupLimit — 3 copies is over, not just at cap.
+    const battle = { dupLimit: 2 }
+    const w = mountBrowser({ addedIds: ['c', 'c', 'c'], battle, checkLegality: true })
+    const charlie = w.findAll('.rub-item').find((r) => r.text().includes('Charlie Epic Hero'))
+    expect(charlie.text()).toContain('3/1')
+    expect(charlie.find('.rub-count').classes()).toContain('over')
+  })
+
+  it('does not mark the badge red exactly at the cap, only strictly over it', () => {
+    const battle = { dupLimit: 2 }
+    const w = mountBrowser({ addedIds: ['c'], battle, checkLegality: true })
+    const charlie = w.findAll('.rub-item').find((r) => r.text().includes('Charlie Epic Hero'))
+    expect(charlie.find('.rub-count').classes()).not.toContain('over')
+  })
+
+  it('never marks the badge red when checkLegality is off, even over the cap', () => {
+    const battle = { dupLimit: 2 }
+    const w = mountBrowser({ addedIds: ['c', 'c', 'c'], battle, checkLegality: false })
+    const charlie = w.findAll('.rub-item').find((r) => r.text().includes('Charlie Epic Hero'))
+    expect(charlie.find('.rub-count').classes()).not.toContain('over')
+  })
+
+  it('falls back to the plain "×N" badge when checkLegality is off', () => {
+    const battle = { dupLimit: 2 }
+    const w = mountBrowser({ addedIds: ['a', 'a'], battle, checkLegality: false })
+    const alpha = w.findAll('.rub-item').find((r) => r.text().includes('Alpha Battleline'))
+    expect(alpha.text()).toContain('×2')
+    expect(alpha.text()).not.toContain('2/')
+  })
+
+  it('leaves the add button enabled under the cap', () => {
+    const battle = { dupLimit: 2 }
+    const w = mountBrowser({ addedIds: ['a'], battle, checkLegality: true })
+    const alpha = w.findAll('.rub-item').find((r) => r.text().includes('Alpha Battleline'))
+    expect(alpha.find('.rub-add').attributes('disabled')).toBeUndefined()
+  })
+
+  it('never disables the add button when checkLegality is off, even over the cap', () => {
+    const battle = { dupLimit: 2 }
+    const w = mountBrowser({ addedIds: ['c', 'c', 'c'], battle, checkLegality: false })
+    const charlie = w.findAll('.rub-item').find((r) => r.text().includes('Charlie Epic Hero'))
+    expect(charlie.find('.rub-add').attributes('disabled')).toBeUndefined()
+  })
+
+  it('keeps the remove button enabled even when the add button is capped', async () => {
+    const battle = { dupLimit: 2 }
+    const w = mountBrowser({ addedIds: ['c'], battle, checkLegality: true })
+    const charlie = w.findAll('.rub-item').find((r) => r.text().includes('Charlie Epic Hero'))
+    expect(charlie.find('.rub-add').attributes('disabled')).toBeDefined()
+    await charlie.find('.rub-remove').trigger('click')
+    expect(w.emitted('remove')).toEqual([['c']])
+  })
+
   it('bakes a mandatory enhancement into the browse price, for the unit it applies to only', () => {
     const detachments = [{ name: 'Pantheon of Woe', enhancements: [
       { name: 'Reletavistic Tether', pts: 40, mandatory: 1, req: [{ kw: ['Bravo Character'] }] },

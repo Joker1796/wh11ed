@@ -88,7 +88,7 @@ describe('RosterCreateView', () => {
     expect(r.faction).toBe('space-marines')
     expect(r.detachments).toEqual(['1st Company Task Force'])
     expect(r.units).toHaveLength(1)
-    expect(push).toHaveBeenCalledWith(`/roster/${r.id}`)
+    expect(push).toHaveBeenCalledWith(`/roster/${r.id}/view`)
   })
 
   it('step 3 keeps only one unit tile open at a time', async () => {
@@ -140,6 +140,50 @@ describe('RosterCreateView', () => {
     const tile = panels[2].findAll('.rcunit-row').find((b) => b.find('.rcunit-name').text() === 'Intercessor Squad')
     expect(tile.find('.rcunit-loadout').exists()).toBe(true)
     expect(tile.text()).toContain('Bolt rifle') // its default loadout, not just an upgrade count
+  })
+
+  it('flags units as over the duplicate cap (red badge + issues count) after the battle size is lowered', async () => {
+    const w = mount(RosterCreateView, { global: { stubs } })
+    await w.findAll('.btn-choose')[0].trigger('click')
+    await waitFor(w, 'Space Marines')
+    await w.findAll('.fac-link').find((b) => b.text().includes('Space Marines')).trigger('click')
+    await waitFor(w, '1st Company Task Force')
+    await w.findAll('.btn-choose')[1].trigger('click')
+    await w.findAll('.det').find((b) => b.text().includes('1st Company Task Force')).trigger('click')
+    await w.find('.mh-close').trigger('click') // close DetachmentPickerModal — its .modal-stub
+    // would otherwise still be in the DOM (never auto-closes) and shadow RosterIssuesModal's own
+    // .modal-stub later in this test.
+
+    // 2000pts (Strike Force, the default) → dupLimit high enough that 3 Captains are legal.
+    await w.find('.rc-actions .btn-primary').trigger('click') // → step 2
+    await waitFor(w, 'Captain')
+    const row = w.findAll('.rub-item').find((r) => r.find('.rub-name').text() === 'Captain')
+    await row.find('.rub-add').trigger('click')
+    await row.find('.rub-add').trigger('click')
+    await row.find('.rub-add').trigger('click')
+    expect(row.find('.rub-count').classes()).not.toContain('over')
+    const errCountBefore = Number(w.find('.issues-badge').text().match(/\d+/)?.[0] || 0)
+
+    // Back to step 1, shrink the battle size — the cap shrinks with it, out from under the
+    // 3 Captains already on the list.
+    await w.find('.rc-sticky-actions .btn-ghost').trigger('click') // → step 1
+    await w.findAll('.seg button').find((b) => b.text() === '1000').trigger('click') // Incursion, dupLimit 2
+    await w.find('.rc-actions .btn-primary').trigger('click') // → step 2 again
+
+    // .text() drops the whitespace between the name and the count badge (a rendering quirk
+    // already worked around with CSS elsewhere, not fixable at the DOM-text level) — "Captain"
+    // now reads as "Captain3/2", not "Captain 3/2". Match the name prefix instead of the exact
+    // "Captain" string used above, which no longer applies once a count badge is showing.
+    const rowAfter = w.findAll('.rub-item').find((r) => /^Captain(\d|$)/.test(r.find('.rub-name').text()))
+    expect(rowAfter.find('.rub-count').classes()).toContain('over')
+    const badge = w.find('.issues-badge')
+    expect(badge.classes()).toContain('has-err')
+    const errCountAfter = Number(badge.text().match(/\d+/)?.[0] || 0)
+    expect(errCountAfter).toBeGreaterThan(errCountBefore) // the new overDuplicate issue landed
+
+    // The badge opens RosterIssuesModal with the overDuplicate issue: 3 in the army, max 2.
+    await badge.trigger('click')
+    expect(w.find('.modal-stub').text()).toContain('3 in the army (max 2)')
   })
 
   it('supports a custom battle size, using the matching bracket to show the points limit', async () => {

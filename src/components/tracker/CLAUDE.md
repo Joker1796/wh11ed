@@ -47,4 +47,4 @@ Views `src/views/tracker/{TrackerHomeView,TrackerGameView}.vue`; components `src
 
 **Stratagem cards page** (`/stratagems`) shows detachment stratagems when a tracker game is in progress — documented in root `CLAUDE.md`'s Architecture section (it's a standalone top-level page, not under this directory, and also renders core rulebook stratagems outside any game).
 
-**Roster Builder** (`/roster*`) rides with this section in nav and hands a built roster off to `GameSetup` via the setup-draft mechanism above — see `src/components/roster/CLAUDE.md`.
+**Roster Builder** (`/roster*`) is its own top-level nav section (not nested under this one) and hands a built roster off to `GameSetup` via the setup-draft mechanism above — see `src/components/roster/CLAUDE.md`.
