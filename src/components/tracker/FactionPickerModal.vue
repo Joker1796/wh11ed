@@ -37,19 +37,22 @@ import FavoriteStar from '../FavoriteStar.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useFavorites } from '../../composables/useFavorites.js'
-import { FACTION_GROUPS } from '../../composables/trackerFactions.js'
+import { FACTION_GROUPS, COMBAT_PATROL_FACTION_GROUPS } from '../../composables/trackerFactions.js'
 
-defineProps({
+const props = defineProps({
   selected: { type: String, default: null },
+  // When true, only factions with a Combat Patrol box are shown (Game Setup's "Тип игры" ===
+  // Combat Patrol) — see COMBAT_PATROL_FACTION_GROUPS.
+  combatPatrolOnly: { type: Boolean, default: false },
 })
 defineEmits(['pick', 'close'])
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const groups = FACTION_GROUPS
+const groups = computed(() => props.combatPatrolOnly ? COMBAT_PATROL_FACTION_GROUPS : FACTION_GROUPS)
 
 const { isFactionPinned, toggleFaction, pinnedFactionsFrom } = useFavorites()
-const pinned = computed(() => pinnedFactionsFrom(groups))
+const pinned = computed(() => pinnedFactionsFrom(groups.value))
 
 const GROUP_LABEL_KEYS = {
   astartes: 'factionGroupAstartes', imperium: 'factionGroupImperium',

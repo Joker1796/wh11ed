@@ -1,4 +1,10 @@
 <template>
+  <!-- Teleported to <body>: consumers can be mounted anywhere, including inside components
+       that establish their own stacking context (position: sticky/fixed + z-index,
+       transform, ...) — without this, the modal's z-index only wins locally within that
+       ancestor's context and can end up rendered under unrelated fixed UI (e.g. the
+       tracker's "resume game" bar) despite nominally having a higher z-index. -->
+  <Teleport to="body">
   <!-- Enter-only transition (`appear` — consumers mount the modal with their own v-if).
        Close stays instant: a leave phase would have to outlive the consumer's v-if and
        would race useModalA11y's focus restore. -->
@@ -25,6 +31,7 @@
     </div>
   </div>
   </Transition>
+  </Teleport>
 </template>
 
 <script setup>

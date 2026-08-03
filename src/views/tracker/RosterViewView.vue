@@ -196,8 +196,8 @@ const rulesFaction = ref(null)
 const detachmentLookup = ref(new Map())
 
 async function loadFactionSource(slug, loc) {
-  const { getFaction } = await import('../../data/factions/index.js')
-  const data = getFaction(slug)
+  const { loadFaction } = await import('../../data/factions/index.js')
+  const data = await loadFaction(slug)
   if (!data) return null
   if (loc !== 'ru') return data.en
   const { loadFactionRu, deepOverlay } = await import('../../data/factions/ru/index.js')

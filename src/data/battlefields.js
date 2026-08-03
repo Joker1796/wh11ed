@@ -18,9 +18,15 @@ export const battlefields = {
 
 In each case, the area of the battlefield occupied by that boundary or **terrain feature** is known as a **[gloss:terrain-area:terrain area]**. A mission's deployment map may define the location and dimensions of each **terrain area**. Otherwise, players must agree on this before the battle.
 
-[img:/images/terrain/terrain-placed-on-a-mat.jpg|Terrain on a mat — terrain area boundary example]
+### Terrain Placed on a Mat
+[img:/images/terrain/terrain-placed-on-a-mat-diagram.jpg|Terrain on a mat — terrain area boundary example]
 
-[img:/images/terrain/terrain-placed-on-the-battlefield.jpg|Terrain on the battlefield — terrain area boundary example]`,
+Two **terrain features** have been placed on a mat. The edges of this mat define the boundary of this **terrain area (A)**. Both **terrain features (B)** are ruins, so use the rules for **dense terrain features**.
+
+### Terrain Placed on a Battlefield
+[img:/images/terrain/terrain-placed-on-the-battlefield-diagram.jpg|Terrain on the battlefield — terrain area boundary example]
+
+Three **terrain features** have been placed directly on the battlefield. The players have agreed on the boundary of the **terrain area (A)** defined by these features (the shaded rectangle). The **BLUE features (B)** are **dense terrain features** and the **RED feature (C)** is a **light terrain feature**.`,
         },
         {
           id: 'section-13-02',
@@ -83,12 +89,25 @@ Models can move vertically to ascend or descend **terrain features**. While doin
 ### Setting Up or Ending a Move
 Models can be set up or end a move on the ground level of **terrain features**. Models can also be set up or end a move on any surface of a **terrain feature** that is not on ground level, if all of the following apply:
 ▪ That model has one or more of the following keywords: INFANTRY/BEASTS/SWARM/FLY/MONSTER.
-▪ After ending that move, that model is stable and no part of its base overhangs the outer edge of that surface.
-
-[img:/images/terrain/terrain-and-movement.jpg|Terrain and movement — models moving across terrain features]
-
-[img:/images/terrain/terrain-and-movement-2.jpg|Terrain and movement example 2 — base overhang rules]`,
+▪ After ending that move, that model is stable and no part of its base overhangs the outer edge of that surface.`,
           note: 'Solid Terrain: If a **terrain feature** has the [gloss:solid:Solid] rule (13.11), a model cannot end a move such that any part of it is through any enclosed part of that **terrain feature** that is 3" or less from ground level — not even through small openings such as doors and windows.',
+          // See splitSubsections()/splitBodyEntries() in columnChunks.js — same recipe as
+          // 12.03/12.08: split the two worked-example image groups off the prose so the
+          // column balancer can place each independently.
+          splitBodies: [
+            `[img:/images/terrain/terrain-and-movement-diagram.jpg|Terrain and movement — models moving across terrain features]
+
+All sections of the **dense terrain feature (A)** are more than 2" in height, so the MONSTER model **(B)** cannot move through it and must move around it instead.
+
+The INFANTRY models **(C)** can move through **dense terrain features**, such as the walls of this ruin.`,
+            `[img:/images/terrain/terrain-and-movement-2-diagram.jpg|Terrain and movement example 2 — base overhang rules]
+
+1. This INFANTRY model can move vertically and end its move on the top surface of the **terrain feature (D)**, as it is stable and no part of its base overhangs the outer edge of that surface.
+
+2. This VEHICLE model cannot move through the **dense terrain feature (E)**, but it can move vertically to ascend and descend sections that are more than 2" in height (provided it does not end that move on top of such sections).
+
+3. This INFANTRY model is not being moved over or through any **terrain features**. Its move through the **terrain area** shown is therefore unimpeded.`,
+          ],
           children: [
             {
               id: 'section-13-06-01',
@@ -109,12 +128,18 @@ Models can be set up or end a move on the ground level of **terrain features**. 
           id: 'section-13-08',
           sectionNum: '13.08',
           title: 'Benefit of Cover',
-          sideImage: { src: '/images/terrain/benefit-of-cover.jpg', alt: 'Benefit of Cover diagram', width: '50%' },
+          sideImage: { src: '/images/terrain/benefit-of-cover-diagram.jpg', alt: 'Benefit of Cover diagram', width: '50%', shared: true },
           body: `Each time a ranged attack targets a unit, if **every** model in that unit meets one or more of the following conditions, that unit has the **benefit of cover** against that attack:
 ▪ That model has the INFANTRY/BEASTS/SWARM keyword and is within a **terrain area**.
 ▪ That model is **[gloss:not-fully-visible:not fully visible]** to the attacking model due to one or more intervening **terrain features** and/or one or more intervening **obscuring terrain areas** (see 13.10).
 
-Each time a ranged attack targets a unit that has the **benefit of cover** against it, worsen the **BS** characteristic of that attack by 1.`,
+Each time a ranged attack targets a unit that has the **benefit of cover** against it, worsen the **BS** characteristic of that attack by 1.
+
+When Unit **E** makes ranged attacks:
+▪ Unit **A** is **fully visible** to every model in Unit **E**, so does not have the **benefit of cover**.
+▪ Not all of the models in unit **B** are within a **terrain area**, so unit **B** does not have the **benefit of cover**.
+▪ All of the models in unit **C** are within a **terrain area**, so unit **C** has the **benefit of cover** (-1 BS).
+▪ Unit **D** is not **fully visible** to unit **E** due to an intervening **obscuring terrain area**, so unit **D** has the **benefit of cover** (-1 BS).`,
         },
         {
           id: 'section-13-09',
@@ -139,8 +164,11 @@ While a model is **hidden**, it can only be **[gloss:visible:visible]** to enemy
           id: 'section-13-10',
           sectionNum: '13.10',
           title: 'Obscuring',
-          sideImage: { src: '/images/terrain/hidden-and-obscuring.jpg', alt: 'Hidden and Obscuring diagram', width: '50%' },
-          body: `**Terrain areas** containing one or more **light** or **dense terrain features** are **obscuring terrain areas**. If every **[gloss:line-of-sight:line of sight]** drawn between two models crosses one or more **obscuring terrain areas** (excluding **obscuring terrain areas** that one or both of those models are within), those two models are not **visible** to each other.`,
+          sideImage: { src: '/images/terrain/hidden-and-obscuring-diagram.jpg', alt: 'Hidden and Obscuring diagram', width: '50%', shared: true },
+          body: `**Terrain areas** containing one or more **light** or **dense terrain features** are **obscuring terrain areas**. If every **[gloss:line-of-sight:line of sight]** drawn between two models crosses one or more **obscuring terrain areas** (excluding **obscuring terrain areas** that one or both of those models are within), those two models are not **visible** to each other.
+
+▪ There is an **obscuring terrain area** between all models in units **A** and **D**, so none of them are **visible** to each other.
+▪ All models in units **B** and **C** are within the **terrain area** and are INFANTRY, so are **hidden**. However, unit **D**'s models are within the 15" **detection range** of unit **B**'s models (but not unit **C**'s), so unit **B**'s models are **visible** to unit **D**'s. Unit **D**'s models are also **visible** to the models in units **B** and **C**, since they are not within a **terrain area**.`,
         },
         {
           id: 'section-13-11',
@@ -148,7 +176,11 @@ While a model is **hidden**, it can only be **[gloss:visible:visible]** to enemy
           title: 'Solid',
           body: `**Dense terrain features** have the **Solid** rule. **Line of sight** cannot be drawn across any enclosed gap in the surface of such a **terrain feature** that is 3" or less from ground level.
 
-[img:/images/terrain/solid.jpg|Solid terrain — line of sight blocking diagram]`,
+[img:/images/terrain/solid-diagram.jpg|Solid terrain — line of sight blocking diagram]
+
+Units **A** and **B** are not **visible** to each other, because even though there is a window in this **dense terrain feature**, it has the **Solid** rule, so **line of sight** cannot be drawn through such enclosed gaps that are 3" or less from ground level.
+
+Units **A** and **C** are **visible** to each other, because even though this **dense terrain feature** has the **Solid** rule, **line of sight** can be drawn normally through enclosed gaps that are more than 3" from ground level.`,
           note: "Designer's Note: This rule ensures that models are not **visible** while sheltering in ground-level terrain, irrespective of small openings such as doors, windows or bullet holes, or because of small gaps between adjacent **terrain features**. 3\" is the height of the first floor of many **terrain features**, but some missions may adjust the height at which this rule takes effect.",
           children: [
             {
@@ -205,10 +237,32 @@ At the end of each phase and turn, to determine a player's **[gloss:level-of-con
 ▪ The player who has the highest **level of control** over that **objective** controls that **objective**.
 ▪ If both players have the same **level of control** over that **objective**, unless that **objective** is **[gloss:secured-objective:secured]** (see below), that **objective** is not controlled by either player.
 
-While one or more units from a player's army are within range of an **objective** that player controls, for each of those units that contains one or more models with an **OC** characteristic of 1 or more, that unit is said to be **controlling** that **objective**.
-
-[img:/images/terrain/controlling-a-terrain-objective.jpg|Controlling a terrain objective — OC and control range]`,
+While one or more units from a player's army are within range of an **objective** that player controls, for each of those units that contains one or more models with an **OC** characteristic of 1 or more, that unit is said to be **controlling** that **objective**.`,
           note: 'Hold at All Costs: Some units have abilities that are triggered when they control an **objective**, or when they **[gloss:secured-objective:secure]** an **objective** for your army.',
+          // See splitSubsections()/splitBodyEntries() in columnChunks.js — same recipe as
+          // 12.03/12.08/13.06: split the worked example off the prose so the column
+          // balancer can place it independently.
+          splitBody: `### Controlling a Terrain Objective
+[img:/images/terrain/controlling-a-terrain-objective-diagram.jpg|Controlling a terrain objective — OC and control range]
+
+VEHICLE **A** has an **OC** characteristic of 3, and it is within the **terrain area**.
+
+VEHICLE **B** has an **OC** characteristic of 2, and it is wholly within the **terrain area**.
+
+The models in unit **C** each have an **OC** characteristic of 1. Six of its models are within the **terrain area**.
+
+Unit **D** is currently **battle-shocked**, so the **OC** characteristic of all of its models is '-'.
+
+Both players add together the **OC** characteristics of all their models that are within the **terrain area**. The BLUE player's **level of control** is 5, and the RED player's **level of control** is 6. The RED player therefore controls the **objective**.`,
+          children: [
+            {
+              id: 'section-14-02-01',
+              sectionNum: '14.02.01',
+              title: 'Controlling an Objective at the End of a Phase',
+              fromApp: true,
+              body: `At the end of each phase and turn, the first thing players do (before any other 'at the end of the phase/end of the turn' rules or abilities) is determine which **objectives** are controlled by which player.`,
+            },
+          ],
         },
         {
           id: 'section-14-03',
@@ -350,7 +404,7 @@ Each time you use a **stratagem**, resolve the following sequence:
           flavor: 'In extremis, armoured vehicles and rampaging monsters can use their sheer size as a weapon, ramming and crushing enemies beneath their colossal bulk, though doing so risks sustaining damage in return.',
           when: 'Your Charge phase, just after a friendly MONSTER or VEHICLE unit ends a **[gloss:charge-move:charge move]**',
           target: 'That MONSTER or VEHICLE unit',
-          effect: 'Resolve the following sequence:\n1. Select one enemy model **[gloss:engaged:engaged]** with your unit.\n2. Select one model in your unit that is **engaged** with that enemy model.\n3. Roll a number of D6 equal to the **T** characteristic of that enemy model: for each result of 1, your unit suffers 1 **mortal wound**; for each result of 5+, that enemy model\'s unit suffers 1 **mortal wound** (to a maximum of 6 **mortal wounds** per unit).',
+          effect: 'Resolve the following sequence:\n1. Select one enemy unit **[gloss:engaged:engaged]** with your unit.\n2. Select one model in your unit that is **engaged** with that enemy unit.\n3. Roll a number of D6 equal to the **T** characteristic of that model: for each result of 1, your unit suffers 1 **mortal wound**; for each result of 5+, that enemy unit suffers 1 **mortal wound** (to a maximum of 6 **mortal wounds** per unit).',
           restrictions: '',
           extraCost: [],
         },
@@ -448,25 +502,31 @@ Each time you use a **stratagem**, resolve the following sequence:
 ▪ **UNITS:** Which friendly units can perform it.
 ▪ **USE LIMIT:** How many times friendly units can start it.
 ▪ **COMPLETES:** When it completes.
-▪ **EFFECT:** What the effects of completing it are.
-
-### Starting an Action
+▪ **EFFECT:** What the effects of completing it are.`,
+          note: '**WHERE TO FIND ACTIONS**\n\nThe **actions** players can use can be found in other publications such as mission packs. All players can use **core actions**, while other **actions** may have restrictions such as army faction.',
+          // This chapter has only this one subsection — chunkSubsections() collapses a
+          // lone item back to full width (columnChunks.js), so without a split it never
+          // gets the two-column layout at all. See splitSubsections()/splitBodyEntries().
+          // Split into 3 chunks (not 1) so the balancer has more breakpoints to work
+          // with — a single big "Starting an Action" tail left column 1 much taller than
+          // column 2; breaking its bullet list in two gives a near-even 2/2 balance.
+          splitBodies: [
+            `### Starting an Action
 A unit is **eligible to start an action** unless one or more of the following apply to that unit:
 ▪ It is not on the battlefield.
 ▪ It is an AIRCRAFT/FORTIFICATION unit.
 ▪ It is **[gloss:battle-shocked:battle-shocked]**.
-▪ It has an OC characteristic of 0 or '-'.
-▪ It is **engaged** (unless it is a TITANIC unit).
+▪ It has an OC characteristic of 0 or '-'.`,
+            `▪ It is **engaged** (unless it is a TITANIC unit).
 ▪ It made an **advance** or **[gloss:fall-back-move:fall-back move]** this turn.
 ▪ It started another **action** this turn.
 
 If a unit starts an **action**, until the end of the turn:
 ▪ It is **[gloss:not-eligible-to-shoot:not eligible to shoot]** (excluding TITANIC units).
-▪ It is not **eligible to declare a charge**.
-
-### Completing an Action
+▪ It is not **eligible to declare a charge**.`,
+            `### Completing an Action
 If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile-in]** and **[gloss:consolidation:consolidation moves]**) or leaves the battlefield, that unit does not complete that **action**. Otherwise, when an **action** is completed, its Effect is triggered.`,
-          note: 'WHERE TO FIND ACTIONS\nThe **actions** players can use can be found in other publications such as mission packs. All players can use **core actions**, while other **actions** may have restrictions such as army faction.',
+          ],
         },
       ],
     },
@@ -491,9 +551,15 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
 
 В каждом случае область поля боя, занимаемая этой границей или **элементом укрытия**, известна как **[gloss:terrain-area:область укрытия]**. Карта развёртывания миссии может определять местоположение и размеры каждой **области укрытия**. В противном случае игроки должны договориться об этом до начала битвы.
 
-[img:/images/terrain/terrain-placed-on-a-mat-ru.jpg|Укрытия на подложке — пример границы территории]
+### Укрытия на подложке
+[img:/images/terrain/terrain-placed-on-a-mat-diagram.jpg|Укрытия на подложке — пример границы территории]
 
-[img:/images/terrain/terrain-placed-on-the-battlefield-ru.jpg|Укрытия на поле боя — пример границы территории]`,
+Два **элемента укрытий** размещены на подложке. Края этой подложки определяют границу этой **области укрытия (A)**. Оба **элемента укрытий (B)** — руины, поэтому используйте правила для **надёжных элементов укрытий**.
+
+### Укрытия на поле боя
+[img:/images/terrain/terrain-placed-on-the-battlefield-diagram.jpg|Укрытия на поле боя — пример границы территории]
+
+Три **элемента укрытий** размещены непосредственно на поле боя. Игроки договорились о границе **области укрытия (A)**, определяемой этими элементами (заштрихованный прямоугольник). **Синие элементы (B)** являются **надёжными элементами укрытий**, а **красный элемент (C)** — **лёгким элементом укрытия**.`,
         },
         {
           id: 'section-13-02',
@@ -553,12 +619,22 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
 ### Постановка моделей или завершение манёвра
 Модели могут быть установлены или завершать манёвр на уровне земли **элементов укрытий**. Модели также могут быть установлены или завершать манёвр на любой поверхности **элемента укрытия**, которая не находится на уровне земли, если применяются **все** следующие условия:
 ▪ Эта модель имеет одно или несколько из следующих ключевых слов: INFANTRY/BEASTS/SWARM/FLY/MONSTER (ПЕХОТА/ЗВЕРИ/РОЙ/ЛЕТАЮЩИЙ/MONSTER).
-▪ После завершения этого манёвра эта модель устойчива, и ни одна часть её базы не свешивается за внешний край этой поверхности.
-
-[img:/images/terrain/terrain-and-movement-ru.jpg|Укрытие и движение — движение моделей через укрытие]
-
-[img:/images/terrain/terrain-and-movement-2-ru.jpg|Укрытие и движение, пример 2 — правила выноса базы]`,
+▪ После завершения этого манёвра эта модель устойчива, и ни одна часть её базы не свешивается за внешний край этой поверхности.`,
           note: 'Сплошное укрытие: Если **[gloss:terrain-feature:элемент укрытия]** обладает правилом [gloss:solid:Сплошное] (13.11), модель не может завершить манёвр так, чтобы любая её часть оказалась по ту сторону любой закрытой части этого **элемента укрытия**, находящейся на высоте 3" или менее от уровня земли — даже через небольшие проёмы, такие как двери и окна.',
+          splitBodies: [
+            `[img:/images/terrain/terrain-and-movement-diagram.jpg|Укрытие и движение — движение моделей через укрытие]
+
+Все секции **надёжного элемента укрытия (A)** имеют высоту более 2", поэтому модель MONSTER **(B)** не может пройти сквозь него и должна обойти его.
+
+Модели INFANTRY **(C)** могут перемещаться сквозь **надёжные элементы укрытий**, такие как стены этих руин.`,
+            `[img:/images/terrain/terrain-and-movement-2-diagram.jpg|Укрытие и движение, пример 2 — правила выноса базы]
+
+1. Эта модель INFANTRY может перемещаться вертикально и завершить манёвр на верхней поверхности **элемента укрытия (D)**, поскольку она устойчива и ни одна часть её базы не свешивается за внешний край этой поверхности.
+
+2. Эта модель VEHICLE не может пройти сквозь **надёжный элемент укрытия (E)**, но может перемещаться вертикально, чтобы подняться или спуститься по секциям высотой более 2" (при условии, что не заканчивает манёвр на вершине таких секций).
+
+3. Эта модель INFANTRY не перемещается над или сквозь какие-либо **элементы укрытий**. Поэтому её манёвр через показанную **область укрытия** ничем не затруднён.`,
+          ],
           children: [
             {
               title: 'Сплошное укрытие и движение',
@@ -576,12 +652,18 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
           id: 'section-13-08',
           sectionNum: '13.08',
           title: 'Преимущество от укрытия (Benefit of Cover)',
-          sideImage: { src: '/images/terrain/benefit-of-cover.jpg', alt: 'Benefit of Cover diagram', width: '50%' },
+          sideImage: { src: '/images/terrain/benefit-of-cover-diagram.jpg', alt: 'Benefit of Cover diagram', width: '50%', shared: true },
           body: `Каждый раз, когда дистанционная атака нацелена на юнит, если **каждая** модель в этом юните соответствует одному или нескольким из следующих условий, этот юнит получает **[gloss:benefit-of-cover:преимущество от укрытия]** от этой атаки:
 ▪ Эта модель имеет ключевое слово INFANTRY/BEASTS/SWARM (ПЕХОТА/ЗВЕРИ/РОЙ) и находится в пределах **[gloss:terrain-area:области укрытия]**.
 ▪ Эта модель **[gloss:not-fully-visible:не полностью видна]** атакующей модели из-за одного или нескольких промежуточных **[gloss:terrain-feature:элементов укрытий]** и/или одной или нескольких промежуточных **[gloss:obscuring:загораживающих областей укрытий]** (см. 13.10).
 
-Каждый раз, когда дистанционная атака нацелена на юнит, который имеет **преимущество от укрытия** от этой атаки, ухудшите характеристику **BS** этой атаки на 1.`,
+Каждый раз, когда дистанционная атака нацелена на юнит, который имеет **преимущество от укрытия** от этой атаки, ухудшите характеристику **BS** этой атаки на 1.
+
+Когда юнит **E** совершает дистанционные атаки:
+▪ Юнит **A** **полностью видим** каждой модели юнита **E**, поэтому не получает **преимущество от укрытия**.
+▪ Не все модели юнита **B** находятся в пределах **области укрытия**, поэтому юнит **B** не получает **преимущество от укрытия**.
+▪ Все модели юнита **C** находятся в пределах **области укрытия**, поэтому юнит **C** получает **преимущество от укрытия** (-1 BS).
+▪ Юнит **D** не **полностью видим** юниту **E** из-за промежуточной **загораживающей области укрытия**, поэтому юнит **D** получает **преимущество от укрытия** (-1 BS).`,
         },
         {
           id: 'section-13-09',
@@ -603,8 +685,11 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
           id: 'section-13-10',
           sectionNum: '13.10',
           title: 'Загораживание',
-          sideImage: { src: '/images/terrain/hidden-and-obscuring.jpg', alt: 'Hidden and Obscuring diagram', width: '50%' },
-          body: `**[gloss:terrain-area:Области укрытий]**, содержащие один или несколько **лёгких** или **надёжных элементов укрытий**, являются **[gloss:obscuring:загораживающими областями укрытий]**. Если каждая **[gloss:line-of-sight:линия обзора]**, проведённая между двумя моделями, пересекает одну или несколько **загораживающих областей укрытий** (за исключением **загораживающих областей укрытий**, внутри которых находится одна или обе эти модели), эти две модели **[gloss:visible:не видят]** друг друга.`,
+          sideImage: { src: '/images/terrain/hidden-and-obscuring-diagram.jpg', alt: 'Hidden and Obscuring diagram', width: '50%', shared: true },
+          body: `**[gloss:terrain-area:Области укрытий]**, содержащие один или несколько **лёгких** или **надёжных элементов укрытий**, являются **[gloss:obscuring:загораживающими областями укрытий]**. Если каждая **[gloss:line-of-sight:линия обзора]**, проведённая между двумя моделями, пересекает одну или несколько **загораживающих областей укрытий** (за исключением **загораживающих областей укрытий**, внутри которых находится одна или обе эти модели), эти две модели **[gloss:visible:не видят]** друг друга.
+
+▪ Между всеми моделями юнитов **A** и **D** находится **загораживающая область укрытия**, поэтому они не **видят** друг друга.
+▪ Все модели юнитов **B** и **C** находятся в пределах **области укрытия** и имеют ключевое слово INFANTRY, поэтому находятся в **скрытности**. Однако модели юнита **D** находятся в пределах 15" **радиуса обнаружения** моделей юнита **B** (но не юнита **C**), поэтому модели юнита **B** **видны** юниту **D**. Модели юнита **D** также **видны** моделям юнитов **B** и **C**, поскольку они не находятся в пределах **области укрытия**.`,
         },
         {
           id: 'section-13-11',
@@ -612,7 +697,11 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
           title: 'Сплошное укрытие (Solid)',
           body: `**Надёжные укрытия** (Dense terrain) обладают правилом **Сплошное укрытие** (Solid). **[gloss:line-of-sight:Линию обзора]** нельзя провести через любой закрытый проём в поверхности такого **[gloss:terrain-feature:элемента укрытия]**, который находится на высоте 3" или менее от уровня земли.
 
-[img:/images/terrain/solid-ru.jpg|Монолитное укрытие — диаграмма блокировки линии обзора]`,
+[img:/images/terrain/solid-diagram.jpg|Монолитное укрытие — диаграмма блокировки линии обзора]
+
+Юниты **A** и **B** не видят друг друга: хотя в этом надёжном **элементе укрытия** есть окно, у него есть правило **Сплошное укрытие**, поэтому **линию обзора** нельзя провести через такие закрытые проёмы на высоте 3" или менее от уровня земли.
+
+Юниты **A** и **C** видят друг друга: хотя у этого надёжного **элемента укрытия** есть правило **Сплошное укрытие**, **линию обзора** можно провести как обычно через закрытые проёмы на высоте более 3" от уровня земли.`,
           note: 'Примечание дизайнера: Это правило гарантирует, что модели **[gloss:visible:не видны]**, пока укрываются в укрытиях на уровне земли, независимо от небольших отверстий, таких как двери, окна или нулевые отверстия, или из-за небольших зазоров между соседними **элементами укрытий**. 3" — это высота первого этажа многих **элементов укрытий**, но некоторые миссии могут корректировать высоту, на которой это правило вступает в силу.',
           children: [
             {
@@ -663,10 +752,28 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
 ▪ Игрок, у которого самый высокий **уровень контроля** над этой **целью**, контролирует эту **цель**.
 ▪ Если оба игрока имеют **одинаковый уровень контроля** над этой **целью**, то, если только эта **цель** не является **[gloss:secured-objective:закреплённой]** (см. ниже), эта **цель** не контролируется ни одним из игроков.
 
-Пока одна или несколько **единиц** из армии игрока находятся в пределах досягаемости до **цели**, которую этот игрок контролирует, для каждой из этих единиц, которая содержит одну или несколько моделей с характеристикой OC 1 или более, считается, что эта единица контролирует данную **цель**.
-
-[img:/images/terrain/controlling-a-terrain-objective-ru.jpg|Захват цели у укрытия — диаграмма контроля]`,
+Пока одна или несколько **единиц** из армии игрока находятся в пределах досягаемости до **цели**, которую этот игрок контролирует, для каждой из этих единиц, которая содержит одну или несколько моделей с характеристикой OC 1 или более, считается, что эта единица контролирует данную **цель**.`,
           note: 'Удержать любой ценой: Некоторые юниты имеют способности, которые срабатывают, когда они контролируют **[gloss:objective:цель]**, или когда они **[gloss:secured-objective:закрепляют]** **цель** для вашей армии.',
+          splitBody: `### Захват цели у укрытия
+[img:/images/terrain/controlling-a-terrain-objective-diagram.jpg|Захват цели у укрытия — диаграмма контроля]
+
+VEHICLE **A** имеет характеристику **OC** 3 и находится в пределах **области укрытия**.
+
+VEHICLE **B** имеет характеристику **OC** 2 и находится полностью в пределах **области укрытия**.
+
+Модели юнита **C** имеют характеристику **OC** 1 каждая. Шесть его моделей находятся в пределах **области укрытия**.
+
+Юнит **D** в настоящее время подвержен **боевому шоку**, поэтому характеристика **OC** всех его моделей равна «—».
+
+Оба игрока складывают вместе характеристики **OC** всех своих моделей, которые находятся в пределах **области укрытия**. **Уровень контроля** синего игрока равен 5, а **уровень контроля** красного игрока равен 6. Поэтому красный игрок контролирует **цель**.`,
+          children: [
+            {
+              id: 'section-14-02-01',
+              sectionNum: '14.02.01',
+              title: 'Определение контроля над целью в конце фазы (Controlling an Objective at the End of a Phase)',
+              body: `В конце каждой фазы и хода первое, что делают игроки (раньше любых других правил или способностей «в конце фазы/в конце хода»), — это определяют, какие **цели** контролирует каждый из игроков.`,
+            },
+          ],
         },
         {
           id: 'section-14-03',
@@ -869,25 +976,25 @@ If a unit performing an **action** makes a move (excluding **[gloss:pile-in:pile
 ▪ **ЮНИТЫ:** Какие дружественные юниты могут его выполнять.
 ▪ **ЛИМИТ ИСПОЛЬЗОВАНИЯ:** Сколько раз дружественные юниты могут его начать.
 ▪ **ЗАВЕРШЕНИЕ:** Когда оно завершается.
-▪ **ЭФФЕКТ:** Каковы эффекты от его завершения.
-
-### Начало действия
+▪ **ЭФФЕКТ:** Каковы эффекты от его завершения.`,
+          note: '**ГДЕ НАЙТИ ДЕЙСТВИЯ**\n\n**[gloss:action:Действия]**, которые могут использовать игроки, можно найти в других публикациях, таких как пакеты миссий. Все игроки могут использовать **[gloss:action:базовые действия]**, тогда как другие **[gloss:action:действия]** могут иметь ограничения, например по фракции армии (army faction).',
+          splitBodies: [
+            `### Начало действия
 Юнит **[gloss:eligible-to-act:может начать действие]**, если к нему **не** применяются одно или несколько из следующих условий:
 ▪ Он не находится на поле боя.
 ▪ Это юнит AIRCRAFT/FORTIFICATION (ЛЕТАТЕЛЬНОГО АППАРАТА/УКРЕПЛЕНИЯ).
 ▪ Он находится в состоянии **[gloss:battle-shocked:боевого шока]**.
-▪ Он имеет характеристику OC 0 или «-».
-▪ Он **[gloss:engaged:связан ближним боем]** (если только это не TITANIC юнит).
+▪ Он имеет характеристику OC 0 или «-».`,
+            `▪ Он **[gloss:engaged:связан ближним боем]** (если только это не TITANIC юнит).
 ▪ Он совершил **[gloss:advance-move:продвижение]** или **[gloss:fall-back-move:отступление]** в этом ходу.
 ▪ Он начал другое **[gloss:action:действие]** в этом ходу.
 
 Если юнит начинает **[gloss:action:действие]**, то до конца хода:
 ▪ Он **[gloss:not-eligible-to-shoot:не может стрелять]** (за исключением TITANIC юнитов).
-▪ Он **[gloss:eligible-to-charge:не может объявлять нападение]**.
-
-### Завершение действия
+▪ Он **[gloss:eligible-to-charge:не может объявлять нападение]**.`,
+            `### Завершение действия
 Если юнит, выполняющий **[gloss:action:действие]**, совершает манёвр (за исключением **[gloss:pile-in:сближения]** и **[gloss:consolidation:консолидации]**) или покидает поле боя, этот юнит не завершает это **[gloss:action:действие]**. В противном случае, когда **[gloss:action:действие]** завершается, срабатывает его раздел «Эффект».`,
-          note: 'ГДЕ НАЙТИ ДЕЙСТВИЯ\n**[gloss:action:Действия]**, которые могут использовать игроки, можно найти в других публикациях, таких как пакеты миссий. Все игроки могут использовать **[gloss:action:базовые действия]**, тогда как другие **[gloss:action:действия]** могут иметь ограничения, например по фракции армии (army faction).',
+          ],
         },
       ],
     },

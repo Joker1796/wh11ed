@@ -37,7 +37,7 @@ const LEADER_TEXT = 'Эту модель можно присоединить к 
 const EQUIP_THIS = '**Эта модель вооружена:**'
 const EQUIP_EVERY = '**Каждая модель вооружена:**'
 const CP_REDUCE =
-  'Один раз за раунд боя один юнит вашей армии с этой способностью может задействовать её, когда его юнит выбирается целью стратагемы. Если он это делает, уменьшите стоимость этого применения этой стратагемы на 1 CP.'
+  'Один раз за раунд боя один юнит вашей армии с этой способностью может задействовать её, когда он выбирается целью стратагемы. Если он это делает, уменьшите стоимость этого применения этой стратагемы на 1 CP.'
 const FINEST_HOUR =
   'Один раз за битву, в начале фазы ближнего боя, эта модель может задействовать эту способность. Если она это делает, до конца фазы прибавьте 3 к характеристике Атак (Attacks) оружия ближнего боя этой модели, и это оружие имеет способность [DEVASTATING WOUNDS].'
 const BLACK_RAGE =
@@ -89,12 +89,14 @@ export default {
     loadout: `${EQUIP_THIS} heavy bolt pistol; master-crafted chainsword.`,
     options: [
       'heavy bolt pistol этой модели можно заменить на 1 inferno pistol.',
-      'master-crafted chainsword этой модели можно заменить на одно из следующего:\n▪ 1 relic weapon\n▪ 1 power fist',
+      'master-crafted chainsword этой модели можно заменить на одно из следующего:\n▪ 1 power fist\n▪ 1 relic weapon',
     ],
     leader: { text: LEADER_TEXT },
   },
 
   'chief-librarian-mephiston': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Мефистон'],
     flavor:
       'Мефистон — неимоверно мощный воин и псайкер. Он единственный из Blood Angels, кто, как известно, подавил Чёрную Ярость, воскреснув из состояния близкой смерти с исключительной силой, мощью и скоростью. Многие шепчутся за его спиной, спрашивая, какую цену он заплатил за такое преображение.',
     abilities: {
@@ -107,6 +109,8 @@ export default {
   },
 
   'commander-dante': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Данте'],
     flavor:
       'Данте парит над полем боя, сияя в своей золотой броне, прежде чем с рёвом ринуться в кровавый бой на огненных шлейфах. Оказавшись в гуще, пронзительный взгляд его посмертной маски леденит врагов от ужаса, а безукоризненно выверенные удары Axe Mortalis повергают врага за врагом.',
     abilities: {
@@ -115,7 +119,7 @@ export default {
       'Death Mask of Sanguinius':
         'В начале фазы ближнего боя каждый вражеский юнит в пределах 6" от этой модели обязан пройти проверку боевого шока, вычтя 1 из этой проверки.',
     },
-    loadout: `${EQUIP_THIS} Perdition; the Axe Mortalis.`,
+    loadout: `${EQUIP_THIS} Perdition Pistol; the Axe Mortalis.`,
     leader: { text: LEADER_TEXT },
   },
 
@@ -131,7 +135,7 @@ export default {
     loadout: `${EQUIP_THIS} heavy bolt pistol; master-crafted chainsword.`,
     options: [
       'heavy bolt pistol этой модели можно заменить на 1 inferno pistol.',
-      'master-crafted chainsword этой модели можно заменить на одно из следующего:\n▪ 1 relic weapon\n▪ 1 power fist',
+      'master-crafted chainsword этой модели можно заменить на одно из следующего:\n▪ 1 power fist\n▪ 1 relic weapon',
     ],
     leader: { text: LEADER_TEXT },
   },
@@ -148,7 +152,7 @@ export default {
     loadout: `${EQUIP_THIS} heavy bolt pistol; Astartes chainsword.`,
     options: [
       'heavy bolt pistol этой модели можно заменить на одно из следующего:\n▪ 1 plasma pistol\n▪ 1 hand flamer',
-      'Astartes chainsword этой модели можно заменить на одно из следующего:\n▪ 1 relic weapon\n▪ 1 power fist',
+      'Astartes chainsword этой модели можно заменить на одно из следующего:\n▪ 1 power fist\n▪ 1 relic weapon',
     ],
     leader: { text: LEADER_TEXT },
   },
@@ -213,12 +217,14 @@ export default {
     options: [
       'За каждые 5 моделей в этом юните у 1 модели её heavy bolt pistol можно заменить на 1 plasma pistol.',
       'За каждые 5 моделей в этом юните у 1 модели её Astartes chainsword можно заменить на 1 eviscerator.',
-      'Astartes chainsword у 1 модели можно заменить на одно из следующего:\n▪ 1 power fist\n▪ 1 power weapon',
+      'Astartes chainsword у 2 моделей можно заменить на одно из следующего:\n▪ 1 power fist\n▪ 1 power weapon',
       'За каждые 5 моделей в этом юните у 1 модели её heavy bolt pistol и Astartes chainsword можно заменить на одно из следующего:\n▪ 1 hand flamer и 1 Astartes chainsword\n▪ 1 hand flamer и 1 power fist\n▪ 1 hand flamer и 1 power weapon\n▪ 1 heavy bolt pistol и 1 power fist\n▪ 1 heavy bolt pistol и 1 power weapon\n▪ 1 inferno pistol и 1 Astartes chainsword\n▪ 1 inferno pistol и 1 power fist\n▪ 1 inferno pistol и 1 power weapon\n▪ 1 plasma pistol и 1 Astartes chainsword\n▪ 1 plasma pistol и 1 power fist\n▪ 1 plasma pistol и 1 power weapon',
     ],
   },
 
   lemartes: {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Лемартес'],
     flavor:
       'Жизнь Лемарта — непрерывная битва. Воин железной воли, он каким-то образом сохраняет ясность рассудка, хотя и поддался Чёрной Ярости. Он ведёт Death Company Blood Angels как Хранитель Потерянных, владея древним оружием, известным как Blood Crozius. Его вдохновение сделало Death Company ещё грознее.',
     abilities: {
@@ -272,7 +278,7 @@ export default {
       'Aura of Fervour (Aura)':
         'Пока дружественный юнит ADEPTUS ASTARTES находится в пределах 6" от этой модели, вы можете перебрасывать проверки боевого шока и лидерства для этого юнита.',
       'Miraculous Saviour':
-        '(Один раз за битву, за армию) В конце фазы нападения вашего оппонента (кроме первого раунда боя) вы можете выбрать один вражеский юнит, что совершил манёвр нападения в этой фазе. Этот юнит может совершить ingress move и обязан быть выставлен в дистанции ввязывания этого вражеского юнита.',
+        '(Один раз за битву, за армию) В конце фазы нападения вашего оппонента (кроме первого раунда боя) вы можете выбрать один вражеский юнит, что совершил манёвр нападения в этой фазе. Этот юнит может совершить ingress move и обязан быть выставлен в дистанции ввязывания этого вражеского юнита. Этот манёвр не мешает этому юниту иметь право перемещаться.',
     },
     loadout: `${EQUIP_THIS} encarmine broadsword.`,
   },

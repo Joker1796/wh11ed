@@ -9,26 +9,29 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
 export const APPDATA = process.env.WH40K_APPDATA_PATH || path.join(ROOT, '..', 'wh40k-appdata')
 
-// The wh40k-appdata `data_version` this repo was last fully reconciled against. Bump this in the
-// same commit that lands a re-sync so `npm run sync` can tell you when appdata has moved ahead
-// (a newer app dump) and the audit needs re-running. Read appdata's current version from its
-// tables/_meta.json.
-export const SYNCED_DATA_VERSION = 895
-export function appdataDataVersion() {
-  const meta = path.join(APPDATA, 'tables', '_meta.json')
-  return fs.existsSync(meta) ? JSON.parse(fs.readFileSync(meta, 'utf8')).data_version : null
-}
-
-// wh11ed faction slug → wh40k-appdata faction slug, wherever the two disagree. Shared by
-// sync-appdata.mjs and gen-roster-data.mjs so both resolve the same bundle/faction keyword.
+// wh11ed faction slug → wh40k-appdata bundle/faction-keyword slug, for the 7 factions GW renamed
+// between the app dump and wh11ed's own filenames. Every other faction shares the same slug in both.
+// Single source of truth — imported by the reconciliation scripts (gen-source-ids, sync-appdata,
+// sync-tracker, gen-faction-faq, gen-roster-data). Invert it (appdata slug → wh11ed slug) when
+// going the other way.
 export const SLUG_MAP = {
   'space-marines': 'adeptus-astartes',
   'chaos-space-marines': 'heretic-astartes',
   'imperial-agents': 'agents-of-the-imperium',
-  'aeldari': 'asuryani',
+  aeldari: 'asuryani',
   'chaos-daemons': 'legiones-daemonica',
   'titan-legions': 'adeptus-titanicus',
   'chaos-titan-legions': 'titanicus-traitoris',
+}
+
+// The wh40k-appdata `data_version` this repo was last fully reconciled against. Bump this in the
+// same commit that lands a re-sync so `npm run sync` can tell you when appdata has moved ahead
+// (a newer app dump) and the audit needs re-running. Single source of truth is the shipped
+// src/data/appDataVersion.js (the footer shows it too) — bump it there.
+export { APP_DATA_VERSION as SYNCED_DATA_VERSION } from '../../src/data/appDataVersion.js'
+export function appdataDataVersion() {
+  const meta = path.join(APPDATA, 'tables', '_meta.json')
+  return fs.existsSync(meta) ? JSON.parse(fs.readFileSync(meta, 'utf8')).data_version : null
 }
 
 // Normalize a name for matching: fold quote/dash variants, strip a trailing "(...)"
@@ -44,30 +47,164 @@ export function appdataToMarkup(text) {
   s = s.replace(/<k>(.*?)<\/k>/gis, (_, inner) => inner.toUpperCase())
   s = s.replace(/<b>(.*?)<\/b>/gis, '**$1**')
   s = s.replace(/<[^>]+>/g, '')
-  s = s.split('\n').map((l) => l.trim()).join(' ').replace(/\s{2,}/g, ' ')
+  s = s.replace(/&#x?[0-9a-f]+;/gi, ' ') // stray numeric HTML entities (e.g. &#x20;) in appdata text
+  // Collapse incidental line-wraps into flowing prose, but keep a real `\n` before each bullet
+  // line so it survives as a genuine list item — matching the hand-authored body convention (see
+  // e.g. factions/grey-knights.js's "One Foot in the Future") — rather than being flattened into
+  // an inline "▪ text ▪ text" run that renders as plain text. appdata sometimes hand-types the
+  // bullet *inside* a `**bold**`/`__underline__` run ("**▪ Company Heroes Rule:**") or right after
+  // an opening quote ("'■ Ranged weapons…") and sometimes uses `■` instead of `▪` — normalize all
+  // of that so the bullet is always the line's leading char and buildRich's `^[▪•]` list-item
+  // check (useRenderInline.js) recognizes it.
+  const BULLET_LEAD = /^(\*{1,2}|__|['’‘"«])?[▪■][ \t]*/
+  const normalizeBullet = (l) => {
+    const m = l.match(BULLET_LEAD)
+    return m ? `▪ ${m[1] || ''}${l.slice(m[0].length)}` : l
+  }
+  s = s
+    .split('\n')
+    .map((l) => l.trim())
+    .filter(Boolean)
+    .reduce((acc, l) => (!acc ? normalizeBullet(l) : BULLET_LEAD.test(l) ? `${acc}\n${normalizeBullet(l)}` : `${acc} ${l}`), '')
+    .replace(/[ \t]{2,}/g, ' ')
   return s.trim()
 }
 
 // A detachment/army rule's `body` is appdata's array of typed text blocks — flatten to one
-// converted string for the report.
+// converted string for the report. Flavour blocks (loreAccordion/quote) are skipped: wh11ed
+// stores flavour in a separate `flavor` field, so including them would flag every rule.
 export function bodyText(body) {
   return (body || [])
+    .filter((b) => b.type !== 'loreAccordion' && b.type !== 'quote' && b.type !== 'image')
     .map((b) => appdataToMarkup(b.text || b.trigger || b.effect || ''))
     .filter(Boolean)
-    .join(' / ')
+    .join('\n')
 }
 
+// Combat Patrol publications (`isCombatPatrol`) are a separate boxed game mode with fixed
+// 0-point rosters, detachment-name-prefixed unit variants, AND their own copies of the army
+// rule(s) — the CP copies are often the pre-errata wording (e.g. Necrons' Reanimation Protocols
+// still reads "reanimates D3" in the Combat Patrol box while the Codex has been errata'd to
+// "heals D3"). wh11ed is matched-play only and carries none of it, so every reconciliation
+// script must drop CP content before diffing. The faction bundle flags detachments but not
+// datasheets/army-rules, so derive the name/id sets straight from the raw appdata tables
+// (self-contained — no bundle regeneration needed). Computed once. Shared by sync-appdata.mjs
+// and sync-faction-text.mjs so both treat CP content identically.
+let _combatPatrol = null
+export function combatPatrolNames() {
+  if (_combatPatrol) return _combatPatrol
+  const T = path.join(APPDATA, 'tables')
+  const read = (f) => loadJson(path.join(T, f)) || []
+  const cpPubIds = new Set(read('publication.json').filter((p) => p.isCombatPatrol).map((p) => p.id))
+  const namesUnder = (f) => new Set(read(f).filter((r) => cpPubIds.has(r.publicationId)).map((r) => norm(r?.localisations?.en?.name || '')).filter(Boolean))
+  const idsUnder = (f) => new Set(read(f).filter((r) => cpPubIds.has(r.publicationId)).map((r) => r.id))
+  _combatPatrol = {
+    datasheets: namesUnder('datasheet.json'),
+    detachments: namesUnder('detachment.json'),
+    armyRuleIds: idsUnder('army_rule.json'),
+  }
+  return _combatPatrol
+}
+
+// Memoized by absolute path — once sync.mjs runs every check in one process (instead of a
+// spawnSync per script), this alone collapses the repeated re-parsing of the same
+// tables/<x>.json or factions/<slug>.json across different checks into a single read. Harmless
+// for standalone single-script runs too (just a cache that's never reused).
+const _jsonCache = new Map()
 export function loadJson(file) {
-  return fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : null
+  if (_jsonCache.has(file)) return _jsonCache.get(file)
+  const v = fs.existsSync(file) ? JSON.parse(fs.readFileSync(file, 'utf8')) : null
+  _jsonCache.set(file, v)
+  return v
 }
 export async function loadModule(file) {
   return fs.existsSync(file) ? import(pathToFileURL(file)) : null
+}
+
+// wh11ed's own src/data/sourceIds.json, memoized — several scripts read this directly with
+// fs.readFileSync instead of loadJson(); route them through here so it's parsed once per process
+// instead of once per faction iteration (sync-appdata.mjs used to re-read it inside its --all
+// loop, 30x in a row for no reason).
+export function sourceIds() {
+  return loadJson(path.join(ROOT, 'src/data/sourceIds.json'))
+}
+
+// All 30 wh40k-appdata faction bundles, loaded once. Several scripts (sync-leader-units,
+// sync-ally-inclusion, sync-roster-restrictions, sync-army-rule-coverage, sync-combat-patrol)
+// independently fs.readdirSync(factions/) + loadJson every bundle for their own purposes — same
+// technique as combatPatrolNames() below (module-level cache, computed on first call).
+let _allBundles = null
+export function allFactionBundles() {
+  if (_allBundles) return _allBundles
+  const dir = path.join(APPDATA, 'factions')
+  const out = []
+  if (fs.existsSync(dir)) {
+    for (const f of fs.readdirSync(dir).filter((f) => f.endsWith('.json') && f !== '_index.json')) {
+      // Tolerate a bundle mid-rebuild/corrupt (sync-leader-units.mjs used to guard this per-file
+      // when it scanned the directory itself) — skip it rather than aborting the whole audit, now
+      // that every check shares one process instead of its own isolated one.
+      try { out.push({ appSlug: f.replace(/\.json$/, ''), bundle: loadJson(path.join(dir, f)) }) } catch { /* skip */ }
+    }
+  }
+  _allBundles = out
+  return _allBundles
+}
+
+// Load a faction's wh11ed datasheets AS THE SITE SHOWS THEM: for the 5 Codex-sharing Chapters,
+// fold the referenced space-marines.js units back in (mirroring src/data/datasheets/index.js's
+// loadDatasheets via `sharedUnitIds`), so a comparison sees the same flat per-faction list every
+// view does. Shared by sync-appdata.mjs and sync-faction-text.mjs.
+export async function loadWh11edDatasheets(slug) {
+  const mod = await loadModule(path.join(ROOT, 'src/data/datasheets', `${slug}.js`))
+  if (!mod) return []
+  const own = mod.default || []
+  if (!mod.sharedUnitIds?.length) return own
+  const smMod = await loadModule(path.join(ROOT, 'src/data/datasheets/space-marines.js'))
+  const idSet = new Set(mod.sharedUnitIds)
+  return [...own, ...(smMod?.default || []).filter((d) => idSet.has(d.id))]
+}
+
+// Match one wh11ed ranged[]/melee[] row to its appdata wargear[] item. appdata's own multi-mode
+// weapons (e.g. a plasma weapon) carry ONE wargear item with several `profiles[]`, where each
+// profile's `name` is the mode label ("Standard"/"Supercharge"), not the weapon name — wh11ed
+// flattens those into separate rows named "<weapon> – <mode>" (dash character is inconsistent in
+// the data, hence routing through `norm()` which already folds dash variants). A single-profile
+// item must match the row name exactly; a multi-profile item only needs the row name to start
+// with the item's own name (the mode-label suffix wording isn't required to agree). Used both to
+// build the `wg:` sourceId bridge (gen-source-ids.mjs) and, at sync time, as the fallback for
+// weapon rows not yet in that bridge (sync-appdata.mjs) — one shared heuristic, not two that could
+// silently drift apart and disagree about which appdata entry a row corresponds to.
+export function matchWeapon(rowName, isRanged, appWargear) {
+  const rn = norm(rowName)
+  for (const item of appWargear || []) {
+    const profiles = (item.profiles || []).filter((p) => (p.type === 'ranged') === isRanged)
+    if (!profiles.length) continue
+    if (profiles.length === 1 ? norm(item.name) === rn : rn.startsWith(norm(item.name))) return item
+  }
+  return null
 }
 
 export function byNormName(list, nameOf) {
   const m = new Map()
   for (const item of list) m.set(norm(nameOf(item)), item)
   return m
+}
+
+// Presence-only set diff between two plain string lists (already-normalized-by-norm() equality),
+// e.g. keywords or a Character's bodyguard-unit names. `norm()` already folds dash/quote variants
+// and case, so this is the same equality `byNormName`/`diffByName` use — just for bare strings
+// instead of named objects.
+export function diffSet(label, whList, appList) {
+  const wh = new Map((whList || []).map((s) => [norm(s), s]))
+  const app = new Map((appList || []).map((s) => [norm(s), s]))
+  const lines = []
+  for (const [key, name] of app) {
+    if (!wh.has(key)) lines.push(`  + missing in wh11ed: ${label} "${name}"`)
+  }
+  for (const [key, name] of wh) {
+    if (!app.has(key)) lines.push(`  - extra in wh11ed (not in appdata): ${label} "${name}"`)
+  }
+  return lines
 }
 
 // Compare two same-named lists. `scalarFields` are compared as digits-only exact-value

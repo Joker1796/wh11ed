@@ -1,5 +1,4 @@
 import { describe, it, expect, vi } from 'vitest'
-import { nextTick } from 'vue'
 
 // useFactionPage reads the slug from the router — stub the route.
 const route = { params: { slug: 'necrons' } }
@@ -8,21 +7,19 @@ vi.mock('vue-router', () => ({ useRoute: () => route }))
 import { useLocale } from './useLocale.js'
 import { useFactionPage } from './useFactionPage.js'
 
-async function untilRu(faction) {
-  // the RU overlay chunk loads async — poll a few ticks until the merge lands
-  for (let i = 0; i < 50; i++) {
-    await nextTick()
-    await new Promise((r) => setTimeout(r, 10))
-    if (/[а-я]/.test(faction.value?.armyRule?.body || '')) return
-  }
-}
+// BOTH sides of the faction data are lazy chunks now — the EN rules (one chunk per slug, see
+// src/data/factions/index.js) and the RU overlay on top of it — so `faction` starts null and
+// every assertion has to wait for the import to land. Waits on the result, never on a tick
+// count: the previous helper here polled a fixed 50 × 10ms, the same pattern that made
+// StratagemsView.test.js flaky under load.
+const until = (fn) => vi.waitFor(fn, { timeout: 15000 })
 
 describe('useFactionPage RU overlay', () => {
-  it('serves EN text in the EN locale', () => {
+  it('serves EN text in the EN locale', async () => {
     const { locale } = useLocale()
     locale.value = 'en'
     const { faction } = useFactionPage()
-    expect(faction.value.name).toBe('Necrons')
+    await until(() => expect(faction.value?.name).toBe('Necrons'))
     expect(faction.value.armyRule.body).toMatch(/^If your Army Faction/)
   })
 
@@ -30,9 +27,8 @@ describe('useFactionPage RU overlay', () => {
     const { locale } = useLocale()
     locale.value = 'ru'
     const { faction } = useFactionPage()
-    await untilRu(faction)
+    await until(() => expect(faction.value?.armyRule?.body).toMatch(/^Если фракция вашей армии/))
     // translated texts…
-    expect(faction.value.armyRule.body).toMatch(/^Если фракция вашей армии/)
     expect(faction.value.detachments[0].rule.body).toMatch(/броску на попадание/)
     // …while names / points / structure stay English and intact
     expect(faction.value.armyRule.name).toBe('Reanimation Protocols')

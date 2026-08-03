@@ -3,6 +3,7 @@
 // mfmFactions.js (~290 KB of points/detachment data). Only GameSetup needs this, so it
 // loads with the setup chunk instead of bloating the playing/breakdown views.
 import { mfmFactions } from '../data/mfmFactions.js'
+import { combatPatrolIndex } from '../data/combatPatrolIndex.js'
 
 export const FACTIONS = mfmFactions.en.map(f => ({ slug: f.slug, name: f.name }))
 
@@ -29,6 +30,16 @@ export const FACTION_GROUPS = (() => {
   const other = FACTIONS.filter(f => !seen.has(f.slug)).sort(byName)
   if (other.length) groups.push({ id: 'other', factions: other })
   return groups
+})()
+
+// Same grouping as FACTION_GROUPS, filtered down to factions that have a Combat Patrol box
+// (combatPatrolIndex.js) — used by the faction picker when Game Setup's "Тип игры" is set to
+// Combat Patrol, so a player can't pick a faction with no CP content to select a box from.
+export const COMBAT_PATROL_FACTION_GROUPS = (() => {
+  const cpSlugs = new Set(combatPatrolIndex.map(f => f.slug))
+  return FACTION_GROUPS
+    .map(g => ({ ...g, factions: g.factions.filter(f => cpSlugs.has(f.slug)) }))
+    .filter(g => g.factions.length)
 })()
 
 export function factionBySlug(slug) {

@@ -1,9 +1,9 @@
 // Imperial Knights — faction rules. Resolved from the same source priority as the other
 // factions (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: imported from the Wahapedia CSV exports via scripts/import-wahapedia.mjs →
+//   Codex layer: imported from the codex →
 //     5 detachments (Freeblade Company, Gate Warden Lance, Questoris Companions,
-//     Spearhead-At-Arms, Valourstrike Lance). Wahapedia already carries most pack updates;
+//     Spearhead-At-Arms, Valourstrike Lance). The codex text already carries most pack updates;
 //     the remaining diff (Tactical Foil 9"→8") is folded in below. Freeblade Company is
 //     also printed in the Faction Pack (identical text) — marked source: 'faction-pack'.
 //   Faction Pack v1.0 (sources/Faction pack 11 ed/imperium/IK.pdf) → 2 pack detachments
@@ -19,7 +19,7 @@ const en = {
   name: "Imperial Knights",
 
   // Faction-Pack Rules Update reworded the "We pledge to reap a great tally" Deed
-  // (already reflected in the Wahapedia text below).
+  // (already reflected in the codex text below).
   armyRule: {
     id: 'code-chivalric',
     name: 'Code Chivalric',
@@ -27,7 +27,7 @@ const en = {
       'Imperial Knights fight by a stringent set of codes. In addition to defeating the foe, honour must always be upheld.',
     body: `If your Army Faction is IMPERIAL KNIGHTS, at the end of the Read Mission Objectives step, you must determine your army's Oath for the coming battle. An Oath consists of two parts — one Deed and one Quality. There are three options for each part, shown below.
 
-To determine your army's Deed, you can either select one Deed or you can randomly select one Deed by rolling a D6. The selected Deed will describe what needs to be achieved in order to complete that Deed. To determine your army's Quality, you can either select one Quality or you can randomly select one Quality by rolling a D6. Until the end of the battle, the ability described in the Quality selected applies to all models in your army with this ability.
+To determine your army's Deed, you can either select one Deed or you can randomly select one Deed by rolling a D6 and consulting the relevant table below. The selected Deed will describe what needs to be achieved in order to complete that Deed. To determine your army's Quality, you can either select one Quality or you can randomly select one Quality by rolling a D6 and consulting the relevant table below. Until the end of the battle, the ability described in the Quality selected applies to all models in your army with this ability.
 
 The first time your selected Deed is completed your Oath is fulfilled and, until the end of the battle, your army becomes **Honoured** and you gain 2CP, or 3CP if you randomly selected your Deed and/or Quality (CP gained in this way are an exemption to the Core Rules that limit the maximum number of CP you can gain per battle round to 1).
 
@@ -54,11 +54,11 @@ If every model in your army has the IMPERIUM keyword, you can include either one
   },
 
   detachments: [
-    // ─────────────── CODEX DETACHMENTS (via Wahapedia import) ───────────────
+    // ─────────────── CODEX DETACHMENTS ───────────────
     {
       id: "freeblade-company",
       name: "Freeblade Company",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 3,
       forceDisposition: "Purge the Foe",
       rule: {
@@ -151,7 +151,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           name: "Mysterious Guardian",
           points: 35,
           flavor: "Manifesting as though from nowhere, this Knight is an elemental force of vengeance against the Emperor of Mankind’s foes. At battle’s end, it disappears as mysteriously as it arrived.",
-          body: "IMPERIAL KNIGHTS model only. The bearer has the Deep Strike ability. Once per battle, at the end of your opponent’s turn, if the bearer is not within Engagement Range of one or more enemy units, it can use this Enhancement. If it does, remove the bearer from the battlefield. In the Reinforcements step of your subsequent Movement phase, set the bearer up anywhere on the battlefield that is more than 9\" horizontally away from all enemy units. If the battle ends and the bearer is not on the battlefield, it is destroyed.",
+          body: "IMPERIAL KNIGHTS model only. (Once per battle, per army) At the end of your opponent’s turn, if this unit is unengaged, you can use this ability. If you do:\n▪ Place this unit in strategic reserves.\n▪ This unit has Deep Strike until the start of your next Shooting phase.\n▪ This unit must make an ingress move in your next Movement phase (including in your first turn).",
         },
         {
           name: "Sanctuary",
@@ -171,7 +171,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
       rule: {
         name: "Dauntless Defenders",
         flavor: "With a rigid, strategic intuition born of the unyielding fortifications defended by their ancestors, the Nobles of a Gate Warden Lance hold their ground with an arrogant superiority. While even one defends the marches of their claimed realm, they will fight to the ends of their honour to hurl back the besiegers.",
-        body: "At the start of the first battle round, select two objective markers on the battlefield to be your foundations. When you draw a line from any part of one of your foundations to the other, if any part of a model’s base (or any part of a model’s hull, for a model without a base) crosses that line, that model’s unit is said to be on your defensive line.\n\nWhile an Imperial Knights unit from your army is on your defensive line, that unit has the following ability:\n\n**Against the Horde:** Each time a model in this unit makes an attack that targets a visible enemy unit, you can ignore any or all modifiers to the Hit roll, and weapons equipped by models in this unit have the [sustained hits 1] ability.\n\nEach time one of your foundations is removed from the battlefield (e.g. by a Primary Mission rule), just after it is removed, select a new objective marker on the battlefield to be one of your foundations.",
+        body: "At the start of the first battle round, select two objectives to be your foundations. Place a circular foundation marker in each one. When you draw a line from the closest part of one foundation marker to the closest part of the other, if any part of a model’s base (or any part of a model’s hull, for a model without a base) crosses that line, that model’s unit is said to be on your defensive line.\n\nWhile an IMPERIAL KNIGHTS unit from your army is on your defensive line, that unit has the following ability:\n\n**Against the Horde:** Each time a model in this unit makes an attack that targets a visible enemy unit, you can ignore any or all modifiers to the Hit roll, and weapons equipped by models in this unit have the [SUSTAINED HITS 1] ability.",
       },
       stratagems: [
         {
@@ -237,7 +237,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           flavor: "With a command, experienced Nobles can lock huge actuators into position, bring reserve power cells into wakefulness and shunt extra shielding into place to make their Knightly steed a bastion of defiance.",
           when: "Fight phase, just after an enemy unit has selected its targets.",
           target: "One Imperial Knights unit from your army that was selected as the target of one or more of the attacking unit’s attacks and is on your defensive line.",
-          effect: "Until the end of the phase, each time an attack targets your unit, if the Strength characteristic of that attack is greaterthan the Toughness characteristic of your unit, subtract 1 from the Wound roll",
+          effect: "Until the end of the phase, each time an attack targets your unit, if the Strength characteristic of that attack is greater than the Toughness characteristic of your unit, subtract 1 from the Wound roll.",
           restrictions: "",
         },
       ],
@@ -246,7 +246,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           name: "Acquisitor-at-Arms",
           points: 15,
           flavor: "This stern Noble serves their household by seizing territories and domains deemed the property of their lord. They are a grim and fearsome agent who inspires their charges with an unwillingness to relent.",
-          body: "IMPERIAL KNIGHTS model only. While the bearer is on your defensive line and there are no enemy units on your defensive line, add the bearers Objective Control characteristic to that of each model affected by the bearers Bondsman ability.",
+          body: "IMPERIAL KNIGHTS model only. While the bearer is on your defensive line and there are no enemy units on your defensive line, add the bearer’s Objective Control characteristic to that of each model affected by the bearer’s Bondsman ability.",
         },
         {
           name: "Purgation’s Hand",
@@ -258,7 +258,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           name: "Augury Halo",
           points: 20,
           flavor: "This web of neuro-couplings has been worked into a richly ornamented helmet. Through it, the Noble pilot can access nearby hidden augur nodes deployed by servitor clades of the Sacristans, inloading targeting data to pick out the locations of shrouded besiegers.",
-          body: "IMPERIAL KNIGHTS model only. Each time the bearer makes a ranged attack, while the bearer is on your defensive line, weapons equipped by the bearer have the [ignores cover] ability.",
+          body: "IMPERIAL KNIGHTS model only. Each time the bearer makes a ranged attack, while the bearer is on your defensive line, weapons equipped by the bearer have the [IGNORES COVER] ability.",
         },
         {
           name: "Vengeful Tread",
@@ -278,7 +278,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
       rule: {
         name: "Heroes of Legend & Valour’s Reward",
         flavor: "To those who quest for honour - in service to their liege, to avenge atrocities, to wipe clean the stain of disfavour - there can be no end. The Imperium’s foes are legion, an endless horde from which more arise. As one quest ends, another always begins.",
-        body: "### Heroes of Legend\nAt the start of your turn, if your current Oath is fulfilled, determine an additional Oath as described here, with the exception that you cannot select a Deed or Quality you have already selected (if you are randomly selecting the Deed and/or Quality and roll any result that you have already selected, select a Deed or Quality you have not already selected instead). If you cannot determine an additional Oath because you have already selected each Deed and each Quality, do not determine an additional Oath.\n\nThe Qualities from Oaths you have fulfilled continue to apply to all models in your army with the Code Chivalric ability. When the Deed for an additional Oath is completed, you instead gain 1CP, regardless of how you selected the Deed or Quality.\n\n### Valour’s Reward\nThe Enhancements shown below can become expended. You cannot use such Enhancements while they are expended. Each time you fulfil your Oath, each expended Enhancement is no longer expended.",
+        body: "### Heroes of Legend\nAt the start of your turn, if your current Oath is fulfilled, determine an additional Oath as described in Army Rules, with the exception that you cannot select a Deed or Quality you have already selected (if you are randomly selecting the Deed and/or Quality and roll any result that you have already selected, select a Deed or Quality you have not already selected instead). If you cannot determine an additional Oath because you have already selected each Deed and each Quality, do not determine an additional Oath.\n\nThe Qualities from Oaths you have fulfilled continue to apply to all models in your army with the Code Chivalric ability. When the Deed for an additional Oath is completed, you instead gain 1CP, regardless of how you selected the Deed or Quality.\n\n### Valour’s Reward\nThe Enhancements in this detachment can become expended. You cannot use such Enhancements while they are expended. Each time you fulfil your Oath, each expended Enhancement is no longer expended.",
       },
       stratagems: [
         {
@@ -365,7 +365,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           name: "Pennant of Silvered Fury",
           points: 15,
           flavor: "This circuit-etched pennant marks a slayer of hordes and is linked to a glowing electoo beneath the pilot’s skin.",
-          body: "IMPERIAL KNIGHTS model only. When the bearer is selected to fight, it can use this Enhancement. If it does, this Enhancement is expended, then until the end of the phase, melee weapons equipped by the bearer have the [sustained hits 2] ability.",
+          body: "IMPERIAL KNIGHTS model only. When the bearer is selected to fight, it can use this Enhancement. If it does, this Enhancement is expended, then until the end of the phase, melee weapons equipped by the bearer have the [SUSTAINED HITS 2] ability.",
         },
         {
           name: "Crushing Condemnation",
@@ -430,7 +430,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           flavor: "Heeding the teachings of their Noble master, a Bondsman is reminded that only by enduring can they hope to discharge their sworn obligations.",
           when: "Your opponent’s Shooting phase, just after an enemy unit has selected its targets.",
           target: "One Armiger unit from your army that was selected as the target of one or more of the attacking units attacks.",
-          effect: "Until the attacking unit has finished making its attacks, each time an attack targets your unit, worsen the Armour Penetration characteristic of that attack by 1.",
+          effect: "Until the end of the phase, each time an attack targets your unit, worsen the Armour Penetration characteristic of that attack by 1.",
           restrictions: "",
         },
         {
@@ -461,13 +461,13 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           name: "Mentor’s Pride",
           points: 20,
           flavor: "A draconian enforcer of stringent standards, when this stern Noble does acknowledge pride in their servants, their Bondsmen zealously strive to retain it.",
-          body: "IMPERIAL KNIGHTS model only. While two or more Armiger models are under the effects of the bearers Bondsman ability, each time each of those ARMIGER models makes an attack, you can re-roll a Hit roll of 1.",
+          body: "IMPERIAL KNIGHTS model only. While two or more Armiger models are under the effects of the bearer’s Bondsman ability, each time each of those ARMIGER models makes an attack, you can re-roll a Hit roll of 1.",
         },
         {
           name: "Fables of Nightmare",
           points: 10,
           flavor: "Many are the fiends and unnamed dooms that lead hosts of darkness in the oldest tales. Their retelling spurs this Noble’s Bondsmen to seek out the lurking commanders of the foe and cut them down, so that they may end the spread of their evil.",
-          body: "IMPERIAL KNIGHTS model only. While two or more Armiger models are under the effects of the bearer’s Bondsman ability, melee weapons equipped by those ARMIGER models have the [precision] ability.",
+          body: "IMPERIAL KNIGHTS model only. While two or more Armiger models are under the effects of the bearer’s Bondsman ability, melee weapons equipped by those ARMIGER models have the [PRECISION] ability.",
         },
         {
           name: "Tales of Heroism",
@@ -479,7 +479,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           name: "Martial Tuition",
           points: 15,
           flavor: "Long has this Noble trained their Bondsmen in hunting the deadliest prey, instilling in them the skills to honourably exploit any opening in an enemy’s defence.",
-          body: "IMPERIAL KNIGHTS model only. While two or more Armiger models arc under the effects of the bearer’s Bondsman ability, once per turn, you can target one of those ARMIGER models with the Counter-offensive Stratagem for 0CP.",
+          body: "IMPERIAL KNIGHTS model only. While two or more Armiger models are under the effects of the bearer’s Bondsman ability, once per turn, you can target one of those ARMIGER models with the Counter-offensive Stratagem for 0CP.",
         },
       ],
     },
@@ -580,7 +580,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           name: "Bearer of the Judicant’s Helm",
           points: 25,
           flavor: "A courtly counsellor against deception and a visionary hunter of lurking prey, this Noble’s sage advice unmasks the contemptible before their companions.",
-          body: "IMPERIAL KNIGHTS model only. At the start of your Shooting phase, select one other IMPERIAL KNIGHTS model from your army that is within 12\" of and visible to the bearer. Until the end of the phase, ranged weapons equipped by that selected model have the [ignores cover] ability.",
+          body: "IMPERIAL KNIGHTS model only. At the start of your Shooting phase, select one other IMPERIAL KNIGHTS model from your army that is within 12\" of and visible to the bearer. Until the end of the phase, ranged weapons equipped by that selected model have the [IGNORES COVER] ability.",
         },
         {
           name: "Bearer of the Lancer’s Sigil",
@@ -612,7 +612,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           flavor: "Making the most of their Knightsuit\u2019s twinned reactor cores, the pilot pushes its motivator-units to their limits to gain a burst of speed.",
           when: "Your Movement phase, when a friendly IMPERIAL KNIGHTS DOMINUS unit is selected to move.",
           target: "That IMPERIAL KNIGHTS DOMINUS unit.",
-          effect: "Your unit has +2\" Move.",
+          effect: "Your unit has +2\" M.",
           restrictions: "",
         },
         {
@@ -623,7 +623,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           flavor: "It takes a skilled noble and a steady machine spirit to unleash such weaponry at point-blank range into closing enemy threats.",
           when: "Your Shooting phase, when a friendly engaged IMPERIAL KNIGHTS DOMINUS unit is selected to shoot.",
           target: "That IMPERIAL KNIGHTS DOMINUS unit.",
-          effect: "Your unit\u2019s [BLAST] ranged attacks:\n▪ Do not have [BLAST].\n▪ Have +1 Attacks.",
+          effect: "Your unit\u2019s [BLAST] ranged attacks:\n▪ Do not have [BLAST].\n▪ Have +1 A.",
           restrictions: "",
         },
         {
@@ -643,13 +643,13 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           name: "Blessed Plate",
           points: 30,
           flavor: "Some of this Knight\u2019s hull plates are revered antiques, dating back millennia; their durability is a testament to the secrets of construction now lost to the mists of time.",
-          body: "IMPERIAL KNIGHTS DOMINUS model only. This model has +1 Toughness.",
+          body: "IMPERIAL KNIGHTS DOMINUS model only. This model has +1 T.",
         },
         {
           name: "Archeotech Autoloaders",
           points: 25,
           flavor: "These ancient and precious components are installed with great reverence; their function is to keep the Dominus-class Knight\u2019s guns firing with ferocious efficiency.",
-          body: "IMPERIAL KNIGHTS DOMINUS model only. This unit can re-roll rolls to determine the Attacks characteristic of a weapon.",
+          body: "IMPERIAL KNIGHTS DOMINUS model only. This unit can re-roll rolls to determine the A of a weapon.",
         },
       ],
     },
@@ -665,7 +665,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
       rule: {
         name: "Cogbound Alliance",
         flavor: "The Nobles of Questor Mechanicus houses commonly fight alongside the armies of forge worlds. They are bound together by their shared devotion to the Machine Cult.",
-        body: "Friendly IMPERIAL KNIGHTS models have the following ability:\n▪ **Assisted Targeting (Aura):** While a friendly ADEPTUS MECHANICUS unit is within 6\" of this model, that ADEPTUS MECHANICUS unit\u2019s ranged attacks have +1 Ballistic Skill and the [HEAVY] ability.\n\nFriendly TECH-PRIEST models have the following ability:\n▪ **Sacristan Pledge:** In your Command phase, you can select one friendly IMPERIAL KNIGHTS model within 3\" of this model that has not been selected by this ability this phase. If you do, that model heals D3 wounds.\n\n**Mechanicus Allies:** You can include TECH-PRIEST DOMINUS/TECH-PRIEST MANIPULUS/MARSHAL/RANGERS/VANGUARD units in your army (see Codex: Adeptus Mechanicus). The combined points value of such units cannot exceed 500 points.",
+        body: "Friendly IMPERIAL KNIGHTS models have the following ability:\n▪ **Assisted Targeting (Aura):** While a friendly ADEPTUS MECHANICUS unit is within 6\" of this model, that ADEPTUS MECHANICUS unit\u2019s ranged attacks have:\n▪ +1 BS.\n▪ [HEAVY].\n\nFriendly TECH-PRIEST models have the following ability:\n▪ **Sacristan Pledge:** In your Command phase, you can select one friendly IMPERIAL KNIGHTS model within 3\" of this model that has not been selected by this ability this phase. If you do, that model heals D3 wounds.\n\n**Mechanicus Allies:** You can include TECH-PRIEST DOMINUS/TECH-PRIEST MANIPULUS/MARSHAL/RANGERS/VANGUARD units in your army (see Codex: Adeptus Mechanicus). The combined points value of such units cannot exceed 500 points.",
       },
       stratagems: [
         {
@@ -696,7 +696,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           cp: "1CP",
           turn: "your",
           flavor: "With the enemy distracted by battling the mighty Knights, the servants of the Omnissiah are free to complete crucial missions unimpeded.",
-          when: "Your Movement phase, when a friendly ADEPTUS MECHANICUS unit is selected to make an Advance or Fall Back move.",
+          when: "Your Movement phase, when a friendly ADEPTUS MECHANICUS unit is selected to make an Advance/Fall Back move.",
           target: "That ADEPTUS MECHANICUS unit.",
           effect: "That move does not prevent your unit from being eligible to start an Action.",
           restrictions: "",
@@ -714,7 +714,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           points: 15,
           aura: true,
           flavor: "A devotee of the Omnissian creed, this Noble is inspired by the presence of the Adeptus Mechanicus, fighting with greater zeal and vigour in their holy presence.",
-          body: "IMPERIAL KNIGHTS model only. While a friendly ADEPTUS MECHANICUS unit is within 6\" of this model, that ADEPTUS MECHANICUS unit\u2019s melee attacks have +1 Weapon Skill and Armour Penetration.",
+          body: "IMPERIAL KNIGHTS model only. While a friendly ADEPTUS MECHANICUS unit is within 6\" of this model, that ADEPTUS MECHANICUS unit\u2019s melee attacks have +1 WS and AP.",
         },
       ],
     },
@@ -729,7 +729,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
       rule: {
         name: "Driven from Their Lairs",
         flavor: "The moment the loyal bondsmen locate and identify the foe, they share targeting data-choristry with their ruling lords and ladies.",
-        body: "While a friendly ARMIGER unit is affected by a Bondsman ability, that unit\u2019s ranged attacks have the [IGNORES COVER] ability.\n\nThis detachment has the **ARMIGERS** tag and cannot be taken with another **ARMIGERS** detachment.",
+        body: "While a friendly ARMIGER unit is affected by a Bondsman ability, that unit\u2019s ranged attacks have [IGNORES COVER].\n\nThis detachment has the **ARMIGERS** tag and cannot be taken with another **ARMIGERS** detachment.",
       },
       stratagems: [
         {
@@ -779,7 +779,7 @@ If every model in your army has the IMPERIUM keyword, you can include either one
           points: 10,
           upgrade: true,
           flavor: "Though it requires additional work by the Sacristans, when Armigers are to be used like hunting hounds amidst dense terrain, it is considered worthwhile to enhance their steeds\u2019 agility.",
-          body: "ARMIGER unit only. When you target this unit with the Fire Overwatch/Heroic Intervention Stratagem, that use is -1CP.",
+          body: "ARMIGER unit only. When you target this unit with the Fire Overwatch/Heroic Intervention Stratagem, that use is -1 CP.",
         },
       ],
     },

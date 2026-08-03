@@ -58,12 +58,12 @@ const en = {
         name: 'Rad-bombardment',
         flavor:
           'Whether as a result of natural phenomena, apocalyptic internecine strife or calamitous accidents, many forge worlds are heavily irradiated. When holy wars of requisition are unleashed, the Tech-Priests think nothing of turning this invisible curse upon their foes, bombarding the battlefield with deadly radiation prior to an assault.',
-        body: `### Battle Round 1 — Bombardment
+        body: `### Bombardment
 At the start of the first battle round, for each enemy unit within your opponent's deployment zone, your opponent must decide whether that unit will take cover or stand firm. You then roll one D6 for each of those enemy units and apply the relevant result below:
 ▪ **Unit Standing Firm:** On a 3+, that unit suffers D3 mortal wounds.
-▪ **Unit Taking Cover:** Until the end of the battle round, that unit is Battle-shocked and, on a 5+, that unit suffers D3 mortal wounds.
+▪ **Unit Taking Cover:** That unit is Battle-shocked. On a 5+, that unit suffers D3 mortal wounds.
 
-### Battle Round 2 Onwards — Fallout
+### Fallout
 At the start of your Command phase during the second, third, fourth and fifth battle rounds, roll one D6 for each enemy unit within your opponent's deployment zone. On a 3+, that unit suffers 1 mortal wound and must take a Battle-shock test.`,
       },
       stratagems: [
@@ -172,7 +172,7 @@ At the start of your Command phase during the second, third, fourth and fifth ba
         name: 'Stealth Optimisation',
         flavor:
           'Hunter Cohorts combine a mastery of stealth warfare and cogitational analysis with stealth screen projectors and target-fouling apparatuses. They are elusive foes to face, and especially sinister to those they have designated as prey.',
-        body: `Skitarii Infantry, Skitarii Mounted and Ironstrider Ballistarii units from your army have the Stealth ability, and each time a ranged attack targets a Sicarian unit from your army, unless the attacking model is within 12", the target has the Benefit of Cover against that attack.`,
+        body: `Friendly SKITARII INFANTRY, SKITARII MOUNTED and IRONSTRIDER BALLISTARII units have Stealth.`,
       },
       stratagems: [
         {
@@ -216,7 +216,7 @@ At the start of your Command phase during the second, third, fourth and fifth ba
           flavor: 'When Skitarii Hunter Cohorts march to war, they do so beneath a shrouding squall of cyber-static and filament-heavy banks of sacred incense.',
           when: "Your opponent's Shooting phase, just after an enemy unit has selected its targets.",
           target: "One Skitarii Infantry unit from your army that was selected as the target of one or more of the attacking unit's attacks.",
-          effect: 'Until the end of the phase, your unit can only be selected as the target of a ranged attack if the attacking model is within 12".',
+          effect: 'Until the end of the phase, your unit can only be selected as the target of a ranged attack if the attacking model is within 18".',
           restrictions: '',
         },
         {
@@ -406,7 +406,7 @@ This detachment has the DATA-PSALM tag and cannot be taken with another DATA-PSA
           flavor: "Death is irrelevant compared to the hallowed duty of securing the Omnissiah's knowledge for future retrieval.",
           when: 'Any phase.',
           target: 'One Adeptus Mechanicus unit from your army that was just destroyed while it was within range of an objective marker you controlled. You can use this Stratagem on that unit even though it was just destroyed.',
-          effect: 'That objective marker remains under your control, even if you have no models within range of it, until your opponent controls it at the start or end of any turn.',
+          effect: "That objective marker remains under your control until your opponent's Level of Control over that objective marker is greater than yours at the end of a phase.",
           restrictions: '',
         },
         {
@@ -680,14 +680,14 @@ This detachment has the DATA-PSALM tag and cannot be taken with another DATA-PSA
         name: 'War-form Mantles',
         flavor:
           'When battle looms, many Tech-Priests don their war forms, replacing more delicate mechanical appendages with steel-shod bionics that incorporate auto-repair subroutines. Some also outfit themselves with narrow-band screed casters. These project streams of incomprehensible code that overwhelm the cogitator cores of enemy vehicles and baffle augury.',
-        body: `Friendly Tech-Priest models have:
-▪ 4+ Invulnerable Save.
+        body: `Friendly TECH-PRIEST models have:
+▪ 4+ InSv.
 ▪ Feel No Pain 5+.
 
-Friendly Tech-Priest models have the following ability:
+Friendly TECH-PRIEST models have the following ability:
 ▪ **Baffling Data Screed:** In your Shooting phase, when this unit is selected to shoot, if this unit is not Battle-shocked, you can use this ability. If you do, roll one D6:
-▪ On a 2+, select one enemy Vehicle unit within 12" of this unit. That enemy unit makes a Battle-shock roll, with -1 to that Battle-shock roll. A unit cannot be selected for this ability more than once per turn.
-▪ Or: On a 2+, those ranged attacks do not prevent this unit from being hidden.`,
+▪ On a 2+, select one enemy VEHICLE unit within 12" of this unit. That enemy unit makes a battle-shock roll, with -1 to that battle-shock roll. A unit cannot be selected for this ability more than once per turn.
+▪ __Or:__ On a 2+, those ranged attacks do not prevent this unit from being hidden.`,
       },
       stratagems: [
         {
@@ -707,9 +707,9 @@ Friendly Tech-Priest models have the following ability:
           cp: '1CP',
           turn: 'your',
           flavor: 'With a cascade of holy screed, implanted aggression protocols and biochemical triggers can be activated by a Tech-Priest to transmute a seeming rout into a predatory counterstrike.',
-          when: 'Your Movement phase, when a friendly Tech-Priest unit is selected to make a Fall Back move.',
+          when: 'Your Movement phase, when a friendly Tech-Priest unit is selected to make a fall-back move.',
           target: 'That Tech-Priest unit.',
-          effect: 'That move does not prevent your unit from being eligible to shoot / declare a charge.',
+          effect: 'That move does not prevent your unit from being eligible to shoot/declare a charge.',
           restrictions: '',
         },
         {
@@ -970,7 +970,7 @@ Until the start of your next Command phase, those units gain the Halo Override k
           flavor: "By projecting their consciousness into the minds of tech thralls, a Tech-Priest may significantly enhance their warriors' lethality. However, doing so risks overloading their combat units' more limited neural networks. Such hazards are seen as an opportunity to give one's life in the name of the Omnissiah.",
           when: 'Your Movement phase.',
           target: 'One Adeptus Mechanicus unit from your army.',
-          effect: 'If your unit is a Halo Override unit, it suffers D3 mortal wounds. Select one Override ability. Until the start of your next Command phase, that ability is active for your unit.',
+          effect: "If your unit is a Halo Override unit, it suffers D3 mortal wounds. Select one Override ability. Until the start of your next Command phase, that ability is active for your unit.\n\n**Designer's Note:** This means that if the targeted unit already has the Halo Override keyword, it can be affected by multiple Override abilities at the same time, but suffers mortal wounds to do so. Alternatively, if your unit does not have the Halo Override keyword, it instead has the chosen Override ability until the start of your next Command phase, but does not benefit from any other Override abilities that are active.",
           restrictions: '',
         },
         {
@@ -990,7 +990,7 @@ Until the start of your next Command phase, those units gain the Halo Override k
           cp: '1CP',
           turn: 'your',
           flavor: "From their distant strategium pulpit, the Tech-Priest commander's guiding hand descends, seizing control of allied minds, steering their troops carefully away from harm whilst maintaining a hail of killing fire.",
-          when: 'Your Movement phase, just after an Adeptus Mechanicus unit from your army Falls Back.',
+          when: 'Your Movement phase, just after an Adeptus Mechanicus unit from your army makes a Fall Back move.',
           target: 'That Adeptus Mechanicus unit.',
           effect: 'Until the end of the turn, your unit is eligible to shoot and declare a charge in a turn in which it Fell Back, and, if it is a Halo Override unit, you can re-roll Desperate Escape tests taken for it.',
           restrictions: '',

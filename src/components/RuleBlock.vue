@@ -1,6 +1,6 @@
 <template>
   <div class="rule-block" :id="id">
-    <div class="rule-header">
+    <div class="rule-header" :class="{ 'rule-header--type': bodyIsInfoCard }">
       <span v-if="sectionNum" class="section-num">{{ sectionNum }}</span>
       <div class="rule-title-wrap">
         <h3 class="rule-title">{{ title }}</h3>
@@ -9,11 +9,16 @@
     </div>
 
     <div class="rule-body-wrap">
-      <SeeAlsoBlock v-if="seeAlso && seeAlso.length" :refs="seeAlso" />
+      <!-- An info-card (◈…) body is a grid of labeled rows, not reflowing prose — floating
+           SeeAlsoBlock beside it (the normal placement) squeezes its rows instead of wrapping
+           cleanly. Render it after the table for those bodies instead. -->
+      <SeeAlsoBlock v-if="seeAlso && seeAlso.length && !bodyIsInfoCard" :refs="seeAlso" />
 
       <div class="rule-body" @click="handleDefClick">
         <AppImage v-if="sideImage" class="side-image" :src="sideImage.src" :alt="sideImage.alt" :style="sideImage.width ? { '--side-image-width': sideImage.width } : undefined" />
         <RuleBody :id="id" :body="body" />
+
+        <SeeAlsoBlock v-if="seeAlso && seeAlso.length && bodyIsInfoCard" :refs="seeAlso" />
 
         <div v-if="note" class="note-box" v-html="renderParagraphs(note)"></div>
 
@@ -40,13 +45,14 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import SeeAlsoBlock from './SeeAlsoBlock.vue'
 import AppImage from './AppImage.vue'
 import RuleBody from './RuleBody.vue'
 import SubRuleBlock from './SubRuleBlock.vue'
 import { useRenderInline } from '../composables/useRenderInline.js'
 
-defineProps({
+const props = defineProps({
   id: String,
   sectionNum: String,
   title: String,
@@ -60,6 +66,8 @@ defineProps({
 })
 
 const { renderInline } = useRenderInline()
+
+const bodyIsInfoCard = computed(() => (props.body || '').trimStart().startsWith('◈'))
 
 function renderParagraphs(text) {
   return text.split('\n\n').map(p => `<p>${renderInline(p.trim().replace(/\n/g, ' '))}</p>`).join('')
@@ -97,6 +105,58 @@ function handleDefClick(e) {
   gap: 0.6rem;
   margin-bottom: 0.65rem;
   flex-wrap: wrap;
+}
+
+/* "Type card" header — move/shoot/charge/fight/deploy TYPE rules (an info-card ◈ body,
+   see RuleBody.vue) get this plaque header instead of the plain one above, so a reader
+   scanning the page recognizes "here's a type card" at a glance. Modeled on StratCard's
+   dark header bar (same #1c1c1e), but a chamfered top-right corner — instead of
+   StratCard's flat rectangle — keeps the two families visually distinct rather than
+   reading as more stratagems. Plain solid black, no border/stripe of its own — it's
+   glued directly to the info-card below (zero gap, see the :deep() rule further down)
+   so the two read as one continuous card with a clean black-to-card edge. */
+.rule-header--type {
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  background: #1c1c1e;
+  padding: 0.5rem 1rem;
+  margin-bottom: 0;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+}
+
+/* The info-card immediately following a type-card header (RuleBody.vue) — strip its own
+   top border/radius/margin so it sits flush under the header instead of floating below
+   it as a separate box. */
+.rule-header--type + .rule-body-wrap :deep(.rule-body > .info-card:first-child) {
+  margin-top: 0;
+  border-top: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* The section number keeps the app's normal --accent badge (already a red tone) — the
+   one deliberate accent touch left on these cards, everything else uses neutral colors
+   (see .info-row/.info-label in RuleBody.vue). */
+.rule-header--type .section-num {
+  order: 2;
+  flex-shrink: 0;
+  margin-right: 0;
+}
+
+.rule-header--type .rule-title-wrap {
+  order: 1;
+  min-width: 0;
+}
+
+.rule-header--type .rule-title {
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.rule-header--type .rule-title-ru {
+  color: rgba(255, 255, 255, 0.65);
+  opacity: 1;
 }
 
 .rule-title {

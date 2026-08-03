@@ -1,0 +1,108 @@
+// Generate src/data/factionRulesIndex.js — the compact faction-rules NAME index the global
+// search (Ctrl+K) uses to find army rules, detachments, detachment stratagems and enhancements
+// by name (route to their faction page). Names only, same trade-off src/data/datasheetIndex.js
+// makes for units: faction data (src/data/factions/*.js, ~1.9MB EN + RU overlays) is deliberately
+// never statically imported (see src/data/factions/index.js's "never reintroduce a static import"
+// warning) and a full-text version of this index ran to ~3.5MB — too heavy for a chunk fetched by
+// simply opening the search palette in a browser tab. Names keep it in the tens of KB.
+//
+// Also carries each army-rule/detachment-rule body's `### English | Russian` h4 subheadings
+// (Vows/Doctrines/Stances-type sub-rules) — still names only (extractSubheadings never touches
+// the surrounding prose), with an anchor id computed the same way RuleBlock/RuleBody render them
+// (h4AnchorId(ruleId, n)) so a search hit lands on the exact subheading, not just the rule top.
+//
+// Run whenever a faction rules file (or its RU name dictionaries) changes:
+//   node scripts/gen-faction-rules-index.mjs
+//
+// Only `ready` factions with a data file are included, mirroring gen-datasheet-index.mjs — an
+// unpublished faction's rules shouldn't surface in search results pointing at a "coming soon" page.
+
+import { writeFileSync } from 'node:fs'
+import path from 'node:path'
+import { ROOT, loadModule } from './lib/sync-common.mjs'
+import { slugify } from '../src/data/slugify.js'
+import { extractSubheadings } from '../src/data/extractSubheadings.js'
+import { h4AnchorId } from '../src/composables/anchors.js'
+
+const { factionGroups } = await loadModule(path.join(ROOT, 'src/data/factionsIndex.js'))
+
+// Pairs the EN body's h4 headings (always the source of truth for `name` — the RU overlay
+// occasionally replaces a heading with a RU-only line instead of following the `### En | RU`
+// pipe convention, which would otherwise lose the English name) with whichever RU caption is
+// available at the same position: the pipe's RU half if present, else the RU-only heading text
+// itself (when it differs from the EN one — i.e. it WAS translated, just not in pipe form).
+function subheadings(enBody, ruBody, ruleId) {
+  const enHeads = extractSubheadings(enBody)
+  const ruHeads = ruBody ? extractSubheadings(ruBody) : []
+  return enHeads.map((h, i) => {
+    const ruHead = ruHeads[i]
+    const nameRu = ruHead ? ruHead.ru || (ruHead.text !== h.text ? ruHead.text : '') : ''
+    return { id: h4AnchorId(ruleId, i + 1), name: h.text, nameRu: nameRu || null }
+  })
+}
+
+const out = []
+for (const group of factionGroups) {
+  for (const f of group.factions) {
+    const file = path.join(ROOT, 'src/data/factions', `${f.slug}.js`)
+    const mod = await loadModule(file)
+    if (!f.ready || !mod) continue
+    const en = Object.values(mod)[0]?.en
+    if (!en) continue
+    const ruMod = await loadModule(path.join(ROOT, 'src/data/factions/ru', `${f.slug}.js`))
+
+    // The RU caption text (pipe half or standalone RU-only heading) only exists in the
+    // RU-locale-merged body — src/data/factions/ru/<slug>.js's `default` overlay overwrites
+    // `body` wholesale for a translated rule (see useFactionPage.js's deepOverlay), and its
+    // `detachments[]` lines up by array index with the EN source's (same assumption deepOverlay
+    // itself relies on). A detachment with no RU translation yet just yields `undefined` here,
+    // and subheadings() degrades to EN-only entries for it.
+    const ruDetachments = ruMod?.default?.detachments || []
+
+    const armyRule = en.armyRule
+      ? {
+          id: en.armyRule.id || 'army-rule',
+          name: en.armyRule.name || '',
+          nameRu: ruMod?.armyRuleNameRu || null,
+          subheadings: subheadings(en.armyRule.body, ruMod?.default?.armyRule?.body, en.armyRule.id || 'army-rule'),
+        }
+      : null
+
+    const detachments = (en.detachments || []).map((d, di) => {
+      const ruleId = `${d.id}-rule`
+      return {
+        id: d.id,
+        name: d.name || '',
+        nameRu: ruMod?.detNamesRu?.[d.name] || null,
+        chapter: d.chapter || null,
+        ruleName: d.rule?.name || '',
+        ruleNameRu: ruMod?.detRuleNamesRu?.[d.rule?.name] || null,
+        ruleSubheadings: subheadings(d.rule?.body, ruDetachments[di]?.rule?.body, ruleId),
+        stratagems: (d.stratagems || []).map((s) => ({
+          id: `strat-${d.id}-${slugify(s.name)}`,
+          name: s.name || '',
+          nameRu: ruMod?.stratNamesRu?.[s.name] || null,
+        })),
+        enhancements: (d.enhancements || []).map((e) => ({
+          id: `enh-${d.id}-${slugify(e.name)}`,
+          name: e.name || '',
+          nameRu: ruMod?.enhNamesRu?.[e.name] || null,
+        })),
+      }
+    })
+
+    out.push([f.slug, f.name, { armyRule, detachments }])
+  }
+}
+
+const total = out.reduce((n, [, , d]) => n + d.detachments.length, 0)
+const body = `// Generated by scripts/gen-faction-rules-index.mjs — do not edit by hand.
+// Compact faction-rules NAME index for the global search (Ctrl+K): one entry per faction,
+// [slug, factionName, { armyRule, detachments[] }]. Names only (army rule, detachment + its rule
+// name, stratagems, enhancements, and each rule's h4 subheadings — EN name + optional RU display
+// name), same trade-off as datasheetIndex.js. Loaded on demand by useSearch.js (dynamic import) so
+// it never rides in the entry bundle.
+export const factionRulesIndex = ${JSON.stringify(out)}
+`
+writeFileSync(path.join(ROOT, 'src/data/factionRulesIndex.js'), body)
+console.log(`gen-faction-rules-index: ${out.length} factions, ${total} detachments → src/data/factionRulesIndex.js`)

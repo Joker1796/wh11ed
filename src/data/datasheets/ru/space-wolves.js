@@ -127,11 +127,13 @@ export default {
   },
 
   'logan-grimnar': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Логан Гримнар'],
     flavor:
       'Логан Гримнар — Великий Волк и Верховный Король Фенриса — один из дольше всех служащих Магистров Орденов. Ведя войну против всех, кто угрожает Space Wolves или Империуму, Гримнар харизмой и веками героических побед обессмертил себя как одного из самых прославленных воинов галактики.',
     abilities: {
       'High King of Fenris':
-        'Один раз за раунд боя, в вашей фазе перемещения, вы можете выбрать один дружественный юнит Space Wolves, что в Strategic Reserves. Если вы это делаете, до конца фазы, для целей развёртывания этого юнита на поле боя, считайте номер текущего раунда боя на единицу большим, чем он есть.',
+        'Один раз за раунд боя, в вашей фазе перемещения, вы можете выбрать один дружественный юнит Space Wolves, что в Резерве. Если вы это делаете, до конца фазы, для целей развёртывания этого юнита на поле боя, считайте номер текущего раунда боя на единицу большим, чем он есть.',
       'Guile of the Wolf':
         'Один раз за ход, когда ваш оппонент выбирает целью стратагемы юнит из своей армии в пределах 12" от этой модели, вы можете задействовать эту способность. Если вы это делаете, увеличьте стоимость этого применения этой стратагемы на 1 CP.',
     },
@@ -171,6 +173,8 @@ export default {
   },
 
   'ragnar-blackmane': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Рагнар Чёрная Грива', 'Рагнар Черногривый'],
     flavor:
       'Безмерно уверенный в себе и всегда рвущийся первым в схватку, Волчий Лорд Рагнар Чёрная Грива регулярно ведёт свою Великую Роту в сокрушительные планетарные вторжения. Уже не столь горяч, как в юности, Рагнар в берсеркерской ярости всё ещё яростный ураган насилия, а его ужасающий вой леденит кровь врагов.',
     abilities: {
@@ -207,7 +211,7 @@ export default {
       'Slayer’s Oath':
         'В начале битвы выберите одно из следующих ключевых слов как Slayer’s Oath этой модели: CHARACTER; MONSTER; VEHICLE. Когда юнит этой модели впервые уничтожает юнит с ключевым словом Slayer’s Oath этой модели, если правило вашего детачмента имеет Saga, до конца битвы юнит этой модели получает преимущества этого правила детачмента, как если бы эта Saga была завершена.',
       Oathbound:
-        'Пока эта модель возглавляет юнит, каждый раз, когда модель этого юнита совершает атаку ближнего боя, прибавьте 1 к броску попадания. Если эта атака нацелена на юнит, что имеет ключевое слово Slayer’s Oath этой модели (см. выше), также прибавьте 1 к броску ранения.',
+        'Пока эта модель возглавляет юнит, каждый раз, когда модель этого юнита совершает атаку ближнего боя, прибавьте 1 к броску попадания. Если эта атака нацелена на юнит, что имеет ключевое слово Slayer’s Oath этой модели (см. Slayer’s Oath), также прибавьте 1 к броску ранения.',
     },
     loadout: `${EQUIP_THIS} plasma pistol; artificer crozius arcanum.`,
     leader: { text: LEADER_TEXT },
@@ -227,7 +231,7 @@ export default {
     options: [
       'assault cannon этой модели можно заменить на одно из следующего:\n▪ 1 helfrost cannon\n▪ 1 multi-melta',
       'storm bolter этой модели можно заменить на 1 heavy flamer.',
-      'assault cannon, storm bolter и Dreadnought combat weapon этой модели можно заменить на одно из следующего:\n▪ 1 Fenrisian greataxe, 1 blizzard shield и 1 storm bolter\n▪ 1 Fenrisian greataxe, 1 blizzard shield и 1 heavy flamer',
+      'assault cannon, storm bolter и Dreadnought combat weapon этой модели можно заменить на одно из следующего:\n▪ 1 Fenrisian great axe, 1 blizzard shield и 1 storm bolter\n▪ 1 Fenrisian great axe, 1 blizzard shield и 1 heavy flamer',
     ],
   },
 
@@ -285,7 +289,7 @@ export default {
       '**Wolf Guard Terminator Pack Leader вооружён:** storm bolter; master-crafted power weapon.\n\n**Каждый Wolf Guard Terminator вооружён:** storm bolter; master-crafted power weapon.',
     options: [
       'Любому числу моделей их storm bolter можно заменить на 1 storm shield.',
-      'За каждые 5 моделей в этом юните 1 Wolf Guard Terminator может заменить свои storm bolter и master-crafted power weapon на 1 assault cannon и 1 powerfist.',
+      'За каждые 5 моделей в этом юните 1 Wolf Guard Terminator может заменить свои storm bolter и master-crafted power weapon на 1 assault cannon и 1 power fist.',
       'storm bolter и master-crafted power weapon у Wolf Guard Terminator Pack Leader можно заменить на одно из следующего:\n▪ 1 relic greataxe\n▪ 1 twin lightning claws',
     ],
   },
@@ -351,9 +355,9 @@ export default {
     wargear: {
       'Blizzard Shield': INV4,
     },
-    loadout: `${EQUIP_THIS} storm bolter; Fenrisian greataxe; great wolf claw.`,
+    loadout: `${EQUIP_THIS} storm bolter; Fenrisian great axe; great wolf claw.`,
     options: [
-      'Fenrisian greataxe или great wolf claw и storm bolter этой модели можно заменить на 1 blizzard shield и 1 heavy flamer.',
+      'Fenrisian great axe или great wolf claw и storm bolter этой модели можно заменить на 1 blizzard shield и 1 heavy flamer.',
       'Если эта модель не вооружена storm bolter, её heavy flamer можно заменить на 1 storm bolter.',
     ],
   },

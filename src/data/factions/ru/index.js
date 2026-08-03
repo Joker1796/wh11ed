@@ -17,27 +17,7 @@ export function loadFactionRu(slug) {
   return loader ? loader().then((m) => m) : Promise.resolve(null)
 }
 
-// Merge a sparse RU overlay over the EN object: objects merge per key, any other overlay
-// value wins, fields absent from the overlay inherit EN. Arrays of entities (detachments,
-// stratagems, enhancements, ...) match by stable key (`id`, else `name`) whenever the RU
-// side actually carries one — so an EN array that gets reordered/regenerated later doesn't
-// silently misalign the RU overlay. Today's hand-authored RU overlays are positional (no
-// `id`/`name` on their array entries, by design — see each ru/<slug>.js header), so this
-// falls back to index-based matching for those, unchanged from before.
-export function deepOverlay(en, ru) {
-  if (ru === undefined || ru === null) return en
-  if (Array.isArray(en) && Array.isArray(ru)) {
-    const key = (v) => (v && typeof v === 'object' ? (v.id ?? v.name) : undefined)
-    if (ru.some((v) => key(v) !== undefined)) {
-      const ruByKey = new Map(ru.map((v) => [key(v), v]).filter(([k]) => k !== undefined))
-      return en.map((v) => deepOverlay(v, ruByKey.get(key(v))))
-    }
-    return en.map((v, i) => deepOverlay(v, ru[i]))
-  }
-  if (en && ru && typeof en === 'object' && typeof ru === 'object' && !Array.isArray(en) && !Array.isArray(ru)) {
-    const out = { ...en }
-    for (const k of Object.keys(ru)) out[k] = deepOverlay(en[k], ru[k])
-    return out
-  }
-  return ru
-}
+// Generic sparse-overlay merge — extracted to ../deepOverlay.js (also used by
+// src/data/combatPatrol.js). Re-exported here so existing imports of `deepOverlay` from this
+// module keep working unchanged.
+export { deepOverlay } from '../../deepOverlay.js'

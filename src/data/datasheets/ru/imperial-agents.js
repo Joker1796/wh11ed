@@ -32,7 +32,7 @@ export default {
         'Если юнит Character вашей армии можно присоединить к юниту Deathwatch Kill Team, вместо этого его можно присоединить к этому юниту.',
     },
     loadout:
-      '**Kill Team Sergeant вооружён:** plasma pistol; power weapon.\n\n**Каждый Gravis Veteran вооружён:** infernus heavy bolter; bolt pistol; close combat weapon.\n\n**За каждые 5 моделей в юните 1 Deathwatch Veteran вооружён:** stalker bolt rifle; bolt pistol; close combat weapon.\n\n**За каждые 5 моделей в юните 1 Deathwatch Veteran вооружён:** bolt pistol; heavy thunder hammer.\n\n**За каждые 5 моделей в юните 1 Deathwatch Veteran вооружён:** Deathwatch marksman bolt carbine; special-issue bolt pistol; close combat weapon.\n\n**Если юнит содержит 10 моделей, 1 Deathwatch Veteran вооружён:** special-issue bolt pistol; xenophase blade.',
+      '**Каждый Kill Team Sergeant вооружён:** plasma pistol; power weapon.\n\n**Каждый Gravis Veteran вооружён:** infernus heavy bolter; bolt pistol; close combat weapon.\n\n**За каждые 5 моделей в юните 1 Deathwatch Veteran вооружён:** stalker bolt rifle; bolt pistol; close combat weapon.\n\n**За каждые 5 моделей в юните 1 Deathwatch Veteran вооружён:** bolt pistol; heavy thunder hammer.\n\n**За каждые 5 моделей в юните 1 Deathwatch Veteran вооружён:** Deathwatch marksman bolt carbine; special-issue bolt pistol; close combat weapon.\n\n**Если юнит содержит 10 моделей, 1 Deathwatch Veteran вооружён:** special-issue bolt pistol; xenophase blade.',
     options: [
       'За каждые 5 моделей в юните у до 1 модели её infernus heavy bolter можно заменить на одно из следующего:\n▪ 1 frag cannon.\n▪ 1 hellstorm bolt rifle и 1 Astartes grenade launcher.',
       'За каждые 5 моделей в юните у до 1 модели её heavy thunder hammer можно заменить на 1 power weapon и 1 Astartes shield.',
@@ -46,7 +46,7 @@ export default {
       'Там, где действует Callidus Assassin, расцветает анархия. С помощью меняющего облик наркотика полиморфина они втираются в ближайшее окружение цели, саботируя системы и сея дезинформацию, прежде чем сойтись с жертвой — залпами разрушающего разум пистолета и взмахами загадочного клинка.',
     abilities: {
       'Acrobatic Escape':
-        'В конце фазы ближнего боя, если эта модель находится в дистанции ввязывания одного или более вражеских юнитов, она может совершить манёвр отступления до D6". Вдобавок в конце хода вашего оппонента, если эта модель не в пределах 3" от одного или более вражеских юнитов, вы можете убрать её с поля боя, а затем, на шаге Подкреплений вашей следующей фазы движения, выставить её где угодно на поле боя более чем в 8" по горизонтали от всех вражеских моделей. Если битва заканчивается, а этой модели нет на поле боя, она уничтожается.',
+        '▪ В конце фазы ближнего боя, если этот юнит связан ближним боем, он может совершить манёвр отступления до D6".\n▪ В конце хода вашего оппонента, если этот юнит находится более чем в 3" от всех вражеских юнитов, вы можете задействовать эту способность. Если вы это делаете:\n▪ Поместите этот юнит в стратегические резервы.\n▪ Этот юнит обязан совершить манёвр прибытия (ingress move) в вашей следующей фазе движения (включая ваш первый ход).',
       'Reign of Confusion':
         'Один раз за ход, когда ваш оппонент выбирает целью стратагемы юнит своей армии в пределах 12" от этой модели, эта модель может задействовать эту способность. Если она это делает, увеличьте стоимость этого применения этой стратагемы на 1 CP.',
     },
@@ -156,7 +156,7 @@ export default {
     },
     loadout: '**Каждая модель вооружена:** storm bolter; Nemesis force weapon.',
     options: [
-      'За каждые 5 моделей в этом юните у 1 Grey Knights Terminator его storm bolter можно заменить на одно из следующего:\n▪ 1 incinerator\n▪ 1 psilencer\n▪ 1 psycannon',
+      '1 Grey Knights Terminator его storm bolter можно заменить на одно из следующего:\n▪ 1 incinerator\n▪ 1 psilencer\n▪ 1 psycannon',
       '1 Grey Knights Terminator, вооружённого storm bolter, можно снабдить 1 Ancient’s banner.*',
       'У 1 Grey Knights Terminator его storm bolter можно заменить на 1 narthecium.*',
       '* Нельзя выбрать обе эти опции для одной и той же модели.',
@@ -190,7 +190,7 @@ export default {
     flavor:
       'Один из самых узнаваемых и вездесущих бронетранспортёров пехоты Империума, Rhino столь же надёжен, сколь и живуч. Вместительный десантный отсек, способность к самопочинке и крепления для storm bolter и hunter-killer missile снискали ему репутацию рабочей лошадки имперских армий.',
     abilities: {
-      'Self Repair': 'В конце вашей фазы командования эта модель восстанавливает 1 потерянную рану.',
+      'Self Repair': 'В начале вашей фазы командования эта модель восстанавливает 1 потерянную рану.',
     },
     loadout: `${EQUIP_THIS} storm bolter; armoured tracks.`,
     options: ['Эту модель можно снабдить 1 hunter-killer missile.'],
@@ -207,7 +207,7 @@ export default {
         'Каждый раз, когда вы выбираете юнит этой модели целью стратагемы, бросьте один D6: на 3+ вы получаете 1 CP.',
     },
     wargearAbilities: {
-      'Blessed Wardings': 'Пока эта модель возглавляет юнит, модели этого юнита имеют инвулевый спас-бросок 6+.',
+      'Blessed Wardings': 'Пока носитель возглавляет юнит, модели этого юнита имеют инвулевый спас-бросок 6+.',
       'Psychic Gifts': 'Носитель имеет ключевое слово PSYKER.',
     },
     loadout: `${EQUIP_THIS} bolt pistol; Inquisitorial melee weapon; blessed wardings.`,
@@ -220,6 +220,8 @@ export default {
   },
 
   'inquisitor-coteaz': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Котеаз'],
     flavor:
       'Пуританин Ordo Malleus, инквизитор Котеаз каждый час бодрствования проводит за изучением докладов своих бесчисленных агентов — или лицом к лицу с демонами, еретиками и чужаками в открытом бою. Он отказывается обращать силу Варпа себе на пользу и вместо этого направляет её на борьбу с демоническим и на суд над теми, кому недостаёт чистоты.',
     abilities: {
@@ -252,6 +254,8 @@ export default {
   },
 
   'inquisitor-greyfax': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Грейфакс'],
     flavor:
       'Инквизитора Грейфакс страшатся даже многие в её собственном ордене — Ordo Hereticus. Лишённая жалости и раскаяния, она воин с железной волей. К тому же она могущественный псайкер: телепатические способности позволяют ей распознавать ложь допрашиваемых. Некоторые клеймят Грейфакс опасной радикалкой, но её преданность Империуму неоспорима.',
     abilities: {
@@ -261,7 +265,7 @@ export default {
       'No Mercy':
         'Пока эта модель возглавляет юнит, каждый раз, когда модель этого юнита совершает атаку по юниту, что ниже половинной численности, прибавьте 1 к броску попадания.',
     },
-    loadout: `${EQUIP_THIS} Castigation; condemnor stake; master-crafter power sword.`,
+    loadout: `${EQUIP_THIS} Castigation; condemnor stake; master-crafted power sword.`,
     leader: { text: LEADER_TEXT },
   },
 
@@ -311,10 +315,9 @@ export default {
     loadout: `${EQUIP_THIS} multi-laser; heavy bolter; lasgun array; armoured tracks.`,
     options: [
       'heavy bolter этой модели можно заменить на 1 heavy flamer.',
-      'multi-laser этой модели можно заменить на одно из следующего:\n▪ 1 heavy bolter*\n▪ 1 heavy flamer*',
+      'multi-laser этой модели можно заменить на одно из следующего:\n▪ 1 heavy bolter*\n▪ 1 heavy flamer*\n\n* Это оружие заменить нельзя.',
       'Эту модель можно снабдить одним из следующего:\n▪ 1 heavy stubber\n▪ 1 storm bolter',
       'Эту модель можно снабдить 1 hunter-killer missile.',
-      '* Это оружие заменить нельзя.',
     ],
     transport:
       'Эта модель имеет транспортную вместимость 13 моделей INQUISITOR INFANTRY и INQUISITORIAL AGENT. Она не может перевозить модели TERMINATOR.',
@@ -414,7 +417,7 @@ export default {
       'Adepta Sororitas — или Боевые Сёстры — воинствующая рука имперской веры. Облачённые в освящённую силовую броню и вооружённые арсеналом мощного оружия средней и ближней дистанции, эти фанатичные воительницы превосходно выжигают гнёзда ереси и расстреливают врагов Золотого Трона, где бы те ни находились. Они ценные союзницы для любого имперского агента.',
     abilities: {
       'Defenders of the Faith':
-        'Если в конце вашей фазы командования вы контролируете маркер цели и этот юнит находится в его радиусе, этот маркер цели остаётся под вашим контролем, даже если у вас нет моделей в его радиусе, пока ваш оппонент не установит над ним контроль в начале или конце любого хода.',
+        'В конце вашей фазы командования, если этот юнит находится в радиусе маркера цели, который вы контролируете, этот маркер цели остаётся под вашим контролем, пока уровень контроля вашего оппонента над этим маркером цели не станет выше вашего в конце какой-либо фазы.',
       'Incensor Cherub':
         'Один раз за битву вы можете нацелить на этот юнит стратагему Command Re-roll за 0 CP — даже если в этой фазе вы уже нацеливали эту стратагему на другой юнит.\n\n**Примечание разработчика:** положите жетон Incensor Cherub рядом с юнитом, убрав его, когда способность будет задействована.',
     },

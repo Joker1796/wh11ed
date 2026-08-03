@@ -16,7 +16,7 @@
         <div class="rule-body" @click="handleDefClick">
           <RuleBody :id="id" :body="body" />
 
-          <DataTable v-if="table" :headers="table.headers" :rows="table.rows" :footnote="table.footnote" />
+          <DataTable v-if="table" :headers="table.headers" :rows="table.rows" :footnote="table.footnote" :stacked="table.stacked" />
 
           <div v-if="note" class="note-box" v-html="renderParagraphs(note)"></div>
 
@@ -157,6 +157,12 @@ function handleDefClick(e) {
     width: 100%;
     margin-left: 0;
     margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .sub-rule-title {
+    font-size: 1.1rem;
   }
 }
 </style>

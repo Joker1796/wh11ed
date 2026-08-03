@@ -6,19 +6,15 @@ import { advancedRules } from '../data/advancedRules.js'
 import { muster } from '../data/muster.js'
 import { abilityIntro, coreAbilities, appendix, faqs } from '../data/reference.js'
 import { getEventContent } from '../data/eventCompanion.js'
-import { missions } from '../data/missions.js'
+import { getMissions } from '../data/missions.js'
 import { intro } from '../data/intro.js'
 import { ui } from '../i18n/ui.js'
 import { h4AnchorId } from './anchors.js'
+import { splitBodyEntries } from './columnChunks.js'
 
-const routeMap = {
-  basicRules: '/basic-rules',
-  battleRound: '/battle-round',
-  battlefields: '/battlefields',
-  advancedRules: '/advanced-rules',
-  reference: '/reference',
-  muster: '/muster',
-}
+// Every core-rules chapter lives on one page now, so a hit's `route` is the same for all of
+// them; the anchor (`id`) is what actually distinguishes them.
+const CORE_ROUTE = '/core-rules'
 
 const sectionTitles = {
   en: { reference: 'Core Abilities' },
@@ -95,14 +91,14 @@ function buildIndex(locale) {
   const isRu = locale === 'ru'
   const items = []
   const sources = [
-    { key: 'basicRules', enData: basicRules.en, ruData: basicRules.ru },
-    { key: 'battleRound', enData: battleRound.en, ruData: battleRound.ru },
-    { key: 'battlefields', enData: battlefields.en, ruData: battlefields.ru },
-    { key: 'advancedRules', enData: advancedRules.en, ruData: advancedRules.ru },
-    { key: 'muster', enData: muster.en, ruData: muster.ru },
+    { enData: basicRules.en, ruData: basicRules.ru },
+    { enData: battleRound.en, ruData: battleRound.ru },
+    { enData: battlefields.en, ruData: battlefields.ru },
+    { enData: advancedRules.en, ruData: advancedRules.ru },
+    { enData: muster.en, ruData: muster.ru },
   ]
-  for (const { key, enData, ruData } of sources) {
-    const route = routeMap[key]
+  for (const { enData, ruData } of sources) {
+    const route = CORE_ROUTE
     for (let si = 0; si < enData.length; si++) {
       const enSection = enData[si]
       const ruSection = isRu && ruData ? (ruData[si] || {}) : {}
@@ -126,11 +122,12 @@ function buildIndex(locale) {
         if (!enSub.sectionNum) continue
         const ruSub = ruSubs[i] || {}
         const merged = isRu ? { ...enSub, ...ruSub } : enSub
+        const splitTails = splitBodyEntries(merged)
         items.push({
           id: enSub.id,
           sectionNum: enSub.sectionNum,
           title: merged.title || '',
-          body: stripMarkup((merged.body || '') + (merged.note ? ' ' + merged.note : '') + (merged.table ? '\n' + tableText(merged.table) : '')),
+          body: stripMarkup((merged.body || '') + (merged.note ? ' ' + merged.note : '') + (merged.table ? '\n' + tableText(merged.table) : '') + splitTails.map((t) => '\n' + t.body).join('')),
           route,
           sectionTitle,
         })
@@ -145,6 +142,20 @@ function buildIndex(locale) {
             sectionTitle,
           })
         })
+        // splitSubsections() (columnChunks.js) renders each splitBody(ies) tail as its own
+        // RuleBody under the ids computed by splitBodyEntries — their h4s need matching anchors.
+        for (const tail of splitTails) {
+          extractH4(tail.body).forEach((heading, hi) => {
+            items.push({
+              id: h4AnchorId(tail.id, hi + 1),
+              sectionNum: enSub.sectionNum,
+              title: heading,
+              body: '',
+              route,
+              sectionTitle,
+            })
+          })
+        }
         // x.x.x children (SubRuleBlock) — indexed like subsections, incl. their h4s.
         const ruChildren = ruSub.children || []
         ;(enSub.children || []).forEach((enChild, ci) => {
@@ -179,6 +190,7 @@ function buildIndex(locale) {
           id: 'strat-' + enStrat.num.replace('.', '-'),
           sectionNum: enStrat.num,
           title: enStrat.name,
+          titleRu: isRu ? (merged.nameRu || '') : '',
           body: stripMarkup(body),
           route,
           sectionTitle,
@@ -195,7 +207,7 @@ function buildIndex(locale) {
       sectionNum: en.num,
       title: en.name,
       body: stripMarkup((merged.fullText || '') + ' ' + (merged.flavor || '')),
-      route: '/reference',
+      route: CORE_ROUTE,
       sectionTitle: sectionTitles[locale].reference,
     })
     const ruChildren = (ru.children) || []
@@ -206,7 +218,7 @@ function buildIndex(locale) {
         sectionNum: enChild.sectionNum,
         title: mc.title || '',
         body: stripMarkup((mc.body || '') + (mc.note ? ' ' + mc.note : '')),
-        route: '/reference',
+        route: CORE_ROUTE,
         sectionTitle: sectionTitles[locale].reference,
       })
     })
@@ -233,11 +245,11 @@ function indexReferenceExtras(items, locale) {
       sectionNum: en.sectionNum || '',
       title: merged.title || '',
       body: stripMarkup((merged.body || '') + (merged.example ? ' ' + merged.example : '')),
-      route: '/reference',
+      route: CORE_ROUTE,
       sectionTitle: refTitle,
     })
     extractH4(merged.body).forEach((heading, hi) => {
-      items.push({ id: h4AnchorId(en.id, hi + 1), sectionNum: en.sectionNum || '', title: heading, body: '', route: '/reference', sectionTitle: refTitle })
+      items.push({ id: h4AnchorId(en.id, hi + 1), sectionNum: en.sectionNum || '', title: heading, body: '', route: CORE_ROUTE, sectionTitle: refTitle })
     })
     const ruChildren = (isRu && abilityIntro.ru?.[i]?.children) || []
     ;(en.children || []).forEach((enChild, ci) => {
@@ -247,7 +259,7 @@ function indexReferenceExtras(items, locale) {
         sectionNum: enChild.sectionNum,
         title: mc.title || '',
         body: stripMarkup((mc.body || '') + (mc.note ? ' ' + mc.note : '')),
-        route: '/reference',
+        route: CORE_ROUTE,
         sectionTitle: refTitle,
       })
     })
@@ -262,7 +274,7 @@ function indexReferenceExtras(items, locale) {
       sectionNum: '',
       title: merged.title || '',
       body: stripMarkup((merged.body || '') + '\n' + table),
-      route: '/reference',
+      route: CORE_ROUTE,
       sectionTitle: L.rulesAppendixTitle,
     })
   }
@@ -274,73 +286,68 @@ function indexReferenceExtras(items, locale) {
       sectionNum: '',
       title: stripMarkup(faq.q),
       body: stripMarkup(faq.a),
-      route: '/reference',
+      route: CORE_ROUTE,
       sectionTitle: L.faqsTitle,
     })
   })
 }
 
-// Intro / Home page (`/`) — the About, App, Contents and Credits sections. DOM ids
-// (intro-about/app/contents/credits) added in HomeView.vue so results scroll there.
+// The Introduction chapter — the About and App sections. DOM ids (intro-about/app) live in
+// components/core/ChapterIntro.vue so results scroll there.
 function indexIntro(items, locale) {
   const t = intro[locale] || intro.en
   const L = ui[locale]
-  const tocText = (t.toc || []).map(c => `${c.label} ${c.desc || ''}`).join('\n')
-  const credits = t.credits || {}
   const add = (id, title, parts) => {
     items.push({
       id,
       sectionNum: '',
       title,
       body: stripMarkup(parts.filter(Boolean).join('\n')),
-      route: '/',
+      route: CORE_ROUTE,
       sectionTitle: L.introHeading,
     })
   }
   add('intro-about', L.introHeading, [t.lore, ...(t.flavorText || []), t.intro, t.missions])
   add('intro-app', L.appHeading, [t.app])
-  add('intro-contents', L.contentsHeading, [L.tocNote, tocText])
-  add('intro-credits', L.creditsHeading, [credits.tagline])
 }
 
 // Event Companion lives in a different data shape ({ en, ru } objects rather than
-// Section[] arrays), so it gets its own walker. Blocks with a real DOM id (sequence
-// steps, pairings) deep-link and scroll; synthetic `ec-*` ids land on the page top.
+// Section[] arrays), so it gets its own walker. All seven chapters share one route now
+// (EVENT_ROUTE) — blocks with a real DOM id (chapter sections, sequence steps, pairings,
+// teams) deep-link and scroll straight there.
+const EVENT_ROUTE = '/event-companion'
+
 function indexEventCompanion(items, locale) {
   const ec = getEventContent(locale)
   const L = ui[locale]
-  const add = (id, title, parts, route, sectionTitle) => {
+  const add = (id, title, parts, sectionTitle, titleRu = '') => {
     const body = stripMarkup(parts.filter(Boolean).join('\n'))
     if (!title && !body) return
-    items.push({ id, sectionNum: '', title: title || '', body, route, sectionTitle })
+    items.push({ id, sectionNum: '', title: title || '', titleRu, body, route: EVENT_ROUTE, sectionTitle })
   }
   const rowsText = tbl => (tbl && tbl.rows ? tbl.rows.map(r => r.join(' ')).join('\n') : '')
   const t = ec.terrain
   const legendText = (t.legend || []).map(l => `${l.label} ${l.desc || ''}`)
   const dispoText = (ec.dispositions || []).map(d => d.name)
 
-  // Landing entry per page, titled with the page heading so the heading itself is
-  // searchable (e.g. "Mission Matrix" / "Матрица миссий"). The intro page reuses its
-  // real DOM id ('introduction') so it scrolls; the rest land on the page top.
+  // Landing entry per chapter, titled with the chapter heading so the heading itself is
+  // searchable (e.g. "Mission Matrix" / "Матрица миссий"). Introduction reuses its real
+  // block DOM id; the rest deep-link to their `ec-chapter-*` section id (the wrapper
+  // <section> in EventCompanionView.vue).
   const intro = ec.sequence.introduction
-  add(intro.id, L.eventIntroHeading, [L.eventIntroDesc, intro.body, intro.note],
-    '/event-companion', L.eventIntroHeading)
-  add('ec-page-sequence', L.eventSequenceHeading, [L.eventSequenceDesc, ec.sequence.intro],
-    '/event-companion/sequence', L.eventSequenceHeading)
-  add('ec-page-missions', L.eventMissionsHeading, [L.eventMissionsDesc, L.missionsIntro],
-    '/event-companion/missions', L.eventMissionsHeading)
-  // Terrain & Layouts now also hosts the interactive matrix + legend (merged from the
-  // former Mission Matrix page), so its dispo/legend text is indexed here.
-  add('ec-page-layouts', L.eventLayoutsHeading,
+  add(intro.id, L.eventIntroHeading, [L.eventIntroDesc, intro.body, intro.note], L.eventIntroHeading)
+  add('ec-chapter-sequence', L.eventSequenceHeading, [L.eventSequenceDesc, ec.sequence.intro], L.eventSequenceHeading)
+  add('ec-chapter-missions', L.eventMissionsHeading, [L.eventMissionsDesc, L.missionsIntro], L.eventMissionsHeading)
+  // Terrain & Layouts also hosts the interactive matrix + legend (merged from the former
+  // Mission Matrix page), so its dispo/legend text is indexed here.
+  add('ec-chapter-layouts', L.eventLayoutsHeading,
     [L.eventLayoutsDesc, t.intro, t.keyNote, L.eventMatrixHint, ...dispoText, ...legendText],
-    '/event-companion/layouts', L.eventLayoutsHeading)
-  add('ec-page-pairings', L.eventPairingsHeading, [L.eventPairingsDesc, ec.pairings.intro],
-    '/event-companion/pairings', L.eventPairingsHeading)
-  add('ec-page-faq', L.eventFaqHeading, [L.eventFaqDesc, ec.faq.intro, ec.faq.errata],
-    '/event-companion/faq', L.eventFaqHeading)
+    L.eventLayoutsHeading)
+  add('ec-chapter-pairings', L.eventPairingsHeading, [L.eventPairingsDesc, ec.pairings.intro], L.eventPairingsHeading)
+  add('ec-chapter-teams', L.eventTeamsHeading, [L.eventTeamsDesc, ec.teams.intro], L.eventTeamsHeading)
+  add('ec-chapter-faq', L.eventFaqHeading, [L.eventFaqDesc, ec.faq.intro, ec.faq.errata], L.eventFaqHeading)
 
-  // Mission Sequence page — main steps, secondary rules, designer notes
-  const seqRoute = '/event-companion/sequence'
+  // Mission Sequence — main steps, secondary rules, designer notes
   const seqBlocks = [
     ...(ec.sequence.blocks || []),
     ...(ec.sequence.secondary || []),
@@ -348,41 +355,52 @@ function indexEventCompanion(items, locale) {
   ]
   for (const b of seqBlocks) {
     const table = b.table ? [b.table.title, rowsText(b.table)] : []
-    add(b.id, b.title, [b.body, b.note, ...table, b.tableNote], seqRoute, L.eventSequenceHeading)
+    add(b.id, b.title, [b.body, b.note, ...table, b.tableNote], L.eventSequenceHeading)
   }
 
-  // Terrain Layouts page — footprints table (lands on page top)
+  // Terrain & Layouts — footprints table
   if (t.footprints) {
-    add('ec-footprints', t.footprints.title, [rowsText(t.footprints), t.footprints.footnote],
-      '/event-companion/layouts', L.eventLayoutsHeading)
+    add('ec-footprints', t.footprints.title, [rowsText(t.footprints), t.footprints.footnote], L.eventLayoutsHeading)
   }
 
-  // Pairings & Rankings page
+  // Pairings & Rankings
   for (const b of ec.pairings.blocks || []) {
-    add(b.id, b.title, [b.body, b.note], '/event-companion/pairings', L.eventPairingsHeading)
+    add(b.id, b.title, [b.body, b.note], L.eventPairingsHeading)
   }
 
-  // Twists — rendered on the Missions page (deep-link to #twist-<id>)
+  // Teams — was never indexed before (the page was hidden from subnav/search); some blocks
+  // carry a DataTable, same as Sequence.
+  for (const b of ec.teams.blocks || []) {
+    const table = b.table ? [b.table.title, rowsText(b.table)] : []
+    add(b.id, b.title, [b.body, b.note, ...table, b.tableNote], L.eventTeamsHeading)
+  }
+
+  // Twists — rendered on the Missions chapter (deep-link to #twist-<id>). titleRu comes
+  // through the ec.twists?.blocks merge (mergeLocale) when locale is 'ru' — name-stays-
+  // English convention, same as stratagems/enhancements.
   for (const b of ec.twists?.blocks || []) {
-    add('twist-' + b.id, b.title, [b.body, b.note, b.example], '/event-companion/missions', L.missionsTwistsHeading)
+    add('twist-' + b.id, b.title, [b.body, b.note, b.example], L.missionsTwistsHeading, b.titleRu || '')
   }
 
-  // Errata & FAQs page (no per-item DOM ids → synthetic)
+  // Errata & FAQs (no per-item DOM ids → synthetic)
   ;(ec.faq.items || []).forEach((item, i) => {
-    add('ec-faq-' + i, item.q, [item.a], '/event-companion/faq', L.eventFaqHeading)
+    add('ec-faq-' + i, item.q, [item.a], L.eventFaqHeading)
   })
 
-  // Missions page — index each mission by name. Names are language-agnostic (kept EN),
-  // so the same set is indexed for both locales. Secondaries share a slug across the two
-  // roles; index once (the card id `mission-<slug>` exists for the default-shown role).
-  for (const m of missions.en.primary) {
-    add('mission-' + m.slug, m.name, [m.opponent], '/event-companion/missions', L.eventMissionsHeading)
+  // Missions — index each mission by name. Names are language-agnostic (kept EN), so the
+  // same set is indexed for both locales; getMissions(locale) adds the optional nameRu
+  // display subline (same convention as stratagems/enhancements) when locale is 'ru'.
+  // Secondaries share a slug across the two roles; index once (the card id `mission-<slug>`
+  // exists for the default-shown role).
+  const localizedMissions = getMissions(locale)
+  for (const m of localizedMissions.primary) {
+    add('mission-' + m.slug, m.name, [m.opponent], L.eventMissionsHeading, m.nameRu || '')
   }
   const seenSecondary = new Set()
-  for (const m of missions.en.secondary) {
+  for (const m of localizedMissions.secondary) {
     if (seenSecondary.has(m.slug)) continue
     seenSecondary.add(m.slug)
-    add('mission-' + m.slug, m.name, [m.category], '/event-companion/missions', L.eventMissionsHeading)
+    add('mission-' + m.slug, m.name, [m.category], L.eventMissionsHeading, m.nameRu || '')
   }
 }
 
@@ -402,24 +420,183 @@ export function preloadDatasheetIndex() {
   return dsPromise
 }
 
+// Same cached index, for callers that need the resolved data itself rather than just a
+// prefetch trigger (e.g. DatasheetCard's cross-faction Leader/Support name resolution — see
+// FactionDatasheetView.vue). Awaits the same shared promise, so a search-palette open and a
+// datasheet-page visit never fetch the chunk twice.
+export async function getDatasheetIndex() {
+  await preloadDatasheetIndex()
+  return dsIndex
+}
+
 function searchDatasheets(q, locale) {
   if (!dsIndex) return []
+  const isRu = locale === 'ru'
   const L = ui[locale] || ui.en
   const results = []
   for (const [slug, faction, units] of dsIndex) {
-    for (const [id, name] of units) {
-      if (!foldYo(name.toLowerCase()).includes(q)) continue
+    for (const [id, name, aliasesRu] of units) {
+      const nameHit = foldYo(name.toLowerCase()).includes(q)
+      // A unit's own name still wins if it also happens to match (checked first) — the alias is
+      // only surfaced as `titleRu` (the "found via nickname" subline) when it's the reason this
+      // result matched at all, not on every result for a unit that merely has aliases on file.
+      const aliasHit = !nameHit && (aliasesRu || []).find((a) => foldYo(a.toLowerCase()).includes(q))
+      if (!nameHit && !aliasHit) continue
       results.push({
         id: '',
         key: `ds-${slug}-${id}`,
         sectionNum: '',
         title: name,
+        titleRu: isRu && aliasHit ? aliasHit : '',
         body: '',
         snippet: '',
         route: `/factions/${slug}/datasheets/${id}`,
         sectionTitle: `${faction} · ${L.factionDatasheets}`,
         score: 2,
       })
+    }
+  }
+  return results
+}
+
+// Faction rules — army rule, detachments, detachment stratagems/enhancements — found by NAME
+// (find "Armour of Contempt" → its detachment's page). The compact generated index
+// (src/data/factionRulesIndex.js) is dynamic-imported on first search open, same pattern and same
+// reasoning as the datasheet index above: names only, so the chunk stays light (see the
+// generator script's comment for why full rule text was rejected). `frVersion` is a reactive
+// tick, same role as `dsVersion`.
+let frIndex = null
+let frPromise = null
+const frVersion = ref(0)
+export function preloadFactionRulesIndex() {
+  frPromise ??= import('../data/factionRulesIndex.js').then((m) => {
+    frIndex = m.factionRulesIndex
+    frVersion.value++
+  })
+  return frPromise
+}
+
+// True if `q` (already folded/lowercased) is found in any of the given names.
+function anyNameMatches(q, ...names) {
+  return names.some((n) => n && foldYo(n.toLowerCase()).includes(q))
+}
+
+// Names are language-agnostic (kept EN in results, like stratagem/unit names elsewhere) but
+// matched against both the EN and RU display name, so a query in either language finds them.
+// The RU display name is also surfaced as `titleRu` (only in the RU locale) so the result
+// shows the same name + translated-subline pairing as the page itself (StratCard, the
+// enhancement card, RuleBlock's subtitle, the detachment heading).
+function searchFactionRules(q, locale) {
+  if (!frIndex) return []
+  const isRu = locale === 'ru'
+  const results = []
+  // `detSlug`/`detId`/`detChapter` (undefined for the army-rule item) let SearchModal select
+  // the right detachment before navigating — FactionRuleView only renders the ACTIVE detachment
+  // (see useFactionChoice), so its section only exists in the DOM once selected.
+  const push = (title, titleRu, key, id, sectionTitle, det, slug) => {
+    results.push({
+      id, key, sectionNum: '', title, titleRu: isRu ? (titleRu || '') : '', body: '', snippet: '',
+      route: `/factions/${slug}`, sectionTitle, score: 2,
+      ...(det && { detSlug: slug, detId: det.id, detChapter: det.chapter }),
+    })
+  }
+  for (const [slug, faction, data] of frIndex) {
+    if (data.armyRule && anyNameMatches(q, data.armyRule.name, data.armyRule.nameRu)) {
+      push(data.armyRule.name, data.armyRule.nameRu, `fr-${slug}-army`, data.armyRule.id, faction, null, slug)
+    }
+    // Army-rule h4 subheadings (e.g. Black Templars' Vows) — always visible, no detachment
+    // to select first.
+    for (const h of data.armyRule?.subheadings || []) {
+      if (anyNameMatches(q, h.name, h.nameRu)) {
+        push(h.name, h.nameRu, `fr-${slug}-army-${h.id}`, h.id, `${faction} · ${data.armyRule.name}`, null, slug)
+      }
+    }
+    for (const det of data.detachments) {
+      if (anyNameMatches(q, det.name, det.nameRu, det.ruleName, det.ruleNameRu)) {
+        push(det.name, det.nameRu, `fr-${slug}-${det.id}-det`, det.id, faction, det, slug)
+      }
+      // Detachment-rule h4 subheadings (Doctrines/Stances/Imperatives-type sub-rules) — anchor
+      // to their own heading, but still need `det` selected first (FactionRuleView only renders
+      // the active detachment).
+      for (const h of det.ruleSubheadings) {
+        if (anyNameMatches(q, h.name, h.nameRu)) {
+          push(h.name, h.nameRu, `fr-${slug}-${det.id}-h-${h.id}`, h.id, `${faction} · ${det.name}`, det, slug)
+        }
+      }
+      for (const s of det.stratagems) {
+        if (anyNameMatches(q, s.name, s.nameRu)) {
+          push(s.name, s.nameRu, `fr-${slug}-${det.id}-s-${s.name}`, s.id, `${faction} · ${det.name}`, det, slug)
+        }
+      }
+      for (const e of det.enhancements) {
+        if (anyNameMatches(q, e.name, e.nameRu)) {
+          push(e.name, e.nameRu, `fr-${slug}-${det.id}-e-${e.name}`, e.id, `${faction} · ${det.name}`, det, slug)
+        }
+      }
+    }
+  }
+  return results
+}
+
+// Combat Patrol — each box's detachment rule, army rule, stratagems, enhancements (+ h4
+// subheadings) — found by NAME, routing to /combat-patrol/<slug>. The compact generated index
+// (src/data/combatPatrolSearchIndex.js) is dynamic-imported on first search open, same pattern as
+// the two indexes above. No detachment to select first — a CP box has exactly one fixed
+// rule/army-rule/roster, so the page renders it unconditionally once its own (also
+// dynamically-imported) data resolves; scrollToAnchor()'s DOM poll already tolerates that,
+// same as any other async-loaded route.
+let cpIndex = null
+let cpPromise = null
+const cpVersion = ref(0)
+export function preloadCombatPatrolIndex() {
+  cpPromise ??= import('../data/combatPatrolSearchIndex.js').then((m) => {
+    cpIndex = m.combatPatrolSearchIndex
+    cpVersion.value++
+  })
+  return cpPromise
+}
+
+function searchCombatPatrol(q, locale) {
+  if (!cpIndex) return []
+  const isRu = locale === 'ru'
+  const results = []
+  const push = (title, titleRu, key, id, sectionTitle, slug) => {
+    results.push({
+      id, key, sectionNum: '', title, titleRu: isRu ? (titleRu || '') : '', body: '', snippet: '',
+      route: `/combat-patrol/${slug}`, sectionTitle, score: 2,
+    })
+  }
+  for (const [slug, faction, boxName, data] of cpIndex) {
+    // Prefixed with "Combat Patrol" (kept English in both locales — same "names stay English"
+    // convention as everything else in this index) — a CP box's rule/army-rule often shares its
+    // name (sometimes pre-errata wording) with the faction's normal Codex rule, so without this a
+    // CP result and a normal faction-rules result for "Reanimation Protocols" look identical.
+    const sectionTitle = `Combat Patrol · ${faction} · ${boxName}`
+    if (data.rule && anyNameMatches(q, data.rule.name, data.rule.nameRu)) {
+      push(data.rule.name, data.rule.nameRu, `cp-${slug}-rule`, data.rule.id, sectionTitle, slug)
+    }
+    for (const h of data.rule?.subheadings || []) {
+      if (anyNameMatches(q, h.name, h.nameRu)) {
+        push(h.name, h.nameRu, `cp-${slug}-rule-${h.id}`, h.id, sectionTitle, slug)
+      }
+    }
+    if (data.armyRule && anyNameMatches(q, data.armyRule.name, data.armyRule.nameRu)) {
+      push(data.armyRule.name, data.armyRule.nameRu, `cp-${slug}-army`, data.armyRule.id, sectionTitle, slug)
+    }
+    for (const h of data.armyRule?.subheadings || []) {
+      if (anyNameMatches(q, h.name, h.nameRu)) {
+        push(h.name, h.nameRu, `cp-${slug}-army-${h.id}`, h.id, sectionTitle, slug)
+      }
+    }
+    for (const s of data.stratagems) {
+      if (anyNameMatches(q, s.name, s.nameRu)) {
+        push(s.name, s.nameRu, `cp-${slug}-s-${s.name}`, s.id, sectionTitle, slug)
+      }
+    }
+    for (const e of data.enhancements) {
+      if (anyNameMatches(q, e.name, e.nameRu)) {
+        push(e.name, e.nameRu, `cp-${slug}-e-${e.name}`, e.id, sectionTitle, slug)
+      }
     }
   }
   return results
@@ -488,9 +665,12 @@ function searchBySectionNum(index, q) {
 }
 
 export function search(query, locale = 'en') {
-  // Reactive dependency: a caller's computed re-runs when the datasheet index chunk
-  // loads (see preloadDatasheetIndex above).
+  // Reactive dependency: a caller's computed re-runs when the datasheet/faction-rules/combat-
+  // patrol index chunks load (see preloadDatasheetIndex/preloadFactionRulesIndex/
+  // preloadCombatPatrolIndex above).
   void dsVersion.value
+  void frVersion.value
+  void cpVersion.value
   if (!query) return []
   const trimmed = query.trim().toLowerCase()
   const numQuery = normalizeSectionNum(trimmed)
@@ -542,8 +722,11 @@ export function search(query, locale = 'en') {
       matchedIds.add(otherItem.id)
     }
   }
-  // Datasheet unit names go after the rules items: with equal scores the stable sort
-  // keeps rule titles (the app's primary content) above same-scored unit hits.
+  // Faction rules (army rule/detachment/stratagem/enhancement names), Combat Patrol names, and
+  // datasheet unit names go after the core rules items: with equal scores the stable sort keeps
+  // rule-body titles (the app's primary content) above same-scored name-only hits.
+  results.push(...searchFactionRules(q, locale))
+  results.push(...searchCombatPatrol(q, locale))
   results.push(...searchDatasheets(q, locale))
   // Sort the full match set before slicing — capping earlier (in index order) would drop a
   // later high-relevance title hit before it could be ranked.

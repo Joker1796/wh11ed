@@ -160,7 +160,7 @@ const en = {
         // Faction-Pack Rules Update: first paragraph now selects Monster/Vehicle/Character
         // (codex said Warlord), and the first bullet is reworded around the 12" charge.
         body: `At the start of your Command phase, select one Monster, Vehicle or Character unit from your opponent's army. Until the start of your next Command phase, that enemy unit is your Prey:
-▪ When a friendly Beast Snagga unit declares a charge, if your Prey is within 12" of that unit, you can use this part of this ability. If you do: that Beast Snagga unit can re-roll that charge roll, and that Beast Snagga unit must end that charge move engaged with your Prey.
+▪ When a friendly Beast Snagga unit declares a charge, if your Prey is within 12" of that unit, you can use this part of this ability. If you do:\n▪ That Beast Snagga unit can re-roll that charge roll.\n▪ That Beast Snagga unit __must__ end that charge move engaged with your Prey.
 ▪ Each time a Beast Snagga model from your army makes an attack that targets your Prey, improve the Armour Penetration characteristic of that attack by 1.`,
       },
       stratagems: [
@@ -227,7 +227,7 @@ const en = {
           turn: 'opponent',
           flavor: "With a keen eye for tracking their prey, especially kunnin' Beast Snaggas will circle round the hunt site to ambush the luckless gitz from another angle.",
           when: "End of your opponent's Fight phase.",
-          target: 'One Beast Snagga unit from your army that is not within Engagement Range of one or more enemy units.',
+          target: 'One Beast Snagga unit from your army that is not within Engagement Range of one or more enemy unit.',
           effect: 'Remove your unit from the battlefield and place it into Strategic Reserves.',
           restrictions: '',
         },
@@ -388,10 +388,10 @@ const en = {
 
 Alternatively, when such a unit is selected to shoot or fight, you can select one of the abilities above instead of rolling the D6. If you do, until the end of the phase, weapons equipped by models in that unit have the [HAZARDOUS] ability as well.
 
-If a weapon equipped by a model from your army has the [HAZARDOUS] ability from multiple sources, each time you take a Hazardous test for that weapon, it is failed on a roll of 1-3.
+If a weapon equipped by a model from your army has the [HAZARDOUS] ability from multiple sources, each time you take a Hazardous test for that weapon, it is failed on a roll of a 1-3.
 
 ### Keywords
-Gretchin units from your army gain the Battleline keyword.`,
+Gretchin units from your army gain the Battleline [gloss:keywords:keyword].`,
       },
       stratagems: [
         {
@@ -434,7 +434,7 @@ Gretchin units from your army gain the Battleline keyword.`,
           turn: 'opponent',
           flavor: "A Gretchin's lot is often a wretched one, and the spiteful zoggers will take any chance to cause pain and mischief using sneaky traps before legging it.",
           when: "Your opponent's Movement phase, just after an enemy unit ends a Normal, Advance or Fall Back move.",
-          target: 'One Gretchin unit from your army that is within 9" of that enemy unit and not within Engagement Range of any enemy units.',
+          target: 'One Gretchin unit from your army that is within 8" of that enemy unit and not within Engagement Range of any enemy units.',
           effect: 'Roll one D6: on a 4+, that enemy unit suffers D3+1 mortal wounds. Your unit can then make a Normal move.',
           restrictions: '',
         },
@@ -544,7 +544,7 @@ Gretchin units from your army gain the Battleline keyword.`,
           flavor: 'With volleys of wagers, threats, insults, dung and the occasional hurled rock, mobs of Orks bolster each other\'s spirits in the most Orky ways possible.',
           when: 'Your Command phase.',
           target: 'Two Boyz units from your army that are within 6" of each other.',
-          effect: 'Until the start of your next Command phase, while those two units are within 6" of each other, they both count as containing 10 or more models for the purposes of your Detachment rule, any Enhancements models from your army have and any Stratagems you use.',
+          effect: 'Until the start of your next Command phase, while those two units are within 6" of each other, they both count as containing 10 or more models for the purpose of your Detachment rule, any Enhancements models from your army have and any Stratagems you use.',
           restrictions: '',
         },
         {
@@ -565,8 +565,8 @@ Gretchin units from your army gain the Battleline keyword.`,
           cp: '1CP',
           turn: 'opponent',
           flavor: 'Keeping Orks at arm\'s length and pummelling them with as much firepower as possible is often the safest tactic for their victims. Unfortunately, it can also draw their attention and give them the urge to re-educate the gitz in the joys of up-close savagery.',
-          when: "Your opponent's Shooting phase, just after an enemy unit has selected its targets.",
-          target: "One Boyz unit from your army that was selected as the target of one or more of the attacking unit's attacks.",
+          when: "Your opponent's Shooting phase, when an enemy unit that targeted a friendly unengaged BOYZ unit this phase has shot.",
+          target: 'That BOYZ unit.',
           // Faction-Pack Rules Update reworded this Effect to a Surge move.
           effect: 'Your unit can make a surge move of up to D6".',
           restrictions: '',
@@ -648,7 +648,7 @@ Gretchin units from your army gain the Battleline keyword.`,
           restrictions: '',
         },
         {
-          name: 'Crushing Impact',
+          name: "Krushin' Impact",
           sublabel: 'Bully Boyz – Epic Deed Stratagem',
           cp: '1CP',
           turn: 'your',
@@ -659,7 +659,7 @@ Gretchin units from your army gain the Battleline keyword.`,
           restrictions: '',
         },
         {
-          name: "Cut 'Em Down",
+          name: "Cut’ Em Down",
           sublabel: 'Bully Boyz – Battle Tactic Stratagem',
           cp: '1CP',
           turn: 'opponent',
@@ -911,7 +911,9 @@ This detachment has the WAGONS tag and cannot be taken with another WAGONS detac
           name: 'Slippery Git',
           points: 15,
           flavor: 'So steeped in the devious ways of the Blood Axe Clan is this Warboss that he can even sneak into battle at the head of a mob of Kommandos.',
-          body: `Infantry Warboss model only (excluding Mega Armour models). This model has Infiltrators and Stealth.`,
+          body: `Infantry Warboss model only (excluding Mega Armour models). This model has Infiltrators and Stealth.
+
+In the Declare Battle Formations step, the bearer can be attached to a Kommandos unit.`,
         },
       ],
     },
@@ -1171,7 +1173,7 @@ Each time a model in an Orks Infantry, Orks Mounted or Orks Walker unit from you
           flavor: 'Few warriors in the galaxy fight with greater brutality than a Freebooter determined to hang onto his loot.',
           when: 'Your Command phase.',
           target: 'One Orks unit from your army (excluding Gretchin units) that is within range of the loot objective.',
-          effect: 'Until the start of your next Command phase, the Waaagh! is active for your unit, even if you have already called a Waaagh! this battle.',
+          effect: 'Until the start of your next Command phase, the Waaagh! is active for your unit, even if you have already called a Waaagh! this battle.\n\n**Designer’s Note:** This means that any abilities that are in effect while the Waaagh! is active for your army will be in effect for your unit.',
           restrictions: '',
         },
         {
@@ -1246,6 +1248,74 @@ Each time a model in an Orks Infantry, Orks Mounted or Orks Walker unit from you
           points: 25,
           flavor: 'Stolen from a humie cogboy, this remarkable digital map helps Freebooterz outwit their enemies.',
           body: `Orks model only. After both players have deployed their armies, select up to three Orks Infantry units from your army and redeploy them. When doing so, you can set those units up in Strategic Reserves, regardless of how many units are already in Strategic Reserves.`,
+        },
+      ],
+    },
+
+    // Added in the App v2.2.0 (data_version 909) dataslate. appdata's own `category` field for
+    // all 3 of its stratagems is null (a gap in that dataslate's data, not specific to this
+    // detachment) — sublabel categories below are inferred from the effect/timing pattern
+    // against existing stratagems of the same shape, not read directly from source; re-verify
+    // against the physical card/PDF if one becomes available.
+    {
+      id: 'equatorial-hordes',
+      name: 'Equatorial Hordes',
+      source: 'codex',
+      dp: 1,
+      forceDisposition: 'Disruption',
+      rule: {
+        name: 'Jungle Know-wotz',
+        flavor: 'The Ork tribes of the Equatorial Jungle know their territories all too well, and can always find a kunnin’ trail by which they can sneak up on their quarry.',
+        body: `In the Declare Battle Formations step, select up to three friendly Mob/Kommandos units. Those units have Scouts 6" until the end of the battle.`,
+      },
+      stratagems: [
+        {
+          name: "Dey're Over 'Ere",
+          sublabel: 'Equatorial Hordes – Battle Tactic Stratagem',
+          cp: '1CP',
+          turn: 'your',
+          flavor: 'Pointing and shouting can prove a surprisingly effective way of rooting out hidden enemies.',
+          when: 'Start of your Shooting phase.',
+          target: 'One friendly Mob/Kommandos unit.',
+          effect: 'While a visible enemy unit is within 6" of your unit, that unit has +3" detection range.',
+          restrictions: '',
+        },
+        {
+          name: 'Stragglerz',
+          sublabel: 'Equatorial Hordes – Strategic Ploy Stratagem',
+          cp: '1CP',
+          turn: 'your',
+          flavor: 'Extricating themselves from dense jungle terrain takes some Orks longer than others, but the latecomers arrive just in time to bolster their warband’s ranks.',
+          when: 'Your Command phase.',
+          target: 'One friendly Mob/Kommandos unit.',
+          effect: 'Your unit heals 2D3 wounds.',
+          restrictions: '',
+        },
+        {
+          name: 'Concealed Krumpin’',
+          sublabel: 'Equatorial Hordes – Battle Tactic Stratagem',
+          cp: '1CP',
+          turn: 'either',
+          flavor: 'Orks erupting as though from nowhere amidst hails of dakka and flurries of ferocious choppa blows can cause spectacular devastation.',
+          when: 'Your Shooting phase or the Fight phase, when a friendly hidden Mob unit is selected to attack.',
+          target: 'That Mob unit.',
+          effect: 'Your unit’s attacks have [LETHAL HITS].',
+          restrictions: '',
+        },
+      ],
+      enhancements: [
+        {
+          name: 'Kunnin’ Hunta',
+          points: 25,
+          flavor: 'It takes both brutality and kunnin’ to stalk the monstrous carnivores of Armageddon’s deep jungles. The same talents can be applied to hunting battlefield foes.',
+          body: `BEASTBOSS/INFANTRY WARBOSS model only. (Once per turn, per unit) In your opponent's Movement phase, when an enemy unit ends a move within 8" of this unit, if this unit is unengaged, this unit can make a normal move of up to D3+3".`,
+        },
+        {
+          name: 'Unkillable Scourge',
+          points: 25,
+          flavor: 'Having survived the perilous jungles long enough to claim rule over Armageddon’s equatorial tribes, this Ork leader has built up an impressive immunity to staying dead.',
+          body: `BEASTBOSS/INFANTRY WARBOSS model only. When this model is destroyed, if this unit has not been selected to fight this phase, roll one D6, with +1 to that roll if the Waaagh! is active for this unit:
+▪ On a 3+, do not remove this model from the battlefield. When this unit has fought, or at the end of the phase (whichever comes first), this model is removed from the battlefield.`,
         },
       ],
     },

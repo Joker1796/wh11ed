@@ -1,24 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LandingView from '../views/LandingView.vue'
-import HomeView from '../views/HomeView.vue'
 import { isStandaloneDisplay } from '../composables/standalone.js'
+import { combatPatrolIndex } from '../data/combatPatrolIndex.js'
 
 // Route views are lazy-loaded so each page (and its data file) ships in its own
 // chunk, keeping the initial bundle small. LandingView (the project landing at "/")
-// and HomeView (the Core Rules introduction at "/introduction") stay eager.
-const BasicRulesView    = () => import('../views/BasicRulesView.vue')
-const BattleRoundView   = () => import('../views/BattleRoundView.vue')
-const BattlefieldsView  = () => import('../views/BattlefieldsView.vue')
-const AdvancedRulesView = () => import('../views/AdvancedRulesView.vue')
-const ReferenceView     = () => import('../views/ReferenceView.vue')
-const MusterView        = () => import('../views/MusterView.vue')
-const EventIntroView    = () => import('../views/event/EventIntroView.vue')
-const EventSequenceView = () => import('../views/event/EventSequenceView.vue')
-const EventMissionsView = () => import('../views/event/EventMissionsView.vue')
-const EventLayoutsView  = () => import('../views/event/EventLayoutsView.vue')
-const EventPairingsView = () => import('../views/event/EventPairingsView.vue')
-const EventTeamsView    = () => import('../views/event/EventTeamsView.vue')
-const EventFaqView      = () => import('../views/event/EventFaqView.vue')
+// stays eager.
+const CoreRulesView     = () => import('../views/CoreRulesView.vue')
+const EventCompanionView = () => import('../views/EventCompanionView.vue')
 const TrackerHomeView   = () => import('../views/tracker/TrackerHomeView.vue')
 const TrackerGameView   = () => import('../views/tracker/TrackerGameView.vue')
 const AuthCallbackView  = () => import('../views/tracker/AuthCallbackView.vue')
@@ -30,17 +19,36 @@ const RosterEditorView  = () => import('../views/tracker/RosterEditorView.vue')
 const RosterSharedView  = () => import('../views/tracker/RosterSharedView.vue')
 const LinksView         = () => import('../views/LinksView.vue')
 const DisclaimerView    = () => import('../views/DisclaimerView.vue')
+const ChangelogView     = () => import('../views/ChangelogView.vue')
 const StratagemsView    = () => import('../views/StratagemsView.vue')
 const FactionsListView  = () => import('../views/FactionsListView.vue')
 const FactionRuleView        = () => import('../views/faction/FactionRuleView.vue')
 const FactionDatasheetsView  = () => import('../views/faction/FactionDatasheetsView.vue')
 const FactionDatasheetView   = () => import('../views/faction/FactionDatasheetView.vue')
+const FactionFaqView         = () => import('../views/faction/FactionFaqView.vue')
+const RulesLandingView  = () => import('../views/RulesLandingView.vue')
+const CombatPatrolIndexView  = () => import('../views/combat-patrol/CombatPatrolIndexView.vue')
+const CombatPatrolFactionView = () => import('../views/combat-patrol/CombatPatrolFactionView.vue')
 const NotFoundView      = () => import('../views/NotFoundView.vue')
 
+// The seven Core Rules chapters live on ONE page now; what used to be a route per chapter
+// is an anchor on it. This map is the single registry: it drives the old-URL redirects
+// below, the chapter links inside the Introduction, and the `hash` on each nav group.
+export const CORE_PATH = '/core-rules'
+export const CORE_CHAPTER_ANCHORS = {
+  '/introduction':   'chapter-intro',
+  '/basic-rules':    'section-01',
+  '/battle-round':   'section-07',
+  '/battlefields':   'section-13',
+  '/advanced-rules': 'section-17',
+  '/reference':      'section-24',
+  '/muster':         'section-25',
+}
+
 export const navGroups = [
-  { label: 'Introduction',        path: '/introduction',   sections: [] },
+  { label: 'Introduction',        path: CORE_PATH, hash: '#chapter-intro', sections: [] },
   {
-    label: 'Basic Rules', path: '/basic-rules',
+    label: 'Basic Rules', path: CORE_PATH, hash: '#section-01',
     sections: [
       { id: 'section-01', label: '01 Core Concepts' },
       { id: 'section-02', label: '02 Datasheets' },
@@ -51,7 +59,7 @@ export const navGroups = [
     ],
   },
   {
-    label: 'The Battle Round', path: '/battle-round',
+    label: 'The Battle Round', path: CORE_PATH, hash: '#section-07',
     sections: [
       { id: 'section-07', label: '07 The Battle Round' },
       { id: 'section-08', label: '08 Command Phase' },
@@ -62,7 +70,7 @@ export const navGroups = [
     ],
   },
   {
-    label: 'Battlefields & Tactics', path: '/battlefields',
+    label: 'Battlefields & Tactics', path: CORE_PATH, hash: '#section-13',
     sections: [
       { id: 'section-13', label: '13 Terrain' },
       { id: 'section-14', label: '14 Objectives' },
@@ -71,7 +79,7 @@ export const navGroups = [
     ],
   },
   {
-    label: 'Advanced Rules', path: '/advanced-rules',
+    label: 'Advanced Rules', path: CORE_PATH, hash: '#section-17',
     sections: [
       { id: 'section-17', label: '17 Monsters & Vehicles' },
       { id: 'section-18', label: '18 Transports' },
@@ -83,7 +91,7 @@ export const navGroups = [
     ],
   },
   {
-    label: 'Reference', path: '/reference',
+    label: 'Reference', path: CORE_PATH, hash: '#section-24',
     sections: [
       { id: 'section-24', label: '24 Core Abilities' },
       { id: 'abilities-list', label: 'Unit Abilities',   filter: 'unit' },
@@ -94,7 +102,7 @@ export const navGroups = [
     ],
   },
   {
-    label: 'Muster Your Army', path: '/muster',
+    label: 'Muster Your Army', path: CORE_PATH, hash: '#section-25',
     sections: [
       { id: 'section-25', label: '25 Muster Your Army' },
     ],
@@ -102,9 +110,9 @@ export const navGroups = [
 ]
 
 export const navGroupsRu = [
-  { label: 'Введение',                  path: '/introduction',   sections: [] },
+  { label: 'Введение',                  path: CORE_PATH, hash: '#chapter-intro', sections: [] },
   {
-    label: 'Базовые правила', path: '/basic-rules',
+    label: 'Базовые правила', path: CORE_PATH, hash: '#section-01',
     sections: [
       { id: 'section-01', label: '01 Основные концепции' },
       { id: 'section-02', label: '02 Листы данных' },
@@ -115,7 +123,7 @@ export const navGroupsRu = [
     ],
   },
   {
-    label: 'Раунд боя', path: '/battle-round',
+    label: 'Раунд боя', path: CORE_PATH, hash: '#section-07',
     sections: [
       { id: 'section-07', label: '07 Раунд боя' },
       { id: 'section-08', label: '08 Фаза командования' },
@@ -126,7 +134,7 @@ export const navGroupsRu = [
     ],
   },
   {
-    label: 'Поля сражений и тактика', path: '/battlefields',
+    label: 'Поля сражений и тактика', path: CORE_PATH, hash: '#section-13',
     sections: [
       { id: 'section-13', label: '13 Укрытия' },
       { id: 'section-14', label: '14 Цели' },
@@ -135,7 +143,7 @@ export const navGroupsRu = [
     ],
   },
   {
-    label: 'Продвинутые правила', path: '/advanced-rules',
+    label: 'Продвинутые правила', path: CORE_PATH, hash: '#section-17',
     sections: [
       { id: 'section-17', label: '17 Монстры и техника' },
       { id: 'section-18', label: '18 Транспорты' },
@@ -147,7 +155,7 @@ export const navGroupsRu = [
     ],
   },
   {
-    label: 'Справочный раздел', path: '/reference',
+    label: 'Справочный раздел', path: CORE_PATH, hash: '#section-24',
     sections: [
       { id: 'section-24', label: '24 Базовые способности' },
       { id: 'abilities-list', label: 'Способности юнита',  filter: 'unit' },
@@ -158,19 +166,32 @@ export const navGroupsRu = [
     ],
   },
   {
-    label: 'Сбор армии', path: '/muster',
+    label: 'Сбор армии', path: CORE_PATH, hash: '#section-25',
     sections: [
       { id: 'section-25', label: '25 Сбор армии' },
     ],
   },
 ]
 
-// Event Companion — second top-level section. Each entry is its own route
-// (no in-page anchors), so `sections` is empty and the sidebar navigates on click.
+// Event Companion — second top-level section. Like Core Rules, all seven former routes
+// live on the one /event-companion page now; what used to be a route per page is an
+// anchor on it. EVENT_CHAPTER_ANCHORS is the single registry for the old-URL redirects
+// (Introduction itself isn't in there — /event-companion IS the merged page's own path,
+// not a redirect) and for the `hash` on each group below.
+export const EVENT_PATH = '/event-companion'
+export const EVENT_CHAPTER_ANCHORS = {
+  '/event-companion/sequence': 'ec-chapter-sequence',
+  '/event-companion/missions': 'ec-chapter-missions',
+  '/event-companion/layouts':  'ec-chapter-layouts',
+  '/event-companion/pairings': 'ec-chapter-pairings',
+  '/event-companion/teams':    'ec-chapter-teams',
+  '/event-companion/faq':      'ec-chapter-faq',
+}
+
 export const eventGroups = [
-  { label: 'Introduction',     path: '/event-companion',          sections: [] },
+  { label: 'Introduction',     path: EVENT_PATH, hash: '#ec-chapter-intro', sections: [] },
   {
-    label: 'Mission Sequence', path: '/event-companion/sequence',
+    label: 'Mission Sequence', path: EVENT_PATH, hash: '#ec-chapter-sequence',
     sections: [
       { id: 'step-1',  label: 'Muster Armies' },
       { id: 'step-2',  label: 'Determine Mission' },
@@ -181,16 +202,16 @@ export const eventGroups = [
     ],
   },
   {
-    label: 'Missions', path: '/event-companion/missions',
+    label: 'Missions', path: EVENT_PATH, hash: '#ec-chapter-missions',
     sections: [
       { id: 'missions-primary',   label: 'Primary Missions' },
       { id: 'missions-secondary', label: 'Secondary Missions' },
       { id: 'missions-twists',    label: 'Twists' },
     ],
   },
-  { label: 'Terrain & Layouts', path: '/event-companion/layouts', sections: [] },
+  { label: 'Terrain & Layouts', path: EVENT_PATH, hash: '#ec-chapter-layouts', sections: [] },
   {
-    label: 'Pairings & Rankings', path: '/event-companion/pairings',
+    label: 'Pairings & Rankings', path: EVENT_PATH, hash: '#ec-chapter-pairings',
     sections: [
       { id: 'pairing-players', label: 'Pairing Players' },
       { id: 'ranking-players', label: 'Ranking Players' },
@@ -198,7 +219,7 @@ export const eventGroups = [
     ],
   },
   {
-    label: 'Teams', path: '/event-companion/teams',
+    label: 'Teams', path: EVENT_PATH, hash: '#ec-chapter-teams',
     sections: [
       { id: 'team-composition', label: 'Team Composition' },
       { id: 'pairing-system',   label: 'Pairing System' },
@@ -206,13 +227,13 @@ export const eventGroups = [
       { id: 'teams-pairing',    label: 'Pairing Teams' },
     ],
   },
-  { label: 'Errata & FAQs',    path: '/event-companion/faq',      sections: [] },
+  { label: 'Errata & FAQs',    path: EVENT_PATH, hash: '#ec-chapter-faq', sections: [] },
 ]
 
 export const eventGroupsRu = [
-  { label: 'Введение',                  path: '/event-companion',          sections: [] },
+  { label: 'Введение',                  path: EVENT_PATH, hash: '#ec-chapter-intro', sections: [] },
   {
-    label: 'Последовательность миссии', path: '/event-companion/sequence',
+    label: 'Последовательность миссии', path: EVENT_PATH, hash: '#ec-chapter-sequence',
     sections: [
       { id: 'step-1',  label: 'Сбор армий' },
       { id: 'step-2',  label: 'Определение миссии' },
@@ -223,16 +244,16 @@ export const eventGroupsRu = [
     ],
   },
   {
-    label: 'Миссии', path: '/event-companion/missions',
+    label: 'Миссии', path: EVENT_PATH, hash: '#ec-chapter-missions',
     sections: [
       { id: 'missions-primary',   label: 'Основные миссии' },
       { id: 'missions-secondary', label: 'Вторичные миссии' },
       { id: 'missions-twists',    label: 'Твисты' },
     ],
   },
-  { label: 'Террейн и раскладки',       path: '/event-companion/layouts',  sections: [] },
+  { label: 'Террейн и раскладки',       path: EVENT_PATH, hash: '#ec-chapter-layouts', sections: [] },
   {
-    label: 'Паринги и ранжирование',    path: '/event-companion/pairings',
+    label: 'Паринги и ранжирование',    path: EVENT_PATH, hash: '#ec-chapter-pairings',
     sections: [
       { id: 'pairing-players', label: 'Составление пар' },
       { id: 'ranking-players', label: 'Ранжирование игроков' },
@@ -240,7 +261,7 @@ export const eventGroupsRu = [
     ],
   },
   {
-    label: 'Teams', path: '/event-companion/teams',
+    label: 'Команды', path: EVENT_PATH, hash: '#ec-chapter-teams',
     sections: [
       { id: 'team-composition', label: 'Состав команды' },
       { id: 'pairing-system',   label: 'Система паринга' },
@@ -248,7 +269,7 @@ export const eventGroupsRu = [
       { id: 'teams-pairing',    label: 'Составление пар команд' },
     ],
   },
-  { label: 'Эррата и FAQ',              path: '/event-companion/faq',      sections: [] },
+  { label: 'Эррата и FAQ',              path: EVENT_PATH, hash: '#ec-chapter-faq', sections: [] },
 ]
 
 // Game Tracker — third top-level section. Two routes (home + active game), no anchors.
@@ -278,61 +299,86 @@ export const factionGroupsRu = [
   { label: 'Фракции', path: '/factions', sections: [] },
 ]
 
+// Combat Patrol — one group per authored faction, sourced from the lightweight
+// combatPatrolIndex.js (not the full src/data/combatPatrol.js, which also carries every box's
+// rule text and datasheets — too heavy to statically import into the router, which sits in the
+// module graph of virtually every page). RU is `ru: en` today, so both exports read the same list.
+export const combatPatrolGroups = combatPatrolIndex.map((f) => ({
+  label: f.name, path: `/combat-patrol/${f.slug}`, sections: [],
+}))
+export const combatPatrolGroupsRu = combatPatrolIndex.map((f) => ({
+  label: f.name, path: `/combat-patrol/${f.slug}`, sections: [],
+}))
+
 // The Links page (/links, external source PDFs) is deliberately NOT in the navbar or
 // the drawer — it's reachable only from its card on the landing page (src/data/landing.js).
 
+// `meta.section` groups routes for App.vue's nav-highlight/subnav predicates (isCoreRoute,
+// isEventRoute, …) — one flag read off the matched route instead of a `path.startsWith()` guess
+// repeated at every call site. Routes with no bearing on that nav chrome (landing, disclaimer,
+// changelog, tracker sub-pages, 404) carry no section.
 export const router = createRouter({
   history: createWebHistory(),
   routes: [
-    { path: '/',               component: LandingView },
-    { path: '/introduction',   component: HomeView },
-    { path: '/basic-rules',    component: BasicRulesView },
-    { path: '/battle-round',   component: BattleRoundView },
-    { path: '/battlefields',   component: BattlefieldsView },
-    { path: '/advanced-rules', component: AdvancedRulesView },
-    { path: '/reference',      component: ReferenceView },
-    { path: '/muster',         component: MusterView },
-    { path: '/event-companion',          component: EventIntroView },
-    { path: '/event-companion/sequence', component: EventSequenceView },
-    { path: '/event-companion/missions', component: EventMissionsView },
-    { path: '/event-companion/layouts',  component: EventLayoutsView },
-    { path: '/event-companion/pairings', component: EventPairingsView },
-    { path: '/event-companion/teams',    component: EventTeamsView },
-    { path: '/event-companion/faq',      component: EventFaqView },
-    { path: '/tracker',      component: TrackerHomeView },
-    { path: '/tracker/game', component: TrackerGameView },
-    // Roster builder: public list (/roster, indexable) + private creation wizard, read-only
-    // view and editor (/roster/new, /roster/:id/view, /roster/:id — none in STATIC_ROUTES,
-    // like /tracker/game). Static /roster/new and /roster/shared must precede the :id route
-    // so neither is captured as an id.
-    { path: '/roster',        component: RosterListView },
-    { path: '/roster/new',    component: RosterCreateView },
-    { path: '/roster/shared', component: RosterSharedView },
-    { path: '/roster/:id/view', component: RosterViewView },
-    { path: '/roster/:id',    component: RosterEditorView },
-    { path: '/tracker/history/:id', component: TrackerHistoryView },
-    { path: '/tracker/auth-callback', component: AuthCallbackView },
-    { path: '/links', component: LinksView },
+    { path: '/',               component: LandingView, meta: { section: 'landing' } },
+    { path: CORE_PATH, component: CoreRulesView, meta: { section: 'core' } },
+    // The seven former chapter routes. They stay valid forever — old bookmarks, shared
+    // links and the stale SEO keys still in the bucket all land on the right chapter.
+    ...Object.entries(CORE_CHAPTER_ANCHORS).map(([path, anchor]) => ({
+      path,
+      redirect: { path: CORE_PATH, hash: '#' + anchor },
+    })),
+    { path: EVENT_PATH, component: EventCompanionView, meta: { section: 'event' } },
+    // The six former chapter routes. They stay valid forever — old bookmarks, shared
+    // links and the stale SEO keys still in the bucket all land on the right chapter.
+    ...Object.entries(EVENT_CHAPTER_ANCHORS).map(([path, anchor]) => ({
+      path,
+      redirect: { path: EVENT_PATH, hash: '#' + anchor },
+    })),
+    { path: '/tracker',      component: TrackerHomeView, meta: { section: 'tracker' } },
+    { path: '/tracker/game', component: TrackerGameView, meta: { section: 'tracker' } },
+    // Roster builder rides with the Tracker section (subnav + nav highlight) — public list
+    // (/roster, indexable) + private creation wizard, read-only view and editor (/roster/new,
+    // /roster/:id/view, /roster/:id — none in STATIC_ROUTES, like /tracker/game). Static
+    // /roster/new and /roster/shared must precede the :id route so neither is captured as an id.
+    { path: '/roster',        component: RosterListView, meta: { section: 'tracker' } },
+    { path: '/roster/new',    component: RosterCreateView, meta: { section: 'tracker' } },
+    { path: '/roster/shared', component: RosterSharedView, meta: { section: 'tracker' } },
+    { path: '/roster/:id/view', component: RosterViewView, meta: { section: 'tracker' } },
+    { path: '/roster/:id',    component: RosterEditorView, meta: { section: 'tracker' } },
+    { path: '/tracker/history/:id', component: TrackerHistoryView, meta: { section: 'tracker' } },
+    { path: '/tracker/auth-callback', component: AuthCallbackView, meta: { section: 'tracker' } },
+    { path: '/links', component: LinksView, meta: { section: 'links' } },
     { path: '/disclaimer', component: DisclaimerView },
-    { path: '/factions',       component: FactionsListView },
-    { path: '/factions/:slug',             component: FactionRuleView },
+    { path: '/changelog', component: ChangelogView },
+    { path: '/factions',       component: FactionsListView, meta: { section: 'faction' } },
+    { path: '/factions/:slug',             component: FactionRuleView, meta: { section: 'faction' } },
     // Merged into /factions/:slug — redirect old bookmarks/links to the combined page.
     { path: '/factions/:slug/detachments', redirect: (to) => `/factions/${to.params.slug}` },
-    { path: '/factions/:slug/datasheets',  component: FactionDatasheetsView },
-    { path: '/factions/:slug/datasheets/:unit', component: FactionDatasheetView },
+    { path: '/factions/:slug/datasheets',  component: FactionDatasheetsView, meta: { section: 'faction' } },
+    { path: '/factions/:slug/datasheets/:unit', component: FactionDatasheetView, meta: { section: 'faction' } },
+    { path: '/factions/:slug/faq',         component: FactionFaqView, meta: { section: 'faction' } },
+    // "Rules" umbrella landing (Core Rules / Event Companion / Combat Patrol summary cards).
+    { path: '/rules', component: RulesLandingView, meta: { section: 'rules-landing' } },
+    // Combat Patrol.
+    { path: '/combat-patrol',       component: CombatPatrolIndexView, meta: { section: 'combat-patrol' } },
+    { path: '/combat-patrol/:slug', component: CombatPatrolFactionView, meta: { section: 'combat-patrol' } },
     // Game-time stratagem reference. Reachable only via the mobile bottom-nav (and direct
     // URL on desktop) — intentionally not in navGroups / NavSidebar / the top navbar.
-    { path: '/stratagems', component: StratagemsView },
+    { path: '/stratagems', component: StratagemsView, meta: { section: 'stratagems' } },
     // Catch-all 404. The bucket's ErrorDocument serves index.html (HTTP 404) for any
     // unknown path, so the SPA must render its own not-found page (with noindex).
     { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFoundView },
   ],
+  // Every `hash` in the app targets /core-rules or /event-companion, and both already
+  // self-handle scrolling via the robust, polling `scrollToAnchor()` (onMounted + a
+  // route.hash watcher in CoreRulesView.vue/EventCompanionView.vue) — it retries for up to
+  // 1.5s and re-corrects after 400ms, which `content-visibility: auto` chapters need since
+  // their layout isn't settled right after navigation. Vue Router's own single-shot `el`
+  // scroll would run concurrently with that and can win the race with a stale position
+  // (landing on the wrong section) before the page has finished laying out. Leave hash
+  // scrolling to scrollToAnchor entirely.
   scrollBehavior(to, from, savedPosition) {
-    // A hash carrying `=` is data (the roster share payload `#r=…`), not a scroll anchor —
-    // don't try to querySelector it (invalid selector) or scroll to it.
-    if (to.hash && !to.hash.includes('=')) {
-      return { el: to.hash, behavior: 'smooth', top: 80 }
-    }
     if (savedPosition) return savedPosition
     return { top: 0 }
   },

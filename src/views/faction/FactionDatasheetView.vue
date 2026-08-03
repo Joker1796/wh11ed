@@ -3,8 +3,19 @@
     <section class="fsection">
       <template v-if="sheet">
         <div class="ds-head">
-          <h2 class="ds-title">{{ sheet.name }}<span v-if="sheet.baseSize" class="ds-title-base">({{ fmtBase(sheet.baseSize) }})</span></h2>
+          <h2 class="ds-title">{{ sheet.name }} <span v-if="sheet.baseSize" class="ds-title-base">({{ fmtBase(sheet.baseSize) }})</span></h2>
           <div class="ds-actions">
+            <button
+              type="button"
+              class="ds-btn"
+              :class="{ 'ds-btn-pin-on': fav }"
+              :title="fav ? labels.dsFavRemove : labels.dsFavAdd"
+              :aria-label="fav ? labels.dsFavRemove : labels.dsFavAdd"
+              :aria-pressed="fav"
+              @click="toggleUnitFavorite(route.params.slug, sheet.id)"
+            >
+              <i :class="fav ? 'bi bi-pin-angle-fill' : 'bi bi-pin-angle'"></i>
+            </button>
             <button
               type="button"
               class="ds-btn"
@@ -40,10 +51,26 @@
             </a>
           </div>
         </div>
-        <DatasheetCard :sheet="sheet" :unit-index="unitIndex" :faction-slug="route.params.slug" />
+        <DatasheetCard
+          :sheet="sheet"
+          :unit-index="unitIndex"
+          :faction-slug="route.params.slug"
+          :granted-keywords="grantedKeywords"
+          :other-faction-units="otherFactionUnits"
+          keyword-links-enabled
+          @keyword-click="activeKeyword = $event"
+        />
       </template>
       <p v-else-if="loaded" class="ds-missing">{{ labels.factionsSoon }}</p>
     </section>
+
+    <KeywordUnitsModal
+      v-if="activeKeyword"
+      :keyword="activeKeyword"
+      :units="keywordUnits"
+      :faction-slug="route.params.slug"
+      @close="activeKeyword = null"
+    />
 
     <Teleport to="body">
       <Transition name="fade">
@@ -70,11 +97,17 @@ import { computed, ref, watch, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import DatasheetCard from '../../components/DatasheetCard.vue'
 import FactionLayout from '../../components/FactionLayout.vue'
+import KeywordUnitsModal from '../../components/KeywordUnitsModal.vue'
+import { unitsWithKeyword } from '../../utils/keywordUnits.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { loadDatasheetsRu, localizeSheet } from '../../data/datasheets/ru/index.js'
 import { ui } from '../../i18n/ui.js'
 import { useFactionPage } from '../../composables/useFactionPage.js'
+import { useFactionChoice } from '../../composables/useFactionChoice.js'
+import { getDatasheetIndex } from '../../composables/useSearch.js'
+import conditionalKeywords from '../../data/conditionalKeywords.json'
 import { useLocale } from '../../composables/useLocale.js'
+import { useFavorites } from '../../composables/useFavorites.js'
 import { setDatasheetName } from '../../composables/useSeoMeta.js'
 import { formatBaseSize } from '../../utils/baseSize.js'
 
@@ -127,6 +160,17 @@ const sheet = computed(() => {
 // slug until the datasheet loads). Unit names aren't translated, so the EN name is fine.
 watch(sheet, (s) => { if (s?.name) setDatasheetName(route.path, s.name) }, { immediate: true })
 
+// "Units with this keyword" modal (opened from DatasheetCard's Keywords line). Closed on any
+// route change (not just a faction switch — also plain unit-to-unit navigation) so it can't be
+// left open showing a keyword/roster that no longer matches the unit now on screen.
+const activeKeyword = ref(null)
+watch(() => route.fullPath, () => { activeKeyword.value = null })
+const keywordUnits = computed(() => unitsWithKeyword(datasheets.value, activeKeyword.value))
+
+// Favourite toggle (shared store with the datasheets list's "Favorites" group).
+const { isUnitFavorite, toggleUnitFavorite } = useFavorites()
+const fav = computed(() => !!sheet.value && isUnitFavorite(route.params.slug, sheet.value.id))
+
 // Name → id lookup so DatasheetCard can link Leader/Attached-unit references (e.g. the
 // bodyguard units listed under a Character's "Leader" ability) to their own datasheet
 // page. Always built from the EN names (unit names are never translated, see the RU
@@ -135,6 +179,47 @@ const unitIndex = computed(() => {
   const map = new Map()
   for (const d of datasheets.value) map.set(d.name, d.id)
   return map
+})
+
+// Names in sheet.leader.units that resolve to a REAL datasheet on a DIFFERENT faction's page
+// (not just unresolved anywhere) — passed to DatasheetCard so it can hide them instead of
+// rendering a dead name. Navigation is always within one faction's context (there's no "browse
+// units across all factions" mode), and the underlying rule text is faction-agnostic — appdata
+// lists every unit a Character could ever attach to, across whichever army actually fields it
+// (e.g. a Chapter-agnostic "Ancient in Terminator Armour" can lead a Deathwatch Terminator Squad
+// via THAT squad's own ATTACHED UNIT rule, in a Deathwatch army — never a valid target while
+// building the Dark Angels army this page is showing). See datasheetIndex.js's own header for
+// why this is a dynamic import (a global compact name index, same chunk the search palette uses).
+const globalDsIndex = ref(null)
+getDatasheetIndex().then((idx) => { globalDsIndex.value = idx })
+const otherFactionUnits = computed(() => {
+  const units = sheet.value?.leader?.units
+  if (!units?.length || !globalDsIndex.value) return []
+  const mySlug = route.params.slug
+  return units.filter((u) => {
+    if (unitIndex.value.has(u)) return false // already resolves on this faction's own page
+    return globalDsIndex.value.some(([slug, , list]) => slug !== mySlug && list.some(([, name]) => name === u))
+  })
+})
+
+// Keywords this unit gains from an army/detachment rule (conditionalKeywords.json) — merged into
+// the card's keyword line. Roster-wide grants (no `det`) always apply on this faction's page;
+// detachment-gated grants only while that detachment is the active pick (shared with the rules
+// page via useFactionChoice, defaulting to the faction's first detachment). `detName` carries the
+// active detachment's display name through to DatasheetCard so it can footnote where a gated
+// grant comes from; roster-wide grants pass `detName: null` (DatasheetCard attributes those to
+// "this faction's own rules" instead). `extra` passes through gen-conditional-keywords.mjs's flag
+// for a grant that also depends on an un-modelled condition (currently always a Warlord
+// requirement — see that script's header comment) — DatasheetCard adds a caveat to the footnote
+// rather than implying the detachment/faction alone is the whole story.
+const { activeDetachment } = useFactionChoice()
+const grantedKeywords = computed(() => {
+  const grants = conditionalKeywords[route.params.slug]?.[sheet.value?.id]
+  if (!grants) return []
+  const activeDet = activeDetachment(route.params.slug, faction.value?.detachments || [])
+  return grants
+    .filter((g) => !g.det || g.det === activeDet?.id)
+    .map((g) => ({ kw: g.kw, detName: g.det ? activeDet?.name || null : null, extra: !!g.extra }))
 })
 
 // Same query Wahapedia uses for its "Search for model's image on the Internet" icon.
@@ -229,8 +314,8 @@ async function copyName() {
    too light to carry white text). It sits flush on top of the card (radius 0 0 6 6). */
 .ds-head {
   display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
+  align-items: flex-start;
+  flex-wrap: nowrap;
   gap: 0.3rem 0.8rem;
   margin-bottom: 0;
   padding: 0.5rem 1rem 0.45rem;
@@ -245,6 +330,9 @@ async function copyName() {
 :root[data-theme='dark'] .ds-head { --ds-th-bg: var(--fa-light, color-mix(in srgb, var(--accent) 55%, black)); }
 
 .ds-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-wrap: break-word;
   font-family: var(--font-display);
   font-size: 2rem;
   font-weight: 400;
@@ -272,6 +360,7 @@ async function copyName() {
   gap: 0.15rem;
   margin-left: auto;
   align-self: center;
+  flex-shrink: 0;
 }
 
 .ds-btn {
@@ -301,6 +390,13 @@ async function copyName() {
   color: #fff;
   border-color: #fff;
   background: rgba(255, 255, 255, 0.18);
+}
+
+/* Pin toggle deliberately skips the .copied border/background treatment shared by the
+   other action buttons — pinned state is signalled only by the outline→filled icon swap
+   (see the template) plus going fully opaque, no colored highlight. */
+.ds-btn-pin-on {
+  color: #fff;
 }
 
 /* Anchored lore popover (teleported to body — scoped styles still apply to it). */
@@ -347,5 +443,30 @@ async function copyName() {
 
 @media (max-width: 640px) {
   .ds-title { font-size: 1.5rem; }
+}
+
+/* Very narrow phones (≤480px): bleed the name plate past .main-content's gutter to the
+   true viewport edge and square its top corners, matching DatasheetCard's .ds-card below
+   it (same 100vw trick as FactionPickerBar's .fpb) — the two read as one flush, edge-to-edge
+   header instead of a floating card. Horizontal padding drops to .ds-card's own 0.4rem so
+   both line up, and the action buttons shrink to leave the (often long) unit name more room. */
+@media (max-width: 480px) {
+  /* Cancel FactionLayout's .faction-view top padding (0.5rem) so the full-bleed card sits
+     flush under the subnav, with no gap above the name plate — matching the edge-to-edge
+     treatment on the sides. */
+  .fsection {
+    margin-top: -0.5rem;
+  }
+  .ds-head {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    padding: 0.5rem 0.4rem 0.45rem;
+    border-radius: 0;
+  }
+  .ds-btn {
+    min-width: 30px;
+    min-height: 30px;
+    font-size: 0.85rem;
+  }
 }
 </style>

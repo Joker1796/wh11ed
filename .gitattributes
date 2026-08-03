@@ -1,0 +1,5 @@
+# Generated data sidecars are written with LF by their generators (scripts/gen-*.mjs) and their
+# freshness is verified by a byte-for-byte `--check` in `npm run sync`. Pin them to LF so an
+# autocrlf checkout on Windows can't rewrite them to CRLF and make that check false-positive.
+src/data/conditionalKeywords.json text eol=lf
+src/data/sourceIds.json text eol=lf

@@ -15,3 +15,7 @@ sources/
 *.pdf
 .backup/
 scripts/.drafts/
+
+# Personal appdata-sync session log (see DATA-SYNC.md) — not *.local since it needs the .md
+# extension for editor syntax highlighting, so it needs its own explicit line.
+SYNC-LOG.local.md

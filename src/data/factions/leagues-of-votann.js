@@ -1,9 +1,9 @@
 // Leagues of Votann — faction rules. Resolved from the same source priority as the other
 // factions (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: imported from the Wahapedia CSV exports via scripts/import-wahapedia.mjs →
+//   Codex layer: imported from the codex →
 //     7 detachments (Brandfast Oathband, Dêlve Assault Shift, Hearthband, Hearthfyre
-//     Arsenal, Mercenary Oathband, Needgaârd Oathband, Persecution Prospect). Wahapedia
+//     Arsenal, Mercenary Oathband, Needgaârd Oathband, Persecution Prospect).
 //     already carries most pack updates; the remaining diffs are folded in (inline notes).
 //     Hearthband and Mercenary Oathband are also printed in the Faction Pack (identical
 //     text) — marked source: 'faction-pack'.
@@ -48,7 +48,7 @@ In your turn, YP gained in this way are always gained before checking which abil
   },
 
   detachments: [
-    // ─────────────── CODEX DETACHMENTS (via Wahapedia import) ───────────────
+    // ─────────────── CODEX DETACHMENTS ───────────────
     {
       id: "brandfast-oathband",
       name: "Brandfast Oathband",
@@ -58,7 +58,7 @@ In your turn, YP gained in this way are always gained before checking which abil
       rule: {
         name: "Mobile Sensor Relays",
         flavor: "The massed armoured transports of a brandfast oathband connect to an encrypted data network shared by squads of Kin. Their robust sensor webs broadcast various targeting information and extrapolated judgements on enemy movements. Nearby warriors can tap into this wealth of data, enabling them to unleash salvoes of lethal efficiency.",
-        body: "Leagues of Votann Transport units from your army have the following ability:\n\n**Firebase Control (Aura):** While a friendly Leagues of Votann Infantry unit is wholly within 6\" of this TRANSPORT, ranged weapons equipped by models in that INFANTRY unit have the [sustained hits 1] ability.",
+        body: "Leagues of Votann Transport units from your army have the following ability:\n\n**Firebase Control (Aura):** While a friendly Leagues of Votann Infantry unit is wholly within 6\" of this TRANSPORT, ranged weapons equipped by models in that INFANTRY unit have the [SUSTAINED HITS 1] ability.",
       },
       stratagems: [
         {
@@ -111,7 +111,7 @@ In your turn, YP gained in this way are always gained before checking which abil
           cp: "1CP",
           turn: "either",
           flavor: "While there are resources to secure, the Kin will seize any opportunity to effect a rapid and ordered deployment to establish defensive positions.",
-          when: "End of any of your phases, if units from your army have Hostile Acquisition.", // Faction-Pack Rules Update
+          when: "End of any of your phases.",
           target: "One Leagues of Votann Transport unit from your army.",
           effect: "One LEAGUES OF VOTANN unit embarked within your TRANSPORT can disembark. When doing so, models in that unit can be set up anywhere on the battlefield wholly within 6\" of your TRANSPORT. That unit cannot declare a charge in the same turn, but can otherwise act normally in the remainder of the turn.",
           restrictions: "",
@@ -139,7 +139,7 @@ In your turn, YP gained in this way are always gained before checking which abil
           name: "Trivärg Cyber Implant",
           points: 40,
           flavor: "A neural artefact of the famed - but tragically extinct - Trivärg Fisculate Guild of Brôkhyr, this implant enables its host to coordinate fire patterns with exemplary skill and extraordinary speed, directly accessing vehicular systems to triangulate overlapping attack angles.",
-          body: "LEAGUES OF VOTANN model only. In your Shooting phase, each time the bearer’s unit is selected to shoot, if it disembarked from a Transport this turn, or if you spend 2YP, until the end of the phase, ranged weapons equipped by models in that unit have the [sustained HITS 2] ability.",
+          body: "LEAGUES OF VOTANN model only. In your Shooting phase, each time the bearer’s unit is selected to shoot, if it disembarked from a Transport this turn, or if you spend 2YP, until the end of the phase, ranged weapons equipped by models in that unit have the [SUSTAINED HITS 2] ability.",
         },
         {
           name: "Precursive Judgement",
@@ -165,7 +165,7 @@ In your turn, YP gained in this way are always gained before checking which abil
       rule: {
         name: "Fury From The Dêlve",
         flavor: "Efficiency and practicality are ingrained in all Kin. Thus, the most meagre of Cthonian dêlves are well-equipped networks of passages, accessways and teleport nodes that enable a guild's bionically altered elites to appear where the foe least expects them. They emerge saturated with cyberstimulants and full of fury, ready to smash asunder those who dare trespass amongst their guild’s operations.",
-        body: "Cthonian Beserks units from your army have the Deep Strike ability.\n\nKEYWORDS\nCTHONIAN BESERKS units from your army gain the BATTLELINE keyword.",
+        body: "Cthonian Beserks units from your army have the Deep Strike ability.",
       },
       stratagems: [
         {
@@ -240,7 +240,7 @@ In your turn, YP gained in this way are always gained before checking which abil
           name: "Dêlvewerke Navigator",
           points: 25,
           flavor: "With a mastery of the dêllve’s workings, guild reserves can be expertly directed to where they are needed most.",
-          body: "LEAGUES OF VOTANN model only. In the Reinforcements step of your Movement phase, the bearer can use this Enhancement. If it does, select one friendly Cthonian Beserks unit visible to the bearer and then spend any number of YP. Return one destroyed model to that unit and then, for every 2YP you just spent, return up to one additional destroyed model to that unit.",
+          body: "LEAGUES OF VOTANN model only. In the Reinforcements step of your Movement phase, the bearer can use this Enhancement. If it does, select one friendly Cthonian Beserks unit visible to the bearer and then spend any number of YP. Return one destroyed model (excluding CHARACTER models) to that unit and then, for every 2YP you just spent, return up to one additional destroyed model (excluding CHARACTER models) to that unit.",
         },
         {
           name: "Multiwave System Jammer",
@@ -266,7 +266,7 @@ In your turn, YP gained in this way are always gained before checking which abil
     {
       id: "hearthband",
       name: "Hearthband",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 3,
       forceDisposition: "Priority Assets",
       unique: "HEARTHBAND",
@@ -481,7 +481,7 @@ In your turn, YP gained in this way are always gained before checking which abil
     {
       id: "mercenary-oathband",
       name: "Mercenary Oathband",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 2,
       forceDisposition: "Take and Hold",
       rule: {
@@ -842,17 +842,17 @@ In your turn, YP gained in this way are always gained before checking which abil
           flavor: "Intended to shrug off the worst punishment by hostile alien environments, not to mention the hostile aliens themselves, Sagitaurs can withstand remarkable quantities of enemy fire.",
           when: "Your opponent\u2019s Shooting phase, when an enemy unit targets a friendly SAGITAUR unit.",
           target: "That SAGITAUR unit.",
-          effect: "Ranged attacks that target your unit with a Strength greater than your unit\u2019s Toughness have -1 to Wound rolls.",
+          effect: "Ranged attacks that target your unit with a S greater than your unit\u2019s T have -1 to wound rolls.",
           restrictions: "",
         },
       ],
       enhancements: [
         {
           name: "Saturation Rounds",
-          points: 10,
+          points: 15,
           upgrade: true,
           flavor: "To aid Sagitaurs in spearheading rapid armoured assaults, specialist ammunition is issued that allows them to flush the foe from cover.",
-          body: "SAGITAUR unit only. This unit\u2019s ranged attacks have the [IGNORES COVER] ability.",
+          body: "SAGITAUR unit only. This unit\u2019s ranged attacks have [IGNORES COVER].",
         },
         {
           name: "Optimised Attack Lines",
@@ -884,7 +884,7 @@ In your turn, YP gained in this way are always gained before checking which abil
           flavor: "Casting a jaundiced eye over the so-called fortifications of their foes, the Hernkyn quickly identify weak spots in the enemy defences and spread the word to their comrades.",
           when: "Start of your Shooting phase.",
           target: "One friendly HERNKYN unit.",
-          effect: "Select one visible enemy unit within 12\" of your unit. Friendly LEAGUES OF VOTANN units\u2019 attacks that target that enemy unit have the [IGNORES COVER] ability.",
+          effect: "Select one visible enemy unit within 12\" of your unit. Friendly LEAGUES OF VOTANN units\u2019 attacks that target that enemy unit have [IGNORES COVER].",
           restrictions: "",
         },
         {
@@ -895,7 +895,7 @@ In your turn, YP gained in this way are always gained before checking which abil
           flavor: "Knowing the burden of responsibility placed upon them by Kindred and Ancestors, Hernkyn focus on their marksmanship with a stern determination that makes every shot count.",
           when: "Your Shooting phase, when a friendly HERNKYN unit is selected to shoot.",
           target: "That HERNKYN unit.",
-          effect: "Your unit\u2019s ranged attacks have the [LETHAL HITS] ability.",
+          effect: "Your unit\u2019s ranged attacks have [LETHAL HITS].",
           restrictions: "",
         },
         {
@@ -923,7 +923,7 @@ In your turn, YP gained in this way are always gained before checking which abil
           points: 15,
           upgrade: true,
           flavor: "These small, rugged devices project a modified weavewërke field that, instead of shielding the bearer physically, deadens their signature on enemy scanners and confounds predatory senses.",
-          body: "YAEGIRS unit only. This unit has 3\" detection range.",
+          body: "YAEGIRS unit only. This unit has -3\" detection range.",
         },
       ],
     },
@@ -949,7 +949,7 @@ In your turn, YP gained in this way are always gained before checking which abil
           flavor: "These micro shield generators, worked into warrior jewellery or armour crests, trigger on command to provide short-lived boosted protection.",
           when: "Your opponent\u2019s Shooting phase or the Fight phase, when an enemy unit targets a friendly EINHYR HEARTHGUARD unit.",
           target: "That EINHYR HEARTHGUARD unit.",
-          effect: "Your unit has a 4+ invulnerable save.",
+          effect: "Your unit has 4+ InSv.",
           restrictions: "",
         },
         {
@@ -960,7 +960,7 @@ In your turn, YP gained in this way are always gained before checking which abil
           flavor: "As though they unleash the raging flames of their kindred\u2019s hearth upon the enemy, the Einhyr all but drown their enemies in fire.",
           when: "Your Shooting phase, when a friendly EINHYR HEARTHGUARD unit is selected to shoot.",
           target: "That EINHYR HEARTHGUARD unit.",
-          effect: "Your unit\u2019s ranged attacks have:\n▪ +1 Strength.\n▪ If you spend 1YP, the [SUSTAINED HITS 1] ability.",
+          effect: "Your unit\u2019s ranged attacks have:\n▪ +1 S.\n▪ If you spend 1 YP, [SUSTAINED HITS 1].",
           restrictions: "",
         },
         {
@@ -986,7 +986,7 @@ In your turn, YP gained in this way are always gained before checking which abil
           name: "Ironskein",
           points: 10,
           flavor: "A rare cloneskein threads this warrior\u2019s bone structure and epidermis with metallic fibres.",
-          body: "KÂHL model only. This model has +2 Wounds.",
+          body: "KÂHL model only. This model has +2 W.",
         },
       ],
     },

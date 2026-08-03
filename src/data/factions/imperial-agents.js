@@ -1,9 +1,9 @@
 // Imperial Agents — faction rules. Resolved from the same source priority as the other
 // factions (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: imported from the Wahapedia CSV exports via scripts/import-wahapedia.mjs →
+//   Codex layer: imported from the codex →
 //     all 5 detachments (Imperialis Fleet, Ordo Hereticus Purgation Force, Ordo Malleus
-//     Daemon Hunters, Ordo Xenos Alien Hunters, Veiled Blade Elimination Force). Wahapedia
+//     Daemon Hunters, Ordo Xenos Alien Hunters, Veiled Blade Elimination Force).
 //     already carries most pack updates; the remaining diffs are folded in (inline notes).
 //     Veiled Blade Elimination Force is also printed in the Faction Pack (identical text) —
 //     marked source: 'faction-pack'; its enhancements are the pack's "Extremis Abilities"
@@ -23,7 +23,7 @@ const en = {
     name: 'Assigned Agents',
     flavor:
       'Throughout the Imperium there exist numerous martial organisations and shadowy institutions. Bodies of armed warriors or solitary agents from these groups possess specialist skills, unusual equipment and vested interests that lead them to be attached to larger Imperial armies. Some are requisitioned by the army\u2019s commander for their particular abilities, others are assigned by their hidden masters to achieve singular agendas.',
-    body: `If your Army Faction is AGENTS OF THE IMPERIUM, then in the Select Detachment Rules step, you can select one of the available Detachments from this book as normal.
+    body: `If your Army Faction is AGENTS OF THE IMPERIUM, then in the Select Detachment Rules step, you can select one of the available Detachments from this publication as normal.
 
 If your Army Faction is not AGENTS OF THE IMPERIUM, but every model in your army has the IMPERIUM keyword, you can include AGENTS OF THE IMPERIUM units in your army even if they do not have the Faction keyword you selected in the Select Army Faction step. In this case, the maximum number of AGENTS OF THE IMPERIUM units you can include in your army depends on the battle size:
 ▪ **Incursion:** 1 Retinue unit, 1 Character unit, 1 Requisitioned unit.
@@ -34,7 +34,7 @@ Note that you can include AGENTS OF THE IMPERIUM DEDICATED TRANSPORT units in su
   },
 
   detachments: [
-    // ─────────────── CODEX DETACHMENTS (via Wahapedia import) ───────────────
+    // ─────────────── CODEX DETACHMENTS ───────────────
     {
       id: "imperialis-fleet",
       name: "Imperialis Fleet",
@@ -64,9 +64,9 @@ Note that you can include AGENTS OF THE IMPERIUM DEDICATED TRANSPORT units in su
           cp: "1CP",
           turn: "your",
           flavor: "With command of the orbital engagement zone comes the ability to strike at the enemy from unexpected angles.",
-          when: "",
-          target: "",
-          effect: "WHEN: Your Movement phase.\n\nTARGET: One VOIDFARERS CHARACTER unit from your army.\n\nEFFECT: Until the end of the phase, each AGENTS OF THE IMPERIUM unit from your army that is arriving from Strategic Reserves this turn can be set up within your opponent’s deployment zone (all other restrictions still apply).",
+          when: "Your Movement phase.",
+          target: "One VOIDFARERS CHARACTER unit from your army.",
+          effect: "Until the end of the phase, each AGENTS OF THE IMPERIUM unit from your army that is arriving from Strategic Reserves this turn can be set up within your opponent’s deployment zone (all other restrictions still apply).",
           restrictions: "",
         },
         {
@@ -323,7 +323,7 @@ Note that you can include AGENTS OF THE IMPERIUM DEDICATED TRANSPORT units in su
           cp: "1CP",
           turn: "either",
           flavor: "Grey Knights battle plate incorporates litanies of purity, strands of sanctified silver and other sacred wards, whose defences can be further empowered by ritual mantras.",
-          when: "Your opponent’s Shooting phase orthe Fight phase, just after an enemy unit has selected its targets.",
+          when: "Your opponent’s Shooting phase or the Fight phase, just after an enemy unit has selected its targets.",
           target: "One GREY KNIGHTS TERMINATOR SQUAD unit from your army that was selected as the target of one or more of the attacking unit’s attacks.",
           effect: "Until the attacking unit has finished making its attacks, each time an attack targets your unit, worsen the Armour Penetration characteristic of that attack by 1.",
           restrictions: "",
@@ -468,13 +468,13 @@ Note that you can include AGENTS OF THE IMPERIUM DEDICATED TRANSPORT units in su
     {
       id: "veiled-blade-elimination-force",
       name: "Veiled Blade Elimination Force",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 3,
       forceDisposition: "Reconnaissance",
       rule: {
         name: "Extremis Sanction",
         flavor: "When pursuing an extremis-level target, the agents of the Officio Assassinorum are expected to push their altered minds and bodies beyond the limits of endurance. Additional equipment, augmentation and ammunition may be provided to complete the task.",
-        body: "Officio Assassinorum units from your army can use the Overkill, Soulless Horror and Shieldbreaker abilities twice per battle, instead of once per battle (but cannot use such an ability more than once in the same battle round).\n\nWhen mustering your army, each OFFICIO ASSASSINORUM unit from your army has the relevant Extremis ability shown on the right, and you must increase the points cost of each of those units by the amount shown. If this causes your army to exceed the points limit for the battle you are playing, you cannot include that unit in your army.",
+        body: "Officio Assassinorum units from your army can use the Overkill, Soulless Horror and Shieldbreaker abilities twice per battle, instead of once per battle (but cannot use such an ability more than once in the same battle round).\n\nWhen mustering your army, each OFFICIO ASSASSINORUM unit from your army has the relevant Extremis ability shown below, and you must increase the points cost of each of those units by the amount shown. If this causes your army to exceed the points limit for the battle you are playing, you cannot include that unit in your army.\n\nExtremis Abilities\n\nThe agents of the Callidus Temple are known to utilise vat-grown doubles to confound their foes. CALLIDUS ASSASSIN models only. Twice per battle, in your Movement phase, you can select one other friendly INFANTRY model that is on the battlefield and not within Engagement Range of one or more enemy units. The selected model is destroyed (ignoring any rules that are triggered when a model is destroyed) and this model is removed from the battlefield and set up again as close as possible to where that destroyed model was and not within Engagement Range of one or more enemy units. This ability cannot be used more than once in the same battle round.\n\nThis Culexus operative has been outfitted with various grenades tailored to destroy their assigned targets. CULEXUS ASSASSIN models only. Each time this model is targeted with the Grenades Stratagem, 1 mortal wound is inflicted for each D6 roll of 3+ instead of for each 4+.\n\nThis Eversor agent’s neurons have been surgically spliced to enhance awareness and speed of thought. EVERSOR ASSASSIN model only. You can target this unit with the Heroic Intervention stratagem, regardless of any other uses of that stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that stratagem on other units this phase.\n\nThese projectiles are tipped with miniaturised melta charges that detonate on impact. VINDICARE ASSASSIN models only. This model’s exitus rifle has the [ANTI-MONSTER 4+] and [ANTI-VEHICLE 4+] abilities.",
       },
       stratagems: [
         {
@@ -547,25 +547,25 @@ Note that you can include AGENTS OF THE IMPERIUM DEDICATED TRANSPORT units in su
       enhancements: [
         {
           name: "Decoy Targets",
-          points: 40,
+          points: 15,
           flavor: "The agents of the Callidus Temple are known to utilise vat-grown doubles to confound their foes.",
           body: "Callidus Assassin models only. Twice per battle, in your Movement phase, you can select one other friendly Infantry model that is on the battlefield and not within Engagement Range of one or more enemy units. The selected model is destroyed (ignoring any rules that are triggered when a model is destroyed) and this model is removed from the battlefield and set up again as close as possible to where that destroyed model was and not within Engagement Range of one or more enemy units. This ability cannot be used more than once in the same battle round.",
         },
         {
           name: "Esoteric Explosives",
-          points: 40,
+          points: 10,
           flavor: "This Culexus operative has been outfitted with various grenades tailored to destroy their assigned targets.",
           body: "Culexus Assassin models only. Each time this model is targeted with the Grenades Stratagem, 1 mortal wound is inflicted for each D6 roll of 3+ instead of for each 4+.",
         },
         {
           name: "Intraneural Biotech", // MFM spells this "Introneural Biotech"
-          points: 35,
+          points: 15,
           flavor: "This Eversor agent’s neurons have been surgically spliced to enhance awareness and speed of thought.",
           body: "Eversor Assassin models only. Once per battle round, you can target this model with the Heroic Intervention or Counter-offensive Stratagem for 0CP, and can do so even if you have already used that Stratagem on a different unit this phase.",
         },
         {
           name: "Micromelta Rounds",
-          points: 45,
+          points: 20,
           flavor: "These projectiles are tipped with miniaturised melta charges that detonate on impact.",
           body: "Vindicare Assassin models only. This model’s exitus rifle has the [ANTI-MONSTER 4+] and [ANTI-VEHICLE 4+] abilities.",
         },

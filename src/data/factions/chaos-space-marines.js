@@ -1,8 +1,8 @@
 // Chaos Space Marines — faction rules. Resolved from the same source priority as the other
 // factions (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: imported from the Wahapedia CSV exports via scripts/import-wahapedia.mjs →
-//     14 detachments. Wahapedia already carries most pack updates; the remaining diffs are
+//   Codex layer: imported from the codex →
+//     14 detachments. The codex text already carries most pack updates; the remaining diffs are
 //     folded in below (inline notes). Warpstrike Champions, Cult of the Arkifane, Creations
 //     of Bile, Nightmare Hunt, Huron's Marauders and Renegade Warband are also printed in
 //     the Faction Pack (identical text) — marked source: 'faction-pack'.
@@ -27,7 +27,7 @@ const en = {
 ▪ [LETHAL HITS]
 ▪ [SUSTAINED HITS 1]
 
-### Cult of the Dark Gods
+### Cults of the Dark Gods
 If your Army Faction is HERETIC ASTARTES, you can include any of the following units in your army, and when you do so their Faction keywords are replaced with HERETIC ASTARTES:
 ▪ KHORNE BERZERKERS (see World Eaters)
 ▪ RUBRIC MARINES (see Thousand Sons)
@@ -38,7 +38,7 @@ The combined points value of such units you can include in your army depends on 
   },
 
   detachments: [
-    // ─────────────── CODEX DETACHMENTS (via Wahapedia import) ───────────────
+    // ─────────────── CODEX DETACHMENTS ───────────────
     {
       id: "chaos-cult",
       name: "Chaos Cult",
@@ -46,9 +46,9 @@ The combined points value of such units you can include in your army depends on 
       dp: 2,
       forceDisposition: "Priority Assets",
       rule: {
-        name: "Desperate Devotion & KEYWORDS",
+        name: "Desperate Devotion",
         flavor: "Utterly dedicated to the worship of the Dark Gods, thronging mortal cultists and regiments of Traitor Guardsmen are more than willing to make bloody sacrifices and take desperate actions in the hope of attaining favour.",
-        body: "### Desperate Devotion\nEach time a DAMNED unit from your army with the Dark Pacts ability is selected to make a Normal or Advance move or declare a charge (excluding units that arrived from Reserves this turn), it can make a Desperate Pact (see below). If it does, until the end of the phase, add 2 to the Move characteristic of models in that unit and add 2 to Charge rolls made for that unit.\n\nDesperate Pacts\nEach time a unit makes a Desperate Pact, it must first take a Leadership test; if that test is failed, that unit suffers D3 mortal wounds before any effects of that Desperate Pact are resolved.\n\n### KEYWORDS\nTRAITOR GUARDSMEN SQUAD units from your army gain the BATTLELINE keyword.",
+        body: "Each time a DAMNED unit from your army with the Dark Pacts ability is selected to make a Normal or Advance move or declare a charge (excluding units that arrived from Reserves this turn), it can make a Desperate Pact (see below). If it does, until the end of the phase, add 2\" to the Move characteristic of models in that unit and add 2 to Charge rolls made for that unit.\n\nDesperate Pacts\nEach time a unit makes a Desperate Pact, it must first take a Leadership test; if that test is failed, that unit suffers D3 mortal wounds before any effects of that Desperate Pact are resolved.\n\n### Keywords\nTraitor Guardsmen Squad units from your army gain the Battleline [gloss:keywords:keyword].",
       },
       stratagems: [
         {
@@ -90,8 +90,8 @@ The combined points value of such units you can include in your army depends on 
           cp: "1CP",
           turn: "opponent",
           flavor: "Disciples of the Chaos Gods think nothing of sacrificing their lesser thralls to protect those of greater worth.",
-          when: "Your opponent’s Shooting phase, just after an enemy unit has selected ts targets.",
-          target: "One HERETIC ASTARTES unit from your army that was selected as the target of one or more of the attacking units attacks, and one friendly DAMNED unit within 3\" of your unit and visible to both your unit and the attacking unit.",
+          when: "Your opponent’s Shooting phase, just after an enemy unit has selected its targets.",
+          target: "One HERETIC ASTARTES unit from your army that was selected as the target of one or more of the attacking unit’s attacks, and one friendly DAMNED unit within 3\" of your unit and visible to both your unit and the attacking unit.",
           effect: "Until the end of the phase, while your DAMNED unit is on the battlefield, each time your opponent would make a Wound roll for an attack that targets your HERETIC ASTARTES unit, if your DAMNED unit is visible to the attacking model and is an eligible target for that attack, no roll is made; instead, your DAMNED unit suffers a number of mortal wounds equal to the Damage characteristic of that attack.",
           restrictions: "",
         },
@@ -149,13 +149,13 @@ The combined points value of such units you can include in your army depends on 
     {
       id: "creations-of-bile",
       name: "Creations of Bile",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 3,
       forceDisposition: "Purge the Foe",
       rule: {
         name: "Experimental Augmentations",
         flavor: "Bile’s creations, the Terata, possess a variety of mutations, all of which increase their transhuman lethality – for now.",
-        body: "At the start of the battle, select which augmentations are active for Heretic Astartes Infantry models (excluding Damned models) from your army until the end of the battle. To do so, either select one from the list below, or randomly determine two by rolling two D6. If Fabius Bile is your WARLORD, when randomly determining your augmentations, you can re-roll one or both of the dice. Duplicated augmentations have no additional effect.\n\n**Cholinergic Accelerants:** Add 1 to the Attacks characteristic of melee weapons equipped by this model.**Hyperadrenal Infusion:** Add 2\" to the Move characteristic of this model.**Paraneural Reactions:** Improve the Weapon Skill characteristic of melee weapons equipped by this model by 1.**Supracutaneous Chitination:** Improve the Toughness characteristic of this model by 1.**Macrotensile Sinews:** Add 1 to the Strength characteristic of melee weapons equipped by this model.**Ophthalmic Enhancement:** Improve the Ballistic Skill characteristic of ranged weapons equipped by this model by 1.",
+        body: "At the start of the battle, select which augmentations are active for Heretic Astartes Infantry models (excluding Damned models) from your army until the end of the battle. To do so, either select one from the list below, or randomly determine two by rolling two D6. If Fabius Bile is your WARLORD, when randomly determining your augmentations, you can re-roll one or both of the dice. Duplicated augmentations have no additional effect.\n▪ **1 - Cholinergic Accelerants:** Add 1 to the Attacks characteristic of melee weapons equipped by this model.\n▪ **2 - Hyperadrenal Infusion:** Add 2\" to the Move characteristic of this model.\n▪ **3 - Paraneural Reactions:** Improve the Weapon Skill characteristic of melee weapons equipped by this model by 1.\n▪ **4 - Supracutaneous Chitination:** Improve the Toughness characteristic of this model by 1.\n▪ **5 - Macrotensile Sinews:** Add 1 to the Strength characteristic of melee weapons equipped by this model.\n▪ **6 - Ophthalmic Enhancement:** Improve the Ballistic Skill characteristic of ranged weapons equipped by this model by 1.",
       },
       stratagems: [
         {
@@ -256,7 +256,7 @@ The combined points value of such units you can include in your army depends on 
     {
       id: "cult-of-the-arkifane",
       name: "Cult of the Arkifane",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 2,
       forceDisposition: "Priority Assets",
       rule: {
@@ -369,7 +369,7 @@ The combined points value of such units you can include in your army depends on 
       rule: {
         name: "Masters of Misdirection",
         flavor: "There are those warbands that number amongst their ranks liars, schemers and infiltrators of far more prodigious skill than most heretics. Employing labyrinthine ploys, they unnerve their enemies and force them to chase ghosts and shadows. They embed themselves within combat zones long before showing their hand, seeding Chaos cults, identifying key targets and feeding misinformation to their foes.",
-        body: "In the Declare Battle Formations step, you can select a number of LEGIONARIES and CULTIST MOB units from your army:\nuntil the end of the battle, those units, and any CHARACTER units attached to them (excluding EPIC HEROES), have the Infiltrators ability. The maximum number of units you can select in this way depends on the battle size, as shown below.\n**BATTLE SIZENUMBER OF UNITSLEGIONARIESCULTIST MOBS**Incursion **Up to 2 units Up to 2 units **Strike Force**Up to 3 units Up to 3 units **Onslaught**Up to 4 units Up to 4 units **",
+        body: "In the Declare Battle Formations step, you can select a number of LEGIONARIES and CULTIST MOB units from your army:\nuntil the end of the battle, those units, and any CHARACTER units attached to them (excluding EPIC HEROES), have the Infiltrators ability. The maximum number of units you can select in this way depends on the battle size, as shown below.\n▪ **Incursion:** Up to 2 units of each.\n▪ **Strike Force:** Up to 3 units of each.\n▪ **Onslaught:** Up to 4 units of each.",
       },
       stratagems: [
         {
@@ -627,7 +627,7 @@ The combined points value of such units you can include in your army depends on 
           flavor: "These implacable soldiers weather the enemy's fury before striking back in kind, to devastating effect.",
           when: "Fight phase, just after an enemy unit has selected its targets.",
           target: "One HERETIC ASTARTES INFANTRY unit from your army (excluding DAMNED units) that was selected as the target of one or more of the attacking unit’s attacks.",
-          effect: "Until the end of the phase, each time a melee attack is allocated to your unit, after the attacking unit has finished making its attacks, roll one D6 (to maximum of six D6 per attacking unit): for each 4+, the attacking unit suffers 1 mortal wound.",
+          effect: "Until the end of the phase, each time a melee attack is allocated to your unit, after the attacking unit has finished making its attacks, roll one D6 (to a maximum of six D6 per attacking unit): for each 4+, the attacking unit suffers 1 mortal wound.",
           restrictions: "",
         },
         {
@@ -647,9 +647,9 @@ The combined points value of such units you can include in your army depends on 
           cp: "1CP",
           turn: "opponent",
           flavor: "Veterans of countless grinding sieges, these Heretic Astartes repel and pin down wave after wave of foes with rapid boltgun fire and accurate artillery.",
-          when: "Start of your opponents Charge phase.",
+          when: "Start of your opponent’s Charge phase.",
           target: "One HERETIC ASTARTES unit from your army.",
-          effect: "Until the end of the phase, each time an enemy unit selects your unit as a target of a charge,  subtract 2 from the Charge roll (this is not cumulative with any other negative modifiers to that Charge roll).",
+          effect: "Until the end of the phase, each time an enemy unit selects your unit as a target of a charge, subtract 2 from the Charge roll (this is not cumulative with any other negative modifiers to that Charge roll).",
           restrictions: "",
         },
       ],
@@ -664,7 +664,7 @@ The combined points value of such units you can include in your army depends on 
           name: "Iron Artifice",
           points: 10,
           flavor: "Forged in baleflame and witchfire, the bearer’s weapons are redolent with the entropic power of the immaterium.",
-          body: "HERETIC ASTARTES INFANTRY model only. The bearers weapons have the [ANTI-VEHICLE 4+] and [ANTI-FORTIFICATION 4+] abilities.",
+          body: "HERETIC ASTARTES INFANTRY model only. The bearer’s weapons have the [ANTI-VEHICLE 4+] and [ANTI-FORTIFICATION 4+] abilities.",
         },
         {
           name: "Ironbound Enmity",
@@ -684,7 +684,7 @@ The combined points value of such units you can include in your army depends on 
     {
       id: "hurons-marauders",
       name: "Huron’s Marauders",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 3,
       forceDisposition: "Disruption",
       rule: {
@@ -745,7 +745,8 @@ The combined points value of such units you can include in your army depends on 
           flavor: "Huron and his spies are always watching and judging. Those that strive hardest to reach and destroy the Tyrant’s foes may earn a greater share of the plunder.",
           when: "Your opponent’s Shooting phase, just after an enemy unit has shot.",
           target: "One HERETIC ASTARTES unit from your army that lost one or more wounds as a result of those attacks.",
-          effect: "Your unit can make a Surge move. To do so, roll one D6: models in your unit move a number of inches up to the result, but your unit must end that move as close as possible to the closest enemy unit (excluding AIRCRAFT). When doing so, those models can be moved within Engagement Range of that enemy unit.",
+          // Faction-Pack Rules Update rewrote the Effect to a simple surge move.
+          effect: "Your unit can make a surge move of up to D6\".",
           restrictions: "",
         },
         {
@@ -791,7 +792,7 @@ The combined points value of such units you can include in your army depends on 
     {
       id: "nightmare-hunt",
       name: "Nightmare Hunt",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 2,
       forceDisposition: "Disruption",
       unique: "NIGHTMARE",
@@ -905,7 +906,7 @@ The combined points value of such units you can include in your army depends on 
       rule: {
         name: "Marks of Chaos",
         flavor: "",
-        body: "When mustering your army, when you select a HERETIC ASTARTES unit to include in your army, if that unit is not an EPIC HERO and does not already have one of the following keywords, you must select one for that unit and note it on your Army Roster: KHORNE. TZEENTCH, NURGLE, SLAANESH, CHAOS UNDIVIDED. Each time a unit with one of these keywords gains a weapon ability as the result of a Dark Pact and does not fail the resulting Leadership test, until the end of the phase, that unit gains the associated ability below.\n\nUNITS THAT GAINED [LETHAL HITS]\n▪ KHORNE: Each time a model in this unit makes a melee attack, an unmodified Hit roll of 5+ scores a Critical Hit.\n▪ TZEENTCH: Each time a model in this unit makes a ranged attack, an unmodified Hit roll of 5+ scores a Critical Hit.\n▪ CHAOS UNDIVIDED: Each time a model in this unit makes an attack, re-roll a Hit  roll of 1.\n\nUNITS THAT GAINED [SUSTAINED HITS 1]\n▪ NURGLE: Each time a model in this unit makes a ranged attack, an unmodified Hit roll of 5+ scores a Critical Hit.\n▪ SLAANESH: Each time a model in this unit makes a melee attack, an unmodified Hit roll of 5+ scores a Critical Hit.\n▪ CHAOS UNDIVIDED: Each time a model in this unit makes an attack, re-roll a Hit roll of 1.\n\nRESTRICTIONS\n▪ You cannot select the KHORNE keyword for a Psyker unit.\n▪ A Character unit can only be attached to a unit if both units share the same keyword from the list above.\n▪ A unit can only embark within (or start the battle embarked within) a TRANSPORT if both of those units share the same keyword from the list above.",
+        body: "When mustering your army, when you select a HERETIC ASTARTES unit to include in your army, if that unit is not an EPIC HERO and does not already have one of the following keywords, you must select one for that unit and note it on your Army Roster: KHORNE, TZEENTCH, NURGLE, SLAANESH, CHAOS UNDIVIDED. Each time a unit with one of these keywords gains a weapon ability as the result of a Dark Pact and does not fail the resulting Leadership test, until the end of the phase, that unit gains the associated ability below.\n\nUNITS THAT GAINED [LETHAL HITS]\n▪ KHORNE: Each time a model in this unit makes a melee attack, an unmodified Hit roll of 5+ scores a Critical Hit.\n▪ TZEENTCH: Each time a model in this unit makes a ranged attack, an unmodified Hit roll of 5+ scores a Critical Hit.\n▪ CHAOS UNDIVIDED: Each time a model in this unit makes an attack, re-roll a Hit  roll of 1.\n\nUNITS THAT GAINED [SUSTAINED HITS 1]\n▪ NURGLE: Each time a model in this unit makes a ranged attack, an unmodified Hit roll of 5+ scores a Critical Hit.\n▪ SLAANESH: Each time a model in this unit makes a melee attack, an unmodified Hit roll of 5+ scores a Critical Hit.\n▪ CHAOS UNDIVIDED: Each time a model in this unit makes an attack, re-roll a Hit roll of 1.\n\nRESTRICTIONS\n▪ You cannot select the KHORNE keyword for a Psyker unit.\n▪ A Character unit can only be attached to a unit if both units share the same keyword from the list above.\n▪ A unit can only embark within (or start the battle embarked within) a TRANSPORT if both of those units share the same keyword from the list above.",
       },
       stratagems: [
         {
@@ -925,9 +926,9 @@ The combined points value of such units you can include in your army depends on 
           cp: "1CP",
           turn: "either",
           flavor: "The eyes of the Dark Gods fall upon those who slaughter in their name.",
-          when: "Fight phase, just after a HERETIC ASTARTES CHARACTER unit from your army (excluding  DAMNED, DAEMON and EPIC HERO units) destroys a enemy unit.",
+          when: "Fight phase, just after a HERETIC ASTARTES CHARACTER unit from your army (excluding DAMNED, DAEMON and EPIC HERO units) destroys an enemy unit.",
           target: "One HERETIC ASTARTES CHARACTER model in that unit.",
-          effect: "Until the end of the battle, add 1 to the Move, Toughness and Wounds characteristics of that  CHARACTER model, and add 1 to the Attacks. Strength and Damage characteristics of that CHARACTER model’s melee weapons.",
+          effect: "Until the end of the battle, add 1 to the Move, Toughness and Wounds characteristics of that CHARACTER model, and add 1 to the Attacks, Strength and Damage characteristics of that CHARACTER model’s melee weapons.",
           restrictions: "",
         },
         {
@@ -998,7 +999,7 @@ The combined points value of such units you can include in your army depends on 
           name: "Talisman of Burning Blood",
           points: 15,
           flavor: "This crimson gem radiates malice, granting its bearer but a sliver of Khorne’s boundless fury.",
-          body: "Heretic Astartes Khorne model only. Add 1 to the Attacks and Strength characteristics of the bearer’s melee weapons. Each time the bearer’s unit makes a Dark Pact and does not fail the resulting Leadership test, roll one D3: until the end of the phase, add the result to the Attacks and Strength characteristics of the bearers melee weapons instead.",
+          body: "Heretic Astartes Khorne model only. Add 1 to the Attacks and Strength characteristics of the bearer’s melee weapons. Each time the bearer’s unit makes a Dark Pact and does not fail the resulting Leadership test, roll one D3: until the end of the phase, add the result to the Attacks and Strength characteristics of the bearer’s melee weapons instead.",
         },
       ],
     },
@@ -1099,7 +1100,7 @@ The combined points value of such units you can include in your army depends on 
           name: "Mark of the Hound",
           points: 25,
           flavor: "This unit of warriors act as their master's eyes and ears, seeking out targets of opportunity.",
-          body: "HERETIC ASTARTES model only. Models in the bearers unit have the Scouts 6\" ability.",
+          body: "HERETIC ASTARTES model only. Models in the bearer’s unit have the Scouts 6\" ability.",
         },
         {
           name: "Tyrant’s Lash",
@@ -1113,13 +1114,13 @@ The combined points value of such units you can include in your army depends on 
     {
       id: "renegade-warband",
       name: "Renegade Warband",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 2,
       forceDisposition: "Priority Assets",
       rule: {
         name: "Slaves to None & Vendetta & Twisted Doctrine",
         flavor: "Many Renegades eschew the gifts of Dark Gods, relying only upon their own prowess.",
-        body: "### Slaves to None\nHERETIC ASTARTES models from your army lose the Dark Pacts ability.\n\nRanged weapons equipped by HERETIC ASTARTES models from your army have the [ASSAULT] ability.\n\nWhen mustering your army, you cannot use the Cults of the Dark Gods rule.\n\n### Vendetta\nAt the start of your Command phase, select one unit from your opponent’s army. Until the start of your next Command phase, that enemy unit is your Vendetta target. Each time a HERETIC ASTARTES model from your army (excluding Damned models) makes an attack that targets your Vendetta target, you can re-roll the Hit roll.\n\n### Twisted Doctrine\nIn your Movement phase, each time you set up or select a HERETIC ASTARTES unit (excluding Battle-shocked units) from your army to move, it can choose to Default to Doctrine. If it does, it must first take a Battle-shock test. Then, select one of the following:\n▪ Until the end of the turn, this unit is eligible to shoot and declare a charge in a turn in which it Fell Back.\n▪ Until the end of the turn, this unit is eligible to declare a charge in a turn in which it Advanced.",
+        body: "### Slaves to None\nHERETIC ASTARTES models from your army lose the Dark Pacts ability.\n\nRanged weapons equipped by HERETIC ASTARTES models from your army have the [ASSAULT] ability.\n\nWhen mustering your army, you cannot use the Cults of the Dark Gods rule.\n\n### Vendetta\nAt the start of your Command phase, select one unit from your opponent’s army. Until the start of your next Command phase, that enemy unit is your Vendetta target. Each time a HERETIC ASTARTES model from your army (excluding DAMNED models) makes an attack that targets your Vendetta target, you can re-roll the Hit roll.\n\n### Twisted Doctrine\nIn your Movement phase, each time you set up or select a HERETIC ASTARTES unit (excluding Battle-shocked units) from your army to move, it can choose to Default to Doctrine. If it does, it must first take a Battle-shock test. Then, select one of the following:\n▪ Until the end of the turn, this unit is eligible to shoot and declare a charge in a turn in which it Fell Back.\n▪ Until the end of the turn, this unit is eligible to declare a charge in a turn in which it Advanced.",
       },
       stratagems: [
         {
@@ -1257,9 +1258,9 @@ The combined points value of such units you can include in your army depends on 
           cp: "1CP",
           turn: "your",
           flavor: "The tortured machine spirits of Heretic Astartes vehicles are driven forward by their anguish.",
-          when: "Your Movement phase or Charge phase.",
-          target: "One HERETIC ASTARTES DAEMON VEHICLE or Vashtorr the Arkifane unit from your army that has not been selected to move or charge this phase.",
-          effect: "Until the end of the phase, each time your unit makes Normal, Advance or charge move, it can move horizontally through terrain features as if they were not there.",
+          when: "Your Movement phase or your Charge phase.",
+          target: "One HERETIC ASTARTES VEHICLE or Vashtorr the Arkifane unit from your army that has not been selected to move or charge this phase.",
+          effect: "Until the end of the phase, each time your unit makes a Normal, Advance or Charge move, it can move horizontally through terrain features as if they were not there.",
           restrictions: "",
         },
         {
@@ -1270,7 +1271,7 @@ The combined points value of such units you can include in your army depends on 
           flavor: "Wrh each soul harvested the bound daemon comes closer to settling its contract and earning freedom.",
           when: "Fight phase.",
           target: "One HERETIC ASTARTES DAEMON VEHICLE unit from your army (excluding Titanic units) that has not been selected to fight this phase.",
-          effect: "Until the end of the phase, if your unit invokes its contract, each time it makes an attack that destroys an enemy model, roll one D6: on 5+, your unit regains 1 lost wound after all of its attacks have been resolved (to a maximum of 6 wound).",
+          effect: "Until the end of the phase, if your unit invokes its contract, each time it makes an attack that destroys an enemy model, roll one D6: on a 5+, your unit regains 1 lost wound after all of its attacks have been resolved (to a maximum of 6 wounds).",
           restrictions: "",
         },
         {
@@ -1279,8 +1280,8 @@ The combined points value of such units you can include in your army depends on 
           cp: "1CP",
           turn: "opponent",
           flavor: "Corrupted Heretic Astartes Vehicles Pursue their prey with an animalistic determination.",
-          when: "Your opponent’s Movement phase, just after an enemy unit ends a Normal, Advance or Fall back move.",
-          target: "One HERETIC ASTARTES DAEMON VEHICLE or Vashtorr the Arkifane unit from your army that is within 8\" of that enemy unit and not within Engagement Range of one or more enemy units.",
+          when: "Your opponent’s Movement phase, just after an enemy unit ends a Normal, Advance or Fall Back move.",
+          target: "One HERETIC ASTARTES VEHICLE or Vashtorr the Arkifane unit from your army that is within 8\" of that enemy unit and not within Engagement Range of one or more enemy units.",
           effect: "Your unit can make a Normal move of up to 6\", but must end that move as close as possible to that enemy unit.",
           restrictions: "",
         },
@@ -1290,9 +1291,9 @@ The combined points value of such units you can include in your army depends on 
           cp: "1CP",
           turn: "opponent",
           flavor: "The daemonic entities at the heart of possessed vehicles hunger for the life force of their enemies.",
-          when: "Your opponent’s Movement phase, when an enemy unit (excluding MONSTER and VEHICLES) is selected to Fall Back.",
+          when: "Your opponent’s Movement phase, when an enemy unit (excluding MONSTERS and VEHICLES) is selected to Fall Back.",
           target: "One HERETIC ASTARTES DAEMON VEHICLE or Vashtorr the Arkifane unit from your army that is within Engagement Range of that enemy unit.",
-          effect: "Until the end of the phase, each time an enemy unit (excluding MONSTERS and VEHICLES) that is within Engagement Range of your units Falls Back, all models in that enemy unit must take a Desperate Escape test. When doing so, of that enemy unit is Battle-shocked, substract 1 from each of those tests.",
+          effect: "Until the end of the phase, each time an enemy unit (excluding MONSTERS and VEHICLES) that is within Engagement Range of your unit Falls Back, all models in that enemy unit must take a Desperate Escape test. When doing so, if that enemy unit is Battle-shocked, subtract 1 from each of those tests.",
           restrictions: "",
         },
       ],
@@ -1311,7 +1312,7 @@ The combined points value of such units you can include in your army depends on 
         },
         {
           name: "Tempting Addendum",
-          points: 25,
+          points: 40,
           flavor: "The Arkifane’s contracts are malleable by design. More power can be offered should the supplicant be willing to bear the debt in souls.",
           body: "HERETIC ASTARTES model only. Each time a HERETIC ASTARTES DAEMON VEHICLE unit from your army invokes its contract while within 3\" of the bearer:\n▪ If it suffers one or more mortal wounds as a result  of that Dark Pact, add 1 to the number of mortal wounds it suffers.\n▪ Until the end of the phase, each time a model in that unit makes an attack, you can re-roll the Hit roll.",
         },
@@ -1333,7 +1334,7 @@ The combined points value of such units you can include in your army depends on 
       rule: {
         name: "Focus of Hatred",
         flavor: "The eldest of the Chaos Space Marines harbour within their corrupted souls a burning desire for vengeance upon the Imperium and the galaxy as a whole.  They channel this ire against their chosen targets, relentlessly pursuing their victims until every last foe lies dead upon the battlefield.",
-        body: "At the start of your Command phase, select one unit from your opponents army to be your focus of hatred. Until the start of your next Command phase,  each time a HERETIC ASTARTES model from  your army (excluding DAMNED models) makes an attack that targets your focus of hatred, you can re-roll the Hit roll.",
+        body: "At the start of your Command phase, select one unit from your opponent’s army to be your focus of hatred. Until the start of your next Command phase, each time a HERETIC ASTARTES model from your army (excluding DAMNED models) makes an attack that targets your focus of hatred, you can re-roll the Hit roll.",
       },
       stratagems: [
         {
@@ -1342,7 +1343,7 @@ The combined points value of such units you can include in your army depends on 
           cp: "1CP",
           turn: "either",
           flavor: "Such embittered warriors as these shrug off hails of enemy fire with arrogant disdain.",
-          when: "Your opponents Shooting phase or the Fight phase, just after an enemy unit has selected its targets.",
+          when: "Your opponent’s Shooting phase or the Fight phase, just after an enemy unit has selected its targets.",
           target: "One HERETIC ASTARTES unit from your army (excluding DAMNED units) that was selected as the target of one or more of the attacking unit’s attacks.",
           effect: "Until the attacking unit has finished making its attacks, each time an attack targets your unit, worsen the Armour Penetration characteristic of that attack by 1.",
           restrictions: "",
@@ -1434,13 +1435,13 @@ The combined points value of such units you can include in your army depends on 
     {
       id: "warpstrike-champions",
       name: "Warpstrike Champions",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 2,
       forceDisposition: "Disruption",
       rule: {
         name: "Warp Portals",
         flavor: "Conjured warp portals flicker across the battlefield, tearing through the fabric of reality according to arcane designs. They are a means, however perilous and unnatural, for the warband’s most elite warriors to traverse the battlefield in a matter of strides and strike again at new locations.",
-        body: "At the end of your opponent’s turn, you can select a number of Heretic Astartes Terminator, Obliterators and Mutilators units from your army (excluding units that are within Engagement Range of one or more enemy units). The maximum number of units you can select depends on the battle size, as follows:\n\n**BATTLE SIZENUMBER OF UNITS**IncursionUp to 1 unitStrike ForceUp to 2 unitsOnslaughtUp to 3 units\nOnce you have made your selections, remove those units from the battlefield and place them into Strategic Reserves.",
+        body: "At the end of your opponent’s turn, you can select a number of Heretic Astartes Terminator, Obliterators and Mutilators units from your army (excluding units that are within Engagement Range of one or more enemy units). The maximum number of units you can select depends on the battle size, as follows:\n▪ **Incursion:** Up to 1 unit.\n▪ **Strike Force:** Up to 2 units.\n▪ **Onslaught:** Up to 3 units.\n\nOnce you have made your selections, remove those units from the battlefield and place them into Strategic Reserves.",
       },
       stratagems: [
         {
@@ -1462,7 +1463,8 @@ The combined points value of such units you can include in your army depends on 
           flavor: "The warp rift through which these warriors reach the battlefield has been directed toward chosen prey by a vengeful daemonic entity.",
           when: "Your Charge phase.",
           target: "One HERETIC ASTARTES unit from your army that was set up using the Deep Strike ability this turn and has not declared a charge this phase.",
-          effect: "Until the end of the phase, each time your unit declares a charge, if the closest eligible enemy unit is selected as one of the targets of that charge, add 2 to the Charge roll.",
+          // Faction-Pack Rules Update simplified the Effect.
+          effect: "Your unit has +2 to Charge rolls.",
           restrictions: "",
         },
         {
@@ -1550,7 +1552,7 @@ The combined points value of such units you can include in your army depends on 
       rule: {
         name: "Empyric Wellspring",
         flavor: "The sorcerous powers wielded by a cabal inevitably draw the attention of the Dark Gods, flooding the battlefield with immaterial energies that empower their dark magicks and their daemonically gifted comrades alike.",
-        body: "▪ In your Shooting phase, when a friendly HERETIC ASTARTES PSYKER unit (excluding DAEMON units) is selected to shoot, if that unit makes a Dark Pact, that unit\u2019s ranged attacks have +1 Strength.\n▪ In the Fight phase, when a friendly HERETIC ASTARTES DAEMON PRINCE unit (excluding KHORNE units) is selected to fight, if that unit makes a Dark Pact, that unit\u2019s melee attacks have +2 Strength and +1 Armour Penetration.",
+        body: "▪ In your Shooting phase, when a friendly HERETIC ASTARTES PSYKER unit (excluding DAEMON units) is selected to shoot, if that unit makes a Dark Pact, that unit\u2019s ranged attacks have +1 S.\n▪ In the Fight phase, when a friendly HERETIC ASTARTES DAEMON PRINCE/DAEMON PRINCE WITH WINGS unit (excluding KHORNE units) is selected to fight, if that unit makes a Dark Pact, that unit\u2019s melee attacks have:\n▪ +2 S.\n▪ +1 AP.",
       },
       stratagems: [
         {
@@ -1583,7 +1585,7 @@ The combined points value of such units you can include in your army depends on 
           flavor: "Secondary cantrips blossom out like poisoned flowers from the heart of this sorcerous manifestation, raining mutating flame upon the foe in roiling clouds.",
           when: "Your Shooting phase, when a friendly HERETIC ASTARTES PSYKER unit is selected to shoot.",
           target: "That HERETIC ASTARTES PSYKER unit.",
-          effect: "Your unit\u2019s ranged attacks have the [IGNORES COVER] ability.",
+          effect: "Your unit\u2019s ranged attacks have [IGNORES COVER].",
           restrictions: "",
         },
       ],
@@ -1598,7 +1600,7 @@ The combined points value of such units you can include in your army depends on 
           name: "Conduit of Chaos",
           points: 20,
           flavor: "Like a lightning rod, this blessed fiend attracts the arcane energies of the Warp, unleashing them in a crackling storm of mutating horror as it plunges into the foe.",
-          body: "HERETIC ASTARTES DAEMON model only (excluding KHORNE models). This model\u2019s melee attacks have the [LANCE] ability.",
+          body: "HERETIC ASTARTES DAEMON model only (excluding KHORNE models). This model\u2019s melee attacks have [LANCE].",
         },
       ],
     },
@@ -1612,7 +1614,7 @@ The combined points value of such units you can include in your army depends on 
       rule: {
         name: "Rain of Ruin",
         flavor: "It is not enough for these heretical reavers merely to defeat their foes. Instead, they must pound all before them to smouldering oblivion with overwhelming salvoes of fire.",
-        body: "Friendly HAVOCS/OBLITERATORS units\u2019 ranged attacks have the [HEAVY] ability.",
+        body: "Friendly HAVOCS/OBLITERATORS units\u2019 ranged attacks have [HEAVY].",
       },
       stratagems: [
         {
@@ -1645,7 +1647,7 @@ The combined points value of such units you can include in your army depends on 
           flavor: "Gripped by a maniacal need to annihilate their hated enemies, these killers will not easily succumb to the clutches of death.",
           when: "Your opponent\u2019s Shooting phase, when an enemy unit targets a friendly HAVOCS/OBLITERATORS unit.",
           target: "That HAVOCS/OBLITERATORS unit.",
-          effect: "Attacks that target your unit with a Strength greater than your unit\u2019s Toughness have -1 to Wound rolls.",
+          effect: "Attacks that target your unit with a S greater than your unit\u2019s T have -1 to Wound rolls.",
           restrictions: "",
         },
       ],
@@ -1686,7 +1688,7 @@ The combined points value of such units you can include in your army depends on 
           flavor: "With a last-second blast of speed from their jump packs, the Chaos Space Marines slam into their enemies blades-first.",
           when: "Fight phase, when a friendly HERETIC ASTARTES INFANTRY FLY unit that made a Charge move this turn is selected to fight.",
           target: "That HERETIC ASTARTES INFANTRY FLY unit.",
-          effect: "Your unit\u2019s melee attacks have the [LANCE] ability.",
+          effect: "Your unit\u2019s melee attacks have [LANCE].",
           restrictions: "",
         },
         {
@@ -1695,7 +1697,7 @@ The combined points value of such units you can include in your army depends on 
           cp: "1CP",
           turn: "your",
           flavor: "Surging in and out of the enemy lines on wings of dark fire, these predatory killers wreak bloody havoc.",
-          when: "Your Movement phase, when a friendly HERETIC ASTARTES INFANTRY FLY unit is selected to make a Fall Back move.",
+          when: "Your Movement phase, when a friendly HERETIC ASTARTES INFANTRY FLY unit is selected to make a fall-back move.",
           target: "That HERETIC ASTARTES INFANTRY FLY unit.",
           effect: "That move does not prevent your unit from being eligible to declare a charge.",
           restrictions: "",
@@ -1717,13 +1719,13 @@ The combined points value of such units you can include in your army depends on 
           name: "Shadowcowl Talisman",
           points: 20,
           flavor: "Worked with diabolical incantations of occlusion, wound about with subtle enchantments, this onyx disc draws a penumbral aura about the bearer that hides him from the eyes of his prey.",
-          body: "CHAOS LORD WITH JUMP PACK model only. This unit has a 5+ invulnerable save.",
+          body: "CHAOS LORD WITH JUMP PACK model only. This unit has 5+ InSv.",
         },
         {
           name: "Pact of Cursed Pinions",
           points: 20,
           flavor: "Sharing their mortal frame with a predatory possessor daemon lends this dark champion additional might and swiftness, though it may yet damn them for eternity.",
-          body: "CHAOS LORD WITH JUMP PACK model only.\n▪ This model has DAEMON.\n▪ This model\u2019s melee attacks have +1 Attacks.",
+          body: "CHAOS LORD WITH JUMP PACK model only.\n▪ This model has DAEMON.\n▪ This model\u2019s melee attacks have +1 A.\n▪ In the Declare Battle Formations step, the bearer can be attached to a Warp Talons unit.",
         },
       ],
     },

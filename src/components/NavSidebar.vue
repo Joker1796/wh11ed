@@ -33,36 +33,94 @@
         <CollapseTransition :show="openSection === section.key && !isDirect(section)">
           <div class="nav-section-body">
             <div
-              v-for="group in section.groups"
-              :key="group.path"
+              v-for="item in section.groups"
+              :key="item.subsectionKey || groupKey(item) || item.label"
               class="nav-group"
-              :class="{ active: isActive(group) }"
+              :class="{ active: item.isSubsection ? isSubsectionActive(item) : isActive(item, section.groups) }"
             >
-              <div class="nav-group-label">
-                <button class="nav-group-link" @click="goToGroup(group)">{{ group.label }}</button>
-                <button
-                  v-if="group.sections.length"
-                  class="nav-group-toggle"
-                  :class="{ expanded: expandedPath === group.path }"
-                  @click="toggleGroupExpand(group)"
-                  :aria-expanded="expandedPath === group.path"
-                  :aria-label="labels.ariaToggleSubsections"
-                >
-                  <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </button>
-              </div>
+              <!-- "Rules" section only: a real 3rd accordion level — Core Rules /
+                   Event Companion / Combat Patrol, each collapsing its own group list. -->
+              <template v-if="item.isSubsection">
+                <div class="nav-group-label">
+                  <button class="nav-group-link" @click="goToSubsection(item)">{{ item.label }}</button>
+                  <button
+                    class="nav-group-toggle"
+                    :class="{ expanded: expandedSubsection === item.subsectionKey }"
+                    @click="toggleSubsection(item)"
+                    :aria-expanded="expandedSubsection === item.subsectionKey"
+                    :aria-label="labels.ariaToggleSubsections"
+                  >
+                    <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
 
-              <CollapseTransition :show="expandedPath === group.path && group.sections.length > 0">
-                <ul class="nav-sub">
-                  <li v-for="sec in group.sections" :key="sec.label">
-                    <a href="#" class="nav-sub-link" @click.prevent="handleAnchorClick(group.path, sec.id, sec.filter)">
-                      {{ sec.label.replace(/^\d+\s+/, '') }}
-                    </a>
-                  </li>
-                </ul>
-              </CollapseTransition>
+                <CollapseTransition :show="expandedSubsection === item.subsectionKey">
+                  <div class="nav-subgroups">
+                    <div
+                      v-for="group in item.groups"
+                      :key="groupKey(group) || group.label"
+                      class="nav-group nav-group--nested"
+                      :class="{ active: isActive(group, item.groups) }"
+                    >
+                      <div class="nav-group-label">
+                        <button class="nav-group-link" @click="goToGroup(group)">{{ group.label }}</button>
+                        <button
+                          v-if="group.sections.length"
+                          class="nav-group-toggle"
+                          :class="{ expanded: expandedKey === groupKey(group) }"
+                          @click="toggleGroupExpand(group)"
+                          :aria-expanded="expandedKey === groupKey(group)"
+                          :aria-label="labels.ariaToggleSubsections"
+                        >
+                          <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                            <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
+                        </button>
+                      </div>
+
+                      <CollapseTransition :show="expandedKey === groupKey(group) && group.sections.length > 0">
+                        <ul class="nav-sub">
+                          <li v-for="sec in group.sections" :key="sec.label">
+                            <a href="#" class="nav-sub-link" @click.prevent="handleAnchorClick(group, sec.id, sec.filter)">
+                              {{ sec.label.replace(/^\d+\s+/, '') }}
+                            </a>
+                          </li>
+                        </ul>
+                      </CollapseTransition>
+                    </div>
+                  </div>
+                </CollapseTransition>
+              </template>
+
+              <template v-else>
+                <div class="nav-group-label">
+                  <button class="nav-group-link" @click="goToGroup(item)">{{ item.label }}</button>
+                  <button
+                    v-if="item.sections.length"
+                    class="nav-group-toggle"
+                    :class="{ expanded: expandedKey === groupKey(item) }"
+                    @click="toggleGroupExpand(item)"
+                    :aria-expanded="expandedKey === groupKey(item)"
+                    :aria-label="labels.ariaToggleSubsections"
+                  >
+                    <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
+
+                <CollapseTransition :show="expandedKey === groupKey(item) && item.sections.length > 0">
+                  <ul class="nav-sub">
+                    <li v-for="sec in item.sections" :key="sec.label">
+                      <a href="#" class="nav-sub-link" @click.prevent="handleAnchorClick(item, sec.id, sec.filter)">
+                        {{ sec.label.replace(/^\d+\s+/, '') }}
+                      </a>
+                    </li>
+                  </ul>
+                </CollapseTransition>
+              </template>
             </div>
           </div>
         </CollapseTransition>
@@ -74,10 +132,11 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { navGroups, navGroupsRu, eventGroups, eventGroupsRu, trackerGroups, trackerGroupsRu, factionGroups, factionGroupsRu } from '../router/index.js'
+import { navGroups, navGroupsRu, eventGroups, eventGroupsRu, trackerGroups, trackerGroupsRu, factionGroups, factionGroupsRu, combatPatrolGroups, combatPatrolGroupsRu, CORE_PATH, EVENT_PATH } from '../router/index.js'
 import { ui } from '../i18n/ui.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useAbilityFilter } from '../composables/useAbilityFilter.js'
+import { scrollToAnchor } from '../composables/useRefNavigation.js'
 import CollapseTransition from './CollapseTransition.vue'
 
 defineProps({ mobileOpen: Boolean })
@@ -91,6 +150,20 @@ const labels = computed(() => ui[locale.value])
 const localizedGroups = computed(() => locale.value === 'ru' ? navGroupsRu : navGroups)
 const localizedEventGroups = computed(() => locale.value === 'ru' ? eventGroupsRu : eventGroups)
 const localizedTrackerGroups = computed(() => locale.value === 'ru' ? trackerGroupsRu : trackerGroups)
+const localizedCombatPatrolGroups = computed(() => locale.value === 'ru' ? combatPatrolGroupsRu : combatPatrolGroups)
+const COMBAT_PATROL_PATH = '/combat-patrol'
+
+// "Rules" is Core Rules + Event Companion + Combat Patrol, each its own collapsible
+// subsection (a 3rd accordion level — see the template's `item.isSubsection` branch)
+// over that subsection's own group list.
+const localizedRulesGroups = computed(() => {
+  const l = labels.value
+  return [
+    { isSubsection: true, subsectionKey: 'core',          label: l.navCoreRules,      path: CORE_PATH,        groups: localizedGroups.value },
+    { isSubsection: true, subsectionKey: 'event',         label: l.navEventCompanion, path: EVENT_PATH,       groups: localizedEventGroups.value },
+    { isSubsection: true, subsectionKey: 'combat-patrol', label: l.cpHeading,         path: COMBAT_PATROL_PATH, groups: localizedCombatPatrolGroups.value },
+  ]
+})
 // When a faction is open, the drawer's Factions section also lists that faction's two
 // pages (rules — army rule + detachments merged — / datasheets) — the desktop subnav is
 // hidden on mobile.
@@ -107,8 +180,7 @@ const localizedFactionGroups = computed(() => {
   ]
 })
 const navSections = computed(() => [
-  { key: 'core',    label: labels.value.navCoreRules,      groups: localizedGroups.value },
-  { key: 'event',   label: labels.value.navEventCompanion, groups: localizedEventGroups.value },
+  { key: 'rules',    label: labels.value.navRules,         groups: localizedRulesGroups.value },
   { key: 'factions', label: labels.value.navFactions,      groups: localizedFactionGroups.value },
   { key: 'tracker', label: labels.value.navTracker,        groups: localizedTrackerGroups.value },
 ])
@@ -116,23 +188,51 @@ const navSections = computed(() => [
 const currentSection = computed(() => {
   const p = route.path
   if (p.startsWith('/tracker')) return 'tracker'
-  if (p.startsWith('/event-companion')) return 'event'
   if (p.startsWith('/factions')) return 'factions'
-  return 'core'
+  // Core Rules, Event Companion, Combat Patrol, /rules itself, and everything else
+  // (landing, links, disclaimer, …) all fall under the merged "rules" section.
+  return 'rules'
 })
 
-// Which group's subsections are open (one at a time), and which top-level
-// section accordion is expanded (also one at a time). Both follow the route.
-const expandedPath = ref(route.path)
+// The seven Core Rules groups all share one path and differ only by `hash` (they're
+// chapters of the single /core-rules page), so path alone can no longer identify a group.
+function groupKey(group) {
+  return group.path ? group.path + (group.hash || '') : ''
+}
+
+// Which group's subsections are open (one at a time), which "rules" subsection
+// (Core Rules / Event Companion / Combat Patrol) is expanded (also one at a time), and
+// which top-level section accordion is expanded (also one at a time). All follow the route.
+const expandedKey = ref(route.path + route.hash)
 const openSection = ref(currentSection.value)
+const expandedSubsection = ref(currentRulesSubsectionKey())
 
-watch(() => route.path, (p) => {
-  expandedPath.value = p
+watch(() => route.fullPath, () => {
+  expandedKey.value = route.path + route.hash
   openSection.value = currentSection.value
+  expandedSubsection.value = currentRulesSubsectionKey()
 })
 
-function isActive(group) {
-  return route.path === group.path
+function currentRulesSubsectionKey() {
+  const p = route.path
+  if (p === EVENT_PATH || p.startsWith(EVENT_PATH + '/')) return 'event'
+  if (p === COMBAT_PATROL_PATH || p.startsWith(COMBAT_PATROL_PATH + '/')) return 'combat-patrol'
+  if (p === CORE_PATH || p.startsWith(CORE_PATH + '/')) return 'core'
+  return null
+}
+
+function isSubsectionActive(item) {
+  return currentRulesSubsectionKey() === item.subsectionKey
+}
+
+function isActive(group, groups) {
+  if (route.path !== group.path) return false
+  if (!group.hash) return true
+  // Landing on a merged page (/core-rules, /event-companion) with no hash means the top of
+  // the page = its first chapter. `groups` is the subsection's own group list — find the
+  // first entry that shares THIS group's path, not just groups[0].
+  const first = groups.find((g) => g.path === group.path)
+  return (route.hash || first?.hash) === group.hash
 }
 
 function toggleSection(key) {
@@ -145,37 +245,50 @@ function isDirect(section) {
   return section.groups.length === 1 && !section.groups[0].sections.length
 }
 
-// Tap a section label → go to that section's main page (its first group). Tap a group label →
-// go to that page. The square chevron buttons handle expand/collapse without navigating.
+// Tap a section label → go to that section's main page (its first group/subsection). Tap a
+// group label → go to that page. The square chevron buttons handle expand/collapse without navigating.
 function goToSection(section) {
-  const path = section.groups[0]?.path
+  const path = section.groups.find((g) => g.path)?.path
   if (!path) return
   if (route.path !== path) router.push(path)
   emit('close')
 }
 
+// Tap a "rules" subsection label (Core Rules / Event Companion / Combat Patrol) → go to
+// its own landing page. The chevron toggles which subsection's group list is expanded.
+function goToSubsection(item) {
+  if (route.path !== item.path) router.push(item.path)
+  emit('close')
+}
+
+function toggleSubsection(item) {
+  expandedSubsection.value = expandedSubsection.value === item.subsectionKey ? null : item.subsectionKey
+}
+
 function goToGroup(group) {
+  // A Core Rules chapter is an anchor on the shared page, not a page of its own.
+  if (group.hash) return handleAnchorClick(group, group.hash.slice(1))
   if (route.path !== group.path) router.push(group.path)
   emit('close')
 }
 
 function toggleGroupExpand(group) {
-  expandedPath.value = expandedPath.value === group.path ? null : group.path
+  const key = groupKey(group)
+  expandedKey.value = expandedKey.value === key ? null : key
 }
 
-async function handleAnchorClick(path, id, filter) {
+async function handleAnchorClick(group, id, filter) {
   emit('close')
   if (filter) activeFilter.value = filter
-  if (route.path !== path) {
-    await router.push(path)
+  // Groups that anchor within a page (Core Rules chapters) put the anchor in the URL so the
+  // position is shareable; the others navigate to the page and scroll inside it.
+  const target = group.hash ? { path: group.path, hash: '#' + id } : group.path
+  if (route.path !== group.path || (group.hash && route.hash !== '#' + id)) {
+    await router.push(target)
   }
-  setTimeout(() => {
-    const el = document.getElementById(id)
-    if (el) {
-      const top = el.getBoundingClientRect().top + window.scrollY - 96
-      window.scrollTo({ top, behavior: 'smooth' })
-    }
-  }, 300)
+  // scrollToAnchor polls for the element rather than guessing a delay — needed on the Core
+  // Rules page, where a chapter that `content-visibility` has skipped isn't laid out yet.
+  scrollToAnchor(id, 96)
 }
 </script>
 
@@ -337,6 +450,23 @@ async function handleAnchorClick(path, id, filter) {
 .nav-group-label {
   display: flex;
   align-items: stretch;
+}
+
+/* The "rules" subsection's own group list (3rd accordion level) — indented one step
+   in from its subsection header. The guide line is drawn per-row (not once on this
+   container) so it isn't at the mercy of CollapseTransition's animated grid-row height
+   — stacked rows have no gap, so the per-row segments still read as one continuous line. */
+.nav-subgroups {
+  margin-left: 1rem;
+}
+
+.nav-group--nested {
+  padding-left: 0.6rem;
+  border-left: 1px solid var(--border);
+}
+
+.nav-group--nested .nav-group-link {
+  font-size: 0.85rem;
 }
 
 .nav-group-link {

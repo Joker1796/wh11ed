@@ -22,7 +22,7 @@ const STORM_OF_BOLTS =
 const SHOCK_CHARGE =
   'Вы можете выбрать эту модель целью стратагемы Tank Shock за 0 CP и можете сделать это, даже если вы уже выбирали целью этой стратагемы другой юнит в этой фазе.'
 const PROTECTION_PROTOCOLS =
-  'Вы можете выбрать этот юнит целью стратагемы Heroic Intervention за 0 CP и можете сделать это, даже если вы уже выбирали целью этой стратагемы другой юнит в этой фазе.'
+  'Вы можете выбрать этот юнит целью стратагемы Heroic Intervention независимо от любых других применений этой стратагемы в этой фазе. Если вы это делаете:\n▪ Это применение стоит на 1 CP меньше.\n▪ Это применение не мешает применить эту стратагему на других юнитах в этой фазе.'
 const REPAIR_AUTOSIM =
   'В конце вашей фазы командования эта модель восстанавливает до D3 потерянных ран.'
 const GRAV_PINNED =
@@ -39,8 +39,8 @@ export default {
     flavor:
       'Некогда пленник Iron Warriors, Sir Hekhtur выстоял под мучительными пытками и спасся лишь благодаря несокрушимой вере, решимости и чести. Ныне он странствует по галактике, освобождая имперских граждан, порабощённых силами Архиврага.',
     loadout:
-      '**Эта модель вооружена:** Hekhtur’s pistol; close combat weapon.',
-    composition: ['1 Sir Hekhtur', 'Выставляется при уничтожении Canis Rex (см. Canis Rex).'],
+      '**Sir Hekhtur вооружён:** Hekhtur’s pistol; close combat weapon.',
+    composition: ['1 Sir Hekhtur – EPIC HERO'],
     options: NONE,
   },
 
@@ -107,11 +107,13 @@ export default {
   },
 
   'canis-rex': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Канис Рекс'],
     flavor:
       'Canis Rex — последний неосквернённый осколок Дома Cerberan. Под управлением своего пилота, сэра Хектура, Canis Rex стал прославленной легендой. Свирепость — а порой и явная интуитивная самостоятельность — его духа машины делает этого Knight смертоносным на поле боя. Пульсирующими залпами лазерного огня и сокрушительными взмахами исполинского кулака он безжалостно давит поработителей-угнетателей.',
     abilities: {
       'Legendary Freeblade':
-        'Один раз за ход, когда вы выбираете эту модель целью стратагемы, вы можете уменьшить стоимость этого применения этой стратагемы на 1 CP.',
+        'Один раз за ход вы можете выбрать эту модель целью стратагемы за 0 CP и можете сделать это, даже если вы уже выбирали целью этой стратагемы другой юнит в этой же фазе.',
       Chainbreaker:
         'Один раз за битву, в начале любой фазы, вы можете выбрать один дружественный юнит Imperium, что находится в боевом шоке и в пределах 12" от этой модели. Этот юнит больше не в боевом шоке.',
     },
@@ -239,8 +241,7 @@ export default {
       '**Эта модель вооружена:** 1 chastiser gatling cannon;\n1 frag bombard; 1 Questoris heavy stubber; 1 titanic feet.',
     options: [
       'chastiser gatling cannon этой модели можно заменить на одно из следующего:\n▪ 1 bellatus reaper chainsword*\n▪ 1 thundershock spear*',
-      'frag bombard этой модели можно заменить на одно из следующего:\n▪ 1 bellatus reaper chainsword*\n▪ 1 thundershock spear*',
-      '* Модель не может быть снаряжена более чем одним bellatus reaper chainsword или более чем одним thundershock spear.',
+      'frag bombard этой модели можно заменить на одно из следующего:\n▪ 1 bellatus reaper chainsword*\n▪ 1 thundershock spear*\n\n* Модель не может быть снаряжена более чем одним bellatus reaper chainsword или более чем одним thundershock spear.',
     ],
   },
 
@@ -292,7 +293,7 @@ export default {
     },
     damaged: { note: 'осталось 1–9 ран', text: dmg('1–9', 5) },
     loadout:
-      '**Эта модель вооружена:** meltagun; Questoris heavy stubber; rapid-fire battlecannon; reaper chainsword.',
+      '**Эта модель вооружена:** meltagun; Questoris heavy stubber; rapid-fire battle cannon; reaper chainsword.',
     options: [
       'meltagun этой модели можно заменить на 1 Questoris heavy stubber.',
       'reaper chainsword этой модели можно заменить на 1 thunderstrike gauntlet.',
@@ -311,7 +312,7 @@ export default {
     },
     damaged: { note: 'осталось 1–9 ран', text: dmg('1–9', 5) },
     loadout:
-      '**Эта модель вооружена:** las-impulsor; Preceptor multi-laser; reaper chainsword.',
+      '**Эта модель вооружена:** las-impulsor; Questoris multi-laser; reaper chainsword.',
     options: [
       'Questoris multi-laser этой модели можно заменить на одно из следующего:\n▪ 1 meltagun\n▪ 1 Questoris heavy stubber',
       'reaper chainsword этой модели можно заменить на 1 thunderstrike gauntlet.',

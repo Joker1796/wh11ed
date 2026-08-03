@@ -21,7 +21,7 @@ const rel = abs => relative(IMAGES_DIR, abs).split('\\').join('/')
 
 // Icons render via plain <img> (not AppImage) — skip them. Mirrors iconSpec() in gen-webp.mjs.
 function isIcon(name) {
-  return name.startsWith('marker-') || name.startsWith('dispo-') || name.startsWith('legend-')
+  return name.startsWith('marker-') || name.startsWith('dispo-') || name.startsWith('legend-') || name.startsWith('icon-')
 }
 
 async function* walk(dir) {

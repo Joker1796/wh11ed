@@ -1,9 +1,9 @@
 // Chaos Knights — faction rules. Resolved from the same source priority as the other
 // factions (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: imported from the Wahapedia CSV exports via scripts/import-wahapedia.mjs →
+//   Codex layer: imported from the codex →
 //     5 detachments (Helhunt Lance, Houndpack Lance, Infernal Lance, Lords of Dread,
-//     Traitoris Lance). Wahapedia already carries most pack updates; the remaining diffs
+//     Traitoris Lance). The codex text already carries most pack updates; the remaining diffs
 //     are folded in below (inline notes). Helhunt Lance is also printed in the Faction
 //     Pack (identical text) — marked source: 'faction-pack'.
 //   Faction Pack v1.0 (sources/Faction pack 11 ed/chaos/ChaosKnights.pdf) → 2 pack
@@ -48,11 +48,11 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
   },
 
   detachments: [
-    // ─────────────── CODEX DETACHMENTS (via Wahapedia import) ───────────────
+    // ─────────────── CODEX DETACHMENTS ───────────────
     {
       id: "helhunt-lance",
       name: "Helhunt Lance",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 2,
       forceDisposition: "Disruption",
       rule: {
@@ -124,7 +124,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           flavor: "Firing upon adamantine monsters only goads them to greater wrath and more ferocious bloodshed.",
           when: "Your opponent’s Shooting phase, just after an enemy unit has shot.",
           target: "One CHAOS KNIGHTS unit from your army that lost one or more wounds as a result of those attacks.",
-          effect: "Your unit can make a Surge move. To do so, roll one D6: models in your unit move a number of inches up to the result, but your unit must end that move as close as possible to the closest enemy unit (excluding AIRCRAFT). When doing so, those models can be moved within Engagement Range of that enemy unit.",
+          effect: "Your unit can make a surge move of up to D6\".",
           restrictions: "",
         },
       ],
@@ -254,7 +254,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           name: "Loping Predator",
           points: 10,
           flavor: "This swift attacker is adept at firing on the move, trusting the predatory senses of their War Dogs machine spirit to single out targets of opportunity.",
-          body: "War Dog model only. The bearer’s ranged weapons have the [assault] ability.",
+          body: "War Dog model only. The bearer’s ranged weapons have the [ASSAULT] ability.",
         },
         {
           name: "Panoply of the Cursed Knights",
@@ -274,7 +274,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
       rule: {
         name: "Malefic Surge",
         flavor: "Calling upon heretical - often supernatural - powers, these Knights are infused with strange and terrible might.",
-        body: "In your Command phase, one or more Chaos Knights units from your army can make a Malefic Surge. Each one that does must first take a Leadership test; if that test is failed, that unit suffers D3 mortal wounds. Then, until the start of your next Command phase, that unit is Empowered. While a unit is Empowered it can use one of the Malefic Surge abilities below. Once that unit has used a Malefic Surge ability, it is no longer Empowered.\n▪ **Unholy Hunger:** When a model in this unit makes a Normal, Advance or Fall Back move, until the end of the phase, add 3\" to its Move characteristic.\n▪ **Diabolic Power:** When this unit is selected to shoot or fight, select either the [LETHAL HITS] or [SUSTAINED HITS 1] ability. Until the end of the phase, weapons equipped by models in this unit have the selected ability.\n▪ **Unnatural Fortitude:** When this unit is selected as the target of an attack, until the end of the phase, select one of the following:\n▪ Models in this unit have a 5+ invulnerable save.\n▪ Models in this unit have the Feel No Pain 6+ ability.\n\n**Designer’s Note:** We recommend placing a token next to Chaos Knights models that are Empowered, removing it once they have used a Malefic Surge ability, and removing all unused tokens at the start of your Command phase.",
+        body: "In your Command phase, one or more Chaos Knights units from your army can make a Malefic Surge. Each one that does must first take a Leadership test; if that test is failed, that unit suffers D3 mortal wounds. Then, until the start of your next Command phase, that unit is Empowered. While a unit is Empowered it can use one of the Malefic Surge abilities below. Once that unit has used a Malefic Surge ability, it is no longer Empowered.\n▪ **Unholy Hunger:** When a model in this unit makes a Normal, Advance or Fall Back move, until the end of the phase, add 3\" to its Move characteristic.\n▪ **Diabolic Power:** When this unit is selected to shoot or fight, select either the [LETHAL HITS] or [SUSTAINED HITS 1] ability. Until the end of the phase, weapons equipped by models in this unit have the selected ability.\n▪ **Unnatural Fortitude:** When this unit is selected as the target of an attack, select one of the following to apply until the end of the phase:\n▪ Models in this unit have a 5+ invulnerable save.\n▪ Models in this unit have the Feel No Pain 6+ ability.\n\n**Designer’s Note:** We recommend placing a token next to Chaos Knights models that are Empowered, removing it once they have used a Malefic Surge ability, and removing all unused tokens at the start of your Command phase.",
       },
       stratagems: [
         {
@@ -367,7 +367,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           name: "Bestial Aspect",
           points: 30,
           flavor: "The machine spirit of this Knight suit has become so ferocious and blood-hungry that it now moves and hunts like a monstrous beast.",
-          body: "CHAOS KNIGHTS model only. The bearer’s ranged weapons have the [assault] ability. While the bearer is using the Unholy Hunger ability, it can ignore any or all modifiers to its Move characteristic and/or to Advance rolls made for its unit.",
+          body: "CHAOS KNIGHTS model only. The bearer’s ranged weapons have the [ASSAULT] ability. While the bearer is using the Unholy Hunger ability, it can ignore any or all modifiers to its Move characteristic and/or to Advance rolls made for its unit.",
         },
       ],
     },
@@ -533,7 +533,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           flavor: "Fallen Nobles sneer at the pathetic efforts of their foes, doubly so in the case of those who fear them.",
           when: "Fight phase, just after an enemy unit has selected its targets.",
           target: "One Chaos Knights unit from your army that was selected as the target of one or more of the attacking unit’s attacks.",
-          effect: "Until the end of the phase, models in your unit have the Feel No Pain 6+ ability, and the Feel No Pain 5+ ability against attacks made by Battle-shocked models.",
+          effect: "Until the end of the phase, your model has the Feel No Pain 6+ ability, and the Feel No Pain 5+ ability against attacks made by Battle-shocked models.",
           restrictions: "",
         },
         {
@@ -544,7 +544,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           flavor: "Through dark rituals and dread pacts, the Chaos Knights draw upon the fear and despair of their foes and bind it into a curse upon the land itself, wreathing themselves in a shrouding pall.",
           when: "Your opponent’s Shooting phase, just after an enemy unit has selected its targets.",
           target: "One Chaos Knights unit from your army that was selected as the target of one or more of the attacking unit’s attacks.",
-          effect: "Until the end of the phase, models in your unit have the Stealth ability, and each time an attack targets your unit, models in it have the Benefit of Cover against that attack.",
+          effect: "▪ Your unit has Stealth.\n▪ Melee attacks that target your unit have -1 to Hit rolls.",
           restrictions: "",
         },
         {
@@ -554,7 +554,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           turn: "your",
           flavor: "The neural connections between Fallen Nobles and doggedly loyal or fearful War Dog pilots can extend over remarkable distances.",
           when: "Your Command phase.",
-          target: "One Abhorrent unit from your army and up to two friendly War Dog units.",
+          target: "One Abhorrent model from your army and up to two friendly War Dog units.",
           effect: "Until the start of your next Command phase, those WAR DOG units are treated as being within range of any Aura abilities your ABHORRENT unit has.",
           restrictions: "",
         },
@@ -628,7 +628,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           cp: "1CP",
           turn: "your",
           flavor: "Eager to unleash the full power at their fingertips, the scion of a Knight Tyrant will allow nothing to impede their devastating arsenal.",
-          when: "Your Movement phase, when a friendly KNIGHT TYRANT unit is selected to make a Fall Back move.",
+          when: "Your Movement phase, when a friendly KNIGHT TYRANT unit is selected to make a fall-back move.",
           target: "That KNIGHT TYRANT unit.",
           effect: "That move does not prevent your unit from being eligible to shoot.",
           restrictions: "",
@@ -656,7 +656,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           name: "Hate-filled Dominion",
           points: 20,
           flavor: "This arrogant despot has yoked their weapon spirits to their will with a dominion forged of pure hate. Every maximised salvo is an expression of their malice and tyranny.",
-          body: "KNIGHT TYRANT model only. This unit can re-roll rolls to determine the Attacks characteristic of a weapon.",
+          body: "KNIGHT TYRANT model only. This unit can re-roll rolls to determine the A of a weapon.",
         },
       ],
     },
@@ -704,7 +704,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           flavor: "With a prize under their talons, War Dogs are adept at evading the prey\u2019s sight by loping low through cover.",
           when: "Your opponent\u2019s Shooting phase, when an enemy unit targets a friendly WAR DOG unit within range of an objective.",
           target: "That WAR DOG unit.",
-          effect: "Ranged attacks that target your unit have -1 Armour Penetration until that enemy unit has attacked.",
+          effect: "Ranged attacks that target your unit have -1 AP until that enemy unit has attacked.",
           restrictions: "",
         },
       ],
@@ -714,14 +714,14 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           points: 15,
           upgrade: true,
           flavor: "Those Huntsmen darkly blessed with a daemonic device sensitive to a worthy prey\u2019s spirits are capable of killing shots at greater effective ranges.",
-          body: "HUNTSMAN unit only. This unit\u2019s ranged attacks have +6\" Range.",
+          body: "HUNTSMAN unit only. This unit\u2019s ranged attacks have +6\" R.",
         },
         {
           name: "Snarling Rivalry",
           points: 10,
           upgrade: true,
           flavor: "The greatest Executioners are expert long-range killers. They viciously compete for tallies of slaughter and eagerly eviscerate dug-in foes to prove their skill.",
-          body: "EXECUTIONER unit only. This unit\u2019s ranged attacks have the [IGNORES COVER] ability.",
+          body: "EXECUTIONER unit only. This unit\u2019s ranged attacks have [IGNORES COVER].",
         },
       ],
     },
@@ -748,7 +748,7 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           flavor: "As the object of their adulation is consumed by fire, mortal worshippers are roused to a desperate fury, seeking vengeance on behalf of their deceased master.",
           when: "Any phase, when a friendly CHAOS KNIGHTS unit is destroyed by an enemy unit.",
           target: "That enemy unit.",
-          effect: "That enemy unit is marked until the end of the battle. Friendly DAMNED units\u2019 attacks that target a marked unit have the [LETHAL HITS] ability.",
+          effect: "That enemy unit is marked until the end of the battle. Friendly DAMNED units\u2019 attacks that target a marked unit have [LETHAL HITS].",
           restrictions: "",
         },
         {
@@ -780,14 +780,14 @@ Each time a model with this ability makes a Normal, Advance or Fall Back move, i
           points: 25,
           aura: true,
           flavor: "This callous Fallen Noble drives teeming hordes of their twisted serfs at a desperate pace to overwhelm their prey with lesser targets.",
-          body: "CHAOS KNIGHTS model only. While a friendly DAMNED unit is within 6\" of this model, when that unit is selected to make a Normal, Advance or Fall Back move, that unit has +2\" Move until the end of the phase.",
+          body: "CHAOS KNIGHTS model only. While a friendly DAMNED unit is within 6\" of this model, when that unit is selected to make a normal/advance/fall-back move, that unit has +2\" M until the end of the phase.",
         },
         {
           name: "Iconoclast Idol",
           points: 20,
           aura: true,
           flavor: "Chanting mortal thralls have pledged their lives and souls to this Chaos Knight\u2019s defence, and throw themselves at any who dare threaten the object of their idolatry.",
-          body: "CHAOS KNIGHTS model only. While a friendly DAMNED unit is within 6\" of this model, when you target that unit with the Heroic Intervention Stratagem, that use is -1CP.",
+          body: "CHAOS KNIGHTS model only. While a friendly DAMNED unit is within 6\" of this model, when you target that unit with the Heroic Intervention Stratagem, that use is -1 CP.",
         },
       ],
     },

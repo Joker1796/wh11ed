@@ -282,3 +282,104 @@ describe('localStorage hydration', () => {
     expect(fresh.current.value.currentRound).toBe(2)
   })
 })
+
+describe('toggleArmyMulti (World Eaters Blessings — up to N per round)', () => {
+  beforeEach(() => tracker.newGame(setupGame()))
+
+  it('adds, caps at max, and toggles off per round', () => {
+    const p = () => tracker.current.value.players[0].army?.multiByRound
+
+    tracker.toggleArmyMulti(0, 1, 'a', 2)
+    tracker.toggleArmyMulti(0, 1, 'b', 2)
+    expect(p()[1]).toEqual(['a', 'b'])
+
+    // At the cap, a third pick is ignored.
+    tracker.toggleArmyMulti(0, 1, 'c', 2)
+    expect(p()[1]).toEqual(['a', 'b'])
+
+    // Tapping an active option removes it, freeing a slot.
+    tracker.toggleArmyMulti(0, 1, 'a', 2)
+    expect(p()[1]).toEqual(['b'])
+    tracker.toggleArmyMulti(0, 1, 'c', 2)
+    expect(p()[1]).toEqual(['b', 'c'])
+
+    // Choices are per-round; a later round starts empty.
+    tracker.toggleArmyMulti(0, 2, 'a', 2)
+    expect(p()[2]).toEqual(['a'])
+    expect(p()[1]).toEqual(['b', 'c'])
+  })
+
+  it('drops a round key once its last pick is removed', () => {
+    tracker.toggleArmyMulti(0, 1, 'a', 2)
+    tracker.toggleArmyMulti(0, 1, 'a', 2)
+    expect(tracker.current.value.players[0].army.multiByRound[1]).toBeUndefined()
+  })
+})
+
+describe('resurrectArmyUnit / undoArmyResurrect (GSC resurrect spend log)', () => {
+  beforeEach(() => tracker.newGame(setupGame()))
+
+  it('subtracts the cost and records the entry', () => {
+    tracker.resurrectArmyUnit(0, 6, 'Aberrants ×5', 4)
+    const army = tracker.current.value.players[0].army
+    expect(army.counter).toBe(6)
+    expect(army.resurrected).toEqual([{ label: 'Aberrants ×5', cost: 4 }])
+
+    tracker.resurrectArmyUnit(0, 4, 'Purestrains ×5', 2)
+    expect(tracker.current.value.players[0].army.resurrected).toEqual([
+      { label: 'Aberrants ×5', cost: 4 },
+      { label: 'Purestrains ×5', cost: 2 },
+    ])
+  })
+
+  it('clamps the counter at 0', () => {
+    tracker.resurrectArmyUnit(0, -3, 'Aberrants ×10', 8)
+    expect(tracker.current.value.players[0].army.counter).toBe(0)
+  })
+
+  it('undo refunds the cost and drops the entry', () => {
+    tracker.resurrectArmyUnit(0, 6, 'Aberrants ×5', 4)
+    tracker.resurrectArmyUnit(0, 4, 'Purestrains ×5', 2)
+    tracker.undoArmyResurrect(0, 0) // undo the Aberrants entry
+    const army = tracker.current.value.players[0].army
+    expect(army.resurrected).toEqual([{ label: 'Purestrains ×5', cost: 2 }])
+    expect(army.counter).toBe(8) // 4 + refunded 4
+
+    tracker.undoArmyResurrect(0, 0) // undo the remaining entry
+    expect(tracker.current.value.players[0].army.resurrected).toBeUndefined()
+  })
+
+  it('does nothing for an out-of-range index', () => {
+    tracker.resurrectArmyUnit(0, 6, 'Aberrants ×5', 4)
+    tracker.undoArmyResurrect(0, 5)
+    expect(tracker.current.value.players[0].army.resurrected).toHaveLength(1)
+  })
+})
+
+describe('applyArmyBonus / undoArmyBonus (GSC round-1 start bonus)', () => {
+  beforeEach(() => tracker.newGame(setupGame()))
+
+  it('applies once and flags bonusApplied', () => {
+    tracker.applyArmyBonus(0, 12)
+    const army = tracker.current.value.players[0].army
+    expect(army.counter).toBe(12)
+    expect(army.bonusApplied).toBe(true)
+
+    // A second call is a no-op (already applied) even with a different value.
+    tracker.applyArmyBonus(0, 99)
+    expect(tracker.current.value.players[0].army.counter).toBe(12)
+  })
+
+  it('undo clears the flag and restores the counter', () => {
+    tracker.applyArmyBonus(0, 12)
+    tracker.undoArmyBonus(0, 10)
+    const army = tracker.current.value.players[0].army
+    expect(army.counter).toBe(10)
+    expect(army.bonusApplied).toBeUndefined()
+  })
+
+  it('undo is a no-op when the bonus was never applied', () => {
+    tracker.undoArmyBonus(0, 10)
+    expect(tracker.current.value.players[0].army.counter).toBeUndefined()
+  })
+})

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { search, highlightMatch, preloadDatasheetIndex } from './useSearch.js'
+import { search, highlightMatch, preloadDatasheetIndex, preloadFactionRulesIndex, preloadCombatPatrolIndex } from './useSearch.js'
 
 describe('search', () => {
   it('returns nothing for an empty or sub-2-char query', () => {
@@ -62,7 +62,7 @@ describe('search', () => {
     const hit = res.find((r) => r.sectionNum === '01.02')
     expect(hit).toBeTruthy()
     expect(hit.title).toBe('Юниты и модели')
-    expect(hit.route).toBe('/basic-rules')
+    expect(hit.route).toBe('/core-rules')
   })
 
   it('also works the other way: a Russian query in the EN locale finds the EN-displayed result', () => {
@@ -72,7 +72,7 @@ describe('search', () => {
     const hit = res.find((r) => r.sectionNum === '01.02')
     expect(hit).toBeTruthy()
     expect(hit.title).toBe('Units and Models')
-    expect(hit.route).toBe('/basic-rules')
+    expect(hit.route).toBe('/core-rules')
   })
 
   it('does not duplicate a result that matches both natively and cross-lingually', () => {
@@ -121,6 +121,107 @@ describe('datasheet unit search', () => {
     for (let i = 1; i < res.length; i++) {
       expect(res[i - 1].score).toBeGreaterThanOrEqual(res[i].score)
     }
+  })
+
+  it('finds units by a name-pattern alias shared across a whole class of unit (e.g. "термосы" for any Terminator-type datasheet)', async () => {
+    // This class-wide nickname (src/data/datasheetAliasRulesRu.js) matches dozens of
+    // Terminator-type datasheets across many factions — more than search()'s top-10 cap, so
+    // don't assert on any one specific faction's result surviving the cap, just that the
+    // mechanism actually fires and surfaces the alias.
+    await preloadDatasheetIndex()
+    const res = search('термосы', 'ru')
+    expect(res.length).toBeGreaterThan(0)
+    expect(res.every((r) => r.title.includes('Terminator'))).toBe(true)
+    expect(res.every((r) => r.titleRu === 'термосы')).toBe(true)
+  })
+
+  it('finds a unit by its RU alias/nickname and surfaces which alias matched', async () => {
+    await preloadDatasheetIndex()
+    const res = search('газя', 'ru')
+    const unit = res.find((r) => r.route === '/factions/orks/datasheets/ghazghkull-thraka')
+    expect(unit).toBeTruthy()
+    expect(unit.title).toBe('Ghazghkull Thraka') // the displayed name stays English
+    expect(unit.titleRu).toBe('Газя')
+  })
+
+  it('does not surface an alias subline when the query matched the unit name itself', async () => {
+    await preloadDatasheetIndex()
+    const res = search('ghazghkull', 'ru')
+    const unit = res.find((r) => r.route === '/factions/orks/datasheets/ghazghkull-thraka')
+    expect(unit).toBeTruthy()
+    expect(unit.titleRu).toBe('')
+  })
+
+  it('still finds a unit by RU alias in the EN locale, but without the alias subline', async () => {
+    // Same cross-lingual convention as faction-rules search (a query in either language finds
+    // a result) — only the *display* of which alias matched is locale-gated.
+    await preloadDatasheetIndex()
+    const res = search('газя', 'en')
+    const unit = res.find((r) => r.route === '/factions/orks/datasheets/ghazghkull-thraka')
+    expect(unit).toBeTruthy()
+    expect(unit.titleRu).toBe('')
+  })
+})
+
+describe('faction rules search', () => {
+  it('anchors a stratagem result to its own card, not the detachment heading', async () => {
+    await preloadFactionRulesIndex()
+    const res = search('Wall of Mirrors', 'en')
+    const hit = res.find((r) => r.route === '/factions/tau-empire')
+    expect(hit).toBeTruthy()
+    // Its own card id (strat-<detachment>-<slug>), not just the detachment's id ('kauyon').
+    expect(hit.id).toBe('strat-kauyon-wall-of-mirrors')
+    expect(hit.detSlug).toBe('tau-empire')
+    expect(hit.detId).toBe('kauyon')
+  })
+
+  it('anchors an enhancement result to its own card', async () => {
+    await preloadFactionRulesIndex()
+    const res = search('Adept of the Codex', 'en')
+    const hit = res.find((r) => r.route === '/factions/space-marines')
+    expect(hit).toBeTruthy()
+    expect(hit.id).toBe('enh-gladius-task-force-adept-of-the-codex')
+  })
+
+  it('finds an army-rule h4 subheading (a Templar Vow) and anchors to it, with its RU caption', async () => {
+    await preloadFactionRulesIndex()
+    const res = search('Uphold the Honour of the Emperor', 'ru')
+    const hit = res.find((r) => r.route === '/factions/black-templars')
+    expect(hit).toBeTruthy()
+    expect(hit.id).toBe('templar-vows-h4')
+    expect(hit.titleRu).toBe('Отстоять честь Императора')
+    // No detachment to select first — the army rule is always rendered.
+    expect(hit.detSlug).toBeUndefined()
+  })
+
+  it('finds a detachment-rule h4 subheading and anchors to it, selecting its detachment', async () => {
+    await preloadFactionRulesIndex()
+    const res = search('Fallout', 'ru')
+    const hit = res.find((r) => r.route === '/factions/adeptus-mechanicus')
+    expect(hit).toBeTruthy()
+    expect(hit.id).toBe('rad-zone-corps-rule-h2')
+    expect(hit.titleRu).toBe('Осадки')
+    expect(hit.detSlug).toBe('adeptus-mechanicus')
+    expect(hit.detId).toBe('rad-zone-corps')
+  })
+})
+
+describe('combat patrol search', () => {
+  it('finds a Combat Patrol stratagem by name, with its RU caption, and routes to the box page', async () => {
+    await preloadCombatPatrolIndex()
+    const res = search('Gauss Storm', 'ru')
+    const hit = res.find((r) => r.route === '/combat-patrol/necrons')
+    expect(hit).toBeTruthy()
+    expect(hit.id).toBe('cp-strat-necrons-gauss-storm')
+    expect(hit.titleRu).toBe('Гауссова буря')
+  })
+
+  it('finds the Combat Patrol army rule by name and anchors to its RuleBlock', async () => {
+    await preloadCombatPatrolIndex()
+    const res = search('Reanimation Protocols', 'en')
+    const hit = res.find((r) => r.route === '/combat-patrol/necrons')
+    expect(hit).toBeTruthy()
+    expect(hit.id).toBe('cp-necrons-army-rule')
   })
 })
 

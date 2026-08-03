@@ -101,6 +101,8 @@ export default {
   },
 
   'chaplain-grimaldus': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Гримальд', 'Гримальдус'],
     flavor:
       'Верховный капеллан Гримальдус — маяк имперской веры. Его стойкость такова, что многие братья верят в его непобедимость. Воля его нераздельна, рвение холодно-яростно, а боевое мастерство подтверждено вереницей поверженных врагов у его ног. Его Cenobyte Servitor ковыляют на войну рядом с ним, неся с собой священные реликвии веры.',
     abilities: {
@@ -187,6 +189,8 @@ export default {
   },
 
   'high-marshal-helbrecht': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Хелбрехт'],
     flavor:
       'Хелбрехт — живое воплощение воинского духа своего Ордена. Владея Sword of the High Marshals, он врывается в схватку, рыча клятвы мести, ведя неудержимую атаку. Братья следуют за ним без вопросов, ибо верят: где ступает Верховный маршал Хелбрехт, там идёт и сам Император.',
     abilities: {
