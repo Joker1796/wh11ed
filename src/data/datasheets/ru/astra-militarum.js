@@ -436,6 +436,8 @@ export default {
   },
 
   'commissar-yarrick': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Яррик', 'Ярик'],
     flavor:
       'Мало кто из чемпионов Империума вдохновляет простых солдат так, как комиссар Себастьян Яррик. Он и сам способен прорубить просеку сквозь врагов, нанося громовые удары своей трофейной power klaw, выкашивая их из storm bolter и пуская лазерные разряды из своего окулярного аугметика — так называемого Bale Eye.',
     abilities: {
@@ -1180,6 +1182,10 @@ export default {
   },
 
   'ursula-creed': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    // Note: the approved list said "Ursarkar E. Creed" / "Урсакар Крид" — this dataset's current
+    // datasheet is "Ursula Creed" (GW's newer version of the character), so the alias targets her.
+    aliasesRu: ['Урсула Крид', 'Крид'],
     flavor:
       'Лорд-кастелян Кадии — суровый и неумолимый стратег и символ непреходящей несокрушимости армий Кадии. Превосходное полководчество Урсулы Крид, выкованное за долгие годы, привело множество имперских армий к победе над врагами, что угрожают Империуму.',
     abilities: {

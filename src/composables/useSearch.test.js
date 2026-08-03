@@ -122,6 +122,45 @@ describe('datasheet unit search', () => {
       expect(res[i - 1].score).toBeGreaterThanOrEqual(res[i].score)
     }
   })
+
+  it('finds units by a name-pattern alias shared across a whole class of unit (e.g. "термосы" for any Terminator-type datasheet)', async () => {
+    // This class-wide nickname (src/data/datasheetAliasRulesRu.js) matches dozens of
+    // Terminator-type datasheets across many factions — more than search()'s top-10 cap, so
+    // don't assert on any one specific faction's result surviving the cap, just that the
+    // mechanism actually fires and surfaces the alias.
+    await preloadDatasheetIndex()
+    const res = search('термосы', 'ru')
+    expect(res.length).toBeGreaterThan(0)
+    expect(res.every((r) => r.title.includes('Terminator'))).toBe(true)
+    expect(res.every((r) => r.titleRu === 'термосы')).toBe(true)
+  })
+
+  it('finds a unit by its RU alias/nickname and surfaces which alias matched', async () => {
+    await preloadDatasheetIndex()
+    const res = search('газя', 'ru')
+    const unit = res.find((r) => r.route === '/factions/orks/datasheets/ghazghkull-thraka')
+    expect(unit).toBeTruthy()
+    expect(unit.title).toBe('Ghazghkull Thraka') // the displayed name stays English
+    expect(unit.titleRu).toBe('Газя')
+  })
+
+  it('does not surface an alias subline when the query matched the unit name itself', async () => {
+    await preloadDatasheetIndex()
+    const res = search('ghazghkull', 'ru')
+    const unit = res.find((r) => r.route === '/factions/orks/datasheets/ghazghkull-thraka')
+    expect(unit).toBeTruthy()
+    expect(unit.titleRu).toBe('')
+  })
+
+  it('still finds a unit by RU alias in the EN locale, but without the alias subline', async () => {
+    // Same cross-lingual convention as faction-rules search (a query in either language finds
+    // a result) — only the *display* of which alias matched is locale-gated.
+    await preloadDatasheetIndex()
+    const res = search('газя', 'en')
+    const unit = res.find((r) => r.route === '/factions/orks/datasheets/ghazghkull-thraka')
+    expect(unit).toBeTruthy()
+    expect(unit.titleRu).toBe('')
+  })
 })
 
 describe('faction rules search', () => {

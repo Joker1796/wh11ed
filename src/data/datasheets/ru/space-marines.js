@@ -1219,6 +1219,8 @@ export default {
   },
 
   'roboute-guilliman': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Жиллиман', 'Гиллиман', 'Жиля', 'Робуте', 'Жилиман'],
     flavor:
       'В одной руке Жиллимана пылает горящий Emperor’s Sword. Другая закована в Hand of Dominion — латную перчатку, которой Жиллиман разрывает танки. Но величайшее его оружие — стратегический блеск: его враги переиграны и передуманы ещё до того, как битва началась.',
     abilities: {

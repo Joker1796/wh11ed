@@ -21,6 +21,8 @@ const dmgHitMinus = (range) =>
 
 export default {
   ahriman: {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Ариман'],
     flavor:
       'Ариман сражается с исключительной сосредоточенностью и пугающей решимостью. На расстоянии он обрушивает бури псионической ярости, что преображают, мутируют и стирают из бытия всех, кто встал перед ним. Пикируя на своём Disc of Tzeentch, Верховный Чародей поражает уцелевших своим ужасающим Black Staff.',
     abilities: {
@@ -305,6 +307,8 @@ export default {
   },
 
   'magnus-the-red': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Магнус Красный', 'Магнус'],
     flavor:
       'Никто не смеет встретить одноглазый взор Багрового Короля. Он — нексус чародейских энергий, разумное слияние судьбы и магии, заключённое в мерцающей плоти демонического полубога. Магнус обрушивает свою магию неудержимой бурей, и счастливейшие из его жертв — те, кто умирает быстро.',
     abilities: {
