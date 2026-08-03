@@ -5,6 +5,10 @@
       <i class="bi bi-book-half"></i>
       <span>{{ labels.navRules }}</span>
     </button>
+    <RouterLink to="/roster" class="bn-item" :class="{ active: isRosterRoute }">
+      <i class="bi bi-clipboard-plus"></i>
+      <span>{{ labels.navRoster }}</span>
+    </RouterLink>
     <button type="button" class="bn-item" :class="{ active: isFactionRoute && !isUnitsRoute }" @click="$emit('open-factions')">
       <i class="bi bi-shield-shaded"></i>
       <span>{{ labels.navFactions }}</span>
@@ -37,7 +41,7 @@ const labels = computed(() => ui[locale.value])
 
 const {
   isRulesRoute, isFactionRoute, isUnitsRoute, unitsNavPath,
-  isStratagemsRoute, isTrackerRoute,
+  isStratagemsRoute, isTrackerRoute, isRosterRoute,
 } = useRouteSection()
 </script>
 

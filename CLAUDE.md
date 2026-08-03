@@ -235,8 +235,9 @@ against the source PDF) — see `src/components/event/CLAUDE.md`.
 Third top-level section (`/tracker`) — a client-side, offline 2-player VP tracker for a game
 of 40k 11th ed. **Not part of the rules-reference data pipeline above.** See
 `src/components/tracker/CLAUDE.md` for the setup wizard, scoring, secondaries, twists and
-data shapes. **Roster Builder** (`/roster*`) rides with this section in nav and hands a built
-roster off to it — see `src/components/roster/CLAUDE.md`.
+data shapes. **Roster Builder** (`/roster*`) is its own top-level nav section (next to
+Tracker, not nested in it) and hands a built roster off to this one — see
+`src/components/roster/CLAUDE.md`.
 
 ## Adding content
 
