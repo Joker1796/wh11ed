@@ -71,7 +71,7 @@ Immortals/Obliterators — множественное число). Так же �
 
 ## Статус
 
-**384 из 1434** юнитов с `aliasesRu` (личные + 42 паттерна в `datasheetAliasRulesRu.js`).
+**392 из 1434** юнитов с `aliasesRu` (личные + 42 паттерна в `datasheetAliasRulesRu.js`).
 `npm test` — 263/263, `npm run build` — чисто. **Не проверено вживую в браузере** (нет браузерного тулинга в сессии) — логика
 проверена юнит-тестами и ручными node-симуляциями `searchDatasheets` на реальном индексе по
 многим запросам каждой партии. **Детали последней партии — `ALIASES-BATCH.local.md`** (не в
@@ -87,34 +87,36 @@ adepta-sororitas (2/9), astra-militarum (6/9), dark-angels (6/6), space-wolves (
 blood-angels (5/5), tau-empire (3/5, без Ri'Lantar/Ri'Locai), emperors-children (2/3, без
 Shalaxi Helbane), world-eaters (3/4), drukhari (3/3, кроме запрошенных-но-отсутствующих),
 imperial-knights (2/2), adeptus-mechanicus (2/2), tyranids (4/9, без Deathleaper/Old One Eye),
-imperial-agents (4/8 именных + 4 Assassin-класса-титула). **Не тронуты глубже первого прохода:**
-grey-knights, adeptus-custodes, thousand-sons, death-guard, genestealer-cults,
-leagues-of-votann (без Berehk Stornbröw/Ûthar the Destined), black-templars, deathwatch —
-у каждой есть 1+ персонаж, дальше не проверялось на предмет дополнительных Epic Heroes.
+**imperial-agents (8/8 именных + 4/4 Assassin-класса, полностью закрыт)**, **grey-knights (2/2,
+полностью закрыт)**, **adeptus-custodes (3/3, полностью закрыт)**, **thousand-sons (3/3,
+полностью закрыт)**, **death-guard (3/3, полностью закрыт)**, **genestealer-cults (1/1,
+полностью закрыт)**, **black-templars (2/2, полностью закрыт)**, **deathwatch (2/2, полностью
+закрыт)**, **leagues-of-votann (3/3, полностью закрыт — Berehk Stornbröw/Ûthar the Destined
+транслитерированы пользователем)**.
 
 **Оставшийся известный бэклог:**
-- **imperial-agents** — Assassin-классы (Callidus/Culexus/Eversor/Vindicare) это титулы, не
-  личные имена — кандидат в паттерн-правило, если найдётся устоявшийся жаргон, а не в
-  персональный алиас. Lord Inquisitor Kyria Draxus и Inquisitor Kroyle уже сделаны.
 - **necrons** — закрыт полностью: Nekrosor Ammentar, C'tan Shard of the Nightbringer (плюс
   реальное имя «Аза'город» из flavor) и Void Dragon — все три транслитерации подтверждены
   (Nightbringer/Ammentar — дал пользователь, Void Dragon — глоссарий «Mag'ladroth, the Void
   Dragon» → «Дракон Пустоты»).
+- **imperial-agents** — закрыт полностью: Assassin-классы (Callidus/Culexus/Eversor/Vindicare)
+  подтверждены глоссарием как персональные алиасы (`ассасин-каллидус`/`-кулексус`/`-эверсор`/
+  `-виндикар`), плюс уже сделанные ранее Lord Inquisitor Kyria Draxus и Inquisitor Kroyle.
 - **tau-empire** — Ri'Lantar/Ri'Locai (один датащит `the-twin-lance`) — стилизованные Kroot-имена,
   та же категория осторожности, что Kor'sarro Khan/Suboden Khan.
-- **leagues-of-votann** — Berehk Stornbröw, Ûthar the Destined — нет глоссария, стилизованные
-  имена, та же категория осторожности.
 - **tyranids** — Deathleaper, Old One Eye — нет глоссария, описательные прозвища без
   подтверждённого перевода (не переводить самому).
-- imperial-agents (Assassin-классы), grey-knights, adeptus-custodes, thousand-sons, death-guard,
-  world-eaters, genestealer-cults, imperial-knights, black-templars, deathwatch — есть 1+
-  персонаж, глубже первого прохода не проверялись (кроме уже сделанного выше).
+- world-eaters, imperial-knights — есть 1+ персонаж, глубже первого прохода не проверялись.
 
 ## Гочи (нетривиальные находки — держать в голове на будущее)
 
 - **id ≠ ожидаемое имя после ретемы GW:** Szarekh → карточка называется `the-silent-king`;
   Ursarkar E. Creed → актуальная карточка `ursula-creed` (Ursula Creed, GW заменила персонажа).
   Всегда грепать `"name":` в EN-файле, не полагаться на память при выборе `id`.
+- **Акцентированные буквы пропадают из `id`, но не из `name`:** `Khârn the Betrayer` →
+  `kh-rn-the-betrayer`; `Ûthar the Destined` → `thar-the-destined` (без `Û`). ASCII-only grep по
+  имени пропускает такие юниты — грепать `EPIC HERO`/`"name":` напрямую, не полагаться на
+  ASCII-паттерн вида `grep -i "Uthar"`.
 - **Запрошены пользователем, но юнита нет в датасете вообще** (проверено исчерпывающим
   grep'ом по `src/data/datasheets/`): Kharn the Betrayer, Asdrubael Vect, Urien Rakarth,
   Kaldor Draigo.
