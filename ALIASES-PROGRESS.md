@@ -71,7 +71,7 @@ Immortals/Obliterators — множественное число). Так же �
 
 ## Статус
 
-**382 из 1434** юнитов с `aliasesRu` (личные + 42 паттерна в `datasheetAliasRulesRu.js`).
+**384 из 1434** юнитов с `aliasesRu` (личные + 42 паттерна в `datasheetAliasRulesRu.js`).
 `npm test` — 263/263, `npm run build` — чисто. **Не проверено вживую в браузере** (нет браузерного тулинга в сессии) — логика
 проверена юнит-тестами и ручными node-симуляциями `searchDatasheets` на реальном индексе по
 многим запросам каждой партии. **Детали последней партии — `ALIASES-BATCH.local.md`** (не в
@@ -80,23 +80,26 @@ git, перезаписывается каждый раз — там табли�
 
 **Чек-лист фракций** (только именные персонажи — типовые паттерны действуют на все фракции
 сразу, независимо от чек-листа): **закрыты с ≥1 персонажем** — все 30/30 фракций. **Глубоко
-пройдены** (большинство/все EPIC HERO покрыты): orks, chaos-space-marines (кроме нескольких
-второстепенных), space-marines (13/25), aeldari (5/17), chaos-daemons (6/13), necrons (4/10,
-без Nightbringer/Void Dragon/Ammentar), adepta-sororitas (2/9), astra-militarum (6/9),
-dark-angels (6/6), space-wolves (5/7), blood-angels (5/5), tau-empire (3/5, без Ri'Lantar/
-Ri'Locai). **Не тронуты глубже первого прохода:** imperial-agents (2/8), grey-knights,
-adeptus-custodes, thousand-sons, death-guard, emperors-children, world-eaters, drukhari,
-genestealer-cults, leagues-of-votann, imperial-knights, black-templars, deathwatch,
-adeptus-mechanicus, tyranids — у каждой есть 1+ персонаж, дальше не проверялось на предмет
-дополнительных Epic Heroes.
+пройдены** (большинство/все EPIC HERO покрыты): orks (5/5), chaos-space-marines (кроме
+нескольких второстепенных), space-marines (13/25), aeldari (5/17), chaos-daemons (6/13),
+**necrons (7/10, полностью закрыт — Nightbringer/Void Dragon/Ammentar сделаны)**,
+adepta-sororitas (2/9), astra-militarum (6/9), dark-angels (6/6), space-wolves (5/7),
+blood-angels (5/5), tau-empire (3/5, без Ri'Lantar/Ri'Locai), emperors-children (2/3, без
+Shalaxi Helbane), world-eaters (3/4), drukhari (3/3, кроме запрошенных-но-отсутствующих),
+imperial-knights (2/2), adeptus-mechanicus (2/2), tyranids (4/9, без Deathleaper/Old One Eye),
+imperial-agents (4/8 именных + 4 Assassin-класса-титула). **Не тронуты глубже первого прохода:**
+grey-knights, adeptus-custodes, thousand-sons, death-guard, genestealer-cults,
+leagues-of-votann (без Berehk Stornbröw/Ûthar the Destined), black-templars, deathwatch —
+у каждой есть 1+ персонаж, дальше не проверялось на предмет дополнительных Epic Heroes.
 
 **Оставшийся известный бэклог:**
 - **imperial-agents** — Assassin-классы (Callidus/Culexus/Eversor/Vindicare) это титулы, не
   личные имена — кандидат в паттерн-правило, если найдётся устоявшийся жаргон, а не в
-  персональный алиас. Lord Inquisitor Kyria Draxus, Inquisitor Kroyle — не проверены.
-- **necrons** — Nekrosor Ammentar, C'tan Shard of the Nightbringer — глоссарий не подтверждает
-  именно эти карточки (только другого персонажа/множественное число). Void Dragon закрыт
-  (глоссарий подтвердил «Mag'ladroth, the Void Dragon» → «Дракон Пустоты»).
+  персональный алиас. Lord Inquisitor Kyria Draxus и Inquisitor Kroyle уже сделаны.
+- **necrons** — закрыт полностью: Nekrosor Ammentar, C'tan Shard of the Nightbringer (плюс
+  реальное имя «Аза'город» из flavor) и Void Dragon — все три транслитерации подтверждены
+  (Nightbringer/Ammentar — дал пользователь, Void Dragon — глоссарий «Mag'ladroth, the Void
+  Dragon» → «Дракон Пустоты»).
 - **tau-empire** — Ri'Lantar/Ri'Locai (один датащит `the-twin-lance`) — стилизованные Kroot-имена,
   та же категория осторожности, что Kor'sarro Khan/Suboden Khan.
 - **leagues-of-votann** — Berehk Stornbröw, Ûthar the Destined — нет глоссария, стилизованные
