@@ -71,8 +71,8 @@ Immortals/Obliterators — множественное число). Так же �
 
 ## Статус
 
-**346 из 1434** юнитов с `aliasesRu` (личные + 36 паттернов). `npm test` — 263/263, `npm run
-build` — чисто. **Не проверено вживую в браузере** (нет браузерного тулинга в сессии) — логика
+**382 из 1434** юнитов с `aliasesRu` (личные + 42 паттерна в `datasheetAliasRulesRu.js`).
+`npm test` — 263/263, `npm run build` — чисто. **Не проверено вживую в браузере** (нет браузерного тулинга в сессии) — логика
 проверена юнит-тестами и ручными node-симуляциями `searchDatasheets` на реальном индексе по
 многим запросам каждой партии. **Детали последней партии — `ALIASES-BATCH.local.md`** (не в
 git, перезаписывается каждый раз — там таблица «юнит → алиас → источник» для контроля перед
@@ -94,8 +94,9 @@ adeptus-mechanicus, tyranids — у каждой есть 1+ персонаж, �
 - **imperial-agents** — Assassin-классы (Callidus/Culexus/Eversor/Vindicare) это титулы, не
   личные имена — кандидат в паттерн-правило, если найдётся устоявшийся жаргон, а не в
   персональный алиас. Lord Inquisitor Kyria Draxus, Inquisitor Kroyle — не проверены.
-- **necrons** — Nekrosor Ammentar, C'tan Shard of the Nightbringer/Void Dragon — глоссарий не
-  подтверждает именно эти карточки (только другого персонажа/множественное число).
+- **necrons** — Nekrosor Ammentar, C'tan Shard of the Nightbringer — глоссарий не подтверждает
+  именно эти карточки (только другого персонажа/множественное число). Void Dragon закрыт
+  (глоссарий подтвердил «Mag'ladroth, the Void Dragon» → «Дракон Пустоты»).
 - **tau-empire** — Ri'Lantar/Ri'Locai (один датащит `the-twin-lance`) — стилизованные Kroot-имена,
   та же категория осторожности, что Kor'sarro Khan/Suboden Khan.
 - **leagues-of-votann** — Berehk Stornbröw, Ûthar the Destined — нет глоссария, стилизованные
