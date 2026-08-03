@@ -50,4 +50,10 @@ export const datasheetAliasRulesRu = [
   { pattern: /\bDark Reapers\b/i, aliasesRu: ['Тёмные Жнецы', 'Дарк Риперы'] },
   { pattern: /\bFire Dragons\b/i, aliasesRu: ['Огненные Драконы', 'Файр Дрэгон', 'Файер Дрегонс'] },
   { pattern: /\bHowling Banshees\b/i, aliasesRu: ['Воющие Баньши', 'баньши'] },
+  { pattern: /\bPredator\b/i, aliasesRu: ['Хищник'] },
+  { pattern: /\bVindicator\b/i, aliasesRu: ['Поборник'] },
+  { pattern: /\bGenestealers?\b/i, aliasesRu: ['генокрад'] },
+  { pattern: /\bPlague Marines?\b/i, aliasesRu: ['чумной десантник', 'чумные'] },
+  { pattern: /\bCustodian Guard\b/i, aliasesRu: ['Кустодианская Гвардия', 'Кустодианская Стража'] },
+  { pattern: /\bBattle Sisters Squad\b/i, aliasesRu: ['боевые сёстры'] },
 ]
