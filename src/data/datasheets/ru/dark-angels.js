@@ -179,6 +179,8 @@ export default {
   },
 
   'lion-eljonson': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Лев Эль’Джонсон', 'Лев'],
     flavor:
       'Лев Эль’Джонсон выходит из окутанных туманом теневых царств, словно древний странствующий рыцарь, охотящийся на ужасы галактики. Огромным клинком Fealty примарх рассекает чудовищнейших из тварей, а Emperor’s Shield вспыхивает светом и силой в ответ на свирепые удары врагов.',
     abilities: {

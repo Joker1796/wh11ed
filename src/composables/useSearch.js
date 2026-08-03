@@ -431,16 +431,23 @@ export async function getDatasheetIndex() {
 
 function searchDatasheets(q, locale) {
   if (!dsIndex) return []
+  const isRu = locale === 'ru'
   const L = ui[locale] || ui.en
   const results = []
   for (const [slug, faction, units] of dsIndex) {
-    for (const [id, name] of units) {
-      if (!foldYo(name.toLowerCase()).includes(q)) continue
+    for (const [id, name, aliasesRu] of units) {
+      const nameHit = foldYo(name.toLowerCase()).includes(q)
+      // A unit's own name still wins if it also happens to match (checked first) — the alias is
+      // only surfaced as `titleRu` (the "found via nickname" subline) when it's the reason this
+      // result matched at all, not on every result for a unit that merely has aliases on file.
+      const aliasHit = !nameHit && (aliasesRu || []).find((a) => foldYo(a.toLowerCase()).includes(q))
+      if (!nameHit && !aliasHit) continue
       results.push({
         id: '',
         key: `ds-${slug}-${id}`,
         sectionNum: '',
         title: name,
+        titleRu: isRu && aliasHit ? aliasHit : '',
         body: '',
         snippet: '',
         route: `/factions/${slug}/datasheets/${id}`,

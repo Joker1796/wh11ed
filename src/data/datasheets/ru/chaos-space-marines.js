@@ -32,6 +32,8 @@ const DAEMON_ALLEGIANCE_BLOCK = {
 
 export default {
   'abaddon-the-despoiler': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Абаддон', 'Абба', 'Безруков'],
     flavor:
       'Магистр войны Хаоса — величайшая угроза Империуму. Он правит своим Чёрным Легионом железной когтистой рукой и является воплощением Долгой Войны. Облачённый в броню Terminator и владеющий воющим демоническим мечом Drach’nyen, Абаддон убивает любых слабаков-чемпионов, посланных бросить ему вызов.',
     abilities: {
