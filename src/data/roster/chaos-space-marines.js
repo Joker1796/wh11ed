@@ -23,7 +23,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 285,
+          "pts": 295,
           "per": [
             1,
             1
@@ -147,7 +147,7 @@ export default {
       ],
       "linked": 1,
       "step": {
-        "at": 2,
+        "at": 3,
         "pts": 20
       },
       "minis": [
@@ -736,7 +736,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 90,
+          "pts": 80,
           "per": [
             1,
             1
@@ -849,7 +849,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 135,
+          "pts": 145,
           "per": [
             1,
             1
@@ -930,7 +930,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 140,
+          "pts": 150,
           "per": [
             1,
             1
@@ -1013,7 +1013,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 75,
+          "pts": 65,
           "per": [
             1,
             1
@@ -1022,6 +1022,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
@@ -1109,7 +1113,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 180,
+          "pts": 175,
           "per": [
             5,
             5
@@ -1117,7 +1121,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 360,
+          "pts": 350,
           "per": [
             6,
             10
@@ -1367,7 +1371,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 125,
+          "pts": 135,
           "per": [
             5,
             5
@@ -1375,7 +1379,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 250,
+          "pts": 270,
           "per": [
             6,
             10
@@ -1384,7 +1388,7 @@ export default {
       ],
       "linked": 1,
       "step": {
-        "at": 2,
+        "at": 3,
         "pts": 10
       },
       "minis": [
@@ -2071,7 +2075,7 @@ export default {
       ],
       "linked": 1,
       "step": {
-        "at": 2,
+        "at": 3,
         "pts": 10
       },
       "leads": [
@@ -2230,7 +2234,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 2,
-        "pts": 30
+        "pts": 40
       },
       "defaults": [
         [
@@ -2290,11 +2294,11 @@ export default {
           "o": [
             [
               952,
-              10
+              15
             ],
             [
               953,
-              10
+              15
             ],
             [
               954
@@ -2311,11 +2315,11 @@ export default {
           "o": [
             [
               952,
-              10
+              15
             ],
             [
               953,
-              10
+              15
             ],
             [
               954
@@ -3184,7 +3188,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 120,
+          "pts": 130,
           "per": [
             1,
             1
@@ -3916,106 +3920,6 @@ export default {
         {
           "to": "chosen",
           "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "chosen",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "chosen",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "chosen",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "chosen",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "red-corsairs-raiders",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "red-corsairs-raiders",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "red-corsairs-raiders",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "red-corsairs-raiders",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "red-corsairs-raiders",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "legionaries",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "legionaries",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "legionaries",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "legionaries",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "legionaries",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "nemesis-claw",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "nemesis-claw",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "nemesis-claw",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "nemesis-claw",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "nemesis-claw",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "chosen",
-          "type": "support",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
@@ -4032,6 +3936,106 @@ export default {
           "to": "nemesis-claw",
           "type": "support",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "chosen",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "chosen",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "chosen",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "chosen",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "chosen",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "red-corsairs-raiders",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "red-corsairs-raiders",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "red-corsairs-raiders",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "red-corsairs-raiders",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "red-corsairs-raiders",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "legionaries",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "legionaries",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "legionaries",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "legionaries",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "legionaries",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "nemesis-claw",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "nemesis-claw",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "nemesis-claw",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "nemesis-claw",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "nemesis-claw",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
       ],
       "defaults": [
@@ -4265,7 +4269,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 135,
+          "pts": 145,
           "per": [
             5,
             5
@@ -4278,81 +4282,6 @@ export default {
         {
           "to": "red-corsairs-raiders",
           "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "red-corsairs-raiders",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "red-corsairs-raiders",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "red-corsairs-raiders",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "red-corsairs-raiders",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "chosen",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "chosen",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "chosen",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "chosen",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "chosen",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "legionaries",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "legionaries",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "legionaries",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "legionaries",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "legionaries",
-          "type": "support",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "red-corsairs-raiders",
-          "type": "support",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
@@ -4364,6 +4293,81 @@ export default {
           "to": "legionaries",
           "type": "support",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "red-corsairs-raiders",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "red-corsairs-raiders",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "red-corsairs-raiders",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "red-corsairs-raiders",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "red-corsairs-raiders",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "chosen",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "chosen",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "chosen",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "chosen",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "chosen",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "legionaries",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "legionaries",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "legionaries",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "legionaries",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "legionaries",
+          "type": "support",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         }
       ],
       "minis": [
@@ -4518,7 +4522,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 180,
+          "pts": 165,
           "per": [
             3,
             3
@@ -4557,7 +4561,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 110,
+          "pts": 100,
           "per": [
             5,
             5
@@ -4565,7 +4569,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 190,
+          "pts": 180,
           "per": [
             6,
             10
@@ -5185,7 +5189,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 70,
+          "pts": 60,
           "per": [
             1,
             1
@@ -5395,16 +5399,6 @@ export default {
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
-          "to": "nemesis-claw",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "nemesis-claw",
-          "type": "leader",
-          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
           "to": "red-corsairs-raiders",
           "type": "leader",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
@@ -5413,6 +5407,16 @@ export default {
           "to": "chosen",
           "type": "leader",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "nemesis-claw",
+          "type": "leader",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
+          "to": "nemesis-claw",
+          "type": "leader",
+          "reqDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
         {
           "to": "nemesis-claw",
@@ -5855,7 +5859,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 205,
+          "pts": 220,
           "per": [
             1,
             1
@@ -5894,7 +5898,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 110,
+          "pts": 120,
           "per": [
             1,
             1
@@ -6015,6 +6019,11 @@ export default {
       "linked": 1,
       "leads": [
         {
+          "to": "havocs",
+          "type": "leader",
+          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
+        },
+        {
           "to": "chosen",
           "type": "leader",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
@@ -6031,11 +6040,6 @@ export default {
         },
         {
           "to": "nemesis-claw",
-          "type": "leader",
-          "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
-        },
-        {
-          "to": "havocs",
           "type": "leader",
           "exclDet": "b7c5bcb7-eecb-4ae5-a18b-b96143c34fa8"
         },
@@ -6731,7 +6735,7 @@ export default {
       "name": "Murdertalon Raiders",
       "sid": "64363c88-2015-4700-9f88-ac03407213db",
       "dp": 1,
-      "fd": "Purge the Foe",
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Pact of Cursed Pinions",
@@ -7010,7 +7014,7 @@ export default {
       "name": "Soulforged Warpack",
       "sid": "807aa974-ca16-4d8a-8958-68c1a32f9c86",
       "dp": 2,
-      "fd": "Purge the Foe",
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Invigorated Mechatendrils",
@@ -7026,7 +7030,7 @@ export default {
         },
         {
           "name": "Tempting Addendum",
-          "pts": 25,
+          "pts": 40,
           "type": "miniature",
           "req": [
             {

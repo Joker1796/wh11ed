@@ -70,7 +70,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 85,
+          "pts": 75,
           "per": [
             1,
             1
@@ -183,7 +183,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 80,
+          "pts": 70,
           "per": [
             1,
             1
@@ -276,7 +276,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 265,
+          "pts": 250,
           "per": [
             1,
             1
@@ -366,7 +366,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 80,
+          "pts": 75,
           "per": [
             5,
             5
@@ -374,7 +374,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 150,
+          "pts": 140,
           "per": [
             6,
             10
@@ -382,10 +382,6 @@ export default {
         }
       ],
       "linked": 1,
-      "step": {
-        "at": 3,
-        "pts": 10
-      },
       "minis": [
         {
           "n": "Skyreaver Felarch"
@@ -626,7 +622,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 80,
+          "pts": 70,
           "per": [
             5,
             5
@@ -634,56 +630,56 @@ export default {
           "default": 1
         },
         {
-          "pts": 160,
+          "pts": 140,
           "per": [
             6,
             13
           ]
         },
         {
-          "pts": 160,
+          "pts": 140,
           "per": [
             6,
             6
           ]
         },
         {
-          "pts": 160,
+          "pts": 140,
           "per": [
             6,
             6
           ]
         },
         {
-          "pts": 160,
+          "pts": 140,
           "per": [
             6,
             6
           ]
         },
         {
-          "pts": 160,
+          "pts": 140,
           "per": [
             7,
             7
           ]
         },
         {
-          "pts": 160,
+          "pts": 140,
           "per": [
             7,
             7
           ]
         },
         {
-          "pts": 160,
+          "pts": 140,
           "per": [
             7,
             7
           ]
         },
         {
-          "pts": 160,
+          "pts": 140,
           "per": [
             8,
             8
@@ -912,7 +908,6 @@ export default {
         "Aspect Warrior",
         "Crimson Hunter",
         "Fly",
-        "Frame",
         "Vehicle"
       ],
       "flags": {},
@@ -966,6 +961,7 @@ export default {
       "kws": [
         "Aeldari",
         "D-cannon Platform",
+        "Frame",
         "Infantry",
         "Support Weapon"
       ],
@@ -1117,7 +1113,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 80,
+          "pts": 70,
           "per": [
             1,
             1
@@ -1341,6 +1337,7 @@ export default {
         "Aeldari",
         "Falcon",
         "Fly",
+        "Frame",
         "Transport",
         "Vehicle"
       ],
@@ -1433,7 +1430,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 70,
+          "pts": 65,
           "per": [
             1,
             1
@@ -1509,7 +1506,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 70,
+          "pts": 60,
           "per": [
             1,
             1
@@ -1680,6 +1677,7 @@ export default {
         "Aeldari",
         "Fire Prism",
         "Fly",
+        "Frame",
         "Vehicle"
       ],
       "flags": {},
@@ -1870,7 +1868,6 @@ export default {
         "Aeldari",
         "Aircraft",
         "Fly",
-        "Frame",
         "Hemlock Wraithfighter",
         "Psyker",
         "Vehicle",
@@ -2225,6 +2222,7 @@ export default {
       "kws": [
         "Aeldari",
         "Fly",
+        "Frame",
         "Night Spinner",
         "Vehicle"
       ],
@@ -2580,6 +2578,7 @@ export default {
       "name": "Shadow Weaver Platform",
       "kws": [
         "Aeldari",
+        "Frame",
         "Infantry",
         "Shadow Weaver Platform",
         "Support Weapon"
@@ -2633,7 +2632,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 60,
+          "pts": 50,
           "per": [
             1,
             1
@@ -2697,7 +2696,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 105,
+          "pts": 100,
           "per": [
             3,
             3
@@ -2705,7 +2704,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 210,
+          "pts": 200,
           "per": [
             4,
             6
@@ -2804,7 +2803,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 95,
+          "pts": 90,
           "per": [
             3,
             3
@@ -2858,7 +2857,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 105,
+          "pts": 95,
           "per": [
             2,
             2
@@ -2866,7 +2865,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 210,
+          "pts": 190,
           "per": [
             3,
             4
@@ -3066,6 +3065,7 @@ export default {
         "Aeldari",
         "Dedicated Transport",
         "Fly",
+        "Frame",
         "Smoke",
         "Starweaver",
         "Transport",
@@ -3074,7 +3074,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 80,
+          "pts": 70,
           "per": [
             1,
             1
@@ -3083,6 +3083,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
@@ -3320,7 +3324,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 100,
+          "pts": 95,
           "per": [
             5,
             5
@@ -3774,6 +3778,7 @@ export default {
       "name": "Vibro Cannon Platform",
       "kws": [
         "Aeldari",
+        "Frame",
         "Infantry",
         "Support Weapon",
         "Vibro Cannon Platform"
@@ -3817,6 +3822,7 @@ export default {
       "kws": [
         "Aeldari",
         "Fly",
+        "Frame",
         "Vehicle",
         "Voidweaver"
       ],
@@ -3968,7 +3974,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 170,
+          "pts": 160,
           "per": [
             2,
             2
@@ -4173,7 +4179,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 45,
+          "pts": 55,
           "per": [
             1,
             1
@@ -4249,7 +4255,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 115,
+          "pts": 105,
           "per": [
             5,
             5
@@ -4267,7 +4273,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 15
+        "pts": 20
       },
       "minis": [
         {
@@ -4348,6 +4354,7 @@ export default {
         "Aeldari",
         "Dedicated Transport",
         "Fly",
+        "Frame",
         "Transport",
         "Vehicle",
         "Wave Serpent"
@@ -4355,7 +4362,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 125,
+          "pts": 115,
           "per": [
             1,
             1
@@ -4364,6 +4371,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
@@ -4442,7 +4453,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 160,
+          "pts": 170,
           "per": [
             4,
             6
@@ -4608,7 +4619,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 415,
+          "pts": 385,
           "per": [
             1,
             1
@@ -4703,7 +4714,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 405,
+          "pts": 380,
           "per": [
             1,
             1
@@ -5151,6 +5162,7 @@ export default {
         "Aeldari",
         "Dedicated Transport",
         "Fly",
+        "Frame",
         "Raider",
         "Transport",
         "Vehicle"
@@ -5158,7 +5170,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 80,
+          "pts": 70,
           "per": [
             1,
             1
@@ -5167,6 +5179,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
@@ -5407,6 +5423,7 @@ export default {
         "Aeldari",
         "Dedicated Transport",
         "Fly",
+        "Frame",
         "Transport",
         "Vehicle",
         "Venom"
@@ -5414,7 +5431,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 70,
+          "pts": 65,
           "per": [
             1,
             1
@@ -5423,6 +5440,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
@@ -5848,7 +5869,7 @@ export default {
       "name": "Eldritch Raiders",
       "sid": "9915f243-6846-46c2-a616-701659f50a8e",
       "dp": 2,
-      "fd": "Disruption",
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Pirate Prince",
@@ -6324,7 +6345,7 @@ export default {
       "name": "Warhost",
       "sid": "df808d6f-3013-4a9b-8a6f-0b68785891d0",
       "dp": 3,
-      "fd": "Purge the Foe",
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Phoenix Gem",

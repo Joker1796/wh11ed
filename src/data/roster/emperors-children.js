@@ -94,7 +94,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 80,
+          "pts": 70,
           "per": [
             1,
             1
@@ -103,6 +103,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
@@ -524,7 +528,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 290,
+          "pts": 300,
           "per": [
             1,
             1
@@ -535,7 +539,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 2,
-        "pts": 30
+        "pts": 40
       },
       "defaults": [
         [
@@ -595,11 +599,11 @@ export default {
           "o": [
             [
               952,
-              10
+              15
             ],
             [
               953,
-              10
+              15
             ],
             [
               954
@@ -616,11 +620,11 @@ export default {
           "o": [
             [
               952,
-              10
+              15
             ],
             [
               953,
-              10
+              15
             ],
             [
               954
@@ -749,6 +753,7 @@ export default {
         "Epic Hero",
         "Fly",
         "Fulgrim",
+        "Mobile",
         "Monster",
         "Primarch",
         "Slaanesh"
@@ -760,7 +765,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 350,
+          "pts": 340,
           "per": [
             1,
             1
@@ -1141,7 +1146,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 130,
+          "pts": 120,
           "per": [
             1,
             1
@@ -1187,7 +1192,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 130,
+          "pts": 120,
           "per": [
             1,
             1
@@ -1442,7 +1447,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 340,
+          "pts": 315,
           "per": [
             1,
             1
@@ -1493,7 +1498,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 60,
+          "pts": 55,
           "per": [
             1,
             1
@@ -1655,7 +1660,7 @@ export default {
       "name": "Carnival of Excess",
       "sid": "31349652-6a08-46a0-a5ec-5d4533f0a8ae",
       "dp": 2,
-      "fd": "Priority Assets",
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Empyric Suffusion",
@@ -1719,7 +1724,7 @@ export default {
       "name": "Coterie of the Conceited",
       "sid": "f4f83a5e-36a7-49fd-950b-0ceb188b5c94",
       "dp": 3,
-      "fd": "Purge the Foe",
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Pledge of Eternal Servitude",
@@ -1874,7 +1879,7 @@ export default {
       "name": "Frenzied Host",
       "sid": "235629e4-405f-40db-b393-9f71e1c6e3ea",
       "dp": 1,
-      "fd": "Disruption",
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Euphoric Crown",
@@ -2145,7 +2150,7 @@ export default {
       "name": "Spectacle of Slaughter",
       "sid": "29bc9dbe-2bac-48f6-a496-955ee9c377df",
       "dp": 1,
-      "fd": "Purge the Foe",
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Beguiling Grotesquerie (Upgrade)",

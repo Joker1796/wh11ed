@@ -977,7 +977,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 85,
+          "pts": 75,
           "per": [
             1,
             1
@@ -986,6 +986,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
@@ -1032,7 +1036,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 100,
+          "pts": 110,
           "per": [
             1,
             1
@@ -1041,10 +1045,6 @@ export default {
         }
       ],
       "linked": 1,
-      "step": {
-        "at": 3,
-        "pts": 10
-      },
       "defaults": [
         [
           0,
@@ -1081,7 +1081,6 @@ export default {
         "Aeldari",
         "Aircraft",
         "Fly",
-        "Frame",
         "Razorwing Jetfighter",
         "Vehicle"
       ],
@@ -1655,7 +1654,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 70,
+          "pts": 65,
           "per": [
             1,
             1
@@ -1664,6 +1663,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
@@ -1707,7 +1710,6 @@ export default {
         "Aeldari",
         "Aircraft",
         "Fly",
-        "Frame",
         "Vehicle",
         "Voidraven Bomber"
       ],
@@ -2017,7 +2019,7 @@ export default {
       "name": "Covenite Coterie",
       "sid": "eaf6ced2-c21b-42fa-b442-ee7437cc3430",
       "dp": 2,
-      "fd": "Purge the Foe",
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Master Regenesist",
@@ -2073,7 +2075,7 @@ export default {
       "name": "Exhibition of Slaughter",
       "sid": "ebd949cd-20a6-46be-929e-17421b92e77d",
       "dp": 1,
-      "fd": "Disruption",
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Hyperstimm Trafficker",
@@ -2105,7 +2107,7 @@ export default {
       "name": "Kabalite Agonysts",
       "sid": "091a9dfa-59b6-43e9-957a-a211981c684e",
       "dp": 1,
-      "fd": "Purge the Foe",
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Towering Arrogance",

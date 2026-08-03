@@ -53,10 +53,6 @@ export default {
           "type": "leader"
         },
         {
-          "to": "sternguard-veteran-squad",
-          "type": "leader"
-        },
-        {
           "to": "tactical-squad",
           "type": "leader"
         }
@@ -66,11 +62,11 @@ export default {
           0,
           [
             [
-              1848,
+              1849,
               1
             ],
             [
-              1849,
+              1850,
               1
             ]
           ]
@@ -116,7 +112,7 @@ export default {
               1
             ],
             [
-              1850,
+              1851,
               1
             ]
           ]
@@ -136,7 +132,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 90,
+          "pts": 80,
           "per": [
             3,
             3
@@ -144,7 +140,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 180,
+          "pts": 165,
           "per": [
             4,
             6
@@ -195,7 +191,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 762,
+          "t": 764,
           "in": "checkbox",
           "o": [
             [
@@ -211,7 +207,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 762,
+          "t": 764,
           "in": "stepper",
           "o": [
             [
@@ -279,10 +275,6 @@ export default {
           "type": "support"
         },
         {
-          "to": "sternguard-veteran-squad",
-          "type": "support"
-        },
-        {
           "to": "tactical-squad",
           "type": "support"
         },
@@ -309,10 +301,6 @@ export default {
         {
           "to": "decimus-kill-team",
           "type": "support"
-        },
-        {
-          "to": "sternguard-veteran-squad",
-          "type": "support"
         }
       ],
       "defaults": [
@@ -320,7 +308,7 @@ export default {
           0,
           [
             [
-              1851,
+              1852,
               1
             ],
             [
@@ -337,16 +325,16 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 763,
+          "t": 765,
           "in": "checkbox",
           "o": [
             [
-              1852
+              1853
             ]
           ],
           "rep": [
             669,
-            1851
+            1852
           ]
         }
       ]
@@ -378,10 +366,6 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "terminator-squad",
-          "type": "support"
-        },
-        {
           "to": "terminator-assault-squad",
           "type": "support"
         },
@@ -403,7 +387,7 @@ export default {
           0,
           [
             [
-              1853,
+              1854,
               1
             ],
             [
@@ -416,44 +400,44 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 764,
+          "t": 766,
           "in": "checkbox",
           "o": [
             [
-              1854
-            ],
-            [
-              1851
+              1855
             ],
             [
               1852
             ],
             [
-              1855
-            ]
-          ],
-          "rep": [
-            1853
-          ]
-        },
-        {
-          "m": 0,
-          "t": 765,
-          "in": "checkbox",
-          "o": [
-            [
-              929
-            ],
-            [
-              1855
+              1853
             ],
             [
               1856
             ]
           ],
           "rep": [
+            1854
+          ]
+        },
+        {
+          "m": 0,
+          "t": 767,
+          "in": "checkbox",
+          "o": [
+            [
+              929
+            ],
+            [
+              1856
+            ],
+            [
+              1857
+            ]
+          ],
+          "rep": [
             38,
-            1853
+            1854
           ]
         }
       ]
@@ -510,10 +494,6 @@ export default {
           "type": "support"
         },
         {
-          "to": "sternguard-veteran-squad",
-          "type": "support"
-        },
-        {
           "to": "tactical-squad",
           "type": "support"
         },
@@ -540,10 +520,6 @@ export default {
         {
           "to": "decimus-kill-team",
           "type": "support"
-        },
-        {
-          "to": "sternguard-veteran-squad",
-          "type": "support"
         }
       ],
       "defaults": [
@@ -551,7 +527,7 @@ export default {
           0,
           [
             [
-              1857,
+              1858,
               1
             ],
             [
@@ -598,19 +574,11 @@ export default {
           "type": "support"
         },
         {
-          "to": "eradicator-squad",
-          "type": "support"
-        },
-        {
           "to": "heavy-intercessor-squad",
           "type": "support"
         },
         {
           "to": "indomitor-kill-team",
-          "type": "support"
-        },
-        {
-          "to": "eradicator-squad-with-heavy-bolters",
           "type": "support"
         }
       ],
@@ -714,7 +682,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 766,
+          "t": 768,
           "in": "checkbox",
           "o": [
             [
@@ -730,7 +698,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 767,
+          "t": 769,
           "in": "checkbox",
           "o": [
             [
@@ -838,7 +806,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 770,
+          "t": 772,
           "in": "checkbox",
           "o": [
             [
@@ -854,7 +822,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 771,
+          "t": 773,
           "in": "stepper",
           "o": [
             [
@@ -867,7 +835,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 772,
+          "t": 774,
           "in": "checkbox",
           "o": [
             [
@@ -923,7 +891,7 @@ export default {
               1
             ],
             [
-              1858,
+              1859,
               2
             ],
             [
@@ -931,7 +899,7 @@ export default {
               1
             ],
             [
-              1859,
+              1860,
               1
             ],
             [
@@ -944,11 +912,11 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 768,
+          "t": 770,
           "in": "stepper",
           "o": [
             [
-              1860
+              1861
             ]
           ]
         },
@@ -967,7 +935,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 769,
+          "t": 771,
           "in": "checkbox",
           "o": [
             [
@@ -1009,10 +977,6 @@ export default {
           0,
           [
             [
-              1861,
-              1
-            ],
-            [
               1862,
               1
             ],
@@ -1022,6 +986,10 @@ export default {
             ],
             [
               1864,
+              1
+            ],
+            [
+              1865,
               1
             ]
           ]
@@ -1070,7 +1038,7 @@ export default {
               1
             ],
             [
-              1851,
+              1852,
               1
             ]
           ]
@@ -1142,7 +1110,7 @@ export default {
               1
             ],
             [
-              1865,
+              1866,
               1
             ]
           ]
@@ -1151,7 +1119,7 @@ export default {
           0,
           [
             [
-              1865,
+              1866,
               1
             ],
             [
@@ -1164,11 +1132,11 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 773,
+          "t": 775,
           "in": "checkbox",
           "o": [
             [
-              1866
+              1867
             ],
             [
               11
@@ -1246,11 +1214,11 @@ export default {
         },
         {
           "m": 0,
-          "t": 774,
+          "t": 776,
           "in": "checkbox",
           "o": [
             [
-              1867
+              1868
             ]
           ],
           "rep": [
@@ -1351,10 +1319,6 @@ export default {
           "type": "leader"
         },
         {
-          "to": "sternguard-veteran-squad",
-          "type": "leader"
-        },
-        {
           "to": "tactical-squad",
           "type": "leader"
         },
@@ -1385,10 +1349,6 @@ export default {
         {
           "to": "decimus-kill-team",
           "type": "leader"
-        },
-        {
-          "to": "sternguard-veteran-squad",
-          "type": "leader"
         }
       ],
       "defaults": [
@@ -1400,7 +1360,7 @@ export default {
               1
             ],
             [
-              1868,
+              1869,
               1
             ],
             [
@@ -1413,7 +1373,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 775,
+          "t": 777,
           "in": "checkbox",
           "o": [
             [
@@ -1426,24 +1386,24 @@ export default {
               1095
             ],
             [
-              1869
+              1870
             ],
             [
               25
             ],
             [
-              1870
+              1871
             ]
           ],
           "rep": [
             22,
-            1868,
+            1869,
             1287
           ]
         },
         {
           "m": 0,
-          "t": 776,
+          "t": 778,
           "in": "checkbox",
           "o": [
             [
@@ -1491,19 +1451,11 @@ export default {
           "type": "leader"
         },
         {
-          "to": "eradicator-squad",
-          "type": "leader"
-        },
-        {
           "to": "heavy-intercessor-squad",
           "type": "leader"
         },
         {
           "to": "indomitor-kill-team",
-          "type": "leader"
-        },
-        {
-          "to": "eradicator-squad-with-heavy-bolters",
           "type": "leader"
         }
       ],
@@ -1516,7 +1468,7 @@ export default {
               1
             ],
             [
-              1871,
+              1872,
               1
             ]
           ]
@@ -1525,27 +1477,27 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 777,
+          "t": 779,
           "in": "checkbox",
           "o": [
             [
-              1872
+              1873
             ],
             [
               724
-            ],
-            [
-              1873
             ],
             [
               1874
             ],
             [
               1875
+            ],
+            [
+              1876
             ]
           ],
           "rep": [
-            1871,
+            1872,
             1095
           ]
         }
@@ -1608,7 +1560,7 @@ export default {
           0,
           [
             [
-              1876,
+              1877,
               1
             ],
             [
@@ -1616,7 +1568,7 @@ export default {
               1
             ],
             [
-              1877,
+              1878,
               1
             ]
           ]
@@ -1654,10 +1606,6 @@ export default {
           "type": "leader"
         },
         {
-          "to": "terminator-squad",
-          "type": "leader"
-        },
-        {
           "to": "deathwing-terminator-squad",
           "type": "leader"
         },
@@ -1688,7 +1636,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 778,
+          "t": 780,
           "in": "checkbox",
           "o": [
             [
@@ -1701,11 +1649,11 @@ export default {
         },
         {
           "m": 0,
-          "t": 779,
+          "t": 781,
           "in": "checkbox",
           "o": [
             [
-              1878
+              1879
             ]
           ],
           "rep": [
@@ -1734,7 +1682,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 90,
+          "pts": 100,
           "per": [
             1,
             1
@@ -1769,10 +1717,6 @@ export default {
           "type": "leader"
         },
         {
-          "to": "sternguard-veteran-squad",
-          "type": "leader"
-        },
-        {
           "to": "wardens-of-ultramar",
           "type": "leader"
         },
@@ -1786,7 +1730,7 @@ export default {
           0,
           [
             [
-              1879,
+              1880,
               1
             ],
             [
@@ -1794,7 +1738,7 @@ export default {
               1
             ],
             [
-              1880,
+              1881,
               1
             ]
           ]
@@ -1904,14 +1848,14 @@ export default {
         },
         {
           "m": 0,
-          "t": 780,
+          "t": 782,
           "in": "checkbox",
           "o": [
             [
-              1881
+              1882
             ],
             [
-              1870
+              1871
             ]
           ],
           "rep": [
@@ -1921,11 +1865,11 @@ export default {
         },
         {
           "m": 0,
-          "t": 781,
+          "t": 783,
           "in": "checkbox",
           "o": [
             [
-              1870
+              1871
             ]
           ]
         }
@@ -1951,7 +1895,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 95,
+          "pts": 105,
           "per": [
             1,
             1
@@ -2009,15 +1953,15 @@ export default {
           1,
           [
             [
-              1882,
-              1
-            ],
-            [
               1883,
               1
             ],
             [
               1884,
+              1
+            ],
+            [
+              1885,
               1
             ]
           ]
@@ -2026,15 +1970,15 @@ export default {
           0,
           [
             [
+              1884,
+              1
+            ],
+            [
               1883,
               1
             ],
             [
-              1882,
-              1
-            ],
-            [
-              1884,
+              1885,
               1
             ]
           ]
@@ -2043,7 +1987,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 782,
+          "t": 784,
           "in": "checkbox",
           "o": [
             [
@@ -2051,29 +1995,16 @@ export default {
             ]
           ],
           "rep": [
-            1884
+            1885
           ]
         },
         {
           "m": 0,
-          "t": 783,
+          "t": 785,
           "in": "checkbox",
           "o": [
             [
-              1885
-            ]
-          ],
-          "rep": [
-            1883
-          ]
-        },
-        {
-          "m": 1,
-          "t": 782,
-          "in": "stepper",
-          "o": [
-            [
-              1473
+              1886
             ]
           ],
           "rep": [
@@ -2082,15 +2013,28 @@ export default {
         },
         {
           "m": 1,
-          "t": 783,
+          "t": 784,
           "in": "stepper",
           "o": [
             [
-              1885
+              1473
             ]
           ],
           "rep": [
-            1883
+            1885
+          ]
+        },
+        {
+          "m": 1,
+          "t": 785,
+          "in": "stepper",
+          "o": [
+            [
+              1886
+            ]
+          ],
+          "rep": [
+            1884
           ]
         }
       ]
@@ -2137,15 +2081,15 @@ export default {
           1,
           [
             [
-              1883,
-              1
-            ],
-            [
-              1886,
+              1884,
               1
             ],
             [
               1887,
+              1
+            ],
+            [
+              1888,
               1
             ]
           ]
@@ -2154,15 +2098,15 @@ export default {
           0,
           [
             [
+              1888,
+              1
+            ],
+            [
+              1884,
+              1
+            ],
+            [
               1887,
-              1
-            ],
-            [
-              1883,
-              1
-            ],
-            [
-              1886,
               1
             ]
           ]
@@ -2171,60 +2115,62 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 784,
+          "t": 786,
           "in": "checkbox",
           "o": [
             [
-              1888
+              1889
             ]
           ],
           "rep": [
-            1883
+            1884
           ]
         },
         {
           "m": 0,
-          "t": 785,
+          "t": 787,
           "in": "checkbox",
           "o": [
             [
               694
             ],
             [
-              698
+              698,
+              5
             ]
           ],
           "rep": [
-            1886
+            1887
           ]
         },
         {
           "m": 1,
-          "t": 784,
+          "t": 786,
           "in": "stepper",
           "o": [
             [
-              1888
+              1889
             ]
           ],
           "rep": [
-            1883
+            1884
           ]
         },
         {
           "m": 1,
-          "t": 785,
+          "t": 787,
           "in": "stepper",
           "o": [
             [
               694
             ],
             [
-              698
+              698,
+              5
             ]
           ],
           "rep": [
-            1886
+            1887
           ]
         }
       ]
@@ -2277,10 +2223,6 @@ export default {
           "type": "leader"
         },
         {
-          "to": "sternguard-veteran-squad",
-          "type": "leader"
-        },
-        {
           "to": "tactical-squad",
           "type": "leader"
         },
@@ -2314,10 +2256,6 @@ export default {
         },
         {
           "to": "decimus-kill-team",
-          "type": "leader"
-        },
-        {
-          "to": "sternguard-veteran-squad",
           "type": "leader"
         }
       ],
@@ -2364,10 +2302,6 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "terminator-squad",
-          "type": "leader"
-        },
-        {
           "to": "terminator-assault-squad",
           "type": "leader"
         },
@@ -2402,11 +2336,11 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 786,
+          "t": 788,
           "in": "checkbox",
           "o": [
             [
-              1870
+              1871
             ]
           ],
           "rep": [
@@ -2455,7 +2389,7 @@ export default {
           0,
           [
             [
-              1889,
+              1890,
               1
             ],
             [
@@ -2549,7 +2483,7 @@ export default {
               7
             ],
             [
-              1890
+              1891
             ],
             [
               594
@@ -2564,7 +2498,10 @@ export default {
               38
             ],
             [
-              1853
+              1854
+            ],
+            [
+              1892
             ]
           ],
           "rep": [
@@ -2592,7 +2529,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 95,
+          "pts": 85,
           "per": [
             1,
             1
@@ -2623,10 +2560,6 @@ export default {
           "type": "leader"
         },
         {
-          "to": "sternguard-veteran-squad",
-          "type": "leader"
-        },
-        {
           "to": "tactical-squad",
           "type": "leader"
         }
@@ -2636,7 +2569,7 @@ export default {
           0,
           [
             [
-              1891,
+              1893,
               1
             ],
             [
@@ -2644,7 +2577,7 @@ export default {
               1
             ],
             [
-              1892,
+              1894,
               1
             ]
           ]
@@ -2695,7 +2628,7 @@ export default {
               1
             ],
             [
-              1893,
+              1895,
               1
             ]
           ]
@@ -2712,7 +2645,7 @@ export default {
               1
             ],
             [
-              1894,
+              1896,
               1
             ]
           ]
@@ -2762,7 +2695,7 @@ export default {
           0,
           [
             [
-              1895,
+              1897,
               1
             ]
           ]
@@ -2851,7 +2784,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 787,
+          "t": 789,
           "in": "checkbox",
           "o": [
             [
@@ -2864,7 +2797,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 788,
+          "t": 790,
           "in": "checkbox",
           "o": [
             [
@@ -2874,7 +2807,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 787,
+          "t": 789,
           "in": "stepper",
           "o": [
             [
@@ -2963,7 +2896,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 789,
+          "t": 791,
           "in": "checkbox",
           "o": [
             [
@@ -2973,7 +2906,7 @@ export default {
               7
             ],
             [
-              1890
+              1891
             ],
             [
               11
@@ -2985,7 +2918,7 @@ export default {
               1183
             ],
             [
-              1896
+              1898
             ]
           ],
           "rep": [
@@ -2995,11 +2928,11 @@ export default {
         },
         {
           "m": 1,
-          "t": 790,
+          "t": 792,
           "in": "stepper",
           "o": [
             [
-              1897
+              1899
             ],
             [
               17
@@ -3014,7 +2947,7 @@ export default {
               19
             ],
             [
-              1898
+              1900
             ]
           ],
           "rep": [
@@ -3087,7 +3020,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 791,
+          "t": 793,
           "in": "checkbox",
           "o": [
             [
@@ -3125,15 +3058,33 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 70,
+          "pts": 60,
           "per": [
             1,
             1
           ],
           "default": 1
+        },
+        {
+          "pts": 60,
+          "per": [
+            1,
+            1
+          ]
+        },
+        {
+          "pts": 60,
+          "per": [
+            1,
+            1
+          ]
         }
       ],
-      "linked": 1
+      "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      }
     },
     {
       "id": "eliminator-squad",
@@ -3205,11 +3156,11 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 792,
+          "t": 794,
           "in": "checkbox",
           "o": [
             [
-              1899
+              1901
             ],
             [
               1209
@@ -3221,7 +3172,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 793,
+          "t": 795,
           "in": "stepper",
           "o": [
             [
@@ -3315,7 +3266,7 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 794,
+          "t": 796,
           "in": "stepper",
           "o": [
             [
@@ -3342,19 +3293,36 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 70,
+          "pts": 80,
           "per": [
             3,
             3
           ],
           "default": 1
+        },
+        {
+          "pts": 80,
+          "per": [
+            3,
+            3
+          ]
+        },
+        {
+          "pts": 80,
+          "per": [
+            3,
+            3
+          ]
+        },
+        {
+          "pts": 80,
+          "per": [
+            3,
+            3
+          ]
         }
       ],
       "linked": 1,
-      "step": {
-        "at": 3,
-        "pts": 10
-      },
       "minis": [
         {
           "n": "Eradicator Sergeant"
@@ -3366,7 +3334,7 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 795,
+          "t": 797,
           "in": "stepper",
           "o": [
             [
@@ -3375,12 +3343,12 @@ export default {
               2
             ],
             [
-              1900,
+              1902,
               0,
               2
             ],
             [
-              1901,
+              1903,
               0,
               2
             ]
@@ -3426,7 +3394,7 @@ export default {
               1
             ],
             [
-              1902,
+              1904,
               1
             ]
           ]
@@ -3435,15 +3403,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 796,
+          "t": 798,
           "in": "stepper",
           "o": [
             [
-              1903
+              1905
             ]
           ],
           "rep": [
-            1902
+            1904
           ]
         }
       ]
@@ -3507,7 +3475,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 769,
+          "t": 771,
           "in": "checkbox",
           "o": [
             [
@@ -3576,7 +3544,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 769,
+          "t": 771,
           "in": "checkbox",
           "o": [
             [
@@ -3645,7 +3613,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 769,
+          "t": 771,
           "in": "checkbox",
           "o": [
             [
@@ -3693,11 +3661,11 @@ export default {
           0,
           [
             [
-              1904,
+              1906,
               1
             ],
             [
-              1905,
+              1907,
               1
             ]
           ]
@@ -3706,15 +3674,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 797,
+          "t": 799,
           "in": "checkbox",
           "o": [
             [
-              1906
+              1908
             ]
           ],
           "rep": [
-            1905
+            1907
           ]
         }
       ]
@@ -3763,7 +3731,7 @@ export default {
           0,
           [
             [
-              1907,
+              1909,
               1
             ],
             [
@@ -3780,7 +3748,7 @@ export default {
           1,
           [
             [
-              1907,
+              1909,
               1
             ],
             [
@@ -3797,15 +3765,15 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 798,
+          "t": 800,
           "in": "stepper",
           "o": [
             [
-              1908
+              1910
             ]
           ],
           "rep": [
-            1907
+            1909
           ]
         }
       ]
@@ -3853,7 +3821,7 @@ export default {
           0,
           [
             [
-              1175,
+              1179,
               1
             ],
             [
@@ -3874,7 +3842,7 @@ export default {
               1
             ],
             [
-              1175,
+              1179,
               1
             ],
             [
@@ -3887,7 +3855,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 799,
+          "t": 801,
           "in": "checkbox",
           "o": [
             [
@@ -3915,7 +3883,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 80,
+          "pts": 70,
           "per": [
             1,
             1
@@ -3924,6 +3892,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
@@ -3942,7 +3914,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 769,
+          "t": 771,
           "in": "checkbox",
           "o": [
             [
@@ -3996,7 +3968,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 120,
+          "pts": 125,
           "per": [
             3,
             3
@@ -4004,7 +3976,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 240,
+          "pts": 250,
           "per": [
             4,
             6
@@ -4055,7 +4027,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 800,
+          "t": 802,
           "in": "checkbox",
           "o": [
             [
@@ -4068,7 +4040,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 800,
+          "t": 802,
           "in": "stepper",
           "o": [
             [
@@ -4133,7 +4105,7 @@ export default {
               1
             ],
             [
-              1909,
+              1911,
               1
             ],
             [
@@ -4150,7 +4122,7 @@ export default {
               1
             ],
             [
-              1909,
+              1911,
               1
             ],
             [
@@ -4163,11 +4135,11 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 801,
+          "t": 803,
           "in": "checkbox",
           "o": [
             [
-              1910
+              1912
             ]
           ]
         }
@@ -4195,7 +4167,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 170,
+          "pts": 180,
           "per": [
             6,
             10
@@ -4220,7 +4192,7 @@ export default {
               1
             ],
             [
-              1911,
+              1913,
               1
             ],
             [
@@ -4233,7 +4205,7 @@ export default {
           1,
           [
             [
-              1911,
+              1913,
               1
             ],
             [
@@ -4304,7 +4276,7 @@ export default {
               1
             ],
             [
-              1912,
+              1914,
               1
             ]
           ]
@@ -4313,7 +4285,7 @@ export default {
           0,
           [
             [
-              1912,
+              1914,
               1
             ],
             [
@@ -4330,7 +4302,7 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 802,
+          "t": 804,
           "in": "checkbox",
           "o": [
             [
@@ -4340,7 +4312,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 803,
+          "t": 805,
           "in": "checkbox",
           "o": [
             [
@@ -4428,7 +4400,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 804,
+          "t": 806,
           "in": "checkbox",
           "o": [
             [
@@ -4450,7 +4422,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 805,
+          "t": 807,
           "in": "checkbox",
           "o": [
             [
@@ -4524,15 +4496,15 @@ export default {
           0,
           [
             [
-              1894,
+              1896,
               1
             ],
             [
-              1889,
+              1890,
               1
             ],
             [
-              1913,
+              1915,
               1
             ],
             [
@@ -4545,7 +4517,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 806,
+          "t": 808,
           "in": "checkbox",
           "o": [
             [
@@ -4553,7 +4525,7 @@ export default {
             ]
           ],
           "rep": [
-            1913
+            1915
           ]
         }
       ]
@@ -4586,7 +4558,7 @@ export default {
           0,
           [
             [
-              1914,
+              1916,
               1
             ],
             [
@@ -4594,11 +4566,11 @@ export default {
               1
             ],
             [
-              1915,
+              1917,
               1
             ],
             [
-              1916,
+              1918,
               1
             ],
             [
@@ -4611,15 +4583,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 807,
+          "t": 809,
           "in": "checkbox",
           "o": [
             [
-              1917
+              1919
             ]
           ],
           "rep": [
-            1914
+            1916
           ]
         }
       ]
@@ -4657,15 +4629,7 @@ export default {
           "type": "leader"
         },
         {
-          "to": "eradicator-squad",
-          "type": "leader"
-        },
-        {
           "to": "heavy-intercessor-squad",
-          "type": "leader"
-        },
-        {
-          "to": "eradicator-squad-with-heavy-bolters",
           "type": "leader"
         }
       ],
@@ -4674,7 +4638,7 @@ export default {
           0,
           [
             [
-              1918,
+              1920,
               1
             ],
             [
@@ -4682,11 +4646,11 @@ export default {
               1
             ],
             [
-              1919,
+              1921,
               1
             ],
             [
-              1920,
+              1922,
               1
             ]
           ]
@@ -4736,10 +4700,6 @@ export default {
           "type": "leader"
         },
         {
-          "to": "sternguard-veteran-squad",
-          "type": "leader"
-        },
-        {
           "to": "tactical-squad",
           "type": "leader"
         },
@@ -4766,10 +4726,6 @@ export default {
         {
           "to": "decimus-kill-team",
           "type": "leader"
-        },
-        {
-          "to": "sternguard-veteran-squad",
-          "type": "leader"
         }
       ],
       "defaults": [
@@ -4781,7 +4737,7 @@ export default {
               1
             ],
             [
-              1921,
+              1923,
               1
             ]
           ]
@@ -4833,11 +4789,11 @@ export default {
           0,
           [
             [
-              1922,
+              1924,
               1
             ],
             [
-              1923,
+              1925,
               1
             ]
           ]
@@ -4890,10 +4846,6 @@ export default {
           "type": "leader"
         },
         {
-          "to": "sternguard-veteran-squad",
-          "type": "leader"
-        },
-        {
           "to": "tactical-squad",
           "type": "leader"
         }
@@ -4907,7 +4859,7 @@ export default {
               1
             ],
             [
-              1924,
+              1926,
               1
             ]
           ]
@@ -5172,7 +5124,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 95,
+          "pts": 105,
           "per": [
             1,
             1
@@ -5181,16 +5133,12 @@ export default {
         }
       ],
       "linked": 1,
-      "step": {
-        "at": 3,
-        "pts": 10
-      },
       "defaults": [
         [
           0,
           [
             [
-              1913,
+              1915,
               1
             ],
             [
@@ -5198,11 +5146,11 @@ export default {
               1
             ],
             [
-              1925,
+              1927,
               1
             ],
             [
-              1926,
+              1928,
               1
             ]
           ]
@@ -5211,7 +5159,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 808,
+          "t": 810,
           "in": "checkbox",
           "o": [
             [
@@ -5239,15 +5187,40 @@ export default {
       },
       "sizes": [
         {
-          "pts": 60,
+          "pts": 70,
           "per": [
             1,
             1
           ],
           "default": 1
+        },
+        {
+          "pts": 70,
+          "per": [
+            1,
+            1
+          ]
+        },
+        {
+          "pts": 70,
+          "per": [
+            1,
+            1
+          ]
+        },
+        {
+          "pts": 70,
+          "per": [
+            1,
+            1
+          ]
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 10
+      },
       "leads": [
         {
           "to": "assault-intercessor-squad",
@@ -5271,10 +5244,6 @@ export default {
         },
         {
           "to": "intercessor-squad",
-          "type": "leader"
-        },
-        {
-          "to": "sternguard-veteran-squad",
           "type": "leader"
         },
         {
@@ -5307,7 +5276,7 @@ export default {
               1
             ],
             [
-              1927,
+              1929,
               1
             ],
             [
@@ -5372,7 +5341,7 @@ export default {
           0,
           [
             [
-              1927,
+              1929,
               1
             ],
             [
@@ -5444,7 +5413,7 @@ export default {
               1
             ],
             [
-              1927,
+              1929,
               1
             ]
           ]
@@ -5494,31 +5463,7 @@ export default {
       "linked": 1,
       "leads": [
         {
-          "to": "decimus-kill-team",
-          "type": "support"
-        },
-        {
           "to": "assault-intercessor-squad",
-          "type": "support"
-        },
-        {
-          "to": "deathwatch-veterans",
-          "type": "support"
-        },
-        {
-          "to": "fortis-kill-team",
-          "type": "support"
-        },
-        {
-          "to": "sword-brethren-squad",
-          "type": "support"
-        },
-        {
-          "to": "inner-circle-companions",
-          "type": "support"
-        },
-        {
-          "to": "crusader-squad",
           "type": "support"
         },
         {
@@ -5542,15 +5487,31 @@ export default {
           "type": "support"
         },
         {
-          "to": "sternguard-veteran-squad",
-          "type": "support"
-        },
-        {
           "to": "tactical-squad",
           "type": "support"
         },
         {
-          "to": "sternguard-veteran-squad",
+          "to": "sword-brethren-squad",
+          "type": "support"
+        },
+        {
+          "to": "crusader-squad",
+          "type": "support"
+        },
+        {
+          "to": "inner-circle-companions",
+          "type": "support"
+        },
+        {
+          "to": "deathwatch-veterans",
+          "type": "support"
+        },
+        {
+          "to": "fortis-kill-team",
+          "type": "support"
+        },
+        {
+          "to": "decimus-kill-team",
           "type": "support"
         }
       ],
@@ -5559,11 +5520,11 @@ export default {
           0,
           [
             [
-              1851,
+              1852,
               1
             ],
             [
-              1868,
+              1869,
               1
             ],
             [
@@ -5576,47 +5537,47 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 809,
+          "t": 811,
           "in": "checkbox",
           "o": [
             [
               25
             ],
             [
-              1928
+              1930
             ],
             [
-              1853
+              1854
             ]
           ],
           "rep": [
-            1868
+            1869
           ]
         },
         {
           "m": 0,
-          "t": 810,
+          "t": 812,
           "in": "checkbox",
           "o": [
             [
-              1869
+              1870
             ],
             [
-              1928
+              1930
             ],
             [
-              1929
+              1931
             ]
           ],
           "rep": [
             22,
-            1868,
-            1851
+            1869,
+            1852
           ]
         },
         {
           "m": 0,
-          "t": 811,
+          "t": 813,
           "in": "checkbox",
           "o": [
             [
@@ -5629,18 +5590,18 @@ export default {
         },
         {
           "m": 0,
-          "t": 776,
+          "t": 778,
           "in": "checkbox",
           "o": [
             [
-              1928
+              1930
             ],
             [
-              1853
+              1854
             ]
           ],
           "rep": [
-            1851
+            1852
           ]
         }
       ]
@@ -5694,11 +5655,11 @@ export default {
           0,
           [
             [
-              1930,
+              1932,
               1
             ],
             [
-              1931,
+              1933,
               1
             ],
             [
@@ -5748,11 +5709,11 @@ export default {
           0,
           [
             [
-              1932,
+              1934,
               1
             ],
             [
-              1933,
+              1935,
               1
             ]
           ]
@@ -5778,12 +5739,19 @@ export default {
       },
       "sizes": [
         {
-          "pts": 85,
+          "pts": 95,
           "per": [
             1,
             1
           ],
           "default": 1
+        },
+        {
+          "pts": 95,
+          "per": [
+            1,
+            1
+          ]
         }
       ],
       "linked": 1,
@@ -5792,7 +5760,7 @@ export default {
           0,
           [
             [
-              1934,
+              1936,
               1
             ],
             [
@@ -5822,7 +5790,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 140,
+          "pts": 155,
           "per": [
             1,
             1
@@ -5849,10 +5817,6 @@ export default {
           "type": "leader"
         },
         {
-          "to": "eradicator-squad",
-          "type": "leader"
-        },
-        {
           "to": "heavy-intercessor-squad",
           "type": "leader"
         },
@@ -5862,10 +5826,6 @@ export default {
         },
         {
           "to": "intercessor-squad",
-          "type": "leader"
-        },
-        {
-          "to": "sternguard-veteran-squad",
           "type": "leader"
         },
         {
@@ -5890,7 +5850,7 @@ export default {
           0,
           [
             [
-              1935,
+              1937,
               1
             ]
           ]
@@ -5993,7 +5953,7 @@ export default {
               1
             ],
             [
-              1889,
+              1890,
               1
             ]
           ]
@@ -6002,11 +5962,11 @@ export default {
           2,
           [
             [
-              1889,
+              1890,
               1
             ],
             [
-              1913,
+              1915,
               1
             ],
             [
@@ -6014,7 +5974,7 @@ export default {
               1
             ],
             [
-              1894,
+              1896,
               1
             ]
           ]
@@ -6031,7 +5991,7 @@ export default {
               1
             ],
             [
-              1889,
+              1890,
               1
             ]
           ]
@@ -6040,7 +6000,7 @@ export default {
       "gear": [
         {
           "m": 2,
-          "t": 812,
+          "t": 814,
           "in": "checkbox",
           "o": [
             [
@@ -6048,7 +6008,7 @@ export default {
             ]
           ],
           "rep": [
-            1913
+            1915
           ]
         }
       ]
@@ -6092,10 +6052,6 @@ export default {
           "type": "leader"
         },
         {
-          "to": "sternguard-veteran-squad",
-          "type": "leader"
-        },
-        {
           "to": "tactical-squad",
           "type": "leader"
         }
@@ -6105,11 +6061,11 @@ export default {
           0,
           [
             [
-              1936,
+              1938,
               1
             ],
             [
-              1937,
+              1939,
               1
             ]
           ]
@@ -6161,7 +6117,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 813,
+          "t": 815,
           "in": "stepper",
           "o": [
             [
@@ -6239,7 +6195,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 813,
+          "t": 815,
           "in": "stepper",
           "o": [
             [
@@ -6288,15 +6244,54 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 95,
+          "pts": 85,
           "per": [
             1,
             1
           ],
           "default": 1
+        },
+        {
+          "pts": 85,
+          "per": [
+            1,
+            1
+          ]
+        },
+        {
+          "pts": 85,
+          "per": [
+            1,
+            1
+          ]
+        },
+        {
+          "pts": 85,
+          "per": [
+            1,
+            1
+          ]
+        },
+        {
+          "pts": 85,
+          "per": [
+            1,
+            1
+          ]
+        },
+        {
+          "pts": 85,
+          "per": [
+            1,
+            1
+          ]
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
@@ -6384,7 +6379,7 @@ export default {
               1
             ],
             [
-              1938,
+              1940,
               1
             ],
             [
@@ -6392,7 +6387,7 @@ export default {
               1
             ],
             [
-              1939,
+              1941,
               1
             ]
           ]
@@ -6411,11 +6406,11 @@ export default {
         },
         {
           "m": 0,
-          "t": 814,
+          "t": 816,
           "in": "checkbox",
           "o": [
             [
-              1913
+              1915
             ]
           ],
           "rep": [
@@ -6424,7 +6419,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 815,
+          "t": 817,
           "in": "checkbox",
           "o": [
             [
@@ -6438,15 +6433,15 @@ export default {
         },
         {
           "m": 0,
-          "t": 816,
+          "t": 818,
           "in": "checkbox",
           "o": [
             [
-              1861
+              1862
             ]
           ],
           "rep": [
-            1938
+            1940
           ]
         }
       ]
@@ -6495,11 +6490,11 @@ export default {
           1,
           [
             [
-              1176,
+              1180,
               1
             ],
             [
-              1940,
+              1942,
               1
             ]
           ]
@@ -6508,11 +6503,11 @@ export default {
           0,
           [
             [
-              1940,
+              1942,
               1
             ],
             [
-              1176,
+              1180,
               1
             ]
           ]
@@ -6521,38 +6516,54 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 817,
+          "t": 819,
           "in": "checkbox",
           "o": [
             [
-              1941
+              1943
             ],
             [
               668
             ]
           ],
           "rep": [
-            1176
+            1180
           ]
         },
         {
           "m": 0,
-          "t": 818,
+          "t": 820,
           "in": "checkbox",
           "o": [
             [
-              1942
+              1944
             ]
           ]
         },
         {
           "m": 0,
-          "t": 819,
+          "t": 821,
           "in": "checkbox",
+          "o": [
+            [
+              1945
+            ]
+          ]
+        },
+        {
+          "m": 1,
+          "t": 822,
+          "in": "stepper",
           "o": [
             [
               1943
+            ],
+            [
+              668
             ]
+          ],
+          "rep": [
+            1180
           ]
         },
         {
@@ -6561,33 +6572,17 @@ export default {
           "in": "stepper",
           "o": [
             [
-              1941
-            ],
-            [
-              668
-            ]
-          ],
-          "rep": [
-            1176
-          ]
-        },
-        {
-          "m": 1,
-          "t": 818,
-          "in": "stepper",
-          "o": [
-            [
-              1942
+              1944
             ]
           ]
         },
         {
           "m": 1,
-          "t": 819,
+          "t": 821,
           "in": "stepper",
           "o": [
             [
-              1943
+              1945
             ]
           ]
         }
@@ -6668,7 +6663,7 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              1944
+              1946
             ]
           ],
           "rep": [
@@ -6714,14 +6709,14 @@ export default {
           ]
         },
         {
-          "pts": 230,
+          "pts": 255,
           "per": [
             1,
             1
           ]
         },
         {
-          "pts": 240,
+          "pts": 230,
           "per": [
             1,
             1
@@ -6771,7 +6766,8 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              703
+              703,
+              10
             ]
           ],
           "rep": [
@@ -6780,7 +6776,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 769,
+          "t": 771,
           "in": "checkbox",
           "o": [
             [
@@ -6816,7 +6812,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 75,
+          "pts": 65,
           "per": [
             1,
             1
@@ -6825,6 +6821,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
@@ -6861,6 +6861,7 @@ export default {
         "Character",
         "Epic Hero",
         "Imperium",
+        "Mobile",
         "Monster",
         "Primarch",
         "Roboute Guilliman"
@@ -6872,7 +6873,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 340,
+          "pts": 355,
           "per": [
             1,
             1
@@ -6886,11 +6887,11 @@ export default {
           0,
           [
             [
-              1945,
+              1947,
               1
             ],
             [
-              1946,
+              1948,
               1
             ]
           ]
@@ -6978,14 +6979,14 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 821,
+          "t": 823,
           "in": "checkbox",
           "o": [
             [
-              1947
+              1949
             ],
             [
-              1948
+              1950
             ]
           ],
           "rep": [
@@ -6994,27 +6995,11 @@ export default {
         },
         {
           "m": 0,
-          "t": 822,
+          "t": 824,
           "in": "checkbox",
           "o": [
             [
               734
-            ]
-          ],
-          "rep": [
-            935
-          ]
-        },
-        {
-          "m": 1,
-          "t": 821,
-          "in": "stepper",
-          "o": [
-            [
-              1947
-            ],
-            [
-              1948
             ]
           ],
           "rep": [
@@ -7028,6 +7013,9 @@ export default {
           "o": [
             [
               1949
+            ],
+            [
+              1950
             ]
           ],
           "rep": [
@@ -7036,7 +7024,20 @@ export default {
         },
         {
           "m": 1,
-          "t": 824,
+          "t": 825,
+          "in": "stepper",
+          "o": [
+            [
+              1951
+            ]
+          ],
+          "rep": [
+            935
+          ]
+        },
+        {
+          "m": 1,
+          "t": 826,
           "in": "stepper",
           "o": [
             [
@@ -7074,7 +7075,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 190,
+          "pts": 200,
           "per": [
             6,
             10
@@ -7212,7 +7213,7 @@ export default {
           0,
           [
             [
-              1913,
+              1915,
               1
             ],
             [
@@ -7224,7 +7225,7 @@ export default {
               1
             ],
             [
-              1915,
+              1917,
               1
             ]
           ]
@@ -7245,12 +7246,19 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 130,
+          "pts": 140,
           "per": [
             1,
             1
           ],
           "default": 1
+        },
+        {
+          "pts": 140,
+          "per": [
+            1,
+            1
+          ]
         }
       ],
       "linked": 1,
@@ -7263,15 +7271,15 @@ export default {
           0,
           [
             [
-              1954,
+              1956,
               1
             ],
             [
-              1955,
+              1957,
               2
             ],
             [
-              1956,
+              1958,
               1
             ],
             [
@@ -7314,11 +7322,11 @@ export default {
           0,
           [
             [
-              1951,
+              1953,
               1
             ],
             [
-              1952,
+              1954,
               1
             ],
             [
@@ -7326,7 +7334,7 @@ export default {
               1
             ],
             [
-              1953,
+              1955,
               1
             ]
           ]
@@ -7340,7 +7348,6 @@ export default {
       "kws": [
         "Aircraft",
         "Fly",
-        "Frame",
         "Imperium",
         "Smoke",
         "Stormhawk Interceptor",
@@ -7375,7 +7382,7 @@ export default {
               1
             ],
             [
-              1944,
+              1946,
               1
             ]
           ]
@@ -7400,7 +7407,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 825,
+          "t": 827,
           "in": "checkbox",
           "o": [
             [
@@ -7408,7 +7415,7 @@ export default {
             ]
           ],
           "rep": [
-            1944
+            1946
           ]
         }
       ]
@@ -7419,7 +7426,6 @@ export default {
       "name": "Stormraven Gunship",
       "kws": [
         "Fly",
-        "Frame",
         "Imperium",
         "Stormraven Gunship",
         "Transport",
@@ -7458,7 +7464,7 @@ export default {
               1
             ],
             [
-              1178,
+              1165,
               2
             ]
           ]
@@ -7471,7 +7477,7 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              1950
+              1952
             ],
             [
               698
@@ -7516,7 +7522,6 @@ export default {
       "kws": [
         "Aircraft",
         "Fly",
-        "Frame",
         "Imperium",
         "Stormtalon Gunship",
         "Vehicle"
@@ -7538,7 +7543,7 @@ export default {
           0,
           [
             [
-              1957,
+              1959,
               1
             ],
             [
@@ -7569,7 +7574,7 @@ export default {
             ]
           ],
           "rep": [
-            1957
+            1959
           ]
         }
       ]
@@ -7593,7 +7598,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 100,
+          "pts": 90,
           "per": [
             1,
             1
@@ -7625,12 +7630,40 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 75,
+          "pts": 85,
           "per": [
             3,
             3
           ],
           "default": 1
+        },
+        {
+          "pts": 85,
+          "per": [
+            3,
+            3
+          ]
+        },
+        {
+          "pts": 85,
+          "per": [
+            3,
+            3
+          ]
+        },
+        {
+          "pts": 85,
+          "per": [
+            3,
+            3
+          ]
+        },
+        {
+          "pts": 85,
+          "per": [
+            3,
+            3
+          ]
         }
       ],
       "linked": 1,
@@ -7651,7 +7684,7 @@ export default {
               1
             ],
             [
-              1958,
+              1960,
               1
             ],
             [
@@ -7668,7 +7701,7 @@ export default {
               1
             ],
             [
-              1958,
+              1960,
               1
             ],
             [
@@ -7769,7 +7802,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 826,
+          "t": 828,
           "in": "checkbox",
           "o": [
             [
@@ -7785,7 +7818,7 @@ export default {
               7
             ],
             [
-              1890
+              1891
             ],
             [
               11
@@ -7800,10 +7833,10 @@ export default {
               1183
             ],
             [
-              1896
+              1898
             ],
             [
-              1959
+              1961
             ]
           ],
           "rep": [
@@ -7813,7 +7846,7 @@ export default {
         },
         {
           "m": 2,
-          "t": 827,
+          "t": 829,
           "in": "checkbox",
           "o": [
             [
@@ -7823,10 +7856,10 @@ export default {
               17
             ],
             [
-              1897
+              1899
             ],
             [
-              1960
+              1962
             ],
             [
               995
@@ -7841,7 +7874,7 @@ export default {
               19
             ],
             [
-              1898
+              1900
             ],
             [
               587
@@ -7853,14 +7886,14 @@ export default {
         },
         {
           "m": 1,
-          "t": 827,
+          "t": 829,
           "in": "checkbox",
           "o": [
             [
               518
             ],
             [
-              1960
+              1962
             ],
             [
               15
@@ -8031,11 +8064,11 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 828,
+          "t": 830,
           "in": "checkbox",
           "o": [
             [
-              1961
+              1963
             ]
           ],
           "rep": [
@@ -8045,11 +8078,11 @@ export default {
         },
         {
           "m": 1,
-          "t": 828,
+          "t": 830,
           "in": "stepper",
           "o": [
             [
-              1961
+              1963
             ]
           ],
           "rep": [
@@ -8175,7 +8208,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 829,
+          "t": 831,
           "in": "checkbox",
           "o": [
             [
@@ -8193,9 +8226,7 @@ export default {
       "sid": "0c966839-270e-4d74-a70f-617a7744d895",
       "name": "Thunderhawk Gunship",
       "kws": [
-        "Aircraft",
         "Fly",
-        "Frame",
         "Imperium",
         "Thunderhawk Gunship",
         "Titanic",
@@ -8304,15 +8335,7 @@ export default {
           "type": "leader"
         },
         {
-          "to": "eradicator-squad",
-          "type": "leader"
-        },
-        {
           "to": "heavy-intercessor-squad",
-          "type": "leader"
-        },
-        {
-          "to": "eradicator-squad-with-heavy-bolters",
           "type": "leader"
         }
       ],
@@ -8321,11 +8344,11 @@ export default {
           0,
           [
             [
-              1962,
+              1964,
               1
             ],
             [
-              1963,
+              1965,
               1
             ]
           ]
@@ -8351,7 +8374,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 95,
+          "pts": 105,
           "per": [
             1,
             1
@@ -8378,11 +8401,11 @@ export default {
           "type": "leader"
         },
         {
-          "to": "sternguard-veteran-squad",
+          "to": "tactical-squad",
           "type": "leader"
         },
         {
-          "to": "tactical-squad",
+          "to": "victrix-honour-guard",
           "type": "leader"
         }
       ],
@@ -8391,7 +8414,7 @@ export default {
           0,
           [
             [
-              1964,
+              1966,
               1
             ],
             [
@@ -8399,7 +8422,7 @@ export default {
               1
             ],
             [
-              1965,
+              1967,
               1
             ]
           ]
@@ -8430,7 +8453,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 100,
+          "pts": 110,
           "per": [
             5,
             5
@@ -8444,7 +8467,7 @@ export default {
           ]
         },
         {
-          "pts": 200,
+          "pts": 220,
           "per": [
             6,
             10
@@ -8473,7 +8496,7 @@ export default {
               1
             ],
             [
-              1966,
+              1968,
               1
             ]
           ]
@@ -8486,7 +8509,7 @@ export default {
               1
             ],
             [
-              1966,
+              1968,
               1
             ]
           ]
@@ -8495,14 +8518,63 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 830,
+          "t": 832,
           "in": "checkbox",
           "o": [
             [
-              1929
+              1931
             ],
             [
-              1890
+              1891
+            ],
+            [
+              594
+            ],
+            [
+              9
+            ],
+            [
+              11
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 833,
+          "in": "checkbox",
+          "o": [
+            [
+              11
+            ]
+          ]
+        },
+        {
+          "m": 0,
+          "t": 834,
+          "in": "checkbox",
+          "o": [
+            [
+              1969
+            ],
+            [
+              1970
+            ]
+          ],
+          "rep": [
+            1,
+            1968
+          ]
+        },
+        {
+          "m": 1,
+          "t": 832,
+          "in": "stepper",
+          "o": [
+            [
+              1931
+            ],
+            [
+              1891
             ],
             [
               594
@@ -8517,21 +8589,26 @@ export default {
         },
         {
           "m": 1,
-          "t": 830,
+          "t": 834,
           "in": "stepper",
           "o": [
             [
-              1929
+              1969
             ],
             [
-              1890
-            ],
-            [
-              594
-            ],
-            [
-              9
-            ],
+              1970
+            ]
+          ],
+          "rep": [
+            1,
+            1968
+          ]
+        },
+        {
+          "m": 1,
+          "t": 833,
+          "in": "stepper",
+          "o": [
             [
               11
             ]
@@ -8586,28 +8663,28 @@ export default {
           ]
         },
         {
-          "pts": 220,
+          "pts": 230,
           "per": [
             4,
             6
           ]
         },
         {
-          "pts": 220,
+          "pts": 230,
           "per": [
             4,
             6
           ]
         },
         {
-          "pts": 220,
+          "pts": 230,
           "per": [
             4,
             6
           ]
         },
         {
-          "pts": 220,
+          "pts": 230,
           "per": [
             4,
             6
@@ -8635,7 +8712,7 @@ export default {
           1,
           [
             [
-              1967,
+              1971,
               1
             ]
           ]
@@ -8644,11 +8721,11 @@ export default {
           2,
           [
             [
-              1928,
+              1930,
               1
             ],
             [
-              1968,
+              1972,
               1
             ]
           ]
@@ -8657,11 +8734,11 @@ export default {
           0,
           [
             [
-              1928,
+              1930,
               1
             ],
             [
-              1969,
+              1973,
               1
             ]
           ]
@@ -8789,11 +8866,11 @@ export default {
               1
             ],
             [
-              1970,
+              1974,
               1
             ],
             [
-              1971,
+              1975,
               1
             ]
           ]
@@ -8818,7 +8895,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 110,
+          "pts": 120,
           "per": [
             6,
             6
@@ -8838,10 +8915,6 @@ export default {
         },
         {
           "to": "intercessor-squad",
-          "type": "support"
-        },
-        {
-          "to": "sternguard-veteran-squad",
           "type": "support"
         }
       ],
@@ -8870,15 +8943,15 @@ export default {
           2,
           [
             [
-              1972,
+              1976,
               1
             ],
             [
-              1973,
+              1977,
               1
             ],
             [
-              1974,
+              1978,
               1
             ]
           ]
@@ -8887,7 +8960,33 @@ export default {
           4,
           [
             [
-              1975,
+              1979,
+              1
+            ],
+            [
+              1980,
+              1
+            ]
+          ]
+        ],
+        [
+          5,
+          [
+            [
+              1981,
+              1
+            ],
+            [
+              1977,
+              1
+            ]
+          ]
+        ],
+        [
+          3,
+          [
+            [
+              1977,
               1
             ],
             [
@@ -8897,36 +8996,10 @@ export default {
           ]
         ],
         [
-          5,
-          [
-            [
-              1977,
-              1
-            ],
-            [
-              1973,
-              1
-            ]
-          ]
-        ],
-        [
-          3,
-          [
-            [
-              1973,
-              1
-            ],
-            [
-              1972,
-              1
-            ]
-          ]
-        ],
-        [
           0,
           [
             [
-              1977,
+              1981,
               1
             ],
             [
@@ -8939,7 +9012,7 @@ export default {
           1,
           [
             [
-              1929,
+              1931,
               1
             ],
             [
@@ -8947,7 +9020,7 @@ export default {
               1
             ],
             [
-              1928,
+              1930,
               1
             ]
           ]
@@ -8990,7 +9063,7 @@ export default {
               1
             ],
             [
-              1978,
+              1982,
               1
             ]
           ]
@@ -9025,7 +9098,7 @@ export default {
       "name": "1st Company Task Force",
       "sid": "01c7258d-72a9-4df9-bea2-b4f7bfdaebb8",
       "dp": 2,
-      "fd": "Priority Assets",
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "The Imperium’s Sword",
@@ -9270,7 +9343,7 @@ export default {
       "enhancements": [
         {
           "name": "Armour of Antoninus",
-          "pts": 10,
+          "pts": 20,
           "type": "miniature",
           "req": [
             {
@@ -9378,7 +9451,7 @@ export default {
       "name": "Emperor’s Shield",
       "sid": "5e6fedf7-bfb7-4042-84ce-7644be942167",
       "dp": 2,
-      "fd": "Priority Assets",
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Champion of the Feast",
@@ -9443,7 +9516,7 @@ export default {
       "name": "Firestorm Assault Force",
       "sid": "fcc5de05-5825-4af5-9484-38af6358ff2b",
       "dp": 2,
-      "fd": "Purge the Foe",
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Champion of Humanity",
@@ -9502,7 +9575,7 @@ export default {
       "name": "Forgefather’s Seekers",
       "sid": "9c26c287-1ec3-4580-9106-82b7b054ce98",
       "dp": 2,
-      "fd": "Purge the Foe",
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Immolator",
@@ -9561,7 +9634,7 @@ export default {
       "name": "Fulguris Task Force",
       "sid": "a65dba8d-ae69-4e3e-a72e-afeb748a98ca",
       "dp": 1,
-      "fd": "Disruption",
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Bellicose Weapon Spirits (Upgrade)",
@@ -9601,7 +9674,7 @@ export default {
       "enhancements": [
         {
           "name": "Artificer Armour",
-          "pts": 10,
+          "pts": 20,
           "type": "miniature",
           "req": [
             {
@@ -9653,7 +9726,7 @@ export default {
       "name": "Hammer of Avernii",
       "sid": "1ca178a4-0e04-4f18-ae3a-ecd0336131a6",
       "dp": 2,
-      "fd": "Priority Assets",
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Spiritus Ferrum",
@@ -9780,7 +9853,7 @@ export default {
       "name": "Ironstorm Spearhead",
       "sid": "fe7ac957-dfdf-4025-bd77-c387cd6c62a5",
       "dp": 2,
-      "fd": "Purge the Foe",
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Target Augury Web",
@@ -9796,7 +9869,7 @@ export default {
         },
         {
           "name": "The Flesh Is Weak",
-          "pts": 10,
+          "pts": 20,
           "type": "miniature",
           "req": [
             {
@@ -9839,36 +9912,6 @@ export default {
       "fd": "Reconnaissance",
       "enhancements": [
         {
-          "name": "Fusillade",
-          "pts": 20,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ],
-              "kw": [
-                "Psyker"
-              ]
-            }
-          ]
-        },
-        {
-          "name": "Temporal Corridor",
-          "pts": 15,
-          "type": "miniature",
-          "req": [
-            {
-              "fac": [
-                "Adeptus Astartes"
-              ],
-              "kw": [
-                "Psyker"
-              ]
-            }
-          ]
-        },
-        {
           "name": "Obfuscation",
           "pts": 25,
           "type": "miniature",
@@ -9901,6 +9944,36 @@ export default {
         {
           "name": "Prescience",
           "pts": 20,
+          "type": "miniature",
+          "req": [
+            {
+              "fac": [
+                "Adeptus Astartes"
+              ],
+              "kw": [
+                "Psyker"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Fusillade",
+          "pts": 25,
+          "type": "miniature",
+          "req": [
+            {
+              "fac": [
+                "Adeptus Astartes"
+              ],
+              "kw": [
+                "Psyker"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Temporal Corridor",
+          "pts": 25,
           "type": "miniature",
           "req": [
             {
@@ -10214,7 +10287,7 @@ export default {
       "name": "Subversion Assets",
       "sid": "b87e2dfa-d598-4fbb-a4ac-e08fdba03391",
       "dp": 1,
-      "fd": "Reconnaissance",
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Death in the Dark (Upgrade)",
@@ -10298,6 +10371,46 @@ export default {
             {
               "kw": [
                 "Phobos"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Vengeful Hosts",
+      "sid": "63c87e85-fd1a-4dc3-8bc9-226db3e966d6",
+      "dp": 1,
+      "fd": "Take and Hold",
+      "enhancements": [
+        {
+          "name": "Avenging Angel",
+          "pts": 20,
+          "type": "miniature",
+          "req": [
+            {
+              "fac": [
+                "Adeptus Astartes"
+              ],
+              "kw": [
+                "Fly",
+                "Infantry"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Orksbane",
+          "pts": 20,
+          "type": "miniature",
+          "req": [
+            {
+              "fac": [
+                "Adeptus Astartes"
+              ],
+              "kw": [
+                "Infantry",
+                "Fly"
               ]
             }
           ]

@@ -1071,7 +1071,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 140,
+          "pts": 135,
           "per": [
             1,
             1
@@ -1289,7 +1289,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 140,
+          "pts": 135,
           "per": [
             1,
             1
@@ -1366,7 +1366,7 @@ export default {
       "name": "Bastions of Tyranny",
       "sid": "993e9b23-3ade-4fb1-bb27-f9270de48978",
       "dp": 1,
-      "fd": "Disruption",
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Pterrorshade Rookery",
@@ -1581,7 +1581,7 @@ export default {
       "name": "Infernal Lance",
       "sid": "86620542-e27d-4e99-a70e-da69a673c9fb",
       "dp": 3,
-      "fd": "Purge the Foe",
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Knight Diabolus",
@@ -1637,7 +1637,7 @@ export default {
       "name": "Lords of Dread",
       "sid": "355721a8-7f31-4a55-94e0-cbc895fb2397",
       "dp": 2,
-      "fd": "Priority Assets",
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Throne Mechanicum of Skulls",

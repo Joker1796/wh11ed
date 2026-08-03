@@ -77,17 +77,34 @@ export default {
           2,
           [
             [
-              1166,
+              1170,
               1
             ],
             [
-              1169,
+              1173,
               1
             ]
           ]
         ],
         [
           4,
+          [
+            [
+              1174,
+              1
+            ],
+            [
+              668,
+              1
+            ],
+            [
+              1171,
+              1
+            ]
+          ]
+        ],
+        [
+          1,
           [
             [
               1170,
@@ -98,24 +115,7 @@ export default {
               1
             ],
             [
-              1167,
-              1
-            ]
-          ]
-        ],
-        [
-          1,
-          [
-            [
-              1166,
-              1
-            ],
-            [
-              668,
-              1
-            ],
-            [
-              1165,
+              1169,
               1
             ]
           ]
@@ -124,7 +124,7 @@ export default {
           0,
           [
             [
-              1164,
+              1168,
               1
             ],
             [
@@ -137,7 +137,7 @@ export default {
           5,
           [
             [
-              1166,
+              1170,
               1
             ],
             [
@@ -154,11 +154,11 @@ export default {
           3,
           [
             [
-              1167,
+              1171,
               1
             ],
             [
-              1168,
+              1172,
               1
             ]
           ]
@@ -167,14 +167,14 @@ export default {
       "gear": [
         {
           "m": 5,
-          "t": 484,
+          "t": 487,
           "in": "stepper",
           "o": [
             [
-              1172
+              1176
             ],
             [
-              1173
+              1177
             ],
             [
               738
@@ -186,14 +186,27 @@ export default {
         },
         {
           "m": 2,
-          "t": 485,
+          "t": 488,
           "in": "stepper",
           "o": [
             [
-              1164
+              1168
             ],
             [
-              1174
+              1178
+            ]
+          ],
+          "rep": [
+            1173
+          ]
+        },
+        {
+          "m": 1,
+          "t": 489,
+          "in": "stepper",
+          "o": [
+            [
+              1179
             ]
           ],
           "rep": [
@@ -201,29 +214,16 @@ export default {
           ]
         },
         {
-          "m": 1,
-          "t": 486,
-          "in": "stepper",
-          "o": [
-            [
-              1175
-            ]
-          ],
-          "rep": [
-            1165
-          ]
-        },
-        {
           "m": 4,
-          "t": 487,
+          "t": 490,
           "in": "stepper",
           "o": [
             [
-              1176
+              1180
             ]
           ],
           "rep": [
-            1170
+            1174
           ]
         }
       ]
@@ -287,7 +287,6 @@ export default {
         "Corvus Blackstar",
         "Deathwatch",
         "Fly",
-        "Frame",
         "Imperium",
         "Ordo Xenos",
         "Retinue",
@@ -318,7 +317,7 @@ export default {
           0,
           [
             [
-              1177,
+              1164,
               2
             ],
             [
@@ -335,7 +334,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 488,
+          "t": 484,
           "in": "checkbox",
           "o": [
             [
@@ -348,17 +347,17 @@ export default {
         },
         {
           "m": 0,
-          "t": 489,
+          "t": 485,
           "in": "stepper",
           "o": [
             [
-              1178
+              1165
             ]
           ]
         },
         {
           "m": 0,
-          "t": 490,
+          "t": 486,
           "in": "checkbox",
           "o": [
             [
@@ -372,10 +371,10 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              1179
+              1166
             ],
             [
-              1180
+              1167
             ]
           ]
         }
@@ -472,7 +471,7 @@ export default {
           ]
         },
         {
-          "pts": 200,
+          "pts": 190,
           "per": [
             6,
             10
@@ -529,7 +528,7 @@ export default {
               1183
             ],
             [
-              1174
+              1178
             ]
           ],
           "rep": [
@@ -639,7 +638,7 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              1168
+              1172
             ]
           ],
           "rep": [
@@ -671,7 +670,7 @@ export default {
               1183
             ],
             [
-              1174
+              1178
             ]
           ],
           "rep": [
@@ -797,7 +796,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 110,
+          "pts": 100,
           "per": [
             1,
             1
@@ -805,14 +804,14 @@ export default {
           "default": 1
         },
         {
-          "pts": 120,
+          "pts": 110,
           "per": [
             1,
             1
           ]
         },
         {
-          "pts": 145,
+          "pts": 115,
           "per": [
             1,
             1
@@ -1002,7 +1001,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 190,
+          "pts": 175,
           "per": [
             5,
             5
@@ -1010,7 +1009,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 210,
+          "pts": 190,
           "per": [
             5,
             5
@@ -1312,7 +1311,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 75,
+          "pts": 65,
           "per": [
             1,
             1
@@ -1320,7 +1319,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 75,
+          "pts": 65,
           "per": [
             1,
             1
@@ -1328,6 +1327,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "gear": [
         {
           "m": 0,
@@ -1953,7 +1956,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 70,
+          "pts": 60,
           "per": [
             1,
             1
@@ -1961,7 +1964,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 70,
+          "pts": 60,
           "per": [
             1,
             1
@@ -1969,6 +1972,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "gear": [
         {
           "m": 0,
@@ -2386,7 +2393,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 100,
+          "pts": 90,
           "per": [
             1,
             1
@@ -2394,7 +2401,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 115,
+          "pts": 105,
           "per": [
             1,
             1
@@ -2402,6 +2409,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
@@ -2474,7 +2485,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 115,
+          "pts": 110,
           "per": [
             10,
             10
@@ -2881,7 +2892,7 @@ export default {
           ]
         },
         {
-          "pts": 155,
+          "pts": 130,
           "per": [
             1,
             1
@@ -3131,7 +3142,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 105,
+          "pts": 95,
           "per": [
             1,
             1
@@ -3166,8 +3177,8 @@ export default {
     {
       "name": "Imperialis Fleet",
       "sid": "4a6a098b-92a6-44f1-8b4f-a7ba168ba049",
-      "dp": 3,
-      "fd": "Disruption",
+      "dp": 2,
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Digital Weapons",
@@ -3222,8 +3233,8 @@ export default {
     {
       "name": "Ordo Hereticus, Purgation Force",
       "sid": "6a6e3903-1b61-4706-8fc7-e48729a9880d",
-      "dp": 3,
-      "fd": "Purge the Foe",
+      "dp": 2,
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Liber Heresius",
@@ -3293,7 +3304,7 @@ export default {
     {
       "name": "Ordo Malleus, Daemon Hunters",
       "sid": "e89bc216-2de7-4cf9-a640-2dcbfde06b56",
-      "dp": 3,
+      "dp": 2,
       "fd": "Priority Assets",
       "enhancements": [
         {
@@ -3349,7 +3360,7 @@ export default {
     {
       "name": "Ordo Xenos, Alien Hunters",
       "sid": "e072fa96-aa3e-4a5f-ba03-376879f16c7f",
-      "dp": 3,
+      "dp": 2,
       "fd": "Purge the Foe",
       "enhancements": [
         {
@@ -3405,12 +3416,12 @@ export default {
     {
       "name": "Veiled Blade Elimination Force",
       "sid": "be6ba720-81c6-4dbc-8a37-1d61b4564f60",
-      "dp": 3,
-      "fd": "Reconnaissance",
+      "dp": 1,
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Decoy Targets",
-          "pts": 40,
+          "pts": 15,
           "type": "miniature",
           "uncounted": 1,
           "req": [
@@ -3424,7 +3435,7 @@ export default {
         },
         {
           "name": "Esoteric Explosives",
-          "pts": 40,
+          "pts": 10,
           "type": "miniature",
           "uncounted": 1,
           "req": [
@@ -3438,7 +3449,7 @@ export default {
         },
         {
           "name": "Intraneural Biotech",
-          "pts": 35,
+          "pts": 15,
           "type": "miniature",
           "uncounted": 1,
           "req": [
@@ -3454,7 +3465,7 @@ export default {
         },
         {
           "name": "Micromelta Rounds",
-          "pts": 45,
+          "pts": 20,
           "type": "miniature",
           "uncounted": 1,
           "req": [

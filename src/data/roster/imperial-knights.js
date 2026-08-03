@@ -618,7 +618,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 400,
+          "pts": 425,
           "per": [
             1,
             1
@@ -629,7 +629,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 2,
-        "pts": 20
+        "pts": 25
       },
       "defaults": [
         [
@@ -1612,7 +1612,7 @@ export default {
       "name": "Dominus Foebreakers",
       "sid": "bf191d4b-5ac6-4e24-a6f6-d962c1a7b068",
       "dp": 1,
-      "fd": "Purge the Foe",
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Blessed Plate",
@@ -1650,7 +1650,7 @@ export default {
       "name": "Freeblade Company",
       "sid": "c6d159b0-4062-4a44-944c-8e00ee4a7edc",
       "dp": 3,
-      "fd": "Purge the Foe",
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Mysterious Guardian",
@@ -1706,7 +1706,7 @@ export default {
       "name": "Gate Warden Lance",
       "sid": "44cad685-2a76-4309-b842-3e356f75219d",
       "dp": 2,
-      "fd": "Priority Assets",
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Acquisitor-at-Arms",

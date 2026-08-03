@@ -324,7 +324,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 70,
+          "pts": 75,
           "per": [
             1,
             1
@@ -597,6 +597,7 @@ export default {
         "Character",
         "Fly",
         "Frame",
+        "Noble",
         "Vehicle"
       ],
       "flags": {
@@ -682,7 +683,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 80,
+          "pts": 70,
           "per": [
             1,
             1
@@ -897,12 +898,13 @@ export default {
       "kws": [
         "Doomsday Ark",
         "Fly",
+        "Frame",
         "Vehicle"
       ],
       "flags": {},
       "sizes": [
         {
-          "pts": 200,
+          "pts": 210,
           "per": [
             1,
             1
@@ -1296,7 +1298,7 @@ export default {
           ]
         },
         {
-          "pts": 160,
+          "pts": 170,
           "per": [
             4,
             6
@@ -1352,7 +1354,7 @@ export default {
           ]
         },
         {
-          "pts": 150,
+          "pts": 160,
           "per": [
             3,
             3
@@ -1663,7 +1665,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 175,
+          "pts": 185,
           "per": [
             1,
             1
@@ -1702,7 +1704,6 @@ export default {
       "name": "Night Scythe",
       "kws": [
         "Fly",
-        "Frame",
         "Night Scythe",
         "Transport",
         "Vehicle"
@@ -2306,6 +2307,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 10
+      },
       "leads": [
         {
           "to": "skorpekh-destroyers",
@@ -2402,7 +2407,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 445,
+          "pts": 465,
           "per": [
             1,
             1
@@ -2473,7 +2478,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 400,
+          "pts": 420,
           "per": [
             3,
             3
@@ -3089,6 +3094,12 @@ export default {
                 "Cryptek"
               ]
             }
+          ],
+          "lockDs": [
+            "94cdfe8e-ecc5-47c4-98a1-d4a4b07903cc",
+            "f02aba3e-c2ef-4b45-91d7-6f89937c834a",
+            "d0c0ae67-772d-4696-97ae-946495a671f5",
+            "3f105de1-6aec-406e-b4f3-92f1a8bb2ccb"
           ]
         },
         {
@@ -3275,7 +3286,7 @@ export default {
       "name": "Pantheon of Woe",
       "sid": "a7ec286c-a305-435b-b402-91140c67d809",
       "dp": 2,
-      "fd": "Purge the Foe",
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Singularity Matrix",

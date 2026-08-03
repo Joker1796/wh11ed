@@ -48,15 +48,7 @@ export default {
           "type": "support"
         },
         {
-          "to": "sternguard-veteran-squad",
-          "type": "support"
-        },
-        {
           "to": "sword-brethren-squad",
-          "type": "support"
-        },
-        {
-          "to": "sternguard-veteran-squad",
           "type": "support"
         }
       ],
@@ -124,7 +116,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 110,
+          "pts": 100,
           "per": [
             4,
             4
@@ -206,7 +198,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 45,
+          "pts": 40,
           "per": [
             1,
             1
@@ -413,7 +405,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 100,
+          "pts": 90,
           "per": [
             1,
             1
@@ -436,15 +428,7 @@ export default {
           "type": "leader"
         },
         {
-          "to": "sternguard-veteran-squad",
-          "type": "leader"
-        },
-        {
           "to": "sword-brethren-squad",
-          "type": "leader"
-        },
-        {
-          "to": "sternguard-veteran-squad",
           "type": "leader"
         }
       ],
@@ -482,7 +466,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 60,
+          "pts": 50,
           "per": [
             1,
             1
@@ -785,7 +769,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 120,
+          "pts": 110,
           "per": [
             1,
             1
@@ -843,15 +827,26 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 85,
+          "pts": 70,
           "per": [
             1,
             1
           ],
           "default": 1
+        },
+        {
+          "pts": 75,
+          "per": [
+            1,
+            1
+          ]
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
@@ -1022,7 +1017,7 @@ export default {
       ],
       "linked": 1,
       "step": {
-        "at": 2,
+        "at": 3,
         "pts": 10
       },
       "leads": [
@@ -1043,15 +1038,7 @@ export default {
           "type": "leader"
         },
         {
-          "to": "sternguard-veteran-squad",
-          "type": "leader"
-        },
-        {
           "to": "sword-brethren-squad",
-          "type": "leader"
-        },
-        {
-          "to": "sternguard-veteran-squad",
           "type": "leader"
         }
       ],
@@ -1195,7 +1182,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 245,
+          "pts": 255,
           "per": [
             1,
             1
@@ -1246,7 +1233,8 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              703
+              703,
+              10
             ]
           ],
           "rep": [
@@ -1745,7 +1733,7 @@ export default {
       "name": "Godhammer Assault Force",
       "sid": "d8ec92c4-5d86-4e48-a27e-fab751c097ac",
       "dp": 2,
-      "fd": "Disruption",
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Paragon of Fury",
@@ -1843,7 +1831,7 @@ export default {
       "name": "The Living Miracle",
       "sid": "287d753d-cc67-40da-a7f4-9d2db2abdb67",
       "dp": 1,
-      "fd": "Purge the Foe",
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Guiding Omens",

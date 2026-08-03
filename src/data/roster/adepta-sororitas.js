@@ -759,8 +759,8 @@ export default {
       ],
       "linked": 1,
       "step": {
-        "at": 2,
-        "pts": 15
+        "at": 3,
+        "pts": 10
       },
       "minis": [
         {
@@ -1061,7 +1061,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 100,
+          "pts": 90,
           "per": [
             10,
             10
@@ -1283,7 +1283,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 75,
+          "pts": 65,
           "per": [
             1,
             1
@@ -1354,7 +1354,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 65,
+          "pts": 55,
           "per": [
             1,
             1
@@ -1421,7 +1421,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 110,
+          "pts": 100,
           "per": [
             1,
             1
@@ -1432,7 +1432,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 4,
-        "pts": 10
+        "pts": 15
       },
       "defaults": [
         [
@@ -1502,7 +1502,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 150,
+          "pts": 135,
           "per": [
             1,
             1
@@ -1557,7 +1557,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 115,
+          "pts": 105,
           "per": [
             1,
             1
@@ -1798,7 +1798,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 185,
+          "pts": 200,
           "per": [
             1,
             1
@@ -2164,7 +2164,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 75,
+          "pts": 70,
           "per": [
             5,
             5
@@ -2172,7 +2172,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 160,
+          "pts": 140,
           "per": [
             6,
             10
@@ -2519,7 +2519,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 85,
+          "pts": 75,
           "per": [
             5,
             5
@@ -2527,7 +2527,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 160,
+          "pts": 150,
           "per": [
             6,
             10
@@ -2623,7 +2623,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 100,
+          "pts": 90,
           "per": [
             10,
             10
@@ -2768,7 +2768,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 75,
+          "pts": 65,
           "per": [
             1,
             1
@@ -2777,6 +2777,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
@@ -2869,7 +2873,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 80,
+          "pts": 75,
           "per": [
             5,
             5
@@ -2877,7 +2881,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 160,
+          "pts": 150,
           "per": [
             6,
             10
@@ -2885,6 +2889,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 10
+      },
       "minis": [
         {
           "n": "Zephyrim Superior"
@@ -3013,8 +3021,8 @@ export default {
     {
       "name": "Bringers of Flame",
       "sid": "c0a5cd98-3a84-4074-ad62-b4d848d2bcf6",
-      "dp": 3,
-      "fd": "Purge the Foe",
+      "dp": 2,
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Righteous Rage",
@@ -3229,11 +3237,11 @@ export default {
       "name": "Penitent Host",
       "sid": "530ae43e-f733-4100-afdf-19d165fb9983",
       "dp": 2,
-      "fd": "Take and Hold",
+      "fd": "Purge the Foe",
       "enhancements": [
         {
           "name": "Psalm of Righteous Judgement",
-          "pts": 30,
+          "pts": 20,
           "type": "miniature",
           "req": [
             {
@@ -3257,7 +3265,7 @@ export default {
         },
         {
           "name": "Refrain of Enduring Faith",
-          "pts": 25,
+          "pts": 15,
           "type": "miniature",
           "req": [
             {
@@ -3269,7 +3277,7 @@ export default {
         },
         {
           "name": "Catechism of Divine Penitence",
-          "pts": 20,
+          "pts": 15,
           "type": "miniature",
           "req": [
             {
@@ -3335,7 +3343,7 @@ export default {
       "name": "Sanctified Orators",
       "sid": "7cf2f061-bc54-4c2f-be17-2959cf840fdf",
       "dp": 1,
-      "fd": "Purge the Foe",
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Hagiomnifex (Upgrade)",

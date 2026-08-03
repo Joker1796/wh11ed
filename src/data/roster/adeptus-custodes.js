@@ -85,7 +85,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 65,
+          "pts": 55,
           "per": [
             1,
             1
@@ -227,7 +227,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 75,
+          "pts": 65,
           "per": [
             1,
             1
@@ -236,6 +236,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
@@ -348,7 +352,6 @@ export default {
         "Aircraft",
         "Ares Gunship",
         "Fly",
-        "Frame",
         "Imperium",
         "Vehicle"
       ],
@@ -801,7 +804,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 210,
+          "pts": 200,
           "per": [
             4,
             4
@@ -809,7 +812,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 260,
+          "pts": 250,
           "per": [
             5,
             5
@@ -936,7 +939,6 @@ export default {
       "name": "Orion Assault Dropship",
       "kws": [
         "Fly",
-        "Frame",
         "Imperium",
         "Orion Assault Dropship",
         "Transport",
@@ -1291,7 +1293,6 @@ export default {
         "Character",
         "Dawneagle Jetbike",
         "Fly",
-        "Frame",
         "Imperium",
         "Mounted",
         "Shield-Captain"
@@ -1550,7 +1551,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 160,
+          "pts": 150,
           "per": [
             3,
             3
@@ -1558,7 +1559,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 320,
+          "pts": 300,
           "per": [
             4,
             6
@@ -1566,6 +1567,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
@@ -1733,7 +1738,6 @@ export default {
       "name": "Vertus Praetors",
       "kws": [
         "Fly",
-        "Frame",
         "Imperium",
         "Mounted",
         "Vertus Praetors"
@@ -2045,7 +2049,7 @@ export default {
         },
         {
           "name": "Admonimortis",
-          "pts": 20,
+          "pts": 30,
           "type": "miniature",
           "req": [
             {
@@ -2061,7 +2065,7 @@ export default {
       "name": "Might of the Moritoi",
       "sid": "4edac749-d510-4161-b3c3-1fd31e91cfcf",
       "dp": 1,
-      "fd": "Purge the Foe",
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Interred Expertise (Upgrade)",
@@ -2163,7 +2167,7 @@ export default {
       "enhancements": [
         {
           "name": "From the Hall of Armouries",
-          "pts": 25,
+          "pts": 20,
           "type": "miniature",
           "req": [
             {
