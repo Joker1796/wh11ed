@@ -159,6 +159,20 @@ bleed-to-its-own-edge for the header/weapon-table/ability-group zones is untouch
 correct once `.ds-card` itself is back to a normal in-flow block — only the escape-to-viewport
 part is cancelled.
 
+**`RosterUnitRulesModal` themes itself with `FactionAccentScope`, wrapped inside its own
+`.modal-body`** rather than by the caller wrapping the whole component (the way
+`UnitEditorFields.vue` does for `WeaponProfileModal`/`EnhancementRuleModal`). It has to be — this
+component's own `BaseModal` already teleports to `<body>`, so a second `<Teleport>` a caller puts
+*around* it (as `UnitEditorFields.vue` does for `rulesOpen`) re-parents the actual modal DOM to
+`<body>` a second time, right past the outer `FactionAccentScope`'s wrapping `div` — CSS custom
+properties only cascade through real DOM ancestry, not the logical component tree, so that outer
+wrap never reaches the card (confirmed empirically: `.modal-overlay`'s `--accent` stayed the
+app's default red there, while `.modal-body`'s own nested scope was correctly Ork green). Scoping
+it inside `.modal-body` keeps it a genuine ancestor of `DatasheetCard` with no teleport in
+between, so it works for all three places this modal opens from (`RosterUnitBrowser`'s preview,
+`RosterViewView`'s Units tab, and `UnitEditorFields`' "Show datasheet" link) without depending on
+what the caller does.
+
 **`getFaction()` doesn't exist anymore** — `src/data/factions/index.js` was refactored
 (async, code-split `loadFaction(slug)`) after this feature's early commits; `RosterViewView.vue`
 and `EnhancementRuleModal.vue` were updated to `await loadFaction(slug)` when `main` was
