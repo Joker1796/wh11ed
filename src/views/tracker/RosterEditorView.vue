@@ -9,17 +9,6 @@
         :placeholder="labels.rosterUntitled"
         @input="rename($event.target.value)"
       />
-      <div class="rpoints" :class="{ over: points > limit }">
-        <span class="rp-used">{{ points }}</span>
-        <span class="rp-sep">/</span>
-        <span class="rp-cap">{{ limit }}</span>
-      </div>
-      <button v-if="roster.faction" class="issues-badge" :class="validation.errorCount ? 'has-err' : 'ok'" @click="issuesOpen = true">
-        <template v-if="validation.errorCount">
-          <i class="bi bi-exclamation-triangle-fill"></i> {{ validation.errorCount }}
-        </template>
-        <i v-else class="bi bi-check-circle-fill"></i>
-      </button>
       <button v-if="roster.faction && roster.units.length" class="hdr-icon" :aria-label="labels.rosterUseInTracker" @click="useInTracker">
         <i class="bi bi-clipboard-data"></i>
       </button>
@@ -72,6 +61,14 @@
           </div>
         </div>
       </div>
+
+      <label class="check" :class="{ on: roster.checkLegality !== false }">
+        <input type="checkbox" :checked="roster.checkLegality !== false" @change="setCheckLegality($event.target.checked)" />
+        <span>
+          {{ labels.rosterCheckLegality }}
+          <em class="check-note">{{ labels.rosterCheckLegalityNote }}</em>
+        </span>
+      </label>
     </div>
 
     <!-- Units: browse the faction catalogue, add/remove copies -->
@@ -83,6 +80,8 @@
         :faction-slug="roster.faction"
         :added-ids="roster.units.map((u) => u.id)"
         :detachments="curDetachments"
+        :battle="effBattle"
+        :check-legality="roster.checkLegality !== false"
         @add="addUnit"
         @remove="removeUnit"
       />
@@ -146,9 +145,22 @@
       </template>
     </div>
 
-    <!-- Sticky mobile total -->
-    <div class="red-sticky">
-      <span class="st-points" :class="{ over: points > limit }">{{ points }} / {{ limit }}</span>
+    <!-- Fixed footer bar — same shape as the creation wizard's own .rc-sticky
+         (RosterCreateView.vue), Cancel/Save standing in for that one's Back/Next. -->
+    <div class="rc-sticky">
+      <div class="rc-sticky-info">
+        <span class="rc-points" :class="{ over: points > limit }">{{ points }} / {{ limit }}</span>
+        <button v-if="roster.faction" type="button" class="issues-badge" :class="validation.errorCount ? 'has-err' : 'ok'" @click="issuesOpen = true">
+          <template v-if="validation.errorCount">
+            <i class="bi bi-exclamation-triangle-fill"></i> {{ validation.errorCount }}
+          </template>
+          <i v-else class="bi bi-check-circle-fill"></i>
+        </button>
+      </div>
+      <div class="rc-sticky-actions">
+        <RouterLink to="/roster" class="btn-ghost">{{ labels.rosterCancel }}</RouterLink>
+        <button class="btn-primary" @click="save">{{ labels.rosterSave }}</button>
+      </div>
     </div>
 
     <FactionPickerModal
@@ -221,6 +233,15 @@ const tab = ref('units')
 function useInTracker() {
   prefillDraftFromRoster(roster.value)
   router.push(trackerCurrent.value ? '/tracker' : '/tracker/game')
+}
+
+// Every edit already writes straight to the reactive store (useRosters.js's deep watch
+// autosaves to localStorage on every change) — nothing here actually persists anything new.
+// "Save" is the explicit close-out action: same destination the creation wizard's own
+// "Done" lands on (RosterCreateView.vue's finish()), so both paths converge on the read-only
+// view once a roster is considered finished.
+function save() {
+  router.push(`/roster/${roster.value.id}/view`)
 }
 
 const roster = computed(() => rosterById(route.params.id))
@@ -298,6 +319,7 @@ function toggleDetachment(d) {
 }
 function setBattleSize(id) { roster.value.battleSize = id; touch() }
 function setCustomPoints(v) { roster.value.customPoints = Math.max(0, Number(v) || 0); touch() }
+function setCheckLegality(v) { roster.value.checkLegality = v; touch() }
 
 // ── Units (added/removed on the Units tab) ──
 const factionPickerOpen = ref(false)
@@ -427,10 +449,6 @@ function rename(name) {
 }
 .rname-input:hover { border-bottom-color: var(--border); }
 .rname-input:focus { outline: none; border-bottom-color: var(--accent); }
-.rpoints { font-family: var(--font-mono); font-weight: 700; font-size: 1.1rem; white-space: nowrap; }
-.rp-used { color: var(--text-primary); }
-.rpoints.over .rp-used { color: #c0392b; }
-.rp-sep, .rp-cap { color: var(--text-dim); }
 .issues-badge {
   display: inline-flex;
   align-items: center;
@@ -482,7 +500,13 @@ function rename(name) {
   .red-tab { padding: 0.45rem 0.6rem; font-size: 0.8rem; }
 }
 
-.red-panel { display: flex; flex-direction: column; gap: 1.1rem; }
+/* Reserve room for the fixed .rc-sticky footer below, same idea as RosterCreateView.vue's own
+   .rc-panel:has(.rc-sticky) — it's always visible here (not gated to a completed step), so
+   every tab needs the padding, not just one. */
+.red-panel { display: flex; flex-direction: column; gap: 1.1rem; padding-bottom: 4.5rem; }
+@media (max-width: 900px) {
+  .red-panel { padding-bottom: calc(4.5rem + 52px + var(--safe-bottom, 0px)); }
+}
 
 .red-choices { display: flex; flex-wrap: wrap; gap: 0.6rem; }
 .choice {
@@ -527,6 +551,41 @@ function rename(name) {
   color: var(--text-primary);
 }
 .bsize-input:focus { outline: none; }
+
+/* Checkbox row — same recipe as the tracker's GameSetup.vue .check (scoped styles don't cross
+   component boundaries, so it's copied rather than shared). */
+.check {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--bg-secondary);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.check:hover { border-color: var(--accent); }
+.check.on {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+.check.on span { color: var(--text-primary); }
+.check-note {
+  display: block;
+  font-style: normal;
+  font-size: 0.72rem;
+  color: var(--text-dim);
+}
+.check input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
 
 .red-hint, .red-empty { color: var(--text-muted); font-style: italic; text-align: center; padding: 1.5rem 0; }
 .rug-head {
@@ -579,22 +638,65 @@ function rename(name) {
   .redu-fields { background: color-mix(in srgb, var(--bg-card) 80%, black); }
 }
 
-/* Sticky bottom total — shown on phones. */
-.red-sticky {
-  display: none;
-  position: sticky;
-  bottom: 0;
+/* Same button pair language as RosterCreateView.vue's own .rc-actions buttons — copied, not
+   shared (scoped styles don't cross component boundaries). */
+.btn-primary, .btn-ghost {
+  display: inline-flex;
   align-items: center;
-  justify-content: flex-end;
-  margin: 0 -1rem;
-  padding: 0.6rem 1rem;
+  gap: 0.4rem;
+  padding: 0.6rem 1.3rem;
+  border-radius: 5px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+  line-height: 1.2;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-ghost { background: none; border: 1px solid var(--border); color: var(--text-muted); }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Fixed footer bar — same recipe as RosterCreateView.vue's own .rc-sticky (copied, not shared):
+   glued flush to the mobile bottom-nav (52px — .bn-item's min-height in App.vue), always
+   visible here (not gated to a completed wizard step, so every tab reserves room for it via
+   .red-panel's own padding-bottom above). MobileUtilityBar's floating buttons yield to it —
+   App.vue reserves this exact bar's height via --roster-sticky-h (:has(.rc-sticky) on
+   .app-layout, matched by class name alone, regardless of which view rendered it) — so don't
+   rename this class without updating that selector too. */
+.rc-sticky {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 150;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.6rem 1rem calc(0.6rem + var(--safe-bottom, 0px));
   background: var(--bg-primary);
   border-top: 1px solid var(--border);
 }
-.st-points { font-family: var(--font-mono); font-weight: 700; }
-.st-points.over { color: #c0392b; }
-@media (max-width: 640px) {
-  .red-sticky { display: flex; }
+@media (max-width: 900px) {
+  .rc-sticky {
+    bottom: calc(52px + var(--safe-bottom, 0px));
+    padding-bottom: 0.6rem;
+  }
+}
+.rc-sticky-info { display: flex; align-items: center; gap: 0.5rem; }
+.rc-points { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); }
+.rc-points.over { color: #c0392b; }
+.rc-sticky-actions { display: flex; gap: 0.5rem; }
+@media (max-width: 400px) {
+  .rc-sticky { padding: 0.5rem 0.6rem calc(0.5rem + var(--safe-bottom, 0px)); gap: 0.5rem; }
+  .rc-points { font-size: 0.85rem; }
+  .rc-sticky-info { gap: 0.35rem; }
+  .issues-badge { padding: 0.25rem 0.4rem; font-size: 0.78rem; }
+  .rc-sticky-actions { gap: 0.35rem; }
+  .rc-sticky-actions .btn-primary,
+  .rc-sticky-actions .btn-ghost { padding: 0.45rem 0.7rem; font-size: 0.8rem; }
 }
 
 /* Per-faction accent — mirrors FactionLayout.vue's three-step theme resolution. */

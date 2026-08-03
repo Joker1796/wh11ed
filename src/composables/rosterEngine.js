@@ -26,6 +26,14 @@ export function bucketOf(unit) {
   return 'other'
 }
 
+// The identity a unit's duplicate-cap count is grouped by (rosterValidation.js's
+// duplicateLimit). Defaults to its own datasheet id; `charId` is an escape hatch for the
+// real (if currently unrepresented in wh40k-appdata) rule that a named character published as
+// two distinct datasheets is still capped as ONE — e.g. if a second "Titus" datasheet ever
+// ships, both would carry the same `charId` and share a single Epic Hero slot instead of each
+// getting its own. No current unit sets it; this is the extension point for that case.
+export function capKeyOf(def) { return def?.charId || def?.id }
+
 // Points for one unit entry at a given size bracket and copy index (1-based, among same-id
 // units in the roster). Copy tax (datasheet_points_step): the surcharge applies to the Nth
 // and every later copy — see Phase 0. Wargear/enhancement points are added by the caller.

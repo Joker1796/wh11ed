@@ -63,6 +63,14 @@
           </button>
           <p v-else class="det-empty">{{ labels.rosterPickFaction }}</p>
         </div>
+
+        <label class="check" :class="{ on: checkLegality }">
+          <input type="checkbox" v-model="checkLegality" />
+          <span>
+            {{ labels.rosterCheckLegality }}
+            <em class="check-note">{{ labels.rosterCheckLegalityNote }}</em>
+          </span>
+        </label>
       </div>
 
       <div class="rc-actions">
@@ -79,11 +87,21 @@
         :faction-slug="factionSlug"
         :added-ids="units.map((u) => u.id)"
         :detachments="curDetachments"
+        :battle="effBattle"
+        :check-legality="checkLegality"
         @add="addUnit"
         @remove="removeUnit"
       />
       <div class="rc-sticky">
-        <span class="rc-points" :class="{ over: points > limit }">{{ points }} / {{ limit }}</span>
+        <div class="rc-sticky-info">
+          <span class="rc-points" :class="{ over: points > limit }">{{ points }} / {{ limit }}</span>
+          <button type="button" class="issues-badge" :class="validation.errorCount ? 'has-err' : 'ok'" @click="issuesOpen = true">
+            <template v-if="validation.errorCount">
+              <i class="bi bi-exclamation-triangle-fill"></i> {{ validation.errorCount }}
+            </template>
+            <i v-else class="bi bi-check-circle-fill"></i>
+          </button>
+        </div>
         <div class="rc-sticky-actions">
           <button class="btn-ghost" @click="step = 1">← {{ labels.trackerBack }}</button>
           <button class="btn-primary" @click="step = 3">{{ labels.trackerNextStep }} →</button>
@@ -146,7 +164,15 @@
         </template>
       </div>
       <div class="rc-sticky">
-        <span class="rc-points" :class="{ over: points > limit }">{{ points }} / {{ limit }}</span>
+        <div class="rc-sticky-info">
+          <span class="rc-points" :class="{ over: points > limit }">{{ points }} / {{ limit }}</span>
+          <button type="button" class="issues-badge" :class="validation.errorCount ? 'has-err' : 'ok'" @click="issuesOpen = true">
+            <template v-if="validation.errorCount">
+              <i class="bi bi-exclamation-triangle-fill"></i> {{ validation.errorCount }}
+            </template>
+            <i v-else class="bi bi-check-circle-fill"></i>
+          </button>
+        </div>
         <div class="rc-sticky-actions">
           <button class="btn-ghost" @click="step = 2">← {{ labels.trackerBack }}</button>
           <button class="btn-primary" @click="finish">{{ labels.rosterDone }}</button>
@@ -174,6 +200,12 @@
         <p class="dp-help-text">{{ labels.trackerDpOverText }}</p>
       </div>
     </BaseModal>
+    <RosterIssuesModal
+      v-if="issuesOpen"
+      :issues="validation.issues"
+      @goto="(uid) => { issuesOpen = false; step = 3; openUid = uid }"
+      @close="issuesOpen = false"
+    />
   </div>
 </template>
 
@@ -186,9 +218,11 @@ import FactionPickerModal from '../../components/tracker/FactionPickerModal.vue'
 import DetachmentPickerModal from '../../components/tracker/DetachmentPickerModal.vue'
 import RosterUnitBrowser from '../../components/roster/RosterUnitBrowser.vue'
 import UnitEditorFields from '../../components/roster/UnitEditorFields.vue'
+import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosters, uid } from '../../composables/useRosters.js'
+import { validateRoster } from '../../composables/rosterValidation.js'
 import rosterCore from '../../data/roster/core.js'
 import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
@@ -208,6 +242,7 @@ const factionSlug = ref(null)
 const detachments = ref([])
 const battleSize = ref('strike-force')
 const customPoints = ref(2000)
+const checkLegality = ref(true)
 const units = ref([])
 
 // ── Faction accent (mirrors the editor) ──
@@ -294,6 +329,21 @@ function removeUnit(unitId) {
 }
 const points = computed(() => rosterPoints(units.value, defOf, curDetachments.value))
 
+// Live validation, same as the editor's (see rosterValidation.js — never blocks, just reports).
+// Only reachable once a faction is picked; shown from step 2 on, next to the points readout in
+// .rc-sticky. The main case worth surfacing this early for: units added under a bigger battle
+// size, then the size lowered again on step 1 — duplicate caps shrink out from under counts
+// that already exist (RosterUnitBrowser.vue's isOver badge flags this per-unit, this is the
+// same overDuplicate check, army-wide).
+const issuesOpen = ref(false)
+const validation = computed(() =>
+  factionData.value
+    ? validateRoster(
+        { faction: factionSlug.value, detachments: detachments.value, battleSize: battleSize.value, customPoints: customPoints.value, units: units.value },
+        { faction: factionData.value, core: rosterCore },
+      )
+    : { points: points.value, issues: [], errorCount: 0 })
+
 // ── Per-unit configuration (step 3) ──
 // Only one tile's fields open at a time — opening another closes whichever was open, same as a
 // classic accordion (not the independently-toggled group accordions on step 2).
@@ -355,6 +405,7 @@ function step1Patch() {
     detachments: detachments.value,
     battleSize: battleSize.value,
     customPoints: customPoints.value,
+    checkLegality: checkLegality.value,
   }
 }
 function goToUnits() {
@@ -371,7 +422,7 @@ function goToUnits() {
 // ── Finish: write the collected units, then hand off to the full editor ──
 function finish() {
   updateRoster(rosterId.value, { ...step1Patch(), units: units.value })
-  router.push(`/roster/${rosterId.value}`)
+  router.push(`/roster/${rosterId.value}/view`)
 }
 </script>
 
@@ -401,7 +452,7 @@ function finish() {
    bottom-nav reservation in App.vue). */
 .rc-panel:has(.rc-sticky) { padding-bottom: 4.5rem; }
 @media (max-width: 900px) {
-  .rc-panel:has(.rc-sticky) { padding-bottom: calc(4.5rem + 52px + var(--safe-bottom, 0px) + var(--resume-bar-h, 0px)); }
+  .rc-panel:has(.rc-sticky) { padding-bottom: calc(4.5rem + 52px + var(--safe-bottom, 0px)); }
 }
 /* Card + field language copied from the tracker's GameSetup (.player-card/.settings,
    .field, .btn-choose-twist, .seg, .dp-count) so the two setup flows read as one pattern. */
@@ -434,6 +485,41 @@ function finish() {
 .field input:focus { outline: none; border-color: var(--accent); }
 @media (pointer: coarse) {
   .field input[type="text"], .field input[type="number"] { font-size: 16px; }
+}
+
+/* Checkbox row — same recipe as the tracker's GameSetup.vue .check (scoped styles don't cross
+   component boundaries, so it's copied rather than shared). */
+.check {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--bg-secondary);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.check:hover { border-color: var(--accent); }
+.check.on {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+.check.on span { color: var(--text-primary); }
+.check-note {
+  display: block;
+  font-style: normal;
+  font-size: 0.72rem;
+  color: var(--text-dim);
+}
+.check input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
 }
 
 .btn-choose {
@@ -587,10 +673,12 @@ function finish() {
 /* Fixed (not sticky) — the unit list can run to 90+ rows, far taller than the viewport, so a
    flow-sticky footer would only engage once scrolled all the way to the list's end. Glued
    flush to the mobile bottom-nav (its real height is 52px — .bn-item's min-height in App.vue —
-   not the 4.5rem used elsewhere as a rough content-padding buffer). When the "back to game" bar
-   is also showing (App.vue's --resume-bar-h, set whenever a game is in progress — /roster isn't
-   excluded from it, same as any non-tracker route), this stacks above it instead of overlapping,
-   the same way .main-content's own bottom padding does. */
+   not the 4.5rem used elsewhere as a rough content-padding buffer) and stays there — it's the
+   anchor. MobileUtilityBar's floating buttons (resume/faction tabs/back-to-top) are the ones
+   that yield: App.vue reserves this bar's height via --roster-sticky-h (:has(.rc-sticky) on
+   .app-layout) and MobileUtilityBar's own bottom offset adds it, so its buttons float above
+   this bar instead of over it. Don't also offset this bar's own bottom by --mobile-bar-h —
+   that would just push the collision the other way. */
 .rc-sticky {
   position: fixed;
   left: 0;
@@ -607,12 +695,30 @@ function finish() {
 }
 @media (max-width: 900px) {
   .rc-sticky {
-    bottom: calc(52px + var(--safe-bottom, 0px) + var(--resume-bar-h, 0px));
+    bottom: calc(52px + var(--safe-bottom, 0px));
     padding-bottom: 0.6rem;
   }
 }
+.rc-sticky-info { display: flex; align-items: center; gap: 0.5rem; }
 .rc-points { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); }
 .rc-points.over { color: #c0392b; }
+/* Same badge as RosterEditorView's header (.issues-badge/.hdr-icon there) — copied, not shared,
+   scoped styles don't cross component boundaries. Opens RosterIssuesModal on click. */
+.issues-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--bg-card);
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+.issues-badge.has-err { color: #c0392b; border-color: color-mix(in srgb, #c0392b 45%, var(--border)); }
+.issues-badge.ok { color: #3c9a5f; }
 .rc-sticky-actions { display: flex; gap: 0.5rem; }
 /* Small phones, down to a 320px viewport: shrink the sticky bar's padding/gaps and the
    Back/Done buttons themselves (same treatment as RoundTracker's round-actions row) so the
@@ -620,6 +726,8 @@ function finish() {
 @media (max-width: 400px) {
   .rc-sticky { padding: 0.5rem 0.6rem calc(0.5rem + var(--safe-bottom, 0px)); gap: 0.5rem; }
   .rc-points { font-size: 0.85rem; }
+  .rc-sticky-info { gap: 0.35rem; }
+  .issues-badge { padding: 0.25rem 0.4rem; font-size: 0.78rem; }
   .rc-sticky-actions { gap: 0.35rem; }
   .rc-sticky-actions .btn-primary,
   .rc-sticky-actions .btn-ghost { padding: 0.45rem 0.7rem; font-size: 0.8rem; }

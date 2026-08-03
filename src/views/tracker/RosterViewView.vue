@@ -31,18 +31,39 @@
           :aria-selected="tab === 'rules'"
           @click="tab = 'rules'"
         >{{ labels.rosterViewTabRules }}</button>
+        <button
+          class="rv-tab"
+          :class="{ on: tab === 'stratagems' }"
+          role="tab"
+          :aria-selected="tab === 'stratagems'"
+          @click="tab = 'stratagems'"
+        >{{ labels.rosterViewTabStratagems }}</button>
       </div>
 
-      <!-- Compact read-only unit list, grouped like the editor -->
+      <!-- Compact read-only unit list, grouped like the editor. Clicking a row opens the full
+           rules card in RosterUnitRulesModal — not an inline accordion, that read badly nested
+           and had overflow issues (see git history if this is ever revisited). -->
       <div v-if="tab === 'units'" class="rv-units">
         <p v-if="!roster.units.length" class="rv-hint">{{ labels.rosterUnitsEmpty }}</p>
+
         <template v-for="g in groupedUnits" :key="g.id">
           <template v-if="g.entries.length">
             <h3 class="rvg-head">{{ labels[GROUP_LABEL_KEYS[g.id]] }}</h3>
-            <button v-for="e in g.entries" :key="e.uid" class="rvunit" @click="viewingUid = e.uid">
+            <button
+              v-for="e in g.entries"
+              :key="e.uid"
+              type="button"
+              class="rvunit"
+              @click="viewingUid = e.uid"
+            >
               <span class="rvunit-text">
                 <span class="rvunit-name">{{ defOf(e.id)?.name || e.id }}</span>
-                <span v-if="statlineOf(e.id)" class="rvunit-stats">{{ statlineOf(e.id) }}</span>
+                <span v-if="statCellsOf(e.id).length" class="rvunit-stats">
+                  <span v-for="s in statCellsOf(e.id)" :key="s.label" class="rvst" :class="{ 'rvst-inv': s.inv }">
+                    <span class="rvst-label">{{ s.label }}</span>
+                    <span class="rvst-box">{{ s.value }}</span>
+                  </span>
+                </span>
                 <span class="rvunit-sub">{{ summaryLine(e) }}</span>
               </span>
               <span class="rvunit-pts">{{ entryMeta.get(e.uid)?.points }}</span>
@@ -53,7 +74,7 @@
       </div>
 
       <!-- Army rule + selected detachment(s) rule, lazily loaded (heavy faction rules bundle) -->
-      <div v-else class="rv-rules">
+      <div v-else-if="tab === 'rules'" class="rv-rules">
         <template v-if="rulesFaction">
           <section class="rv-rule-block">
             <h3 class="rvg-head">{{ labels.factionArmyRule }}</h3>
@@ -71,6 +92,55 @@
           </section>
         </template>
       </div>
+
+      <!-- Stratagems — same setup as the standalone StratagemsView.vue page (toolbar toggle +
+           phase accordions / flat grid), just pre-filtered to this roster's own detachments
+           instead of a core/you/opp filter (each card's sublabel already says which
+           detachment it's from, same as that page's detachment cards). -->
+      <div v-else class="rv-strats">
+        <template v-if="rulesFaction">
+          <p v-if="!selectedDetachmentRules.length" class="rv-hint">{{ labels.rosterViewNoDetachment }}</p>
+          <template v-else>
+            <div class="strat-toolbar">
+              <button
+                type="button"
+                class="strat-toggle"
+                :class="{ active: byPhase }"
+                :aria-pressed="byPhase"
+                :aria-label="byPhase ? labels.stratGroupAsList : labels.stratGroupByPhase"
+                @click="byPhase = !byPhase"
+              >
+                <i class="bi" :class="byPhase ? 'bi-list-ul' : 'bi-collection'"></i>
+                <span class="strat-toggle-label">{{ byPhase ? labels.stratGroupAsList : labels.stratGroupByPhase }}</span>
+              </button>
+            </div>
+
+            <template v-if="byPhase">
+              <div v-for="g in phaseGroups" :key="g.key" class="phase-group">
+                <button
+                  type="button"
+                  class="phase-head"
+                  :aria-expanded="openPhases.has(g.key)"
+                  @click="togglePhase(g.key)"
+                >
+                  <i class="bi phase-chev" :class="openPhases.has(g.key) ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+                  <span class="phase-name">{{ phaseLabel(g.key, labels) }}</span>
+                  <span class="phase-count">{{ g.strats.length }}</span>
+                </button>
+                <CollapseTransition :show="openPhases.has(g.key)">
+                  <div class="strat-grid phase-grid">
+                    <StratCard v-for="s in g.strats" :key="stratKey(s)" :strat="s" :sublabel="s.sublabel" />
+                  </div>
+                </CollapseTransition>
+              </div>
+            </template>
+
+            <div v-else class="strat-grid">
+              <StratCard v-for="s in visibleStratagems" :key="stratKey(s)" :strat="s" :sublabel="s.sublabel" />
+            </div>
+          </template>
+        </template>
+      </div>
     </template>
 
     <RosterUnitRulesModal
@@ -86,6 +156,8 @@
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import RuleBlock from '../../components/RuleBlock.vue'
+import StratCard from '../../components/StratCard.vue'
+import CollapseTransition from '../../components/CollapseTransition.vue'
 import RosterUnitRulesModal from '../../components/roster/RosterUnitRulesModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
@@ -95,6 +167,8 @@ import { loadRosterFaction } from '../../data/roster/index.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import { UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints, entrySummary, effectiveBattle } from '../../composables/rosterEngine.js'
+import { phasesOf, phaseLabel, PHASE_ORDER } from '../../composables/stratagemPhases.js'
+import { getItem, setItem } from '../../composables/safeStorage.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -121,8 +195,10 @@ watch(() => roster.value?.faction, async (slug) => {
 }, { immediate: true })
 
 // ── Base statline (M/T/SV/W/LD/OC + invuln) for the compact unit rows — not in the compact
-// roster data layer, so pull it from the full datasheet file (already needed by the unit
-// rules modal on click; loaded here too so every row can show it without opening that modal).
+// roster data layer, so pull it from the full datasheet file (already needed by the unit rules
+// modal on click; loaded here too so every row can show it without opening that modal). EN-only
+// is enough — the plates are numbers/pips, not translated text — RosterUnitRulesModal does its
+// own separate RU-localized fetch for the modal content.
 const fullSheets = ref(new Map())
 watch(() => roster.value?.faction, async (slug) => {
   if (!slug) { fullSheets.value = new Map(); return }
@@ -133,11 +209,33 @@ watch(() => roster.value?.faction, async (slug) => {
   fullSheets.value = m
 }, { immediate: true })
 
-function statlineOf(id) {
+// ── Unit rules modal ──
+const viewingUid = ref(null)
+const viewingDef = computed(() => {
+  const e = roster.value?.units.find((u) => u.uid === viewingUid.value)
+  return e ? defOf(e.id) : null
+})
+
+// Same chamfered stat-box plates as DatasheetCard.vue's statline (its statCells()), scaled
+// down for a compact list row — invuln is its own trailing plate (see below) rather than
+// DatasheetCard's shield-shaped box sitting under SV with a side label; that layout needs more
+// room than a one-line row has.
+function statCellsOf(id) {
   const p = fullSheets.value.get(id)?.profiles?.[0]
-  if (!p) return ''
-  const sv = p.inv ? `${p.sv}/${p.inv}` : p.sv
-  return `M${p.m} T${p.t} SV${sv} W${p.w} LD${p.ld} OC${p.oc}`
+  if (!p) return []
+  const cells = [
+    { label: 'M', value: p.m },
+    { label: 'T', value: p.t },
+    { label: 'SV', value: p.sv },
+    { label: 'W', value: p.w },
+    { label: 'LD', value: p.ld },
+    { label: 'OC', value: p.oc },
+  ]
+  // Last plate, marked `inv: true` so the template can colour it distinctly — same idea as
+  // DatasheetCard's own accent-coloured "Invulnerable Save" label, just at the end of the row
+  // instead of straight under SV (no room for that layout in a one-line list row).
+  if (p.inv) cells.push({ label: 'INV', value: `${p.inv}${p.invNote ? '*' : ''}`, inv: true })
+  return cells
 }
 
 const unitMap = computed(() => {
@@ -177,18 +275,14 @@ function summaryLine(e) {
   return entrySummary(e, defOf(e.id), labels.value.rosterModelsLabel, labels.value.rosterUpgradesLabel)
 }
 
-// ── Unit rules modal ──
-const viewingUid = ref(null)
-const viewingDef = computed(() => {
-  const e = roster.value?.units.find((u) => u.uid === viewingUid.value)
-  return e ? defOf(e.id) : null
-})
-
-// ── Rules tab: army rule + each selected detachment's rule, from the (heavy) faction rules
-// data — dynamically imported only when this tab is opened, same invariant as StratagemsView's
-// detachment stratagems (never statically import src/data/factions/*). Chapters sharing Codex
-// Space Marines detachments (Gladius Task Force, etc.) fall back to the space-marines file for
-// detachments not defined in their own — same fallback as the stratagems page.
+// ── Rules + Stratagems tabs: army rule / each selected detachment's rule / its stratagems,
+// from the (heavy) faction rules data — dynamically imported only when one of those tabs is
+// open (see the watch below), same invariant as StratagemsView's detachment stratagems (never
+// statically import src/data/factions/*). Both tabs share this one load — a detachment's
+// object already carries `.stratagems` alongside `.rule`, same shape FactionRuleView.vue reads
+// from. Chapters sharing Codex Space Marines detachments (Gladius Task Force, etc.) fall back
+// to the space-marines file for detachments not defined in their own — same fallback as the
+// stratagems page.
 const SM_CHAPTERS = new Set(['black-templars', 'blood-angels', 'dark-angels', 'deathwatch', 'space-wolves'])
 const normName = (s) => s.replace(/[’'`]/g, "'").trim().toLowerCase()
 
@@ -199,14 +293,27 @@ async function loadFactionSource(slug, loc) {
   const { loadFaction } = await import('../../data/factions/index.js')
   const data = await loadFaction(slug)
   if (!data) return null
-  if (loc !== 'ru') return data.en
+  // Tag each stratagem with `_phases` derived from its ENGLISH `when` (data.en, aligned by
+  // detachment+stratagem index with the localized faction) — same recipe as StratagemsView.vue,
+  // so the Stratagems tab's phase grouping is identical EN/RU.
+  const withPhase = (faction) => ({
+    ...faction,
+    detachments: (faction.detachments || []).map((det, di) => ({
+      ...det,
+      stratagems: (det.stratagems || []).map((s, si) => ({
+        ...s,
+        _phases: phasesOf(data.en.detachments?.[di]?.stratagems?.[si]?.when),
+      })),
+    })),
+  })
+  if (loc !== 'ru') return withPhase(data.en)
   const { loadFactionRu, deepOverlay } = await import('../../data/factions/ru/index.js')
   const mod = await loadFactionRu(slug)
-  return mod ? deepOverlay(data.en, mod.default) : data.ru
+  return withPhase(mod ? deepOverlay(data.en, mod.default) : data.ru)
 }
 
 watch([() => roster.value?.faction, tab, locale], async ([slug, t, loc]) => {
-  if (t !== 'rules' || !slug) return
+  if ((t !== 'rules' && t !== 'stratagems') || !slug) return
   const sources = [slug]
   if (SM_CHAPTERS.has(slug)) sources.push('space-marines')
   const lookup = new Map()
@@ -228,6 +335,39 @@ const selectedDetachmentRules = computed(() =>
   (roster.value?.detachments || [])
     .map((name) => detachmentLookup.value.get(normName(name)))
     .filter(Boolean))
+
+// ── Stratagems tab: same by-phase/as-list toggle as StratagemsView.vue, over the flattened
+// stratagems of every selected detachment (each card's own sublabel already says which
+// detachment it's from — no extra per-detachment grouping needed on top of that). The view
+// preference is shared with the standalone page (same localStorage key) so it isn't a
+// separate setting to learn twice.
+const visibleStratagems = computed(() => selectedDetachmentRules.value.flatMap((det) => det.stratagems || []))
+
+const VIEW_KEY = 'wh11ed-stratagems-by-phase'
+const byPhase = ref(getItem(VIEW_KEY) === '1')
+watch(byPhase, (on) => setItem(VIEW_KEY, on ? '1' : '0'))
+const openPhases = ref(new Set())
+
+const phaseGroups = computed(() => {
+  const by = new Map()
+  for (const s of visibleStratagems.value) {
+    for (const k of s._phases?.length ? s._phases : ['any']) {
+      if (!by.has(k)) by.set(k, [])
+      by.get(k).push(s)
+    }
+  }
+  return PHASE_ORDER.filter((k) => by.has(k)).map((k) => ({ key: k, strats: by.get(k) }))
+})
+
+function togglePhase(key) {
+  const next = new Set(openPhases.value)
+  next.has(key) ? next.delete(key) : next.add(key)
+  openPhases.value = next
+}
+
+function stratKey(strat) {
+  return strat.num || `${strat.sublabel || ''}|${strat.name}`
+}
 </script>
 
 <style scoped>
@@ -309,12 +449,108 @@ const selectedDetachmentRules = computed(() =>
 .rvunit:hover { border-color: var(--accent); }
 .rvunit-text { display: flex; flex-direction: column; flex: 1; min-width: 0; gap: 0.1rem; }
 .rvunit-name { font-weight: 600; color: var(--text-primary); font-size: 0.92rem; }
-.rvunit-stats { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); }
+/* Mini stat plates — same chamfered-box look as DatasheetCard.vue's .ds-stat-box (10th-ed
+   style: no rounding, top-left/bottom-right corners cut), scaled down to fit a compact list
+   row. Copied, not shared — scoped styles don't cross component boundaries. */
+.rvunit-stats { display: inline-flex; gap: 0.3rem; margin: 0.15rem 0; }
+.rvst { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; }
+.rvst-label { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.5px; color: var(--text-muted); }
+.rvst-box {
+  position: relative;
+  isolation: isolate;
+  display: block;
+  min-width: 1.85rem;
+  text-align: center;
+  background: var(--border);
+  clip-path: polygon(4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%, 0 4px);
+  padding: 0.16rem 0.22rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.84rem;
+  line-height: 1.1;
+  color: var(--text-primary);
+}
+.rvst-box::before {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  background: color-mix(in srgb, var(--accent) 8%, var(--bg-card));
+  clip-path: polygon(4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%, 0 4px);
+}
+/* Invulnerable save — its own plate right after SV, colour-called-out the way DatasheetCard's
+   accent-coloured "Invulnerable Save" label calls it out (a distinct accent fill, not just
+   another neutral box, so it reads as "special" among the plain stats). */
+.rvst-inv .rvst-label { color: var(--accent); }
+.rvst-inv .rvst-box { background: var(--accent); color: var(--text-on-accent, #fff); }
+.rvst-inv .rvst-box::before { background: var(--accent); }
 .rvunit-sub { font-size: 0.74rem; color: var(--text-dim); }
 .rvunit-pts { font-family: var(--font-mono); font-weight: 700; color: var(--text-primary); }
-.rvunit-chev { color: var(--text-dim); font-size: 0.7rem; }
+.rvunit-chev { color: var(--text-dim); font-size: 0.7rem; flex-shrink: 0; }
 
 .rv-rule-block { margin-bottom: 1.5rem; }
+
+/* Stratagems tab — same toolbar/toggle/phase-accordion/grid language as the standalone
+   StratagemsView.vue page — copied, not shared (scoped styles don't cross component
+   boundaries). No .strat-filters here (StratagemsView's core/you/opp row) — this tab has
+   nothing to filter, it's always just this roster's own detachments. */
+.strat-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+.strat-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-card);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background var(--motion-fast), color var(--motion-fast), border-color var(--motion-fast);
+}
+.strat-toggle:hover { color: var(--text-primary); border-color: var(--accent); }
+.strat-toggle.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+.phase-group { margin-bottom: 0.75rem; }
+.phase-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  transition: border-color var(--motion-fast);
+}
+.phase-head:hover { border-color: var(--accent); }
+.phase-chev { flex-shrink: 0; font-size: 0.8rem; color: var(--text-dim); }
+.phase-name { flex: 1; text-align: left; }
+.phase-count { flex-shrink: 0; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--text-muted); }
+.phase-grid { padding-top: 0.75rem; }
+
+.strat-grid { column-count: 2; column-gap: 1rem; }
+.strat-grid > * { break-inside: avoid; margin-bottom: 1rem; }
+@media (max-width: 640px) {
+  .strat-grid { column-count: 1; }
+}
+@media (max-width: 480px) {
+  .strat-toggle-label { display: none; }
+}
 
 /* Per-faction accent — mirrors RosterEditorView / FactionLayout's three-step theme resolution. */
 .roster-view.themed {

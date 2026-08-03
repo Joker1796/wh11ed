@@ -76,5 +76,20 @@ const sheet = computed(() => {
    generous outer padding here would just re-add the margin that treatment removes. */
 @media (max-width: 480px) {
   .modal-body { padding: 0.6rem 0.35rem; }
+  /* DatasheetCard's own ≤480px CSS bleeds `.ds-card` to the full VIEWPORT width
+     (`width: 100vw; margin-left: calc(50% - 50vw)`) so its header/weapon-table/ability-group
+     bleeds land flush against the true screen edge — correct only when `.ds-card` sits directly
+     in an unpadded container. Nested in this `.modal-body`'s own padding, the `50%` term in that
+     calc resolves against the PADDED content box, not the true viewport, so the escape lands a
+     few px short/long and the modal gains a small horizontal scroll (most visible once a unit
+     has an Abilities/Special Abilities group — `.ds-group-btn`'s width:100% then measures
+     against `.ds-ability-group`'s own bled, over-wide box). Cancel just the escape; `.ds-card`'s
+     internal bleed-to-its-own-edge for every one of those zones is untouched and stays correct
+     once `.ds-card` itself is back to a normal in-flow block. */
+  .modal-body :deep(.ds-card) {
+    width: auto;
+    margin-left: 0;
+    border-radius: 6px;
+  }
 }
 </style>

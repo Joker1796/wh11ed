@@ -1,10 +1,23 @@
 import { describe, it, expect } from 'vitest'
-import { bucketOf, unitBasePoints, unitWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, defaultLoadoutLines } from './rosterEngine.js'
+import { bucketOf, unitBasePoints, unitWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, defaultLoadoutLines, capKeyOf } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
 const knight = { id: 'porphyrion', kws: ['Vehicle'], flags: {}, sizes: [{ pts: 725, per: [1, 1], default: 1 }], step: { at: 2, pts: 75 } }
 const epic = { id: 'marneus', kws: ['Character', 'Epic Hero'], flags: { char: 1, epic: 1 }, sizes: [{ pts: 95, per: [1, 1] }] }
+
+describe('capKeyOf', () => {
+  it('defaults to the datasheet id when charId is absent', () => {
+    expect(capKeyOf(captain)).toBe('captain')
+    expect(capKeyOf(epic)).toBe('marneus')
+  })
+  it('groups two different ids under a shared charId', () => {
+    const variantA = { id: 'captain-titus', charId: 'titus' }
+    const variantB = { id: 'lieutenant-titus', charId: 'titus' }
+    expect(capKeyOf(variantA)).toBe('titus')
+    expect(capKeyOf(variantA)).toBe(capKeyOf(variantB))
+  })
+})
 
 describe('bucketOf', () => {
   it('files units by role, epic/character first', () => {

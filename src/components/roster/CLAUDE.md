@@ -70,6 +70,26 @@ directory; still part of this feature:
   on mount) rather than the saved-game format itself — `wh11ed-api`'s `domain/game.ts`
   contract is untouched by this feature. A partial draft is fine: `GameSetup` merges its own
   defaults over whatever fields this sets.
+- **`capKeyOf(def)`** (`rosterEngine.js`) — the identity a unit's duplicate cap
+  (`duplicateLimit`) is grouped by. Defaults to the datasheet's own `id`; an optional `charId`
+  field is the extension point for the real (currently unrepresented in any faction's
+  `src/data/roster/<slug>.js`) 40k case of one named Epic Hero published as two distinct
+  datasheets — GW caps them as ONE slot even though the `id`s differ. `duplicateCounts()`
+  (`rosterValidation.js`) is the shared tally built on top of it. **"Check legality"**
+  (`roster.checkLegality`, per-roster, default `true`) is the player-facing toggle: on, it
+  live-enforces `duplicateLimit` by disabling `RosterUnitBrowser`'s "+" button once a unit's
+  cap group is full; off, unlimited adding (today's pre-toggle behaviour). This is layered on
+  top of, not a replacement for, `validateRoster()`'s own always-on `overDuplicate` issue — the
+  two share the same `capKeyOf` grouping so they never disagree. Toggled on the creation
+  wizard's step 1 (`RosterCreateView.vue`, last field) and the editor's Settings tab
+  (`RosterEditorView.vue`) — both write straight to the roster object. A count strictly OVER
+  its cap (not just at it — unreachable through the "+" button itself, but reachable by lowering
+  the battle size on step 1 *after* units were added under a bigger one) turns
+  `RosterUnitBrowser`'s `N/limit` badge red (`.rub-count.over`). `RosterCreateView.vue` now also
+  runs `validateRoster()` live (previously editor-only) and shows the same `issues-badge` +
+  `RosterIssuesModal` the editor's header has, next to the points readout in both step 2 and
+  step 3's `.rc-sticky` — so `overDuplicate` (and everything else `validateRoster` catches) is
+  visible during the wizard, not just after `finish()` lands on the read-only view.
 
 ## Store
 
@@ -81,10 +101,39 @@ dynamic-imports the heavy per-faction `src/data/roster/<slug>.js`.
 
 ## Views (`src/views/tracker/Roster*.vue`, not in this directory)
 
-`RosterListView`, `RosterCreateView` (4-ish-step wizard, mirrors `GameSetup`'s pattern),
-`RosterEditorView` (tabbed), `RosterViewView` (read-only + a Rules tab that loads faction
+`RosterListView`, `RosterCreateView` (4-ish-step wizard, mirrors `GameSetup`'s pattern; its
+"Done" button, `finish()`, lands on the roster's read-only view, not the editor),
+`RosterEditorView` (tabbed; fixed footer bar — `.rc-sticky`, same class and CSS as
+`RosterCreateView.vue`'s own wizard bar, copied not shared — with the points readout + issues
+badge on the left and Cancel/Save on the right, always visible across all three tabs, not just
+one step. "Save" is a pure navigation shortcut to that same read-only view (`save()` →
+`/roster/:id/view`) — every edit already autosaves to `useRosters.js`'s reactive store, there's
+nothing left to actually persist; "Cancel" is a plain `RouterLink` back to `/roster`, same
+non-destructive idea. Reusing the literal `.rc-sticky` class name is load-bearing, not
+cosmetic: `App.vue`'s `.app-layout:has(.rc-sticky)` selector — which reserves
+`--roster-sticky-h` so `MobileUtilityBar`'s floating buttons rise above this bar instead of
+overlapping it — matches by class name alone, regardless of which view rendered it),
+`RosterViewView` (read-only; Units / Rules / Stratagems tabs, the latter two loading faction
 rule text via `loadFaction()` from `data/factions/index.js` — **async**, not the old sync
-`getFaction()`, see below), `RosterSharedView` (import landing for a `rosterShare.js` link).
+`getFaction()`, see below — on first open of either tab, sharing one fetch since a detachment
+object carries both `.rule` and `.stratagems`). Its Stratagems tab is deliberately the same
+setup as the standalone `/stratagems` page (`StratagemsView.vue`): the by-phase/as-list toggle
+(same `localStorage['wh11ed-stratagems-by-phase']` key, so the preference is shared, not
+learned twice), phase accordions via `stratagemPhases.js`'s `phasesOf`/`phaseLabel`/
+`PHASE_ORDER`, and the same masonry `.strat-grid` — just pre-filtered to the roster's own
+detachments (flattened, no filter row) instead of that page's core/you/opp filter.
+
+Its **Units tab** shows the base statline as small chamfered plates (`.rvst`/`.rvst-box`,
+scaled-down copies of `DatasheetCard.vue`'s own `.ds-stat`/`.ds-stat-box`), invulnerable save
+as its own trailing accent-coloured plate (`.rvst-inv`, last — not DatasheetCard's own
+shield-under-SV layout, no room for that in a one-line row). Clicking a row opens
+`RosterUnitRulesModal` (same as `RosterUnitBrowser`'s own row-click preview while adding units)
+with the unit's full, unfiltered datasheet — an inline accordion with a
+`loadoutSheetOf`-filtered/merged card was tried (weapons trimmed to the entry's actual loadout,
+Leader+Bodyguard combined into one card) and reverted: it read as visually nested/padded rather
+than one card, and the merged-unit case looked worse than just showing each datasheet in full.
+If this is revisited, check git history around 2026-08 for what didn't work before repeating it.
+`RosterSharedView` (import landing for a `rosterShare.js` link).
 
 ## Components (this directory)
 
@@ -92,9 +141,23 @@ rule text via `loadFaction()` from `data/factions/index.js` — **async**, not t
 pick UI for one unit), `WeaponProfileModal`, `EnhancementRuleModal` (loads the enhancement's
 rule text via `loadFaction()`, same as `RosterViewView`), `RosterIssuesModal` (renders
 `validateRoster()`'s issues), `RosterExportModal` (wraps `rosterExport.js`),
-`RosterUnitRulesModal` (wraps `DatasheetCard` with its `collapsible` prop — see Known gaps),
+`RosterUnitRulesModal` (wraps `DatasheetCard` with its `collapsible` prop — see Known gaps;
+used both by `RosterUnitBrowser`'s row-click preview while adding units and by
+`RosterViewView`'s Units tab — see Views above),
 `FactionAccentScope` (per-faction accent-color CSS custom-property scope for the editor
 chrome, keyed off the roster's faction slug).
+
+**`RosterUnitRulesModal`'s `.modal-body` cancels `DatasheetCard`'s own ≤480px `.ds-card`
+full-viewport bleed** (`width: 100vw; margin-left: calc(50% - 50vw)`) via a `:deep(.ds-card)`
+override. That escape is correct only when `.ds-card` sits directly in an unpadded container —
+nested in `.modal-body`'s own `0.35rem` side padding, the `50%` term resolves against that
+padded box instead of the true viewport, so the escape lands a few px short/long and the modal
+gains a small horizontal scroll (most visible once a unit has an Abilities/Special Abilities
+group — `DsAccordion`'s `.ds-group-btn`, `width: 100%`, then measures against
+`.ds-ability-group`'s own edge-bled, now-over-wide box). `.ds-card`'s *internal*
+bleed-to-its-own-edge for the header/weapon-table/ability-group zones is untouched and stays
+correct once `.ds-card` itself is back to a normal in-flow block — only the escape-to-viewport
+part is cancelled.
 
 **`getFaction()` doesn't exist anymore** — `src/data/factions/index.js` was refactored
 (async, code-split `loadFaction(slug)`) after this feature's early commits; `RosterViewView.vue`

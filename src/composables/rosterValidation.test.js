@@ -97,6 +97,17 @@ describe('validateRoster — duplicates', () => {
     const units = [U('captain', { warlord: true }), ...Array.from({ length: 4 }, () => U('ballistus-dreadnought'))]
     expect(codes(roster({ units }))).toContain('overDuplicate')
   })
+  it('caps two different ids sharing a charId together, as one Epic Hero slot', () => {
+    // A hypothetical second datasheet for the same named character (see rosterEngine.js's
+    // capKeyOf) — no current faction has this, but the grouping must still cap them as one.
+    const titusA = { id: 'captain-titus', charId: 'titus', name: 'Captain Titus', kws: ['Character', 'Epic Hero'], flags: { char: 1, epic: 1 }, sizes: [{ pts: 100, per: [1, 1], default: 1 }] }
+    const titusB = { id: 'lieutenant-titus', charId: 'titus', name: 'Lieutenant Titus', kws: ['Character', 'Epic Hero'], flags: { char: 1, epic: 1 }, sizes: [{ pts: 90, per: [1, 1], default: 1 }] }
+    const f = { ...faction, units: [...faction.units, titusA, titusB] }
+    const oneEach = [U('captain', { warlord: true }), U('captain-titus'), U('lieutenant-titus')]
+    expect(validateRoster(roster({ units: oneEach }), { faction: f, core }).issues.map((i) => i.code)).toContain('overDuplicate')
+    const justOne = [U('captain', { warlord: true }), U('captain-titus')]
+    expect(validateRoster(roster({ units: justOne }), { faction: f, core }).issues.map((i) => i.code)).not.toContain('overDuplicate')
+  })
 })
 
 describe('validateRoster — warlord', () => {

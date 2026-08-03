@@ -218,4 +218,14 @@ onUnmounted(() => {
     padding: 0 calc(0.5rem + var(--safe-right)) calc(4.5rem + var(--safe-bottom) + var(--mobile-bar-h, 0px)) calc(0.5rem + var(--safe-left));
   }
 }
+
+/* Roster creation wizard's fixed Back/Next bar (RosterCreateView's .rc-sticky — an unscoped
+   class name reached across the component boundary via :has(), same trick as its own
+   .rc-panel:has(.rc-sticky)) is glued flush above the bottom nav and doesn't move. It floats
+   in the same bottom-right corner MobileUtilityBar's own buttons (resume/faction tabs/
+   back-to-top) want, so THEY yield instead: this reserves the bar's real height in a variable
+   MobileUtilityBar's own bottom offset adds (see its .mobile-bar rule) — always the fixed
+   .rc-sticky height, not RosterEditorView's unrelated .red-sticky (a sticky totals readout,
+   no buttons, nothing to block). */
+.app-layout:has(.rc-sticky) { --roster-sticky-h: 3.75rem; }
 </style>

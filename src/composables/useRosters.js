@@ -34,6 +34,11 @@ export function makeRoster(name = 'New roster') {
     detachments: [],
     battleSize: 'strike-force',
     customPoints: 2000,
+    // Live-enforces the datasheet duplicate cap (rule 25) while browsing/adding units, on top
+    // of validateRoster()'s always-on post-hoc issue. Default true; every read site treats a
+    // missing field (rosters saved before this existed) as true too — see rosterValidation.js's
+    // duplicateLimit/duplicateCounts and RosterUnitBrowser.vue's atCap guard.
+    checkLegality: true,
     units: [],
     // Denormalised by the editor so the list never has to load faction data to show a total.
     summary: { points: 0, unitCount: 0, issues: 0 },
