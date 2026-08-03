@@ -113,6 +113,8 @@ export default {
   },
 
   'castellan-crowe': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Кроу'],
     flavor:
       'Castellan Crowe бросается в бой, окутанный ослепительным псионическим огнём — отличительным знаком его ордена. Хоть он никогда не будет столь глуп, чтобы отпереть запретную силу Black Blade of Antwyr, он всё же владеет пленённым клинком с огромным мастерством и силой, используя его, свой storm bolter и мощную псионическую мощь, чтобы прорубить путь сквозь врагов.',
     abilities: {
@@ -158,6 +160,8 @@ export default {
   },
 
   'grand-master-voldus': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Волдус'],
     flavor:
       'Grand Master Aldrik Voldus владеет могучим Malleus Argyrum — демоническим молотом, чья головка пляшет чародейским пламенем, против которого мало кто из врагов устоит. Один из мощнейших псайкеров, что знал его Орден за годы, он также обладает силой обрушивать волны душевного огня на врагов и заклинать святилища пляшущего псионического свечения, что укрывают его братьев от вреда.',
     abilities: {

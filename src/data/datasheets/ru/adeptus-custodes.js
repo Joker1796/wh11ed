@@ -42,6 +42,8 @@ export default {
   },
 
   aleya: {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Алея'],
     flavor:
       'Алея — ветеран своего ордена и свирепая, преданная охотница на ведьм и чародеев. За много лет она развила невероятное тактическое чутьё, а также глубокое знание своей добычи. Она применяет эти навыки, чтобы выискивать псайкеров-отступников, повергая их взмахами своего клинка Somnus.',
     abilities: {
@@ -360,6 +362,8 @@ export default {
   },
 
   'trajann-valoris': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Траджанн Валорис'],
     flavor:
       'Воинская доблесть Траянна Валориса приближается к доблести примархов древности. Watcher’s Axe он может рассечь саркофаг Chaos Helbrute одним взмахом или использовать встроенное в него болтерное оружие — известное как Eagle’s Scream, — чтобы выкашивать вражескую пехоту залпами адамантиевых бронебойных болтов.',
     abilities: {
@@ -373,6 +377,8 @@ export default {
   },
 
   valerian: {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Валериан'],
     flavor:
       'Своевольный воин, Валериан относительно недавно в Custodes, но уже отмечен для величия. Его порыв нести смерть врагам Императора за пределами Терры высоко ценится в эти тёмные времена, и бессчётные враги пали от его guardian spear по имени Gnosis.',
     abilities: {
