@@ -69,4 +69,12 @@ export const datasheetAliasRulesRu = [
   { pattern: /\bGhostkeel\b/i, aliasesRu: ['Фантом', 'госткил'] },
   { pattern: /\bBullgryn\b/i, aliasesRu: ['буллгрин', 'быкогрин'] },
   { pattern: /\bWolf Guard\b/i, aliasesRu: ['Волчья гвардия'] },
+  { pattern: /\bWhirlwind\b/i, aliasesRu: ['Вихрь'] },
+  { pattern: /\bFire Prism\b/i, aliasesRu: ['Огненная призма', 'файр призм'] },
+  { pattern: /\bDeathmarks?\b/i, aliasesRu: ['смертоуказатель', 'дезмарк'] },
+  {
+    pattern: /\bDoomsday Ark\b/i,
+    aliasesRu: ['Ковчег Судный день', 'дда', 'думсдей арка', 'Ковчег Судного дня'],
+  },
+  { pattern: /\bWar Walkers?\b/i, aliasesRu: ['боевой шагоход', 'шагоход', 'волкер'] },
 ]
