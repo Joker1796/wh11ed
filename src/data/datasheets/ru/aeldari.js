@@ -27,6 +27,8 @@ const dmgHitMinus = (range) =>
 
 export default {
   asurmen: {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Азурмен'],
     flavor:
       'Воинское мастерство Асурмена захватывает дух, а величие его героического присутствия столь огромно, что ближние Aspect Warriors напитываются его непревзойдённым тактическим чутьём. Помимо наручных шурикеновых катапульт, известных как Bloody Twins, он несёт Sword of Asur, в чьей рукояти — камень души брата Асурмена, Тетесиса.',
     abilities: {
@@ -246,6 +248,8 @@ export default {
   },
 
   'eldrad-ulthran': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Эльдрад Ультран', 'Эльдрад'],
     flavor:
       'Один из могущественнейших псайкеров-аэльдари, когда-либо живших, — когда Эльдрад Ультран выходит на поле, планы его врагов уже известны ему. Псионическая мощь Эльдрада такова, что он способен ломать Титанов и изгонять сильнейших демонов, а за тысячелетия он сразил королей и чемпионов без числа.',
     abilities: {

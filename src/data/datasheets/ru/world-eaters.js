@@ -23,6 +23,8 @@ const dmgHitMinus = (range) =>
 
 export default {
   angron: {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Ангрон'],
     flavor:
       'Ангрон — ярость, обретшая бессмертную форму. Машина разрушения, он обладает силой, чтобы голыми руками разрывать имперские бастионы и останавливать Titan на ходу. Вооружённый мечом Samni’arius и топором Spinegrinder, он способен прорубить путь сквозь целые армии врагов в вихре апокалиптического кровопролития.',
     abilities: {

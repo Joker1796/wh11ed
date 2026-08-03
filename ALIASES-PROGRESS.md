@@ -89,13 +89,46 @@
 | Kharn the Betrayer | ⚠ **НЕ реализовано — юнита нет ни в одном файле датасета** (грепнул весь `src/data/datasheets/`, ноль совпадений) | — |
 | Asdrubael Vect | ⚠ **НЕ реализовано — юнита нет в `drukhari.js`** (в датасете вообще не найден отдельным датащитом) | — |
 
+### Вторая партия (без построчного ревью пользователем — только глоссарий + бесспорные транслитерации, без выдумывания прозвищ)
+
+Продолжение по чек-листу фракций ниже. Правило то же: если ни глоссарий, ни уверенная (не
+исковерканная GW) транслитерация не подтверждаются — юнит пропущен, а не угадан. Пропущенные —
+`Commander Farsight`'s/`Shadowsun`'s товарищи по неопределённости: `Watch Master`, `Be'lakor`,
+`Trajann Valoris`, `Yvraine`, `Kaldor Draigo` (нет в датасете), `Urien Rakarth` (нет в датасете) —
+не реализованы, нужна сверка с пользователем при следующем заходе.
+
+| Персонаж | id / файл | aliasesRu |
+|---|---|---|
+| Chaplain Grimaldus | `chaplain-grimaldus` / `black-templars.js` | Гримальд (глоссарий), Гримальдус |
+| High Marshal Helbrecht | `high-marshal-helbrecht` / `black-templars.js` | Хелбрехт (глоссарий) |
+| Commander Farsight | `commander-farsight` / `tau-empire.js` | Зоркий Взгляд (глоссарий, офиц. перевод), Фарсайт (транслит) |
+| Commander Shadowsun | `commander-shadowsun` / `tau-empire.js` | Тень Солнца (глоссарий, офиц. перевод), Шедоусан (транслит) |
+| Chief Librarian Mephiston | `chief-librarian-mephiston` / `blood-angels.js` | Мефистон (глоссарий) |
+| Commander Dante | `commander-dante` / `blood-angels.js` | Данте (бесспорный транслит) |
+| Lemartes | `lemartes` / `blood-angels.js` | Лемартес (глоссарий) |
+| Logan Grimnar | `logan-grimnar` / `space-wolves.js` | Логан Гримнар (бесспорный транслит, не в глоссарии) |
+| Ragnar Blackmane | `ragnar-blackmane` / `space-wolves.js` | Рагнар Чёрная Грива, Рагнар Черногривый (оба варианта — глоссарий) |
+| Watch Captain Artemis | `watch-captain-artemis` / `deathwatch.js` | Артемис (частичный, бесспорный транслит) — ⚠ этот `id` также встречается в другом файле датасета без RU-оверлея, там алиас пока не добавлен |
+| Skarbrand | `skarbrand` / `chaos-daemons.js` | Скарбранд (глоссарий) — ⚠ тот же `id` тоже дублируется во втором файле без алиаса |
+| Angron | `angron` / `world-eaters.js` | Ангрон (бесспорный транслит) |
+| Lucius the Eternal | `lucius-the-eternal` / `emperors-children.js` | Люций Вечный (глоссарий), Люций |
+| Asurmen | `asurmen` / `aeldari.js` | Азурмен (глоссарий) |
+| Eldrad Ulthran | `eldrad-ulthran` / `aeldari.js` | Эльдрад Ультран (глоссарий), Эльдрад |
+| Lelith Hesperax | `lelith-hesperax` / `drukhari.js` | Лелит Гесперакс (глоссарий), Лелит |
+| Patriarch | `patriarch` / `genestealer-cults.js` | Патриарх (глоссарий) |
+
+Итого после этой партии: **267 из 1434** юнитов с `aliasesRu` (было 252 — часть прироста
+поглотилась уже посчитанными паттерн-матчами: Grimaldus/Mephiston уже попадали в счётчик через
+`Chaplain`/`Librarian`). `npm test` — 263/263, `npm run build` — чисто. Вживую в браузере
+по-прежнему не проверено.
+
 ## Статус: механизм ЗАВЕРШЁН, ПРОВЕРЕН, ПЕРВАЯ ПАЧКА ДАННЫХ ВНЕДРЕНА
 
 ### Что сделано (код, не трогать без причины)
 
 1. **`src/data/datasheets/ru/<slug>.js`** — новое опциональное поле `aliasesRu: string[]` на
    любой юнит в RU-оверлее (там же, где `flavor`/`abilities`/`loadout`). Для одного конкретного
-   именного персонажа — см. таблицу выше, 15 юнитов уже заполнены.
+   именного персонажа — см. таблицы выше, 32 юнита уже заполнены (2 первые пачки).
 2. **`src/data/datasheetAliasRulesRu.js`** (новый файл) — алиасы по ПАТТЕРНУ EN-имени, для целого
    класса юнитов сразу (все Terminator-датащиты во всех фракциях → «термосы» и т.п.). 36 правил,
    см. таблицу выше. Каждое правило — `{ pattern: RegExp, aliasesRu: string[] }`.
@@ -105,7 +138,7 @@
    элементом в каждую запись юнита: `[unitId, unitName, aliasesRu | null]` (`null`, не пропуск —
    `JSON.stringify` не умеет опускать элемент массива). Для 5 SM-капитулов (Chapter dedup) личные
    алиасы шаренных юнитов, как и сами юниты, берутся из `ru/space-marines.js`. Печатает в консоль
-   сколько юнитов реально получили алиасы (`N with aliasesRu`) — сейчас **252 из 1434**.
+   сколько юнитов реально получили алиасы (`N with aliasesRu`) — сейчас **267 из 1434**.
 4. **`src/composables/useSearch.js`'s `searchDatasheets()`** — проверяет алиасы ТОЛЬКО когда
    собственное имя не совпало (`!nameHit && aliasesRu.find(...)`), и если совпадение пришло
    именно через алиас — кладёт его в `titleRu` (в RU-локали), чтобы `SearchModal.vue` показал
@@ -192,19 +225,22 @@
 - [x] death-guard — Mortarion, Typhus.
 - [x] dark-angels — Lion El'Jonson.
 - [x] adepta-sororitas — Saint Celestine.
-- [ ] black-templars
-- [ ] tau-empire
-- [ ] blood-angels
-- [ ] space-wolves
-- [ ] deathwatch
-- [ ] chaos-daemons
-- [ ] world-eaters — Kharn the Betrayer запрошен, но в датасете юнита нет вообще (проверено).
-- [ ] emperors-children
-- [ ] aeldari
-- [ ] drukhari — Asdrubael Vect запрошен, но в датасете юнита нет вообще (проверено).
-- [ ] genestealer-cults
-- [ ] adeptus-custodes
-- [ ] grey-knights
+- [x] black-templars — Chaplain Grimaldus, High Marshal Helbrecht.
+- [x] tau-empire — Commander Farsight, Commander Shadowsun.
+- [x] blood-angels — Chief Librarian Mephiston, Commander Dante, Lemartes.
+- [x] space-wolves — Logan Grimnar, Ragnar Blackmane.
+- [x] deathwatch — Watch Captain Artemis. Watch Master пропущен (транслит не подтверждён — Уотч/
+      Вотч-мастер, нужна сверка).
+- [x] chaos-daemons — Skarbrand. Be'lakor пропущен (транслит не подтверждён).
+- [x] world-eaters — Angron. Kharn the Betrayer запрошен, но в датасете юнита нет вообще (проверено).
+- [x] emperors-children — Lucius the Eternal.
+- [x] aeldari — Asurmen, Eldrad Ulthran. Yvraine пропущена (транслит не подтверждён).
+- [x] drukhari — Lelith Hesperax. Asdrubael Vect запрошен, но в датасете юнита нет вообще
+      (проверено). Urien Rakarth в датасете тоже не найден.
+- [x] genestealer-cults — Patriarch.
+- [ ] adeptus-custodes — Trajann Valoris запрошен, но транслит не подтверждён глоссарием (нет
+      уверенности в «Траджан Волорис») — нужна сверка с пользователем.
+- [ ] grey-knights — Kaldor Draigo запрошен, но в датасете юнита нет вообще (проверено).
 - [ ] imperial-agents
 - [ ] imperial-knights
 - [ ] chaos-knights

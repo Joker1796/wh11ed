@@ -302,6 +302,8 @@ export default {
   },
 
   patriarch: {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Патриарх'],
     flavor:
       'Псионическая мерзость; высший хищник; паразитический полубог — Patriarch есть всё это и хуже. Он источник био-порчи, что порождает каждую ячейку Genestealer Cult. Более того, когда приходит День Вознесения, он — смертоноснейший убийца культа, что рыщет в тенях осаждённых миров, чтобы рвать и убивать.',
     abilities: {

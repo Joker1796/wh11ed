@@ -235,6 +235,8 @@ export default {
   },
 
   'lucius-the-eternal': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Люций Вечный', 'Люций'],
     abilities: {
       'A Challenge Worthy of Skill':
         'Каждый раз, когда эта модель совершает атаку, нацеленную на юнит Character, Monster или Walker, вы можете перебросить бросок попадания и можете перебросить бросок ранения.',
