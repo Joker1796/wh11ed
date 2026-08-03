@@ -71,7 +71,7 @@ Immortals/Obliterators — множественное число). Так же �
 
 ## Статус
 
-**392 из 1434** юнитов с `aliasesRu` (личные + 42 паттерна в `datasheetAliasRulesRu.js`).
+**393 из 1434** юнитов с `aliasesRu` (личные + 42 паттерна в `datasheetAliasRulesRu.js`).
 `npm test` — 263/263, `npm run build` — чисто. **Не проверено вживую в браузере** (нет браузерного тулинга в сессии) — логика
 проверена юнит-тестами и ручными node-симуляциями `searchDatasheets` на реальном индексе по
 многим запросам каждой партии. **Детали последней партии — `ALIASES-BATCH.local.md`** (не в
@@ -85,8 +85,10 @@ git, перезаписывается каждый раз — там табли�
 **necrons (7/10, полностью закрыт — Nightbringer/Void Dragon/Ammentar сделаны)**,
 adepta-sororitas (2/9), astra-militarum (6/9), dark-angels (6/6), space-wolves (5/7),
 blood-angels (5/5), tau-empire (3/5, без Ri'Lantar/Ri'Locai), emperors-children (2/3, без
-Shalaxi Helbane), world-eaters (3/4), drukhari (3/3, кроме запрошенных-но-отсутствующих),
-imperial-knights (2/2), adeptus-mechanicus (2/2), tyranids (4/9, без Deathleaper/Old One Eye),
+Shalaxi Helbane), **world-eaters (4/4, полностью закрыт)**, drukhari (3/3, кроме
+запрошенных-но-отсутствующих),
+**imperial-knights (2/2, полностью закрыт)**, adeptus-mechanicus (2/2), tyranids (4/9, без
+Deathleaper/Old One Eye),
 **imperial-agents (8/8 именных + 4/4 Assassin-класса, полностью закрыт)**, **grey-knights (2/2,
 полностью закрыт)**, **adeptus-custodes (3/3, полностью закрыт)**, **thousand-sons (3/3,
 полностью закрыт)**, **death-guard (3/3, полностью закрыт)**, **genestealer-cults (1/1,
@@ -106,7 +108,6 @@ imperial-knights (2/2), adeptus-mechanicus (2/2), tyranids (4/9, без Deathlea
   та же категория осторожности, что Kor'sarro Khan/Suboden Khan.
 - **tyranids** — Deathleaper, Old One Eye — нет глоссария, описательные прозвища без
   подтверждённого перевода (не переводить самому).
-- world-eaters, imperial-knights — есть 1+ персонаж, глубже первого прохода не проверялись.
 
 ## Гочи (нетривиальные находки — держать в голове на будущее)
 
