@@ -72,6 +72,8 @@ export default {
   },
 
   'buri-aegnirssen': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Бури Эгнирссен'],
     flavor:
       'Buri Aegnirssen врывается во врага с яростной безоглядностью того, кому нечего терять. Взмахами своего универсального darkstar glaive по имени Bane этот заядлый выживший прорубает кровавый путь сквозь врага. Даже самой чудовищной добыче не уклониться от исполинского размаха мести Трижды-пожранного.',
     abilities: {
