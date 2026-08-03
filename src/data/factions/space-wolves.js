@@ -3,7 +3,7 @@
 // can ALSO field the Codex: Space Marines detachments (they live in space-marines.js and
 // are not duplicated).
 //
-//   Codex layer: the four Sagas imported from the Wahapedia CSV exports (they live under
+//   Codex layer: the four Sagas imported from the codex (filed under
 //     the Space Marines faction id there) with remaining pack Rules Updates folded in.
 //     Saga of the Great Wolf is also printed in the Faction Pack (identical text) —
 //     marked source: 'faction-pack'.
@@ -21,15 +21,19 @@ const en = {
   name: "Space Wolves",
 
   armyRule: {
-    id: 'oath-of-moment',
-    name: 'Oath of Moment',
+    id: 'oath-of-moment-curse-of-the-wulfen',
+    name: 'Oath of Moment & Curse of the Wulfen',
     flavor:
-      'In battle, Space Marines swear mighty oaths to destroy the enemies of the Emperor and uphold the honour of their Chapter, and such vows are sacrosanct. When the Angels of Death strike, they do so with the precision of a surgeon and the force of a thunderbolt.',
-    body: `If your Army Faction is Adeptus Astartes, at the start of your Command phase, select one unit from your opponent's army. Until the start of your next Command phase, that enemy unit is your Oath of Moment target. Each time a model with this ability makes an attack that targets your Oath of Moment target, you can re-roll the Hit roll.`,
+      'In battle, Space Marines swear mighty oaths to destroy the enemies of the Emperor and uphold the honour of their Chapter, and such vows are sacrosanct. When the Angels of Death strike, they do so with the precision of a surgeon and the force of a thunderbolt. Only while fighting at the side of their battle-brothers can the feral Wulfen control their frenzied aggression.',
+    body: `### Oath of Moment
+If your Army Faction is Adeptus Astartes, at the start of your Command phase, select one unit from your opponent's army. Until the start of your next Command phase, that enemy unit is your Oath of Moment target. Each time a model with this ability makes an attack that targets your Oath of Moment target, you can re-roll the Hit roll.
+
+### Curse of the Wulfen
+While this unit is within 6" of one or more friendly Space Wolves Character models (excluding Wulfen models) or within 12" of one or more friendly Wolf Priest models, if it is not Battle-shocked, add 1 to the Objective Control characteristic of Infantry models in it and add 3 to the Objective Control characteristic of Vehicle models in it.`,
   },
 
   detachments: [
-    // ─────────────── CODEX DETACHMENTS (via Wahapedia import) ───────────────
+    // ─────────────── CODEX DETACHMENTS ───────────────
     {
       id: "saga-of-the-beastslayer",
       name: "Saga of the Beastslayer",
@@ -39,7 +43,7 @@ const en = {
       rule: {
         name: "Legendary Slayers",
         flavor: "Some Space Wolves seek only to bring down the most monstrous and deadly foes. With hunting packs of Fenrisian wolves, Thunderwolf Cavalry and rampaging bands of Wulfen, they seek to hunt down and slay mighty champions, towering monstrosities and rumbling war machines, demoralising the foe and earning glorious victories.",
-        body: "Each time an ADEPTUS ASTARTES model from your army makes an attack, if that attack targets a CHARACTER, MONSTER or VEHICLE unit or if your Saga is completed (see below), that attack has the [lethal hits] ability.\n\nSaga of the Beastslayer\nAt the start of the first battle round, your Beastslayer tally is 0, and you determine your Beastslayer target by halving the number of units from your opponent’s army (including those embarked within TRANSPORTS) that have one or more of the following keywords (rounding up): CHARACTER, MONSTER, VEHICLE.\n\nEach time an ADEPTUS ASTARTES unit from your army shoots or fights, after all of those attacks have been resolved, add 1 to your Beastslayer tally for each enemy unit with one or more of the following keywords destroyed by those attacks: CHARACTER, MONSTER, VEHICLE.\n\nOnce your Beastslayer tally is equal to or greater than your Beastslayer target, your Saga is completed.",
+        body: "Each time an ADEPTUS ASTARTES model from your army makes an attack, if that attack targets a CHARACTER, MONSTER or VEHICLE unit or if your Saga is completed (see below), that attack has the [LETHAL HITS] ability.\n\nSaga of the Beastslayer\nAt the start of the first battle round, your Beastslayer tally is 0, and you determine your Beastslayer target by halving the number of units from your opponent’s army (including those embarked within TRANSPORTS) that have one or more of the following keywords (rounding up): CHARACTER, MONSTER, VEHICLE.\n\nEach time an ADEPTUS ASTARTES unit from your army shoots or fights, after all of those attacks have been resolved, add 1 to your Beastslayer tally for each enemy unit with one or more of the following keywords destroyed by those attacks: CHARACTER, MONSTER, VEHICLE.\n\nOnce your Beastslayer tally is equal to or greater than your Beastslayer target, your Saga is completed.\n\n**Restrictions:** Your army can include SPACE WOLVES units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
       },
       stratagems: [
         {
@@ -92,8 +96,8 @@ const en = {
           cp: "1CP",
           turn: "opponent",
           flavor: "Severe losses only drive Blood Claws and Wulfen forward into the midst of the foe.",
-          when: "Your opponent’s Shooting phase, just after an enemy unit has selected its targets.",
-          target: "One Wulfen Infantry or Blood Claws unit from your army that was selected as the target of one or more of the attacking unit’s attacks.",
+          when: "Your opponent’s Shooting phase, when an enemy unit that targeted a friendly unengaged WULFEN INFANTRY/BLOOD CLAWS unit this phase has shot.",
+          target: "That WULFEN INFANTRY/BLOOD CLAWS unit.",
           effect: "Your unit can make a surge move of up to D6\".",
           restrictions: "",
         },
@@ -114,7 +118,7 @@ const en = {
           name: "Wolf-touched",
           points: 15,
           flavor: "Whilst the Canis Helix has yet to overcome this champion fully, it is stirred to life by the thrill of battle and the scent of blood.",
-          body: "Space Wolves model only. Add 2\" to the Move characteristic of the bearer. In the Declare Battle Formations step, the bearer can be attached to a Wulfen Infantry unit.",
+          body: "SPACE WOLVES model only. Add 2\" to the Move characteristic of the bearer.\n\nIn the Declare Battle Formations step, the bearer can be attached to a Wulfen or Wulfen with Storm Shields unit.",
         },
         {
           name: "Hunter’s Guile",
@@ -146,7 +150,7 @@ const en = {
       rule: {
         name: "Heroes All",
         flavor: "Every Space Wolves warrior seeks to forge a saga worthy of retelling.",
-        body: "Each time an ADEPTUS ASTARTES unit from your army is selected to shoot or fight, apply one of the following when resolving those attacks:\n▪ If your Saga is completed (see below), you can re-roll one Hit roll, one Wound roll and one Damage roll.\n▪ Otherwise, if that unit is a Space Wolves Character unit, you can re-roll one Hit roll, one Wound roll or one Damage roll.\n\nSaga of the Bold\nEach time a SPACE WOLVES CHARACTER unit from your army does one of the following, that unit achieves that Boast. Once three or more different Boasts have been achieved by units from your army, your Saga is completed.\n▪ **Your Hide as a Trophy:** That unit destroys your Oath of Moment target.\n▪ **Slay Them All:** That unit destroys your Oath of Moment target, and that is the second Oath of Moment target destroyed by that unit in this battle.\n▪ **Overrun Their Position:** At the end of either player’s turn, that unit is wholly within your opponent’s deployment zone.\n▪ **Hold the Line:** From the second battle round onwards, at the end of your Command phase, that unit is within range of an objective marker you control that is not within your deployment zone.",
+        body: "Each time an ADEPTUS ASTARTES unit from your army is selected to shoot or fight, apply one of the following when resolving those attacks:\n▪ If your Saga is completed (see below), you can re-roll one Hit roll, one Wound roll and one Damage roll.\n▪ Otherwise, if that unit is a Space Wolves Character unit, you can re-roll one Hit roll, one Wound roll or one Damage roll.\n\nSaga of the Bold\nEach time a SPACE WOLVES CHARACTER unit from your army does one of the following, that unit achieves that Boast. Once three or more different Boasts have been achieved by units from your army, your Saga is completed.\n▪ **Your Hide as a Trophy:** That unit destroys your Oath of Moment target.\n▪ **Slay Them All:** That unit destroys your Oath of Moment target, and that is the second Oath of Moment target destroyed by that unit in this battle.\n▪ **Overrun Their Position:** At the end of either player’s turn, that unit is wholly within your opponent’s deployment zone.\n▪ **Hold the Line:** From the second battle round onwards, at the end of your Command phase, that unit is within range of an objective marker you control that is not within your deployment zone.\n\n**Restrictions:** Your army can include SPACE WOLVES units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
       },
       stratagems: [
         {
@@ -201,7 +205,7 @@ const en = {
           flavor: "Heroes are forged in the heat of battle, rising from obscurity to become the warriors of epic sagas.",
           when: "Your Command phase.",
           target: "One Wolf Guard Headtaker or Wolf Guard Terminator Pack Leader model from your army.",
-          effect: "Until the start of your next Command phase, your model has the CHARACTER keyword.\n\n**Designer’s Note:** While in effect, your model’s unit is therefore a CHARACTER unit, meaning it can interact with the Heroes All rule, in addition to other rules that interact with CHARACTER units.",
+          effect: "Until the start of your next Command phase, your model has the CHARACTER keyword.\n\n**Designer’s Note:** While in effect, your model’s unit is therefore a CHARACTER unit, meaning it can interact with the Heroes All rule (see Detachment Rules section), in addition to other rules that interact with CHARACTER units.",
           restrictions: "",
         },
         {
@@ -239,7 +243,7 @@ const en = {
           name: "Thunderwolf’s Fortitude",
           points: 25,
           flavor: "Possessed of indomitable fortitude, this champion of Fenris refuses the call of Morkai, fighting beyond the limits of even a Space Marine’s endurance.",
-          body: "ADEPTUS ASTARTES model only. The first time the bearer is destroyed, remove it from play, then, at the end of the phase, roll one D6: on a 2+, set the bearer back up on the battlefield as close as possible to where it was destroyed and not within Engagement Range of one or more enemy units, with 3 wounds remaining.",
+          body: "ADEPTUS ASTARTES model only. (Once per battle, per army) When this model is destroyed, at the end of the phase, roll one D6:\n▪ On a 2+, set up this model on the battlefield, unengaged and as close as possible to where it was destroyed. This model is not part of an attached unit and its unit has a starting strength of 1. This model has 3 wounds remaining.",
         },
       ],
     },
@@ -247,13 +251,13 @@ const en = {
     {
       id: "saga-of-the-great-wolf",
       name: "Saga of the Great Wolf",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 2,
       forceDisposition: "Take and Hold",
       rule: {
-        name: "Master of Wolves & Howling Onslaught & Restrictions",
+        name: "Master of Wolves & Howling Onslaught",
         flavor: "With Logan Grimnar commanding them, the hunting packs of the Space Wolves fight at peak efficiency.",
-        body: "### Master of Wolves\nAt the start of your Command phase, you can select one of the Hunting Packs listed below. Until the start of your next Command phase, that Hunting Pack is active and its effects apply to all ADEPTUS ASTARTES units from your army. You can only select each Hunting Pack once per battle.\n▪ **Encircling Jaws:** This unit can re-roll Advance rolls and Charge rolls.\n▪ **Hunter’s Eye:** Each time a model in this unit makes a ranged attack, add 1 to the Hit roll.\n▪ **Ferocious Strike:** Each time this unit is selected to fight, select either the [LETHAL HITS] or [SUSTAINED HITS 1] ability. Until the end of the phase, weapons equipped by models in this unit have the selected ability.\n\n### Howling Onslaught\nOnce per battle, when selecting a Hunting Pack for the Master of Wolves Detachment rule, if a Logan Grimnar model from your army is on the battlefield, you can select a Hunting Pack you have already selected this battle.\n\n### Restrictions\nYour army can include Space Wolves units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
+        body: "### Master of Wolves\nAt the start of your Command phase, you can select one of the Hunting Packs listed below. Until the start of your next Command phase, that Hunting Pack is active and its effects apply to all ADEPTUS ASTARTES units from your army. You can only select each Hunting Pack once per battle.\n▪ **Encircling Jaws:** This unit can re-roll Advance rolls and Charge rolls.\n▪ **Hunter’s Eye:** Each time a model in this unit makes a ranged attack, add 1 to the Hit roll.\n▪ **Ferocious Strike:** Each time this unit is selected to fight, select either the [LETHAL HITS] or [SUSTAINED HITS 1] ability. Until the end of the phase, weapons equipped by models in this unit have the selected ability.\n\n### Howling Onslaught\nOnce per battle, when selecting a Hunting Pack for the Master of Wolves Detachment rule (see above), if a LOGAN GRIMNAR model from your army is on the battlefield, you can select a Hunting Pack you have already selected this battle.\n\n**Restrictions:** Your army can include SPACE WOLVES units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
       },
       stratagems: [
         {
@@ -328,7 +332,7 @@ const en = {
           name: "Grimnar’s Mark",
           points: 20,
           flavor: "This moonsilver wolf-talisman is bestowed by the Great Wolf himself before battle, a mark of favour that fills the bearer with an eagerness to slay the foe.",
-          body: "Adeptus Astartes Terminator Captain model only. Once per battle round, from the second battle round onwards, you can target the bearer’s unit with the Rapid Ingress or Heroic Intervention Stratagem for 0CP, and can do so even if you have already targeted a different unit with that Stratagem this turn.\n\nIn the Declare Battle Formations step, the bearer can be attached to a Wolf Guard Terminators unit.",
+          body: "ADEPTUS ASTARTES TERMINATOR CAPTAIN model only. Once per battle round, you can target this unit with the Rapid Ingress/Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that Stratagem on other units this phase.\n\nIn the Declare Battle Formations step, the bearer can be attached to a Wolf Guard Terminators unit.",
         },
         {
           name: "Howlmaw",
@@ -360,7 +364,7 @@ const en = {
       rule: {
         name: "Pack’s Quarry",
         flavor: "At their Wolf Lord’s command, the Space Wolves advance upon their prey with lupine hunger, singling out the weak and overwhelming the strong with concentrated force and furious aggression.",
-        body: "Each time a model in a Space Wolves unit from your army makes a melee attack that targets an enemy unit, if that enemy unit is within Engagement Range of one or more other Adeptus Astartes units from your army, or if the attacking unit contains more models than that enemy unit:\n▪ Add 1 to the Hit roll.\n▪ If your Saga is completed (see below), add 1 to the Wound roll as well.\n\nSaga of the Hunter\nAt the start of the first battle round, your Quarry tally is 0. Each time an ADEPTUS ASTARTES unit from your army fights, after all of those attacks have been resolved, add 1 to your Quarry tally for each enemy unit destroyed by those attacks.\n\nOnce your Quarry tally is equal to or greater than the number shown in the table below (depending on the battle size), your Saga is completed.\n\n**BATTLE SIZEQUARRY TALLY**Incursion**2**Strike Force**3**Onslaught**4**",
+        body: "Each time a model in a Space Wolves unit from your army makes a melee attack that targets an enemy unit, if that enemy unit is within Engagement Range of one or more other Adeptus Astartes units from your army, or if the attacking unit contains more models than that enemy unit:\n▪ Add 1 to the Hit roll.\n▪ If your Saga is completed (see below), add 1 to the Wound roll as well.\n\nSaga of the Hunter\nAt the start of the first battle round, your Quarry tally is 0. Each time an ADEPTUS ASTARTES unit from your army fights, after all of those attacks have been resolved, add 1 to your Quarry tally for each enemy unit destroyed by those attacks.\n\nOnce your Quarry tally is equal to or greater than the number shown in the table below (depending on the battle size), your Saga is completed.\n\nQUARRY TALLY\n▪ **Incursion:** 2.\n▪ **Strike Force:** 3.\n▪ **Onslaught:** 4.\n\n**Restrictions:** Your army can include SPACE WOLVES units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
       },
       stratagems: [
         {
@@ -513,7 +517,7 @@ const en = {
           name: "A Giant Amongst Giants",
           points: 15,
           flavor: "Likened to a walking pinnacle of Fenrisian granite come to life, this hulking champion is an echo of Russ himself.",
-          body: "ADEPTUS ASTARTES INFANTRY model only.\n▪ This model has +2 Wounds.\n▪ This model\u2019s melee attacks have +1 Strength.",
+          body: "ADEPTUS ASTARTES INFANTRY model only.\n▪ This model has +2 W.\n▪ This model\u2019s melee attacks have +1 S.",
         },
         {
           name: "Preyslayer",
@@ -544,7 +548,7 @@ const en = {
           flavor: "Fighting as one, the Wolf Guard fall upon an enemy champion and drag them down with single-minded savagery.",
           when: "Fight phase, when a friendly ADEPTUS ASTARTES TERMINATOR unit is selected to fight.",
           target: "That ADEPTUS ASTARTES TERMINATOR unit.",
-          effect: "Your unit\u2019s melee attacks have the [PRECISION] ability.",
+          effect: "Your unit\u2019s melee attacks have [PRECISION].",
           restrictions: "",
         },
         {
@@ -576,14 +580,14 @@ const en = {
           points: 15,
           upgrade: true,
           flavor: "A position amongst the Wolf Guard offers a Space Wolf the chance for immortal glory, leading the onslaught and claiming the most vital prizes amidst the hottest fires of battle.",
-          body: "ADEPTUS ASTARTES TERMINATOR model only. This unit has +1 Objective Control.",
+          body: "ADEPTUS ASTARTES TERMINATOR model only. This unit has +1 OC.",
         },
         {
           name: "Fierce Example",
           points: 25,
           upgrade: true,
           flavor: "The Wolf Guard shrug off the worst their foes can hurl at them, sure in the knowledge that their example will inspire their packmates to even greater efforts.",
-          body: "WOLF GUARD TERMINATORS unit only. This unit has +1 Toughness.",
+          body: "WOLF GUARD TERMINATORS unit only. This unit has +1 T.",
         },
       ],
     },
@@ -597,7 +601,7 @@ const en = {
       rule: {
         name: "Old Greymanes",
         flavor: "Even in the midst of a brutal gunfight, Grey Hunters remain cool-headed and determined to discharge their duty to Chapter and Allfather.",
-        body: "▪ When a friendly GREY HUNTERS unit starts an Action, that Action does not prevent this unit from being eligible to shoot.\n▪ In the Declare Battle Formations step, you can split a friendly GREY HUNTERS unit into two units, each with a starting strength of 5.\n\n**Restrictions:** Your army can include SPACE WOLVES units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
+        body: "▪ When a friendly GREY HUNTER unit starts an action, that action does not prevent this unit from being eligible to shoot.\n▪ In the Declare Battle Formations step, you can split a friendly GREY HUNTERS unit into two units, each with a starting strength of 5.\n\n**Restrictions:** Your army can include SPACE WOLVES units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
       },
       stratagems: [
         {
@@ -617,9 +621,9 @@ const en = {
           cp: "1CP",
           turn: "your",
           flavor: "No matter what is demanded of them amidst the mayhem of battle, still packs of Grey Hunters are able to complete even the most complex tasks with stern surety.",
-          when: "Your Movement phase, when a friendly GREY HUNTERS unit is selected to make an Advance or Fall Back move.",
+          when: "Your Movement phase, when a friendly GREY HUNTERS unit is selected to make an advance/fall-back move.",
           target: "That GREY HUNTERS unit.",
-          effect: "That move does not prevent your unit from being eligible to start an Action.",
+          effect: "That move does not prevent your unit from being eligible to start an action.",
           restrictions: "",
         },
         {
@@ -639,13 +643,13 @@ const en = {
           name: "Eye of the Hunter",
           points: 20,
           flavor: "It is said of this warrior\u2019s marksmanship that he could bring down a ghost in the midst of a blizzard from a thousand paces. Better still, he knows how best to guide his packmates with his expertise.",
-          body: "WOLF GUARD BATTLE LEADER model only. This unit\u2019s ranged attacks have:\n▪ [ASSAULT].\n▪ [IGNORES COVER].\n▪ +1 Armour Penetration.",
+          body: "WOLF GUARD BATTLE LEADER model only. This unit\u2019s ranged attacks have:\n▪ [ASSAULT].\n▪ [IGNORES COVER].\n▪ +1 AP.",
         },
         {
           name: "Weaver of Sagas",
           points: 15,
           flavor: "Bellowing inspirational sagas of the Space Wolves\u2019 great deeds, this Wolf Priest inspires his fellows to newfound fortitude, none more so than the steel-nerved Grey Hunters.",
-          body: "WOLF PRIEST model only. (Once per battle round, per army) In your Movement phase, at the start or end of this unit\u2019s move, you can:\n▪ Select one friendly ADEPTUS ASTARTES unit within 6\" of this unit. That unit is no longer Battle-shocked.\n▪ Or: Select one friendly GREY HUNTERS unit within 18\" of this unit. That unit is no longer Battle-shocked.",
+          body: "WOLF PRIEST model only. (Once per battle-round, per army) In your Movement phase, at the start or end of this unit\u2019s move, you can:\n▪ Select one friendly ADEPTUS ASTARTES unit within 6\" of this unit. That unit is no longer Battle-shocked.\n▪ __Or:__ Select one friendly GREY HUNTERS unit within 18\" of this unit. That unit is no longer Battle-shocked.",
         },
       ],
     },

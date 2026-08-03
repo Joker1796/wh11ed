@@ -5,25 +5,45 @@
 // The Layouts page is data-driven: 5 Force Dispositions form a 5×5 matrix; each
 // unordered pairing is a `matchup` giving each side's Primary Mission + 3 layouts.
 
-// Layout diagrams (extracted from the source PDF), keyed by `${a}|${b}` then layout
-// id. The `a|b` key uses the same ordering as the `matchups` array literal below
-// (that order is fixed).
+// Layout diagrams — extracted directly from the official app's APK
+// (scripts/extract-layout-images.mjs), keyed by `${a}|${b}` then layout id. The
+// `a|b` key uses the same ordering as the `matchups` array literal below (fixed order).
+// `layoutImages` = the measurement/inch-callout variant (default, matches the physical
+// Chapter Approved page); `layoutImagesClean` = the no-measurement variant (toggle).
 const layoutImages = {
-  'take-and-hold|take-and-hold': { A: '/images/event/layout-take-and-hold-take-and-hold-a.jpg', B: '/images/event/layout-take-and-hold-take-and-hold-b.jpg', C: '/images/event/layout-take-and-hold-take-and-hold-c.jpg' },
-  'take-and-hold|purge-the-foe': { A: '/images/event/layout-take-and-hold-purge-the-foe-a.jpg', B: '/images/event/layout-take-and-hold-purge-the-foe-b.jpg', C: '/images/event/layout-take-and-hold-purge-the-foe-c.jpg' },
-  'take-and-hold|disruption': { A: '/images/event/layout-take-and-hold-disruption-a.jpg', B: '/images/event/layout-take-and-hold-disruption-b.jpg', C: '/images/event/layout-take-and-hold-disruption-c.jpg' },
-  'take-and-hold|reconnaissance': { A: '/images/event/layout-take-and-hold-reconnaissance-a.jpg', B: '/images/event/layout-take-and-hold-reconnaissance-b.jpg', C: '/images/event/layout-take-and-hold-reconnaissance-c.jpg' },
-  'take-and-hold|priority-assets': { A: '/images/event/layout-take-and-hold-priority-assets-a.jpg', B: '/images/event/layout-take-and-hold-priority-assets-b.jpg', C: '/images/event/layout-take-and-hold-priority-assets-c.jpg' },
-  'purge-the-foe|purge-the-foe': { A: '/images/event/layout-purge-the-foe-purge-the-foe-a.jpg', B: '/images/event/layout-purge-the-foe-purge-the-foe-b.jpg', C: '/images/event/layout-purge-the-foe-purge-the-foe-c.jpg' },
-  'purge-the-foe|disruption': { A: '/images/event/layout-purge-the-foe-disruption-a.jpg', B: '/images/event/layout-purge-the-foe-disruption-b.jpg', C: '/images/event/layout-purge-the-foe-disruption-c.jpg' },
-  'purge-the-foe|reconnaissance': { A: '/images/event/layout-purge-the-foe-reconnaissance-a.jpg', B: '/images/event/layout-purge-the-foe-reconnaissance-b.jpg', C: '/images/event/layout-purge-the-foe-reconnaissance-c.jpg' },
-  'purge-the-foe|priority-assets': { A: '/images/event/layout-purge-the-foe-priority-assets-a.jpg', B: '/images/event/layout-purge-the-foe-priority-assets-b.jpg', C: '/images/event/layout-purge-the-foe-priority-assets-c.jpg' },
-  'disruption|disruption': { A: '/images/event/layout-disruption-disruption-a.jpg', B: '/images/event/layout-disruption-disruption-b.jpg', C: '/images/event/layout-disruption-disruption-c.jpg' },
-  'disruption|reconnaissance': { A: '/images/event/layout-disruption-reconnaissance-a.jpg', B: '/images/event/layout-disruption-reconnaissance-b.jpg', C: '/images/event/layout-disruption-reconnaissance-c.jpg' },
-  'disruption|priority-assets': { A: '/images/event/layout-disruption-priority-assets-a.jpg', B: '/images/event/layout-disruption-priority-assets-b.jpg', C: '/images/event/layout-disruption-priority-assets-c.jpg' },
-  'reconnaissance|reconnaissance': { A: '/images/event/layout-reconnaissance-reconnaissance-a.jpg', B: '/images/event/layout-reconnaissance-reconnaissance-b.jpg', C: '/images/event/layout-reconnaissance-reconnaissance-c.jpg' },
-  'reconnaissance|priority-assets': { A: '/images/event/layout-reconnaissance-priority-assets-a.jpg', B: '/images/event/layout-reconnaissance-priority-assets-b.jpg', C: '/images/event/layout-reconnaissance-priority-assets-c.jpg' },
-  'priority-assets|priority-assets': { A: '/images/event/layout-priority-assets-priority-assets-a.jpg', B: '/images/event/layout-priority-assets-priority-assets-b.jpg', C: '/images/event/layout-priority-assets-priority-assets-c.jpg' },
+  'take-and-hold|take-and-hold': { A: '/images/event/layout-take-and-hold-take-and-hold-a-v2.png', B: '/images/event/layout-take-and-hold-take-and-hold-b-v2.png', C: '/images/event/layout-take-and-hold-take-and-hold-c-v2.png' },
+  'take-and-hold|purge-the-foe': { A: '/images/event/layout-take-and-hold-purge-the-foe-a-v2.png', B: '/images/event/layout-take-and-hold-purge-the-foe-b-v2.png', C: '/images/event/layout-take-and-hold-purge-the-foe-c-v2.png' },
+  'take-and-hold|disruption': { A: '/images/event/layout-take-and-hold-disruption-a-v2.png', B: '/images/event/layout-take-and-hold-disruption-b-v2.png', C: '/images/event/layout-take-and-hold-disruption-c-v2.png' },
+  'take-and-hold|reconnaissance': { A: '/images/event/layout-take-and-hold-reconnaissance-a-v2.png', B: '/images/event/layout-take-and-hold-reconnaissance-b-v2.png', C: '/images/event/layout-take-and-hold-reconnaissance-c-v2.png' },
+  'take-and-hold|priority-assets': { A: '/images/event/layout-take-and-hold-priority-assets-a-v2.png', B: '/images/event/layout-take-and-hold-priority-assets-b-v2.png', C: '/images/event/layout-take-and-hold-priority-assets-c-v2.png' },
+  'purge-the-foe|purge-the-foe': { A: '/images/event/layout-purge-the-foe-purge-the-foe-a-v2.png', B: '/images/event/layout-purge-the-foe-purge-the-foe-b-v2.png', C: '/images/event/layout-purge-the-foe-purge-the-foe-c-v2.png' },
+  'purge-the-foe|disruption': { A: '/images/event/layout-purge-the-foe-disruption-a-v2.png', B: '/images/event/layout-purge-the-foe-disruption-b-v2.png', C: '/images/event/layout-purge-the-foe-disruption-c-v2.png' },
+  'purge-the-foe|reconnaissance': { A: '/images/event/layout-purge-the-foe-reconnaissance-a-v2.png', B: '/images/event/layout-purge-the-foe-reconnaissance-b-v2.png', C: '/images/event/layout-purge-the-foe-reconnaissance-c-v2.png' },
+  'purge-the-foe|priority-assets': { A: '/images/event/layout-purge-the-foe-priority-assets-a-v2.png', B: '/images/event/layout-purge-the-foe-priority-assets-b-v2.png', C: '/images/event/layout-purge-the-foe-priority-assets-c-v2.png' },
+  'disruption|disruption': { A: '/images/event/layout-disruption-disruption-a-v2.png', B: '/images/event/layout-disruption-disruption-b-v2.png', C: '/images/event/layout-disruption-disruption-c-v2.png' },
+  'disruption|reconnaissance': { A: '/images/event/layout-disruption-reconnaissance-a-v2.png', B: '/images/event/layout-disruption-reconnaissance-b-v2.png', C: '/images/event/layout-disruption-reconnaissance-c-v2.png' },
+  'disruption|priority-assets': { A: '/images/event/layout-disruption-priority-assets-a-v2.png', B: '/images/event/layout-disruption-priority-assets-b-v2.png', C: '/images/event/layout-disruption-priority-assets-c-v2.png' },
+  'reconnaissance|reconnaissance': { A: '/images/event/layout-reconnaissance-reconnaissance-a-v2.png', B: '/images/event/layout-reconnaissance-reconnaissance-b-v2.png', C: '/images/event/layout-reconnaissance-reconnaissance-c-v2.png' },
+  'reconnaissance|priority-assets': { A: '/images/event/layout-reconnaissance-priority-assets-a-v2.png', B: '/images/event/layout-reconnaissance-priority-assets-b-v2.png', C: '/images/event/layout-reconnaissance-priority-assets-c-v2.png' },
+  'priority-assets|priority-assets': { A: '/images/event/layout-priority-assets-priority-assets-a-v2.png', B: '/images/event/layout-priority-assets-priority-assets-b-v2.png', C: '/images/event/layout-priority-assets-priority-assets-c-v2.png' },
+}
+
+const layoutImagesClean = {
+  'take-and-hold|take-and-hold': { A: '/images/event/layout-take-and-hold-take-and-hold-a-clean.png', B: '/images/event/layout-take-and-hold-take-and-hold-b-clean.png', C: '/images/event/layout-take-and-hold-take-and-hold-c-clean.png' },
+  'take-and-hold|purge-the-foe': { A: '/images/event/layout-take-and-hold-purge-the-foe-a-clean.png', B: '/images/event/layout-take-and-hold-purge-the-foe-b-clean.png', C: '/images/event/layout-take-and-hold-purge-the-foe-c-clean.png' },
+  'take-and-hold|disruption': { A: '/images/event/layout-take-and-hold-disruption-a-clean.png', B: '/images/event/layout-take-and-hold-disruption-b-clean.png', C: '/images/event/layout-take-and-hold-disruption-c-clean.png' },
+  'take-and-hold|reconnaissance': { A: '/images/event/layout-take-and-hold-reconnaissance-a-clean.png', B: '/images/event/layout-take-and-hold-reconnaissance-b-clean.png', C: '/images/event/layout-take-and-hold-reconnaissance-c-clean.png' },
+  'take-and-hold|priority-assets': { A: '/images/event/layout-take-and-hold-priority-assets-a-clean.png', B: '/images/event/layout-take-and-hold-priority-assets-b-clean.png', C: '/images/event/layout-take-and-hold-priority-assets-c-clean.png' },
+  'purge-the-foe|purge-the-foe': { A: '/images/event/layout-purge-the-foe-purge-the-foe-a-clean.png', B: '/images/event/layout-purge-the-foe-purge-the-foe-b-clean.png', C: '/images/event/layout-purge-the-foe-purge-the-foe-c-clean.png' },
+  'purge-the-foe|disruption': { A: '/images/event/layout-purge-the-foe-disruption-a-clean.png', B: '/images/event/layout-purge-the-foe-disruption-b-clean.png', C: '/images/event/layout-purge-the-foe-disruption-c-clean.png' },
+  'purge-the-foe|reconnaissance': { A: '/images/event/layout-purge-the-foe-reconnaissance-a-clean.png', B: '/images/event/layout-purge-the-foe-reconnaissance-b-clean.png', C: '/images/event/layout-purge-the-foe-reconnaissance-c-clean.png' },
+  'purge-the-foe|priority-assets': { A: '/images/event/layout-purge-the-foe-priority-assets-a-clean.png', B: '/images/event/layout-purge-the-foe-priority-assets-b-clean.png', C: '/images/event/layout-purge-the-foe-priority-assets-c-clean.png' },
+  'disruption|disruption': { A: '/images/event/layout-disruption-disruption-a-clean.png', B: '/images/event/layout-disruption-disruption-b-clean.png', C: '/images/event/layout-disruption-disruption-c-clean.png' },
+  'disruption|reconnaissance': { A: '/images/event/layout-disruption-reconnaissance-a-clean.png', B: '/images/event/layout-disruption-reconnaissance-b-clean.png', C: '/images/event/layout-disruption-reconnaissance-c-clean.png' },
+  'disruption|priority-assets': { A: '/images/event/layout-disruption-priority-assets-a-clean.png', B: '/images/event/layout-disruption-priority-assets-b-clean.png', C: '/images/event/layout-disruption-priority-assets-c-clean.png' },
+  'reconnaissance|reconnaissance': { A: '/images/event/layout-reconnaissance-reconnaissance-a-clean.png', B: '/images/event/layout-reconnaissance-reconnaissance-b-clean.png', C: '/images/event/layout-reconnaissance-reconnaissance-c-clean.png' },
+  'reconnaissance|priority-assets': { A: '/images/event/layout-reconnaissance-priority-assets-a-clean.png', B: '/images/event/layout-reconnaissance-priority-assets-b-clean.png', C: '/images/event/layout-reconnaissance-priority-assets-c-clean.png' },
+  'priority-assets|priority-assets': { A: '/images/event/layout-priority-assets-priority-assets-a-clean.png', B: '/images/event/layout-priority-assets-priority-assets-b-clean.png', C: '/images/event/layout-priority-assets-priority-assets-c-clean.png' },
 }
 
 // Battlefield-edge orientation per layout, read from the source PDF's marker lines
@@ -47,6 +67,30 @@ const layoutEdges = {
   'reconnaissance|reconnaissance':  { A: 'v', B: 'h', C: 'h' },
   'reconnaissance|priority-assets': { A: 'h', B: 'h', C: 'v' },
   'priority-assets|priority-assets':{ A: 'v', B: 'h', C: 'h' },
+}
+
+// Each layout's named "Deployment Map" (one of 6 standard zone-shape templates) — a
+// mission-pack-internal label, not core rules text (the shape is already fully visible in the
+// diagram itself). Not in the source PDF at all; read from wh40k-appdata's structural
+// mission_deployment/mission_preset/force_disposition_mission_recommended_preset tables (see
+// scripts/sync-layouts.mjs, which regenerates this exact mapping — paste its output here if
+// appdata ever reassigns one).
+const layoutDeploymentMaps = {
+  'take-and-hold|take-and-hold': { A: 'Tipping Point', B: 'Dawn of War', C: 'Search and Destroy' },
+  'take-and-hold|purge-the-foe': { A: 'Sweeping Engagement', B: 'Search and Destroy', C: 'Hammer and Anvil' },
+  'take-and-hold|disruption': { A: 'Sweeping Engagement', B: 'Crucible of Battle', C: 'Hammer and Anvil' },
+  'take-and-hold|reconnaissance': { A: 'Sweeping Engagement', B: 'Crucible of Battle', C: 'Tipping Point' },
+  'take-and-hold|priority-assets': { A: 'Crucible of Battle', B: 'Hammer and Anvil', C: 'Dawn of War' },
+  'purge-the-foe|purge-the-foe': { A: 'Search and Destroy', B: 'Tipping Point', C: 'Sweeping Engagement' },
+  'purge-the-foe|disruption': { A: 'Search and Destroy', B: 'Tipping Point', C: 'Sweeping Engagement' },
+  'purge-the-foe|reconnaissance': { A: 'Hammer and Anvil', B: 'Dawn of War', C: 'Crucible of Battle' },
+  'purge-the-foe|priority-assets': { A: 'Dawn of War', B: 'Search and Destroy', C: 'Hammer and Anvil' },
+  'disruption|disruption': { A: 'Crucible of Battle', B: 'Tipping Point', C: 'Sweeping Engagement' },
+  'disruption|reconnaissance': { A: 'Tipping Point', B: 'Search and Destroy', C: 'Dawn of War' },
+  'disruption|priority-assets': { A: 'Sweeping Engagement', B: 'Tipping Point', C: 'Search and Destroy' },
+  'reconnaissance|reconnaissance': { A: 'Sweeping Engagement', B: 'Crucible of Battle', C: 'Tipping Point' },
+  'reconnaissance|priority-assets': { A: 'Crucible of Battle', B: 'Tipping Point', C: 'Sweeping Engagement' },
+  'priority-assets|priority-assets': { A: 'Sweeping Engagement', B: 'Crucible of Battle', C: 'Tipping Point' },
 }
 
 const en = {
@@ -89,6 +133,13 @@ const en = {
       'Before attending a Warhammer Event, each player musters their army; a Warhammer ' +
       'Event battle is then waged by completing the steps below.',
     blocks: [
+      {
+        id: 'generating-cp',
+        title: 'Generating Command Points',
+        body:
+          'Excluding Core CP, each player can gain a maximum of 1CP per battle round ' +
+          '(including the CP gained when a player discards an active Secondary Mission card).',
+      },
       {
         id: 'step-1',
         title: '1 · Muster Armies',
@@ -195,8 +246,8 @@ const en = {
         title: '13 · End the Battle',
         body:
           'The battle ends after five battle rounds (07) have been completed. Even if you ' +
-          'have no models remaining at the start of your turn, players continue to play out ' +
-          'their turns until the battle ends.',
+          'have no models remaining in your army at the start of your turn, players continue ' +
+          'to play out their turns until the battle ends.',
       },
       {
         id: 'step-14',
@@ -379,7 +430,9 @@ const en = {
     layouts: ['A', 'B', 'C'].map(id => ({
       id,
       image: layoutImages[`${m.a}|${m.b}`]?.[id],
+      imageClean: layoutImagesClean[`${m.a}|${m.b}`]?.[id],
       edge: layoutEdges[`${m.a}|${m.b}`]?.[id] || 'h',
+      deploymentMap: layoutDeploymentMaps[`${m.a}|${m.b}`]?.[id],
     })),
   })),
 
@@ -467,7 +520,14 @@ const en = {
         note:
           "A player's '[gloss:win-path:win path]' refers not to their number of wins and losses, but to the " +
           'timing of those wins and losses. Pairing by win path tends to pair players based ' +
-          'on shared recent experience, improving the enjoyment of both.',
+          'on shared recent experience, improving the enjoyment of both.\n\n' +
+          "**Example:** Take two 3-1 players. One of them lost their first game; they likely " +
+          'lowered their expectations for winning the whole event after this, but are probably ' +
+          'in a great mood after three consecutive victories. The other won their first three ' +
+          'games then lost their fourth — a sharp disappointment after a 3-0 start. Should ' +
+          'these players face off, their shared enjoyment may be at odds, as they are in very ' +
+          'different emotional places. Win path ensures players enter their match with recent ' +
+          'common experiences to build on.',
       },
       {
         id: 'ranking-players',
@@ -901,6 +961,12 @@ const ru = {
       'Warhammer Event ведётся выполнением шагов ниже.',
     blocks: [
       {
+        title: 'Начисление командных очков',
+        body:
+          'Не считая базовых CP, каждый игрок может получить не более 1CP за раунд боя ' +
+          '(включая CP, полученное за сброс активной карты Secondary Mission).',
+      },
+      {
         title: '1 · Сбор армий',
         body:
           'Соберите армии, как описано в приложении Warhammer 40,000, со следующим ' +
@@ -994,8 +1060,8 @@ const ru = {
         title: '13 · Окончание битвы',
         body:
           'Битва заканчивается после того, как сыграно пять раундов боя (07). Даже если у ' +
-          'вас не осталось моделей в начале вашего хода, игроки продолжают разыгрывать свои ' +
-          'ходы до конца битвы.',
+          'вас не осталось моделей в армии в начале вашего хода, игроки продолжают разыгрывать ' +
+          'свои ходы до конца битвы.',
       },
       {
         title: '14 · Определение победителя',
@@ -1167,7 +1233,15 @@ const ru = {
         note:
           '«[gloss:win-path:Путь побед]» игрока — это не число его побед и поражений, а их тайминг. ' +
           'Составление пар по пути побед склонно объединять игроков со схожим недавним ' +
-          'опытом, повышая удовольствие обоих.',
+          'опытом, повышая удовольствие обоих.\n\n' +
+          '**Пример:** возьмём двух игроков с результатом 3-1. Один из них проиграл первую ' +
+          'партию — после этого он, вероятно, снизил ожидания от всего турнира, но, скорее ' +
+          'всего, находится в отличном настроении после трёх побед подряд. Другой выиграл ' +
+          'первые три партии, а затем проиграл четвёртую — резкое разочарование после старта ' +
+          '3-0. Если этих игроков сведут друг с другом, их удовольствие от партии может не ' +
+          'совпасть, ведь они находятся в очень разном эмоциональном состоянии. Путь побед ' +
+          'гарантирует, что игроки вступают в партию со схожим недавним опытом, на который ' +
+          'можно опереться.',
       },
       {
         title: 'Ранжирование игроков',
@@ -1341,7 +1415,7 @@ const ru = {
           'отклонённых Attacker или для Champion, играющих друг против друга, сделайте ' +
           '**кубовка** — победитель решает.\n' +
           '▪ Остальные шаги — выбор вторичных миссий, объявление боевых построений, ' +
-          'развёртывание, передислокация, определение первого хода, разрешение предбоевых ' +
+          'развёртывание, передислокация, определение первого хода, отыгрыш предбоевых ' +
           'правил, начало и конец битвы и определение победителя — не отличаются от обычной ' +
           'последовательности.',
         seeAlso: ['Последовательность миссии EC:sequence'],
@@ -1433,6 +1507,7 @@ const ru = {
       'всю игру.',
     blocks: [
       {
+        titleRu: 'Воинская гордость',
         body:
           'Юнит **BATTLELINE** может **начать [gloss:action:действие]** в ходу, в котором он ' +
           'совершил **[gloss:advance-move:продвижение]**. Юнит **BATTLELINE** может **стрелять ' +
@@ -1443,6 +1518,7 @@ const ru = {
           'продвигаясь к назначенным целям и поддерживая беспощадный темп стрельбы.',
       },
       {
+        titleRu: 'Зеркальный мир',
         body:
           'Оба игрока заменяют свою карту **[gloss:primary-mission:основной миссии]** на одну и ' +
           'ту же из следующих карт. Если игроки договорились об одной из них, используйте ' +
@@ -1463,6 +1539,7 @@ const ru = {
           'путях, состязаясь за почти одинаковые цели и результаты.',
       },
       {
+        titleRu: 'Ночной бой',
         body:
           'Каждый юнит **[gloss:not-visible:не виден]** вражеским моделям, если они не находятся в ' +
           'пределах 18" от этого юнита, и каждый юнит нельзя выбрать целью оружия ' +
@@ -1475,6 +1552,7 @@ const ru = {
           'укрытие, под которым можно продвигаться.',
       },
       {
+        titleRu: 'Нарушенная связь',
         body: 'Игроки обмениваются своими картами **[gloss:primary-mission:основной миссии]**.',
         note:
           "Designer's Note: Отличный твист, чтобы встряхнуть привычную партию, или для тех, " +
@@ -1484,6 +1562,7 @@ const ru = {
           'сделав ваши приказы и цели неясными.',
       },
       {
+        titleRu: 'Руинный ландшафт',
         body:
           'Когда юнит совершает **[gloss:normal-move:обычный манёвр]** или **[gloss:advance-move:продвижение]**, ' +
           'модели в этом юните получают ключевое слово MOBILE до конца ' +
@@ -1497,6 +1576,7 @@ const ru = {
           'к врагам.',
       },
       {
+        titleRu: 'Негде спрятаться',
         body: '**[gloss:terrain-feature:Участки укрытий]** не обладают правилом **Solid**.',
         note:
           "Designer's Note: Этот твист позволяет моделям проводить **[gloss:line-of-sight:линию видимости]** " +
@@ -1546,8 +1626,10 @@ function mergeLocale(enNode, ruNode) {
     return enNode.map((item, i) => mergeLocale(item, ruNode[i]))
   }
   if (enNode && typeof enNode === 'object') {
-    const out = {}
-    for (const key of Object.keys(enNode)) out[key] = mergeLocale(enNode[key], ruNode[key])
+    const out = { ...enNode }
+    // Union of both sides' keys — lets a RU node add a field EN doesn't have (e.g. `titleRu`,
+    // a translated-name subline alongside a name that otherwise stays English by convention).
+    for (const key of Object.keys(ruNode)) out[key] = mergeLocale(enNode[key], ruNode[key])
     return out
   }
   return ruNode

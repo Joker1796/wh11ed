@@ -18,6 +18,7 @@
 // into the entry chunk); the precise unit name is pushed in by FactionDatasheetView via
 // setDatasheetName once its datasheet has loaded (the heavy per-faction file never rides here).
 import { factionIndexBySlug } from '../data/factionsIndex.js'
+import { combatPatrolIndex } from '../data/combatPatrolIndex.js'
 import { SITE_ORIGIN } from '../config.js'
 
 const ORIGIN = SITE_ORIGIN
@@ -52,29 +53,16 @@ const LANDING = {
 // path → { title:{en,ru}, description:{en,ru} }. `title` here is the page-name prefix;
 // the brand suffix (SITE) is appended below, except for '/' which uses DEFAULT.title.
 const ROUTES = {
-  '/introduction': {
-    title: { en: 'Introduction', ru: 'Введение' },
-    description: DEFAULT.description,
-  },
-  '/basic-rules': {
-    title: { en: 'Basic Rules', ru: 'Основные правила' },
+  // All seven chapters are one page now, so this single entry has to carry the keywords the
+  // seven separate ones used to: basic rules, the battle round and its phases, terrain and
+  // stratagems, advanced rules, core abilities, mustering an army. The old paths still
+  // resolve — they redirect (see router/index.js) — but they render no component, so they
+  // need no entry of their own.
+  '/core-rules': {
+    title: { en: 'Core Rules', ru: 'Основные правила' },
     description: {
-      en: 'Core concepts, datasheets, moving, making attacks and the attack sequence — the foundational rules of Warhammer 40,000 11th edition.',
-      ru: 'Базовые концепции, листы данных, движение, совершение атак и последовательность атаки — основы правил Warhammer 40,000 11-й редакции.',
-    },
-  },
-  '/battle-round': {
-    title: { en: 'The Battle Round', ru: 'Раунд боя' },
-    description: {
-      en: 'The battle round and its five phases — Command, Movement, Shooting, Charge and Fight: turn structure and sequencing for Warhammer 40,000 11th edition.',
-      ru: 'Раунд боя и его пять фаз — командования, движения, стрельбы, нападения и ближнего боя: структура хода в Warhammer 40,000 11-й редакции.',
-    },
-  },
-  '/battlefields': {
-    title: { en: 'Battlefields & Stratagems', ru: 'Поле боя и стратагемы' },
-    description: {
-      en: 'Terrain, objectives, stratagems and actions — battlefield rules and the core stratagems of Warhammer 40,000 11th edition.',
-      ru: 'Террейн, цели, стратагемы и действия — правила поля боя и базовые стратагемы Warhammer 40,000 11-й редакции.',
+      en: 'The complete core rules of Warhammer 40,000 11th edition on one page: core concepts and datasheets, moving and making attacks, the battle round and its five phases, terrain, objectives, stratagems and actions, advanced rules, core abilities and mustering your army.',
+      ru: 'Полные основные правила Warhammer 40,000 (Вархаммер) 11-й редакции одной страницей: базовые концепции и листы данных, движение и атаки, раунд боя и его пять фаз, террейн, цели, стратагемы и действия, продвинутые правила, базовые способности и сбор армии.',
     },
   },
   '/stratagems': {
@@ -84,74 +72,29 @@ const ROUTES = {
       ru: 'Базовые стратагемы Warhammer 40,000 11-й редакции — быстрый просмотр карточек во время партии.',
     },
   },
-  '/advanced-rules': {
-    title: { en: 'Advanced Rules', ru: 'Продвинутые правила' },
+  '/rules': {
+    title: { en: 'Rules', ru: 'Правила' },
     description: {
-      en: 'Monsters & vehicles, transports, attached units (leaders), strategic reserves, flying and aircraft — advanced rules for Warhammer 40,000 11th edition.',
-      ru: 'Монстры и техника, транспорт, объединённые отряды (лидеры), стратегический резерв, полёт и воздушные суда — продвинутые правила 40k 11-й редакции.',
+      en: 'Core Rules, Event Companion and Combat Patrol — all the rules content for Warhammer 40,000 11th edition, in one place.',
+      ru: 'Основные правила, Event Companion и Combat Patrol — весь контент правил Warhammer 40,000 11-й редакции в одном месте.',
     },
   },
-  '/reference': {
-    title: { en: 'Reference & Abilities', ru: 'Справочник и способности' },
+  '/combat-patrol': {
+    title: { en: 'Combat Patrol', ru: 'Combat Patrol' },
     description: {
-      en: 'Core abilities, unit and weapon ability keywords, the rules appendix and FAQs — the quick-reference glossary for Warhammer 40,000 11th edition.',
-      ru: 'Базовые способности, ключевые слова способностей юнитов и оружия, приложение правил и FAQ — краткий справочник Warhammer 40,000 11-й редакции.',
+      en: 'Combat Patrol starter boxes for Warhammer 40,000 11th edition — detachment rule, stratagems, enhancements and datasheets for each faction\'s fixed-roster box.',
+      ru: 'Стартовые наборы Combat Patrol для Warhammer 40,000 11-й редакции — правило детачмента, стратагемы, улучшения и датащиты для каждой фракции.',
     },
   },
-  '/muster': {
-    title: { en: 'Muster Your Army', ru: 'Сбор армии' },
-    description: {
-      en: 'Muster your army: battle sizes, detachments, enhancements and points — army-building rules for Warhammer 40,000 11th edition.',
-      ru: 'Сбор армии: размеры битвы, детачменты, улучшения и очки — правила построения армии Warhammer 40,000 11-й редакции.',
-    },
-  },
+  // All seven chapters are one page now, so this single entry has to carry the keywords the
+  // seven separate ones used to: mission sequence, missions and twists, terrain and layouts,
+  // pairings and rankings, teams events, errata and FAQs. The old paths still resolve — they
+  // redirect (see router/index.js) — but they render no component, so they need no entry.
   '/event-companion': {
     title: { en: 'Event Companion', ru: 'Event Companion' },
     description: {
-      en: 'The Warhammer 40,000 Event Companion: matched-play missions, terrain layouts, pairings and FAQs for tournaments.',
-      ru: 'Warhammer 40,000 Event Companion: турнирные миссии, раскладки террейна, паринги и FAQ для matched play.',
-    },
-  },
-  '/event-companion/sequence': {
-    title: { en: 'Mission Sequence — Event Companion', ru: 'Последовательность миссии — Event Companion' },
-    description: {
-      en: 'Pre-game sequence: muster armies, determine the mission, create the battlefield, deploy and begin the battle — Warhammer 40,000 Event Companion.',
-      ru: 'Предбоевая последовательность: сбор армий, определение миссии, создание поля боя, развёртывание и начало битвы — Event Companion.',
-    },
-  },
-  '/event-companion/missions': {
-    title: { en: 'Missions — Event Companion', ru: 'Миссии — Event Companion' },
-    description: {
-      en: 'All 25 primary and 18 secondary missions plus pre-game twists, browsable by Force Disposition — Warhammer 40,000 Event Companion.',
-      ru: 'Все 25 основных и 18 вторичных миссий плюс предбоевые твисты, с фильтром по диспозициям сил — Warhammer 40,000 Event Companion.',
-    },
-  },
-  '/event-companion/layouts': {
-    title: { en: 'Terrain & Layouts — Event Companion', ru: 'Террейн и раскладки — Event Companion' },
-    description: {
-      en: 'Terrain footprints, the layouts key and the 5×5 mission matrix with matchup diagrams — Warhammer 40,000 Event Companion.',
-      ru: 'Footprints террейна, легенда раскладок и матрица миссий 5×5 с диаграммами матчапов — Warhammer 40,000 Event Companion.',
-    },
-  },
-  '/event-companion/pairings': {
-    title: { en: 'Pairings & Rankings — Event Companion', ru: 'Паринги и ранжирование — Event Companion' },
-    description: {
-      en: 'Pairing and ranking players at events, plus the rules appendix, errata and FAQs — Warhammer 40,000 Event Companion.',
-      ru: 'Составление пар и ранжирование игроков на турнирах, приложение правил, эррата и FAQ — Warhammer 40,000 Event Companion.',
-    },
-  },
-  '/event-companion/teams': {
-    title: { en: 'Teams Event — Event Companion', ru: 'Командный ивент — Event Companion' },
-    description: {
-      en: 'Running a Warhammer 40,000 Teams Event: team composition, the pairing system (Initial Skirmish, Main Engagement, Champion System) and team scoring.',
-      ru: 'Проведение командного ивента Warhammer 40,000: состав команды, система паринга (Initial Skirmish, Main Engagement, Champion System) и командный подсчёт.',
-    },
-  },
-  '/event-companion/faq': {
-    title: { en: 'Errata & FAQs — Event Companion', ru: 'Эррата и FAQ — Event Companion' },
-    description: {
-      en: 'Errata and frequently asked questions for the Warhammer 40,000 Event Companion.',
-      ru: 'Эррата и часто задаваемые вопросы по Warhammer 40,000 Event Companion.',
+      en: 'The Warhammer 40,000 Event Companion on one page: pre-game mission sequence, all primary and secondary missions plus twists, terrain layouts and the mission matrix, pairings and rankings, running a Teams Event, and errata & FAQs for tournaments.',
+      ru: 'Warhammer 40,000 Event Companion одной страницей: предбоевая последовательность миссии, все основные и вторичные миссии плюс твисты, раскладки террейна и матрица миссий, паринги и ранжирование, командные ивенты, эррата и FAQ для турниров.',
     },
   },
   '/tracker': {
@@ -201,6 +144,10 @@ const DATASHEETS_RE = /^\/factions\/([^/]+)\/datasheets$/
 const DATASHEET_RE = /^\/factions\/([^/]+)\/datasheets\/([^/]+)$/
 export const isFactionPath = (path) => FACTION_RE.test(path) || DATASHEETS_RE.test(path) || DATASHEET_RE.test(path)
 
+// /combat-patrol/:slug — one page per faction's Combat Patrol box (src/data/combatPatrol.js).
+const COMBAT_PATROL_RE = /^\/combat-patrol\/([^/]+)$/
+export const isCombatPatrolPath = (path) => COMBAT_PATROL_RE.test(path)
+
 // Precise unit names supplied by FactionDatasheetView (keyed by path, so a locale switch that
 // re-runs applyRouteMeta keeps the real name). Faction/unit NAMES stay English in both locales
 // (project convention) — only the surrounding phrasing is localized.
@@ -209,7 +156,16 @@ const prettifySlug = (s) => s.split('-').map((w) => (w ? w[0].toUpperCase() + w.
 const factionName = (slug) => factionIndexBySlug(slug)?.name || prettifySlug(slug)
 
 function dynamicMetaFor(path, loc) {
-  let m = path.match(DATASHEET_RE)
+  let m = path.match(COMBAT_PATROL_RE)
+  if (m) {
+    const f = combatPatrolIndex.find((x) => x.slug === m[1])
+    const name = f?.name || factionName(m[1])
+    const box = f?.boxName || ''
+    return loc === 'ru'
+      ? { title: `${name} — Combat Patrol «${box}» — ${SITE.ru}`, description: `Combat Patrol «${box}» (${name}) для Warhammer 40,000 11-й редакции: правило детачмента, стратагемы, улучшения и датащиты стартового набора.` }
+      : { title: `${name} — Combat Patrol "${box}" — ${SITE.en}`, description: `Combat Patrol "${box}" (${name}) for Warhammer 40,000 11th edition: detachment rule, stratagems, enhancements and starter-box datasheets.` }
+  }
+  m = path.match(DATASHEET_RE)
   if (m) {
     const faction = factionName(m[1])
     const unit = unitNames.get(path) || prettifySlug(m[2])
@@ -282,7 +238,7 @@ function removeCanonicalTags() {
 // (tracker game/history/auth-callback, unknown → NotFoundView with its noindex) get the
 // canonical trio removed instead of pointing somewhere misleading.
 function applyCanonical(path, loc) {
-  const indexable = path === '/' || (!!ROUTES[path] && path !== '/tracker/game') || isFactionPath(path)
+  const indexable = path === '/' || (!!ROUTES[path] && path !== '/tracker/game') || isFactionPath(path) || isCombatPatrolPath(path)
   if (!indexable) {
     removeCanonicalTags()
     return

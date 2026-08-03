@@ -31,13 +31,10 @@
     <AppImage v-else-if="block.type === 'img'" :src="block.src" :alt="block.alt" class="body-image" />
     <div v-else-if="block.type === 'info-card'" class="info-card">
       <div v-for="(row, k) in block.rows" :key="k" class="info-row">
-        <div class="info-label">{{ row.label }}</div>
-        <div class="info-content">
-          <span v-if="row.content" v-html="renderInline(row.content)"></span>
-          <ul v-if="row.items.length" class="info-items">
-            <li v-for="(item, m) in row.items" :key="m" v-html="renderInline(item)"></li>
-          </ul>
-        </div>
+        <span class="info-label">{{ row.label }}</span><span v-if="row.content" class="info-content" v-html="renderInline(row.content)"></span>
+        <ul v-if="row.items.length" class="info-items">
+          <li v-for="(item, m) in row.items" :key="m" v-html="renderInline(item)"></li>
+        </ul>
       </div>
     </div>
     <div v-else-if="block.type === 'img-group'" class="img-group">
@@ -239,7 +236,7 @@ p {
 
 .rule-list li {
   margin-bottom: 0.3rem;
-  line-height: 1.6;
+  line-height: 1.4;
 }
 
 .rule-ol {
@@ -335,36 +332,54 @@ p {
   border-radius: 4px;
 }
 
+/* A "type card" (◈…) — move/shoot/charge/fight/deploy TYPE rules. Paired with the
+   plaque header in RuleBlock.vue's `.rule-header--type`; the two aren't visually fused
+   (this card floats just below it) so the layout stays robust regardless of what else
+   the rule carries (note/example/children). Each row is a run-in label ("LABEL: text",
+   like the source PDF) rather than a stacked label bar — a fixed-width label column
+   would work for the short EN labels but not the much longer RU ones (МАКСИМАЛЬНОЕ
+   РАССТОЯНИЕ vs MAXIMUM DISTANCE), so the label just flows with its content instead. */
+/* Border/divider/highlight all mix toward --text-primary rather than using --border /
+   --bg-secondary directly: those two sit only a couple of luminance steps from --bg-card
+   in dark theme (by design, for subtle chrome elsewhere), which made this card's edges
+   and its first-row highlight nearly disappear against its own background. Mixing in the
+   theme's own max-contrast foreground color instead guarantees a visible line/wash in
+   both themes without hand-tuning two separate palettes. */
 .info-card {
-  border: 1px solid var(--border);
-  border-radius: 4px;
+  border: 1px solid color-mix(in srgb, var(--text-primary) 18%, var(--bg-card));
+  border-radius: 6px;
   overflow: hidden;
   margin: 0.5rem 0;
   font-size: 0.88rem;
   line-height: 1.5;
+  background: var(--bg-card);
 }
 
 .info-row {
-  display: grid;
-  grid-template-columns: 9rem 1fr;
-  border-bottom: 1px solid var(--border-light);
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--text-primary) 10%, var(--bg-card));
 }
 
 .info-row:last-child { border-bottom: none; }
 
-.info-label {
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  padding: 0.45rem 0.6rem;
-  background: var(--bg-card);
-  color: var(--text-muted);
-  border-right: 1px solid var(--border-light);
+/* The opening condition (MAXIMUM DISTANCE / ELIGIBLE IF / SET-UP DISTANCE, …) is the
+   card's key line — a wash makes it the first thing the eye lands on, echoing the source
+   PDF's grey MAXIMUM DISTANCE band. Deliberately not --accent — these type cards keep
+   the app's brand accent to just the section-number badge in the header. */
+.info-row:first-child {
+  background: color-mix(in srgb, var(--text-primary) 8%, var(--bg-card));
 }
 
-.info-content {
-  padding: 0.45rem 0.7rem;
+.info-label {
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: var(--text-primary);
+}
+
+.info-label::after {
+  content: ': ';
 }
 
 .rule-list--sub {
@@ -375,11 +390,11 @@ p {
 
 .info-items {
   list-style: disc;
-  padding-left: 1.1rem;
-  margin: 0.2rem 0 0;
+  padding-left: 1.3rem;
+  margin: 0.3rem 0 0;
 }
 
-.info-items li { margin-bottom: 0.15rem; }
+.info-items li { margin-bottom: 0.2rem; }
 
 .faq-list {
   display: flex;
@@ -425,13 +440,7 @@ p {
   }
 
   .info-row {
-    display: block;
-  }
-
-  .info-label {
-    border-right: none;
-    border-bottom: 1px solid var(--border-light);
-    padding: 0.35rem 0.7rem;
+    padding: 0.4rem 0.6rem;
   }
 }
 </style>

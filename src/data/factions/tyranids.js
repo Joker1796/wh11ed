@@ -325,7 +325,7 @@ In addition, while a Tyranids Monster unit from your army (excluding Battle-shoc
           when: 'Any phase.',
           target: 'One Endless Multitude unit from your army that was just destroyed. You can use this Stratagem on that unit even though it was just destroyed.',
           effect: 'Add a new unit to your army identical to your destroyed unit, in Strategic Reserves, at its Starting Strength.',
-          restrictions: 'Any destroyed Character units that were attached to your unit are not returned.',
+          restrictions: 'Any destroyed Character units that were attached to your unit are not returned. You can only use this Stratagem once per battle.',
         },
         {
           name: 'Teeming Masses',
@@ -457,7 +457,7 @@ In addition, while a Tyranids Monster unit from your army (excluding Battle-shoc
           when: 'Command phase.',
           target: 'One Harvester unit from your army that is within range of an objective marker you control.',
           effect:
-            'That objective marker remains under your control, even if you have no models within range of it, until your opponent controls it at the start or end of any turn.',
+            "That objective marker remains under your control until your opponent's Level of Control over that objective marker is greater than yours at the end of a phase.",
           restrictions: '',
         },
         {
@@ -553,10 +553,10 @@ Deathleaper loses the Hunter Organism rule and can be your Warlord.`,
           cp: '1CP',
           turn: 'your',
           flavor: 'Vanguard organisms strike from unexpected quarters with calculated and emotionless alien savagery that is appalling to behold.',
-          when: 'Your Shooting phase or the Fight phase.',
-          target: 'One Vanguard Invader unit from your army that has not been selected to shoot or fight this phase, and one enemy unit.',
+          when: 'Your Shooting phase or the Fight phase, just after a Vanguard Invader unit from your army has selected its targets.',
+          target: 'That Vanguard Invader unit.',
           effect:
-            'That enemy unit must take a Battle-shock test. Until the end of the phase, each time a model in your unit makes an attack that targets that enemy unit, add 1 to the Hit roll. If the Battle-shock test was failed, add 1 to the Wound roll as well.',
+            "Select one enemy unit that was selected as the target of one or more of your unit's attacks. That enemy unit must take a Battle-shock test. Until the end of the phase, each time a model in your unit makes an attack that targets that enemy unit, add 1 to the Hit roll. If the Battle-shock test was failed, add 1 to the Wound roll as well.",
           restrictions: '',
         },
         {
@@ -603,7 +603,7 @@ Deathleaper loses the Hunter Organism rule and can be your Warlord.`,
           when: "Your opponent's Shooting phase, just after an enemy unit has selected its targets.",
           target: "One Vanguard Invader unit from your army that was selected as the target of one or more of the attacking unit's attacks.",
           effect:
-            "Until the end of the phase, your unit can only be selected as the target of a ranged attack if the attacking model is within 12\" or, if your unit has the Lone Operative ability, if the attacking model is within 6\". Your opponent can select new targets for the attacking unit's attacks.",
+            "Until the end of the phase, your unit can only be selected as the target of a ranged attack if the attacking model is within 18\" or, if your unit has the Lone Operative ability, if the attacking model is within 6\". Your opponent can select new targets for the attacking unit's attacks.",
           restrictions: '',
         },
         {
@@ -621,7 +621,7 @@ Deathleaper loses the Hunter Organism rule and can be your Warlord.`,
       enhancements: [
         {
           name: 'Hunting Grounds',
-          points: 20,
+          points: 30,
           flavor:
             'This warrior organism has identified installations and routes of communication and supply vital to the prey. As the Tyranid invasion commences so the beast orchestrates ambushes and terror raids against these priority targets, ensuring that those enemy reinforcements who do reach the battlefield do so in bloodied disarray.',
           body: `Tyranids model only. While the bearer is on the battlefield, each time your opponent sets up a Reserves unit on the battlefield, roll one D6: on a 2+, that unit must take a Battle-shock test.`,
@@ -630,7 +630,7 @@ Deathleaper loses the Hunter Organism rule and can be your Warlord.`,
           name: 'Chameleonic',
           points: 15,
           flavor: "Subdermal crystals in this organism's carapace capture and redirect light, helping to conceal it.",
-          body: `Vanguard Invader model only. The bearer has the Stealth ability and each time a ranged attack targets the bearer's unit, models in that unit have the Benefit of Cover against that attack.`,
+          body: `Vanguard Invader model only. This unit has Stealth.`,
         },
         {
           name: 'Stalker',
@@ -781,7 +781,7 @@ Deathleaper loses the Hunter Organism rule and can be your Warlord.`,
         flavor:
           'Ravenous instinct drives these vanguard organisms to predate leaders amongst the prey, and to crack open their crania and devour the quivering mindmeat within.',
         body: `▪ Friendly Deathleaper/Lictor/Neurolictor units have Deep Strike.
-▪ Friendly Lictor/Neurolictor units' attacks that target a Character unit can reroll Hit rolls of 1.`,
+▪ Friendly Lictor/Neurolictor units' attacks that target a Character unit can re-roll Hit rolls of 1.`,
       },
       stratagems: [
         {
@@ -834,7 +834,7 @@ Deathleaper loses the Hunter Organism rule and can be your Warlord.`,
           upgrade: true,
           flavor:
             'The dermis of these biohunters has been adapted to subtly alter hue according to what the ocular receptors of the prey expect to see, thus hiding the creatures even in plain sight.',
-          body: `Von Ryan's Leapers unit only. This unit has 3" detection range.`,
+          body: `Von Ryan's Leapers unit only. This unit has -3" detection range.`,
         },
       ],
     },
@@ -887,7 +887,7 @@ Deathleaper loses the Hunter Organism rule and can be your Warlord.`,
           when: 'Your Shooting phase, when a friendly Norn Assimilator unit has shot.',
           target: 'That Norn Assimilator unit.',
           effect:
-            'Select one enemy unit hit by those attacks. That enemy unit is tethered until the start of your next Command phase: while a unit is tethered, that unit has 2" M.',
+            'Select one enemy unit hit by those attacks. That enemy unit is tethered until the start of your next Command phase: while a unit is tethered, that unit has -2" M.',
           restrictions: '',
         },
       ],
@@ -992,7 +992,7 @@ Deathleaper loses the Hunter Organism rule and can be your Warlord.`,
           'When the hive fleet’s organisms descend, no place is truly safe from their wrath. Mawlocs, Raveners and Trygons burst from the ground to emerge in the midst of clustered defenders, scything apart and devouring screaming victims before they can raise their weapons in defence.',
         body: `Each time a Tyranids model from your army makes an attack, re-roll a Hit roll of 1.
 
-Each time a Burrower unit from your army is set up on the battlefield from Reserves, place a circular 40mm Tunnel Marker anywhere on the battlefield within 1" of that unit and more than 3" horizontally away from all enemy units.
+Each time a Burrower unit from your army is set up on the battlefield from Reserves, place a 40mm circular Tunnel Marker anywhere on the battlefield within 1" of that unit and more than 3" horizontally away from all enemy units.
 
 In the Reinforcements step of your Movement phase, when you set up a unit on the battlefield from Reserves, you can set that unit up wholly within 9" of one of your Tunnel Markers and more than 6" horizontally away from any enemy units.
 

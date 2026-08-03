@@ -1,41 +1,75 @@
 <template>
   <figure class="layout-card">
-    <div class="layout-stack" :class="orient === 'v' ? 'is-vertical' : 'is-horizontal'">
-      <span class="edge-marker em-attacker">
-        <img :src="attackerSrc" alt="Attacker's battlefield edge" loading="lazy" decoding="async" />
-      </span>
-      <AppImage :src="layout.image" :alt="`Layout ${layout.id}`" class="layout-img" />
-      <span class="edge-marker em-defender">
-        <img :src="defenderSrc" alt="Defender's battlefield edge" loading="lazy" decoding="async" />
-      </span>
-    </div>
+    <button
+      type="button"
+      class="layout-img-btn"
+      :aria-label="labels.eventLayoutViewFull"
+      @click="showFull = true"
+    >
+      <AppImage :src="imageSrc" :alt="`Layout ${layout.id}`" class="layout-img" />
+      <span class="expand-hint"><i class="bi bi-arrows-fullscreen"></i></span>
+    </button>
     <figcaption class="layout-caption">
       <span class="layout-badge">{{ labels.eventLayout }} {{ layout.id }}</span>
     </figcaption>
   </figure>
+
+  <BaseModal
+    v-if="showFull"
+    max-width="min(96vw, 900px)"
+    max-height="94vh"
+    :z-index="410"
+    @close="showFull = false"
+  >
+    <template #header>
+      <header class="modal-head">
+        <h3 class="mh-title">{{ labels.eventLayout }} {{ layout.id }}</h3>
+        <div class="mh-right">
+          <button
+            class="measurements-toggle"
+            :aria-pressed="modalMeasurements"
+            @click="modalMeasurements = !modalMeasurements"
+          >
+            <i class="bi bi-rulers"></i>
+            <span>{{ modalMeasurements ? labels.eventLayoutMeasurementsOn : labels.eventLayoutMeasurementsOff }}</span>
+          </button>
+          <button class="mh-close" @click="showFull = false" :aria-label="labels.modalClose">✕</button>
+        </div>
+      </header>
+    </template>
+    <div class="modal-body layout-modal-body">
+      <AppImage :src="modalImageSrc" :alt="`Layout ${layout.id}`" class="layout-img-full" />
+    </div>
+  </BaseModal>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import AppImage from '../AppImage.vue'
+import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 
-const props = defineProps({ layout: { type: Object, required: true } })
+const props = defineProps({
+  layout: { type: Object, required: true },
+  showMeasurements: { type: Boolean, default: true },
+})
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 
-// Which battlefield edges the attacker/defender markers sit on, read from the source
-// PDF (see layoutEdges in eventCompanion.js): 'h' = attacker top / defender bottom
-// (horizontal bars); 'v' = attacker left / defender right (vertical bars).
-const orient = computed(() => (props.layout?.edge === 'v' ? 'v' : 'h'))
-const attackerSrc = computed(() =>
-  orient.value === 'v' ? '/images/event/marker-attacker-v.webp' : '/images/event/marker-attacker.webp'
-)
-const defenderSrc = computed(() =>
-  orient.value === 'v' ? '/images/event/marker-defender-v.webp' : '/images/event/marker-defender.webp'
-)
+// `imageClean` (no inch callouts) falls back to `image` for any layout that somehow
+// lacks it, so the toggle never renders a blank card. Both variants already have the
+// attacker's/defender's battlefield-edge markers baked in by the source app — no
+// separate overlay bar needed (the old PDF crops didn't have them, hence the overlay).
+const imageSrc = computed(() => (props.showMeasurements ? props.layout.image : (props.layout.imageClean || props.layout.image)))
+
+const showFull = ref(false)
+// The full-size view has its own measurements/clean toggle, independent of the card's
+// (some callers — GameSetup, LayoutPickerModal, etc. — don't expose one at all), seeded
+// from whatever the card was already showing.
+const modalMeasurements = ref(props.showMeasurements)
+const modalImageSrc = computed(() => (modalMeasurements.value ? props.layout.image : (props.layout.imageClean || props.layout.image)))
 </script>
 
 <style scoped>
@@ -47,70 +81,41 @@ const defenderSrc = computed(() =>
   background: var(--bg-card);
 }
 
-/* Constrain the stack to the table's display width (table aspect ≈ 0.737, so at a
-   ~520px tall table the width is ~384px) so the full-width edge markers line up
-   exactly with the table's left/right edges. */
-.layout-stack {
-  max-width: min(100%, 384px);
-  margin: 0 auto;
-  /* Side gutters (held equal in both orientations) reserve room for the vertical edge
-     bars so the image footprint doesn't jump when switching A/B/C tabs. No vertical
-     padding — the horizontal top/bottom bars sit flush against the card edges. */
-  padding: 0 1rem;
-}
-
-/* Horizontal layouts — attacker bar on top, defender on the bottom (full width). */
-.layout-stack.is-horizontal {
-  display: flex;
-  flex-direction: column;
-  /* No gap — the top/bottom bars sit flush against the layout image's edges. */
-  gap: 0;
-}
-.layout-stack.is-horizontal :deep(.layout-img),
-.layout-stack.is-horizontal .edge-marker {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-.layout-stack.is-horizontal .edge-marker img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-/* Overlap the image by half the bar's height. The bar is 800×48 (height = 6% of width),
-   so a -3% margin (margins resolve against the container width) pulls it in by half its
-   height; z-index keeps the bar painted over the image. */
-.layout-stack.is-horizontal .edge-marker { position: relative; z-index: 1; }
-.layout-stack.is-horizontal .em-attacker { margin-bottom: -3%; }
-.layout-stack.is-horizontal .em-defender { margin-top: -3%; }
-
-/* Vertical layouts — attacker bar on the left, defender on the right (full height).
-   The side bars are absolutely positioned so their height tracks the image height
-   without distorting the line/emblem aspect. */
-.layout-stack.is-vertical {
+.layout-img-btn {
   position: relative;
-  display: flex;
-  justify-content: center;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: zoom-in;
 }
-.layout-stack.is-vertical :deep(.layout-img) {
+.layout-card :deep(.layout-img) {
   display: block;
   width: 100%;
   height: auto;
 }
-.layout-stack.is-vertical .edge-marker {
+
+.expand-hint {
   position: absolute;
-  /* Match the stack's vertical padding (0) so the bars span exactly the image's height. */
-  top: 0;
-  bottom: 0;
-  display: block;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 0.95rem;
+  opacity: 0.85;
+  transition: opacity 0.15s;
 }
-.layout-stack.is-vertical .edge-marker img {
-  display: block;
-  height: 100%;
-  width: auto;
+.layout-img-btn:hover .expand-hint,
+.layout-img-btn:focus-visible .expand-hint {
+  opacity: 1;
 }
-.layout-stack.is-vertical .em-attacker { left: 0.45rem; }
-.layout-stack.is-vertical .em-defender { right: 0.45rem; }
 
 .layout-caption {
   display: flex;
@@ -125,5 +130,87 @@ const defenderSrc = computed(() =>
   font-family: var(--font-display);
   font-size: 1.16rem;
   color: var(--link-accent);
+}
+
+.layout-modal-body {
+  padding: 0;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  background: var(--bg-secondary);
+}
+.layout-modal-body :deep(.layout-img-full) {
+  display: block;
+  max-width: 100%;
+  max-height: calc(94vh - 60px);
+  width: auto;
+  height: auto;
+}
+
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.8rem 0.9rem;
+  border-bottom: 1px solid var(--border);
+}
+.mh-title {
+  font-family: var(--font-display);
+  font-size: 1.49rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 0;
+}
+.mh-right {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+.mh-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  cursor: pointer;
+  min-width: 32px;
+  min-height: 32px;
+  border-radius: 4px;
+}
+.mh-close:hover {
+  background: color-mix(in srgb, var(--text-primary) 8%, transparent);
+  color: var(--text-primary);
+}
+
+.measurements-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+  padding: 0.35rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.82rem;
+  transition: color 0.15s, border-color 0.15s;
+}
+.measurements-toggle:hover {
+  color: var(--text-primary);
+  border-color: var(--accent);
+}
+.measurements-toggle[aria-pressed="true"] {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+@media (max-width: 420px) {
+  .mh-title { font-size: 1.2rem; }
+  .measurements-toggle { padding: 0.35rem 0.55rem; }
+  .measurements-toggle span { display: none; }
 }
 </style>

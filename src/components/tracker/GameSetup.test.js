@@ -1,11 +1,13 @@
-import { beforeEach, describe, it, expect, vi } from 'vitest'
-import { mount } from '@vue/test-utils'
+import { afterEach, beforeEach, describe, it, expect, vi } from 'vitest'
+import { mount, DOMWrapper } from '@vue/test-utils'
 import GameSetup from './GameSetup.vue'
 
 beforeEach(() => {
   localStorage.clear()
   vi.resetModules()
 })
+// BaseModal teleports to <body>; clear it between tests since nothing else unmounts it.
+afterEach(() => { document.body.innerHTML = '' })
 
 describe('GameSetup', () => {
   it('mounts on step 1 with You / Opponent player cards', () => {
@@ -33,8 +35,9 @@ describe('GameSetup', () => {
 
   it('opens the score-mode help modal on the ? button', async () => {
     const w = mount(GameSetup)
-    expect(w.find('.sh-table').exists()).toBe(false)
+    const body = new DOMWrapper(document.body)
+    expect(body.find('.sh-table').exists()).toBe(false)
     await w.find('.help-btn').trigger('click')
-    expect(w.find('.sh-table').exists()).toBe(true) // ScoreHelpModal rendered
+    expect(body.find('.sh-table').exists()).toBe(true) // ScoreHelpModal rendered (teleported to body)
   })
 })

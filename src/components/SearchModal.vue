@@ -36,6 +36,7 @@
               <span class="result-section">{{ item.sectionTitle }}</span>
             </div>
             <div class="result-title" v-html="highlightMatch(item.title, query)"></div>
+            <div class="result-title-ru" v-if="item.titleRu" v-html="highlightMatch(item.titleRu, query)"></div>
             <div class="result-snippet" v-if="item.snippet" v-html="highlightMatch(item.snippet, query)"></div>
           </li>
         </TransitionGroup>
@@ -50,23 +51,27 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
-import { search, highlightMatch, preloadDatasheetIndex } from '../composables/useSearch.js'
+import { search, highlightMatch, preloadDatasheetIndex, preloadFactionRulesIndex, preloadCombatPatrolIndex } from '../composables/useSearch.js'
 import { useRefNavigation } from '../composables/useRefNavigation.js'
 import { useLocale } from '../composables/useLocale.js'
 import { useModalA11y } from '../composables/useModalA11y.js'
+import { useFactionChoice } from '../composables/useFactionChoice.js'
 import { ui } from '../i18n/ui.js'
 
 const emit = defineEmits(['close'])
 const { navigateTo } = useRefNavigation()
 const { locale } = useLocale()
+const { setDetachment, setChapter } = useFactionChoice()
 const labels = computed(() => ui[locale.value])
 const boxEl = ref(null)
 const query = ref('')
 const selectedIndex = ref(0)
 
-// Kick off the datasheet-name chunk as soon as the palette opens; `search()` reads a
-// reactive tick, so results already on screen refresh when it lands.
+// Kick off the datasheet-name / faction-rules-name chunks as soon as the palette opens;
+// `search()` reads a reactive tick, so results already on screen refresh when they land.
 preloadDatasheetIndex()
+preloadFactionRulesIndex()
+preloadCombatPatrolIndex()
 
 const results = computed(() => search(query.value, locale.value))
 
@@ -89,6 +94,13 @@ function goToSelected() {
 
 function navigate(item) {
   emit('close')
+  // A faction-rules result (detachment/stratagem/enhancement) anchors to its detachment's
+  // section — but FactionRuleView only renders the ACTIVE detachment (useFactionChoice), so it
+  // must be selected before navigating or the target id won't exist in the DOM yet to scroll to.
+  if (item.detSlug && item.detId) {
+    setDetachment(item.detSlug, item.detId)
+    if (item.detChapter) setChapter(item.detSlug, item.detChapter)
+  }
   navigateTo({ route: item.route, anchor: item.id })
 }
 </script>
@@ -234,6 +246,13 @@ function navigate(item) {
   font-weight: 600;
   font-size: 0.95rem;
   color: var(--text-primary);
+  margin-bottom: 0.2rem;
+}
+
+.result-title-ru {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-muted);
   margin-bottom: 0.2rem;
 }
 

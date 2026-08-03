@@ -114,10 +114,18 @@ const SM_CHAPTERS = new Set(['black-templars', 'blood-angels', 'dark-angels', 'd
 // data; the two occasionally disagree on apostrophe glyph / letter case, so match loosely.
 const normName = (s) => s.replace(/[’'`]/g, "'").trim().toLowerCase()
 
+// Combat Patrol: the active detachment/stratagems live in src/data/combatPatrol.js, not in
+// src/data/factions/*.js — dynamically imported here (heavy, datasheet-bearing file), only
+// while a Combat Patrol game is in progress.
+async function loadCombatPatrolFaction(slug, loc) {
+  const { combatPatrol } = await import('../data/combatPatrol.js')
+  return combatPatrol[loc]?.factions?.find((f) => f.slug === slug) || null
+}
+
 // Resolve one faction's localized detachment list + its RU stratagem-name map.
 async function loadFactionSource(slug, loc) {
-  const { getFaction } = await import('../data/factions/index.js')
-  const data = getFaction(slug)
+  const { loadFaction } = await import('../data/factions/index.js')
+  const data = await loadFaction(slug)
   if (!data) return null
   // Tag each stratagem with `_phase` derived from its ENGLISH `when` (data.en, aligned by
   // detachment+stratagem index with the localized faction) so phase grouping matches EN/RU.
@@ -142,6 +150,14 @@ async function loadFactionSource(slug, loc) {
 
 async function loadPlayerStrats(player, loc) {
   if (!player?.factionSlug || !player.detachments?.length) return []
+  if (current.value?.settings?.combatPatrol) {
+    const f = await loadCombatPatrolFaction(player.factionSlug, loc)
+    if (!f) return []
+    // Phase grouping always keys off the English `when` text (see coreEnStrats above), even
+    // when rendering the RU faction — fetch the EN entry too when locale isn't already 'en'.
+    const enF = loc === 'en' ? f : await loadCombatPatrolFaction(player.factionSlug, 'en')
+    return (f.stratagems || []).map((s, i) => ({ ...s, _phases: phasesOf(enF?.stratagems?.[i]?.when) }))
+  }
   const sources = [player.factionSlug]
   if (SM_CHAPTERS.has(player.factionSlug)) sources.push('space-marines')
   // normName(detachment) → { det, stratNamesRu }; the chapter's own data wins over the shared one.

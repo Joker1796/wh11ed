@@ -89,7 +89,7 @@ export const coreAbilities = {
       name: '[BLAST]',
       type: 'weapon',
       flavor: 'High-explosive rounds can fell several warriors in a single blast, but firing them too close to comrades is unwise.',
-      fullText: `Each time you gather **[gloss:attack-dice:attack dice]** for a **[BLAST]** weapon, add one additional **attack die** for every five models that were in the target unit in the [gloss:select-targets:Select Targets] step (rounding down).
+      fullText: `Each time you gather **[gloss:attack-dice:attack dice]** for a **[BLAST]** weapon, add one additional **attack dice** for every five models that were in the target unit in the [gloss:select-targets:Select Targets] step (rounding down).
 
 If this ability takes the form **[BLAST X]**, each time you gather **attack dice** for such a weapon, add **X** additional **attack dice** for every five models that were in the target unit in the Select Targets step (rounding down) instead.`,
       example: 'If a **[BLAST 2]** weapon with an **A** characteristic of 3 targets a unit containing 12 models, you would gather four additional **attack dice** for that weapon (for a total of seven for that weapon).',
@@ -240,7 +240,11 @@ See the Resolve Fights First Combats step in the Fight phase (12.04).`,
       name: 'Leader',
       type: 'unit',
       flavor: 'Mighty heroes fight at the forefront of battle.',
-      fullText: `See Attached Units (19).`,
+      fullText: `Before the battle, in the Muster Armies step, for each **leader** and **support** unit in your army, you can select one friendly **bodyguard** unit that unit can **lead**. That unit will then **lead** that **bodyguard** unit for the battle and form an **attached** unit with it.
+
+Unless otherwise stated, each **bodyguard** unit can only have one **leader** unit and one **support** unit attached to it.
+
+See Attached Units (19).`,
     },
     {
       num: '24.23',
@@ -318,6 +322,15 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
       type: 'weapon',
       flavor: 'Precision attacks can pick high-value targets out in a crowd.',
       fullText: `While resolving attacks made with one or more **[PRECISION]** weapons, at the start of the [gloss:allocation-order:Allocation Order] step (05.03), if the target unit contains one or more **[gloss:character:CHARACTER]** models **[gloss:visible:visible]** to one or more of the attacking models, the active player can select one allocation group that contains one of those **visible CHARACTER** models. If they do, until those attacks are resolved, or until that **CHARACTER** group is **destroyed** (whichever happens first), that **CHARACTER** group is the current allocation group.`,
+      children: [
+        {
+          id: 'section-24-28-01',
+          sectionNum: '24.28.01',
+          title: 'Precision and Devastating Wounds',
+          fromApp: true,
+          body: `**Mortal wounds** inflicted by a **[PRECISION]** attack with the **[DEVASTATING WOUNDS]** ability are first applied to the **CHARACTER** group that was selected for those **[PRECISION]** attacks (if that group is not already **destroyed**).`,
+        },
+      ],
     },
     {
       num: '24.29',
@@ -332,7 +345,7 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
       type: 'weapon',
       flavor: 'Rapid fire weapons are capable of long-ranged precision shots or controlled bursts at nearby targets.',
       fullText: `This ability always takes the form **[RAPID FIRE X]**. Each time you gather **[gloss:attack-dice:attack dice]** for a **[RAPID FIRE]** weapon, add **X** additional **attack dice** if the target unit was within half range of that weapon in the Select Targets step.`,
-      example: 'If a **[RAPID FIRE 1]** weapon with an **A** characteristic of 1 targets a unit that is within half range, you would gather one additional **attack die** for that weapon (for a total of two for that weapon).',
+      example: 'If a **[RAPID FIRE 1]** weapon with an **A** characteristic of 1 targets a unit that is within half range, you would gather one additional **attack dice** for that weapon (for a total of two for that weapon).',
     },
     {
       num: '24.31',
@@ -366,7 +379,11 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
       name: 'Support',
       type: 'unit',
       flavor: 'Specialist combatants may be assigned to front-line squads to bolster their fighting effectiveness.',
-      fullText: `See Attached Units (19).`,
+      fullText: `Before the battle, in the Muster Armies step, for each **leader** and **support** unit in your army, you can select one friendly **bodyguard** unit that unit can **lead**. That unit will then **lead** that **bodyguard** unit for the battle and form an **attached** unit with it.
+
+Unless otherwise stated, each **bodyguard** unit can only have one **leader** unit and one **support** unit attached to it.
+
+See Attached Units (19).`,
     },
     {
       num: '24.35',
@@ -544,7 +561,11 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
     {
       // 24.22 Leader
       flavor: 'Могучие герои сражаются на переднем крае битвы.',
-      fullText: `См. «Составные юниты» (Attached Units) (19).`,
+      fullText: `До битвы, на шаге «Формирование армий» (Muster Armies step), для каждого отряда **лидера** и **поддержки** в вашей армии вы можете выбрать один дружественный отряд **телохранителей**, который он может **возглавлять**. Этот отряд будет **возглавлять** этот отряд **телохранителей** в битве и создаст с ним **объединённый** отряд.
+
+Если не указано иное, каждый отряд **телохранителей** может иметь только один присоединённый отряд **лидера** и один отряд **поддержки**.
+
+См. «Составные юниты» (Attached Units) (19).`,
     },
     {
       // 24.23 [LETHAL HITS]
@@ -604,6 +625,12 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
       // 24.28 [PRECISION]
       flavor: 'Точные атаки могут поразить высокоприоритетные цели в толпе.',
       fullText: `При отыгрыше атак, совершаемых одним или несколькими видами оружия **[PRECISION]**, в начале шага «**[gloss:allocation-order:Порядок назначения]**» (05.03), если целевой юнит содержит одну или несколько моделей **[gloss:character:CHARACTER]**, **[gloss:visible:видимых]** для одной или нескольких атакующих моделей, активный игрок может выбрать одну **группу назначения** (allocation group), которая содержит одну из этих **видимых моделей CHARACTER**. Если он это делает, то, пока эти атаки не будут отыграны, или пока эта группа CHARACTER не будет **уничтожена** (destroyed) (в зависимости от того, что наступит раньше), эта группа CHARACTER является **текущей группой назначения** (current allocation group).`,
+      children: [
+        {
+          title: 'Точность и разрушительные раны (Precision and Devastating Wounds)',
+          body: `**[gloss:mortal-wound:Смертельные раны]**, нанесённые атакой **[PRECISION]** со способностью **[DEVASTATING WOUNDS]**, сначала применяются к группе CHARACTER, выбранной для этих атак **[PRECISION]** (если эта группа ещё не **[gloss:destroyed:уничтожена]**).`,
+        },
+      ],
     },
     {
       // 24.29 [PSYCHIC]
@@ -640,7 +667,11 @@ If a new unit is added to an army, all **[ONE SHOT]** weapons in that unit can b
     {
       // 24.34 Support
       flavor: 'Специализированные бойцы могут быть приписаны к фронтовым отрядам для повышения их боевой эффективности.',
-      fullText: `См. «Составные юниты» (Attached Units) (19).`,
+      fullText: `До битвы, на шаге «Формирование армий» (Muster Armies step), для каждого отряда **лидера** и **поддержки** в вашей армии вы можете выбрать один дружественный отряд **телохранителей**, который он может **возглавлять**. Этот отряд будет **возглавлять** этот отряд **телохранителей** в битве и создаст с ним **объединённый** отряд.
+
+Если не указано иное, каждый отряд **телохранителей** может иметь только один присоединённый отряд **лидера** и один отряд **поддержки**.
+
+См. «Составные юниты» (Attached Units) (19).`,
     },
     {
       // 24.35 Super-heavy Walker
@@ -695,6 +726,7 @@ Units or models whose **W** characteristic or **starting strength** cannot be ev
           ['**At Half-Strength**', 'Model\'s remaining wounds are half of its **W** characteristic.', 'Number of remaining models in the unit is half of its **starting strength**.'],
           ['**Below Half-Strength**', 'Model\'s remaining wounds are less than half of its **W** characteristic.', 'Number of remaining models in the unit is less than half of its **starting strength**.'],
         ],
+        stacked: true,
       },
       example: 'A Captain (1 model) is attached to a unit of Intercessors (5 models). This **attached** unit has a **starting strength** of 6. If three Intercessors were **destroyed**, the unit would be **at half-strength**. If four Intercessors were **destroyed**, the unit would be **below half-strength**. If all of the Intercessors were **destroyed**, the remaining Captain would be **below half-strength**, despite having his full [gloss:wounds:wounds] remaining.',
     },
@@ -761,6 +793,7 @@ If a **leader** or **support** model in an **attached** unit is **destroyed** an
           ['**На половинной численности**', 'Оставшиеся раны модели составляют **половину** её характеристики **W** (ран).', 'Количество оставшихся моделей в юните составляет **половину** его начальной численности.'],
           ['**Ниже половинной численности**', 'Оставшиеся раны модели составляют **менее половины** её характеристики **W** (ран).', 'Количество оставшихся моделей в юните составляет **менее половины** его начальной численности.'],
         ],
+        stacked: true,
       },
       example: 'Капитан (1 модель) приписан к отряду Интерцессоров (5 моделей). Этот **составной юнит** (attached unit) имеет **начальную численность** (starting strength) 6. Если три Интерцессора **уничтожены**, юнит находится **на половинной численности** (half-strength). Если четыре Интерцессора **уничтожены**, юнит находится **ниже половинной численности** (below half-strength). Если все Интерцессоры **уничтожены**, оставшийся Капитан находится **ниже половинной численности**, несмотря на то, что у него осталось полное количество [gloss:wounds:ран].',
     },
@@ -1018,6 +1051,74 @@ export const faqs = {
       q: 'If a unit makes any disembark move in a turn (i.e. Disembark move, Emergency Disembark move, etc.), has it disembarked that turn?',
       a: 'Yes.',
     },
+    {
+      q: 'After using an ability that increases the CP cost of a **stratagem**, must my opponent continue to use the selected **stratagem** at the increased cost if they have the necessary CP available?',
+      a: 'Yes.',
+    },
+    {
+      q: 'If a **stratagem** contains a section that carries an additional CP cost (such as the Into the Fray option of Heroic Intervention), is that additional cost considered to be a modifier?',
+      a: 'No — a **stratagem** that costs 1CP and is making use of an optional +1CP section has an original cost of 2CP.',
+    },
+    {
+      q: 'After using an ability that increases the CP cost of a **stratagem**, if my opponent does not have the necessary CP available for the selected **stratagem**, what happens?',
+      a: 'No CP are spent and that **stratagem**\'s effects are not resolved (but that **stratagem** still counts as having been used this phase).',
+    },
+    {
+      q: 'Do rules that affect a keyword include multi-word keywords that contain that keyword? For example, would rules that affect Commissar units affect a unit that has the Commissar Graves keyword?',
+      a: 'No.',
+    },
+    {
+      q: 'While making a **move type** other than a **normal/advance move**, can my MONSTER/VEHICLE unit move through friendly units?',
+      a: 'Yes.',
+    },
+    {
+      q: 'Are models that are within the boundary of a **terrain area**, but not on the ground floor of it (e.g. overhanging parts of FRAME VEHICLES, or models on **terrain features** that are within that **terrain area**), within that **terrain area**?',
+      a: 'Yes.',
+    },
+    {
+      q: 'Is being within range of a **terrain objective** the same as being within range of an **objective marker**?',
+      a: 'Yes.',
+    },
+    {
+      q: 'When my unit shoots at another unit, how does it work if some models in the target unit are fully **visible** to some of my models, while others are within a **terrain area**/not fully visible?',
+      a: 'For each attacking model in your unit, determine whether the target unit has the **benefit of cover**, as described in Terrain and Visibility. In this scenario, the target unit will likely have the **benefit of cover** against some of the attacking models, but not all — so when you get to the Resolve Attacks step of the Attack Sequence, you collect dice for attacks made by models against which the target unit has the **benefit of cover** separately from the dice for attacks made by models against which it does not.',
+    },
+    {
+      q: 'In what step during the attack sequence do I roll for **Feel No Pain**?',
+      a: 'In the Resolve Damage step of the Inflict Damage step (05.04).',
+    },
+    {
+      q: 'Can I group or allocate a wound to a **destroyed** model?',
+      a: 'No.',
+    },
+    {
+      q: 'Can an Epic Hero unit form an **attached** unit with a unit that has an **enhancement**?',
+      a: 'Yes.',
+    },
+    {
+      q: 'Can an **attached** unit be given an Upgrade?',
+      a: 'Yes.',
+    },
+    {
+      q: 'Can a unit have both an Upgrade and an **enhancement**?',
+      a: 'No — units are prevented from having two **enhancements**, and Upgrades are **enhancements**.',
+    },
+    {
+      q: 'Are Upgrades **enhancements**?',
+      a: 'Yes, Upgrades are a type of **enhancement** (but not all **enhancements** are Upgrades).',
+    },
+    {
+      q: 'Does the limit to the combined points value of my units in **strategic reserves** only apply until the start of the first battle round?',
+      a: 'Yes.',
+    },
+    {
+      q: 'If I place units in **strategic reserves** during the battle, can this exceed the 50% points-limit restriction mentioned in Placing Units in Strategic Reserves (20.01)?',
+      a: 'Yes — that restriction is applicable before the battle, in the Declare Battle Formations step.',
+    },
+    {
+      q: 'Does vertical movement in a unit that has **taken to the skies** count towards the distance a model has used for the purposes of [HEAVY]?',
+      a: 'No.',
+    },
   ],
   ru: [
     {
@@ -1159,6 +1260,74 @@ export const faqs = {
     {
       q: 'Если юнит совершает любой манёвр высадки за ход (т.е. манёвр высадки, экстренный манёвр высадки и т.д.), считается ли, что он высадился в этот ход?',
       a: 'Да.',
+    },
+    {
+      q: 'После использования способности, повышающей стоимость **стратагемы** в CP, обязан ли мой противник продолжать использовать выбранную **стратагему** по повышенной цене, если у него достаточно CP?',
+      a: 'Да.',
+    },
+    {
+      q: 'Если **стратагема** содержит раздел с дополнительной стоимостью в CP (например, опция Into the Fray у Heroic Intervention), считается ли эта дополнительная стоимость модификатором?',
+      a: 'Нет — **стратагема** стоимостью 1CP, использующая опциональный раздел за +1CP, имеет исходную стоимость 2CP.',
+    },
+    {
+      q: 'После использования способности, повышающей стоимость **стратагемы** в CP, что происходит, если у моего противника нет необходимых CP для выбранной **стратагемы**?',
+      a: 'CP не тратятся, и эффект этой **стратагемы** не отыгрывается (но она всё равно считается использованной в этой фазе).',
+    },
+    {
+      q: 'Распространяются ли правила, влияющие на ключевое слово, на составные ключевые слова, которые его содержат? Например, повлияет ли правило, затрагивающее ключевое слово Commissar, на юнит с ключевым словом Commissar Graves?',
+      a: 'Нет.',
+    },
+    {
+      q: 'Совершая **тип манёвра**, отличный от **обычного манёвра/ускорения**, может ли мой юнит MONSTER/VEHICLE двигаться сквозь дружественные юниты?',
+      a: 'Да.',
+    },
+    {
+      q: 'Считаются ли находящимися в пределах **[gloss:terrain-area:области укрытия]** модели, которые находятся в границах этой области, но не на её нижнем уровне (например, нависающие части FRAME VEHICLES или модели на элементах укрытий, которые находятся в пределах этой области)?',
+      a: 'Да.',
+    },
+    {
+      q: 'Является ли нахождение в пределах дальности от **маркера цели-укрытия** (terrain objective) тем же самым, что и нахождение в пределах дальности от **маркера цели** (objective marker)?',
+      a: 'Да.',
+    },
+    {
+      q: 'Когда мой юнит стреляет по другому юниту — как это работает, если некоторые модели целевого юнита полностью **видимы** для некоторых моих моделей, а другие находятся в **области укрытия**/не полностью видимы?',
+      a: 'Для каждой атакующей модели вашего юнита определите, получает ли целевой юнит **[gloss:benefit-of-cover:преимущество укрытия]**, как описано в разделе «Укрытия и видимость». В этом случае целевой юнит, скорее всего, получит **преимущество укрытия** против части атакующих моделей, но не против всех — поэтому на шаге «Отыгрыш атак» Последовательности атаки вы собираете кубики за атаки моделей, против которых целевой юнит получает **преимущество укрытия**, отдельно от кубиков за атаки моделей, против которых он его не получает.',
+    },
+    {
+      q: 'На каком шаге последовательности атаки я делаю бросок за **Feel No Pain**?',
+      a: 'На шаге «Отыгрыш урона» шага «Нанесение урона» (05.04).',
+    },
+    {
+      q: 'Могу ли я сгруппировать рану или назначить её **[gloss:destroyed:уничтоженной]** модели?',
+      a: 'Нет.',
+    },
+    {
+      q: 'Может ли юнит Epic Hero сформировать **составной юнит** (attached unit) с юнитом, у которого есть **улучшение**?',
+      a: 'Да.',
+    },
+    {
+      q: 'Может ли **составной юнит** получить Upgrade?',
+      a: 'Да.',
+    },
+    {
+      q: 'Может ли юнит иметь одновременно Upgrade и **улучшение**?',
+      a: 'Нет — юнитам запрещено иметь два **улучшения** одновременно, а Upgrade является **улучшением**.',
+    },
+    {
+      q: 'Является ли Upgrade **улучшением**?',
+      a: 'Да, Upgrade — это разновидность **улучшения** (но не каждое **улучшение** — это Upgrade).',
+    },
+    {
+      q: 'Действует ли ограничение на суммарную стоимость юнитов в **[gloss:strategic-reserves:стратегическом резерве]** только до начала первого боевого раунда?',
+      a: 'Да.',
+    },
+    {
+      q: 'Если я размещаю юниты в **[gloss:strategic-reserves:стратегическом резерве]** во время битвы, может ли это превысить ограничение в 50% очков армии, упомянутое в правиле «Размещение юнитов в стратегическом резерве» (20.01)?',
+      a: 'Да — это ограничение действует до начала битвы, на шаге «Объявление боевых построений».',
+    },
+    {
+      q: 'Учитывается ли вертикальное перемещение юнита, который **взлетел** (taken to the skies), в дистанции, пройденной моделью для целей [HEAVY]?',
+      a: 'Нет.',
     },
   ],
 }

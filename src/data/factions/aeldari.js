@@ -198,9 +198,7 @@ Each time one of the triggers shown in the Agile Manoeuvres section below occurs
 In addition, at the end of your opponent's turn, you can select a number of **Asuryani Mounted** or **Vyper** units from your army (excluding units within Engagement Range of one or more enemy units), then remove those units from the battlefield and place them into Strategic Reserves. The maximum number of units you can select depends on the battle size:
 ▪ **Incursion:** 1 unit.
 ▪ **Strike Force:** 2 units.
-▪ **Onslaught:** 3 units.
-
-**Keywords:** Windriders units from your army gain the **Battleline** keyword.`,
+▪ **Onslaught:** 3 units.`,
       },
       stratagems: [
         {
@@ -245,8 +243,9 @@ In addition, at the end of your opponent's turn, you can select a number of **As
           flavor: 'Some of the Windrider Hosts are especially aggressive, unable to restrain the fierce joy of racing perilously close to the foe while strafing them with fire.',
           when: 'The Reinforcements step of your Movement phase.',
           target: 'One Asuryani Mounted or Vyper unit from your army in Reserves.',
-          // Faction-Pack Rules Update changed the Effect's 9" to 8".
-          effect: 'Until the end of the phase, when setting up your unit on the battlefield from Reserves, it can be set up anywhere on the battlefield that is more than 3" horizontally away from all enemy units. When doing so, if your unit is set up within 8" horizontally of one or more enemy units, until the end of the turn, it is not eligible to declare a charge.',
+          // Faction-Pack Rules Update changed the Effect's 9" to 8" (the "within 8"" clause).
+          // The set-up distance is 6" per appdata (was mis-transcribed as 3").
+          effect: 'Until the end of the phase, when setting up your unit on the battlefield from Reserves, it can be set up anywhere on the battlefield that is more than 6" horizontally away from all enemy units. When doing so, if your unit is set up within 8" horizontally of one or more enemy units, until the end of the turn, it is not eligible to declare a charge.',
           restrictions: '',
         },
         {
@@ -313,9 +312,7 @@ In addition, at the end of your opponent's turn, you can select a number of **As
         body: `Each time an **Asuryani Psyker** model from your army is destroyed by an enemy unit, that enemy unit gains a Vengeful Dead token. Each time a **Wraith Construct** model from your army makes an attack that targets a unit with one or more Vengeful Dead tokens, add 1 to the Hit roll and add 1 to the Wound roll.
 
 Asuryani Psyker models from your army have the following ability:
-▪ **Spirit Guides (Aura):** While a Wraithblades, Wraithguard or Wraithlord unit from your army is within 12" of this model, that unit has the Battle Focus ability.
-
-**Keywords:** Wraithblades and Wraithguard units from your army gain the **Battleline** keyword.`,
+▪ **Spirit Guides (Aura):** While a Wraithblades, Wraithguard or Wraithlord unit from your army is within 12" of this model, that unit has the Battle Focus ability.`,
       },
       stratagems: [
         {
@@ -815,9 +812,12 @@ Each time you use one of the Stratagems opposite, if your Fate dice pool contain
           turn: 'your',
           flavor: 'Dispelling the psychosomatic mirage that has so far beguiled and assailed the foe, the seer reveals the true location of the warriors it was masquerading as.',
           when: 'Your Movement phase.',
-          // Faction-Pack Rules Update rewrote the Target section.
-          target: 'One Asuryani Infantry unit from your army (excluding WRAITH CONSTRUCT units) that has not been selected to move this phase, was not set up on the battlefield this phase, and is within 8" of one or more friendly Asuryani Psyker models.',
-          effect: 'Remove your unit from the battlefield and set it up again anywhere on the battlefield that is more than 9" horizontally away from all enemy models.',
+          // Faction-Pack Rules Update rewrote the Target and Effect sections (errata): the target
+          // range is 9" and the effect now moves the unit via strategic reserves + ingress.
+          target: 'One Asuryani Infantry unit from your army (excluding WRAITH CONSTRUCT units) that has not been selected to move this phase, was not set up on the battlefield this phase, and is within 9" of one or more friendly Asuryani Psyker models.',
+          effect: `▪ Place your unit in strategic reserves.
+▪ Your unit has Deep Strike.
+▪ Your unit must make an ingress move this phase.`,
           restrictions: 'Until the end of the phase, your unit is not eligible to be selected to move.',
         },
         {
@@ -1004,7 +1004,7 @@ Each time you use one of the Stratagems opposite, if your Fate dice pool contain
         name: 'Skilled Crews',
         flavor:
           "Asuryani vehicle crews are amongst the galaxy's most naturally gifted pilots and gunners. They can coax every last iota of performance from the formidable machines and weapon systems under their control.",
-        body: `Friendly AELDARI VEHICLE units' ranged attacks have the [ASSAULT] ability.`,
+        body: `Friendly AELDARI VEHICLE units' ranged attacks have [ASSAULT].`,
       },
       stratagems: [
         {
@@ -1218,7 +1218,7 @@ This detachment has the **ACROBATIC** tag and cannot be taken with another **ACR
           flavor: 'Amongst the performances of a saedath is the climactic sundering of monstrous foes or the enemy’s hateful barques, acts the Harlequins have long mastered.',
           when: 'Fight phase, when a friendly TROUPE unit is selected to fight.',
           target: 'That TROUPE unit.',
-          effect: "Your unit's melee attacks have the [LANCE] ability.",
+          effect: "Your unit's melee attacks have [LANCE].",
           restrictions: '',
         },
         {

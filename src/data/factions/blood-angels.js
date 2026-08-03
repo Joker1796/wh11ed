@@ -3,7 +3,7 @@
 // Angels armies can ALSO field the Codex: Space Marines detachments (they live in
 // space-marines.js and are not duplicated).
 //
-//   Codex layer: 5 detachments imported from the Wahapedia CSV exports (they live under
+//   Codex layer: 5 detachments imported from the codex (filed under
 //     the Space Marines faction id there) with the remaining pack Rules Update folded in
 //     (Gleaming Pinions rewrite). Angelic Inheritors and Rage-Cursed Onslaught are also
 //     printed in the Faction Pack (identical text) — marked source: 'faction-pack'.
@@ -19,26 +19,33 @@ const en = {
   name: "Blood Angels",
 
   armyRule: {
-    id: 'oath-of-moment',
-    name: 'Oath of Moment',
+    id: 'oath-of-moment-the-sons-of-sanguinius',
+    name: 'Oath of Moment & The Sons of Sanguinius',
     flavor:
       'In battle, Space Marines swear mighty oaths to destroy the enemies of the Emperor and uphold the honour of their Chapter, and such vows are sacrosanct. When the Angels of Death strike, they do so with the precision of a surgeon and the force of a thunderbolt.',
-    body: `If your Army Faction is Adeptus Astartes, at the start of your Command phase, select one unit from your opponent's army. Until the start of your next Command phase, that enemy unit is your Oath of Moment target. Each time a model with this ability makes an attack that targets your Oath of Moment target, you can re-roll the Hit roll.`,
+    body: `### Oath of Moment
+If your Army Faction is Adeptus Astartes, at the start of your Command phase, select one unit from your opponent's army. Until the start of your next Command phase, that enemy unit is your Oath of Moment target. Each time a model with this ability makes an attack that targets your Oath of Moment target, you can re-roll the Hit roll.
+
+### The Sons of Sanguinius
+▪ If an Adeptus Astartes unit has a second Faction keyword on its datasheet, that Faction keyword is the name of that unit's Chapter. For example, Lemartes has both the Adeptus Astartes and Blood Angels Faction keywords, and is therefore from the Blood Angels Chapter.
+▪ You cannot include units from more than one Chapter in your army.
+
+**Designer's Note:** The rules presented in this section assume that the Adeptus Astartes units in your army are from the Blood Angels Chapter, but they can also be used to represent any Blood Angels successor Chapter, such as one described in the background section of this book, or even one of your own invention. However, players who wish to faithfully recreate the Blood Angels Chapter on the tabletop should only include Blood Angels Epic Heroes if their collection is intended to represent the First Founding Chapter itself; Mephiston is the Chief Librarian of the Blood Angels, for example, and not of any of their successors.`,
   },
 
   detachments: [
-    // ─────────────── CODEX DETACHMENTS (via Wahapedia import) ───────────────
+    // ─────────────── CODEX DETACHMENTS ───────────────
     {
       id: "angelic-inheritors",
       name: "Angelic Inheritors",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 3,
       forceDisposition: "Priority Assets",
       unique: "GRACE",
       rule: {
         name: "Legacy of the Angel",
         flavor: "Never do the Blood Angels stand taller or strive harder than when faced with seemingly impossible odds. At such times, the Sons of Sanguinius delve deep into their souls for preternatural reserves of determination, fury and focus. Sometimes, they even touch upon the uncertain gift of prophecy that was said to be their gene-sire’s boon and his curse.",
-        body: "At the start of the first battle round, select two of the Angelic Legacy abilities listed below. Until the end of the battle, those Angelic Legacy abilities are active and their effects apply to all Adeptus Astartes Character units from your army.\n\n**Sanguinary Grace:** This unit is eligible to shoot and declare a charge in a turn in which it Fell Back.\n\n**Carmine Wrath:** Each time a model in this unit makes an attack, re-roll a Hit roll of 1 and re-roll a Wound roll of 1.\n\n**Their Appointed Hour:** You can re-roll Advance and Charge rolls made for this unit.\n\nRestrictions\nYour army can include Blood Angels units, but it cannot include ADEPTUS ASTARTES units drawn from any other Chapter.",
+        body: "At the start of the first battle round, select two of the Angelic Legacy abilities listed below. Until the end of the battle, those Angelic Legacy abilities are active and their effects apply to all ADEPTUS ASTARTES CHARACTER units from your army.\n\n**Sanguinary Grace:** This unit is eligible to shoot and declare a charge in a turn in which it Fell Back.\n\n**Carmine Wrath:** Each time a model in this unit makes an attack, re-roll a Hit roll of 1 and re-roll a Wound roll of 1.\n\n**Their Appointed Hour:** You can re-roll Advance and Charge rolls made for this unit.\n\n**Restrictions:** Your army can include BLOOD ANGELS units, but it cannot include ADEPTUS ASTARTES units drawn from any other Chapter.",
       },
       stratagems: [
         {
@@ -119,7 +126,7 @@ const en = {
           name: "Troubling Visions",
           points: 15,
           flavor: "In the long run, these strange and intrusive visions of bloodshed bode terribly ill for this champion of the Blood Angels. In this instance, though, they bring him closer than ever to the glory of his gene-sire.",
-          body: "ADEPTUS ASTARTES model only. Once per battle, in your Command phase, the bearer can use this Enhancement. When it does, until the start of your next Command phase, all Angelic Legacy abilities are active for the bearer’s unit, instead of only two of them.",
+          body: "ADEPTUS ASTARTES model only. Once per battle, in your Command phase, the bearer can use this Enhancement. When it does, until the start of your next Command phase, all Angelic Legacy abilities (see Legacy of the Angel Detachment Rule) are active for the bearer’s unit, instead of only two of them.",
         },
         {
           name: "Blazing Icon",
@@ -131,7 +138,7 @@ const en = {
           name: "Ordained Sacrifice",
           points: 25,
           flavor: "Knowing only too well the desperate and vital nature of the battle before him, this scion of Sanguinius echoes his Primarch’s resolute determination to fight on even beyond what seems the doors of certain death.",
-          body: "ADEPTUS ASTARTES model only. The first time the bearer is destroyed, roll one D6 at the end of the phase: on a 2+, set the bearer back up on the battlefield as close as possible to where it was destroyed and not within Engagement Range of one or more enemy units, with 3 wounds remaining.",
+          body: "ADEPTUS ASTARTES model only. The first time the bearer is destroyed, roll one D6 at the end of the phase: on a 2+, set up this model on the battlefield, unengaged and as close as possible to where it was destroyed. This model is not part of an attached unit and its unit has a starting strength of 1. This model has 3 wounds remaining.",
         },
       ],
     },
@@ -145,7 +152,7 @@ const en = {
       rule: {
         name: "Red Thirst",
         flavor: "Though they strive to restrain it, the murderous ferocity of the Blood Angels simmers beneath the surface of their thoughts. In battle, this rage drives them towards the foe and lends great strength to their blows.",
-        body: "Each time an ADEPTUS ASTARTES unit from your army is selected to fight, if that unit made a Charge move this turn, until the end of the phase, add 1 to the Attacks characteristic and add 2 to the Strength characteristic of melee weapons equipped by models in that unit.\n\nRESTRICTIONS\nYour army can include BLOOD ANGELS units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
+        body: "Each time an ADEPTUS ASTARTES unit from your army is selected to fight, if that unit made a Charge move this turn, until the end of the phase, add 1 to the Attacks characteristic and add 2 to the Strength characteristic of melee weapons equipped by models in that unit.\n\n**Restrictions:** Your army can include BLOOD ANGELS units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
       },
       stratagems: [
         {
@@ -226,7 +233,7 @@ const en = {
           name: "Rage-fuelled Warrior",
           points: 35,
           flavor: "Fury burns in this warrior's soul. A single moment of savage brutality stands between them and the maddening embrace of the Black Rage.",
-          body: "Adeptus Astartes model only. Once per battle, at the start of the Fight phase, the bearer can use this Enhancement. If it does, until the end of the phase, the bearers melee weapons have the [sustained hits 3] ability.",
+          body: "ADEPTUS ASTARTES model only. Once per battle, at the start of the Fight phase, the bearer can use this Enhancement. If it does, until the end of the phase, the bearer's melee weapons have the [SUSTAINED HITS 3] ability.",
         },
         {
           name: "Icon of the Angel",
@@ -246,14 +253,14 @@ const en = {
     {
       id: "rage-cursed-onslaught",
       name: "Rage-Cursed Onslaught",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 3,
       forceDisposition: "Purge the Foe",
       unique: "DOOMED",
       rule: {
         name: "Maddened Ferocity",
         flavor: "With every passing moment, every savage wounding and crunching blow, the Red Thirst takes a firmer grip upon the Blood Angels. As their control slips, so near-animalistic rage takes its place. The foe will not live long enough to regret their error in goading the beast which lurks within every gene-son of Sanguinius.",
-        body: "Each time an ADEPTUS ASTARTES model from your army makes a melee attack, re-roll a Wound roll of 1.\n\nEach time an ADEPTUS ASTARTES unit from your army is selected to fight, if that unit made a Charge move this turn, until the end of the phase, add 1 to the Attacks characteristic of melee weapons equipped by models in that unit. If your unit is Battle-shocked, add 2 to the Attacks characteristic of melee weapons equipped by models in that unit instead.\n\nRestrictions\nYour army can include Blood Angels units, but it cannot include ADEPTUS ASTARTES units drawn from any other Chapter.",
+        body: "Each time an ADEPTUS ASTARTES model from your army makes a melee attack, re-roll a Wound roll of 1.\n\nEach time an ADEPTUS ASTARTES unit from your army is selected to fight, if that unit made a Charge move this turn, until the end of the phase, add 1 to the Attacks characteristic of melee weapons equipped by models in that unit. If your unit is Battle-shocked, add 2 to the Attacks characteristic of melee weapons equipped by models in that unit instead.\n\n**Restrictions:** Your army can include BLOOD ANGELS units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
       },
       stratagems: [
         {
@@ -361,7 +368,7 @@ const en = {
       rule: {
         name: "Upon Wings of Fire",
         flavor: "The Blood Angels soar high above the battlefield before plummeting to strike their foes with bone-shattering force. They are true masters of the war-torn skies.",
-        body: "At the end of your opponent s turn, you can select a number of Adeptus Astartes Jump Pack units from your army (excluding units that are within Engagement Range of one or more enemy units). The maximum number of units you can select depends on the battle size, as follows:\n**BATTLE SIZE**UNITS**Incursion**Up to 1 units **Strike Force**Up to 2 units **Onslaught**Up to 3 units\nOnce you have made your selections, remove those units from the battlefield and place them into Strategic Reserves. In the Reinforcements step of your next Movement phase, set each of those units up using their Deep Strike ability.\n\nRESTRICTIONS\nYour army can include BLOOD ANGELS units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
+        body: "At the end of your opponent's turn, you can select a number of ADEPTUS ASTARTES JUMP PACK units from your army (excluding units that are within Engagement Range of one or more enemy units). The maximum number of units you can select depends on the battle size, as follows:\n▪ **Incursion:** Up to 1 unit.\n▪ **Strike Force:** Up to 2 units.\n▪ **Onslaught:** Up to 3 units.\n\nOnce you have made your selections, place those units in Strategic Reserves. Those units must make an ingress move in your next Movement phase (including in your first turn).\n\n**Restrictions:** Your army can include BLOOD ANGELS units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
       },
       stratagems: [
         {
@@ -426,8 +433,8 @@ const en = {
           turn: "your",
           flavor: "The Blood Angels are masters of aerial assault, leaping from airborne transports with jump packs roaring to plunge into the heat of battle.",
           when: "Your Movement phase.",
-          target: "One Adeptus Astartes Jump Pack unit from your army that is arriving using the Deep Strike ability this phase.",
-          effect: "Your unit can be set up anywhere on the battlefield that is more than 6\" horizontally away from all enemy units.",
+          target: "One ADEPTUS ASTARTES JUMP PACK unit from your army that is arriving using the Deep Strike ability this phase.",
+          effect: "Your unit can be set up anywhere on the battlefield that is more than 6\" horizontally away from all enemy models.",
           restrictions: "A unit targeted by this Stratagem is not eligible to declare a charge in the same turn.",
         },
       ],
@@ -436,19 +443,19 @@ const en = {
           name: "Artisan of War",
           points: 20,
           flavor: "This warrior is a true artist both on and off the battlefield. His talents are reflected in the exquisite workmanship of his wargear, for he insists upon personally crafting his weapons of war.",
-          body: "Adeptus Astartes Jump Pack model only. Improve the Armour Penetration characteristic of the bearers weapons by 1, and the bearer has a Save characteristic of 2+.",
+          body: "ADEPTUS ASTARTES JUMP PACK model only. Improve the Armour Penetration characteristic of the bearer's weapons by 1, and the bearer has a Save characteristic of 2+.",
         },
         {
           name: "Visage of Death",
           points: 15,
           flavor: "This exquisitely crafted death mask is a thing of dark beauty to the Blood Angels, and a sign of impending doom to their enemies. A neural amplifier embedded within the expressionless face of this macabre item serves to magnify the aura of fear it projects.",
-          body: "Adeptus Astartes Jump Pack model only. In the Battle-shock step of your opponents Command phase, each enemy unit (excluding MONSTERS and VEHICLES) within Engagement Range of the bearer must take a Battle-shock test.",
+          body: "ADEPTUS ASTARTES JUMP PACK model only. In the Battle-shock step of your opponent's Command phase, each enemy unit (excluding MONSTERS and VEHICLES) within Engagement Range of the bearer must take a Battle-shock test.",
         },
         {
           name: "Archangel’s Shard",
           points: 15,
           flavor: "When Sanguinius battled Horus, his magnificent blade was tragically shattered against the Warmasters profane battle plate. The shards were gathered up and new swords forged to incorporate them, each one gifted to a different successor Chapter.",
-          body: "Adeptus Astartes Jump Pack model only. The bearer’s melee weapons have the [Anti-Chaos 5+] and [Lance] abilities.",
+          body: "Adeptus Astartes Jump Pack model only. The bearer’s melee weapons have the [ANTI-CHAOS 5+] and [LANCE] abilities.",
         },
         {
           name: "Gleaming Pinions",
@@ -469,7 +476,7 @@ const en = {
       rule: {
         name: "A Noble Death in Combat",
         flavor: "For the lost brothers of the Death Company one final battle remains. The sacrifice of each fallen warrior inspires his surviving brothers to ever greater acts of savage violence.",
-        body: "Each time a Death Company model from your army makes a melee attack, re-roll a Wound roll of 1 if that model’s unit is below its Starting Strength; if that model’s unit is Below Half-strength, you can re-roll the Wound roll instead.\n\nKEYWORDS\nIf you select this Detachment, Death Company Marines and Death Company Marines with Bolt Rifles units from your army have the BATTLELINE keyword.\n\nRESTRICTIONS\nYour army can include BLOOD ANGELS units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
+        body: "Each time a DEATH COMPANY model from your army makes a melee attack, re-roll a Wound roll of 1 if that model’s unit is below its Starting Strength; if that model’s unit is Below Half-strength, you can re-roll the Wound roll instead.\n\n**Keywords:** If you select this Detachment, DEATH COMPANY MARINES and DEATH COMPANY MARINES WITH BOLT RIFLES units from your army have the BATTLELINE keyword.\n\n**Restrictions:** Your army can include BLOOD ANGELS units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
       },
       stratagems: [
         {
@@ -512,8 +519,8 @@ const en = {
           turn: "either",
           flavor: "Even in death, the Lost bring victory to their Chapter.",
           when: "Any phase.",
-          target: "One Death Company unit from your army that was just destroyed while it was within range of an objective marker you controlled. You can use this Stratagem on that unit even though it was just destroyed.",
-          effect: "That objective marker remains under your control, even if you have no models within range of it, until your opponent controls it at the start or end of any turn.",
+          target: "One DEATH COMPANY unit from your army that was just destroyed while it was within range of an objective marker you controlled. You can use this Stratagem on that unit even though it was just destroyed.",
+          effect: "That objective marker remains under your control until your opponent's Level of Control over that objective marker is greater than yours at the end of a phase.",
           restrictions: "",
         },
         {
@@ -562,7 +569,7 @@ const en = {
           name: "Vengeful Onslaught",
           points: 10,
           flavor: "This Son of Sanguinius appears to the brothers of the Death Company as a paragon of their Primarchs martial prowess. Should he fall in battle, the vengeful fury of the Lost will be inflamed.",
-          body: "Death Company model only. It the bearer is destroyed, until the end of your next turn, each time a friendly DEATH COMPANY model makes an attack, add 1 to the 1 Hit roll.",
+          body: "DEATH COMPANY model only. If the bearer is destroyed, until the end of your next turn, each time a friendly DEATH COMPANY model makes an attack, add 1 to the Hit roll.",
         },
       ],
     },
@@ -599,9 +606,9 @@ const en = {
           cp: "1CP",
           turn: "opponent",
           flavor: "Nobility\u2019s mirror is a darkness that the greatest Blood Angels risk only momentarily to savagely exploit the foe\u2019s attempt to escape.",
-          when: "Your opponent\u2019s Movement phase, when an enemy unit is selected to make a Fall Back move, if that unit is engaged with a friendly ADEPTUS ASTARTES CHARACTER unit.",
+          when: "Your opponent\u2019s Movement phase, when an enemy unit is selected to make a fall-back move, if that unit is engaged with a friendly ADEPTUS ASTARTES CHARACTER unit.",
           target: "That ADEPTUS ASTARTES CHARACTER unit.",
-          effect: "When an enemy unit engaged with your unit is selected to make a Fall Back move, that enemy unit must use the Desperate Escape mode, subtracting 1 from those Desperate Escape tests if that enemy unit is Battle-shocked.",
+          effect: "When an enemy unit engaged with your unit is selected to make a fall-back move, that enemy unit must use the Desperate Escape mode, with -1 to those hazard rolls if that enemy unit is Battle-shocked.",
           restrictions: "",
         },
         {
@@ -612,7 +619,7 @@ const en = {
           flavor: "The indomitable inspiration of their Commander fills the Sons of Sanguinius with the resolve to endure, no matter the foe\u2019s hateful power.",
           when: "Your opponent\u2019s Shooting phase, when an enemy unit targets a friendly ADEPTUS ASTARTES CHARACTER unit.",
           target: "That CHARACTER unit.",
-          effect: "Your unit has a 5+ invulnerable save.",
+          effect: "Your unit has 5+ InSv.",
           restrictions: "",
         },
       ],
@@ -641,7 +648,7 @@ const en = {
       rule: {
         name: "Wrath of Angels",
         flavor: "Few living warriors embody the ideal of the Emperor\u2019s wrathful angels more than the Sanguinary Guard, for they appear without warning to wreak death and destruction before surging on to the next foe with shocking speed.",
-        body: "When a friendly SANGUINARY GUARD unit is selected to make a Fall Back move, that move does not prevent that unit from being eligible to shoot or eligible to declare a charge.\n\n**Restrictions:** Your army can include BLOOD ANGELS units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
+        body: "When a friendly SANGUINARY GUARD unit is selected to make a fall-back move, that move does not prevent that unit from being eligible to shoot/eligible to declare a charge.\n\n**Restrictions:** Your army can include BLOOD ANGELS units, but it cannot include any ADEPTUS ASTARTES units drawn from any other Chapter.",
       },
       stratagems: [
         {
@@ -661,9 +668,9 @@ const en = {
           cp: "1CP",
           turn: "opponent",
           flavor: "Ever reaching for the heights of exemplary valour instilled in their forebears by Sanguinius, the golden host seize every opportunity to claim positions from which to strike anew.",
-          when: "Your opponent\u2019s Movement phase, when an enemy unit that was engaged with a friendly SANGUINARY GUARD unit ends a Fall Back move, if that SANGUINARY GUARD unit is unengaged.",
+          when: "Your opponent\u2019s Movement phase, when an enemy unit that was engaged with a friendly SANGUINARY GUARD unit ends a fall-back move, if that SANGUINARY GUARD unit is unengaged.",
           target: "That SANGUINARY GUARD unit.",
-          effect: "Your unit can make a Normal move of up to D3+3\".",
+          effect: "Your unit can make a normal move of up to D3+3\".",
           restrictions: "",
         },
         {
@@ -689,7 +696,7 @@ const en = {
           name: "Shadow of Abomination",
           points: 25,
           flavor: "Granted a glimmer of foresight by his genetic inheritance, this Son of Sanguinius has identified a foe whose future is drenched in the blood of the Imperium. Such an enemy cannot be allowed to live.",
-          body: "ADEPTUS ASTARTES JUMP PACK model only. (Once per battle, per army) When this unit is selected to fight you can use this ability. If you do, this model\u2019s melee attacks have +1 Damage.",
+          body: "ADEPTUS ASTARTES JUMP PACK model only. (Once per battle, per army) When this unit is selected to fight you can use this ability. If you do, this model\u2019s melee attacks have +1 D.",
         },
       ],
     },
@@ -724,7 +731,7 @@ const en = {
           cp: "1CP",
           turn: "your",
           flavor: "Knowing in what remains of his mind that his is a sorrow-filled mission of galactic consequence, this ancient interred warrior permits nothing to stand in his way.",
-          when: "Your Movement or your Charge phase, when a friendly DEATH COMPANY DREADNOUGHT unit is selected to make a Normal, Advance or Charge move.",
+          when: "Your Movement or your Charge phase, when a friendly DEATH COMPANY DREADNOUGHT unit is selected to make a normal/advance/charge move.",
           target: "That DEATH COMPANY DREADNOUGHT unit.",
           effect: "Your unit has MOBILE.",
           restrictions: "",
@@ -746,13 +753,13 @@ const en = {
           name: "Instinctive Interception",
           points: 10,
           flavor: "Proudly is Sanguinius remembered for his rapid intercession in the protection of his gene-sons. Driven on by deathly visions, this lost warrior is a tragic monument to such glory.",
-          body: "DEATH COMPANY model only. When you target this unit with the Heroic Intervention Stratagem, that use is -1CP.",
+          body: "DEATH COMPANY model only. When you target this unit with the Heroic Intervention Stratagem, that use is -1 CP.",
         },
         {
           name: "On the Archtraitor's Bridge",
           points: 20,
           flavor: "Lost to a memory shard of the Primarch, in this warrior\u2019s mind, he has entered the Archtraitor\u2019s sanctum, and all that stands between him and Horus is a host of massing traitors.",
-          body: "DEATH COMPANY model only. This model\u2019s melee attacks have +2 Attacks.",
+          body: "DEATH COMPANY model only. This model\u2019s melee attacks have +2 A.",
         },
       ],
     },

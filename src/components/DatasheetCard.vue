@@ -15,7 +15,7 @@
             <span v-if="i === 0" class="ds-stat-label">{{ s.label }}</span>
             <span class="ds-stat-box">{{ s.value }}</span>
           </div>
-          <span v-if="sheet.profiles.length > 1" class="ds-prof-name">{{ p.name }}<span v-if="p.baseSize" class="ds-base"> ({{ fmtBase(p.baseSize) }})</span></span>
+          <span v-if="sheet.profiles.length > 1" class="ds-prof-name">{{ p.name }} <span v-if="p.baseSize" class="ds-base">({{ fmtBase(p.baseSize) }})</span></span>
           <template v-if="p.inv">
             <div class="ds-stat ds-inv-box">
               <span class="ds-stat-box">{{ p.inv }}{{ p.invNote ? '*' : '' }}</span>
@@ -83,7 +83,7 @@
             <h5 v-else class="ds-group-title">{{ labels.dsAbilities }}</h5>
           </template>
           <div v-for="a in sheet.abilities" :key="a.name" class="ds-ability">
-            <strong>{{ a.name }}:</strong> <span v-html="dsText(a.text)"></span>
+            <strong>{{ a.name }}:</strong> <span v-html="dsRichText(a.text)"></span>
           </div>
         </DsAccordion>
       </div>
@@ -97,7 +97,7 @@
             <h5 v-else class="ds-group-title">{{ labels.dsWargearAbilities }}</h5>
           </template>
           <div v-for="a in sheet.wargearAbilities" :key="a.name" class="ds-ability">
-            <strong>{{ a.name }}:</strong> <span v-html="dsText(a.text)"></span>
+            <strong>{{ a.name }}:</strong> <span v-html="dsRichText(a.text)"></span>
           </div>
         </DsAccordion>
       </div>
@@ -111,7 +111,7 @@
             <h5 v-else class="ds-group-title">{{ labels.dsSpecialAbilities }}</h5>
           </template>
           <div v-for="a in sheet.specialAbilities" :key="a.name" class="ds-ability">
-            <strong>{{ a.name }}:</strong> <span v-html="dsText(a.text)"></span>
+            <strong>{{ a.name }}:</strong> <span v-html="dsRichText(a.text)"></span>
           </div>
         </DsAccordion>
       </div>
@@ -127,7 +127,7 @@
             <h5 v-else class="ds-group-title">{{ set.name }}</h5>
           </template>
           <div v-for="a in set.options" :key="a.name" class="ds-ability">
-            <strong>{{ a.name }}:</strong> <span v-html="dsText(a.text)"></span>
+            <strong>{{ a.name }}:</strong> <span v-html="dsRichText(a.text)"></span>
           </div>
         </DsAccordion>
       </div>
@@ -141,7 +141,7 @@
             <h5 v-else class="ds-group-title">{{ r.name }}</h5>
           </template>
           <div class="ds-ability">
-            <span v-html="dsText(r.text)"></span>
+            <span v-html="dsRichText(r.text)"></span>
           </div>
         </DsAccordion>
       </div>
@@ -154,7 +154,7 @@
             </button>
             <strong v-else>{{ labels.dsDamaged }}: {{ sheet.damaged.note }}</strong>
           </template>
-          <div v-html="dsText(sheet.damaged.text)"></div>
+          <div v-html="dsRichText(sheet.damaged.text)"></div>
         </DsAccordion>
       </div>
     </div>
@@ -169,7 +169,7 @@
           </button>
           <h5 v-else class="ds-group-title">{{ labels.dsTransport }}</h5>
         </template>
-        <div v-html="dsText(sheet.transport)"></div>
+        <div v-html="dsRichText(sheet.transport)"></div>
       </DsAccordion>
     </div>
     <div v-if="sheet.leader" class="ds-ability-group">
@@ -182,14 +182,14 @@
           <h5 v-else class="ds-group-title">{{ leaderGroupLabel }}</h5>
         </template>
         <div class="ds-ability">
-          <div v-html="dsText(sheet.leader.text)"></div>
+          <div v-html="dsRichText(sheet.leader.text)"></div>
           <ul class="ds-list">
-            <li v-for="u in sheet.leader.units" :key="u">
+            <li v-for="u in visibleLeaderUnits" :key="u">
               <RouterLink v-if="unitIndex?.get(u)" :to="`/factions/${factionSlug}/datasheets/${unitIndex.get(u)}`">{{ u }}</RouterLink>
               <template v-else>{{ u }}</template>
             </li>
           </ul>
-          <div v-if="sheet.leader.footer" v-html="dsText(sheet.leader.footer)"></div>
+          <div v-if="sheet.leader.footer" v-html="dsRichText(sheet.leader.footer)"></div>
         </div>
       </DsAccordion>
     </div>
@@ -234,13 +234,15 @@
         <template v-for="(g, gi) in keywordGroups" :key="gi">
           <template v-if="gi">{{ ' |' }}</template>
           <template v-if="g.model">{{ ' ' + g.model + ' -' }}</template>
-          <template v-for="(k, i) in g.list" :key="k">{{ i ? ', ' : ' ' }}<span class="ds-kw">{{ k }}</span></template>
+          <template v-for="(k, i) in g.list" :key="k">{{ i ? ', ' : ' ' }}<span class="ds-kw" :class="{ 'ds-kw-link': keywordLinksEnabled }" @click="keywordLinksEnabled && $emit('keyword-click', k)">{{ k }}</span></template>
         </template>
+        <template v-for="g in extraKeywords" :key="'g:' + g.kw">{{ ', ' }}<span class="ds-kw" :class="{ 'ds-kw-link': keywordLinksEnabled }" @click="keywordLinksEnabled && $emit('keyword-click', g.kw)">{{ g.kw }}</span><sup class="ds-kw-star" aria-hidden="true">*</sup></template>
       </div>
       <div>
         <strong>{{ labels.dsFactionKeywords }}:</strong>
         <template v-for="(k, i) in sheet.factionKeywords" :key="k">{{ i ? ', ' : ' ' }}<span class="ds-kw">{{ k }}</span></template>
       </div>
+      <p v-for="n in extraKeywordNotes" :key="n.note" class="ds-kw-footnote">* {{ n.kws.join(', ') }} — {{ n.note }}</p>
     </div>
 
     <!-- Points: unit sizes × MFM copy tiers (1st-2nd / 3rd+ copy of this datasheet).
@@ -291,10 +293,45 @@ const props = defineProps({
   // shows its points). The standalone datasheet page never sets this — full page, nothing to
   // save space on, so everything renders exactly as it always has.
   collapsible: { type: Boolean, default: false },
+  // Keywords this unit GAINS from an army/detachment rule rather than having printed on its
+  // sheet (e.g. Deathwing/Ravenwing via Dark Angels' The Unforgiven, or Battleline granted by a
+  // detachment) — computed by the caller from the active army choice and merged into the keyword
+  // line here, each flagged with a `*` and a footnote naming its source (see extraKeywordNotes
+  // below) so it still reads as printed-card-accurate at a glance but a curious reader can tell
+  // it's a rule grant, not ink on the card. Optional, so callers without a faction/detachment
+  // context just render the printed keywords as before.
+  // Shape: [{ kw: 'Shadow Legion', detName: 'Shadow Legion' | null, extra?: boolean }] — `detName`
+  // is the active detachment's display name when the grant is gated on one, or null for a
+  // roster-wide/Chapter grant that applies regardless of detachment. `extra: true` means the
+  // grant ALSO depends on something beyond the detachment/faction context (currently always a
+  // Warlord requirement) that isn't itself modelled — the footnote adds a caveat instead of
+  // implying that context is the whole story.
+  grantedKeywords: { type: Array, default: () => [] },
+  // Leader/Attached-unit bodyguard-unit names to hide from `sheet.leader.units` entirely,
+  // rather than render as a dead (unlinked) name — used for a name that resolves to a REAL
+  // datasheet, just on a different faction's page (e.g. Dark Angels' shared "Ancient in
+  // Terminator Armour" can attach to Deathwatch's own "Deathwatch Terminator Squad" via that
+  // squad's own ATTACHED UNIT rule, but navigation is always within one faction's context, and
+  // that target was never a valid attachment while THIS faction's army is what you're building —
+  // see the raw ability text for the full, faction-agnostic list). A name with no datasheet
+  // anywhere (a stale/Legends reference in the source rule text) is left as plain text, not
+  // hidden — there's nothing to disambiguate there, it's just not a link target.
+  otherFactionUnits: { type: Array, default: () => [] },
+  // Whether printed/granted keywords open the "units with this keyword" modal. Off by default
+  // for callers with no per-unit route to link to (Combat Patrol's fixed roster renders every
+  // unit inline on one page, not as separate routed datasheets) — keywords there just stay
+  // plain, non-interactive text instead of looking clickable and doing nothing.
+  keywordLinksEnabled: { type: Boolean, default: false },
 })
+// Printed/granted keyword clicked (e.g. "Infantry") — the caller owns finding which other
+// units share it and opening a modal; DatasheetCard has no access to the rest of the
+// faction's roster. Faction keywords (ORKS, ADEPTUS ASTARTES…) deliberately stay plain text:
+// virtually every unit on the page shares those, so a "units with this keyword" list would
+// just be the whole roster.
+defineEmits(['keyword-click'])
 
 const { locale } = useLocale()
-const { renderInline } = useRenderInline()
+const { renderInline, renderRichText } = useRenderInline()
 const labels = computed(() => ui[locale.value])
 const fmtBase = (raw) => formatBaseSize(raw, labels.value)
 
@@ -309,12 +346,50 @@ const leaderGroupLabel = computed(() =>
   /\bSupport\b/.test(props.sheet.core || '') ? labels.value.dsSupport : labels.value.dsLeader,
 )
 
+// See the otherFactionUnits prop doc above — drop those names entirely rather than list a
+// bodyguard target the current faction's army could never actually take.
+const visibleLeaderUnits = computed(() => {
+  const hidden = new Set(props.otherFactionUnits)
+  return (props.sheet.leader?.units || []).filter((u) => !hidden.has(u))
+})
+
 // Per-model keyword split (e.g. The Silent King: keywords shared by every model in the
 // unit vs ones that only apply to a specific named model) — sheet.keywordsByModel is
 // [{ model, list }]; falls back to a single unlabelled group for the common flat-array case.
 const keywordGroups = computed(() =>
   props.sheet.keywordsByModel ? props.sheet.keywordsByModel : [{ model: null, list: props.sheet.keywords || [] }],
 )
+
+// Rule-granted keywords (grantedKeywords prop) appended after the printed ones, minus any the
+// sheet already prints in any model group — so a grant never doubles a printed keyword.
+const extraKeywords = computed(() => {
+  const printed = new Set(keywordGroups.value.flatMap((g) => g.list))
+  return props.grantedKeywords.filter((g) => !printed.has(g.kw))
+})
+
+// One footnote line per distinct source (usually just one — either "this faction's own rules"
+// for every roster-wide grant, or the single currently-active detachment for every gated one —
+// but a unit could carry both kinds at once), grouping every keyword that shares it so e.g.
+// Deathwing/Ravenwing (both roster-wide, no detachment) collapse into a single line instead of
+// repeating the same source sentence twice.
+const extraKeywordNotes = computed(() => {
+  const groups = new Map()
+  for (const g of extraKeywords.value) {
+    let note = g.detName
+      ? labels.value.dsKeywordGrantedByDetachment.replace('{det}', g.detName)
+      : labels.value.dsKeywordGrantedByFaction
+    // A grant can depend on more than just the detachment/faction context shown above (currently
+    // always a Warlord requirement — see gen-conditional-keywords.mjs's header comment) — say so
+    // rather than implying that context alone is the whole condition. Folded into the same
+    // string (not a separate flag on the group) so an `extra` grant never silently merges with a
+    // plain one that happens to share the same base sentence.
+    if (g.extra) note += ' ' + labels.value.dsKeywordExtraCondition
+    const kws = groups.get(note) || []
+    kws.push(g.kw)
+    groups.set(note, kws)
+  }
+  return [...groups.entries()].map(([note, kws]) => ({ note, kws }))
+})
 
 const rangedRows = computed(() => withGroupPos(props.sheet.ranged))
 const meleeRows = computed(() => withGroupPos(props.sheet.melee))
@@ -378,10 +453,23 @@ const factionKwRegex = computed(() => {
   return kws.length ? new RegExp(`\\[[^\\]]*\\]|\\*\\*.*?\\*\\*|\\b(${kws.join('|')})\\b`, 'g') : null
 })
 
-function dsText(text) {
+function markFactionKw(text) {
   const re = factionKwRegex.value
-  const marked = re ? text.replace(re, (m, kw) => (kw ? `**${kw}**` : m)) : text
-  return renderInline(marked)
+  return re ? text.replace(re, (m, kw) => (kw ? `**${kw}**` : m)) : text
+}
+
+function dsText(text) {
+  return renderInline(markFactionKw(text))
+}
+
+// Ability/rule bodies are transcribed with the same `▪ ` bullet-list convention as the core
+// rules body markup (see wh11ed/CLAUDE.md's body-markup table) but never went through RuleBody's
+// block parser — dsText() alone just inlined the literal "▪" characters and the `\n`s collapsed
+// under normal white-space, running every item onto one line. renderRichText renders real
+// <ul>/<ol> like RuleBody; markFactionKw bolds this sheet's faction keywords first, and the
+// generated lists reuse the sheet's existing `.ds-list` styling.
+function dsRichText(text) {
+  return renderRichText(text, { pre: markFactionKw, listClass: 'ds-list' })
 }
 
 function statCells(p) {
@@ -444,14 +532,14 @@ function statCells(p) {
   position: relative;
   isolation: isolate;
   display: block;
-  min-width: 3rem;
+  min-width: 3.1rem;
   text-align: center;
   background: var(--border);
   clip-path: polygon(7px 0, 100% 0, 100% calc(100% - 7px), calc(100% - 7px) 100%, 0 100%, 0 7px);
   padding: 0.28rem 0.3rem;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 1.55rem;
+  font-size: 1.65rem;
   line-height: 1.1;
   color: var(--text-primary);
 }
@@ -517,8 +605,8 @@ function statCells(p) {
 
 @media (max-width: 480px) {
   .ds-stat-box {
-    min-width: 2.55rem;
-    font-size: 1.3rem;
+    min-width: 2.7rem;
+    font-size: 1.4rem;
     padding: 0.24rem;
     clip-path: polygon(5px 0, 100% 0, 100% calc(100% - 5px), calc(100% - 5px) 100%, 0 100%, 0 5px);
   }
@@ -624,6 +712,14 @@ function statCells(p) {
 }
 .ds-weapons .wname { text-align: left; white-space: normal; min-width: 10rem; }
 .wtag { font-size: 0.72rem; }
+/* Weapon ability badges ([DEVASTATING WOUNDS]…) — the shared .keyword class (style.css)
+   sizes itself in `em`, so nested in .wtag's already-small 0.72rem it rendered near-illegible
+   (~9px) and the letters ran together. Pin it to a fixed, readable size instead of letting it
+   compound with the ancestor font-size. */
+.wtag :deep(.keyword) {
+  font-size: 0.74rem;
+  letter-spacing: 0.2px;
+}
 
 /* Multi-profile weapons (Wahapedia-style): each profile row carries an accent arrow-pennant
    before the name, and all rows of one weapon share a faint faction-accent background so the
@@ -646,18 +742,27 @@ function statCells(p) {
 /* Very narrow phones (≤480px): placed after the base .ds-card/.ds-cardhead/.ds-points/
    .ds-weapons rules above so it wins the cascade at equal specificity (a same-specificity
    override defined earlier in the file, e.g. inside the .ds-stat-box media block, loses to
-   these later unconditional rules regardless of the media query matching). The card's own
-   1rem gutter stacks on top of .main-content's — shrink it here, re-bleed the header/points
-   bands (their negative margins key off this padding), and tighten the weapon/points tables,
-   which otherwise have no responsive treatment at all: .wname's 10rem floor plus nowrap on
-   every other cell forces horizontal scroll well before this. */
+   these later unconditional rules regardless of the media query matching). The card bleeds
+   past .main-content's own gutter to the true viewport edge (same 100vw trick as
+   FactionPickerBar's .fpb) and loses its rounding — a full-bleed native-feeling section
+   flush under the header, not a floating card with two stacked gutters. Its own small
+   0.4rem padding is what's left to keep content off the screen edge; the header/points
+   bands re-bleed to the CARD's edge (their negative margins key off that 0.4rem), and
+   tighten the weapon/points tables, which otherwise have no responsive treatment at all:
+   .wname's 10rem floor plus nowrap on every other cell forces horizontal scroll well
+   before this. */
 @media (max-width: 480px) {
-  .ds-card { padding: 0.9rem 0.4rem 0.6rem; }
+  .ds-card {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    padding: 0.9rem 0.4rem 0.6rem;
+    border-radius: 0;
+  }
   .ds-cardhead { margin: -0.9rem -0.4rem 0.8rem; padding: 0.75rem 0.4rem 0.7rem; }
   .ds-points { margin: 0.8rem -0.4rem -0.6rem; padding: 0.55rem 0.4rem 0.75rem; }
 
-  /* Bleed the weapon table to the card's edges too, like .ds-cardhead/.ds-points —
-     square corners since it's no longer inset, not floating mid-card. */
+  /* Bleed the weapon table to the card's edges too, same as .ds-cardhead/.ds-points above —
+     the gutter comes from the cells' own padding, not from staying inset. */
   .ds-weapons {
     margin-left: -0.4rem;
     margin-right: -0.4rem;
@@ -666,19 +771,41 @@ function statCells(p) {
   .ds-weapons th:last-child {
     border-radius: 0;
   }
-  .ds-weapons table,
-  .ds-points table {
-    font-size: 0.68rem;
+  /* One uniform body font for every cell — name and stats alike — bumped up from the old
+     0.68rem. The extra room for the stats comes from the narrower .wname floor below (the
+     name wraps), NOT from a bigger font on the stat columns only, which read as ragged
+     mismatched sizes within one table. */
+  .ds-weapons table {
+    font-size: 0.82rem;
   }
+  .ds-points table {
+    font-size: 0.72rem;
+  }
+  /* Wider horizontal cell padding than the ≤480 default so the stat columns claim a bit
+     more of the table's width (auto layout: a column's used width includes its padding,
+     so more padding = wider stat columns, drawn from the slack the wrapping name column
+     would otherwise absorb). */
   .ds-weapons th,
   .ds-weapons td {
-    padding: 0.18rem 0.1rem;
+    padding: 0.2rem 0.28rem;
   }
+  /* The table bleeds edge-to-edge, so the first/last columns' content would otherwise sit
+     flush against the screen edge — inset just those two so the text clears the edge while
+     the header band still spans full width. */
+  .ds-weapons th:first-child,
+  .ds-weapons td:first-child {
+    padding-left: 0.5rem;
+  }
+  .ds-weapons th:last-child,
+  .ds-weapons td:last-child {
+    padding-right: 0.5rem;
+  }
+  /* Header labels stay a single small uppercase size across all columns. */
   .ds-weapons th {
-    font-size: 0.54rem;
+    font-size: 0.56rem;
   }
   .ds-weapons .wname {
-    min-width: 4.5rem;
+    min-width: 4rem;
   }
   .ds-points th,
   .ds-points td {
@@ -690,6 +817,12 @@ function statCells(p) {
 .ds-abilities { font-size: 0.85rem; line-height: 1.5; color: var(--text-primary); }
 .ds-faction-rule { font-weight: 600; }
 .ds-ability-line { margin-bottom: 0.3rem; }
+/* Core-ability badges (Deep Strike, Leader…) — same fixed-size fix as .wtag's .keyword
+   above, so they read clearly instead of the shared class's default em-scaled size. */
+.ds-ability-line .keyword {
+  font-size: 0.76rem;
+  letter-spacing: 0.2px;
+}
 .ds-ability { margin-bottom: 0.45rem; }
 .ds-group-title {
   font-size: 0.68rem;
@@ -793,6 +926,31 @@ function statCells(p) {
   font-weight: 600;
   text-transform: uppercase;
   color: var(--text-primary);
+}
+
+/* Printed/granted unit keywords open a "units with this keyword" modal — signal it the same
+   quiet way .def-link does (dotted underline, no pill/background) rather than a stronger
+   treatment that would fight the plain-printed-card look of the rest of the Keywords line. */
+.ds-kw-link {
+  cursor: pointer;
+  text-decoration: underline dotted;
+  text-underline-offset: 2px;
+}
+
+.ds-kw-link:hover {
+  color: var(--link-accent-hover);
+}
+
+.ds-kw-star {
+  color: var(--accent);
+  margin-left: 1px;
+}
+
+.ds-kw-footnote {
+  margin: 0.2rem 0 0;
+  font-size: 0.72rem;
+  font-style: italic;
+  color: var(--text-muted);
 }
 
 </style>

@@ -42,7 +42,10 @@ function dismiss() {
 /* Icon/close float so the two text lines wrap around them instead of each reserving
    a full-height column (which left an awkward gap next to the short icon glyph). */
 .domain-banner {
-  padding: 0.6rem 1rem;
+  /* Sits before the sticky navbar, which pads itself by --safe-top to clear the iOS
+     status bar/notch (viewport-fit=cover). Do the same here, or on an installed PWA this
+     content renders under the status bar icons instead of below them. */
+  padding: calc(0.6rem + var(--safe-top)) 1rem 0.6rem;
   background: color-mix(in srgb, var(--accent) 12%, var(--bg-insert));
   border-bottom: 1px solid var(--accent);
   color: var(--text-on-dark);

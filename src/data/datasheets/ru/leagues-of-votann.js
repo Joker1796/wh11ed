@@ -34,7 +34,7 @@ export default {
       'Break the Foe':
         'Оружие ближнего боя моделей юнита этой модели имеет способность [SUSTAINED HITS 1].',
       'Relentless Avalanche':
-        'Вы можете выбрать юнит этой модели целью стратагемы Heroic Intervention за 0 CP и можете сделать это, даже если вы уже выбирали целью этой стратагемы другой юнит в этой фазе.',
+        'Вы можете выбрать этот юнит целью стратагемы Heroic Intervention независимо от любых других применений этой стратагемы в этой фазе. Если вы это делаете:\n▪ Это применение стоит на 1 CP дешевле.\n▪ Это применение не мешает применять эту стратагему на других юнитах в этой фазе.',
     },
     leader: { text: LEADER_TEXT },
     loadout: '**Эта модель вооружена:** Kromlôk’s Revenge; Warforge Gauntlets.',
@@ -72,6 +72,8 @@ export default {
   },
 
   'buri-aegnirssen': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Бури Эгнирссен'],
     flavor:
       'Buri Aegnirssen врывается во врага с яростной безоглядностью того, кому нечего терять. Взмахами своего универсального darkstar glaive по имени Bane этот заядлый выживший прорубает кровавый путь сквозь врага. Даже самой чудовищной добыче не уклониться от исполинского размаха мести Трижды-пожранного.',
     abilities: {
@@ -212,7 +214,7 @@ export default {
     transport:
       'Эта модель имеет вместимость транспорта 14 моделей Leagues of Votann Infantry. Каждая модель Exoarmour, Exoframe или Ironkin Steeljacks занимает место 2 моделей. Она не может перевозить модели Artillery.',
     loadout:
-      '**Эта модель вооружена:** cyclic ion cannon; MATR autocannon; 2 twin bolt cannons; armoured wheels; pan spectral scanner.',
+      '**Эта модель вооружена:** cyclic ion cannon; MATR autocannon; 2 twin bolt cannons; armoured wheels; Panspectral Scanner.',
     options: [
       '2 twin bolt cannons этой модели можно заменить на одно из следующего:\n▪ 1 twin bolt cannon и 1 twin ion beamer\n▪ 2 twin ion beamers',
       'cyclic ion cannon этой модели можно заменить на одно из следующего:\n▪ 1 SP heavy conversion beamer\n▪ 1 heavy magna-rail cannon',

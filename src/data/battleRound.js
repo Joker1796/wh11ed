@@ -28,16 +28,16 @@ export const battleRound = {
         title: 'Player Turns',
         body: `Both players now take one turn each. The same player always takes the first turn in each battle round – the mission you are playing will tell you which player this is. Once that player's turn has ended, their opponent takes their turn.
 
-Each turn consists of seven parts: first the Start of Turn step, then a series of five phases resolved in the order shown below, then the End of Turn step.
-
-### Turn Structure
-[img:/images/turn/START-OF-TURN-STEP.png|Phase icon: Start of Turn Step]
-[img:/images/turn/COMMAND-PHASE.png|Phase icon: Command Phase]
-[img:/images/turn/MOVEMENT-PHASE.png|Phase icon: Movement Phase]
-[img:/images/turn/SHOOTING-PHASE.png|Phase icon: Shooting Phase]
-[img:/images/turn/CHARGE-PHASE.png|Phase icon: Charge Phase]
-[img:/images/turn/FIGHT-PHASE.png|Phase icon: Fight Phase]
-[img:/images/turn/END-OF-TURN-STEP.png|Phase icon: End of Turn Step]`,
+Each turn consists of seven parts: first the Start of Turn step, then a series of five phases resolved in the order shown below, then the End of Turn step.`,
+        steps: [
+          { icon: 'turn-step', title: 'START OF TURN STEP', desc: 'Rules that are triggered at the start of a turn are resolved now.' },
+          { icon: 'command', title: 'COMMAND PHASE', desc: 'You marshal strategic resources and check your units’ morale.' },
+          { icon: 'movement', title: 'MOVEMENT PHASE', desc: 'Your units move across the battlefield and strategic reserves arrive.' },
+          { icon: 'shooting', title: 'SHOOTING PHASE', desc: 'Your units make attacks with their ranged weapons.' },
+          { icon: 'charge', title: 'CHARGE PHASE', desc: 'Your units make charge moves to engage the enemy.' },
+          { icon: 'fight', title: 'FIGHT PHASE', desc: 'Both players’ units make attacks with their melee weapons.' },
+          { icon: 'turn-step', title: 'END OF TURN STEP', desc: 'Rules that are triggered at the end of a turn are resolved now, in the following order:\n1. First resolve rules triggered at this point other than mission rules.\n2. Both players then consult their mission; if one or both players have achieved any aspects of their mission that are triggered at this point, resolve them now.' },
+        ],
         example: `Player A won the roll-off and chose to take the first turn. In Battle Round 1, Player A completes their entire turn (Command → Movement → Shooting → Charge → Fight), then Player B takes theirs. In Battle Round 2, Player A again goes first — the order never changes mid-game.`,
         children: [
           {
@@ -121,13 +121,26 @@ The battle round then ends and, unless the battle ends, the next battle round st
 ▪ That unit is currently battle-shocked.
 ▪ That unit is at, or below, **[gloss:half-strength:half-strength]**.
 
-If a unit was battle-shocked at the start of this step and its **battle-shock roll** during this step succeeds, it is no longer battle-shocked.
+If a unit was battle-shocked at the start of this step and its **battle-shock roll** during this step succeeds, it is no longer battle-shocked.`,
+        // Split out of `body` into 4 independent column items (one per image) — see
+        // splitSubsections()/splitBodyEntries() in columnChunks.js. One glued-together
+        // 4-image block was still too tall to balance well against its neighbours; letting
+        // each image move on its own gives the column balancer far more to work with.
+        splitBodies: [
+          `### Battle-shock Examples
+[img:/images/command/battle-shock-1-diagram.jpg|Battle shock example 1 — failed Battle Shock roll]
 
-[img:/images/command/battle-shock-examples.jpg|Battle shock example 1 — failed Battle Shock roll]
-[img:/images/command/battle-shock-examples-2.jpg|Battle shock example 2 — unit with Starting Strength]
-[img:/images/command/battle-shock-examples-3.jpg|Battle shock example 3 — multiple units in range]
-[img:/images/command/battle-shock-examples-4.jpg|Battle shock example 4 — OC reduction]
-`,
+This unit has a **starting strength** of 3 so is not at or **below half-strength**, but it is currently **battle-shocked**, so a **battle-shock roll** must be made for it. If that roll succeeds, the unit will no longer be **battle-shocked**.`,
+          `[img:/images/command/battle-shock-2-diagram.jpg|Battle shock example 2 — unit with Starting Strength]
+
+This unit has a **starting strength** of 10. It has five models remaining, so it is **at half-strength** and a **battle-shock roll** must be made for it.`,
+          `[img:/images/command/battle-shock-3-diagram.jpg|Battle shock example 3 — multiple units in range]
+
+This unit has a **starting strength** of 5. It has two models remaining, so it is **below half-strength** and a **battle-shock roll** must be made for it.`,
+          `[img:/images/command/battle-shock-4-diagram.jpg|Battle shock example 4 — OC reduction]
+
+This VEHICLE has a **starting strength** of 1 and a **W** characteristic of 11. It has 3 wounds remaining, so it is **below half-strength** and a **battle-shock roll** must be made for it.`,
+        ],
         seeAlso: ['Battle-Shock Rolls 01.07', 'Half-strength 24.00', 'Multiple Battle-Shock Rolls 24.00'],
         children: [
           {
@@ -282,6 +295,18 @@ Many **move types** state conditions you must meet while/after moving. Those tha
 ▪ Until the end of the turn, unless otherwise stated, your unit is not **eligible to declare a charge** or **start an action**.
 ▪ **Desperate Escape:** If your unit is not **battle-shocked**, you must make a **battle-shock roll** for your unit (01.07).`,
         note: '**SELECTING MODES**\nSome rules instruct you to select a mode, such as **fall-back moves** (09.07). Modes are mutually exclusive, and you must assess each one in the order presented. When making a move, if your unit does not meet the conditions of any of the modes, it cannot make that move.\n\nSometimes a mode will be mandatory if applicable (e.g. **consolidation modes** (12.08)), but in the case of **fall-back moves**, **ordered retreat** is not mandatory, so you could select **desperate escape** instead.\n\nMany **move types** state conditions you must meet while/after moving. Those that are labelled with a mode name only apply if you selected that mode; those not labelled with a mode name always apply.',
+        children: [
+          {
+            id: 'section-09-07-01',
+            sectionNum: '09.07.01',
+            title: 'Desperate Escape Test',
+            fromApp: true,
+            body: `Some rules may reference the term 'Desperate Escape test'. In all instances this means the **hazard rolls** made for the **desperate escape** mode of a **fall-back move**.
+
+Abilities that subtract from a unit's Desperate Escape test instead subtract from those **hazard rolls**.`,
+            example: `A **battle-shocked** unit makes a **fall-back move** away from a unit of Bloodletters that have the Bane of Cowards ability. As a result of Bane of Cowards, because the unit making the **fall-back move** is **battle-shocked**, the **hazard rolls** they make as part of their **desperate escape** will be at -1.`,
+          },
+        ],
       },
     ],
   },
@@ -460,7 +485,13 @@ A unit is **[gloss:eligible-to-shoot:eligible to shoot]** if it is on the battle
 ▪ Your unit cannot be **engaged** with one or more enemy units that are not **charge targets**.
 ▪ Until the end of the turn, each model in your unit has the **[gloss:fights-first:Fights First]** ability (24.13).
 
-[img:/images/charge/making-a-charge-move.jpg|Making a charge move — valid and invalid examples]`,
+[img:/images/charge/making-a-charge-move-diagram.jpg|Making a charge move — valid and invalid examples]
+
+The BLUE unit **(A)** declares a charge and the **charge roll** generates a **maximum distance** of 7". Unit **B** is within this distance, so can be selected as a **charge target**, but the BLUE unit would not be able to end its **charge move engaged** with this unit after moving around the intervening terrain features.
+
+Unit **C** is more than 7" from the charging unit, so it cannot be selected as a **charge target**, even though the charging unit could end its **charge move** within 2" of this unit.
+
+Units **D** and **E** are both within 7", so can be selected as **charge targets**. The charging unit can end its **charge move engaged** with all of its **charge targets**, so this move can be made.`,
       },
     ],
   },
@@ -489,7 +520,9 @@ A unit is **[gloss:eligible-to-shoot:eligible to shoot]** if it is on the battle
         title: 'Start of Fight Phase',
         body: `Rules that are triggered at the start of the Fight phase are resolved now.
 
-[img:/images/fight/start-of-fight-phase.jpg|Fight phase order — fights first and fights last]`,
+[img:/images/fight/start-of-fight-phase-diagram.jpg|Fight phase order — fights first and fights last]
+
+Because both **RED** units made **charge moves** this turn, they are both **Fights First** units this phase and are both eligible to make **pile-in moves**, even though the MONSTER is **unengaged** as it **destroyed** its **charge target** in the Charge phase using the Crushing Impact stratagem (15.06).`,
       },
       {
         id: 'section-12-02',
@@ -515,9 +548,16 @@ A unit is **[gloss:eligible-to-shoot:eligible to shoot]** if it is on the battle
 ▪ Each model that is moved must end its move closer to the closest **pile-in target**, and **engaged** with it if possible.
 ◈ AFTER MOVING
 ▪ Your unit must be **engaged**.
-▪ Each model that started this move **engaged** with an enemy unit must still be **engaged** with that enemy unit.
+▪ Each model that started this move **engaged** with an enemy unit must still be **engaged** with that enemy unit.`,
+        // The info-card (◈…) block alone already balances poorly against this section's
+        // neighbours once the image+examples+FAQs tail is glued to it — split the tail into
+        // its own column item, same recipe as 07.02/08.03. See splitSubsections() in
+        // columnChunks.js.
+        splitBody: `[img:/images/fight/pile-in-moves-diagram.jpg|Pile-in moves — engaging with enemy units]
 
-[img:/images/fight/pile-in-moves.jpg|Pile-in moves — engaging with enemy units]
+1. The **RED** player makes **pile-in moves** first. Each model moves up to 3".
+
+2. The **BLUE** player makes **pile-in moves** next, but as their model is in base-contact with enemy models, it is not moved.
 
 ### FAQs
 **Q:** If I have a rule that says my unit can move up to 6" when it makes a **pile-in move** or **consolidation move**, does this also change the **maximum distance** of those moves to 6"?
@@ -576,7 +616,13 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
         body: `◈ ELIGIBLE IF | Your unit is **engaged**.
 ◈ EFFECT | Your unit fights as described in Making Attacks (04).
 
-[img:/images/fight/normal-fight.jpg|Normal fight — eligible conditions]`,
+[img:/images/fight/normal-fight-diagram.jpg|Normal fight — eligible conditions]
+
+Players alternate selecting units to fight. **Fights First** units (**A** and **B**) must be selected before any other eligible units.
+
+1. The **RED** player selects their MONSTER to fight. It makes a **normal fight**, **destroying** the TRANSPORT.
+
+2. The embarked unit makes an **emergency disembark move**. After doing so, it is **unengaged**.`,
       },
       {
         id: 'section-12-06',
@@ -585,7 +631,11 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
         body: `◈ ELIGIBLE IF | Your unit is **unengaged**, or was **unengaged** at the start of the Fight step but became **engaged** during the Fight phase.
 ◈ EFFECT | Your unit can make one additional **pile-in move**, then fights as described in Making Attacks (04).
 
-[img:/images/fight/overrun-fight.jpg|Overrun fight — eligible conditions]`,
+[img:/images/fight/overrun-fight-diagram.jpg|Overrun fight — eligible conditions]
+
+3. The **BLUE** player has no **Fights First** units, so the **RED** player selects another **Fights First** unit. This unit is **unengaged**, but was **engaged** with the TRANSPORT at the start of the Fight step, so can make an **overrun fight**. It first makes a **pile-in move** to **engage** the unit that disembarked, then fights, **destroying** two enemy models.
+
+4. The **BLUE** player's unit fights back, but inflicts no damage.`,
         note: 'When a unit makes an **overrun fight**, its models can be moved such that enemy units that were unengaged become engaged. Such enemy units become **eligible to fight** this phase (and may even be able to fight next if they are [gloss:fights-first:Fights First] units).',
       },
       {
@@ -612,12 +662,23 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 ◈ AFTER MOVING
 ▪ **Ongoing Consolidation:** Each model that started this move **engaged** with an enemy unit must still be **engaged** with that enemy unit.
 ▪ **Engaging Consolidation:** Your unit must be **engaged** with all of the selected enemy units. If one or more enemy units **engaged** with your unit have not been **selected to fight** this phase, your opponent must select each of those units, one at a time; when each is selected, it becomes **eligible to fight** and is **selected to fight** (12.04).
-▪ **Objective Consolidation:** Your unit must be within range of the selected objective.
-
-[img:/images/fight/ongoing-consolidation.jpg|Engaging consolidation move diagram]
-
-[img:/images/fight/objective-consolidation.jpg|Objective consolidation move diagram]`,
+▪ **Objective Consolidation:** Your unit must be within range of the selected objective.`,
         note: '**NEW FOES TO FACE**\nWhile using the **engaging consolidation** mode, your unit can end its **consolidation move** **engaged** with enemy units that have not yet fought this phase. If so, each of those enemy units will have an opportunity to fight your unit, so think carefully about how aggressively you want to move your unit using this mode.',
+        // See splitSubsections()/splitBodyEntries() in columnChunks.js — same recipe as
+        // 12.03: split the image+examples tail off the info-card block so the column
+        // balancer can move it independently.
+        splitBodies: [
+          `### Ongoing Consolidation
+[img:/images/fight/ongoing-consolidation-diagram.jpg|Engaging consolidation move diagram]
+
+The **RED** player makes **consolidation moves** first. All **engaged** units and all units that were **eligible to fight** this phase can make a **consolidation move**.
+
+Each model moves up to 3". Models in base-contact with enemy models cannot be moved.`,
+          `### Objective Consolidation
+[img:/images/fight/objective-consolidation-diagram.jpg|Objective consolidation move diagram]
+
+No enemy units are within 3" of this MONSTER unit, but an **objective (C)** is within 3", so it moves within range of that **objective**.`,
+        ],
       },
       {
         id: 'section-12-09',
@@ -649,16 +710,16 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
         title: 'Ходы игроков',
         body: `Теперь оба игрока делают по одному ходу. Один и тот же игрок всегда делает первый ход в каждом раунде боя — миссия, по которой вы играете, подскажет вам, какой именно игрок. После того как ход этого игрока закончился, его оппонент делает свой ход.
 
-Каждый ход состоит из семи частей: сначала шаг «Начало хода»; затем серия из пяти фаз, отыгрываемых в порядке, показанном ниже, затем шаг «Конец хода».
-
-### Структура хода
-[img:/images/turn/start-of-turn-step-banner-ru.png|Шаг начала хода]
-[img:/images/turn/command-phase-banner-ru.png|Фаза командования]
-[img:/images/turn/movement-phase-banner-ru.png|Фаза движения]
-[img:/images/turn/shooting-phase-banner-ru.png|Фаза стрельбы]
-[img:/images/turn/charge-phase-banner-ru.png|Фаза нападения]
-[img:/images/turn/fight-phase-banner-ru.png|Фаза ближнего боя]
-[img:/images/turn/end-of-turn-step-banner-ru.png|Шаг конца хода]`,
+Каждый ход состоит из семи частей: сначала шаг «Начало хода»; затем серия из пяти фаз, отыгрываемых в порядке, показанном ниже, затем шаг «Конец хода».`,
+        steps: [
+          { icon: 'turn-step', title: 'ШАГ НАЧАЛА ХОДА', desc: 'Правила, срабатывающие в начале хода, выполняются сейчас.' },
+          { icon: 'command', title: 'ФАЗА КОМАНДОВАНИЯ', desc: 'Вы распоряжаетесь стратегическими ресурсами и проверяете боевой дух своих юнитов.' },
+          { icon: 'movement', title: 'ФАЗА ДВИЖЕНИЯ', desc: 'Ваши юниты перемещаются по полю боя, прибывают стратегические резервы.' },
+          { icon: 'shooting', title: 'ФАЗА СТРЕЛЬБЫ', desc: 'Ваши юниты атакуют дальнобойным оружием.' },
+          { icon: 'charge', title: 'ФАЗА НАПАДЕНИЯ', desc: 'Ваши юниты совершают нападения, чтобы вступить в ближний бой с врагом.' },
+          { icon: 'fight', title: 'ФАЗА БЛИЖНЕГО БОЯ', desc: 'Юниты обоих игроков атакуют оружием ближнего боя.' },
+          { icon: 'turn-step', title: 'ШАГ КОНЦА ХОДА', desc: 'Правила, срабатывающие в конце хода, выполняются сейчас, в следующем порядке:\n– Сначала разыграйте правила, срабатывающие в этот момент, кроме правил миссии.\n– Затем оба игрока сверяются с миссией; если один или оба игрока выполнили какие-либо аспекты своей миссии, срабатывающие в этот момент, разыграйте их сейчас.' },
+        ],
         example: `Игрок А выиграл кубовку и выбрал первый ход. В Раунде боя 1 Игрок А завершает свой полный ход (Командование → Движение → Стрельба → Нападение → Ближний бой), затем Игрок Б делает свой ход. В Раунде боя 2 Игрок А снова ходит первым — порядок не меняется на протяжении всей игры.`,
         children: [
           {
@@ -721,13 +782,22 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 ▪ Этот юнит в настоящее время подвержен **[gloss:battle-shocked:боевому шоку]**.
 ▪ Этот юнит находится на или ниже **[gloss:half-strength:половинной численности]**.
 
-Если юнит был подвержен **[gloss:battle-shocked:боевому шоку]** в начале этого шага и его проверка **[gloss:battle-shock-test:боевого шока]** во время этого шага успешна, он больше не подвержен **[gloss:battle-shocked:боевому шоку]**.
+Если юнит был подвержен **[gloss:battle-shocked:боевому шоку]** в начале этого шага и его проверка **[gloss:battle-shock-test:боевого шока]** во время этого шага успешна, он больше не подвержен **[gloss:battle-shocked:боевому шоку]**.`,
+        splitBodies: [
+          `### Примеры боевого шока
+[img:/images/command/battle-shock-1-diagram.jpg|Тест боевого шока, пример 1 — провал броска]
 
-[img:/images/command/battle-shock-examples-ru.jpg|Тест боевого шока, пример 1 — провал броска]
-[img:/images/command/battle-shock-examples-2-ru.jpg|Тест боевого шока, пример 2 — юнит с Starting Strength]
-[img:/images/command/battle-shock-examples-3-ru.jpg|Тест боевого шока, пример 3 — несколько юнитов]
-[img:/images/command/battle-shock-examples-4-ru.jpg|Тест боевого шока, пример 4 — снижение OC]
-`,
+Этот юнит имеет **начальную численность** 3, поэтому он не находится на или **ниже половинной численности**, но сейчас он **подвержен боевому шоку**, так что для него нужно выполнить **проверку боевого шока**. Если проверка успешна, юнит больше не будет **подвержен боевому шоку**.`,
+          `[img:/images/command/battle-shock-2-diagram.jpg|Тест боевого шока, пример 2 — юнит с Starting Strength]
+
+Этот юнит имеет **начальную численность** 10. Осталось пять моделей, поэтому он **на половинной численности**, и для него нужно выполнить **проверку боевого шока**.`,
+          `[img:/images/command/battle-shock-3-diagram.jpg|Тест боевого шока, пример 3 — несколько юнитов]
+
+Этот юнит имеет **начальную численность** 5. Осталось две модели, поэтому он **ниже половинной численности**, и для него нужно выполнить **проверку боевого шока**.`,
+          `[img:/images/command/battle-shock-4-diagram.jpg|Тест боевого шока, пример 4 — снижение OC]
+
+Эта модель VEHICLE имеет **начальную численность** 1 и характеристику **W** 11. У неё осталось 3 раны, поэтому она **ниже половинной численности**, и для неё нужно выполнить **проверку боевого шока**.`,
+        ],
         children: [
           {
             title: 'Несколько проверок боевого шока',
@@ -843,6 +913,15 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 ▪ До конца хода, если не указано иное, ваш юнит **не имеет права объявлять нападение** и **начинать [gloss:action:действие]**.
 ▪ **Отчаянный побег:** Если ваш юнит не подвержен **боевому шоку**, вы должны сделать **[gloss:battle-shock-test:проверку боевого шока]** для вашего юнита (01.07).`,
         note: '**ВЫБОР РЕЖИМОВ**\nНекоторые правила предписывают вам выбирать режим, например, [gloss:fall-back-move:для отступления] (09.07). Режимы взаимоисключающие, и вы должны оценивать каждый в представленном порядке. При совершении манёвра, если ваш юнит не соответствует условиям ни одного из режимов, он не может совершить этот манёвр.\n\nИногда режим является обязательным, если применим (например, [gloss:consolidation:режимы консолидации] (12.08)), но в [gloss:fall-back-move:случае отступления] [gloss:ordered-retreat:упорядоченное отступление] не является обязательным, поэтому вы можете вместо него выбрать [gloss:desperate-escape:отчаянный побег].\n\nМногие [gloss:move-type:типы манёвров] указывают условия, которые должны быть соблюдены во время/после манёвра. Те, которые помечены названием режима, применяются только если вы выбрали этот режим; те, которые не помечены названием режима, применяются всегда.',
+        children: [
+          {
+            title: 'Проверка отчаянного побега (Desperate Escape Test)',
+            body: `Некоторые правила могут ссылаться на термин «проверка отчаянного побега» (Desperate Escape test). Во всех случаях это означает **[gloss:hazard-roll:проверки опасности]**, совершаемые для режима **[gloss:desperate-escape:отчаянного побега]** при **[gloss:fall-back-move:отступлении]**.
+
+Способности, вычитающие значение из проверки отчаянного побега юнита, вместо этого вычитаются из этих **проверок опасности**.`,
+            example: `Юнит, подверженный **боевому шоку**, совершает **отступление**, отходя от юнита Bloodletters, обладающего способностью Bane of Cowards. Из-за Bane of Cowards, поскольку юнит, совершающий отступление, подвержен **боевому шоку**, **проверки опасности**, которые он делает в рамках отчаянного побега, будут иметь штраф -1.`,
+          },
+        ],
       },
     ],
   },
@@ -986,7 +1065,13 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 ▪ Ваш юнит **не может** быть **[gloss:engaged:в бою]** с вражескими юнитами, которые **не являются [gloss:charge-target:целями нападения]**.
 ▪ До конца хода каждая модель в вашем юните обладает способностью **[gloss:fights-first:«Первый удар»]** (24.13).
 
-[img:/images/charge/making-a-charge-move-ru.jpg|Ход нападения — допустимые и недопустимые примеры]`,
+[img:/images/charge/making-a-charge-move-diagram.jpg|Ход нападения — допустимые и недопустимые примеры]
+
+**Синий** юнит **(A)** объявляет нападение, и **бросок на нападение** даёт **максимальное расстояние** 7". Юнит **B** находится в пределах этого расстояния, поэтому может быть выбран **целью нападения**, но синий юнит не сможет завершить **манёвр нападения в бою** с этим юнитом, обойдя промежуточные элементы укрытий.
+
+Юнит **C** находится дальше 7" от нападающего юнита, поэтому не может быть выбран **целью нападения**, даже несмотря на то, что нападающий юнит мог бы завершить **манёвр нападения** в пределах 2" от этого юнита.
+
+Юниты **D** и **E** оба находятся в пределах 7", поэтому могут быть выбраны **целями нападения**. Нападающий юнит может завершить **манёвр нападения в бою** со всеми своими **целями нападения**, поэтому этот манёвр может быть совершён.`,
       },
     ],
   },
@@ -1009,7 +1094,9 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
         title: 'Начало фазы ближнего боя',
         body: `Правила, срабатывающие в начале фазы ближнего боя, отыгрываются сейчас.
 
-[img:/images/fight/start-of-fight-phase-ru.jpg|Порядок фазы боя — бьёт первым и бьёт последним]`,
+[img:/images/fight/start-of-fight-phase-diagram.jpg|Порядок фазы боя — бьёт первым и бьёт последним]
+
+Поскольку оба **красных** юнита совершили **манёвры нападения** в этом ходу, оба они являются юнитами с **[gloss:fights-first:«Первым ударом»]** в этой фазе и оба имеют право совершить **манёвры сближения**, даже несмотря на то, что MONSTER **не связан боем**, так как он **уничтожил** свою **цель нападения** в фазе нападения с помощью стратагемы «Сокрушительный удар» (Crushing Impact, 15.06).`,
       },
       {
         title: 'Сближение (Pile In)',
@@ -1031,9 +1118,12 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 ▪ Каждая перемещаемая модель должна завершить свой манёвр ближе к ближайшей **[gloss:pile-in:цели сближения]** и **[gloss:engaged:связанной боем]** с ней, если возможно.
 ◈ ПОСЛЕ МАНЁВРА
 ▪ Ваш юнит должен быть **[gloss:engaged:связан боем]**.
-▪ Каждая модель, которая начала этот манёвр **[gloss:engaged:связанной боем]** с вражеским юнитом, должна всё ещё быть **[gloss:engaged:связана боем]** с этим вражеским юнитом.
+▪ Каждая модель, которая начала этот манёвр **[gloss:engaged:связанной боем]** с вражеским юнитом, должна всё ещё быть **[gloss:engaged:связана боем]** с этим вражеским юнитом.`,
+        splitBody: `[img:/images/fight/pile-in-moves-diagram.jpg|Манёвр в контакт — вступление в бой с врагом]
 
-[img:/images/fight/pile-in-moves-ru.jpg|Манёвр в контакт — вступление в бой с врагом]
+1. **Красный** игрок совершает **манёвры сближения** первым. Каждая модель перемещается до 3".
+
+2. **Синий** игрок совершает **манёвры сближения** следующим, но поскольку его модель находится в базовом контакте с вражескими моделями, она не перемещается.
 
 ### FAQs
 **В:** Если у меня есть правило, что мой юнит может двигаться до 6" при **манёвре сближения** или **консолидации**, меняет ли это также **максимальную дистанцию** этих манёвров на 6"?
@@ -1082,14 +1172,24 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
         body: `◈ ПРАВО НА ВЫБОР | Ваш юнит **[gloss:engaged:связан боем]**.
 ◈ ЭФФЕКТ | Ваш юнит сражается, как описано в разделе «Совершение атак» (04).
 
-[img:/images/fight/normal-fight-ru.jpg|Обычный бой — условия доступности]`,
+[img:/images/fight/normal-fight-diagram.jpg|Обычный бой — условия доступности]
+
+Игроки поочерёдно выбирают юниты для боя. Юниты с **[gloss:fights-first:«Первым ударом»]** (**A** и **B**) должны быть выбраны раньше любых других юнитов, имеющих право сражаться.
+
+1. **Красный** игрок выбирает своего MONSTER для боя. Он совершает **обычный бой**, **уничтожая** TRANSPORT.
+
+2. Юнит на борту совершает **экстренную высадку**. После этого он **не связан боем**.`,
       },
       {
         title: 'Оверран',
         body: `◈ ПРАВО НА ВЫБОР | Ваш юнит **[gloss:unengaged:не связан боем]**, или был **[gloss:unengaged:не связан боем]** в начале шага «Бой», но стал **[gloss:engaged:связанным боем]** во время фазы ближнего боя.
 ◈ ЭФФЕКТ | Ваш юнит может совершить один дополнительный **[gloss:pile-in:манёвр сближения]**, затем сражается, как описано в разделе «Совершение атак» (04).
 
-[img:/images/fight/overrun-fight-ru.jpg|Оверран — условия доступности]`,
+[img:/images/fight/overrun-fight-diagram.jpg|Оверран — условия доступности]
+
+3. У **синего** игрока нет юнитов с **«Первым ударом»**, поэтому **красный** игрок выбирает ещё один юнит с **«Первым ударом»**. Этот юнит **не связан боем**, но был **связан боем** с TRANSPORT в начале шага «Бой», поэтому может совершить **оверран**. Сначала он совершает **манёвр сближения**, чтобы вступить в бой с высадившимся юнитом, затем сражается, **уничтожая** две вражеские модели.
+
+4. Юнит **синего** игрока отвечает боем, но не наносит урона.`,
         note: 'Когда юнит совершает [gloss:overrun:оверран], его модели могут быть перемещены так, что вражеские юниты, которые были не связаны боем, становятся связанными боем. Такие вражеские юниты получают право сражаться в этой фазе (и даже могут сражаться следующими, если они являются юнитами с [gloss:fights-first:«Первым ударом»]).',
       },
       {
@@ -1112,12 +1212,20 @@ After resolving a fight in the Resolve Remaining Combats step, if there are one 
 ◈ ПОСЛЕ МАНЁВРА
 ▪ **Продолжающаяся консолидация:** Каждая модель, которая начала этот манёвр **[gloss:engaged:связанной боем]** с вражеским юнитом, должна всё ещё быть **[gloss:engaged:связана боем]** с этим вражеским юнитом.
 ▪ **Боевая консолидация:** Ваш юнит должен быть **[gloss:engaged:связан боем]** со всеми выбранными вражескими юнитами. Если один или несколько вражеских юнитов, **[gloss:engaged:связанных боем]** с вашим юнитом, ещё не были **[gloss:selected-to-fight:выбраны для боя]** в этой фазе, ваш оппонент должен выбрать каждый из таких юнитов поочерёдно; когда каждый выбран, он **получает [gloss:eligible-to-fight:право сражаться]** и **[gloss:selected-to-fight:выбирается для боя]** (12.04).
-▪ **Консолидация на цели:** Ваш юнит должен находиться в пределах досягаемости выбранной [gloss:objective:цели].
-
-[img:/images/fight/ongoing-consolidation-ru.jpg|Диаграмма консолидации с вступлением в контакт]
-
-[img:/images/fight/objective-consolidation-ru.jpg|Диаграмма консолидации к цели]`,
+▪ **Консолидация на цели:** Ваш юнит должен находиться в пределах досягаемости выбранной [gloss:objective:цели].`,
         note: '**НОВЫЕ ВРАГИ ДЛЯ СТОЛКНОВЕНИЯ**\nПри использовании режима **[gloss:consolidation:боевой консолидации]** ваш юнит может завершить свою консолидацию **[gloss:engaged:связанным боем]** с вражескими юнитами, которые ещё не сражались в этой фазе. В таком случае каждый из этих вражеских юнитов получит возможность атаковать ваш юнит, поэтому продумайте, насколько агрессивно вы хотите перемещать свой юнит, используя этот режим.',
+        splitBodies: [
+          `### Продолжающаяся консолидация
+[img:/images/fight/ongoing-consolidation-diagram.jpg|Диаграмма консолидации с вступлением в контакт]
+
+**Красный** игрок совершает **манёвры консолидации** первым. Любой **связанный боем** юнит и любой юнит, имевший **право сражаться** в этой фазе, может совершить **манёвр консолидации**.
+
+Каждая модель перемещается до 3". Модели, находящиеся в базовом контакте с вражескими моделями, не могут быть перемещены.`,
+          `### Консолидация на цели
+[img:/images/fight/objective-consolidation-diagram.jpg|Диаграмма консолидации к цели]
+
+В пределах 3" от этого юнита MONSTER нет вражеских юнитов, но **[gloss:objective:цель] (C)** находится в пределах 3", поэтому он перемещается в пределы досягаемости этой **[gloss:objective:цели]**.`,
+        ],
       },
       {
         title: 'Конец фазы ближнего боя',

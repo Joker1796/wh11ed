@@ -1,6 +1,6 @@
 {
   "name": "wh11ed",
-  "version": "2.0.19",
+  "version": "2.2.2",
   "description": "Bilingual (EN/RU) interactive reference for the Warhammer 40,000 11th Edition Core Rules, Event Companion, faction rules and unit datasheets — a fast, searchable Vue 3 SPA hosted at wh11ed.ru.",
   "scripts": {
     "dev": "vite",
@@ -12,8 +12,14 @@
     "images:webp": "node scripts/gen-webp.mjs && node scripts/gen-image-dims.mjs",
     "datasheets:index": "node scripts/gen-datasheet-index.mjs",
     "roster:data": "node scripts/gen-roster-data.mjs",
+    "faction-rules:index": "node scripts/gen-faction-rules-index.mjs",
+    "combat-patrol:index": "node scripts/gen-combat-patrol-search-index.mjs",
     "sourceids": "node scripts/gen-source-ids.mjs",
+    "condkeywords": "node scripts/gen-conditional-keywords.mjs",
+    "faq": "node scripts/gen-faction-faq.mjs",
     "sync": "node scripts/sync.mjs",
+    "sync:text": "node scripts/sync-faction-text.mjs",
+    "parity": "node scripts/parity-check.mjs",
     "images:dims": "node scripts/gen-image-dims.mjs",
     "icons": "node scripts/gen-pwa-icons.mjs",
     "screenshots": "node scripts/gen-pwa-screenshots.mjs",

@@ -2,6 +2,13 @@
   --bg-primary: #ebede4;
   --bg-secondary: #dfe1d8;
   --bg-card: #f5f5f0;
+  /* A gentle step up from --bg-primary, between it and --bg-card in brightness — for a
+     large content panel (Core Rules / Event Companion) that needs to read as a distinct
+     surface without competing with the --bg-card cards it contains. --bg-secondary isn't
+     right here: it's tuned as a *recessed* strip for the subnav and sits darker than
+     --bg-primary in light mode (the opposite direction from dark mode, where it's
+     lighter) — reusing it made the panel look muddier than the page around it. */
+  --bg-content: #f0f2ea;
   --bg-insert: #2a2828;
   --accent: #8b2a33;
   --accent-hover: #6d1f27;
@@ -22,10 +29,10 @@
   --ability-unit: #004a6e;
   --bg-definition: #cfd0c3;
   --bg-definition-border: #b8b9ac;
-  --sub-rule-bg: #fbf1cf;
-  --sub-rule-head-bg: #f3e1a4;
-  --sub-rule-border: #c49a2f;
-  --sub-rule-ink: #4a3a12;
+  --sub-rule-bg: #eef0e5;
+  --sub-rule-head-bg: #dfe2d0;
+  --sub-rule-border: #9a9d87;
+  --sub-rule-ink: #40422f;
   --font-serif: 'EB Garamond', Georgia, serif;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'Courier New', Courier, monospace;
@@ -121,6 +128,56 @@
   transform: translateY(100%);
 }
 
+/* Pop for floating action buttons (scale + fade from the corner). */
+.fab-enter-active {
+  transition: opacity var(--motion-med) ease, transform var(--motion-med) ease;
+}
+.fab-leave-active {
+  transition: opacity var(--motion-fast) ease, transform var(--motion-fast) ease;
+}
+.fab-enter-from, .fab-leave-to {
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+/* Round-square floating action buttons — the faction hero-page FABs and the back-to-top
+   button. Outline/ghost look (surface fill, accent frame + icon) that fills with the accent
+   on hover; picks up the local --accent, so faction pages get their faction colour for free.
+   Only transform + colours animate (GPU-cheap); the frame is an inset box-shadow, not a
+   border, so its rounded corners stay antialiased on the transform-promoted GPU layer
+   (a `border` rasterises jagged there). */
+.fab-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border: none;
+  border-radius: 12px;
+  background: var(--bg-primary);
+  color: var(--accent);
+  font-size: 1.6rem;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: inset 0 0 0 1.5px var(--accent), 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: transform var(--motion-fast), background var(--motion-fast), color var(--motion-fast);
+}
+.fab-btn i {
+  transition: transform var(--motion-fast);
+}
+.fab-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+.fab-btn:hover i {
+  transform: translateY(-2px);
+}
+.fab-btn:active {
+  transform: scale(0.94);
+}
+
 /* Mobile shrink for the two largest heading levels (shared scale). */
 @media (max-width: 900px) {
   :root {
@@ -133,6 +190,7 @@
   --bg-primary: #242428;
   --bg-secondary: #2c2c30;
   --bg-card: #303035;
+  --bg-content: #2a2a2f;
   --bg-insert: #38383d;
   --accent: #c8585e;
   --accent-hover: #e07078;
@@ -151,10 +209,10 @@
   --ability-unit: #5fb2dc;
   --bg-definition: #2a2d2c;
   --bg-definition-border: #3a3d3c;
-  --sub-rule-bg: #2e2a19;
-  --sub-rule-head-bg: #272314;
-  --sub-rule-border: #564a27;
-  --sub-rule-ink: #cabd90;
+  --sub-rule-bg: #292b21;
+  --sub-rule-head-bg: #22241b;
+  --sub-rule-border: #565947;
+  --sub-rule-ink: #c7cab5;
 }
 
 * {
@@ -302,6 +360,52 @@ h4 { font-size: var(--fs-subheading); }
   color: var(--text-muted);
   font-size: 0.9rem;
   font-style: italic;
+}
+
+/* Per-chapter heading on a merged multi-chapter page (Event Companion) — the one page
+   hero (.view-hero) names the page, this marks where each former page's content begins
+   while scrolling. Same look ChapterIntro.vue (Core Rules) already uses for its own
+   "About"/"App" sub-headings, extracted here so the six Event chapter components that
+   need it don't each duplicate the rule. */
+.chapter-heading {
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  font-weight: var(--fw-heading);
+  margin: 0 0 0.4rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 2px solid var(--accent);
+  color: var(--text-primary);
+}
+
+.chapter-desc {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-style: italic;
+  margin: 0 0 1.25rem;
+}
+
+/* Two-column rule flow on the merged Core Rules and Event Companion pages (`/core-rules`,
+   `/event-companion` — the only pages widened past the usual 860px, see
+   `.main-content--wide`). Same CSS-multicol masonry as the stratagem grid: blocks tile by
+   height instead of stretching to the neighbouring column's block. Global rather than
+   scoped because the chapter components in both components/core/ and components/event/
+   use it. What goes into one group is decided in composables/columnChunks.js (Core Rules)
+   or composables/blockColumnChunks.js (Event Companion) — `column-span` would only work
+   on a direct child, so wide blocks are lifted out there instead.
+
+   Written mobile-first on purpose: below the threshold `.rule-columns` is an inert wrapper
+   that adds nothing, so narrow screens keep exactly the layout they had when the chapters
+   were still seven pages — no columns, no extra gaps, blocks flush in source order. */
+@media (min-width: 1024px) {
+  .rule-columns {
+    column-count: 2;
+    column-gap: 1.5rem;
+  }
+
+  .rule-columns > * {
+    break-inside: avoid;
+    margin-bottom: 1rem;
+  }
 }
 
 p {

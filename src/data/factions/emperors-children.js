@@ -1,8 +1,8 @@
 // Emperor's Children — faction rules. Resolved from the same source priority as the other
 // factions (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: imported from the Wahapedia CSV exports via scripts/import-wahapedia.mjs →
-//     7 detachments. Wahapedia already carries some pack updates; the remaining diffs are
+//   Codex layer: imported from the codex →
+//     7 detachments. The codex text already carries some pack updates; the remaining diffs are
 //     folded in below (inline notes). Court of the Phoenician is also printed in the
 //     Faction Pack (identical text) — marked source: 'faction-pack'.
 //   Faction Pack v1.0 (sources/Faction pack 11 ed/chaos/EC.pdf) → 3 pack detachments
@@ -30,7 +30,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
   },
 
   detachments: [
-    // ─────────────── CODEX DETACHMENTS (via Wahapedia import) ───────────────
+    // ─────────────── CODEX DETACHMENTS ───────────────
     {
       id: "carnival-of-excess",
       name: "Carnival of Excess",
@@ -40,7 +40,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
       rule: {
         name: "Daemonic Empowerment",
         flavor: "Where the Emperor’s Children indulge their obsession, the power ofSlaanesh empowers those in his thrall.",
-        body: "▪ While an Emperor’s Children unit from your army is within 6\" of one or more friendly Legions of Excess units, it is Empowered.\n▪ While a LEGIONS OF EXCESS unit from your army is within 6\" of one or more friendly EMPEROR’S CHILDREN units, it is Empowered.\n\nWhile a unit from your army is Empowered, weapons equipped by models in that unit have the [sustained hits 1] ability. If such a weapon already has that ability, each time an attack is made with that weapon, an unmodified Hit roll of 5+ scores a Critical Hit.\n\nLEGIONS OF EXCESS\nYou can include Legions of Excess units in your army, even though they do not have the EMPEROR’S CHILDREN Faction keyword. The combined points cost of such units you can include in your army is:\n▪ **Incursion:** Up to 500 pts\n▪ **Strike Force:** Up to 1000 pts\n▪ **Onslaught:** Up to 1500 pts\nNo LEGIONS OF EXCESS models from your army can be your WARLORD.",
+        body: "▪ While an Emperor’s Children unit from your army is within 6\" of one or more friendly Legions of Excess units, it is Empowered.\n▪ While a LEGIONS OF EXCESS unit from your army is within 6\" of one or more friendly EMPEROR’S CHILDREN units, it is Empowered.\n\nWhile a unit from your army is Empowered, weapons equipped by models in that unit have the [SUSTAINED HITS 1] ability. If such a weapon already has that ability, each time an attack is made with that weapon, an unmodified Hit roll of 5+ scores a Critical Hit.\n\nLEGIONS OF EXCESS\nYou can include Legions of Excess units in your army, even though they do not have the EMPEROR’S CHILDREN Faction keyword. The combined points cost of such units you can include in your army is:\n▪ **Incursion:** Up to 500 pts\n▪ **Strike Force:** Up to 1000 pts\n▪ **Onslaught:** Up to 1500 pts\nNo LEGIONS OF EXCESS models from your army can be your WARLORD.",
       },
       stratagems: [
         {
@@ -51,7 +51,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           flavor: "Slaaneshi daemons feed upon the emotions of others, with agony a particular delicacy.",
           when: "Fight phase, just after an Emperor’s Children unit from your army destroys an enemy unit.",
           target: "That EMPEROR’S CHILDREN unit.",
-          effect: "Select one friendly Legions of Excess unit within 6\" of your unit. One model in that LEGIONS OF EXCESS unit recovers up to 3 lost wounds or, if it is a Daemonettes unit, return upto D3+3 destroyed models to it instead.",
+          effect: "Select one friendly Legions of Excess unit within 6\" of your unit. One model in that LEGIONS OF EXCESS unit recovers up to 3 lost wounds or, if it is a Daemonettes unit, return up to D3+3 destroyed models to it instead.",
           restrictions: "",
         },
         {
@@ -84,7 +84,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           flavor: "The daemons of Slaanesh are not bound by the laws of reality, fading in and out of existence at will.",
           when: "End of your opponent’s Fight phase.",
           target: "One Daemonettes unit from your army that is not within Engagement Range of one or more enemy units.",
-          effect: "Remove your unit from the battlefield and place it into Strategic Reserves. If it arrives back on the battlefield in the Reinforcements step of your next Movement phase using the Deep Strike ability, it can be set up anywhere that is more than 6\" horizontally away from all enemy units (instead of more than 9\"), provided it is also set up wholly within 9\" of one or more friendly Emperor’s Children units.",
+          effect: "Remove your unit from the battlefield and place it into Strategic Reserves. If it arrives back on the battlefield in the Reinforcements step of your next Movement phase using the Deep Strike ability, it can be set up anywhere that is more than 6\" horizontally away from all enemy units (instead of more than 8\"), provided it is also set up wholly within 8\" of one or more friendly Emperor’s Children units.",
           restrictions: "",
         },
         {
@@ -115,7 +115,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           name: "Empyric Suffusion",
           points: 15,
           flavor: "Swirling clouds of perfumed empyric energy suffuse this leader s followers, granting them daemonic vigour.",
-          body: "EMPEROR\u2019S CHILDREN model only. When you target this unit with the Heroic Intervention Stratagem, that use is -1CP.",
+          body: "EMPEROR\u2019S CHILDREN model only. When you target this unit with the Heroic Intervention Stratagem, that use is -1 CP.",
         },
         {
           name: "Dark Blessings",
@@ -127,7 +127,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           name: "Possessed Blade",
           points: 25,
           flavor: "The martial grace that this daemon weapon bestows upon its bearer comes at a price.",
-          body: "Emperor’s Children model only. At the start of the battle, select one melee weapon equipped by the bearer; add 1 to the Attacks characteristic of that weapon. In addition, each time the bearer is selected to fight, it can use this Enhancement. If it does, while resolving those attacks, add 1 to the Damage characteristic of that weapon and that weapon has the [devastating wounds] and [hazardous] abilities.",
+          body: "Emperor’s Children model only. At the start of the battle, select one melee weapon equipped by the bearer; add 1 to the Attacks characteristic of that weapon. In addition, each time the bearer is selected to fight, it can use this Enhancement. If it does, while resolving those attacks, add 1 to the Damage characteristic of that weapon and that weapon has the [DEVASTATING WOUNDS] and [HAZARDOUS] abilities.",
         },
         {
           name: "Warp Walker",
@@ -147,7 +147,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
       rule: {
         name: "Pledges to the Dark Prince",
         flavor: "Few appear as favoured by the Dark Prince as these warriors, their boons of power a reward for committing ever viler deeds in honour of their patron.",
-        body: "At the start of the battle round, if your WARLORD is on the battlefield, you must pledge a number to Slaanesh representing how many enemy units will be destroyed this battle round. At the end of the battle round, if the number of enemy units destroyed this battle round is greater than or equal to your pledge, you gain a number of Pact points equal to your pledge. Otherwise, you do not gain any Pact points this battle round and your WARLORD model suffers D3 mortal wounds.\n\nEmperor’s Children units from your army gain a bonus depending on how many Pact points you have gained during the battle, as shown below (these are all cumulative).\n\n**PACT POINTSBONUS1+**Each time a model in this unit makes an attack, re-roll a Hit roll of 1.**3+**Each time a model in this unit makes an attack, re-roll a Wound roll of 1.**5+**Melee weapons equipped by models in this unit have the [LETHAL HITS] and [SUSTAINED HITS 1] abilities.**7+**Each time a model in this unit makes an attack, a Critical Hit is scored on an unmodified Hit roll of 5+.",
+        body: "At the start of the battle round, if your WARLORD is on the battlefield, you must pledge a number to Slaanesh representing how many enemy units will be destroyed this battle round. At the end of the battle round, if the number of enemy units destroyed this battle round is greater than or equal to your pledge, you gain a number of Pact points equal to your pledge. Otherwise, you do not gain any Pact points this battle round and your WARLORD model suffers D3 mortal wounds.\n\nEmperor’s Children units from your army gain a bonus depending on how many Pact points you have gained during the battle, as shown below (these are all cumulative).\n▪ **1+:** Each time a model in this unit makes an attack, re-roll a Hit roll of 1.\n▪ **3+:** Each time a model in this unit makes an attack, re-roll a Wound roll of 1.\n▪ **5+:** Melee weapons equipped by models in this unit have the [LETHAL HITS] and [SUSTAINED HITS 1] abilities.\n▪ **7+:** Each time a model in this unit makes an attack, a Critical Hit is scored on an unmodified Hit roll of 5+.",
       },
       stratagems: [
         {
@@ -248,7 +248,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
     {
       id: "court-of-the-phoenician",
       name: "Court of the Phoenician",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 2,
       forceDisposition: "Purge the Foe",
       rule: {
@@ -265,7 +265,8 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           flavor: "Invigorated by pain, the Emperor’s Children will embrace an enemy’s attack as a catalyst for masterful vengeance.",
           when: "Your opponent’s Shooting phase, just after an enemy unit has shot.",
           target: "One Emperor’s Children unit from your army that lost one or more wounds as a result of those attacks.",
-          effect: "Your unit can make a Stimulus move. To do so, roll one D6: models in your unit move a number of inches up to the result, but your unit must end that move as close as possible to the closest enemy unit (excluding AIRCRAFT). When doing so, those models can be moved within Engagement Range of that enemy unit.",
+          // Faction-Pack Rules Update rewrote the Effect to a simple surge move.
+          effect: "Your unit can make a surge move of up to D6\".",
           restrictions: "",
         },
         {
@@ -543,7 +544,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           name: "Faultless Opportunist",
           points: 15,
           flavor: "This swordsman forever seeks opportunities to flaunt their dazzling and deadly bladework.",
-          body: "EMPEROR\u2019S CHILDREN model only. You can target the bearer\u2019s unit with the Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do: that use is -1CP, and that use does not prevent any uses of that Stratagem on other units this phase.",
+          body: "EMPEROR\u2019S CHILDREN model only. You can target this unit with the Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do:\n\u25aa That use is -1 CP.\n\u25aa That use does not prevent any uses of that Stratagem on other units this phase.",
         },
         {
           name: "Blinding Speed",
@@ -801,7 +802,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           flavor: "So well shielded by their armour are Emperor\u2019s Children Terminators that, when the foe\u2019s attacks actually punch through to wound them, the rarity of the sensation is an invigorating tonic.",
           when: "Your opponent\u2019s Shooting phase or the Fight phase, when an enemy unit targets a friendly EMPEROR\u2019S CHILDREN TERMINATOR unit.",
           target: "That EMPEROR\u2019S CHILDREN TERMINATOR unit.",
-          effect: "Attacks that target your unit with a Strength greater than your unit\u2019s Toughness have -1 to Wound rolls.",
+          effect: "Attacks that target your unit with a S greater than your unit\u2019s T have -1 to Wound rolls.",
           restrictions: "",
         },
         {
@@ -812,7 +813,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           flavor: "The Terminators\u2019 fervid need to annihilate ever more enemies manifests as a lurid empyric firestorm which wreathes their blows and the projectiles spat from their guns.",
           when: "Your Shooting phase or the Fight phase, when a friendly EMPEROR\u2019S CHILDREN TERMINATOR unit is selected to attack.",
           target: "That EMPEROR\u2019S CHILDREN TERMINATOR unit.",
-          effect: "Your unit\u2019s attacks have +2 Strength.",
+          effect: "Your unit\u2019s attacks have +2 S.",
           restrictions: "",
         },
         {
@@ -832,14 +833,14 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           name: "Cacophonic Accompaniment",
           points: 20,
           flavor: "Like a parasite clinging to its host, this Lord Kakophonist\u2019s mutated armour piggybacks on the teleport signals of Emperor\u2019s Children Terminators, slingshotting him perilously through the Empyrean to explode onto the battlefield in a riot of discordant sonic fury.",
-          body: "LORD KAKOPHONIST model only.\n▪ This model has Deep Strike.\n▪ This unit\u2019s ranged attacks have the [IGNORES COVER] ability.",
+          body: "LORD KAKOPHONIST model only.\n▪ This model has Deep Strike.\n▪ This unit\u2019s ranged attacks have [IGNORES COVER].",
         },
         {
           name: "Frenzied Ferocity",
           points: 15,
           upgrade: true,
           flavor: "Encumbered not at all despite the massive bulk of their armour, these Terminators\u2019 mutant muscle and warp-tainted reactions allow them to indulge in every aspect of attacking the foe to wild excess.",
-          body: "EMPEROR\u2019S CHILDREN TERMINATOR SQUAD unit only. This unit\u2019s attacks have the [SUSTAINED HITS 1] ability.",
+          body: "EMPEROR\u2019S CHILDREN TERMINATOR SQUAD unit only. This unit\u2019s attacks have [SUSTAINED HITS 1].",
         },
       ],
     },
@@ -853,7 +854,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
       rule: {
         name: "Frantic Focus",
         flavor: "Seeming to be everywhere at once, bands of Infractors and Tormentors seek to embrace all the sensations the battlefield can offer, never relenting for a moment.",
-        body: "When a friendly EMPEROR\u2019S CHILDREN BATTLELINE unit is selected to make an Advance or Fall Back move, that unit\u2019s attacks have +1 Strength until the end of the turn.\n\nThis detachment has the **HOST** tag and cannot be taken with another **HOST** detachment.",
+        body: "When a friendly EMPEROR\u2019S CHILDREN BATTLELINE unit is selected to make an advance/fall-back move, that unit\u2019s attacks have +1 S until the end of the turn.\n\nThis detachment has the **HOST** tag and cannot be taken with another **HOST** detachment.",
       },
       stratagems: [
         {
@@ -864,7 +865,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           flavor: "Having seized some vital location or enthralling prize, these Slaaneshi warriors experience a frenzied need to claim it that renders them inured to the most grievous hurts.",
           when: "Your opponent\u2019s Shooting phase or the Fight phase, when an enemy unit targets a friendly EMPEROR\u2019S CHILDREN BATTLELINE unit within range of an objective.",
           target: "That EMPEROR\u2019S CHILDREN BATTLELINE unit.",
-          effect: "Attacks that target your unit have -1 Armour Penetration until that enemy unit has attacked.",
+          effect: "Attacks that target your unit have -1 AP until that enemy unit has attacked.",
           restrictions: "",
         },
         {
@@ -895,13 +896,13 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           name: "Euphoric Crown",
           points: 20,
           flavor: "This champion of Slaanesh wears a helm that absorbs and amplifies the frenzied carnival of carnage around them, driving the wearer into a frenzy of euphoric might.",
-          body: "LORD EXULTANT model only. This model\u2019s melee attacks have +1 Strength.",
+          body: "LORD EXULTANT model only. This model\u2019s melee attacks have +1 S.",
         },
         {
           name: "Howling Plate",
           points: 20,
           flavor: "Mutant vox-emitters open like mouths all across this warrior\u2019s grotesque armour, vomiting targeted sonic shock waves that enhance his allies\u2019 already furious firepower.",
-          body: "LORD EXULTANT model only. This unit\u2019s ranged attacks have +1 Armour Penetration.",
+          body: "LORD EXULTANT model only. This unit\u2019s ranged attacks have +1 AP.",
         },
       ],
     },
@@ -926,7 +927,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           flavor: "Far from facing enemy champions in fair duels one-on-one, the Flawless Blades fall upon them like a pack of jackals competing viciously to claim the glory of the kill.",
           when: "Fight phase, when a friendly FLAWLESS BLADES unit is selected to fight.",
           target: "That FLAWLESS BLADES unit.",
-          effect: "Your unit\u2019s melee attacks have the [PRECISION] ability.",
+          effect: "Your unit\u2019s melee attacks have [PRECISION].",
           restrictions: "",
         },
         {
@@ -946,9 +947,9 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           cp: "1CP",
           turn: "opponent",
           flavor: "Seeing their foes fleeing in terror before them only fires the chem-laced blood of the Flawless Blades, urging them on toward their next challenge all the quicker.",
-          when: "Your opponent\u2019s Movement phase, when an enemy unit that was engaged with a friendly FLAWLESS BLADES unit ends a Fall Back move, if that FLAWLESS BLADES unit is unengaged.",
+          when: "Your opponent\u2019s Movement phase, when an enemy unit that was engaged with a friendly FLAWLESS BLADES unit ends a fall-back move, if that FLAWLESS BLADES unit is unengaged.",
           target: "That FLAWLESS BLADES unit.",
-          effect: "Your unit can make a Normal move of up to D3+3\".",
+          effect: "Your unit can make a normal move of up to D3+3\".",
           restrictions: "",
         },
       ],
@@ -958,7 +959,7 @@ When mustering your army, unless specifically stated otherwise, you cannot selec
           points: 20,
           upgrade: true,
           flavor: "The daemonic audience drawn by the deeds of these Flawless Blades is impatient for the spectacle to begin, and so bestows supernatural celerity upon those they consider the star performers.",
-          body: "FLAWLESS BLADES unit only. This unit has +2\" Move.",
+          body: "FLAWLESS BLADES unit only. This unit has +2\" M.",
         },
         {
           name: "Beguiling Grotesquerie",

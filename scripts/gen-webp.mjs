@@ -31,7 +31,10 @@ function isIllustration(absPath) {
   const ext = extname(r).toLowerCase()
   const name = basename(r)
   if (ext === '.jpg' || ext === '.jpeg') return !name.startsWith('legend-')
-  if (ext === '.png') return r === 'intro/datasheet.png' || r.startsWith('turn/')
+  // event/layout-*.png: extracted from the app's own webp assets (see
+  // scripts/extract-layout-images.mjs), kept as PNG (not jpg) because the source has real
+  // alpha at the diagram's outer margin that must survive into the illustration webp.
+  if (ext === '.png') return r === 'intro/datasheet.png' || r.startsWith('turn/') || r.startsWith('event/layout-')
   return false
 }
 
@@ -42,6 +45,9 @@ function iconSpec(absPath) {
   if (name.startsWith('marker-')) return { maxWidth: 800, lossless: true }
   if (name.startsWith('dispo-')) return { maxWidth: 128, lossless: false }
   if (name.startsWith('legend-')) return { maxWidth: 192, lossless: false }
+  // Battle-round turn-structure icons (see TurnStructureDiagram.vue) — flat monochrome
+  // shapes rendered via CSS mask-image, so they need alpha, not a -sm variant.
+  if (name.startsWith('icon-')) return { maxWidth: 200, lossless: true }
   // wh40k-app-qr.png is left as-is: the original is a tiny (~4KB) crisp b/w PNG;
   // downscaling + webp made it larger and softer (bad for scanning).
   return null
@@ -116,7 +122,12 @@ for await (const file of walk(IMAGES_DIR)) {
 
   if (!isIllustration(file)) continue
 
-  const lossless = ext === '.png'
+  // event/layout-*.png needs alpha (transparent outer margin) but its content is a noisy,
+  // textured photo-style diagram, not flat vector art — lossless bloats it ~8x (1MB vs
+  // ~130KB) for no visible gain. Lossy WebP still carries a (lossy-compressed) alpha plane,
+  // so it keeps the transparency at a fraction of the size — same tradeoff as the "photographic,
+  // so lossy ≈ the old quality in bytes" note for the core-rules illustrations below.
+  const lossless = ext === '.png' && !rel(file).startsWith('event/layout-')
   const outBase = join(dirname(file), name)
   const { width } = await writeWebp(file, outBase, lossless)
   await unlink(file)

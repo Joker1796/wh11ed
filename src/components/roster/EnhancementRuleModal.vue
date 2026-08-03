@@ -74,12 +74,12 @@ watch(
     enh.value = null
     loaded.value = false
     if (!slug || !name) return
-    const [{ getFaction }, { loadFactionRu, deepOverlay }] = await Promise.all([
+    const [{ loadFaction }, { loadFactionRu, deepOverlay }] = await Promise.all([
       import('../../data/factions/index.js'),
       import('../../data/factions/ru/index.js'),
     ])
+    const data = await loadFaction(slug)
     if (props.factionSlug !== slug) return
-    const data = getFaction(slug)
     let fac = data?.en
     if (fac && loc === 'ru') {
       const mod = await loadFactionRu(slug)

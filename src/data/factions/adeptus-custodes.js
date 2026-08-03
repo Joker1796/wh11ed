@@ -33,7 +33,7 @@ const en = {
       'Specialised disciplines mastered by Custodians over decades if not centuries, each ka\'tah equips its practitioner to overmaster any foe in a particular discipline or philosophy. Martial ka\'tahs allow the warriors of the Adeptus Custodes to deploy stances, movements, war philosophies and lethal skills that enhance their already terrifying martial prowess and focus it against particular threats.',
     body: `Each time a unit from your army with this ability is selected to fight, select one of the Ka'tah Stances below. Until that unit has finished making its attacks, the selected Stance is active for it and it gains the relevant ability:
 
-### Dacatarai Stance
+### Dacatari Stance
 Melee weapons equipped by models in this unit have the [SUSTAINED HITS 1] ability.
 
 ### Rendax Stance
@@ -145,7 +145,7 @@ All other Adeptus Custodes units from your army gain the following ability:
           points: 25,
           flavor: 'This leader is amongst the finest martial champions in all the Emperor\'s realm, and their mere presence inspires their followers to remarkable efforts.',
           // Faction-Pack Rules Update reworded this enhancement (range increased to 9").
-          body: `Adeptus Custodes model only. The range of the bearer's Null Aegis or Deadly Unity ability (see the Revered Companions Detachment rule) is increased to 9".`,
+          body: `Adeptus Custodes model only. The range of the bearer's Null Aegis or Deadly Unity ability is increased to 9".`,
         },
         {
           name: 'Aegis Projector',
@@ -214,7 +214,7 @@ All other Adeptus Custodes units from your army gain the following ability:
           flavor: 'Simply because the Adeptus Custodes do not stand sentinel over a strategic location or asset, does not mean that it – or any who would threaten it – escapes their gaze.',
           when: 'Your Movement phase.',
           target: 'One Adeptus Custodes Battleline unit from your army (excluding Anathema Psykana units) within range of an objective marker you control.',
-          effect: 'That objective marker remains under your control, even if you have no models within range of it, until your opponent controls it at the start or end of any turn.',
+          effect: "That objective marker remains under your control until your opponent's Level of Control over that objective marker is greater than yours at the end of a phase.",
           restrictions: '',
         },
         {
@@ -243,7 +243,7 @@ All other Adeptus Custodes units from your army gain the following ability:
       enhancements: [
         {
           name: 'From the Hall of Armouries',
-          points: 25,
+          points: 20,
           flavor: "The racks of the Adeptus Custodes' armouries yield up some of the most finely crafted close-quarters weaponry borne by any soldiers of the Imperium.",
           body: `Shield-Captain model only. Add 1 to the Strength and Damage characteristics of the bearer's melee weapons.`,
         },
@@ -280,7 +280,7 @@ All other Adeptus Custodes units from your army gain the following ability:
         name: 'Creeping Dread',
         flavor:
           'The instinctive fear caused by the Pariah gene spreads like a terrible pall before the cadres of the Silent Sisterhood.',
-        body: `**Creeping Dread (Aura):** In the Battle-shock step of your opponent's Command phase, if an enemy unit that is either a Psyker unit or below its Starting Strength is within 12" of one or more Anathema Psykana models from your army, that enemy unit must take a Battle-shock test. If that unit is Below Half-strength, it must subtract 1 from its Battle-shock test this phase instead.
+        body: `**Creeping Dread (Aura):** In the Battle-shock step of your opponent's Command phase, if an enemy unit that is either a Psyker unit or below its Starting Strength is within 12" of one or more Anathema Psykana models from your army, that enemy unit must take a Battle-shock test. If that unit is Below Half-strength, it must subtract 1 from its Battle-shock test this phase instead.\n\n**Designer's Note:** This means that all enemy PSYKER units within range of this Aura ability and all enemy units within range of this Aura ability that have lost one or more models must take a Battle-shock test in your opponent's Command phase, not just those that are Below Half-strength.
 
 ### Keywords
 If you select this Detachment, Prosecutors units from your army have the Battleline keyword.`,
@@ -507,7 +507,7 @@ If you select this Detachment, Prosecutors units from your army have the Battlel
         flavor:
           'The fallen warriors interred in ancient Dreadnought sarcophagi are ever eager for battle, and their hulking forms propel them towards the foe at a deadly pace.',
         body: `Friendly Adeptus Custodes Walker units:
-▪ Have +2" Move.
+▪ Have +2" M.
 ▪ Have +1 to advance rolls and charge rolls.
 
 This detachment has the ARMOURY tag and cannot be taken with another ARMOURY detachment.`,
@@ -521,7 +521,7 @@ This detachment has the ARMOURY tag and cannot be taken with another ARMOURY det
           flavor: 'Adeptus Custodes Dreadnoughts possess expertly wrought armoured forms that contain ancient and esoteric technology, including autorepair subroutines and reactive field generators.',
           when: "Your opponent's Shooting phase or the Fight phase, when an enemy unit targets a friendly Adeptus Custodes Walker unit.",
           target: 'That Adeptus Custodes Walker unit.',
-          effect: "Attacks that target your unit with a Strength greater than your unit's Toughness have -1 to Wound rolls.",
+          effect: "Attacks that target your unit with a S greater than your unit's T have -1 to wound rolls.",
           restrictions: '',
         },
         {
@@ -590,7 +590,7 @@ This detachment has the ARMOURY tag and cannot be taken with another ARMOURY det
           flavor: 'After stalking their sorcerous prey in silence, the charge of the Vigilators is accompanied by a keening song of death emitted by their scything greatblades as they are swept in eviscerating arcs.',
           when: 'Fight phase, when a friendly Vigilators unit is selected to fight.',
           target: 'That Vigilators unit.',
-          effect: "Your unit's melee attacks have [LANCE]. Your unit's melee attacks that target a Psyker unit have +1 Attack.",
+          effect: "▪ Your unit's melee attacks have [LANCE].\n▪ Your unit's melee attacks that target a PSYKER unit have +1 A.",
           restrictions: '',
         },
         {
@@ -601,7 +601,7 @@ This detachment has the ARMOURY tag and cannot be taken with another ARMOURY det
           flavor: 'When they have cornered their quarry at close range, Prosecutors fire their Umbra-pattern bolters in rapid bursts that sow strings of armour-shredding shots amongst the enemy.',
           when: 'Your Shooting phase, when a friendly Prosecutors unit is selected to shoot.',
           target: 'That Prosecutors unit.',
-          effect: "Your unit's Boltgun weapons have [RAPID FIRE 2] and +1 AP.",
+          effect: "Your unit's Boltgun weapons have:\n▪ [RAPID FIRE 2].\n▪ +1 AP.",
           restrictions: '',
         },
         {
@@ -659,7 +659,7 @@ This detachment has the LIONS tag and cannot be taken with another LIONS detachm
           flavor: 'Steeling their souls and bracing their indomitable armour, heavily girded Custodians will cleave to their duty and reject attempts to cut them down.',
           when: "Your opponent's Shooting phase or the Fight phase, when an enemy unit targets a friendly Adeptus Custodes Terminator unit.",
           target: 'That Adeptus Custodes Terminator unit.',
-          effect: 'Your unit has +1 Toughness.',
+          effect: 'Your unit has +1 T.',
           restrictions: '',
         },
         {
@@ -681,7 +681,7 @@ This detachment has the LIONS tag and cannot be taken with another LIONS detachm
           flavor: 'A concussive barrage of specialist grenades enables Allarus Custodians to maximise the destructive potential of their arm-mounted launchers against their massed enemies.',
           when: 'Your Shooting phase, when a friendly Adeptus Custodes Terminator unit is selected to shoot.',
           target: 'That Adeptus Custodes Terminator unit.',
-          effect: "Your unit's Ballistus Grenade Launcher weapons have D3+3 Attacks.",
+          effect: "Your unit's Ballistus Grenade Launcher weapons have D3+3 A.",
           restrictions: '',
         },
       ],
@@ -803,7 +803,7 @@ This detachment has the LIONS tag and cannot be taken with another LIONS detachm
         },
         {
           name: 'Admonimortis',
-          points: 20,
+          points: 30,
           flavor: 'A relic of the Dread Host, this towering blade was wrought to make a bloody example of those who dare to set themselves against the might of Terra.',
           body: `Shield-Captain model only. Improve the Strength characteristic of melee weapons equipped by the bearer by 3, and improve the Armour Penetration and Damage characteristics of those weapons by 1.`,
         },
@@ -830,7 +830,9 @@ This detachment has the LIONS tag and cannot be taken with another LIONS detachm
 Add 2" to the Move characteristic of models in Adeptus Custodes Walker units from your army and add 1 to Advance and Charge rolls made for such units.
 
 ### Keywords
-In the Muster Armies step, you can select up to 2 Adeptus Custodes Walker models from your army. The selected units gain the Character keyword. (This means the selected models can be given Enhancements and one of them can be selected as your Warlord.)
+In the Muster Armies step, you can select up to 2 Adeptus Custodes Walker models from your army. The selected units gain the Character keyword.
+
+**Designer's Note:** This means the selected models can be given Enhancements and one of them can be selected as your Warlord.
 
 This detachment has the ARMOURY tag and cannot be taken with another ARMOURY detachment.`,
       },

@@ -16,7 +16,15 @@
 
     <!-- ───────── Step 1 — Armies ───────── -->
     <div v-show="step === 1" :ref="el => (panelEls[0] = el)" class="step-panel">
-      <div class="field battle-size">
+      <div class="field game-type">
+        <span>{{ labels.trackerGameType }}</span>
+        <div class="seg seg-wrap">
+          <button :class="{ on: !settings.combatPatrol }" @click="setCombatPatrol(false)">{{ labels.trackerGameTypeCompetitive }}</button>
+          <button :class="{ on: settings.combatPatrol }" @click="setCombatPatrol(true)">{{ labels.trackerGameTypeCombatPatrol }}</button>
+        </div>
+      </div>
+
+      <div v-if="!settings.combatPatrol" class="field battle-size">
         <span>{{ labels.trackerBattleSize }}</span>
         <div class="seg">
           <button
@@ -45,12 +53,13 @@
             <FactionPickerModal
               v-if="factionPickerIdx === i"
               :selected="p.factionSlug"
+              :combat-patrol-only="settings.combatPatrol"
               @pick="slug => selectFaction(p, slug)"
               @close="factionPickerIdx = -1"
             />
           </div>
 
-          <div class="field">
+          <div v-if="!settings.combatPatrol" class="field">
             <span>
               {{ labels.trackerDpBudget }} <em class="dp-count" :class="{ over: dpSpent(p) > maxDp && p.detachments.length !== 1 }">{{ dpSpent(p) }} / {{ maxDp }} DP</em>
               <button v-if="p.detachments.length === 1 && dpSpent(p) > maxDp" type="button" class="help-btn" @click="dpHelpOpen = true" :aria-label="labels.trackerDpOverHelp">
@@ -75,6 +84,12 @@
               @toggle="d => toggleDetachment(p, d)"
               @close="detPickerIdx = -1"
             />
+          </div>
+          <div v-else class="field">
+            <span>{{ labels.trackerCpBox }}</span>
+            <p v-if="!p.factionSlug" class="det-empty">{{ labels.trackerSelectFaction }}</p>
+            <p v-else-if="cpFactionFor(p)" class="ro cp-box-line">{{ cpFactionFor(p).boxName }} · {{ cpFactionFor(p).dp }} DP</p>
+            <p v-else class="det-empty">{{ labels.trackerNoDetachments }}</p>
           </div>
 
           <label class="field">
@@ -127,6 +142,13 @@
             <p v-else class="det-empty">{{ labels.trackerPickDetachmentFirst }}</p>
           </label>
 
+          <div class="primary-block" v-if="primaryCards[i]">
+            <span class="primary-label">{{ labels.trackerPrimaryPreview }}</span>
+            <div class="primary-card">
+              <MissionCard :mission="primaryCards[i]" :show-lore="false" collapsible :default-open="false" />
+            </div>
+          </div>
+
           <label class="field">
             <span>{{ labels.trackerSecondaryMode }}</span>
             <div class="seg">
@@ -141,10 +163,6 @@
               <span class="ct-name" :class="{ placeholder: !p.fixedSecondaries.length }">{{ fixedSummary(p) }}</span>
               <i class="bi bi-chevron-right ct-chev"></i>
             </button>
-          </div>
-
-          <div class="primary-card" v-if="primaryCards[i]">
-            <MissionCard :mission="primaryCards[i]" :subtitle="labels.trackerPrimaryPreview" :show-lore="false" />
           </div>
         </div>
       </div>
@@ -208,10 +226,28 @@
           <input type="checkbox" v-model="settings.trackCP" />
           <span>{{ labels.trackerTrackCp }}</span>
         </label>
+
+        <label v-if="players[0].factionSlug" class="check" :class="{ on: settings.trackArmyYou }">
+          <input type="checkbox" v-model="settings.trackArmyYou" />
+          <span>
+            {{ labels.trackerTrackArmyYou }}
+            <em v-if="!armyYouTrackable" class="check-note">{{ labels.trackerArmyReferenceOnly }}</em>
+          </span>
+        </label>
+
+        <label v-if="players[1].factionSlug" class="check" :class="{ on: settings.trackArmyOpp }">
+          <input type="checkbox" v-model="settings.trackArmyOpp" />
+          <span>
+            {{ labels.trackerTrackArmyOpp }}
+            <em v-if="!armyOppTrackable" class="check-note">{{ labels.trackerArmyReferenceOnly }}</em>
+          </span>
+        </label>
       </div>
 
-      <!-- Twist: optional pre-game modifier — chosen via a full-screen picker -->
-      <div class="settings twist-block">
+      <!-- Twist: optional pre-game modifier — chosen via a full-screen picker. Not offered for
+           Combat Patrol (the box's own rules don't mention it either way; keeping this step
+           simple, matching how basic-box play works). -->
+      <div v-if="!settings.combatPatrol" class="settings twist-block">
         <h3 class="block-head">{{ labels.trackerTwistHeading }}</h3>
         <button class="btn-choose-twist" @click="twistPickerOpen = true">
           <span class="ct-name" :class="{ placeholder: !chosenTwist }">{{ chosenTwist ? chosenTwist.title : labels.trackerChooseTwist }}</span>
@@ -318,6 +354,10 @@ const lastYouName = lastGame
 const lastScoreMode = history.value[0]?.settings?.scoreMode === 'bp' ? 'bp' : 'vp'
 // Remember the Track CP toggle from the last game (older games lack it → default on).
 const lastTrackCP = history.value[0]?.settings?.trackCP ?? true
+// Same for the army-rule tracker toggles (split you/opponent; fall back to the old single flag).
+const lastS = history.value[0]?.settings ?? {}
+const lastTrackArmyYou = lastS.trackArmyYou ?? lastS.trackArmyRule ?? true
+const lastTrackArmyOpp = lastS.trackArmyOpp ?? lastS.trackArmyRule ?? true
 function playerLabel(i) {
   return i === 0 ? labels.value.trackerYou : labels.value.trackerOpponent
 }
@@ -333,7 +373,7 @@ const MAX_FIXED = 2   // Fixed secondaries: choose 2, kept for the whole game.
 function defaultPlayer(role, name = '') {
   return { name, factionSlug: null, detachments: [], disposition: null, role, secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false }
 }
-const defaultSettings = { trackCP: lastTrackCP, firstTurn: 1, layout: 'A', customLayout: null, battleSize: 'strikeForce', twist: null, twistMission: null, scoreMode: lastScoreMode }
+const defaultSettings = { trackCP: lastTrackCP, trackArmyYou: lastTrackArmyYou, trackArmyOpp: lastTrackArmyOpp, firstTurn: 1, layout: 'A', customLayout: null, battleSize: 'strikeForce', combatPatrol: false, twist: null, twistMission: null, scoreMode: lastScoreMode }
 
 // Restore an in-progress draft if present, else start fresh (with the pre-filled name).
 // Read once, BEFORE the reset watchers are registered, so restoring a faction/detachments
@@ -345,6 +385,24 @@ const players = reactive([
   { ...defaultPlayer('defender'), ...(draft?.players?.[1]) },
 ])
 const settings = reactive({ ...defaultSettings, ...(draft?.settings) })
+
+// Every faction now gets SOME form of the army-rule card during the game — an interactive
+// counter/toggle/etc. for the ~11 factions with a registered spec, or a read-only reference
+// (just the rule's own text) for the rest (see ArmyTrackerCard.vue's `kind: 'reference'`
+// fallback). These two flags only control the setup checkbox's caption ("reference only, no
+// counter" vs nothing extra) — resolved per player, lazily (the registry is dynamic-imported,
+// same as the in-game card), whenever the picked factions change.
+const armyYouTrackable = ref(false)
+const armyOppTrackable = ref(false)
+watch(
+  () => players.map(p => p.factionSlug).join('|'),
+  async () => {
+    const { resolveArmyTracker } = await import('../../data/armyTrackers/index.js')
+    armyYouTrackable.value = !!(players[0]?.factionSlug && resolveArmyTracker(players[0].factionSlug))
+    armyOppTrackable.value = !!(players[1]?.factionSlug && resolveArmyTracker(players[1].factionSlug))
+  },
+  { immediate: true },
+)
 
 const battleSizes = BATTLE_SIZES
 const maxDp = computed(() => BATTLE_SIZES.find(b => b.id === settings.battleSize)?.maxDp ?? 3)
@@ -414,6 +472,45 @@ function factionName(slug) {
   return FACTIONS.find(f => f.slug === slug)?.name || ''
 }
 
+// Combat Patrol box content (rule name, fixed Force Disposition, box name/DP) — dynamically
+// imported (heavy, datasheet-bearing file) only once "Тип игры" is set to Combat Patrol, same
+// "heavy data file, dynamic import" rule as everywhere else in this codebase. `name`/`slug`/
+// `forceDisposition`/`boxName` are locale-agnostic structural fields, so the EN list is enough
+// here regardless of the app's current locale.
+const combatPatrolData = ref(null)
+async function loadCombatPatrolData() {
+  if (combatPatrolData.value) return combatPatrolData.value
+  const { combatPatrol } = await import('../../data/combatPatrol.js')
+  combatPatrolData.value = combatPatrol.en.factions
+  return combatPatrolData.value
+}
+if (settings.combatPatrol) loadCombatPatrolData()   // restored draft already in CP mode
+
+function cpFactionFor(p) {
+  return combatPatrolData.value?.find(f => f.slug === p.factionSlug) || null
+}
+
+// Single source of truth for a player's detachment/disposition, re-derived whenever their
+// faction OR the game type changes: cleared for a normal game (manual pick downstream), or
+// auto-resolved from the CP box's one fixed detachment + Force Disposition — no manual steps.
+async function resolveArmyChoice(p) {
+  p.detachments = []
+  p.disposition = null
+  if (!settings.combatPatrol || !p.factionSlug) return
+  const list = await loadCombatPatrolData()
+  const cp = list.find(f => f.slug === p.factionSlug)
+  if (!cp) return
+  p.detachments = [cp.rule.name]
+  p.disposition = DISPOSITIONS.find(d => d.name === cp.forceDisposition)?.id ?? null
+}
+
+function setCombatPatrol(on) {
+  if (settings.combatPatrol === on) return
+  settings.combatPatrol = on
+  if (on) { settings.twist = null; settings.twistMission = null }
+  players.forEach(p => resolveArmyChoice(p))
+}
+
 function toggleFixed(p, slug) {
   const i = p.fixedSecondaries.indexOf(slug)
   if (i >= 0) p.fixedSecondaries.splice(i, 1)
@@ -450,6 +547,9 @@ function dpSpent(p) {
   return p.detachments.reduce((s, name) => s + (detachmentInfo(p.factionSlug, name)?.dp || 0), 0)
 }
 function candidateDispositions(p) {
+  // Combat Patrol: exactly one, fixed disposition — already resolved onto p.disposition by
+  // resolveArmyChoice, just echo it back in the shape the step-2 template expects.
+  if (settings.combatPatrol) return p.disposition ? [p.disposition] : []
   const ids = p.detachments
     .map(name => detachmentInfo(p.factionSlug, name)?.forceDisposition)
     .filter(Boolean)
@@ -470,8 +570,9 @@ function toggleDetachment(p, d) {
   else if (p.detachments.length === 0 || dpSpent(p) + d.dp <= maxDp.value) p.detachments.push(d.name)
 }
 
-// Changing faction resets its detachment/disposition choices.
-players.forEach(p => watch(() => p.factionSlug, () => { p.detachments = []; p.disposition = null }))
+// Changing faction resets its detachment/disposition choices (or, in Combat Patrol mode,
+// re-resolves them from the newly picked box — see resolveArmyChoice).
+players.forEach(p => watch(() => p.factionSlug, () => resolveArmyChoice(p)))
 
 // Shrinking the battle size (e.g. Strike Force → Incursion) can invalidate the chosen
 // detachments' DP, so clear each player's detachments and disposition for a fresh pick.
@@ -537,7 +638,9 @@ function onPickLayout(l) { settings.layout = 'custom'; settings.customLayout = l
 const canArmies = computed(() =>
   players.every(p =>
     p.factionSlug &&
-    (detachmentsFor(p.factionSlug).length === 0 || p.detachments.length > 0)
+    (settings.combatPatrol
+      ? p.detachments.length > 0
+      : (detachmentsFor(p.factionSlug).length === 0 || p.detachments.length > 0))
   )
 )
 
@@ -648,10 +751,13 @@ function cancel() {
 }
 .player-card,
 .settings {
+  /* --pc-pad drives the padding AND the negative margin the mission preview uses to bleed
+     full-width (see .primary-card) — keep them in lockstep across the breakpoints below. */
+  --pc-pad: 1rem;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 6px;
-  padding: 1rem;
+  padding: var(--pc-pad);
 }
 .settings {
   margin-top: 1rem;
@@ -663,6 +769,17 @@ function cancel() {
 /* Drop the field's bottom margin here so the First Turn control and the Track CP
    checkbox card sit on the same baseline (no vertical offset). */
 .settings .field { margin-bottom: 0; }
+/* Narrow screens: the container padding (especially with the nested MissionCard in the Mission
+   step) wastes a lot of the limited width — tighten it and the inter-card gap. */
+@media (max-width: 560px) {
+  .players { gap: 0.55rem; }
+  .player-card,
+  .settings { --pc-pad: 0.6rem; }
+}
+@media (max-width: 380px) {
+  .player-card,
+  .settings { --pc-pad: 0.5rem; }
+}
 /* Step 4 (Deployment): stack the options vertically, each on its own line. */
 .deploy-opts {
   flex-direction: column;
@@ -737,6 +854,10 @@ function cancel() {
 }
 .dp-count.over { color: #c0392b; }
 :global([data-theme='dark']) .dp-count.over { color: #ef6e60; }
+.game-type {
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
 .battle-size {
   align-items: flex-start;
   margin-bottom: 1rem;
@@ -883,6 +1004,12 @@ function cancel() {
   background: color-mix(in srgb, var(--accent) 10%, transparent);
 }
 .check.on span { color: var(--text-primary); }
+.check-note {
+  display: block;
+  font-style: normal;
+  font-size: 0.72rem;
+  color: var(--text-dim);
+}
 .check input[type="checkbox"] {
   width: 20px;
   height: 20px;
@@ -891,7 +1018,38 @@ function cancel() {
   cursor: pointer;
 }
 .br-check { margin-top: 0.2rem; }
-.primary-card { margin-top: 0.7rem; }
+/* Primary mission: an inset label (matching the field labels, like the secondary section) over a
+   full-bleed accordion. The accordion spans the player-card's whole content width; its tinted
+   header bar runs edge to edge, and a bottom separator closes the section before the secondaries. */
+.primary-block {
+  margin-bottom: 0.7rem;
+}
+.primary-label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.primary-card {
+  margin: 0 calc(-1 * var(--pc-pad));
+}
+.primary-card :deep(.mcard) {
+  border: none;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  padding: 0 0 0.7rem;
+}
+/* Header bar runs edge to edge (no rounded corners against the card sides). */
+.primary-card :deep(.mcard.collapsible > .mcard-head) {
+  border-radius: 0;
+}
+/* Small inset for the expanded content so the scoring rows don't collide with the card border. */
+.primary-card :deep(.mcard-body) {
+  padding: 0 0.35rem;
+}
 
 /* Layout A/B/C tabs (mirror the Event Companion layout viewer). */
 .tabs {

@@ -4,8 +4,7 @@
 // source: 'faction-pack'. Resolution priority as usual: MFM (points, DP / Force
 // Disposition) > Faction Pack.
 //
-//   Text layer: 6 detachments imported from the Wahapedia CSV exports via
-//     scripts/import-wahapedia.mjs and reconciled against the pack (Daemonic Incursion was
+//   Text layer: 6 detachments imported from the codex//      and reconciled against the pack (Daemonic Incursion was
 //     trimmed to the pack's 6 stratagems / 4 enhancements and its Warp Rifts distances
 //     updated; the pack dropped the old Unnatural Energies rule row).
 //   From the pack directly: army rule (The Shadow of Chaos + Daemonic Pact) and the 3 new
@@ -30,7 +29,7 @@ const en = {
 ▪ At the start of any phase, if you control at least half of the objective markers within your opponent's deployment zone, until the end of that phase, your opponent's deployment zone is within your army's Shadow of Chaos.
 
 ### Daemonic Manifestation
-While a LEGIONES DAEMONICA unit from your army is within your army's Shadow of Chaos, each time that unit takes a Battle-shock test, add 1 to that test and, if that test is passed, one model in that unit regains up to D3 lost wounds (if that unit is a Battleline unit and that test is passed, up to D3 destroyed models can be returned to that unit instead).
+While a LEGIONES DAEMONICA unit from your army is within your army's Shadow of Chaos, each time that unit makes a Battle-shock roll, that unit has +1 to that Battle-shock roll and, if that roll is successful, one model in that unit heals D3 wounds (if that unit is a Battleline unit and that roll is successful, up to D3 destroyed models (excluding CHARACTER models) can be returned to that unit instead).
 
 ### Daemonic Terror
 While an enemy unit is within your army's Shadow of Chaos and/or it is within 6" of one or more Bloodthirster, Great Unclean One, Kairos Fateweaver, Keeper of Secrets, Lord of Change, Rotigus, Shalaxi Helbane or Skarbrand units from your army, each time that unit takes a Battle-shock test, subtract 1 from that test and, if that test is failed, that enemy unit suffers D3 mortal wounds.
@@ -49,7 +48,7 @@ If every model from your army has the CHAOS KNIGHTS or HERETIC ASTARTES keyword,
       rule: {
         name: "Murdercall & Blood Tainted",
         flavor: "The daemons of Khorne are physical manifestations of rage, hate and the desperate need to shed blood. For as long as their physical forms remain in realspace, they will never cease their murderous rampage.",
-        body: "### Murdercall\nEach time an enemy unit (excluding AIRCRAFT) ends a Normal or Advance move within 6\" of one or more Legiones Daemonica Khorne units from your army, one of those LEGIONES DAEMONICA KHORNE units can make a Surge move towards that enemy unit. To do so, roll one D6: models in your unit move a number of inches up to this result, but your unit must end that move as close as possible to that enemy unit. When doing so, those models can be moved within Engagement Range of that enemy unit. A unit cannot make a Surge move while it is within Engagement Range of one or more enemy units.\n\n### Blood Tainted\nAt the end of a phase in which a Legiones Daemonica Khorne unit from your army destroyed an enemy unit that was within range of an objective marker at the start of the phase, if your unit has a higher Level of Control over that objective marker, that objective marker remains under your control until your opponent’s Level of Control over that objective marker is greater than yours at the end of a phase.",
+        body: "### Murdercall\nIn your opponent's Movement phase, each time an enemy unit (excluding AIRCRAFT) ends a move within 8\" of one or more LEGIONES DAEMONICA KHORNE units from your army, one of those LEGIONES DAEMONICA KHORNE units can make a surge move of up to D6\".\n\n### Blood Tainted\nAt the end of a phase in which a Legiones Daemonica Khorne unit from your army destroyed an enemy unit that was within range of an objective marker at the start of the phase, if your unit has a higher Level of Control over that objective marker, that objective marker remains under your control until your opponent’s Level of Control over that objective marker is greater than yours at the end of a phase.",
       },
       stratagems: [
         {
@@ -69,9 +68,9 @@ If every model from your army has the CHAOS KNIGHTS or HERETIC ASTARTES keyword,
           cp: "2CP",
           turn: "opponent",
           flavor: "Khorne’s daemons know only hatred and contempt for those who flee from combat and will distort reality itself to keep such cowards trapped in the endless battle they sought to escape.",
-          when: "Your opponent’s Movement phase, just after an enemy unit Falls Back.",
-          target: "One Legiones Daemonica Khorne unit from your army that is within 6\" of that enemy unit and would be eligible to declare a charge against that enemy unit.",
-          effect: "Your unit now declares a charge that targets only that enemy unit, and you resolve that charge. Note that even if that charge is successful, your unit does not receive any Charge bonus this turn.",
+          when: "Your opponent’s Movement phase, when an enemy unit ends a fall-back move.",
+          target: "One friendly unengaged LEGIONES DAEMONICA KHORNE unit that is within 6\" of that enemy unit.",
+          effect: "Declare a charge with your unit. When selecting charge targets, you can only select enemy units that made a fall-back move this phase and are within the maximum distance.",
           restrictions: "",
         },
         {
@@ -190,7 +189,7 @@ If every model from your army has the CHAOS KNIGHTS or HERETIC ASTARTES keyword,
           flavor: "When the energies of the warp bleed into realspace, the Legiones Daemonica can rip open portals in seeming thin-air, returning to their hellscapes only to rematerialise amidst their foes a heartbeat later.",
           when: "End of your opponent’s turn.",
           target: "Up to two LEGIONES DAEMONICA units from your army that are within your army’s Shadow of Chaos, or one other LEGIONES DAEMONICA unit from your army.",
-          effect: "Remove the targeted units from the battlefield and place them into Strategic Reserves. They will arrive back on the battlefield in the Reinforcements step of your next Movement phase using the Deep Strike ability.",
+          effect: "▪ Place your unit in strategic reserves.\n▪ Your unit must make an ingress move in your next Movement phase (including in your first turn).",
           restrictions: "You cannot target units that are within Engagement Range of one or more enemy units with this Stratagem.",
         },
         {
@@ -306,7 +305,7 @@ If every model from your army has the CHAOS KNIGHTS or HERETIC ASTARTES keyword,
           cp: "1CP",
           turn: "either",
           flavor: "To exist, however fleetingly, in realspace is an opportunity to indulge in every physical sensation. So enraptured do the daemons of Slaanesh become that they even steal one another’s agonies to enjoy.",
-          when: "Any phase, just after an attack or mortal wound is allocated to a model in a Legiones Daemonica Slaanesh unit from your army (excluding Monsters and Vehicles).",
+          when: "Any phase, when an enemy unit targets a friendly LEGIONES DAEMONICA SLAANESH unit (excluding MONSTER/VEHICLE units), or when a friendly LEGIONES DAEMONICA SLAANESH unit (excluding MONSTER/VEHICLE units) suffers a mortal wound.",
           target: "That LEGIONES DAEMONICA SLAANESH unit.",
           effect: "Select one other friendly LEGIONES DAEMONICA SLAANESH unit that is within 9\" of and visible to your unit. Until the end of the phase, while the selected unit is on the battlefield, each time a model in your unit would lose a wound, inflict 1 mortal wound on the selected unit instead.",
           restrictions: "",
@@ -417,7 +416,7 @@ If every model from your army has the CHAOS KNIGHTS or HERETIC ASTARTES keyword,
           flavor: "As the power of the Plague God saturates the battlefield, fresh daemonic life blooms from the septic corpse mulch that bubbles underfoot.",
           when: "Your Command phase.",
           target: "One Legiones Daemonica Nurgle unit from your army that is on the battlefield.",
-          effect: "Return up to 1 destroyed model to your unit, or up to D3 destroyed models instead if your unit is a Battleline unit, with their full wounds remaining. If it is a Monster unit, one model in your unit regains up to D3+1 lost wounds instead.",
+          effect: "Return up to 1 destroyed model to your unit (excluding Character models), or up to D3 destroyed models instead (excluding Character models) if your unit is a Battleline unit, with their full wounds remaining. If your unit is a Monster unit, one model in your unit regains up to D3+1 lost wounds instead.",
           restrictions: "",
         },
         {
@@ -555,19 +554,19 @@ If every model from your army has the CHAOS KNIGHTS or HERETIC ASTARTES keyword,
       enhancements: [
         {
           name: "Inescapable Eye",
-          points: 10,
+          points: 15,
           flavor: "This gem reveals the myriad paths of the future.",
           body: "Legiones Daemonica Tzeentch model only. In your Command phase, if the bearer is on the battlefield, if your opponent has one or more Flux tokens, you gain one additional Flux token.",
         },
         {
           name: "Infernal Puppeteer",
-          points: 25,
+          points: 20,
           flavor: "To this mighty entity, lesser daemons are but prisms through which its power shines.",
-          body: "Legiones Daemonica Tzeentch Monster model only. In your Shooting phase, the bearer can use this Enhancement. If it does, until the end of the phase, you can select one other friendly visible Legiones Daemonica Tzeentch unit within 9\" of the bearer. If you do, when selecting targets for ranged weapons equipped by the bearer, you can measure range and determine visibility from one model of your choice in the selected unit instead.\n\n**Designer’s Note:** When determining if a unit with the Lone Operative ability can be selected as the target, the range is determined from the model of your choice in the selected unit.",
+          body: "Legiones Daemonica Tzeentch Monster model only. In your Shooting phase, when this unit is selected to shoot, while an enemy unit is visible to a friendly Legiones Daemonica Tzeentch unit, that enemy unit has +9\" detection range until this unit has shot.",
         },
         {
           name: "Neverblade",
-          points: 20,
+          points: 25,
           flavor: "This bizarre daemon weapon makes a mockery of even the most determined defence.",
           body: "Legiones Daemonica Tzeentch Monster model only. Improve the Strength characteristic of melee weapons equipped by the bearer by 2, improve the Attacks and Armour Penetration characteristics of melee weapons equipped by the bearer by 1, and each time the bearer makes a melee attack, add 1 to the Hit roll.",
         },
@@ -590,7 +589,7 @@ If every model from your army has the CHAOS KNIGHTS or HERETIC ASTARTES keyword,
       rule: {
         name: "Thralls of the First Prince & First Prince of Chaos",
         flavor: "",
-        body: "### Thralls of the First Prince\nWhen mustering your army, you cannot include any Daemon Prince, Daemon Prince with Wings or Epic Hero units (excluding Be’lakor), but you can include the following HERETIC ASTARTES units:\n▪ Chaos Lord\n▪ Chaos Lord in Terminator Armour\n▪ Chaos Lord with Jump Pack\n▪ Chaos Terminator Squad\n▪ Chosen\n▪ Damned units\n▪ Dark Apostle\n▪ Havocs\n▪ Legionaries\n▪ Master of Possession\n▪ Possessed\n▪ Raptors\n▪ Sorcerer\n▪ Sorcerer in Terminator Armour\n▪ Warp Talons\n\nThe combined points value of such units depends on your battle size, as shown below.\n▪ **Incursion:** Up to 500 pts\n▪ **Strike Force:** Up to 1000 pts\n▪ **Onslaught:** Up to 1500 pts\n\nKEYWORDS\nBe’lakor and Heretic Astartes units from your army gain the SHADOW LEGION and UNDIVIDED keywords.\n\nLegiones Daemonica units from your army gain the SHADOW LEGION keyword.\n\n### First Prince of Chaos\nUnits from your army have the relevant abilities presented below.\n\nMURDERER’S COWL\n\nThe most murderous seek not to hide in the Dark Master’s pall. The shadows extend before them, offering a rapid route to slaughter.\n\nSHADOW LEGION KHORNE units only. This unit is eligible to shoot and declare a charge in a turn in which it Advanced.\n\nPENUMBRAL PUPPETRY\n\nMutative agents of change, touched by the Dark Master’s umbral aura, summon illusory magicks to confound and confuse their desperate foes.\n\nSHADOW LEGION TZEENTCH units only. Each time an attack targets this unit, subtract 1 from the Hit roll.\n\nGLOAM ROT\n\nBorne upon the gloaming wisp of Be’lakor’s shadow, this debilitating curse atrophies muscle and withers flesh, greatly weakening its victims.\n\nSHADOW LEGION NURGLE units only. Each time an attack targets this unit, if the Strength characteristic of that attack is greater than this unit’s Toughness characteristic, subtract 1 from the Wound roll.\n\nSHADOW’S CARESS\n\nThe Dark Master’s shadow falls across his thralls, masking their approach.\n\nSHADOW LEGION SLAANESH units only. Enemy units cannot use the Fire Overwatch Stratagem to shoot at this unit.\n\nDISCIPLES OF BE’LAKOR\n\nBe’lakor’s immortal ego draws into his orbit those as yet unclaimed by any one Chaos God. Their hate-filled pacts are made to the entire fell pantheon, and the dangerous boons they receive see them plunged along paths of perpetual night straight into the enemy’s midst.\n\nSHADOW LEGION UNDIVIDED units only.\n▪ This unit has the Dark Pacts army rule, and can use it as described in Codex: Chaos Space Marines, even though your Army Faction is not HERETIC ASTARTES. If this unit is BE’LAKOR, it automatically passes the Leadership test required for Dark Pacts.\n▪ SHADOW LEGION HERETIC ASTARTES models in this unit have the Deep Strike ability.",
+        body: "### Thralls of the First Prince\nWhen mustering your army, you cannot include any Daemon Prince, Daemon Prince with Wings or Epic Hero units (excluding Be’lakor), but you can include the following HERETIC ASTARTES units:\n▪ Chaos Lord\n▪ Chaos Lord in Terminator Armour\n▪ Chaos Lord with Jump Pack\n▪ Chaos Terminator Squad\n▪ Chosen\n▪ Damned units\n▪ Dark Apostle\n▪ Havocs\n▪ Legionaries\n▪ Master of Possession\n▪ Possessed\n▪ Raptors\n▪ Sorcerer\n▪ Sorcerer in Terminator Armour\n▪ Warp Talons\n\nThe combined points value of such units depends on your battle size, as shown below.\n▪ **Incursion:** Up to 500 pts\n▪ **Strike Force:** Up to 1000 pts\n▪ **Onslaught:** Up to 1500 pts\n\nKEYWORDS\nBe’lakor and Heretic Astartes units from your army gain the SHADOW LEGION and UNDIVIDED keywords.\n\nLegiones Daemonica units from your army gain the SHADOW LEGION keyword.\n\n### First Prince of Chaos\nUnits from your army have the relevant abilities presented below.\n\nMURDERER’S COWL\n\nThe most murderous seek not to hide in the Dark Master’s pall. The shadows extend before them, offering a rapid route to slaughter.\n\nSHADOW LEGION KHORNE units only. This unit is eligible to shoot and declare a charge in a turn in which it Advanced.\n\nPENUMBRAL PUPPETRY\n\nMutative agents of change, touched by the Dark Master’s umbral aura, summon illusory magicks to confound and confuse their desperate foes.\n\nSHADOW LEGION TZEENTCH units only. This unit has Stealth. Each time a melee attack targets this unit, subtract 1 from the Hit roll.\n\nGLOAM ROT\n\nBorne upon the gloaming wisp of Be’lakor’s shadow, this debilitating curse atrophies muscle and withers flesh, greatly weakening its victims.\n\nSHADOW LEGION NURGLE units only. Each time an attack targets this unit, if the Strength characteristic of that attack is greater than this unit’s Toughness characteristic, subtract 1 from the Wound roll.\n\nSHADOW’S CARESS\n\nThe Dark Master’s shadow falls across his thralls, masking their approach.\n\nSHADOW LEGION SLAANESH units only. Enemy units cannot target this unit with snap shooting attacks.\n\nDISCIPLES OF BE’LAKOR\n\nBe’lakor’s immortal ego draws into his orbit those as yet unclaimed by any one Chaos God. Their hate-filled pacts are made to the entire fell pantheon, and the dangerous boons they receive see them plunged along paths of perpetual night straight into the enemy’s midst.\n\nSHADOW LEGION UNDIVIDED units only.\n▪ This unit has the Dark Pacts army rule, and can use it as described in Codex: Chaos Space Marines, even though your Army Faction is not HERETIC ASTARTES. If this unit is BE’LAKOR, it automatically passes the Leadership test required for Dark Pacts.\n▪ SHADOW LEGION HERETIC ASTARTES models in this unit have the Deep Strike ability.",
       },
       stratagems: [
         {
@@ -610,9 +609,9 @@ If every model from your army has the CHAOS KNIGHTS or HERETIC ASTARTES keyword,
           cp: "2CP",
           turn: "opponent",
           flavor: "A chill penumbra settles over the oncoming foe. Those that manage to cut their way through the blanket of twilight find themselves seized with terror as the darkness parts and the horrific nature of their enemy is revealed.",
-          when: "Your opponent’s Charge phase, just after an enemy unit declares a charge.",
-          target: "One Shadow Legion unit from your army that was selected as a target of that charge.",
-          effect: "Until the end of the phase, subtract 2 from Charge rolls made for that enemy unit. In addition, if your unit has the Nurgle keyword, that enemy unit must take a Battle-shock test.",
+          when: "Start of your opponent’s Charge phase.",
+          target: "One Shadow Legion unit from your army.",
+          effect: "Select one visible enemy unit within 12\" of your unit. When that enemy unit declares a charge, that enemy unit has -1 to Charge rolls. If your unit has Nurgle, that enemy unit must make a Battle-shock roll.",
           restrictions: "",
         },
         {
@@ -698,7 +697,7 @@ If every model from your army has the CHAOS KNIGHTS or HERETIC ASTARTES keyword,
       rule: {
         name: "Unholy Avalanche",
         flavor: "Infused with the Warp\u2019s unholy power, temporary ebbs of slaughter can be twisted into thundering advances of daemonic power in a heartbeat.",
-        body: "If a friendly LEGIONES DAEMONICA MOUNTED unit made a Fall Back move this turn, that move does not prevent that unit from being eligible to shoot or eligible to declare a charge.",
+        body: "If a friendly LEGIONES DAEMONICA MOUNTED unit made a Fall Back move this turn, that move does not prevent that unit from being eligible to shoot/eligible to declare a charge.",
       },
       stratagems: [
         {
@@ -731,7 +730,7 @@ If every model from your army has the CHAOS KNIGHTS or HERETIC ASTARTES keyword,
           flavor: "It is no easy matter to escape this thundering warp-spawned cavalcade, and those who try are likely to be ridden down by howling daemons.",
           when: "Your opponent\u2019s Movement phase, when a unit is selected to make a Fall Back move, if that unit is engaged with a friendly LEGIONES DAEMONICA MOUNTED unit.",
           target: "That LEGIONES DAEMONICA MOUNTED unit.",
-          effect: "When an enemy unit engaged with your unit is selected to make a Fall Back move, that enemy unit must use the Desperate Escape mode. If that enemy unit is Battle-shocked, subtract 1 from those Desperate Escape tests.",
+          effect: "When an enemy unit engaged with your unit is selected to make a Fall Back move, that enemy unit must use the Desperate Escape mode. If that enemy unit is Battle-shocked, subtract 1 from those hazard rolls.",
           restrictions: "",
         },
       ],
@@ -741,7 +740,7 @@ If every model from your army has the CHAOS KNIGHTS or HERETIC ASTARTES keyword,
           points: 10,
           upgrade: true,
           flavor: "The daemonic abominations ridden by these warriors thunder into battle like the manifestation of every culture\u2019s apocalyptic prophecies since time began.",
-          body: "LEGIONES DAEMONICA MOUNTED unit only. This unit has +1\" Move.",
+          body: "LEGIONES DAEMONICA MOUNTED unit only. This unit has +1\" M.",
         },
         {
           name: "Soul-shattering Charge",
@@ -762,7 +761,7 @@ If every model from your army has the CHAOS KNIGHTS or HERETIC ASTARTES keyword,
       rule: {
         name: "Loci of Power",
         flavor: "Seething with the baleful energies of the Immaterium, the dark nobility of the daemon legions manifest as living icons of their gods\u2019 powers burned into the very flesh of realspace.",
-        body: "Friendly LEGIONES DAEMONICA CHARACTER models (excluding MONSTER models) have +1 Leadership and Objective Control.",
+        body: "Friendly LEGIONES DAEMONICA CHARACTER models (excluding MONSTER models) have +1 Ld and OC.",
       },
       stratagems: [
         {
@@ -784,7 +783,7 @@ If every model from your army has the CHAOS KNIGHTS or HERETIC ASTARTES keyword,
           flavor: "This champion\u2019s very war cry erupts from their maw as a brazen horn call that summons Khorne\u2019s servants to battle.",
           when: "Fight phase, when a friendly LEGIONES DAEMONICA KHORNE CHARACTER unit (excluding MONSTER units) that made a Charge move this turn is selected to fight.",
           target: "That LEGIONES DAEMONICA CHARACTER KHORNE unit.",
-          effect: "Your unit\u2019s melee attacks have +1 Attacks.",
+          effect: "Your unit\u2019s melee attacks have +1 A.",
           restrictions: "",
         },
         {
@@ -806,7 +805,7 @@ If every model from your army has the CHAOS KNIGHTS or HERETIC ASTARTES keyword,
           flavor: "Shrieking kaleidoscopic sorceries caught by this entity\u2019s talons are hurled in a gust of empyric fire, its mutating touch tearing open wounds into which the Warp\u2019s lethal power can flow.",
           when: "Your Shooting phase, when a friendly LEGIONES DAEMONICA CHARACTER TZEENTCH unit (excluding MONSTER units) is selected to shoot.",
           target: "That LEGIONES DAEMONICA CHARACTER TZEENTCH unit.",
-          effect: "Your unit\u2019s ranged attacks have the [LETHAL HITS] ability.",
+          effect: "Your unit\u2019s ranged attacks have [LETHAL HITS].",
           restrictions: "",
         },
       ],
@@ -816,7 +815,7 @@ If every model from your army has the CHAOS KNIGHTS or HERETIC ASTARTES keyword,
           points: 10,
           upgrade: true,
           flavor: "Unholy energies roll in waves through this captain of the daemonic legions, straining its corporeal shell with infernal might.",
-          body: "LEGIONES DAEMONICA CHARACTER model only (excluding MONSTER units). This model has +2 Wounds.",
+          body: "LEGIONES DAEMONICA CHARACTER model only (excluding MONSTER units). This model has +2 W.",
         },
       ],
     },
@@ -830,7 +829,7 @@ If every model from your army has the CHAOS KNIGHTS or HERETIC ASTARTES keyword,
       rule: {
         name: "Shudderblink",
         flavor: "These daemons\u2019 physical manifestations flicker in and out of being like a pict-reel skipping and projecting too quickly. One moment, they are a distant threat; the next, they are upon their horrified victims.",
-        body: "When a friendly LEGIONES DAEMONICA BATTLELINE unit is selected to make an Advance move:\n▪ That unit\u2019s ranged attacks have the [ASSAULT] ability until the end of the turn.\n▪ That move does not prevent that unit from being eligible to declare a charge.",
+        body: "When a friendly LEGIONES DAEMONICA BATTLELINE unit is selected to make an Advance move:\n▪ That unit\u2019s ranged attacks have [ASSAULT] until the end of the turn.\n▪ That move does not prevent that unit from being eligible to declare a charge.",
       },
       stratagems: [
         {
@@ -863,7 +862,7 @@ If every model from your army has the CHAOS KNIGHTS or HERETIC ASTARTES keyword,
           flavor: "No matter how potent the weapons turned against them, the ephemeral forms of these daemons seem almost to exist in a different realm of reality than their blasts and projectiles.",
           when: "Your opponent\u2019s Shooting phase, when an enemy unit targets a friendly LEGIONES DAEMONICA BATTLELINE unit.",
           target: "That LEGIONES DAEMONICA BATTLELINE unit.",
-          effect: "Ranged attacks that target your unit with a Strength greater than your unit\u2019s Toughness have -1 to Wound rolls.",
+          effect: "Ranged attacks that target your unit with a S greater than your unit\u2019s T have -1 to Wound rolls.",
           restrictions: "",
         },
       ],
@@ -873,14 +872,14 @@ If every model from your army has the CHAOS KNIGHTS or HERETIC ASTARTES keyword,
           points: 15,
           upgrade: true,
           flavor: "The manifest armaments of these daemonic warriors drip with curses and moan with baleful energies that are the anathema of all life.",
-          body: "LEGIONES DAEMONICA BATTLELINE unit only. This unit\u2019s attacks have +1 Strength.",
+          body: "LEGIONES DAEMONICA BATTLELINE unit only. This unit\u2019s attacks have +1 S.",
         },
         {
           name: "Soul-hungry Slaughterers",
           points: 10,
           upgrade: true,
           flavor: "Driven by the all-consuming need to claim mortal souls and sustain their own corporeal manifestations, these daemons surge toward the enemy at every opportunity.",
-          body: "LEGIONES DAEMONICA BATTLELINE unit only. When you target this unit with the Heroic Intervention/Fire Overwatch Stratagem, that use is -1CP.",
+          body: "LEGIONES DAEMONICA BATTLELINE unit only. When you target this unit with the Heroic Intervention/Fire Overwatch Stratagem, that use is -1 CP.",
         },
       ],
     },

@@ -17,7 +17,7 @@
           <span v-if="activeKeyword.num" class="kw-num" @click="navigateNum">{{ activeKeyword.num }}</span>
           <button class="kw-close" :class="{ 'kw-close-push': !activeKeyword.num }" @click="close" :aria-label="labels.modalClose">✕</button>
         </div>
-        <div v-if="activeKeyword.fullText" class="kw-popover-body" v-html="renderInline(activeKeyword.fullText)" @click="handleBodyClick"></div>
+        <div v-if="activeKeyword.fullText" class="kw-popover-body" v-html="renderRichText(activeKeyword.fullText)" @click="handleBodyClick"></div>
       </div>
     </Transition>
   </Teleport>
@@ -58,7 +58,7 @@ onUnmounted(() => {
   window.removeEventListener('scroll', dismissOnMove, { capture: true })
   window.removeEventListener('resize', dismissOnMove)
 })
-const { renderInline } = useRenderInline()
+const { renderRichText } = useRenderInline()
 const { navigateTo } = useRefNavigation()
 
 function navigateNum() {
@@ -186,6 +186,16 @@ const positionStyle = computed(() => {
 
 .kw-popover-body :deep(strong) {
   color: #fff;
+}
+
+.kw-popover-body :deep(ul),
+.kw-popover-body :deep(ol) {
+  margin: 0.4rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.kw-popover-body :deep(li) {
+  margin-bottom: 0.2rem;
 }
 
 .kw-popover-body :deep(.keyword) {

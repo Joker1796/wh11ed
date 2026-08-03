@@ -26,13 +26,12 @@
 //   sometimes pre-sums these into mutually-exclusive flat tiers (4vp if W≥4, 3vp otherwise).
 //   Check the arithmetic (base + bonus) before treating this as a mismatch.
 import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { ROOT, APPDATA, SLUG_MAP, norm, appdataToMarkup, loadJson, loadModule, byNormName, diffByName } from './lib/sync-common.mjs'
 
-const core = loadJson(path.join(APPDATA, 'factions', '_core-content.json'))
-if (!core) {
-  console.log('no factions/_core-content.json found in wh40k-appdata — run its build-factions.mjs first')
-  process.exit(1)
-}
+// Assigned at the top of run() — the categories below (called only from run(), after that
+// assignment) close over this binding rather than each taking it as a parameter.
+let core
 
 // ---- battle sizes ----------------------------------------------------------------------
 async function checkBattleSizes() {
@@ -63,6 +62,22 @@ async function checkCoreStratagems() {
     (s) => `${s.cp}CP — ${appdataToMarkup(s.effect)}`)
   if (!lines.length) console.log('  no structural differences found')
   else lines.forEach((l) => console.log(l))
+
+  // Full-text diff of the four prose fields (name/cp above were only structural/scalar).
+  const whByName = byNormName(sec15?.stratagems || [], (s) => s.name)
+  const appByName = byNormName(core.coreStratagems, (s) => s.name)
+  const textLines = []
+  for (const [key, w] of whByName) {
+    const a = appByName.get(key)
+    if (!a) continue
+    for (const [whField, appField] of [['when', 'when'], ['target', 'target'], ['effect', 'effect'], ['restrictions', 'restriction']]) {
+      const wt = normText(w[whField] || '')
+      const at = normText(appdataToMarkup(a[appField] || ''))
+      if (wt !== at) textLines.push(`  ~ "${w.name}".${whField}:\n      wh11ed:  ${w[whField] || '(empty)'}\n      appdata: ${appdataToMarkup(a[appField] || '(empty)')}`)
+    }
+  }
+  if (textLines.length) textLines.forEach((l) => console.log(l))
+  else console.log('  no text differences found (when/target/effect/restrictions)')
 }
 
 // ---- twists -------------------------------------------------------------------------------
@@ -73,6 +88,22 @@ async function checkTwists() {
   const lines = diffByName('twist', whTwists, core.twists, (t) => t.title, (t) => t.name, [], (t) => appdataToMarkup(t.rules))
   if (!lines.length) console.log('  no structural differences found')
   else lines.forEach((l) => console.log(l))
+
+  // Full-text diff: appdata inlines the Designer's Note into `rules`, wh11ed keeps it in a
+  // separate `note` field — fold both together before comparing (same fold sync-event-
+  // companion.mjs's syncTwists uses).
+  const whByName = byNormName(whTwists, (t) => t.title)
+  const appByName = byNormName(core.twists, (t) => t.name)
+  const textLines = []
+  for (const [key, w] of whByName) {
+    const a = appByName.get(key)
+    if (!a) continue
+    const wt = normText([w.body, w.note].filter(Boolean).join('\n\n'))
+    const at = normText(appdataToMarkup(a.rules || ''))
+    if (wt !== at) textLines.push(`  ~ "${w.title}":\n      wh11ed:  ${[w.body, w.note].filter(Boolean).join(' / ')}\n      appdata: ${appdataToMarkup(a.rules || '(empty)')}`)
+  }
+  if (textLines.length) textLines.forEach((l) => console.log(l))
+  else console.log('  no text differences found (body/note vs rules)')
 }
 
 // ---- primary/secondary missions -----------------------------------------------------------
@@ -82,7 +113,7 @@ async function checkTwists() {
 // rules meaning (commas, trailing periods, "the").
 const normText = (s) => norm(s)
   .replace(/\[gloss:[^:]*:([^\]]*)\]/g, '$1')
-  .replace(/\*\*|__/g, '')
+  .replace(/\*\*|__|\*/g, '')
   .replace(/[.,]/g, '')
   .replace(/\bthe\b/g, '')
   .replace(/\s+/g, ' ')
@@ -113,36 +144,95 @@ function flattenAppdata(objectives) {
   }
   return { headings, rows }
 }
+// A single Map keyed by normalized text silently drops rows: a handful of missions (A
+// Grievous Blow, Bring It Down, Engage On All Fronts) legitimately carry TWO scoring rows
+// with the *exact same* text and only the vp differs (fixed-tier vs tactical-tier, or a
+// vpCap'd second copy of an uncapped stepper) — a plain Map keeps only the last one,
+// so the other silently never gets compared at all (a future appdata vp change to the
+// dropped row would be invisible here). Group by text into arrays instead.
+function groupByText(rows) {
+  const m = new Map()
+  for (const r of rows) {
+    if (!m.has(r.text)) m.set(r.text, [])
+    m.get(r.text).push(r)
+  }
+  return m
+}
 function diffMissionContent(label, whMission, appMission) {
   const lines = []
   const wh = flattenWh11ed(whMission.blocks)
   const app = flattenAppdata(appMission.objectives)
   for (const h of app.headings) if (!wh.headings.has(h)) lines.push(`      + appdata objective heading not found in wh11ed blocks: "${h}"`)
   for (const h of wh.headings) if (!app.headings.has(h)) lines.push(`      - wh11ed block heading not in appdata: "${h}"`)
-  // Row-level: match by normalized text, compare vp. A row present on one side only is
-  // reported with its vp; a matched pair with a differing vp is reported as a mismatch.
-  const appByText = new Map(app.rows.map((r) => [r.text, r]))
-  const whByText = new Map(wh.rows.map((r) => [r.text, r]))
-  for (const [text, r] of appByText) {
-    const w = whByText.get(text)
-    if (!w) { lines.push(`      + appdata row not found in wh11ed: "${text}" (${r.vp}vp)`); continue }
-    if (r.vp && w.vp && r.vp !== w.vp) lines.push(`      ~ row "${text}" vp differs: wh11ed=${w.vp} appdata=${r.vp}`)
-  }
-  for (const [text, w] of whByText) {
-    if (!appByText.has(text)) lines.push(`      - wh11ed row not found in appdata: "${text}" (${w.vp}vp)`)
+  // Row-level: match by normalized text, compare vp. Rows sharing identical text on either
+  // side are vp-sorted and paired by position, so a text bucket with 2 appdata rows and 2
+  // wh11ed rows compares both pairs instead of only the one a plain Map would keep.
+  const appGroups = groupByText(app.rows)
+  const whGroups = groupByText(wh.rows)
+  for (const text of new Set([...appGroups.keys(), ...whGroups.keys()])) {
+    const appList = (appGroups.get(text) || []).slice().sort((a, b) => Number(a.vp) - Number(b.vp))
+    const whList = (whGroups.get(text) || []).slice().sort((a, b) => Number(a.vp) - Number(b.vp))
+    const n = Math.max(appList.length, whList.length)
+    for (let i = 0; i < n; i++) {
+      const r = appList[i]
+      const w = whList[i]
+      if (!w) { lines.push(`      + appdata row not found in wh11ed: "${text}" (${r.vp}vp)`); continue }
+      if (!r) { lines.push(`      - wh11ed row not found in appdata: "${text}" (${w.vp}vp)`); continue }
+      if (r.vp && w.vp && r.vp !== w.vp) lines.push(`      ~ row "${text}" vp differs: wh11ed=${w.vp} appdata=${r.vp}`)
+    }
   }
   if (lines.length) return [`  in ${label} "${whMission.name}":`, ...lines]
   return []
 }
+
+// ---- per-block round-gating (Game Tracker's scorableBlocks) --------------------------------
+// appdata's primary-mission objectives carry an explicit `scorablePeriods` list (which battle
+// rounds that block can score in) — the ground truth for what useTracker.js's hardcoded
+// BLOCK_ROUNDS heading→rounds table is trying to encode. Cross-check them directly instead of
+// trusting BLOCK_ROUNDS never drifts: a wrong round range would silently make a block
+// (un)scoreable in the wrong round with no visible symptom short of a rules dispute mid-game.
+// Secondary missions carry no `scorablePeriods` in appdata (round-gating there is inferred
+// purely from the objective heading text, which diffMissionContent already heading-checks).
+const PERIOD_TO_ROUND = {
+  firstBattleRound: 1, secondBattleRound: 2, thirdBattleRound: 3,
+  fourthBattleRound: 4, fifthBattleRound: 5, endOfBattle: 5,
+}
+function diffRoundGating(label, whMission, appMission, blockRoundsFn) {
+  const lines = []
+  const appByHeading = new Map()
+  for (const o of appMission.objectives || []) {
+    if (!o.scorablePeriods) continue
+    const key = normText(o.name)
+    if (!appByHeading.has(key)) appByHeading.set(key, new Set(o.scorablePeriods.map((p) => PERIOD_TO_ROUND[p]).filter(Boolean)))
+  }
+  if (!appByHeading.size) return lines
+  const seen = new Set()
+  for (const b of whMission.blocks || []) {
+    const key = normText(b.heading)
+    if (seen.has(key)) continue
+    seen.add(key)
+    const appRounds = appByHeading.get(key)
+    if (!appRounds) continue
+    const whRounds = new Set(blockRoundsFn(b.heading))
+    const a = [...appRounds].sort().join(',')
+    const w = [...whRounds].sort().join(',')
+    if (a !== w) lines.push(`      ~ heading "${b.heading}" scorable rounds differ: wh11ed=[${w}] appdata=[${a}]`)
+  }
+  if (lines.length) return [`  in ${label} "${whMission.name}":`, ...lines]
+  return []
+}
+
 async function checkMissions() {
-  console.log('\n=== primary missions ===')
   const mod = await loadModule(path.join(ROOT, 'src/data/missions.js'))
+  const trackerMod = await loadModule(path.join(ROOT, 'src/composables/useTracker.js'))
+
+  console.log('\n=== primary missions ===')
   const whPrimary = mod.missions.en.primary
   const primaryLines = diffByName('primary mission', whPrimary, core.primaryMissions, (m) => m.name, (m) => m.name)
   const appByName = byNormName(core.primaryMissions, (m) => m.name)
   for (const m of whPrimary) {
     const app = appByName.get(norm(m.name))
-    if (app) primaryLines.push(...diffMissionContent('primary mission', m, app))
+    if (app) primaryLines.push(...diffMissionContent('primary mission', m, app), ...diffRoundGating('primary mission', m, app, trackerMod.blockRounds))
   }
   if (!primaryLines.length) console.log('  no structural differences found')
   else primaryLines.forEach((l) => console.log(l))
@@ -240,9 +330,19 @@ const CATEGORIES = {
   'detachments': checkDetachments,
 }
 
-const args = process.argv.slice(2)
-const toRun = args.length ? args : Object.keys(CATEGORIES)
-for (const cat of toRun) {
-  if (!CATEGORIES[cat]) { console.log(`unknown category: ${cat} (known: ${Object.keys(CATEGORIES).join(', ')})`); continue }
-  await CATEGORIES[cat]()
+export async function run(argv = process.argv.slice(2)) {
+  core = loadJson(path.join(APPDATA, 'factions', '_core-content.json'))
+  if (!core) {
+    console.log('no factions/_core-content.json found in wh40k-appdata — run its build-factions.mjs first')
+    return 1
+  }
+  const toRun = argv.length ? argv : Object.keys(CATEGORIES)
+  for (const cat of toRun) {
+    if (!CATEGORIES[cat]) { console.log(`unknown category: ${cat} (known: ${Object.keys(CATEGORIES).join(', ')})`); continue }
+    await CATEGORIES[cat]()
+  }
+  return 0
 }
+
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href
+if (isMain) process.exit(await run())

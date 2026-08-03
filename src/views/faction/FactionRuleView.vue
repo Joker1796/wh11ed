@@ -1,72 +1,77 @@
 <template>
   <FactionLayout>
-    <!-- Army rule -->
-    <section class="fsection" id="army-rule">
-      <h2 class="fsection-title">{{ labels.factionArmyRule }}</h2>
-      <p v-if="faction.armyRule.flavor" class="faction-flavor">{{ faction.armyRule.flavor }}</p>
-      <RuleBlock
-        :id="faction.armyRule.id"
-        :title="faction.armyRule.name"
-        :subtitle="faction.armyRule.nameRu"
-        :body="faction.armyRule.body"
-        :example="faction.armyRule.example"
+    <!-- `faction` resolves asynchronously (its EN chunk is lazy-loaded per slug), so
+         everything below must wait for it rather than dereference a null. -->
+    <template v-if="faction">
+      <!-- Army rule -->
+      <section class="fsection" id="army-rule">
+        <h2 class="fsection-title">{{ labels.factionArmyRule }}</h2>
+        <p v-if="faction.armyRule.flavor" class="faction-flavor">{{ faction.armyRule.flavor }}</p>
+        <RuleBlock
+          :id="faction.armyRule.id"
+          :title="faction.armyRule.name"
+          :subtitle="faction.armyRule.nameRu"
+          :body="faction.armyRule.body"
+          :example="faction.armyRule.example"
+        />
+      </section>
+
+      <!-- Chapter + detachment picker (global army choice, shared with the datasheets page) -->
+      <FactionPickerBar
+        v-if="detachments.length > 1"
+        class="fsection"
+        :slug="slug"
+        :detachments="detachments"
+        :chapters="faction.chapters || []"
       />
-    </section>
 
-    <!-- Chapter + detachment picker (global army choice, shared with the datasheets page) -->
-    <FactionPickerBar
-      v-if="detachments.length > 1"
-      class="fsection"
-      :slug="slug"
-      :detachments="detachments"
-      :chapters="faction.chapters || []"
-    />
+      <section v-if="det" class="fsection" :id="det.id" :key="det.id">
+        <h2 class="fsection-title">{{ det.name }}</h2>
+        <div v-if="det.nameRu" class="fsection-title-ru">{{ det.nameRu }}</div>
 
-    <section v-if="det" class="fsection" :id="det.id" :key="det.id">
-      <h2 class="fsection-title">{{ det.name }}</h2>
-      <div v-if="det.nameRu" class="fsection-title-ru">{{ det.nameRu }}</div>
-
-      <div v-if="det.dp || det.forceDisposition || det.unique" class="det-meta">
-        <span v-if="det.dp" class="det-meta-item">{{ det.dp }} DP</span>
-        <span v-if="det.forceDisposition" class="det-meta-item">{{ det.forceDisposition }}</span>
-        <span v-if="det.unique" class="det-meta-item det-meta-unique">Unique: {{ det.unique }}</span>
-      </div>
-
-      <p v-if="det.rule.flavor" class="faction-flavor">{{ det.rule.flavor }}</p>
-      <RuleBlock :title="det.rule.name" :subtitle="det.rule.nameRu" :body="det.rule.body" />
-
-      <!-- Stratagems -->
-      <template v-if="det.stratagems && det.stratagems.length">
-        <h3 class="fsub-title" id="stratagems">{{ labels.factionStratagems }}</h3>
-        <div class="strat-grid">
-          <StratCard
-            v-for="s in det.stratagems"
-            :key="s.name"
-            :strat="s"
-            :sublabel="s.sublabel"
-          />
+        <div v-if="det.dp || det.forceDisposition || det.unique" class="det-meta">
+          <span v-if="det.dp" class="det-meta-item">{{ det.dp }} DP</span>
+          <span v-if="det.forceDisposition" class="det-meta-item">{{ det.forceDisposition }}</span>
+          <span v-if="det.unique" class="det-meta-item det-meta-unique">Unique: {{ det.unique }}</span>
         </div>
-      </template>
 
-      <!-- Enhancements -->
-      <h3 class="fsub-title" id="enhancements">{{ labels.factionEnhancements }}</h3>
-      <div class="enh-grid">
-        <article v-for="e in det.enhancements" :key="e.name" class="enh-card">
-          <div class="enh-head">
-            <div class="enh-heading">
-              <span class="enh-name">{{ e.name }}</span>
-              <span v-if="e.nameRu" class="enh-name-ru">{{ e.nameRu }}</span>
-            </div>
-            <span v-if="e.aura" class="enh-tag">{{ labels.factionAura }}</span>
-            <span v-if="e.upgrade" class="enh-tag">Upgrade</span>
-            <span v-if="e.points != null" class="enh-pts">{{ e.points }} pts</span>
+        <p v-if="det.rule.flavor" class="faction-flavor">{{ det.rule.flavor }}</p>
+        <RuleBlock :id="`${det.id}-rule`" :title="det.rule.name" :subtitle="det.rule.nameRu" :body="det.rule.body" />
+
+        <!-- Stratagems -->
+        <template v-if="det.stratagems && det.stratagems.length">
+          <h3 class="fsub-title" id="stratagems">{{ labels.factionStratagems }}</h3>
+          <div class="strat-grid">
+            <StratCard
+              v-for="s in det.stratagems"
+              :key="s.name"
+              :id="`strat-${det.id}-${slugify(s.name)}`"
+              :strat="s"
+              :sublabel="s.sublabel"
+            />
           </div>
-          <p v-if="e.flavor" class="faction-flavor">{{ e.flavor }}</p>
-          <div class="enh-body" v-html="renderInline(e.body)"></div>
-          <div v-if="e.note" class="enh-note" v-html="renderInline(e.note)"></div>
-        </article>
-      </div>
-    </section>
+        </template>
+
+        <!-- Enhancements -->
+        <h3 class="fsub-title" id="enhancements">{{ labels.factionEnhancements }}</h3>
+        <div class="enh-grid">
+          <article v-for="e in det.enhancements" :key="e.name" :id="`enh-${det.id}-${slugify(e.name)}`" class="enh-card">
+            <div class="enh-head">
+              <div class="enh-heading">
+                <span class="enh-name">{{ e.name }}</span>
+                <span v-if="e.nameRu" class="enh-name-ru">{{ e.nameRu }}</span>
+              </div>
+              <span v-if="e.aura" class="enh-tag">{{ labels.factionAura }}</span>
+              <span v-if="e.upgrade" class="enh-tag">Upgrade</span>
+              <span v-if="e.points != null" class="enh-pts">{{ e.points }} pts</span>
+            </div>
+            <p v-if="e.flavor" class="faction-flavor">{{ e.flavor }}</p>
+            <div class="enh-body" v-html="renderRichText(e.body)"></div>
+            <div v-if="e.note" class="enh-note" v-html="renderInline(e.note)"></div>
+          </article>
+        </div>
+      </section>
+    </template>
   </FactionLayout>
 </template>
 
@@ -81,10 +86,11 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 import { useFactionChoice } from '../../composables/useFactionChoice.js'
+import { slugify } from '../../data/slugify.js'
 
 const { slug, faction } = useFactionPage()
 const { locale } = useLocale()
-const { renderInline } = useRenderInline()
+const { renderInline, renderRichText } = useRenderInline()
 const labels = computed(() => ui[locale.value])
 
 // Detachments: support the multi-detachment `detachments[]` shape, falling back to the
@@ -246,6 +252,16 @@ const det = computed(() => activeDetachment(slug.value, detachments.value))
   font-size: 0.9rem;
   line-height: 1.5;
   color: var(--text-primary);
+}
+
+.enh-body :deep(ul),
+.enh-body :deep(ol) {
+  margin: 0.35rem 0 0;
+  padding-left: 1.2rem;
+}
+
+.enh-body :deep(li) {
+  margin-bottom: 0.2rem;
 }
 
 .enh-note {

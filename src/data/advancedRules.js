@@ -27,9 +27,19 @@ When rotating a FRAME model as part of a move, if that model does not have a bas
           title: 'Shooting at Engaged Monsters and Vehicles',
           body: `In your Shooting phase, enemy MONSTER/VEHICLE units that are **[gloss:engaged:engaged]** can be selected as targets of ranged attacks (excluding attacks made with [BLAST] weapons).
 
-Each time a model makes a ranged attack that targets such a unit, subtract 1 from the **[gloss:hit-roll:hit roll]** (excluding attacks made with [CLOSE-QUARTERS] weapons by models in a unit **engaged** with the target).
+Each time a model makes a ranged attack that targets such a unit, subtract 1 from the **[gloss:hit-roll:hit roll]** (excluding attacks made with [CLOSE-QUARTERS] weapons by models in a unit **engaged** with the target).`,
+          // See splitSubsections()/splitBodyEntries() in columnChunks.js — same recipe as
+          // 12.03/12.08/13.06/14.02: split the worked example off the rule text so the
+          // column balancer can place it independently.
+          splitBody: `[img:/images/monsters/engaged-monsters-vehicles-shooting-diagram.jpg|Engaged monsters and vehicles — shooting hit roll penalty]
 
-[img:/images/monsters/engaged-monsters_vehicles-shooting.jpg|Engaged monsters and vehicles — shooting hit roll penalty]`,
+The VEHICLE can shoot at INFANTRY unit **A** using **close-quarters shooting**. While resolving those attacks, subtract 1 from **hit rolls** (excluding attacks made with [CLOSE-QUARTERS] weapons).
+
+INFANTRY unit **A** can shoot at the VEHICLE using **normal shooting**. While resolving those attacks, subtract 1 from **hit rolls**. As the VEHICLE is **engaged**, [BLAST] weapons cannot target it, but can target other **unengaged** units.
+
+The VEHICLE can shoot at INFANTRY unit **B** using **close-quarters shooting**. While resolving those attacks, subtract 1 from **hit rolls**. As the INFANTRY unit is **engaged**, [BLAST] weapons cannot target it, but can target other **unengaged** units.
+
+INFANTRY unit **B** is **engaged**, but can shoot at the VEHICLE using **close-quarters shooting**. While doing so, it can only make attacks with its [CLOSE-QUARTERS] weapons and can only target the VEHICLE it is **engaged** with.`,
           children: [
             {
               id: 'section-17-03-01',
@@ -55,7 +65,9 @@ Each time a model makes a ranged attack that targets such a unit, subtract 1 fro
           title: 'Transport Capacity',
           body: `TRANSPORT models have a **[gloss:transport-capacity:transport capacity]** listed on their datasheet. This determines the type and maximum number of friendly models that are **[gloss:eligible-to-embark:eligible to embark]** within them. More than one unit can be embarked within the same TRANSPORT model at the same time, provided it has sufficient **transport capacity**.
 
-Before the battle, in the [gloss:declare-battle-formations:Declare Battle Formations] step, your units can start embarked within any friendly TRANSPORT model that has sufficient **transport capacity** remaining for the whole unit.`,
+Before the battle, in the [gloss:declare-battle-formations:Declare Battle Formations] step, your units can start embarked within any friendly TRANSPORT model that has sufficient **transport capacity** remaining for the whole unit.
+
+A friendly unit must be embarked within each friendly DEDICATED TRANSPORT model. At the end of this step, each friendly DEDICATED TRANSPORT model without an embarked unit is **[gloss:destroyed:destroyed]**, but they do not trigger rules that are triggered when a model is **destroyed**.`,
         },
         {
           id: 'section-18-02',
@@ -67,7 +79,7 @@ Before the battle, in the [gloss:declare-battle-formations:Declare Battle Format
 ▪ That unit is **eligible to embark** within that TRANSPORT, as described on that TRANSPORT's datasheet.
 ▪ That TRANSPORT has sufficient remaining **transport capacity** for each model in that unit.
 
-When a unit embarks, the active player removes that unit from the battlefield — it is now embarked within that TRANSPORT and is not on the battlefield.`,
+When a unit embarks, the active player removes that unit from the battlefield and places it to one side — it is now embarked within that TRANSPORT and is not on the battlefield.`,
           children: [
             {
               id: 'section-18-02-01',
@@ -163,7 +175,7 @@ Unless otherwise stated, each **bodyguard** unit can only have one **leader** un
               sectionNum: '19.01.01',
               title: 'Attached Units After Their Bodyguard Unit is Destroyed',
               fromApp: true,
-              body: `Some units have rules stating that when the unit in an **attached** unit is **destroyed**, **leader/support** units that were attached to them become separate units with their original **[gloss:starting-strength:starting strengths]**.
+              body: `Some units have rules stating that when the **bodyguard** unit in an **attached** unit is **destroyed**, **leader/support** units that were attached to them become separate units with their original **[gloss:starting-strength:starting strengths]**.
 
 When the **bodyguard** unit in an **attached** unit affected by such a rule is **destroyed**, all of those **leader/support** units remain a single unit for all rules purposes.`,
             },
@@ -174,9 +186,10 @@ When the **bodyguard** unit in an **attached** unit affected by such a rule is *
           sectionNum: '19.02',
           title: 'Attacking Attached Units',
           sideImage: {
-            src: '/images/attached/attacking-attached-units.jpg',
+            src: '/images/attached/attacking-attached-units-diagram.jpg',
             alt: 'Attacking Attached Units diagram',
             width: '60%',
+            shared: true,
           },
           body: `Each time an attack targets an **attached** unit, if that unit contains one or more **bodyguard** models, use the highest **T** characteristic of the **bodyguard** models in that unit while resolving that attack, even if a **leader/support** unit in that **attached** unit has a different **T** characteristic. If that unit only contains **leader/support** models, use the highest **T** characteristic of those models while resolving that attack instead.
 
@@ -242,6 +255,13 @@ Unless otherwise stated, the combined points value of all of your **strategic re
               title: 'Reserves',
               fromApp: true,
               body: `The term 'Reserves' is the same as **strategic reserves**.`,
+            },
+            {
+              id: 'section-20-01-02',
+              sectionNum: '20.01.02',
+              title: 'Strategic Reserves at the End of the Battle',
+              fromApp: true,
+              body: `At the end of the final turn, units in **strategic reserves** are **destroyed**, but they do not trigger rules that apply when a model is **destroyed**.`,
             },
           ],
         },
@@ -319,7 +339,12 @@ At the end of the third battle round, unless otherwise stated, all **strategic r
 ▪ Your unit cannot be **engaged** with one or more enemy units that were not the **surge target**.
 ▪ Your unit cannot move again this phase.
 
-[img:/images/surge/making-a-surge-move.jpg|Making a surge move — valid target and move diagram]`,
+### Making a Surge Move
+[img:/images/surge/making-a-surge-move-diagram.jpg|Making a surge move — valid target and move diagram]
+
+▪ Unit **A** shoots, and **destroys** two models from unit **B**.
+▪ Unit **B** has an ability that allows it to make a **surge move** of D6" after an enemy unit has shot, if one or more of its models were **destroyed** by those attacks. The active player rolls one D6, resulting in a 4.
+▪ Unit **B** makes a **surge move**, each of its surviving models moving up to 4" towards the closest enemy unit (unit **C**). It ends this move **engaged** with that unit.`,
         },
         {
           id: 'section-21-03',
@@ -334,7 +359,11 @@ Models with the FLY keyword can **[gloss:take-to-the-skies:take to the skies]** 
 ▫ It can move through all types of model (including enemy models and MONSTER/VEHICLE models).
 ▫ It can move horizontally and vertically through all categories of **[gloss:terrain-feature:terrain feature]**.
 
-[img:/images/surge/taking-to-the-skies.jpg|Taking to the skies — FLY movement through terrain and models]`,
+[img:/images/surge/taking-to-the-skies-diagram.jpg|Taking to the skies — FLY movement through terrain and models]
+
+This Riptide Battlesuit can FLY. It makes an **advance move** with a **maximum distance** of 16".
+
+Before moving the unit, the active player declares that it will **take to the skies**. That move's **maximum distance** is reduced to 14", but while making that move, the Riptide Battlesuit can move through all enemy units (including VEHICLES) and all **terrain features**, ignoring any vertical distance that would normally be counted to ascend and descend **terrain features**.`,
           seeAlso: ['Surge Moves 21.01'],
         },
       ],
@@ -386,7 +415,11 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
 ▪ The attacking model is on a section of a **terrain feature** that is 3" or more in height.
 ▪ The attacking model has the **[gloss:towering:TOWERING]** keyword and the target unit is within 12".
 
-[img:/images/fire/plunging-fire.jpg|Plunging fire — elevation and range requirements]`,
+[img:/images/fire/plunging-fire-diagram.jpg|Plunging fire — elevation and range requirements]
+
+All the attacking models in unit **A** are on a section of **terrain feature** that is 3" or more in height, and the target unit contains models on ground level, so **Plunging Fire** improves the **BS** characteristic of those attacks by 1.
+
+Attacking model **B** is on ground level, but has the TOWERING keyword. The target unit is within 12" and contains models on ground level, so **Plunging Fire** improves the **BS** characteristic of those attacks by 1.`,
           seeAlso: ['Aircraft 23.03'],
         },
       ],
@@ -461,9 +494,16 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
           title: 'Стрельба по связанным монстрам и технике',
           body: `В вашу фазу стрельбы вражеские отряды MONSTER/VEHICLE, находящиеся **[gloss:engaged:в ближнем бою]**, могут быть выбраны целью дальних атак (кроме атак оружием [BLAST]).
 
-Каждый раз, когда модель совершает дальнюю атаку, нацеленную на такой отряд, вычтите 1 из **[gloss:hit-roll:броска на попадание]** (кроме атак оружием [БЛИЖНЯЯ СТРЕЛЬБА] (CLOSE-QUARTERS), совершаемых моделями из отряда, **[gloss:engaged:находящегося в ближнем бою]** с целью).
+Каждый раз, когда модель совершает дальнюю атаку, нацеленную на такой отряд, вычтите 1 из **[gloss:hit-roll:броска на попадание]** (кроме атак оружием [БЛИЖНЯЯ СТРЕЛЬБА] (CLOSE-QUARTERS), совершаемых моделями из отряда, **[gloss:engaged:находящегося в ближнем бою]** с целью).`,
+          splitBody: `[img:/images/monsters/engaged-monsters-vehicles-shooting-diagram.jpg|Монстры и техника в контакте — штраф к броску на попадание]
 
-[img:/images/monsters/engaged-monsters_vehicles-shooting-ru.jpg|Монстры и техника в контакте — штраф к броску на попадание]`,
+VEHICLE может стрелять по отряду INFANTRY **A**, используя **ближнюю стрельбу**. Разыгрывая эти атаки, вычтите 1 из **бросков на попадание** (кроме атак оружием [БЛИЖНЯЯ СТРЕЛЬБА] (CLOSE-QUARTERS)).
+
+Отряд INFANTRY **A** может стрелять по VEHICLE, используя **обычную стрельбу**. Разыгрывая эти атаки, вычтите 1 из **бросков на попадание**. Поскольку VEHICLE **находится в ближнем бою**, оружие [BLAST] не может выбрать его целью, но может выбрать целью другие **не связанные боем** отряды.
+
+VEHICLE может стрелять по отряду INFANTRY **B**, используя **ближнюю стрельбу**. Разыгрывая эти атаки, вычтите 1 из **бросков на попадание**. Поскольку отряд INFANTRY **находится в ближнем бою**, оружие [BLAST] не может выбрать его целью, но может выбрать целью другие **не связанные боем** отряды.
+
+Отряд INFANTRY **B** **находится в ближнем бою**, но может стрелять по VEHICLE, используя **ближнюю стрельбу**. При этом он может атаковать только оружием [БЛИЖНЯЯ СТРЕЛЬБА] (CLOSE-QUARTERS) и может выбрать целью только тот VEHICLE, с которым **находится в ближнем бою**.`,
           children: [
             {
               title: 'Стрельба в ближнем бою с монстрами/техникой',
@@ -486,7 +526,9 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
           title: 'Вместимость транспорта',
           body: `Модели [gloss:transport:TRANSPORT] имеют **[gloss:transport-capacity:вместимость транспорта]**, указанную на их карточке данных. Это определяет тип и максимальное количество дружественных моделей, **[gloss:eligible-to-embark:которые могут погрузиться]** в них. Более одного отряда может быть погружено в одну модель TRANSPORT одновременно при наличии достаточной **вместимости транспорта**.
 
-До битвы, на шаге «[gloss:declare-battle-formations:Объявление боевых построений]», ваши отряды могут начать погружёнными в любую дружественную модель TRANSPORT с достаточной оставшейся **вместимостью транспорта** для всего отряда.`,
+До битвы, на шаге «[gloss:declare-battle-formations:Объявление боевых построений]», ваши отряды могут начать погружёнными в любую дружественную модель TRANSPORT с достаточной оставшейся **вместимостью транспорта** для всего отряда.
+
+Дружественный отряд должен быть погружён в каждую дружественную модель DEDICATED TRANSPORT. В конце этого шага каждая дружественная модель DEDICATED TRANSPORT без погруженного в неё отряда **[gloss:destroyed:уничтожается]**, но это не активирует правила, срабатывающие при **уничтожении** модели.`,
         },
         {
           id: 'section-18-02',
@@ -498,7 +540,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
 ▪ Этот отряд **[gloss:eligible-to-embark:может погрузиться]** в этот TRANSPORT, как описано на его карточке данных.
 ▪ В этом TRANSPORT достаточно оставшейся **[gloss:transport-capacity:вместимости транспорта]** для каждой модели этого отряда.
 
-Когда отряд грузится, активный игрок убирает его с поля боя — теперь он погружён в этот TRANSPORT и не находится на поле боя.`,
+Когда отряд грузится, активный игрок убирает его с поля боя и откладывает в сторону — теперь он погружён в этот TRANSPORT и не находится на поле боя.`,
           children: [
             {
               title: 'Может погрузиться',
@@ -586,7 +628,7 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
           children: [
             {
               title: 'Объединённые отряды после уничтожения отряда телохранителей',
-              body: `Некоторые отряды имеют правила, гласящие, что когда отряд в **[gloss:attached-unit:объединённом]** отряде **[gloss:destroyed:уничтожен]**, отряды **лидера/поддержки** (leader/support), присоединённые к ним, становятся отдельными отрядами со своей изначальной **[gloss:starting-strength:начальной численностью]**.
+              body: `Некоторые отряды имеют правила, гласящие, что когда отряд **[gloss:bodyguard:телохранителей]** в **[gloss:attached-unit:объединённом]** отряде **[gloss:destroyed:уничтожен]**, отряды **лидера/поддержки** (leader/support), присоединённые к ним, становятся отдельными отрядами со своей изначальной **[gloss:starting-strength:начальной численностью]**.
 
 Когда отряд **[gloss:bodyguard:телохранителей]** в **объединённом** отряде, на который влияет такое правило, **уничтожен**, все эти отряды **лидера/поддержки** остаются единым отрядом для всех игровых целей.`,
             },
@@ -654,6 +696,10 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
             {
               title: 'Резервы (Reserves)',
               body: `Термин «Резервы» (Reserves) — это то же самое, что **[gloss:strategic-reserves:стратегические резервы]**.`,
+            },
+            {
+              title: 'Стратегический резерв в конце битвы (Strategic Reserves at the End of the Battle)',
+              body: `В конце последнего хода отряды в **стратегическом резерве** считаются **[gloss:destroyed:уничтоженными]**, но это не вызывает срабатывания правил, применяемых при **уничтожении** модели.`,
             },
           ],
         },
@@ -728,7 +774,12 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
 ▪ Ваш отряд не может находиться **в ближнем бою** с одним или несколькими вражескими отрядами, не являвшимися **целью стремительного манёвра**.
 ▪ Ваш отряд не может двигаться снова в эту фазу.
 
-[img:/images/surge/making-a-surge-move-ru.jpg|Выполнение хода рывка — допустимые цели и движение]`,
+### Выполнение стремительного манёвра
+[img:/images/surge/making-a-surge-move-diagram.jpg|Выполнение хода рывка — допустимые цели и движение]
+
+▪ Отряд **A** стреляет и **уничтожает** две модели отряда **B**.
+▪ Отряд **B** имеет способность, позволяющую ему совершить **стремительный манёвр** на D6" после того, как вражеский отряд отстрелялся, если одна или несколько его моделей были **уничтожены** этими атаками. Активный игрок бросает один D6, выпадает 4.
+▪ Отряд **B** совершает **стремительный манёвр**: каждая его уцелевшая модель перемещается до 4" к ближайшему вражескому отряду (отряд **C**). Он завершает этот манёвр **в ближнем бою** с этим отрядом.`,
         },
         {
           id: 'section-21-03',
@@ -743,7 +794,11 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
 ▫ Она может проходить сквозь все типы моделей (включая вражеские модели и модели MONSTER/VEHICLE).
 ▫ Она может двигаться горизонтально и вертикально через все категории **[gloss:terrain-feature:элементов ландшафта]**.
 
-[img:/images/surge/taking-to-the-skies-ru.jpg|Взмыть в небо — движение через укрытия и модели]`,
+[img:/images/surge/taking-to-the-skies-diagram.jpg|Взмыть в небо — движение через укрытия и модели]
+
+Этот Riptide Battlesuit может FLY. Он совершает **продвижение** с **максимальным расстоянием** 16".
+
+Перед перемещением отряда активный игрок объявляет, что он будет **подниматься в небо**. **Максимальное расстояние** этого манёвра уменьшается до 14", но при совершении этого манёвра Riptide Battlesuit может проходить сквозь все вражеские отряды (включая VEHICLES) и все **элементы ландшафта**, игнорируя любое вертикальное расстояние, которое обычно учитывалось бы при подъёме и спуске по **элементам ландшафта**.`,
         },
       ],
     },
@@ -794,7 +849,11 @@ If a unit has an item of wargear that has a **wargear ability**, that ability ap
 ▪ Атакующая модель находится на участке **[gloss:terrain-feature:элемента ландшафта]** высотой 3" или более.
 ▪ Атакующая модель имеет ключевое слово **[gloss:towering:ИСПОЛИНСКИЙ]** (TOWERING), и целевой отряд находится в пределах 12".
 
-[img:/images/fire/plunging-fire-ru.jpg|Стрельба с возвышения — требования по высоте и дальности]`,
+[img:/images/fire/plunging-fire-diagram.jpg|Стрельба с возвышения — требования по высоте и дальности]
+
+Все атакующие модели отряда **A** находятся на участке **элемента ландшафта** высотой 3" или более, а целевой отряд содержит модели на уровне земли, поэтому **Стрельба с возвышения** улучшает характеристику **BS** этих атак на 1.
+
+Атакующая модель **B** находится на уровне земли, но имеет ключевое слово **ИСПОЛИНСКИЙ**. Целевой отряд находится в пределах 12" и содержит модели на уровне земли, поэтому **Стрельба с возвышения** улучшает характеристику **BS** этих атак на 1.`,
         },
       ],
     },

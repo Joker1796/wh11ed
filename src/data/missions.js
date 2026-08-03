@@ -1451,12 +1451,17 @@ const en = { primary, secondary }
 export const missions = { en, ru: en }
 
 // Overlay the RU block text (heading / when / rows.text) onto a single English mission.
-// Mirrors the `localize` helper in useTracker.js — name and all logic fields stay English.
+// Mirrors the `localize` helper in useTracker.js — name and all logic fields stay English
+// (an optional nameRu adds a translated display subline, same convention as stratagems).
 function localizeMission(m, role) {
   const tr = role ? missionsRu.secondary[`${m.slug}|${role}`] : missionsRu.primary[m.slug]
   if (!tr) return m
   return {
     ...m,
+    // Name stays English (project convention — see the module comment); nameRu is an
+    // additional, purely-display translated subline (same idea as stratagem/enhancement
+    // nameRu elsewhere), not a replacement.
+    ...(tr.nameRu ? { nameRu: tr.nameRu } : {}),
     // briefing is replaced wholesale (RU mirrors the EN structure, maintained in lockstep).
     ...(tr.briefing ? { briefing: tr.briefing } : {}),
     ...(tr.lore ? { lore: tr.lore } : {}),

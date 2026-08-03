@@ -1,9 +1,9 @@
 // Grey Knights — faction rules. Resolved from the same source priority as the other
 // factions (highest wins): MFM (points, DP / Force Disposition) > Faction Pack > Codex.
 //
-//   Codex layer: imported from the Wahapedia CSV exports via scripts/import-wahapedia.mjs →
+//   Codex layer: imported from the codex →
 //     6 detachments (Augurium Task Force, Banishers, Brotherhood Strike, Hallowed
-//     Conclave, Sanctic Spearhead, Warpbane Task Force). Wahapedia already carries most
+//     Conclave, Sanctic Spearhead, Warpbane Task Force). The codex text already carries most
 //     pack updates; the remaining diff (Eye of the Augurium) is folded in below. Warpbane
 //     Task Force is also printed in the Faction Pack (identical text) — marked
 //     source: 'faction-pack'.
@@ -23,16 +23,17 @@ const en = {
     name: 'Gate of Infinity',
     flavor:
       'Few can command the powers of the Warp with anything like the skill and control of the Grey Knights. So masterful is their sorcery that they can conjure glowing empyric gateways to step in and out of reality. In this way, they swiftly outflank their foes and redeploy their forces to counter threats, kept safe during their split-second Warp travel by the intricate wards worked into their wargear.',
-    body: `If your Army Faction is GREY KNIGHTS, at the end of your opponent's Fight phase, you can select a number of units (see below) from your army that are on the battlefield (excluding units that are within Engagement Range of one or more enemy units), provided every model in those units has this ability. The maximum number of units you can select depends on the battle size:
+    body: `If your Army Faction is GREY KNIGHTS, at the end of your opponent's Fight phase, you can select a number of units (see below) from your army that are on the battlefield (excluding units that are within Engagement Range of one or more enemy units), provided every model in those units has this ability. The maximum number of units you can select depends on the battle size, as follows:
 ▪ **Incursion:** Up to 2 units.
 ▪ **Strike Force:** Up to 3 units.
 ▪ **Onslaught:** Up to 4 units.
 
-Once you have made your selections, remove those units from the battlefield and place them into Strategic Reserves.`,
+▪ Place those units in Strategic Reserves.
+▪ Those units can make an ingress move in your next Movement phase (including in your first turn).`,
   },
 
   detachments: [
-    // ─────────────── CODEX DETACHMENTS (via Wahapedia import) ───────────────
+    // ─────────────── CODEX DETACHMENTS ───────────────
     {
       id: "augurium-task-force",
       name: "Augurium Task Force",
@@ -53,7 +54,7 @@ Once you have made your selections, remove those units from the battlefield and 
           flavor: "Already knowing, blow-for-blow, how the battle they fight is predicted to play out, the Grey Knights take full advantage of their supernatural insight.",
           when: "Your Shooting phase or the Fight phase.",
           target: "One Grey Knights Psyker unit from your army that has not been selected to shoot or fight this phase.",
-          effect: "Until the end of the phase, each time a model in your unit makes an attack, you can ignore any or all modifiers to that attack’s Weapon Skill or Ballistic Skill characteristics and/or any or all modifiers to the Hit roll.",
+          effect: "Your unit’s attacks can re-roll hit rolls.",
           restrictions: "",
         },
         {
@@ -129,7 +130,7 @@ Once you have made your selections, remove those units from the battlefield and 
           name: "One Foot in the Future",
           points: 15,
           flavor: "Stratego-prescient telecasts scroll over this warrior’s heads-up display, providing them with tactical battlefield foretellings to which they swiftly react.",
-          body: "GREY KNIGHTS model only. Each time the bearer’s unit is set up in your Reinforcements step, the bearer can use this Enhancement. If it does, the bearer’s unit can make a Normal move of up to D6\", and until the end of the turn, the bearer’s unit is not eligible to declare a Charge.",
+          body: "GREY KNIGHTS model only. When this unit ends an ingress move, you can use this ability. If you do:\n▪ This unit can make a normal move of up to D6\".\n▪ Until the end of the turn, this unit is not eligible to declare a charge.",
         },
         {
           name: "Doomseer’s Amulet",
@@ -149,7 +150,7 @@ Once you have made your selections, remove those units from the battlefield and 
       rule: {
         name: "Channelled Force",
         flavor: "So potent is the interwoven mind-choir of this strike force that each individual can syphon off a portion of its gestalt might to empower their weapons of war without diminishing the whole. The result is Nemesis force weapons that blaze like caged psychic stars, leaving trails of witchfire blazing behind every swing and blasting victims into nothing with a single strike.",
-        body: "Each time a Grey Knights unit from your army is selected to fight, that unit can take a Leadership test. If that test is passed, select one of the following rules. Until the end of the phase, that unit has that rule.\n▪ Melee weapons equipped by models in this unit with the [psychic] ability also have the [sustained hits 1] ability.\n▪ Melee weapons equipped by models in this unit with the [psychic] ability also have the [LETHAL HITS] ability.",
+        body: "Each time a Grey Knights unit from your army is selected to fight, that unit can take a Leadership test. If that test is passed, select one of the following rules. Until the end of the phase, that unit has that rule.\n▪ Melee weapons equipped by models in this unit with the [PSYCHIC] ability also have the [SUSTAINED HITS 1] ability.\n▪ Melee weapons equipped by models in this unit with the [PSYCHIC] ability also have the [LETHAL HITS] ability.",
       },
       stratagems: [
         {
@@ -203,7 +204,7 @@ Once you have made your selections, remove those units from the battlefield and 
           turn: "opponent",
           flavor: "This muttered incantation conjures a sympathetic shadow of the true darkness beneath Mount Anarch, through which the Grey Knights stride fearlessly to emerge elsewhere than where they began.",
           when: "Your opponent’s Movement phase, just after an enemy unit ends a Normal, Advance or Fall Back move.",
-          target: "One Grey Knights Psyker unit from your army that is within 9\" of that enemy unit and is not within Engagement Range of one or more enemy units.",
+          target: "One Grey Knights Psyker unit from your army that is within 8\" of that enemy unit and is not within Engagement Range of one or more enemy units.",
           effect: "Your unit can make a Normal move of up to 6\" or, if it has the Deep Strike ability, it can be placed into Strategic Reserves.",
           restrictions: "",
         },
@@ -417,7 +418,7 @@ Once you have made your selections, remove those units from the battlefield and 
           turn: "opponent",
           flavor: "The psychic abilities of these battle-brothers are turned toward predicting the foe's actions even before their enemies know what they will do.",
           when: "Your opponent’s Movement phase, just after an enemy unit ends a Normal, Advance or Fall Back move.",
-          target: "One Grey Knights Infantry unit from your army that is within 9\" of that enemy unit and not within Engagement Range of one or more enemy units.",
+          target: "One Grey Knights Infantry unit from your army that is within 8\" of that enemy unit and not within Engagement Range of one or more enemy units.",
           effect: "Your unit can make a Normal move of up to D6\".",
           restrictions: "",
         },
@@ -438,7 +439,7 @@ Once you have made your selections, remove those units from the battlefield and 
           name: "Eye of the Augurium",
           points: 25,
           flavor: "A miniature facsimile of the silver mirrors used by the Prognosticars, this artefact affords its bearer a glimpse of where they will be needed most in the heat of battle.",
-          body: "GREY KNIGHTS model only. You can target this unit with the Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do: that use is -1CP, and that use does not prevent any uses of that Stratagem on other units this phase.",
+          body: "GREY KNIGHTS model only. You can target this unit with the Heroic Intervention Stratagem, regardless of any other uses of that Stratagem this phase. If you do:\n▪ That use is -1 CP.\n▪ That use does not prevent any uses of that Stratagem on other units this phase.",
         },
         {
           name: "Inescapable Judgement (Psychic)",
@@ -557,7 +558,7 @@ Once you have made your selections, remove those units from the battlefield and 
           name: "Sigil of Exigence",
           points: 30,
           flavor: "This powerful and ancient sorcerous ward reacts to imminent peril by wrenching the bearer momentarily out of sync with reality itself.",
-          body: "GREY KNIGHTS model only. Once per battle, in your opponent’s Shooting phase, when the bearer’s unit is selected as the target of a ranged attack, you can remove the bearer’s unit from the battlefield and then set it back up again anywhere on the battlefield that is more than 9\" horizontally away from all enemy units. If the bearer’s unit is no longer an eligible target, your opponent can then select new targets for any attacks that had targeted the bearer’s unit.",
+          body: "GREY KNIGHTS model only. Once per battle, in your opponent’s Shooting phase, when the bearer’s unit is selected as the target of a ranged attack, you can remove the bearer’s unit from the battlefield and then set it back up again anywhere on the battlefield that is more than 8\" horizontally away from all enemy units. If the bearer’s unit is no longer an eligible target, your opponent can then select new targets for any attacks that had targeted the bearer’s unit.",
         },
         {
           name: "Spiritus Machina",
@@ -571,7 +572,7 @@ Once you have made your selections, remove those units from the battlefield and 
     {
       id: "warpbane-task-force",
       name: "Warpbane Task Force",
-      source: 'faction-pack', // printed in the pack (identical to the Wahapedia text)
+      source: 'faction-pack', // printed in the pack (identical to the codex text)
       dp: 3,
       forceDisposition: "Purge the Foe",
       rule: {
@@ -685,7 +686,7 @@ Once you have made your selections, remove those units from the battlefield and 
       rule: {
         name: "Dauntless Champions",
         flavor: "To be a Paladin of the Grey Knights is to do battle with the greatest and most terrible enemies and yet emerge victorious, no matter the odds.",
-        body: "When a friendly PALADIN SQUAD unit is selected to fight, if the Strength of those attacks is lower than the Toughness of the target, those attacks have +1 to Wound rolls.",
+        body: "When a friendly PALADIN SQUAD unit is selected to fight, if the S of those attacks is lower than the T of the target, those attacks have +1 to Wound rolls.",
       },
       stratagems: [
         {
@@ -707,7 +708,7 @@ Once you have made your selections, remove those units from the battlefield and 
           flavor: "Paladins, more than even their brother Grey Knights, must strive to lay low those heretical champions from whom the taint of damnation spreads to threaten the Imperium.",
           when: "Fight phase, when a friendly PALADIN SQUAD unit is selected to fight.",
           target: "That PALADIN SQUAD unit.",
-          effect: "Your unit\u2019s melee attacks have the [PRECISION] ability.",
+          effect: "Your unit\u2019s melee attacks have [PRECISION].",
           restrictions: "",
         },
         {
@@ -718,7 +719,7 @@ Once you have made your selections, remove those units from the battlefield and 
           flavor: "Chanting incantations of vengeful wrath, the Paladins curse those who strike at them to be laid low by their own strength and hatred.",
           when: "Fight phase, when an enemy unit targets a friendly PALADIN SQUAD unit.",
           target: "That PALADIN SQUAD unit.",
-          effect: "That enemy unit\u2019s melee attacks have the [HAZARDOUS] ability.",
+          effect: "That enemy unit\u2019s melee attacks have [HAZARDOUS].",
           restrictions: "",
         },
       ],
@@ -756,7 +757,7 @@ Once you have made your selections, remove those units from the battlefield and 
           cp: "1CP",
           turn: "your",
           flavor: "Once these warriors have acquired a spiritual target lock upon the animus of their enemies, they can hammer them with deadly fire, no matter the circumstances.",
-          when: "Your Movement phase, when a friendly PURGATION SQUAD unit is selected to make a Fall Back move.",
+          when: "Your Movement phase, when a friendly PURGATION SQUAD unit is selected to make a fall-back move.",
           target: "That PURGATION SQUAD unit.",
           effect: "That move does not prevent your unit from being eligible to shoot.",
           restrictions: "",
@@ -797,7 +798,7 @@ Once you have made your selections, remove those units from the battlefield and 
           points: 20,
           upgrade: true,
           flavor: "Fashioned on Titan\u2019s forge moon by the most skilled tech-magi, these remarkable firearms are a blessing to any who wield them.",
-          body: "PURGATION SQUAD unit only. This unit\u2019s ranged attacks have +2 Strength.",
+          body: "PURGATION SQUAD unit only. This unit\u2019s ranged attacks have +2 S.",
         },
       ],
     },
@@ -811,7 +812,7 @@ Once you have made your selections, remove those units from the battlefield and 
       rule: {
         name: "Echojump",
         flavor: "Pushing their esoteric wargear to its limits, Interceptors are able to make secondary, shorter personal teleportation jumps, effectively skimming the very surface of the Immaterium to respond all the more quickly to developing threats.",
-        body: "In your Shooting phase, when a friendly INTERCEPTOR SQUAD unit has shot, if that unit did not make an ingress move this turn, you can use this ability. If you do:\n▪ That unit cannot use its Personal Teleporters ability.\n▪ That unit can make a surge move of up to D6+1\".",
+        body: "In your Shooting phase, when a friendly INTERCEPTOR SQUAD unit has shot, you can use this ability. If you do:\n▪ That unit cannot use its Personal Teleporters ability.\n▪ That unit can make a surge move of up to D6+1\".",
       },
       stratagems: [
         {
@@ -822,7 +823,7 @@ Once you have made your selections, remove those units from the battlefield and 
           flavor: "With exceptional skill, these Interceptors teleport perilously close to their foes, bursting from the Immaterium into their very midst with lethal force.",
           when: "Fight phase, when a friendly INTERCEPTOR SQUAD unit that made a Charge move this turn is selected to fight.",
           target: "That INTERCEPTOR SQUAD unit.",
-          effect: "Your unit\u2019s melee attacks have the [LANCE] ability.",
+          effect: "Your unit\u2019s melee attacks have [LANCE].",
           restrictions: "",
         },
         {
@@ -842,7 +843,7 @@ Once you have made your selections, remove those units from the battlefield and 
           cp: "1CP",
           turn: "opponent",
           flavor: "Masters of reading the ebb and flow of battle, Interceptors stay ever on the move and exploit any gap in the enemy lines with lightning swiftness.",
-          when: "Your opponent\u2019s Movement phase, when an enemy unit that was engaged with a friendly INTERCEPTOR SQUAD unit ends a Fall Back move, if that INTERCEPTOR SQUAD unit is unengaged.",
+          when: "Your opponent\u2019s Movement phase, when an enemy unit that was engaged with a friendly INTERCEPTOR SQUAD unit ends a fall-back move, if that INTERCEPTOR SQUAD unit is unengaged.",
           target: "That INTERCEPTOR SQUAD unit.",
           effect: "Your unit can make a Normal move of up to D3+3\".",
           restrictions: "",

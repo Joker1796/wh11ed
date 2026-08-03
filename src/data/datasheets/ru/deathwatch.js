@@ -73,7 +73,7 @@ export default {
       'Terminatus Assault':
         'Вы можете перебрасывать броски нападения для этого юнита. Каждый раз, когда этот юнит завершает манёвр нападения, каждый вражеский юнит в дистанции ввязывания этого юнита обязан пройти проверку боевого шока. Если этот вражеский юнит не имеет ключевых слов IMPERIUM или CHAOS, вычтите 1 из этой проверки.',
       'Teleport Homer':
-        'В начале битвы вы можете поставить один жетон Teleport Homer для этого юнита где угодно на поле боя вне зоны развёртывания вашего оппонента. Если вы это делаете, один раз за битву вы можете нацелить на этот юнит стратагему Rapid Ingress за 0 CP, но при отыгрыше этой стратагемы вы обязаны развернуть этот юнит в пределах 3" от этого жетона и не в пределах 9" по горизонтали от одного или более вражеских юнитов. Затем этот жетон убирается.',
+        'В начале битвы вы можете поставить один жетон Teleport Homer для этого юнита где угодно на поле боя вне зоны развёртывания вашего оппонента. Если вы это делаете, один раз за битву вы можете нацелить на этот юнит стратагему Rapid Ingress за 0 CP, но при отыгрыше этой стратагемы вы обязаны развернуть этот юнит в пределах 3" по горизонтали от этого жетона и не в пределах 8" по горизонтали от всех вражеских моделей. Затем этот жетон убирается.',
     },
     wargear: {
       'Storm Shield': 'Носитель имеет характеристику Ран (Wounds) 4.',
@@ -96,7 +96,7 @@ export default {
     },
     loadout: `**Каждая модель вооружена:** boltgun; power weapon.`,
     options: [
-      'За каждые 5 моделей в этом юните у до 2 моделей их boltgun и power weapon можно заменить на одно из следующего:\n▪ 1 boltgun, 1 Astartes shield и 1 close combat weapon\n▪ 1 power weapon и 1 Astartes shield',
+      'За каждые 5 моделей в этом юните у до 2 моделей их boltgun и power weapon можно заменить на одно из следующего:\n▪ 1 boltgun и 1 Astartes shield\n▪ 1 power weapon и 1 Astartes shield',
       'За каждые 5 моделей в этом юните у до 2 моделей их boltgun и power weapon можно заменить на 1 Deathwatch thunder hammer.',
       'За каждые 5 моделей в этом юните у 1 модели её boltgun и power weapon можно заменить на 1 stalker-pattern boltgun и 1 close combat weapon.',
       'За каждые 5 моделей в этом юните у до 2 моделей их boltgun и power weapon можно заменить на 1 Deathwatch shotgun и 1 close combat weapon.',
@@ -118,7 +118,7 @@ export default {
       'Astartes Shield': INV4,
     },
     loadout:
-      '**Kill Team Sergeant вооружён:** plasma pistol; power weapon.\n\n**Каждый Gravis Veteran вооружён:** infernus heavy bolter; bolt pistol; close combat weapon.\n\n**За каждые 5 моделей в юните 1 Deathwatch Veteran вооружён:** stalker bolt rifle; bolt pistol; close combat weapon.\n\n**За каждые 5 моделей в юните 1 Deathwatch Veteran вооружён:** bolt pistol; heavy thunder hammer.\n\n**За каждые 5 моделей в юните 1 Deathwatch Veteran вооружён:** Deathwatch marksman bolt carbine; special-issue bolt pistol; close combat weapon.\n\n**Если юнит содержит 10 моделей, 1 Deathwatch Veteran вооружён:** special-issue bolt pistol; xenophase blade.',
+      '**Каждый Kill Team Sergeant вооружён:** plasma pistol; power weapon.\n\n**Каждый Gravis Veteran вооружён:** infernus heavy bolter; bolt pistol; close combat weapon.\n\n**За каждые 5 моделей в юните 1 Deathwatch Veteran вооружён:** stalker bolt rifle; bolt pistol; close combat weapon.\n\n**За каждые 5 моделей в юните 1 Deathwatch Veteran вооружён:** bolt pistol; heavy thunder hammer.\n\n**За каждые 5 моделей в юните 1 Deathwatch Veteran вооружён:** Deathwatch marksman bolt carbine; special-issue bolt pistol; close combat weapon.\n\n**Если юнит содержит 10 моделей, 1 Deathwatch Veteran вооружён:** special-issue bolt pistol; xenophase blade.',
     options: [
       'За каждые 5 моделей в юните у до 1 модели её infernus heavy bolter можно заменить на одно из следующего:\n▪ 1 frag cannon\n▪ 1 hellstorm bolt rifle и 1 Astartes grenade launcher',
       'За каждые 5 моделей в юните у до 1 модели её heavy thunder hammer можно заменить на 1 power weapon и 1 Astartes shield.',
@@ -212,6 +212,8 @@ export default {
   },
 
   'watch-captain-artemis': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Артемис'],
     flavor:
       'Прирождённый выживальщик с дикого мира и бывший член мрачного Ордена Mortifactors, Артемис ведёт Watch Company Таласа-Прайм. Известный своим чутьём на уловки ксеносов, он всё ещё смакует перспективу насилия — будь то клинком, мутагенным кислотным огнём Hellfire Extremis или искажающей время стазис-гранатой.',
     abilities: {
@@ -226,6 +228,8 @@ export default {
   },
 
   'watch-master': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Мастер Дозора', 'Вотчмастер', 'Вочмастер'],
     flavor:
       'Первейшие охотники на ксеносов в галактике, каждый Watch Master командует одной из бдительных крепостей Ордена. Эти вожди обладают веками стратегических и эзотерических знаний об ужасах, что осаждают человечество. В бою трещащие клинки и особые болты их vigil spear уничтожают любого ксеноса перед ними.',
     abilities: {

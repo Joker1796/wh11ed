@@ -35,6 +35,8 @@ const en = {
     body: `### Pain Abilities
 All **Drukhari** units have a Pain ability, tagged with the word 'Pain'. Pain abilities only apply to a unit while it is **Empowered**. If your Army Faction is Drukhari, you can Empower units from your army with Pain abilities by spending Pain tokens (see below).
 
+**Designer's Note:** You can also spend Pain tokens to activate additional effects in certain other rules such as Enhancements and Stratagems.
+
 ### Gaining Pain Tokens
 If your Army Faction is Drukhari, you gain Pain tokens as follows:
 ▪ **1 Pain token** at the start of your Command phase.
@@ -45,8 +47,6 @@ Each time you gain a Pain token, keep it to one side — this is your Pain token
 
 ### Empowered Through Pain
 Each Pain ability will state when you can spend Pain tokens to Empower that unit. When you do, until the end of the phase, that unit is Empowered and all Pain abilities it has take effect. While an Attached unit is Empowered, the Pain abilities of all Leader and Bodyguard units in that unit take effect — you do not need to spend additional Pain tokens to activate each of those Pain abilities.
-
-**Designer's Note:** You can also spend Pain tokens to activate additional effects in certain other rules such as Enhancements and Stratagems.
 
 ### Corsairs and Travelling Players
 If your Army Faction is Drukhari, you can include **Harlequins** and **Anhrathe** units in your army, even though they do not have the Drukhari Faction keyword. The combined points value of Harlequins and/or Anhrathe units you can include depends on the battle size: Incursion — up to 250 pts; Strike Force — up to 500 pts; Onslaught — up to 750 pts. No Harlequins or Anhrathe models included in your army in this way can be your **Warlord**, and they cannot be given Enhancements.`,
@@ -343,8 +343,8 @@ Improve the Leadership characteristic of **Wych Cult** models from your army by 
           cp: '1CP',
           turn: 'your',
           flavor: 'Employing a common ruse from the arenas, the Drukhari appear to cower, wounded and exhausted, before surging back at their overconfident opponents with blades and fangs bared.',
-          when: 'Your Movement phase, just after a Drukhari unit from your army Falls Back.',
-          target: 'That Drukhari unit.',
+          when: 'Your Movement phase, just after a DRUKHARI unit from your army Falls Back.',
+          target: 'That DRUKHARI unit.',
           effect: 'Until the end of the turn, your unit is eligible to shoot and declare a charge in a turn in which it Fell Back.',
           restrictions: '',
         },
@@ -366,9 +366,9 @@ Improve the Leadership characteristic of **Wych Cult** models from your army by 
           turn: 'opponent',
           flavor: "The foe's advance is not something to be wary of but rather an opportunity to be seized.",
           // Faction-Pack Rules Update rewrote When / Target / Effect and removed Restrictions.
-          when: "Your opponent's Movement phase, when an enemy unit ends a Fall Back move.",
+          when: "Your opponent's Movement phase, when an enemy unit ends a fall-back move.",
           target: 'One friendly unengaged Wych Cult unit that is within 6" of that enemy unit.',
-          effect: 'Declare a charge with your unit. When selecting charge targets, you can only select enemy units that made a Fall Back move this phase and are within the maximum distance.',
+          effect: 'Declare a charge with your unit. When selecting charge targets, you can only select enemy units that made a fall-back move this phase and are within the maximum distance.',
           restrictions: '',
         },
         {
@@ -406,7 +406,7 @@ Improve the Leadership characteristic of **Wych Cult** models from your army by 
           name: 'Pharmacophex',
           points: 15,
           flavor: 'This inbuilt chem-atomiser wreathes the bearer and their comrades in a hyperstimulant haze.',
-          body: `Succubus model only. At the start of your Command phase, after selecting which Combat Drugs will be active for your army, roll one D6 and consult the Combat Drugs list (see the Combat Drugs Detachment rule). The result rolled applies to the bearer's unit until the start of your next Command phase in addition to any other Combat Drugs that are active for your army. If you randomly select one that is already active for your army, it has no additional effect.`,
+          body: `SUCCUBUS model only. At the start of your Command phase, after selecting which Combat Drugs will be active for your army, roll one D6 and consult the Combat Drugs list (see Detachment Rule). The result rolled applies to the bearer's unit until the start of your next Command phase in addition to any other Combat Drugs that are active for your army. If you randomly select one that is already active for your army, it has no additional effect.`,
         },
       ],
     },
@@ -432,9 +432,9 @@ Improve the Leadership characteristic of **Wych Cult** models from your army by 
           turn: 'either',
           flavor: 'To the greatest Haemonculi, death is but an intriguing and temporary state to be experienced.',
           when: 'Any phase.',
-          target: 'One Haemonculus model from your army that was just destroyed. You can use this Stratagem on that model even though it was just destroyed.',
-          effect: 'Spend 1-3 Pain tokens. At the end of the phase, set the destroyed model back up on the battlefield, as close as possible to where it was destroyed and not within Engagement Range of any enemy units, with a number of wounds remaining equal to the number of Pain tokens you just spent.',
-          restrictions: 'You cannot use this Stratagem if you have 0 Pain tokens, and you cannot target the same Haemonculus model with this Stratagem more than once per battle.',
+          target: 'One HAEMONCULUS model from your army that was just destroyed. You can use this Stratagem on that model even though it was just destroyed.',
+          effect: 'Spend 1-3 Pain tokens. At the end of the phase, set up the destroyed model on the battlefield, unengaged and as close as possible to where it was destroyed. That model is not part of an attached unit and its unit has a starting strength of 1. That model has a number of wounds remaining equal to the number of Pain tokens you just spent.',
+          restrictions: 'You cannot use this Stratagem if you have 0 Pain tokens, and you cannot target the same HAEMONCULUS model with this Stratagem more than once per battle.',
         },
         {
           name: 'Symphony of Suffering',
@@ -478,7 +478,7 @@ Improve the Leadership characteristic of **Wych Cult** models from your army by 
           when: "Your opponent's Shooting phase or the Fight phase, just after an enemy unit has selected its targets.",
           target: "One Drukhari unit from your army that was selected as the target of one or more of the attacking unit's attacks.",
           // Faction-Pack Rules Update reworded the Effect ("until the attacking unit has finished…").
-          effect: 'Spend 1 Pain token. Until the attacking unit has finished making its attacks, each time an attack is allocated to a model in your unit, worsen the Armour Penetration characteristic of that attack by 1. At the end of the phase, if your unit is still on the battlefield and it is a Haemonculus Covens unit, you gain 1 Pain token.',
+          effect: 'Spend 1 Pain token. Until the attacking unit has finished making its attacks, each time an attack targets your unit, worsen the Armour Penetration characteristic of that attack by 1. At the end of the phase, if your unit is still on the battlefield and it is a Haemonculus Covens unit, you gain 1 Pain token.',
           restrictions: '',
         },
         {
@@ -588,8 +588,8 @@ Improve the Leadership characteristic of **Wych Cult** models from your army by 
           cp: '1CP',
           turn: 'your',
           flavor: "This Archon's personal kill list of rivals, nemeses and victims is virtually never-ending.",
-          when: 'Your Command phase, just after you complete a Contract (see the Murderous Agenda Detachment rule).',
-          target: 'One Archon Warlord from your army.',
+          when: 'Your Command phase, just after you complete a Contract (see Murderous Agenda Detachment rule).',
+          target: 'One ARCHON WARLORD from your army.',
           effect: "Select one new Contract from those listed in the Murderous Agenda Detachment rule (this can be one you have already completed), then select one unit from your opponent's army that is on the battlefield and matches the 'Contract' description in that Contract. Until that Contract is completed, that unit is your Contract unit and the Murderous Agenda Detachment rule applies as normal.",
           restrictions: '',
         },
@@ -656,7 +656,7 @@ Improve the Leadership characteristic of **Wych Cult** models from your army by 
         name: 'Exacting Cruelty',
         flavor:
           "With long lives spent honing their murderous skills against the most powerful opponents, the renowned fighters of Commorragh's arenas have an instinct for just where to strike to bring their prey low in the most painful and elegant manner possible.",
-        body: `Friendly **WYCH CULT** units' melee attacks have [LETHAL HITS] against non-**MONSTER**/**VEHICLE** targets.
+        body: `Friendly WYCH CULT units' melee attacks have [LETHAL HITS: non-MONSTER/VEHICLE].
 
 This detachment has the **WYCH CULT** tag and cannot be taken with another **WYCH CULT** detachment.`,
       },
@@ -669,7 +669,7 @@ This detachment has the **WYCH CULT** tag and cannot be taken with another **WYC
           flavor: 'Murderous rehearsals ensure that those who survive can bring down the most resilient of prey in puissant displays.',
           when: 'Fight phase, when a friendly WYCH CULT unit is selected to fight.',
           target: 'That WYCH CULT unit.',
-          effect: "Your unit's melee attacks have the [LETHAL HITS] ability.",
+          effect: "Your unit's melee attacks have [LETHAL HITS].",
           restrictions: '',
         },
         {
@@ -678,9 +678,9 @@ This detachment has the **WYCH CULT** tag and cannot be taken with another **WYC
           cp: '1CP',
           turn: 'your',
           flavor: 'Gauche are the gladiators who kill too relentlessly. Preparing the stage with a variety of torments in order to build the tension for a delightful crescendo is the mark of a true artist.',
-          when: 'Your Movement phase, when a friendly WYCH CULT unit is selected to make an Advance or Fall Back move.',
+          when: 'Your Movement phase, when a friendly WYCH CULT unit is selected to make an advance/fall-back move.',
           target: 'That WYCH CULT unit.',
-          effect: 'That move does not prevent your unit from being eligible to start an Action.',
+          effect: 'That move does not prevent your unit from being eligible to start an action.',
           restrictions: '',
         },
         {
@@ -691,7 +691,7 @@ This detachment has the **WYCH CULT** tag and cannot be taken with another **WYC
           flavor: 'Moving so quickly they seem to blur, the Wyches evade incoming fire with contemptuous elegance.',
           when: "Your opponent's Shooting phase, when an enemy unit targets a friendly WYCH CULT unit.",
           target: 'That WYCH CULT unit.',
-          effect: 'Your unit has a 5+ invulnerable save.',
+          effect: 'Your unit has 5+ InSv.',
           restrictions: '',
         },
       ],
@@ -700,7 +700,7 @@ This detachment has the **WYCH CULT** tag and cannot be taken with another **WYC
           name: 'Hyperstimm Trafficker',
           points: 20,
           flavor: 'This gladiator has eyes only on the patronage of their audience. Supplied by a network of narcotic distributors – and heedless of the brutal effects of overdosing – the Succubus and their Wyches can endure long enough to provide extensive and heightened performances.',
-          body: `SUCCUBUS model only. This unit has +1 Toughness.`,
+          body: `SUCCUBUS model only. This unit has +1 T.`,
         },
         {
           name: 'Periapt of Torments',
@@ -722,7 +722,7 @@ This detachment has the **WYCH CULT** tag and cannot be taken with another **WYC
         name: 'Contracted Harvest',
         flavor:
           "Directed to inflict as much suffering as possible amongst the enemy's soldiers – on pain of their own torment – a kabal's vicious warriors spare no opportunity to unleash deluges of painful firepower.",
-        body: `Friendly **BLADES FOR HIRE**/**KABAL** units' ranged attacks have [SUSTAINED HITS 1] against non-**MONSTER**/**VEHICLE** targets.
+        body: `Friendly BLADES FOR HIRE/KABAL units' ranged attacks have [SUSTAINED HITS 1: non-MONSTER/VEHICLE].
 
 This detachment has the **KABAL** tag and cannot be taken with another **KABAL** detachment.`,
       },
@@ -759,7 +759,7 @@ This detachment has the **KABAL** tag and cannot be taken with another **KABAL**
           flavor: "Defensive barriers or camouflage are little protection against those who have honed their talents hunting amongst the twisted and dark spires of their kabal's territory.",
           when: 'Your Shooting phase, when a friendly KABALITE WARRIORS unit is selected to shoot.',
           target: 'That KABALITE WARRIORS unit.',
-          effect: "Your unit's ranged attacks have the [IGNORES COVER] ability.",
+          effect: "Your unit's ranged attacks have [IGNORES COVER].",
           restrictions: '',
         },
       ],
@@ -768,13 +768,13 @@ This detachment has the **KABAL** tag and cannot be taken with another **KABAL**
           name: 'Towering Arrogance',
           points: 15,
           flavor: "So absolute is this war leader's self-belief, so monstrous their ego, that it is virtually a weapon in its own right. Drukhari are drawn in their wake, unable to resist the charismatic certitude they exude. Enemies, meanwhile, give ground and lose heart beneath their witheringly contemptuous glare.",
-          body: `ARCHON model only. This unit has +1 Leadership and Objective Control.`,
+          body: `ARCHON model only. This unit has +1 Ld and OC.`,
         },
         {
           name: 'Contempt for Rivals',
           points: 20,
           flavor: "Assured of their utter superiority over any of the enemy's champions, this Archon rarely extends the offer of single combat and instead directs their warriors en masse to cut the pretender down.",
-          body: `ARCHON model only. This unit's attacks have the [PRECISION] ability.`,
+          body: `ARCHON model only. This unit's attacks have [PRECISION].`,
         },
       ],
     },
@@ -790,7 +790,7 @@ This detachment has the **KABAL** tag and cannot be taken with another **KABAL**
         name: 'Darkest Artifice',
         flavor:
           "A Haemonculus' most resilient Engines of Pain are each a dark triumph valued as a work of malevolent genius. Their finely wrought armoured carapaces shield toughened mechorganic strata and slabs of mutated cartilage.",
-        body: `Attacks that target friendly **CRONOS**/**TALOS** units with a Strength greater than that unit's Toughness have -1 to Wound rolls.
+        body: `Attacks that target friendly CRONOS/TALOS units with a S greater than that unit's T have -1 to Wound rolls.
 
 This detachment has the **COVENS** tag and cannot be taken with another **COVENS** detachment.`,
       },
@@ -803,7 +803,7 @@ This detachment has the **COVENS** tag and cannot be taken with another **COVENS
           flavor: "Confusion, terror, and panic are triggers for a Haemonculus' Engines of Pain, which stimulate them to drive their evil augmentations even deeper into the foe.",
           when: 'Fight phase, when a friendly CRONOS/TALOS unit is selected to fight.',
           target: 'That CRONOS/TALOS unit.',
-          effect: "Your unit's attacks that target a Battle-shocked unit have the [DEVASTATING WOUNDS] ability.",
+          effect: "Your unit's attacks that target a Battle-shocked unit have [DEVASTATING WOUNDS].",
           restrictions: '',
         },
         {
@@ -823,7 +823,7 @@ This detachment has the **COVENS** tag and cannot be taken with another **COVENS
           cp: '1CP',
           turn: 'your',
           flavor: 'The unhurried menace exuded by Covenites as they extricate themselves from gore-slick foes can metamorphose in an instant back to pain-hungry savagery.',
-          when: 'Your Movement phase, when a friendly HAEMONCULUS COVENS unit is selected to make a Fall Back move.',
+          when: 'Your Movement phase, when a friendly HAEMONCULUS COVENS unit is selected to make a fall-back move.',
           target: 'That HAEMONCULUS COVENS unit.',
           effect: 'That move does not prevent your unit from being eligible to declare a charge.',
           restrictions: '',
@@ -834,14 +834,14 @@ This detachment has the **COVENS** tag and cannot be taken with another **COVENS
           name: 'Gnarlskin Experimentor',
           points: 20,
           flavor: 'This master fleshcrafter sees raids as opportunities to assess a host of novel skins for themselves and their suffering servants: scabrous crusts, squirming meshes, resinous under layers and more besides.',
-          body: `HAEMONCULUS model only. Attacks that target this unit with a Strength greater than your unit's Toughness have -1 to Wound rolls.`,
+          body: `HAEMONCULUS model only. Attacks that target this unit with a S greater than your unit's T have -1 to Wound rolls.`,
         },
         {
           name: 'Elixir of the Corpse Courts',
           points: 15,
           upgrade: true,
           flavor: 'Flowing from surgically grafted vials, this milky substance causes tumorous masses of pallid and nerve-deadened flesh to grow. It sloughs away in sickly lumps when struck, but is soon replaced in a regenecyst cycle of cutaneous ablative armour.',
-          body: `CRONOS/TALOS unit only. This unit has a 5+ invulnerable save.`,
+          body: `CRONOS/TALOS unit only. This unit has 5+ InSv.`,
         },
       ],
     },
@@ -856,12 +856,12 @@ This detachment has the **COVENS** tag and cannot be taken with another **COVENS
         name: 'Callous Competition',
         flavor:
           'In this saedath, the Harlequins embody the Reaper, whilst their Drukhari companions are mortal killers.',
-        body: `At the start of the battle, Drukhari units from your army are winning the wager.
-▪ Each time a **Drukhari** unit from your army destroys an enemy unit, Drukhari units from your army are winning the wager.
-▪ Each time a **Harlequins** unit from your army destroys an enemy unit, Harlequins units from your army are winning the wager.
-▪ While Drukhari units from your army are winning the wager, Harlequins units from your army are losing the wager, and vice versa.
+        body: `At the start of the battle, DRUKHARI units from your army are winning the wager.
+▪ Each time a DRUKHARI unit from your army destroys an enemy unit, DRUKHARI units from your army are winning the wager.
+▪ Each time a HARLEQUINS unit from your army destroys an enemy unit, HARLEQUIN units from your army are winning the wager.
+▪ While DRUKHARI units from your army are winning the wager, HARLEQUIN units from your army are losing the wager, and vice versa.
 
-Each time a Drukhari or Harlequins model from your army makes an attack, if that model's unit is winning the wager, re-roll a Hit roll of 1. If that model's unit is losing the wager, re-roll a Hit roll of 1 and re-roll a Wound roll of 1 instead.
+Each time a DRUKHARI or HARLEQUINS model from your army makes an attack, if that model's unit is winning the wager, re-roll a Hit roll of 1. If that model's unit is losing the wager, re-roll a Hit roll of 1 and re-roll a Wound roll of 1 instead.
 
 **Harlequins:** You can include Harlequins units in your army (see Codex: Aeldari). The combined points cost of such units depends on your battle size: Incursion — up to 500 pts; Strike Force — up to 1000 pts; Onslaught — up to 1500 pts. No Harlequins models from your army can be your **Warlord**. If you select this Detachment, you cannot use the Corsairs and Travelling Players army rule.`,
       },

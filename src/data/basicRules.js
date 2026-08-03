@@ -52,6 +52,10 @@ Units or models whose **[gloss:wounds:W]** characteristic or **starting strength
                   ['**At Half-Strength**', "Model's remaining wounds are half of its **[gloss:wounds:W]** characteristic.", 'Number of remaining models in the unit is half of its **starting strength**.'],
                   ['**Below Half-Strength**', "Model's remaining wounds are less than half of its **[gloss:wounds:W]** characteristic.", 'Number of remaining models in the unit is less than half of its **starting strength**.'],
                 ],
+                // Cells are full sentences, not short stat values — a 3-column grid doesn't
+                // fit a phone even scrolled. Stack as label/value cards below 700px instead
+                // (see DataTable.vue's `stacked` prop).
+                stacked: true,
               },
               example: 'A Captain (1 model) is attached to a unit of Intercessors (5 models). This **attached** unit has a **starting strength** of 6. If three Intercessors were **[gloss:destroyed:destroyed]**, the unit would be **at half-strength**. If four Intercessors were **destroyed**, the unit would be **below half-strength**. If all of the Intercessors were **destroyed**, the remaining Captain would be **below half-strength**, despite having his full wounds remaining.',
             },
@@ -81,7 +85,9 @@ Models returned to a unit on the battlefield must be set up as follows:
 
 ▪ They must be set up in **[gloss:coherency:coherency]** with models in that unit that started that phase on the battlefield.
 ▪ They can be set up **[gloss:engaged:engaged]** with one or more enemy units, but only if those enemy units were already **engaged** with the unit that model is being returned to.
-If a **[gloss:leader:leader]** or **[gloss:support:support]** model in an **attached** unit is **destroyed** and subsequently revived, they are still part of that **attached** unit and they must be returned to it if possible.`,
+If a **[gloss:leader:leader]** or **[gloss:support:support]** model in an **attached** unit is **destroyed** and subsequently revived, they are still part of that **attached** unit and they must be returned to it if possible.
+
+When a model revives, resurrects, returns or is added to an embarked unit, if that TRANSPORT has sufficient remaining **[gloss:transport-capacity:transport capacity]** for that model, that model is returned to that unit and is embarked. Otherwise, that model is **destroyed**, but it does not trigger rules that apply when a model is **destroyed**.`,
             },
             {
               id: 'section-01-02-04',
@@ -256,6 +262,13 @@ When moving a model from your army into base contact with an enemy model during 
 ▪ The distance your model could move was sufficient to move it into base contact with the enemy model if there was no overhang.
 ▪ The models are as close as possible together.
 ▪ Any part of one model is within 1" of any part of the other model.`,
+            },
+            {
+              id: 'section-01-04-05',
+              sectionNum: '01.04.05',
+              title: 'Table Quarters',
+              fromApp: true,
+              body: `When a rule refers to a **table quarter**, or table quarters, divide the battlefield with imaginary lines 1mm thick drawn lengthwise and widthwise through the centre of the battlefield to create four equal rectangles. These rectangles are the **table quarters**.`,
             },
           ],
         },
@@ -547,7 +560,7 @@ Where a **[gloss:damage-roll:D]** characteristic includes an operator (e.g. a '+
               fromApp: true,
               body: `When a unit **[gloss:heal:heals]** or regains a number of wounds, it regains up to that number of lost wounds. For each wound healed or regained, consult the following:
 ▪ If that unit has one or more models that does not have its full wounds remaining, select one of those models; that model regains one lost wound.
-▪ If all models in that unit have their starting number of wounds, but one or more models from that unit are currently **destroyed**, **[gloss:revive:revive]** one of those **destroyed** models, with one wound remaining.
+▪ If all models in that unit have their starting number of wounds, but one or more models from that unit are currently **destroyed**, **[gloss:revive:revive]** one of those **destroyed** models (excluding **[gloss:character:CHARACTER]** models), with one wound remaining.
 This cannot cause a model to have more wounds remaining than it started the battle with.
 
 If a rule states that a model **heals** or regains a number of wounds, only that model can regain wounds up to its starting number of wounds. Any excess regained wounds are lost and do not cause a **destroyed** model from that unit to **revive**.`,
@@ -696,6 +709,13 @@ Each time you move a model in a straight line, move it horizontally across the b
 ### Rotating a Model
 Each time you rotate a model, turn it any amount around the centre of its base, while keeping it upright. Note that rotating a model does not count towards the distance it has moved. Models without a base are rotated around their central axis (see FRAME, 17.02).
 
+This model can move a **maximum distance** of 12". It moves in a series of straight lines and rotations, as follows:
+→ Moves 6" in a straight line
+→ Rotates
+→ Moves 6" in a straight line
+→ Rotates
+This model has moved a total of 12".
+
 ### Ending a Move
 After you have finished setting up all of the models in a unit and/or moving all of the models in a unit that you want to move, check that all of the following apply:
 ▪ If that unit is on the battlefield, it is in **coherency** (03.03).
@@ -705,8 +725,9 @@ After you have finished setting up all of the models in a unit and/or moving all
 If one or more of the above conditions are not met, that unit cannot make that move and its models are returned to their positions at the start of that move. Otherwise, after resolving any additional rules stated in the [gloss:after-moving:'After Moving'] section of that **move type**, that move ends.`,
           seeAlso: ['Monsters and Vehicles 17.00', 'Moving Vertically 13.06', 'Strategic Reserves 20.00', 'Terrain 13.00', 'Transports 18.00'],
           illustration: {
-            src: '/images/moving/moving-straight-line.jpg',
+            src: '/images/moving/moving-straight-line-diagram.jpg',
             alt: 'Moving in a straight line',
+            shared: true,
             seeAlso: {
               title: 'Move Types',
               refs: [
@@ -724,7 +745,7 @@ If one or more of the above conditions are not met, that unit cannot make that m
               ],
             },
           },
-          image: { src: '/images/moving/rotating.jpg', alt: 'Rotating a model' },
+          image: { src: '/images/moving/rotating-diagram.jpg', alt: 'Rotating a model', shared: true },
           children: [
             {
               id: 'section-03-01-01',
@@ -792,7 +813,7 @@ If you cannot set up all of the models in a unit, remove that unit from the batt
 ▪ Make any attacks with ranged weapons.
 Some large models, typically [gloss:aircraft:AIRCRAFT], have wings and other parts that extend significantly beyond their base. Such models can overhang a deployment zone if it is not possible to set them up otherwise, but when setting them up, their base must still be wholly within that deployment zone.
 
-**[gloss:strategic-reserves:From Strategic Reserves]:** If a model is so large that its base cannot physically be set up wholly within the distance required of the battlefield edge, it must be set up so that it is touching a battlefield edge. During a turn in which such a large model is set up on the battlefield, that model's unit cannot do any of the following:
+**[gloss:strategic-reserves:From Strategic Reserves]:** If a model is so large that its base cannot physically be set up wholly within the distance required of the battlefield edge, it must be set up so that it is touching a battlefield edge. During a turn in which such a large model is set up on the battlefield (excluding [gloss:aircraft:AIRCRAFT] models), that model's unit cannot do any of the following:
 ▪ **normal/advance/fall-back/charge move**.
 ▪ Make any attacks with ranged weapons.
 Some large models, typically [gloss:aircraft:AIRCRAFT], have wings and other parts that extend significantly beyond their base. Such models can overhang a battlefield edge if it is not possible to set them up otherwise, but when setting them up, they must still be more than 8" away from all enemy units.
@@ -816,6 +837,8 @@ Some large models, typically [gloss:aircraft:AIRCRAFT], have wings and other par
 ▪ Within 2" horizontally and 5" vertically of at least one other model in that unit.
 ▪ Within 9" horizontally and 5" vertically of every other model in that unit.
 
+Every model in this unit is within 2" of at least one other model in its unit, and every model is within 9" of every other model in its unit. This unit is therefore in **coherency**.
+
 ### Regaining Coherency
 In the **[gloss:end-of-turn-step:End of Turn step]** of each player's turn, if one or more units on the battlefield are not in **coherency**, those units' controlling players must remove models from them, one at a time, until they are in **coherency** again. Models removed in this way are **[gloss:destroyed:destroyed]**, but they do not trigger rules that apply when a model is **[gloss:destroyed:destroyed]**.
 
@@ -831,7 +854,7 @@ In the **[gloss:end-of-turn-step:End of Turn step]** of each player's turn, if o
 **Q:** Do models **destroyed** when a unit is out of **coherency** count for mission objectives?
 
 **A:** Yes.`,
-          image: { src: '/images/coherency/coherency.jpg', alt: 'Coherency' },
+          image: { src: '/images/coherency/coherency-diagram.jpg', alt: 'Coherency', shared: true },
           children: [
             {
               id: 'section-03-03-01',
@@ -850,11 +873,13 @@ In the **[gloss:end-of-turn-step:End of Turn step]** of each player's turn, if o
 ▪ While a friendly model is within **engagement range** of one or more enemy models, those models – and the units they belong to – are **engaged** with each other.
 ▪ While a unit contains no **engaged** models, that unit is **unengaged**.
 
+These two units have at least one model within 2" of the opposing unit, and are therefore **engaged** with each other.
+
 ### FAQs
 **Q:** Does my model or unit become **engaged** while moving through an enemy unit's **engagement range** during a move?
 
 **A:** No.`,
-          image: { src: '/images/visibility/engagement.jpg', alt: 'Engagement' },
+          image: { src: '/images/visibility/engagement-diagram.jpg', alt: 'Engagement', shared: true },
           children: [
             {
               id: 'section-03-04-01',
@@ -1262,12 +1287,12 @@ When a player has to measure the distance to a **destroyed** unit, they measure 
           id: 'section-05-ex',
           sectionNum: 'EX',
           title: 'Attack Sequence Example — MAKING ATTACKS',
-          sideImage: { src: '/images/attack/making-attacks.jpg', alt: 'Attack Sequence Example diagram' },
+          sideImage: { src: '/images/attack/making-attacks-diagram.jpg', alt: 'Attack Sequence Example diagram', shared: true },
           body: `### 1. SELECT WEAPONS
 The {red:RED} unit is attacking. The following weapons are selected to make attacks with:
-▪ 2 boltguns (B)
-▪ 2 bolt pistols (BP)
-▪ 1 heavy bolter (HB)
+▪ 2 boltguns (A)
+▪ 2 bolt pistols (B)
+▪ 1 heavy bolter (C)
 
 ### 2. SELECT TARGETS
 The {blue:BLUE} unit is selected as the target. The unit is **[gloss:visible:visible]** to all models in the attacking unit. All of the selected weapons are in range, with the exception of one bolt pistol. As a result, that weapon will not make any attacks.
@@ -1281,9 +1306,9 @@ There is only one enemy unit being targeted, so the controlling player now gathe
           id: 'section-05-ex2',
           sectionNum: 'EX',
           title: 'Attack Sequence Example — RESOLVING ATTACK DICE',
-          sideImage: { src: '/images/attack/resolve-attack-dice.jpg', alt: 'Resolve attack dice example' },
+          sideImage: { src: '/images/attack/resolve-attack-dice-diagram.jpg', alt: 'Resolve attack dice example', shared: true },
           body: `### 1. **HIT ROLLS**
-The controlling player chooses to make the five **hit rolls** for the boltguns and bolt pistol first. The **[gloss:ballistic-skill:BS]** characteristic of the weapons is 3+. Four of the attacks hit the target.
+The controlling player chooses to make the five **hit rolls** for the boltguns (A) and bolt pistol (B) first. The **[gloss:ballistic-skill:BS]** characteristic of the weapons is 3+. Four of the attacks hit the target.
 
 ### 2. WOUND ROLLS
 The controlling player makes four **wound rolls**. The weapons have an **[gloss:strength:S]** characteristic of 4 and the target unit has a **[gloss:toughness:T]** characteristic of 3, so rolls of 3+ are required to wound. Three of the attacks wound the target.
@@ -1300,9 +1325,9 @@ The target unit's controlling player makes three **save rolls**.
           id: 'section-05-ex3',
           sectionNum: 'EX',
           title: 'Attack Sequence Example — RESOLVING OTHER ATTACKS',
-          sideImage: { src: '/images/attack/resolve-other-attacks.jpg', alt: 'Resolving other attacks example' },
+          sideImage: { src: '/images/attack/resolve-other-attacks-diagram.jpg', alt: 'Resolving other attacks example', shared: true },
           body: `### 1. **HIT ROLLS**
-The controlling player then makes three **hit rolls** for the heavy bolter. The **[gloss:ballistic-skill:BS]** characteristic of the weapon is 4+. Two of the attacks hit the target.
+The controlling player then makes three **hit rolls** for the heavy bolter (C). The **[gloss:ballistic-skill:BS]** characteristic of the weapon is 4+. Two of the attacks hit the target.
 
 ### 2. WOUND ROLLS
 The controlling player makes two **wound rolls**. The weapon has an **[gloss:strength:S]** characteristic of 5, so rolls of 3+ are required to wound. Both attacks wound the target.
@@ -1318,12 +1343,12 @@ The target unit's controlling player makes two **save rolls**.
           id: 'section-05-ex4',
           sectionNum: 'EX',
           title: 'Attack Sequence Example — ATTACKING ATTACHED UNITS',
-          sideImage: { src: '/images/attached/attacking-attached-units.jpg', alt: 'Attacking attached units example', width: '60%' },
+          sideImage: { src: '/images/attached/attacking-attached-units-diagram.jpg', alt: 'Attacking attached units example', width: '60%', shared: true },
           body: `### 1. SELECT WEAPONS
 The {red:RED} unit is attacking. The following weapons are selected to make attacks with:
-▪ 7 boltguns (B)
-▪ 1 plasma pistol (PP)
-▪ 2 heavy bolters (HB)
+▪ 7 boltguns (A)
+▪ 1 plasma pistol (B)
+▪ 2 heavy bolters (C)
 
 ### 2. SELECT TARGETS
 The {blue:BLUE} unit is selected as the target. It is an attached unit (19) formed from a Seraphim unit and Saint Celestine (with her two Geminae Superia). The unit is **visible** to all models in the attacking unit, and all of the selected weapons are in range.
@@ -1338,9 +1363,9 @@ The **attack dice** for the remaining weapons will be gathered once the heavy bo
           id: 'section-05-ex5',
           sectionNum: 'EX',
           title: 'Attack Sequence Example — ALLOCATION GROUPS',
-          sideImage: { src: '/images/attack/allocation-groups.jpg', alt: 'Allocation groups example', width: '60%' },
+          sideImage: { src: '/images/attack/allocation-groups-diagram.jpg', alt: 'Allocation groups example', width: '60%', shared: true },
           body: `### 1. CREATE GROUPS AND DECLARE ORDER
-The target unit's controlling player divides it into groups: one containing Saint Celestine, one containing the Geminae Superia, and one containing the Seraphim. They then declare the allocation order, choosing the Geminae Superia first (1), hoping their better **[gloss:save-roll:Sv]** and **[gloss:invulnerable-save:InSv]** characteristics will weather the attacks. The Seraphim must be chosen second (2), as Saint Celestine is a **[gloss:character:CHARACTER]** model so must be last in the order (3).
+The target unit's controlling player divides it into groups: one containing Saint Celestine, one containing the Geminae Superia, and one containing the Seraphim. They then declare the allocation order, choosing the Geminae Superia first (E), hoping their better **[gloss:save-roll:Sv]** and **[gloss:invulnerable-save:InSv]** characteristics will weather the attacks. The Seraphim must be chosen second (D), as Saint Celestine is a **[gloss:character:CHARACTER]** model so must be last in the order (F).
 
 ### 2. RESOLVE ATTACK DICE
 The heavy bolters' attacks wound the target five times, so the target unit's controlling player makes five **save rolls**.
@@ -1378,13 +1403,25 @@ The attacks are resolved one at a time, from lowest **save rolls** to highest:
 
 Other models and units can be either **visible** or **[gloss:fully-visible:fully visible]** to the observing model, as shown below.
 
-[img:/images/visibility/model-visible.jpg|Model visibility — model partially visible]
+### Model Visible
+[img:/images/visibility/model-visible-diagram.jpg|Model visibility — model partially visible]
 
-[img:/images/visibility/model-fully-visible.jpg|Model visibility — model fully visible]
+If any part of another model is **visible** to the observing model, that model is **visible**.
 
-[img:/images/visibility/unit-visible.jpg|Unit visibility — unit visible to observer]
+### Model Fully Visible
+[img:/images/visibility/model-fully-visible-diagram.jpg|Model visibility — model fully visible]
 
-[img:/images/visibility/unit-fully-visible.jpg|Unit visibility — unit fully visible to observer]`,
+If every part of another model that is facing the observing model is **visible** to the observing model (so the only thing blocking visibility to any part of that other model is that model itself), that model is **fully visible**.
+
+### Unit Visible
+[img:/images/visibility/unit-visible-diagram.jpg|Unit visibility — unit visible to observer]
+
+If one or more models in a unit are **visible** to the observing model, that unit is **visible**.
+
+### Unit Fully Visible
+[img:/images/visibility/unit-fully-visible-diagram.jpg|Unit visibility — unit fully visible to observer]
+
+If every model in a unit is **fully visible** to the observing model, that unit is **fully visible**. When determining this, the observing model can see through other models in that unit.`,
           note: 'Terrain applies additional rules to visibility (13.07).',
           children: [
             {
@@ -1495,6 +1532,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
                   ['**На половинной численности**', 'Оставшиеся раны модели составляют **половину** её характеристики **[gloss:wounds:W]**.', 'Количество оставшихся моделей в юните составляет **половину** его начальной численности.'],
                   ['**Ниже половинной численности**', 'Оставшиеся раны модели составляют **менее половины** её характеристики **[gloss:wounds:W]**.', 'Количество оставшихся моделей в юните составляет **менее половины** его начальной численности.'],
                 ],
+                stacked: true,
               },
               example: 'Капитан (1 модель) приписан к отряду Интерцессоров (5 моделей). Этот **составной юнит** имеет **[gloss:starting-strength:начальную численность]** 6. Если три Интерцессора **уничтожены**, юнит находится **на половинной численности**. Если четыре Интерцессора **уничтожены**, юнит находится **ниже половинной численности** (below half-strength). Если все Интерцессоры **уничтожены**, оставшийся Капитан находится **ниже половинной численности**, несмотря на то, что у него осталось полное количество [gloss:wounds:ран].',
             },
@@ -1518,7 +1556,9 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 
 ▪ Они должны быть размещены в **[gloss:coherency:боевом построении]** с моделями этого юнита, которые начали эту фазу на поле боя.
 ▪ Они могут быть размещены **[gloss:engaged:в ближнем бою]** с одним или несколькими вражескими юнитами, но только если эти вражеские юниты уже были **[gloss:engaged:в ближнем бою]** с юнитом, в который возвращается модель.
-Если модель **[gloss:leader:лидера]** или **[gloss:support:поддержки]** в **составном юните** **[gloss:destroyed:уничтожена]** и впоследствии возрождена, она всё ещё является частью этого **составного юнита** и должна быть возвращена в него, если возможно.`,
+Если модель **[gloss:leader:лидера]** или **[gloss:support:поддержки]** в **составном юните** **[gloss:destroyed:уничтожена]** и впоследствии возрождена, она всё ещё является частью этого **составного юнита** и должна быть возвращена в него, если возможно.
+
+Когда модель возрождается, воскрешается, возвращается или добавляется в юнит, находящийся внутри транспорта, если у этого TRANSPORT достаточно оставшейся **[gloss:transport-capacity:вместимости транспорта]** для этой модели, эта модель возвращается в юнит и садится в транспорт. В противном случае эта модель **уничтожается**, но это не запускает правила, которые применяются, когда модель **уничтожена**.`,
             },
             {
               title: 'Не на поле боя',
@@ -1647,6 +1687,10 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ▪ Дистанции, на которую ваша модель могла переместиться, было достаточно, чтобы привести её в контакт баз с вражеской моделью, если бы не было нависания.
 ▪ Модели находятся как можно ближе друг к другу.
 ▪ Любая часть одной модели находится в пределах 1" от любой части другой модели.`,
+            },
+            {
+              title: 'Четверти стола (Table Quarters)',
+              body: `Когда правило ссылается на **четверть стола** или четверти стола, разделите поле боя воображаемыми линиями толщиной 1 мм, проведёнными вдоль и поперёк через центр поля боя, чтобы получить четыре равных прямоугольника. Эти прямоугольники и есть **четверти стола**.`,
             },
           ],
         },
@@ -1875,7 +1919,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
               title: 'Исцеление или восстановление потерянных ран',
               body: `Когда юнит **[gloss:heal:исцеляет]** или восстанавливает некоторое количество ран, он восстанавливает до этого количества потерянных ран. За каждую исцелённую или восстановленную рану действуйте следующим образом:
 ▪ Если в этом юните есть одна или несколько моделей, у которых не полное количество оставшихся ран, выберите одну из этих моделей; эта модель восстанавливает одну потерянную рану.
-▪ Если все модели в этом юните имеют своё начальное количество ран, но одна или несколько моделей из этого юнита в данный момент **[gloss:destroyed:уничтожены]**, **[gloss:revive:возродите]** одну из этих **уничтоженных** моделей с одной оставшейся раной.
+▪ Если все модели в этом юните имеют своё начальное количество ран, но одна или несколько моделей из этого юнита в данный момент **[gloss:destroyed:уничтожены]**, **[gloss:revive:возродите]** одну из этих **уничтоженных** моделей (кроме моделей **[gloss:character:CHARACTER]**) с одной оставшейся раной.
 Это не может привести к тому, что у модели останется больше ран, чем было в начале битвы.
 
 Если правило указывает, что модель **исцеляет** или восстанавливает некоторое количество ран, только эта модель может восстанавливать раны до своего начального количества. Любые избыточные восстановленные раны теряются и не приводят к **возрождению** **уничтоженной** модели из этого юнита.`,
@@ -1987,6 +2031,13 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ### Поворот модели
 Каждый раз, когда вы поворачиваете модель, поверните её на любое количество градусов вокруг центра её базы, удерживая её вертикально. Обратите внимание, что поворот модели не учитывается в пройденном ею расстоянии. Модели без базы поворачиваются вокруг своей центральной оси (см. FRAME, 17.02).
 
+Эта модель может переместиться на **максимальное расстояние** 12". Она перемещается серией прямых линий и поворотов, следующим образом:
+→ Перемещается на 6" по прямой линии
+→ Поворачивается
+→ Перемещается на 6" по прямой линии
+→ Поворачивается
+Эта модель переместилась в общей сложности на 12".
+
 ### Завершение манёвра
 После того как вы закончили устанавливать все модели в юните и/или перемещать все модели в юните, которые вы хотите переместить, проверьте, выполняются ли все следующие условия:
 ▪ Если этот юнит находится на поле боя, он находится в **[gloss:coherency:боевом построении]** (03.03).
@@ -2041,7 +2092,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 ▪ Совершать какие-либо атаки дистанционным оружием.
 Некоторые крупные модели, обычно [gloss:aircraft:AIRCRAFT], имеют крылья и другие части, значительно выходящие за пределы их базы. Такие модели могут нависать над зоной развёртывания, если иначе их невозможно установить, но при установке их база всё равно должна быть полностью в пределах этой зоны развёртывания.
 
-**[gloss:strategic-reserves:Из стратегических резервов]:** Если модель настолько большая, что её база не может физически быть установлена полностью в пределах расстояния, требуемого от края поля боя, она должна быть установлена так, чтобы касаться края поля боя. В течение хода, в котором такая крупная модель устанавливается на поле боя, юнит этой модели не может выполнять ничего из следующего:
+**[gloss:strategic-reserves:Из стратегических резервов]:** Если модель настолько большая, что её база не может физически быть установлена полностью в пределах расстояния, требуемого от края поля боя, она должна быть установлена так, чтобы касаться края поля боя. В течение хода, в котором такая крупная модель устанавливается на поле боя (кроме моделей [gloss:aircraft:AIRCRAFT]), юнит этой модели не может выполнять ничего из следующего:
 ▪ **обычный/продвигающий/отступающий/нападающий манёвр** (normal/advance/fall-back/charge move).
 ▪ Совершать какие-либо атаки дистанционным оружием.
 Некоторые крупные модели, обычно [gloss:aircraft:AIRCRAFT], имеют крылья и другие части, значительно выходящие за пределы их базы. Такие модели могут нависать над краем поля боя, если иначе их невозможно установить, но при установке они всё равно должны находиться более чем в 8" от всех вражеских юнитов.
@@ -2059,6 +2110,8 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
           body: `Юнит, содержащий более одной модели, должен быть установлен и завершать любой вид манёвра в **боевом построении**. Юнит находится в **боевом построении**, если для каждой модели в этом юните выполняются оба следующих условия:
 ▪ Находится в пределах 2" по горизонтали и 5" по вертикали от по крайней мере одной другой модели в этом юните.
 ▪ Находится в пределах 9" по горизонтали и 5" по вертикали от каждой другой модели в этом юните.
+
+Каждая модель в этом юните находится в пределах 2" хотя бы от одной другой модели своего юнита, и каждая модель находится в пределах 9" от каждой другой модели своего юнита. Поэтому этот юнит находится в **боевом построении**.
 
 ### Восстановление боевого построения
 На этапе **[gloss:end-of-turn-step:«Конец хода»]** каждого хода игрока, если один или несколько юнитов на поле боя не находятся в **боевом построении**, контролирующие игроки этих юнитов должны удалять модели из них, по одной, пока такой юнит снова не придёт в **боевое построение**. Модели, удалённые таким образом, **[gloss:destroyed:уничтожаются]**, но они не активируют правила, которые срабатывают тогда, когда модель **[gloss:destroyed:уничтожена]**.
@@ -2087,6 +2140,8 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
           body: `Радиус связывания модели — это область поля боя в пределах 2" по горизонтали и 5" по вертикали от неё.
 ▪ Пока союзная модель находится в **радиусе связывания** с одной или несколькими вражескими моделями, эти модели — и юниты, к которым они принадлежат, — **связаны боем** друг с другом.
 ▪ Пока юнит не содержит ни одной **связанной** модели, этот юнит считается **не связанным**.
+
+Эти два юнита имеют хотя бы одну модель в пределах 2" от юнита противника, и поэтому **связаны боем** друг с другом.
 
 ### FAQs
 **В:** Становится ли моя модель или юнит **связанным**, проходя через **радиус связывания** вражеского юнита во время манёвра?
@@ -2400,9 +2455,9 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
           title: 'Пример: совершение атак',
           body: `### 1. ВЫБОР ОРУЖИЯ
 {red:КРАСНЫЙ} юнит атакует. Следующее оружие выбрано для атак:
-▪ 2 boltguns (B)
-▪ 2 bolt pistols (BP)
-▪ 1 heavy bolter (HB)
+▪ 2 boltguns (A)
+▪ 2 bolt pistols (B)
+▪ 1 heavy bolter (C)
 
 ### 2. ВЫБОР ЦЕЛЕЙ
 {blue:СИНИЙ} юнит выбран в качестве цели. Юнит **[gloss:visible:видим]** всем моделям в атакующем юните. Все выбранное оружие находится в пределах дальности, за исключением одного болт-пистолета. В результате это оружие не будет совершать атак.
@@ -2415,7 +2470,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
         {
           title: 'Пример: отыгрыш кубиков атаки',
           body: `### 1. HIT ROLLS (**БРОСКИ НА ПОПАДАНИЕ**)
-Контролирующий игрок решает сначала сделать пять **бросков на попадание** для болтганов и болт-пистолета. Характеристика **[gloss:ballistic-skill:BS]** оружия 3+. Четыре атаки попадают в цель.
+Контролирующий игрок решает сначала сделать пять **бросков на попадание** для болтганов (A) и болт-пистолета (B). Характеристика **[gloss:ballistic-skill:BS]** оружия 3+. Четыре атаки попадают в цель.
 
 ### 2. WOUND ROLLS (БРОСКИ НА РАНЕНИЕ)
 Контролирующий игрок делает четыре **броска на ранение**. Оружие имеет характеристику **[gloss:strength:S]** 4, а целевой юнит — характеристику **[gloss:toughness:T]** 3, поэтому для ранения требуются результаты 3+. Три атаки ранят цель.
@@ -2431,7 +2486,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
         {
           title: 'Пример: отыгрыш других атак',
           body: `### 1. HIT ROLLS (**БРОСКИ НА ПОПАДАНИЕ**)
-Затем контролирующий игрок делает три **броска на попадание** для тяжёлого болтера. Характеристика **[gloss:ballistic-skill:BS]** оружия 4+. Две атаки попадают в цель.
+Затем контролирующий игрок делает три **броска на попадание** для тяжёлого болтера (C). Характеристика **[gloss:ballistic-skill:BS]** оружия 4+. Две атаки попадают в цель.
 
 ### 2. WOUND ROLLS (БРОСКИ НА РАНЕНИЕ)
 Контролирующий игрок делает два **броска на ранение**. Оружие имеет характеристику **[gloss:strength:S]** 5, поэтому для ранения требуются результаты 3+. Обе атаки ранят цель.
@@ -2447,9 +2502,9 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
           title: 'Пример: атака присоединённых юнитов',
           body: `### 1. ВЫБОР ОРУЖИЯ
 {red:КРАСНЫЙ} юнит атакует. Следующее оружие выбрано для атак:
-▪ 7 boltguns (B)
-▪ 1 plasma pistol (PP)
-▪ 2 heavy bolters (HB)
+▪ 7 boltguns (A)
+▪ 1 plasma pistol (B)
+▪ 2 heavy bolters (C)
 
 ### 2. ВЫБОР ЦЕЛЕЙ
 {blue:СИНИЙ} юнит выбран в качестве цели. Это присоединённый юнит (19), сформированный из юнита Серафим и Святой Селестины (с двумя её Геминами Суперии). Юнит **видим** всем моделям в атакующем юните, и все выбранное оружие находится в пределах дальности.
@@ -2463,7 +2518,7 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
         {
           title: 'Пример: группы распределения',
           body: `### 1. СОЗДАТЬ ГРУППЫ И ОБЪЯВИТЬ ПОРЯДОК
-Контролирующий игрок целевого юнита делит его на группы: одну, содержащую Святую Селестину, одну, содержащую Гемин Суперии, и одну, содержащую Серафим. Затем он объявляет порядок распределения, выбирая сначала Гемин Суперию (1), надеясь, что их лучшие характеристики **[gloss:save-roll:Sv]** и **[gloss:invulnerable-save:InSv]** выдержат атаки. Серафим должны быть выбраны вторыми (2), так как Святая Селестина является моделью **[gloss:character:CHARACTER]**, поэтому должна быть последней в порядке (3).
+Контролирующий игрок целевого юнита делит его на группы: одну, содержащую Святую Селестину, одну, содержащую Гемин Суперии, и одну, содержащую Серафим. Затем он объявляет порядок распределения, выбирая сначала Гемин Суперию (E), надеясь, что их лучшие характеристики **[gloss:save-roll:Sv]** и **[gloss:invulnerable-save:InSv]** выдержат атаки. Серафим должны быть выбраны вторыми (D), так как Святая Селестина является моделью **[gloss:character:CHARACTER]**, поэтому должна быть последней в порядке (F).
 
 ### 2. ВЫБОР КУБИКОВ АТАКИ
 Атаки тяжёлых болтеров ранили цель пять раз, поэтому контролирующий игрок целевого юнита делает пять **[gloss:save-roll:спас-бросков]**.
@@ -2496,13 +2551,25 @@ When resolving **attack dice**, if those attacks inflict a mixture of both **mor
 
 Другие модели и юниты могут быть либо **[gloss:visible:видимыми]**, либо **[gloss:fully-visible:полностью видимыми]** для наблюдающей модели, как показано ниже.
 
-[img:/images/visibility/model-visible-ru.jpg|Диаграмма видимости — модель частично видима]
+### Модель видима
+[img:/images/visibility/model-visible-diagram.jpg|Диаграмма видимости — модель частично видима]
 
-[img:/images/visibility/model-fully-visible-ru.jpg|Диаграмма видимости — модель полностью видима]
+Если хотя бы часть другой модели **видима** для наблюдающей модели, то эта модель **видима**.
 
-[img:/images/visibility/unit-visible-ru.jpg|Диаграмма видимости — юнит видим для наблюдателя]
+### Модель полностью видима
+[img:/images/visibility/model-fully-visible-diagram.jpg|Диаграмма видимости — модель полностью видима]
 
-[img:/images/visibility/unit-fully-visible-ru.jpg|Диаграмма видимости — юнит полностью видим для наблюдателя]`,
+Если каждая часть другой модели, обращённая к наблюдающей модели, **видима** для наблюдающей модели (то есть единственное, что закрывает видимость любой части этой другой модели — она сама), то эта модель **полностью видима**.
+
+### Юнит видим
+[img:/images/visibility/unit-visible-diagram.jpg|Диаграмма видимости — юнит видим для наблюдателя]
+
+Если одна или несколько моделей в юните **видимы** для наблюдающей модели, то этот юнит **видим**.
+
+### Юнит полностью видим
+[img:/images/visibility/unit-fully-visible-diagram.jpg|Диаграмма видимости — юнит полностью видим для наблюдателя]
+
+Если каждая модель в юните **полностью видима** для наблюдающей модели, то этот юнит **полностью видим**. При определении этого наблюдающая модель может видеть сквозь другие модели этого юнита.`,
           note: `Рельеф применяет дополнительные правила к видимости (13.07).`,
           children: [
             {

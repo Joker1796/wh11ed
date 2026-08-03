@@ -1,5 +1,5 @@
 // Titan Legions — faction rules. Source: wh40k-appdata (../wh40k-appdata/factions/
-// adeptus-titanicus.json, "Imperial Armour: Titan Legions") — not a Wahapedia import.
+// adeptus-titanicus.json, "Imperial Armour: Titan Legions").
 //
 // This is an ally-only army: 4 datasheets (see src/data/datasheets/titan-legions.js), no
 // detachment of its own — a Titan is a Lord-of-War-style addition to any all-IMPERIUM army
@@ -13,7 +13,7 @@ const en = {
   armyRule: {
     id: 'towering-example',
     name: 'Towering Example',
-    body: `When mustering your army, if your Army Faction is **ADEPTUS TITANICUS**, ignore the Select Detachment Rules step. In the Select Warlord step, select one **ADEPTUS TITANICUS** model from your army to be your **WARLORD**, even though that model does not have the **CHARACTER** keyword.
+    body: `When mustering your army, if your Army Faction is **ADEPTUS TITANICUS**, ignore the Select Detachment Rules step. In the Select Warlord step, select one **ADEPTUS TITANICUS** model from your army to be your **WARLORD**, even though that model does not have the **CHARACTER** keyword. Your army has the Take and Hold force disposition.
 
 ### Titanic Support
 If every model in your army has the **IMPERIUM** keyword, you can include 1 **ADEPTUS TITANICUS** model in your army, even if it does not have the Faction keyword you selected in the Select Army Faction step.
