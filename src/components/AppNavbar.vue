@@ -60,6 +60,11 @@
           class="nav-link"
           :class="{ active: isTrackerRoute }"
         >{{ labels.navTracker }}</RouterLink>
+        <RouterLink
+          to="/roster"
+          class="nav-link"
+          :class="{ active: isRosterRoute }"
+        >{{ labels.navRoster }}</RouterLink>
       </nav>
 
       <div class="navbar-actions">
@@ -167,7 +172,7 @@ const { locale, toggleLocale } = useLocale()
 const { theme, toggleTheme } = useTheme()
 const { hideLore, toggleLore } = useLoreVisibility()
 const { canInstall, isStandalone, iosInstall, promptInstall } = useInstallPrompt()
-const { isRulesRoute, isFactionRoute, isTrackerRoute } = useRouteSection()
+const { isRulesRoute, isFactionRoute, isTrackerRoute, isRosterRoute } = useRouteSection()
 
 const labels = computed(() => ui[locale.value])
 

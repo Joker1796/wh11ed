@@ -32,6 +32,8 @@ export function useRouteSection() {
   const isRulesLandingRoute = computed(() => route.meta.section === 'rules-landing')
   const isStratagemsRoute = computed(() => route.meta.section === 'stratagems')
   const isTrackerRoute = computed(() => route.meta.section === 'tracker')
+  // Roster Builder — its own top-level section next to Tracker, not folded into it.
+  const isRosterRoute = computed(() => route.meta.section === 'roster')
   // GameSetup (wizard) and the active/finished game screen both render on this one route —
   // the footer would otherwise push below the fold under the fixed "Back to game" bar / bottom nav.
   const isTrackerGameRoute = computed(() => route.path === '/tracker/game')
@@ -70,6 +72,7 @@ export function useRouteSection() {
     isStratagemsRoute,
     isTrackerRoute,
     isTrackerGameRoute,
+    isRosterRoute,
     isCoreRoute,
     isRulesRoute,
     unitsNavPath,

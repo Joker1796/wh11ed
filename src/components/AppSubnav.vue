@@ -1,7 +1,7 @@
 <template>
   <!-- Subnav: core rules links (hidden on the section-less landing & links pages) -->
   <Transition name="fade">
-    <nav v-if="!isLanding && !isLinksRoute && !isRulesLandingRoute && !isCombatPatrolRoute && (!isFactionRoute || isFactionUnitPage)" class="subnav">
+    <nav v-if="!isLanding && !isLinksRoute && !isRulesLandingRoute && !isCombatPatrolRoute && !isRosterRoute && (!isFactionRoute || isFactionUnitPage)" class="subnav">
       <div class="subnav-inner" :class="{ 'subnav-inner--overflow-visible': isFactionUnitPage }">
         <template v-for="item in subNavItems" :key="item.path || item.hash">
           <!-- "Units" on a per-unit datasheet page: hover/focus reveals a compact
@@ -63,7 +63,7 @@ const { navigateTo } = useRefNavigation()
 const {
   isLanding, isLinksRoute, isRulesLandingRoute, isCombatPatrolRoute,
   isFactionRoute, isFactionUnitPage, isFactionDetailRoute,
-  isEventRoute, isTrackerRoute, isStratagemsRoute,
+  isEventRoute, isTrackerRoute, isStratagemsRoute, isRosterRoute,
 } = useRouteSection()
 
 const labels = computed(() => ui[locale.value])
@@ -122,7 +122,6 @@ const trackerSubNavItems = computed(() => {
   return [
     { path: '/tracker', label: l.subNavTrackerHome },
     { path: '/tracker/game', label: l.subNavTrackerGame },
-    { path: '/roster', label: l.subNavRosters },
     { path: '/stratagems', label: l.navStratagemsShort },
   ]
 })

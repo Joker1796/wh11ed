@@ -9,10 +9,15 @@ mention of the roster builder in the root doc — don't duplicate this content b
 
 ## What this is
 
-Build/validate/export/share a 40k army list, then hand it off to the Game Tracker. Rides
-with the Tracker section in nav (`meta: { section: 'tracker' }` on every `/roster*` route in
-`router/index.js`) — subnav "Rosters" tab, bottom-nav highlights the Tracker icon, same as
-`/stratagems` rides with Tracker for the same reason.
+Build/validate/export/share a 40k army list, then hand it off to the Game Tracker. Its own
+top-level nav section (`meta: { section: 'roster' }` on every `/roster*` route in
+`router/index.js`, `isRosterRoute` in `useRouteSection.js`) — a `Rosters`/«Листы армий» link
+sits next to `Tracker` in the desktop navbar and the mobile drawer, and its own bottom-nav
+icon sits right after `Rules`. No subnav (single-page section, like the Factions list).
+Decoupled from Tracker on 2026-08-03 — it used to ride with that section (`meta.section:
+'tracker'`, a `trackerGroups` entry, a card on `TrackerHomeView`); if you find a stray
+`isTrackerRoute` check gating roster behavior, or a reference to a roster card on the tracker
+home page, it's stale from before the split.
 
 Routes: `/roster` (list), `/roster/new` (creation wizard), `/roster/:id` (editor),
 `/roster/:id/view` (read-only), `/roster/shared` (import a shared link).

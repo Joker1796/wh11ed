@@ -276,15 +276,24 @@ export const eventGroupsRu = [
 export const trackerGroups = [
   { label: 'Game Tracker', path: '/tracker',      sections: [] },
   { label: 'Current Game', path: '/tracker/game', sections: [] },
-  { label: 'Rosters',      path: '/roster',       sections: [] },
   { label: 'Stratagems',   path: '/stratagems',   sections: [] },
 ]
 
 export const trackerGroupsRu = [
   { label: 'Трекер игры',   path: '/tracker',      sections: [] },
   { label: 'Текущая игра',  path: '/tracker/game', sections: [] },
-  { label: 'Листы армий',   path: '/roster',       sections: [] },
   { label: 'Стратагемы',    path: '/stratagems',   sections: [] },
+]
+
+// Roster Builder — its own top-level section, next to the Tracker (no longer folded into
+// it). One entry, like factionGroups below — the list page (/roster) is the section's own
+// landing page; the wizard/editor/shared-link routes underneath it aren't in the nav.
+export const rosterGroups = [
+  { label: 'Rosters', path: '/roster', sections: [] },
+]
+
+export const rosterGroupsRu = [
+  { label: 'Листы армий', path: '/roster', sections: [] },
 ]
 
 // Factions — top-level section. List page (/factions) + two per-faction pages:
@@ -341,11 +350,11 @@ export const router = createRouter({
     // (/roster, indexable) + private creation wizard, read-only view and editor (/roster/new,
     // /roster/:id/view, /roster/:id — none in STATIC_ROUTES, like /tracker/game). Static
     // /roster/new and /roster/shared must precede the :id route so neither is captured as an id.
-    { path: '/roster',        component: RosterListView, meta: { section: 'tracker' } },
-    { path: '/roster/new',    component: RosterCreateView, meta: { section: 'tracker' } },
-    { path: '/roster/shared', component: RosterSharedView, meta: { section: 'tracker' } },
-    { path: '/roster/:id/view', component: RosterViewView, meta: { section: 'tracker' } },
-    { path: '/roster/:id',    component: RosterEditorView, meta: { section: 'tracker' } },
+    { path: '/roster',        component: RosterListView, meta: { section: 'roster' } },
+    { path: '/roster/new',    component: RosterCreateView, meta: { section: 'roster' } },
+    { path: '/roster/shared', component: RosterSharedView, meta: { section: 'roster' } },
+    { path: '/roster/:id/view', component: RosterViewView, meta: { section: 'roster' } },
+    { path: '/roster/:id',    component: RosterEditorView, meta: { section: 'roster' } },
     { path: '/tracker/history/:id', component: TrackerHistoryView, meta: { section: 'tracker' } },
     { path: '/tracker/auth-callback', component: AuthCallbackView, meta: { section: 'tracker' } },
     { path: '/links', component: LinksView, meta: { section: 'links' } },
