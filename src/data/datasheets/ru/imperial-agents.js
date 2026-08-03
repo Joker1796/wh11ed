@@ -240,6 +240,8 @@ export default {
   },
 
   'inquisitor-draxus': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Драксус', 'Кирия Драксус'],
     flavor:
       'Дерзкая и целеустремлённая инквизитор Ordo Xenos, Кирия Драксус — специалист по охоте на некронов. Радикальная во взглядах, она принимает необходимость сотрудничать с некоторыми чужаками ради защиты Империума. О некронах она узнала от аэльдари, а свои псионические способности отточила под наставничеством как ксеносов, так и людей.',
     abilities: {
@@ -270,6 +272,8 @@ export default {
   },
 
   'inquisitor-kroyle': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Кройл', 'Инигох Кройл'],
     flavor:
       'Радикальный инквизитор Ordo Xenos, Инигох Кройл — непревзойдённый охотник на чудовищ-ксеносов. Со спины покорённого гарралиска Кройл выслеживает и настигает добычу-ксеносов, валя даже самых грозных целей пропитанными ядом выстрелами своего Jindarii tox-cycler.',
     abilities: {
