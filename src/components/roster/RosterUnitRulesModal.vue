@@ -1,12 +1,24 @@
 <template>
   <BaseModal :title="sheet?.name" max-width="720px" max-height="90vh" @close="$emit('close')">
     <div class="modal-body">
-      <!-- Static rules card for now — the roster entry (wargear picks, enhancement, warlord)
-           is available to this component's caller for a future pass that overlays live
-           stat/ability modifiers (e.g. an enhancement like Cursed Legion changing a profile)
-           on top of the base sheet. Not implemented yet: this just renders the base rules. -->
-      <DatasheetCard v-if="sheet" :sheet="sheet" :faction-slug="factionSlug" collapsible />
-      <p v-else-if="loaded" class="rum-missing">{{ labels.factionsSoon }}</p>
+      <!-- FactionAccentScope re-applies the faction-accent recipe: BaseModal teleports to
+           <body>, outside FactionLayout's .faction-view.themed ancestor, so without this every
+           unit modal showed the app's global red instead of the faction's colour (DatasheetCard's
+           header band/weapon-table headers/ability tags all key off --accent). It's placed HERE,
+           inside modal-body rather than wrapped around the whole component by callers like
+           UnitEditorFields.vue's own <Teleport>, because a second Teleport (this component's own
+           BaseModal) nested inside an outer FactionAccentScope+Teleport wrapper re-parents the
+           actual modal DOM to <body> a second time, past the outer wrapper's div — CSS custom
+           properties only cascade through real DOM ancestry. Scoping it here keeps it a genuine
+           ancestor of DatasheetCard with no teleport in between. -->
+      <FactionAccentScope :faction-slug="factionSlug">
+        <!-- Static rules card for now — the roster entry (wargear picks, enhancement, warlord)
+             is available to this component's caller for a future pass that overlays live
+             stat/ability modifiers (e.g. an enhancement like Cursed Legion changing a profile)
+             on top of the base sheet. Not implemented yet: this just renders the base rules. -->
+        <DatasheetCard v-if="sheet" :sheet="sheet" :faction-slug="factionSlug" collapsible />
+        <p v-else-if="loaded" class="rum-missing">{{ labels.factionsSoon }}</p>
+      </FactionAccentScope>
     </div>
   </BaseModal>
 </template>
@@ -15,6 +27,7 @@
 import { computed, ref, watch } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import DatasheetCard from '../DatasheetCard.vue'
+import FactionAccentScope from './FactionAccentScope.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
