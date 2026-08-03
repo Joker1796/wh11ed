@@ -246,6 +246,8 @@ export default {
   },
 
   darkstrider: {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Шагающий-во-тьме'],
     flavor:
       'Столь же вольнодумец, сколь и мастер тайных операций, Sub-commander El’Myamoto — грозный командир миссий скрытности и саботажа. Его structural analyser позволяет выявлять слабые места даже у самых несокрушимых врагов. А его мастерство в партизанской войне делает его силы ещё смертоноснее.',
     abilities: {
