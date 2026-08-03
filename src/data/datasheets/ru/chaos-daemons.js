@@ -39,6 +39,8 @@ const dmgHitMinus = (range) =>
 
 export default {
   belakor: {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Белакор'],
     flavor:
       'Мало какие варп-сущности столь же могучи или коварны, как Бе’лакор. Окутанный тенями и пляшущим колдовским светом, Тёмный Владыка сеет ужас и муку среди всех, кто его узрит. Каждый удар его Blade of Shadows оставляет за собой пустые оболочки убитых врагов — просто новые жертвы наступающей тьмы.',
     abilities: {
