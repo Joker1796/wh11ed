@@ -514,6 +514,8 @@ export default {
   },
 
   'thulia-ghuld': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Тулия Гульд'],
     flavor:
       'Аватар воинского аспекта Омниссии, Тулия Гульд внушает фанатичную преданность марсианским когортам, что она ведёт на войну. Своим Jericho-class conversion resonator она обращает полосы врагов в рассеивающуюся звуковую энергию, а её Rod of the War Forge излучает несущие волны, чтобы подстегнуть её воинов в бой.',
     abilities: {
