@@ -59,10 +59,6 @@ export default {
           "type": "leader"
         },
         {
-          "to": "sternguard-veteran-squad",
-          "type": "leader"
-        },
-        {
           "to": "tactical-squad",
           "type": "leader"
         }
@@ -136,10 +132,6 @@ export default {
         },
         {
           "to": "intercessor-squad",
-          "type": "leader"
-        },
-        {
-          "to": "sternguard-veteran-squad",
           "type": "leader"
         },
         {
@@ -254,7 +246,7 @@ export default {
       ],
       "linked": 1,
       "step": {
-        "at": 2,
+        "at": 3,
         "pts": 20
       },
       "minis": [
@@ -494,10 +486,6 @@ export default {
           "type": "leader"
         },
         {
-          "to": "sternguard-veteran-squad",
-          "type": "leader"
-        },
-        {
           "to": "tactical-squad",
           "type": "leader"
         }
@@ -548,7 +536,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 170,
+          "pts": 160,
           "per": [
             4,
             6
@@ -591,7 +579,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 120,
+          "pts": 130,
           "per": [
             1,
             1
@@ -691,10 +679,6 @@ export default {
           "type": "leader"
         },
         {
-          "to": "sternguard-veteran-squad",
-          "type": "leader"
-        },
-        {
           "to": "tactical-squad",
           "type": "leader"
         }
@@ -724,6 +708,7 @@ export default {
         "Epic Hero",
         "Imperium",
         "Lion El’Jonson",
+        "Mobile",
         "Monster",
         "Primarch"
       ],
@@ -734,7 +719,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 285,
+          "pts": 265,
           "per": [
             1,
             1
@@ -774,7 +759,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 195,
+          "pts": 180,
           "per": [
             1,
             1
@@ -852,10 +837,6 @@ export default {
         }
       ],
       "linked": 1,
-      "step": {
-        "at": 3,
-        "pts": 10
-      },
       "minis": [
         {
           "n": "Ravenwing Huntmaster"
@@ -946,7 +927,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 115,
+          "pts": 105,
           "per": [
             3,
             3
@@ -1134,7 +1115,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 80,
+          "pts": 70,
           "per": [
             1,
             1
@@ -1196,7 +1177,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 105,
+          "pts": 95,
           "per": [
             1,
             1
@@ -1436,7 +1417,7 @@ export default {
       "name": "Interrogation Conclave",
       "sid": "2a38def8-f0d2-4f28-aeca-bc2b555172bb",
       "dp": 1,
-      "fd": "Purge the Foe",
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Limitless Zeal",
@@ -1496,7 +1477,7 @@ export default {
         },
         {
           "name": "Stalwart Champion",
-          "pts": 25,
+          "pts": 15,
           "type": "miniature",
           "req": [
             {

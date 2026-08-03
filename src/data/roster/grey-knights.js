@@ -375,14 +375,14 @@ export default {
           ]
         },
         {
-          "pts": 375,
+          "pts": 360,
           "per": [
             9,
             10
           ]
         },
         {
-          "pts": 375,
+          "pts": 360,
           "per": [
             9,
             10
@@ -390,10 +390,6 @@ export default {
         }
       ],
       "linked": 1,
-      "step": {
-        "at": 4,
-        "pts": 10
-      },
       "minis": [
         {
           "n": "Justicar"
@@ -752,7 +748,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 140,
+          "pts": 125,
           "per": [
             1,
             1
@@ -797,7 +793,6 @@ export default {
       "name": "Grey Knights Thunderhawk Gunship",
       "kws": [
         "Fly",
-        "Frame",
         "Imperium",
         "Thunderhawk Gunship",
         "Titanic",
@@ -1700,7 +1695,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 85,
+          "pts": 75,
           "per": [
             1,
             1
@@ -1709,6 +1704,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
@@ -1776,7 +1775,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 80,
+          "pts": 70,
           "per": [
             1,
             1
@@ -1785,6 +1784,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
@@ -1830,7 +1833,6 @@ export default {
       "kws": [
         "Aircraft",
         "Fly",
-        "Frame",
         "Imperium",
         "Smoke",
         "Stormhawk Interceptor",
@@ -1909,7 +1911,6 @@ export default {
       "name": "Stormraven Gunship",
       "kws": [
         "Fly",
-        "Frame",
         "Imperium",
         "Stormraven Gunship",
         "Transport",
@@ -2006,7 +2007,6 @@ export default {
       "kws": [
         "Aircraft",
         "Fly",
-        "Frame",
         "Imperium",
         "Stormtalon Gunship",
         "Vehicle"
@@ -2079,7 +2079,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 120,
+          "pts": 115,
           "per": [
             5,
             5
@@ -2087,7 +2087,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 240,
+          "pts": 230,
           "per": [
             6,
             10
@@ -2245,7 +2245,7 @@ export default {
       "name": "Argent Assault",
       "sid": "eced4532-3d3c-43ec-9c30-d2bf278514d0",
       "dp": 1,
-      "fd": "Purge the Foe",
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Vigilance of Titan",
@@ -2552,7 +2552,7 @@ export default {
       "name": "Immaterial Interdiction",
       "sid": "ad206ac1-4a33-4d1e-8b4e-2c21118303d9",
       "dp": 1,
-      "fd": "Priority Assets",
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Predestined Coordinates (Upgrade)",
@@ -2659,7 +2659,7 @@ export default {
       "name": "Warpbane Task Force",
       "sid": "b2c8df0c-e202-4230-a44b-5e9e23df9737",
       "dp": 3,
-      "fd": "Purge the Foe",
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Mandulian Reliquary",

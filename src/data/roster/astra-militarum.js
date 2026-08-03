@@ -373,7 +373,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 450,
+          "pts": 415,
           "per": [
             1,
             1
@@ -384,7 +384,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 2,
-        "pts": 20
+        "pts": 35
       },
       "defaults": [
         [
@@ -470,7 +470,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 420,
+          "pts": 385,
           "per": [
             1,
             1
@@ -481,7 +481,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 2,
-        "pts": 20
+        "pts": 35
       },
       "defaults": [
         [
@@ -554,7 +554,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 450,
+          "pts": 415,
           "per": [
             1,
             1
@@ -565,7 +565,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 2,
-        "pts": 20
+        "pts": 35
       },
       "defaults": [
         [
@@ -941,7 +941,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 65,
+          "pts": 60,
           "per": [
             5,
             5
@@ -1849,7 +1849,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 75,
+          "pts": 65,
           "per": [
             1,
             1
@@ -1858,6 +1858,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
@@ -1891,7 +1895,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 85,
+          "pts": 75,
           "per": [
             1,
             1
@@ -1900,6 +1904,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
@@ -2255,7 +2263,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 130,
+          "pts": 120,
           "per": [
             1,
             1
@@ -2680,7 +2688,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 415,
+          "pts": 380,
           "per": [
             1,
             1
@@ -2691,7 +2699,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 2,
-        "pts": 20
+        "pts": 30
       },
       "defaults": [
         [
@@ -2960,7 +2968,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 420,
+          "pts": 385,
           "per": [
             1,
             1
@@ -2971,7 +2979,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 2,
-        "pts": 20
+        "pts": 30
       },
       "defaults": [
         [
@@ -3300,7 +3308,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 115,
+          "pts": 105,
           "per": [
             10,
             10
@@ -3311,7 +3319,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 10
+        "pts": 15
       },
       "minis": [
         {
@@ -3648,7 +3656,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 65,
+          "pts": 60,
           "per": [
             6,
             6
@@ -4070,7 +4078,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 235,
+          "pts": 215,
           "per": [
             1,
             1
@@ -4109,7 +4117,8 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              602
+              602,
+              15
             ],
             [
               603
@@ -4206,7 +4215,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 190,
+          "pts": 180,
           "per": [
             1,
             1
@@ -5073,7 +5082,7 @@ export default {
       ],
       "linked": 1,
       "step": {
-        "at": 2,
+        "at": 3,
         "pts": 10
       },
       "leads": [
@@ -5958,7 +5967,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 410,
+          "pts": 375,
           "per": [
             1,
             1
@@ -5969,7 +5978,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 2,
-        "pts": 20
+        "pts": 30
       },
       "defaults": [
         [
@@ -6088,7 +6097,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 430,
+          "pts": 395,
           "per": [
             1,
             1
@@ -6099,7 +6108,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 2,
-        "pts": 20
+        "pts": 35
       },
       "defaults": [
         [
@@ -6175,7 +6184,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 465,
+          "pts": 430,
           "per": [
             1,
             1
@@ -6186,7 +6195,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 2,
-        "pts": 20
+        "pts": 35
       },
       "defaults": [
         [
@@ -6260,7 +6269,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 75,
+          "pts": 65,
           "per": [
             1,
             1
@@ -6269,6 +6278,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
@@ -6313,7 +6326,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 85,
+          "pts": 75,
           "per": [
             1,
             1
@@ -6322,6 +6335,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
@@ -6465,7 +6482,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 100,
+          "pts": 95,
           "per": [
             10,
             10
@@ -6618,7 +6635,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 155,
+          "pts": 150,
           "per": [
             6,
             10
@@ -6801,9 +6818,7 @@ export default {
       "sid": "a8d9a89f-cda7-4b20-ba69-b8d8f7d8dacc",
       "name": "Valkyrie",
       "kws": [
-        "Aircraft",
         "Fly",
-        "Frame",
         "Imperium",
         "Transport",
         "Valkyrie",
@@ -6994,6 +7009,10 @@ export default {
                 "Commissar"
               ]
             }
+          ],
+          "lockDs": [
+            "8662e82e-3984-4fbb-b488-ba7ada5f79e4",
+            "08b52233-9ce9-4713-b9a8-e9d038565447"
           ]
         }
       ]
@@ -7102,7 +7121,7 @@ export default {
     {
       "name": "Combined Arms",
       "sid": "6ae8f235-c8b0-4485-8e18-505b6926f1b2",
-      "dp": 3,
+      "dp": 2,
       "fd": "Take and Hold",
       "enhancements": [
         {
@@ -7332,7 +7351,7 @@ export default {
       "name": "Mechanised Assault",
       "sid": "c3170734-b810-4e24-8244-0371f715ff9c",
       "dp": 2,
-      "fd": "Purge the Foe",
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Bold Leadership",

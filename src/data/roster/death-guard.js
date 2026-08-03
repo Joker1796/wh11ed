@@ -512,7 +512,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 85,
+          "pts": 75,
           "per": [
             1,
             1
@@ -521,6 +521,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
@@ -703,7 +707,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 320,
+          "pts": 305,
           "per": [
             4,
             6
@@ -789,7 +793,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 290,
+          "pts": 300,
           "per": [
             1,
             1
@@ -800,7 +804,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 2,
-        "pts": 30
+        "pts": 40
       },
       "defaults": [
         [
@@ -860,11 +864,11 @@ export default {
           "o": [
             [
               1123,
-              10
+              15
             ],
             [
               1124,
-              10
+              15
             ],
             [
               954
@@ -881,11 +885,11 @@ export default {
           "o": [
             [
               1123,
-              10
+              15
             ],
             [
               1124,
-              10
+              15
             ],
             [
               954
@@ -1547,7 +1551,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 400,
+          "pts": 390,
           "per": [
             1,
             1
@@ -1862,7 +1866,7 @@ export default {
           ]
         },
         {
-          "pts": 190,
+          "pts": 180,
           "per": [
             8,
             10
@@ -2490,7 +2494,7 @@ export default {
       "name": "Contagion Engines",
       "sid": "80f1f5cf-8331-4b71-87fa-fe4caaa92633",
       "dp": 1,
-      "fd": "Purge the Foe",
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Parasitic Woe‑reaper (Upgrade)",

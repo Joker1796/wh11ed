@@ -44,7 +44,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 95,
+          "pts": 85,
           "per": [
             1,
             1
@@ -90,7 +90,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 75,
+          "pts": 70,
           "per": [
             5,
             5
@@ -279,7 +279,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 95,
+          "pts": 85,
           "per": [
             1,
             1
@@ -1439,7 +1439,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 75,
+          "pts": 70,
           "per": [
             1,
             1
@@ -1448,6 +1448,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "gear": [
         {
           "m": 0,
@@ -1590,6 +1594,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
@@ -1714,7 +1722,7 @@ export default {
         },
         {
           "name": "Saturation Rounds (Upgrade)",
-          "pts": 10,
+          "pts": 15,
           "type": "upgrade",
           "nonCharOk": 1,
           "limit": 3,

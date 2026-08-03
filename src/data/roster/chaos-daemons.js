@@ -63,7 +63,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 70,
+          "pts": 75,
           "per": [
             1,
             1
@@ -113,7 +113,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 180,
+          "pts": 190,
           "per": [
             4,
             6
@@ -123,7 +123,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 10
+        "pts": 20
       },
       "minis": [
         {
@@ -1154,7 +1154,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 80,
+          "pts": 70,
           "per": [
             1,
             1
@@ -1437,7 +1437,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 295,
+          "pts": 305,
           "per": [
             1,
             1
@@ -1585,7 +1585,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 300,
+          "pts": 320,
           "per": [
             1,
             1
@@ -1596,7 +1596,7 @@ export default {
       "linked": 1,
       "step": {
         "at": 3,
-        "pts": 15
+        "pts": 20
       },
       "defaults": [
         [
@@ -2116,7 +2116,6 @@ export default {
         "Chaos",
         "Daemon",
         "Fly",
-        "Frame",
         "Screamers",
         "Tzeentch"
       ],
@@ -2268,7 +2267,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 340,
+          "pts": 315,
           "per": [
             1,
             1
@@ -3197,7 +3196,7 @@ export default {
       "name": "Lords of the Warp",
       "sid": "fe916344-deef-4c81-99ed-2adae0a8c296",
       "dp": 1,
-      "fd": "Purge the Foe",
+      "fd": "Take and Hold",
       "enhancements": [
         {
           "name": "Swollen with Power (Upgrade)",
@@ -3299,7 +3298,7 @@ export default {
       "enhancements": [
         {
           "name": "Inescapable Eye",
-          "pts": 10,
+          "pts": 15,
           "type": "miniature",
           "req": [
             {
@@ -3314,7 +3313,7 @@ export default {
         },
         {
           "name": "Infernal Puppeteer",
-          "pts": 25,
+          "pts": 20,
           "type": "miniature",
           "req": [
             {
@@ -3330,7 +3329,7 @@ export default {
         },
         {
           "name": "Neverblade",
-          "pts": 20,
+          "pts": 25,
           "type": "miniature",
           "req": [
             {

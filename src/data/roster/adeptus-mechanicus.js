@@ -198,6 +198,7 @@ export default {
         "Cult Mechanicus",
         "Epic Hero",
         "Imperium",
+        "Mobile",
         "Monster",
         "Tech-Priest"
       ],
@@ -387,7 +388,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 115,
+          "pts": 105,
           "per": [
             5,
             5
@@ -547,7 +548,7 @@ export default {
           ]
         },
         {
-          "pts": 240,
+          "pts": 250,
           "per": [
             3,
             3
@@ -700,7 +701,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 320,
+          "pts": 310,
           "per": [
             4,
             6
@@ -774,7 +775,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 210,
+          "pts": 200,
           "per": [
             4,
             6
@@ -1089,7 +1090,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 120,
+          "pts": 110,
           "per": [
             4,
             6
@@ -1171,7 +1172,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 110,
+          "pts": 100,
           "per": [
             4,
             6
@@ -1743,7 +1744,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 90,
+          "pts": 85,
           "per": [
             10,
             10
@@ -1951,7 +1952,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 85,
+          "pts": 75,
           "per": [
             1,
             1
@@ -1960,6 +1961,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
@@ -2542,6 +2547,7 @@ export default {
         "Cult Mechanicus",
         "Epic Hero",
         "Imperium",
+        "Mobile",
         "Monster",
         "Tech-Priest",
         "Thulia Ghuld"
@@ -2847,7 +2853,7 @@ export default {
       "name": "Haloscreed Battle Clade",
       "sid": "1f88f9ac-0833-4f98-8c7c-81d0fe96b6c1",
       "dp": 3,
-      "fd": "Purge the Foe",
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "Transoracular Dyad Wafers",

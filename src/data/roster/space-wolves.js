@@ -21,7 +21,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 105,
+          "pts": 95,
           "per": [
             1,
             1
@@ -41,7 +41,7 @@ export default {
           0,
           [
             [
-              1979,
+              1983,
               1
             ]
           ]
@@ -82,11 +82,11 @@ export default {
           0,
           [
             [
-              1980,
+              1984,
               1
             ],
             [
-              1981,
+              1985,
               1
             ],
             [
@@ -103,14 +103,14 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              1982
+              1986
             ],
             [
               164
             ]
           ],
           "rep": [
-            1980
+            1984
           ]
         }
       ]
@@ -185,7 +185,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 831,
+          "t": 835,
           "in": "checkbox",
           "o": [
             [
@@ -198,7 +198,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 832,
+          "t": 836,
           "in": "checkbox",
           "o": [
             [
@@ -248,7 +248,7 @@ export default {
           0,
           [
             [
-              1983,
+              1987,
               1
             ]
           ]
@@ -296,7 +296,7 @@ export default {
               1
             ],
             [
-              1984,
+              1988,
               1
             ],
             [
@@ -317,7 +317,7 @@ export default {
               1
             ],
             [
-              1984,
+              1988,
               1
             ]
           ]
@@ -326,7 +326,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 833,
+          "t": 837,
           "in": "checkbox",
           "o": [
             [
@@ -342,7 +342,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 834,
+          "t": 838,
           "in": "checkbox",
           "o": [
             [
@@ -350,7 +350,7 @@ export default {
             ]
           ],
           "rep": [
-            1984
+            1988
           ]
         }
       ]
@@ -371,7 +371,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 55,
+          "pts": 50,
           "per": [
             1,
             1
@@ -399,11 +399,11 @@ export default {
           0,
           [
             [
-              1985,
+              1989,
               1
             ],
             [
-              1986,
+              1990,
               1
             ]
           ]
@@ -429,7 +429,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 110,
+          "pts": 100,
           "per": [
             1,
             1
@@ -449,7 +449,7 @@ export default {
           0,
           [
             [
-              1987,
+              1991,
               1
             ],
             [
@@ -457,7 +457,7 @@ export default {
               1
             ],
             [
-              1988,
+              1992,
               1
             ]
           ]
@@ -499,7 +499,7 @@ export default {
           0,
           [
             [
-              1989,
+              1993,
               1
             ],
             [
@@ -533,7 +533,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 85,
+          "pts": 75,
           "per": [
             1,
             1
@@ -561,7 +561,7 @@ export default {
           0,
           [
             [
-              1990,
+              1994,
               1
             ],
             [
@@ -569,7 +569,7 @@ export default {
               1
             ],
             [
-              1991,
+              1995,
               1
             ]
           ]
@@ -596,7 +596,7 @@ export default {
       },
       "sizes": [
         {
-          "pts": 100,
+          "pts": 90,
           "per": [
             1,
             1
@@ -620,7 +620,7 @@ export default {
           0,
           [
             [
-              1992,
+              1996,
               1
             ],
             [
@@ -677,11 +677,11 @@ export default {
           1,
           [
             [
-              1993,
+              1997,
               1
             ],
             [
-              1994,
+              1998,
               1
             ],
             [
@@ -694,11 +694,11 @@ export default {
           0,
           [
             [
-              1994,
+              1998,
               1
             ],
             [
-              1993,
+              1997,
               1
             ],
             [
@@ -711,14 +711,14 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 835,
+          "t": 839,
           "in": "checkbox",
           "o": [
             [
               935
             ],
             [
-              1929,
+              1931,
               5
             ]
           ],
@@ -728,7 +728,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 836,
+          "t": 840,
           "in": "checkbox",
           "o": [
             [
@@ -741,14 +741,14 @@ export default {
         },
         {
           "m": 1,
-          "t": 835,
+          "t": 839,
           "in": "stepper",
           "o": [
             [
               935
             ],
             [
-              1929,
+              1931,
               5
             ]
           ],
@@ -758,7 +758,7 @@ export default {
         },
         {
           "m": 1,
-          "t": 836,
+          "t": 840,
           "in": "stepper",
           "o": [
             [
@@ -822,7 +822,7 @@ export default {
               1
             ],
             [
-              1995,
+              1999,
               1
             ]
           ]
@@ -883,7 +883,7 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              1996
+              2000
             ],
             [
               84
@@ -908,14 +908,14 @@ export default {
         },
         {
           "m": 0,
-          "t": 837,
+          "t": 841,
           "in": "checkbox",
           "o": [
             [
-              1997
+              2001
             ],
             [
-              1998
+              2002
             ],
             [
               38
@@ -977,11 +977,11 @@ export default {
           0,
           [
             [
-              1999,
+              2003,
               1
             ],
             [
-              2000,
+              2004,
               1
             ]
           ]
@@ -990,31 +990,31 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 838,
+          "t": 842,
           "in": "checkbox",
           "o": [
             [
-              1881
+              1882
             ]
           ]
         },
         {
           "m": 0,
-          "t": 839,
+          "t": 843,
           "in": "checkbox",
           "o": [
             [
-              2001
+              2005
             ],
             [
-              2002
+              2006
             ],
             [
               11
             ]
           ],
           "rep": [
-            2000
+            2004
           ]
         }
       ]
@@ -1086,11 +1086,11 @@ export default {
               1
             ],
             [
-              1865,
+              1866,
               1
             ],
             [
-              1929,
+              1931,
               1
             ]
           ]
@@ -1099,7 +1099,7 @@ export default {
           1,
           [
             [
-              1983,
+              1987,
               1
             ]
           ]
@@ -1108,11 +1108,11 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 840,
+          "t": 844,
           "in": "stepper",
           "o": [
             [
-              2003
+              2007
             ]
           ]
         }
@@ -1149,8 +1149,8 @@ export default {
       ],
       "linked": 1,
       "step": {
-        "at": 2,
-        "pts": 10
+        "at": 3,
+        "pts": 15
       },
       "minis": [
         {
@@ -1165,7 +1165,7 @@ export default {
           1,
           [
             [
-              1865,
+              1866,
               1
             ],
             [
@@ -1182,7 +1182,7 @@ export default {
               1
             ],
             [
-              1865,
+              1866,
               1
             ]
           ]
@@ -1191,7 +1191,7 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 841,
+          "t": 845,
           "in": "checkbox",
           "o": [
             [
@@ -1205,20 +1205,20 @@ export default {
         },
         {
           "m": 0,
-          "t": 842,
+          "t": 846,
           "in": "checkbox",
           "o": [
             [
-              2004
+              2008
             ],
             [
-              1961
+              1963
             ]
           ]
         },
         {
           "m": 1,
-          "t": 841,
+          "t": 845,
           "in": "stepper",
           "o": [
             [
@@ -1232,14 +1232,14 @@ export default {
         },
         {
           "m": 1,
-          "t": 843,
+          "t": 847,
           "in": "stepper",
           "o": [
             [
               671
             ],
             [
-              1980
+              1984
             ]
           ]
         }
@@ -1315,7 +1315,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 95,
+          "pts": 90,
           "per": [
             6,
             6
@@ -1323,7 +1323,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 190,
+          "pts": 180,
           "per": [
             12,
             12
@@ -1331,10 +1331,6 @@ export default {
         }
       ],
       "linked": 1,
-      "step": {
-        "at": 3,
-        "pts": 10
-      },
       "minis": [
         {
           "n": "Wolf Scout Pack Leader"
@@ -1351,7 +1347,7 @@ export default {
           1,
           [
             [
-              2005,
+              2009,
               1
             ],
             [
@@ -1377,7 +1373,7 @@ export default {
           2,
           [
             [
-              2006,
+              2010,
               1
             ]
           ]
@@ -1386,7 +1382,7 @@ export default {
       "gear": [
         {
           "m": 1,
-          "t": 844,
+          "t": 848,
           "in": "checkbox",
           "o": [
             [
@@ -1399,11 +1395,11 @@ export default {
         },
         {
           "m": 1,
-          "t": 845,
+          "t": 849,
           "in": "checkbox",
           "o": [
             [
-              1910
+              1912
             ]
           ],
           "cond": [
@@ -1413,31 +1409,31 @@ export default {
         },
         {
           "m": 1,
-          "t": 846,
+          "t": 850,
           "in": "checkbox",
           "o": [
             [
               1
             ],
             [
-              2007
+              2011
             ],
             [
-              2008
+              2012
             ]
           ],
           "rep": [
             11,
-            2005
+            2009
           ]
         },
         {
           "m": 1,
-          "t": 847,
+          "t": 851,
           "in": "checkbox",
           "o": [
             [
-              1899
+              1901
             ]
           ],
           "rep": [
@@ -1483,11 +1479,11 @@ export default {
           0,
           [
             [
-              2009,
+              2013,
               1
             ],
             [
-              2010,
+              2014,
               1
             ]
           ]
@@ -1496,15 +1492,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 848,
+          "t": 852,
           "in": "stepper",
           "o": [
             [
-              2011
+              2015
             ]
           ],
           "rep": [
-            2009
+            2013
           ]
         }
       ]
@@ -1541,7 +1537,7 @@ export default {
           0,
           [
             [
-              1997,
+              2001,
               1
             ],
             [
@@ -1549,7 +1545,7 @@ export default {
               1
             ],
             [
-              2013,
+              2017,
               1
             ]
           ]
@@ -1558,11 +1554,11 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 849,
+          "t": 853,
           "in": "checkbox",
           "o": [
             [
-              1998
+              2002
             ],
             [
               474
@@ -1571,7 +1567,7 @@ export default {
         },
         {
           "m": 0,
-          "t": 850,
+          "t": 854,
           "in": "checkbox",
           "o": [
             [
@@ -1622,11 +1618,11 @@ export default {
           0,
           [
             [
-              2009,
+              2013,
               1
             ],
             [
-              2012,
+              2016,
               1
             ]
           ]
@@ -1635,15 +1631,15 @@ export default {
       "gear": [
         {
           "m": 0,
-          "t": 848,
+          "t": 852,
           "in": "stepper",
           "o": [
             [
-              2011
+              2015
             ]
           ],
           "rep": [
-            2009
+            2013
           ]
         }
       ]
@@ -1654,7 +1650,7 @@ export default {
       "name": "Champions of Fenris",
       "sid": "cbfdd62b-fa52-4689-835b-0b881bb978fb",
       "dp": 1,
-      "fd": "Purge the Foe",
+      "fd": "Priority Assets",
       "enhancements": [
         {
           "name": "A Giant Amongst Giants",
@@ -1746,6 +1742,10 @@ export default {
                 "Space Wolves"
               ]
             }
+          ],
+          "lockDs": [
+            "e769d914-d77d-4974-ba44-9239d933fb0f",
+            "6b5acbd0-f884-4c6e-81e5-d48bef177d26"
           ]
         },
         {

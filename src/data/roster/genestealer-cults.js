@@ -15,7 +15,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 150,
+          "pts": 140,
           "per": [
             5,
             5
@@ -23,7 +23,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 300,
+          "pts": 280,
           "per": [
             6,
             10
@@ -326,7 +326,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 150,
+          "pts": 140,
           "per": [
             6,
             10
@@ -481,7 +481,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 90,
+          "pts": 85,
           "per": [
             5,
             5
@@ -496,7 +496,7 @@ export default {
           ]
         },
         {
-          "pts": 160,
+          "pts": 150,
           "per": [
             10,
             10
@@ -846,7 +846,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 85,
+          "pts": 75,
           "per": [
             1,
             1
@@ -855,6 +855,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 4,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
@@ -900,7 +904,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 150,
+          "pts": 140,
           "per": [
             6,
             10
@@ -1216,7 +1220,7 @@ export default {
           "default": 1
         },
         {
-          "pts": 145,
+          "pts": 135,
           "per": [
             11,
             20
@@ -1519,7 +1523,7 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 80,
+          "pts": 75,
           "per": [
             5,
             5
@@ -1576,6 +1580,10 @@ export default {
         }
       ],
       "linked": 1,
+      "step": {
+        "at": 3,
+        "pts": 10
+      },
       "defaults": [
         [
           0,
@@ -1875,7 +1883,7 @@ export default {
       "name": "Heroes of the Uprising",
       "sid": "e0e6a94f-b219-43ec-95d0-f694f701df09",
       "dp": 1,
-      "fd": "Purge the Foe",
+      "fd": "Disruption",
       "enhancements": [
         {
           "name": "Gene-tailored Toxins",
@@ -2168,7 +2176,7 @@ export default {
       "name": "Xenocult Masses",
       "sid": "ef54b4ca-adca-4e8f-9427-ea1cd0e42ed5",
       "dp": 1,
-      "fd": "Disruption",
+      "fd": "Reconnaissance",
       "enhancements": [
         {
           "name": "Devious Disguises (Upgrade)",
