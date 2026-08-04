@@ -75,7 +75,8 @@ Immortals/Obliterators — множественное число). Так же �
 
 ## Статус
 
-**469 из 1434** юнитов с `aliasesRu` (личные + 86 паттернов в `datasheetAliasRulesRu.js`).
+**529 из 1434** юнитов с `aliasesRu` (личные + 125 паттернов в `datasheetAliasRulesRu.js`,
+батч 15 — Drukhari + Adepta Sororitas class-wide, применён и не закоммичен).
 `npm test` — 263/263, `npm run build` — чисто. **Не проверено вживую в браузере** (нет браузерного тулинга в сессии) — логика
 проверена юнит-тестами и ручными node-симуляциями `searchDatasheets` на реальном индексе по
 многим запросам каждой партии. **Детали последней партии — `ALIASES-BATCH.local.md`** (не в
@@ -87,7 +88,10 @@ git, перезаписывается каждый раз — там табли�
 пройдены** (большинство/все EPIC HERO покрыты): orks (5/5), chaos-space-marines (кроме
 нескольких второстепенных), space-marines (13/25), aeldari (5/17), chaos-daemons (6/13),
 **necrons (7/10, полностью закрыт — Nightbringer/Void Dragon/Ammentar сделаны)**,
-adepta-sororitas (2/9), astra-militarum (6/9), dark-angels (6/6), space-wolves (5/7),
+**adepta-sororitas (закрыт настолько, насколько возможно — все 7 EPIC HERO датащитов покрыты:
+Aestred Thurga/Agathae Dolan, Daemonifuge/Ephrael Stern, Intranzia Fraye, Junith Eruita, Morvenn
+Vahl, Saint Celestine; Triumph of Saint Katherine — только класс-паттерн, персонального имени
+нет)**, astra-militarum (6/9), dark-angels (6/6), space-wolves (5/7),
 blood-angels (5/5), **tau-empire (5/5, полностью закрыт — Ri'Lantar/Ri'Locai транслитерированы
 пользователем)**, emperors-children (2/3, без Shalaxi Helbane), **world-eaters (4/4, полностью
 закрыт)**, drukhari (3/3, кроме запрошенных-но-отсутствующих),
