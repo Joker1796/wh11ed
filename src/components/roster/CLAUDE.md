@@ -11,7 +11,7 @@ mention of the roster builder in the root doc — don't duplicate this content b
 
 Build/validate/export/share a 40k army list, then hand it off to the Game Tracker. Its own
 top-level nav section (`meta: { section: 'roster' }` on every `/roster*` route in
-`router/index.js`, `isRosterRoute` in `useRouteSection.js`) — a `Rosters`/«Листы армий» link
+`router/index.js`, `isRosterRoute` in `useRouteSection.js`) — a `Rosters`/«Ростеры» link
 sits next to `Tracker` in the desktop navbar and the mobile drawer, and its own bottom-nav
 icon sits right after `Rules`. No subnav (single-page section, like the Factions list).
 Decoupled from Tracker on 2026-08-03 — it used to ride with that section (`meta.section:

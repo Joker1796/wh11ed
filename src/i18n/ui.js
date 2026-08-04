@@ -619,7 +619,7 @@ export const ui = {
     subNavEventTeams: 'Команды',
     subNavEventFaq: 'FAQ',
     navTracker: 'Трекер',
-    navRoster: 'Листы армий',
+    navRoster: 'Ростеры',
     navFactions: 'Фракции',
     factionsHeading: 'Фракции',
     factionsSubtitle: 'Правила армий, детачменты и юниты',
@@ -708,7 +708,7 @@ export const ui = {
     trackerHistory: 'История игр',
     trackerNoGames: 'Игр пока нет. Нажмите «Новая игра».',
     // Roster builder
-    rostersHeading: 'Листы армий',
+    rostersHeading: 'Ростеры',
     rostersDesc: 'Собирайте и сохраняйте армейские листы, затем передавайте в трекер. Хранится на этом устройстве.',
     rosterNew: 'Создать лист',
     rosterNewName: 'Новый лист',

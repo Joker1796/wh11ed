@@ -293,7 +293,7 @@ export const rosterGroups = [
 ]
 
 export const rosterGroupsRu = [
-  { label: 'Листы армий', path: '/roster', sections: [] },
+  { label: 'Ростеры', path: '/roster', sections: [] },
 ]
 
 // Factions — top-level section. List page (/factions) + two per-faction pages:
