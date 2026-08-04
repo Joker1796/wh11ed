@@ -75,8 +75,9 @@ Immortals/Obliterators — множественное число). Так же �
 
 ## Статус
 
-**529 из 1434** юнитов с `aliasesRu` (личные + 125 паттернов в `datasheetAliasRulesRu.js`,
-батч 15 — Drukhari + Adepta Sororitas class-wide, применён и не закоммичен).
+**607 из 1434** юнитов с `aliasesRu` (личные + 160 паттернов в `datasheetAliasRulesRu.js`,
+батч 16 — Grey Knights + Leagues of Votann + Adeptus Custodes class-wide, применён и не
+закоммичен; Custodes добит не до конца — остаток бэклога см. `ALIASES-BATCH.local.md`).
 `npm test` — 263/263, `npm run build` — чисто. **Не проверено вживую в браузере** (нет браузерного тулинга в сессии) — логика
 проверена юнит-тестами и ручными node-симуляциями `searchDatasheets` на реальном индексе по
 многим запросам каждой партии. **Детали последней партии — `ALIASES-BATCH.local.md`** (не в
