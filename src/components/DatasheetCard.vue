@@ -160,7 +160,7 @@
     </div>
 
     <!-- Transport / Leader -->
-    <div v-if="sheet.transport" class="ds-block">
+    <div v-if="sheet.transport" class="ds-ability-group">
       <DsAccordion :collapsible="collapsible">
         <template #header="{ open, toggle }">
           <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
@@ -169,7 +169,7 @@
           </button>
           <h5 v-else class="ds-group-title">{{ labels.dsTransport }}</h5>
         </template>
-        <div v-html="dsRichText(sheet.transport)"></div>
+        <div class="ds-ability" v-html="dsRichText(sheet.transport)"></div>
       </DsAccordion>
     </div>
     <div v-if="sheet.leader" class="ds-ability-group">
@@ -907,7 +907,6 @@ function statCells(p) {
   }
 }
 
-.ds-block { font-size: 0.85rem; line-height: 1.5; color: var(--text-primary); margin-top: 0.5rem; }
 .ds-list { margin: 0.2rem 0 0.3rem 1.1rem; padding: 0; }
 .ds-loadout, .ds-option { margin-bottom: 0.3rem; white-space: pre-line; }
 
