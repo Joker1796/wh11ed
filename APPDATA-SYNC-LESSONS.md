@@ -634,3 +634,69 @@ and appdata state fresh; a data model can change between now and when this is ne
       are purely structural (booleans/ids, no rules-text field at all) — there is no appdata prose to
       paste even if wh11ed should carry this, making it a product/authoring decision rather than a
       transcription gap. Left as-is pending that decision.
+39. **913→925 bump (app v2.4.0, 2026-08-06) — a genuinely large delta, not a no-op.** Unlike the
+    909→912 no-op, this one carried real content: 4 brand-new Aeldari/Exodite datasheets (Clanblade,
+    Dragon Knights, Leystalker, Stonesinger — authored from scratch, EN+RU, no appdata `lore`/
+    `baseSize` yet for any of them, a genuine gap in the source not a transcription miss), real
+    points/stat changes (Drazhar's dual-blades profile, Las-talon range 36"→24" across all 3 files
+    it appears in), and ~30 real `sync-faction-text.mjs` fixes across the full 29-faction pass —
+    including one that reused lesson 38's exact finding class a bump later: Space Marines'
+    **Bladeguard** ability had been fixed in EN at the 913 bump but the RU translation was never
+    updated to match — it still had the old pre-errata Swords/Shields-of-the-Chapter wording months
+    later. **Lesson: when fixing a `sync-faction-text.mjs` finding, RU parity is not optional and not
+    automatic — check the RU sibling file by hand every time, even for findings that look EN-only.**
+
+    **New false-positive classes confirmed this pass:**
+    - **Composition/loadout schema-split, especially on single-model datasheets.** appdata's raw
+      `unitComposition` is one string mixing the composition line *and* the equipped-with loadout
+      ("1 X model This model is equipped with: 1 Y; 1 Z…", digit-prefixed). wh11ed splits these into
+      separate `composition`/`loadout` fields and drops the redundant "1 " quantity prefix and the
+      "model(s)" suffix on each composition entry (`"1 Clanblade"`, not `"1 Clanblade model"`) — this
+      is house style, not a gap. The diff tool fuzzy-matches wh11ed's short `composition` array
+      against appdata's whole merged string and reliably flags a "differs" on any single/near-single-
+      model datasheet even when every word of content is already present correctly split out. Seen on
+      ~30 datasheets this pass across a dozen factions (Baneblade, Huron Blackheart, Logan Grimnar,
+      Wolf Guard Headtakers, all 4 new Aeldari units, …) — none needed a fix once cross-checked
+      against the actual `loadout`/`composition` fields side by side.
+    - **A "Keywords:" labeled paragraph inside a detachment rule is legitimate exactly when
+      `src/data/conditionalKeywords.json` already has a matching grant for that `det` slug** — it's
+      sourced from appdata's *structural* `conditional_keyword` table, not the rule's own prose, so
+      `sync-faction-text.mjs` will always flag it as "wh11ed adds". Grep the sidecar for the
+      detachment slug before touching one of these; if it's there, leave the paragraph alone (seen
+      confirmed-legitimate this pass: Blood Angels "A Noble Death in Combat" → Battleline grant for
+      Death Company Marines, Dark Angels "Masters of Manoeuvre" → Outrider Squad, Chaos Knights
+      "Marked Prey" → War Dog units, and several more). This refines lesson-38's "Restrictions:"
+      class: **"Restrictions:" clauses are essentially always legitimate (no counter-check needed);
+      "Keywords:" clauses need the sidecar check first** — unlike a bare stat/ability bonus tacked on
+      with no keyword name in it (e.g. Adepta Sororitas' "Righteous Purpose" OC+1-while-not-Battle-
+      shocked clause, confirmed *not* covered by any structural table and correctly deleted this
+      pass) — those really can be drift.
+    - **A single wh11ed detachment `rule` can legitimately merge 2–3 separately-named appdata rules**
+      via `### Sub-heading` markdown inside one `body` string (wh11ed has no schema for an array of
+      named rules per detachment) — `sync-faction-text.mjs` only compares by the FIRST rule's name,
+      so it always flags the merged-in extra sub-rules as "wh11ed adds". Check
+      `detachment.rules.map(r => r.name)` in the appdata JSON before deleting anything that looks
+      like extra content with its own `###` heading; if the count is >1, it's a legitimate merge
+      (confirmed this pass: Adeptus Custodes "Auric Armour" + "Moritoi Ancients", Astra Militarum
+      "Squadron Command" + "Order", Chaos Daemons "Murdercall" + "Blood Tainted" and "Beguiling Aura"
+      + "Seductive Gambit", Chaos Space Marines "Slaves to None" + "Vendetta" + "Twisted Doctrine").
+      Caught one real miss this way too: Chaos Daemons "Shadow Legion" only has ONE appdata rule
+      ("First Prince of Chaos") despite wh11ed's combined "Thralls of the First Prince & First Prince
+      of Chaos" name — but on inspection the "Thralls" content was still legitimate (roster
+      restriction + a confirmed `conditionalKeywords.json` grant), just not appdata-rules-array-
+      backed the same way; left alone.
+    - **A downloaded MFM PDF/site is not a safe substitute for appdata, even when the specific
+      mechanic (buy-more-copies-costs-more surcharge tiers) is real and already modeled in wh11ed's
+      schema (`points[].note`).** appdata's raw duplicate `unit_composition` rows for ~9 Space
+      Marines datasheets this bump (two point values per model-count tier, no note field to say
+      which is "base" vs "surcharge") turned out to genuinely be that surcharge mechanic — but the
+      exact threshold wording ("1st-2nd"/"3rd+" vs "1st-3rd"/"4th+", varies per unit, not derivable
+      by formula) isn't in appdata at all. A same-day web search for the current Munitorum Field
+      Manual PDF found a real download, but it silently disagreed with a value on an *unflagged,
+      unchanged* datasheet (Intercessor Squad) — proof it was a stale/wrong version, not a "PDF vs
+      appdata, which do I trust" judgment call. Confirms [[feedback_appdata_canon]]'s existing rule
+      to never let a manually-fetched PDF override appdata, extended here to "don't even bother
+      fetching one to resolve an appdata ambiguity — get exact numbers from the user (who can check
+      the live MFM site) instead of guessing or web-searching." Left unresolved pending user-supplied
+      numbers: Outrider Squad, Vanguard Veteran Squad With Jump Packs, Repulsor Executioner (both the
+      Codex: Space Marines and Black Templars-unique versions), Black Templars' Impulsor.
