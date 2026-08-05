@@ -278,6 +278,8 @@ export default {
   },
 
   'kairos-fateweaver': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Кайрос Судьбоплёт'],
     flavor:
       'Владея выкованным в варпе Staff of Tomorrow и способностью предсказывать всё, что может случиться, зная при этом всё, что уже произошло, Kairos Fateweaver — один из хитрейших стратегов галактики. То, чего демону недостаёт в телесной и боевой мощи, он с лихвой восполняет чистой тзинчианской хитростью.',
     abilities: {

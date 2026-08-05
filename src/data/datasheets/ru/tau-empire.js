@@ -246,6 +246,8 @@ export default {
   },
 
   darkstrider: {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Шагающий-во-тьме'],
     flavor:
       'Столь же вольнодумец, сколь и мастер тайных операций, Sub-commander El’Myamoto — грозный командир миссий скрытности и саботажа. Его structural analyser позволяет выявлять слабые места даже у самых несокрушимых врагов. А его мастерство в партизанской войне делает его силы ещё смертоноснее.',
     abilities: {
@@ -639,6 +641,8 @@ export default {
   },
 
   'the-twin-lance': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ["Ри'Лантар", 'Рилантар', "Ри'Локай", 'Рилокай'],
     flavor:
       'Shas’ri Locai и Shas’ri Lantar сражаются с агрессией, редко встречающейся среди Огненной касты. Впрочем, у их свирепости есть фокус: они прыгают вплотную к врагам реактивными скачками и высвобождают карающий огонь, прежде чем разрядить кинетические ударные волны, накопленные их неоконденсаторными щитами, и вновь отойти посреди возникшей бойни.',
     abilities: {

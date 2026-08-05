@@ -91,6 +91,8 @@ export default {
   },
 
   baharroth: {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Бахаррот'],
     flavor:
       'Бахаррот движется с грацией зефира и бьёт с силой урагана. В бою он сияет собственным блеском: пикирует на дистанцию, открывает огонь и отворачивает к следующей добыче. В упор он разит великолепным Shining Blade, снося головы его изящно изогнутой кромкой.',
     abilities: {
@@ -338,6 +340,8 @@ export default {
   },
 
   fuegan: {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Фуэган'],
     flavor:
       'Фуэган посвятил себя полному уничтожению врагов Asuryani, и след трупов, что он оставил за собой, тянется через галактику. Тех, на кого он обращает свой огненный взор, он либо стирает из бытия жгучими залпами своего огненного копья Searsong, либо рассекает надвое яростными ударами Fire Axe.',
     abilities: {
@@ -396,6 +400,8 @@ export default {
   },
 
   'jain-zar': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Джаин Зар'],
     flavor:
       'Всегда во главе атаки, славящаяся скоростью и свирепостью, Джаин Зар несёт Blade of Destruction — древний экзекьюшенер. Им она чертит кровавые дуги, прорубаясь сквозь врагов, прежде чем перескочить на новую позицию. Взмахом запястья она спускает Silent Death — трёхлезвийное метательное оружие, что с лёгкостью сносит врагу голову.',
     abilities: {
@@ -718,6 +724,8 @@ export default {
   },
 
   'the-visarch': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Визарх'],
     flavor:
       'Visarch мечется среди врагов, снося конечности и головы кронмечом Asu-var, Мечом Безмолвных Криков. Многочисленные лики, что украшают его древний доспех Bel-Anshoc, представляют личины, что он может принимать в бою, — среди них верный клинок Экзарха и акробатическое мастерство ведьмы-друкари.',
     abilities: {
@@ -735,6 +743,8 @@ export default {
   },
 
   'the-yncarne': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Инкарна'],
     flavor:
       'Прорвавшись в реальное пространство, Yncarne наступает на врагов среди вихря мертвенных шёпотов. Это ревущий психический ураган, что вырывает жизнь из тех, кто заслужил его гнев. Ближние Ynnari бодрятся его леденящей мощью, а враги обращаются в прах под взором Yncarne или рассекаются надвое его размашистыми ударами.',
     abilities: {

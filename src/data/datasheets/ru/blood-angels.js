@@ -51,6 +51,8 @@ export default {
   ...Object.fromEntries(SHARED.map((id) => [id, smRu[id]])),
 
   astorath: {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Асторат'],
     flavor:
       'Где сыны Сангвиния на грани Чёрной Ярости — туда и идёт Асторат. Полный решимости даровать этим воинам славную последнюю победу, он сражается как одержимый, снося головы врагам, ведя за собой исходящих пеной космодесантников, охваченных безудержной яростью.',
     abilities: {
@@ -272,6 +274,8 @@ export default {
   },
 
   'the-sanguinor': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Сангвинор'],
     flavor:
       'Сангвинор — загадочная фигура, что сражается лишь на битвах наивысшей важности, когда нужда Blood Angels наибольшая. Он вселяет в сынов Сангвиния столько же отваги, сколько страха во врага, и проносится по полю, будто воля Сангвиния, обретшая плоть.',
     abilities: {

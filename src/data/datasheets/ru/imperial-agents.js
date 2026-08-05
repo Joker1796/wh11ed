@@ -42,6 +42,8 @@ export default {
   },
 
   'callidus-assassin': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['ассасин-каллидус', 'каллидус', 'калидус'],
     flavor:
       'Там, где действует Callidus Assassin, расцветает анархия. С помощью меняющего облик наркотика полиморфина они втираются в ближайшее окружение цели, саботируя системы и сея дезинформацию, прежде чем сойтись с жертвой — залпами разрушающего разум пистолета и взмахами загадочного клинка.',
     abilities: {
@@ -76,6 +78,8 @@ export default {
   },
 
   'culexus-assassin': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['ассасин-кулексус', 'кулексус'],
     flavor:
       'Culexus Assassin источает вокруг себя ауру гнетущего страха. Их главные цели — псайкеры, которых само присутствие этих бездушных убийц терзает мукой, а под чародейскими залпами animus speculum ни одна ведьма долго не живёт.',
     abilities: {
@@ -108,6 +112,8 @@ export default {
   },
 
   'eversor-assassin': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['ассасин-эверсор', 'эверсор'],
     flavor:
       'Берсерки-убийцы, накачанные нестабильными химическими стимуляторами, Eversor Assassin — ураганы клинков и когтей. Их спускают с цепи как оружие террора и истребления — убить не только назначенную цель, но и всех вокруг неё.',
     abilities: {
@@ -240,6 +246,8 @@ export default {
   },
 
   'inquisitor-draxus': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Драксус', 'Кирия Драксус'],
     flavor:
       'Дерзкая и целеустремлённая инквизитор Ordo Xenos, Кирия Драксус — специалист по охоте на некронов. Радикальная во взглядах, она принимает необходимость сотрудничать с некоторыми чужаками ради защиты Империума. О некронах она узнала от аэльдари, а свои псионические способности отточила под наставничеством как ксеносов, так и людей.',
     abilities: {
@@ -270,6 +278,8 @@ export default {
   },
 
   'inquisitor-kroyle': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Кройл', 'Инигох Кройл'],
     flavor:
       'Радикальный инквизитор Ordo Xenos, Инигох Кройл — непревзойдённый охотник на чудовищ-ксеносов. Со спины покорённого гарралиска Кройл выслеживает и настигает добычу-ксеносов, валя даже самых грозных целей пропитанными ядом выстрелами своего Jindarii tox-cycler.',
     abilities: {
@@ -464,6 +474,8 @@ export default {
   },
 
   'vindicare-assassin': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['ассасин-виндикар', 'виндикар'],
     flavor:
       'Приглушённый треск exitus rifle Vindicare Assassin — всё, что большинство когда-либо узнаёт о его присутствии. Это — и брызги мозга жертвы. Смертоносные стрелки, они находят идеальную огневую позицию, чтобы выцелить добычу, а против более многочисленных врагов быстро множат счёт тел выстрел за мастерским выстрелом.',
     abilities: {

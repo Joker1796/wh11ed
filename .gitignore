@@ -19,3 +19,7 @@ scripts/.drafts/
 # Personal appdata-sync session log (see DATA-SYNC.md) — not *.local since it needs the .md
 # extension for editor syntax highlighting, so it needs its own explicit line.
 SYNC-LOG.local.md
+
+# Per-batch review scratch file for the RU datasheet aliases task (see ALIASES-PROGRESS.md) —
+# overwritten every batch, not a history log, so it stays out of git like SYNC-LOG.local.md above.
+ALIASES-BATCH.local.md

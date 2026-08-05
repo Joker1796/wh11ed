@@ -28,6 +28,8 @@ export default {
   },
 
   'berehk-stornbr-w': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Берек Сторнброу'],
     flavor:
       'Владея могучим кирко-молотом Kromlôk’s Revenge, Berehk Stornbröw ведёт своих собственноручно избранных Cthonian Beserks — известных как Berehk’s Breakers — в самое сердце битвы. Способный стряхнуть почти любую кару, что обрушивают на него враги, и продолжать сражаться, Berehk — неудержимая сила разрушения, что специализируется на сокрушении вражеских чемпионов.',
     abilities: {
@@ -379,6 +381,8 @@ export default {
   },
 
   'thar-the-destined': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Утер Предначертанный'],
     flavor:
       'Уже один из самых прославленных героев Kin, Kâhl Ûthar the Destined отмечен поистине высокой судьбой. Мало кто способен оценить врага столь же быстро и беспощадно, как Ûthar. Едва он раскусит своих врагов, как вскоре рубит их на куски пылающим Blade of the Ancestors.',
     abilities: {
