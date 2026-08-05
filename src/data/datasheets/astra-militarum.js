@@ -2211,7 +2211,7 @@ export default [
     ],
     "loadout": "**Every Shock Trooper Sergeant is equipped with:** laspistol; chainsword.\n\n**Every Shock Trooper is equipped with:** lasgun; close combat weapon.\n\nThis unit can have up to two Leader units attached to it, provided no more than one of those units is a Command Squad unit. If it does, and this Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths.",
     "options": [
-      "For every 10 models in this unit, up to 2 Shock Troopers can each have their lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 meltagun\n▪ 1 plasma gun",
+      "For every 10 models in this unit, up to 2 Shock Troopers can each have their lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 meltagun\n▪ 1 plasma gun\n* You cannot select the same weapon more than once per unit unless it contains 20 models, in which case you cannot select the same weapon more than twice per unit.",
       "For every 10 models in this unit, 1 Shock Trooper equipped with a lasgun can be equipped with 1 vox-caster (that model’s lasgun cannot be replaced).",
       "Any number of Shock Trooper Sergeants can each have their laspistol replaced with 1 bolt pistol.",
       "Any number of Shock Trooper Sergeants can each have their laspistol and chainsword replaced with 1 Sergeant's autogun and 1 close combat weapon.",
@@ -2502,11 +2502,11 @@ export default [
     ],
     "loadout": "**The Catachan Commander is equipped with:** laspistol; close combat weapon.\n\n**Every Veteran Guardsman is equipped with:** lasgun; laspistol; close combat weapon.",
     "options": [
-      "Any number of Veteran Guardsmen can each have their lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 heavy flamer\n▪ 1 meltagun\n▪ 1 plasma gun\n▪ 1 sniper rifle",
+      "Any number of Veteran Guardsmen can each have their lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 heavy flamer\n▪ 1 meltagun\n▪ 1 plasma gun\n▪ 1 sniper rifle\n* You cannot select the same weapon from this list more than once per unit.",
       "* You cannot select the same weapon from this list more than once per unit.",
       "1 Veteran Guardsman equipped with a lasgun can be equipped with 1 master vox.**",
       "1 Veteran Guardsman equipped with a lasgun can be equipped with 1 medi-pack.**",
-      "1 Veteran Guardsman equipped with a lasgun can be equipped with 1 regimental standard.**",
+      "1 Veteran Guardsman equipped with a lasgun can be equipped with 1 regimental standard.**\n\n** A model can only take one of these options.",
       "** A model can only take one of these options.",
       "The Catachan Commander’s laspistol can be replaced with one of the following:\n▪ 1 bolt pistol\n▪ 1 plasma pistol",
       "The Catachan Commander can be equipped with one of the following:\n▪ 1 boltgun\n▪ 1 chainsword\n▪ 1 power fist\n▪ 1 power weapon"
@@ -3008,7 +3008,7 @@ export default [
     "loadout": "**This model is equipped with:** multi-laser; heavy bolter; lasgun array; armoured tracks.",
     "options": [
       "This model’s heavy bolter can be replaced with 1 heavy flamer.",
-      "This model’s multi-laser can be replaced with one of the following:\n▪ 1 heavy bolter*\n▪ 1 heavy flamer*",
+      "This model’s multi-laser can be replaced with one of the following:\n▪ 1 heavy bolter*\n▪ 1 heavy flamer*\n* This weapon cannot be replaced.",
       "This model can be equipped with one of the following:\n▪ 1 heavy stubber\n▪ 1 storm bolter",
       "This model can be equipped with 1 hunter-killer missile.",
       "* This weapon cannot be replaced."
@@ -3831,9 +3831,10 @@ export default [
     ],
     "loadout": "**Every Death Korps Watchmaster is equipped with:** laspistol; chainsword.\n\n**Every Death Korps Trooper is equipped with: lasgun;** close combat weapon.\n\nThis unit can have up to two Leader units attached to it, provided no more than one of those units is a Command Squad unit. If it does, and this Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths.",
     "options": [
-      "For every 10 models in this unit, up to 2 Death Korps Troopers can each have their lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 long-las\n▪ 1 meltagun\n▪ 1 plasma gun",
+      "For every 10 models in this unit, up to 2 Death Korps Troopers can each have their lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 long-las\n▪ 1 meltagun\n▪ 1 plasma gun\n* You cannot select the same option more than once per unit unless it contains 20 models, in which case you cannot select the same option more than twice per unit.",
       "For every 10 models in this unit, 1 Death Korps Trooper equipped with a lasgun can be equipped with 1 Death Korps medi-pack (that model’s lasgun cannot be replaced)**.",
-      "For every 10 models in this unit, 1 Death Korps Trooper equipped with a lasgun can be equipped with 1 vox-caster (that model’s lasgun cannot be replaced).**",
+      "For every 10 models in this unit, 1 Death Korps Trooper equipped with a lasgun can be equipped with 1 Death Korps medi-pack (that model’s lasgun cannot be replaced).**",
+      "For every 10 models in this unit, 1 Death Korps Trooper equipped with a lasgun can be equipped with 1 vox-caster (that model’s lasgun cannot be replaced).**\n\n** A model can only take one of these options.",
       "Any number of Death Korps Watchmasters can each have their laspistol and chainsword replaced with 1 boltgun and 1 close combat weapon.",
       "Any number of Death Korps Watchmasters can each have their chainsword replaced with 1 power weapon.",
       "Any number of Death Korps Watchmasters can each have their laspistol replaced with one of the following:\n▪ 1 bolt pistol\n▪ 1 plasma pistol",
@@ -5311,7 +5312,7 @@ export default [
     ],
     "loadout": "**The Kasrkin Sergeant is equipped with:** hot-shot laspistol; chainsword.\n\n**Every Kasrkin Trooper is equipped with:** hot-shot lasgun; close combat weapon.",
     "options": [
-      "Up to 4 Kasrkin Troopers can each have their hot-shot lasgun replaced with one of the following:*\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 hot-shot volley gun\n▪ 1 meltagun\n▪ 1 plasma gun",
+      "Up to 4 Kasrkin Troopers can each have their hot-shot lasgun replaced with one of the following:*\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 hot-shot volley gun\n▪ 1 meltagun\n▪ 1 plasma gun\n* You cannot select the same weapon from this list more than twice per unit.",
       "1 Kasrkin Trooper’s hot-shot lasgun can be replaced with 1 hot-shot marksman rifle.",
       "1 Kasrkin Trooper’s hot-shot lasgun can be replaced with 1 hot-shot laspistol and 1 melta mine.",
       "1 Kasrkin Trooper equipped with a hot-shot lasgun can be equipped with 1 vox-caster (that model’s hot-shot lasgun cannot be replaced).",
@@ -8188,7 +8189,7 @@ export default [
     ],
     "loadout": "**The Tempestor Prime is equipped with:** bolt pistol; Tempestus dagger.\n\n**Every Tempestus Scion is equipped with:** hot-shot lasgun; close combat weapon.",
     "options": [
-      "Any number of Tempestus Scions can each have their hot-shot lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 hot-shot volley gun\n▪ 1 meltagun\n▪ 1 plasma gun",
+      "Any number of Tempestus Scions can each have their hot-shot lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 hot-shot volley gun\n▪ 1 meltagun\n▪ 1 plasma gun\n* You cannot select the same weapon from this list more than once per unit.",
       "1 Tempestus Scion equipped with a hot-shot lasgun can be equipped with 1 regimental standard (that model’s hot-shot lasgun cannot be replaced).",
       "1 Tempestus Scion’s hot-shot lasgun can be replaced with 1 hot-shot laspistol and 1 master vox.",
       "1 Tempestus Scion’s hot-shot lasgun can be replaced with one of the following:\n▪ 1 hot-shot laspistol and 1 medi-pack\n▪ 1 hot-shot lasgun, 1 hot-shot laspistol and 1 medi-pack [that model's hot-shot lasgun cannot be replaced]",
@@ -10659,7 +10660,7 @@ export default [
     ],
     "loadout": "**The Tempestor is equipped with:** hot-shot laspistol; chainsword.\n\n**Every Tempestus Scion is equipped with:** hot-shot lasgun; close combat weapon.\n\nThis unit can have up to two Leader units attached to it, provided no more than one of those units is a Command Squad unit. If it does, and this Bodyguard unit is destroyed, the Leader units attached to it become separate units, with their original Starting Strengths.",
     "options": [
-      "For every 5 models in this unit, up to two Tempestus Scions can each have their hot-shot lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 hot-shot volley gun\n▪ 1 meltagun\n▪ 1 plasma gun",
+      "For every 5 models in this unit, up to two Tempestus Scions can each have their hot-shot lasgun replaced with one of the following*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 hot-shot volley gun\n▪ 1 meltagun\n▪ 1 plasma gun\n* You cannot select the same weapon from this list more than once per unit, unless this unit contains 10 models, in which case you cannot select the same weapon more than twice per unit.",
       "1 Tempestus Scion’s hot-shot lasgun can be replaced with 1 hot-shot laspistol and 1 vox-caster.",
       "The Tempestor’s chainsword can be replaced with one of the following:\n▪ 1 power fist\n▪ 1 power weapon",
       "The Tempestor’s hot-shot laspistol can be replaced with one of the following:\n▪ 1 bolt pistol\n▪ 1 plasma pistol",
@@ -10877,7 +10878,7 @@ export default [
     "composition": [
       "1 Valkyrie"
     ],
-    "loadout": "**This model is equipped with:** hellstrike missiles; multi-laser; armoured hull.",
+    "loadout": "**This model is equipped with:** hellstrike missiles; Militarum multi-laser; armoured hull.",
     "options": [
       "This model’s multi-laser can be replaced with 1 lascannon.",
       "This model’s hellstrike missiles can be replaced with 2 multiple rocket pods.",

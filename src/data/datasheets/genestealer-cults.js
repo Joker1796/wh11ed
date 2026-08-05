@@ -1925,8 +1925,8 @@ export default [
     "loadout": "**Every model is equipped with:** autopistol; Hybrid firearm; close combat weapon.",
     "options": [
       "One Neophyte Hybrid equipped with a Hybrid firearm can be equipped with 1 cult icon.",
-      "For every 10 models in this unit, up to 2 Neophyte Hybrids can each have their Hybrid firearm replaced with one of the following:\n▪ Heavy stubber*\n▪ Mining laser*\n▪ Seismic cannon*",
-      "For every 10 models in this unit, up to 2 Neophyte Hybrids can each have their Hybrid firearm replaced with one of the following:\n▪ Flamer*\n▪ Grenade launcher*\n▪ Webber*",
+      "For every 10 models in this unit, up to 2 Neophyte Hybrids can each have their Hybrid firearm replaced with one of the following:\n▪ Heavy stubber*\n▪ Mining laser*\n▪ Seismic cannon*\n* To a maximum of 1 per 10 models in this unit.",
+      "For every 10 models in this unit, up to 2 Neophyte Hybrids can each have their Hybrid firearm replaced with one of the following:\n▪ Flamer*\n▪ Grenade launcher*\n▪ Webber*\n* To a maximum of 1 per 10 models in this unit.",
       "The Neophyte Leader’s Hybrid firearm and close combat weapon can be replaced with 1 of the following:\n▪ 1 anointed pistol and 1 chainsword\n▪ 1 anointed pistol and 1 power weapon",
       "* To a maximum of 1 per 10 models in this unit."
     ],

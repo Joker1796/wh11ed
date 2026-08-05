@@ -1122,7 +1122,7 @@ export default [
     "wargearAbilities": [
       {
         "name": "Resurrection Orb",
-        "text": "Once per battle, at the end of any phase, select one friendly NECRONS INFANTRY or NECRONS MOUNTED unit within 6\" of the bearer and resurrect that unit. When you do, that unit’s Reanimation Protocols are activated, reanimating D6 wounds rather than D3 when doing so. You cannot resurrect more than one unit per turn."
+        "text": "Once per battle, per unit, at the end of any phase, you can use this ability. If you do, select up to one friendly NECRONS INFANTRY or NECRONS MOUNTED unit within 6\" of this unit. That unit resurrects: when a unit resurrects, that unit’s Reanimation Protocols activate, but that unit heals D6 wounds (instead of D3 wounds). You cannot resurrect more than one unit per turn."
       }
     ],
     "composition": [
@@ -2519,7 +2519,7 @@ export default [
       },
       {
         "name": "Resurrection Orb",
-        "text": "Once per battle, while the bearer is leading a unit, at the end of any phase, it can resurrect that unit if it is on the battlefield. When you do, that unit’s Reanimation Protocols are activated, reanimating D6 wounds rather than D3 when doing so. You cannot resurrect more than one unit per turn."
+        "text": "Once per battle, per unit, at the end of any phase, you can use this ability. If you do, this unit resurrects: when a unit resurrects, that unit’s Reanimation Protocols activate, but that unit heals D6 wounds (instead of D3 wounds). You cannot resurrect more than one unit per turn."
       }
     ],
     "composition": [
@@ -3325,7 +3325,7 @@ export default [
     "wargearAbilities": [
       {
         "name": "Resurrection Orb",
-        "text": "Once per battle, while the bearer is leading a unit, at the end of any phase, it can resurrect that unit if it is on the battlefield. When you do, that unit’s Reanimation Protocols are activated, reanimating D6 wounds rather than D3 when doing so. You cannot resurrect more than one unit per turn."
+        "text": "Once per battle, per unit, at the end of any phase, you can use this ability. If you do, this unit resurrects: when a unit resurrects, that unit’s Reanimation Protocols activate, but that unit heals D6 wounds (instead of D3 wounds). You cannot resurrect more than one unit per turn."
       }
     ],
     "composition": [
@@ -3405,7 +3405,7 @@ export default [
     "wargearAbilities": [
       {
         "name": "Resurrection Orb",
-        "text": "Once per battle, while the bearer is leading a unit, at the end of any phase, it can resurrect that unit if it is on the battlefield. When you do, that unit’s Reanimation Protocols are activated, reanimating D6 wounds rather than D3 when doing so. You cannot resurrect more than one unit per turn."
+        "text": "Once per battle, per unit, at the end of any phase, you can use this ability. If you do, this unit resurrects: when a unit resurrects, that unit’s Reanimation Protocols activate, but that unit heals D6 wounds (instead of D3 wounds). You cannot resurrect more than one unit per turn."
       }
     ],
     "composition": [

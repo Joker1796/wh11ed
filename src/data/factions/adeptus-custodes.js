@@ -52,7 +52,7 @@ Melee weapons equipped by models in this unit have the [LETHAL HITS] ability.`,
         name: 'Revered Companions',
         flavor:
           'The Custodians and the Silent Sisters often fought as one during the earliest days of the Imperium. Ten thousand years on, they have lost none of the unity of doctrine and purpose that makes them such a deadly combination.',
-        body: `Anathema Psykana units from your army gain the following ability:
+        body: `Anathema Psykana units from your army gain the following the ability:
 ▪ **Null Aegis (Aura):** While an Adeptus Custodes unit is within 6" of this unit, models in that unit have the Feel No Pain 5+ ability against Psychic Attacks and mortal wounds.
 
 All other Adeptus Custodes units from your army gain the following ability:
@@ -280,10 +280,7 @@ All other Adeptus Custodes units from your army gain the following ability:
         name: 'Creeping Dread',
         flavor:
           'The instinctive fear caused by the Pariah gene spreads like a terrible pall before the cadres of the Silent Sisterhood.',
-        body: `**Creeping Dread (Aura):** In the Battle-shock step of your opponent's Command phase, if an enemy unit that is either a Psyker unit or below its Starting Strength is within 12" of one or more Anathema Psykana models from your army, that enemy unit must take a Battle-shock test. If that unit is Below Half-strength, it must subtract 1 from its Battle-shock test this phase instead.\n\n**Designer's Note:** This means that all enemy PSYKER units within range of this Aura ability and all enemy units within range of this Aura ability that have lost one or more models must take a Battle-shock test in your opponent's Command phase, not just those that are Below Half-strength.
-
-### Keywords
-If you select this Detachment, Prosecutors units from your army have the Battleline keyword.`,
+        body: `In the Battle-shock step of your opponent's Command phase, if an enemy unit that is either a Psyker unit or below its Starting Strength is within 12" of one or more Anathema Psykana models from your army, that enemy unit must take a Battle-shock test. If that unit is Below Half-strength, it must subtract 1 from its Battle-shock test this phase instead.\n\n**Designer's Note:** This means that all enemy PSYKER units within range of this Aura ability and all enemy units within range of this Aura ability that have lost one or more models must take a Battle-shock test in your opponent's Command phase, not just those that are Below Half-strength.`,
       },
       stratagems: [
         {
@@ -404,7 +401,7 @@ If you select this Detachment, Prosecutors units from your army have the Battlel
           flavor: 'What foe can withstand a warrior who has so tested the defences of the Throneworld itself?',
           when: 'Any phase.',
           target: 'One Adeptus Custodes Character unit from your army that has just destroyed the unit you selected at the start of your Command phase as the target of your Assemblage of Might ability.',
-          effect: 'Select one enemy unit on the battlefield. Until the start of your next Command phase, each time an Adeptus Custodes Character model from your army makes an attack that targets that enemy unit, add 1 to the Wound roll. In addition, if the destroyed unit was a Character unit, gain 1CP.',
+          effect: 'Select one enemy unit on the battlefield. Until the start of your next Command phase, each time an Adeptus Custodes Character model from your army makes an attack that target that enemy unit, add 1 to the Wound roll. In addition, if the destroyed unit was a Character unit, gain 1CP.',
           restrictions: '',
         },
         {

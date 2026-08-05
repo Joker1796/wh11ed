@@ -1017,7 +1017,7 @@ export default [
     ],
     "loadout": "**Each model is equipped with:** condemnor bolt pistol; null mace.",
     "options": [
-      "The Celestian Insidiant Superior’s condemnor bolt pistol can be replaced with 1 inferno pistol.",
+      "The Celestian Insidiant’s Superior’s condemnor bolt pistol can be replaced with 1 inferno pistol.",
       "Up to 2 Celestian Insidiants can each have their condemnor bolt pistol replaced with 1 Ministorum hand flamer.",
       "Up to 2 Celestian Insidiants can each have their condemnor bolt pistol and null mace replaced with 1 blessed sword.",
       "One Celestian Insidiant’s condemnor bolt pistol and null mace can be replaced with 1 virge of admonition.",

@@ -687,7 +687,7 @@ This detachment has the DATA-PSALM tag and cannot be taken with another DATA-PSA
 Friendly TECH-PRIEST models have the following ability:
 ▪ **Baffling Data Screed:** In your Shooting phase, when this unit is selected to shoot, if this unit is not Battle-shocked, you can use this ability. If you do, roll one D6:
 ▪ On a 2+, select one enemy VEHICLE unit within 12" of this unit. That enemy unit makes a battle-shock roll, with -1 to that battle-shock roll. A unit cannot be selected for this ability more than once per turn.
-▪ __Or:__ On a 2+, those ranged attacks do not prevent this unit from being hidden.`,
+▪ __Or:__ On 2+, those ranged attacks do not prevent this unit from being hidden.`,
       },
       stratagems: [
         {
