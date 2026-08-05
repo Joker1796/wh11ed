@@ -143,6 +143,8 @@ export default {
   },
 
   fulgrim: {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Фулгрим', 'Фениксиец'],
     damaged: { note: 'осталось 1–6 ран', text: dmgHit('1–6') },
     abilities: {
       'Daemonic Poisons':

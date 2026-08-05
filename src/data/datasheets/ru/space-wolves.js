@@ -46,6 +46,8 @@ export default {
   ...Object.fromEntries(SHARED.map((id) => [id, smRu[id]])),
 
   'arjac-rockfist': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Арьяк', 'Арьяк Роккфист'],
     flavor:
       'Арьяк Роккфист — исполинская гора мышц и молчаливая наковальня стойкости. Владея огромным Foehammer (что напоминает о его прежней роли Iron Priest кузни), Арьяк крушит врагов сокрушительной силой. Как личный чемпион Великого Волка, Арьяк блюдёт честь Ордена.',
     abilities: {
@@ -59,6 +61,8 @@ export default {
   },
 
   'bjorn-the-fell-handed': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Бьорн', 'Бьорн Разящая Рука'],
     flavor:
       'Древнейший из всех космодесантников и последний из Роты Русса, Бьорн Свирепорукий сражается тысячелетиями в саркофаге Dreadnought. Space Wolves чтят Бьорна как живую связь с их глубочайшим прошлым, пробуждая его лишь в час крайней нужды, и он всё ещё бьётся столь же яростно, как когда-то рядом с Руссом.',
     abilities: {
@@ -146,6 +150,8 @@ export default {
   },
 
   murderfang: {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Смертоклык'],
     flavor:
       'В час нужды из-под Клыка спускают неистовую механическую тварь, чьи чудовищно жестокие когти рвут врагов в кровавые клочья. Орден зовёт её Murderfang. Её истинная личность неизвестна, ибо её бессмысленные рычащие ярости лишены речи; ныне она известна лишь как сила необузданного разрушения.',
     abilities: {
@@ -160,6 +166,8 @@ export default {
   },
 
   'njal-stormcaller': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Ньял', 'Ньял Буревестник'],
     flavor:
       'Призывая ледяные бураны, чтобы рассеять врагов, Ньял Буревестник — стихийное средоточие псионической ярости. Он Верховный Рунный Жрец Space Wolves и владеет трещащим посохом, которым нейтрализует вражеские чары.',
     abilities: {
@@ -205,6 +213,8 @@ export default {
   },
 
   'ulrik-the-slayer': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Ульрик Убийца'],
     flavor:
       'Образец мудрости и опыта, Ульрик Убийца наставил многих величайших чемпионов Space Wolves. Он Волчий Верховный Жрец, вдохновляющий всех, кто сражается рядом, своей агрессией и воинским мастерством. Обращая свой грозный взор на могучих врагов, Ульрик даёт тяжкие клятвы повергнуть их.',
     abilities: {

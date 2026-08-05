@@ -36,6 +36,8 @@ const CARAPACE_OPTION =
 
 export default {
   'sir-hekhtur': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Гектур', 'Сэр Гектур'],
     flavor:
       'Некогда пленник Iron Warriors, Sir Hekhtur выстоял под мучительными пытками и спасся лишь благодаря несокрушимой вере, решимости и чести. Ныне он странствует по галактике, освобождая имперских граждан, порабощённых силами Архиврага.',
     loadout:

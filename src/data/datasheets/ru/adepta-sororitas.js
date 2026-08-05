@@ -293,6 +293,8 @@ export default {
   },
 
   'junith-eruita': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Джунит Эруита'],
     flavor:
       'Джунит Эруита несётся в бой, окутанная святым огнём. Она парит над полем боя на гудящих волнах энергии в кафедре Saint Holline’s Basilica. Её присутствие и голос вдохновляют всех вокруг, наполняя их верой, а её heavy flamer окатывают врагов очищающим пламенем.',
     abilities: {
@@ -339,6 +341,8 @@ export default {
   },
 
   'morvenn-vahl': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Морвенн Валь'],
     flavor:
       'Агрессивная, дерзкая и немногословная, Морвенн Валь ведёт Adepta Sororitas с передовой. Выходя на поле в древнем Paragon Warsuit, она разит врага за врагом оглушительными очередями Fidelis, сокрушительными залпами ракет и точными выпадами Lance of Illumination.',
     abilities: {

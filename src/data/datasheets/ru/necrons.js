@@ -47,6 +47,8 @@ export default {
     options: ['gauss cannon этой модели можно заменить на 1 tesla cannon.'],
   },
   'ctan-shard-of-the-deceiver': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Обманщик', 'Мефет’ран', 'Мефетран'],
     flavor:
       'Мефет’ран Обманщик всегда был самым коварным из своего чудовищного выводка. Даже расколотый и скованный в удерживающем некродермисе, каждый Shard of the Deceiver по-прежнему источает мощную смесь смертоносных истин и сбивающей с толку лжи, против которой обманчивые чувства смертных бессильны.',
     abilities: {
@@ -68,6 +70,8 @@ export default {
     loadout: '**Эта модель вооружена:** cosmic insanity; golden fists.',
   },
   'ctan-shard-of-the-nightbringer': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['найтбрингер', 'несущий ночь', 'Аза’город', 'Азагород'],
     flavor:
       'Сама суть жизни утекает прочь, стоит соприкоснуться с осколком Ктан, известным как Nightbringer. Аза’город он был, Неотвратимый Клинок; говорят, что его призрачный облик, капюшон теней и сверкающая коса породили бесчисленных аватаров смерти в легендах примитивных культур по всей галактике.',
     abilities: {
@@ -90,6 +94,8 @@ export default {
       '**Эта модель вооружена:** gaze of death; scythe of the Nightbringer.',
   },
   'ctan-shard-of-the-void-dragon': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Дракон Пустоты', 'Маг’ладрот', 'Магладрот'],
     flavor:
       'Осколки Void Dragon наполняют воздух вокруг себя обжигающим воплем искажённых помех. Одним жестом они способны разъять боевые машины меньших созданий, втягивая распадающуюся материю в себя, словно гравитационный колодец чёрной дыры, и питая ею собственные вечно мерцающие формы.',
     abilities: {
@@ -439,6 +445,8 @@ export default {
       '**Эта модель вооружена:** enmitic disintegrator pistols; close combat weapon.',
   },
   'illuminor-szeras': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Серас', 'Иллюминор Серас'],
     flavor:
       'Illuminor Szeras — жуткий био-учёный, что бродит по полю боя, собирая незадачливых живых образцов. Он мастер техномантической премудрости и аугментации андроидов, применяющий чудовищные аркано-научные инструменты, чтобы разбирать врагов и одновременно укреплять формы своих союзников из живого металла.',
     abilities: {
@@ -472,6 +480,8 @@ export default {
     ],
   },
   'imotekh-the-stormlord': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Имотех повелитель бурь'],
     flavor:
       'Imotekh — непревзойдённо искусный стратег, что направляет свои армии с гиперлогичным мастерством и разворачивает смертоносные стратегические уловки. В бою он испепеляет врагов Gauntlet of Fire, разит их пандименсиональными энергиями из Staff of the Destroyer или унижает их в жестоких поединках один на один.',
     abilities: {
@@ -600,6 +610,8 @@ export default {
     ],
   },
   'nekrosor-ammentar': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['некросор амментар', 'некрозор'],
     flavor:
       'Воплощённая смерть, Nekrosor Ammentar — фигура ужаса даже для других некронов. Безумие разрушителей исходит от Некросора, словно религиозный пыл, ввергая его легионы в убийственную свирепость. Но никто не убивает с той неумолимой яростью, что Некросор, чей Unmaker Gauntlet и enmitic disintegrator оставляют за чудовищем лишь руины.',
     abilities: {
@@ -682,6 +694,8 @@ export default {
     ],
   },
   'orikan-the-diviner': {
+    // Search-only aliases (see ALIASES-PROGRESS.md) — never displayed as the unit's name.
+    aliasesRu: ['Орикан'],
     flavor:
       'Orikan — мастер-астромант, что использует знание астральных соединений, дабы предсказывать течение битвы и наделять себя космическими энергиями. Он дополняет эти умения хрономантическими способностями, что позволяют ему видеть события до того, как они произойдут, и знать, куда именно наносить удары.',
     abilities: {
