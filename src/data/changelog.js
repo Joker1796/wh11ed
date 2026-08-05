@@ -17,6 +17,16 @@
 
 export const changelog = [
   {
+    version: '2.2.3',
+    date: '2026-08-05',
+    en: [
+      'Search now recognizes many more Russian nicknames and transliterations for datasheet units — dozens of additional named characters plus class-wide coverage for several vehicle and troop types (Necrons, Orks and others).',
+    ],
+    ru: [
+      'Поиск теперь понимает больше русских прозвищ и транслитераций для юнитов на датащитах — добавлены десятки именных персонажей и покрытие для нескольких типов техники и пехоты целыми классами (Necrons, Orks и другие).',
+    ],
+  },
+  {
     version: '2.2.2',
     date: '2026-08-02',
     en: [
