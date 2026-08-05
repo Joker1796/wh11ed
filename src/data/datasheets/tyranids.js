@@ -1378,7 +1378,7 @@ export default [
     "loadout": "**This model is equipped with:** monstrous bonesword and lash whip; monstrous scything talons.",
     "options": [
       "This model’s monstrous bonesword and lash whip can be replaced with one of the following:\n▪ 1 heavy venom cannon\n▪ 1 stranglethorn cannon\n▪ 1 monstrous scything talons",
-      "This model’s monstrous scything talons can be replaced with one of the following:\n▪ 1 heavy venom cannon*\n▪ 1 stranglethorn cannon*",
+      "This model’s monstrous scything talons can be replaced with one of the following:\n▪ 1 heavy venom cannon*\n▪ 1 stranglethorn cannon*\n* This model cannot be equipped with both a stranglethorn cannon and a heavy venom cannon. This model cannot be equipped with more than 1 heavy venom cannon, and it cannot be equipped with more than 1 stranglethorn cannon.",
       "*This model cannot be equipped with both a stranglethorn cannon and a heavy venom cannon. This model cannot be equipped with more than 1 heavy venom cannon, and it cannot be equipped with more than 1 stranglethorn cannon."
     ],
     "leader": {

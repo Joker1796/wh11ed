@@ -4448,8 +4448,8 @@ export default [
     ],
     "loadout": "**Every model is equipped with:** bolt pistol; boltgun; close combat weapon.",
     "options": [
-      "The Aspiring Champion’s boltgun can be replaced with one of the following:\n▪ 1 plasma pistol*\n▪ 1 accursed weapon\n▪ 1 Astartes chainsword\n▪ 1 heavy melee weapon",
-      "The Aspiring Champion’s bolt pistol can be replaced with one of the following:\n▪ 1 plasma pistol*\n▪ 1 accursed weapon\n▪ 1 Astartes chainsword\n▪ 1 heavy melee weapon",
+      "The Aspiring Champion’s boltgun can be replaced with one of the following:\n▪ 1 plasma pistol*\n▪ 1 accursed weapon\n▪ 1 Astartes chainsword\n▪ 1 heavy melee weapon\n* Maximum 1 per model.",
+      "The Aspiring Champion’s bolt pistol can be replaced with one of the following:\n▪ 1 plasma pistol*\n▪ 1 accursed weapon\n▪ 1 Astartes chainsword\n▪ 1 heavy melee weapon\n* Maximum 1 per model.",
       "1 model can be equipped with 1 Chaos icon.",
       "Any number of Legionaries can each have their boltgun replaced with 1 Astartes chainsword.",
       "One Legionary’s boltgun can be replaced with 1 heavy melee weapon.",

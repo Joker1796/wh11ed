@@ -259,7 +259,7 @@ export default {
       'multi-melta этой модели можно заменить на одно из следующего:\n▪ 1 plasma cannon\n▪ 1 twin autocannon\n▪ 1 twin lascannon\n▪ 1 twin heavy bolter\n▪ 1 дополнительный Helbrute fist',
       '1 из Helbrute fist этой модели можно заменить на 1 missile launcher.',
       '1 из Helbrute fist этой модели можно заменить на одно из следующего:\n▪ 1 Helbrute hammer\n▪ 1 power scourge',
-      'За каждый Helbrute fist, которым вооружена эта модель, её можно снабдить одним из следующего:\n▪ 1 combi-bolter*\n▪ 1 heavy flamer*',
+      'За каждый Helbrute fist, которым вооружена эта модель, её можно снабдить одним из следующего:\n▪ 1 combi-bolter*\n▪ 1 heavy flamer*\n* Этот Helbrute fist после этого заменить нельзя.',
       '* Этот Helbrute fist затем заменить нельзя.',
     ],
   },

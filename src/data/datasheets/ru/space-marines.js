@@ -212,7 +212,7 @@ export default {
       'Bladeguard Veteran — неумолимые воины, что неотступно наступают с воздетыми клинками, — сущий образ благородных рыцарей из мифов. Члены элитной 1-й ветеранской роты своего Ордена, каждый из этих несказанно опытных космодесантников сражался за Империум на бессчётных мирах.',
     abilities: {
       Bladeguard:
-        'В начале фазы ближнего боя вы можете выбрать одну из следующих способностей, действующую на модели этого юнита до конца фазы:\n▪ **Swords of the Chapter:** Каждый раз, когда модель этого юнита совершает атаку ближнего боя, перебросьте бросок попадания, равный 1.\n▪ **Shields of the Chapter:** Каждый раз, когда за модель этого юнита совершается инвулевый спас-бросок, перебросьте спас-бросок, равный 1.',
+        'Один раз за ход, за юнит. В фазе боя, когда этот юнит выбирается сражаться или когда вражеский юнит выбирает этот юнит целью, вы можете выбрать одно из следующего:\n▪ Атаки этого юнита в ближнем бою имеют +1 к броскам попадания.\n▪ Или: атаки, нацеленные на этот юнит, имеют -1 к броскам попадания.',
     },
     loadout: `${EQUIP_EVERY} heavy bolt pistol; master-crafted power weapon.`,
     options: [
@@ -523,8 +523,8 @@ export default {
     },
     loadout: `${EQUIP_EVERY} bolt pistol; boltgun; close combat weapon.`,
     options: [
-      'До 4 Devastator Marine их boltgun можно заменить на одно из следующего:\n▪ 1 grav-cannon\n▪ 1 heavy bolter\n▪ 1 heavy flamer\n▪ 1 lascannon\n▪ 1 missile launcher\n▪ 1 multi-melta\n▪ 1 plasma cannon',
-      'bolt pistol и boltgun у Devastator Sergeant можно заменить на два разных оружия из следующего списка:*\n▪ 1 Astartes chainsword\n▪ 1 bolt pistol\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 plasma pistol\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer',
+      'До 4 Devastator Marine их boltgun можно заменить на одно из следующего:\n▪ 1 grav-cannon\n▪ 1 heavy bolter\n▪ 1 lascannon\n▪ 1 missile launcher\n▪ 1 multi-melta\n▪ 1 plasma cannon',
+      'bolt pistol и boltgun у Devastator Sergeant можно заменить на два разных оружия из следующего списка:*\n▪ 1 Astartes chainsword\n▪ 1 bolt pistol\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 plasma pistol\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer\n* Эта модель может быть вооружена только двумя дальнобойными оружиями, если одно из них — Pistol (и только одним Pistol).',
       '* Эта модель может быть вооружена двумя дальнобойными оружиями, только если одно из них — Pistol (и у неё может быть лишь один Pistol).',
     ],
   },
@@ -1287,7 +1287,7 @@ export default {
     },
     loadout: `${EQUIP_EVERY} Sternguard bolt pistol; Sternguard bolt rifle; close combat weapon.`,
     options: [
-      'Sternguard bolt rifle у Sternguard Veteran Sergeant можно заменить на одно из следующего:\n▪ 1 Astartes chainsword\n▪ 1 combi-weapon\n▪ 1 power weapon\n▪ 1 power fist\n▪ 1 Astartes chainsword и 1 Sternguard bolt rifle*\n▪ 1 power weapon и 1 Sternguard bolt rifle*\n▪ 1 power fist и 1 Sternguard bolt rifle*',
+      'Sternguard bolt rifle у Sternguard Veteran Sergeant можно заменить на одно из следующего:\n▪ 1 Astartes chainsword\n▪ 1 combi-weapon\n▪ 1 power weapon\n▪ 1 power fist\n▪ 1 Astartes chainsword и 1 Sternguard bolt rifle*\n▪ 1 power weapon и 1 Sternguard bolt rifle*\n▪ 1 power fist и 1 Sternguard bolt rifle*\n* Sternguard bolt rifle этой модели после этого заменить нельзя.',
       'Любому числу Sternguard Veteran их Sternguard bolt rifle можно заменить на 1 combi-weapon.',
       'За каждые 5 моделей в этом юните у 1 Sternguard Veteran его Sternguard bolt rifle можно заменить на одно из следующего:\n▪ 1 pyrecannon\n▪ 1 Sternguard heavy bolter',
       '* Sternguard bolt rifle этой модели заменить нельзя.',
@@ -1402,7 +1402,7 @@ export default {
     options: [
       'boltgun у 1 Tactical Marine можно заменить на одно из следующего:\n▪ 1 flamer\n▪ 1 heavy bolter\n▪ 1 grav-cannon\n▪ 1 grav-gun\n▪ 1 lascannon\n▪ 1 meltagun\n▪ 1 missile launcher\n▪ 1 multi-melta\n▪ 1 plasma cannon\n▪ 1 plasma gun',
       'boltgun у 1 Tactical Marine можно заменить на одно из следующего:\n▪ 1 flamer\n▪ 1 grav-gun\n▪ 1 meltagun\n▪ 1 plasma gun',
-      'bolt pistol и boltgun у Tactical Sergeant можно заменить на 1 twin lightning claws либо на два разных оружия из следующего списка:*\n▪ 1 Astartes chainsword\n▪ 1 bolt pistol\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 plasma pistol\n▪ 1 storm bolter\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer',
+      'bolt pistol и boltgun у Tactical Sergeant можно заменить на 1 twin lightning claws либо на два разных оружия из следующего списка:*\n▪ 1 Astartes chainsword\n▪ 1 bolt pistol\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 plasma pistol\n▪ 1 storm bolter\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer\n* Эта модель может быть вооружена только двумя дальнобойными оружиями, если одно из них — Pistol (и только одним Pistol).',
       '* Эта модель может быть вооружена двумя дальнобойными оружиями, только если одно из них — Pistol (и у неё может быть лишь один Pistol).',
     ],
   },
@@ -1451,7 +1451,7 @@ export default {
     },
     loadout: `${EQUIP_EVERY} storm bolter; power fist.`,
     options: [
-      'За каждые 5 моделей в этом юните у 1 Terminator его storm bolter можно заменить на одно из следующего:\n▪ 1 assault cannon\n▪ 1 heavy flamer\n▪ 1 cyclone missile launcher и 1 storm bolter.*',
+      'За каждые 5 моделей в этом юните у 1 Terminator его storm bolter можно заменить на одно из следующего:\n▪ 1 assault cannon\n▪ 1 heavy flamer\n▪ 1 cyclone missile launcher и 1 storm bolter.*\n* storm bolter этой модели после этого заменить нельзя.',
       'Любому числу моделей их power fist можно заменить на 1 chainfist.',
       'power fist у Terminator Sergeant можно заменить на 1 power weapon.',
       '* storm bolter этой модели заменить нельзя.',

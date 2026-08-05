@@ -957,7 +957,7 @@ export default [
     "loadout": "**This model is equipped with:** heavy bolt pistol; Astartes chainsword.",
     "options": [
       "This model’s heavy bolt pistol can be replaced with one of the following:\n▪ 1 plasma pistol\n▪ 1 hand flamer",
-      "This model’s Astartes chainsword can be replaced with one of the following:\n▪ 1 power fist\n▪ 1 relic weapon"
+      "This model’s master-crafted chainsword can be replaced with one of the following:\n▪ 1 power fist\n▪ 1 relic weapon"
     ],
     "leader": {
       "text": "This model can be attached to the following units:",
@@ -1733,7 +1733,7 @@ export default [
     "options": [
       "For every 5 models in this unit, 1 model’s heavy bolt pistol can be replaced with 1 plasma pistol.",
       "For every 5 models in this unit, 1 model’s Astartes chainsword can be replaced with 1 eviscerator.",
-      "Up to 2 models’ Astartes chainsword can be replaced with one of the following:\n▪ 1 power fist\n▪ 1 power weapon",
+      "1 model’s Astartes chainsword can be replaced with one of the following:\n▪ 1 power fist\n▪ 1 power weapon",
       "For every 5 models in this unit, 1 model’s heavy bolt pistol and Astartes chainsword can be replaced with one of the following:\n▪ 1 hand flamer and 1 Astartes chainsword\n▪ 1 hand flamer and 1 power fist\n▪ 1 hand flamer and 1 power weapon\n▪ 1 heavy bolt pistol and 1 power fist\n▪ 1 heavy bolt pistol and 1 power weapon\n▪ 1 inferno pistol and 1 Astartes chainsword\n▪ 1 inferno pistol and 1 power fist\n▪ 1 inferno pistol and 1 power weapon\n▪ 1 plasma pistol and 1 Astartes chainsword\n▪ 1 plasma pistol and 1 power fist\n▪ 1 plasma pistol and 1 power weapon"
     ],
     "keywords": [

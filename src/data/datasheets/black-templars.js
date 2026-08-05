@@ -1141,11 +1141,11 @@ export default [
       }
     ],
     "composition": [
-      "1 Sword Brother",
-      "5-11 Initiates",
-      "4-8 Neophytes"
+      "1 Primaris Sword Brother",
+      "5-11 Primaris Initiates",
+      "4-8 Primaris Neophytes"
     ],
-    "loadout": "**The Sword Brother is equipped with:** heavy bolt pistol; master-crafted power weapon.\n\n**Every Initiate is equipped with:** bolt pistol; bolt rifle; close combat weapon.\n\n**Every Neophyte is equipped with:** bolt pistol; Astartes chainsword.",
+    "loadout": "**The Primaris Sword Brother is equipped with:** heavy bolt pistol; master-crafted power weapon.\n\n**Every Primaris Initiate is equipped with:** bolt pistol; bolt rifle; close combat weapon.\n\n**Every Primaris Neophyte is equipped with:** bolt pistol; Astartes chainsword.",
     "options": [
       "The Sword Brother’s heavy bolt pistol can be replaced with 1 pyre pistol.",
       "Any number of Neophytes can each have their bolt pistol and Astartes chainsword replaced with 1 Neophyte firearm and 1 close combat weapon.",
@@ -1818,7 +1818,7 @@ export default [
       {
         "name": "Las-talon",
         "tags": [],
-        "range": "36\"",
+        "range": "24\"",
         "a": "2",
         "bs": "3+",
         "s": "10",
@@ -2263,7 +2263,7 @@ export default [
     ],
     "loadout": "**Every model is equipped with:** Sternguard bolt pistol; Sternguard bolt rifle; close combat weapon.",
     "options": [
-      "The Sternguard Veteran Sergeant’s Sternguard bolt rifle can be replaced with one of the following:\n▪ 1 Astartes chainsword\n▪ 1 combi-weapon\n▪ 1 power weapon\n▪ 1 power fist\n▪ 1 Astartes chainsword and 1 Sternguard bolt rifle*\n▪ 1 power weapon and 1 Sternguard bolt rifle*\n▪ 1 power fist and 1 Sternguard bolt rifle*",
+      "The Sternguard Veteran Sergeant’s Sternguard bolt rifle can be replaced with one of the following:\n▪ 1 Astartes chainsword\n▪ 1 combi-weapon\n▪ 1 power weapon\n▪ 1 power fist\n▪ 1 Astartes chainsword and 1 Sternguard bolt rifle*\n▪ 1 power weapon and 1 Sternguard bolt rifle*\n▪ 1 power fist and 1 Sternguard bolt rifle*\n* This model’s Sternguard bolt rifle cannot be replaced.",
       "Any number of Sternguard Veterans can each have their Sternguard bolt rifle replaced with 1 combi-weapon.",
       "For every 5 models in this unit, 1 Sternguard Veteran’s Sternguard bolt rifle can be replaced with one of the following:\n▪ 1 pyrecannon\n▪ 1 Sternguard heavy bolter",
       "* This model's Sternguard bolt rifle cannot be replaced."
@@ -2609,7 +2609,7 @@ export default [
     ],
     "loadout": "**Every model is equipped with:** storm bolter; power fist.",
     "options": [
-      "For every 5 models in this unit, 1 Terminator’s storm bolter can be replaced with one of the following:\n▪ 1 assault cannon\n▪ 1 heavy flamer\n▪ 1 cyclone missile launcher and 1 storm bolter.*",
+      "For every 5 models in this unit, 1 Terminator’s storm bolter can be replaced with one of the following:\n▪ 1 assault cannon\n▪ 1 heavy flamer\n▪ 1 cyclone missile launcher and 1 storm bolter.*\n* This model’s storm bolter cannot be replaced.",
       "Any number of models can each have their power fist replaced with 1 chainfist.",
       "The Terminator Squad Leader’s power fist can be replaced with 1 power weapon.",
       "* This model’s storm bolter cannot be replaced."

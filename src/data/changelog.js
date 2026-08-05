@@ -17,6 +17,16 @@
 
 export const changelog = [
   {
+    version: '2.2.4',
+    date: '2026-08-06',
+    en: [
+      'Rules data updated to match the latest Warhammer 40,000 app release (v2.4.0) — points, unit stats, wargear options and rule text refreshed across all factions, plus 4 new Aeldari Exodite units (Clanblade, Dragon Knights, Leystalker, Stonesinger).',
+    ],
+    ru: [
+      'Данные правил обновлены под последний релиз приложения Warhammer 40,000 (v2.4.0) — очки, характеристики юнитов, варианты вооружения и тексты правил освежены по всем фракциям, плюс 4 новых юнита Aeldari Exodites (Clanblade, Dragon Knights, Leystalker, Stonesinger).',
+    ],
+  },
+  {
     version: '2.2.3',
     date: '2026-08-05',
     en: [

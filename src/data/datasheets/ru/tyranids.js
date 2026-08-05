@@ -213,7 +213,7 @@ export default {
       '**Эта модель вооружена:** monstrous bonesword and lash whip; monstrous scything talons.',
     options: [
       'monstrous bonesword and lash whip этой модели можно заменить на одно из следующего:\n▪ 1 heavy venom cannon\n▪ 1 stranglethorn cannon\n▪ 1 monstrous scything talons',
-      'monstrous scything talons этой модели можно заменить на одно из следующего:\n▪ 1 heavy venom cannon*\n▪ 1 stranglethorn cannon*',
+      'monstrous scything talons этой модели можно заменить на одно из следующего:\n▪ 1 heavy venom cannon*\n▪ 1 stranglethorn cannon*\n* Эта модель не может быть вооружена одновременно stranglethorn cannon и heavy venom cannon. Эта модель не может быть вооружена более чем 1 heavy venom cannon и не может быть вооружена более чем 1 stranglethorn cannon.',
       '*Эта модель не может быть снаряжена одновременно stranglethorn cannon и heavy venom cannon. Эта модель не может быть снаряжена более чем 1 heavy venom cannon и не может быть снаряжена более чем 1 stranglethorn cannon.',
     ],
   },

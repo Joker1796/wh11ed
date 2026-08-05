@@ -35,7 +35,7 @@ If your Army Faction is ADEPTA SORORITAS, you gain 1 Miracle dice:
 Each time you gain a Miracle dice, roll one D6. The number you roll is the value of that Miracle dice. This value cannot be changed or re-rolled, unless a rule specifically states otherwise. Keep your Miracle dice to one side — this is your Miracle dice pool.
 
 ### Performing an Act of Faith
-Before making a dice roll for a model or unit from your army with the Acts of Faith ability, if you have one or more dice in your Miracle dice pool, that unit can perform an Act of Faith. If it does, select one of the dice from your Miracle dice pool to substitute that dice roll (if a roll involves more than one dice, e.g. a Charge roll or Battle-shock test, only a single dice can be substituted). The dice that is being substituted is not rolled; instead, the value of the selected Miracle dice is used as if it had been rolled (this counts as an unmodified dice roll of that value for all rules purposes). Each Miracle dice can only be selected for substitution once. Once all Miracle dice substitutions have been made, remove the chosen Miracle dice from your Miracle dice pool, and roll all remaining, unsubstituted dice that are a part of the dice roll. You can use Miracle dice when a unit performs an Act of Faith for any of the following types of dice roll:
+Before making a dice roll for a model or unit from your army with the Acts of Faith ability, if you have one or more dice in your Miracle dice pool, that unit can perform an Act of Faith. If it does, select one of the dice from your Miracle dice pool to substitute that dice roll (if a roll involves more than one dice, e.g. a Charge roll or Battle-shock test, only a single dice can be substituted). The dice that is being substituted is not rolled; instead, the value of the selected Miracle dice is used as if it had been rolled (this counts as an unmodified dice roll of that value for all rules purposes). Each Miracle dice can only be selected for substitution once. Once all Miracle dice substitutions have been made, remove the chosen Miracle dice from your Miracle dice pool, and roll all remaining, unsubstituted dice that are apart of the dice roll. You can use Miracle dice when a unit performs an Act of Faith for any of the following types of dice roll:
 ▪ Advance roll
 ▪ Battle-shock test
 ▪ Charge roll
@@ -111,7 +111,7 @@ Before making a dice roll for a model or unit from your army with the Acts of Fa
           flavor: "On wings of fire do the angelic warriors of the Orders Militant descent to battle.",
           when: "End of your opponent’s Fight phase.",
           target: "One ADEPTA SORORITAS JUMP PACK unit from your army.",
-          effect: "Remove your unit from the battlefield and place it into Strategic Reserves.",
+          effect: "Remove your unit from the battlefield and place to into Strategic Reserves.",
           restrictions: "You cannot select a unit that is within Engagement Range of one or more enemy units.",
         },
         {
@@ -271,7 +271,7 @@ Before making a dice roll for a model or unit from your army with the Acts of Fa
       rule: {
         name: "Righteous Purpose",
         flavor: "Whether high-ranking clergy must be rescued, a priceless relic recovered, or some archheretic slain, these warriors know that to fail after promising victory to the God-Emperor would be infinitely worse than death; this knowledge fills them with righteous purpose and the unflinching will to succeed no matter the odds.",
-        body: "In your Command phase, you can select up to 3 ADEPTA SORORITAS units from your army (including units that are embarked within TRANSPORTS), until the start of your next Command phase, those units are Righteous. While a unit is Righteous:\n▪ Add 1\" to the Move characteristic of models in that unit.\n▪ Improve the Leadership characteristic of models in that unit by 1.\n▪ Improve the Weapon Skill and Ballistic Skill characteristics of weapons equipped by BATTLE SISTERS SQUAD, CELESTIAN SACRESANTS and PARAGON WARSUITS models in that unit by 1.\n\nKeywords\nWhile a CELESTIAN SACRESANTS unit from your army is not Battle-shocked, add 1 to the Objective Control characteristic of CELESTIAN SACRESANTS models in that unit.",
+        body: "In your Command phase, you can select up to 3 ADEPTA SORORITAS units from your army (including units that are embarked within TRANSPORTS), until the start of your next Command phase, those units are Righteous. While a unit is Righteous:\n▪ Add 1\" to the Move characteristic of models in that unit.\n▪ Improve the Leadership characteristic of models in that unit by 1.\n▪ Improve the Weapon Skill and Ballistic Skill characteristics of weapons equipped by BATTLE SISTERS SQUAD, CELESTIAN SACRESANTS and PARAGON WARSUITS models in that unit by 1.",
       },
       stratagems: [
         {
@@ -485,7 +485,7 @@ Before making a dice roll for a model or unit from your army with the Acts of Fa
       rule: {
         name: "Desperate for Redemption",
         flavor: "The penitent masses vow to wash clean their dishonour with their foe’s blood.",
-        body: "At the start of the battle round, you can select one of the following Vows of Atonement to be active for your army until the start of the next battle round. You can only select each Vow of Atonement once per battle.\nThe Path of the Penitent\n\nWith psalms on their lips, the faithful hurl themselves forward.\n\nAdd 3\" to the Move characteristic of PENITENT models from your army.\n\nAbsolution in Battle\n\nThe penitents smite the Emperor's foes with unmatched zeal.\n\nEach time a unit from your army is selected to fight, if that unit made a Charge move this turn, until the end of the phase, add 1 to the Attacks and Strength characteristics of melee weapons equipped by PENITENT models in that unit.\n\nDeath Before Disgrace\n\nEven the most grievous wound cannot stop a penitent warrior in their quest to earn redemption in the eyes of the Emperor.\n\nEach time a PENITENT model from your army is destroyed by a melee attack, if that model has not fought this phase, roll one D6. On a 2+, do not remove it from play; the destroyed model can fight after the attacking unit has finished making its attacks, and is then removed from play.",
+        body: "At the start of the battle round, you can select one of the following Vows of Atonement to be active for your army until the start of the next battle round. You can only select each Vow of Atonement once per battle.\nThe Path of the Penitent\n\nAdd 3\" to the Move characteristic of PENITENT models from your army.\n\nAbsolution in Battle\n\nEach time a unit from your army is selected to fight, if that unit made a Charge move this turn, until the end of the phase, add 1 to the Attacks and Strength characteristics of melee weapons equipped by PENITENT models in that unit.\n\nDeath Before Disgrace\n\nEach time a PENITENT model from your army is destroyed by a melee attack, if that model has not fought this phase, roll one D6. On a 2+, do not remove it from play; the destroyed model can fight after the attacking unit has finished making its attacks, and is then removed from play.",
       },
       stratagems: [
         {
@@ -578,7 +578,7 @@ Before making a dice roll for a model or unit from your army with the Acts of Fa
           name: "Catechism of Divine Penitence",
           points: 15,
           flavor: "To share in the agonies of the penitent and guide them to redemption is a most holy undertaking. Thus do many of the Adepta Sororitas’ commanders willingly fight by the side of those cast out by the Sisterhood.",
-          body: "CANONESS, PALATINE or MINISTORUM PRIEST model only. The bearer gains the PENITENT keyword.\n\nIn the Declare Battle Formations step, the bearer can be attached to a Repentia Squad unit.",
+          body: "CANONESS, PALATINE or MINISTORUM PRIEST model only. The bearer gains the PENITENT keyword.",
         },
       ],
     },

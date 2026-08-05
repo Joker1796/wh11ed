@@ -679,7 +679,7 @@ export default [
     "options": [
       "For every 5 models in this unit, 1 Terminator’s storm bolter can be replaced with one of the following:\n▪ 1 incinerator\n▪ 1 psilencer\n▪ 1 psycannon",
       "1 Terminator can have its storm bolter replaced with 1 Apothecary’s narthecium.",
-      "1 Terminator’s storm bolter can be replaced with one of the following:\n▪ 1 incinerator and 1 Ancient’s banner\n▪ 1 psilencer and 1 Ancient’s banner\n▪ 1 psycannon and 1 Ancient’s banner\n▪ 1 storm bolter and 1 Ancient’s banner*",
+      "1 Terminator’s storm bolter can be replaced with one of the following:\n▪ 1 incinerator and 1 Ancient’s banner\n▪ 1 psilencer and 1 Ancient’s banner\n▪ 1 psycannon and 1 Ancient’s banner\n▪ 1 storm bolter and 1 Ancient’s banner*\n* That model’s storm bolter cannot be replaced.",
       "* That model’s storm bolter cannot be replaced."
     ],
     "keywords": [
@@ -2201,13 +2201,13 @@ export default [
     ],
     "composition": [
       "1 Paragon",
-      "3-9 Paladins"
+      "4-9 Paladins"
     ],
     "loadout": "**Every model is equipped with:** storm bolter; Nemesis force weapon.",
     "options": [
       "For every 5 models in this unit, up to 2 Paladins can each have their storm bolter replaced with one of the following:\n▪ 1 incinerator\n▪ 1 psilencer\n▪ 1 psycannon",
       "1 Paladin can have its storm bolter replaced with 1 Apothecary’s narthecium.",
-      "1 Paladin’s storm bolter can be replaced with one of the following:\n▪ 1 incinerator and 1 Ancient’s banner\n▪ 1 psilencer and 1 Ancient’s banner\n▪ 1 psycannon and 1 Ancient’s banner\n▪ 1 storm bolter and 1 Ancient’s banner*",
+      "1 Paladin’s storm bolter can be replaced with one of the following:\n▪ 1 incinerator and 1 Ancient’s banner\n▪ 1 psilencer and 1 Ancient’s banner\n▪ 1 psycannon and 1 Ancient’s banner\n▪ 1 storm bolter and 1 Ancient’s banner*\n* That model’s storm bolter cannot be replaced.",
       "* That model’s storm bolter cannot be replaced."
     ],
     "keywords": [
@@ -2756,7 +2756,7 @@ export default [
       {
         "name": "Las-talon",
         "tags": [],
-        "range": "36\"",
+        "range": "24\"",
         "a": "2",
         "bs": "3+",
         "s": "10",

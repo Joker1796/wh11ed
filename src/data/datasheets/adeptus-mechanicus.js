@@ -1975,7 +1975,7 @@ export default [
     ],
     "loadout": "**The Serberys Sulphurhound Alpha model is equipped with:** Mechanicus pistol; sulphur breath; cavalry arc maul; clawed limbs.\n\n**Every Serberys Sulphurhound model is equipped with:** 2 phosphor pistols; sulphur breath; clawed limbs.",
     "options": [
-      "For every 3 models in this unit, 1 Serberys Sulphurhound’s 2 phosphor pistols can be replaced with 1 phosphor blast carbine and 1 phosphor pistol."
+      "For every 3 models in this unit, 1 Serberys Sulphurhound’s twin phosphor pistols can be replaced with 1 phosphor blast carbine and 1 phosphor pistol."
     ],
     "keywords": [
       "Imperium",

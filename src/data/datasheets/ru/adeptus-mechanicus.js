@@ -284,7 +284,7 @@ export default {
     loadout:
       '**Serberys Sulphurhound Alpha вооружён:** Mechanicus pistol; sulphur breath; cavalry arc maul; clawed limbs.\n\n**Каждый Serberys Sulphurhound вооружён:** 2 phosphor pistols; sulphur breath; clawed limbs.',
     options: [
-      'За каждые 3 модели в этом юните у 1 Serberys Sulphurhound его 2 phosphor pistols можно заменить на 1 phosphor blast carbine и 1 phosphor pistol.',
+      'За каждые 3 модели в этом юните у 1 Serberys Sulphurhound его twin phosphor pistols можно заменить на 1 phosphor blast carbine и 1 phosphor pistol.',
     ],
   },
 

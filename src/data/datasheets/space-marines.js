@@ -933,7 +933,7 @@ export default [
       },
       {
         "models": 10,
-        "points": 170,
+        "points": 180,
         "note": "3rd+"
       }
     ],
@@ -1447,7 +1447,7 @@ export default [
       },
       {
         "models": 3,
-        "points": 90,
+        "points": 85,
         "note": "3rd+"
       },
       {
@@ -1536,7 +1536,7 @@ export default [
     "abilities": [
       {
         "name": "Bladeguard",
-        "text": "In the Fight phase, when this unit is selected to fight or when an enemy unit targets this unit, you can select one of the following:\n▪ This unit’s melee attacks have +1 to hit rolls.\n▪ Or: Attacks that target this unit have -1 to hit rolls."
+        "text": "Once per turn, per unit. In the Fight phase, when this unit is selected to fight or when an enemy unit targets this unit, you can select one of the following:\n▪ This unit’s melee attacks have +1 to hit rolls.\n▪ Or: Attacks that target this unit have -1 to hit rolls."
       }
     ],
     "composition": [
@@ -4239,8 +4239,8 @@ export default [
     ],
     "loadout": "**Every model is equipped with:** bolt pistol; boltgun; close combat weapon.",
     "options": [
-      "Up to 4 Devastator Marines can each have their boltgun replaced with one of the following:\n▪ 1 grav-cannon\n▪ 1 heavy bolter\n▪ 1 heavy flamer\n▪ 1 lascannon\n▪ 1 missile launcher\n▪ 1 multi-melta\n▪ 1 plasma cannon",
-      "The Devastator Sergeant’s bolt pistol and boltgun can be replaced with two different weapons from the following list:*\n▪ 1 Astartes chainsword\n▪ 1 bolt pistol\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 plasma pistol\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer",
+      "Up to 4 Devastator Marines can each have their boltgun replaced with one of the following:\n▪ 1 grav-cannon\n▪ 1 heavy bolter\n▪ 1 lascannon\n▪ 1 missile launcher\n▪ 1 multi-melta\n▪ 1 plasma cannon",
+      "The Devastator Sergeant’s bolt pistol and boltgun can be replaced with two different weapons from the following list:*\n▪ 1 Astartes chainsword\n▪ 1 bolt pistol\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 plasma pistol\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer\n* This model can only be equipped with two ranged weapons if one of them is a Pistol (and it can only have one Pistol).",
       "* This model can only be equipped with two ranged weapons if one of them is a Pistol (and it can only have one Pistol)"
     ],
     "keywords": [
@@ -9503,7 +9503,7 @@ export default [
       {
         "name": "Las-talon",
         "tags": [],
-        "range": "36\"",
+        "range": "24\"",
         "a": "2",
         "bs": "3+",
         "s": "10",
@@ -10314,7 +10314,7 @@ export default [
     ],
     "loadout": "**Every model is equipped with:** Sternguard bolt pistol; Sternguard bolt rifle; close combat weapon.",
     "options": [
-      "The Sternguard Veteran Sergeant’s Sternguard bolt rifle can be replaced with one of the following:\n▪ 1 Astartes chainsword\n▪ 1 combi-weapon\n▪ 1 power weapon\n▪ 1 power fist\n▪ 1 Astartes chainsword and 1 Sternguard bolt rifle*\n▪ 1 power weapon and 1 Sternguard bolt rifle*\n▪ 1 power fist and 1 Sternguard bolt rifle*",
+      "The Sternguard Veteran Sergeant’s Sternguard bolt rifle can be replaced with one of the following:\n▪ 1 Astartes chainsword\n▪ 1 combi-weapon\n▪ 1 power weapon\n▪ 1 power fist\n▪ 1 Astartes chainsword and 1 Sternguard bolt rifle*\n▪ 1 power weapon and 1 Sternguard bolt rifle*\n▪ 1 power fist and 1 Sternguard bolt rifle*\n* This model’s Sternguard bolt rifle cannot be replaced.",
       "Any number of Sternguard Veterans can each have their Sternguard bolt rifle replaced with 1 combi-weapon.",
       "For every 5 models in this unit, 1 Sternguard Veteran’s Sternguard bolt rifle can be replaced with one of the following:\n▪ 1 pyrecannon\n▪ 1 Sternguard heavy bolter",
       "* This model's Sternguard bolt rifle cannot be replaced."
@@ -10662,7 +10662,7 @@ export default [
       {
         "name": "Las-talon",
         "tags": [],
-        "range": "36\"",
+        "range": "24\"",
         "a": "2",
         "bs": "3+",
         "s": "10",
@@ -11646,7 +11646,7 @@ export default [
     "options": [
       "1 Tactical Marine’s boltgun can be replaced with one of the following:\n▪ 1 flamer\n▪ 1 heavy bolter\n▪ 1 grav-cannon\n▪ 1 grav-gun\n▪ 1 lascannon\n▪ 1 meltagun\n▪ 1 missile launcher\n▪ 1 multi-melta\n▪ 1 plasma cannon\n▪ 1 plasma gun",
       "1 Tactical Marine’s boltgun can be replaced with one of the following:\n▪ 1 flamer\n▪ 1 grav-gun\n▪ 1 meltagun\n▪ 1 plasma gun",
-      "The Tactical Sergeant’s bolt pistol and boltgun can be replaced with 1 twin lightning claws, or two different weapons from the following list:*\n▪ 1 Astartes chainsword\n▪ 1 bolt pistol\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 plasma pistol\n▪ 1 storm bolter\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer",
+      "The Tactical Sergeant’s bolt pistol and boltgun can be replaced with 1 twin lightning claws, or two different weapons from the following list:*\n▪ 1 Astartes chainsword\n▪ 1 bolt pistol\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 plasma pistol\n▪ 1 storm bolter\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer\n* This model can only be equipped with two ranged weapons if one of them is a Pistol (and it can only have one Pistol).",
       "* This model can only be equipped with two ranged weapons if one of them is a Pistol (and it can only have one Pistol)."
     ],
     "keywords": [
@@ -12002,7 +12002,7 @@ export default [
     ],
     "loadout": "**Every model is equipped with:** storm bolter; power fist.",
     "options": [
-      "For every 5 models in this unit, 1 Terminator’s storm bolter can be replaced with one of the following:\n▪ 1 assault cannon\n▪ 1 heavy flamer\n▪ 1 cyclone missile launcher and 1 storm bolter.*",
+      "For every 5 models in this unit, 1 Terminator’s storm bolter can be replaced with one of the following:\n▪ 1 assault cannon\n▪ 1 heavy flamer\n▪ 1 cyclone missile launcher and 1 storm bolter.*\n* This model’s storm bolter cannot be replaced.",
       "Any number of models can each have their power fist replaced with 1 chainfist.",
       "The Terminator Sergeant’s power fist can be replaced with 1 power weapon.",
       "* This model’s storm bolter cannot be replaced."
