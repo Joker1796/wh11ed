@@ -17,6 +17,16 @@
 
 export const changelog = [
   {
+    version: '2.2.5',
+    date: '2026-08-07',
+    en: [
+      'Follow-up correctness pass on the rules data: Las-talon range corrected back to 36", Repentia Squad\'s Catechism of Divine Penitence attachment restored, Game Tracker deployment-point budgets fixed for three Space Marine Chapter detachments, and base-size notes added for a few multi-model units.',
+    ],
+    ru: [
+      'Дополнительная сверка данных правил: дальность Las-talon возвращена на 36", восстановлена фраза о прикреплении Catechism of Divine Penitence к Repentia Squad, исправлен бюджет очков развёртывания в трекере для трёх детачментов SM-глав, добавлены пометки о базах для нескольких многомодельных юнитов.',
+    ],
+  },
+  {
     version: '2.2.4',
     date: '2026-08-06',
     en: [
