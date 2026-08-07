@@ -2621,7 +2621,7 @@ export default [
     "factionKeywords": [
       "Adeptus Mechanicus"
     ],
-    "baseSize": "25mm"
+    "baseSize": "25mm / 60x35.5mm Oval Base"
   },
   {
     "id": "skitarii-vanguard",
@@ -2781,7 +2781,7 @@ export default [
     "factionKeywords": [
       "Adeptus Mechanicus"
     ],
-    "baseSize": "25mm"
+    "baseSize": "25mm / 60x35.5mm Oval Base"
   },
   {
     "id": "skorpius-disintegrator",
