@@ -1166,7 +1166,7 @@ export default [
     "factionKeywords": [
       "Agents of the Imperium"
     ],
-    "baseSize": "28.5mm"
+    "baseSize": "28.5mm / 25mm"
   },
   {
     "id": "grey-knights-terminator-squad",
@@ -1530,7 +1530,7 @@ export default [
     "factionKeywords": [
       "Agents of the Imperium"
     ],
-    "baseSize": "25mm"
+    "baseSize": "25mm / 28.5mm"
   },
   {
     "id": "imperial-rhino",
@@ -2419,7 +2419,7 @@ export default [
     "factionKeywords": [
       "Agents of the Imperium"
     ],
-    "baseSize": "25mm",
+    "baseSize": "25mm / 32mm",
     "rules": [
       {
         "name": "INQUISITORIAL HENCHMEN",
@@ -3654,7 +3654,7 @@ export default [
     "factionKeywords": [
       "Agents of the Imperium"
     ],
-    "baseSize": "28.5mm"
+    "baseSize": "28.5mm / 25mm"
   },
   {
     "id": "vigilant-squad",
@@ -3819,7 +3819,7 @@ export default [
     "factionKeywords": [
       "Agents of the Imperium"
     ],
-    "baseSize": "28.5mm"
+    "baseSize": "28.5mm / 25mm"
   },
   {
     "id": "vindicare-assassin",
