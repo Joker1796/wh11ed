@@ -1818,7 +1818,7 @@ export default [
       {
         "name": "Las-talon",
         "tags": [],
-        "range": "24\"",
+        "range": "36\"",
         "a": "2",
         "bs": "3+",
         "s": "10",
