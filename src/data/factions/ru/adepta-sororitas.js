@@ -506,7 +506,7 @@ Death Before Disgrace
         {
           flavor:
             'Разделить муки кающихся и вести их к искуплению — святейшее деяние. Оттого многие командиры Adepta Sororitas охотно сражаются бок о бок с изгнанными из Сестринства.',
-          body: 'Только модель CANONESS, PALATINE или MINISTORUM PRIEST. Носитель получает ключевое слово PENITENT.',
+          body: 'Только модель CANONESS, PALATINE или MINISTORUM PRIEST. Носитель получает ключевое слово PENITENT.\n\nВ шаге объявления боевых построений носитель может быть прикреплён к юниту Repentia Squad.',
         },
       ],
     },
