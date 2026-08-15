@@ -97,7 +97,10 @@ cd ../wh11ed && npm run sync
   датащитов Space Marines). Само появление второго числа взять из appdata можно смело, но
   **текст порога** («1st-2nd»/«3rd+», формула не выводится, разный у каждого юнита) appdata не
   хранит вообще — не гуглить/качать сторонний MFM PDF, чтобы его угадать (легко нарваться на
-  устаревшую версию), спросить у пользователя точные цифры с живого mfm.warhammer-community.com.
+  устаревшую версию); брать с живого сайта: `python3 scripts/scrape-mfm.py` (обновляет
+  `src/data/mfm/*.js`) → `npm run sync:mfm` (аудит датащитов против них; `--write` переносит
+  цифры в `src/data/datasheets/*.js`, включая `pointsOverrides` капитулов). Цены — EN-only
+  данные (ru/-файлы датащитов цен не несут), парити не затрагивается.
 - **5 SM-Chapter фракций** (black-templars/blood-angels/dark-angels/deathwatch/space-wolves):
   бандл appdata содержит только эксклюзивные для капитула публикации, а wh11ed
   (обоснованно) фолдит юниты, общие с `space-marines.js`. Смотреть `missing`/`differs`;

@@ -406,12 +406,12 @@ export default [
       {
         "models": 5,
         "points": 240,
-        "note": "1st"
+        "note": "1st-2nd"
       },
       {
         "models": 5,
         "points": 260,
-        "note": "2nd+"
+        "note": "3rd+"
       }
     ],
     "flavor": "Deathwing Knights are the Chapter’s ultimate death-dealers, their strikes breaking the enemy’s back in one fell swoop. Equipped with heirloom wargear, they teleport into the heart of the thickest fighting, led by Knight Masters who are whirlwinds of deathly destruction.",
@@ -864,7 +864,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 180,
+        "points": 170,
         "note": "3rd+"
       }
     ],
@@ -963,7 +963,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 130,
+        "points": 140,
         "note": "3rd+"
       }
     ],
@@ -1418,23 +1418,11 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 75,
-        "note": "1st-2nd"
+        "points": 75
       },
       {
         "models": 6,
-        "points": 150,
-        "note": "1st-2nd"
-      },
-      {
-        "models": 3,
-        "points": 85,
-        "note": "3rd+"
-      },
-      {
-        "models": 6,
-        "points": 160,
-        "note": "3rd+"
+        "points": 150
       }
     ],
     "flavor": "The Ravenwing Black Knights are the 2nd Company’s greatest warriors, elite fighters who style themselves after the monster-hunting knights of old Caliban. They speed towards the foe, swinging their corvus hammers with such force that the spiked end punctures even the thickest armour.",
@@ -1569,7 +1557,7 @@ export default [
       },
       {
         "models": 3,
-        "points": 125,
+        "points": 115,
         "note": "3rd+"
       }
     ],

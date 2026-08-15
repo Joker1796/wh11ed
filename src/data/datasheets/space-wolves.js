@@ -1855,22 +1855,22 @@ export default [
       {
         "models": 5,
         "points": 150,
-        "note": "1st"
+        "note": "1st-2nd"
       },
       {
         "models": 10,
         "points": 300,
-        "note": "1st"
+        "note": "1st-2nd"
       },
       {
         "models": 5,
-        "points": 160,
-        "note": "2nd+"
+        "points": 165,
+        "note": "3rd+"
       },
       {
         "models": 10,
-        "points": 310,
-        "note": "2nd+"
+        "points": 315,
+        "note": "3rd+"
       }
     ],
     "flavor": "Wolf Guard bedeck their Terminator armour with totems, trophies and marks of honour gained over their years of battle. They fight at the spearhead of assaults, eagerly seeking glory as enemy fire deflects harmlessly from their relic armour, the earth shaking beneath their heavy tread as they slay with stunning skill.",
@@ -2081,23 +2081,11 @@ export default [
     "points": [
       {
         "models": 6,
-        "points": 90,
-        "note": "1st-2nd"
+        "points": 90
       },
       {
         "models": 12,
-        "points": 180,
-        "note": "1st-2nd"
-      },
-      {
-        "models": 6,
-        "points": 105,
-        "note": "3rd+"
-      },
-      {
-        "models": 12,
-        "points": 200,
-        "note": "3rd+"
+        "points": 180
       }
     ],
     "flavor": "Wolf Scouts are tasked with operating ahead of the main Space Wolves assault force, infiltrating enemy positions and seizing or sabotaging key locations. More than capable of operating alone for extended periods of time, they use guile and savagery to distract and harrass the foe.",

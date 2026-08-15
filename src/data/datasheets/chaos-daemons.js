@@ -224,12 +224,12 @@ export default [
       },
       {
         "models": 3,
-        "points": 105,
+        "points": 115,
         "note": "3rd+"
       },
       {
         "models": 6,
-        "points": 190,
+        "points": 210,
         "note": "3rd+"
       }
     ],
@@ -2792,7 +2792,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 315,
+        "points": 340,
         "note": "3rd+"
       }
     ],

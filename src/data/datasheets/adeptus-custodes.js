@@ -333,7 +333,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 65,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 75,
+        "note": "4th+"
       }
     ],
     "flavor": "The Rhinos of the Silent Sisterhood are more than just armoured personnel carriers. Many have served the Imperium for hundreds, if not thousands of years. Highly rugged vehicles, their spacious capacity and powerful engines help them to safely carry their deadly cargo of Sisters into the fiercest of battles.",
@@ -1395,12 +1401,12 @@ export default [
       },
       {
         "models": 4,
-        "points": 230,
+        "points": 220,
         "note": "2nd+"
       },
       {
         "models": 5,
-        "points": 280,
+        "points": 270,
         "note": "2nd+"
       }
     ],
@@ -2648,11 +2654,23 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 150
+        "points": 150,
+        "note": "1st-2nd"
       },
       {
         "models": 6,
-        "points": 300
+        "points": 300,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 3,
+        "points": 160,
+        "note": "3rd+"
+      },
+      {
+        "models": 6,
+        "points": 310,
+        "note": "3rd+"
       }
     ],
     "flavor": "The role of Venatari Custodian is vaunted as a high honour within the Adeptus Custodes, bestowed upon those with the most aquiline combat senses. These airborne hunting squads make masterful use of their archeotech jump packs to strike from the skies, swooping into the enemy’s midst to deliver swift ruin with their pistols and polearms.",

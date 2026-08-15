@@ -86,7 +86,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 160
+        "points": 160,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 170,
+        "note": "3rd+"
       }
     ],
     "flavor": "With pinpoint accuracy, Gladiator Lancer crews use this battle tank’s laser destroyer to spear through the heaviest enemy armour and punch smouldering holes in the flesh of xenos monstrosities. Such is the range of its heavy cannon that it can eliminate threats to the Black Templars before their battle-brothers encounter them, storming past their wrecks to seek the next affront to the Emperor.",
@@ -223,7 +229,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 160
+        "points": 160,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 170,
+        "note": "3rd+"
       }
     ],
     "flavor": "When the cannons of the Gladiator Reaper spin to full pitch, the whining drone is likened to the sharpening of the Emperor’s just blade and a sensation which only truly discomforts the blasphemous. Within seconds, thousands of spent casings pour over the battle tank’s armoured hide as enemies are erased from existence by the storm of fire.",
@@ -348,7 +360,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 150
+        "points": 150,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 160,
+        "note": "3rd+"
       }
     ],
     "flavor": "The Valiant lays down blistering volleys of holy fire as it escorts transports or supports infantry in ferocious fighting, executing singular threats and vaporising squads of heavily armoured heretics with equal ease. Its twin las-talons spit vindicated death at the foe, making short work of enemy armour, while its hissing multi-meltas turn fortified positions into bubbling slag.",
@@ -1642,12 +1660,12 @@ export default [
       {
         "models": 1,
         "points": 80,
-        "note": "1st"
+        "note": "1st-2nd"
       },
       {
         "models": 1,
         "points": 90,
-        "note": "2nd+"
+        "note": "3rd+"
       }
     ],
     "flavor": "Each Black Templars crusade is led by a Marshal. Similar in rank to the Captains of other Chapters, Marshals are fearsome combatants and paragons of strategic acumen. Ensuring a crusade’s purity and success is a sacred duty, and Marshals fight with sanctified relic weapons while acting as beacons of pious fervour for their warriors.",
@@ -1930,7 +1948,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 265,
+        "points": 275,
         "note": "3rd+"
       }
     ],

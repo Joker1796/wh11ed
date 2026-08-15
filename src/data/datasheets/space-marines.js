@@ -202,12 +202,12 @@ export default [
       },
       {
         "models": 3,
-        "points": 100,
+        "points": 90,
         "note": "3rd+"
       },
       {
         "models": 6,
-        "points": 190,
+        "points": 175,
         "note": "3rd+"
       }
     ],
@@ -933,7 +933,7 @@ export default [
       },
       {
         "models": 10,
-        "points": 180,
+        "points": 170,
         "note": "3rd+"
       }
     ],
@@ -1447,7 +1447,7 @@ export default [
       },
       {
         "models": 3,
-        "points": 85,
+        "points": 90,
         "note": "3rd+"
       },
       {
@@ -4439,7 +4439,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 60
+        "points": 60,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 70,
+        "note": "4th+"
       }
     ],
     "flavor": "Launched from ships in low orbit, Drop Pods full of Space Marines slam into the battlefield, their hatches blowing open upon the violent impact. Within seconds, the squad bursts out with weapons firing. Such deadly strikes send the foe into disarray as their lines are torn apart in the furious assault.",
@@ -4725,13 +4731,7 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 80,
-        "note": "1st-2nd"
-      },
-      {
-        "models": 3,
-        "points": 80,
-        "note": "3rd+"
+        "points": 80
       }
     ],
     "flavor": "The heavy Mk X Gravis armour of these fire support specialists allows them to weather storms of incoming projectiles. Standing firm, they return fire with their brutal heavy bolters, scything down enemy infantry and blowing apart the foe's light armoured vehicles with well-placed shots to weak spots in their targets' hulls.",
@@ -5620,7 +5620,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 70,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 80,
+        "note": "4th+"
       }
     ],
     "flavor": "Equipped with vectored thrusters that make it faster than any other gravitic tank in the Space Marines’ armouries, the Impulsor is a highly adaptable transport used by all Primaris Space Marines for rapid insertion and flanking manoeuvres. It is particularly favoured by Vanguard forces.",
@@ -5788,12 +5794,12 @@ export default [
       },
       {
         "models": 3,
-        "points": 135,
+        "points": 140,
         "note": "3rd+"
       },
       {
         "models": 6,
-        "points": 255,
+        "points": 265,
         "note": "3rd+"
       }
     ],
@@ -7482,13 +7488,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 105,
-        "note": "1st-2nd"
-      },
-      {
-        "models": 1,
-        "points": 105,
-        "note": "3rd+"
+        "points": 105
       }
     ],
     "flavor": "Streaking over the battlefield on humming anti-grav engines, the Land Speeder performs blistering attack runs to rake the enemy with shots then darts away before the foe can respond. It is a valuable rapid reconnaissance asset for Space Marine forces in the field and excels in providing highly mobile fire support.",
@@ -7596,7 +7596,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 70,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 80,
+        "note": "3rd+"
       }
     ],
     "flavor": "Librarians are the Space Marines’ battle-psykers and keepers of lore. Wielding terrifying empyric energies, with but a thought they can crush a foe’s skull, throw up force shields to protect their brethren from incoming fire, and hurl blasts of psychic power.",
@@ -9044,7 +9050,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 85
+        "points": 85,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 95,
+        "note": "4th+"
       }
     ],
     "flavor": "The Razorback replaces some of the Rhino’s transport capacity with a heavy weapon turret, and provides fire support for armoured infantry assaults while delivering its own cargo of warriors to battle. Such is its success that for many Chapters it performs additional functions, notably as a mobile command centre.",
@@ -9782,7 +9794,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 65,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 75,
+        "note": "4th+"
       }
     ],
     "flavor": "The Rhino transport has served the Space Marines for ten thousand years, and forms a part of many of their strike forces. With robust self-repair systems, the Rhino is a rugged vehicle that can swiftly navigate nightmare battlefields to deliver its deadly cargo of Space Marines into the heart of battle.",
@@ -10443,7 +10461,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 140,
+        "points": 150,
         "note": "3rd+"
       }
     ],
@@ -12549,7 +12567,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 240,
+        "points": 250,
         "note": "2nd+"
       }
     ],
