@@ -17,6 +17,16 @@
 
 export const changelog = [
   {
+    version: '2.2.6',
+    date: '2026-08-15',
+    en: [
+      'Unit points updated to Munitorum Field Manual v1.2 across all factions — mostly cheaper repeat-unit surcharges ("3rd+"-style tiers), plus the missing "4th+" transport tiers (Rhino, Impulsor, Devilfish, Wave Serpent and others).',
+    ],
+    ru: [
+      'Очки юнитов обновлены до Munitorum Field Manual v1.2 по всем фракциям — в основном подешевевшие наценки за повторные юниты (ступени вида «3rd+»), плюс недостающие ступени «4th+» у транспортов (Rhino, Impulsor, Devilfish, Wave Serpent и другие).',
+    ],
+  },
+  {
     version: '2.2.5',
     date: '2026-08-07',
     en: [
