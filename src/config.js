@@ -13,6 +13,10 @@ export const SITE_ORIGIN = import.meta.env.VITE_SITE_ORIGIN || 'https://wh11ed.r
 // SITE_ORIGIN: the banner only shows on the old host, whose build self-canonicals to itself, so
 // reusing SITE_ORIGIN would advertise the old domain as the "new" one.
 export const MOVED_TO_ORIGIN = 'https://wh-rules.ru'
-// The banner stays dormant until the new domain is the place to actually send people (i.e. after
-// the backend is switched so login works there). Enable per-build with VITE_ANNOUNCE_MOVE=true.
-export const ANNOUNCE_MOVE = import.meta.env.VITE_ANNOUNCE_MOVE === 'true'
+// Move-banner phase (MIGRATION.md): 'pre' = Phase 2 heads-up on the old domain ("we're moving —
+// log in so your games follow, reinstall the app afterwards"), 'moved' = the post-301 variant
+// ("we've moved, new address"). Off unless VITE_ANNOUNCE_MOVE is set per-build; the legacy value
+// `true` maps to 'moved' so an old .env.deploy keeps working.
+const announceRaw = import.meta.env.VITE_ANNOUNCE_MOVE
+export const ANNOUNCE_MOVE =
+  announceRaw === 'pre' ? 'pre' : announceRaw === 'moved' || announceRaw === 'true' ? 'moved' : false

@@ -4,11 +4,24 @@
     <button class="db-close" @click="dismiss" :aria-label="labels.updateDismiss">
       <i class="bi bi-x"></i>
     </button>
-    <p class="db-title">
-      {{ labels.domainMoveTitle }}
-      <a :href="MOVED_TO_ORIGIN" class="db-link">{{ newHost }}</a>
-    </p>
-    <p class="db-note">{{ labels.domainMoveNote }}</p>
+    <template v-if="mode === 'pre'">
+      <p class="db-title">
+        {{ labels.domainMovePreTitle }}
+        <span class="db-host">{{ newHost }}</span>
+      </p>
+      <p class="db-note">
+        {{ labels.domainMovePreNote1 }}
+        <RouterLink to="/tracker" class="db-link">{{ labels.domainMovePreCta }}</RouterLink>
+      </p>
+      <p class="db-note">{{ labels.domainMovePreNote2 }}</p>
+    </template>
+    <template v-else>
+      <p class="db-title">
+        {{ labels.domainMoveTitle }}
+        <a :href="MOVED_TO_ORIGIN" class="db-link">{{ newHost }}</a>
+      </p>
+      <p class="db-note">{{ labels.domainMoveNote }}</p>
+    </template>
   </div>
 </template>
 
@@ -25,21 +38,29 @@ const labels = computed(() => ui[locale.value])
 const newHost = MOVED_TO_ORIGIN.replace(/^https?:\/\//, '')
 
 // Gate on the actual hostname (not a separate build): the same bundle can ship anywhere, and
-// this only shows on the retired domain. Also requires VITE_ANNOUNCE_MOVE — while the backend
-// still lives on the old domain, pointing people at the new one (where login doesn't work yet)
-// would be misleading, so the announcement stays off until that flips.
-const onOldDomain = typeof window !== 'undefined' && /(^|\.)wh11ed\.ru$/.test(window.location.hostname)
-const dismissed = ref(getItem('wh11ed-domain-move-dismissed') === 'true')
-const visible = computed(() => ANNOUNCE_MOVE && onOldDomain && !dismissed.value)
+// this only shows on the retired domain. ANNOUNCE_MOVE picks the phase (see config.js):
+// 'pre' = Phase 2 heads-up (login on the new domain doesn't work yet, so the new host is shown
+// as plain text and the CTA points at the tracker login HERE — syncing is what makes games
+// survive the move), 'moved' = the post-301 "we've moved" variant linking to the new domain.
+const mode = ANNOUNCE_MOVE
+// DEV lets the banner preview on localhost (`VITE_ANNOUNCE_MOVE=pre npm run dev`); a production
+// build still requires the retired hostname.
+const onOldDomain =
+  typeof window !== 'undefined' &&
+  (import.meta.env.DEV || /(^|\.)wh11ed\.ru$/.test(window.location.hostname))
+// Per-phase dismissal: hiding the Phase 2 heads-up must not hide the eventual "we've moved".
+const dismissKey = mode === 'pre' ? 'wh11ed-domain-move-dismissed-pre' : 'wh11ed-domain-move-dismissed'
+const dismissed = ref(getItem(dismissKey) === 'true')
+const visible = computed(() => !!mode && onOldDomain && !dismissed.value)
 
 function dismiss() {
   dismissed.value = true
-  setItem('wh11ed-domain-move-dismissed', 'true')
+  setItem(dismissKey, 'true')
 }
 </script>
 
 <style scoped>
-/* Icon/close float so the two text lines wrap around them instead of each reserving
+/* Icon/close float so the text lines wrap around them instead of each reserving
    a full-height column (which left an awkward gap next to the short icon glyph). */
 .domain-banner {
   /* Sits before the sticky navbar, which pads itself by --safe-top to clear the iOS
@@ -83,6 +104,11 @@ function dismiss() {
 .db-title {
   margin: 0;
   font-weight: 600;
+}
+
+.db-host {
+  color: var(--accent);
+  font-weight: 700;
 }
 
 .db-link {
