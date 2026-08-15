@@ -12,8 +12,10 @@ page and the tracker all live here, with no backend involved.
 > **🚚 АКТИВНЫЙ КУРС — миграция домена `wh11ed.ru` → `wh-rules.ru`.** Идёт фазовый переезд
 > (автосинк → грейс → баннер → грейс → катовер с 301). **`MIGRATION.md` — источник правды**,
 > читать его в начале любой сессии на любой машине (память Claude между машинами не
-> синхронизируется). Финал = один домен, `wh11ed.ru` → 301. Сейчас: **Фаза 1 (грейс, ждём)** —
-> Фаза 0 (автосинк + SEO) задеплоена (v2.0.19) на оба домена; живой прод остаётся `wh11ed.ru`.
+> синхронизируется). Финал = один домен, `wh11ed.ru` → 301. Сейчас: **Фаза 2 АКТИВНА
+> (с 2026-08-15, v2.2.6)** — pre-баннер «сайт переезжает» живёт на `wh11ed.ru`, host-aware
+> функция бэкенда задеплоена, логин работает на обоих доменах. Дальше ~неделя грейса, затем
+> Фаза 3 (катовер + 301). Живой прод пока остаётся `wh11ed.ru`.
 
 The audience is players at a table — someone looking a rule up mid-game, usually on a phone, often
 on bad reception. That shapes most of the decisions below.
@@ -72,6 +74,7 @@ npm run preview  # preview the production build
 npm run deploy   # build + upload to the Yandex Object Storage bucket (see Deployment)
 npm run sync     # audit all data against wh40k-appdata: version check + sourceIds + faction structure/text/tracker/core diffs (report-only) — see DATA-SYNC.md for the full update procedure
 npm run sync:text    # just the faction rule/stratagem/enhancement/ability PROSE diff vs appdata (errata drift; a slug or --all)
+npm run sync:mfm     # audit datasheet points against src/data/mfm/* (scraped from the live MFM by scripts/scrape-mfm.py); --write applies the diff — see DATA-SYNC.md
 npm run images:webp  # convert new illustration jpg/png in public/images/ to WebP (see Image organization)
 npm run faction-rules:index  # regenerate the faction-rules name index for search (see Search)
 npm run icons        # regenerate PWA / home-screen icons from the "W" mark (see PWA)
