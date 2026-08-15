@@ -1370,7 +1370,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 75,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 85,
+        "note": "4th+"
       }
     ],
     "flavor": "These swift anti-grav transport barques are employed by kabals, wych cults and haemonculus covens alike for their realspace raids. Streaking through skies like poisoned arrows, Raiders deliver their cargoes of vicious Drukhari into the very heart of the foe before their victims have time to react, providing vicious covering fire as the fighting intensifies.",
@@ -1482,13 +1488,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 110,
-        "note": "1st-2nd"
-      },
-      {
-        "models": 1,
-        "points": 110,
-        "note": "3rd+"
+        "points": 110
       }
     ],
     "flavor": "Ravager gunships fulfil the role of armoured fire support during Drukhari raids, leveraging their speed and agility to outmanoeuvre the more heavily armoured war engines with which they typically duel. They are mobile assassins, mounting enough firepower to gut enemy tanks and eradicate the foe’s elite warriors before swiftly relocating to new hunting grounds.",
@@ -2493,7 +2493,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 65,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 75,
+        "note": "4th+"
       }
     ],
     "flavor": "Raw speed delivers countless Venom transports to the heart of the enemy’s defence and sees them chase down stragglers and encircle the foe’s outriders. For the clique of warriors on board, Venoms are mobile firebases and gore-splashed chariots in one, with flickering shields that confound attempts to bring them down.",

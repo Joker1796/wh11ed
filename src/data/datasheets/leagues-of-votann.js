@@ -2126,7 +2126,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 70,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 80,
+        "note": "4th+"
       }
     ],
     "flavor": "A variant of the adaptable Kapricus design, the Carrier provides elite teams of Hernkyn Yaegirs with the means to penetrate enemy lines at speed. The transport’s quad magna-coils grant it the manoeuvrability to traverse almost any frontier terrain. At the same time, its banks of scanner uplinks enable it to lay down withering hails of accurate, suppressive fire to purge claim sites.",
@@ -2406,7 +2412,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 85
+        "points": 85,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 95,
+        "note": "4th+"
       }
     ],
     "flavor": "Designed to survive the worst that hostile worlds and alien predators can throw at it, the Sagitaur is a rugged ATV ideally suited to scouting operations and swift, armoured offensives. Sagitaurs mount a remarkable amount of firepower for their size, and can even knock out enemy battle tanks.",

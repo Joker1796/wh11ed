@@ -726,23 +726,11 @@ export default [
     "points": [
       {
         "models": 5,
-        "points": 75,
-        "note": "1st-2nd"
+        "points": 75
       },
       {
         "models": 10,
-        "points": 140,
-        "note": "1st-2nd"
-      },
-      {
-        "models": 5,
-        "points": 90,
-        "note": "3rd+"
-      },
-      {
-        "models": 10,
-        "points": 160,
-        "note": "3rd+"
+        "points": 140
       }
     ],
     "flavor": "Equipped with winged jump packs, Corsair Skyreavers are utilised by Anhrathe commanders as mobile shock troops. Leaping recklessly into the fray, they bring to bear an array of dazzling weaponry, relying upon speed, agility and daring to evade incoming strikes and cut their opponents to shreds.",
@@ -5151,7 +5139,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 70,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 80,
+        "note": "4th+"
       }
     ],
     "flavor": "These agile and nimble anti-grav transport craft swoop and spiral effortlessly through incoming fire, their flickering holo-fields giving them polychromatic camouflage. Armed with multiple heavy weapons, they provide great volumes of supporting fire for the troops they carry, scything down the foe with withering hails of shurikens.",
@@ -5628,7 +5622,7 @@ export default [
       },
       {
         "models": 5,
-        "points": 115,
+        "points": 110,
         "note": "3rd+"
       },
       {
@@ -7148,12 +7142,12 @@ export default [
       },
       {
         "models": 5,
-        "points": 130,
+        "points": 125,
         "note": "3rd+"
       },
       {
         "models": 10,
-        "points": 215,
+        "points": 220,
         "note": "3rd+"
       }
     ],
@@ -7313,7 +7307,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 115
+        "points": 115,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 125,
+        "note": "4th+"
       }
     ],
     "flavor": "The leading troop carriers in a craftworld’s arsenal, Wave Serpents transport warriors to any part of the battlefield at immense speeds. These troops are protected by a powerful energy field and receive covering fire from the vehicle’s powerful array of heavy weapons.",
@@ -7748,7 +7748,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 435,
+        "points": 405,
         "note": "2nd+"
       }
     ],
@@ -7891,7 +7891,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 425,
+        "points": 400,
         "note": "2nd+"
       }
     ],
@@ -8583,7 +8583,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 70,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 80,
+        "note": "4th+"
       }
     ],
     "flavor": "Skimming low over the battlefield on screaming thrusters, Raiders bear murderous bands of Drukhari into battle with blistering speed. They are much favoured by the fanatical worshippers of Ynnead, allowing them to plunge into the heart of the foe’s lines and unleash a veritable hurricane of death and devastation before swiftly relocating to strike again elsewhere.",
@@ -8907,7 +8913,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 65,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 75,
+        "note": "4th+"
       }
     ],
     "flavor": "When the Drukhari fight alongside their Asuryani cousins in the cause of Ynnead, some ride into battle aboard needle-swift Venoms. Similar to the Vyper, these upscaled jetbikes serve more like airborne chariots that bear small bands of murderous Drukhari into the fight. So mounted, the worshippers of Ynnead are all but inescapable, pouncing swiftly upon their luckless prey.",

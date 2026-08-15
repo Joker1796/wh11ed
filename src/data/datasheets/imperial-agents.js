@@ -339,11 +339,6 @@ export default [
       {
         "models": 1,
         "points": 100
-      },
-      {
-        "models": 1,
-        "points": 115,
-        "note": "Veiled Blade Elimination Force"
       }
     ],
     "flavor": "Anarchy flourishes in the wake of a Callidus Assassin’s deployment. They use the shape-shifting drug polymorphine to insinuate themselves close to their target, sabotaging systems and seeding misinformation before closing on their victim with blasts of their mind-destroying sidearm and flicks of their mysterious blade.",
@@ -573,11 +568,6 @@ export default [
       {
         "models": 1,
         "points": 85
-      },
-      {
-        "models": 1,
-        "points": 95,
-        "note": "Veiled Blade Elimination Force"
       }
     ],
     "flavor": "A Culexus Assassin projects an aura of unsettling fear all around them. Their primary targets are psykers, who are wracked with agony from these soulless assassins’ mere presence, and against the arcane blasts of a Culexus’ animus speculum, no witch long survives.",
@@ -890,11 +880,6 @@ export default [
         "models": 1,
         "points": 110,
         "note": "Agents of the Imperium (allied)"
-      },
-      {
-        "models": 1,
-        "points": 115,
-        "note": "Veiled Blade Elimination Force"
       }
     ],
     "flavor": "Berserk killers fuelled by unstable chemical stimms, Eversor Assassins are hurricanes of bladed and clawed destruction. They are unleashed as weapons of terror and annihilation, set loose to murder not only their intended target but anyone around them as well.",
@@ -1538,7 +1523,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 65,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 75,
+        "note": "4th+"
       }
     ],
     "flavor": "Amongst the most iconic and ubiquitous of the Imperium’s armoured infantry transports, the Rhino is as redoubtable as it is resilient. Boasting a capacious troop compartment, j .-I self-repairing capabilities and weapon mounts for storm bolters and hunter-killer missiles, it has earned its reputation as the workhorse of Imperial armies.",
@@ -2237,12 +2228,12 @@ export default [
       {
         "models": 6,
         "points": 60,
-        "note": "Agents of the Imperium (allied) — 6 models"
+        "note": "Agents of the Imperium (allied)"
       },
       {
         "models": 12,
         "points": 120,
-        "note": "Agents of the Imperium (allied) — 12 models"
+        "note": "Agents of the Imperium (allied)"
       }
     ],
     "flavor": "To aid them in their esoteric and complex missions, many Inquisitors maintain retinues of select individuals of rare talent, skill and power. Motley collections of fighters, fanatics, savants and psykers, they work ceaselessly in the shadows to protect the Imperium.",
@@ -2433,7 +2424,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 60
+        "points": 60,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 70,
+        "note": "4th+"
       }
     ],
     "flavor": "The Chimera is a blend of armoured personnel carrier and light tank, easy to produce en masse and extremely versatile. Those deployed by Imperial agents boast a wealth of varied armament options, transporting their passengers swiftly into battle then providing heavy covering fire while they complete their missions.",
@@ -3149,12 +3146,23 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 90
+        "points": 90,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 100,
+        "note": "4th+"
       },
       {
         "models": 1,
         "points": 105,
-        "note": "Agents of the Imperium (allied)"
+        "note": "1st-3rd, Agents of the Imperium (allied)"
+      },
+      {
+        "models": 1,
+        "points": 115,
+        "note": "4th+, Agents of the Imperium (allied)"
       }
     ],
     "flavor": "The Immolator is an armoured transport commonly employed by the Adepta Sororitas. As befits their zealous style of war, its armaments tend towards aggressive short-ranged firepower best employed amidst dense terrain or on the attack. Countless heretics and xenos have been reduced to ash by the fiery blasts of these tools of purgation.",
@@ -3833,11 +3841,6 @@ export default [
         "models": 1,
         "points": 125,
         "note": "Agents of the Imperium (allied)"
-      },
-      {
-        "models": 1,
-        "points": 130,
-        "note": "Veiled Blade Elimination Force"
       }
     ],
     "flavor": "The muffled crack of a Vindicare Assassin’s exitus rifle is all that most ever detect of its presence – that, and the spray of their victim’s brain matter. They are lethal marksmen who find the perfect firing position from which to pinpoint their quarry, while against more numerous foes they swiftly rack up high body counts with shot after expert shot.",

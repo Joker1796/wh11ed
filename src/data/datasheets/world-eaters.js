@@ -125,12 +125,12 @@ export default [
       },
       {
         "models": 3,
-        "points": 105,
+        "points": 115,
         "note": "3rd+"
       },
       {
         "models": 6,
-        "points": 190,
+        "points": 210,
         "note": "3rd+"
       }
     ],
@@ -575,7 +575,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 145,
+        "points": 140,
         "note": "3rd+"
       }
     ],
@@ -723,7 +723,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 145,
+        "points": 140,
         "note": "3rd+"
       }
     ],
@@ -865,7 +865,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 75,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 85,
+        "note": "4th+"
       }
     ],
     "flavor": "Rhinos are well-adapted for battlefield transportation. Even when corrupted by the Warp and encrusted with dried blood, they remain as reliable as ever, safely carrying their passengers overfire-swept terrain. Many of these vehicles are adorned with blades and have machine spirits just as bloodthirsty as their occupants.",
@@ -1034,12 +1040,12 @@ export default [
       },
       {
         "models": 5,
-        "points": 185,
+        "points": 175,
         "note": "3rd+"
       },
       {
         "models": 10,
-        "points": 360,
+        "points": 340,
         "note": "3rd+"
       }
     ],
@@ -1371,7 +1377,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 300,
+        "points": 310,
         "note": "2nd+"
       }
     ],
@@ -1592,12 +1598,12 @@ export default [
       },
       {
         "models": 3,
-        "points": 145,
+        "points": 140,
         "note": "3rd+"
       },
       {
         "models": 6,
-        "points": 280,
+        "points": 270,
         "note": "3rd+"
       }
     ],
@@ -1667,12 +1673,12 @@ export default [
       },
       {
         "models": 3,
-        "points": 150,
+        "points": 145,
         "note": "3rd+"
       },
       {
         "models": 6,
-        "points": 290,
+        "points": 280,
         "note": "3rd+"
       }
     ],
@@ -1827,7 +1833,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 175,
+        "points": 155,
         "note": "3rd+"
       }
     ],
@@ -3116,7 +3122,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 155,
+        "points": 150,
         "note": "3rd+"
       }
     ],

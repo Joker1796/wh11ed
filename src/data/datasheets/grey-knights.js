@@ -535,43 +535,19 @@ export default [
     "points": [
       {
         "models": 4,
-        "points": 140,
-        "note": "1st-3rd"
+        "points": 140
       },
       {
         "models": 5,
-        "points": 175,
-        "note": "1st-3rd"
+        "points": 175
       },
       {
         "models": 8,
-        "points": 300,
-        "note": "1st-3rd"
+        "points": 300
       },
       {
         "models": 10,
-        "points": 360,
-        "note": "1st-3rd"
-      },
-      {
-        "models": 4,
-        "points": 150,
-        "note": "4th+"
-      },
-      {
-        "models": 5,
-        "points": 185,
-        "note": "4th+"
-      },
-      {
-        "models": 8,
-        "points": 310,
-        "note": "4th+"
-      },
-      {
-        "models": 10,
-        "points": 385,
-        "note": "4th+"
+        "points": 360
       }
     ],
     "flavor": "Massively armoured, heavily armed and ruthlessly devoted to their sacred duties, Grey Knights Terminators form the indomitable heart of many strike forces. Some squads are accompanied by Apothecaries, whose nartheciums dispense healing salves to staunch grievous wounds, or Ancients who hold aloft finely wrought banners to inspire their battle-brothers in war.",
@@ -2523,7 +2499,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 75,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 85,
+        "note": "4th+"
       }
     ],
     "flavor": "The Razorback is an adaptation of the Rhino that sacrifices some transport capacity for a hull-mounted heavy weapon’s ammunition and power cells, ideal for rapidly transporting elite teams of power-armoured Grey Knights into battle. Razorbacks are thus able to lay down coordinated covering fire as their passengers disembark.",
@@ -2637,7 +2619,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 70,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 80,
+        "note": "4th+"
       }
     ],
     "flavor": "Dauntless, durable and ruggedly resilient, Rhinos have been the ubiquitous armoured transport of the Space Marines for millennia. Those fielded by the Grey Knights are heavily warded, their hulls shot through with truesilver psychocircuitry that redoubles the protection of the Aegis in their vicinity.",

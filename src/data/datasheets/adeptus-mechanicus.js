@@ -651,7 +651,7 @@ export default [
       },
       {
         "models": 5,
-        "points": 130,
+        "points": 120,
         "note": "3rd+"
       }
     ],
@@ -896,7 +896,7 @@ export default [
       },
       {
         "models": 3,
-        "points": 255,
+        "points": 265,
         "note": "3rd+"
       }
     ],
@@ -2907,7 +2907,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 75,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 85,
+        "note": "4th+"
       }
     ],
     "flavor": "Skorpius Duneriders enable forge lords to ferry squads of their cyborg infantry onto the front lines, overwhelming the foe through swiftly redeployed weight of numbers. Duneriders sweep onto enemy defences in a cloud of chemical smoke, saturating the area with heavy calibre shot as their payload of warriors disembarks.",

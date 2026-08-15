@@ -359,7 +359,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 140,
+        "points": 150,
         "note": "3rd+"
       }
     ],
@@ -505,7 +505,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 140,
+        "points": 150,
         "note": "3rd+"
       }
     ],
@@ -646,7 +646,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 80
+        "points": 80,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 90,
+        "note": "4th+"
       }
     ],
     "flavor": "Many of the Rhinos employed by the Thousand Sons are ancient vehicles, their once-noble machine spirits safuratedby the malice of the Warp, their hulls mutated and discoloured by the energies of unfettered change. Still, they bear the foot soldiers of Tzeentch swiftly into battle, guns hammering as they go.",
@@ -1156,7 +1162,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 320,
+        "points": 340,
         "note": "2nd+"
       }
     ],
@@ -2289,7 +2295,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 315,
+        "points": 340,
         "note": "3rd+"
       }
     ],
@@ -3124,7 +3130,7 @@ export default [
       },
       {
         "models": 10,
-        "points": 385,
+        "points": 400,
         "note": "3rd+"
       }
     ],
@@ -3343,11 +3349,23 @@ export default [
     "points": [
       {
         "models": 2,
-        "points": 85
+        "points": 85,
+        "note": "1st-2nd"
       },
       {
         "models": 4,
-        "points": 175
+        "points": 175,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 2,
+        "points": 100,
+        "note": "3rd+"
+      },
+      {
+        "models": 4,
+        "points": 190,
+        "note": "3rd+"
       }
     ],
     "flavor": "Sekhetar Robots are often employed by their sorcerous masters as prophetic sentinels to guard sites of power or stalk unwary interlopers. Inscribed with spells of illusion and obfuscation, Sekhetar Robots can be hidden, awaiting the moment to activate and turn their arcane weapons on the foe in gouts of empyric energy and sorcerous missiles.",
@@ -3466,7 +3484,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 85
+        "points": 85,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 95,
+        "note": "3rd+"
       }
     ],
     "flavor": "The Sorcerers of the Thousand Sons direct the ranks of Rubricae in battle. All the while, they wield their twisted sorceries to wrack the foe with rampant mutation, unleash unnatural firestorms upon the enemy or veil their warriors behind flickering illusions, protected throughout by the fickle favour of Tzeentch.",

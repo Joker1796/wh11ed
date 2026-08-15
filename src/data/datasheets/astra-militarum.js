@@ -631,7 +631,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 470,
+        "points": 450,
         "note": "2nd+"
       }
     ],
@@ -786,7 +786,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 440,
+        "points": 420,
         "note": "2nd+"
       }
     ],
@@ -909,7 +909,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 470,
+        "points": 450,
         "note": "2nd+"
       }
     ],
@@ -2809,7 +2809,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 65,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 75,
+        "note": "4th+"
       }
     ],
     "flavor": "Transport compartment loaded with a full squad of Astra Militarum infantry, the Centaur Rapid Strike Vehicle accelerates hard into battle. Rugged and simple, these transports eschew heavy firepower in favour of focusing on their primary role: to ferry their passengers to their destination unharmed and with the greatest possible haste.",
@@ -2884,7 +2890,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 75,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 85,
+        "note": "4th+"
       }
     ],
     "flavor": "A workhorse armoured troop carrier, the Chimera is a durable and practical tank, employed to ferry infantry into the harshest war zones. While embarked, its passengers operate the tank’s in-built lasgun arrays in safety; once they dismount, the Chimera provides fire support with its versatile heavy weapons.",
@@ -4085,7 +4097,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 435,
+        "points": 410,
         "note": "2nd+"
       }
     ],
@@ -4510,7 +4522,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 440,
+        "points": 415,
         "note": "2nd+"
       }
     ],
@@ -5084,7 +5096,7 @@ export default [
       },
       {
         "models": 10,
-        "points": 125,
+        "points": 120,
         "note": "3rd+"
       }
     ],
@@ -6158,7 +6170,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 250,
+        "points": 230,
         "note": "3rd+"
       }
     ],
@@ -6451,7 +6463,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 200,
+        "points": 190,
         "note": "3rd+"
       }
     ],
@@ -7959,12 +7971,12 @@ export default [
       {
         "models": 5,
         "points": 85,
-        "note": "1st"
+        "note": "1st-2nd"
       },
       {
         "models": 5,
         "points": 95,
-        "note": "2nd+"
+        "note": "3rd+"
       }
     ],
     "flavor": "Led by driven officers known as Tempestor Primes, the Command Squads of the Militarum Tempestus comprise veteran Tempestus Scions. These specialists guard and support the Tempestor Prime while the officer marshals their elite soldiers into the perfect positions for the mission at hand.",
@@ -9400,7 +9412,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 430,
+        "points": 405,
         "note": "2nd+"
       }
     ],
@@ -9608,7 +9620,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 450,
+        "points": 430,
         "note": "2nd+"
       }
     ],
@@ -9743,7 +9755,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 485,
+        "points": 465,
         "note": "2nd+"
       }
     ],
@@ -9859,7 +9871,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 65,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 75,
+        "note": "4th+"
       }
     ],
     "flavor": "Designed to exploit gaps in the enemy battle line or plug holes torn in the Astra Militarum’s own, the Taurox is a swift armoured transport, its rugged tracks enabling it to cross difficult terrain with ease. The Taurox’s autocannons mow down the foe as it roars forward, eliminating threats to its passengers as they rapidly deploy.",
@@ -9946,7 +9964,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 75,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 85,
+        "note": "4th+"
       }
     ],
     "flavor": "The Taurox Prime incorporates arcane technologies not available to the wider Astra Militarum, enabling it and its Tempestus Scion cargo to operate in the most hazardous of war zones. More heavily armed than its namesake, it fulfils a tactical support role, with an adaptability suited to the Tempestus Scions.",
@@ -10440,7 +10464,7 @@ export default [
       },
       {
         "models": 10,
-        "points": 165,
+        "points": 160,
         "note": "3rd+"
       }
     ],

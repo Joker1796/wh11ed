@@ -144,7 +144,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 70,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 80,
+        "note": "4th+"
       }
     ],
     "profiles": [
@@ -718,7 +724,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 320,
+        "points": 340,
         "note": "2nd+"
       }
     ],
@@ -1932,7 +1938,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 140,
+        "points": 130,
         "note": "3rd+"
       }
     ],

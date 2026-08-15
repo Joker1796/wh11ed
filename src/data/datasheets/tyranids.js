@@ -1649,7 +1649,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 190,
+        "points": 200,
         "note": "3rd+"
       }
     ],
@@ -3815,7 +3815,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 80
+        "points": 80,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 90,
+        "note": "4th+"
       }
     ],
     "flavor": "Tyrannocytes are huge spores, heat-resistant to endure atmospheric re-entry and with wet, pulsing interior chambers within which broods of organisms can ride down to a world’s surface. Once its passengers spill forth into battle, the Tyrannocyte drifts skyward again and goes hunting for its own prey.",
