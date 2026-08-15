@@ -44,19 +44,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { ROOT, APPDATA, SLUG_MAP, norm, loadJson, loadModule, loadWh11edDatasheets, allFactionBundles, sourceIds as sourceIdsMap } from './lib/sync-common.mjs'
-
-const read = (f) => loadJson(path.join(APPDATA, 'tables', f)) || []
-const groupBy = (rows, key) => {
-  const m = new Map()
-  for (const r of rows) {
-    const arr = m.get(r[key]) || []
-    arr.push(r)
-    m.set(r[key], arr)
-  }
-  return m
-}
-const nameOf = (r) => r?.localisations?.en?.name || ''
+import { ROOT, APPDATA, SLUG_MAP, norm, loadJson, loadModule, loadWh11edDatasheets, allFactionBundles, sourceIds as sourceIdsMap, table as read, nameOfEn as nameOf, groupBy, escapeRegex, NUMBER_WORDS, invertSourceIds } from './lib/sync-common.mjs'
 
 const factionKeywordName = new Map(read('faction_keyword.json').map((r) => [r.id, nameOf(r)]))
 const keywordName = new Map(read('keyword.json').map((r) => [r.id, nameOf(r)]))
@@ -65,12 +53,7 @@ const datasheetName = new Map(read('datasheet.json').map((r) => [r.id, nameOf(r)
 
 // --- wh11ed side: load every faction's datasheets/detachments once ------------------------------
 const sourceIds = sourceIdsMap() || {}
-const detByUuid = new Map()
-for (const [slug, entries] of Object.entries(sourceIds)) {
-  for (const [key, uuid] of Object.entries(entries)) {
-    if (key.startsWith('det:')) detByUuid.set(uuid, { slug, id: key.slice(4) })
-  }
-}
+const detByUuid = invertSourceIds('det')
 async function loadFaction(slug) {
   const mod = await loadModule(path.join(ROOT, 'src/data/factions', `${slug}.js`))
   return Object.values(mod || {})[0]?.en || null
@@ -122,7 +105,6 @@ for (const slug of Object.keys(sourceIds)) {
   }
 }
 
-const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 function nameRe(name) {
   const words = norm(name)
     .split(' ')
@@ -145,7 +127,6 @@ function bodyCapsInclusion(body, name) {
 }
 // wh11ed spells small counts out as words in prose ("up to three", "three or more"), not digits —
 // appdata's own min/max are always bare numbers, so check both forms.
-const NUMBER_WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten']
 function bodyHasNumber(body, n) {
   if (new RegExp(`\\b${n}\\b`).test(body)) return true
   const word = NUMBER_WORDS[n]

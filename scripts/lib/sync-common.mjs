@@ -128,6 +128,37 @@ export function sourceIds() {
   return loadJson(path.join(ROOT, 'src/data/sourceIds.json'))
 }
 
+// ---- small helpers duplicated verbatim across the audit scripts, hoisted here so there's one copy.
+// `table` reads an appdata table (memoized via loadJson); `nameOfEn` pulls its English name;
+// `groupBy` indexes rows by a key; `escapeRegex`/`NUMBER_WORDS` feed the prose name/number matchers.
+export const table = (f) => loadJson(path.join(APPDATA, 'tables', f)) || []
+export const nameOfEn = (r) => r?.localisations?.en?.name || ''
+export const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+export const NUMBER_WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten']
+export function groupBy(rows, key) {
+  const m = new Map()
+  for (const r of rows) {
+    const arr = m.get(r[key]) || []
+    arr.push(r)
+    m.set(r[key], arr)
+  }
+  return m
+}
+
+// Invert sourceIds.json for one entity-kind prefix ('det' | 'ds' | 'strat' | 'enh' | 'armyrule' | 'wg')
+// → Map(appdata uuid → { slug, id }). Several audit scripts hand-rolled this exact loop to translate
+// an appdata id back to the wh11ed entity that carries it across a rename.
+export function invertSourceIds(prefix) {
+  const p = `${prefix}:`
+  const out = new Map()
+  for (const [slug, entries] of Object.entries(sourceIds() || {})) {
+    for (const [key, uuid] of Object.entries(entries)) {
+      if (key.startsWith(p)) out.set(uuid, { slug, id: key.slice(p.length) })
+    }
+  }
+  return out
+}
+
 // All 30 wh40k-appdata faction bundles, loaded once. Several scripts (sync-leader-units,
 // sync-ally-inclusion, sync-roster-restrictions, sync-army-rule-coverage, sync-combat-patrol)
 // independently fs.readdirSync(factions/) + loadJson every bundle for their own purposes — same
