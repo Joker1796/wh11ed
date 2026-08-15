@@ -41,18 +41,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { ROOT, APPDATA, norm, loadJson, combatPatrolNames, loadWh11edDatasheets, sourceIds as sourceIdsMap } from './lib/sync-common.mjs'
-
-const read = (f) => loadJson(path.join(APPDATA, 'tables', f)) || []
-const groupBy = (rows, key) => {
-  const m = new Map()
-  for (const r of rows) {
-    const arr = m.get(r[key]) || []
-    arr.push(r)
-    m.set(r[key], arr)
-  }
-  return m
-}
+import { ROOT, APPDATA, norm, loadJson, combatPatrolNames, loadWh11edDatasheets, sourceIds as sourceIdsMap, table as read, groupBy, escapeRegex, NUMBER_WORDS } from './lib/sync-common.mjs'
 
 const wargearItemName = new Map(read('wargear_item.json').map((r) => [r.id, r?.localisations?.en?.name || '']))
 const wargearOptionItem = new Map(read('wargear_option.json').map((r) => [r.id, r.wargearItemId]))
@@ -156,7 +145,6 @@ for (const bml of read('base_miniature_loadout.json')) {
 }
 
 // --- Name/number presence checks --------------------------------------------------------------
-const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 // Last word gets an optional plural suffix — wh11ed/Ork-slang text often pluralizes informally
 // ("shoota" → "shootas"); this is loose on purpose (see header note on expected noise).
 function nameRegex(name) {
@@ -183,7 +171,6 @@ function nameRegex(name) {
 }
 // wh11ed sometimes spells a small count as a word, not a digit ("up to two of the following",
 // "more than twice") — check both forms before flagging.
-const NUMBER_WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten']
 function numberFound(n, text) {
   if (new RegExp(`\\b${n}\\b`).test(text)) return true
   if (NUMBER_WORDS[n] && new RegExp(`\\b${NUMBER_WORDS[n]}\\b`).test(text)) return true

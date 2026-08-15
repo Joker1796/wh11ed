@@ -42,9 +42,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { ROOT, APPDATA, loadJson, sourceIds as sourceIdsMap, allFactionBundles } from './lib/sync-common.mjs'
-
-const norm = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()
+import { ROOT, APPDATA, loadJson, sourceIds as sourceIdsMap, allFactionBundles, norm } from './lib/sync-common.mjs'
 
 export async function run() {
 // appdata datasheet.json: UPPER(name) → uuid[] (for resolving target bullets to our names)
