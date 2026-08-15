@@ -22,7 +22,9 @@
     "images:dims": "node scripts/gen-image-dims.mjs",
     "icons": "node scripts/gen-pwa-icons.mjs",
     "screenshots": "node scripts/gen-pwa-screenshots.mjs",
-    "splash": "node scripts/gen-ios-splash.mjs"
+    "splash": "node scripts/gen-ios-splash.mjs",
+    "translate:queue": "node scripts/gen-translation-queue.mjs",
+    "translate:check": "node scripts/gen-translation-queue.mjs --check"
   },
   "keywords": [],
   "author": "Joker1796",
