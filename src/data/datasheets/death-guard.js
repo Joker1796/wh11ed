@@ -778,7 +778,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 75,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 85,
+        "note": "4th+"
       }
     ],
     "flavor": "Clad in a cocoon of slime-smeared armour plating, Death Guard Rhinos are ubiquitous and versatile armoured transports. They can move Death Guard squads rapidly across the battlefield in their festering holds, taking them to new battlefronts, bearing them through hostile terrain or supporting armoured offensives.",
@@ -1140,7 +1146,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 330,
+        "points": 315,
         "note": "3rd+"
       }
     ],
@@ -1249,7 +1255,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 320,
+        "points": 340,
         "note": "2nd+"
       }
     ],
@@ -2059,7 +2065,7 @@ export default [
       "This model’s multi-melta can be replaced with one of the following:\n▪ 1 plasma cannon\n▪ 1 twin autocannon\n▪ 1 twin lascannon\n▪ 1 twin heavy bolter\n▪ 1 additional Helbrute fist",
       "1 of this model’s Helbrute fists can be replaced with 1 missile launcher",
       "1 of this model’s Helbrute fists can be replaced with one of the following:\n▪ 1 Helbrute hammer\n▪ 1 power scourge",
-      "For each Helbrute fist this model is equipped with, it can be equipped with one of the following:\n▪ 1 combi-bolter*\n▪ 1 heavy flamer*",
+      "For each Helbrute fist this model is equipped with, it can be equipped with one of the following:\n▪ 1 combi-bolter*\n▪ 1 heavy flamer*\n* That Helbrute fist cannot then be replaced.",
       "* That Helbrute fist cannot then be replaced."
     ],
     "keywords": [

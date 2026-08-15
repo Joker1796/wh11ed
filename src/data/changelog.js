@@ -17,6 +17,46 @@
 
 export const changelog = [
   {
+    version: '2.2.6',
+    date: '2026-08-15',
+    en: [
+      'Unit points updated to Munitorum Field Manual v1.2 across all factions — mostly cheaper repeat-unit surcharges ("3rd+"-style tiers), plus the missing "4th+" transport tiers (Rhino, Impulsor, Devilfish, Wave Serpent and others).',
+    ],
+    ru: [
+      'Очки юнитов обновлены до Munitorum Field Manual v1.2 по всем фракциям — в основном подешевевшие наценки за повторные юниты (ступени вида «3rd+»), плюс недостающие ступени «4th+» у транспортов (Rhino, Impulsor, Devilfish, Wave Serpent и другие).',
+    ],
+  },
+  {
+    version: '2.2.5',
+    date: '2026-08-07',
+    en: [
+      'Follow-up correctness pass on the rules data: Las-talon range corrected back to 36", Repentia Squad\'s Catechism of Divine Penitence attachment restored, Game Tracker deployment-point budgets fixed for three Space Marine Chapter detachments, and base-size notes added for a few multi-model units.',
+    ],
+    ru: [
+      'Дополнительная сверка данных правил: дальность Las-talon возвращена на 36", восстановлена фраза о прикреплении Catechism of Divine Penitence к Repentia Squad, исправлен бюджет очков развёртывания в трекере для трёх детачментов SM-глав, добавлены пометки о базах для нескольких многомодельных юнитов.',
+    ],
+  },
+  {
+    version: '2.2.4',
+    date: '2026-08-06',
+    en: [
+      'Rules data updated to match the latest Warhammer 40,000 app release (v2.4.0) — points, unit stats, wargear options and rule text refreshed across all factions, plus 4 new Aeldari Exodite units (Clanblade, Dragon Knights, Leystalker, Stonesinger).',
+    ],
+    ru: [
+      'Данные правил обновлены под последний релиз приложения Warhammer 40,000 (v2.4.0) — очки, характеристики юнитов, варианты вооружения и тексты правил освежены по всем фракциям, плюс 4 новых юнита Aeldari Exodites (Clanblade, Dragon Knights, Leystalker, Stonesinger).',
+    ],
+  },
+  {
+    version: '2.2.3',
+    date: '2026-08-05',
+    en: [
+      'Search now recognizes many more Russian nicknames and transliterations for datasheet units — dozens of additional named characters plus class-wide coverage for several vehicle and troop types (Necrons, Orks and others).',
+    ],
+    ru: [
+      'Поиск теперь понимает больше русских прозвищ и транслитераций для юнитов на датащитах — добавлены десятки именных персонажей и покрытие для нескольких типов техники и пехоты целыми классами (Necrons, Orks и другие).',
+    ],
+  },
+  {
     version: '2.2.2',
     date: '2026-08-02',
     en: [

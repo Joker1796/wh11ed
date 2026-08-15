@@ -1,4 +1,4 @@
-// Munitorum Field Manual v1.1 — points values for Warhammer 40,000 (11th ed).
+// Munitorum Field Manual v1.2 — points values for Warhammer 40,000 (11th ed).
 // Source: https://mfm.warhammer-community.com/en (English-only). This barrel re-exports
 // the per-faction modules in src/data/mfm/. Regenerate with `python3 scripts/scrape-mfm.py`
 // (see that script for the page's data-reveal quirks).
@@ -78,5 +78,5 @@ const en = [
   worldEaters,
 ]
 
-export const mfmVersion = '1.1'
+export const mfmVersion = '1.2'
 export const mfmFactions = { en, ru: en }

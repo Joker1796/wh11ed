@@ -634,3 +634,242 @@ and appdata state fresh; a data model can change between now and when this is ne
       are purely structural (booleans/ids, no rules-text field at all) — there is no appdata prose to
       paste even if wh11ed should carry this, making it a product/authoring decision rather than a
       transcription gap. Left as-is pending that decision.
+39. **913→925 bump (app v2.4.0, 2026-08-06) — a genuinely large delta, not a no-op.** Unlike the
+    909→912 no-op, this one carried real content: 4 brand-new Aeldari/Exodite datasheets (Clanblade,
+    Dragon Knights, Leystalker, Stonesinger — authored from scratch, EN+RU, no appdata `lore`/
+    `baseSize` yet for any of them, a genuine gap in the source not a transcription miss), real
+    points/stat changes (Drazhar's dual-blades profile), and ~30 real `sync-faction-text.mjs` fixes
+    across the full 29-faction pass —
+    **Correction (found during the 2026-08-07 catch-up pass): the Las-talon range change made in this
+    same commit was itself wrong and got reverted.** This bump changed Las-talon's range 36"→24" in
+    all 3 places it then appeared (`space-marines.js` Repulsor + Stormhawk Interceptor,
+    `black-templars.js`'s own Repulsor copy) — but appdata actually has **two distinct wargear items
+    both named "Las-talon"** with different ranges: the regular Adeptus Astartes one (id
+    `283991cf…`, range 36", used by Repulsor/Stormhawk Interceptor in `adeptus-astartes.json` and
+    `black-templars.json`) and a Grey-Knights-only variant of the Stormhawk Interceptor datasheet (id
+    `20de2661…`, range 24", grey-knights.json only). `grey-knights.js`'s own Stormhawk Interceptor was
+    already correctly 24" before and after this bump; the mistake was applying that 24" value to the
+    unrelated Space-Marines/Black-Templars copies too. `npm run sync`'s
+    `sync-appdata.mjs` output kept flagging `Repulsor`/`Stormhawk Interceptor` "weapon Las-talon range
+    differs: wh11ed=24" appdata=36"" every run after — re-verified against appdata directly (damage
+    D6+1 on the 36" item matches wh11ed's existing damage value, confirming it's the same weapon, just
+    misapplied) and reverted to 36" for `space-marines.js` (both occurrences) and
+    `black-templars.js`. **General principle: two appdata wargear rows can share an identical display
+    name but be genuinely different items (different id, different stats) — a same-name match across
+    different datasheets/bundles is not proof they're the same weapon; check the id and confirm which
+    datasheet each one is actually attached to before copying a value from one to another.**
+    including one that reused lesson 38's exact finding class a bump later: Space Marines'
+    **Bladeguard** ability had been fixed in EN at the 913 bump but the RU translation was never
+    updated to match — it still had the old pre-errata Swords/Shields-of-the-Chapter wording months
+    later. **Lesson: when fixing a `sync-faction-text.mjs` finding, RU parity is not optional and not
+    automatic — check the RU sibling file by hand every time, even for findings that look EN-only.**
+
+    **New false-positive classes confirmed this pass:**
+    - **Composition/loadout schema-split, especially on single-model datasheets.** appdata's raw
+      `unitComposition` is one string mixing the composition line *and* the equipped-with loadout
+      ("1 X model This model is equipped with: 1 Y; 1 Z…", digit-prefixed). wh11ed splits these into
+      separate `composition`/`loadout` fields and drops the redundant "1 " quantity prefix and the
+      "model(s)" suffix on each composition entry (`"1 Clanblade"`, not `"1 Clanblade model"`) — this
+      is house style, not a gap. The diff tool fuzzy-matches wh11ed's short `composition` array
+      against appdata's whole merged string and reliably flags a "differs" on any single/near-single-
+      model datasheet even when every word of content is already present correctly split out. Seen on
+      ~30 datasheets this pass across a dozen factions (Baneblade, Huron Blackheart, Logan Grimnar,
+      Wolf Guard Headtakers, all 4 new Aeldari units, …) — none needed a fix once cross-checked
+      against the actual `loadout`/`composition` fields side by side.
+    - **A "Keywords:" labeled paragraph inside a detachment rule is legitimate exactly when
+      `src/data/conditionalKeywords.json` already has a matching grant for that `det` slug** — it's
+      sourced from appdata's *structural* `conditional_keyword` table, not the rule's own prose, so
+      `sync-faction-text.mjs` will always flag it as "wh11ed adds". Grep the sidecar for the
+      detachment slug before touching one of these; if it's there, leave the paragraph alone (seen
+      confirmed-legitimate this pass: Blood Angels "A Noble Death in Combat" → Battleline grant for
+      Death Company Marines, Dark Angels "Masters of Manoeuvre" → Outrider Squad, Chaos Knights
+      "Marked Prey" → War Dog units, and several more). This refines lesson-38's "Restrictions:"
+      class: **"Restrictions:" clauses are essentially always legitimate (no counter-check needed);
+      "Keywords:" clauses need the sidecar check first** — unlike a bare stat/ability bonus tacked on
+      with no keyword name in it (e.g. Adepta Sororitas' "Righteous Purpose" OC+1-while-not-Battle-
+      shocked clause, confirmed *not* covered by any structural table and correctly deleted this
+      pass) — those really can be drift.
+    - **A single wh11ed detachment `rule` can legitimately merge 2–3 separately-named appdata rules**
+      via `### Sub-heading` markdown inside one `body` string (wh11ed has no schema for an array of
+      named rules per detachment) — `sync-faction-text.mjs` only compares by the FIRST rule's name,
+      so it always flags the merged-in extra sub-rules as "wh11ed adds". Check
+      `detachment.rules.map(r => r.name)` in the appdata JSON before deleting anything that looks
+      like extra content with its own `###` heading; if the count is >1, it's a legitimate merge
+      (confirmed this pass: Adeptus Custodes "Auric Armour" + "Moritoi Ancients", Astra Militarum
+      "Squadron Command" + "Order", Chaos Daemons "Murdercall" + "Blood Tainted" and "Beguiling Aura"
+      + "Seductive Gambit", Chaos Space Marines "Slaves to None" + "Vendetta" + "Twisted Doctrine").
+      Caught one real miss this way too: Chaos Daemons "Shadow Legion" only has ONE appdata rule
+      ("First Prince of Chaos") despite wh11ed's combined "Thralls of the First Prince & First Prince
+      of Chaos" name — but on inspection the "Thralls" content was still legitimate (roster
+      restriction + a confirmed `conditionalKeywords.json` grant), just not appdata-rules-array-
+      backed the same way; left alone.
+    - **A downloaded MFM PDF/site is not a safe substitute for appdata, even when the specific
+      mechanic (buy-more-copies-costs-more surcharge tiers) is real and already modeled in wh11ed's
+      schema (`points[].note`).** appdata's raw duplicate `unit_composition` rows for ~9 Space
+      Marines datasheets this bump (two point values per model-count tier, no note field to say
+      which is "base" vs "surcharge") turned out to genuinely be that surcharge mechanic — but the
+      exact threshold wording ("1st-2nd"/"3rd+" vs "1st-3rd"/"4th+", varies per unit, not derivable
+      by formula) isn't in appdata at all. A same-day web search for the current Munitorum Field
+      Manual PDF found a real download, but it silently disagreed with a value on an *unflagged,
+      unchanged* datasheet (Intercessor Squad) — proof it was a stale/wrong version, not a "PDF vs
+      appdata, which do I trust" judgment call. Confirms [[feedback_appdata_canon]]'s existing rule
+      to never let a manually-fetched PDF override appdata, extended here to "don't even bother
+      fetching one to resolve an appdata ambiguity — get exact numbers from the user (who can check
+      the live MFM site) instead of guessing or web-searching." Left unresolved pending user-supplied
+      numbers: Outrider Squad, Vanguard Veteran Squad With Jump Packs, Repulsor Executioner (both the
+      Codex: Space Marines and Black Templars-unique versions), Black Templars' Impulsor.
+40. **A catch-up pass over the 913→925 findings that had been triaged-but-deferred as "probably just
+    typos" (2026-08-07) — most of the deferred bulk really was noise, but a handful were real,
+    including one regression from the bump commit itself and one that had been wrong the whole
+    session.** Two genuinely new pure-format false-positive classes, confirmed at scale:
+    - **`sync-appdata.mjs`'s weapon `BS differs: wh11ed="N/A" appdata="-"`** — every auto-hit weapon
+      (Torrent-type flamers, etc., ~300 occurrences across all 30 factions) has no to-hit roll, so it
+      has no Ballistic Skill. wh11ed's house style writes `"N/A"`; appdata's raw export writes a bare
+      `"-"`. Same value, different placeholder string — not a content difference, don't "fix" wh11ed
+      to match appdata's dash.
+    - **The same placeholder mismatch on AIRCRAFT's `M`/`OC` fields** (`M differs: wh11ed="20+\""
+      appdata="-"` or `"20\""`; `OC differs: wh11ed="0" appdata="-"`, ~11 occurrences: Ares Gunship,
+      Archaeopter Fusilave/Stratoraptor, Grey Knights Thunderhawk Gunship, AX-1-0/Razorshark/Sun
+      Shark Bomber/Tiger Shark, Hive Crone). appdata's raw `statlines[].M`/`.OC` for every
+      **AIRCRAFT** is a literal `"-"` (a schema placeholder for "not applicable, see the AIRCRAFT
+      keyword rule"); wh11ed spells out the actual values the core rule defines (Move is always
+      treated as 20", OC is always 0) instead of leaving a dash. Verified against appdata's own raw
+      statline (`Ares Gunship`: `"M": "-", "OC": "-"`) — confirmed placeholder, not a real value to
+      copy over.
+    - **A datasheet's Leader/Support `leader.units` list can legitimately name a unit that lives in a
+      DIFFERENT appdata faction bundle than the leading character's own datasheet** — this is lesson
+      4's SM-Chapter shared-pool problem, but for bodyguard lists specifically (found via
+      `sync-appdata.mjs`'s structural `· bodyguard unit` diff, ~117 occurrences, not the
+      `sync-leader-units.mjs` prose check). A generic `space-marines.js` character (Captain,
+      Chaplain, …) can lead a Chapter-specific unit (Wolf Guard, Hounds Of Morkai, Deathwing Command
+      Squad, Skyclaws, Death Company Marines, Relic Terminator Squad, …) if the army is that Chapter
+      — but appdata's `adeptus-astartes.json` bundle's own `leaderOf` for that character only lists
+      units that live in the SAME bundle, so a Chapter-specific target always reads as "extra, not in
+      appdata." Same shape the other direction: a Chapter's own character (Marshal, Azrael, Asmodai,
+      Astorath, Sanguinary Priest, …) legitimately leads `Sternguard Veteran Squad`/`Deathwing Command
+      Squad` — a unit that only physically exists in the shared `space-marines.js` pool, not the
+      Chapter's own appdata bundle — same false "extra" every time. Also seen once outside the SM
+      family: aeldari's "The Visarch" lists `"Yvraine"` as a leader-unit target — not a squad but
+      literal stacking with another attached CHARACTER (the datasheet's own footer: *"…even if
+      Yvraine has already been attached to it"*), a compound-leader mechanic appdata's `leaderOf`
+      schema has no way to express at all. All confirmed real, correctly-modeled content — none of
+      these need a fix.
+    - **appdata's `wargear[].profiles[].type: 'ctanpowers'` has no wh11ed schema equivalent** —
+      wh11ed folds every weapon profile into one `ranged[]`/`melee[]` pair regardless of appdata's
+      finer `ranged`/`melee`/`ctanpowers` split. Necrons' C'tan-tier units (Tesseract Vault: Tesla
+      sphere/Antimatter Meteor/Cosmic Fire/Time's Arrow) always cross-report as "extra ranged weapon"
+      (wh11ed) + "missing ctanpowers weapon" (appdata) for the exact same weapons — checked by hand,
+      every name/stat pair is already present and correct in `ranged[]`, just not sorted into a
+      `ctanpowers[]` bucket wh11ed's datasheet shape doesn't have.
+    - **A datasheet's `core`/`faction` summary field sometimes just names the faction's own army
+      rule** (e.g. Chaos Daemons' `faction: "The Shadow of Chaos"`, Chaos Space Marines' `faction:
+      "Dark Pacts"`, Drukhari's `faction: "Power from Pain"`) — appdata's per-datasheet `abilities[]`
+      array never repeats the army rule there (it's stated once at the faction level, not copied onto
+      every unit), so `sync-appdata.mjs`'s `core/faction differ` check always flags the army-rule name
+      as an "extra" ability on every single datasheet of that faction. Confirmed by grepping the name
+      against `src/data/factions/<slug>.js`'s own `armyRule.name` — if it matches, this is expected,
+      not a gap.
+    - **An ability can be a real, correctly-catalogued appdata entry with matching text and STILL be
+      invisible in the flat per-faction export**, if its join row to a datasheet is simply missing
+      from `tables/datasheet_datasheet_ability.json`. Found via two `extra ability (not in appdata)`
+      flags that turned out not to be extra at all: Tyranids' The Red Terror's "Serpentine Fiend" and
+      Adeptus Mechanicus' Thulia Ghuld's "Cybernetic Augmentation" (identical shared boilerplate text
+      about moving through terrain/RUINS floors, also used correctly-joined elsewhere, e.g.
+      adeptus-custodes.js/chaos-daemons.js). Both ability NAMES exist verbatim in
+      `tables/datasheet_ability.json` with the exact same rules text wh11ed already has — but neither
+      has a corresponding row in `datasheet_datasheet_ability.json` linking it to ANY datasheet. The
+      flat per-faction JSON is built entirely from that join, so a real ability with a broken/missing
+      join row silently vanishes from the export even though its text is sitting right there in the
+      catalog under the exact right name. Don't delete an "extra ability" on the strength of "not in
+      the faction JSON" alone — grep `datasheet_ability.json` by name first.
+    - **A wargear-option/wargearRules text diff that pairs arrays POSITIONALLY can show the wrong
+      comparison pair when the two sides' arrays are ordered or sized differently, even though the
+      actually-matching item is correct elsewhere in the same array.** Not a script bug worth fixing
+      here, just a read-around: `sync-faction-text.mjs`'s wargear-option diffs for Deathwatch
+      Veterans ("...replaced with 1 Black Shield blades" flagged against appdata's item #1 instead of
+      its real match, item #7), Decimus/Aquila Kill Team ("...stalker bolt rifle...plasma
+      incinerator" flagged against appdata's unrelated item #1), and Catachan Command Squad
+      ("medi-pack" flagged against appdata's item #4) all turned out to be already fully correct in
+      wh11ed once the FULL `options[]` array was read side-by-side with appdata's full
+      `wargearRules[]` array instead of trusting the single paired line the report printed. **General
+      principle: when a wargear-option diff looks like wh11ed is simplifying or omitting an option,
+      read the datasheet's ENTIRE options array (both sides) before concluding anything — the report's
+      one-line pairing is a hint of where to look, not proof of what's missing.**
+    - **`foldBaseSize`'s token-order-sensitive join can flag two mergeable-baseSize datasheets as
+      "differs" purely because of listing order or terseness, not content.** Spectrus Kill Team
+      (`32mm / 40mm` wh11ed vs appdata's per-model `"Kill Team Infiltrators…: 40mm\nOther models:
+      32mm"`) and Breaka Boyz/Tankbustas (`32mm / 40mm` vs appdata's `"Boss Nob: 40mm\n<unit>:
+      32mm"`) carry the identical two values, just in the opposite order (appdata lists the special
+      model first, wh11ed lists the base unit first) — `foldBaseSize` joins tokens in source order, so
+      swapped order alone triggers a diff. Separately, Wartrakk/Land Speeder (`105x70mm Oval Base` in
+      wh11ed vs appdata's bare `"105mm oval"`, no second dimension) is appdata being terser, not
+      wrong — GW's actual base for these is the standard 105×70mm oval, wh11ed's fuller value is
+      correct. Neither class needs a fix; sort/compare the value SETS by hand, not the literal string.
+    - **A single wh11ed `composition[]` line can legitimately be broader than appdata's own
+      `unitComposition` when the unit's `points[]` already prove the broader range is real.** Tau
+      Empire's Tidewall Shieldline: wh11ed's composition reads `"1-2 Tidewall Shieldlines"`, appdata's
+      prose says only `"1 Tidewall Shieldline"` — but appdata's own `points[]` array has BOTH a
+      1-model tier (85pts) and a 2-model tier (105pts), confirming the unit can legally be bought as
+      2 in appdata's own structural data even though its composition prose only states the minimum.
+      Cross-check the points array before assuming a composition-count mismatch is a wh11ed
+      invention.
+41. **Real bugs found and fixed in the same catch-up pass (2026-08-07), for the record — not false
+    positives, confirmed and corrected:**
+    - **adepta-sororitas' "Catechism of Divine Penitence" lost its Repentia Squad attach clause in
+      the 913→925 bump commit itself** (`f4d2cdf`), in both EN and RU — a straight content
+      regression, not a pre-existing gap: lesson 21 already documented this exact clause as
+      structurally confirmed via `enhancement_bodyguard_group`(`_datasheet`) in an EARLIER pass, and
+      the bump commit's diff shows the sentence being deleted (`"...gains the PENITENT
+      keyword.\n\nIn the Declare Battle Formations step, the bearer can be attached to a Repentia
+      Squad unit."` → `"...gains the PENITENT keyword."`) with no replacement text and no
+      corresponding appdata change to justify it. Restored in both `src/data/factions/adepta-
+      sororitas.js` and `ru/adepta-sororitas.js`. **General principle: when auditing a past bump
+      commit, diff its OWN patch for content that disappears without a corresponding appdata reason —
+      a bulk sync pass can accidentally regress a previously-confirmed fix, and nothing about the
+      normal sync workflow re-checks a line that already "passed" a prior pass.**
+    - **Adeptus Mechanicus' Skitarii Rangers/Skitarii Vanguard were missing the Transuranic Arquebus'
+      dedicated 60×35.5mm oval base note** — both datasheets already correctly list "Transuranic
+      arquebus" in `ranged[]` and as a wargear option, but `baseSize` only said `"25mm"` where
+      appdata has `"<unit>: 25mm\nTransuranic Arquebus: 60 x 35.5mm Oval Base"`. Fixed to `"25mm /
+      60x35.5mm Oval Base"` (the file's own established `"<a> / <b>"` multi-base convention).
+    - **Imperial Agents' Exaction Squad/Subductor Squad/Vigilant Squad (Cyber-mastiff sub-model) and
+      Imperial Navy Breachers/Inquisitorial Agents (a differently-based wargear-variant model/Gun
+      Servitors) were all missing their secondary baseSize note** the same way — each unit's
+      composition genuinely includes a smaller/larger-based model (confirmed via each unit's own
+      `composition`/`loadout` text already mentioning it), appdata's `baseSize` lists both sizes,
+      wh11ed only had the primary one. Fixed all 5 to the `"<a> / <b>"` form.
+    - **Space Marines' Repulsor + Stormhawk Interceptor, and Black Templars' own Repulsor: Las-talon
+      range reverted 24"→36"** — see the correction folded into lesson 39 above. This was the 913→925
+      bump's own mistake (conflating the Grey-Knights-only 24" Las-talon variant with the regular
+      36" one), not a new appdata drift.
+    - **4 Space Marines detachments' `dp` (Deployment Points, the battle-size setup budget) in
+      `src/data/mfm/*.js` had been transcribed wrong for 3 of the 5 SM-Chapter factions**, found via
+      `sync-tracker.mjs`'s per-faction detachment-dp check (which folds in `adeptus-astartes.json` as
+      the canonical source the same way `StratagemsView.vue` does at runtime): `black-templars.js`
+      had Bastion Task Force and Stormlance Task Force's `dp` values **swapped** (3/2 instead of the
+      canonical 2/3), and `blood-angels.js`/`deathwatch.js` each had Stormlance Task Force alone
+      wrong (2 instead of 3) while their Bastion Task Force was already correct. `space-marines.js`/
+      `dark-angels.js`/`space-wolves.js` were already correct and served as the cross-check baseline.
+      This is EN-only tracker data (`mfmFactions.js` header: "`ru` reuses the same array"), so no RU
+      counterpart to fix. This directly affects the Game Tracker's setup wizard (wrong DP budget for
+      that detachment at that battle size) — a real gameplay-facing bug, not cosmetic.
+42. **`sync-tracker.mjs`'s primary/secondary mission scoring-row diff surfaced one finding that needs
+    a human call, not a silent fix, because the two sides encode genuinely different SCORING LOGIC,
+    not just different wording — left open, not applied.** Secondary mission "Defend Stronghold":
+    wh11ed has one combined row, `"You control your home objective and no enemy units are within your
+    deployment zone."` worth a flat 5vp. appdata's structural `secondary_mission_objective_scoring`
+    table has TWO separate rows instead: `"You control your home objective."` (3vp, standard) and,
+    as a SEPARATE, `isCumulative: true` row, `"No enemy units are within your deployment zone."`
+    (+2vp). If appdata's structure is the actual current rule, a player who controls their home
+    objective but still has enemies in their deployment zone should score 3vp under the real card —
+    wh11ed's all-or-nothing AND condition would wrongly score 0. This changes actual tracker scoring
+    behaviour at the table, unlike every wording-only diff elsewhere in this file, so it was
+    deliberately NOT auto-applied — needs checking against the physical card (or user confirmation)
+    before touching `src/data/missions.js`'s `defend-stronghold` blocks.
+43. **Drukhari's "ally name 'Asuryani' not found" open item (lesson 38) has grown from 5 to 8
+    detachments as of the 925 snapshot** (`sync-ally-inclusion.mjs`: Covenite Coterie, Realspace
+    Raiders, Spectacle of Spite, Kabalite Cartel, Skysplinter Assault, Exhibition of Slaughter,
+    Kabalite Agonysts, Tools of Torment) — still the same deliberately-deferred product decision, not
+    a new bug (appdata's `allied_faction*` tables remain purely structural with no rules-text field
+    to transcribe from). Noting the updated count so a future pass doesn't have to re-derive that
+    this is the same open question, just with more detachments now matching the pattern.

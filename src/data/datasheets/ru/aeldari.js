@@ -14,6 +14,8 @@ const MISTSHIELD = 'Носитель имеет инвулевый спас-бр
 const ASPECT_TOKEN =
   'Один раз за битву за каждый Aspect Shrine token этого юнита вы можете изменить результат одного броска попадания или одного броска ранения, сделанного для модели этого юнита (исключая модели CHARACTER), на немодифицированный 6.\n\n**Примечание разработчика:** положите рядом с юнитом жетон Aspect Shrine за каждый его Aspect Shrine token, убирая по одному каждый раз, когда эта способность задействуется.'
 const ASPECT_TOKEN_OPT = 'За каждые 5 моделей в этом юните он может иметь 1 Aspect Shrine token.'
+const DRAKOLITHE =
+  'Когда вражеский юнит завершает манёвр в пределах 8" от этого юнита, если этот юнит не в дистанции ввязывания или если этот вражеский юнит завершил этот манёвр в дистанции ввязывания этого юнита, вы можете задействовать эту способность. Если вы это делаете, бросьте один D6:\n▪ На 3+ этот вражеский юнит получает 1 смертельную рану. Положите рядом с юнитом жетон Drakolithe за каждый Drakolithe, которым вооружён юнит, убирая по одному каждый раз, когда эта способность задействуется.'
 const FLIP_BELT =
   'Каждый раз, когда юнит носителя совершает обычный манёвр, продвижение, отступление или манёвр нападения, игнорируйте любое вертикальное расстояние при определении общего расстояния, на которое носитель может быть перемещён в этом манёвре.'
 const TRAVELLING_PLAYERS =
@@ -105,6 +107,16 @@ export default {
     leader: { text: LEADER_TEXT },
   },
 
+  clanblade: {
+    abilities: {
+      'Blade of the Clans': 'Атаки этого юнита в ближнем бою имеют способность [SUSTAINED HITS 1].',
+      'Cornered Prey':
+        'Когда вражеский юнит, находящийся в дистанции ввязывания этого юнита, выбирается совершить отступление, этот вражеский юнит обязан использовать режим Desperate Escape. Если этот вражеский юнит в боевом шоке, вычтите 1 из этих бросков опасности (hazard rolls).',
+    },
+    loadout: `${EQUIP_THIS} Drakesteed Fangs and Talons; Moonblades; Solar Carbine.`,
+    leader: { text: LEADER_TEXT },
+  },
+
   'corsair-skyreavers': {
     flavor:
       'Снаряжённые крылатыми прыжковыми ранцами, Corsair Skyreaver используются командирами Anhrathe как мобильные ударные войска. Безрассудно бросаясь в схватку, они пускают в ход набор ослепительного оружия, полагаясь на скорость, проворность и дерзость, чтобы уклоняться от встречных ударов и кромсать противников в клочья.',
@@ -115,7 +127,7 @@ export default {
     loadout: `${EQUIP_EVERY} shuriken pistol; Corsair blade.`,
     options: [
       'Skyreaver Felarch может заменить свой shuriken pistol на одно из следующего:\n▪ 1 blast pistol\n▪ 1 neuro disruptor',
-      'За каждые 5 моделей в юните у до 2 моделей Skyreaver их shuriken pistol и Corsair blade можно заменить на одно из следующего*:\n▪ 1 blaster и 1 close combat weapon\n▪ 1 flamer и 1 close combat weapon\n▪ 1 fusion gun и 1 close combat weapon\n▪ 1 shredder и 1 close combat weapon',
+      'За каждые 5 моделей в юните у до 2 моделей Skyreaver их shuriken pistol и Corsair blade можно заменить на одно из следующего*:\n▪ 1 blaster и 1 close combat weapon\n▪ 1 flamer и 1 close combat weapon\n▪ 1 fusion gun и 1 close combat weapon\n▪ 1 shredder и 1 close combat weapon\n* Нельзя выбрать один и тот же вариант больше одного раза за юнит, если только он не содержит 10 моделей — тогда нельзя выбрать одно и то же оружие больше двух раз.',
       '* Нельзя выбрать одну и ту же опцию более раза на юнит, если только он не содержит 10 моделей — тогда нельзя выбрать одно и то же оружие более двух раз на юнит.',
     ],
   },
@@ -247,6 +259,20 @@ export default {
       'shuriken pistol у Dire Avenger Exarch можно заменить на 1 shimmershield.',
       ASPECT_TOKEN_OPT,
     ],
+  },
+
+  'dragon-knights': {
+    abilities: {
+      'On the Hunt':
+        'Когда этот юнит выбирается для отступления, это отступление не мешает этому юниту оставаться готовым стрелять и готовым объявить нападение.',
+      'Agile Reach':
+        'Когда этот юнит выбирается сражаться, оружие ближнего боя незадействованных (unengaged) моделей этого юнита, находящихся в пределах 3" от вражеского юнита, находящегося в дистанции ввязывания этого юнита, может нацеливаться на этот вражеский юнит.',
+    },
+    wargear: {
+      Drakolithe: DRAKOLITHE,
+    },
+    loadout: `${EQUIP_EVERY} Drakesteed Fangs and Talons; Laser Lance; Solar Carbine.`,
+    options: ['За каждые 3 модели в этом юните он может быть вооружён 2 Drakolithe.'],
   },
 
   'eldrad-ulthran': {
@@ -426,6 +452,17 @@ export default {
     loadout: `${EQUIP_THIS} Dread of the Deep Void; Waystave.`,
     options: ['Нет.'],
     leader: { text: LEADER_TEXT },
+  },
+
+  leystalker: {
+    abilities: {
+      'Panicked Quarry':
+        'В вашей фазе стрельбы, после того как этот юнит отстрелялся, выберите один вражеский юнит (исключая юниты Monster/Vehicle), поражённый этими атаками. Этот вражеский юнит совершает проверку боевого шока с -1 к этой проверке.',
+    },
+    wargear: {
+      Drakolithe: DRAKOLITHE,
+    },
+    loadout: `${EQUIP_THIS} 2 Drakolithe; Drakesteed Fangs and Talons; Long Rifle; Hunting Blades.`,
   },
 
   lhykhis: {
@@ -666,6 +703,15 @@ export default {
     transport: 'Эта модель имеет транспортную вместимость 6 моделей Harlequins Infantry.',
   },
 
+  stonesinger: {
+    abilities: {
+      'Elemental Ensnarement':
+        'В конце вашей фазы боя, если этот юнит не в боевом шоке, вы можете задействовать эту способность. Если вы это делаете, бросьте один D6:\n▪ На 1 этот юнит оказывается в боевом шоке.\n▪ Выберите один видимый вражеский юнит Monster/Vehicle (исключая юниты Titanic) в пределах 18" от этого юнита. Этот вражеский юнит считается опутанным (ensnared) до начала вашего следующего хода. Пока юнит опутан, его характеристика Движения (M) уменьшена на 2", и его нельзя прижать (pinned).',
+    },
+    loadout: `${EQUIP_THIS} Drakesteed Fangs and Talons; Song of Waning; Solar Carbine; Stone Stave; Venomcrest Spit.`,
+    leader: { text: LEADER_TEXT },
+  },
+
   'storm-guardians': {
     flavor:
       'Storm Guardian часто поддерживают Aspect Warriors в ближнем бою, владея пистолетами и клинками со всей грацией и мастерством своего рода. Другие Storm Guardian пускают в ход особое оружие, выжигая врагов из укрытий очередями flamer или проплавляя бронированные бункеры своими fusion gun.',
@@ -683,7 +729,7 @@ export default {
     options: [
       'До 2 Storm Guardian их shuriken pistol можно заменить на 1 flamer.',
       'До 2 Storm Guardian их shuriken pistol можно заменить на 1 fusion gun.',
-      'До 2 Storm Guardian их close combat weapon можно заменить на 1 power sword.',
+      'До 2 Storm Guardian их Guardian combat weapon можно заменить на 1 power sword.',
     ],
   },
 
@@ -1177,7 +1223,7 @@ export default {
       'Word of the Phoenix (Psychic)':
         'Пока эта модель возглавляет юнит, в вашей фазе командования бросьте один D6: на 2+ D3+1 уничтоженных моделей-Bodyguard (исключая модели Support Weapon) возвращаются в этот юнит с полными ранами.',
       'Herald of Ynnead':
-        'В начале фазы ближнего боя выберите один вражеский юнит в дистанции ввязывания этой модели. До конца фазы каждый раз, когда дружественная модель AELDARI совершает атаку по этому юниту, вы можете перебросить бросок ранения, равный 1.',
+        '**Herald of Ynnead:** В начале фазы ближнего боя выберите один вражеский юнит в дистанции ввязывания этой модели. До конца фазы каждый раз, когда дружественная модель AELDARI совершает атаку по этому юниту, вы можете перебросить бросок ранения, равный 1.',
     },
     special: {
       'SERVANT OF THE WHISPERING GOD':
@@ -1189,6 +1235,13 @@ export default {
 }
 
 export const abilityNamesRu = {
+  'Blade of the Clans': 'Клинок кланов',
+  'Cornered Prey': 'Загнанная добыча',
+  'On the Hunt': 'На охоте',
+  'Agile Reach': 'Подвижная досягаемость',
+  'Panicked Quarry': 'Паникующая добыча',
+  'Elemental Ensnarement': 'Стихийное опутывание',
+  Drakolithe: 'Драколит',
   'Rapid Embarkation': 'Быстрая погрузка',
   Stormblades: 'Штормовые клинки',
   'Crewed Platform': 'Обслуживаемая платформа',

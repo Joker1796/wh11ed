@@ -281,8 +281,8 @@ export default {
       '**Каждая модель вооружена:** autopistol; Hybrid firearm; close combat weapon.',
     options: [
       'Один Neophyte Hybrid, снаряжённый Hybrid firearm, может быть снаряжён 1 cult icon.',
-      'На каждые 10 моделей в этом юните до 2 Neophyte Hybrids могут заменить свой Hybrid firearm на одно из следующего:\n▪ Heavy stubber*\n▪ Mining laser*\n▪ Seismic cannon*',
-      'На каждые 10 моделей в этом юните до 2 Neophyte Hybrids могут заменить свой Hybrid firearm на одно из следующего:\n▪ Flamer*\n▪ Grenade launcher*\n▪ Webber*',
+      'На каждые 10 моделей в этом юните до 2 Neophyte Hybrids могут заменить свой Hybrid firearm на одно из следующего:\n▪ Heavy stubber*\n▪ Mining laser*\n▪ Seismic cannon*\n* Максимум 1 на каждые 10 моделей в этом юните.',
+      'На каждые 10 моделей в этом юните до 2 Neophyte Hybrids могут заменить свой Hybrid firearm на одно из следующего:\n▪ Flamer*\n▪ Grenade launcher*\n▪ Webber*\n* Максимум 1 на каждые 10 моделей в этом юните.',
       'Hybrid firearm и close combat weapon у Neophyte Leader можно заменить на одно из следующего:\n▪ 1 anointed pistol и 1 chainsword\n▪ 1 anointed pistol и 1 power weapon',
       '* До максимума 1 на каждые 10 моделей в этом юните.',
     ],

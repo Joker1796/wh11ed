@@ -700,13 +700,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 115,
-        "note": "1st-2nd"
-      },
-      {
-        "models": 1,
-        "points": 110,
-        "note": "3rd+"
+        "points": 115
       }
     ],
     "flavor": "Dakkarigs are ridden into battle by Big Meks, and provide a stable firing platform for some really heavy firepower. Lumbering relentlessly forward, they unleash corkscrewing hails of rokkits, and hurricanes of dakka from their screaming blitzkannons, all while their gleeful pilot is protected from return fire by a crackling kustom force field.",
@@ -930,12 +924,12 @@ export default [
       {
         "models": 1,
         "points": 70,
-        "note": "1st-2nd"
+        "note": "1st"
       },
       {
         "models": 1,
         "points": 80,
-        "note": "3rd+"
+        "note": "2nd+"
       }
     ],
     "flavor": "Big Moks arc musters of insane but highly destructive weaponry. Amongst the strangest devices that some lug to battle is the shokk attack gun which opens a tunnel through the warp to its target, then launches screaming Snot lings down it. I he ammunition remoteriolise os a terror-maddened, clawing, biting swarm. If this happens inside the target, the results orc swift and horrific.",
@@ -1477,11 +1471,23 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 75
+        "points": 75,
+        "note": "1st-3rd"
       },
       {
         "models": 20,
-        "points": 160
+        "points": 160,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 10,
+        "points": 85,
+        "note": "4th+"
+      },
+      {
+        "models": 20,
+        "points": 170,
+        "note": "4th+"
       }
     ],
     "flavor": "Ork Boyz surge into battle in huge, unruly mobs dotted with crude special weapons and led by foul-tempered Boss Nobz. Most simply stampede towards the enemy lines, relying on their numbers and natural hardiness to carry the charge home, while others hitch a ride on Trukks and Battlewagons so as to get stuck in all the faster.",
@@ -2927,29 +2933,24 @@ export default [
     "name": "Gretchin",
     "points": [
       {
-        "models": 10,
         "points": 45,
         "note": "10 Gretchin"
       },
       {
-        "models": 11,
         "points": 45,
-        "note": "10 Gretchin, 1 Runtherd"
+        "note": "1 Runtherd, 10 Gretchin"
       },
       {
-        "models": 20,
         "points": 80,
         "note": "20 Gretchin"
       },
       {
-        "models": 21,
         "points": 85,
-        "note": "20 Gretchin, 1 Runtherd"
+        "note": "1 Runtherd, 20 Gretchin"
       },
       {
-        "models": 22,
         "points": 90,
-        "note": "20 Gretchin, 2 Runtherd"
+        "note": "2 Runtherd, 20 Gretchin"
       }
     ],
     "flavor": "What Gretchin – also called grots – lack in stature, courage, resilience, discipline, motivation, loyalty, aggression and personal hygiene, they allegedly make up for in numbers. They are at least reasonable shots with their underpowered firearms, and if all else fails, the Orks find that grots make excellent bullet-stops.",
@@ -5539,7 +5540,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 55
+        "points": 55,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 65,
+        "note": "4th+"
       }
     ],
     "flavor": "Trukks are ramshackle assemblages of hastily welded and riveted scrap metal bolted to overpowered engine blocks and rusty chassis. Rolling on fat, armoured tyres, they bear mobs of Orks into battle at high speed, shrugging off enemy fire by the simple expedient of shedding ablative panels and plates.",

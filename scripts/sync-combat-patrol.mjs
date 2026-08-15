@@ -19,11 +19,10 @@
 // `npm run sync`).
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { APPDATA, SLUG_MAP, norm, loadJson, diffSet, allFactionBundles } from './lib/sync-common.mjs'
+import { APPDATA, SLUG_MAP, norm, loadJson, diffSet, allFactionBundles, table as read } from './lib/sync-common.mjs'
 import { combatPatrol } from '../src/data/combatPatrol.js'
 import { combatPatrolIndex } from '../src/data/combatPatrolIndex.js'
 
-const read = (f) => loadJson(path.join(APPDATA, 'tables', f)) || []
 
 export async function run() {
 const cpPubIds = new Set(read('publication.json').filter((p) => p.isCombatPatrol).map((p) => p.id))

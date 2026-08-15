@@ -145,7 +145,7 @@ export default {
         'В фазе стрельбы вашего оппонента, каждый раз, когда вражеский юнит отстрелялся, если какие-либо модели этого юнита были уничтожены в результате этих атак, этот юнит может совершить рывок (Surge move) до D6+2".',
     },
     loadout:
-      '**Sword Brother вооружён:** heavy bolt pistol; master-crafted power weapon.\n\n**Каждый Initiate вооружён:** bolt pistol; bolt rifle; close combat weapon.\n\n**Каждый Neophyte вооружён:** bolt pistol; Astartes chainsword.',
+      '**Primaris Sword Brother вооружён:** heavy bolt pistol; master-crafted power weapon.\n\n**Каждый Primaris Initiate вооружён:** bolt pistol; bolt rifle; close combat weapon.\n\n**Каждый Primaris Neophyte вооружён:** bolt pistol; Astartes chainsword.',
     options: [
       'heavy bolt pistol у Sword Brother можно заменить на 1 pyre pistol.',
       'Любому числу Neophyte их bolt pistol и Astartes chainsword можно заменить на 1 Neophyte firearm и 1 close combat weapon.',

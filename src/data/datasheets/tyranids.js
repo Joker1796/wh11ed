@@ -1378,7 +1378,7 @@ export default [
     "loadout": "**This model is equipped with:** monstrous bonesword and lash whip; monstrous scything talons.",
     "options": [
       "This model’s monstrous bonesword and lash whip can be replaced with one of the following:\n▪ 1 heavy venom cannon\n▪ 1 stranglethorn cannon\n▪ 1 monstrous scything talons",
-      "This model’s monstrous scything talons can be replaced with one of the following:\n▪ 1 heavy venom cannon*\n▪ 1 stranglethorn cannon*",
+      "This model’s monstrous scything talons can be replaced with one of the following:\n▪ 1 heavy venom cannon*\n▪ 1 stranglethorn cannon*\n* This model cannot be equipped with both a stranglethorn cannon and a heavy venom cannon. This model cannot be equipped with more than 1 heavy venom cannon, and it cannot be equipped with more than 1 stranglethorn cannon.",
       "*This model cannot be equipped with both a stranglethorn cannon and a heavy venom cannon. This model cannot be equipped with more than 1 heavy venom cannon, and it cannot be equipped with more than 1 stranglethorn cannon."
     ],
     "leader": {
@@ -1649,7 +1649,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 190,
+        "points": 200,
         "note": "3rd+"
       }
     ],
@@ -3815,7 +3815,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 80
+        "points": 80,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 90,
+        "note": "4th+"
       }
     ],
     "flavor": "Tyrannocytes are huge spores, heat-resistant to endure atmospheric re-entry and with wet, pulsing interior chambers within which broods of organisms can ride down to a world’s surface. Once its passengers spill forth into battle, the Tyrannocyte drifts skyward again and goes hunting for its own prey.",

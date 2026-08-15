@@ -53,19 +53,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { ROOT, APPDATA, norm, appdataToMarkup, loadJson, loadModule, sourceIds as sourceIdsMap } from './lib/sync-common.mjs'
-
-const read = (f) => loadJson(path.join(APPDATA, 'tables', f)) || []
-const nameOf = (r) => r?.localisations?.en?.name || ''
-const groupBy = (rows, key) => {
-  const m = new Map()
-  for (const r of rows) {
-    const arr = m.get(r[key]) || []
-    arr.push(r)
-    m.set(r[key], arr)
-  }
-  return m
-}
+import { ROOT, APPDATA, norm, appdataToMarkup, loadJson, loadModule, sourceIds as sourceIdsMap, table as read, nameOfEn as nameOf, groupBy } from './lib/sync-common.mjs'
 
 const factionKeywordName = new Map(read('faction_keyword.json').map((r) => [r.id, nameOf(r)]))
 const keywordName = new Map(read('keyword.json').map((r) => [r.id, nameOf(r)]))

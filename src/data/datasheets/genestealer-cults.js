@@ -18,12 +18,12 @@ export default [
       },
       {
         "models": 5,
-        "points": 160,
+        "points": 150,
         "note": "3rd+"
       },
       {
         "models": 10,
-        "points": 310,
+        "points": 290,
         "note": "3rd+"
       }
     ],
@@ -1185,7 +1185,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 75,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 85,
+        "note": "4th+"
       }
     ],
     "flavor": "Robust and versatile, the Goliath Truck is the armoured transport of choice for the Genestealer Cults. These vehicles boast thick armour and capacious holds, and their heavy stubber and twin autocannon allow the crew to lay down a hail of supporting fire as the broodkin passengers disembark into battle.",
@@ -1297,7 +1303,7 @@ export default [
       },
       {
         "models": 10,
-        "points": 160,
+        "points": 150,
         "note": "3rd+"
       }
     ],
@@ -1925,8 +1931,8 @@ export default [
     "loadout": "**Every model is equipped with:** autopistol; Hybrid firearm; close combat weapon.",
     "options": [
       "One Neophyte Hybrid equipped with a Hybrid firearm can be equipped with 1 cult icon.",
-      "For every 10 models in this unit, up to 2 Neophyte Hybrids can each have their Hybrid firearm replaced with one of the following:\n▪ Heavy stubber*\n▪ Mining laser*\n▪ Seismic cannon*",
-      "For every 10 models in this unit, up to 2 Neophyte Hybrids can each have their Hybrid firearm replaced with one of the following:\n▪ Flamer*\n▪ Grenade launcher*\n▪ Webber*",
+      "For every 10 models in this unit, up to 2 Neophyte Hybrids can each have their Hybrid firearm replaced with one of the following:\n▪ Heavy stubber*\n▪ Mining laser*\n▪ Seismic cannon*\n* To a maximum of 1 per 10 models in this unit.",
+      "For every 10 models in this unit, up to 2 Neophyte Hybrids can each have their Hybrid firearm replaced with one of the following:\n▪ Flamer*\n▪ Grenade launcher*\n▪ Webber*\n* To a maximum of 1 per 10 models in this unit.",
       "The Neophyte Leader’s Hybrid firearm and close combat weapon can be replaced with 1 of the following:\n▪ 1 anointed pistol and 1 chainsword\n▪ 1 anointed pistol and 1 power weapon",
       "* To a maximum of 1 per 10 models in this unit."
     ],
@@ -2214,7 +2220,7 @@ export default [
       },
       {
         "models": 5,
-        "points": 90,
+        "points": 85,
         "note": "3rd+"
       },
       {
@@ -2275,7 +2281,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 70,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 80,
+        "note": "3rd+"
       }
     ],
     "flavor": "There is no engine of the oppressors that a Reductus Saboteur cannot lay low, and few materials they cannot fashion into a bomb given a little time to tinker. Flitting through the shadows, they lace the battlefield with booby traps and deploy powerful explosives that make short work of enemy armour.",

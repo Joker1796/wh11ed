@@ -39,9 +39,8 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { ROOT, APPDATA, loadJson, loadModule, sourceIds as sourceIdsMap } from './lib/sync-common.mjs'
+import { ROOT, APPDATA, loadJson, loadModule, sourceIds as sourceIdsMap, table as read } from './lib/sync-common.mjs'
 
-const read = (f) => loadJson(path.join(APPDATA, 'tables', f)) || []
 
 // Common words that appear in nearly every detachment rule regardless of content — excluded from
 // the overlap ratio so two unrelated paragraphs sharing "your army unit" don't look like a match.
