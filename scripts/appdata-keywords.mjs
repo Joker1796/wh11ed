@@ -20,12 +20,15 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
+import { SLUG_MAP as ALIAS } from './lib/sync-common.mjs'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const APPDATA = process.env.WH40K_APPDATA_PATH || path.join(ROOT, '..', 'wh40k-appdata')
 const DS = path.join(ROOT, 'src', 'data', 'datasheets')
-// wh11ed datasheet-file slug → appdata faction-bundle slug (they diverge for these two).
-const ALIAS = { 'space-marines': 'adeptus-astartes', 'chaos-space-marines': 'heretic-astartes' }
+// wh11ed datasheet-file slug → appdata faction-bundle slug (they diverge for 7 factions).
+// Single source of truth is SLUG_MAP in sync-common.mjs (imported above as ALIAS) — a local
+// 2-entry copy used to silently skip aeldari/chaos-daemons/imperial-agents/titan-legions/
+// chaos-titan-legions, resolving them to a non-existent bundle.
 
 const args = process.argv.slice(2)
 const APPLY = args.includes('--apply')
