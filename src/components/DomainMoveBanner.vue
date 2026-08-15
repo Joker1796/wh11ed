@@ -7,7 +7,7 @@
     <template v-if="mode === 'pre'">
       <p class="db-title">
         {{ labels.domainMovePreTitle }}
-        <span class="db-host">{{ newHost }}</span>
+        <a :href="MOVED_TO_ORIGIN" class="db-link">{{ newHost }}</a>
       </p>
       <p class="db-note">
         {{ labels.domainMovePreNote1 }}
@@ -39,9 +39,9 @@ const newHost = MOVED_TO_ORIGIN.replace(/^https?:\/\//, '')
 
 // Gate on the actual hostname (not a separate build): the same bundle can ship anywhere, and
 // this only shows on the retired domain. ANNOUNCE_MOVE picks the phase (see config.js):
-// 'pre' = Phase 2 heads-up (login on the new domain doesn't work yet, so the new host is shown
-// as plain text and the CTA points at the tracker login HERE — syncing is what makes games
-// survive the move), 'moved' = the post-301 "we've moved" variant linking to the new domain.
+// 'pre' = Phase 2 heads-up (the new host links through for convenience, but the CTA points at
+// the tracker login HERE — login doesn't work on the new domain yet, and syncing is what makes
+// games survive the move), 'moved' = the post-301 "we've moved" variant.
 const mode = ANNOUNCE_MOVE
 // DEV lets the banner preview on localhost (`VITE_ANNOUNCE_MOVE=pre npm run dev`); a production
 // build still requires the retired hostname.
@@ -104,11 +104,6 @@ function dismiss() {
 .db-title {
   margin: 0;
   font-weight: 600;
-}
-
-.db-host {
-  color: var(--accent);
-  font-weight: 700;
 }
 
 .db-link {
