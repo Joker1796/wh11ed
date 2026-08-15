@@ -274,7 +274,7 @@ export default {
       '**Каждый Shock Trooper Sergeant вооружён:** laspistol; chainsword.\n\n**Каждый Shock Trooper вооружён:** lasgun; close combat weapon.\n\n' +
       TWO_LEADERS_NOTE,
     options: [
-      'За каждые 10 моделей в этом юните у до 2 Shock Trooper их lasgun можно заменить на одно из следующего*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 meltagun\n▪ 1 plasma gun',
+      'За каждые 10 моделей в этом юните у до 2 Shock Trooper их lasgun можно заменить на одно из следующего*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 meltagun\n▪ 1 plasma gun\n* Нельзя выбрать одно и то же оружие больше одного раза за юнит, если только он не содержит 20 моделей — тогда нельзя выбрать одно и то же оружие больше двух раз.',
       'За каждые 10 моделей в этом юните 1 Shock Trooper, вооружённого lasgun, можно снабдить 1 vox-caster (lasgun этой модели заменить нельзя).',
       'Любому числу Shock Trooper Sergeant их laspistol можно заменить на 1 bolt pistol.',
       'Любому числу Shock Trooper Sergeant их laspistol и chainsword можно заменить на 1 Sergeant’s autogun и 1 close combat weapon.',
@@ -297,11 +297,11 @@ export default {
     loadout:
       '**Catachan Commander вооружён:** laspistol; close combat weapon.\n\n**Каждый Veteran Guardsman вооружён:** lasgun; laspistol; close combat weapon.',
     options: [
-      'Любому числу Veteran Guardsman их lasgun можно заменить на одно из следующего*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 heavy flamer\n▪ 1 meltagun\n▪ 1 plasma gun\n▪ 1 sniper rifle',
+      'Любому числу Veteran Guardsman их lasgun можно заменить на одно из следующего*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 heavy flamer\n▪ 1 meltagun\n▪ 1 plasma gun\n▪ 1 sniper rifle\n* Нельзя выбрать одно и то же оружие из этого списка больше одного раза за юнит.',
       '* Нельзя выбрать одно и то же оружие из этого списка более раза на юнит.',
       '1 Veteran Guardsman, вооружённого lasgun, можно снабдить 1 master vox.**',
       '1 Veteran Guardsman, вооружённого lasgun, можно снабдить 1 medi-pack.**',
-      '1 Veteran Guardsman, вооружённого lasgun, можно снабдить 1 regimental standard.**',
+      '1 Veteran Guardsman, вооружённого lasgun, можно снабдить 1 regimental standard.**\n\n** Модель может взять только один из этих вариантов.',
       '** Модель может взять только одну из этих опций.',
       'laspistol у Catachan Commander можно заменить на одно из следующего:\n▪ 1 bolt pistol\n▪ 1 plasma pistol',
       'Catachan Commander можно снабдить одним из следующего:\n▪ 1 boltgun\n▪ 1 chainsword\n▪ 1 power fist\n▪ 1 power weapon',
@@ -364,7 +364,7 @@ export default {
     loadout: `${EQUIP_THIS} multi-laser; heavy bolter; lasgun array; armoured tracks.`,
     options: [
       'heavy bolter этой модели можно заменить на 1 heavy flamer.',
-      'multi-laser этой модели можно заменить на одно из следующего:\n▪ 1 heavy bolter*\n▪ 1 heavy flamer*',
+      'multi-laser этой модели можно заменить на одно из следующего:\n▪ 1 heavy bolter*\n▪ 1 heavy flamer*\n* Это оружие заменить нельзя.',
       'Эту модель можно снабдить одним из следующего:\n▪ 1 heavy stubber\n▪ 1 storm bolter',
       'Эту модель можно снабдить 1 hunter-killer missile.',
       '* Это оружие заменить нельзя.',
@@ -493,9 +493,9 @@ export default {
       '**Каждый Death Korps Watchmaster вооружён:** laspistol; chainsword.\n\n**Каждый Death Korps Trooper вооружён:** lasgun; close combat weapon.\n\n' +
       TWO_LEADERS_NOTE,
     options: [
-      'За каждые 10 моделей в этом юните у до 2 Death Korps Trooper их lasgun можно заменить на одно из следующего*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 long-las\n▪ 1 meltagun\n▪ 1 plasma gun',
+      'За каждые 10 моделей в этом юните у до 2 Death Korps Trooper их lasgun можно заменить на одно из следующего*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 long-las\n▪ 1 meltagun\n▪ 1 plasma gun\n* Нельзя выбрать один и тот же вариант больше одного раза за юнит, если только он не содержит 20 моделей — тогда нельзя выбрать одно и то же оружие больше двух раз.',
       'За каждые 10 моделей в этом юните 1 Death Korps Trooper, вооружённого lasgun, можно снабдить 1 Death Korps medi-pack (lasgun этой модели заменить нельзя)**.',
-      'За каждые 10 моделей в этом юните 1 Death Korps Trooper, вооружённого lasgun, можно снабдить 1 vox-caster (lasgun этой модели заменить нельзя).**',
+      'За каждые 10 моделей в этом юните 1 Death Korps Trooper, вооружённого lasgun, можно снабдить 1 vox-caster (lasgun этой модели заменить нельзя).**\n\n** Модель может взять только один из этих вариантов.',
       'Любое число Death Korps Watchmaster может заменить свои laspistol и chainsword на 1 boltgun и 1 close combat weapon.',
       'Любое число Death Korps Watchmaster может заменить свой chainsword на 1 power weapon.',
       'Любое число Death Korps Watchmaster может заменить свой laspistol на одно из следующего:\n▪ 1 bolt pistol\n▪ 1 plasma pistol',
@@ -648,7 +648,7 @@ export default {
     loadout:
       '**Kasrkin Sergeant вооружён:** hot-shot laspistol; chainsword.\n\n**Каждый Kasrkin Trooper вооружён:** hot-shot lasgun; close combat weapon.',
     options: [
-      'До 4 Kasrkin Trooper их hot-shot lasgun можно заменить на одно из следующего:*\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 hot-shot volley gun\n▪ 1 meltagun\n▪ 1 plasma gun',
+      'До 4 Kasrkin Trooper их hot-shot lasgun можно заменить на одно из следующего:*\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 hot-shot volley gun\n▪ 1 meltagun\n▪ 1 plasma gun\n* Нельзя выбрать одно и то же оружие из этого списка больше двух раз за юнит.',
       'hot-shot lasgun у 1 Kasrkin Trooper можно заменить на 1 hot-shot marksman rifle.',
       'hot-shot lasgun у 1 Kasrkin Trooper можно заменить на 1 hot-shot laspistol и 1 melta mine.',
       '1 Kasrkin Trooper, вооружённого hot-shot lasgun, можно снабдить 1 vox-caster (hot-shot lasgun этой модели заменить нельзя).',
@@ -882,7 +882,7 @@ export default {
     loadout:
       '**Tempestor Prime вооружён:** bolt pistol; Tempestus dagger.\n\n**Каждый Tempestus Scion вооружён:** hot-shot lasgun; close combat weapon.',
     options: [
-      'Любому числу Tempestus Scion их hot-shot lasgun можно заменить на одно из следующего*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 hot-shot volley gun\n▪ 1 meltagun\n▪ 1 plasma gun',
+      'Любому числу Tempestus Scion их hot-shot lasgun можно заменить на одно из следующего*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 hot-shot volley gun\n▪ 1 meltagun\n▪ 1 plasma gun\n* Нельзя выбрать одно и то же оружие из этого списка больше одного раза за юнит.',
       '1 Tempestus Scion, вооружённого hot-shot lasgun, можно снабдить 1 regimental standard (hot-shot lasgun этой модели заменить нельзя).',
       'hot-shot lasgun у 1 Tempestus Scion можно заменить на 1 hot-shot laspistol и 1 master vox.',
       'hot-shot lasgun у 1 Tempestus Scion можно заменить на одно из следующего:\n▪ 1 hot-shot laspistol и 1 medi-pack\n▪ 1 hot-shot lasgun, 1 hot-shot laspistol и 1 medi-pack (hot-shot lasgun этой модели заменить нельзя)',
@@ -1185,7 +1185,7 @@ export default {
       '**Tempestor вооружён:** hot-shot laspistol; chainsword.\n\n**Каждый Tempestus Scion вооружён:** hot-shot lasgun; close combat weapon.\n\n' +
       TWO_LEADERS_NOTE,
     options: [
-      'За каждые 5 моделей в этом юните у до двух Tempestus Scion их hot-shot lasgun можно заменить на одно из следующего*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 hot-shot volley gun\n▪ 1 meltagun\n▪ 1 plasma gun',
+      'За каждые 5 моделей в этом юните у до двух Tempestus Scion их hot-shot lasgun можно заменить на одно из следующего*:\n▪ 1 flamer\n▪ 1 grenade launcher\n▪ 1 hot-shot volley gun\n▪ 1 meltagun\n▪ 1 plasma gun\n* Нельзя выбрать одно и то же оружие из этого списка больше одного раза за юнит, если только он не содержит 10 моделей — тогда нельзя выбрать одно и то же оружие больше двух раз.',
       'hot-shot lasgun у 1 Tempestus Scion можно заменить на 1 hot-shot laspistol и 1 vox-caster.',
       'chainsword у Tempestor можно заменить на одно из следующего:\n▪ 1 power fist\n▪ 1 power weapon',
       'hot-shot laspistol у Tempestor можно заменить на одно из следующего:\n▪ 1 bolt pistol\n▪ 1 plasma pistol',
@@ -1217,7 +1217,7 @@ export default {
       'Airborne Insertion':
         'В конце фазы перемещения вашего оппонента один или более юнитов, погруженных в этот TRANSPORT, могут высадиться из него.',
     },
-    loadout: `${EQUIP_THIS} hellstrike missiles; multi-laser; armoured hull.`,
+    loadout: `${EQUIP_THIS} hellstrike missiles; Militarum multi-laser; armoured hull.`,
     options: [
       'multi-laser этой модели можно заменить на 1 lascannon.',
       'hellstrike missiles этой модели можно заменить на 2 multiple rocket pods.',

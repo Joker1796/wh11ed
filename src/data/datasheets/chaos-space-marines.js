@@ -131,22 +131,22 @@ export default [
       {
         "models": 8,
         "points": 90,
-        "note": "1st"
+        "note": "1st-2nd"
       },
       {
         "models": 16,
         "points": 195,
-        "note": "1st"
+        "note": "1st-2nd"
       },
       {
         "models": 8,
         "points": 110,
-        "note": "2nd+"
+        "note": "3rd+"
       },
       {
         "models": 16,
         "points": 215,
-        "note": "2nd+"
+        "note": "3rd+"
       }
     ],
     "flavor": "Whether born of dark ritual, empyric experimentation or the predations of malign entities, Accursed Cultists have diverse, terrifying origins. Driven towards the foe, Mutants flail and lash at the enemy with claws or tendrils, while horribly warped Torments pounce with bestial hunger.",
@@ -969,7 +969,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 145,
+        "points": 155,
         "note": "3rd+"
       }
     ],
@@ -1114,7 +1114,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 150,
+        "points": 160,
         "note": "3rd+"
       }
     ],
@@ -1254,7 +1254,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 65,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 75,
+        "note": "4th+"
       }
     ],
     "flavor": "Based upon ancient workhorse vehicles that have served Humanity for millennia, Chaos Rhinos are well adapted for battlefield transportation. Though encrusted with heretical icons and corrupted by the warp, they remain as rugged and reliable as ever, safely carrying their passengers over fire-swept battlefields.",
@@ -1690,22 +1696,22 @@ export default [
       {
         "models": 5,
         "points": 135,
-        "note": "1st"
+        "note": "1st-2nd"
       },
       {
         "models": 10,
         "points": 270,
-        "note": "1st"
+        "note": "1st-2nd"
       },
       {
         "models": 5,
-        "points": 135,
-        "note": "2nd+"
+        "points": 145,
+        "note": "3rd+"
       },
       {
         "models": 10,
-        "points": 260,
-        "note": "2nd+"
+        "points": 280,
+        "note": "3rd+"
       }
     ],
     "flavor": "The power-hungry veterans known as Chosen are amongst the most experienced and ruthless fighters of the Heretic Astartes. Granted – or having seized – their warband’s most powerful weapons, these warriors undertake the most glorious and dangerous missions, and are the bane of all that lives.",
@@ -2252,12 +2258,12 @@ export default [
       {
         "models": 5,
         "points": 90,
-        "note": "1st"
+        "note": "1st-2nd"
       },
       {
         "models": 5,
         "points": 100,
-        "note": "2nd+"
+        "note": "3rd+"
       }
     ],
     "flavor": "A pooling of evil at the head of a Chaos Cult, Dark Communes are led by Cult Demagogues who preach mantras of hate laced with promises of power. They command Mindwitches, whose psychic powers are bought at terrible cost, and Iconarchs, who carry foul sigils that spread the Dark Gods’ malefic influence.",
@@ -2411,7 +2417,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 330,
+        "points": 340,
         "note": "2nd+"
       }
     ],
@@ -4448,8 +4454,8 @@ export default [
     ],
     "loadout": "**Every model is equipped with:** bolt pistol; boltgun; close combat weapon.",
     "options": [
-      "The Aspiring Champion’s boltgun can be replaced with one of the following:\n▪ 1 plasma pistol*\n▪ 1 accursed weapon\n▪ 1 Astartes chainsword\n▪ 1 heavy melee weapon",
-      "The Aspiring Champion’s bolt pistol can be replaced with one of the following:\n▪ 1 plasma pistol*\n▪ 1 accursed weapon\n▪ 1 Astartes chainsword\n▪ 1 heavy melee weapon",
+      "The Aspiring Champion’s boltgun can be replaced with one of the following:\n▪ 1 plasma pistol*\n▪ 1 accursed weapon\n▪ 1 Astartes chainsword\n▪ 1 heavy melee weapon\n* Maximum 1 per model.",
+      "The Aspiring Champion’s bolt pistol can be replaced with one of the following:\n▪ 1 plasma pistol*\n▪ 1 accursed weapon\n▪ 1 Astartes chainsword\n▪ 1 heavy melee weapon\n* Maximum 1 per model.",
       "1 model can be equipped with 1 Chaos icon.",
       "Any number of Legionaries can each have their boltgun replaced with 1 Astartes chainsword.",
       "One Legionary’s boltgun can be replaced with 1 heavy melee weapon.",
@@ -5105,7 +5111,7 @@ export default [
       },
       {
         "models": 3,
-        "points": 190,
+        "points": 175,
         "note": "3rd+"
       }
     ],
@@ -6842,7 +6848,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 120,
+        "points": 130,
         "note": "3rd+"
       }
     ],

@@ -1,6 +1,6 @@
 {
   "name": "wh11ed",
-  "version": "2.2.2",
+  "version": "2.2.6",
   "description": "Bilingual (EN/RU) interactive reference for the Warhammer 40,000 11th Edition Core Rules, Event Companion, faction rules and unit datasheets — a fast, searchable Vue 3 SPA hosted at wh11ed.ru.",
   "scripts": {
     "dev": "vite",
@@ -19,11 +19,14 @@
     "faq": "node scripts/gen-faction-faq.mjs",
     "sync": "node scripts/sync.mjs",
     "sync:text": "node scripts/sync-faction-text.mjs",
+    "sync:mfm": "node scripts/sync-mfm-points.mjs",
     "parity": "node scripts/parity-check.mjs",
     "images:dims": "node scripts/gen-image-dims.mjs",
     "icons": "node scripts/gen-pwa-icons.mjs",
     "screenshots": "node scripts/gen-pwa-screenshots.mjs",
-    "splash": "node scripts/gen-ios-splash.mjs"
+    "splash": "node scripts/gen-ios-splash.mjs",
+    "translate:queue": "node scripts/gen-translation-queue.mjs",
+    "translate:check": "node scripts/gen-translation-queue.mjs --check"
   },
   "keywords": [],
   "author": "Joker1796",

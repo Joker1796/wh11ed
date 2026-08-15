@@ -1269,7 +1269,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 420,
+        "points": 450,
         "note": "2nd+"
       }
     ],

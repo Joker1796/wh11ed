@@ -651,7 +651,7 @@ export default [
       },
       {
         "models": 5,
-        "points": 130,
+        "points": 120,
         "note": "3rd+"
       }
     ],
@@ -896,7 +896,7 @@ export default [
       },
       {
         "models": 3,
-        "points": 255,
+        "points": 265,
         "note": "3rd+"
       }
     ],
@@ -1975,7 +1975,7 @@ export default [
     ],
     "loadout": "**The Serberys Sulphurhound Alpha model is equipped with:** Mechanicus pistol; sulphur breath; cavalry arc maul; clawed limbs.\n\n**Every Serberys Sulphurhound model is equipped with:** 2 phosphor pistols; sulphur breath; clawed limbs.",
     "options": [
-      "For every 3 models in this unit, 1 Serberys Sulphurhound’s 2 phosphor pistols can be replaced with 1 phosphor blast carbine and 1 phosphor pistol."
+      "For every 3 models in this unit, 1 Serberys Sulphurhound’s twin phosphor pistols can be replaced with 1 phosphor blast carbine and 1 phosphor pistol."
     ],
     "keywords": [
       "Imperium",
@@ -2621,7 +2621,7 @@ export default [
     "factionKeywords": [
       "Adeptus Mechanicus"
     ],
-    "baseSize": "25mm"
+    "baseSize": "25mm / 60x35.5mm Oval Base"
   },
   {
     "id": "skitarii-vanguard",
@@ -2781,7 +2781,7 @@ export default [
     "factionKeywords": [
       "Adeptus Mechanicus"
     ],
-    "baseSize": "25mm"
+    "baseSize": "25mm / 60x35.5mm Oval Base"
   },
   {
     "id": "skorpius-disintegrator",
@@ -2907,7 +2907,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 75,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 85,
+        "note": "4th+"
       }
     ],
     "flavor": "Skorpius Duneriders enable forge lords to ferry squads of their cyborg infantry onto the front lines, overwhelming the foe through swiftly redeployed weight of numbers. Duneriders sweep onto enemy defences in a cloud of chemical smoke, saturating the area with heavy calibre shot as their payload of warriors disembarks.",

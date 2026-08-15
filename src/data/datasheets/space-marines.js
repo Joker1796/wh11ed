@@ -202,12 +202,12 @@ export default [
       },
       {
         "models": 3,
-        "points": 100,
+        "points": 90,
         "note": "3rd+"
       },
       {
         "models": 6,
-        "points": 190,
+        "points": 175,
         "note": "3rd+"
       }
     ],
@@ -1536,7 +1536,7 @@ export default [
     "abilities": [
       {
         "name": "Bladeguard",
-        "text": "In the Fight phase, when this unit is selected to fight or when an enemy unit targets this unit, you can select one of the following:\n▪ This unit’s melee attacks have +1 to hit rolls.\n▪ Or: Attacks that target this unit have -1 to hit rolls."
+        "text": "Once per turn, per unit. In the Fight phase, when this unit is selected to fight or when an enemy unit targets this unit, you can select one of the following:\n▪ This unit’s melee attacks have +1 to hit rolls.\n▪ Or: Attacks that target this unit have -1 to hit rolls."
       }
     ],
     "composition": [
@@ -4239,8 +4239,8 @@ export default [
     ],
     "loadout": "**Every model is equipped with:** bolt pistol; boltgun; close combat weapon.",
     "options": [
-      "Up to 4 Devastator Marines can each have their boltgun replaced with one of the following:\n▪ 1 grav-cannon\n▪ 1 heavy bolter\n▪ 1 heavy flamer\n▪ 1 lascannon\n▪ 1 missile launcher\n▪ 1 multi-melta\n▪ 1 plasma cannon",
-      "The Devastator Sergeant’s bolt pistol and boltgun can be replaced with two different weapons from the following list:*\n▪ 1 Astartes chainsword\n▪ 1 bolt pistol\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 plasma pistol\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer",
+      "Up to 4 Devastator Marines can each have their boltgun replaced with one of the following:\n▪ 1 grav-cannon\n▪ 1 heavy bolter\n▪ 1 lascannon\n▪ 1 missile launcher\n▪ 1 multi-melta\n▪ 1 plasma cannon",
+      "The Devastator Sergeant’s bolt pistol and boltgun can be replaced with two different weapons from the following list:*\n▪ 1 Astartes chainsword\n▪ 1 bolt pistol\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 plasma pistol\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer\n* This model can only be equipped with two ranged weapons if one of them is a Pistol (and it can only have one Pistol).",
       "* This model can only be equipped with two ranged weapons if one of them is a Pistol (and it can only have one Pistol)"
     ],
     "keywords": [
@@ -4439,7 +4439,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 60
+        "points": 60,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 70,
+        "note": "4th+"
       }
     ],
     "flavor": "Launched from ships in low orbit, Drop Pods full of Space Marines slam into the battlefield, their hatches blowing open upon the violent impact. Within seconds, the squad bursts out with weapons firing. Such deadly strikes send the foe into disarray as their lines are torn apart in the furious assault.",
@@ -4725,13 +4731,7 @@ export default [
     "points": [
       {
         "models": 3,
-        "points": 80,
-        "note": "1st-2nd"
-      },
-      {
-        "models": 3,
-        "points": 80,
-        "note": "3rd+"
+        "points": 80
       }
     ],
     "flavor": "The heavy Mk X Gravis armour of these fire support specialists allows them to weather storms of incoming projectiles. Standing firm, they return fire with their brutal heavy bolters, scything down enemy infantry and blowing apart the foe's light armoured vehicles with well-placed shots to weak spots in their targets' hulls.",
@@ -5620,7 +5620,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 70,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 80,
+        "note": "4th+"
       }
     ],
     "flavor": "Equipped with vectored thrusters that make it faster than any other gravitic tank in the Space Marines’ armouries, the Impulsor is a highly adaptable transport used by all Primaris Space Marines for rapid insertion and flanking manoeuvres. It is particularly favoured by Vanguard forces.",
@@ -5788,12 +5794,12 @@ export default [
       },
       {
         "models": 3,
-        "points": 135,
+        "points": 140,
         "note": "3rd+"
       },
       {
         "models": 6,
-        "points": 255,
+        "points": 265,
         "note": "3rd+"
       }
     ],
@@ -7482,13 +7488,7 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 105,
-        "note": "1st-2nd"
-      },
-      {
-        "models": 1,
-        "points": 105,
-        "note": "3rd+"
+        "points": 105
       }
     ],
     "flavor": "Streaking over the battlefield on humming anti-grav engines, the Land Speeder performs blistering attack runs to rake the enemy with shots then darts away before the foe can respond. It is a valuable rapid reconnaissance asset for Space Marine forces in the field and excels in providing highly mobile fire support.",
@@ -7596,7 +7596,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 70
+        "points": 70,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 80,
+        "note": "3rd+"
       }
     ],
     "flavor": "Librarians are the Space Marines’ battle-psykers and keepers of lore. Wielding terrifying empyric energies, with but a thought they can crush a foe’s skull, throw up force shields to protect their brethren from incoming fire, and hurl blasts of psychic power.",
@@ -9044,7 +9050,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 85
+        "points": 85,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 95,
+        "note": "4th+"
       }
     ],
     "flavor": "The Razorback replaces some of the Rhino’s transport capacity with a heavy weapon turret, and provides fire support for armoured infantry assaults while delivering its own cargo of warriors to battle. Such is its success that for many Chapters it performs additional functions, notably as a mobile command centre.",
@@ -9782,7 +9794,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 65
+        "points": 65,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 75,
+        "note": "4th+"
       }
     ],
     "flavor": "The Rhino transport has served the Space Marines for ten thousand years, and forms a part of many of their strike forces. With robust self-repair systems, the Rhino is a rugged vehicle that can swiftly navigate nightmare battlefields to deliver its deadly cargo of Space Marines into the heart of battle.",
@@ -10314,7 +10332,7 @@ export default [
     ],
     "loadout": "**Every model is equipped with:** Sternguard bolt pistol; Sternguard bolt rifle; close combat weapon.",
     "options": [
-      "The Sternguard Veteran Sergeant’s Sternguard bolt rifle can be replaced with one of the following:\n▪ 1 Astartes chainsword\n▪ 1 combi-weapon\n▪ 1 power weapon\n▪ 1 power fist\n▪ 1 Astartes chainsword and 1 Sternguard bolt rifle*\n▪ 1 power weapon and 1 Sternguard bolt rifle*\n▪ 1 power fist and 1 Sternguard bolt rifle*",
+      "The Sternguard Veteran Sergeant’s Sternguard bolt rifle can be replaced with one of the following:\n▪ 1 Astartes chainsword\n▪ 1 combi-weapon\n▪ 1 power weapon\n▪ 1 power fist\n▪ 1 Astartes chainsword and 1 Sternguard bolt rifle*\n▪ 1 power weapon and 1 Sternguard bolt rifle*\n▪ 1 power fist and 1 Sternguard bolt rifle*\n* This model’s Sternguard bolt rifle cannot be replaced.",
       "Any number of Sternguard Veterans can each have their Sternguard bolt rifle replaced with 1 combi-weapon.",
       "For every 5 models in this unit, 1 Sternguard Veteran’s Sternguard bolt rifle can be replaced with one of the following:\n▪ 1 pyrecannon\n▪ 1 Sternguard heavy bolter",
       "* This model's Sternguard bolt rifle cannot be replaced."
@@ -10443,7 +10461,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 140,
+        "points": 150,
         "note": "3rd+"
       }
     ],
@@ -11646,7 +11664,7 @@ export default [
     "options": [
       "1 Tactical Marine’s boltgun can be replaced with one of the following:\n▪ 1 flamer\n▪ 1 heavy bolter\n▪ 1 grav-cannon\n▪ 1 grav-gun\n▪ 1 lascannon\n▪ 1 meltagun\n▪ 1 missile launcher\n▪ 1 multi-melta\n▪ 1 plasma cannon\n▪ 1 plasma gun",
       "1 Tactical Marine’s boltgun can be replaced with one of the following:\n▪ 1 flamer\n▪ 1 grav-gun\n▪ 1 meltagun\n▪ 1 plasma gun",
-      "The Tactical Sergeant’s bolt pistol and boltgun can be replaced with 1 twin lightning claws, or two different weapons from the following list:*\n▪ 1 Astartes chainsword\n▪ 1 bolt pistol\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 plasma pistol\n▪ 1 storm bolter\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer",
+      "The Tactical Sergeant’s bolt pistol and boltgun can be replaced with 1 twin lightning claws, or two different weapons from the following list:*\n▪ 1 Astartes chainsword\n▪ 1 bolt pistol\n▪ 1 boltgun\n▪ 1 combi-weapon\n▪ 1 grav-pistol\n▪ 1 plasma pistol\n▪ 1 storm bolter\n▪ 1 power fist\n▪ 1 power weapon\n▪ 1 thunder hammer\n* This model can only be equipped with two ranged weapons if one of them is a Pistol (and it can only have one Pistol).",
       "* This model can only be equipped with two ranged weapons if one of them is a Pistol (and it can only have one Pistol)."
     ],
     "keywords": [
@@ -12002,7 +12020,7 @@ export default [
     ],
     "loadout": "**Every model is equipped with:** storm bolter; power fist.",
     "options": [
-      "For every 5 models in this unit, 1 Terminator’s storm bolter can be replaced with one of the following:\n▪ 1 assault cannon\n▪ 1 heavy flamer\n▪ 1 cyclone missile launcher and 1 storm bolter.*",
+      "For every 5 models in this unit, 1 Terminator’s storm bolter can be replaced with one of the following:\n▪ 1 assault cannon\n▪ 1 heavy flamer\n▪ 1 cyclone missile launcher and 1 storm bolter.*\n* This model’s storm bolter cannot be replaced.",
       "Any number of models can each have their power fist replaced with 1 chainfist.",
       "The Terminator Sergeant’s power fist can be replaced with 1 power weapon.",
       "* This model’s storm bolter cannot be replaced."
@@ -12549,7 +12567,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 240,
+        "points": 250,
         "note": "2nd+"
       }
     ],

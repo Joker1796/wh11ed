@@ -39,19 +39,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { ROOT, APPDATA, SLUG_MAP, norm, loadJson, loadModule, allFactionBundles, sourceIds as sourceIdsMap } from './lib/sync-common.mjs'
-
-const read = (f) => loadJson(path.join(APPDATA, 'tables', f)) || []
-const groupBy = (rows, key) => {
-  const m = new Map()
-  for (const r of rows) {
-    const arr = m.get(r[key]) || []
-    arr.push(r)
-    m.set(r[key], arr)
-  }
-  return m
-}
-const nameOf = (r) => r?.localisations?.en?.name || ''
+import { ROOT, APPDATA, SLUG_MAP, norm, loadJson, loadModule, allFactionBundles, table as read, nameOfEn as nameOf, groupBy, invertSourceIds } from './lib/sync-common.mjs'
 
 const factionKeywordName = new Map(read('faction_keyword.json').map((r) => [r.id, nameOf(r)]))
 const keywordName = new Map(read('keyword.json').map((r) => [r.id, nameOf(r)]))
@@ -111,13 +99,7 @@ function commonKeywords(datasheetIds) {
 }
 
 // --- sourceIds bridge, inverted: appdata detachment uuid → { slug, wh11ed detachment } -----------
-const sourceIds = sourceIdsMap() || {}
-const detByUuid = new Map()
-for (const [slug, entries] of Object.entries(sourceIds)) {
-  for (const [key, uuid] of Object.entries(entries)) {
-    if (key.startsWith('det:')) detByUuid.set(uuid, { slug, id: key.slice(4) })
-  }
-}
+const detByUuid = invertSourceIds('det')
 
 // A later Faction Pack errata sometimes converts a specific-detachments ally clause into a blanket
 // "any detachment of this Army Faction" rule folded into the faction's own armyRule instead — e.g.

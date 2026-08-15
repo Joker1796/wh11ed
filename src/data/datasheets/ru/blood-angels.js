@@ -154,7 +154,7 @@ export default {
     loadout: `${EQUIP_THIS} heavy bolt pistol; Astartes chainsword.`,
     options: [
       'heavy bolt pistol этой модели можно заменить на одно из следующего:\n▪ 1 plasma pistol\n▪ 1 hand flamer',
-      'Astartes chainsword этой модели можно заменить на одно из следующего:\n▪ 1 power fist\n▪ 1 relic weapon',
+      'master-crafted chainsword этой модели можно заменить на одно из следующего:\n▪ 1 power fist\n▪ 1 relic weapon',
     ],
     leader: { text: LEADER_TEXT },
   },
@@ -219,7 +219,7 @@ export default {
     options: [
       'За каждые 5 моделей в этом юните у 1 модели её heavy bolt pistol можно заменить на 1 plasma pistol.',
       'За каждые 5 моделей в этом юните у 1 модели её Astartes chainsword можно заменить на 1 eviscerator.',
-      'Astartes chainsword у 2 моделей можно заменить на одно из следующего:\n▪ 1 power fist\n▪ 1 power weapon',
+      'Astartes chainsword у 1 модели можно заменить на одно из следующего:\n▪ 1 power fist\n▪ 1 power weapon',
       'За каждые 5 моделей в этом юните у 1 модели её heavy bolt pistol и Astartes chainsword можно заменить на одно из следующего:\n▪ 1 hand flamer и 1 Astartes chainsword\n▪ 1 hand flamer и 1 power fist\n▪ 1 hand flamer и 1 power weapon\n▪ 1 heavy bolt pistol и 1 power fist\n▪ 1 heavy bolt pistol и 1 power weapon\n▪ 1 inferno pistol и 1 Astartes chainsword\n▪ 1 inferno pistol и 1 power fist\n▪ 1 inferno pistol и 1 power weapon\n▪ 1 plasma pistol и 1 Astartes chainsword\n▪ 1 plasma pistol и 1 power fist\n▪ 1 plasma pistol и 1 power weapon',
     ],
   },

@@ -118,11 +118,6 @@ export default [
       {
         "models": 1,
         "points": 330
-      },
-      {
-        "models": 1,
-        "points": 375,
-        "note": "Pantheon of Woe"
       }
     ],
     "flavor": "Mephet’ran the Deceiver was ever the most duplicitous of his monstrous brood. Even shattered and bound within a restraining necrodermis, each Shard of the Deceiver still radiates a potent blend of deadly truths and bewildering lies against which the fallible senses of mortal beings possess no defence.",
@@ -206,11 +201,6 @@ export default [
       {
         "models": 1,
         "points": 360
-      },
-      {
-        "models": 1,
-        "points": 405,
-        "note": "Pantheon of Woe"
       }
     ],
     "flavor": "The very essence of life bleeds away when exposed to a Shard of the C’tan known as the Nightbringer. Aza’gorod he was, the Inevitable Blade; his spectral form, cowl of shadows and flashing scythe are said to have spawned countless avatars of death in the legends of primitive cultures the entire galaxy over.",
@@ -301,11 +291,6 @@ export default [
       {
         "models": 1,
         "points": 345
-      },
-      {
-        "models": 1,
-        "points": 380,
-        "note": "Pantheon of Woe"
       }
     ],
     "flavor": "Shards of the Void Dragon fill the air around them with a searing scream of distorted static. With a gesture they can unmake the war engines of lesser beings, dragging the resultant disintegrating matter into themselves like the gravity well of a black hole and using it to replenish their own, ever flickering forms.",
@@ -1122,7 +1107,7 @@ export default [
     "wargearAbilities": [
       {
         "name": "Resurrection Orb",
-        "text": "Once per battle, at the end of any phase, select one friendly NECRONS INFANTRY or NECRONS MOUNTED unit within 6\" of the bearer and resurrect that unit. When you do, that unit’s Reanimation Protocols are activated, reanimating D6 wounds rather than D3 when doing so. You cannot resurrect more than one unit per turn."
+        "text": "Once per battle, per unit, at the end of any phase, you can use this ability. If you do, select up to one friendly NECRONS INFANTRY or NECRONS MOUNTED unit within 6\" of this unit. That unit resurrects: when a unit resurrects, that unit’s Reanimation Protocols activate, but that unit heals D6 wounds (instead of D3 wounds). You cannot resurrect more than one unit per turn."
       }
     ],
     "composition": [
@@ -1158,7 +1143,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 90,
+        "points": 80,
         "note": "2nd+"
       }
     ],
@@ -1566,7 +1551,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 220,
+        "points": 230,
         "note": "3rd+"
       }
     ],
@@ -2269,7 +2254,7 @@ export default [
       },
       {
         "models": 6,
-        "points": 170,
+        "points": 180,
         "note": "3rd+"
       }
     ],
@@ -2363,7 +2348,7 @@ export default [
       },
       {
         "models": 3,
-        "points": 160,
+        "points": 170,
         "note": "3rd+"
       }
     ],
@@ -2519,7 +2504,7 @@ export default [
       },
       {
         "name": "Resurrection Orb",
-        "text": "Once per battle, while the bearer is leading a unit, at the end of any phase, it can resurrect that unit if it is on the battlefield. When you do, that unit’s Reanimation Protocols are activated, reanimating D6 wounds rather than D3 when doing so. You cannot resurrect more than one unit per turn."
+        "text": "Once per battle, per unit, at the end of any phase, you can use this ability. If you do, this unit resurrects: when a unit resurrects, that unit’s Reanimation Protocols activate, but that unit heals D6 wounds (instead of D3 wounds). You cannot resurrect more than one unit per turn."
       }
     ],
     "composition": [
@@ -3325,7 +3310,7 @@ export default [
     "wargearAbilities": [
       {
         "name": "Resurrection Orb",
-        "text": "Once per battle, while the bearer is leading a unit, at the end of any phase, it can resurrect that unit if it is on the battlefield. When you do, that unit’s Reanimation Protocols are activated, reanimating D6 wounds rather than D3 when doing so. You cannot resurrect more than one unit per turn."
+        "text": "Once per battle, per unit, at the end of any phase, you can use this ability. If you do, this unit resurrects: when a unit resurrects, that unit’s Reanimation Protocols activate, but that unit heals D6 wounds (instead of D3 wounds). You cannot resurrect more than one unit per turn."
       }
     ],
     "composition": [
@@ -3405,7 +3390,7 @@ export default [
     "wargearAbilities": [
       {
         "name": "Resurrection Orb",
-        "text": "Once per battle, while the bearer is leading a unit, at the end of any phase, it can resurrect that unit if it is on the battlefield. When you do, that unit’s Reanimation Protocols are activated, reanimating D6 wounds rather than D3 when doing so. You cannot resurrect more than one unit per turn."
+        "text": "Once per battle, per unit, at the end of any phase, you can use this ability. If you do, this unit resurrects: when a unit resurrects, that unit’s Reanimation Protocols activate, but that unit heals D6 wounds (instead of D3 wounds). You cannot resurrect more than one unit per turn."
       }
     ],
     "composition": [
@@ -3869,7 +3854,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 90
+        "points": 90,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 100,
+        "note": "3rd+"
       }
     ],
     "flavor": "Skorpekh Lords have fallen far from their noble beginnings, allowing an obsession with slaughter to twist their bodies and minds. Lurching forward on tripod bodies, their enmitic annihilators blast victims messily apart as their claws and blades lash out to reap a crimson harvest across the battlefield.",
@@ -4049,7 +4040,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 465,
+        "points": 485,
         "note": "2nd+"
       }
     ],
@@ -4479,11 +4470,6 @@ export default [
         "models": 1,
         "points": 360,
         "note": "2nd+"
-      },
-      {
-        "models": 1,
-        "points": 380,
-        "note": "Pantheon of Woe"
       }
     ],
     "flavor": "Shards of the C’tan serve the Necrons as enslaved living weapons. Greatest amongst them are the Transcendent C’tan, whose fury and power are so terrifying that they must be trammelled using the full might of Necron technology. When their cosmic powers are unleashed, reality itself is torn asunder.",

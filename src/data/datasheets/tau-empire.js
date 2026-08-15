@@ -302,7 +302,7 @@ export default [
       },
       {
         "models": 3,
-        "points": 260,
+        "points": 275,
         "note": "3rd+"
       }
     ],
@@ -1623,7 +1623,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 75
+        "points": 75,
+        "note": "1st-3rd"
+      },
+      {
+        "models": 1,
+        "points": 85,
+        "note": "4th+"
       }
     ],
     "flavor": "The ubiquitous armoured transport of the Fire Caste, the Devilfish is an iconic symbol of T’au military expansion. Tough and surprisingly agile, it bears Fire Warriors safely into battle with impressive speed. Once there, its burst cannons and detachable drones or missile systems provide its passengers with additional fire support.",
@@ -1923,7 +1929,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 160,
+        "points": 165,
         "note": "3rd+"
       }
     ],
@@ -2076,7 +2082,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 150,
+        "points": 160,
         "note": "3rd+"
       }
     ],
@@ -3301,7 +3307,13 @@ export default [
     "points": [
       {
         "models": 10,
-        "points": 85
+        "points": 85,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 10,
+        "points": 100,
+        "note": "3rd+"
       }
     ],
     "flavor": "Pathfinder Teams wreak havoc behind enemy lines. Their firepower is formidable, especially when sniping with potent rail rifles, and their drones can optimise the team’s pulse fire or drive the enemy back with gravitic waves. Yet their deadliest ability is painting priority targets with massed markerlights for heavier T’au units to annihilate.",
@@ -3753,7 +3765,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 210,
+        "points": 220,
         "note": "3rd+"
       }
     ],
@@ -4157,7 +4169,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 385,
+        "points": 400,
         "note": "2nd+"
       }
     ],
@@ -5114,8 +5126,7 @@ export default [
         "points": 85
       },
       {
-        "models": 2,
-        "points": 105
+        "points": 20
       }
     ],
     "flavor": "In keeping with the Code of Fire, the Tidewall Shieldline provides a mobile fortification that can redeploy during battle. Its refractive field absorbs enemy fire, while its design allows entrenched Fire Warriors to ride the shieldline to a new position when it moves.",
@@ -5179,7 +5190,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 375,
+        "points": 425,
         "note": "2nd+"
       }
     ],

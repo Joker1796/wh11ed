@@ -86,7 +86,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 160
+        "points": 160,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 170,
+        "note": "3rd+"
       }
     ],
     "flavor": "With pinpoint accuracy, Gladiator Lancer crews use this battle tank’s laser destroyer to spear through the heaviest enemy armour and punch smouldering holes in the flesh of xenos monstrosities. Such is the range of its heavy cannon that it can eliminate threats to the Black Templars before their battle-brothers encounter them, storming past their wrecks to seek the next affront to the Emperor.",
@@ -223,7 +229,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 160
+        "points": 160,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 170,
+        "note": "3rd+"
       }
     ],
     "flavor": "When the cannons of the Gladiator Reaper spin to full pitch, the whining drone is likened to the sharpening of the Emperor’s just blade and a sensation which only truly discomforts the blasphemous. Within seconds, thousands of spent casings pour over the battle tank’s armoured hide as enemies are erased from existence by the storm of fire.",
@@ -348,7 +360,13 @@ export default [
     "points": [
       {
         "models": 1,
-        "points": 150
+        "points": 150,
+        "note": "1st-2nd"
+      },
+      {
+        "models": 1,
+        "points": 160,
+        "note": "3rd+"
       }
     ],
     "flavor": "The Valiant lays down blistering volleys of holy fire as it escorts transports or supports infantry in ferocious fighting, executing singular threats and vaporising squads of heavily armoured heretics with equal ease. Its twin las-talons spit vindicated death at the foe, making short work of enemy armour, while its hissing multi-meltas turn fortified positions into bubbling slag.",
@@ -1141,11 +1159,11 @@ export default [
       }
     ],
     "composition": [
-      "1 Sword Brother",
-      "5-11 Initiates",
-      "4-8 Neophytes"
+      "1 Primaris Sword Brother",
+      "5-11 Primaris Initiates",
+      "4-8 Primaris Neophytes"
     ],
-    "loadout": "**The Sword Brother is equipped with:** heavy bolt pistol; master-crafted power weapon.\n\n**Every Initiate is equipped with:** bolt pistol; bolt rifle; close combat weapon.\n\n**Every Neophyte is equipped with:** bolt pistol; Astartes chainsword.",
+    "loadout": "**The Primaris Sword Brother is equipped with:** heavy bolt pistol; master-crafted power weapon.\n\n**Every Primaris Initiate is equipped with:** bolt pistol; bolt rifle; close combat weapon.\n\n**Every Primaris Neophyte is equipped with:** bolt pistol; Astartes chainsword.",
     "options": [
       "The Sword Brother’s heavy bolt pistol can be replaced with 1 pyre pistol.",
       "Any number of Neophytes can each have their bolt pistol and Astartes chainsword replaced with 1 Neophyte firearm and 1 close combat weapon.",
@@ -1642,12 +1660,12 @@ export default [
       {
         "models": 1,
         "points": 80,
-        "note": "1st"
+        "note": "1st-2nd"
       },
       {
         "models": 1,
         "points": 90,
-        "note": "2nd+"
+        "note": "3rd+"
       }
     ],
     "flavor": "Each Black Templars crusade is led by a Marshal. Similar in rank to the Captains of other Chapters, Marshals are fearsome combatants and paragons of strategic acumen. Ensuring a crusade’s purity and success is a sacred duty, and Marshals fight with sanctified relic weapons while acting as beacons of pious fervour for their warriors.",
@@ -1930,7 +1948,7 @@ export default [
       },
       {
         "models": 1,
-        "points": 265,
+        "points": 275,
         "note": "3rd+"
       }
     ],
@@ -2263,7 +2281,7 @@ export default [
     ],
     "loadout": "**Every model is equipped with:** Sternguard bolt pistol; Sternguard bolt rifle; close combat weapon.",
     "options": [
-      "The Sternguard Veteran Sergeant’s Sternguard bolt rifle can be replaced with one of the following:\n▪ 1 Astartes chainsword\n▪ 1 combi-weapon\n▪ 1 power weapon\n▪ 1 power fist\n▪ 1 Astartes chainsword and 1 Sternguard bolt rifle*\n▪ 1 power weapon and 1 Sternguard bolt rifle*\n▪ 1 power fist and 1 Sternguard bolt rifle*",
+      "The Sternguard Veteran Sergeant’s Sternguard bolt rifle can be replaced with one of the following:\n▪ 1 Astartes chainsword\n▪ 1 combi-weapon\n▪ 1 power weapon\n▪ 1 power fist\n▪ 1 Astartes chainsword and 1 Sternguard bolt rifle*\n▪ 1 power weapon and 1 Sternguard bolt rifle*\n▪ 1 power fist and 1 Sternguard bolt rifle*\n* This model’s Sternguard bolt rifle cannot be replaced.",
       "Any number of Sternguard Veterans can each have their Sternguard bolt rifle replaced with 1 combi-weapon.",
       "For every 5 models in this unit, 1 Sternguard Veteran’s Sternguard bolt rifle can be replaced with one of the following:\n▪ 1 pyrecannon\n▪ 1 Sternguard heavy bolter",
       "* This model's Sternguard bolt rifle cannot be replaced."
@@ -2609,7 +2627,7 @@ export default [
     ],
     "loadout": "**Every model is equipped with:** storm bolter; power fist.",
     "options": [
-      "For every 5 models in this unit, 1 Terminator’s storm bolter can be replaced with one of the following:\n▪ 1 assault cannon\n▪ 1 heavy flamer\n▪ 1 cyclone missile launcher and 1 storm bolter.*",
+      "For every 5 models in this unit, 1 Terminator’s storm bolter can be replaced with one of the following:\n▪ 1 assault cannon\n▪ 1 heavy flamer\n▪ 1 cyclone missile launcher and 1 storm bolter.*\n* This model’s storm bolter cannot be replaced.",
       "Any number of models can each have their power fist replaced with 1 chainfist.",
       "The Terminator Squad Leader’s power fist can be replaced with 1 power weapon.",
       "* This model’s storm bolter cannot be replaced."
