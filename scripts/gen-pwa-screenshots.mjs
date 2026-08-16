@@ -32,10 +32,10 @@ const card = (w, h) => {
     <rect width="${w}" height="${h}" fill="${BG}"/>
     <rect x="0" y="0" width="${w}" height="${Math.round(h * 0.012)}" fill="${ACCENT}"/>
     ${textPath({ text: 'W', cx, cy: markY, height: mark, fill: FG })}
-    ${textPath({ text: 'WH11ED', cx, cy: h * 0.68, height: title, fill: FG, tracking: 0.04 })}
+    ${textPath({ text: 'WH RULES', cx, cy: h * 0.68, height: title, fill: FG, tracking: 0.04 })}
     <text x="${cx}" y="${h * 0.75}" text-anchor="middle"
           font-family="'Helvetica Neue', Arial, sans-serif" font-size="${sub}"
-          fill="${MUTED}">Warhammer 40,000 — Core Rules 11th Edition</text>
+          fill="${MUTED}">Warhammer 40,000 11th Edition — Rules, Factions &amp; Tracker</text>
   </svg>`
 }
 

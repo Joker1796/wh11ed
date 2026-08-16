@@ -27,8 +27,8 @@ const SITE = { en: 'Warhammer 40,000 11th Ed', ru: 'Warhammer 40,000' }
 
 const DEFAULT = {
   title: {
-    en: 'Warhammer 40,000 — Core Rules 11th Edition',
-    ru: 'Warhammer 40,000 — Основные правила 11-й редакции',
+    en: 'Warhammer 40,000 11th Edition — Rules, Factions & Tracker',
+    ru: 'Warhammer 40,000 11-я редакция — правила, фракции и трекер',
   },
   description: {
     en: 'Bilingual (EN/RU) interactive reference for Warhammer 40,000 11th edition: core rules, Event Companion, faction rules and unit datasheets, plus an offline game tracker — searchable, free.',
@@ -41,8 +41,8 @@ const DEFAULT = {
 // scripts (Warhammer / Вархаммер), "11-я редакция" and "на русском" for RU queries.
 const LANDING = {
   title: {
-    en: 'Warhammer 40,000 11th Edition — Rules, Event Companion & Tracker',
-    ru: 'Warhammer 40,000 (Вархаммер) 11-я редакция — правила на русском',
+    en: 'Warhammer 40,000 11th Edition — Rules, Factions & Tracker',
+    ru: 'Warhammer 40,000 (Вархаммер) 11-я редакция — правила и фракции на русском',
   },
   description: {
     en: 'Bilingual (EN/RU) reference for Warhammer 40,000 11th edition: core rules, Event Companion, faction rules and unit datasheets, plus a free offline game tracker. Searchable, installable, free.',

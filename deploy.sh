@@ -2,6 +2,11 @@
 #
 # Build + upload to Yandex Object Storage with correct per-file Cache-Control.
 #
+# TARGET: wh-rules.ru — the one live domain. The old wh11ed.ru is FROZEN on its last build
+# (v2.2.6, carrying the "we're moving" banner) and is NOT redeployed; see MIGRATION.md.
+# `.env.deploy.wh11ed` is kept only as a rollback escape hatch (ENVFILE=.env.deploy.wh11ed),
+# never as part of a normal release.
+#
 # Requires the S3-compatible AWS CLI configured with a Yandex static access key:
 #   aws configure --profile yc      # key id + secret from a service account
 # and the `yc` CLI (CDN purge runs automatically after upload — see CDN_RESOURCE_ID).
@@ -14,12 +19,11 @@ set -euo pipefail
 
 # Local, gitignored deploy config (CDN_RESOURCE_ID, optional BUCKET/AWS_PROFILE/…).
 # Copy .env.deploy.example → .env.deploy and fill it in. Existing env vars win.
-# ENVFILE overrides the source (used by deploy-both.sh to ship each domain's own bucket/
-# CDN/API base in one run).
+# ENVFILE overrides the source — only needed for the frozen old domain (rollback).
 ENVFILE="${ENVFILE:-.env.deploy}"
 if [ -f "$ENVFILE" ]; then set -a; . "./$ENVFILE"; set +a; fi
 
-BUCKET="${BUCKET:-s3://wh11ed.ru}"
+BUCKET="${BUCKET:-s3://wh-rules.ru}"
 ENDPOINT="https://storage.yandexcloud.net"
 AWS_PROFILE="${AWS_PROFILE:-yc}"
 # Prod CDN resource — purge runs automatically after every deploy (a stale edge
@@ -58,7 +62,7 @@ fi
 
 # Point the SPA at the production API. Vite inlines VITE_API_BASE_URL at build time;
 # without it config.js falls back to http://localhost:8787 and the deployed app can't reach the API.
-echo "▶ Building… (API: ${VITE_API_BASE_URL:=https://api.wh11ed.ru})"
+echo "▶ Building… (API: ${VITE_API_BASE_URL:=https://api.wh-rules.ru})"
 export VITE_API_BASE_URL
 npm run build
 

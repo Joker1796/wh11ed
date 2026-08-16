@@ -1,10 +1,14 @@
-# wh11ed
+# WH Rules
 
 Bilingual (EN/RU) digital reference for the **Warhammer 40,000 11th edition** rules, plus an
 offline tracker for a game in progress. Built as a fast, searchable alternative to flipping
 through the PDF at the table — and, once installed, it works with no connection at all.
 
-🌐 **[wh11ed.ru](https://wh11ed.ru)** · open source under [MIT](LICENSE) · contributions welcome
+🌐 **[wh-rules.ru](https://wh-rules.ru)** · open source under [MIT](LICENSE) · contributions
+welcome
+
+> The site used to live at `wh11ed.ru`. That domain is frozen on its last build and will be
+> redirected here; everything ships to `wh-rules.ru` now.
 
 This repo is the frontend, and the frontend is ~99% of the product. See
 [wh-rules.ru](https://github.com/Joker1796/wh-rules.ru) for how the whole project fits together.
