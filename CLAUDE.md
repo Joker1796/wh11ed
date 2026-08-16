@@ -4,18 +4,24 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-**wh11ed** is a bilingual (EN/RU) reference for the **Warhammer 40,000 11th edition** rules plus an
-offline tracker for a game in progress — live at [wh11ed.ru](https://wh11ed.ru), moving to
-wh-rules.ru. This repo is the frontend, and the frontend is ~99% of the product: every rule, every
-page and the tracker all live here, with no backend involved.
+**WH Rules** is a bilingual (EN/RU) reference for the **Warhammer 40,000 11th edition** rules plus
+an offline tracker for a game in progress — live at [wh-rules.ru](https://wh-rules.ru). This repo
+is the frontend, and the frontend is ~99% of the product: every rule, every page and the tracker
+all live here, with no backend involved.
 
-> **🚚 АКТИВНЫЙ КУРС — миграция домена `wh11ed.ru` → `wh-rules.ru`.** Идёт фазовый переезд
-> (автосинк → грейс → баннер → грейс → катовер с 301). **`MIGRATION.md` — источник правды**,
-> читать его в начале любой сессии на любой машине (память Claude между машинами не
-> синхронизируется). Финал = один домен, `wh11ed.ru` → 301. Сейчас: **Фаза 2 АКТИВНА
-> (с 2026-08-15, v2.2.6)** — pre-баннер «сайт переезжает» живёт на `wh11ed.ru`, host-aware
-> функция бэкенда задеплоена, логин работает на обоих доменах. Дальше ~неделя грейса, затем
-> Фаза 3 (катовер + 301). Живой прод пока остаётся `wh11ed.ru`.
+> **🚚 АКТИВНЫЙ КУРС — миграция домена `wh11ed.ru` → `wh-rules.ru`.** **`MIGRATION.md` —
+> источник правды**, читать его в начале любой сессии на любой машине (память Claude между
+> машинами не синхронизируется). Сейчас (с 2026-08-16): **старый домен заморожен** на сборке
+> v2.2.6 с баннером «переезжаем», **деплой идёт только на `wh-rules.ru`** (`deploy-both.sh`
+> удалён, `.env.deploy` — единственный рабочий конфиг), canonical/sitemap/og уже указывают на
+> новый домен. Осталась Фаза 3 — переключить старый бакет в 301.
+
+> **Имя продукта — «WH Rules»** (`short_name` в манифесте, iOS-title, og:site_name, JSON-LD,
+> вордмарк на скриншотах установки); полное — «Warhammer 40,000 11th Edition — Rules, Factions &
+> Tracker». Старое `WH11ED` в UI/метаданных не осталось. **Но `wh11ed-*` ключи `localStorage` и
+> имя рантайм-кэша `wh11ed-images` НЕ переименовывать** — это пользовательские данные: смена
+> префикса потеряет всю историю партий, избранное и настройки, а смена имени кэша заставит
+> установленные PWA заново качать ~27 МБ картинок.
 
 The audience is players at a table — someone looking a rule up mid-game, usually on a phone, often
 on bad reception. That shapes most of the decisions below.
@@ -257,7 +263,7 @@ The site is an installable PWA via **`vite-plugin-pwa`** (Workbox `generateSW`),
 > **🔒 Product requirement — light web/tab, full offline for the installed app after warm-up.** A casual visitor in a **browser tab** must get a light, responsive site: the SW precaches **only the app shell** (`workbox.globPatterns` = `js/css/html/svg/woff2/png`, with `globIgnores: ['**/images/**']`), and the ~27 MB of images load lazily as they're viewed (`workbox.runtimeCaching`, CacheFirst, cache `wh11ed-images`). The **installed app** still reaches *full* offline, but via a one-time **warm-up** (not an instant post-install guarantee): on the first online standalone launch, `src/composables/useOfflineWarmup.js` fetches every URL in `dist/image-manifest.json` so the CacheFirst route stores them all. Do **not** move images back into `globPatterns` — that re-bloats the tab download, which is exactly what this split fixes.
 
 - **Manifest** is defined inline in the `VitePWA({ manifest })` config; the plugin emits `dist/manifest.webmanifest` and injects the `<link>` into `index.html`. It carries `id: '/'`, app `shortcuts` (Game Tracker, Missions — clean history-mode paths, e.g. `/tracker`) and `screenshots` (wide + narrow, for the richer Chrome/Android install dialog). iOS-only tags (`apple-touch-icon`, `apple-mobile-web-app-*`, `theme-color`, and the `apple-touch-startup-image` launch-screen links) are hand-written in `index.html`.
-- **Icons** (`public/pwa-192.png`, `pwa-512.png`, `maskable-512.png`, `apple-touch-icon.png`) **and `favicon.svg`** are generated from the "W" mark by `scripts/gen-pwa-icons.mjs` (`npm run icons`, uses `sharp`). The "W" (and the WH11ED wordmark on the screenshots) is drawn in the **display font Sofia Sans Extra Condensed 800** — the same `var(--font-display)` as the headings. Since `sharp`/librsvg can't resolve the `@fontsource` woff by family name, `scripts/lib/w-mark.mjs` extracts the glyph **outlines** with `opentype.js` (a devDep) and emits a plain `<path>`, so the output is font-independent and reproducible from `node_modules` (no system-font install). Compose glyph-by-glyph via `charToGlyph` — `font.getPath(string)` throws on this font's `ccmp` GSUB lookup. The install-dialog **screenshots** (`public/screenshot-{wide,narrow}.png`, `npm run screenshots`) and **iOS launch screens** (`public/splash/apple-splash-*.png`, `npm run splash`) use the same helper (branded `#242428` + "W", not real UI captures — swap for real ones later if desired). The splash `<link>` media queries in `index.html` must stay in sync with the device list in `scripts/gen-ios-splash.mjs`.
+- **Icons** (`public/pwa-192.png`, `pwa-512.png`, `maskable-512.png`, `apple-touch-icon.png`) **and `favicon.svg`** are generated from the "W" mark by `scripts/gen-pwa-icons.mjs` (`npm run icons`, uses `sharp`). The "W" (and the WH RULES wordmark on the screenshots) is drawn in the **display font Sofia Sans Extra Condensed 800** — the same `var(--font-display)` as the headings. Since `sharp`/librsvg can't resolve the `@fontsource` woff by family name, `scripts/lib/w-mark.mjs` extracts the glyph **outlines** with `opentype.js` (a devDep) and emits a plain `<path>`, so the output is font-independent and reproducible from `node_modules` (no system-font install). Compose glyph-by-glyph via `charToGlyph` — `font.getPath(string)` throws on this font's `ccmp` GSUB lookup. The install-dialog **screenshots** (`public/screenshot-{wide,narrow}.png`, `npm run screenshots`) and **iOS launch screens** (`public/splash/apple-splash-*.png`, `npm run splash`) use the same helper (branded `#242428` + "W", not real UI captures — swap for real ones later if desired). The splash `<link>` media queries in `index.html` must stay in sync with the device list in `scripts/gen-ios-splash.mjs`.
 - **Install affordance:** Chromium fires `beforeinstallprompt` → a custom "Install app" item in the settings menu calls the native prompt (`useInstallPrompt.js`). iOS has no such event, so on iOS Safari (detected in `useInstallPrompt.js`, excludes in-app/non-Safari browsers and standalone) the same menu item opens `InstallHintModal.vue` with the "Add to Home Screen" steps (EN/RU in `i18n/ui.js`).
 - **Shell precache + lazy images:** `workbox.globPatterns` precaches only the app shell — JS/CSS/HTML, SVG, the root PWA icons (`png`), **and** the fonts (`.woff2`) — a few MB, so a tab loads fast. `globIgnores: ['**/images/**']` keeps `/images/**` out of the precache; those are served by a CacheFirst `runtimeCaching` rule (cache `wh11ed-images`, stable non-hashed names, `maxEntries` bounds growth). Fonts (Inter, EB Garamond) and bootstrap-icons are **self-hosted** via `@fontsource` + the `bootstrap-icons` package, imported in `src/fonts.js` (no external CDN), so their hashed woff2 are precached. Weights mirror the former Google Fonts request (Inter 400/500/600/700/800; EB Garamond 400/600/700 + 400 italic); `@fontsource` ships all subsets incl. Cyrillic for RU. To change fonts/weights, edit `src/fonts.js`.
 - **Offline warm-up (installed app):** a tiny inline Vite plugin in `vite.config.js` walks `public/images/**` at build and emits `dist/image-manifest.json` (the list of every `/images/**` URL). `src/composables/useOfflineWarmup.js` (kicked off from `App.vue` via `OfflineWarmupToast.vue`) runs **only** when standalone (`isStandaloneDisplay()`) + online: it fetches the manifest and then every image (bounded concurrency) so the CacheFirst route fills `wh11ed-images` → full offline. It's idempotent via `localStorage['wh11ed-offline-warmed']`, keyed to a checksum of the manifest, so it runs once after install and **re-runs only when a deploy changes the image set**. The `OfflineWarmupToast` shows an unobtrusive "Preparing offline… N/Total" → "Ready to use offline" chip (labels `warmingOffline`/`offlineReady` in `i18n/ui.js`); a normal tab never warms and never shows it.
@@ -298,7 +304,7 @@ libraries** (don't add GSAP/@vueuse/motion/animate.css).
 
 ## Deployment
 
-Hosted at **wh11ed.ru** on a **Yandex Object Storage** bucket (`wh11ed.ru`) behind **Yandex CDN**. Deploy with `npm run deploy` (runs `deploy.sh`), which builds and `aws s3 sync`s `dist/` with tiered `Cache-Control`:
+Hosted at **wh-rules.ru** on a **Yandex Object Storage** bucket (`wh-rules.ru`) behind **Yandex CDN**. Deploy with `npm run deploy` (runs `deploy.sh`), which builds and `aws s3 sync`s `dist/` with tiered `Cache-Control`:
 
 - `assets/*` (content-hashed, incl. `workbox-*.js`) → `public, max-age=31536000, immutable`
 - images / favicon / PWA icons / `og-image.png` (stable names) → `public, max-age=31536000`
@@ -308,5 +314,7 @@ Hosted at **wh11ed.ru** on a **Yandex Object Storage** bucket (`wh11ed.ru`) behi
 - **SEO route keys** (step 3b) — an `index.html` copy under every path from `dist/.seo-routes.txt` (1 h, forced `text/html`), so deep links return 200 (see Architecture). These keys exist only in the bucket, not in `dist/` — step 2 derives `--exclude`s for their top-level segments so its `--delete` never removes them. Removed routes leave stale keys; harmless (SPA shows its noindex 404).
 
 `deploy.sh` **auto-bumps `package.json` (`BUMP=patch` by default)** before building — use `BUMP=none npm run deploy` to ship the current version as-is, or `BUMP=minor`/`major`. When it bumps (`BUMP` ≠ `none`), it also **commits + pushes** the bump (`chore: release vX.Y.Z`) to `origin main` once the deploy succeeds — so deploy from `main` with a clean tree (uncommitted changes outside `package.json`/`package-lock.json`, or being on another branch, aborts the deploy before it builds anything).
+
+**One target only.** The retired `wh11ed.ru` is frozen on its last build (v2.2.6, with the move banner) and is never redeployed — `deploy-both.sh` is gone, `.env.deploy` (bucket + CDN + `VITE_SITE_ORIGIN` + `VITE_API_BASE_URL`) is the single working config, and `.env.deploy.wh11ed` survives only as a rollback escape hatch (`ENVFILE=.env.deploy.wh11ed BUMP=none npm run deploy`). Don't reintroduce a two-domain release.
 
 Uploads via the S3-compatible API (endpoint `storage.yandexcloud.net`, AWS CLI profile `yc`). **The CDN purge now runs automatically** at the end of `deploy.sh`: `CDN_RESOURCE_ID` is read from the gitignored `.env.deploy` (copy `.env.deploy.example`) and `yc` is resolved even off-PATH (`~/yandex-cloud/bin/yc`); a purge failure warns instead of aborting (upload is already done). Override with another id, or run `CDN_RESOURCE_ID= npm run deploy` to skip. Manual fallback: `yc cdn cache purge --resource-id <cdn-resource-id> --path '/*'`. The CDN resource must cache **according to origin headers** (honor-origin) or it overrides per-file `Cache-Control` with a single TTL. Because images are cached a year under stable names, **rename a file when you change an image** (or the browser keeps the old one). Full runbook: `DEPLOY.md`.
