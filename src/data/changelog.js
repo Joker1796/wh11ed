@@ -17,6 +17,16 @@
 
 export const changelog = [
   {
+    version: '2.2.7',
+    date: '2026-08-16',
+    en: [
+      'The site has moved to wh-rules.ru and the app is now called "WH Rules" — if you installed it from the old address, reinstall it here so you keep getting updates. Sign in first and your saved games come with you.',
+    ],
+    ru: [
+      'Сайт переехал на wh-rules.ru, приложение теперь называется «WH Rules» — если вы устанавливали его со старого адреса, переустановите отсюда, иначе обновления перестанут приходить. Залогиньтесь заранее — сохранённые партии переедут вместе с вами.',
+    ],
+  },
+  {
     version: '2.2.6',
     date: '2026-08-15',
     en: [
