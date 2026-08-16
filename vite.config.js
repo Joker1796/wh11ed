@@ -10,14 +10,14 @@ const pkgVersion = JSON.parse(readFileSync('./package.json', 'utf8')).version
 // %SITE_ORIGIN% placeholder. Same var + fallback as src/config.js and scripts/gen-seo-routes.mjs,
 // so a single VITE_SITE_ORIGIN drives runtime canonical, the sitemap, robots.txt AND the static
 // tags — no hand-editing index.html/robots at the domain cutover.
-const SITE_ORIGIN = process.env.VITE_SITE_ORIGIN || 'https://wh11ed.ru'
+const SITE_ORIGIN = process.env.VITE_SITE_ORIGIN || 'https://wh-rules.ru'
 
 // Replace the %SITE_ORIGIN% placeholder in index.html at build time. Not Vite's built-in
 // %VITE_*% mechanism, so we control the fallback (a bare `npm run build` with no env still emits
 // a valid absolute origin instead of an empty string).
 function injectSiteOrigin() {
   return {
-    name: 'wh11ed-site-origin',
+    name: 'site-origin',
     transformIndexHtml(html) {
       return html.replaceAll('%SITE_ORIGIN%', SITE_ORIGIN)
     },
@@ -40,7 +40,7 @@ function imageManifest() {
     return out
   }
   return {
-    name: 'wh11ed-image-manifest',
+    name: 'image-manifest',
     apply: 'build',
     generateBundle() {
       const files = walk('public/images').sort()
@@ -68,10 +68,12 @@ export default defineConfig({
         // Explicit `id` keeps the app identity stable across deploys even if
         // start_url ever changes (avoids duplicate installs).
         id: '/',
-        name: 'Warhammer 40,000 — Core Rules 11th Edition',
-        short_name: 'WH11ED',
+        name: 'Warhammer 40,000 11th Edition — Rules, Factions & Tracker',
+        // Shown under the installed icon — this is the app's user-facing name. Keep it short
+        // enough not to be truncated on a phone home screen (~12 chars).
+        short_name: 'WH Rules',
         description:
-          'Bilingual (EN/RU) interactive reference for the Warhammer 40,000 11th Edition Core Rules and Event Companion.',
+          'Bilingual (EN/RU) interactive reference for Warhammer 40,000 11th Edition: core rules, the Event Companion, faction rules and unit datasheets, plus an offline game tracker.',
         lang: 'en',
         dir: 'ltr',
         start_url: '/',
@@ -133,6 +135,9 @@ export default defineConfig({
         // names are stable, a changed image must be renamed (same rule as before) or the old
         // cached copy is served. cleanupOutdatedCaches does NOT purge this cache; maxEntries
         // bounds its growth (287 image files today — keep generous headroom).
+        // `wh11ed-images` keeps its legacy name ON PURPOSE: renaming it orphans the ~27 MB
+        // every installed user already warmed up (nothing purges the old cache, and the new
+        // one re-downloads from scratch). The cache name is data, not branding.
         runtimeCaching: [
           {
             urlPattern: ({ url }) => url.pathname.startsWith('/images/'),

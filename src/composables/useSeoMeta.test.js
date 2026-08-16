@@ -27,7 +27,7 @@ describe('applyRouteMeta', () => {
 
   it('sets the project landing title + default description on home', () => {
     applyRouteMeta('/', 'en')
-    expect(document.title).toBe('Warhammer 40,000 11th Edition — Rules, Event Companion & Tracker')
+    expect(document.title).toBe('Warhammer 40,000 11th Edition — Rules, Factions & Tracker')
     expect(descContent()).toMatch(/Bilingual/)
   })
 
@@ -48,11 +48,11 @@ describe('applyRouteMeta', () => {
   // the default.
   it('falls back to the default for the retired per-chapter routes', () => {
     applyRouteMeta('/basic-rules', 'en')
-    expect(document.title).toBe('Warhammer 40,000 — Core Rules 11th Edition')
+    expect(document.title).toBe('Warhammer 40,000 11th Edition — Rules, Factions & Tracker')
     expect(canonicalHref()).toBe('')
 
     applyRouteMeta('/event-companion/missions', 'en')
-    expect(document.title).toBe('Warhammer 40,000 — Core Rules 11th Edition')
+    expect(document.title).toBe('Warhammer 40,000 11th Edition — Rules, Factions & Tracker')
     expect(canonicalHref()).toBe('')
   })
 
@@ -79,7 +79,7 @@ describe('applyRouteMeta', () => {
 
   it('falls back to the default for unknown routes', () => {
     applyRouteMeta('/totally-unknown', 'ru')
-    expect(document.title).toBe('Warhammer 40,000 — Основные правила 11-й редакции')
+    expect(document.title).toBe('Warhammer 40,000 11-я редакция — правила, фракции и трекер')
   })
 
   it('reuses a single <meta name="description"> element across calls', () => {
@@ -91,23 +91,23 @@ describe('applyRouteMeta', () => {
 
   it('sets a self-referential canonical + og:url + hreflang pair per route (EN)', () => {
     applyRouteMeta('/core-rules', 'en')
-    expect(canonicalHref()).toBe('https://wh11ed.ru/core-rules')
-    expect(ogUrl()).toBe('https://wh11ed.ru/core-rules')
-    expect(alternateHref('en')).toBe('https://wh11ed.ru/core-rules')
-    expect(alternateHref('ru')).toBe('https://wh11ed.ru/core-rules?lang=ru')
-    expect(alternateHref('x-default')).toBe('https://wh11ed.ru/core-rules')
+    expect(canonicalHref()).toBe('https://wh-rules.ru/core-rules')
+    expect(ogUrl()).toBe('https://wh-rules.ru/core-rules')
+    expect(alternateHref('en')).toBe('https://wh-rules.ru/core-rules')
+    expect(alternateHref('ru')).toBe('https://wh-rules.ru/core-rules?lang=ru')
+    expect(alternateHref('x-default')).toBe('https://wh-rules.ru/core-rules')
   })
 
   it('canonicalizes the RU variant to itself (?lang=ru), not to the EN URL', () => {
     applyRouteMeta('/core-rules', 'ru')
-    expect(canonicalHref()).toBe('https://wh11ed.ru/core-rules?lang=ru')
-    expect(ogUrl()).toBe('https://wh11ed.ru/core-rules?lang=ru')
+    expect(canonicalHref()).toBe('https://wh-rules.ru/core-rules?lang=ru')
+    expect(ogUrl()).toBe('https://wh-rules.ru/core-rules?lang=ru')
   })
 
   it('uses /?lang=ru (not //?lang=ru) for the home RU alternate', () => {
     applyRouteMeta('/', 'en')
-    expect(canonicalHref()).toBe('https://wh11ed.ru/')
-    expect(alternateHref('ru')).toBe('https://wh11ed.ru/?lang=ru')
+    expect(canonicalHref()).toBe('https://wh-rules.ru/')
+    expect(alternateHref('ru')).toBe('https://wh-rules.ru/?lang=ru')
   })
 
   it('reuses single canonical/alternate elements across navigations', () => {
@@ -115,7 +115,7 @@ describe('applyRouteMeta', () => {
     applyRouteMeta('/stratagems', 'en')
     expect(document.querySelectorAll('link[rel="canonical"]').length).toBe(1)
     expect(document.querySelectorAll('link[rel="alternate"]').length).toBe(3)
-    expect(canonicalHref()).toBe('https://wh11ed.ru/stratagems')
+    expect(canonicalHref()).toBe('https://wh-rules.ru/stratagems')
   })
 
   it('removes the canonical trio on non-indexable routes', () => {
@@ -136,14 +136,14 @@ describe('applyRouteMeta', () => {
     applyRouteMeta('/factions/space-marines', 'en')
     expect(document.title).toBe('Space Marines — Army Rules & Detachments — Warhammer 40,000 11th Ed')
     expect(descContent()).toMatch(/army rule, detachments, stratagems/i)
-    expect(canonicalHref()).toBe('https://wh11ed.ru/factions/space-marines')
-    expect(alternateHref('ru')).toBe('https://wh11ed.ru/factions/space-marines?lang=ru')
+    expect(canonicalHref()).toBe('https://wh-rules.ru/factions/space-marines')
+    expect(alternateHref('ru')).toBe('https://wh-rules.ru/factions/space-marines?lang=ru')
   })
 
   it('titles the datasheets list page per faction', () => {
     applyRouteMeta('/factions/orks/datasheets', 'en')
     expect(document.title).toBe('Orks Datasheets — Warhammer 40,000 11th Ed')
-    expect(canonicalHref()).toBe('https://wh11ed.ru/factions/orks/datasheets')
+    expect(canonicalHref()).toBe('https://wh-rules.ru/factions/orks/datasheets')
   })
 
   it('uses a slug-derived unit name until the view supplies the real one, then upgrades it', () => {
@@ -154,7 +154,7 @@ describe('applyRouteMeta', () => {
     expect(document.title).toBe('Cato Sicarius — Space Marines Datasheet — Warhammer 40,000 11th Ed')
     setDatasheetName('/factions/space-marines/datasheets/cato-sicarius', 'Cato Sicarius')
     expect(document.title).toBe('Cato Sicarius — Space Marines Datasheet — Warhammer 40,000 11th Ed')
-    expect(canonicalHref()).toBe('https://wh11ed.ru/factions/space-marines/datasheets/cato-sicarius')
+    expect(canonicalHref()).toBe('https://wh-rules.ru/factions/space-marines/datasheets/cato-sicarius')
   })
 
   it('localizes faction-page phrasing but keeps the English faction/unit name (RU)', () => {
