@@ -26,6 +26,18 @@ describe('roster wargear instructions in Russian', () => {
     expect(leaked).toEqual([])
   })
 
+  it('keeps the bullet list a list, one option per line', () => {
+    // The markers are what the editor renders as separate rows; a translation that folds them
+    // onto one line reads as a single run-on sentence offering everything at once.
+    for (const [id, ru] of Object.entries(textsRu)) {
+      const en = items.texts[id]
+      if (!/\n\s*[◦•]/.test(en)) continue
+      const count = (s) => (s.match(/[◦•]/g) || []).length
+      expect(count(ru), id).toBe(count(en))
+      expect(/[◦•]/.test(ru.split('\n')[0]), id).toBe(false)
+    }
+  })
+
   it('leaves no doubled space or dangling noun from a slot that resolved to nothing', () => {
     expect(values.filter((v) => /\s{2,}|моделей\s+models?\b/.test(v.split('\n')[0]))).toEqual([])
   })

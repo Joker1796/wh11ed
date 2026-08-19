@@ -80,8 +80,11 @@
     <section v-if="wargearGroupLive(def, entry, gi)" class="ues-sec">
       <h4 class="ues-h">
         <span v-if="miniName(g.m)" class="ues-mini">{{ miniName(g.m) }}</span>
-        {{ groupText(g) }}
+        {{ groupLines[gi].head }}
       </h4>
+      <ul v-if="groupLines[gi].bullets.length" class="ues-blist">
+        <li v-for="(b, bi) in groupLines[gi].bullets" :key="bi">{{ b }}</li>
+      </ul>
 
       <!-- radio: replace with one of… — the default loadout is itself a real option (its own
            name, from the group's `rep`), not a separate pseudo "keep default" pill. Each row is
@@ -213,7 +216,7 @@ import FactionAccentScope from './FactionAccentScope.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { loadRosterTextsRu } from '../../data/roster/ru/index.js'
-import { defaultLoadoutLines, wargearGroupLive } from '../../composables/rosterEngine.js'
+import { defaultLoadoutLines, splitInstruction, wargearGroupLive } from '../../composables/rosterEngine.js'
 
 const props = defineProps({
   entry: { type: Object, required: true },
@@ -250,6 +253,10 @@ watch(locale, async (loc) => {
 }, { immediate: true })
 
 const groupText = (g) => (locale.value === 'ru' && textsRu.value?.[g.t]) || props.texts[g.t] || ''
+// Parallel to `def.gear`, so the split runs once per group per render rather than once per
+// interpolation. The bullet list is a list in the source text and has to render as one — read as
+// a single paragraph it says the opposite of what it means, running four alternatives together.
+const groupLines = computed(() => (props.def.gear || []).map((g) => splitInstruction(groupText(g))))
 
 // Every wargear row is a checkbox (selection) plus a separate trailing button; the button opens a
 // FOCUSED profile modal for just that item (WeaponProfileModal) — never the whole unit sheet,
@@ -367,6 +374,11 @@ function toggleLeader(uid) { setLeader(props.entry.leaderOf === uid ? null : uid
 }
 .ues-mini { color: var(--text-dim); font-weight: 700; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.03em; margin-right: 0.3rem; }
 .ues-default { font-size: 0.82rem; color: var(--text-muted); margin: 0.15rem 0; }
+/* The option list under a group's instruction — indented under the heading it belongs to, and
+   muted so the heading still reads as the heading. */
+.ues-blist { margin: -0.25rem 0 0.5rem; padding-left: 1.1rem; list-style: none; }
+.ues-blist li { position: relative; font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
+.ues-blist li::before { content: '◦'; position: absolute; left: -0.85rem; color: var(--text-dim); }
 .ues-count { display: flex; align-items: center; justify-content: space-between; }
 .opt-row { display: flex; flex-wrap: wrap; gap: 0.35rem; }
 .opt-col { display: flex; flex-direction: column; gap: 0.3rem; }
@@ -443,6 +455,7 @@ function toggleLeader(uid) { setLeader(props.entry.leaderOf === uid ? null : uid
    crowding or wrap awkwardly at this width. */
 @media (max-width: 360px) {
   .ues-default { font-size: 0.76rem; }
+  .ues-blist li { font-size: 0.78rem; }
   .pill { padding: 0.22rem 0.45rem; font-size: 0.72rem; }
   .opt-select { padding: 0.4rem 0.45rem; gap: 0.4rem; font-size: 0.78rem; }
   .opt-select input { width: 16px; height: 16px; }

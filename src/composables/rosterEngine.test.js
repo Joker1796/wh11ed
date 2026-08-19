@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { enhAttachOf, leadsFor, bucketOf, unitBasePoints, unitWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, defaultLoadoutLines, capKeyOf } from './rosterEngine.js'
+import { enhAttachOf, leadsFor, splitInstruction, bucketOf, unitBasePoints, unitWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, defaultLoadoutLines, capKeyOf } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -429,5 +429,28 @@ describe('enhancement-granted attaches', () => {
     const list = [{ uid: 'a', id: 'chronomancer', enh: 'Murdermind' }, { uid: 'b', id: 'skorpekh-destroyers' }]
     const realDefOf = (id) => rf.default.units.find((u) => u.id === id)
     expect(leaderTargetsFor(def, list, 'a', realDefOf, [det]).map((t) => t.name)).toContain('Skorpekh Destroyers')
+  })
+})
+
+describe('splitInstruction', () => {
+  it('keeps a plain sentence whole with no bullets', () => {
+    expect(splitInstruction('This model can be equipped with 1 Voidraven missiles.'))
+      .toEqual({ head: 'This model can be equipped with 1 Voidraven missiles.', bullets: [] })
+  })
+
+  it('splits the option list off the sentence and drops the markers', () => {
+    const t = 'For every 5 models in the unit:\n◦ 1 hexrifle and 1 torturer\u2019s tool\n◦ 1 ossefactor'
+    expect(splitInstruction(t)).toEqual({
+      head: 'For every 5 models in the unit:',
+      bullets: ['1 hexrifle and 1 torturer\u2019s tool', '1 ossefactor'],
+    })
+  })
+
+  it('handles the • marker appdata also uses', () => {
+    expect(splitInstruction('one of the following:\n• 1 holy eviscerator').bullets).toEqual(['1 holy eviscerator'])
+  })
+
+  it('is safe on empty/absent text', () => {
+    expect(splitInstruction(undefined)).toEqual({ head: '', bullets: [] })
   })
 })

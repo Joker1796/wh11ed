@@ -81,6 +81,23 @@ export function wargearGroupLive(def, entry, gi) {
   return sibActive === !!wantActive
 }
 
+// A wargear group's instruction text is a sentence, sometimes followed by a bullet list of the
+// options it offers ("…replaced with one of the following:\n◦ 1 hexrifle and 1 torturer's tool").
+// appdata carries that list as real newlines with a `◦`/`•` marker, both of which collapse into
+// one run-on line when interpolated into a template — so the two parts are split here and the
+// caller renders the bullets as a list. Kept as data (marker stripped), not markup: the RU
+// generator emits the same shape, so both locales render identically.
+const BULLET = /^[◦•]\s*/
+export function splitInstruction(text) {
+  const lines = String(text || '').split('\n').map((l) => l.trim()).filter(Boolean)
+  const first = lines.findIndex((l) => BULLET.test(l))
+  if (first === -1) return { head: lines.join(' '), bullets: [] }
+  return {
+    head: lines.slice(0, first).join(' '),
+    bullets: lines.slice(first).map((l) => l.replace(BULLET, '').trim()).filter(Boolean),
+  }
+}
+
 // Can this unit be the army's Warlord? Characters (and the rare non-character unit GW flags)
 // unless explicitly barred — EXCEPT a detachment can grant a specific unit an exception to its
 // own usual bar (`det.grantedWarlord`, from wh40k-appdata's detachment_granted_warlord_miniature —
