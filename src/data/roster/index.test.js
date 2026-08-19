@@ -169,7 +169,9 @@ describe('bundled wargear options', () => {
     // appdata records a unit-wide bullet once per miniature; folded into one by the generator
     // (mergeMiniatureDuplicates). Two copies would read as a repeated instruction AND hand out
     // the allowance twice, which is how this was noticed on Drukhari Wracks.
-    const key = (g) => `${g.t}|${g.o.map((o) => optionItems(o).map(([id]) => id).sort().join('+')).sort().join('/')}`
+    // Keyed on the TEXT, whitespace-normalised — the two copies are typed twice into appdata and
+    // can differ by a stray space, which is how one pair escaped the first version of the fold.
+    const key = (g) => `${(rosterItems.texts[g.t] || '').replace(/\s+/g, ' ').trim()}|${g.o.map((o) => optionItems(o).map(([id]) => id).sort().join('+')).sort().join('/')}`
     for (const [slug, data] of loaded) {
       for (const u of data.units || []) {
         const seen = new Set()
