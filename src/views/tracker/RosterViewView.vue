@@ -58,8 +58,8 @@
             >
               <span class="rvunit-text">
                 <span class="rvunit-name">{{ defOf(e.id)?.name || e.id }}</span>
-                <span v-if="statCellsOf(e.id).length" class="rvunit-stats">
-                  <span v-for="s in statCellsOf(e.id)" :key="s.label" class="rvst" :class="{ 'rvst-inv': s.inv }">
+                <span v-if="statCellsOf(e).length" class="rvunit-stats">
+                  <span v-for="s in statCellsOf(e)" :key="s.label" class="rvst" :class="{ 'rvst-inv': s.inv, 'rvst-mod': s.mod }">
                     <span class="rvst-label">{{ s.label }}</span>
                     <span class="rvst-box">{{ s.value }}</span>
                   </span>
@@ -174,7 +174,8 @@ import rosterCore from '../../data/roster/core.js'
 import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
-import { UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints, entrySummary, effectiveBattle, leaderTargetsFor } from '../../composables/rosterEngine.js'
+import { UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints, entrySummary, effectiveBattle, leaderTargetsFor, mandatoryEnhancementFor } from '../../composables/rosterEngine.js'
+import { applyStatMods, resolveModifierEntries } from '../../composables/rosterStatMods.js'
 import { phasesOf, phaseLabel, PHASE_ORDER } from '../../composables/stratagemPhases.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 
@@ -234,22 +235,63 @@ const viewingLeaderTargets = computed(() => (viewingEntry.value
 // down for a compact list row — invuln is its own trailing plate (see below) rather than
 // DatasheetCard's shield-shaped box sitting under SV with a side label; that layout needs more
 // room than a one-line row has.
-function statCellsOf(id) {
-  const p = fullSheets.value.get(id)?.profiles?.[0]
-  if (!p) return []
+// The statline this ENTRY fields, not the one its datasheet prints: the same modifier layer the
+// unit-rules modal applies runs here too. A plate showing 5" while the card behind it shows 7"
+// would be the worst of both, so this list and that card go through one implementation
+// (rosterStatMods.js) with the same inputs.
+function statCellsOf(entry) {
+  const sheet = fullSheets.value.get(entry?.id)
+  if (!sheet?.profiles?.[0]) return []
+  const { sheet: modded, marks } = statModsFor(entry, sheet)
+  const p = modded.profiles[0]
+  const marked = new Set(marks)
+  const cell = (key, label, value) => ({ key, label, value, mod: marked.has(`profile:${key}:0`) })
   const cells = [
-    { label: 'M', value: p.m },
-    { label: 'T', value: p.t },
-    { label: 'SV', value: p.sv },
-    { label: 'W', value: p.w },
-    { label: 'LD', value: p.ld },
-    { label: 'OC', value: p.oc },
+    cell('m', 'M', p.m),
+    cell('t', 'T', p.t),
+    cell('sv', 'SV', p.sv),
+    cell('w', 'W', p.w),
+    cell('ld', 'LD', p.ld),
+    cell('oc', 'OC', p.oc),
   ]
   // Last plate, marked `inv: true` so the template can colour it distinctly — same idea as
   // DatasheetCard's own accent-coloured "Invulnerable Save" label, just at the end of the row
   // instead of straight under SV (no room for that layout in a one-line list row).
-  if (p.inv) cells.push({ label: 'INV', value: `${p.inv}${p.invNote ? '*' : ''}`, inv: true })
+  if (p.inv) cells.push({ ...cell('inv', 'INV', `${p.inv}${p.invNote ? '*' : ''}`), inv: true })
   return cells
+}
+
+// ── Numeric modifier layer (Tier C) for the compact plates ──────────────────────────────────
+// Needs two things the Rules tab also loads: the modifier records, and the ENGLISH faction
+// bundle whose rule bodies ruleTargets.js reads. Both are per-faction dynamic imports, and
+// `loadFaction` memoizes, so opening the Rules tab afterwards costs nothing extra.
+const modifierRecords = ref([])
+const factionEn = ref(null)
+watch(() => roster.value?.faction, async (slug) => {
+  modifierRecords.value = []
+  factionEn.value = null
+  if (!slug) return
+  const [{ loadRosterModifiers, usableEntries }, { loadFaction }] = await Promise.all([
+    import('../../data/rosterModifiers/index.js'),
+    import('../../data/factions/index.js'),
+  ])
+  const [mods, fac] = await Promise.all([loadRosterModifiers(slug), loadFaction(slug)])
+  if (roster.value?.faction !== slug) return
+  modifierRecords.value = usableEntries(mods)
+  factionEn.value = fac?.en || null
+}, { immediate: true })
+
+const factionKeywordSets = computed(() =>
+  [...fullSheets.value.values()].map((d) => [...(d.keywords || []), ...(d.factionKeywords || [])]))
+
+function statModsFor(entry, sheet) {
+  if (!entry || !modifierRecords.value.length || !factionEn.value) return { sheet, marks: [] }
+  const def = defOf(entry.id)
+  const enh = entry.enh || mandatoryEnhancementFor(def, curDetachments.value)?.name || null
+  const resolved = resolveModifierEntries(modifierRecords.value, factionEn.value, roster.value?.detachments, enh)
+  if (!resolved.length) return { sheet, marks: [] }
+  const kws = [...(sheet.keywords || []), ...(sheet.factionKeywords || [])]
+  return applyStatMods(sheet, resolved, kws, factionKeywordSets.value)
 }
 
 const unitMap = computed(() => {
@@ -468,6 +510,9 @@ function stratKey(strat) {
    row. Copied, not shared — scoped styles don't cross component boundaries. */
 .rvunit-stats { display: inline-flex; gap: 0.3rem; margin: 0.15rem 0; }
 .rvst { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; }
+/* A plate the modifier layer rewrote — the same accent treatment DatasheetCard gives a modified
+   value, so the list and the card agree at a glance as well as in the number. */
+.rvst-mod .rvst-box { color: var(--accent); }
 .rvst-label { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.5px; color: var(--text-muted); }
 .rvst-box {
   position: relative;
