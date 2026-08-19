@@ -492,7 +492,9 @@ describe('the real Wracks bundle', () => {
     const rf = await import('../data/roster/drukhari.js')
     const items = (await import('../data/roster/items.js')).default.items
     const wracks = rf.default.units.find((u) => u.id === 'wracks')
-    const group = wracks.gear.find((g) => g.o.length === 4 && g.in === 'checkbox')
+    // The unit-wide group — appdata records this same instruction on both miniatures, and the
+    // generator folds those two copies into one (mergeMiniatureDuplicates).
+    const group = wracks.gear.find((g) => g.all && g.o.length === 4)
     expect(group.o.map((o) => optionLabel(o, items))).toEqual([
       'Hexrifle + Torturer\u2019s tool',
       'Liquifier gun + Torturer\u2019s tool',

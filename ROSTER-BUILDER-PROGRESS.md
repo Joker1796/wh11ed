@@ -141,6 +141,24 @@ is implemented and tested.
    model's 2 starcannons can be replaced with 2 bright lances") — display-only, since a weapon
    table lists a name once regardless.
 
+7. **The same instruction shown twice — FIXED 2026-08-19.** Reported on Drukhari Wracks ("На
+   каждые 5 моделей в отряде:" appearing twice).
+
+   appdata hangs option groups off MINIATURES, not off the datasheet, so a bullet about the whole
+   unit is recorded once per miniature profile — checkbox on the leader model, stepper on the
+   rank-and-file one. Not just a repeated heading: each copy carried its own allowance, so the
+   swap could be taken twice.
+
+   `mergeMiniatureDuplicates` folds a pair into one unit-wide group (`all: 1`, no `m`) when the
+   instruction text AND the option sets match exactly — a leader with a real separate allowance
+   is always worded differently, so it can't collide. 99 pairs across 50 units; in all of them
+   the copies agreed on what they replace. Running it before the limit matching was the bigger
+   win: identical groups were what made a limited set ambiguous, so ambiguity fell 43 → 1 and
+   capped groups rose 219 → 261.
+
+   SCHEMA_VERSION 3 for the same reason as v2 — group indices moved, and a stale index would
+   quietly mean a different weapon.
+
 ## Where the merge-into-main work is recorded
 
 The `main`-catch-up merge itself (conflict resolution, a stale test fixed for `BaseModal`'s

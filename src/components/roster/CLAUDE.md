@@ -197,6 +197,25 @@ Because a pick is stored as an INDEX into the option list, rewriting the lists r
 hence `useRosters.js` SCHEMA_VERSION 2, which drops `wg` from rosters saved under v1 rather than
 re-interpreting an old index as a different weapon.
 
+## One bullet, recorded once per miniature
+
+A datasheet bullet that talks about the UNIT ("Any number of models can each have their hallowed
+mace replaced…", "For every 5 models in this unit, 1 model's…") is stored by appdata **once per
+miniature profile** — a checkbox on the single leader model, a stepper on the rank-and-file one —
+because option groups hang off miniatures, not off the datasheet. Rendered straight that is the
+same instruction printed twice, and each copy carries its own allowance, so the swap could be
+taken twice.
+
+`mergeMiniatureDuplicates` folds them into one group with `all: 1` and **no `m`** (no miniature
+owns it, so the editor prints no miniature name). Safety comes from matching the exact
+instruction text AND the exact option sets: a leader with a genuinely separate allowance is
+always worded differently ("The Sister Superior's boltgun…"), so it never collides; two copies on
+the same miniature are left alone. 99 pairs across 50 units.
+
+It runs **before** the limits below, deliberately — two identical groups are exactly what made a
+limited set ambiguous, and folding them first took the ambiguous count from 43 to 1 and the
+capped groups from 219 to 261.
+
 ## How many models may take it
 
 The other half of the same gap: `wargear_option_group` says WHAT a squad may take, never HOW

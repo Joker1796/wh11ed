@@ -23,7 +23,7 @@ describe('createRoster', () => {
     expect(r.units).toEqual([])
     expect(store.rosters.value).toHaveLength(1)
     // saveNow() wrote synchronously in the current schema envelope
-    expect(stored()).toEqual({ v: 2, rosters: [r] })
+    expect(stored()).toEqual({ v: 3, rosters: [r] })
   })
 
   it('prepends new rosters (most recent first)', () => {
@@ -119,11 +119,12 @@ describe('persistence + load', () => {
   })
 })
 
-describe('schema v1 → v2', () => {
+describe('schema → v3', () => {
   it('drops wargear picks, whose option indices v2 renumbered, and keeps everything else', async () => {
-    // v2's generator merged the items of a bundled option into ONE option ("1 hexrifle and 1
-    // torturer's tool"), so a stored index now points at a different weapon. Re-picking is the
-    // honest outcome; silently re-interpreting the index is not.
+    // The generator merged the items of a bundled option into ONE option ("1 hexrifle and 1
+    // torturer's tool") and folded per-miniature duplicates of a unit-wide group, so both stored
+    // indices can now point at a different weapon. Re-picking is the honest outcome; silently
+    // re-interpreting the index is not.
     localStorage.setItem('wh11ed-rosters', JSON.stringify({
       v: 1,
       rosters: [{ id: 'r1', name: 'Old', createdAt: 1, updatedAt: 1, units: [{ uid: 'u1', id: 'wracks', size: 0, wg: [[0, 1, 1]], enh: 'Murdermind' }] }],
