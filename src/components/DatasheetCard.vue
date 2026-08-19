@@ -985,9 +985,25 @@ function modDelta(n) {
 .ds-mod-when .ds-mod-delta { font-weight: 600; color: var(--text-muted); }
 .ds-mod-cond { flex-basis: 100%; padding-left: 0.1rem; font-style: italic; }
 /* The `*` on a value the layer rewrote, and its cell. Same asterisk convention as the granted
-   keywords' `.ds-kw-star`. */
-.ds-mod-star { color: var(--accent); font-weight: 700; margin-left: 1px; }
-.ds-stat-mod { box-shadow: inset 0 -2px 0 color-mix(in srgb, var(--accent) 55%, transparent); }
+   keywords' `.ds-kw-star`.
+   `line-height: 0` + `position: relative` instead of the default `vertical-align: super`: a real
+   superscript grows the line box UPWARDS, and since the line starts right under the column label
+   in the phone layout, that pushed the marked value's baseline down and left it sitting lower
+   than its neighbours in the stat row. This raises the glyph without it occupying any height.
+   The value itself is marked by COLOUR rather than an underline — an underline spans the whole
+   grid cell, label included, which read as a heavy bar under one column. The `::before` label
+   sets its own colour, so it stays muted. */
+.ds-mod-star {
+  position: relative;
+  top: -0.4em;
+  vertical-align: baseline;
+  line-height: 0;
+  font-size: 0.7em;
+  color: var(--accent);
+  font-weight: 700;
+  margin-left: 1px;
+}
+.ds-stat-mod { color: var(--accent); }
 
 /* Abilities */
 .ds-abilities { font-size: 0.85rem; line-height: 1.5; color: var(--text-primary); }
