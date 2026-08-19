@@ -3,7 +3,7 @@
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
-import { hasKeyword, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, leadsFor } from './rosterEngine.js'
+import { hasKeyword, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, leadsFor, wargearGroupCap, wargearGroupLive, wargearGroupSpent } from './rosterEngine.js'
 
 // Per-unit duplicate cap: the battle size's limit, doubled for Battleline / Dedicated Transport,
 // and hard-capped at 1 for every Epic Hero — regardless of battle size (rule 25).
@@ -73,6 +73,25 @@ export function validateRoster(roster, { faction, core } = {}) {
         const over = defOf(list[limit].id) || def
         add('overDuplicate', 'error', { uid: list[limit].uid, params: { name: over.name, count: list.length, limit } })
       }
+    }
+  }
+
+  // Wargear pick limits. The editor caps the steppers as you click, so this can only fire on a
+  // list that was legal when it was built and stopped being one — almost always by SHRINKING the
+  // unit ("up to 4 at 10 models" → 2 when it drops to 5). Reported, never auto-trimmed: which
+  // weapon to give up is the player's call, not ours.
+  for (const u of units) {
+    const def = defOf(u.id)
+    for (const [gi] of (def?.gear || []).entries()) {
+      const cap = wargearGroupCap(def, u, gi)
+      if (!cap || !wargearGroupLive(def, u, gi)) continue
+      const spent = wargearGroupSpent(u, gi)
+      if (spent > cap.limit) {
+        add('overWargearLimit', 'error', { uid: u.uid, params: { name: def.name, count: spent, limit: cap.limit } })
+        continue
+      }
+      const over = cap.dup && (u.wg || []).find(([g, , n]) => g === gi && (n || 1) > cap.dup)
+      if (over) add('overWargearDup', 'error', { uid: u.uid, params: { name: def.name, count: over[2] || 1, limit: cap.dup } })
     }
   }
 

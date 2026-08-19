@@ -56,6 +56,38 @@ describe('validateRoster — completeness', () => {
   })
 })
 
+describe('validateRoster — wargear pick limits', () => {
+  // "Up to 2 at 5 models, up to 4 at 10", with at most 2 of a kind.
+  const squad = {
+    id: 'squad', name: 'Squad', kws: ['Infantry'], flags: {},
+    sizes: [{ pts: 100, per: [5, 5], default: 1 }, { pts: 200, per: [10, 10] }],
+    gear: [{ m: 0, t: 1, in: 'stepper', o: [[1], [2]], lim: [[0, 2, 2], [10, 4, 2]] }],
+  }
+  const f = { ...faction, units: [...faction.units, squad] }
+  const check = (r) => validateRoster(r, { faction: f, core }).issues
+
+  it('says nothing while the picks fit the unit\u2019s size', () => {
+    const u = U('squad', { size: 1, wg: [[0, 0, 2], [0, 1, 2]] }) // 4 picks in a 10-model squad
+    expect(check(roster({ units: [{ ...u, warlord: true }] })).map((i) => i.code)).not.toContain('overWargearLimit')
+  })
+
+  it('flags a list that shrank out of its own allowance', () => {
+    // The editor caps as you click, so this is reachable only by dropping the size afterwards.
+    const u = U('squad', { size: 0, wg: [[0, 0, 2], [0, 1, 2]] }) // 4 picks, but only 2 allowed at 5
+    const iss = check(roster({ units: [{ ...u, warlord: true }] })).find((i) => i.code === 'overWargearLimit')
+    expect(iss).toBeTruthy()
+    expect(iss.params).toMatchObject({ count: 4, limit: 2 })
+    expect(iss.uid).toBe(u.uid)
+  })
+
+  it('flags too many of the same option separately from the total', () => {
+    const u = U('squad', { size: 1, wg: [[0, 0, 3]] }) // 3 of a kind, cap 2 — total 3 is under 4
+    const codes2 = check(roster({ units: [{ ...u, warlord: true }] })).map((i) => i.code)
+    expect(codes2).toContain('overWargearDup')
+    expect(codes2).not.toContain('overWargearLimit')
+  })
+})
+
 describe('validateRoster — custom battle size + DP budget', () => {
   it('uses the custom points total as the limit', () => {
     const units = [U('captain', { warlord: true }), ...Array.from({ length: 6 }, () => U('intercessor-squad'))] // 6×80+85=565

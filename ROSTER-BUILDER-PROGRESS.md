@@ -115,10 +115,31 @@ is implemented and tested.
    `useRosters.js` SCHEMA_VERSION 2: v1 rosters lose their `wg` picks rather than have an old
    index silently re-read as a different weapon. Everything else about them survives.
 
-   Left alone deliberately: the ~181 groups whose only prose-only detail is a QUANTITY ("replaced
-   with 2 bright lances") outside a bundled group, and the several "you cannot select the same
-   option more than once" groups, where the real gap is how many models take an option — not what
-   an option contains.
+6. **How many models may take an option — FIXED 2026-08-19**, the other half of item 5.
+
+   `wargear_option_group` says what a squad may take, never how many models may take it. That was
+   guessed from the instruction text, and the guess was wrong both ways: "Up to 4 Dominions can
+   each…" read as no cap at all, "For every 5 models, up to 2 Seraphim" as one. Not cosmetic —
+   `unitWargearPoints` multiplies a paid option by its count, so a wrong cap misprices the army.
+
+   appdata has it structurally, in the family the generator used to dismiss as redundant:
+   `limited_wargear_choice_set` repeats the same choices and `wargear_limit` gives the cap as a
+   step table keyed by unit size, with a duplicate cap per threshold (Cadian Shock Troops: 2 picks
+   / 1 of a kind at 10 models, 4 / 2 at 20 — hoisting that to the group would misread half the
+   brackets). **219 groups capped**; 43 ambiguous + 82 cross-group sets left alone, and one group
+   left uncapped because the prose contradicts the table (named in the run). The quantity class
+   from item 5 is partly answered here too — a matched set carries the count ("2 inferno pistols").
+
+   Consequences worth knowing: the cap now decides the editor's MODE, so a group letting several
+   models each take something is per-option steppers sharing a budget even where appdata calls it
+   a checkbox (that was rendering as one choice for the whole squad); a group whose threshold the
+   unit hasn't reached says so in words rather than disappearing, so an existing pick can still be
+   cleared; and `validateRoster` gained `overWargearLimit`/`overWargearDup` for the list that was
+   legal until its unit shrank.
+
+   Still open, and smaller than it looked: the quantity in prose OUTSIDE a limited set ("this
+   model's 2 starcannons can be replaced with 2 bright lances") — display-only, since a weapon
+   table lists a name once regardless.
 
 ## Where the merge-into-main work is recorded
 

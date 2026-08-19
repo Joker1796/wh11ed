@@ -81,17 +81,19 @@
       <h4 class="ues-h">
         <span v-if="miniName(g.m)" class="ues-mini">{{ miniName(g.m) }}</span>
         {{ groupLines[gi].head }}
+        <span v-if="capChip(gi)" class="ues-cap">{{ capChip(gi) }}</span>
       </h4>
       <ul v-if="groupLines[gi].bullets.length" class="ues-blist">
         <li v-for="(b, bi) in groupLines[gi].bullets" :key="bi">{{ b }}</li>
       </ul>
       <p v-if="groupLines[gi].note" class="ues-bnote">* {{ groupLines[gi].note }}</p>
+      <p v-if="caps[gi] && !caps[gi].limit" class="ues-bnote">{{ labels.rosterPickUnavailable }}</p>
 
       <!-- radio: replace with one of… — the default loadout is itself a real option (its own
            name, from the group's `rep`), not a separate pseudo "keep default" pill. Each row is
            a tracker-style checkbox (select); the separate trailing button (same idiom as
            RosterUnitBrowser's "+" add button) opens that row's weapon profile. -->
-      <div v-if="mode(g) === 'radio'" class="opt-col">
+      <div v-if="mode(g, gi) === 'radio'" class="opt-col">
         <div
           v-for="opt in radioRows(g)"
           :key="opt.oi ?? 'default'"
@@ -110,7 +112,7 @@
       </div>
 
       <!-- toggle: single optional item -->
-      <div v-else-if="mode(g) === 'toggle'" class="opt-col">
+      <div v-else-if="mode(g, gi) === 'toggle'" class="opt-col">
         <div class="opt-tile" :class="{ on: toggleOn(gi) }">
           <label class="opt-select">
             <input type="checkbox" :checked="toggleOn(gi)" @change="toggle(gi)" />
@@ -128,7 +130,7 @@
         <div v-for="(o, oi) in g.o" :key="oi" class="opt-tile">
           <div class="opt-step-body">
             <span class="opt-name">{{ optLabel(o) }}<span v-if="o[1]" class="opt-pts"> +{{ o[1] }}</span></span>
-            <NumberStepper :model-value="stepCount(gi, oi)" :min="0" :max="stepMax(g)" @update:model-value="setStep(gi, oi, $event)" />
+            <NumberStepper :model-value="stepCount(gi, oi)" :min="0" :max="stepMax(gi, oi)" @update:model-value="setStep(gi, oi, $event)" />
           </div>
           <button type="button" class="opt-info" :aria-label="labels.rosterViewInfo" @click="openWeaponInfo(optNames(o))">
             <i class="bi bi-info-circle"></i>
@@ -217,7 +219,7 @@ import FactionAccentScope from './FactionAccentScope.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { loadRosterTextsRu } from '../../data/roster/ru/index.js'
-import { defaultLoadoutLines, optionItems, optionLabel, splitInstruction, wargearGroupLive } from '../../composables/rosterEngine.js'
+import { defaultLoadoutLines, optionItems, optionLabel, splitInstruction, wargearGroupCap, wargearGroupLive, wargearGroupSpent } from '../../composables/rosterEngine.js'
 
 const props = defineProps({
   entry: { type: Object, required: true },
@@ -261,6 +263,16 @@ const groupLines = computed(() => (props.def.gear || []).map((g) => splitInstruc
 
 // One option can grant SEVERAL items ("1 hexrifle and 1 torturer's tool" is one choice, not
 // two) — so a row is labelled with the whole set, and its info button opens every profile in it.
+const caps = computed(() => (props.def.gear || []).map((g, gi) => wargearGroupCap(props.def, props.entry, gi)))
+// Only worth showing once it's a real allowance to spend — "≤ 1" is what every ordinary
+// one-of group already looks like, and 0 gets its own sentence instead.
+function capChip(gi) {
+  const cap = caps.value[gi]
+  if (!cap || cap.limit < 2) return ''
+  const upTo = labels.value.rosterPickUpTo.replace('{n}', cap.limit)
+  return cap.dup ? `${upTo}, ${labels.value.rosterPickDup.replace('{n}', cap.dup)}` : upTo
+}
+
 const optLabel = (o) => optionLabel(o, props.items)
 const optNames = (o) => optionItems(o).map(([id]) => props.items[id]).filter(Boolean)
 
@@ -301,8 +313,14 @@ const defaultLines = computed(() => defaultLoadoutLines(props.def, props.items, 
 function wg() { return props.entry.wg || [] }
 function setWg(next) { props.entry.wg = next.filter((s) => s[2] > 0) }
 
-function mode(g) {
-  if (g.in === 'stepper') return 'stepper'
+// Three shapes, and the CAP is what decides between them — not appdata's own inputType alone.
+// A group that lets several models each take something is a set of steppers sharing one budget
+// ("up to 4 Kasrkin"), whether appdata calls it a stepper or a checkbox; a group that allows a
+// single pick is the familiar one-of radio (or a toggle when there's only one thing to take).
+// Without a structural cap this falls back exactly to the old inputType-only reading.
+function mode(g, gi) {
+  const cap = caps.value[gi]
+  if (g.in === 'stepper' || (cap && cap.limit > 1)) return 'stepper'
   return g.o.length > 1 ? 'radio' : 'toggle'
 }
 
@@ -347,10 +365,18 @@ function setStep(gi, oi, n) {
   if (n > 0) next.push([gi, oi, n])
   setWg(next)
 }
-// "For every N models, 1 model…" caps the count at floor(models/N); otherwise any model may
-// take it, capped at the model count.
-function stepMax(g) {
-  const m = (props.texts[g.t] || '').match(/for every (\d+) model/i)
+// What's left for THIS option: the group's own budget minus what its siblings already took, and
+// never more than the duplicate cap on a single option. Falls back to reading "For every N
+// models, 1 model…" out of the instruction for the groups appdata gives no cap for — that guess
+// is both too loose ("Up to 4 Dominions" reads as no cap) and too strict ("for every 5 models,
+// up to 2" reads as one), which is exactly why the structural cap is preferred wherever it exists.
+function stepMax(gi, oi) {
+  const cap = caps.value[gi]
+  if (cap) {
+    const room = cap.limit - wargearGroupSpent(props.entry, gi, oi)
+    return Math.max(0, Math.min(cap.dup || cap.limit, room))
+  }
+  const m = (props.texts[props.def.gear[gi].t] || '').match(/for every (\d+) model/i)
   return m ? Math.floor(models.value / Number(m[1])) : models.value
 }
 
@@ -386,6 +412,19 @@ function toggleLeader(uid) { setLeader(props.entry.leaderOf === uid ? null : uid
 .ues-blist li { position: relative; font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
 .ues-blist li::before { content: '◦'; position: absolute; left: -0.85rem; color: var(--text-dim); }
 .ues-bnote { margin: -0.25rem 0 0.5rem; font-size: 0.78rem; color: var(--text-dim); line-height: 1.35; }
+.ues-cap {
+  display: inline-block;
+  margin-left: 0.35rem;
+  padding: 0.05rem 0.35rem;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  vertical-align: middle;
+  white-space: nowrap;
+}
 .ues-count { display: flex; align-items: center; justify-content: space-between; }
 .opt-row { display: flex; flex-wrap: wrap; gap: 0.35rem; }
 .opt-col { display: flex; flex-direction: column; gap: 0.3rem; }

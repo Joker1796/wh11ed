@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, bucketOf, unitBasePoints, unitWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, defaultLoadoutLines, capKeyOf } from './rosterEngine.js'
+import { enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, defaultLoadoutLines, capKeyOf } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -523,5 +523,55 @@ describe('splitInstruction, list shapes', () => {
 
   it('handles the ▫ and ■ markers appdata also uses', () => {
     expect(splitInstruction('one of:\n▫ 1 big shoota\n■ 1 rokkit').bullets).toEqual(['1 big shoota', '1 rokkit'])
+  })
+})
+
+describe('wargearGroupCap', () => {
+  // "For every 5 models, up to 2 Seraphim…" — 2 picks in a 5-model squad, 4 in a 10-model one.
+  const seraphim = { sizes: [{ per: [5, 5] }, { per: [10, 10] }], gear: [{ o: [[1], [2]], lim: [[0, 2], [10, 4]] }] }
+
+  it('takes the highest threshold the unit reaches', () => {
+    expect(wargearGroupCap(seraphim, { size: 0 }, 0)).toEqual({ limit: 2, dup: 0 })
+    expect(wargearGroupCap(seraphim, { size: 1 }, 0)).toEqual({ limit: 4, dup: 0 })
+  })
+
+  it('follows the live model count, not just the size bracket', () => {
+    const ranged = { sizes: [{ per: [5, 10] }], gear: seraphim.gear }
+    expect(wargearGroupCap(ranged, { size: 0, count: 9 }, 0).limit).toBe(2)
+    expect(wargearGroupCap(ranged, { size: 0, count: 10 }, 0).limit).toBe(4)
+  })
+
+  it('reads the duplicate cap off the threshold, not the group', () => {
+    // Cadian Shock Troops: 2 picks / 1 of a kind at 10 models, 4 / 2 at 20.
+    const cadian = { sizes: [{ per: [10, 10] }, { per: [20, 20] }], gear: [{ o: [[1], [2]], lim: [[10, 2, 1], [20, 4, 2]] }] }
+    expect(wargearGroupCap(cadian, { size: 0 }, 0)).toEqual({ limit: 2, dup: 1 })
+    expect(wargearGroupCap(cadian, { size: 1 }, 0)).toEqual({ limit: 4, dup: 2 })
+  })
+
+  it('is zero below every threshold — "if this unit contains 10 models" in a 5-model squad', () => {
+    const corsairs = { sizes: [{ per: [5, 5] }, { per: [10, 10] }], gear: [{ o: [[1]], lim: [[10, 1]] }] }
+    expect(wargearGroupCap(corsairs, { size: 0 }, 0).limit).toBe(0)
+    expect(wargearGroupCap(corsairs, { size: 1 }, 0).limit).toBe(1)
+  })
+
+  it('is null when the group carries no cap, so callers keep their own behaviour', () => {
+    expect(wargearGroupCap({ sizes: [{ per: [5, 5] }], gear: [{ o: [[1]] }] }, { size: 0 }, 0)).toBeNull()
+    expect(wargearGroupCap(null, null, 0)).toBeNull()
+  })
+
+  it('counts what a group already spent, optionally ignoring one option', () => {
+    const entry = { wg: [[0, 0, 2], [0, 1, 1], [1, 0, 3]] }
+    expect(wargearGroupSpent(entry, 0)).toBe(3)
+    expect(wargearGroupSpent(entry, 0, 1)).toBe(2)
+    expect(wargearGroupSpent({}, 0)).toBe(0)
+  })
+})
+
+describe('the real Kasrkin cap', () => {
+  it('allows four special weapons, at most two of a kind', async () => {
+    const rf = await import('../data/roster/astra-militarum.js')
+    const kasrkin = rf.default.units.find((u) => u.name === 'Kasrkin')
+    const gi = kasrkin.gear.findIndex((g) => g.o.length > 3 && g.lim)
+    expect(wargearGroupCap(kasrkin, { size: 0 }, gi)).toEqual({ limit: 4, dup: 2 })
   })
 })
