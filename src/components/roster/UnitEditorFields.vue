@@ -80,7 +80,7 @@
     <section v-if="wargearGroupLive(def, entry, gi)" class="ues-sec">
       <h4 class="ues-h">
         <span v-if="miniName(g.m)" class="ues-mini">{{ miniName(g.m) }}</span>
-        {{ texts[g.t] }}
+        {{ groupText(g) }}
       </h4>
 
       <!-- radio: replace with one of… — the default loadout is itself a real option (its own
@@ -204,7 +204,7 @@
 // The unit-configuration fields (size, wargear, warlord, enhancement, leader attachment) —
 // shared by the creation wizard's step 3 and the roster editor's Loadout tab, each rendering it
 // inline inside a per-unit accordion. This component owns no chrome of its own.
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import NumberStepper from '../tracker/NumberStepper.vue'
 import RosterUnitRulesModal from './RosterUnitRulesModal.vue'
 import WeaponProfileModal from './WeaponProfileModal.vue'
@@ -212,6 +212,7 @@ import EnhancementRuleModal from './EnhancementRuleModal.vue'
 import FactionAccentScope from './FactionAccentScope.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { loadRosterTextsRu } from '../../data/roster/ru/index.js'
 import { defaultLoadoutLines, wargearGroupLive } from '../../composables/rosterEngine.js'
 
 const props = defineProps({
@@ -236,6 +237,19 @@ defineEmits(['toggle-warlord'])
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
+
+// Wargear group instructions in Russian (src/data/roster/ru/texts.js, generated — see
+// scripts/gen-roster-texts-ru.mjs). Lazily loaded so an EN reader never downloads the file, and
+// deliberately partial: a wording the generator couldn't translate is simply absent, and the
+// English original shows instead of a half-translated line.
+const textsRu = ref(null)
+watch(locale, async (loc) => {
+  if (loc !== 'ru' || textsRu.value) return
+  const map = await loadRosterTextsRu()
+  if (locale.value === 'ru') textsRu.value = map
+}, { immediate: true })
+
+const groupText = (g) => (locale.value === 'ru' && textsRu.value?.[g.t]) || props.texts[g.t] || ''
 
 // Every wargear row is a checkbox (selection) plus a separate trailing button; the button opens a
 // FOCUSED profile modal for just that item (WeaponProfileModal) — never the whole unit sheet,

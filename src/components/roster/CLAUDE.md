@@ -138,6 +138,32 @@ step markers are buttons: any reachable step can be jumped to, steps 2-3 stay di
 faction is picked (the same gate step 1's Next button uses), and jumping forward routes through
 `goToUnits()` so the roster still gets created rather than being skipped past.
 
+## Russian for the wargear instructions
+
+The group instruction shown above each wargear choice ("The Sister Superior's boltgun can be
+replaced with one of the following:") comes from appdata via `items.js`'s `texts` and is English.
+`src/data/roster/ru/texts.js` is its Russian, **generated** by `scripts/gen-roster-texts-ru.mjs`
+(`npm run roster:texts-ru`, `--check` in `npm run sync`), loaded lazily by `UnitEditorFields` and
+only in the RU locale.
+
+Generated rather than hand-translated for the same reason the modifier layer pins hashes: 967
+strings regenerated on every appdata bump would go stale as fast as GW ships datasheets. They are
+also formulaic — a dozen sentence frames wrapped around weapon and unit names, and those names
+stay English by project convention, so only the frame needs translating.
+
+**The generator is fail-open and must stay that way.** A sentence is translated only when a frame
+matches end to end AND its captured slots pass two guards: the owner/subject must be a bare noun
+phrase (a lazy capture otherwise swallows a leading condition and emits confident nonsense), and
+the value must not contain a second frame ("…replaced with 1 shuriken pistol and one of the
+following:"). Anything else is left out of the file and the UI shows the English original —
+a fully English line reads fine, half-translated Russian does not. Coverage sits around 82%; the
+run prints it, and a drop after a bump means GW introduced a new wording, not noise.
+
+`src/data/roster/ru/texts.test.js` pins the invariants rather than any wording: no English
+sentence frame survives on a translated line, no id exists that the English side doesn't have, no
+doubled space or dangling noun from a slot that resolved to nothing. Both guards above were added
+because that test caught real output.
+
 ## Store
 
 `src/composables/useRosters.js` — module singleton, same pattern as `useTracker.js`/
