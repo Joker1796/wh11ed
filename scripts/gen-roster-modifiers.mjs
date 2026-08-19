@@ -48,7 +48,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import crypto from 'node:crypto'
 import { pathToFileURL } from 'node:url'
-import { ROOT, APPDATA, SLUG_MAP, appdataToMarkup, bodyText, loadJson, loadModule, appdataDataVersion } from './lib/sync-common.mjs'
+import { ROOT, APPDATA, SLUG_MAP, appdataToMarkup, bodyText, loadJson, loadModule, appdataDataVersion, invertSourceIds } from './lib/sync-common.mjs'
 
 const OUT_DIR = path.join(ROOT, 'src/data/rosterModifiers')
 const QUEUE = path.join(ROOT, 'MODIFIER-QUEUE.local.json')
@@ -93,17 +93,26 @@ export function isCandidate(text) {
 }
 
 // Flatten one faction bundle into the sources a modifier can be attached to.
-function sourcesOf(bundle) {
+//
+// `ref` is the wh11ed-side pointer the RUNTIME resolves against — src/data/factions/<slug>.js is
+// hand-authored and carries no appdata uuids, so `sid` alone can't find the rule in the browser.
+// It comes from inverting sourceIds.json (the repo's existing stable-id bridge), which means a
+// GW rename moves the record with the rule instead of stranding it. `ref.det` is the wh11ed
+// detachment id; the runtime then takes that detachment's own `.rule` (detachment rules) or finds
+// the enhancement by name inside it. `null` when the bridge has no entry — the record still
+// exists and is still audited, it just can't be applied until the bridge covers it.
+function sourcesOf(bundle, detById) {
   const out = []
   for (const r of bundle.armyRules || []) {
-    out.push({ sid: r.id, kind: 'armyRule', name: r.name, det: null, prose: bodyText(r.body) })
+    out.push({ sid: r.id, kind: 'armyRule', name: r.name, det: null, ref: { kind: 'armyRule' }, prose: bodyText(r.body) })
   }
   for (const d of bundle.detachments || []) {
+    const whDet = detById.get(d.id)?.id || null
     for (const r of d.rules || []) {
-      out.push({ sid: r.id, kind: 'detachmentRule', name: r.name, det: d.name, prose: bodyText(r.body) })
+      out.push({ sid: r.id, kind: 'detachmentRule', name: r.name, det: d.name, ref: whDet ? { kind: 'detachmentRule', det: whDet } : null, prose: bodyText(r.body) })
     }
     for (const e of d.enhancements || []) {
-      out.push({ sid: e.id, kind: 'enhancement', name: e.name, det: d.name, prose: appdataToMarkup(e.rules) })
+      out.push({ sid: e.id, kind: 'enhancement', name: e.name, det: d.name, ref: whDet ? { kind: 'enhancement', det: whDet } : null, prose: appdataToMarkup(e.rules) })
     }
   }
   return out.filter((s) => s.sid && s.prose)
@@ -124,6 +133,7 @@ function skeleton(src, ver) {
     kind: src.kind,
     name: src.name,
     det: src.det,
+    ref: src.ref,
     hash: proseHash(src.prose),
     ver,
     reviewed: false,
@@ -163,9 +173,10 @@ function serialise(slug, existing, sources, result) {
   const merged = [
     ...kept.map((e) => {
       const src = bySid.get(e.sid)
-      // Name/detachment/kind are refreshed from appdata (a rename must not strand the record),
-      // the hash is NOT — it is what tells the next run that this record needs re-reading.
-      return { ...e, kind: src.kind, name: src.name, det: src.det }
+      // Name/detachment/kind/ref are refreshed from appdata and the id bridge (a rename must not
+      // strand the record); the hash is NOT — it is what tells the next run that this record
+      // needs re-reading.
+      return { ...e, kind: src.kind, name: src.name, det: src.det, ref: src.ref }
     }),
     ...result.fresh.map((s) => skeleton(s, result.ver)),
   ].sort((a, b) => `${a.kind}${a.det || ''}${a.name}`.localeCompare(`${b.kind}${b.det || ''}${b.name}`))
@@ -188,6 +199,7 @@ export async function run(argv = process.argv.slice(2)) {
     return 0
   }
 
+  const detBySid = invertSourceIds('det')
   const totals = { stale: 0, fresh: 0, orphan: 0, ok: 0, unreviewed: 0 }
   const queueItems = []
   if (!check && !queue && !fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true })
@@ -196,7 +208,7 @@ export async function run(argv = process.argv.slice(2)) {
     const appSlug = SLUG_MAP[slug] || slug
     const bundle = loadJson(path.join(APPDATA, 'factions', `${appSlug}.json`))
     if (!bundle) continue
-    const sources = sourcesOf(bundle)
+    const sources = sourcesOf(bundle, detBySid)
     const existing = await readExisting(slug)
     const result = classify(existing, sources, ver)
 

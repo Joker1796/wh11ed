@@ -15,7 +15,11 @@ export default {
       "hash": "fb50d154",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "bringers-of-flame"
+      }
     },
     {
       "sid": "7c3dcef7-9883-4679-9de6-7289c696c901",
@@ -25,7 +29,11 @@ export default {
       "hash": "dcda4edb",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "champions-of-faith"
+      }
     },
     {
       "sid": "de580a83-e1b2-4ddd-bd86-450d27e98f32",
@@ -35,7 +43,11 @@ export default {
       "hash": "7f2e37a7",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "hallowed-martyrs"
+      }
     },
     {
       "sid": "b37890cc-d1f6-460f-ae40-745b6a738e9d",
@@ -45,7 +57,11 @@ export default {
       "hash": "4c323b64",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "penitent-host"
+      }
     },
     {
       "sid": "1183f5f4-7242-46ba-80c1-2be89be8c9db",
@@ -55,7 +71,11 @@ export default {
       "hash": "2dc89a44",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "army-of-faith"
+      }
     },
     {
       "sid": "153f8261-4beb-4114-9a4a-f82ff261947e",
@@ -65,7 +85,11 @@ export default {
       "hash": "2cec313b",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "bringers-of-flame"
+      }
     },
     {
       "sid": "c2118c7b-986c-47cb-b2f5-3c82d77dde0f",
@@ -75,7 +99,11 @@ export default {
       "hash": "11498b83",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "bringers-of-flame"
+      }
     },
     {
       "sid": "6d1771ba-9974-4593-aef1-ddcf25f7865c",
@@ -85,7 +113,11 @@ export default {
       "hash": "db66fbb9",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "champions-of-faith"
+      }
     },
     {
       "sid": "ae5538f8-1681-4fdd-9cdc-2605f8847aa6",
@@ -95,7 +127,11 @@ export default {
       "hash": "4c5bff2d",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "hallowed-martyrs"
+      }
     },
     {
       "sid": "1f93ff0c-b24e-4da3-9911-8bcc1e169cbf",
@@ -105,7 +141,11 @@ export default {
       "hash": "734f607c",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "penitent-host"
+      }
     }
   ]
 }

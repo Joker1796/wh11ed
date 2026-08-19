@@ -15,7 +15,10 @@ export default {
       "hash": "afe18cdf",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "armyRule"
+      }
     },
     {
       "sid": "2206b8e8-8ebc-4747-9bd3-6b44ccb32ff0",
@@ -25,7 +28,10 @@ export default {
       "hash": "e80ed40e",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "armyRule"
+      }
     },
     {
       "sid": "bb8da155-0303-4f4a-a3a2-167a82ad3f97",
@@ -35,7 +41,10 @@ export default {
       "hash": "88370fd8",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "armyRule"
+      }
     },
     {
       "sid": "36cc4fa4-cc15-41f2-9d47-14e2550579ea",
@@ -45,7 +54,10 @@ export default {
       "hash": "206e56d8",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "armyRule"
+      }
     },
     {
       "sid": "227283db-9c12-4439-a0e6-bfa6c2ac0644",
@@ -55,7 +67,11 @@ export default {
       "hash": "6b5488c9",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "kroot-hunting-pack"
+      }
     },
     {
       "sid": "54301b08-2777-45b6-856c-3cda0d13bb17",
@@ -65,7 +81,11 @@ export default {
       "hash": "7e1866de",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "kroot-hunting-pack"
+      }
     },
     {
       "sid": "b7f0dc14-9ef7-4228-9162-ce5dcb921fc9",
@@ -75,7 +95,11 @@ export default {
       "hash": "e52012f0",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "retaliation-cadre"
+      }
     },
     {
       "sid": "7c538bba-1367-4adc-b54b-bea749daa8a5",
@@ -85,7 +109,11 @@ export default {
       "hash": "d907baa7",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "kauyon"
+      }
     },
     {
       "sid": "1ff1cc2a-ba28-4e1b-aee4-78c67b35a4de",
@@ -95,7 +123,11 @@ export default {
       "hash": "c6114053",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "montka"
+      }
     }
   ]
 }

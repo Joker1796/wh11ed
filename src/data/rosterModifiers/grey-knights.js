@@ -15,7 +15,11 @@ export default {
       "hash": "0fb47ae2",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "augurium-task-force"
+      }
     },
     {
       "sid": "f5d9692e-4936-4beb-8936-4c26089d74d5",
@@ -25,7 +29,11 @@ export default {
       "hash": "b0275bc1",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "augurium-task-force"
+      }
     },
     {
       "sid": "a4dda913-e9d9-496e-8c10-fcb30949276e",
@@ -35,7 +43,11 @@ export default {
       "hash": "898eb4bf",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "banishers"
+      }
     },
     {
       "sid": "3c84e9b3-44f8-4af4-bb0f-34a1a34f5944",
@@ -45,7 +57,11 @@ export default {
       "hash": "5e8b3871",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "brotherhood-strike"
+      }
     },
     {
       "sid": "de7be923-5642-4bf5-b8da-1ad373303f47",
@@ -55,7 +71,11 @@ export default {
       "hash": "4c478233",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "hallowed-conclave"
+      }
     },
     {
       "sid": "be02d133-6751-4ea3-b302-4630469a0d4d",
@@ -65,7 +85,11 @@ export default {
       "hash": "88c734a9",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "warpbane-task-force"
+      }
     }
   ]
 }

@@ -286,6 +286,61 @@ describe('RosterUnitRulesModal', () => {
     w.unmount()
   })
 
+  // Tier C end to end, on the one record reviewed so far: Necrons' Cold Fervour, whose first
+  // bullet is an unconditional +2 S for DESTROYER CULT and whose second is the same bonus for
+  // every other NECRONS model but only after a kill.
+  describe('numeric modifiers', () => {
+    const mount40k = async (unitId) => {
+      const [rf, it] = await Promise.all([
+        import('../../data/roster/necrons.js'),
+        import('../../data/roster/items.js'),
+      ])
+      const det = rf.default.detachments.find((d) => d.name === 'Cursed Legion')
+      return mount(RosterUnitRulesModal, {
+        props: {
+          unitId,
+          factionSlug: 'necrons',
+          ctx: {
+            def: rf.default.units.find((u) => u.id === unitId),
+            entry: { uid: 'a', id: unitId, size: 0 },
+            items: it.default.items,
+            detachments: [det],
+          },
+        },
+      })
+    }
+    const settle = async () => {
+      for (let i = 0; i < 80; i++) {
+        await flushPromises()
+        if (document.querySelector('.ds-mods')) return
+        await new Promise((r) => setTimeout(r, 25))
+      }
+    }
+
+    it('rewrites the number for the unconditional half and marks it', async () => {
+      const w = await mount40k('skorpekh-destroyers')
+      await settle()
+      // Skorpekh hyperphase weapons print S7; Cold Fervour's first bullet names DESTROYER CULT.
+      const sCell = [...document.querySelectorAll('.ds-weapons tbody td[data-label="S"]')][0]
+      expect(sCell.textContent).toContain('9')
+      expect(sCell.classList.contains('ds-stat-mod')).toBe(true)
+      expect(document.querySelector('.ds-mods').textContent).toContain('Cold Fervour')
+      w.unmount()
+    })
+
+    it('leaves the number alone for the conditional half and says why', async () => {
+      const w = await mount40k('necron-warriors')
+      await settle()
+      const sCell = [...document.querySelectorAll('.ds-weapons tbody td[data-label="S"]')][0]
+      expect(sCell.textContent.trim()).toBe('4') // printed value, untouched
+      expect(sCell.classList.contains('ds-stat-mod')).toBe(false)
+      const notes = document.querySelector('.ds-mods')
+      expect(notes.textContent).toContain('Cold Fervour')
+      expect(notes.textContent).toContain('destroys a unit') // the condition, in English
+      w.unmount()
+    })
+  })
+
   it('renders the RU overlay when the locale is Russian', async () => {
     const { useLocale } = await import('../../composables/useLocale.js')
     const { locale } = useLocale()

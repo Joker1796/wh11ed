@@ -15,7 +15,11 @@ export default {
       "hash": "99ac616f",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "annihilation-legion"
+      }
     },
     {
       "sid": "0819b28a-215e-4a8f-b78e-c857db54aa64",
@@ -25,7 +29,11 @@ export default {
       "hash": "da8aa7b0",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "awakened-dynasty"
+      }
     },
     {
       "sid": "da5c3d84-9fb3-4ea1-8e3c-c8d34d6100a7",
@@ -55,7 +63,11 @@ export default {
             "ru": "после того как юнит Destroyer Cult уничтожит юнит, до конца хода"
           }
         }
-      ]
+      ],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "cursed-legion"
+      }
     },
     {
       "sid": "90b80a56-d420-47f0-85b1-405a01e4c0d3",
@@ -65,7 +77,11 @@ export default {
       "hash": "f43f3287",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "obeisance-phalanx"
+      }
     },
     {
       "sid": "49d49ff2-3cb7-488d-bab6-5f046700f91f",
@@ -75,7 +91,11 @@ export default {
       "hash": "2e60a45d",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "pantheon-of-woe"
+      }
     },
     {
       "sid": "dec1adcf-64dc-4e7a-b535-73fc56cb305c",
@@ -85,7 +105,11 @@ export default {
       "hash": "66a38795",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "starshatter-arsenal"
+      }
     },
     {
       "sid": "f8e6d080-6a6c-432b-8196-e26598cd7fda",
@@ -95,7 +119,11 @@ export default {
       "hash": "ca631e3a",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "annihilation-legion"
+      }
     },
     {
       "sid": "a6e993f2-c457-4c04-b5f9-c1a7deda2c37",
@@ -105,7 +133,11 @@ export default {
       "hash": "b51daed7",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "awakened-dynasty"
+      }
     },
     {
       "sid": "a17450e0-31f1-4b21-8952-5ea5c5bf7496",
@@ -115,7 +147,11 @@ export default {
       "hash": "c15dd6d4",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "cursed-legion"
+      }
     },
     {
       "sid": "767a6e78-8eda-4299-ad7f-e0614152a40d",
@@ -125,7 +161,11 @@ export default {
       "hash": "d0cc07b6",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "cursed-legion"
+      }
     }
   ]
 }

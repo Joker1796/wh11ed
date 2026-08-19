@@ -15,7 +15,10 @@ export default {
       "hash": "9612d927",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "armyRule"
+      }
     },
     {
       "sid": "96fc8e70-8686-4e12-be1e-2eec1632888f",
@@ -25,7 +28,10 @@ export default {
       "hash": "9612d927",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "armyRule"
+      }
     },
     {
       "sid": "6fdc5e01-fce9-4451-ba94-b2cfe91aff19",
@@ -35,7 +41,11 @@ export default {
       "hash": "0d06a902",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "crusher-stampede"
+      }
     },
     {
       "sid": "547b0295-bdc0-42db-8b31-dc2af65b3fe3",
@@ -45,7 +55,11 @@ export default {
       "hash": "fc5e5b4d",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "synaptic-nexus"
+      }
     },
     {
       "sid": "c96ad299-23ee-4528-9b36-00173e02299d",
@@ -55,7 +69,11 @@ export default {
       "hash": "f6b213d9",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "assimilation-swarm"
+      }
     },
     {
       "sid": "3737cbb7-dfcf-494b-abdc-6f1fc7e2fff8",
@@ -65,7 +83,11 @@ export default {
       "hash": "774614c0",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "crusher-stampede"
+      }
     },
     {
       "sid": "87509b4c-bbec-4bef-8ffe-c9d57a9351b4",
@@ -75,7 +97,11 @@ export default {
       "hash": "5444ec73",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "crusher-stampede"
+      }
     },
     {
       "sid": "e39bb599-731d-4f13-855f-50b8508438af",
@@ -85,7 +111,11 @@ export default {
       "hash": "5834f881",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "subterranean-assault"
+      }
     },
     {
       "sid": "4f45ef1c-63c7-4d7d-af65-bdd6a59b47e6",
@@ -95,7 +125,11 @@ export default {
       "hash": "041e5a72",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "synaptic-nexus"
+      }
     },
     {
       "sid": "71b8e917-4924-4aea-93e9-ab17e7314061",
@@ -105,7 +139,11 @@ export default {
       "hash": "b82ae6f6",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "unending-swarm"
+      }
     },
     {
       "sid": "e93d1916-52d5-4c51-a097-c89a1b1783a9",
@@ -115,7 +153,11 @@ export default {
       "hash": "aab0e8d9",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "vanguard-onslaught"
+      }
     }
   ]
 }

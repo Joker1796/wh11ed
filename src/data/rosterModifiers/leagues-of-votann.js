@@ -15,7 +15,10 @@ export default {
       "hash": "1ba9c15b",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "armyRule"
+      }
     },
     {
       "sid": "a23f8bdf-5c65-4c96-90b6-1b93696cc5f3",
@@ -25,7 +28,10 @@ export default {
       "hash": "1ba9c15b",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "armyRule"
+      }
     },
     {
       "sid": "fdfc7863-9632-43df-88dd-2e2fda4a6dfa",
@@ -35,7 +41,11 @@ export default {
       "hash": "28d11aec",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "hearthband"
+      }
     },
     {
       "sid": "ab0a026e-6604-4425-8a3f-7adff3375e2d",
@@ -45,7 +55,11 @@ export default {
       "hash": "c342f7bd",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "delve-assault-shift"
+      }
     },
     {
       "sid": "b39ba051-9928-4883-8783-40a27ff07d66",
@@ -55,7 +69,11 @@ export default {
       "hash": "9984e1ee",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "hearthband"
+      }
     },
     {
       "sid": "f7cc3d3b-4d28-4911-8718-85f6c4043c8c",
@@ -65,7 +83,11 @@ export default {
       "hash": "045363a2",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "hearthband"
+      }
     },
     {
       "sid": "b48ffd02-ce7e-41c0-aa75-fc375e1fe200",
@@ -75,7 +97,11 @@ export default {
       "hash": "e0b9192b",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "hearthfyre-arsenal"
+      }
     },
     {
       "sid": "dcc9fd81-0cb0-477b-9941-5f05fedf753f",
@@ -85,7 +111,11 @@ export default {
       "hash": "641b2548",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "needgaard-oathband"
+      }
     },
     {
       "sid": "cbcb0741-dced-40e8-99ab-9628de3fb0ac",
@@ -95,7 +125,11 @@ export default {
       "hash": "091ebe34",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "persecution-prospect"
+      }
     }
   ]
 }

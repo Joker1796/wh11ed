@@ -34,11 +34,13 @@
              datasheet. See ROSTER-MODIFIERS-PROGRESS.md for what each phase adds. -->
         <DatasheetCard
           v-if="view.sheet"
-          :sheet="view.sheet"
+          :sheet="statMods.sheet"
           :faction-slug="factionSlug"
           :granted-keywords="view.grantedKeywords"
           :hide-choices="!!ctx"
           :linked-faction-rules="linkedFactionRules"
+          :stat-marks="statMods.marks"
+          :stat-notes="statMods.notes"
           collapsible
           @faction-rule-click="openArmyRule"
         >
@@ -95,6 +97,7 @@ import { useKeywordPopover } from '../../composables/useKeywordPopover.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 import { overlaySheet, enhKey, detKey } from '../../composables/rosterModifiers.js'
 import { ruleAppliesTo } from '../../composables/ruleTargets.js'
+import { applyStatMods } from '../../composables/rosterStatMods.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { loadDatasheetsRu, localizeSheet } from '../../data/datasheets/ru/index.js'
 
@@ -193,6 +196,22 @@ watch(
   { immediate: true },
 )
 
+// The numeric modifier layer (Tier C). Lazily imported per faction and entirely optional: if the
+// directory is gone, or the faction has no file, this stays null and the card keeps its printed
+// numbers — Tiers A+B, unchanged.
+const modifierData = ref(null)
+watch(
+  [() => props.factionSlug, () => !!props.ctx],
+  async ([slug, hasCtx]) => {
+    modifierData.value = null
+    if (!slug || !hasCtx) return
+    const { loadRosterModifiers } = await import('../../data/rosterModifiers/index.js')
+    const data = await loadRosterModifiers(slug)
+    if (props.factionSlug === slug) modifierData.value = data
+  },
+  { immediate: true },
+)
+
 const view = computed(() => overlaySheet(sheet.value, {
   ...(props.ctx || {}),
   unitId: props.unitId,
@@ -231,6 +250,45 @@ function openArmyRule(name, rect) {
 function applies(enBody) {
   return ruleAppliesTo(enBody, unitKeywords.value, factionKeywordSets.value)
 }
+
+// Resolve each usable record to the ENGLISH rule prose it was read from, dropping anything this
+// unit isn't carrying or isn't targeted by. `ref` is the wh11ed-side pointer the generator wrote
+// (see gen-roster-modifiers.mjs) — matching by id, not by name, so a GW rename can't silently
+// detach a modifier from its rule.
+const statMods = computed(() => {
+  const facEn = rulesFactionEn.value
+  const entries = usableModifierEntries.value
+  if (!facEn || !entries.length) return { sheet: view.value.sheet, notes: [], marks: [] }
+
+  const fieldedDetachments = new Set((props.ctx?.detachments || [])
+    .map((d) => detKey(typeof d === 'string' ? d : d?.name)))
+  const resolved = []
+  for (const e of entries) {
+    if (!e.ref) continue
+    if (e.ref.kind === 'armyRule') {
+      if (facEn.armyRule?.body) resolved.push({ ...e, body: facEn.armyRule.body })
+      continue
+    }
+    const det = (facEn.detachments || []).find((d) => d.id === e.ref.det)
+    // Only detachments the roster actually fields — a modifier from a detachment you didn't take
+    // is not in play, whatever its rule says.
+    if (!det || !fieldedDetachments.has(detKey(det.name))) continue
+    if (e.ref.kind === 'detachmentRule') {
+      if (det.rule?.body) resolved.push({ ...e, body: det.rule.body })
+    } else if (e.ref.kind === 'enhancement') {
+      // An enhancement only modifies the unit CARRYING it.
+      if (enhKey(e.name) !== enhKey(view.value.context?.enhancement?.name)) continue
+      const found = det.enhancements?.find((x) => enhKey(x.name) === enhKey(e.name))
+      if (found?.body) resolved.push({ ...e, body: found.body })
+    }
+  }
+  return applyStatMods(view.value.sheet, resolved, unitKeywords.value)
+})
+
+const usableModifierEntries = computed(() => {
+  const entries = modifierData.value?.entries || []
+  return entries.filter((e) => e.reviewed && e.effects?.length)
+})
 
 const ruleBlocks = computed(() => {
   const fac = rulesFaction.value

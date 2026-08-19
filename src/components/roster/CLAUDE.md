@@ -313,9 +313,37 @@ An empty ranged table on a freshly-added unit is usually CORRECT, not a bug — 
 (Nemesis Dreadknight, Wraithknight with Ghostglaive, Canoness with Jump Pack…) have a default
 loadout with no ranged weapon at all, and every gun on their card is an option nobody picked yet.
 
-Tiers A and B are done. The remaining tier — a numeric modifier sidecar that would let an
-unconditional "+1 Toughness" actually change the printed number — and the procedure keeping all of
-it alive across an appdata bump live in `ROSTER-MODIFIERS-PROGRESS.md` at the repo root.
+### Tier C — the numbers themselves
+
+`src/data/rosterModifiers/<slug>.js` (generated skeletons + hand-read `effects`) →
+`src/composables/rosterStatMods.js` (pure) → `DatasheetCard`'s `statMarks`/`statNotes` props.
+
+**An unconditional modifier rewrites the printed value and marks it with `*`; a conditional one
+never touches the number and is annotated instead.** That asymmetry is the whole point: most 40k
+modifiers are conditional, and a card reading T6 when the +1 only holds while a Waaagh! is running
+is worse than one reading T5 with a note. A value the layer cannot compute honestly ("D6+2" plus
+1) degrades to an annotation rather than inventing arithmetic — see `applyValue`.
+
+Three things hold this together and are easy to break:
+
+- **A record is tied to its prose by a hash** (`hash`, sha1 of the normalised English text) and to
+  its rule by an appdata uuid (`sid`) plus a wh11ed-side pointer (`ref`, resolved through
+  `sourceIds.json`). Matching by id, not by name, so a GW rename moves the record with the rule.
+  `npm run modifiers:check` (also part of `npm run sync`) reports `stale` the moment the wording
+  moves under a reviewed record — that is the only warning that a hand-read effect may now be
+  wrong. Never hand-edit `hash`.
+- **Scope is not stored.** Which units a rule bears on comes from `ruleTargets.js`; an effect only
+  names a `scope` INDEX into `ruleScopes()` so it binds to one statement of a multi-part rule.
+  A second copy of the scope in the data would be free to drift from the prose.
+- **Only `reviewed` records with effects are ever applied** (`usableEntries`). An unreviewed
+  skeleton means "somebody still has to read this rule", not "no effect".
+
+The layer is detachable: delete `src/data/rosterModifiers/` and `loadRosterModifiers` resolves to
+null, the card keeps its printed numbers, and Tiers A+B are unaffected. Nothing is written into
+the hand-authored faction files.
+
+The review backlog, the update procedure and the format reference live in
+`ROSTER-MODIFIERS-PROGRESS.md` at the repo root.
 
 ## Known gaps
 

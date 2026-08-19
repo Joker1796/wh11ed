@@ -15,7 +15,10 @@ export default {
       "hash": "5736c5d6",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "armyRule"
+      }
     },
     {
       "sid": "c7c41366-2625-4d4b-87a9-9b53d67572d0",
@@ -25,7 +28,10 @@ export default {
       "hash": "5736c5d6",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "armyRule"
+      }
     },
     {
       "sid": "7bdab8ed-0e0f-4861-b887-fca833b68f6a",
@@ -35,7 +41,11 @@ export default {
       "hash": "29c8f1a2",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "changehost-of-deceit"
+      }
     },
     {
       "sid": "87903309-9fa1-4896-b108-1a57d4f441b6",
@@ -45,7 +55,11 @@ export default {
       "hash": "2477dafc",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "grand-coven"
+      }
     },
     {
       "sid": "ee7708ef-faa7-4aea-900b-ca02b173f6c4",
@@ -55,7 +69,11 @@ export default {
       "hash": "4ea3c811",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "hexwarp-thrallband"
+      }
     },
     {
       "sid": "19e0de45-bd88-44e4-81d2-19435524ab31",
@@ -65,7 +83,11 @@ export default {
       "hash": "7f207e70",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "rubricae-phalanx"
+      }
     },
     {
       "sid": "c5998d23-f7e0-4fed-bbea-c738c4b1fe66",
@@ -75,7 +97,11 @@ export default {
       "hash": "1fd641c4",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "warpmeld-pact"
+      }
     },
     {
       "sid": "d096fcb5-f375-4a1b-93df-c2e455dabeba",
@@ -85,7 +111,11 @@ export default {
       "hash": "2e42611c",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "changehost-of-deceit"
+      }
     },
     {
       "sid": "aaf89db6-ceaf-4051-936b-fcb7ad589ed9",
@@ -95,7 +125,11 @@ export default {
       "hash": "bb02bbc3",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "changehost-of-deceit"
+      }
     },
     {
       "sid": "ffcd2ea7-c818-42ae-9bf0-0109b5fadc37",
@@ -105,7 +139,11 @@ export default {
       "hash": "0e373a93",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "grand-coven"
+      }
     },
     {
       "sid": "23b38434-e051-4b26-a841-cbe2d62b5904",
@@ -115,7 +153,11 @@ export default {
       "hash": "583d0c60",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "hexwarp-thrallband"
+      }
     },
     {
       "sid": "a372c063-aacf-450e-8d87-d5e447b9872b",
@@ -125,7 +167,11 @@ export default {
       "hash": "8cad5a3e",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "hexwarp-thrallband"
+      }
     },
     {
       "sid": "b0d14bf1-434c-499d-b74d-aae2f320c5cf",
@@ -135,7 +181,11 @@ export default {
       "hash": "23c63f1e",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "ritual-of-regeneration"
+      }
     },
     {
       "sid": "f4d1b38c-22ac-42d7-98a4-1d944dd63b52",
@@ -145,7 +195,11 @@ export default {
       "hash": "993f1c1f",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "rubricae-phalanx"
+      }
     },
     {
       "sid": "0e2f4b29-498d-4e89-9af1-373f8d3ae792",
@@ -155,7 +209,11 @@ export default {
       "hash": "093d156d",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "warpmeld-pact"
+      }
     }
   ]
 }

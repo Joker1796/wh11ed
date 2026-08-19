@@ -15,7 +15,11 @@ export default {
       "hash": "4d170c56",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "berzerker-warband"
+      }
     },
     {
       "sid": "e0bb7c79-6d19-4d69-84ae-f3d0b4036ad3",
@@ -25,7 +29,11 @@ export default {
       "hash": "60e57bd1",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "cult-of-blood"
+      }
     },
     {
       "sid": "adf5998c-3b76-4841-b189-5e2e08a37b61",
@@ -35,7 +43,11 @@ export default {
       "hash": "c9160531",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "goretrack-onslaught"
+      }
     },
     {
       "sid": "8f1033a9-31fd-40a3-aa6d-529a58e31a8d",
@@ -45,7 +57,11 @@ export default {
       "hash": "fce93df7",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "khorne-daemonkin"
+      }
     },
     {
       "sid": "f7fbb275-bf28-483e-9f80-5bbedb3c3b51",
@@ -55,7 +71,11 @@ export default {
       "hash": "42d701da",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "berzerker-warband"
+      }
     },
     {
       "sid": "156db4d1-d3d9-434a-a23a-8891a2dc103b",
@@ -65,7 +85,11 @@ export default {
       "hash": "5486231b",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "berzerker-warband"
+      }
     },
     {
       "sid": "a0a554a8-ce20-4b80-ae87-61273c56f07a",
@@ -75,7 +99,11 @@ export default {
       "hash": "0173d648",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "cult-of-blood"
+      }
     },
     {
       "sid": "8d57055e-3476-401d-9382-c0c1eae33a4d",
@@ -85,7 +113,11 @@ export default {
       "hash": "f9ebe04f",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "khorne-daemonkin"
+      }
     }
   ]
 }

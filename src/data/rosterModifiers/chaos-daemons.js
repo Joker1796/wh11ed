@@ -15,7 +15,11 @@ export default {
       "hash": "8e83ef45",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "blood-legion"
+      }
     },
     {
       "sid": "ebead938-7836-4e08-a1bf-e0c5ab3801a5",
@@ -25,7 +29,11 @@ export default {
       "hash": "4c95d62c",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "daemonic-incursion"
+      }
     },
     {
       "sid": "21549ce2-0e59-434f-b5e0-360ea30d53a6",
@@ -35,7 +43,11 @@ export default {
       "hash": "90d119a2",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "daemonic-incursion"
+      }
     },
     {
       "sid": "b9c84001-f845-4ed2-891d-ff7ea71daf51",
@@ -45,7 +57,11 @@ export default {
       "hash": "cb5eae27",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "legion-of-excess"
+      }
     },
     {
       "sid": "d3ec0f1f-8345-49e1-bad6-0cd9fd4b13e2",
@@ -55,7 +71,11 @@ export default {
       "hash": "e47184fd",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "legion-of-excess"
+      }
     },
     {
       "sid": "c6c3e944-461f-4651-a57c-d4d0a8a03ca4",
@@ -65,7 +85,11 @@ export default {
       "hash": "e5278c50",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "plague-legion"
+      }
     },
     {
       "sid": "bb19b8b3-0999-446a-80b9-da84024bcc61",
@@ -75,7 +99,11 @@ export default {
       "hash": "bb91fd81",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "scintillating-legion"
+      }
     }
   ]
 }

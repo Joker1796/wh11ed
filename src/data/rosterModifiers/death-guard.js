@@ -15,7 +15,10 @@ export default {
       "hash": "77642218",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "armyRule"
+      }
     },
     {
       "sid": "59635a2a-6196-4c29-8aef-2477563b0a7c",
@@ -25,7 +28,10 @@ export default {
       "hash": "9d8b8791",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "armyRule"
+      }
     },
     {
       "sid": "646ffc25-fbc8-4702-82ad-ea7c853e5736",
@@ -35,7 +41,11 @@ export default {
       "hash": "823d2ee7",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "shamblerot-vectorium"
+      }
     },
     {
       "sid": "89e9fb12-929f-4931-8002-58f48241447d",
@@ -45,7 +55,11 @@ export default {
       "hash": "aabe56f9",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "shamblerot-vectorium"
+      }
     },
     {
       "sid": "5d974c69-74c8-4495-8370-f4c9e20d3c4f",
@@ -55,7 +69,11 @@ export default {
       "hash": "17b8a289",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "shamblerot-vectorium"
+      }
     },
     {
       "sid": "c61119f2-8aea-4203-ab1b-565c4deacebe",
@@ -65,7 +83,11 @@ export default {
       "hash": "f2a3864b",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "tallyband-summoners"
+      }
     },
     {
       "sid": "c717fc16-3d50-4312-af50-9d7653c5266a",
@@ -75,7 +97,11 @@ export default {
       "hash": "bcc26027",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "tallyband-summoners"
+      }
     },
     {
       "sid": "572b6378-e1cf-433c-841b-015a715aed94",
@@ -85,7 +111,11 @@ export default {
       "hash": "12901bea",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "virulent-vectorium"
+      }
     }
   ]
 }

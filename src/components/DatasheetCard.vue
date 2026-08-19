@@ -13,7 +13,7 @@
           <!-- Stat labels only once, above the first profile's row -->
           <div v-for="s in statCells(p)" :key="s.label" class="ds-stat">
             <span v-if="i === 0" class="ds-stat-label">{{ s.label }}</span>
-            <span class="ds-stat-box">{{ s.value }}</span>
+            <span class="ds-stat-box" :class="{ 'ds-stat-mod': isMarked('profile', s.key, i) }">{{ s.value }}<sup v-if="isMarked('profile', s.key, i)" class="ds-mod-star" aria-hidden="true">*</sup></span>
           </div>
           <span v-if="sheet.profiles.length > 1" class="ds-prof-name">{{ p.name }} <span v-if="p.baseSize" class="ds-base">({{ fmtBase(p.baseSize) }})</span></span>
           <template v-if="p.inv">
@@ -38,7 +38,7 @@
         <tbody>
           <tr v-for="(w, i) in rangedRows" :key="i" :class="'wg-' + w.gpos">
             <td class="wname"><span class="wname-text"><span v-if="w.gpos !== 'single'" class="wprofile-arrow" aria-hidden="true"></span>{{ w.name }}</span><span v-if="w.tags?.length" class="wtags"><span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></span></td>
-            <td data-label="Range">{{ w.range }}</td><td data-label="A">{{ w.a }}</td><td data-label="BS">{{ w.bs }}</td><td data-label="S">{{ w.s }}</td><td data-label="AP">{{ w.ap }}</td><td data-label="D">{{ w.d }}</td>
+            <td data-label="Range">{{ w.range }}</td><td data-label="A" :class="{ 'ds-stat-mod': isMarked('ranged', 'a', i) }">{{ w.a }}<sup v-if="isMarked('ranged', 'a', i)" class="ds-mod-star">*</sup></td><td data-label="BS" :class="{ 'ds-stat-mod': isMarked('ranged', 'bs', i) }">{{ w.bs }}<sup v-if="isMarked('ranged', 'bs', i)" class="ds-mod-star">*</sup></td><td data-label="S" :class="{ 'ds-stat-mod': isMarked('ranged', 's', i) }">{{ w.s }}<sup v-if="isMarked('ranged', 's', i)" class="ds-mod-star">*</sup></td><td data-label="AP" :class="{ 'ds-stat-mod': isMarked('ranged', 'ap', i) }">{{ w.ap }}<sup v-if="isMarked('ranged', 'ap', i)" class="ds-mod-star">*</sup></td><td data-label="D" :class="{ 'ds-stat-mod': isMarked('ranged', 'd', i) }">{{ w.d }}<sup v-if="isMarked('ranged', 'd', i)" class="ds-mod-star">*</sup></td>
           </tr>
         </tbody>
       </table>
@@ -51,11 +51,25 @@
         <tbody>
           <tr v-for="(w, i) in meleeRows" :key="i" :class="'wg-' + w.gpos">
             <td class="wname"><span class="wname-text"><span v-if="w.gpos !== 'single'" class="wprofile-arrow" aria-hidden="true"></span>{{ w.name }}</span><span v-if="w.tags?.length" class="wtags"><span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></span></td>
-            <td data-label="Range">Melee</td><td data-label="A">{{ w.a }}</td><td data-label="WS">{{ w.ws }}</td><td data-label="S">{{ w.s }}</td><td data-label="AP">{{ w.ap }}</td><td data-label="D">{{ w.d }}</td>
+            <td data-label="Range">Melee</td><td data-label="A" :class="{ 'ds-stat-mod': isMarked('melee', 'a', i) }">{{ w.a }}<sup v-if="isMarked('melee', 'a', i)" class="ds-mod-star">*</sup></td><td data-label="WS" :class="{ 'ds-stat-mod': isMarked('melee', 'ws', i) }">{{ w.ws }}<sup v-if="isMarked('melee', 'ws', i)" class="ds-mod-star">*</sup></td><td data-label="S" :class="{ 'ds-stat-mod': isMarked('melee', 's', i) }">{{ w.s }}<sup v-if="isMarked('melee', 's', i)" class="ds-mod-star">*</sup></td><td data-label="AP" :class="{ 'ds-stat-mod': isMarked('melee', 'ap', i) }">{{ w.ap }}<sup v-if="isMarked('melee', 'ap', i)" class="ds-mod-star">*</sup></td><td data-label="D" :class="{ 'ds-stat-mod': isMarked('melee', 'd', i) }">{{ w.d }}<sup v-if="isMarked('melee', 'd', i)" class="ds-mod-star">*</sup></td>
           </tr>
         </tbody>
       </table>
     </div>
+
+    <!-- What the roster's modifier layer did to the numbers above (Tier C). Every rewritten value
+         carries a `*`; this is where the `*` is explained. A CONDITIONAL modifier appears here
+         too, with its condition and WITHOUT having touched the number — that asymmetry is the
+         whole point of the layer, so the two are rendered distinctly rather than as one list of
+         "modifiers". -->
+    <ul v-if="statNotes.length" class="ds-mods">
+      <li class="ds-mods-h">{{ labels.dsModifiers }}</li>
+      <li v-for="(n, i) in statNotes" :key="i" class="ds-mod" :class="{ 'ds-mod-when': !n.applied }">
+        <span class="ds-mod-delta">{{ modDelta(n) }}</span>
+        <span class="ds-mod-src">{{ n.source }}<span v-if="n.det" class="ds-mod-det"> · {{ n.det }}</span></span>
+        <span v-if="n.when" class="ds-mod-cond">{{ n.when[locale] || n.when.en }}</span>
+      </li>
+    </ul>
 
     <!-- Abilities -->
     <div class="ds-abilities">
@@ -338,6 +352,13 @@ const props = defineProps({
   // anywhere (a stale/Legends reference in the source rule text) is left as plain text, not
   // hidden — there's nothing to disambiguate there, it's just not a link target.
   otherFactionUnits: { type: Array, default: () => [] },
+  // Cells the roster's modifier layer rewrote, as `profile:<stat>:<i>` / `ranged:<stat>:<row>` /
+  // `melee:<stat>:<row>` keys (src/composables/rosterStatMods.js), and the notes explaining them.
+  // A note with `applied: false` is a CONDITIONAL modifier: its number was deliberately left
+  // printed, and the note is the only thing that says the value can change. Empty for every
+  // caller outside the roster.
+  statMarks: { type: Array, default: () => [] },
+  statNotes: { type: Array, default: () => [] },
   // Hide the build-choice blocks (Unit Composition, the default-loadout sentence, Wargear
   // Options). For a datasheet being READ those are the sheet; for a unit already in a roster they
   // are settled questions, and the loadout sentence disagrees with the weapon tables once those
@@ -511,13 +532,30 @@ function dsRichText(text) {
 
 function statCells(p) {
   return [
-    { label: 'M', value: p.m },
-    { label: 'T', value: p.t },
-    { label: 'SV', value: p.sv },
-    { label: 'W', value: p.w },
-    { label: 'LD', value: p.ld },
-    { label: 'OC', value: p.oc },
+    { key: 'm', label: 'M', value: p.m },
+    { key: 't', label: 'T', value: p.t },
+    { key: 'sv', label: 'SV', value: p.sv },
+    { key: 'w', label: 'W', value: p.w },
+    { key: 'ld', label: 'LD', value: p.ld },
+    { key: 'oc', label: 'OC', value: p.oc },
   ]
+}
+
+// A cell whose printed number was rewritten by the roster's modifier layer (Tier C). The mark is
+// the same `*` the granted-keyword treatment uses, and for the same reason: the value on screen
+// is no longer what the card prints, and the reader is owed both that signal and the footnote
+// naming the rule responsible.
+const markSet = computed(() => new Set(props.statMarks))
+const isMarked = (on, stat, index) => markSet.value.has(`${on}:${stat}:${index}`)
+
+const STAT_LABEL = { m: 'M', t: 'T', sv: 'SV', w: 'W', ld: 'LD', oc: 'OC', inv: 'INV', a: 'A', bs: 'BS', ws: 'WS', s: 'S', ap: 'AP', d: 'D' }
+// "+2 S", "SV −1", "INV = 5+" — deliberately symbolic rather than a sentence, so the note needs
+// no translating of its own beyond the condition text the record already carries bilingually.
+function modDelta(n) {
+  const stat = STAT_LABEL[n.stat] || String(n.stat).toUpperCase()
+  if (n.op === 'set') return `${stat} = ${n.value}`
+  if (n.op === 'improve') return `${stat} −${n.value}`
+  return `${Number(n.value) >= 0 ? '+' : ''}${n.value} ${stat}`
 }
 </script>
 
@@ -926,6 +964,30 @@ function statCells(p) {
   .ds-weapons tbody tr.wg-mid,
   .ds-weapons tbody tr.wg-end { border-top: 1px dashed var(--border); }
 }
+
+/* Modifier footnotes — quiet, small, and clearly secondary to the card's own content: they
+   explain the `*` on a rewritten value, they are not part of the printed datasheet. */
+.ds-mods { list-style: none; margin: 0.1rem 0 0.7rem; padding: 0; font-size: 0.76rem; }
+.ds-mods-h {
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent);
+  margin-bottom: 0.2rem;
+}
+.ds-mod { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.35rem; color: var(--text-muted); }
+.ds-mod-delta { font-weight: 700; color: var(--text-primary); font-variant-numeric: tabular-nums; }
+.ds-mod-src { color: var(--text-primary); }
+.ds-mod-det { color: var(--text-muted); }
+/* A conditional modifier didn't change anything on the card — the dimmed delta says so at a
+   glance, and the condition follows. */
+.ds-mod-when .ds-mod-delta { font-weight: 600; color: var(--text-muted); }
+.ds-mod-cond { flex-basis: 100%; padding-left: 0.1rem; font-style: italic; }
+/* The `*` on a value the layer rewrote, and its cell. Same asterisk convention as the granted
+   keywords' `.ds-kw-star`. */
+.ds-mod-star { color: var(--accent); font-weight: 700; margin-left: 1px; }
+.ds-stat-mod { box-shadow: inset 0 -2px 0 color-mix(in srgb, var(--accent) 55%, transparent); }
 
 /* Abilities */
 .ds-abilities { font-size: 0.85rem; line-height: 1.5; color: var(--text-primary); }

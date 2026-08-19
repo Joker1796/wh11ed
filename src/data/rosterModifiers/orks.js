@@ -15,7 +15,10 @@ export default {
       "hash": "9d17d608",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "armyRule"
+      }
     },
     {
       "sid": "a6f39aff-8615-4636-9b6d-da6fab863c33",
@@ -25,7 +28,11 @@ export default {
       "hash": "887fbe72",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "da-big-hunt"
+      }
     },
     {
       "sid": "36625896-bea9-4694-b3d0-1a684a71367b",
@@ -35,7 +42,11 @@ export default {
       "hash": "652c37e9",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "green-tide"
+      }
     },
     {
       "sid": "fb854ed4-d89a-48fe-8885-668fc666fb57",
@@ -45,7 +56,11 @@ export default {
       "hash": "44d35202",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "blitz-brigade"
+      }
     },
     {
       "sid": "b26524a0-05cb-4f6d-a0ee-eb29836d5cd5",
@@ -55,7 +70,11 @@ export default {
       "hash": "c7314a69",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "bully-boyz"
+      }
     },
     {
       "sid": "054ed69c-a8e8-4469-80bf-1d1e39dc5103",
@@ -65,7 +84,11 @@ export default {
       "hash": "b2a4dee2",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "da-big-hunt"
+      }
     },
     {
       "sid": "d3a899cc-7e85-48ee-aaf8-7bc01205a926",
@@ -75,7 +98,11 @@ export default {
       "hash": "9aa0b7af",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "freebooter-krew"
+      }
     },
     {
       "sid": "987fbbf7-d3d3-4e55-a058-14332291177a",
@@ -85,7 +112,11 @@ export default {
       "hash": "35322b3c",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "green-tide"
+      }
     },
     {
       "sid": "1889b79a-54fd-4e88-93e8-fdc0d4076a1a",
@@ -95,7 +126,11 @@ export default {
       "hash": "ecde6a70",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "speedwaaagh"
+      }
     }
   ]
 }
