@@ -39,35 +39,38 @@
           :granted-keywords="view.grantedKeywords"
           :hide-choices="!!ctx"
           collapsible
-        />
+        >
+          <template #before-keywords>
+          <!-- What else bears on this unit right now: its enhancement, the roster's detachment
+               rules, the army rule, and the abilities of any Leader attached to it. Attribution,
+               not inference — each block says where it comes from and nothing is silently folded
+               into the datasheet above (see rosterModifiers.js's ruleSourcesFor). -->
+          <section v-if="ruleBlocks.length" class="rum-rules">
+            <h4 class="rum-rules-h">{{ labels.rosterInEffect }}</h4>
+            <div v-for="b in ruleBlocks" :key="b.key" class="rum-rule">
+              <DsAccordion collapsible>
+                <template #header="{ open, toggle }">
+                  <button type="button" class="rum-rule-btn" :aria-expanded="open" @click="toggle">
+                    <span class="rum-rule-text">
+                      <span class="rum-rule-src">{{ b.src }}</span>
+                      <span class="rum-rule-name">{{ b.name }}</span>
+                    </span>
+                    <i class="bi rum-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+                  </button>
+                </template>
+                <div class="rum-rule-body">
+                  <RuleBody v-if="b.body" :body="b.body" />
+                  <div v-for="a in b.abilities || []" :key="a.name" class="rum-ability">
+                    <strong>{{ a.name }}:</strong> <span v-html="renderInline(a.text)"></span>
+                  </div>
+                </div>
+              </DsAccordion>
+            </div>
+          </section>
+          </template>
+        </DatasheetCard>
         <p v-else-if="loaded" class="rum-missing">{{ labels.factionsSoon }}</p>
 
-        <!-- What else bears on this unit right now: its enhancement, the roster's detachment
-             rules, the army rule, and the abilities of any Leader attached to it. Attribution,
-             not inference — each block says where it comes from and nothing is silently folded
-             into the datasheet above (see rosterModifiers.js's ruleSourcesFor). -->
-        <section v-if="ruleBlocks.length" class="rum-rules">
-          <h4 class="rum-rules-h">{{ labels.rosterInEffect }}</h4>
-          <div v-for="b in ruleBlocks" :key="b.key" class="rum-rule">
-            <DsAccordion collapsible>
-              <template #header="{ open, toggle }">
-                <button type="button" class="rum-rule-btn" :aria-expanded="open" @click="toggle">
-                  <span class="rum-rule-text">
-                    <span class="rum-rule-src">{{ b.src }}</span>
-                    <span class="rum-rule-name">{{ b.name }}</span>
-                  </span>
-                  <i class="bi rum-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
-                </button>
-              </template>
-              <div class="rum-rule-body">
-                <RuleBody v-if="b.body" :body="b.body" />
-                <div v-for="a in b.abilities || []" :key="a.name" class="rum-ability">
-                  <strong>{{ a.name }}:</strong> <span v-html="renderInline(a.text)"></span>
-                </div>
-              </div>
-            </DsAccordion>
-          </div>
-        </section>
       </FactionAccentScope>
     </div>
   </BaseModal>
@@ -268,13 +271,15 @@ const ruleBlocks = computed(() => {
 
 /* Rule blocks under the card. Deliberately quieter than the card itself — flat rows, no accent
    band: they're context, and the datasheet stays the thing being read. */
-.rum-rules { margin-top: 0.9rem; }
+/* Rendered into DatasheetCard's #before-keywords slot, so it sits INSIDE the card just above the
+   closing Keywords line — the roster context reads as part of the datasheet, not as an appendix
+   after it. Its top rule doubles as the separator from the block above. */
+.rum-rules { margin-top: 0.9rem; padding-top: 0.6rem; border-top: 1px solid var(--border); }
 .rum-rules-h {
   font-family: var(--font-display); font-size: 1rem; font-weight: 500;
   color: var(--text-muted); margin: 0 0 0.4rem; text-transform: uppercase; letter-spacing: 0.03em;
 }
-.rum-rule { border-top: 1px solid var(--border); }
-.rum-rule:last-child { border-bottom: 1px solid var(--border); }
+.rum-rule + .rum-rule { border-top: 1px solid var(--border); }
 .rum-rule-btn {
   display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
   width: 100%; padding: 0.55rem 0.2rem; min-height: 40px;

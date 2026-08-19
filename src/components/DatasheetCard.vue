@@ -232,6 +232,11 @@
       </DsAccordion>
     </div>
 
+    <!-- Anything a caller wants to sit inside the card, above its closing Keywords line — the
+         roster's "in effect for this unit" rule blocks land here so they read as part of the
+         card rather than as something appended after it. Empty for every other caller. -->
+    <slot name="before-keywords"></slot>
+
     <!-- Keywords -->
     <div class="ds-keywords">
       <div>

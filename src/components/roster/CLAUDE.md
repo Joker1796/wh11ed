@@ -204,11 +204,13 @@ wrapper's DOM subtree. See `RosterUnitRulesModal.test.js` or
 
 `RosterUnitRulesModal` renders the sheet a roster ENTRY fields, not the printed one, via
 `overlaySheet(sheet, ctx)` — a pure function alongside the other `roster*.js` composables.
-`ctx` (`{ def, entry, items }`) is optional and partial: `UnitEditorFields` and
-`RosterViewView` pass it, `RosterUnitBrowser`'s preview deliberately doesn't (nothing is in
-the roster yet, so every option should still show). No ctx → the printed sheet, unchanged.
+`ctx` (`{ def, entry, items, detachments, leaderTargets, units }`) is optional and partial —
+each call site passes only what it alone knows, and the modal adds `unitId`/`factionSlug` from
+its own props. `RosterUnitBrowser`'s preview passes only `detachments`: the unit isn't in the
+roster yet, so there is no loadout to reflect, but the roster's detachments already apply. No ctx
+at all → the printed sheet with every option, exactly the pre-overlay behaviour.
 
-Tier A does three things:
+Tier A does four things:
 
 1. **Trims the weapon tables** to the entry's actual loadout (2000 of 5038 rows across all
    factions disappear from a freshly-added unit's card).
@@ -228,8 +230,11 @@ Tier A does three things:
    Warlord, the enhancement carried (chosen or mandatory), and what the unit is attached to.
    An attachment is only shown when `leaderTargets` can resolve it to a name — never as a uid.
 
-Tier B adds attributed prose under the card (`ruleSourcesFor` says WHICH rules bear on the
-entry; the modal resolves each to its text from the lazily-imported faction bundle): the
+Tier B adds attributed prose INSIDE the card, in `DatasheetCard`'s `#before-keywords` slot —
+directly above its closing Keywords line, so the roster context reads as part of the datasheet
+rather than as an appendix after it (the slot exists for exactly this; the card itself stays
+unaware of the roster). `ruleSourcesFor` says WHICH rules bear on the entry and the modal
+resolves each to its text from the lazily-imported faction bundle: the
 enhancement carried, each of the roster's detachment rules, the army rule, and the abilities of
 any Leader attached to this unit — each in a collapsed `DsAccordion` labelled with its source.
 
@@ -276,8 +281,9 @@ An empty ranged table on a freshly-added unit is usually CORRECT, not a bug — 
 (Nemesis Dreadknight, Wraithknight with Ghostglaive, Canoness with Jump Pack…) have a default
 loadout with no ranged weapon at all, and every gun on their card is an option nobody picked yet.
 
-The wider plan (attributed prose blocks, the numeric modifier sidecar, and how it all survives an
-appdata bump) lives in `ROSTER-MODIFIERS-PROGRESS.md` at the repo root.
+Tiers A and B are done. The remaining tier — a numeric modifier sidecar that would let an
+unconditional "+1 Toughness" actually change the printed number — and the procedure keeping all of
+it alive across an appdata bump live in `ROSTER-MODIFIERS-PROGRESS.md` at the repo root.
 
 ## Known gaps
 
