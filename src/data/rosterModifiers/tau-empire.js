@@ -215,6 +215,28 @@ export default {
         "kind": "enhancement",
         "det": "montka"
       }
+    },
+    {
+      "sid": "f73f4a42-c4b1-4ef7-bd9c-deaf79bc413d",
+      "kind": "enhancement",
+      "name": "Internal Grenade Racks",
+      "det": "Retaliation Cadre",
+      "ref": {
+        "kind": "enhancement",
+        "det": "retaliation-cadre"
+      },
+      "hash": "0570f862",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Grenades",
+          "when": null
+        }
+      ]
     }
   ]
 }

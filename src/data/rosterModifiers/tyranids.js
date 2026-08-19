@@ -195,6 +195,13 @@ export default {
           "op": "improve",
           "value": 1,
           "when": null
+        },
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Synapse",
+          "when": null
         }
       ],
       "ref": {
@@ -236,6 +243,20 @@ export default {
         "kind": "enhancement",
         "det": "synaptic-nexus"
       }
+    },
+    {
+      "sid": "0666139a-ab22-4c98-9219-e369924291bf",
+      "kind": "enhancement",
+      "name": "Destabilising Predation (Upgrade)",
+      "det": "Talons of the Norn Queen",
+      "ref": {
+        "kind": "enhancement",
+        "det": "talons-of-the-norn-queen"
+      },
+      "hash": "a6b59501",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "71b8e917-4924-4aea-93e9-ab17e7314061",

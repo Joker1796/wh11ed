@@ -167,6 +167,34 @@ export default {
       }
     },
     {
+      "sid": "364cea95-8b5d-480c-930c-22d543f96013",
+      "kind": "enhancement",
+      "name": "Cacophonic Accompaniment",
+      "det": "Elegant Brutes",
+      "ref": {
+        "kind": "enhancement",
+        "det": "elegant-brutes"
+      },
+      "hash": "743a6cea",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "7949eef1-dbe1-42e6-9742-e18fea8532fe",
+      "kind": "enhancement",
+      "name": "Frenzied Ferocity (Upgrade)",
+      "det": "Elegant Brutes",
+      "ref": {
+        "kind": "enhancement",
+        "det": "elegant-brutes"
+      },
+      "hash": "805adba2",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "4d0851fe-8c7b-4423-b688-916ad670d63e",
       "kind": "enhancement",
       "name": "Steeped in Suffering",

@@ -133,6 +133,20 @@ export default {
       }
     },
     {
+      "sid": "5fc0cd69-c9d0-4613-a01a-491e55bf56c0",
+      "kind": "detachmentRule",
+      "name": "Rain of Ruin",
+      "det": "Devotees of Destruction",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "devotees-of-destruction"
+      },
+      "hash": "c5bd1198",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "1dacaf8f-9649-4bca-b267-e84aa6301dfb",
       "kind": "detachmentRule",
       "name": "Tyrannical Motivation",
@@ -209,6 +223,34 @@ export default {
         "kind": "detachmentRule",
         "det": "soulforged-warpack"
       }
+    },
+    {
+      "sid": "d5097c0b-09a5-4a90-821f-58d20bf7f336",
+      "kind": "enhancement",
+      "name": "Conduit of Chaos",
+      "det": "Cabal of Chaos",
+      "ref": {
+        "kind": "enhancement",
+        "det": "cabal-of-chaos"
+      },
+      "hash": "e227d712",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "91ff4c53-0812-4603-b6ac-8c82eb9a44cb",
+      "kind": "enhancement",
+      "name": "Touched by the Warp",
+      "det": "Cabal of Chaos",
+      "ref": {
+        "kind": "enhancement",
+        "det": "cabal-of-chaos"
+      },
+      "hash": "0f71b1f4",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "f8585ef9-bd3d-4536-99b2-d02ab20921da",
@@ -290,6 +332,28 @@ export default {
       }
     },
     {
+      "sid": "f3bde6ed-505b-419d-8db9-5c8d9c4d0bff",
+      "kind": "enhancement",
+      "name": "Cybinfernal Font",
+      "det": "Cult of the Arkifane",
+      "ref": {
+        "kind": "enhancement",
+        "det": "cult-of-the-arkifane"
+      },
+      "hash": "d4d18f7d",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Soul Forge",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "eb2472a2-ce74-4e93-be22-a5e84d02fe04",
       "kind": "enhancement",
       "name": "Cursed Fang",
@@ -310,6 +374,31 @@ export default {
         "kind": "enhancement",
         "det": "deceptors"
       }
+    },
+    {
+      "sid": "f7646e99-5ac1-483b-92e1-0ff76c88546d",
+      "kind": "enhancement",
+      "name": "Soul Link",
+      "det": "Deceptors",
+      "ref": {
+        "kind": "enhancement",
+        "det": "deceptors"
+      },
+      "hash": "3241761a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Psyker",
+          "when": {
+            "en": "while a Character is selected for it in your Command phase",
+            "ru": "пока в вашей фазе командования для него выбран персонаж"
+          }
+        }
+      ]
     },
     {
       "sid": "21b97ac4-0081-470d-910f-2e7c4d54b4a7",

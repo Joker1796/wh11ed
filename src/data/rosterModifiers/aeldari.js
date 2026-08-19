@@ -8,6 +8,33 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "04d0ed6a-3233-413d-8173-c96ace7f0f89",
+      "kind": "armyRule",
+      "name": "Disparate Paths",
+      "det": null,
+      "ref": {
+        "kind": "armyRule"
+      },
+      "hash": "218596b3",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "73913fb3-24fa-4911-8b59-a10e65e627dd",
+      "kind": "detachmentRule",
+      "name": "Skilled Crews",
+      "det": "Armoured Warhost",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "armoured-warhost"
+      },
+      "hash": "9e5439da",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "ffd11536-5f6e-44a3-8f8a-f3833e44dc1c",
       "kind": "detachmentRule",
       "name": "Defend At All Costs",
@@ -150,6 +177,17 @@ export default {
         "kind": "enhancement",
         "det": "devoted-of-ynnead"
       }
+    },
+    {
+      "sid": "38c84028-2718-4537-bf80-3808d06997bd",
+      "kind": "enhancement",
+      "name": "Seer’s Hand",
+      "det": "Kygharil's Protectors",
+      "ref": null,
+      "hash": "6d851a6c",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "2829e959-9dd5-485b-ad55-9b162e11d54f",

@@ -36,7 +36,7 @@
           v-if="view.sheet"
           :sheet="statMods.sheet"
           :faction-slug="factionSlug"
-          :granted-keywords="view.grantedKeywords"
+          :granted-keywords="allGrantedKeywords"
           :hide-choices="!!ctx"
           :linked-faction-rules="linkedFactionRules"
           :stat-marks="statMods.marks"
@@ -97,7 +97,7 @@ import { useKeywordPopover } from '../../composables/useKeywordPopover.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 import { overlaySheet, enhKey, detKey } from '../../composables/rosterModifiers.js'
 import { ruleAppliesTo } from '../../composables/ruleTargets.js'
-import { applyStatMods, resolveModifierEntries } from '../../composables/rosterStatMods.js'
+import { applyStatMods, resolveModifierEntries, grantedKeywordsFrom } from '../../composables/rosterStatMods.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { loadDatasheetsRu, localizeSheet } from '../../data/datasheets/ru/index.js'
 
@@ -226,11 +226,40 @@ const view = computed(() => overlaySheet(sheet.value, {
 const factionKeywordSets = computed(() =>
   datasheets.value.map((d) => [...(d.keywords || []), ...(d.factionKeywords || [])]))
 
+// The keywords printed on the sheet plus every one the roster grants it. Two sources, and the
+// order matters: a granted keyword decides which RULES bear on the unit, so it has to be resolved
+// before any gating — Necrons' Destroyer Ankh gives its bearer DESTROYER CULT, and only then does
+// Cold Fervour's first bullet (+2 Strength to every DESTROYER CULT model) reach that Overlord.
+const modifierGrantedKeywords = computed(() => {
+  const printed = datasheets.value.find((d) => d.id === props.unitId)
+  const base = [...(printed?.keywords || []), ...(printed?.factionKeywords || []), ...view.value.grantedKeywords.map((g) => g.kw)]
+  return grantedKeywordsFrom(resolvedModifiers.value, base, factionKeywordSets.value)
+})
+
 const unitKeywords = computed(() => {
   const en = datasheets.value.find((d) => d.id === props.unitId)
   // Keywords a detachment GRANTS count too — a unit made Battleline by the roster's detachment is
   // targeted by a rule that says "BATTLELINE units from your army".
-  return [...(en?.keywords || []), ...(en?.factionKeywords || []), ...view.value.grantedKeywords.map((g) => g.kw)]
+  return [
+    ...(en?.keywords || []),
+    ...(en?.factionKeywords || []),
+    ...view.value.grantedKeywords.map((g) => g.kw),
+    ...modifierGrantedKeywords.value.map((g) => g.kw),
+  ]
+})
+
+// Everything the card should show as gained rather than printed: the structural sidecar's grants
+// (a detachment making a unit Battleline) and the modifier layer's own.
+const allGrantedKeywords = computed(() => {
+  const seen = new Set()
+  const out = []
+  for (const g of [...view.value.grantedKeywords, ...modifierGrantedKeywords.value.map((g) => ({ kw: g.kw, detName: g.source, extra: false }))]) {
+    const key = g.kw.toLowerCase()
+    if (seen.has(key)) continue
+    seen.add(key)
+    out.push(g)
+  }
+  return out
 })
 
 // The army rule is NOT one of the blocks below: it belongs on the card's own "Faction:" line,
@@ -255,15 +284,16 @@ function applies(enBody) {
 // unit isn't carrying or isn't targeted by. `ref` is the wh11ed-side pointer the generator wrote
 // (see gen-roster-modifiers.mjs) — matching by id, not by name, so a GW rename can't silently
 // detach a modifier from its rule.
+const resolvedModifiers = computed(() => resolveModifierEntries(
+  usableModifierEntries.value,
+  rulesFactionEn.value,
+  props.ctx?.detachments,
+  view.value.context?.enhancement?.name,
+))
+
 const statMods = computed(() => {
-  const resolved = resolveModifierEntries(
-    usableModifierEntries.value,
-    rulesFactionEn.value,
-    props.ctx?.detachments,
-    view.value.context?.enhancement?.name,
-  )
-  if (!resolved.length) return { sheet: view.value.sheet, notes: [], marks: [] }
-  return applyStatMods(view.value.sheet, resolved, unitKeywords.value, factionKeywordSets.value)
+  if (!resolvedModifiers.value.length) return { sheet: view.value.sheet, notes: [], marks: [] }
+  return applyStatMods(view.value.sheet, resolvedModifiers.value, unitKeywords.value, factionKeywordSets.value)
 })
 
 const usableModifierEntries = computed(() => {

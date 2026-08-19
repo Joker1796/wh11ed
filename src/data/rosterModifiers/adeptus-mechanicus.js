@@ -208,6 +208,20 @@ export default {
       }
     },
     {
+      "sid": "a99aefbc-1a7f-4452-9889-867c64a9d153",
+      "kind": "detachmentRule",
+      "name": "Cyber-static Canticles",
+      "det": "Luminen Auto-Choir",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "luminen-auto-choir"
+      },
+      "hash": "e0235ebc",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "90b8de0c-70e0-4aae-85b7-0b45e64ecbf6",
       "kind": "enhancement",
       "name": "Belicosa-class Capacitor Vanes",
@@ -235,6 +249,28 @@ export default {
         "kind": "enhancement",
         "det": "eradication-cohort"
       }
+    },
+    {
+      "sid": "9fb4f320-8870-48c5-9e73-76725e9691fa",
+      "kind": "enhancement",
+      "name": "Martial Signatum Amplificator",
+      "det": "Eradication Cohort",
+      "ref": {
+        "kind": "enhancement",
+        "det": "eradication-cohort"
+      },
+      "hash": "a7771d15",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Skitarii",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "36413881-7693-4d35-b23a-27a39aedfe12",
@@ -339,6 +375,42 @@ export default {
         "kind": "enhancement",
         "det": "haloscreed-battle-clade"
       }
+    },
+    {
+      "sid": "2a96585b-c6fd-4271-b617-56698f4df264",
+      "kind": "enhancement",
+      "name": "Transoracular Dyad Wafers",
+      "det": "Haloscreed Battle Clade",
+      "ref": {
+        "kind": "enhancement",
+        "det": "haloscreed-battle-clade"
+      },
+      "hash": "fc5884dd",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Halo Override",
+          "when": {
+            "en": "while the bearer is attached to a Kastelan Robots unit",
+            "ru": "пока носитель присоединён к отряду Kastelan Robots"
+          }
+        }
+      ]
+    },
+    {
+      "sid": "c434dc26-c687-4677-b72d-c879da0c169b",
+      "kind": "enhancement",
+      "name": "Empowered Mechanisms",
+      "det": "Purge Corps Deltic-9",
+      "ref": null,
+      "hash": "a44941f8",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
     }
   ]
 }

@@ -314,6 +314,28 @@ export default {
       }
     },
     {
+      "sid": "ffc30956-bcf9-41db-9ecc-9b1837a30f89",
+      "kind": "enhancement",
+      "name": "Catechism of Divine Penitence",
+      "det": "Penitent Host",
+      "ref": {
+        "kind": "enhancement",
+        "det": "penitent-host"
+      },
+      "hash": "b1a29995",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Penitent",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "1f93ff0c-b24e-4da3-9911-8bcc1e169cbf",
       "kind": "enhancement",
       "name": "Refrain of Enduring Faith",

@@ -112,6 +112,20 @@ export default {
       }
     },
     {
+      "sid": "b5a78aa9-08cb-4986-b09e-9735e5b6ff00",
+      "kind": "detachmentRule",
+      "name": "Ensorcelled Animus",
+      "det": "Sekhetar Cohort",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "sekhetar-cohort"
+      },
+      "hash": "02b8c2cf",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "c5998d23-f7e0-4fed-bbea-c738c4b1fe66",
       "kind": "detachmentRule",
       "name": "Warpmeld Sacrifice",

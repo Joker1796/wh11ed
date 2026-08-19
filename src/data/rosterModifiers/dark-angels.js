@@ -8,6 +8,72 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "2d71b3c6-84d1-49a1-a179-24b40816bb39",
+      "kind": "armyRule",
+      "name": "The Deathwing",
+      "det": null,
+      "ref": {
+        "kind": "armyRule"
+      },
+      "hash": "5111516f",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "e55bbc4f-6173-4d1b-b806-9351010772f7",
+      "kind": "armyRule",
+      "name": "The Deathwing",
+      "det": null,
+      "ref": {
+        "kind": "armyRule"
+      },
+      "hash": "5111516f",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "0339c85c-6792-4c1d-a69f-93d1b915cd7e",
+      "kind": "armyRule",
+      "name": "The Ravenwing",
+      "det": null,
+      "ref": {
+        "kind": "armyRule"
+      },
+      "hash": "5465d0bf",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "02e193b8-9f13-405d-968e-7c3b455bcc24",
+      "kind": "armyRule",
+      "name": "The Ravenwing",
+      "det": null,
+      "ref": {
+        "kind": "armyRule"
+      },
+      "hash": "5465d0bf",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "75d3a75e-54a9-4db3-8aeb-0aff7d9b285c",
+      "kind": "detachmentRule",
+      "name": "Black-winged Vigilance",
+      "det": "Darkflight Pursuit",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "darkflight-pursuit"
+      },
+      "hash": "154305f6",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "83ea8eb4-3e6c-40e4-bbeb-4c6b84f193ef",
       "kind": "detachmentRule",
       "name": "Vowed Target",
@@ -69,6 +135,20 @@ export default {
         "kind": "detachmentRule",
         "det": "unforgiven-task-force"
       }
+    },
+    {
+      "sid": "a0af2727-f3c3-47c4-850f-727a3f10748d",
+      "kind": "enhancement",
+      "name": "Inescapable Interrogation",
+      "det": "Interrogation Conclave",
+      "ref": {
+        "kind": "enhancement",
+        "det": "interrogation-conclave"
+      },
+      "hash": "86b86280",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "e1d0fc18-e30e-464d-a00b-6a7d603ef76d",

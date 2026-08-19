@@ -8,6 +8,32 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "82ad414b-e19f-4a6a-be1a-5ce96e420d21",
+      "kind": "armyRule",
+      "name": "Assigned Agents",
+      "det": null,
+      "ref": {
+        "kind": "armyRule"
+      },
+      "hash": "4aa3a14f",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "d7b4a194-4fa5-427c-9015-e2423dda2d80",
+      "kind": "armyRule",
+      "name": "Assigned Agents",
+      "det": null,
+      "ref": {
+        "kind": "armyRule"
+      },
+      "hash": "4aa3a14f",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "dc3732a7-5647-49b0-b3d1-8279dcfc40e4",
       "kind": "detachmentRule",
       "name": "At All Costs",

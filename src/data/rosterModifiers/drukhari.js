@@ -8,6 +8,60 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "4e3676ea-791d-4b86-844d-c87af3eccd15",
+      "kind": "armyRule",
+      "name": "Corsairs and Travelling Players",
+      "det": null,
+      "ref": {
+        "kind": "armyRule"
+      },
+      "hash": "e1eea53b",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "b1bcd7c8-edc3-4da2-a2c7-796001420f4b",
+      "kind": "armyRule",
+      "name": "Corsairs and Travelling Players",
+      "det": null,
+      "ref": {
+        "kind": "armyRule"
+      },
+      "hash": "e1eea53b",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "60c93592-228e-4a81-a0c7-46967aacfc1d",
+      "kind": "detachmentRule",
+      "name": "Exacting Cruelty",
+      "det": "Exhibition of Slaughter",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "exhibition-of-slaughter"
+      },
+      "hash": "c82b992c",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "25d48d63-072e-4bce-98fc-d168ab5a9333",
+      "kind": "detachmentRule",
+      "name": "Contracted Harvest",
+      "det": "Kabalite Agonysts",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "kabalite-agonysts"
+      },
+      "hash": "ec6c46f7",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "b46b3339-173c-4bce-b474-33cb0239e5d2",
       "kind": "detachmentRule",
       "name": "Combat Drugs",
@@ -120,6 +174,20 @@ export default {
         "kind": "enhancement",
         "det": "covenite-coterie"
       }
+    },
+    {
+      "sid": "5600dcd0-652a-4078-9d65-266dfff20443",
+      "kind": "enhancement",
+      "name": "Contempt for Rivals",
+      "det": "Kabalite Agonysts",
+      "ref": {
+        "kind": "enhancement",
+        "det": "kabalite-agonysts"
+      },
+      "hash": "7fb5eb42",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "1b8a36e1-aaf0-4dc9-8d5e-7dc93f9961b4",

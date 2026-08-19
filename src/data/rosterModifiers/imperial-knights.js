@@ -52,6 +52,33 @@ export default {
       }
     },
     {
+      "sid": "dfb05b81-7309-43ab-919a-891e1c57f817",
+      "kind": "armyRule",
+      "name": "Freeblades",
+      "det": null,
+      "ref": {
+        "kind": "armyRule"
+      },
+      "hash": "a4a07af3",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "3fa314f7-a382-44fa-8ebe-7150a64f03a0",
+      "kind": "detachmentRule",
+      "name": "Driven from their Lairs",
+      "det": "Throne-bonded Outriders",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "throne-bonded-outriders"
+      },
+      "hash": "0d9a81e5",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "e7d774f1-6f22-4767-a7ef-4a430a90b70d",
       "kind": "enhancement",
       "name": "Bringer of Justice",

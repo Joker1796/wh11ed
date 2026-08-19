@@ -121,6 +121,43 @@ describe('applyStatMods', () => {
     expect(out.marks).toContain('profile:t:0')
   })
 
+  it('stacks two modifiers on the same cell instead of the second overwriting the first', () => {
+    // Both read the value as it stands, not the printed one — otherwise a unit under an
+    // enhancement's +2 and a detachment rule's +1 ends up at +1.
+    const plusTwo = { ...coldFervour, name: 'A', effects: [{ scope: 0, on: 'melee', stat: 'a', op: 'add', value: 2, when: null }] }
+    const plusOne = { ...coldFervour, name: 'B', effects: [{ scope: 0, on: 'melee', stat: 'a', op: 'add', value: 1, when: null }] }
+    const out = applyStatMods(sheet(), [plusTwo, plusOne], destroyer)
+    expect(out.sheet.melee[0].a).toBe('7') // printed 4, +2, +1
+  })
+
+  it('keeps both granted weapon abilities when two rules grant one each', () => {
+    const grant = (name, value) => ({
+      name, det: 'D', kind: 'enhancement', body: 'x',
+      effects: [{ on: 'ranged', stat: 'ability', op: 'grant', value, when: null }],
+    })
+    const out = applyStatMods(sheet(), [grant('A', 'ASSAULT'), grant('B', 'RAPID FIRE 1')], destroyer)
+    expect(out.sheet.ranged[0].tags).toEqual(['ASSAULT', 'RAPID FIRE 1'])
+  })
+
+  it('does not add a weapon ability the row already prints', () => {
+    const s = sheet()
+    s.ranged[0].tags = ['ASSAULT']
+    const grant = { name: 'A', det: 'D', kind: 'enhancement', body: 'x',
+      effects: [{ on: 'ranged', stat: 'ability', op: 'grant', value: 'assault', when: null }] }
+    const out = applyStatMods(s, [grant], destroyer)
+    expect(out.sheet.ranged[0].tags).toEqual(['ASSAULT'])
+    expect(out.marks).toEqual([])
+  })
+
+  it('reports a granted keyword instead of touching the sheet', () => {
+    const grant = { name: 'Destroyer Ankh', det: 'Cursed Legion', kind: 'enhancement', body: 'x',
+      effects: [{ on: 'unit', stat: 'keyword', op: 'grant', value: 'Destroyer Cult', when: null }] }
+    const s = sheet()
+    const out = applyStatMods(s, [grant], destroyer)
+    expect(out.sheet).toBe(s)
+    expect(out.keywords).toEqual([{ kw: 'Destroyer Cult', source: 'Destroyer Ankh', det: 'Cursed Legion' }])
+  })
+
   it('does not mutate the sheet it was given', () => {
     const s = sheet()
     applyStatMods(s, [coldFervour], destroyer)

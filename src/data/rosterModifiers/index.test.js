@@ -5,9 +5,9 @@ import { usableEntries } from './index.js'
 // loads one faction at a time; see index.js).
 const files = import.meta.glob(['./*.js', '!./index.js', '!./*.test.js'], { eager: true, import: 'default' })
 
-const ON = new Set(['profile', 'ranged', 'melee', 'weapon'])
-const OP = new Set(['add', 'set', 'improve'])
-const STAT = new Set(['m', 't', 'sv', 'w', 'ld', 'oc', 'inv', 'a', 'bs', 'ws', 's', 'ap', 'd', 'range'])
+const ON = new Set(['profile', 'ranged', 'melee', 'weapon', 'unit'])
+const OP = new Set(['add', 'set', 'improve', 'grant'])
+const STAT = new Set(['m', 't', 'sv', 'w', 'ld', 'oc', 'inv', 'a', 'bs', 'ws', 's', 'ap', 'd', 'range', 'keyword', 'ability'])
 
 const allEntries = Object.entries(files).flatMap(([file, data]) =>
   (data?.entries || []).map((e) => ({ file, e })))
@@ -56,6 +56,15 @@ describe('rosterModifiers data', () => {
         expect(STAT.has(eff.stat), `${where}: stat=${eff.stat}`).toBe(true)
         expect(['number', 'string'], where).toContain(typeof eff.value)
         if (eff.scope != null) expect(Number.isInteger(eff.scope) && eff.scope >= 0, where).toBe(true)
+        // A grant names a keyword or a weapon ability, so its value is always a non-empty string,
+        // and only `grant` may carry those two stats.
+        if (eff.op === 'grant') {
+          expect(['keyword', 'ability'], where).toContain(eff.stat)
+          expect(typeof eff.value === 'string' && eff.value.length > 0, where).toBe(true)
+          expect(eff.stat === 'keyword' ? eff.on === 'unit' : eff.on !== 'unit' && eff.on !== 'profile', where).toBe(true)
+        } else {
+          expect(['keyword', 'ability'].includes(eff.stat), where).toBe(false)
+        }
         // A conditional effect must say its condition in BOTH languages: it is rendered as an
         // annotation next to the characteristic, and a missing side would show blank in that
         // locale. `null` is the deliberate "this always applies" value, not a missing field.

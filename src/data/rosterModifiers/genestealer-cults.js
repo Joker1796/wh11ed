@@ -33,6 +33,20 @@ export default {
       }
     },
     {
+      "sid": "692e28b8-13f6-4464-80ad-d4dca1f1d287",
+      "kind": "detachmentRule",
+      "name": "Brood Brothers",
+      "det": "Brood Brothers Auxilia",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "brood-brothers-auxilia"
+      },
+      "hash": "e1143466",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "d9d6cbe6-3df2-4a10-be73-424fe1d490c5",
       "kind": "detachmentRule",
       "name": "Integrated Tactics",
