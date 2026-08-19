@@ -14,8 +14,19 @@ export default {
       "det": "Annihilation Legion",
       "hash": "99ac616f",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "Destroyer Cult units only, per ranged attack against the closest eligible target",
+            "ru": "только отряды Destroyer Cult, за стрелковую атаку по ближайшей допустимой цели"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "annihilation-legion"
@@ -28,7 +39,7 @@ export default {
       "det": "Awakened Dynasty",
       "hash": "da8aa7b0",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -76,7 +87,7 @@ export default {
       "det": "Obeisance Phalanx",
       "hash": "f43f3287",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -90,7 +101,7 @@ export default {
       "det": "Pantheon of Woe",
       "hash": "2e60a45d",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -104,7 +115,7 @@ export default {
       "det": "Starshatter Arsenal",
       "hash": "66a38795",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -118,8 +129,19 @@ export default {
       "det": "Annihilation Legion",
       "hash": "ca631e3a",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "per attack that scores a Critical Wound",
+            "ru": "за атаку с критическим ранением"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "annihilation-legion"
@@ -132,7 +154,7 @@ export default {
       "det": "Awakened Dynasty",
       "hash": "b51daed7",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -146,8 +168,23 @@ export default {
       "det": "Cursed Legion",
       "hash": "c15dd6d4",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "cursed-legion"
@@ -160,7 +197,7 @@ export default {
       "det": "Cursed Legion",
       "hash": "d0cc07b6",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",

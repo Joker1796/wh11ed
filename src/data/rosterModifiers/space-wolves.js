@@ -14,8 +14,29 @@ export default {
       "det": null,
       "hash": "f9ef08c4",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "Infantry models, while within 6\" of a Space Wolves Character (or 12\" of a Wolf Priest) and not Battle-shocked",
+            "ru": "модели Infantry, пока отряд в 6\" от персонажа Space Wolves (или 12\" от Wolf Priest) и не Battle-shocked"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "Vehicle models, under the same condition",
+            "ru": "модели Vehicle, при том же условии"
+          }
+        }
+      ],
       "ref": {
         "kind": "armyRule"
       }
@@ -27,8 +48,29 @@ export default {
       "det": null,
       "hash": "f9ef08c4",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "Infantry models, while within 6\" of a Space Wolves Character (or 12\" of a Wolf Priest) and not Battle-shocked",
+            "ru": "модели Infantry, пока отряд в 6\" от персонажа Space Wolves (или 12\" от Wolf Priest) и не Battle-shocked"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "Vehicle models, under the same condition",
+            "ru": "модели Vehicle, при том же условии"
+          }
+        }
+      ],
       "ref": {
         "kind": "armyRule"
       }
@@ -40,7 +82,7 @@ export default {
       "det": "Saga of the Beastslayer",
       "hash": "c0480cea",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -54,7 +96,7 @@ export default {
       "det": "Saga of the Great Wolf",
       "hash": "c9e2983a",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -68,7 +110,7 @@ export default {
       "det": "Saga of the Hunter",
       "hash": "9c7b941e",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -82,8 +124,19 @@ export default {
       "det": "Saga of the Beastslayer",
       "hash": "5a259109",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "once per battle, for the Fight phase, while the bearer leads a Blood Claws unit",
+            "ru": "один раз за битву, на фазу боя, пока носитель ведёт отряд Blood Claws"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "saga-of-the-beastslayer"
@@ -96,8 +149,26 @@ export default {
       "det": "Saga of the Bold",
       "hash": "80daf934",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if the bearer's unit has achieved one or more Boasts",
+            "ru": "если отряд носителя выполнил хотя бы одно Boast"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "saga-of-the-bold"
@@ -110,8 +181,29 @@ export default {
       "det": "Saga of the Bold",
       "hash": "ee805bbd",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "for the Fight phase, if more enemy than friendly models are wholly within 6\" of the bearer",
+            "ru": "на фазу боя, если в 6\" от носителя целиком больше вражеских моделей, чем дружественных"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "instead, if the bearer's unit has achieved one or more Boasts",
+            "ru": "вместо этого, если отряд носителя выполнил хотя бы одно Boast"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "saga-of-the-bold"
@@ -124,8 +216,26 @@ export default {
       "det": "Saga of the Hunter",
       "hash": "71fe66dd",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "an additional +1 until the end of the turn, after the bearer ends a Charge move",
+            "ru": "дополнительно +1 до конца хода, после того как носитель завершил чардж"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "saga-of-the-hunter"

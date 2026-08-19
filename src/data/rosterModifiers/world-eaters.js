@@ -14,8 +14,29 @@ export default {
       "det": "Berzerker Warband",
       "hash": "4d170c56",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "until the end of the turn, after the unit makes a Charge move",
+            "ru": "до конца хода, после того как отряд совершил чардж"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "until the end of the turn, after the unit makes a Charge move",
+            "ru": "до конца хода, после того как отряд совершил чардж"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "berzerker-warband"
@@ -28,7 +49,7 @@ export default {
       "det": "Cult of Blood",
       "hash": "60e57bd1",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -42,7 +63,7 @@ export default {
       "det": "Goretrack Onslaught",
       "hash": "c9160531",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -56,8 +77,19 @@ export default {
       "det": "Khorne Daemonkin",
       "hash": "fce93df7",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "Blood Legions units only, once the Boon of Blood ability is activated for 4 Blood Tithe points",
+            "ru": "только отряды Blood Legions, после активации способности Boon of Blood за 4 очка Blood Tithe"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "khorne-daemonkin"
@@ -70,7 +102,7 @@ export default {
       "det": "Berzerker Warband",
       "hash": "42d701da",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -84,8 +116,29 @@ export default {
       "det": "Berzerker Warband",
       "hash": "5486231b",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "excluding Extra Attacks weapons",
+            "ru": "кроме оружия Extra Attacks"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "excluding Extra Attacks weapons",
+            "ru": "кроме оружия Extra Attacks"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "berzerker-warband"
@@ -98,8 +151,16 @@ export default {
       "det": "Cult of Blood",
       "hash": "0173d648",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "cult-of-blood"
@@ -112,8 +173,30 @@ export default {
       "det": "Khorne Daemonkin",
       "hash": "f9ebe04f",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "khorne-daemonkin"

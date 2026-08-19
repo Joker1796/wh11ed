@@ -14,7 +14,7 @@ export default {
       "det": null,
       "hash": "77642218",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "armyRule"
@@ -27,7 +27,7 @@ export default {
       "det": null,
       "hash": "9d8b8791",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "armyRule"
@@ -40,8 +40,19 @@ export default {
       "det": "Shamblerot Vectorium",
       "hash": "823d2ee7",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the bearer's Plague Wind weapon only, while leading a Poxwalkers unit",
+            "ru": "только оружие носителя Plague Wind, пока он ведёт отряд Poxwalkers"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "shamblerot-vectorium"
@@ -54,8 +65,19 @@ export default {
       "det": "Shamblerot Vectorium",
       "hash": "aabe56f9",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "Poxwalkers models in the led unit only",
+            "ru": "только модели Poxwalkers в ведомом отряде"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "shamblerot-vectorium"
@@ -68,8 +90,19 @@ export default {
       "det": "Shamblerot Vectorium",
       "hash": "17b8a289",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "models in the led Poxwalkers unit",
+            "ru": "модели ведомого отряда Poxwalkers"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "shamblerot-vectorium"
@@ -82,8 +115,16 @@ export default {
       "det": "Tallyband Summoners",
       "hash": "f2a3864b",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "tallyband-summoners"
@@ -96,7 +137,7 @@ export default {
       "det": "Tallyband Summoners",
       "hash": "bcc26027",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -110,8 +151,23 @@ export default {
       "det": "Virulent Vectorium",
       "hash": "12901bea",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "virulent-vectorium"
