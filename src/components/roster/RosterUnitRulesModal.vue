@@ -40,6 +40,33 @@
           collapsible
         />
         <p v-else-if="loaded" class="rum-missing">{{ labels.factionsSoon }}</p>
+
+        <!-- What else bears on this unit right now: its enhancement, the roster's detachment
+             rules, the army rule, and the abilities of any Leader attached to it. Attribution,
+             not inference — each block says where it comes from and nothing is silently folded
+             into the datasheet above (see rosterModifiers.js's ruleSourcesFor). -->
+        <section v-if="ruleBlocks.length" class="rum-rules">
+          <h4 class="rum-rules-h">{{ labels.rosterInEffect }}</h4>
+          <div v-for="b in ruleBlocks" :key="b.key" class="rum-rule">
+            <DsAccordion collapsible>
+              <template #header="{ open, toggle }">
+                <button type="button" class="rum-rule-btn" :aria-expanded="open" @click="toggle">
+                  <span class="rum-rule-text">
+                    <span class="rum-rule-src">{{ b.src }}</span>
+                    <span class="rum-rule-name">{{ b.name }}</span>
+                  </span>
+                  <i class="bi rum-chev" :class="open ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+                </button>
+              </template>
+              <div class="rum-rule-body">
+                <RuleBody v-if="b.body" :body="b.body" />
+                <div v-for="a in b.abilities || []" :key="a.name" class="rum-ability">
+                  <strong>{{ a.name }}:</strong> <span v-html="renderInline(a.text)"></span>
+                </div>
+              </div>
+            </DsAccordion>
+          </div>
+        </section>
       </FactionAccentScope>
     </div>
   </BaseModal>
@@ -50,9 +77,12 @@ import { computed, ref, watch } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import DatasheetCard from '../DatasheetCard.vue'
 import FactionAccentScope from './FactionAccentScope.vue'
+import DsAccordion from '../DsAccordion.vue'
+import RuleBody from '../RuleBody.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { overlaySheet } from '../../composables/rosterModifiers.js'
+import { useRenderInline } from '../../composables/useRenderInline.js'
+import { overlaySheet, enhKey, detKey } from '../../composables/rosterModifiers.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { loadDatasheetsRu, localizeSheet } from '../../data/datasheets/ru/index.js'
 
@@ -68,6 +98,7 @@ const props = defineProps({
 defineEmits(['close'])
 
 const { locale } = useLocale()
+const { renderInline } = useRenderInline()
 const labels = computed(() => ui[locale.value])
 
 const datasheets = ref([])
@@ -98,25 +129,91 @@ watch(
   { immediate: true },
 )
 
-// The printed sheet, in the current locale.
-const sheet = computed(() => {
-  const en = datasheets.value.find((d) => d.id === props.unitId) || null
+// Any datasheet from this faction, in the current locale. Shared by the viewed sheet and by an
+// attached Leader's abilities below — those must be translated too, not left English in RU.
+function localize(en) {
   if (!en || locale.value !== 'ru') return en
   const mod = ruModule.value
   if (!mod) return en
   return localizeSheet(en, mod.default?.[en.id], mod.abilityNamesRu)
-})
+}
+
+// The printed sheet, in the current locale.
+const sheet = computed(() => localize(datasheets.value.find((d) => d.id === props.unitId) || null))
 
 // …and what it looks like for THIS roster entry. Overlaying after localisation (not before) keeps
 // the two concerns apart: the overlay matches on structural ids and English wargear names, so it
 // behaves identically in both locales.
 // `unitId`/`factionSlug` are this component's own props, so a caller's ctx never has to repeat
 // them — it supplies only what it alone knows (the entry, its def, the roster's detachments).
+// Faction RULES (army rule / detachment rules / enhancement prose) — the heavy hand-authored
+// bundle, so it's dynamic-imported and only when this unit actually has roster context to
+// explain. Same load path as EnhancementRuleModal and RosterViewView's Rules tab; a faction's
+// chunk is ~30-60 KB and is precached for the installed PWA, so an opened modal doesn't go to
+// the network offline.
+const rulesFaction = ref(null)
+watch(
+  [() => props.factionSlug, () => !!props.ctx, locale],
+  async ([slug, hasCtx, loc]) => {
+    rulesFaction.value = null
+    if (!slug || !hasCtx) return
+    const [{ loadFaction }, { loadFactionRu, deepOverlay }] = await Promise.all([
+      import('../../data/factions/index.js'),
+      import('../../data/factions/ru/index.js'),
+    ])
+    const data = await loadFaction(slug)
+    if (props.factionSlug !== slug) return
+    let fac = data?.en
+    if (fac && loc === 'ru') {
+      const mod = await loadFactionRu(slug)
+      if (props.factionSlug !== slug || locale.value !== loc) return
+      if (mod) fac = deepOverlay(fac, mod.default)
+    }
+    rulesFaction.value = fac || null
+  },
+  { immediate: true },
+)
+
 const view = computed(() => overlaySheet(sheet.value, {
   ...(props.ctx || {}),
   unitId: props.unitId,
   factionSlug: props.factionSlug,
 }))
+// Resolve each rule source (rosterModifiers.js said WHICH rules bear on this unit) to the prose
+// that renders. A source whose text can't be found is dropped rather than shown as an empty
+// accordion — the roster layer and the hand-authored faction files are separate datasets and a
+// name can legitimately fail to resolve.
+const ruleBlocks = computed(() => {
+  const fac = rulesFaction.value
+  const out = []
+  for (const src of view.value.ruleSources) {
+    if (src.kind === 'enhancement') {
+      if (!fac) continue
+      const target = enhKey(src.name)
+      let found = null
+      for (const d of fac.detachments || []) {
+        found = d.enhancements?.find((e) => enhKey(e.name) === target)
+        if (found) break
+      }
+      if (found?.body) out.push({ key: `enh:${src.name}`, src: labels.value.rosterEnhancement, name: found.name, body: found.body })
+    } else if (src.kind === 'detachment') {
+      if (!fac) continue
+      const target = detKey(src.name)
+      const det = (fac.detachments || []).find((d) => detKey(d.name) === target)
+      if (det?.rule?.body) out.push({ key: `det:${src.name}`, src: `${labels.value.factionDetachment} · ${det.name}`, name: det.rule.name, body: det.rule.body })
+    } else if (src.kind === 'armyRule') {
+      if (fac?.armyRule?.body) out.push({ key: 'army', src: labels.value.factionArmyRule, name: fac.armyRule.name, body: fac.armyRule.body })
+    } else if (src.kind === 'leader') {
+      // The attached Leader's own abilities, from the datasheets already loaded for this modal —
+      // no extra fetch. Its full card stays one click away on its own row; what's useful here is
+      // what it brings to the unit being read.
+      const led = localize(datasheets.value.find((d) => d.id === src.unitId) || null)
+      const abilities = led?.abilities?.length ? led.abilities : null
+      if (abilities) out.push({ key: `leader:${src.unitId}`, src: labels.value.rosterLeaderTag, name: led.name, abilities })
+    }
+  }
+  return out
+})
 </script>
 
 <style scoped>
@@ -136,6 +233,28 @@ const view = computed(() => overlaySheet(sheet.value, {
 .rum-chip-pts { color: var(--text-primary); font-weight: 600; }
 .rum-chip-tag { text-transform: lowercase; opacity: 0.8; }
 .rum-missing { color: var(--text-muted); font-size: 0.95rem; text-align: center; padding: 1rem 0; }
+
+/* Rule blocks under the card. Deliberately quieter than the card itself — flat rows, no accent
+   band: they're context, and the datasheet stays the thing being read. */
+.rum-rules { margin-top: 0.9rem; }
+.rum-rules-h {
+  font-family: var(--font-display); font-size: 1rem; font-weight: 500;
+  color: var(--text-muted); margin: 0 0 0.4rem; text-transform: uppercase; letter-spacing: 0.03em;
+}
+.rum-rule { border-top: 1px solid var(--border); }
+.rum-rule:last-child { border-bottom: 1px solid var(--border); }
+.rum-rule-btn {
+  display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+  width: 100%; padding: 0.55rem 0.2rem; min-height: 40px;
+  background: none; border: none; cursor: pointer; text-align: left; color: var(--text-primary);
+}
+.rum-rule-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.rum-rule-src { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.03em; }
+.rum-rule-name { font-weight: 600; font-size: 0.95rem; }
+.rum-chev { color: var(--text-muted); flex-shrink: 0; }
+.rum-rule-body { padding: 0 0.2rem 0.7rem; font-size: 0.9rem; }
+.rum-ability { margin-bottom: 0.45rem; }
+.rum-ability:last-child { margin-bottom: 0; }
 
 /* Small phones: the modal is already full-width (BaseModal's ≤560px bottom-sheet), so its own
    padding is the last thing standing between DatasheetCard's tables and the screen edge —

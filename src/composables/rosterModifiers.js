@@ -145,6 +145,25 @@ function filterWeapons(sheet, def, entry, items) {
 // search index, so it stays untouched.
 const detKey = (name) => slugify((name || '').normalize('NFD').replace(/[\u0300-\u036f]/g, ''))
 
+// Enhancement names disagree between the roster layer (src/data/roster/<slug>.js, straight from
+// appdata: typographic ’, "(Aura)"/"(Upgrade)" baked into the name) and the hand-authored faction
+// files (ASCII, those two carried as separate booleans) — 132 of 898 names differ, none of them a
+// real content gap. Lives here rather than in EnhancementRuleModal.vue, which is where it was
+// written, so the modal's rule-block lookup and that component share one implementation.
+export function enhKey(s) {
+  return (s || '')
+    .replace(/\s*\((?:Upgrade|Aura)\)\s*/gi, ' ')
+    .toLowerCase()
+    .replace(/[‘’‚‛]/g, "'")
+    .replace(/[‐‑‒–—―]/g, '-')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+// Same job for a detachment name, which needs no such stripping — exported so the modal matches
+// the roster's detachment names to the faction file's exactly the way grantedKeywordsFor does.
+export { detKey }
+
 // `detachments` accepts either the resolved detachment objects the editor/browser pass around
 // (`curDetachments`) or the bare name strings a roster stores — being permissive here is what
 // keeps a call site from silently wiring the wrong one.
@@ -202,6 +221,43 @@ export function entryContext(ctx) {
   return { warlord, enhancement, attachedTo }
 }
 
+// ── Rule sources ─────────────────────────────────────────────────────────────────────────────
+// WHICH rules bear on this entry — not their text, which lives in the heavy hand-authored
+// faction bundle (src/data/factions/<slug>.js) that only a component should be pulling in. This
+// stays a pure list of descriptors; RosterUnitRulesModal resolves each to its prose.
+//
+// Deliberately NOT keyword-gated (the phase plan floated it): deciding "does this detachment rule
+// touch this unit" means parsing prose, and a wrong guess here hides a rule that actually applies
+// — the exact failure this whole layer exists to avoid. What IS structural gets gated: an
+// enhancement shows only on the unit carrying it, a Leader's abilities only on the unit it's
+// attached to. Army-wide rules are shown army-wide, labelled with where they come from, and the
+// reader judges. They render as collapsed accordions, so the cost of showing one is a line.
+export function ruleSourcesFor(ctx) {
+  const { entry, detachments, units } = ctx || {}
+  if (!entry && !detachments?.length) return [] // no roster context at all — a plain preview
+  const out = []
+
+  const enh = entryContext(ctx)?.enhancement
+  if (enh) out.push({ kind: 'enhancement', name: enh.name })
+
+  for (const d of detachments || []) {
+    const name = typeof d === 'string' ? d : d?.name
+    if (name) out.push({ kind: 'detachment', name })
+  }
+
+  out.push({ kind: 'armyRule' })
+
+  // Leaders attached TO this unit: their abilities are what the reader is missing when looking at
+  // a Bodyguard unit's card. The other direction (this unit being the Leader) is already the
+  // "Attached to X" chip from entryContext — no need to repeat that unit's rules here.
+  if (entry) {
+    for (const u of units || []) {
+      if (u.leaderOf && u.leaderOf === entry.uid && u.id) out.push({ kind: 'leader', unitId: u.id })
+    }
+  }
+  return out
+}
+
 // The one entry point a view calls: given the printed sheet and this entry's roster context,
 // return the sheet to render plus the notes to show alongside it.
 //
@@ -210,16 +266,18 @@ export function entryContext(ctx) {
 // that source contributes nothing; an absent ctx returns the printed sheet untouched, which is
 // exactly the pre-overlay behaviour.
 //
-// ctx: { def, entry, items, unitId, factionSlug, detachments, leaderTargets }
-// returns: { sheet, grantedKeywords, context, notes } — `notes` is always an array; it stays
-// empty until Phase B.
+// ctx: { def, entry, items, unitId, factionSlug, detachments, leaderTargets, units }
+// returns: { sheet, grantedKeywords, context, ruleSources, notes }. `notes` is reserved for Tier
+// C's attributed stat annotations and stays empty until then — `ruleSources` is Tier B's own
+// thing and does not belong in it.
 export function overlaySheet(sheet, ctx) {
-  if (!sheet) return { sheet, grantedKeywords: [], context: null, notes: [] }
+  if (!sheet) return { sheet, grantedKeywords: [], context: null, ruleSources: [], notes: [] }
   const { def, entry, items, unitId, factionSlug, detachments } = ctx || {}
   return {
     sheet: filterWeapons(sheet, def, entry, items),
     grantedKeywords: grantedKeywordsFor(unitId || def?.id, factionSlug, detachments),
     context: entryContext(ctx),
+    ruleSources: ruleSourcesFor(ctx),
     notes: [],
   }
 }

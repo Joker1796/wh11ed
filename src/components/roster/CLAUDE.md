@@ -210,6 +210,24 @@ Tier A does three things:
    Warlord, the enhancement carried (chosen or mandatory), and what the unit is attached to.
    An attachment is only shown when `leaderTargets` can resolve it to a name — never as a uid.
 
+Tier B adds attributed prose under the card (`ruleSourcesFor` says WHICH rules bear on the
+entry; the modal resolves each to its text from the lazily-imported faction bundle): the
+enhancement carried, each of the roster's detachment rules, the army rule, and the abilities of
+any Leader attached to this unit — each in a collapsed `DsAccordion` labelled with its source.
+
+**There is deliberately no keyword gating on those blocks.** Deciding "does this detachment rule
+touch this unit" means parsing prose, and a wrong guess HIDES a rule that applies — the failure
+this layer exists to prevent. Only structural facts gate: an enhancement shows on its bearer, a
+Leader's abilities on the unit it's attached to. Gating the army rule on the datasheet's own
+`faction` ability line was measured and rejected: it matches only 712 of 1039 datasheets, with 22
+distinct mismatch classes (a datasheet lists "Synapse" where `armyRule` is named "Synapse &
+Shadow in the Warp"; Death Guard's sheets say "Pact of Decay" against an `armyRule` named
+"Nurgle's Gift") and 128 sheets carrying no such field at all — wh11ed's single `armyRule` object
+is not 1:1 with a sheet's faction ability, which is why `sync-army-rule-coverage` exists.
+
+Name matching across the two datasets is centralised here: `enhKey()` (moved out of
+`EnhancementRuleModal.vue`, which now imports it, so the two lookups can't drift) and `detKey()`.
+
 Two rules make the weapon trim safe, and **neither is cosmetic** — read before changing the
 matching:
 
