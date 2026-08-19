@@ -245,7 +245,10 @@ export function ruleSourcesFor(ctx) {
     if (name) out.push({ kind: 'detachment', name })
   }
 
-  out.push({ kind: 'armyRule' })
+  // No 'armyRule' descriptor on purpose: the army rule is reached from the card's own "Faction:"
+  // line (DatasheetCard's `linkedFactionRules`), which is the datasheet's own statement of which
+  // army rule it has — more precise than anything this layer could infer, and it correctly offers
+  // nothing on the 128 sheets that have no faction ability at all.
 
   // Leaders attached TO this unit: their abilities are what the reader is missing when looking at
   // a Bodyguard unit's card. The other direction (this unit being the Leader) is already the

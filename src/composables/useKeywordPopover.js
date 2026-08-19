@@ -83,8 +83,19 @@ export function useKeywordPopover() {
     anchor.value = rect
     visible.value = true
   }
+  // A rule the CALLER already has the text for — the army rule behind a datasheet's "Faction:"
+  // line, opened from the roster's unit modal. Unlike open()/openGloss() there's no lookup table
+  // to consult: the faction bundle is already loaded by the caller, and it would be wasteful (and
+  // wrong, since the text is per-locale there) to re-resolve it here. Same { name, num, fullText }
+  // shape, so the popover renders it exactly like a core ability.
+  function openRule(name, text, rect) {
+    if (!name || !text) return
+    activeKeyword.value = { name, num: '', fullText: text, kind: 'rule' }
+    anchor.value = rect
+    visible.value = true
+  }
   function close() {
     visible.value = false
   }
-  return { visible, activeKeyword, anchor, open, openGloss, close }
+  return { visible, activeKeyword, anchor, open, openGloss, openRule, close }
 }
