@@ -8,8 +8,8 @@
           </thead>
           <tbody>
             <tr v-for="(w, i) in rangedRows" :key="i" :class="'wg-' + w.gpos">
-              <td class="wname"><span v-if="w.gpos !== 'single'" class="wprofile-arrow" aria-hidden="true"></span>{{ w.name }} <span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></td>
-              <td>{{ w.range }}</td><td>{{ w.a }}</td><td>{{ w.bs }}</td><td>{{ w.s }}</td><td>{{ w.ap }}</td><td>{{ w.d }}</td>
+              <td class="wname"><span class="wname-text"><span v-if="w.gpos !== 'single'" class="wprofile-arrow" aria-hidden="true"></span>{{ w.name }}</span><span v-if="w.tags?.length" class="wtags"><span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></span></td>
+              <td data-label="Range">{{ w.range }}</td><td data-label="A">{{ w.a }}</td><td data-label="BS">{{ w.bs }}</td><td data-label="S">{{ w.s }}</td><td data-label="AP">{{ w.ap }}</td><td data-label="D">{{ w.d }}</td>
             </tr>
           </tbody>
         </table>
@@ -21,8 +21,8 @@
           </thead>
           <tbody>
             <tr v-for="(w, i) in meleeRows" :key="i" :class="'wg-' + w.gpos">
-              <td class="wname"><span v-if="w.gpos !== 'single'" class="wprofile-arrow" aria-hidden="true"></span>{{ w.name }} <span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></td>
-              <td>Melee</td><td>{{ w.a }}</td><td>{{ w.ws }}</td><td>{{ w.s }}</td><td>{{ w.ap }}</td><td>{{ w.d }}</td>
+              <td class="wname"><span class="wname-text"><span v-if="w.gpos !== 'single'" class="wprofile-arrow" aria-hidden="true"></span>{{ w.name }}</span><span v-if="w.tags?.length" class="wtags"><span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></span></td>
+              <td data-label="Range">Melee</td><td data-label="A">{{ w.a }}</td><td data-label="WS">{{ w.ws }}</td><td data-label="S">{{ w.s }}</td><td data-label="AP">{{ w.ap }}</td><td data-label="D">{{ w.d }}</td>
             </tr>
           </tbody>
         </table>
@@ -152,6 +152,7 @@ const abilityRows = computed(() => [
   white-space: nowrap;
 }
 .wpm-weapons .wname { text-align: left; white-space: normal; min-width: 10rem; }
+.wtags { margin-left: 0.35rem; }
 .wtag { font-size: 0.72rem; }
 .wpm-weapons tr.wg-start td,
 .wpm-weapons tr.wg-mid td,
@@ -166,5 +167,67 @@ const abilityRows = computed(() => [
   background: var(--accent);
   clip-path: polygon(0 0, 65% 0, 100% 50%, 65% 100%, 0 100%);
   vertical-align: middle;
+}
+
+/* Phones: the same stacked treatment DatasheetCard's own weapon tables get below 560px — see the
+   long comment there for why (a six-column statline plus a name never fits a phone, and this
+   modal opens from the roster editor, which is a phone screen most of the time). Duplicated here
+   for the same reason the table styling above is: scoped styles can't reach another component. */
+@media (max-width: 560px) {
+  .wpm-weapons { overflow-x: visible; }
+  .wpm-weapons thead { display: none; }
+  .wpm-weapons table,
+  .wpm-weapons tbody { display: block; }
+  .wpm-weapons tr {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.1rem 0.2rem;
+    padding: 0.45rem 0.5rem 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .wpm-weapons tr:last-child { border-bottom: none; }
+  .wpm-weapons td {
+    display: block;
+    padding: 0;
+    border: none;
+    text-align: center;
+    font-weight: 600;
+  }
+  .wpm-weapons td.wname { display: contents; }
+  .wpm-weapons .wname-text {
+    grid-column: 1 / -1;
+    text-align: left;
+    font-weight: 600;
+    margin-bottom: 0.15rem;
+  }
+  .wpm-weapons .wtags {
+    grid-column: 1 / -1;
+    order: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin: 0.3rem 0 0;
+  }
+  .wpm-weapons td[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 0.56rem;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .wpm-weapons tr.wg-start,
+  .wpm-weapons tr.wg-mid,
+  .wpm-weapons tr.wg-end {
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+  }
+  .wpm-weapons tr.wg-start td,
+  .wpm-weapons tr.wg-mid td,
+  .wpm-weapons tr.wg-end td {
+    background: none;
+  }
+  .wpm-weapons tr.wg-start,
+  .wpm-weapons tr.wg-mid { border-bottom: none; }
 }
 </style>

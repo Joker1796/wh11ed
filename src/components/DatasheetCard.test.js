@@ -133,3 +133,40 @@ describe('DatasheetCard leader/attached-unit list', () => {
     expect(leaderNames(w)).toEqual(['Terminator Squad'])
   })
 })
+
+// The phone layout (≤560px) turns each weapon row into its own small card via CSS alone —
+// `tr { display: grid }`, `display: contents` on the name cell, and the column labels restored
+// from `data-label` since the shared `thead` is hidden. None of that is testable in jsdom, but
+// the markup contract it depends on is, and losing any part of it would silently flatten the
+// layout back to an unlabelled column of numbers.
+describe('DatasheetCard — weapon row markup the phone layout depends on', () => {
+  const sheet = {
+    name: 'Annihilation Barge',
+    ranged: [{ name: 'Gauss cannon', tags: ['LETHAL HITS'], range: '24"', a: '3', bs: '3+', s: '5', ap: '-2', d: '2' }],
+    melee: [{ name: 'Armoured bulk', tags: [], a: '3', ws: '4+', s: '6', ap: '0', d: '1' }],
+    keywords: ['Vehicle'],
+    factionKeywords: ['Necrons'],
+  }
+
+  it('labels every stat cell, with WS in melee where ranged has BS', () => {
+    const w = mount(DatasheetCard, { props: { sheet } })
+    const labels = (i) => w.findAll('.ds-weapons')[i].findAll('tbody td[data-label]').map((c) => c.attributes('data-label'))
+    expect(labels(0)).toEqual(['Range', 'A', 'BS', 'S', 'AP', 'D'])
+    expect(labels(1)).toEqual(['Range', 'A', 'WS', 'S', 'AP', 'D'])
+  })
+
+  it('keeps the name and the ability tags in separate children of the name cell', () => {
+    // They become grid items in their own right on a phone (the name on the first line, the tags
+    // after the statline) — one merged text node could not be laid out that way.
+    const w = mount(DatasheetCard, { props: { sheet } })
+    const cell = w.find('.ds-weapons tbody td.wname')
+    expect(cell.find('.wname-text').text()).toBe('Gauss cannon')
+    expect(cell.find('.wtags').text()).toContain('LETHAL HITS')
+  })
+
+  it('renders no tag wrapper at all for a weapon without tags', () => {
+    const w = mount(DatasheetCard, { props: { sheet } })
+    expect(w.findAll('.ds-weapons')[1].find('.wtags').exists()).toBe(false)
+  })
+})
+
