@@ -204,7 +204,8 @@ const FOR_EVERY = /^For every (\d+) models in (?:the|this) unit[:,]\s*([\s\S]*)$
 // Many instructions spell the choices out as a bullet list under the sentence
 // ("…one of the following:\n• 1 holy eviscerator\n• 1 Ministorum hand flamer"). The list is
 // nothing but weapon names and counts, which stay English anyway, so it is split off, the
-// sentence above it translated, and the list re-attached verbatim.
+// sentence above it translated, and the list re-attached with its line structure intact (only
+// the counted-item connective inside each bullet is translated).
 const LIST_HEAD = /^([\s\S]*?one of the following:)\s*([\s\S]+)$/i
 
 // "1 vexilla and 1 misericordia" — the connective between counted items is glue, not part of a
@@ -223,7 +224,10 @@ function translateClause(text) {
   let tail = ''
   if (list) {
     s = list[1].trim()
-    tail = `\n${list[2].trim()}`
+    // Kept line-per-line: the bullets are a list, and the UI renders one row per line. Only the
+    // counted-item connective inside a bullet is translated (joinRu) — the names themselves stay
+    // English by convention, so the bullet is already correct Russian apart from that glue.
+    tail = `\n${list[2].trim().split('\n').map((l) => joinRu(l.trim())).join('\n')}`
   }
 
   for (const f of FRAMES) {
@@ -253,7 +257,10 @@ export function translate(text) {
     if (!parts.length) return null
     const out = parts.map(translateClause)
     if (out.some((p) => p === null)) return null // all or nothing
-    return head + out.map((p) => p.replace(/\.$/, '')).join(' ◦ ')
+    // Re-emitted in the source's own layout — one bullet per line, marker included. Joining them
+    // into a single line with inline ◦ separators (what this used to do) read as one run-on
+    // sentence and lost the first bullet's marker entirely.
+    return `${head.trimEnd()}\n${out.map((p) => `◦ ${p.replace(/\.$/, '')}`).join('\n')}`
   }
 
   return translateClause(s)

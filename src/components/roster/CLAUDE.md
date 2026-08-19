@@ -164,6 +164,17 @@ sentence frame survives on a translated line, no id exists that the English side
 doubled space or dangling noun from a slot that resolved to nothing. Both guards above were added
 because that test caught real output.
 
+The instruction is often a sentence followed by a bullet list of the options ("…one of the
+following:\n◦ 1 hexrifle and 1 torturer's tool"). appdata carries those as real newlines with a
+`◦`/`•` marker, which collapse into one run-on line when interpolated into a template — so
+`splitInstruction()` (`rosterEngine.js`, pure) splits head from bullets and the editor renders the
+bullets as a list. The RU generator emits the same line structure (its own test pins the marker
+count against the English), so both locales render identically.
+
+**A bullet can name TWO items** ("1 hexrifle and 1 torturer's tool") and the option model has no
+slot for that — see `ROSTER-BUILDER-PROGRESS.md` item 5 before assuming the checkboxes are simply
+wrong. 182 groups on 125 units are affected; it's an appdata-level gap, not a UI one.
+
 ## Store
 
 `src/composables/useRosters.js` — module singleton, same pattern as `useTracker.js`/
