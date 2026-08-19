@@ -555,7 +555,9 @@ function modDelta(n) {
   const stat = STAT_LABEL[n.stat] || String(n.stat).toUpperCase()
   if (n.op === 'set') return `${stat} = ${n.value}`
   if (n.op === 'improve') return `${stat} −${n.value}`
-  return `${Number(n.value) >= 0 ? '+' : ''}${n.value} ${stat}`
+  // A value can be a dice expression ("D3") on a conditional modifier, which Number() can't sign.
+  const signed = Number.isFinite(Number(n.value)) && Number(n.value) < 0 ? '' : '+'
+  return `${signed}${n.value} ${stat}`
 }
 </script>
 
