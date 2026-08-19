@@ -227,7 +227,7 @@ const viewingDef = computed(() => (viewingEntry.value ? defOf(viewingEntry.value
 // strip — the same list the editor's attachment picker is built from, computed here only for the
 // one entry being viewed.
 const viewingLeaderTargets = computed(() => (viewingEntry.value
-  ? leaderTargetsFor(viewingDef.value, roster.value?.units, viewingEntry.value.uid, defOf)
+  ? leaderTargetsFor(viewingDef.value, roster.value?.units, viewingEntry.value.uid, defOf, curDetachments.value)
   : []))
 
 // Same chamfered stat-box plates as DatasheetCard.vue's statline (its statCells()), scaled

@@ -3094,6 +3094,24 @@ export default {
                 "Cryptek"
               ]
             }
+          ],
+          "attach": [
+            {
+              "to": "lokhust-destroyers",
+              "type": "support"
+            },
+            {
+              "to": "lokhust-heavy-destroyers",
+              "type": "support"
+            },
+            {
+              "to": "ophydian-destroyers",
+              "type": "support"
+            },
+            {
+              "to": "skorpekh-destroyers",
+              "type": "support"
+            }
           ]
         },
         {

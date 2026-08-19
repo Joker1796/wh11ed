@@ -1742,6 +1742,16 @@ export default {
                 "Space Wolves"
               ]
             }
+          ],
+          "attach": [
+            {
+              "to": "wulfen",
+              "type": "leader"
+            },
+            {
+              "to": "wulfen-with-storm-shields",
+              "type": "leader"
+            }
           ]
         },
         {
@@ -1857,6 +1867,12 @@ export default {
                 "Terminator",
                 "Captain"
               ]
+            }
+          ],
+          "attach": [
+            {
+              "to": "wolf-guard-terminators",
+              "type": "leader"
             }
           ]
         },

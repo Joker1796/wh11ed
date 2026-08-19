@@ -112,8 +112,15 @@ for (const r of table('enhancement_excluded_keyword')) {
   if (!exclKwByEnh.has(r.enhancementId)) exclKwByEnh.set(r.enhancementId, [])
   exclKwByEnh.get(r.enhancementId).push(kwName.get(r.keywordId))
 }
-// NOT READ HERE — `enhancement_bodyguard_group` (+ `_datasheet`) is deliberately NOT a source of
-// enhancement eligibility. It was read that way until 2026-08-19, as a structural "only these
+// `enhancement_bodyguard_group` (+ `_datasheet`) — an enhancement that GRANTS ITS BEARER AN
+// ATTACH: with it equipped, the bearer can join a unit its own datasheet doesn't list (Necrons'
+// Murdermind gives a Cryptek the DESTROYER CULT keyword and with it the Destroyer squads;
+// Astra Militarum's Abhuman Detail lets a Commissar join Ogryns). 21 groups game-wide, each one
+// datasheet, `bodyguardType` 'leader'/'support' exactly like datasheet_bodyguard_group above, no
+// keyword or faction-keyword variants. Emitted as `attach` on the enhancement, the same
+// `{ to, type }` shape a unit's own `leads` uses, so rosterEngine can simply concatenate them.
+//
+// NOT A SOURCE OF ELIGIBILITY. It was read that way until 2026-08-19, as a structural "only these
 // datasheets may TAKE this enhancement" whitelist emitted as `lockDs`, and that was wrong in both
 // directions: those tables say which units the enhancement's BEARER may attach to (exactly what
 // scripts/sync-enh-bodyguards.mjs documents and audits). Every one of the 13 enhancements with
@@ -125,6 +132,18 @@ for (const r of table('enhancement_excluded_keyword')) {
 // `lockDs` itself still exists and is still correct: its only source is now the hand-curated
 // ENH_LOCK_FIXES below, which is a different problem (prose says "<unit> only" but appdata records
 // no unit-specific keyword at all).
+const enhBgDsByGroup = new Map() // groupId -> [datasheetId]
+for (const r of table('enhancement_bodyguard_group_datasheet')) {
+  if (!enhBgDsByGroup.has(r.enhancementBodyguardGroupId)) enhBgDsByGroup.set(r.enhancementBodyguardGroupId, [])
+  enhBgDsByGroup.get(r.enhancementBodyguardGroupId).push(r.datasheetId)
+}
+const enhAttachByEnh = new Map() // enhancementId -> [{ datasheetId, type }]
+for (const g of table('enhancement_bodyguard_group')) {
+  if (!enhAttachByEnh.has(g.enhancementId)) enhAttachByEnh.set(g.enhancementId, [])
+  for (const dsId of enhBgDsByGroup.get(g.id) || []) {
+    enhAttachByEnh.get(g.enhancementId).push({ datasheetId: dsId, type: g.bodyguardType })
+  }
+}
 
 // detachment structural constraints.
 const detExcluded = new Map() // detachmentId -> [datasheetId]
@@ -468,7 +487,7 @@ const ENH_LOCK_FIXES = {
 }
 const normApost = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'")
 
-function buildEnhancement(e, nameToDsId) {
+function buildEnhancement(e, nameToDsId, idMap) {
   const name = enOf(e).name
   const enh = { name, pts: e.basePointsCost, type: e.enhancementType }
   if (e.cannotBeWarlord) enh.notWarlord = 1
@@ -500,10 +519,16 @@ function buildEnhancement(e, nameToDsId) {
     enh.req = [{ kw: ENH_REQ_FIXES[name] }]
     enh.mandatory = 1
   }
+  // Attach targets this enhancement grants its bearer, resolved to this faction's own unit ids
+  // (a target on another faction's datasheet has nothing to attach to in this roster and drops).
+  const attach = (enhAttachByEnh.get(e.id) || [])
+    .map((a) => ({ to: idMap.get(a.datasheetId), type: a.type }))
+    .filter((a) => a.to)
+  if (attach.length) enh.attach = attach
   return enh
 }
 
-function buildDetachment(bdet, idMap, mfmDet, nameToDsId) {
+function buildDetachment(bdet, idMap, mfmDet, nameToDsId) { // idMap also reaches buildEnhancement
   // The Detachment-Points cost + Force Disposition come from mfm (what the tracker shows), not
   // appdata's detachmentPointsCost — those disagree (appdata is 0 for standard detachments).
   const mfm = mfmDet.get(norm(bdet.name))
@@ -527,7 +552,7 @@ function buildDetachment(bdet, idMap, mfmDet, nameToDsId) {
   const enhancements = (enhByDet.get(bdet.id) || [])
     .filter((e) => !e.isCombatPatrol)
     .sort((a, b) => a.displayOrder - b.displayOrder)
-    .map((e) => buildEnhancement(e, nameToDsId))
+    .map((e) => buildEnhancement(e, nameToDsId, idMap))
   det.enhancements = enhancements
   return det
 }

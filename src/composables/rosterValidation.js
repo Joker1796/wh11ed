@@ -3,7 +3,7 @@
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
-import { hasKeyword, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf } from './rosterEngine.js'
+import { hasKeyword, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, leadsFor } from './rosterEngine.js'
 
 // Per-unit duplicate cap: the battle size's limit, doubled for Battleline / Dedicated Transport,
 // and hard-capped at 1 for every Epic Hero — regardless of battle size (rule 25).
@@ -138,7 +138,8 @@ export function validateRoster(roster, { faction, core } = {}) {
     if (!u.leaderOf) continue
     const def = defOf(u.id)
     const target = units.find((x) => x.uid === u.leaderOf)
-    const canJoin = new Set((def?.leads || []).map((l) => l.to))
+    // leadsFor, not def.leads: an enhancement can grant an attach the datasheet doesn't list.
+    const canJoin = new Set(leadsFor(def, u, detachments).map((l) => l.to))
     if (!target || !canJoin.has(target.id)) add('leaderTargetInvalid', 'warn', { uid: u.uid })
   }
 
@@ -150,7 +151,8 @@ export function validateRoster(roster, { faction, core } = {}) {
     const byTargetType = new Map()
     for (const u of units) {
       if (!u.leaderOf) continue
-      const type = defOf(u.id)?.leads?.find((l) => l.to === units.find((x) => x.uid === u.leaderOf)?.id)?.type || ''
+      const type = leadsFor(defOf(u.id), u, detachments)
+        .find((l) => l.to === units.find((x) => x.uid === u.leaderOf)?.id)?.type || ''
       const key = `${u.leaderOf}:${type}`
       if (!byTargetType.has(key)) byTargetType.set(key, [])
       byTargetType.get(key).push(u)

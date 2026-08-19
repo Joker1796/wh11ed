@@ -2963,6 +2963,12 @@ export default {
                 "Sorcerer"
               ]
             }
+          ],
+          "attach": [
+            {
+              "to": "tzaangors",
+              "type": "leader"
+            }
           ]
         },
         {

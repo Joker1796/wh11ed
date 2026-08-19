@@ -3295,6 +3295,12 @@ export default {
                 "Canoness"
               ]
             }
+          ],
+          "attach": [
+            {
+              "to": "repentia-squad",
+              "type": "leader"
+            }
           ]
         }
       ]

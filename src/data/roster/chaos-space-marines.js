@@ -6747,6 +6747,12 @@ export default {
                 "Heretic Astartes"
               ]
             }
+          ],
+          "attach": [
+            {
+              "to": "warp-talons",
+              "type": "leader"
+            }
           ]
         },
         {
@@ -6816,6 +6822,12 @@ export default {
                 "Chaos Lord",
                 "Jump Pack"
               ]
+            }
+          ],
+          "attach": [
+            {
+              "to": "warp-talons",
+              "type": "leader"
             }
           ]
         }

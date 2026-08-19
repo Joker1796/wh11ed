@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { bucketOf, unitBasePoints, unitWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, defaultLoadoutLines, capKeyOf } from './rosterEngine.js'
+import { enhAttachOf, leadsFor, bucketOf, unitBasePoints, unitWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, defaultLoadoutLines, capKeyOf } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -383,5 +383,51 @@ describe('enhEligible — attach-granting enhancements (regression)', () => {
     const unit = (id) => rf.default.units.find((u) => u.id === id)
     expect(enhEligible(enh, unit('warboss'))).toBe(true)
     expect(enhEligible(enh, unit('kommandos'))).toBe(false)
+  })
+})
+
+// An enhancement can GRANT its bearer an attach the datasheet doesn't list — appdata's
+// enhancement_bodyguard_group, emitted as `attach` (see gen-roster-data.mjs). 13 game-wide.
+describe('enhancement-granted attaches', () => {
+  const cryptek = { id: 'cryptek', name: 'Cryptek', kws: ['Character', 'Cryptek'], flags: { char: 1 }, leads: [{ to: 'immortals', type: 'support' }] }
+  const dets = [{ name: 'Cursed Legion', enhancements: [{ name: 'Murdermind', pts: 15, attach: [{ to: 'skorpekh-destroyers', type: 'support' }] }] }]
+  const units = [
+    { uid: 'a', id: 'cryptek' },
+    { uid: 'b', id: 'immortals' },
+    { uid: 'c', id: 'skorpekh-destroyers' },
+  ]
+  const defOf = (id) => ({ cryptek, immortals: { id: 'immortals', name: 'Immortals' }, 'skorpekh-destroyers': { id: 'skorpekh-destroyers', name: 'Skorpekh Destroyers' } })[id]
+
+  it('reports nothing without the enhancement', () => {
+    expect(enhAttachOf(cryptek, { uid: 'a', id: 'cryptek' }, dets)).toEqual([])
+    expect(leadsFor(cryptek, { uid: 'a' }, dets)).toEqual(cryptek.leads)
+  })
+
+  it('adds the granted target to the entry\'s leads, keeping the printed ones', () => {
+    const withEnh = { uid: 'a', id: 'cryptek', enh: 'Murdermind' }
+    expect(leadsFor(cryptek, withEnh, dets).map((l) => l.to)).toEqual(['immortals', 'skorpekh-destroyers'])
+  })
+
+  it('widens the attachment picker once the enhancement is taken', () => {
+    expect(leaderTargetsFor(cryptek, units, 'a', defOf, dets).map((t) => t.name)).toEqual(['Immortals'])
+    const withEnh = [{ ...units[0], enh: 'Murdermind' }, units[1], units[2]]
+    expect(leaderTargetsFor(cryptek, withEnh, 'a', defOf, dets).map((t) => t.name))
+      .toEqual(['Immortals', 'Skorpekh Destroyers'])
+  })
+
+  it('keeps one entry per target so .find() and Map lookups cannot disagree', () => {
+    const clash = [{ name: 'D', enhancements: [{ name: 'X', attach: [{ to: 'immortals', type: 'leader' }] }] }]
+    const leads = leadsFor(cryptek, { uid: 'a', enh: 'X' }, clash)
+    expect(leads.filter((l) => l.to === 'immortals')).toHaveLength(1)
+    expect(leads.find((l) => l.to === 'immortals').type).toBe('support') // the printed one
+  })
+
+  it('widens it for a real Cryptek taking Murdermind', async () => {
+    const rf = await import('../data/roster/necrons.js')
+    const det = rf.default.detachments.find((d) => (d.enhancements || []).some((e) => e.name === 'Murdermind'))
+    const def = rf.default.units.find((u) => u.id === 'chronomancer')
+    const list = [{ uid: 'a', id: 'chronomancer', enh: 'Murdermind' }, { uid: 'b', id: 'skorpekh-destroyers' }]
+    const realDefOf = (id) => rf.default.units.find((u) => u.id === id)
+    expect(leaderTargetsFor(def, list, 'a', realDefOf, [det]).map((t) => t.name)).toContain('Skorpekh Destroyers')
   })
 })

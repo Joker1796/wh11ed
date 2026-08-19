@@ -4674,6 +4674,12 @@ export default {
           ],
           "exclKw": [
             "Mega Armour"
+          ],
+          "attach": [
+            {
+              "to": "kommandos",
+              "type": "leader"
+            }
           ]
         },
         {

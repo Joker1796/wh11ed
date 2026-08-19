@@ -70,6 +70,19 @@ directory; still part of this feature:
   on mount) rather than the saved-game format itself — `wh11ed-api`'s `domain/game.ts`
   contract is untouched by this feature. A partial draft is fine: `GameSetup` merges its own
   defaults over whatever fields this sets.
+- **`leadsFor(def, entry, detachments)`** (`rosterEngine.js`) — the units an ENTRY can attach to:
+  its datasheet's own `leads` plus any its enhancement grants (`enhAttachOf`). 13 enhancements
+  game-wide widen the attach list — Necrons' Murdermind gives a Cryptek the Destroyer squads,
+  Astra Militarum's Abhuman Detail lets a Commissar join Ogryns — from appdata's
+  `enhancement_bodyguard_group`, emitted by the generator as `attach` in the same `{ to, type }`
+  shape `leads` uses. **Never read `def.leads` directly when an entry is in hand**: the picker
+  (`leaderTargetsFor`), the reverse "attached leaders" list in both views, and `validateRoster`'s
+  `leaderTargetInvalid` / `manyLeaders` checks all go through `leadsFor`, or a legal granted
+  attach gets reported as an illegal one. The list holds one entry per target, printed first and
+  a granted duplicate dropped, because callers read it both with `.find()` (first wins) and via
+  `new Map()` (last wins) — two entries for one target would resolve to different types.
+  Dropping the enhancement afterwards leaves the now-illegal attachment in place and lets
+  `validateRoster` warn about it, rather than silently rewriting the roster.
 - **`capKeyOf(def)`** (`rosterEngine.js`) — the identity a unit's duplicate cap
   (`duplicateLimit`) is grouped by. Defaults to the datasheet's own `id`; an optional `charId`
   field is the extension point for the real (currently unrepresented in any faction's

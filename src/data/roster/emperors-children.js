@@ -1804,6 +1804,12 @@ export default {
                 "Lord Exultant"
               ]
             }
+          ],
+          "attach": [
+            {
+              "to": "flawless-blades",
+              "type": "leader"
+            }
           ]
         },
         {
