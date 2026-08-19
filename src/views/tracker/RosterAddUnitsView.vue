@@ -105,6 +105,27 @@ const accentStyle = computed(() => (factionColor.value
 .ra-sub { margin: 0.1rem 0 0; color: var(--text-muted); font-size: 0.9rem; }
 .ra-hint { color: var(--text-muted); font-size: 0.95rem; padding: 1.2rem 0; text-align: center; }
 
+/* Button recipe, copied alongside `.rc-sticky` below for the same reason: scoped styles don't
+   cross a component, and the bar's actions have to look identical on all three screens that
+   render it. Without this the "Done" link rendered as bare text. */
+.btn-primary, .btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1.3rem;
+  border-radius: 5px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+  line-height: 1.2;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-ghost { background: none; border: 1px solid var(--border); color: var(--text-muted); }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
 /* Copied from RosterEditorView/RosterCreateView, which copy it from each other: scoped
    styles cannot cross a component, and `.rc-sticky` is matched BY NAME from App.vue
    (`.app-layout:has(.rc-sticky)` reserves its height for MobileUtilityBar). Keep the three

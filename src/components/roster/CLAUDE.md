@@ -112,6 +112,11 @@ per-unit configuration in an inline accordion, which is what the third "Loadout"
 hold. Browsing the faction catalogue to ADD a unit is **its own page**, `/roster/:id/add`, reached
 from the dashed button at the top of the Units panel.
 
+That page carries its own copy of `.rc-sticky` **and of `.btn-primary`/`.btn-ghost`** — scoped
+styles can't cross a component, and forgetting the second one is what left its "Done" link
+rendering as bare text on the first pass. Three screens now hold that same block: this page, the
+editor and the creation wizard.
+
 A page rather than a tab or a modal, deliberately: on a phone the catalogue wants the whole
 screen, and with a real route the hardware back button closes the catalogue instead of the entire
 editor. Nothing is saved on the way in or out — both directions are plain navigation, because
