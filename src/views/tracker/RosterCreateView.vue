@@ -2,12 +2,17 @@
   <div class="roster-create themed" :style="accentStyle">
     <RouterLink to="/roster" class="back"><i class="bi bi-chevron-left"></i> {{ labels.rosterBackToList }}</RouterLink>
 
+    <!-- The step markers are navigation, not just a progress read-out: any step already
+         reachable can be jumped to directly. Steps 2 and 3 stay disabled until step 1 has a
+         faction, which is the same condition its own Next button enforces — and going forward
+         through a marker runs `goToUnits()` rather than assigning `step`, so the roster still
+         gets created and step 1's fields still get written. -->
     <div class="rc-steps">
-      <span class="rc-step" :class="{ on: step === 1, done: step > 1 }">1<span class="rc-step-label"> · {{ labels.rosterCreateStep1 }}</span></span>
+      <button type="button" class="rc-step" :class="{ on: step === 1, done: step > 1 }" @click="goToStep(1)">1<span class="rc-step-label"> · {{ labels.rosterCreateStep1 }}</span></button>
       <span class="rc-step-sep">→</span>
-      <span class="rc-step" :class="{ on: step === 2, done: step > 2 }">2<span class="rc-step-label"> · {{ labels.rosterViewTabUnits }}</span></span>
+      <button type="button" class="rc-step" :class="{ on: step === 2, done: step > 2 }" :disabled="!canLeaveStep1" @click="goToStep(2)">2<span class="rc-step-label"> · {{ labels.rosterAddUnits }}</span></button>
       <span class="rc-step-sep">→</span>
-      <span class="rc-step" :class="{ on: step === 3 }">3<span class="rc-step-label"> · {{ labels.rosterCreateStep3 }}</span></span>
+      <button type="button" class="rc-step" :class="{ on: step === 3 }" :disabled="!canLeaveStep1" @click="goToStep(3)">3<span class="rc-step-label"> · {{ labels.rosterCreateStep3 }}</span></button>
     </div>
 
     <!-- Step 1: name, faction, detachment, battle size — same card/field language as the
@@ -410,6 +415,19 @@ function step1Patch() {
     checkLegality: checkLegality.value,
   }
 }
+// Steps 2 and 3 exist only once a faction is picked — the same gate step 1's Next button uses.
+const canLeaveStep1 = computed(() => !!factionSlug.value)
+
+function goToStep(n) {
+  if (n === step.value) return
+  if (n === 1) { step.value = 1; return }
+  if (!canLeaveStep1.value) return
+  // Reaching step 2+ for the first time is what creates the roster, so route forward through
+  // goToUnits() instead of assigning `step` and skipping that.
+  goToUnits()
+  step.value = n
+}
+
 function goToUnits() {
   if (rosterId.value) {
     updateRoster(rosterId.value, step1Patch())
@@ -434,7 +452,20 @@ function finish() {
 .back:hover { color: var(--accent); }
 
 .rc-steps { display: flex; align-items: center; gap: 0.5rem; margin: 0.9rem 0 1.25rem; font-size: 0.85rem; }
-.rc-step { color: var(--text-dim); font-weight: 600; }
+/* Buttons now, but they must keep reading as a progress row rather than a toolbar — so the
+   native chrome is reset and only the colour changes with state. */
+.rc-step {
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  color: var(--text-dim);
+  font-weight: 600;
+  cursor: pointer;
+}
+.rc-step:disabled { cursor: default; opacity: 0.55; }
+.rc-step:not(:disabled):hover { color: var(--text-primary); }
+.rc-step.on:not(:disabled):hover { color: var(--accent); }
 .rc-step.on { color: var(--accent); }
 .rc-step.done { color: var(--text-muted); }
 .rc-step-sep { color: var(--text-dim); font-size: 0.75rem; }
