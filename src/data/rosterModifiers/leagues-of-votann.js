@@ -14,7 +14,7 @@ export default {
       "det": null,
       "hash": "1ba9c15b",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "armyRule"
@@ -27,7 +27,7 @@ export default {
       "det": null,
       "hash": "1ba9c15b",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "armyRule"
@@ -40,8 +40,19 @@ export default {
       "det": "Hearthband",
       "hash": "28d11aec",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "Kâhl, Einhyr Hearthguard and Ûthar units only, per attack against the closest eligible target or a target in Engagement Range",
+            "ru": "только отряды Kâhl, Einhyr Hearthguard и Ûthar, за атаку по ближайшей допустимой цели или цели в радиусе боя"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "hearthband"
@@ -54,7 +65,7 @@ export default {
       "det": "Dêlve Assault Shift",
       "hash": "c342f7bd",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -68,7 +79,7 @@ export default {
       "det": "Hearthband",
       "hash": "9984e1ee",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -82,8 +93,16 @@ export default {
       "det": "Hearthband",
       "hash": "045363a2",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 2,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "hearthband"
@@ -96,8 +115,19 @@ export default {
       "det": "Hearthfyre Arsenal",
       "hash": "e0b9192b",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while the bearer is leading that unit",
+            "ru": "пока носитель ведёт этот отряд"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "hearthfyre-arsenal"
@@ -110,7 +140,7 @@ export default {
       "det": "Needgaârd Oathband",
       "hash": "641b2548",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -124,7 +154,7 @@ export default {
       "det": "Persecution Prospect",
       "hash": "091ebe34",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",

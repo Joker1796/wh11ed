@@ -14,8 +14,29 @@ export default {
       "det": "Court of the Phoenician",
       "hash": "89d4535f",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "in the Fight phase, if the unit made a Charge move this turn",
+            "ru": "в фазе боя, если юнит совершил чардж в этом ходу"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "in the Fight phase, if the unit made a Charge move this turn",
+            "ru": "в фазе боя, если юнит совершил чардж в этом ходу"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "court-of-the-phoenician"
@@ -28,8 +49,19 @@ export default {
       "det": "Carnival of Excess",
       "hash": "cd86219a",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "3+",
+          "when": {
+            "en": "once per battle, for the phase, after an enemy unit selects its targets",
+            "ru": "один раз за битву, на фазу, после того как вражеский отряд выбрал цели"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "carnival-of-excess"
@@ -42,8 +74,29 @@ export default {
       "det": "Carnival of Excess",
       "hash": "9f4082d7",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "one melee weapon of the bearer, selected at the start of the battle",
+            "ru": "одно оружие ближнего боя носителя, выбранное в начале битвы"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "that same weapon, for the fight the bearer uses this Enhancement in",
+            "ru": "то же оружие, на бой, в котором носитель применил улучшение"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "carnival-of-excess"
@@ -56,8 +109,29 @@ export default {
       "det": "Coterie of the Conceited",
       "hash": "c335f5f1",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while the bearer is leading that unit",
+            "ru": "пока носитель ведёт этот отряд"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while the bearer is leading that unit",
+            "ru": "пока носитель ведёт этот отряд"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "coterie-of-the-conceited"
@@ -70,8 +144,23 @@ export default {
       "det": "Court of the Phoenician",
       "hash": "2923caab",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "court-of-the-phoenician"
@@ -84,7 +173,7 @@ export default {
       "det": "Mercurial Host",
       "hash": "9e1c1938",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -98,8 +187,23 @@ export default {
       "det": "Peerless Bladesmen",
       "hash": "c0ee925e",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "peerless-bladesmen"
@@ -112,8 +216,19 @@ export default {
       "det": "Slaanesh’s Chosen",
       "hash": "082e8442",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while the bearer's unit is your army's Favoured Champions",
+            "ru": "пока отряд носителя — Favoured Champions вашей армии"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "slaaneshs-chosen"
@@ -126,8 +241,29 @@ export default {
       "det": "Slaanesh’s Chosen",
       "hash": "dd60b2c1",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "per attack against a Character unit",
+            "ru": "за атаку по отряду Character"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "per attack against a Character unit",
+            "ru": "за атаку по отряду Character"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "slaaneshs-chosen"

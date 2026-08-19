@@ -14,8 +14,39 @@ export default {
       "det": null,
       "hash": "9d17d608",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while the Waaagh! is active for your army",
+            "ru": "пока для вашей армии активен Waaagh!"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while the Waaagh! is active for your army",
+            "ru": "пока для вашей армии активен Waaagh!"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": {
+            "en": "while the Waaagh! is active for your army",
+            "ru": "пока для вашей армии активен Waaagh!"
+          }
+        }
+      ],
       "ref": {
         "kind": "armyRule"
       }
@@ -27,8 +58,19 @@ export default {
       "det": "Da Big Hunt",
       "hash": "887fbe72",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "Beast Snagga models only, per attack against your Prey",
+            "ru": "только модели Beast Snagga, за атаку по вашей Добыче"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "da-big-hunt"
@@ -41,8 +83,29 @@ export default {
       "det": "Green Tide",
       "hash": "652c37e9",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "6+",
+          "when": {
+            "en": "against any attack targeting the unit",
+            "ru": "против любой атаки по отряду"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": {
+            "en": "instead, while the unit contains 10 or more models",
+            "ru": "вместо этого, пока в отряде 10 и более моделей"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "green-tide"
@@ -55,7 +118,7 @@ export default {
       "det": "Blitz Brigade",
       "hash": "44d35202",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -69,8 +132,16 @@ export default {
       "det": "Bully Boyz",
       "hash": "c7314a69",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 2,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "bully-boyz"
@@ -83,8 +154,16 @@ export default {
       "det": "Da Big Hunt",
       "hash": "b2a4dee2",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "da-big-hunt"
@@ -97,8 +176,39 @@ export default {
       "det": "Freebooter Krew",
       "hash": "9aa0b7af",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "on a D3 roll of 1 at the start of the battle (Bionik Legs)",
+            "ru": "при выпавшем 1 на D3 в начале битвы (Bionik Legs)"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "on a D3 roll of 2 at the start of the battle (Bionik Arms)",
+            "ru": "при выпавшем 2 на D3 в начале битвы (Bionik Arms)"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "ws",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "on a D3 roll of 3 at the start of the battle (Bionik Bonce)",
+            "ru": "при выпавшем 3 на D3 в начале битвы (Bionik Bonce)"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "freebooter-krew"
@@ -111,8 +221,29 @@ export default {
       "det": "Green Tide",
       "hash": "35322b3c",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while resolving the bearer's own attacks",
+            "ru": "при разрешении атак самого носителя"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "instead, if the bearer's unit contains 10 or more models",
+            "ru": "вместо этого, если в отряде носителя 10 и более моделей"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "green-tide"
@@ -125,8 +256,16 @@ export default {
       "det": "Speedwaaagh!",
       "hash": "ecde6a70",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "bs",
+          "op": "improve",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "speedwaaagh"
