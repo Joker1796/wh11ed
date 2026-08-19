@@ -16,11 +16,15 @@
 //      gate what we understand end to end. This is what keeps multi-part rules honest: Aeldari's
 //      Battle Focus names VEHICLE in one of its five triggers and nothing in the others, and
 //      gating on that one word would hide it from every infantry unit in the army.
-//   3. If the extracted targets match no unit in the faction at all, the extraction is assumed
-//      wrong and ignored (see targetsApply). Measured across all 30 factions: 196 of 298 rules
-//      yield targets and 14 of those match nothing — a keyword the datasheets spell differently
-//      ("Votann" vs the LEAGUES OF VOTANN faction keyword), or a capitalised word that was never
-//      a keyword. All 14 fall back to being shown.
+//   3. If no unit in the faction matches at all, the extraction is assumed wrong and ignored.
+//
+// Measured across all 30 factions: 225 of 268 detachment rules yield a scope, 41% of
+// (unit, rule) pairs are hidden, no unit is left seeing none of its faction's rules, and 7 rules
+// fall through escape 3 — prose that abbreviates a faction keyword ("Votann units" against the
+// LEAGUES OF VOTANN keyword, "AGENTS OF IMPERIUM"), or a capitalised word that was never a
+// keyword. Those 7 are shown to everyone, which for the army-wide ones is the right answer
+// anyway. Re-run that measurement after touching the patterns; the numbers are the only way to
+// tell a sharper gate from a wrongly-hiding one.
 //
 // Always run this on the ENGLISH body. Keywords stay English by project convention but the prose
 // around them is translated, so the patterns below only match the EN text.
@@ -28,10 +32,26 @@
 // A keyword phrase: one or more capitalised words. Matches both the ALL-CAPS spelling and the
 // Title Case one — the faction files use whichever the source PDF used.
 const KW = "[A-Z][A-Za-z’'\\-]*(?:\\s+[A-Z][A-Za-z’'\\-]*)*"
+// …optionally written as an alternation: "Friendly Immortals/Necron Warriors units".
+const KW_ALT = `${KW}(?:\\s*/\\s*${KW})*`
+// A parenthetical can sit between the noun and "from your army": "a Necrons model (excluding
+// Monster models) from your army". The exclusion inside it is picked up separately by EXCLUDE.
+const PAREN = "(?:\\s*\\([^)]*\\))?"
+// `[Ff]riendly` rather than the /i flag: the flag would also make the capitalisation in KW
+// case-insensitive, and "capitalised word" is the entire signal that something is a keyword.
 const PATTERNS = [
-  new RegExp(`(${KW})\\s+(?:units?|models?)\\s+from your army`, 'g'),
-  new RegExp(`friendly\\s+(${KW})\\s+(?:units?|models?)`, 'g'),
+  new RegExp(`(${KW_ALT})\\s+(?:units?|models?)${PAREN}\\s+from your army`, 'g'),
+  new RegExp(`[Ff]riendly\\s+(${KW_ALT})\\s+(?:units?|models?)`, 'g'),
 ]
+
+// "…(excluding Destroyer Cult, Monster and Titanic models)". Exclusions are safe by construction:
+// one that matches no keyword — "excluding Battle-shocked units", "excluding units that arrived
+// from Reserves" — simply excludes nobody, so the game-state conditions written this way cost
+// nothing. 42 distinct exclusion phrases across the corpus.
+// The trailing noun is optional — the corpus writes both "(excluding Destroyer Cult, Monster and
+// Titanic models)" and "(excluding MONSTERS and VEHICLES)" — so this runs to the closing bracket
+// or the end of the sentence and drops the noun afterwards if there is one.
+const EXCLUDE = /excluding\s+([^).]{1,80})/gi
 
 // Does this passage speak about the reader's own army at all?
 const OWN_SIDE = /from your army|friendly/i
@@ -46,30 +66,80 @@ const STOP = new Set(['The', 'This', 'That', 'These', 'Those', 'Each', 'While', 
 
 const isStop = (w) => STOP.has(w) || STOP.has(w[0] + w.slice(1).toLowerCase())
 
-// Paragraphs and `### ` sub-rule sections — the unit of "one thing the rule says".
+// One statement of the rule: a paragraph, a `### ` sub-rule section, or a `▪ ` bullet. Bullets
+// matter as much as paragraphs — Necrons' Cold Fervour is two bullets in one paragraph, the first
+// targeting DESTROYER CULT and the second every other NECRONS model, and its exclusion belongs to
+// the second alone. Treating the body as one statement would let that exclusion cancel the first
+// bullet's own target and hide the rule from the very units it names.
 function passages(body) {
-  return (body || '').replace(/\*\*/g, '').split(/\n\s*\n|\n(?=###\s)/).filter((p) => p.trim())
+  return (body || '')
+    .replace(/\*\*/g, '')
+    .split(/\n\s*\n|\n(?=###\s)|\n?(?=▪\s)/)
+    .filter((p) => p.trim())
 }
 
-// The keyword phrases a rule names as its own-army targets, or null for "don't gate this rule".
-export function ruleTargets(body) {
+// Keyword phrases the excluding-clause names, plus their singular forms: rules write "excluding
+// MONSTERS and VEHICLES" while the datasheet carries MONSTER and VEHICLE.
+function excludesIn(passage) {
+  const out = new Set()
+  EXCLUDE.lastIndex = 0
+  let m
+  while ((m = EXCLUDE.exec(passage))) {
+    for (const raw of m[1].replace(/\s+(?:units?|models?)\s*$/i, '').split(/,| and | or /i)) {
+      const words = raw.trim().replace(/\s+(?:units?|models?)$/i, '')
+        .split(/\s+/).filter((w) => /^[A-Z]/.test(w) && !isStop(w))
+      if (!words.length) continue
+      const phrase = words.join(' ')
+      out.add(phrase)
+      const singular = depluralise(phrase)
+      if (singular !== phrase) out.add(singular)
+    }
+  }
+  return [...out]
+}
+
+function depluralise(phrase) {
+  return phrase.split(/\s+/).map((w) => {
+    if (/heroes$/i.test(w)) return w.slice(0, -3)
+    if (/ies$/i.test(w)) return `${w.slice(0, -3)}y`
+    if (/(ss|us|is)$/i.test(w)) return w
+    if (/(s|x|z|ch|sh)es$/i.test(w)) return w.slice(0, -2)
+    if (/s$/i.test(w)) return w.slice(0, -1)
+    return w
+  }).join(' ')
+}
+
+// One `{ targets, excludes }` per statement that speaks about your own army, or null for
+// "don't gate this rule". Per statement, not merged: a rule applies to a unit when ANY of its
+// statements does, and each statement's exclusions bind only to its own targets.
+export function ruleScopes(body) {
   const own = passages(body).filter((p) => OWN_SIDE.test(p))
   if (!own.length) return null // escape 1
-  const all = new Set()
+  const scopes = []
   for (const passage of own) {
     const found = new Set()
     for (const re of PATTERNS) {
       re.lastIndex = 0
       let m
       while ((m = re.exec(passage))) {
-        const words = m[1].split(/\s+/).filter((w) => !isStop(w))
-        if (words.length) found.add(words.join(' '))
+        // A slash alternation is several targets, not one phrase.
+        for (const alt of m[1].split('/')) {
+          const words = alt.trim().split(/\s+/).filter((w) => !isStop(w))
+          if (words.length) found.add(words.join(' '))
+        }
       }
     }
     if (!found.size) return null // escape 2
-    for (const f of found) all.add(f)
+    scopes.push({ targets: [...found], excludes: excludesIn(passage) })
   }
-  return [...all]
+  return scopes
+}
+
+// Every target a rule names, flattened — the readable summary of ruleScopes(), and what the
+// tests assert against.
+export function ruleTargets(body) {
+  const scopes = ruleScopes(body)
+  return scopes && [...new Set(scopes.flatMap((s) => s.targets))]
 }
 
 const norm = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim()
@@ -79,7 +149,12 @@ const norm = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/\
 // the unit's own keywords, longest first (a shorter keyword must not claim a run a longer one
 // also starts).
 export function keywordsMatchTarget(keywords, target) {
-  const kws = [...new Set((keywords || []).map(norm))].filter(Boolean).sort((a, b) => b.length - a.length)
+  // Both spellings of every keyword: rules name a unit in the singular ("Vyper units from your
+  // army", "War Walker units") while the datasheet's keyword is the plural the box is sold under
+  // (VYPERS, WAR WALKERS). Adding the singular form can only ever match MORE units, which is the
+  // safe direction for a target — and for an exclusion it just mirrors the same wording gap.
+  const raw = [...new Set((keywords || []).map(norm))].filter(Boolean)
+  const kws = [...new Set([...raw, ...raw.map(depluralise)])].sort((a, b) => b.length - a.length)
   let rest = norm(target)
   if (!rest) return false
   while (rest) {
@@ -94,11 +169,13 @@ export function keywordsMatchTarget(keywords, target) {
 // `factionKeywordSets` is the same for every unit in the faction, used only for escape 3 — pass it
 // whenever you have it, and omit it to skip that guard (the gate is then one escape weaker).
 export function ruleAppliesTo(body, unitKeywords, factionKeywordSets) {
-  const targets = ruleTargets(body)
-  if (!targets) return true
-  if (factionKeywordSets?.length) {
-    const anyUnitMatches = factionKeywordSets.some((kws) => targets.some((t) => keywordsMatchTarget(kws, t)))
-    if (!anyUnitMatches) return true // escape 3: the extraction matched nobody, so distrust it
+  const scopes = ruleScopes(body)
+  if (!scopes) return true
+  const hits = (kws) => scopes.some((sc) =>
+    sc.targets.some((t) => keywordsMatchTarget(kws, t)) &&
+    !sc.excludes.some((x) => keywordsMatchTarget(kws, x)))
+  if (factionKeywordSets?.length && !factionKeywordSets.some(hits)) {
+    return true // escape 3: the extraction matched nobody, so distrust it
   }
-  return targets.some((t) => keywordsMatchTarget(unitKeywords, t))
+  return hits(unitKeywords)
 }

@@ -268,9 +268,24 @@ a rule that never mentions your own units isn't gated; a rule where ANY passage 
 units without naming a keyword isn't gated (this is what saves multi-part rules like Aeldari's
 Battle Focus, which names VEHICLE in one of five triggers and would otherwise vanish for every
 infantry unit); and an extraction matching no unit in the whole faction is distrusted and ignored
-(14 of 196 gated rules, e.g. faction prose saying "Votann" where the datasheets carry LEAGUES OF
-VOTANN). Measured across all 30 factions: 27% of (unit, rule) pairs are hidden and no unit ends
-up seeing none of its faction's rules.
+(7 rules, prose abbreviating a faction keyword — "Votann units" against LEAGUES OF VOTANN).
+
+A rule is read as one `{ targets, excludes }` **per statement** — paragraph, `###` section or
+`▪ ` bullet — and applies when ANY statement does. Splitting by bullet is load-bearing: Necrons'
+Cold Fervour is two bullets, the first naming DESTROYER CULT and the second every other NECRONS
+model except MONSTER, and merging them would let the second bullet's exclusion cancel the first
+bullet's own target. Exclusions are safe by nature — one that names no keyword ("excluding
+Battle-shocked units") excludes nobody. Four wordings the patterns must keep handling, each of
+which silently ungated whole rules before it was covered: a sentence-opening `Friendly` (spelled
+`[Ff]riendly`, NOT the /i flag, which would also make the keyword pattern's capitalisation
+case-insensitive and destroy the one signal that marks a keyword), a slash alternation
+("Immortals/Necron Warriors units"), a parenthetical between the noun and "from your army", and
+singular/plural drift both ways (rules say "Vyper units", the datasheet keyword is VYPERS).
+
+Measured across all 30 factions: 225 of 268 detachment rules are gated, 30 of them carry an
+exclusion, 41% of (unit, rule) pairs are hidden, and no unit is left seeing none of its faction's
+rules. **Re-run that measurement after touching the patterns** — the numbers are the only way to
+tell a sharper gate from a wrongly-hiding one.
 
 An earlier attempt to gate the army rule on the datasheet's own `faction` ability line was
 measured and rejected — 712 of 1039 sheets match, 22 distinct mismatch classes, 128 sheets with
