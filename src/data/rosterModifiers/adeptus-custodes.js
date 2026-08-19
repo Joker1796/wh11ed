@@ -14,7 +14,7 @@ export default {
       "det": "Auric Champions",
       "hash": "62ac7a27",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -28,7 +28,7 @@ export default {
       "det": "Lions of the Emperor",
       "hash": "dc516e59",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -42,8 +42,19 @@ export default {
       "det": "Shield Host",
       "hash": "ee9038b0",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "Martial Ka'tah models, while that bullet of Martial Mastery is the one selected this battle round",
+            "ru": "модели с Martial Ka'tah, пока в этом раунде выбран соответствующий пункт Martial Mastery"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "shield-host"
@@ -56,8 +67,19 @@ export default {
       "det": "Solar Spearhead",
       "hash": "11cd1b24",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "Vehicle units at Starting Strength, excluding Aircraft and Battle-shocked units",
+            "ru": "отряды Vehicle в полной численности, кроме Aircraft и Battle-shocked"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "solar-spearhead"
@@ -70,8 +92,16 @@ export default {
       "det": "Solar Spearhead",
       "hash": "34b9acca",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "solar-spearhead"
@@ -84,7 +114,7 @@ export default {
       "det": "Talons of the Emperor",
       "hash": "fcec0a80",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -98,8 +128,26 @@ export default {
       "det": "Auric Champions",
       "hash": "ca41608e",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": null
+        },
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "set",
+          "value": "×3",
+          "when": {
+            "en": "once per battle, until the end of the turn, the bearer's Objective Control is tripled",
+            "ru": "один раз за битву, до конца хода, Objective Control носителя утраивается"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "auric-champions"
@@ -112,8 +160,30 @@ export default {
       "det": "Lions of the Emperor",
       "hash": "d9e0853a",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 3,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "lions-of-the-emperor"
@@ -126,8 +196,19 @@ export default {
       "det": "Lions of the Emperor",
       "hash": "9e06f74f",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "for the Fight phase, per 5 enemy models within 6\" of the bearer (rounding down)",
+            "ru": "на фазу боя, за каждые 5 вражеских моделей в 6\" от носителя (с округлением вниз)"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "lions-of-the-emperor"
@@ -140,7 +221,7 @@ export default {
       "det": "Null Maiden Vigil",
       "hash": "75d6c16a",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -154,8 +235,40 @@ export default {
       "det": "Null Maiden Vigil",
       "hash": "adb05aaf",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "Attacks, Strength and Damage +2 instead, while within Engagement Range of a Battle-shocked enemy Psyker unit",
+            "ru": "атаки, сила и урон +2 вместо +1, пока носитель в радиусе боя с Battle-shocked вражеским отрядом Psyker"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "null-maiden-vigil"
@@ -168,8 +281,16 @@ export default {
       "det": "Shield Host",
       "hash": "d0736a52",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 2,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "shield-host"
@@ -182,8 +303,23 @@ export default {
       "det": "Shield Host",
       "hash": "75cc38ed",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "shield-host"
@@ -196,8 +332,30 @@ export default {
       "det": "Solar Spearhead",
       "hash": "cab5d46b",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "solar-spearhead"
@@ -210,7 +368,7 @@ export default {
       "det": "Talons of the Emperor",
       "hash": "3ecc3cbb",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",

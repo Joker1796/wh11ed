@@ -14,8 +14,19 @@ export default {
       "det": "Biosanctic Broodsurge",
       "hash": "364caafb",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "Aberrants, Biophagus and Purestrain Genestealers units, in a Fight phase after making a Charge move",
+            "ru": "отряды Aberrants, Biophagus и Purestrain Genestealers, в фазе боя после чарджа"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "biosanctic-broodsurge"
@@ -28,7 +39,7 @@ export default {
       "det": "Brood Brothers Auxilia",
       "hash": "8afd11d5",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -42,7 +53,7 @@ export default {
       "det": "Final Day",
       "hash": "14212d1a",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -56,8 +67,19 @@ export default {
       "det": "Outlander Claw",
       "hash": "912340d2",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "Mounted and Vehicle models, while not Battle-shocked",
+            "ru": "модели Mounted и Vehicle, пока не Battle-shocked"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "outlander-claw"
@@ -70,8 +92,23 @@ export default {
       "det": "Biosanctic Broodsurge",
       "hash": "4223c31d",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "biosanctic-broodsurge"
@@ -84,7 +121,7 @@ export default {
       "det": "Brood Brothers Auxilia",
       "hash": "88e4b31d",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -98,8 +135,23 @@ export default {
       "det": "Brood Brothers Auxilia",
       "hash": "8ef27e44",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "brood-brothers-auxilia"
@@ -112,8 +164,23 @@ export default {
       "det": "Final Day",
       "hash": "7fe0b929",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "final-day"
@@ -126,7 +193,7 @@ export default {
       "det": "Host of Ascension",
       "hash": "80b09c5b",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -140,7 +207,7 @@ export default {
       "det": "Host of Ascension",
       "hash": "8a5b2e3f",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -154,7 +221,7 @@ export default {
       "det": "Outlander Claw",
       "hash": "bf5bec2d",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -168,7 +235,7 @@ export default {
       "det": "Xenocreed Congregation",
       "hash": "5c9be627",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
