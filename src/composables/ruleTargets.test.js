@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { ruleTargets, keywordsMatchTarget, ruleAppliesTo } from './ruleTargets.js'
+import { ruleTargets, ruleScopes, keywordsMatchTarget, ruleAppliesTo } from './ruleTargets.js'
 
 describe('ruleTargets', () => {
   it('reads the target out of the ordinary "X units from your army" wording', () => {
@@ -96,5 +96,67 @@ describe('ruleAppliesTo', () => {
 
   it('still gates without the faction list, just with one escape fewer', () => {
     expect(ruleAppliesTo(body, boyz)).toBe(false)
+  })
+})
+
+describe('ruleScopes — exclusions and the wordings that hide targets', () => {
+  it('binds an exclusion to its own bullet, not to the whole rule', () => {
+    // Necrons' Cold Fervour: bullet 1 targets DESTROYER CULT, bullet 2 targets every other
+    // NECRONS model. Merging them would let bullet 2's exclusion cancel bullet 1's own target.
+    const body = [
+      '▪ Add 2 to the Strength characteristic of weapons equipped by Destroyer Cult models from your army.',
+      '▪ …add 2 to the Strength characteristic of weapons equipped by friendly Necrons models (excluding Destroyer Cult, Monster and Titanic models).',
+    ].join('\n')
+    const scopes = ruleScopes(body)
+    expect(scopes).toHaveLength(2)
+    expect(scopes[0]).toEqual({ targets: ['Destroyer Cult'], excludes: [] })
+    expect(scopes[1].excludes).toEqual(expect.arrayContaining(['Destroyer Cult', 'Monster', 'Titanic']))
+
+    const nightbringer = ['Character', 'Epic Hero', 'Fly', 'Monster', 'Necrons']
+    const skorpekh = ['Skorpekh Destroyers', 'Destroyer Cult', 'Infantry', 'Necrons']
+    const warrior = ['Battleline', 'Necron Warriors', 'Infantry', 'Necrons']
+    const faction = [nightbringer, skorpekh, warrior]
+    expect(ruleAppliesTo(body, nightbringer, faction)).toBe(false) // a NECRONS MONSTER, excluded
+    expect(ruleAppliesTo(body, skorpekh, faction)).toBe(true) // named by bullet 1
+    expect(ruleAppliesTo(body, warrior, faction)).toBe(true) // covered by bullet 2
+  })
+
+  it('matches a plural exclusion against the singular keyword', () => {
+    const body = 'Friendly Necrons models (excluding MONSTERS and VEHICLES) have the Stealth ability.'
+    const monster = ['Monster', 'Necrons']
+    const infantry = ['Infantry', 'Necrons']
+    expect(ruleAppliesTo(body, monster, [monster, infantry])).toBe(false)
+    expect(ruleAppliesTo(body, infantry, [monster, infantry])).toBe(true)
+  })
+
+  it('ignores an exclusion that names no keyword', () => {
+    // "excluding Battle-shocked units" is a game state, not a keyword — it must exclude nobody.
+    const body = 'Friendly Orks units (excluding Battle-shocked units) have the Scouts 6" ability.'
+    const boyz = ['Infantry', 'Orks']
+    expect(ruleAppliesTo(body, boyz, [boyz])).toBe(true)
+  })
+
+  it('reads a sentence-opening "Friendly …"', () => {
+    // Capital F: the patterns spell [Ff]riendly rather than using the /i flag, which would also
+    // make the capitalisation in the keyword pattern case-insensitive and destroy the signal.
+    expect(ruleTargets('Friendly Tomb Blades units have Deep Strike.')).toEqual(['Tomb Blades'])
+  })
+
+  it('splits a slash alternation into separate targets', () => {
+    expect(ruleTargets("Friendly Immortals/Necron Warriors units' ranged attacks have [ASSAULT]."))
+      .toEqual(['Immortals', 'Necron Warriors'])
+  })
+
+  it('reads through a parenthetical sitting before "from your army"', () => {
+    const body = 'Each time a Necrons model (excluding Monster models) from your army makes an attack, add 1 to the Hit roll.'
+    expect(ruleTargets(body)).toEqual(['Necrons'])
+    expect(ruleScopes(body)[0].excludes).toContain('Monster')
+  })
+
+  it('matches a singular target against the plural keyword the datasheet carries', () => {
+    // Rules say "Vyper units from your army"; the datasheet keyword is VYPERS.
+    const vyper = ['Vypers', 'Mounted', 'Aeldari']
+    expect(keywordsMatchTarget(vyper, 'Vyper')).toBe(true)
+    expect(ruleAppliesTo('Vyper units from your army have the Scouts 12" ability.', vyper, [vyper])).toBe(true)
   })
 })
