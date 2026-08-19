@@ -135,7 +135,7 @@
                       :can-warlord="canBeWarlord(defOf(e.id), curDetachments)"
                       :is-warlord="e.warlord === true"
                       :enh-options="enhOptionsFor(defOf(e.id), curDetachments, roster.units, e.uid)"
-                      :leader-targets="leaderTargetsFor(defOf(e.id), roster.units, e.uid, defOf)"
+                      :leader-targets="leaderTargetsFor(defOf(e.id), roster.units, e.uid, defOf, curDetachments)"
                       @toggle-warlord="toggleWarlord(e.uid)"
                     />
                   </div>
@@ -215,7 +215,7 @@ import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import {
   UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints,
-  canBeWarlord, enhOptionsFor, leaderTargetsFor, defaultLoadoutLines, wargearNames, effectiveBattle,
+  canBeWarlord, enhOptionsFor, leaderTargetsFor, leadsFor, defaultLoadoutLines, wargearNames, effectiveBattle,
 } from '../../composables/rosterEngine.js'
 import { validateRoster } from '../../composables/rosterValidation.js'
 import { prefillDraftFromRoster } from '../../composables/rosterHandoff.js'
@@ -382,7 +382,7 @@ function attachedToName(e) {
 function attachedLeadersOf(e) {
   return roster.value.units
     .filter((u) => u.leaderOf === e.uid)
-    .map((u) => ({ uid: u.uid, name: defOf(u.id)?.name || u.id, type: defOf(u.id)?.leads?.find((l) => l.to === e.id)?.type }))
+    .map((u) => ({ uid: u.uid, name: defOf(u.id)?.name || u.id, type: leadsFor(defOf(u.id), u, curDetachments.value).find((l) => l.to === e.id)?.type }))
 }
 
 // Per-entry points + copy index (copy tax assigned in list order), for row display and the fields.

@@ -60,6 +60,15 @@ is implemented and tested.
    which added 4 Aeldari units (Clanblade, Dragon Knights, Leystalker, Stonesinger) and changed
    no points, sizes or detachments.
 
+   **Follow-up, also done (2026-08-19):** the attach those tables really describe is now modelled.
+   `enhancement_bodyguard_group` is read again — for its actual meaning — and emitted as `attach`
+   on the enhancement, so taking Murdermind widens a Cryptek's attachment picker to the Destroyer
+   squads instead of leaving it at Immortals. `rosterEngine.js`'s new `leadsFor()` is the single
+   place that merges a datasheet's printed `leads` with an entry's granted ones; the picker, the
+   reverse "attached leaders" lists and `validateRoster`'s two attachment checks all go through
+   it. 13 enhancements across 10 factions grant an attach; all 13 resolve within their own
+   faction.
+
 ## Where the merge-into-main work is recorded
 
 The `main`-catch-up merge itself (conflict resolution, a stale test fixed for `BaseModal`'s

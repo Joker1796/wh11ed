@@ -199,19 +199,47 @@ export function mandatoryEnhancementFor(def, detachments) {
 // already claimed by a DIFFERENT entry of the SAME type is flagged `used` so the picker can
 // disable it, the same "eligible but already spoken for" treatment enhOptionsFor gives a used
 // enhancement — this entry's own current target is never "used" against itself.
-export function leaderTargetsFor(def, units, excludeUid, defOf) {
-  if (!def?.leads?.length) return []
-  const typeByTarget = new Map(def.leads.map((l) => [l.to, l.type]))
+export function leaderTargetsFor(def, units, excludeUid, defOf, detachments = []) {
+  const entry = (units || []).find((u) => u.uid === excludeUid)
+  const leads = leadsFor(def, entry, detachments)
+  if (!leads.length) return []
+  const typeByTarget = new Map(leads.map((l) => [l.to, l.type]))
   return (units || [])
     .filter((u) => u.uid !== excludeUid && typeByTarget.has(u.id))
     .map((u) => {
       const type = typeByTarget.get(u.id)
       const used = (units || []).some((o) => {
         if (o.uid === excludeUid || o.uid === u.uid || o.leaderOf !== u.uid) return false
-        return defOf(o.id)?.leads?.find((l) => l.to === u.id)?.type === type
+        return leadsFor(defOf(o.id), o, detachments).find((l) => l.to === u.id)?.type === type
       })
       return { uid: u.uid, name: defOf(u.id)?.name || u.id, used, type }
     })
+}
+
+// Attach targets an ENHANCEMENT grants its bearer — a Cryptek with Murdermind gains DESTROYER
+// CULT and with it the Destroyer squads, a Commissar with Abhuman Detail can join Ogryns. From
+// appdata's enhancement_bodyguard_group, emitted by gen-roster-data.mjs as `attach` in the same
+// `{ to, type }` shape a datasheet's own `leads` uses. Covers a mandatory enhancement too, since
+// the bearer carries that whether or not `entry.enh` was ever set.
+export function enhAttachOf(def, entry, detachments) {
+  const e = entry?.enh ? findEnhancement(detachments, entry.enh) : mandatoryEnhancementFor(def, detachments)
+  return e?.attach || []
+}
+
+// Every unit this ENTRY can attach to: its datasheet's own list plus whatever its enhancement
+// adds. Use this instead of reading `def.leads` directly anywhere an entry (not a bare datasheet)
+// is in hand — otherwise a granted attach is invisible to that caller and, worse, gets flagged as
+// an illegal attachment by validateRoster.
+//
+// One entry per target, printed first and a granted duplicate dropped: callers read this list
+// both with `.find()` (first match wins) and through `new Map()` (last match wins), so a target
+// appearing twice would resolve to a different `type` depending on which one asked.
+export function leadsFor(def, entry, detachments) {
+  const own = def?.leads || []
+  const extra = enhAttachOf(def, entry, detachments)
+  if (!extra.length) return own
+  const seen = new Set(own.map((l) => l.to))
+  return [...own, ...extra.filter((l) => !seen.has(l.to))]
 }
 
 // Points added by a unit's enhancement: its chosen one (entry.enh), or — absent a choice — a

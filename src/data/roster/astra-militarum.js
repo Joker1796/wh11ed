@@ -7009,6 +7009,16 @@ export default {
                 "Commissar"
               ]
             }
+          ],
+          "attach": [
+            {
+              "to": "ogryn-squad",
+              "type": "leader"
+            },
+            {
+              "to": "bullgryn-squad",
+              "type": "leader"
+            }
           ]
         }
       ]
@@ -7228,6 +7238,16 @@ export default {
               "kw": [
                 "Commissar"
               ]
+            }
+          ],
+          "attach": [
+            {
+              "to": "ogryn-squad",
+              "type": "leader"
+            },
+            {
+              "to": "bullgryn-squad",
+              "type": "leader"
             }
           ]
         },

@@ -2434,6 +2434,16 @@ export default {
                 "Infantry"
               ]
             }
+          ],
+          "attach": [
+            {
+              "to": "goremongers",
+              "type": "leader"
+            },
+            {
+              "to": "jakhals",
+              "type": "leader"
+            }
           ]
         },
         {
@@ -2566,6 +2576,16 @@ export default {
               "kw": [
                 "Lord on Juggernaut"
               ]
+            }
+          ],
+          "attach": [
+            {
+              "to": "bloodcrushers",
+              "type": "leader"
+            },
+            {
+              "to": "flesh-hounds",
+              "type": "leader"
             }
           ]
         },
