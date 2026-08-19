@@ -18,7 +18,7 @@
           <span v-if="sheet.profiles.length > 1" class="ds-prof-name">{{ p.name }} <span v-if="p.baseSize" class="ds-base">({{ fmtBase(p.baseSize) }})</span></span>
           <template v-if="p.inv">
             <div class="ds-stat ds-inv-box">
-              <span class="ds-stat-box">{{ p.inv }}{{ p.invNote ? '*' : '' }}</span>
+              <span class="ds-stat-box" :class="{ 'ds-stat-mod': isMarked('profile', 'inv', i) }">{{ p.inv }}{{ p.invNote ? '*' : '' }}<sup v-if="isMarked('profile', 'inv', i)" class="ds-mod-star" aria-hidden="true">*</sup></span>
             </div>
             <div class="ds-inv-side">
               <span class="ds-inv-band">Invulnerable Save</span>
@@ -548,7 +548,7 @@ function statCells(p) {
 const markSet = computed(() => new Set(props.statMarks))
 const isMarked = (on, stat, index) => markSet.value.has(`${on}:${stat}:${index}`)
 
-const STAT_LABEL = { m: 'M', t: 'T', sv: 'SV', w: 'W', ld: 'LD', oc: 'OC', inv: 'INV', a: 'A', bs: 'BS', ws: 'WS', s: 'S', ap: 'AP', d: 'D' }
+const STAT_LABEL = { m: 'M', t: 'T', sv: 'SV', w: 'W', ld: 'LD', oc: 'OC', inv: 'INV', a: 'A', bs: 'BS', ws: 'WS', s: 'S', ap: 'AP', d: 'D', range: 'RANGE' }
 // "+2 S", "SV −1", "INV = 5+" — deliberately symbolic rather than a sentence, so the note needs
 // no translating of its own beyond the condition text the record already carries bilingually.
 function modDelta(n) {

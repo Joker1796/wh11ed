@@ -14,8 +14,39 @@ export default {
       "det": null,
       "hash": "69950e51",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "if that Quality was chosen for the army's Oath",
+            "ru": "если для клятвы армии выбрано соответствующее Качество"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "if that Quality was chosen for the army's Oath",
+            "ru": "если для клятвы армии выбрано соответствующее Качество"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "if that Quality was chosen for the army's Oath",
+            "ru": "если для клятвы армии выбрано соответствующее Качество"
+          }
+        }
+      ],
       "ref": {
         "kind": "armyRule"
       }
@@ -27,8 +58,16 @@ export default {
       "det": "Freeblade Company",
       "hash": "d45a4f80",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "freeblade-company"
@@ -41,8 +80,16 @@ export default {
       "det": "Freeblade Company",
       "hash": "e29a6d74",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "freeblade-company"

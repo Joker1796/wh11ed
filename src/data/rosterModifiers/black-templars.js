@@ -14,7 +14,7 @@ export default {
       "det": null,
       "hash": "335409cc",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "armyRule"
@@ -27,7 +27,7 @@ export default {
       "det": null,
       "hash": "959ac12a",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "armyRule"
@@ -40,7 +40,7 @@ export default {
       "det": "Godhammer Assault Force",
       "hash": "fa300e3c",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -54,8 +54,16 @@ export default {
       "det": "Companions of Vehemence",
       "hash": "384b0cf5",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "companions-of-vehemence"
@@ -68,7 +76,7 @@ export default {
       "det": "Companions of Vehemence",
       "hash": "d3bb5f33",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -82,8 +90,26 @@ export default {
       "det": "Godhammer Assault Force",
       "hash": "922fa85d",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "per allocated melee attack, if the bearer disembarked from a Transport this turn",
+            "ru": "за назначенную атаку ближнего боя, если носитель в этом ходу высадился из транспорта"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "godhammer-assault-force"
@@ -96,8 +122,16 @@ export default {
       "det": "Vindication Task Force",
       "hash": "8875c16b",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "vindication-task-force"
@@ -110,7 +144,7 @@ export default {
       "det": "Vindication Task Force",
       "hash": "685d2c48",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",

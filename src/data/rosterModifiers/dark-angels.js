@@ -14,7 +14,7 @@ export default {
       "det": "Inner Circle Task Force",
       "hash": "468dd3bf",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -28,7 +28,7 @@ export default {
       "det": "Lion’s Blade Task Force",
       "hash": "2caac2fd",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -42,8 +42,29 @@ export default {
       "det": "Unforgiven Task Force",
       "hash": "4a1c5a4d",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "set",
+          "value": "1",
+          "when": {
+            "en": "while the unit is Battle-shocked, its Objective Control becomes 1 instead of 0",
+            "ru": "пока отряд Battle-shocked, его Objective Control становится 1 вместо 0"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "for one unit you select each Command phase",
+            "ru": "для одного отряда, выбираемого в каждой вашей фазе командования"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "unforgiven-task-force"
@@ -56,8 +77,16 @@ export default {
       "det": "Lion’s Blade Task Force",
       "hash": "d04ca612",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "lions-blade-task-force"
@@ -70,8 +99,19 @@ export default {
       "det": "Lion’s Blade Task Force",
       "hash": "1ec258b6",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while the bearer's unit is not Battle-shocked",
+            "ru": "пока отряд носителя не Battle-shocked"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "lions-blade-task-force"
@@ -84,7 +124,7 @@ export default {
       "det": "Unforgiven Task Force",
       "hash": "f6d2a572",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -98,8 +138,40 @@ export default {
       "det": "Unforgiven Task Force",
       "hash": "697aa7f8",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "Attacks, Strength and Damage +2 instead, while the bearer is Battle-shocked",
+            "ru": "атаки, сила и урон +2 вместо +1, пока носитель Battle-shocked"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "unforgiven-task-force"
@@ -112,8 +184,30 @@ export default {
       "det": "Wrath of the Rock",
       "hash": "c8299e61",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "wrath-of-the-rock"

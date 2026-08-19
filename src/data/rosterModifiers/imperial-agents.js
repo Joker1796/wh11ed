@@ -14,8 +14,39 @@ export default {
       "det": "Imperialis Fleet",
       "hash": "c7734e00",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "with the Acquire objective chosen, while within range of that objective marker",
+            "ru": "при выбранной цели «Acquire», пока юнит в радиусе действия этого маркера"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "with the Acquire objective chosen, while within range of that objective marker",
+            "ru": "при выбранной цели «Acquire», пока юнит в радиусе действия этого маркера"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": {
+            "en": "with the Acquire objective chosen, while within range of that objective marker",
+            "ru": "при выбранной цели «Acquire», пока юнит в радиусе действия этого маркера"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "imperialis-fleet"
@@ -28,8 +59,16 @@ export default {
       "det": "Ordo Malleus, Daemon Hunters",
       "hash": "c4f1ac1e",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "ordo-malleus-daemon-hunters"
@@ -42,8 +81,23 @@ export default {
       "det": "Ordo Malleus, Daemon Hunters",
       "hash": "46a46316",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "ordo-malleus-daemon-hunters"
@@ -56,7 +110,7 @@ export default {
       "det": "Ordo Malleus, Daemon Hunters",
       "hash": "77f50fbb",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",

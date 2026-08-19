@@ -46,6 +46,18 @@ describe('applyValue', () => {
     expect(applyValue('—', 'set', '5+')).toBe('5+')
   })
 
+  it('grants a characteristic the sheet never printed', () => {
+    // "The bearer has a 5+ invulnerable save" on a unit with no printed invulnerable.
+    expect(applyValue(undefined, 'set', '5+')).toBe('5+')
+  })
+
+  it('keeps Armour Penetration signed and unclamped', () => {
+    // AP prints negative and "improve the AP by 1" is authored as add:-1 — clamping at zero
+    // would silently turn -3 into 0, the single most damaging rounding this file could do.
+    expect(applyValue('-2', 'add', -1)).toBe('-3')
+    expect(applyValue('0', 'add', -1)).toBe('-1')
+  })
+
   it('refuses to invent arithmetic on a dice expression', () => {
     // "D6+2" plus 1 has no honest answer — the caller turns this into an annotation.
     expect(applyValue('D6+2', 'add', 1)).toBeNull()
@@ -115,4 +127,17 @@ describe('applyStatMods', () => {
     expect(s.ranged[0].s).toBe('5')
     expect(s.melee[0].s).toBe('6')
   })
+
+  it('still applies when the rule names a keyword no unit in the faction has', () => {
+    // Mirrors ruleTargets.js's third escape: the prose block shows such a rule to everyone, so
+    // its reviewed modifier must not silently apply to nobody.
+    const stale = {
+      name: 'Tyrannical Court', det: 'Lords of Dread', kind: 'detachmentRule',
+      body: 'Improve the Objective Control characteristic of Chaos Knights Character models from your army by 2.',
+      effects: [{ on: 'profile', stat: 'oc', op: 'add', value: 2, when: null }],
+    }
+    const out = applyStatMods(sheet(), [stale], destroyer, [destroyer, warrior])
+    expect(out.sheet.profiles[0].oc).toBe('3')
+  })
 })
+

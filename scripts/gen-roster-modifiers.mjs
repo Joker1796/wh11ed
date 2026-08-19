@@ -141,6 +141,8 @@ function skeleton(src, ver) {
   }
 }
 
+const bySidOf = (sources) => new Map(sources.map((s) => [s.sid, s]))
+
 function classify(existing, sources, ver) {
   const bySid = new Map(sources.map((s) => [s.sid, s]))
   const entries = existing?.entries || []
@@ -230,6 +232,14 @@ export async function run(argv = process.argv.slice(2)) {
     for (const e of result.orphan) {
       console.log(`  ✗ orphan  ${slug} · ${e.kind} · ${e.name} — source gone from appdata`)
       queueItems.push({ slug, sid: e.sid, status: 'orphan', kind: e.kind, name: e.name, det: e.det })
+    }
+    // The queue is the REVIEW list, not the diff: a record whose prose hasn't moved but which
+    // nobody has read yet still needs reading, and is the bulk of the work on a first pass.
+    // Listed after the changed items, which are the urgent ones.
+    for (const e of result.ok) {
+      if (e.reviewed) continue
+      const src = bySidOf(sources).get(e.sid)
+      queueItems.push({ slug, sid: e.sid, status: 'unreviewed', kind: e.kind, name: e.name, det: e.det, newHash: e.hash, prose: src?.prose || '', effects: e.effects })
     }
 
     if (!check && !queue) {

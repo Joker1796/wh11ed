@@ -14,7 +14,7 @@ export default {
       "det": "Blood Legion",
       "hash": "8e83ef45",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -28,8 +28,33 @@ export default {
       "det": "Daemonic Incursion",
       "hash": "4c95d62c",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "Attacks and Strength +2 instead, while the bearer is within your army's Shadow of Chaos",
+            "ru": "атаки и сила +2 вместо +1, пока носитель в Тени Хаоса вашей армии"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "daemonic-incursion"
@@ -42,8 +67,33 @@ export default {
       "det": "Daemonic Incursion",
       "hash": "90d119a2",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "ranged",
+          "stat": "range",
+          "op": "add",
+          "value": 3,
+          "when": null
+        },
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "Strength +2 and Range +6\" instead, while the bearer is within your army's Shadow of Chaos",
+            "ru": "сила +2 и дальность +6\" вместо этого, пока носитель в Тени Хаоса вашей армии"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "daemonic-incursion"
@@ -56,7 +106,7 @@ export default {
       "det": "Legion of Excess",
       "hash": "cb5eae27",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -70,7 +120,7 @@ export default {
       "det": "Legion of Excess",
       "hash": "e47184fd",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -84,7 +134,7 @@ export default {
       "det": "Plague Legion",
       "hash": "e5278c50",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -98,8 +148,30 @@ export default {
       "det": "Scintillating Legion",
       "hash": "bb91fd81",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "scintillating-legion"

@@ -14,8 +14,19 @@ export default {
       "det": "Augurium Task Force",
       "hash": "0fb47ae2",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 4,
+          "when": {
+            "en": "once per battle, for the Fight phase the bearer uses this Enhancement in",
+            "ru": "один раз за битву, на фазу боя, в которой носитель применил улучшение"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "augurium-task-force"
@@ -28,8 +39,19 @@ export default {
       "det": "Augurium Task Force",
       "hash": "b0275bc1",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "once per battle, for the battle round the bearer uses this Enhancement in",
+            "ru": "один раз за битву, на раунд, в котором носитель применил улучшение"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "augurium-task-force"
@@ -42,8 +64,19 @@ export default {
       "det": "Banishers",
       "hash": "898eb4bf",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "in your Shooting phase, for models in the bearer's unit",
+            "ru": "в вашей фазе стрельбы, для моделей в отряде носителя"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "banishers"
@@ -56,7 +89,7 @@ export default {
       "det": "Brotherhood Strike",
       "hash": "5e8b3871",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -70,8 +103,16 @@ export default {
       "det": "Hallowed Conclave",
       "hash": "4c478233",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 3,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "hallowed-conclave"
@@ -84,8 +125,19 @@ export default {
       "det": "Warpbane Task Force",
       "hash": "88c734a9",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "while the bearer's unit is not Battle-shocked",
+            "ru": "пока отряд носителя не Battle-shocked"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "warpbane-task-force"
