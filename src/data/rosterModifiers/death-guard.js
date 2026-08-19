@@ -34,6 +34,20 @@ export default {
       }
     },
     {
+      "sid": "6ee24fba-454f-4bbe-8de5-1974f148d2bc",
+      "kind": "detachmentRule",
+      "name": "Warped and Rusted Animus",
+      "det": "Contagion Engines",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "contagion-engines"
+      },
+      "hash": "7111901d",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "646ffc25-fbc8-4702-82ad-ea7c853e5736",
       "kind": "enhancement",
       "name": "Sorrowsyphon",

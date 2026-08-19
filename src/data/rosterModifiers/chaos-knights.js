@@ -8,6 +8,19 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "af512856-dc8f-428b-8562-bb30b6f1d257",
+      "kind": "armyRule",
+      "name": "Dreadblades",
+      "det": null,
+      "ref": {
+        "kind": "armyRule"
+      },
+      "hash": "7a1f15d7",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "a035ead2-fd10-4271-a295-0b1823f4792f",
       "kind": "armyRule",
       "name": "Harbingers of Dread",
@@ -19,6 +32,20 @@ export default {
       "ref": {
         "kind": "armyRule"
       }
+    },
+    {
+      "sid": "788a4578-aaf9-4801-a35e-8e4d224c0a90",
+      "kind": "detachmentRule",
+      "name": "Masters of the Pack",
+      "det": "Helhunt Lance",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "helhunt-lance"
+      },
+      "hash": "425432db",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "ea8bac27-a7f4-40a5-8e9c-ee20b6cc609c",
@@ -90,6 +117,20 @@ export default {
         "kind": "enhancement",
         "det": "houndpack-lance"
       }
+    },
+    {
+      "sid": "d9e7e955-a716-415b-8a50-04ff6e82c8cb",
+      "kind": "enhancement",
+      "name": "Snarling Rivalry (Upgrade)",
+      "det": "Hunting Warpack",
+      "ref": {
+        "kind": "enhancement",
+        "det": "hunting-warpack"
+      },
+      "hash": "a7635131",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "cff79aee-3352-436d-adfa-6e11703ffdfd",

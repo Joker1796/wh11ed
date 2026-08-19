@@ -86,6 +86,11 @@ const CANDIDATE = new RegExp([
   '[+-]\\d+ (?:to )?(?:the )?(?:[SATWMD]|OC|AP|BS|WS|LD)\\b',  // the shorthand faction bodies use: "+1 T"
   '[+-]\\d+"? (?:M|Move)\\b',
   'worsen[s]? the',
+  // Grants: a keyword changes which OTHER rules bear on the unit (Necrons' Destroyer Ankh gives
+  // its bearer DESTROYER CULT, and Cold Fervour then gives every DESTROYER CULT model +2
+  // Strength), and a weapon ability is printed on the weapon row like any other tag.
+  '(?:has|have|gains?) the [^.]{1,40}keyword',
+  '(?:attacks|weapons)[^.]{0,70}have (?:the )?\\[',
 ].join('|'), 'i')
 
 export function isCandidate(text) {

@@ -81,6 +81,28 @@ export default {
       }
     },
     {
+      "sid": "534bef73-8f42-4c3b-ae80-2ad4106db41a",
+      "kind": "detachmentRule",
+      "name": "Hypermotility Protocols",
+      "det": "Hand of the Dynasty",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "hand-of-the-dynasty"
+      },
+      "hash": "965e4fb5",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": null
+        }
+      ]
+    },
+    {
       "sid": "90b80a56-d420-47f0-85b1-405a01e4c0d3",
       "kind": "detachmentRule",
       "name": "Worthy Foes",
@@ -121,6 +143,32 @@ export default {
         "kind": "detachmentRule",
         "det": "starshatter-arsenal"
       }
+    },
+    {
+      "sid": "90ecb256-bc18-494a-89a9-57bba7ac455b",
+      "kind": "enhancement",
+      "name": "Unblemished Legions",
+      "det": "Amonhotekh’s Guard",
+      "ref": null,
+      "hash": "8ee2fd82",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "f8e6d080-6a6c-432b-8196-e26598cd7fda",
@@ -183,6 +231,13 @@ export default {
           "op": "add",
           "value": 2,
           "when": null
+        },
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Destroyer Cult",
+          "when": null
         }
       ],
       "ref": {
@@ -203,6 +258,79 @@ export default {
         "kind": "enhancement",
         "det": "cursed-legion"
       }
+    },
+    {
+      "sid": "597b7938-15dd-4b21-adf6-c4c544287010",
+      "kind": "enhancement",
+      "name": "Murdermind",
+      "det": "Cursed Legion",
+      "ref": {
+        "kind": "enhancement",
+        "det": "cursed-legion"
+      },
+      "hash": "8eb42dfe",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Destroyer Cult",
+          "when": null
+        },
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 3,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "28910499-26bf-4cf0-823a-17462276ea57",
+      "kind": "enhancement",
+      "name": "Tools of Dominion (Upgrade)",
+      "det": "Hand of the Dynasty",
+      "ref": {
+        "kind": "enhancement",
+        "det": "hand-of-the-dynasty"
+      },
+      "hash": "b1cd18ad",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "RAPID FIRE 1",
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "c173a0bd-085d-42db-ac95-5c7ab17a267f",
+      "kind": "enhancement",
+      "name": "Deepening Madness (Upgrade)",
+      "det": "Skyshroud Spearhead",
+      "ref": {
+        "kind": "enhancement",
+        "det": "skyshroud-spearhead"
+      },
+      "hash": "a4b54ef1",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": null
+        }
+      ]
     }
   ]
 }

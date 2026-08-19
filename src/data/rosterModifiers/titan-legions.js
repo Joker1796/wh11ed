@@ -6,5 +6,32 @@
 export default {
   "slug": "titan-legions",
   "formatVersion": 1,
-  "entries": []
+  "entries": [
+    {
+      "sid": "4df73e8a-a315-4944-a1dd-8ffd2866078f",
+      "kind": "armyRule",
+      "name": "Titanic Support",
+      "det": null,
+      "ref": {
+        "kind": "armyRule"
+      },
+      "hash": "cddcc0a1",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "efb4ed63-1400-4c3f-9165-ac03ded895c4",
+      "kind": "armyRule",
+      "name": "Towering Example",
+      "det": null,
+      "ref": {
+        "kind": "armyRule"
+      },
+      "hash": "d83ec99e",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    }
+  ]
 }

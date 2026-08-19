@@ -73,6 +73,13 @@ export function applyValue(current, op, value) {
   return null // "D6+2", "N/A", a range like "18-36" — annotate instead of guessing
 }
 
+// A grant is an effect whose "value" is a name rather than a number: `stat: 'keyword'` gives the
+// unit a keyword (which can then make OTHER rules apply to it — Necrons' Destroyer Ankh grants
+// DESTROYER CULT, and Cold Fervour's first bullet gives every DESTROYER CULT model +2 Strength),
+// `stat: 'ability'` gives its weapons a bracketed ability. Modelled as an effect rather than a
+// second system so `when`, `scope` and the whole applicability machinery are shared.
+const isGrant = (effect) => effect.op === 'grant'
+
 function noteOf(entry, effect, applied) {
   return {
     source: entry.name,
@@ -89,14 +96,23 @@ function noteOf(entry, effect, applied) {
 
 // entries: [{ name, det, kind, body, effects }] — records the caller resolved to their prose.
 // Returns the sheet to render (a copy when anything changed, the same object when not), the
-// notes to print under it, and the set of cells that were rewritten, keyed
-// `profile:<stat>:<profileIndex>` / `<ranged|melee>:<stat>:<rowIndex>` for the card to mark.
+// notes to print under it, the set of cells that were rewritten, keyed
+// `profile:<stat>:<profileIndex>` / `<ranged|melee>:<stat>:<rowIndex>` for the card to mark, and
+// the keywords granted to the unit (which the caller must fold into `keywords` and re-run — see
+// grantedKeywordsFrom).
 export function applyStatMods(sheet, entries, keywords, factionKeywordSets) {
-  if (!sheet || !entries?.length) return { sheet, notes: [], marks: [] }
+  if (!sheet || !entries?.length) return { sheet, notes: [], marks: [], keywords: [] }
 
   let out = null // cloned lazily — an all-conditional unit must keep the original object identity
   const notes = []
   const marks = new Set()
+  const granted = []
+  // The sheet as it stands RIGHT NOW: the working copy once anything has been written, the
+  // original before that. Every effect must read through this, not from `sheet` — two modifiers
+  // touching the same cell (a +2 Attacks from an enhancement and a +1 from a detachment rule)
+  // would otherwise both compute from the printed value and the second would overwrite the first
+  // instead of stacking on it.
+  const current = () => out || sheet
   const target = () => {
     if (!out) {
       out = { ...sheet }
@@ -118,21 +134,43 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets) {
         continue
       }
 
-      const rows = effect.on === 'profile'
-        ? (sheet.profiles || []).map((p, i) => ({ p, i, key: `profile:${effect.stat}:${i}` }))
-        : (WEAPON_TABLES[effect.on] || []).flatMap((t) =>
-          (sheet[t] || []).map((w, i) => ({ p: w, i, key: `${t}:${effect.stat}:${i}` })))
+      if (isGrant(effect)) {
+        if (effect.stat === 'keyword') {
+          granted.push({ kw: String(effect.value), source: entry.name, det: entry.det })
+          notes.push(noteOf(entry, effect, true))
+          continue
+        }
+        // A weapon ability joins that row's printed tags, in the same shape DatasheetCard reads.
+        let added = false
+        for (const table of WEAPON_TABLES[effect.on] || []) {
+          const rows = current()[table] || []
+          for (let i = 0; i < rows.length; i++) {
+            const tags = current()[table][i].tags || []
+            if (tags.some((t) => String(t).toUpperCase() === String(effect.value).toUpperCase())) continue
+            const dest = target()[table][i]
+            dest.tags = [...tags, String(effect.value)]
+            marks.add(`${table}:tags:${i}`)
+            added = true
+          }
+        }
+        notes.push(noteOf(entry, effect, added))
+        continue
+      }
+
+      const tables = effect.on === 'profile' ? ['profiles'] : (WEAPON_TABLES[effect.on] || [])
+      const markPrefix = (t) => (t === 'profiles' ? 'profile' : t)
 
       let changed = false
-      for (const row of rows) {
-        const next = applyValue(row.p[effect.stat], effect.op, effect.value)
-        if (next == null || next === String(row.p[effect.stat])) continue
-        const dest = effect.on === 'profile'
-          ? target().profiles[row.i]
-          : target()[row.key.split(':')[0]][row.i]
-        dest[effect.stat] = next
-        marks.add(row.key)
-        changed = true
+      for (const table of tables) {
+        const rows = current()[table] || []
+        for (let i = 0; i < rows.length; i++) {
+          const before = current()[table][i][effect.stat]
+          const next = applyValue(before, effect.op, effect.value)
+          if (next == null || next === String(before)) continue
+          target()[table][i][effect.stat] = next
+          marks.add(`${markPrefix(table)}:${effect.stat}:${i}`)
+          changed = true
+        }
       }
       // Nothing computable (every value was a dice expression, or the unit has no such row) —
       // report it as an annotation rather than dropping the modifier on the floor.
@@ -140,7 +178,24 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets) {
     }
   }
 
-  return { sheet: out || sheet, notes, marks: [...marks] }
+  return { sheet: out || sheet, notes, marks: [...marks], keywords: granted }
+}
+
+// The keywords these records grant this unit, WITHOUT applying anything else. Callers need them
+// before gating any rule, because a granted keyword decides which rules bear on the unit at all;
+// running the full apply pass first would gate on the un-granted keyword set. Conditional grants
+// are excluded on purpose — the same reason a conditional number is never written.
+export function grantedKeywordsFrom(entries, keywords, factionKeywordSets) {
+  const out = []
+  for (const entry of entries || []) {
+    const scopes = entry.kind === 'enhancement' ? null : ruleScopes(entry.body)
+    for (const effect of entry.effects || []) {
+      if (effect.op !== 'grant' || effect.stat !== 'keyword' || effect.when) continue
+      if (!effectApplies(effect, scopes, keywords, entry.kind, factionKeywordSets)) continue
+      out.push({ kw: String(effect.value), source: entry.name, det: entry.det })
+    }
+  }
+  return out
 }
 
 // Turn stored records into the `{ ...record, body }` entries applyStatMods wants, dropping every

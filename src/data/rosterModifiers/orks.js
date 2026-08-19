@@ -112,6 +112,20 @@ export default {
       }
     },
     {
+      "sid": "5990b4e9-2df8-4b33-bf55-6bb1026403d0",
+      "kind": "detachmentRule",
+      "name": "Dakka! Dakka! Dakka!",
+      "det": "More Dakka!",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "more-dakka"
+      },
+      "hash": "c459d4ca",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "fb854ed4-d89a-48fe-8885-668fc666fb57",
       "kind": "enhancement",
       "name": "Runnin’ Boots",
@@ -248,6 +262,20 @@ export default {
         "kind": "enhancement",
         "det": "green-tide"
       }
+    },
+    {
+      "sid": "d31fb77e-2a18-415e-8a42-d8721e2e7864",
+      "kind": "enhancement",
+      "name": "Targetin’ Gizmos (Upgrade)",
+      "det": "Rollin' Deff",
+      "ref": {
+        "kind": "enhancement",
+        "det": "rollin-deff"
+      },
+      "hash": "d8013422",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "1889b79a-54fd-4e88-93e8-fdc0d4076a1a",

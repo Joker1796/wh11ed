@@ -78,6 +78,20 @@ export default {
       }
     },
     {
+      "sid": "43800b4c-d055-44df-b593-75ee22ba1231",
+      "kind": "enhancement",
+      "name": "Blood Boil",
+      "det": "Legacy of Grace",
+      "ref": {
+        "kind": "enhancement",
+        "det": "legacy-of-grace"
+      },
+      "hash": "7d893d70",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "da1adec0-3e83-40b6-807c-fbd76b193c76",
       "kind": "enhancement",
       "name": "Sanguinary Tear (Aura)",

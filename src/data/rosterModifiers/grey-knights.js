@@ -97,6 +97,17 @@ export default {
       }
     },
     {
+      "sid": "057f85bb-3dff-4710-9cad-85ebb9cd2e9a",
+      "kind": "enhancement",
+      "name": "Purifying Force",
+      "det": "Crowe’s Sanctifiers",
+      "ref": null,
+      "hash": "e9618825",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "de7be923-5642-4bf5-b8da-1ad373303f47",
       "kind": "enhancement",
       "name": "Sanctic Reaper",

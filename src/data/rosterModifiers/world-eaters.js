@@ -201,6 +201,31 @@ export default {
         "kind": "enhancement",
         "det": "khorne-daemonkin"
       }
+    },
+    {
+      "sid": "39eeeb4f-b6ba-45a6-8d96-7a7036b58d88",
+      "kind": "enhancement",
+      "name": "Disciple of Khorne",
+      "det": "Khorne Daemonkin",
+      "ref": {
+        "kind": "enhancement",
+        "det": "khorne-daemonkin"
+      },
+      "hash": "b14be783",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Blood Legions",
+          "when": {
+            "en": "replaces the World Eaters Faction keyword rather than adding to it",
+            "ru": "заменяет фракционное ключевое слово World Eaters, а не добавляется к нему"
+          }
+        }
+      ]
     }
   ]
 }

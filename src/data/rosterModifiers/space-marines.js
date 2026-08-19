@@ -21,6 +21,19 @@ export default {
       }
     },
     {
+      "sid": "9a87c430-019b-49f6-b70a-278e0a8169d5",
+      "kind": "armyRule",
+      "name": "Space Marine Chapters",
+      "det": null,
+      "ref": {
+        "kind": "armyRule"
+      },
+      "hash": "0dba42cb",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "abc5a0da-6e22-42fc-8e98-e53976b3caab",
       "kind": "detachmentRule",
       "name": "Shield of the Imperium",
@@ -33,6 +46,20 @@ export default {
         "kind": "detachmentRule",
         "det": "anvil-siege-force"
       }
+    },
+    {
+      "sid": "f8714ccf-244f-44c5-aaac-9dc11b404038",
+      "kind": "detachmentRule",
+      "name": "Adaptive Defence",
+      "det": "Ceramite Sentinels",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "ceramite-sentinels"
+      },
+      "hash": "0500502c",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "e8f365fd-9e58-4321-a78c-ed2e9c1e64de",
@@ -174,6 +201,17 @@ export default {
       }
     },
     {
+      "sid": "df54e4af-9023-4a38-ba72-88a7b7be921e",
+      "kind": "enhancement",
+      "name": "Battle-line Veterans",
+      "det": "Assault Force",
+      "ref": null,
+      "hash": "1b0678c4",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "eaac3c39-f06a-476a-acae-7993c8c45b38",
       "kind": "enhancement",
       "name": "Blades of Valour",
@@ -194,6 +232,45 @@ export default {
         "kind": "enhancement",
         "det": "bastion-task-force"
       }
+    },
+    {
+      "sid": "6bb6e923-c0f4-4e50-a6a8-876df81e1f6b",
+      "kind": "enhancement",
+      "name": "Bombast Omnivox",
+      "det": "Bastion Task Force",
+      "ref": {
+        "kind": "enhancement",
+        "det": "bastion-task-force"
+      },
+      "hash": "04462659",
+      "ver": 925,
+      "reviewed": true,
+      "effects": []
+    },
+    {
+      "sid": "1b46835e-a785-4a31-8f8f-a80b27136279",
+      "kind": "enhancement",
+      "name": "Hero of the Chapter",
+      "det": "Bastion Task Force",
+      "ref": {
+        "kind": "enhancement",
+        "det": "bastion-task-force"
+      },
+      "hash": "c7be8767",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Battleline",
+          "when": {
+            "en": "while the bearer is leading a unit",
+            "ru": "пока носитель ведёт отряд"
+          }
+        }
+      ]
     },
     {
       "sid": "ee406f75-ff0d-48fa-a912-668b94840822",
@@ -366,6 +443,20 @@ export default {
         "kind": "enhancement",
         "det": "forgefathers-seekers"
       }
+    },
+    {
+      "sid": "83b8281f-2251-4981-a7e7-1a1ce57ef483",
+      "kind": "enhancement",
+      "name": "Raptorial Cogitator Core (Upgrade)",
+      "det": "Fulguris Task Force",
+      "ref": {
+        "kind": "enhancement",
+        "det": "fulguris-task-force"
+      },
+      "hash": "c09e0fa5",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "57200c62-5d47-4622-a062-41e1bc1241c9",

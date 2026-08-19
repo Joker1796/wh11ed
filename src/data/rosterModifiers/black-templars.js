@@ -116,6 +116,20 @@ export default {
       }
     },
     {
+      "sid": "2deaa998-e999-4cb4-933e-a1840de3d2a0",
+      "kind": "enhancement",
+      "name": "Guiding Omens",
+      "det": "The Living Miracle",
+      "ref": {
+        "kind": "enhancement",
+        "det": "the-living-miracle"
+      },
+      "hash": "480d0dcb",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "8f0c23c2-bec3-4dce-916e-ae9164dfe77f",
       "kind": "enhancement",
       "name": "Consecrating Aura",
@@ -150,6 +164,20 @@ export default {
         "kind": "enhancement",
         "det": "vindication-task-force"
       }
+    },
+    {
+      "sid": "0a728a13-038e-4fa0-aca8-fc3a6b479c12",
+      "kind": "enhancement",
+      "name": "Benediction of Fury",
+      "det": "Wrathful Procession",
+      "ref": {
+        "kind": "enhancement",
+        "det": "wrathful-procession"
+      },
+      "hash": "11e13cab",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
     }
   ]
 }

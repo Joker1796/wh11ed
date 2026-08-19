@@ -59,6 +59,31 @@ export default {
       }
     },
     {
+      "sid": "27e25b2c-5cf3-47df-8e2b-a3dff31cdd95",
+      "kind": "enhancement",
+      "name": "Saturation Rounds (Upgrade)",
+      "det": "Armoured Trailblazers",
+      "ref": {
+        "kind": "enhancement",
+        "det": "armoured-trailblazers"
+      },
+      "hash": "42ae7259",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "f8a1fc4c-65b9-466e-90b7-eb939120033c",
+      "kind": "enhancement",
+      "name": "Brôkhyr Barrage",
+      "det": "Bane-slayer’s Bulwark",
+      "ref": null,
+      "hash": "55ba556e",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "ab0a026e-6604-4425-8a3f-7adff3375e2d",
       "kind": "enhancement",
       "name": "Quake Supervisor",

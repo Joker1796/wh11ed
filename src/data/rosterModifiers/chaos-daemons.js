@@ -8,6 +8,33 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "6d20d153-1252-428c-a141-b0863232aeda",
+      "kind": "armyRule",
+      "name": "Daemonic Pact",
+      "det": null,
+      "ref": {
+        "kind": "armyRule"
+      },
+      "hash": "9611ddd4",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "7f775c80-d3ce-4aa7-a586-348ac9502b2a",
+      "kind": "detachmentRule",
+      "name": "shudderblink",
+      "det": "Warptide",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "warptide"
+      },
+      "hash": "1efb3dd1",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "281cf9a5-5126-42dc-a47c-fc5c897821df",
       "kind": "enhancement",
       "name": "Brazenmaw",

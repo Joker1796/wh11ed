@@ -8,6 +8,20 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "5e321f4d-a733-4459-94f8-e4bc2a472f38",
+      "kind": "detachmentRule",
+      "name": "Mission Tactics",
+      "det": "Black Spear Task Force",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "black-spear-task-force"
+      },
+      "hash": "5b885a9a",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "796172d3-0693-4e71-a27d-51e9db6bfdca",
       "kind": "enhancement",
       "name": "Thief of Secrets",
