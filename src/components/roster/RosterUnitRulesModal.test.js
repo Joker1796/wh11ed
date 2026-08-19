@@ -231,6 +231,27 @@ describe('RosterUnitRulesModal', () => {
     w2.unmount()
   })
 
+  it('places the rule blocks inside the card, above its Keywords line', async () => {
+    const [rf, it] = await Promise.all([
+      import('../../data/roster/orks.js'),
+      import('../../data/roster/items.js'),
+    ])
+    const def = rf.default.units.find((u) => u.id === 'boyz')
+    const det = rf.default.detachments.find((d) => d.name === 'War Horde')
+    const w = mount(RosterUnitRulesModal, {
+      props: {
+        unitId: 'boyz',
+        factionSlug: 'orks',
+        ctx: { def, entry: { uid: 'a', id: 'boyz', size: 0 }, items: it.default.items, detachments: [det] },
+      },
+    })
+    await waitFor('Get Stuck In!')
+    const order = [...document.body.querySelectorAll('.rum-rules, .ds-keywords')]
+      .map((e) => e.className.split(' ')[0])
+    expect(order).toEqual(['rum-rules', 'ds-keywords'])
+    w.unmount()
+  })
+
   it('renders the RU overlay when the locale is Russian', async () => {
     const { useLocale } = await import('../../composables/useLocale.js')
     const { locale } = useLocale()
