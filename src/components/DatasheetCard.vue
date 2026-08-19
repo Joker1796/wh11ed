@@ -37,8 +37,8 @@
         </thead>
         <tbody>
           <tr v-for="(w, i) in rangedRows" :key="i" :class="'wg-' + w.gpos">
-            <td class="wname"><span v-if="w.gpos !== 'single'" class="wprofile-arrow" aria-hidden="true"></span>{{ w.name }} <span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></td>
-            <td>{{ w.range }}</td><td>{{ w.a }}</td><td>{{ w.bs }}</td><td>{{ w.s }}</td><td>{{ w.ap }}</td><td>{{ w.d }}</td>
+            <td class="wname"><span class="wname-text"><span v-if="w.gpos !== 'single'" class="wprofile-arrow" aria-hidden="true"></span>{{ w.name }}</span><span v-if="w.tags?.length" class="wtags"><span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></span></td>
+            <td data-label="Range">{{ w.range }}</td><td data-label="A">{{ w.a }}</td><td data-label="BS">{{ w.bs }}</td><td data-label="S">{{ w.s }}</td><td data-label="AP">{{ w.ap }}</td><td data-label="D">{{ w.d }}</td>
           </tr>
         </tbody>
       </table>
@@ -50,8 +50,8 @@
         </thead>
         <tbody>
           <tr v-for="(w, i) in meleeRows" :key="i" :class="'wg-' + w.gpos">
-            <td class="wname"><span v-if="w.gpos !== 'single'" class="wprofile-arrow" aria-hidden="true"></span>{{ w.name }} <span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></td>
-            <td>Melee</td><td>{{ w.a }}</td><td>{{ w.ws }}</td><td>{{ w.s }}</td><td>{{ w.ap }}</td><td>{{ w.d }}</td>
+            <td class="wname"><span class="wname-text"><span v-if="w.gpos !== 'single'" class="wprofile-arrow" aria-hidden="true"></span>{{ w.name }}</span><span v-if="w.tags?.length" class="wtags"><span v-for="t in w.tags" :key="t" class="wtag" v-html="renderInline('[' + t + ']')"></span></span></td>
+            <td data-label="Range">Melee</td><td data-label="A">{{ w.a }}</td><td data-label="WS">{{ w.ws }}</td><td data-label="S">{{ w.s }}</td><td data-label="AP">{{ w.ap }}</td><td data-label="D">{{ w.d }}</td>
           </tr>
         </tbody>
       </table>
@@ -748,6 +748,7 @@ function statCells(p) {
   white-space: nowrap;
 }
 .ds-weapons .wname { text-align: left; white-space: normal; min-width: 10rem; }
+.wtags { margin-left: 0.35rem; }
 .wtag { font-size: 0.72rem; }
 /* Weapon ability badges ([DEVASTATING WOUNDS]…) — the shared .keyword class (style.css)
    sizes itself in `em`, so nested in .wtag's already-small 0.72rem it rendered near-illegible
@@ -808,46 +809,85 @@ function statCells(p) {
   .ds-weapons th:last-child {
     border-radius: 0;
   }
-  /* One uniform body font for every cell — name and stats alike — bumped up from the old
-     0.68rem. The extra room for the stats comes from the narrower .wname floor below (the
-     name wraps), NOT from a bigger font on the stat columns only, which read as ragged
-     mismatched sizes within one table. */
-  .ds-weapons table {
-    font-size: 0.82rem;
-  }
   .ds-points table {
     font-size: 0.72rem;
-  }
-  /* Wider horizontal cell padding than the ≤480 default so the stat columns claim a bit
-     more of the table's width (auto layout: a column's used width includes its padding,
-     so more padding = wider stat columns, drawn from the slack the wrapping name column
-     would otherwise absorb). */
-  .ds-weapons th,
-  .ds-weapons td {
-    padding: 0.2rem 0.28rem;
-  }
-  /* The table bleeds edge-to-edge, so the first/last columns' content would otherwise sit
-     flush against the screen edge — inset just those two so the text clears the edge while
-     the header band still spans full width. */
-  .ds-weapons th:first-child,
-  .ds-weapons td:first-child {
-    padding-left: 0.5rem;
-  }
-  .ds-weapons th:last-child,
-  .ds-weapons td:last-child {
-    padding-right: 0.5rem;
-  }
-  /* Header labels stay a single small uppercase size across all columns. */
-  .ds-weapons th {
-    font-size: 0.56rem;
-  }
-  .ds-weapons .wname {
-    min-width: 4rem;
   }
   .ds-points th,
   .ds-points td {
     padding: 0.2rem 0.3rem;
   }
+}
+
+/* Phones: the weapon tables stop being tables.
+   A six-column statline plus a weapon name never fits a phone without either a horizontal
+   scroll or columns squeezed past legibility — this file used to do the latter. Below 560px
+   (the same width BaseModal treats as "phone"; tablets start at 600) each row becomes its own
+   small card: the weapon name on its own line, then the statline as a labelled six-column grid,
+   then its ability tags. Same markup either way — no second template, no JS media query, and no
+   risk of the two drifting — via `tr { display: grid }` plus `display: contents` on the name
+   cell so its name and tags become grid items in their own right. The column labels come back as
+   `td::before { content: attr(data-label) }`, since the shared `thead` is gone. */
+@media (max-width: 560px) {
+  .ds-weapons { overflow-x: visible; }
+  .ds-weapons thead { display: none; }
+  .ds-weapons table,
+  .ds-weapons tbody { display: block; }
+  .ds-weapons tr {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.1rem 0.2rem;
+    padding: 0.45rem 0.5rem 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .ds-weapons tr:last-child { border-bottom: none; }
+  .ds-weapons td {
+    display: block;
+    padding: 0;
+    border: none;
+    text-align: center;
+    font-weight: 600;
+  }
+  /* The name cell dissolves so its two children lay out as grid items themselves: the name on
+     the first row, the tags after the stats (hence `order`, which the stat cells leave at 0). */
+  .ds-weapons td.wname { display: contents; }
+  .ds-weapons .wname-text {
+    grid-column: 1 / -1;
+    text-align: left;
+    font-weight: 600;
+    margin-bottom: 0.15rem;
+  }
+  .ds-weapons .wtags {
+    grid-column: 1 / -1;
+    order: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin: 0.3rem 0 0;
+  }
+  .ds-weapons td[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 0.56rem;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  /* The multi-profile tint moves from the cells to the row — with the cells laid out as grid
+     items there is no longer one continuous background across them. */
+  .ds-weapons tr.wg-start,
+  .ds-weapons tr.wg-mid,
+  .ds-weapons tr.wg-end {
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+  }
+  .ds-weapons tr.wg-start td,
+  .ds-weapons tr.wg-mid td,
+  .ds-weapons tr.wg-end td {
+    background: none;
+  }
+  /* Profile rows of one weapon read as one block: only the last of a group keeps a divider. */
+  .ds-weapons tr.wg-start,
+  .ds-weapons tr.wg-mid { border-bottom: none; }
 }
 
 /* Abilities */
