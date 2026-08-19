@@ -14,8 +14,79 @@ export default {
       "det": null,
       "hash": "0dcb714d",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "while affected by the «Move! Move! Move!» Order",
+            "ru": "пока на отряд действует приказ «Move! Move! Move!»"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "ws",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while affected by the «Fix Bayonets!» Order",
+            "ru": "пока на отряд действует приказ «Fix Bayonets!»"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "bs",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while affected by the «Take Aim!» Order",
+            "ru": "пока на отряд действует приказ «Take Aim!»"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while affected by the «First Rank, Fire! Second Rank, Fire!» Order — Rapid Fire weapons only",
+            "ru": "пока на отряд действует приказ «First Rank, Fire! Second Rank, Fire!» — только для оружия Rapid Fire"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "sv",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while affected by the «Take Cover!» Order — never better than 3+",
+            "ru": "пока на отряд действует приказ «Take Cover!» — не лучше 3+"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while affected by the «Duty and Honour!» Order",
+            "ru": "пока на отряд действует приказ «Duty and Honour!»"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while affected by the «Duty and Honour!» Order",
+            "ru": "пока на отряд действует приказ «Duty and Honour!»"
+          }
+        }
+      ],
       "ref": {
         "kind": "armyRule"
       }
@@ -27,8 +98,79 @@ export default {
       "det": null,
       "hash": "0dcb714d",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "while affected by the «Move! Move! Move!» Order",
+            "ru": "пока на отряд действует приказ «Move! Move! Move!»"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "ws",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while affected by the «Fix Bayonets!» Order",
+            "ru": "пока на отряд действует приказ «Fix Bayonets!»"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "bs",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while affected by the «Take Aim!» Order",
+            "ru": "пока на отряд действует приказ «Take Aim!»"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while affected by the «First Rank, Fire! Second Rank, Fire!» Order — Rapid Fire weapons only",
+            "ru": "пока на отряд действует приказ «First Rank, Fire! Second Rank, Fire!» — только для оружия Rapid Fire"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "sv",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while affected by the «Take Cover!» Order — never better than 3+",
+            "ru": "пока на отряд действует приказ «Take Cover!» — не лучше 3+"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while affected by the «Duty and Honour!» Order",
+            "ru": "пока на отряд действует приказ «Duty and Honour!»"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while affected by the «Duty and Honour!» Order",
+            "ru": "пока на отряд действует приказ «Duty and Honour!»"
+          }
+        }
+      ],
       "ref": {
         "kind": "armyRule"
       }
@@ -40,7 +182,7 @@ export default {
       "det": "Grizzled Company",
       "hash": "9a88e64d",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -54,7 +196,7 @@ export default {
       "det": "Mechanised Assault",
       "hash": "80bd5ae3",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -68,8 +210,19 @@ export default {
       "det": "Recon Element",
       "hash": "151252b3",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "sv",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while the unit has the Benefit of Cover for any other reason — never better than 3+",
+            "ru": "пока отряд имеет Benefit of Cover по любой другой причине — не лучше 3+"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "recon-element"
@@ -82,8 +235,19 @@ export default {
       "det": "Grizzled Company",
       "hash": "1f348adf",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "against enemy units within 12\", while affected by the bearer's Target Weak Spot Order",
+            "ru": "против вражеских отрядов в пределах 12\", пока действует приказ носителя Target Weak Spot"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "grizzled-company"
@@ -96,8 +260,16 @@ export default {
       "det": "Hammer of the Emperor",
       "hash": "be358b28",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 3,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "hammer-of-the-emperor"
@@ -110,8 +282,19 @@ export default {
       "det": "Siege Regiment",
       "hash": "02dc4227",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "the bearer's Pistols only",
+            "ru": "только для пистолетов носителя"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "siege-regiment"

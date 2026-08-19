@@ -7,7 +7,7 @@ const files = import.meta.glob(['./*.js', '!./index.js', '!./*.test.js'], { eage
 
 const ON = new Set(['profile', 'ranged', 'melee', 'weapon'])
 const OP = new Set(['add', 'set', 'improve'])
-const STAT = new Set(['m', 't', 'sv', 'w', 'ld', 'oc', 'inv', 'a', 'bs', 'ws', 's', 'ap', 'd'])
+const STAT = new Set(['m', 't', 'sv', 'w', 'ld', 'oc', 'inv', 'a', 'bs', 'ws', 's', 'ap', 'd', 'range'])
 
 const allEntries = Object.entries(files).flatMap(([file, data]) =>
   (data?.entries || []).map((e) => ({ file, e })))

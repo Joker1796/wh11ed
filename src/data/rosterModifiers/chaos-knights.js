@@ -14,7 +14,7 @@ export default {
       "det": null,
       "hash": "bd88e7f1",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "armyRule"
@@ -27,8 +27,29 @@ export default {
       "det": "Infernal Lance",
       "hash": "be04cec4",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "for the phase, via the Unholy Hunger Malefic Surge ability",
+            "ru": "на фазу, через способность Malefic Surge «Unholy Hunger»"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": {
+            "en": "for the phase, via the Unnatural Fortitude Malefic Surge ability",
+            "ru": "на фазу, через способность Malefic Surge «Unnatural Fortitude»"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "infernal-lance"
@@ -41,8 +62,16 @@ export default {
       "det": "Lords of Dread",
       "hash": "0202e0c6",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 2,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "lords-of-dread"
@@ -55,7 +84,7 @@ export default {
       "det": "Houndpack Lance",
       "hash": "1a35e87a",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -69,8 +98,16 @@ export default {
       "det": "Infernal Lance",
       "hash": "5664e037",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 2,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "infernal-lance"
@@ -83,8 +120,16 @@ export default {
       "det": "Infernal Lance",
       "hash": "3e1769b0",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "infernal-lance"
@@ -97,8 +142,16 @@ export default {
       "det": "Infernal Lance",
       "hash": "a86a05f3",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ws",
+          "op": "improve",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "infernal-lance"
@@ -111,8 +164,19 @@ export default {
       "det": "Traitoris Lance",
       "hash": "3e497de7",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "against ranged attacks; 5+ against melee attacks",
+            "ru": "против стрелковых атак; 5+ против атак ближнего боя"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "traitoris-lance"

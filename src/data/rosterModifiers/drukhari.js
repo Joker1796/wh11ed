@@ -14,8 +14,79 @@ export default {
       "det": "Spectacle of Spite",
       "hash": "a309181b",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while Adrenalight is the active Combat Drug",
+            "ru": "пока активен боевой наркотик Adrenalight"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "while Hypex is the active Combat Drug",
+            "ru": "пока активен боевой наркотик Hypex"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "ws",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while Serpentin is the active Combat Drug",
+            "ru": "пока активен боевой наркотик Serpentin"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while Painbringer is the active Combat Drug",
+            "ru": "пока активен боевой наркотик Painbringer"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while Grave Lotus is the active Combat Drug",
+            "ru": "пока активен боевой наркотик Grave Lotus"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while Splintermind is the active Combat Drug",
+            "ru": "пока активен боевой наркотик Splintermind"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "bs",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while Splintermind is the active Combat Drug",
+            "ru": "пока активен боевой наркотик Splintermind"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "spectacle-of-spite"
@@ -28,8 +99,23 @@ export default {
       "det": "Covenite Coterie",
       "hash": "898f00ec",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "covenite-coterie"
@@ -42,8 +128,29 @@ export default {
       "det": "Kabalite Cartel",
       "hash": "1b9e848e",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while the bearer is leading a unit",
+            "ru": "пока носитель ведёт отряд"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while the bearer is leading a unit",
+            "ru": "пока носитель ведёт отряд"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "kabalite-cartel"
@@ -56,8 +163,33 @@ export default {
       "det": "Realspace Raiders",
       "hash": "388bc65b",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "Attacks and AP improve by 2 instead, for the phase, by spending 1 Pain token when the unit fights",
+            "ru": "атаки и пробитие улучшаются на 2 вместо 1 на фазу, если потратить 1 жетон боли при выборе отряда для боя"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "realspace-raiders"
@@ -70,8 +202,23 @@ export default {
       "det": "Spectacle of Spite",
       "hash": "6aa214f2",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "spectacle-of-spite"

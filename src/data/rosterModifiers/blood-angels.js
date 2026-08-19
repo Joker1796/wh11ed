@@ -14,8 +14,29 @@ export default {
       "det": "Liberator Assault Group",
       "hash": "ca29e36f",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "in the Fight phase, if the unit made a Charge move this turn",
+            "ru": "в фазе боя, если юнит совершил чардж в этом ходу"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "in the Fight phase, if the unit made a Charge move this turn",
+            "ru": "в фазе боя, если юнит совершил чардж в этом ходу"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "liberator-assault-group"
@@ -28,8 +49,29 @@ export default {
       "det": "Rage-cursed Onslaught",
       "hash": "39c36bc7",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "in the Fight phase, if the unit made a Charge move this turn",
+            "ru": "в фазе боя, если юнит совершил чардж в этом ходу"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "instead of +1, if the unit is Battle-shocked and made a Charge move",
+            "ru": "вместо +1, если юнит Battle-shocked и совершил чардж"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "rage-cursed-onslaught"
@@ -42,7 +84,7 @@ export default {
       "det": "Rage-cursed Onslaught",
       "hash": "41be1610",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -56,8 +98,23 @@ export default {
       "det": "The Angelic Host",
       "hash": "bab820f3",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": null
+        },
+        {
+          "on": "profile",
+          "stat": "sv",
+          "op": "set",
+          "value": "2+",
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "the-angelic-host"
@@ -70,7 +127,7 @@ export default {
       "det": "The Lost Brethren",
       "hash": "d0a23a72",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",

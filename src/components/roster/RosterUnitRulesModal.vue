@@ -282,7 +282,7 @@ const statMods = computed(() => {
       if (found?.body) resolved.push({ ...e, body: found.body })
     }
   }
-  return applyStatMods(view.value.sheet, resolved, unitKeywords.value)
+  return applyStatMods(view.value.sheet, resolved, unitKeywords.value, factionKeywordSets.value)
 })
 
 const usableModifierEntries = computed(() => {
