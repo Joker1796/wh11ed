@@ -411,7 +411,7 @@ export default {
           "in": "stepper",
           "o": [
             [
-              724
+              726
             ]
           ],
           "rep": [
@@ -426,7 +426,7 @@ export default {
             [
               [
                 [
-                  725,
+                  724,
                   1
                 ]
               ]
@@ -454,7 +454,7 @@ export default {
                   1
                 ],
                 [
-                  726,
+                  725,
                   1
                 ]
               ]
@@ -651,7 +651,7 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              725
+              724
             ]
           ],
           "rep": [
@@ -916,25 +916,22 @@ export default {
       ],
       "gear": [
         {
-          "m": 0,
-          "t": 460,
-          "in": "checkbox",
-          "o": [
-            [
-              747
-            ]
-          ],
-          "rep": [
-            1102
-          ]
-        },
-        {
-          "m": 1,
+          "all": 1,
           "t": 460,
           "in": "stepper",
           "o": [
             [
               747
+            ]
+          ],
+          "lim": [
+            [
+              0,
+              1
+            ],
+            [
+              6,
+              2
             ]
           ],
           "rep": [
@@ -1049,7 +1046,7 @@ export default {
       ],
       "gear": [
         {
-          "m": 0,
+          "all": 1,
           "t": 460,
           "in": "checkbox",
           "o": [
@@ -1057,30 +1054,10 @@ export default {
               747
             ]
           ],
-          "rep": [
-            1102
-          ]
-        },
-        {
-          "m": 1,
-          "t": 460,
-          "in": "checkbox",
-          "o": [
+          "lim": [
             [
-              747
-            ]
-          ],
-          "rep": [
-            1102
-          ]
-        },
-        {
-          "m": 2,
-          "t": 460,
-          "in": "checkbox",
-          "o": [
-            [
-              747
+              0,
+              1
             ]
           ],
           "rep": [
@@ -1179,7 +1156,7 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              725
+              724
             ]
           ],
           "rep": [

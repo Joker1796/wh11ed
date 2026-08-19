@@ -173,22 +173,22 @@ export default {
       ],
       "gear": [
         {
-          "m": 0,
-          "t": 461,
-          "in": "checkbox",
-          "o": [
-            [
-              7
-            ]
-          ]
-        },
-        {
-          "m": 1,
+          "all": 1,
           "t": 461,
           "in": "stepper",
           "o": [
             [
               7
+            ]
+          ],
+          "lim": [
+            [
+              5,
+              3
+            ],
+            [
+              10,
+              6
             ]
           ]
         },
@@ -241,7 +241,7 @@ export default {
           "in": "stepper",
           "o": [
             [
-              942
+              941
             ]
           ],
           "lim": [

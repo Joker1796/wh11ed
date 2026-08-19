@@ -1,7 +1,7 @@
 // Structural invariants of the generated roster data (scripts/gen-roster-data.mjs). These
 // guard the derived layer the roster builder is costed against — a bad regeneration (dropped
 // bracket, duplicate id, combat-patrol leak) should fail here, not silently misprice armies.
-import { describe, it, expect } from 'vitest'
+import { beforeAll, describe, it, expect } from 'vitest'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -114,9 +114,11 @@ describe('roster factions', () => {
               }
               if (o.length > 1) expect(typeof o[1]).toBe('number') // points
             }
-            // gear group targets a valid miniature index
+            // gear group targets a valid miniature index — or none at all, which is how a
+            // unit-wide group is recorded (see gen-roster-data.mjs mergeMiniatureDuplicates).
             const miniCount = u.minis?.length || 1
-            expect(g.m).toBeLessThan(miniCount)
+            if (g.all) expect(g.m).toBeUndefined()
+            else expect(g.m).toBeLessThan(miniCount)
           }
         }
       })
@@ -143,11 +145,15 @@ describe('roster factions', () => {
 // linkWargearBundles) — a change that quietly stops matching would leave every option one item
 // again, which reads as perfectly valid data and silently drops half of 172 swaps.
 describe('bundled wargear options', () => {
-  it('are present across the corpus', async () => {
+  const loaded = []
+  beforeAll(async () => {
+    for (const f of files) loaded.push([f, (await import(`./${f}`)).default])
+  })
+
+  it('are present across the corpus', () => {
     let bundles = 0
     let groups = 0
-    for (const f of files) {
-      const data = (await import(`./${f}`)).default
+    for (const [, data] of loaded) {
       for (const u of data.units || []) {
         for (const g of u.gear || []) {
           groups++
@@ -157,6 +163,23 @@ describe('bundled wargear options', () => {
     }
     expect(groups).toBeGreaterThan(1000)
     expect(bundles).toBeGreaterThan(120)
+  })
+
+  it('never offer the same instruction twice on one unit', () => {
+    // appdata records a unit-wide bullet once per miniature; folded into one by the generator
+    // (mergeMiniatureDuplicates). Two copies would read as a repeated instruction AND hand out
+    // the allowance twice, which is how this was noticed on Drukhari Wracks.
+    const key = (g) => `${g.t}|${g.o.map((o) => optionItems(o).map(([id]) => id).sort().join('+')).sort().join('/')}`
+    for (const [slug, data] of loaded) {
+      for (const u of data.units || []) {
+        const seen = new Set()
+        for (const g of u.gear || []) {
+          const k = key(g)
+          expect(seen.has(k), `${slug} ${u.name}: ${k}`).toBe(false)
+          seen.add(k)
+        }
+      }
+    }
   })
 })
 

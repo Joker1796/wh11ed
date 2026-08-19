@@ -213,7 +213,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], bundle: { rewritten: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, conflict: [] } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], bundle: { rewritten: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, conflict: [], merged: 0 } }
 
 // Global intern dictionaries: wargear item names and group instruction texts repeat heavily
 // ACROSS factions, and — crucially — the SM-Chapter fold pulls space-marines units into a
@@ -392,6 +392,43 @@ function linkWargearBundles(datasheetId, unitName, drafts, stats) {
     })
     stats.rewritten++
   }
+}
+
+// ---- One bullet, recorded once per miniature -------------------------------------------
+// A datasheet's wargear bullet that talks about the UNIT ("Any number of models can each have
+// their hallowed mace replaced…", "For every 5 models in this unit, 1 model's…") is stored by
+// appdata once per MINIATURE profile — as a checkbox on the single leader model and a stepper on
+// the rank-and-file one — because its option groups hang off miniatures, not off the datasheet.
+// Rendered straight, that is the same instruction twice (reported on Drukhari Wracks), and worse
+// than cosmetic: each copy carries its own allowance, so the choice can be taken twice.
+//
+// The two are folded into one unit-wide group. Matching on the exact instruction TEXT plus the
+// exact option sets is what makes this safe: a leader with a genuinely separate allowance is
+// always worded differently ("The Sister Superior's boltgun…"), so it never collides. 99 pairs
+// across 50 units, and in every one of them the two copies agree on what they replace.
+function mergeMiniatureDuplicates(drafts, stats) {
+  const byKey = new Map()
+  for (const d of drafts) {
+    const k = `${d.text}||${d.opts.map((o) => (o.items ? o.items.map(([u]) => u) : [o.uuid]).slice().sort().join('+')).sort().join('/')}`
+    if (!byKey.has(k)) byKey.set(k, [])
+    byKey.get(k).push(d)
+  }
+  const dropped = new Map() // dropped draft -> the one that survives
+  for (const list of byKey.values()) {
+    if (list.length < 2) continue
+    // Two copies on the SAME miniature would be two real allowances, not one bullet recorded
+    // twice — leave those alone.
+    if (new Set(list.map((d) => d.m)).size !== list.length) continue
+    const keep = list.find((d) => d.in === 'stepper') || list[0]
+    keep.all = 1 // unit-wide: no miniature owns it, and the count runs over the whole squad
+    for (const d of list) if (d !== keep) dropped.set(d, keep)
+    stats.merged += list.length - 1
+  }
+  if (!dropped.size) return drafts
+  // A sibling condition points at a draft object; if that object is one of the dropped copies,
+  // it has to follow the survivor or the dependent group would never go live.
+  for (const d of drafts) if (d.cond && dropped.has(d.cond.sibling)) d.cond.sibling = dropped.get(d.cond.sibling)
+  return drafts.filter((d) => !dropped.has(d))
 }
 
 // ---- Per-group pick limits -------------------------------------------------------------
@@ -574,7 +611,7 @@ function buildUnit(bd, idMap, fx) {
   // presentation: e.g. Necron Overlord's Resurrection Orb toggle (a non-weapon add-on) has a
   // higher displayOrder than its tachyon-arrow-replacement weapon group, so it should render
   // BELOW that weapon choice, not above it.
-  const drafts = []
+  let drafts = []
   for (const g of (wogByDs.get(bd.id) || []).slice().sort((a, b) => a.displayOrder - b.displayOrder)) {
     const text = (enOf(g).instructionText || '').trim()
     if (!text || text.toLowerCase() === 'default wargear') continue
@@ -590,13 +627,18 @@ function buildUnit(bd, idMap, fx) {
   }
   linkWargearConditions(bd.id, drafts)
   linkWargearBundles(bd.id, bd.name, drafts, report.bundle)
+  // Before the limits: two identical groups are exactly what makes a limited set ambiguous, so
+  // folding them first lets its cap land on the one group that remains.
+  drafts = mergeMiniatureDuplicates(drafts, report.limit)
   linkWargearLimits(bd.id, bd.name, miniIdx, drafts, report.limit)
   const gear = []
   const gearIndex = new Map() // draft -> its final index in `gear`
   drafts.forEach((d, i) => gearIndex.set(d, i))
   for (const d of drafts) {
     const grp = {
-      m: d.m,
+      // No `m` on a unit-wide group (see mergeMiniatureDuplicates) — it belongs to no single
+      // miniature, and the editor labels a group with its miniature's name when it has one.
+      ...(d.all ? { all: 1 } : { m: d.m }),
       t: fx.text(d.text),
       in: d.in,
       o: d.opts.map((o) => {
@@ -921,6 +963,7 @@ if (report.noPoints.length) console.log(`  dropped (no points/composition): ${re
 const b = report.bundle
 console.log(`  bundled options: ${b.rewritten} groups rewritten from prose and verified against loadout_choice`)
 const lm = report.limit
+console.log(`  unit-wide groups: ${lm.merged} duplicates folded (one instruction recorded per miniature)`)
 console.log(`  pick limits: ${lm.limited} groups capped from wargear_limit (${lm.counted} options also gained a quantity); no single matching group for ${lm.ambiguous} ambiguous + ${lm.unmatched} cross-group sets`)
 if (lm.conflict.length) {
   console.log(`  left uncapped — the instruction and wargear_limit disagree (${lm.conflict.length}):`)

@@ -1006,20 +1006,7 @@ export default {
       ],
       "gear": [
         {
-          "m": 0,
-          "t": 580,
-          "in": "checkbox",
-          "o": [
-            [
-              603
-            ]
-          ],
-          "rep": [
-            599
-          ]
-        },
-        {
-          "m": 1,
+          "all": 1,
           "t": 580,
           "in": "stepper",
           "o": [
