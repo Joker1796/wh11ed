@@ -14,7 +14,7 @@ export default {
       "det": null,
       "hash": "5736c5d6",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "armyRule"
@@ -27,7 +27,7 @@ export default {
       "det": null,
       "hash": "5736c5d6",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "armyRule"
@@ -40,8 +40,19 @@ export default {
       "det": "Changehost of Deceit",
       "hash": "29c8f1a2",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "Scintillating Legions units, against ranged attacks, while a friendly Thousand Sons Psyker unit is within 6\" and visible",
+            "ru": "отряды Scintillating Legions, против стрелковых атак, пока дружественный отряд Thousand Sons Psyker в 6\" и в зоне видимости"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "changehost-of-deceit"
@@ -54,8 +65,19 @@ export default {
       "det": "Grand Coven",
       "hash": "2477dafc",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "range",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "ranged Psychic weapons only, while the Imbued Manifestation ability is selected",
+            "ru": "только стрелковое психическое оружие, пока выбрана способность Imbued Manifestation"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "grand-coven"
@@ -68,7 +90,7 @@ export default {
       "det": "Hexwarp Thrallband",
       "hash": "4ea3c811",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -82,7 +104,7 @@ export default {
       "det": "Rubricae Phalanx",
       "hash": "7f207e70",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -96,7 +118,7 @@ export default {
       "det": "Warpmeld Pact",
       "hash": "1fd641c4",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -110,7 +132,7 @@ export default {
       "det": "Changehost of Deceit",
       "hash": "2e42611c",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -124,8 +146,19 @@ export default {
       "det": "Changehost of Deceit",
       "hash": "bb02bbc3",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "2+",
+          "when": {
+            "en": "once per battle, for the phase the bearer uses this Enhancement in",
+            "ru": "один раз за битву, на фазу, в которой носитель применил улучшение"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "changehost-of-deceit"
@@ -138,8 +171,29 @@ export default {
       "det": "Grand Coven",
       "hash": "0e373a93",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the bearer's Psychic weapons only",
+            "ru": "только психическое оружие носителя"
+          }
+        },
+        {
+          "on": "weapon",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the bearer's Psychic weapons only",
+            "ru": "только психическое оружие носителя"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "grand-coven"
@@ -152,8 +206,29 @@ export default {
       "det": "Hexwarp Thrallband",
       "hash": "583d0c60",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "Psychic weapons of models in the bearer's unit",
+            "ru": "психическое оружие моделей в отряде носителя"
+          }
+        },
+        {
+          "on": "weapon",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "+2 instead, while the bearer's unit is wholly within your army's Flow of Magic",
+            "ru": "+2 вместо +1, пока отряд носителя целиком в Потоке магии вашей армии"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "hexwarp-thrallband"
@@ -166,8 +241,19 @@ export default {
       "det": "Hexwarp Thrallband",
       "hash": "8cad5a3e",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "the bearer's ranged Psychic weapons, while the bearer's unit is wholly within your army's Flow of Magic",
+            "ru": "стрелковое психическое оружие носителя, пока его отряд целиком в Потоке магии вашей армии"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "hexwarp-thrallband"
@@ -180,7 +266,7 @@ export default {
       "det": "Ritual of Regeneration",
       "hash": "23c63f1e",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -194,7 +280,7 @@ export default {
       "det": "Rubricae Phalanx",
       "hash": "993f1c1f",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -208,7 +294,7 @@ export default {
       "det": "Warpmeld Pact",
       "hash": "093d156d",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",

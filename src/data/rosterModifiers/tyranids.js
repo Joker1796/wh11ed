@@ -14,8 +14,19 @@ export default {
       "det": null,
       "hash": "9612d927",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "per melee attack, while the unit is within Synapse Range of your army",
+            "ru": "за атаку ближнего боя, пока отряд в радиусе синапса вашей армии"
+          }
+        }
+      ],
       "ref": {
         "kind": "armyRule"
       }
@@ -27,8 +38,19 @@ export default {
       "det": null,
       "hash": "9612d927",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "per melee attack, while the unit is within Synapse Range of your army",
+            "ru": "за атаку ближнего боя, пока отряд в радиусе синапса вашей армии"
+          }
+        }
+      ],
       "ref": {
         "kind": "armyRule"
       }
@@ -40,8 +62,19 @@ export default {
       "det": "Crusher Stampede",
       "hash": "0d06a902",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "Monster units at their Starting Strength and not Battle-shocked",
+            "ru": "отряды Monster в полной численности и не Battle-shocked"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "crusher-stampede"
@@ -54,8 +87,19 @@ export default {
       "det": "Synaptic Nexus",
       "hash": "fc5e5b4d",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": {
+            "en": "while the Synaptic Augmentation Imperative is active and the unit is within Synapse Range",
+            "ru": "пока активен императив Synaptic Augmentation и отряд в радиусе синапса"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "synaptic-nexus"
@@ -68,8 +112,26 @@ export default {
       "det": "Assimilation Swarm",
       "hash": "f6b213d9",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "until the end of the battle, after the unit first destroys an enemy in the Fight phase while the bearer is within 6\" of a Harvester unit",
+            "ru": "до конца битвы, после того как отряд впервые уничтожит врага в фазе боя, пока носитель в 6\" от отряда Harvester"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "assimilation-swarm"
@@ -82,7 +144,7 @@ export default {
       "det": "Crusher Stampede",
       "hash": "774614c0",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -96,8 +158,16 @@ export default {
       "det": "Crusher Stampede",
       "hash": "5444ec73",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 3,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "crusher-stampede"
@@ -110,8 +180,23 @@ export default {
       "det": "Subterranean Assault",
       "hash": "5834f881",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ws",
+          "op": "improve",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "subterranean-assault"
@@ -124,8 +209,29 @@ export default {
       "det": "Synaptic Nexus",
       "hash": "041e5a72",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the bearer's psychic weapons only",
+            "ru": "только психическое оружие носителя"
+          }
+        },
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "the bearer's psychic weapons only",
+            "ru": "только психическое оружие носителя"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "synaptic-nexus"
@@ -138,8 +244,19 @@ export default {
       "det": "Unending Swarm",
       "hash": "b82ae6f6",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "per attack that scores a Critical Wound",
+            "ru": "за атаку с критическим ранением"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "unending-swarm"
@@ -152,7 +269,7 @@ export default {
       "det": "Vanguard Onslaught",
       "hash": "aab0e8d9",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
