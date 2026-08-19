@@ -14,8 +14,39 @@ export default {
       "det": null,
       "hash": "205b2058",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "bs",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while the Protector Imperative is active for your army",
+            "ru": "пока для армии активен Protector Imperative"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "ws",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while the Conqueror Imperative is active for your army",
+            "ru": "пока для армии активен Conqueror Imperative"
+          }
+        },
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "per attack under the Conqueror Imperative, if the unit is Battleline or within 6\" of a friendly Battleline unit",
+            "ru": "за атаку при Conqueror Imperative, если отряд Battleline или в 6\" от дружественного отряда Battleline"
+          }
+        }
+      ],
       "ref": {
         "kind": "armyRule"
       }
@@ -27,8 +58,39 @@ export default {
       "det": null,
       "hash": "5658f6b2",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "bs",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while the Protector Imperative is active for your army",
+            "ru": "пока для армии активен Protector Imperative"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "ws",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while the Conqueror Imperative is active for your army",
+            "ru": "пока для армии активен Conqueror Imperative"
+          }
+        },
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "per attack under the Conqueror Imperative, if the unit is Battleline or within 6\" of a friendly Battleline unit",
+            "ru": "за атаку при Conqueror Imperative, если отряд Battleline или в 6\" от дружественного отряда Battleline"
+          }
+        }
+      ],
       "ref": {
         "kind": "armyRule"
       }
@@ -40,8 +102,26 @@ export default {
       "det": "Cohort Cybernetica",
       "hash": "f21761c4",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": null
+        },
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "unless the unit is Battle-shocked",
+            "ru": "если отряд не Battle-shocked"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "cohort-cybernetica"
@@ -54,8 +134,39 @@ export default {
       "det": "Data-psalm Conclave",
       "hash": "285b0847",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "under the Panegyric Procession Benediction, per ranged attack within half range",
+            "ru": "при благословении Panegyric Procession, за стрелковую атаку в пределах половины дальности"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "under the Citation in Savagery Benediction, if the unit made a Charge move this turn",
+            "ru": "при благословении Citation in Savagery, если отряд совершил чардж в этом ходу"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "under the Citation in Savagery Benediction, if the unit made a Charge move this turn",
+            "ru": "при благословении Citation in Savagery, если отряд совершил чардж в этом ходу"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "data-psalm-conclave"
@@ -68,8 +179,29 @@ export default {
       "det": "Haloscreed Battle Clade",
       "hash": "0de92e95",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "for a unit given the Halo Override keyword with the Electromotive Energisation ability",
+            "ru": "для отряда, получившего Halo Override со способностью Electromotive Energisation"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "for a unit given the Halo Override keyword with the Microactuator Bracing ability",
+            "ru": "для отряда, получившего Halo Override со способностью Microactuator Bracing"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "haloscreed-battle-clade"
@@ -82,8 +214,23 @@ export default {
       "det": "Eradication Cohort",
       "hash": "d52a9d4c",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "range",
+          "op": "add",
+          "value": 6,
+          "when": null
+        },
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "eradication-cohort"
@@ -96,8 +243,30 @@ export default {
       "det": "Eradication Cohort",
       "hash": "1105f866",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "eradication-cohort"
@@ -110,8 +279,19 @@ export default {
       "det": "Explorator Maniple",
       "hash": "69a631a2",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "4+",
+          "when": {
+            "en": "while the bearer leads the unit and it is within range of your Acquisition objective marker",
+            "ru": "пока носитель ведёт отряд и тот в радиусе вашего маркера Acquisition"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "explorator-maniple"
@@ -124,7 +304,7 @@ export default {
       "det": "Explorator Maniple",
       "hash": "5d6c4484",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -138,8 +318,23 @@ export default {
       "det": "Haloscreed Battle Clade",
       "hash": "87030479",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 3,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "haloscreed-battle-clade"

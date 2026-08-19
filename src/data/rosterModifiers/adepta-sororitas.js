@@ -14,8 +14,19 @@ export default {
       "det": "Bringers of Flame",
       "hash": "fb50d154",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "per attack against a unit within 6\"",
+            "ru": "за атаку по отряду в пределах 6\""
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "bringers-of-flame"
@@ -28,8 +39,49 @@ export default {
       "det": "Champions of Faith",
       "hash": "dcda4edb",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while the unit is Righteous (selected in your Command phase)",
+            "ru": "пока отряд Righteous (выбран в вашей фазе командования)"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "ld",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "while the unit is Righteous (selected in your Command phase)",
+            "ru": "пока отряд Righteous (выбран в вашей фазе командования)"
+          }
+        },
+        {
+          "on": "weapon",
+          "stat": "ws",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "Battle Sisters Squad, Celestian Sacresants and Paragon Warsuits models only, while the unit is Righteous",
+            "ru": "только модели Battle Sisters Squad, Celestian Sacresants и Paragon Warsuits, пока отряд Righteous"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "bs",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "Battle Sisters Squad, Celestian Sacresants and Paragon Warsuits models only, while the unit is Righteous",
+            "ru": "только модели Battle Sisters Squad, Celestian Sacresants и Paragon Warsuits, пока отряд Righteous"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "champions-of-faith"
@@ -42,7 +94,7 @@ export default {
       "det": "Hallowed Martyrs",
       "hash": "7f2e37a7",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -56,8 +108,39 @@ export default {
       "det": "Penitent Host",
       "hash": "4c323b64",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "Penitent models, while the Path of the Penitent Vow is active",
+            "ru": "модели Penitent, пока активен обет Path of the Penitent"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "Penitent models, while Absolution in Battle is active and the unit made a Charge move",
+            "ru": "модели Penitent, пока активен Absolution in Battle и отряд совершил чардж"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "Penitent models, while Absolution in Battle is active and the unit made a Charge move",
+            "ru": "модели Penitent, пока активен Absolution in Battle и отряд совершил чардж"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "penitent-host"
@@ -70,8 +153,23 @@ export default {
       "det": "Army of Faith",
       "hash": "2dc89a44",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "army-of-faith"
@@ -84,8 +182,19 @@ export default {
       "det": "Bringers of Flame",
       "hash": "2cec313b",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "Torrent weapons only, while the bearer is leading the unit",
+            "ru": "только оружие Torrent, пока носитель ведёт отряд"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "bringers-of-flame"
@@ -98,8 +207,29 @@ export default {
       "det": "Bringers of Flame",
       "hash": "11498b83",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "per Miracle dice discarded when the bearer fights, up to 3",
+            "ru": "за каждую сброшенную кость чуда при выборе носителя для боя, до 3"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "per Miracle dice discarded when the bearer fights, up to 3",
+            "ru": "за каждую сброшенную кость чуда при выборе носителя для боя, до 3"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "bringers-of-flame"
@@ -112,8 +242,26 @@ export default {
       "det": "Champions of Faith",
       "hash": "db66fbb9",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "instead, plus +1 Damage, while the bearer's unit is Righteous",
+            "ru": "вместо этого, плюс +1 к урону, пока отряд носителя Righteous"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "champions-of-faith"
@@ -126,8 +274,40 @@ export default {
       "det": "Hallowed Martyrs",
       "hash": "4c5bff2d",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "Attacks, Strength and Damage +2 instead, if the bearer has lost one or more wounds",
+            "ru": "атаки, сила и урон +2 вместо +1, если носитель потерял хотя бы одну рану"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "hallowed-martyrs"
@@ -140,8 +320,19 @@ export default {
       "det": "Penitent Host",
       "hash": "734f607c",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": {
+            "en": "while the bearer is leading the unit",
+            "ru": "пока носитель ведёт отряд"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "penitent-host"

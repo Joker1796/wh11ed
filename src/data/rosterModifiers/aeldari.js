@@ -14,7 +14,7 @@ export default {
       "det": "Guardian Battlehost",
       "hash": "92103900",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -28,7 +28,7 @@ export default {
       "det": "Spirit Conclave",
       "hash": "67e4484a",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -42,8 +42,19 @@ export default {
       "det": "Warhost",
       "hash": "47ff3ab0",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "for the phase, after the unit performs the Swift as the Wind Agile Manoeuvre",
+            "ru": "на фазу, после того как отряд выполнил манёвр Swift as the Wind"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "warhost"
@@ -56,8 +67,16 @@ export default {
       "det": "Aspect Host",
       "hash": "5d2ea32e",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "aspect-host"
@@ -70,8 +89,19 @@ export default {
       "det": "Aspect Host",
       "hash": "02866b33",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while the bearer is leading an Aspect Warriors unit",
+            "ru": "пока носитель ведёт отряд Aspect Warriors"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "aspect-host"
@@ -84,8 +114,16 @@ export default {
       "det": "Corsair Coterie",
       "hash": "73e64d98",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "corsair-coterie"
@@ -98,8 +136,16 @@ export default {
       "det": "Devoted of Ynnead",
       "hash": "54a21c8e",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "devoted-of-ynnead"
@@ -112,7 +158,7 @@ export default {
       "det": "Seer Council",
       "hash": "a8019d78",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -126,8 +172,23 @@ export default {
       "det": "Serpent’s Brood",
       "hash": "48dfea8e",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 3,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "serpents-brood"
@@ -140,8 +201,29 @@ export default {
       "det": "Spirit Conclave",
       "hash": "236ea7df",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "Infantry models of one Wraith Construct unit you select each Command phase",
+            "ru": "модели Infantry одного отряда Wraith Construct, выбираемого в каждой фазе командования"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "Monster models of that same selected unit",
+            "ru": "модели Monster того же выбранного отряда"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "spirit-conclave"
@@ -154,8 +236,19 @@ export default {
       "det": "Warhost",
       "hash": "dc1a1a15",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "the bearer's ranged Psychic weapons only",
+            "ru": "только стрелковое психическое оружие носителя"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "warhost"

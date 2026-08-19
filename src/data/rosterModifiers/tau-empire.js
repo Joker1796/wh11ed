@@ -14,8 +14,19 @@ export default {
       "det": null,
       "hash": "afe18cdf",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if the model was upgraded with a Shield Drone",
+            "ru": "если модель улучшена дроном-щитом (Shield Drone)"
+          }
+        }
+      ],
       "ref": {
         "kind": "armyRule"
       }
@@ -27,8 +38,19 @@ export default {
       "det": null,
       "hash": "e80ed40e",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "if the model was upgraded with a Shield Drone",
+            "ru": "если модель улучшена дроном-щитом (Shield Drone)"
+          }
+        }
+      ],
       "ref": {
         "kind": "armyRule"
       }
@@ -40,8 +62,19 @@ export default {
       "det": null,
       "hash": "88370fd8",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "bs",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "per attack by a Guided unit against a Spotted unit",
+            "ru": "за атаку отряда Guided по отряду Spotted"
+          }
+        }
+      ],
       "ref": {
         "kind": "armyRule"
       }
@@ -53,8 +86,19 @@ export default {
       "det": null,
       "hash": "206e56d8",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "bs",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "per attack by a Guided unit against a Spotted unit",
+            "ru": "за атаку отряда Guided по отряду Spotted"
+          }
+        }
+      ],
       "ref": {
         "kind": "armyRule"
       }
@@ -66,7 +110,7 @@ export default {
       "det": "Kroot Hunting Pack",
       "hash": "6b5488c9",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -80,8 +124,19 @@ export default {
       "det": "Kroot Hunting Pack",
       "hash": "7e1866de",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": {
+            "en": "Kroot models: 5+ against ranged attacks, 6+ against melee attacks",
+            "ru": "модели Kroot: 5+ против стрелковых атак, 6+ против атак ближнего боя"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "kroot-hunting-pack"
@@ -94,8 +149,29 @@ export default {
       "det": "Retaliation Cadre",
       "hash": "e52012f0",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "Battlesuit models, per ranged attack against a unit within 12\"",
+            "ru": "модели Battlesuit, за стрелковую атаку по отряду в пределах 12\""
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "Battlesuit models, per ranged attack against a unit within 8\"",
+            "ru": "модели Battlesuit, за стрелковую атаку по отряду в пределах 8\""
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "retaliation-cadre"
@@ -108,7 +184,7 @@ export default {
       "det": "Kauyon",
       "hash": "d907baa7",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -122,8 +198,19 @@ export default {
       "det": "Mont’ka",
       "hash": "c6114053",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while within range of the objective marker selected at the start of the battle and the bearer is on the battlefield",
+            "ru": "пока модель в радиусе выбранного в начале битвы маркера, а носитель на поле боя"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "montka"
