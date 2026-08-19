@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { overlaySheet, loadoutItemIds, grantedKeywordsFor, entryContext } from './rosterModifiers.js'
+import { overlaySheet, loadoutItemIds, grantedKeywordsFor, entryContext, ruleSourcesFor, enhKey, detKey } from './rosterModifiers.js'
 
 // Interned wargear names, same shape as src/data/roster/items.js's `items` map.
 const items = { 1: 'Boltgun', 2: 'Bolt pistol', 3: 'Meltagun', 4: 'Chainsword', 5: 'Power weapon', 6: 'Plasma pistol' }
@@ -245,5 +245,74 @@ describe('entryContext', () => {
 
   it('says nothing rather than showing a raw uid when the target list is missing', () => {
     expect(entryContext({ def: squad, entry: { uid: 'a', leaderOf: 'b' } })).toBeNull()
+  })
+})
+
+describe('ruleSourcesFor', () => {
+  const dets = [{ name: 'War Horde', enhancements: [{ name: 'Tuff Git', pts: 5 }] }]
+  const entry = { uid: 'a', id: 'boyz' }
+  const kinds = (ctx) => ruleSourcesFor(ctx).map((r) => r.kind)
+
+  it('lists nothing without any roster context', () => {
+    expect(ruleSourcesFor(null)).toEqual([])
+    expect(ruleSourcesFor({ factionSlug: 'orks' })).toEqual([]) // the browser preview, no detachments yet
+  })
+
+  it('lists the army rule and every fielded detachment', () => {
+    expect(ruleSourcesFor({ entry, detachments: dets })).toEqual([
+      { kind: 'detachment', name: 'War Horde' },
+      { kind: 'armyRule' },
+    ])
+  })
+
+  it('lists the enhancement only on the unit carrying it', () => {
+    expect(kinds({ entry, detachments: dets })).not.toContain('enhancement')
+    expect(kinds({ entry: { ...entry, enh: 'Tuff Git' }, detachments: dets })).toContain('enhancement')
+  })
+
+  it('lists a Leader attached to this unit, not one attached elsewhere', () => {
+    const units = [
+      { uid: 'a', id: 'boyz' },
+      { uid: 'b', id: 'bannernob', leaderOf: 'a' },
+      { uid: 'c', id: 'warboss', leaderOf: 'z' },
+    ]
+    const leaders = ruleSourcesFor({ entry, detachments: dets, units }).filter((r) => r.kind === 'leader')
+    expect(leaders).toEqual([{ kind: 'leader', unitId: 'bannernob' }])
+  })
+
+  it('does not list this unit as its own Leader source when it is the one attached', () => {
+    // The "Attached to X" chip already says this; repeating X's rules here would be noise.
+    const units = [{ uid: 'a', id: 'bannernob', leaderOf: 'b' }, { uid: 'b', id: 'boyz' }]
+    expect(kinds({ entry: { uid: 'a', id: 'bannernob', leaderOf: 'b' }, detachments: dets, units }))
+      .not.toContain('leader')
+  })
+
+  it('works from bare detachment names as well as objects', () => {
+    expect(ruleSourcesFor({ entry, detachments: ['War Horde'] })[0]).toEqual({ kind: 'detachment', name: 'War Horde' })
+  })
+})
+
+describe('name keys', () => {
+  it('enhKey folds away the glyph and tag differences between the two datasets', () => {
+    expect(enhKey('Runnin’ Boots')).toBe(enhKey("Runnin' Boots"))
+    expect(enhKey('Blood Surge (Aura)')).toBe(enhKey('Blood Surge'))
+    expect(enhKey('X (Aura) (Upgrade)')).toBe(enhKey('X'))
+  })
+
+  it('detKey survives apostrophes and diacritics alike', () => {
+    expect(detKey('Serpent’s Brood')).toBe('serpents-brood')
+    expect(detKey('Dëlve Assault Shift')).toBe('delve-assault-shift')
+  })
+})
+
+describe('overlaySheet — rule sources', () => {
+  it('surfaces them and keeps notes reserved for Tier C', () => {
+    const out = overlaySheet(sheet, { entry: { uid: 'a' }, detachments: ['War Horde'] })
+    expect(out.ruleSources.map((r) => r.kind)).toEqual(['detachment', 'armyRule'])
+    expect(out.notes).toEqual([])
+  })
+
+  it('always returns an array, even with no sheet', () => {
+    expect(overlaySheet(null, {}).ruleSources).toEqual([])
   })
 })

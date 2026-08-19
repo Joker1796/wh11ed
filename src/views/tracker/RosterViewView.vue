@@ -153,6 +153,7 @@
         items: rosterItems.items,
         detachments: curDetachments,
         leaderTargets: viewingLeaderTargets,
+        units: roster.units,
       }"
       @close="viewingUid = null"
     />

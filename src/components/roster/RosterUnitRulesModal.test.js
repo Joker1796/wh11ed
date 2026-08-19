@@ -132,6 +132,44 @@ describe('RosterUnitRulesModal', () => {
     w.unmount()
   })
 
+  it('shows the detachment rule, the army rule and an attached Leader\'s abilities', async () => {
+    const [rf, it] = await Promise.all([
+      import('../../data/roster/orks.js'),
+      import('../../data/roster/items.js'),
+    ])
+    const def = rf.default.units.find((u) => u.id === 'boyz')
+    const det = rf.default.detachments.find((d) => d.name === 'War Horde')
+    mount(RosterUnitRulesModal, {
+      props: {
+        unitId: 'boyz',
+        factionSlug: 'orks',
+        ctx: {
+          def,
+          entry: { uid: 'a', id: 'boyz', size: 0 },
+          items: it.default.items,
+          detachments: [det],
+          // A Bannernob attached to this unit — its abilities are what the reader is missing.
+          units: [{ uid: 'a', id: 'boyz' }, { uid: 'b', id: 'bannernob', leaderOf: 'a' }],
+        },
+      },
+    })
+    await waitFor('Get Stuck In!') // the faction rules bundle is a separate async load
+    const text = body().text()
+    expect(text).toContain('Get Stuck In!') // War Horde's detachment rule
+    expect(text).toContain('Waaagh!') // the army rule
+    expect(text).toContain('Bannernob') // the attached Leader, by name
+    expect(text).toContain('Waaagh! Banner') // …and its own ability
+  })
+
+  it('shows no rule blocks without a roster context', async () => {
+    const w = mount(RosterUnitRulesModal, {
+      props: { unitId: 'boyz', factionSlug: 'orks' },
+    })
+    await waitFor('Boyz')
+    expect(body().find('.rum-rules').exists()).toBe(false)
+    w.unmount()
+  })
+
   it('renders the RU overlay when the locale is Russian', async () => {
     const { useLocale } = await import('../../composables/useLocale.js')
     const { locale } = useLocale()
