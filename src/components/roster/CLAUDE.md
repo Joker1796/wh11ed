@@ -143,7 +143,8 @@ rule text via `loadFaction()`, same as `RosterViewView`), `RosterIssuesModal` (r
 `validateRoster()`'s issues), `RosterExportModal` (wraps `rosterExport.js`),
 `RosterUnitRulesModal` (wraps `DatasheetCard` with its `collapsible` prop — see Known gaps;
 used both by `RosterUnitBrowser`'s row-click preview while adding units and by
-`RosterViewView`'s Units tab — see Views above),
+`RosterViewView`'s Units tab — see Views above; takes an optional `ctx` for the modifier
+overlay, see below),
 `FactionAccentScope` (per-faction accent-color CSS custom-property scope for the editor
 chrome, keyed off the roster's faction slug).
 
@@ -186,8 +187,50 @@ not the mounted wrapper's own `.text()`/`.find()` — the teleported content liv
 wrapper's DOM subtree. See `RosterUnitRulesModal.test.js` or
 `src/components/tracker/modals.test.js` for the pattern.
 
+## Modifier overlay (`src/composables/rosterModifiers.js`)
+
+`RosterUnitRulesModal` renders the sheet a roster ENTRY fields, not the printed one, via
+`overlaySheet(sheet, ctx)` — a pure function alongside the other `roster*.js` composables.
+`ctx` (`{ def, entry, items }`) is optional and partial: `UnitEditorFields` and
+`RosterViewView` pass it, `RosterUnitBrowser`'s preview deliberately doesn't (nothing is in
+the roster yet, so every option should still show). No ctx → the printed sheet, unchanged.
+
+Tier A does three things:
+
+1. **Trims the weapon tables** to the entry's actual loadout (2000 of 5038 rows across all
+   factions disappear from a freshly-added unit's card).
+2. **Resolves rule-granted keywords** — the existing `conditionalKeywords.json` sidecar, gated on
+   the ROSTER's detachments instead of `useFactionChoice`, handed to `DatasheetCard`'s existing
+   `grantedKeywords` prop. Detachment names are matched to sidecar ids by
+   `slugify(name.normalize('NFD') minus combining marks)` — **not the shared `slugify()` alone**,
+   which drops the diaeresis in "Dëlve Assault Shift" and silently misses that grant (24/25
+   without the strip, 25/25 with it). `slugify()` itself is load-bearing for DOM ids and the
+   search index, so it stays as it is.
+3. **Reports roster facts absent from the datasheet** (`entryContext`) as chips above the card:
+   Warlord, the enhancement carried (chosen or mandatory), and what the unit is attached to.
+   An attachment is only shown when `leaderTargets` can resolve it to a name — never as a uid.
+
+Two rules make the weapon trim safe, and **neither is cosmetic** — read before changing the
+matching:
+
+- **A row no wargear item claims is never hidden.** 2.8% of real weapon rows (139 of 5038) match
+  no item name — a fixed weapon spelled differently from its item, or a profile with no item at
+  all. Hiding those would delete a weapon the unit really has.
+- **A multi-miniature datasheet only ever gains rows, never loses them.** A `rep` list is
+  per-miniature and there's no single squad count to spend it against, so the subtraction
+  accounting (mirrored from `rosterEngine.js`'s `defaultLoadoutLines()`) is restricted to
+  single-miniature units, exactly as that function does.
+
+An empty ranged table on a freshly-added unit is usually CORRECT, not a bug — 26 datasheets
+(Nemesis Dreadknight, Wraithknight with Ghostglaive, Canoness with Jump Pack…) have a default
+loadout with no ranged weapon at all, and every gun on their card is an option nobody picked yet.
+
+The wider plan (attributed prose blocks, the numeric modifier sidecar, and how it all survives an
+appdata bump) lives in `ROSTER-MODIFIERS-PROGRESS.md` at the repo root.
+
 ## Known gaps
 
-See `ROSTER-BUILDER-PROGRESS.md` at the repo root for the current open-questions list (live
-modifier overlay in `RosterUnitRulesModal`, no cloud backup) — kept there rather than here
-since that file is the transient tracking doc and this one is the stable reference.
+See `ROSTER-BUILDER-PROGRESS.md` at the repo root for the current open-questions list (no cloud
+backup) — kept there rather than here since that file is the transient tracking doc and this one
+is the stable reference. The modifier overlay has its own tracking doc,
+`ROSTER-MODIFIERS-PROGRESS.md` (see the section above).

@@ -130,6 +130,7 @@
                       :items="rosterItems.items"
                       :texts="rosterItems.texts"
                       :faction-slug="roster.faction"
+                      :detachments="curDetachments"
                       :can-warlord="canBeWarlord(defOf(e.id), curDetachments)"
                       :is-warlord="e.warlord === true"
                       :enh-options="enhOptionsFor(defOf(e.id), curDetachments, roster.units, e.uid)"

@@ -107,10 +107,16 @@ function lockedToExactUnit(enh, def) {
 // units. Then the keyword gates: any excluded keyword disqualifies; the OR-groups of required
 // keywords must have at least one group fully satisfied (faction-keyword parts are satisfied by
 // being in the faction, so only the per-unit keywords are checked here). `lockDs` (gen-roster-
-// data.mjs's enhancement_bodyguard_group read — a STRUCTURAL "this exact datasheet only"
-// restriction some enhancements carry alongside a much broader keyword requirement that would
-// otherwise make them look eligible army-wide) narrows to those specific datasheets by `sid`,
-// same override rationale as lockedToExactUnit.
+// data.mjs's enhancement_bodyguard_group read) narrows to specific datasheets by `sid`.
+//
+// ⚠ `lockDs` IS A CONFIRMED BUG — do not reason from the branch below, and do not extend it.
+// It was written believing those appdata tables are a "this exact datasheet only" whitelist of
+// who may TAKE the enhancement. They aren't: they list the units the BEARER may attach to (see
+// scripts/sync-enh-bodyguards.mjs's header, which had it right first). The branch therefore
+// offers all 13 attach-granting enhancements on the bodyguard unit and hides them from their
+// real bearer — Murdermind lands on Skorpekh Destroyers and is refused to every Cryptek. Full
+// diagnosis + fix sketch: ROSTER-BUILDER-PROGRESS.md, open item 4. Left in place for now
+// because removing it changes eligibility across ~10 factions and wants its own test pass.
 export function enhEligible(enh, def) {
   if (!enh || !def) return false
   if (lockedToExactUnit(enh, def)) return !enh.exclKw?.some((k) => hasKeyword(def, k))

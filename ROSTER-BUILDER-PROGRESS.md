@@ -22,6 +22,11 @@ is implemented and tested.
    comment (`src/components/roster/RosterUnitRulesModal.vue:4-7`). The roster entry (wargear
    picks, enhancement, warlord flag) is already available to the caller — this is a "do the
    overlay" task, not a "find the data" task.
+   **Grew into its own multi-phase task on 2026-08-19 — plan, decisions and progress now live
+   in `ROSTER-MODIFIERS-PROGRESS.md`.** Short version of what the research found: appdata has
+   almost no structural modifiers (6 ability + 2 weapon-profile links across 961 enhancements),
+   so an overlay attributes rather than silently recomputes — same philosophy as the existing
+   `grantedKeywords` prop on `DatasheetCard`.
 2. **No cloud backup.** Game Tracker history syncs to `wh11ed-api`; rosters are
    `localStorage`-only (`useRosters.js`). Unclear whether that's a deliberate v1 scope cut
    (rosters are meant to be quick/disposable, sharing already covers cross-device via the
@@ -30,6 +35,43 @@ is implemented and tested.
 3. **Stale comment** in `scripts/gen-roster-data.mjs`'s header claiming it "emits units
    without gear for now" — full wargear-option parsing is implemented; nobody updated the
    comment after that landed. Cosmetic, low priority, noted in the scoped CLAUDE.md too.
+
+4. **`lockDs` inverts eligibility for all 13 attach-granting enhancements — CONFIRMED BUG,
+   not yet fixed** (spotted 2026-08-19: Necrons' Murdermind offered on Skorpekh Destroyers
+   though its own text says **CRYPTEK** model only).
+
+   `gen-roster-data.mjs` reads appdata's `enhancement_bodyguard_group` (+ `_datasheet`) as a
+   whitelist of datasheets allowed to TAKE the enhancement, and emits it as `lockDs`;
+   `enhEligible()` (`rosterEngine.js`) then short-circuits on it, ignoring every other gate.
+   That premise is wrong, and **this repo already documents the right one** — see
+   `scripts/sync-enh-bodyguards.mjs`'s header: those tables encode an enhancement that GRANTS
+   AN ATTACH, i.e. they list the units the *bearer* may join, not who may buy it.
+
+   So the gate fires in both directions at once. Verified against the data:
+   - `Murdermind` — offered on Lokhust Destroyers, Lokhust Heavy Destroyers, Ophydian
+     Destroyers, Skorpekh Destroyers; **rejected on all 7 Necron Crypteks**, its only legal
+     bearers.
+   - `Slippery Git` — offered on Kommandos, rejected on the Warboss.
+   - `Catechism of Divine Penitence` — offered on Repentia Squad, rejected on the Canoness.
+   - `Wolf-touched` — offered on Wulfen, rejected on Logan Grimnar.
+
+   All 13 enhancements carrying such a group are affected (~10 factions): Pact of Cursed
+   Pinions, Slippery Git, Catechism of Divine Penitence, Abhuman Detail, Sorrowscent Vulture,
+   Exalted Patron, Grimnar's Mark, Bray Lord, Butcher Lord, Disciple of Khorne, Exemplar of
+   Duty, Wolf-touched, Murdermind. Every one of them names its real bearer by keyword in its
+   own prose ("**COMMISSAR** model only", "**LORD EXULTANT** model only", …), which is exactly
+   the `req` gate that `lockDs` is currently overriding.
+
+   **Fix sketch** (deliberately not applied yet — it's an eligibility change across 10
+   factions and wants its own test pass): stop emitting `lockDs` from
+   `enhancement_bodyguard_group` in `gen-roster-data.mjs`, drop the `lockDs` branch from
+   `enhEligible()` so the ordinary character/keyword gates decide, and regenerate
+   (`npm run roster:data`). The attach the group really describes is separate data — today
+   it's carried as prose in the enhancement body, which `sync-enh-bodyguards.mjs` already
+   guards; whether the roster builder should also model it structurally (letting such a
+   bearer attach to that unit in the editor) is a follow-up question, not part of this fix.
+   Check `lockedToExactUnit()` while there — it's a different, genuinely name-based override
+   and looks unaffected, but it sits in the same branch.
 
 ## Where the merge-into-main work is recorded
 
