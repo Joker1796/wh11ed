@@ -13,7 +13,7 @@
 // an attributed note instead — the same "mark it, don't fake it" treatment DatasheetCard already
 // gives rule-granted keywords via its `grantedKeywords` prop.
 
-import { wargearGroupLive, findEnhancement, mandatoryEnhancementFor } from './rosterEngine.js'
+import { wargearGroupLive, findEnhancement, mandatoryEnhancementFor, optionItems } from './rosterEngine.js'
 import { slugify } from '../data/slugify.js'
 import conditionalKeywords from '../data/conditionalKeywords.json'
 
@@ -44,7 +44,7 @@ function itemNameIndex(def, items) {
     if (!byName.get(n).includes(id)) byName.get(n).push(id)
   }
   for (const [, list] of def?.defaults || []) for (const [id] of list) add(id)
-  for (const g of def?.gear || []) for (const o of g.o || []) add(o[0])
+  for (const g of def?.gear || []) for (const o of g.o || []) for (const [id] of optionItems(o)) add(id)
   return byName
 }
 
@@ -84,7 +84,8 @@ export function loadoutItemIds(def, entry) {
   for (const [gi, oi] of entry.wg || []) {
     if (!wargearGroupLive(def, entry, gi)) continue
     const opt = def.gear?.[gi]?.o?.[oi]
-    if (opt) kept.add(opt[0])
+    // An option can grant more than one item (a bundle) — see rosterEngine's optionItems.
+    if (opt) for (const [id] of optionItems(opt)) kept.add(id)
   }
   return kept
 }

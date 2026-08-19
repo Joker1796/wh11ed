@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { enhAttachOf, leadsFor, splitInstruction, bucketOf, unitBasePoints, unitWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, defaultLoadoutLines, capKeyOf } from './rosterEngine.js'
+import { enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, bucketOf, unitBasePoints, unitWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, defaultLoadoutLines, capKeyOf } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -435,7 +435,7 @@ describe('enhancement-granted attaches', () => {
 describe('splitInstruction', () => {
   it('keeps a plain sentence whole with no bullets', () => {
     expect(splitInstruction('This model can be equipped with 1 Voidraven missiles.'))
-      .toEqual({ head: 'This model can be equipped with 1 Voidraven missiles.', bullets: [] })
+      .toEqual({ head: 'This model can be equipped with 1 Voidraven missiles.', bullets: [], note: '' })
   })
 
   it('splits the option list off the sentence and drops the markers', () => {
@@ -443,6 +443,7 @@ describe('splitInstruction', () => {
     expect(splitInstruction(t)).toEqual({
       head: 'For every 5 models in the unit:',
       bullets: ['1 hexrifle and 1 torturer\u2019s tool', '1 ossefactor'],
+      note: '',
     })
   })
 
@@ -451,6 +452,76 @@ describe('splitInstruction', () => {
   })
 
   it('is safe on empty/absent text', () => {
-    expect(splitInstruction(undefined)).toEqual({ head: '', bullets: [] })
+    expect(splitInstruction(undefined)).toEqual({ head: '', bullets: [], note: '' })
+  })
+})
+
+describe('option items', () => {
+  const items = { 7: 'Hexrifle', 8: 'Torturer\u2019s tool', 9: 'Mortifier flamer' }
+
+  it('reads a plain option as one item', () => {
+    expect(optionItems([7, 5])).toEqual([[7, 1]])
+    expect(optionLabel([7], items)).toBe('Hexrifle')
+  })
+
+  it('reads a bundle as every item it grants', () => {
+    expect(optionItems([[[7, 1], [8, 1]], 0])).toEqual([[7, 1], [8, 1]])
+    expect(optionLabel([[[7, 1], [8, 1]]], items)).toBe('Hexrifle + Torturer\u2019s tool')
+  })
+
+  it('shows a quantity above one', () => {
+    expect(optionLabel([[[9, 2]]], items)).toBe('2\u00d7 Mortifier flamer')
+  })
+
+  it('names both halves of a bundle in the export', () => {
+    const def = { gear: [{ o: [[[[7, 1], [8, 1]]]] }] }
+    expect(wargearNames(def, { wg: [[0, 0, 1]] }, items)).toEqual(['Hexrifle + Torturer\u2019s tool'])
+  })
+
+  it('is empty rather than throwing on a missing option', () => {
+    expect(optionItems(undefined)).toEqual([])
+    expect(optionItems([])).toEqual([])
+  })
+})
+
+describe('the real Wracks bundle', () => {
+  // The reported case: appdata lists the five items flat, and only the instruction prose says
+  // each swap grants a hexrifle AND a torturer's tool. If the generator ever stops reading it,
+  // this group falls back to five one-item options and the pairing is silently lost again.
+  it('offers four paired swaps, not five loose items', async () => {
+    const rf = await import('../data/roster/drukhari.js')
+    const items = (await import('../data/roster/items.js')).default.items
+    const wracks = rf.default.units.find((u) => u.id === 'wracks')
+    const group = wracks.gear.find((g) => g.o.length === 4 && g.in === 'checkbox')
+    expect(group.o.map((o) => optionLabel(o, items))).toEqual([
+      'Hexrifle + Torturer\u2019s tool',
+      'Liquifier gun + Torturer\u2019s tool',
+      'Ossefactor + Torturer\u2019s tool',
+      'Stinger pistol + Torturer\u2019s tool',
+    ])
+  })
+})
+
+describe('splitInstruction, list shapes', () => {
+  it('reads a list that has no marker at all, just a head line ending in a colon', () => {
+    const t = '1 storm bolter can be replaced with one of the following:\n1 incinerator and 1 banner\n1 psilencer and 1 banner'
+    expect(splitInstruction(t).bullets).toEqual(['1 incinerator and 1 banner', '1 psilencer and 1 banner'])
+  })
+
+  it('keeps a footnote out of the option list', () => {
+    const t = 'one of the following:\n1 storm bolter and 1 banner*\n* That model\u2019s storm bolter cannot be replaced.'
+    const r = splitInstruction(t)
+    expect(r.bullets).toEqual(['1 storm bolter and 1 banner*'])
+    expect(r.note).toBe('That model\u2019s storm bolter cannot be replaced.')
+  })
+
+  it('does not split a plain multi-line sentence whose head is not a list head', () => {
+    expect(splitInstruction('One line\nand its continuation')).toEqual({
+      head: 'One line and its continuation', bullets: [], note: '',
+    })
+  })
+
+  it('handles the ▫ and ■ markers appdata also uses', () => {
+    expect(splitInstruction('one of:\n▫ 1 big shoota\n■ 1 rokkit').bullets).toEqual(['1 big shoota', '1 rokkit'])
   })
 })

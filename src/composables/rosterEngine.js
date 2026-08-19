@@ -81,21 +81,53 @@ export function wargearGroupLive(def, entry, gi) {
   return sibActive === !!wantActive
 }
 
-// A wargear group's instruction text is a sentence, sometimes followed by a bullet list of the
-// options it offers ("…replaced with one of the following:\n◦ 1 hexrifle and 1 torturer's tool").
-// appdata carries that list as real newlines with a `◦`/`•` marker, both of which collapse into
-// one run-on line when interpolated into a template — so the two parts are split here and the
-// caller renders the bullets as a list. Kept as data (marker stripped), not markup: the RU
-// generator emits the same shape, so both locales render identically.
-const BULLET = /^[◦•]\s*/
+// A wargear group's instruction text is a sentence, sometimes followed by a list of the options
+// it offers ("…replaced with one of the following:\n◦ 1 hexrifle and 1 torturer's tool").
+// appdata carries that list as real newlines, which collapse into one run-on line when
+// interpolated into a template, so the parts are split here and the caller renders the list.
+// Four markers are in use (◦ ■ ▫ •) and one list has none at all — just a head line ending in
+// ':' and an option per line — so the marker is not what identifies a list. A line opening with
+// '*' is a footnote about the options rather than one of them, and comes back separately.
+const BULLET = /^[◦•■▫]\s*/
+const FOOTNOTE = /^\*\s*/
 export function splitInstruction(text) {
   const lines = String(text || '').split('\n').map((l) => l.trim()).filter(Boolean)
-  const first = lines.findIndex((l) => BULLET.test(l))
-  if (first === -1) return { head: lines.join(' '), bullets: [] }
-  return {
-    head: lines.slice(0, first).join(' '),
-    bullets: lines.slice(first).map((l) => l.replace(BULLET, '').trim()).filter(Boolean),
+  const body = []
+  const notes = []
+  // Only ever a footnote once something came before it — an instruction can't open with one.
+  for (const l of lines) (body.length && FOOTNOTE.test(l) ? notes : body).push(l)
+  const note = notes.map((l) => l.replace(FOOTNOTE, '').trim()).filter(Boolean).join(' ')
+
+  const marked = body.findIndex((l) => BULLET.test(l))
+  if (marked !== -1) {
+    return {
+      head: body.slice(0, marked).join(' '),
+      bullets: body.slice(marked).map((l) => l.replace(BULLET, '').trim()).filter(Boolean),
+      note,
+    }
   }
+  if (body.length > 1 && /:$/.test(body[0])) return { head: body[0], bullets: body.slice(1), note }
+  return { head: body.join(' '), bullets: [], note }
+}
+
+// The wargear items one option puts on the model, as `[[itemId, count], …]`. Slot 0 of an option
+// is normally just the item id, but an option can be a BUNDLE — "replaced with 1 hexrifle and 1
+// torturer's tool" is ONE choice granting two items (gen-roster-data.mjs's linkWargearBundles
+// reads those out of the instruction prose and verifies them against appdata's own enumeration
+// of legal loadouts) — and then it carries the full set instead. Every reader goes through here;
+// nothing else should unpack slot 0, or the second half of a bundle silently disappears.
+export function optionItems(o) {
+  const head = o?.[0]
+  if (Array.isArray(head)) return head.map(([id, n]) => [id, n || 1])
+  return head == null ? [] : [[head, 1]]
+}
+
+// An option's display label — "Hexrifle + Torturer's tool", "2× Mortifier flamer".
+export function optionLabel(o, items) {
+  return optionItems(o)
+    .map(([id, n]) => `${n > 1 ? `${n}× ` : ''}${items?.[id] || ''}`)
+    .filter((s) => s.trim())
+    .join(' + ')
 }
 
 // Can this unit be the army's Warlord? Characters (and the rare non-character unit GW flags)
@@ -338,7 +370,7 @@ export function wargearNames(def, entry, items) {
   return entry.wg.map(([gi, oi, n]) => {
     const opt = def?.gear?.[gi]?.o?.[oi]
     if (!opt || !wargearGroupLive(def, entry, gi)) return null
-    const name = items?.[opt[0]] || ''
+    const name = optionLabel(opt, items)
     return n > 1 ? `${name} ×${n}` : name
   }).filter(Boolean)
 }

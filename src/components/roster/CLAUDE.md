@@ -43,9 +43,6 @@ class of derived data as the datasheet/mfm pipelines (structural facts only, no 
   datasheet+miniature) have no structural field in appdata linking them — the generator infers
   it; see the "deviation" comments in `gen-roster-data.mjs` around
   `base_miniature_loadout_wargear_option` before touching that logic.
-- The generator's own top-of-file comment claiming it "emits units without gear for now" is
-  **stale** — full wargear-option parsing (groups, mutual-exclusion deviation tracking, the
-  interned `items.js`) is implemented. Fix that comment next time the file is touched.
 
 ## Pure logic (`src/composables/roster*.js`)
 
@@ -171,9 +168,34 @@ following:\n◦ 1 hexrifle and 1 torturer's tool"). appdata carries those as rea
 bullets as a list. The RU generator emits the same line structure (its own test pins the marker
 count against the English), so both locales render identically.
 
-**A bullet can name TWO items** ("1 hexrifle and 1 torturer's tool") and the option model has no
-slot for that — see `ROSTER-BUILDER-PROGRESS.md` item 5 before assuming the checkboxes are simply
-wrong. 182 groups on 125 units are affected; it's an appdata-level gap, not a UI one.
+## Bundled wargear options
+
+**One option can grant SEVERAL items** — "1 model's twin torturer's tools can be replaced with
+1 hexrifle **and** 1 torturer's tool" is one choice, not two. appdata has no field for it: a
+`wargear_option` row carries exactly one item and the pairing lives only in the group's
+instruction prose, so a flat read (what this generated until 2026-08-19) offers the two items as
+rival picks and silently drops half of every swap — from the loadout, the export, and Tier A's
+weapon-table trim.
+
+`gen-roster-data.mjs`'s **`linkWargearBundles`** parses the pairing out of the prose and then
+**verifies it against structure**: `loadout_choice` enumerates each miniature's complete legal
+loadouts (1145 of 1146 datasheets have them), so every set the prose yields must fit inside one
+of them. Prose alone would be a guess. 172 groups are rewritten this way; the run prints the ones
+left flat, by name, so a "missing swap" report can be checked against that list.
+
+Two guards keep it fail-open, and both currently reject real groups — don't remove them to raise
+the number: every option appdata lists must be named by the prose (else the prose is describing
+something else), and a multi-item set must be backed by the enumeration. A rejected group is
+emitted exactly as appdata lists it, never as a guessed pair.
+
+**Slot 0 of an option is therefore polymorphic** — an item id, or the full `[[id, count], …]`
+set. **`optionItems(o)`/`optionLabel(o, items)` in `rosterEngine.js` are the only readers of that
+polymorphism**; anything that unpacks `o[0]` itself loses the second half of a bundle. That is
+what `loadoutItemIds`, `wargearNames`, the editor rows and the data-shape tests all go through.
+
+Because a pick is stored as an INDEX into the option list, rewriting the lists renumbered them —
+hence `useRosters.js` SCHEMA_VERSION 2, which drops `wg` from rosters saved under v1 rather than
+re-interpreting an old index as a different weapon.
 
 ## Store
 

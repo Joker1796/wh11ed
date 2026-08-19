@@ -8,7 +8,7 @@ import { ref, watch } from 'vue'
 
 const KEY = 'wh11ed-rosters'
 // Bump `v` when the stored shape changes; `migrate()` below is the single upgrade point.
-const SCHEMA_VERSION = 1
+const SCHEMA_VERSION = 2
 
 // A stable unique id for a roster (and its line entries). crypto.randomUUID is available in
 // every browser we target and in Node ≥ 16; the fallback keeps tests / old engines working.
@@ -69,6 +69,13 @@ function migrate(env) {
     if (!Array.isArray(r.detachments)) r.detachments = []
     r.detachments = r.detachments.filter((n) => typeof n === 'string' && !UUID_RE.test(n))
     delete r.detachment
+
+    // v1 → v2: a wargear pick is stored as an index INTO the generated option list, and v2's
+    // generator rewrote those lists wherever an option turned out to be a bundle of items
+    // ("1 hexrifle and 1 torturer's tool" — 172 groups). An old index now points at a different
+    // option, so the picks are dropped rather than silently re-interpreted as another weapon.
+    // Nothing else is touched: the units, their sizes, enhancements and attachments all stay.
+    if (!(env?.v >= 2)) for (const u of r.units || []) delete u.wg
   }
   return rosters
 }

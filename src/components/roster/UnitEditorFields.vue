@@ -85,6 +85,7 @@
       <ul v-if="groupLines[gi].bullets.length" class="ues-blist">
         <li v-for="(b, bi) in groupLines[gi].bullets" :key="bi">{{ b }}</li>
       </ul>
+      <p v-if="groupLines[gi].note" class="ues-bnote">* {{ groupLines[gi].note }}</p>
 
       <!-- radio: replace with one of… — the default loadout is itself a real option (its own
            name, from the group's `rep`), not a separate pseudo "keep default" pill. Each row is
@@ -113,10 +114,10 @@
         <div class="opt-tile" :class="{ on: toggleOn(gi) }">
           <label class="opt-select">
             <input type="checkbox" :checked="toggleOn(gi)" @change="toggle(gi)" />
-            <span class="opt-name">{{ items[g.o[0][0]] }}</span>
+            <span class="opt-name">{{ optLabel(g.o[0]) }}</span>
             <span v-if="g.o[0][1]" class="opt-pts">+{{ g.o[0][1] }}</span>
           </label>
-          <button type="button" class="opt-info" :aria-label="labels.rosterViewInfo" @click="openWeaponInfo([items[g.o[0][0]]])">
+          <button type="button" class="opt-info" :aria-label="labels.rosterViewInfo" @click="openWeaponInfo(optNames(g.o[0]))">
             <i class="bi bi-info-circle"></i>
           </button>
         </div>
@@ -126,10 +127,10 @@
       <div v-else class="opt-col">
         <div v-for="(o, oi) in g.o" :key="oi" class="opt-tile">
           <div class="opt-step-body">
-            <span class="opt-name">{{ items[o[0]] }}<span v-if="o[1]" class="opt-pts"> +{{ o[1] }}</span></span>
+            <span class="opt-name">{{ optLabel(o) }}<span v-if="o[1]" class="opt-pts"> +{{ o[1] }}</span></span>
             <NumberStepper :model-value="stepCount(gi, oi)" :min="0" :max="stepMax(g)" @update:model-value="setStep(gi, oi, $event)" />
           </div>
-          <button type="button" class="opt-info" :aria-label="labels.rosterViewInfo" @click="openWeaponInfo([items[o[0]]])">
+          <button type="button" class="opt-info" :aria-label="labels.rosterViewInfo" @click="openWeaponInfo(optNames(o))">
             <i class="bi bi-info-circle"></i>
           </button>
         </div>
@@ -216,7 +217,7 @@ import FactionAccentScope from './FactionAccentScope.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { loadRosterTextsRu } from '../../data/roster/ru/index.js'
-import { defaultLoadoutLines, splitInstruction, wargearGroupLive } from '../../composables/rosterEngine.js'
+import { defaultLoadoutLines, optionItems, optionLabel, splitInstruction, wargearGroupLive } from '../../composables/rosterEngine.js'
 
 const props = defineProps({
   entry: { type: Object, required: true },
@@ -257,6 +258,11 @@ const groupText = (g) => (locale.value === 'ru' && textsRu.value?.[g.t]) || prop
 // interpolation. The bullet list is a list in the source text and has to render as one — read as
 // a single paragraph it says the opposite of what it means, running four alternatives together.
 const groupLines = computed(() => (props.def.gear || []).map((g) => splitInstruction(groupText(g))))
+
+// One option can grant SEVERAL items ("1 hexrifle and 1 torturer's tool" is one choice, not
+// two) — so a row is labelled with the whole set, and its info button opens every profile in it.
+const optLabel = (o) => optionLabel(o, props.items)
+const optNames = (o) => optionItems(o).map(([id]) => props.items[id]).filter(Boolean)
 
 // Every wargear row is a checkbox (selection) plus a separate trailing button; the button opens a
 // FOCUSED profile modal for just that item (WeaponProfileModal) — never the whole unit sheet,
@@ -322,7 +328,7 @@ function radioRows(g) {
     names: (g.rep || []).map((id) => props.items[id]),
     pts: 0,
   }]
-  g.o.forEach((o, oi) => rows.push({ oi, name: props.items[o[0]], names: [props.items[o[0]]], pts: o[1] || 0 }))
+  g.o.forEach((o, oi) => rows.push({ oi, name: optLabel(o), names: optNames(o), pts: o[1] || 0 }))
   return rows
 }
 
@@ -379,6 +385,7 @@ function toggleLeader(uid) { setLeader(props.entry.leaderOf === uid ? null : uid
 .ues-blist { margin: -0.25rem 0 0.5rem; padding-left: 1.1rem; list-style: none; }
 .ues-blist li { position: relative; font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
 .ues-blist li::before { content: '◦'; position: absolute; left: -0.85rem; color: var(--text-dim); }
+.ues-bnote { margin: -0.25rem 0 0.5rem; font-size: 0.78rem; color: var(--text-dim); line-height: 1.35; }
 .ues-count { display: flex; align-items: center; justify-content: space-between; }
 .opt-row { display: flex; flex-wrap: wrap; gap: 0.35rem; }
 .opt-col { display: flex; flex-direction: column; gap: 0.3rem; }
