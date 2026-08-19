@@ -14,7 +14,7 @@ export default {
       "det": null,
       "hash": "87451b53",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "armyRule"
@@ -27,7 +27,7 @@ export default {
       "det": "Anvil Siege Force",
       "hash": "1a020a37",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -41,8 +41,19 @@ export default {
       "det": "Firestorm Assault Force",
       "hash": "41ee2aa2",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "per ranged attack against a unit within 12\"",
+            "ru": "за стрелковую атаку по отряду в пределах 12\""
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "firestorm-assault-force"
@@ -55,8 +66,19 @@ export default {
       "det": "Forgefather’s Seekers",
       "hash": "41ee2aa2",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "per ranged attack against a unit within 12\"",
+            "ru": "за стрелковую атаку по отряду в пределах 12\""
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "forgefathers-seekers"
@@ -69,8 +91,19 @@ export default {
       "det": "Reclamation Force",
       "hash": "09be5f9e",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "per melee attack against a unit within range of an objective marker",
+            "ru": "за атаку ближнего боя по отряду в радиусе маркера цели"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "reclamation-force"
@@ -83,8 +116,26 @@ export default {
       "det": "1st Company Task Force",
       "hash": "1f954fcf",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "once per battle, for the phase, the bonus also applies to the other models in the bearer's unit",
+            "ru": "один раз за битву, на фазу, бонус получают и остальные модели отряда носителя"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "1st-company-task-force"
@@ -97,8 +148,26 @@ export default {
       "det": "1st Company Task Force",
       "hash": "e6657e96",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "once per battle, for the phase, the bonus also applies to the other models in the bearer's unit",
+            "ru": "один раз за битву, на фазу, бонус получают и остальные модели отряда носителя"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "1st-company-task-force"
@@ -111,8 +180,16 @@ export default {
       "det": "Bastion Task Force",
       "hash": "e3dec843",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "bastion-task-force"
@@ -125,8 +202,33 @@ export default {
       "det": "Blade of Ultramar",
       "hash": "647d8d4c",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "Attacks and Strength +2 instead, while the bearer is under the effects of the Assault Doctrine",
+            "ru": "атаки и сила +2 вместо +1, пока на носителя действует Assault Doctrine"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "blade-of-ultramar"
@@ -139,8 +241,26 @@ export default {
       "det": "Emperor’s Shield",
       "hash": "e7316e39",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "once per battle, for the phase, the bonus also applies to the other models in the bearer's unit",
+            "ru": "один раз за битву, на фазу, бонус получают и остальные модели отряда носителя"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "emperors-shield"
@@ -153,8 +273,26 @@ export default {
       "det": "Emperor’s Shield",
       "hash": "d4cde193",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "once per battle, for the phase, the bonus also applies to the other models in the bearer's unit",
+            "ru": "один раз за битву, на фазу, бонус получают и остальные модели отряда носителя"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "emperors-shield"
@@ -167,8 +305,16 @@ export default {
       "det": "Firestorm Assault Force",
       "hash": "449263c6",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 3,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "firestorm-assault-force"
@@ -181,8 +327,19 @@ export default {
       "det": "Forgefather’s Seekers",
       "hash": "aaa5b911",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "Torrent weapons of models in the bearer's unit only",
+            "ru": "только оружие Torrent моделей в отряде носителя"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "forgefathers-seekers"
@@ -195,8 +352,16 @@ export default {
       "det": "Forgefather’s Seekers",
       "hash": "449263c6",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 3,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "forgefathers-seekers"
@@ -209,8 +374,33 @@ export default {
       "det": "Gladius Task Force",
       "hash": "647d8d4c",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "Attacks and Strength +2 instead, while the bearer is under the effects of the Assault Doctrine",
+            "ru": "атаки и сила +2 вместо +1, пока на носителя действует Assault Doctrine"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "gladius-task-force"
@@ -223,8 +413,26 @@ export default {
       "det": "Hammer of Avernii",
       "hash": "c16af735",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "profile",
+          "stat": "oc",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "once per battle, for the phase, the bonus also applies to the other models in the bearer's unit",
+            "ru": "один раз за битву, на фазу, бонус получают и остальные модели отряда носителя"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "hammer-of-avernii"
@@ -237,8 +445,26 @@ export default {
       "det": "Hammer of Avernii",
       "hash": "e6657e96",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "once per battle, for the phase, the bonus also applies to the other models in the bearer's unit",
+            "ru": "один раз за битву, на фазу, бонус получают и остальные модели отряда носителя"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "hammer-of-avernii"
@@ -251,8 +477,16 @@ export default {
       "det": "Headhunter Task Force",
       "hash": "34b736df",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "headhunter-task-force"
@@ -265,8 +499,16 @@ export default {
       "det": "Reclamation Force",
       "hash": "8875c16b",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "reclamation-force"
@@ -279,8 +521,33 @@ export default {
       "det": "Spearpoint Task Force",
       "hash": "1ce3d73b",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "Strength and AP improve by 2 instead, until the end of the turn, after the bearer ends a Charge move",
+            "ru": "сила и пробитие улучшаются на 2 вместо 1 до конца хода, после того как носитель завершил чардж"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "spearpoint-task-force"
@@ -293,8 +560,33 @@ export default {
       "det": "Stormlance Task Force",
       "hash": "1db2008b",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "Strength and AP improve by 2 instead, until the end of the turn, after the bearer ends a Charge move",
+            "ru": "сила и пробитие улучшаются на 2 вместо 1 до конца хода, после того как носитель завершил чардж"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "stormlance-task-force"

@@ -14,8 +14,19 @@ export default {
       "det": "Chaos Cult",
       "hash": "d2f86844",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "Damned units, for the phase, after making a Desperate Pact",
+            "ru": "отряды Damned, на фазу, после заключения Desperate Pact"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "chaos-cult"
@@ -28,8 +39,69 @@ export default {
       "det": "Creations of Bile",
       "hash": "f61816fc",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "Heretic Astartes Infantry, if the Cholinergic Accelerants augmentation is active",
+            "ru": "пехота Heretic Astartes, если активна аугментация Cholinergic Accelerants"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "Heretic Astartes Infantry, if the Hyperadrenal Infusion augmentation is active",
+            "ru": "пехота Heretic Astartes, если активна аугментация Hyperadrenal Infusion"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "ws",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "Heretic Astartes Infantry, if the Paraneural Reactions augmentation is active",
+            "ru": "пехота Heretic Astartes, если активна аугментация Paraneural Reactions"
+          }
+        },
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "Heretic Astartes Infantry, if the Supracutaneous Chitination augmentation is active",
+            "ru": "пехота Heretic Astartes, если активна аугментация Supracutaneous Chitination"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "Heretic Astartes Infantry, if the Macrotensile Sinews augmentation is active",
+            "ru": "пехота Heretic Astartes, если активна аугментация Macrotensile Sinews"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "bs",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "Heretic Astartes Infantry, if the Ophthalmic Enhancement augmentation is active",
+            "ru": "пехота Heretic Astartes, если активна аугментация Ophthalmic Enhancement"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "creations-of-bile"
@@ -42,8 +114,19 @@ export default {
       "det": "Cult of the Arkifane",
       "hash": "abd2f746",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "inv",
+          "op": "set",
+          "value": "5+",
+          "when": {
+            "en": "Soul Forge units — Heretic Astartes Vehicles, Lord Discordant and Vashtorr",
+            "ru": "отряды Soul Forge — техника Heretic Astartes, Lord Discordant и Vashtorr"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "cult-of-the-arkifane"
@@ -56,7 +139,7 @@ export default {
       "det": "Huron’s Marauders",
       "hash": "816d7350",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -70,7 +153,7 @@ export default {
       "det": "Nightmare Hunt",
       "hash": "bcd56076",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "detachmentRule",
@@ -84,8 +167,19 @@ export default {
       "det": "Renegade Raiders",
       "hash": "326bb479",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": {
+            "en": "per attack against a unit within range of an objective marker",
+            "ru": "за атаку по отряду в радиусе маркера цели"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "renegade-raiders"
@@ -98,8 +192,19 @@ export default {
       "det": "Soulforged Warpack",
       "hash": "61196a22",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "Daemon Vehicle units, for the phase, after invoking their contract on a Dark Pact",
+            "ru": "отряды Daemon Vehicle, на фазу, после призыва контракта при Dark Pact"
+          }
+        }
+      ],
       "ref": {
         "kind": "detachmentRule",
         "det": "soulforged-warpack"
@@ -112,8 +217,29 @@ export default {
       "det": "Chaos Cult",
       "hash": "fb8f7297",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "Damned models, while the bearer's unit is below its Starting Strength",
+            "ru": "модели Damned, пока отряд носителя ниже начальной численности"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "Damned models, while that unit is Below Half-strength",
+            "ru": "модели Damned, пока отряд ниже половины численности"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "chaos-cult"
@@ -126,8 +252,16 @@ export default {
       "det": "Creations of Bile",
       "hash": "b3a94220",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "w",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "creations-of-bile"
@@ -140,8 +274,16 @@ export default {
       "det": "Creations of Bile",
       "hash": "10576f70",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "creations-of-bile"
@@ -154,8 +296,16 @@ export default {
       "det": "Deceptors",
       "hash": "79e14e04",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": null
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "deceptors"
@@ -168,7 +318,7 @@ export default {
       "det": "Fellhammer Siege-host",
       "hash": "067736ce",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -182,8 +332,33 @@ export default {
       "det": "Pactbound Zealots",
       "hash": "b64d0ef0",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": "D3",
+          "when": {
+            "en": "roll a D3 and add that to Attacks and Strength instead, after the unit makes a Dark Pact without failing the Leadership test",
+            "ru": "бросьте D3 и добавьте результат к атакам и силе вместо +1, после Dark Pact без провала теста лидерства"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "pactbound-zealots"
@@ -196,7 +371,7 @@ export default {
       "det": "Renegade Warband",
       "hash": "aaf5301a",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -210,7 +385,7 @@ export default {
       "det": "Soulforged Warpack",
       "hash": "d4be7be1",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -224,7 +399,7 @@ export default {
       "det": "Veterans of the Long War",
       "hash": "6bb482b1",
       "ver": 925,
-      "reviewed": false,
+      "reviewed": true,
       "effects": [],
       "ref": {
         "kind": "enhancement",
@@ -238,8 +413,40 @@ export default {
       "det": "Warpstrike Champions",
       "hash": "01b61388",
       "ver": 925,
-      "reviewed": false,
-      "effects": [],
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "a",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "weapon",
+          "stat": "s",
+          "op": "add",
+          "value": 1,
+          "when": null
+        },
+        {
+          "on": "weapon",
+          "stat": "ap",
+          "op": "add",
+          "value": -1,
+          "when": null
+        },
+        {
+          "on": "weapon",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "until the end of the turn the bearer's unit arrives from Reserves",
+            "ru": "до конца хода, в котором отряд носителя прибыл из резерва"
+          }
+        }
+      ],
       "ref": {
         "kind": "enhancement",
         "det": "warpstrike-champions"
