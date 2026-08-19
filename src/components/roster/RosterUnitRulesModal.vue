@@ -97,7 +97,7 @@ import { useKeywordPopover } from '../../composables/useKeywordPopover.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 import { overlaySheet, enhKey, detKey } from '../../composables/rosterModifiers.js'
 import { ruleAppliesTo } from '../../composables/ruleTargets.js'
-import { applyStatMods } from '../../composables/rosterStatMods.js'
+import { applyStatMods, resolveModifierEntries } from '../../composables/rosterStatMods.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { loadDatasheetsRu, localizeSheet } from '../../data/datasheets/ru/index.js'
 
@@ -256,32 +256,13 @@ function applies(enBody) {
 // (see gen-roster-modifiers.mjs) — matching by id, not by name, so a GW rename can't silently
 // detach a modifier from its rule.
 const statMods = computed(() => {
-  const facEn = rulesFactionEn.value
-  const entries = usableModifierEntries.value
-  if (!facEn || !entries.length) return { sheet: view.value.sheet, notes: [], marks: [] }
-
-  const fieldedDetachments = new Set((props.ctx?.detachments || [])
-    .map((d) => detKey(typeof d === 'string' ? d : d?.name)))
-  const resolved = []
-  for (const e of entries) {
-    if (!e.ref) continue
-    if (e.ref.kind === 'armyRule') {
-      if (facEn.armyRule?.body) resolved.push({ ...e, body: facEn.armyRule.body })
-      continue
-    }
-    const det = (facEn.detachments || []).find((d) => d.id === e.ref.det)
-    // Only detachments the roster actually fields — a modifier from a detachment you didn't take
-    // is not in play, whatever its rule says.
-    if (!det || !fieldedDetachments.has(detKey(det.name))) continue
-    if (e.ref.kind === 'detachmentRule') {
-      if (det.rule?.body) resolved.push({ ...e, body: det.rule.body })
-    } else if (e.ref.kind === 'enhancement') {
-      // An enhancement only modifies the unit CARRYING it.
-      if (enhKey(e.name) !== enhKey(view.value.context?.enhancement?.name)) continue
-      const found = det.enhancements?.find((x) => enhKey(x.name) === enhKey(e.name))
-      if (found?.body) resolved.push({ ...e, body: found.body })
-    }
-  }
+  const resolved = resolveModifierEntries(
+    usableModifierEntries.value,
+    rulesFactionEn.value,
+    props.ctx?.detachments,
+    view.value.context?.enhancement?.name,
+  )
+  if (!resolved.length) return { sheet: view.value.sheet, notes: [], marks: [] }
   return applyStatMods(view.value.sheet, resolved, unitKeywords.value, factionKeywordSets.value)
 })
 

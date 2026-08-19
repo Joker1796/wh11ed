@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { applyStatMods, applyValue } from './rosterStatMods.js'
+import { applyStatMods, applyValue, resolveModifierEntries } from './rosterStatMods.js'
 
 const sheet = () => ({
   name: 'Skorpekh Destroyers',
@@ -138,6 +138,56 @@ describe('applyStatMods', () => {
     }
     const out = applyStatMods(sheet(), [stale], destroyer, [destroyer, warrior])
     expect(out.sheet.profiles[0].oc).toBe('3')
+  })
+})
+
+// The gating shared by the unit-rules modal and the roster's read-only list. Two copies of this
+// would drift, and a modifier applied on the card but not on the list plate (or the reverse) is
+// exactly the bug that follows.
+describe('resolveModifierEntries', () => {
+  const facEn = {
+    armyRule: { id: 'waaagh', name: 'Waaagh!', body: 'army rule body' },
+    detachments: [
+      { id: 'war-horde', name: 'War Horde', rule: { name: 'Get Stuck In!', body: 'detachment body' },
+        enhancements: [{ name: 'Tuff Git', body: 'enhancement body' }] },
+      { id: 'bully-boyz', name: 'Bully Boyz', rule: { name: 'Big Boss', body: 'other body' }, enhancements: [] },
+    ],
+  }
+  const rec = (over) => ({ name: 'x', reviewed: true, effects: [{ on: 'profile', stat: 't', op: 'add', value: 1 }], ...over })
+
+  it('resolves an army rule regardless of detachment', () => {
+    const out = resolveModifierEntries([rec({ ref: { kind: 'armyRule' } })], facEn, [], null)
+    expect(out).toHaveLength(1)
+    expect(out[0].body).toBe('army rule body')
+  })
+
+  it('drops a detachment the roster does not field', () => {
+    const r = [rec({ ref: { kind: 'detachmentRule', det: 'bully-boyz' } })]
+    expect(resolveModifierEntries(r, facEn, ['War Horde'], null)).toEqual([])
+    expect(resolveModifierEntries(r, facEn, ['Bully Boyz'], null)).toHaveLength(1)
+  })
+
+  it('applies an enhancement only to the unit carrying it', () => {
+    const r = [rec({ name: 'Tuff Git', ref: { kind: 'enhancement', det: 'war-horde' } })]
+    expect(resolveModifierEntries(r, facEn, ['War Horde'], null)).toEqual([])
+    expect(resolveModifierEntries(r, facEn, ['War Horde'], 'Some Other')).toEqual([])
+    expect(resolveModifierEntries(r, facEn, ['War Horde'], 'Tuff Git')).toHaveLength(1)
+  })
+
+  it('matches names through the shared normalisers', () => {
+    // The roster layer spells detachments and enhancements with appdata's own glyphs.
+    const r = [rec({ name: 'Tuff Git (Upgrade)', ref: { kind: 'enhancement', det: 'war-horde' } })]
+    expect(resolveModifierEntries(r, facEn, ['War Horde'], 'Tuff Git')).toHaveLength(1)
+  })
+
+  it('drops a record with no wh11ed-side pointer, and needs a faction bundle', () => {
+    expect(resolveModifierEntries([rec({ ref: null })], facEn, ['War Horde'], null)).toEqual([])
+    expect(resolveModifierEntries([rec({ ref: { kind: 'armyRule' } })], null, [], null)).toEqual([])
+  })
+
+  it('accepts detachment objects as well as names', () => {
+    const r = [rec({ ref: { kind: 'detachmentRule', det: 'war-horde' } })]
+    expect(resolveModifierEntries(r, facEn, [{ name: 'War Horde' }], null)).toHaveLength(1)
   })
 })
 

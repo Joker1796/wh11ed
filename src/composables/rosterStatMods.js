@@ -11,6 +11,7 @@
 // Scope comes from ruleTargets.js, never from the record — see the generator's header for why.
 
 import { ruleScopes, keywordsMatchTarget } from './ruleTargets.js'
+import { enhKey, detKey } from './rosterModifiers.js'
 
 // Which model profiles / weapon rows an effect addresses.
 const WEAPON_TABLES = { ranged: ['ranged'], melee: ['melee'], weapon: ['ranged', 'melee'] }
@@ -141,3 +142,38 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets) {
 
   return { sheet: out || sheet, notes, marks: [...marks] }
 }
+
+// Turn stored records into the `{ ...record, body }` entries applyStatMods wants, dropping every
+// one that doesn't bear on this entry. Shared by the unit-rules modal and the roster's read-only
+// list — two copies of this gating would drift, and a modifier applied in one place but not the
+// other is exactly the bug that would follow.
+//
+// `facEn` is the ENGLISH faction bundle: the rule bodies feed ruleTargets.js, which reads English
+// prose. `detachmentNames` is what the roster actually fields — a modifier from a detachment you
+// didn't take is not in play, whatever its rule says. `enhancementName` is the one this entry
+// carries (chosen or mandatory), since an enhancement only ever modifies its own bearer.
+export function resolveModifierEntries(records, facEn, detachmentNames, enhancementName) {
+  if (!facEn || !records?.length) return []
+  const fielded = new Set((detachmentNames || [])
+    .map((d) => detKey(typeof d === 'string' ? d : d?.name))
+    .filter(Boolean))
+  const out = []
+  for (const rec of records) {
+    if (!rec.ref) continue
+    if (rec.ref.kind === 'armyRule') {
+      if (facEn.armyRule?.body) out.push({ ...rec, body: facEn.armyRule.body })
+      continue
+    }
+    const det = (facEn.detachments || []).find((d) => d.id === rec.ref.det)
+    if (!det || !fielded.has(detKey(det.name))) continue
+    if (rec.ref.kind === 'detachmentRule') {
+      if (det.rule?.body) out.push({ ...rec, body: det.rule.body })
+    } else if (rec.ref.kind === 'enhancement') {
+      if (!enhancementName || enhKey(rec.name) !== enhKey(enhancementName)) continue
+      const found = det.enhancements?.find((x) => enhKey(x.name) === enhKey(rec.name))
+      if (found?.body) out.push({ ...rec, body: found.body })
+    }
+  }
+  return out
+}
+
