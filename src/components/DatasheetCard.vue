@@ -763,6 +763,9 @@ function modDelta(n) {
    above is for what comes after the LAST weapons table (abilities/keywords/points), which still
    wants the fuller gap. */
 .ds-weapons:has(+ .ds-weapons) { margin-bottom: 0.05rem; }
+/* …and the same for a weapons table immediately followed by the modifier footnotes: they explain
+   the numbers in that table, so they have to read as attached to it. */
+.ds-weapons:has(+ .ds-mods) { margin-bottom: 0.3rem; }
 .ds-weapons table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
 .ds-weapons th {
   text-align: center;
@@ -967,7 +970,16 @@ function modDelta(n) {
 
 /* Modifier footnotes — quiet, small, and clearly secondary to the card's own content: they
    explain the `*` on a rewritten value, they are not part of the printed datasheet. */
-.ds-mods { list-style: none; margin: 0.1rem 0 0.7rem; padding: 0; font-size: 0.76rem; }
+/* Sits with the weapon tables it annotates, not floating between them and the abilities below:
+   the gap above is closed (see the `:has` rule under .ds-weapons) and a rule + a wider gap
+   separate it from whatever follows. Symmetric margins made it read as belonging to neither. */
+.ds-mods {
+  list-style: none;
+  margin: 0 0 0.9rem;
+  padding: 0 0 0.7rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.76rem;
+}
 .ds-mods-h {
   font-size: 0.62rem;
   font-weight: 700;
@@ -1003,7 +1015,12 @@ function modDelta(n) {
   font-weight: 700;
   margin-left: 1px;
 }
-.ds-stat-mod { color: var(--accent); }
+/* Both hosts set their own `color` at a higher specificity than a bare class — `.ds-weapons td`
+   and `.ds-stat-box` are class+element — so the mark has to match that or the value stays the
+   default colour and only the asterisk shows. */
+.ds-weapons td.ds-stat-mod,
+.ds-weapons tbody td.ds-stat-mod,
+span.ds-stat-box.ds-stat-mod { color: var(--accent); }
 
 /* Abilities */
 .ds-abilities { font-size: 0.85rem; line-height: 1.5; color: var(--text-primary); }
