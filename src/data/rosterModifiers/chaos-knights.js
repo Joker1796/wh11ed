@@ -15,7 +15,10 @@ export default {
       "hash": "bd88e7f1",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "armyRule"
+      }
     },
     {
       "sid": "ea8bac27-a7f4-40a5-8e9c-ee20b6cc609c",
@@ -25,7 +28,11 @@ export default {
       "hash": "be04cec4",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "infernal-lance"
+      }
     },
     {
       "sid": "757eaeb4-cb7c-4967-8cf2-3a42aece8d2e",
@@ -35,7 +42,11 @@ export default {
       "hash": "0202e0c6",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "lords-of-dread"
+      }
     },
     {
       "sid": "917b0195-7e5e-4a65-919b-821fd441782f",
@@ -45,7 +56,11 @@ export default {
       "hash": "1a35e87a",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "houndpack-lance"
+      }
     },
     {
       "sid": "cff79aee-3352-436d-adfa-6e11703ffdfd",
@@ -55,7 +70,11 @@ export default {
       "hash": "5664e037",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "infernal-lance"
+      }
     },
     {
       "sid": "b2f712f0-d376-473f-bf23-f2dc789347ae",
@@ -65,7 +84,11 @@ export default {
       "hash": "3e1769b0",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "infernal-lance"
+      }
     },
     {
       "sid": "93205b5a-0d2e-44ba-bec0-0aa2e0638143",
@@ -75,7 +98,11 @@ export default {
       "hash": "a86a05f3",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "infernal-lance"
+      }
     },
     {
       "sid": "23f176f3-52df-4f8d-ae85-85d2774a4677",
@@ -85,7 +112,11 @@ export default {
       "hash": "3e497de7",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "traitoris-lance"
+      }
     }
   ]
 }

@@ -15,7 +15,10 @@ export default {
       "hash": "335409cc",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "armyRule"
+      }
     },
     {
       "sid": "f4c13fe5-b2c6-49d9-a532-d4cdc71e2094",
@@ -25,7 +28,10 @@ export default {
       "hash": "959ac12a",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "armyRule"
+      }
     },
     {
       "sid": "6c1960c0-fdef-41a7-a017-cda5d322bd74",
@@ -35,7 +41,11 @@ export default {
       "hash": "fa300e3c",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "godhammer-assault-force"
+      }
     },
     {
       "sid": "741a30dc-8a63-45a5-8b27-9ba235c49bda",
@@ -45,7 +55,11 @@ export default {
       "hash": "384b0cf5",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "companions-of-vehemence"
+      }
     },
     {
       "sid": "44d03a4a-13a9-494e-8769-269187496002",
@@ -55,7 +69,11 @@ export default {
       "hash": "d3bb5f33",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "companions-of-vehemence"
+      }
     },
     {
       "sid": "69ab0beb-af42-4edc-a124-4e2b99fd3a1a",
@@ -65,7 +83,11 @@ export default {
       "hash": "922fa85d",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "godhammer-assault-force"
+      }
     },
     {
       "sid": "8f0c23c2-bec3-4dce-916e-ae9164dfe77f",
@@ -75,7 +97,11 @@ export default {
       "hash": "8875c16b",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "vindication-task-force"
+      }
     },
     {
       "sid": "eef35b1c-9069-43b3-a82d-a795edfef746",
@@ -85,7 +111,11 @@ export default {
       "hash": "685d2c48",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "vindication-task-force"
+      }
     }
   ]
 }

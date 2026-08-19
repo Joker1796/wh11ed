@@ -15,7 +15,11 @@ export default {
       "hash": "ca29e36f",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "liberator-assault-group"
+      }
     },
     {
       "sid": "0a300460-ad93-4be7-9188-9e0f87779498",
@@ -25,7 +29,11 @@ export default {
       "hash": "39c36bc7",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "rage-cursed-onslaught"
+      }
     },
     {
       "sid": "da1adec0-3e83-40b6-807c-fbd76b193c76",
@@ -35,7 +43,11 @@ export default {
       "hash": "41be1610",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "rage-cursed-onslaught"
+      }
     },
     {
       "sid": "63a53ef1-6111-4a00-8ce9-418646cd23cf",
@@ -45,7 +57,11 @@ export default {
       "hash": "bab820f3",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "the-angelic-host"
+      }
     },
     {
       "sid": "47a29acb-b0b7-455f-8959-cdbdd6de9136",
@@ -55,7 +71,11 @@ export default {
       "hash": "d0a23a72",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "the-lost-brethren"
+      }
     }
   ]
 }

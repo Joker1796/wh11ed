@@ -15,7 +15,10 @@ export default {
       "hash": "69950e51",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "armyRule"
+      }
     },
     {
       "sid": "e7d774f1-6f22-4767-a7ef-4a430a90b70d",
@@ -25,7 +28,11 @@ export default {
       "hash": "d45a4f80",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "freeblade-company"
+      }
     },
     {
       "sid": "45391896-5ae3-4cb5-a2fe-d3f400f7f454",
@@ -35,7 +42,11 @@ export default {
       "hash": "e29a6d74",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "freeblade-company"
+      }
     }
   ]
 }

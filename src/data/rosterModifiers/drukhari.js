@@ -15,7 +15,11 @@ export default {
       "hash": "a309181b",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "spectacle-of-spite"
+      }
     },
     {
       "sid": "48d18d70-1dcd-455e-9894-a193bea14106",
@@ -25,7 +29,11 @@ export default {
       "hash": "898f00ec",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "covenite-coterie"
+      }
     },
     {
       "sid": "1b8a36e1-aaf0-4dc9-8d5e-7dc93f9961b4",
@@ -35,7 +43,11 @@ export default {
       "hash": "1b9e848e",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "kabalite-cartel"
+      }
     },
     {
       "sid": "a8e27f43-6f0f-487e-9969-c65087ccdefe",
@@ -45,7 +57,11 @@ export default {
       "hash": "388bc65b",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "realspace-raiders"
+      }
     },
     {
       "sid": "21a18c7b-916b-47d4-a50b-8af59f3c03dc",
@@ -55,7 +71,11 @@ export default {
       "hash": "6aa214f2",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "spectacle-of-spite"
+      }
     }
   ]
 }

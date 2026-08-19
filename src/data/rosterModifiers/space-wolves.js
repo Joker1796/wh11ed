@@ -15,7 +15,10 @@ export default {
       "hash": "f9ef08c4",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "armyRule"
+      }
     },
     {
       "sid": "8ec6aabd-3330-47e0-b08b-5735e867be28",
@@ -25,7 +28,10 @@ export default {
       "hash": "f9ef08c4",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "armyRule"
+      }
     },
     {
       "sid": "60d212ba-251a-4824-9d55-364185c514cd",
@@ -35,7 +41,11 @@ export default {
       "hash": "c0480cea",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "saga-of-the-beastslayer"
+      }
     },
     {
       "sid": "38904dca-ee2d-4fc4-90c9-2c8718e22695",
@@ -45,7 +55,11 @@ export default {
       "hash": "c9e2983a",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "saga-of-the-great-wolf"
+      }
     },
     {
       "sid": "633d9fbe-c211-4318-bbb0-867702489070",
@@ -55,7 +69,11 @@ export default {
       "hash": "9c7b941e",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "saga-of-the-hunter"
+      }
     },
     {
       "sid": "02dfd50a-9607-4ee7-894f-801322ead37b",
@@ -65,7 +83,11 @@ export default {
       "hash": "5a259109",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "saga-of-the-beastslayer"
+      }
     },
     {
       "sid": "be26ea25-635f-4042-a1d0-4a0fbff0c0e5",
@@ -75,7 +97,11 @@ export default {
       "hash": "80daf934",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "saga-of-the-bold"
+      }
     },
     {
       "sid": "8f4d4dc6-adf0-44ac-a8fc-efdcbd7d5c2c",
@@ -85,7 +111,11 @@ export default {
       "hash": "ee805bbd",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "saga-of-the-bold"
+      }
     },
     {
       "sid": "5a05c63a-00fc-4359-9a5e-ccac2c95b3d9",
@@ -95,7 +125,11 @@ export default {
       "hash": "71fe66dd",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "saga-of-the-hunter"
+      }
     }
   ]
 }

@@ -15,7 +15,11 @@ export default {
       "hash": "89d4535f",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "court-of-the-phoenician"
+      }
     },
     {
       "sid": "4dd6dec8-03dc-4b0a-919a-b00c3c34f726",
@@ -25,7 +29,11 @@ export default {
       "hash": "cd86219a",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "carnival-of-excess"
+      }
     },
     {
       "sid": "efd6eed5-0e4d-48be-bb5e-adeb57d9e386",
@@ -35,7 +43,11 @@ export default {
       "hash": "9f4082d7",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "carnival-of-excess"
+      }
     },
     {
       "sid": "739f0185-c80c-4793-8479-1d28bbad8a25",
@@ -45,7 +57,11 @@ export default {
       "hash": "c335f5f1",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "coterie-of-the-conceited"
+      }
     },
     {
       "sid": "cff5cb21-f229-467b-bbd6-faf82240043b",
@@ -55,7 +71,11 @@ export default {
       "hash": "2923caab",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "court-of-the-phoenician"
+      }
     },
     {
       "sid": "4d0851fe-8c7b-4423-b688-916ad670d63e",
@@ -65,7 +85,11 @@ export default {
       "hash": "9e1c1938",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "mercurial-host"
+      }
     },
     {
       "sid": "75e69566-9f5c-408f-8780-7581588e4710",
@@ -75,7 +99,11 @@ export default {
       "hash": "c0ee925e",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "peerless-bladesmen"
+      }
     },
     {
       "sid": "81c3ada4-c8c2-4493-948d-ac3e1d4838a0",
@@ -85,7 +113,11 @@ export default {
       "hash": "082e8442",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "slaaneshs-chosen"
+      }
     },
     {
       "sid": "5b2cfa1f-d5ff-4096-a600-0edf9c647213",
@@ -95,7 +127,11 @@ export default {
       "hash": "dd60b2c1",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "slaaneshs-chosen"
+      }
     }
   ]
 }

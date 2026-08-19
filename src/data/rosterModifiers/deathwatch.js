@@ -15,7 +15,11 @@ export default {
       "hash": "755481e6",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "black-spear-task-force"
+      }
     }
   ]
 }

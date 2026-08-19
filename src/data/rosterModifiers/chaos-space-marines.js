@@ -15,7 +15,11 @@ export default {
       "hash": "d2f86844",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "chaos-cult"
+      }
     },
     {
       "sid": "39d94781-feca-4238-9ef5-be6536baff52",
@@ -25,7 +29,11 @@ export default {
       "hash": "f61816fc",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "creations-of-bile"
+      }
     },
     {
       "sid": "3eec525c-0bc1-4c11-a6f8-efce97bf6c3d",
@@ -35,7 +43,11 @@ export default {
       "hash": "abd2f746",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "cult-of-the-arkifane"
+      }
     },
     {
       "sid": "1dacaf8f-9649-4bca-b267-e84aa6301dfb",
@@ -45,7 +57,11 @@ export default {
       "hash": "816d7350",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "hurons-marauders"
+      }
     },
     {
       "sid": "2d05fb7e-ff32-49ee-87f8-8276bc8705e2",
@@ -55,7 +71,11 @@ export default {
       "hash": "bcd56076",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "nightmare-hunt"
+      }
     },
     {
       "sid": "fc17c30d-c505-438f-80b0-32fc2cb45792",
@@ -65,7 +85,11 @@ export default {
       "hash": "326bb479",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "renegade-raiders"
+      }
     },
     {
       "sid": "180d0072-f72a-4976-bd90-a6531c9cd609",
@@ -75,7 +99,11 @@ export default {
       "hash": "61196a22",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "soulforged-warpack"
+      }
     },
     {
       "sid": "f8585ef9-bd3d-4536-99b2-d02ab20921da",
@@ -85,7 +113,11 @@ export default {
       "hash": "fb8f7297",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "chaos-cult"
+      }
     },
     {
       "sid": "b75b9a64-a5bb-4f4d-8f77-1661f71300ab",
@@ -95,7 +127,11 @@ export default {
       "hash": "b3a94220",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "creations-of-bile"
+      }
     },
     {
       "sid": "8d4d1353-1300-47e2-85eb-80baa8e149df",
@@ -105,7 +141,11 @@ export default {
       "hash": "10576f70",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "creations-of-bile"
+      }
     },
     {
       "sid": "eb2472a2-ce74-4e93-be22-a5e84d02fe04",
@@ -115,7 +155,11 @@ export default {
       "hash": "79e14e04",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "deceptors"
+      }
     },
     {
       "sid": "21b97ac4-0081-470d-910f-2e7c4d54b4a7",
@@ -125,7 +169,11 @@ export default {
       "hash": "067736ce",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "fellhammer-siege-host"
+      }
     },
     {
       "sid": "fcd7d534-d0e1-4aad-9872-32329d49349d",
@@ -135,7 +183,11 @@ export default {
       "hash": "b64d0ef0",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "pactbound-zealots"
+      }
     },
     {
       "sid": "e6de1854-8e17-4bec-aa86-2a3c67c1fb36",
@@ -145,7 +197,11 @@ export default {
       "hash": "aaf5301a",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "renegade-warband"
+      }
     },
     {
       "sid": "93079aa9-a7c7-4192-85b8-5e2375c6f36f",
@@ -155,7 +211,11 @@ export default {
       "hash": "d4be7be1",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "soulforged-warpack"
+      }
     },
     {
       "sid": "be6c68b6-1a7c-43f4-a442-0f16d5c2567b",
@@ -165,7 +225,11 @@ export default {
       "hash": "6bb482b1",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "veterans-of-the-long-war"
+      }
     },
     {
       "sid": "992754f1-6976-4e97-88ac-c42b83f54d8e",
@@ -175,7 +239,11 @@ export default {
       "hash": "01b61388",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "warpstrike-champions"
+      }
     }
   ]
 }

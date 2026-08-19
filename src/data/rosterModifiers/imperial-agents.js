@@ -15,7 +15,11 @@ export default {
       "hash": "c7734e00",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "imperialis-fleet"
+      }
     },
     {
       "sid": "20cc49fb-5221-4dcf-b631-b116a84b02c3",
@@ -25,7 +29,11 @@ export default {
       "hash": "c4f1ac1e",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "ordo-malleus-daemon-hunters"
+      }
     },
     {
       "sid": "65ac2883-9467-4478-847c-55858dde8251",
@@ -35,7 +43,11 @@ export default {
       "hash": "46a46316",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "ordo-malleus-daemon-hunters"
+      }
     },
     {
       "sid": "43034cd6-adca-4c3f-a1ca-2cc5274871f2",
@@ -45,7 +57,11 @@ export default {
       "hash": "77f50fbb",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "ordo-malleus-daemon-hunters"
+      }
     }
   ]
 }

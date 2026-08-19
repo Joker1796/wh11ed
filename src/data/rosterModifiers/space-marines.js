@@ -15,7 +15,10 @@ export default {
       "hash": "87451b53",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "armyRule"
+      }
     },
     {
       "sid": "abc5a0da-6e22-42fc-8e98-e53976b3caab",
@@ -25,7 +28,11 @@ export default {
       "hash": "1a020a37",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "anvil-siege-force"
+      }
     },
     {
       "sid": "e8f365fd-9e58-4321-a78c-ed2e9c1e64de",
@@ -35,7 +42,11 @@ export default {
       "hash": "41ee2aa2",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "firestorm-assault-force"
+      }
     },
     {
       "sid": "3d216f9e-1d03-4dcb-ada4-872c519261bc",
@@ -45,7 +56,11 @@ export default {
       "hash": "41ee2aa2",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "forgefathers-seekers"
+      }
     },
     {
       "sid": "fa8c2bcd-8194-4017-b12b-b7eed35cc993",
@@ -55,7 +70,11 @@ export default {
       "hash": "09be5f9e",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "reclamation-force"
+      }
     },
     {
       "sid": "c8f28a58-eefa-4c34-94e8-5dbf475724b0",
@@ -65,7 +84,11 @@ export default {
       "hash": "1f954fcf",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "1st-company-task-force"
+      }
     },
     {
       "sid": "0d51b8da-5971-4be9-88f9-635033ca3cfe",
@@ -75,7 +98,11 @@ export default {
       "hash": "e6657e96",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "1st-company-task-force"
+      }
     },
     {
       "sid": "eaac3c39-f06a-476a-acae-7993c8c45b38",
@@ -85,7 +112,11 @@ export default {
       "hash": "e3dec843",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "bastion-task-force"
+      }
     },
     {
       "sid": "ee406f75-ff0d-48fa-a912-668b94840822",
@@ -95,7 +126,11 @@ export default {
       "hash": "647d8d4c",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "blade-of-ultramar"
+      }
     },
     {
       "sid": "8d56caf6-2966-40b2-814f-00bac4e11b27",
@@ -105,7 +140,11 @@ export default {
       "hash": "e7316e39",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "emperors-shield"
+      }
     },
     {
       "sid": "8b050852-d91a-4314-8f89-1403beea564a",
@@ -115,7 +154,11 @@ export default {
       "hash": "d4cde193",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "emperors-shield"
+      }
     },
     {
       "sid": "28a17ead-dfe3-4bb6-b02e-52c329cce8a2",
@@ -125,7 +168,11 @@ export default {
       "hash": "449263c6",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "firestorm-assault-force"
+      }
     },
     {
       "sid": "9eb575db-8984-49c8-a8e2-9f13a038c625",
@@ -135,7 +182,11 @@ export default {
       "hash": "aaa5b911",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "forgefathers-seekers"
+      }
     },
     {
       "sid": "b1a004c8-5ca5-41af-a576-9ded975ec820",
@@ -145,7 +196,11 @@ export default {
       "hash": "449263c6",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "forgefathers-seekers"
+      }
     },
     {
       "sid": "57200c62-5d47-4622-a062-41e1bc1241c9",
@@ -155,7 +210,11 @@ export default {
       "hash": "647d8d4c",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "gladius-task-force"
+      }
     },
     {
       "sid": "50598313-52b9-4408-a99e-16314a65b1f3",
@@ -165,7 +224,11 @@ export default {
       "hash": "c16af735",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "hammer-of-avernii"
+      }
     },
     {
       "sid": "9f0aeadd-6d2b-4f0c-9e01-f66bf23e074d",
@@ -175,7 +238,11 @@ export default {
       "hash": "e6657e96",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "hammer-of-avernii"
+      }
     },
     {
       "sid": "fb42248c-8de6-42bb-a457-555e04ae072f",
@@ -185,7 +252,11 @@ export default {
       "hash": "34b736df",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "headhunter-task-force"
+      }
     },
     {
       "sid": "fb962a7a-73f1-4fa3-a5a8-8d31419e40c2",
@@ -195,7 +266,11 @@ export default {
       "hash": "8875c16b",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "reclamation-force"
+      }
     },
     {
       "sid": "d72f263b-8ee5-4f71-b46d-7142f2e7e234",
@@ -205,7 +280,11 @@ export default {
       "hash": "1ce3d73b",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "spearpoint-task-force"
+      }
     },
     {
       "sid": "8b881334-b47a-4003-8180-10a83f4e619c",
@@ -215,7 +294,11 @@ export default {
       "hash": "1db2008b",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "stormlance-task-force"
+      }
     }
   ]
 }

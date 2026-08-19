@@ -15,7 +15,11 @@ export default {
       "hash": "92103900",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "guardian-battlehost"
+      }
     },
     {
       "sid": "04a0d658-c70b-4603-b49e-b510bec9a0e9",
@@ -25,7 +29,11 @@ export default {
       "hash": "67e4484a",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "spirit-conclave"
+      }
     },
     {
       "sid": "f40ed095-81a8-49e6-b58a-6c5e8c907e68",
@@ -35,7 +43,11 @@ export default {
       "hash": "47ff3ab0",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "warhost"
+      }
     },
     {
       "sid": "af33d000-b02d-40ef-9c11-0e0e92432740",
@@ -45,7 +57,11 @@ export default {
       "hash": "5d2ea32e",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "aspect-host"
+      }
     },
     {
       "sid": "8d9c8be4-f9d6-4cf2-bdf9-1b50f5e73c04",
@@ -55,7 +71,11 @@ export default {
       "hash": "02866b33",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "aspect-host"
+      }
     },
     {
       "sid": "1b083a45-8703-43da-8966-0c3340d8c4e2",
@@ -65,7 +85,11 @@ export default {
       "hash": "73e64d98",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "corsair-coterie"
+      }
     },
     {
       "sid": "4c728b85-8794-4043-9890-15c62ee1ee74",
@@ -75,7 +99,11 @@ export default {
       "hash": "54a21c8e",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "devoted-of-ynnead"
+      }
     },
     {
       "sid": "2829e959-9dd5-485b-ad55-9b162e11d54f",
@@ -85,7 +113,11 @@ export default {
       "hash": "a8019d78",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "seer-council"
+      }
     },
     {
       "sid": "964c822b-33e6-412a-8ebd-fa8d57373161",
@@ -95,7 +127,11 @@ export default {
       "hash": "48dfea8e",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "serpents-brood"
+      }
     },
     {
       "sid": "518aa1c5-0552-4956-a26e-1f1b0ef0735d",
@@ -105,7 +141,11 @@ export default {
       "hash": "236ea7df",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "spirit-conclave"
+      }
     },
     {
       "sid": "7c7a454e-4548-414f-9cf1-5faf80dddd9d",
@@ -115,7 +155,11 @@ export default {
       "hash": "dc1a1a15",
       "ver": 925,
       "reviewed": false,
-      "effects": []
+      "effects": [],
+      "ref": {
+        "kind": "enhancement",
+        "det": "warhost"
+      }
     }
   ]
 }
