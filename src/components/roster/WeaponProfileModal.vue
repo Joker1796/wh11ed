@@ -170,22 +170,39 @@ const abilityRows = computed(() => [
 }
 
 /* Phones: the same stacked treatment DatasheetCard's own weapon tables get below 560px — see the
-   long comment there for why (a six-column statline plus a name never fits a phone, and this
-   modal opens from the roster editor, which is a phone screen most of the time). Duplicated here
-   for the same reason the table styling above is: scoped styles can't reach another component. */
+   long comment there for the whole rationale (a six-column statline plus a name never fits a
+   phone, the thead's first cell survives as the section caption, a multi-profile weapon stays one
+   card). Duplicated here for the same reason the table styling above is: scoped styles can't
+   reach another component. This modal opens from the roster editor, which is a phone screen most
+   of the time, so leaving it as the one cramped table would be the obvious inconsistency. */
 @media (max-width: 560px) {
   .wpm-weapons { overflow-x: visible; }
-  .wpm-weapons thead { display: none; }
+  .wpm-weapons:has(+ .wpm-weapons) { margin-bottom: 0.8rem; }
   .wpm-weapons table,
-  .wpm-weapons tbody { display: block; }
-  .wpm-weapons tr {
+  .wpm-weapons thead,
+  .wpm-weapons tbody,
+  .wpm-weapons thead tr { display: block; }
+  .wpm-weapons th { display: none; }
+  .wpm-weapons th.wname {
+    display: block;
+    min-width: 0;
+    padding: 0 0.1rem 0.3rem;
+    background: none;
+    color: var(--accent);
+    border-radius: 0;
+    font-size: 0.64rem;
+  }
+  .wpm-weapons tbody tr {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     gap: 0.1rem 0.2rem;
-    padding: 0.45rem 0.5rem 0.5rem;
-    border-bottom: 1px solid var(--border);
+    margin-bottom: 0.35rem;
+    padding: 0.5rem 0.55rem 0.55rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: color-mix(in srgb, var(--text-primary) 3%, transparent);
   }
-  .wpm-weapons tr:last-child { border-bottom: none; }
+  .wpm-weapons tbody tr:last-child { margin-bottom: 0; }
   .wpm-weapons td {
     display: block;
     padding: 0;
@@ -217,17 +234,23 @@ const abilityRows = computed(() => [
     text-transform: uppercase;
     color: var(--text-muted);
   }
-  .wpm-weapons tr.wg-start,
-  .wpm-weapons tr.wg-mid,
-  .wpm-weapons tr.wg-end {
+  .wpm-weapons tbody tr.wg-start,
+  .wpm-weapons tbody tr.wg-mid,
+  .wpm-weapons tbody tr.wg-end {
     background: color-mix(in srgb, var(--accent) 8%, transparent);
   }
   .wpm-weapons tr.wg-start td,
   .wpm-weapons tr.wg-mid td,
-  .wpm-weapons tr.wg-end td {
-    background: none;
+  .wpm-weapons tr.wg-end td { background: none; }
+  .wpm-weapons tbody tr.wg-start,
+  .wpm-weapons tbody tr.wg-mid {
+    margin-bottom: 0;
+    border-bottom: none;
   }
-  .wpm-weapons tr.wg-start,
-  .wpm-weapons tr.wg-mid { border-bottom: none; }
+  .wpm-weapons tbody tr.wg-start { border-radius: 6px 6px 0 0; }
+  .wpm-weapons tbody tr.wg-mid { border-radius: 0; }
+  .wpm-weapons tbody tr.wg-end { border-radius: 0 0 6px 6px; }
+  .wpm-weapons tbody tr.wg-mid,
+  .wpm-weapons tbody tr.wg-end { border-top: 1px dashed var(--border); }
 }
 </style>

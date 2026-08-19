@@ -826,20 +826,50 @@ function statCells(p) {
    then its ability tags. Same markup either way — no second template, no JS media query, and no
    risk of the two drifting — via `tr { display: grid }` plus `display: contents` on the name
    cell so its name and tags become grid items in their own right. The column labels come back as
-   `td::before { content: attr(data-label) }`, since the shared `thead` is gone. */
+   `td::before { content: attr(data-label) }`, since the shared `thead` is gone.
+
+   The `thead` is not hidden outright: its FIRST cell is the "Ranged Weapons"/"Melee Weapons"
+   caption, which is the only thing telling the two blocks apart once they are stacked cards, so
+   it survives as a section label above the group while the six stat headers go. Reusing that
+   cell keeps one source for the text (and its translation) instead of adding a second one. */
 @media (max-width: 560px) {
   .ds-weapons { overflow-x: visible; }
-  .ds-weapons thead { display: none; }
+  /* Cancel the ≤480px edge bleed: these are bordered, rounded cards now, and running them off
+     the screen would clip the rounding on both sides. */
+  .ds-weapons { margin-left: 0; margin-right: 0; }
+  /* A real gap between the ranged block and the melee block — they are two labelled sections
+     now, not two halves of one table (the base rule tightens them to 0.05rem). */
+  .ds-weapons:has(+ .ds-weapons) { margin-bottom: 0.8rem; }
+
   .ds-weapons table,
-  .ds-weapons tbody { display: block; }
-  .ds-weapons tr {
+  .ds-weapons thead,
+  .ds-weapons tbody,
+  .ds-weapons thead tr { display: block; }
+  /* Section caption: the accent-coloured label above the group, not the filled bar it is on a
+     table (there is no row of columns left for it to head). */
+  .ds-weapons th { display: none; }
+  .ds-weapons th.wname {
+    display: block;
+    min-width: 0;
+    padding: 0 0.1rem 0.3rem;
+    background: none;
+    color: var(--accent);
+    border-radius: 0;
+    font-size: 0.64rem;
+  }
+
+  /* Each weapon (or each group of profiles) is its own card. */
+  .ds-weapons tbody tr {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     gap: 0.1rem 0.2rem;
-    padding: 0.45rem 0.5rem 0.5rem;
-    border-bottom: 1px solid var(--border);
+    margin-bottom: 0.35rem;
+    padding: 0.5rem 0.55rem 0.55rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: color-mix(in srgb, var(--text-primary) 3%, transparent);
   }
-  .ds-weapons tr:last-child { border-bottom: none; }
+  .ds-weapons tbody tr:last-child { margin-bottom: 0; }
   .ds-weapons td {
     display: block;
     padding: 0;
@@ -873,21 +903,28 @@ function statCells(p) {
     text-transform: uppercase;
     color: var(--text-muted);
   }
-  /* The multi-profile tint moves from the cells to the row — with the cells laid out as grid
-     items there is no longer one continuous background across them. */
-  .ds-weapons tr.wg-start,
-  .ds-weapons tr.wg-mid,
-  .ds-weapons tr.wg-end {
+
+  /* A multi-profile weapon stays ONE card: the profiles keep the group tint, lose the gap
+     between them, and share the rounding — only the group's ends are rounded, and the seams
+     between profiles are drawn as internal dividers. */
+  .ds-weapons tbody tr.wg-start,
+  .ds-weapons tbody tr.wg-mid,
+  .ds-weapons tbody tr.wg-end {
     background: color-mix(in srgb, var(--accent) 8%, transparent);
   }
   .ds-weapons tr.wg-start td,
   .ds-weapons tr.wg-mid td,
-  .ds-weapons tr.wg-end td {
-    background: none;
+  .ds-weapons tr.wg-end td { background: none; }
+  .ds-weapons tbody tr.wg-start,
+  .ds-weapons tbody tr.wg-mid {
+    margin-bottom: 0;
+    border-bottom: none;
   }
-  /* Profile rows of one weapon read as one block: only the last of a group keeps a divider. */
-  .ds-weapons tr.wg-start,
-  .ds-weapons tr.wg-mid { border-bottom: none; }
+  .ds-weapons tbody tr.wg-start { border-radius: 6px 6px 0 0; }
+  .ds-weapons tbody tr.wg-mid { border-radius: 0; }
+  .ds-weapons tbody tr.wg-end { border-radius: 0 0 6px 6px; }
+  .ds-weapons tbody tr.wg-mid,
+  .ds-weapons tbody tr.wg-end { border-top: 1px dashed var(--border); }
 }
 
 /* Abilities */
