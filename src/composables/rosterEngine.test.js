@@ -192,30 +192,30 @@ describe('enhancementPoints / unitPoints with enhancement', () => {
 })
 
 // Necrons' Pantheon of Woe / Imperial Agents' Veiled Blade Elim. Force: "each <unit> ... has the
-// A handful of enhancements are restricted to one or a few SPECIFIC datasheets structurally
-// (enhancement_bodyguard_group in wh40k-appdata, see gen-roster-data.mjs's `lockDs`) even though
-// their keyword requirement alone would look far broader (e.g. just the faction keyword) — the
-// bodyguard link is what actually narrows eligibility down.
-describe('enhEligible — lockDs (structural "specific datasheet only" restriction)', () => {
-  const warpTalons = { sid: 'ds-warp-talons', name: 'Warp Talons', kws: ['Character'], flags: { char: 1 } }
-  const otherUnit = { sid: 'ds-other', name: 'Chaos Terminator Squad', kws: ['Character'], flags: { char: 1 } }
+// Some enhancements name one specific unit in their prose ("Necron Warriors only") while appdata
+// records no unit-specific keyword for them at all, so their generated req — often just the
+// faction keyword — would offer them on any Character of that faction. gen-roster-data.mjs's
+// hand-curated ENH_LOCK_FIXES pins those to the named datasheet(s) as `lockDs`.
+describe('enhEligible — lockDs (curated "specific datasheet only" restriction)', () => {
+  const warriors = { sid: 'ds-necron-warriors', name: 'Necron Warriors', kws: ['Character'], flags: { char: 1 } }
+  const otherUnit = { sid: 'ds-other', name: 'Immortals', kws: ['Character'], flags: { char: 1 } }
   // Broad keyword req (just the faction) would make this look eligible on ANY Character —
   // lockDs is what actually restricts it to the one named datasheet.
-  const enh = { name: 'Pact of Cursed Pinions', pts: 20, req: [{ fac: ['Heretic Astartes'] }], lockDs: ['ds-warp-talons'] }
+  const enh = { name: 'Enlivened Sentinels', pts: 20, req: [{ fac: ['Necrons'] }], lockDs: ['ds-necron-warriors'] }
 
   it('is eligible on the locked datasheet, ineligible elsewhere, despite a broad keyword req', () => {
-    expect(enhEligible(enh, warpTalons)).toBe(true)
+    expect(enhEligible(enh, warriors)).toBe(true)
     expect(enhEligible(enh, otherUnit)).toBe(false)
   })
 
   it('still respects an excluded keyword on the locked datasheet', () => {
-    const excluded = { ...warpTalons, kws: ['Character', 'Vehicle'] }
+    const excluded = { ...warriors, kws: ['Character', 'Vehicle'] }
     expect(enhEligible({ ...enh, exclKw: ['Vehicle'] }, excluded)).toBe(false)
   })
 
   it('allows any one of several locked datasheets', () => {
-    const multiEnh = { ...enh, lockDs: ['ds-warp-talons', 'ds-other'] }
-    expect(enhEligible(multiEnh, warpTalons)).toBe(true)
+    const multiEnh = { ...enh, lockDs: ['ds-necron-warriors', 'ds-other'] }
+    expect(enhEligible(multiEnh, warriors)).toBe(true)
     expect(enhEligible(multiEnh, otherUnit)).toBe(true)
   })
 })
@@ -358,5 +358,30 @@ describe('leaderTargetsFor', () => {
     ]
     // The leader-type slot is still free — a support occupying the unit doesn't block a leader.
     expect(leaderTargetsFor(leader, units, 'a', defOf)).toEqual([{ uid: 'c', name: 'Intercessor Squad', used: false, type: 'leader' }])
+  })
+})
+
+// Regression: appdata's enhancement_bodyguard_group used to be read as a datasheet whitelist and
+// emitted as lockDs, which inverted eligibility for all 13 attach-granting enhancements — they
+// were offered on the bodyguard unit and refused to the bearer their own prose names. Real data,
+// because the point is that the generated file no longer carries that lock.
+describe('enhEligible — attach-granting enhancements (regression)', () => {
+  it('offers Murdermind to a Cryptek and not to the Destroyers it lets the bearer join', async () => {
+    const rf = await import('../data/roster/necrons.js')
+    const enh = rf.default.detachments.flatMap((d) => d.enhancements || []).find((e) => e.name === 'Murdermind')
+    const unit = (id) => rf.default.units.find((u) => u.id === id)
+    expect(enh.lockDs).toBeUndefined()
+    expect(enhEligible(enh, unit('chronomancer'))).toBe(true)
+    expect(enhEligible(enh, unit('plasmancer'))).toBe(true)
+    expect(enhEligible(enh, unit('skorpekh-destroyers'))).toBe(false)
+    expect(enhEligible(enh, unit('lokhust-destroyers'))).toBe(false)
+  })
+
+  it('offers Slippery Git to the Warboss and not to the Kommandos', async () => {
+    const rf = await import('../data/roster/orks.js')
+    const enh = rf.default.detachments.flatMap((d) => d.enhancements || []).find((e) => e.name === 'Slippery Git')
+    const unit = (id) => rf.default.units.find((u) => u.id === id)
+    expect(enhEligible(enh, unit('warboss'))).toBe(true)
+    expect(enhEligible(enh, unit('kommandos'))).toBe(false)
   })
 })

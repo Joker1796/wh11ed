@@ -112,24 +112,19 @@ for (const r of table('enhancement_excluded_keyword')) {
   if (!exclKwByEnh.has(r.enhancementId)) exclKwByEnh.set(r.enhancementId, [])
   exclKwByEnh.get(r.enhancementId).push(kwName.get(r.keywordId))
 }
-// A handful of enhancements (mostly "(Upgrade)"-type ones) are restricted to one or a few SPECIFIC
-// datasheets ("Chaos Lord with Jump Pack model only") rather than a keyword — same idea as leader
-// bodyguard groups above, but for enhancement eligibility. This is the STRUCTURAL restriction (not
-// just prose): every one of these 13 enhancements also carries a much broader keyword-group
-// requirement (e.g. just the faction keyword) that would otherwise make it look army-wide eligible
-// — the bodyguard link is what actually narrows it down. Keep the raw datasheet UUID (not a
-// slugified/linked id — some targets aren't linked to a wh11ed page) so eligibility can compare
-// directly against a unit's own `sid`, no name-matching involved.
-const enhBgDsByGroup = new Map() // groupId -> [datasheetId]
-for (const r of table('enhancement_bodyguard_group_datasheet')) {
-  if (!enhBgDsByGroup.has(r.enhancementBodyguardGroupId)) enhBgDsByGroup.set(r.enhancementBodyguardGroupId, [])
-  enhBgDsByGroup.get(r.enhancementBodyguardGroupId).push(r.datasheetId)
-}
-const enhLockDsByEnh = new Map() // enhancementId -> [datasheetId] (flattened across its groups)
-for (const g of table('enhancement_bodyguard_group')) {
-  if (!enhLockDsByEnh.has(g.enhancementId)) enhLockDsByEnh.set(g.enhancementId, [])
-  enhLockDsByEnh.get(g.enhancementId).push(...(enhBgDsByGroup.get(g.id) || []))
-}
+// NOT READ HERE — `enhancement_bodyguard_group` (+ `_datasheet`) is deliberately NOT a source of
+// enhancement eligibility. It was read that way until 2026-08-19, as a structural "only these
+// datasheets may TAKE this enhancement" whitelist emitted as `lockDs`, and that was wrong in both
+// directions: those tables say which units the enhancement's BEARER may attach to (exactly what
+// scripts/sync-enh-bodyguards.mjs documents and audits). Every one of the 13 enhancements with
+// such a group names its real bearer by keyword in its own prose — "**CRYPTEK** model only",
+// "**COMMISSAR** model only" — which the ordinary `req` gate below already handles, so the
+// bodyguard link was overriding the correct answer with the bodyguard unit. Necrons' Murdermind
+// was offered on Skorpekh Destroyers and refused to every Cryptek.
+//
+// `lockDs` itself still exists and is still correct: its only source is now the hand-curated
+// ENH_LOCK_FIXES below, which is a different problem (prose says "<unit> only" but appdata records
+// no unit-specific keyword at all).
 
 // detachment structural constraints.
 const detExcluded = new Map() // detachmentId -> [datasheetId]
@@ -420,7 +415,7 @@ const ENH_REQ_FIXES = {
 
 // Distinct from both of the above: a chunk of "(Upgrade)"-type enhancements (an optional pick,
 // unlike the automatic ENH_REQ_FIXES ones — and NOT the same 10 covered by the
-// enhancement_bodyguard_group structural link above, which are all `type: 'miniature'`) read
+// enhancement_bodyguard_group link, which is not read at all — see above) read
 // "<unit> unit/model only" in their own rules text, but their ONLY structured requirement in
 // wh40k-appdata is the faction keyword — audited: 36 of 71 non-Combat-Patrol upgrade-type
 // enhancements have no unit-specific keyword AND no bodyguard link, so as generated they look
@@ -494,14 +489,12 @@ function buildEnhancement(e, nameToDsId) {
   if (req.length) enh.req = req
   const excl = (exclKwByEnh.get(e.id) || []).filter(Boolean)
   if (excl.length) enh.exclKw = excl
-  const lockDs = enhLockDsByEnh.get(e.id)
-  if (lockDs?.length) enh.lockDs = lockDs
   if (ENH_LOCK_FIXES[name]) {
     const ids = ENH_LOCK_FIXES[name].map((n) => nameToDsId.get(normApost(n))).filter(Boolean)
     // Conservative: only apply if EVERY named target resolved — a partial/failed resolution
     // (e.g. a future appdata rename) falls back to the existing (too-broad) faction-keyword
     // req rather than silently locking to the wrong subset.
-    if (ids.length === ENH_LOCK_FIXES[name].length) enh.lockDs = [...(enh.lockDs || []), ...ids]
+    if (ids.length === ENH_LOCK_FIXES[name].length) enh.lockDs = ids
   }
   if (ENH_REQ_FIXES[name]) {
     enh.req = [{ kw: ENH_REQ_FIXES[name] }]

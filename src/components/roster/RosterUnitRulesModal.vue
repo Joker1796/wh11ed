@@ -37,6 +37,7 @@
           :sheet="view.sheet"
           :faction-slug="factionSlug"
           :granted-keywords="view.grantedKeywords"
+          :hide-choices="!!ctx"
           collapsible
         />
         <p v-else-if="loaded" class="rum-missing">{{ labels.factionsSoon }}</p>
@@ -83,6 +84,7 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 import { overlaySheet, enhKey, detKey } from '../../composables/rosterModifiers.js'
+import { ruleAppliesTo } from '../../composables/ruleTargets.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { loadDatasheetsRu, localizeSheet } from '../../data/datasheets/ru/index.js'
 
@@ -152,10 +154,15 @@ const sheet = computed(() => localize(datasheets.value.find((d) => d.id === prop
 // chunk is ~30-60 KB and is precached for the installed PWA, so an opened modal doesn't go to
 // the network offline.
 const rulesFaction = ref(null)
+// The same faction data, never RU-overlaid: ruleTargets.js reads English prose (keywords stay
+// English by project convention, the sentences around them do not), so the gate would silently
+// stop matching in RU if it read the localised bodies.
+const rulesFactionEn = ref(null)
 watch(
   [() => props.factionSlug, () => !!props.ctx, locale],
   async ([slug, hasCtx, loc]) => {
     rulesFaction.value = null
+    rulesFactionEn.value = null
     if (!slug || !hasCtx) return
     const [{ loadFaction }, { loadFactionRu, deepOverlay }] = await Promise.all([
       import('../../data/factions/index.js'),
@@ -163,6 +170,7 @@ watch(
     ])
     const data = await loadFaction(slug)
     if (props.factionSlug !== slug) return
+    rulesFactionEn.value = data?.en || null
     let fac = data?.en
     if (fac && loc === 'ru') {
       const mod = await loadFactionRu(slug)
@@ -183,8 +191,27 @@ const view = computed(() => overlaySheet(sheet.value, {
 // that renders. A source whose text can't be found is dropped rather than shown as an empty
 // accordion — the roster layer and the hand-authored faction files are separate datasets and a
 // name can legitimately fail to resolve.
+// Every unit's keyword set in this faction, for ruleTargets.js's "the extraction matched nobody,
+// so distrust it" guard. Cheap: the datasheets are already loaded for the card above.
+const factionKeywordSets = computed(() =>
+  datasheets.value.map((d) => [...(d.keywords || []), ...(d.factionKeywords || [])]))
+
+const unitKeywords = computed(() => {
+  const en = datasheets.value.find((d) => d.id === props.unitId)
+  // Keywords a detachment GRANTS count too — a unit made Battleline by the roster's detachment is
+  // targeted by a rule that says "BATTLELINE units from your army".
+  return [...(en?.keywords || []), ...(en?.factionKeywords || []), ...view.value.grantedKeywords.map((g) => g.kw)]
+})
+
+// Does a rule bear on this unit? Read from the EN body (see rulesFactionEn); the block that
+// renders still shows the localised text.
+function applies(enBody) {
+  return ruleAppliesTo(enBody, unitKeywords.value, factionKeywordSets.value)
+}
+
 const ruleBlocks = computed(() => {
   const fac = rulesFaction.value
+  const facEn = rulesFactionEn.value
   const out = []
   for (const src of view.value.ruleSources) {
     if (src.kind === 'enhancement') {
@@ -200,9 +227,14 @@ const ruleBlocks = computed(() => {
       if (!fac) continue
       const target = detKey(src.name)
       const det = (fac.detachments || []).find((d) => detKey(d.name) === target)
-      if (det?.rule?.body) out.push({ key: `det:${src.name}`, src: `${labels.value.factionDetachment} · ${det.name}`, name: det.rule.name, body: det.rule.body })
+      const detEn = (facEn?.detachments || []).find((d) => detKey(d.name) === target)
+      if (det?.rule?.body && applies(detEn?.rule?.body)) {
+        out.push({ key: `det:${src.name}`, src: `${labels.value.factionDetachment} · ${det.name}`, name: det.rule.name, body: det.rule.body })
+      }
     } else if (src.kind === 'armyRule') {
-      if (fac?.armyRule?.body) out.push({ key: 'army', src: labels.value.factionArmyRule, name: fac.armyRule.name, body: fac.armyRule.body })
+      if (fac?.armyRule?.body && applies(facEn?.armyRule?.body)) {
+        out.push({ key: 'army', src: labels.value.factionArmyRule, name: fac.armyRule.name, body: fac.armyRule.body })
+      }
     } else if (src.kind === 'leader') {
       // The attached Leader's own abilities, from the datasheets already loaded for this modal —
       // no extra fetch. Its full card stays one click away on its own row; what's useful here is

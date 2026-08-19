@@ -106,17 +106,17 @@ function lockedToExactUnit(enh, def) {
 // flagged for non-characters), never on Epic Heroes unless flagged, never on enhancement-barred
 // units. Then the keyword gates: any excluded keyword disqualifies; the OR-groups of required
 // keywords must have at least one group fully satisfied (faction-keyword parts are satisfied by
-// being in the faction, so only the per-unit keywords are checked here). `lockDs` (gen-roster-
-// data.mjs's enhancement_bodyguard_group read) narrows to specific datasheets by `sid`.
+// being in the faction, so only the per-unit keywords are checked here). `lockDs` narrows to
+// specific datasheets by `sid`, overriding those keyword gates the same way lockedToExactUnit does.
 //
-// ⚠ `lockDs` IS A CONFIRMED BUG — do not reason from the branch below, and do not extend it.
-// It was written believing those appdata tables are a "this exact datasheet only" whitelist of
-// who may TAKE the enhancement. They aren't: they list the units the BEARER may attach to (see
-// scripts/sync-enh-bodyguards.mjs's header, which had it right first). The branch therefore
-// offers all 13 attach-granting enhancements on the bodyguard unit and hides them from their
-// real bearer — Murdermind lands on Skorpekh Destroyers and is refused to every Cryptek. Full
-// diagnosis + fix sketch: ROSTER-BUILDER-PROGRESS.md, open item 4. Left in place for now
-// because removing it changes eligibility across ~10 factions and wants its own test pass.
+// Its ONLY source is gen-roster-data.mjs's hand-curated ENH_LOCK_FIXES — "(Upgrade)"-type
+// enhancements whose prose names one unit ("Necron Warriors only") while appdata records no
+// unit-specific keyword at all, so the generated req alone would offer them on any Character of
+// the faction. It used to ALSO be fed by appdata's enhancement_bodyguard_group, which was a
+// misreading (those tables list the units the BEARER may attach to, not who may take it) and
+// inverted eligibility for all 13 attach-granting enhancements — Murdermind was offered on
+// Skorpekh Destroyers and refused to every Cryptek. That source was removed on 2026-08-19; if a
+// future audit sees `lockDs` on an enhancement that is not in ENH_LOCK_FIXES, it has come back.
 export function enhEligible(enh, def) {
   if (!enh || !def) return false
   if (lockedToExactUnit(enh, def)) return !enh.exclKw?.some((k) => hasKeyword(def, k))

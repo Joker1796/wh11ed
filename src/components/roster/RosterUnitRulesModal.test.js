@@ -170,6 +170,67 @@ describe('RosterUnitRulesModal', () => {
     w.unmount()
   })
 
+  it('hides the build-choice blocks for a unit already in a roster', async () => {
+    const [rf, it] = await Promise.all([
+      import('../../data/roster/space-marines.js'),
+      import('../../data/roster/items.js'),
+    ])
+    const def = rf.default.units.find((u) => u.id === 'intercessor-squad')
+    const w = mount(RosterUnitRulesModal, {
+      props: {
+        unitId: 'intercessor-squad',
+        factionSlug: 'space-marines',
+        ctx: { def, entry: { uid: 'a', id: 'intercessor-squad', size: 0 }, items: it.default.items },
+      },
+    })
+    await waitFor('Intercessor Squad')
+    const groups = [...document.body.querySelectorAll('.ds-group-title')].map((e) => e.textContent.trim())
+    expect(groups).not.toContain('Unit Composition')
+    expect(groups).not.toContain('Wargear Options')
+    expect(groups).toContain('Abilities') // the rules themselves are untouched
+    w.unmount()
+  })
+
+  it('keeps the build-choice blocks on a plain preview', async () => {
+    const w = mount(RosterUnitRulesModal, {
+      props: { unitId: 'intercessor-squad', factionSlug: 'space-marines' },
+    })
+    await waitFor('Intercessor Squad')
+    const groups = [...document.body.querySelectorAll('.ds-group-title')].map((e) => e.textContent.trim())
+    expect(groups).toContain('Unit Composition')
+    expect(groups).toContain('Wargear Options')
+    w.unmount()
+  })
+
+  it('shows a detachment rule only to the units it names', async () => {
+    const rf = await import('../../data/roster/orks.js')
+    const it = await import('../../data/roster/items.js')
+    // "Adrenaline Junkies": Speed Freeks units from your army — a Warbike is one, Boyz are not.
+    const det = rf.default.detachments.find((d) => d.name === 'Kult of Speed')
+    const mountFor = (id) => mount(RosterUnitRulesModal, {
+      props: {
+        unitId: id,
+        factionSlug: 'orks',
+        ctx: {
+          def: rf.default.units.find((u) => u.id === id),
+          entry: { uid: 'a', id, size: 0 },
+          items: it.default.items,
+          detachments: [det],
+        },
+      },
+    })
+    const w1 = mountFor('warbikers')
+    await waitFor('Adrenaline Junkies')
+    expect(body().text()).toContain('Adrenaline Junkies')
+    w1.unmount()
+    document.body.innerHTML = ''
+
+    const w2 = mountFor('boyz')
+    await waitFor('Waaagh!')
+    expect(body().text()).not.toContain('Adrenaline Junkies')
+    w2.unmount()
+  })
+
   it('renders the RU overlay when the locale is Russian', async () => {
     const { useLocale } = await import('../../composables/useLocale.js')
     const { locale } = useLocale()
