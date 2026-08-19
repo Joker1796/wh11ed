@@ -206,7 +206,12 @@ Tier A does three things:
    which drops the diaeresis in "Dëlve Assault Shift" and silently misses that grant (24/25
    without the strip, 25/25 with it). `slugify()` itself is load-bearing for DOM ids and the
    search index, so it stays as it is.
-3. **Reports roster facts absent from the datasheet** (`entryContext`) as chips above the card:
+3. **Hides the build-choice blocks** — Unit Composition, the default-loadout sentence and Wargear
+   Options (`DatasheetCard`'s `hideChoices` prop). Each describes a decision the roster has already
+   made, and the printed loadout sentence contradicts the weapon tables once those are trimmed.
+   The Leader "can be attached to" list is deliberately KEPT: it is rules text about how the
+   attachment works, and it stays useful for an entry that hasn't been attached yet.
+4. **Reports roster facts absent from the datasheet** (`entryContext`) as chips above the card:
    Warlord, the enhancement carried (chosen or mandatory), and what the unit is attached to.
    An attachment is only shown when `leaderTargets` can resolve it to a name — never as a uid.
 
@@ -215,15 +220,30 @@ entry; the modal resolves each to its text from the lazily-imported faction bund
 enhancement carried, each of the roster's detachment rules, the army rule, and the abilities of
 any Leader attached to this unit — each in a collapsed `DsAccordion` labelled with its source.
 
-**There is deliberately no keyword gating on those blocks.** Deciding "does this detachment rule
-touch this unit" means parsing prose, and a wrong guess HIDES a rule that applies — the failure
-this layer exists to prevent. Only structural facts gate: an enhancement shows on its bearer, a
-Leader's abilities on the unit it's attached to. Gating the army rule on the datasheet's own
-`faction` ability line was measured and rejected: it matches only 712 of 1039 datasheets, with 22
-distinct mismatch classes (a datasheet lists "Synapse" where `armyRule` is named "Synapse &
-Shadow in the Warp"; Death Guard's sheets say "Pact of Decay" against an `armyRule` named
-"Nurgle's Gift") and 128 sheets carrying no such field at all — wh11ed's single `armyRule` object
-is not 1:1 with a sheet's faction ability, which is why `sync-army-rule-coverage` exists.
+Detachment and army rules are gated by **`src/composables/ruleTargets.js`** — the keyword layer.
+A rule almost always names its own target ("Speed Freeks units from your army…", "friendly
+ADEPTUS CUSTODES TERMINATOR models"), so the gate is read from the same string that renders and
+can never drift from it, which a generated sidecar eventually would. **Always fed the ENGLISH
+body** (`rulesFactionEn` in the modal): keywords stay English but the prose around them is
+translated, so gating the RU text would silently stop matching.
+
+Read that file's header before touching the patterns. **The design is fail-open on purpose** —
+wrongly hiding a rule is much worse than wrongly showing one — with three independent escapes:
+a rule that never mentions your own units isn't gated; a rule where ANY passage talks about your
+units without naming a keyword isn't gated (this is what saves multi-part rules like Aeldari's
+Battle Focus, which names VEHICLE in one of five triggers and would otherwise vanish for every
+infantry unit); and an extraction matching no unit in the whole faction is distrusted and ignored
+(14 of 196 gated rules, e.g. faction prose saying "Votann" where the datasheets carry LEAGUES OF
+VOTANN). Measured across all 30 factions: 27% of (unit, rule) pairs are hidden and no unit ends
+up seeing none of its faction's rules.
+
+An earlier attempt to gate the army rule on the datasheet's own `faction` ability line was
+measured and rejected — 712 of 1039 sheets match, 22 distinct mismatch classes, 128 sheets with
+no such field — because wh11ed's single `armyRule` object is not 1:1 with a sheet's faction
+ability line. Don't retry it; that is what `sync-army-rule-coverage` exists for.
+
+The enhancement and Leader blocks are gated structurally instead (bearer, and the unit joined),
+so they never go through this layer.
 
 Name matching across the two datasets is centralised here: `enhKey()` (moved out of
 `EnhancementRuleModal.vue`, which now imports it, so the two lookups can't drift) and `detKey()`.

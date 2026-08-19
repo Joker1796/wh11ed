@@ -3295,9 +3295,6 @@ export default {
                 "Canoness"
               ]
             }
-          ],
-          "lockDs": [
-            "ad3439bf-2140-483a-8857-da24f99a6248"
           ]
         }
       ]

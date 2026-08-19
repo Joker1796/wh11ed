@@ -194,8 +194,13 @@
       </DsAccordion>
     </div>
 
-    <!-- Composition / loadout / options -->
-    <div v-if="sheet.composition || sheet.loadout" class="ds-ability-group">
+    <!-- Composition / loadout / options.
+         Hidden entirely under `hideChoices` (the roster builder): every one of these three
+         describes a decision the roster has ALREADY made — how many models, what they start
+         equipped with, what may be swapped — and the printed default loadout actively
+         contradicts the card above it there, since the weapon tables are filtered to the
+         entry's real loadout (see src/components/roster/CLAUDE.md). -->
+    <div v-if="!hideChoices && (sheet.composition || sheet.loadout)" class="ds-ability-group">
       <DsAccordion :collapsible="collapsible">
         <template #header="{ open, toggle }">
           <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
@@ -212,7 +217,7 @@
         </div>
       </DsAccordion>
     </div>
-    <div v-if="sheet.options" class="ds-ability-group">
+    <div v-if="!hideChoices && sheet.options" class="ds-ability-group">
       <DsAccordion :collapsible="collapsible">
         <template #header="{ open, toggle }">
           <button v-if="collapsible" type="button" class="ds-group-title ds-group-btn" :aria-expanded="open" @click="toggle">
@@ -317,6 +322,11 @@ const props = defineProps({
   // anywhere (a stale/Legends reference in the source rule text) is left as plain text, not
   // hidden — there's nothing to disambiguate there, it's just not a link target.
   otherFactionUnits: { type: Array, default: () => [] },
+  // Hide the build-choice blocks (Unit Composition, the default-loadout sentence, Wargear
+  // Options). For a datasheet being READ those are the sheet; for a unit already in a roster they
+  // are settled questions, and the loadout sentence disagrees with the weapon tables once those
+  // are trimmed to what the entry actually fields. Off everywhere except the roster's unit modal.
+  hideChoices: { type: Boolean, default: false },
   // Whether printed/granted keywords open the "units with this keyword" modal. Off by default
   // for callers with no per-unit route to link to (Combat Patrol's fixed roster renders every
   // unit inline on one page, not as separate routed datasheets) — keywords there just stay
