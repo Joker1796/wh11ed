@@ -409,7 +409,10 @@ function linkWargearBundles(datasheetId, unitName, drafts, stats) {
 function mergeMiniatureDuplicates(drafts, stats) {
   const byKey = new Map()
   for (const d of drafts) {
-    const k = `${d.text}||${d.opts.map((o) => (o.items ? o.items.map(([u]) => u) : [o.uuid]).slice().sort().join('+')).sort().join('/')}`
+    // Whitespace-insensitive: the two copies of one bullet are typed twice into appdata and do
+    // differ by a stray trailing space (Deathwatch Terminator Squad), which is not a difference
+    // in meaning. Line ORDER still counts — a reordered option list is a different statement.
+    const k = `${d.text.replace(/\s+/g, ' ').trim()}||${d.opts.map((o) => (o.items ? o.items.map(([u]) => u) : [o.uuid]).slice().sort().join('+')).sort().join('/')}`
     if (!byKey.has(k)) byKey.set(k, [])
     byKey.get(k).push(d)
   }

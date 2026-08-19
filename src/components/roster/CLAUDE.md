@@ -210,7 +210,14 @@ taken twice.
 owns it, so the editor prints no miniature name). Safety comes from matching the exact
 instruction text AND the exact option sets: a leader with a genuinely separate allowance is
 always worded differently ("The Sister Superior's boltgun…"), so it never collides; two copies on
-the same miniature are left alone. 99 pairs across 50 units.
+the same miniature are left alone. 101 pairs across 50 units.
+
+The text comparison is **whitespace-normalised** — the two copies are typed into appdata twice and
+one pair (Deathwatch Terminator Squad) differs by a trailing space — but **not** order-normalised:
+a reordered option list is a different statement. What deliberately stays unmerged is a repeated
+lead-in with DIFFERENT options: "1 Battle Sister's boltgun can be replaced with one of the
+following" appears twice on that datasheet, once for a special weapon and once for a heavy one,
+and GW prints it that way too.
 
 It runs **before** the limits below, deliberately — two identical groups are exactly what made a
 limited set ambiguous, and folding them first took the ambiguous count from 43 to 1 and the
