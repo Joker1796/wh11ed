@@ -4,10 +4,11 @@ import { mount, flushPromises } from '@vue/test-utils'
 // Mock the router: the editor reads route.params.id and calls router.replace when a roster
 // is missing. RouterLink is stubbed to a plain anchor so the template renders.
 let ROSTER_ID = ''
+let QUERY = {}
 const replace = vi.fn()
 const push = vi.fn()
 vi.mock('vue-router', () => ({
-  useRoute: () => ({ params: { get id() { return ROSTER_ID } } }),
+  useRoute: () => ({ params: { get id() { return ROSTER_ID } }, get query() { return QUERY }, path: '/roster/x' }),
   useRouter: () => ({ push, replace }),
   RouterLink: { name: 'RouterLink', props: ['to'], template: '<a><slot /></a>' },
 }))
@@ -135,4 +136,32 @@ describe('RosterEditorView', () => {
     await waitFor(w, 'Intercessor Squad')
     expect(w.find('.rc-sticky .btn-ghost').attributes('href')).toBe('/roster')
   })
+
+  it('links to the add-units page instead of embedding the catalogue', async () => {
+    // The faction catalogue moved to /roster/:id/add — the Units tab is the roster's own list
+    // now, and this link is the only way in.
+    const store = useRosters()
+    const r = store.createRoster('Test list')
+    r.faction = 'space-marines'
+    ROSTER_ID = r.id
+    const w = mount(RosterEditorView, { global: { stubs } })
+    await waitFor(w, 'Add units')
+    const link = w.findAll('a').find((a) => a.text().includes('Add units'))
+    expect(link).toBeTruthy()
+    expect(link.attributes('href')).toBe(`/roster/${r.id}/add`)
+  })
+
+  it('opens the entry an issue points at when arriving with ?unit=', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Test list')
+    r.faction = 'space-marines'
+    r.units.push({ uid: 'u1', id: 'intercessor-squad', size: 0 })
+    ROSTER_ID = r.id
+    QUERY = { unit: 'u1' }
+    const w = mount(RosterEditorView, { global: { stubs } })
+    await waitFor(w, 'Intercessor Squad')
+    expect(w.find('.redu-row').attributes('aria-expanded')).toBe('true')
+    QUERY = {}
+  })
 })
+

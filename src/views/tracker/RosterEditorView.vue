@@ -17,12 +17,12 @@
       </button>
     </header>
 
-    <!-- Three switchable panels (not a sequential flow like the creation wizard — any panel can
-         be reopened at any time while editing an existing roster). -->
+    <!-- Two switchable panels (not a sequential flow like the creation wizard — either can be
+         reopened at any time while editing). Adding units is NOT one of them: it fills a page of
+         its own at /roster/:id/add, reached from the button on the Units panel. -->
     <div class="red-tabs" role="tablist">
       <button class="red-tab" :class="{ on: tab === 'settings' }" role="tab" :aria-selected="tab === 'settings'" @click="tab = 'settings'">{{ labels.rosterCreateStep1 }}</button>
       <button class="red-tab" :class="{ on: tab === 'units' }" role="tab" :aria-selected="tab === 'units'" @click="tab = 'units'">{{ labels.rosterViewTabUnits }}</button>
-      <button class="red-tab" :class="{ on: tab === 'loadout' }" role="tab" :aria-selected="tab === 'loadout'" @click="tab = 'loadout'">{{ labels.rosterCreateStep3 }}</button>
     </div>
 
     <!-- Settings: faction, detachment(s), battle size -->
@@ -71,28 +71,16 @@
       </label>
     </div>
 
-    <!-- Units: browse the faction catalogue, add/remove copies -->
-    <div v-else-if="tab === 'units'" class="red-panel">
-      <div v-if="!roster.faction" class="red-hint">{{ labels.rosterPickFaction }}</div>
-      <RosterUnitBrowser
-        v-else-if="factionData"
-        :units="factionData.units"
-        :faction-slug="roster.faction"
-        :added-ids="roster.units.map((u) => u.id)"
-        :detachments="curDetachments"
-        :battle="effBattle"
-        :check-legality="roster.checkLegality !== false"
-        @add="addUnit"
-        @remove="removeUnit"
-      />
-    </div>
-
-    <!-- Loadout ("Комплектация"): per-unit configuration — size, wargear, warlord, enhancement,
-         leader attachment — the same inline accordion as the creation wizard's step 3, one unit
-         open at a time. Units are added/removed on the Units tab, not here. -->
+    <!-- Units: the roster's own list — per-unit configuration (size, wargear, warlord,
+         enhancement, leader attachment) as an inline accordion, one unit open at a time. This is
+         what the tab shows now; browsing the faction catalogue to ADD a unit happens on its own
+         page, one tap away. -->
     <div v-else class="red-panel">
       <div v-if="!roster.faction" class="red-hint">{{ labels.rosterPickFaction }}</div>
       <template v-else>
+        <RouterLink :to="`/roster/${roster.id}/add`" class="red-add">
+          <i class="bi bi-plus-lg"></i> {{ labels.rosterAddUnits }}
+        </RouterLink>
         <p v-if="!roster.units.length" class="red-empty">{{ labels.rosterUnitsEmpty }}</p>
         <div v-else class="redu-list">
           <template v-for="g in groupedUnits" :key="g.id">
@@ -183,7 +171,7 @@
     <RosterIssuesModal
       v-if="issuesOpen"
       :issues="validation.issues"
-      @goto="(uid) => { issuesOpen = false; tab = 'loadout'; openUid = uid }"
+      @goto="(uid) => { issuesOpen = false; tab = 'units'; openUid = uid }"
       @close="issuesOpen = false"
     />
     <RosterExportModal
@@ -203,21 +191,19 @@ import { useRoute, useRouter } from 'vue-router'
 import CollapseTransition from '../../components/CollapseTransition.vue'
 import FactionPickerModal from '../../components/tracker/FactionPickerModal.vue'
 import DetachmentPickerModal from '../../components/tracker/DetachmentPickerModal.vue'
-import RosterUnitBrowser from '../../components/roster/RosterUnitBrowser.vue'
 import UnitEditorFields from '../../components/roster/UnitEditorFields.vue'
 import RosterIssuesModal from '../../components/roster/RosterIssuesModal.vue'
 import RosterExportModal from '../../components/roster/RosterExportModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
-import { useRosters, uid } from '../../composables/useRosters.js'
+import { useRosterEditing } from '../../composables/useRosterEditing.js'
 import rosterCore from '../../data/roster/core.js'
-import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
+import { rosterItems } from '../../data/roster/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import {
-  UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints,
-  canBeWarlord, enhOptionsFor, leaderTargetsFor, leadsFor, defaultLoadoutLines, wargearNames, effectiveBattle,
+  UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints,
+  canBeWarlord, enhOptionsFor, leaderTargetsFor, leadsFor, defaultLoadoutLines, wargearNames,
 } from '../../composables/rosterEngine.js'
-import { validateRoster } from '../../composables/rosterValidation.js'
 import { prefillDraftFromRoster } from '../../composables/rosterHandoff.js'
 import { useTracker } from '../../composables/useTracker.js'
 
@@ -225,10 +211,10 @@ const route = useRoute()
 const router = useRouter()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { rosterById } = useRosters()
 const { current: trackerCurrent } = useTracker()
 
 const tab = ref('units')
+
 
 // Hand the roster to the tracker: pre-fill the setup draft, then go to the wizard (or the
 // tracker home if a live game is in progress, so we never clobber it).
@@ -246,30 +232,16 @@ function save() {
   router.push(`/roster/${roster.value.id}/view`)
 }
 
-const roster = computed(() => rosterById(route.params.id))
+// Roster, faction data, live points and validation come from the composable this view shares
+// with the add-units page (/roster/:id/add) — see useRosterEditing.js for why they are shared
+// rather than copied.
+const {
+  roster, factionData, defOf, curDetachments, effBattle, limit, points, validation, touch,
+} = useRosterEditing(() => route.params.id)
+
 // A missing/deleted id → back to the list (no broken editor shell).
 watch(roster, (r) => { if (!r) router.replace('/roster') }, { immediate: true })
 
-// ── Faction data (dynamic-imported so the heavy roster data only rides the editor chunk) ──
-const factionData = ref(null)
-const loadingFaction = ref(false)
-async function loadFaction(slug) {
-  if (!slug) { factionData.value = null; return }
-  loadingFaction.value = true
-  try {
-    factionData.value = await loadRosterFaction(slug)
-  } finally {
-    loadingFaction.value = false
-  }
-}
-watch(() => roster.value?.faction, (slug) => loadFaction(slug), { immediate: true })
-
-const unitMap = computed(() => {
-  const m = new Map()
-  for (const u of factionData.value?.units || []) m.set(u.id, u)
-  return m
-})
-function defOf(id) { return unitMap.value.get(id) }
 
 // ── Army choices ──
 const allFactions = factionGroups.flatMap((g) => g.factions)
@@ -283,19 +255,10 @@ const accentStyle = computed(() => factionColor.value
 // layout as the tracker: DP cost + Force Disposition).
 const detachmentOptions = computed(() =>
   (factionData.value?.detachments || []).map((d) => ({ name: d.name, dp: d.dp || 0, forceDisposition: d.fd || '' })))
-// The selected detachments' data objects (roster stores names).
-const curDetachments = computed(() =>
-  (roster.value?.detachments || [])
-    .map((name) => (factionData.value?.detachments || []).find((d) => d.name === name))
-    .filter(Boolean))
 const detachmentSummary = computed(() => (roster.value?.detachments || []).join(', '))
 const dpSpent = computed(() => curDetachments.value.reduce((s, d) => s + (d.dp || 0), 0))
 
 const battleSizes = rosterCore.battleSizes
-const effBattle = computed(() => effectiveBattle(roster.value || {}, rosterCore))
-const limit = computed(() => effBattle.value.points)
-
-function touch() { if (roster.value) roster.value.updatedAt = Date.now() }
 
 function pickFaction(slug) {
   factionPickerOpen.value = false
@@ -327,36 +290,23 @@ function setCheckLegality(v) { roster.value.checkLegality = v; touch() }
 const factionPickerOpen = ref(false)
 const detachmentPickerOpen = ref(false)
 
-function defaultSize(def) {
-  const i = def.sizes.findIndex((s) => s.default)
-  return i >= 0 ? i : 0
-}
-function addUnit(unitId) {
-  const def = defOf(unitId)
-  if (!def) return
-  roster.value.units.push({ uid: uid(), id: unitId, size: defaultSize(def) })
-  touch()
-}
-// Removes the most recently added copy of this unit — pairs with the browser's "-" button,
-// which only shows once at least one copy is in the list.
-function removeUnit(unitId) {
-  for (let i = roster.value.units.length - 1; i >= 0; i--) {
-    if (roster.value.units[i].id === unitId) {
-      const [removed] = roster.value.units.splice(i, 1)
-      // Drop any leader attachment that pointed at the removed unit, and close its accordion.
-      for (const u of roster.value.units) if (u.leaderOf === removed.uid) delete u.leaderOf
-      if (openUid.value === removed.uid) openUid.value = null
-      touch()
-      return
-    }
-  }
-}
 
 // ── Loadout tab: only one tile's fields open at a time (classic accordion) ──
 const openUid = ref(null)
 function toggleOpen(entryUid) {
   openUid.value = openUid.value === entryUid ? null : entryUid
 }
+
+// The add-units page sends the reader here when an issue concerns one specific entry
+// (`?unit=<uid>`) — open that unit's accordion and drop the query so a reload doesn't reopen it.
+// Declared AFTER `openUid`: an immediate watcher runs during setup, and referencing a `const`
+// declared further down would hit the temporal dead zone (which it did).
+watch(() => route.query?.unit, (uid) => {
+  if (!uid) return
+  tab.value = 'units'
+  openUid.value = String(uid)
+  if (route.path) router.replace({ path: route.path })
+}, { immediate: true })
 function toggleWarlord(entryUid) {
   const e = roster.value.units.find((u) => u.uid === entryUid)
   if (!e) return
@@ -396,15 +346,8 @@ const entryMeta = computed(() => {
   }
   return m
 })
-const points = computed(() => rosterPoints(roster.value?.units, defOf, curDetachments.value))
-
-// Live validation — never blocks, just reports (see rosterValidation.js).
 const issuesOpen = ref(false)
 const exportOpen = ref(false)
-const validation = computed(() =>
-  factionData.value
-    ? validateRoster(roster.value, { faction: factionData.value, core: rosterCore })
-    : { points: points.value, issues: [], errorCount: 0 })
 
 const groupedUnits = computed(() =>
   UNIT_GROUPS.map((id) => ({
@@ -505,6 +448,26 @@ function rename(name) {
 /* Reserve room for the fixed .rc-sticky footer below, same idea as RosterCreateView.vue's own
    .rc-panel:has(.rc-sticky) — it's always visible here (not gated to a completed step), so
    every tab needs the padding, not just one. */
+/* The way into the add-units page. Deliberately a full-width, quiet block at the top of the
+   list rather than a floating action button: the fixed bar at the bottom is already spoken for
+   (Cancel/Save), and a second floating control there would fight it. */
+.red-add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 100%;
+  margin-bottom: 0.7rem;
+  padding: 0.6rem;
+  border: 1px dashed color-mix(in srgb, var(--accent) 55%, var(--border));
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+.red-add:hover { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+
 .red-panel { display: flex; flex-direction: column; gap: 1.1rem; padding-bottom: 4.5rem; }
 @media (max-width: 900px) {
   .red-panel { padding-bottom: calc(4.5rem + 52px + var(--safe-bottom, 0px)); }

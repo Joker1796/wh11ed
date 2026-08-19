@@ -15,6 +15,7 @@ const TrackerHistoryView = () => import('../views/tracker/TrackerHistoryView.vue
 const RosterListView    = () => import('../views/tracker/RosterListView.vue')
 const RosterCreateView  = () => import('../views/tracker/RosterCreateView.vue')
 const RosterViewView    = () => import('../views/tracker/RosterViewView.vue')
+const RosterAddUnitsView = () => import('../views/tracker/RosterAddUnitsView.vue')
 const RosterEditorView  = () => import('../views/tracker/RosterEditorView.vue')
 const RosterSharedView  = () => import('../views/tracker/RosterSharedView.vue')
 const LinksView         = () => import('../views/LinksView.vue')
@@ -354,6 +355,7 @@ export const router = createRouter({
     { path: '/roster/new',    component: RosterCreateView, meta: { section: 'roster' } },
     { path: '/roster/shared', component: RosterSharedView, meta: { section: 'roster' } },
     { path: '/roster/:id/view', component: RosterViewView, meta: { section: 'roster' } },
+    { path: '/roster/:id/add',  component: RosterAddUnitsView, meta: { section: 'roster' } },
     { path: '/roster/:id',    component: RosterEditorView, meta: { section: 'roster' } },
     { path: '/tracker/history/:id', component: TrackerHistoryView, meta: { section: 'tracker' } },
     { path: '/tracker/auth-callback', component: AuthCallbackView, meta: { section: 'tracker' } },

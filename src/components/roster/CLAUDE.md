@@ -20,7 +20,8 @@ Decoupled from Tracker on 2026-08-03 — it used to ride with that section (`met
 home page, it's stale from before the split.
 
 Routes: `/roster` (list), `/roster/new` (creation wizard), `/roster/:id` (editor),
-`/roster/:id/view` (read-only), `/roster/shared` (import a shared link).
+`/roster/:id/add` (add units), `/roster/:id/view` (read-only), `/roster/shared` (import a shared
+link).
 
 ## Generated data layer
 
@@ -103,6 +104,34 @@ directory; still part of this feature:
   `RosterIssuesModal` the editor's header has, next to the points readout in both step 2 and
   step 3's `.rc-sticky` — so `overDuplicate` (and everything else `validateRoster` catches) is
   visible during the wizard, not just after `finish()` lands on the read-only view.
+
+## Editing flow (reworked 2026-08-19)
+
+The editor has **two** panels, not three: Settings and Units. "Units" is the roster's own list —
+per-unit configuration in an inline accordion, which is what the third "Loadout" panel used to
+hold. Browsing the faction catalogue to ADD a unit is **its own page**, `/roster/:id/add`, reached
+from the dashed button at the top of the Units panel.
+
+A page rather than a tab or a modal, deliberately: on a phone the catalogue wants the whole
+screen, and with a real route the hardware back button closes the catalogue instead of the entire
+editor. Nothing is saved on the way in or out — both directions are plain navigation, because
+every add already writes through to `useRosters.js`.
+
+**`src/composables/useRosterEditing.js`** is what keeps those two routes honest. They edit ONE
+roster from two screens and need the same faction data, points, validation and — critically — the
+same `addUnit`/`removeUnit`. A second copy of `removeUnit` would be free to forget dropping a
+leader attachment that pointed at the removed entry. It is not a store: each screen calls it and
+gets its own reactive handles onto the same underlying roster object.
+
+An issue raised from the add page concerns one entry, which lives in the editor, so the page
+navigates to `/roster/:id?unit=<uid>` and the editor opens that accordion and clears the query.
+That watcher is declared **after** `openUid` on purpose: it runs immediately during setup, and
+referencing a `const` declared further down hits the temporal dead zone (it did).
+
+The creation wizard keeps its three sequential steps, with step 2 now called "Add units". Its
+step markers are buttons: any reachable step can be jumped to, steps 2-3 stay disabled until a
+faction is picked (the same gate step 1's Next button uses), and jumping forward routes through
+`goToUnits()` so the roster still gets created rather than being skipped past.
 
 ## Store
 
