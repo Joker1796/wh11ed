@@ -147,6 +147,13 @@
       v-if="viewingUid && viewingDef"
       :unit-id="viewingDef.id"
       :faction-slug="roster.faction"
+      :ctx="{
+        def: viewingDef,
+        entry: viewingEntry,
+        items: rosterItems.items,
+        detachments: curDetachments,
+        leaderTargets: viewingLeaderTargets,
+      }"
       @close="viewingUid = null"
     />
   </div>
@@ -163,10 +170,10 @@ import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosters } from '../../composables/useRosters.js'
 import rosterCore from '../../data/roster/core.js'
-import { loadRosterFaction } from '../../data/roster/index.js'
+import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
-import { UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints, entrySummary, effectiveBattle } from '../../composables/rosterEngine.js'
+import { UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints, entrySummary, effectiveBattle, leaderTargetsFor } from '../../composables/rosterEngine.js'
 import { phasesOf, phaseLabel, PHASE_ORDER } from '../../composables/stratagemPhases.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 
@@ -211,10 +218,16 @@ watch(() => roster.value?.faction, async (slug) => {
 
 // ── Unit rules modal ──
 const viewingUid = ref(null)
-const viewingDef = computed(() => {
-  const e = roster.value?.units.find((u) => u.uid === viewingUid.value)
-  return e ? defOf(e.id) : null
-})
+const viewingEntry = computed(() => roster.value?.units.find((u) => u.uid === viewingUid.value) || null)
+// The entry, not just its datasheet: the modal's overlay (rosterModifiers.js) needs this unit's
+// own wargear picks to show the loadout it actually fields rather than every option on the sheet.
+const viewingDef = computed(() => (viewingEntry.value ? defOf(viewingEntry.value.id) : null))
+// Resolves `entry.leaderOf` (a uid) to the attached unit's display name for the modal's context
+// strip — the same list the editor's attachment picker is built from, computed here only for the
+// one entry being viewed.
+const viewingLeaderTargets = computed(() => (viewingEntry.value
+  ? leaderTargetsFor(viewingDef.value, roster.value?.units, viewingEntry.value.uid, defOf)
+  : []))
 
 // Same chamfered stat-box plates as DatasheetCard.vue's statline (its statCells()), scaled
 // down for a compact list row — invuln is its own trailing plate (see below) rather than

@@ -62,10 +62,15 @@
     </div>
 
     <!-- Rules preview — clicking a row (not the add button) opens the unit's full card. -->
+    <!-- Detachments only, no entry: this previews a unit that isn't in the roster yet, so there's
+         no loadout to reflect — the printed sheet, showing every option, is what's wanted while
+         deciding whether to add it. The roster's detachments DO already apply though (a unit can
+         gain Battleline from one), so those go in. -->
     <RosterUnitRulesModal
       v-if="previewId && factionSlug"
       :unit-id="previewId"
       :faction-slug="factionSlug"
+      :ctx="{ detachments }"
       @close="previewId = null"
     />
   </div>

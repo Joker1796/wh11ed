@@ -12,6 +12,7 @@
         <RosterUnitRulesModal
           :unit-id="def.id"
           :faction-slug="factionSlug"
+          :ctx="{ def, entry, items, detachments, leaderTargets }"
           @close="rulesOpen = false"
         />
       </FactionAccentScope>
@@ -219,6 +220,10 @@ const props = defineProps({
   items: { type: Object, required: true },
   texts: { type: Object, required: true },
   factionSlug: { type: String, default: '' },
+  // The roster's selected detachments — passed straight through to RosterUnitRulesModal's
+  // overlay ctx, which reads them for the keywords a detachment grants this unit
+  // (rosterModifiers.js). Nothing in this component's own UI uses them.
+  detachments: { type: Array, default: () => [] },
   canWarlord: { type: Boolean, default: false },
   isWarlord: { type: Boolean, default: false },
   enhOptions: { type: Array, default: () => [] },
