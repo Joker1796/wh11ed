@@ -40,6 +40,15 @@ describe('loadoutItemIds', () => {
     expect(loadoutItemIds(squad, { size: 0, wg: [[0, 0, 5]] })).not.toContain(1)
   })
 
+  it('fields BOTH items of a bundled option', () => {
+    // "…replaced with 1 power weapon and 1 plasma pistol" is ONE option granting two items;
+    // reading only the first would leave the second's weapon row trimmed off the card.
+    const bundled = { ...squad, gear: [{ m: 0, t: 3, in: 'checkbox', o: [[[[5, 1], [6, 1]]]], rep: [4] }] }
+    const ids = loadoutItemIds(bundled, { size: 0, wg: [[0, 0, 1]] })
+    expect(ids).toContain(5)
+    expect(ids).toContain(6)
+  })
+
   it('ignores a selection in a group whose condition is not met', () => {
     // Group 1 is live only while group 0 is untouched; with group 0 picked it must not count.
     const conditional = { ...squad, gear: [squad.gear[0], { ...squad.gear[1], cond: [0, 0] }] }

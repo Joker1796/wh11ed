@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url'
 import rosterCore from './core.js'
 import rosterItems from './items.js'
 import { loadRosterFaction } from './index.js'
+import { optionItems } from '../../composables/rosterEngine.js'
 
 const DIR = path.dirname(fileURLToPath(import.meta.url))
 const files = fs.readdirSync(DIR).filter((f) => f.endsWith('.js') && !['index.js', 'core.js', 'items.js', 'index.test.js'].includes(f))
@@ -35,7 +36,7 @@ describe('SM-Chapter shared-pool fold', () => {
       for (const u of folded.units) {
         for (const g of u.gear || []) {
           expect(rosterItems.texts[g.t]).toBeTruthy()
-          for (const o of g.o) expect(rosterItems.items[o[0]]).toBeTruthy()
+          for (const o of g.o) for (const [id] of optionItems(o)) expect(rosterItems.items[id]).toBeTruthy()
         }
       }
     })
@@ -104,7 +105,13 @@ describe('roster factions', () => {
             expect(texts[g.t], `${u.name} gear text ${g.t}`).toBeTruthy()
             expect(g.o.length).toBeGreaterThan(0)
             for (const o of g.o) {
-              expect(items[o[0]], `${u.name} gear item ${o[0]}`).toBeTruthy()
+              // Slot 0 is an item id OR a `[[id, count], …]` bundle — optionItems normalises both.
+              const set = optionItems(o)
+              expect(set.length, `${u.name} gear option ${JSON.stringify(o)}`).toBeGreaterThan(0)
+              for (const [id, n] of set) {
+                expect(items[id], `${u.name} gear item ${id}`).toBeTruthy()
+                expect(n, `${u.name} gear count ${id}`).toBeGreaterThan(0)
+              }
               if (o.length > 1) expect(typeof o[1]).toBe('number') // points
             }
             // gear group targets a valid miniature index
@@ -130,3 +137,26 @@ describe('roster factions', () => {
     })
   }
 })
+
+// Corpus-wide, because the per-faction loops above can't see a regression that thins the layer
+// out everywhere at once. The bundles come from parsing instruction prose (gen-roster-data.mjs's
+// linkWargearBundles) — a change that quietly stops matching would leave every option one item
+// again, which reads as perfectly valid data and silently drops half of 172 swaps.
+describe('bundled wargear options', () => {
+  it('are present across the corpus', async () => {
+    let bundles = 0
+    let groups = 0
+    for (const f of files) {
+      const data = (await import(`./${f}`)).default
+      for (const u of data.units || []) {
+        for (const g of u.gear || []) {
+          groups++
+          if (g.o.some((o) => optionItems(o).length > 1)) bundles++
+        }
+      }
+    }
+    expect(groups).toBeGreaterThan(1000)
+    expect(bundles).toBeGreaterThan(120)
+  })
+})
+

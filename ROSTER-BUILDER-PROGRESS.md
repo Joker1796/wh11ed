@@ -33,8 +33,7 @@ is implemented and tested.
    link) or a planned follow-up — worth a decision before calling this "done", not
    something to build blind.
 3. **Stale comment** in `scripts/gen-roster-data.mjs`'s header claiming it "emits units
-   without gear for now" — full wargear-option parsing is implemented; nobody updated the
-   comment after that landed. Cosmetic, low priority, noted in the scoped CLAUDE.md too.
+   without gear for now" — **fixed 2026-08-19** while working on item 5.
 
 4. **`lockDs` inverted eligibility for all 13 attach-granting enhancements — FIXED 2026-08-19.**
    Reported as Necrons' Murdermind being offered on Skorpekh Destroyers though its own text says
@@ -69,8 +68,8 @@ is implemented and tested.
    it. 13 enhancements across 10 factions grant an attach; all 13 resolve within their own
    faction.
 
-5. **A wargear option can be a BUNDLE of items, and the data model has no slot for that.**
-   Reported 2026-08-19 on Drukhari Wracks: the instruction offers "1 model's twin torturer's
+5. **A wargear option can be a BUNDLE of items — FIXED 2026-08-19.**
+   Reported on Drukhari Wracks: the instruction offers "1 model's twin torturer's
    tools can be replaced with **1 hexrifle and 1 torturer's tool**", but the checkboxes only let
    you take the hexrifle.
 
@@ -96,14 +95,30 @@ is implemented and tested.
    lances" against a single item row. Harmless where it stands, since the weapon table lists a
    name once regardless, but the same parse would fix it.
 
-   Why it's its own task: the fix is a data-format change (`o: [[itemId, pts]]` → an option
-   carrying an item LIST with counts), derived by parsing the instruction prose against the
-   group's own item names — and every reader of `gear` moves with it (`rosterEngine.js`'s points
-   / `defaultLoadoutLines` / `wargearNames`, `rosterExport.js`, `rosterModifiers.js`'s loadout
-   matching, `UnitEditorFields`). It also needs the same drift discipline as the modifier layer:
-   the bundle is read from prose, so the parse has to be re-run and re-checked on every appdata
-   bump rather than hand-fixed once. **Fail-open rule to keep:** an option whose bullet the
-   parser can't resolve to a set stays exactly as it is today (one item), never a guessed pair.
+   **What was built.** `gen-roster-data.mjs`'s `linkWargearBundles` reads the pairing out of the
+   prose — and then verifies it against structure, which is what makes it more than a guess:
+   appdata's `loadout_choice` enumerates each miniature's complete legal loadouts (1145 of 1146
+   datasheets have them), so every set the prose yields must fit inside one of them. **172 groups
+   rewritten; 1 left flat** (Space Marines' Lieutenant, whose appdata text reads "1 neo- volkite
+   pistol" with a stray space, so the name doesn't resolve — exactly the fail-open case). The run
+   prints the leftovers by name.
+
+   Reading the list turned up two shapes the first pass missed, both now handled: appdata uses
+   four bullet markers (`◦ ■ ▫ •`), and one list (Grey Knights' Brotherhood Terminator Squad) has
+   no marker at all — just a head line ending in ':' with an option per line, plus a `*` footnote
+   that is a remark about the options rather than one of them. `splitInstruction` in
+   `rosterEngine.js` reads the same shapes for rendering and returns that footnote separately.
+
+   Option slot 0 became polymorphic (item id, or the full `[[id, count], …]` set) with
+   `optionItems`/`optionLabel` as its only readers — see `src/components/roster/CLAUDE.md`.
+   Because a pick is stored as an index INTO the option list, the renumbering forced
+   `useRosters.js` SCHEMA_VERSION 2: v1 rosters lose their `wg` picks rather than have an old
+   index silently re-read as a different weapon. Everything else about them survives.
+
+   Left alone deliberately: the ~181 groups whose only prose-only detail is a QUANTITY ("replaced
+   with 2 bright lances") outside a bundled group, and the several "you cannot select the same
+   option more than once" groups, where the real gap is how many models take an option — not what
+   an option contains.
 
 ## Where the merge-into-main work is recorded
 
