@@ -258,11 +258,14 @@ describe('ruleSourcesFor', () => {
     expect(ruleSourcesFor({ factionSlug: 'orks' })).toEqual([]) // the browser preview, no detachments yet
   })
 
-  it('lists the army rule and every fielded detachment', () => {
+  it('lists every fielded detachment', () => {
     expect(ruleSourcesFor({ entry, detachments: dets })).toEqual([
       { kind: 'detachment', name: 'War Horde' },
-      { kind: 'armyRule' },
     ])
+  })
+
+  it('never lists the army rule — that is reached from the card\'s own Faction line', () => {
+    expect(kinds({ entry, detachments: dets })).not.toContain('armyRule')
   })
 
   it('lists the enhancement only on the unit carrying it', () => {
@@ -308,7 +311,7 @@ describe('name keys', () => {
 describe('overlaySheet — rule sources', () => {
   it('surfaces them and keeps notes reserved for Tier C', () => {
     const out = overlaySheet(sheet, { entry: { uid: 'a' }, detachments: ['War Horde'] })
-    expect(out.ruleSources.map((r) => r.kind)).toEqual(['detachment', 'armyRule'])
+    expect(out.ruleSources.map((r) => r.kind)).toEqual(['detachment'])
     expect(out.notes).toEqual([])
   })
 

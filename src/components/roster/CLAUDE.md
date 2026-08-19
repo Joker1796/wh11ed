@@ -233,12 +233,29 @@ Tier A does four things:
 Tier B adds attributed prose INSIDE the card, in `DatasheetCard`'s `#before-keywords` slot —
 directly above its closing Keywords line, so the roster context reads as part of the datasheet
 rather than as an appendix after it (the slot exists for exactly this; the card itself stays
-unaware of the roster). `ruleSourcesFor` says WHICH rules bear on the entry and the modal
-resolves each to its text from the lazily-imported faction bundle: the
-enhancement carried, each of the roster's detachment rules, the army rule, and the abilities of
-any Leader attached to this unit — each in a collapsed `DsAccordion` labelled with its source.
+unaware of the roster). `ruleSourcesFor` says WHICH rules bear on the entry and the modal resolves
+each to its text from the lazily-imported faction bundle: the enhancement carried, each of the
+roster's detachment rules, and the abilities of any Leader attached to this unit.
 
-Detachment and army rules are gated by **`src/composables/ruleTargets.js`** — the keyword layer.
+**The block is not itself an accordion** — what applies is always visible and only the individual
+rule bodies collapse, so there is one level of chevrons and opening it can't dump four long rule
+bodies at once. It is marked as not-printed-on-the-card by borrowing the card's own vocabulary for
+a block of a different kind (`.ds-damaged`'s left accent bar) plus a **dashed** border and an
+accent-text heading instead of the printed groups' solid accent bar with white text. Everything
+keys off `--accent`, so it holds in all 30 faction colours and both themes; introducing a fixed
+hue would fight them.
+
+**The army rule is deliberately NOT one of these blocks.** It opens from the card's own
+`Faction:` line, which becomes a clickable `.keyword` exactly like a core ability and shows the
+rule in the same `KeywordPopover` (`useKeywordPopover`'s `openRule`, added for a caller that
+already holds the text). That line is the datasheet's own statement of which army rule it has, so
+it beats anything this layer could infer — and the 128 sheets with no faction line (Anathema
+Psykana, Aeldari wraith constructs, aircraft) correctly offer nothing to open, because they
+genuinely don't have one. The card takes the openable names in `linkedFactionRules` and matches
+them against the comma-separated parts of `sheet.faction` apostrophe-insensitively ("Martial
+Ka’tah" vs "Martial Ka'tah"); unmatched parts stay plain text.
+
+Detachment rules are gated by **`src/composables/ruleTargets.js`** — the keyword layer.
 A rule almost always names its own target ("Speed Freeks units from your army…", "friendly
 ADEPTUS CUSTODES TERMINATOR models"), so the gate is read from the same string that renders and
 can never drift from it, which a generated sidecar eventually would. **Always fed the ENGLISH
@@ -261,7 +278,7 @@ no such field — because wh11ed's single `armyRule` object is not 1:1 with a sh
 ability line. Don't retry it; that is what `sync-army-rule-coverage` exists for.
 
 The enhancement and Leader blocks are gated structurally instead (bearer, and the unit joined),
-so they never go through this layer.
+so they never go through this layer, and the army rule no longer needs it at all.
 
 Name matching across the two datasets is centralised here: `enhKey()` (moved out of
 `EnhancementRuleModal.vue`, which now imports it, so the two lookups can't drift) and `detKey()`.

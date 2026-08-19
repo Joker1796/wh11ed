@@ -65,8 +65,19 @@
         <strong>{{ labels.dsCore }}:</strong>
         <template v-for="(c, i) in coreParts" :key="c">{{ i ? ', ' : ' ' }}<span class="keyword">{{ c }}</span></template>
       </p>
+      <!-- Faction ability line. A caller that HAS the army rule's text (the roster's unit modal)
+           passes its name in `linkedFactionRules`; that part then renders as a `.keyword` and
+           opens in the same popover a core ability does, which is where the army rule belongs —
+           the datasheet's own faction line is its statement of which army rule it has, so a sheet
+           without one (128 of them: Anathema Psykana, Aeldari wraith constructs, aircraft…)
+           correctly offers nothing to open. Parts with no match stay plain text. -->
       <p v-if="sheet.faction" class="ds-ability-line">
-        <strong>{{ labels.dsFaction }}:</strong> <span class="ds-faction-rule">{{ sheet.faction }}</span>
+        <strong>{{ labels.dsFaction }}:</strong>
+        <template v-for="(f, i) in factionParts" :key="f">{{ i ? ', ' : ' ' }}<span
+          v-if="linkedFactionRule(f)"
+          class="keyword"
+          @click="$emit('faction-rule-click', linkedFactionRule(f), $event.currentTarget.getBoundingClientRect())"
+        >{{ f }}</span><span v-else class="ds-faction-rule">{{ f }}</span></template>
       </p>
       <!-- Every block below (Abilities, Wargear/Special Abilities, ability sets, named rules,
            Damaged) collapses into an accordion when shown in a modal (`collapsible`) — stats,
@@ -332,6 +343,10 @@ const props = defineProps({
   // are settled questions, and the loadout sentence disagrees with the weapon tables once those
   // are trimmed to what the entry actually fields. Off everywhere except the roster's unit modal.
   hideChoices: { type: Boolean, default: false },
+  // Army-rule names this card's caller can open (see the faction line above). Matched against the
+  // comma-separated parts of `sheet.faction` apostrophe- and case-insensitively, because the
+  // datasheets and the faction files disagree on the glyph ("Martial Ka’tah" vs "Martial Ka'tah").
+  linkedFactionRules: { type: Array, default: () => [] },
   // Whether printed/granted keywords open the "units with this keyword" modal. Off by default
   // for callers with no per-unit route to link to (Combat Patrol's fixed roster renders every
   // unit inline on one page, not as separate routed datasheets) — keywords there just stay
@@ -343,7 +358,7 @@ const props = defineProps({
 // faction's roster. Faction keywords (ORKS, ADEPTUS ASTARTES…) deliberately stay plain text:
 // virtually every unit on the page shares those, so a "units with this keyword" list would
 // just be the whole roster.
-defineEmits(['keyword-click'])
+defineEmits(['keyword-click', 'faction-rule-click'])
 
 const { locale } = useLocale()
 const { renderInline, renderRichText } = useRenderInline()
@@ -351,6 +366,13 @@ const labels = computed(() => ui[locale.value])
 const fmtBase = (raw) => formatBaseSize(raw, labels.value)
 
 const coreParts = computed(() => (props.sheet.core ? props.sheet.core.split(/,\s*/) : []))
+// The faction line is a comma-separated list too ("Oath of Moment, Curse of the Wulfen"), and
+// only the part the caller can actually open should look clickable.
+const factionParts = computed(() => (props.sheet.faction ? props.sheet.faction.split(/,\s*/) : []))
+const fkey = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim()
+function linkedFactionRule(part) {
+  return props.linkedFactionRules.find((n) => fkey(n) === fkey(part)) || null
+}
 
 // The "Leader" ability-group heading above the bodyguard-unit list: a handful of
 // characters carry the "Support" core ability instead of "Leader" (a Faction-Pack

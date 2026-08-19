@@ -38,13 +38,19 @@
           :faction-slug="factionSlug"
           :granted-keywords="view.grantedKeywords"
           :hide-choices="!!ctx"
+          :linked-faction-rules="linkedFactionRules"
           collapsible
+          @faction-rule-click="openArmyRule"
         >
           <template #before-keywords>
           <!-- What else bears on this unit right now: its enhancement, the roster's detachment
                rules, the army rule, and the abilities of any Leader attached to it. Attribution,
                not inference — each block says where it comes from and nothing is silently folded
-               into the datasheet above (see rosterModifiers.js's ruleSourcesFor). -->
+               into the datasheet above (see rosterModifiers.js's ruleSourcesFor).
+
+               The block itself is NOT an accordion: it's a marked container that always shows
+               what applies, and each rule inside collapses on its own. One level of chevrons,
+               and opening the container can't dump four long rule bodies at once. -->
           <section v-if="ruleBlocks.length" class="rum-rules">
             <h4 class="rum-rules-h">{{ labels.rosterInEffect }}</h4>
             <div v-for="b in ruleBlocks" :key="b.key" class="rum-rule">
@@ -85,6 +91,7 @@ import DsAccordion from '../DsAccordion.vue'
 import RuleBody from '../RuleBody.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
+import { useKeywordPopover } from '../../composables/useKeywordPopover.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 import { overlaySheet, enhKey, detKey } from '../../composables/rosterModifiers.js'
 import { ruleAppliesTo } from '../../composables/ruleTargets.js'
@@ -104,6 +111,7 @@ defineEmits(['close'])
 
 const { locale } = useLocale()
 const { renderInline } = useRenderInline()
+const { openRule } = useKeywordPopover()
 const labels = computed(() => ui[locale.value])
 
 const datasheets = ref([])
@@ -206,6 +214,18 @@ const unitKeywords = computed(() => {
   return [...(en?.keywords || []), ...(en?.factionKeywords || []), ...view.value.grantedKeywords.map((g) => g.kw)]
 })
 
+// The army rule is NOT one of the blocks below: it belongs on the card's own "Faction:" line,
+// which is the datasheet's own statement of which army rule it has, and opens from there in the
+// same popover a core ability uses. A sheet with no faction line (128 of them — Anathema
+// Psykana, Aeldari wraith constructs, aircraft) genuinely has no army rule, so nothing to open.
+const linkedFactionRules = computed(() => {
+  const name = rulesFaction.value?.armyRule?.name
+  return name && rulesFaction.value?.armyRule?.body ? [name] : []
+})
+function openArmyRule(name, rect) {
+  openRule(name, rulesFaction.value?.armyRule?.body, rect)
+}
+
 // Does a rule bear on this unit? Read from the EN body (see rulesFactionEn); the block that
 // renders still shows the localised text.
 function applies(enBody) {
@@ -233,10 +253,6 @@ const ruleBlocks = computed(() => {
       const detEn = (facEn?.detachments || []).find((d) => detKey(d.name) === target)
       if (det?.rule?.body && applies(detEn?.rule?.body)) {
         out.push({ key: `det:${src.name}`, src: `${labels.value.factionDetachment} · ${det.name}`, name: det.rule.name, body: det.rule.body })
-      }
-    } else if (src.kind === 'armyRule') {
-      if (fac?.armyRule?.body && applies(facEn?.armyRule?.body)) {
-        out.push({ key: 'army', src: labels.value.factionArmyRule, name: fac.armyRule.name, body: fac.armyRule.body })
       }
     } else if (src.kind === 'leader') {
       // The attached Leader's own abilities, from the datasheets already loaded for this modal —
@@ -272,25 +288,63 @@ const ruleBlocks = computed(() => {
 /* Rule blocks under the card. Deliberately quieter than the card itself — flat rows, no accent
    band: they're context, and the datasheet stays the thing being read. */
 /* Rendered into DatasheetCard's #before-keywords slot, so it sits INSIDE the card just above the
-   closing Keywords line — the roster context reads as part of the datasheet, not as an appendix
-   after it. Its top rule doubles as the separator from the block above. */
-.rum-rules { margin-top: 0.9rem; padding-top: 0.6rem; border-top: 1px solid var(--border); }
-.rum-rules-h {
-  font-family: var(--font-display); font-size: 1rem; font-weight: 500;
-  color: var(--text-muted); margin: 0 0 0.4rem; text-transform: uppercase; letter-spacing: 0.03em;
+   closing Keywords line. It has to read as belonging to the card AND as visibly not part of the
+   printed datasheet, so it borrows the card's own vocabulary for "a block of a different kind" —
+   the one `.ds-damaged` already uses: the same rounded box and rhythm as `.ds-ability-group`,
+   plus a solid accent bar down the left edge.
+   Two things separate it from the printed groups: the border is DASHED (the ordinary annotation
+   convention — this was added by your roster, it is not ink on the card) and the heading keeps
+   accent-coloured text on a transparent strip instead of the groups' solid accent bar with white
+   text, which would claim it IS printed. The wash is lighter than theirs (4% vs 8%) for the same
+   reason. Everything keys off `--accent`, so it stays right in all 30 faction colours and in both
+   themes; no fixed hue is introduced (`.ds-damaged` can afford its red because "damaged" means
+   one thing — this block does not).
+   Deliberately NOT an accordion itself: what applies is always visible, and only the individual
+   rule bodies collapse. A container accordion would add a second level of chevrons and would dump
+   every rule body at once when opened. */
+.rum-rules {
+  margin: 0.6rem 0;
+  border: 1px dashed color-mix(in srgb, var(--accent) 45%, var(--border));
+  border-left: 3px solid var(--accent);
+  border-radius: 0 4px 4px 0;
+  background: color-mix(in srgb, var(--accent) 4%, transparent);
+  padding: 0.35rem 0.7rem 0.45rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--text-primary);
 }
-.rum-rule + .rum-rule { border-top: 1px solid var(--border); }
+/* Same metrics as DatasheetCard's own `.ds-group-title` (0.68rem/700/1px tracking, accent) so the
+   two headings sit on one visual grid, just without the filled bar. */
+.rum-rules-h {
+  margin: 0 0 0.15rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent);
+}
+.rum-rule + .rum-rule { border-top: 1px dashed color-mix(in srgb, var(--accent) 30%, var(--border)); }
 .rum-rule-btn {
-  display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
-  width: 100%; padding: 0.55rem 0.2rem; min-height: 40px;
-  background: none; border: none; cursor: pointer; text-align: left; color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  min-height: 38px;
+  padding: 0.35rem 0;
+  border: none;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+  color: var(--text-primary);
 }
 .rum-rule-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
-.rum-rule-src { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.03em; }
-.rum-rule-name { font-weight: 600; font-size: 0.95rem; }
-.rum-chev { color: var(--text-muted); flex-shrink: 0; }
-.rum-rule-body { padding: 0 0.2rem 0.7rem; font-size: 0.9rem; }
-.rum-ability { margin-bottom: 0.45rem; }
+.rum-rule-src { font-size: 0.68rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.rum-rule-name { font-weight: 700; }
+.rum-chev { font-size: 0.7rem; color: var(--accent); flex-shrink: 0; }
+.rum-rule-body { padding-bottom: 0.5rem; }
+.rum-ability { margin-bottom: 0.35rem; }
 .rum-ability:last-child { margin-bottom: 0; }
 
 /* Small phones: the modal is already full-width (BaseModal's ≤560px bottom-sheet), so its own

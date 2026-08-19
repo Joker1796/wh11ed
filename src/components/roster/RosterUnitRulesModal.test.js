@@ -156,9 +156,43 @@ describe('RosterUnitRulesModal', () => {
     await waitFor('Get Stuck In!') // the faction rules bundle is a separate async load
     const text = body().text()
     expect(text).toContain('Get Stuck In!') // War Horde's detachment rule
-    expect(text).toContain('Waaagh!') // the army rule
     expect(text).toContain('Bannernob') // the attached Leader, by name
     expect(text).toContain('Waaagh! Banner') // …and its own ability
+    // The army rule is NOT one of these blocks — it lives on the card's own Faction line.
+    expect(document.querySelector('.rum-rules').textContent).not.toContain('Army Rule')
+  })
+
+  it('opens the army rule from the card\'s own Faction line, like a core ability', async () => {
+    const { useKeywordPopover } = await import('../../composables/useKeywordPopover.js')
+    const { activeKeyword, visible, close } = useKeywordPopover()
+    close()
+    const [rf, it] = await Promise.all([
+      import('../../data/roster/orks.js'),
+      import('../../data/roster/items.js'),
+    ])
+    const def = rf.default.units.find((u) => u.id === 'boyz')
+    const w = mount(RosterUnitRulesModal, {
+      props: {
+        unitId: 'boyz',
+        factionSlug: 'orks',
+        ctx: { def, entry: { uid: 'a', id: 'boyz', size: 0 }, items: it.default.items, detachments: [] },
+      },
+    })
+    await waitFor('Boyz')
+    // Wait for the faction bundle, which is what makes the line clickable at all.
+    for (let i = 0; i < 60 && !document.querySelector('.ds-ability-line .keyword'); i++) {
+      await flushPromises()
+      await new Promise((r) => setTimeout(r, 25))
+    }
+    const link = [...document.querySelectorAll('.ds-ability-line .keyword')].find((e) => e.textContent === 'Waaagh!')
+    expect(link).toBeTruthy()
+    await link.click()
+    await flushPromises()
+    expect(visible.value).toBe(true)
+    expect(activeKeyword.value.name).toBe('Waaagh!')
+    expect(activeKeyword.value.fullText).toContain('call a Waaagh!')
+    close()
+    w.unmount()
   })
 
   it('shows no rule blocks without a roster context', async () => {
