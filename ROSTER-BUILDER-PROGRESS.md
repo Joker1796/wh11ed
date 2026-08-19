@@ -150,11 +150,26 @@ is implemented and tested.
    swap could be taken twice.
 
    `mergeMiniatureDuplicates` folds a pair into one unit-wide group (`all: 1`, no `m`) when the
-   instruction text AND the option sets match exactly — a leader with a real separate allowance
-   is always worded differently, so it can't collide. 99 pairs across 50 units; in all of them
-   the copies agreed on what they replace. Running it before the limit matching was the bigger
-   win: identical groups were what made a limited set ambiguous, so ambiguity fell 43 → 1 and
-   capped groups rose 219 → 261.
+   instruction text AND the option sets match — a leader with a real separate allowance is always
+   worded differently, so it can't collide. **101 pairs across 50 units**; in all of them the
+   copies agreed on what they replace. Running it before the limit matching was the bigger win:
+   identical groups were what made a limited set ambiguous, so ambiguity fell 43 → 1 and capped
+   groups rose 219 → 261.
+
+   The text match is **whitespace-normalised**, which is the whole of the follow-up commit: the
+   two copies are typed into appdata twice and one pair (Deathwatch Terminator Squad) differs by
+   a trailing space, so it interned as a different text id and the first, exact version of the
+   fold walked past it. It is deliberately **not** order-normalised — a reordered option list is
+   a different statement, not the same one written twice.
+
+   A corpus scan of every within-unit pair sharing an option set says what is left, and both
+   classes are meant to stay: 7 pairs share the lead-in but differ in options (Battle Sisters'
+   "1 Battle Sister's boltgun can be replaced with one of the following" is printed once for the
+   special- and once for the heavy-weapon slot — two allowances, and GW prints it that way too),
+   and 15 share the options under different text (a base allowance plus an "if this unit contains
+   10 models" one). Exact, whitespace-variant and reordered duplicates are all at zero, and
+   `src/data/roster/index.test.js` keys its invariant on the normalised text so the next one
+   fails a test rather than doubling a section.
 
    SCHEMA_VERSION 3 for the same reason as v2 — group indices moved, and a stale index would
    quietly mean a different weapon.
