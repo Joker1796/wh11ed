@@ -164,9 +164,17 @@ describe('DatasheetCard — weapon row markup the phone layout depends on', () =
     expect(cell.find('.wtags').text()).toContain('LETHAL HITS')
   })
 
+  it('keeps the section caption in the header row, which the phone layout reuses', () => {
+    // On a phone the six stat headers are hidden and this first cell survives as the "Ranged
+    // Weapons" / "Melee Weapons" label above the stacked cards — the only thing telling the two
+    // blocks apart there. Removing it would leave the phone layout unlabelled.
+    const w = mount(DatasheetCard, { props: { sheet } })
+    const captions = w.findAll('.ds-weapons').map((t) => t.find('thead th.wname').text())
+    expect(captions).toEqual(['Ranged Weapons', 'Melee Weapons'])
+  })
+
   it('renders no tag wrapper at all for a weapon without tags', () => {
     const w = mount(DatasheetCard, { props: { sheet } })
     expect(w.findAll('.ds-weapons')[1].find('.wtags').exists()).toBe(false)
   })
 })
-
