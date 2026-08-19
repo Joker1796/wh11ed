@@ -7,6 +7,10 @@
 //   - sourceIds        — is the stable-id bridge (src/data/sourceIds.json) up to date?
 //   - conditionalKeywords — is the rule-granted-keywords sidecar (Deathwing/Battleline/…) fresh?
 //   - factionFaq       — is the per-faction FAQ/errata sidecar (src/data/factionFaq.json) fresh?
+//   - rosterModifiers  — are the roster builder's numeric modifiers still tied to the rule wording
+//     they were read from? Reports stale (the prose moved under a reviewed record), new (prose
+//     that now looks like it changes a number), orphaned and unreviewed — see
+//     ROSTER-MODIFIERS-PROGRESS.md §5
 //   - sync-appdata     — faction/datasheet structure, scalars, renames (all factions)
 //   - sync-faction-text — faction rule/stratagem/enhancement/ability PROSE vs the canon (errata drift)
 //   - sync-tracker     — Game Tracker rule content (missions, twists, battle sizes, …)
@@ -73,6 +77,7 @@ if (current == null) {
 const idsStale = await run('sourceIds bridge (--check)', './gen-source-ids.mjs', ['--check'])
 const condKwStale = await run('conditionalKeywords sidecar (--check)', './gen-conditional-keywords.mjs', ['--check'])
 const faqStale = await run('factionFaq sidecar (--check)', './gen-faction-faq.mjs', ['--check'])
+const modsDirty = await run('rosterModifiers (--check)', './gen-roster-modifiers.mjs', ['--check'])
 await run('sync-appdata (all factions)', './sync-appdata.mjs', ['--all'])
 await run('sync-faction-text (all factions)', './sync-faction-text.mjs', ['--all'])
 await run('sync-tracker', './sync-tracker.mjs')
@@ -93,4 +98,5 @@ console.log(`\n${'═'.repeat(72)}`)
 if (idsStale) console.log('⚠ src/data/sourceIds.json is stale — run `node scripts/gen-source-ids.mjs`.')
 if (condKwStale) console.log('⚠ src/data/conditionalKeywords.json is stale — run `node scripts/gen-conditional-keywords.mjs`.')
 if (faqStale) console.log('⚠ src/data/factionFaq.json is stale — run `node scripts/gen-faction-faq.mjs`.')
+if (modsDirty) console.log('⚠ roster modifiers need attention — `npm run modifiers` then `npm run modifiers:queue`.')
 console.log('Done. Every section above is report-only; read the flagged lines and fix by hand.')
