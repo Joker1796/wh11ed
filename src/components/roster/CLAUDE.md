@@ -197,6 +197,43 @@ Because a pick is stored as an INDEX into the option list, rewriting the lists r
 hence `useRosters.js` SCHEMA_VERSION 2, which drops `wg` from rosters saved under v1 rather than
 re-interpreting an old index as a different weapon.
 
+## How many models may take it
+
+The other half of the same gap: `wargear_option_group` says WHAT a squad may take, never HOW
+MANY models may take it. That lives in its own family — `limited_wargear_choice_set` repeats the
+same choices, and `wargear_limit` gives the cap as a step table keyed by unit size
+(`{modelCount: 5, choiceLimit: 1}, {modelCount: 10, choiceLimit: 2}` = "for every 5 models,
+1 model"), with a `duplicateLimit` that **belongs to the threshold, not to the set** (Cadian
+Shock Troops: 2 picks / 1 of a kind at 10 models, 4 / 2 at 20).
+
+Before this the cap was guessed from the instruction text, and the guess was wrong in both
+directions — "Up to 4 Dominions can each…" read as no cap at all, "For every 5 models, up to 2
+Seraphim" as one. That is not cosmetic: a paid option's points are multiplied by the count, so a
+wrong cap misprices the army.
+
+`linkWargearLimits` attaches a set to a group only when its choices are exactly that group's
+options (and its miniature, when it names one), no other group on the unit matches equally well,
+**and the prose doesn't contradict it** — a set matches by ITEMS, so one describing a wider
+allowance over the same weapons would otherwise attach and hand out extra models. That last guard
+currently saves exactly one group (Blood Angels' Death Company Marines with Jump Packs: prose says
+one model, the table says two), and the run names it. 219 groups end up capped; the 43 ambiguous
+and 82 cross-group sets are left alone.
+
+`wargearGroupCap(def, entry, gi)` reads the applicable row from the live model count — **not the
+size bracket**, since a 6-10 bracket at 6 models is still below a 10-model threshold. `null` =
+no structural cap, keep the old prose-derived behaviour; `{limit: 0}` = the group genuinely
+offers nothing at this size ("if this unit contains 10 models…" in a 5-model squad), which the
+editor states in words instead of hiding, so an existing pick can still be cleared.
+
+**The cap is what picks the editor's mode**, not appdata's `inputType` alone: a group allowing
+several models becomes per-option steppers sharing one budget (`stepMax` = remaining budget,
+never more than the duplicate cap), whatever appdata calls it — "Up to 2 Vigilants can each…"
+was a checkbox, i.e. one choice for the whole squad. Limit 1 stays the familiar radio/toggle.
+
+`validateRoster` reports `overWargearLimit` / `overWargearDup` rather than trimming: the editor
+caps as you click, so a violation means the list was legal and then the unit shrank, and which
+weapon to give up is the player's call.
+
 ## Store
 
 `src/composables/useRosters.js` — module singleton, same pattern as `useTracker.js`/

@@ -213,7 +213,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], bundle: { rewritten: 0, unclaimed: [], unbacked: [] } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], bundle: { rewritten: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, conflict: [] } }
 
 // Global intern dictionaries: wargear item names and group instruction texts repeat heavily
 // ACROSS factions, and — crucially — the SM-Chapter fold pulls space-marines units into a
@@ -394,6 +394,113 @@ function linkWargearBundles(datasheetId, unitName, drafts, stats) {
   }
 }
 
+// ---- Per-group pick limits -------------------------------------------------------------
+// How MANY models in a squad may take an option is not in `wargear_option_group` either — it is
+// its own family: `limited_wargear_choice_set` (per datasheet, sometimes per miniature) holds
+// the same choices again, and `wargear_limit` gives the cap as a step table keyed by unit size
+// ({modelCount: 5, choiceLimit: 1}, {modelCount: 10, choiceLimit: 2} = "for every 5 models,
+// 1 model"). Without it the editor guesses from prose — "Up to 4 Dominions can each…" reads as
+// no cap at all, "For every 5 models, up to 2 Seraphim" as one — and a wrong cap here is not
+// cosmetic: a paid option's points are multiplied by the count, so it misprices the army.
+//
+// Matched by ITEM SETS, not by name or order: a limited set is attached to a group only when its
+// choices are exactly that group's options (and its miniature, when it names one) and no other
+// group on the unit is an equally good match. Sets that enumerate combinations ACROSS groups —
+// 82 of 345, the Battle Sisters "2 models may take one of these specials/heavies" pools — match
+// nothing and are left alone, exactly like every other fail-open path here.
+const lwcItems = new Map()
+for (const r of table('limited_wargear_choice_wargear_item')) {
+  if (!lwcItems.has(r.limitedWargearChoiceId)) lwcItems.set(r.limitedWargearChoiceId, [])
+  lwcItems.get(r.limitedWargearChoiceId).push(r)
+}
+const lwcBySet = new Map()
+for (const c of table('limited_wargear_choice')) {
+  if (!lwcBySet.has(c.limitedWargearChoiceSetId)) lwcBySet.set(c.limitedWargearChoiceSetId, [])
+  lwcBySet.get(c.limitedWargearChoiceSetId).push(c)
+}
+const wgLimitsBySet = new Map()
+for (const l of table('wargear_limit')) {
+  if (!wgLimitsBySet.has(l.limitedWargearChoiceSetId)) wgLimitsBySet.set(l.limitedWargearChoiceSetId, [])
+  wgLimitsBySet.get(l.limitedWargearChoiceSetId).push(l)
+}
+const limitedSetsByDs = new Map()
+for (const s of table('limited_wargear_choice_set')) {
+  if (!limitedSetsByDs.has(s.datasheetId)) limitedSetsByDs.set(s.datasheetId, [])
+  limitedSetsByDs.get(s.datasheetId).push(s)
+}
+
+// An option / choice as a comparable key: its item uuids, order-independent, counts ignored
+// (the two families disagree on quantity often enough that requiring it would lose real matches;
+// the count is taken FROM the limited set once matched).
+const itemsKey = (uuids) => [...new Set(uuids)].sort().join('|')
+const groupKey = (opts) => opts.map((o) => itemsKey((o.items || [[o.uuid]]).map(([u]) => u))).sort().join('#')
+
+// The allowance the instruction states, or null when it doesn't state one plainly. Deliberately
+// narrow: anything scaled ("for every 5 models") or conditional ("if this unit contains 10
+// models") is left to the step table, which expresses those properly; this only reads the flat
+// "up to 2 Dominions…" / "1 model's boltgun…" forms, which is where a wrong match would show up.
+const WORD_NUM = { one: 1, two: 2, three: 3, four: 4, five: 5 }
+function proseAllowance(text) {
+  const t = text.split('\n')[0]
+  if (/\bfor every \d+\b|\bif this unit contains\b|\bany number of\b/i.test(t)) return null
+  const up = t.match(/\bup to (\d+|one|two|three|four|five)\b/i)
+  if (up) return WORD_NUM[up[1].toLowerCase()] || Number(up[1])
+  const lead = t.match(/^\s*(\d+|one|two|three|four|five)\b/i)
+  if (lead) return WORD_NUM[lead[1].toLowerCase()] || Number(lead[1])
+  return null
+}
+
+function linkWargearLimits(datasheetId, unitName, miniIdx, drafts, stats) {
+  const sets = limitedSetsByDs.get(datasheetId) || []
+  if (!sets.length) return
+  for (const set of sets) {
+    const choices = (lwcBySet.get(set.id) || []).map((c) => lwcItems.get(c.id) || [])
+    if (!choices.length) continue
+    const wantKey = choices.map((its) => itemsKey(its.map((i) => i.wargearItemId))).sort().join('#')
+    const wantMini = set.miniatureId == null ? null : miniIdx.get(set.miniatureId)
+
+    const hits = drafts.filter((d) => groupKey(d.opts) === wantKey && (wantMini == null || d.m === wantMini))
+    // Several identical groups (the same choice repeated per miniature) — no way to tell which
+    // one the set means, so neither gets a cap it might not have.
+    if (hits.length !== 1) { stats[hits.length ? 'ambiguous' : 'unmatched']++; continue }
+    const d = hits[0]
+    if (d.lim) { stats.ambiguous++; continue }
+
+    // `[modelCount, choiceLimit]`, plus the duplicate cap as a third slot when there is one —
+    // it belongs to the threshold, not to the set (Cadian Shock Troops: 2 picks / 1 of a kind at
+    // 10 models, 4 picks / 2 of a kind at 20), so hoisting it to the group would misread half
+    // the brackets.
+    const limits = (wgLimitsBySet.get(set.id) || [])
+      .map((l) => (l.duplicateLimit > 0
+        ? [l.modelCount || 0, l.choiceLimit, l.duplicateLimit]
+        : [l.modelCount || 0, l.choiceLimit]))
+      .filter(([, n]) => n > 0)
+      .sort((a, b) => a[0] - b[0])
+    if (!limits.length) continue
+    // Cross-check against the instruction. Two GW sources describing the same allowance can
+    // disagree, and a set matches by ITEMS — so a set that really describes a different, wider
+    // allowance over the same weapons would attach here and quietly hand out extra models
+    // (Blood Angels' Death Company Marines with Jump Packs: prose "1 model's Astartes chainsword
+    // can be replaced with one of the following", limits 2/3). Where the prose states a plain
+    // allowance, it has to agree, or the group keeps the no-cap behaviour — which for a
+    // one-of group IS "one model", the conservative reading.
+    const said = proseAllowance(d.text)
+    if (said != null && said !== limits[0][1]) { stats.conflict.push(`${unitName}: prose ${said} vs appdata ${limits[0][1]} — ${d.text.split('\n')[0].slice(0, 70)}`); continue }
+    d.lim = limits
+
+    // The quantity per option lives here too — "2 inferno pistols", where wargear_option knows
+    // only the item. Applied only where the option doesn't already carry its own count.
+    const byKey = new Map(choices.map((its) => [itemsKey(its.map((i) => i.wargearItemId)), its]))
+    for (const o of d.opts) {
+      const its = byKey.get(itemsKey((o.items || [[o.uuid]]).map(([u]) => u)))
+      if (!its || its.every((i) => (i.count || 1) === 1)) continue
+      o.items = its.map((i) => [i.wargearItemId, i.count || 1])
+      stats.counted++
+    }
+    stats.limited++
+  }
+}
+
 function buildUnit(bd, idMap, fx) {
   const minis = (minisByDs.get(bd.id) || []).slice().sort((a, b) => a.displayOrder - b.displayOrder)
   const miniIdx = new Map(minis.map((m, i) => [m.id, i]))
@@ -483,6 +590,7 @@ function buildUnit(bd, idMap, fx) {
   }
   linkWargearConditions(bd.id, drafts)
   linkWargearBundles(bd.id, bd.name, drafts, report.bundle)
+  linkWargearLimits(bd.id, bd.name, miniIdx, drafts, report.limit)
   const gear = []
   const gearIndex = new Map() // draft -> its final index in `gear`
   drafts.forEach((d, i) => gearIndex.set(d, i))
@@ -501,6 +609,7 @@ function buildUnit(bd, idMap, fx) {
         return e
       }),
     }
+    if (d.lim) grp.lim = d.lim
     if (d.rep?.length) grp.rep = d.rep.map((uuid) => fx.item(uuid))
     if (d.cond) grp.cond = [gearIndex.get(d.cond.sibling), d.cond.active ? 1 : 0]
     gear.push(grp)
@@ -811,6 +920,12 @@ if (report.missingBundle.length) console.log(`  no appdata bundle (skipped): ${r
 if (report.noPoints.length) console.log(`  dropped (no points/composition): ${report.noPoints.join(', ')}`)
 const b = report.bundle
 console.log(`  bundled options: ${b.rewritten} groups rewritten from prose and verified against loadout_choice`)
+const lm = report.limit
+console.log(`  pick limits: ${lm.limited} groups capped from wargear_limit (${lm.counted} options also gained a quantity); no single matching group for ${lm.ambiguous} ambiguous + ${lm.unmatched} cross-group sets`)
+if (lm.conflict.length) {
+  console.log(`  left uncapped — the instruction and wargear_limit disagree (${lm.conflict.length}):`)
+  for (const c of lm.conflict) console.log(`    - ${c}`)
+}
 // Named, not just counted: each one is a group still emitting one item per option where the
 // prose describes a pair, so it's the list to read when a user reports a missing swap.
 for (const [why, list] of [["prose doesn't account for every option", b.unclaimed], ["loadout_choice doesn't back the pair", b.unbacked]]) {

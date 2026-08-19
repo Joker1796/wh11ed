@@ -130,6 +130,36 @@ export function optionLabel(o, items) {
     .join(' + ')
 }
 
+// How many picks a wargear group allows THIS entry, from the generated `lim` step table
+// (gen-roster-data.mjs's linkWargearLimits, matched out of appdata's `wargear_limit`):
+// `[[modelCount, choiceLimit, duplicateLimit?], …]`, the applicable row being the highest
+// threshold the unit's model count reaches. "Up to 2 Seraphim … for every 5 models" is
+// [[0, 2], [10, 4]] — 2 picks in a 5-model squad, 4 in a 10-model one.
+//
+// `null` means the group carries no structural cap and the caller keeps its own behaviour —
+// 220 groups have one, the rest (a cross-group choice pool, an ambiguous match) don't, and
+// inventing a cap for those would forbid legal loadouts.
+export function wargearGroupCap(def, entry, gi) {
+  const rows = def?.gear?.[gi]?.lim
+  if (!rows?.length) return null
+  const size = def.sizes?.[entry?.size ?? 0] || def.sizes?.[0]
+  const models = entry?.count ?? size?.per?.[0] ?? 1
+  let row = null
+  for (const r of rows) if (models >= r[0] && (!row || r[0] > row[0])) row = r
+  // Below every threshold the group genuinely offers nothing ("for every 5 models…" in a
+  // 3-model squad), which is a real 0, not a missing cap.
+  if (!row) return { limit: 0, dup: 0 }
+  return { limit: row[1], dup: row[2] || 0 }
+}
+
+// What the entry has already spent in a group, optionally ignoring one option (so a stepper can
+// ask "how much room is left for ME").
+export function wargearGroupSpent(entry, gi, exceptOi = null) {
+  return (entry?.wg || [])
+    .filter(([g, oi]) => g === gi && oi !== exceptOi)
+    .reduce((n, [, , c]) => n + (c || 1), 0)
+}
+
 // Can this unit be the army's Warlord? Characters (and the rare non-character unit GW flags)
 // unless explicitly barred — EXCEPT a detachment can grant a specific unit an exception to its
 // own usual bar (`det.grantedWarlord`, from wh40k-appdata's detachment_granted_warlord_miniature —
