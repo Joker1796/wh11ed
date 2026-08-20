@@ -25,6 +25,15 @@ describe('rosterShare', () => {
     expect(back.summary).toBeUndefined()
   })
 
+  // The payload is the same versioned shape as a stored roster — wargear picks are indices into
+  // generated data that gets renumbered — so the reader has to know which generation built it.
+  // Without this a link made under an older schema imported as-is, pointing at other weapons.
+  it('carries the storage schema version so an old link can be migrated on import', async () => {
+    const { SCHEMA_VERSION } = await import('./useRosters.js')
+    const back = await decodeRoster(await encodeRoster(roster))
+    expect(back.v).toBe(SCHEMA_VERSION)
+  })
+
   it('decodes the uncompressed (0.) fallback form', async () => {
     // Build a 0. payload directly to exercise the fallback decoder.
     const json = JSON.stringify({ name: 'X', faction: 'orks', detachment: null, battleSize: 'incursion', units: [] })

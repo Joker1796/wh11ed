@@ -23,7 +23,7 @@ import { useRosters } from '../../composables/useRosters.js'
 import { decodeRoster } from '../../composables/rosterShare.js'
 import { buildRosterText } from '../../composables/rosterExport.js'
 import rosterCore from '../../data/roster/core.js'
-import { loadRosterFaction } from '../../data/roster/index.js'
+import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 
 const route = useRoute()
 const router = useRouter()
@@ -45,8 +45,13 @@ onMounted(async () => {
   if (decoded.faction) faction.value = await loadRosterFaction(decoded.faction)
 })
 
+// `items` is what turns a wargear pick into a weapon name — without it buildRosterText silently
+// drops every "• Auto boltstorm gauntlets" line and the reader decides whether to import a list
+// whose loadout they can't see. The dictionary is already in this chunk (index.js re-exports it).
 const preview = computed(() =>
-  payload.value ? buildRosterText(payload.value, { faction: faction.value, core: rosterCore }) : '')
+  payload.value
+    ? buildRosterText(payload.value, { faction: faction.value, core: rosterCore, items: rosterItems.items })
+    : '')
 
 function save() {
   const r = importRoster(payload.value, payload.value.name)

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, defaultLoadoutLines, modelsPerMini, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf } from './rosterEngine.js'
+import { addUnitEntry, removeUnitEntry, enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, defaultLoadoutLines, modelsPerMini, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -429,6 +429,72 @@ describe('enhancement-granted attaches', () => {
     const list = [{ uid: 'a', id: 'chronomancer', enh: 'Murdermind' }, { uid: 'b', id: 'skorpekh-destroyers' }]
     const realDefOf = (id) => rf.default.units.find((u) => u.id === id)
     expect(leaderTargetsFor(def, list, 'a', realDefOf, [det]).map((t) => t.name)).toContain('Skorpekh Destroyers')
+  })
+})
+
+describe('leads restricted to a detachment', () => {
+  // appdata states a Chaos Space Marines leader's Pactbound Zealots attachments twice — once
+  // required inside it, once excluded outside it — so ignoring both fields happened to give the
+  // right list. It only happened to: a one-sided gate would offer an attachment from a detachment
+  // the army never took.
+  const lord = {
+    id: 'chaos-lord',
+    name: 'Chaos Lord',
+    leads: [
+      { to: 'legionaries', type: 'leader', exclDet: 'pz' },
+      { to: 'legionaries', type: 'leader', reqDet: 'pz' },
+      { to: 'chosen', type: 'leader', reqDet: 'pz' },
+    ],
+  }
+  const pz = { name: 'Pactbound Zealots', sid: 'pz', enhancements: [] }
+  const other = { name: 'Renegade Raiders', sid: 'rr', enhancements: [] }
+
+  it('offers a required attachment only inside its own detachment', () => {
+    expect(leadsFor(lord, { uid: 'a' }, [pz]).map((l) => l.to)).toEqual(['legionaries', 'chosen'])
+    expect(leadsFor(lord, { uid: 'a' }, [other]).map((l) => l.to)).toEqual(['legionaries'])
+    expect(leadsFor(lord, { uid: 'a' }, []).map((l) => l.to)).toEqual(['legionaries'])
+  })
+
+  it('keeps one entry per target once the pair collapses', () => {
+    const leads = leadsFor(lord, { uid: 'a' }, [pz])
+    expect(leads.filter((l) => l.to === 'legionaries')).toHaveLength(1)
+  })
+
+  it('leaves an ungated list exactly as it is', () => {
+    const plain = { id: 'x', leads: [{ to: 'a', type: 'leader' }, { to: 'b', type: 'leader' }] }
+    expect(leadsFor(plain, { uid: 'a' }, [pz])).toBe(plain.leads)
+  })
+})
+
+describe('addUnitEntry / removeUnitEntry', () => {
+  // One implementation for both screens that can do this: the editor (via useRosterEditing) and
+  // the creation wizard, whose own copy of the removal used to leave a Leader attached to a unit
+  // that had already left the roster.
+  const def = { id: 'intercessor-squad', sizes: [{ pts: 80, per: [5, 5] }, { pts: 150, per: [10, 10], default: 1 }] }
+
+  it('adds at the datasheet\'s own default bracket', () => {
+    const units = []
+    expect(addUnitEntry(units, def, 'intercessor-squad', 'u1')).toMatchObject({ uid: 'u1', id: 'intercessor-squad', size: 1 })
+    expect(units).toHaveLength(1)
+  })
+
+  it('falls back to the first bracket when none is marked default', () => {
+    const units = []
+    addUnitEntry(units, { id: 'x', sizes: [{ pts: 10, per: [1, 1] }] }, 'x', 'u1')
+    expect(units[0].size).toBe(0)
+  })
+
+  it('removes the most recently added copy and returns its uid', () => {
+    const units = [{ uid: 'u1', id: 'a' }, { uid: 'u2', id: 'b' }, { uid: 'u3', id: 'a' }]
+    expect(removeUnitEntry(units, 'a')).toBe('u3')
+    expect(units.map((u) => u.uid)).toEqual(['u1', 'u2'])
+    expect(removeUnitEntry(units, 'nobody')).toBeNull()
+  })
+
+  it('lets go of a Leader attached to the unit that left', () => {
+    const units = [{ uid: 'u1', id: 'squad' }, { uid: 'u2', id: 'captain', leaderOf: 'u1' }]
+    removeUnitEntry(units, 'squad')
+    expect(units[0].leaderOf).toBeUndefined()
   })
 })
 

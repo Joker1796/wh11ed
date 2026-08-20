@@ -38,11 +38,54 @@ class of derived data as the datasheet/mfm pipelines (structural facts only, no 
   across all factions (most wargear is a free swap; only ~83 options carry a points delta)
 - `src/data/roster/index.js` — `loadRosterFaction(slug)`, lazy per-faction (`import.meta.glob`,
   same PWA-light-entry-chunk discipline as `data/datasheets/index.js`), folds an SM-Chapter's
-  `sharedUnitIds` back in the same way `datasheets/index.js`'s `loadDatasheets` does
+  `sharedUnitIds` back in the same way `datasheets/index.js`'s `loadDatasheets` does, applying
+  that Chapter's own `unitPoints` to the folded units (see Points below)
 - Mutually-exclusive wargear groups (one group's pick depends on another group's, on the same
   datasheet+miniature) have no structural field in appdata linking them — the generator infers
   it; see the "deviation" comments in `gen-roster-data.mjs` around
   `base_miniature_loadout_wargear_option` before touching that logic.
+
+**`npm run roster:data:check`** (`--check`, and part of `npm run sync`) regenerates everything in
+memory and reports which files would change, writing nothing. Without it an appdata bump left the
+largest generated surface of this feature quietly stale — every other generated sidecar in the repo
+had a check and this one didn't.
+
+### Points
+
+**The brackets are appdata's, the prices are the Munitorum Field Manual's** (`src/data/mfm/*.js`,
+scraped from the live list by `scripts/scrape-mfm.py` — the same source `sync-mfm-points.mjs` feeds
+into the datasheet pages). Not a preference between two equal sources:
+
+- appdata records **several parallel price rows per datasheet** — one per Chapter, and for Imperial
+  Agents one per allied context. Mapped straight onto `sizes` they became unit-SIZE choices: two
+  identical "5 models" pills at 80 and 75 points, the wrong one pre-selected. `pickPrices()` groups
+  rows by what actually makes a bracket distinct (model range + `comp` — Corsair Voidscarred really
+  does have three different 7-model builds) and collapses each group to one bracket. 79 rows
+  collapse this way.
+- Which of the parallel lists is this army's own? Where the MFM prices that size it says so
+  outright; where it doesn't (Imperial Agents' "7-11 models") the row's **rank** decides, since the
+  lists are parallel. Nothing is interpolated — a size the MFM doesn't price keeps an appdata
+  number, just the one from the right list. The run names every such size, and the three units the
+  MFM lists without a model count at all (Crusader Squad, Gretchin, Wolf Guard Headtakers, whose
+  composition lives in a `note`), which keep appdata's prices — currently identical anyway.
+- The copy tax stays appdata's `datasheet_points_step` (it knows WHICH copy the surcharge starts
+  at, which the MFM only implies through its "1st-2nd"/"3rd+" notes); the generator cross-checks the
+  surcharge those notes describe and reports a disagreement rather than shipping one.
+- A shared Codex unit can cost a Chapter something else (Blood Angels' Bladeguard, everyone's
+  Repulsor Executioner). Those 11 prices ride on the Chapter file as **`unitPoints`** — unit id →
+  model count → points, only where they differ — and `loadRosterFaction` applies them to the folded
+  units. Same fact, same source and the same numbers as `pointsOverrides` in
+  `src/data/datasheets/<chapter>.js`; `index.test.js` pins the two together.
+
+Before this the roster priced units from appdata alone and quoted a different number than the same
+unit's own datasheet page — 30 brackets across 21 units, up to 35 points on Inquisitor Draxus.
+
+**`LOADOUT_ITEM_FIXES`** is a named substitution table for a `base_miniature_loadout` row that
+points at the wrong wargear item: appdata arms the Death Company Dreadnought with the BRUTALIS
+Dreadnought's fists and bolt rifles, while its own printed loadout and its own swap instruction both
+say blood fists. One entry today, applied only where the printed loadout and the option prose agree
+against the table, and every application is printed by the run — a test pins the result so the table
+gets dropped the moment upstream fixes the row.
 
 ## Pure logic (`src/composables/roster*.js`)
 
@@ -58,18 +101,31 @@ directory; still part of this feature:
   message rendered by `RosterIssuesModal`. Per-unit duplicate cap: the battle size's limit,
   doubled for Battleline/Dedicated Transport, hard-capped at 1 for every Epic Hero regardless
   of battle size (rule 25).
+  **Every question it asks about a unit must be asked the way the EDITOR asks it** — about the
+  ENTRY, not the printed datasheet. `enhIneligible` reads `enhEligible(e, def, granted)` with the
+  keyword an allegiance upgrade handed the entry, because that keyword is what made `enhOptionsFor`
+  offer the enhancement in the first place; without it the editor offered Honoured Fallen to a
+  Telemon Dreadnought and this file called the same list illegal.
+  `unknownUnit` is the one issue about the DATA rather than the list: a roster outlives the
+  generated files it was built against, and an id that no longer resolves is filtered out by every
+  other reader (the grouped lists, the export, the points), so the unit used to vanish and the army
+  to get quietly cheaper.
 - `rosterExport.js` — plain-text army list export, official-app style, EN names throughout
   (unit/detachment/wargear names stay English by project convention)
 - `rosterShare.js` — roster → deflate-compressed base64url payload carried in the URL
   **hash** (`/roster/shared#r=<payload>`, never reaches the server/CDN). Version-prefixed
   decoder (`1.` = deflate-raw, `0.` = uncompressed fallback for engines without
-  `CompressionStream`, i.e. Safari < 16.4).
+  `CompressionStream`, i.e. Safari < 16.4). The payload also carries `v`, the STORAGE
+  `SCHEMA_VERSION` — a link is as long-lived as a bookmark and holds the same indices-into-
+  generated-data a stored roster does, so `importRoster` runs it through the same `migrateRoster`
+  rather than trusting it. A payload with no `v` predates the field and is migrated from zero.
 - `rosterHandoff.js` — pre-fills the Game Tracker's **setup draft** (`GameSetup` hydrates it
   on mount) rather than the saved-game format itself — `wh11ed-api`'s `domain/game.ts`
   contract is untouched by this feature. A partial draft is fine: `GameSetup` merges its own
   defaults over whatever fields this sets.
 - **`leadsFor(def, entry, detachments)`** (`rosterEngine.js`) — the units an ENTRY can attach to:
-  its datasheet's own `leads` plus any its enhancement grants (`enhAttachOf`). 13 enhancements
+  its datasheet's own `leads` (minus any the roster's detachments gate out, see below) plus any its
+  enhancement grants (`enhAttachOf`). 13 enhancements
   game-wide widen the attach list — Necrons' Murdermind gives a Cryptek the Destroyer squads,
   Astra Militarum's Abhuman Detail lets a Commissar join Ogryns — from appdata's
   `enhancement_bodyguard_group`, emitted by the generator as `attach` in the same `{ to, type }`
@@ -81,6 +137,19 @@ directory; still part of this feature:
   `new Map()` (last wins) — two entries for one target would resolve to different types.
   Dropping the enhancement afterwards leaves the now-illegal attachment in place and lets
   `validateRoster` warn about it, rather than silently rewriting the roster.
+  A lead can also carry **`reqDet`/`exclDet`** — a detachment uuid, matched against the `sid` on the
+  roster's detachment objects. 59 leads carry each today, all Chaos Space Marines, where appdata
+  states the same Pactbound Zealots attachments twice (once required-inside, once excluded-outside):
+  the two halves cover every case, which is why ignoring both fields happened to give the right
+  answer. It only happened to — one appdata bump away from a one-sided gate. `gatedLeads()` applies
+  them and dedupes by target+type afterwards, since a collapsed pair must leave exactly one entry
+  (callers read the list both with `.find()` and through `new Map()`).
+- **`addUnitEntry` / `removeUnitEntry`** (`rosterEngine.js`) — the two operations every screen that
+  edits a roster's `units` performs, kept in one place because the removal has a second half that is
+  easy to forget: a Leader attached to the departing unit has to let go of it. The creation wizard's
+  own copy did forget it. `useRosterEditing` and `RosterCreateView` both call these; a screen that
+  writes to `roster.units` any other way is a bug waiting to be reported as "my leader is attached
+  to nothing".
 - **`capKeyOf(def)`** (`rosterEngine.js`) — the identity a unit's duplicate cap
   (`duplicateLimit`) is grouped by. Defaults to the datasheet's own `id`; an optional `charId`
   field is the extension point for the real (currently unrepresented in any faction's
@@ -134,6 +203,16 @@ The creation wizard keeps its three sequential steps, with step 2 now called "Ad
 step markers are buttons: any reachable step can be jumped to, steps 2-3 stay disabled until a
 faction is picked (the same gate step 1's Next button uses), and jumping forward routes through
 `goToUnits()` so the roster still gets created rather than being skipped past.
+
+**The wizard's units are written through to the saved roster, not held until "Done"** (`syncUnits()`
+in `RosterCreateView.vue`, called from add/remove and from `goToUnits`). They used to live in
+component state until `finish()`, so leaving the way every other screen expects to be left — the
+"Back to list" link at the top, a phone's back gesture, a reload — threw the whole list away and left
+behind a roster that had been created on step 2 but was empty. `updateRoster` assigns the SAME array,
+so its identity is shared with the store from then on and the per-entry edits made on step 3 ride
+the store's own deep-watch autosave; that is why `pickFaction` empties it with `splice(0)` rather
+than assigning a new one. Its add/remove go through `rosterEngine`'s `addUnitEntry`/`removeUnitEntry`
+— the same implementation `useRosterEditing` uses, not a second copy.
 
 ## Russian for the wargear instructions
 
@@ -493,6 +572,15 @@ Three things hold this together and are easy to break:
   A second copy of the scope in the data would be free to drift from the prose.
 - **Only `reviewed` records with effects are ever applied** (`usableEntries`). An unreviewed
   skeleton means "somebody still has to read this rule", not "no effect".
+- **`grantedKeywordsFrom` runs before the apply pass, in BOTH readers.** A granted keyword decides
+  which rules bear on the unit at all (Necrons' Destroyer Ankh gives its bearer DESTROYER CULT, and
+  only then does Cold Fervour reach it), so gating on the un-granted set answers a different
+  question. `RosterUnitRulesModal` always did this; `RosterViewView`'s own compact stat plates
+  didn't, which let a plate and the card behind it disagree — the one thing the two sharing
+  `rosterStatMods.js` exists to prevent. No current record makes them differ (8 unconditional
+  keyword grants, none gating a profile stat), so this is a latent case kept closed, not a repair.
+  That view also memoizes the pass per entry (`statModCache`) rather than re-running it for each of
+  the six plates in a row.
 
 The layer is detachable: delete `src/data/rosterModifiers/` and `loadRosterModifiers` resolves to
 null, the card keeps its printed numbers, and Tiers A+B are unaffected. Nothing is written into

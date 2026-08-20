@@ -175,7 +175,7 @@ import { loadRosterFaction, rosterItems } from '../../data/roster/index.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import { UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints, entrySummary, effectiveBattle, leaderTargetsFor, mandatoryEnhancementFor } from '../../composables/rosterEngine.js'
-import { applyStatMods, resolveModifierEntries } from '../../composables/rosterStatMods.js'
+import { applyStatMods, grantedKeywordsFrom, resolveModifierEntries } from '../../composables/rosterStatMods.js'
 import { phasesOf, phaseLabel, PHASE_ORDER } from '../../composables/stratagemPhases.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 
@@ -242,7 +242,7 @@ const viewingLeaderTargets = computed(() => (viewingEntry.value
 function statCellsOf(entry) {
   const sheet = fullSheets.value.get(entry?.id)
   if (!sheet?.profiles?.[0]) return []
-  const { sheet: modded, marks } = statModsFor(entry, sheet)
+  const { sheet: modded, marks } = statModCache.value.get(entry.uid) || statModsFor(entry, sheet)
   const p = modded.profiles[0]
   const marked = new Set(marks)
   const cell = (key, label, value) => ({ key, label, value, mod: marked.has(`profile:${key}:0`) })
@@ -291,9 +291,25 @@ function statModsFor(entry, sheet) {
   const alleg = entry.alleg && def?.alleg ? { g: def.alleg.g, opt: entry.alleg } : null
   const resolved = resolveModifierEntries(modifierRecords.value, factionEn.value, roster.value?.detachments, enh, alleg)
   if (!resolved.length) return { sheet, marks: [] }
-  const kws = [...(sheet.keywords || []), ...(sheet.factionKeywords || [])]
+  const printed = [...(sheet.keywords || []), ...(sheet.factionKeywords || [])]
+  // A granted keyword decides which rules bear on the unit at all, so it has to be resolved BEFORE
+  // the apply pass gates on the keyword set — the same order RosterUnitRulesModal uses. Skipping it
+  // here would let a plate on this row and the card behind it disagree, which is the one thing this
+  // shared implementation exists to prevent.
+  const kws = [...printed, ...grantedKeywordsFrom(resolved, printed, factionKeywordSets.value).map((g) => g.kw)]
   return applyStatMods(sheet, resolved, kws, factionKeywordSets.value)
 }
+
+// One pass per entry, not one per plate: statCellsOf() is called from the template for every row,
+// and resolving + applying the modifier records is real work to repeat six times a row.
+const statModCache = computed(() => {
+  const m = new Map()
+  for (const e of roster.value?.units || []) {
+    const sheet = fullSheets.value.get(e.id)
+    if (sheet) m.set(e.uid, statModsFor(e, sheet))
+  }
+  return m
+})
 
 const unitMap = computed(() => {
   const m = new Map()
