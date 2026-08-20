@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, defaultLoadoutLines, capKeyOf } from './rosterEngine.js'
+import { enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, defaultLoadoutLines, modelsPerMini, capKeyOf } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -575,5 +575,65 @@ describe('the real Kasrkin cap', () => {
     const kasrkin = rf.default.units.find((u) => u.name === 'Kasrkin')
     const gi = kasrkin.gear.findIndex((g) => g.o.length > 3 && g.lim)
     expect(wargearGroupCap(kasrkin, { size: 0 }, gi)).toEqual({ limit: 4, dup: 2 })
+  })
+})
+
+describe('modelsPerMini', () => {
+  // `sizes[i].comp` is appdata's unit_composition_miniature: [[miniIndex, min, max?], …].
+  const squad = (comp) => ({ minis: [{ n: 'Superior' }, { n: 'Sister' }], sizes: [{ pts: 100, per: [5, 10], comp }] })
+
+  it('treats a single-profile datasheet as all of it', () => {
+    const solo = { sizes: [{ pts: 90, per: [1, 1] }] }
+    expect(modelsPerMini(solo, {})).toEqual(new Map([[0, 1]]))
+  })
+
+  it('gives the free profile whatever the fixed ones leave', () => {
+    const def = squad([[0, 1], [1, 4, 9]])
+    expect(modelsPerMini(def, { size: 0, count: 10 })).toEqual(new Map([[0, 1], [1, 9]]))
+    expect(modelsPerMini(def, { size: 0, count: 5 })).toEqual(new Map([[0, 1], [1, 4]]))
+  })
+
+  it('refuses to guess when two profiles are free', () => {
+    // 7 compositions in the corpus (Deathwatch kill teams, Accursed Cultists): the split between
+    // them is the player's, and nothing records it — so every caller falls back instead.
+    expect(modelsPerMini(squad([[0, 1], [1, 2, 5], [2, 0, 4]]), { size: 0, count: 8 })).toBeNull()
+  })
+
+  it('refuses a count the composition cannot produce', () => {
+    expect(modelsPerMini(squad([[0, 1], [1, 4, 9]]), { size: 0, count: 20 })).toBeNull()
+    expect(modelsPerMini({ minis: [{ n: 'A' }, { n: 'B' }], sizes: [{ pts: 1, per: [5, 5] }] }, {})).toBeNull()
+  })
+})
+
+describe('defaultLoadoutLines on a multi-profile squad', () => {
+  // Until the composition data landed, a multi-miniature datasheet subtracted nothing at all —
+  // the swapped-away weapon stayed on the line next to the one that replaced it.
+  const sisters = {
+    minis: [{ n: 'Sister Superior' }, { n: 'Battle Sister' }],
+    sizes: [{ pts: 100, per: [10, 10], default: 1, comp: [[0, 1], [1, 9]] }],
+    defaults: [[0, [[1, 1], [2, 1]]], [1, [[1, 1], [2, 1]]]],
+    gear: [
+      { m: 0, t: 1, in: 'checkbox', o: [[3]], rep: [1] },          // Superior's boltgun → power weapon
+      { m: 1, t: 2, in: 'stepper', o: [[4]], rep: [1] },           // N Sisters' boltguns → flamers
+      { all: 1, t: 3, in: 'stepper', o: [[5]], rep: [2] },         // unit-wide: no profile to spend against
+    ],
+  }
+  const items = { 1: 'Boltgun', 2: 'Bolt pistol', 3: 'Power weapon', 4: 'Flamer', 5: 'Plasma pistol' }
+
+  it('spends a swap against the profile that owns the group', () => {
+    const lines = defaultLoadoutLines(sisters, items, { size: 0, count: 10, wg: [[0, 0, 1]] })
+    expect(lines[0]).toEqual({ mini: 'Sister Superior', items: 'Bolt pistol' })
+    expect(lines[1]).toEqual({ mini: 'Battle Sister', items: 'Boltgun, Bolt pistol' })
+  })
+
+  it('counts a stepper against that profile, not the whole squad', () => {
+    // 3 of the 9 Battle Sisters swap; the Superior's own boltgun is untouched.
+    const lines = defaultLoadoutLines(sisters, items, { size: 0, count: 10, wg: [[1, 0, 3]] })
+    expect(lines[1]).toEqual({ mini: 'Battle Sister', items: 'Boltgun ×6, Bolt pistol' })
+  })
+
+  it('leaves a unit-wide group alone — it belongs to no one profile', () => {
+    const lines = defaultLoadoutLines(sisters, items, { size: 0, count: 10, wg: [[2, 0, 4]] })
+    expect(lines[0]).toEqual({ mini: 'Sister Superior', items: 'Boltgun, Bolt pistol' })
   })
 })

@@ -8,7 +8,7 @@ import { ref, watch } from 'vue'
 
 const KEY = 'wh11ed-rosters'
 // Bump `v` when the stored shape changes; `migrate()` below is the single upgrade point.
-const SCHEMA_VERSION = 3
+const SCHEMA_VERSION = 4
 
 // A stable unique id for a roster (and its line entries). crypto.randomUUID is available in
 // every browser we target and in Node ≥ 16; the fallback keeps tests / old engines working.
@@ -77,6 +77,13 @@ function migrate(env) {
     // different weapon, so the picks are dropped rather than silently re-interpreted. Nothing
     // else is touched: the units, their sizes, enhancements and attachments all stay.
     if (!(env?.v >= 3)) for (const u of r.units || []) delete u.wg
+
+    // → v4: a unit's size is stored as an INDEX into the generated bracket list, and the generator
+    // folded the brackets appdata publishes twice (the same composition repeated under an ally
+    // grouping keyword — Aquila Kill Team listed 5-at-100 and 10-at-200 once plain and once for
+    // Imperium). 42 brackets disappeared, so an old index can point at a different size. The size
+    // falls back to the unit's default bracket instead of being re-read; everything else stays.
+    if (!(env?.v >= 4)) for (const u of r.units || []) { delete u.size; delete u.count }
   }
   return rosters
 }

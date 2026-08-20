@@ -47,13 +47,17 @@
           class="pill"
           :class="{ on: (entry.size ?? 0) === i }"
           @click="setSize(i)"
-        >{{ sizeLabel(s) }} · {{ s.pts }}{{ labels.rosterPointsLabel }}</button>
+        >{{ sizeLabel(s) }} · {{ s.pts }}{{ labels.rosterPointsLabel }}<span
+          v-if="sizeTells[i]"
+          class="pill-tell"
+        > · {{ sizeTells[i] }}</span></button>
       </div>
     </section>
     <section v-if="curRange" class="ues-sec ues-count">
       <h4 class="ues-h">{{ labels.rosterModelsLabel }}</h4>
       <NumberStepper :model-value="models" :min="curSize.per[0]" :max="curSize.per[1]" @update:model-value="setCount" />
     </section>
+    <p v-if="compLine" class="ues-comp">{{ compLine }}</p>
 
     <!-- Default loadout (read-only) -->
     <section v-if="defaultLines.length" class="ues-sec">
@@ -219,7 +223,7 @@ import FactionAccentScope from './FactionAccentScope.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { loadRosterTextsRu } from '../../data/roster/ru/index.js'
-import { defaultLoadoutLines, optionItems, optionLabel, splitInstruction, wargearGroupCap, wargearGroupLive, wargearGroupSpent } from '../../composables/rosterEngine.js'
+import { defaultLoadoutLines, modelsPerMini, optionItems, optionLabel, splitInstruction, wargearGroupCap, wargearGroupLive, wargearGroupSpent } from '../../composables/rosterEngine.js'
 
 const props = defineProps({
   entry: { type: Object, required: true },
@@ -306,6 +310,44 @@ function setCount(n) { props.entry.count = n }
 
 function miniName(m) { return props.def.minis?.[m]?.n || '' }
 
+// How many models of each profile the current bracket + count works out to (null when the data
+// can't say — see modelsPerMini). Drives the composition line, and the per-profile ceiling of a
+// stepper group that belongs to one profile.
+const perMini = computed(() => modelsPerMini(props.def, props.entry))
+const compLine = computed(() => {
+  if (!(props.def.minis?.length > 1) || !perMini.value) return ''
+  return [...perMini.value.entries()]
+    .filter(([, n]) => n > 0)
+    .map(([m, n]) => `${n}× ${miniName(m)}`)
+    .join(' + ')
+})
+
+// Two size pills can read identically — same model count, same points — and differ only in WHICH
+// profiles are in the squad: Corsair Voidscarred has three 7-model builds at 140 points (Shade
+// Runner + Soul Weaver, Soul Weaver + Way Seeker, Shade Runner + Way Seeker). Only those pills get
+// a suffix, naming the profiles that actually tell the tied brackets apart; every other pill is
+// left as it was. All 32 tied brackets in the corpus resolve to a non-empty name this way.
+const bracketAt = (s, m) => (s.comp || []).find((c) => c[0] === m)?.[1] ?? 0
+const sizeTells = computed(() => {
+  const out = new Array(props.def.sizes.length).fill('')
+  const groups = new Map()
+  props.def.sizes.forEach((s, i) => {
+    const k = `${s.per.join('-')}:${s.pts}`
+    if (!groups.has(k)) groups.set(k, [])
+    groups.get(k).push(i)
+  })
+  for (const idxs of groups.values()) {
+    if (idxs.length < 2) continue
+    const varying = (props.def.minis || [])
+      .map((_, m) => m)
+      .filter((m) => new Set(idxs.map((i) => bracketAt(props.def.sizes[i], m))).size > 1)
+    for (const i of idxs) {
+      out[i] = varying.filter((m) => bracketAt(props.def.sizes[i], m) > 0).map(miniName).join(' + ')
+    }
+  }
+  return out
+})
+
 // ── Default loadout summary ──
 const defaultLines = computed(() => defaultLoadoutLines(props.def, props.items, props.entry))
 
@@ -377,7 +419,14 @@ function stepMax(gi, oi) {
     return Math.max(0, Math.min(cap.dup || cap.limit, room))
   }
   const m = (props.texts[props.def.gear[gi].t] || '').match(/for every (\d+) model/i)
-  return m ? Math.floor(models.value / Number(m[1])) : models.value
+  if (m) return Math.floor(models.value / Number(m[1]))
+  // No cap of any kind: the group can be taken by every model it belongs to — which on a
+  // multi-profile datasheet is that PROFILE's model count, not the squad's. "Any number of
+  // Sicarian Ruststalkers can each have their transonic razor replaced" excludes the Princeps,
+  // so a 10-model squad allows 9. 62 groups were over by their squad's leader models.
+  const g = props.def.gear[gi]
+  const own = g.all || g.m == null ? null : perMini.value?.get(g.m)
+  return own ?? models.value
 }
 
 function setEnh(name) { if (name) props.entry.enh = name; else delete props.entry.enh }
@@ -426,6 +475,8 @@ function toggleLeader(uid) { setLeader(props.entry.leaderOf === uid ? null : uid
   white-space: nowrap;
 }
 .ues-count { display: flex; align-items: center; justify-content: space-between; }
+.ues-comp { margin: -0.35rem 0 0; font-size: 0.82rem; color: var(--muted); }
+.pill-tell { opacity: 0.75; }
 .opt-row { display: flex; flex-wrap: wrap; gap: 0.35rem; }
 .opt-col { display: flex; flex-direction: column; gap: 0.3rem; }
 .pill {

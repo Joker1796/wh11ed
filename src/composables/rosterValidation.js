@@ -3,7 +3,7 @@
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
-import { hasKeyword, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, leadsFor, wargearGroupCap, wargearGroupLive, wargearGroupSpent } from './rosterEngine.js'
+import { hasKeyword, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, leadsFor, wargearGroupCap, wargearGroupLive, wargearGroupSpent, modelsPerMini } from './rosterEngine.js'
 
 // Per-unit duplicate cap: the battle size's limit, doubled for Battleline / Dedicated Transport,
 // and hard-capped at 1 for every Epic Hero — regardless of battle size (rule 25).
@@ -84,7 +84,21 @@ export function validateRoster(roster, { faction, core } = {}) {
     const def = defOf(u.id)
     for (const [gi] of (def?.gear || []).entries()) {
       const cap = wargearGroupCap(def, u, gi)
-      if (!cap || !wargearGroupLive(def, u, gi)) continue
+      if (!wargearGroupLive(def, u, gi)) continue
+      if (!cap) {
+        // No structural cap: the ceiling is however many models the group belongs to, which on a
+        // multi-profile datasheet is that PROFILE's count ("any number of Sicarian Ruststalkers"
+        // excludes the Princeps). Deliberately conservative — a "for every 5 models" group has a
+        // tighter limit still, but its wording isn't available here, so this only reports what it
+        // can prove, never a guess.
+        const g = def.gear[gi]
+        const own = g.all || g.m == null ? null : modelsPerMini(def, u)?.get(g.m)
+        const used = wargearGroupSpent(u, gi)
+        if (own != null && used > own) {
+          add('overWargearLimit', 'error', { uid: u.uid, params: { name: def.name, count: used, limit: own } })
+        }
+        continue
+      }
       const spent = wargearGroupSpent(u, gi)
       if (spent > cap.limit) {
         add('overWargearLimit', 'error', { uid: u.uid, params: { name: def.name, count: spent, limit: cap.limit } })

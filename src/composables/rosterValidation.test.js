@@ -80,6 +80,22 @@ describe('validateRoster — wargear pick limits', () => {
     expect(iss.uid).toBe(u.uid)
   })
 
+  it('caps an uncapped group by the profile it belongs to', () => {
+    // No wargear_limit for this one, so the ceiling is the number of models that can take it —
+    // the rank-and-file profile, not the squad (a 10-model unit with one leader allows 9).
+    const troop = {
+      id: 'troop', name: 'Troop', kws: ['Infantry'], flags: {},
+      minis: [{ n: 'Sergeant' }, { n: 'Trooper' }],
+      sizes: [{ pts: 100, per: [10, 10], default: 1, comp: [[0, 1], [1, 9]] }],
+      gear: [{ m: 1, t: 1, in: 'stepper', o: [[1]] }],
+    }
+    const ff = { ...faction, units: [...faction.units, troop] }
+    const run = (wg) => validateRoster(roster({ units: [{ ...U('troop', { size: 0, wg }), warlord: true }] }), { faction: ff, core })
+      .issues.filter((i) => i.code === 'overWargearLimit')
+    expect(run([[0, 0, 9]])).toHaveLength(0)
+    expect(run([[0, 0, 10]])[0].params).toMatchObject({ count: 10, limit: 9 })
+  })
+
   it('flags too many of the same option separately from the total', () => {
     const u = U('squad', { size: 1, wg: [[0, 0, 3]] }) // 3 of a kind, cap 2 — total 3 is under 4
     const codes2 = check(roster({ units: [{ ...u, warlord: true }] })).map((i) => i.code)

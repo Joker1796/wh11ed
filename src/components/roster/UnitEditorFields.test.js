@@ -1,10 +1,13 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
+import NumberStepper from '../tracker/NumberStepper.vue'
 import UnitEditorFields from './UnitEditorFields.vue'
 import rosterItems from '../../data/roster/items.js'
 import drukhari from '../../data/roster/drukhari.js'
 import astraMilitarum from '../../data/roster/astra-militarum.js'
 import imperialAgents from '../../data/roster/imperial-agents.js'
+import aeldari from '../../data/roster/aeldari.js'
+import adeptusMechanicus from '../../data/roster/adeptus-mechanicus.js'
 
 // Mounted against REAL generated data: what this guards is the path from the generator's bundled
 // options to what the player actually reads, which a fixture would hide.
@@ -70,5 +73,38 @@ describe('UnitEditorFields — pick limits', () => {
     expect(mountFor(ratlings).text()).toContain('Not available at this unit size')
     expect(mountFor(ratlings, { size: 1, count: 6 }).text()).toContain('Not available at this unit size')
     expect(mountFor(ratlings, { size: 1, count: 10 }).text()).not.toContain('Not available at this unit size')
+  })
+})
+
+describe('UnitEditorFields — unit composition', () => {
+  const voidscarred = aeldari.units.find((u) => u.id === 'corsair-voidscarred')
+  const ruststalkers = adeptusMechanicus.units.find((u) => u.id === 'sicarian-ruststalkers')
+
+  it('spells out which profiles make up the squad', () => {
+    // "5-10 models" says nothing about who they are; the breakdown does.
+    expect(mountFor(wracks, { size: 1, count: 7 }).find('.ues-comp').text()).toBe('1× Acothyst + 6× Wrack')
+  })
+
+  it('tells tied size pills apart by what actually differs', () => {
+    // Corsair Voidscarred prices three different 7-model builds at 140 points; the pills read
+    // identically without the profile that separates them.
+    const pills = mountFor(voidscarred).findAll('.pill').map((p) => p.text())
+    const sevens = pills.filter((t) => t.startsWith('7 · 140'))
+    expect(sevens).toHaveLength(3)
+    expect(new Set(sevens).size).toBe(3)
+    expect(sevens.join(' ')).toContain('Shade Runner')
+  })
+
+  it('caps an uncapped stepper by its own profile, not the whole squad', () => {
+    // "Any number of Sicarian Ruststalkers can each have their transonic razor…" — the Princeps is
+    // not one of them, so a 10-model unit allows 9 swaps, where the squad count would allow 10.
+    const size = ruststalkers.sizes.findIndex((s) => s.per[1] === 10)
+    const gi = ruststalkers.gear.findIndex((g) => g.m === 1 && g.in === 'stepper' && !g.lim && !g.all)
+    expect(gi).toBeGreaterThan(-1)
+    const w = mountFor(ruststalkers, { size, count: 10 })
+    // Steppers render in group order; the model-count one lives outside the wargear sections.
+    const wargearSteppers = w.findAllComponents(NumberStepper).slice(w.find('.ues-count').exists() ? 1 : 0)
+    const before = ruststalkers.gear.slice(0, gi).filter((g) => g.in === 'stepper' || g.lim?.[0]?.[1] > 1).length
+    expect(wargearSteppers[before].props('max')).toBe(9)
   })
 })

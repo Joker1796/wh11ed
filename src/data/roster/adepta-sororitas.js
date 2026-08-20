@@ -27,7 +27,17 @@ export default {
             2,
             2
           ],
-          "default": 1
+          "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ]
         }
       ],
       "linked": 1,
@@ -154,7 +164,17 @@ export default {
             10,
             10
           ],
-          "default": 1
+          "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              9
+            ]
+          ]
         }
       ],
       "linked": 1,
@@ -619,7 +639,17 @@ export default {
             10,
             10
           ],
-          "default": 1
+          "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              9
+            ]
+          ]
         }
       ],
       "linked": 1,
@@ -773,13 +803,34 @@ export default {
             5,
             5
           ],
-          "default": 1
+          "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              4
+            ]
+          ]
         },
         {
           "pts": 150,
           "per": [
             6,
             10
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              5,
+              9
+            ]
           ]
         }
       ],
@@ -895,7 +946,17 @@ export default {
             2,
             2
           ],
-          "default": 1
+          "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ]
         }
       ],
       "linked": 1,
@@ -1079,7 +1140,17 @@ export default {
             10,
             10
           ],
-          "default": 1
+          "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              9
+            ]
+          ]
         }
       ],
       "linked": 1,
@@ -1993,7 +2064,17 @@ export default {
             3,
             3
           ],
-          "default": 1
+          "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ]
+          ]
         }
       ],
       "linked": 1,
@@ -2196,13 +2277,34 @@ export default {
             5,
             5
           ],
-          "default": 1
+          "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              4
+            ]
+          ]
         },
         {
           "pts": 140,
           "per": [
             6,
             10
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              5,
+              9
+            ]
           ]
         }
       ],
@@ -2258,7 +2360,17 @@ export default {
             5,
             5
           ],
-          "default": 1
+          "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              4
+            ]
+          ]
         }
       ],
       "linked": 1,
@@ -2396,7 +2508,17 @@ export default {
             3,
             3
           ],
-          "default": 1
+          "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ]
+          ]
         }
       ],
       "linked": 1,
@@ -2461,7 +2583,29 @@ export default {
             9,
             9
           ],
-          "default": 1
+          "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              2,
+              1
+            ],
+            [
+              3,
+              2
+            ],
+            [
+              4,
+              4
+            ]
+          ]
         }
       ],
       "linked": 1,
@@ -2643,13 +2787,34 @@ export default {
             5,
             5
           ],
-          "default": 1
+          "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              4
+            ]
+          ]
         },
         {
           "pts": 150,
           "per": [
             6,
             10
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              5,
+              9
+            ]
           ]
         }
       ],
@@ -2821,7 +2986,17 @@ export default {
             10,
             10
           ],
-          "default": 1
+          "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              9
+            ]
+          ]
         }
       ],
       "linked": 1,
@@ -3086,13 +3261,34 @@ export default {
             5,
             5
           ],
-          "default": 1
+          "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              4
+            ]
+          ]
         },
         {
           "pts": 150,
           "per": [
             6,
             10
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              5,
+              9
+            ]
           ]
         }
       ],

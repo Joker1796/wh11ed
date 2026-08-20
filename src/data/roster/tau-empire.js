@@ -103,7 +103,17 @@ export default {
             10,
             10
           ],
-          "default": 1
+          "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              9
+            ]
+          ]
         }
       ],
       "linked": 1,
@@ -191,13 +201,33 @@ export default {
             1,
             1
           ],
-          "default": 1
+          "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              0
+            ]
+          ]
         },
         {
           "pts": 150,
           "per": [
             2,
             2
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ]
           ]
         },
         {
@@ -205,6 +235,16 @@ export default {
           "per": [
             3,
             3
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ]
           ]
         }
       ],
@@ -810,7 +850,17 @@ export default {
             3,
             3
           ],
-          "default": 1
+          "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ]
+          ]
         }
       ],
       "linked": 1,
@@ -928,7 +978,17 @@ export default {
             3,
             3
           ],
-          "default": 1
+          "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ]
+          ]
         }
       ],
       "linked": 1,
@@ -1046,7 +1106,17 @@ export default {
             3,
             3
           ],
-          "default": 1
+          "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ]
+          ]
         }
       ],
       "linked": 1,
@@ -1557,13 +1627,34 @@ export default {
             10,
             10
           ],
-          "default": 1
+          "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              9
+            ]
+          ]
         },
         {
           "pts": 130,
           "per": [
             11,
             20
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              10,
+              19
+            ]
           ]
         }
       ],
@@ -1666,7 +1757,21 @@ export default {
             12,
             12
           ],
-          "default": 1
+          "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              9
+            ],
+            [
+              2,
+              2
+            ]
+          ]
         }
       ],
       "linked": 1,
@@ -2268,7 +2373,17 @@ export default {
             10,
             10
           ],
-          "default": 1
+          "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              9
+            ]
+          ]
         }
       ],
       "linked": 1,
@@ -2720,7 +2835,17 @@ export default {
             5,
             5
           ],
-          "default": 1
+          "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              4
+            ]
+          ]
         }
       ],
       "linked": 1,
@@ -2936,7 +3061,17 @@ export default {
             10,
             10
           ],
-          "default": 1
+          "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              9
+            ]
+          ]
         }
       ],
       "linked": 1,
@@ -3222,7 +3357,17 @@ export default {
             2,
             2
           ],
-          "default": 1
+          "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ]
         }
       ],
       "linked": 1,
@@ -3371,13 +3516,33 @@ export default {
             1,
             1
           ],
-          "default": 1
+          "default": 1,
+          "comp": [
+            [
+              0,
+              0
+            ],
+            [
+              1,
+              1
+            ]
+          ]
         },
         {
           "pts": 105,
           "per": [
             2,
             2
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              1
+            ]
           ]
         }
       ],
@@ -3536,13 +3701,34 @@ export default {
             5,
             5
           ],
-          "default": 1
+          "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              4
+            ]
+          ]
         },
         {
           "pts": 115,
           "per": [
             6,
             10
+          ],
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              5,
+              9
+            ]
           ]
         }
       ],
