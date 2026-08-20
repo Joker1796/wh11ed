@@ -358,4 +358,39 @@ describe('RosterUnitRulesModal', () => {
       locale.value = prev
     }
   })
+
+  // Opened from a game in progress, the card also carries the switches for what THIS unit has
+  // done — the states its own rules read, and nothing else.
+  it('offers the per-unit rule switches the game context hands it', async () => {
+    const w = mount(RosterUnitRulesModal, {
+      props: {
+        unitId: 'intercessor-squad',
+        factionSlug: 'space-marines',
+        gameCtx: {
+          active: new Set(['unit-charged']),
+          switches: [
+            { id: 'unit-charged', label: { en: 'Made a Charge move', ru: 'Совершил Charge' }, on: true, auto: false },
+            { id: 'unit-advanced', label: { en: 'Advanced', ru: 'Совершил Advance' }, on: false, auto: false },
+          ],
+        },
+      },
+    })
+    await waitFor('Intercessor Squad')
+
+    const chips = body().findAll('.rum-cond')
+    expect(chips).toHaveLength(2)
+    expect(chips[0].classes()).toContain('on')
+    expect(chips[1].classes()).not.toContain('on')
+
+    await chips[1].trigger('click')
+    expect(w.emitted('toggle-cond')[0][0].id).toBe('unit-advanced')
+  })
+
+  it('shows no switch row at all outside a game', async () => {
+    mount(RosterUnitRulesModal, {
+      props: { unitId: 'intercessor-squad', factionSlug: 'space-marines' },
+    })
+    await waitFor('Intercessor Squad')
+    expect(body().find('.rum-cond').exists()).toBe(false)
+  })
 })

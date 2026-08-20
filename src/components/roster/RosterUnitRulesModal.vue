@@ -29,6 +29,24 @@
             {{ labels.rosterAttachedTo }} <strong>{{ view.context.attachedTo }}</strong>
           </span>
         </div>
+        <!-- What this unit has done this round. Only states its own rules actually read, so an
+             ordinary unit gets no row at all; flipping one re-applies the modifier above rather
+             than adding a note beside it. -->
+        <div v-if="gameCtx?.switches?.length" class="rum-conds">
+          <button
+            v-for="sw in gameCtx.switches"
+            :key="sw.id"
+            type="button"
+            class="rum-cond"
+            :class="{ on: sw.on }"
+            :aria-pressed="sw.on"
+            :disabled="sw.auto"
+            @click="$emit('toggle-cond', sw)"
+          >
+            <i class="bi" :class="sw.on ? 'bi-check-circle-fill' : 'bi-circle'"></i>
+            {{ sw.label[locale] || sw.label.en }}
+          </button>
+        </div>
         <!-- The card renders the OVERLAID sheet (rosterModifiers.js), not the printed one: with a
              `ctx` it reflects this roster entry's own loadout/context, without one it's the plain
              datasheet. See ROSTER-MODIFIERS-PROGRESS.md for what each phase adds. -->
@@ -109,8 +127,13 @@ const props = defineProps({
   // no entry to pass and gets the plain printed sheet — the pre-overlay behaviour. Shape:
   // { def, entry, items } today; later phases read detachments/units off it too.
   ctx: { type: Object, default: null },
+  // Live game context, only when the card was opened from a game in progress (RosterViewView's
+  // /tracker/game/roster/:pi route). `active` is the set of condition ids currently true — what
+  // lets a conditional modifier actually rewrite a number — and `switches` are the per-unit ones
+  // this player may flip from here. Null everywhere else, which is the read-only behaviour.
+  gameCtx: { type: Object, default: null },
 })
-defineEmits(['close'])
+defineEmits(['close', 'toggle-cond'])
 
 const { locale } = useLocale()
 const { renderInline } = useRenderInline()
@@ -233,7 +256,7 @@ const factionKeywordSets = computed(() =>
 const modifierGrantedKeywords = computed(() => {
   const printed = datasheets.value.find((d) => d.id === props.unitId)
   const base = [...(printed?.keywords || []), ...(printed?.factionKeywords || []), ...view.value.grantedKeywords.map((g) => g.kw)]
-  return grantedKeywordsFrom(resolvedModifiers.value, base, factionKeywordSets.value)
+  return grantedKeywordsFrom(resolvedModifiers.value, base, factionKeywordSets.value, props.gameCtx?.active)
 })
 
 const unitKeywords = computed(() => {
@@ -297,7 +320,7 @@ const resolvedModifiers = computed(() => resolveModifierEntries(
 
 const statMods = computed(() => {
   if (!resolvedModifiers.value.length) return { sheet: view.value.sheet, notes: [], marks: [] }
-  return applyStatMods(view.value.sheet, resolvedModifiers.value, unitKeywords.value, factionKeywordSets.value)
+  return applyStatMods(view.value.sheet, resolvedModifiers.value, unitKeywords.value, factionKeywordSets.value, props.gameCtx?.active)
 })
 
 const usableModifierEntries = computed(() => {
@@ -346,6 +369,14 @@ const ruleBlocks = computed(() => {
 /* Context chips above the card. Muted, low-contrast on purpose — this is roster metadata, not
    part of the datasheet, and must not compete with the card's own accent-coloured header band. */
 .rum-ctx { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.6rem; }
+.rum-conds { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.6rem; }
+.rum-cond {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  padding: 0.25rem 0.6rem; border: 1px solid var(--border); border-radius: 999px;
+  background: var(--bg-card); color: var(--text-muted); font-size: 0.75rem; cursor: pointer;
+}
+.rum-cond:hover:not(:disabled) { border-color: var(--accent); color: var(--text-primary); }
+.rum-cond.on { border-color: var(--accent); color: var(--accent); font-weight: 600; }
 .rum-chip {
   display: inline-flex; align-items: center; gap: 0.3rem;
   padding: 0.2rem 0.5rem; border-radius: 4px;

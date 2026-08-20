@@ -203,14 +203,14 @@ describe('RosterViewView', () => {
   // The in-game route (/tracker/game/roster/:pi) is the SAME screen fed from the game's own
   // snapshot instead of the saved-roster store — a game outlives the list it was played with.
   describe('opened from a game', () => {
-    async function startGame(roster) {
+    async function startGame(roster, faction = 'space-marines') {
       const { useTracker } = await import('../../composables/useTracker.js')
       const { rosterSnapshot } = await import('../../composables/rosterGameLink.js')
       const t = useTracker()
       t.newGame({
         settings: { battleSize: 'strikeForce', firstTurn: 1 },
         players: [
-          { name: 'Me', factionSlug: 'space-marines', detachments: [], disposition: 'balanced', role: 'attacker', rosterId: roster.id, roster: rosterSnapshot(roster) },
+          { name: 'Me', factionSlug: faction, detachments: [], disposition: 'balanced', role: 'attacker', rosterId: roster.id, roster: rosterSnapshot(roster) },
           { name: 'Them', factionSlug: 'orks', detachments: [], disposition: 'balanced', role: 'defender' },
         ],
       })
@@ -245,6 +245,31 @@ describe('RosterViewView', () => {
       const w = mount(RosterViewView, { global: { stubs } })
       await waitFor(w, 'Fielded List')
       expect(w.text()).toContain('Fielded List')
+    })
+
+    // The whole point of the feature, end to end: the Ork player calls a Waaagh! on the tracker
+    // card, and the list they are holding starts showing the numbers it is actually fighting with.
+    it('turns the printed numbers into the live ones when the Waaagh! is called', async () => {
+      const orks = {
+        id: 'r2', name: 'Da List', faction: 'orks', detachments: [],
+        battleSize: 'strike-force', units: [{ uid: 'u1', id: 'boyz', size: 0 }],
+      }
+      const t = await startGame(orks, 'orks')
+      GAME_PI = '0'
+      const w = mount(RosterViewView, { global: { stubs } })
+      await waitFor(w, 'Waaagh!')
+
+      const chip = w.findAll('.rv-cond').find((c) => c.text().includes('Waaagh!'))
+      expect(chip.classes()).not.toContain('on')
+      // Read from the army-rule tracker, not flipped here — there is one switch for this fact.
+      expect(chip.attributes('disabled')).toBeDefined()
+      expect(w.find('.rvst-mod').exists()).toBe(false)
+
+      t.fireArmyToggle(0, t.current.value.currentRound)
+      await waitForSelector(w, '.rvst-mod')
+
+      expect(w.findAll('.rv-cond').find((c) => c.text().includes('Waaagh!')).classes()).toContain('on')
+      expect(w.find('.rvst-mod').exists()).toBe(true)  // a plate the Waaagh! rewrote
     })
 
     it('leaves for the game when that player fielded no list', async () => {

@@ -434,6 +434,34 @@ export function useTracker() {
     else pl.army.choice = id
   }
 
+  // ── Rule-condition switches (roster-in-game) ──────────────────────────────────────────────
+  // What the app cannot know and the player tells it: an army-wide rule state, or one unit's
+  // state (charged, Battle-shocked, carrying an Order). Read by rosterGameContext.js, which
+  // decides whether a conditional Tier C modifier may rewrite a printed number.
+  //
+  // The stored value is the battle ROUND the switch was flipped in — that is what lets a
+  // "until the end of the turn" state expire on its own instead of quietly staying true for the
+  // rest of the game. Absent on games saved before this existed, so every write defaults it.
+  function setArmyCondition(pi, id, round, on) {
+    const pl = current.value.players[pi]
+    if (!pl.ctx) pl.ctx = {}
+    if (!pl.ctx.army) pl.ctx.army = {}
+    if (on) pl.ctx.army[id] = round
+    else delete pl.ctx.army[id]
+  }
+
+  // Keyed by the roster ENTRY's uid — the game carries its own snapshot of the list, so those
+  // uids are stable for the life of the game whatever happens to the saved roster.
+  function setUnitCondition(pi, uid, id, round, on) {
+    const pl = current.value.players[pi]
+    if (!pl.ctx) pl.ctx = {}
+    if (!pl.ctx.units) pl.ctx.units = {}
+    if (!pl.ctx.units[uid]) pl.ctx.units[uid] = {}
+    if (on) pl.ctx.units[uid][id] = round
+    else delete pl.ctx.units[uid][id]
+    if (!Object.keys(pl.ctx.units[uid]).length) delete pl.ctx.units[uid]
+  }
+
   // Army-rule once-per-battle toggle (Waaagh!, etc.) — records the round(s) it was fired in. It's a
   // list because a few abilities can be fired more than once a battle (e.g. an Ork Warboss with the
   // Raucous Warcaller enhancement gets a second Waaagh!); the widget caps how many via the spec.
@@ -749,6 +777,7 @@ export function useTracker() {
     current, history, setupDraft,
     newGame, updateSetup, setRoundPrimary, setCp, setArmyCounter, setArmySelection, toggleArmyMulti,
     setArmyChoice, fireArmyToggle, undoArmyToggle, addArmyDie, removeArmyDie, setArmyPool,
+    setArmyCondition, setUnitCondition,
     resurrectArmyUnit, undoArmyResurrect, applyArmyBonus, undoArmyBonus,
     setPrimaryRow, primaryRowCount,
     drawSecondary, drawSpecificSecondary, returnSecondaryToDeck, discardFromHand,

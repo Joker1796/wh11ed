@@ -18,6 +18,25 @@
 
     <p v-if="!roster.faction" class="rv-hint">{{ labels.rosterViewNoFaction }}</p>
     <template v-else>
+      <!-- What is true in the battle right now. Only the states this list's own rules actually
+           name, and only ones the app can honestly answer — see conditions.js. A switch the
+           tracker already knows the answer to (a called Waaagh!) shows as a fact, not a control. -->
+      <div v-if="armySwitches.length" class="rv-conds">
+        <button
+          v-for="sw in armySwitches"
+          :key="sw.id"
+          type="button"
+          class="rv-cond"
+          :class="{ on: sw.on, auto: sw.auto }"
+          :aria-pressed="sw.on"
+          :disabled="sw.auto"
+          @click="toggleArmyCond(sw)"
+        >
+          <i class="bi" :class="sw.on ? 'bi-check-circle-fill' : 'bi-circle'"></i>
+          {{ sw.label[locale] || sw.label.en }}
+        </button>
+      </div>
+
       <div class="rv-tabs" role="tablist">
         <button
           class="rv-tab"
@@ -157,13 +176,15 @@
         leaderTargets: viewingLeaderTargets,
         units: roster.units,
       }"
+      :game-ctx="viewingGameCtx"
+      @toggle-cond="toggleUnitCond"
       @close="viewingUid = null"
     />
   </div>
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { computed, ref, shallowRef, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import RuleBlock from '../../components/RuleBlock.vue'
 import StratCard from '../../components/StratCard.vue'
@@ -178,6 +199,7 @@ import { loadDatasheets } from '../../data/datasheets/index.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 import { UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints, entrySummary, effectiveBattle, leaderTargetsFor, mandatoryEnhancementFor } from '../../composables/rosterEngine.js'
 import { applyStatMods, grantedKeywordsFrom, resolveModifierEntries } from '../../composables/rosterStatMods.js'
+import { activeConditions, switchesFor } from '../../composables/rosterGameContext.js'
 import { phasesOf, phaseLabel, PHASE_ORDER } from '../../composables/stratagemPhases.js'
 import { getItem, setItem } from '../../composables/safeStorage.js'
 
@@ -197,14 +219,24 @@ const gamePi = computed(() => (route.params.pi != null ? Number(route.params.pi)
 const inGame = computed(() => gamePi.value != null)
 const backTo = computed(() => (inGame.value ? '/tracker/game' : '/roster'))
 const gameRoster = ref(undefined) // undefined = not resolved yet, null = no such attachment
+// shallowRef, not ref: the store hands back an object of REFS, and a deep ref would unwrap them
+// into plain values here — `tracker.value.current.value` would silently be undefined.
+const tracker = shallowRef(null)
 watch(gamePi, async (pi) => {
-  if (pi == null) { gameRoster.value = undefined; return }
+  if (pi == null) { gameRoster.value = undefined; tracker.value = null; return }
   const [{ useTracker }, { rosterFromPlayer }] = await Promise.all([
     import('../../composables/useTracker.js'),
     import('../../composables/rosterGameLink.js'),
   ])
-  gameRoster.value = rosterFromPlayer(useTracker().current.value?.players?.[pi])
+  tracker.value = useTracker()
+  gameRoster.value = rosterFromPlayer(tracker.value.current.value?.players?.[pi])
 }, { immediate: true })
+
+// The live game behind the snapshot: the roster itself is frozen, but what is TRUE about the
+// battle is not, and that is what decides whether a conditional modifier applies.
+const gamePlayer = computed(() => (inGame.value ? tracker.value?.current.value?.players?.[gamePi.value] || null : null))
+const gameRound = computed(() => tracker.value?.current.value?.currentRound || 1)
+const activeFor = (entry) => (inGame.value ? activeConditions(gamePlayer.value, gameRound.value, entry) : null)
 
 const roster = computed(() => (inGame.value ? gameRoster.value || null : rosterById(route.params.id)))
 // Leave only once we KNOW there is nothing to show — while the game's snapshot is still resolving
@@ -310,20 +342,55 @@ watch(() => roster.value?.faction, async (slug) => {
 const factionKeywordSets = computed(() =>
   [...fullSheets.value.values()].map((d) => [...(d.keywords || []), ...(d.factionKeywords || [])]))
 
-function statModsFor(entry, sheet) {
-  if (!entry || !modifierRecords.value.length || !factionEn.value) return { sheet, marks: [] }
+// The modifier records that bear on one entry — shared by the plates and by the switch rows, so
+// a switch can never appear for a rule the card itself doesn't consider.
+function resolvedFor(entry) {
+  if (!entry || !modifierRecords.value.length || !factionEn.value) return []
   const def = defOf(entry.id)
   const enh = entry.enh || mandatoryEnhancementFor(def, curDetachments.value)?.name || null
   const alleg = entry.alleg && def?.alleg ? { g: def.alleg.g, opt: entry.alleg } : null
-  const resolved = resolveModifierEntries(modifierRecords.value, factionEn.value, roster.value?.detachments, enh, alleg)
+  return resolveModifierEntries(modifierRecords.value, factionEn.value, roster.value?.detachments, enh, alleg)
+}
+
+function statModsFor(entry, sheet) {
+  if (!entry || !modifierRecords.value.length || !factionEn.value) return { sheet, marks: [] }
+  const resolved = resolvedFor(entry)
   if (!resolved.length) return { sheet, marks: [] }
+  const active = activeFor(entry)
   const printed = [...(sheet.keywords || []), ...(sheet.factionKeywords || [])]
   // A granted keyword decides which rules bear on the unit at all, so it has to be resolved BEFORE
   // the apply pass gates on the keyword set — the same order RosterUnitRulesModal uses. Skipping it
   // here would let a plate on this row and the card behind it disagree, which is the one thing this
   // shared implementation exists to prevent.
-  const kws = [...printed, ...grantedKeywordsFrom(resolved, printed, factionKeywordSets.value).map((g) => g.kw)]
-  return applyStatMods(sheet, resolved, kws, factionKeywordSets.value)
+  const kws = [...printed, ...grantedKeywordsFrom(resolved, printed, factionKeywordSets.value, active).map((g) => g.kw)]
+  return applyStatMods(sheet, resolved, kws, factionKeywordSets.value, active)
+}
+
+// ── Rule switches (in game only) ────────────────────────────────────────────────────────────
+// Army-wide states go above the list, where they read as facts about the battle rather than about
+// one unit. Per-unit ones live on the unit's own card (RosterUnitRulesModal) — that is where the
+// number they change is shown, and a wall of per-unit switches here would be unreadable.
+const armySwitches = computed(() => {
+  if (!inGame.value) return []
+  const all = (roster.value?.units || []).flatMap((e) => resolvedFor(e))
+  return switchesFor(all, 'army', gamePlayer.value, gameRound.value, null)
+})
+function toggleArmyCond(sw) {
+  if (sw.auto) return // read from the tracker — flip it there, not here
+  tracker.value?.setArmyCondition(gamePi.value, sw.id, gameRound.value, !sw.on)
+}
+
+// The card the unit modal needs: what is true for that entry, and the switches it may flip.
+const viewingGameCtx = computed(() => {
+  if (!inGame.value || !viewingEntry.value) return null
+  return {
+    active: activeFor(viewingEntry.value),
+    switches: switchesFor(resolvedFor(viewingEntry.value), 'unit', gamePlayer.value, gameRound.value, viewingEntry.value),
+  }
+})
+function toggleUnitCond(sw) {
+  if (sw.auto || !viewingEntry.value) return
+  tracker.value?.setUnitCondition(gamePi.value, viewingEntry.value.uid, sw.id, gameRound.value, !sw.on)
 }
 
 // One pass per entry, not one per plate: statCellsOf() is called from the template for every row,
@@ -470,6 +537,16 @@ function stratKey(strat) {
 </script>
 
 <style scoped>
+.rv-conds { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.6rem 0 0.2rem; }
+.rv-cond {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  padding: 0.3rem 0.65rem; border: 1px solid var(--border); border-radius: 999px;
+  background: var(--bg-card); color: var(--text-muted); font-size: 0.78rem; cursor: pointer;
+}
+.rv-cond:hover:not(:disabled) { border-color: var(--accent); color: var(--text-primary); }
+.rv-cond.on { border-color: var(--accent); color: var(--accent); font-weight: 600; }
+.rv-cond.auto { cursor: default; }
+
 .roster-view { padding-top: 0.75rem; padding-bottom: 2rem; }
 .back { display: inline-flex; align-items: center; gap: 0.3rem; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; }
 .back:hover { color: var(--accent); }
