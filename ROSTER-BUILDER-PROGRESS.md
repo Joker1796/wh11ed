@@ -137,9 +137,31 @@ is implemented and tested.
    cleared; and `validateRoster` gained `overWargearLimit`/`overWargearDup` for the list that was
    legal until its unit shrank.
 
-   Still open, and smaller than it looked: the quantity in prose OUTSIDE a limited set ("this
-   model's 2 starcannons can be replaced with 2 bright lances") — display-only, since a weapon
-   table lists a name once regardless.
+   **The tail — the quantity in prose OUTSIDE a limited set — CLOSED 2026-08-20.** 76 groups /
+   125 options across 22 factions ("this model's 2 starcannons can be replaced with 2 bright
+   lances"; 121 of them ×2, two ×4, two ×6). Not purely display after all: `wargearNames` feeds
+   the TEXT EXPORT, so a shared list printed `• Bright lance` where the model carries two, on the
+   same screen where the default loadout already prints `Starcannon ×2`.
+
+   No structural source exists for these — `loadout_choice` records the model's TOTAL of a weapon,
+   not one option's share (Baneblade's twin heavy bolter reads 1/3/5 across its legal loadouts;
+   67 of 161 items are ambiguous that way), and the other three `count`-bearing tables either
+   already feed the generator or are all-1s (`all_model_wargear_choice_wargear_item`, 71 rows).
+   So the prose is it, and `itemsNamedIn` already parsed the number — it was thrown away whenever
+   the statement named a single item.
+
+   **The trap that made this worth measuring first:** the prose mixes two different numbers. "Up to
+   2 seeker missiles" / "up to 4 big shootas" state an ALLOWANCE — how many separate picks, each
+   of one item — and reading them as a set would arm a Tiger Shark with six missiles for one pick.
+   7 groups are in that shape, and they are exactly the 7 whose number contradicts every legal
+   loadout in appdata; a head line matching `up to N` now drops the count and keeps membership.
+   69 groups gained a real quantity.
+
+   Two things deliberately did NOT change. Points: `unitWargearPoints` multiplies by the number of
+   PICKS, never by the count — Forgefiend's "2 Hades autocannons → 2 ectoplasma cannons" costs the
+   5 points appdata charges for the swap, and a test pins that. SCHEMA_VERSION: the count is written
+   onto the existing options in place, so unlike the bundle rewrite no option INDEX moves and stored
+   picks stay valid.
 
 7. **The same instruction shown twice — FIXED 2026-08-19.** Reported on Drukhari Wracks ("На
    каждые 5 моделей в отряде:" appearing twice).

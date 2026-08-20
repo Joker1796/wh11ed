@@ -361,7 +361,12 @@ export default {
           "in": "stepper",
           "o": [
             [
-              1090
+              [
+                [
+                  1090,
+                  2
+                ]
+              ]
             ]
           ],
           "rep": [

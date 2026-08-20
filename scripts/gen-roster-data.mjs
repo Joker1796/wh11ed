@@ -226,7 +226,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], bundle: { rewritten: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, leadKw: { resolved: 0, unresolved: [] } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, leadKw: { resolved: 0, unresolved: [] } }
 
 // Global intern dictionaries: wargear item names and group instruction texts repeat heavily
 // ACROSS factions, and — crucially — the SM-Chapter fold pulls space-marines units into a
@@ -440,7 +440,31 @@ function linkWargearBundles(datasheetId, unitName, drafts, stats) {
 
     const sets = stmts.map((c) => itemsNamedIn(c, vocab))
     if (sets.some((set) => !set.length)) continue        // a statement nothing resolved in
-    if (!sets.some((set) => set.length > 1)) continue    // nothing bundled — leave as generated
+
+    // A number in front of an item is not always a quantity: "up to 2 seeker missiles" / "up to 4
+    // big shootas" state an ALLOWANCE — how many separate picks the model may take, each of one
+    // item — and reading them as a set would hand the model six seeker missiles for one pick.
+    // 7 groups are in that shape, and they are exactly the 7 whose prose number contradicts every
+    // legal loadout in appdata. Membership still stands; only the count is dropped.
+    if (/\bup to \d+\b/i.test(d.text.split('\n')[0])) for (const set of sets) for (const pair of set) pair[1] = 1
+
+    if (!sets.some((set) => set.length > 1)) {
+      // No bundle, but the prose may still say how many of the one item an option grants ("this
+      // model's 2 starcannons can be replaced with 2 bright lances"). 76 groups across 22 factions
+      // are in this shape and appdata has no structural count for them — `loadout_choice` records
+      // the model's TOTAL of that weapon, not this option's contribution (Baneblade's twin heavy
+      // bolter reads 1/3/5), so the prose is the only source. Written onto the existing options
+      // in place: unlike a bundle this changes no option's INDEX, so stored picks stay valid and
+      // SCHEMA_VERSION doesn't move.
+      const qty = new Map(sets.flat().map(([uuid, n]) => [uuid, n]))
+      let counted = false
+      for (const o of d.opts) {
+        const n = qty.get(o.uuid) || 1
+        if (n > 1) { o.items = [[o.uuid, n]]; counted = true }
+      }
+      if (counted) stats.quantified++
+      continue
+    }
     // Every option appdata lists must be accounted for by the prose, or the prose is describing
     // something other than this group's option list and can't be trusted to replace it.
     const claimed = new Set(sets.flat().map(([uuid]) => uuid))
@@ -1071,7 +1095,7 @@ console.log(`\nroster data: ${report.factions} factions, ${report.units} units (
 if (report.missingBundle.length) console.log(`  no appdata bundle (skipped): ${report.missingBundle.join(', ')}`)
 if (report.noPoints.length) console.log(`  dropped (no points/composition): ${report.noPoints.join(', ')}`)
 const b = report.bundle
-console.log(`  bundled options: ${b.rewritten} groups rewritten from prose and verified against loadout_choice`)
+console.log(`  bundled options: ${b.rewritten} groups rewritten from prose and verified against loadout_choice; ${b.quantified} more gained a per-option quantity`)
 const lm = report.limit
 const lk = report.leadKw
 console.log(`  keyword-defined attachments: ${lk.resolved} leader→unit links resolved from datasheet_bodyguard_group_keyword${lk.unresolved.length ? `; ${lk.unresolved.length} name units outside the faction` : ''}`)
