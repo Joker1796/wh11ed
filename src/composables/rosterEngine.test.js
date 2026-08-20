@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, defaultLoadoutLines, modelsPerMini, capKeyOf } from './rosterEngine.js'
+import { enhAttachOf, leadsFor, splitInstruction, optionItems, optionLabel, wargearNames, wargearGroupCap, wargearGroupSpent, bucketOf, unitBasePoints, unitWargearPoints, unitPoints, rosterPoints, canBeWarlord, enhEligible, enhOptionsFor, mandatoryEnhancementFor, enhancementPoints, findEnhancement, effectiveBattle, leaderTargetsFor, wargearGroupLive, defaultLoadoutLines, modelsPerMini, allegFor, allegKeyword, allegItems, allegSpent, capKeyOf } from './rosterEngine.js'
 
 const intercessor = { id: 'intercessor-squad', kws: ['Battleline', 'Infantry'], flags: {}, sizes: [{ pts: 80, per: [5, 5], default: 1 }, { pts: 150, per: [6, 10] }] }
 const captain = { id: 'captain', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 85, per: [1, 1], default: 1 }] }
@@ -635,5 +635,83 @@ describe('defaultLoadoutLines on a multi-profile squad', () => {
   it('leaves a unit-wide group alone — it belongs to no one profile', () => {
     const lines = defaultLoadoutLines(sisters, items, { size: 0, count: 10, wg: [[2, 0, 4]] })
     expect(lines[0]).toEqual({ mini: 'Sister Superior', items: 'Boltgun, Bolt pistol' })
+  })
+})
+
+describe('allegiance choices', () => {
+  const mark = {
+    id: 'chaos-vindicator', name: 'Chaos Vindicator', kws: ['Vehicle'], flags: {}, sizes: [{ pts: 185, per: [1, 1] }],
+    alleg: { g: 'mark-of-chaos', t: 'Mark of Chaos', det: 'Pactbound Zealots', req: 1, o: [{ n: 'Khorne' }, { n: 'Nurgle' }] },
+  }
+  const grinder = {
+    id: 'soul-grinder', name: 'Soul Grinder', kws: ['Daemon'], flags: {}, sizes: [{ pts: 175, per: [1, 1] }],
+    alleg: { g: 'daemonic-allegiance', t: 'Daemonic Allegiance', req: 1, o: [{ n: 'Khorne', wg: 7 }, { n: 'Nurgle', wg: 8 }] },
+  }
+  const rhino = {
+    id: 'rhino', name: 'Rhino', kws: ['Vehicle', 'Transport'], flags: {}, sizes: [{ pts: 75, per: [1, 1] }],
+    alleg: { g: 'headhunter-task-force-keywords', t: 'Headhunter Task Force Keywords', det: 'Headhunter Task Force', max: 3, o: [{ n: 'Character' }] },
+  }
+  const pactbound = { name: 'Pactbound Zealots', dp: 3, enhancements: [] }
+
+  it('is live only while the detachment that gates it is in the army', () => {
+    expect(allegFor(mark, [pactbound])).toBeTruthy()
+    expect(allegFor(mark, [{ name: 'Veterans of the Long War', enhancements: [] }])).toBeNull()
+    expect(allegFor(grinder, [])).toBeTruthy() // Daemonic Allegiance is ungated
+  })
+
+  it('turns the choice into the keyword the unit gains', () => {
+    expect(allegKeyword(mark, { alleg: 'Nurgle' }, [pactbound])).toBe('Nurgle')
+    expect(allegKeyword(mark, {}, [pactbound])).toBeNull()
+    expect(allegKeyword(mark, { alleg: 'Nurgle' }, [])).toBeNull() // gate closed
+  })
+
+  it('carries the weapon a mark adds', () => {
+    // "This model is additionally equipped with: phlegm bombardment".
+    expect(allegItems(grinder, { alleg: 'Nurgle' }, [])).toEqual([8])
+    expect(allegItems(mark, { alleg: 'Nurgle' }, [pactbound])).toEqual([])
+  })
+
+  it('counts what the army has spent against a capped group', () => {
+    const units = [{ uid: 'a', id: 'rhino', alleg: 'Character' }, { uid: 'b', id: 'rhino' }, { uid: 'c', id: 'rhino', alleg: 'Character' }]
+    const defOf = () => rhino
+    const dets = [{ name: 'Headhunter Task Force', enhancements: [] }]
+    expect(allegSpent(units, defOf, 'headhunter-task-force-keywords', dets)).toBe(2)
+  })
+
+  it('lets a granted CHARACTER carry an enhancement', () => {
+    // The whole point of the Headhunter upgrade: a Rhino that gained CHARACTER can take one.
+    const enh = { name: 'Fell Gaze', pts: 10 }
+    expect(enhEligible(enh, rhino)).toBe(false)
+    expect(enhEligible(enh, rhino, ['Character'])).toBe(true)
+  })
+})
+
+describe('attaching under Marks of Chaos', () => {
+  // "A Character unit can only be attached to a unit if both units share the same keyword."
+  const sorcerer = {
+    id: 'sorcerer', name: 'Sorcerer', kws: ['Character', 'Psyker'], flags: { char: 1 }, sizes: [{ pts: 70, per: [1, 1] }],
+    leads: [{ to: 'chaos-marines', type: 'leader' }],
+    alleg: { g: 'mark-of-chaos', t: 'Mark of Chaos', det: 'Pactbound Zealots', req: 1, o: [{ n: 'Tzeentch' }, { n: 'Nurgle' }] },
+  }
+  const squad = { id: 'chaos-marines', name: 'Legionaries', kws: ['Infantry'], flags: {}, sizes: [{ pts: 90, per: [5, 5] }] }
+  const dets = [{ name: 'Pactbound Zealots', dp: 3, enhancements: [] }]
+  const defOf = (id) => (id === 'sorcerer' ? sorcerer : squad)
+
+  const targets = (own, theirs) => leaderTargetsFor(
+    sorcerer,
+    [{ uid: 'me', id: 'sorcerer', ...(own ? { alleg: own } : {}) }, { uid: 'them', id: 'chaos-marines', ...(theirs ? { alleg: theirs } : {}) }],
+    'me', defOf, dets,
+  ).map((t) => t.uid)
+
+  it('offers a squad that shares the mark', () => {
+    expect(targets('Nurgle', 'Nurgle')).toEqual(['them'])
+  })
+
+  it('hides one that took a different mark', () => {
+    expect(targets('Nurgle', 'Tzeentch')).toEqual([])
+  })
+
+  it('still offers a squad that hasn\'t chosen yet — marks are picked in any order', () => {
+    expect(targets('Nurgle', null)).toEqual(['them'])
   })
 })

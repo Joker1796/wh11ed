@@ -550,6 +550,17 @@ export default {
         "at": 3,
         "pts": 15
       },
+      "alleg": {
+        "g": "solar-spearhead-keywords",
+        "t": "Solar Spearhead Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Solar Spearhead",
+        "max": 2
+      },
       "defaults": [
         [
           0,
@@ -655,6 +666,17 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
+      },
+      "alleg": {
+        "g": "solar-spearhead-keywords",
+        "t": "Solar Spearhead Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Solar Spearhead",
+        "max": 2
       },
       "defaults": [
         [
@@ -1539,6 +1561,17 @@ export default {
         "at": 2,
         "pts": 20
       },
+      "alleg": {
+        "g": "solar-spearhead-keywords",
+        "t": "Solar Spearhead Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Solar Spearhead",
+        "max": 2
+      },
       "defaults": [
         [
           0,
@@ -1842,6 +1875,17 @@ export default {
       "step": {
         "at": 3,
         "pts": 15
+      },
+      "alleg": {
+        "g": "solar-spearhead-keywords",
+        "t": "Solar Spearhead Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Solar Spearhead",
+        "max": 2
       },
       "defaults": [
         [

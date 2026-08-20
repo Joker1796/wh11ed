@@ -45,3 +45,28 @@ describe('buildRosterText', () => {
     expect(txt).toContain('• Leading: Intercessor Squad')
   })
 })
+
+describe('buildRosterText — allegiance', () => {
+  // "You must select one for that unit and note it on your Army Roster" — a list that doesn't
+  // print the mark isn't a legal list, so the export has to carry it.
+  const vindicator = {
+    id: 'chaos-vindicator', name: 'Chaos Vindicator', kws: ['Vehicle'], flags: {},
+    sizes: [{ pts: 185, per: [1, 1], default: 1 }],
+    alleg: { g: 'mark-of-chaos', t: 'Mark of Chaos', det: 'Pactbound Zealots', req: 1, o: [{ n: 'Khorne' }, { n: 'Nurgle' }] },
+  }
+  const pactbound = { sid: 'pz', name: 'Pactbound Zealots', enhancements: [] }
+  const f = { name: 'Chaos Space Marines', units: [vindicator], detachments: [pactbound] }
+  const r = {
+    name: 'Pact', faction: 'chaos-space-marines', detachments: ['Pactbound Zealots'], battleSize: 'strike-force',
+    units: [{ uid: 'v', id: 'chaos-vindicator', size: 0, alleg: 'Nurgle', warlord: true }],
+  }
+
+  it('prints the chosen mark', () => {
+    expect(buildRosterText(r, { faction: f, core, items })).toContain('Mark of Chaos: Nurgle')
+  })
+
+  it('says nothing when the gating detachment is gone', () => {
+    const other = { ...r, detachments: [] }
+    expect(buildRosterText(other, { faction: f, core, items })).not.toContain('Mark of Chaos')
+  })
+})

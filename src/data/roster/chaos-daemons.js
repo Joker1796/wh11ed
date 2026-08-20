@@ -685,6 +685,25 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "daemonic-allegiance",
+        "t": "Daemonic Allegiance",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          }
+        ],
+        "req": 1
+      },
       "defaults": [
         [
           0,
@@ -727,6 +746,25 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "daemonic-allegiance",
+        "t": "Daemonic Allegiance",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          }
+        ],
+        "req": 1
+      },
       "defaults": [
         [
           0,
@@ -2860,20 +2898,43 @@ export default {
         "at": 3,
         "pts": 15
       },
+      "alleg": {
+        "g": "daemonic-allegiance",
+        "t": "Daemonic Allegiance",
+        "o": [
+          {
+            "n": "Khorne",
+            "wg": 853
+          },
+          {
+            "n": "Tzeentch",
+            "wg": 854
+          },
+          {
+            "n": "Nurgle",
+            "wg": 855
+          },
+          {
+            "n": "Slaanesh",
+            "wg": 856
+          }
+        ],
+        "req": 1
+      },
       "defaults": [
         [
           0,
           [
             [
-              853,
+              857,
               1
             ],
             [
-              854,
+              858,
               1
             ],
             [
-              855,
+              859,
               1
             ]
           ]
@@ -2886,11 +2947,11 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              856
+              860
             ]
           ],
           "rep": [
-            853
+            857
           ]
         },
         {
@@ -2899,16 +2960,16 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              857
+              853
             ],
             [
-              858
+              854
             ],
             [
-              859
+              855
             ],
             [
-              860
+              856
             ]
           ]
         }

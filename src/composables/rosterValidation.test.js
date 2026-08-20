@@ -322,3 +322,50 @@ describe('validateRoster — detachment tags', () => {
     expect(issue.params).toMatchObject({ tag: 'DYNASTY', names: 'Awakened Dynasty, Hand of the Dynasty' })
   })
 })
+
+describe('validateRoster — allegiance', () => {
+  const vindicator = {
+    id: 'chaos-vindicator', name: 'Chaos Vindicator', kws: ['Vehicle'], flags: {}, sizes: [{ pts: 185, per: [1, 1], default: 1 }],
+    alleg: { g: 'mark-of-chaos', t: 'Mark of Chaos', det: 'Pactbound Zealots', req: 1, o: [{ n: 'Khorne' }, { n: 'Nurgle' }] },
+  }
+  const lord = {
+    id: 'chaos-lord', name: 'Chaos Lord', kws: ['Character', 'Infantry'], flags: { char: 1 }, sizes: [{ pts: 95, per: [1, 1], default: 1 }],
+    leads: [{ to: 'chaos-vindicator', type: 'leader' }],
+    alleg: { g: 'mark-of-chaos', t: 'Mark of Chaos', det: 'Pactbound Zealots', req: 1, o: [{ n: 'Khorne' }, { n: 'Nurgle' }] },
+  }
+  const rhino = {
+    id: 'rhino', name: 'Rhino', kws: ['Vehicle'], flags: {}, sizes: [{ pts: 75, per: [1, 1], default: 1 }],
+    alleg: { g: 'headhunter-task-force-keywords', t: 'Headhunter Task Force Keywords', det: 'Headhunter Task Force', max: 2, o: [{ n: 'Character' }] },
+  }
+  const pactbound = { sid: 'pz', name: 'Pactbound Zealots', dp: 3, enhancements: [] }
+  const headhunter = { sid: 'hh', name: 'Headhunter Task Force', dp: 3, enhancements: [] }
+  const f = { ...faction, units: [...faction.units, vindicator, lord, rhino], detachments: [pactbound, headhunter] }
+  const codesOf = (units, dets) => validateRoster({ ...roster(), detachments: dets, units }, { faction: f, core }).issues
+
+  it('reports a mark the rules require and the list does not state', () => {
+    const iss = codesOf([{ ...U('chaos-vindicator'), warlord: false }, { ...U('captain'), warlord: true }], ['Pactbound Zealots'])
+      .find((i) => i.code === 'allegMissing')
+    expect(iss).toBeTruthy()
+    expect(iss.params).toMatchObject({ name: 'Chaos Vindicator', group: 'Mark of Chaos' })
+  })
+
+  it('says nothing when the gating detachment is absent — there is no mark to choose', () => {
+    const codes2 = codesOf([{ ...U('chaos-vindicator'), warlord: false }, { ...U('captain'), warlord: true }], ['Gladius'])
+    expect(codes2.map((i) => i.code)).not.toContain('allegMissing')
+  })
+
+  it('reports more units upgraded than the detachment allows', () => {
+    const units = [1, 2, 3].map((n) => ({ ...U('rhino'), uid: `r${n}`, alleg: 'Character' }))
+    units.push({ ...U('captain'), warlord: true })
+    const iss = codesOf(units, ['Headhunter Task Force']).find((i) => i.code === 'allegOverLimit')
+    expect(iss.params).toMatchObject({ count: 3, limit: 2 })
+  })
+
+  it('reports a Character attached across marks', () => {
+    // "A Character unit can only be attached to a unit if both units share the same keyword."
+    const target = { ...U('chaos-vindicator'), uid: 'v1', alleg: 'Nurgle' }
+    const leader = { ...U('chaos-lord'), uid: 'l1', alleg: 'Khorne', leaderOf: 'v1', warlord: true }
+    const iss = codesOf([target, leader], ['Pactbound Zealots']).find((i) => i.code === 'allegMismatch')
+    expect(iss.params).toMatchObject({ name: 'Chaos Lord', own: 'Khorne', target: 'Chaos Vindicator', theirs: 'Nurgle' })
+  })
+})

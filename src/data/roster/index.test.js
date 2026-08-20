@@ -377,3 +377,35 @@ describe('detachment tags', () => {
     }
   })
 })
+
+describe('allegiance choices', () => {
+  // `alleg` is the army-list choice a datasheet carries: the mandatory mark (Mark of Chaos,
+  // Daemonic Allegiance) or the capped detachment upgrade that grants a keyword. appdata's
+  // conditional_keyword rows for these are skipped by the datasheet-page sidecar on purpose —
+  // the choice only exists inside a roster.
+  const withAlleg = () => factions.flatMap(({ slug, data }) => (data.units || [])
+    .filter((u) => u.alleg).map((u) => ({ slug, u })))
+
+  it('reaches every datasheet appdata gives one', () => {
+    expect(withAlleg()).toHaveLength(92)
+  })
+
+  it('always offers something to choose, and says whether it must be chosen', () => {
+    for (const { slug, u } of withAlleg()) {
+      expect(u.alleg.o.length, `${slug}/${u.id}`).toBeGreaterThan(0)
+      for (const o of u.alleg.o) expect(o.n, `${slug}/${u.id}`).toBeTruthy()
+      // Three shapes exist and only one combination is nonsense: a choice that is both forced
+      // and capped. Astra Militarum's Steel Hammer is the uncapped optional one ("select one or
+      // more ASTRA MILITARUM TITANIC units"), so "neither" is legitimate.
+      expect(Boolean(u.alleg.req && u.alleg.max), `${slug}/${u.id}`).toBe(false)
+    }
+  })
+
+  it('keeps KHORNE away from the Psyker datasheets', () => {
+    const csm = factions.find((f) => f.slug === 'chaos-space-marines').data
+    const sorcerer = csm.units.find((u) => u.id === 'sorcerer')
+    const vindicator = csm.units.find((u) => u.id === 'chaos-vindicator')
+    expect(sorcerer.alleg.o.map((o) => o.n)).not.toContain('Khorne')
+    expect(vindicator.alleg.o.map((o) => o.n)).toContain('Khorne')
+  })
+})

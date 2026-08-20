@@ -59,6 +59,26 @@
     </section>
     <p v-if="compLine" class="ues-comp">{{ compLine }}</p>
 
+    <!-- Allegiance: a mark the unit must pick (Mark of Chaos, Daemonic Allegiance) or a capped
+         detachment upgrade that hands it a keyword. Same widget for both — what differs is
+         whether leaving it unset is an error, which validateRoster reports. -->
+    <section v-if="alleg" class="ues-sec">
+      <h4 class="ues-h">
+        {{ alleg.t }}
+        <em v-if="alleg.req" class="ues-req">{{ labels.rosterAllegianceRequired }}</em>
+        <em v-else-if="alleg.max && defOf" class="ues-req">{{ allegSpentInArmy }} / {{ alleg.max }}</em>
+      </h4>
+      <div class="opt-row">
+        <button
+          v-for="o in alleg.o"
+          :key="o.n"
+          class="pill"
+          :class="{ on: entry.alleg === o.n }"
+          @click="setAlleg(o.n)"
+        >{{ o.n }}<span v-if="o.wg" class="pill-tell"> · {{ items[o.wg] }}</span></button>
+      </div>
+    </section>
+
     <!-- Default loadout (read-only) -->
     <section v-if="defaultLines.length" class="ues-sec">
       <h4 class="ues-h">{{ labels.rosterDefaultWargear }}</h4>
@@ -223,7 +243,7 @@ import FactionAccentScope from './FactionAccentScope.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { loadRosterTextsRu } from '../../data/roster/ru/index.js'
-import { defaultLoadoutLines, modelsPerMini, optionItems, optionLabel, splitInstruction, wargearGroupCap, wargearGroupLive, wargearGroupSpent } from '../../composables/rosterEngine.js'
+import { allegFor, allegSpent, defaultLoadoutLines, modelsPerMini, optionItems, optionLabel, splitInstruction, wargearGroupCap, wargearGroupLive, wargearGroupSpent } from '../../composables/rosterEngine.js'
 
 const props = defineProps({
   entry: { type: Object, required: true },
@@ -238,6 +258,9 @@ const props = defineProps({
   // The roster's own entries, likewise passed straight through: the overlay reads them to find
   // any Leader attached to THIS entry, whose abilities it then shows on this unit's card.
   units: { type: Array, default: () => [] },
+  // Resolves a unit id to its faction-data definition — only needed for the army-wide allegiance
+  // cap, which has to look at the other entries.
+  defOf: { type: Function, default: null },
   canWarlord: { type: Boolean, default: false },
   isWarlord: { type: Boolean, default: false },
   enhOptions: { type: Array, default: () => [] },
@@ -313,6 +336,23 @@ function miniName(m) { return props.def.minis?.[m]?.n || '' }
 // How many models of each profile the current bracket + count works out to (null when the data
 // can't say — see modelsPerMini). Drives the composition line, and the per-profile ceiling of a
 // stepper group that belongs to one profile.
+// Allegiance choice — null when the datasheet has none, or when the detachment that gates it
+// isn't in this army (Mark of Chaos only exists inside Pactbound Zealots).
+const alleg = computed(() => allegFor(props.def, props.detachments))
+// The cap is an ARMY-wide one ("select up to 3 … units"), so the count needs every entry's
+// definition, not just this one's — `defOf` is passed in for that. Without it the pill still works
+// and validateRoster still reports an over-cap list; only the running count goes away.
+const allegSpentInArmy = computed(() => (alleg.value?.max && props.defOf
+  ? allegSpent(props.units, props.defOf, alleg.value.g, props.detachments)
+  : 0))
+// Clicking the chosen one again clears it — the only way to unset an optional upgrade, and
+// harmless for a mandatory mark (validateRoster then reports it as missing rather than the editor
+// silently keeping a choice the player wanted gone).
+function setAlleg(name) {
+  if (props.entry.alleg === name) delete props.entry.alleg
+  else props.entry.alleg = name
+}
+
 const perMini = computed(() => modelsPerMini(props.def, props.entry))
 const compLine = computed(() => {
   if (!(props.def.minis?.length > 1) || !perMini.value) return ''
@@ -476,6 +516,7 @@ function toggleLeader(uid) { setLeader(props.entry.leaderOf === uid ? null : uid
 }
 .ues-count { display: flex; align-items: center; justify-content: space-between; }
 .ues-comp { margin: -0.35rem 0 0; font-size: 0.82rem; color: var(--muted); }
+.ues-req { font-style: normal; font-size: 0.78rem; color: var(--muted); margin-left: 0.4rem; }
 .pill-tell { opacity: 0.75; }
 .opt-row { display: flex; flex-wrap: wrap; gap: 0.35rem; }
 .opt-col { display: flex; flex-direction: column; gap: 0.3rem; }

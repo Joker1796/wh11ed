@@ -3,7 +3,7 @@
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
-import { hasKeyword, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, leadsFor, wargearGroupCap, wargearGroupLive, wargearGroupSpent, modelsPerMini } from './rosterEngine.js'
+import { hasKeyword, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, leadsFor, wargearGroupCap, wargearGroupLive, wargearGroupSpent, modelsPerMini, allegFor } from './rosterEngine.js'
 
 // Per-unit duplicate cap: the battle size's limit, doubled for Battleline / Dedicated Transport,
 // and hard-capped at 1 for every Epic Hero — regardless of battle size (rule 25).
@@ -122,6 +122,43 @@ export function validateRoster(roster, { faction, core } = {}) {
       }
       const over = cap.dup && (u.wg || []).find(([g, , n]) => g === gi && (n || 1) > cap.dup)
       if (over) add('overWargearDup', 'error', { uid: u.uid, params: { name: def.name, count: over[2] || 1, limit: cap.dup } })
+    }
+  }
+
+  // Allegiance choices — the mark a unit must pick, and the army-wide cap on the optional upgrades.
+  {
+    const spentByGroup = new Map()
+    for (const u of units) {
+      const def = defOf(u.id)
+      const a = allegFor(def, detachments)
+      if (!a) continue
+      if (u.alleg) spentByGroup.set(a.g, (spentByGroup.get(a.g) || 0) + 1)
+      else if (a.req) add('allegMissing', 'error', { uid: u.uid, params: { name: def.name, group: a.t || a.g } })
+    }
+    const capOf = new Map()
+    for (const u of units) {
+      const a = allegFor(defOf(u.id), detachments)
+      if (a?.max) capOf.set(a.g, { max: a.max, t: a.t || a.g })
+    }
+    for (const [g, { max, t }] of capOf) {
+      const spent = spentByGroup.get(g) || 0
+      if (spent > max) add('allegOverLimit', 'error', { params: { group: t, count: spent, limit: max } })
+    }
+
+    // "A Character unit can only be attached to a unit if both units share the same keyword" —
+    // the restriction printed in the Marks of Chaos detachment rule. Scoped to that group by key,
+    // because it is that rule's own wording, not a property of allegiances in general: the
+    // CHARACTER-granting upgrades carry no such clause.
+    for (const u of units) {
+      if (!u.leaderOf || !u.alleg) continue
+      const own = allegFor(defOf(u.id), detachments)
+      if (own?.g !== 'mark-of-chaos') continue
+      const target = units.find((x) => x.uid === u.leaderOf)
+      if (!target?.alleg || target.alleg === u.alleg) continue
+      add('allegMismatch', 'error', {
+        uid: u.uid,
+        params: { name: defOf(u.id)?.name, own: u.alleg, target: defOf(target.id)?.name, theirs: target.alleg },
+      })
     }
   }
 

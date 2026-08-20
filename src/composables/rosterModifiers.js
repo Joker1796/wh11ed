@@ -13,7 +13,7 @@
 // an attributed note instead — the same "mark it, don't fake it" treatment DatasheetCard already
 // gives rule-granted keywords via its `grantedKeywords` prop.
 
-import { wargearGroupLive, findEnhancement, mandatoryEnhancementFor, optionItems, modelsPerMini, swapsByMini } from './rosterEngine.js'
+import { wargearGroupLive, findEnhancement, mandatoryEnhancementFor, optionItems, modelsPerMini, swapsByMini, allegKeyword, allegItems } from './rosterEngine.js'
 import { slugify } from '../data/slugify.js'
 import conditionalKeywords from '../data/conditionalKeywords.json'
 
@@ -80,6 +80,10 @@ export function loadoutItemIds(def, entry) {
     // An option can grant more than one item (a bundle) — see rosterEngine's optionItems.
     if (opt) for (const [id] of optionItems(opt)) kept.add(id)
   }
+  // The Soul Grinder's mark arms it: "this model is additionally equipped with: phlegm
+  // bombardment". Detachments aren't in scope here — Daemonic Allegiance is ungated, and a gated
+  // group with a weapon doesn't exist — so the choice alone decides.
+  for (const id of allegItems(def, entry, [])) kept.add(id)
   return kept
 }
 
@@ -272,7 +276,13 @@ export function overlaySheet(sheet, ctx) {
   const { def, entry, items, unitId, factionSlug, detachments } = ctx || {}
   return {
     sheet: filterWeapons(sheet, def, entry, items),
-    grantedKeywords: grantedKeywordsFor(unitId || def?.id, factionSlug, detachments),
+    // …plus the keyword the entry chose for itself. The sidecar can't carry these: which mark a
+    // unit took is a per-list decision, not a property of the datasheet (which is exactly why
+    // gen-conditional-keywords.mjs skips appdata's 274 allegiance rows).
+    grantedKeywords: [
+      ...grantedKeywordsFor(unitId || def?.id, factionSlug, detachments),
+      ...[allegKeyword(def, entry, detachments)].filter(Boolean),
+    ],
     context: entryContext(ctx),
     ruleSources: ruleSourcesFor(ctx),
     notes: [],

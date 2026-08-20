@@ -404,6 +404,16 @@ export default {
         "at": 2,
         "pts": 35
       },
+      "alleg": {
+        "g": "steel-hammer-keywords",
+        "t": "Steel Hammer Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Steel Hammer"
+      },
       "defaults": [
         [
           0,
@@ -524,6 +534,16 @@ export default {
         "at": 2,
         "pts": 35
       },
+      "alleg": {
+        "g": "steel-hammer-keywords",
+        "t": "Steel Hammer Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Steel Hammer"
+      },
       "defaults": [
         [
           0,
@@ -630,6 +650,16 @@ export default {
       "step": {
         "at": 2,
         "pts": 35
+      },
+      "alleg": {
+        "g": "steel-hammer-keywords",
+        "t": "Steel Hammer Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Steel Hammer"
       },
       "defaults": [
         [
@@ -3083,6 +3113,16 @@ export default {
         "at": 2,
         "pts": 30
       },
+      "alleg": {
+        "g": "steel-hammer-keywords",
+        "t": "Steel Hammer Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Steel Hammer"
+      },
       "defaults": [
         [
           0,
@@ -3411,6 +3451,16 @@ export default {
       "step": {
         "at": 2,
         "pts": 30
+      },
+      "alleg": {
+        "g": "steel-hammer-keywords",
+        "t": "Steel Hammer Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Steel Hammer"
       },
       "defaults": [
         [
@@ -6787,6 +6837,16 @@ export default {
         "at": 2,
         "pts": 30
       },
+      "alleg": {
+        "g": "steel-hammer-keywords",
+        "t": "Steel Hammer Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Steel Hammer"
+      },
       "defaults": [
         [
           0,
@@ -6940,6 +7000,16 @@ export default {
         "at": 2,
         "pts": 35
       },
+      "alleg": {
+        "g": "steel-hammer-keywords",
+        "t": "Steel Hammer Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Steel Hammer"
+      },
       "defaults": [
         [
           0,
@@ -7049,6 +7119,16 @@ export default {
       "step": {
         "at": 2,
         "pts": 35
+      },
+      "alleg": {
+        "g": "steel-hammer-keywords",
+        "t": "Steel Hammer Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Steel Hammer"
       },
       "defaults": [
         [
