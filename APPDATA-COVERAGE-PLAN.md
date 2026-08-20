@@ -717,7 +717,10 @@ What is genuinely missing, ranked:
    sign — eligibility MISSING rather than invented. Note the bundle loses it too
    (`adeptus-astartes.json` carries `{"bodyguardType":"leader","units":[]}` for exactly these), so
    wh40k-appdata's own bundle generator has the same hole; we read the raw table instead.
-2. **`unit_composition_miniature` (2300 rows) — not used, and it answers a documented limitation.**
+2. **`unit_composition_miniature` (2300 rows) — DONE 2026-08-20**, see `ROSTER-BUILDER-PROGRESS.md`
+   item 11. Kept here for the measurements.
+
+   **Was: not used, and it answers a documented limitation.**
    It gives `min`/`max` PER MINIATURE PROFILE per points bracket (Wracks: `Acothyst 1-1 |
    Wrack 4-4` at 60 pts, `Acothyst 1-1 | Wrack 8-9` at 120), covering **all 303 multi-miniature
    datasheets** and 1145 of 1146 overall. Today unit sizes are parsed out of the bundle's

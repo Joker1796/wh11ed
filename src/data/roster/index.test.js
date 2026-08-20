@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url'
 import rosterCore from './core.js'
 import rosterItems from './items.js'
 import { loadRosterFaction } from './index.js'
-import { optionItems, optionLabel, unitWargearPoints } from '../../composables/rosterEngine.js'
+import { optionItems, optionLabel, unitWargearPoints, modelsPerMini } from '../../composables/rosterEngine.js'
 
 const DIR = path.dirname(fileURLToPath(import.meta.url))
 const files = fs.readdirSync(DIR).filter((f) => f.endsWith('.js') && !['index.js', 'core.js', 'items.js', 'index.test.js'].includes(f))
@@ -312,5 +312,45 @@ describe('per-option quantities', () => {
     const gi = gear.findIndex((g) => /2 ectoplasma cannons/i.test(headOf(g)))
     expect(optionItems(gear[gi].o[0])[0][1]).toBe(2)
     expect(unitWargearPoints({ gear }, { wg: [[gi, 0, 1]] })).toBe(gear[gi].o[0][1])
+  })
+})
+
+describe('unit composition', () => {
+  // sizes[i].comp is appdata's unit_composition_miniature — the model count per miniature PROFILE
+  // in that bracket. Without it nothing downstream could subtract a swap on a multi-profile
+  // datasheet; the invariants here are what let those readers trust it.
+  it('breaks every multi-profile bracket down, and the parts add up', () => {
+    let brackets = 0
+    for (const { slug, data } of factions) {
+      for (const u of data.units || []) {
+        if (!(u.minis?.length > 1)) continue
+        for (const s of u.sizes) {
+          expect(s.comp, `${slug}/${u.id} @${s.pts}`).toBeTruthy()
+          const sum = s.comp.reduce((a, c) => [a[0] + c[1], a[1] + (c.length === 3 ? c[2] : c[1])], [0, 0])
+          expect(sum, `${slug}/${u.id} @${s.pts}`).toEqual(s.per)
+          for (const [m] of s.comp) expect(u.minis[m], `${slug}/${u.id}`).toBeTruthy()
+          brackets++
+        }
+      }
+    }
+    expect(brackets).toBeGreaterThan(400)
+  })
+
+  it('never lists the same bracket twice', () => {
+    // appdata publishes a bracket a second time under an ally grouping keyword (Aquila Kill Team
+    // had four pills for two real choices). Same models, same points, same breakdown → one pill.
+    for (const { slug, data } of factions) {
+      for (const u of data.units || []) {
+        const keys = u.sizes.map((s) => `${s.per.join('-')}|${s.pts}|${JSON.stringify(s.comp || null)}`)
+        expect(new Set(keys).size, `${slug}/${u.id}`).toBe(keys.length)
+      }
+    }
+  })
+
+  it('resolves a real squad to its profiles', () => {
+    const wracks = factions.find((f) => f.slug === 'drukhari').data.units.find((u) => u.id === 'wracks')
+    const bracket = wracks.sizes.findIndex((s) => s.per[0] === 6)
+    const per = modelsPerMini(wracks, { size: bracket, count: 7 })
+    expect([...per].map(([m, n]) => `${n}× ${wracks.minis[m].n}`)).toEqual(['1× Acothyst', '6× Wrack'])
   })
 })

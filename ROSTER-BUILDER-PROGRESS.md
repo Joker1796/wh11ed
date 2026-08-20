@@ -247,6 +247,48 @@ is implemented and tested.
     recovered, and a keyword group can name a unit a listed group already covers, so `leads` is now
     deduped — the picker was about to offer the Inquisitor four units twice.
 
+11. **Per-profile model counts — DONE 2026-08-20.** The one item the table audit
+    (`APPDATA-COVERAGE-PLAN.md`) ranked as real work rather than a defect. `unit_composition` +
+    `unit_composition_miniature` give the model count of each MINIATURE PROFILE per points bracket
+    (`Acothyst 1-1 | Wrack 4-4` at 60 pts), and nothing in the project read them: the bracket
+    carried a total parsed out of the bundle's `models: '5-10'` string and nothing else.
+
+    **Mapping.** Compositions sort by `displayOrder` and pair with the bundle's `points[]` BY INDEX
+    — all 1545 line up on both points and the min/max sum. Matching on points instead breaks on the
+    units that price several compositions the same (Corsair Voidscarred has four 7-model builds at
+    140), which is what made the first measurement look like 13 disagreements.
+
+    **Emitted** as `sizes[i].comp = [[miniIndex, min, max?], …]`, multi-profile datasheets only:
+    488 brackets on 249 units, ~100 KB across the lazily-loaded faction files. Rejected if the two
+    lists disagree in length, points or total — 0 did.
+
+    **`modelsPerMini(def, entry)`** turns that into `Map(profile → models)`: fixed rows as they
+    stand, the single free profile takes the remainder. Where TWO profiles are free (7 compositions
+    — Deathwatch kill teams, Accursed Cultists) it returns `null` and every caller falls back,
+    because that split is the player's and nothing records it.
+
+    **What it fixed, in order of how wrong it was:**
+    - **412 groups on multi-profile units never subtracted anything.** `defaultLoadoutLines` and
+      Tier A's weapon trim both bailed out on `def.minis?.length > 0` for want of a model count, so
+      a swapped-away weapon stayed on the card next to the one that replaced it. Both now spend a
+      swap against the group's own profile, through one shared `swapsByMini()` instead of the copy
+      each used to carry. 331 profile-bound groups fixed; the 81 unit-wide (`all`) ones still
+      subtract nothing — they belong to no single profile.
+    - **62 uncapped steppers were over by the squad's leader models.** "Any number of Sicarian
+      Ruststalkers can each have their transonic razor replaced" allowed 10 in a 10-model unit; the
+      Princeps is not one of them, so it is 9. Four of those groups are paid, i.e. it was also a
+      way to overpay. `validateRoster` gained the matching check for a list built before the cap.
+    - **42 duplicate brackets, folded.** appdata publishes a bracket a second time under an ally
+      grouping keyword (`referenceGroupingKeywordId`), so Aquila Kill Team showed four size pills
+      for two real choices and Callidus Assassin two for one. Folded on models+points+breakdown —
+      Callidus keeps its genuinely different 100 and 115 pts entries. **SCHEMA_VERSION 4** because
+      bracket indices moved; `size`/`count` fall back to the unit's default rather than being
+      re-read as a different bracket, and wargear picks survive.
+    - **32 brackets that read identically now say what differs.** Corsair Voidscarred prices three
+      7-model builds at 140 points; the pills differed only in which specialist is in the squad, so
+      those pills — and only those — carry the deciding profile names. All 32 resolve to a non-empty
+      name. A composition line ("1× Acothyst + 6× Wrack") sits under the model stepper.
+
 ## Where the merge-into-main work is recorded
 
 The `main`-catch-up merge itself (conflict resolution, a stale test fixed for `BaseModal`'s

@@ -13,7 +13,7 @@
 // an attributed note instead — the same "mark it, don't fake it" treatment DatasheetCard already
 // gives rule-granted keywords via its `grantedKeywords` prop.
 
-import { wargearGroupLive, findEnhancement, mandatoryEnhancementFor, optionItems } from './rosterEngine.js'
+import { wargearGroupLive, findEnhancement, mandatoryEnhancementFor, optionItems, modelsPerMini, swapsByMini } from './rosterEngine.js'
 import { slugify } from '../data/slugify.js'
 import conditionalKeywords from '../data/conditionalKeywords.json'
 
@@ -52,33 +52,26 @@ function itemNameIndex(def, items) {
 // (no entry — e.g. the add-unit browser's preview, where no unit exists yet — or a datasheet with
 // no default loadout recorded). `null` means "don't filter anything", never "fields nothing".
 //
-// The default-vs-swap accounting mirrors rosterEngine.js's defaultLoadoutLines(), including its
-// restriction to single-miniature units: a `rep` list is per-miniature, and a multi-miniature
-// datasheet (Sergeant + squad, say) has no single squad count to spend it against. For those we
-// only ADD what was picked and never subtract — which can leave a swapped-away weapon on the
-// table, but never removes one the unit still has. That asymmetry is deliberate; see filterWeapons.
+// The default-vs-swap accounting is shared with rosterEngine.js's defaultLoadoutLines() — both call
+// modelsPerMini()/swapsByMini(). A multi-miniature datasheet (Sergeant + squad) used to subtract
+// nothing at all, for want of a per-profile model count; `sizes[i].comp` supplies it now. What
+// still subtracts nothing: a unit-wide group, and a bracket that leaves two profiles free. In those
+// we only ADD what was picked — a swapped-away weapon may linger, but one the unit still has is
+// never removed. That asymmetry is deliberate; see filterWeapons.
 export function loadoutItemIds(def, entry) {
   if (!def || !entry || !def.defaults?.length) return null
 
-  const removed = new Map() // item id -> number of models that swapped their copy away
-  let squadCount = null
-  if (!(def.minis?.length > 0)) {
-    const size = def.sizes?.[entry.size ?? 0] || def.sizes?.[0]
-    squadCount = entry.count ?? size?.per?.[0] ?? 1
-    for (const [gi, , n] of entry.wg || []) {
-      const g = def.gear?.[gi]
-      if (!g?.rep?.length || !wargearGroupLive(def, entry, gi)) continue
-      const consumed = g.in === 'stepper' ? (n || 1) : squadCount
-      for (const id of g.rep) removed.set(id, (removed.get(id) || 0) + consumed)
-    }
-  }
+  const perMini = modelsPerMini(def, entry)
+  const removed = swapsByMini(def, entry, perMini)
 
   const kept = new Set()
-  for (const [, list] of def.defaults) {
+  for (const [m, list] of def.defaults) {
+    const models = perMini?.get(m)
     for (const [id, c] of list) {
-      const take = removed.get(id) || 0
-      // `take` counts MODELS that gave this item up; `c` is its per-model quantity.
-      if (!take || c * Math.max(0, squadCount - take) > 0) kept.add(id)
+      const take = removed.get(`${m}:${id}`) || 0
+      // `take` counts MODELS OF THIS PROFILE that gave the item up; `c` is its per-model quantity.
+      // A profile whose model count is unknown keeps everything — never hide a weapon on a guess.
+      if (!take || models == null || c * Math.max(0, models - take) > 0) kept.add(id)
     }
   }
   for (const [gi, oi] of entry.wg || []) {

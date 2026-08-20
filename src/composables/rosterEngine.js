@@ -361,31 +361,73 @@ export function entrySummary(e, def, modelsLabel, upgradesLabel) {
 // take a gauss reaper instead of their gauss flayer") reads as "Gauss flayer ×7" + "Gauss reaper
 // ×3" instead of both the untouched default AND the swap appearing at full strength. `rep` is
 // generated (gen-roster-data.mjs parses "…can be replaced with…" against the item dictionary) and
-// only trustworthy for a single-mini unit (`def.minis` unset) — a multi-mini squad has no per-mini
-// model count anywhere in the data to divide the swap against, so those are left exactly as
-// generated (full default + the addition layered on top, same as before this).
-export function defaultLoadoutLines(def, items, entry) {
-  const removed = new Map() // itemId -> model count whose copy of it was swapped away
-  let squadCount = null
-  if (entry && def && !(def.minis?.length > 0)) {
-    const size = def.sizes?.[entry.size ?? 0] || def.sizes?.[0]
-    squadCount = entry.count ?? size?.per?.[0] ?? 1
-    for (const [gi, , n] of entry.wg || []) {
-      const g = def.gear?.[gi]
-      if (!g?.rep?.length || !wargearGroupLive(def, entry, gi)) continue
-      const consumed = g.in === 'stepper' ? (n || 1) : squadCount
-      for (const itemId of g.rep) removed.set(itemId, (removed.get(itemId) || 0) + consumed)
-    }
+// spent against the profile the group belongs to, via modelsPerMini() — a multi-miniature squad
+// used to have no per-profile model count anywhere in the data, so its swaps were left un-subtracted
+// entirely; `sizes[i].comp` now supplies it. A group the data can't attribute to one profile (a
+// unit-wide `all` group, or a bracket where two profiles are free) still subtracts nothing.
+// How many models of each miniature PROFILE an entry actually fields — Map(miniatureIndex -> n),
+// or null when the data can't say. Until 2026-08-20 nothing could: the generated bracket carried a
+// total ("5-10 models") and nothing else, which is why every per-model calculation on a
+// multi-miniature datasheet was switched off. `sizes[i].comp` (from appdata's
+// unit_composition_miniature) is that breakdown, `[[miniIndex, min, max?], …]`.
+//
+// Most brackets are fully fixed (Acothyst 1-1 | Wrack 4-4) or fix everything except one profile,
+// so the rank-and-file count follows from the chosen model count. Where TWO profiles are free —
+// 7 compositions in the corpus, the Deathwatch kill teams and Accursed Cultists — the split is the
+// player's to make and the data doesn't record it, so this returns null and every caller falls
+// back to the pre-2026-08-20 behaviour rather than guessing.
+export function modelsPerMini(def, entry) {
+  const size = def?.sizes?.[entry?.size ?? 0] || def?.sizes?.[0]
+  if (!size) return null
+  const total = entry?.count ?? size.per?.[0] ?? 1
+  if (!(def.minis?.length > 1)) return new Map([[0, total]])
+  if (!size.comp) return null
+  const ranges = size.comp.filter((c) => c.length === 3)
+  if (ranges.length > 1) return null
+  const out = new Map(size.comp.filter((c) => c.length === 2).map(([m, n]) => [m, n]))
+  const fixed = [...out.values()].reduce((a, n) => a + n, 0)
+  if (!ranges.length) return fixed === total ? out : null
+  const [m, min, max] = ranges[0]
+  const rest = total - fixed
+  if (rest < min || rest > max) return null
+  out.set(m, rest)
+  return out
+}
+
+// Models that gave an item up, keyed `${miniIndex}:${itemId}` — the shared half of
+// defaultLoadoutLines() and rosterModifiers' loadoutItemIds(), which used to carry a copy each.
+//
+// A unit-wide group (`all`, folded by the generator from the copy appdata records per miniature)
+// belongs to no single profile, so there is no profile count to spend it against and it is skipped
+// — 81 such groups, left exactly as they were.
+export function swapsByMini(def, entry, perMini) {
+  const removed = new Map()
+  if (!perMini) return removed
+  for (const [gi, , n] of entry?.wg || []) {
+    const g = def?.gear?.[gi]
+    if (!g?.rep?.length || g.all || !wargearGroupLive(def, entry, gi)) continue
+    const m = g.m ?? 0
+    const models = perMini.get(m)
+    if (models == null) continue
+    const consumed = g.in === 'stepper' ? Math.min(n || 1, models) : models
+    for (const id of g.rep) removed.set(`${m}:${id}`, (removed.get(`${m}:${id}`) || 0) + consumed)
   }
+  return removed
+}
+
+export function defaultLoadoutLines(def, items, entry) {
+  const perMini = entry && def ? modelsPerMini(def, entry) : null
+  const removed = swapsByMini(def, entry, perMini)
 
   return (def?.defaults || []).flatMap(([m, list]) => {
+    const models = perMini?.get(m)
     const parts = []
     for (const [id, c] of list) {
-      const take = removed.get(id) || 0
-      if (!take) { parts.push(`${items[id]}${c > 1 ? ` ×${c}` : ''}`); continue }
-      // take is a MODEL count (how many models swapped this item away); c is the item's
-      // per-model quantity, so the surviving item total scales by both.
-      const remaining = c * Math.max(0, squadCount - take)
+      const take = removed.get(`${m}:${id}`) || 0
+      if (!take || models == null) { parts.push(`${items[id]}${c > 1 ? ` ×${c}` : ''}`); continue }
+      // take is a MODEL count (how many models of THIS profile swapped the item away); c is the
+      // item's per-model quantity, so the surviving total scales by both.
+      const remaining = c * Math.max(0, models - take)
       if (remaining > 0) parts.push(`${items[id]} ×${remaining}`)
     }
     if (!parts.length) return []

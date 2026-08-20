@@ -2537,7 +2537,17 @@ export default {
             3,
             3
           ],
-          "default": 1
+          "default": 1,
+          "comp": [
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              2
+            ]
+          ]
         }
       ],
       "linked": 1,

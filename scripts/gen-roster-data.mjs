@@ -60,6 +60,25 @@ for (const m of table('miniature')) {
 
 // copy-tax: one step row per datasheet (verified in Phase 0 — always ≤1). `at` is the copy
 // index at which the surcharge starts, `pts` the flat surcharge on that and every later copy.
+// Unit composition: the same bracket list as the bundle's `points[]`, but broken down PER
+// MINIATURE PROFILE ("Acothyst 1-1 | Wrack 4-4" at 60 pts). The bundle only carries the prose and
+// a total ("5-10 models"), which is why the roster layer has had no per-profile model count and
+// both defaultLoadoutLines and Tier A's weapon trim refuse to subtract anything on a
+// multi-miniature datasheet. Brackets map to compositions BY INDEX after sorting on displayOrder:
+// checked across the whole corpus, all 1545 line up on both points and the min/max sum, whereas
+// matching on points alone breaks on the units that price several compositions the same
+// (Corsair Voidscarred has four different 7-model builds at 140).
+const compByDs = new Map() // datasheetId -> [composition] in displayOrder
+for (const c of table('unit_composition')) {
+  if (!compByDs.has(c.datasheetId)) compByDs.set(c.datasheetId, [])
+  compByDs.get(c.datasheetId).push(c)
+}
+for (const list of compByDs.values()) list.sort((a, b) => a.displayOrder - b.displayOrder)
+const compMinis = new Map() // compositionId -> [{miniatureId, min, max}]
+for (const r of table('unit_composition_miniature')) {
+  if (!compMinis.has(r.unitCompositionId)) compMinis.set(r.unitCompositionId, [])
+  compMinis.get(r.unitCompositionId).push(r)
+}
 const stepByDs = new Map(table('datasheet_points_step').map((s) => [s.datasheetId, { at: s.stepAt, pts: s.stepPoints }]))
 
 // leaders: bodyguard groups keyed by the LEADER datasheet, each listing the units it can join.
@@ -226,7 +245,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, leadKw: { resolved: 0, unresolved: [] } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, leadKw: { resolved: 0, unresolved: [] }, comp: { units: 0, brackets: 0, foldedBrackets: 0, rejected: [] } }
 
 // Global intern dictionaries: wargear item names and group instruction texts repeat heavily
 // ACROSS factions, and — crucially — the SM-Chapter fold pulls space-marines units into a
@@ -653,12 +672,44 @@ function buildUnit(bd, idMap, fx, kwIndex) {
   // referenceGroupingKeywordId); the editor pre-selects exactly one, so keep the flag only
   // on the first default-marked bracket.
   let defaultTaken = false
-  const sizes = (bd.points || []).map((p) => {
+  const comps = compByDs.get(bd.id) || []
+  // Only when the two lists line up exactly — same length, same points, same model total. A
+  // datasheet that fails any of those keeps today's behaviour (no `comp`, every reader falls back)
+  // rather than getting a breakdown that might belong to a different bracket.
+  const compsUsable = minis.length > 1 && comps.length === (bd.points || []).length
+  const sizes = (bd.points || []).map((p, i) => {
     const [min, max] = parseModels(p.models)
     const s = { pts: p.points, per: [min, max] }
     if (p.default && !defaultTaken) { s.default = 1; defaultTaken = true }
+    if (compsUsable) {
+      const rows = (compMinis.get(comps[i].id) || []).filter((r) => miniIdx.has(r.miniatureId))
+      const sum = rows.reduce((a, r) => [a[0] + r.min, a[1] + r.max], [0, 0])
+      if (rows.length && comps[i].points === p.points && sum[0] === min && sum[1] === max) {
+        // `[miniatureIndex, min, max]`, max dropped when it equals min — most rows are fixed.
+        s.comp = rows
+          .map((r) => (r.min === r.max ? [miniIdx.get(r.miniatureId), r.min] : [miniIdx.get(r.miniatureId), r.min, r.max]))
+          .sort((a, b) => a[0] - b[0])
+        report.comp.brackets++
+      } else report.comp.rejected.push(`${bd.name} #${i}: ${min}-${max}@${p.points} vs ${sum[0]}-${sum[1]}@${comps[i].points}`)
+    }
     return s
   })
+  if (sizes.some((x) => x.comp)) report.comp.units++
+
+  // appdata publishes a bracket twice when the same composition is also listed under a
+  // `referenceGroupingKeywordId` (an ally context — "Imperium"): Aquila Kill Team offers 5 models
+  // at 100 pts and 10 at 200, each printed once plain and once for Imperium. Identical points,
+  // identical breakdown, so the editor showed four size pills where there are two choices. Folded
+  // on (models, points, breakdown) — a bracket that differs in ANY of those survives, which is how
+  // Callidus Assassin keeps its 100 and 115 pts entries.
+  const seenBracket = new Set()
+  const folded = sizes.filter((x) => {
+    const k = `${x.per.join('-')}|${x.pts}|${JSON.stringify(x.comp || null)}`
+    if (seenBracket.has(k)) { report.comp.foldedBrackets++; return false }
+    seenBracket.add(k)
+    return true
+  })
+  if (folded.length !== sizes.length) sizes.length = 0, sizes.push(...folded)
 
   const unit = {
     id: linkedId || slugify(bd.name),
@@ -1097,6 +1148,9 @@ if (report.noPoints.length) console.log(`  dropped (no points/composition): ${re
 const b = report.bundle
 console.log(`  bundled options: ${b.rewritten} groups rewritten from prose and verified against loadout_choice; ${b.quantified} more gained a per-option quantity`)
 const lm = report.limit
+const cmp = report.comp
+console.log(`  unit composition: ${cmp.brackets} brackets on ${cmp.units} multi-profile units carry a per-miniature breakdown; ${cmp.foldedBrackets} duplicate brackets folded (same models/points/composition)${cmp.rejected.length ? `; ${cmp.rejected.length} rejected (bracket and composition disagree)` : ''}`)
+for (const r of cmp.rejected.slice(0, 8)) console.log(`    - ${r}`)
 const lk = report.leadKw
 console.log(`  keyword-defined attachments: ${lk.resolved} leader→unit links resolved from datasheet_bodyguard_group_keyword${lk.unresolved.length ? `; ${lk.unresolved.length} name units outside the faction` : ''}`)
 for (const l of [...new Set(lk.unresolved)].slice(0, 6)) console.log(`    - ${l}`)

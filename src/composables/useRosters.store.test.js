@@ -23,7 +23,7 @@ describe('createRoster', () => {
     expect(r.units).toEqual([])
     expect(store.rosters.value).toHaveLength(1)
     // saveNow() wrote synchronously in the current schema envelope
-    expect(stored()).toEqual({ v: 3, rosters: [r] })
+    expect(stored()).toEqual({ v: 4, rosters: [r] })
   })
 
   it('prepends new rosters (most recent first)', () => {
@@ -134,7 +134,25 @@ describe('schema → v3', () => {
     const [r] = useRosters().rosters.value
     expect(r.units[0].wg).toBeUndefined()
     expect(r.units[0].enh).toBe('Murdermind')
-    expect(r.units[0].size).toBe(0)
+  })
+})
+
+describe('schema → v4', () => {
+  it('drops the size index the folded brackets renumbered, and keeps everything else', async () => {
+    // appdata publishes a bracket twice when the same composition also appears under an ally
+    // grouping keyword; the generator folded 42 of those, so a stored bracket index can point at a
+    // different size. Falling back to the unit's default bracket is honest; re-reading is not.
+    localStorage.setItem('wh11ed-rosters', JSON.stringify({
+      v: 3,
+      rosters: [{ id: 'r1', name: 'Old', createdAt: 1, updatedAt: 1, units: [{ uid: 'u1', id: 'wracks', size: 2, count: 9, wg: [[0, 1, 1]], enh: 'Murdermind' }] }],
+    }))
+    vi.resetModules()
+    const { useRosters } = await import('./useRosters.js')
+    const [r] = useRosters().rosters.value
+    expect(r.units[0].size).toBeUndefined()
+    expect(r.units[0].count).toBeUndefined()
+    expect(r.units[0].wg).toEqual([[0, 1, 1]])
+    expect(r.units[0].enh).toBe('Murdermind')
   })
 })
 
