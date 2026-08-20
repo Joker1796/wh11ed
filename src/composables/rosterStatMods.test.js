@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { applyStatMods, applyValue, resolveModifierEntries } from './rosterStatMods.js'
+import { applyStatMods, applyValue, resolveModifierEntries, grantedKeywordsFrom } from './rosterStatMods.js'
 
 const sheet = () => ({
   name: 'Skorpekh Destroyers',
@@ -264,5 +264,69 @@ describe('allegiance modifiers', () => {
     const entries = resolveModifierEntries(records, facEn, [], null, { g: 'daemonic-allegiance', opt: 'Slaanesh' })
     const { sheet: out } = applyStatMods(sheet(), entries, destroyer, [])
     expect(out.profiles[0].m).toBe('8"')
+  })
+})
+
+// The game context is what turns "would change" into "has changed" — the whole point of opening a
+// list mid-battle. It never loosens the rule that a printed number is only rewritten when the
+// modifier is PROVEN to apply; it just supplies the proof.
+describe('applyStatMods with a live game context', () => {
+  const waaagh = {
+    name: 'Waaagh!',
+    kind: 'armyRule',
+    det: null,
+    body: 'Add 1 to the Strength characteristic of melee weapons equipped by models from your army.',
+    effects: [{ on: 'melee', stat: 's', op: 'add', value: 1, when: { en: 'while the Waaagh! is active', ru: 'пока активен Waaagh!' }, cond: ['waaagh-active'] }],
+  }
+
+  it('rewrites the number once the condition is proven, and says what proved it', () => {
+    const out = applyStatMods(sheet(), [waaagh], destroyer, [], new Set(['waaagh-active']))
+    expect(out.sheet.melee[0].s).toBe('7')
+    expect(out.marks).toContain('melee:s:0')
+    const note = out.notes[0]
+    expect(note.applied).toBe(true)
+    expect(note.via).toEqual(['waaagh-active'])
+    // The condition text stays: a value that is only true while a switch is on must never read
+    // as a printed one.
+    expect(note.when.en).toBe('while the Waaagh! is active')
+  })
+
+  it('leaves it alone when the condition is not on', () => {
+    const out = applyStatMods(sheet(), [waaagh], destroyer, [], new Set())
+    expect(out.sheet.melee[0].s).toBe('6')
+    expect(out.notes[0]).toMatchObject({ applied: false, via: null })
+  })
+
+  it('needs EVERY condition, not just one', () => {
+    const both = { ...waaagh, effects: [{ ...waaagh.effects[0], cond: ['waaagh-active', 'unit-charged'] }] }
+    expect(applyStatMods(sheet(), [both], destroyer, [], new Set(['waaagh-active'])).sheet.melee[0].s).toBe('6')
+    expect(applyStatMods(sheet(), [both], destroyer, [], new Set(['waaagh-active', 'unit-charged'])).sheet.melee[0].s).toBe('7')
+  })
+
+  // An effect that predates the condition markup, or one a reviewer left unmarked, is UNPROVEN —
+  // not unconditional. Treating a missing `cond` as "always on" would rewrite numbers nobody
+  // signed off on.
+  it('treats a conditional effect with no markup as unproven', () => {
+    const unmarked = { ...waaagh, effects: [{ ...waaagh.effects[0], cond: undefined }] }
+    const out = applyStatMods(sheet(), [unmarked], destroyer, [], new Set(['waaagh-active']))
+    expect(out.sheet.melee[0].s).toBe('6')
+    expect(out.notes[0].applied).toBe(false)
+  })
+
+  it('leaves the unconditional path exactly as it was', () => {
+    const out = applyStatMods(sheet(), [coldFervour], destroyer, [], new Set(['waaagh-active']))
+    expect(out.sheet.melee[0].s).toBe('8')
+    expect(out.notes.find((n) => n.applied).via).toBeNull()
+  })
+
+  it('lets a proven grant hand over its keyword, and withholds it otherwise', () => {
+    const ankh = {
+      name: 'Destroyer Ankh', kind: 'enhancement', det: 'Cursed Legion', body: '',
+      effects: [{ on: 'unit', stat: 'keyword', op: 'grant', value: 'Destroyer Cult', when: { en: 'while leading', ru: 'пока ведёт' }, cond: ['unit-leading'] }],
+    }
+    expect(grantedKeywordsFrom([ankh], warrior, [], new Set(['unit-leading']))).toEqual([
+      { kw: 'Destroyer Cult', source: 'Destroyer Ankh', det: 'Cursed Legion' },
+    ])
+    expect(grantedKeywordsFrom([ankh], warrior, [], new Set())).toEqual([])
   })
 })

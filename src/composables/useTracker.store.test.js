@@ -383,3 +383,40 @@ describe('applyArmyBonus / undoArmyBonus (GSC round-1 start bonus)', () => {
     expect(tracker.current.value.players[0].army.counter).toBeUndefined()
   })
 })
+
+// Rule-condition switches — what the app cannot know and the player tells it (rosterGameContext.js
+// reads these back). Stored as the battle ROUND they were flipped in, which is what lets a
+// "until the end of the turn" state expire on its own.
+describe('setArmyCondition / setUnitCondition', () => {
+  beforeEach(() => {
+    tracker.newGame(setupGame())
+  })
+
+  it('records the round an army switch was flipped in, and clears it again', () => {
+    const t = tracker
+    t.setArmyCondition(0, 'imperative-protector', 2, true)
+    expect(t.current.value.players[0].ctx.army['imperative-protector']).toBe(2)
+    t.setArmyCondition(0, 'imperative-protector', 3, false)
+    expect(t.current.value.players[0].ctx.army['imperative-protector']).toBeUndefined()
+  })
+
+  it('keys unit switches by the roster entry and tidies up after itself', () => {
+    const t = tracker
+    t.setUnitCondition(0, 'u1', 'unit-charged', 1, true)
+    t.setUnitCondition(0, 'u1', 'unit-advanced', 1, true)
+    expect(t.current.value.players[0].ctx.units.u1).toEqual({ 'unit-charged': 1, 'unit-advanced': 1 })
+
+    t.setUnitCondition(0, 'u1', 'unit-charged', 1, false)
+    t.setUnitCondition(0, 'u1', 'unit-advanced', 1, false)
+    // The entry goes with its last switch — an empty bag per unit would grow with every unit
+    // ever touched, in a payload capped at 64 KB by the API.
+    expect(t.current.value.players[0].ctx.units.u1).toBeUndefined()
+  })
+
+  it('keeps the two players apart', () => {
+    const t = tracker
+    t.setArmyCondition(1, 'drug-hypex', 1, true)
+    expect(t.current.value.players[0].ctx).toBeUndefined()
+    expect(t.current.value.players[1].ctx.army['drug-hypex']).toBe(1)
+  })
+})

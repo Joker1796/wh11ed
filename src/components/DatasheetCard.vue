@@ -64,10 +64,13 @@
          "modifiers". -->
     <ul v-if="statNotes.length" class="ds-mods">
       <li class="ds-mods-h">{{ labels.dsModifiers }}</li>
-      <li v-for="(n, i) in statNotes" :key="i" class="ds-mod" :class="{ 'ds-mod-when': !n.applied }">
+      <li v-for="(n, i) in statNotes" :key="i" class="ds-mod" :class="{ 'ds-mod-when': !n.applied, 'ds-mod-live': n.applied && n.via }">
         <span class="ds-mod-delta">{{ modDelta(n) }}</span>
         <span class="ds-mod-src">{{ n.source }}<span v-if="n.det" class="ds-mod-det"> · {{ n.det }}</span></span>
-        <span v-if="n.when" class="ds-mod-cond">{{ n.when[locale] || n.when.en }}</span>
+        <!-- `via` means the condition was PROVEN by the game in progress, so the number above was
+             rewritten after all. The condition still shows — a value that is only true while
+             something is switched on must never read as a printed one. -->
+        <span v-if="n.when" class="ds-mod-cond"><i v-if="n.via" class="bi bi-lightning-charge-fill"></i> {{ n.when[locale] || n.when.en }}</span>
       </li>
     </ul>
 
@@ -355,7 +358,9 @@ const props = defineProps({
   // Cells the roster's modifier layer rewrote, as `profile:<stat>:<i>` / `ranged:<stat>:<row>` /
   // `melee:<stat>:<row>` keys (src/composables/rosterStatMods.js), and the notes explaining them.
   // A note with `applied: false` is a CONDITIONAL modifier: its number was deliberately left
-  // printed, and the note is the only thing that says the value can change. Empty for every
+  // printed, and the note is the only thing that says the value can change. One with both
+  // `applied` and `via` is a conditional whose condition the live game proved — applied, but
+  // still shown with its condition. Empty for every
   // caller outside the roster.
   statMarks: { type: Array, default: () => [] },
   statNotes: { type: Array, default: () => [] },
@@ -998,6 +1003,10 @@ function modDelta(n) {
    glance, and the condition follows. */
 .ds-mod-when .ds-mod-delta { font-weight: 600; color: var(--text-muted); }
 .ds-mod-cond { flex-basis: 100%; padding-left: 0.1rem; font-style: italic; }
+/* Applied because the game says so, not because it is printed — the accent marks the difference
+   at a glance, the italic condition beside it says what would take it away again. */
+.ds-mod-live .ds-mod-cond { color: var(--accent); font-style: normal; }
+.ds-mod-live .ds-mod-delta { color: var(--accent); }
 /* The `*` on a value the layer rewrote, and its cell. Same asterisk convention as the granted
    keywords' `.ds-kw-star`.
    `line-height: 0` + `position: relative` instead of the default `vertical-align: super`: a real

@@ -2,8 +2,15 @@
 // caller hands in the records it loaded and the rule prose they were read from.
 //
 // THE ONE RULE THIS FILE ENFORCES: a number is only ever rewritten when the modifier is
-// UNCONDITIONAL. Anything with a `when` is annotated beside the printed value and the value is
-// left alone. 40k modifiers are overwhelmingly conditional — a phase, a range, an aura, once per
+// UNCONDITIONAL — or when the caller can prove the condition holds right now. Anything else with
+// a `when` is annotated beside the printed value and the value is left alone.
+//
+// The proof comes from `active`, a set of condition ids the game says are true (built by
+// rosterGameContext.js from a live tracker game). An effect's `cond` lists the ids that must ALL
+// hold; anything not in the set — including every effect whose condition can never be answered
+// (see conditions.js's sentinels) — stays an annotation. A note that WAS applied this way keeps
+// its `when` text and carries `via`, so the card can say "T6 because the Waaagh! is on" rather
+// than presenting a context-dependent number as if it were printed. 40k modifiers are overwhelmingly conditional — a phase, a range, an aura, once per
 // battle — and a card showing T6 when the +1 only applies while a Waaagh! is running is worse
 // than a card showing T5 with a note. The same goes for a value this file cannot compute (a
 // Damage of "D6+2" with "+1"): it degrades to an annotation rather than inventing arithmetic.
@@ -82,7 +89,7 @@ export function applyValue(current, op, value) {
 // second system so `when`, `scope` and the whole applicability machinery are shared.
 const isGrant = (effect) => effect.op === 'grant'
 
-function noteOf(entry, effect, applied) {
+function noteOf(entry, effect, applied, via = null) {
   return {
     source: entry.name,
     det: entry.det,
@@ -92,8 +99,17 @@ function noteOf(entry, effect, applied) {
     op: effect.op,
     value: effect.value,
     when: effect.when || null,
+    // The conditions that let a conditional modifier through, or null for an unconditional one.
+    // Its presence is what distinguishes "always true" from "true right now".
+    via,
     applied,
   }
+}
+
+// Does the game say every condition on this effect holds? An effect with no `cond` at all is
+// unreviewed markup, and is treated as unproven — never as unconditional.
+function condHolds(cond, active) {
+  return Array.isArray(cond) && cond.length > 0 && cond.every((id) => active?.has(id))
 }
 
 // entries: [{ name, det, kind, body, effects }] — records the caller resolved to their prose.
@@ -102,7 +118,7 @@ function noteOf(entry, effect, applied) {
 // `profile:<stat>:<profileIndex>` / `<ranged|melee>:<stat>:<rowIndex>` for the card to mark, and
 // the keywords granted to the unit (which the caller must fold into `keywords` and re-run — see
 // grantedKeywordsFrom).
-export function applyStatMods(sheet, entries, keywords, factionKeywordSets) {
+export function applyStatMods(sheet, entries, keywords, factionKeywordSets, active = null) {
   if (!sheet || !entries?.length) return { sheet, notes: [], marks: [], keywords: [] }
 
   let out = null // cloned lazily — an all-conditional unit must keep the original object identity
@@ -130,16 +146,18 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets) {
     for (const effect of entry.effects || []) {
       if (!effectApplies(effect, scopes, keywords, entry.kind, factionKeywordSets)) continue
 
-      // Conditional: never touch the number, just say what would change and when.
-      if (effect.when) {
+      // Conditional and unproven: never touch the number, just say what would change and when.
+      const live = effect.when ? condHolds(effect.cond, active) : false
+      if (effect.when && !live) {
         notes.push(noteOf(entry, effect, false))
         continue
       }
+      const via = live ? effect.cond : null
 
       if (isGrant(effect)) {
         if (effect.stat === 'keyword') {
           granted.push({ kw: String(effect.value), source: entry.name, det: entry.det })
-          notes.push(noteOf(entry, effect, true))
+          notes.push(noteOf(entry, effect, true, via))
           continue
         }
         // A weapon ability joins that row's printed tags, in the same shape DatasheetCard reads.
@@ -155,7 +173,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets) {
             added = true
           }
         }
-        notes.push(noteOf(entry, effect, added))
+        notes.push(noteOf(entry, effect, added, via))
         continue
       }
 
@@ -176,7 +194,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets) {
       }
       // Nothing computable (every value was a dice expression, or the unit has no such row) —
       // report it as an annotation rather than dropping the modifier on the floor.
-      notes.push(noteOf(entry, effect, changed))
+      notes.push(noteOf(entry, effect, changed, via))
     }
   }
 
@@ -185,14 +203,16 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets) {
 
 // The keywords these records grant this unit, WITHOUT applying anything else. Callers need them
 // before gating any rule, because a granted keyword decides which rules bear on the unit at all;
-// running the full apply pass first would gate on the un-granted keyword set. Conditional grants
-// are excluded on purpose — the same reason a conditional number is never written.
-export function grantedKeywordsFrom(entries, keywords, factionKeywordSets) {
+// running the full apply pass first would gate on the un-granted keyword set. A conditional grant
+// counts only when `active` proves it — the same test the numbers get, so the keyword layer and
+// the number layer can never disagree about whether a rule is on.
+export function grantedKeywordsFrom(entries, keywords, factionKeywordSets, active = null) {
   const out = []
   for (const entry of entries || []) {
     const scopes = entry.kind === 'enhancement' || entry.kind === 'allegiance' ? null : ruleScopes(entry.body)
     for (const effect of entry.effects || []) {
-      if (effect.op !== 'grant' || effect.stat !== 'keyword' || effect.when) continue
+      if (effect.op !== 'grant' || effect.stat !== 'keyword') continue
+      if (effect.when && !condHolds(effect.cond, active)) continue
       if (!effectApplies(effect, scopes, keywords, entry.kind, factionKeywordSets)) continue
       out.push({ kw: String(effect.value), source: entry.name, det: entry.det })
     }

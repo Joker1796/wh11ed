@@ -622,7 +622,42 @@ edit pencil). Deliberately not a second copy of the screen: this is where the li
 pulls the mission/event datasets (~280 KB of source) and the ordinary roster route must not carry
 them. Entry point: the chip under each player's detachments in `RoundTracker.vue`.
 
-Plan, research and open questions for the live-rules layer: `ROSTER-IN-GAME-PROGRESS.md`.
+### Live rules — what is true right now
+
+Tier C rewrites a printed number only when the modifier is unconditional. Opened from a game, it
+can also rewrite one whose condition the game PROVES — which is the reason to open a list mid-battle
+at all. Three files, one idea:
+
+- **`src/data/rosterModifiers/conditions.js`** — the vocabulary. Every conditional effect carries
+  `cond`, a list of condition ids that must all hold, hand-assigned in the same review pass that
+  wrote `effects` (161 distinct `when` wordings; there is no grammar to parse, but the STATES a game
+  can be in are enumerable). Each id declares its `scope` — who answers it — and its `duration`.
+  65 of the 218 conditional effects are answerable; the rest carry a **sentinel** (`never`,
+  `blocked-subset`, `blocked-weapon`, `blocked-alternate`) that says why not. **A missing `cond` is
+  not "unconditional" — it is unreviewed, and is treated as unproven.**
+- **`src/composables/rosterGameContext.js`** — the answers. Each id is answered from exactly ONE
+  source: `auto` (the tracker already knows — a called Waaagh! is read from the army-rule
+  tracker's `toggleRounds`), `roster` (the list already says so — a Leader's attachment), or a
+  switch the player flips. An auto condition is deliberately NOT hand-flippable: two sources for
+  one fact is how this card and the tracker card next to it start disagreeing.
+- **`rosterStatMods.js`** takes the resulting set as `active`. A proven effect is applied AND keeps
+  its condition text, with `via` naming what proved it — `DatasheetCard` renders that third state
+  (`ds-mod-live`) distinctly from both a printed value and an unmet condition.
+
+**The clock is the battle round.** A switch stores the round it was flipped in, and anything whose
+rule lasts less than the whole battle is true only in that round. The tracker has no phases and no
+notion of whose turn it is, so that is the only honest clock — and clearing EARLY is the safe
+direction, since a stale switch would silently rewrite a number. Conditions scoped to a phase are
+marked in the vocabulary and never come out true until that changes.
+
+**Where the switches are:** army-wide ones above the unit list in `RosterViewView` (facts about the
+battle); per-unit ones on the unit's own card in `RosterUnitRulesModal` (`gameCtx` prop, `toggle-cond`
+event), next to the number they change. Only conditions the roster's own rules actually name are
+offered, and only ones that can be answered — a switch that changes nothing on screen is worse than
+no switch. State lives in the game (`player.ctx.army` / `player.ctx.units[uid]`, written by
+`useTracker`'s `setArmyCondition`/`setUnitCondition`), never in the roster.
+
+Plan, research and open questions: `ROSTER-IN-GAME-PROGRESS.md`.
 
 ## Known gaps
 
