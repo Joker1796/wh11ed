@@ -690,6 +690,60 @@ on future appdata bumps.
      output — the previously-inflated root `index-*.js` dropped back to its normal ~413 KB); `npm
      test` passed 4/4 consecutive full-suite runs afterward (was 4/4 failing before).
 
+## Table-level coverage audit (2026-08-20) — what of appdata we still don't read
+
+Everything above audits coverage per FEATURE. This one goes the other way: walk all 130 files in
+`wh40k-appdata/tables/` and ask which ones no wh11ed script ever opens. Counting: **65 tables are
+read** by `scripts/`, **55 are never mentioned**, and 17 of those 55 are empty (0 rows —
+`amendment`, `mission_pack_*`, `detachment_required_datasheet`, `enhancement_keyword_points_cost`,
+`army_rule_behaviour_type`, …), leaving **38 non-empty tables we don't open**.
+
+38 overstates the gap. Most of them reach us already folded into the faction BUNDLES
+(`wh40k-appdata/factions/<slug>.json`), which is what the generators actually read:
+`datasheet_ability`/`datasheet_datasheet_ability` → `abilities`, `wargear_item_profile`
+(+`_wargear_ability`) → `wargear[].profiles`, `invulnerable_save` → `invulnerableSaves`,
+`datasheet_damage` → `damageAbility`, `detachment_rule` → `detachments[].rules`,
+`datasheet_faction_keyword` → `factionKeywords`. Those are covered; the raw table is just not the
+road they take.
+
+What is genuinely missing, ranked:
+
+1. **`datasheet_bodyguard_group_keyword` (44 rows / 36 groups) — a live defect, fixed 2026-08-20.**
+   A bodyguard group can name its targets by KEYWORD instead of listing datasheets, and
+   `gen-roster-data.mjs` only ever read `datasheet_bodyguard_group_datasheet`. All 36 such groups
+   are keyword-only (none is also listed), so those attachments were simply absent: Captain and 8
+   other Space Marine leaders lost Sternguard Veteran Squad, Tor Garadon/Iron Father Feirros lost
+   Eradicator Squad. Same class as the `enhancement_bodyguard_group` bug from 2026-08-19, opposite
+   sign — eligibility MISSING rather than invented. Note the bundle loses it too
+   (`adeptus-astartes.json` carries `{"bodyguardType":"leader","units":[]}` for exactly these), so
+   wh40k-appdata's own bundle generator has the same hole; we read the raw table instead.
+2. **`unit_composition_miniature` (2300 rows) — not used, and it answers a documented limitation.**
+   It gives `min`/`max` PER MINIATURE PROFILE per points bracket (Wracks: `Acothyst 1-1 |
+   Wrack 4-4` at 60 pts, `Acothyst 1-1 | Wrack 8-9` at 120), covering **all 303 multi-miniature
+   datasheets** and 1145 of 1146 overall. Today unit sizes are parsed out of the bundle's
+   `models: '5-10'` STRING (`parseModels`), and both `defaultLoadoutLines` and Tier A's weapon trim
+   (`rosterModifiers.js`) refuse to subtract anything on a multi-miniature datasheet, explicitly
+   because "there is no single model count". This table is that count. Not done — a real task, with
+   the roster editor's per-miniature wargear as its main consumer.
+3. **`allegiance_ability` (26) + `allegiance_ability_group` (10)** — allegiance/mark mechanics tied
+   to a detachment, with `isMandatory`, `maxRosterLimit`/`minRosterLimit`, `requiresWargearItemId`
+   and rules like "This model is additionally equipped with: phlegm bombardment". The roster builder
+   knows nothing about them. Worth scoping before calling roster v1 finished.
+4. **Validation odds and ends:** `detachment_unique_keyword` (55),
+   `army_rule_excluded_from_command_bunker_faction_keyword` (37), and `stratagem_phase` (2016 —
+   structural phase per stratagem, which the tracker/stratagem pages could filter on).
+5. **Missions** (`primary_mission*`, `secondary_mission*`, ~15 non-empty tables) are untouched by
+   design — tracker mission data is hand-authored and checked by `sync-tracker.mjs` against
+   `_core-content.json`, not against these.
+
+Quantity (`count`) lives in exactly four tables: `base_miniature_loadout_wargear_option` (defaults —
+used), `loadout_choice_wargear_item` (legal loadouts — used as the bundle verifier),
+`limited_wargear_choice_wargear_item` (used for limits and per-option counts) and
+`all_model_wargear_choice_wargear_item` — where **all 71 rows have count = 1**, so it adds nothing.
+There is no fifth, structural source of "this option grants 2 of them": for the groups outside a
+limited set the number exists only in the prose. Measured and acted on in
+`ROSTER-BUILDER-PROGRESS.md` item 6.
+
 ## Deploy log
 - 2026-07-27 — v2.1.6 deployed: floating faction buttons (desktop) + mobile utility bar,
   Vehicles/Infantry unit-list split, full 30-faction datasheet/rules reconciliation vs appdata

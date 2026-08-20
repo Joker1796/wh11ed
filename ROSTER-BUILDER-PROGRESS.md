@@ -174,6 +174,37 @@ is implemented and tested.
    SCHEMA_VERSION 3 for the same reason as v2 — group indices moved, and a stale index would
    quietly mean a different weapon.
 
+8. **The instruction's own words hid what a swap gives up — FIXED 2026-08-20.** Found while
+   measuring item 6's tail, and bigger than that tail: a group's `rep` (the item it replaces) is
+   parsed out of the prose, and the parse silently produced nothing for **129 of the 910 groups**
+   that say "replaced with". `rep` is not cosmetic — `defaultLoadoutLines` uses it to shrink the
+   "starts equipped with" line, and Tier A's overlay (`rosterModifiers.js`) uses it to drop the
+   swapped-away weapon row, so a missing one leaves a weapon on the card that the model gave up.
+
+   Three causes, all the same shape — the name in the prose is not spelled the way the item table
+   spells it: a **quantity** in front of it ("this model's 2 lastrum storm bolters", 54 groups), a
+   **U+2010 hyphen** inside it ("multi‐laser", "hot‐shot lascarbine", 18 groups — the same class of
+   silent no-op as apostrophes in enhancements and `ë` in Votann detachments), and a **plural
+   possessive** ("up to 3 models' combi-bolters", which the `'s`/`’s` pattern never matched).
+   Fixed by keying the name vocabulary through `norm()`, stripping a leading count and a trailing
+   plural before the lookup, accepting `s’` as a possessive, and walking every possessive in the
+   sentence rather than only the first (an item's name can itself contain "and" — Cult claws and
+   knife — so the whole phrase is tried before splitting on it). **781 → 973 groups** know what
+   they give up; 19 are left, and both remaining classes stay fail-open on purpose: "X **or** Y"
+   names one item out of two as the thing given up (no single set to subtract), and a few are
+   appdata disagreeing with itself ("absolver bolt pistol" in the prose vs the item "Absolvor bolt
+   pistol").
+
+9. **40 units had no default loadout at all — FIXED 2026-08-20.** Same session, found by asking why
+   Blood Angels Captain's "heavy bolt pistol" resolved to nothing: **144 datasheets have no
+   `base_miniature_loadout` row**, and for **136 of them** appdata records the starting gear as a
+   wargear option group whose instruction is literally "Default Wargear" — a group the generator
+   drops as redundant. So those units shipped with no `defaults`: no "starts equipped with" line in
+   the editor, and nothing for the overlay to subtract from. `staticLoadout()` now reads that group
+   when the loadout table has no row (same `[[miniIdx, [[item, count]]]]` shape, count 1 — all a
+   `wargear_option` can express). **32 units in the roster corpus gained a default loadout**; the 8
+   still without one are genuinely unarmed (Aegis Defence Line, Drop Pod, Skull Altar, Spore Mines…).
+
 ## Where the merge-into-main work is recorded
 
 The `main`-catch-up merge itself (conflict resolution, a stale test fixed for `BaseModal`'s
