@@ -362,6 +362,8 @@ export const router = createRouter({
     // rosterGameLink.js. Private, like /tracker/game: not in STATIC_ROUTES, not in the sitemap.
     { path: '/tracker/game/roster/:pi', component: RosterViewView, meta: { section: 'tracker' } },
     { path: '/tracker/history/:id', component: TrackerHistoryView, meta: { section: 'tracker' } },
+    // The same list, read out of a FINISHED game — the snapshot is what makes that possible at all.
+    { path: '/tracker/history/:gid/roster/:pi', component: RosterViewView, meta: { section: 'tracker' } },
     { path: '/tracker/auth-callback', component: AuthCallbackView, meta: { section: 'tracker' } },
     { path: '/links', component: LinksView, meta: { section: 'links' } },
     { path: '/disclaimer', component: DisclaimerView },

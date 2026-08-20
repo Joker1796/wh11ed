@@ -397,8 +397,23 @@ export default {
             "ru": "атаки и сила +2 вместо +1, пока на носителя действует Assault Doctrine"
           },
           "cond": [
-            "blocked-alternate"
-          ]
+            "doctrine-assault"
+          ],
+          "alt": 0
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "cond": [
+            "doctrine-assault"
+          ],
+          "alt": 1,
+          "when": {
+            "en": "Attacks and Strength +2 instead, while the bearer is under the effects of the Assault Doctrine",
+            "ru": "атаки и сила +2 вместо +1, пока на носителя действует Assault Doctrine"
+          }
         }
       ],
       "ref": {
@@ -512,13 +527,10 @@ export default {
           "stat": "a",
           "op": "add",
           "value": 1,
-          "when": {
-            "en": "Torrent weapons of models in the bearer's unit only",
-            "ru": "только оружие Torrent моделей в отряде носителя"
-          },
-          "cond": [
-            "blocked-weapon"
-          ]
+          "when": null,
+          "only": {
+            "tag": "TORRENT"
+          }
         }
       ],
       "ref": {
@@ -603,8 +615,23 @@ export default {
             "ru": "атаки и сила +2 вместо +1, пока на носителя действует Assault Doctrine"
           },
           "cond": [
-            "blocked-alternate"
-          ]
+            "doctrine-assault"
+          ],
+          "alt": 0
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "cond": [
+            "doctrine-assault"
+          ],
+          "alt": 1,
+          "when": {
+            "en": "Attacks and Strength +2 instead, while the bearer is under the effects of the Assault Doctrine",
+            "ru": "атаки и сила +2 вместо +1, пока на носителя действует Assault Doctrine"
+          }
         }
       ],
       "ref": {
@@ -759,8 +786,23 @@ export default {
             "ru": "сила и пробитие улучшаются на 2 вместо 1 до конца хода, после того как носитель завершил чардж"
           },
           "cond": [
-            "blocked-alternate"
-          ]
+            "unit-charged"
+          ],
+          "alt": 0
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -2,
+          "cond": [
+            "unit-charged"
+          ],
+          "alt": 1,
+          "when": {
+            "en": "Strength and AP improve by 2 instead, until the end of the turn, after the bearer ends a Charge move",
+            "ru": "сила и пробитие улучшаются на 2 вместо 1 до конца хода, после того как носитель завершил чардж"
+          }
         }
       ],
       "ref": {
@@ -801,8 +843,23 @@ export default {
             "ru": "сила и пробитие улучшаются на 2 вместо 1 до конца хода, после того как носитель завершил чардж"
           },
           "cond": [
-            "blocked-alternate"
-          ]
+            "unit-charged"
+          ],
+          "alt": 0
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -2,
+          "cond": [
+            "unit-charged"
+          ],
+          "alt": 1,
+          "when": {
+            "en": "Strength and AP improve by 2 instead, until the end of the turn, after the bearer ends a Charge move",
+            "ru": "сила и пробитие улучшаются на 2 вместо 1 до конца хода, после того как носитель завершил чардж"
+          }
         }
       ],
       "ref": {

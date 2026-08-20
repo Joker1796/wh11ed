@@ -21,12 +21,24 @@ import { conditions } from '../data/rosterModifiers/conditions.js'
 // Conditions read from the game rather than asked about. Keyed by condition id; each reader gets
 // the player object and the current battle round.
 //
-// Only one for now, and it is the flagship case: Orks' Waaagh! is a `toggle` army-rule spec
-// (src/data/armyTrackers/orks.js), which records the round it was called in. Extending this map
-// faction by faction is R2 in ROSTER-IN-GAME-PROGRESS.md — every entry has to be justified against
-// that faction's spec, so they arrive one at a time rather than as a batch of guesses.
+// EVERY reader checks the faction first. The army-rule specs are built from a handful of shared
+// PRIMITIVES (`toggle`, `selection`, `counter`…), so `army.toggleRounds` means "the Waaagh! was
+// called" for Orks and something else entirely for the next faction that gets a toggle spec.
+// Reading the primitive without the faction would be reading someone else's mail.
+//
+// Adding to this map is a per-faction job: the spec has to actually record the same thing the
+// condition asks about, which most do not — Drukhari's tracker counts Pain tokens, not which
+// Combat Drug is running, and the Sororitas one banks Miracle dice and says nothing about which
+// unit is Righteous. Those stay switches. (R2 in ROSTER-IN-GAME-PROGRESS.md.)
 const AUTO = {
-  'waaagh-active': (player, round) => (player?.army?.toggleRounds || []).includes(round),
+  // Orks — a `toggle` spec that records the round the Waaagh! was called in.
+  'waaagh-active': (player, round) => player?.factionSlug === 'orks'
+    && (player?.army?.toggleRounds || []).includes(round),
+  // Adeptus Mechanicus — a per-round `selection` whose option ids are the Imperatives themselves.
+  'imperative-protector': (player, round) => player?.factionSlug === 'adeptus-mechanicus'
+    && player?.army?.selectionByRound?.[round] === 'protector',
+  'imperative-conqueror': (player, round) => player?.factionSlug === 'adeptus-mechanicus'
+    && player?.army?.selectionByRound?.[round] === 'conqueror',
 }
 
 export const isAuto = (id) => Object.hasOwn(AUTO, id)

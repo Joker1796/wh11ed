@@ -80,8 +80,11 @@ export default {
             "ru": "только стрелковое психическое оружие, пока выбрана способность Imbued Manifestation"
           },
           "cond": [
-            "blocked-weapon"
-          ]
+            "manifestation-imbued"
+          ],
+          "only": {
+            "tag": "PSYCHIC"
+          }
         }
       ],
       "ref": {
@@ -223,26 +226,20 @@ export default {
           "stat": "s",
           "op": "add",
           "value": 1,
-          "when": {
-            "en": "the bearer's Psychic weapons only",
-            "ru": "только психическое оружие носителя"
-          },
-          "cond": [
-            "blocked-weapon"
-          ]
+          "when": null,
+          "only": {
+            "tag": "PSYCHIC"
+          }
         },
         {
           "on": "weapon",
           "stat": "d",
           "op": "add",
           "value": 1,
-          "when": {
-            "en": "the bearer's Psychic weapons only",
-            "ru": "только психическое оружие носителя"
-          },
-          "cond": [
-            "blocked-weapon"
-          ]
+          "when": null,
+          "only": {
+            "tag": "PSYCHIC"
+          }
         }
       ],
       "ref": {
@@ -279,13 +276,10 @@ export default {
           "stat": "s",
           "op": "add",
           "value": 1,
-          "when": {
-            "en": "Psychic weapons of models in the bearer's unit",
-            "ru": "психическое оружие моделей в отряде носителя"
-          },
-          "cond": [
-            "blocked-weapon"
-          ]
+          "when": null,
+          "only": {
+            "tag": "PSYCHIC"
+          }
         },
         {
           "on": "weapon",
@@ -297,8 +291,9 @@ export default {
             "ru": "+2 вместо +1, пока отряд носителя целиком в Потоке магии вашей армии"
           },
           "cond": [
-            "blocked-alternate"
-          ]
+            "never"
+          ],
+          "alt": 0
         }
       ],
       "ref": {
@@ -340,8 +335,11 @@ export default {
             "ru": "стрелковое психическое оружие носителя, пока его отряд целиком в Потоке магии вашей армии"
           },
           "cond": [
-            "blocked-weapon"
-          ]
+            "never"
+          ],
+          "only": {
+            "tag": "PSYCHIC"
+          }
         }
       ],
       "ref": {

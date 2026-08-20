@@ -81,8 +81,11 @@ export default {
             "ru": "пока на отряд действует приказ «First Rank, Fire! Second Rank, Fire!» — только для оружия Rapid Fire"
           },
           "cond": [
-            "blocked-weapon"
-          ]
+            "order-first-rank-fire"
+          ],
+          "only": {
+            "tag": "RAPID FIRE"
+          }
         },
         {
           "on": "profile",
@@ -186,8 +189,11 @@ export default {
             "ru": "пока на отряд действует приказ «First Rank, Fire! Second Rank, Fire!» — только для оружия Rapid Fire"
           },
           "cond": [
-            "blocked-weapon"
-          ]
+            "order-first-rank-fire"
+          ],
+          "only": {
+            "tag": "RAPID FIRE"
+          }
         },
         {
           "on": "profile",
@@ -381,13 +387,10 @@ export default {
           "stat": "a",
           "op": "add",
           "value": 2,
-          "when": {
-            "en": "the bearer's Pistols only",
-            "ru": "только для пистолетов носителя"
-          },
-          "cond": [
-            "blocked-weapon"
-          ]
+          "when": null,
+          "only": {
+            "tag": "PISTOL"
+          }
         }
       ],
       "ref": {

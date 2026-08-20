@@ -330,3 +330,87 @@ describe('applyStatMods with a live game context', () => {
     expect(grantedKeywordsFrom([ankh], warrior, [], new Set())).toEqual([])
   })
 })
+
+// "the bearer's Psychic weapons only" — a restriction finer than `on` can express. It used to live
+// in the `when` prose, which meant the modifier was never applied at all; as a filter it applies to
+// exactly the rows the rule names.
+describe('applyStatMods with a weapon filter', () => {
+  const psychicSheet = () => ({
+    name: 'Sorcerer',
+    profiles: [{ m: '6"', t: '4', sv: '3+', w: '4', ld: '6+', oc: '1' }],
+    ranged: [
+      { name: 'Inferno bolt pistol', tags: ['PISTOL'], s: '4', ap: '-1', d: '1' },
+      { name: 'Warp blast', tags: ['BLAST', 'PSYCHIC'], s: '6', ap: '-1', d: 'D3' },
+    ],
+    melee: [
+      { name: 'Force stave', tags: ['PSYCHIC'], s: '6', ap: '-1', d: '2' },
+      { name: 'Close combat weapon', tags: ['EXTRA ATTACKS'], s: '4', ap: '0', d: '1' },
+    ],
+  })
+  const rec = (only, on = 'weapon') => ({
+    name: 'Power of the Hive Mind', kind: 'enhancement', det: 'Synaptic Nexus', body: '',
+    effects: [{ on, stat: 's', op: 'add', value: 1, when: null, only }],
+  })
+
+  it('rewrites only the rows carrying the named ability', () => {
+    const out = applyStatMods(psychicSheet(), [rec({ tag: 'PSYCHIC' })], destroyer, [])
+    expect(out.sheet.ranged[0].s).toBe('4') // pistol untouched
+    expect(out.sheet.ranged[1].s).toBe('7')
+    expect(out.sheet.melee[0].s).toBe('7')
+    expect(out.sheet.melee[1].s).toBe('4') // no PSYCHIC tag
+    expect(out.marks).toEqual(expect.arrayContaining(['ranged:s:1', 'melee:s:0']))
+    expect(out.marks).not.toContain('ranged:s:0')
+  })
+
+  // A tag carries its value with it ("RAPID FIRE 1"), so the match is by prefix.
+  it('matches a tag that carries a number', () => {
+    const sheetRF = { ...psychicSheet(), ranged: [{ name: 'Lasgun', tags: ['RAPID FIRE 1'], a: '1' }] }
+    const out = applyStatMods(sheetRF, [{ ...rec({ tag: 'RAPID FIRE' }, 'ranged'), effects: [{ on: 'ranged', stat: 'a', op: 'add', value: 1, when: null, only: { tag: 'RAPID FIRE' } }] }], destroyer, [])
+    expect(out.sheet.ranged[0].a).toBe('2')
+  })
+
+  it('can exclude instead of include', () => {
+    const out = applyStatMods(psychicSheet(), [rec({ notTag: 'EXTRA ATTACKS' }, 'melee')], destroyer, [])
+    expect(out.sheet.melee[0].s).toBe('7')
+    expect(out.sheet.melee[1].s).toBe('4')
+  })
+
+  it('matches by weapon name for a rule that names one', () => {
+    const out = applyStatMods(psychicSheet(), [rec({ name: 'Warp blast' }, 'ranged')], destroyer, [])
+    expect(out.sheet.ranged[1].s).toBe('7')
+    expect(out.sheet.ranged[0].s).toBe('4')
+  })
+
+  it('leaves model profiles alone — a weapon filter has nothing to say about them', () => {
+    const prof = { ...rec({ tag: 'PSYCHIC' }, 'profile'), effects: [{ on: 'profile', stat: 't', op: 'add', value: 1, when: null, only: { tag: 'PSYCHIC' } }] }
+    const out = applyStatMods(psychicSheet(), [prof], destroyer, [])
+    expect(out.sheet.profiles[0].t).toBe('5')
+  })
+})
+
+// "…add 2 to the Attacks characteristic INSTEAD." Two effects, one number: while the alternate is
+// in force the base must not also land, or +1 and +2 quietly become +3.
+describe('applyStatMods with an "instead" variant', () => {
+  const rec = {
+    name: 'Weapons of the First Legion', kind: 'enhancement', det: 'Unforgiven Task Force', body: '',
+    effects: [
+      { on: 'melee', stat: 'a', op: 'add', value: 1, when: null },
+      { on: 'melee', stat: 'a', op: 'add', value: 2, when: { en: 'while Battle-shocked', ru: 'пока Battle-shocked' }, cond: ['unit-battle-shocked'], alt: 0 },
+    ],
+  }
+
+  it('applies the base while the alternate is not in force', () => {
+    const out = applyStatMods(sheet(), [rec], destroyer, [], new Set())
+    expect(out.sheet.melee[0].a).toBe('5') // printed 4, +1
+    expect(out.notes.filter((n) => n.applied)).toHaveLength(1)
+  })
+
+  it('replaces it, rather than stacking, once the condition holds', () => {
+    const out = applyStatMods(sheet(), [rec], destroyer, [], new Set(['unit-battle-shocked']))
+    expect(out.sheet.melee[0].a).toBe('6') // 4 + 2, NOT 4 + 1 + 2
+    // Only the alternate reports; its own "instead" wording is what explains the missing base.
+    const applied = out.notes.filter((n) => n.applied)
+    expect(applied).toHaveLength(1)
+    expect(applied[0].value).toBe(2)
+  })
+})

@@ -218,8 +218,11 @@ export default {
             "ru": "только оружие Torrent, пока носитель ведёт отряд"
           },
           "cond": [
-            "blocked-weapon"
-          ]
+            "unit-leading"
+          ],
+          "only": {
+            "tag": "TORRENT"
+          }
         }
       ],
       "ref": {
@@ -294,8 +297,22 @@ export default {
             "ru": "вместо этого, плюс +1 к урону, пока отряд носителя Righteous"
           },
           "cond": [
-            "blocked-alternate"
-          ]
+            "unit-righteous"
+          ],
+          "alt": 0
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 1,
+          "cond": [
+            "unit-righteous"
+          ],
+          "when": {
+            "en": "instead, plus +1 Damage, while the bearer's unit is Righteous",
+            "ru": "вместо этого, плюс +1 к урону, пока отряд носителя Righteous"
+          }
         }
       ],
       "ref": {
@@ -343,8 +360,37 @@ export default {
             "ru": "атаки, сила и урон +2 вместо +1, если носитель потерял хотя бы одну рану"
           },
           "cond": [
-            "blocked-alternate"
-          ]
+            "unit-lost-wounds"
+          ],
+          "alt": 0
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "cond": [
+            "unit-lost-wounds"
+          ],
+          "alt": 1,
+          "when": {
+            "en": "Attacks, Strength and Damage +2 instead, if the bearer has lost one or more wounds",
+            "ru": "атаки, сила и урон +2 вместо +1, если носитель потерял хотя бы одну рану"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 2,
+          "cond": [
+            "unit-lost-wounds"
+          ],
+          "alt": 2,
+          "when": {
+            "en": "Attacks, Strength and Damage +2 instead, if the bearer has lost one or more wounds",
+            "ru": "атаки, сила и урон +2 вместо +1, если носитель потерял хотя бы одну рану"
+          }
         }
       ],
       "ref": {

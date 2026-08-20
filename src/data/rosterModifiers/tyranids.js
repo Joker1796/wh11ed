@@ -96,8 +96,10 @@ export default {
             "ru": "отряды Monster в полной численности и не Battle-shocked"
           },
           "cond": [
-            "blocked-subset"
-          ]
+            "unit-at-starting-strength",
+            "unit-not-battle-shocked"
+          ],
+          "scope": 1
         }
       ],
       "ref": {
@@ -254,26 +256,20 @@ export default {
           "stat": "s",
           "op": "add",
           "value": 1,
-          "when": {
-            "en": "the bearer's psychic weapons only",
-            "ru": "только психическое оружие носителя"
-          },
-          "cond": [
-            "blocked-weapon"
-          ]
+          "when": null,
+          "only": {
+            "tag": "PSYCHIC"
+          }
         },
         {
           "on": "weapon",
           "stat": "ap",
           "op": "add",
           "value": -1,
-          "when": {
-            "en": "the bearer's psychic weapons only",
-            "ru": "только психическое оружие носителя"
-          },
-          "cond": [
-            "blocked-weapon"
-          ]
+          "when": null,
+          "only": {
+            "tag": "PSYCHIC"
+          }
         }
       ],
       "ref": {

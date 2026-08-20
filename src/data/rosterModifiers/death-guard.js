@@ -123,8 +123,11 @@ export default {
             "ru": "только для Plague Wind носителя, с начала фазы стрельбы до её конца"
           },
           "cond": [
-            "blocked-weapon"
-          ]
+            "phase-shooting"
+          ],
+          "only": {
+            "name": "Plague Wind"
+          }
         }
       ]
     },
@@ -147,8 +150,11 @@ export default {
             "ru": "только оружие носителя Plague Wind, пока он ведёт отряд Poxwalkers"
           },
           "cond": [
-            "blocked-weapon"
-          ]
+            "never"
+          ],
+          "only": {
+            "name": "Plague Wind"
+          }
         }
       ],
       "ref": {

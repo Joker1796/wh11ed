@@ -23,6 +23,26 @@ import { enhKey, detKey } from './rosterModifiers.js'
 // Which model profiles / weapon rows an effect addresses.
 const WEAPON_TABLES = { ranged: ['ranged'], melee: ['melee'], weapon: ['ranged', 'melee'] }
 
+// A narrower target than `on` can express: "the bearer's Psychic weapons only", "excluding Extra
+// Attacks weapons". `only.tag` / `only.notTag` match the row's printed ability tags (which is what
+// those phrases name — PSYCHIC, TORRENT, PISTOL, RAPID FIRE are weapon abilities), `only.name`
+// matches the weapon by name. Prefix-matched and case-insensitive, because a tag carries its value
+// with it ("RAPID FIRE 1") and a name can be qualified ("Plague Wind – overcharge").
+//
+// Without this the restriction had nowhere to live but the `when` prose, which meant the modifier
+// could never be applied at all — a unit-wide +1 Strength would have hit weapons the rule doesn't
+// touch. See conditions.js's `blocked-weapon`.
+const norm = (s) => String(s ?? '').toLowerCase().trim()
+function rowMatchesOnly(row, only) {
+  if (!only) return true
+  const tags = (row?.tags || []).map(norm)
+  const has = (t) => tags.some((x) => x === norm(t) || x.startsWith(`${norm(t)} `))
+  if (only.tag && !has(only.tag)) return false
+  if (only.notTag && has(only.notTag)) return false
+  if (only.name && !norm(row?.name).startsWith(norm(only.name))) return false
+  return true
+}
+
 // Does the statement this effect was read from bear on this unit? `scope` is an index into
 // ruleScopes(); a null scope means the effect belongs to the rule as a whole, so any statement
 // matching is enough. An enhancement has no scope at all — the caller only passes it for the
@@ -143,7 +163,22 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
 
   for (const entry of entries) {
     const scopes = entry.kind === 'enhancement' || entry.kind === 'allegiance' ? null : ruleScopes(entry.body)
-    for (const effect of entry.effects || []) {
+    const effects = entry.effects || []
+
+    // "…add 2 to the Attacks characteristic INSTEAD." An alternate names the effect it replaces
+    // (`alt`, an index into this record's own effects); while it is in force the one it replaces
+    // is skipped entirely, so the two can never stack into +3. Its note carries the "instead"
+    // wording, which is what explains the missing base line.
+    const replaced = new Set()
+    for (const eff of effects) {
+      if (eff.alt == null) continue
+      if (!effectApplies(eff, scopes, keywords, entry.kind, factionKeywordSets)) continue
+      if (eff.when && !condHolds(eff.cond, active)) continue
+      replaced.add(eff.alt)
+    }
+
+    for (const [index, effect] of effects.entries()) {
+      if (replaced.has(index)) continue
       if (!effectApplies(effect, scopes, keywords, entry.kind, factionKeywordSets)) continue
 
       // Conditional and unproven: never touch the number, just say what would change and when.
@@ -165,6 +200,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
         for (const table of WEAPON_TABLES[effect.on] || []) {
           const rows = current()[table] || []
           for (let i = 0; i < rows.length; i++) {
+            if (!rowMatchesOnly(current()[table][i], effect.only)) continue
             const tags = current()[table][i].tags || []
             if (tags.some((t) => String(t).toUpperCase() === String(effect.value).toUpperCase())) continue
             const dest = target()[table][i]
@@ -184,6 +220,8 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets, acti
       for (const table of tables) {
         const rows = current()[table] || []
         for (let i = 0; i < rows.length; i++) {
+          // `only` never applies to a model profile — it names weapons.
+          if (table !== 'profiles' && !rowMatchesOnly(current()[table][i], effect.only)) continue
           const before = current()[table][i][effect.stat]
           const next = applyValue(before, effect.op, effect.value)
           if (next == null || next === String(before)) continue

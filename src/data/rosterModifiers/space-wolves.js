@@ -246,8 +246,9 @@ export default {
             "ru": "вместо этого, если отряд носителя выполнил хотя бы одно Boast"
           },
           "cond": [
-            "blocked-alternate"
-          ]
+            "never"
+          ],
+          "alt": 0
         }
       ],
       "ref": {
@@ -281,7 +282,7 @@ export default {
             "ru": "дополнительно +1 до конца хода, после того как носитель завершил чардж"
           },
           "cond": [
-            "blocked-alternate"
+            "unit-charged"
           ]
         }
       ],

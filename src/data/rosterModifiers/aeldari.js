@@ -237,13 +237,10 @@ export default {
           "stat": "range",
           "op": "add",
           "value": 12,
-          "when": {
-            "en": "ranged Psychic weapons only",
-            "ru": "только дальнобойное оружие с [PSYCHIC]"
-          },
-          "cond": [
-            "blocked-weapon"
-          ]
+          "when": null,
+          "only": {
+            "tag": "PSYCHIC"
+          }
         }
       ],
       "note": "the +12\" is real and unconditional, but it applies to a SUBSET of the weapon table this format cannot address, so it annotates instead of rewriting every range"
@@ -332,13 +329,10 @@ export default {
           "stat": "d",
           "op": "add",
           "value": 1,
-          "when": {
-            "en": "the bearer's ranged Psychic weapons only",
-            "ru": "только стрелковое психическое оружие носителя"
-          },
-          "cond": [
-            "blocked-weapon"
-          ]
+          "when": null,
+          "only": {
+            "tag": "PSYCHIC"
+          }
         }
       ],
       "ref": {

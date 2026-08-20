@@ -296,8 +296,9 @@ export default {
             "ru": "атаки, сила и урон +2 вместо +1, пока носитель в радиусе боя с Battle-shocked вражеским отрядом Psyker"
           },
           "cond": [
-            "blocked-alternate"
-          ]
+            "never"
+          ],
+          "alt": 0
         }
       ],
       "ref": {
