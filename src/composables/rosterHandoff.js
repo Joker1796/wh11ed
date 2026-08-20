@@ -4,6 +4,7 @@
 // its own defaults over whatever fields we set (it reads the draft before its reset watchers
 // register, so a pre-set faction/detachments isn't wiped).
 import { useTracker } from './useTracker.js'
+import { rosterSnapshot } from './rosterGameLink.js'
 
 // Roster battle-size ids come from the appdata slug ('strike-force'); the tracker uses its own
 // camelCase id ('strikeForce'). Incursion / Onslaught match.
@@ -15,13 +16,22 @@ export function toTrackerBattleSize(id) {
 // Write a minimal setup draft from a roster. The roster already stores detachments by name
 // (like the tracker), so they carry over directly. A 'custom' battle size falls back to Strike
 // Force in the tracker (which has no custom size).
+//
+// The roster is ATTACHED as well as copied from: coming here from "play this list" is the one
+// moment we know for certain which list is being fielded, so the player arrives at the wizard with
+// it already linked (rosterId + snapshot) instead of having to pick it again a screen later.
 export function prefillDraftFromRoster(roster) {
   const { setupDraft } = useTracker()
   const battleSize = roster?.battleSize === 'custom' ? 'strikeForce' : toTrackerBattleSize(roster?.battleSize)
   setupDraft.value = {
     step: 1,
     players: [
-      { factionSlug: roster?.faction || null, detachments: [...(roster?.detachments || [])] },
+      {
+        factionSlug: roster?.faction || null,
+        detachments: [...(roster?.detachments || [])],
+        rosterId: roster?.id || null,
+        roster: rosterSnapshot(roster),
+      },
       {},
     ],
     settings: { battleSize },

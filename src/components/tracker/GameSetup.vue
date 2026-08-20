@@ -59,6 +59,23 @@
             />
           </div>
 
+          <!-- Optional on both sides: a game with no army lists attached is the normal case, and
+               nothing downstream may require one. Attaching is only offered here, at setup. -->
+          <div class="field">
+            <span>{{ labels.trackerRoster }}</span>
+            <button class="btn-choose-twist roster-btn" @click="rosterPickerIdx = i">
+              <span class="ct-name" :class="{ placeholder: !p.roster }">{{ p.roster?.name || labels.trackerRosterAttach }}</span>
+              <i class="bi bi-chevron-right ct-chev"></i>
+            </button>
+            <RosterPickerModal
+              v-if="rosterPickerIdx === i"
+              :selected="p.roster ? (p.rosterId || '') : null"
+              @pick="r => pickRoster(p, r)"
+              @clear="clearRoster(p)"
+              @close="rosterPickerIdx = -1"
+            />
+          </div>
+
           <div v-if="!settings.combatPatrol" class="field">
             <span>
               {{ labels.trackerDpBudget }} <em class="dp-count" :class="{ over: dpSpent(p) > maxDp && p.detachments.length !== 1 }">{{ dpSpent(p) }} / {{ maxDp }} DP</em>
@@ -338,6 +355,8 @@ import { useLocale } from '../../composables/useLocale.js'
 import { eventCompanion, getEventContent } from '../../data/eventCompanion.js'
 import { useTracker, DISPOSITIONS, BATTLE_SIZES, MIRROR_MISSIONS, derivePrimary, missionBySlug, fixedPool, dispositionName } from '../../composables/useTracker.js'
 import { FACTIONS, detachmentsFor, detachmentInfo } from '../../composables/trackerFactions.js'
+import { rosterSnapshot } from '../../composables/rosterGameLink.js'
+import RosterPickerModal from './RosterPickerModal.vue'
 
 const emit = defineEmits(['start', 'cancel'])
 const { locale } = useLocale()
@@ -371,7 +390,7 @@ const MAX_FIXED = 2   // Fixed secondaries: choose 2, kept for the whole game.
 
 // Defaults (also the shape merged over a restored draft so older drafts gain new fields).
 function defaultPlayer(role, name = '') {
-  return { name, factionSlug: null, detachments: [], disposition: null, role, secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false }
+  return { name, factionSlug: null, detachments: [], disposition: null, role, secondaryMode: 'tactical', fixedSecondaries: [], battleReady: false, rosterId: null, roster: null }
 }
 const defaultSettings = { trackCP: lastTrackCP, trackArmyYou: lastTrackArmyYou, trackArmyOpp: lastTrackArmyOpp, firstTurn: 1, layout: 'A', customLayout: null, battleSize: 'strikeForce', combatPatrol: false, twist: null, twistMission: null, scoreMode: lastScoreMode }
 
@@ -491,17 +510,28 @@ function cpFactionFor(p) {
 }
 
 // Single source of truth for a player's detachment/disposition, re-derived whenever their
-// faction OR the game type changes: cleared for a normal game (manual pick downstream), or
-// auto-resolved from the CP box's one fixed detachment + Force Disposition — no manual steps.
+// faction OR the game type changes: taken from an attached roster, cleared for a normal game
+// (manual pick downstream), or auto-resolved from the CP box's one fixed detachment + Force
+// Disposition — no manual steps.
 async function resolveArmyChoice(p) {
+  // An attached list describes ONE army. Switching the player to another faction makes it a
+  // description of something else, so it detaches rather than lingering as a wrong label.
+  if (p.roster && p.roster.faction !== p.factionSlug) { p.roster = null; p.rosterId = null }
   p.detachments = []
   p.disposition = null
-  if (!settings.combatPatrol || !p.factionSlug) return
-  const list = await loadCombatPatrolData()
-  const cp = list.find(f => f.slug === p.factionSlug)
-  if (!cp) return
-  p.detachments = [cp.rule.name]
-  p.disposition = DISPOSITIONS.find(d => d.name === cp.forceDisposition)?.id ?? null
+  if (!p.factionSlug) return
+  if (settings.combatPatrol) {
+    const list = await loadCombatPatrolData()
+    const cp = list.find(f => f.slug === p.factionSlug)
+    if (!cp) return
+    p.detachments = [cp.rule.name]
+    p.disposition = DISPOSITIONS.find(d => d.name === cp.forceDisposition)?.id ?? null
+    return
+  }
+  // A roster is built against its detachments (its enhancements and legality depend on them), so
+  // it dictates them here instead of being checked against a separate pick. Beyond the DP budget
+  // is possible in principle; the budget readout flags it exactly as a manual pick would.
+  if (p.roster?.detachments?.length) p.detachments = [...p.roster.detachments]
 }
 
 function setCombatPatrol(on) {
@@ -522,6 +552,26 @@ function toggleFixed(p, slug) {
 const fixedPickerFor = ref(-1)
 const detPickerIdx = ref(-1)
 const factionPickerIdx = ref(-1)
+const rosterPickerIdx = ref(-1)
+
+// Attaching a roster is what DECIDES the army, so it sets the faction (and, through the faction
+// watcher, resolveArmyChoice's detachments) rather than being validated against an earlier pick.
+// Same faction already selected → no watcher fires, so re-derive here.
+function pickRoster(p, roster) {
+  p.rosterId = roster.id || null
+  p.roster = rosterSnapshot(roster)
+  rosterPickerIdx.value = -1
+  if (roster.faction && p.factionSlug !== roster.faction) p.factionSlug = roster.faction
+  else resolveArmyChoice(p)
+}
+
+// Detaching leaves the faction and detachments alone — they are legitimate choices in their own
+// right, and clearing them would undo a step the player may have made by hand.
+function clearRoster(p) {
+  p.rosterId = null
+  p.roster = null
+  rosterPickerIdx.value = -1
+}
 
 // Faction is single-select: picking one applies it and closes the modal immediately.
 function selectFaction(p, slug) {

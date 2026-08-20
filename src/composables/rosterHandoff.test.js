@@ -29,6 +29,21 @@ describe('prefillDraftFromRoster', () => {
     expect(d.settings.battleSize).toBe('strikeForce')
   })
 
+  // Coming here from "play this list" is the one moment we know for sure which list is fielded,
+  // so the wizard opens with it already attached instead of asking again a screen later.
+  it('attaches the roster it was prefilled from', () => {
+    const roster = {
+      id: 'r1', name: 'Gladius 2k', faction: 'space-marines', detachments: ['Gladius Task Force'],
+      battleSize: 'strike-force', units: [{ uid: 'a', id: 'captain', size: 0 }],
+    }
+    mod.prefillDraftFromRoster(roster)
+    const p = tracker.setupDraft.value.players[0]
+    expect(p.rosterId).toBe('r1')
+    expect(p.roster.name).toBe('Gladius 2k')
+    expect(p.roster.units).toEqual(roster.units)
+    expect(p.roster.id).toBeUndefined()   // provenance lives in rosterId
+  })
+
   it('handles a roster with no detachment and maps custom → strikeForce', () => {
     mod.prefillDraftFromRoster({ faction: 'orks', detachments: [], battleSize: 'custom', customPoints: 1750 })
     const d = tracker.setupDraft.value

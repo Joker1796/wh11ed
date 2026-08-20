@@ -120,9 +120,10 @@ directory; still part of this feature:
   generated-data a stored roster does, so `importRoster` runs it through the same `migrateRoster`
   rather than trusting it. A payload with no `v` predates the field and is migrated from zero.
 - `rosterHandoff.js` — pre-fills the Game Tracker's **setup draft** (`GameSetup` hydrates it
-  on mount) rather than the saved-game format itself — `wh11ed-api`'s `domain/game.ts`
-  contract is untouched by this feature. A partial draft is fine: `GameSetup` merges its own
-  defaults over whatever fields this sets.
+  on mount) rather than the saved-game format itself. A partial draft is fine: `GameSetup` merges
+  its own defaults over whatever fields this sets. It also ATTACHES the roster (below) — arriving
+  from "play this list" is the one moment the fielded list is known for certain.
+- `rosterGameLink.js` — the roster↔game link, pure and store-free. See the section below.
 - **`leadsFor(def, entry, detachments)`** (`rosterEngine.js`) — the units an ENTRY can attach to:
   its datasheet's own `leads` (minus any the roster's detachments gate out, see below) plus any its
   enhancement grants (`enhAttachOf`). 13 enhancements
@@ -588,6 +589,40 @@ the hand-authored faction files.
 
 The review backlog, the update procedure and the format reference live in
 `ROSTER-MODIFIERS-PROGRESS.md` at the repo root.
+
+## A roster attached to a game (`rosterGameLink.js`)
+
+A tracker game can carry each player's army list. **Optional on both sides** — a game with no
+lists is the normal case and nothing in the tracker may require one. Attaching happens **only in
+the setup wizard**: the roster field in step 1 (`RosterPickerModal.vue`), or automatically when
+the game was started from a roster via `rosterHandoff.js`.
+
+**A snapshot, not a reference.** `player.roster` holds the list itself; `player.rosterId` is
+provenance only and may dangle. A game outlives the roster it was played with — the list gets
+edited between games, deleted, or never existed locally at all (an opponent's arrives as a share
+link and is deliberately NOT saved to the collection). A finished game in history, or one restored
+from the cloud on another device, still has to show the army that was fielded.
+
+- **Same shape as a share link.** `rosterSnapshot()` is `rosterShare.js`'s `rosterPayload()` — one
+  definition of "a roster in transit", so a snapshot and a link migrate identically.
+- **Migrated on READ** (`rosterFromPlayer`), not on write: wargear/size picks are indices into
+  generated data the generator renumbers, and a game is kept for months. Same treatment
+  `importRoster` gives a share payload.
+- **Size.** `wh11ed-api` caps a synced game at 64 KB (`config.maxGameBytes`) and both players share
+  that budget with the game itself, so the snapshot stays in the stored ids-and-indices form —
+  never resolved names or datasheets. `rosterGameLink.test.js` pins it (~150 bytes per entry).
+- **The list decides the army.** Picking a roster in the wizard sets that player's faction, and
+  `resolveArmyChoice()` takes the detachments from it; switching faction afterwards DETACHES it,
+  because a list describes one army and would otherwise sit there labelling the wrong one.
+
+**Viewing it in game:** `/tracker/game/roster/:pi` renders `RosterViewView` — the same screen as
+`/roster/:id/view`, fed from the game's snapshot instead of the store (back link to the game, no
+edit pencil). Deliberately not a second copy of the screen: this is where the live-rules layer
+(active Waaagh! etc.) will hang. `useTracker.js` is **dynamically imported** there — it statically
+pulls the mission/event datasets (~280 KB of source) and the ordinary roster route must not carry
+them. Entry point: the chip under each player's detachments in `RoundTracker.vue`.
+
+Plan, research and open questions for the live-rules layer: `ROSTER-IN-GAME-PROGRESS.md`.
 
 ## Known gaps
 
