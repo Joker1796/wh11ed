@@ -213,7 +213,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], bundle: { rewritten: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, conflict: [], merged: 0 } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], bundle: { rewritten: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0 }
 
 // Global intern dictionaries: wargear item names and group instruction texts repeat heavily
 // ACROSS factions, and — crucially — the SM-Chapter fold pulls space-marines units into a
@@ -255,28 +255,86 @@ function keyword(kws, name) {
 // `cond` (`{ sibling: <draft>, active }` — this group is only live once the sibling's own
 // "has a deviation recorded" state matches `active`; see rosterEngine.js wargearGroupLive) to
 // whichever drafts resolve.
+// The starting gear of a datasheet that has no `base_miniature_loadout` row: appdata records it as
+// a wargear_option_group whose instruction is literally "Default Wargear", one per miniature. 144
+// datasheets are in that shape (136 with such a group), and reading only the loadout table left
+// them with NO default loadout at all — no "starts equipped with" line in the editor and nothing
+// for Tier A's weapon trim to subtract from. Returns the same `[[miniatureIndex, [[uuid, count]]]]`
+// shape as the loadout table so the caller can't tell the two sources apart; count is 1, which is
+// all a wargear_option can express.
+function staticLoadout(datasheetId, miniIdx) {
+  const idx = miniIdx || new Map((minisByDs.get(datasheetId) || []).slice()
+    .sort((a, b) => a.displayOrder - b.displayOrder).map((m, i) => [m.id, i]))
+  const out = []
+  for (const g of wogByDs.get(datasheetId) || []) {
+    if ((enOf(g).instructionText || '').trim().toLowerCase() !== 'default wargear') continue
+    const items = (woByGroup.get(g.id) || [])
+      .sort((a, b) => a.displayOrder - b.displayOrder)
+      .map((o) => [o.wargearItemId, 1])
+      .filter(([uuid]) => uuid)
+    if (items.length) out.push([idx.get(g.miniatureId) ?? 0, items])
+  }
+  return out
+}
+
 function linkWargearConditions(datasheetId, drafts) {
   if (!drafts.length) return
+  const repStats = report.rep
 
   // Item names known to THIS datasheet only — defaults plus every draft's own options — so a
-  // same-named item belonging to some unrelated unit elsewhere can never match.
+  // same-named item belonging to some unrelated unit elsewhere can never match. Keyed through
+  // norm(), not toLowerCase(): appdata types these names by hand, so the same weapon appears with
+  // a curly apostrophe here and a U+2010 hyphen there ("multi‐laser", "hot‐shot lascarbine") — the
+  // same class of silent no-op that apostrophes caused in enhancements and ë in Votann detachments.
   const nameToUuid = new Map()
+  const remember = (uuid) => { const n = norm(wgItemName.get(uuid) || ''); if (n) nameToUuid.set(n, uuid) }
   for (const b of bmlByDs.get(datasheetId) || []) {
     for (const o of b.opts) {
       const uuid = woById.get(o.wargearOptionId)?.wargearItemId
-      if (uuid) nameToUuid.set((wgItemName.get(uuid) || '').toLowerCase(), uuid)
+      if (uuid) remember(uuid)
     }
   }
-  for (const d of drafts) for (const o of d.opts) nameToUuid.set((wgItemName.get(o.uuid) || '').toLowerCase(), o.uuid)
+  // 144 datasheets have no base_miniature_loadout row at all — for 136 of them the starting gear
+  // is a "Default Wargear" option group instead (see staticLoadout), and those groups are dropped
+  // before the drafts are built, so their item names have to be collected here or a swap on one of
+  // them ("this model's heavy bolt pistol can be replaced with…") resolves nothing.
+  for (const uuid of staticLoadout(datasheetId).flatMap(([, list]) => list.map(([u]) => u))) remember(uuid)
+  for (const d of drafts) for (const o of d.opts) remember(o.uuid)
+
+  // One name out of the prose. The prose counts and pluralises what the item table does not
+  // ("this model's 2 twin heavy flamers" vs the item "Twin heavy flamer"), so both are stripped
+  // before the lookup — a leading quantity, then a trailing plural if the exact name missed.
+  const resolveItem = (raw) => {
+    const n = norm(raw).replace(/^\d+\s+/, '')
+    // "-s" before "-es": stripping greedily turns "dark lances" into "dark lanc", not "dark lance".
+    return nameToUuid.get(n) || nameToUuid.get(n.replace(/s$/, '')) || nameToUuid.get(n.replace(/es$/, '')) || null
+  }
 
   // What each draft REPLACES, from its own "…'s X[, Y and Z] can be replaced with…" prose.
-  const REP_RE = /(?:'s|’s|\bhis\b|\bher\b|\btheir\b|\bits\b)\s+([a-z][a-z' ’,-]*?)\s*(?:can\s+be\s+|be\s+)?replaced with/i
+  // Three shapes of possessive, because appdata writes all three: "model's", "models'" (plural,
+  // no second s) and the bare pronoun. "X or Y" is deliberately NOT split — that names one item
+  // out of two as the thing given up, so there is no single set to subtract, and a wrong guess
+  // would delete a weapon the model still has. Those groups keep today's no-rep behaviour.
+  const REP_RE = /(?:'s|’s|s’|\bhis\b|\bher\b|\btheir\b|\bits\b)\s+((?:\d+\s+)?[a-z][a-z0-9' ’‐‑–,-]*?)\s*(?:can\s+(?:each\s+)?be\s+|be\s+|is\s+|are\s+)?replaced with/i
   for (const d of drafts) {
-    const m = d.text.match(REP_RE)
-    if (!m) continue
-    const parts = m[1].split(/\s*,\s*|\s+and\s+/i).map((s) => s.trim()).filter(Boolean)
-    const uuids = parts.map((p) => nameToUuid.get(p.toLowerCase()))
-    if (parts.length && uuids.every(Boolean)) d.rep = uuids
+    // A sentence can carry more than one possessive before the swap — "The Celestian Insidiant's
+    // Superior's condemnor bolt pistol" — and the first one starts a phrase that names no item.
+    // So walk them from the left and keep the first candidate that resolves COMPLETELY; a partial
+    // resolve is rejected rather than trimmed, since half a set is a wrong subtraction.
+    let from = 0, m = null, last = null
+    while ((m = d.text.slice(from).match(REP_RE))) {
+      last = m
+      // Whole phrase first: an item can BE named "Cult claws and knife", and splitting that on
+      // "and" invents two weapons the datasheet doesn't have.
+      const whole = resolveItem(m[1])
+      const parts = whole ? [m[1]] : m[1].split(/\s*,\s*|\s+and\s+/i).map((s) => s.trim()).filter(Boolean)
+      const uuids = whole ? [whole] : parts.map(resolveItem)
+      if (parts.length && uuids.every(Boolean)) { d.rep = uuids; repStats.resolved++; break }
+      from += d.text.slice(from).indexOf(m[0]) + 2
+    }
+    if (d.rep) continue
+    if (last) repStats.unresolved.push(`${enOf(dsById.get(datasheetId)).name}: ${last[1].trim()}`)
+    else if (/replaced with/i.test(d.text)) repStats.noMatch.push(`${enOf(dsById.get(datasheetId)).name}: ${d.text.split('\n')[0].slice(0, 80)}`)
   }
 
   // What each draft is CONDITIONED on, from "[if …] not equipped with X" / "equipped with X".
@@ -601,6 +659,10 @@ function buildUnit(bd, idMap, fx) {
       .filter(([uuid]) => uuid)
       .map(([uuid, count]) => [fx.item(uuid), count])
     if (items.length) defaults.push([miniIdx.get(b.miniatureId) ?? 0, items])
+  }
+  if (!defaults.length) {
+    for (const [m, items] of staticLoadout(bd.id, miniIdx)) defaults.push([m, items.map(([uuid, c]) => [fx.item(uuid), c])])
+    if (defaults.length) report.staticDefaults++
   }
   if (defaults.length) unit.defaults = defaults
 
@@ -966,6 +1028,10 @@ if (report.noPoints.length) console.log(`  dropped (no points/composition): ${re
 const b = report.bundle
 console.log(`  bundled options: ${b.rewritten} groups rewritten from prose and verified against loadout_choice`)
 const lm = report.limit
+const rp = report.rep
+console.log(`  default loadouts: ${report.staticDefaults} units read theirs from a "Default Wargear" group (no base_miniature_loadout row)`)
+console.log(`  replaced-item links: ${rp.resolved} groups know what they give up; ${rp.noMatch.length} instructions didn't parse, ${rp.unresolved.length} named an item this datasheet doesn't list`)
+for (const l of [...rp.noMatch, ...rp.unresolved].slice(0, 12)) console.log(`    - ${l.replace(/\s+/g, ' ')}`)
 console.log(`  unit-wide groups: ${lm.merged} duplicates folded (one instruction recorded per miniature)`)
 console.log(`  pick limits: ${lm.limited} groups capped from wargear_limit (${lm.counted} options also gained a quantity); no single matching group for ${lm.ambiguous} ambiguous + ${lm.unmatched} cross-group sets`)
 if (lm.conflict.length) {

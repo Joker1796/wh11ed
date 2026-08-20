@@ -185,3 +185,69 @@ describe('bundled wargear options', () => {
   })
 })
 
+
+describe('replaced-item links', () => {
+  // `rep` — the item(s) a wargear group gives up — is what lets defaultLoadoutLines shrink the
+  // "starts equipped with" line and Tier A's overlay drop the swapped-away weapon row. It is
+  // parsed out of the instruction prose, and three things used to break that parse silently:
+  // a quantity ("this model's 2 starcannons…"), a U+2010 hyphen in the item name, and a plural
+  // possessive ("up to 3 models' combi-bolters"). Each cost the reader a weapon that is no longer
+  // there, so these pin the parse rather than the wording.
+  const groupsOf = (slug, id) => factions.find((f) => f.slug === slug).data.units.find((u) => u.id === id)
+  const repNames = (g) => (g.rep || []).map((i) => rosterItems.items[i])
+  const textOf = (g) => (rosterItems.texts[g.t] || '').split('\n')[0]
+
+  it('reads through a quantity in the item being given up', () => {
+    const u = groupsOf('aeldari', 'crimson-hunter')
+    const g = u.gear.find((x) => /2 starcannons/.test(textOf(x)))
+    expect(repNames(g)).toEqual(['Starcannon'])
+  })
+
+  it('reads through a U+2010 hyphen in the item name', () => {
+    const u = groupsOf('astra-militarum', 'chimera')
+    const g = u.gear.find((x) => /multi‐laser/.test(textOf(x)))
+    expect(repNames(g)).toEqual(['Multi-laser'])
+  })
+
+  it('resolves an item whose name itself contains "and"', () => {
+    const u = groupsOf('genestealer-cults', 'acolyte-hybrids-with-hand-flamers')
+    const g = u.gear.find((x) => /cult claws and knife/i.test(textOf(x)))
+    expect(repNames(g)).toEqual(['Cult claws and knife'])
+  })
+
+  it('leaves almost nothing unparsed across the corpus', () => {
+    // The known leftovers are "X or Y" (one item out of two given up — no single set to subtract)
+    // and a handful where appdata's own prose and item table disagree ("absolver" vs "Absolvor").
+    // Both are fail-open by design; the number is here so a parser regression shows up as a jump.
+    let withReplaced = 0
+    let missing = 0
+    for (const { data } of factions) {
+      for (const u of data.units || []) {
+        for (const g of u.gear || []) {
+          if (!/replaced with/i.test(rosterItems.texts[g.t] || '')) continue
+          withReplaced++
+          if (!g.rep?.length) missing++
+        }
+      }
+    }
+    expect(withReplaced).toBeGreaterThan(800)
+    expect(missing).toBeLessThanOrEqual(25)
+  })
+})
+
+describe('default loadouts', () => {
+  // 144 datasheets carry no base_miniature_loadout row; for 136 the starting gear is a
+  // "Default Wargear" option group instead. Reading only the loadout table left those units with
+  // no default loadout at all — nothing to print, and nothing for the overlay to subtract from.
+  it('reads a Default Wargear group when the loadout table has no row', () => {
+    const u = factions.find((f) => f.slug === 'blood-angels').data.units.find((x) => x.id === 'blood-angels-captain')
+    expect((u.defaults || []).flatMap(([, list]) => list.map(([id]) => rosterItems.items[id])))
+      .toEqual(['Heavy bolt pistol', 'Master‐crafted chainsword'])
+  })
+
+  it('leaves only genuinely unarmed units without one', () => {
+    const without = factions.flatMap(({ slug, data }) => (data.units || [])
+      .filter((u) => !u.defaults?.length).map((u) => `${slug}/${u.id}`))
+    expect(without.length, without.join(', ')).toBeLessThanOrEqual(10)
+  })
+})
