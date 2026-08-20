@@ -383,6 +383,31 @@ is implemented and tested.
     **17 gained, 0 lost, 0 changed**. Six pinning tests added, and the corpus ceiling in
     `index.test.js` tightened from ≤25 unparsed to ≤2.
 
+15. **A ticked checkbox spent the swap on the whole squad — FIXED 2026-08-20.** Found by asking
+    whether item 14's "X or Y" caveat could actually bite. It can, but the bigger finding was
+    underneath it: `swapsByMini` read every non-stepper group as consuming **every model of the
+    profile**, so "1 Battle Sister's boltgun can be replaced with one of the following" — a
+    checkbox — removed all **nine** boltguns from the "starts equipped with" line and dropped the
+    row from the datasheet card. **100 groups corpus-wide** word their allowance that way ("1
+    model's…", "Up to 2…", "One Celestian Insidiant's…"); only **5** actually mean the whole
+    profile ("All models in this unit can each have their…", "Any number of…").
+
+    Item 14 had quietly made this worse for 3 of them: Canoptek Macrocytes' two "1 model's gauss
+    scalpel or tesla caster" groups and Hearthkyn Warriors' "Up to 2 … or ion blaster" went from
+    showing one weapon too many (no `rep` at all) to showing five and nine too few.
+
+    The generator now flags the 5 whole-profile groups with `repall`, and a checkbox without it
+    spends one model per ticked option — which is what a single yes/no means. No SCHEMA_VERSION
+    bump: `repall` is a new field on a group, no index moves.
+
+    **The "X or Y" caveat itself stands and is smaller than it looked.** In all 8 groups the
+    alternative exists precisely because a sibling group can produce it — Hearthkyn's ion blaster
+    comes from the group above it, Macrocytes' tesla caster from theirs — so a model that already
+    traded X for Y is a normal build, not an edge case, and `rep` still names X. What that costs is
+    now bounded by the ticks actually made rather than by the squad size: at worst the line keeps a
+    weapon that was traded away twice over, the same error class the parse had before item 14 for
+    all 19.
+
 ## Where the merge-into-main work is recorded
 
 The `main`-catch-up merge itself (conflict resolution, a stale test fixed for `BaseModal`'s
