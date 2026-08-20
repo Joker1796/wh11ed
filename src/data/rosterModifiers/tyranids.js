@@ -8,6 +8,22 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "3f3be044-118e-4050-9d01-a25cefc64f4c",
+      "kind": "allegiance",
+      "name": "Subterranean Assault Keywords: Character",
+      "det": null,
+      "ref": {
+        "kind": "allegiance",
+        "g": "subterranean-assault-keywords",
+        "opt": "Character"
+      },
+      "hash": "4f633c25",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [],
+      "note": "the keyword this grants is applied by the roster layer itself (rosterEngine's allegKeyword feeds DatasheetCard's grantedKeywords), so recording it here too would show it twice; no printed number changes"
+    },
+    {
       "sid": "240938cb-e469-415e-a2d3-1876d95a75c8",
       "kind": "armyRule",
       "name": "Synapse",
@@ -282,6 +298,20 @@ export default {
         "kind": "enhancement",
         "det": "unending-swarm"
       }
+    },
+    {
+      "sid": "ca23547e-5dcc-4966-a7c2-219045fa2f76",
+      "kind": "enhancement",
+      "name": "Relentless Hunger",
+      "det": "Unending Swarm",
+      "ref": {
+        "kind": "enhancement",
+        "det": "unending-swarm"
+      },
+      "hash": "103d14ec",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "e93d1916-52d5-4c51-a097-c89a1b1783a9",

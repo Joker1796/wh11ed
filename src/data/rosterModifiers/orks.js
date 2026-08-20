@@ -298,6 +298,20 @@ export default {
         "kind": "enhancement",
         "det": "speedwaaagh"
       }
+    },
+    {
+      "sid": "6e1ce3ba-cf8c-4f03-8826-d8c32b03c38c",
+      "kind": "enhancement",
+      "name": "Follow Me Ladz",
+      "det": "War Horde",
+      "ref": {
+        "kind": "enhancement",
+        "det": "war-horde"
+      },
+      "hash": "cb9b17bd",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
     }
   ]
 }

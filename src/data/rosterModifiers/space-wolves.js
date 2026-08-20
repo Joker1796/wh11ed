@@ -143,6 +143,20 @@ export default {
       }
     },
     {
+      "sid": "ad4dadc7-2b9d-4fae-ae4e-9fc6a747fb0d",
+      "kind": "enhancement",
+      "name": "Wolf-touched",
+      "det": "Saga of the Beastslayer",
+      "ref": {
+        "kind": "enhancement",
+        "det": "saga-of-the-beastslayer"
+      },
+      "hash": "6560c900",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "be26ea25-635f-4042-a1d0-4a0fbff0c0e5",
       "kind": "enhancement",
       "name": "Braggart’s Steel",

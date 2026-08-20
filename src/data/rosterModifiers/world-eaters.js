@@ -167,6 +167,20 @@ export default {
       }
     },
     {
+      "sid": "b4cc8581-ed00-4444-878a-5aac6e4a0d12",
+      "kind": "enhancement",
+      "name": "Chosen of the Blood God",
+      "det": "Cult of Blood",
+      "ref": {
+        "kind": "enhancement",
+        "det": "cult-of-blood"
+      },
+      "hash": "7b7acc1c",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "8d57055e-3476-401d-9382-c0c1eae33a4d",
       "kind": "enhancement",
       "name": "Blade of Endless Bloodshed",

@@ -288,7 +288,8 @@ function statModsFor(entry, sheet) {
   if (!entry || !modifierRecords.value.length || !factionEn.value) return { sheet, marks: [] }
   const def = defOf(entry.id)
   const enh = entry.enh || mandatoryEnhancementFor(def, curDetachments.value)?.name || null
-  const resolved = resolveModifierEntries(modifierRecords.value, factionEn.value, roster.value?.detachments, enh)
+  const alleg = entry.alleg && def?.alleg ? { g: def.alleg.g, opt: entry.alleg } : null
+  const resolved = resolveModifierEntries(modifierRecords.value, factionEn.value, roster.value?.detachments, enh, alleg)
   if (!resolved.length) return { sheet, marks: [] }
   const kws = [...(sheet.keywords || []), ...(sheet.factionKeywords || [])]
   return applyStatMods(sheet, resolved, kws, factionKeywordSets.value)

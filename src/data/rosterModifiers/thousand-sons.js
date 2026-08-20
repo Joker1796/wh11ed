@@ -214,6 +214,20 @@ export default {
       }
     },
     {
+      "sid": "4ee4139b-25fd-42d7-95c1-7ec98fdf5492",
+      "kind": "enhancement",
+      "name": "Lord of Forbidden Lore",
+      "det": "Grand Coven",
+      "ref": {
+        "kind": "enhancement",
+        "det": "grand-coven"
+      },
+      "hash": "7cede779",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "23b38434-e051-4b26-a841-cbe2d62b5904",
       "kind": "enhancement",
       "name": "Arcane Might",
@@ -247,6 +261,20 @@ export default {
         "kind": "enhancement",
         "det": "hexwarp-thrallband"
       }
+    },
+    {
+      "sid": "418bfe60-1e00-4326-b88d-63ee710b7bea",
+      "kind": "enhancement",
+      "name": "Empowered Manifestation",
+      "det": "Hexwarp Thrallband",
+      "ref": {
+        "kind": "enhancement",
+        "det": "hexwarp-thrallband"
+      },
+      "hash": "1d3a049c",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "a372c063-aacf-450e-8d87-d5e447b9872b",
@@ -300,6 +328,20 @@ export default {
         "kind": "enhancement",
         "det": "rubricae-phalanx"
       }
+    },
+    {
+      "sid": "4f20a5e0-7e45-486f-b80d-7f769e1c6ece",
+      "kind": "enhancement",
+      "name": "Warp-Cursed Runemaster",
+      "det": "Warpforged Cabal",
+      "ref": {
+        "kind": "enhancement",
+        "det": "warpforged-cabal"
+      },
+      "hash": "795ab48d",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "0e2f4b29-498d-4e89-9af1-373f8d3ae792",

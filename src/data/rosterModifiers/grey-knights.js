@@ -8,6 +8,20 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "a2c33cb8-a90f-427a-b1b2-7f15b0207e36",
+      "kind": "detachmentRule",
+      "name": "Mailed Fist",
+      "det": "Sanctic Spearhead",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "sanctic-spearhead"
+      },
+      "hash": "102c3a47",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "5ab1864a-e524-4b61-977f-1a0c81e33caa",
       "kind": "enhancement",
       "name": "Grimoire of Conjunctions",

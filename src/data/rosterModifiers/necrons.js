@@ -210,6 +210,20 @@ export default {
       }
     },
     {
+      "sid": "6e0e59cb-c41f-4cb0-a009-c962aad3d392",
+      "kind": "enhancement",
+      "name": "Gauntlet of Compression",
+      "det": "Cryptek Conclave",
+      "ref": {
+        "kind": "enhancement",
+        "det": "cryptek-conclave"
+      },
+      "hash": "dd08044f",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "a17450e0-31f1-4b21-8952-5ea5c5bf7496",
       "kind": "enhancement",
       "name": "Destroyer Ankh",
@@ -309,6 +323,20 @@ export default {
           "when": null
         }
       ]
+    },
+    {
+      "sid": "dedd4e7b-9ddc-4edd-8a45-512061651b17",
+      "kind": "enhancement",
+      "name": "Hyperspatial Transfer Node",
+      "det": "Hypercrypt Legion",
+      "ref": {
+        "kind": "enhancement",
+        "det": "hypercrypt-legion"
+      },
+      "hash": "ec5e298e",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "c173a0bd-085d-42db-ac95-5c7ab17a267f",

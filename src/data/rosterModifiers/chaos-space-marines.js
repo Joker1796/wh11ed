@@ -8,6 +8,100 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "55eb487b-db92-4465-9c80-2a2604b8982f",
+      "kind": "allegiance",
+      "name": "Daemonic Allegiance: Khorne",
+      "det": null,
+      "ref": {
+        "kind": "allegiance",
+        "g": "daemonic-allegiance",
+        "opt": "Khorne"
+      },
+      "hash": "dd8b43ed",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": null
+        }
+      ],
+      "note": "every melee row on these datasheets IS the hellforged weapons (strike and sweep), so the +2 S applies to the whole table"
+    },
+    {
+      "sid": "aec87847-8acd-461c-be6b-f47d78672d9c",
+      "kind": "allegiance",
+      "name": "Daemonic Allegiance: Nurgle",
+      "det": null,
+      "ref": {
+        "kind": "allegiance",
+        "g": "daemonic-allegiance",
+        "opt": "Nurgle"
+      },
+      "hash": "2aca0f8e",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "4d7d8292-64d6-4b3d-8c9e-24d639247b8b",
+      "kind": "allegiance",
+      "name": "Daemonic Allegiance: Slaanesh",
+      "det": null,
+      "ref": {
+        "kind": "allegiance",
+        "g": "daemonic-allegiance",
+        "opt": "Slaanesh"
+      },
+      "hash": "4b7e0e58",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "270fa7e3-a995-4372-99cb-1907dc6b2fcc",
+      "kind": "allegiance",
+      "name": "Daemonic Allegiance: Tzeentch",
+      "det": null,
+      "ref": {
+        "kind": "allegiance",
+        "g": "daemonic-allegiance",
+        "opt": "Tzeentch"
+      },
+      "hash": "a6cb4ed4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "add",
+          "value": 3,
+          "when": null
+        }
+      ],
+      "note": "the infernal cannon is the only ranged row on these datasheets"
+    },
+    {
       "sid": "cf85e0a8-77ed-4e68-b5a4-a6b757aad177",
       "kind": "detachmentRule",
       "name": "Desperate Devotion",
@@ -332,6 +426,20 @@ export default {
       }
     },
     {
+      "sid": "cbe268b4-d3fc-4235-9e0f-9186b25e74d4",
+      "kind": "enhancement",
+      "name": "Crown of Worms",
+      "det": "Cult of the Arkifane",
+      "ref": {
+        "kind": "enhancement",
+        "det": "cult-of-the-arkifane"
+      },
+      "hash": "d3937f61",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "f3bde6ed-505b-419d-8db9-5c8d9c4d0bff",
       "kind": "enhancement",
       "name": "Cybinfernal Font",
@@ -466,6 +574,20 @@ export default {
         "kind": "enhancement",
         "det": "renegade-warband"
       }
+    },
+    {
+      "sid": "163a57f4-8b75-4ef4-b9db-bc8272981dd2",
+      "kind": "enhancement",
+      "name": "Invigorated Mechatendrils",
+      "det": "Soulforged Warpack",
+      "ref": {
+        "kind": "enhancement",
+        "det": "soulforged-warpack"
+      },
+      "hash": "e676a300",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "93079aa9-a7c7-4192-85b8-5e2375c6f36f",

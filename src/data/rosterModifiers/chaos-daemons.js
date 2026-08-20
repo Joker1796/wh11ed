@@ -8,6 +8,100 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "cdb2d463-155c-42e4-a175-a067c162c0eb",
+      "kind": "allegiance",
+      "name": "Daemonic Allegiance: Khorne",
+      "det": null,
+      "ref": {
+        "kind": "allegiance",
+        "g": "daemonic-allegiance",
+        "opt": "Khorne"
+      },
+      "hash": "ae040202",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "when": null
+        }
+      ],
+      "note": "every melee row on these datasheets IS the hellforged weapons (strike and sweep), so the +2 S applies to the whole table"
+    },
+    {
+      "sid": "7eb23e8f-7e4d-4514-b126-ece1d6afc4f8",
+      "kind": "allegiance",
+      "name": "Daemonic Allegiance: Nurgle",
+      "det": null,
+      "ref": {
+        "kind": "allegiance",
+        "g": "daemonic-allegiance",
+        "opt": "Nurgle"
+      },
+      "hash": "18bd6cac",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "t",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "5c3a9d42-de95-4760-a2dd-fbd631f07f9d",
+      "kind": "allegiance",
+      "name": "Daemonic Allegiance: Slaanesh",
+      "det": null,
+      "ref": {
+        "kind": "allegiance",
+        "g": "daemonic-allegiance",
+        "opt": "Slaanesh"
+      },
+      "hash": "40f35f84",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": null
+        }
+      ]
+    },
+    {
+      "sid": "da9691ba-f0cc-4647-8c64-d43889b44811",
+      "kind": "allegiance",
+      "name": "Daemonic Allegiance: Tzeentch",
+      "det": null,
+      "ref": {
+        "kind": "allegiance",
+        "g": "daemonic-allegiance",
+        "opt": "Tzeentch"
+      },
+      "hash": "213a227a",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "a",
+          "op": "add",
+          "value": 3,
+          "when": null
+        }
+      ],
+      "note": "the infernal cannon is the only ranged row on these datasheets"
+    },
+    {
       "sid": "6d20d153-1252-428c-a141-b0863232aeda",
       "kind": "armyRule",
       "name": "Daemonic Pact",
