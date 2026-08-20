@@ -17,8 +17,9 @@ export default {
       },
       "hash": "d9845feb",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [],
+      "note": "army-composition rule — which allied model may be included"
     },
     {
       "sid": "823c8706-32fc-4c9a-9406-4d7d620b4c4a",
@@ -30,8 +31,9 @@ export default {
       },
       "hash": "a7ed6a90",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [],
+      "note": "mustering rule — skips a step and relaxes who may be Warlord"
     }
   ]
 }

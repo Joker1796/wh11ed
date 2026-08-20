@@ -43,8 +43,9 @@ export default {
       },
       "hash": "e1143466",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [],
+      "note": "army-composition rule — allied allowance and its exclusions"
     },
     {
       "sid": "d9d6cbe6-3df2-4a10-be73-424fe1d490c5",

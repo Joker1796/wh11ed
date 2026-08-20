@@ -113,8 +113,19 @@ export default {
       },
       "hash": "048159c1",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "each time the bearer's unit Advances, until the end of the phase (replacing the Advance roll)",
+            "ru": "каждый раз, когда юнит носителя совершает Advance, до конца фазы (вместо броска Advance)"
+          }
+        }
+      ]
     },
     {
       "sid": "739f0185-c80c-4793-8479-1d28bbad8a25",
@@ -162,8 +173,16 @@ export default {
       },
       "hash": "cdc77255",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 1,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "cff5cb21-f229-467b-bbd6-faf82240043b",
@@ -205,8 +224,18 @@ export default {
       },
       "hash": "743a6cea",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "scope": 1,
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        }
+      ],
+      "note": "the Deep Strike in the first bullet is an ability, not a keyword or a weapon tag — nothing on the card carries it"
     },
     {
       "sid": "7949eef1-dbe1-42e6-9742-e18fea8532fe",
@@ -219,8 +248,16 @@ export default {
       },
       "hash": "805adba2",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "4d0851fe-8c7b-4423-b688-916ad670d63e",
@@ -276,8 +313,19 @@ export default {
       },
       "hash": "964490da",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "while the bearer's unit is your army's Favoured Champions",
+            "ru": "пока юнит носителя — Favoured Champions вашей армии"
+          }
+        }
+      ]
     },
     {
       "sid": "81c3ada4-c8c2-4493-948d-ac3e1d4838a0",

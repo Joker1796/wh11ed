@@ -142,8 +142,29 @@ export default {
       },
       "hash": "480d0dcb",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "a",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "if Vision of Momentous Brutality is among the three abilities chosen at the start of the first battle round",
+            "ru": "если Vision of Momentous Brutality — одна из трёх способностей, выбранных в начале первого раунда"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": {
+            "en": "Instrument of the God-Emperor, once per battle, while engaged with an enemy Character",
+            "ru": "Instrument of the God-Emperor, раз за битву, пока модель в бою с вражеским Character"
+          }
+        }
+      ]
     },
     {
       "sid": "8f0c23c2-bec3-4dce-916e-ae9164dfe77f",
@@ -192,8 +213,16 @@ export default {
       },
       "hash": "11e13cab",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "DEVASTATING WOUNDS",
+          "when": null
+        }
+      ]
     }
   ]
 }

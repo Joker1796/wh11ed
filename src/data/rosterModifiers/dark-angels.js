@@ -17,8 +17,9 @@ export default {
       },
       "hash": "5111516f",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [],
+      "note": "the DEATHWING keyword it grants is already carried by src/data/conditionalKeywords.json (gen-conditional-keywords.mjs reads the same grant structurally); recording it here would show it twice"
     },
     {
       "sid": "e55bbc4f-6173-4d1b-b806-9351010772f7",
@@ -30,8 +31,9 @@ export default {
       },
       "hash": "5111516f",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [],
+      "note": "duplicate publication of the same rule — same reasoning as the other The Deathwing record"
     },
     {
       "sid": "0339c85c-6792-4c1d-a69f-93d1b915cd7e",
@@ -43,8 +45,9 @@ export default {
       },
       "hash": "5465d0bf",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [],
+      "note": "the RAVENWING keyword is already carried by conditionalKeywords.json"
     },
     {
       "sid": "02e193b8-9f13-405d-968e-7c3b455bcc24",
@@ -56,8 +59,9 @@ export default {
       },
       "hash": "5465d0bf",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [],
+      "note": "duplicate publication of the same rule"
     },
     {
       "sid": "75d3a75e-54a9-4db3-8aeb-0aff7d9b285c",
@@ -70,8 +74,17 @@ export default {
       },
       "hash": "154305f6",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "scope": 0,
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "83ea8eb4-3e6c-40e4-bbeb-4c6b84f193ef",
@@ -147,8 +160,16 @@ export default {
       },
       "hash": "86b86280",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "e1d0fc18-e30e-464d-a00b-6a7d603ef76d",

@@ -271,8 +271,16 @@ export default {
       },
       "hash": "a6b59501",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-CHARACTER 2+",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "71b8e917-4924-4aea-93e9-ab17e7314061",
@@ -310,8 +318,16 @@ export default {
       },
       "hash": "103d14ec",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "e93d1916-52d5-4c51-a097-c89a1b1783a9",

@@ -122,8 +122,28 @@ export default {
       },
       "hash": "c459d4ca",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "scope": 0,
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": null
+        },
+        {
+          "scope": 1,
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "in your Shooting phase, while the Waaagh! is active",
+            "ru": "в вашей фазе стрельбы, пока активен Waaagh!"
+          }
+        }
+      ]
     },
     {
       "sid": "fb854ed4-d89a-48fe-8885-668fc666fb57",
@@ -274,8 +294,32 @@ export default {
       },
       "hash": "d8013422",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "scope": 0,
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while a BIG MEK model is embarked within this unit",
+            "ru": "пока внутри юнита находится модель BIG MEK"
+          }
+        },
+        {
+          "scope": 1,
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while a BIG MEK is embarked and the Waaagh! is active",
+            "ru": "пока внутри юнита BIG MEK и активен Waaagh!"
+          }
+        }
+      ],
+      "note": "both bullets hang on the embarked Big Mek, so neither rewrites a printed tag"
     },
     {
       "sid": "1889b79a-54fd-4e88-93e8-fdc0d4076a1a",
@@ -310,8 +354,19 @@ export default {
       },
       "hash": "cb9b17bd",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": {
+            "en": "while the bearer is leading a unit",
+            "ru": "пока носитель ведёт юнит"
+          }
+        }
+      ]
     }
   ]
 }

@@ -44,8 +44,18 @@ export default {
       },
       "hash": "7111901d",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "scope": 1,
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": null
+        }
+      ],
+      "note": "the CONTAGION ENGINE keyword in the first bullet is already carried by conditionalKeywords.json"
     },
     {
       "sid": "9a404cbe-ff89-4583-9b06-49d7926e2e68",
@@ -58,8 +68,9 @@ export default {
       },
       "hash": "f8304ffa",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [],
+      "note": "grants an ability and extends Contagion Range — neither is a printed characteristic"
     },
     {
       "sid": "8259676b-b493-4d15-b60e-b1922dac0d44",
@@ -72,8 +83,19 @@ export default {
       },
       "hash": "88966b0f",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 1,
+          "when": {
+            "en": "while the bearer is leading a unit",
+            "ru": "пока носитель ведёт юнит"
+          }
+        }
+      ]
     },
     {
       "sid": "5c3eba83-5786-4320-92e5-b6369e5c0535",
@@ -86,8 +108,19 @@ export default {
       },
       "hash": "36897a57",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "range",
+          "op": "add",
+          "value": 12,
+          "when": {
+            "en": "the bearer's Plague Wind only, from the start of your Shooting phase until the end of it",
+            "ru": "только для Plague Wind носителя, с начала фазы стрельбы до её конца"
+          }
+        }
+      ]
     },
     {
       "sid": "646ffc25-fbc8-4702-82ad-ea7c853e5736",

@@ -122,8 +122,27 @@ export default {
       },
       "hash": "02b8c2cf",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "scope": 0,
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PSYCHIC",
+          "when": null
+        },
+        {
+          "on": "melee",
+          "stat": "ws",
+          "op": "improve",
+          "value": 1,
+          "when": {
+            "en": "for a SEKHETAR ROBOTS unit within 12\" of a friendly THOUSAND SONS PSYKER unit (Infusion aura)",
+            "ru": "для юнита SEKHETAR ROBOTS в пределах 12\" от дружественного юнита THOUSAND SONS PSYKER (аура Infusion)"
+          }
+        }
+      ]
     },
     {
       "sid": "c5998d23-f7e0-4fed-bbea-c738c4b1fe66",
@@ -224,8 +243,9 @@ export default {
       },
       "hash": "7cede779",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [],
+      "note": "extends the range of a Ritual, not of a weapon"
     },
     {
       "sid": "23b38434-e051-4b26-a841-cbe2d62b5904",
@@ -273,8 +293,9 @@ export default {
       },
       "hash": "1d3a049c",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [],
+      "note": "extends the range of Psychic abilities, not of a weapon row"
     },
     {
       "sid": "a372c063-aacf-450e-8d87-d5e447b9872b",
@@ -340,8 +361,9 @@ export default {
       },
       "hash": "795ab48d",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [],
+      "note": "extends the range of a Ritual, not of a weapon"
     },
     {
       "sid": "0e2f4b29-498d-4e89-9af1-373f8d3ae792",

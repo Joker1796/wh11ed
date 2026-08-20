@@ -153,8 +153,16 @@ export default {
       },
       "hash": "6560c900",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 2,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "be26ea25-635f-4042-a1d0-4a0fbff0c0e5",

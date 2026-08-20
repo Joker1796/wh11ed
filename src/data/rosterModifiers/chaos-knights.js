@@ -33,8 +33,9 @@ export default {
       },
       "hash": "7a1f15d7",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [],
+      "note": "army-composition rule — which allied models may be included"
     },
     {
       "sid": "a035ead2-fd10-4271-a295-0b1823f4792f",
@@ -60,8 +61,9 @@ export default {
       },
       "hash": "425432db",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [],
+      "note": "extends an Aura's own targeting; nothing on the statline"
     },
     {
       "sid": "ea8bac27-a7f4-40a5-8e9c-ee20b6cc609c",
@@ -145,8 +147,16 @@ export default {
       },
       "hash": "a7635131",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "cff79aee-3352-436d-adfa-6e11703ffdfd",

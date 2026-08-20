@@ -61,8 +61,9 @@ export default {
       },
       "hash": "a4a07af3",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [],
+      "note": "army-composition rule — which allied models may be included"
     },
     {
       "sid": "3fa314f7-a382-44fa-8ebe-7150a64f03a0",
@@ -75,8 +76,20 @@ export default {
       },
       "hash": "0d9a81e5",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "scope": 0,
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": {
+            "en": "while that ARMIGER unit is affected by a Bondsman ability",
+            "ru": "пока юнит ARMIGER находится под действием способности Bondsman"
+          }
+        }
+      ]
     },
     {
       "sid": "e7d774f1-6f22-4767-a7ef-4a430a90b70d",

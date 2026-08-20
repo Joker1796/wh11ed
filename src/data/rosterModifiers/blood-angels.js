@@ -104,8 +104,20 @@ export default {
       },
       "hash": "7d893d70",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI: non-MONSTER/VEHICLE 5+",
+          "when": {
+            "en": "the bearer's [PSYCHIC] attacks only",
+            "ru": "только для атак с [PSYCHIC]"
+          }
+        }
+      ],
+      "note": "addresses the [PSYCHIC] attacks, a subset of the weapon rows this format cannot single out"
     },
     {
       "sid": "da1adec0-3e83-40b6-807c-fbd76b193c76",

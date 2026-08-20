@@ -177,8 +177,9 @@ export default {
       },
       "hash": "7b7acc1c",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [],
+      "note": "extends the range of the bearer's Aura abilities, not a weapon row"
     },
     {
       "sid": "8d57055e-3476-401d-9382-c0c1eae33a4d",

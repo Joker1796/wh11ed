@@ -202,8 +202,29 @@ export default {
       },
       "hash": "ea99c260",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 3,
+          "when": {
+            "en": "while the bearer is leading a unit",
+            "ru": "пока носитель ведёт юнит"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": {
+            "en": "while the bearer is leading a unit",
+            "ru": "пока носитель ведёт юнит"
+          }
+        }
+      ]
     },
     {
       "sid": "1ff1cc2a-ba28-4e1b-aee4-78c67b35a4de",
