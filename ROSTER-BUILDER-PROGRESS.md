@@ -314,6 +314,43 @@ is implemented and tested.
     and `validateRoster` reports `detachmentTagClash` for a list that was imported or predates the
     tag. The picker is shared with the Game Tracker's setup screen, which gets the same guard.
 
+13. **Allegiance choices — the mark a unit picks — BUILT 2026-08-20.** The last real item from the
+    table audit. Two mechanics share appdata's `allegiance_ability`/`_group` pair, and the roster
+    knew neither: **92 units**, 48 with a mandatory choice, 36 with a capped one, 8 uncapped.
+
+    - **Mark of Chaos** (43 Chaos Space Marines datasheets, only inside Pactbound Zealots). The
+      detachment rule is already in our data verbatim, restrictions and all, and two of the three
+      restrictions matter here. "You cannot select KHORNE for a Psyker unit" needs **no parsing**:
+      the 5 Psyker datasheets point at a second group that simply has no Khorne. "A Character unit
+      can only be attached to a unit if both share the same keyword" is now enforced —
+      `leaderTargetsFor` hides a target that took a different mark (one that hasn't chosen yet
+      stays offered, since marks are picked in any order) and `validateRoster` reports
+      `allegMismatch` for a list built before the check.
+    - **Daemonic Allegiance** (5 datasheets, ungated): the Daemon Princes and the Soul Grinder,
+      whose mark also **arms it** — "additionally equipped with: phlegm bombardment" — so the
+      choice feeds `loadoutItemIds` and the weapon shows on the card.
+    - **The CHARACTER-granting upgrades** (44 datasheets over 5 detachments: Headhunter Task Force,
+      Steel Hammer, Houndpack Lance, Solar Spearhead, Subterranean Assault). Same widget, different
+      meaning — and the consequence that matters is `enhEligible`: a Rhino that gained CHARACTER can
+      carry an enhancement, which is the whole point of the upgrade.
+
+    Everything is structural — the 274 `conditional_keyword` rows that
+    `gen-conditional-keywords.mjs` deliberately skips (a static datasheet page has no roster to
+    choose in) are exactly what supplies the granted keyword here. Emitted as `unit.alleg`
+    `{ g, t, det?, req?, max?, o: [{ n, kw?, wg? }] }`; `det` is the detachment NAME, because that
+    is what a roster stores. No SCHEMA_VERSION bump — `entry.alleg` is a new field, no index moves.
+
+    Shown as a pill row in the unit editor (gated on the detachment, with the added weapon named on
+    the option), printed in the text export — the rules require the mark noted on the roster, so a
+    list without it isn't legal — and validated three ways: `allegMissing`, `allegOverLimit`,
+    `allegMismatch`.
+
+    **Not done, deliberately:** the characteristic changes a Daemonic Allegiance mark brings (+1 T,
+    +2 S on hellforged weapons, +2" M, +3 A on the infernal cannon). Those belong in Tier C's
+    sidecar — 12 short entries behind its existing proofread-and-pin pipeline — and the text is
+    already visible on the card as the datasheet's own `specialAbilities`, so nothing is hidden
+    meanwhile. Recorded in `ROSTER-MODIFIERS-PROGRESS.md` as the next Tier C batch.
+
 ## Where the merge-into-main work is recorded
 
 The `main`-catch-up merge itself (conflict resolution, a stale test fixed for `BaseModal`'s

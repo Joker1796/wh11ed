@@ -1,6 +1,6 @@
 // Plain-text roster export — a shareable army list in the style of the official app. English
 // names throughout (unit / detachment / wargear names are EN by convention). Pure function.
-import { UNIT_GROUPS, bucketOf, enhancementPoints, mandatoryEnhancementFor, unitPoints, rosterPoints, wargearNames, effectiveBattle } from './rosterEngine.js'
+import { UNIT_GROUPS, allegFor, bucketOf, enhancementPoints, mandatoryEnhancementFor, unitPoints, rosterPoints, wargearNames, effectiveBattle } from './rosterEngine.js'
 
 const GROUP_TITLES = {
   epic: 'EPIC HEROES', characters: 'CHARACTERS', battleline: 'BATTLELINE',
@@ -44,6 +44,10 @@ export function buildRosterText(roster, { faction, core, items } = {}) {
       const sizeStr = size.per[1] > 1 ? ` (${models})` : ''
       lines.push(`  ${def.name}${sizeStr} — ${pts} pts`)
       if (e.warlord) lines.push('    • Warlord')
+      // The mark goes above the enhancement: the rules require it noted on the roster, and a list
+      // that doesn't say it isn't legal ("you must select one for that unit and note it").
+      const alleg = allegFor(def, detachments)
+      if (alleg && e.alleg) lines.push(`    • ${alleg.t || 'Allegiance'}: ${e.alleg}`)
       if (e.enh) lines.push(`    • Enhancement: ${e.enh} (+${enhancementPoints(detachments, e, def)})`)
       const mandEnh = !e.enh && mandatoryEnhancementFor(def, detachments)
       if (mandEnh) lines.push(`    • ${mandEnh.name} (+${mandEnh.pts}, mandatory)`)

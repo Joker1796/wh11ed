@@ -144,6 +144,29 @@ export default {
         "at": 3,
         "pts": 20
       },
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "minis": [
         {
           "n": "Mutant"
@@ -223,6 +246,29 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "minis": [
         {
           "n": "Biker Champion"
@@ -377,6 +423,29 @@ export default {
         "at": 3,
         "pts": 20
       },
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "defaults": [
         [
           0,
@@ -447,6 +516,29 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "leads": [
         {
           "to": "red-corsairs-raiders",
@@ -562,6 +654,29 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "leads": [
         {
           "to": "chaos-terminator-squad",
@@ -662,6 +777,29 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "leads": [
         {
           "to": "raptors",
@@ -759,6 +897,29 @@ export default {
         "at": 3,
         "pts": 10
       },
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "defaults": [
         [
           0,
@@ -849,6 +1010,29 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
+      },
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
       },
       "defaults": [
         [
@@ -943,6 +1127,29 @@ export default {
         "at": 4,
         "pts": 10
       },
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "defaults": [
         [
           0,
@@ -1005,6 +1212,29 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "defaults": [
         [
           0,
@@ -1067,6 +1297,29 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "minis": [
         {
           "n": "Terminator Champion"
@@ -1242,6 +1495,29 @@ export default {
         "at": 3,
         "pts": 10
       },
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "defaults": [
         [
           0,
@@ -1336,6 +1612,29 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
+      },
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
       },
       "minis": [
         {
@@ -1527,6 +1826,29 @@ export default {
         "at": 3,
         "pts": 5
       },
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "leads": [
         {
           "to": "cultist-mob",
@@ -1617,6 +1939,29 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "minis": [
         {
           "n": "Cultist Champion"
@@ -1747,6 +2092,29 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "leads": [
         {
           "to": "cultist-mob",
@@ -1892,6 +2260,26 @@ export default {
         "at": 3,
         "pts": 10
       },
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "leads": [
         {
           "to": "accursed-cultists",
@@ -2009,6 +2397,29 @@ export default {
       "step": {
         "at": 2,
         "pts": 40
+      },
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
       },
       "defaults": [
         [
@@ -2272,6 +2683,29 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "minis": [
         {
           "n": "Fellgor Champion"
@@ -2388,6 +2822,29 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
+      },
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
       },
       "defaults": [
         [
@@ -2541,6 +2998,29 @@ export default {
         "at": 3,
         "pts": 10
       },
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "minis": [
         {
           "n": "Havoc Champion"
@@ -2672,6 +3152,29 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "defaults": [
         [
           0,
@@ -2774,6 +3277,29 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "defaults": [
         [
           0,
@@ -2830,6 +3356,25 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "daemonic-allegiance",
+        "t": "Daemonic Allegiance",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          }
+        ],
+        "req": 1
+      },
       "defaults": [
         [
           0,
@@ -2872,6 +3417,25 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "daemonic-allegiance",
+        "t": "Daemonic Allegiance",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          }
+        ],
+        "req": 1
+      },
       "defaults": [
         [
           0,
@@ -3199,6 +3763,29 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "minis": [
         {
           "n": "Aspiring Champion"
@@ -3468,6 +4055,29 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "defaults": [
         [
           0,
@@ -3549,6 +4159,29 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "leads": [
         {
           "to": "chosen",
@@ -3632,6 +4265,26 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "leads": [
         {
           "to": "nemesis-claw",
@@ -3893,6 +4546,29 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "defaults": [
         [
           0,
@@ -3954,6 +4630,29 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
+      },
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
       },
       "defaults": [
         [
@@ -4018,6 +4717,26 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "minis": [
         {
           "n": "Visionary"
@@ -4218,6 +4937,29 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "defaults": [
         [
           0,
@@ -4255,6 +4997,29 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
+      },
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
       },
       "defaults": [
         [
@@ -4325,6 +5090,29 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
+      },
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
       },
       "minis": [
         {
@@ -4428,6 +5216,29 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
+      },
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
       },
       "minis": [
         {
@@ -4709,6 +5520,29 @@ export default {
         "at": 3,
         "pts": 10
       },
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "minis": [
         {
           "n": "Red Corsairs Raider Champion"
@@ -4809,6 +5643,29 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "leads": [
         {
           "to": "legionaries",
@@ -4918,6 +5775,26 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "leads": [
         {
           "to": "nemesis-claw",
@@ -5006,6 +5883,26 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "leads": [
         {
           "to": "chaos-terminator-squad",
@@ -5099,6 +5996,29 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "leads": [
         {
           "to": "traitor-guardsmen-squad",
@@ -5178,6 +6098,29 @@ export default {
       ],
       "linked": 1,
       "condBattleline": 1,
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "minis": [
         {
           "n": "Traitor Sergeant"
@@ -5349,6 +6292,29 @@ export default {
         "at": 3,
         "pts": 10
       },
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "defaults": [
         [
           0,
@@ -5422,6 +6388,29 @@ export default {
         "at": 3,
         "pts": 10
       },
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "minis": [
         {
           "n": "Warp Talon Champion"
@@ -5476,6 +6465,29 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "mark-of-chaos",
+        "t": "Mark of Chaos",
+        "o": [
+          {
+            "n": "Khorne"
+          },
+          {
+            "n": "Tzeentch"
+          },
+          {
+            "n": "Nurgle"
+          },
+          {
+            "n": "Slaanesh"
+          },
+          {
+            "n": "Chaos Undivided"
+          }
+        ],
+        "det": "Pactbound Zealots",
+        "req": 1
+      },
       "leads": [
         {
           "to": "havocs",

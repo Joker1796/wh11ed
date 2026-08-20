@@ -2111,6 +2111,17 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "subterranean-assault-keywords",
+        "t": "Subterranean Assault Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Subterranean Assault",
+        "max": 2
+      },
       "defaults": [
         [
           0,

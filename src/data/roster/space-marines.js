@@ -1000,6 +1000,17 @@ export default {
         "at": 2,
         "pts": 50
       },
+      "alleg": {
+        "g": "headhunter-task-force-keywords",
+        "t": "Headhunter Task Force Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Headhunter Task Force",
+        "max": 3
+      },
       "defaults": [
         [
           0,
@@ -3793,6 +3804,17 @@ export default {
         }
       ],
       "linked": 1,
+      "alleg": {
+        "g": "headhunter-task-force-keywords",
+        "t": "Headhunter Task Force Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Headhunter Task Force",
+        "max": 3
+      },
       "defaults": [
         [
           0,
@@ -3850,6 +3872,17 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
+      },
+      "alleg": {
+        "g": "headhunter-task-force-keywords",
+        "t": "Headhunter Task Force Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Headhunter Task Force",
+        "max": 3
       },
       "defaults": [
         [
@@ -3938,6 +3971,17 @@ export default {
         "at": 3,
         "pts": 10
       },
+      "alleg": {
+        "g": "headhunter-task-force-keywords",
+        "t": "Headhunter Task Force Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Headhunter Task Force",
+        "max": 3
+      },
       "defaults": [
         [
           0,
@@ -4006,6 +4050,17 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
+      },
+      "alleg": {
+        "g": "headhunter-task-force-keywords",
+        "t": "Headhunter Task Force Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Headhunter Task Force",
+        "max": 3
       },
       "defaults": [
         [
@@ -4363,6 +4418,17 @@ export default {
       "step": {
         "at": 4,
         "pts": 10
+      },
+      "alleg": {
+        "g": "headhunter-task-force-keywords",
+        "t": "Headhunter Task Force Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Headhunter Task Force",
+        "max": 3
       },
       "defaults": [
         [
@@ -5492,6 +5558,17 @@ export default {
         "at": 3,
         "pts": 20
       },
+      "alleg": {
+        "g": "headhunter-task-force-keywords",
+        "t": "Headhunter Task Force Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Headhunter Task Force",
+        "max": 3
+      },
       "defaults": [
         [
           0,
@@ -5574,6 +5651,17 @@ export default {
         "at": 3,
         "pts": 20
       },
+      "alleg": {
+        "g": "headhunter-task-force-keywords",
+        "t": "Headhunter Task Force Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Headhunter Task Force",
+        "max": 3
+      },
       "defaults": [
         [
           0,
@@ -5655,6 +5743,17 @@ export default {
       "step": {
         "at": 3,
         "pts": 20
+      },
+      "alleg": {
+        "g": "headhunter-task-force-keywords",
+        "t": "Headhunter Task Force Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Headhunter Task Force",
+        "max": 3
       },
       "defaults": [
         [
@@ -6768,6 +6867,17 @@ export default {
         "at": 3,
         "pts": 10
       },
+      "alleg": {
+        "g": "headhunter-task-force-keywords",
+        "t": "Headhunter Task Force Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Headhunter Task Force",
+        "max": 3
+      },
       "defaults": [
         [
           0,
@@ -6855,6 +6965,17 @@ export default {
       "step": {
         "at": 3,
         "pts": 10
+      },
+      "alleg": {
+        "g": "headhunter-task-force-keywords",
+        "t": "Headhunter Task Force Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Headhunter Task Force",
+        "max": 3
       },
       "defaults": [
         [
@@ -6945,6 +7066,17 @@ export default {
       "step": {
         "at": 4,
         "pts": 10
+      },
+      "alleg": {
+        "g": "headhunter-task-force-keywords",
+        "t": "Headhunter Task Force Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Headhunter Task Force",
+        "max": 3
       },
       "defaults": [
         [
@@ -7277,6 +7409,17 @@ export default {
         "at": 3,
         "pts": 20
       },
+      "alleg": {
+        "g": "headhunter-task-force-keywords",
+        "t": "Headhunter Task Force Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Headhunter Task Force",
+        "max": 3
+      },
       "defaults": [
         [
           0,
@@ -7367,6 +7510,17 @@ export default {
       "step": {
         "at": 3,
         "pts": 20
+      },
+      "alleg": {
+        "g": "headhunter-task-force-keywords",
+        "t": "Headhunter Task Force Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Headhunter Task Force",
+        "max": 3
       },
       "defaults": [
         [
@@ -7464,6 +7618,17 @@ export default {
       "step": {
         "at": 4,
         "pts": 10
+      },
+      "alleg": {
+        "g": "headhunter-task-force-keywords",
+        "t": "Headhunter Task Force Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Headhunter Task Force",
+        "max": 3
       },
       "defaults": [
         [
@@ -9665,6 +9830,17 @@ export default {
         "at": 3,
         "pts": 15
       },
+      "alleg": {
+        "g": "headhunter-task-force-keywords",
+        "t": "Headhunter Task Force Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Headhunter Task Force",
+        "max": 3
+      },
       "defaults": [
         [
           0,
@@ -9976,6 +10152,17 @@ export default {
       "step": {
         "at": 2,
         "pts": 20
+      },
+      "alleg": {
+        "g": "headhunter-task-force-keywords",
+        "t": "Headhunter Task Force Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Headhunter Task Force",
+        "max": 3
       },
       "defaults": [
         [

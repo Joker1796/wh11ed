@@ -120,6 +120,7 @@
                       :faction-slug="roster.faction"
                       :detachments="curDetachments"
                       :units="roster.units"
+                      :def-of="defOf"
                       :can-warlord="canBeWarlord(defOf(e.id), curDetachments)"
                       :is-warlord="e.warlord === true"
                       :enh-options="enhOptionsFor(defOf(e.id), curDetachments, roster.units, e.uid)"

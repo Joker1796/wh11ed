@@ -99,6 +99,31 @@ for (const r of table('datasheet_bodyguard_group_datasheet')) {
 // your army … cannot include"). 55 rows, 26 tags, every tag shared by 2+ detachments of one
 // faction. The tag itself comes from mfm (which has all 55 and two more appdata lacks — World
 // Eaters' ONSLAUGHT pair); this table is the independent check that the mfm scrape still finds it.
+// ---- Allegiance abilities ---------------------------------------------------------------
+// Two mechanics share this table pair. Both are army-list choices, which is why
+// gen-conditional-keywords.mjs skips their 274 conditional_keyword rows — a static datasheet page
+// has no roster to make the choice in. The roster editor does.
+//
+//  A. A MANDATORY per-unit mark: Chaos Space Marines' Mark of Chaos (43 datasheets, only inside
+//     the Pactbound Zealots detachment; the 5 Psyker datasheets point at a second group that has
+//     no KHORNE, which is the "you cannot select KHORNE for a Psyker unit" restriction expressed
+//     structurally) and Daemonic Allegiance (5 datasheets, always on — the mark changes
+//     characteristics and adds a weapon).
+//  B. An OPTIONAL detachment upgrade capped across the army: "select up to 3 ADEPTUS ASTARTES
+//     VEHICLE units; they gain CHARACTER" (44 datasheets across 5 detachments).
+const detById = new Map(table('detachment').map((d) => [d.id, d]))
+const allegGroups = new Map(table('allegiance_ability_group').map((g) => [g.id, g]))
+const allegByGroup = new Map()
+for (const a of table('allegiance_ability')) {
+  if (!allegByGroup.has(a.allegianceAbilityGroupId)) allegByGroup.set(a.allegianceAbilityGroupId, [])
+  allegByGroup.get(a.allegianceAbilityGroupId).push(a)
+}
+// The keyword each choice grants THIS datasheet, from conditional_keyword's allegiance rows.
+const allegKw = new Map() // `${datasheetId}|${abilityId}` -> keyword name
+for (const c of table('conditional_keyword')) {
+  if (c.requiredAllegianceAbilityId && c.datasheetId) allegKw.set(`${c.datasheetId}|${c.requiredAllegianceAbilityId}`, c.keywordId)
+}
+
 const detTagByName = new Map() // normalised detachment name -> tag
 {
   const kwOf = new Map(table('keyword').map((k) => [k.id, enOf(k).name]))
@@ -256,7 +281,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, leadKw: { resolved: 0, unresolved: [] }, comp: { units: 0, brackets: 0, foldedBrackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, leadKw: { resolved: 0, unresolved: [] }, comp: { units: 0, brackets: 0, foldedBrackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() } }
 
 // Global intern dictionaries: wargear item names and group instruction texts repeat heavily
 // ACROSS factions, and — crucially — the SM-Chapter fold pulls space-marines units into a
@@ -735,6 +760,35 @@ function buildUnit(bd, idMap, fx, kwIndex) {
   if (step) unit.step = step
   if (condBattlelineDs.has(bd.id)) unit.condBattleline = 1
 
+  // The group id lives on the raw datasheet row, not in the faction bundle.
+  const allegGroup = allegGroups.get(dsById.get(bd.id)?.allegianceAbilityGroupId)
+  if (allegGroup) {
+    const opts = (allegByGroup.get(allegGroup.id) || [])
+      .sort((a, b) => a.displayOrder - b.displayOrder)
+      .map((a) => {
+        const o = { n: enOf(a).name }
+        const kwId = allegKw.get(`${bd.id}|${a.id}`)
+        const kw = kwId && kwName.get(kwId)
+        if (kw && kw !== o.n) o.kw = kw
+        if (a.requiresWargearItemId) o.wg = fx.item(a.requiresWargearItemId)
+        return o
+      })
+      .filter((o) => o.n)
+    if (opts.length) {
+      // `det` is the detachment NAME because that is what a roster stores (see useRosters); absent
+      // means the choice always applies. `req` = must be chosen, `max` = cap across the army.
+      const alleg = { g: slugify(enOf(allegGroup).name || 'allegiance'), t: enOf(allegGroup).name || '', o: opts }
+      const detOwner = allegGroup.detachmentId && detById.get(allegGroup.detachmentId)
+      if (detOwner) alleg.det = enOf(detOwner).name
+      if (allegGroup.isMandatory) alleg.req = 1
+      if (allegGroup.maxRosterLimit) alleg.max = allegGroup.maxRosterLimit
+      if (allegGroup.minRosterLimit) alleg.min = allegGroup.minRosterLimit
+      unit.alleg = alleg
+      report.alleg.units++
+      report.alleg.kinds.add(`${alleg.g}${alleg.det ? ` (${alleg.det})` : ''}`)
+    }
+  }
+
   const groups = bgByLeader.get(bd.id) || []
   const leads = []
   for (const g of groups) {
@@ -1179,6 +1233,8 @@ if (report.noPoints.length) console.log(`  dropped (no points/composition): ${re
 const b = report.bundle
 console.log(`  bundled options: ${b.rewritten} groups rewritten from prose and verified against loadout_choice; ${b.quantified} more gained a per-option quantity`)
 const lm = report.limit
+const al = report.alleg
+console.log(`  allegiance choices: ${al.units} units carry one (${[...al.kinds].join('; ')})`)
 const dt = report.detTag
 console.log(`  detachment tags: ${dt.tagged} carry the tag that bars a second detachment sharing it${dt.drift.length ? `; ${dt.drift.length} disagree with appdata's own table` : ''}`)
 for (const d of dt.drift.slice(0, 8)) console.log(`    - ${d}`)

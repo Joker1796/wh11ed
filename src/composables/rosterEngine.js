@@ -196,19 +196,67 @@ function lockedToExactUnit(enh, def) {
 // inverted eligibility for all 13 attach-granting enhancements — Murdermind was offered on
 // Skorpekh Destroyers and refused to every Cryptek. That source was removed on 2026-08-19; if a
 // future audit sees `lockDs` on an enhancement that is not in ENH_LOCK_FIXES, it has come back.
-export function enhEligible(enh, def) {
+export function enhEligible(enh, def, granted = []) {
   if (!enh || !def) return false
-  if (lockedToExactUnit(enh, def)) return !enh.exclKw?.some((k) => hasKeyword(def, k))
-  if (enh.lockDs?.length) return enh.lockDs.includes(def.sid) && !enh.exclKw?.some((k) => hasKeyword(def, k))
+  // `granted` are keywords the ENTRY gained rather than the datasheet printing them — today the
+  // allegiance upgrades that hand CHARACTER to a vehicle, which is precisely what makes it able to
+  // carry an enhancement. Callers without an entry pass nothing and get the printed sheet's answer.
+  const lc = (x) => String(x || '').toLowerCase()
+  const has = (k) => hasKeyword(def, k) || granted.some((g) => lc(g) === lc(k))
+  if (lockedToExactUnit(enh, def)) return !enh.exclKw?.some((k) => has(k))
+  if (enh.lockDs?.length) return enh.lockDs.includes(def.sid) && !enh.exclKw?.some((k) => has(k))
   if (def.flags?.noEnh) return false
-  if (!def.flags?.char && !enh.nonCharOk) return false
+  if (!def.flags?.char && !enh.nonCharOk && !granted.some((g) => lc(g) === 'character')) return false
   if (def.flags?.epic && !enh.epicOk) return false
-  if (enh.exclKw?.some((k) => hasKeyword(def, k))) return false
+  if (enh.exclKw?.some((k) => has(k))) return false
   if (enh.req?.length) {
-    const ok = enh.req.some((g) => (g.kw || []).every((k) => hasKeyword(def, k)))
+    const ok = enh.req.some((g) => (g.kw || []).every((k) => has(k)))
     if (!ok) return false
   }
   return true
+}
+
+// ── Allegiance: the mark/keyword an entry chooses for itself ──────────────────────────────────
+// Two shapes share `def.alleg` (gen-roster-data.mjs reads appdata's allegiance_ability tables):
+//   • a MANDATORY mark — Chaos Space Marines' Mark of Chaos inside Pactbound Zealots (43
+//     datasheets; the Psyker ones simply have no KHORNE option, which is that restriction stated
+//     structurally) and Daemonic Allegiance on the Daemon Princes and Soul Grinder, where the mark
+//     also changes characteristics and, on the Soul Grinder, adds a weapon;
+//   • an OPTIONAL detachment upgrade capped across the army — "select up to 3 ADEPTUS ASTARTES
+//     VEHICLE units; they gain CHARACTER" (44 datasheets over 5 detachments).
+// Both are army-list choices, which is why the datasheet PAGE skips them (see
+// gen-conditional-keywords.mjs) and the roster is where they belong.
+//
+// Returns the live choice descriptor, or null when the gating detachment isn't in the army.
+export function allegFor(def, detachments) {
+  const a = def?.alleg
+  if (!a?.o?.length) return null
+  if (a.det && !(detachments || []).some((d) => d?.name === a.det)) return null
+  return a
+}
+
+// The keyword this entry gained from its choice — the mark itself ("Nurgle") unless the data says
+// the option grants a differently-named one. Null when nothing is chosen or the gate is closed.
+export function allegKeyword(def, entry, detachments) {
+  const a = allegFor(def, detachments)
+  if (!a || !entry?.alleg) return null
+  const opt = a.o.find((o) => o.n === entry.alleg)
+  return opt ? (opt.kw || opt.n) : null
+}
+
+// Extra wargear the choice grants (Soul Grinder's torrent of burning blood and friends).
+export function allegItems(def, entry, detachments) {
+  const a = allegFor(def, detachments)
+  const opt = a && entry?.alleg ? a.o.find((o) => o.n === entry.alleg) : null
+  return opt?.wg ? [opt.wg] : []
+}
+
+// How many entries in the army have taken an optional (capped) choice of this group.
+export function allegSpent(units, defOf, groupKey, detachments) {
+  return (units || []).filter((u) => {
+    const a = allegFor(defOf(u.id), detachments)
+    return a?.g === groupKey && u.alleg
+  }).length
 }
 
 // Find an enhancement by name across the roster's selected detachments (an army may field
@@ -235,6 +283,10 @@ export function findEnhancement(detachments, name) {
 // costs more) but are never a player pick — the caller renders them locked "on" when `eligible`
 // (see mandatoryEnhancementFor for the same eligible one, used to drive the actual points).
 export function enhOptionsFor(def, detachments, units, excludeUid) {
+  // An allegiance upgrade can hand a vehicle CHARACTER, and that is what makes it able to carry an
+  // enhancement at all — so eligibility is asked about the ENTRY, not just the printed sheet.
+  const entry = (units || []).find((u) => u.uid === excludeUid)
+  const granted = [allegKeyword(def, entry, detachments)].filter(Boolean)
   if (!detachments?.length || !def) return []
   const countElsewhere = new Map()
   for (const u of units || []) {
@@ -248,7 +300,7 @@ export function enhOptionsFor(def, detachments, units, excludeUid) {
       if (seen.has(e.name)) continue
       seen.add(e.name)
       const used = (countElsewhere.get(e.name) || 0) >= (e.limit || 1)
-      out.push({ name: e.name, pts: e.pts, eligible: enhEligible(e, def), used, mandatory: !!e.mandatory })
+      out.push({ name: e.name, pts: e.pts, eligible: enhEligible(e, def, granted), used, mandatory: !!e.mandatory })
     }
   }
   return out
@@ -283,8 +335,14 @@ export function leaderTargetsFor(def, units, excludeUid, defOf, detachments = []
   const leads = leadsFor(def, entry, detachments)
   if (!leads.length) return []
   const typeByTarget = new Map(leads.map((l) => [l.to, l.type]))
+  // Marks of Chaos: "a Character unit can only be attached to a unit if both units share the same
+  // keyword". Scoped to that group by key — it is that detachment rule's own clause, not something
+  // allegiances do in general, and the CHARACTER-granting upgrades carry no such restriction. A
+  // target that hasn't chosen yet stays offered: the mark is picked per unit, in any order.
+  const ownMark = allegFor(def, detachments)?.g === 'mark-of-chaos' ? entry?.alleg : null
   return (units || [])
     .filter((u) => u.uid !== excludeUid && typeByTarget.has(u.id))
+    .filter((u) => !ownMark || !u.alleg || u.alleg === ownMark)
     .map((u) => {
       const type = typeByTarget.get(u.id)
       const used = (units || []).some((o) => {

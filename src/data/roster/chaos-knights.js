@@ -1038,6 +1038,18 @@ export default {
       ],
       "linked": 1,
       "condBattleline": 1,
+      "alleg": {
+        "g": "houndpack-lance-keyword",
+        "t": "Houndpack Lance Keyword",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Houndpack Lance",
+        "max": 3,
+        "min": 3
+      },
       "defaults": [
         [
           0,
@@ -1101,6 +1113,18 @@ export default {
       ],
       "linked": 1,
       "condBattleline": 1,
+      "alleg": {
+        "g": "houndpack-lance-keyword",
+        "t": "Houndpack Lance Keyword",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Houndpack Lance",
+        "max": 3,
+        "min": 3
+      },
       "defaults": [
         [
           0,
@@ -1160,6 +1184,18 @@ export default {
       ],
       "linked": 1,
       "condBattleline": 1,
+      "alleg": {
+        "g": "houndpack-lance-keyword",
+        "t": "Houndpack Lance Keyword",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Houndpack Lance",
+        "max": 3,
+        "min": 3
+      },
       "defaults": [
         [
           0,
@@ -1219,6 +1255,18 @@ export default {
       ],
       "linked": 1,
       "condBattleline": 1,
+      "alleg": {
+        "g": "houndpack-lance-keyword",
+        "t": "Houndpack Lance Keyword",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Houndpack Lance",
+        "max": 3,
+        "min": 3
+      },
       "defaults": [
         [
           0,
@@ -1282,6 +1330,18 @@ export default {
         "pts": 10
       },
       "condBattleline": 1,
+      "alleg": {
+        "g": "houndpack-lance-keyword",
+        "t": "Houndpack Lance Keyword",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Houndpack Lance",
+        "max": 3,
+        "min": 3
+      },
       "defaults": [
         [
           0,
@@ -1420,6 +1480,18 @@ export default {
       ],
       "linked": 1,
       "condBattleline": 1,
+      "alleg": {
+        "g": "houndpack-lance-keyword",
+        "t": "Houndpack Lance Keyword",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Houndpack Lance",
+        "max": 3,
+        "min": 3
+      },
       "defaults": [
         [
           0,

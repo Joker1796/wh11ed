@@ -78,6 +78,17 @@ export default {
         "at": 3,
         "pts": 10
       },
+      "alleg": {
+        "g": "headhunter-task-force-keywords",
+        "t": "Headhunter Task Force Keywords",
+        "o": [
+          {
+            "n": "Character"
+          }
+        ],
+        "det": "Headhunter Task Force",
+        "max": 3
+      },
       "defaults": [
         [
           0,

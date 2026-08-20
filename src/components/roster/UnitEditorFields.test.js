@@ -8,6 +8,8 @@ import astraMilitarum from '../../data/roster/astra-militarum.js'
 import imperialAgents from '../../data/roster/imperial-agents.js'
 import aeldari from '../../data/roster/aeldari.js'
 import adeptusMechanicus from '../../data/roster/adeptus-mechanicus.js'
+import chaosSpaceMarines from '../../data/roster/chaos-space-marines.js'
+import chaosDaemons from '../../data/roster/chaos-daemons.js'
 
 // Mounted against REAL generated data: what this guards is the path from the generator's bundled
 // options to what the player actually reads, which a fixture would hide.
@@ -106,5 +108,34 @@ describe('UnitEditorFields — unit composition', () => {
     const wargearSteppers = w.findAllComponents(NumberStepper).slice(w.find('.ues-count').exists() ? 1 : 0)
     const before = ruststalkers.gear.slice(0, gi).filter((g) => g.in === 'stepper' || g.lim?.[0]?.[1] > 1).length
     expect(wargearSteppers[before].props('max')).toBe(9)
+  })
+})
+
+describe('UnitEditorFields — allegiance', () => {
+  const vindicator = chaosSpaceMarines.units.find((u) => u.id === 'chaos-vindicator')
+  const sorcerer = chaosSpaceMarines.units.find((u) => u.id === 'sorcerer')
+  const grinder = chaosDaemons.units.find((u) => u.id === 'soul-grinder')
+  const pactbound = [{ name: 'Pactbound Zealots', dp: 3, enhancements: [] }]
+  const mountWith = (def, detachments, entry = {}) => mount(UnitEditorFields, {
+    props: { entry: { uid: 'u1', id: def.id, size: 0, ...entry }, def, items: rosterItems.items, texts: rosterItems.texts, detachments },
+    global: { stubs: { Teleport: true } },
+  })
+
+  it('offers the marks only while the gating detachment is in the army', () => {
+    expect(mountWith(vindicator, pactbound).text()).toContain('Mark of Chaos')
+    expect(mountWith(vindicator, [{ name: 'Veterans of the Long War', enhancements: [] }]).text()).not.toContain('Mark of Chaos')
+  })
+
+  it('leaves KHORNE off a Psyker, because appdata does', () => {
+    // "You cannot select the KHORNE keyword for a Psyker unit" — the Psyker datasheets point at a
+    // second allegiance group that simply has no Khorne, so the restriction needs no parsing.
+    const names = mountWith(sorcerer, pactbound).findAll('.pill').map((p) => p.text())
+    expect(names).toContain('Tzeentch')
+    expect(names).not.toContain('Khorne')
+  })
+
+  it('names the weapon a mark adds', () => {
+    // Soul Grinder: "this model is additionally equipped with: phlegm bombardment".
+    expect(mountWith(grinder, []).text()).toContain('Phlegm bombardment')
   })
 })
