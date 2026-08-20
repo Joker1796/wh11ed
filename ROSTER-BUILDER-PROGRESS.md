@@ -212,10 +212,7 @@ is implemented and tested.
    plural before the lookup, accepting `s’` as a possessive, and walking every possessive in the
    sentence rather than only the first (an item's name can itself contain "and" — Cult claws and
    knife — so the whole phrase is tried before splitting on it). **781 → 973 groups** know what
-   they give up; 19 are left, and both remaining classes stay fail-open on purpose: "X **or** Y"
-   names one item out of two as the thing given up (no single set to subtract), and a few are
-   appdata disagreeing with itself ("absolver bolt pistol" in the prose vs the item "Absolvor bolt
-   pistol").
+   they give up; the 19 left over were read in a second pass — see item 14.
 
 9. **40 units had no default loadout at all — FIXED 2026-08-20.** Same session, found by asking why
    Blood Angels Captain's "heavy bolt pistol" resolved to nothing: **144 datasheets have no
@@ -350,6 +347,41 @@ is implemented and tested.
     sidecar — 12 short entries behind its existing proofread-and-pin pipeline — and the text is
     already visible on the card as the datasheet's own `specialAbilities`, so nothing is hidden
     meanwhile. Recorded in `ROSTER-MODIFIERS-PROGRESS.md` as the next Tier C batch.
+
+14. **The last 19 unparsed instructions — 17 read, 2 left on purpose, 2026-08-20.** The tail of
+    item 8, sorted into six classes and fixed by reading the datasheet instead of the sentence.
+
+    - **"X or Y" — 8 groups.** "their Autoch-pattern bolter **or** ion blaster replaced with…"
+      doesn't say which weapon is given up, but the profile usually does: its default loadout holds
+      one of the two. Resolved against the profile's own defaults, which is also why this is the
+      one reading with a **known limit** — the answer is right for the FIRST such swap, and a model
+      that already traded X for Y through an earlier group has moved on where static data can't
+      follow. **2 stay unresolved** because the profile genuinely holds both (a Havoc starts with
+      the autocannon *and* the lascannon; the Wulfen Dreadnought with both its melee weapons), so
+      the choice is the player's and guessing would delete a weapon the model still has.
+    - **A weapon CATEGORY instead of a name — 3 groups.** "1 model's **ranged weapon** can be
+      replaced with 1 shardlauncher" (all three Termagants swaps). Answerable from
+      `wargear_item_profile`'s `type` when the profile carries exactly one weapon of that type.
+    - **appdata spelling one item two ways — 4 groups.** The prose says "kustom-mega blasta" where
+      the item table says "Kustom mega-blasta" (punctuation), "absolver" where it says "Absolvor"
+      (one letter), "plague combi-bolter" where the item is just "Combi-bolter" (one extra
+      adjective). Three tiers below the exact lookup, each accepting **only when exactly one item
+      can be meant**: a punctuation-blind index, a one-character-at-equal-length match, and a
+      one-word prefix.
+    - **A nested "and" — 1 group.** "their autopistol **and** cult claws **and** knife" is two
+      items, not three, because "Cult claws and knife" is one of them. Every way of splitting on
+      "and" is now tried, fewest pieces first, and the first reading where every piece is a real
+      item wins.
+    - **No possessive at all — 1 group.** "Each model can have each shuriken cannon it is equipped
+      with replaced with…" (War Walkers, the only one corpus-wide) got its own pattern.
+
+    **973 → 990 groups.** The suffix tier is the one that needed a guard and got two: it first ate
+    "condemnor bolt pistol and null mace" down to "Null mace" (104 groups silently answering with
+    the last weapon named), then read "its bolt shotgun" as a name when it was a fresh clause. Both
+    are now impossible — the prefix must be exactly one word, and not an article or possessive.
+    Verified by diffing every group's resolved `rep` against the previous generator, old vs new:
+    **17 gained, 0 lost, 0 changed**. Six pinning tests added, and the corpus ceiling in
+    `index.test.js` tightened from ≤25 unparsed to ≤2.
 
 ## Where the merge-into-main work is recorded
 

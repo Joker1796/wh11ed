@@ -255,6 +255,14 @@ const miniToDs = new Map(table('miniature').map((m) => [m.id, m.datasheetId]))
 // loadouts (what each miniature starts with) come from `base_miniature_loadout`. Points live
 // on individual options (only ~83 options are non-zero — most wargear is a free swap).
 const wgItemName = new Map(table('wargear_item').map((w) => [w.id, enOf(w).name]))
+// ranged/melee per item, from its weapon profiles — an item can have both (a combi-weapon with a
+// bayonet profile). Only used to read the three instructions that name a CATEGORY instead of an
+// item: "1 model's ranged weapon can be replaced with 1 shardlauncher".
+const wgItemTypes = new Map()
+for (const p of table('wargear_item_profile')) {
+  if (!wgItemTypes.has(p.wargearItemId)) wgItemTypes.set(p.wargearItemId, new Set())
+  wgItemTypes.get(p.wargearItemId).add(p.type)
+}
 const woById = new Map(table('wargear_option').map((o) => [o.id, o]))
 const woByGroup = new Map()
 for (const o of table('wargear_option')) {
@@ -355,35 +363,136 @@ function linkWargearConditions(datasheetId, drafts) {
   // a curly apostrophe here and a U+2010 hyphen there ("multi‐laser", "hot‐shot lascarbine") — the
   // same class of silent no-op that apostrophes caused in enhancements and ë in Votann detachments.
   const nameToUuid = new Map()
-  const remember = (uuid) => { const n = norm(wgItemName.get(uuid) || ''); if (n) nameToUuid.set(n, uuid) }
-  for (const b of bmlByDs.get(datasheetId) || []) {
-    for (const o of b.opts) {
-      const uuid = woById.get(o.wargearOptionId)?.wargearItemId
-      if (uuid) remember(uuid)
-    }
+  // The same names again with every apostrophe, hyphen and space removed. appdata spells one
+  // item two ways across its own tables — the prose says "kustom-mega blasta" where the item
+  // table says "Kustom mega-blasta" — and this index is what lets the two meet. A key that two
+  // different items would share is poisoned to null rather than resolving to whichever came last.
+  const canonToUuid = new Map()
+  const canon = (s) => s.replace(/[^a-z0-9]/g, '')
+  const remember = (uuid) => {
+    const n = norm(wgItemName.get(uuid) || '')
+    if (!n) return
+    nameToUuid.set(n, uuid)
+    const c = canon(n)
+    canonToUuid.set(c, canonToUuid.has(c) && canonToUuid.get(c) !== uuid ? null : uuid)
   }
+  // What each PROFILE starts with, by miniature id. Two of the readings below need it: an
+  // instruction naming a weapon category ("its ranged weapon") and one naming two alternatives
+  // ("its power sword or shuriken rifle") are both answered by looking at what the profile
+  // actually holds — the datasheet knows, even though the sentence doesn't say.
+  //
   // 144 datasheets have no base_miniature_loadout row at all — for 136 of them the starting gear
   // is a "Default Wargear" option group instead (see staticLoadout), and those groups are dropped
-  // before the drafts are built, so their item names have to be collected here or a swap on one of
+  // before the drafts are built, so their items have to be collected here too or a swap on one of
   // them ("this model's heavy bolt pistol can be replaced with…") resolves nothing.
-  for (const uuid of staticLoadout(datasheetId).flatMap(([, list]) => list.map(([u]) => u))) remember(uuid)
+  const defaultsByMini = new Map()
+  const addDefault = (miniatureId, uuid) => {
+    if (!uuid) return
+    if (!defaultsByMini.has(miniatureId)) defaultsByMini.set(miniatureId, new Set())
+    defaultsByMini.get(miniatureId).add(uuid)
+    remember(uuid)
+  }
+  for (const b of bmlByDs.get(datasheetId) || []) {
+    for (const o of b.opts) addDefault(b.miniatureId, woById.get(o.wargearOptionId)?.wargearItemId)
+  }
+  for (const g of wogByDs.get(datasheetId) || []) {
+    if ((enOf(g).instructionText || '').trim().toLowerCase() !== 'default wargear') continue
+    for (const o of woByGroup.get(g.id) || []) addDefault(g.miniatureId, o.wargearItemId)
+  }
   for (const d of drafts) for (const o of d.opts) remember(o.uuid)
 
   // One name out of the prose. The prose counts and pluralises what the item table does not
   // ("this model's 2 twin heavy flamers" vs the item "Twin heavy flamer"), so both are stripped
   // before the lookup — a leading quantity, then a trailing plural if the exact name missed.
-  const resolveItem = (raw) => {
+  const resolveItem = (raw, miniId) => {
     const n = norm(raw).replace(/^\d+\s+/, '')
     // "-s" before "-es": stripping greedily turns "dark lances" into "dark lanc", not "dark lance".
-    return nameToUuid.get(n) || nameToUuid.get(n.replace(/s$/, '')) || nameToUuid.get(n.replace(/es$/, '')) || null
+    const exact = nameToUuid.get(n) || nameToUuid.get(n.replace(/s$/, '')) || nameToUuid.get(n.replace(/es$/, ''))
+    if (exact) return exact
+    // A weapon CATEGORY rather than a name — answerable only when the profile holds exactly one
+    // weapon of that type, which is the case for all three instructions written this way.
+    const cat = n.match(/^(ranged|melee) weapons?$/)
+    if (cat) {
+      const hits = [...(defaultsByMini.get(miniId) || [])].filter((u) => wgItemTypes.get(u)?.has(cat[1]))
+      return hits.length === 1 ? hits[0] : null
+    }
+    if (canonToUuid.get(canon(n))) return canonToUuid.get(canon(n))
+    // Below here the prose and the item table disagree about the name itself, so a match is a
+    // judgement, not a lookup: each of these accepts only when exactly ONE item can be meant.
+    // A one-character difference at equal length — "absolver bolt pistol" for "Absolvor bolt
+    // pistol". Equal length is what keeps it from reaching a genuinely different weapon.
+    const typo = [...nameToUuid].filter(([k]) => k.length === n.length && k !== n
+      && [...k].filter((ch, i) => ch !== n[i]).length === 1)
+    if (typo.length === 1) return typo[0][1]
+    // A name the prose has prefixed with one adjective — "plague combi-bolter" for the item
+    // "Combi-bolter". Exactly one leading word, because anything longer is a phrase naming more
+    // than one item ("condemnor bolt pistol and null mace", "bolter or ion blaster") and matching
+    // its tail would silently answer with the last weapon named instead of all of them. That one
+    // word also has to be an adjective and not an article or possessive: "its bolt shotgun" is a
+    // fresh clause the split missed, and reading it as a name would answer half a sentence.
+    const suffix = [...nameToUuid].filter(([k]) => n.endsWith(` ${k}`)
+      && /^(?!(?:a|an|the|its|their|his|her|one|each)$)[a-z0-9'-]+$/.test(n.slice(0, -k.length - 1)))
+    if (suffix.length === 1) return suffix[0][1]
+    return null
+  }
+
+  // "X or Y" names ONE of two items as the thing given up. The sentence doesn't say which — but
+  // the profile usually does, because it holds only one of them; that's why the option exists in
+  // the first place. Two of these are genuinely ambiguous (the profile holds both) and stay
+  // unresolved. Note the answer is only right for the FIRST such swap: a model that already
+  // traded X for Y through an earlier group has moved on, and static data can't follow it.
+  const resolveAlternatives = (chunk, miniId) => {
+    const alts = chunk.split(/\s+or\s+/i).map((s) => s.trim()).filter(Boolean)
+    if (alts.length < 2) return null
+    const uuids = alts.map((a) => resolveItem(a, miniId))
+    if (!uuids.every(Boolean)) return null
+    const held = [...new Set(uuids)].filter((u) => defaultsByMini.get(miniId)?.has(u))
+    return held.length === 1 ? held[0] : null
+  }
+
+  const resolveChunk = (chunk, miniId) => resolveItem(chunk, miniId) || resolveAlternatives(chunk, miniId)
+
+  // A phrase into the set of items it names. Commas always separate; "and" may or may not, since
+  // an item can BE called "Cult claws and knife" — so every way of splitting on "and" is tried,
+  // fewest pieces first, and the first reading where every piece is a real item wins. Fewest-first
+  // is what keeps a compound name whole ("autopistol and cult claws and knife" is two items, not
+  // three, and only one of the four readings resolves).
+  const resolveConjunction = (part, miniId) => {
+    const segs = part.split(/\s+and\s+/i)
+    if (segs.length === 1) { const u = resolveChunk(part, miniId); return u ? [u] : null }
+    if (segs.length > 5) return null
+    const masks = [...Array(1 << (segs.length - 1)).keys()]
+      .sort((a, b) => (a.toString(2).split('1').length) - (b.toString(2).split('1').length))
+    for (const mask of masks) {
+      const chunks = []
+      let cur = segs[0]
+      for (let i = 0; i < segs.length - 1; i++) {
+        if (mask & (1 << i)) { chunks.push(cur); cur = segs[i + 1] } else cur += ` and ${segs[i + 1]}`
+      }
+      chunks.push(cur)
+      const uuids = chunks.map((c) => resolveChunk(c, miniId))
+      if (uuids.every(Boolean)) return uuids
+    }
+    return null
+  }
+
+  const resolvePhrase = (phrase, miniId) => {
+    const out = []
+    for (const part of phrase.split(/\s*,\s*/).map((s) => s.trim()).filter(Boolean)) {
+      const got = resolveConjunction(part, miniId)
+      if (!got) return null
+      out.push(...got)
+    }
+    return out.length ? out : null
   }
 
   // What each draft REPLACES, from its own "…'s X[, Y and Z] can be replaced with…" prose.
   // Three shapes of possessive, because appdata writes all three: "model's", "models'" (plural,
-  // no second s) and the bare pronoun. "X or Y" is deliberately NOT split — that names one item
-  // out of two as the thing given up, so there is no single set to subtract, and a wrong guess
-  // would delete a weapon the model still has. Those groups keep today's no-rep behaviour.
+  // no second s) and the bare pronoun.
   const REP_RE = /(?:'s|’s|s’|\bhis\b|\bher\b|\btheir\b|\bits\b)\s+((?:\d+\s+)?[a-z][a-z0-9' ’‐‑–,-]*?)\s*(?:can\s+(?:each\s+)?be\s+|be\s+|is\s+|are\s+)?replaced with/i
+  // …and once, corpus-wide, with no possessive at all: "Each model can have each shuriken cannon
+  // it is equipped with replaced with one of the following".
+  const HAVE_RE = /\bhave\s+(?:each|its|their|the|1|one)\s+((?:\d+\s+)?[a-z][a-z0-9' ’‐‑–,-]*?)\s+(?:it is|they are|this model is|that model is)\s+equipped with\s+replaced with/i
   for (const d of drafts) {
     // A sentence can carry more than one possessive before the swap — "The Celestian Insidiant's
     // Superior's condemnor bolt pistol" — and the first one starts a phrase that names no item.
@@ -392,13 +501,14 @@ function linkWargearConditions(datasheetId, drafts) {
     let from = 0, m = null, last = null
     while ((m = d.text.slice(from).match(REP_RE))) {
       last = m
-      // Whole phrase first: an item can BE named "Cult claws and knife", and splitting that on
-      // "and" invents two weapons the datasheet doesn't have.
-      const whole = resolveItem(m[1])
-      const parts = whole ? [m[1]] : m[1].split(/\s*,\s*|\s+and\s+/i).map((s) => s.trim()).filter(Boolean)
-      const uuids = whole ? [whole] : parts.map(resolveItem)
-      if (parts.length && uuids.every(Boolean)) { d.rep = uuids; repStats.resolved++; break }
+      const uuids = resolvePhrase(m[1], d.miniId)
+      if (uuids) { d.rep = uuids; repStats.resolved++; break }
       from += d.text.slice(from).indexOf(m[0]) + 2
+    }
+    if (!d.rep && (m = d.text.match(HAVE_RE))) {
+      last = m
+      const uuids = resolvePhrase(m[1], d.miniId)
+      if (uuids) { d.rep = uuids; repStats.resolved++ }
     }
     if (d.rep) continue
     if (last) repStats.unresolved.push(`${enOf(dsById.get(datasheetId)).name}: ${last[1].trim()}`)
@@ -1246,7 +1356,7 @@ console.log(`  keyword-defined attachments: ${lk.resolved} leader→unit links r
 for (const l of [...new Set(lk.unresolved)].slice(0, 6)) console.log(`    - ${l}`)
 const rp = report.rep
 console.log(`  default loadouts: ${report.staticDefaults} units read theirs from a "Default Wargear" group (no base_miniature_loadout row)`)
-console.log(`  replaced-item links: ${rp.resolved} groups know what they give up; ${rp.noMatch.length} instructions didn't parse, ${rp.unresolved.length} named an item this datasheet doesn't list`)
+console.log(`  replaced-item links: ${rp.resolved} groups know what they give up; ${rp.noMatch.length} instructions didn't parse, ${rp.unresolved.length} left the phrase unreadable (an unlisted item, or two the profile both holds)`)
 for (const l of [...rp.noMatch, ...rp.unresolved].slice(0, 12)) console.log(`    - ${l.replace(/\s+/g, ' ')}`)
 console.log(`  unit-wide groups: ${lm.merged} duplicates folded (one instruction recorded per miniature)`)
 console.log(`  pick limits: ${lm.limited} groups capped from wargear_limit (${lm.counted} options also gained a quantity); no single matching group for ${lm.ambiguous} ambiguous + ${lm.unmatched} cross-group sets`)

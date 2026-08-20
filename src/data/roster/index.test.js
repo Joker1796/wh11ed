@@ -215,10 +215,53 @@ describe('replaced-item links', () => {
     expect(repNames(g)).toEqual(['Cult claws and knife'])
   })
 
+  it('picks the alternative the profile actually holds out of "X or Y"', () => {
+    // "their Autoch-pattern bolter or ion blaster" doesn't say which the model gives up — but the
+    // profile does: its default loadout holds the bolter and not the ion blaster.
+    const u = groupsOf('leagues-of-votann', 'hearthkyn-warriors')
+    const g = u.gear.find((x) => /bolter or ion blaster/i.test(textOf(x)))
+    expect(repNames(g)).toEqual(['Autoch-pattern bolter'])
+  })
+
+  it('leaves "X or Y" alone when the profile holds both', () => {
+    // A Havoc starts with both the autocannon and the lascannon, so which one the swap consumes
+    // is the player's to decide. Guessing would delete a weapon the model still has.
+    const u = groupsOf('chaos-space-marines', 'havocs')
+    const g = u.gear.find((x) => /Havoc autocannon or Havoc lascannon/i.test(textOf(x)))
+    expect(g.rep).toBeUndefined()
+  })
+
+  it('resolves a weapon category to the one weapon of that type', () => {
+    // "1 model's ranged weapon can be replaced with 1 shardlauncher" names no item at all.
+    const u = groupsOf('tyranids', 'termagants')
+    const g = u.gear.find((x) => /ranged weapon/i.test(textOf(x)))
+    expect(repNames(g)).toEqual(['Fleshborer'])
+  })
+
+  it('reads a name appdata spells two ways across its own tables', () => {
+    // The prose says "kustom-mega blasta"; the item table says "Kustom mega-blasta".
+    const u = groupsOf('orks', 'big-mek-in-mega-armour')
+    const g = u.gear.find((x) => /kustom-mega blasta/i.test(textOf(x)))
+    expect(repNames(g)).toEqual(['Kustom mega-blasta'])
+  })
+
+  it('reads a name the prose has prefixed with one adjective', () => {
+    // "plague combi-bolter and bubotic blade" — the item is just "Combi-bolter", and the tail of
+    // the phrase must not be mistaken for the whole of it.
+    const u = groupsOf('death-guard', 'blightlord-terminators')
+    const g = u.gear.find((x) => /plague combi-bolter and bubotic blade/i.test(textOf(x)))
+    expect(repNames(g)).toEqual(['Combi-bolter', 'Bubotic blade'])
+  })
+
+  it('reads the one instruction written without a possessive', () => {
+    const u = groupsOf('aeldari', 'war-walkers')
+    const g = u.gear.find((x) => /equipped with replaced with/i.test(textOf(x)))
+    expect(repNames(g)).toEqual(['Shuriken cannon'])
+  })
+
   it('leaves almost nothing unparsed across the corpus', () => {
-    // The known leftovers are "X or Y" (one item out of two given up — no single set to subtract)
-    // and a handful where appdata's own prose and item table disagree ("absolver" vs "Absolvor").
-    // Both are fail-open by design; the number is here so a parser regression shows up as a jump.
+    // Two leftovers remain, both "X or Y" where the profile holds both alternatives, and both
+    // fail-open by design. The number is here so a parser regression shows up as a jump.
     let withReplaced = 0
     let missing = 0
     for (const { data } of factions) {
@@ -231,7 +274,7 @@ describe('replaced-item links', () => {
       }
     }
     expect(withReplaced).toBeGreaterThan(800)
-    expect(missing).toBeLessThanOrEqual(25)
+    expect(missing).toBeLessThanOrEqual(2)
   })
 })
 
