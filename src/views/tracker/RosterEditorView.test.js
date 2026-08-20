@@ -163,5 +163,29 @@ describe('RosterEditorView', () => {
     expect(w.find('.redu-row').attributes('aria-expanded')).toBe('true')
     QUERY = {}
   })
+
+  // Removing a unit used to mean going back to the add-units browser and pressing "−" there,
+  // which takes the LAST copy — not necessarily the line you were looking at.
+  it('deletes the exact line its trash button belongs to', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Test list')
+    r.faction = 'space-marines'
+    r.units.push({ uid: 'u1', id: 'intercessor-squad', size: 0 })
+    r.units.push({ uid: 'u2', id: 'captain', size: 0, leaderOf: 'u1' })
+    ROSTER_ID = r.id
+
+    const w = mount(RosterEditorView, { global: { stubs } })
+    await waitFor(w, 'Intercessor Squad')
+
+    // Match on the row's own NAME: the Captain's row also mentions the squad, in its
+    // "attached to" tag.
+    const rows = w.findAll('.redu-unit')
+    const squad = rows.find((row) => row.find('.redu-name').text().trim() === 'Intercessor Squad')
+    await squad.find('.redu-del').trigger('click')
+
+    expect(r.units.map((u) => u.uid)).toEqual(['u2'])
+    // …and the Captain that was attached to it isn't left pointing at a unit that has gone.
+    expect(r.units[0].leaderOf).toBeUndefined()
+  })
 })
 

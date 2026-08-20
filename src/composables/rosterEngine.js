@@ -434,10 +434,13 @@ export function addUnitEntry(units, def, unitId, newUid) {
 // Removes the most recently added copy — pairs with the browser's "−" button, which only shows once
 // at least one copy is in the list. Returns the removed entry's uid so a caller holding per-entry UI
 // state (an open accordion) can drop it too.
-export function removeUnitEntry(units, unitId) {
+export function removeUnitEntry(units, unitId, entryUid = null) {
   if (!units) return null
   for (let i = units.length - 1; i >= 0; i--) {
-    if (units[i].id !== unitId) continue
+    // The browser removes "a copy of this datasheet" (the last one added); the editor removes ONE
+    // named line, which is a different thing as soon as the roster holds two of the same unit
+    // configured differently. `entryUid` is what tells the two apart.
+    if (entryUid ? units[i].uid !== entryUid : units[i].id !== unitId) continue
     const [removed] = units.splice(i, 1)
     // A leader attached to the unit that just left would otherwise point at nothing.
     for (const u of units) if (u.leaderOf === removed.uid) delete u.leaderOf

@@ -244,6 +244,25 @@ export function validateRoster(roster, { faction, core } = {}) {
     if (!e || (def && !enhEligible(e, def, granted))) add('enhIneligible', 'error', { uid: u.uid, params: { enh: u.enh } })
   }
 
+  // "No unit (including ATTACHED units) can have more than one enhancement" (core rules, Muster —
+  // src/data/muster.js). Every check above asks about one entry; an attached unit is several
+  // entries that fight as a single unit, so a Leader with an enhancement joining a bodyguard unit
+  // whose other Leader also has one breaks the rule without any single entry being wrong. Grouped
+  // by the unit that is actually on the table: the attach target, or the entry itself.
+  {
+    const byUnit = new Map()
+    for (const u of enhUnits) {
+      const host = u.leaderOf || u.uid
+      if (!byUnit.has(host)) byUnit.set(host, [])
+      byUnit.get(host).push(u)
+    }
+    for (const list of byUnit.values()) {
+      // Flag the extras, not the whole group — the same shape dupEnh uses, so the issue points at
+      // an entry the reader can act on rather than at every part of the attached unit.
+      for (const u of list.slice(1)) add('enhAttachedDup', 'error', { uid: u.uid, params: { enh: u.enh } })
+    }
+  }
+
   // Leader attachments must point at a unit in the roster that this leader can actually join.
   for (const u of units) {
     if (!u.leaderOf) continue

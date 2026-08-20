@@ -496,6 +496,21 @@ describe('addUnitEntry / removeUnitEntry', () => {
     removeUnitEntry(units, 'squad')
     expect(units[0].leaderOf).toBeUndefined()
   })
+
+  // The editor deletes one NAMED line. Two copies of a datasheet are configured separately, so
+  // "remove a copy" (what the browser's − means) would take the wrong one half the time.
+  it('removes the exact entry when given its uid', () => {
+    const units = [{ uid: 'u1', id: 'a', wg: [[0, 1, 1]] }, { uid: 'u2', id: 'a' }, { uid: 'u3', id: 'a' }]
+    expect(removeUnitEntry(units, 'a', 'u1')).toBe('u1')
+    expect(units.map((u) => u.uid)).toEqual(['u2', 'u3'])
+    expect(removeUnitEntry(units, 'a', 'gone')).toBeNull()
+  })
+
+  it('still detaches a Leader when removing by uid', () => {
+    const units = [{ uid: 'u1', id: 'squad' }, { uid: 'u2', id: 'captain', leaderOf: 'u1' }]
+    removeUnitEntry(units, 'squad', 'u1')
+    expect(units[0].leaderOf).toBeUndefined()
+  })
 })
 
 describe('splitInstruction', () => {
