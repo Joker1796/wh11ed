@@ -217,25 +217,43 @@ const { rosterById } = useRosters()
 // and the ordinary roster route must not carry them.
 const gamePi = computed(() => (route.params.pi != null ? Number(route.params.pi) : null))
 const inGame = computed(() => gamePi.value != null)
-const backTo = computed(() => (inGame.value ? '/tracker/game' : '/roster'))
+// A finished game reached from the history list (/tracker/history/:gid/roster/:pi) shows the same
+// screen as a live one, but as a RECORD: the rule switches are what they were when it ended, and
+// there is nothing left to flip.
+const historyId = computed(() => route.params.gid || null)
+const backTo = computed(() => {
+  if (historyId.value) return `/tracker/history/${historyId.value}`
+  return inGame.value ? '/tracker/game' : '/roster'
+})
 const gameRoster = ref(undefined) // undefined = not resolved yet, null = no such attachment
 // shallowRef, not ref: the store hands back an object of REFS, and a deep ref would unwrap them
 // into plain values here — `tracker.value.current.value` would silently be undefined.
 const tracker = shallowRef(null)
-watch(gamePi, async (pi) => {
+
+// The game this route is about — the one in progress, or one out of history.
+const game = computed(() => {
+  if (!tracker.value || !inGame.value) return null
+  return historyId.value
+    ? tracker.value.history.value.find((g) => g.id === historyId.value) || null
+    : tracker.value.current.value
+})
+// The roster is frozen in the snapshot, but what is TRUE about the battle is not, and that is
+// what decides whether a conditional modifier applies.
+const gamePlayer = computed(() => game.value?.players?.[gamePi.value] || null)
+const gameRound = computed(() => game.value?.currentRound || 1)
+// A record is not editable; only a game in progress offers the switches.
+const canSwitch = computed(() => inGame.value && !historyId.value)
+
+watch([gamePi, historyId], async ([pi]) => {
   if (pi == null) { gameRoster.value = undefined; tracker.value = null; return }
   const [{ useTracker }, { rosterFromPlayer }] = await Promise.all([
     import('../../composables/useTracker.js'),
     import('../../composables/rosterGameLink.js'),
   ])
   tracker.value = useTracker()
-  gameRoster.value = rosterFromPlayer(tracker.value.current.value?.players?.[pi])
+  gameRoster.value = rosterFromPlayer(gamePlayer.value)
 }, { immediate: true })
 
-// The live game behind the snapshot: the roster itself is frozen, but what is TRUE about the
-// battle is not, and that is what decides whether a conditional modifier applies.
-const gamePlayer = computed(() => (inGame.value ? tracker.value?.current.value?.players?.[gamePi.value] || null : null))
-const gameRound = computed(() => tracker.value?.current.value?.currentRound || 1)
 const activeFor = (entry) => (inGame.value ? activeConditions(gamePlayer.value, gameRound.value, entry) : null)
 
 const roster = computed(() => (inGame.value ? gameRoster.value || null : rosterById(route.params.id)))
@@ -371,7 +389,7 @@ function statModsFor(entry, sheet) {
 // one unit. Per-unit ones live on the unit's own card (RosterUnitRulesModal) — that is where the
 // number they change is shown, and a wall of per-unit switches here would be unreadable.
 const armySwitches = computed(() => {
-  if (!inGame.value) return []
+  if (!canSwitch.value) return []
   const all = (roster.value?.units || []).flatMap((e) => resolvedFor(e))
   return switchesFor(all, 'army', gamePlayer.value, gameRound.value, null)
 })
@@ -385,7 +403,9 @@ const viewingGameCtx = computed(() => {
   if (!inGame.value || !viewingEntry.value) return null
   return {
     active: activeFor(viewingEntry.value),
-    switches: switchesFor(resolvedFor(viewingEntry.value), 'unit', gamePlayer.value, gameRound.value, viewingEntry.value),
+    switches: canSwitch.value
+      ? switchesFor(resolvedFor(viewingEntry.value), 'unit', gamePlayer.value, gameRound.value, viewingEntry.value)
+      : [],
   }
 })
 function toggleUnitCond(sw) {

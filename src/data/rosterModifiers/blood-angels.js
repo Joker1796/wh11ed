@@ -96,8 +96,10 @@ export default {
             "ru": "вместо +1, если юнит Battle-shocked и совершил чардж"
           },
           "cond": [
-            "blocked-alternate"
-          ]
+            "unit-charged",
+            "unit-battle-shocked"
+          ],
+          "alt": 0
         }
       ],
       "ref": {
@@ -123,13 +125,10 @@ export default {
           "stat": "ability",
           "op": "grant",
           "value": "ANTI: non-MONSTER/VEHICLE 5+",
-          "when": {
-            "en": "the bearer's [PSYCHIC] attacks only",
-            "ru": "только для атак с [PSYCHIC]"
-          },
-          "cond": [
-            "blocked-weapon"
-          ]
+          "when": null,
+          "only": {
+            "tag": "PSYCHIC"
+          }
         }
       ],
       "note": "addresses the [PSYCHIC] attacks, a subset of the weapon rows this format cannot single out"

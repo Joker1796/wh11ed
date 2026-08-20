@@ -132,26 +132,20 @@ export default {
           "stat": "a",
           "op": "add",
           "value": 1,
-          "when": {
-            "en": "excluding Extra Attacks weapons",
-            "ru": "кроме оружия Extra Attacks"
-          },
-          "cond": [
-            "blocked-weapon"
-          ]
+          "when": null,
+          "only": {
+            "notTag": "EXTRA ATTACKS"
+          }
         },
         {
           "on": "melee",
           "stat": "d",
           "op": "add",
           "value": 1,
-          "when": {
-            "en": "excluding Extra Attacks weapons",
-            "ru": "кроме оружия Extra Attacks"
-          },
-          "cond": [
-            "blocked-weapon"
-          ]
+          "when": null,
+          "only": {
+            "notTag": "EXTRA ATTACKS"
+          }
         }
       ],
       "ref": {

@@ -97,8 +97,9 @@ export default {
             "ru": "модели Mounted и Vehicle, пока не Battle-shocked"
           },
           "cond": [
-            "blocked-subset"
-          ]
+            "unit-not-battle-shocked"
+          ],
+          "scope": 0
         }
       ],
       "ref": {

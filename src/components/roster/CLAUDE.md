@@ -632,13 +632,32 @@ at all. Three files, one idea:
   `cond`, a list of condition ids that must all hold, hand-assigned in the same review pass that
   wrote `effects` (161 distinct `when` wordings; there is no grammar to parse, but the STATES a game
   can be in are enumerable). Each id declares its `scope` — who answers it — and its `duration`.
-  65 of the 218 conditional effects are answerable; the rest carry a **sentinel** (`never`,
-  `blocked-subset`, `blocked-weapon`, `blocked-alternate`) that says why not. **A missing `cond` is
-  not "unconditional" — it is unreviewed, and is treated as unproven.**
+  **100 of the 217 conditional effects are answerable**; the rest carry a **sentinel** (`never`,
+  `blocked-subset`, `blocked-weapon`) that says why not. **A missing `cond` is not "unconditional" —
+  it is unreviewed, and is treated as unproven.**
+
+  Two of the original four blockers were removed by giving the effect somewhere to put the
+  restriction instead of the prose, and both are worth knowing before authoring a record:
+  - **`only`** — a target narrower than `on` can express. `{ tag }` / `{ notTag }` match the
+    weapon's printed ability (PSYCHIC, TORRENT, PISTOL, RAPID FIRE — which is exactly what those
+    phrases name), `{ name }` matches the weapon by name; both prefix-matched, since a tag carries
+    its value ("RAPID FIRE 1"). What is left blocked needs a choice the data doesn't record — "one
+    melee weapon, selected at the start of the battle".
+  - **`alt`** — the index, within the same record, of the effect this one REPLACES. While an
+    alternate is in force its base is skipped entirely, so "+1, or +2 instead" can never become
+    +3. An alternate must be conditional (an unconditional one would suppress its base forever)
+    and, where its prose names several characteristics, the record carries one alternate per
+    characteristic. Pinned by `index.test.js`.
+  - A subset naming part of the unit ("Penitent models, while…") still belongs in `scope`, the
+    index of the rule statement that says it — 10 were moved there; 26 remain where the rule's own
+    prose has no statement matching the subset.
 - **`src/composables/rosterGameContext.js`** — the answers. Each id is answered from exactly ONE
-  source: `auto` (the tracker already knows — a called Waaagh! is read from the army-rule
-  tracker's `toggleRounds`), `roster` (the list already says so — a Leader's attachment), or a
-  switch the player flips. An auto condition is deliberately NOT hand-flippable: two sources for
+  source: `auto` (the tracker already knows — a called Waaagh! from the Ork toggle spec, the active
+  Doctrina Imperative from the Adeptus Mechanicus selection spec), `roster` (the list already says
+  so — a Leader's attachment), or a switch the player flips. **Every auto reader checks the faction
+  first**: the specs are built from shared primitives, so `army.toggleRounds` means "Waaagh!" only
+  for Orks. Most trackers record something other than what the conditions ask about (Drukhari count
+  Pain tokens, not the active Combat Drug), so those stay switches. An auto condition is deliberately NOT hand-flippable: two sources for
   one fact is how this card and the tracker card next to it start disagreeing.
 - **`rosterStatMods.js`** takes the resulting set as `active`. A proven effect is applied AND keeps
   its condition text, with `via` naming what proved it — `DatasheetCard` renders that third state
@@ -652,7 +671,9 @@ marked in the vocabulary and never come out true until that changes.
 
 **Where the switches are:** army-wide ones above the unit list in `RosterViewView` (facts about the
 battle); per-unit ones on the unit's own card in `RosterUnitRulesModal` (`gameCtx` prop, `toggle-cond`
-event), next to the number they change. Only conditions the roster's own rules actually name are
+event), next to the number they change. A FINISHED game reached from the history list
+(`/tracker/history/:gid/roster/:pi`) shows the same screen as a record: the recorded context still
+shapes the numbers, but there are no controls. Only conditions the roster's own rules actually name are
 offered, and only ones that can be answered — a switch that changes nothing on screen is worse than
 no switch. State lives in the game (`player.ctx.army` / `player.ctx.units[uid]`, written by
 `useTracker`'s `setArmyCondition`/`setUnitCondition`), never in the roster.

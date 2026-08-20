@@ -281,8 +281,37 @@ export default {
             "ru": "атаки, сила и урон +2 вместо +1, пока носитель Battle-shocked"
           },
           "cond": [
-            "blocked-alternate"
-          ]
+            "unit-battle-shocked"
+          ],
+          "alt": 0
+        },
+        {
+          "on": "melee",
+          "stat": "s",
+          "op": "add",
+          "value": 2,
+          "cond": [
+            "unit-battle-shocked"
+          ],
+          "alt": 1,
+          "when": {
+            "en": "Attacks, Strength and Damage +2 instead, while the bearer is Battle-shocked",
+            "ru": "атаки, сила и урон +2 вместо +1, пока носитель Battle-shocked"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 2,
+          "cond": [
+            "unit-battle-shocked"
+          ],
+          "alt": 2,
+          "when": {
+            "en": "Attacks, Strength and Damage +2 instead, while the bearer is Battle-shocked",
+            "ru": "атаки, сила и урон +2 вместо +1, пока носитель Battle-shocked"
+          }
         }
       ],
       "ref": {

@@ -120,8 +120,9 @@ export default {
             "ru": "отряды Damned, на фазу, после заключения Desperate Pact"
           },
           "cond": [
-            "blocked-subset"
-          ]
+            "unit-desperate-pact"
+          ],
+          "scope": 0
         }
       ],
       "ref": {
@@ -148,8 +149,9 @@ export default {
             "ru": "пехота Heretic Astartes, если активна аугментация Cholinergic Accelerants"
           },
           "cond": [
-            "blocked-subset"
-          ]
+            "augment-cholinergic-accelerants"
+          ],
+          "scope": 0
         },
         {
           "on": "profile",
@@ -161,8 +163,9 @@ export default {
             "ru": "пехота Heretic Astartes, если активна аугментация Hyperadrenal Infusion"
           },
           "cond": [
-            "blocked-subset"
-          ]
+            "augment-hyperadrenal-infusion"
+          ],
+          "scope": 0
         },
         {
           "on": "melee",
@@ -174,8 +177,9 @@ export default {
             "ru": "пехота Heretic Astartes, если активна аугментация Paraneural Reactions"
           },
           "cond": [
-            "blocked-subset"
-          ]
+            "augment-paraneural-reactions"
+          ],
+          "scope": 0
         },
         {
           "on": "profile",
@@ -187,8 +191,9 @@ export default {
             "ru": "пехота Heretic Astartes, если активна аугментация Supracutaneous Chitination"
           },
           "cond": [
-            "blocked-subset"
-          ]
+            "augment-supracutaneous-chitination"
+          ],
+          "scope": 0
         },
         {
           "on": "melee",
@@ -200,8 +205,9 @@ export default {
             "ru": "пехота Heretic Astartes, если активна аугментация Macrotensile Sinews"
           },
           "cond": [
-            "blocked-subset"
-          ]
+            "augment-macrotensile-sinews"
+          ],
+          "scope": 0
         },
         {
           "on": "ranged",
@@ -213,8 +219,9 @@ export default {
             "ru": "пехота Heretic Astartes, если активна аугментация Ophthalmic Enhancement"
           },
           "cond": [
-            "blocked-subset"
-          ]
+            "augment-ophthalmic-enhancement"
+          ],
+          "scope": 0
         }
       ],
       "ref": {
@@ -347,8 +354,9 @@ export default {
             "ru": "отряды Daemon Vehicle, на фазу, после призыва контракта при Dark Pact"
           },
           "cond": [
-            "blocked-subset"
-          ]
+            "unit-dark-pact-invoked"
+          ],
+          "scope": 0
         }
       ],
       "ref": {
@@ -628,8 +636,9 @@ export default {
             "ru": "бросьте D3 и добавьте результат к атакам и силе вместо +1, после Dark Pact без провала теста лидерства"
           },
           "cond": [
-            "blocked-alternate"
-          ]
+            "never"
+          ],
+          "alt": 0
         }
       ],
       "ref": {

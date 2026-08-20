@@ -50,7 +50,7 @@ describe('rosterModifiers data', () => {
 
   it('validates every hand-authored effect', () => {
     for (const { file, e } of allEntries) {
-      for (const eff of e.effects || []) {
+      for (const [i, eff] of (e.effects || []).entries()) {
         const where = `${file} ${e.name}`
         expect(ON.has(eff.on), `${where}: on=${eff.on}`).toBe(true)
         expect(OP.has(eff.op), `${where}: op=${eff.op}`).toBe(true)
@@ -82,6 +82,29 @@ describe('rosterModifiers data', () => {
           }
         } else {
           expect(eff.cond, `${where}: cond on an unconditional effect`).toBeUndefined()
+        }
+        // An "instead" variant names the effect it replaces, by index into this record's own
+        // effects. A dangling or self-referential index would silently suppress the wrong line —
+        // or nothing at all.
+        if (eff.alt !== undefined) {
+          expect(Number.isInteger(eff.alt), `${where}: alt`).toBe(true)
+          expect(eff.alt, `${where}: alt`).toBeGreaterThanOrEqual(0)
+          expect(eff.alt, `${where}: alt out of range`).toBeLessThan(e.effects.length)
+          expect(eff.alt, `${where}: alt points at itself`).not.toBe(i)
+          // An UNCONDITIONAL alternate would suppress its base forever, which is not what
+          // "instead" means — the replacement always depends on something.
+          expect(eff.when, `${where}: unconditional alternate`).not.toBeNull()
+        }
+        // A weapon filter ("Psychic weapons only") — the narrower target `on` cannot express.
+        if (eff.only !== undefined) {
+          const keys = Object.keys(eff.only)
+          expect(keys.length, `${where}: only`).toBeGreaterThan(0)
+          for (const k of keys) {
+            expect(['tag', 'notTag', 'name'], `${where}: only.${k}`).toContain(k)
+            expect(typeof eff.only[k], `${where}: only.${k}`).toBe('string')
+          }
+          // It filters weapon ROWS, so an effect on a model profile has no business carrying one.
+          expect(eff.on, `${where}: only on a profile effect`).not.toBe('profile')
         }
       }
     }

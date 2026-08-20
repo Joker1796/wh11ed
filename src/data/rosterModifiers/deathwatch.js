@@ -101,8 +101,37 @@ export default {
             "ru": "сила, урон и пробитие улучшаются на 2 вместо 1 до конца битвы, если носитель уничтожил модель в ближнем бою"
           },
           "cond": [
-            "blocked-alternate"
-          ]
+            "unit-destroyed-model-melee"
+          ],
+          "alt": 0
+        },
+        {
+          "on": "melee",
+          "stat": "d",
+          "op": "add",
+          "value": 2,
+          "cond": [
+            "unit-destroyed-model-melee"
+          ],
+          "alt": 1,
+          "when": {
+            "en": "Strength, Damage and AP improve by 2 instead, until the end of the battle, once the bearer has destroyed a model in melee",
+            "ru": "сила, урон и пробитие улучшаются на 2 вместо 1 до конца битвы, если носитель уничтожил модель в ближнем бою"
+          }
+        },
+        {
+          "on": "melee",
+          "stat": "ap",
+          "op": "add",
+          "value": -2,
+          "cond": [
+            "unit-destroyed-model-melee"
+          ],
+          "alt": 2,
+          "when": {
+            "en": "Strength, Damage and AP improve by 2 instead, until the end of the battle, once the bearer has destroyed a model in melee",
+            "ru": "сила, урон и пробитие улучшаются на 2 вместо 1 до конца битвы, если носитель уничтожил модель в ближнем бою"
+          }
         }
       ],
       "ref": {

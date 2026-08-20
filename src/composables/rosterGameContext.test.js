@@ -1,13 +1,20 @@
 import { describe, it, expect } from 'vitest'
 import { activeConditions, switchesFor, isAuto } from './rosterGameContext.js'
 
-const player = (ctx, army) => ({ ctx, army })
+const player = (ctx, army, factionSlug = null) => ({ ctx, army, factionSlug })
 
 describe('activeConditions', () => {
   it('holds an army switch only in the round it was flipped', () => {
-    const p = player({ army: { 'imperative-protector': 2 } })
-    expect(activeConditions(p, 2, null).has('imperative-protector')).toBe(true)
-    expect(activeConditions(p, 3, null).has('imperative-protector')).toBe(false)
+    const p = player({ army: { 'tactic-furor': 2 } })
+    expect(activeConditions(p, 2, null).has('tactic-furor')).toBe(true)
+    expect(activeConditions(p, 3, null).has('tactic-furor')).toBe(false)
+  })
+
+  // An auto condition has ONE source. A leftover manual flip — from before that reader existed,
+  // or from another faction's game — must not be able to contradict the tracker.
+  it('ignores a hand-set value for a condition the tracker answers', () => {
+    const p = player({ army: { 'imperative-protector': 1 } }, {}, 'adeptus-mechanicus')
+    expect(activeConditions(p, 1, null).has('imperative-protector')).toBe(false)
   })
 
   // A Combat Drug is chosen for the battle, so it must NOT expire with the round the way an
@@ -26,10 +33,24 @@ describe('activeConditions', () => {
   // The tracker already recorded the round the Waaagh! was called in, so the roster reads it
   // instead of asking again — two switches for one fact is how two cards start disagreeing.
   it('reads a called Waaagh! from the army-rule tracker', () => {
-    const p = player({}, { toggleRounds: [2] })
+    const p = player({}, { toggleRounds: [2] }, 'orks')
     expect(activeConditions(p, 2, null).has('waaagh-active')).toBe(true)
     expect(activeConditions(p, 3, null).has('waaagh-active')).toBe(false)
     expect(isAuto('waaagh-active')).toBe(true)
+  })
+
+  it('reads the active Doctrina Imperative the same way', () => {
+    const p = player({}, { selectionByRound: { 2: 'conqueror' } }, 'adeptus-mechanicus')
+    expect(activeConditions(p, 2, null).has('imperative-conqueror')).toBe(true)
+    expect(activeConditions(p, 2, null).has('imperative-protector')).toBe(false)
+  })
+
+  // The specs are built from shared primitives, so `toggleRounds` means "Waaagh!" only for Orks.
+  // Without the faction check, the next faction to get a toggle spec would inherit it.
+  it('does not read another faction\'s tracker primitive as its own', () => {
+    const p = player({}, { toggleRounds: [1], selectionByRound: { 1: 'conqueror' } }, 'death-guard')
+    expect(activeConditions(p, 1, null).has('waaagh-active')).toBe(false)
+    expect(activeConditions(p, 1, null).has('imperative-conqueror')).toBe(false)
   })
 
   it('answers "is leading a unit" from the list itself', () => {
@@ -62,7 +83,7 @@ describe('switchesFor', () => {
   }]
 
   it('offers one switch per answerable condition at the asked-for scope', () => {
-    const army = switchesFor(records, 'army', player({}, { toggleRounds: [1] }), 1, null)
+    const army = switchesFor(records, 'army', player({}, { toggleRounds: [1] }, 'orks'), 1, null)
     expect(army.map((s) => s.id)).toEqual(['waaagh-active'])
     expect(army[0].on).toBe(true)
     expect(army[0].auto).toBe(true) // read from the tracker, so shown but not flippable here

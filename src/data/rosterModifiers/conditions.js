@@ -22,6 +22,9 @@
 
 // Sentinels — the effect stays an attributed note. Each says WHY, because the reasons have
 // different fixes and three of the four are removable.
+// (There used to be a fourth, `blocked-alternate`, for an "instead" variant with no way to say
+// WHICH effect it replaced. An effect can now name that effect through `alt`, so the blocker is
+// gone; those variants carry their real condition, or `never` when it is out of reach.)
 export const SENTINELS = {
   // No honest switch exists: the condition is resolved per attack, per target, by position on the
   // table, or by a dice roll. This is the one that is meant to stay forever.
@@ -30,12 +33,11 @@ export const SENTINELS = {
   // where the scope machinery would need it as a `scope` index. A switch would over-apply to the
   // whole unit. Fixable by moving the subset into the record's `scope` (a Tier C data change).
   'blocked-subset': { en: 'applies to part of the unit only', ru: 'действует только на часть отряда' },
-  // Restricted to a weapon subset ("the bearer's Psychic weapons only") finer than Tier C's `on`
-  // (ranged / melee / weapon / profile) can address.
+  // Restricted to a weapon subset Tier C's `on` (ranged / melee / weapon / profile) cannot
+  // address. The ones named by a weapon ABILITY (PSYCHIC, TORRENT, PISTOL…) or by name now carry
+  // an `only` filter instead and are no longer blocked; what is left needs a choice the data does
+  // not record — "one melee weapon, selected at the start of the battle".
   'blocked-weapon': { en: 'applies to certain weapons only', ru: 'действует только на часть оружия' },
-  // An "instead" / "additional" variant of another effect. Applying it needs a link to the effect
-  // it replaces, which the record shape has no way to express — without one it would stack.
-  'blocked-alternate': { en: 'replaces another modifier rather than adding to it', ru: 'заменяет другой модификатор, а не складывается с ним' },
 }
 
 // scope — who answers the question:
@@ -62,6 +64,16 @@ export const conditions = {
   // bonus is the army's for the rest of the turn — an army switch, not a per-unit one.
   'cold-fervour': { scope: 'army', duration: 'turn', label: { en: 'Cold Fervour triggered', ru: 'Cold Fervour сработал' } },
   'vision-momentous-brutality': { scope: 'army', duration: 'battle', label: { en: 'Vision of Momentous Brutality chosen', ru: 'Выбран Vision of Momentous Brutality' } },
+  'doctrine-assault': { scope: 'army', duration: 'round', label: { en: 'Assault Doctrine', ru: 'Assault Doctrine' } },
+  'manifestation-imbued': { scope: 'army', duration: 'round', label: { en: 'Imbued Manifestation selected', ru: 'Выбран Imbued Manifestation' } },
+  // Chaos Space Marines, Creations of Bile: "at the start of the battle, select which augmentations
+  // are active … until the end of the battle" — chosen once, so battle-long.
+  'augment-cholinergic-accelerants': { scope: 'army', duration: 'battle', label: { en: 'Cholinergic Accelerants', ru: 'Cholinergic Accelerants' } },
+  'augment-hyperadrenal-infusion': { scope: 'army', duration: 'battle', label: { en: 'Hyperadrenal Infusion', ru: 'Hyperadrenal Infusion' } },
+  'augment-paraneural-reactions': { scope: 'army', duration: 'battle', label: { en: 'Paraneural Reactions', ru: 'Paraneural Reactions' } },
+  'augment-supracutaneous-chitination': { scope: 'army', duration: 'battle', label: { en: 'Supracutaneous Chitination', ru: 'Supracutaneous Chitination' } },
+  'augment-macrotensile-sinews': { scope: 'army', duration: 'battle', label: { en: 'Macrotensile Sinews', ru: 'Macrotensile Sinews' } },
+  'augment-ophthalmic-enhancement': { scope: 'army', duration: 'battle', label: { en: 'Ophthalmic Enhancement', ru: 'Ophthalmic Enhancement' } },
 
   // ── Unit state ──────────────────────────────────────────────────────────────────────────
   'unit-charged': { scope: 'unit', duration: 'turn', label: { en: 'Made a Charge move', ru: 'Совершил Charge' } },
@@ -73,6 +85,12 @@ export const conditions = {
   'unit-selected-command-phase': { scope: 'unit', duration: 'round', label: { en: 'Selected this Command phase', ru: 'Выбран в эту Command phase' } },
   'unit-favoured-champions': { scope: 'unit', duration: 'round', label: { en: "Army's Favoured Champions", ru: 'Favoured Champions армии' } },
   'unit-achieved-boast': { scope: 'unit', duration: 'battle', label: { en: 'Achieved a Boast', ru: 'Выполнил Boast' } },
+  // Not casualty TRACKING (out of scope) — one switch the player flips when it stops being true.
+  'unit-at-starting-strength': { scope: 'unit', duration: 'battle', label: { en: 'At Starting Strength', ru: 'В полном составе' } },
+  'unit-lost-wounds': { scope: 'unit', duration: 'battle', label: { en: 'Has lost wounds', ru: 'Потерял раны' } },
+  'unit-destroyed-model-melee': { scope: 'unit', duration: 'battle', label: { en: 'Destroyed a model in melee', ru: 'Уничтожил модель в мели' } },
+  'unit-dark-pact-invoked': { scope: 'unit', duration: 'phase', label: { en: 'Invoked its Dark Pact contract', ru: 'Призвал контракт Dark Pact' } },
+  'unit-desperate-pact': { scope: 'unit', duration: 'phase', label: { en: 'Made a Desperate Pact', ru: 'Совершил Desperate Pact' } },
   'unit-manoeuvre-swift-as-the-wind': { scope: 'unit', duration: 'phase', label: { en: 'Swift as the Wind performed', ru: 'Выполнен Swift as the Wind' } },
   'surge-unholy-hunger': { scope: 'unit', duration: 'phase', label: { en: 'Unholy Hunger', ru: 'Unholy Hunger' } },
   'surge-unnatural-fortitude': { scope: 'unit', duration: 'phase', label: { en: 'Unnatural Fortitude', ru: 'Unnatural Fortitude' } },
@@ -81,6 +99,7 @@ export const conditions = {
   'order-fix-bayonets': { scope: 'unit', duration: 'round', label: { en: '«Fix Bayonets!»', ru: '«Fix Bayonets!»' } },
   'order-take-aim': { scope: 'unit', duration: 'round', label: { en: '«Take Aim!»', ru: '«Take Aim!»' } },
   'order-duty-and-honour': { scope: 'unit', duration: 'round', label: { en: '«Duty and Honour!»', ru: '«Duty and Honour!»' } },
+  'order-first-rank-fire': { scope: 'unit', duration: 'round', label: { en: '«First Rank, Fire! Second Rank, Fire!»', ru: '«First Rank, Fire! Second Rank, Fire!»' } },
 
   // ── Answered by the list itself ─────────────────────────────────────────────────────────
   // The roster records the attachment, so there is nothing to ask the player.

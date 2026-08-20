@@ -3,9 +3,10 @@ import { mount, flushPromises } from '@vue/test-utils'
 
 let ROSTER_ID = ''
 let GAME_PI // undefined unless the test drives the in-game route
+let GAME_GID // set as well for the history route
 const replace = vi.fn()
 vi.mock('vue-router', () => ({
-  useRoute: () => ({ params: { get id() { return ROSTER_ID }, get pi() { return GAME_PI } } }),
+  useRoute: () => ({ params: { get id() { return ROSTER_ID }, get pi() { return GAME_PI }, get gid() { return GAME_GID } } }),
   useRouter: () => ({ push: vi.fn(), replace }),
   RouterLink: { name: 'RouterLink', props: ['to'], template: '<a :href="to"><slot /></a>' },
 }))
@@ -17,6 +18,7 @@ beforeEach(async () => {
   vi.resetModules()
   replace.mockClear()
   GAME_PI = undefined
+  GAME_GID = undefined
   ;({ useRosters } = await import('../../composables/useRosters.js'))
   ;({ default: RosterViewView } = await import('./RosterViewView.vue'))
 })
@@ -270,6 +272,32 @@ describe('RosterViewView', () => {
 
       expect(w.findAll('.rv-cond').find((c) => c.text().includes('Waaagh!')).classes()).toContain('on')
       expect(w.find('.rvst-mod').exists()).toBe(true)  // a plate the Waaagh! rewrote
+    })
+
+    // A finished game keeps its lists — that is the whole reason the snapshot travels inside the
+    // game — but it is a record: nothing left to switch on or off.
+    it('reads the list out of a finished game, without offering its switches', async () => {
+      const orks = {
+        id: 'r3', name: 'Da Old List', faction: 'orks', detachments: [],
+        battleSize: 'strike-force', units: [{ uid: 'u1', id: 'boyz', size: 0 }],
+      }
+      const t = await startGame(orks, 'orks')
+      t.fireArmyToggle(0, 1)
+      t.finishGame('early')
+      const archived = t.archiveGame()
+      const gid = archived?.id || t.history.value[0].id
+
+      GAME_PI = '0'
+      GAME_GID = gid
+      const w = mount(RosterViewView, { global: { stubs } })
+      await waitFor(w, 'Da Old List')
+
+      expect(w.text()).toContain('Da Old List')
+      expect(w.find('.rv-cond').exists()).toBe(false)      // a record has no controls
+      expect(w.find('.back').attributes('href')).toBe(`/tracker/history/${gid}`)
+      // …but what was true in that game still shaped the numbers it shows.
+      await waitForSelector(w, '.rvst-mod')
+      expect(w.find('.rvst-mod').exists()).toBe(true)
     })
 
     it('leaves for the game when that player fielded no list', async () => {

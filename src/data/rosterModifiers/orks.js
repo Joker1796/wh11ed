@@ -120,8 +120,9 @@ export default {
             "ru": "вместо этого, пока в отряде 10 и более моделей"
           },
           "cond": [
-            "blocked-alternate"
-          ]
+            "never"
+          ],
+          "alt": 0
         }
       ],
       "ref": {
@@ -311,8 +312,9 @@ export default {
             "ru": "вместо этого, если в отряде носителя 10 и более моделей"
           },
           "cond": [
-            "blocked-alternate"
-          ]
+            "never"
+          ],
+          "alt": 0
         }
       ],
       "ref": {
