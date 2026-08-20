@@ -1,4 +1,4 @@
-// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`reviewed` are
+// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`cond`/`reviewed` are
 // HAND-AUTHORED — re-running the generator preserves them. Never edit `sid`/`hash`/`ver`
 // by hand: `hash` is what ties a record to the exact rule wording it was read from, and
 // rewriting it by hand would silence the one signal that says "GW changed this rule".
@@ -28,7 +28,10 @@ export default {
           "when": {
             "en": "while Furor Tactics is the active Mission Tactic",
             "ru": "пока активна тактика Furor"
-          }
+          },
+          "cond": [
+            "tactic-furor"
+          ]
         },
         {
           "on": "weapon",
@@ -38,7 +41,10 @@ export default {
           "when": {
             "en": "while Malleus Tactics is the active Mission Tactic",
             "ru": "пока активна тактика Malleus"
-          }
+          },
+          "cond": [
+            "tactic-malleus"
+          ]
         },
         {
           "on": "weapon",
@@ -48,7 +54,10 @@ export default {
           "when": {
             "en": "while Purgatus Tactics is active, on a Critical Hit",
             "ru": "пока активна тактика Purgatus, при критическом попадании"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ]
     },
@@ -90,7 +99,10 @@ export default {
           "when": {
             "en": "Strength, Damage and AP improve by 2 instead, until the end of the battle, once the bearer has destroyed a model in melee",
             "ru": "сила, урон и пробитие улучшаются на 2 вместо 1 до конца битвы, если носитель уничтожил модель в ближнем бою"
-          }
+          },
+          "cond": [
+            "blocked-alternate"
+          ]
         }
       ],
       "ref": {

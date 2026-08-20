@@ -1,4 +1,4 @@
-// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`reviewed` are
+// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`cond`/`reviewed` are
 // HAND-AUTHORED — re-running the generator preserves them. Never edit `sid`/`hash`/`ver`
 // by hand: `hash` is what ties a record to the exact rule wording it was read from, and
 // rewriting it by hand would silence the one signal that says "GW changed this rule".
@@ -24,7 +24,10 @@ export default {
           "when": {
             "en": "per attack against a unit within 6\"",
             "ru": "за атаку по отряду в пределах 6\""
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -49,7 +52,10 @@ export default {
           "when": {
             "en": "while the unit is Righteous (selected in your Command phase)",
             "ru": "пока отряд Righteous (выбран в вашей фазе командования)"
-          }
+          },
+          "cond": [
+            "unit-righteous"
+          ]
         },
         {
           "on": "profile",
@@ -59,7 +65,10 @@ export default {
           "when": {
             "en": "while the unit is Righteous (selected in your Command phase)",
             "ru": "пока отряд Righteous (выбран в вашей фазе командования)"
-          }
+          },
+          "cond": [
+            "unit-righteous"
+          ]
         },
         {
           "on": "weapon",
@@ -69,7 +78,10 @@ export default {
           "when": {
             "en": "Battle Sisters Squad, Celestian Sacresants and Paragon Warsuits models only, while the unit is Righteous",
             "ru": "только модели Battle Sisters Squad, Celestian Sacresants и Paragon Warsuits, пока отряд Righteous"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         },
         {
           "on": "ranged",
@@ -79,7 +91,10 @@ export default {
           "when": {
             "en": "Battle Sisters Squad, Celestian Sacresants and Paragon Warsuits models only, while the unit is Righteous",
             "ru": "только модели Battle Sisters Squad, Celestian Sacresants и Paragon Warsuits, пока отряд Righteous"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         }
       ],
       "ref": {
@@ -118,7 +133,10 @@ export default {
           "when": {
             "en": "Penitent models, while the Path of the Penitent Vow is active",
             "ru": "модели Penitent, пока активен обет Path of the Penitent"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         },
         {
           "on": "melee",
@@ -128,7 +146,10 @@ export default {
           "when": {
             "en": "Penitent models, while Absolution in Battle is active and the unit made a Charge move",
             "ru": "модели Penitent, пока активен Absolution in Battle и отряд совершил чардж"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         },
         {
           "on": "melee",
@@ -138,7 +159,10 @@ export default {
           "when": {
             "en": "Penitent models, while Absolution in Battle is active and the unit made a Charge move",
             "ru": "модели Penitent, пока активен Absolution in Battle и отряд совершил чардж"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         }
       ],
       "ref": {
@@ -192,7 +216,10 @@ export default {
           "when": {
             "en": "Torrent weapons only, while the bearer is leading the unit",
             "ru": "только оружие Torrent, пока носитель ведёт отряд"
-          }
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
         }
       ],
       "ref": {
@@ -217,7 +244,10 @@ export default {
           "when": {
             "en": "per Miracle dice discarded when the bearer fights, up to 3",
             "ru": "за каждую сброшенную кость чуда при выборе носителя для боя, до 3"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         },
         {
           "on": "melee",
@@ -227,7 +257,10 @@ export default {
           "when": {
             "en": "per Miracle dice discarded when the bearer fights, up to 3",
             "ru": "за каждую сброшенную кость чуда при выборе носителя для боя, до 3"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -259,7 +292,10 @@ export default {
           "when": {
             "en": "instead, plus +1 Damage, while the bearer's unit is Righteous",
             "ru": "вместо этого, плюс +1 к урону, пока отряд носителя Righteous"
-          }
+          },
+          "cond": [
+            "blocked-alternate"
+          ]
         }
       ],
       "ref": {
@@ -305,7 +341,10 @@ export default {
           "when": {
             "en": "Attacks, Strength and Damage +2 instead, if the bearer has lost one or more wounds",
             "ru": "атаки, сила и урон +2 вместо +1, если носитель потерял хотя бы одну рану"
-          }
+          },
+          "cond": [
+            "blocked-alternate"
+          ]
         }
       ],
       "ref": {
@@ -352,7 +391,10 @@ export default {
           "when": {
             "en": "while the bearer is leading the unit",
             "ru": "пока носитель ведёт отряд"
-          }
+          },
+          "cond": [
+            "unit-leading"
+          ]
         }
       ],
       "ref": {

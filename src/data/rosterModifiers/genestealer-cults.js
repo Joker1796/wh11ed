@@ -1,4 +1,4 @@
-// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`reviewed` are
+// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`cond`/`reviewed` are
 // HAND-AUTHORED — re-running the generator preserves them. Never edit `sid`/`hash`/`ver`
 // by hand: `hash` is what ties a record to the exact rule wording it was read from, and
 // rewriting it by hand would silence the one signal that says "GW changed this rule".
@@ -24,7 +24,10 @@ export default {
           "when": {
             "en": "Aberrants, Biophagus and Purestrain Genestealers units, in a Fight phase after making a Charge move",
             "ru": "отряды Aberrants, Biophagus и Purestrain Genestealers, в фазе боя после чарджа"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         }
       ],
       "ref": {
@@ -92,7 +95,10 @@ export default {
           "when": {
             "en": "Mounted and Vehicle models, while not Battle-shocked",
             "ru": "модели Mounted и Vehicle, пока не Battle-shocked"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         }
       ],
       "ref": {

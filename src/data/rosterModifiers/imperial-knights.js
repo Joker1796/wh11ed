@@ -1,4 +1,4 @@
-// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`reviewed` are
+// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`cond`/`reviewed` are
 // HAND-AUTHORED — re-running the generator preserves them. Never edit `sid`/`hash`/`ver`
 // by hand: `hash` is what ties a record to the exact rule wording it was read from, and
 // rewriting it by hand would silence the one signal that says "GW changed this rule".
@@ -24,7 +24,10 @@ export default {
           "when": {
             "en": "if that Quality was chosen for the army's Oath",
             "ru": "если для клятвы армии выбрано соответствующее Качество"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         },
         {
           "on": "profile",
@@ -34,7 +37,10 @@ export default {
           "when": {
             "en": "if that Quality was chosen for the army's Oath",
             "ru": "если для клятвы армии выбрано соответствующее Качество"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         },
         {
           "on": "profile",
@@ -44,7 +50,10 @@ export default {
           "when": {
             "en": "if that Quality was chosen for the army's Oath",
             "ru": "если для клятвы армии выбрано соответствующее Качество"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -87,7 +96,10 @@ export default {
           "when": {
             "en": "while that ARMIGER unit is affected by a Bondsman ability",
             "ru": "пока юнит ARMIGER находится под действием способности Bondsman"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ]
     },

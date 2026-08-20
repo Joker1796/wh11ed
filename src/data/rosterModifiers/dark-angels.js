@@ -1,4 +1,4 @@
-// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`reviewed` are
+// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`cond`/`reviewed` are
 // HAND-AUTHORED — re-running the generator preserves them. Never edit `sid`/`hash`/`ver`
 // by hand: `hash` is what ties a record to the exact rule wording it was read from, and
 // rewriting it by hand would silence the one signal that says "GW changed this rule".
@@ -131,7 +131,10 @@ export default {
           "when": {
             "en": "while the unit is Battle-shocked, its Objective Control becomes 1 instead of 0",
             "ru": "пока отряд Battle-shocked, его Objective Control становится 1 вместо 0"
-          }
+          },
+          "cond": [
+            "unit-battle-shocked"
+          ]
         },
         {
           "on": "profile",
@@ -141,7 +144,10 @@ export default {
           "when": {
             "en": "for one unit you select each Command phase",
             "ru": "для одного отряда, выбираемого в каждой вашей фазе командования"
-          }
+          },
+          "cond": [
+            "unit-selected-command-phase"
+          ]
         }
       ],
       "ref": {
@@ -210,7 +216,10 @@ export default {
           "when": {
             "en": "while the bearer's unit is not Battle-shocked",
             "ru": "пока отряд носителя не Battle-shocked"
-          }
+          },
+          "cond": [
+            "unit-not-battle-shocked"
+          ]
         }
       ],
       "ref": {
@@ -270,7 +279,10 @@ export default {
           "when": {
             "en": "Attacks, Strength and Damage +2 instead, while the bearer is Battle-shocked",
             "ru": "атаки, сила и урон +2 вместо +1, пока носитель Battle-shocked"
-          }
+          },
+          "cond": [
+            "blocked-alternate"
+          ]
         }
       ],
       "ref": {

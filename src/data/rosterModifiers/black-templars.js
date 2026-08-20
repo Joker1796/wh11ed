@@ -1,4 +1,4 @@
-// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`reviewed` are
+// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`cond`/`reviewed` are
 // HAND-AUTHORED — re-running the generator preserves them. Never edit `sid`/`hash`/`ver`
 // by hand: `hash` is what ties a record to the exact rule wording it was read from, and
 // rewriting it by hand would silence the one signal that says "GW changed this rule".
@@ -123,7 +123,10 @@ export default {
           "when": {
             "en": "per allocated melee attack, if the bearer disembarked from a Transport this turn",
             "ru": "за назначенную атаку ближнего боя, если носитель в этом ходу высадился из транспорта"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -152,7 +155,10 @@ export default {
           "when": {
             "en": "if Vision of Momentous Brutality is among the three abilities chosen at the start of the first battle round",
             "ru": "если Vision of Momentous Brutality — одна из трёх способностей, выбранных в начале первого раунда"
-          }
+          },
+          "cond": [
+            "vision-momentous-brutality"
+          ]
         },
         {
           "on": "melee",
@@ -162,7 +168,10 @@ export default {
           "when": {
             "en": "Instrument of the God-Emperor, once per battle, while engaged with an enemy Character",
             "ru": "Instrument of the God-Emperor, раз за битву, пока модель в бою с вражеским Character"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ]
     },

@@ -1,9 +1,10 @@
 import { describe, it, expect } from 'vitest'
 import { usableEntries } from './index.js'
+import { conditions, SENTINELS, isSentinel, isAnswerable } from './conditions.js'
 
 // Every faction file in this directory, read eagerly — this is a test, not the app (the app
 // loads one faction at a time; see index.js).
-const files = import.meta.glob(['./*.js', '!./index.js', '!./*.test.js'], { eager: true, import: 'default' })
+const files = import.meta.glob(['./*.js', '!./index.js', '!./conditions.js', '!./*.test.js'], { eager: true, import: 'default' })
 
 const ON = new Set(['profile', 'ranged', 'melee', 'weapon', 'unit'])
 const OP = new Set(['add', 'set', 'improve', 'grant'])
@@ -73,9 +74,51 @@ describe('rosterModifiers data', () => {
           expect(typeof eff.when?.ru, `${where}: when.ru`).toBe('string')
           expect(eff.when.en.length, `${where}: when.en`).toBeGreaterThan(0)
           expect(eff.when.ru.length, `${where}: when.ru`).toBeGreaterThan(0)
+          // …and its machine-readable half, so "cannot be automated" and "nobody has looked at
+          // this yet" can never look the same. A sentinel IS an answer; a missing `cond` is not.
+          expect(Array.isArray(eff.cond) && eff.cond.length > 0, `${where}: cond`).toBe(true)
+          for (const id of eff.cond) {
+            expect(isSentinel(id) || !!conditions[id], `${where}: unknown condition "${id}"`).toBe(true)
+          }
+        } else {
+          expect(eff.cond, `${where}: cond on an unconditional effect`).toBeUndefined()
         }
       }
     }
+  })
+
+  // The vocabulary is only worth having if it stays tied to the corpus: an id nothing uses is
+  // dead weight that reads as supported, and a label missing a locale would render blank on the
+  // switch that turns the effect on.
+  it('keeps the condition vocabulary in step with the records that use it', () => {
+    const used = new Set()
+    for (const { e } of allEntries) for (const eff of e.effects || []) for (const id of eff.cond || []) used.add(id)
+    for (const id of Object.keys(conditions)) {
+      expect(used.has(id), `condition "${id}" is defined but no effect uses it`).toBe(true)
+    }
+    for (const [id, c] of Object.entries(conditions)) {
+      expect(['army', 'unit', 'roster', 'phase'], `${id}.scope`).toContain(c.scope)
+      expect(['phase', 'turn', 'round', 'battle'], `${id}.duration`).toContain(c.duration)
+      expect(c.label?.en?.length, `${id}.label.en`).toBeGreaterThan(0)
+      expect(c.label?.ru?.length, `${id}.label.ru`).toBeGreaterThan(0)
+    }
+    for (const [id, s] of Object.entries(SENTINELS)) {
+      expect(s.en?.length, `${id}.en`).toBeGreaterThan(0)
+      expect(s.ru?.length, `${id}.ru`).toBeGreaterThan(0)
+    }
+  })
+
+  it('answers only what it can actually answer', () => {
+    expect(isAnswerable(['waaagh-active'])).toBe(true)
+    expect(isAnswerable(['waaagh-active', 'unit-charged'])).toBe(true)
+    expect(isAnswerable(['never'])).toBe(false)
+    expect(isAnswerable(['blocked-subset'])).toBe(false)
+    // One un-answerable half is enough to keep the whole effect a note — the phase the game is
+    // in is not tracked yet, so a Waaagh!-in-the-Shooting-phase bonus must not be applied.
+    expect(isAnswerable(['waaagh-active', 'phase-shooting'])).toBe(false)
+    expect(isAnswerable(['made-this-up'])).toBe(false)
+    expect(isAnswerable([])).toBe(false)
+    expect(isAnswerable(undefined)).toBe(false)
   })
 
   it('exposes only reviewed records that actually carry an effect', () => {

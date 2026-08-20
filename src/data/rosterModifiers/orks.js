@@ -1,4 +1,4 @@
-// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`reviewed` are
+// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`cond`/`reviewed` are
 // HAND-AUTHORED — re-running the generator preserves them. Never edit `sid`/`hash`/`ver`
 // by hand: `hash` is what ties a record to the exact rule wording it was read from, and
 // rewriting it by hand would silence the one signal that says "GW changed this rule".
@@ -24,7 +24,10 @@ export default {
           "when": {
             "en": "while the Waaagh! is active for your army",
             "ru": "пока для вашей армии активен Waaagh!"
-          }
+          },
+          "cond": [
+            "waaagh-active"
+          ]
         },
         {
           "on": "melee",
@@ -34,7 +37,10 @@ export default {
           "when": {
             "en": "while the Waaagh! is active for your army",
             "ru": "пока для вашей армии активен Waaagh!"
-          }
+          },
+          "cond": [
+            "waaagh-active"
+          ]
         },
         {
           "on": "profile",
@@ -44,7 +50,10 @@ export default {
           "when": {
             "en": "while the Waaagh! is active for your army",
             "ru": "пока для вашей армии активен Waaagh!"
-          }
+          },
+          "cond": [
+            "waaagh-active"
+          ]
         }
       ],
       "ref": {
@@ -68,7 +77,10 @@ export default {
           "when": {
             "en": "Beast Snagga models only, per attack against your Prey",
             "ru": "только модели Beast Snagga, за атаку по вашей Добыче"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -93,7 +105,10 @@ export default {
           "when": {
             "en": "against any attack targeting the unit",
             "ru": "против любой атаки по отряду"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         },
         {
           "on": "profile",
@@ -103,7 +118,10 @@ export default {
           "when": {
             "en": "instead, while the unit contains 10 or more models",
             "ru": "вместо этого, пока в отряде 10 и более моделей"
-          }
+          },
+          "cond": [
+            "blocked-alternate"
+          ]
         }
       ],
       "ref": {
@@ -141,7 +159,11 @@ export default {
           "when": {
             "en": "in your Shooting phase, while the Waaagh! is active",
             "ru": "в вашей фазе стрельбы, пока активен Waaagh!"
-          }
+          },
+          "cond": [
+            "waaagh-active",
+            "phase-shooting"
+          ]
         }
       ]
     },
@@ -220,7 +242,10 @@ export default {
           "when": {
             "en": "on a D3 roll of 1 at the start of the battle (Bionik Legs)",
             "ru": "при выпавшем 1 на D3 в начале битвы (Bionik Legs)"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         },
         {
           "on": "melee",
@@ -230,7 +255,10 @@ export default {
           "when": {
             "en": "on a D3 roll of 2 at the start of the battle (Bionik Arms)",
             "ru": "при выпавшем 2 на D3 в начале битвы (Bionik Arms)"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         },
         {
           "on": "melee",
@@ -240,7 +268,10 @@ export default {
           "when": {
             "en": "on a D3 roll of 3 at the start of the battle (Bionik Bonce)",
             "ru": "при выпавшем 3 на D3 в начале битвы (Bionik Bonce)"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -265,7 +296,10 @@ export default {
           "when": {
             "en": "while resolving the bearer's own attacks",
             "ru": "при разрешении атак самого носителя"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         },
         {
           "on": "melee",
@@ -275,7 +309,10 @@ export default {
           "when": {
             "en": "instead, if the bearer's unit contains 10 or more models",
             "ru": "вместо этого, если в отряде носителя 10 и более моделей"
-          }
+          },
+          "cond": [
+            "blocked-alternate"
+          ]
         }
       ],
       "ref": {
@@ -305,7 +342,10 @@ export default {
           "when": {
             "en": "while a BIG MEK model is embarked within this unit",
             "ru": "пока внутри юнита находится модель BIG MEK"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         },
         {
           "scope": 1,
@@ -316,7 +356,10 @@ export default {
           "when": {
             "en": "while a BIG MEK is embarked and the Waaagh! is active",
             "ru": "пока внутри юнита BIG MEK и активен Waaagh!"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "note": "both bullets hang on the embarked Big Mek, so neither rewrites a printed tag"
@@ -364,7 +407,10 @@ export default {
           "when": {
             "en": "while the bearer is leading a unit",
             "ru": "пока носитель ведёт юнит"
-          }
+          },
+          "cond": [
+            "unit-leading"
+          ]
         }
       ]
     }

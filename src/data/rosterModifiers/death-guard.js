@@ -1,4 +1,4 @@
-// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`reviewed` are
+// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`cond`/`reviewed` are
 // HAND-AUTHORED — re-running the generator preserves them. Never edit `sid`/`hash`/`ver`
 // by hand: `hash` is what ties a record to the exact rule wording it was read from, and
 // rewriting it by hand would silence the one signal that says "GW changed this rule".
@@ -93,7 +93,10 @@ export default {
           "when": {
             "en": "while the bearer is leading a unit",
             "ru": "пока носитель ведёт юнит"
-          }
+          },
+          "cond": [
+            "unit-leading"
+          ]
         }
       ]
     },
@@ -118,7 +121,10 @@ export default {
           "when": {
             "en": "the bearer's Plague Wind only, from the start of your Shooting phase until the end of it",
             "ru": "только для Plague Wind носителя, с начала фазы стрельбы до её конца"
-          }
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
         }
       ]
     },
@@ -139,7 +145,10 @@ export default {
           "when": {
             "en": "the bearer's Plague Wind weapon only, while leading a Poxwalkers unit",
             "ru": "только оружие носителя Plague Wind, пока он ведёт отряд Poxwalkers"
-          }
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
         }
       ],
       "ref": {
@@ -164,7 +173,10 @@ export default {
           "when": {
             "en": "Poxwalkers models in the led unit only",
             "ru": "только модели Poxwalkers в ведомом отряде"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         }
       ],
       "ref": {
@@ -189,7 +201,10 @@ export default {
           "when": {
             "en": "models in the led Poxwalkers unit",
             "ru": "модели ведомого отряда Poxwalkers"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         }
       ],
       "ref": {

@@ -1,4 +1,4 @@
-// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`reviewed` are
+// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`cond`/`reviewed` are
 // HAND-AUTHORED — re-running the generator preserves them. Never edit `sid`/`hash`/`ver`
 // by hand: `hash` is what ties a record to the exact rule wording it was read from, and
 // rewriting it by hand would silence the one signal that says "GW changed this rule".
@@ -98,7 +98,10 @@ export default {
           "when": {
             "en": "while Adrenalight is the active Combat Drug",
             "ru": "пока активен боевой наркотик Adrenalight"
-          }
+          },
+          "cond": [
+            "drug-adrenalight"
+          ]
         },
         {
           "on": "profile",
@@ -108,7 +111,10 @@ export default {
           "when": {
             "en": "while Hypex is the active Combat Drug",
             "ru": "пока активен боевой наркотик Hypex"
-          }
+          },
+          "cond": [
+            "drug-hypex"
+          ]
         },
         {
           "on": "melee",
@@ -118,7 +124,10 @@ export default {
           "when": {
             "en": "while Serpentin is the active Combat Drug",
             "ru": "пока активен боевой наркотик Serpentin"
-          }
+          },
+          "cond": [
+            "drug-serpentin"
+          ]
         },
         {
           "on": "profile",
@@ -128,7 +137,10 @@ export default {
           "when": {
             "en": "while Painbringer is the active Combat Drug",
             "ru": "пока активен боевой наркотик Painbringer"
-          }
+          },
+          "cond": [
+            "drug-painbringer"
+          ]
         },
         {
           "on": "melee",
@@ -138,7 +150,10 @@ export default {
           "when": {
             "en": "while Grave Lotus is the active Combat Drug",
             "ru": "пока активен боевой наркотик Grave Lotus"
-          }
+          },
+          "cond": [
+            "drug-grave-lotus"
+          ]
         },
         {
           "on": "profile",
@@ -148,7 +163,10 @@ export default {
           "when": {
             "en": "while Splintermind is the active Combat Drug",
             "ru": "пока активен боевой наркотик Splintermind"
-          }
+          },
+          "cond": [
+            "drug-splintermind"
+          ]
         },
         {
           "on": "ranged",
@@ -158,7 +176,10 @@ export default {
           "when": {
             "en": "while Splintermind is the active Combat Drug",
             "ru": "пока активен боевой наркотик Splintermind"
-          }
+          },
+          "cond": [
+            "drug-splintermind"
+          ]
         }
       ],
       "ref": {
@@ -249,7 +270,10 @@ export default {
           "when": {
             "en": "while the bearer is leading a unit",
             "ru": "пока носитель ведёт отряд"
-          }
+          },
+          "cond": [
+            "unit-leading"
+          ]
         },
         {
           "on": "profile",
@@ -259,7 +283,10 @@ export default {
           "when": {
             "en": "while the bearer is leading a unit",
             "ru": "пока носитель ведёт отряд"
-          }
+          },
+          "cond": [
+            "unit-leading"
+          ]
         }
       ],
       "ref": {
@@ -298,7 +325,10 @@ export default {
           "when": {
             "en": "Attacks and AP improve by 2 instead, for the phase, by spending 1 Pain token when the unit fights",
             "ru": "атаки и пробитие улучшаются на 2 вместо 1 на фазу, если потратить 1 жетон боли при выборе отряда для боя"
-          }
+          },
+          "cond": [
+            "blocked-alternate"
+          ]
         }
       ],
       "ref": {

@@ -1,4 +1,4 @@
-// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`reviewed` are
+// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`cond`/`reviewed` are
 // HAND-AUTHORED — re-running the generator preserves them. Never edit `sid`/`hash`/`ver`
 // by hand: `hash` is what ties a record to the exact rule wording it was read from, and
 // rewriting it by hand would silence the one signal that says "GW changed this rule".
@@ -40,7 +40,10 @@ export default {
           "when": {
             "en": "per melee attack, while the unit is within Synapse Range of your army",
             "ru": "за атаку ближнего боя, пока отряд в радиусе синапса вашей армии"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -64,7 +67,10 @@ export default {
           "when": {
             "en": "per melee attack, while the unit is within Synapse Range of your army",
             "ru": "за атаку ближнего боя, пока отряд в радиусе синапса вашей армии"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -88,7 +94,10 @@ export default {
           "when": {
             "en": "Monster units at their Starting Strength and not Battle-shocked",
             "ru": "отряды Monster в полной численности и не Battle-shocked"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         }
       ],
       "ref": {
@@ -113,7 +122,10 @@ export default {
           "when": {
             "en": "while the Synaptic Augmentation Imperative is active and the unit is within Synapse Range",
             "ru": "пока активен императив Synaptic Augmentation и отряд в радиусе синапса"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -145,7 +157,10 @@ export default {
           "when": {
             "en": "until the end of the battle, after the unit first destroys an enemy in the Fight phase while the bearer is within 6\" of a Harvester unit",
             "ru": "до конца битвы, после того как отряд впервые уничтожит врага в фазе боя, пока носитель в 6\" от отряда Harvester"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -242,7 +257,10 @@ export default {
           "when": {
             "en": "the bearer's psychic weapons only",
             "ru": "только психическое оружие носителя"
-          }
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
         },
         {
           "on": "weapon",
@@ -252,7 +270,10 @@ export default {
           "when": {
             "en": "the bearer's psychic weapons only",
             "ru": "только психическое оружие носителя"
-          }
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
         }
       ],
       "ref": {
@@ -299,7 +320,10 @@ export default {
           "when": {
             "en": "per attack that scores a Critical Wound",
             "ru": "за атаку с критическим ранением"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {

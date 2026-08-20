@@ -1,4 +1,4 @@
-// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`reviewed` are
+// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`cond`/`reviewed` are
 // HAND-AUTHORED — re-running the generator preserves them. Never edit `sid`/`hash`/`ver`
 // by hand: `hash` is what ties a record to the exact rule wording it was read from, and
 // rewriting it by hand would silence the one signal that says "GW changed this rule".
@@ -88,7 +88,10 @@ export default {
           "when": {
             "en": "for the phase, after the unit performs the Swift as the Wind Agile Manoeuvre",
             "ru": "на фазу, после того как отряд выполнил манёвр Swift as the Wind"
-          }
+          },
+          "cond": [
+            "unit-manoeuvre-swift-as-the-wind"
+          ]
         }
       ],
       "ref": {
@@ -135,7 +138,10 @@ export default {
           "when": {
             "en": "while the bearer is leading an Aspect Warriors unit",
             "ru": "пока носитель ведёт отряд Aspect Warriors"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -234,7 +240,10 @@ export default {
           "when": {
             "en": "ranged Psychic weapons only",
             "ru": "только дальнобойное оружие с [PSYCHIC]"
-          }
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
         }
       ],
       "note": "the +12\" is real and unconditional, but it applies to a SUBSET of the weapon table this format cannot address, so it annotates instead of rewriting every range"
@@ -285,7 +294,10 @@ export default {
           "when": {
             "en": "Infantry models of one Wraith Construct unit you select each Command phase",
             "ru": "модели Infantry одного отряда Wraith Construct, выбираемого в каждой фазе командования"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         },
         {
           "on": "profile",
@@ -295,7 +307,10 @@ export default {
           "when": {
             "en": "Monster models of that same selected unit",
             "ru": "модели Monster того же выбранного отряда"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         }
       ],
       "ref": {
@@ -320,7 +335,10 @@ export default {
           "when": {
             "en": "the bearer's ranged Psychic weapons only",
             "ru": "только стрелковое психическое оружие носителя"
-          }
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
         }
       ],
       "ref": {

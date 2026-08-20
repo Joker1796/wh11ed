@@ -1,4 +1,4 @@
-// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`reviewed` are
+// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`cond`/`reviewed` are
 // HAND-AUTHORED — re-running the generator preserves them. Never edit `sid`/`hash`/`ver`
 // by hand: `hash` is what ties a record to the exact rule wording it was read from, and
 // rewriting it by hand would silence the one signal that says "GW changed this rule".
@@ -85,7 +85,10 @@ export default {
           "when": {
             "en": "while the unit is within a terrain feature, was not set up this turn and no model moved more than 3\"",
             "ru": "пока юнит находится в элементе ландшафта, не был выставлен в этом ходу и ни одна модель не прошла больше 3\""
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ]
     },
@@ -106,7 +109,10 @@ export default {
           "when": {
             "en": "per ranged attack against a unit within 12\"",
             "ru": "за стрелковую атаку по отряду в пределах 12\""
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -131,7 +137,10 @@ export default {
           "when": {
             "en": "per ranged attack against a unit within 12\"",
             "ru": "за стрелковую атаку по отряду в пределах 12\""
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -160,7 +169,10 @@ export default {
           "when": {
             "en": "each time that TANK ACE unit Advances, until the end of the phase (replacing the Advance roll)",
             "ru": "каждый раз, когда юнит TANK ACE совершает Advance, до конца фазы (вместо броска Advance)"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ]
     },
@@ -181,7 +193,10 @@ export default {
           "when": {
             "en": "per melee attack against a unit within range of an objective marker",
             "ru": "за атаку ближнего боя по отряду в радиусе маркера цели"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -213,7 +228,10 @@ export default {
           "when": {
             "en": "once per battle, for the phase, the bonus also applies to the other models in the bearer's unit",
             "ru": "один раз за битву, на фазу, бонус получают и остальные модели отряда носителя"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -245,7 +263,10 @@ export default {
           "when": {
             "en": "once per battle, for the phase, the bonus also applies to the other models in the bearer's unit",
             "ru": "один раз за битву, на фазу, бонус получают и остальные модели отряда носителя"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -271,7 +292,10 @@ export default {
           "when": {
             "en": "the unit's bolt rifle weapons only",
             "ru": "только для оружия bolt rifle в этом юните"
-          }
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
         }
       ],
       "note": "names one weapon by name, a subset of the table this format cannot single out"
@@ -333,7 +357,10 @@ export default {
           "when": {
             "en": "while the bearer is leading a unit",
             "ru": "пока носитель ведёт отряд"
-          }
+          },
+          "cond": [
+            "unit-leading"
+          ]
         }
       ]
     },
@@ -368,7 +395,10 @@ export default {
           "when": {
             "en": "Attacks and Strength +2 instead, while the bearer is under the effects of the Assault Doctrine",
             "ru": "атаки и сила +2 вместо +1, пока на носителя действует Assault Doctrine"
-          }
+          },
+          "cond": [
+            "blocked-alternate"
+          ]
         }
       ],
       "ref": {
@@ -400,7 +430,10 @@ export default {
           "when": {
             "en": "once per battle, for the phase, the bonus also applies to the other models in the bearer's unit",
             "ru": "один раз за битву, на фазу, бонус получают и остальные модели отряда носителя"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -432,7 +465,10 @@ export default {
           "when": {
             "en": "once per battle, for the phase, the bonus also applies to the other models in the bearer's unit",
             "ru": "один раз за битву, на фазу, бонус получают и остальные модели отряда носителя"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -479,7 +515,10 @@ export default {
           "when": {
             "en": "Torrent weapons of models in the bearer's unit only",
             "ru": "только оружие Torrent моделей в отряде носителя"
-          }
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
         }
       ],
       "ref": {
@@ -562,7 +601,10 @@ export default {
           "when": {
             "en": "Attacks and Strength +2 instead, while the bearer is under the effects of the Assault Doctrine",
             "ru": "атаки и сила +2 вместо +1, пока на носителя действует Assault Doctrine"
-          }
+          },
+          "cond": [
+            "blocked-alternate"
+          ]
         }
       ],
       "ref": {
@@ -594,7 +636,10 @@ export default {
           "when": {
             "en": "once per battle, for the phase, the bonus also applies to the other models in the bearer's unit",
             "ru": "один раз за битву, на фазу, бонус получают и остальные модели отряда носителя"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -626,7 +671,10 @@ export default {
           "when": {
             "en": "once per battle, for the phase, the bonus also applies to the other models in the bearer's unit",
             "ru": "один раз за битву, на фазу, бонус получают и остальные модели отряда носителя"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -709,7 +757,10 @@ export default {
           "when": {
             "en": "Strength and AP improve by 2 instead, until the end of the turn, after the bearer ends a Charge move",
             "ru": "сила и пробитие улучшаются на 2 вместо 1 до конца хода, после того как носитель завершил чардж"
-          }
+          },
+          "cond": [
+            "blocked-alternate"
+          ]
         }
       ],
       "ref": {
@@ -748,7 +799,10 @@ export default {
           "when": {
             "en": "Strength and AP improve by 2 instead, until the end of the turn, after the bearer ends a Charge move",
             "ru": "сила и пробитие улучшаются на 2 вместо 1 до конца хода, после того как носитель завершил чардж"
-          }
+          },
+          "cond": [
+            "blocked-alternate"
+          ]
         }
       ],
       "ref": {

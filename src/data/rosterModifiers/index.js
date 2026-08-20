@@ -8,7 +8,9 @@
 // hand-authored faction files. Delete the directory and `loadRosterModifiers` resolves to null
 // for every faction, which the overlay treats as "no numeric modifiers" — the card falls back to
 // Tiers A+B, attributed prose with printed numbers, and stays correct.
-const loaders = import.meta.glob(['./*.js', '!./index.js', '!./*.test.js'], { import: 'default' })
+// conditions.js is the shared `cond` vocabulary, not a faction — excluded so the glob keeps
+// meaning "one entry per faction".
+const loaders = import.meta.glob(['./*.js', '!./index.js', '!./conditions.js', '!./*.test.js'], { import: 'default' })
 
 // One faction's records, or null when the faction has no file (or the layer was removed).
 export async function loadRosterModifiers(slug) {

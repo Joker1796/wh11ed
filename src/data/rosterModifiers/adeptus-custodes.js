@@ -1,4 +1,4 @@
-// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`reviewed` are
+// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`cond`/`reviewed` are
 // HAND-AUTHORED — re-running the generator preserves them. Never edit `sid`/`hash`/`ver`
 // by hand: `hash` is what ties a record to the exact rule wording it was read from, and
 // rewriting it by hand would silence the one signal that says "GW changed this rule".
@@ -68,7 +68,10 @@ export default {
           "when": {
             "en": "Martial Ka'tah models, while that bullet of Martial Mastery is the one selected this battle round",
             "ru": "модели с Martial Ka'tah, пока в этом раунде выбран соответствующий пункт Martial Mastery"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         }
       ],
       "ref": {
@@ -93,7 +96,10 @@ export default {
           "when": {
             "en": "Vehicle units at Starting Strength, excluding Aircraft and Battle-shocked units",
             "ru": "отряды Vehicle в полной численности, кроме Aircraft и Battle-shocked"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         }
       ],
       "ref": {
@@ -161,7 +167,10 @@ export default {
           "when": {
             "en": "once per battle, until the end of the turn, the bearer's Objective Control is tripled",
             "ru": "один раз за битву, до конца хода, Objective Control носителя утраивается"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -222,7 +231,10 @@ export default {
           "when": {
             "en": "for the Fight phase, per 5 enemy models within 6\" of the bearer (rounding down)",
             "ru": "на фазу боя, за каждые 5 вражеских моделей в 6\" от носителя (с округлением вниз)"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -282,7 +294,10 @@ export default {
           "when": {
             "en": "Attacks, Strength and Damage +2 instead, while within Engagement Range of a Battle-shocked enemy Psyker unit",
             "ru": "атаки, сила и урон +2 вместо +1, пока носитель в радиусе боя с Battle-shocked вражеским отрядом Psyker"
-          }
+          },
+          "cond": [
+            "blocked-alternate"
+          ]
         }
       ],
       "ref": {

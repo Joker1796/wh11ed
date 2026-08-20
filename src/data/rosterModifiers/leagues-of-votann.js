@@ -1,4 +1,4 @@
-// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`reviewed` are
+// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`cond`/`reviewed` are
 // HAND-AUTHORED — re-running the generator preserves them. Never edit `sid`/`hash`/`ver`
 // by hand: `hash` is what ties a record to the exact rule wording it was read from, and
 // rewriting it by hand would silence the one signal that says "GW changed this rule".
@@ -50,7 +50,10 @@ export default {
           "when": {
             "en": "Kâhl, Einhyr Hearthguard and Ûthar units only, per attack against the closest eligible target or a target in Engagement Range",
             "ru": "только отряды Kâhl, Einhyr Hearthguard и Ûthar, за атаку по ближайшей допустимой цели или цели в радиусе боя"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         }
       ],
       "ref": {
@@ -167,7 +170,10 @@ export default {
           "when": {
             "en": "while the bearer is leading that unit",
             "ru": "пока носитель ведёт этот отряд"
-          }
+          },
+          "cond": [
+            "unit-leading"
+          ]
         }
       ],
       "ref": {
