@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url'
 import rosterCore from './core.js'
 import rosterItems from './items.js'
 import { loadRosterFaction } from './index.js'
-import { optionItems } from '../../composables/rosterEngine.js'
+import { optionItems, optionLabel, unitWargearPoints } from '../../composables/rosterEngine.js'
 
 const DIR = path.dirname(fileURLToPath(import.meta.url))
 const files = fs.readdirSync(DIR).filter((f) => f.endsWith('.js') && !['index.js', 'core.js', 'items.js', 'index.test.js'].includes(f))
@@ -280,5 +280,37 @@ describe('keyword-defined leader attachments', () => {
         expect(new Set(keys).size, `${slug}/${u.id}`).toBe(keys.length)
       }
     }
+  })
+})
+
+describe('per-option quantities', () => {
+  // "This model's 2 starcannons can be replaced with 2 bright lances" — one pick, two weapons.
+  // appdata's wargear_option knows only the item, and loadout_choice records the model's TOTAL of
+  // that weapon rather than this option's share, so the prose is the only source of the number.
+  const gearOf = (slug, id) => factions.find((f) => f.slug === slug).data.units.find((u) => u.id === id).gear
+  const headOf = (g) => (rosterItems.texts[g.t] || '').split('\n')[0]
+
+  it('reads the quantity an option grants', () => {
+    const g = gearOf('aeldari', 'crimson-hunter').find((x) => /bright lances/.test(headOf(x)))
+    expect(optionItems(g.o[0])[0][1]).toBe(2)
+    expect(optionLabel(g.o[0], rosterItems.items)).toBe('2× Bright lance')
+  })
+
+  it('does NOT read an allowance as a quantity', () => {
+    // "up to 2 seeker missiles" / "up to 4 big shootas" say how many separate picks are allowed,
+    // each granting one item. Read as a set, one pick would arm the model with the whole allowance.
+    const seeker = gearOf('tau-empire', 'devilfish').find((x) => /up to 2 seeker missiles/i.test(headOf(x)))
+    expect(optionItems(seeker.o[0])[0][1]).toBe(1)
+    const shoota = gearOf('orks', 'battlewagon').find((x) => /up to 4 big shootas/i.test(headOf(x)))
+    expect(optionItems(shoota.o[0])[0][1]).toBe(1)
+  })
+
+  it('never prices the quantity — a paid swap costs what appdata charges for it', () => {
+    // Forgefiend: "2 Hades autocannons can be replaced with 2 ectoplasma cannons", 5 pts for the
+    // swap as a whole. unitWargearPoints multiplies by the number of PICKS, never by the count.
+    const gear = gearOf('chaos-space-marines', 'forgefiend')
+    const gi = gear.findIndex((g) => /2 ectoplasma cannons/i.test(headOf(g)))
+    expect(optionItems(gear[gi].o[0])[0][1]).toBe(2)
+    expect(unitWargearPoints({ gear }, { wg: [[gi, 0, 1]] })).toBe(gear[gi].o[0][1])
   })
 })
