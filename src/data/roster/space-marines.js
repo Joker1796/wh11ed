@@ -53,6 +53,10 @@ export default {
           "type": "leader"
         },
         {
+          "to": "sternguard-veteran-squad",
+          "type": "leader"
+        },
+        {
           "to": "tactical-squad",
           "type": "leader"
         }
@@ -265,6 +269,10 @@ export default {
           "type": "support"
         },
         {
+          "to": "sternguard-veteran-squad",
+          "type": "support"
+        },
+        {
           "to": "tactical-squad",
           "type": "support"
         },
@@ -355,6 +363,10 @@ export default {
       ],
       "linked": 1,
       "leads": [
+        {
+          "to": "terminator-squad",
+          "type": "support"
+        },
         {
           "to": "terminator-assault-squad",
           "type": "support"
@@ -495,6 +507,10 @@ export default {
           "type": "support"
         },
         {
+          "to": "sternguard-veteran-squad",
+          "type": "support"
+        },
+        {
           "to": "tactical-squad",
           "type": "support"
         },
@@ -572,6 +588,14 @@ export default {
       "leads": [
         {
           "to": "aggressor-squad",
+          "type": "support"
+        },
+        {
+          "to": "eradicator-squad",
+          "type": "support"
+        },
+        {
+          "to": "eradicator-squad-with-heavy-bolters",
           "type": "support"
         },
         {
@@ -1348,6 +1372,10 @@ export default {
           "type": "leader"
         },
         {
+          "to": "sternguard-veteran-squad",
+          "type": "leader"
+        },
+        {
           "to": "tactical-squad",
           "type": "leader"
         },
@@ -1550,6 +1578,14 @@ export default {
           "type": "leader"
         },
         {
+          "to": "eradicator-squad",
+          "type": "leader"
+        },
+        {
+          "to": "eradicator-squad-with-heavy-bolters",
+          "type": "leader"
+        },
+        {
           "to": "heavy-intercessor-squad",
           "type": "leader"
         },
@@ -1748,6 +1784,10 @@ export default {
         {
           "to": "deathwatch-terminator-squad",
           "type": "leader"
+        },
+        {
+          "to": "terminator-squad",
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -1846,6 +1886,10 @@ export default {
         },
         {
           "to": "intercessor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "sternguard-veteran-squad",
           "type": "leader"
         },
         {
@@ -2320,6 +2364,10 @@ export default {
           "type": "leader"
         },
         {
+          "to": "sternguard-veteran-squad",
+          "type": "leader"
+        },
+        {
           "to": "tactical-squad",
           "type": "leader"
         },
@@ -2412,6 +2460,10 @@ export default {
         },
         {
           "to": "deathwing-terminator-squad",
+          "type": "leader"
+        },
+        {
+          "to": "terminator-squad",
           "type": "leader"
         }
       ],
@@ -2654,6 +2706,10 @@ export default {
         },
         {
           "to": "intercessor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "sternguard-veteran-squad",
           "type": "leader"
         },
         {
@@ -4771,6 +4827,14 @@ export default {
           "type": "leader"
         },
         {
+          "to": "eradicator-squad",
+          "type": "leader"
+        },
+        {
+          "to": "eradicator-squad-with-heavy-bolters",
+          "type": "leader"
+        },
+        {
           "to": "heavy-intercessor-squad",
           "type": "leader"
         }
@@ -4839,6 +4903,10 @@ export default {
         },
         {
           "to": "intercessor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "sternguard-veteran-squad",
           "type": "leader"
         },
         {
@@ -4985,6 +5053,10 @@ export default {
         },
         {
           "to": "intercessor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "sternguard-veteran-squad",
           "type": "leader"
         },
         {
@@ -5392,6 +5464,10 @@ export default {
           "type": "leader"
         },
         {
+          "to": "sternguard-veteran-squad",
+          "type": "leader"
+        },
+        {
           "to": "tactical-squad",
           "type": "leader"
         },
@@ -5629,6 +5705,10 @@ export default {
         },
         {
           "to": "intercessor-squad",
+          "type": "support"
+        },
+        {
+          "to": "sternguard-veteran-squad",
           "type": "support"
         },
         {
@@ -5962,6 +6042,14 @@ export default {
           "type": "leader"
         },
         {
+          "to": "eradicator-squad",
+          "type": "leader"
+        },
+        {
+          "to": "eradicator-squad-with-heavy-bolters",
+          "type": "leader"
+        },
+        {
           "to": "heavy-intercessor-squad",
           "type": "leader"
         },
@@ -5971,6 +6059,10 @@ export default {
         },
         {
           "to": "intercessor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "sternguard-veteran-squad",
           "type": "leader"
         },
         {
@@ -6194,6 +6286,10 @@ export default {
         },
         {
           "to": "bladeguard-veteran-squad",
+          "type": "leader"
+        },
+        {
+          "to": "sternguard-veteran-squad",
           "type": "leader"
         },
         {
@@ -8514,6 +8610,14 @@ export default {
           "type": "leader"
         },
         {
+          "to": "eradicator-squad",
+          "type": "leader"
+        },
+        {
+          "to": "eradicator-squad-with-heavy-bolters",
+          "type": "leader"
+        },
+        {
           "to": "heavy-intercessor-squad",
           "type": "leader"
         }
@@ -8577,6 +8681,10 @@ export default {
         },
         {
           "to": "intercessor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "sternguard-veteran-squad",
           "type": "leader"
         },
         {
@@ -9051,6 +9159,10 @@ export default {
         },
         {
           "to": "intercessor-squad",
+          "type": "support"
+        },
+        {
+          "to": "sternguard-veteran-squad",
           "type": "support"
         }
       ],

@@ -1482,6 +1482,10 @@ export default {
         {
           "to": "sanctifiers",
           "type": "leader"
+        },
+        {
+          "to": "deathwatch-kill-team",
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -1614,6 +1618,14 @@ export default {
         {
           "to": "vigilant-squad",
           "type": "leader"
+        },
+        {
+          "to": "aquila-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "deathwatch-kill-team",
+          "type": "leader"
         }
       ],
       "defaults": [
@@ -1696,6 +1708,10 @@ export default {
         },
         {
           "to": "vigilant-squad",
+          "type": "leader"
+        },
+        {
+          "to": "deathwatch-kill-team",
           "type": "leader"
         }
       ],
@@ -1783,6 +1799,14 @@ export default {
         },
         {
           "to": "sanctifiers",
+          "type": "leader"
+        },
+        {
+          "to": "aquila-kill-team",
+          "type": "leader"
+        },
+        {
+          "to": "deathwatch-kill-team",
           "type": "leader"
         }
       ],
