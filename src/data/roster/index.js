@@ -13,13 +13,30 @@ const load = (slug) => {
 // Load a faction's roster data, folding the shared Adeptus Astartes pool into an SM Chapter
 // (data.sharedUnitIds → space-marines units), so callers see one flat unit list. Folded units
 // keep their own ids and resolve against the shared items/texts dicts (see ./items.js).
+//
+// A shared unit can cost this Chapter something else than it costs the Codex (Blood Angels' Assault
+// Intercessor Squad, every Chapter's Repulsor Executioner) — data.unitPoints carries those, keyed
+// by unit id and then by MODEL COUNT, and only where they differ. Same mechanism, same source and
+// the same numbers as pointsOverrides in src/data/datasheets/<chapter>.js, so a unit is priced
+// identically here and on its datasheet page.
+const repriced = (unit, byModels) => {
+  if (!byModels) return unit
+  const sizes = unit.sizes.map((s) => {
+    const pts = byModels[s.per[1]] ?? byModels[s.per[0]]
+    return pts == null || pts === s.pts ? s : { ...s, pts }
+  })
+  return sizes.some((s, i) => s !== unit.sizes[i]) ? { ...unit, sizes } : unit
+}
+
 export async function loadRosterFaction(slug) {
   const data = await load(slug)
   if (!data) return null
   if (!data.sharedUnitIds?.length) return data
   const sm = await load('space-marines')
   const idSet = new Set(data.sharedUnitIds)
-  const shared = (sm?.units || []).filter((u) => idSet.has(u.id)).map((u) => ({ ...u, shared: 1 }))
+  const shared = (sm?.units || [])
+    .filter((u) => idSet.has(u.id))
+    .map((u) => ({ ...repriced(u, data.unitPoints?.[u.id]), shared: 1 }))
   const units = [...data.units, ...shared].sort((a, b) => a.name.localeCompare(b.name))
   return { ...data, units }
 }
