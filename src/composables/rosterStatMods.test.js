@@ -228,3 +228,41 @@ describe('resolveModifierEntries', () => {
   })
 })
 
+
+describe('allegiance modifiers', () => {
+  // Daemonic Allegiance is the rare structural characteristic change in this game's data: pick a
+  // mark and the model's own statline changes. It applies to the model that CHOSE it and nothing
+  // else, so resolution is by the choice, not by prose targeting.
+  const facEn = { armyRule: null, detachments: [] }
+  const rec = (opt, effects) => ({
+    name: `Daemonic Allegiance: ${opt}`, kind: 'allegiance', reviewed: true,
+    ref: { kind: 'allegiance', g: 'daemonic-allegiance', opt }, effects,
+  })
+  const records = [
+    rec('Nurgle', [{ on: 'profile', stat: 't', op: 'add', value: 1, when: null }]),
+    rec('Slaanesh', [{ on: 'profile', stat: 'm', op: 'add', value: 2, when: null }]),
+  ]
+
+  it('resolves only the mark the unit actually took', () => {
+    const got = resolveModifierEntries(records, facEn, [], null, { g: 'daemonic-allegiance', opt: 'Nurgle' })
+    expect(got.map((r) => r.name)).toEqual(['Daemonic Allegiance: Nurgle'])
+  })
+
+  it('resolves nothing when no mark is chosen, or the group is another datasheet\'s', () => {
+    expect(resolveModifierEntries(records, facEn, [], null, null)).toEqual([])
+    expect(resolveModifierEntries(records, facEn, [], null, { g: 'mark-of-chaos', opt: 'Nurgle' })).toEqual([])
+  })
+
+  it('changes the printed characteristic', () => {
+    const entries = resolveModifierEntries(records, facEn, [], null, { g: 'daemonic-allegiance', opt: 'Nurgle' })
+    const { sheet: out, marks } = applyStatMods(sheet(), entries, destroyer, [])
+    expect(out.profiles[0].t).toBe('7')
+    expect(marks).toContain('profile:t:0')
+  })
+
+  it('handles the distance one too — "add 2\" to this model\'s Move"', () => {
+    const entries = resolveModifierEntries(records, facEn, [], null, { g: 'daemonic-allegiance', opt: 'Slaanesh' })
+    const { sheet: out } = applyStatMods(sheet(), entries, destroyer, [])
+    expect(out.profiles[0].m).toBe('8"')
+  })
+})

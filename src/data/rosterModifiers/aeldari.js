@@ -204,6 +204,20 @@ export default {
       }
     },
     {
+      "sid": "d4232944-2e90-4b98-8350-2fedc2258f40",
+      "kind": "enhancement",
+      "name": "Stone of Eldritch Fury",
+      "det": "Seer Council",
+      "ref": {
+        "kind": "enhancement",
+        "det": "seer-council"
+      },
+      "hash": "e7c50bbd",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "964c822b-33e6-412a-8ebd-fa8d57373161",
       "kind": "enhancement",
       "name": "Weavers' Wail",

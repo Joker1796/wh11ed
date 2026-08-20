@@ -8,6 +8,22 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "f7e05863-87be-4f5a-bc7c-f053cf453bd2",
+      "kind": "allegiance",
+      "name": "Houndpack Lance Keyword: Character",
+      "det": null,
+      "ref": {
+        "kind": "allegiance",
+        "g": "houndpack-lance-keyword",
+        "opt": "Character"
+      },
+      "hash": "6ae178f7",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [],
+      "note": "the keyword this grants is applied by the roster layer itself (rosterEngine's allegKeyword feeds DatasheetCard's grantedKeywords), so recording it here too would show it twice; no printed number changes"
+    },
+    {
       "sid": "af512856-dc8f-428b-8562-bb30b6f1d257",
       "kind": "armyRule",
       "name": "Dreadblades",

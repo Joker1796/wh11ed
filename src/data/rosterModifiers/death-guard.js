@@ -48,6 +48,48 @@ export default {
       "effects": []
     },
     {
+      "sid": "9a404cbe-ff89-4583-9b06-49d7926e2e68",
+      "kind": "detachmentRule",
+      "name": "Reverberant Rancidity",
+      "det": "Tallyband Summoners",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "tallyband-summoners"
+      },
+      "hash": "f8304ffa",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "8259676b-b493-4d15-b60e-b1922dac0d44",
+      "kind": "enhancement",
+      "name": "Vile Vigour",
+      "det": "Death Lord’s Chosen",
+      "ref": {
+        "kind": "enhancement",
+        "det": "death-lords-chosen"
+      },
+      "hash": "88966b0f",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
+      "sid": "5c3eba83-5786-4320-92e5-b6369e5c0535",
+      "kind": "enhancement",
+      "name": "Bilemaw Blight",
+      "det": "Mortarion’s Hammer",
+      "ref": {
+        "kind": "enhancement",
+        "det": "mortarions-hammer"
+      },
+      "hash": "36897a57",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "646ffc25-fbc8-4702-82ad-ea7c853e5736",
       "kind": "enhancement",
       "name": "Sorrowsyphon",

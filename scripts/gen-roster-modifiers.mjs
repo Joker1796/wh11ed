@@ -48,7 +48,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import crypto from 'node:crypto'
 import { pathToFileURL } from 'node:url'
-import { ROOT, APPDATA, SLUG_MAP, appdataToMarkup, bodyText, loadJson, loadModule, appdataDataVersion, invertSourceIds } from './lib/sync-common.mjs'
+import { ROOT, APPDATA, SLUG_MAP, appdataToMarkup, bodyText, loadJson, loadModule, appdataDataVersion, invertSourceIds, table } from './lib/sync-common.mjs'
 
 const OUT_DIR = path.join(ROOT, 'src/data/rosterModifiers')
 const QUEUE = path.join(ROOT, 'MODIFIER-QUEUE.local.json')
@@ -80,6 +80,7 @@ export function proseHash(text) {
 // proposed. Kept in sync with what Tier C can actually express (see the `effects` shape).
 const CANDIDATE = new RegExp([
   '(?:add|subtract) \\d+ to',                 // "add 1 to the Strength characteristic"
+  '(?:add|subtract) \\d+["\u201d] to',            // the same with a distance: 'add 2" to this model\'s Move'
   'improve[sd]? the [^.]{0,40}characteristic',
   '\\d\\+ invulnerable save',
   'has a \\d\\+ (?:invulnerable )?save',
@@ -106,6 +107,43 @@ export function isCandidate(text) {
 // detachment id; the runtime then takes that detachment's own `.rule` (detachment rules) or finds
 // the enhancement by name inside it. `null` when the bridge has no entry — the record still
 // exists and is still audited, it just can't be applied until the bridge covers it.
+// Allegiance abilities are the third source, and the odd one out: they hang off DATASHEETS, not
+// off a rule or an enhancement, and the player chooses one per unit (see rosterEngine's allegFor).
+// Daemonic Allegiance is the reason they're here — its four marks are the rare structural
+// characteristic change in this game's data ("add 1 to this model's Toughness"). Mark of Chaos and
+// the CHARACTER-granting upgrades are collected too, so the audit accounts for every one of them
+// rather than leaving 14 sources silently unreviewed.
+function allegianceSources(tables, bundleDatasheetIds) {
+  const { groups, abilities, dsGroup } = tables
+  const out = []
+  const wanted = new Set()
+  for (const id of bundleDatasheetIds) { const g = dsGroup.get(id); if (g) wanted.add(g) }
+  for (const gid of wanted) {
+    const g = groups.get(gid)
+    if (!g) continue
+    const gName = g.localisations?.en?.name || 'Allegiance'
+    for (const a of abilities.get(gid) || []) {
+      const name = a.localisations?.en?.name
+      const prose = appdataToMarkup(a.localisations?.en?.rules)
+      if (!name || !prose) continue
+      // `g` here is the same slug gen-roster-data.mjs writes into `unit.alleg.g`, and `opt` the
+      // option name it stores — together they say "this record applies to a unit that chose X".
+      out.push({
+        sid: a.id,
+        kind: 'allegiance',
+        name: `${gName}: ${name}`,
+        det: null,
+        ref: { kind: 'allegiance', g: slugifyName(gName), opt: name },
+        prose,
+      })
+    }
+  }
+  return out
+}
+
+const slugifyName = (s) => (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+
 function sourcesOf(bundle, detById) {
   const out = []
   for (const r of bundle.armyRules || []) {
@@ -207,6 +245,15 @@ export async function run(argv = process.argv.slice(2)) {
   }
 
   const detBySid = invertSourceIds('det')
+  const allegTables = {
+    groups: new Map(table('allegiance_ability_group.json').map((g) => [g.id, g])),
+    abilities: table('allegiance_ability.json').reduce((m, a) => {
+      if (!m.has(a.allegianceAbilityGroupId)) m.set(a.allegianceAbilityGroupId, [])
+      m.get(a.allegianceAbilityGroupId).push(a)
+      return m
+    }, new Map()),
+    dsGroup: new Map(table('datasheet.json').filter((d) => d.allegianceAbilityGroupId).map((d) => [d.id, d.allegianceAbilityGroupId])),
+  }
   const totals = { stale: 0, fresh: 0, orphan: 0, ok: 0, unreviewed: 0 }
   const queueItems = []
   if (!check && !queue && !fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true })
@@ -215,7 +262,10 @@ export async function run(argv = process.argv.slice(2)) {
     const appSlug = SLUG_MAP[slug] || slug
     const bundle = loadJson(path.join(APPDATA, 'factions', `${appSlug}.json`))
     if (!bundle) continue
-    const sources = sourcesOf(bundle, detBySid)
+    const sources = [
+      ...sourcesOf(bundle, detBySid),
+      ...allegianceSources(allegTables, (bundle.datasheets || []).map((d) => d.id)),
+    ]
     const existing = await readExisting(slug)
     const result = classify(existing, sources, ver)
 

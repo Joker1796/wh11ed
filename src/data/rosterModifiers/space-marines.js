@@ -8,6 +8,22 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "15c0488f-a9ec-4288-a4c4-7bfba664628b",
+      "kind": "allegiance",
+      "name": "Headhunter Task Force Keywords: Character",
+      "det": null,
+      "ref": {
+        "kind": "allegiance",
+        "g": "headhunter-task-force-keywords",
+        "opt": "Character"
+      },
+      "hash": "958d34d8",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [],
+      "note": "the keyword this grants is applied by the roster layer itself (rosterEngine's allegKeyword feeds DatasheetCard's grantedKeywords), so recording it here too would show it twice; no printed number changes"
+    },
+    {
       "sid": "7fad0617-e2d1-4607-bfd1-e736ed2660a5",
       "kind": "armyRule",
       "name": "Oath of Moment",
@@ -110,6 +126,20 @@ export default {
         "kind": "detachmentRule",
         "det": "forgefathers-seekers"
       }
+    },
+    {
+      "sid": "825579c0-e887-4d56-926e-8fea38953997",
+      "kind": "detachmentRule",
+      "name": "Target Sighted",
+      "det": "Headhunter Task Force",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "headhunter-task-force"
+      },
+      "hash": "4f08e2fa",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "fa8c2bcd-8194-4017-b12b-b7eed35cc993",

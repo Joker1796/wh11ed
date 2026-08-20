@@ -8,6 +8,22 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "fb5e29e5-8c77-4309-8b60-7e9fbc96d198",
+      "kind": "allegiance",
+      "name": "Solar Spearhead Keywords: Character",
+      "det": null,
+      "ref": {
+        "kind": "allegiance",
+        "g": "solar-spearhead-keywords",
+        "opt": "Character"
+      },
+      "hash": "f41f5c95",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [],
+      "note": "the keyword this grants is applied by the roster layer itself (rosterEngine's allegKeyword feeds DatasheetCard's grantedKeywords), so recording it here too would show it twice; no printed number changes"
+    },
+    {
       "sid": "02ead9e4-7cbf-4b21-9454-9071c7f4035b",
       "kind": "detachmentRule",
       "name": "Assemblage of Might",

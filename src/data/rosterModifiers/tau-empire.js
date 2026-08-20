@@ -192,6 +192,20 @@ export default {
       }
     },
     {
+      "sid": "7e5ea128-b5a8-4540-b84b-6b74bca2da44",
+      "kind": "enhancement",
+      "name": "Nomadic Hunter",
+      "det": "Kroot Hunting Pack",
+      "ref": {
+        "kind": "enhancement",
+        "det": "kroot-hunting-pack"
+      },
+      "hash": "ea99c260",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "1ff1cc2a-ba28-4e1b-aee4-78c67b35a4de",
       "kind": "enhancement",
       "name": "Strategic Conqueror",

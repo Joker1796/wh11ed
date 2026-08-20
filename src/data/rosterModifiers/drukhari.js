@@ -176,6 +176,20 @@ export default {
       }
     },
     {
+      "sid": "f6e6b1bd-e328-479b-bdaa-9e359bc5af3d",
+      "kind": "enhancement",
+      "name": "Master Repugnomancer (Aura)",
+      "det": "Covenite Coterie",
+      "ref": {
+        "kind": "enhancement",
+        "det": "covenite-coterie"
+      },
+      "hash": "3149a83e",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "5600dcd0-652a-4078-9d65-266dfff20443",
       "kind": "enhancement",
       "name": "Contempt for Rivals",

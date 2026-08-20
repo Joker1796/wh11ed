@@ -21,7 +21,9 @@ const WEAPON_TABLES = { ranged: ['ranged'], melee: ['melee'], weapon: ['ranged',
 // matching is enough. An enhancement has no scope at all — the caller only passes it for the
 // unit carrying it.
 function effectApplies(effect, scopes, keywords, kind, factionKeywordSets) {
-  if (kind === 'enhancement') return true
+  // An enhancement modifies its own bearer, and an allegiance choice its own chooser — neither has
+  // prose addressed at some other unit, so there is nothing to gate on.
+  if (kind === 'enhancement' || kind === 'allegiance') return true
   if (!scopes?.length) return true // ungated prose — the rule itself was already shown to this unit
   const hits = (kws) => (sc) => sc.targets.some((t) => keywordsMatchTarget(kws, t))
     && !sc.excludes.some((x) => keywordsMatchTarget(kws, x))
@@ -124,7 +126,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets) {
   }
 
   for (const entry of entries) {
-    const scopes = entry.kind === 'enhancement' ? null : ruleScopes(entry.body)
+    const scopes = entry.kind === 'enhancement' || entry.kind === 'allegiance' ? null : ruleScopes(entry.body)
     for (const effect of entry.effects || []) {
       if (!effectApplies(effect, scopes, keywords, entry.kind, factionKeywordSets)) continue
 
@@ -188,7 +190,7 @@ export function applyStatMods(sheet, entries, keywords, factionKeywordSets) {
 export function grantedKeywordsFrom(entries, keywords, factionKeywordSets) {
   const out = []
   for (const entry of entries || []) {
-    const scopes = entry.kind === 'enhancement' ? null : ruleScopes(entry.body)
+    const scopes = entry.kind === 'enhancement' || entry.kind === 'allegiance' ? null : ruleScopes(entry.body)
     for (const effect of entry.effects || []) {
       if (effect.op !== 'grant' || effect.stat !== 'keyword' || effect.when) continue
       if (!effectApplies(effect, scopes, keywords, entry.kind, factionKeywordSets)) continue
@@ -207,7 +209,7 @@ export function grantedKeywordsFrom(entries, keywords, factionKeywordSets) {
 // prose. `detachmentNames` is what the roster actually fields — a modifier from a detachment you
 // didn't take is not in play, whatever its rule says. `enhancementName` is the one this entry
 // carries (chosen or mandatory), since an enhancement only ever modifies its own bearer.
-export function resolveModifierEntries(records, facEn, detachmentNames, enhancementName) {
+export function resolveModifierEntries(records, facEn, detachmentNames, enhancementName, alleg) {
   if (!facEn || !records?.length) return []
   const fielded = new Set((detachmentNames || [])
     .map((d) => detKey(typeof d === 'string' ? d : d?.name))
@@ -215,6 +217,13 @@ export function resolveModifierEntries(records, facEn, detachmentNames, enhancem
   const out = []
   for (const rec of records) {
     if (!rec.ref) continue
+    if (rec.ref.kind === 'allegiance') {
+      // Applies only to the unit that made this exact choice. `alleg` is `{ g, opt }` — the
+      // datasheet's allegiance group and what this entry picked (rosterEngine's allegFor/entry).
+      // No body: the ability's prose addresses its own model, so there are no scopes to read.
+      if (alleg?.g === rec.ref.g && alleg?.opt === rec.ref.opt) out.push({ ...rec, body: '' })
+      continue
+    }
     if (rec.ref.kind === 'armyRule') {
       if (facEn.armyRule?.body) out.push({ ...rec, body: facEn.armyRule.body })
       continue

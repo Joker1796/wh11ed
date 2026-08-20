@@ -103,6 +103,20 @@ export default {
       }
     },
     {
+      "sid": "f8a976fd-eb1b-401d-8b99-50155fb04f4c",
+      "kind": "enhancement",
+      "name": "Warp Walker",
+      "det": "Carnival of Excess",
+      "ref": {
+        "kind": "enhancement",
+        "det": "carnival-of-excess"
+      },
+      "hash": "048159c1",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "739f0185-c80c-4793-8479-1d28bbad8a25",
       "kind": "enhancement",
       "name": "Pledge of Dark Glory",
@@ -136,6 +150,20 @@ export default {
         "kind": "enhancement",
         "det": "coterie-of-the-conceited"
       }
+    },
+    {
+      "sid": "533b3db0-dd34-4863-84a7-bcd2eff86ea4",
+      "kind": "enhancement",
+      "name": "Exalted Patron",
+      "det": "Court of the Phoenician",
+      "ref": {
+        "kind": "enhancement",
+        "det": "court-of-the-phoenician"
+      },
+      "hash": "cdc77255",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "cff5cb21-f229-467b-bbd6-faf82240043b",
@@ -236,6 +264,20 @@ export default {
         "kind": "enhancement",
         "det": "peerless-bladesmen"
       }
+    },
+    {
+      "sid": "b26e88ce-98ee-401d-a5c3-f12564e770e4",
+      "kind": "enhancement",
+      "name": "Eager to Prove",
+      "det": "Slaanesh’s Chosen",
+      "ref": {
+        "kind": "enhancement",
+        "det": "slaaneshs-chosen"
+      },
+      "hash": "964490da",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
     },
     {
       "sid": "81c3ada4-c8c2-4493-948d-ac3e1d4838a0",

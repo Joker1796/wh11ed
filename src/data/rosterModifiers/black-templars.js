@@ -8,6 +8,22 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "15c0488f-a9ec-4288-a4c4-7bfba664628b",
+      "kind": "allegiance",
+      "name": "Headhunter Task Force Keywords: Character",
+      "det": null,
+      "ref": {
+        "kind": "allegiance",
+        "g": "headhunter-task-force-keywords",
+        "opt": "Character"
+      },
+      "hash": "958d34d8",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [],
+      "note": "the keyword this grants is applied by the roster layer itself (rosterEngine's allegKeyword feeds DatasheetCard's grantedKeywords), so recording it here too would show it twice; no printed number changes"
+    },
+    {
       "sid": "8e6d6b91-009d-47d1-81d7-390c60556cb3",
       "kind": "armyRule",
       "name": "Templar Vows",

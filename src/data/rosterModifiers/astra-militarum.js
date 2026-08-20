@@ -8,6 +8,22 @@ export default {
   "formatVersion": 1,
   "entries": [
     {
+      "sid": "3b10e68b-0230-4669-a0a3-f0c29feaa3b4",
+      "kind": "allegiance",
+      "name": "Steel Hammer Keywords: Character",
+      "det": null,
+      "ref": {
+        "kind": "allegiance",
+        "g": "steel-hammer-keywords",
+        "opt": "Character"
+      },
+      "hash": "6d141cb4",
+      "ver": 925,
+      "reviewed": true,
+      "effects": [],
+      "note": "the keyword this grants is applied by the roster layer itself (rosterEngine's allegKeyword feeds DatasheetCard's grantedKeywords), so recording it here too would show it twice; no printed number changes"
+    },
+    {
       "sid": "5d548374-a6a2-4f5c-bbbe-fdd85a0ac383",
       "kind": "armyRule",
       "name": "Voice of Command",
@@ -190,6 +206,20 @@ export default {
       }
     },
     {
+      "sid": "200cc030-71f3-4c06-ad3c-4d98b7567d12",
+      "kind": "detachmentRule",
+      "name": "Iron Tread",
+      "det": "Hammer of the Emperor",
+      "ref": {
+        "kind": "detachmentRule",
+        "det": "hammer-of-the-emperor"
+      },
+      "hash": "33c60adf",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "998e3c77-a541-44a6-a64e-e7b2bbe5e398",
       "kind": "detachmentRule",
       "name": "Armoured Fist",
@@ -299,6 +329,20 @@ export default {
         "kind": "enhancement",
         "det": "siege-regiment"
       }
+    },
+    {
+      "sid": "6419d3ce-ef9b-4cb2-9da6-6b06b0ca1952",
+      "kind": "enhancement",
+      "name": "Engine Speaker",
+      "det": "Steel Hammer",
+      "ref": {
+        "kind": "enhancement",
+        "det": "steel-hammer"
+      },
+      "hash": "a4f753ee",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
     }
   ]
 }

@@ -289,6 +289,10 @@ const resolvedModifiers = computed(() => resolveModifierEntries(
   rulesFactionEn.value,
   props.ctx?.detachments,
   view.value.context?.enhancement?.name,
+  // The mark this entry chose — a Daemonic Allegiance record modifies only the model that took it.
+  props.ctx?.entry?.alleg && props.ctx?.def?.alleg
+    ? { g: props.ctx.def.alleg.g, opt: props.ctx.entry.alleg }
+    : null,
 ))
 
 const statMods = computed(() => {

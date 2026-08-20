@@ -377,6 +377,20 @@ export default {
       }
     },
     {
+      "sid": "0a6da199-5297-4eb9-b320-5ab60423d571",
+      "kind": "enhancement",
+      "name": "Sanctified Ordnance",
+      "det": "Haloscreed Battle Clade",
+      "ref": {
+        "kind": "enhancement",
+        "det": "haloscreed-battle-clade"
+      },
+      "hash": "18087725",
+      "ver": 925,
+      "reviewed": false,
+      "effects": []
+    },
+    {
       "sid": "2a96585b-c6fd-4271-b617-56698f4df264",
       "kind": "enhancement",
       "name": "Transoracular Dyad Wafers",
