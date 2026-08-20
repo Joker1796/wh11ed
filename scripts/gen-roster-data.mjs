@@ -94,6 +94,17 @@ for (const r of table('datasheet_bodyguard_group_datasheet')) {
 // Iron Father Feirros lost Eradicator Squad. Same class as the enhancement_bodyguard_group bug,
 // opposite sign — eligibility missing rather than invented. Note wh40k-appdata's own bundle drops
 // it too (`{"bodyguardType":"leader","units":[]}`), which is why this reads the raw table.
+// A detachment's TAG: "This detachment has the DYNASTY tag and cannot be taken with another
+// DYNASTY detachment" (core rules 25.04 — "some detachment rules list … other detachments that
+// your army … cannot include"). 55 rows, 26 tags, every tag shared by 2+ detachments of one
+// faction. The tag itself comes from mfm (which has all 55 and two more appdata lacks — World
+// Eaters' ONSLAUGHT pair); this table is the independent check that the mfm scrape still finds it.
+const detTagByName = new Map() // normalised detachment name -> tag
+{
+  const kwOf = new Map(table('keyword').map((k) => [k.id, enOf(k).name]))
+  const dsOf = new Map(table('detachment').map((d) => [d.id, enOf(d).name]))
+  for (const r of table('detachment_unique_keyword')) detTagByName.set(norm(dsOf.get(r.detachmentId)), kwOf.get(r.keywordId))
+}
 const bgKwName = new Map(table('keyword').map((k) => [k.id, enOf(k).name]))
 const bgKeywords = new Map() // groupId -> [keyword name]
 for (const r of table('datasheet_bodyguard_group_keyword')) {
@@ -245,7 +256,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, leadKw: { resolved: 0, unresolved: [] }, comp: { units: 0, brackets: 0, foldedBrackets: 0, rejected: [] } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, leadKw: { resolved: 0, unresolved: [] }, comp: { units: 0, brackets: 0, foldedBrackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] } }
 
 // Global intern dictionaries: wargear item names and group instruction texts repeat heavily
 // ACROSS factions, and — crucially — the SM-Chapter fold pulls space-marines units into a
@@ -952,12 +963,27 @@ function buildEnhancement(e, nameToDsId, idMap) {
   return enh
 }
 
-function buildDetachment(bdet, idMap, mfmDet, nameToDsId) { // idMap also reaches buildEnhancement
+function buildDetachment(bdet, idMap, mfmDet, nameToDsId, facTag) { // idMap also reaches buildEnhancement
   // The Detachment-Points cost + Force Disposition come from mfm (what the tracker shows), not
   // appdata's detachmentPointsCost — those disagree (appdata is 0 for standard detachments).
   const mfm = mfmDet.get(norm(bdet.name))
   const det = { name: bdet.name, sid: bdet.id, dp: mfm?.dp ?? bdet.detachmentPointsCost ?? 0 }
   if (mfm?.forceDisposition) det.fd = mfm.forceDisposition
+  // The tag two detachments cannot share. Taken from mfm, cross-checked against appdata: a
+  // disagreement means the scrape lost one (silent, and the roster then allows an illegal pair) or
+  // that appdata is behind, which is the standing state of the two ONSLAUGHT detachments.
+  // Three sources say it and none is complete on its own: mfm has 55, appdata's table the same 55,
+  // and the hand-written faction data two more the other two lack (World Eaters' ONSLAUGHT pair,
+  // read off the Faction Pack). Ours wins where they disagree; a disagreement is reported, because
+  // the failure it guards against is silent — a lost tag means the editor allows an illegal pair.
+  const ourTag = facTag.get(norm(bdet.name))
+  const appTag = detTagByName.get(norm(bdet.name))
+  const tag = ourTag || mfm?.unique || appTag
+  if (tag) { det.unique = tag.toUpperCase(); report.detTag.tagged++ }
+  const sources = [['ours', ourTag], ['mfm', mfm?.unique], ['appdata', appTag]]
+  if (new Set(sources.map(([, v]) => norm(v))).size > 1) {
+    report.detTag.drift.push(`${bdet.name}: ${sources.map(([n, v]) => `${n} ${v ? `«${v}»` : '—'}`).join(', ')}`)
+  }
   const excl = (detExcluded.get(bdet.id) || []).map((id) => idMap.get(id) || slugify(enOf(dsById.get(id)).name || '')).filter(Boolean)
   if (excl.length) det.excludedUnits = excl
   const linked = (detLinked.get(bdet.id) || []).map((r) => {
@@ -1018,6 +1044,11 @@ async function genFaction(slug) {
   const mfmFaction = mfmMod?.default
   const mfmDet = new Map((mfmFaction?.detachments || []).map((d) => [norm(d.name), d]))
 
+  // Detachment tags as the reference pages already show them (FactionRuleView's "Unique: …").
+  const facMod = await loadModule(path.join(ROOT, 'src/data/factions', `${slug}.js`))
+  const facTag = new Map(((Object.values(facMod || {})[0]?.en?.detachments) || [])
+    .filter((d) => d.unique).map((d) => [norm(d.name), d.unique]))
+
   // Name -> datasheet id, scoped to THIS faction's own bundle (before the points-filter below —
   // an ENH_LOCK_FIXES target should resolve even if the unit itself isn't a buildable line entry)
   // so a name shared across sub-factions (Helbrute/Maulerfiend — one datasheet per Chaos Legion
@@ -1057,7 +1088,7 @@ async function genFaction(slug) {
   const units = bundleUnits.map((bd) => buildUnit(bd, idMap, fx, kwIndex)).sort((a, b) => a.name.localeCompare(b.name))
   const detachments = (bundle.detachments || [])
     .filter((d) => !d.isCombatPatrol && !cpDatasheetIds.has(d.id))
-    .map((bdet) => buildDetachment(bdet, idMap, mfmDet, nameToDsId))
+    .map((bdet) => buildDetachment(bdet, idMap, mfmDet, nameToDsId, facTag))
     .sort((a, b) => a.name.localeCompare(b.name))
   stripMandatoryPriceBrackets(units, detachments)
 
@@ -1148,6 +1179,9 @@ if (report.noPoints.length) console.log(`  dropped (no points/composition): ${re
 const b = report.bundle
 console.log(`  bundled options: ${b.rewritten} groups rewritten from prose and verified against loadout_choice; ${b.quantified} more gained a per-option quantity`)
 const lm = report.limit
+const dt = report.detTag
+console.log(`  detachment tags: ${dt.tagged} carry the tag that bars a second detachment sharing it${dt.drift.length ? `; ${dt.drift.length} disagree with appdata's own table` : ''}`)
+for (const d of dt.drift.slice(0, 8)) console.log(`    - ${d}`)
 const cmp = report.comp
 console.log(`  unit composition: ${cmp.brackets} brackets on ${cmp.units} multi-profile units carry a per-miniature breakdown; ${cmp.foldedBrackets} duplicate brackets folded (same models/points/composition)${cmp.rejected.length ? `; ${cmp.rejected.length} rejected (bracket and composition disagree)` : ''}`)
 for (const r of cmp.rejected.slice(0, 8)) console.log(`    - ${r}`)

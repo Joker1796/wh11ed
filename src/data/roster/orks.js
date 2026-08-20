@@ -4544,6 +4544,7 @@ export default {
       "sid": "28be3515-baa7-41c1-9a46-81b27c97d722",
       "dp": 2,
       "fd": "Reconnaissance",
+      "unique": "WAGONS",
       "enhancements": [
         {
           "name": "Runnin’ Boots",
@@ -5049,6 +5050,7 @@ export default {
       "sid": "bf9ea326-64fe-4ded-82c7-093f96a4b619",
       "dp": 1,
       "fd": "Priority Assets",
+      "unique": "WAGONS",
       "enhancements": [
         {
           "name": "Boarding Ramps (Upgrade)",

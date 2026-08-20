@@ -6095,6 +6095,7 @@ export default {
       "sid": "64363c88-2015-4700-9f88-ac03407213db",
       "dp": 1,
       "fd": "Reconnaissance",
+      "unique": "NIGHTMARE",
       "enhancements": [
         {
           "name": "Pact of Cursed Pinions",
@@ -6133,6 +6134,7 @@ export default {
       "sid": "b7654c2c-0922-444c-a98a-f49438d4f22c",
       "dp": 2,
       "fd": "Disruption",
+      "unique": "NIGHTMARE",
       "enhancements": [
         {
           "name": "Greyveil Hex",

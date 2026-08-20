@@ -354,3 +354,26 @@ describe('unit composition', () => {
     expect([...per].map(([m, n]) => `${n}× ${wracks.minis[m].n}`)).toEqual(['1× Acothyst', '6× Wrack'])
   })
 })
+
+describe('detachment tags', () => {
+  // `unique` bars a second detachment carrying the same tag (core rules 25.04). It reaches the
+  // roster layer from the hand-written faction data, cross-checked against mfm and appdata's
+  // detachment_unique_keyword by the generator — a tag lost on the way means the editor stops
+  // barring an illegal pair, silently.
+  it('carries the tag on every detachment that has one', () => {
+    const tagged = factions.flatMap(({ data }) => (data.detachments || []).filter((d) => d.unique))
+    expect(tagged.length).toBeGreaterThanOrEqual(55)
+    for (const d of tagged) expect(d.unique).toBe(d.unique.toUpperCase())
+  })
+
+  it('never leaves a tag on a single detachment — a tag only means something in a pair', () => {
+    for (const { slug, data } of factions) {
+      const byTag = new Map()
+      for (const d of data.detachments || []) {
+        if (!d.unique) continue
+        byTag.set(d.unique, (byTag.get(d.unique) || 0) + 1)
+      }
+      for (const [tag, n] of byTag) expect(n, `${slug} ${tag}`).toBeGreaterThan(1)
+    }
+  })
+})

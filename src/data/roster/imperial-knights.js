@@ -1975,6 +1975,7 @@ export default {
       "sid": "9634aebe-95e3-412b-a881-e33a334ae495",
       "dp": 2,
       "fd": "Reconnaissance",
+      "unique": "ARMIGERS",
       "enhancements": [
         {
           "name": "Mentor’s Pride",
@@ -2031,6 +2032,7 @@ export default {
       "sid": "a6ada922-2612-4ef6-b7ad-6020954ae038",
       "dp": 1,
       "fd": "Reconnaissance",
+      "unique": "ARMIGERS",
       "enhancements": [
         {
           "name": "Gyro-optimised Actuators (Upgrade)",

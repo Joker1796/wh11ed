@@ -3084,6 +3084,7 @@ export default {
       "sid": "6bfd15ec-5723-410f-853c-092d82919512",
       "dp": 1,
       "fd": "Reconnaissance",
+      "unique": "MUTANT",
       "enhancements": [
         {
           "name": "Unravelled Fates",
@@ -3177,6 +3178,7 @@ export default {
       "sid": "d8a383c5-a6a0-445a-b1ad-5a4858bc6265",
       "dp": 2,
       "fd": "Purge the Foe",
+      "unique": "MUTANT",
       "enhancements": [
         {
           "name": "Warpmeld Dagger",

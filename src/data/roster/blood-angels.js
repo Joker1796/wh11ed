@@ -1421,6 +1421,7 @@ export default {
       "sid": "2de2e2bc-8c9a-415e-ad61-11a8c2704590",
       "dp": 3,
       "fd": "Priority Assets",
+      "unique": "GRACE",
       "enhancements": [
         {
           "name": "Prescient Flash",
@@ -1518,6 +1519,7 @@ export default {
       "sid": "6c2b0c94-4bce-40ba-b6cc-8effe9e5efff",
       "dp": 1,
       "fd": "Priority Assets",
+      "unique": "GRACE",
       "enhancements": [
         {
           "name": "Blood Boil",
@@ -1609,6 +1611,7 @@ export default {
       "sid": "98d89ce1-bf5b-49f5-bbcc-cba5e32659e5",
       "dp": 3,
       "fd": "Purge the Foe",
+      "unique": "DOOMED",
       "enhancements": [
         {
           "name": "Carmine Reliquary",
@@ -1733,6 +1736,7 @@ export default {
       "sid": "0002bcde-4fd1-4bcc-99ea-7edbd5809792",
       "dp": 2,
       "fd": "Purge the Foe",
+      "unique": "DOOMED",
       "enhancements": [
         {
           "name": "Sanguinius’ Grace",
@@ -1789,6 +1793,7 @@ export default {
       "sid": "b5a5858b-3187-44f3-95af-e34dfe7eb7c9",
       "dp": 1,
       "fd": "Purge the Foe",
+      "unique": "DOOMED",
       "enhancements": [
         {
           "name": "On the Archtraitor's Bridge",

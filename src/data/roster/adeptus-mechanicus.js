@@ -2967,6 +2967,7 @@ export default {
       "sid": "a6cedc66-4c91-4957-b8c3-fa1b30fd8f5a",
       "dp": 2,
       "fd": "Disruption",
+      "unique": "DATA-PSALM",
       "enhancements": [
         {
           "name": "Mechanicus Locum",
@@ -3236,6 +3237,7 @@ export default {
       "sid": "40fdf203-095d-45f2-9678-3a0e7c30346d",
       "dp": 1,
       "fd": "Disruption",
+      "unique": "DATA-PSALM",
       "enhancements": [
         {
           "name": "Voltagheist Reliquary",

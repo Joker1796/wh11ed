@@ -3488,6 +3488,7 @@ export default {
       "sid": "c1eaf854-a425-4cc8-b29e-557b8b89f8c1",
       "dp": 2,
       "fd": "Disruption",
+      "unique": "REVEREND",
       "enhancements": [
         {
           "name": "Triptych of Judgement",
@@ -3714,6 +3715,7 @@ export default {
       "sid": "d8dfdc5f-4e0b-4233-8f2f-2ee703664afb",
       "dp": 1,
       "fd": "Take and Hold",
+      "unique": "REVEREND",
       "enhancements": [
         {
           "name": "Perfervid Haste",

@@ -1579,6 +1579,7 @@ export default {
       "sid": "a634e475-384b-40cd-957d-cd99201ab3e4",
       "dp": 2,
       "fd": "Reconnaissance",
+      "unique": "WAR DOGS",
       "enhancements": [
         {
           "name": "Preyslayer’s Mantle",
@@ -1635,6 +1636,7 @@ export default {
       "sid": "e2637679-6163-4ea2-93cb-8c5a263ecc33",
       "dp": 1,
       "fd": "Reconnaissance",
+      "unique": "WAR DOGS",
       "enhancements": [
         {
           "name": "Snarling Rivalry (Upgrade)",

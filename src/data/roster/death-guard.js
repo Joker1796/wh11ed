@@ -2737,6 +2737,7 @@ export default {
       "sid": "ac958d83-3ee2-4279-8115-2b164658da08",
       "dp": 2,
       "fd": "Take and Hold",
+      "unique": "FLYBLOWN",
       "enhancements": [
         {
           "name": "Final Ingredient",
@@ -2793,6 +2794,7 @@ export default {
       "sid": "80f1f5cf-8331-4b71-87fa-fe4caaa92633",
       "dp": 1,
       "fd": "Reconnaissance",
+      "unique": "ENGINES",
       "enhancements": [
         {
           "name": "Parasitic Woe‑reaper (Upgrade)",
@@ -2894,6 +2896,7 @@ export default {
       "sid": "9a41d668-c9ee-41c8-81e7-58585d6d8efb",
       "dp": 1,
       "fd": "Reconnaissance",
+      "unique": "FLYBLOWN",
       "enhancements": [
         {
           "name": "Insectile Murmuration (Upgrade)",
@@ -2936,6 +2939,7 @@ export default {
       "sid": "b3a2a4b5-40a0-4875-8017-bc455d657040",
       "dp": 2,
       "fd": "Purge the Foe",
+      "unique": "ENGINES",
       "enhancements": [
         {
           "name": "Eye of Affliction",
