@@ -1,4 +1,4 @@
-// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`reviewed` are
+// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`cond`/`reviewed` are
 // HAND-AUTHORED — re-running the generator preserves them. Never edit `sid`/`hash`/`ver`
 // by hand: `hash` is what ties a record to the exact rule wording it was read from, and
 // rewriting it by hand would silence the one signal that says "GW changed this rule".
@@ -118,7 +118,10 @@ export default {
           "when": {
             "en": "Damned units, for the phase, after making a Desperate Pact",
             "ru": "отряды Damned, на фазу, после заключения Desperate Pact"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         }
       ],
       "ref": {
@@ -143,7 +146,10 @@ export default {
           "when": {
             "en": "Heretic Astartes Infantry, if the Cholinergic Accelerants augmentation is active",
             "ru": "пехота Heretic Astartes, если активна аугментация Cholinergic Accelerants"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         },
         {
           "on": "profile",
@@ -153,7 +159,10 @@ export default {
           "when": {
             "en": "Heretic Astartes Infantry, if the Hyperadrenal Infusion augmentation is active",
             "ru": "пехота Heretic Astartes, если активна аугментация Hyperadrenal Infusion"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         },
         {
           "on": "melee",
@@ -163,7 +172,10 @@ export default {
           "when": {
             "en": "Heretic Astartes Infantry, if the Paraneural Reactions augmentation is active",
             "ru": "пехота Heretic Astartes, если активна аугментация Paraneural Reactions"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         },
         {
           "on": "profile",
@@ -173,7 +185,10 @@ export default {
           "when": {
             "en": "Heretic Astartes Infantry, if the Supracutaneous Chitination augmentation is active",
             "ru": "пехота Heretic Astartes, если активна аугментация Supracutaneous Chitination"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         },
         {
           "on": "melee",
@@ -183,7 +198,10 @@ export default {
           "when": {
             "en": "Heretic Astartes Infantry, if the Macrotensile Sinews augmentation is active",
             "ru": "пехота Heretic Astartes, если активна аугментация Macrotensile Sinews"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         },
         {
           "on": "ranged",
@@ -193,7 +211,10 @@ export default {
           "when": {
             "en": "Heretic Astartes Infantry, if the Ophthalmic Enhancement augmentation is active",
             "ru": "пехота Heretic Astartes, если активна аугментация Ophthalmic Enhancement"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         }
       ],
       "ref": {
@@ -218,7 +239,10 @@ export default {
           "when": {
             "en": "Soul Forge units — Heretic Astartes Vehicles, Lord Discordant and Vashtorr",
             "ru": "отряды Soul Forge — техника Heretic Astartes, Lord Discordant и Vashtorr"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         }
       ],
       "ref": {
@@ -293,7 +317,10 @@ export default {
           "when": {
             "en": "per attack against a unit within range of an objective marker",
             "ru": "за атаку по отряду в радиусе маркера цели"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -318,7 +345,10 @@ export default {
           "when": {
             "en": "Daemon Vehicle units, for the phase, after invoking their contract on a Dark Pact",
             "ru": "отряды Daemon Vehicle, на фазу, после призыва контракта при Dark Pact"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         }
       ],
       "ref": {
@@ -396,7 +426,10 @@ export default {
           "when": {
             "en": "Damned models, while the bearer's unit is below its Starting Strength",
             "ru": "модели Damned, пока отряд носителя ниже начальной численности"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         },
         {
           "on": "melee",
@@ -406,7 +439,10 @@ export default {
           "when": {
             "en": "Damned models, while that unit is Below Half-strength",
             "ru": "модели Damned, пока отряд ниже половины численности"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         }
       ],
       "ref": {
@@ -538,7 +574,10 @@ export default {
           "when": {
             "en": "while a Character is selected for it in your Command phase",
             "ru": "пока в вашей фазе командования для него выбран персонаж"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ]
     },
@@ -587,7 +626,10 @@ export default {
           "when": {
             "en": "roll a D3 and add that to Attacks and Strength instead, after the unit makes a Dark Pact without failing the Leadership test",
             "ru": "бросьте D3 и добавьте результат к атакам и силе вместо +1, после Dark Pact без провала теста лидерства"
-          }
+          },
+          "cond": [
+            "blocked-alternate"
+          ]
         }
       ],
       "ref": {
@@ -697,7 +739,10 @@ export default {
           "when": {
             "en": "until the end of the turn the bearer's unit arrives from Reserves",
             "ru": "до конца хода, в котором отряд носителя прибыл из резерва"
-          }
+          },
+          "cond": [
+            "unit-arrived-from-reserves"
+          ]
         }
       ],
       "ref": {

@@ -1,4 +1,4 @@
-// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`reviewed` are
+// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`cond`/`reviewed` are
 // HAND-AUTHORED — re-running the generator preserves them. Never edit `sid`/`hash`/`ver`
 // by hand: `hash` is what ties a record to the exact rule wording it was read from, and
 // rewriting it by hand would silence the one signal that says "GW changed this rule".
@@ -40,7 +40,10 @@ export default {
           "when": {
             "en": "in the Fight phase, if the unit made a Charge move this turn",
             "ru": "в фазе боя, если юнит совершил чардж в этом ходу"
-          }
+          },
+          "cond": [
+            "unit-charged"
+          ]
         },
         {
           "on": "melee",
@@ -50,7 +53,10 @@ export default {
           "when": {
             "en": "in the Fight phase, if the unit made a Charge move this turn",
             "ru": "в фазе боя, если юнит совершил чардж в этом ходу"
-          }
+          },
+          "cond": [
+            "unit-charged"
+          ]
         }
       ],
       "ref": {
@@ -75,7 +81,10 @@ export default {
           "when": {
             "en": "in the Fight phase, if the unit made a Charge move this turn",
             "ru": "в фазе боя, если юнит совершил чардж в этом ходу"
-          }
+          },
+          "cond": [
+            "unit-charged"
+          ]
         },
         {
           "on": "melee",
@@ -85,7 +94,10 @@ export default {
           "when": {
             "en": "instead of +1, if the unit is Battle-shocked and made a Charge move",
             "ru": "вместо +1, если юнит Battle-shocked и совершил чардж"
-          }
+          },
+          "cond": [
+            "blocked-alternate"
+          ]
         }
       ],
       "ref": {
@@ -114,7 +126,10 @@ export default {
           "when": {
             "en": "the bearer's [PSYCHIC] attacks only",
             "ru": "только для атак с [PSYCHIC]"
-          }
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
         }
       ],
       "note": "addresses the [PSYCHIC] attacks, a subset of the weapon rows this format cannot single out"

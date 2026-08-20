@@ -1,4 +1,4 @@
-// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`reviewed` are
+// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`cond`/`reviewed` are
 // HAND-AUTHORED — re-running the generator preserves them. Never edit `sid`/`hash`/`ver`
 // by hand: `hash` is what ties a record to the exact rule wording it was read from, and
 // rewriting it by hand would silence the one signal that says "GW changed this rule".
@@ -24,7 +24,10 @@ export default {
           "when": {
             "en": "Destroyer Cult units only, per ranged attack against the closest eligible target",
             "ru": "только отряды Destroyer Cult, за стрелковую атаку по ближайшей допустимой цели"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -72,7 +75,10 @@ export default {
           "when": {
             "en": "after a Destroyer Cult unit destroys a unit, until the end of the turn",
             "ru": "после того как юнит Destroyer Cult уничтожит юнит, до конца хода"
-          }
+          },
+          "cond": [
+            "cold-fervour"
+          ]
         }
       ],
       "ref": {
@@ -187,7 +193,10 @@ export default {
           "when": {
             "en": "per attack that scores a Critical Wound",
             "ru": "за атаку с критическим ранением"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -353,7 +362,10 @@ export default {
           "when": {
             "en": "each time the bearer's unit Advances, until the end of the phase (replacing the Advance roll)",
             "ru": "каждый раз, когда юнит носителя совершает Advance, до конца фазы (вместо броска Advance)"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ]
     },

@@ -1,4 +1,4 @@
-// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`reviewed` are
+// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`cond`/`reviewed` are
 // HAND-AUTHORED — re-running the generator preserves them. Never edit `sid`/`hash`/`ver`
 // by hand: `hash` is what ties a record to the exact rule wording it was read from, and
 // rewriting it by hand would silence the one signal that says "GW changed this rule".
@@ -24,7 +24,10 @@ export default {
           "when": {
             "en": "in the Fight phase, if the unit made a Charge move this turn",
             "ru": "в фазе боя, если юнит совершил чардж в этом ходу"
-          }
+          },
+          "cond": [
+            "unit-charged"
+          ]
         },
         {
           "on": "melee",
@@ -34,7 +37,10 @@ export default {
           "when": {
             "en": "in the Fight phase, if the unit made a Charge move this turn",
             "ru": "в фазе боя, если юнит совершил чардж в этом ходу"
-          }
+          },
+          "cond": [
+            "unit-charged"
+          ]
         }
       ],
       "ref": {
@@ -59,7 +65,10 @@ export default {
           "when": {
             "en": "once per battle, for the phase, after an enemy unit selects its targets",
             "ru": "один раз за битву, на фазу, после того как вражеский отряд выбрал цели"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -84,7 +93,10 @@ export default {
           "when": {
             "en": "one melee weapon of the bearer, selected at the start of the battle",
             "ru": "одно оружие ближнего боя носителя, выбранное в начале битвы"
-          }
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
         },
         {
           "on": "melee",
@@ -94,7 +106,10 @@ export default {
           "when": {
             "en": "that same weapon, for the fight the bearer uses this Enhancement in",
             "ru": "то же оружие, на бой, в котором носитель применил улучшение"
-          }
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
         }
       ],
       "ref": {
@@ -123,7 +138,10 @@ export default {
           "when": {
             "en": "each time the bearer's unit Advances, until the end of the phase (replacing the Advance roll)",
             "ru": "каждый раз, когда юнит носителя совершает Advance, до конца фазы (вместо броска Advance)"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ]
     },
@@ -144,7 +162,10 @@ export default {
           "when": {
             "en": "while the bearer is leading that unit",
             "ru": "пока носитель ведёт этот отряд"
-          }
+          },
+          "cond": [
+            "unit-leading"
+          ]
         },
         {
           "on": "profile",
@@ -154,7 +175,10 @@ export default {
           "when": {
             "en": "while the bearer is leading that unit",
             "ru": "пока носитель ведёт этот отряд"
-          }
+          },
+          "cond": [
+            "unit-leading"
+          ]
         }
       ],
       "ref": {
@@ -323,7 +347,10 @@ export default {
           "when": {
             "en": "while the bearer's unit is your army's Favoured Champions",
             "ru": "пока юнит носителя — Favoured Champions вашей армии"
-          }
+          },
+          "cond": [
+            "unit-favoured-champions"
+          ]
         }
       ]
     },
@@ -344,7 +371,10 @@ export default {
           "when": {
             "en": "while the bearer's unit is your army's Favoured Champions",
             "ru": "пока отряд носителя — Favoured Champions вашей армии"
-          }
+          },
+          "cond": [
+            "unit-favoured-champions"
+          ]
         }
       ],
       "ref": {
@@ -369,7 +399,10 @@ export default {
           "when": {
             "en": "per attack against a Character unit",
             "ru": "за атаку по отряду Character"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         },
         {
           "on": "melee",
@@ -379,7 +412,10 @@ export default {
           "when": {
             "en": "per attack against a Character unit",
             "ru": "за атаку по отряду Character"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {

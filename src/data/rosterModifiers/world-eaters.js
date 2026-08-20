@@ -1,4 +1,4 @@
-// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`reviewed` are
+// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`cond`/`reviewed` are
 // HAND-AUTHORED — re-running the generator preserves them. Never edit `sid`/`hash`/`ver`
 // by hand: `hash` is what ties a record to the exact rule wording it was read from, and
 // rewriting it by hand would silence the one signal that says "GW changed this rule".
@@ -24,7 +24,10 @@ export default {
           "when": {
             "en": "until the end of the turn, after the unit makes a Charge move",
             "ru": "до конца хода, после того как отряд совершил чардж"
-          }
+          },
+          "cond": [
+            "unit-charged"
+          ]
         },
         {
           "on": "melee",
@@ -34,7 +37,10 @@ export default {
           "when": {
             "en": "until the end of the turn, after the unit makes a Charge move",
             "ru": "до конца хода, после того как отряд совершил чардж"
-          }
+          },
+          "cond": [
+            "unit-charged"
+          ]
         }
       ],
       "ref": {
@@ -87,7 +93,10 @@ export default {
           "when": {
             "en": "Blood Legions units only, once the Boon of Blood ability is activated for 4 Blood Tithe points",
             "ru": "только отряды Blood Legions, после активации способности Boon of Blood за 4 очка Blood Tithe"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         }
       ],
       "ref": {
@@ -126,7 +135,10 @@ export default {
           "when": {
             "en": "excluding Extra Attacks weapons",
             "ru": "кроме оружия Extra Attacks"
-          }
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
         },
         {
           "on": "melee",
@@ -136,7 +148,10 @@ export default {
           "when": {
             "en": "excluding Extra Attacks weapons",
             "ru": "кроме оружия Extra Attacks"
-          }
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
         }
       ],
       "ref": {
@@ -238,7 +253,10 @@ export default {
           "when": {
             "en": "replaces the World Eaters Faction keyword rather than adding to it",
             "ru": "заменяет фракционное ключевое слово World Eaters, а не добавляется к нему"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ]
     }

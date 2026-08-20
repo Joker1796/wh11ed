@@ -1,4 +1,4 @@
-// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`reviewed` are
+// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`cond`/`reviewed` are
 // HAND-AUTHORED — re-running the generator preserves them. Never edit `sid`/`hash`/`ver`
 // by hand: `hash` is what ties a record to the exact rule wording it was read from, and
 // rewriting it by hand would silence the one signal that says "GW changed this rule".
@@ -28,7 +28,10 @@ export default {
           "when": {
             "en": "each time that unit Advances, until the end of the phase (replacing the Advance roll)",
             "ru": "каждый раз, когда юнит совершает Advance, до конца фазы (вместо броска Advance)"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         },
         {
           "on": "ranged",
@@ -38,7 +41,10 @@ export default {
           "when": {
             "en": "until the end of the turn in which that unit Advanced",
             "ru": "до конца хода, в котором юнит совершил Advance"
-          }
+          },
+          "cond": [
+            "unit-advanced"
+          ]
         }
       ]
     },
@@ -59,7 +65,10 @@ export default {
           "when": {
             "en": "once per battle, for the Fight phase the bearer uses this Enhancement in",
             "ru": "один раз за битву, на фазу боя, в которой носитель применил улучшение"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -84,7 +93,10 @@ export default {
           "when": {
             "en": "once per battle, for the battle round the bearer uses this Enhancement in",
             "ru": "один раз за битву, на раунд, в котором носитель применил улучшение"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -109,7 +121,10 @@ export default {
           "when": {
             "en": "in your Shooting phase, for models in the bearer's unit",
             "ru": "в вашей фазе стрельбы, для моделей в отряде носителя"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         }
       ],
       "ref": {
@@ -149,7 +164,10 @@ export default {
           "when": {
             "en": "once per battle, when this unit is selected to fight after making a charge move",
             "ru": "раз за битву, когда юнит выбран для боя после charge-перемещения"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ]
     },
@@ -192,7 +210,10 @@ export default {
           "when": {
             "en": "while the bearer's unit is not Battle-shocked",
             "ru": "пока отряд носителя не Battle-shocked"
-          }
+          },
+          "cond": [
+            "unit-not-battle-shocked"
+          ]
         }
       ],
       "ref": {

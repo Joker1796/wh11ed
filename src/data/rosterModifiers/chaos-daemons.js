@@ -1,4 +1,4 @@
-// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`reviewed` are
+// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`cond`/`reviewed` are
 // HAND-AUTHORED — re-running the generator preserves them. Never edit `sid`/`hash`/`ver`
 // by hand: `hash` is what ties a record to the exact rule wording it was read from, and
 // rewriting it by hand would silence the one signal that says "GW changed this rule".
@@ -137,7 +137,10 @@ export default {
           "when": {
             "en": "when that unit is selected to make an Advance move, until the end of the turn",
             "ru": "когда юнит выбран для Advance-перемещения, до конца хода"
-          }
+          },
+          "cond": [
+            "unit-advanced"
+          ]
         }
       ]
     },
@@ -186,7 +189,10 @@ export default {
           "when": {
             "en": "Attacks and Strength +2 instead, while the bearer is within your army's Shadow of Chaos",
             "ru": "атаки и сила +2 вместо +1, пока носитель в Тени Хаоса вашей армии"
-          }
+          },
+          "cond": [
+            "blocked-alternate"
+          ]
         }
       ],
       "ref": {
@@ -225,7 +231,10 @@ export default {
           "when": {
             "en": "Strength +2 and Range +6\" instead, while the bearer is within your army's Shadow of Chaos",
             "ru": "сила +2 и дальность +6\" вместо этого, пока носитель в Тени Хаоса вашей армии"
-          }
+          },
+          "cond": [
+            "blocked-alternate"
+          ]
         }
       ],
       "ref": {

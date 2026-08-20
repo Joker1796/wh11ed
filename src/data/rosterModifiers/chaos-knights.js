@@ -1,4 +1,4 @@
-// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`reviewed` are
+// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`cond`/`reviewed` are
 // HAND-AUTHORED — re-running the generator preserves them. Never edit `sid`/`hash`/`ver`
 // by hand: `hash` is what ties a record to the exact rule wording it was read from, and
 // rewriting it by hand would silence the one signal that says "GW changed this rule".
@@ -82,7 +82,10 @@ export default {
           "when": {
             "en": "for the phase, via the Unholy Hunger Malefic Surge ability",
             "ru": "на фазу, через способность Malefic Surge «Unholy Hunger»"
-          }
+          },
+          "cond": [
+            "surge-unholy-hunger"
+          ]
         },
         {
           "on": "profile",
@@ -92,7 +95,10 @@ export default {
           "when": {
             "en": "for the phase, via the Unnatural Fortitude Malefic Surge ability",
             "ru": "на фазу, через способность Malefic Surge «Unnatural Fortitude»"
-          }
+          },
+          "cond": [
+            "surge-unnatural-fortitude"
+          ]
         }
       ],
       "ref": {
@@ -241,7 +247,10 @@ export default {
           "when": {
             "en": "against ranged attacks; 5+ against melee attacks",
             "ru": "против стрелковых атак; 5+ против атак ближнего боя"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {

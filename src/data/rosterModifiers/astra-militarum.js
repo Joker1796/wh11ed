@@ -1,4 +1,4 @@
-// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`reviewed` are
+// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`cond`/`reviewed` are
 // HAND-AUTHORED — re-running the generator preserves them. Never edit `sid`/`hash`/`ver`
 // by hand: `hash` is what ties a record to the exact rule wording it was read from, and
 // rewriting it by hand would silence the one signal that says "GW changed this rule".
@@ -40,7 +40,10 @@ export default {
           "when": {
             "en": "while affected by the «Move! Move! Move!» Order",
             "ru": "пока на отряд действует приказ «Move! Move! Move!»"
-          }
+          },
+          "cond": [
+            "order-move-move-move"
+          ]
         },
         {
           "on": "melee",
@@ -50,7 +53,10 @@ export default {
           "when": {
             "en": "while affected by the «Fix Bayonets!» Order",
             "ru": "пока на отряд действует приказ «Fix Bayonets!»"
-          }
+          },
+          "cond": [
+            "order-fix-bayonets"
+          ]
         },
         {
           "on": "ranged",
@@ -60,7 +66,10 @@ export default {
           "when": {
             "en": "while affected by the «Take Aim!» Order",
             "ru": "пока на отряд действует приказ «Take Aim!»"
-          }
+          },
+          "cond": [
+            "order-take-aim"
+          ]
         },
         {
           "on": "ranged",
@@ -70,7 +79,10 @@ export default {
           "when": {
             "en": "while affected by the «First Rank, Fire! Second Rank, Fire!» Order — Rapid Fire weapons only",
             "ru": "пока на отряд действует приказ «First Rank, Fire! Second Rank, Fire!» — только для оружия Rapid Fire"
-          }
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
         },
         {
           "on": "profile",
@@ -80,7 +92,10 @@ export default {
           "when": {
             "en": "while affected by the «Take Cover!» Order — never better than 3+",
             "ru": "пока на отряд действует приказ «Take Cover!» — не лучше 3+"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         },
         {
           "on": "profile",
@@ -90,7 +105,10 @@ export default {
           "when": {
             "en": "while affected by the «Duty and Honour!» Order",
             "ru": "пока на отряд действует приказ «Duty and Honour!»"
-          }
+          },
+          "cond": [
+            "order-duty-and-honour"
+          ]
         },
         {
           "on": "profile",
@@ -100,7 +118,10 @@ export default {
           "when": {
             "en": "while affected by the «Duty and Honour!» Order",
             "ru": "пока на отряд действует приказ «Duty and Honour!»"
-          }
+          },
+          "cond": [
+            "order-duty-and-honour"
+          ]
         }
       ],
       "ref": {
@@ -124,7 +145,10 @@ export default {
           "when": {
             "en": "while affected by the «Move! Move! Move!» Order",
             "ru": "пока на отряд действует приказ «Move! Move! Move!»"
-          }
+          },
+          "cond": [
+            "order-move-move-move"
+          ]
         },
         {
           "on": "melee",
@@ -134,7 +158,10 @@ export default {
           "when": {
             "en": "while affected by the «Fix Bayonets!» Order",
             "ru": "пока на отряд действует приказ «Fix Bayonets!»"
-          }
+          },
+          "cond": [
+            "order-fix-bayonets"
+          ]
         },
         {
           "on": "ranged",
@@ -144,7 +171,10 @@ export default {
           "when": {
             "en": "while affected by the «Take Aim!» Order",
             "ru": "пока на отряд действует приказ «Take Aim!»"
-          }
+          },
+          "cond": [
+            "order-take-aim"
+          ]
         },
         {
           "on": "ranged",
@@ -154,7 +184,10 @@ export default {
           "when": {
             "en": "while affected by the «First Rank, Fire! Second Rank, Fire!» Order — Rapid Fire weapons only",
             "ru": "пока на отряд действует приказ «First Rank, Fire! Second Rank, Fire!» — только для оружия Rapid Fire"
-          }
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
         },
         {
           "on": "profile",
@@ -164,7 +197,10 @@ export default {
           "when": {
             "en": "while affected by the «Take Cover!» Order — never better than 3+",
             "ru": "пока на отряд действует приказ «Take Cover!» — не лучше 3+"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         },
         {
           "on": "profile",
@@ -174,7 +210,10 @@ export default {
           "when": {
             "en": "while affected by the «Duty and Honour!» Order",
             "ru": "пока на отряд действует приказ «Duty and Honour!»"
-          }
+          },
+          "cond": [
+            "order-duty-and-honour"
+          ]
         },
         {
           "on": "profile",
@@ -184,7 +223,10 @@ export default {
           "when": {
             "en": "while affected by the «Duty and Honour!» Order",
             "ru": "пока на отряд действует приказ «Duty and Honour!»"
-          }
+          },
+          "cond": [
+            "order-duty-and-honour"
+          ]
         }
       ],
       "ref": {
@@ -226,7 +268,10 @@ export default {
           "when": {
             "en": "when that unit Advances, until the end of the phase",
             "ru": "когда юнит совершает Advance, до конца фазы"
-          }
+          },
+          "cond": [
+            "unit-advanced"
+          ]
         }
       ]
     },
@@ -261,7 +306,10 @@ export default {
           "when": {
             "en": "while the unit has the Benefit of Cover for any other reason — never better than 3+",
             "ru": "пока отряд имеет Benefit of Cover по любой другой причине — не лучше 3+"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -286,7 +334,10 @@ export default {
           "when": {
             "en": "against enemy units within 12\", while affected by the bearer's Target Weak Spot Order",
             "ru": "против вражеских отрядов в пределах 12\", пока действует приказ носителя Target Weak Spot"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -333,7 +384,10 @@ export default {
           "when": {
             "en": "the bearer's Pistols only",
             "ru": "только для пистолетов носителя"
-          }
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
         }
       ],
       "ref": {

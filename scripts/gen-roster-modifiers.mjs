@@ -168,7 +168,8 @@ async function readExisting(slug) {
   return mod?.default || null
 }
 
-// A record's skeleton. `effects`/`when` are the human's to fill in; everything else is bookkeeping
+// A record's skeleton. `effects`/`when`/`cond` are the human's to fill in (see
+// src/data/rosterModifiers/conditions.js for the `cond` vocabulary); everything else is bookkeeping
 // this script owns and rewrites freely.
 function skeleton(src, ver) {
   return {
@@ -211,7 +212,8 @@ function classify(existing, sources, ver) {
 }
 
 // The file keeps every record, in a stable order, with the bookkeeping refreshed and the
-// hand-authored parts (`effects`, `when`, `reviewed`, plus any `note`) carried through untouched.
+// hand-authored parts (`effects`, `when`, `cond`, `reviewed`, plus any `note`) carried through
+// untouched.
 function serialise(slug, existing, sources, result) {
   const bySid = new Map(sources.map((s) => [s.sid, s]))
   const kept = (existing?.entries || []).filter((e) => bySid.has(e.sid))
@@ -227,7 +229,7 @@ function serialise(slug, existing, sources, result) {
   ].sort((a, b) => `${a.kind}${a.det || ''}${a.name}`.localeCompare(`${b.kind}${b.det || ''}${b.name}`))
 
   const body = JSON.stringify({ slug, formatVersion: FORMAT_VERSION, entries: merged }, null, 2)
-  return `// Generated skeletons by gen-roster-modifiers.mjs; \`effects\`/\`when\`/\`reviewed\` are\n`
+  return `// Generated skeletons by gen-roster-modifiers.mjs; \`effects\`/\`when\`/\`cond\`/\`reviewed\` are\n`
     + `// HAND-AUTHORED — re-running the generator preserves them. Never edit \`sid\`/\`hash\`/\`ver\`\n`
     + `// by hand: \`hash\` is what ties a record to the exact rule wording it was read from, and\n`
     + `// rewriting it by hand would silence the one signal that says "GW changed this rule".\n`

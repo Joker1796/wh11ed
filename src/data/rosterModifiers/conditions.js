@@ -1,0 +1,101 @@
+// The vocabulary of game-state conditions a Tier C effect can be gated on — the machine-readable
+// half of an effect's `when` prose, hand-assigned in the same review pass (see the `cond` field in
+// each faction's records and ROSTER-IN-GAME-PROGRESS.md for the plan this serves).
+//
+// WHY A DICTIONARY AND NOT REGEXES ON THE PROSE. `when` is written for a human reading a footnote:
+// 218 conditional effects across 161 distinct wordings, most of them one-offs. There is no grammar
+// to parse. What there IS is a small set of STATES a game can be in — a Waaagh! called, an
+// Imperative selected, a unit that charged — and those are enumerable. The prose stays the label;
+// this is the switch.
+//
+// THE RULE THIS SERVES. Tier C rewrites a printed number only when the modifier is unconditional
+// (rosterStatMods.js). An id here is a promise that the condition can be answered HONESTLY at the
+// table — either the game tracker proves it, the roster itself proves it, or the player flips one
+// switch they cannot misread. Everything else keeps its footnote, and says so explicitly through a
+// sentinel rather than by having no `cond` at all — "not automatable" and "not reviewed yet" must
+// never look the same.
+//
+// `duration` is read from the rule's own wording and says when a switch stops being true. NOTE
+// that the tracker's only clock is the battle round: it has no phases and no notion of whose turn
+// it is, so anything shorter than a round can only be auto-cleared at the round boundary until
+// that changes (§3.5 of ROSTER-IN-GAME-PROGRESS.md).
+
+// Sentinels — the effect stays an attributed note. Each says WHY, because the reasons have
+// different fixes and three of the four are removable.
+export const SENTINELS = {
+  // No honest switch exists: the condition is resolved per attack, per target, by position on the
+  // table, or by a dice roll. This is the one that is meant to stay forever.
+  never: { en: 'resolved per attack or by position — check it yourself', ru: 'решается на атаку или по расстановке — проверьте сами' },
+  // The condition names a subset of models/units inside the prose ("Penitent models, while…"),
+  // where the scope machinery would need it as a `scope` index. A switch would over-apply to the
+  // whole unit. Fixable by moving the subset into the record's `scope` (a Tier C data change).
+  'blocked-subset': { en: 'applies to part of the unit only', ru: 'действует только на часть отряда' },
+  // Restricted to a weapon subset ("the bearer's Psychic weapons only") finer than Tier C's `on`
+  // (ranged / melee / weapon / profile) can address.
+  'blocked-weapon': { en: 'applies to certain weapons only', ru: 'действует только на часть оружия' },
+  // An "instead" / "additional" variant of another effect. Applying it needs a link to the effect
+  // it replaces, which the record shape has no way to express — without one it would stack.
+  'blocked-alternate': { en: 'replaces another modifier rather than adding to it', ru: 'заменяет другой модификатор, а не складывается с ним' },
+}
+
+// scope — who answers the question:
+//   army    one switch for the whole army (an army rule state; the army-rule tracker proves some)
+//   unit    a per-entry switch (this unit charged, is Battle-shocked, has an Order on it)
+//   roster  no switch at all: the list already answers it (attachment, wargear)
+//   phase   the phase/turn the game is in — NOT tracked yet, so these never come out true; marked
+//           so the future phase work inherits a finished list instead of starting from the prose
+export const conditions = {
+  // ── Army state ──────────────────────────────────────────────────────────────────────────
+  'waaagh-active': { scope: 'army', duration: 'round', label: { en: 'Waaagh! called', ru: 'Waaagh! объявлен' } },
+  'imperative-protector': { scope: 'army', duration: 'round', label: { en: 'Protector Imperative', ru: 'Protector Imperative' } },
+  'imperative-conqueror': { scope: 'army', duration: 'round', label: { en: 'Conqueror Imperative', ru: 'Conqueror Imperative' } },
+  'benediction-citation-in-savagery': { scope: 'army', duration: 'round', label: { en: 'Citation in Savagery', ru: 'Citation in Savagery' } },
+  'tactic-furor': { scope: 'army', duration: 'round', label: { en: 'Furor Tactics', ru: 'Furor Tactics' } },
+  'tactic-malleus': { scope: 'army', duration: 'round', label: { en: 'Malleus Tactics', ru: 'Malleus Tactics' } },
+  'drug-adrenalight': { scope: 'army', duration: 'battle', label: { en: 'Adrenalight', ru: 'Adrenalight' } },
+  'drug-hypex': { scope: 'army', duration: 'battle', label: { en: 'Hypex', ru: 'Hypex' } },
+  'drug-serpentin': { scope: 'army', duration: 'battle', label: { en: 'Serpentin', ru: 'Serpentin' } },
+  'drug-painbringer': { scope: 'army', duration: 'battle', label: { en: 'Painbringer', ru: 'Painbringer' } },
+  'drug-grave-lotus': { scope: 'army', duration: 'battle', label: { en: 'Grave Lotus', ru: 'Grave Lotus' } },
+  'drug-splintermind': { scope: 'army', duration: 'battle', label: { en: 'Splintermind', ru: 'Splintermind' } },
+  // Necrons' Cursed Legion: the trigger is one Destroyer Cult unit killing something, but the
+  // bonus is the army's for the rest of the turn — an army switch, not a per-unit one.
+  'cold-fervour': { scope: 'army', duration: 'turn', label: { en: 'Cold Fervour triggered', ru: 'Cold Fervour сработал' } },
+  'vision-momentous-brutality': { scope: 'army', duration: 'battle', label: { en: 'Vision of Momentous Brutality chosen', ru: 'Выбран Vision of Momentous Brutality' } },
+
+  // ── Unit state ──────────────────────────────────────────────────────────────────────────
+  'unit-charged': { scope: 'unit', duration: 'turn', label: { en: 'Made a Charge move', ru: 'Совершил Charge' } },
+  'unit-advanced': { scope: 'unit', duration: 'turn', label: { en: 'Advanced', ru: 'Совершил Advance' } },
+  'unit-battle-shocked': { scope: 'unit', duration: 'round', label: { en: 'Battle-shocked', ru: 'Battle-shocked' } },
+  'unit-not-battle-shocked': { scope: 'unit', duration: 'round', label: { en: 'Not Battle-shocked', ru: 'Не Battle-shocked' } },
+  'unit-arrived-from-reserves': { scope: 'unit', duration: 'turn', label: { en: 'Arrived from Reserves', ru: 'Прибыл из резерва' } },
+  'unit-righteous': { scope: 'unit', duration: 'round', label: { en: 'Righteous', ru: 'Righteous' } },
+  'unit-selected-command-phase': { scope: 'unit', duration: 'round', label: { en: 'Selected this Command phase', ru: 'Выбран в эту Command phase' } },
+  'unit-favoured-champions': { scope: 'unit', duration: 'round', label: { en: "Army's Favoured Champions", ru: 'Favoured Champions армии' } },
+  'unit-achieved-boast': { scope: 'unit', duration: 'battle', label: { en: 'Achieved a Boast', ru: 'Выполнил Boast' } },
+  'unit-manoeuvre-swift-as-the-wind': { scope: 'unit', duration: 'phase', label: { en: 'Swift as the Wind performed', ru: 'Выполнен Swift as the Wind' } },
+  'surge-unholy-hunger': { scope: 'unit', duration: 'phase', label: { en: 'Unholy Hunger', ru: 'Unholy Hunger' } },
+  'surge-unnatural-fortitude': { scope: 'unit', duration: 'phase', label: { en: 'Unnatural Fortitude', ru: 'Unnatural Fortitude' } },
+  // Astra Militarum Orders — issued to one unit in the Command phase, so per unit, not per army.
+  'order-move-move-move': { scope: 'unit', duration: 'round', label: { en: '«Move! Move! Move!»', ru: '«Move! Move! Move!»' } },
+  'order-fix-bayonets': { scope: 'unit', duration: 'round', label: { en: '«Fix Bayonets!»', ru: '«Fix Bayonets!»' } },
+  'order-take-aim': { scope: 'unit', duration: 'round', label: { en: '«Take Aim!»', ru: '«Take Aim!»' } },
+  'order-duty-and-honour': { scope: 'unit', duration: 'round', label: { en: '«Duty and Honour!»', ru: '«Duty and Honour!»' } },
+
+  // ── Answered by the list itself ─────────────────────────────────────────────────────────
+  // The roster records the attachment, so there is nothing to ask the player.
+  'unit-leading': { scope: 'roster', duration: 'battle', label: { en: 'Leading a unit', ru: 'Ведёт отряд' } },
+
+  // ── Not tracked yet (see the header) ────────────────────────────────────────────────────
+  'phase-shooting': { scope: 'phase', duration: 'phase', label: { en: 'Your Shooting phase', ru: 'Ваша Shooting phase' } },
+}
+
+export const isSentinel = (id) => Object.hasOwn(SENTINELS, id)
+
+// True when every condition on the effect is one the app can actually answer. A sentinel, an
+// unknown id, or a scope nothing resolves yet (`phase`) all mean the same thing to the caller:
+// keep the printed number and show the note.
+export function isAnswerable(cond) {
+  if (!Array.isArray(cond) || !cond.length) return false
+  return cond.every((id) => conditions[id] && conditions[id].scope !== 'phase')
+}

@@ -1,4 +1,4 @@
-// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`reviewed` are
+// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`cond`/`reviewed` are
 // HAND-AUTHORED — re-running the generator preserves them. Never edit `sid`/`hash`/`ver`
 // by hand: `hash` is what ties a record to the exact rule wording it was read from, and
 // rewriting it by hand would silence the one signal that says "GW changed this rule".
@@ -24,7 +24,10 @@ export default {
           "when": {
             "en": "while the Protector Imperative is active for your army",
             "ru": "пока для армии активен Protector Imperative"
-          }
+          },
+          "cond": [
+            "imperative-protector"
+          ]
         },
         {
           "on": "melee",
@@ -34,7 +37,10 @@ export default {
           "when": {
             "en": "while the Conqueror Imperative is active for your army",
             "ru": "пока для армии активен Conqueror Imperative"
-          }
+          },
+          "cond": [
+            "imperative-conqueror"
+          ]
         },
         {
           "on": "weapon",
@@ -44,7 +50,10 @@ export default {
           "when": {
             "en": "per attack under the Conqueror Imperative, if the unit is Battleline or within 6\" of a friendly Battleline unit",
             "ru": "за атаку при Conqueror Imperative, если отряд Battleline или в 6\" от дружественного отряда Battleline"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -68,7 +77,10 @@ export default {
           "when": {
             "en": "while the Protector Imperative is active for your army",
             "ru": "пока для армии активен Protector Imperative"
-          }
+          },
+          "cond": [
+            "imperative-protector"
+          ]
         },
         {
           "on": "melee",
@@ -78,7 +90,10 @@ export default {
           "when": {
             "en": "while the Conqueror Imperative is active for your army",
             "ru": "пока для армии активен Conqueror Imperative"
-          }
+          },
+          "cond": [
+            "imperative-conqueror"
+          ]
         },
         {
           "on": "weapon",
@@ -88,7 +103,10 @@ export default {
           "when": {
             "en": "per attack under the Conqueror Imperative, if the unit is Battleline or within 6\" of a friendly Battleline unit",
             "ru": "за атаку при Conqueror Imperative, если отряд Battleline или в 6\" от дружественного отряда Battleline"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -119,7 +137,10 @@ export default {
           "when": {
             "en": "unless the unit is Battle-shocked",
             "ru": "если отряд не Battle-shocked"
-          }
+          },
+          "cond": [
+            "unit-not-battle-shocked"
+          ]
         }
       ],
       "ref": {
@@ -144,7 +165,10 @@ export default {
           "when": {
             "en": "under the Panegyric Procession Benediction, per ranged attack within half range",
             "ru": "при благословении Panegyric Procession, за стрелковую атаку в пределах половины дальности"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         },
         {
           "on": "melee",
@@ -154,7 +178,11 @@ export default {
           "when": {
             "en": "under the Citation in Savagery Benediction, if the unit made a Charge move this turn",
             "ru": "при благословении Citation in Savagery, если отряд совершил чардж в этом ходу"
-          }
+          },
+          "cond": [
+            "benediction-citation-in-savagery",
+            "unit-charged"
+          ]
         },
         {
           "on": "melee",
@@ -164,7 +192,11 @@ export default {
           "when": {
             "en": "under the Citation in Savagery Benediction, if the unit made a Charge move this turn",
             "ru": "при благословении Citation in Savagery, если отряд совершил чардж в этом ходу"
-          }
+          },
+          "cond": [
+            "benediction-citation-in-savagery",
+            "unit-charged"
+          ]
         }
       ],
       "ref": {
@@ -189,7 +221,10 @@ export default {
           "when": {
             "en": "for a unit given the Halo Override keyword with the Electromotive Energisation ability",
             "ru": "для отряда, получившего Halo Override со способностью Electromotive Energisation"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         },
         {
           "on": "profile",
@@ -199,7 +234,10 @@ export default {
           "when": {
             "en": "for a unit given the Halo Override keyword with the Microactuator Bracing ability",
             "ru": "для отряда, получившего Halo Override со способностью Microactuator Bracing"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -334,7 +372,10 @@ export default {
           "when": {
             "en": "while the bearer leads the unit and it is within range of your Acquisition objective marker",
             "ru": "пока носитель ведёт отряд и тот в радиусе вашего маркера Acquisition"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -428,7 +469,10 @@ export default {
           "when": {
             "en": "while the bearer is attached to a Kastelan Robots unit",
             "ru": "пока носитель присоединён к отряду Kastelan Robots"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ]
     },

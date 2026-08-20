@@ -1,4 +1,4 @@
-// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`reviewed` are
+// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`cond`/`reviewed` are
 // HAND-AUTHORED — re-running the generator preserves them. Never edit `sid`/`hash`/`ver`
 // by hand: `hash` is what ties a record to the exact rule wording it was read from, and
 // rewriting it by hand would silence the one signal that says "GW changed this rule".
@@ -24,7 +24,10 @@ export default {
           "when": {
             "en": "Infantry models, while within 6\" of a Space Wolves Character (or 12\" of a Wolf Priest) and not Battle-shocked",
             "ru": "модели Infantry, пока отряд в 6\" от персонажа Space Wolves (или 12\" от Wolf Priest) и не Battle-shocked"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         },
         {
           "on": "profile",
@@ -34,7 +37,10 @@ export default {
           "when": {
             "en": "Vehicle models, under the same condition",
             "ru": "модели Vehicle, при том же условии"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         }
       ],
       "ref": {
@@ -58,7 +64,10 @@ export default {
           "when": {
             "en": "Infantry models, while within 6\" of a Space Wolves Character (or 12\" of a Wolf Priest) and not Battle-shocked",
             "ru": "модели Infantry, пока отряд в 6\" от персонажа Space Wolves (или 12\" от Wolf Priest) и не Battle-shocked"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         },
         {
           "on": "profile",
@@ -68,7 +77,10 @@ export default {
           "when": {
             "en": "Vehicle models, under the same condition",
             "ru": "модели Vehicle, при том же условии"
-          }
+          },
+          "cond": [
+            "blocked-subset"
+          ]
         }
       ],
       "ref": {
@@ -134,7 +146,10 @@ export default {
           "when": {
             "en": "once per battle, for the Fight phase, while the bearer leads a Blood Claws unit",
             "ru": "один раз за битву, на фазу боя, пока носитель ведёт отряд Blood Claws"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -188,7 +203,10 @@ export default {
           "when": {
             "en": "if the bearer's unit has achieved one or more Boasts",
             "ru": "если отряд носителя выполнил хотя бы одно Boast"
-          }
+          },
+          "cond": [
+            "unit-achieved-boast"
+          ]
         }
       ],
       "ref": {
@@ -213,7 +231,10 @@ export default {
           "when": {
             "en": "for the Fight phase, if more enemy than friendly models are wholly within 6\" of the bearer",
             "ru": "на фазу боя, если в 6\" от носителя целиком больше вражеских моделей, чем дружественных"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         },
         {
           "on": "melee",
@@ -223,7 +244,10 @@ export default {
           "when": {
             "en": "instead, if the bearer's unit has achieved one or more Boasts",
             "ru": "вместо этого, если отряд носителя выполнил хотя бы одно Boast"
-          }
+          },
+          "cond": [
+            "blocked-alternate"
+          ]
         }
       ],
       "ref": {
@@ -255,7 +279,10 @@ export default {
           "when": {
             "en": "an additional +1 until the end of the turn, after the bearer ends a Charge move",
             "ru": "дополнительно +1 до конца хода, после того как носитель завершил чардж"
-          }
+          },
+          "cond": [
+            "blocked-alternate"
+          ]
         }
       ],
       "ref": {

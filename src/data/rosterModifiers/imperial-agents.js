@@ -1,4 +1,4 @@
-// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`reviewed` are
+// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`cond`/`reviewed` are
 // HAND-AUTHORED — re-running the generator preserves them. Never edit `sid`/`hash`/`ver`
 // by hand: `hash` is what ties a record to the exact rule wording it was read from, and
 // rewriting it by hand would silence the one signal that says "GW changed this rule".
@@ -52,7 +52,10 @@ export default {
           "when": {
             "en": "with the Acquire objective chosen, while within range of that objective marker",
             "ru": "при выбранной цели «Acquire», пока юнит в радиусе действия этого маркера"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         },
         {
           "on": "profile",
@@ -62,7 +65,10 @@ export default {
           "when": {
             "en": "with the Acquire objective chosen, while within range of that objective marker",
             "ru": "при выбранной цели «Acquire», пока юнит в радиусе действия этого маркера"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         },
         {
           "on": "profile",
@@ -72,7 +78,10 @@ export default {
           "when": {
             "en": "with the Acquire objective chosen, while within range of that objective marker",
             "ru": "при выбранной цели «Acquire», пока юнит в радиусе действия этого маркера"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {

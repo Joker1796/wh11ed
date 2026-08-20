@@ -1,4 +1,4 @@
-// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`reviewed` are
+// Generated skeletons by gen-roster-modifiers.mjs; `effects`/`when`/`cond`/`reviewed` are
 // HAND-AUTHORED — re-running the generator preserves them. Never edit `sid`/`hash`/`ver`
 // by hand: `hash` is what ties a record to the exact rule wording it was read from, and
 // rewriting it by hand would silence the one signal that says "GW changed this rule".
@@ -50,7 +50,10 @@ export default {
           "when": {
             "en": "Scintillating Legions units, against ranged attacks, while a friendly Thousand Sons Psyker unit is within 6\" and visible",
             "ru": "отряды Scintillating Legions, против стрелковых атак, пока дружественный отряд Thousand Sons Psyker в 6\" и в зоне видимости"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -75,7 +78,10 @@ export default {
           "when": {
             "en": "ranged Psychic weapons only, while the Imbued Manifestation ability is selected",
             "ru": "только стрелковое психическое оружие, пока выбрана способность Imbued Manifestation"
-          }
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
         }
       ],
       "ref": {
@@ -140,7 +146,10 @@ export default {
           "when": {
             "en": "for a SEKHETAR ROBOTS unit within 12\" of a friendly THOUSAND SONS PSYKER unit (Infusion aura)",
             "ru": "для юнита SEKHETAR ROBOTS в пределах 12\" от дружественного юнита THOUSAND SONS PSYKER (аура Infusion)"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ]
     },
@@ -189,7 +198,10 @@ export default {
           "when": {
             "en": "once per battle, for the phase the bearer uses this Enhancement in",
             "ru": "один раз за битву, на фазу, в которой носитель применил улучшение"
-          }
+          },
+          "cond": [
+            "never"
+          ]
         }
       ],
       "ref": {
@@ -214,7 +226,10 @@ export default {
           "when": {
             "en": "the bearer's Psychic weapons only",
             "ru": "только психическое оружие носителя"
-          }
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
         },
         {
           "on": "weapon",
@@ -224,7 +239,10 @@ export default {
           "when": {
             "en": "the bearer's Psychic weapons only",
             "ru": "только психическое оружие носителя"
-          }
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
         }
       ],
       "ref": {
@@ -264,7 +282,10 @@ export default {
           "when": {
             "en": "Psychic weapons of models in the bearer's unit",
             "ru": "психическое оружие моделей в отряде носителя"
-          }
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
         },
         {
           "on": "weapon",
@@ -274,7 +295,10 @@ export default {
           "when": {
             "en": "+2 instead, while the bearer's unit is wholly within your army's Flow of Magic",
             "ru": "+2 вместо +1, пока отряд носителя целиком в Потоке магии вашей армии"
-          }
+          },
+          "cond": [
+            "blocked-alternate"
+          ]
         }
       ],
       "ref": {
@@ -314,7 +338,10 @@ export default {
           "when": {
             "en": "the bearer's ranged Psychic weapons, while the bearer's unit is wholly within your army's Flow of Magic",
             "ru": "стрелковое психическое оружие носителя, пока его отряд целиком в Потоке магии вашей армии"
-          }
+          },
+          "cond": [
+            "blocked-weapon"
+          ]
         }
       ],
       "ref": {
