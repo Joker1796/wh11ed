@@ -7045,6 +7045,7 @@ export default {
       "sid": "28ea8bf8-1cb6-4ae3-b0c7-2a171e5dc29f",
       "dp": 1,
       "fd": "Disruption",
+      "unique": "ACROBATIC",
       "enhancements": [
         {
           "name": "Mistweave",
@@ -7077,6 +7078,7 @@ export default {
       "sid": "06936a21-a084-45d1-b358-5386ce9c3c47",
       "dp": 2,
       "fd": "Disruption",
+      "unique": "ACROBATIC",
       "enhancements": [
         {
           "name": "Cegorach’s Coil",
@@ -7337,6 +7339,7 @@ export default {
       "sid": "2651d2ae-b43a-4576-9e58-6d5275c89350",
       "dp": 2,
       "fd": "Purge the Foe",
+      "unique": "ACROBATIC",
       "enhancements": [
         {
           "name": "Key of Ghosts",
@@ -7452,6 +7455,7 @@ export default {
       "sid": "366e2930-9de3-4494-bcee-e6fed3c3ad1e",
       "dp": 1,
       "fd": "Take and Hold",
+      "unique": "ACROBATIC",
       "enhancements": [
         {
           "name": "Shadowfall Masks (Upgrade)",

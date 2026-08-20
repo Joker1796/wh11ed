@@ -2105,6 +2105,7 @@ export default {
       "sid": "8698abd9-3176-4792-85f4-abdd6ad5b311",
       "dp": 3,
       "fd": "Priority Assets",
+      "unique": "HEARTHBAND",
       "enhancements": [
         {
           "name": "Bastion Shield",
@@ -2233,6 +2234,7 @@ export default {
       "sid": "9e7516ff-e16f-4ad9-8e43-861ca9a6d955",
       "dp": 1,
       "fd": "Priority Assets",
+      "unique": "HEARTHBAND",
       "enhancements": [
         {
           "name": "Ironskein",

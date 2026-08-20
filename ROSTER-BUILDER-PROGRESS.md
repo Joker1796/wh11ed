@@ -289,6 +289,31 @@ is implemented and tested.
       those pills — and only those — carry the deciding profile names. All 32 resolve to a non-empty
       name. A composition line ("1× Acothyst + 6× Wrack") sits under the model stepper.
 
+12. **Two detachments sharing a tag were takeable — FIXED 2026-08-20.** "This detachment has the
+    DYNASTY tag and cannot be taken with another DYNASTY detachment" (core rules 25.04, and
+    `muster.js` already prints the general form: "some detachment rules list … other detachments
+    that your army … cannot include"). **26 tags across 17 factions, and 19 of those pairs fit
+    inside a 3 DP budget** — so an illegal army was two clicks away, unflagged.
+
+    The DATA was already right and already complete: `detachment.unique` in the hand-written
+    faction files, shown on the reference page (`FactionRuleView`'s "Unique: …"). What it never did
+    was reach the roster layer — `buildDetachment` read `dp` and `forceDisposition` from mfm and
+    stopped there. (A first pass at measuring this claimed 34 missing tags; that was a regex over
+    the source files, not the data. Importing the modules says 57 tags, all 55 of appdata's
+    agreeing, plus two appdata lacks.)
+
+    Three sources, none complete alone, so the generator takes ours and reports disagreement:
+    mfm has 55, appdata's `detachment_unique_keyword` the same 55, and the faction files two more
+    (World Eaters' ONSLAUGHT pair, off the Faction Pack). The failure being guarded against is
+    silent — if the mfm scrape stops finding tags after a site change, the editor quietly stops
+    barring illegal pairs — so `sync-detachment-details.mjs` now cross-checks every tag against
+    appdata and names the two known wh11ed-only ones so a real regression stands out.
+
+    Enforced in both places, for the two different ways a bad list happens: the picker greys out a
+    detachment whose tag is taken (visible with the reason, like an already-used enhancement),
+    and `validateRoster` reports `detachmentTagClash` for a list that was imported or predates the
+    tag. The picker is shared with the Game Tracker's setup screen, which gets the same guard.
+
 ## Where the merge-into-main work is recorded
 
 The `main`-catch-up merge itself (conflict resolution, a stale test fixed for `BaseModal`'s

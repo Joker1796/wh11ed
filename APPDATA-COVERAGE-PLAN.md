@@ -732,9 +732,21 @@ What is genuinely missing, ranked:
    to a detachment, with `isMandatory`, `maxRosterLimit`/`minRosterLimit`, `requiresWargearItemId`
    and rules like "This model is additionally equipped with: phlegm bombardment". The roster builder
    knows nothing about them. Worth scoping before calling roster v1 finished.
-4. **Validation odds and ends:** `detachment_unique_keyword` (55),
-   `army_rule_excluded_from_command_bunker_faction_keyword` (37), and `stratagem_phase` (2016 —
-   structural phase per stratagem, which the tracker/stratagem pages could filter on).
+4. **Validation odds and ends.** `detachment_unique_keyword` (55) — **DONE 2026-08-20**, though not
+   as a data gap: wh11ed already had every tag (`detachment.unique`, hand-written, 57 of them) and
+   the table's value turned out to be as an independent cross-check, now wired into
+   `sync-detachment-details.mjs`. The gap was that the tag never reached the roster layer, so two
+   detachments sharing one could both be taken — see `ROSTER-BUILDER-PROGRESS.md` item 12.
+
+   `army_rule_excluded_from_command_bunker_faction_keyword` (37) — **not useful, and this was
+   already established**: `sync-army-rule-coverage.mjs`'s header records the reading of the raw
+   rows, which is that this table and `army_rule_faction_keyword` are Command-Bunker-app UI
+   bookkeeping (which of my own factions can select this army-rule ROW, and whether it shows as a
+   separate option in a digital army builder), not a roster restriction. `army_rule` carries no
+   prose at all. Listing it above as a candidate was this audit's own oversight.
+
+   `stratagem_phase` (2016 — structural phase per stratagem, which the tracker/stratagem pages
+   could filter on) is still open.
 5. **Missions** (`primary_mission*`, `secondary_mission*`, ~15 non-empty tables) are untouched by
    design — tracker mission data is hand-authored and checked by `sync-tracker.mjs` against
    `_core-content.json`, not against these.

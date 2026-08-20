@@ -2305,6 +2305,7 @@ export default {
       "sid": "16f0256d-a6ba-4d12-963f-2b8874eb17a5",
       "dp": 2,
       "fd": "Disruption",
+      "unique": "LIONS",
       "enhancements": [
         {
           "name": "Superior Creation",
@@ -2364,6 +2365,7 @@ export default {
       "sid": "4edac749-d510-4161-b3c3-1fd31e91cfcf",
       "dp": 1,
       "fd": "Take and Hold",
+      "unique": "ARMOURY",
       "enhancements": [
         {
           "name": "Interred Expertise (Upgrade)",
@@ -2562,6 +2564,7 @@ export default {
       "sid": "3cb02267-28e0-4dab-9ff3-976caa1b7a31",
       "dp": 2,
       "fd": "Take and Hold",
+      "unique": "ARMOURY",
       "enhancements": [
         {
           "name": "Adamantine Talisman",
@@ -2693,6 +2696,7 @@ export default {
       "sid": "92ae3afb-c5d5-41a9-80da-8db33c91ed41",
       "dp": 1,
       "fd": "Priority Assets",
+      "unique": "LIONS",
       "enhancements": [
         {
           "name": "Efficient Aggression",

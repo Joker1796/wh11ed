@@ -16,11 +16,14 @@
         :key="d.name"
         class="det"
         :class="{ on: selected.includes(d.name) }"
-        :disabled="!selected.includes(d.name) && selected.length > 0 && dpSpent + d.dp > maxDp"
+        :disabled="(!selected.includes(d.name) && selected.length > 0 && dpSpent + d.dp > maxDp) || clashes(d)"
         @click="$emit('toggle', d)"
       >
         <span class="det-name">{{ d.name }}</span>
-        <span class="det-meta">{{ d.dp }}DP · {{ d.forceDisposition }}</span>
+        <span class="det-meta">
+          {{ d.dp }}DP · {{ d.forceDisposition }}<template v-if="d.unique"> · {{ d.unique }}</template>
+          <em v-if="clashes(d)" class="det-clash">{{ labels.detachmentTagTaken }}</em>
+        </span>
       </button>
     </div>
   </BaseModal>
@@ -47,6 +50,16 @@ const labels = computed(() => ui[locale.value])
 // below) — not official yet, but GW has said it's fine as long as it's the only one taken.
 // Don't flag that legal case as an error.
 const overAllowed = computed(() => props.selected.length === 1 && props.dpSpent > props.maxDp)
+
+// A detachment's TAG bars a second detachment sharing it ("this detachment has the DYNASTY tag and
+// cannot be taken with another DYNASTY detachment", core rules 25.04). 26 tags across 17 factions,
+// 19 of the pairs affordable inside a 3 DP budget — so without this the illegal pair is two clicks
+// away. Shown greyed rather than hidden, so it's clear WHY it can't be taken (same choice as the
+// enhancement list in the unit editor). validateRoster repeats the check for imported lists.
+const takenTags = computed(() => new Set(props.detachments
+  .filter((d) => props.selected.includes(d.name) && d.unique)
+  .map((d) => d.unique.toUpperCase())))
+const clashes = (d) => !props.selected.includes(d.name) && !!d.unique && takenTags.value.has(d.unique.toUpperCase())
 </script>
 
 <style scoped>
@@ -99,6 +112,7 @@ const overAllowed = computed(() => props.selected.length === 1 && props.dpSpent 
 .det:hover:not(:disabled) { border-color: var(--accent); }
 .det.on { background: color-mix(in srgb, var(--accent) 16%, transparent); border-color: var(--accent); }
 .det:disabled { opacity: 0.4; cursor: not-allowed; }
+.det-clash { display: block; font-style: normal; opacity: 0.9; }
 .det-name { font-size: 0.85rem; font-weight: 600; color: var(--text-primary); }
 .det-meta { font-size: 0.7rem; color: var(--text-dim); font-family: var(--font-mono); }
 </style>

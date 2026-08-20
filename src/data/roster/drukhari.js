@@ -2334,6 +2334,7 @@ export default {
       "sid": "eaf6ced2-c21b-42fa-b442-ee7437cc3430",
       "dp": 2,
       "fd": "Take and Hold",
+      "unique": "COVENS",
       "enhancements": [
         {
           "name": "Master Regenesist",
@@ -2390,6 +2391,7 @@ export default {
       "sid": "ebd949cd-20a6-46be-929e-17421b92e77d",
       "dp": 1,
       "fd": "Reconnaissance",
+      "unique": "WYCH CULT",
       "enhancements": [
         {
           "name": "Hyperstimm Trafficker",
@@ -2422,6 +2424,7 @@ export default {
       "sid": "091a9dfa-59b6-43e9-957a-a211981c684e",
       "dp": 1,
       "fd": "Disruption",
+      "unique": "KABAL",
       "enhancements": [
         {
           "name": "Towering Arrogance",
@@ -2454,6 +2457,7 @@ export default {
       "sid": "6693dc93-0d9b-4364-8e5a-4882debb529b",
       "dp": 2,
       "fd": "Disruption",
+      "unique": "KABAL",
       "enhancements": [
         {
           "name": "Leechbite Plate",
@@ -2688,6 +2692,7 @@ export default {
       "sid": "07ecddab-2a2f-4eeb-b505-fff5138e729f",
       "dp": 2,
       "fd": "Purge the Foe",
+      "unique": "WYCH CULT",
       "enhancements": [
         {
           "name": "Pharmacophex",
@@ -2744,6 +2749,7 @@ export default {
       "sid": "cbe64aa9-4b35-42c6-8674-4d841cc6fcf9",
       "dp": 1,
       "fd": "Take and Hold",
+      "unique": "COVENS",
       "enhancements": [
         {
           "name": "Gnarlskin Experimentor",

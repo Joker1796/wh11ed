@@ -1925,6 +1925,7 @@ export default {
       "sid": "37b534f4-135f-4d14-bfcb-3fa7ccf9469d",
       "dp": 2,
       "fd": "Take and Hold",
+      "unique": "PURESTRAIN",
       "enhancements": [
         {
           "name": "Predatory Instincts",
@@ -2182,6 +2183,7 @@ export default {
       "sid": "f8ab87bf-ffeb-4dae-8708-5e04ed4d45c6",
       "dp": 3,
       "fd": "Take and Hold",
+      "unique": "HOSTS",
       "enhancements": [
         {
           "name": "Prowling Agitant",
@@ -2300,6 +2302,7 @@ export default {
       "sid": "23ea0315-37ef-410f-a0a2-a6cf622e609f",
       "dp": 1,
       "fd": "Priority Assets",
+      "unique": "PURESTRAIN",
       "enhancements": [
         {
           "name": "Mark of the Star Children (Upgrade)",
@@ -2433,6 +2436,7 @@ export default {
       "sid": "ef54b4ca-adca-4e8f-9427-ea1cd0e42ed5",
       "dp": 1,
       "fd": "Reconnaissance",
+      "unique": "HOSTS",
       "enhancements": [
         {
           "name": "Devious Disguises (Upgrade)",

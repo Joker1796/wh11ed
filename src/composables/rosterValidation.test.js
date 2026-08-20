@@ -301,3 +301,24 @@ describe('validateRoster — a clean list', () => {
     expect(res.errorCount).toBe(0)
   })
 })
+
+describe('validateRoster — detachment tags', () => {
+  // "This detachment has the DYNASTY tag and cannot be taken with another DYNASTY detachment"
+  // (core rules 25.04). The picker greys the second one out; this catches an imported list.
+  const tagged = (name, unique, dp = 1) => ({ sid: `det-${name}`, name, dp, unique, enhancements: [] })
+  const f = { ...faction, detachments: [tagged('Awakened Dynasty', 'DYNASTY'), tagged('Hand of the Dynasty', 'DYNASTY'), tagged('Hypercrypt Legion', 'HYPERCRYPT')] }
+  const run = (names) => validateRoster(
+    { ...roster(), detachments: names, units: [{ ...U('captain'), warlord: true }] },
+    { faction: f, core },
+  ).issues.filter((i) => i.code === 'detachmentTagClash')
+
+  it('accepts two detachments with different tags', () => {
+    expect(run(['Awakened Dynasty', 'Hypercrypt Legion'])).toHaveLength(0)
+  })
+
+  it('rejects two that share one', () => {
+    const [issue] = run(['Awakened Dynasty', 'Hand of the Dynasty'])
+    expect(issue).toBeTruthy()
+    expect(issue.params).toMatchObject({ tag: 'DYNASTY', names: 'Awakened Dynasty, Hand of the Dynasty' })
+  })
+})

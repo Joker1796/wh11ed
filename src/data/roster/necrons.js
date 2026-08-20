@@ -2968,6 +2968,7 @@ export default {
       "sid": "ef55259d-3884-4b3b-b215-08ab337d4a24",
       "dp": 3,
       "fd": "Take and Hold",
+      "unique": "DYNASTY",
       "enhancements": [
         {
           "name": "Veil of Darkness",
@@ -3215,6 +3216,7 @@ export default {
       "sid": "8e281a27-1d5a-415b-8b92-34cd0ed53b63",
       "dp": 1,
       "fd": "Take and Hold",
+      "unique": "DYNASTY",
       "enhancements": [
         {
           "name": "Enlivened Sentinels (Upgrade)",
@@ -3257,6 +3259,7 @@ export default {
       "sid": "489fc222-d9a1-4220-9ef2-9747c2fea283",
       "dp": 2,
       "fd": "Reconnaissance",
+      "unique": "HYPERCRYPT",
       "enhancements": [
         {
           "name": "Dimensional Overseer",
@@ -3533,6 +3536,7 @@ export default {
       "sid": "3818a5e4-5d1a-410b-a63f-9a850b923635",
       "dp": 1,
       "fd": "Priority Assets",
+      "unique": "HYPERCRYPT",
       "enhancements": [
         {
           "name": "Prelocational Optimiser",

@@ -3855,6 +3855,7 @@ export default {
       "sid": "5bdc7f35-d1cc-4c58-9888-81ee3f0ee8ab",
       "dp": 1,
       "fd": "Disruption",
+      "unique": "AUXILIARY",
       "enhancements": [
         {
           "name": "Admired Leader",
@@ -3891,6 +3892,7 @@ export default {
       "sid": "c20f90be-bf55-4d26-97af-7bb642836256",
       "dp": 1,
       "fd": "Priority Assets",
+      "unique": "BATTLESUIT",
       "enhancements": [
         {
           "name": "Supernova Launcher",
@@ -3997,6 +3999,7 @@ export default {
       "sid": "5f9bd941-4904-4e4c-b880-35543f704f17",
       "dp": 2,
       "fd": "Take and Hold",
+      "unique": "AUXILIARY",
       "enhancements": [
         {
           "name": "Kroothawk Flock",
@@ -4115,6 +4118,7 @@ export default {
       "sid": "0e473cae-5f5c-4f69-8134-b2bd70df0569",
       "dp": 3,
       "fd": "Purge the Foe",
+      "unique": "BATTLESUIT",
       "enhancements": [
         {
           "name": "Puretide Engram Neurochip",

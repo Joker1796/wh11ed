@@ -55,6 +55,22 @@ export function validateRoster(roster, { faction, core } = {}) {
   const dpSpent = detachments.reduce((s, d) => s + (d.dp || 0), 0)
   if (dpSpent > battle.dp) add('overDp', 'error', { params: { spent: dpSpent, limit: battle.dp } })
 
+  // Detachment tags: "This detachment has the DYNASTY tag and cannot be taken with another DYNASTY
+  // detachment" (core rules 25.04). 26 tags across 17 factions, and 19 of those pairs fit inside a
+  // 3 DP budget, so this is reachable in two clicks — the editor's picker greys the second one out,
+  // and this catches a list that was imported or built before the tag was known.
+  {
+    const byTag = new Map()
+    for (const d of detachments) {
+      if (!d.unique) continue
+      if (!byTag.has(d.unique)) byTag.set(d.unique, [])
+      byTag.get(d.unique).push(d.name)
+    }
+    for (const [tag, names] of byTag) {
+      if (names.length > 1) add('detachmentTagClash', 'error', { params: { tag, names: names.join(', ') } })
+    }
+  }
+
   // Duplicate datasheet limits — grouped by capKeyOf, not raw id, so a future same-character/
   // multiple-datasheets case (see rosterEngine.js's capKeyOf) is capped as one slot.
   {

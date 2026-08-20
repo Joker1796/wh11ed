@@ -2622,6 +2622,7 @@ export default {
       "sid": "b316e2f6-0b93-4805-9b5e-38f050875ad3",
       "dp": 1,
       "fd": "Disruption",
+      "unique": "ONSLAUGHT",
       "enhancements": [
         {
           "name": "Murder-forged Entity (Upgrade)",
@@ -2775,6 +2776,7 @@ export default {
       "sid": "b21e5072-38d5-42b5-9143-9aabcbf499d8",
       "dp": 2,
       "fd": "Take and Hold",
+      "unique": "ONSLAUGHT",
       "enhancements": [
         {
           "name": "Murderous Onslaught",

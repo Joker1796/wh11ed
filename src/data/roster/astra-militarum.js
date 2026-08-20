@@ -7951,6 +7951,7 @@ export default {
       "sid": "7b0fe28b-5a8e-48cd-bbe7-699babfbd463",
       "dp": 1,
       "fd": "Take and Hold",
+      "unique": "ABHUMAN",
       "enhancements": [
         {
           "name": "Sharp Eyes (Upgrade)",
@@ -8157,6 +8158,7 @@ export default {
       "sid": "7c12acc3-f2ae-4fa7-b80b-03dae96b72da",
       "dp": 1,
       "fd": "Reconnaissance",
+      "unique": "RECON",
       "enhancements": [
         {
           "name": "Long-range Scout (Upgrade)",
@@ -8200,6 +8202,7 @@ export default {
       "sid": "8f29b4e9-92c8-450f-8d35-5561c49e8803",
       "dp": 3,
       "fd": "Priority Assets",
+      "unique": "ABHUMAN",
       "enhancements": [
         {
           "name": "Abhuman Detail",
@@ -8398,6 +8401,7 @@ export default {
       "sid": "3062acc0-d72e-471a-bbd1-26598bc30ec4",
       "dp": 3,
       "fd": "Reconnaissance",
+      "unique": "RECON",
       "enhancements": [
         {
           "name": "Guerrilla Honours",
