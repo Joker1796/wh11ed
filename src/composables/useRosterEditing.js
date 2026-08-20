@@ -63,9 +63,11 @@ export function useRosterEditing(rosterId) {
     if (addUnitEntry(roster.value.units, defOf(unitId), unitId, uid())) touch()
   }
 
-  function removeUnit(unitId) {
+  // `entryUid` removes that exact line (the editor's per-unit delete); without it the LAST copy
+  // of the datasheet goes, which is what the add-units browser's "−" means.
+  function removeUnit(unitId, entryUid = null) {
     if (!roster.value) return null
-    const removed = removeUnitEntry(roster.value.units, unitId)
+    const removed = removeUnitEntry(roster.value.units, unitId, entryUid)
     if (removed) touch()
     return removed
   }

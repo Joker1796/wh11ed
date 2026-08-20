@@ -242,6 +242,33 @@ describe('validateRoster — enhancements', () => {
       U('marneus', { enh: 'Enlivened Sentinels' }),
     ])).toContain('dupEnh')
   })
+  // "No unit (including attached units) can have more than one enhancement" — every other check
+  // here asks about ONE entry, and two enhancement-carrying Leaders on the same bodyguard unit is
+  // a roster where no single entry is wrong.
+  it('flags two enhancements ending up on one attached unit', () => {
+    const units = [
+      U('intercessor-squad', { uid: 'squad' }),
+      U('captain', { warlord: true, enh: 'Artificer Armour', leaderOf: 'squad' }),
+      U('lieutenant', { enh: 'Fire Discipline', leaderOf: 'squad' }),
+    ]
+    expect(codes(roster({ units }))).toContain('enhAttachedDup')
+  })
+
+  it('leaves the same two alone once they lead different units', () => {
+    const units = [
+      U('intercessor-squad', { uid: 'squad' }),
+      U('intercessor-squad', { uid: 'squad2' }),
+      U('captain', { warlord: true, enh: 'Artificer Armour', leaderOf: 'squad' }),
+      U('lieutenant', { enh: 'Fire Discipline', leaderOf: 'squad2' }),
+    ]
+    expect(codes(roster({ units }))).not.toContain('enhAttachedDup')
+  })
+
+  it('does not mistake two unattached characters for one unit', () => {
+    const units = [U('captain', { warlord: true, enh: 'Artificer Armour' }), U('lieutenant', { enh: 'Fire Discipline' })]
+    expect(codes(roster({ units }))).not.toContain('enhAttachedDup')
+  })
+
   it('flags an enhancement on an ineligible unit', () => {
     // Ballistus Dreadnought is not a Character → ineligible for a character enhancement.
     const units = [U('captain', { warlord: true }), U('ballistus-dreadnought', { enh: 'Artificer Armour' })]

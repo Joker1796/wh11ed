@@ -87,6 +87,10 @@
             <template v-if="g.entries.length">
               <h3 class="rug-head">{{ labels[GROUP_LABEL_KEYS[g.id]] }}</h3>
               <div v-for="e in g.entries" :key="e.uid" class="redu-unit">
+                <!-- The row is itself a button (it opens the config), so the delete sits BESIDE
+                     it rather than inside — a button inside a button is invalid and doesn't get
+                     its own click on every browser. -->
+                <div class="redu-head">
                 <button
                   type="button"
                   class="redu-row"
@@ -109,6 +113,16 @@
                   <span class="redu-pts">{{ entryMeta.get(e.uid)?.points }}</span>
                   <i class="bi redu-chev" :class="openUid === e.uid ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
                 </button>
+                <button
+                  type="button"
+                  class="redu-del"
+                  :aria-label="labels.rosterRemove"
+                  :title="labels.rosterRemove"
+                  @click="removeEntry(e)"
+                >
+                  <i class="bi bi-trash3"></i>
+                </button>
+                </div>
                 <CollapseTransition :show="openUid === e.uid">
                   <div class="redu-fields">
                     <UnitEditorFields
@@ -237,7 +251,7 @@ function save() {
 // with the add-units page (/roster/:id/add) — see useRosterEditing.js for why they are shared
 // rather than copied.
 const {
-  roster, factionData, defOf, curDetachments, effBattle, limit, points, validation, touch,
+  roster, factionData, defOf, curDetachments, effBattle, limit, points, validation, touch, removeUnit,
 } = useRosterEditing(() => route.params.id)
 
 // A missing/deleted id → back to the list (no broken editor shell).
@@ -296,6 +310,14 @@ const detachmentPickerOpen = ref(false)
 const openUid = ref(null)
 function toggleOpen(entryUid) {
   openUid.value = openUid.value === entryUid ? null : entryUid
+}
+
+// Delete ONE line, not "a copy of this datasheet": two of the same unit are configured
+// separately, so the row's own uid is what goes. removeUnit() detaches any Leader that pointed
+// at it (rosterEngine's removeUnitEntry) — the reason both screens share that one implementation.
+function removeEntry(entry) {
+  if (openUid.value === entry.uid) openUid.value = null
+  removeUnit(entry.id, entry.uid)
 }
 
 // The add-units page sends the reader here when an issue concerns one specific entry
@@ -370,6 +392,15 @@ function rename(name) {
 </script>
 
 <style scoped>
+.redu-head { display: flex; align-items: stretch; gap: 0.25rem; }
+.redu-head .redu-row { flex: 1; min-width: 0; }
+.redu-del {
+  flex: none; display: flex; align-items: center; justify-content: center;
+  width: 2.1rem; padding: 0; border: none; background: none;
+  color: var(--text-muted); font-size: 0.95rem; cursor: pointer; border-radius: 6px;
+}
+.redu-del:hover { color: #c0392b; background: color-mix(in srgb, #c0392b 8%, transparent); }
+
 .roster-editor { padding-top: 0.75rem; padding-bottom: 5rem; }
 .back { display: inline-flex; align-items: center; gap: 0.3rem; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; }
 .back:hover { color: var(--accent); }
