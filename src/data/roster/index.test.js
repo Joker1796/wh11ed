@@ -251,3 +251,34 @@ describe('default loadouts', () => {
     expect(without.length, without.join(', ')).toBeLessThanOrEqual(10)
   })
 })
+
+describe('keyword-defined leader attachments', () => {
+  // A bodyguard group can name its targets by keyword instead of listing datasheets, and reading
+  // only the list table dropped 36 such groups entirely — Captain could not lead a Sternguard
+  // Veteran Squad, Tor Garadon could not lead Eradicators. appdata's own faction bundle has the
+  // same hole (it emits `units: []` for these), so the generator reads the raw table.
+  const leadsOf = (slug, id) => (factions.find((f) => f.slug === slug).data.units
+    .find((u) => u.id === id)?.leads || []).map((l) => l.to)
+
+  it('lets a Captain lead the squad named only by keyword', () => {
+    expect(leadsOf('space-marines', 'captain')).toContain('sternguard-veteran-squad')
+    expect(leadsOf('blood-angels', 'blood-angels-captain')).toContain('sternguard-veteran-squad')
+  })
+
+  it('resolves a keyword to every datasheet carrying it', () => {
+    // "Eradicator Squad" is two datasheets — the plain one and the heavy-bolter variant.
+    expect(leadsOf('space-marines', 'tor-garadon')).toEqual(
+      expect.arrayContaining(['eradicator-squad', 'eradicator-squad-with-heavy-bolters']),
+    )
+  })
+
+  it('never offers the same attachment twice', () => {
+    // A keyword group and a listed group can name the same unit; the picker would show it twice.
+    for (const { slug, data } of factions) {
+      for (const u of data.units || []) {
+        const keys = (u.leads || []).map((l) => `${l.to}|${l.type}|${l.reqDet || ''}|${l.exclDet || ''}`)
+        expect(new Set(keys).size, `${slug}/${u.id}`).toBe(keys.length)
+      }
+    }
+  })
+})

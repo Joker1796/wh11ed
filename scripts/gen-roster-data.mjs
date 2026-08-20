@@ -68,6 +68,19 @@ for (const r of table('datasheet_bodyguard_group_datasheet')) {
   if (!bgDatasheets.has(r.datasheetBodyguardGroupId)) bgDatasheets.set(r.datasheetBodyguardGroupId, [])
   bgDatasheets.get(r.datasheetBodyguardGroupId).push(r.datasheetId)
 }
+// …and the same relationship stated as KEYWORDS instead of a datasheet list — "any Sternguard
+// Veteran Squad unit", "any Imperium Battleline Infantry unit". All 36 such groups are keyword-only
+// (none also carries a list), so reading only the list table dropped those attachments entirely:
+// Captain and 8 other Space Marine leaders lost Sternguard Veteran Squad, Tor Garadon and
+// Iron Father Feirros lost Eradicator Squad. Same class as the enhancement_bodyguard_group bug,
+// opposite sign — eligibility missing rather than invented. Note wh40k-appdata's own bundle drops
+// it too (`{"bodyguardType":"leader","units":[]}`), which is why this reads the raw table.
+const bgKwName = new Map(table('keyword').map((k) => [k.id, enOf(k).name]))
+const bgKeywords = new Map() // groupId -> [keyword name]
+for (const r of table('datasheet_bodyguard_group_keyword')) {
+  if (!bgKeywords.has(r.datasheetBodyguardGroupId)) bgKeywords.set(r.datasheetBodyguardGroupId, [])
+  bgKeywords.get(r.datasheetBodyguardGroupId).push(bgKwName.get(r.keywordId))
+}
 const bgByLeader = new Map() // leader datasheetId -> [group]
 for (const g of table('datasheet_bodyguard_group')) {
   if (!bgByLeader.has(g.datasheetId)) bgByLeader.set(g.datasheetId, [])
@@ -213,7 +226,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], bundle: { rewritten: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0 }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], bundle: { rewritten: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, leadKw: { resolved: 0, unresolved: [] } }
 
 // Global intern dictionaries: wargear item names and group instruction texts repeat heavily
 // ACROSS factions, and — crucially — the SM-Chapter fold pulls space-marines units into a
@@ -599,7 +612,7 @@ function linkWargearLimits(datasheetId, unitName, miniIdx, drafts, stats) {
   }
 }
 
-function buildUnit(bd, idMap, fx) {
+function buildUnit(bd, idMap, fx, kwIndex) {
   const minis = (minisByDs.get(bd.id) || []).slice().sort((a, b) => a.displayOrder - b.displayOrder)
   const miniIdx = new Map(minis.map((m, i) => [m.id, i]))
   const kws = bd.keywords || []
@@ -639,14 +652,33 @@ function buildUnit(bd, idMap, fx) {
   const groups = bgByLeader.get(bd.id) || []
   const leads = []
   for (const g of groups) {
-    for (const targetDsId of bgDatasheets.get(g.id) || []) {
+    let targets = bgDatasheets.get(g.id) || []
+    if (!targets.length && bgKeywords.has(g.id)) {
+      // Resolved against THIS faction's datasheets only. The four Inquisitor groups ("any Imperium
+      // Battleline Infantry unit") name units that live in other factions' bundles, so they stay
+      // unresolved — the editor builds one faction at a time, and inventing cross-faction targets
+      // here would be a different feature, not this fix.
+      const want = bgKeywords.get(g.id).map(norm).filter(Boolean)
+      targets = (kwIndex ? want.map((k) => kwIndex.get(k) || []).reduce((a, b) => a.filter((x) => b.includes(x)), want.length ? kwIndex.get(want[0]) || [] : []) : [])
+        .filter((id) => id !== bd.id)
+      if (targets.length) report.leadKw.resolved += targets.length
+      else report.leadKw.unresolved.push(`${bd.name} → ${bgKeywords.get(g.id).join(' + ')}`)
+    }
+    for (const targetDsId of targets) {
       const lead = { to: idMap.get(targetDsId) || slugify(enOf(dsById.get(targetDsId)).name || ''), type: g.bodyguardType }
       if (g.requiredDetachmentId) lead.reqDet = g.requiredDetachmentId
       if (g.excludedDetachmentId) lead.exclDet = g.excludedDetachmentId
       leads.push(lead)
     }
   }
-  if (leads.length) unit.leads = leads
+  // Deduped: a keyword group ("any Imperium Battleline Infantry unit") and a listed group can name
+  // the same unit, and the picker would offer it twice.
+  const seenLead = new Set()
+  const uniqueLeads = leads.filter((l) => {
+    const k = `${l.to}|${l.type}|${l.reqDet || ''}|${l.exclDet || ''}`
+    return seenLead.has(k) ? false : (seenLead.add(k), true)
+  })
+  if (uniqueLeads.length) unit.leads = uniqueLeads
 
   // Miniatures (for labelling gear/loadout groups). A single-profile unit needs no list.
   if (minis.length > 1) unit.minis = minis.map((m) => ({ n: enOf(m).name }))
@@ -934,7 +966,20 @@ async function genFaction(slug) {
     if (!(d.points && d.points.length)) { report.noPoints.push(`${slug}: ${d.name}`); return false }
     return true
   })
-  const units = bundleUnits.map((bd) => buildUnit(bd, idMap, fx)).sort((a, b) => a.name.localeCompare(b.name))
+  // Keyword -> datasheets, for the keyword-defined bodyguard groups. A Chapter's bundle doesn't
+  // repeat the shared Codex: Space Marines units (same reason nameToDsId seeds from them above),
+  // so Blood Angels Captain would otherwise find no Sternguard Veteran Squad to lead.
+  const kwIndex = new Map()
+  const indexKeywords = (list) => {
+    for (const d of list) for (const k of d.keywords || []) {
+      const n = norm(k)
+      if (!kwIndex.has(n)) kwIndex.set(n, [])
+      if (!kwIndex.get(n).includes(d.id)) kwIndex.get(n).push(d.id)
+    }
+  }
+  if (isChapter(slug)) indexKeywords(loadJson(path.join(APPDATA, 'factions', `${SLUG_MAP['space-marines']}.json`))?.datasheets || [])
+  indexKeywords(bundleUnits)
+  const units = bundleUnits.map((bd) => buildUnit(bd, idMap, fx, kwIndex)).sort((a, b) => a.name.localeCompare(b.name))
   const detachments = (bundle.detachments || [])
     .filter((d) => !d.isCombatPatrol && !cpDatasheetIds.has(d.id))
     .map((bdet) => buildDetachment(bdet, idMap, mfmDet, nameToDsId))
@@ -1028,6 +1073,9 @@ if (report.noPoints.length) console.log(`  dropped (no points/composition): ${re
 const b = report.bundle
 console.log(`  bundled options: ${b.rewritten} groups rewritten from prose and verified against loadout_choice`)
 const lm = report.limit
+const lk = report.leadKw
+console.log(`  keyword-defined attachments: ${lk.resolved} leader→unit links resolved from datasheet_bodyguard_group_keyword${lk.unresolved.length ? `; ${lk.unresolved.length} name units outside the faction` : ''}`)
+for (const l of [...new Set(lk.unresolved)].slice(0, 6)) console.log(`    - ${l}`)
 const rp = report.rep
 console.log(`  default loadouts: ${report.staticDefaults} units read theirs from a "Default Wargear" group (no base_miniature_loadout row)`)
 console.log(`  replaced-item links: ${rp.resolved} groups know what they give up; ${rp.noMatch.length} instructions didn't parse, ${rp.unresolved.length} named an item this datasheet doesn't list`)

@@ -186,6 +186,10 @@ export default {
           "type": "leader"
         },
         {
+          "to": "sternguard-veteran-squad",
+          "type": "leader"
+        },
+        {
           "to": "tactical-squad",
           "type": "leader"
         }
@@ -1328,6 +1332,10 @@ export default {
         },
         {
           "to": "intercessor-squad",
+          "type": "support"
+        },
+        {
+          "to": "sternguard-veteran-squad",
           "type": "support"
         },
         {

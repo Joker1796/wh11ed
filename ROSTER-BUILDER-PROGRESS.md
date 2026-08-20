@@ -205,6 +205,26 @@ is implemented and tested.
    `wargear_option` can express). **32 units in the roster corpus gained a default loadout**; the 8
    still without one are genuinely unarmed (Aegis Defence Line, Drop Pod, Skull Altar, Spore Mines…).
 
+10. **Leaders lost every attachment stated as a KEYWORD — FIXED 2026-08-20.** Found by auditing
+    which appdata tables no script reads (full audit in `APPDATA-COVERAGE-PLAN.md`).
+    `datasheet_bodyguard_group` can name its targets through `datasheet_bodyguard_group_keyword`
+    instead of `_datasheet`, and the generator only ever read the list table. All **36** such groups
+    are keyword-only — none is also listed — so those attachments simply did not exist: Captain and
+    23 other leaders could not lead a Sternguard Veteran Squad, Tor Garadon/Iron Father Feirros/
+    Marneus Calgar in Armour of Antilochus could not lead Eradicators, the Terminator-armour
+    characters could not lead a Terminator Squad, and the four Inquisitors had no Imperium
+    Battleline Infantry.
+
+    Same class as the `enhancement_bodyguard_group` bug one day earlier, opposite sign — eligibility
+    MISSING rather than invented. Worth knowing: **wh40k-appdata's own bundle has the same hole** —
+    `adeptus-astartes.json` emits `{"bodyguardType":"leader","units":[]}` for exactly these groups —
+    so the fix reads the raw table, not the bundle.
+
+    Keywords resolve against the faction's own datasheets (plus the shared Codex: Space Marines pool
+    for a Chapter, or Blood Angels Captain would find no Sternguard). **56 leader→unit links**
+    recovered, and a keyword group can name a unit a listed group already covers, so `leads` is now
+    deduped — the picker was about to offer the Inquisitor four units twice.
+
 ## Where the merge-into-main work is recorded
 
 The `main`-catch-up merge itself (conflict resolution, a stale test fixed for `BaseModal`'s

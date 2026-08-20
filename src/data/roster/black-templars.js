@@ -48,6 +48,10 @@ export default {
           "type": "support"
         },
         {
+          "to": "sternguard-veteran-squad",
+          "type": "support"
+        },
+        {
           "to": "sword-brethren-squad",
           "type": "support"
         }
@@ -458,6 +462,10 @@ export default {
         },
         {
           "to": "intercessor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "sternguard-veteran-squad",
           "type": "leader"
         },
         {
@@ -1074,6 +1082,10 @@ export default {
         },
         {
           "to": "intercessor-squad",
+          "type": "leader"
+        },
+        {
+          "to": "sternguard-veteran-squad",
           "type": "leader"
         },
         {
