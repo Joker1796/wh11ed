@@ -304,6 +304,97 @@ describe('default loadouts', () => {
       .filter((u) => !u.defaults?.length).map((u) => `${slug}/${u.id}`))
     expect(without.length, without.join(', ')).toBeLessThanOrEqual(10)
   })
+
+  // appdata's base_miniature_loadout arms the Death Company Dreadnought with the BRUTALIS
+  // Dreadnought's weapons; its own printed loadout and its own swap instruction both say blood
+  // fists. Pinned because the substitution is a named one (LOADOUT_ITEM_FIXES) that has to be
+  // dropped the moment upstream fixes the row — this test failing is that signal.
+  it('arms the Death Company Dreadnought with its own weapons, not the Brutalis pattern', () => {
+    const u = factions.find((f) => f.slug === 'blood-angels').data.units.find((x) => x.id === 'death-company-dreadnought')
+    const names = (u.defaults || []).flatMap(([, list]) => list.map(([id]) => rosterItems.items[id]))
+    expect(names).toContain('Blood fists')
+    expect(names).toContain('Blood fist bolt rifles')
+    expect(names.join(', ')).not.toMatch(/Brutalis/)
+  })
+})
+
+describe('points', () => {
+  // appdata records several price rows per datasheet — one per Chapter, one per allied context —
+  // and mapping them straight onto `sizes` turned a price list into a size list: two identical
+  // "5 models" pills at 80 and 75 points, the cheaper one not even pre-selected. A size is a size.
+  it('never offers the same bracket twice at two prices', () => {
+    const dupes = []
+    for (const { slug, data } of factions) {
+      for (const u of data.units) {
+        const byBracket = new Map()
+        for (const s of u.sizes) {
+          const k = `${s.per.join('-')}|${JSON.stringify(s.comp || null)}`
+          if (!byBracket.has(k)) byBracket.set(k, new Set())
+          byBracket.get(k).add(s.pts)
+        }
+        for (const [k, pts] of byBracket) {
+          if (pts.size > 1) dupes.push(`${slug}/${u.name} ${k} → ${[...pts].join('/')}`)
+        }
+      }
+    }
+    expect(dupes, dupes.join('; ')).toEqual([])
+  })
+
+  // The whole app prices units from the Munitorum Field Manual (src/data/mfm/*.js, scraped from
+  // the live list); the roster used to price them from appdata instead and quoted a different
+  // number than the same unit's datasheet page — up to 35 points on Inquisitor Draxus. One source.
+  it('agrees with the MFM wherever the MFM prices that unit size', async () => {
+    const norm = (s) => (s || '').toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, ' ').trim()
+    const drift = []
+    for (const { slug, data } of factions) {
+      let mfm
+      try { mfm = (await import(`../mfm/${slug}.js`)).default } catch { continue }
+      // Own datasheets only: a Chapter's "Space Marines" section prices the shared pool (see
+      // `unitPoints`) and Imperial Agents' "(allied)" one prices them in somebody else's army.
+      const own = [
+        ...(mfm.subfactions || [])
+          .filter((s) => norm(s.name) !== 'space marines' && !/allied/i.test(s.name))
+          .flatMap((s) => s.units || []),
+        ...(mfm.units || []),
+      ]
+      const byName = new Map(own.map((u) => [norm(u.name), u]))
+      for (const u of data.units) {
+        const m = byName.get(norm(u.name))
+        if (!m) continue
+        for (const s of u.sizes) {
+          // A full bracket is priced by its TOP model count ("6-10 models" is the MFM's "10"), and
+          // that has to be tried first: appdata writes Flash Gitz' second bracket as "5-10" where it
+          // means 6-10, so its bottom end collides with the MFM's own 5-model row.
+          const at = (n) => (m.options || []).filter((o) => Number(o.models) === n)
+          const rows = at(s.per[1]).length ? at(s.per[1]) : at(s.per[0])
+          if (!rows.length) continue
+          // The first copy-tax tier is the base price; the surcharge is the unit's own `step`.
+          const base = rows.find((r) => !r.note) || rows.find((r) => /^1st/i.test(r.note || '')) || rows[0]
+          if (Number(base.points) !== s.pts) drift.push(`${slug}/${u.name} ${s.per.join('-')}: ${s.pts} vs MFM ${base.points}`)
+        }
+      }
+    }
+    expect(drift, drift.join('; ')).toEqual([])
+  })
+
+  // A shared Codex unit can cost a Chapter something else (Blood Angels' Bladeguard, everyone's
+  // Repulsor Executioner). The datasheet layer already carries those as `pointsOverrides`; this is
+  // the same fact on the roster side, and the two must not drift apart.
+  it('prices a shared unit for the Chapter, matching the datasheet layer', async () => {
+    for (const chapter of ['black-templars', 'blood-angels', 'dark-angels', 'deathwatch', 'space-wolves']) {
+      const { pointsOverrides = {} } = await import(`../datasheets/${chapter}.js`)
+      const folded = await loadRosterFaction(chapter)
+      for (const [id, rows] of Object.entries(pointsOverrides)) {
+        const u = folded.units.find((x) => x.id === id)
+        if (!u) continue
+        for (const r of rows) {
+          if (!r.models || /^(?!1st)/.test(r.note || '') && r.note) continue // later copy-tax tiers ride on `step`
+          const size = u.sizes.find((s) => s.per[1] === r.models || s.per[0] === r.models)
+          if (size) expect(size.pts, `${chapter}/${id} @${r.models} models`).toBe(r.points)
+        }
+      }
+    }
+  })
 })
 
 describe('keyword-defined leader attachments', () => {

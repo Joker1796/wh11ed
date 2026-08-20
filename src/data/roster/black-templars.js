@@ -950,19 +950,12 @@ export default {
       "flags": {},
       "sizes": [
         {
-          "pts": 70,
+          "pts": 75,
           "per": [
             1,
             1
           ],
           "default": 1
-        },
-        {
-          "pts": 75,
-          "per": [
-            1,
-            1
-          ]
         }
       ],
       "linked": 1,

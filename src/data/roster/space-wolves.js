@@ -184,7 +184,7 @@ export default {
               1
             ],
             [
-              756,
+              754,
               1
             ]
           ]
@@ -197,7 +197,7 @@ export default {
               1
             ],
             [
-              756,
+              754,
               1
             ]
           ]
@@ -227,7 +227,7 @@ export default {
             ]
           ],
           "rep": [
-            756
+            754
           ]
         }
       ]
@@ -323,7 +323,7 @@ export default {
           1,
           [
             [
-              756,
+              754,
               1
             ],
             [
@@ -340,7 +340,7 @@ export default {
           0,
           [
             [
-              756,
+              754,
               1
             ],
             [
@@ -368,7 +368,7 @@ export default {
             ]
           ],
           "rep": [
-            756
+            754
           ]
         },
         {
@@ -767,7 +767,7 @@ export default {
           "in": "stepper",
           "o": [
             [
-              960
+              958
             ],
             [
               1980,
@@ -898,7 +898,7 @@ export default {
               1
             ],
             [
-              1431,
+              1429,
               1
             ],
             [
@@ -979,7 +979,7 @@ export default {
           "rep": [
             733,
             38,
-            1431
+            1429
           ]
         }
       ]
@@ -1181,7 +1181,7 @@ export default {
               1
             ],
             [
-              1912,
+              1910,
               1
             ],
             [
@@ -1211,7 +1211,7 @@ export default {
             ]
           ],
           "rep": [
-            1912,
+            1910,
             1980
           ]
         }
@@ -1285,7 +1285,7 @@ export default {
           1,
           [
             [
-              1912,
+              1910,
               1
             ],
             [
@@ -1302,7 +1302,7 @@ export default {
               1
             ],
             [
-              1912,
+              1910,
               1
             ]
           ]
@@ -1323,7 +1323,7 @@ export default {
           ],
           "rep": [
             176,
-            1912
+            1910
           ]
         },
         {
@@ -1332,7 +1332,7 @@ export default {
           "in": "stepper",
           "o": [
             [
-              1206,
+              1204,
               5
             ]
           ],
@@ -2258,5 +2258,10 @@ export default {
     "vanguard-veteran-squad-with-jump-packs",
     "vindicator",
     "whirlwind"
-  ]
+  ],
+  "unitPoints": {
+    "repulsor-executioner": {
+      "1": 230
+    }
+  }
 }

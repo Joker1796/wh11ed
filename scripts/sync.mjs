@@ -9,6 +9,8 @@
 //   - factionFaq       — is the per-faction FAQ/errata sidecar (src/data/factionFaq.json) fresh?
 //   - rosterTextsRu    — is the generated Russian for the roster's wargear group instructions
 //     current with src/data/roster/items.js?
+//   - roster data      — are the roster builder's generated faction files (points, brackets,
+//     wargear groups) still what the generator produces from today's appdata + MFM?
 //   - rosterModifiers  — are the roster builder's numeric modifiers still tied to the rule wording
 //     they were read from? Reports stale (the prose moved under a reviewed record), new (prose
 //     that now looks like it changes a number), orphaned and unreviewed — see
@@ -81,6 +83,7 @@ const condKwStale = await run('conditionalKeywords sidecar (--check)', './gen-co
 const faqStale = await run('factionFaq sidecar (--check)', './gen-faction-faq.mjs', ['--check'])
 const textsRuStale = await run('rosterTextsRu (--check)', './gen-roster-texts-ru.mjs', ['--check'])
 const modsDirty = await run('rosterModifiers (--check)', './gen-roster-modifiers.mjs', ['--check'])
+const rosterStale = await run('roster data (--check)', './gen-roster-data.mjs', ['--check'])
 await run('sync-appdata (all factions)', './sync-appdata.mjs', ['--all'])
 await run('sync-faction-text (all factions)', './sync-faction-text.mjs', ['--all'])
 await run('sync-tracker', './sync-tracker.mjs')
@@ -103,4 +106,5 @@ if (condKwStale) console.log('⚠ src/data/conditionalKeywords.json is stale —
 if (faqStale) console.log('⚠ src/data/factionFaq.json is stale — run `node scripts/gen-faction-faq.mjs`.')
 if (textsRuStale) console.log('⚠ src/data/roster/ru/texts.js is stale — run `npm run roster:texts-ru`.')
 if (modsDirty) console.log('⚠ roster modifiers need attention — `npm run modifiers` then `npm run modifiers:queue`.')
+if (rosterStale) console.log('⚠ src/data/roster/*.js is stale — run `npm run roster:data`.')
 console.log('Done. Every section above is report-only; read the flagged lines and fix by hand.')

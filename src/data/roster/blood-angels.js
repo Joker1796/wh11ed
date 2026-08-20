@@ -616,8 +616,8 @@ export default {
             ]
           ],
           "rep": [
-            754,
-            755
+            750,
+            752
           ]
         }
       ]
@@ -667,7 +667,7 @@ export default {
               1
             ],
             [
-              756,
+              754,
               1
             ]
           ]
@@ -705,7 +705,7 @@ export default {
           "in": "stepper",
           "o": [
             [
-              757
+              755
             ]
           ],
           "lim": [
@@ -719,7 +719,7 @@ export default {
             ]
           ],
           "rep": [
-            756
+            754
           ]
         },
         {
@@ -734,11 +734,11 @@ export default {
               736
             ],
             [
-              758
+              756
             ]
           ],
           "rep": [
-            756
+            754
           ]
         }
       ]
@@ -792,7 +792,7 @@ export default {
               1
             ],
             [
-              759,
+              757,
               1
             ]
           ]
@@ -805,7 +805,7 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              756
+              754
             ],
             [
               612
@@ -818,7 +818,7 @@ export default {
             ]
           ],
           "rep": [
-            759
+            757
           ]
         },
         {
@@ -827,7 +827,7 @@ export default {
           "in": "stepper",
           "o": [
             [
-              757
+              755
             ]
           ],
           "lim": [
@@ -841,7 +841,7 @@ export default {
             ]
           ],
           "rep": [
-            759,
+            757,
             686
           ]
         },
@@ -851,7 +851,7 @@ export default {
           "in": "stepper",
           "o": [
             [
-              760
+              758
             ]
           ],
           "lim": [
@@ -875,7 +875,7 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              756
+              754
             ],
             [
               689
@@ -884,7 +884,7 @@ export default {
               736
             ],
             [
-              758
+              756
             ]
           ],
           "lim": [
@@ -945,7 +945,7 @@ export default {
               1
             ],
             [
-              756,
+              754,
               1
             ]
           ]
@@ -971,7 +971,7 @@ export default {
           "in": "stepper",
           "o": [
             [
-              757
+              755
             ]
           ],
           "lim": [
@@ -985,7 +985,7 @@ export default {
             ]
           ],
           "rep": [
-            756
+            754
           ]
         },
         {
@@ -1001,7 +1001,7 @@ export default {
             ]
           ],
           "rep": [
-            756
+            754
           ]
         },
         {
@@ -1016,7 +1016,7 @@ export default {
                   1
                 ],
                 [
-                  756,
+                  754,
                   1
                 ]
               ]
@@ -1068,7 +1068,7 @@ export default {
                   1
                 ],
                 [
-                  756,
+                  754,
                   1
                 ]
               ]
@@ -1104,7 +1104,7 @@ export default {
                   1
                 ],
                 [
-                  756,
+                  754,
                   1
                 ]
               ]
@@ -1136,7 +1136,7 @@ export default {
           ],
           "rep": [
             683,
-            756
+            754
           ]
         }
       ]
@@ -1183,11 +1183,11 @@ export default {
           0,
           [
             [
-              761,
+              759,
               1
             ],
             [
-              762,
+              760,
               1
             ]
           ]
@@ -1235,11 +1235,11 @@ export default {
           0,
           [
             [
-              763,
+              761,
               1
             ],
             [
-              764,
+              762,
               1
             ]
           ]
@@ -1252,11 +1252,11 @@ export default {
           "in": "stepper",
           "o": [
             [
-              765
+              763
             ]
           ],
           "rep": [
-            763
+            761
           ]
         },
         {
@@ -1279,7 +1279,7 @@ export default {
             ]
           ],
           "rep": [
-            764
+            762
           ]
         },
         {
@@ -1288,7 +1288,7 @@ export default {
           "in": "checkbox",
           "o": [
             [
-              766
+              764
             ]
           ],
           "lim": [
@@ -1373,11 +1373,11 @@ export default {
           0,
           [
             [
-              767,
+              765,
               1
             ],
             [
-              768,
+              766,
               1
             ]
           ]
@@ -1418,7 +1418,7 @@ export default {
           0,
           [
             [
-              769,
+              767,
               1
             ]
           ]
@@ -1918,5 +1918,34 @@ export default {
     "vanguard-veteran-squad-with-jump-packs",
     "vindicator",
     "whirlwind"
-  ]
+  ],
+  "unitPoints": {
+    "assault-intercessor-squad": {
+      "5": 80
+    },
+    "assault-intercessors-with-jump-packs": {
+      "5": 95,
+      "10": 180
+    },
+    "bladeguard-veteran-squad": {
+      "3": 85,
+      "6": 170
+    },
+    "captain-with-jump-pack": {
+      "1": 80
+    },
+    "chaplain-with-jump-pack": {
+      "1": 80
+    },
+    "outrider-squad": {
+      "3": 75
+    },
+    "repulsor-executioner": {
+      "1": 230
+    },
+    "vanguard-veteran-squad-with-jump-packs": {
+      "5": 110,
+      "10": 220
+    }
+  }
 }

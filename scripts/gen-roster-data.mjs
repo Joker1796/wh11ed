@@ -6,7 +6,7 @@
 // of derived data that already ships publicly.
 //
 // Usage:  node scripts/gen-roster-data.mjs        (all factions)
-//         node scripts/gen-roster-data.mjs <slug> [<slug> ...]
+//         node scripts/gen-roster-data.mjs --check (report only, write nothing — used by `npm run sync`)
 //
 // Sources per faction: the faction BUNDLE (factions/<appSlug>.json) gives membership +
 // keywords + points brackets + the detachment/enhancement list (already faction-scoped and
@@ -26,6 +26,7 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { ROOT, APPDATA, SLUG_MAP, norm, loadJson, loadModule } from './lib/sync-common.mjs'
 
 const T = path.join(APPDATA, 'tables')
@@ -289,7 +290,7 @@ const bmlByDs = new Map() // datasheetId -> [{miniatureId, opts:[{wargearOptionI
 
 // ---- Per-faction generation ------------------------------------------------------------
 
-const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, leadKw: { resolved: 0, unresolved: [] }, comp: { units: 0, brackets: 0, foldedBrackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() } }
+const report = { factions: 0, units: 0, linked: 0, unlinked: [], missingBundle: [], noPoints: [], stale: [], loadoutFixed: [], price: { repriced: 0, collapsed: 0, chapterOverrides: 0, noUnit: [], noBracket: [], stepDrift: [] }, bundle: { rewritten: 0, quantified: 0, unclaimed: [], unbacked: [] }, limit: { limited: 0, counted: 0, ambiguous: 0, unmatched: 0, conflict: [], merged: 0 }, rep: { resolved: 0, noMatch: [], unresolved: [] }, staticDefaults: 0, leadKw: { resolved: 0, unresolved: [] }, comp: { units: 0, brackets: 0, rejected: [] }, detTag: { tagged: 0, drift: [] }, alleg: { units: 0, kinds: new Set() } }
 
 // Global intern dictionaries: wargear item names and group instruction texts repeat heavily
 // ACROSS factions, and — crucially — the SM-Chapter fold pulls space-marines units into a
@@ -311,6 +312,24 @@ function unitIdMap(slug) {
   if (slug !== 'space-marines' && SLUG_MAP[slug] === undefined && /* chapters share the SM pool */ isChapter(slug)) add('space-marines')
   return map
 }
+// appdata's `base_miniature_loadout` occasionally points at the wrong wargear item, and nothing
+// structural gives it away — the row is well-formed, it just names another datasheet's weapon. The
+// Death Company Dreadnought is recorded carrying the BRUTALIS Dreadnought's fists and bolt rifles,
+// while its own printed loadout AND its own option prose ("this model's blood fists and blood fist
+// bolt rifles can be replaced with…") say blood fists / blood fist bolt rifles — which exist in
+// appdata as their own items. Left alone, the editor lists two weapons the model doesn't have and
+// the swap that gives them up matches nothing.
+//
+// A named substitution, not a rule: only where the printed loadout and the option prose agree
+// against the table. Every application is reported, so this list can be dropped once upstream fixes
+// it. Keyed datasheet uuid → { wrong item uuid: right item uuid }.
+const LOADOUT_ITEM_FIXES = {
+  'c0364758-8330-4028-b87a-b5154a7dc325': { // Death Company Dreadnought
+    'a6281e48-79f7-4bd4-9421-375391ae0adc': 'e556ba87-b5da-49d5-941a-02844ead91cc', // Brutalis fists → Blood fists
+    'b0ad20e4-94e0-4591-9c4c-bbd4b87fdaa1': 'df5ca3a0-444a-49b8-b0f0-8226c0142b45', // Brutalis bolt rifles → Blood fist bolt rifles
+  },
+}
+
 const CHAPTERS = new Set(['black-templars', 'blood-angels', 'dark-angels', 'deathwatch', 'space-wolves'])
 const isChapter = (slug) => CHAPTERS.has(slug)
 
@@ -801,7 +820,137 @@ function linkWargearLimits(datasheetId, unitName, miniIdx, drafts, stats) {
   }
 }
 
-function buildUnit(bd, idMap, fx, kwIndex) {
+// ── What a unit costs ─────────────────────────────────────────────────────────────────────────
+// The BRACKETS are appdata's (model counts + the per-miniature composition behind them); the
+// PRICE of each is the Munitorum Field Manual's, read from the same scraped modules the datasheet
+// pages already use (src/data/mfm/*.js — see scrape-mfm.py / sync-mfm-points.mjs).
+//
+// Not a preference between two equal sources: appdata records SEVERAL price rows per datasheet —
+// one per Chapter (Blood Angels pay 80 for an Assault Intercessor Squad where the Codex price is
+// 75), and for Imperial Agents one per allied context (Draxus 75 in her own army, 110 as an ally).
+// Mapped straight onto `sizes` those became unit-SIZE choices: two identical "5 models" pills at
+// different prices, the first one arbitrarily pre-selected, and the roster quoting a different
+// number than the unit's own datasheet page. Pricing every bracket from one source collapses them
+// back into one pill (the fold below does it, once the only thing that differed is gone) and puts
+// the builder back in step with the rest of the app.
+//
+// A copy-tax tier ("1st-2nd" / "3rd+") is a NOTE on an MFM row, not a bracket of its own: the base
+// price is the first tier and the surcharge stays `datasheet_points_step` (appdata's own field),
+// which this cross-checks and reports on.
+// The MFM prints some of a faction's OWN datasheets in a separate section — Aeldari's Harlequins
+// and Ynnari, the Chaos legion sections, Space Marines' named-character chapters — and those are
+// units of this army like any other. Two kinds of subfaction are not: a Chapter's "Space Marines"
+// section (the shared Codex pool, folded in at load time and priced by `unitPoints`) and Imperial
+// Agents' "(allied)" list, which is what those units cost in SOMEBODY ELSE'S army. The faction's
+// own list is appended last so it wins wherever a name appears in both.
+function ownMfmUnits(mfmFaction) {
+  const extra = (mfmFaction?.subfactions || [])
+    .filter((s) => norm(s.name) !== 'space marines' && !/allied/i.test(s.name))
+    .flatMap((s) => s.units || [])
+  return [...extra, ...(mfmFaction?.units || [])]
+}
+
+function mfmPrices(mfmUnits) {
+  const byName = new Map()
+  for (const u of mfmUnits || []) {
+    const byModels = new Map()
+    for (const o of u.options || []) {
+      const n = Number(o.models)
+      if (!Number.isFinite(n) || !(o.points > 0)) continue
+      if (!byModels.has(n)) byModels.set(n, [])
+      byModels.get(n).push(o)
+    }
+    if (!byModels.size) continue
+    const prices = new Map()
+    for (const [n, rows] of byModels) {
+      const first = rows.find((r) => !r.note) || rows.find((r) => /^1st/i.test(r.note || '')) || rows[0]
+      const later = rows.filter((r) => r !== first).map((r) => Number(r.points))
+      prices.set(n, { base: Number(first.points), step: later.length ? Math.min(...later) - Number(first.points) : null })
+    }
+    byName.set(normApost(u.name), prices)
+  }
+  return byName
+}
+
+// One bracket per unit SIZE, priced by the MFM.
+//
+// appdata lists a datasheet's price rows as several parallel lists — one per Chapter, or per allied
+// context — so the same size appears more than once at different prices. Those are not sizes, and
+// emitting them as such is what put two identical "5 models" pills, at 80 and 75 points, in the
+// editor. Rows are therefore grouped by what actually makes a bracket distinct (model range +
+// per-miniature composition — Corsair Voidscarred really does have three different 7-model builds)
+// and each group collapses to ONE bracket.
+//
+// Which of the parallel lists is this army's own? Where the MFM prices that size it says so
+// outright. Where it doesn't (Imperial Agents' "7-11 models", which the MFM covers with a 6- and a
+// 12-model row) the row's RANK decides: the lists are parallel, so the position that won on every
+// priced size wins here too. Nothing is interpolated — a size the MFM doesn't price keeps an
+// appdata number, just the one from the right list.
+function pickPrices(rows, priced, name, mfmSteps) {
+  const groups = new Map()
+  for (const r of rows) {
+    const k = `${r.per.join('-')}|${JSON.stringify(r.comp || null)}`
+    if (!groups.has(k)) groups.set(k, [])
+    groups.get(k).push(r)
+  }
+  const mfmOf = (r) => (priced ? priced.get(r.per[1]) ?? priced.get(r.per[0]) : null)
+
+  const tally = new Map()
+  for (const list of groups.values()) {
+    const mfm = mfmOf(list[0])
+    const at = mfm ? list.findIndex((r) => r.pts === mfm.base) : -1
+    if (at >= 0) tally.set(at, (tally.get(at) || 0) + 1)
+  }
+  let rank = 0
+  let best = 0
+  for (const [at, n] of [...tally].sort((a, b) => a[0] - b[0])) if (n > best) { best = n; rank = at }
+
+  const out = []
+  for (const list of groups.values()) {
+    const mfm = mfmOf(list[0])
+    const chosen = (mfm && list.find((r) => r.pts === mfm.base)) || list[Math.min(rank, list.length - 1)]
+    if (mfm) {
+      chosen.pts = mfm.base
+      if (mfm.step != null) mfmSteps.push(mfm.step)
+    } else if (list.length > 1) {
+      report.price.noBracket.push(`${name} ${list[0].per.join('-')}: kept ${chosen.pts} of ${list.map((r) => r.pts).join('/')}`)
+    }
+    if (chosen.pts !== list[0].pts) report.price.repriced++
+    report.price.collapsed += list.length - 1
+    if (list.some((r) => r.default)) chosen.default = 1
+    out.push(chosen)
+  }
+  return out
+}
+
+// What the shared Codex: Space Marines units cost THIS Chapter. A Chapter's bundle doesn't repeat
+// them (loadRosterFaction folds them in from space-marines.js), so their price can't come from
+// buildUnit — but it does differ: Blood Angels pay 80 for an Assault Intercessor Squad where the
+// Codex price is 75, and all four Chapters with a Repulsor Executioner pay 230 against the Codex's
+// 255. The MFM records those under the Chapter's own "Space Marines" subfaction, which is exactly
+// how `pointsOverrides` in src/data/datasheets/<chapter>.js is built — same idea, same source, so
+// the roster and the datasheet page quote the same number.
+//
+// Emitted only where the Chapter price differs, keyed by MODEL COUNT rather than by bracket index:
+// loadRosterFaction applies it to a `sizes` array it didn't build and mustn't assume the shape of.
+function chapterUnitPoints(mfmFaction, smMfm, sharedIds, smIdMap, nameToDsId) {
+  const sub = (mfmFaction?.subfactions || []).find((s) => norm(s.name) === 'space marines')
+  if (!sub) return null
+  const chapter = mfmPrices(sub.units)
+  const codex = mfmPrices(smMfm?.units)
+  const shared = new Set(sharedIds)
+  const out = {}
+  for (const [name, prices] of chapter) {
+    const id = smIdMap.get(nameToDsId.get(name))
+    if (!id || !shared.has(id)) continue
+    const diff = {}
+    for (const [models, p] of prices) if (codex.get(name)?.get(models)?.base !== p.base) diff[models] = p.base
+    if (Object.keys(diff).length) out[id] = diff
+  }
+  return Object.keys(out).length ? out : null
+}
+
+function buildUnit(bd, idMap, fx, kwIndex, prices) {
   const minis = (minisByDs.get(bd.id) || []).slice().sort((a, b) => a.displayOrder - b.displayOrder)
   const miniIdx = new Map(minis.map((m, i) => [m.id, i]))
   const kws = bd.keywords || []
@@ -818,15 +967,18 @@ function buildUnit(bd, idMap, fx, kwIndex) {
   // referenceGroupingKeywordId); the editor pre-selects exactly one, so keep the flag only
   // on the first default-marked bracket.
   let defaultTaken = false
+  const mfmSteps = []
   const comps = compByDs.get(bd.id) || []
   // Only when the two lists line up exactly — same length, same points, same model total. A
   // datasheet that fails any of those keeps today's behaviour (no `comp`, every reader falls back)
   // rather than getting a breakdown that might belong to a different bracket.
   const compsUsable = minis.length > 1 && comps.length === (bd.points || []).length
-  const sizes = (bd.points || []).map((p, i) => {
+  const priced = prices?.get(normApost(bd.name))
+  if (!priced) report.price.noUnit.push(`${bd.name}`)
+  const rows = (bd.points || []).map((p, i) => {
     const [min, max] = parseModels(p.models)
     const s = { pts: p.points, per: [min, max] }
-    if (p.default && !defaultTaken) { s.default = 1; defaultTaken = true }
+    if (p.default) s.default = 1
     if (compsUsable) {
       const rows = (compMinis.get(comps[i].id) || []).filter((r) => miniIdx.has(r.miniatureId))
       const sum = rows.reduce((a, r) => [a[0] + r.min, a[1] + r.max], [0, 0])
@@ -840,22 +992,13 @@ function buildUnit(bd, idMap, fx, kwIndex) {
     }
     return s
   })
+  const sizes = pickPrices(rows, priced, bd.name, mfmSteps)
+  for (const s of sizes) {
+    if (s.default && defaultTaken) delete s.default
+    else if (s.default) defaultTaken = true
+  }
   if (sizes.some((x) => x.comp)) report.comp.units++
 
-  // appdata publishes a bracket twice when the same composition is also listed under a
-  // `referenceGroupingKeywordId` (an ally context — "Imperium"): Aquila Kill Team offers 5 models
-  // at 100 pts and 10 at 200, each printed once plain and once for Imperium. Identical points,
-  // identical breakdown, so the editor showed four size pills where there are two choices. Folded
-  // on (models, points, breakdown) — a bracket that differs in ANY of those survives, which is how
-  // Callidus Assassin keeps its 100 and 115 pts entries.
-  const seenBracket = new Set()
-  const folded = sizes.filter((x) => {
-    const k = `${x.per.join('-')}|${x.pts}|${JSON.stringify(x.comp || null)}`
-    if (seenBracket.has(k)) { report.comp.foldedBrackets++; return false }
-    seenBracket.add(k)
-    return true
-  })
-  if (folded.length !== sizes.length) sizes.length = 0, sizes.push(...folded)
 
   const unit = {
     id: linkedId || slugify(bd.name),
@@ -868,6 +1011,13 @@ function buildUnit(bd, idMap, fx, kwIndex) {
   if (linkedId) unit.linked = 1
   const step = stepByDs.get(bd.id)
   if (step) unit.step = step
+  // The copy tax stays appdata's (`datasheet_points_step` knows WHICH copy it starts at, which the
+  // MFM only implies through its "1st-2nd"/"3rd+" notes). Cross-checked against the surcharge those
+  // notes describe, so a disagreement is reported rather than quietly shipped on top of an MFM base.
+  const mfmStep = mfmSteps.length && mfmSteps.every((n) => n === mfmSteps[0]) ? mfmSteps[0] : null
+  if (mfmStep != null && (step?.pts ?? 0) !== mfmStep) {
+    report.price.stepDrift.push(`${bd.name}: appdata +${step?.pts ?? 0}, MFM +${mfmStep}`)
+  }
   if (condBattlelineDs.has(bd.id)) unit.condBattleline = 1
 
   // The group id lives on the raw datasheet row, not in the faction bundle.
@@ -934,16 +1084,22 @@ function buildUnit(bd, idMap, fx, kwIndex) {
   if (minis.length > 1) unit.minis = minis.map((m) => ({ n: enOf(m).name }))
 
   // Default loadout: what each miniature starts equipped with.
+  const fixItem = (uuid) => {
+    const to = LOADOUT_ITEM_FIXES[bd.id]?.[uuid]
+    if (!to) return uuid
+    report.loadoutFixed.push(`${bd.name}: ${wgItemName.get(uuid)} → ${wgItemName.get(to)}`)
+    return to
+  }
   const defaults = []
   for (const b of bmlByDs.get(bd.id) || []) {
     const items = b.opts
       .map((o) => [woById.get(o.wargearOptionId)?.wargearItemId, o.count])
       .filter(([uuid]) => uuid)
-      .map(([uuid, count]) => [fx.item(uuid), count])
+      .map(([uuid, count]) => [fx.item(fixItem(uuid)), count])
     if (items.length) defaults.push([miniIdx.get(b.miniatureId) ?? 0, items])
   }
   if (!defaults.length) {
-    for (const [m, items] of staticLoadout(bd.id, miniIdx)) defaults.push([m, items.map(([uuid, c]) => [fx.item(uuid), c])])
+    for (const [m, items] of staticLoadout(bd.id, miniIdx)) defaults.push([m, items.map(([uuid, c]) => [fx.item(fixItem(uuid)), c])])
     if (defaults.length) report.staticDefaults++
   }
   if (defaults.length) unit.defaults = defaults
@@ -1203,6 +1359,19 @@ function stripMandatoryPriceBrackets(units, detachments) {
 const HEAD = '// Generated by gen-roster-data.mjs — do not edit. Re-run `npm run roster:data`.\n'
 const stableJson = (obj) => JSON.stringify(obj, null, 2)
 
+// `--check` regenerates everything in memory and only reports which files would change, so
+// `npm run sync` can say "the roster data is stale" after an appdata bump instead of leaving the
+// largest generated surface of the feature (30 faction files) silently out of date. Every write
+// goes through here so no output can escape the check.
+let CHECK = false
+function writeOut(file, body) {
+  const full = path.join(OUT, file)
+  if (!CHECK) { fs.writeFileSync(full, body); return }
+  let current = null
+  try { current = fs.readFileSync(full, 'utf8') } catch { /* new file */ }
+  if (current !== body) report.stale.push(file)
+}
+
 async function genFaction(slug) {
   const appSlug = SLUG_MAP[slug] || slug
   const bundle = loadJson(path.join(APPDATA, 'factions', `${appSlug}.json`))
@@ -1255,7 +1424,11 @@ async function genFaction(slug) {
   }
   if (isChapter(slug)) indexKeywords(loadJson(path.join(APPDATA, 'factions', `${SLUG_MAP['space-marines']}.json`))?.datasheets || [])
   indexKeywords(bundleUnits)
-  const units = bundleUnits.map((bd) => buildUnit(bd, idMap, fx, kwIndex)).sort((a, b) => a.name.localeCompare(b.name))
+  // Prices for this faction's OWN datasheets. A Chapter's shared Codex units aren't in its bundle
+  // at all (they're folded in at load time from space-marines.js) — their Chapter price is emitted
+  // as `unitPoints` below instead.
+  const prices = mfmPrices(ownMfmUnits(mfmFaction))
+  const units = bundleUnits.map((bd) => buildUnit(bd, idMap, fx, kwIndex, prices)).sort((a, b) => a.name.localeCompare(b.name))
   const detachments = (bundle.detachments || [])
     .filter((d) => !d.isCombatPatrol && !cpDatasheetIds.has(d.id))
     .map((bdet) => buildDetachment(bdet, idMap, mfmDet, nameToDsId, facTag))
@@ -1275,9 +1448,12 @@ async function genFaction(slug) {
     const dsMod = await loadModule(path.join(ROOT, 'src/data/datasheets', `${slug}.js`))
     const shared = dsMod?.sharedUnitIds || []
     if (shared.length) data.sharedUnitIds = shared
+    const smMfm = (await loadModule(path.join(ROOT, 'src/data/mfm', 'space-marines.js')))?.default
+    const over = chapterUnitPoints(mfmFaction, smMfm, shared, unitIdMap('space-marines'), nameToDsId)
+    if (over) { data.unitPoints = over; report.price.chapterOverrides += Object.keys(over).length }
   }
   const body = `${HEAD}export default ${stableJson(data)}\n`
-  fs.writeFileSync(path.join(OUT, `${slug}.js`), body)
+  writeOut(`${slug}.js`, body)
 }
 
 function genItems() {
@@ -1286,7 +1462,7 @@ function genItems() {
   const texts = {}
   for (const [s, id] of textIds) texts[id] = s
   const data = { items, texts }
-  fs.writeFileSync(path.join(OUT, 'items.js'), `${HEAD}// Shared wargear item names + group instruction texts, interned across all factions.\nexport default ${stableJson(data)}\n`)
+  writeOut('items.js', `${HEAD}// Shared wargear item names + group instruction texts, interned across all factions.\nexport default ${stableJson(data)}\n`)
 }
 
 function genCore() {
@@ -1294,7 +1470,7 @@ function genCore() {
     .map((b) => ({ id: slugify(enOf(b).name), name: enOf(b).name, points: b.pointsLimit, dp: b.detachmentPointsLimit, enhLimit: b.enhancementLimit, dupLimit: b.duplicateUnitLimit }))
     .sort((a, b) => a.points - b.points)
   const data = { formatVersion: 1, battleSizes: sizes }
-  fs.writeFileSync(path.join(OUT, 'core.js'), `${HEAD}export default ${stableJson(data)}\n`)
+  writeOut('core.js', `${HEAD}export default ${stableJson(data)}\n`)
 }
 
 function genIndex() {
@@ -1312,13 +1488,30 @@ const load = (slug) => {
 // Load a faction's roster data, folding the shared Adeptus Astartes pool into an SM Chapter
 // (data.sharedUnitIds → space-marines units), so callers see one flat unit list. Folded units
 // keep their own ids and resolve against the shared items/texts dicts (see ./items.js).
+//
+// A shared unit can cost this Chapter something else than it costs the Codex (Blood Angels' Assault
+// Intercessor Squad, every Chapter's Repulsor Executioner) — data.unitPoints carries those, keyed
+// by unit id and then by MODEL COUNT, and only where they differ. Same mechanism, same source and
+// the same numbers as pointsOverrides in src/data/datasheets/<chapter>.js, so a unit is priced
+// identically here and on its datasheet page.
+const repriced = (unit, byModels) => {
+  if (!byModels) return unit
+  const sizes = unit.sizes.map((s) => {
+    const pts = byModels[s.per[1]] ?? byModels[s.per[0]]
+    return pts == null || pts === s.pts ? s : { ...s, pts }
+  })
+  return sizes.some((s, i) => s !== unit.sizes[i]) ? { ...unit, sizes } : unit
+}
+
 export async function loadRosterFaction(slug) {
   const data = await load(slug)
   if (!data) return null
   if (!data.sharedUnitIds?.length) return data
   const sm = await load('space-marines')
   const idSet = new Set(data.sharedUnitIds)
-  const shared = (sm?.units || []).filter((u) => idSet.has(u.id)).map((u) => ({ ...u, shared: 1 }))
+  const shared = (sm?.units || [])
+    .filter((u) => idSet.has(u.id))
+    .map((u) => ({ ...repriced(u, data.unitPoints?.[u.id]), shared: 1 }))
   const units = [...data.units, ...shared].sort((a, b) => a.name.localeCompare(b.name))
   return { ...data, units }
 }
@@ -1326,10 +1519,16 @@ export async function loadRosterFaction(slug) {
 export { default as rosterCore } from './core.js'
 export { default as rosterItems } from './items.js'
 `
-  fs.writeFileSync(path.join(OUT, 'index.js'), body)
+  writeOut('index.js', body)
 }
 
 // ---- Run -------------------------------------------------------------------------------
+
+// One call per process: the intern dictionaries and `report` are module state, so a second call
+// would keep interning into the same dicts. `npm run sync` imports this and calls run(['--check'])
+// exactly once, the same contract the other generators here follow.
+export async function run(argv = process.argv.slice(2)) {
+CHECK = argv.includes('--check')
 
 // Always regenerate every faction: the intern dictionaries (items.js) are global and their
 // ids are assigned in iteration order, so a partial run would desync them from the faction
@@ -1344,6 +1543,16 @@ genItems() // after all factions — the intern dicts are complete
 genIndex()
 
 console.log(`\nroster data: ${report.factions} factions, ${report.units} units (${report.linked} linked, ${report.unlinked.length} unlinked)`)
+const pr = report.price
+console.log(`  points: ${pr.repriced} brackets take the MFM's price over appdata's; ${pr.collapsed} duplicate price rows collapsed (a Chapter/allied price is not a unit size); ${pr.chapterOverrides} shared units carry a Chapter price`)
+if (pr.noUnit.length) console.log(`    no MFM entry at all (kept appdata's price), ${pr.noUnit.length}: ${[...new Set(pr.noUnit)].join('; ')}`)
+if (pr.noBracket.length) console.log(`    size the MFM doesn't price — kept the row from the list that won elsewhere (${pr.noBracket.length}):`)
+for (const l of pr.noBracket.slice(0, 10)) console.log(`      - ${l}`)
+for (const l of pr.stepDrift.slice(0, 8)) console.log(`    copy tax disagrees — ${l}`)
+if (report.loadoutFixed.length) {
+  console.log(`  default-loadout substitutions (appdata names another datasheet's weapon — see LOADOUT_ITEM_FIXES):`)
+  for (const l of [...new Set(report.loadoutFixed)]) console.log(`    - ${l}`)
+}
 if (report.missingBundle.length) console.log(`  no appdata bundle (skipped): ${report.missingBundle.join(', ')}`)
 if (report.noPoints.length) console.log(`  dropped (no points/composition): ${report.noPoints.join(', ')}`)
 const b = report.bundle
@@ -1355,7 +1564,7 @@ const dt = report.detTag
 console.log(`  detachment tags: ${dt.tagged} carry the tag that bars a second detachment sharing it${dt.drift.length ? `; ${dt.drift.length} disagree with appdata's own table` : ''}`)
 for (const d of dt.drift.slice(0, 8)) console.log(`    - ${d}`)
 const cmp = report.comp
-console.log(`  unit composition: ${cmp.brackets} brackets on ${cmp.units} multi-profile units carry a per-miniature breakdown; ${cmp.foldedBrackets} duplicate brackets folded (same models/points/composition)${cmp.rejected.length ? `; ${cmp.rejected.length} rejected (bracket and composition disagree)` : ''}`)
+console.log(`  unit composition: ${cmp.brackets} brackets on ${cmp.units} multi-profile units carry a per-miniature breakdown${cmp.rejected.length ? `; ${cmp.rejected.length} rejected (bracket and composition disagree)` : ''}`)
 for (const r of cmp.rejected.slice(0, 8)) console.log(`    - ${r}`)
 const lk = report.leadKw
 console.log(`  keyword-defined attachments: ${lk.resolved} leader→unit links resolved from datasheet_bodyguard_group_keyword${lk.unresolved.length ? `; ${lk.unresolved.length} name units outside the faction` : ''}`)
@@ -1382,3 +1591,19 @@ if (report.unlinked.length) {
   for (const u of report.unlinked.slice(0, 40)) console.log(`    - ${u}`)
   if (report.unlinked.length > 40) console.log(`    … +${report.unlinked.length - 40} more`)
 }
+
+// --check contract, matching the other sync checks: report what would change, write nothing, and
+// return non-zero so `npm run sync` can say the roster data needs regenerating after an appdata bump.
+if (CHECK) {
+  if (report.stale.length) {
+    console.log(`\n  --check: ${report.stale.length} file(s) would change — run \`npm run roster:data\`:`)
+    for (const f of report.stale.slice(0, 40)) console.log(`    - src/data/roster/${f}`)
+    return 1
+  }
+  console.log('\n  --check: up to date.')
+}
+return 0
+}
+
+const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href
+if (isMain) process.exit(await run())
