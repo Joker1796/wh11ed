@@ -1,6 +1,8 @@
 <template>
   <div v-if="roster" class="roster-view themed" :style="accentStyle">
-    <RouterLink to="/roster" class="back"><i class="bi bi-chevron-left"></i> {{ labels.rosterBackToList }}</RouterLink>
+    <RouterLink :to="backTo" class="back">
+      <i class="bi bi-chevron-left"></i> {{ inGame ? labels.trackerRosterBack : labels.rosterBackToList }}
+    </RouterLink>
 
     <header class="rv-head">
       <h1 class="rv-name">{{ roster.name || labels.rosterUntitled }}</h1>
@@ -9,7 +11,7 @@
         <span class="rp-sep">/</span>
         <span class="rp-cap">{{ limit }}</span>
       </div>
-      <RouterLink :to="`/roster/${roster.id}`" class="hdr-icon" :aria-label="labels.rosterEdit">
+      <RouterLink v-if="!inGame" :to="`/roster/${roster.id}`" class="hdr-icon" :aria-label="labels.rosterEdit">
         <i class="bi bi-pencil"></i>
       </RouterLink>
     </header>
@@ -185,8 +187,32 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { rosterById } = useRosters()
 
-const roster = computed(() => rosterById(route.params.id))
-watch(roster, (r) => { if (!r) router.replace('/roster') }, { immediate: true })
+// Two ways in: /roster/:id/view reads the saved roster, /tracker/game/roster/:pi reads the
+// SNAPSHOT the current game carries for that player (rosterGameLink.js). Same screen either way —
+// the in-game one is where the live-rules layer will hang, so it must not become a second copy.
+//
+// useTracker is imported dynamically on purpose: it statically pulls the mission/event datasets,
+// and the ordinary roster route must not carry them.
+const gamePi = computed(() => (route.params.pi != null ? Number(route.params.pi) : null))
+const inGame = computed(() => gamePi.value != null)
+const backTo = computed(() => (inGame.value ? '/tracker/game' : '/roster'))
+const gameRoster = ref(undefined) // undefined = not resolved yet, null = no such attachment
+watch(gamePi, async (pi) => {
+  if (pi == null) { gameRoster.value = undefined; return }
+  const [{ useTracker }, { rosterFromPlayer }] = await Promise.all([
+    import('../../composables/useTracker.js'),
+    import('../../composables/rosterGameLink.js'),
+  ])
+  gameRoster.value = rosterFromPlayer(useTracker().current.value?.players?.[pi])
+}, { immediate: true })
+
+const roster = computed(() => (inGame.value ? gameRoster.value || null : rosterById(route.params.id)))
+// Leave only once we KNOW there is nothing to show — while the game's snapshot is still resolving
+// `roster` is legitimately null, and redirecting then would bounce straight back out of the view.
+watch([roster, gameRoster], () => {
+  if (inGame.value && gameRoster.value === undefined) return
+  if (!roster.value) router.replace(backTo.value)
+}, { immediate: true })
 
 const tab = ref('units')
 

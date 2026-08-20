@@ -2,9 +2,10 @@ import { beforeEach, describe, it, expect, vi } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 
 let ROSTER_ID = ''
+let GAME_PI // undefined unless the test drives the in-game route
 const replace = vi.fn()
 vi.mock('vue-router', () => ({
-  useRoute: () => ({ params: { get id() { return ROSTER_ID } } }),
+  useRoute: () => ({ params: { get id() { return ROSTER_ID }, get pi() { return GAME_PI } } }),
   useRouter: () => ({ push: vi.fn(), replace }),
   RouterLink: { name: 'RouterLink', props: ['to'], template: '<a :href="to"><slot /></a>' },
 }))
@@ -15,6 +16,7 @@ beforeEach(async () => {
   localStorage.clear()
   vi.resetModules()
   replace.mockClear()
+  GAME_PI = undefined
   ;({ useRosters } = await import('../../composables/useRosters.js'))
   ;({ default: RosterViewView } = await import('./RosterViewView.vue'))
 })
@@ -197,5 +199,62 @@ describe('RosterViewView', () => {
     const { ui } = await import('../../i18n/ui.js')
     await waitFor(w, ui.en.rosterViewNoDetachment)
     expect(w.text()).toContain(ui.en.rosterViewNoDetachment)
+  })
+  // The in-game route (/tracker/game/roster/:pi) is the SAME screen fed from the game's own
+  // snapshot instead of the saved-roster store — a game outlives the list it was played with.
+  describe('opened from a game', () => {
+    async function startGame(roster) {
+      const { useTracker } = await import('../../composables/useTracker.js')
+      const { rosterSnapshot } = await import('../../composables/rosterGameLink.js')
+      const t = useTracker()
+      t.newGame({
+        settings: { battleSize: 'strikeForce', firstTurn: 1 },
+        players: [
+          { name: 'Me', factionSlug: 'space-marines', detachments: [], disposition: 'balanced', role: 'attacker', rosterId: roster.id, roster: rosterSnapshot(roster) },
+          { name: 'Them', factionSlug: 'orks', detachments: [], disposition: 'balanced', role: 'defender' },
+        ],
+      })
+      return t
+    }
+
+    const fielded = {
+      id: 'r1', name: 'Fielded List', faction: 'space-marines', detachments: [],
+      battleSize: 'strike-force', units: [{ uid: 'u1', id: 'intercessor-squad', size: 0 }],
+    }
+
+    it('renders the list the game carries, with no way to edit it', async () => {
+      await startGame(fielded)
+      GAME_PI = '0'
+      const w = mount(RosterViewView, { global: { stubs } })
+      await waitFor(w, 'Intercessor Squad')
+
+      expect(w.text()).toContain('Fielded List')
+      expect(w.find('.hdr-icon').exists()).toBe(false)   // a snapshot is a record, not a draft
+      expect(w.find('.back').attributes('href')).toBe('/tracker/game')
+      expect(replace).not.toHaveBeenCalled()
+    })
+
+    it('still renders after the saved roster it came from is deleted', async () => {
+      const t = await startGame(fielded)
+      const { useRosters: rostersOf } = await import('../../composables/useRosters.js')
+      const saved = rostersOf()
+      expect(saved.rosterById('r1')).toBeNull()   // never was in this store — only the snapshot is
+      expect(t.current.value.players[0].roster.name).toBe('Fielded List')
+
+      GAME_PI = '0'
+      const w = mount(RosterViewView, { global: { stubs } })
+      await waitFor(w, 'Fielded List')
+      expect(w.text()).toContain('Fielded List')
+    })
+
+    it('leaves for the game when that player fielded no list', async () => {
+      await startGame(fielded)
+      GAME_PI = '1'
+      mount(RosterViewView, { global: { stubs } })
+      await flushPromises()
+      await new Promise((r) => setTimeout(r, 20))
+      await flushPromises()
+      expect(replace).toHaveBeenCalledWith('/tracker/game')
+    })
   })
 })

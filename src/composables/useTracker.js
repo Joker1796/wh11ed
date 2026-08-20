@@ -296,6 +296,13 @@ function makePlayer(p, opponent, settings, isYou = false) {
     role: p.role,
     secondaryMode,                             // tactical | fixed — chosen per player
     battleReady: !!p.battleReady,              // +10 VP if the army is battle-ready
+    // The army list this player fielded, attached in the setup wizard and OPTIONAL on both sides —
+    // a game with no rosters is the normal case. `roster` is a self-contained snapshot (so a game
+    // in history still renders the list that was played even after the saved roster is edited or
+    // deleted) and `rosterId` is provenance only, and may dangle. Built/read by rosterGameLink.js;
+    // stored in the roster's own compact form (ids + indices) to stay inside the API's 64 KB cap.
+    rosterId: p.rosterId || null,
+    roster: p.roster || null,
     primarySlug: primary ? primary.slug : null,
     cp: 0,
     // Army-rule tracker state (Pain tokens, Battle Focus, etc.) — a free-form per-faction blob

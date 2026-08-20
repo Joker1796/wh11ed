@@ -14,7 +14,10 @@ const PICK = ['name', 'faction', 'detachments', 'battleSize', 'customPoints', 'u
 // prefix below). A roster in a link is the same shape as a stored one — wargear picks are indices
 // into generated data that gets renumbered — so the reader has to know which generation built it;
 // useRosters' importRoster migrates on the way in.
-function toPayload(roster) {
+//
+// Exported because a roster travels one more way: rosterGameLink.js snapshots it into a tracker
+// game. Same fields, same `v`, so both are read back through the same migration.
+export function rosterPayload(roster) {
   const o = { v: SCHEMA_VERSION }
   for (const k of PICK) o[k] = roster[k]
   return o
@@ -51,7 +54,7 @@ async function inflate(bytes) {
 
 // Encode a roster to a share payload string (async — compression is stream-based).
 export async function encodeRoster(roster) {
-  const json = JSON.stringify(toPayload(roster))
+  const json = JSON.stringify(rosterPayload(roster))
   try {
     const bytes = await deflate(json)
     if (bytes) return `1.${bytesToB64url(bytes)}`

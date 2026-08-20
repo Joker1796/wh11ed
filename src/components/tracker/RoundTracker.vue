@@ -31,6 +31,11 @@
         <h3 class="ptitle">{{ pl.name || ((pl.isYou ?? i === 0) ? labels.trackerYou : labels.trackerOpponent) }}</h3>
         <p class="pmeta">{{ dispositionName(pl.disposition) }}</p>
         <p v-if="pl.detachments && pl.detachments.length" class="pdet">{{ pl.detachments.join(' · ') }}</p>
+        <!-- Only when a list was attached at setup; a game without one is the normal case. -->
+        <RouterLink v-if="pl.roster" class="proster" :to="`/tracker/game/roster/${i}`">
+          <i class="bi bi-card-list"></i>
+          <span class="pr-name">{{ pl.roster.name || labels.trackerRosterOpen }}</span>
+        </RouterLink>
 
         <!-- Primary mission — tap to open the scoring modal -->
         <div class="sec-title-row">{{ labels.trackerPrimary }}</div>
@@ -218,6 +223,14 @@ function onEndBattle(reason) {
   line-height: 1.5;
   color: var(--text-muted);
 }
+.proster {
+  display: inline-flex; align-items: center; gap: 0.35rem; max-width: 100%;
+  margin-bottom: 0.4rem; padding: 0.2rem 0.5rem;
+  border: 1px solid var(--border); border-radius: 999px;
+  color: var(--text-muted); text-decoration: none; font-size: 0.75rem;
+}
+.proster:hover { color: var(--accent); border-color: var(--accent); }
+.pr-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .players { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
 .player {
   background: var(--bg-card);

@@ -357,6 +357,10 @@ export const router = createRouter({
     { path: '/roster/:id/view', component: RosterViewView, meta: { section: 'roster' } },
     { path: '/roster/:id/add',  component: RosterAddUnitsView, meta: { section: 'roster' } },
     { path: '/roster/:id',    component: RosterEditorView, meta: { section: 'roster' } },
+    // The army list attached to a player of the CURRENT game (:pi = 0|1). Same view as
+    // /roster/:id/view, reading the game's own snapshot instead of the saved-roster store — see
+    // rosterGameLink.js. Private, like /tracker/game: not in STATIC_ROUTES, not in the sitemap.
+    { path: '/tracker/game/roster/:pi', component: RosterViewView, meta: { section: 'tracker' } },
     { path: '/tracker/history/:id', component: TrackerHistoryView, meta: { section: 'tracker' } },
     { path: '/tracker/auth-callback', component: AuthCallbackView, meta: { section: 'tracker' } },
     { path: '/links', component: LinksView, meta: { section: 'links' } },
