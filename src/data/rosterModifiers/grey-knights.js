@@ -18,8 +18,29 @@ export default {
       },
       "hash": "102c3a47",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "each time that unit Advances, until the end of the phase (replacing the Advance roll)",
+            "ru": "каждый раз, когда юнит совершает Advance, до конца фазы (вместо броска Advance)"
+          }
+        },
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": {
+            "en": "until the end of the turn in which that unit Advanced",
+            "ru": "до конца хода, в котором юнит совершил Advance"
+          }
+        }
+      ]
     },
     {
       "sid": "5ab1864a-e524-4b61-977f-1a0c81e33caa",
@@ -118,8 +139,19 @@ export default {
       "ref": null,
       "hash": "e9618825",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "once per battle, when this unit is selected to fight after making a charge move",
+            "ru": "раз за битву, когда юнит выбран для боя после charge-перемещения"
+          }
+        }
+      ]
     },
     {
       "sid": "de7be923-5642-4bf5-b8da-1ad373303f47",

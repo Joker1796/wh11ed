@@ -218,8 +218,17 @@ export default {
       },
       "hash": "e0235ebc",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "scope": 0,
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "90b8de0c-70e0-4aae-85b7-0b45e64ecbf6",
@@ -387,8 +396,16 @@ export default {
       },
       "hash": "18087725",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "range",
+          "op": "add",
+          "value": 6,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "2a96585b-c6fd-4271-b617-56698f4df264",
@@ -423,8 +440,16 @@ export default {
       "ref": null,
       "hash": "a44941f8",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ANTI-INFANTRY 4+",
+          "when": null
+        }
+      ]
     }
   ]
 }

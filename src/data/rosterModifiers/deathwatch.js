@@ -18,8 +18,39 @@ export default {
       },
       "hash": "5b885a9a",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1",
+          "when": {
+            "en": "while Furor Tactics is the active Mission Tactic",
+            "ru": "пока активна тактика Furor"
+          }
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS",
+          "when": {
+            "en": "while Malleus Tactics is the active Mission Tactic",
+            "ru": "пока активна тактика Malleus"
+          }
+        },
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": {
+            "en": "while Purgatus Tactics is active, on a Critical Hit",
+            "ru": "пока активна тактика Purgatus, при критическом попадании"
+          }
+        }
+      ]
     },
     {
       "sid": "796172d3-0693-4e71-a27d-51e9db6bfdca",

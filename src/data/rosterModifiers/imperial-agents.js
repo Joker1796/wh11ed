@@ -17,8 +17,9 @@ export default {
       },
       "hash": "4aa3a14f",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [],
+      "note": "army-composition rule — how many Agents units may be included"
     },
     {
       "sid": "d7b4a194-4fa5-427c-9015-e2423dda2d80",
@@ -30,8 +31,9 @@ export default {
       },
       "hash": "4aa3a14f",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [],
+      "note": "duplicate publication of the same rule"
     },
     {
       "sid": "dc3732a7-5647-49b0-b3d1-8279dcfc40e4",

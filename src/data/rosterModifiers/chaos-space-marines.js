@@ -237,8 +237,16 @@ export default {
       },
       "hash": "c5bd1198",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "HEAVY",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "1dacaf8f-9649-4bca-b267-e84aa6301dfb",
@@ -329,8 +337,16 @@ export default {
       },
       "hash": "e227d712",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LANCE",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "91ff4c53-0812-4603-b6ac-8c82eb9a44cb",
@@ -343,8 +359,25 @@ export default {
       },
       "hash": "0f71b1f4",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "scope": 0,
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Psyker",
+          "when": null
+        },
+        {
+          "scope": 1,
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PSYCHIC",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "f8585ef9-bd3d-4536-99b2-d02ab20921da",
@@ -436,8 +469,9 @@ export default {
       },
       "hash": "d3937f61",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [],
+      "note": "extends the range of three ABILITIES, not of a weapon — no row on the card carries it"
     },
     {
       "sid": "f3bde6ed-505b-419d-8db9-5c8d9c4d0bff",
@@ -586,8 +620,16 @@ export default {
       },
       "hash": "e676a300",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 4,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "93079aa9-a7c7-4192-85b8-5e2375c6f36f",

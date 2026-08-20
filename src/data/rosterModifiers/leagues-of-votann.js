@@ -69,8 +69,16 @@ export default {
       },
       "hash": "42ae7259",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "f8a1fc4c-65b9-466e-90b7-eb939120033c",
@@ -80,8 +88,17 @@ export default {
       "ref": null,
       "hash": "55ba556e",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "scope": 0,
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "ab0a026e-6604-4425-8a3f-7adff3375e2d",

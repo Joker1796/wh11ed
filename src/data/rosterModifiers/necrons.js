@@ -220,8 +220,16 @@ export default {
       },
       "hash": "dd08044f",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "range",
+          "op": "add",
+          "value": 6,
+          "when": null
+        }
+      ]
     },
     {
       "sid": "a17450e0-31f1-4b21-8952-5ea5c5bf7496",
@@ -335,8 +343,19 @@ export default {
       },
       "hash": "ec5e298e",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "each time the bearer's unit Advances, until the end of the phase (replacing the Advance roll)",
+            "ru": "каждый раз, когда юнит носителя совершает Advance, до конца фазы (вместо броска Advance)"
+          }
+        }
+      ]
     },
     {
       "sid": "c173a0bd-085d-42db-ac95-5c7ab17a267f",

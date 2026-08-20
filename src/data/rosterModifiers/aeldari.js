@@ -17,8 +17,9 @@ export default {
       },
       "hash": "218596b3",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [],
+      "note": "army-composition rule — which units may be included, no printed number"
     },
     {
       "sid": "73913fb3-24fa-4911-8b59-a10e65e627dd",
@@ -31,8 +32,16 @@ export default {
       },
       "hash": "9e5439da",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "ffd11536-5f6e-44a3-8f8a-f3833e44dc1c",
@@ -186,8 +195,9 @@ export default {
       "ref": null,
       "hash": "6d851a6c",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [],
+      "note": "the healing and [PRECISION] land on a DIFFERENT unit the bearer selects, not on the bearer, and this layer only ever modifies the model carrying the enhancement"
     },
     {
       "sid": "2829e959-9dd5-485b-ad55-9b162e11d54f",
@@ -214,8 +224,20 @@ export default {
       },
       "hash": "e7c50bbd",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "range",
+          "op": "add",
+          "value": 12,
+          "when": {
+            "en": "ranged Psychic weapons only",
+            "ru": "только дальнобойное оружие с [PSYCHIC]"
+          }
+        }
+      ],
+      "note": "the +12\" is real and unconditional, but it applies to a SUBSET of the weapon table this format cannot address, so it annotates instead of rewriting every range"
     },
     {
       "sid": "964c822b-33e6-412a-8ebd-fa8d57373161",

@@ -46,8 +46,9 @@ export default {
       },
       "hash": "0dba42cb",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [],
+      "note": "army-composition rule — one Chapter per army and its exclusions"
     },
     {
       "sid": "abc5a0da-6e22-42fc-8e98-e53976b3caab",
@@ -74,8 +75,19 @@ export default {
       },
       "hash": "0500502c",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "unit",
+          "stat": "keyword",
+          "op": "grant",
+          "value": "Entrenched",
+          "when": {
+            "en": "while the unit is within a terrain feature, was not set up this turn and no model moved more than 3\"",
+            "ru": "пока юнит находится в элементе ландшафта, не был выставлен в этом ходу и ни одна модель не прошла больше 3\""
+          }
+        }
+      ]
     },
     {
       "sid": "e8f365fd-9e58-4321-a78c-ed2e9c1e64de",
@@ -138,8 +150,19 @@ export default {
       },
       "hash": "4f08e2fa",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "each time that TANK ACE unit Advances, until the end of the phase (replacing the Advance roll)",
+            "ru": "каждый раз, когда юнит TANK ACE совершает Advance, до конца фазы (вместо броска Advance)"
+          }
+        }
+      ]
     },
     {
       "sid": "fa8c2bcd-8194-4017-b12b-b7eed35cc993",
@@ -238,8 +261,20 @@ export default {
       "ref": null,
       "hash": "1b0678c4",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "RAPID FIRE 1",
+          "when": {
+            "en": "the unit's bolt rifle weapons only",
+            "ru": "только для оружия bolt rifle в этом юните"
+          }
+        }
+      ],
+      "note": "names one weapon by name, a subset of the table this format cannot single out"
     },
     {
       "sid": "eaac3c39-f06a-476a-acae-7993c8c45b38",
@@ -485,8 +520,16 @@ export default {
       },
       "hash": "c09e0fa5",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "IGNORES COVER",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "57200c62-5d47-4622-a062-41e1bc1241c9",

@@ -216,8 +216,19 @@ export default {
       },
       "hash": "33c60adf",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "profile",
+          "stat": "m",
+          "op": "add",
+          "value": 6,
+          "when": {
+            "en": "when that unit Advances, until the end of the phase",
+            "ru": "когда юнит совершает Advance, до конца фазы"
+          }
+        }
+      ]
     },
     {
       "sid": "998e3c77-a541-44a6-a64e-e7b2bbe5e398",
@@ -341,8 +352,9 @@ export default {
       },
       "hash": "a4f753ee",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [],
+      "note": "the +3\" Move is given to a VEHICLE the bearer picks, not to the bearer"
     }
   ]
 }

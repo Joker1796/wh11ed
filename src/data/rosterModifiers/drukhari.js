@@ -17,8 +17,9 @@ export default {
       },
       "hash": "e1eea53b",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [],
+      "note": "army-composition rule — allied points allowance"
     },
     {
       "sid": "b1bcd7c8-edc3-4da2-a2c7-796001420f4b",
@@ -30,8 +31,9 @@ export default {
       },
       "hash": "e1eea53b",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [],
+      "note": "duplicate publication of the same rule"
     },
     {
       "sid": "60c93592-228e-4a81-a0c7-46967aacfc1d",
@@ -44,8 +46,17 @@ export default {
       },
       "hash": "c82b992c",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "scope": 0,
+          "on": "melee",
+          "stat": "ability",
+          "op": "grant",
+          "value": "LETHAL HITS: non-MONSTER/VEHICLE",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "25d48d63-072e-4bce-98fc-d168ab5a9333",
@@ -58,8 +69,17 @@ export default {
       },
       "hash": "ec6c46f7",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "scope": 0,
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "SUSTAINED HITS 1: non-MONSTER/VEHICLE",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "b46b3339-173c-4bce-b474-33cb0239e5d2",
@@ -186,8 +206,9 @@ export default {
       },
       "hash": "3149a83e",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [],
+      "note": "extends the range of an Aura ability, not of a weapon"
     },
     {
       "sid": "5600dcd0-652a-4078-9d65-266dfff20443",
@@ -200,8 +221,16 @@ export default {
       },
       "hash": "7fb5eb42",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "on": "weapon",
+          "stat": "ability",
+          "op": "grant",
+          "value": "PRECISION",
+          "when": null
+        }
+      ]
     },
     {
       "sid": "1b8a36e1-aaf0-4dc9-8d5e-7dc93f9961b4",

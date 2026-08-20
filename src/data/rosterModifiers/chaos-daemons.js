@@ -111,8 +111,9 @@ export default {
       },
       "hash": "9611ddd4",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [],
+      "note": "army-composition rule — allied points allowance, no printed number"
     },
     {
       "sid": "7f775c80-d3ce-4aa7-a586-348ac9502b2a",
@@ -125,8 +126,20 @@ export default {
       },
       "hash": "1efb3dd1",
       "ver": 925,
-      "reviewed": false,
-      "effects": []
+      "reviewed": true,
+      "effects": [
+        {
+          "scope": 0,
+          "on": "ranged",
+          "stat": "ability",
+          "op": "grant",
+          "value": "ASSAULT",
+          "when": {
+            "en": "when that unit is selected to make an Advance move, until the end of the turn",
+            "ru": "когда юнит выбран для Advance-перемещения, до конца хода"
+          }
+        }
+      ]
     },
     {
       "sid": "281cf9a5-5126-42dc-a47c-fc5c897821df",
