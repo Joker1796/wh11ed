@@ -247,6 +247,16 @@ describe('validateRoster — enhancements', () => {
     const units = [U('captain', { warlord: true }), U('ballistus-dreadnought', { enh: 'Artificer Armour' })]
     expect(codes(roster({ units }))).toContain('enhIneligible')
   })
+  // An enhancement its own rules keep off the Warlord (World Eaters' Disciple of Khorne). appdata
+  // records it as `notWarlord`, and nothing read the field.
+  it('flags an enhancement its rules bar from the Warlord', () => {
+    const det2 = { ...detachment, enhancements: [...detachment.enhancements, { name: 'Disciple of Khorne', pts: 15, type: 'miniature', notWarlord: 1, req: [{ kw: ['Infantry'] }] }] }
+    const f = { ...faction, detachments: [det2] }
+    const got = (units) => validateRoster(roster({ units }), { faction: f, core }).issues.map((i) => i.code)
+    expect(got([U('captain', { warlord: true, enh: 'Disciple of Khorne' })])).toContain('enhNotWarlord')
+    // …and says nothing about the same enhancement on anyone else.
+    expect(got([U('captain', { warlord: true }), U('lieutenant', { enh: 'Disciple of Khorne' })])).not.toContain('enhNotWarlord')
+  })
 })
 
 describe('validateRoster — leaders', () => {
@@ -278,6 +288,24 @@ describe('validateRoster — leaders', () => {
     const support1 = U('chaplain', { leaderOf: squad.uid })
     const support2 = U('chaplain', { leaderOf: squad.uid })
     expect(codes(roster({ units: [U('captain', { warlord: true }), squad, support1, support2] }))).toContain('manyLeaders')
+  })
+})
+
+describe('validateRoster — an entry the data no longer knows', () => {
+  // A roster outlives the data it was built against: it sits in localStorage while every deploy
+  // replaces the generated faction files. An id that no longer resolves used to be filtered out
+  // everywhere — the lists, the export, the points — so the unit just disappeared and the army got
+  // quietly cheaper.
+  it('reports a unit whose datasheet is gone instead of dropping it silently', () => {
+    const iss = validateRoster(roster({ units: [{ ...U('captain'), warlord: true }, U('unit-that-was-renamed')] }), { faction, core })
+      .issues.find((i) => i.code === 'unknownUnit')
+    expect(iss).toBeTruthy()
+    expect(iss.params).toMatchObject({ id: 'unit-that-was-renamed' })
+  })
+
+  it('says nothing while the faction data has not loaded yet', () => {
+    const { issues } = validateRoster(roster({ units: [U('captain')] }), { core })
+    expect(issues.map((i) => i.code)).not.toContain('unknownUnit')
   })
 })
 
@@ -359,6 +387,42 @@ describe('validateRoster — allegiance', () => {
     units.push({ ...U('captain'), warlord: true })
     const iss = codesOf(units, ['Headhunter Task Force']).find((i) => i.code === 'allegOverLimit')
     expect(iss.params).toMatchObject({ count: 3, limit: 2 })
+  })
+
+  // "Select 3 War Dog units" (Chaos Knights' Houndpack Lance, min 3 / max 3) — a floor as well as
+  // a cap, and only the cap was ever checked.
+  it('reports fewer units upgraded than a detachment requires', () => {
+    const warDog = {
+      id: 'war-dog', name: 'War Dog Karnivore', kws: ['Vehicle'], flags: {}, sizes: [{ pts: 130, per: [1, 1], default: 1 }],
+      alleg: { g: 'houndpack-lance-keyword', t: 'Houndpack Lance', det: 'Houndpack Lance', min: 3, max: 3, o: [{ n: 'Bondsman' }] },
+    }
+    const lance = { sid: 'hl', name: 'Houndpack Lance', dp: 3, enhancements: [] }
+    const f2 = { ...faction, units: [...faction.units, warDog], detachments: [lance] }
+    const units = [{ ...U('war-dog'), uid: 'w1', alleg: 'Bondsman' }, { ...U('war-dog'), uid: 'w2' }, { ...U('captain'), warlord: true }]
+    const iss = validateRoster({ ...roster(), detachments: ['Houndpack Lance'], units }, { faction: f2, core })
+      .issues.find((i) => i.code === 'allegUnderLimit')
+    expect(iss.params).toMatchObject({ count: 1, limit: 3 })
+  })
+
+  // The editor offers an enhancement to a vehicle the moment an allegiance upgrade hands it
+  // CHARACTER (enhOptionsFor asks about the ENTRY) — the validator used to ask about the printed
+  // datasheet and call the resulting list illegal.
+  it('accepts an enhancement on a unit the allegiance upgrade made a Character', () => {
+    const dread2 = {
+      ...dread, id: 'telemon', name: 'Telemon',
+      alleg: { g: 'solar-spearhead-keywords', t: 'Solar Spearhead Keywords', det: 'Solar Spearhead', max: 2, o: [{ n: 'Character' }] },
+    }
+    const spearhead = {
+      sid: 'ss', name: 'Solar Spearhead', dp: 2,
+      enhancements: [{ name: 'Honoured Fallen', pts: 20, type: 'miniature', req: [{ kw: ['Vehicle'] }] }],
+    }
+    const f2 = { ...faction, units: [...faction.units, dread2], detachments: [spearhead] }
+    const entry = { ...U('telemon'), alleg: 'Character', enh: 'Honoured Fallen', warlord: false }
+    const got = (units) => validateRoster({ ...roster(), detachments: ['Solar Spearhead'], units }, { faction: f2, core })
+      .issues.map((i) => i.code)
+    expect(got([entry, { ...U('captain'), warlord: true }])).not.toContain('enhIneligible')
+    // …and still refuses it on the same vehicle without the upgrade.
+    expect(got([{ ...entry, alleg: undefined }, { ...U('captain'), warlord: true }])).toContain('enhIneligible')
   })
 
   it('reports a Character attached across marks', () => {

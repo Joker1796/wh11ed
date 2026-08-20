@@ -7,8 +7,10 @@ import { ref, watch } from 'vue'
 // chunk; only the editor dynamic-imports the heavy per-faction data (PWA invariant).
 
 const KEY = 'wh11ed-rosters'
-// Bump `v` when the stored shape changes; `migrate()` below is the single upgrade point.
-const SCHEMA_VERSION = 4
+// Bump `v` when the stored shape changes; `migrateRoster()` below is the single upgrade point.
+// Exported because a SHARE LINK carries the same shape and the same version (rosterShare.js) — a
+// payload built by an older build has to be read through the same migration a stored roster is.
+export const SCHEMA_VERSION = 4
 
 // A stable unique id for a roster (and its line entries). crypto.randomUUID is available in
 // every browser we target and in Node ≥ 16; the fallback keeps tests / old engines working.
@@ -58,33 +60,40 @@ export function isValidRoster(r) {
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
+// Bring ONE roster up to the current shape. Shared by the stored envelope below and by an imported
+// share payload, which is the same shape carried in a URL and can be just as old — importing used
+// to skip this entirely, so a link built under an older schema was saved with indices pointing at
+// whatever weapon now sits at that position.
+export function migrateRoster(r, v) {
+  // Detachments are stored by NAME now (was a single sid). Coerce to an array and drop any
+  // uuid-shaped leftovers — a pre-multi-detachment roster stored the detachment's appdata sid,
+  // which can't be resolved to a name here, so it must not linger as a selection.
+  if (!Array.isArray(r.detachments)) r.detachments = []
+  r.detachments = r.detachments.filter((n) => typeof n === 'string' && !UUID_RE.test(n))
+  delete r.detachment
+
+  // → v3: a wargear pick is stored as a pair of INDICES (group, option) into the generated
+  // data, and the generator renumbered both — options wherever one turned out to be a bundle
+  // of items ("1 hexrifle and 1 torturer's tool"), groups wherever a unit-wide instruction had
+  // been recorded once per miniature and got folded into one. An old index now points at a
+  // different weapon, so the picks are dropped rather than silently re-interpreted. Nothing
+  // else is touched: the units, their sizes, enhancements and attachments all stay.
+  if (!(v >= 3)) for (const u of r.units || []) delete u.wg
+
+  // → v4: a unit's size is stored as an INDEX into the generated bracket list, and the generator
+  // folded the brackets appdata publishes twice (the same composition repeated under an ally
+  // grouping keyword — Aquila Kill Team listed 5-at-100 and 10-at-200 once plain and once for
+  // Imperium). 42 brackets disappeared, so an old index can point at a different size. The size
+  // falls back to the unit's default bracket instead of being re-read; everything else stays.
+  if (!(v >= 4)) for (const u of r.units || []) { delete u.size; delete u.count }
+  return r
+}
+
 function migrate(env) {
   // env is the parsed { v, rosters } envelope (or something older/broken). Future schema
-  // bumps branch on env.v here.
+  // bumps branch on env.v inside migrateRoster.
   const rosters = Array.isArray(env?.rosters) ? env.rosters.filter(isValidRoster) : []
-  for (const r of rosters) {
-    // Detachments are stored by NAME now (was a single sid). Coerce to an array and drop any
-    // uuid-shaped leftovers — a pre-multi-detachment roster stored the detachment's appdata sid,
-    // which can't be resolved to a name here, so it must not linger as a selection.
-    if (!Array.isArray(r.detachments)) r.detachments = []
-    r.detachments = r.detachments.filter((n) => typeof n === 'string' && !UUID_RE.test(n))
-    delete r.detachment
-
-    // → v3: a wargear pick is stored as a pair of INDICES (group, option) into the generated
-    // data, and the generator renumbered both — options wherever one turned out to be a bundle
-    // of items ("1 hexrifle and 1 torturer's tool"), groups wherever a unit-wide instruction had
-    // been recorded once per miniature and got folded into one. An old index now points at a
-    // different weapon, so the picks are dropped rather than silently re-interpreted. Nothing
-    // else is touched: the units, their sizes, enhancements and attachments all stay.
-    if (!(env?.v >= 3)) for (const u of r.units || []) delete u.wg
-
-    // → v4: a unit's size is stored as an INDEX into the generated bracket list, and the generator
-    // folded the brackets appdata publishes twice (the same composition repeated under an ally
-    // grouping keyword — Aquila Kill Team listed 5-at-100 and 10-at-200 once plain and once for
-    // Imperium). 42 brackets disappeared, so an old index can point at a different size. The size
-    // falls back to the unit's default bracket instead of being re-read; everything else stays.
-    if (!(env?.v >= 4)) for (const u of r.units || []) { delete u.size; delete u.count }
-  }
+  for (const r of rosters) migrateRoster(r, env?.v)
   return rosters
 }
 
@@ -180,9 +189,16 @@ function updateRoster(id, patch) {
 // Import a roster object (from a share link / text) as a NEW saved roster with a fresh id, so
 // importing can never clobber an existing one. Share payloads deliberately omit id/timestamps
 // (assigned here) and summary (recomputed by the editor) — so validate only the essentials.
+//
+// The payload's own `v` decides how it is read: it is the same versioned shape as a stored roster
+// and can predate the current schema, so it goes through the same migration rather than being
+// trusted as-is. A payload with no `v` at all is older than that field and is migrated from zero.
 function importRoster(obj, name) {
   if (!obj || typeof obj !== 'object' || !Array.isArray(obj.units)) return null
   const r = JSON.parse(JSON.stringify(obj))
+  const version = r.v
+  delete r.v
+  migrateRoster(r, version)
   r.id = uid()
   r.name = name || r.name || 'Roster'
   r.createdAt = r.updatedAt = Date.now()

@@ -38,6 +38,20 @@ describe('RosterSharedView', () => {
     expect(w.text()).toContain(ui.en.rosterSharedInvalid)
   })
 
+  // The preview is what the recipient decides on. It used to be built without the item dictionary,
+  // so every wargear line resolved to an empty string and got filtered out — a list arrived with
+  // its loadout invisible.
+  it('names the wargear the shared list picked', async () => {
+    const shared = {
+      id: 'orig', name: 'Shared Beta', faction: 'space-marines', detachments: [], battleSize: 'strike-force',
+      units: [{ uid: 'u1', id: 'intercessor-squad', size: 0, wg: [[1, 3, 1]] }], // Sergeant's thunder hammer
+    }
+    HASH = `#r=${await encodeRoster(shared)}`
+    const w = mount(RosterSharedView, { global: { stubs } })
+    await waitFor(w, 'Thunder hammer')
+    expect(w.text()).toContain('Thunder hammer')
+  })
+
   it('decodes a shared roster, previews it, and saves a copy', async () => {
     const shared = {
       id: 'orig', name: 'Shared Alpha', faction: 'space-marines', detachments: [], battleSize: 'strike-force',

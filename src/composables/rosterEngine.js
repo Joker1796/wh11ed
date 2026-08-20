@@ -363,6 +363,28 @@ export function enhAttachOf(def, entry, detachments) {
   return e?.attach || []
 }
 
+// An attachment appdata restricts to (or bars from) one detachment — `reqDet`/`exclDet`, its
+// detachment uuid, matched against the `sid` the roster's detachment objects carry. 59 leads carry
+// each today, all Chaos Space Marines: appdata states their Pactbound Zealots attachments twice,
+// once required-inside and once excluded-outside, which is why ignoring both fields happened to
+// give the right answer. It only happens to — one appdata bump away from a one-sided gate, this
+// would offer an attachment that is legal in a detachment the army didn't take. Deduped by
+// target+type afterwards, because the two halves of such a pair collapse to one entry once gated
+// and the list's callers (`.find()` first-wins, `new Map()` last-wins) need exactly one.
+function gatedLeads(leads, detachments) {
+  if (!leads.some((l) => l.reqDet || l.exclDet)) return leads
+  const sids = new Set((detachments || []).map((d) => d?.sid).filter(Boolean))
+  const seen = new Set()
+  return leads.filter((l) => {
+    if (l.reqDet && !sids.has(l.reqDet)) return false
+    if (l.exclDet && sids.has(l.exclDet)) return false
+    const k = `${l.to}|${l.type}`
+    if (seen.has(k)) return false
+    seen.add(k)
+    return true
+  })
+}
+
 // Every unit this ENTRY can attach to: its datasheet's own list plus whatever its enhancement
 // adds. Use this instead of reading `def.leads` directly anywhere an entry (not a bare datasheet)
 // is in hand — otherwise a granted attach is invisible to that caller and, worse, gets flagged as
@@ -372,7 +394,7 @@ export function enhAttachOf(def, entry, detachments) {
 // both with `.find()` (first match wins) and through `new Map()` (last match wins), so a target
 // appearing twice would resolve to a different `type` depending on which one asked.
 export function leadsFor(def, entry, detachments) {
-  const own = def?.leads || []
+  const own = gatedLeads(def?.leads || [], detachments)
   const extra = enhAttachOf(def, entry, detachments)
   if (!extra.length) return own
   const seen = new Set(own.map((l) => l.to))
@@ -391,6 +413,37 @@ export function enhancementPoints(detachments, entry, def) {
 // (chosen or mandatory).
 export function unitPoints(def, entry, copyIndex = 1, detachments = null) {
   return unitBasePoints(def, entry?.size ?? 0, copyIndex) + unitWargearPoints(def, entry) + enhancementPoints(detachments, entry, def)
+}
+
+// ── Adding and removing a unit entry ──────────────────────────────────────────────────────────
+// Pure array surgery on a roster's `units`, shared by every screen that can do it: the editor and
+// the add-units page (through useRosterEditing) and the creation wizard. Kept here rather than
+// copied per screen because the removal has a second half that is easy to forget — the wizard's own
+// copy did forget it, and left a Leader attached to a unit that had already left the roster.
+//
+// `newUid` is passed in rather than generated: this module stays free of the store (uid() lives in
+// useRosters.js) and of anything that isn't a pure function of its arguments.
+export function addUnitEntry(units, def, unitId, newUid) {
+  if (!units || !def) return null
+  const at = def.sizes.findIndex((s) => s.default)
+  const entry = { uid: newUid, id: unitId, size: at >= 0 ? at : 0 }
+  units.push(entry)
+  return entry
+}
+
+// Removes the most recently added copy — pairs with the browser's "−" button, which only shows once
+// at least one copy is in the list. Returns the removed entry's uid so a caller holding per-entry UI
+// state (an open accordion) can drop it too.
+export function removeUnitEntry(units, unitId) {
+  if (!units) return null
+  for (let i = units.length - 1; i >= 0; i--) {
+    if (units[i].id !== unitId) continue
+    const [removed] = units.splice(i, 1)
+    // A leader attached to the unit that just left would otherwise point at nothing.
+    for (const u of units) if (u.leaderOf === removed.uid) delete u.leaderOf
+    return removed.uid
+  }
+  return null
 }
 
 // A one-line summary of an entry's current size/upgrades/enhancement for its list row —

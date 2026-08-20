@@ -12,7 +12,7 @@
 
 import { computed, ref, watch } from 'vue'
 import { useRosters, uid } from './useRosters.js'
-import { effectiveBattle, rosterPoints } from './rosterEngine.js'
+import { addUnitEntry, effectiveBattle, removeUnitEntry, rosterPoints } from './rosterEngine.js'
 import { validateRoster } from './rosterValidation.js'
 import rosterCore from '../data/roster/core.js'
 import { loadRosterFaction } from '../data/roster/index.js'
@@ -54,32 +54,20 @@ export function useRosterEditing(rosterId) {
 
   function touch() { if (roster.value) roster.value.updatedAt = Date.now() }
 
-  const defaultSize = (def) => {
-    const i = def.sizes.findIndex((s) => s.default)
-    return i >= 0 ? i : 0
-  }
-
+  // The add/remove semantics themselves are rosterEngine's (addUnitEntry/removeUnitEntry) — the
+  // creation wizard performs the same two operations on a roster this composable doesn't own, and
+  // one implementation is what keeps them from disagreeing about the default size or about clearing
+  // a leader attachment that pointed at the removed unit.
   function addUnit(unitId) {
-    const def = defOf(unitId)
-    if (!def || !roster.value) return
-    roster.value.units.push({ uid: uid(), id: unitId, size: defaultSize(def) })
-    touch()
+    if (!roster.value) return
+    if (addUnitEntry(roster.value.units, defOf(unitId), unitId, uid())) touch()
   }
 
-  // Removes the most recently added copy — pairs with the browser's "-" button, which only shows
-  // once at least one copy is in the list. Returns the removed entry's uid so a caller holding
-  // per-entry UI state (the editor's open accordion) can drop it.
   function removeUnit(unitId) {
     if (!roster.value) return null
-    for (let i = roster.value.units.length - 1; i >= 0; i--) {
-      if (roster.value.units[i].id !== unitId) continue
-      const [removed] = roster.value.units.splice(i, 1)
-      // A leader attached to the unit that just left would otherwise point at nothing.
-      for (const u of roster.value.units) if (u.leaderOf === removed.uid) delete u.leaderOf
-      touch()
-      return removed.uid
-    }
-    return null
+    const removed = removeUnitEntry(roster.value.units, unitId)
+    if (removed) touch()
+    return removed
   }
 
   return {

@@ -33,6 +33,39 @@ describe('createRoster', () => {
   })
 })
 
+describe('importRoster', () => {
+  it('saves a share payload as a new roster of its own', () => {
+    const r = store.importRoster({ v: 4, name: 'Shared', faction: 'orks', units: [{ uid: 'a', id: 'boyz', size: 1, wg: [[0, 1, 1]] }] })
+    expect(r.id).toBeTruthy()
+    expect(r.units[0]).toMatchObject({ id: 'boyz', size: 1, wg: [[0, 1, 1]] })
+    expect(stored().rosters).toHaveLength(1)
+    expect(r.v).toBeUndefined() // the version travelled with the payload, not into the roster
+  })
+
+  // A link is as long-lived as a bookmark and carries indices into generated data that later
+  // regenerations renumber. Importing used to skip the migration the stored envelope goes through,
+  // so an old payload was saved with picks pointing at whatever now sits at that index.
+  it('migrates a payload from an older schema instead of trusting its indices', () => {
+    const old = { v: 2, name: 'Old link', faction: 'orks', units: [{ uid: 'a', id: 'boyz', size: 3, count: 20, wg: [[0, 1, 1]] }] }
+    const r = store.importRoster(old)
+    expect(r.units[0].wg).toBeUndefined()
+    expect(r.units[0].size).toBeUndefined()
+    expect(r.units[0].count).toBeUndefined()
+    expect(r.units[0].id).toBe('boyz') // everything else survives
+  })
+
+  it('treats a payload with no version at all as the oldest one', () => {
+    const r = store.importRoster({ name: 'Ancient', faction: 'orks', units: [{ uid: 'a', id: 'boyz', size: 2, wg: [[0, 0, 1]] }] })
+    expect(r.units[0].wg).toBeUndefined()
+    expect(r.units[0].size).toBeUndefined()
+  })
+
+  it('refuses anything that is not roster-shaped', () => {
+    expect(store.importRoster(null)).toBeNull()
+    expect(store.importRoster({ name: 'no units' })).toBeNull()
+  })
+})
+
 describe('duplicateRoster', () => {
   it('deep-clones with a new id, a copy suffix, and places it after the source', () => {
     const a = store.createRoster('A')

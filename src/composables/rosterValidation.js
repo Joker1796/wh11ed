@@ -3,7 +3,7 @@
 // than preventing an illegal list. Each issue is `{ code, level, uid?, params? }`; `code` maps
 // to an i18n message (see RosterIssuesModal), `level` is 'error' (illegal) or 'warn'
 // (incomplete / soft). `uid` ties an issue to a specific unit entry.
-import { hasKeyword, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, leadsFor, wargearGroupCap, wargearGroupLive, wargearGroupSpent, modelsPerMini, allegFor } from './rosterEngine.js'
+import { hasKeyword, canBeWarlord, enhEligible, findEnhancement, rosterPoints, effectiveBattle, capKeyOf, leadsFor, wargearGroupCap, wargearGroupLive, wargearGroupSpent, modelsPerMini, allegFor, allegKeyword } from './rosterEngine.js'
 
 // Per-unit duplicate cap: the battle size's limit, doubled for Battleline / Dedicated Transport,
 // and hard-capped at 1 for every Epic Hero — regardless of battle size (rule 25).
@@ -45,6 +45,16 @@ export function validateRoster(roster, { faction, core } = {}) {
   // Incompleteness (soft).
   if (!roster?.faction) add('noFaction', 'warn')
   else if (!roster?.detachments?.length) add('noDetachment', 'warn')
+
+  // An entry whose datasheet the faction data no longer has. Rosters live in localStorage for as
+  // long as the user keeps them and the generated data is replaced on every deploy, so a GW rename
+  // (or a unit dropped from the codex) leaves entries pointing at nothing. Every other reader
+  // filters those out — the grouped lists, the export, the points total — so without this the unit
+  // silently vanishes and the army quietly gets cheaper. Reported, not removed: which unit to put
+  // back is the player's call, and the entry still carries their wargear picks.
+  if (faction) {
+    for (const u of units) if (u.id && !defOf(u.id)) add('unknownUnit', 'error', { uid: u.uid, params: { id: u.id } })
+  }
 
   // Points limit.
   if (points > battle.points) {
@@ -135,14 +145,17 @@ export function validateRoster(roster, { faction, core } = {}) {
       if (u.alleg) spentByGroup.set(a.g, (spentByGroup.get(a.g) || 0) + 1)
       else if (a.req) add('allegMissing', 'error', { uid: u.uid, params: { name: def.name, group: a.t || a.g } })
     }
+    // "Select up to 3 …" is a cap; "select 3 …" (Chaos Knights' Houndpack Lance, min 3 / max 3) is
+    // also a floor, and a list one War Dog short of it is illegal in the same way one over is.
     const capOf = new Map()
     for (const u of units) {
       const a = allegFor(defOf(u.id), detachments)
-      if (a?.max) capOf.set(a.g, { max: a.max, t: a.t || a.g })
+      if (a?.max || a?.min) capOf.set(a.g, { max: a.max, min: a.min, t: a.t || a.g })
     }
-    for (const [g, { max, t }] of capOf) {
+    for (const [g, { max, min, t }] of capOf) {
       const spent = spentByGroup.get(g) || 0
-      if (spent > max) add('allegOverLimit', 'error', { params: { group: t, count: spent, limit: max } })
+      if (max && spent > max) add('allegOverLimit', 'error', { params: { group: t, count: spent, limit: max } })
+      if (min && spent < min) add('allegUnderLimit', 'error', { params: { group: t, count: spent, limit: min } })
     }
 
     // "A Character unit can only be attached to a unit if both units share the same keyword" —
@@ -195,6 +208,12 @@ export function validateRoster(roster, { faction, core } = {}) {
   // rosterEngine.js's enhOptionsFor — explicitly allows several units to share the same one,
   // ordinary enhancements cap at 1), within the army-wide enhancement-slot limit (counted ones
   // only), on a legal unit.
+  // An enhancement its own rules bar from the Warlord (World Eaters' Disciple of Khorne).
+  for (const w of warlords) {
+    const e = w.enh && findEnhancement(detachments, w.enh)
+    if (e?.notWarlord) add('enhNotWarlord', 'error', { uid: w.uid, params: { enh: w.enh } })
+  }
+
   const enhUnits = units.filter((u) => u.enh)
   const byEnhName = new Map()
   for (const u of enhUnits) {
@@ -216,7 +235,13 @@ export function validateRoster(roster, { faction, core } = {}) {
     if (!detachments.length) { add('enhNoDetachment', 'error', { uid: u.uid }); continue }
     const e = findEnhancement(detachments, u.enh)
     const def = defOf(u.id)
-    if (!e || (def && !enhEligible(e, def))) add('enhIneligible', 'error', { uid: u.uid, params: { enh: u.enh } })
+    // Asked about the ENTRY, not the printed datasheet — the same question enhOptionsFor answers
+    // when the editor offers the enhancement in the first place. An allegiance upgrade can hand a
+    // vehicle CHARACTER (Solar Spearhead, Steel Hammer), and that is exactly what lets it carry one;
+    // reading only `def` here made the editor offer Honoured Fallen to a Telemon Dreadnought and
+    // the validator call the same list illegal.
+    const granted = [allegKeyword(def, u, detachments)].filter(Boolean)
+    if (!e || (def && !enhEligible(e, def, granted))) add('enhIneligible', 'error', { uid: u.uid, params: { enh: u.enh } })
   }
 
   // Leader attachments must point at a unit in the roster that this leader can actually join.

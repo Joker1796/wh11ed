@@ -408,6 +408,62 @@ is implemented and tested.
     weapon that was traded away twice over, the same error class the parse had before item 14 for
     all 19.
 
+16. **Audit of the whole feature, 2026-08-20 — 9 findings, all fixed.** A read-only pass over the
+    ~10.5k lines (5 views, 7 components, the 8 pure composables, the generator and the whole
+    generated corpus). What it did NOT find matters too: 24 issue codes and 88 UI labels all present
+    in both locales with matching parameters; DP and enhancement points identical to the MFM across
+    268 detachments and 909 enhancements; no dangling references anywhere in the corpus; the
+    entry chunk still free of roster data. The nine that were real:
+
+    1. **Points were appdata's, not the MFM's.** appdata records several parallel price rows per
+       datasheet — one per Chapter, one per allied context — and mapping them onto `sizes` turned a
+       price list into a size list: **29 brackets on 21 units** offered the same size twice at two
+       prices, the first arbitrarily pre-selected, and **30 brackets disagreed with the price the
+       same unit's datasheet page shows** (up to 35 points on Inquisitor Draxus; Space Marines were
+       quoting Blood Angels' numbers). The generator now takes brackets from appdata and prices from
+       the MFM, collapsing 79 duplicate rows, and a Chapter's own price for a shared Codex unit
+       rides on the file as `unitPoints` (11 units, matching the datasheet layer's
+       `pointsOverrides`). Details in `src/components/roster/CLAUDE.md` → Points.
+    2. **The editor offered an enhancement the validator called illegal.** `enhOptionsFor` asks
+       about the entry (an allegiance upgrade can hand a vehicle CHARACTER); `validateRoster` asked
+       about the printed sheet. Reproduced on real data: Telemon Dreadnought in Solar Spearhead,
+       offered Honoured Fallen, flagged `enhIneligible`. 44 datasheets across 5 detachments.
+    3. **The creation wizard lost every unit if you left any way but "Done"** — they lived in
+       component state until `finish()`, while the roster itself had been created back on step 2.
+    4. **…and its own copy of `removeUnit` forgot to detach a Leader** — precisely the divergence
+       `useRosterEditing` was created to prevent. Both operations now come from `rosterEngine`
+       (`addUnitEntry`/`removeUnitEntry`).
+    5. **An entry whose datasheet id vanished was invisible, not reported**: 0 points, filtered out
+       of every list and the export, no issue raised. Rosters outlive the data they were built
+       against. New `unknownUnit` issue.
+    6. **The share-link preview showed no wargear at all** — `RosterSharedView` was the only
+       `buildRosterText` caller not passing `items`, so every line resolved to an empty string and
+       was filtered out. The payload also gained the storage `SCHEMA_VERSION`, and `importRoster`
+       now migrates it: a link is as long-lived as a bookmark and carries the same
+       indices-into-generated-data a stored roster does.
+    7. **Death Company Dreadnought was armed with the Brutalis Dreadnought's weapons** — an upstream
+       `base_miniature_loadout` row in wh40k-appdata. Only 1 of 1036 units whose default loadout
+       disagrees with its own printed one (the other 8 hits were spelling variants). Fixed locally
+       by a named substitution (`LOADOUT_ITEM_FIXES`), pinned by a test so it gets dropped when
+       upstream fixes it. **Worth reporting upstream.**
+    8. **Three unread fields.** `alleg.min` (Houndpack Lance requires exactly 3 War Dogs — only the
+       cap was checked), `enhancements[].notWarlord` (World Eaters' Disciple of Khorne), and
+       `leads[].reqDet`/`exclDet` (59 each; harmless today only because appdata states both halves
+       of every gated pair — verified 0 one-sided gates). All three now read; two new issue codes.
+       Also latent and now closed: `RosterViewView` skipped the `grantedKeywordsFrom` pre-pass its
+       sibling reader does.
+    9. **No `--check` for the roster data** — the largest generated surface of the feature, and the
+       only generated sidecar in the repo without one. `npm run roster:data:check`, wired into
+       `npm run sync`.
+
+    Two data-quality checks written during the audit became tests rather than scripts: "no unit
+    offers the same bracket at two prices" and "points agree with the MFM wherever the MFM prices
+    that size" (`src/data/roster/index.test.js`). 848 tests, build clean.
+
+    **Not changed, deliberately:** the wizard still offers model counts inside a range bracket
+    (6-10 → 6,7,8,9,10) — appdata's own bracket wording, verified against the source; and
+    `Flash Gitz`' second bracket really is labelled "5-10" upstream where it means 6-10.
+
 ## Where the merge-into-main work is recorded
 
 The `main`-catch-up merge itself (conflict resolution, a stale test fixed for `BaseModal`'s

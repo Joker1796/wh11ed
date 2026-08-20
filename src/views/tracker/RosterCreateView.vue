@@ -237,6 +237,7 @@ import { factionGroups } from '../../data/factionsIndex.js'
 import {
   UNIT_GROUPS, GROUP_LABEL_KEYS, bucketOf, unitPoints, rosterPoints,
   canBeWarlord, enhOptionsFor, leaderTargetsFor, leadsFor, defaultLoadoutLines, wargearNames, effectiveBattle,
+  addUnitEntry, removeUnitEntry,
 } from '../../composables/rosterEngine.js'
 
 const router = useRouter()
@@ -281,11 +282,6 @@ const unitMap = computed(() => {
 })
 function defOf(id) { return unitMap.value.get(id) }
 
-function defaultSize(def) {
-  const i = def.sizes.findIndex((s) => s.default)
-  return i >= 0 ? i : 0
-}
-
 // ── Faction / detachment / battle size choices ──
 const factionPickerOpen = ref(false)
 const detachmentPickerOpen = ref(false)
@@ -294,7 +290,8 @@ function pickFaction(slug) {
   if (factionSlug.value === slug) return
   factionSlug.value = slug
   detachments.value = []
-  units.value = [] // units belong to a faction — changing it invalidates them
+  units.value.splice(0) // units belong to a faction — changing it invalidates them
+  syncUnits()
 }
 const detachmentOptions = computed(() =>
   (factionData.value?.detachments || []).map((d) => ({ name: d.name, dp: d.dp || 0, forceDisposition: d.fd || '' })))
@@ -320,20 +317,23 @@ const effBattle = computed(() => effectiveBattle({ battleSize: battleSize.value,
 const limit = computed(() => effBattle.value.points)
 
 // ── Unit selection (step 2) ──
+// Same two operations the editor performs, from rosterEngine — not a second implementation. The
+// wizard's own copy of the removal used to forget that a Leader attached to the departing unit has
+// to let go of it, which is the divergence useRosterEditing exists to prevent everywhere else.
 function addUnit(unitId) {
-  const def = defOf(unitId)
-  if (!def) return
-  units.value.push({ uid: uid(), id: unitId, size: defaultSize(def) })
+  if (addUnitEntry(units.value, defOf(unitId), unitId, uid())) syncUnits()
 }
-// Removes the most recently added copy of this unit — pairs with the browser's "-" button,
-// which only shows once at least one copy is in the list.
 function removeUnit(unitId) {
-  for (let i = units.value.length - 1; i >= 0; i--) {
-    if (units.value[i].id === unitId) {
-      units.value.splice(i, 1)
-      return
-    }
-  }
+  if (removeUnitEntry(units.value, unitId)) syncUnits()
+}
+
+// Write the units through to the saved roster as soon as there IS one (step 2 onwards). The wizard
+// used to hold them in component state until "Done", so leaving the way every other screen expects
+// to be left — the "Back to list" link, the phone's back gesture, a reload — threw away everything
+// picked and left a roster that had been created but was empty. Assigning the same array keeps its
+// identity, so per-entry edits on step 3 ride the store's own deep-watch autosave from then on.
+function syncUnits() {
+  if (rosterId.value) updateRoster(rosterId.value, { units: units.value })
 }
 const points = computed(() => rosterPoints(units.value, defOf, curDetachments.value))
 
@@ -437,6 +437,7 @@ function goToUnits() {
     rosterId.value = r.id
     updateRoster(r.id, step1Patch())
   }
+  syncUnits()
   step.value = 2
 }
 

@@ -186,6 +186,59 @@ describe('RosterCreateView', () => {
     expect(w.find('.modal-stub').text()).toContain('3 in the army (max 2)')
   })
 
+  // The wizard used to hold its units in component state until "Done", so leaving any other way —
+  // the "Back to list" link, a phone's back gesture, a reload — threw away everything picked and
+  // left behind a roster that had been created but was empty.
+  it('writes each added unit through to the saved roster, not only on Done', async () => {
+    const store = useRosters()
+    const w = mount(RosterCreateView, { global: { stubs } })
+    await w.findAll('.btn-choose')[0].trigger('click')
+    await waitFor(w, 'Space Marines')
+    await w.findAll('.fac-link').find((b) => b.text().includes('Space Marines')).trigger('click')
+    await w.find('.rc-actions .btn-primary').trigger('click') // → step 2, creates the roster
+    await waitFor(w, 'Intercessor Squad')
+
+    const row = w.findAll('.rub-item').find((r) => r.find('.rub-name').text() === 'Intercessor Squad')
+    await row.find('.rub-add').trigger('click')
+    expect(store.rosters.value[0].units).toHaveLength(1) // saved without reaching step 3
+
+    await row.find('.rub-add').trigger('click')
+    expect(store.rosters.value[0].units).toHaveLength(2)
+    await row.find('.rub-remove').trigger('click')
+    expect(store.rosters.value[0].units).toHaveLength(1)
+
+    // …and a per-unit edit made on step 3 rides the same array (the store's own deep-watch save).
+    const panels = w.findAll('.rc-panel')
+    await panels[1].find('.rc-sticky .btn-primary').trigger('click')
+    const tile = panels[2].findAll('.rcunit-row').find((b) => b.find('.rcunit-name').text() === 'Intercessor Squad')
+    await tile.trigger('click')
+    expect(store.rosters.value[0].units[0]).toBe(w.vm.units[0])
+  })
+
+  // The wizard performs the same removal the editor does — through rosterEngine, not a second
+  // implementation, which used to forget that a Leader has to let go of a unit that leaves.
+  it('lets go of a Leader attached to a unit removed on step 2', async () => {
+    const store = useRosters()
+    const w = mount(RosterCreateView, { global: { stubs } })
+    await w.findAll('.btn-choose')[0].trigger('click')
+    await waitFor(w, 'Space Marines')
+    await w.findAll('.fac-link').find((b) => b.text().includes('Space Marines')).trigger('click')
+    await w.find('.rc-actions .btn-primary').trigger('click')
+    await waitFor(w, 'Intercessor Squad')
+
+    const squad = w.findAll('.rub-item').find((r) => r.find('.rub-name').text() === 'Intercessor Squad')
+    await squad.find('.rub-add').trigger('click')
+    const captain = w.findAll('.rub-item').find((r) => r.find('.rub-name').text() === 'Captain')
+    await captain.find('.rub-add').trigger('click')
+
+    const units = store.rosters.value[0].units
+    const target = units.find((u) => u.id === 'intercessor-squad')
+    units.find((u) => u.id === 'captain').leaderOf = target.uid
+
+    await squad.find('.rub-remove').trigger('click')
+    expect(units.find((u) => u.id === 'captain').leaderOf).toBeUndefined()
+  })
+
   it('supports a custom battle size, using the matching bracket to show the points limit', async () => {
     const w = mount(RosterCreateView, { global: { stubs } })
     const custom = w.findAll('.seg button').find((b) => b.text() === 'Custom')

@@ -6,10 +6,16 @@
 // Only the fields needed to rebuild a roster travel; `summary` is recomputed on open, and the
 // roster/unit ids are preserved so leaderOf references stay valid after import.
 
+import { SCHEMA_VERSION } from './useRosters.js'
+
 const PICK = ['name', 'faction', 'detachments', 'battleSize', 'customPoints', 'units']
 
+// `v` is the STORAGE schema version, not the payload's own encoding version (that's the `1.`/`0.`
+// prefix below). A roster in a link is the same shape as a stored one — wargear picks are indices
+// into generated data that gets renumbered — so the reader has to know which generation built it;
+// useRosters' importRoster migrates on the way in.
 function toPayload(roster) {
-  const o = {}
+  const o = { v: SCHEMA_VERSION }
   for (const k of PICK) o[k] = roster[k]
   return o
 }
