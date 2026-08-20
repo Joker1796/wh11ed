@@ -467,7 +467,11 @@ export function swapsByMini(def, entry, perMini) {
     const m = g.m ?? 0
     const models = perMini.get(m)
     if (models == null) continue
-    const consumed = g.in === 'stepper' ? Math.min(n || 1, models) : models
+    // A stepper carries the model count; a checkbox is one tick per model, except for the four
+    // groups whose instruction hands the swap to the whole profile ("All models can each have
+    // their…", `repall`). Reading every checkbox as the whole profile is what used to wipe all
+    // nine boltguns off a Battle Sisters Squad when one Sister traded hers away.
+    const consumed = g.in === 'stepper' ? Math.min(n || 1, models) : Math.min(g.repall ? models : 1, models)
     for (const id of g.rep) removed.set(`${m}:${id}`, (removed.get(`${m}:${id}`) || 0) + consumed)
   }
   return removed

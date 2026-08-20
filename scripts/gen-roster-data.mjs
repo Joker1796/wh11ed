@@ -1000,6 +1000,12 @@ function buildUnit(bd, idMap, fx, kwIndex) {
     }
     if (d.lim) grp.lim = d.lim
     if (d.rep?.length) grp.rep = d.rep.map((uuid) => fx.item(uuid))
+    // How many models one ticked option takes the swap away from. A stepper says so itself; a
+    // CHECKBOX is one yes/no, and one tick means one model — "1 model's boltgun can be replaced
+    // with one of the following" arms a single Battle Sister, not all nine. Only the "all models /
+    // any number of" wording means the whole profile, so that reading is the one flagged (4 groups
+    // corpus-wide) and the other 575 take the per-model default.
+    if (d.rep?.length && d.in !== 'stepper' && /^\s*(?:all models|any number of)\b/i.test(d.text)) grp.repall = 1
     if (d.cond) grp.cond = [gearIndex.get(d.cond.sibling), d.cond.active ? 1 : 0]
     gear.push(grp)
   }

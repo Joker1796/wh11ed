@@ -6,7 +6,7 @@ const items = { 1: 'Boltgun', 2: 'Bolt pistol', 3: 'Meltagun', 4: 'Chainsword', 
 
 // A 5-model squad: boltgun + bolt pistol + chainsword each, with two swaps on offer —
 // a per-model one (stepper: N models take a meltagun instead of their boltgun) and a
-// whole-squad one (checkbox: chainswords become power weapons).
+// single-model one (checkbox: one Sister's chainsword becomes a power weapon).
 const squad = {
   id: 'squad',
   sizes: [{ pts: 100, per: [5, 5], default: 1 }],
@@ -82,8 +82,18 @@ describe('overlaySheet — weapon filtering', () => {
     expect(names(out.ranged)).not.toContain('Boltgun')
   })
 
-  it('treats a checkbox swap as the whole squad, not one model', () => {
+  it('treats a checkbox swap as one model, so the default stays alongside it', () => {
+    // A checkbox is one yes/no and its instruction says "1 model's chainsword can be replaced
+    // with…" — the other four models keep theirs. Reading the tick as the whole squad wiped a
+    // weapon off the card that 4 of 5 models still carry (100 groups corpus-wide).
     const { sheet: out } = run({ size: 0, wg: [[1, 0, 1]] })
+    expect(names(out.melee)).toEqual(['Chainsword', 'Power weapon', 'Sanctified blade'])
+  })
+
+  it('treats a checkbox swap as the whole squad when the group says so', () => {
+    // `repall` is the "All models in this unit can each have their…" wording — 5 groups.
+    const whole = { ...squad, gear: [squad.gear[0], { ...squad.gear[1], repall: 1 }] }
+    const { sheet: out } = run({ size: 0, wg: [[1, 0, 1]] }, whole)
     expect(names(out.melee)).toEqual(['Power weapon', 'Sanctified blade'])
   })
 

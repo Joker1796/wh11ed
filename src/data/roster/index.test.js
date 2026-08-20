@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url'
 import rosterCore from './core.js'
 import rosterItems from './items.js'
 import { loadRosterFaction } from './index.js'
-import { optionItems, optionLabel, unitWargearPoints, modelsPerMini } from '../../composables/rosterEngine.js'
+import { optionItems, optionLabel, unitWargearPoints, modelsPerMini, defaultLoadoutLines } from '../../composables/rosterEngine.js'
 
 const DIR = path.dirname(fileURLToPath(import.meta.url))
 const files = fs.readdirSync(DIR).filter((f) => f.endsWith('.js') && !['index.js', 'core.js', 'items.js', 'index.test.js'].includes(f))
@@ -257,6 +257,17 @@ describe('replaced-item links', () => {
     const u = groupsOf('aeldari', 'war-walkers')
     const g = u.gear.find((x) => /equipped with replaced with/i.test(textOf(x)))
     expect(repNames(g)).toEqual(['Shuriken cannon'])
+  })
+
+  it('spends a checkbox swap on one model, not on the whole profile', () => {
+    // "1 Battle Sister's boltgun can be replaced with one of the following" is a checkbox, and
+    // reading its tick as the whole squad used to strip every boltgun off the line. 100 groups
+    // corpus-wide word their allowance this way.
+    const u = groupsOf('adepta-sororitas', 'battle-sisters-squad')
+    const gi = u.gear.findIndex((x) => /^1 Battle Sister.s boltgun/.test(textOf(x)))
+    const models = modelsPerMini(u, { unitId: u.id, size: u.sizes.length - 1 }).get(u.gear[gi].m)
+    const line = defaultLoadoutLines(u, rosterItems.items, { unitId: u.id, size: u.sizes.length - 1, wg: [[gi, 0]] })
+    expect(line.some((l) => l.items.includes(`Boltgun ×${models - 1}`))).toBe(true)
   })
 
   it('leaves almost nothing unparsed across the corpus', () => {
