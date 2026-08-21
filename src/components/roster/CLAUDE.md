@@ -248,6 +248,16 @@ following:\n◦ 1 hexrifle and 1 torturer's tool"). appdata carries those as rea
 bullets as a list. The RU generator emits the same line structure (its own test pins the marker
 count against the English), so both locales render identically.
 
+The other Russian on this screen is the **wargear info modal** (`WeaponProfileModal`, the ⓘ next
+to a pick). Weapon names and stat lines stay English, and so does the modal's title — it is the
+item's own name out of `items.js`. But a handful of items grant an ABILITY instead of a weapon
+profile (Kabalite Icon, Resurrection Orb), and that prose IS translated: the modal matches on the
+English sheet (item names and the overlay's own keys are English) and takes only the text from
+`loadDatasheetsRu`/`localizeSheet`, pairing the two lists by position. The ability's *name* is left
+English on purpose, so it stays the same string as the title right above it. Datasheet RU coverage
+is complete — every faction's abilities/wargear/special/rules texts are translated — so a missing
+translation here means a component that never loaded the overlay, not a gap in the data.
+
 ## Bundled wargear options
 
 **One option can grant SEVERAL items** — "1 model's twin torturer's tools can be replaced with

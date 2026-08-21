@@ -45,15 +45,18 @@
 // handful grant an ABILITY instead of a weapon profile (e.g. Necrons' Resurrection Orb, which has
 // no stat line at all — it's a `wargearAbilities` entry), so both are matched by name and shown.
 // Weapon names/stats are never RU-translated (see CLAUDE.md's roster decision "имена данных EN"),
-// so this only ever needs the EN sheet, unlike RosterUnitRulesModal. Deliberately NOT the same
-// component as RosterUnitRulesModal/DatasheetCard: a wargear pick's info button should show just
-// that item's own profile/rule, not the whole unit sheet.
+// but an ability's PROSE is — so the EN sheet is matched against (item names in items.js are
+// English, and so are the ability names keying the overlay) and only the ability text is taken
+// from the RU overlay. Deliberately NOT the same component as RosterUnitRulesModal/DatasheetCard:
+// a wargear pick's info button should show just that item's own profile/rule, not the whole unit
+// sheet.
 import { computed, ref, watch } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRenderInline } from '../../composables/useRenderInline.js'
 import { loadDatasheets } from '../../data/datasheets/index.js'
+import { loadDatasheetsRu, localizeSheet } from '../../data/datasheets/ru/index.js'
 import { weaponBase, withGroupPos } from '../../utils/weaponGroups.js'
 
 const props = defineProps({
@@ -103,16 +106,43 @@ function matching(list) {
 const rangedRows = computed(() => matching(sheet.value?.ranged))
 const meleeRows = computed(() => matching(sheet.value?.melee))
 
-function abilityMatching(list) {
-  return (list || []).filter((a) => wanted.value.has(norm(a.name)))
+// The same sheet with its prose in RU (null outside the RU locale, and while the overlay chunk
+// is still loading — the EN original shows until it arrives, never an empty modal).
+const ruModule = ref(null)
+watch(
+  [() => props.factionSlug, locale],
+  async ([slug, loc]) => {
+    ruModule.value = null
+    if (!slug || loc !== 'ru') return
+    const mod = await loadDatasheetsRu(slug)
+    if (props.factionSlug === slug && locale.value === 'ru') ruModule.value = mod
+  },
+  { immediate: true },
+)
+const ruSheet = computed(() => {
+  const en = sheet.value
+  if (!en || !ruModule.value) return null
+  return localizeSheet(en, ruModule.value.default?.[en.id], ruModule.value.abilityNamesRu)
+})
+
+// Matched on the EN list — the wanted names come from items.js, which is English — and paired
+// with the RU list by position, which localizeSheet preserves. The NAME shown stays the English
+// one: it is the wargear item, the same string as this modal's own title, and translating only
+// one of the two would read as two different things.
+function abilityMatching(key) {
+  const en = sheet.value?.[key] || []
+  const ru = ruSheet.value?.[key]
+  return en.flatMap((a, i) =>
+    wanted.value.has(norm(a.name)) ? [{ name: a.name, text: ru?.[i]?.text ?? a.text }] : [],
+  )
 }
 // Checked in this order since a wargear-granted ability (Resurrection Orb) is the common
 // non-weapon case; the other two lists are checked too so nothing that happens to share a name
 // with a core/special ability silently comes up empty.
 const abilityRows = computed(() => [
-  ...abilityMatching(sheet.value?.wargearAbilities),
-  ...abilityMatching(sheet.value?.abilities),
-  ...abilityMatching(sheet.value?.specialAbilities),
+  ...abilityMatching('wargearAbilities'),
+  ...abilityMatching('abilities'),
+  ...abilityMatching('specialAbilities'),
 ])
 </script>
 
