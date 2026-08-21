@@ -2,8 +2,13 @@ import { beforeEach, describe, it, expect, vi } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 
 const push = vi.fn()
+const replace = vi.fn()
+// The wizard rewrites its own URL to /roster/new?draft=<id> and reads that id back on mount, so
+// the route's query is part of the fixture: set `query.draft` before mounting to resume a draft.
+const query = {}
 vi.mock('vue-router', () => ({
-  useRouter: () => ({ push }),
+  useRouter: () => ({ push, replace }),
+  useRoute: () => ({ query }),
 }))
 
 let RosterCreateView, useRosters
@@ -12,6 +17,8 @@ beforeEach(async () => {
   localStorage.clear()
   vi.resetModules()
   push.mockClear()
+  replace.mockClear()
+  for (const k of Object.keys(query)) delete query[k]
   ;({ useRosters } = await import('../../composables/useRosters.js'))
   ;({ default: RosterCreateView } = await import('./RosterCreateView.vue'))
 })
@@ -256,7 +263,9 @@ describe('RosterCreateView', () => {
     expect(w.find('.rc-actions .btn-primary').attributes('disabled')).toBeDefined()
   })
 
-  it('does not create a roster until step 1 is submitted, and reuses it on Back/Next', async () => {
+  // The draft: opening the wizard leaves no trace, but from the first choice that means
+  // something — the faction — everything is written through, so a reload can't lose it.
+  it('starts a draft when the faction is picked, and keeps writing step 1 into it', async () => {
     const store = useRosters()
     const w = mount(RosterCreateView, { global: { stubs } })
     expect(store.rosters.value).toHaveLength(0)
@@ -264,26 +273,78 @@ describe('RosterCreateView', () => {
     await w.findAll('.btn-choose')[0].trigger('click')
     await waitFor(w, 'Space Marines')
     await w.findAll('.fac-link').find((b) => b.text().includes('Space Marines')).trigger('click')
-    expect(store.rosters.value).toHaveLength(0) // picking a faction alone doesn't save it
+    expect(store.rosters.value).toHaveLength(1)
+    const draftId = store.rosters.value[0].id
+    expect(store.rosters.value[0].draft).toBe(true)
+    expect(store.rosters.value[0].faction).toBe('space-marines')
+    // The id goes into the URL, which is what makes a reload resume THIS draft.
+    expect(replace).toHaveBeenCalledWith({ path: '/roster/new', query: { draft: draftId } })
 
     await waitFor(w, '1st Company Task Force')
     await w.findAll('.btn-choose')[1].trigger('click')
     await w.findAll('.det').find((b) => b.text().includes('1st Company Task Force')).trigger('click')
-    expect(store.rosters.value).toHaveLength(0) // nor does picking a detachment
+    await flushPromises()
+    expect(store.rosters.value).toHaveLength(1) // written through, not a second roster
+    expect(store.rosters.value[0].detachments).toEqual(['1st Company Task Force'])
 
-    await w.find('.rc-actions .btn-primary').trigger('click') // Next → now it exists
-    expect(store.rosters.value).toHaveLength(1)
-    const savedId = store.rosters.value[0].id
+    await w.find('.rc-actions .btn-primary').trigger('click') // → step 2
+    expect(store.rosters.value[0].draftStep).toBe(2)
 
     // Back to step 1, change the battle size, forward again — same roster, not a duplicate.
     await w.find('.rc-sticky-actions .btn-ghost').trigger('click')
     await w.findAll('.seg button').find((b) => b.text() === 'Custom').trigger('click')
     await w.find('.bsize-input').setValue(750)
     await w.find('.rc-actions .btn-primary').trigger('click')
+    await flushPromises()
 
     expect(store.rosters.value).toHaveLength(1)
-    expect(store.rosters.value[0].id).toBe(savedId)
+    expect(store.rosters.value[0].id).toBe(draftId)
     expect(store.rosters.value[0].battleSize).toBe('custom')
     expect(store.rosters.value[0].customPoints).toBe(750)
+  })
+
+  it('resumes a draft from the URL, on the step it was left on', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Half a list')
+    store.updateRoster(r.id, {
+      draft: true,
+      draftStep: 3,
+      faction: 'space-marines',
+      detachments: ['1st Company Task Force'],
+      battleSize: 'incursion',
+      units: [{ uid: 'a', id: 'intercessor-squad', size: 0 }],
+    })
+    query.draft = r.id
+
+    const w = mount(RosterCreateView, { global: { stubs } })
+    await waitFor(w, 'Intercessor Squad')
+
+    // Step 3 is the visible panel, holding the unit the draft already had.
+    const panels = w.findAll('.rc-panel')
+    expect(panels[2].isVisible()).toBe(true)
+    expect(panels[2].text()).toContain('Intercessor Squad')
+    expect(w.find('input[type="text"]').element.value).toBe('Half a list')
+    expect(w.text()).toContain('1st Company Task Force')
+    expect(store.rosters.value).toHaveLength(1) // resumed, not re-created
+
+    // Saving from here clears the draft flags — it's an ordinary list now.
+    await panels[2].find('.rc-sticky .btn-primary').trigger('click')
+    expect(store.rosters.value[0].draft).toBeUndefined()
+    expect(store.rosters.value[0].draftStep).toBeUndefined()
+    expect(push).toHaveBeenCalledWith(`/roster/${r.id}/view`)
+  })
+
+  // A saved roster is the editor's business; the wizard ends in "Save" and would offer to save
+  // something already saved.
+  it('ignores a ?draft= id that points at a saved roster', async () => {
+    const store = useRosters()
+    const r = store.createRoster('Finished list')
+    store.updateRoster(r.id, { faction: 'space-marines' })
+    query.draft = r.id
+
+    const w = mount(RosterCreateView, { global: { stubs } })
+    await flushPromises()
+    expect(w.findAll('.rc-panel')[0].isVisible()).toBe(true) // fresh wizard, step 1
+    expect(w.find('input[type="text"]').element.value).toBe('')
   })
 })

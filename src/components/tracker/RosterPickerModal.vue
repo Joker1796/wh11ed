@@ -8,10 +8,10 @@
     </template>
 
     <div class="modal-body">
-      <p v-if="!rosters.length" class="rp-empty">{{ labels.trackerRosterNone }}</p>
+      <p v-if="!savedRosters.length" class="rp-empty">{{ labels.trackerRosterNone }}</p>
 
       <button
-        v-for="r in rosters"
+        v-for="r in savedRosters"
         :key="r.id"
         type="button"
         class="rp-row"
@@ -65,7 +65,9 @@ const emit = defineEmits(['pick', 'clear', 'close'])
 
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
-const { rosters } = useRosters()
+// Saved lists only: a draft is an unfinished wizard run (useRosters.js), and what it holds right
+// now isn't what will be fielded.
+const { rosters, savedRosters } = useRosters()
 const linkId = useId()
 
 // Same cached summary the roster list shows, same one-off repair for a roster nothing ever

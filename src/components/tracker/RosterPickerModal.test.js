@@ -41,6 +41,19 @@ describe('RosterPickerModal', () => {
     expect(w.emitted('pick')[0][0].id).toBe(r.id)
   })
 
+  // A draft is an unfinished wizard run (useRosters.js) — what it holds right now isn't what
+  // will be fielded, so it can't be attached to a game.
+  it('never offers a draft', async () => {
+    const store = useRosters()
+    const draft = store.createRoster('Half a list')
+    store.updateRoster(draft.id, { draft: true, faction: 'space-marines' })
+
+    mount(RosterPickerModal)
+    await flushPromises()
+    expect(body().findAll('.rp-row')).toHaveLength(0)
+    expect(body().find('.rp-empty').exists()).toBe(true)
+  })
+
   it('says so when there is nothing saved yet, without blocking the link route', async () => {
     mount(RosterPickerModal)
     await flushPromises()

@@ -11,18 +11,30 @@
       </button>
     </div>
 
-    <p v-if="!rosters.length" class="empty">{{ labels.rostersEmpty }}</p>
+    <!-- Saved lists and unfinished ones are the same kind of card but not the same kind of thing:
+         a draft is a wizard run that hasn't been saved yet, so it lives behind its own tab and
+         opens back into the wizard rather than into the read-only view. -->
+    <div class="rl-tabs seg">
+      <button :class="{ on: tab === 'saved' }" @click="tab = 'saved'">
+        {{ labels.rosterTabSaved }} <span class="tab-n">{{ savedRosters.length }}</span>
+      </button>
+      <button :class="{ on: tab === 'drafts' }" @click="tab = 'drafts'">
+        {{ labels.rosterTabDrafts }} <span class="tab-n">{{ draftRosters.length }}</span>
+      </button>
+    </div>
+
+    <p v-if="!shown.length" class="empty">{{ tab === 'drafts' ? labels.rosterDraftsEmpty : labels.rostersEmpty }}</p>
     <TransitionGroup v-else tag="ul" name="list" class="rosters">
       <li
-        v-for="r in rosters"
+        v-for="r in shown"
         :key="r.id"
         class="roster"
         :class="{ themed: !!factionOf(r) }"
         :style="cardStyle(r)"
         role="button"
         tabindex="0"
-        @click="openView(r.id)"
-        @keydown.enter="openView(r.id)"
+        @click="openRoster(r)"
+        @keydown.enter="openRoster(r)"
       >
         <div class="roster-main">
           <span class="rname">{{ r.name || labels.rosterUntitled }}</span>
@@ -36,7 +48,8 @@
             <span class="rpoints" :class="{ over: (r.summary?.points || 0) > limitOf(r) }">
               {{ r.summary?.points || 0 }}<span class="unit">/{{ limitOf(r) }} {{ labels.rosterPointsLabel }}</span>
             </span>
-            <span v-if="r.summary?.issues" class="issues" :title="String(r.summary.issues)">
+            <span v-if="r.draft" class="rstep">{{ draftStepLabel(r) }}</span>
+            <span v-else-if="r.summary?.issues" class="issues" :title="String(r.summary.issues)">
               <i class="bi bi-exclamation-triangle-fill"></i> {{ r.summary.issues }}
             </span>
           </span>
@@ -53,9 +66,13 @@
           <button class="mh-close" :aria-label="labels.modalClose" @click="menuFor = null">✕</button>
         </header>
       </template>
+      <!-- A draft offers only "delete": editing it means continuing the wizard (the card itself),
+           and duplicating an unfinished list has nothing to offer. -->
       <div class="modal-body act-list">
-        <button class="act-btn" @click="onEdit(menuFor)">{{ labels.rosterEdit }}</button>
-        <button class="act-btn" @click="onDuplicate(menuFor)">{{ labels.rosterDuplicate }}</button>
+        <template v-if="!menuRoster?.draft">
+          <button class="act-btn" @click="onEdit(menuFor)">{{ labels.rosterEdit }}</button>
+          <button class="act-btn" @click="onDuplicate(menuFor)">{{ labels.rosterDuplicate }}</button>
+        </template>
         <button class="act-btn act-danger" @click="onDelete(menuFor)">{{ labels.trackerDelete }}</button>
       </div>
     </BaseModal>
@@ -90,7 +107,13 @@ const router = useRouter()
 const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { formatDate } = useFormatDate()
-const { rosters, duplicateRoster, deleteRoster, rosterById } = useRosters()
+const { rosters, savedRosters, draftRosters, duplicateRoster, deleteRoster, rosterById } = useRosters()
+
+const tab = ref('saved')
+const shown = computed(() => (tab.value === 'drafts' ? draftRosters : savedRosters).value)
+function draftStepLabel(r) {
+  return labels.value.rosterDraftStep.replace('{n}', String(r.draftStep || 1))
+}
 
 // Points shown here come from each roster's cached summary — see rosterSummary.js. A roster no
 // editing screen ever wrote one for (built in an older wizard, imported from a link) is priced
@@ -105,8 +128,10 @@ function cardStyle(r) {
 }
 function limitOf(r) { return effectiveBattle(r, rosterCore).points }
 
-function openView(id) {
-  router.push(`/roster/${id}/view`)
+// A saved list opens read-only; a draft goes back to the wizard, which resumes it from the id in
+// this query and lands on the step it was left on (RosterCreateView.vue).
+function openRoster(r) {
+  router.push(r.draft ? { path: '/roster/new', query: { draft: r.id } } : `/roster/${r.id}/view`)
 }
 
 function onNew() {
@@ -114,7 +139,8 @@ function onNew() {
 }
 
 const menuFor = ref(null)
-const menuRosterName = computed(() => (menuFor.value && rosterById(menuFor.value)?.name) || labels.value.rosterUntitled)
+const menuRoster = computed(() => (menuFor.value ? rosterById(menuFor.value) : null))
+const menuRosterName = computed(() => menuRoster.value?.name || labels.value.rosterUntitled)
 
 function onEdit(id) {
   menuFor.value = null
@@ -166,7 +192,35 @@ function confirmDelete() {
   font-size: 0.95rem;
   cursor: pointer;
 }
+/* Same segmented control the wizard and GameSetup use for a small either/or choice. */
+.rl-tabs { margin: 0 auto 1rem; }
+.seg {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  width: fit-content;
+}
+.seg button {
+  padding: 0.45rem 0.9rem;
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: background 0.15s, color 0.15s;
+}
+.seg button + button { border-left: 1px solid var(--border); }
+.seg button.on { background: var(--accent); color: #fff; }
+.tab-n { font-family: var(--font-mono); font-size: 0.78rem; opacity: 0.75; }
 .empty { color: var(--text-muted); font-style: italic; text-align: center; }
+/* Sits where a saved list shows its issue count — for a draft, how far it got is the useful fact. */
+.rstep {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
 .rosters { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.6rem; position: relative; }
 .roster {
   background: var(--bg-card);

@@ -1,4 +1,4 @@
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 // Roster builder store — a module singleton persisted to localStorage, mirroring the
 // pattern in useTracker.js / useLocale.js. Holds the user's saved army lists; the roster
@@ -46,6 +46,17 @@ export function makeRoster(name = 'New roster') {
     summary: { points: 0, unitCount: 0, issues: 0 },
   }
 }
+
+// ── Drafts ───────────────────────────────────────────────────────────────────────────────────
+// A roster the creation wizard is still working on carries `draft: true` and `draftStep` (the
+// step it was left on). Both are ABSENT on a saved list — including every roster that predates
+// this — so "no flag" reads as "saved" with no migration needed, and `saveDraft()` removes them
+// rather than setting false so a saved roster is indistinguishable from one that never was a
+// draft. A draft is real and persisted (that is the point: a reload must not lose it) but it is
+// not a list yet: it shows only on the Drafts tab of /roster and can't be attached to a game.
+// The flags never travel — rosterShare.js's PICK is a whitelist, so a link/snapshot carries the
+// army and nothing about how it was made.
+export const isDraft = (r) => r?.draft === true
 
 // Minimal shape guard: a corrupt or old blob can JSON.parse fine yet be the wrong shape and
 // throw deep in a render. Keep only entries that look like a roster.
@@ -211,6 +222,24 @@ function importRoster(obj, name) {
   return r
 }
 
+// The two halves of the collection. Every screen picks one deliberately: the roster list's tabs
+// show both, the tracker's picker only `savedRosters` (an unfinished list has no business being
+// fielded), and `rosters` stays for the few things that mean all of them.
+const savedRosters = computed(() => rosters.value.filter((r) => !isDraft(r)))
+const draftRosters = computed(() => rosters.value.filter(isDraft))
+
+// The wizard's "Save": the draft becomes an ordinary saved list. Immediate persist, like the other
+// deliberate one-off mutations — this is the click the user would be most surprised to lose.
+function saveDraft(id) {
+  const r = rosters.value.find((x) => x.id === id)
+  if (!r) return null
+  delete r.draft
+  delete r.draftStep
+  touch(r)
+  saveNow()
+  return r
+}
+
 function rosterById(id) {
   return rosters.value.find((r) => r.id === id) || null
 }
@@ -218,6 +247,9 @@ function rosterById(id) {
 export function useRosters() {
   return {
     rosters,
+    savedRosters,
+    draftRosters,
+    saveDraft,
     createRoster,
     duplicateRoster,
     deleteRoster,
