@@ -47,12 +47,13 @@
 </template>
 
 <script setup>
-import { computed, ref, useId } from 'vue'
+import { computed, onMounted, ref, useId } from 'vue'
 import BaseModal from '../BaseModal.vue'
 import { ui } from '../../i18n/ui.js'
 import { useLocale } from '../../composables/useLocale.js'
 import { useRosters } from '../../composables/useRosters.js'
 import { decodeRoster } from '../../composables/rosterShare.js'
+import { refreshSummaries } from '../../composables/rosterSummary.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 
 defineProps({
@@ -66,6 +67,10 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { rosters } = useRosters()
 const linkId = useId()
+
+// Same cached summary the roster list shows, same one-off repair for a roster nothing ever
+// priced — see rosterSummary.js.
+onMounted(() => { refreshSummaries(rosters.value) })
 
 const allFactions = factionGroups.flatMap((g) => g.factions)
 function factionName(slug) {

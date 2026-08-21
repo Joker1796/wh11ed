@@ -73,7 +73,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import BaseModal from '../../components/BaseModal.vue'
 import ConfirmModal from '../../components/ConfirmModal.vue'
@@ -82,6 +82,7 @@ import { useLocale } from '../../composables/useLocale.js'
 import { useRosters } from '../../composables/useRosters.js'
 import { useFormatDate } from '../../composables/useFormatDate.js'
 import { effectiveBattle } from '../../composables/rosterEngine.js'
+import { refreshSummaries } from '../../composables/rosterSummary.js'
 import rosterCore from '../../data/roster/core.js'
 import { factionGroups } from '../../data/factionsIndex.js'
 
@@ -90,6 +91,11 @@ const { locale } = useLocale()
 const labels = computed(() => ui[locale.value])
 const { formatDate } = useFormatDate()
 const { rosters, duplicateRoster, deleteRoster, rosterById } = useRosters()
+
+// Points shown here come from each roster's cached summary — see rosterSummary.js. A roster no
+// editing screen ever wrote one for (built in an older wizard, imported from a link) is priced
+// once, here, instead of reading 0 forever.
+onMounted(() => { refreshSummaries(rosters.value) })
 
 const allFactions = factionGroups.flatMap((g) => g.factions)
 function factionOf(r) { return allFactions.find((f) => f.slug === r.faction) || null }

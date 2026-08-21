@@ -88,6 +88,10 @@ describe('RosterCreateView', () => {
     expect(r.faction).toBe('space-marines')
     expect(r.detachments).toEqual(['1st Company Task Force'])
     expect(r.units).toHaveLength(1)
+    // The list screens read the cached summary, not the units — a wizard-built roster used to
+    // reach them priced at 0 because only the editor ever wrote one (rosterSummary.js).
+    expect(r.summary.unitCount).toBe(1)
+    expect(r.summary.points).toBeGreaterThan(0)
     expect(push).toHaveBeenCalledWith(`/roster/${r.id}/view`)
   })
 

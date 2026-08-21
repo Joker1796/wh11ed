@@ -10,10 +10,11 @@
 // Not a store: every screen calls this for itself and gets its own reactive handles onto the
 // SAME underlying roster object from useRosters.js, which is the module singleton that persists.
 
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, watchEffect } from 'vue'
 import { useRosters, uid } from './useRosters.js'
 import { addUnitEntry, effectiveBattle, removeUnitEntry, rosterPoints } from './rosterEngine.js'
 import { validateRoster } from './rosterValidation.js'
+import { summaryOf } from './rosterSummary.js'
 import rosterCore from '../data/roster/core.js'
 import { loadRosterFaction } from '../data/roster/index.js'
 
@@ -51,6 +52,14 @@ export function useRosterEditing(rosterId) {
     factionData.value
       ? validateRoster(roster.value, { faction: factionData.value, core: rosterCore })
       : { points: points.value, issues: [], errorCount: 0 })
+
+  // Denormalise the summary onto the roster so the list screens show points/unit-count without
+  // loading faction data — see rosterSummary.js for why the cache exists and who else writes it.
+  // Writing summary doesn't feed back into `points`, so no watch loop.
+  watchEffect(() => {
+    if (!roster.value || !factionData.value) return
+    roster.value.summary = summaryOf(roster.value, points.value, validation.value.errorCount)
+  })
 
   function touch() { if (roster.value) roster.value.updatedAt = Date.now() }
 

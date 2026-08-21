@@ -201,7 +201,7 @@
 </template>
 
 <script setup>
-import { computed, ref, watch, watchEffect } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import CollapseTransition from '../../components/CollapseTransition.vue'
 import FactionPickerModal from '../../components/tracker/FactionPickerModal.vue'
@@ -377,13 +377,6 @@ const groupedUnits = computed(() =>
     id,
     entries: (roster.value?.units || []).filter((e) => { const d = defOf(e.id); return d && bucketOf(d) === id }),
   })))
-
-// Denormalise the summary onto the roster so the list screen shows points/unit-count without
-// loading faction data. Writing summary doesn't feed back into `points`, so no watch loop.
-watchEffect(() => {
-  if (!roster.value || !factionData.value) return
-  roster.value.summary = { points: points.value, unitCount: roster.value.units.length, issues: validation.value.errorCount }
-})
 
 function rename(name) {
   roster.value.name = name
