@@ -464,6 +464,40 @@ is implemented and tested.
     (6-10 → 6,7,8,9,10) — appdata's own bracket wording, verified against the source; and
     `Flash Gitz`' second bracket really is labelled "5-10" upstream where it means 6-10.
 
+17. **A wizard-built list showed 0 points — FIXED 2026-08-21** (`cdc3d04`), and the fix named the
+    rule the codebase had been keeping only by habit. `roster.summary`
+    (`{ points, unitCount, issues }`) is what the two list screens show — `RosterListView` and the
+    tracker's `RosterPickerModal` — because neither may load a faction's data chunk, and points
+    live in that chunk. So the summary is a **cache**, and it was written in exactly one place:
+    `RosterEditorView`. A roster finished in the creation wizard therefore reached the list
+    priced at zero, and so did every roster imported from a share link (a share payload carries
+    no summary on purpose — it would be the sender's arithmetic).
+
+    The rule now lives in one module, `src/composables/rosterSummary.js`: *whoever changes a
+    roster while holding its faction data writes the summary.* Both editing screens do it through
+    `useRosterEditing` (one `watchEffect`, moved out of the view), the wizard does it on finish.
+    `refreshSummaries()` is the safety net under those writers — the list screens call it on
+    mount; it prices only rosters whose cache is missing or contradicted by their own unit count,
+    loads at most one faction chunk per faction involved, and writes straight onto the roster
+    rather than through `updateRoster`, because repairing a number the app failed to cache is not
+    the user editing their list and the list shows `updatedAt`. Its own chunk (6.35 kB) rides the
+    list screens, not the entry chunk.
+
+18. **The wizard keeps a draft — BUILT 2026-08-21** (`ce22b3d`). Reloading the page or navigating
+    away mid-wizard used to lose everything. Now the roster is created **as soon as a faction is
+    picked**, carries `draft: true` + `draftStep`, and the wizard puts its id in the URL
+    (`/roster/new?draft=<id>`), so a reload resumes at the same step with the same units. The
+    save button is «Сохранить» (`rosterSave`, shared with the editor) and it is what clears the
+    draft flags. `RosterListView` grew tabs — Saved / Drafts, with the step shown in the draft's
+    meta row — and opening a draft reopens the wizard rather than the read-only view.
+    `RosterPickerModal` never offers a draft: attaching a half-built list to a game is not a
+    thing anyone means to do. No migration was needed — an absent flag means saved — and the
+    flags stay out of share links and game snapshots because both whitelist their fields.
+
+    User decisions behind it (2026-08-21, not derivable from the code): draft starts at the
+    faction pick, «New roster» always starts a NEW draft rather than resuming the last one,
+    reopening resumes at the step it was left on, and drafts are hidden from the tracker picker.
+
 ## Where the merge-into-main work is recorded
 
 The `main`-catch-up merge itself (conflict resolution, a stale test fixed for `BaseModal`'s
