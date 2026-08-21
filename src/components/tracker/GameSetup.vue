@@ -44,12 +44,38 @@
             <input v-model="p.name" type="text" :placeholder="namePlaceholder(i)" />
           </label>
 
+          <!-- An attached list IS the army: it decides the faction, so it stands in the faction
+               picker's place rather than beside one that could contradict it, and the button that
+               attaches one sits in the same row — the two answer the same question. Detaching with
+               the ✕ leaves the faction the list chose selected, and hands the picker back. -->
           <div class="field">
-            <span>{{ labels.trackerFaction }}</span>
-            <button class="btn-choose-twist faction-btn" @click="factionPickerIdx = i">
-              <span class="ct-name" :class="{ placeholder: !p.factionSlug }">{{ p.factionSlug ? factionName(p.factionSlug) : labels.trackerSelectFaction }}</span>
-              <i class="bi bi-chevron-right ct-chev"></i>
-            </button>
+            <span>{{ p.roster ? labels.trackerRoster : labels.trackerFaction }}</span>
+            <div class="faction-row">
+              <div v-if="p.roster" class="ro roster-line">
+                <span class="rl-text">
+                  <template v-if="p.roster.faction">{{ factionName(p.roster.faction) }} · </template>{{ p.roster.name || labels.rosterUntitled }}
+                </span>
+                <button
+                  type="button"
+                  class="rl-clear"
+                  :aria-label="labels.trackerRosterDetach"
+                  :title="labels.trackerRosterDetach"
+                  @click="clearRoster(p)"
+                >✕</button>
+              </div>
+              <button v-else class="btn-choose-twist faction-btn" @click="factionPickerIdx = i">
+                <span class="ct-name" :class="{ placeholder: !p.factionSlug }">{{ p.factionSlug ? factionName(p.factionSlug) : labels.trackerSelectFaction }}</span>
+                <i class="bi bi-chevron-right ct-chev"></i>
+              </button>
+              <button
+                type="button"
+                class="rp-open"
+                :class="{ on: !!p.roster }"
+                :aria-label="labels.trackerRosterAttach"
+                :title="labels.trackerRosterAttach"
+                @click="rosterPickerIdx = i"
+              ><i class="bi bi-card-list"></i></button>
+            </div>
             <FactionPickerModal
               v-if="factionPickerIdx === i"
               :selected="p.factionSlug"
@@ -57,16 +83,6 @@
               @pick="slug => selectFaction(p, slug)"
               @close="factionPickerIdx = -1"
             />
-          </div>
-
-          <!-- Optional on both sides: a game with no army lists attached is the normal case, and
-               nothing downstream may require one. Attaching is only offered here, at setup. -->
-          <div class="field">
-            <span>{{ labels.trackerRoster }}</span>
-            <button class="btn-choose-twist roster-btn" @click="rosterPickerIdx = i">
-              <span class="ct-name" :class="{ placeholder: !p.roster }">{{ p.roster?.name || labels.trackerRosterAttach }}</span>
-              <i class="bi bi-chevron-right ct-chev"></i>
-            </button>
             <RosterPickerModal
               v-if="rosterPickerIdx === i"
               :selected="p.roster ? (p.rosterId || '') : null"
@@ -515,7 +531,9 @@ function cpFactionFor(p) {
 // Disposition — no manual steps.
 async function resolveArmyChoice(p) {
   // An attached list describes ONE army. Switching the player to another faction makes it a
-  // description of something else, so it detaches rather than lingering as a wrong label.
+  // description of something else, so it detaches rather than lingering as a wrong label. Step 1
+  // no longer offers that switch — the list stands in the picker's place and you detach first —
+  // so this now only catches a restored draft whose two halves are out of step.
   if (p.roster && p.roster.faction !== p.factionSlug) { p.roster = null; p.rosterId = null }
   p.detachments = []
   p.disposition = null
@@ -989,6 +1007,30 @@ function cancel() {
 .modal-body { padding: 0.9rem; }
 .dp-help-text { margin: 0; font-size: 0.88rem; line-height: 1.5; color: var(--text-muted); }
 .det-empty { font-size: 0.82rem; color: var(--text-dim); font-style: italic; margin: 0.25rem 0 0; }
+
+/* The faction control and "attach a list" share a row; the button stretches to whichever of the
+   two is beside it (the picker is min-height 44px, the attached line is shorter) instead of
+   carrying a height of its own. */
+.faction-row { display: flex; align-items: stretch; gap: 0.4rem; }
+.faction-row > .btn-choose-twist,
+.faction-row > .roster-line { flex: 1; min-width: 0; }
+.rp-open {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 44px; padding: 0 0.7rem;
+  border: 1px solid var(--border); border-radius: 4px;
+  background: var(--bg-secondary); color: var(--text-muted);
+  font-size: 1rem; cursor: pointer;
+}
+.rp-open:hover { border-color: var(--accent); color: var(--text-primary); }
+.rp-open.on { border-color: var(--accent); color: var(--accent); }
+/* Stands where the faction picker would be, so it keeps `.ro`'s shape and only adds the ✕. */
+.roster-line { display: flex; align-items: center; gap: 0.5rem; }
+.rl-text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rl-clear {
+  flex-shrink: 0; background: none; border: none; color: var(--text-muted);
+  font-size: 0.9rem; line-height: 1; cursor: pointer; padding: 0.25rem 0.3rem; border-radius: 4px;
+}
+.rl-clear:hover { background: color-mix(in srgb, var(--text-primary) 8%, transparent); color: var(--text-primary); }
 .chips { display: flex; flex-wrap: wrap; gap: 0.3rem; }
 .chip {
   padding: 0.3rem 0.55rem;
