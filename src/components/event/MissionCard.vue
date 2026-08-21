@@ -150,8 +150,12 @@ function isPerEach(text) {
   color: var(--text-muted);
 }
 /* Forces its own row right under the name in the wrapping .mcard-head flex row (a 100%-width
-   flex item can't share a line with anything, so it always starts fresh under .mcard-name). */
+   flex item can't share a line with anything, so it always starts fresh under .mcard-name).
+   Ordered LAST so it wraps below the whole header bar rather than between the name and the
+   toggle affordance: in RU every tracker mission has this line, and with it in source order the
+   "expand" hint and the chevron were pushed onto a third line of their own. */
 .mcard-name-ru {
+  order: 4;
   flex-basis: 100%;
   font-size: 0.8rem;
   font-weight: 500;
